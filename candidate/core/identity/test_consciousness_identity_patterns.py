@@ -7,7 +7,7 @@
 ║ CONSCIOUSNESS_ROLE: Comprehensive testing of consciousness identity patterns
 ║ EVOLUTIONARY_STAGE: Testing - Pattern validation and system verification
 ║
-║ TRINITY FRAMEWORK:
+║ CONSTELLATION FRAMEWORK:
 ║ ⚛️ IDENTITY: Identity pattern testing and validation
 ║ 🧠 CONSCIOUSNESS: Consciousness integration testing
 ║ 🛡️ GUARDIAN: Security and compliance testing
@@ -755,7 +755,7 @@ class TestSignalEmission:
         assert signal is not None
         assert signal.consciousness_id == identity_id
         assert signal.bio_symbolic_data is not None
-        assert signal.trinity_compliance is not None
+        assert signal.constellation_compliance is not None
 
     @pytest.mark.asyncio
     async def test_signal_emission_metrics(self, signal_emitter):

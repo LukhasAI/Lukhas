@@ -196,7 +196,7 @@
         ]
       },
       {
-        "filename": "trinity_validation_test.py",
+        "filename": "constellation_validation_test.py",
         "component_type": "TEST",
         "has_contract": false,
         "contract_path": null,

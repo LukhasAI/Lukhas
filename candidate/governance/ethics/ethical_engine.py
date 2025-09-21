@@ -146,12 +146,12 @@ class EthicalEngine:
         try:
             # Multi-layer ethical analysis
             principle_scores = self._evaluate_principles(context)
-            trinity_assessment = self._assess_trinity_impact(context)
+            constellation_assessment = self._assess_trinity_impact(context)
             risk_analysis = self._analyze_risks(context)
 
             # Calculate overall ethical score
             overall_score = self._calculate_overall_score(
-                principle_scores, trinity_assessment, risk_analysis
+                principle_scores, constellation_assessment, risk_analysis
             )
 
             # Determine decision
@@ -159,7 +159,7 @@ class EthicalEngine:
 
             # Generate reasoning
             reasoning = self._generate_reasoning(
-                decision, overall_score, principle_scores, trinity_assessment
+                decision, overall_score, principle_scores, constellation_assessment
             )
 
             # Identify violated principles
@@ -170,7 +170,7 @@ class EthicalEngine:
 
             # Generate recommendations
             recommendations = self._generate_recommendations(
-                decision, violated_principles, trinity_assessment
+                decision, violated_principles, constellation_assessment
             )
 
             # Calculate evaluation time
@@ -182,9 +182,9 @@ class EthicalEngine:
                 reasoning=reasoning,
                 violated_principles=violated_principles,
                 recommendations=recommendations,
-                identity_impact=trinity_assessment.get("identity_impact", "none"),
-                consciousness_impact=trinity_assessment.get("consciousness_impact", "none"),
-                guardian_status=trinity_assessment.get("guardian_status", "monitoring"),
+                identity_impact=constellation_assessment.get("identity_impact", "none"),
+                consciousness_impact=constellation_assessment.get("consciousness_impact", "none"),
+                guardian_status=constellation_assessment.get("guardian_status", "monitoring"),
                 evaluation_time=evaluation_time,
                 evaluator_version=self.version
             )
@@ -436,7 +436,7 @@ class EthicalEngine:
     def _calculate_overall_score(
         self,
         principle_scores: dict[EthicalPrinciple, float],
-        trinity_assessment: dict[str, str],
+        constellation_assessment: dict[str, str],
         risk_analysis: dict[str, float]
     ) -> float:
         """Calculate overall ethical score"""
@@ -447,20 +447,20 @@ class EthicalEngine:
             for principle, score in principle_scores.items()
         )
 
-        # Trinity impact modifier
-        trinity_modifier = 1.0
-        if trinity_assessment["identity_impact"] == "high":
-            trinity_modifier -= 0.2
-        if trinity_assessment["consciousness_impact"] == "high":
-            trinity_modifier -= 0.2
-        if trinity_assessment["guardian_status"] == "escalated":
-            trinity_modifier -= 0.3
+        # Constellation impact modifier
+        constellation_modifier = 1.0
+        if constellation_assessment["identity_impact"] == "high":
+            constellation_modifier -= 0.2
+        if constellation_assessment["consciousness_impact"] == "high":
+            constellation_modifier -= 0.2
+        if constellation_assessment["guardian_status"] == "escalated":
+            constellation_modifier -= 0.3
 
         # Risk modifier
         avg_risk = sum(risk_analysis.values()) / len(risk_analysis)
         risk_modifier = 1.0 - (avg_risk * 0.3)
 
-        overall_score = principle_score * trinity_modifier * risk_modifier
+        overall_score = principle_score * constellation_modifier * risk_modifier
         return max(0.0, min(1.0, overall_score))
 
     def _determine_decision(
@@ -489,7 +489,7 @@ class EthicalEngine:
         decision: EthicalDecision,
         overall_score: float,
         principle_scores: dict[EthicalPrinciple, float],
-        trinity_assessment: dict[str, str]
+        constellation_assessment: dict[str, str]
     ) -> str:
         """Generate human-readable reasoning for the decision"""
 
@@ -506,12 +506,12 @@ class EthicalEngine:
             reasoning_parts.append(f"Concerns with: {', '.join(low_scores)}")
 
         # Constellation Framework impact
-        trinity_impacts = [
-            f"Identity: {trinity_assessment['identity_impact']}",
-            f"Consciousness: {trinity_assessment['consciousness_impact']}",
-            f"Guardian: {trinity_assessment['guardian_status']}"
+        constellation_impacts = [
+            f"Identity: {constellation_assessment['identity_impact']}",
+            f"Consciousness: {constellation_assessment['consciousness_impact']}",
+            f"Guardian: {constellation_assessment['guardian_status']}"
         ]
-        reasoning_parts.append(f"Trinity impact - {', '.join(trinity_impacts)}")
+        reasoning_parts.append(f"Constellation impact - {', '.join(constellation_impacts)}")
 
         return " | ".join(reasoning_parts)
 
@@ -519,7 +519,7 @@ class EthicalEngine:
         self,
         decision: EthicalDecision,
         violated_principles: list[EthicalPrinciple],
-        trinity_assessment: dict[str, str]
+        constellation_assessment: dict[str, str]
     ) -> list[str]:
         """Generate actionable recommendations"""
 
@@ -543,7 +543,7 @@ class EthicalEngine:
                 recommendations.append("Implement privacy protection measures")
 
         # Constellation Framework recommendations
-        if trinity_assessment["guardian_status"] == "escalated":
+        if constellation_assessment["guardian_status"] == "escalated":
             recommendations.append("Guardian system intervention required")
 
         return recommendations

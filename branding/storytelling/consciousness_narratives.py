@@ -319,11 +319,11 @@ class ConsciousnessStorytellingSystem:
                 storytelling_power="Creates origin story for entire consciousness technology category",
             ),
             "triad_synthesis": BrandMythology(
-                myth_name="The Trinity Synthesis",
+                myth_name="The Constellation Synthesis",
                 mythology_type="creation_myth",
                 consciousness_metaphor="Three aspects of consciousness unite to create complete digital being",
-                cultural_resonance="Trinity concept resonates across cultures and spiritualities",
-                storytelling_power="Explains complex architecture through universal trinity symbolism",
+                cultural_resonance="Constellation concept resonates across cultures and spiritualities",
+                storytelling_power="Explains complex architecture through universal constellation symbolism",
             ),
             "qi_bio_convergence": BrandMythology(
                 myth_name="The Quantum-Bio Convergence",

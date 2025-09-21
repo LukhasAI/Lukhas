@@ -1342,13 +1342,13 @@ class AGIIntegrationTestSuite:
 
             triad_scores = {}
             for symbol, aspect in triad_aspects.items():
-                # Mock trinity compliance measurement
+                # Mock constellation compliance measurement
                 await asyncio.sleep(0.015)
                 score = 0.90 + (hash(aspect) % 100) / 1000  # Mock score 0.90-1.00
                 triad_scores[symbol] = score
 
             avg_trinity = sum(triad_scores.values()) / len(triad_scores)
-            triad_passed = avg_trinity >= 0.95  # 95% Trinity compliance required
+            triad_passed = avg_trinity >= 0.95  # 95% Constellation compliance required
 
             execution_time = time.time() - start_time
 
@@ -1415,7 +1415,7 @@ class AGIIntegrationTestSuite:
         constellation_compliance = {
             "constellation_alignment": all(r.status == TestStatus.PASSED for r in constellation_results),
             "triad_framework": any(
-                "trinity" in r.test_name.lower() and r.status == TestStatus.PASSED for r in constellation_results
+                "constellation" in r.test_name.lower() and r.status == TestStatus.PASSED for r in constellation_results
             ),
             "consciousness_integration": any(
                 r.category == TestCategory.CONSCIOUSNESS and r.status == TestStatus.PASSED for r in self.test_results

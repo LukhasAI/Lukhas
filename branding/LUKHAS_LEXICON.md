@@ -10,7 +10,7 @@ description: A Dual Stream Reference with Academic Sources and Public Safety
 
 ## 🌌 The Constellation Framework
 
-LUKHAS does not rest on three pillars or a sacred trinity.  
+LUKHAS does not rest on three pillars or a sacred constellation.  
 Its architecture is a constellation — a map of elements that guide by relation, not hierarchy.  
 
 Each element is a star:  
@@ -212,7 +212,7 @@ Myth gave us Argus with a hundred eyes, angels at Eden's gate, Orwell's watchers
 - **red_flag** → alert when limits are crossed
 - **trace_log** → record of interventions
 - **ethics_shield** → barrier halting unsafe actions
-- **trinity_lock** → safeguard binding identity, memory, ethics
+- **constellation_lock** → safeguard binding identity, memory, ethics
 
 ### Public
 

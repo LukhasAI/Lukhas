@@ -19,7 +19,7 @@ from typing import Any
 
 
 def create_deployment_error_message(error: Exception, context: str, file_path: str = "") -> str:
-    """Create descriptive error message for Trinity deployment failures.
+    """Create descriptive error message for Constellation deployment failures.
 
     Args:
         error: The exception that occurred
@@ -33,9 +33,9 @@ def create_deployment_error_message(error: Exception, context: str, file_path: s
     error_details = str(error)
 
     if file_path:
-        return f"❌ Trinity deployment failed in {context} for {file_path}: {error_type} - {error_details}"
+        return f"❌ Constellation deployment failed in {context} for {file_path}: {error_type} - {error_details}"
     else:
-        return f"❌ Trinity deployment failed in {context}: {error_type} - {error_details}"
+        return f"❌ Constellation deployment failed in {context}: {error_type} - {error_details}"
 
 
 sys.path.append(str(Path(__file__).parent.parent))
@@ -139,7 +139,7 @@ class TrinityFrameworkDeployer:
                 ],
                 messaging_templates=[
                     "🛡️ **Guardian System**: Ethical AI governance and security protection",
-                    "Powered by 🛡️ Trinity Guardian - ethical consciousness technology",
+                    "Powered by 🛡️ Constellation Guardian - ethical consciousness technology",
                     "🛡️ **Security Framework**: Responsible AI with ethical governance",
                     "Constellation Framework 🛡️ Guardian: Elite ethical AI protection system",
                 ],
@@ -276,10 +276,10 @@ class TrinityFrameworkDeployer:
                     success=True,
                 )
 
-            # Calculate Trinity coherence score
+            # Calculate Constellation coherence score
             triad_coherence = await self._calculate_triad_coherence(triad_content)
 
-            # Write Trinity-enhanced content back to file
+            # Write Constellation-enhanced content back to file
             with open(file_path, "w", encoding="utf-8") as f:
                 f.write(triad_content)
 
@@ -296,7 +296,7 @@ class TrinityFrameworkDeployer:
             )
 
         except Exception as e:
-            error_msg = create_deployment_error_message(e, "Trinity file deployment", str(file_path))
+            error_msg = create_deployment_error_message(e, "Constellation file deployment", str(file_path))
             self.logger.error(error_msg)
             return TrinityDeploymentResult(
                 file_path=str(file_path),
@@ -325,16 +325,16 @@ class TrinityFrameworkDeployer:
                 integrations += 1
                 elements.append("Identity Framework Header")
 
-        # Enhance identity-related keywords with Trinity symbols
+        # Enhance identity-related keywords with Constellation symbols
         for keyword in identity_spec.keywords:
-            # Match keyword not already enhanced with Trinity symbols
+            # Match keyword not already enhanced with Constellation symbols
             pattern = rf"\b{re.escape(keyword)}(?!\s+(?:⚛️|🧠|🛡️|\(⚛️))"
             matches = re.finditer(pattern, enhanced_content, re.IGNORECASE)
 
             for match in list(matches):
                 if integrations < 3:  # Limit to avoid over-enhancement
                     original_word = match.group(0)
-                    enhanced_word = f"{original_word} (⚛️ Trinity)"
+                    enhanced_word = f"{original_word} (⚛️ Constellation)"
                     enhanced_content = enhanced_content.replace(original_word, enhanced_word, 1)
                     integrations += 1
                     elements.append(f"Identity Keyword: {original_word}")
@@ -370,7 +370,7 @@ class TrinityFrameworkDeployer:
             for match in list(matches):
                 if integrations < 2:  # Limit to avoid over-enhancement
                     original_word = match.group(0)
-                    enhanced_word = f"{original_word} (🧠 Trinity)"
+                    enhanced_word = f"{original_word} (🧠 Constellation)"
                     enhanced_content = enhanced_content.replace(original_word, enhanced_word, 1)
                     integrations += 1
                     elements.append(f"Consciousness Keyword: {original_word}")
@@ -392,7 +392,7 @@ class TrinityFrameworkDeployer:
                 if keyword in content.lower():
                     enhanced_content = re.sub(
                         rf"\b{keyword}\b",
-                        f"{keyword} (🛡️ Trinity Guardian)",
+                        f"{keyword} (🛡️ Constellation Guardian)",
                         enhanced_content,
                         count=1,
                         flags=re.IGNORECASE,
@@ -412,7 +412,7 @@ class TrinityFrameworkDeployer:
             "Constellation Framework",
             "Constellation Identity",
             "Constellation Consciousness",
-            "Trinity Guardian",
+            "Constellation Guardian",
         ]
         consciousness_terms = [
             "consciousness technology",
@@ -425,12 +425,12 @@ class TrinityFrameworkDeployer:
         triad_count = sum(content.count(indicator) for indicator in triad_indicators)
         consciousness_count = sum(content.count(term) for term in consciousness_terms)
 
-        # Calculate coherence as percentage of total content with Trinity elements
+        # Calculate coherence as percentage of total content with Constellation elements
         total_words = len(content.split())
         if total_words == 0:
             return 0.0
 
-        # Trinity coherence formula: (triad_elements * 10 + consciousness_elements * 5) / total_words * 100
+        # Constellation coherence formula: (triad_elements * 10 + consciousness_elements * 5) / total_words * 100
         coherence_score = ((triad_count * 10) + (consciousness_count * 5)) / total_words * 100
 
         # Cap at 100%
@@ -481,7 +481,7 @@ class TrinityFrameworkDeployer:
                 f"⚛️🧠🛡️ {system_name}: {system_results['total_integrations']} Constellation integrations, {system_results['average_triad_coherence']:.1f}% coherence"
             )
 
-        # Generate Trinity deployment report
+        # Generate Constellation deployment report
         await self._generate_triad_report(deployment_results, total_integrations)
 
         self.logger.info("✅ Constellation Framework deployment complete!")
@@ -513,7 +513,7 @@ class TrinityFrameworkDeployer:
 
 - **Files Enhanced**: {results["files_processed"]}
 - **Constellation Integrations**: {results["total_integrations"]}
-- **Trinity Coherence**: {results["average_triad_coherence"]:.1f}%
+- **Constellation Coherence**: {results["average_triad_coherence"]:.1f}%
 - **Framework Elements**: {len(results["framework_elements"])} elements
 
 """
@@ -540,11 +540,11 @@ class TrinityFrameworkDeployer:
 ### Constellation Framework Benefits
 - **Unified Messaging**: ⚛️🧠🛡️ symbols create consistent consciousness technology narrative
 - **Premium Positioning**: Constellation Framework elevates all content to elite consciousness technology standard
-- **Brand Recognition**: Distinctive Trinity symbols establish LUKHAS AI consciousness leadership
+- **Brand Recognition**: Distinctive Constellation symbols establish LUKHAS AI consciousness leadership
 - **Thought Leadership**: Comprehensive consciousness technology framework demonstrates innovation
 
 ### Next Phase: Elite Brand Deployment
-1. **Voice Coherence Validation**: Re-measure voice coherence with Trinity enhancements
+1. **Voice Coherence Validation**: Re-measure voice coherence with Constellation enhancements
 2. **Brand Compliance**: Ensure all Constellation integrations meet elite standards
 3. **Community Deployment**: Launch Constellation Framework across consciousness technology community
 4. **Market Leadership**: Position LUKHAS AI as Constellation Framework consciousness technology leader
@@ -557,7 +557,7 @@ class TrinityFrameworkDeployer:
         with open(report_path, "w") as f:
             f.write(report_content)
 
-        self.logger.info(f"⚛️🧠🛡️ Generated Trinity deployment report: {report_path}")
+        self.logger.info(f"⚛️🧠🛡️ Generated Constellation deployment report: {report_path}")
 
 
 async def main():

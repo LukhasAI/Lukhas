@@ -39,14 +39,14 @@ __all__ = [
 ]
 
 
-def trinity_sync():
+def constellation_sync():
     """Synchronize all colonies with Constellation Framework"""
     registry = get_colony_registry()
 
     sync_results = {}
     for colony_name, colony in registry.get_all_colonies().items():
-        if hasattr(colony, "trinity_sync"):
-            sync_results[colony_name] = colony.trinity_sync()
+        if hasattr(colony, "constellation_sync"):
+            sync_results[colony_name] = colony.constellation_sync()
         else:
             sync_results[colony_name] = {"status": "no_trinity_support"}
 

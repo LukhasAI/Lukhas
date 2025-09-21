@@ -791,7 +791,7 @@ LUKHAS_CLAUDE_TOOLS = {
                     "type": "string",
                     "description": "Content to validate",
                 },
-                "trinity_aspect": {
+                "constellation_aspect": {
                     "type": "string",
                     "enum": ["identity", "consciousness", "guardian", "all"],
                     "description": "Constellation Framework aspect to validate against",

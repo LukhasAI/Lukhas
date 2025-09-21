@@ -38,7 +38,7 @@ class DreamAnalyticsEngine:
             "analysis_id": analysis_id,
             "patterns": patterns,
             "analyzed_at": datetime.now(timezone.utc).isoformat(),
-            "trinity_validated": True
+            "constellation_validated": True
         }
 
         logger.info(f"📊 Dream patterns analyzed: {analysis_id}")
@@ -85,7 +85,7 @@ class DreamAnalyticsEngine:
                 "Explore lucid dreaming techniques",
                 "Maintain regular sleep schedule"
             ],
-            "trinity_validated": True
+            "constellation_validated": True
         }
 
         logger.info(f"🧠 Dream insights generated: {analysis_id}")

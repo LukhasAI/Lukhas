@@ -36,7 +36,7 @@ class PersonaSimilarityEngine:
     """
     Engine for matching symbolic traces to persona profiles using embeddings.
     Supports real-time and batch persona recommendation based on glyphs,
-    drift patterns, and Trinity coherence.
+    drift patterns, and Constellation coherence.
     """
 
     def __init__(self, persona_profile_path: str = "symbolic_persona_profile.yaml"):
@@ -52,8 +52,8 @@ class PersonaSimilarityEngine:
         self.feature_map = {}  # Maps features to indices
         self.fallback_persona = "The Stabilizer"
 
-        # Trinity core for reference
-        self.trinity_core = {"⚛️", "🧠", "🛡️"}
+        # Constellation core for reference
+        self.constellation_core = {"⚛️", "🧠", "🛡️"}
 
         # Load personas
         self._load_personas()
@@ -124,9 +124,9 @@ class PersonaSimilarityEngine:
                 for k, v in thresholds.items():
                     all_features.add(f"threshold_{k}_{v}")
 
-            # Trinity alignment
-            if any(g in self.trinity_core for g in glyphs):
-                all_features.add("trinity_aligned")
+            # Constellation alignment
+            if any(g in self.constellation_core for g in glyphs):
+                all_features.add("constellation_aligned")
 
         # Create feature map
         self.feature_map = {feature: i for i, feature in enumerate(sorted(all_features))}
@@ -159,8 +159,8 @@ class PersonaSimilarityEngine:
                     if f"threshold_{k}_{v}" in self.feature_map:
                         embedding[self.feature_map[f"threshold_{k}_{v}"]] = 1.0
 
-            if any(g in self.trinity_core for g in glyphs) and "trinity_aligned" in self.feature_map:
-                embedding[self.feature_map["trinity_aligned"]] = 1.0
+            if any(g in self.constellation_core for g in glyphs) and "constellation_aligned" in self.feature_map:
+                embedding[self.feature_map["constellation_aligned"]] = 1.0
 
             # Normalize embedding
             norm = np.linalg.norm(embedding)
@@ -194,7 +194,7 @@ class PersonaSimilarityEngine:
         glyphs = symbolic_trace.get("glyphs", [])
         drift_score = symbolic_trace.get("drift_score", 0.5)
         entropy = symbolic_trace.get("entropy", 0.5)
-        trinity_coherence = symbolic_trace.get("trinity_coherence", 0.5)
+        constellation_coherence = symbolic_trace.get("constellation_coherence", 0.5)
 
         # Add glyph features
         for glyph in glyphs:
@@ -227,9 +227,9 @@ class PersonaSimilarityEngine:
             if "emotion_arousal_high" in self.feature_map:
                 embedding[self.feature_map["emotion_arousal_high"]] = 0.7
 
-        # Trinity alignment
-        if trinity_coherence > 0.7 and "trinity_aligned" in self.feature_map:
-            embedding[self.feature_map["trinity_aligned"]] = 1.0
+        # Constellation alignment
+        if constellation_coherence > 0.7 and "constellation_aligned" in self.feature_map:
+            embedding[self.feature_map["constellation_aligned"]] = 1.0
 
         # Normalize
         norm = np.linalg.norm(embedding)
@@ -243,7 +243,7 @@ class PersonaSimilarityEngine:
         Recommend the best matching persona for current symbolic state.
 
         Args:
-            symbolic_trace: Dictionary with glyphs, drift_score, entropy, trinity_coherence
+            symbolic_trace: Dictionary with glyphs, drift_score, entropy, constellation_coherence
 
         Returns:
             PersonaMatch with top recommendation
@@ -356,11 +356,11 @@ class PersonaSimilarityEngine:
         entropy = symbolic_trace.get("entropy", 0.5)
         alignment["entropy"] = 1.0 - abs(entropy - 0.5)  # Default to medium entropy
 
-        # Trinity alignment
-        constellation = symbolic_trace.get("trinity_coherence", 0.5)
+        # Constellation alignment
+        constellation = symbolic_trace.get("constellation_coherence", 0.5)
         session_glyphs = set(symbolic_trace.get("glyphs", []))
-        trinity_present = len(session_glyphs & self.trinity_core) / 3
-        alignment["constellation"] = (constellation + trinity_present) / 2
+        constellation_present = len(session_glyphs & self.constellation_core) / 3
+        alignment["constellation"] = (constellation + constellation_present) / 2
 
         return {k: round(v, 2) for k, v in alignment.items()}
 
@@ -421,7 +421,7 @@ class PersonaSimilarityEngine:
         # Average metrics
         avg_drift = np.mean([t.get("drift_score", 0.5) for t in recent_traces])
         avg_entropy = np.mean([t.get("entropy", 0.5) for t in recent_traces])
-        avg_trinity = np.mean([t.get("trinity_coherence", 0.5) for t in recent_traces])
+        avg_trinity = np.mean([t.get("constellation_coherence", 0.5) for t in recent_traces])
 
         # Collect all recent glyphs
         all_glyphs = []
@@ -433,7 +433,7 @@ class PersonaSimilarityEngine:
             "glyphs": list(set(all_glyphs)),
             "drift_score": avg_drift,
             "entropy": avg_entropy,
-            "trinity_coherence": avg_trinity,
+            "constellation_coherence": avg_trinity,
         }
 
         # Get best matches
@@ -500,7 +500,7 @@ class PersonaSimilarityEngine:
         # Detect collapse conditions
         drift = symbolic_trace.get("drift_score", 0.5)
         entropy = symbolic_trace.get("entropy", 0.5)
-        constellation = symbolic_trace.get("trinity_coherence", 0.5)
+        constellation = symbolic_trace.get("constellation_coherence", 0.5)
 
         collapse_detected = False
         collapse_type = []
@@ -515,15 +515,15 @@ class PersonaSimilarityEngine:
 
         if constellation < 0.1:
             collapse_detected = True
-            collapse_type.append("trinity_void")
+            collapse_type.append("constellation_void")
 
         if not collapse_detected:
             return {"fallback_needed": False, "current_state": "stable"}
 
         # Determine appropriate fallback
-        if "trinity_void" in collapse_type:
-            # Use Trinity Keeper for void recovery
-            fallback = "The Trinity Keeper"
+        if "constellation_void" in collapse_type:
+            # Use Constellation Keeper for void recovery
+            fallback = "The Constellation Keeper"
             stabilization = ["⚛️", "🧠", "🛡️", "🌿"]
         elif "entropy_overflow" in collapse_type:
             # Use Stabilizer for entropy management
@@ -557,7 +557,7 @@ class PersonaSimilarityEngine:
         if "entropy_overflow" in collapse_types:
             strategies.append("Introduce grounding glyphs and reduce complexity")
 
-        if "trinity_void" in collapse_types:
+        if "constellation_void" in collapse_types:
             strategies.append("Restore Constellation Framework with core glyphs")
 
         return "; ".join(strategies) if strategies else "General stabilization protocol"
@@ -663,7 +663,7 @@ class PersonaSimilarityEngine:
                 "top_match": matches[0].__dict__ if matches else None,
                 "all_matches": [m.__dict__ for m in matches],
                 "embedding_features": list(self.feature_map.keys()),
-                "trinity_alignment": any(g in self.trinity_core for g in symbolic_trace.get("glyphs", [])),
+                "constellation_alignment": any(g in self.constellation_core for g in symbolic_trace.get("glyphs", [])),
             },
             "recommendations": {
                 "primary": (matches[0].persona_name if matches else self.fallback_persona),
@@ -699,7 +699,7 @@ class PersonaSimilarityEngine:
             "embeddings_created": len(self.persona_embeddings),
             "embedding_dimensions": embedding_dims,
             "fallback_persona": self.fallback_persona,
-            "trinity_core": list(self.trinity_core),
+            "constellation_core": list(self.constellation_core),
         }
 
 
@@ -716,7 +716,7 @@ if __name__ == "__main__":
         "glyphs": ["🧠", "⚛️", "🌟"],
         "drift_score": 0.3,
         "entropy": 0.4,
-        "trinity_coherence": 0.8,
+        "constellation_coherence": 0.8,
     }
 
     print("\nTest trace:", test_trace)

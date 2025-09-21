@@ -223,7 +223,7 @@ class ContentQualityValidator:
             "perception",
             "evolving",
             "emerging",
-            "trinity",
+            "constellation",
         ]
         consciousness_count = sum(1 for word in consciousness_words if word.lower() in content.lower())
         len(content.split())
@@ -249,7 +249,7 @@ class ContentQualityValidator:
             "this is huge",
             "consciousness",
             "lukhas",
-            "trinity",
+            "constellation",
             "evolving",
             "emerging",
             "discover",
@@ -319,11 +319,11 @@ class ContentQualityValidator:
         # Constellation Framework usage - any form is good
         has_triad_symbols = any(symbol in content for symbol in ["⚛️", "🧠", "🛡️"])
         has_triad_text = any(
-            term in content.lower() for term in ["trinity", "framework", "identity", "consciousness", "guardian"]
+            term in content.lower() for term in ["constellation", "framework", "identity", "consciousness", "guardian"]
         )
 
         if has_triad_symbols or has_triad_text:
-            score += 10  # Bonus for Trinity presence
+            score += 10  # Bonus for Constellation presence
         else:
             score -= 10  # Reduced penalty
             recommendations.append("Include Constellation Framework (⚛️🧠🛡️) reference")

@@ -462,8 +462,8 @@ class SymbolicKernelBus:
                 ]
                 for effect in event.effects
             ):
-                trinity_context = get_constellation_context("balanced")
-                event.payload["constellation_framework"] = trinity_context["framework"]
+                constellation_context = get_constellation_context("balanced")
+                event.payload["constellation_framework"] = constellation_context["framework"]
 
             # Add system signature for external events
             if event.source.startswith("external.") or "api" in event.source:

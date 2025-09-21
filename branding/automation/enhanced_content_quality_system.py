@@ -63,7 +63,7 @@ class EnhancedContentQualitySystem:
     """
     Elite content quality system combining multiple validation layers:
     1. Base quality validation (length, readability, platform fit)
-    2. Voice coherence analysis (personality, Trinity alignment)
+    2. Voice coherence analysis (personality, Constellation alignment)
     3. Brand compliance validation (terminology, claims)
 
     Target: 90%+ content quality with 85%+ voice coherence
@@ -78,7 +78,7 @@ class EnhancedContentQualitySystem:
         # Quality weights for combined scoring
         self.quality_weights = {
             "base_quality": 0.30,  # Platform fit, readability, length
-            "voice_coherence": 0.35,  # Personality, Trinity alignment
+            "voice_coherence": 0.35,  # Personality, Constellation alignment
             "brand_compliance": 0.25,  # Terminology, compliance
             "enhancement_bonus": 0.10,  # Additional improvements
         }
@@ -433,7 +433,7 @@ async def main():
         print(f"  Voice Coherence: {result.voice_coherence_score  * 100:.1f}%")
         print(f"  Brand Compliance: {result.brand_compliance_score  * 100:.1f}%")
         print(f"  Base Quality: {result.base_quality_score  * 100:.1f}%")
-        print(f"  Trinity Alignment: {result.triad_alignment  * 100:.1f}%")
+        print(f"  Constellation Alignment: {result.triad_alignment  * 100:.1f}%")
         print()
 
         if result.improvement_suggestions:

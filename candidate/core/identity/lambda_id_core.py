@@ -219,7 +219,7 @@ class OIDCProvider:
                 "lid": lid,  # Custom claim for LUKHAS ID
                 "namespace": namespace,
                 # Constellation Framework claims
-                "trinity_identity": True,  # ⚛️ Identity
+                "constellation_identity": True,  # ⚛️ Identity
                 "consciousness_aware": True,  # 🧠 Consciousness
                 "guardian_validated": True,  # 🛡️ Guardian
             }
@@ -449,7 +449,7 @@ class WebAuthnPasskeyManager:
             "lid": lid,
             "event_type": event_type,
             "details": details,
-            "trinity_guardian": True,  # 🛡️ Guardian validation
+            "constellation_guardian": True,  # 🛡️ Guardian validation
         }
 
         self._security_events.append(event)
@@ -786,7 +786,7 @@ def integrate_with_consent_ledger(lid: str, action: str) -> str:
             "lid": lid,
             "action": action,
             "timestamp": time.time(),
-            "trinity_context": {
+            "constellation_context": {
                 "identity": True,  # ⚛️ Identity system
                 "consciousness": False,  # 🧠 Not consciousness event
                 "guardian": True,  # 🛡️ Guardian audit

@@ -177,7 +177,7 @@ class BrandContext:
     """Brand context for LUKHAS operations"""
 
     voice_profile: str = "consciousness"
-    trinity_emphasis: str = "balanced"  # consciousness, identity, guardian, balanced
+    constellation_emphasis: str = "balanced"  # consciousness, identity, guardian, balanced
     compliance_level: str = "standard"  # strict, standard, lenient
     creative_mode: bool = False
     terminology_enforcement: bool = True
@@ -369,8 +369,8 @@ class LUKHASBrandingBridge:
             except Exception as e:
                 logger.warning(f"Wordsmith generation error: {e}")
 
-        # Fallback to prompt with Trinity context
-        constellation = self.get_constellation_context(context.trinity_emphasis)
+        # Fallback to prompt with Constellation context
+        constellation = self.get_constellation_context(context.constellation_emphasis)
         return f"{prompt}\n\nIntegrating {constellation['framework']} principles: {constellation['identity']['description']}, {constellation['consciousness']['description']}, {constellation['guardian']['description']}"
 
     def monitor_brand_drift(self, content: str) -> dict[str, Any]:

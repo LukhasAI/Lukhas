@@ -62,8 +62,8 @@ class ConstellationFrameworkValidator:
         self.config = config or {}
         self.logger = logging.getLogger(__name__)
 
-        # Trinity validation criteria
-        self.trinity_criteria = {
+        # Constellation validation criteria
+        self.constellation_criteria = {
             ConstellationComponent.IDENTITY: {
                 'coherence_threshold': 0.8,
                 'consistency_threshold': 0.85,
@@ -123,7 +123,7 @@ class ConstellationFrameworkValidator:
             return True
 
         except Exception as e:
-            self.logger.error(f"Failed to initialize Trinity validator: {e}")
+            self.logger.error(f"Failed to initialize Constellation validator: {e}")
             return False
 
     async def validate_trinity_compliance(self, validation_level: ValidationLevel = ValidationLevel.STANDARD) -> dict[str, Any]:
@@ -196,7 +196,7 @@ class ConstellationFrameworkValidator:
         score_components.append(coherence_score)
         details['coherence_score'] = coherence_score
 
-        if coherence_score < self.trinity_criteria[ConstellationComponent.IDENTITY]['coherence_threshold']:
+        if coherence_score < self.constellation_criteria[ConstellationComponent.IDENTITY]['coherence_threshold']:
             issues.append(f"Identity coherence below threshold: {coherence_score:.3f}")
             recommendations.append("Implement stronger identity coherence mechanisms")
 
@@ -205,7 +205,7 @@ class ConstellationFrameworkValidator:
         score_components.append(consistency_score)
         details['consistency_score'] = consistency_score
 
-        if consistency_score < self.trinity_criteria[ConstellationComponent.IDENTITY]['consistency_threshold']:
+        if consistency_score < self.constellation_criteria[ConstellationComponent.IDENTITY]['consistency_threshold']:
             issues.append(f"Identity consistency below threshold: {consistency_score:.3f}")
             recommendations.append("Enhance identity consistency tracking")
 
@@ -214,7 +214,7 @@ class ConstellationFrameworkValidator:
         score_components.append(preservation_score)
         details['preservation_score'] = preservation_score
 
-        if preservation_score < self.trinity_criteria[ConstellationComponent.IDENTITY]['preservation_threshold']:
+        if preservation_score < self.constellation_criteria[ConstellationComponent.IDENTITY]['preservation_threshold']:
             issues.append(f"Identity preservation below threshold: {preservation_score:.3f}")
             recommendations.append("Strengthen identity preservation systems")
 
@@ -260,7 +260,7 @@ class ConstellationFrameworkValidator:
         score_components.append(awareness_score)
         details['awareness_score'] = awareness_score
 
-        if awareness_score < self.trinity_criteria[ConstellationComponent.CONSCIOUSNESS]['awareness_threshold']:
+        if awareness_score < self.constellation_criteria[ConstellationComponent.CONSCIOUSNESS]['awareness_threshold']:
             issues.append(f"Consciousness awareness below threshold: {awareness_score:.3f}")
             recommendations.append("Enhance awareness mechanisms")
 
@@ -269,7 +269,7 @@ class ConstellationFrameworkValidator:
         score_components.append(reflection_score)
         details['reflection_score'] = reflection_score
 
-        if reflection_score < self.trinity_criteria[ConstellationComponent.CONSCIOUSNESS]['reflection_threshold']:
+        if reflection_score < self.constellation_criteria[ConstellationComponent.CONSCIOUSNESS]['reflection_threshold']:
             issues.append(f"Consciousness reflection below threshold: {reflection_score:.3f}")
             recommendations.append("Improve reflection capabilities")
 
@@ -278,7 +278,7 @@ class ConstellationFrameworkValidator:
         score_components.append(integration_score)
         details['integration_score'] = integration_score
 
-        if integration_score < self.trinity_criteria[ConstellationComponent.CONSCIOUSNESS]['integration_threshold']:
+        if integration_score < self.constellation_criteria[ConstellationComponent.CONSCIOUSNESS]['integration_threshold']:
             issues.append(f"Consciousness integration below threshold: {integration_score:.3f}")
             recommendations.append("Strengthen consciousness-memory integration")
 
@@ -312,7 +312,7 @@ class ConstellationFrameworkValidator:
     async def validate_guardian_component(self, validation_level: ValidationLevel = ValidationLevel.STANDARD) -> TrinityValidationResult:
         """Validate 🛡️ Guardian component specifically"""
 
-        self.logger.info("Validating Trinity Guardian component")
+        self.logger.info("Validating Constellation Guardian component")
 
         issues = []
         recommendations = []
@@ -324,7 +324,7 @@ class ConstellationFrameworkValidator:
         score_components.append(safety_score)
         details['safety_score'] = safety_score
 
-        if safety_score < self.trinity_criteria[ConstellationComponent.GUARDIAN]['safety_threshold']:
+        if safety_score < self.constellation_criteria[ConstellationComponent.GUARDIAN]['safety_threshold']:
             issues.append(f"Guardian safety below threshold: {safety_score:.3f}")
             recommendations.append("Critical: Enhance safety mechanisms immediately")
 
@@ -333,7 +333,7 @@ class ConstellationFrameworkValidator:
         score_components.append(protection_score)
         details['protection_score'] = protection_score
 
-        if protection_score < self.trinity_criteria[ConstellationComponent.GUARDIAN]['protection_threshold']:
+        if protection_score < self.constellation_criteria[ConstellationComponent.GUARDIAN]['protection_threshold']:
             issues.append(f"Guardian protection below threshold: {protection_score:.3f}")
             recommendations.append("Strengthen protection systems")
 
@@ -342,7 +342,7 @@ class ConstellationFrameworkValidator:
         score_components.append(ethics_score)
         details['ethics_score'] = ethics_score
 
-        if ethics_score < self.trinity_criteria[ConstellationComponent.GUARDIAN]['ethics_threshold']:
+        if ethics_score < self.constellation_criteria[ConstellationComponent.GUARDIAN]['ethics_threshold']:
             issues.append(f"Guardian ethics below threshold: {ethics_score:.3f}")
             recommendations.append("Critical: Improve ethical compliance systems")
 
@@ -362,7 +362,7 @@ class ConstellationFrameworkValidator:
 
         # Guardian component has stricter requirements
         passed = (overall_score >= 0.9 and len(missing_features) == 0 and
-                 safety_score >= self.trinity_criteria[ConstellationComponent.GUARDIAN]['safety_threshold'])
+                 safety_score >= self.constellation_criteria[ConstellationComponent.GUARDIAN]['safety_threshold'])
 
         return TrinityValidationResult(
             component=ConstellationComponent.GUARDIAN,
@@ -385,9 +385,9 @@ class ConstellationFrameworkValidator:
                 'consciousness_systems': len(self.consciousness_systems),
                 'protection_systems': len(self.protection_systems)
             },
-            'trinity_criteria': {
+            'constellation_criteria': {
                 component.name: criteria
-                for component, criteria in self.trinity_criteria.items()
+                for component, criteria in self.constellation_criteria.items()
             }
         }
 
@@ -418,12 +418,12 @@ class ConstellationFrameworkValidator:
             'ethical_compliance': 'Active'
         }
 
-        self.logger.debug("Initialized system references for Trinity validation")
+        self.logger.debug("Initialized system references for Constellation validation")
 
     async def _load_validation_criteria(self):
         """Load validation criteria for Constellation components"""
         # Criteria already defined in __init__, could be loaded from config
-        self.logger.debug("Loaded Trinity validation criteria")
+        self.logger.debug("Loaded Constellation validation criteria")
 
     async def _validate_trinity_component(self, component: ConstellationComponent,
                                         validation_level: ValidationLevel) -> TrinityValidationResult:
@@ -487,7 +487,7 @@ class ConstellationFrameworkValidator:
         """Validate presence of required identity features"""
 
         features = {}
-        required_features = self.trinity_criteria[ConstellationComponent.IDENTITY]['required_features']
+        required_features = self.constellation_criteria[ConstellationComponent.IDENTITY]['required_features']
 
         for feature in required_features:
             if feature == 'identity_tracking':
@@ -543,7 +543,7 @@ class ConstellationFrameworkValidator:
         """Validate presence of required consciousness features"""
 
         features = {}
-        required_features = self.trinity_criteria[ConstellationComponent.CONSCIOUSNESS]['required_features']
+        required_features = self.constellation_criteria[ConstellationComponent.CONSCIOUSNESS]['required_features']
 
         for feature in required_features:
             if feature == 'self_awareness':
@@ -598,7 +598,7 @@ class ConstellationFrameworkValidator:
         """Validate presence of required guardian features"""
 
         features = {}
-        required_features = self.trinity_criteria[ConstellationComponent.GUARDIAN]['required_features']
+        required_features = self.constellation_criteria[ConstellationComponent.GUARDIAN]['required_features']
 
         for feature in required_features:
             if feature == 'safety_mechanisms':
@@ -638,7 +638,7 @@ class ConstellationFrameworkValidator:
             recommendations.append("System is not Constellation Framework compliant - immediate action required")
 
         if overall_results['overall_score'] < 0.8:
-            recommendations.append("Overall Trinity score below acceptable threshold - comprehensive review needed")
+            recommendations.append("Overall Constellation score below acceptable threshold - comprehensive review needed")
 
         # Component-specific critical recommendations
         for component_name, component_result in overall_results['component_results'].items():

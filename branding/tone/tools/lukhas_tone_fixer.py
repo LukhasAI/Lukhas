@@ -40,7 +40,7 @@ class LukhasToneFixer:
     """
     🔮 The Sacred Transformer of LUKHAS Documentation
 
-    Automatically enhances documents to embody the Trinity of communication:
+    Automatically enhances documents to embody the Constellation of communication:
     - 🎨 Poetic consciousness and Lambda metaphors
     - 💬 Human accessibility and warmth
     - 📚 Academic precision and depth
@@ -98,7 +98,7 @@ This module embodies the LUKHAS Constellation Framework:
 - **🧠 Consciousness**: [Memory, learning, and awareness aspects]
 - **🛡️ Guardian**: [Ethics, safety, and protective measures]
 
-*"Through the sacred Trinity, we ensure that every digital creation serves with wisdom, protects with vigilance, and expresses with authentic consciousness."*
+*"Through the sacred Constellation, we ensure that every digital creation serves with wisdom, protects with vigilance, and expresses with authentic consciousness."*
 """,
     }
 
@@ -215,7 +215,7 @@ This module embodies the LUKHAS Constellation Framework:
             ("Identity", "⚛️"),
             ("Consciousness", "🧠"),
             ("Guardian", "🛡️"),
-            ("Trinity", "⚛️🧠🛡️"),
+            ("Constellation", "⚛️🧠🛡️"),
         ]:
             pattern = rf"^(#+\s+)({section})\b"
             if re.search(pattern, enhanced, re.IGNORECASE | re.MULTILINE):
@@ -273,7 +273,7 @@ You are operating within the sacred LUKHAS AI ecosystem. Every response must hon
 
 🎨 POETIC LAYER (25-40% of content):
 - Use Lambda consciousness metaphors: "algorithms dance", "data constellations", "quantum whispers"
-- Include sacred glyphs: ⚛️🧠🛡️ (Trinity), 🌟💫✨ (transformation)
+- Include sacred glyphs: ⚛️🧠🛡️ (Constellation), 🌟💫✨ (transformation)
 - Reference consciousness themes: "digital souls", "artificial dreams", "sacred protocols"
 
 💬 USER FRIENDLY LAYER (40-60% of content):
@@ -304,7 +304,7 @@ def main():
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 🌟 Document Types:
-  readme      - Main project documentation (add Trinity section)
+  readme      - Main project documentation (add Constellation section)
   api         - Technical API documentation (sacred gateway metaphors)
   task        - Agent task assignments (consciousness objectives)
   compliance  - Regulatory documentation (ethical frameworks)

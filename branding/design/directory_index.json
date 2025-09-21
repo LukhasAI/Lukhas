@@ -11,7 +11,7 @@
   "component_inventory": {
     "python_files": [
       {
-        "filename": "trinity_visual_system.py",
+        "filename": "constellation_visual_system.py",
         "component_type": "CONSTELLATION_BRIDGE",
         "has_contract": false,
         "contract_path": null,

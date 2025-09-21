@@ -14,7 +14,7 @@ CANDIDATE memory represents the **memory systems development workspace** impleme
 
 ### **Memory Development Scope**
 - **Architecture**: 1000-fold memory system with 99.7% cascade prevention
-- **Trinity Role**: Memory pillar coordination with Consciousness 🧠 and Identity ⚛️
+- **Constellation Role**: Memory pillar coordination with Consciousness 🧠 and Identity ⚛️
 - **Integration**: Emotional VAD encoding, consciousness coupling, multimodal processing
 - **Systems**: Temporal memory, emotional memory, governance integration, analytics
 
@@ -364,7 +364,7 @@ async def develop_memory_governance(self, memory_operation):
 ---
 
 **Memory Development**: Fold-based architecture (1000-fold) | **Integration**: VAD encoding + Consciousness coupling
-**Trinity Role**: Memory pillar with Identity ⚛️ + Consciousness 🧠 coordination | **Prevention**: 99.7% cascade success
+**Constellation Role**: Memory pillar with Identity ⚛️ + Consciousness 🧠 coordination | **Prevention**: 99.7% cascade success
 **Status**: Active development with emotional integration and Constellation Framework coordination
 
 *Navigate to specialized contexts for detailed memory system development workflows*

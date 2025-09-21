@@ -87,7 +87,7 @@ class VocabularyAmplifier:
             "eigenstate": ["consciousness eigenstate", "stable states", "quantum eigenstates"],
             "hilbert": ["Hilbert space", "infinite dimensional", "quantum state space"],
             # Constellation Framework specific
-            "trinity": ["Constellation Framework", "three-fold consciousness", "triadic harmony"],
+            "constellation": ["Constellation Framework", "three-fold consciousness", "triadic harmony"],
             "identity": ["ΛID", "identity resonance", "self-recognition signature"],
             "guardian": ["Guardian System", "ethical guardian", "drift guardian"],
             # Dream and creativity
@@ -275,7 +275,7 @@ class VocabularyAmplifier:
             "endocrine cascade simulation",
             "liminal consciousness states",
             "oneiric engine activation",
-            "trinity framework harmonics",
+            "constellation framework harmonics",
             "guardian drift detection",
             "lambda mirror recursion",
             "memory protein synthesis",

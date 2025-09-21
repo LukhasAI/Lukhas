@@ -41,7 +41,7 @@ class BaseModel(PydanticBaseModel):
     # Optional LUKHAS-specific metadata
     lambda_id: Optional[str] = Field(None, description="Lambda ID for identity tracking")
     tier: Optional[int] = Field(None, ge=0, le=5, description="LUKHAS tier (0-5)")
-    trinity_aspect: Optional[str] = Field(None, description="Constellation Framework aspect")
+    constellation_aspect: Optional[str] = Field(None, description="Constellation Framework aspect")
     
     def to_lukhas_dict(self) -> dict[str, Any]:
         """Convert to dictionary with LUKHAS-specific formatting."""
@@ -63,7 +63,7 @@ class BaseModel(PydanticBaseModel):
             extra={
                 'model_class': cls.__name__,
                 'module': cls.__module__,
-                'trinity_aware': True
+                'constellation_aware': True
             }
         )
 

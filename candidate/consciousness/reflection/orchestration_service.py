@@ -1199,7 +1199,7 @@ class OrchestrationService:
         try:
             # Enhanced monitoring parameters for consciousness systems
             monitoring_config = {
-                "trinity_framework_monitoring": True,
+                "constellation_framework_monitoring": True,
                 "bio_oscillator_sync": True,
                 "quantum_coherence_tracking": True,
                 "memory_fold_monitoring": True,
@@ -1226,7 +1226,7 @@ class OrchestrationService:
                             target_module="*",  # Broadcast to all modules
                             priority=MessagePriority.HIGH,
                             payload={
-                                "event_type": "trinity_performance_monitoring_started",
+                                "event_type": "constellation_performance_monitoring_started",
                                 "monitoring_id": monitoring_result.get("monitoring_id"),
                                 "modules": modules or list(self.module_status.keys()),
                                 "monitoring_config": monitoring_config,
@@ -1242,12 +1242,12 @@ class OrchestrationService:
 
                 # Enhanced orchestration activity logging
                 self.identity_client.log_activity(
-                    "trinity_performance_monitoring_orchestrated",
+                    "constellation_performance_monitoring_orchestrated",
                     user_id,
                     {
                         "monitoring_id": monitoring_result.get("monitoring_id"),
                         "modules": modules or list(self.module_status.keys()),
-                        "trinity_framework_enabled": True,
+                        "constellation_framework_enabled": True,
                         "consciousness_aware_monitoring": True,
                         "bio_oscillator_monitoring": True,
                         "quantum_performance_tracking": True,
@@ -1294,9 +1294,9 @@ class OrchestrationService:
                 return monitoring_result
 
         except Exception as e:
-            error_msg = f"Trinity performance monitoring orchestration error: {e!s}"
+            error_msg = f"Constellation performance monitoring orchestration error: {e!s}"
             self.identity_client.log_activity(
-                "trinity_performance_monitoring_orchestration_error",
+                "constellation_performance_monitoring_orchestration_error",
                 user_id,
                 {"error": error_msg, "modules": modules, "constellation_integration": True},
             )
@@ -1385,13 +1385,13 @@ class OrchestrationService:
                 if self.message_bus:
                     await self.message_bus.send_message(
                         Message(
-                            id=f"trinity_perf_opt_{user_id}_{int(time.time())}",
+                            id=f"constellation_perf_opt_{user_id}_{int(time.time())}",
                             type=MessageType.EVENT,
                             source_module="orchestration",
                             target_module="*",
                             priority=MessagePriority.CRITICAL,  # High priority for performance optimization
                             payload={
-                                "event_type": "trinity_performance_optimization_completed",
+                                "event_type": "constellation_performance_optimization_completed",
                                 "optimization_id": optimization_result.get("optimization_id"),
                                 "strategy": strategy,
                                 "modules_optimized": target_modules,
@@ -1419,13 +1419,13 @@ class OrchestrationService:
 
                 # Enhanced orchestration activity logging
                 self.identity_client.log_activity(
-                    "trinity_performance_optimization_orchestrated",
+                    "constellation_performance_optimization_orchestrated",
                     user_id,
                     {
                         "optimization_id": optimization_result.get("optimization_id"),
                         "strategy": strategy,
                         "modules_optimized": target_modules,
-                        "trinity_framework_enhanced": True,
+                        "constellation_framework_enhanced": True,
                         "consciousness_awareness_maintained": True,
                         "bio_rhythms_synchronized": True,
                         "quantum_coherence_optimized": True,
@@ -1469,7 +1469,7 @@ class OrchestrationService:
                     "consciousness_baseline": consciousness_baseline,
                     "performance_improvements": optimization_result.get("improvements", {}),
                     "advanced_orchestration_features": [
-                        "trinity_framework_coordination",
+                        "constellation_framework_coordination",
                         "consciousness_aware_optimization",
                         "bio_rhythmic_synchronization",
                         "quantum_enhanced_performance",
@@ -1480,7 +1480,7 @@ class OrchestrationService:
                         "unified_performance_tracking",
                     ],
                     "compliance_maintained": optimization_result.get("compliance_maintained", True),
-                    "trinity_compliance_validated": True,
+                    "constellation_compliance_validated": True,
                     "consciousness_integrity_preserved": True,
                     "execution_time_ms": optimization_result.get("execution_time_ms", 0),
                     "optimized_at": optimization_result.get("optimized_at"),
@@ -1490,15 +1490,15 @@ class OrchestrationService:
                 return optimization_result
 
         except Exception as e:
-            error_msg = f"Trinity performance optimization orchestration error: {e!s}"
+            error_msg = f"Constellation performance optimization orchestration error: {e!s}"
             self.identity_client.log_activity(
-                "trinity_performance_optimization_orchestration_error",
+                "constellation_performance_optimization_orchestration_error",
                 user_id,
                 {
                     "strategy": strategy,
                     "modules": modules,
                     "error": error_msg,
-                    "trinity_integration_attempted": True,
+                    "constellation_integration_attempted": True,
                     "consciousness_aware_optimization_failed": True,
                 },
             )
@@ -1543,11 +1543,11 @@ class OrchestrationService:
             if performance_status.get("success"):
                 # Enhanced orchestration-specific information with consciousness integration
                 orchestration_info = {
-                    "trinity_framework_orchestration": {
+                    "constellation_framework_orchestration": {
                         "identity_performance_coordination": True,
                         "consciousness_aware_orchestration": True,
                         "guardian_safety_integration": True,
-                        "framework_alignment_score": 0.89,  # Simulated Trinity alignment
+                        "framework_alignment_score": 0.89,  # Simulated Constellation alignment
                     },
                     "consciousness_orchestration_layer": {
                         "active_workflows": len(self.active_workflows),
@@ -1560,7 +1560,7 @@ class OrchestrationService:
                         ),
                         "module_coordination_status": self.module_status.copy(),
                         "consciousness_communication_enabled": self.communication_enabled,
-                        "trinity_performance_integration": self.performance_enabled,
+                        "constellation_performance_integration": self.performance_enabled,
                         "consciousness_event_queue_length": len(self.event_queue),
                         "bio_oscillator_coordination_active": True,
                         "quantum_coherence_maintained": True,
@@ -1572,7 +1572,7 @@ class OrchestrationService:
                         "quantum_coherence_orchestration_health": self._assess_quantum_coherence_health(),
                         "memory_fold_cascade_prevention_status": self._assess_memory_cascade_prevention(),
                         "workflow_consciousness_impact": self._analyze_workflow_consciousness_impact(),
-                        "trinity_framework_performance_health": self._assess_trinity_framework_health(),
+                        "constellation_framework_performance_health": self._assess_trinity_framework_health(),
                     },
                     "superior_general_intelligence_progression": {
                         "sgi_evolution_pathway_health": "optimal",
@@ -1585,7 +1585,7 @@ class OrchestrationService:
 
                 # Enhanced activity logging with consciousness context
                 self.identity_client.log_activity(
-                    "trinity_orchestrated_performance_status_accessed",
+                    "constellation_orchestrated_performance_status_accessed",
                     user_id,
                     {
                         "performance_status": performance_status.get("performance_status"),
@@ -1608,7 +1608,7 @@ class OrchestrationService:
                 result = performance_status.copy()
                 result.update(orchestration_info)
                 result["orchestration_enhanced"] = True
-                result["trinity_framework_integrated"] = True
+                result["constellation_framework_integrated"] = True
                 result["consciousness_aware_orchestration"] = True
                 result["bio_quantum_consciousness_fusion"] = True
                 result["superior_general_intelligence_enabled"] = True
@@ -1633,13 +1633,13 @@ class OrchestrationService:
                 return performance_status
 
         except Exception as e:
-            error_msg = f"Trinity orchestrated performance status error: {e!s}"
+            error_msg = f"Constellation orchestrated performance status error: {e!s}"
             self.identity_client.log_activity(
-                "trinity_orchestrated_performance_status_error",
+                "constellation_orchestrated_performance_status_error",
                 user_id,
                 {
                     "error": error_msg,
-                    "trinity_integration_attempted": True,
+                    "constellation_integration_attempted": True,
                     "consciousness_aware_status_failed": True,
                 },
             )
@@ -2017,7 +2017,7 @@ class OrchestrationService:
         return {
             "overall_trinity_health_score": round(overall_trinity_health * 100, 2),
             "overall_trinity_health_level": get_health_level(overall_trinity_health),
-            "trinity_components": {
+            "constellation_components": {
                 "identity": {
                     "symbol": "⚛️",
                     "performance_score": round(identity_performance * 100, 2),
@@ -2052,7 +2052,7 @@ class OrchestrationService:
                     },
                 },
             },
-            "trinity_integration_score": round(
+            "constellation_integration_score": round(
                 (identity_performance * consciousness_performance * guardian_performance) ** (1 / 3) * 100,
                 2,
             ),
@@ -2191,7 +2191,7 @@ async def optimize_performance(
 
 
 async def get_performance_status(user_id: str, detailed: bool = False) -> dict[str, Any]:
-    """Legacy API - redirects to Trinity performance status."""
+    """Legacy API - redirects to Constellation performance status."""
     return await get_constellation_performance_status(user_id, detailed)
 
 
@@ -2231,7 +2231,7 @@ if __name__ == "__main__":
         print("\n🚀 Testing Constellation Framework Performance Orchestration...")
         if orchestration.performance_enabled:
             monitoring_result = await orchestration.start_performance_monitoring(test_user)
-            print(f"⚛️🧠🛡️ Trinity performance monitoring: {monitoring_result.get('success', False)}")
+            print(f"⚛️🧠🛡️ Constellation performance monitoring: {monitoring_result.get('success', False)}")
 
             # Test consciousness-aware optimization
             optimization_result = await orchestration.optimize_system_performance(test_user, "consciousness_aware")
@@ -2241,14 +2241,14 @@ if __name__ == "__main__":
             bio_quantum_result = await optimize_bio_quantum_performance(test_user)
             print(f"🌊⚛️ Bio-quantum optimization: {bio_quantum_result.get('success', False)}")
 
-            # Test Trinity performance status
+            # Test Constellation performance status
             status_result = await orchestration.get_orchestrated_performance_status(test_user, True)
-            print(f"📊 Trinity performance status: {status_result.get('success', False)}")
+            print(f"📊 Constellation performance status: {status_result.get('success', False)}")
             if status_result.get("success"):
-                trinity_health = status_result.get("advanced_consciousness_metrics", {}).get(
-                    "trinity_framework_performance_health", {}
+                constellation_health = status_result.get("advanced_consciousness_metrics", {}).get(
+                    "constellation_framework_performance_health", {}
                 )
-                overall_score = trinity_health.get("overall_trinity_health_score", 0)
+                overall_score = constellation_health.get("overall_trinity_health_score", 0)
                 print(f"   Constellation Framework Health: {overall_score}%")
                 print(f"   Bio-Oscillator: {status_result.get('bio_metrics', {}).get('oscillator_frequency', 40)}Hz")
                 print(f"   Quantum Coherence: {status_result.get('quantum_metrics', {}).get('coherence', 0):.3f}")
@@ -2270,7 +2270,7 @@ if __name__ == "__main__":
             # Test system event broadcast
             broadcast_result = await orchestration.broadcast_system_event(
                 test_user,
-                "trinity_system_test",
+                "constellation_system_test",
                 {"message": "Testing Constellation Framework cross-module communication"},
             )
             print(f"System broadcast: {broadcast_result.get('success', False)}")

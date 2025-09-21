@@ -223,16 +223,16 @@
     color: rgb(var(--constellation-quantum)) !important;
   }
 
-  /* Legacy Trinity classes - maintain backward compatibility */
-  .text-trinity-identity {
+  /* Legacy Constellation classes - maintain backward compatibility */
+  .text-constellation-identity {
     color: rgb(var(--constellation-identity)) !important;
   }
 
-  .text-trinity-consciousness {
+  .text-constellation-consciousness {
     color: rgb(var(--constellation-vision)) !important;
   }
 
-  .text-trinity-guardian {
+  .text-constellation-guardian {
     color: rgb(var(--constellation-guardian)) !important;
   }
 

@@ -215,7 +215,7 @@ class SystemConsolidator:
                                             str(row),
                                             "⚛️ Constellation Identity",
                                             "🧠 Constellation Consciousness",
-                                            "🛡️ Trinity Guardian",
+                                            "🛡️ Constellation Guardian",
                                         ),
                                     )
                             except Exception:

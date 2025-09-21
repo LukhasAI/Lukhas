@@ -168,7 +168,7 @@ class CoreSafetyBridge:
     def compare_states(
         self,
         state1: dict[str, Any],
-        state2: dict[str, Any],  # ✅ Trinity-aware state comparison implemented
+        state2: dict[str, Any],  # ✅ Constellation-aware state comparison implemented
     ) -> list[dict[str, Any]]:
         """Compare states and return differences using Constellation Framework (⚛️🧠🛡️) principles"""
         differences = []
@@ -211,12 +211,12 @@ class CoreSafetyBridge:
 
         # Constellation Framework holistic assessment
         if differences:
-            trinity_health = self._assess_trinity_coherence(differences)
+            constellation_health = self._assess_trinity_coherence(differences)
             differences.append({
                 "component": "constellation_framework",
                 "symbol": "⚛️🧠🛡️",
-                "coherence_score": trinity_health,
-                "recommendation": self._get_trinity_recommendation(trinity_health)
+                "coherence_score": constellation_health,
+                "recommendation": self._get_trinity_recommendation(constellation_health)
             })
 
         return differences

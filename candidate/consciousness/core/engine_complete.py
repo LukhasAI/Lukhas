@@ -7,7 +7,7 @@ from datetime import timezone
 # DESCRIPTION: LUKHAS AI Consciousness Engine with Constellation Framework Integration
 # AUTHOR: LUKHAS AI SYSTEMS
 # LICENSE: PROPRIETARY - LUKHAS AI SYSTEMS - UNAUTHORIZED ACCESS PROHIBITED
-# TRINITY: ⚛️ Identity + 🧠 Consciousness + 🛡️ Guardian
+# CONSTELLATION: ⚛️ Identity + 🧠 Consciousness + 🛡️ Guardian
 # ═══════════════════════════════════════════════════════════════════════════
 
 """
@@ -1415,5 +1415,5 @@ __all__ = [
 # ═══════════════════════════════════════════════════════════════════════════
 # END OF MODULE: engine_complete.py
 # STATUS: Constellation Framework integrated - Production ready with agent support
-# TRINITY: ⚛️ Identity + 🧠 Consciousness + 🛡️ Guardian
+# CONSTELLATION: ⚛️ Identity + 🧠 Consciousness + 🛡️ Guardian
 # ═══════════════════════════════════════════════════════════════════════════

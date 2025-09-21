@@ -1,5 +1,5 @@
 # LUKHAS AI Environment Configuration
-# Trinity Framework: ⚛️🧠🛡️
+# Constellation Framework: ⚛️🧠🛡️
 # Copy this file to .env and fill in your values
 # IMPORTANT: Never commit real API keys!
 

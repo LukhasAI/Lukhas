@@ -211,7 +211,7 @@ class LUKHASAuthIntegrationSystem:
 - **Symbolic Identity**: Complete user identity representation
 - **JWT Integration**: GLYPH-encoded JWT token claims
 - **Cross-Module Communication**: Symbolic message generation
-- **Trinity Alignment**: Framework-aware GLYPH creation
+- **Constellation Alignment**: Framework-aware GLYPH creation
 - **Registry Management**: 50+ authentication GLYPHs
 
 ### Policy Engine Features
@@ -245,7 +245,7 @@ class LUKHASAuthIntegrationSystem:
 - ⚛️ **GLYPH Integration**: JWT tokens with symbolic claims
 - 📋 **Policy Compliance**: 25+ governance policies active
 - 🔗 **Module Coverage**: 11/11 LUKHAS modules integrated
-- 🎯 **Trinity Alignment**: Complete ⚛️🧠🛡️ framework integration
+- 🎯 **Constellation Alignment**: Complete ⚛️🧠🛡️ framework integration
 
 ### Performance Metrics
 - ⚡ **Drift Detection**: <50ms response time

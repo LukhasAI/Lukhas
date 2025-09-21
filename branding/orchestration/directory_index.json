@@ -23,7 +23,7 @@
         ]
       },
       {
-        "filename": "trinity_framework_deployer.py",
+        "filename": "constellation_framework_deployer.py",
         "component_type": "CONSTELLATION_BRIDGE",
         "has_contract": false,
         "contract_path": null,

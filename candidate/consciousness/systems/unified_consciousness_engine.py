@@ -178,7 +178,7 @@ class UnifiedConsciousnessEngine:
         }
 
         # Constellation Framework weights
-        self.trinity_weights = {
+        self.constellation_weights = {
             "identity": 0.3,      # ⚛️
             "consciousness": 0.4,  # 🧠
             "guardian": 0.3       # 🛡️
@@ -203,7 +203,7 @@ class UnifiedConsciousnessEngine:
             "awareness_change": self._process_awareness_change_event,
             "integration_request": self._process_integration_request_event,
             "health_check": self._process_health_check_event,
-            "trinity_sync": self._process_trinity_sync_event,
+            "constellation_sync": self._process_trinity_sync_event,
             "error_recovery": self._process_error_recovery_event
         }
 
@@ -636,7 +636,7 @@ class UnifiedConsciousnessEngine:
     async def _process_trinity_sync_event(self, event: ConsciousnessEvent) -> dict[str, Any]:
         """Process Constellation Framework synchronization event"""
 
-        # Update Trinity metrics
+        # Update Constellation metrics
         identity_health = self.metrics.module_health.get(ConsciousnessModule.IDENTITY, 1.0)
         guardian_health = self.metrics.module_health.get(ConsciousnessModule.GUARDIAN, 1.0)
 

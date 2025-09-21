@@ -209,7 +209,7 @@ class VocabularyIntegration:
         integration_terms = [
             "consciousness",
             "quantum",
-            "trinity",
+            "constellation",
             "harmony",
             "synthesis",
             "sacred",

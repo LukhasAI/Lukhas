@@ -2234,7 +2234,7 @@
           "collective_ad_mind",
           "cognitive_updater",
           "feedback_loop",
-          "trinity_validation_test",
+          "constellation_validation_test",
           "us_institutional_awareness_engine",
           "dream_glyph_bridge",
           "memory_interface",
@@ -2483,7 +2483,7 @@
           "api_system",
           "symbol_validator",
           "mailbox",
-          "trinity_framework_monitor",
+          "constellation_framework_monitor",
           "hybrid_integration",
           "universal_symbol_protocol",
           "colony",
@@ -3140,7 +3140,7 @@
           "pin_memory_cache",
           "dream_memory_manager",
           "pattern_detector",
-          "trinity_framework_validator",
+          "constellation_framework_validator",
           "symbolic_drift_tracker",
           "dream_utils",
           "healix_memory_core",
@@ -3336,7 +3336,7 @@
           "test_consciousness_identity_patterns",
           "processor",
           "engine",
-          "trinity_validation_test",
+          "constellation_validation_test",
           "constitutional_ai_compliance",
           "id_manager",
           "lambda_id_core",
@@ -3538,7 +3538,7 @@
         "lukhas/consciousness": [
           "consciousness_wrapper",
           "__init__",
-          "trinity_integration",
+          "constellation_integration",
           "activation_orchestrator",
           "bio_integration",
           "registry"
@@ -3901,7 +3901,7 @@
           "matriz_emit"
         ],
         "candidate/core/observability": [
-          "trinity_framework_monitor",
+          "constellation_framework_monitor",
           "__init__",
           "collector",
           "unified_monitoring_dashboard",

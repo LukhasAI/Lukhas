@@ -717,7 +717,7 @@ class LukhasBrandVoiceProfiles:
             audience_config = self.audience_adaptations[audience]
             base_profile = self._apply_audience_adaptations(base_profile, audience_config)
 
-        # Apply Trinity emphasis
+        # Apply Constellation emphasis
         if triad_emphasis:
             base_profile = self._apply_triad_emphasis(base_profile, triad_emphasis)
 
@@ -872,11 +872,11 @@ class LukhasBrandVoiceProfiles:
             if component in self.triad_voice_elements:
                 triad_config = self.triad_voice_elements[component]
 
-                # Enhance characteristics with Trinity elements
+                # Enhance characteristics with Constellation elements
                 if "characteristics" in emphasized_profile:
                     emphasized_profile["characteristics"].extend(triad_config["voice_characteristics"])
 
-                # Add Trinity-specific language patterns
+                # Add Constellation-specific language patterns
                 emphasized_profile[f"{component}_patterns"] = triad_config["language_patterns"]
 
                 # Apply tone modifiers
@@ -1034,12 +1034,12 @@ if __name__ == "__main__":
         print(f"Audience Priorities: {technical_voice['audience_priorities'][:2]}")
     print()
 
-    # Test Trinity emphasis
+    # Test Constellation emphasis
     print("=== Constellation Framework Emphasis ===")
     triad_voice = voice_profiles.get_voice_profile(
         "consciousness_ambassador", triad_emphasis=["consciousness", "guardian"]
     )
-    print("Trinity Emphasized Voice:")
+    print("Constellation Emphasized Voice:")
     print(f"Constellation Integration: {triad_voice['parameters'].triad_integration:.2f}")
     if "consciousness_patterns" in triad_voice:
         print(f"Consciousness Patterns: {triad_voice['consciousness_patterns'][:2]}")

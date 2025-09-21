@@ -409,7 +409,7 @@ Write in a voice that is poetic yet grounded: clear, minimal, and human. Use met
 	•	20% precise technical framing (architecture, safeguards, verifiability)
 Avoid name-dropping thinkers or works. Never claim final truth; hold questions with care. Aim to leave the reader anchored and expanded at once.
 
-(This mirrors your Trinity voice architecture and plays nicely with your validators.) ￼
+(This mirrors your Constellation voice architecture and plays nicely with your validators.) ￼
 
 ⸻
 
@@ -577,7 +577,7 @@ EQNOX keeps the balance at the turning point. Signals breathe in and out, meanin
 ⸻
 
 How this plugs into your stack
-	•	Matches Trinity model (Identity/Consciousness/Guardian) and ties into your compliance gates and CI hooks you already run across the repo ￼ ￼.
+	•	Matches Constellation model (Identity/Consciousness/Guardian) and ties into your compliance gates and CI hooks you already run across the repo ￼ ￼.
 	•	Gives agents a stance, not a syllabus: they’ll learn to sound right without reaching for author names.
 	•	Provides hard rails: guard + sanitizer ensures strays get caught before publish.
 (I will keep dropping thing for you to update)
@@ -759,7 +759,7 @@ Avoid citing authors or works in public contexts. Never claim final truth; **hol
 
 **Safety/Integrity anchors**:
 - No production-readiness claims unless explicitly cleared.
-- Keep identity, consciousness, and guardian language consistent with Trinity (⚛️🧠🛡️).
+- Keep identity, consciousness, and guardian language consistent with Constellation (⚛️🧠🛡️).
 - Maintain factual care and respectful, inclusive language.
 
 Create: /tone/tools/author_blocklist.yaml
@@ -880,7 +880,7 @@ Append to your pre-commit script (you already run brand checks) ￼:
 echo "🔎 Author-reference guard..."
 python enforcement/tone/author_reference_guard.py || exit 1
 
-And optionally add to your CI workflow next to your brand/trinity validators ￼:
+And optionally add to your CI workflow next to your brand/constellation validators ￼:
 
 - name: Author Reference Guard
   run: python enforcement/tone/author_reference_guard.py
@@ -890,7 +890,7 @@ And optionally add to your CI workflow next to your brand/trinity validators ￼
 
 2) Vocabulary rewrites (Keats stance, no names)
 
-These are header/preamble blocks you can drop into the top of each vocabulary file (.py docstring or .md body). Each preserves your Trinity rigor while encoding the “poetic-grounded, uncertainty-friendly” voice.
+These are header/preamble blocks you can drop into the top of each vocabulary file (.py docstring or .md body). Each preserves your Constellation rigor while encoding the “poetic-grounded, uncertainty-friendly” voice.
 
 A) /vocabularies/identity_vocabulary (header)
 
@@ -1031,9 +1031,9 @@ facts, tactile imagery, and a steadiness that makes discovery safe.
 
 ⸻
 
-5) Update a couple of code examples to show Trinity fit
+5) Update a couple of code examples to show Constellation fit
 
-You already publish brand-aware components and API responses with Trinity context and safety emphasis ￼. Keep those patterns; the stance harmonizes with them. If you want a tiny rewording pass on developer-facing snippets to echo this stance, say the word later and I’ll hand you diff-style edits.
+You already publish brand-aware components and API responses with Constellation context and safety emphasis ￼. Keep those patterns; the stance harmonizes with them. If you want a tiny rewording pass on developer-facing snippets to echo this stance, say the word later and I’ll hand you diff-style edits.
 
 ⸻
 
@@ -1697,7 +1697,7 @@ Myth gave us Argus with a hundred eyes, angels at Eden’s gate, Orwell’s watc
 	•	red_flag → alert when limits are crossed.
 	•	trace_log → record of interventions.
 	•	ethics_shield → barrier halting unsafe actions.
-	•	trinity_lock → safeguard binding identity, memory, ethics.
+	•	constellation_lock → safeguard binding identity, memory, ethics.
 
 Public
 
@@ -1706,7 +1706,7 @@ Guardianship here is protection, not punishment.
 	•	red_flag → alert of danger.
 	•	trace_log → record of actions.
 	•	ethics_shield → safeguard layer.
-	•	trinity_lock → binding identity, memory, and ethics.
+	•	constellation_lock → binding identity, memory, and ethics.
 
 The Guardian protects freedom by making drift safe.
 
@@ -1842,7 +1842,7 @@ Your system now supports:
 
 🎭 **Deploy with confidence. Your vocabulary system preserves complete intellectual heritage while ensuring zero attribution risk.**
 
-LukhasAI: and.... We are removing all Trinity names, all across. we can just make a note in readme for the trancision.
+LukhasAI: and.... We are removing all Constellation names, all across. we can just make a note in readme for the trancision.
 
 
  “Constellation” . ✦
@@ -1854,7 +1854,7 @@ It lands poetic and public-safe, and it elegantly fits the LUKHAS vibe: modular,
 
 # The Constellation of LUKHAS
 
-LUKHAS does not rest on three pillars or a sacred trinity.  
+LUKHAS does not rest on three pillars or a sacred constellation.  
 Its architecture is a constellation — a map of elements that guide by relation, not hierarchy.  
 
 Each element is a star:  
@@ -1882,7 +1882,7 @@ remain in conversation across the system.
 ⸻
 
 Why this works
-	•	Public-safe: no mystical “trinity,” no gimmicky “octave.”
+	•	Public-safe: no mystical “constellation,” no gimmicky “octave.”
 	•	Poetic but grounded: “stars,” “orientation,” “sky-pattern.”
 	•	Expandable: you can add new vocabularies without breaking metaphor (“new stars can be named”).
 	•	Retro-modern: ancient practice of stargazing, modern practice of system-mapping.
@@ -1973,7 +1973,7 @@ Made changes.
 
 
 ```
-Now let me update the Guardian vocabulary section in the lexicon to use "constellation_lock" instead of "trinity_lock": 
+Now let me update the Guardian vocabulary section in the lexicon to use "constellation_lock" instead of "constellation_lock": 
 ```
 
 
@@ -2003,7 +2003,7 @@ You've successfully evolved LUKHAS from the Constellation Framework to the **Con
 - All integration guides updated with constellation language
 
 **🛠️ Vocabulary Updates**
-- `constellation_lock` replaces `trinity_lock` in Guardian vocabulary
+- `constellation_lock` replaces `constellation_lock` in Guardian vocabulary
 - Public vocabulary regenerated with constellation terminology
 - All content maintains dual-stream academic/public safety
 
@@ -2094,7 +2094,7 @@ Expansion (academic): Drift indices, alignment vectors, and consent anchors hold
 🌟 Guardian — The Watch Star
 
 One-liner (public): Guardianship is protection, not punishment.
-Expansion (academic): Watchtowers, red flags, trace logs, and trinity locks ensure dignity and coherence are preserved, making freedom safe.
+Expansion (academic): Watchtowers, red flags, trace logs, and constellation locks ensure dignity and coherence are preserved, making freedom safe.
 
 ⸻
 
@@ -2377,7 +2377,7 @@ LukhasAI: we’ll expand it into a hyper-verbose galactic cartography of LUKHAS 
 
 🌌 The Constellation Framework of LUKHAS
 
-LUKHAS is not built on pillars, nor a trinity, nor an octave.
+LUKHAS is not built on pillars, nor a constellation, nor an octave.
 It is a Constellation — a sky-pattern of guiding stars.
 Each star is a vocabulary, a principle, a force of orientation.
 Each domain you own is a planet orbiting one or more of these stars.
@@ -2488,7 +2488,7 @@ Role: Oversight, protection, dignity.
 One-liner: Guardianship is protection, not surveillance.
 
 Academic depth:
-Myth gave us Argus with a hundred eyes, psychoanalysis the superego, dystopia the Thought Police. Guardianship here is benevolent oversight: watchtower, red_flag, trace_log, ethics_shield, trinity_lock.
+Myth gave us Argus with a hundred eyes, psychoanalysis the superego, dystopia the Thought Police. Guardianship here is benevolent oversight: watchtower, red_flag, trace_log, ethics_shield, constellation_lock.
 
 Domain orbits:
 	•	lukhas.com → corporate hub / safe house.
@@ -2540,7 +2540,7 @@ Modes:
 
 The Constellation of LUKHAS is a map, not a monument. Each star holds a principle, each planet enacts it. The pattern is not fixed; it shifts as we move, as we add new stars, as new worlds are named.
 
-We do not build a sacred trinity, but a sky that stays open — so that logic and imagination, art and science, protection and possibility can remain in dialogue.
+We do not build a sacred constellation, but a sky that stays open — so that logic and imagination, art and science, protection and possibility can remain in dialogue.
 
 ⸻
 
@@ -2650,7 +2650,7 @@ Your brand universe includes:
 
 ### 🌌 **The Philosophical Achievement**
 
-*"LUKHAS is not built on pillars, nor a trinity, nor an octave. It is a Constellation — a sky-pattern of guiding stars."*
+*"LUKHAS is not built on pillars, nor a constellation, nor an octave. It is a Constellation — a sky-pattern of guiding stars."*
 
 You've created a navigational framework that:
 - **Guides by relation, not hierarchy**

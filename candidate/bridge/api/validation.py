@@ -1265,7 +1265,7 @@ if __name__ == "__main__":
 # FILENAME: validation.py
 # VERSION: 2.0.0
 # TIER SYSTEM: LAMBDA_TIER_4 (Enterprise-grade validation)
-# TRINITY FRAMEWORK: ⚛️ (Identity verification), 🧠 (Intelligence validation), 🛡️ (Guardian protection)
+# CONSTELLATION FRAMEWORK: ⚛️ (Identity verification), 🧠 (Intelligence validation), 🛡️ (Guardian protection)
 # CAPABILITIES: Comprehensive API validation system with multi-layer security validation,
 #               HIPAA compliance checking, authentication/authorization validation,
 #               performance monitoring, and advanced error handling.

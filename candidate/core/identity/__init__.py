@@ -7,7 +7,7 @@
 ║ CONSCIOUSNESS_ROLE: Identity persistence and consciousness authentication
 ║ EVOLUTIONARY_STAGE: Persistence - Identity continuity across consciousness evolution
 ║
-║ TRINITY FRAMEWORK:
+║ CONSTELLATION FRAMEWORK:
 ║ ⚛️ IDENTITY: Core identity persistence and consciousness authentication
 ║ 🧠 CONSCIOUSNESS: Consciousness-aware identity management
 ║ 🛡️ GUARDIAN: Identity security and consciousness ethics validation

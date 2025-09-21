@@ -198,7 +198,7 @@ When adding new vocabulary:
 
 ## Resources
 
-- [Constellation Framework Documentation](../trinity_core_vocabulary.yaml)
+- [Constellation Framework Documentation](../constellation_core_vocabulary.yaml)
 - [LUKHAS Branding Policy](../BRANDING_POLICY.md)
 - [Readability Testing Tools](https://readable.com/)
 - [Information Integration Theory Papers](https://www.iit.it/)

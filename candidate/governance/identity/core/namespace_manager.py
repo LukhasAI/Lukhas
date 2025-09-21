@@ -137,7 +137,7 @@ class IdentityNamespace:
 
 
 class NamespaceManager:
-    """⚛️🧠🛡️ Trinity-compliant namespace manager for identity isolation"""
+    """⚛️🧠🛡️ Constellation-compliant namespace manager for identity isolation"""
 
     def __init__(self, config: Optional[dict] = None):
         self.config = config or {}

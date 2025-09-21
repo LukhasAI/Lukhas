@@ -58,7 +58,7 @@
   {
     "term": "Constellation Framework",
     "preferred": "Constellation Framework",
-    "avoid": ["Trinity System", "Trinity Architecture"],
+    "avoid": ["Constellation System", "Constellation Architecture"],
     "notes": "Official LUKHAS AI framework name - always capitalize",
     "readingLevel": "8",
     "examples": ["LUKHAS Constellation Framework", "the Constellation Framework approach"]

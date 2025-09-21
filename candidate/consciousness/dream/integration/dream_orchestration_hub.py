@@ -20,7 +20,7 @@ class OrchestrationMode(Enum):
     PASSIVE_MONITORING = "passive_monitoring"
     ACTIVE_COORDINATION = "active_coordination"
     DEEP_INTEGRATION = "deep_integration"
-    TRINITY_SYNCHRONIZATION = "trinity_synchronization"
+    TRINITY_SYNCHRONIZATION = "constellation_synchronization"
 
 
 class OrchestrationStatus(Enum):
@@ -53,7 +53,7 @@ class DreamOrchestrationHub:
             "instance": component_instance,
             "registered_at": datetime.now(timezone.utc).isoformat(),
             "status": "active",
-            "trinity_validated": True
+            "constellation_validated": True
         }
 
         logger.info(f"⚛️ Component registered: {component_name}")
@@ -74,7 +74,7 @@ class DreamOrchestrationHub:
             "components_involved": [],
             "coordination_events": [],
             "status": OrchestrationStatus.INITIALIZING.value,
-            "trinity_validated": False
+            "constellation_validated": False
         }
 
         self.active_sessions[session_id] = session
@@ -136,12 +136,12 @@ class DreamOrchestrationHub:
             "session_id": session_id,
             "phases_coordinated": len(dream_sequence),
             "coordination_quality": coordination_quality,
-            "trinity_synchronization": coordination_quality > 0.8,
+            "constellation_synchronization": coordination_quality > 0.8,
             "completed_at": datetime.now(timezone.utc).isoformat()
         }
 
         # Update session
-        session["trinity_validated"] = coordination_quality > 0.8
+        session["constellation_validated"] = coordination_quality > 0.8
         if coordination_quality > 0.8:
             session["status"] = OrchestrationStatus.COMPLETE.value
 
@@ -159,7 +159,7 @@ class DreamOrchestrationHub:
             "phase_index": phase_index,
             "coordination_score": min(coordination_score, 1.0),
             "components_engaged": len(session["components_involved"]),
-            "trinity_aspects": {
+            "constellation_aspects": {
                 "identity_preservation": 0.88,
                 "consciousness_integration": 0.92,
                 "guardian_validation": 0.85
@@ -187,8 +187,8 @@ class DreamOrchestrationHub:
         session = self.active_sessions[session_id]
         self.orchestration_status = OrchestrationStatus.SYNCHRONIZING
 
-        # Perform Trinity synchronization
-        trinity_sync = {
+        # Perform Constellation synchronization
+        constellation_sync = {
             "session_id": session_id,
             "identity_coherence": 0.91,
             "consciousness_alignment": 0.89,
@@ -197,20 +197,20 @@ class DreamOrchestrationHub:
             "synchronized_at": datetime.now(timezone.utc).isoformat()
         }
 
-        # Update session with Trinity validation
-        session["trinity_validated"] = trinity_sync["overall_trinity_score"] > 0.85
+        # Update session with Constellation validation
+        session["constellation_validated"] = constellation_sync["overall_trinity_score"] > 0.85
 
         # Log synchronization
         self.coordination_log.append({
-            "type": "trinity_synchronization",
+            "type": "constellation_synchronization",
             "session_id": session_id,
-            "result": trinity_sync,
+            "result": constellation_sync,
             "timestamp": datetime.now(timezone.utc).isoformat()
         })
 
         self.orchestration_status = OrchestrationStatus.COORDINATING
-        logger.info(f"🛡️ Constellation Framework synchronized: {session_id} - Score: {trinity_sync['overall_trinity_score']:.2f}")
-        return trinity_sync
+        logger.info(f"🛡️ Constellation Framework synchronized: {session_id} - Score: {constellation_sync['overall_trinity_score']:.2f}")
+        return constellation_sync
 
     def get_orchestration_status(self, session_id: Optional[str] = None) -> dict[str, Any]:
         """Get orchestration status information."""
@@ -225,7 +225,7 @@ class DreamOrchestrationHub:
                 "mode": session["mode"],
                 "components_involved": len(session["components_involved"]),
                 "coordination_events": len(session["coordination_events"]),
-                "trinity_validated": session["trinity_validated"]
+                "constellation_validated": session["constellation_validated"]
             }
         else:
             return {
@@ -249,7 +249,7 @@ class DreamOrchestrationHub:
             "mode": session["mode"],
             "components_involved": session["components_involved"],
             "total_coordination_events": len(session["coordination_events"]),
-            "trinity_validated": session["trinity_validated"],
+            "constellation_validated": session["constellation_validated"],
             "final_status": session["status"],
             "ended_at": datetime.now(timezone.utc).isoformat()
         }
@@ -269,13 +269,13 @@ class DreamOrchestrationHub:
         if not self.coordination_log:
             return {"analytics": "No coordination events recorded"}
 
-        trinity_sync_events = [event for event in self.coordination_log if event["type"] == "trinity_synchronization"]
+        constellation_sync_events = [event for event in self.coordination_log if event["type"] == "constellation_synchronization"]
 
         analytics = {
             "total_sessions_created": total_sessions,
             "currently_active_sessions": active_sessions,
             "total_coordination_events": len(self.coordination_log),
-            "trinity_synchronization_events": len(trinity_sync_events),
+            "constellation_synchronization_events": len(constellation_sync_events),
             "registered_components": list(self.registered_components.keys()),
             "hub_operational_time": "calculated",
             "system_performance": "optimal"

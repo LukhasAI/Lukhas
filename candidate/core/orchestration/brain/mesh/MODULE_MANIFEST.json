@@ -160,7 +160,7 @@
   "documentation": {
     "README": "../README.md",
     "architecture_docs": "MATRIZ_CONSCIOUSNESS_ARCHITECTURE.md", 
-    "trinity_guidelines": "Constellation Framework Documentation",
+    "constellation_guidelines": "Constellation Framework Documentation",
     "user_guide": "Embedded in cognitive_mesh_coordinator.py lines 888-1010"
   }
 }

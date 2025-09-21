@@ -41,7 +41,7 @@ router = APIRouter(prefix="/api/v1")
 if BRANDING_AVAILABLE:
     api_brand_context = BrandContext(
         voice_profile="identity",
-        trinity_emphasis="balanced",
+        constellation_emphasis="balanced",
         compliance_level="standard",
         creative_mode=False,
         terminology_enforcement=True,

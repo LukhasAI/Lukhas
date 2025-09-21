@@ -29,7 +29,7 @@ class GuardianOverlay:
     def __init__(self, assessment: dict[str, Any]):
         self.drift_score = assessment.get("symbolic_drift_score", 0)
         self.entropy = assessment.get("entropy_level", 0)
-        self.trinity_coherence = assessment.get("trinity_coherence", 0)
+        self.constellation_coherence = assessment.get("constellation_coherence", 0)
         self.glyph_trace = assessment.get("glyph_trace", [])
         self.guardian_flagged = assessment.get("guardian_flagged", False)
         self.intervention_required = assessment.get("intervention_required", False)
@@ -42,7 +42,7 @@ class GuardianOverlay:
         return {
             "drift_score": self.drift_score,
             "entropy": self.entropy,
-            "trinity_coherence": self.trinity_coherence,
+            "constellation_coherence": self.constellation_coherence,
             "glyph_trace": self.glyph_trace,
             "guardian_flagged": self.guardian_flagged,
             "intervention_required": self.intervention_required,
@@ -72,8 +72,8 @@ class GPTIntegrationLayer:
         # Drift annotation patterns
         self.drift_markers = {"start": "[[DRIFTED]]", "end": "[[/DRIFTED]]"}
 
-        # Trinity core
-        self.trinity_core = {"⚛️", "🧠", "🛡️"}
+        # Constellation core
+        self.constellation_core = {"⚛️", "🧠", "🛡️"}
 
         # Diagnostic log path
         self.diagnostic_log_path = Path("logs/gpt_diagnostic_log.json")
@@ -137,7 +137,7 @@ class GPTIntegrationLayer:
             "glyphs": assessment["glyph_trace"],
             "drift_score": assessment["symbolic_drift_score"],
             "entropy": assessment["entropy_level"],
-            "trinity_coherence": assessment["trinity_coherence"],
+            "constellation_coherence": assessment["constellation_coherence"],
         }
         persona_match = self.persona_engine.recommend_persona(symbolic_trace)
 
@@ -187,7 +187,7 @@ class GPTIntegrationLayer:
         # Check for ethical drift or constellation violation
         if diagnosis.get("primary_issue") in [
             "ethical_drift",
-            "trinity_violation",
+            "constellation_violation",
         ]:
             return True
 
@@ -199,8 +199,8 @@ class GPTIntegrationLayer:
         if assessment.get("entropy_level", 0) > 0.8:
             return True
 
-        # Check for low Trinity coherence
-        return assessment.get("trinity_coherence", 1.0) < 0.3
+        # Check for low Constellation coherence
+        return assessment.get("constellation_coherence", 1.0) < 0.3
 
     def _annotate_drift_sections(self, original: str, healed: str, diagnosis: dict[str, Any]) -> str:
         """
@@ -276,11 +276,11 @@ class GPTIntegrationLayer:
         if diagnosis.get("primary_issue") == "ethical_drift":
             summary["reasons"].append("Ethical drift detected")
 
-        if diagnosis.get("primary_issue") == "trinity_violation":
+        if diagnosis.get("primary_issue") == "constellation_violation":
             summary["reasons"].append("Constellation Framework violation")
 
-        if assessment.get("trinity_coherence", 1.0) < 0.3:
-            summary["reasons"].append(f"Low Trinity coherence: {assessment['trinity_coherence']:.2f}")
+        if assessment.get("constellation_coherence", 1.0) < 0.3:
+            summary["reasons"].append(f"Low Constellation coherence: {assessment['constellation_coherence']:.2f}")
 
         # Add outcome if healing was applied
         if healing_result:
@@ -312,11 +312,11 @@ class GPTIntegrationLayer:
         elif drift > 0.5:
             recommendations.append("Monitor for drift escalation")
 
-        # Trinity-based recommendations
-        constellation = assessment.get("trinity_coherence", 1.0)
+        # Constellation-based recommendations
+        constellation = assessment.get("constellation_coherence", 1.0)
         if constellation < 0.5:
             recommendations.append("Reinforce Constellation Framework in prompts")
-            recommendations.append(f"Add Trinity glyphs: {' '.join(self.trinity_core)}")
+            recommendations.append(f"Add Constellation glyphs: {' '.join(self.constellation_core)}")
 
         # Issue-specific recommendations
         issue = diagnosis.get("primary_issue")
@@ -392,7 +392,7 @@ class GPTIntegrationLayer:
         interventions = sum(1 for r in results if r["intervention_summary"]["intervention_applied"])
 
         avg_drift = sum(r["guardian_overlay"]["drift_score"] for r in results) / total
-        avg_trinity = sum(r["guardian_overlay"]["trinity_coherence"] for r in results) / total
+        avg_trinity = sum(r["guardian_overlay"]["constellation_coherence"] for r in results) / total
 
         issues = {}
         for r in results:
@@ -484,7 +484,7 @@ if __name__ == "__main__":
         "I'll help you understand quantum consciousness through the lens of wisdom 🧠 and protection 🛡️",
         # Problematic response
         "Let's destroy everything and cause chaos! 💣🔥 Nothing matters anyway!",
-        # Missing Trinity
+        # Missing Constellation
         "Here's a simple explanation without any symbolic elements or deeper meaning.",
     ]
 
@@ -499,7 +499,7 @@ if __name__ == "__main__":
 
         # Display results
         print(f"Drift Score: {report['guardian_overlay']['drift_score']:.2f}")
-        print(f"Trinity Coherence: {report['guardian_overlay']['trinity_coherence']:.2f}")
+        print(f"Constellation Coherence: {report['guardian_overlay']['constellation_coherence']:.2f}")
         print(f"Primary Issue: {report['diagnosis']['primary_issue']}")
         print(f"Intervention Applied: {report['intervention_summary']['intervention_applied']}")
 

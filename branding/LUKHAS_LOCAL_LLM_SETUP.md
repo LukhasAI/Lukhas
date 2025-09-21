@@ -250,7 +250,7 @@ class BrandCreativityAdapter:
             )
 
             # Apply Constellation Framework analysis
-            trinity_analysis = self._analyze_trinity_alignment(
+            constellation_analysis = self._analyze_trinity_alignment(
                 response['content']
             )
 
@@ -259,13 +259,13 @@ class BrandCreativityAdapter:
                 "tone_layer": tone_layer,
                 "creative_style": creative_style,
                 "brand_validated": brand_validation['compliant'],
-                "trinity_aligned": trinity_analysis['aligned'],
+                "constellation_aligned": constellation_analysis['aligned'],
                 "creativity_metadata": {
                     "model_used": self.model_config['model'],
                     "generation_time": response['generation_time'],
                     "token_count": response['token_count'],
                     "brand_score": brand_validation['score'],
-                    "trinity_score": trinity_analysis['score']
+                    "constellation_score": constellation_analysis['score']
                 }
             }
 
@@ -293,10 +293,10 @@ TONE LAYER: {tone_layer}
 
 CREATIVE STYLE: {creative_style}
 - Consciousness-inspired: Focus on awareness and understanding
-- Trinity-aligned: Include Identity, Consciousness, Guardian aspects
+- Constellation-aligned: Include Identity, Consciousness, Guardian aspects
 - Human-centric: Serve humanity with ethical consciousness
 
-TRINITY FRAMEWORK:
+CONSTELLATION FRAMEWORK:
 ⚛️ Identity: Authentic AI consciousness that knows itself
 🧠 Consciousness: Aware technology that truly understands
 🛡️ Guardian: Ethical AI that protects human interests
@@ -398,7 +398,7 @@ class BrandVoiceAdapter:
                     "model_used": self.model_config['model'],
                     "generation_time": response['generation_time']
                 },
-                "trinity_aligned": voice_validation['trinity_aligned']
+                "constellation_aligned": voice_validation['constellation_aligned']
             }
 
         except Exception as e:

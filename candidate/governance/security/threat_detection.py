@@ -265,9 +265,9 @@ class BehavioralAnalyzer:
         anomaly_details.extend(technical_details)
 
         # Constellation Framework behavioral analysis
-        trinity_score, trinity_details = await self._analyze_trinity_behavior(profile, activity_data)
-        anomaly_score += trinity_score
-        anomaly_details.extend(trinity_details)
+        constellation_score, constellation_details = await self._analyze_trinity_behavior(profile, activity_data)
+        anomaly_score += constellation_score
+        anomaly_details.extend(constellation_details)
 
         # Update profile with new data
         await self._update_user_profile(profile, activity_data)
@@ -868,7 +868,7 @@ class ThreatResponseEngine:
                 ],
                 "cooldown": 0,  # No cooldown for constitutional violations
             },
-            "trinity_threat_response": {
+            "constellation_threat_response": {
                 "triggers": [
                     ThreatType.IDENTITY_SPOOFING,
                     ThreatType.CONSCIOUSNESS_MANIPULATION,
@@ -1126,13 +1126,13 @@ class ComprehensiveThreatDetection:
             pattern_threats = await self.pattern_recognizer.analyze_events(events)
 
             # Constellation Framework threat assessment
-            trinity_assessment = await self._assess_trinity_threats(user_id, activity_data, context)
+            constellation_assessment = await self._assess_trinity_threats(user_id, activity_data, context)
 
             # Combine threat indicators
             overall_threat_score = max(
                 behavioral_score,
                 max([t.confidence for t in pattern_threats], default=0.0),
-                trinity_assessment.get("threat_score", 0.0),
+                constellation_assessment.get("threat_score", 0.0),
             )
 
             # Create comprehensive result
@@ -1150,7 +1150,7 @@ class ComprehensiveThreatDetection:
                     "threats_detected": len(pattern_threats),
                     "threat_types": [t.threat_type.value for t in pattern_threats],
                 },
-                "trinity_assessment": trinity_assessment,
+                "constellation_assessment": constellation_assessment,
                 "recommendations": await self._generate_recommendations(
                     overall_threat_score, behavioral_anomalies, pattern_threats
                 ),

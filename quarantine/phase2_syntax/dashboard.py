@@ -159,7 +159,7 @@ LOGIN_HTML = """
         .passkey-btn:hover {
             background: #38a169;
         }
-        .trinity {
+        .constellation {
             text-align: center;
             margin-top: 20px;
             font-size: 24px;
@@ -241,7 +241,7 @@ LOGIN_HTML = """
             🔐 Login with Passkey
         </button>
 
-        <div class="trinity">⚛️ 🧠 🛡️</div>
+        <div class="constellation">⚛️ 🧠 🛡️</div>
         <div class="performance" id="performance"></div>
     </div>
 </body>

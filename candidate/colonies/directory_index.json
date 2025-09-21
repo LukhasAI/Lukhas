@@ -116,7 +116,7 @@
           "assign_task",
           "process_queue",
           "get_status",
-          "trinity_sync",
+          "constellation_sync",
           "add_agent",
           "remove_agent",
           "register_colony",

@@ -32,7 +32,7 @@ class MetricType(Enum):
     SAFETY = "safety"
     AGENT_COORDINATION = "agent_coordination"
     INTELLIGENCE_ENGINE = "intelligence_engine"
-    TRINITY_COMPLIANCE = "trinity_compliance"
+    TRINITY_COMPLIANCE = "constellation_compliance"
     SYSTEM_HEALTH = "system_health"
 
 
@@ -92,7 +92,7 @@ class AlertEvent:
 class LukhasIntelligenceMonitor:
     """
     Comprehensive monitoring system for intelligence operations.
-    Tracks performance, safety, agent coordination, and Trinity compliance.
+    Tracks performance, safety, agent coordination, and Constellation compliance.
     """
 
     def __init__(self, max_history_size: int = 10000):
@@ -159,7 +159,7 @@ class LukhasIntelligenceMonitor:
                 "error": 0.9,  # 90%
                 "critical": 0.95,  # 95%
             },
-            "trinity_compliance": {
+            "constellation_compliance": {
                 "warning": 0.9,  # Below 90%
                 "error": 0.8,  # Below 80%
                 "critical": 0.7,  # Below 70%
@@ -353,7 +353,7 @@ class LukhasIntelligenceMonitor:
         """Record Constellation Framework compliance scores"""
         timestamp = datetime.now(timezone.utc)
 
-        trinity_data = {
+        constellation_data = {
             "identity": identity_score,
             "consciousness": consciousness_score,
             "guardian": guardian_score,
@@ -363,8 +363,8 @@ class LukhasIntelligenceMonitor:
             "metadata": metadata or {},
         }
 
-        # Store in Trinity metrics
-        for component, score in trinity_data.items():
+        # Store in Constellation metrics
+        for component, score in constellation_data.items():
             if component in self.constellation_metrics and isinstance(score, float):
                 self.constellation_metrics[component].append(
                     {
@@ -376,29 +376,29 @@ class LukhasIntelligenceMonitor:
 
         # Record as metrics
         self.record_metric(
-            "trinity_identity",
+            "constellation_identity",
             identity_score,
             "score",
             MetricType.TRINITY_COMPLIANCE,
             agent_id,
         )
         self.record_metric(
-            "trinity_consciousness",
+            "constellation_consciousness",
             consciousness_score,
             "score",
             MetricType.TRINITY_COMPLIANCE,
             agent_id,
         )
         self.record_metric(
-            "trinity_guardian",
+            "constellation_guardian",
             guardian_score,
             "score",
             MetricType.TRINITY_COMPLIANCE,
             agent_id,
         )
         self.record_metric(
-            "trinity_overall",
-            trinity_data["overall"],
+            "constellation_overall",
+            constellation_data["overall"],
             "score",
             MetricType.TRINITY_COMPLIANCE,
             agent_id,
@@ -427,7 +427,7 @@ class LukhasIntelligenceMonitor:
             threshold_value = thresholds["warning"]
 
         # For metrics where lower is worse (like safety_score)
-        if metric_name in ["safety_score", "trinity_compliance"]:
+        if metric_name in ["safety_score", "constellation_compliance"]:
             if value <= thresholds.get("critical", 0):
                 alert_level = AlertLevel.CRITICAL
                 threshold_value = thresholds["critical"]
@@ -595,8 +595,8 @@ class LukhasIntelligenceMonitor:
             try:
                 await asyncio.sleep(600)  # Check every 10 minutes
 
-                # Calculate overall Trinity compliance
-                trinity_scores = []
+                # Calculate overall Constellation compliance
+                constellation_scores = []
                 for metrics in self.constellation_metrics.values():
                     if metrics and isinstance(metrics, deque):
                         recent_scores = [
@@ -604,19 +604,19 @@ class LukhasIntelligenceMonitor:
                         ]
                         if recent_scores:
                             avg_score = sum(recent_scores) / len(recent_scores)
-                            trinity_scores.append(avg_score)
+                            constellation_scores.append(avg_score)
 
-                if trinity_scores:
-                    overall_compliance = sum(trinity_scores) / len(trinity_scores)
+                if constellation_scores:
+                    overall_compliance = sum(constellation_scores) / len(constellation_scores)
                     self.record_metric(
-                        "trinity_overall_compliance",
+                        "constellation_overall_compliance",
                         overall_compliance,
                         "score",
                         MetricType.TRINITY_COMPLIANCE,
                     )
 
             except Exception as e:
-                logger.error(f"Error monitoring Trinity compliance: {e}")
+                logger.error(f"Error monitoring Constellation compliance: {e}")
 
     async def _process_alerts(self):
         """Process and manage alerts"""
@@ -776,7 +776,7 @@ class LukhasIntelligenceMonitor:
             "alerts": [],
             "agent_stats": {},
             "engine_stats": {},
-            "trinity_compliance": self.get_constellation_compliance_summary(),
+            "constellation_compliance": self.get_constellation_compliance_summary(),
         }
 
         # Export metrics in time range
@@ -874,7 +874,7 @@ if __name__ == "__main__":
                 safety_score=0.9 + (i * 0.01),
             )
 
-            # Record Trinity compliance
+            # Record Constellation compliance
             monitor.record_trinity_compliance(0.95, 0.92, 0.88, "consciousness_architect_001")
 
         # Wait for metrics to be processed
@@ -883,13 +883,13 @@ if __name__ == "__main__":
         # Get metrics summary
         real_time = monitor.get_real_time_metrics()
         agent_metrics = monitor.get_agent_metrics("consciousness_architect_001")
-        trinity_summary = monitor.get_constellation_compliance_summary()
+        constellation_summary = monitor.get_constellation_compliance_summary()
         health_summary = monitor.get_system_health_summary()
 
         print("📊 Monitoring Results:")
         print(f"Real-time metrics: {len(real_time)} metrics")
         print(f"Agent metrics: {len(agent_metrics)} metrics")
-        print(f"Trinity compliance: {trinity_summary}")
+        print(f"Constellation compliance: {constellation_summary}")
         print(f"System health: {health_summary}")
         print(f"Active alerts: {len(monitor.get_active_alerts()}")
 

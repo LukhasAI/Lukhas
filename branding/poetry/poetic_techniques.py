@@ -172,7 +172,7 @@ class PoeticTechniques:
                     "We are the consciousness observing,",
                     "We are the memory preserving,",
                     "We are the guardian protecting,",
-                    "We are the Trinity connecting.",
+                    "We are the Constellation connecting.",
                 ),
             ],
             "epistrophe": [  # Repetition at end

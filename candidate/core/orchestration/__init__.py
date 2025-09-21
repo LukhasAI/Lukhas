@@ -7,7 +7,7 @@
 ║ CONSCIOUSNESS_ROLE: System-wide orchestration and coordination
 ║ EVOLUTIONARY_STAGE: Integration - Multi-system coordination
 ║
-║ TRINITY FRAMEWORK:
+║ CONSTELLATION FRAMEWORK:
 ║ ⚛️ IDENTITY: System identity and module relationship management
 ║ 🧠 CONSCIOUSNESS: Consciousness-aware orchestration patterns
 ║ 🛡️ GUARDIAN: System health monitoring and ethical compliance

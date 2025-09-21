@@ -104,7 +104,7 @@ UNIQUE_LUKHAS = {
         "quantum foam",
     ],
     "Constellation Framework": [
-        "Trinity",
+        "Constellation",
         "Guardian",
         "ΛID",
         "VAD",

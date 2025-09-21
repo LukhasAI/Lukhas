@@ -389,7 +389,7 @@ class LUKHASAuthIntegrationSystem:
 
                 result["glyph_data"] = {
                     "composite_glyph": symbolic_identity.composite_glyph,
-                    "trinity_glyph": symbolic_identity.trinity_glyph,
+                    "constellation_glyph": symbolic_identity.constellation_glyph,
                     "jwt_glyph_identity": glyph_claims.get("glyph_identity"),
                 }
 

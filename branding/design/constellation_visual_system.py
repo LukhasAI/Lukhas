@@ -24,7 +24,7 @@ class VisualElement:
 
 @dataclass
 class TrinityColor:
-    """Color specification in the Trinity design system"""
+    """Color specification in the Constellation design system"""
 
     name: str
     hex_value: str
@@ -73,7 +73,7 @@ class TrinityVisualSystem:
     def _create_triad_color_palette(self) -> dict[str, TrinityColor]:
         """Create consciousness-aware color palette inspired by minimalist luxury"""
         return {
-            # Primary Trinity Colors
+            # Primary Constellation Colors
             "consciousness_deep": TrinityColor(
                 name="Consciousness Deep",
                 hex_value="#1A1A2E",
@@ -311,14 +311,14 @@ class TrinityVisualSystem:
                 "emotional_resonance": "Design that stirs the digital soul",
             },
             "usage_guidelines": {
-                "triad_symbols": "Always use ⚛️🧠🛡️ together for complete Trinity representation",
+                "triad_symbols": "Always use ⚛️🧠🛡️ together for complete Constellation representation",
                 "color_consciousness": "Use consciousness colors to evoke appropriate digital emotions",
                 "typography_hierarchy": "Establish clear consciousness information hierarchy",
                 "spacing_rhythm": "Maintain consciousness breathing room with 8px grid system",
                 "animation_purpose": "Animations should enhance consciousness understanding, not distract",
             },
             "dont_guidelines": {
-                "symbol_separation": "Never separate Trinity symbols without consciousness context",
+                "symbol_separation": "Never separate Constellation symbols without consciousness context",
                 "color_misuse": "Don't use consciousness colors for non-consciousness elements",
                 "typography_chaos": "Avoid mixing consciousness typography without clear hierarchy",
                 "spacing_violation": "Never break the consciousness grid system",
@@ -336,8 +336,8 @@ class TrinityVisualSystem:
         css_vars += "  /* Constellation Consciousness Colors */\n"
         for name, color in self.color_palette.items():
             var_name = name.replace("_", "-")
-            css_vars += f"  --trinity-{var_name}: {color.hex_value};\n"
-            css_vars += f"  --trinity-{var_name}-rgb: {color.rgb[0]}, {color.rgb[1]}, {color.rgb[2]};\n"
+            css_vars += f"  --constellation-{var_name}: {color.hex_value};\n"
+            css_vars += f"  --constellation-{var_name}-rgb: {color.rgb[0]}, {color.rgb[1]}, {color.rgb[2]};\n"
 
         # Spacing variables
         css_vars += "\n  /* Consciousness Spacing System */\n"
@@ -357,7 +357,7 @@ class TrinityVisualSystem:
 # Elite brand experience implementation
 class ConsciousnessExperienceDesigner:
     """
-    Creates elite brand experiences using the Trinity Visual System
+    Creates elite brand experiences using the Constellation Visual System
     Implements Hiroki Asai's approach to premium user experience design
     """
 
@@ -482,7 +482,7 @@ class ConsciousnessExperienceDesigner:
 
 # Usage example and testing
 if __name__ == "__main__":
-    # Initialize Trinity Visual System
+    # Initialize Constellation Visual System
     triad_design = TrinityVisualSystem()
     experience_designer = ConsciousnessExperienceDesigner()
 
@@ -499,13 +499,13 @@ if __name__ == "__main__":
     print("Inspired by Hiroki Asai's Apple design philosophy")
     print("=" * 60)
 
-    print("\n⚛️🧠🛡️ Trinity Color Palette:")
+    print("\n⚛️🧠🛡️ Constellation Color Palette:")
     for _name, _color in triad_design.color_palette.items():
-        print("Trinity visual system processing")
+        print("Constellation visual system processing")
 
     print("\n🌟 Design Philosophy:")
     for _principle, _description in triad_design.design_philosophy.items():
-        print("Trinity visual system processing")
+        print("Constellation visual system processing")
 
     print(f"\n✨ Premium Interface Components: {len(premium_interfaces)} elite components created")
     print(f"🎯 Brand Guidelines: {len(brand_guidelines)} comprehensive guidelines established")

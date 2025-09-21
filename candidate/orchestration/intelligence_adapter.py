@@ -48,13 +48,13 @@ class IntelligenceSymbolicMessage:
     processing_time: float
     timestamp: datetime
     symbolic_effects: list[str] = None
-    trinity_compliance: dict[str, bool] = None
+    constellation_compliance: dict[str, bool] = None
 
     def __post_init__(self):
         if self.symbolic_effects is None:
             self.symbolic_effects = []
-        if self.trinity_compliance is None:
-            self.trinity_compliance = {
+        if self.constellation_compliance is None:
+            self.constellation_compliance = {
                 "identity": True,  # ⚛️ Identity preservation
                 "consciousness": True,  # 🧠 Consciousness enhancement
                 "guardian": True,  # 🛡️ Guardian protection
@@ -77,7 +77,7 @@ class LukhasIntelligenceOrchestrationAdapter:
             "total_operations": 0,
             "successful_operations": 0,
             "average_processing_time": 0.0,
-            "trinity_compliance_rate": 1.0,
+            "constellation_compliance_rate": 1.0,
         }
         self._initialized = False
 
@@ -163,7 +163,7 @@ class LukhasIntelligenceOrchestrationAdapter:
                 "symbolic_effects": symbolic_effects,
                 "processing_time": symbolic_message.processing_time,
                 "confidence": symbolic_message.confidence,
-                "trinity_compliance": symbolic_message.trinity_compliance,
+                "constellation_compliance": symbolic_message.constellation_compliance,
             }
 
         except Exception as e:
@@ -229,7 +229,7 @@ class LukhasIntelligenceOrchestrationAdapter:
             "integration_metadata": {
                 "integration_timestamp": datetime.now(timezone.utc).isoformat(),
                 "orchestration_version": "1.0.0",
-                "trinity_validated": True,
+                "constellation_validated": True,
             },
         }
 
@@ -395,7 +395,7 @@ class LukhasIntelligenceOrchestrationAdapter:
                     "intelligence_engine": message.intelligence_engine,
                     "confidence": message.confidence,
                     "processing_time": message.processing_time,
-                    "trinity_compliance": message.trinity_compliance,
+                    "constellation_compliance": message.constellation_compliance,
                 },
             }
 
@@ -442,11 +442,11 @@ class LukhasIntelligenceOrchestrationAdapter:
         new_avg = (current_avg * (total_ops - 1) + message.processing_time) / total_ops
         self.performance_metrics["average_processing_time"] = new_avg
 
-        # Update Trinity compliance rate
-        trinity_compliant = all(message.trinity_compliance.values())
-        current_compliance = self.performance_metrics["trinity_compliance_rate"]
-        new_compliance = (current_compliance * (total_ops - 1) + (1.0 if trinity_compliant else 0.0)) / total_ops
-        self.performance_metrics["trinity_compliance_rate"] = new_compliance
+        # Update Constellation compliance rate
+        constellation_compliant = all(message.constellation_compliance.values())
+        current_compliance = self.performance_metrics["constellation_compliance_rate"]
+        new_compliance = (current_compliance * (total_ops - 1) + (1.0 if constellation_compliant else 0.0)) / total_ops
+        self.performance_metrics["constellation_compliance_rate"] = new_compliance
 
     async def get_performance_metrics(self) -> dict[str, Any]:
         """Get current performance metrics"""
@@ -522,7 +522,7 @@ if __name__ == "__main__":
         print(f"Processing Time: {response['processing_time']:.3f}s")
         print(f"Confidence: {response['confidence']:.2f}")
         print(f"Symbolic Effects: {response['symbolic_effects']}")
-        print(f"Trinity Compliance: {response['trinity_compliance']}")
+        print(f"Constellation Compliance: {response['constellation_compliance']}")
 
         # Get status
         status = await adapter.get_orchestration_status()

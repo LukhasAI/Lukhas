@@ -129,25 +129,25 @@ class EliteVoiceCoherenceUpgrader:
             ),
             # Constellation Framework Integration
             UpgradeRule(
-                pattern=r"\b(?:framework|architecture|system)\b(?!\s+(?:Trinity|⚛️|🧠|🛡️))",
+                pattern=r"\b(?:framework|architecture|system)\b(?!\s+(?:Constellation|⚛️|🧠|🛡️))",
                 replacement=r"\g<0> powered by Constellation Framework (⚛️🧠🛡️)",
                 category="triad_framework",
                 description="Add Constellation Framework reference to system descriptions",
             ),
             UpgradeRule(
-                pattern=r"\bidentity(?!\s+(?:Trinity|⚛️))",
+                pattern=r"\bidentity(?!\s+(?:Constellation|⚛️))",
                 replacement="identity (⚛️ Constellation Framework)",
                 category="triad_framework",
                 description="Connect identity concepts to Constellation Framework",
             ),
             UpgradeRule(
-                pattern=r"\bconsciousness(?!\s+(?:technology|Trinity|🧠))",
+                pattern=r"\bconsciousness(?!\s+(?:technology|Constellation|🧠))",
                 replacement="consciousness technology (🧠 Constellation Framework)",
                 category="triad_framework",
                 description="Connect consciousness to Constellation Framework",
             ),
             UpgradeRule(
-                pattern=r"\bsecurity(?!\s+(?:Trinity|🛡️))",
+                pattern=r"\bsecurity(?!\s+(?:Constellation|🛡️))",
                 replacement="security (🛡️ Constellation Framework)",
                 category="triad_framework",
                 description="Connect security to Constellation Framework",

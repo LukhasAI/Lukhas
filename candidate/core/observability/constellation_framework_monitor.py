@@ -1112,7 +1112,7 @@ class ConstellationFrameworkMonitor:
 
         # Generate report
         report = ConstellationReport(
-            report_id=f"trinity_report_{uuid.uuid4().hex[:12]}",
+            report_id=f"constellation_report_{uuid.uuid4().hex[:12]}",
             generated_at=datetime.now(timezone.utc),
             time_period=time_period,
             overall_framework_health=overall_framework_health,

@@ -92,13 +92,13 @@ class SymbolicDreamInterpreter:
             "symbol_analysis": symbol_analysis,
             "domain_mapping": self._map_symbolic_domains(symbol_analysis),
             "narrative_threads": self._weave_narrative_threads(symbol_analysis),
-            "trinity_resonance": self._calculate_trinity_resonance(symbol_analysis)
+            "constellation_resonance": self._calculate_trinity_resonance(symbol_analysis)
         }
 
         self.interpretation_history[interpretation_id] = {
             "interpretation": interpretation,
             "interpreted_at": datetime.now(timezone.utc).isoformat(),
-            "trinity_validated": True
+            "constellation_validated": True
         }
 
         logger.info(f"🔮 Dream symbols interpreted: {interpretation_id} for dream {dream_id}")
@@ -119,9 +119,9 @@ class SymbolicDreamInterpreter:
 
         threads = []
 
-        # Trinity-focused narratives
-        trinity_symbols = [s for s in symbol_analysis if s["symbol"] in ["⚛️", "🧠", "🛡️"]]
-        if trinity_symbols:
+        # Constellation-focused narratives
+        constellation_symbols = [s for s in symbol_analysis if s["symbol"] in ["⚛️", "🧠", "🛡️"]]
+        if constellation_symbols:
             threads.append("Strong Constellation Framework presence indicates balanced consciousness evolution")
 
         # Domain-specific narratives
@@ -137,15 +137,15 @@ class SymbolicDreamInterpreter:
 
     def _calculate_trinity_resonance(self, symbol_analysis: list[dict]) -> float:
         """Calculate Constellation Framework resonance score."""
-        trinity_symbols = [s for s in symbol_analysis if s["symbol"] in ["⚛️", "🧠", "🛡️"]]
+        constellation_symbols = [s for s in symbol_analysis if s["symbol"] in ["⚛️", "🧠", "🛡️"]]
         if not symbol_analysis:
             return 0.0
 
-        trinity_ratio = len(trinity_symbols) / len(symbol_analysis)
+        constellation_ratio = len(constellation_symbols) / len(symbol_analysis)
         high_resonance_count = sum(1 for s in symbol_analysis if s["resonance_level"] == "high")
         resonance_ratio = high_resonance_count / len(symbol_analysis)
 
-        return (trinity_ratio * 0.6 + resonance_ratio * 0.4)
+        return (constellation_ratio * 0.6 + resonance_ratio * 0.4)
 
     def generate_symbolic_insights(self, interpretation_id: str) -> dict[str, Any]:
         """🧠 Generate consciousness-aware insights from symbolic interpretation."""
@@ -159,14 +159,14 @@ class SymbolicDreamInterpreter:
             "interpretation_id": interpretation_id,
             "symbolic_depth": len(interpretation["symbol_analysis"]),
             "primary_domains": list(interpretation["domain_mapping"].keys()),
-            "trinity_strength": interpretation["trinity_resonance"],
+            "constellation_strength": interpretation["constellation_resonance"],
             "key_insights": [
                 f"Symbolic complexity level: {'high' if len(interpretation['symbol_analysis']) > 3 else 'moderate'}",
-                f"Trinity resonance: {'strong' if interpretation['trinity_resonance'] > 0.7 else 'developing'}",
+                f"Constellation resonance: {'strong' if interpretation['constellation_resonance'] > 0.7 else 'developing'}",
                 f"Dominant domain: {max(interpretation['domain_mapping'], key=interpretation['domain_mapping'].get) if interpretation['domain_mapping'] else 'balanced'}"
             ],
             "recommendations": self._generate_recommendations(interpretation),
-            "trinity_validated": True
+            "constellation_validated": True
         }
 
         logger.info(f"🧠 Symbolic insights generated: {interpretation_id}")
@@ -176,11 +176,11 @@ class SymbolicDreamInterpreter:
         """Generate recommendations based on symbolic interpretation."""
         recommendations = []
 
-        trinity_resonance = interpretation["trinity_resonance"]
-        if trinity_resonance > 0.8:
+        constellation_resonance = interpretation["constellation_resonance"]
+        if constellation_resonance > 0.8:
             recommendations.append("Excellent Constellation Framework integration - continue current practices")
-        elif trinity_resonance > 0.5:
-            recommendations.append("Good Trinity presence - focus on strengthening weaker aspects")
+        elif constellation_resonance > 0.5:
+            recommendations.append("Good Constellation presence - focus on strengthening weaker aspects")
         else:
             recommendations.append("Develop Constellation Framework awareness through conscious practice")
 
@@ -200,12 +200,12 @@ class SymbolicDreamInterpreter:
         interpretation_data = self.interpretation_history[interpretation_id]
 
         export_data = {
-            "export_format": "trinity_compliant",
+            "export_format": "constellation_compliant",
             "interpretation_id": interpretation_id,
             "interpretation": interpretation_data["interpretation"],
             "metadata": {
                 "exported_at": datetime.now(timezone.utc).isoformat(),
-                "trinity_validated": True,
+                "constellation_validated": True,
                 "guardian_approved": True
             }
         }

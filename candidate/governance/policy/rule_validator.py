@@ -469,7 +469,7 @@ class AdvancedRuleValidator:
         required_actions = await self._generate_required_actions(rule, failed_conditions)
 
         # Constellation Framework integration
-        trinity_factors = await self._analyze_trinity_factors(rule, target_data, context, overall_result)
+        constellation_factors = await self._analyze_trinity_factors(rule, target_data, context, overall_result)
 
         execution_time = (datetime.now(timezone.utc) - start_time).total_seconds()
 
@@ -489,9 +489,9 @@ class AdvancedRuleValidator:
             execution_time=execution_time,
             suggestions=suggestions,
             required_actions=required_actions,
-            identity_factors=trinity_factors["identity"],
-            consciousness_factors=trinity_factors["consciousness"],
-            guardian_factors=trinity_factors["guardian"],
+            identity_factors=constellation_factors["identity"],
+            consciousness_factors=constellation_factors["consciousness"],
+            guardian_factors=constellation_factors["guardian"],
         )
 
     async def _evaluate_condition(

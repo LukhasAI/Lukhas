@@ -1,4 +1,4 @@
-# Framework Usage Guide: Trinity vs Constellation
+# Framework Usage Guide: Constellation vs Constellation
 
 **Definitive guide for when to use Constellation Framework (internal) vs Constellation Framework (user-facing) in LUKHAS consciousness technology**
 
@@ -105,9 +105,9 @@ graph TD
 
 ### Transition Examples
 
-**Converting Trinity to Constellation for Public Use:**
+**Converting Constellation to Constellation for Public Use:**
 
-❌ **WRONG - Public Content with Trinity:**
+❌ **WRONG - Public Content with Constellation:**
 ```markdown
 "LUKHAS is built on the Constellation Framework with three core pillars: 
 ⚛️ Identity, 🧠 Consciousness, and 🛡️ Guardian."
@@ -120,7 +120,7 @@ constellation guiding your journey through AI possibilities - from Identity
 authentication to Dream-powered creativity to Guardian protection."
 ```
 
-**Keeping Trinity for Technical Use:**
+**Keeping Constellation for Technical Use:**
 
 ✅ **CORRECT - Internal Technical Document:**
 ```markdown
@@ -144,7 +144,7 @@ authentication to Dream-powered creativity to Guardian protection."
 
 **Language Patterns:**
 ```markdown
-✅ Trinity Examples:
+✅ Constellation Examples:
 - "The Constellation Framework implements consciousness through three core systems..."
 - "Guardian validation ensures ethical compliance at the consciousness level..."
 - "Identity authentication integrates with consciousness processing..."
@@ -202,19 +202,19 @@ as the ethereal stars guide your galactic journey through the universe of AI..."
 - Lead with Constellation Framework benefits
 - Use 8-star system as differentiation
 - Connect stars to specific user needs
-- Avoid technical Trinity details
+- Avoid technical Constellation details
 
 **User Documentation:**
 - Navigate users through Constellation Framework
 - Map features to relevant stars
 - Provide clear benefit explanations
-- Use Trinity only for technical API docs
+- Use Constellation only for technical API docs
 
 **Technical Documentation:**
 - Use Constellation Framework for system architecture
 - Reference Constellation for user-facing features
 - Maintain clear technical accuracy
-- Focus on implementation details with Trinity
+- Focus on implementation details with Constellation
 
 ---
 
@@ -223,7 +223,7 @@ as the ethereal stars guide your galactic journey through the universe of AI..."
 ### Content Audit Process
 
 **Step 1: Identify Content Type**
-- Internal/Technical → Keep or convert to Trinity
+- Internal/Technical → Keep or convert to Constellation
 - User-Facing/Public → Convert to Constellation
 
 **Step 2: Audience Assessment**
@@ -231,9 +231,9 @@ as the ethereal stars guide your galactic journey through the universe of AI..."
 - Users/Customers/Public → Constellation Framework required
 
 **Step 3: Context Evaluation**
-- System architecture docs → Trinity
+- System architecture docs → Constellation
 - User guides and marketing → Constellation  
-- Code comments → Trinity
+- Code comments → Constellation
 - Website content → Constellation
 
 ### Update Prioritization
@@ -249,7 +249,7 @@ as the ethereal stars guide your galactic journey through the universe of AI..."
 - Developer resources with user sections
 - Educational content for both audiences
 
-**LOW PRIORITY (Trinity Maintenance)**:
+**LOW PRIORITY (Constellation Maintenance)**:
 - Pure technical documentation
 - Internal architecture guides
 - Code comments and technical specs
@@ -262,7 +262,7 @@ as the ethereal stars guide your galactic journey through the universe of AI..."
 
 **Before Publishing Any Content:**
 - [ ] Identify primary audience (internal vs external)
-- [ ] Choose appropriate framework (Trinity vs Constellation)
+- [ ] Choose appropriate framework (Constellation vs Constellation)
 - [ ] Verify tone matches framework selection
 - [ ] Ensure metaphor usage is appropriate (subtle vs heavy)
 - [ ] Check that technical accuracy is maintained
@@ -271,7 +271,7 @@ as the ethereal stars guide your galactic journey through the universe of AI..."
 ### For Developers
 
 **When Writing Documentation:**
-- [ ] Use Trinity for system architecture explanations
+- [ ] Use Constellation for system architecture explanations
 - [ ] Reference Constellation when describing user-facing features  
 - [ ] Maintain clear separation between internal and external docs
 - [ ] Include framework usage notes for future editors
@@ -282,7 +282,7 @@ as the ethereal stars guide your galactic journey through the universe of AI..."
 - [ ] Always use Constellation Framework for public materials
 - [ ] Integrate 8-star navigation naturally
 - [ ] Focus on user benefits and experience value
-- [ ] Avoid technical Trinity implementation details
+- [ ] Avoid technical Constellation implementation details
 - [ ] Test content with non-technical audiences
 
 ---
@@ -305,7 +305,7 @@ as the ethereal stars guide your galactic journey through the universe of AI..."
 
 ### Content Quality Standards
 
-**Trinity Content Quality:**
+**Constellation Content Quality:**
 - Technical accuracy and implementability
 - Clear architectural guidance
 - Developer-friendly language and examples
@@ -325,16 +325,16 @@ as the ethereal stars guide your galactic journey through the universe of AI..."
 
 | Context | Audience | Framework | Key Elements |
 |---------|----------|-----------|--------------|
-| Technical Docs | Developers | Trinity ⚛️🧠🛡️ | 3 pillars, implementation focus |
+| Technical Docs | Developers | Constellation ⚛️🧠🛡️ | 3 pillars, implementation focus |
 | User Guides | Customers | Constellation 🌟 | 8 stars, navigation metaphor |
-| Code Comments | Internal | Trinity ⚛️🧠🛡️ | Technical precision |
+| Code Comments | Internal | Constellation ⚛️🧠🛡️ | Technical precision |
 | Website | Public | Constellation 🌟 | User benefits, accessibility |
-| Architecture | Internal | Trinity ⚛️🧠🛡️ | System design, technical accuracy |
+| Architecture | Internal | Constellation ⚛️🧠🛡️ | System design, technical accuracy |
 | Marketing | External | Constellation 🌟 | Inspiration, differentiation |
 
 ### Emergency Framework Fixes
 
-**If you see Trinity in user-facing content:**
+**If you see Constellation in user-facing content:**
 1. Assess if audience is truly internal/technical
 2. Convert to Constellation if public/user-facing
 3. Maintain technical accuracy during conversion
@@ -349,11 +349,11 @@ as the ethereal stars guide your galactic journey through the universe of AI..."
 ---
 
 **Status**: ✅ Complete framework usage distinction guide  
-**Purpose**: Clear Trinity (internal) vs Constellation (user-facing) guidance  
+**Purpose**: Clear Constellation (internal) vs Constellation (user-facing) guidance  
 **Philosophy**: Right framework for right audience = optimal consciousness communication  
 **Implementation**: Immediate use for all LUKHAS content creation and updates
 
 ---
 
 *Last updated: September 7, 2025*  
-*Definitive guide for Trinity vs Constellation Framework usage across LUKHAS consciousness ecosystem*
+*Definitive guide for Constellation vs Constellation Framework usage across LUKHAS consciousness ecosystem*

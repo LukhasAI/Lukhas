@@ -131,7 +131,7 @@ class BaseMemoryManager(ABC):
             else:
                 self.logger = get_logger(f"LUKHAS.Memory.{self.__class__.__name__}", "MEMORY")
             self.logger.info(
-                "🧠 Trinity Memory Manager initializing",
+                "🧠 Constellation Memory Manager initializing",
                 manager_type=self.__class__.__name__,
                 constellation_mode="⚛️🧠🛡️",
             )
@@ -268,7 +268,7 @@ class BaseMemoryManager(ABC):
                 "🆔 Generated Λ-trace memory ID",
                 memory_id=memory_id,
                 prefix=prefix,
-                trinity_component="⚛️",
+                constellation_component="⚛️",
             )
             return memory_id
         except Exception as e:
@@ -336,7 +336,7 @@ class BaseMemoryManager(ABC):
                 **metadata,
                 "last_modified": datetime.now(timezone.utc).isoformat(),
                 "manager_type": self.__class__.__name__,
-                "trinity_identity": self._extract_identity_context(metadata),
+                "constellation_identity": self._extract_identity_context(metadata),
                 "consciousness_pattern": self._analyze_consciousness_pattern(metadata),
                 "guardian_validation": self._validate_guardian_compliance(metadata),
             }
@@ -357,7 +357,7 @@ class BaseMemoryManager(ABC):
             self.logger.debug(
                 "🧠 Memory index updated",
                 memory_id=memory_id,
-                trinity_compliance="✅",
+                constellation_compliance="✅",
                 consciousness_detected=memory_id in self._consciousness_patterns,
             )
         except Exception as e:
@@ -403,7 +403,7 @@ class BaseMemoryManager(ABC):
             deleted_memories = sum(1 for meta in self._memory_index.values() if meta.get("deleted", False))
 
             # Constellation Framework specific metrics
-            identity_contexts = {meta.get("trinity_identity", "⚛️anonymous") for meta in self._memory_index.values()}
+            identity_contexts = {meta.get("constellation_identity", "⚛️anonymous") for meta in self._memory_index.values()}
 
             consciousness_patterns = len(self._consciousness_patterns)
 

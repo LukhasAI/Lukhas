@@ -157,7 +157,7 @@ class BrandCreativityAdapter:
         content_lower = content.lower()
         alignment_score = sum(1 for keyword in triad_keywords if keyword in content_lower)
 
-        return alignment_score >= 2  # At least 2 trinity concepts present
+        return alignment_score >= 2  # At least 2 constellation concepts present
 
     def get_brand_creative_suggestions(self, content_type: str) -> list[str]:
         """Get brand-specific creative suggestions"""
@@ -203,5 +203,5 @@ if __name__ == "__main__":
     print("Brand Creative Output:")
     print(f"Content: {result['content']}")
     print(f"Tone Layer: {result['tone_layer']}")
-    print(f"Trinity Aligned: {result['triad_aligned']}")
+    print(f"Constellation Aligned: {result['triad_aligned']}")
     print(f"Brand Validated: {result['brand_validated']}")

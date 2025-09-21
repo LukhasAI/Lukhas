@@ -26,7 +26,7 @@
         {
           "name": "test_trinity_framework_integration",
           "status": "PASSED",
-          "description": "Trinity Framework (⚛️🧠🛡️) integration"
+          "description": "Constellation Framework (⚛️🧠🛡️) integration"
         },
         {
           "name": "test_no_side_effects_in_dryrun",

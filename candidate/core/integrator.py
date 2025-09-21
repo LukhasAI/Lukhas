@@ -689,7 +689,7 @@ class EnhancedCoreIntegrator:
                     "invocation_count": 0,
                     "last_invoked_utc": None,
                     "average_execution_time_ms": 0.0,
-                    "trinity_framework_compliant": True,
+                    "constellation_framework_compliant": True,
                 }
 
                 # Check for duplicate subscriptions
@@ -762,7 +762,7 @@ class EnhancedCoreIntegrator:
                     "ΛTRACE_TRINITY_WORKFLOW",
                     event_id=event["id"],
                     event_type=event_type,
-                    trinity_component=event_type.split(".")[1],
+                    constellation_component=event_type.split(".")[1],
                     step="framework_validation",
                     narrative="Processing Constellation Framework event for system coherence",
                 )

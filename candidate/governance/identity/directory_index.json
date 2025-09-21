@@ -319,7 +319,7 @@
           "GLYPHMessage",
           "ConstellationValidator",
           "TrinityComponent",
-          "TrinityValidator",
+          "ConstellationValidator",
           "GLYPHIntegrator",
           "MockIdentitySystem",
           "create_trinity_compliant_identity_system",

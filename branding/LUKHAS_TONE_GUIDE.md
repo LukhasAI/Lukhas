@@ -859,7 +859,7 @@ class MonthlyVocabularyRefresh:
 - **Emotional State Detection**: Adapt tone to user's emotional context
 - **Cognitive Load Assessment**: Simplify or elaborate based on user capacity
 - **Consciousness Resonance**: Match user's consciousness engagement level
-- **Trinity Alignment**: Emphasize relevant Trinity aspects (⚛️🧠🛡️)
+- **Constellation Alignment**: Emphasize relevant Constellation aspects (⚛️🧠🛡️)
 
 ### **🌐 Multi-Modal Integration**
 - **Visual Tone**: UI elements reflect selected communication layer

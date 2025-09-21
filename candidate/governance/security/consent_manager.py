@@ -60,13 +60,13 @@ class ConsentRequest:
     escalation_level: Optional[EscalationLevel] = None
     escalation_history: list[dict] = None
     governance_validated: bool = False
-    trinity_impact: dict[str, float] = None
+    constellation_impact: dict[str, float] = None
 
     def __post_init__(self):
         if self.escalation_history is None:
             self.escalation_history = []
-        if self.trinity_impact is None:
-            self.trinity_impact = {"identity": 0.0, "consciousness": 0.0, "guardian": 0.0}
+        if self.constellation_impact is None:
+            self.constellation_impact = {"identity": 0.0, "consciousness": 0.0, "guardian": 0.0}
 
 
 @dataclass
@@ -130,7 +130,7 @@ class ConsentManager(GlyphIntegrationMixin):
         },
         {
             "name": "identity_compromise_risk",
-            "condition": "trinity_impact.get('identity', 0) > 0.7",
+            "condition": "constellation_impact.get('identity', 0) > 0.7",
             "escalation_level": EscalationLevel.CRITICAL,
             "actions": ["identity_verification", "security_lockdown", "governance_emergency"],
             "symbolic_response": ["⚛️", "🚨", "🛡️"],
@@ -138,7 +138,7 @@ class ConsentManager(GlyphIntegrationMixin):
         },
         {
             "name": "consciousness_impact",
-            "condition": "trinity_impact.get('consciousness', 0) > 0.8",
+            "condition": "constellation_impact.get('consciousness', 0) > 0.8",
             "escalation_level": EscalationLevel.HIGH,
             "actions": ["consciousness_protection", "impact_assessment", "governance_review"],
             "symbolic_response": ["🧠", "🛡️", "⚠️"],
@@ -155,7 +155,7 @@ class ConsentManager(GlyphIntegrationMixin):
         "degraded": ["🔐", "⚠️", "🤝"],
         "expired": ["🔐", "⏰", "❌"],
         "governance_approved": ["🛡️", "✅", "🔐"],
-        "trinity_protected": ["⚛️", "🧠", "🛡️"],
+        "constellation_protected": ["⚛️", "🧠", "🛡️"],
     }
 
     def __init__(
@@ -192,12 +192,12 @@ class ConsentManager(GlyphIntegrationMixin):
                 "governance_escalations": 0,
                 "trust_history": [],
                 "last_request": 0,
-                "trinity_impact_history": [],
+                "constellation_impact_history": [],
             }
         )
 
         # Constellation Framework integration
-        self.trinity_weights = {
+        self.constellation_weights = {
             "identity": 1.0,  # Maximum weight for identity protection
             "consciousness": 0.9,  # High weight for consciousness protection
             "guardian": 1.0,  # Maximum weight for guardian protection
@@ -308,7 +308,7 @@ class ConsentManager(GlyphIntegrationMixin):
                 governance_approved=True,
             ),
             TrustPath(
-                path_id="trinity_framework_protected",
+                path_id="constellation_framework_protected",
                 source="constellation_framework",
                 target="system_components",
                 trust_score=1.0,
@@ -316,8 +316,8 @@ class ConsentManager(GlyphIntegrationMixin):
                 created_at=time.time(),
                 last_validated=time.time(),
                 validation_count=0,
-                symbolic_signature=self.TRUST_SYMBOLS["trinity_protected"],
-                metadata={"trinity_protected": True, "governance_approved": True},
+                symbolic_signature=self.TRUST_SYMBOLS["constellation_protected"],
+                metadata={"constellation_protected": True, "governance_approved": True},
                 governance_approved=True,
             ),
         ]
@@ -372,14 +372,14 @@ class ConsentManager(GlyphIntegrationMixin):
             if "trust_score" in entry:
                 stats["trust_history"].append(entry["trust_score"])
 
-            if "trinity_impact" in entry:
-                stats["trinity_impact_history"].append(entry["trinity_impact"])
+            if "constellation_impact" in entry:
+                stats["constellation_impact_history"].append(entry["constellation_impact"])
 
             # Keep only recent history
             if len(stats["trust_history"]) > 20:
                 stats["trust_history"] = stats["trust_history"][-20:]
-            if len(stats["trinity_impact_history"]) > 20:
-                stats["trinity_impact_history"] = stats["trinity_impact_history"][-20:]
+            if len(stats["constellation_impact_history"]) > 20:
+                stats["constellation_impact_history"] = stats["constellation_impact_history"][-20:]
 
     async def process_consent_request(self, request: ConsentRequest) -> ConsentRequest:
         """Process a consent request through the full governance pipeline"""
@@ -408,8 +408,8 @@ class ConsentManager(GlyphIntegrationMixin):
             request.symbolic_path.extend(trust_analysis["symbolic_sequence"])
 
             # Analyze Constellation Framework impact
-            trinity_analysis = await self._analyze_trinity_impact(request)
-            request.trinity_impact = trinity_analysis["impact_scores"]
+            constellation_analysis = await self._analyze_trinity_impact(request)
+            request.constellation_impact = constellation_analysis["impact_scores"]
 
             # Apply escalation rules with governance considerations
             escalation_result = await self._apply_escalation_rules(request)
@@ -430,7 +430,7 @@ class ConsentManager(GlyphIntegrationMixin):
                     "reason": escalation_result["reason"],
                     "actions": escalation_result["actions"],
                     "governance_required": escalation_result.get("governance_required", False),
-                    "trinity_impact": request.trinity_impact,
+                    "constellation_impact": request.constellation_impact,
                 }
                 request.escalation_history.append(escalation_entry)
 
@@ -441,15 +441,15 @@ class ConsentManager(GlyphIntegrationMixin):
                         {
                             "request_id": request.id,
                             "escalation_level": escalation_result["level"].name,
-                            "trinity_impact": request.trinity_impact,
+                            "constellation_impact": request.constellation_impact,
                         },
                     )
 
             else:
                 # Make automatic decision with governance weighting
                 governance_weight = 1.0 if request.governance_validated else 0.5
-                trinity_risk = max(request.trinity_impact.values())
-                adjusted_trust = request.trust_score * governance_weight * (1.0 - trinity_risk * 0.3)
+                constellation_risk = max(request.constellation_impact.values())
+                adjusted_trust = request.trust_score * governance_weight * (1.0 - constellation_risk * 0.3)
 
                 if adjusted_trust >= 0.7:
                     request.status = ConsentStatus.GRANTED
@@ -508,12 +508,12 @@ class ConsentManager(GlyphIntegrationMixin):
             }
 
         # Check Constellation Framework protection requirements
-        trinity_protected = self._is_trinity_protected_resource(request)
-        if trinity_protected and not request.context.get("trinity_authorized", False):
+        constellation_protected = self._is_trinity_protected_resource(request)
+        if constellation_protected and not request.context.get("constellation_authorized", False):
             return {
                 "approved": False,
                 "reason": "Constellation Framework authorization required",
-                "violations": ["trinity_authorization_required"],
+                "violations": ["constellation_authorization_required"],
             }
 
         return {"approved": True, "reason": "Governance validation passed", "violations": []}
@@ -539,8 +539,8 @@ class ConsentManager(GlyphIntegrationMixin):
     def _is_trinity_protected_resource(self, request: ConsentRequest) -> bool:
         """Check if resource is protected by Constellation Framework"""
         resource = request.target_resource.lower()
-        trinity_resources = ["identity", "consciousness", "guardian", "constellation", "core", "system"]
-        return any(term in resource for term in trinity_resources)
+        constellation_resources = ["identity", "consciousness", "guardian", "constellation", "core", "system"]
+        return any(term in resource for term in constellation_resources)
 
     async def _analyze_trinity_impact(self, request: ConsentRequest) -> dict[str, Any]:
         """Analyze potential impact on Constellation Framework components"""
@@ -567,9 +567,9 @@ class ConsentManager(GlyphIntegrationMixin):
             for component in impact_scores:
                 impact_scores[component] = max(impact_scores[component], 0.6)
 
-        # Calculate overall Trinity risk
+        # Calculate overall Constellation risk
         overall_risk = sum(
-            impact_scores[component] * self.trinity_weights[component] for component in impact_scores
+            impact_scores[component] * self.constellation_weights[component] for component in impact_scores
         ) / len(impact_scores)
 
         return {
@@ -587,14 +587,14 @@ class ConsentManager(GlyphIntegrationMixin):
         stats["last_request"] = request.requested_at
         stats["trust_history"].append(request.trust_score)
 
-        if request.trinity_impact:
-            stats["trinity_impact_history"].append(request.trinity_impact)
+        if request.constellation_impact:
+            stats["constellation_impact_history"].append(request.constellation_impact)
 
         # Keep only recent history
         if len(stats["trust_history"]) > 20:
             stats["trust_history"] = stats["trust_history"][-20:]
-        if len(stats["trinity_impact_history"]) > 20:
-            stats["trinity_impact_history"] = stats["trinity_impact_history"][-20:]
+        if len(stats["constellation_impact_history"]) > 20:
+            stats["constellation_impact_history"] = stats["constellation_impact_history"][-20:]
 
     async def _analyze_trust_paths(self, request: ConsentRequest) -> dict:
         """Analyze available trust paths with governance validation"""
@@ -653,7 +653,7 @@ class ConsentManager(GlyphIntegrationMixin):
         )
 
         # Additional Constellation Framework matching
-        if path.metadata.get("trinity_protected"):
+        if path.metadata.get("constellation_protected"):
             return basic_match and self._is_trinity_protected_resource(request)
 
         return basic_match
@@ -728,7 +728,7 @@ class ConsentManager(GlyphIntegrationMixin):
             "context": request.context,
             "recent_denial_count": self._get_recent_denials(request.requester),
             "requester_stats": dict(self.requester_stats[request.requester]),
-            "trinity_impact": request.trinity_impact,
+            "constellation_impact": request.constellation_impact,
             "governance_validated": request.governance_validated,
         }
 
@@ -760,13 +760,13 @@ class ConsentManager(GlyphIntegrationMixin):
         """Enhanced condition evaluation with Constellation Framework and governance support"""
         try:
             # Handle Constellation Framework conditions
-            if "trinity_impact.get(" in condition:
-                if "trinity_impact.get('identity', 0) > 0.7" in condition:
-                    return context["trinity_impact"].get("identity", 0) > 0.7
-                elif "trinity_impact.get('consciousness', 0) > 0.8" in condition:
-                    return context["trinity_impact"].get("consciousness", 0) > 0.8
-                elif "trinity_impact.get('guardian', 0) > 0.6" in condition:
-                    return context["trinity_impact"].get("guardian", 0) > 0.6
+            if "constellation_impact.get(" in condition:
+                if "constellation_impact.get('identity', 0) > 0.7" in condition:
+                    return context["constellation_impact"].get("identity", 0) > 0.7
+                elif "constellation_impact.get('consciousness', 0) > 0.8" in condition:
+                    return context["constellation_impact"].get("consciousness", 0) > 0.8
+                elif "constellation_impact.get('guardian', 0) > 0.6" in condition:
+                    return context["constellation_impact"].get("guardian", 0) > 0.6
 
             # Handle existing conditions (inherited from parent)
             if "permission_type in" in condition and "['admin', 'root', 'critical']" in condition:
@@ -847,7 +847,7 @@ class ConsentManager(GlyphIntegrationMixin):
                 elif action == "immediate_audit":
                     request.context["immediate_audit"] = True
                 elif action == "impact_assessment":
-                    request.context["trinity_impact_assessment_required"] = True
+                    request.context["constellation_impact_assessment_required"] = True
                 else:
                     logger.warning(f"Unknown escalation action: {action}")
 
@@ -884,12 +884,12 @@ class ConsentManager(GlyphIntegrationMixin):
             base_symbols.insert(0, "🛡️")
 
         # Add Constellation Framework symbols if high impact
-        if request.trinity_impact and max(request.trinity_impact.values()) > 0.7:
-            if request.trinity_impact["identity"] > 0.7:
+        if request.constellation_impact and max(request.constellation_impact.values()) > 0.7:
+            if request.constellation_impact["identity"] > 0.7:
                 base_symbols.append("⚛️")
-            if request.trinity_impact["consciousness"] > 0.7:
+            if request.constellation_impact["consciousness"] > 0.7:
                 base_symbols.append("🧠")
-            if request.trinity_impact["guardian"] > 0.7:
+            if request.constellation_impact["guardian"] > 0.7:
                 base_symbols.append("🛡️")
 
         return base_symbols[:5]  # Limit to 5 symbols
@@ -909,7 +909,7 @@ class ConsentManager(GlyphIntegrationMixin):
             "escalation_level": request.escalation_level.name if request.escalation_level else None,
             "symbolic_path": request.symbolic_path,
             "governance_validated": request.governance_validated,
-            "trinity_impact": request.trinity_impact,
+            "constellation_impact": request.constellation_impact,
             "governance_escalation": any(
                 "governance" in action for action in request.context if "governance" in action.lower()
             ),
@@ -939,7 +939,7 @@ class ConsentManager(GlyphIntegrationMixin):
                 "request_id": request.id,
                 "status": request.status.value,
                 "governance_validated": request.governance_validated,
-                "trinity_impact": request.trinity_impact,
+                "constellation_impact": request.constellation_impact,
             },
         )
 
@@ -980,7 +980,7 @@ class ConsentManager(GlyphIntegrationMixin):
         return False
 
     def get_requester_trust_summary(self, requester: str) -> dict:
-        """Get enhanced trust summary with governance and Trinity metrics"""
+        """Get enhanced trust summary with governance and Constellation metrics"""
         stats = self.requester_stats[requester]
 
         if stats["total_requests"] == 0:
@@ -990,7 +990,7 @@ class ConsentManager(GlyphIntegrationMixin):
         success_rate = stats["granted"] / stats["total_requests"]
         governance_escalation_rate = stats["governance_escalations"] / stats["total_requests"]
         trust_history = stats["trust_history"]
-        trinity_history = stats["trinity_impact_history"]
+        constellation_history = stats["constellation_impact_history"]
 
         if len(trust_history) >= 2:
             trend = "improving" if trust_history[-1] > trust_history[0] else "declining"
@@ -999,14 +999,14 @@ class ConsentManager(GlyphIntegrationMixin):
         else:
             trend = "insufficient_data"
 
-        # Calculate average Trinity impact
+        # Calculate average Constellation impact
         avg_trinity_impact = {"identity": 0.0, "consciousness": 0.0, "guardian": 0.0}
-        if trinity_history:
-            for impact in trinity_history:
+        if constellation_history:
+            for impact in constellation_history:
                 for component in avg_trinity_impact:
                     avg_trinity_impact[component] += impact.get(component, 0.0)
             for component in avg_trinity_impact:
-                avg_trinity_impact[component] /= len(trinity_history)
+                avg_trinity_impact[component] /= len(constellation_history)
 
         return {
             "requester": requester,
@@ -1029,7 +1029,7 @@ class ConsentManager(GlyphIntegrationMixin):
         # Count by status
         status_counts = {}
         governance_escalations = 0
-        trinity_high_impact = 0
+        constellation_high_impact = 0
 
         for entry in self.consent_history:
             status = entry.get("status", "unknown")
@@ -1038,9 +1038,9 @@ class ConsentManager(GlyphIntegrationMixin):
             if entry.get("governance_escalation"):
                 governance_escalations += 1
 
-            trinity_impact = entry.get("trinity_impact", {})
-            if any(impact > 0.7 for impact in trinity_impact.values()):
-                trinity_high_impact += 1
+            constellation_impact = entry.get("constellation_impact", {})
+            if any(impact > 0.7 for impact in constellation_impact.values()):
+                constellation_high_impact += 1
 
         # Recent activity (last 24 hours)
         recent_cutoff = time.time() - 86400
@@ -1056,7 +1056,7 @@ class ConsentManager(GlyphIntegrationMixin):
             "success_rate": status_counts.get("granted", 0) / total_requests,
             "escalation_rate": status_counts.get("escalated", 0) / total_requests,
             "governance_escalation_rate": governance_escalations / total_requests,
-            "trinity_high_impact_rate": trinity_high_impact / total_requests,
+            "constellation_high_impact_rate": constellation_high_impact / total_requests,
             "governance_enabled": self.governance_enabled,
             "governance_log_entries": len(self.governance_log),
         }
@@ -1084,8 +1084,8 @@ class ConsentManager(GlyphIntegrationMixin):
                     return False
 
             # Check Constellation Framework analysis
-            trinity_analysis = await self._analyze_trinity_impact(test_request)
-            return trinity_analysis
+            constellation_analysis = await self._analyze_trinity_impact(test_request)
+            return constellation_analysis
 
         except Exception as e:
             logger.error(f"Consent manager health check failed: {e}")
@@ -1152,7 +1152,7 @@ if __name__ == "__main__":
             print(f"   Final trust: {result.trust_score:.2f}")
             print(f"   Governance validated: {result.governance_validated}")
             print(
-                f"   Trinity impact: I:{result.trinity_impact['identity']:.1f} C:{result.trinity_impact['consciousness']:.1f} G:{result.trinity_impact['guardian']:.1f}"
+                f"   Constellation impact: I:{result.constellation_impact['identity']:.1f} C:{result.constellation_impact['consciousness']:.1f} G:{result.constellation_impact['guardian']:.1f}"
             )
             print(f"   Reason: {result.decision_reason}")
             print(f"   Symbols: {'→'.join(result.symbolic_path)}")
@@ -1165,7 +1165,7 @@ if __name__ == "__main__":
         print(f"   Total requests: {stats['total_requests']}")
         print(f"   Success rate: {stats['success_rate']:.2f}")
         print(f"   Governance escalation rate: {stats['governance_escalation_rate']:.2f}")
-        print(f"   Trinity high impact rate: {stats['trinity_high_impact_rate']:.2f}")
+        print(f"   Constellation high impact rate: {stats['constellation_high_impact_rate']:.2f}")
         print(f"   Governance enabled: {stats['governance_enabled']}")
         print(f"   Governance log entries: {stats['governance_log_entries']}")
         print(f"   Status distribution: {stats['status_distribution']}")

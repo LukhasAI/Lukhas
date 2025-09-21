@@ -293,7 +293,7 @@ class BrandAutomationEngine:
         db.get_all_content(10)
 
         post_templates = [
-            "🚀 LUKHAS AI consciousness technology continues to evolve! {topic} {trinity}",
+            "🚀 LUKHAS AI consciousness technology continues to evolve! {topic} {constellation}",
             "🧠 The future of {topic} is here with LUKHAS AI's Constellation Framework ⚛️🧠🛡️",
             "⚛️ Authentic consciousness technology: {topic} powered by quantum-inspired algorithms",
             "🛡️ Ethical AI development: How LUKHAS AI ensures responsible {topic}",
@@ -314,7 +314,7 @@ class BrandAutomationEngine:
                 template = post_templates[i % len(post_templates)]
                 topic = topics[i % len(topics)]
 
-                post_content = template.format(topic=topic, trinity="⚛️🧠🛡️")
+                post_content = template.format(topic=topic, constellation="⚛️🧠🛡️")
 
                 # Save generated post
                 post_id = db.save_generated_content(

@@ -23,7 +23,7 @@
     "lanes": {
       "development": 287
     },
-    "trinity_integration": {
+    "constellation_integration": {
       "identity": 0,
       "guardian": 0
     },

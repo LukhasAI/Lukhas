@@ -86,7 +86,7 @@ class SymbolicIdentity:
     access_glyph: str
     session_glyph: str
     constitutional_glyph: str
-    trinity_glyph: str
+    constellation_glyph: str
     composite_glyph: str
     metadata: dict[str, Any]
     created_at: datetime
@@ -124,7 +124,7 @@ class AuthGlyphRegistry:
                 symbol="Λ",
                 concept="lambda_identity",
                 description="Core ΛiD identity representation",
-                metadata={"trinity_aspect": "identity", "core": True},
+                metadata={"constellation_aspect": "identity", "core": True},
             )
         )
 
@@ -135,7 +135,7 @@ class AuthGlyphRegistry:
                 symbol="👤",
                 concept="user_persona",
                 description="User persona and profile",
-                metadata={"trinity_aspect": "identity"},
+                metadata={"constellation_aspect": "identity"},
             )
         )
 
@@ -244,7 +244,7 @@ class AuthGlyphRegistry:
                 symbol="🛡️",
                 concept="guardian_oversight",
                 description="Guardian system monitoring",
-                metadata={"trinity_aspect": "guardian"},
+                metadata={"constellation_aspect": "guardian"},
             )
         )
 
@@ -303,34 +303,34 @@ class AuthGlyphRegistry:
         # Constellation Framework GLYPHs
         self.register_glyph(
             AuthGlyph(
-                id="trinity_identity",
+                id="constellation_identity",
                 category=AuthGlyphCategory.IDENTITY,
                 symbol="⚛️",
-                concept="trinity_identity",
+                concept="constellation_identity",
                 description="Constellation Framework - Identity aspect",
-                metadata={"trinity_core": True, "aspect": "identity"},
+                metadata={"constellation_core": True, "aspect": "identity"},
             )
         )
 
         self.register_glyph(
             AuthGlyph(
-                id="trinity_consciousness",
+                id="constellation_consciousness",
                 category=AuthGlyphCategory.IDENTITY,
                 symbol="🧠",
-                concept="trinity_consciousness",
+                concept="constellation_consciousness",
                 description="Constellation Framework - Consciousness aspect",
-                metadata={"trinity_core": True, "aspect": "consciousness"},
+                metadata={"constellation_core": True, "aspect": "consciousness"},
             )
         )
 
         self.register_glyph(
             AuthGlyph(
-                id="trinity_guardian",
+                id="constellation_guardian",
                 category=AuthGlyphCategory.GUARDIAN,
                 symbol="🛡️",
-                concept="trinity_guardian",
+                concept="constellation_guardian",
                 description="Constellation Framework - Guardian aspect",
-                metadata={"trinity_core": True, "aspect": "guardian"},
+                metadata={"constellation_core": True, "aspect": "guardian"},
             )
         )
 
@@ -396,8 +396,8 @@ class AuthGlyphRegistry:
             else:
                 constitutional_glyph = self.get_glyph("constitutional_violation").symbol
 
-            # Create Trinity GLYPH
-            trinity_glyph = self._create_trinity_glyph(access_context, session_context)
+            # Create Constellation GLYPH
+            constellation_glyph = self._create_trinity_glyph(access_context, session_context)
 
             # Create composite GLYPH
             composite_glyph = self._create_composite_glyph(
@@ -405,7 +405,7 @@ class AuthGlyphRegistry:
                 access_glyph,
                 session_glyph,
                 constitutional_glyph,
-                trinity_glyph,
+                constellation_glyph,
             )
 
             # Create symbolic identity
@@ -415,7 +415,7 @@ class AuthGlyphRegistry:
                 access_glyph=access_glyph,
                 session_glyph=session_glyph,
                 constitutional_glyph=constitutional_glyph,
-                trinity_glyph=trinity_glyph,
+                constellation_glyph=constellation_glyph,
                 composite_glyph=composite_glyph,
                 metadata={
                     "tier_level": tier_level,
@@ -440,7 +440,7 @@ class AuthGlyphRegistry:
                 access_glyph="🔍",
                 session_glyph="🔓",
                 constitutional_glyph="📜",
-                trinity_glyph="⚛️🧠🛡️",
+                constellation_glyph="⚛️🧠🛡️",
                 composite_glyph="GLYPH[🏆🔍🔓📜:ERROR]",
                 metadata={"error": str(e)},
                 created_at=datetime.now(timezone.utc),
@@ -448,10 +448,10 @@ class AuthGlyphRegistry:
 
     def _create_trinity_glyph(self, access_context: dict[str, Any], session_context: dict[str, Any]) -> str:
         """Create Constellation Framework GLYPH"""
-        # Get Trinity symbols
-        identity_symbol = self.get_glyph("trinity_identity").symbol
-        consciousness_symbol = self.get_glyph("trinity_consciousness").symbol
-        guardian_symbol = self.get_glyph("trinity_guardian").symbol
+        # Get Constellation symbols
+        identity_symbol = self.get_glyph("constellation_identity").symbol
+        consciousness_symbol = self.get_glyph("constellation_consciousness").symbol
+        guardian_symbol = self.get_glyph("constellation_guardian").symbol
 
         # Determine emphasis based on context
         if access_context.get("requires_guardian_oversight", False):
@@ -512,7 +512,7 @@ class AuthGlyphRegistry:
                 "glyph_access": symbolic_identity.access_glyph,
                 "glyph_session": symbolic_identity.session_glyph,
                 "glyph_constitutional": symbolic_identity.constitutional_glyph,
-                "glyph_trinity": symbolic_identity.trinity_glyph,
+                "glyph_trinity": symbolic_identity.constellation_glyph,
                 "glyph_version": "1.0.0",
                 "glyph_created": symbolic_identity.created_at.isoformat(),
                 "glyph_registry": "lukhas_auth_v1",
@@ -576,7 +576,7 @@ class AuthGlyphRegistry:
                 "access_glyph": glyph_claims.get("glyph_access"),
                 "session_glyph": glyph_claims.get("glyph_session"),
                 "constitutional_glyph": glyph_claims.get("glyph_constitutional"),
-                "trinity_glyph": glyph_claims.get("glyph_trinity"),
+                "constellation_glyph": glyph_claims.get("glyph_trinity"),
                 "scope_glyphs": glyph_claims.get("glyph_scopes", []),
                 "guardian_glyph": glyph_claims.get("glyph_guardian"),
                 "drift_glyph": glyph_claims.get("glyph_drift"),
@@ -675,7 +675,7 @@ class AuthGlyphRegistry:
             "total_glyphs": len(self.registered_glyphs),
             "by_category": {},
             "symbolic_identities": len(self.symbolic_identities),
-            "trinity_glyphs": 0,
+            "constellation_glyphs": 0,
             "security_glyphs": 0,
             "last_updated": datetime.now(timezone.utc).isoformat(),
         }
@@ -686,8 +686,8 @@ class AuthGlyphRegistry:
 
         # Count special types
         for glyph in self.registered_glyphs.values():
-            if glyph.metadata and glyph.metadata.get("trinity_core"):
-                stats["trinity_glyphs"] += 1
+            if glyph.metadata and glyph.metadata.get("constellation_core"):
+                stats["constellation_glyphs"] += 1
             if glyph.category == AuthGlyphCategory.SECURITY:
                 stats["security_glyphs"] += 1
 

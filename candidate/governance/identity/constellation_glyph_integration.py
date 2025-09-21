@@ -452,7 +452,7 @@ class ConstellationValidator:
         return validation
 
 
-# --- Minimal Trinity placeholders (compat layer) ---
+# --- Minimal Constellation placeholders (compat layer) ---
 class ConstellationComponent(Enum):
     """Compatibility placeholder mapping to ConstellationStar"""
 
@@ -461,7 +461,7 @@ class ConstellationComponent(Enum):
     GUARDIAN = ConstellationStar.GUARDIAN
 
 
-class TrinityValidator(ConstellationValidator):
+class ConstellationValidator(ConstellationValidator):
     """Compatibility shim that reuses ConstellationValidator behavior"""
 
     pass
@@ -544,7 +544,7 @@ class GLYPHIntegrator:
         self.published_messages = []
 
         # Constellation components integration
-        self.trinity_validator = TrinityValidator()
+        self.constellation_validator = ConstellationValidator()
 
         # Performance tracking
         self.message_stats = {
@@ -561,7 +561,7 @@ class GLYPHIntegrator:
         source_module: str = "identity",
         target_modules: Optional[list[str]] = None,
         priority: str = "normal",
-        trinity_context: Optional[dict[str, Any]] = None,
+        constellation_context: Optional[dict[str, Any]] = None,
     ) -> str:
         """Publish GLYPH message to the symbolic communication system"""
         try:
@@ -571,7 +571,7 @@ class GLYPHIntegrator:
                 "target_modules": target_modules or ["*"],  # Broadcast to all if not specified
                 "payload": payload,
                 "priority": priority,
-                "trinity_context": trinity_context or self._generate_trinity_context(payload),
+                "constellation_context": constellation_context or self._generate_trinity_context(payload),
             }
 
             # Add symbolic encoding
@@ -579,11 +579,11 @@ class GLYPHIntegrator:
 
             glyph_message = GLYPHMessage(message_data)
 
-            # Validate Trinity compliance before publishing
-            if trinity_context:
+            # Validate Constellation compliance before publishing
+            if constellation_context:
                 compliance_validation = self._validate_trinity_compliance(glyph_message)
                 if not compliance_validation["compliant"]:
-                    raise Exception(f"Trinity compliance violation: {compliance_validation['violations']}")
+                    raise Exception(f"Constellation compliance violation: {compliance_validation['violations']}")
 
             # Add to queue for processing
             self.message_queue.append(glyph_message)
@@ -785,11 +785,11 @@ class GLYPHIntegrator:
         """Validate Constellation Framework compliance for message"""
         validation_result = {"compliant": True, "violations": [], "warnings": []}
 
-        trinity_context = message.trinity_context
+        constellation_context = message.constellation_context
 
         # Check each Constellation component
         for component in ConstellationComponent:
-            component_context = trinity_context.get(component.value, {})
+            component_context = constellation_context.get(component.value, {})
 
             if not component_context.get("component_active", False):
                 validation_result["warnings"].append(f"Constellation component {component.value} is not active")
@@ -820,9 +820,9 @@ class GLYPHIntegrator:
                 "message_types_supported": len(GLYPHType),
                 "published_messages_total": len(self.published_messages),
             },
-            "trinity_validation": {
-                "validator_active": self.trinity_validator is not None,
-                "compliance_cache_size": len(self.trinity_validator.compliance_cache),
+            "constellation_validation": {
+                "validator_active": self.constellation_validator is not None,
+                "compliance_cache_size": len(self.constellation_validator.compliance_cache),
                 "supported_components": [comp.value for comp in ConstellationComponent],
             },
             "performance_metrics": {
@@ -843,27 +843,27 @@ class GLYPHIntegrator:
         return 0.0
 
 
-# Factory function to create Trinity-compliant identity components
+# Factory function to create Constellation-compliant identity components
 def create_trinity_compliant_identity_system(
     config: Optional[dict] = None,
-) -> tuple[Any, TrinityValidator, GLYPHIntegrator]:
-    """Create Trinity-compliant identity system with GLYPH integration"""
+) -> tuple[Any, ConstellationValidator, GLYPHIntegrator]:
+    """Create Constellation-compliant identity system with GLYPH integration"""
     try:
         from candidate.identity import IdentitySystem
 
         # Create identity system
         identity_system = IdentitySystem()
 
-        # Create Trinity validator
-        trinity_validator = TrinityValidator()
+        # Create Constellation validator
+        constellation_validator = ConstellationValidator()
 
         # Create GLYPH integrator
         glyph_integrator = GLYPHIntegrator()
 
-        # Validate Trinity compliance
+        # Validate Constellation compliance
         for component in ConstellationComponent:
             try:
-                compliance_result = trinity_validator.validate_component_compliance(
+                compliance_result = constellation_validator.validate_component_compliance(
                     component, identity_system, {"operation": "system_initialization"}
                 )
 
@@ -881,18 +881,18 @@ def create_trinity_compliant_identity_system(
                 )
 
             except Exception as e:
-                print(f"Trinity compliance validation failed for {component.value}: {e}")
+                print(f"Constellation compliance validation failed for {component.value}: {e}")
 
-        return identity_system, trinity_validator, glyph_integrator
+        return identity_system, constellation_validator, glyph_integrator
 
     except ImportError:
         # Return mock implementations if identity system not available
         class MockIdentitySystem:
             def __init__(self):
-                self.trinity_compliant = True
+                self.constellation_compliant = True
                 self.authenticate_user = lambda *args, **kwargs: {"success": True}
 
-        return MockIdentitySystem(), TrinityValidator(), GLYPHIntegrator()
+        return MockIdentitySystem(), ConstellationValidator(), GLYPHIntegrator()
 
 
 # Export main classes
@@ -901,6 +901,6 @@ __all__ = [
     "GLYPHMessage",
     "GLYPHType",
     "ConstellationComponent",
-    "TrinityValidator",
+    "ConstellationValidator",
     "create_trinity_compliant_identity_system",
 ]

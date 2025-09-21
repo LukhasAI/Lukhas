@@ -973,7 +973,7 @@ class GuardianMonitoringDashboard:
             "threat_detection",
             "compliance_checking",
             "constitutional_oversight",
-            "trinity_framework_protection",
+            "constellation_framework_protection",
         ]
 
     async def _analyze_identity_impact(self, metric: MonitoringMetric) -> Optional[float]:

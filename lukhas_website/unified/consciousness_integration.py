@@ -30,7 +30,7 @@ class VisualizationMode(Enum):
     EMOTION = "emotion"
     GLYPHS = "glyphs"
     QUANTUM = "quantum"
-    TRINITY = "trinity"
+    CONSTELLATION = "constellation"
 
 
 @dataclass
@@ -62,7 +62,7 @@ class ConsciousnessVisualizationState:
     qi_coherence: float = 0.5
     entanglement: float = 0.0
 
-    # Trinity balance
+    # Constellation balance
     identity_strength: float = 0.33
     consciousness_strength: float = 0.33
     guardian_strength: float = 0.34
@@ -84,7 +84,7 @@ class ConsciousnessVisualizationBridge:
 
     def __init__(self):
         self.state = ConsciousnessVisualizationState()
-        self.mode = VisualizationMode.TRINITY
+        self.mode = VisualizationMode.CONSTELLATION
         self.update_rate = 30  # Hz
         self.is_running = False
 
@@ -171,8 +171,8 @@ class ConsciousnessVisualizationBridge:
                 "coherence": lambda s: s.qi_coherence,
                 "spin": lambda s: 0.001 + s.qi_coherence * 0.01,
             },
-            VisualizationMode.TRINITY: {
-                "distribution": "trinity",
+            VisualizationMode.CONSTELLATION: {
+                "distribution": "constellation",
                 "identity_particles": lambda s: int(s.identity_strength * 10000),
                 "consciousness_particles": lambda s: int(s.consciousness_strength * 10000),
                 "guardian_particles": lambda s: int(s.guardian_strength * 10000),
@@ -203,7 +203,7 @@ class ConsciousnessVisualizationBridge:
                 "primary": lambda s: self._hsv_to_rgb(0.8 + s.entanglement * 0.2, s.qi_coherence, 0.7),
                 "secondary": lambda s: self._hsv_to_rgb(0.85, 0.9, s.qi_coherence),
             },
-            VisualizationMode.TRINITY: {
+            VisualizationMode.CONSTELLATION: {
                 "identity": "#FF6B9D",  # Pink
                 "consciousness": "#00D4FF",  # Cyan
                 "guardian": "#7C3AED",  # Purple
@@ -252,7 +252,7 @@ class ConsciousnessVisualizationBridge:
             except Exception as e:
                 print(f"Error updating glyphs: {e}")
 
-        # Simulate quantum and trinity states if not available
+        # Simulate quantum and constellation states if not available
         self._simulate_quantum_state()
         self._calculate_triad_balance()
 
@@ -443,14 +443,14 @@ class ConsciousnessVisualizationBridge:
         elif self.state.coherence < 0.3:
             summary.append("Chaotic")
 
-        # Trinity balance
+        # Constellation balance
         triad_balance = (
             abs(self.state.identity_strength - 0.33)
             + abs(self.state.consciousness_strength - 0.33)
             + abs(self.state.guardian_strength - 0.33)
         )
         if triad_balance < 0.1:
-            summary.append("Trinity in balance")
+            summary.append("Constellation in balance")
 
         return " | ".join(summary) if summary else "Neutral state"
 
@@ -474,7 +474,7 @@ VISUALIZATION_PRESETS = {
         "state": {"memory_density": 0.7, "memory_coherence": 0.8, "active_folds": 5},
     },
     "balanced": {
-        "mode": VisualizationMode.TRINITY,
+        "mode": VisualizationMode.CONSTELLATION,
         "state": {
             "identity_strength": 0.33,
             "consciousness_strength": 0.34,

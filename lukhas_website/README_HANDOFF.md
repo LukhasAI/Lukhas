@@ -92,9 +92,9 @@ The website implements a **7-state user journey**:
 ### Color System
 ```css
 /* Constellation Framework Colors */
---trinity-identity: #a855f7     (Purple)
---trinity-consciousness: #0ea5e9 (Blue)
---trinity-guardian: #10b981      (Emerald)
+--constellation-identity: #a855f7     (Purple)
+--constellation-consciousness: #0ea5e9 (Blue)
+--constellation-guardian: #10b981      (Emerald)
 
 /* Neural Background */
 --neural-primary: rgba(58,100,255,0.12)

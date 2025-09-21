@@ -23,12 +23,12 @@ def create_sentiment_symbolic_display(polarity: str, score: float, component: st
     """
     sentiment_symbols = {"very_positive": "🌟", "positive": "✅", "neutral": "⚖️", "negative": "⚠️", "very_negative": "🚨"}
 
-    trinity_symbols = {"identity": "⚛️", "consciousness": "🧠", "guardian": "🛡️"}
+    constellation_symbols = {"identity": "⚛️", "consciousness": "🧠", "guardian": "🛡️"}
 
     sentiment_symbol = sentiment_symbols.get(polarity, "❓")
 
-    if component and component in trinity_symbols:
-        component_symbol = trinity_symbols[component]
+    if component and component in constellation_symbols:
+        component_symbol = constellation_symbols[component]
         return f"{sentiment_symbol} {component_symbol} {component.title()}: {score:.3f}"
     elif component:
         return f"{sentiment_symbol} {component.replace('_', ' ').title()}: {score:.3f}"
@@ -739,7 +739,7 @@ class BrandSentimentEngine:
                 ),
             }
 
-        # Trinity sentiment trends
+        # Constellation sentiment trends
         triad_trends = {}
         for component in ["identity", "consciousness", "guardian"]:
             component_scores = [entry["triad_sentiment"].get(component, 0.0) for entry in recent_sentiments]
@@ -1033,8 +1033,8 @@ if __name__ == "__main__":
                 )
                 print(f"  {display}")
 
-        # Show Trinity sentiment
-        print("Trinity Sentiment:")
+        # Show Constellation sentiment
+        print("Constellation Sentiment:")
         for component, score in result.triad_sentiment.items():
             if score != 0.0:
                 display = create_sentiment_symbolic_display(

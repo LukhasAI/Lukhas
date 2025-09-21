@@ -10,7 +10,7 @@
 ║ Version: 1.0.0 | Created: 2025-01-14
 ║ Authors: LUKHAS AI Consciousness Metamorphic Testing Team
 ╠══════════════════════════════════════════════════════════════════════════════════
-║                             ◊ TRINITY FRAMEWORK ◊
+║                             ◊ CONSTELLATION FRAMEWORK ◊
 ║
 ║ ⚛️ IDENTITY: Identity preservation across metamorphic transformations
 ║ 🧠 CONSCIOUSNESS: Consciousness properties maintained through state changes
@@ -24,7 +24,7 @@
 ║ • Attention Conservation: Total attention unchanged under redistribution
 ║ • Emotional State Symmetry: Valence flip preserves emotional magnitude
 ║ • Memory Fold Commutativity: Fold operations commute under isolation
-║ • Trinity Balance Invariance: Component permutations preserve coherence
+║ • Constellation Balance Invariance: Component permutations preserve coherence
 ║ • Bio-oscillator Frequency Scaling: Frequency scaling preserves harmonics
 ║ • Consciousness Depth Monotonicity: Learning preserves or increases depth
 ║ • Identity Temporal Consistency: Identity stable across time intervals
@@ -626,13 +626,13 @@ class EmotionalStateSymmetryRelation(MetamorphicRelation):
 
 class TrinityBalanceInvarianceRelation(MetamorphicRelation):
     """
-    Trinity Balance Invariance Metamorphic Relation
+    Constellation Balance Invariance Metamorphic Relation
 
     Mathematical Property: Component permutations preserve overall coherence
 
     Tests that permuting the Constellation Framework components (Identity ⚛️,
     Consciousness 🧠, Guardian 🛡️) while maintaining their individual
-    values preserves the overall Trinity coherence.
+    values preserves the overall Constellation coherence.
     """
 
     def __init__(self, tolerance: float = 0.001):
@@ -643,7 +643,7 @@ class TrinityBalanceInvarianceRelation(MetamorphicRelation):
 
         followup = source_input.clone()
 
-        # Get current Trinity balance
+        # Get current Constellation balance
         identity, consciousness, guardian = followup.triad_balance
         components = [identity, consciousness, guardian]
 
@@ -656,9 +656,9 @@ class TrinityBalanceInvarianceRelation(MetamorphicRelation):
         return followup, transformation_desc
 
     def check_relation(self, source_output: Any, followup_output: Any) -> tuple[bool, str]:
-        """Check Trinity balance invariance relation"""
+        """Check Constellation balance invariance relation"""
 
-        # Extract Trinity coherence metrics
+        # Extract Constellation coherence metrics
         source_coherence = self._extract_triad_coherence(source_output)
         followup_coherence = self._extract_triad_coherence(followup_output)
 
@@ -667,12 +667,12 @@ class TrinityBalanceInvarianceRelation(MetamorphicRelation):
 
         violation_details = ""
         if not coherence_preserved:
-            violation_details = f"Trinity coherence not preserved: {source_coherence:.6f} → {followup_coherence:.6f}"
+            violation_details = f"Constellation coherence not preserved: {source_coherence:.6f} → {followup_coherence:.6f}"
 
         return coherence_preserved, violation_details
 
     def _extract_triad_coherence(self, output: Any) -> float:
-        """Extract Trinity coherence from output"""
+        """Extract Constellation coherence from output"""
         if isinstance(output, dict):
             # Direct coherence measurement
             if 'triad_coherence' in output:
@@ -695,7 +695,7 @@ class TrinityBalanceInvarianceRelation(MetamorphicRelation):
         return 0.8  # Default coherence
 
     def get_relation_description(self) -> str:
-        return "Trinity balance invariance: permuting Constellation components preserves overall coherence"
+        return "Constellation balance invariance: permuting Constellation components preserves overall coherence"
 
 
 class ConsciousnessMetamorphicTestingFramework:
@@ -1037,7 +1037,7 @@ async def example_consciousness_function(input_state: dict[str, Any]) -> dict[st
     # Calculate attention total
     attention_total = sum(attention_dist.values())
 
-    # Calculate Trinity coherence
+    # Calculate Constellation coherence
     identity, consciousness, guardian = triad_balance
     triad_coherence = (identity * consciousness * guardian) ** (1/3)
 

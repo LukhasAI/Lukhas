@@ -10,7 +10,7 @@ logger = logging.getLogger(__name__)
 ║ CONSCIOUSNESS_ROLE: Democratic principle enforcement for identity decisions
 ║ EVOLUTIONARY_STAGE: Compliance - Constitutional AI integration
 ║
-║ TRINITY FRAMEWORK:
+║ CONSTELLATION FRAMEWORK:
 ║ ⚛️ IDENTITY: Democratic identity decision validation
 ║ 🧠 CONSCIOUSNESS: Consciousness-aware ethical reasoning
 ║ 🛡️ GUARDIAN: Constitutional compliance enforcement and oversight

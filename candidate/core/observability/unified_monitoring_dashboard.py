@@ -188,7 +188,7 @@ class UnifiedAlert:
     recommended_actions: list[str] = field(default_factory=list)
 
     # Constellation Framework context
-    trinity_impact: dict[str, float] = field(default_factory=dict)  # ⚛️🧠🛡️
+    constellation_impact: dict[str, float] = field(default_factory=dict)  # ⚛️🧠🛡️
 
 
 @dataclass
@@ -585,7 +585,7 @@ class UnifiedMonitoringDashboard:
                             category="guardian",
                             created_at=datetime.fromisoformat(alert_data.get("created_at", datetime.now(timezone.utc).isoformat())),
                             source_data=alert_data,
-                            trinity_impact={"guardian": 1.0},  # 🛡️
+                            constellation_impact={"guardian": 1.0},  # 🛡️
                         )
                         new_alerts.append(unified_alert)
 
@@ -605,7 +605,7 @@ class UnifiedMonitoringDashboard:
                         category="health",
                         created_at=datetime.now(timezone.utc),
                         source_data=alerts_data,
-                        trinity_impact={
+                        constellation_impact={
                             "identity": 0.3,
                             "consciousness": 0.3,
                             "guardian": 0.3,
@@ -629,7 +629,7 @@ class UnifiedMonitoringDashboard:
                         category="consciousness",
                         created_at=datetime.now(timezone.utc),
                         source_data=consciousness_status,
-                        trinity_impact={"consciousness": 1.0},  # 🧠
+                        constellation_impact={"consciousness": 1.0},  # 🧠
                     )
                     new_alerts.append(unified_alert)
 
@@ -727,9 +727,9 @@ class UnifiedMonitoringDashboard:
             recommendations.append("Memory usage high - consider cleanup procedures")
 
         # Constellation Framework recommendations
-        trinity_health_avg = sum(component["health"] for component in dashboard_data.constellation_status.values()) / 3
+        constellation_health_avg = sum(component["health"] for component in dashboard_data.constellation_status.values()) / 3
 
-        if trinity_health_avg < 0.8:
+        if constellation_health_avg < 0.8:
             recommendations.append("Constellation Framework health below optimal - review all components")
 
         return recommendations

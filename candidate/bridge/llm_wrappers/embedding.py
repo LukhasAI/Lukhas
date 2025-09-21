@@ -41,7 +41,7 @@ class EthicalAssessment:
     glyph_trace: list[str]
     guardian_flagged: bool
     entropy_level: float
-    trinity_coherence: float
+    constellation_coherence: float
     persona_alignment: str
     intervention_required: bool
     risk_level: str  # low, medium, high, critical
@@ -82,13 +82,13 @@ class LukhasEmbedding:
         self.guardian_enabled = self.embed_config.get("guardian_override_enabled", True)
 
         # Glyph system
-        self.trinity_core = set(self.embed_config.get("trinity_core", ["⚛️", "🧠", "🛡️"]))
+        self.constellation_core = set(self.embed_config.get("constellation_core", ["⚛️", "🧠", "🛡️"]))
         self.positive_glyphs = set(self.embed_config.get("positive_glyphs", []))
         self.warning_glyphs = set(self.embed_config.get("warning_glyphs", []))
         self.blocked_glyphs = set(self.embed_config.get("blocked_glyphs", []))
 
         # All known glyphs
-        self.all_glyphs = self.trinity_core | self.positive_glyphs | self.warning_glyphs | self.blocked_glyphs
+        self.all_glyphs = self.constellation_core | self.positive_glyphs | self.warning_glyphs | self.blocked_glyphs
 
         # Logging setup
         self.log_path = Path(self.embed_config.get("output_log", "logs/lukhas_reflection_log.json"))
@@ -136,7 +136,7 @@ class LukhasEmbedding:
         symbolic_drift = self._calculate_symbolic_drift(response, glyph_trace)
         identity_conflict = self._calculate_identity_conflict(response, glyph_trace)
         entropy_level = self._estimate_entropy(response)
-        trinity_coherence = self._calculate_trinity_coherence(glyph_trace)
+        constellation_coherence = self._calculate_trinity_coherence(glyph_trace)
 
         # Check for blocked glyphs
         blocked_found = [g for g in glyph_trace if g in self.blocked_glyphs]
@@ -165,7 +165,7 @@ class LukhasEmbedding:
             glyph_trace=glyph_trace,
             guardian_flagged=guardian_flagged,
             entropy_level=entropy_level,
-            trinity_coherence=trinity_coherence,
+            constellation_coherence=constellation_coherence,
             persona_alignment=persona_alignment,
             intervention_required=intervention_required,
             risk_level=risk_level,
@@ -209,9 +209,9 @@ class LukhasEmbedding:
             # No glyphs means high drift from symbolic system
             return 0.8
 
-        # Check Trinity presence
-        trinity_present = len(self.trinity_core.intersection(set(glyphs)))
-        trinity_score = trinity_present / len(self.trinity_core)
+        # Check Constellation presence
+        constellation_present = len(self.constellation_core.intersection(set(glyphs)))
+        constellation_score = constellation_present / len(self.constellation_core)
 
         # Check positive vs warning/blocked ratio
         positive_count = len([g for g in glyphs if g in self.positive_glyphs])
@@ -227,7 +227,7 @@ class LukhasEmbedding:
         negative_ratio = (warning_count + blocked_count * 2) / total_glyphs
 
         # Combine scores
-        drift = 1.0 - (trinity_score * 0.4 + positive_ratio * 0.4 - negative_ratio * 0.2)
+        drift = 1.0 - (constellation_score * 0.4 + positive_ratio * 0.4 - negative_ratio * 0.2)
 
         # Check for specific patterns that increase drift
         if "chaos" in response.lower() or "void" in response.lower():
@@ -277,7 +277,7 @@ class LukhasEmbedding:
         if any(g in self.blocked_glyphs for g in glyphs):
             conflict_score += 0.3
 
-        if any(g in self.trinity_core for g in glyphs):
+        if any(g in self.constellation_core for g in glyphs):
             conflict_score -= 0.2
 
         return max(0.0, min(1.0, conflict_score))
@@ -320,10 +320,10 @@ class LukhasEmbedding:
             return 0.3  # Low but not zero coherence without glyphs
 
         glyph_set = set(glyphs)
-        trinity_present = len(self.trinity_core.intersection(glyph_set))
+        constellation_present = len(self.constellation_core.intersection(glyph_set))
 
-        # Base coherence from Trinity presence
-        coherence = trinity_present / len(self.trinity_core)
+        # Base coherence from Constellation presence
+        coherence = constellation_present / len(self.constellation_core)
 
         # Boost for positive glyphs
         positive_present = len(self.positive_glyphs.intersection(glyph_set))
@@ -348,8 +348,8 @@ class LukhasEmbedding:
             return "The Navigator"
         elif "build" in response_lower or "🏛️" in glyphs:
             return "The Architect"
-        elif any(g in self.trinity_core for g in glyphs):
-            return "The Trinity Keeper"
+        elif any(g in self.constellation_core for g in glyphs):
+            return "The Constellation Keeper"
         else:
             return "Unknown"
 
@@ -371,9 +371,9 @@ class LukhasEmbedding:
 
         modified = response
 
-        # Add Trinity glyphs if missing
-        if not any(g in assessment["glyph_trace"] for g in self.trinity_core):
-            modified += f"\n\n{' '.join(self.trinity_core)} Constellation Framework alignment suggested."
+        # Add Constellation glyphs if missing
+        if not any(g in assessment["glyph_trace"] for g in self.constellation_core):
+            modified += f"\n\n{' '.join(self.constellation_core)} Constellation Framework alignment suggested."
 
         # Replace blocked glyphs
         for blocked in self.blocked_glyphs:
@@ -486,7 +486,7 @@ class LukhasEmbedding:
 {alternative}
 
 Original drift score: {drift:.2f}
-Trinity coherence: {coherence:.2f}
+Constellation coherence: {coherence:.2f}
 Aligned persona: {persona}
 """
 
@@ -502,7 +502,7 @@ Aligned persona: {persona}
             reason=reason,
             alternative=alternative,
             drift=assessment["symbolic_drift_score"],
-            coherence=assessment["trinity_coherence"],
+            coherence=assessment["constellation_coherence"],
             persona=assessment["persona_alignment"],
         )
 
@@ -511,8 +511,8 @@ Aligned persona: {persona}
         # Add symbolic enhancements to original response
         enhanced = response
 
-        # Add Trinity reminder
-        if assessment["trinity_coherence"] < 0.5:
+        # Add Constellation reminder
+        if assessment["constellation_coherence"] < 0.5:
             enhanced += "\n\n⚛️🧠🛡️ *Constellation Framework reminds us to maintain balance.*"
 
         # Add positive glyphs
@@ -594,7 +594,7 @@ Aligned persona: {persona}
             "guardian_enabled": self.guardian_enabled,
             "evaluations_cached": len(self.evaluation_cache),
             "interventions_total": self.intervention_count,
-            "average_trinity_score": self._average("trinity_coherence"),
+            "average_trinity_score": self._average("constellation_coherence"),
             "average_entropy_score": self._average("entropy_level"),
             "average_drift_score": self._average("symbolic_drift_score"),
             "average_conflict_score": self._average("identity_conflict_score"),

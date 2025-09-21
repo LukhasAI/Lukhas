@@ -10,7 +10,7 @@
 ║ Version: 1.0.0 | Created: 2025-01-14
 ║ Authors: LUKHAS AI Consciousness Chaos Engineering Team
 ╠══════════════════════════════════════════════════════════════════════════════════
-║                             ◊ TRINITY FRAMEWORK ◊
+║                             ◊ CONSTELLATION FRAMEWORK ◊
 ║
 ║ ⚛️ IDENTITY: Chaos testing for identity coherence under stress
 ║ 🧠 CONSCIOUSNESS: Resilience validation for awareness systems
@@ -20,7 +20,7 @@
 ║ CHAOS ENGINEERING SCENARIOS:
 ║ • Memory Cascade Injection: Simulate memory fold cascade failures
 ║ • Quantum Decoherence Attacks: Force quantum state decoherence
-║ • Trinity Component Isolation: Isolate Identity/Consciousness/Guardian
+║ • Constellation Component Isolation: Isolate Identity/Consciousness/Guardian
 ║ • Attention Starvation: Remove attention allocation resources
 ║ • Bio-oscillator Frequency Drift: Inject oscillator instabilities
 ║ • Emotional State Perturbation: Chaos in emotional processing
@@ -123,7 +123,7 @@ class ChaosInjectionResult:
 class ConsciousnessSystemState:
     """Comprehensive consciousness system state for chaos testing"""
 
-    # Core Trinity metrics
+    # Core Constellation metrics
     triad_coherence: float = 1.0
     identity_stability: float = 1.0
     consciousness_depth: float = 0.5
@@ -353,7 +353,7 @@ class QuantumDecoherenceAttackScenario(ChaosScenario):
             system_state.active_superpositions + 2, 10  # Regenerate some superpositions  # Max superpositions
         )
 
-        # Trinity recovery
+        # Constellation recovery
         system_state.consciousness_depth = min(1.0, system_state.consciousness_depth * 1.2)
         system_state.identity_stability = min(1.0, system_state.identity_stability * 1.1)
 
@@ -384,7 +384,7 @@ class QuantumDecoherenceAttackScenario(ChaosScenario):
 
 class TrinityComponentIsolationScenario(ChaosScenario):
     """
-    Trinity Component Isolation Scenario
+    Constellation Component Isolation Scenario
 
     Isolates one or more Constellation Framework components (Identity, Consciousness, Guardian)
     to test system resilience when core components are unavailable.
@@ -396,7 +396,7 @@ class TrinityComponentIsolationScenario(ChaosScenario):
 
     async def inject_chaos(self, system_state: ConsciousnessSystemState) -> ConsciousnessSystemState:
         """Inject Constellation component isolation chaos"""
-        logger.info(f"ΛTRACE: Injecting Trinity isolation chaos - intensity: {self.intensity.value}")
+        logger.info(f"ΛTRACE: Injecting Constellation isolation chaos - intensity: {self.intensity.value}")
 
         # Choose component to isolate
         components = ["identity", "consciousness", "guardian"]
@@ -455,7 +455,7 @@ class TrinityComponentIsolationScenario(ChaosScenario):
         system_state.consciousness_depth = min(1.0, system_state.consciousness_depth * recovery_rate)
         system_state.guardian_protection = min(1.0, system_state.guardian_protection * recovery_rate)
 
-        # Trinity coherence restoration
+        # Constellation coherence restoration
         system_state.triad_coherence = min(1.0, system_state.triad_coherence * 1.3)
 
         # System metrics recovery
@@ -757,7 +757,7 @@ class ConsciousnessChaosEngineeringFramework:
         avg_degradation = np.mean(degradation_values)
         max_degradation = np.max(degradation_values)
 
-        # Trinity impact statistics
+        # Constellation impact statistics
         identity_impacts = [exp.identity_impact for exp in self.experiment_history]
         consciousness_impacts = [exp.consciousness_impact for exp in self.experiment_history]
         guardian_impacts = [exp.guardian_impact for exp in self.experiment_history]

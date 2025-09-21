@@ -533,7 +533,7 @@ class BrandOrchestratorAgent:
         # Brand consistency from validation
         brand_consistency = 1.0 if validation_result.is_compliant else 0.7
 
-        # Trinity alignment from components
+        # Constellation alignment from components
         triad_alignment = (
             creativity_result.get("triad_aligned", False) * 0.4
             + personality_result.get("triad_coherent", False) * 0.4
@@ -852,7 +852,7 @@ class BrandOrchestratorAgent:
             ],
             "triad_alignment": [
                 "Strengthen Constellation Framework integration",
-                "Increase Trinity symbol usage",
+                "Increase Constellation symbol usage",
                 "Align content with Identity-Consciousness-Guardian themes",
             ],
             "user_engagement": [

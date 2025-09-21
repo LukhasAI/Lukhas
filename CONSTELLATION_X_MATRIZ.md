@@ -18,7 +18,7 @@ Constellation Stars ↔ MATRIZ Nodes
     (domains)           (cognitive stages)
 ```
 
-The constellation grows dynamically as new cognitive capabilities (MATRIZ nodes) are added, making it far more flexible than fixed frameworks like Trinity (3 components) or rigid constellation systems.
+The constellation grows dynamically as new cognitive capabilities (MATRIZ nodes) are added, making it far more flexible than fixed frameworks like Constellation (3 components) or rigid constellation systems.
 
 ## Constellation Framework: Dynamic 8-Star System
 
@@ -237,7 +237,7 @@ The **Constellation × MATRIZ** integration provides:
 3. **Symbolic Transparency**: Every operation traceable to constellation patterns
 4. **Architectural Flexibility**: Modular, composable, and future-proof design
 
-This unified framework resolves the Trinity vs. Constellation terminology confusion while establishing a foundation for unlimited cognitive growth within LUKHAS AI's consciousness architecture.
+This unified framework resolves the Constellation vs. Constellation terminology confusion while establishing a foundation for unlimited cognitive growth within LUKHAS AI's consciousness architecture.
 
 ---
 

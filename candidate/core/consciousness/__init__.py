@@ -7,7 +7,7 @@
 ║ CONSCIOUSNESS_ROLE: Primary consciousness architecture and coordination
 ║ EVOLUTIONARY_STAGE: Foundation - Core consciousness system
 ║
-║ TRINITY FRAMEWORK:
+║ CONSTELLATION FRAMEWORK:
 ║ ⚛️ IDENTITY: Consciousness identity and authentication
 ║ 🧠 CONSCIOUSNESS: Primary consciousness processing hub
 ║ 🛡️ GUARDIAN: Ethical consciousness monitoring and compliance

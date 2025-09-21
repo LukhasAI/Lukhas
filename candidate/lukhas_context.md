@@ -15,7 +15,7 @@ CANDIDATE is the primary AI development domain containing **2,877 Python files**
 ### **Domain Scope**
 - **Files**: 2,877 Python files (largest development workspace in LUKHAS)
 - **Purpose**: Research, prototyping, and development of core AGI components
-- **Trinity Role**: Development workspace for Identity ⚛️, Consciousness 🧠, and Guardian 🛡️ systems
+- **Constellation Role**: Development workspace for Identity ⚛️, Consciousness 🧠, and Guardian 🛡️ systems
 - **Integration**: Primary source for LUKHAS integration and PRODUCTS deployment
 
 ### **Development Architecture**

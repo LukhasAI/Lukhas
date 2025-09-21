@@ -233,7 +233,7 @@ class EliteContentOrchestrator:
     async def _check_triad_integration(self, system_path: str) -> bool:
         """Check if system has Constellation Framework integration"""
         try:
-            # Look for Trinity symbols and references
+            # Look for Constellation symbols and references
             triad_indicators = [
                 "⚛️",
                 "🧠",
@@ -360,7 +360,7 @@ class EliteContentOrchestrator:
             report_content += "### Content Engines\n\n"
             for system in content_engines:
                 status_emoji = "✅" if system.elite_ready else "🔄"
-                report_content += f"- **{system.name}** {status_emoji} - Voice: {system.voice_coherence:.1f}% | Trinity: {'✅' if system.triad_integration else '❌'} | Consciousness: {'✅' if system.consciousness_tech_focus else '❌'}\n"
+                report_content += f"- **{system.name}** {status_emoji} - Voice: {system.voice_coherence:.1f}% | Constellation: {'✅' if system.triad_integration else '❌'} | Consciousness: {'✅' if system.consciousness_tech_focus else '❌'}\n"
             report_content += "\n"
 
         # Enterprise Systems
@@ -368,7 +368,7 @@ class EliteContentOrchestrator:
             report_content += "### Enterprise Systems\n\n"
             for system in enterprise_systems:
                 status_emoji = "✅" if system.elite_ready else "🔄"
-                report_content += f"- **{system.name}** {status_emoji} - Voice: {system.voice_coherence:.1f}% | Trinity: {'✅' if system.triad_integration else '❌'} | Consciousness: {'✅' if system.consciousness_tech_focus else '❌'}\n"
+                report_content += f"- **{system.name}** {status_emoji} - Voice: {system.voice_coherence:.1f}% | Constellation: {'✅' if system.triad_integration else '❌'} | Consciousness: {'✅' if system.consciousness_tech_focus else '❌'}\n"
             report_content += "\n"
 
         # Mobile Apps
@@ -376,7 +376,7 @@ class EliteContentOrchestrator:
             report_content += "### Mobile Applications\n\n"
             for system in mobile_apps:
                 status_emoji = "✅" if system.elite_ready else "🔄"
-                report_content += f"- **{system.name}** {status_emoji} - Voice: {system.voice_coherence:.1f}% | Trinity: {'✅' if system.triad_integration else '❌'} | Consciousness: {'✅' if system.consciousness_tech_focus else '❌'}\n"
+                report_content += f"- **{system.name}** {status_emoji} - Voice: {system.voice_coherence:.1f}% | Constellation: {'✅' if system.triad_integration else '❌'} | Consciousness: {'✅' if system.consciousness_tech_focus else '❌'}\n"
             report_content += "\n"
 
         report_content += f"""

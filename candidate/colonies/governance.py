@@ -178,10 +178,10 @@ class GovernanceColony(BaseColony):
 
         # Constellation Framework compliance
         if policy_name == "constellation_framework":
-            trinity_elements = ["identity", "consciousness", "guardian"]
-            for element in trinity_elements:
-                if not operation.get(f"trinity_{element}", False):
-                    result["violations"].append(f"Missing Trinity {element} integration")
+            constellation_elements = ["identity", "consciousness", "guardian"]
+            for element in constellation_elements:
+                if not operation.get(f"constellation_{element}", False):
+                    result["violations"].append(f"Missing Constellation {element} integration")
                     result["compliant"] = False
 
         # Data governance policy

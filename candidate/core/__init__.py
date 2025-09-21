@@ -20,7 +20,7 @@ try:
     CORE_BRANDING_AVAILABLE = True
 except ImportError:
     CORE_BRANDING_AVAILABLE = False
-    # Fallback Trinity symbols
+    # Fallback Constellation symbols
     CONSTELLATION_FRAMEWORK = "⚛️🧠🛡️"
     IDENTITY_SYMBOL = "⚛️"
     CONSCIOUSNESS_SYMBOL = "🧠"

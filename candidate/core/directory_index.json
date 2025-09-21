@@ -550,7 +550,7 @@
           "get_stats",
           "coherence_filter",
           "awareness_filter",
-          "trinity_compliance_filter",
+          "constellation_compliance_filter",
           "frequency_band_filter",
           "signal_type_filter",
           "update_metrics_task",

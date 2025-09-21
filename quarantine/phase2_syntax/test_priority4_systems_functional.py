@@ -10,10 +10,10 @@ Comprehensive functional testing for the remaining 7 critical systems:
 • 🎨 Creativity System - Creative expression and generation
 • 📈 Data System - Metrics storage and analytics pipelines
 • 🧪 Testing System - Self-validation of test infrastructure
-• 🏷️ Branding System - Trinity Framework compliance and terminology
+• 🏷️ Branding System - Constellation Framework compliance and terminology
 
 Target: Push coverage from 55.9% → 75-80%+ with advanced functional validation.
-Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
+Constellation Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 """
 
 import importlib
@@ -821,7 +821,7 @@ class TestTestingSystems:
 
 
 class TestBrandingSystems:
-    """🏷️ Branding System Functional Testing - Trinity Framework Compliance & Terminology"""
+    """🏷️ Branding System Functional Testing - Constellation Framework Compliance & Terminology"""
 
     def test_branding_system_structure(self):
         """Validate branding system directory structure and files"""
@@ -833,7 +833,7 @@ class TestBrandingSystems:
         assert len(branding_files) > 0, "Branding system should contain files"
 
         # Look for key branding components
-        branding_components = ["trinity", "logo", "style", "guide", "template", "brand"]
+        branding_components = ["constellation", "logo", "style", "guide", "template", "brand"]
         found_components = []
 
         for file in branding_files:
@@ -847,15 +847,15 @@ class TestBrandingSystems:
         ), f"Branding system should contain branding components. Found: {set(found_components)}"
 
     def test_triad_framework_compliance(self):
-        """Test Trinity Framework (⚛️🧠🛡️) compliance and validation"""
+        """Test Constellation Framework (⚛️🧠🛡️) compliance and validation"""
         try:
-            # Check for Trinity Framework references
+            # Check for Constellation Framework references
             triad_symbols = ["⚛️", "🧠", "🛡️"]
-            triad_keywords = ["identity", "consciousness", "guardian", "trinity"]
+            triad_keywords = ["identity", "consciousness", "guardian", "constellation"]
 
             triad_found = False
 
-            # Check branding directory for Trinity Framework
+            # Check branding directory for Constellation Framework
             branding_path = LUKHAS_ROOT / "branding"
             if branding_path.exists():
                 for file in branding_path.rglob("*"):
@@ -871,13 +871,13 @@ class TestBrandingSystems:
                         except Exception:
                             continue
 
-            # Also check for Trinity validation tools
-            triad_tools = list(branding_path.rglob("*trinity*")) if branding_path.exists() else []
+            # Also check for Constellation validation tools
+            triad_tools = list(branding_path.rglob("*constellation*")) if branding_path.exists() else []
 
-            assert triad_found or len(triad_tools) > 0, "Trinity Framework compliance validation should exist"
+            assert triad_found or len(triad_tools) > 0, "Constellation Framework compliance validation should exist"
 
         except Exception as e:
-            pytest.skip(f"Trinity Framework compliance testing not available: {e}")
+            pytest.skip(f"Constellation Framework compliance testing not available: {e}")
 
     def test_terminology_consistency(self):
         """Test LUKHAS terminology consistency and standardization"""

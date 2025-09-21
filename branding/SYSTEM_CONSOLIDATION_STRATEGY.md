@@ -118,7 +118,7 @@
 ├── orchestration/
 │   ├── unified_platform_orchestrator.py
 │   ├── consolidated_voice_optimizer.py
-│   └── trinity_framework_manager.py
+│   └── constellation_framework_manager.py
 └── mobile/
     └── lukhas_ai_app/                 (Single premium mobile app)
 ```

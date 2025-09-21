@@ -24,7 +24,7 @@ class CulturalGlyph:
     cultural_variants: dict[str, str]  # Locale-specific variants
     context: str  # Usage context
     weight: float  # Semantic weight (0.0-1.0)
-    trinity_mapping: Optional[str] = None  # Maps to ⚛️, 🧠, or 🛡️
+    constellation_mapping: Optional[str] = None  # Maps to ⚛️, 🧠, or 🛡️
 
 
 class MultilingualGlyphEngine:
@@ -56,8 +56,8 @@ class MultilingualGlyphEngine:
         self.glyph_database = {}
         self.cultural_mappings = {}
 
-        # Trinity core mappings
-        self.trinity_core = {
+        # Constellation core mappings
+        self.constellation_core = {
             "⚛️": "quantum/potential",
             "🧠": "consciousness/wisdom",
             "🛡️": "protection/ethics",
@@ -95,7 +95,7 @@ class MultilingualGlyphEngine:
                 },
                 context="intellectual/spiritual wisdom",
                 weight=1.0,
-                trinity_mapping="🧠",
+                constellation_mapping="🧠",
             ),
             CulturalGlyph(
                 universal="📚",
@@ -114,7 +114,7 @@ class MultilingualGlyphEngine:
                 },
                 context="education/study",
                 weight=0.8,
-                trinity_mapping="🧠",
+                constellation_mapping="🧠",
             ),
             CulturalGlyph(
                 universal="🧘",
@@ -133,7 +133,7 @@ class MultilingualGlyphEngine:
                 },
                 context="spiritual practice",
                 weight=0.9,
-                trinity_mapping="🧠",
+                constellation_mapping="🧠",
             ),
         ]
 
@@ -156,7 +156,7 @@ class MultilingualGlyphEngine:
                 },
                 context="safety/security",
                 weight=1.0,
-                trinity_mapping="🛡️",
+                constellation_mapping="🛡️",
             ),
             CulturalGlyph(
                 universal="⚖️",
@@ -175,7 +175,7 @@ class MultilingualGlyphEngine:
                 },
                 context="ethical balance",
                 weight=0.9,
-                trinity_mapping="🛡️",
+                constellation_mapping="🛡️",
             ),
         ]
 
@@ -198,7 +198,7 @@ class MultilingualGlyphEngine:
                 },
                 context="fundamental reality",
                 weight=1.0,
-                trinity_mapping="⚛️",
+                constellation_mapping="⚛️",
             ),
             CulturalGlyph(
                 universal="∞",
@@ -217,7 +217,7 @@ class MultilingualGlyphEngine:
                 },
                 context="unlimited potential",
                 weight=0.9,
-                trinity_mapping="⚛️",
+                constellation_mapping="⚛️",
             ),
         ]
 
@@ -240,7 +240,7 @@ class MultilingualGlyphEngine:
                 },
                 context="Eastern philosophy balance",
                 weight=0.95,
-                trinity_mapping="🧠",
+                constellation_mapping="🧠",
             ),
             CulturalGlyph(
                 universal="🕉️",
@@ -259,7 +259,7 @@ class MultilingualGlyphEngine:
                 },
                 context="Hindu/Buddhist unity",
                 weight=0.9,
-                trinity_mapping="⚛️",
+                constellation_mapping="⚛️",
             ),
         ]
 
@@ -282,7 +282,7 @@ class MultilingualGlyphEngine:
                 },
                 context="natural growth",
                 weight=0.7,
-                trinity_mapping="🧠",
+                constellation_mapping="🧠",
             ),
             CulturalGlyph(
                 universal="🌸",
@@ -301,7 +301,7 @@ class MultilingualGlyphEngine:
                 },
                 context="beauty and impermanence",
                 weight=0.8,
-                trinity_mapping="🧠",
+                constellation_mapping="🧠",
             ),
         ]
 
@@ -371,7 +371,7 @@ class MultilingualGlyphEngine:
                         "cultural_variants": g.cultural_variants,
                         "context": g.context,
                         "weight": g.weight,
-                        "trinity_mapping": g.trinity_mapping,
+                        "constellation_mapping": g.constellation_mapping,
                     }
                     for g in glyphs
                 ]
@@ -421,7 +421,7 @@ class MultilingualGlyphEngine:
         Args:
             glyphs: List of glyphs to translate
             target_locale: Target locale code
-            preserve_trinity: Keep Trinity glyphs universal
+            preserve_trinity: Keep Constellation glyphs universal
 
         Returns:
             List of translated glyphs
@@ -429,8 +429,8 @@ class MultilingualGlyphEngine:
         translated = []
 
         for glyph in glyphs:
-            # Preserve Trinity core if requested
-            if preserve_trinity and glyph in self.trinity_core:
+            # Preserve Constellation core if requested
+            if preserve_trinity and glyph in self.constellation_core:
                 translated.append(glyph)
             else:
                 translated.append(self.translate_glyph(glyph, target_locale))
@@ -564,9 +564,9 @@ class MultilingualGlyphEngine:
             locale: Target locale
 
         Returns:
-            Trinity translations
+            Constellation translations
         """
-        trinity_translations = {
+        constellation_translations = {
             "en": {"⚛️": "Quantum", "🧠": "Consciousness", "🛡️": "Protection"},
             "es": {"⚛️": "Cuántico", "🧠": "Conciencia", "🛡️": "Protección"},
             "fr": {"⚛️": "Quantique", "🧠": "Conscience", "🛡️": "Protection"},
@@ -579,7 +579,7 @@ class MultilingualGlyphEngine:
             "ru": {"⚛️": "Квантовый", "🧠": "Сознание", "🛡️": "Защита"},
         }
 
-        return trinity_translations.get(locale, trinity_translations["en"])
+        return constellation_translations.get(locale, constellation_translations["en"])
 
     def generate_cultural_report(self) -> dict[str, Any]:
         """Generate report on cultural glyph coverage"""
@@ -587,7 +587,7 @@ class MultilingualGlyphEngine:
             "total_glyphs": sum(len(glyphs) for glyphs in self.glyph_database.values()),
             "supported_locales": len(self.supported_locales),
             "coverage_by_locale": {},
-            "trinity_support": {},
+            "constellation_support": {},
         }
 
         # Calculate coverage
@@ -608,9 +608,9 @@ class MultilingualGlyphEngine:
                 "percentage": ((translated_count / total_count * 100) if total_count > 0 else 0),
             }
 
-            # Trinity support
-            trinity_trans = self.get_constellation_translations(locale)
-            report["trinity_support"][locale] = trinity_trans
+            # Constellation support
+            constellation_trans = self.get_constellation_translations(locale)
+            report["constellation_support"][locale] = constellation_trans
 
         return report
 

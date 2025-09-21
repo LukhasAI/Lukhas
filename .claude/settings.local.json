@@ -74,7 +74,16 @@
       "WebFetch(domain:docs.perplexity.ai)",
       "Bash(npx tsc:*)",
       "Bash(echo:*)",
-      "Bash(ln:*)"
+      "Bash(ln:*)",
+      "Bash(/dev/null)",
+      "Bash(git log:*)",
+      "Bash(PYTHONPATH=. .venv/bin/pytest tests/memory/test_topk_recall.py -v)",
+      "Bash(PYTHONPATH=. .venv/bin/pytest tests/memory/test_scheduled_folding.py -v)",
+      "Bash(PYTHONPATH=. .venv/bin/pytest tests/observability/test_opentelemetry_tracing.py -v)",
+      "Bash(PYTHONPATH=. .venv/bin/pytest tests/observability/test_prometheus_metrics.py -v)",
+      "Bash(PYTHONPATH=. .venv/bin/pytest tests/observability/test_prometheus_metrics.py::TestLUKHASMetricsWithPrometheus::test_metrics_export -v -s)",
+      "Bash(pip-audit:*)",
+      "Bash(sort:*)"
     ],
     "deny": [],
     "ask": []

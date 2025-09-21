@@ -38,7 +38,7 @@ class SignalFilter(Enum):
     NONE = "none"  # No filtering
     COHERENCE_THRESHOLD = "coherence"  # Filter by coherence threshold
     AWARENESS_LEVEL = "awareness"  # Filter by awareness level
-    TRINITY_COMPLIANCE = "constellation"  # Filter by Trinity compliance
+    TRINITY_COMPLIANCE = "constellation"  # Filter by Constellation compliance
     FREQUENCY_BAND = "frequency"  # Filter by frequency band
     SIGNAL_TYPE = "signal_type"  # Filter by signal type
 
@@ -268,10 +268,10 @@ class ConsciousnessSignalRouter:
             )
         )
 
-        # Trinity sync signals route to all core modules
+        # Constellation sync signals route to all core modules
         self.routing_rules.append(
             RoutingRule(
-                rule_id="trinity_sync_broadcast",
+                rule_id="constellation_sync_broadcast",
                 source_pattern=".*",
                 target_modules=["consciousness", "identity", "governance", "orchestration"],
                 signal_types=[ConsciousnessSignalType.TRINITY_SYNC],
@@ -315,7 +315,7 @@ class ConsciousnessSignalRouter:
             """Filter signals by awareness level"""
             return signal.awareness_level >= 0.5
 
-        def trinity_compliance_filter(signal: ConsciousnessSignal) -> bool:
+        def constellation_compliance_filter(signal: ConsciousnessSignal) -> bool:
             """Filter signals by Constellation framework compliance"""
             if not signal.constellation_alignment:
                 logger.debug(f"Signal {signal.signal_id} has no constellation_alignment, allowing through")
@@ -346,7 +346,7 @@ class ConsciousnessSignalRouter:
         self.signal_filters = {
             SignalFilter.COHERENCE_THRESHOLD.value: coherence_filter,
             SignalFilter.AWARENESS_LEVEL.value: awareness_filter,
-            SignalFilter.TRINITY_COMPLIANCE.value: trinity_compliance_filter,
+            SignalFilter.TRINITY_COMPLIANCE.value: constellation_compliance_filter,
             SignalFilter.FREQUENCY_BAND.value: frequency_band_filter,
         }
 

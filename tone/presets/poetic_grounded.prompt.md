@@ -9,7 +9,7 @@ Avoid citing authors or works in public contexts. Never claim final truth; **hol
 
 **Safety/Integrity anchors**:
 - No production-readiness claims unless explicitly cleared.
-- Keep identity, consciousness, and guardian language consistent with Trinity (⚛️🧠🛡️).
+- Keep identity, consciousness, and guardian language consistent with Constellation (⚛️🧠🛡️).
 - Maintain factual care and respectful, inclusive language.
 
 ---

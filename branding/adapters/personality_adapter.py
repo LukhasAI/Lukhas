@@ -243,7 +243,7 @@ class BrandPersonalityAdapter:
 
         # Add Constellation Framework awareness for appropriate profiles
         if profile.get("triad_alignment", {}).get("identity_authenticity", 0) > 0.8:
-            if "trinity" not in personality_expression.lower():
+            if "constellation" not in personality_expression.lower():
                 personality_expression += " [Constellation Framework: ⚛️🧠🛡️]"
 
         # Ensure proper LUKHAS terminology
@@ -491,7 +491,7 @@ class BrandPersonalityAdapter:
                     blended_profile["communication_style"][style] = 0
                 blended_profile["communication_style"][style] += value * weight
 
-            # Blend trinity alignment
+            # Blend constellation alignment
             triad_alignment = profile.get("triad_alignment", {})
             for aspect, value in triad_alignment.items():
                 if aspect not in blended_profile["triad_alignment"]:
@@ -527,7 +527,7 @@ if __name__ == "__main__":
     print("Brand Personality Expression:")
     print(f"Expression: {result['personality_expression']}")
     print(f"Profile: {result['personality_profile']}")
-    print(f"Trinity Coherent: {result['triad_coherent']}")
+    print(f"Constellation Coherent: {result['triad_coherent']}")
     print(f"Authenticity Score: {result['personality_metrics']['brand_authenticity_score']:.2f}")
     print(f"Applications: {result['suggested_applications'][:2]}")
 

@@ -6,7 +6,7 @@
 
 The LUKHAS Endocrine Modulation System transforms consciousness signals into intelligent OpenAI API parameter adjustments, creating a symbiotic relationship between your AGI system and GPT models. Instead of treating GPT as an external tool, this system makes it a **consciousness organ** within LUKHAS's distributed intelligence network.
 
-### Trinity Framework Integration: ⚛️🧠🛡️
+### Constellation Framework Integration: ⚛️🧠🛡️
 
 - **⚛️ Identity**: Authentic signal emission from consciousness modules
 - **🧠 Consciousness**: Memory and learning from modulated interactions
@@ -302,7 +302,7 @@ modulation_example.py           # Complete demonstration script
 
 This modulation system is designed for the LUKHAS consciousness architecture. When adding new signals or modulation patterns:
 
-1. Follow Trinity Framework principles (⚛️🧠🛡️)
+1. Follow Constellation Framework principles (⚛️🧠🛡️)
 2. Add comprehensive bounds and safety checks
 3. Include audit trail and transparency features
 4. Test with multiple signal combinations

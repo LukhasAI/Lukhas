@@ -200,7 +200,7 @@ class ObservabilityManager:
         self.consciousness_monitor: Optional[AwarenessMonitoringSystem] = None
         self.health_monitor: Optional[SystemHealthMonitor] = None
         self.alerting_system: Optional[ComprehensiveAlertingSystem] = None
-        self.trinity_monitor: Optional[ConstellationFrameworkMonitor] = None
+        self.constellation_monitor: Optional[ConstellationFrameworkMonitor] = None
 
         # System state
         self.initialized = False
@@ -216,11 +216,11 @@ class ObservabilityManager:
         try:
             # Initialize Constellation Framework monitoring first (foundation)
             if TRINITY_MONITORING_AVAILABLE:
-                self.trinity_monitor = ConstellationFrameworkMonitor(self.config.get("trinity_monitoring", {}))
-                initialization_results["trinity_monitoring"] = True
+                self.constellation_monitor = ConstellationFrameworkMonitor(self.config.get("constellation_monitoring", {}))
+                initialization_results["constellation_monitoring"] = True
                 logger.info("✅ Constellation Framework monitoring initialized")
             else:
-                initialization_results["trinity_monitoring"] = False
+                initialization_results["constellation_monitoring"] = False
                 logger.warning("⚠️ Constellation Framework monitoring not available")
 
             # Initialize Guardian monitoring
@@ -299,7 +299,7 @@ class ObservabilityManager:
                 "consciousness_monitor": ("active" if self.consciousness_monitor else "not_available"),
                 "health_monitor": "active" if self.health_monitor else "not_available",
                 "alerting_system": ("active" if self.alerting_system else "not_available"),
-                "trinity_monitor": ("active" if self.trinity_monitor else "not_available"),
+                "constellation_monitor": ("active" if self.constellation_monitor else "not_available"),
             },
             "availability": {
                 "unified_dashboard": UNIFIED_DASHBOARD_AVAILABLE,
@@ -307,7 +307,7 @@ class ObservabilityManager:
                 "consciousness_monitoring": CONSCIOUSNESS_MONITORING_AVAILABLE,
                 "health_monitoring": HEALTH_MONITORING_AVAILABLE,
                 "alerting_system": ALERTING_SYSTEM_AVAILABLE,
-                "trinity_monitoring": TRINITY_MONITORING_AVAILABLE,
+                "constellation_monitoring": TRINITY_MONITORING_AVAILABLE,
             },
         }
 

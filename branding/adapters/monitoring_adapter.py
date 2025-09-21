@@ -299,7 +299,7 @@ class BrandMonitoringAdapter:
                 "target": config["guardian_mentions"]["min_percentage"],
                 "meets_target": True,
             },
-            "triad_symbols_usage": 0.78,  # 78% of content includes trinity symbols
+            "triad_symbols_usage": 0.78,  # 78% of content includes constellation symbols
             "framework_coherence": 0.85,
         }
 
@@ -318,12 +318,12 @@ class BrandMonitoringAdapter:
         triad_score = triad_presence["framework_coherence"]
 
         # Weighted average
-        weights = {"terminology": 0.4, "distribution": 0.3, "trinity": 0.3}
+        weights = {"terminology": 0.4, "distribution": 0.3, "constellation": 0.3}
 
         consistency_score = (
             terminology_score * weights["terminology"]
             + distribution_score * weights["distribution"]
-            + triad_score * weights["trinity"]
+            + triad_score * weights["constellation"]
         )
 
         return round(consistency_score, 3)

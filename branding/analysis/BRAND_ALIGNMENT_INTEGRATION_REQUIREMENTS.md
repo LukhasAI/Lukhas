@@ -55,7 +55,7 @@ Based on voice coherence analysis of 4 major content systems with 66 content pie
 
 #### Critical Brand Gaps
 - **Brand Terminology** (5% of target): Inconsistent LUKHAS AI usage
-- **Constellation Framework** (0% of target): Complete absence of Trinity concepts
+- **Constellation Framework** (0% of target): Complete absence of Constellation concepts
 - **Consciousness Tech** (10% of target): Basic AI language, no consciousness focus
 - **Tone Consistency** (5% of target): Technical-only tone, missing poetic/user layers
 - **Founder Authority** (0% of target): No thought leadership integration

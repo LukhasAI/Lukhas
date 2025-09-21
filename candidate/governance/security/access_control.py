@@ -194,7 +194,7 @@ class AccessSession:
     risk_score: float = 0.0
 
     # Constellation Framework context
-    trinity_context: dict[str, Any] = field(default_factory=dict)
+    constellation_context: dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass
@@ -228,7 +228,7 @@ class AccessAuditEntry:
     risk_factors: list[str] = field(default_factory=list)
 
     # Constellation Framework audit
-    trinity_validation: dict[str, Any] = field(default_factory=dict)
+    constellation_validation: dict[str, Any] = field(default_factory=dict)
 
     timestamp: datetime = field(default_factory=datetime.now)
 
@@ -532,7 +532,7 @@ class SessionManager:
         session.risk_score = await self._calculate_session_risk(user, source_ip, user_agent)
 
         # Add Constellation Framework context
-        session.trinity_context = {
+        session.constellation_context = {
             "identity_verified": user.identity_verified,
             "consciousness_level": user.consciousness_level,
             "guardian_cleared": user.guardian_cleared,
@@ -1087,31 +1087,31 @@ class AccessControlEngine:
     ) -> tuple[AccessDecision, str]:
         """Validate access against Constellation Framework"""
 
-        trinity_issues = []
+        constellation_issues = []
 
         # ⚛️ Identity validation
         if "identity" in resource and not user.identity_verified:
-            trinity_issues.append("Identity verification required")
+            constellation_issues.append("Identity verification required")
 
         # 🧠 Consciousness validation
         if "consciousness" in resource or "ai" in resource:
             required_level = context.get("consciousness_level", 1)
             if user.consciousness_level < required_level:
-                trinity_issues.append(f"Consciousness level {required_level} required")
+                constellation_issues.append(f"Consciousness level {required_level} required")
 
         # 🛡️ Guardian validation
         if not user.guardian_cleared:
-            trinity_issues.append("Guardian clearance required")
+            constellation_issues.append("Guardian clearance required")
 
         # Check drift score from context
         drift_score = context.get("drift_score", 0.0)
         if drift_score > 0.15:
-            trinity_issues.append(f"High drift score detected: {drift_score:.3f}")
+            constellation_issues.append(f"High drift score detected: {drift_score:.3f}")
 
-        if trinity_issues:
+        if constellation_issues:
             return (
                 AccessDecision.ESCALATE,
-                f"Trinity validation failed: {'; '.join(trinity_issues)}",
+                f"Constellation validation failed: {'; '.join(constellation_issues)}",
             )
 
         return current_decision, current_reason

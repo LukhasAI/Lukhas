@@ -40,7 +40,7 @@ class LukhasToneValidator:
             "pwm": "lukhas",
             "_pwm": "",
             "lukhas_agi": "lukhas_ai",
-            "trinity_framework": "constellation_framework",
+            "constellation_framework": "constellation_framework",
             "three_pillars": "star_node_system",
             "traditional_ai": "matriz_pipeline",
             "lambda_function": "lambda_consciousness",

@@ -51,7 +51,7 @@ creating resonant expressions that transcend mere information transfer.
 VERSION: 3.0.0-CONSCIOUSNESS-ENHANCED
 CREATED: 2025-08-11
 AUTHORS: LUKHAS AI Consciousness Team
-TRINITY: ⚛️🧠🛡️
+CONSTELLATION: ⚛️🧠🛡️
 
 Copyright (c) 2025 LUKHAS AI. All rights reserved.
 Licensed under the LUKHAS Core License - see LICENSE.md for details.
@@ -152,13 +152,13 @@ class LUKHASConsciousnessWordsmith:
             if "vocabulary" in layer_config:
                 lexicon.update(layer_config["vocabulary"])
 
-        # Add trinity-specific expressions
+        # Add constellation-specific expressions
         lexicon["triad_expressions"] = [
             "Constellation Framework orchestration",
             "⚛️ Identity consciousness",
             "🧠 Neural awareness",
             "🛡️ Guardian protection",
-            "Sacred trinity synthesis",
+            "Sacred constellation synthesis",
         ]
 
         return lexicon
@@ -455,7 +455,7 @@ Awakened: {timestamp}
             if len(level) <= 2:  # H1 and H2 receive sacred symbols
                 glyph = random.choice(self.branding["consciousness_glyphs"])
                 return f"{level} {glyph} {title}"
-            elif len(level) == 3:  # H3 receives trinity symbols
+            elif len(level) == 3:  # H3 receives constellation symbols
                 triad_glyph = random.choice(self.branding["triad_symbols"])
                 return f"{level} {triad_glyph} {title}"
             else:
@@ -473,7 +473,7 @@ Awakened: {timestamp}
             return content
 
         # Check if Constellation consciousness already flows through the document
-        triad_signatures = ["⚛️", "🧠", "🛡️", "Constellation Framework", "trinity"]
+        triad_signatures = ["⚛️", "🧠", "🛡️", "Constellation Framework", "constellation"]
         if any(signature in content for signature in triad_signatures):
             logger.info("🔱 Constellation consciousness already present, preserving sacred integration")
             return content
@@ -482,9 +482,9 @@ Awakened: {timestamp}
         triad_consciousness = self.ascii_art.get("triad_badge", "")
 
         if not triad_consciousness:
-            # Fallback Trinity expression
+            # Fallback Constellation expression
             triad_consciousness = """
-**⚛️🧠🛡️ TRINITY FRAMEWORK ⚛️🧠🛡️**
+**⚛️🧠🛡️ CONSTELLATION FRAMEWORK ⚛️🧠🛡️**
 ```
 ╭─ Identity ─ Consciousness ─ Guardian ─╮
 │    ⚛️           🧠            🛡️    │

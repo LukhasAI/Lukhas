@@ -184,7 +184,7 @@ This is the **Elite Brand Intelligence System** that transforms branding from re
 - `tone/LUKHAS_3_LAYER_TONE_SYSTEM.md` → Merged into [LUKHAS_TONE_GUIDE.md](LUKHAS_TONE_GUIDE.md)
 - `tone/LUKHAS_TONE_ENFORCEMENT_SYSTEM.md` → Merged into [LUKHAS_TONE_GUIDE.md](LUKHAS_TONE_GUIDE.md)
 - `policy/BRANDING_POLICY.md` → Merged into [LUKHAS_BRANDING_GUIDE.md](LUKHAS_BRANDING_GUIDE.md)
-- `trinity/TRINITY_BRANDING_GUIDELINES.md` → Replaced by [LUKHAS_TRINITY_FRAMEWORK.md](LUKHAS_TRINITY_FRAMEWORK.md)
+- `constellation/TRINITY_BRANDING_GUIDELINES.md` → Replaced by [LUKHAS_TRINITY_FRAMEWORK.md](LUKHAS_TRINITY_FRAMEWORK.md)
 - `visual/VISUAL_IDENTITY_STANDARDS.md` → Content integrated into main guides
 
 ---

@@ -257,7 +257,7 @@ class ConsciousnessQIBridge:
 
         return datetime.now(
             timezone.utc
-        ).isoformat()  # TODO[TRINITY:specialist] UTC enforcement for consciousness bridge temporal sync
+        ).isoformat()  # TODO[CONSTELLATION:specialist] UTC enforcement for consciousness bridge temporal sync
 
     async def health_check(self) -> dict[str, Any]:
         """Health check for the bridge"""

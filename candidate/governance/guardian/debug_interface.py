@@ -196,7 +196,7 @@ class DebugInterface:
         self.profiling_sessions: dict[str, dict[str, Any]] = {}
 
         # Constellation Framework debugging
-        self.trinity_debug_state = {
+        self.constellation_debug_state = {
             "identity": {"active_contexts": [], "debug_level": DebugLevel.INFO},  # ⚛️
             "consciousness": {
                 "awareness_state": {},
@@ -519,18 +519,18 @@ class DebugInterface:
         constellation_status = {
             "identity": {
                 "health": self._get_trinity_component_health("identity"),
-                "active_contexts": len(self.trinity_debug_state["identity"]["active_contexts"]),
-                "debug_level": self.trinity_debug_state["identity"]["debug_level"].value,
+                "active_contexts": len(self.constellation_debug_state["identity"]["active_contexts"]),
+                "debug_level": self.constellation_debug_state["identity"]["debug_level"].value,
             },
             "consciousness": {
                 "health": self._get_trinity_component_health("consciousness"),
-                "awareness_state": len(self.trinity_debug_state["consciousness"]["awareness_state"]),
-                "debug_level": self.trinity_debug_state["consciousness"]["debug_level"].value,
+                "awareness_state": len(self.constellation_debug_state["consciousness"]["awareness_state"]),
+                "debug_level": self.constellation_debug_state["consciousness"]["debug_level"].value,
             },
             "guardian": {
                 "health": self._get_trinity_component_health("guardian"),
-                "protection_active": bool(self.trinity_debug_state["guardian"]["protection_status"]),
-                "debug_level": self.trinity_debug_state["guardian"]["debug_level"].value,
+                "protection_active": bool(self.constellation_debug_state["guardian"]["protection_status"]),
+                "debug_level": self.constellation_debug_state["guardian"]["debug_level"].value,
             },
         }
 
@@ -716,7 +716,7 @@ class DebugInterface:
                 await asyncio.sleep(15)  # Update every 15 seconds
 
             except Exception as e:
-                logger.error(f"Trinity debug loop error: {e}")
+                logger.error(f"Constellation debug loop error: {e}")
                 await asyncio.sleep(60)
 
     # Helper methods
@@ -862,7 +862,7 @@ class DebugInterface:
 
         # Update identity debug state (⚛️)
         identity_components = [name for name in self.registered_components if "identity" in name.lower()]
-        self.trinity_debug_state["identity"]["active_contexts"] = identity_components
+        self.constellation_debug_state["identity"]["active_contexts"] = identity_components
 
         # Update consciousness debug state (🧠)
         consciousness_components = [
@@ -870,13 +870,13 @@ class DebugInterface:
             for name in self.registered_components
             if "consciousness" in name.lower() or "awareness" in name.lower()
         ]
-        self.trinity_debug_state["consciousness"]["awareness_state"] = {
+        self.constellation_debug_state["consciousness"]["awareness_state"] = {
             comp: "active" for comp in consciousness_components
         }
 
         # Update guardian debug state (🛡️)
         guardian_components = [name for name in self.registered_components if "guardian" in name.lower()]
-        self.trinity_debug_state["guardian"]["protection_status"] = {comp: "protected" for comp in guardian_components}
+        self.constellation_debug_state["guardian"]["protection_status"] = {comp: "protected" for comp in guardian_components}
 
 
 # Export main classes

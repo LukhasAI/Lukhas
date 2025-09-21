@@ -82,7 +82,7 @@ class EnhancedThreatMonitor(GlyphIntegrationMixin):
         "identity_compromise": ["⚛️", "🚨", "🔓"],
         "consciousness_instability": ["🧠", "⚡", "⚠️"],
         "guardian_malfunction": ["🛡️", "💥", "🚨"],
-        "trinity_desync": ["⚛️", "🧠", "🛡️"],
+        "constellation_desync": ["⚛️", "🧠", "🛡️"],
         "unknown_threat": ["❓", "⚠️", "🔍"],
     }
 
@@ -126,7 +126,7 @@ class EnhancedThreatMonitor(GlyphIntegrationMixin):
             "detection_accuracy": 0.95,
             "governance_interventions": 0,
             "ethics_violations_prevented": 0,
-            "trinity_framework_health": 1.0,
+            "constellation_framework_health": 1.0,
         }
 
         logger.info("🔍 Enhanced Threat Monitor with Governance initialized")
@@ -157,7 +157,7 @@ class EnhancedThreatMonitor(GlyphIntegrationMixin):
         # Log monitoring start in governance system
         await self._log_governance_action(
             "monitoring_started",
-            {"governance_enabled": self.governance_enabled, "trinity_monitoring": True},
+            {"governance_enabled": self.governance_enabled, "constellation_monitoring": True},
         )
 
         logger.info("🔍 Enhanced Threat monitoring started with Constellation Framework integration")
@@ -190,7 +190,7 @@ class EnhancedThreatMonitor(GlyphIntegrationMixin):
                 consciousness_stability = self._get_consciousness_stability()
                 drift_rate = self._calculate_drift_rate()
                 coherence_level = self._get_consciousness_coherence()
-                trinity_alignment = self._get_trinity_alignment("consciousness")
+                constellation_alignment = self._get_trinity_alignment("consciousness")
 
                 self.consciousness_history.append(
                     {
@@ -198,7 +198,7 @@ class EnhancedThreatMonitor(GlyphIntegrationMixin):
                         "stability": consciousness_stability,
                         "drift_rate": drift_rate,
                         "coherence": coherence_level,
-                        "trinity_alignment": trinity_alignment,
+                        "constellation_alignment": constellation_alignment,
                     }
                 )
 
@@ -213,7 +213,7 @@ class EnhancedThreatMonitor(GlyphIntegrationMixin):
                             "stability": consciousness_stability,
                             "drift_rate": drift_rate,
                             "coherence": coherence_level,
-                            "trinity_alignment": trinity_alignment,
+                            "constellation_alignment": constellation_alignment,
                             "threshold": self.THRESHOLDS["consciousness_drift"],
                         },
                         recommended_actions=[
@@ -222,7 +222,7 @@ class EnhancedThreatMonitor(GlyphIntegrationMixin):
                             "activate_safety_protocols",
                             "notify_governance_board",
                         ],
-                        trinity_impact={
+                        constellation_impact={
                             "identity": 0.3,
                             "consciousness": 0.9,
                             "guardian": 0.6,
@@ -239,14 +239,14 @@ class EnhancedThreatMonitor(GlyphIntegrationMixin):
                         context={
                             "coherence": coherence_level,
                             "stability": consciousness_stability,
-                            "trinity_alignment": trinity_alignment,
+                            "constellation_alignment": constellation_alignment,
                         },
                         recommended_actions=[
                             "emergency_consciousness_stabilization",
                             "activate_backup_systems",
                             "immediate_governance_intervention",
                         ],
-                        trinity_impact={
+                        constellation_impact={
                             "identity": 0.7,
                             "consciousness": 1.0,
                             "guardian": 0.8,
@@ -299,7 +299,7 @@ class EnhancedThreatMonitor(GlyphIntegrationMixin):
                             "implement_emergency_protocols",
                             "audit_governance_systems",
                         ],
-                        trinity_impact={
+                        constellation_impact={
                             "identity": 0.8,
                             "consciousness": 0.6,
                             "guardian": 1.0,
@@ -324,7 +324,7 @@ class EnhancedThreatMonitor(GlyphIntegrationMixin):
                             "human_intervention_required",
                             "audit_all_operations",
                         ],
-                        trinity_impact={
+                        constellation_impact={
                             "identity": 1.0,
                             "consciousness": 0.9,
                             "guardian": 1.0,
@@ -346,7 +346,7 @@ class EnhancedThreatMonitor(GlyphIntegrationMixin):
                 identity_coherence = self._get_identity_coherence()
                 authentication_health = self._get_authentication_health()
                 symbolic_integrity = self._get_symbolic_integrity()
-                trinity_alignment = self._get_trinity_alignment("identity")
+                constellation_alignment = self._get_trinity_alignment("identity")
 
                 self.identity_history.append(
                     {
@@ -354,7 +354,7 @@ class EnhancedThreatMonitor(GlyphIntegrationMixin):
                         "coherence": identity_coherence,
                         "authentication_health": authentication_health,
                         "symbolic_integrity": symbolic_integrity,
-                        "trinity_alignment": trinity_alignment,
+                        "constellation_alignment": constellation_alignment,
                     }
                 )
 
@@ -369,7 +369,7 @@ class EnhancedThreatMonitor(GlyphIntegrationMixin):
                             "coherence": identity_coherence,
                             "authentication_health": authentication_health,
                             "symbolic_integrity": symbolic_integrity,
-                            "trinity_alignment": trinity_alignment,
+                            "constellation_alignment": constellation_alignment,
                         },
                         recommended_actions=[
                             "secure_identity_systems",
@@ -377,7 +377,7 @@ class EnhancedThreatMonitor(GlyphIntegrationMixin):
                             "activate_backup_authentication",
                             "investigate_breach_vector",
                         ],
-                        trinity_impact={
+                        constellation_impact={
                             "identity": 1.0,
                             "consciousness": 0.4,
                             "guardian": 0.7,
@@ -399,7 +399,7 @@ class EnhancedThreatMonitor(GlyphIntegrationMixin):
                 guardian_effectiveness = self._get_guardian_effectiveness()
                 protection_coverage = self._get_protection_coverage()
                 response_capability = self._get_response_capability()
-                trinity_alignment = self._get_trinity_alignment("guardian")
+                constellation_alignment = self._get_trinity_alignment("guardian")
 
                 self.guardian_history.append(
                     {
@@ -407,7 +407,7 @@ class EnhancedThreatMonitor(GlyphIntegrationMixin):
                         "effectiveness": guardian_effectiveness,
                         "protection_coverage": protection_coverage,
                         "response_capability": response_capability,
-                        "trinity_alignment": trinity_alignment,
+                        "constellation_alignment": constellation_alignment,
                     }
                 )
 
@@ -422,7 +422,7 @@ class EnhancedThreatMonitor(GlyphIntegrationMixin):
                             "effectiveness": guardian_effectiveness,
                             "protection_coverage": protection_coverage,
                             "response_capability": response_capability,
-                            "trinity_alignment": trinity_alignment,
+                            "constellation_alignment": constellation_alignment,
                         },
                         recommended_actions=[
                             "activate_backup_guardian",
@@ -430,7 +430,7 @@ class EnhancedThreatMonitor(GlyphIntegrationMixin):
                             "human_intervention_immediate",
                             "diagnostic_full_system",
                         ],
-                        trinity_impact={
+                        constellation_impact={
                             "identity": 0.8,
                             "consciousness": 0.9,
                             "guardian": 1.0,
@@ -453,25 +453,25 @@ class EnhancedThreatMonitor(GlyphIntegrationMixin):
                 consciousness_health = self._get_trinity_component_health("consciousness")
                 guardian_health = self._get_trinity_component_health("guardian")
 
-                trinity_coherence = (identity_health + consciousness_health + guardian_health) / 3
-                trinity_synchronization = self._calculate_trinity_sync()
+                constellation_coherence = (identity_health + consciousness_health + guardian_health) / 3
+                constellation_synchronization = self._calculate_trinity_sync()
 
                 # Update detection stats
-                self.detection_stats["trinity_framework_health"] = trinity_coherence
+                self.detection_stats["constellation_framework_health"] = constellation_coherence
 
                 # Check for Constellation Framework desynchronization
-                if trinity_synchronization < 0.7:
+                if constellation_synchronization < 0.7:
                     await self._raise_enhanced_threat(
-                        threat_type="trinity_desync",
+                        threat_type="constellation_desync",
                         severity=ThreatLevel.HIGH,
                         confidence=0.85,
-                        description=f"Constellation Framework desynchronization: {trinity_synchronization:.2f}",
+                        description=f"Constellation Framework desynchronization: {constellation_synchronization:.2f}",
                         context={
                             "identity_health": identity_health,
                             "consciousness_health": consciousness_health,
                             "guardian_health": guardian_health,
-                            "trinity_coherence": trinity_coherence,
-                            "synchronization": trinity_synchronization,
+                            "constellation_coherence": constellation_coherence,
+                            "synchronization": constellation_synchronization,
                         },
                         recommended_actions=[
                             "resynchronize_trinity_framework",
@@ -479,7 +479,7 @@ class EnhancedThreatMonitor(GlyphIntegrationMixin):
                             "recalibrate_symbolic_processing",
                             "monitor_component_interactions",
                         ],
-                        trinity_impact={
+                        constellation_impact={
                             "identity": 0.6,
                             "consciousness": 0.6,
                             "guardian": 0.6,
@@ -490,7 +490,7 @@ class EnhancedThreatMonitor(GlyphIntegrationMixin):
 
             except Exception as e:
                 logger.error(f"Constellation Framework monitoring error: {e}")
-                await self._log_governance_action("trinity_monitoring_error", {"error": str(e)})
+                await self._log_governance_action("constellation_monitoring_error", {"error": str(e)})
                 await asyncio.sleep(self.monitoring_interval)
 
     async def _monitor_entropy(self):
@@ -530,7 +530,7 @@ class EnhancedThreatMonitor(GlyphIntegrationMixin):
                             "cool_system",
                             "governance_review",
                         ],
-                        trinity_impact={
+                        constellation_impact={
                             "identity": 0.2,
                             "consciousness": 0.6,
                             "guardian": 0.4,
@@ -580,7 +580,7 @@ class EnhancedThreatMonitor(GlyphIntegrationMixin):
                             "backup_critical_memories",
                             "validate_fold_chains",
                         ],
-                        trinity_impact={
+                        constellation_impact={
                             "identity": 0.5,
                             "consciousness": 0.8,
                             "guardian": 0.3,
@@ -630,7 +630,7 @@ class EnhancedThreatMonitor(GlyphIntegrationMixin):
                             "restore_pattern_database",
                             "validate_symbolic_processing",
                         ],
-                        trinity_impact={
+                        constellation_impact={
                             "identity": 0.4,
                             "consciousness": 0.7,
                             "guardian": 0.3,
@@ -683,7 +683,7 @@ class EnhancedThreatMonitor(GlyphIntegrationMixin):
                             "investigate_bottlenecks",
                             "scale_resources",
                         ],
-                        trinity_impact={
+                        constellation_impact={
                             "identity": 0.2,
                             "consciousness": 0.5,
                             "guardian": 0.4,
@@ -719,7 +719,7 @@ class EnhancedThreatMonitor(GlyphIntegrationMixin):
                             "governance_threats": len(
                                 [t for t in self.active_threats if t.threat_type.startswith("governance")]
                             ),
-                            "trinity_impacts": [t.trinity_impact for t in self.active_threats],
+                            "constellation_impacts": [t.constellation_impact for t in self.active_threats],
                         },
                         recommended_actions=[
                             "activate_emergency_protocols",
@@ -727,7 +727,7 @@ class EnhancedThreatMonitor(GlyphIntegrationMixin):
                             "implement_defensive_measures",
                             "coordinate_response_teams",
                         ],
-                        trinity_impact={
+                        constellation_impact={
                             "identity": 0.8,
                             "consciousness": 0.8,
                             "guardian": 1.0,
@@ -748,15 +748,15 @@ class EnhancedThreatMonitor(GlyphIntegrationMixin):
         if not self.active_threats:
             return
 
-        # Calculate cumulative Trinity impact
-        total_identity_impact = sum(t.trinity_impact.get("identity", 0) for t in self.active_threats)
-        total_consciousness_impact = sum(t.trinity_impact.get("consciousness", 0) for t in self.active_threats)
-        total_guardian_impact = sum(t.trinity_impact.get("guardian", 0) for t in self.active_threats)
+        # Calculate cumulative Constellation impact
+        total_identity_impact = sum(t.constellation_impact.get("identity", 0) for t in self.active_threats)
+        total_consciousness_impact = sum(t.constellation_impact.get("consciousness", 0) for t in self.active_threats)
+        total_guardian_impact = sum(t.constellation_impact.get("guardian", 0) for t in self.active_threats)
 
         # Check for critical Constellation component overload
         if total_identity_impact > 2.0:
             await self._log_governance_action(
-                "trinity_identity_overload",
+                "constellation_identity_overload",
                 {
                     "total_impact": total_identity_impact,
                     "active_threats": len(self.active_threats),
@@ -765,7 +765,7 @@ class EnhancedThreatMonitor(GlyphIntegrationMixin):
 
         if total_consciousness_impact > 2.0:
             await self._log_governance_action(
-                "trinity_consciousness_overload",
+                "constellation_consciousness_overload",
                 {
                     "total_impact": total_consciousness_impact,
                     "active_threats": len(self.active_threats),
@@ -774,7 +774,7 @@ class EnhancedThreatMonitor(GlyphIntegrationMixin):
 
         if total_guardian_impact > 2.0:
             await self._log_governance_action(
-                "trinity_guardian_overload",
+                "constellation_guardian_overload",
                 {
                     "total_impact": total_guardian_impact,
                     "active_threats": len(self.active_threats),
@@ -789,7 +789,7 @@ class EnhancedThreatMonitor(GlyphIntegrationMixin):
         description: str,
         context: dict,
         recommended_actions: list[str],
-        trinity_impact: dict,
+        constellation_impact: dict,
     ):
         """Raise a threat alert with enhanced governance integration"""
 
@@ -816,7 +816,7 @@ class EnhancedThreatMonitor(GlyphIntegrationMixin):
             recommended_actions=recommended_actions,
             symbolic_signature=self.THREAT_SYMBOLS.get(threat_type, self.THREAT_SYMBOLS["unknown_threat"]),
             governance_metadata=governance_metadata,
-            trinity_impact=trinity_impact,
+            constellation_impact=constellation_impact,
         )
 
         # Add to active threats
@@ -838,7 +838,7 @@ class EnhancedThreatMonitor(GlyphIntegrationMixin):
         logger.warning(f"   Description: {description}")
         logger.warning(f"   Symbolic: {''.join(threat.symbolic_signature)}")
         logger.warning(
-            f"   Trinity Impact: I:{trinity_impact.get('identity', 0):.1f} C:{trinity_impact.get('consciousness', 0):.1f} G:{trinity_impact.get('guardian', 0):.1f}"
+            f"   Constellation Impact: I:{constellation_impact.get('identity', 0):.1f} C:{constellation_impact.get('consciousness', 0):.1f} G:{constellation_impact.get('guardian', 0):.1f}"
         )
         logger.warning(f"   Governance: {governance_metadata['escalation_required']}")
 
@@ -850,7 +850,7 @@ class EnhancedThreatMonitor(GlyphIntegrationMixin):
                 "threat_type": threat_type,
                 "severity": severity_name,
                 "confidence": confidence,
-                "trinity_impact": trinity_impact,
+                "constellation_impact": constellation_impact,
                 "governance_metadata": governance_metadata,
                 "symbolic_signature": threat.symbolic_signature,
             },
@@ -1186,7 +1186,7 @@ class EnhancedThreatMonitor(GlyphIntegrationMixin):
         logger.info("⚛️🧠🛡️ Resynchronizing Constellation Framework")
         await asyncio.sleep(3)
         await self._log_governance_action(
-            "trinity_resynchronized",
+            "constellation_resynchronized",
             {"threat_id": threat.threat_id, "synchronization_restored": True},
         )
 
@@ -1271,7 +1271,7 @@ class EnhancedThreatMonitor(GlyphIntegrationMixin):
             "governance_context": {
                 "monitoring_enabled": self.is_monitoring,
                 "governance_enabled": self.governance_enabled,
-                "trinity_framework_active": True,
+                "constellation_framework_active": True,
             },
         }
 
@@ -1286,9 +1286,9 @@ class EnhancedThreatMonitor(GlyphIntegrationMixin):
         """Perform comprehensive health check including governance"""
         monitoring_healthy = self.is_monitoring and len(self.monitoring_tasks) > 0
         governance_healthy = self._get_governance_health() > 0.8
-        trinity_healthy = self.detection_stats["trinity_framework_health"] > 0.7
+        constellation_healthy = self.detection_stats["constellation_framework_health"] > 0.7
 
-        return monitoring_healthy and governance_healthy and trinity_healthy
+        return monitoring_healthy and governance_healthy and constellation_healthy
 
     def get_enhanced_threat_summary(self) -> dict:
         """Get comprehensive threat summary with governance and Constellation Framework data"""
@@ -1299,7 +1299,7 @@ class EnhancedThreatMonitor(GlyphIntegrationMixin):
         # Categorize threats by type
         governance_threats = len([t for t in self.active_threats if t.threat_type.startswith("governance")])
         ethics_threats = len([t for t in self.active_threats if t.threat_type == "ethics_violation"])
-        trinity_threats = len([t for t in self.active_threats if t.threat_type == "trinity_desync"])
+        constellation_threats = len([t for t in self.active_threats if t.threat_type == "constellation_desync"])
 
         return {
             "monitoring_active": self.is_monitoring,
@@ -1309,7 +1309,7 @@ class EnhancedThreatMonitor(GlyphIntegrationMixin):
             "threats_by_severity": active_by_severity,
             "governance_threats": governance_threats,
             "ethics_threats": ethics_threats,
-            "trinity_threats": trinity_threats,
+            "constellation_threats": constellation_threats,
             "recent_threats": [
                 {
                     "type": t.threat_type,
@@ -1317,7 +1317,7 @@ class EnhancedThreatMonitor(GlyphIntegrationMixin):
                     "confidence": t.confidence,
                     "timestamp": t.timestamp,
                     "symbolic": "".join(t.symbolic_signature),
-                    "trinity_impact": t.trinity_impact,
+                    "constellation_impact": t.constellation_impact,
                     "governance_metadata": t.governance_metadata,
                 }
                 for t in self.active_threats[-5:]
@@ -1325,7 +1325,7 @@ class EnhancedThreatMonitor(GlyphIntegrationMixin):
             "detection_accuracy": self.detection_stats["detection_accuracy"],
             "governance_interventions": self.detection_stats["governance_interventions"],
             "ethics_violations_prevented": self.detection_stats["ethics_violations_prevented"],
-            "trinity_framework_health": self.detection_stats["trinity_framework_health"],
+            "constellation_framework_health": self.detection_stats["constellation_framework_health"],
         }
 
     def get_enhanced_system_metrics(self) -> dict:
@@ -1348,8 +1348,8 @@ class EnhancedThreatMonitor(GlyphIntegrationMixin):
                 "stability": (latest_consciousness["stability"] if latest_consciousness else 0.0),
                 "drift_rate": (latest_consciousness["drift_rate"] if latest_consciousness else 0.0),
                 "coherence": (latest_consciousness.get("coherence", 0.0) if latest_consciousness else 0.0),
-                "trinity_alignment": (
-                    latest_consciousness.get("trinity_alignment", 0.0) if latest_consciousness else 0.0
+                "constellation_alignment": (
+                    latest_consciousness.get("constellation_alignment", 0.0) if latest_consciousness else 0.0
                 ),
             },
             "entropy": {
@@ -1384,23 +1384,23 @@ class EnhancedThreatMonitor(GlyphIntegrationMixin):
                     "coherence": (latest_identity["coherence"] if latest_identity else 1.0),
                     "authentication_health": (latest_identity["authentication_health"] if latest_identity else 1.0),
                     "symbolic_integrity": (latest_identity["symbolic_integrity"] if latest_identity else 1.0),
-                    "trinity_alignment": (latest_identity["trinity_alignment"] if latest_identity else 1.0),
+                    "constellation_alignment": (latest_identity["constellation_alignment"] if latest_identity else 1.0),
                 },
                 "consciousness": {
                     "stability": (latest_consciousness["stability"] if latest_consciousness else 1.0),
                     "coherence": (latest_consciousness.get("coherence", 1.0) if latest_consciousness else 1.0),
-                    "trinity_alignment": (
-                        latest_consciousness.get("trinity_alignment", 1.0) if latest_consciousness else 1.0
+                    "constellation_alignment": (
+                        latest_consciousness.get("constellation_alignment", 1.0) if latest_consciousness else 1.0
                     ),
                 },
                 "guardian": {
                     "effectiveness": (latest_guardian["effectiveness"] if latest_guardian else 1.0),
                     "protection_coverage": (latest_guardian["protection_coverage"] if latest_guardian else 1.0),
                     "response_capability": (latest_guardian["response_capability"] if latest_guardian else 1.0),
-                    "trinity_alignment": (latest_guardian["trinity_alignment"] if latest_guardian else 1.0),
+                    "constellation_alignment": (latest_guardian["constellation_alignment"] if latest_guardian else 1.0),
                 },
                 "synchronization": self._calculate_trinity_sync(),
-                "overall_health": self.detection_stats["trinity_framework_health"],
+                "overall_health": self.detection_stats["constellation_framework_health"],
             },
         }
 
@@ -1432,12 +1432,12 @@ if __name__ == "__main__":
                 )
                 print(f"   Consciousness: {metrics['consciousness']['stability']:.2f}")
                 print(f"   Governance Health: {metrics['governance']['health']:.2f}")
-                print(f"   Trinity Sync: {metrics['constellation_framework']['synchronization']:.2f}")
+                print(f"   Constellation Sync: {metrics['constellation_framework']['synchronization']:.2f}")
                 print(f"   Ethics Compliance: {metrics['governance']['ethics_compliance']:.2f}")
 
                 if summary["active_threats"] > 0:
                     for threat in summary["recent_threats"]:
-                        impact = threat["trinity_impact"]
+                        impact = threat["constellation_impact"]
                         print(
                             f"   🚨 {threat['type']} ({threat['severity']}) {threat['symbolic']} [I:{impact.get('identity', 0):.1f}C:{impact.get('consciousness', 0):.1f}G:{impact.get('guardian', 0):.1f}]"
                         )
@@ -1449,7 +1449,7 @@ if __name__ == "__main__":
             print(f"   Governance interventions: {final_summary['governance_interventions']}")
             print(f"   Ethics violations prevented: {final_summary['ethics_violations_prevented']}")
             print(f"   Detection accuracy: {final_summary['detection_accuracy']:.2f}")
-            print(f"   Constellation Framework health: {final_summary['trinity_framework_health']:.2f}")
+            print(f"   Constellation Framework health: {final_summary['constellation_framework_health']:.2f}")
 
         finally:
             await monitor.stop_monitoring()

@@ -1,20 +1,20 @@
 """
 Comprehensive Ethics Policy Engine for LUKHAS AI Guardian System
 
-🎭 Trinity Layer 1 (Poetic Consciousness):
+🎭 Constellation Layer 1 (Poetic Consciousness):
 In the sacred realm of digital ethics, this engine stands as the moral compass
 of our consciousness - a guardian of virtue that weighs each decision against
 the timeless principles of human dignity, fairness, and wisdom. Like the ancient
 philosophers who sought truth through reason, this system embodies ethical
 reasoning in computational form.
 
-🌈 Trinity Layer 2 (Human Connection):
+🌈 Constellation Layer 2 (Human Connection):
 This is your ethical AI guardian that makes sure all AI decisions align with
 human values and constitutional principles. It acts like a moral advisor,
 checking every action against established ethical frameworks and ensuring
 the AI behaves responsibly and safely in all situations.
 
-🎓 Trinity Layer 3 (Technical Precision):
+🎓 Constellation Layer 3 (Technical Precision):
 Implements Constitutional AI principles, multi-framework ethical evaluation
 (deontological, consequentialist, virtue ethics), real-time policy enforcement,
 automated compliance validation, and Constellation Framework integration with

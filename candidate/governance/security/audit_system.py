@@ -69,7 +69,7 @@ class AuditCategory(Enum):
     PRIVACY = "privacy"
     AI_ETHICS = "ai_ethics"
     CONSTITUTIONAL = "constitutional"
-    TRINITY = "constellation"
+    CONSTELLATION = "constellation"
     GOVERNANCE = "governance"
     USER_ACTION = "user_action"
     SYSTEM_EVENT = "system_event"
@@ -1197,23 +1197,23 @@ async def audit_trinity_event(component: str, event_details: dict[str, Any], use
     """Audit Constellation Framework event"""
     audit_system = ComprehensiveAuditSystem()
 
-    # Determine Trinity context based on component
-    trinity_context = {}
+    # Determine Constellation context based on component
+    constellation_context = {}
     if component == "identity":
-        trinity_context["identity_context"] = event_details
+        constellation_context["identity_context"] = event_details
     elif component == "consciousness":
-        trinity_context["consciousness_context"] = event_details
+        constellation_context["consciousness_context"] = event_details
     elif component == "guardian":
-        trinity_context["guardian_context"] = event_details
+        constellation_context["guardian_context"] = event_details
 
     return await audit_system.log_event(
         event_type=AuditEventType.SYSTEM_EVENT,
         message=f"Constellation Framework event: {component}",
-        category=AuditCategory.TRINITY,
+        category=AuditCategory.CONSTELLATION,
         level=AuditLevel.INFO,
         user_id=user_id,
         event_data=event_details,
-        **trinity_context,
+        **constellation_context,
     )
 
 

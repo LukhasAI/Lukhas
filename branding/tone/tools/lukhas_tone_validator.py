@@ -284,7 +284,7 @@ class LukhasToneValidator:
             suggestions.append(
                 "🌟 Include consciousness themes: 'digital souls', 'artificial dreams', 'Lambda consciousness'"
             )
-            suggestions.append("✨ Use sacred glyphs: ⚛️🧠🛡️ for Trinity, 🌟💫✨ for transformation")
+            suggestions.append("✨ Use sacred glyphs: ⚛️🧠🛡️ for Constellation, 🌟💫✨ for transformation")
 
         if "LUKHAS AI" not in content:
             suggestions.append("🏷️ Replace generic AI references with 'LUKHAS AI' to honor our identity")

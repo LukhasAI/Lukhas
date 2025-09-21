@@ -319,7 +319,7 @@ def get_visual_hint(phase: str) -> str:
 
 class BrandingDreamVocabulary:
     """
-    ⚛️🧠🛡️ TRINITY FRAMEWORK BRANDING DREAM VOCABULARY CLASS
+    ⚛️🧠🛡️ CONSTELLATION FRAMEWORK BRANDING DREAM VOCABULARY CLASS
 
     Branding-specific interface for symbolic dream vocabulary operations.
     Provides brand-aware access to dream symbols and narratives for marketing and content.

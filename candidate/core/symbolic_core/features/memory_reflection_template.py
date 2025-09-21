@@ -10,7 +10,7 @@
 ║ Version: 2.0.0 | Created: 2025-08-26
 ║ Authors: LUKHAS AI Consciousness Architecture Team
 ╠══════════════════════════════════════════════════════════════════════════════════
-║                             ◊ TRINITY FRAMEWORK ◊
+║                             ◊ CONSTELLATION FRAMEWORK ◊
 ║
 ║ ⚛️ IDENTITY: Maintains consciousness coherence across reflection cycles
 ║ 🧠 CONSCIOUSNESS: Memory reflection as core awareness mechanism

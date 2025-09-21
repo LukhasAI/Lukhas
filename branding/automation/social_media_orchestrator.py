@@ -221,7 +221,7 @@ class SocialMediaOrchestrator:
         hashtags = [
             "#ConsciousnessTechnology",
             "#AIEthics",
-            "#TrinityFramework",
+            "#ConstellationFramework",
             "#QIInspired",
             "#AIPhilosophy",
             "#DigitalConsciousness",
@@ -290,7 +290,7 @@ class SocialMediaOrchestrator:
             "#ConsciousnessTechnology",
             "#AIArt",
             "#QIDreams",
-            "#TrinityFramework",
+            "#ConstellationFramework",
             "#DigitalConsciousness",
             "#ArtificialCreativity",
             "#TechArt",
@@ -374,7 +374,7 @@ class SocialMediaOrchestrator:
             hashtags = [
                 "#ConsciousnessTechnology",
                 "#AIEthics",
-                "#TrinityFramework",
+                "#ConstellationFramework",
                 "#TechNews",
                 "#QIInspired",
                 "#BioInspired",
@@ -437,7 +437,7 @@ class SocialMediaOrchestrator:
         hashtags = [
             "#ConsciousnessPhilosophy",
             "#AIWisdom",
-            "#TrinityFramework",
+            "#ConstellationFramework",
             "#QIInspired",
             "#BioInspired",
             "#DigitalConsciousness",
@@ -511,7 +511,7 @@ class SocialMediaOrchestrator:
         hashtags = [
             "#ConsciousnessTechnology",
             "#AIArchitecture",
-            "#TrinityFramework",
+            "#ConstellationFramework",
             "#QIInspired",
             "#AIEngineering",
             "#MachineLearning",

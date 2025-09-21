@@ -187,7 +187,7 @@ class CodeIndexer:
             has_docstrings = '"""' in content or "'''" in content
             has_types = ": " in content and "->" in content  # Basic type hint check
             has_tests = "test_" in str(path) or "import pytest" in content
-            has_trinity = any(marker in content for marker in ["⚛️", "🧠", "🛡️", "Trinity"])
+            has_trinity = any(marker in content for marker in ["⚛️", "🧠", "🛡️", "Constellation"])
 
             # Score the module
             score = sum([has_docstrings, has_types, has_tests, has_trinity])
@@ -256,7 +256,7 @@ class CodeIndexer:
             # Extract metadata
             has_tests = "test_" in str(path) or "import pytest" in content
             has_types = bool(re.search(r":\s*\w+\s*[=,)]|->\s*\w+", content))
-            has_trinity = any(marker in content for marker in ["⚛️", "🧠", "🛡️", "Trinity"])
+            has_trinity = any(marker in content for marker in ["⚛️", "🧠", "🛡️", "Constellation"])
 
             # Classify module
             lane = self.classify_module(path)
@@ -456,7 +456,7 @@ Generated: {}
 - Total Lines: {}
 - Files with Tests: {}
 - Files with Types: {}
-- Trinity Framework Modules: {}
+- Constellation Framework Modules: {}
 
 ## Lane Distribution
 """.format(
@@ -629,7 +629,7 @@ def main():
         print(f"   - Lines: {stats['total_lines']:,}")
         print(f"   - With Tests: {stats['has_tests']}")
         print(f"   - With Types: {stats['has_types']}")
-        print(f"   - Trinity Modules: {stats['triad_modules']}")
+        print(f"   - Constellation Modules: {stats['triad_modules']}")
 
         if stats["import_errors"]:
             print(f"\n⚠️  Found {len(stats['import_errors']} files with syntax errors")

@@ -175,7 +175,7 @@ class LUKHASVoiceCoherenceEngine:
                     r"\b(understanding|comprehension|insight|perceive)\b",
                     r"\b(thoughtful|considerate|empathetic|compassionate)\b",
                     r"\b(sophisticated|intelligent|advanced|evolved)\b",
-                    r"\b(lukhas|trinity|framework)\b",  # Brand-specific
+                    r"\b(lukhas|constellation|framework)\b",  # Brand-specific
                     r"\b(ai|technology|digital|quantum)\b",  # Tech context
                 ],
                 "negative_patterns": [
@@ -191,21 +191,21 @@ class LUKHASVoiceCoherenceEngine:
                     r"\b(authentic|genuine|true|real)\b",
                     r"\b(identity|self|being|essence)\b",
                     r"\b(unique|individual|personal)\b",
-                    r"⚛️",  # Direct Trinity symbol
+                    r"⚛️",  # Direct Constellation symbol
                     r"\b(lukhas ai|our|we)\b",  # Brand identity
                 ],
                 "consciousness_patterns": [
                     r"\b(conscious|aware|mindful|perceptive)\b",
                     r"\b(thinking|reasoning|understanding)\b",
                     r"\b(learning|evolving|growing)\b",
-                    r"🧠",  # Direct Trinity symbol
+                    r"🧠",  # Direct Constellation symbol
                     r"\b(intelligence|wisdom|insight)\b",  # Consciousness expressions
                 ],
                 "guardian_patterns": [
                     r"\b(safe|secure|protected|ethical)\b",
                     r"\b(responsible|trustworthy|reliable)\b",
                     r"\b(careful|thoughtful|considerate)\b",
-                    r"🛡️",  # Direct Trinity symbol
+                    r"🛡️",  # Direct Constellation symbol
                     r"\b(guardian|ethics|principles)\b",  # Guardian expressions
                 ],
                 "weight": 0.30,
@@ -408,7 +408,7 @@ class LUKHASVoiceCoherenceEngine:
         if word_count == 0:
             return 0.0
 
-        # Analyze each Trinity component
+        # Analyze each Constellation component
         triad_scores = {}
 
         for component in ["identity", "consciousness", "guardian"]:
@@ -595,7 +595,7 @@ class LUKHASVoiceCoherenceEngine:
             suggestions.append("Add more consciousness-focused language (aware, mindful, understanding)")
             suggestions.append("Remove robotic or mechanical terminology")
 
-        # Trinity alignment suggestions
+        # Constellation alignment suggestions
         if coherence_metrics.get(CoherenceMetric.TRINITY_ALIGNMENT, 0) < 0.7:
             # Check which component is lacking
             min_component = min(triad_balance.items(), key=lambda x: x[1])

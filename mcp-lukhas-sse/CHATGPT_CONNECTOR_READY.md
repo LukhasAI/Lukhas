@@ -32,7 +32,7 @@ Your **pure MCP server** is deployed and operational at:
 ### **Step 3: Available Tools**
 Once connected, you'll have access to these 5 specialized tools:
 
-#### **🏥 `trinity_health_check`**
+#### **🏥 `constellation_health_check`**
 - Complete Constellation Framework status
 - All system health metrics
 - Performance indicators for Identity/Consciousness/Guardian
@@ -49,7 +49,7 @@ Once connected, you'll have access to these 5 specialized tools:
 
 #### **📄 `read_lukhas_file`**
 - Safe file reading with consciousness-aware analysis
-- Content scanning for Trinity patterns
+- Content scanning for Constellation patterns
 - Security validation and encoding detection
 
 #### **⚙️ `get_trinity_capabilities`**

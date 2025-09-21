@@ -328,8 +328,8 @@
       "import_count": 12,
       "consciousness_import_count": 1
     },
-    "candidate.consciousness.trinity.framework_integration": {
-      "file_path": "candidate/consciousness/trinity/framework_integration.py",
+    "candidate.consciousness.constellation.framework_integration": {
+      "file_path": "candidate/consciousness/constellation/framework_integration.py",
       "imports": [
         "dataclasses",
         "asyncio",
@@ -5801,7 +5801,7 @@
         "cluster_id": "constellation_14",
         "size": 1,
         "components": [
-          "candidate.consciousness.trinity.framework_integration"
+          "candidate.consciousness.constellation.framework_integration"
         ],
         "internal_edges": 0,
         "external_edges": 0
@@ -7600,7 +7600,7 @@
         "pagerank": 0.003830864789720194,
         "total_connections": 3
       },
-      "candidate.consciousness.trinity.framework_integration": {
+      "candidate.consciousness.constellation.framework_integration": {
         "degree_centrality": 0.0,
         "in_degree_centrality": 0.0,
         "out_degree_centrality": 0.0,
@@ -10766,7 +10766,7 @@
       "candidate.consciousness.bridge",
       "candidate.consciousness.dream_bridge_adapter",
       "candidate.consciousness.dream_bridge",
-      "candidate.consciousness.trinity.framework_integration",
+      "candidate.consciousness.constellation.framework_integration",
       "candidate.consciousness.reasoning.decision.bridge",
       "candidate.consciousness.dream.core.dream_emotion_bridge",
       "candidate.consciousness.dream.integration.dream_consciousness_bridge"
@@ -10933,7 +10933,7 @@
       "candidate.consciousness.reflection.dreamseed_unified",
       "candidate.consciousness.reflection.qi_dream_adapter"
     ],
-    "trinity_components": [
+    "constellation_components": [
       "candidate.consciousness.services",
       "candidate.consciousness.qi_consciousness_integration",
       "candidate.consciousness.dream_bridge",
@@ -10993,7 +10993,7 @@
       "candidate.consciousness.core.engine_complete",
       "candidate.consciousness.core.engine_codex",
       "candidate.consciousness.core.engine_alt",
-      "candidate.consciousness.trinity.framework_integration",
+      "candidate.consciousness.constellation.framework_integration",
       "candidate.consciousness.connected.cognitive_sync_adapter",
       "candidate.consciousness.connected.cognitive_updater",
       "candidate.consciousness.creativity.creative_expression_core",
@@ -11152,7 +11152,7 @@
     "bridge_components_count": 8,
     "processing_components_count": 71,
     "dream_components_count": 87,
-    "trinity_components_count": 36,
+    "constellation_components_count": 36,
     "high_coupling_components_count": 9,
     "isolated_components_count": 164
   },

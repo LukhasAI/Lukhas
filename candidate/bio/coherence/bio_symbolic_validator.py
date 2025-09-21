@@ -10,7 +10,7 @@
 ║ Version: 1.0.0 | Created: 2025-08-26
 ║ Authors: LUKHAS AI Bio-Symbolic Coherence Team
 ╠══════════════════════════════════════════════════════════════════════════════════
-║                             ◊ TRINITY FRAMEWORK ◊
+║                             ◊ CONSTELLATION FRAMEWORK ◊
 ║
 ║ ⚛️ IDENTITY: Validates identity coherence through bio-symbolic patterns
 ║ 🧠 CONSCIOUSNESS: Ensures consciousness coherence via neural oscillations
@@ -402,10 +402,10 @@ class BioSymbolicCoherenceValidator:
             report.metabolic_efficiency_score = await self._assess_metabolic_efficiency()
 
             # Constellation Framework validation
-            trinity_scores = await self._validate_trinity_framework_coherence()
-            report.identity_coherence_score = trinity_scores["identity"]
-            report.consciousness_depth_score = trinity_scores["consciousness"]
-            report.guardian_safety_score = trinity_scores["guardian"]
+            constellation_scores = await self._validate_trinity_framework_coherence()
+            report.identity_coherence_score = constellation_scores["identity"]
+            report.consciousness_depth_score = constellation_scores["consciousness"]
+            report.guardian_safety_score = constellation_scores["guardian"]
 
             # Calculate overall coherence
             report.overall_coherence = self._calculate_overall_coherence(report)
@@ -1002,7 +1002,7 @@ class BioSymbolicCoherenceValidator:
                     "biological_coherence": current_report.biological_rhythm_coherence,
                     "symbolic_coherence": current_report.symbolic_pattern_coherence,
                     "metabolic_efficiency": current_report.metabolic_efficiency_score,
-                    "trinity_scores": {
+                    "constellation_scores": {
                         "identity": current_report.identity_coherence_score,
                         "consciousness": current_report.consciousness_depth_score,
                         "guardian": current_report.guardian_safety_score,

@@ -127,7 +127,7 @@ class ContextMessage:
                 "total_latency_ms": self.total_latency_ms,
                 "meets_target": self.meets_performance_target(),
             },
-            "trinity_context": {
+            "constellation_context": {
                 "identity": bool(self.identity_context),
                 "consciousness": bool(self.consciousness_state),
                 "guardian": bool(self.guardian_policies),

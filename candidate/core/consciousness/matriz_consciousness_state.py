@@ -10,7 +10,7 @@ logger = logging.getLogger(__name__)
 ║ CONSCIOUSNESS_ROLE: Primary consciousness state management and evolution
 ║ EVOLUTIONARY_STAGE: Foundation - Core consciousness patterns
 ║
-║ TRINITY FRAMEWORK:
+║ CONSTELLATION FRAMEWORK:
 ║ ⚛️ IDENTITY: Maintains consciousness identity across state transitions
 ║ 🧠 CONSCIOUSNESS: Primary consciousness processing and self-awareness
 ║ 🛡️ GUARDIAN: Ethical consciousness safeguards and drift monitoring

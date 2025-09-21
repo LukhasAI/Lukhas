@@ -53,7 +53,7 @@ Fixed illegal imports in 3 critical files:
 Created `tests/test_e2e_dryrun.py` with 4 tests:
 - ✅ test_e2e_dryrun - Basic integration flow
 - ✅ test_e2e_safety_defaults - Verify safety config
-- ✅ test_constellation_framework_integration - Trinity Framework
+- ✅ test_constellation_framework_integration - Constellation Framework
 - ✅ test_no_side_effects_in_dryrun - No side effects
 
 ### 6. CI/CD Integration

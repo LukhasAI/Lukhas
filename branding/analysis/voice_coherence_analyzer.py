@@ -233,7 +233,7 @@ class VoiceCoherenceAnalyzer:
                 triad_mentions += 1
 
         # Perfect score if mentions Constellation Framework concept
-        if "trinity framework" in content.lower():
+        if "constellation framework" in content.lower():
             triad_mentions += 2
 
         return min(triad_mentions / 5.0, 1.0)  # Max 5 possible mentions

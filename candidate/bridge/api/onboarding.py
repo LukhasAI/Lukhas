@@ -888,7 +888,7 @@ __all__ = [
 # FILENAME: onboarding.py
 # VERSION: 2.0.0
 # TIER SYSTEM: LAMBDA_TIER_4 (Enterprise-grade onboarding with intelligent tier assignment)
-# TRINITY FRAMEWORK: ⚛️ (Identity verification), 🧠 (Intelligence-driven recommendations), 🛡️ (Guardian protection)
+# CONSTELLATION FRAMEWORK: ⚛️ (Identity verification), 🧠 (Intelligence-driven recommendations), 🛡️ (Guardian protection)
 # CAPABILITIES: Comprehensive user onboarding system with intelligent tier assignment,
 #               HIPAA-compliant consent management, validation integration,
 #               API key generation, and personalized recommendations.

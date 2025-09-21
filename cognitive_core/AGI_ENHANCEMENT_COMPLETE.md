@@ -64,7 +64,7 @@ cognitive_core/
 - **Consciousness States**: 6 distinct awareness levels
 - **Dream Integration**: Seamless dream-reality bridge
 - **Symbolic Processing**: LUKHAS GLYPH integration
-- **Trinity Compliance**: ⚛️🧠🛡️ framework validation
+- **Constellation Compliance**: ⚛️🧠🛡️ framework validation
 
 ### 3. Vocabulary Bridge (`agi_vocabulary_bridge.py`)
 - **Cross-System Translation**: AGI ↔ LUKHAS vocabularies

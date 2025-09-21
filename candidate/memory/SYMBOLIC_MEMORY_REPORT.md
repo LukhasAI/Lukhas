@@ -18,7 +18,7 @@ The memory system fully integrates with the LUKHΛS Constellation Framework (⚛
   - `get_drift_trajectory()` — Returns session-based entropy drift
 - Tracks:
   - Entropy
-  - Trinity coherence
+  - Constellation coherence
   - Drift metrics
   - Persona alignment
   - Healing deltas
@@ -30,7 +30,7 @@ The memory system fully integrates with the LUKHΛS Constellation Framework (⚛
   - Recursion detection across glyph/persona sequences
   - Entropy-based symbolic risk assessment
   - Stabilization glyph suggestions
-  - Trinity void and symbolic pattern detection
+  - Constellation void and symbolic pattern detection
 
 ### 3. `symbolic_api.py` Memory Endpoints
 - `POST /memory/log` — Log symbolic session
@@ -68,7 +68,7 @@ The symbolic memory system allows LUKHΛS to:
   "glyph_trace": ["🧠", "🌪️", "⚛️"],
   "drift_score": 0.84,
   "entropy_level": 0.72,
-  "trinity_coherence": 0.66,
+  "constellation_coherence": 0.66,
   "persona_alignment": "The Observer",
   "healing_applied": true
 }
@@ -107,7 +107,7 @@ The memory system now interfaces with the Persona Similarity Engine, enabling LU
 - Persona evolution linkage via Similarity Engine
 - Symbolic embedding audits per session
 - Collapse-state fallback mapping with recovery scoring
-- Trinity-aware persona stabilization feedback
+- Constellation-aware persona stabilization feedback
 
 ---
 

@@ -274,15 +274,15 @@ class ConsciousnessSignal:
             if self.cascade_prevention_score < 0.99:  # Below 99% is concerning
                 logger.warning(f"Signal {self.signal_id}: Low cascade prevention: {self.cascade_prevention_score}")
 
-            # Trinity compliance validation
+            # Constellation compliance validation
             if self.constellation_alignment:
-                trinity_scores = [
+                constellation_scores = [
                     self.constellation_alignment.identity_auth_score,
                     self.constellation_alignment.consciousness_coherence,
                     self.constellation_alignment.guardian_compliance,
                 ]
-                if any(score < 0.0 or score > 1.0 for score in trinity_scores):
-                    logger.warning(f"Signal {self.signal_id}: Trinity compliance scores out of bounds")
+                if any(score < 0.0 or score > 1.0 for score in constellation_scores):
+                    logger.warning(f"Signal {self.signal_id}: Constellation compliance scores out of bounds")
                     return False
 
             # Bio-symbolic data validation

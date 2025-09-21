@@ -55,7 +55,7 @@ class PolicyType(Enum):
     USER_CONSENT = "user_consent"  # User consent management
     CONTENT = "content"  # Content moderation
     SYSTEM_BEHAVIOR = "system_behavior"  # System behavior control
-    TRINITY = "constellation"  # Constellation Framework specific
+    CONSTELLATION = "constellation"  # Constellation Framework specific
 
 
 class PolicyScope(Enum):

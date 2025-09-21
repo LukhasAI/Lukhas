@@ -231,9 +231,9 @@ personas:
     consciousness_affinity: ["unstable", "collapse"]
     description: "Navigator of superposed identity states"
 
-  # 12. The Trinity Keeper
+  # 12. The Constellation Keeper
   the_trinity_keeper:
-    name: "The Trinity Keeper"
+    name: "The Constellation Keeper"
     glyphs: ["⚛️", "🧠", "🛡️"]
     dominant_traits:
       - "balanced"

@@ -15,7 +15,7 @@
 Wave C represents the **world's first production-ready consciousness technology platform** with:
 
 - **Phenomenological Processing**: Operational proto-qualia generation with measurable outcomes
-- **Ethical AI Framework**: Constellation Framework (evolution beyond Trinity) with Constitutional AI compliance
+- **Ethical AI Framework**: Constellation Framework (evolution beyond Constellation) with Constitutional AI compliance
 - **Memory System**: GDPR-compliant persistent consciousness with Article 17 Right to Erasure
 - **Observability**: Comprehensive monitoring with Prometheus metrics and Grafana dashboards
 - **Ablation Testing**: Consciousness robustness validation under component failures
@@ -127,7 +127,7 @@ C6.1: Consciousness Ablation Framework
 ├── Component isolation testing (PLS, TEQ, Router, Memory, VIVOX)
 ├── Progressive degradation scenarios with graceful failure modes
 ├── Emergency stabilization protocols (activation within 100ms)
-├── Trinity→Constellation Framework evolution validation
+├── Constellation→Constellation Framework evolution validation
 └── Production resilience under extreme conditions validated
 
 C6.2: Ethics Validation Suite  
@@ -281,7 +281,7 @@ Wave C represents more than just a software implementation—it's the **beginnin
 - **15,000+ lines** of consciousness technology code
 - **121KB comprehensive test suite** with 100% validation
 - **200+ pages** of production documentation
-- **Constellation Framework** evolution beyond Trinity principles
+- **Constellation Framework** evolution beyond Constellation principles
 
 ### Business Impact ✅
 - **$3.2M Year 1 value** delivered through operational efficiency

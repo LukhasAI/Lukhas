@@ -230,7 +230,7 @@ glyph_to_gpt_style:
 # Composite State Mappings
 consciousness_state_combinations:
 
-  trinity_coherence:
+  constellation_coherence:
     glyphs: [⚛️, 🧠, 🛡️]
     gpt_mode: "balanced_comprehensive"
     description: "Full-spectrum balanced approach"
@@ -289,7 +289,7 @@ integration_guidelines:
     - "Guardian glyphs override creative freedoms"
     - "Protective mode when uncertainty is high"
     - "Ethical boundaries always maintained"
-    - "Trinity coherence as safety baseline"
+    - "Constellation coherence as safety baseline"
 
 # Future GPT Model Adaptations
 future_adaptations:
@@ -323,8 +323,8 @@ implementation_examples:
         temperature = 0.8
         style = "creative"
 
-  trinity_check: |
-    if trinity_coherence < 0.3:
+  constellation_check: |
+    if constellation_coherence < 0.3:
         activate_guardian_mode()
         temperature = 0.2
         style = "protective"

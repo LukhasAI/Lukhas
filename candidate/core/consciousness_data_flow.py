@@ -83,7 +83,7 @@ class FlowMetrics:
     cascade_prevention_rate: float = 0.997  # 99.7% target
     network_coherence: float = 0.0
     bio_adaptation_efficiency: float = 0.0
-    trinity_compliance_rate: float = 0.0
+    constellation_compliance_rate: float = 0.0
 
 
 class ConsciousnessDataFlowManager:
@@ -394,7 +394,7 @@ class ConsciousnessDataFlowManager:
                 "sync_operation": "network_synchronization",
                 "sync_timestamp": datetime.now(timezone.utc).isoformat(),
             },
-            trinity_compliance={"framework_compliance": {"validation_passed": True}},
+            constellation_compliance={"framework_compliance": {"validation_passed": True}},
         )
 
         # Route to all connected modules that support synchronization
@@ -460,7 +460,7 @@ class ConsciousnessDataFlowManager:
             "node_count": len(nodes),
             "connection_count": len(connections),
             "total_consciousness_nodes": adapter_metrics.get("total_consciousness_nodes", 0),
-            "trinity_compliance_rate": adapter_metrics.get("trinity_compliance_rate", 0.0),
+            "constellation_compliance_rate": adapter_metrics.get("constellation_compliance_rate", 0.0),
             "signal_queue_size": self.signal_queue.qsize(),
             "active_bio_patterns": adapter_metrics.get("active_bio_patterns", 0),
         }
@@ -487,9 +487,9 @@ class ConsciousnessDataFlowManager:
             issues.append("signal_queue_near_capacity")
             recommendations.append("increase_processing_capacity")
 
-        # Check Trinity compliance
-        trinity_rate = topology.metrics.get("trinity_compliance_rate", 0.0)
-        if trinity_rate < 0.8:
+        # Check Constellation compliance
+        constellation_rate = topology.metrics.get("constellation_compliance_rate", 0.0)
+        if constellation_rate < 0.8:
             health_score *= 0.8
             issues.append("low_trinity_compliance")
             recommendations.append("review_ethical_alignment")
@@ -582,8 +582,8 @@ class ConsciousnessDataFlowManager:
             density_risk = min(1.0, node_count / 500)
             risk_factors.append(density_risk)
 
-        # Check Trinity compliance issues
-        compliance_rate = adapter_metrics.get("trinity_compliance_rate", 1.0)
+        # Check Constellation compliance issues
+        compliance_rate = adapter_metrics.get("constellation_compliance_rate", 1.0)
         compliance_risk = 1.0 - compliance_rate
         risk_factors.append(compliance_risk)
 
@@ -656,7 +656,7 @@ class ConsciousnessDataFlowManager:
 
                 # Update network metrics from adapter
                 adapter_metrics = self.adapter.get_consciousness_network_metrics()
-                self.metrics.trinity_compliance_rate = adapter_metrics.get("trinity_compliance_rate", 0.0)
+                self.metrics.constellation_compliance_rate = adapter_metrics.get("constellation_compliance_rate", 0.0)
 
                 # Calculate bio-adaptation efficiency
                 bio_patterns = adapter_metrics.get("active_bio_patterns", 0)
@@ -696,7 +696,7 @@ class ConsciousnessDataFlowManager:
                 "cascade_prevention_rate": self.metrics.cascade_prevention_rate,
                 "network_coherence": self.metrics.network_coherence,
                 "bio_adaptation_efficiency": self.metrics.bio_adaptation_efficiency,
-                "trinity_compliance_rate": self.metrics.trinity_compliance_rate,
+                "constellation_compliance_rate": self.metrics.constellation_compliance_rate,
             },
             "connected_modules": len(self.active_connections),
             "signal_queue_size": self.signal_queue.qsize(),
@@ -770,10 +770,10 @@ class ConsciousnessDataFlowManager:
             return False
 
         # Constellation Framework validation
-        trinity_compliance = signal.trinity_compliance
+        constellation_compliance = signal.constellation_compliance
         return not (
-            not trinity_compliance
-            or not trinity_compliance.get("framework_compliance", {}).get("validation_passed", False)
+            not constellation_compliance
+            or not constellation_compliance.get("framework_compliance", {}).get("validation_passed", False)
         )
 
     async def _determine_routing_targets(

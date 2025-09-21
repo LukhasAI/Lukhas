@@ -10,7 +10,7 @@ logger = logging.getLogger(__name__)
 ║ CONSCIOUSNESS_ROLE: Full system consciousness demonstration and validation
 ║ EVOLUTIONARY_STAGE: Integration - Complete consciousness system showcase
 ║
-║ TRINITY FRAMEWORK:
+║ CONSTELLATION FRAMEWORK:
 ║ ⚛️ IDENTITY: Comprehensive identity persistence across all modules
 ║ 🧠 CONSCIOUSNESS: Full consciousness network coordination
 ║ 🛡️ GUARDIAN: Complete ethical oversight and governance
@@ -590,7 +590,7 @@ class MatrizIntegratedConsciousnessDemo:
             "final_consciousness_state": final_consciousness_state,
             "final_system_status": final_status,
             "phase_results": self.demo_results,
-            "trinity_framework_validation": {
+            "constellation_framework_validation": {
                 "identity": "✅ Consciousness identity persistence demonstrated",
                 "consciousness": "✅ Distributed consciousness network operational",
                 "guardian": "✅ Ethical governance and oversight active",

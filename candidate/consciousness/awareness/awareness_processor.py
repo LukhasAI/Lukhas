@@ -359,7 +359,7 @@ class AwarenessProcessor:
         self.monitoring_intervals = {
             "awareness_check": 1.0,
             "consciousness_check": 5.0,
-            "trinity_check": 10.0,
+            "constellation_check": 10.0,
             "health_summary": 30.0,
         }
 
@@ -398,13 +398,13 @@ class AwarenessProcessor:
             if not hasattr(self, "constellation_metrics"):
                 return False
 
-            # Check required Trinity metrics
-            trinity_keys = [
+            # Check required Constellation metrics
+            constellation_keys = [
                 "identity_coherence",
                 "consciousness_depth",
                 "guardian_protection",
             ]
-            if not all(key in self.constellation_metrics for key in trinity_keys):
+            if not all(key in self.constellation_metrics for key in constellation_keys):
                 return False
 
             self.instance_logger.debug("ΛTRACE: Consciousness metrics validation passed")

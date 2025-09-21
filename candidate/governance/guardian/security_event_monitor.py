@@ -269,7 +269,7 @@ class SecurityEventMonitor:
         self.security_rules = self._initialize_security_rules()
 
         # Constellation Framework security contexts
-        self.trinity_security_contexts = {
+        self.constellation_security_contexts = {
             "identity": {"monitored_events": [], "security_level": "high"},  # ⚛️
             "guardian": {"protection_rules": [], "enforcement_level": "strict"},  # 🛡️
         }
@@ -693,15 +693,15 @@ class SecurityEventMonitor:
         ]
 
         # Constellation Framework security status
-        trinity_security = {
+        constellation_security = {
             "identity": {
-                "monitored_events": len(self.trinity_security_contexts["identity"]["monitored_events"]),
-                "security_level": self.trinity_security_contexts["identity"]["security_level"],
+                "monitored_events": len(self.constellation_security_contexts["identity"]["monitored_events"]),
+                "security_level": self.constellation_security_contexts["identity"]["security_level"],
                 "recent_violations": len([e for e in recent_events if "identity" in e.identity_context]),
             },
             "guardian": {
-                "protection_rules": len(self.trinity_security_contexts["guardian"]["protection_rules"]),
-                "enforcement_level": self.trinity_security_contexts["guardian"]["enforcement_level"],
+                "protection_rules": len(self.constellation_security_contexts["guardian"]["protection_rules"]),
+                "enforcement_level": self.constellation_security_contexts["guardian"]["enforcement_level"],
                 "blocked_threats": len(
                     [
                         e
@@ -760,7 +760,7 @@ class SecurityEventMonitor:
                 "active_sessions": len(self.active_sessions),
             },
             # Constellation Framework security
-            "constellation_framework": trinity_security,
+            "constellation_framework": constellation_security,
             # System status
             "system": {
                 "security_rules_active": len(self.security_rules),

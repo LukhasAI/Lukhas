@@ -233,7 +233,7 @@ class SystemHealthMonitor:
         }
 
         # Constellation Framework components to monitor
-        self.trinity_components = {
+        self.constellation_components = {
             "identity": ["auth_system", "user_context", "symbolic_self"],  # ⚛️
             "consciousness": ["awareness", "memory", "decision_engine"],  # 🧠
             "guardian": ["ethics_engine", "drift_detector", "compliance"],  # 🛡️
@@ -480,7 +480,7 @@ class SystemHealthMonitor:
         timestamp = datetime.now(timezone.utc)
 
         # Monitor each Constellation component
-        for framework_component, component_list in self.trinity_components.items():
+        for framework_component, component_list in self.constellation_components.items():
             total_health = 0.0
             component_count = 0
 
@@ -489,13 +489,13 @@ class SystemHealthMonitor:
                 health_score = self._simulate_component_health(component)
 
                 await self._record_metric(
-                    component=f"trinity_{framework_component}",
+                    component=f"constellation_{framework_component}",
                     metric_type=f"{component}_health",
                     value=health_score,
                     unit="score",
                     timestamp=timestamp,
                     tags={
-                        "trinity_component": framework_component,
+                        "constellation_component": framework_component,
                         "subcomponent": component,
                     },
                 )
@@ -669,14 +669,14 @@ class SystemHealthMonitor:
         )
 
         # Constellation Framework health
-        trinity_health = {}
-        for framework in self.trinity_components:
-            framework_metrics = [m for m in recent_metrics if f"trinity_{framework}" in m.component]
+        constellation_health = {}
+        for framework in self.constellation_components:
+            framework_metrics = [m for m in recent_metrics if f"constellation_{framework}" in m.component]
             if framework_metrics:
                 framework_score = sum(self._health_status_to_score(m.status) for m in framework_metrics) / len(
                     framework_metrics
                 )
-                trinity_health[framework] = framework_score
+                constellation_health[framework] = framework_score
 
         return {
             "timestamp": current_time.isoformat(),
@@ -708,9 +708,9 @@ class SystemHealthMonitor:
                 "meets_sla": avg_response_time <= self.performance_baselines["api_response_time"],
             },
             "constellation_framework": {
-                "identity_health": trinity_health.get("identity", 0.0),  # ⚛️
-                "consciousness_health": trinity_health.get("consciousness", 0.0),  # 🧠
-                "guardian_health": trinity_health.get("guardian", 0.0),  # 🛡️
+                "identity_health": constellation_health.get("identity", 0.0),  # ⚛️
+                "consciousness_health": constellation_health.get("consciousness", 0.0),  # 🧠
+                "guardian_health": constellation_health.get("guardian", 0.0),  # 🛡️
             },
             "system_resources": {
                 "cpu_usage": psutil.cpu_percent(),

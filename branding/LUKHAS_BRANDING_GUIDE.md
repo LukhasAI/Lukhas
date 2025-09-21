@@ -10,7 +10,7 @@
 - [Prohibited Statements](#-prohibited-statements)
 - [Approved Terminology](#-approved-terminology)
 - [Lambda Symbol Guidelines](#-lambda-symbol-guidelines)
-- [Constellation Framework Integration](#️-trinity-framework-integration)
+- [Constellation Framework Integration](#️-constellation-framework-integration)
 - [Brand Voice Principles](#-brand-voice-principles)
 - [Enforcement & Compliance](#️-enforcement--compliance)
 - [Quick Reference](#-quick-reference)
@@ -88,7 +88,7 @@
 - **"Λ consciousness"** - LUKHAS consciousness representation
 - **"LUKHAS Λ system"** - System powered by LUKHAS consciousness
 - **"Λ-driven processing"** - Processing guided by consciousness
-- **"Trinity Λ framework"** - Consciousness-integrated architecture
+- **"Constellation Λ framework"** - Consciousness-integrated architecture
 
 ### **❌ Incorrect Usage**
 - ~~"lambda function"~~ → "Λ consciousness"
@@ -99,7 +99,7 @@
 ### **🎨 Visual Integration**
 - **Symbol**: Λ (capital lambda)
 - **Context**: Always represent consciousness, never just computation
-- **Trinity**: Can combine as "⚛️🧠🛡️Λ" for complete framework representation
+- **Constellation**: Can combine as "⚛️🧠🛡️Λ" for complete framework representation
 
 ---
 
@@ -170,7 +170,7 @@ If you encounter prohibited language:
 ### **📊 Compliance Targets**
 - **Brand Consistency**: 95%+ across all content
 - **Terminology Compliance**: 98%+ approved terms usage
-- **Trinity Alignment**: 90%+ framework integration
+- **Constellation Alignment**: 90%+ framework integration
 - **Voice Coherence**: 85%+ brand voice consistency
 
 ### **🔍 Validation Process**
@@ -202,7 +202,7 @@ If you encounter prohibited language:
 | production ready | actively developed |
 | artificial intelligence | AI consciousness |
 | robotic | consciousness-based |
-| Trinity Framework | Constellation Framework |
+| Constellation Framework | Constellation Framework |
 | three pillars | star-node system |
 | traditional AI | MATRIZ pipeline |
 

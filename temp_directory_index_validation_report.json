@@ -21,18 +21,18 @@
       "Missing subdirectories in index: {'matrix'}"
     ],
     "candidate/core/identity/directory_index.json": [
-      "Extra Python files in index: {'trinity_validation_test.py'}"
+      "Extra Python files in index: {'constellation_validation_test.py'}"
     ],
     "candidate/core/orchestration/directory_index.json": [
       "Missing Python files in index: {'async_orchestrator.py', 'consensus_arbitrator.py', 'loader.py', 'otel.py', 'meta_controller.py'}"
     ],
     "branding/design/directory_index.json": [
       "Missing Python files in index: {'constellation_visual_system.py'}",
-      "Extra Python files in index: {'trinity_visual_system.py'}"
+      "Extra Python files in index: {'constellation_visual_system.py'}"
     ],
     "branding/orchestration/directory_index.json": [
       "Missing Python files in index: {'constellation_framework_deployer.py'}",
-      "Extra Python files in index: {'trinity_framework_deployer.py'}"
+      "Extra Python files in index: {'constellation_framework_deployer.py'}"
     ],
     "core/directory_index.json": [
       "Missing subdirectories in index: {'symbolic'}"
@@ -63,7 +63,7 @@
       "Missing subdirectories in index: {'ci'}"
     ],
     "scripts/codemods/directory_index.json": [
-      "Missing Python files in index: {'constellation_consistency_final.py', 'update_framework_integration_refs.py', 'agi_to_cognitive_codemod.py', 'trinity_to_constellation_focused.py', 'trinity_to_constellation_comprehensive.py'}"
+      "Missing Python files in index: {'constellation_consistency_final.py', 'update_framework_integration_refs.py', 'agi_to_cognitive_codemod.py', 'constellation_to_constellation_focused.py', 'constellation_to_constellation_comprehensive.py'}"
     ],
     "serve/directory_index.json": [
       "Missing Python files in index: {'agi_enhanced_consciousness_api.py'}",

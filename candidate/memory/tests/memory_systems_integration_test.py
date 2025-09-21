@@ -52,7 +52,7 @@ class TestMemorySystemsIntegration(unittest.TestCase):
         self.awareness_mechanism = None
         self.dream_integrator = None
         self.optimizer = None
-        self.trinity_validator = None
+        self.constellation_validator = None
 
         # Test data
         self.test_memories = [
@@ -294,7 +294,7 @@ class TestMemorySystemsIntegration(unittest.TestCase):
             init_result = loop.run_until_complete(validator.initialize())
             self.assertTrue(init_result)
 
-            # Test comprehensive Trinity validation
+            # Test comprehensive Constellation validation
             validation_result = loop.run_until_complete(
                 validator.validate_trinity_compliance(ValidationLevel.STANDARD)
             )

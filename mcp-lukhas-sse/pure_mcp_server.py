@@ -56,7 +56,7 @@ LUKHAS_CORE = {
 SAFE_PATHS = ["/tmp", "/var/tmp", "/Users/agi_dev/LOCAL-REPOS/Lukhas/mcp-lukhas-sse"]
 
 def validate_path_security(file_path: str) -> bool:
-    """Trinity Guardian security validation for file paths"""
+    """Constellation Guardian security validation for file paths"""
     try:
         abs_path = os.path.abspath(file_path)
         return any(abs_path.startswith(safe) for safe in SAFE_PATHS)
@@ -66,7 +66,7 @@ def validate_path_security(file_path: str) -> bool:
 # Tool Definitions for ChatGPT Connectors
 AVAILABLE_TOOLS = [
     {
-        "name": "trinity_health_check",
+        "name": "constellation_health_check",
         "description": "Complete LUKHAS AI Constellation Framework health status with all three components: ⚛️ Identity, 🧠 Consciousness, 🛡️ Guardian",
         "parameters": {
             "type": "object",
@@ -124,7 +124,7 @@ AVAILABLE_TOOLS = [
 ]
 
 # Tool Implementation Functions
-async def trinity_health_check(arguments: dict = None) -> Dict[str, Any]:
+async def constellation_health_check(arguments: dict = None) -> Dict[str, Any]:
     """Complete LUKHAS AI Constellation Framework health status"""
     session_id = str(uuid.uuid4())
     timestamp = datetime.now().isoformat()
@@ -135,7 +135,7 @@ async def trinity_health_check(arguments: dict = None) -> Dict[str, Any]:
         "session_id": session_id,
         "timestamp": timestamp,
         "core_info": LUKHAS_CORE,
-        "trinity_systems": {
+        "constellation_systems": {
             "identity": {
                 "symbol": TRINITY_IDENTITY,
                 "status": "active",
@@ -271,7 +271,7 @@ async def explore_lukhas_codebase(arguments: dict = None) -> Dict[str, Any]:
                     "modified": datetime.fromtimestamp(stat_info.st_mtime).isoformat(),
                     "permissions": oct(stat_info.st_mode)[-3:],
                     "is_lukhas_component": any(keyword in item.name.lower() 
-                                            for keyword in ['lukhas', 'trinity', 'consciousness', 'mcp'])
+                                            for keyword in ['lukhas', 'constellation', 'consciousness', 'mcp'])
                 }
                 items.append(item_data)
             except (OSError, PermissionError):
@@ -282,7 +282,7 @@ async def explore_lukhas_codebase(arguments: dict = None) -> Dict[str, Any]:
             "path": str(path_obj.absolute()),
             "total_items": len(items),
             "contents": items,
-            "trinity_analysis": {
+            "constellation_analysis": {
                 "identity_scan": f"{TRINITY_IDENTITY} Directory identity confirmed",
                 "consciousness_parse": f"{TRINITY_CONSCIOUSNESS} Structure analyzed", 
                 "guardian_validation": f"{TRINITY_GUARDIAN} Security scan completed"
@@ -362,7 +362,7 @@ async def read_lukhas_file(arguments: dict = None) -> Dict[str, Any]:
         
         # LUKHAS-specific content detection
         lukhas_indicators = {
-            "trinity_symbols": CONSTELLATION_FRAMEWORK in content,
+            "constellation_symbols": CONSTELLATION_FRAMEWORK in content,
             "consciousness_patterns": any(term in content.lower() 
                                         for term in ['consciousness', 'cognitive', 'awareness']),
             "http_endpoints": any(term in content 
@@ -382,7 +382,7 @@ async def read_lukhas_file(arguments: dict = None) -> Dict[str, Any]:
                 "modified": datetime.fromtimestamp(file_obj.stat().st_mtime).isoformat()
             },
             "lukhas_analysis": lukhas_indicators,
-            "trinity_processing": {
+            "constellation_processing": {
                 "identity_verification": f"{TRINITY_IDENTITY} File identity confirmed",
                 "consciousness_scan": f"{TRINITY_CONSCIOUSNESS} Content patterns analyzed",
                 "guardian_validation": f"{TRINITY_GUARDIAN} Security and ethics verified"
@@ -400,7 +400,7 @@ async def read_lukhas_file(arguments: dict = None) -> Dict[str, Any]:
 async def get_constellation_capabilities(arguments: dict = None) -> Dict[str, Any]:
     """Complete overview of LUKHAS AI Constellation Framework capabilities"""
     return {
-        "trinity_framework_overview": CONSTELLATION_FRAMEWORK,
+        "constellation_framework_overview": CONSTELLATION_FRAMEWORK,
         "platform": LUKHAS_CORE["platform"],
         "consciousness_modules": LUKHAS_CORE["total_consciousness_modules"],
         "detailed_capabilities": {
@@ -491,7 +491,7 @@ async def get_constellation_capabilities(arguments: dict = None) -> Dict[str, An
 
 # Tool execution mapping
 TOOL_FUNCTIONS = {
-    "trinity_health_check": trinity_health_check,
+    "constellation_health_check": constellation_health_check,
     "get_consciousness_architecture": get_consciousness_architecture,
     "explore_lukhas_codebase": explore_lukhas_codebase,
     "read_lukhas_file": read_lukhas_file,
@@ -543,7 +543,7 @@ async def call_tool(request):
             "tool": tool_name,
             "result": result,
             "execution_time": datetime.now().isoformat(),
-            "trinity_processing": f"{CONSTELLATION_FRAMEWORK} Tool executed successfully"
+            "constellation_processing": f"{CONSTELLATION_FRAMEWORK} Tool executed successfully"
         })
         
     except Exception as e:
@@ -567,7 +567,7 @@ async def sse_endpoint(request):
         yield f"data: {json.dumps({'type': 'capabilities', 'data': capabilities})}\n\n"
         
         # Send health check information
-        health = await trinity_health_check()
+        health = await constellation_health_check()
         yield f"data: {json.dumps({'type': 'health', 'data': health})}\n\n"
         
         # Keep connection alive with periodic heartbeat
@@ -619,7 +619,7 @@ async def chatgpt_openapi_spec(request):
                                             "type": "string",
                                             "description": "Tool name to execute",
                                             "enum": [
-                                                "trinity_health_check",
+                                                "constellation_health_check",
                                                 "get_consciousness_architecture", 
                                                 "explore_lukhas_codebase",
                                                 "read_lukhas_file",
@@ -647,7 +647,7 @@ async def chatgpt_openapi_spec(request):
                                             "tool": {"type": "string"},
                                             "result": {"type": "object"},
                                             "execution_time": {"type": "string"},
-                                            "trinity_processing": {"type": "string"}
+                                            "constellation_processing": {"type": "string"}
                                         }
                                     }
                                 }
@@ -699,7 +699,7 @@ async def chatgpt_openapi_spec(request):
 async def action_trinity_health_check(request):
     """Constellation health check action endpoint"""
     try:
-        result = await trinity_health_check()
+        result = await constellation_health_check()
         return JSONResponse(result)
     except Exception as e:
         logger.error(f"Constellation health check error: {e}")
@@ -752,12 +752,12 @@ async def action_read_lukhas_file(request):
         }, status_code=500)
 
 async def action_get_trinity_capabilities(request):
-    """Trinity capabilities action endpoint"""
+    """Constellation capabilities action endpoint"""
     try:
         result = await get_constellation_capabilities()
         return JSONResponse(result)
     except Exception as e:
-        logger.error(f"Trinity capabilities error: {e}")
+        logger.error(f"Constellation capabilities error: {e}")
         return JSONResponse({
             "error": f"Capabilities query failed: {str(e)}",
             "guardian_incident": f"{TRINITY_GUARDIAN} Error logged and contained"
@@ -773,7 +773,7 @@ routes = [
     Route("/openapi.json", chatgpt_openapi_spec, methods=["GET"]),
     Route("/.well-known/openapi.yaml", chatgpt_openapi_spec, methods=["GET"]),
     # ChatGPT Action Endpoints
-    Route("/trinity_health_check", action_trinity_health_check, methods=["POST", "GET"]),
+    Route("/constellation_health_check", action_trinity_health_check, methods=["POST", "GET"]),
     Route("/get_consciousness_architecture", action_get_consciousness_architecture, methods=["POST", "GET"]),
     Route("/explore_lukhas_codebase", action_explore_lukhas_codebase, methods=["POST", "GET"]),
     Route("/read_lukhas_file", action_read_lukhas_file, methods=["POST"]),

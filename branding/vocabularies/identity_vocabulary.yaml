@@ -54,7 +54,7 @@ identity_vocabulary:
       contexts: ["privileges", "authorization", "decisions"]
 
   # 🔗 Constellation Integration
-  trinity_elements:
+  constellation_elements:
     - name: "Consciousness Anchor"
       symbol: "🧭"
       poetic: "The compass that guides authentic self through digital realms"

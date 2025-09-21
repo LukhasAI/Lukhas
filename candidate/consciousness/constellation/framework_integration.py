@@ -644,7 +644,7 @@ class ConstellationFrameworkIntegration:
         )
 
         # Integration scores
-        integration_score = report.constellation_metrics.trinity_coherence
+        integration_score = report.constellation_metrics.constellation_coherence
 
         # Weighted overall score
         overall_score = (
@@ -676,9 +676,9 @@ class ConstellationFrameworkIntegration:
 
     def _determine_integration_state(self, report: ConstellationComplianceReport) -> IntegrationState:
         """Determine integration state from compliance report"""
-        balance_score = report.constellation_metrics.trinity_balance
-        synergy_score = report.constellation_metrics.trinity_synergy
-        coherence_score = report.constellation_metrics.trinity_coherence
+        balance_score = report.constellation_metrics.constellation_balance
+        synergy_score = report.constellation_metrics.constellation_synergy
+        coherence_score = report.constellation_metrics.constellation_coherence
 
         if balance_score >= 0.8 and synergy_score >= 0.8 and coherence_score >= 0.8:
             return IntegrationState.HARMONIOUS
@@ -726,11 +726,11 @@ class ConstellationFrameworkIntegration:
             violations.append(violation)
 
         # Integration violations
-        if report.constellation_metrics.trinity_balance < 0.5:
+        if report.constellation_metrics.constellation_balance < 0.5:
             violation = ConstellationViolation(
                 component=ConstellationComponent.GUARDIAN,  # Balance is a Guardian responsibility
                 severity="medium",
-                description=f"Constellation component balance poor: {report.constellation_metrics.trinity_balance:.3f}",
+                description=f"Constellation component balance poor: {report.constellation_metrics.constellation_balance:.3f}",
                 affected_systems=["integration"],
             )
             violations.append(violation)
@@ -758,7 +758,7 @@ class ConstellationFrameworkIntegration:
         if report.constellation_metrics.guardian_protection < 0.7:
             issues.append("Guardian protection mechanisms inadequate")
 
-        if report.constellation_metrics.trinity_balance < 0.5:
+        if report.constellation_metrics.constellation_balance < 0.5:
             issues.append("Constellation component balance disrupted")
 
         if report.integration_state in [IntegrationState.CONFLICTED, IntegrationState.CRITICAL]:
@@ -779,10 +779,10 @@ class ConstellationFrameworkIntegration:
         if report.constellation_metrics.guardian_ethics < 0.8:
             recommendations.append("Improve guardian ethics compliance and safety mechanisms")
 
-        if report.constellation_metrics.trinity_balance < 0.6:
+        if report.constellation_metrics.constellation_balance < 0.6:
             recommendations.append("Apply adaptive balancing to improve Constellation component harmony")
 
-        if report.constellation_metrics.trinity_synergy < 0.6:
+        if report.constellation_metrics.constellation_synergy < 0.6:
             recommendations.append("Optimize cross-component synergy for better integration")
 
         if len(report.active_violations) > 3:
@@ -791,7 +791,7 @@ class ConstellationFrameworkIntegration:
         return recommendations
 
     async def _handle_violations(self, violations: list[ConstellationViolation]):
-        """Handle detected Trinity violations"""
+        """Handle detected Constellation violations"""
         for violation in violations:
             try:
                 resolution_actions = await self.violation_resolver.resolve_violation(violation)
@@ -805,7 +805,7 @@ class ConstellationFrameworkIntegration:
 
     async def _perform_adaptive_balancing(self, report: ConstellationComplianceReport):
         """Perform adaptive Constellation component balancing"""
-        if report.constellation_metrics.trinity_balance < 0.6:
+        if report.constellation_metrics.constellation_balance < 0.6:
             try:
                 balance_adjustments = await self.balance_controller.calculate_balance_adjustments(
                     report.constellation_metrics
@@ -813,14 +813,14 @@ class ConstellationFrameworkIntegration:
                 await self.balance_controller.apply_balance_adjustments(balance_adjustments)
 
                 self.balance_adjustments_made += 1
-                logger.info("ΛTRACE: Applied adaptive Trinity balancing adjustments")
+                logger.info("ΛTRACE: Applied adaptive Constellation balancing adjustments")
 
             except Exception as e:
                 logger.error(f"ΛTRACE: Failed to perform adaptive balancing: {e}")
 
     async def _detect_emergence_patterns(self, report: ConstellationComplianceReport):
         """Detect emergence patterns in Constellation integration"""
-        if report.constellation_metrics.trinity_emergence > self.config.emergence_threshold:
+        if report.constellation_metrics.constellation_emergence > self.config.emergence_threshold:
             emergence_patterns = await self.emergence_detector.analyze_emergence_patterns(
                 self.constellation_metrics_history[-20:]
                 if len(self.constellation_metrics_history) >= 20

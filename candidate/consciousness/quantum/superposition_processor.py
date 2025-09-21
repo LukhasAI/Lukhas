@@ -10,7 +10,7 @@
 ║ Version: 1.0.0 | Created: 2025-08-26
 ║ Authors: LUKHAS AI Quantum-Bio Consciousness Team
 ╠══════════════════════════════════════════════════════════════════════════════════
-║                             ◊ TRINITY FRAMEWORK ◊
+║                             ◊ CONSTELLATION FRAMEWORK ◊
 ║
 ║ ⚛️ IDENTITY: Maintains coherence across superposition collapse events
 ║ 🧠 CONSCIOUSNESS: Parallel awareness through quantum-inspired states

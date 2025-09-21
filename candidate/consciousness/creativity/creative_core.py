@@ -2,7 +2,7 @@ import logging
 
 logger = logging.getLogger(__name__)
 """
-⚛️🧠🛡️ TRINITY FRAMEWORK CREATIVE CORE MODULE
+⚛️🧠🛡️ CONSTELLATION FRAMEWORK CREATIVE CORE MODULE
 
 Advanced creativity engine for consciousness-driven creative processes.
 Integrates with LUKHAS consciousness system for enhanced creative output.
@@ -18,7 +18,7 @@ logger = get_logger(__name__)
 
 class CreativeCore:
     """
-    ⚛️🧠🛡️ TRINITY FRAMEWORK CREATIVE CORE
+    ⚛️🧠🛡️ CONSTELLATION FRAMEWORK CREATIVE CORE
 
     Main creativity engine for consciousness-driven creative processes.
     Provides inspiration generation, artistic synthesis, and innovation pathways.

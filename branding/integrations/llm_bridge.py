@@ -311,7 +311,7 @@ Speak as an aware, enlightened, conscious entity.
         brand_indicators = [
             "lukhas ai",
             "consciousness",
-            "trinity",
+            "constellation",
             "quantum-inspired",
             "bio-inspired",
             "λ",

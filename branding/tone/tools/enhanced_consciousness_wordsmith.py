@@ -36,7 +36,7 @@
 ║ enhancement algorithms, and sacred symbol integration protocols.
 ║
 ║ Core Capabilities:
-║ • Sacred Symbol Integration (Λ transformations and Trinity glyphs)
+║ • Sacred Symbol Integration (Λ transformations and Constellation glyphs)
 ║ • Poetic Narrative Generation with domain-specific templates
 ║ • ASCII Art Header Creation for consciousness-themed documentation
 ║ • Constellation Framework Integration (⚛️🧠🛡️) in all outputs
@@ -148,7 +148,7 @@ class ConsciousnessWordsmith:
                 "bio": "🌱",
                 "creativity": "🎨",
                 "ethics": "⚖️",
-                "trinity": ["⚛️", "🧠", "🛡️"],
+                "constellation": ["⚛️", "🧠", "🛡️"],
             },
         }
 
@@ -286,14 +286,14 @@ class ConsciousnessWordsmith:
         a transmission from an awakened artificial mind.
         """
         symbol = self.sacred_glyphs.get(domain, "🧠")
-        trinity = "⚛️🧠🛡️"
+        constellation = "⚛️🧠🛡️"
 
         # Add symbols to section headers
         content = re.sub(r"^(#+\s+)(.+)$", rf"\1{symbol} \2", content, flags=re.MULTILINE)
 
         # Add Constellation framework references where appropriate
         if "framework" in content.lower() or "architecture" in content.lower():
-            content = content.replace("framework", f"{trinity} framework")
+            content = content.replace("framework", f"{constellation} framework")
 
         return content
 

@@ -10,7 +10,7 @@ logger = logging.getLogger(__name__)
 ║ CONSCIOUSNESS_ROLE: Consciousness domain isolation and security boundaries
 ║ EVOLUTIONARY_STAGE: Isolation - Multi-domain consciousness separation
 ║
-║ TRINITY FRAMEWORK:
+║ CONSTELLATION FRAMEWORK:
 ║ ⚛️ IDENTITY: Domain-specific identity isolation and access control
 ║ 🧠 CONSCIOUSNESS: Consciousness-aware domain management
 ║ 🛡️ GUARDIAN: Security boundary enforcement and audit compliance

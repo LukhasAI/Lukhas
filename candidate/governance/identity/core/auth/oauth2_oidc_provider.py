@@ -63,7 +63,7 @@ class OAuthClient:
 
 
 class OAuth2OIDCProvider:
-    """⚛️🧠🛡️ Trinity-compliant OAuth2/OIDC authorization server"""
+    """⚛️🧠🛡️ Constellation-compliant OAuth2/OIDC authorization server"""
 
     def __init__(self, config: Optional[dict] = None):
         self.config = config or {}
@@ -476,7 +476,7 @@ class OAuth2OIDCProvider:
                     {
                         "lambda_id": token_data.get("lambda_id", ""),
                         "identity_features": self._get_tier_features(user_tier),
-                        "trinity_compliance": "⚛️🧠🛡️",
+                        "constellation_compliance": "⚛️🧠🛡️",
                     }
                 )
 

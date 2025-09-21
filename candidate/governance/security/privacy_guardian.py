@@ -37,7 +37,7 @@ class PrivacyPolicy:
     audit_logging: bool
     geographic_restrictions: list[str]
     governance_approved: bool = True
-    trinity_protection: bool = False
+    constellation_protection: bool = False
 
 
 @dataclass
@@ -53,11 +53,11 @@ class DataClassification:
     access_restrictions: list[str]
     anonymization_rules: list[str]
     governance_validated: bool = True
-    trinity_impact: dict[str, float] = None
+    constellation_impact: dict[str, float] = None
 
     def __post_init__(self):
-        if self.trinity_impact is None:
-            self.trinity_impact = {
+        if self.constellation_impact is None:
+            self.constellation_impact = {
                 "identity": 0.0,
                 "consciousness": 0.0,
                 "guardian": 0.0,
@@ -79,11 +79,11 @@ class PrivacyIncident:
     remediation_actions: list[str]
     notification_required: bool
     governance_escalated: bool = False
-    trinity_components_affected: list[str] = None
+    constellation_components_affected: list[str] = None
 
     def __post_init__(self):
-        if self.trinity_components_affected is None:
-            self.trinity_components_affected = []
+        if self.constellation_components_affected is None:
+            self.constellation_components_affected = []
 
 
 class PrivacyGuardian(GlyphIntegrationMixin):
@@ -103,7 +103,7 @@ class PrivacyGuardian(GlyphIntegrationMixin):
             "anonymization": False,
             "access_control": "none",
             "governance_oversight": False,
-            "trinity_protection": False,
+            "constellation_protection": False,
         },
         "internal": {
             "level": 1,
@@ -112,7 +112,7 @@ class PrivacyGuardian(GlyphIntegrationMixin):
             "anonymization": False,
             "access_control": "basic",
             "governance_oversight": True,
-            "trinity_protection": False,
+            "constellation_protection": False,
         },
         "confidential": {
             "level": 2,
@@ -121,7 +121,7 @@ class PrivacyGuardian(GlyphIntegrationMixin):
             "anonymization": True,
             "access_control": "strict",
             "governance_oversight": True,
-            "trinity_protection": True,
+            "constellation_protection": True,
         },
         "restricted": {
             "level": 3,
@@ -130,7 +130,7 @@ class PrivacyGuardian(GlyphIntegrationMixin):
             "anonymization": True,
             "access_control": "maximum",
             "governance_oversight": True,
-            "trinity_protection": True,
+            "constellation_protection": True,
         },
     }
 
@@ -149,7 +149,7 @@ class PrivacyGuardian(GlyphIntegrationMixin):
             "breach_notification": 72,  # hours
             "penalties": "up to 4% of annual revenue",
             "governance_integration": True,
-            "trinity_compliance": True,
+            "constellation_compliance": True,
         },
         "HIPAA": {
             "name": "Health Insurance Portability and Accountability Act",
@@ -159,7 +159,7 @@ class PrivacyGuardian(GlyphIntegrationMixin):
             "breach_notification": 60,  # days
             "penalties": "up to $1.5M per incident",
             "governance_integration": True,
-            "trinity_compliance": True,
+            "constellation_compliance": True,
         },
         "CCPA": {
             "name": "California Consumer Privacy Act",
@@ -169,7 +169,7 @@ class PrivacyGuardian(GlyphIntegrationMixin):
             "breach_notification": "without unreasonable delay",
             "penalties": "up to $7,500 per violation",
             "governance_integration": True,
-            "trinity_compliance": False,
+            "constellation_compliance": False,
         },
         "LUKHAS_GOVERNANCE": {
             "name": "LUKHAS AI Governance Framework",
@@ -179,13 +179,13 @@ class PrivacyGuardian(GlyphIntegrationMixin):
                 "rectification",
                 "erasure",
                 "portability",
-                "trinity_protection",
+                "constellation_protection",
             ],
             "consent_requirements": "explicit_with_governance",
             "breach_notification": 24,  # hours
             "penalties": "system_access_revocation",
             "governance_integration": True,
-            "trinity_compliance": True,
+            "constellation_compliance": True,
         },
     }
 
@@ -199,7 +199,7 @@ class PrivacyGuardian(GlyphIntegrationMixin):
         "noise_addition": "Add statistical noise with governance validation",
         "k_anonymity": "Ensure k identical records exist",
         "differential_privacy": "Add mathematical privacy guarantees",
-        "trinity_protection": "Apply Constellation Framework specific protection",
+        "constellation_protection": "Apply Constellation Framework specific protection",
     }
 
     # Enhanced privacy symbols with governance and Constellation Framework
@@ -211,7 +211,7 @@ class PrivacyGuardian(GlyphIntegrationMixin):
         "incident": ["🚨", "⚠️", "🔍"],
         "audit": ["📊", "🔍", "📝"],
         "governance": ["🛡️", "⚖️", "✅"],
-        "trinity_protected": ["⚛️", "🧠", "🛡️"],
+        "constellation_protected": ["⚛️", "🧠", "🛡️"],
         "privacy_violation": ["🚨", "⚖️", "🔒"],
     }
 
@@ -282,7 +282,7 @@ class PrivacyGuardian(GlyphIntegrationMixin):
             "incident_auto_detection": True,
             "compliance_monitoring": True,
             "governance_integration": governance_enabled,
-            "trinity_protection": True,
+            "constellation_protection": True,
             "privacy_by_design": True,
             "data_minimization": True,
         }
@@ -297,12 +297,12 @@ class PrivacyGuardian(GlyphIntegrationMixin):
             "compliance_violations": 0,
             "audit_events_logged": 0,
             "governance_escalations": 0,
-            "trinity_protections_applied": 0,
+            "constellation_protections_applied": 0,
             "privacy_by_design_validations": 0,
         }
 
         # Constellation Framework integration
-        self.trinity_weights = {
+        self.constellation_weights = {
             "identity": 1.0,  # Maximum weight for identity privacy
             "consciousness": 0.9,  # High weight for consciousness privacy
             "guardian": 1.0,  # Maximum weight for guardian privacy
@@ -373,7 +373,7 @@ class PrivacyGuardian(GlyphIntegrationMixin):
             "active_regulations": self.active_regulations,
             "governance_settings": {
                 "governance_integration_enabled": self.governance_enabled,
-                "trinity_framework_protection": True,
+                "constellation_framework_protection": True,
                 "privacy_by_design_validation": True,
                 "automatic_compliance_monitoring": True,
                 "governance_escalation_threshold": 0.7,
@@ -421,7 +421,7 @@ class PrivacyGuardian(GlyphIntegrationMixin):
                     "audit_logging": True,
                     "geographic_restrictions": [],
                     "governance_approved": True,
-                    "trinity_protection": True,
+                    "constellation_protection": True,
                 },
                 {
                     "policy_id": "identity_data_policy",
@@ -439,7 +439,7 @@ class PrivacyGuardian(GlyphIntegrationMixin):
                     "audit_logging": True,
                     "geographic_restrictions": ["CN", "RU"],
                     "governance_approved": True,
-                    "trinity_protection": True,
+                    "constellation_protection": True,
                 },
                 {
                     "policy_id": "consciousness_data_policy",
@@ -457,7 +457,7 @@ class PrivacyGuardian(GlyphIntegrationMixin):
                     "audit_logging": True,
                     "geographic_restrictions": [],
                     "governance_approved": True,
-                    "trinity_protection": True,
+                    "constellation_protection": True,
                 },
             ],
             "classifications": [
@@ -477,10 +477,10 @@ class PrivacyGuardian(GlyphIntegrationMixin):
                         "remove_identifiers",
                         "generalize_dates",
                         "mask_locations",
-                        "trinity_protection",
+                        "constellation_protection",
                     ],
                     "governance_validated": True,
-                    "trinity_impact": {
+                    "constellation_impact": {
                         "identity": 0.8,
                         "consciousness": 0.3,
                         "guardian": 0.9,
@@ -501,10 +501,10 @@ class PrivacyGuardian(GlyphIntegrationMixin):
                     "anonymization_rules": [
                         "hash_identifiers",
                         "tokenize_names",
-                        "trinity_protection",
+                        "constellation_protection",
                     ],
                     "governance_validated": True,
-                    "trinity_impact": {
+                    "constellation_impact": {
                         "identity": 1.0,
                         "consciousness": 0.2,
                         "guardian": 0.8,
@@ -525,10 +525,10 @@ class PrivacyGuardian(GlyphIntegrationMixin):
                     "anonymization_rules": [
                         "remove_personal_markers",
                         "generalize_patterns",
-                        "trinity_protection",
+                        "constellation_protection",
                     ],
                     "governance_validated": True,
-                    "trinity_impact": {
+                    "constellation_impact": {
                         "identity": 0.4,
                         "consciousness": 1.0,
                         "guardian": 0.7,
@@ -581,7 +581,7 @@ class PrivacyGuardian(GlyphIntegrationMixin):
             await self._initialize_audit_logging()
 
             # Initialize Constellation Framework protection
-            if self.config.get("trinity_protection"):
+            if self.config.get("constellation_protection"):
                 await self._initialize_trinity_protection()
 
             # Initialize governance integration
@@ -645,7 +645,7 @@ class PrivacyGuardian(GlyphIntegrationMixin):
         await asyncio.sleep(0.1)  # Simulate initialization
 
         await self._log_governance_action(
-            "trinity_protection_initialized",
+            "constellation_protection_initialized",
             {"components": ["identity", "consciousness", "guardian"]},
         )
 
@@ -702,8 +702,8 @@ class PrivacyGuardian(GlyphIntegrationMixin):
                 classification = await self._adjust_classification_for_patterns(classification, sensitive_patterns)
 
             # Analyze Constellation Framework impact
-            trinity_impact = await self._analyze_trinity_impact_for_data(data, data_type, context)
-            classification.trinity_impact = trinity_impact["impact_scores"]
+            constellation_impact = await self._analyze_trinity_impact_for_data(data, data_type, context)
+            classification.constellation_impact = constellation_impact["impact_scores"]
 
             # Apply governance validation
             if self.governance_enabled:
@@ -719,7 +719,7 @@ class PrivacyGuardian(GlyphIntegrationMixin):
                     "data_type": data_type,
                     "classification": classification.sensitivity_level,
                     "patterns_detected": len(sensitive_patterns),
-                    "trinity_impact": classification.trinity_impact,
+                    "constellation_impact": classification.constellation_impact,
                     "governance_validated": classification.governance_validated,
                     "timestamp": datetime.now(timezone.utc).isoformat(),
                 }
@@ -733,14 +733,14 @@ class PrivacyGuardian(GlyphIntegrationMixin):
                 "data_type": data_type,
                 "classification": asdict(classification),
                 "sensitive_patterns": sensitive_patterns,
-                "trinity_impact": classification.trinity_impact,
+                "constellation_impact": classification.constellation_impact,
                 "governance_validated": classification.governance_validated,
                 "protection_requirements": {
                     "encryption_required": classification.encryption_required,
                     "anonymization_required": len(classification.anonymization_rules) > 0,
                     "access_restrictions": classification.access_restrictions,
                     "regulatory_compliance": classification.regulatory_requirements,
-                    "trinity_protection": max(classification.trinity_impact.values()) > 0.7,
+                    "constellation_protection": max(classification.constellation_impact.values()) > 0.7,
                 },
                 "classification_time": time.time() - start_time,
                 "symbolic_signature": symbolic_signature,
@@ -918,9 +918,9 @@ class PrivacyGuardian(GlyphIntegrationMixin):
             for component in impact_scores:
                 impact_scores[component] = min(1.0, impact_scores[component] + 0.2)
 
-        # Calculate overall Trinity risk
+        # Calculate overall Constellation risk
         overall_risk = sum(
-            impact_scores[component] * self.trinity_weights[component] for component in impact_scores
+            impact_scores[component] * self.constellation_weights[component] for component in impact_scores
         ) / len(impact_scores)
 
         return {
@@ -933,7 +933,7 @@ class PrivacyGuardian(GlyphIntegrationMixin):
         self, classification: DataClassification, patterns: list[str]
     ) -> DataClassification:
         """Enhanced classification adjustment with Constellation Framework and governance awareness"""
-        trinity_patterns = {"identity_data", "consciousness_data", "guardian_data"}
+        constellation_patterns = {"identity_data", "consciousness_data", "guardian_data"}
         sensitive_patterns = {
             "ssn",
             "credit_card",
@@ -942,11 +942,11 @@ class PrivacyGuardian(GlyphIntegrationMixin):
         }
 
         # Upgrade for Constellation Framework patterns
-        if any(pattern in trinity_patterns for pattern in patterns):
+        if any(pattern in constellation_patterns for pattern in patterns):
             classification.sensitivity_level = "restricted"
             classification.encryption_required = True
-            if "trinity_protection" not in classification.anonymization_rules:
-                classification.anonymization_rules.append("trinity_protection")
+            if "constellation_protection" not in classification.anonymization_rules:
+                classification.anonymization_rules.append("constellation_protection")
 
             # Add LUKHAS governance requirement
             if "LUKHAS_GOVERNANCE" not in classification.regulatory_requirements:
@@ -987,9 +987,9 @@ class PrivacyGuardian(GlyphIntegrationMixin):
                 }
 
         # Check Constellation Framework compliance
-        if max(classification.trinity_impact.values()) > 0.7:
-            trinity_approval = context.get("trinity_framework_approved", False)
-            if not trinity_approval:
+        if max(classification.constellation_impact.values()) > 0.7:
+            constellation_approval = context.get("constellation_framework_approved", False)
+            if not constellation_approval:
                 return {
                     "approved": False,
                     "reason": "Constellation Framework approval required for high-impact data",
@@ -998,7 +998,7 @@ class PrivacyGuardian(GlyphIntegrationMixin):
         return {"approved": True, "reason": "Governance validation passed"}
 
     def _get_classification_symbols(self, classification: DataClassification) -> list[str]:
-        """Get symbolic signature for classification with governance and Trinity context"""
+        """Get symbolic signature for classification with governance and Constellation context"""
         base_symbols = self.PRIVACY_SYMBOLS["protected"].copy()
 
         # Add sensitivity level symbols
@@ -1012,7 +1012,7 @@ class PrivacyGuardian(GlyphIntegrationMixin):
             base_symbols.append("⚖️")
 
         # Add Constellation Framework symbols
-        if max(classification.trinity_impact.values()) > 0.7:
+        if max(classification.constellation_impact.values()) > 0.7:
             base_symbols.extend(["⚛️", "🧠", "🛡️"])
 
         return base_symbols[:5]  # Limit to 5 symbols
@@ -1051,15 +1051,15 @@ class PrivacyGuardian(GlyphIntegrationMixin):
             data_str = json.dumps(data) if isinstance(data, dict) else str(data)
 
             # Apply Constellation Framework protection if needed
-            if context.get("trinity_protection") or self.config.get("trinity_protection"):
-                encryption_level = "trinity_protected"
+            if context.get("constellation_protection") or self.config.get("constellation_protection"):
+                encryption_level = "constellation_protected"
 
             # Enhanced encryption with governance metadata
             encrypted_data = self._enhanced_encrypt(data_str, encryption_level, context)
 
             self.stats["data_encrypted"] += 1
-            if encryption_level == "trinity_protected":
-                self.stats["trinity_protections_applied"] += 1
+            if encryption_level == "constellation_protected":
+                self.stats["constellation_protections_applied"] += 1
 
             # Log encryption event with governance metadata
             await self._log_audit_event(
@@ -1068,7 +1068,7 @@ class PrivacyGuardian(GlyphIntegrationMixin):
                     "encryption_level": encryption_level,
                     "data_size": len(data_str),
                     "governance_validated": self.governance_enabled,
-                    "trinity_protected": encryption_level == "trinity_protected",
+                    "constellation_protected": encryption_level == "constellation_protected",
                     "timestamp": datetime.now(timezone.utc).isoformat(),
                 }
             )
@@ -1079,7 +1079,7 @@ class PrivacyGuardian(GlyphIntegrationMixin):
                 "encryption_level": encryption_level,
                 "algorithm": self.config["encryption_algorithm"],
                 "governance_validated": self.governance_enabled,
-                "trinity_protected": encryption_level == "trinity_protected",
+                "constellation_protected": encryption_level == "constellation_protected",
                 "encryption_time": time.time() - start_time,
                 "symbolic_signature": self.PRIVACY_SYMBOLS["encrypted"],
             }
@@ -1103,7 +1103,7 @@ class PrivacyGuardian(GlyphIntegrationMixin):
     async def _validate_encryption_governance(self, data: Any, encryption_level: str, context: dict) -> dict[str, Any]:
         """Validate encryption request against governance policies"""
         # Check if high-level encryption requires approval
-        if encryption_level in ["high", "trinity_protected"]:
+        if encryption_level in ["high", "constellation_protected"]:
             approval_required = context.get("high_encryption_approval", True)
             if approval_required and not context.get("governance_pre_approved", False):
                 return {
@@ -1130,11 +1130,11 @@ class PrivacyGuardian(GlyphIntegrationMixin):
         if level == "high":
             # Double encoding for "high" security
             encoded = base64.b64encode(encoded.encode()).decode()
-        elif level == "trinity_protected":
+        elif level == "constellation_protected":
             # Triple encoding with Constellation Framework markers
             encoded = base64.b64encode(encoded.encode()).decode()
             encoded = base64.b64encode(encoded.encode()).decode()
-            encoded = f"TRINITY:{encoded}"
+            encoded = f"CONSTELLATION:{encoded}"
 
         # Add governance metadata
         governance_prefix = "GOV:" if self.governance_enabled else ""
@@ -1204,13 +1204,13 @@ class PrivacyGuardian(GlyphIntegrationMixin):
         stats["governance_validated_policies"] = len(
             [p for p in self.privacy_policies.values() if p.governance_approved]
         )
-        stats["trinity_protected_classifications"] = len(
-            [c for c in self.data_classifications.values() if max(c.trinity_impact.values()) > 0.7]
+        stats["constellation_protected_classifications"] = len(
+            [c for c in self.data_classifications.values() if max(c.constellation_impact.values()) > 0.7]
         )
         stats["governance_log_entries"] = len(self.governance_log)
 
         # Constellation Framework metrics
-        stats["constellation_framework_integration"] = self.config.get("trinity_protection", False)
+        stats["constellation_framework_integration"] = self.config.get("constellation_protection", False)
 
         return stats
 
@@ -1274,7 +1274,7 @@ if __name__ == "__main__":
 
         print("\n🔍 Testing enhanced data classification...")
         classification_result = await guardian.classify_data(
-            test_data, data_type="medical", context={"trinity_framework_approved": True}
+            test_data, data_type="medical", context={"constellation_framework_approved": True}
         )
 
         if classification_result["success"]:
@@ -1288,26 +1288,26 @@ if __name__ == "__main__":
             )
             print(f"   🛡️ Governance validated: {classification_result['governance_validated']}")
             print(
-                f"   ⚛️🧠🛡️ Trinity protection: {classification_result['protection_requirements']['trinity_protection']}"
+                f"   ⚛️🧠🛡️ Constellation protection: {classification_result['protection_requirements']['constellation_protection']}"
             )
             print(f"   🔍 Sensitive patterns: {', '.join(classification_result['sensitive_patterns'])}")
             print(
-                f"   📊 Trinity impact: I:{classification_result['trinity_impact']['identity']:.1f} C:{classification_result['trinity_impact']['consciousness']:.1f} G:{classification_result['trinity_impact']['guardian']:.1f}"
+                f"   📊 Constellation impact: I:{classification_result['constellation_impact']['identity']:.1f} C:{classification_result['constellation_impact']['consciousness']:.1f} G:{classification_result['constellation_impact']['guardian']:.1f}"
             )
 
         # Test enhanced encryption
         print("\n🔑 Testing enhanced data encryption...")
         encryption_result = await guardian.encrypt_data(
             test_data,
-            "trinity_protected",
-            context={"governance_pre_approved": True, "trinity_protection": True},
+            "constellation_protected",
+            context={"governance_pre_approved": True, "constellation_protection": True},
         )
 
         if encryption_result["success"]:
             print("   ✅ Encryption successful")
             print(f"   📊 Algorithm: {encryption_result['algorithm']}")
             print(f"   🛡️ Governance validated: {encryption_result['governance_validated']}")
-            print(f"   ⚛️ Trinity protected: {encryption_result['trinity_protected']}")
+            print(f"   ⚛️ Constellation protected: {encryption_result['constellation_protected']}")
             print(f"   ⏱️  Time: {encryption_result['encryption_time']:.3f}s")
             print(f"   🔐 Encrypted data: {encryption_result['encrypted_data'][:50]}...")
 
@@ -1318,9 +1318,9 @@ if __name__ == "__main__":
         print(f"   Privacy checks: {stats['privacy_checks']}")
         print(f"   Compliance rate: {stats['compliance_rate']:.2f}")
         print(f"   Governance enabled: {stats['governance_enabled']}")
-        print(f"   Trinity protections applied: {stats['trinity_protections_applied']}")
+        print(f"   Constellation protections applied: {stats['constellation_protections_applied']}")
         print(f"   Governance log entries: {stats['governance_log_entries']}")
-        print(f"   Trinity protected classifications: {stats['trinity_protected_classifications']}")
+        print(f"   Constellation protected classifications: {stats['constellation_protected_classifications']}")
         print(f"   Active regulations: {stats['active_regulations']}")
 
     asyncio.run(demo())

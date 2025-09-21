@@ -10,7 +10,7 @@ logger = logging.getLogger(__name__)
 ║ CONSCIOUSNESS_ROLE: Identity authentication signal emission
 ║ EVOLUTIONARY_STAGE: Integration - Signal-based identity patterns
 ║
-║ TRINITY FRAMEWORK:
+║ CONSTELLATION FRAMEWORK:
 ║ ⚛️ IDENTITY: Core identity signal emission and authentication events
 ║ 🧠 CONSCIOUSNESS: Consciousness-aware identity signal processing
 ║ 🛡️ GUARDIAN: Identity security event monitoring and compliance
@@ -197,8 +197,8 @@ class MatrizConsciousnessIdentitySignalEmitter:
                 # Create bio-symbolic data for authentication
                 bio_symbolic_data = self._create_authentication_bio_data(authentication_tier, biometric_data)
 
-                # Create Trinity compliance data
-                trinity_compliance = self._create_authentication_trinity_compliance(authentication_tier, namespace_data)
+                # Create Constellation compliance data
+                constellation_compliance = self._create_authentication_trinity_compliance(authentication_tier, namespace_data)
 
                 # Create temporal context
                 temporal_context = TemporalContext(
@@ -220,7 +220,7 @@ class MatrizConsciousnessIdentitySignalEmitter:
                     metacognition_active=True,
                     bio_symbolic_data=bio_symbolic_data,
                     temporal_context=temporal_context,
-                    trinity_compliance=trinity_compliance,
+                    constellation_compliance=constellation_compliance,
                     target_modules=self.default_target_modules,
                     processing_hints={
                         "identity_signal_type": IdentitySignalType.AUTHENTICATION_REQUEST.value,
@@ -291,8 +291,8 @@ class MatrizConsciousnessIdentitySignalEmitter:
                     temporal_decay=0.95,
                 )
 
-                # Enhanced Trinity compliance for successful authentication
-                trinity_compliance = ConstellationAlignmentData(
+                # Enhanced Constellation compliance for successful authentication
+                constellation_compliance = ConstellationAlignmentData(
                     identity_auth_score=identity_strength,
                     consciousness_coherence=consciousness_coherence,
                     guardian_compliance=0.95,
@@ -322,7 +322,7 @@ class MatrizConsciousnessIdentitySignalEmitter:
                     reflection_depth=3,
                     metacognition_active=True,
                     bio_symbolic_data=bio_symbolic_data,
-                    trinity_compliance=trinity_compliance,
+                    constellation_compliance=constellation_compliance,
                     target_modules=self.default_target_modules,
                     processing_hints={
                         "identity_signal_type": IdentitySignalType.AUTHENTICATION_SUCCESS.value,
@@ -408,8 +408,8 @@ class MatrizConsciousnessIdentitySignalEmitter:
                     prediction_horizon_ms=1800000,  # 30 minute prediction for evolution
                 )
 
-                # Trinity compliance for evolution
-                trinity_compliance = ConstellationAlignmentData(
+                # Constellation compliance for evolution
+                constellation_compliance = ConstellationAlignmentData(
                     identity_auth_score=0.9,
                     consciousness_coherence=consciousness_depth,
                     guardian_compliance=0.85,  # Evolution may challenge some boundaries
@@ -448,7 +448,7 @@ class MatrizConsciousnessIdentitySignalEmitter:
                     metacognition_active=True,
                     bio_symbolic_data=bio_symbolic_data,
                     temporal_context=temporal_context,
-                    trinity_compliance=trinity_compliance,
+                    constellation_compliance=constellation_compliance,
                     target_modules=self.default_target_modules,
                     processing_hints={
                         "identity_signal_type": IdentitySignalType.IDENTITY_EVOLUTION.value,
@@ -516,8 +516,8 @@ class MatrizConsciousnessIdentitySignalEmitter:
                     temporal_decay=0.9,
                 )
 
-                # Trinity compliance with Constitutional focus
-                trinity_compliance = ConstellationAlignmentData(
+                # Constellation compliance with Constitutional focus
+                constellation_compliance = ConstellationAlignmentData(
                     identity_auth_score=0.95,
                     consciousness_coherence=compliance_score,
                     guardian_compliance=compliance_score,
@@ -535,7 +535,7 @@ class MatrizConsciousnessIdentitySignalEmitter:
                     reflection_depth=4,  # Deep reflection for compliance
                     metacognition_active=True,
                     bio_symbolic_data=bio_symbolic_data,
-                    trinity_compliance=trinity_compliance,
+                    constellation_compliance=constellation_compliance,
                     target_modules=[*self.default_target_modules, "governance.constitutional_ai"],
                     processing_hints={
                         "identity_signal_type": IdentitySignalType.CONSTITUTIONAL_COMPLIANCE.value,
@@ -592,8 +592,8 @@ class MatrizConsciousnessIdentitySignalEmitter:
                     temporal_decay=0.8,
                 )
 
-                # Trinity compliance for namespace isolation
-                trinity_compliance = ConstellationAlignmentData(
+                # Constellation compliance for namespace isolation
+                constellation_compliance = ConstellationAlignmentData(
                     identity_auth_score=0.9,
                     consciousness_coherence=namespace_data.domain_coherence,
                     guardian_compliance=namespace_data.isolation_level,
@@ -611,7 +611,7 @@ class MatrizConsciousnessIdentitySignalEmitter:
                     reflection_depth=2,
                     metacognition_active=False,
                     bio_symbolic_data=bio_symbolic_data,
-                    trinity_compliance=trinity_compliance,
+                    constellation_compliance=constellation_compliance,
                     target_modules=[*self.default_target_modules, "security.namespace_manager"],
                     processing_hints={
                         "identity_signal_type": IdentitySignalType.NAMESPACE_ISOLATION.value,
@@ -690,7 +690,7 @@ class MatrizConsciousnessIdentitySignalEmitter:
     def _create_authentication_trinity_compliance(
         self, tier: AuthenticationTier, namespace_data: Optional[NamespaceIsolationData]
     ) -> ConstellationAlignmentData:
-        """Create Trinity compliance data for authentication"""
+        """Create Constellation compliance data for authentication"""
 
         # Base scores by tier
         tier_scores = {

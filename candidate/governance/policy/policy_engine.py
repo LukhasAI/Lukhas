@@ -51,7 +51,7 @@ class PolicyType(Enum):
     USER_CONSENT = "user_consent"  # User consent management
     CONTENT = "content"  # Content moderation
     SYSTEM_BEHAVIOR = "system_behavior"  # System behavior control
-    TRINITY = "constellation"  # Constellation Framework specific
+    CONSTELLATION = "constellation"  # Constellation Framework specific
 
 
 class PolicyScope(Enum):
@@ -690,10 +690,10 @@ class PolicyEnforcementEngine:
         # Constellation Framework policies
         self.rule_engine.add_rule(
             PolicyRule(
-                rule_id="trinity_001_drift_threshold",
-                name="Trinity Drift Threshold",
+                rule_id="constellation_001_drift_threshold",
+                name="Constellation Drift Threshold",
                 description="Monitor and control Constellation Framework drift",
-                policy_type=PolicyType.TRINITY,
+                policy_type=PolicyType.CONSTELLATION,
                 scope=PolicyScope.GLOBAL,
                 priority=PolicyPriority.HIGH,
                 conditions=[PolicyCondition(field="drift_score", operator=ConditionOperator.GREATER_THAN, value=0.15)],
@@ -819,9 +819,9 @@ class PolicyEnforcementEngine:
         # Add Constellation Framework context if available
         enhanced.update(
             {
-                "trinity_identity": context.get("identity_context", {}),  # ⚛️
-                "trinity_consciousness": context.get("consciousness_context", {}),  # 🧠
-                "trinity_guardian": context.get("guardian_context", {}),  # 🛡️
+                "constellation_identity": context.get("identity_context", {}),  # ⚛️
+                "constellation_consciousness": context.get("consciousness_context", {}),  # 🧠
+                "constellation_guardian": context.get("guardian_context", {}),  # 🛡️
             }
         )
 

@@ -238,7 +238,7 @@ class IntentRouter:
             "endpoint": "/api/consciousness/state",
             "parameters": intent.parameters,
             "glyphs": intent.glyphs,
-            "message": "Exploring consciousness state and Trinity alignment",
+            "message": "Exploring consciousness state and Constellation alignment",
         }
 
     def _handle_drift_check(self, intent: Intent) -> dict[str, Any]:

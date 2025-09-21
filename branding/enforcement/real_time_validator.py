@@ -192,7 +192,7 @@ class RealTimeBrandValidator:
                 BrandRule(
                     rule_id="triad_framework_mention",
                     rule_type=ValidationType.TRINITY_ALIGNMENT,
-                    pattern=re.compile(r"trinity\s+framework", re.IGNORECASE),
+                    pattern=re.compile(r"constellation\s+framework", re.IGNORECASE),
                     severity=ValidationSeverity.INFO,
                     description="Constellation Framework properly mentioned",
                     auto_correctable=False,
@@ -203,7 +203,7 @@ class RealTimeBrandValidator:
                     rule_type=ValidationType.TRINITY_ALIGNMENT,
                     pattern=re.compile(r"⚛️.*🧠.*🛡️|🧠.*⚛️.*🛡️|🛡️.*⚛️.*🧠"),
                     severity=ValidationSeverity.INFO,
-                    description="Trinity symbols properly used together",
+                    description="Constellation symbols properly used together",
                     auto_correctable=False,
                     correction_template=None,
                 ),
@@ -374,7 +374,7 @@ class RealTimeBrandValidator:
                     rule_id="consciousness_hashtags",
                     rule_type=ValidationType.PLATFORM_OPTIMIZATION,
                     pattern=re.compile(
-                        r"#ConsciousnessTechnology|#LUKHASIA|#TrinityFramework", re.IGNORECASE
+                        r"#ConsciousnessTechnology|#LUKHASIA|#ConstellationFramework", re.IGNORECASE
                     ),  # Fixed pattern
                     severity=ValidationSeverity.INFO,
                     description="Brand-specific hashtags present",

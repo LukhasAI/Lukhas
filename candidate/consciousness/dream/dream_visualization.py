@@ -39,7 +39,7 @@ class DreamVisualizationEngine:
         self.visualization_cache[render_id] = {
             "landscape": landscape,
             "rendered_at": datetime.now(timezone.utc).isoformat(),
-            "trinity_validated": True
+            "constellation_validated": True
         }
 
         logger.info(f"🎨 Dream landscape rendered: {render_id} for dream {dream_id}")
@@ -63,7 +63,7 @@ class DreamVisualizationEngine:
 
     def _extract_color_palette(self, dream_data: dict[str, Any]) -> list[str]:
         """Extract color palette from dream essence."""
-        return ["iridescent_purple", "consciousness_gold", "trinity_silver", "dream_azure"]
+        return ["iridescent_purple", "consciousness_gold", "constellation_silver", "dream_azure"]
 
     def _map_spatial_elements(self, dream_data: dict[str, Any]) -> dict[str, tuple[float, float, float]]:
         """Map spatial elements in 3D dream space."""
@@ -94,7 +94,7 @@ class DreamVisualizationEngine:
                 "metaphorical_layers": len(landscape["symbolic_mapping"]["metaphors"]),
                 "archetypal_resonance": landscape["symbolic_mapping"]["archetypal_forms"]
             },
-            "trinity_validated": True
+            "constellation_validated": True
         }
 
         logger.info(f"🧠 Symbolic narrative created for render: {render_id}")
@@ -109,12 +109,12 @@ class DreamVisualizationEngine:
 
         if format_type == "constellation":
             export_data = {
-                "format": "trinity_compliant",
+                "format": "constellation_compliant",
                 "render_id": render_id,
                 "landscape": render_data["landscape"],
                 "metadata": {
                     "exported_at": datetime.now(timezone.utc).isoformat(),
-                    "trinity_validated": True,
+                    "constellation_validated": True,
                     "guardian_approved": True
                 }
             }

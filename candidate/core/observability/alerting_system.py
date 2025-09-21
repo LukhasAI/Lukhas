@@ -133,7 +133,7 @@ class AlertRule:
     applicable_regulations: list[ComplianceRegulation] = field(default_factory=list)
 
     # Constellation Framework
-    trinity_component: Optional[str] = None  # identity, consciousness, guardian
+    constellation_component: Optional[str] = None  # identity, consciousness, guardian
 
     # Auto-resolution
     auto_resolve: bool = False
@@ -191,7 +191,7 @@ class Alert:
     audit_trail_id: Optional[str] = None
 
     # Constellation Framework
-    trinity_impact: dict[str, float] = field(default_factory=dict)  # ⚛️🧠🛡️
+    constellation_impact: dict[str, float] = field(default_factory=dict)  # ⚛️🧠🛡️
 
     # Correlation
     correlation_key: Optional[str] = None
@@ -394,7 +394,7 @@ class ComprehensiveAlertingSystem:
                 ],
                 compliance_relevant=True,
                 applicable_regulations=[ComplianceRegulation.SOC2],
-                trinity_component="guardian",
+                constellation_component="guardian",
             ),
             # Consciousness alerts
             AlertRule(
@@ -407,7 +407,7 @@ class ComprehensiveAlertingSystem:
                 severity=AlertSeverity.MEDIUM,
                 category=AlertCategory.CONSCIOUSNESS,
                 notification_channels=[NotificationChannel.DASHBOARD],
-                trinity_component="consciousness",
+                constellation_component="consciousness",
             ),
             # System health alerts
             AlertRule(
@@ -646,7 +646,7 @@ LUKHAS AI Monitoring System
             alert.applicable_regulations = rule.applicable_regulations.copy()
 
         # Constellation Framework impact analysis
-        alert.trinity_impact = await self._analyze_trinity_impact(alert)
+        alert.constellation_impact = await self._analyze_trinity_impact(alert)
 
         # Store alert
         self.active_alerts[alert_id] = alert
@@ -1054,7 +1054,7 @@ LUKHAS AI Monitoring System
                 "source_system": alert.source_system,
                 "tags": alert.tags,
                 "metadata": alert.metadata,
-                "trinity_impact": alert.trinity_impact,
+                "constellation_impact": alert.constellation_impact,
             }
 
             # In production, would make HTTP POST to webhook URL

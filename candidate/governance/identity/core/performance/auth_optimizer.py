@@ -534,7 +534,7 @@ class AuthenticationOptimizer:
                 "total_errors": self.metrics.metrics["error_count"],
             },
             "recommendations": self._generate_optimization_recommendations(p95_latency, cache_hit_rate),
-            "trinity_compliance": {
+            "constellation_compliance": {
                 "⚛️_identity": "PERFORMANCE_OPTIMIZED",
                 "🧠_consciousness": "MONITORED",
                 "🛡️_guardian": "PROTECTED",

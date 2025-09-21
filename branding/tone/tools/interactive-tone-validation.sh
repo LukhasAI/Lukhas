@@ -241,7 +241,7 @@ main() {
         exit 1
     fi
 
-    echo_success "🌟 Commit blessed by the Trinity! Proceeding..."
+    echo_success "🌟 Commit blessed by the Constellation! Proceeding..."
 }
 
 # Check if we're being run as a pre-commit hook

@@ -39,7 +39,7 @@ class TierValidationResult:
 
 
 class TierValidator:
-    """⚛️🧠🛡️ Trinity-compliant tier validation and progression engine"""
+    """⚛️🧠🛡️ Constellation-compliant tier validation and progression engine"""
 
     def __init__(self, config_path: Optional[str] = None):
         self.config_path = config_path or self._get_default_config_path()

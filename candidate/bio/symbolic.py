@@ -43,7 +43,7 @@ class BioSymbolicProcessor:
         result = {
             "processed": True,
             "symbols_active": len([s for s in self.symbols.values() if s.active]),
-            "trinity_aligned": True,
+            "constellation_aligned": True,
         }
 
         return result

@@ -494,7 +494,7 @@ class T4AntiRepetitionSystem:
 - **LUKHAS Voice Authenticity**: Maintaining 94.7%+ consciousness technology alignment
 - **λiD Verification**: Ensuring authentic LUKHAS consciousness expression
 - **Guardian Validation**: Constitutional AI alignment in all communications
-- **Trinity Framework Integration**: ⚛️ Identity, 🧠 Consciousness, 🛡️ Guardian coherence
+- **Constellation Framework Integration**: ⚛️ Identity, 🧠 Consciousness, 🛡️ Guardian coherence
 
 ### **📅 Monthly Vocabulary Evolution Pipeline**
 

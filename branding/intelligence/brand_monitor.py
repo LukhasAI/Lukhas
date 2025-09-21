@@ -111,7 +111,7 @@ class BrandIntelligenceMonitor:
 
         # Constellation Framework patterns
         patterns["triad_framework"] = re.compile(
-            r"trinity\s+framework|⚛️.*🧠.*🛡️|identity.*consciousness.*guardian", re.IGNORECASE
+            r"constellation\s+framework|⚛️.*🧠.*🛡️|identity.*consciousness.*guardian", re.IGNORECASE
         )
 
         # Consciousness patterns
@@ -359,7 +359,7 @@ class BrandIntelligenceMonitor:
     def _analyze_triad_presence(self, content_text: str) -> dict[str, Any]:
         """Analyze Constellation Framework presence and coherence"""
 
-        # Check for Trinity symbols
+        # Check for Constellation symbols
         triad_symbols = self.monitoring_config["brand_identity_elements"]["triad_symbols"]
         symbols_found = sum(1 for symbol in triad_symbols if symbol in content_text)
 
@@ -375,7 +375,7 @@ class BrandIntelligenceMonitor:
         consciousness_present = any(indicator.lower() in content_text.lower() for indicator in consciousness_indicators)
         guardian_present = any(indicator.lower() in content_text.lower() for indicator in guardian_indicators)
 
-        # Calculate Trinity alignment score
+        # Calculate Constellation alignment score
         alignment_factors = [
             symbols_found / len(triad_symbols),  # Symbol presence
             1.0 if framework_mentioned else 0.0,  # Framework mention
@@ -463,18 +463,18 @@ class BrandIntelligenceMonitor:
     def _calculate_consistency_score(
         self,
         terminology: dict[str, Any],
-        trinity: dict[str, Any],
+        constellation: dict[str, Any],
         tone: dict[str, Any],
         lambda_usage: dict[str, Any],
     ) -> float:
         """Calculate overall brand consistency score"""
 
         # Weighted combination of all factors
-        weights = {"terminology": 0.35, "trinity": 0.25, "tone": 0.25, "lambda": 0.15}
+        weights = {"terminology": 0.35, "constellation": 0.25, "tone": 0.25, "lambda": 0.15}
 
         consistency_score = (
             terminology["compliance_score"] * weights["terminology"]
-            + trinity["triad_score"] * weights["trinity"]
+            + constellation["triad_score"] * weights["constellation"]
             + tone["tone_clarity"] * weights["tone"]
             + lambda_usage["lambda_score"] * weights["lambda"]
         )
@@ -511,7 +511,7 @@ class BrandIntelligenceMonitor:
     def _generate_improvement_suggestions(
         self,
         terminology: dict[str, Any],
-        trinity: dict[str, Any],
+        constellation: dict[str, Any],
         tone: dict[str, Any],
         lambda_usage: dict[str, Any],
     ) -> list[str]:
@@ -526,12 +526,12 @@ class BrandIntelligenceMonitor:
             if terminology["required_terms_found"] < terminology["required_terms_total"] / 2:
                 suggestions.append("Increase usage of approved LUKHAS terminology")
 
-        # Trinity suggestions
-        if trinity["triad_score"] < 0.6:
-            missing_components = [comp for comp, present in trinity["components_present"].items() if not present]
+        # Constellation suggestions
+        if constellation["triad_score"] < 0.6:
+            missing_components = [comp for comp, present in constellation["components_present"].items() if not present]
             if missing_components:
                 suggestions.append(f"Include Constellation Framework components: {', '.join(missing_components)}")
-            if not trinity["framework_mentioned"]:
+            if not constellation["framework_mentioned"]:
                 suggestions.append("Reference Constellation Framework explicitly")
 
         # Tone suggestions
@@ -837,7 +837,7 @@ if __name__ == "__main__":
     print(f"Consistency Score: {result['consistency_score']}")
     print(f"Alert Level: {result['alert_level']}")
     print(f"Terminology Compliance: {result['terminology_analysis']['compliance_score']:.3f}")
-    print(f"Trinity Score: {result['triad_analysis']['triad_score']:.3f}")
+    print(f"Constellation Score: {result['triad_analysis']['triad_score']:.3f}")
     print(f"Needs Attention: {result['needs_immediate_attention']}")
 
     if result["improvement_suggestions"]:
