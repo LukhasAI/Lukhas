@@ -11,6 +11,8 @@ CREATE TABLE IF NOT EXISTS guardian_exemptions (
   tags               JSONB NOT NULL,        -- e.g. ["pii","external-call"]
   confidences        JSONB NOT NULL,        -- e.g. {"pii":0.92,"external-call":0.81}
   band               TEXT NOT NULL,         -- minor|major|high|critical
+  user_consent_timestamp TIMESTAMPTZ,       -- # ΛTAG: consent_tracking
+  consent_method     TEXT,                  -- # ΛTAG: consent_tracking
   purpose            TEXT,                  -- declared purpose
   retention_days     INT,                   -- declared retention
   justification      TEXT,                  -- free-text rationale
@@ -18,7 +20,14 @@ CREATE TABLE IF NOT EXISTS guardian_exemptions (
   override_granted   BOOLEAN NOT NULL DEFAULT FALSE,
   approver1_id       TEXT,                  -- ΛiD of approver 1 (T4+)
   approver2_id       TEXT,                  -- ΛiD of approver 2 (T4+)
-  created_at         TIMESTAMPTZ NOT NULL DEFAULT NOW()
+  created_at         TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  CONSTRAINT guardian_exemptions_consent_required
+    CHECK (
+      NOT (
+        (tags ? 'financial' OR tags ? 'pii') AND
+        (user_consent_timestamp IS NULL OR consent_method IS NULL)
+      )
+    ) -- # ΛTAG: consent_tracking
 );
 
 -- Append-only: block UPDATE/DELETE.

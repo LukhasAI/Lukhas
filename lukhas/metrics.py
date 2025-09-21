@@ -53,6 +53,7 @@ if Counter is None or Histogram is None or Gauge is None:
     stage_latency = _NoopHistogram()
     stage_timeouts = _NoopCounter()
     guardian_band = _NoopCounter()
+    retry_attempts_total = _NoopCounter()  # # ΛTAG: error_recovery
 
     # Domain-specific AI metrics
     memory_cascade_prevention_rate = _NoopGauge()
@@ -88,6 +89,12 @@ else:
         "Guardian decisions per risk band",
         ["band", "action"]
     )
+
+    retry_attempts_total = Counter(
+        "matriz_stage_retry_attempts_total",
+        "Retry attempts per stage and error type",
+        ["stage", "error_type"]
+    )  # # ΛTAG: error_recovery
 
     # Domain-specific AI metrics
     memory_cascade_prevention_rate = Gauge(
@@ -184,7 +191,7 @@ __all__ = [
     "ethics_risk_distribution", "node_confidence_scores",
     "pipeline_success_rate", "active_memory_folds",
     "constellation_star_activations", "arbitration_decisions_total",
-    "oscillation_detections_total",
+    "oscillation_detections_total", "retry_attempts_total",
     # Parallel execution metrics
     "parallel_batch_duration", "parallel_speedup_ratio", "parallel_execution_mode_total"
 ]

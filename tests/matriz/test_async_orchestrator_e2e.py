@@ -3,11 +3,31 @@
 End-to-end tests for the async orchestrator system.
 """
 
+import asyncio
+
 import pytest
 
+from lukhas.core.interfaces import CognitiveNodeBase
 from lukhas.core.registry import register
-from candidate.core.orchestration.async_orchestrator import AsyncOrchestrator
+from candidate.core.orchestration.async_orchestrator import AsyncOrchestrator, CancellationToken
 from candidate.nodes.example_nodes import IntentNode, ThoughtNode, DecisionNode, SlowNode, ErrorNode
+
+
+class TransientFailureNode(CognitiveNodeBase):
+    """Node that fails once before succeeding to test retry logic."""
+
+    name = "flaky"
+
+    def __init__(self) -> None:
+        self.calls = 0
+
+    async def process(self, ctx):
+        self.calls += 1
+        if self.calls == 1:
+            error = RuntimeError("transient failure")
+            setattr(error, "transient", True)  # # ΛTAG: error_recovery
+            raise error
+        return {"flaky": True, "calls": self.calls}
 
 
 @pytest.fixture
@@ -196,6 +216,84 @@ async def test_missing_nodes():
     # Should handle missing nodes gracefully
     skipped_stages = [r for r in result.stage_results if r.get("status") == "skipped"]
     assert len(skipped_stages) > 0
+
+
+@pytest.mark.asyncio
+async def test_adaptive_node_routing(orchestrator, register_test_nodes):
+    """Ensure orchestrator routes to fallback nodes when primary fails."""
+
+    orchestrator.configure_stages([
+        {"name": "INTENT", "timeout_ms": 100},
+        {
+            "name": "DECISION",
+            "node": "error",
+            "fallback_nodes": ["decision"],
+            "timeout_ms": 150,
+        },
+    ])
+
+    context = {"query": "Trigger fallback"}
+    result = await orchestrator.process_query(context)
+
+    assert result.success
+    decision_stage = next((stage for stage in result.stage_results if isinstance(stage, dict) and stage.get("decision")), None)
+    assert decision_stage is not None
+    assert decision_stage.get("_fallback", {}).get("failed_primary") is True  # # ΛTAG: adaptive_routing
+
+
+@pytest.mark.asyncio
+async def test_pipeline_cancellation(orchestrator, register_test_nodes):
+    """Verify cancellation token stops in-flight stages."""
+
+    orchestrator.configure_stages([
+        {"name": "INTENT", "timeout_ms": 200},
+        {"name": "slow", "timeout_ms": 1000},
+    ])
+
+    token = CancellationToken()
+
+    async def trigger_cancel():
+        await asyncio.sleep(0.05)
+        token.cancel("user_abort")  # # ΛTAG: cancellation
+
+    cancel_task = asyncio.create_task(trigger_cancel())
+    result = await orchestrator.process_query({"query": "cancel please"}, cancellation=token)
+    await cancel_task
+
+    assert not result.success
+    assert result.escalation_reason == "cancelled"
+    assert result.output.get("cancelled")
+    cancelled_entries = [stage for stage in result.stage_results if stage.get("status") == "cancelled"]
+    assert cancelled_entries
+
+
+@pytest.mark.asyncio
+async def test_transient_error_recovery(orchestrator, register_test_nodes):
+    """Transient failures should recover via retry backoff."""
+
+    flaky_node = TransientFailureNode()
+    register("node:flaky", flaky_node)
+
+    orchestrator.configure_stages([
+        {"name": "INTENT", "timeout_ms": 100},
+        {
+            "name": "FLAKY",
+            "node": "flaky",
+            "timeout_ms": 200,
+            "max_retries": 3,
+            "backoff_base_ms": 50,
+        },
+        {"name": "DECISION", "timeout_ms": 200},
+    ])
+
+    context = {"query": "resilient"}
+    result = await orchestrator.process_query(context)
+
+    assert result.success
+    assert flaky_node.calls >= 2
+    flaky_results = [stage for stage in result.stage_results if isinstance(stage, dict) and stage.get("flaky")]
+    assert flaky_results
+    assert "_fallback" not in flaky_results[0]  # # ΛTAG: error_recovery
 
 
 def test_stage_configuration():
