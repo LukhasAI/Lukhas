@@ -1,0 +1,407 @@
+#!/usr/bin/env python3
+"""
+Memory Fold Consolidation Edge Cases Tests
+
+Tests edge cases and data preservation in memory fold consolidation process.
+Validates that consolidated items remain searchable and no data is lost.
+
+# ΛTAG: memory_fold_tests, consolidation_edge_cases
+"""
+
+import pytest
+import tempfile
+import json
+from datetime import datetime, timedelta
+from typing import List, Dict, Any
+from uuid import uuid4
+from pathlib import Path
+
+try:
+    from lukhas.memory.adaptive_memory import (
+        AdaptiveMemorySystem,
+        MemoryItem,
+        MemoryFold,
+        MemoryType
+    )
+    MEMORY_AVAILABLE = True
+except ImportError:
+    # Fallback for testing without full memory system
+    MEMORY_AVAILABLE = False
+    AdaptiveMemorySystem = None
+    MemoryItem = None
+    MemoryFold = None
+    MemoryType = None
+
+
+@pytest.mark.skipif(not MEMORY_AVAILABLE, reason="Memory system not available")
+class TestFoldConsolidationEdgeCases:
+    """Test edge cases in memory fold consolidation."""
+
+    @pytest.fixture
+    def memory_system(self):
+        """Create a temporary memory system for testing."""
+        with tempfile.TemporaryDirectory() as tmpdir:
+            system = AdaptiveMemorySystem(storage_path=Path(tmpdir))
+            yield system
+
+    @pytest.fixture
+    def sample_memories(self):
+        """Create sample memory items for testing."""
+        base_time = datetime.now()
+
+        memories = []
+        for i in range(150):  # Exceed consolidation threshold (100)
+            memory = MemoryItem(
+                id=f"mem_{i:03d}",
+                content={
+                    "text": f"Memory content {i}",
+                    "data": {"value": i, "category": f"cat_{i % 5}"},
+                    "metadata": {"source": "test", "importance": i % 10}
+                },
+                memory_type=MemoryType.DECLARATIVE,
+                timestamp=base_time + timedelta(minutes=i),
+                tags=[f"tag_{i % 3}", "test_data"],
+                importance_score=0.1 + (i % 10) * 0.1
+            )
+            memories.append(memory)
+
+        return memories
+
+    def test_basic_consolidation_triggered(self, memory_system, sample_memories):
+        """Test that consolidation is triggered when thresholds are exceeded."""
+
+        # Add memories to exceed consolidation threshold
+        fold_id = "test_fold_001"
+        fold = MemoryFold(id=fold_id)
+
+        for memory in sample_memories:
+            fold.add_item(memory)
+            memory_system.store_memory(memory)
+
+        # Check consolidation trigger
+        assert fold.should_consolidate(), "Fold should require consolidation with 150 items"
+        assert len(fold.items) > 100, "Fold should have more than 100 items"
+
+    def test_consolidation_preserves_searchable_content(self, memory_system, sample_memories):
+        """Test that consolidated memories remain searchable."""
+
+        # Create and populate fold
+        fold_id = "searchable_fold"
+        fold = MemoryFold(id=fold_id)
+
+        for memory in sample_memories[:120]:  # Use subset to trigger consolidation
+            fold.add_item(memory)
+            memory_system.store_memory(memory)
+
+        # Record original searchable terms
+        original_terms = set()
+        for memory in fold.items:
+            if isinstance(memory.content, dict) and "text" in memory.content:
+                original_terms.add(memory.content["text"])
+            original_terms.update(memory.tags)
+
+        # Perform consolidation
+        consolidated_item = fold.consolidate()
+        memory_system._consolidate_fold(fold)
+
+        # Verify consolidated item contains searchable references
+        assert consolidated_item.id.startswith("consolidated_"), "Consolidated item should have proper ID"
+        assert "fold_id" in consolidated_item.content, "Should preserve fold ID"
+        assert consolidated_item.content["item_count"] == 120, "Should preserve item count"
+
+        # Test that consolidated content is searchable
+        consolidated_content = json.dumps(consolidated_item.content)
+
+        # Check that at least some original terms are preserved
+        preserved_terms = 0
+        for term in list(original_terms)[:10]:  # Check first 10 terms
+            if term in consolidated_content:
+                preserved_terms += 1
+
+        assert preserved_terms > 0, "Consolidated content should preserve searchable terms"
+
+    def test_consolidation_edge_case_empty_fold(self, memory_system):
+        """Test consolidation behavior with empty fold."""
+
+        empty_fold = MemoryFold(id="empty_fold")
+
+        # Empty fold should not trigger consolidation
+        assert not empty_fold.should_consolidate(), "Empty fold should not need consolidation"
+
+        # Consolidating empty fold should handle gracefully
+        with pytest.raises((ValueError, IndexError)):
+            empty_fold.consolidate()
+
+    def test_consolidation_edge_case_single_item(self, memory_system):
+        """Test consolidation behavior with single item fold."""
+
+        single_fold = MemoryFold(id="single_fold")
+        single_memory = MemoryItem(
+            id="single_mem",
+            content={"text": "Single memory"},
+            memory_type=MemoryType.EPISODIC,
+            timestamp=datetime.now(),
+            tags=["single"],
+            importance_score=0.5
+        )
+
+        single_fold.add_item(single_memory)
+
+        # Single item should not trigger consolidation
+        assert not single_fold.should_consolidate(), "Single item fold should not need consolidation"
+
+    def test_consolidation_preserves_temporal_order(self, memory_system, sample_memories):
+        """Test that consolidation preserves temporal ordering information."""
+
+        fold = MemoryFold(id="temporal_fold")
+
+        # Add memories in specific temporal order
+        sorted_memories = sorted(sample_memories[:110], key=lambda m: m.timestamp)
+        for memory in sorted_memories:
+            fold.add_item(memory)
+
+        # Consolidate
+        consolidated_item = fold.consolidate()
+
+        # Check temporal preservation
+        time_range = consolidated_item.content["time_range"]
+        assert len(time_range) == 2, "Should preserve start and end times"
+
+        earliest_time = min(m.timestamp for m in sorted_memories)
+        latest_time = max(m.timestamp for m in sorted_memories)
+
+        assert time_range[0] == earliest_time, "Should preserve earliest timestamp"
+        assert time_range[1] == latest_time, "Should preserve latest timestamp"
+
+    def test_consolidation_preserves_importance_distribution(self, memory_system, sample_memories):
+        """Test that consolidation preserves importance score distribution."""
+
+        fold = MemoryFold(id="importance_fold")
+
+        # Add memories with varied importance scores
+        for memory in sample_memories[:105]:
+            fold.add_item(memory)
+
+        # Calculate original importance statistics
+        original_scores = [m.importance_score for m in fold.items]
+        original_avg = sum(original_scores) / len(original_scores)
+        original_max = max(original_scores)
+        original_min = min(original_scores)
+
+        # Consolidate
+        consolidated_item = fold.consolidate()
+
+        # Check importance preservation
+        assert "importance_stats" in consolidated_item.content, "Should preserve importance statistics"
+
+        stats = consolidated_item.content["importance_stats"]
+        assert abs(stats["avg"] - original_avg) < 0.01, "Should preserve average importance"
+        assert stats["max"] == original_max, "Should preserve maximum importance"
+        assert stats["min"] == original_min, "Should preserve minimum importance"
+
+    def test_consolidation_handles_large_content(self, memory_system):
+        """Test consolidation with very large content items."""
+
+        fold = MemoryFold(id="large_content_fold")
+
+        # Create memories with large content (simulate size threshold trigger)
+        large_memories = []
+        for i in range(50):  # Fewer items but large content
+            large_content = {
+                "text": "Large memory content " * 1000,  # ~20KB per item
+                "data": {"large_data": "x" * 10000},  # Additional large data
+                "index": i
+            }
+
+            memory = MemoryItem(
+                id=f"large_mem_{i}",
+                content=large_content,
+                memory_type=MemoryType.DECLARATIVE,
+                timestamp=datetime.now(),
+                tags=["large_content"],
+                importance_score=0.5
+            )
+
+            fold.add_item(memory)
+            large_memories.append(memory)
+
+        # Should trigger consolidation due to size
+        assert fold.should_consolidate(), "Large content should trigger consolidation"
+        assert fold.size_bytes > 1_000_000, "Fold should exceed size threshold"
+
+        # Consolidate and verify
+        consolidated_item = fold.consolidate()
+
+        assert consolidated_item.content["item_count"] == 50, "Should preserve item count"
+        assert "size_reduction" in consolidated_item.content, "Should track size reduction"
+
+    def test_consolidation_handles_mixed_content_types(self, memory_system):
+        """Test consolidation with mixed content types and structures."""
+
+        fold = MemoryFold(id="mixed_content_fold")
+
+        # Create memories with different content structures
+        mixed_memories = []
+        for i in range(110):
+            if i % 4 == 0:
+                content = {"text": f"Text memory {i}"}
+            elif i % 4 == 1:
+                content = {"data": {"number": i, "list": [1, 2, 3]}}
+            elif i % 4 == 2:
+                content = {"mixed": {"text": f"Mixed {i}", "number": i}}
+            else:
+                content = f"String content {i}"  # Non-dict content
+
+            memory = MemoryItem(
+                id=f"mixed_mem_{i}",
+                content=content,
+                memory_type=MemoryType.PROCEDURAL if i % 2 else MemoryType.DECLARATIVE,
+                timestamp=datetime.now(),
+                tags=[f"type_{i % 4}"],
+                importance_score=0.3 + (i % 7) * 0.1
+            )
+
+            fold.add_item(memory)
+            mixed_memories.append(memory)
+
+        # Consolidate mixed content
+        consolidated_item = fold.consolidate()
+
+        # Verify mixed content handling
+        assert "content_types" in consolidated_item.content, "Should categorize content types"
+        assert "memory_types" in consolidated_item.content, "Should track memory types"
+
+        content_types = consolidated_item.content["content_types"]
+        assert "dict" in content_types or "object" in content_types, "Should detect dict content"
+        assert "string" in content_types or "str" in content_types, "Should detect string content"
+
+    def test_consolidation_searchability_preservation(self, memory_system, sample_memories):
+        """Test that consolidated memories can be found via search."""
+
+        fold = MemoryFold(id="searchable_fold")
+
+        # Add memories with specific searchable content
+        searchable_memories = []
+        for i in range(105):
+            memory = MemoryItem(
+                id=f"search_mem_{i}",
+                content={
+                    "text": f"Important project {i} with keyword SEARCHTERM",
+                    "category": "project",
+                    "status": "active" if i % 2 else "completed"
+                },
+                memory_type=MemoryType.DECLARATIVE,
+                timestamp=datetime.now(),
+                tags=["project", "searchable", f"batch_{i // 10}"],
+                importance_score=0.4 + (i % 6) * 0.1
+            )
+
+            fold.add_item(memory)
+            searchable_memories.append(memory)
+            memory_system.store_memory(memory)
+
+        # Perform consolidation
+        memory_system._consolidate_fold(fold)
+
+        # Test search functionality still works
+        search_results = memory_system.search_memories("SEARCHTERM", limit=10)
+
+        # Should find consolidated item
+        assert len(search_results) > 0, "Search should find consolidated memories"
+
+        # Check that consolidated item appears in results
+        consolidated_found = False
+        for result in search_results:
+            if "consolidated_" in result.id:
+                consolidated_found = True
+                assert "SEARCHTERM" in str(result.content), "Consolidated item should contain search term"
+                break
+
+        assert consolidated_found, "Should find consolidated item in search results"
+
+    def test_consolidation_error_handling(self, memory_system):
+        """Test error handling during consolidation process."""
+
+        fold = MemoryFold(id="error_test_fold")
+
+        # Create memory with problematic content
+        problematic_memory = MemoryItem(
+            id="problematic_mem",
+            content={"circular_ref": None},  # Will create circular reference
+            memory_type=MemoryType.DECLARATIVE,
+            timestamp=datetime.now(),
+            tags=["problematic"],
+            importance_score=0.5
+        )
+
+        # Create circular reference
+        problematic_memory.content["circular_ref"] = problematic_memory.content
+
+        # Add enough items to trigger consolidation
+        for i in range(101):
+            if i == 50:
+                fold.add_item(problematic_memory)
+            else:
+                normal_memory = MemoryItem(
+                    id=f"normal_mem_{i}",
+                    content={"text": f"Normal memory {i}"},
+                    memory_type=MemoryType.DECLARATIVE,
+                    timestamp=datetime.now(),
+                    tags=["normal"],
+                    importance_score=0.5
+                )
+                fold.add_item(normal_memory)
+
+        # Consolidation should handle errors gracefully
+        try:
+            consolidated_item = fold.consolidate()
+            # If consolidation succeeds, verify it handled the problematic content
+            assert consolidated_item is not None, "Consolidation should complete"
+            assert "error_handling" in consolidated_item.content, "Should note error handling"
+        except Exception as e:
+            # If consolidation fails, it should be a controlled failure
+            assert "circular" in str(e).lower() or "serialize" in str(e).lower(), \
+                   "Should fail with expected serialization error"
+
+    def test_performance_under_consolidation(self, memory_system):
+        """Test performance characteristics during consolidation."""
+
+        import time
+
+        fold = MemoryFold(id="performance_fold")
+
+        # Create large number of memories
+        start_time = time.perf_counter()
+
+        for i in range(200):  # Large consolidation
+            memory = MemoryItem(
+                id=f"perf_mem_{i}",
+                content={"text": f"Performance test memory {i}", "data": list(range(100))},
+                memory_type=MemoryType.DECLARATIVE,
+                timestamp=datetime.now(),
+                tags=["performance"],
+                importance_score=0.5
+            )
+            fold.add_item(memory)
+
+        creation_time = time.perf_counter() - start_time
+
+        # Measure consolidation time
+        consolidation_start = time.perf_counter()
+        consolidated_item = fold.consolidate()
+        consolidation_time = time.perf_counter() - consolidation_start
+
+        # Performance assertions
+        assert consolidation_time < 5.0, f"Consolidation took too long: {consolidation_time:.2f}s"
+        assert consolidated_item.content["item_count"] == 200, "Should consolidate all items"
+
+        # Verify consolidation efficiency
+        original_size = fold.size_bytes
+        consolidated_size = len(str(consolidated_item.content))
+
+        print(f"Original size: {original_size}, Consolidated size: {consolidated_size}")
+        print(f"Consolidation time: {consolidation_time:.3f}s for 200 items")
+
+
+if __name__ == "__main__":
+    pytest.main([__file__, "-v", "--tb=short"])
