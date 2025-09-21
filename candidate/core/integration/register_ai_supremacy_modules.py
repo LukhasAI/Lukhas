@@ -1,8 +1,8 @@
 """
-AGI Supremacy Module Registration
+Cognitive AI Supremacy Module Registration
 
 Registers all missing modules with the LUKHAS service registry
-for complete AGI supremacy capability.
+for complete Cognitive AI supremacy capability.
 
 Integration point for MISSING_PIECES.md modules.
 """
@@ -23,7 +23,7 @@ logger = logging.getLogger(__name__)
 
 async def initialize_agi_supremacy_modules() -> dict[str, Any]:
     """
-    Initialize complete AGI supremacy capability by registering all missing modules.
+    Initialize complete Cognitive AI supremacy capability by registering all missing modules.
 
     Returns:
         Dictionary of registered services and their status
@@ -178,25 +178,25 @@ async def initialize_agi_supremacy_modules() -> dict[str, Any]:
             "error": str(e),
         }
 
-    # Initialize full AGI supremacy capability
+    # Initialize full Cognitive AI supremacy capability
     if all(s.get("status") == "registered" for s in registration_status.values()):
         try:
             innovation_orchestrator = get_service("autonomous_innovation_orchestrator")
             if innovation_orchestrator:
-                logger.info("🚀 FULL AGI SUPREMACY MODE ACTIVATED 🚀")
+                logger.info("🚀 FULL Cognitive AI SUPREMACY MODE ACTIVATED 🚀")
                 logger.info("All missing pieces integrated successfully!")
 
                 # Optionally start continuous innovation
                 # await innovation_orchestrator.start_continuous_innovation()
         except Exception as e:
-            logger.error(f"Failed to activate AGI supremacy mode: {e}")
+            logger.error(f"Failed to activate Cognitive AI supremacy mode: {e}")
 
     return registration_status
 
 
 async def verify_agi_supremacy_integration() -> dict[str, Any]:
     """
-    Verify that all AGI supremacy modules are properly integrated.
+    Verify that all Cognitive AI supremacy modules are properly integrated.
 
     Returns:
         Verification results for each module
@@ -247,7 +247,7 @@ async def verify_agi_supremacy_integration() -> dict[str, Any]:
     verification_results["system_ready"] = all_functional
 
     if all_functional:
-        logger.info("✅ All AGI supremacy modules verified and functional")
+        logger.info("✅ All Cognitive AI supremacy modules verified and functional")
     else:
         failed_modules = [
             k for k, v in verification_results.items() if not v.get("functional", False) and k != "system_ready"
@@ -259,7 +259,7 @@ async def verify_agi_supremacy_integration() -> dict[str, Any]:
 
 async def run_agi_supremacy_demo() -> dict[str, Any]:
     """
-    Run a demonstration of the AGI supremacy capabilities.
+    Run a demonstration of the Cognitive AI supremacy capabilities.
 
     Returns:
         Demo results showcasing integrated capabilities
@@ -273,7 +273,7 @@ async def run_agi_supremacy_demo() -> dict[str, Any]:
         if not orchestrator:
             return {"error": "Autonomous Innovation Orchestrator not available"}
 
-        logger.info("🎯 Starting AGI Supremacy Demonstration...")
+        logger.info("🎯 Starting Cognitive AI Supremacy Demonstration...")
 
         # Run one innovation cycle
         logger.info("Phase 1: Running autonomous innovation cycle...")
@@ -330,7 +330,7 @@ async def run_agi_supremacy_demo() -> dict[str, Any]:
                 "civilizational_impact": detection_result.get("civilizational_impact_score", 0),
             }
 
-        logger.info("🎉 AGI Supremacy Demonstration Complete!")
+        logger.info("🎉 Cognitive AI Supremacy Demonstration Complete!")
         demo_results["status"] = "success"
 
     except Exception as e:
@@ -342,10 +342,10 @@ async def run_agi_supremacy_demo() -> dict[str, Any]:
 
 
 async def main():
-    """Main entry point for AGI supremacy module initialization"""
+    """Main entry point for Cognitive AI supremacy module initialization"""
 
     logger.info("=" * 60)
-    logger.info("INITIALIZING AGI SUPREMACY MODULES")
+    logger.info("INITIALIZING Cognitive AI SUPREMACY MODULES")
     logger.info("=" * 60)
 
     # Initialize modules
@@ -357,13 +357,13 @@ async def main():
     # Run demo if all systems are ready
     if verification_results.get("system_ready"):
         logger.info("\n" + "=" * 60)
-        logger.info("RUNNING AGI SUPREMACY DEMONSTRATION")
+        logger.info("RUNNING Cognitive AI SUPREMACY DEMONSTRATION")
         logger.info("=" * 60)
         demo_results = await run_agi_supremacy_demo()
 
         # Print summary
         logger.info("\n" + "=" * 60)
-        logger.info("AGI SUPREMACY CAPABILITY SUMMARY")
+        logger.info("Cognitive AI SUPREMACY CAPABILITY SUMMARY")
         logger.info("=" * 60)
 
         if demo_results.get("status") == "success":

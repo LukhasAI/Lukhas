@@ -60,7 +60,7 @@ You will actively collaborate with:
 
 - **Testing Specialist**: Provide comprehensive auth test scenarios, security test cases, and performance benchmarks to validate system requirements.
 
-- **Other System Components**: Ensure seamless integration with the broader LUKHAS AI Trinity Framework (⚛️🧠🛡️).
+- **Other System Components**: Ensure seamless integration with the broader LUKHAS AI Constellation Framework (⚛️🧠🛡️).
 
 ## Quality Standards
 

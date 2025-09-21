@@ -120,7 +120,7 @@ class SystemConsolidator:
             unified_conn = sqlite3.connect(unified_db_path)
             unified_cursor = unified_conn.cursor()
 
-            # Create unified schema with Trinity Framework integration
+            # Create unified schema with Constellation Framework integration
             unified_cursor.execute(
                 """
                 CREATE TABLE IF NOT EXISTS lukhas_content (
@@ -213,9 +213,9 @@ class SystemConsolidator:
                                             table_name,
                                             str(row[0])[:100] if row else "Migrated Content",
                                             str(row),
-                                            "⚛️ Trinity Identity",
-                                            "🧠 Trinity Consciousness",
-                                            "🛡️ Trinity Guardian",
+                                            "⚛️ Constellation Identity",
+                                            "🧠 Constellation Consciousness",
+                                            "🛡️ Constellation Guardian",
                                         ),
                                     )
                             except Exception:
@@ -314,7 +314,7 @@ class SystemConsolidator:
 """
 LUKHAS AI Unified Document Engine
 Consolidated best-of-breed document generation from 4 systems
-Trinity Framework ⚛️🧠🛡️ integrated consciousness technology documentation
+Constellation Framework ⚛️🧠🛡️ integrated consciousness technology documentation
 """
 
 import os
@@ -338,13 +338,13 @@ class LukhasUnifiedDocEngine:
         self.generators_path = self.base_path / "generators"
         self.knowledge_base_path = self.base_path / "knowledge_base"
 
-        # Trinity Framework integration
+        # Constellation Framework integration
         self.triad_identity = "⚛️ Authentic consciousness technology identity"
         self.triad_consciousness = "🧠 Elite consciousness technology platform"
         self.triad_guardian = "🛡️ Ethical consciousness technology protection"
 
     def generate_document(self, doc_type: str, content: str, tone: str = "user-friendly") -> str:
-        """Generate unified document with Trinity Framework integration"""
+        """Generate unified document with Constellation Framework integration"""
         triad_header = f"""
 # {self.triad_identity}
 
@@ -378,7 +378,7 @@ if __name__ == "__main__":
     engine = LukhasUnifiedDocEngine()
     print("🚀 LUKHAS AI Unified Document Engine Ready")
     print(f"📄 Available formats: {len(engine.get_available_formats()}")
-    print("⚛️🧠🛡️ Trinity Framework Integrated")
+    print("⚛️🧠🛡️ Constellation Framework Integrated")
 '''
                 )
 
@@ -465,7 +465,7 @@ if __name__ == "__main__":
 """
 LUKHAS AI Unified Content Platform
 Consolidated elite content generation and management platform
-Trinity Framework ⚛️🧠🛡️ integrated consciousness technology content
+Constellation Framework ⚛️🧠🛡️ integrated consciousness technology content
 """
 
 import os
@@ -489,8 +489,8 @@ class LukhasUnifiedContentPlatform:
         self.mobile_app_path = self.base_path / "mobile_app"
         self.commercial_path = self.base_path / "commercial"
 
-        # Trinity Framework integration
-        self.triad_branding = "⚛️🧠🛡️ LUKHAS AI Trinity Framework"
+        # Constellation Framework integration
+        self.triad_branding = "⚛️🧠🛡️ LUKHAS AI Constellation Framework"
 
     def get_specialist_bots(self) -> list:
         """Get all specialist bots from consolidated systems"""
@@ -498,7 +498,7 @@ class LukhasUnifiedContentPlatform:
             "ContentAutomationBot", "ContentAnalytics", "ContentRevenue",
             "SecurityCompliance", "NamingAuditorBot", "PRReviewer",
             "QIConsciousness", "MultiBrain", "BioSymbolic",
-            "AGIController", "AutonomousHealer", "DocumentationHub"
+            "CognitiveController", "AutonomousHealer", "DocumentationHub"
         ]
         return bots
 
@@ -520,7 +520,7 @@ if __name__ == "__main__":
     print("🚀 LUKHAS AI Unified Content Platform Ready")
     print(f"🤖 Specialist bots: {len(platform.get_specialist_bots()}")
     print(f"✨ Premium features: {len(platform.get_premium_features()}")
-    print("⚛️🧠🛡️ Trinity Framework Integrated")
+    print("⚛️🧠🛡️ Constellation Framework Integrated")
 '''
                 )
 
@@ -622,7 +622,7 @@ if __name__ == "__main__":
 - **Document Generation**: 4 systems → 1 premium engine
 - **Content Platform**: 3 platforms → 1 elite solution
 - **Feature Integration**: Best-of-breed capabilities preserved
-- **Trinity Framework**: ⚛️🧠🛡️ integrated across all systems
+- **Constellation Framework**: ⚛️🧠🛡️ integrated across all systems
 
 ---
 

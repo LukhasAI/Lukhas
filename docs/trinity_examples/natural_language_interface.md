@@ -58,4 +58,4 @@ print(response)
 
 ---
 
-*Generated with LUKHAS Trinity Framework v1.0.0 on 2025-08-03T19:14:40.545314*
+*Generated with LUKHAS Constellation Framework v1.0.0 on 2025-08-03T19:14:40.545314*

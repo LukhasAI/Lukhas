@@ -1,7 +1,7 @@
 """
-LUKHAS AGI Core System Integration
+LUKHAS Cognitive Core System Integration
 
-This module provides integration between the identity system and LUKHAS AGI
+This module provides integration between the identity system and LUKHAS Cognitive AI
 core systems including memory, consciousness, and inference engines.
 """
 import streamlit as st

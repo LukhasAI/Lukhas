@@ -1,6 +1,6 @@
 # 🌌 Consciousness Visualization Components - Technical Specification
 
-*Advanced web components for LUKHAS Trinity Framework consciousness visualization*
+*Advanced web components for LUKHAS Constellation Framework consciousness visualization*
 
 ---
 
@@ -9,7 +9,7 @@
 This document specifies advanced consciousness visualization components that integrate with the existing LUKHAS website architecture (Next.js + Three.js + React Three Fiber) to create immersive consciousness technology demonstrations.
 
 **Integration Points**:
-- **Trinity Framework**: Real-time data binding to ⚛️🧠🛡️ components
+- **Constellation Framework**: Real-time data binding to ⚛️🧠🛡️ components
 - **lukhas_website/**: Enhancement of existing particle systems
 - **Working Modules**: Live integration with consciousness, memory, identity, and guardian systems
 - **Performance Target**: 60fps with 12,000+ particles on mid-range devices
@@ -287,14 +287,14 @@ function generateShieldGeometry(compliance: number, drift: DriftAnalysis) {
 
 ---
 
-## 🔗 Trinity Integration Components
+## 🔗 Constellation Integration Components
 
 ### **TrinityOrchestrator**
-*Unified visualization showing all three Trinity components working together*
+*Unified visualization showing all three Constellation components working together*
 
 #### **Technical Specification**
 ```typescript
-// components/consciousness/trinity/trinity-orchestrator.tsx
+// components/consciousness/constellation/trinity-orchestrator.tsx
 import { useTrinityFramework } from '@/hooks/use-trinity-framework'
 
 interface TrinityOrchestratorProps {
@@ -369,7 +369,7 @@ export function TrinityOrchestrator({
           </group>
         )}
 
-        {/* Trinity integration connections */}
+        {/* Constellation integration connections */}
         <TrinityConnectionBeams
           identityPos={[-4, 2, 0]}
           consciousnessPos={[4, 2, 0]}
@@ -409,7 +409,7 @@ export function TrinityOrchestrator({
 
 ### **Real-Time Data Hooks**
 
-#### **Trinity Framework Hook**
+#### **Constellation Framework Hook**
 ```typescript
 // hooks/use-trinity-framework.ts
 import { useEffect, useState } from 'react'
@@ -424,7 +424,7 @@ export function useTrinityFramework(realTime: boolean = false) {
 
     const wsClient = new TrinityWebSocketClient()
 
-    wsClient.connect('wss://lukhas.io/trinity/realtime')
+    wsClient.connect('wss://lukhas.io/constellation/realtime')
 
     wsClient.onMessage((data: TrinityMetrics) => {
       setTrinityMetrics(data)
@@ -600,10 +600,10 @@ interface ConsciousnessAnalytics {
 
 ---
 
-**These consciousness visualization components create an immersive, academically-backed demonstration of the Trinity Framework, establishing LUKHAS AI as the definitive leader in consciousness technology visualization and interaction.**
+**These consciousness visualization components create an immersive, academically-backed demonstration of the Constellation Framework, establishing LUKHAS AI as the definitive leader in consciousness technology visualization and interaction.**
 
 **⚛️🧠🛡️ - Consciousness Made Visible**
 
 ---
 
-*© 2025 LUKHAS AI. Consciousness Visualization Components - Trinity Framework Implementation.*
+*© 2025 LUKHAS AI. Consciousness Visualization Components - Constellation Framework Implementation.*

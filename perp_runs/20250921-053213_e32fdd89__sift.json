@@ -1,0 +1,351 @@
+{
+  "meta": {
+    "run_id": "20250921-053213_e32fdd89",
+    "model": "sonar",
+    "premise": "Replace celestial metaphors with 8 diverse families: Neural Gardens (organic), Architectural Bridges (structural), Harmonic Resonance (musical), Woven Patterns (textile), Geological Strata (earth), Fluid Dynamics (liquid), Prismatic Light (optical), Circuit Patterns (electronic). Enforce novelty ≥0.8, clarity ≥0.95, zero repetition. Target: consciousness technology with 3-layer flow (Poetic → Academic → User-Friendly) and MATRIZ integration.",
+    "pipeline_version": "1.0.0",
+    "lukhas_version": "Constellation Framework",
+    "timestamp": 1758429133.031265
+  },
+  "stage": "sift",
+  "data": {
+    "rotation_matrix": {
+      "Neural_Gardens": {
+        "poetic": {
+          "allowed_devices": [
+            "metaphor",
+            "personification",
+            "synecdoche"
+          ],
+          "banned_tokens": [
+            "stars align",
+            "shooting star",
+            "moonlight glow",
+            "cosmic dance",
+            "quantum dance",
+            "heavenly light"
+          ],
+          "min_distance": 0.6
+        },
+        "academic": {
+          "allowed_devices": [
+            "metaphor",
+            "personification",
+            "synecdoche"
+          ],
+          "banned_tokens": [
+            "stars align",
+            "shooting star",
+            "moonlight glow",
+            "cosmic dance",
+            "quantum dance",
+            "heavenly light"
+          ],
+          "min_distance": 0.6
+        },
+        "user": {
+          "allowed_devices": [
+            "metaphor",
+            "personification"
+          ],
+          "banned_tokens": [
+            "stars align",
+            "shooting star",
+            "moonlight glow",
+            "cosmic dance",
+            "quantum dance",
+            "heavenly light"
+          ],
+          "min_distance": 0.6
+        }
+      },
+      "Architectural_Echoes": {
+        "poetic": {
+          "allowed_devices": [
+            "metaphor",
+            "alliteration",
+            "imagery"
+          ],
+          "banned_tokens": [
+            "stars align",
+            "shooting star",
+            "moonlight glow",
+            "cosmic dance",
+            "quantum dance",
+            "heavenly light"
+          ],
+          "min_distance": 0.6
+        },
+        "academic": {
+          "allowed_devices": [
+            "metaphor",
+            "alliteration",
+            "imagery"
+          ],
+          "banned_tokens": [
+            "stars align",
+            "shooting star",
+            "moonlight glow",
+            "cosmic dance",
+            "quantum dance",
+            "heavenly light"
+          ],
+          "min_distance": 0.6
+        },
+        "user": {
+          "allowed_devices": [
+            "metaphor",
+            "imagery"
+          ],
+          "banned_tokens": [
+            "stars align",
+            "shooting star",
+            "moonlight glow",
+            "cosmic dance",
+            "quantum dance",
+            "heavenly light"
+          ],
+          "min_distance": 0.6
+        }
+      },
+      "Liquid_Threads": {
+        "poetic": {
+          "allowed_devices": [
+            "metaphor",
+            "simile",
+            "imagery"
+          ],
+          "banned_tokens": [
+            "stars align",
+            "shooting star",
+            "moonlight glow",
+            "cosmic dance",
+            "quantum dance",
+            "heavenly light"
+          ],
+          "min_distance": 0.6
+        },
+        "academic": {
+          "allowed_devices": [
+            "metaphor",
+            "simile",
+            "imagery"
+          ],
+          "banned_tokens": [
+            "stars align",
+            "shooting star",
+            "moonlight glow",
+            "cosmic dance",
+            "quantum dance",
+            "heavenly light"
+          ],
+          "min_distance": 0.6
+        },
+        "user": {
+          "allowed_devices": [
+            "metaphor",
+            "simile"
+          ],
+          "banned_tokens": [
+            "stars align",
+            "shooting star",
+            "moonlight glow",
+            "cosmic dance",
+            "quantum dance",
+            "heavenly light"
+          ],
+          "min_distance": 0.6
+        }
+      },
+      "Quantum_Patterns": {
+        "poetic": {
+          "allowed_devices": [
+            "metaphor",
+            "symbolism",
+            "allusion"
+          ],
+          "banned_tokens": [
+            "stars align",
+            "shooting star",
+            "moonlight glow",
+            "cosmic dance",
+            "quantum dance",
+            "heavenly light"
+          ],
+          "min_distance": 0.6
+        },
+        "academic": {
+          "allowed_devices": [
+            "metaphor",
+            "symbolism",
+            "allusion"
+          ],
+          "banned_tokens": [
+            "stars align",
+            "shooting star",
+            "moonlight glow",
+            "cosmic dance",
+            "quantum dance",
+            "heavenly light"
+          ],
+          "min_distance": 0.6
+        },
+        "user": {
+          "allowed_devices": [
+            "metaphor",
+            "symbolism"
+          ],
+          "banned_tokens": [
+            "stars align",
+            "shooting star",
+            "moonlight glow",
+            "cosmic dance",
+            "quantum dance",
+            "heavenly light"
+          ],
+          "min_distance": 0.6
+        }
+      },
+      "Geological_Time": {
+        "poetic": {
+          "allowed_devices": [
+            "metaphor",
+            "personification",
+            "imagery"
+          ],
+          "banned_tokens": [
+            "stars align",
+            "shooting star",
+            "moonlight glow",
+            "cosmic dance",
+            "quantum dance",
+            "heavenly light"
+          ],
+          "min_distance": 0.6
+        },
+        "academic": {
+          "allowed_devices": [
+            "metaphor",
+            "personification",
+            "imagery"
+          ],
+          "banned_tokens": [
+            "stars align",
+            "shooting star",
+            "moonlight glow",
+            "cosmic dance",
+            "quantum dance",
+            "heavenly light"
+          ],
+          "min_distance": 0.6
+        },
+        "user": {
+          "allowed_devices": [
+            "metaphor",
+            "imagery"
+          ],
+          "banned_tokens": [
+            "stars align",
+            "shooting star",
+            "moonlight glow",
+            "cosmic dance",
+            "quantum dance",
+            "heavenly light"
+          ],
+          "min_distance": 0.6
+        }
+      },
+      "Musical_Currents": {
+        "poetic": {
+          "allowed_devices": [
+            "metaphor",
+            "onomatopoeia",
+            "alliteration"
+          ],
+          "banned_tokens": [
+            "stars align",
+            "shooting star",
+            "moonlight glow",
+            "cosmic dance",
+            "quantum dance",
+            "heavenly light"
+          ],
+          "min_distance": 0.6
+        },
+        "academic": {
+          "allowed_devices": [
+            "metaphor",
+            "onomatopoeia",
+            "alliteration"
+          ],
+          "banned_tokens": [
+            "stars align",
+            "shooting star",
+            "moonlight glow",
+            "cosmic dance",
+            "quantum dance",
+            "heavenly light"
+          ],
+          "min_distance": 0.6
+        },
+        "user": {
+          "allowed_devices": [
+            "metaphor",
+            "onomatopoeia"
+          ],
+          "banned_tokens": [
+            "stars align",
+            "shooting star",
+            "moonlight glow",
+            "cosmic dance",
+            "quantum dance",
+            "heavenly light"
+          ],
+          "min_distance": 0.6
+        }
+      }
+    },
+    "required_list": [
+      {
+        "pattern": "consciousness technology",
+        "why": "brand core"
+      },
+      {
+        "pattern": "dynamic systems",
+        "why": "sophistication"
+      }
+    ],
+    "banned_list": [
+      {
+        "pattern": "quantum dance",
+        "severity": "high"
+      },
+      {
+        "pattern": "stars align",
+        "severity": "high"
+      },
+      {
+        "pattern": "shooting star",
+        "severity": "high"
+      },
+      {
+        "pattern": "moonlight glow",
+        "severity": "high"
+      },
+      {
+        "pattern": "cosmic dance",
+        "severity": "medium"
+      },
+      {
+        "pattern": "heavenly light",
+        "severity": "medium"
+      }
+    ],
+    "diversity_budget": {
+      "max_family_usage_percent": 30,
+      "min_distance": 0.6,
+      "required_rotation_cycles": 8
+    }
+  },
+  "timestamp": 1758429162.232885
+}

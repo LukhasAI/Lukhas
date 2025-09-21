@@ -2,7 +2,7 @@
 Policy Enforcement Engine for LUKHAS AI System
 
 This module provides a comprehensive policy enforcement system that
-integrates with Trinity Framework, Guardian System, and compliance
+integrates with Constellation Framework, Guardian System, and compliance
 monitoring to ensure all system operations comply with organizational
 policies, regulatory requirements, and ethical standards.
 
@@ -12,7 +12,7 @@ Features:
 - Multi-layered policy hierarchy (system, user, context-specific)
 - Automated policy violation detection and remediation
 - Integration with Guardian System and constitutional principles
-- Trinity Framework policy alignment (⚛️🧠🛡️)
+- Constellation Framework policy alignment (⚛️🧠🛡️)
 - Comprehensive audit trails and policy change management
 - Performance-optimized policy evaluation engine
 - Context-aware policy application
@@ -51,7 +51,7 @@ class PolicyType(Enum):
     USER_CONSENT = "user_consent"  # User consent management
     CONTENT = "content"  # Content moderation
     SYSTEM_BEHAVIOR = "system_behavior"  # System behavior control
-    TRINITY = "constellation"  # Trinity Framework specific
+    CONSTELLATION = "constellation"  # Constellation Framework specific
 
 
 class PolicyScope(Enum):
@@ -191,7 +191,7 @@ class PolicyViolation:
     resolved_by: Optional[str] = None
     resolved_at: Optional[datetime] = None
 
-    # Trinity Framework integration
+    # Constellation Framework integration
     identity_impact: Optional[str] = None  # ⚛️
     consciousness_impact: Optional[str] = None  # 🧠
     guardian_assessment: Optional[str] = None  # 🛡️
@@ -541,7 +541,7 @@ class PolicyEnforcementEngine:
 
     Provides comprehensive policy enforcement with real-time evaluation,
     violation detection, and automated remediation integrated with
-    Trinity Framework and Guardian System.
+    Constellation Framework and Guardian System.
     """
 
     def __init__(self):
@@ -687,13 +687,13 @@ class PolicyEnforcementEngine:
             )
         )
 
-        # Trinity Framework policies
+        # Constellation Framework policies
         self.rule_engine.add_rule(
             PolicyRule(
-                rule_id="trinity_001_drift_threshold",
-                name="Trinity Drift Threshold",
-                description="Monitor and control Trinity Framework drift",
-                policy_type=PolicyType.TRINITY,
+                rule_id="constellation_001_drift_threshold",
+                name="Constellation Drift Threshold",
+                description="Monitor and control Constellation Framework drift",
+                policy_type=PolicyType.CONSTELLATION,
                 scope=PolicyScope.GLOBAL,
                 priority=PolicyPriority.HIGH,
                 conditions=[PolicyCondition(field="drift_score", operator=ConditionOperator.GREATER_THAN, value=0.15)],
@@ -816,12 +816,12 @@ class PolicyEnforcementEngine:
             }
         )
 
-        # Add Trinity Framework context if available
+        # Add Constellation Framework context if available
         enhanced.update(
             {
-                "trinity_identity": context.get("identity_context", {}),  # ⚛️
-                "trinity_consciousness": context.get("consciousness_context", {}),  # 🧠
-                "trinity_guardian": context.get("guardian_context", {}),  # 🛡️
+                "constellation_identity": context.get("identity_context", {}),  # ⚛️
+                "constellation_consciousness": context.get("consciousness_context", {}),  # 🧠
+                "constellation_guardian": context.get("guardian_context", {}),  # 🛡️
             }
         )
 
@@ -913,7 +913,7 @@ class PolicyEnforcementEngine:
             if field_value is not None:
                 evidence.append(f"{condition.field}: {field_value}")
 
-        # Trinity Framework assessment
+        # Constellation Framework assessment
         identity_impact = await self._assess_identity_impact(rule, context)
         consciousness_impact = await self._assess_consciousness_impact(rule, context)
         guardian_assessment = await self._assess_guardian_impact(rule, context)

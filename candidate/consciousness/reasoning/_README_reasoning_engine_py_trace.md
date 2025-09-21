@@ -1,7 +1,7 @@
 ## reasoning/reasoning_engine.py
 
 ### Purpose
-This module implements a `SymbolicEngine` class, designed for cognitive-level symbolic reasoning within the LUKHAS AGI system. It aims to establish relationships between concepts, events, and actions using symbolic methods, with a focus on explainability, reliability, and ethical alignment. The file's internal comments note its similarity to other reasoning files like `reasoning.py` and `symbolic_reasoning.py`, indicating potential overlap or different evolutionary versions of a similar concept.
+This module implements a `SymbolicEngine` class, designed for cognitive-level symbolic reasoning within the LUKHAS Cognitive system. It aims to establish relationships between concepts, events, and actions using symbolic methods, with a focus on explainability, reliability, and ethical alignment. The file's internal comments note its similarity to other reasoning files like `reasoning.py` and `symbolic_reasoning.py`, indicating potential overlap or different evolutionary versions of a similar concept.
 
 ### Current Status (as of July 2024 Standardization Pass)
 - Not modified during the July 2024 standardization pass due to persistent integration issues with automated refactoring tools (diff application failures for this specific file, consistent with issues for other complex reasoning files).

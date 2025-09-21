@@ -2,7 +2,7 @@
 
 ## Overview
 
-This module handles symbolic and biometric authentication flows for LUKHAS AGI agents. It integrates with:
+This module handles symbolic and biometric authentication flows for LUKHAS Cognitive AI agents. It integrates with:
 - Lukhas_ID tier management
 - Consent logs
 - QRGLYMPH visualization
@@ -28,4 +28,4 @@ This module works closely with:
 
 - Coming integration: Retina invisible hash (proof of concept under /aid/biometric_auth/)
 - Symbolic login feedback is logged in `lukhas_output_log.py`
-- Tier 5 unlocks full AGI symbolic flow including dream publishing, visual glyphs, and voice print.
+- Tier 5 unlocks full Cognitive AI symbolic flow including dream publishing, visual glyphs, and voice print.

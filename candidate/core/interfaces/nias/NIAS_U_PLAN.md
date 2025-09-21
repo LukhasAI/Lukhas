@@ -1,4 +1,4 @@
-NIAS, or the Non-Intrusive Ad System, is a pivotal component within the Lucas AGI ecosystem, designed to revolutionize digital advertising and e-commerce by prioritizing user privacy, consent, and ethical engagement over traditional, often intrusive, methods.
+NIAS, or the Non-Intrusive Ad System, is a pivotal component within the Lucas Cognitive AI ecosystem, designed to revolutionize digital advertising and e-commerce by prioritizing user privacy, consent, and ethical engagement over traditional, often intrusive, methods.
 
 **1. Core Concept, Vision, and Mission**
 NIAS is conceived as a sophisticated, AI-driven personalization engine that utilizes consented, first-party multimodal data to deliver highly relevant and non-intrusive user experiences. Its core concept treats advertising as a genuinely helpful and empowering service for consumers, built on transparency, choice, and respect for privacy. The mission is to scale the world's most advanced personalization platform, giving consumers unprecedented control over their digital experience while offering businesses a superior, data-rich channel to connect with receptive audiences. It aims to fundamentally redefine the digital contract between consumers, brands, and technology.
@@ -41,7 +41,7 @@ Ethics and encrypted memory are foundational to NIAS.
 * **Regulatory Compliance**: The system is designed for compliance with major global regulations, including EU's GDPR and AI Act, US's CCPA/CPRA, and frameworks in the Middle East and Asia. It is treated as a "high-risk" AI system under the EU AI Act, adhering to all associated obligations for documentation, risk assessment, and human oversight.
 
 **6. Integration within Lucas Ecosystem**
-NIAS is envisioned as an integral part of the larger Lucas (LUKHΛS / OXNITUS) AGI framework, contributing to its modularity and ethical operation.
+NIAS is envisioned as an integral part of the larger Lucas (LUKHΛS / OXNITUS) Cognitive AI framework, contributing to its modularity and ethical operation.
 
 * **DAST (Dynamic AI Solutions Tracker)**: NIAS integrates with DAST by calling `dast.get_current_tags(user_id)` to understand the user's current symbolic activities or tasks. This allows NIAS to refine symbolic matching and reject messages that break the user's flow.
 * **ABAS (Advanced Behavioral Arbitration System)**: NIAS works with ABAS, which acts as a "meta-layer" controlling when messages can appear based on system load, user mental capacity, or situational context. ABAS ensures messages flow ethically and within capacity limits, preventing thrashing (constantly switching between tasks).
@@ -77,4 +77,4 @@ NIAS distinguishes itself from competitors (Google Privacy Sandbox, Meta Advanta
 * **Regulatory Scrutiny**: Operating with biometric data and AI-driven persuasion places NIAS in a "high-risk" category under global regulations, incurring significant legal and compliance costs.
 * **Future Extensions**: NIAS is designed for extension into AR and VR environments, integrating generative AI for 3D content creation and adapting its UI/UX for spatial computing using hand gestures and gaze control. It also aims to transition to a distributed voice CDN or IPFS-hosted symbolic voice archive, linking audio to consent anchors or narrative logs.
 
-In essence, NIAS represents a future where advertising is not an intrusion but an ethical, consensual, and emotionally intelligent form of discovery, deeply integrated into the fabric of the Lucas AGI system.
+In essence, NIAS represents a future where advertising is not an intrusion but an ethical, consensual, and emotionally intelligent form of discovery, deeply integrated into the fabric of the Lucas Cognitive system.

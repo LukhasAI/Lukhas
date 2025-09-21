@@ -5,7 +5,7 @@
 Comprehensive security scanning and audit system for Phase 5 security enhancements.
 Integrates with Guardian System for real-time threat detection and policy enforcement.
 
-Trinity Framework: ⚛️🧠🛡️
+Constellation Framework: ⚛️🧠🛡️
 - ⚛️ Identity: Secure authentication and authorization auditing
 - 🧠 Consciousness: Intelligent threat pattern recognition
 - 🛡️ Guardian: Real-time security policy enforcement

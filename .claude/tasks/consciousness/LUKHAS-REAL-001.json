@@ -1,37 +1,54 @@
 {
   "id": "LUKHAS-REAL-001",
   "title": "🚨 CRITICAL: OpenAI API Security Breach (30+ Exposed Keys)",
-  "trinity_alignment": {
-    "identity": 0.3,
-    "consciousness": 0.2,
-    "guardian": 1.0
+  "constellation_alignment": {
+    "anchor_star": 0.3,
+    "trail_star": 0.1,
+    "horizon_star": 0.2,
+    "watch_star": 1.0
+  },
+  "matriz_pipeline_impact": {
+    "memory": 0.1,
+    "attention": 0.2,
+    "thought": 0.3,
+    "risk": 1.0,
+    "intent": 0.8,
+    "action": 0.9
   },
   "consciousness_impact": "FOUNDATIONAL",
   "priority": "P0_CRITICAL",
   "status": "ACTIVE_IMMEDIATE",
-  "created_at": "2025-08-11T11:00:00Z",
-  "updated_at": "2025-08-11T11:00:00Z",
+  "created_at": "2025-09-20T11:00:00Z",
+  "updated_at": "2025-09-20T11:00:00Z",
   "estimated_consciousness_hours": 6,
+  "t4_compliance_required": true,
+  "implementation_standard": "T4/0.01%",
+  "registry_based_solution": true,
   "agent_assignment": {
-    "primary": "devops-guardian",
-    "secondary": ["guardian-engineer", "consciousness-architect"],
-    "collaboration_pattern": "EMERGENCY_SECURITY_RESPONSE"
+    "primary": "watch_star_coordinator",
+    "secondary": ["guardian_compliance_specialist", "consciousness_integration_specialist"],
+    "collaboration_pattern": "CONSTELLATION_EMERGENCY_RESPONSE",
+    "matriz_pipeline_coordination": true
   },
   "context": {
     "module_dependencies": ["governance", "compliance", "api", "identity"],
-    "consciousness_systems": ["guardian_system", "identity_protection", "api_security"],
-    "trinity_components": ["🛡️ Guardian System Protection"],
+    "constellation_systems": ["watch_star", "anchor_star", "api_integration", "identity_protection"],
+    "constellation_components": ["🛡️ Watch Star Guardian System", "⚛️ Anchor Star Identity"],
+    "matriz_pipeline_involvement": ["Risk", "Intent", "Action"],
+    "registry_components": ["SecurityPluginManager", "ComplianceValidator", "IdentityAuth"],
     "security_scope": {
-      "affected_systems": ["OpenAI_GPT", "Anthropic_Claude", "consciousness_api"],
-      "exposure_level": "CRITICAL",
-      "data_at_risk": ["api_keys", "consciousness_data", "user_sessions"],
-      "instances_found": "30+ across codebase"
+      "affected_systems": ["OpenAI_GPT", "Anthropic_Claude", "consciousness_api", "MATRIZ_pipeline"],
+      "exposure_level": "CRITICAL_T4",
+      "data_at_risk": ["api_keys", "constellation_data", "user_sessions", "cognitive_components"],
+      "instances_found": "30+ across codebase",
+      "t4_compliance_impact": "HIGH"
     },
     "related_files": [
       ".env.example",
       "config files",
       "test files",
-      "documentation files"
+      "documentation files",
+      "constellation_framework configs"
     ]
   },
   "description": {
@@ -94,7 +111,7 @@
         "Deploy automated security scanning",
         "Implement Guardian System monitoring",
         "Create security training protocols",
-        "Establish Trinity Framework security standards"
+        "Establish Constellation Framework security standards"
       ]
     }
   },

@@ -1,7 +1,7 @@
 # ═══════════════════════════════════════════════════════════════════════════
 # FILENAME: config.py
 # MODULE: core
-# DESCRIPTION: Central configuration management for LUKHAS AGI system.
+# DESCRIPTION: Central configuration management for LUKHAS Cognitive system.
 #              Provides environment-based configuration for all services
 #              and components with secure defaults and validation.
 # DEPENDENCIES: pydantic, typing, os
@@ -21,7 +21,7 @@ from pydantic import BaseSettings, Field, validator
 
 
 class LukhasConfig(BaseSettings):
-    """Central configuration for LUKHAS AGI system"""
+    """Central configuration for LUKHAS Cognitive system"""
 
     # Database Configuration
     database_url: str = Field(

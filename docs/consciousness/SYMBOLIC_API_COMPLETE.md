@@ -1,6 +1,6 @@
 # 🚀 LUKHΛS Symbolic API - Integration Complete
 
-**Trinity Framework**: ⚛️🧠🛡️
+**Constellation Framework**: ⚛️🧠🛡️
 **Module**: `symbolic_api.py`
 **Status**: ✅ **FULLY INTEGRATED**
 **Generated**: 2025-08-04T14:00:00Z
@@ -30,7 +30,7 @@ The LUKHΛS Symbolic API has been successfully updated to fully integrate the sy
 ```json
 {
   "message": "Welcome to the LUKHΛS Symbolic API",
-  "trinity_framework": ["⚛️", "🧠", "🛡️"],
+  "constellation_framework": ["⚛️", "🧠", "🛡️"],
   "version": "2.0.0",
   "endpoints": ["/analyze", "/evaluate", "/heal", "/persona-map"],
   "status": "operational"
@@ -197,7 +197,7 @@ All test cases passed successfully:
 - Automatic rotation at 10,000 entries
 - Request/response tracking
 - Error capture with context
-- Trinity Framework status
+- Constellation Framework status
 - Timezone-aware timestamps
 
 ---
@@ -309,7 +309,7 @@ docker run -p 8000:8000 lukhas-api
 
 ---
 
-**Trinity Framework**: ⚛️🧠🛡️
+**Constellation Framework**: ⚛️🧠🛡️
 **API Status**: 🟢 **OPERATIONAL**
 **Integration**: ✅ **COMPLETE**
 

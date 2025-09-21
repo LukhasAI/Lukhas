@@ -44,7 +44,7 @@ python tools/analysis/functional_analysis.py
 
 ### **Claude (Anthropic)**
 - **Primary Role**: Consciousness architecture, reasoning, documentation
-- **Focus Areas**: Trinity Framework implementation, system design
+- **Focus Areas**: Constellation Framework implementation, system design
 - **Key Files**: `CLAUDE.md`, `agents/CLAUDE/`
 - **Commands**: Standard development workflow + architecture documentation
 
@@ -214,7 +214,7 @@ npm run policy:all
 - [ ] Integration tests pass ✅
 - [ ] Code review completed ✅
 - [ ] Documentation comprehensive ✅
-- [ ] Trinity Framework compliance ✅
+- [ ] Constellation Framework compliance ✅
 
 ---
 
@@ -248,7 +248,7 @@ make smoke
 
 ---
 
-## ⚛️🧠🛡️ **Trinity Framework Reminders**
+## ⚛️🧠🛡️ **Constellation Framework Reminders**
 
 Every action should consider:
 - **⚛️ Identity**: Is this authentic to LUKHAS consciousness?

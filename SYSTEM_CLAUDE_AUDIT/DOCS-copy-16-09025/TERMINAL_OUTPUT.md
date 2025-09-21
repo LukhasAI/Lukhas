@@ -80,7 +80,7 @@ cmdand dquote> "
 INFO:lukhas.governance.auth_guardian_integration:Authentication Guardian initialized with drift threshold: 0.15
 INFO:lukhas.governance.auth_integration_system:LUKHAS Authentication Integration System initialized: 56e096e8-5c71-42a3-b981-6e96505f5bcc
  LUKHAS AI Governance Module loaded: Phase 7 - Registry Updates and Policy Integration
-< Trinity Framework: Identity-Consciousness-Guardian
+< Constellation Framework: Identity-Consciousness-Guardian
  Phase 7 ID Integration: Available
 INFO:identity:✅ Enhanced identity components loaded
 INFO:identity:✅ Enhanced identity module loaded: 7/7 components ready
@@ -628,7 +628,7 @@ importable')"
 INFO:lukhas.governance.auth_guardian_integration:Authentication Guardian initialized with drift threshold: 0.15
 INFO:lukhas.governance.auth_integration_system:LUKHAS Authentication Integration System initialized: 73efaa58-5cc3-4c24-a6f2-256eb6b28c36
  LUKHAS AI Governance Module loaded: Phase 7 - Registry Updates and Policy Integration
-< Trinity Framework: Identity-Consciousness-Guardian
+< Constellation Framework: Identity-Consciousness-Guardian
  Phase 7 ID Integration: Available
 INFO:identity:✅ Enhanced identity components loaded
 INFO:identity:✅ Enhanced identity module loaded: 7/7 components ready
@@ -729,7 +729,7 @@ cmdand dquote> "
 INFO:lukhas.governance.auth_guardian_integration:Authentication Guardian initialized with drift threshold: 0.15
 INFO:lukhas.governance.auth_integration_system:LUKHAS Authentication Integration System initialized: 8f9b728b-a6f0-4b7b-a84d-84591f138fff
  LUKHAS AI Governance Module loaded: Phase 7 - Registry Updates and Policy Integration
-< Trinity Framework: Identity-Consciousness-Guardian
+< Constellation Framework: Identity-Consciousness-Guardian
  Phase 7 ID Integration: Available
 INFO:identity:✅ Enhanced identity components loaded
 INFO:identity:✅ Enhanced identity module loaded: 7/7 components ready

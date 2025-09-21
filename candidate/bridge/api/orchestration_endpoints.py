@@ -6,7 +6,7 @@ LUKHAS AI - Multi-Model Orchestration API Endpoints
 FastAPI endpoints for multi-model AI orchestration with streaming,
 authentication, and performance monitoring.
 
-Trinity Framework: ⚛️ (Identity), 🧠 (Consciousness), 🛡️ (Guardian)
+Constellation Framework: ⚛️ (Identity), 🧠 (Consciousness), 🛡️ (Guardian)
 Performance Target: <100ms API response latency
 Supports: REST API, WebSocket, SSE streaming, JWT authentication
 
@@ -17,7 +17,7 @@ Features:
 - Rate limiting and API key management
 - Performance monitoring and metrics
 - Request validation and error handling
-- Trinity Framework integration
+- Constellation Framework integration
 """
 
 import json

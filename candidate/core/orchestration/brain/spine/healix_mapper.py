@@ -11,7 +11,7 @@ Integration Date: 2025-05-31T07:55:28.102498
 ║ MODULE        : healix_mapper.py                                          ║
 ║ DESCRIPTION   : Maps encrypted emotional + cultural memory into a         ║
 ║                 symbolic helix structure. Supports drift detection,       ║
-║                 emotional tagging, and resonance chaining for Lukhas AGI.  ║
+║                 emotional tagging, and resonance chaining for Lukhas Cognitive AI.  ║
 ║ TYPE          : Symbolic Helix Mapper Module  VERSION: v1.0.0             ║
 ║ AUTHOR        : LUKHAS SYSTEMS                  CREATED: 2025-05-09        ║
 ╚═══════════════════════════════════════════════════════════════════════════╝
@@ -37,7 +37,7 @@ class HealixMapper:
     """
     Provides functionality to map encrypted emotional and cultural memory into
     a symbolic helix structure. Supports drift detection, emotional tagging,
-    and resonance chaining for Lukhas AGI.
+    and resonance chaining for Lukhas Cognitive AI.
     """
 
     def __init__(self, accent_adapter: AccentAdapter, emotion_mapper: EmotionMapper):

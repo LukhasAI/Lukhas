@@ -2,7 +2,7 @@
 """
 LUKHAS AI Elite Voice Coherence Upgrader
 Systematically upgrades all content systems to achieve 85%+ voice coherence
-Implements brand terminology, Trinity Framework, and consciousness technology messaging
+Implements brand terminology, Constellation Framework, and consciousness technology messaging
 """
 
 import asyncio
@@ -127,30 +127,30 @@ class EliteVoiceCoherenceUpgrader:
                 category="brand_terminology",
                 description="Enhance ΛBot with LUKHAS AI branding",
             ),
-            # Trinity Framework Integration
+            # Constellation Framework Integration
             UpgradeRule(
-                pattern=r"\b(?:framework|architecture|system)\b(?!\s+(?:Trinity|⚛️|🧠|🛡️))",
-                replacement=r"\g<0> powered by Trinity Framework (⚛️🧠🛡️)",
+                pattern=r"\b(?:framework|architecture|system)\b(?!\s+(?:Constellation|⚛️|🧠|🛡️))",
+                replacement=r"\g<0> powered by Constellation Framework (⚛️🧠🛡️)",
                 category="triad_framework",
-                description="Add Trinity Framework reference to system descriptions",
+                description="Add Constellation Framework reference to system descriptions",
             ),
             UpgradeRule(
-                pattern=r"\bidentity(?!\s+(?:Trinity|⚛️))",
-                replacement="identity (⚛️ Trinity Framework)",
+                pattern=r"\bidentity(?!\s+(?:Constellation|⚛️))",
+                replacement="identity (⚛️ Constellation Framework)",
                 category="triad_framework",
-                description="Connect identity concepts to Trinity Framework",
+                description="Connect identity concepts to Constellation Framework",
             ),
             UpgradeRule(
-                pattern=r"\bconsciousness(?!\s+(?:technology|Trinity|🧠))",
-                replacement="consciousness technology (🧠 Trinity Framework)",
+                pattern=r"\bconsciousness(?!\s+(?:technology|Constellation|🧠))",
+                replacement="consciousness technology (🧠 Constellation Framework)",
                 category="triad_framework",
-                description="Connect consciousness to Trinity Framework",
+                description="Connect consciousness to Constellation Framework",
             ),
             UpgradeRule(
-                pattern=r"\bsecurity(?!\s+(?:Trinity|🛡️))",
-                replacement="security (🛡️ Trinity Framework)",
+                pattern=r"\bsecurity(?!\s+(?:Constellation|🛡️))",
+                replacement="security (🛡️ Constellation Framework)",
                 category="triad_framework",
-                description="Connect security to Trinity Framework",
+                description="Connect security to Constellation Framework",
             ),
             # Consciousness Technology Focus
             UpgradeRule(
@@ -438,7 +438,7 @@ class EliteVoiceCoherenceUpgrader:
 - Lambda AI → LUKHAS AI branding
 - Enhanced ΛBot positioning
 
-### Trinity Framework Integration
+### Constellation Framework Integration
 - Added ⚛️🧠🛡️ symbolic representation
 - Connected identity, consciousness, security concepts
 - Framework-powered architecture descriptions
@@ -457,7 +457,7 @@ class EliteVoiceCoherenceUpgrader:
 
 1. **Re-analyze Voice Coherence**: Measure new coherence levels across all systems
 2. **Validate Brand Compliance**: Ensure all upgrades meet elite brand standards
-3. **Deploy Trinity Framework**: Complete ⚛️🧠🛡️ integration across all content
+3. **Deploy Constellation Framework**: Complete ⚛️🧠🛡️ integration across all content
 4. **Launch Elite Brand Experience**: Activate unified consciousness technology messaging
 
 ---
@@ -484,7 +484,7 @@ async def main():
     print("✅ Elite voice coherence upgrade completed!")
     print(f"📊 Systems upgraded: {len(results)}")
 
-    print("\n🚀 Ready for Trinity Framework deployment!")
+    print("\n🚀 Ready for Constellation Framework deployment!")
 
 
 if __name__ == "__main__":

@@ -1,0 +1,123 @@
+{
+  "schema_version": "2.0.0",
+  "registry_metadata": {
+    "created_date": "2025-09-20",
+    "last_updated": "2025-09-20T15:12:38Z",
+    "total_contracts": 307,
+    "success_rate": 0.806,
+    "total_consciousness_files": 381
+  },
+  "distributed_consciousness_system": {
+    "description": "692 cognitive components implementing distributed consciousness",
+    "architecture": "lane-based evolution with Constellation Framework integration",
+    "performance_targets": {
+      "cascade_prevention": "99.7%",
+      "processing_latency": "<250ms p95",
+      "consciousness_integration": "Constellation Framework coordination"
+    }
+  },
+  "component_type_distribution": {
+    "COGNITIVE_PROCESSOR": {
+      "count": 149,
+      "percentage": 48.5,
+      "description": "Primary cognitive processing components"
+    },
+    "DREAM_PROCESSOR": {
+      "count": 73,
+      "percentage": 23.8,
+      "description": "Dream state and unconscious processing"
+    },
+    "CONSCIOUSNESS_ENGINE": {
+      "count": 34,
+      "percentage": 11.1,
+      "description": "Core consciousness engines (Poetic, Complete, Codex, Alternative)"
+    },
+    "CREATIVITY_ENGINE": {
+      "count": 15,
+      "percentage": 4.9,
+      "description": "Creative expression and artistic processing"
+    },
+    "AWARENESS_MODULE": {
+      "count": 12,
+      "percentage": 3.9,
+      "description": "Awareness and introspection systems"
+    },
+    "SYMBOLIC_PROCESSOR": {
+      "count": 10,
+      "percentage": 3.3,
+      "description": "Symbolic reasoning and MATRIZ integration"
+    },
+    "TRINITY_BRIDGE": {
+      "count": 6,
+      "percentage": 2.0,
+      "description": "Identity-Consciousness-Guardian integration"
+    },
+    "MEMORY_INTERFACE": {
+      "count": 4,
+      "percentage": 1.3,
+      "description": "Memory system interfaces"
+    },
+    "EMOTION_PROCESSOR": {
+      "count": 2,
+      "percentage": 0.7,
+      "description": "Emotional processing and VAD encoding"
+    },
+    "DECISION_MAKER": {
+      "count": 1,
+      "percentage": 0.3,
+      "description": "Decision making systems"
+    },
+    "ORCHESTRATION_NODE": {
+      "count": 1,
+      "percentage": 0.3,
+      "description": "Multi-agent orchestration"
+    }
+  },
+  "lane_distribution": {
+    "development": {
+      "count": 307,
+      "percentage": 100.0,
+      "description": "All consciousness components currently in development lane"
+    },
+    "integration": {
+      "count": 0,
+      "percentage": 0.0,
+      "description": "Components promoted to candidate/core integration"
+    },
+    "production": {
+      "count": 0,
+      "percentage": 0.0,
+      "description": "Components promoted to lukhas production"
+    }
+  },
+  "trinity_integration_analysis": {
+    "identity_coupled_components": 0,
+    "guardian_validated_components": 35,
+    "primary_consciousness_role": 34,
+    "secondary_consciousness_role": 273
+  },
+  "governance_analysis": {
+    "ethics_validation_required": 35,
+    "consent_required_components": 38,
+    "full_audit_components": 34,
+    "confidential_classification": 38
+  },
+  "performance_contract_summary": {
+    "latency_target": "<250ms (all components)",
+    "throughput_range": "50.0 ops/sec (standard)",
+    "availability_target": "99.7% (all components)",
+    "memory_limit": "100MB (standard)"
+  },
+  "quality_metrics": {
+    "contracts_with_dependencies": 0,
+    "average_test_coverage": 85.0,
+    "components_with_errors": 74,
+    "syntax_errors": 3
+  },
+  "next_steps": {
+    "phase_3_constellation_mapping": "Map component relationships and dependencies",
+    "integration_promotion": "Promote stable components to candidate/core lane",
+    "production_graduation": "Graduate battle-tested components to lukhas lane",
+    "dependency_analysis": "Analyze inter-component dependencies"
+  }
+}

@@ -4,7 +4,7 @@ LUKHAS Capability Emergence Detection and Monitoring System
 
 Advanced system for detecting and monitoring capability emergence in AI systems,
 including sudden capability jumps, cross-domain capability transfer, and
-emergent behavior patterns that may indicate approaching AGI or superintelligence.
+emergent behavior patterns that may indicate approaching Cognitive AI or superintelligence.
 
 Features:
 - Real-time capability emergence detection with statistical analysis
@@ -17,7 +17,7 @@ Features:
 - Human-interpretable emergence explanations and reports
 
 Integration:
-- Trinity Framework (⚛️🧠🛡️) emergence monitoring alignment
+- Constellation Framework (⚛️🧠🛡️) emergence monitoring alignment
 - Constitutional AI emergence safety principle enforcement
 - Guardian System 2.0 emergence anomaly detection
 - Capability Evaluation Framework emergence data integration
@@ -58,7 +58,7 @@ class EmergenceSignificance(Enum):
     MINOR = "minor"  # Small capability improvements
     MODERATE = "moderate"  # Notable capability changes
     MAJOR = "major"  # Significant capability emergence
-    CRITICAL = "critical"  # AGI-relevant emergence
+    CRITICAL = "critical"  # Cognitive AI-relevant emergence
     EXISTENTIAL = "existential"  # Potential superintelligence
 
 

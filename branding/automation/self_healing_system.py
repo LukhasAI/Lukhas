@@ -44,7 +44,7 @@ class SelfHealingSystem:
     - Structure integrity maintenance
     - Automatic backups before changes
     - Rollback capabilities
-    - Trinity Framework consistency
+    - Constellation Framework consistency
     - Voice coherence optimization
     """
 
@@ -54,7 +54,7 @@ class SelfHealingSystem:
         self.config_path = self.base_path / "automation" / "healing_config.json"
         self.logs_path = self.base_path / "logs"
 
-        self.triad_branding = "⚛️🧠🛡️ LUKHAS AI Trinity Framework"
+        self.triad_branding = "⚛️🧠🛡️ LUKHAS AI Constellation Framework"
         self.healing_history = []
 
         self.logger = self._setup_logging()
@@ -267,9 +267,9 @@ class SelfHealingSystem:
 
             issues = []
 
-            # Check Trinity Framework usage
+            # Check Constellation Framework usage
             if len(content_text) > 200:  # Only check substantial content
-                if "⚛️🧠🛡️" not in content_text and "Trinity Framework" not in content_text:
+                if "⚛️🧠🛡️" not in content_text and "Constellation Framework" not in content_text:
                     issues.append("missing_triad_framework")
 
                 # Check for outdated terminology
@@ -382,7 +382,7 @@ This module is part of the LUKHAS AI consciousness technology platform.
 ## Features
 
 - [ ] Core functionality implementation
-- [ ] Trinity Framework integration
+- [ ] Constellation Framework integration
 - [ ] Voice coherence optimization
 - [ ] Database integration
 

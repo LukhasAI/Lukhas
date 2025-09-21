@@ -1,25 +1,7 @@
-"""
-Memory Consolidation System
-Orchestrates transfer from hippocampus to neocortex during sleep cycles
-"""
-import streamlit as st
-
 from .consolidation_orchestrator import (
-    ConsolidationMode,
     ConsolidationOrchestrator,
+    ConsolidationMode,
     SleepStage,
+    InMemoryStore,
+    BasicConsciousnessAdapter,
 )
-from .ripple_generator import ReplayDirection, RippleGenerator, RippleType
-from .sleep_cycle_manager import CircadianPhase, SleepCycleManager, SleepPressure
-
-__all__ = [
-    "CircadianPhase",
-    "ConsolidationMode",
-    "ConsolidationOrchestrator",
-    "ReplayDirection",
-    "RippleGenerator",
-    "RippleType",
-    "SleepCycleManager",
-    "SleepPressure",
-    "SleepStage",
-]

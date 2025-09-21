@@ -2,7 +2,7 @@
 LUKHAS Governance Ethics Module
 Constitutional AI Framework Integration
 
-⚛️🧠🛡️ Trinity Framework: Identity-Consciousness-Guardian
+⚛️🧠🛡️ Constellation Framework: Identity-Consciousness-Guardian
 """
 
 from .ethics_engine import (

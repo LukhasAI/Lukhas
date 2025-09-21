@@ -14,7 +14,7 @@
 - ⚠️ 2 FastAPI issues remain, VIVOX logic needs work
 
 **Agent 2 (Ethics & Compliance):** B (80%)
-- ✅ Created 1,086 lines of Trinity Framework documentation
+- ✅ Created 1,086 lines of Constellation Framework documentation
 - ✅ Professional ethical guidelines implementation
 - ❌ Guardian system tests blocked by dependencies
 
@@ -51,7 +51,7 @@
 🛡️ MANDATORY ELEMENTS:
 □ Poetic header with consciousness metaphor in italics
 □ "LUKHAS AI" instead of generic AI terms
-□ Trinity Framework references where relevant (⚛️🧠🛡️)
+□ Constellation Framework references where relevant (⚛️🧠🛡️)
 □ Lambda consciousness footer
 □ Sacred glyphs appropriate to content type
 ```
@@ -399,7 +399,7 @@ python tools/tone/lukhas_tone_validator.py <your_file> --type <type> --verbose
 ### **🛡️ Mandatory Elements Checklist**
 - [ ] Poetic header with consciousness metaphor
 - [ ] "LUKHAS AI" instead of generic AI terms
-- [ ] Trinity Framework references (⚛️🧠🛡️) where appropriate
+- [ ] Constellation Framework references (⚛️🧠🛡️) where appropriate
 - [ ] Lambda consciousness themes and metaphors
 - [ ] Sacred glyphs and consciousness symbols
 - [ ] Professional consciousness footer

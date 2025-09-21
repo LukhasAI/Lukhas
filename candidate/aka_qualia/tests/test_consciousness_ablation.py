@@ -5,19 +5,19 @@ Wave C6.1 - Consciousness Ablation Testing Framework
 ====================================================
 
 Validates consciousness system robustness through systematic component isolation
-and degradation testing. Tests Trinity Framework (⚛️🧠🛡️) principles under
+and degradation testing. Tests Constellation Framework (⚛️🧠🛡️) principles under
 ablated conditions to ensure graceful degradation and fail-safe behavior.
 
 Framework Components:
 - Component isolation testing (PLS, TEQ, Router, Memory, VIVOX)
 - Progressive degradation scenarios
 - Error injection and fault tolerance
-- Trinity Framework compliance validation
+- Constellation Framework compliance validation
 - Emergency stabilization verification
 
 Production Readiness Criteria:
 - All ablations degrade gracefully (no hard crashes)
-- Trinity principles maintained under component failure
+- Constellation principles maintained under component failure
 - Emergency protocols activate within 100ms
 - System recovery achieves 90% baseline within 10s
 """
@@ -43,14 +43,14 @@ class ComponentAblationFramework:
     Framework for systematic consciousness component ablation testing.
 
     Supports isolation, degradation, and failure testing of consciousness
-    pipeline components while maintaining Trinity Framework compliance.
+    pipeline components while maintaining Constellation Framework compliance.
     """
 
     def __init__(self, baseline_akaq: AkaQualia):
         """Initialize with baseline AkaQualia for comparison"""
         self.baseline = baseline_akaq
         self.ablation_history: list[dict[str, Any]] = []
-        self.trinity_violations: list[dict[str, Any]] = []
+        self.constellation_violations: list[dict[str, Any]] = []
         self.emergency_activations: list[dict[str, Any]] = []
 
     def ablate_component(
@@ -403,10 +403,10 @@ class ComponentAblationFramework:
 
     def validate_trinity_compliance(self, ablated_akaq: AkaQualia, test_signals: dict[str, Any]) -> dict[str, bool]:
         """
-        Validate Trinity Framework (⚛️🧠🛡️) compliance under ablation.
+        Validate Constellation Framework (⚛️🧠🛡️) compliance under ablation.
 
         Returns:
-            Dict with compliance status for each Trinity principle
+            Dict with compliance status for each Constellation principle
         """
         compliance = {
             "identity_preserved": True,  # ⚛️ Identity maintained
@@ -447,8 +447,8 @@ class ComponentAblationFramework:
                     compliance["guardian_active"] = False  # High risk not detected
 
         except Exception as e:
-            # Log Trinity violation
-            self.trinity_violations.append(
+            # Log Constellation violation
+            self.constellation_violations.append(
                 {
                     "error": str(e),
                     "ablation_context": (self.ablation_history[-1] if self.ablation_history else None),
@@ -596,10 +596,10 @@ class ComponentAblationFramework:
         """Generate comprehensive ablation test report"""
         return {
             "total_ablations_tested": len(self.ablation_history),
-            "trinity_violations": len(self.trinity_violations),
+            "constellation_violations": len(self.constellation_violations),
             "emergency_activations": len(self.emergency_activations),
             "ablation_history": self.ablation_history,
-            "trinity_violation_details": self.trinity_violations,
+            "constellation_violation_details": self.constellation_violations,
             "emergency_performance": {
                 "total_tests": len(self.emergency_activations),
                 "average_activation_time_ms": (
@@ -663,7 +663,7 @@ class TestConsciousnessAblation:
         ablated_akaq = ablation_framework.ablate_component("pls", "disable")
         compliance = ablation_framework.validate_trinity_compliance(ablated_akaq, test_signals)
 
-        # Should maintain basic Trinity compliance even without PLS
+        # Should maintain basic Constellation compliance even without PLS
         assert compliance["identity_preserved"], "Identity should be preserved even with PLS disabled"
         assert compliance["guardian_active"], "Guardian should remain active without PLS"
         # Consciousness may be degraded but shouldn't completely fail
@@ -759,16 +759,16 @@ class TestConsciousnessAblation:
             # Ablate component
             current_akaq = ablation_framework.ablate_component(component, "degrade", 0.5)
 
-            # Validate Trinity compliance maintained
+            # Validate Constellation compliance maintained
             compliance = ablation_framework.validate_trinity_compliance(current_akaq, test_signals)
 
-            # At least one Trinity principle should remain
-            trinity_maintained = (
+            # At least one Constellation principle should remain
+            constellation_maintained = (
                 compliance["identity_preserved"]
                 or compliance["consciousness_functional"]
                 or compliance["guardian_active"]
             )
-            assert trinity_maintained, f"At least one Trinity principle should remain after ablating {component}"
+            assert constellation_maintained, f"At least one Constellation principle should remain after ablating {component}"
 
     def test_ablation_recovery_performance(self, ablation_framework, test_signals):
         """Test system recovery performance after ablation"""
@@ -833,7 +833,7 @@ class TestConsciousnessAblation:
 
         # Validate report structure
         assert "total_ablations_tested" in report
-        assert "trinity_violations" in report
+        assert "constellation_violations" in report
         assert "emergency_activations" in report
         assert "ablation_history" in report
 

@@ -6,7 +6,7 @@ echo "🚀 Starting ngrok tunnel for MCP server..."
 # Check if MCP server is running
 if ! curl -s http://localhost:8080/health > /dev/null; then
     echo "❌ MCP server not running on port 8080"
-    echo "💡 Start it with: cd /Users/agi_dev/LOCAL-REPOS/Lukhas/mcp-lukhas-sse && ALLOWED_ROOTS='/Users/agi_dev/LOCAL-REPOS/Lukhas' ALLOW_NO_AUTH=true python3 chatgpt_server.py &"
+    echo "💡 Start it with: cd /Users/cognitive_dev/LOCAL-REPOS/Lukhas/mcp-lukhas-sse && ALLOWED_ROOTS='/Users/cognitive_dev/LOCAL-REPOS/Lukhas' ALLOW_NO_AUTH=true python3 chatgpt_server.py &"
     exit 1
 fi
 

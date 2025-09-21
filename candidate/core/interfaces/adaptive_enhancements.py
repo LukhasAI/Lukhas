@@ -230,7 +230,7 @@ class AdaptiveExporter:
         if data.get("drift_score", 0) > 0.3:
             glyphs.append("🌀")  # Drift detected
 
-        # Add Trinity symbols
+        # Add Constellation symbols
         glyphs.extend(["⚛️", "🧠", "🛡️"])
 
         return f"GLYPH_STREAM: {' → '.join(glyphs)}"

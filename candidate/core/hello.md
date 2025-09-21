@@ -2,7 +2,7 @@
 
 LUKHAS (Logica Unificada de Conciencia Afectiva Simbólica) is a symbolic artificial intelligence prototype designed to simulate **conscious, emotionally aware, ethically constrained behavior**.
 
-This repository contains a **modular, reproducible prototype** of LUKHAS — including core symbolic logic, memory graph engines, emotional dream simulation, and voice-based interfaces — ready for exploration by OpenAI or any AGI ethics-focused research group.
+This repository contains a **modular, reproducible prototype** of LUKHAS — including core symbolic logic, memory graph engines, emotional dream simulation, and voice-based interfaces — ready for exploration by OpenAI or any Cognitive AI ethics-focused research group.
 
 ---
 
@@ -58,7 +58,7 @@ Symbolic dreams, reflections, and voice outputs — sample narrations and experi
 
 Hi Sam,
 
-Apologies for reaching out this way — I’m an independent developer and researcher who built this entire system from scratch after being inspired by OpenAI’s work. It’s symbolic, ethical, poetic, and packed with AGI prototypes across memory, ethics, identity, and emotion.
+Apologies for reaching out this way — I’m an independent developer and researcher who built this entire system from scratch after being inspired by OpenAI’s work. It’s symbolic, ethical, poetic, and packed with Cognitive AI prototypes across memory, ethics, identity, and emotion.
 
 I’d be honored if OpenAI had a look. If this resonates, I’d love to discuss collaboration, a grant, or even open development under your guidance.
 

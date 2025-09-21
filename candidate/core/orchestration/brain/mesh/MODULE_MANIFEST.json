@@ -39,7 +39,7 @@
       "consciousness_coherence_maintenance"
     ]
   },
-  "trinity_framework": {
+  "constellation_framework": {
     "identity": "⚛️ Mesh Coordinator Identity - Distributed consciousness network identity preservation",
     "consciousness": "🧠 Primary Consciousness Function - Multi-brain orchestration and mesh management", 
     "guardian": "🛡️ Ethical Oversight - Distributed ethical validation and consciousness safety"
@@ -160,7 +160,7 @@
   "documentation": {
     "README": "../README.md",
     "architecture_docs": "MATRIZ_CONSCIOUSNESS_ARCHITECTURE.md", 
-    "trinity_guidelines": "Trinity Framework Documentation",
+    "constellation_guidelines": "Constellation Framework Documentation",
     "user_guide": "Embedded in cognitive_mesh_coordinator.py lines 888-1010"
   }
 }

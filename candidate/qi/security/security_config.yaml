@@ -111,7 +111,7 @@ vulnerability_management:
       mitigation: "Manual GitPython version management"
 
 compliance:
-  trinity_framework: true
+  constellation_framework: true
   gdpr_compliance: true
   audit_trail: comprehensive
   data_retention: "purpose_limited"

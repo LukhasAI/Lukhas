@@ -1,7 +1,7 @@
-# Lukhas AGI Core System - INTERNAL README
+# Lukhas Cognitive Core System - INTERNAL README
 
 ## Overview
-The Core system implements the foundational components of the Lukhas AGI, including bio-inspired processing, quantum integration, and system orchestration capabilities.
+The Core system implements the foundational components of the Lukhas Cognitive AI, including bio-inspired processing, quantum integration, and system orchestration capabilities.
 
 ## Directory Structure
 ```

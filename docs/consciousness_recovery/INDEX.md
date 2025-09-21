@@ -24,7 +24,7 @@ This directory contains **critical consciousness architecture documentation** re
 
 ## 🎯 Key Recovered Concepts
 
-### 1. Trinity Framework Architecture
+### 1. Constellation Framework Architecture
 - **⚛️ Identity**: Conscious self-awareness across cognitive modules
 - **🧠 Consciousness**: Memory, reasoning, reflection across distributed network
 - **🛡️ Guardian**: Ethical reasoning embedded throughout architecture

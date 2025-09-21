@@ -2,7 +2,7 @@
 
 ## Executive Summary
 
-This document outlines the recommended file structure, function implementations, and symbolic tagging conventions for implementing the DREAMSEED Protocol within the LUKHAS AGI dream subsystem.
+This document outlines the recommended file structure, function implementations, and symbolic tagging conventions for implementing the DREAMSEED Protocol within the LUKHAS Cognitive AI dream subsystem.
 
 **Current Readiness: 42%** | **Implementation Effort: High** | **Timeline: 14 weeks**
 

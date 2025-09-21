@@ -99,7 +99,7 @@ def generate_intelligent_description(code_analysis: dict[str, str]) -> str:
     """Generate intelligent module description using OpenAI."""
 
     # Build a comprehensive prompt
-    prompt = f"""Generate a module description that masterfully blends academic quantum-inspired computing terminology with poetic metaphors for the LUKHAS AGI system.
+    prompt = f"""Generate a module description that masterfully blends academic quantum-inspired computing terminology with poetic metaphors for the LUKHAS Cognitive system.
 
 Module: {code_analysis["module_name"]}
 Filename: {code_analysis["filename"]}

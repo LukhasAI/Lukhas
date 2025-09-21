@@ -1,0 +1,192 @@
+{
+  "schema_version": "3.0.0",
+  "directory_metadata": {
+    "path": "candidate/core/ethics",
+    "lane": "development",
+    "purpose": "Directory containing 4 Python files and 2 subdirectories",
+    "last_updated": "2025-09-21",
+    "constellation_framework_version": "2.0.0",
+    "t4_compliance_level": "integration",
+    "constellation_role": "watch_star_primary",
+    "matriz_pipeline_integration": {
+      "memory_stage": "experimental",
+      "attention_stage": "experimental",
+      "thought_stage": "experimental",
+      "action_stage": "inactive",
+      "decision_stage": "inactive",
+      "awareness_stage": "experimental"
+    }
+  },
+  "component_inventory": {
+    "python_files": [
+      {
+        "filename": "guardian_drift_bands.py",
+        "component_type": "GUARDIAN_VALIDATOR",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "GuardianBand",
+          "BandTrigger",
+          "GuardianThresholds",
+          "BandTransition",
+          "GuardianBandResult",
+          "GuardianDriftBands",
+          "_NoopMetric",
+          "create_guardian_drift_bands",
+          "validate",
+          "evaluate",
+          "get_current_status",
+          "force_band_transition",
+          "request_block_override",
+          "evaluate_with_override_option",
+          "inc",
+          "observe",
+          "set",
+          "labels"
+        ]
+      },
+      {
+        "filename": "ab_safety_guard.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "EnforcementMode",
+          "SafetyGuardState",
+          "ABSafetyConfig",
+          "ABSafetyGuard",
+          "_NoopMetric",
+          "get_safety_guard",
+          "should_enforce_for_lane",
+          "should_enforce_ethics",
+          "record_guardian_decision",
+          "record_circuit_failure",
+          "get_status",
+          "reset_rollback",
+          "inc",
+          "set",
+          "observe",
+          "labels",
+          "calc_rates"
+        ]
+      },
+      {
+        "filename": "dream_ethics_injector.py",
+        "component_type": "GUARDIAN_VALIDATOR",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": []
+      },
+      {
+        "filename": "safety_tags.py",
+        "component_type": "DATA_MODEL",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "SafetyTagCategory",
+          "SafetyTag",
+          "TaggedPlan",
+          "SafetyTagDetector",
+          "PIIDetector",
+          "FinancialDetector",
+          "ModelSwitchDetector",
+          "ExternalCallDetector",
+          "PrivilegeEscalationDetector",
+          "GDPRDetector",
+          "SafetyTagEnricher",
+          "_NoopMetric",
+          "preprocess_text",
+          "create_safety_tag_enricher",
+          "tag_names",
+          "tags_by_category",
+          "has_tag",
+          "has_category",
+          "get_tags_by_category",
+          "detect",
+          "detect",
+          "detect",
+          "detect",
+          "detect",
+          "detect",
+          "detect",
+          "preprocess_text",
+          "preprocess_plan",
+          "enrich_plan",
+          "add_detector",
+          "get_stats",
+          "canonical_domain",
+          "inc",
+          "observe",
+          "labels"
+        ]
+      }
+    ],
+    "subdirectories": [
+      {
+        "name": "logic",
+        "has_index": false,
+        "purpose": "Subdirectory with 4 Python files",
+        "component_count": 4
+      },
+      {
+        "name": "rules",
+        "has_index": false,
+        "purpose": "Subdirectory with 0 Python files",
+        "component_count": 0
+      }
+    ],
+    "documentation": [
+      {
+        "filename": "README_ethics.md",
+        "type": "other",
+        "has_sync_header": false
+      }
+    ]
+  },
+  "schema_references": [
+    {
+      "schema_name": "directory_index",
+      "schema_path": "schemas/directory_index.schema.json",
+      "validation_status": "valid"
+    }
+  ],
+  "agent_guidance": {
+    "recommended_approach": "Review constitutional AI frameworks and Guardian system integration",
+    "key_files": [],
+    "common_tasks": [],
+    "prerequisites": [
+      "Understanding of LUKHAS lane system",
+      "Constellation Framework familiarity",
+      "MATRIZ pipeline architecture",
+      "T4/0.01% implementation standards"
+    ],
+    "avoid_patterns": [
+      "Modifying contracts without validation",
+      "Breaking lane boundaries",
+      "Ignoring Constellation Framework integration",
+      "Breaking constructor-aware instantiation patterns",
+      "Bypassing T4/0.01% validation standards",
+      "Ignoring MATRIZ pipeline integration requirements"
+    ]
+  },
+  "performance_metadata": {
+    "component_count": 4,
+    "estimated_complexity": "low",
+    "consciousness_integration": "basic",
+    "test_coverage": 85.0,
+    "t4_compliance_score": 0.75,
+    "matriz_compatibility": "experimental",
+    "plugin_registry_compatible": true,
+    "constructor_aware_instantiation": true
+  },
+  "relationships": {
+    "parent_directory": "candidate/core",
+    "related_directories": [],
+    "constellation_cluster": "watch_star_ethics",
+    "dependency_weight": "moderate"
+  }
+}

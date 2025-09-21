@@ -1,6 +1,6 @@
 """
 LUKHAS AI Bridge Module
-Trinity Framework: ⚛️🧠🛡️
+Constellation Framework: ⚛️🧠🛡️
 
 Bridge system with integrated branding compliance for external
 communications and API responses with consistent brand voice.

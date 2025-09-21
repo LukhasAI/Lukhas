@@ -15,7 +15,7 @@
 - **Files**:
   - `docs/ARCHITECTURE.md` - Core system architecture
   - `docs/VISION.md` - Project vision and philosophy
-  - `docs/consciousness/TRINITY_FRAMEWORK_ACADEMIC_SPECIFICATION.md` - Trinity Framework specs
+  - `docs/consciousness/TRINITY_FRAMEWORK_ACADEMIC_SPECIFICATION.md` - Constellation Framework specs
   - `docs/architecture/NEUROPLASTIC_ARCHITECTURE.md` - Core consciousness design
   - `branding/` - Brand guidelines and identity
 
@@ -129,7 +129,7 @@ class DocumentationSearchEngine:
         Semantic search across documentation with agent optimization
         - Vector embeddings of doc content
         - Agent-specific result ranking
-        - Trinity Framework context awareness
+        - Constellation Framework context awareness
         """
 
     def get_relevant_docs(self, task_type: str, agent_role: str):
@@ -217,9 +217,9 @@ class DocumentationSearchEngine:
 
 ---
 
-## 🎖️ **Trinity Framework Integration**
+## 🎖️ **Constellation Framework Integration**
 
-This documentation system aligns with Trinity Framework principles:
+This documentation system aligns with Constellation Framework principles:
 
 - **⚛️ Identity**: Authentic, consistent documentation organization and discovery
 - **🧠 Consciousness**: Intelligent search, agent routing, and context awareness

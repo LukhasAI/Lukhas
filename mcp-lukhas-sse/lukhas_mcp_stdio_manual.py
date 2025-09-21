@@ -121,7 +121,7 @@ class LukhasMCPServer:
             },
             {
                 "name": "get_lukhas_info",
-                "description": "Get information about the LUKHAS AI system and Trinity Framework",
+                "description": "Get information about the LUKHAS AI system and Constellation Framework",
                 "inputSchema": {
                     "type": "object",
                     "properties": {},
@@ -142,7 +142,7 @@ class LukhasMCPServer:
         """List files and directories in the given path."""
         try:
             # Security: Only allow paths under allowed roots
-            allowed_roots = os.getenv("ALLOWED_ROOTS", "/tmp,/var/tmp,/Users/agi_dev/LOCAL-REPOS/Lukhas/test_data").split(",")
+            allowed_roots = os.getenv("ALLOWED_ROOTS", "/tmp,/var/tmp,/Users/cognitive_dev/LOCAL-REPOS/Lukhas/test_data").split(",")
             abs_path = os.path.abspath(path)
             
             if not any(abs_path.startswith(os.path.abspath(root.strip())) for root in allowed_roots):
@@ -177,7 +177,7 @@ class LukhasMCPServer:
                 "path": path,
                 "items": items,
                 "total_items": len(items),
-                "lukhas_ai": "⚛️🧠🛡️ LUKHAS AI Trinity Framework"
+                "lukhas_ai": "⚛️🧠🛡️ LUKHAS AI Constellation Framework"
             }
             
             return json.dumps(result, indent=2)
@@ -190,7 +190,7 @@ class LukhasMCPServer:
         """Read the contents of a text file."""
         try:
             # Security: Only allow paths under allowed roots
-            allowed_roots = os.getenv("ALLOWED_ROOTS", "/tmp,/var/tmp,/Users/agi_dev/LOCAL-REPOS/Lukhas/test_data").split(",")
+            allowed_roots = os.getenv("ALLOWED_ROOTS", "/tmp,/var/tmp,/Users/cognitive_dev/LOCAL-REPOS/Lukhas/test_data").split(",")
             abs_path = os.path.abspath(path)
             
             if not any(abs_path.startswith(os.path.abspath(root.strip())) for root in allowed_roots):
@@ -232,7 +232,7 @@ class LukhasMCPServer:
                 "displayed_lines": len(content_lines),
                 "truncated": truncated,
                 "file_size_bytes": file_size,
-                "lukhas_ai": "⚛️🧠🛡️ LUKHAS AI Trinity Framework"
+                "lukhas_ai": "⚛️🧠🛡️ LUKHAS AI Constellation Framework"
             }
             
             return json.dumps(result, indent=2)
@@ -251,7 +251,7 @@ class LukhasMCPServer:
             import fnmatch
             
             # Security: Only allow paths under allowed roots
-            allowed_roots = os.getenv("ALLOWED_ROOTS", "/tmp,/var/tmp,/Users/agi_dev/LOCAL-REPOS/Lukhas/test_data").split(",")
+            allowed_roots = os.getenv("ALLOWED_ROOTS", "/tmp,/var/tmp,/Users/cognitive_dev/LOCAL-REPOS/Lukhas/test_data").split(",")
             abs_directory = os.path.abspath(directory)
             
             if not any(abs_directory.startswith(os.path.abspath(root.strip())) for root in allowed_roots):
@@ -297,7 +297,7 @@ class LukhasMCPServer:
                 "matches": matches,
                 "total_found": len(matches),
                 "truncated": len(matches) >= max_results,
-                "lukhas_ai": "⚛️🧠🛡️ LUKHAS AI Trinity Framework"
+                "lukhas_ai": "⚛️🧠🛡️ LUKHAS AI Constellation Framework"
             }
             
             return json.dumps(result, indent=2)
@@ -307,7 +307,7 @@ class LukhasMCPServer:
             return json.dumps({"error": f"Error searching files: {str(e)}"}, indent=2)
     
     async def get_lukhas_info_tool(self) -> str:
-        """Get information about the LUKHAS AI system and Trinity Framework."""
+        """Get information about the LUKHAS AI system and Constellation Framework."""
         try:
             import platform
             
@@ -316,7 +316,7 @@ class LukhasMCPServer:
                     "name": "LUKHAS AI Platform",
                     "description": "Consciousness-Aware AI Development Platform",
                     "version": "1.0.0",
-                    "trinity_framework": {
+                    "constellation_framework": {
                         "symbol": "⚛️🧠🛡️",
                         "components": {
                             "⚛️ Identity": "Lambda ID system, authentication, symbolic self-representation",
@@ -482,13 +482,13 @@ async def main():
         # Default to safe directories
         default_roots = ["/tmp", "/var/tmp"]
         # Add test data directory if it exists
-        test_data_path = "/Users/agi_dev/LOCAL-REPOS/Lukhas/test_data"
+        test_data_path = "/Users/cognitive_dev/LOCAL-REPOS/Lukhas/test_data"
         if os.path.exists(test_data_path):
             default_roots.append(test_data_path)
         os.environ["ALLOWED_ROOTS"] = ",".join(default_roots)
     
     logger.info("🚀 Starting LUKHAS AI MCP STDIO Server")
-    logger.info("⚛️🧠🛡️ Trinity Framework: Identity, Consciousness, Guardian")
+    logger.info("⚛️🧠🛡️ Constellation Framework: Identity, Consciousness, Guardian")
     logger.info(f"📁 Allowed roots: {os.getenv('ALLOWED_ROOTS')}")
     logger.info("📋 Protocol: MCP v2025-06-18 with STDIO transport")
     logger.info("🔗 Ready for ChatGPT integration")

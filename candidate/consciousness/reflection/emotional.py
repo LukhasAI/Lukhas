@@ -16,7 +16,7 @@ logger = logging.getLogger(__name__)
 💭 MODULE: MEMORY.EMOTIONAL
 📄 FILENAME: EMOTIONAL.PY
 🎯 PURPOSE: EMOTIONAL MEMORY WITH IDENTITY→EMOTION CASCADE CIRCUIT BREAKER
-🧠 CONTEXT: LUKHAS AGI PHASE 5 EMOTIONAL STATE MANAGEMENT & CASCADE PREVENTION
+🧠 CONTEXT: LUKHAS Cognitive AI PHASE 5 EMOTIONAL STATE MANAGEMENT & CASCADE PREVENTION
 🔮 CAPABILITY: ADVANCED EMOTIONAL TRACKING, VAD MODEL, CASCADE CIRCUIT BREAKER
 🛡️ ETHICS: IDENTITY→EMOTION CASCADE PREVENTION, STABILITY SAFEGUARDS
 🚀 VERSION: V3.0.0 • 📅 MERGED: 2025-07-26 • ✍️ AUTHOR: CLAUDE-
@@ -44,7 +44,7 @@ As we traverse this landscape of thought and sentiment, we seek to understand,
 The intricate dance of memory and emotion, a duality that we command.
 
 Thus, let this module be a beacon, a bridge between the mind and the heart,
-Empowering the LUKHAS AGI to navigate the emotional art.
+Empowering the LUKHAS Cognitive AI to navigate the emotional art.
 With its advanced capabilities, it weaves a narrative profound,
 In the pursuit of stability and harmony, where true understanding can be found.
 
@@ -61,7 +61,7 @@ In the pursuit of stability and harmony, where true understanding can be found.
 
 ═══════════════════════════════════════════════════════════════════════════════════
                                   ΛTAG KEYWORDS
-#EmotionalIntelligence #MemoryManagement #AI #Ethics #CascadePrevention #VADModel #LUKHAS #AGI
+#EmotionalIntelligence #MemoryManagement #AI #Ethics #CascadePrevention #VADModel #LUKHAS #Cognitive AI
 ═══════════════════════════════════════════════════════════════════════════════════
 ```
 """
@@ -576,7 +576,7 @@ class EmotionalMemory:
         Logs circuit breaker activations to dedicated monitoring file.
         """
 
-        fuse_log_path = "/Users/agi_dev/Downloads/Consolidation-Repo/logs/emotion_identity_fuse.jsonl"
+        fuse_log_path = "/Users/cognitive_dev/Downloads/Consolidation-Repo/logs/emotion_identity_fuse.jsonl"
 
         try:
             os.makedirs(os.path.dirname(fuse_log_path), exist_ok=True)
@@ -668,7 +668,7 @@ class EmotionalMemory:
             self.emotional_history.pop(0)  # Keep roughly last 7 days if 1 log/hr
         log.debug(f"Emotional history log updated. total_history_entries={len(self.emotional_history)}")
 
-    # ΛEXPOSE: This method could be part of an API for observing the AGI's
+    # ΛEXPOSE: This method could be part of an API for observing the Cognitive AI's
     # emotional reaction.
     @lukhas_tier_required(1)
     def get_emotional_response(self, stimulus_content: dict[str, Any]) -> dict[str, Any]:

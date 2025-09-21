@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-LUKHAS AGI Dream Analysis CLI
+LUKHAS Cognitive AI Dream Analysis CLI
 ============================
 
 Command-line interface for running symbolic anomaly analysis on dream sessions.
@@ -20,7 +20,7 @@ sys.path.insert(0, str(PROJECT_ROOT))
 def main():
     """Main CLI entry point."""
     parser = argparse.ArgumentParser(
-        description="LUKHAS AGI Symbolic Anomaly Explorer - Jules-13",
+        description="LUKHAS Cognitive AI Symbolic Anomaly Explorer - Jules-13",
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Examples:
@@ -81,7 +81,7 @@ Examples:
     parser.add_argument(
         "--version",
         action="version",
-        version="LUKHAS AGI Dream Analysis v1.0.0 (Jules-13)",
+        version="LUKHAS Cognitive AI Dream Analysis v1.0.0 (Jules-13)",
     )
 
     args = parser.parse_args()
@@ -111,7 +111,7 @@ Examples:
                 print(f"Applied custom thresholds: {custom_thresholds}")
 
         if not args.quiet:
-            print("🔍 LUKHAS AGI - Symbolic Anomaly Explorer (Jules-13)")
+            print("🔍 LUKHAS Cognitive AI - Symbolic Anomaly Explorer (Jules-13)")
             print("=" * 60)
             print(f"Analyzing {args.sessions} recent dream sessions...")
 

@@ -7,9 +7,9 @@
 
 
 CRITICAL FILE - DO NOT MODIFY WITHOUT APPROVAL
-lukhas AI System - Core AGI Controller Component
-File: agi_controller.py
-Path: core/agi_controller.py
+lukhas AI System - Core Cognitive AI Controller Component
+File: cognitive_controller.py
+Path: core/cognitive_controller.py
 Created: 2025-01-27
 Modified: 2025-06-26 - Added Enterprise Compliance Middleware
 Author: lukhas AI Team
@@ -36,17 +36,17 @@ import logging
 from pathlib import Path
 
 """
-Main AGI Controller for LUKHAS AGI System - Enterprise Compliance Edition
+Main Cognitive AI Controller for LUKHAS Cognitive AI System - Enterprise Compliance Edition
 ========================================================================
 
 This module serves as the central orchestrator and main entry point for
-the entire LUKHAS AGI system. It provides a unified interface for all
-AGI operations and manages the complete lifecycle of the system with
+the entire LUKHAS Cognitive system. It provides a unified interface for all
+Cognitive AI operations and manages the complete lifecycle of the system with
 full regulatory compliance across all jurisdictions.
 
 🛡️ COMPLIANCE FEATURES:
 - Real-time consent validation and management
-- Complete audit trail for all AGI operations
+- Complete audit trail for all Cognitive AI operations
 - GDPR data subject rights implementation
 - CCPA consumer privacy controls
 - AI decision transparency and explainability
@@ -54,7 +54,7 @@ full regulatory compliance across all jurisdictions.
 - Biometric data protection (if applicable)
 - Financial and healthcare data safeguards
 
-The AGI Controller integrates all major components with compliance middleware:
+The Cognitive AI Controller integrates all major components with compliance middleware:
 - System Coordinator (main integration point)
 - Consciousness Integrator (awareness and consciousness)
 - Neural Integrator (advanced neural processing)
@@ -67,7 +67,7 @@ The AGI Controller integrates all major components with compliance middleware:
 - 🆕 Privacy Manager (data protection)
 - 🆕 Audit Logger (compliance tracking)
 
-This is the primary interface for interacting with the LUKHAS AGI system
+This is the primary interface for interacting with the LUKHAS Cognitive system
 with enterprise-grade regulatory compliance.
 """
 
@@ -113,7 +113,7 @@ logger = logging.getLogger("agi")
 # 🛡️ Compliance and Privacy Data Structures
 @dataclass
 class ComplianceContext:
-    """Compliance context for AGI operations"""
+    """Compliance context for Cognitive AI operations"""
 
     user_consent: dict[str, bool] = field(default_factory=dict)
     data_processing_basis: str = "consent"  # GDPR Article 6 basis
@@ -140,7 +140,7 @@ class PrivacyControls:
 
 
 class AGIState(Enum):
-    """AGI system states"""
+    """Cognitive system states"""
 
     OFFLINE = "offline"  # System not running
     STARTING = "starting"  # System startup
@@ -153,7 +153,7 @@ class AGIState(Enum):
 
 @dataclass
 class AGIRequest:
-    """Represents a user request to the AGI system - Compliance Enhanced"""
+    """Represents a user request to the Cognitive system - Compliance Enhanced"""
 
     id: str
     timestamp: datetime
@@ -173,7 +173,7 @@ class AGIRequest:
 
 @dataclass
 class AGIResponse:
-    """Represents an AGI system response - Compliance Enhanced"""
+    """Represents an Cognitive system response - Compliance Enhanced"""
 
     request_id: str
     timestamp: datetime
@@ -194,7 +194,7 @@ class AGIResponse:
 
 @dataclass
 class AGISession:
-    """Represents an AGI user session - Compliance Enhanced"""
+    """Represents an Cognitive AI user session - Compliance Enhanced"""
 
     session_id: str
     user_id: str
@@ -221,12 +221,12 @@ class InteractionMode(Enum):
     PASSIVE = "passive"  # Passive monitoring only
 
 
-class AGIController:
+class CognitiveController:
     """
-    Main AGI Controller for the LUKHAS AGI system.
+    Main Cognitive AI Controller for the LUKHAS Cognitive system.
 
     This class serves as the central orchestrator and main entry point
-    for all AGI operations, providing a unified interface for user
+    for all Cognitive AI operations, providing a unified interface for user
     interactions and system management.
     """
 
@@ -280,10 +280,10 @@ class AGIController:
         signal.signal(signal.SIGINT, self._signal_handler)
         signal.signal(signal.SIGTERM, self._signal_handler)
 
-        logger.info(f"AGI Controller initialized: {self.controller_id}")
+        logger.info(f"Cognitive AI Controller initialized: {self.controller_id}")
 
     def _load_config(self, config_path: Optional[str]) -> dict[str, Any]:
-        """Load AGI controller configuration"""
+        """Load Cognitive AI controller configuration"""
         default_config = {
             "agi": {
                 "max_concurrent_sessions": 10,
@@ -326,8 +326,8 @@ class AGIController:
         asyncio.create_task(self.shutdown())
 
     async def start_agi_system(self) -> bool:
-        """Start the complete AGI system with Enterprise Compliance"""
-        logger.info("Starting LUKHAS AGI system with Enterprise Compliance...")
+        """Start the complete Cognitive system with Enterprise Compliance"""
+        logger.info("Starting LUKHAS Cognitive system with Enterprise Compliance...")
 
         try:
             self.current_state = AGIState.STARTING
@@ -416,11 +416,11 @@ class AGIController:
             self.current_state = AGIState.ONLINE
             self.is_running = True
 
-            logger.info("LUKHAS AGI system started successfully")
+            logger.info("LUKHAS Cognitive system started successfully")
             return True
 
         except Exception as e:
-            logger.error(f"Failed to start AGI system: {e}")
+            logger.error(f"Failed to start Cognitive system: {e}")
             self.current_state = AGIState.OFFLINE
             return False
 
@@ -465,7 +465,7 @@ class AGIController:
                 await asyncio.sleep(0.1)
 
     async def _process_request(self, request: AGIRequest):
-        """Process a single AGI request"""
+        """Process a single Cognitive AI request"""
         start_time = time.time()
 
         try:
@@ -836,7 +836,7 @@ class AGIController:
     # 🛡️ ENTERPRISE COMPLIANCE MIDDLEWARE METHODS
 
     async def validate_compliance(self, request: AGIRequest) -> tuple[bool, list[str]]:
-        """Validate compliance for an AGI request"""
+        """Validate compliance for an Cognitive AI request"""
         compliance_issues = []
 
         if not self.compliance_engine:
@@ -1040,8 +1040,8 @@ if __name__ == "__main__":
     import signal
 
     async def test_agi():
-        """Test the AGI system"""
-        controller = AGIController()
+        """Test the Cognitive system"""
+        controller = CognitiveController()
 
         # Start the system
         await controller.start_agi_system()
@@ -1091,9 +1091,9 @@ if __name__ == "__main__":
         if response:
             print(f"Response: {json.dumps(asdict(response), indent=2, default=str)}")
 
-        # Get AGI status including compliance
+        # Get Cognitive AI status including compliance
         status = await controller.get_agi_status()
-        print(f"AGI Status: {json.dumps(status, indent=2, default=str)}")
+        print(f"Cognitive AI Status: {json.dumps(status, indent=2, default=str)}")
 
         # Get compliance status
         compliance_status = await controller.get_compliance_status()

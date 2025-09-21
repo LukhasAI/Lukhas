@@ -58,8 +58,8 @@ eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJodHRwczovL3Rlc3QtaXNzdWVyLmxvY2F
 ### **Step 1: Expose with ngrok**
 ```bash
 # In terminal 1 - keep your server running
-cd /Users/agi_dev/LOCAL-REPOS/Lukhas/mcp-lukhas-sse
-ALLOWED_ROOTS="/Users/agi_dev/LOCAL-REPOS/Lukhas" ALLOW_NO_AUTH=true python3 chatgpt_server.py
+cd /Users/cognitive_dev/LOCAL-REPOS/Lukhas/mcp-lukhas-sse
+ALLOWED_ROOTS="/Users/cognitive_dev/LOCAL-REPOS/Lukhas" ALLOW_NO_AUTH=true python3 chatgpt_server.py
 
 # In terminal 2 - expose to internet
 ngrok http 8080
@@ -99,8 +99,8 @@ curl "http://localhost:8080/sse?token=YOUR_TOKEN"
 
 **Start Server:**
 ```bash
-cd /Users/agi_dev/LOCAL-REPOS/Lukhas/mcp-lukhas-sse
-ALLOWED_ROOTS="/Users/agi_dev/LOCAL-REPOS/Lukhas" ALLOW_NO_AUTH=true python3 chatgpt_server.py &
+cd /Users/cognitive_dev/LOCAL-REPOS/Lukhas/mcp-lukhas-sse
+ALLOWED_ROOTS="/Users/cognitive_dev/LOCAL-REPOS/Lukhas" ALLOW_NO_AUTH=true python3 chatgpt_server.py &
 ```
 
 **Stop Server:**

@@ -10,7 +10,7 @@
 🧠 CONTEXT     : Interprets tone, modulates delivery, routes through ethical filters
 🎙️ OUTPUTS     : Voice (whisper, speaker), Email, UI, Apple Watch (future)
 🛡️ ETHICS      : Uses lukhas_ethics_guard and voice_safety_guard
-🛠️ VERSION     : v1.1.0 • 📅 CREATED: 2025-05-05 • ✍️ AUTHOR: LUKHAS AGI TEAM
+🛠️ VERSION     : v1.1.0 • 📅 CREATED: 2025-05-05 • ✍️ AUTHOR: LUKHAS Cognitive AI TEAM
 """
 
 import logging

@@ -7,11 +7,11 @@ metadata:
   version: "1.0.0"
   description: "Consciousness Technology Interface Design Tokens"
   lastUpdated: "2025-08-19"
-  framework: "Trinity Framework (⚛️🧠🛡️)"
+  framework: "Constellation Framework (⚛️🧠🛡️)"
 
 # Color System
 colors:
-  # Trinity Framework Colors
+  # Constellation Framework Colors
   trinity:
     identity:
       hex: "#6B46C1"
@@ -425,7 +425,7 @@ performance:
     fonts: "100KB"
     total: "1MB"
 
-# Trinity Framework Integration
+# Constellation Framework Integration
 trinity:
   identity:
     symbol: "⚛️"

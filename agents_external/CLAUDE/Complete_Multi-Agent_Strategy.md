@@ -225,7 +225,7 @@ agents:
 ### **Phase 1: Start with Claude Code Army (FREE)**
 1. Deploy 6-8 Claude Code agents using your membership
 2. Test the consciousness development workflow
-3. Validate the Trinity Framework integration
+3. Validate the Constellation Framework integration
 4. **Cost: $0 additional**
 
 ### **Phase 2: Add Strategic API Automation (Later)**

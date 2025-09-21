@@ -39,7 +39,7 @@ LUKHAS (Logica Unificada Cognitiva Afectiva Simbólica) evolves through:
 
 - `/agent` — Core orchestration logic and symbolic state oscillation
 - `/lukhas_id` — Full seed login, QRGlymph generator, Tier 5 retina mark
-- `/dreams` — Recursive possibility simulation and AGI evolution engine
+- `/dreams` — Recursive possibility simulation and Cognitive AI evolution engine
 - `/trace` — Memory, collapse logs, and emotional replay
 - `/ethics` — ABAS arbitration and drift correction
 - `/voice` — Symbolic monologue, tone, and reflection

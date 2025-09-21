@@ -168,14 +168,14 @@ class IdentityCoreBridge:
     def compare_states(
         self,
         state1: dict[str, Any],
-        state2: dict[str, Any],  # TODO[TRINITY:specialist] Implement Trinity identity-consciousness state comparison
+        state2: dict[str, Any],  # TODO[CONSTELLATION:specialist] Implement Constellation identity-consciousness state comparison
     ) -> list[dict[str, Any]]:
         """Compare states and return differences"""
         differences = []
 
-        # TODO[TRINITY:specialist] Implement Trinity Framework identity-consciousness state comparison
+        # TODO[CONSTELLATION:specialist] Implement Constellation Framework identity-consciousness state comparison
         # Compare ⚛️ Identity coherence, 🧠 Consciousness patterns, 🛡️ Guardian protection
-        # This is a placeholder - add Trinity-specific identity comparison logic
+        # This is a placeholder - add Constellation-specific identity comparison logic
 
         return differences
 

@@ -913,7 +913,7 @@ class ComplianceEngine:
 
 class EnhancedAGIBot:
     """
-    Enhanced AI Bot - True Artificial General Intelligence System
+    Enhanced AI Bot - True Cognitive Artificial Intelligence System
 
     Integrates all discovered AI components to achieve true AI capabilities:
     - Metacognitive self-awareness and self-modification
@@ -967,40 +967,40 @@ class EnhancedAGIBot:
         """Generate a safe response when compliance fails"""
         return "I apologize, but I cannot provide a response that meets our safety and ethical guidelines."
 
-    def _update_conversation_history(self, input_data: dict, agi_response: AGIResponse):
+    def _update_conversation_history(self, input_data: dict, cognitive_response: AGIResponse):
         """Update conversation history"""
         self.conversation_history.append(
             {
                 "timestamp": datetime.now(timezone.utc).isoformat(),
                 "input": input_data.get("text", ""),
-                "response": agi_response.content,
-                "confidence": agi_response.confidence,
-                "capability_level": agi_response.capability_level.value,
+                "response": cognitive_response.content,
+                "confidence": cognitive_response.confidence,
+                "capability_level": cognitive_response.capability_level.value,
             }
         )
         # Keep only last 50 conversations
         self.conversation_history = self.conversation_history[-50:]
 
-    def _update_performance_metrics(self, agi_response: AGIResponse):
+    def _update_performance_metrics(self, cognitive_response: AGIResponse):
         """Update performance metrics"""
-        if agi_response.confidence > 0:
+        if cognitive_response.confidence > 0:
             current_avg = self.performance_metrics.get("average_confidence", 0.0)
             total = self.performance_metrics.get("total_interactions", 0)
-            new_avg = (current_avg * total + agi_response.confidence) / (total + 1)
+            new_avg = (current_avg * total + cognitive_response.confidence) / (total + 1)
             self.performance_metrics["average_confidence"] = new_avg
 
     async def _continuous_learning_update(
-        self, input_data: dict, agi_response: AGIResponse, orchestration_result: dict
+        self, input_data: dict, cognitive_response: AGIResponse, orchestration_result: dict
     ):
         """Perform continuous learning updates"""
         # Update learning memory with successful patterns
-        if agi_response.confidence > 0.8:
+        if cognitive_response.confidence > 0.8:
             # SECURITY: Use SHA-256 instead of MD5 for better security
             pattern_key = hashlib.sha256(input_data.get("text", "").encode()).hexdigest()[:16]
             self.learning_memory[pattern_key] = {
                 "input_pattern": input_data.get("text", "")[:100],
-                "successful_response": agi_response.content[:100],
-                "confidence": agi_response.confidence,
+                "successful_response": cognitive_response.content[:100],
+                "confidence": cognitive_response.confidence,
                 "timestamp": datetime.now(timezone.utc).isoformat(),
             }
             # Keep only last 1000 patterns
@@ -1074,7 +1074,7 @@ class EnhancedAGIBot:
             processing_time = (datetime.now(timezone.utc) - start_time).total_seconds()
 
             # Create AI response
-            agi_response = AGIResponse(
+            cognitive_response = AGIResponse(
                 content=response_content,
                 confidence=orchestration_result.get("overall_confidence", 0.0),
                 reasoning_path=orchestration_result.get("reasoning_path", []),
@@ -1085,22 +1085,22 @@ class EnhancedAGIBot:
             )
 
             # Update conversation history and metrics
-            self._update_conversation_history(input_data, agi_response)
-            self._update_performance_metrics(agi_response)
+            self._update_conversation_history(input_data, cognitive_response)
+            self._update_performance_metrics(cognitive_response)
 
             # Continuous learning
             if self.continuous_learning:
-                await self._continuous_learning_update(input_data, agi_response, orchestration_result)
+                await self._continuous_learning_update(input_data, cognitive_response, orchestration_result)
 
             self.performance_metrics["total_interactions"] += 1
-            if agi_response.confidence > 0.6:
+            if cognitive_response.confidence > 0.6:
                 self.performance_metrics["successful_responses"] += 1
 
             logger.info(
-                f"✅ Response generated - Confidence: {agi_response.confidence:.2f}, Level: {agi_response.capability_level.value}"
+                f"✅ Response generated - Confidence: {cognitive_response.confidence:.2f}, Level: {cognitive_response.capability_level.value}"
             )
 
-            return agi_response
+            return cognitive_response
 
         except Exception as e:
             logger.error(f"❌ Error processing input: {e}")
@@ -1206,7 +1206,7 @@ class EnhancedAGIBot:
 
         return {
             "demonstration_timestamp": datetime.now(timezone.utc).isoformat(),
-            "agi_session_id": self.session_id,
+            "cognitive_session_id": self.session_id,
             "current_capability_level": self.orchestrator.capability_level.value,
             "demonstrations": demonstrations,
             "overall_performance": {
@@ -1227,11 +1227,11 @@ if __name__ == "__main__":
             logger.info("🚀 Starting Enhanced AI Bot Test")
 
             # Initialize AI Bot
-            agi_bot = EnhancedAGIBot()
+            cognitive_bot = EnhancedAGIBot()
 
             # Test basic functionality
             test_input = "Hello! Can you demonstrate your AI capabilities?"
-            response = await agi_bot.process_input(test_input)
+            response = await cognitive_bot.process_input(test_input)
 
             print(f"\n🎯 Input: {test_input}")
             print(f"🤖 Response: {response.content}")
@@ -1244,7 +1244,7 @@ if __name__ == "__main__":
             print("🎭 DEMONSTRATING AI CAPABILITIES")
             print("=" * 50)
 
-            demo_results = await agi_bot.demonstrate_agi_capabilities()
+            demo_results = await cognitive_bot.demonstrate_agi_capabilities()
 
             for demo in demo_results["demonstrations"]:
                 print(f"\n🧪 Test: {demo['test']}")
@@ -1264,6 +1264,6 @@ if __name__ == "__main__":
             print(f"❌ Error: {e}")
 
     # Run the main function
-    print("🧠 Enhanced AI Bot - True Artificial General Intelligence")
+    print("🧠 Enhanced AI Bot - True Cognitive Artificial Intelligence")
     print("=" * 60)
     asyncio.run(main())

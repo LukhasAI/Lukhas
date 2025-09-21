@@ -1,11 +1,11 @@
 # 📚 LUKHAS AI Module Index
 
-## Trinity Framework Core Modules (⚛️🧠🛡️)
+## Constellation Framework Core Modules (⚛️🧠🛡️)
 
 ### ⚛️ Identity & Authentication
 | Module | Path | Description | Status |
 |--------|------|-------------|--------|
-| **Identity Core** | `identity/` | ΛiD system with tiered access control and Trinity integration | ✅ Active |
+| **Identity Core** | `identity/` | ΛiD system with tiered access control and Constellation integration | ✅ Active |
 | **Biometric Verification** | `biometric_verification_colony/` | Hardware-backed biometric authentication | 🔧 Development |
 | **Consciousness Verification** | `consciousness_verification_colony/` | Consciousness state validation | 🔧 Development |
 
@@ -97,7 +97,7 @@
 
 All modules communicate through:
 1. **GLYPH Tokens** - Symbolic communication protocol
-2. **Trinity Framework** - ⚛️🧠🛡️ validation
+2. **Constellation Framework** - ⚛️🧠🛡️ validation
 3. **Orchestration Hub** - Cross-module coordination
 4. **Guardian System** - Ethical validation layer
 

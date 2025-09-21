@@ -272,7 +272,7 @@ async def integrate_candidate_governance_foundation(self, candidate_context):
 - **LUKHAS Governance Foundation Architecture**: Foundation architecture enabling LUKHAS governance integration
 - **LUKHAS Constitutional AI Integration**: Constitutional AI foundation integration with LUKHAS systems
 - **LUKHAS Policy Foundation**: Policy foundation for LUKHAS governance integration
-- **LUKHAS Foundation Coordination**: Foundation coordination with LUKHAS Trinity Framework systems
+- **LUKHAS Foundation Coordination**: Foundation coordination with LUKHAS Constellation Framework systems
 
 ## 📊 Foundation Systems Status
 

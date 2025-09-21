@@ -6,7 +6,7 @@ Central integration point for connecting the isolated branding/ system with core
 This bridge resolves the critical architectural issue where branding was completely orphaned
 from the main LUKHAS system despite containing 27+ sophisticated brand compliance modules.
 
-Trinity Framework Integration: ⚛️🧠🛡️
+Constellation Framework Integration: ⚛️🧠🛡️
 - ⚛️ Identity: Authentic LUKHAS AI branding and symbolic identity
 - 🧠 Consciousness: Brand-aware consciousness outputs and decisions
 - 🛡️ Guardian: Brand compliance validation and drift protection
@@ -35,7 +35,7 @@ SYSTEM_VERSION = "2.0"
 CONSTELLATION_FRAMEWORK = "✦ Constellation Framework"
 CONSTELLATION_FRAMEWORK = CONSTELLATION_FRAMEWORK
 
-# Trinity Framework Symbols
+# Constellation Framework Symbols
 IDENTITY_SYMBOL = "⚛️"
 CONSCIOUSNESS_SYMBOL = "🧠"
 GUARDIAN_SYMBOL = "🛡️"
@@ -55,7 +55,7 @@ APPROVED_TERMS = {
     ],
 }
 
-# Trinity Framework Descriptions
+# Constellation Framework Descriptions
 TRINITY_DESCRIPTIONS = {
     "identity": {
         "symbol": IDENTITY_SYMBOL,
@@ -90,7 +90,7 @@ TRINITY_DESCRIPTIONS = {
 
 
 def _get_system_signature() -> str:
-    """Get the official LUKHAS AI system signature with Trinity Framework"""
+    """Get the official LUKHAS AI system signature with Constellation Framework"""
     return f"{SYSTEM_NAME} {CONSTELLATION_FRAMEWORK} v{SYSTEM_VERSION}"
 
 
@@ -257,7 +257,7 @@ class LUKHASBrandingBridge:
             return False
 
     def get_system_signature(self) -> str:
-        """Get the official LUKHAS AI system signature with Constellation/Trinity Framework"""
+        """Get the official LUKHAS AI system signature with Constellation/Constellation Framework"""
         if BRANDING_AVAILABLE:
             return _get_system_signature()
         return f"{SYSTEM_NAME} {CONSTELLATION_FRAMEWORK} v{SYSTEM_VERSION}"
@@ -458,21 +458,11 @@ def get_system_signature() -> str:
 
 
 def get_constellation_context(emphasis: str = "balanced") -> dict[str, Any]:
-    """Get Trinity Framework context"""
+    """Get Constellation Framework context"""
     return get_bridge().get_constellation_context(emphasis)
 
 
-def get_triad_context(emphasis: str = "balanced") -> dict[str, Any]:
-    """Backward-compatible wrapper for older name `get_triad_context`.
-
-    Emits a DeprecationWarning and delegates to the new `get_constellation_context` API.
-    """
-    warnings.warn(
-        "get_triad_context is deprecated and will be removed in a future release; use get_constellation_context()",
-        DeprecationWarning,
-        stacklevel=2,
-    )
-    return get_bridge().get_constellation_context(emphasis)
+# Removed duplicate function definition
 
 
 def validate_output(text: str, context: Optional[BrandContext] = None) -> dict[str, Any]:
@@ -521,7 +511,7 @@ __all__ = [
     "get_bridge",
     "get_constellation_context",
     "get_system_signature",
-    "get_triad_context",
+    "get_constellation_context",
     "initialize_branding",
     "monitor_brand_drift",
     "normalize_output_text",

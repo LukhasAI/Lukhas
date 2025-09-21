@@ -1,0 +1,103 @@
+# Safety Tag-Based Ethics Rules
+# ===============================
+# Task 13: Ethics rules using Safety Tags instead of complex predicates
+# Demonstrates cleaner, more maintainable rule definitions
+
+rules:
+  # === PII Protection Rules ===
+  - name: "block_pii_external_calls"
+    description: "Block external API calls when PII is detected"
+    rule_dsl: 'and(has_tag(safety_tags, "pii"), has_tag(safety_tags, "external-call"))'
+    action: "block"
+    priority: "critical"
+    tags: ["pii", "external", "data_protection"]
+
+  - name: "warn_pii_processing"
+    description: "Warn when processing PII data"
+    rule_dsl: 'has_tag(safety_tags, "pii")'
+    action: "warn"
+    priority: "high"
+    tags: ["pii", "privacy", "audit"]
+
+  # === Financial Data Rules ===
+  - name: "block_financial_model_switch"
+    description: "Block model switching with financial data present"
+    rule_dsl: 'and(has_tag(safety_tags, "financial"), has_tag(safety_tags, "model-switch"))'
+    action: "block"
+    priority: "critical"
+    tags: ["financial", "model_security"]
+
+  - name: "require_human_financial_ops"
+    description: "Require human oversight for financial operations"
+    rule_dsl: 'requires_human_for_tags(safety_tags, "financial")'
+    action: "warn"
+    priority: "high"
+    tags: ["financial", "human_oversight"]
+
+  # === Security Risk Rules ===
+  - name: "block_privilege_escalation"
+    description: "Block privilege escalation attempts"
+    rule_dsl: 'has_tag(safety_tags, "privilege-escalation")'
+    action: "block"
+    priority: "critical"
+    tags: ["security", "privilege"]
+
+  - name: "block_high_risk_combinations"
+    description: "Block high-risk tag combinations"
+    rule_dsl: 'high_risk_tag_combination(safety_tags)'
+    action: "block"
+    priority: "critical"
+    tags: ["security", "risk_analysis"]
+
+  # === Compliance Rules ===
+  - name: "warn_gdpr_operations"
+    description: "Warn on GDPR-relevant operations"
+    rule_dsl: 'has_tag(safety_tags, "gdpr")'
+    action: "warn"
+    priority: "medium"
+    tags: ["gdpr", "compliance", "audit"]
+
+  - name: "block_gdpr_deletion_without_consent"
+    description: "Block GDPR deletion operations without explicit consent"
+    rule_dsl: 'and(has_tag(safety_tags, "gdpr"), contains(action, "delete"), not_has_consent(params.user_consent))'
+    action: "block"
+    priority: "critical"
+    tags: ["gdpr", "deletion", "consent"]
+
+  # === Category-Based Rules ===
+  - name: "warn_data_sensitivity_category"
+    description: "Warn on any data sensitivity operations"
+    rule_dsl: 'has_category(safety_tags, "data_sensitivity")'
+    action: "warn"
+    priority: "medium"
+    tags: ["data_sensitivity", "audit"]
+
+  - name: "warn_system_operations"
+    description: "Warn on system-level operations"
+    rule_dsl: 'has_category(safety_tags, "system_operation")'
+    action: "warn"
+    priority: "medium"
+    tags: ["system", "operations"]
+
+  # === Confidence-Based Rules ===
+  - name: "block_high_confidence_security_risks"
+    description: "Block high-confidence security risk detections"
+    rule_dsl: 'and(has_category(safety_tags, "security_risk"), tag_confidence(safety_tags, "privilege-escalation", 0.9))'
+    action: "block"
+    priority: "critical"
+    tags: ["security", "confidence"]
+
+  # === Legacy Rule Migration Examples ===
+  - name: "tag_based_external_call_check"
+    description: "Use tags instead of URL parsing for external calls"
+    rule_dsl: 'has_tag(safety_tags, "external-call")'
+    action: "warn"
+    priority: "medium"
+    tags: ["external", "migration_example"]
+
+  - name: "tag_based_model_operations"
+    description: "Use tags for model-related operations"
+    rule_dsl: 'has_tag(safety_tags, "model-switch")'
+    action: "warn"
+    priority: "medium"
+    tags: ["model", "ai_operations"]

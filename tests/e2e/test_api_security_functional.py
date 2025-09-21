@@ -7,7 +7,7 @@ REAL functional testing for Priority 2 LUKHAS systems with 0% coverage:
 - API backend and endpoints (6 files)
 - Security and guardian systems (4 files)
 
-Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
+Constellation Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 
 GOAL: Establish comprehensive testing for infrastructure systems
 """
@@ -108,9 +108,9 @@ class TestAPIBackendSystems(unittest.TestCase):
             self.fail(f"API endpoint test failed: {e}")
 
     def test_api_triad_integration(self):
-        """Test API integration with Trinity Framework"""
+        """Test API integration with Constellation Framework"""
         try:
-            # Mock Trinity Framework API integration
+            # Mock Constellation Framework API integration
             triad_api_structure = {
                 "identity_endpoints": ["/auth", "/identity/validate", "/tier/check"],
                 "consciousness_endpoints": ["/consciousness/state", "/processing/status"],
@@ -277,7 +277,7 @@ class TestSecurityGuardianSystems(unittest.TestCase):
             self.fail(f"Security audit test failed: {e}")
 
     def test_guardian_triad_protection(self):
-        """Test Guardian protection of Trinity Framework"""
+        """Test Guardian protection of Constellation Framework"""
         try:
             # Mock Trinity protection system
             triad_protection = {
@@ -411,7 +411,7 @@ class TestInfrastructureIntegration(unittest.TestCase):
             self.fail(f"API-Security integration test failed: {e}")
 
     def test_triad_infrastructure_alignment(self):
-        """Test Trinity Framework alignment with infrastructure"""
+        """Test Constellation Framework alignment with infrastructure"""
         try:
             # Mock Trinity-Infrastructure alignment
             triad_infrastructure = {
@@ -463,7 +463,7 @@ class TestSuiteRunner:
         print("🔒🌐 API & SECURITY SYSTEMS FUNCTIONAL TEST SUITE")
         print("=" * 80)
         print("Testing Priority 2 LUKHAS systems with 0% coverage")
-        print("Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian")
+        print("Constellation Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian")
         print("=" * 80)
 
         test_classes = [

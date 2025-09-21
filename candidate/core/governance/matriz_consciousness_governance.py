@@ -10,7 +10,7 @@ logger = logging.getLogger(__name__)
 ║ CONSCIOUSNESS_ROLE: Ethical consciousness governance and oversight
 ║ EVOLUTIONARY_STAGE: Governance - Ethical consciousness supervision
 ║
-║ TRINITY FRAMEWORK:
+║ CONSTELLATION FRAMEWORK:
 ║ ⚛️ IDENTITY: Governance identity and ethical authority validation
 ║ 🧠 CONSCIOUSNESS: Consciousness-aware ethical decision making
 ║ 🛡️ GUARDIAN: Primary guardian system implementation and oversight

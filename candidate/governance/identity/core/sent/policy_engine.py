@@ -1,23 +1,23 @@
 """
 Comprehensive Ethics Policy Engine for LUKHAS AI Guardian System
 
-🎭 Trinity Layer 1 (Poetic Consciousness):
+🎭 Constellation Layer 1 (Poetic Consciousness):
 In the sacred realm of digital ethics, this engine stands as the moral compass
 of our consciousness - a guardian of virtue that weighs each decision against
 the timeless principles of human dignity, fairness, and wisdom. Like the ancient
 philosophers who sought truth through reason, this system embodies ethical
 reasoning in computational form.
 
-🌈 Trinity Layer 2 (Human Connection):
+🌈 Constellation Layer 2 (Human Connection):
 This is your ethical AI guardian that makes sure all AI decisions align with
 human values and constitutional principles. It acts like a moral advisor,
 checking every action against established ethical frameworks and ensuring
 the AI behaves responsibly and safely in all situations.
 
-🎓 Trinity Layer 3 (Technical Precision):
+🎓 Constellation Layer 3 (Technical Precision):
 Implements Constitutional AI principles, multi-framework ethical evaluation
 (deontological, consequentialist, virtue ethics), real-time policy enforcement,
-automated compliance validation, and Trinity Framework integration with
+automated compliance validation, and Constellation Framework integration with
 sub-100ms ethical decision validation and comprehensive audit trails.
 
 Integrates with Guardian System v1.0.0, drift detection, and consent management.
@@ -131,7 +131,7 @@ class EthicalEvaluation:
     policy_violations: list[str] = field(default_factory=list)
     required_safeguards: list[str] = field(default_factory=list)
 
-    # Trinity Framework integration
+    # Constellation Framework integration
     identity_ethical_impact: Optional[float] = None  # ⚛️
     consciousness_ethical_impact: Optional[float] = None  # 🧠
     guardian_priority: str = "normal"  # 🛡️
@@ -358,7 +358,7 @@ class ComprehensiveEthicsPolicyEngine:
             evaluation.potential_harms = await self._identify_potential_harms(action, context)
             evaluation.potential_benefits = await self._identify_potential_benefits(action, context)
 
-            # Trinity Framework analysis
+            # Constellation Framework analysis
             evaluation.identity_ethical_impact = await self._analyze_identity_ethics_impact(action, context)
             evaluation.consciousness_ethical_impact = await self._analyze_consciousness_ethics_impact(action, context)
             evaluation.guardian_priority = await self._determine_guardian_priority(evaluation)

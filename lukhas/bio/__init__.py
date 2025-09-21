@@ -1,7 +1,7 @@
 """
 LUKHAS AI Bio Module
 Biological-inspired processing and utilities
-Trinity Framework: ⚛️🧠🛡️
+Constellation Framework: ⚛️🧠🛡️
 """
 
 # Import utilities

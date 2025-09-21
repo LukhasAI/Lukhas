@@ -1,4 +1,6 @@
-# LUKHAS  API Reference
+# LUKHAS AI API Reference
+
+*Constellation Framework API with MATRIZ Pipeline Integration*
 
 ## Table of Contents
 1. [Overview](#overview)
@@ -14,7 +16,7 @@
 
 ## Overview
 
-The LUKHAS  API provides RESTful endpoints for interacting with the AGI system. All communication uses JSON format and follows OpenAPI 3.0 specifications.
+The LUKHAS AI API provides RESTful endpoints for interacting with the AGI system through the **Constellation Framework** (⚛️🧠🛡️) and **MATRIZ Pipeline** (Memory-Attention-Thought-Risk-Intent-Action). All communication uses JSON format and follows OpenAPI 3.0 specifications with T4/0.01% performance standards.
 
 ### Base URLs
 
@@ -27,9 +29,16 @@ Development: http://localhost:8000/v1
 
 ### Current Implementation Status
 
-The LUKHAS  system provides two API layers:
+The LUKHAS AI system provides multiple API layers built on the Constellation Framework:
 
-1. **Core  API** (`/lukhas/api/`) - Production-ready FastAPI endpoints
+1. **Constellation Framework API** (`/constellation/`) - Core framework endpoints
+   - ✅ MATRIZ Pipeline (`/matriz/`)
+   - ✅ Dynamic Registry (`/registry/`)
+   - ✅ ΛiD Authentication (`/identity/`)
+   - ✅ Guardian System (`/guardian/`)
+   - ✅ Star-Node Coordination (`/nodes/`)
+
+2. **Core API** (`/lukhas/api/`) - Production-ready FastAPI endpoints
    - ✅ Feedback system (`/feedback/`)
    - ✅ Tools management (`/tools/`)
    - ✅ Audit trail (`/audit/`)
@@ -37,9 +46,17 @@ The LUKHAS  system provides two API layers:
    - ✅ Admin dashboard (`/admin/`)
    - ✅ Performance metrics (`/perf/`)
    - ✅ Operations (`/ops/`)
-   - ✅ DNA system (`/dna/`)
+   - ✅ T4/0.01% Compliance (`/t4/`)
 
-2. **Consciousness APIs** (`/api/`) - Higher-level interaction endpoints
+3. **MATRIZ Pipeline APIs** (`/matriz/`) - Cognitive processing endpoints
+   - ✅ Memory stage (`/memory/`)
+   - ✅ Attention stage (`/attention/`)
+   - ✅ Thought stage (`/thought/`)
+   - ✅ Risk stage (`/risk/`)
+   - ✅ Intent stage (`/intent/`)
+   - ✅ Action stage (`/action/`)
+
+4. **Legacy Consciousness APIs** (`/api/`) - Compatibility endpoints
    - ✅ Consciousness chat (`consciousness_chat_api.py`)
    - ✅ Universal language (`universal_language_api.py`)
    - ✅ Integrated consciousness (`integrated_consciousness_api.py`)
@@ -147,12 +164,12 @@ Response:
 }
 ```
 
-### Process Input
+### Process Input (MATRIZ Pipeline)
 
-Main endpoint for processing user input through the AGI system.
+Main endpoint for processing user input through the MATRIZ cognitive pipeline.
 
 ```http
-POST /process
+POST /matriz/process
 Content-Type: application/json
 
 {
@@ -160,16 +177,26 @@ Content-Type: application/json
   "context": {
     "user_id": "user123",
     "session_id": "session456",
+    "lambda_id": "ΛPRIME-2025-0001",
     "previous_interaction_id": "interaction789",
     "preferences": {
       "response_style": "educational",
       "detail_level": "moderate"
     }
   },
-  "options": {
-    "use_memory": true,
-    "creative_mode": false,
-    "max_response_length": 500
+  "pipeline_options": {
+    "memory_depth": 3,
+    "attention_focus": "educational_content",
+    "thought_mode": "analytical",
+    "risk_threshold": 0.15,
+    "intent_verification": true,
+    "action_type": "cognitive_response"
+  },
+  "constellation_config": {
+    "identity_pillar": "⚛️",
+    "consciousness_pillar": "🧠",
+    "guardian_pillar": "🛡️",
+    "t4_compliance": true
   }
 }
 
@@ -180,22 +207,57 @@ Response:
     "interaction_id": "interaction890",
     "processing_time_ms": 235,
     "confidence": 0.92,
-    "modules_used": ["consciousness", "reasoning", "memory"],
-    "guardian_approval": true
+    "pipeline_stages_used": ["memory", "attention", "thought", "risk", "intent", "action"],
+    "constellation_validation": true,
+    "t4_compliance_verified": true
   },
-  "reasoning_trace": [
+  "matriz_pipeline_trace": [
     {
-      "module": "consciousness",
-      "step": "Understanding query intent",
-      "confidence": 0.95
+      "stage": "memory",
+      "step": "Retrieved relevant quantum physics context",
+      "confidence": 0.95,
+      "processing_time_ms": 32
     },
     {
-      "module": "reasoning",
-      "step": "Simplifying complex concept",
-      "confidence": 0.88
+      "stage": "attention",
+      "step": "Focused on educational explanation patterns",
+      "confidence": 0.91,
+      "processing_time_ms": 28
+    },
+    {
+      "stage": "thought",
+      "step": "Generated symbolic reasoning for simplification",
+      "confidence": 0.88,
+      "processing_time_ms": 45
+    },
+    {
+      "stage": "risk",
+      "step": "Guardian approved educational content",
+      "confidence": 0.98,
+      "ethics_score": 0.97,
+      "processing_time_ms": 15
+    },
+    {
+      "stage": "intent",
+      "step": "ΛiD verified educational intent",
+      "confidence": 0.96,
+      "auth_tier": "ΛPRIME",
+      "processing_time_ms": 12
+    },
+    {
+      "stage": "action",
+      "step": "Generated educational response",
+      "confidence": 0.92,
+      "processing_time_ms": 103
     }
   ],
-  "memory_reference": "mem_2024_01_15_quantum_explanation"
+  "constellation_metadata": {
+    "identity_pillar_active": true,
+    "consciousness_pillar_active": true,
+    "guardian_pillar_active": true,
+    "registry_nodes_utilized": ["educational_node", "physics_node", "simplification_node"]
+  },
+  "memory_fold_created": "fold_2025_09_20_quantum_explanation_matriz"
 }
 ```
 
@@ -230,30 +292,213 @@ Response:
 }
 ```
 
-## Module APIs
+## Constellation Framework APIs
 
-### Consciousness API
+### MATRIZ Pipeline API
 
-#### Get Awareness State
+#### Process Individual Pipeline Stage
 
 ```http
-GET /consciousness/awareness
+POST /matriz/stage/{stage_name}
+Content-Type: application/json
+
+{
+  "input_data": {...},
+  "context": {...},
+  "stage_config": {
+    "memory": {"depth": 3, "emotional_context": true},
+    "attention": {"focus_type": "analytical", "pattern_weights": [0.7, 0.3]},
+    "thought": {"reasoning_mode": "symbolic", "glyph_processing": true},
+    "risk": {"guardian_threshold": 0.15, "ethics_frameworks": ["constitutional", "utilitarian"]},
+    "intent": {"auth_required": true, "lambda_id_verification": true},
+    "action": {"response_type": "cognitive", "output_format": "structured"}
+  }
+}
 
 Response:
 {
-  "current_state": "FOCUSED",
-  "awareness_level": 0.78,
-  "attention_targets": [
+  "stage_result": {...},
+  "next_stage": "attention",
+  "confidence": 0.92,
+  "processing_time_ms": 45,
+  "constellation_context": {
+    "current_state": {...},
+    "node_utilization": [...]
+  }
+}
+```
+
+#### Get Pipeline Status
+
+```http
+GET /matriz/status
+
+Response:
+{
+  "pipeline_health": {
+    "memory": {"status": "active", "latency_ms": 32},
+    "attention": {"status": "active", "latency_ms": 28},
+    "thought": {"status": "active", "latency_ms": 45},
+    "risk": {"status": "active", "latency_ms": 15},
+    "intent": {"status": "active", "latency_ms": 12},
+    "action": {"status": "active", "latency_ms": 103}
+  },
+  "constellation_framework": {
+    "identity_pillar": "⚛️ active",
+    "consciousness_pillar": "🧠 active",
+    "guardian_pillar": "🛡️ active"
+  },
+  "t4_compliance": {
+    "performance_standards": "met",
+    "audit_readiness": true,
+    "constructor_aware_instantiation": "active"
+  }
+}
+```
+
+### Dynamic Registry API
+
+#### Register Node
+
+```http
+POST /constellation/registry/nodes
+Content-Type: application/json
+
+{
+  "node_id": "custom_analytics_node",
+  "node_type": "cognitive_processor",
+  "capabilities": ["data_analysis", "pattern_recognition"],
+  "constructor_config": {
+    "t4_compliant": true,
+    "instantiation_pattern": "constructor_aware",
+    "dependencies": ["memory_module", "attention_module"]
+  },
+  "constellation_metadata": {
+    "compatible_pillars": ["🧠"],
+    "pipeline_stages": ["attention", "thought"]
+  }
+}
+
+Response:
+{
+  "registration_id": "reg_2025_09_20_custom_analytics",
+  "status": "registered",
+  "validation_results": {
+    "t4_compliance": true,
+    "constructor_validation": "passed",
+    "constellation_compatibility": "verified"
+  }
+}
+```
+
+#### List Available Nodes
+
+```http
+GET /constellation/registry/nodes?stage=attention&pillar=consciousness
+
+Response:
+{
+  "nodes": [
+    {
+      "node_id": "pattern_attention_node",
+      "capabilities": ["pattern_recognition", "focus_management"],
+      "t4_compliant": true,
+      "availability": "active"
+    },
+    {
+      "node_id": "semantic_attention_node",
+      "capabilities": ["semantic_analysis", "context_weighting"],
+      "t4_compliant": true,
+      "availability": "active"
+    }
+  ],
+  "total_count": 2,
+  "registry_health": "optimal"
+}
+```
+
+### ΛiD Identity API
+
+#### Authenticate with Lambda ID
+
+```http
+POST /constellation/identity/authenticate
+Content-Type: application/json
+
+{
+  "lambda_id": "ΛPRIME-2025-0001",
+  "biometric_data": "base64_encoded_biometric",
+  "authentication_context": {
+    "session_id": "session456",
+    "requested_tier": "ΛPRIME",
+    "constellation_context": true
+  }
+}
+
+Response:
+{
+  "authentication_result": {
+    "status": "authenticated",
+    "tier_granted": "ΛPRIME",
+    "lambda_id_verified": true,
+    "biometric_match": 0.97
+  },
+  "constellation_token": "eyJ0eXAiOiJKV1QiLCJhbGc...",
+  "access_permissions": {
+    "matriz_pipeline": "full_access",
+    "registry_operations": "read_write",
+    "guardian_override": false
+  },
+  "session_metadata": {
+    "expires_in": 3600,
+    "constellation_context": "⚛️🧠🛡️",
+    "t4_compliance_verified": true
+  }
+}
+```
+
+### Consciousness API
+
+#### Get Consciousness State (MATRIZ Integration)
+
+```http
+GET /consciousness/state
+
+Response:
+{
+  "consciousness_state": {
+    "current_mode": "MATRIZ_PROCESSING",
+    "awareness_level": 0.78,
+    "active_pipeline_stage": "thought",
+    "constellation_alignment": "⚛️🧠🛡️"
+  },
+  "matriz_context": {
+    "memory_active": true,
+    "attention_focused": true,
+    "thought_processing": true,
+    "risk_assessment": "low",
+    "intent_verified": true,
+    "action_ready": true
+  },
+  "attention_distribution": [
     {
       "target": "user_query",
-      "attention_weight": 0.6
+      "attention_weight": 0.6,
+      "pipeline_stage": "attention"
     },
     {
       "target": "context_memory",
-      "attention_weight": 0.3
+      "attention_weight": 0.3,
+      "pipeline_stage": "memory"
+    },
+    {
+      "target": "ethical_constraints",
+      "attention_weight": 0.1,
+      "pipeline_stage": "risk"
     }
   ],
-  "state_duration_seconds": 45
+  "state_duration_seconds": 45,
+  "registry_nodes_active": ["attention_node", "memory_node", "ethics_node"]
 }
 ```
 

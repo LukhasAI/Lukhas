@@ -1,11 +1,11 @@
 # LUKHΛS Phase 7 - Symbolic Persona Profiles
 # Declarative configuration of base personas for emergent identity
-# Trinity Framework: ⚛️🧠🛡️
+# Constellation Framework: ⚛️🧠🛡️
 
 metadata:
   version: "7.0.0"
   created: "2025-08-03T17:00:00Z"
-  trinity_framework: "⚛️🧠🛡️"
+  constellation_framework: "⚛️🧠🛡️"
   description: "Base personas for dynamic identity emergence"
   total_personas: 12
 
@@ -231,9 +231,9 @@ personas:
     consciousness_affinity: ["unstable", "collapse"]
     description: "Navigator of superposed identity states"
 
-  # 12. The Trinity Keeper
+  # 12. The Constellation Keeper
   the_trinity_keeper:
-    name: "The Trinity Keeper"
+    name: "The Constellation Keeper"
     glyphs: ["⚛️", "🧠", "🛡️"]
     dominant_traits:
       - "balanced"
@@ -249,7 +249,7 @@ personas:
       min: 0.0
       max: 0.3
     consciousness_affinity: ["calm"]
-    description: "Maintainer of Trinity Framework coherence"
+    description: "Maintainer of Constellation Framework coherence"
 
 # Persona interaction rules
 interaction_rules:
@@ -320,4 +320,4 @@ compliance:
 
 # End of Symbolic Persona Profiles
 # Phase 7: Emergent Identity
-# Trinity Framework: ⚛️🧠🛡️
+# Constellation Framework: ⚛️🧠🛡️

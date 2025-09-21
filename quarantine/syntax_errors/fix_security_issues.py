@@ -5,7 +5,7 @@
 Automatically fixes security issues found by Bandit security linter.
 Uses Ollama AI to provide intelligent fix suggestions for high-priority security issues.
 
-Trinity Framework: ⚛️ (Identity), 🧠 (Consciousness), 🛡️ (Guardian)
+Constellation Framework: ⚛️ (Identity), 🧠 (Consciousness), 🛡️ (Guardian)
 """
 
 import asyncio

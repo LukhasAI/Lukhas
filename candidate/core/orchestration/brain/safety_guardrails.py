@@ -22,11 +22,11 @@ logger = logging.getLogger("v1_AGI.compliance.guardrails", timezone)
 
 class SafetyGuardrails:
     """
-    Implements a comprehensive system of safety guardrails for AGI outputs.
+    Implements a comprehensive system of safety guardrails for Cognitive AI outputs.
 
     This system ensures that all generated content and system behaviors
     adhere to ethical guidelines, safety parameters, and human values.
-    The design is inspired by Sam Altman's principles for responsible AGI.
+    The design is inspired by Sam Altman's principles for responsible Cognitive AI.
     """
 
     def __init__(self, config: Optional[dict] = None):

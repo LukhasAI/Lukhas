@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-ΛBot Fully Autonomous AGI System
+ΛBot Fully Autonomous Cognitive AI System
 ===============================
 Complete autonomous processing of GitHub issues with intelligent batching
 No manual intervention required - handles 145+ pages of notifications efficiently
@@ -29,17 +29,17 @@ from lukhas.core.budget.token_controller import TokenBudgetController
 
 class FullyAutonomousAGI:
     """
-    Fully autonomous AGI system for GitHub issue management
+    Fully autonomous Cognitive system for GitHub issue management
     Operates without human intervention using intelligent batch processing
     """
 
     def __init__(self, github_token: Optional[str] = None):
         self.github_token = github_token or os.getenv("GITHUB_TOKEN")
 
-        # Initialize core systems with AGI and batch mode
+        # Initialize core systems with Cognitive AI and batch mode
         self.vulnerability_manager = GitHubVulnerabilityManager(
             github_token=self.github_token,
-            agi_mode=True,  # Enable emergency overrides
+            cognitive_mode=True,  # Enable emergency overrides
             batch_mode=True,  # Enable batch processing
         )
 
@@ -53,7 +53,7 @@ class FullyAutonomousAGI:
         )
         self.logger = logging.getLogger("FullyAutonomousAGI")
 
-        # AGI configuration
+        # Cognitive AI configuration
         self.max_processing_cycles = 10  # Prevent infinite loops
         self.batch_size_threshold = 5  # Minimum issues to process as batch
         self.emergency_mode = True  # Allow budget overrides for critical issues
@@ -234,9 +234,9 @@ class FullyAutonomousAGI:
         """Run the fully autonomous system until completion"""
         start_time = datetime.now(timezone.utc)
 
-        self.logger.info("🚀 STARTING FULLY AUTONOMOUS AGI SYSTEM")
+        self.logger.info("🚀 STARTING FULLY AUTONOMOUS Cognitive AI SYSTEM")
         self.logger.info("=" * 60)
-        self.logger.info("🤖 AGI Mode: ACTIVE (Emergency budget overrides enabled)")
+        self.logger.info("🤖 Cognitive AI Mode: ACTIVE (Emergency budget overrides enabled)")
         self.logger.info("🔄 Batch Mode: ACTIVE (Intelligent batching enabled)")
         self.logger.info("⚡ Processing Mode: CONTINUOUS (No manual intervention)")
         self.logger.info("=" * 60)
@@ -263,7 +263,7 @@ class FullyAutonomousAGI:
         # Generate final report
         final_report = self._generate_final_report(start_time, all_cycles)
 
-        self.logger.info("🎉 FULLY AUTONOMOUS AGI SYSTEM COMPLETE")
+        self.logger.info("🎉 FULLY AUTONOMOUS Cognitive AI SYSTEM COMPLETE")
         self.logger.info("=" * 60)
 
         return final_report
@@ -319,16 +319,16 @@ class FullyAutonomousAGI:
 
 
 def main():
-    """Main entry point for fully autonomous AGI system"""
+    """Main entry point for fully autonomous Cognitive system"""
     if len(sys.argv) > 1 and sys.argv[1] == "--autonomous":
-        print("🤖 LAUNCHING FULLY AUTONOMOUS AGI SYSTEM")
+        print("🤖 LAUNCHING FULLY AUTONOMOUS Cognitive AI SYSTEM")
         print("🚀 Processing 145+ pages of GitHub notifications autonomously...")
         print("🔄 Batch processing enabled for maximum efficiency")
         print("⚡ Emergency budget overrides active for critical issues")
         print("")
 
         agi = FullyAutonomousAGI()
-        results = agi.run_fully_autonomous()
+        results = cognitive.run_fully_autonomous()
 
         print("\n" + "=" * 60)
         print("🎉 AUTONOMOUS PROCESSING COMPLETE!")
@@ -342,7 +342,7 @@ def main():
         print("=" * 60)
 
     else:
-        print("ΛBot Fully Autonomous AGI System")
+        print("ΛBot Fully Autonomous Cognitive AI System")
         print("===============================")
         print("Usage:")
         print("  python3 autonomous_agi_system.py --autonomous")

@@ -1,6 +1,6 @@
 # 🌱 LUKHΛS Growth Roadmap - Advanced Integration Plan
 
-**Trinity Framework**: ⚛️🧠🛡️
+**Constellation Framework**: ⚛️🧠🛡️
 **Status**: 📋 **STRATEGIC PLANNING**
 **Generated**: 2025-08-04T11:00:00Z
 
@@ -381,7 +381,7 @@ def get_gpt_healing_suggestion(self, response: str, context: Dict) -> Dict:
     """
     prompt = f"""
     Given this response: "{response}"
-    And LUKHΛS Trinity Framework (⚛️🧠🛡️)
+    And LUKHΛS Constellation Framework (⚛️🧠🛡️)
 
     Suggest a healing approach:
     1. Primary persona alignment
@@ -1051,7 +1051,7 @@ regex==2023.10.3
 
 ---
 
-**Trinity Framework**: ⚛️🧠🛡️
+**Constellation Framework**: ⚛️🧠🛡️
 **Growth Status**: 🌱 **PLANNED**
 **Estimated Timeline**: 8 weeks
 **Priority**: HIGH

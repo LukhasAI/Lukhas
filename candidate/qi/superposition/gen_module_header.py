@@ -9,7 +9,7 @@
 
 ─────────────────────────────────────────────────────────────────────
  📦 MODULE      : gen_module_header.py
-  🧾 DESCRIPTION : Generator for LUKHAS_AGI module docstring templates
+  🧾 DESCRIPTION : Generator for LUKHAS_Cognitive module docstring templates
 ─────────────────────────────────────────────────────────────────────────────
  📚 DEPENDENCIES: None
    - Outputs ready-to-paste docstring templates
@@ -50,7 +50,7 @@ def generate_module_header():
 """
 📦 MODULE: {module_name}
 🧾 PURPOSE: {description}
-🔧 VERSION: {version} • 📅 UPDATED: {updated} • 🖋️ AUTHOR: LUCAS AGI
+🔧 VERSION: {version} • 📅 UPDATED: {updated} • 🖋️ AUTHOR: LUCAS Cognitive AI
 📚 DEPENDENCIES: {dependencies}
 """
 # ──────────────────────────────────────────────────────────────
@@ -69,7 +69,7 @@ def generate_module_header():
 # ──────────────────────────────────────────────────────────────
 '''
 
-    print("\n✅ Your LUKHAS_AGI module header is ready:\n")
+    print("\n✅ Your LUKHAS_Cognitive module header is ready:\n")
     print(header)
     print("\n🚀 Copy and paste this into your new module!")
 

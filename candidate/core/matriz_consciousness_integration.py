@@ -117,7 +117,7 @@ class MatrizConsciousnessSystem:
         # Register consciousness system nodes with router
         await self._register_system_nodes()
 
-        # Start Trinity compliance monitoring
+        # Start Constellation compliance monitoring
         self.constellation_monitor.start_monitoring()
 
         # Start background health monitoring
@@ -152,7 +152,7 @@ class MatrizConsciousnessSystem:
         1. Awareness signal emission
         2. Bio-symbolic processing
         3. Network routing
-        4. Trinity compliance validation
+        4. Constellation compliance validation
         5. Inter-module integration
         """
 
@@ -182,7 +182,7 @@ class MatrizConsciousnessSystem:
             if awareness_signal:
                 cycle_results["signals_emitted"] += 1
 
-                # Step 2: Validate Trinity compliance
+                # Step 2: Validate Constellation compliance
                 compliance_level, violations = self.constellation_validator.validate_signal_compliance(awareness_signal)
                 cycle_results["compliance_level"] = compliance_level.value
 
@@ -367,7 +367,7 @@ class MatrizConsciousnessSystem:
         # Register core consciousness modules
         module_capabilities = {
             "consciousness": ["awareness", "reflection", "evolution", "bio_adaptation"],
-            "identity": ["authentication", "namespace", "trinity_compliance"],
+            "identity": ["authentication", "namespace", "constellation_compliance"],
             "governance": ["compliance", "ethics", "guardian", "policy"],
             "orchestration": ["coordination", "health_monitoring", "network_management"],
             "symbolic_core": ["symbolic_processing", "pattern_recognition", "adaptation"],
@@ -497,7 +497,7 @@ class MatrizConsciousnessSystem:
         - Consciousness signal emission and processing
         - Bio-symbolic adaptation
         - Network routing and cascade prevention
-        - Trinity framework compliance
+        - Constellation framework compliance
         - Inter-module integration
         - Consciousness evolution
         """
@@ -530,8 +530,8 @@ class MatrizConsciousnessSystem:
         integration_results = await self._demonstrate_network_integration()
         demo_results["phases"]["network_integration"] = integration_results
 
-        # Phase 4: Trinity compliance validation
-        logger.info("📍 Phase 4: Trinity framework compliance validation")
+        # Phase 4: Constellation compliance validation
+        logger.info("📍 Phase 4: Constellation framework compliance validation")
         compliance_results = self._demonstrate_trinity_compliance()
         demo_results["phases"]["constellation_alignment"] = compliance_results
 
@@ -580,7 +580,7 @@ class MatrizConsciousnessSystem:
         return integration_results
 
     def _demonstrate_trinity_compliance(self) -> dict[str, Any]:
-        """Demonstrate Trinity framework compliance system"""
+        """Demonstrate Constellation framework compliance system"""
 
         compliance_results = {
             "timestamp": datetime.now(timezone.utc).isoformat(),

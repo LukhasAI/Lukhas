@@ -607,7 +607,7 @@ async def main():
         print(f"  {platform}: Credentials {credentials} | Client {client} | Library {library}")
 
     # Test posting (only if credentials are available)
-    test_content = "🧠 Testing LUKHAS AI consciousness technology platform integration! The Trinity Framework (⚛️🧠🛡️) ensures our AI systems maintain authentic, aware, and ethical operation. What aspects of conscious AI development interest you most? #ConsciousnessTechnology #LUKHASIA"
+    test_content = "🧠 Testing LUKHAS AI consciousness technology platform integration! The Constellation Framework (⚛️🧠🛡️) ensures our AI systems maintain authentic, aware, and ethical operation. What aspects of conscious AI development interest you most? #ConsciousnessTechnology #LUKHASIA"
 
     for platform in ["twitter", "linkedin", "reddit"]:
         if status[platform]["credentials_configured"] and status[platform]["client_initialized"]:

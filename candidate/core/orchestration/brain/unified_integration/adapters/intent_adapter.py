@@ -32,7 +32,7 @@ class IntentNodeAdapter:
     - Cardiolipin encoding for state security
     """
 
-    def __init__(self, agi_system=None):
+    def __init__(self, cognitive_system=None):
         # Initialize bio components
         self.proton_gradient = ProtonGradient()
         self.attention_gate = QIAttentionGate()

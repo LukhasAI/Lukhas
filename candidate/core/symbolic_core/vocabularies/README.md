@@ -17,13 +17,13 @@
 
 ## Overview
 
-The Symbolic Vocabularies System is a foundational component of LUKHAS AGI that provides a consistent, human-readable symbolic language for representing system states, operations, and communications across all modules. This system enables LUKHAS to express complex internal states through intuitive emoji and symbol mappings.
+The Symbolic Vocabularies System is a foundational component of LUKHAS Cognitive AI that provides a consistent, human-readable symbolic language for representing system states, operations, and communications across all modules. This system enables LUKHAS to express complex internal states through intuitive emoji and symbol mappings.
 
 ## Purpose
 
 1. **Human-AI Communication**: Bridges the gap between machine states and human understanding
 2. **Cross-Module Consistency**: Ensures all modules speak the same symbolic language
-3. **Emotional Resonance**: Allows the AGI to express states in emotionally meaningful ways
+3. **Emotional Resonance**: Allows the Cognitive AI to express states in emotionally meaningful ways
 4. **Guardian Integration**: Each symbol carries ethical weight for guardian system evaluation
 5. **Cultural Universality**: Uses symbols that transcend language barriers
 

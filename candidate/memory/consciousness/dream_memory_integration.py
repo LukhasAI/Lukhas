@@ -10,7 +10,7 @@ LUKHAS AI - Dream State Memory Integration
 Advanced dream state memory integration for LUKHAS AI.
 Bridges dream processing with memory systems and consciousness.
 
-Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
+Constellation Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 """
 
 import asyncio

@@ -290,7 +290,7 @@ The LUKHAS ecosystem operates on a **70/30 revenue sharing model**:
 
 ## 🔮 Future Vision
 
-The LUKHAS ecosystem is designed to evolve into a comprehensive AGI platform that combines:
+The LUKHAS ecosystem is designed to evolve into a comprehensive Cognitive AI platform that combines:
 
 - **Symbolic Reasoning**: Deep understanding through knowledge graphs
 - **Bio-Oscillator Awareness**: Natural rhythm-based user interaction

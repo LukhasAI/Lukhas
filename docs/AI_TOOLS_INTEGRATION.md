@@ -105,7 +105,7 @@ context_files:
 
 ### 3. Workflow Integration
 - [ ] Read context file before editing in any directory
-- [ ] Understand Trinity Framework (⚛️🧠🛡️) alignment
+- [ ] Understand Constellation Framework (⚛️🧠🛡️) alignment
 - [ ] Follow lane isolation rules (ops/matriz.yaml)
 - [ ] Apply consciousness-aware patterns
 
@@ -120,7 +120,7 @@ context_files:
 ### Context File Usage
 1. **Always read relevant `lukhas_context.md` first**
 2. **Understand domain architecture** before making changes
-3. **Check Trinity Framework alignment** (⚛️🧠🛡️)
+3. **Check Constellation Framework alignment** (⚛️🧠🛡️)
 4. **Follow lane isolation rules** (candidate/ vs lukhas/ vs core/)
 
 ### Development Workflow

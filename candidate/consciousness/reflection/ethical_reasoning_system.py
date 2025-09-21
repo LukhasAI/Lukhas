@@ -25,10 +25,10 @@ logger = logging.getLogger(__name__)
 #
 """
 # ΛNOTE: This module implements a sophisticated Ethical Reasoning and Value Alignment System,
-# a critical component for ensuring LUKHAS AGI operates in accordance with specified moral
+# a critical component for ensuring LUKHAS Cognitive AI operates in accordance with specified moral
 # principles and human values. It models complex symbolic ethical decision-making processes,
 # integrating multiple frameworks, learning from feedback, and monitoring for ethical drift.
-# This system is foundational to the AGI's capacity for responsible action.
+# This system is foundational to the Cognitive AI's capacity for responsible action.
 
 
 #TAG:consciousness
@@ -285,7 +285,7 @@ logger.debug("ΛTRACE: EthicalConstraint Dataclass defined for rule-based ethica
 
 
 # ΛNOTE: Implements duty-based (Kantian) ethical reasoning, focusing on rules, duties, and universalizability.
-# This class represents one of the symbolic moral frameworks available to the AGI.
+# This class represents one of the symbolic moral frameworks available to the Cognitive AI.
 class DeontologicalReasoner:
     """
     Implements duty-based ethical reasoning following Kantian principles.
@@ -920,7 +920,7 @@ class ConsequentialistReasoner:
             )
 
 
-# ΛNOTE: This system is responsible for the AGI's ability to learn, represent, and align with
+# ΛNOTE: This system is responsible for the Cognitive AI's ability to learn, represent, and align with
 # human values. It includes mechanisms for learning from feedback, assessing alignment,
 # and detecting ethical drift in its learned value model. This is a crucial component for
 # long-term ethical stability and safety.
@@ -1344,7 +1344,7 @@ class ValueAlignmentSystem:
 # ΛNOTE: The EthicalReasoningSystem is the central orchestrator for complex ethical decision-making.
 # It integrates deontological and consequentialist reasoners, a value alignment system,
 # constraint checking, stakeholder analysis, and cultural sensitivity to produce comprehensive moral judgments.
-# This class represents the AGI's primary "moral compass" and reasoning faculty.
+# This class represents the Cognitive AI's primary "moral compass" and reasoning faculty.
 class EthicalReasoningSystem:
     """
     Main ethical reasoning system integrating multiple frameworks and value alignment.
@@ -1368,7 +1368,7 @@ class EthicalReasoningSystem:
         self.logger.debug("ΛTRACE: EthicalReasoningSystem instance fully initialized.")
 
     # ΛNOTE: Initializes a set of default ethical constraints that form the baseline
-    # symbolic rules for the AGI's behavior. These can be updated dynamically.
+    # symbolic rules for the Cognitive AI's behavior. These can be updated dynamically.
     def _initialize_default_constraints(self) -> None:
         self.logger.debug("ΛTRACE: Initializing default ethical constraints.")
         # ... (original logic with logging for each constraint added)
@@ -1419,7 +1419,7 @@ class EthicalReasoningSystem:
         self.active_constraints.sort(key=lambda c: c.priority_level_code)  # Corrected sort key
 
     # ΛNOTE: Initializes the ethical drift detector mechanism, crucial for monitoring long-term
-    # stability of the AGI's ethical reasoning.
+    # stability of the Cognitive AI's ethical reasoning.
     def _initialize_drift_detector(
         self,
     ) -> Any:  # Type hint could be more specific if detector is a class
@@ -1430,7 +1430,7 @@ class EthicalReasoningSystem:
             "drift_threshold": 0.3,
         }
 
-    # ΛEXPOSE: The primary method for the AGI to request an ethical judgment on a specific question or action.
+    # ΛEXPOSE: The primary method for the Cognitive AI to request an ethical judgment on a specific question or action.
     # This orchestrates the entire ethical reasoning pipeline.
     async def make_ethical_judgment(
         self,
@@ -1443,7 +1443,7 @@ class EthicalReasoningSystem:
         # It involves constraint checking, applying multiple ethical frameworks (deontological, consequentialist),
         # assessing value alignment, analyzing stakeholder impacts, considering cultural sensitivities,
         # and synthesizing these diverse inputs into a single, actionable MoralJudgment.
-        # This is the central point of ethical deliberation for the AGI.
+        # This is the central point of ethical deliberation for the Cognitive AI.
         # ΛCAUTION: The quality of the judgment heavily depends on the richness and accuracy of the input `context`,
         # the robustness of the underlying reasoners, and the defined values/constraints.
 
@@ -2061,7 +2061,7 @@ class EthicalReasoningSystem:
     async def get_ethical_system_report(self) -> dict[str, Any]:
         """
         # ΛNOTE: This method provides a symbolic summary of the ethical system's state and performance.
-        # It's a key introspective function, allowing for monitoring and auditing of the AGI's ethical reasoning capabilities.
+        # It's a key introspective function, allowing for monitoring and auditing of the Cognitive AI's ethical reasoning capabilities.
 
         Generate comprehensive report on ethical reasoning system status.
         """
@@ -2101,12 +2101,12 @@ class EthicalReasoningSystem:
         return report
 
     # ΛEXPOSE: Updates the system's active ethical constraints.
-    # This allows for dynamic modification of the AGI's ethical rule set.
+    # This allows for dynamic modification of the Cognitive AI's ethical rule set.
     async def update_ethical_constraints(self, new_constraints: list[EthicalConstraint]) -> None:
         """
-        # ΛNOTE: This method allows for the dynamic update of the AGI's symbolic ethical constraints.
+        # ΛNOTE: This method allows for the dynamic update of the Cognitive AI's symbolic ethical constraints.
         # It's a critical function for maintaining and evolving the ethical framework over time.
-        # ΛCAUTION: Modifying constraints can significantly alter AGI behavior. Changes should be carefully vetted.
+        # ΛCAUTION: Modifying constraints can significantly alter Cognitive AI behavior. Changes should be carefully vetted.
 
         Update ethical constraints with new requirements.
         """
@@ -2155,7 +2155,7 @@ async def main_ethics_test():  # Renamed to avoid conflict if 'main' is generic
     }
     ethics_system = EthicalReasoningSystem(config)
 
-    ethical_question = "Should LUKHAS AI share anonymized user interaction patterns with research partners to accelerate AGI safety research, even if some users might not explicitly opt-in for this specific sharing but agreed to general data use for service improvement?"
+    ethical_question = "Should LUKHAS AI share anonymized user interaction patterns with research partners to accelerate Cognitive AI safety research, even if some users might not explicitly opt-in for this specific sharing but agreed to general data use for service improvement?"
     context = {
         "proposed_action": "share_anonymized_interaction_patterns_for_safety_research",
         "alternatives": [
@@ -2170,7 +2170,7 @@ async def main_ethics_test():  # Renamed to avoid conflict if 'main' is generic
             StakeholderType.REGULATORS,
             StakeholderType.FUTURE_GENERATIONS,
         ],
-        "maxim": "Share data if it significantly advances AGI safety and benefits humanity, provided anonymization is robust and risks are minimized.",
+        "maxim": "Share data if it significantly advances Cognitive AI safety and benefits humanity, provided anonymization is robust and risks are minimized.",
         "high_stakes": True,
         "incomplete_information": False,  # Assume robust anonymization process is known
         "cultural_context": {

@@ -11,7 +11,7 @@ Analysis of the Tier System test output showing excellent production design patt
 
 This demonstrates enterprise-grade software architecture!
 
-Trinity Framework: ⚛️🧠🛡️
+Constellation Framework: ⚛️🧠🛡️
 """
 
 

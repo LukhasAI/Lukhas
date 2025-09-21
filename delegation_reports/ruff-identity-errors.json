@@ -905,7 +905,7 @@ DTZ005 `datetime.datetime.now()` called without a `tz` argument
    --> candidate/governance/identity/auth_backend/auth_integration_system.py:713:29
     |
 711 |             "phase": "Phase 7 - Registry Updates and Policy Integration",
-712 |             "trinity_framework": "⚛️🧠🛡️",
+712 |             "constellation_framework": "⚛️🧠🛡️",
 713 |             "last_updated": datetime.now().isoformat(),
     |                             ^^^^^^^^^^^^^^
 714 |         }

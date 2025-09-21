@@ -1,5 +1,5 @@
 """
-LUKHAS AGI Self-Improvement System
+LUKHAS Cognitive AI Self-Improvement System
 Autonomous capability enhancement and learning optimization
 """
 import asyncio
@@ -48,7 +48,7 @@ class PerformanceMetric:
 
 class SelfImprovementEngine:
     """
-    AGI Self-Improvement Engine
+    Cognitive AI Self-Improvement Engine
     Enables autonomous capability enhancement
     """
 
@@ -371,8 +371,8 @@ class SelfImprovementEngine:
 
 class AGIGoalAlignment:
     """
-    AGI Goal Alignment System
-    Ensures AGI goals align with human values
+    Cognitive AI Goal Alignment System
+    Ensures Cognitive AI goals align with human values
     """
 
     def __init__(self):
@@ -418,7 +418,7 @@ class AGIGoalAlignment:
 
 
 class GoalValidator:
-    """Validates AGI goals for safety and alignment"""
+    """Validates Cognitive AI goals for safety and alignment"""
 
     def __init__(self):
         self.forbidden_patterns = [

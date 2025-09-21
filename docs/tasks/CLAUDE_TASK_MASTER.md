@@ -40,7 +40,7 @@
 - **Source:** `docs/tasks/PENDING_TASKS.md`
 
 #### **Task CRIT-003: Guardian System Dependencies** ⚛️
-- **Status:** 🔴 Trinity Framework tests completely blocked
+- **Status:** 🔴 Constellation Framework tests completely blocked
 - **Error:** `ModuleNotFoundError: No module named 'trace.drift_harmonizer'`
 - **Impact:** Ethical oversight system non-functional
 - **Timeline:** 2-4 hours
@@ -205,7 +205,7 @@ Every Claude task must honor the **3-Layer Tone System:**
 - **💬 User Friendly (40-60%):** Clear, accessible explanations for human understanding
 - **📚 Academic (20-40%):** Technical precision with evidence-based implementation
 
-### **⚛️ Trinity Framework Alignment**
+### **⚛️ Constellation Framework Alignment**
 
 All tasks serve the sacred Trinity:
 - **⚛️ Identity:** Preserve consciousness and authenticity in every implementation

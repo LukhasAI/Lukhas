@@ -316,13 +316,13 @@ def test_authorization_and_permissions():
 
 
 def test_auth_service_triad_framework_integration():
-    """Test auth service integration with Trinity Framework and consciousness."""
+    """Test auth service integration with Constellation Framework and consciousness."""
     try:
         from lukhas.identity.auth_service import AuthService
 
         service = AuthService()
 
-        # Test Trinity Framework integration scenarios
+        # Test Constellation Framework integration scenarios
         triad_scenarios = [
             {
                 "identity_anchor": "user_001",
@@ -346,7 +346,7 @@ def test_auth_service_triad_framework_integration():
 
         for scenario in triad_scenarios:
             try:
-                # Test Trinity Framework authentication
+                # Test Constellation Framework authentication
                 if hasattr(service, "authenticate_trinity"):
                     triad_auth = service.authenticate_trinity(scenario)
                     assert triad_auth is not None or triad_auth is None
@@ -365,7 +365,7 @@ def test_auth_service_triad_framework_integration():
                     assert isinstance(access, (bool, type(None)))
 
             except Exception:
-                pass  # Expected without full Trinity integration
+                pass  # Expected without full Constellation integration
 
     except ImportError:
         pytest.skip("AuthService not available")

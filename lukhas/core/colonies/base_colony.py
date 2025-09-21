@@ -1,6 +1,6 @@
 """
 LUKHAS Core Colonies - Base Colony Framework
-⚛️🧠🛡️ Trinity Framework: Identity-Consciousness-Guardian
+⚛️🧠🛡️ Constellation Framework: Identity-Consciousness-Guardian
 
 Base class for all consciousness agent colonies in the LUKHAS ecosystem.
 Provides core infrastructure for distributed consciousness coordination.
@@ -69,9 +69,9 @@ class BaseColony(ABC):
 
     Abstract base class providing core infrastructure for all agent colonies
     in the LUKHAS consciousness ecosystem. Supports distributed coordination,
-    Trinity Framework compliance, and consciousness state management.
+    Constellation Framework compliance, and consciousness state management.
 
-    Trinity Framework Integration:
+    Constellation Framework Integration:
     - ⚛️ Identity: Unique colony identification and capability definition
     - 🧠 Consciousness: Awareness state tracking and metacognitive processing
     - 🛡️ Guardian: Ethical oversight and safety validation
@@ -140,7 +140,7 @@ class BaseColony(ABC):
             # Initialize consciousness state
             await self._initialize_consciousness()
 
-            # Validate Trinity Framework compliance
+            # Validate Constellation Framework compliance
             triad_valid = await self._validate_triad_framework()
             if not triad_valid:
                 logger.warning(f"⚠️ Colony {self.colony_id} started with Trinity compliance issues")
@@ -293,11 +293,11 @@ class BaseColony(ABC):
             "collective_synchronization": 0.0,
         }
 
-        # Update Trinity Framework compliance
+        # Update Constellation Framework compliance
         self.metrics.triad_compliance["consciousness"] = self.consciousness_level.value / 4.0
 
     async def _validate_triad_framework(self) -> bool:
-        """Validate Trinity Framework compliance."""
+        """Validate Constellation Framework compliance."""
         try:
             # ⚛️ Identity validation
             identity_valid = bool(self.colony_id and self.capabilities)

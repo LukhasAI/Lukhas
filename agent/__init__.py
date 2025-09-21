@@ -12,7 +12,7 @@ This is the main LUKHAS agent system containing:
 - Intelligence Bridge (Agent-Intelligence communication)
 - Orchestration Agents (Multi-agent coordination)
 
-Trinity Framework: ⚛️🧠🛡️
+Constellation Framework: ⚛️🧠🛡️
 Author: LUKHAS AI Agent Systems
 Version: 2.0.0
 """

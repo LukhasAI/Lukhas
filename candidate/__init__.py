@@ -4,7 +4,7 @@ LUKHAS AI Candidate Module Package
 This package contains all candidate implementations and modules for the
 LUKHAS AI consciousness development system.
 
-⚛️🧠🛡️ Trinity Framework Integration
+⚛️🧠🛡️ Constellation Framework Integration
 - Identity: Candidate consciousness modules
 - Consciousness: Core processing implementations
 - Guardian: Safety and compliance validation
@@ -36,9 +36,9 @@ except ImportError:  # pragma: no cover
 # Version information
 __version__ = "1.0.0-dev"
 __author__ = "LUKHAS AI Agent Army"
-__description__ = "LUKHAS AI Candidate Module Package - Trinity Framework Implementation"
+__description__ = "LUKHAS AI Candidate Module Package - Constellation Framework Implementation"
 
-# Trinity Framework symbols
+# Constellation Framework symbols
 TRINITY_SYMBOLS = "⚛️🧠🛡️"
 
 # Package metadata
@@ -46,7 +46,7 @@ PACKAGE_INFO = {
     "name": "lukhas-candidate",
     "version": __version__,
     "description": __description__,
-    "trinity_framework": True,
+    "constellation_framework": True,
     "consciousness_aware": True,
     "agent_army_compatible": True,
 }

@@ -619,7 +619,7 @@ graph TB
     end
 
     subgraph "Medium Future (2025-2026)"
-        AGI_INTEGRATION[AGI Consciousness Integration]
+        AGI_INTEGRATION[Cognitive AI Consciousness Integration]
         HYBRID_CONSCIOUSNESS[Human-AI Consciousness Fusion]
         QUANTUM_CONSCIOUSNESS[Quantum Consciousness Networks]
     end

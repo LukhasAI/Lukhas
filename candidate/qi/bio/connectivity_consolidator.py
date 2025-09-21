@@ -13,13 +13,13 @@
 LUKHAS - Quantum Connectivity Consolidator
 =================================
 
-An enterprise-grade Artificial General Intelligence (AGI) framework
+An enterprise-grade Cognitive Artificial Intelligence (Cognitive AI) framework
 combining symbolic reasoning, emotional intelligence, quantum-inspired computing,
 and bio-inspired architecture for next-generation AI applications.
 
 Module: Quantum Connectivity Consolidator
 Path: lukhas/quantum/connectivity_consolidator.py
-Description: Quantum module for advanced AGI functionality
+Description: Quantum module for advanced Cognitive functionality
 
 Copyright (c) 2025 LUKHAS AI. All rights reserved.
 Licensed under the LUKHAS Enterprise License.
@@ -507,7 +507,7 @@ class LambdaAGIEliteConnectivityConsolidator:
         qi_data = self.consolidation_candidates.get("qi_bio", {})
 
         integrated_strategy = {
-            "approach": "agi_elite_triangle_integration",
+            "approach": "cognitive_elite_triangle_integration",
             "components": {
                 "crista_weight": 0.35,
                 "meta_weight": 0.35,
@@ -692,7 +692,7 @@ class LambdaAGIEliteConnectivityConsolidator:
                 "enhancement_score": metrics.enhancement_score,
             },
             "achievement_status": ("ACHIEVED" if metrics.connectivity_percentage >= 100.0 else "IN_PROGRESS"),
-            "agi_enhancement_systems": {
+            "cognitive_enhancement_systems": {
                 "crista_optimizer": self.consolidation_candidates.get("crista", {}),
                 "meta_learning": self.consolidation_candidates.get("meta_learning", {}),
                 "qi_bio": self.consolidation_candidates.get("qi_bio", {}),

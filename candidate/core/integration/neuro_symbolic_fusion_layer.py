@@ -9,7 +9,7 @@ logger = logging.getLogger(__name__)
 🧠 CONTEXT: Strategy Engine Core Module for neural-symbolic integration
 🔮 CAPABILITY: Seamless translation between neural patterns and symbolic logic
 🛡️ ETHICS: Maintains coherence and interpretability in AI reasoning
-🚀 VERSION: v1.0.0 • 📅 CREATED: 2025-07-20 • ✍️ AUTHOR: LUKHAS AGI TEAM
+🚀 VERSION: v1.0.0 • 📅 CREATED: 2025-07-20 • ✍️ AUTHOR: LUKHAS Cognitive AI TEAM
 💭 INTEGRATION: EnergyPlanner, DecisionBridge, EthicalGovernor, SymbolicReasoning
 ═══════════════════════════════════════════════════════════════════════════════════
 

@@ -1,6 +1,6 @@
 # 🧠 lukhas Brain Architecture
 
-> **The world's first Bio-Quantum Neural Processing System for Artificial General Intelligence**
+> **The world's first Bio-Quantum Neural Processing System for Cognitive Artificial Intelligence**
 
 ## Overview
 

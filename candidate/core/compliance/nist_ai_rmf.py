@@ -17,7 +17,7 @@ Features:
 - Bias evaluation and algorithmic fairness testing
 
 Integration:
-- Trinity Framework (⚛️🧠🛡️) trustworthy AI alignment
+- Constellation Framework (⚛️🧠🛡️) trustworthy AI alignment
 - Constitutional AI risk principle enforcement
 - Guardian System 2.0 AI risk violation detection
 - Secure logging for federal audit trails

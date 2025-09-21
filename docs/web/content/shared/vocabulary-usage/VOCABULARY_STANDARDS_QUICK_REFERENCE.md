@@ -188,7 +188,7 @@ npm run vocab:check
 - **branding/vocabularies/**: Master vocabulary JSON files
 - **branding/tone/**: 3-Layer Tone System complete specification
 - **CLAUDE.md**: Development guidelines and brand standards
-- **Trinity Framework**: ⚛️🧠🛡️ consciousness navigation system
+- **Constellation Framework**: ⚛️🧠🛡️ consciousness navigation system
 
 ### External Validation
 - **Readability tools**: Grade-level checking for user-friendly content

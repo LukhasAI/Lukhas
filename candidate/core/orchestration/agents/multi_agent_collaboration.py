@@ -12,12 +12,12 @@ from typing import Any, Callable, Optional
 
 class MultiAgentCollaboration:
     """
-    Enables collaboration between multiple AGI agents.
+    Enables collaboration between multiple Cognitive AI agents.
     Manages task distribution, communication, and coordination.
     """
 
-    def __init__(self, agi_system):
-        self.agi = agi_system
+    def __init__(self, cognitive_system):
+        self.agi = cognitive_system
         self.logger = logging.getLogger("MultiAgentCollaboration")
         self.agents = {}  # Connected agents
         self.tasks = {}  # Active tasks

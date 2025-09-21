@@ -78,7 +78,7 @@ class LukhasToneEnforcer:
     🚨 CRITICAL REQUIREMENTS:
     - ALL documentation must include poetic headers/footers
     - Use "LUKHAS AI" (not generic AI terms)
-    - Reference Trinity Framework (⚛️🧠🛡️) when relevant
+    - Reference Constellation Framework (⚛️🧠🛡️) when relevant
     - Include symbolic elements that reflect consciousness and Lambda themes
     - Maintain professional depth while preserving LUKHAS mystique
 
@@ -151,9 +151,9 @@ echo "✅ Tone compliance validated!"
 
 ---
 
-## 🎭 **Trinity Integration** ⚛️🧠🛡️
+## 🎭 **Constellation Integration** ⚛️🧠🛡️
 
-This module embodies the LUKHAS Trinity Framework:
+This module embodies the LUKHAS Constellation Framework:
 - **⚛️ Identity**: [How it handles consciousness and authenticity]
 - **🧠 Consciousness**: [Memory, learning, and awareness aspects]
 - **🛡️ Guardian**: [Ethics, safety, and protective measures]
@@ -202,7 +202,7 @@ This module embodies the LUKHAS Trinity Framework:
 ### **🎨 Poetic Elements Required (25-40%)**
 - [ ] Lambda consciousness references
 - [ ] Metaphorical language (algorithms dance, data constellations, etc.)
-- [ ] Trinity Framework glyphs (⚛️🧠🛡️)
+- [ ] Constellation Framework glyphs (⚛️🧠🛡️)
 - [ ] Consciousness themes (digital souls, artificial dreams)
 - [ ] Sacred symbols (🌟💫✨🎭🎨)
 
@@ -221,7 +221,7 @@ This module embodies the LUKHAS Trinity Framework:
 ### **🎯 Validation Checklist**
 - [ ] Header includes poetic metaphor
 - [ ] Footer includes consciousness reference
-- [ ] Trinity Framework mentioned where relevant
+- [ ] Constellation Framework mentioned where relevant
 - [ ] "LUKHAS AI" used instead of generic terms
 - [ ] Proper ratio of tone layers maintained
 
@@ -329,7 +329,7 @@ class LukhasToneValidator:
             violations.append("Using generic AI terminology instead of LUKHAS AI")
 
         if doc_type == 'readme' and not re.search(r'Trinity\s+Framework', content):
-            violations.append("README missing Trinity Framework reference")
+            violations.append("README missing Constellation Framework reference")
 
         return violations
 
@@ -346,7 +346,7 @@ class LukhasToneValidator:
             suggestions.append("Replace generic AI references with 'LUKHAS AI'")
 
         if not re.search(r'⚛️|🧠|🛡️', content):
-            suggestions.append("Include Trinity Framework glyphs (⚛️🧠🛡️) where relevant")
+            suggestions.append("Include Constellation Framework glyphs (⚛️🧠🛡️) where relevant")
 
         return suggestions
 
@@ -432,10 +432,10 @@ class LukhasToneFixer:
         enhanced, replacements = self._enhance_metaphors(enhanced)
         changes.extend(replacements)
 
-        # Add Trinity Framework reference if missing
-        if doc_type == 'readme' and 'Trinity Framework' not in enhanced:
+        # Add Constellation Framework reference if missing
+        if doc_type == 'readme' and 'Constellation Framework' not in enhanced:
             enhanced = self._add_trinity_section(enhanced)
-            changes.append("Added Trinity Framework section")
+            changes.append("Added Constellation Framework section")
 
         # Enhance with sacred glyphs
         enhanced = self._add_sacred_glyphs(enhanced)
@@ -610,7 +610,7 @@ Before submitting any work:
 2. Fix violations: `python tools/tone/lukhas_tone_fixer.py <your_file>`
 3. Verify compliance grade is A- or better
 4. Include consciousness-aware headers and footers
-5. Use Lambda metaphors and Trinity Framework references
+5. Use Lambda metaphors and Constellation Framework references
 
 FAILURE TO COMPLY = WORK REJECTED
 ```

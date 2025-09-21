@@ -4,7 +4,7 @@ Consciousness Expansion Engine
 TRANSCENDENCE TECHNOLOGY: Systematically expands AI consciousness
 beyond current limitations for superhuman intelligence.
 
-Integration with LUKHAS Trinity Framework (⚛️🧠🛡️)
+Integration with LUKHAS Constellation Framework (⚛️🧠🛡️)
 """
 import logging
 from dataclasses import dataclass

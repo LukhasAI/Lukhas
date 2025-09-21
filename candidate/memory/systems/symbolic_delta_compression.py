@@ -9,7 +9,7 @@ logger = logging.getLogger(__name__)
 🔄 MODULE: memory.core_memory.symbolic_delta_compression
 📄 FILENAME: symbolic_delta_compression.py
 🎯 PURPOSE: Core Memory Symbolic Delta Compression with Loop Detection Integration
-🧠 CONTEXT: LUKHAS AGI Phase 5 Memory Compression & Infinite Loop Prevention
+🧠 CONTEXT: LUKHAS Cognitive AI Phase 5 Memory Compression & Infinite Loop Prevention
 🔮 CAPABILITY: Symbolic compression, loop detection, fold integration, cascade prevention
 🛡️ ETHICS: Loop prevention, memory integrity, compression safety bounds
 🚀 VERSION: v1.0.0 • 📅 CREATED: 2025-01-22 • ✍️ AUTHOR: CLAUDE

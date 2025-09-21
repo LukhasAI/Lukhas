@@ -3,7 +3,7 @@ Constitutional Compliance Engine - Advanced Real-Time Validation
 =============================================================
 
 Real-time constitutional AI compliance checking engine for all AI decisions and operations.
-Built to meet AGI-ready safety standards with comprehensive validation, audit trails,
+Built to meet Cognitive AI-ready safety standards with comprehensive validation, audit trails,
 and automated remediation capabilities.
 
 Follows constitutional AI principles from:
@@ -266,7 +266,7 @@ class ConstitutionalComplianceEngine:
 
     Provides real-time constitutional AI compliance checking with comprehensive
     validation, automated remediation, and regulatory framework alignment.
-    Designed for AGI-ready deployment with scalable oversight capabilities.
+    Designed for Cognitive AI-ready deployment with scalable oversight capabilities.
     """
 
     def __init__(self, config: Optional[dict[str, Any]] = None):

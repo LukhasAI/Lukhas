@@ -23,7 +23,7 @@
 ║
 ║ The BaseModule class is the cornerstone of LUKHAS's modular architecture,
 ║ enforcing a common interface that enables seamless module composition,
-║ orchestration, and monitoring across the entire AGI system.
+║ orchestration, and monitoring across the entire Cognitive system.
 ║
 ║ Key Features:
 ║ • Enforced initialization/processing/shutdown lifecycle
@@ -100,7 +100,7 @@ class BaseModule(ABC):
 ║
 ║ REFERENCES:
 ║   - Docs: docs/common/module-development.md
-║   - Issues: github.com/lukhas-ai/agi/issues?label=base-module
+║   - Issues: github.com/lukhas-ai/cognitive/issues?label=base-module
 ║   - Wiki: wiki.lukhas.ai/module-architecture
 ║
 ║ COPYRIGHT & LICENSE:
@@ -109,7 +109,7 @@ class BaseModule(ABC):
 ║   Unauthorized use, reproduction, or distribution is prohibited.
 ║
 ║ DISCLAIMER:
-║   This module is part of the LUKHAS AGI system. Use only as intended
+║   This module is part of the LUKHAS Cognitive system. Use only as intended
 ║   within the system architecture. Modifications may affect system
 ║   stability and require approval from the LUKHAS Architecture Board.
 ╚═══════════════════════════════════════════════════════════════════════════

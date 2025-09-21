@@ -6,7 +6,7 @@
 Final comprehensive coverage analysis including Priority 3 systems testing.
 Shows progression from baseline 6.7% through Priority 1-2 (40.3%) to Priority 3 results.
 
-Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
+Constellation Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 """
 
 import json
@@ -57,14 +57,14 @@ def generate_final_coverage_summary():
         "functional_test_coverage": 0.3,  # 30% weight for functional test existence
         "success_rate_weight": 0.4,  # 40% weight for test success rates
         "integration_weight": 0.2,  # 20% weight for cross-system integration
-        "triad_compliance": 0.1,  # 10% weight for Trinity Framework integration
+        "triad_compliance": 0.1,  # 10% weight for Constellation Framework integration
     }
 
     # Quality metrics
     functional_coverage_score = (10 / 17) * 100  # 10 systems with meaningful coverage out of 17
     average_success_rate = (93.8 + 90.0) / 2  # Average of Priority 1-2 and Priority 3 success rates
     integration_score = 85.0  # Good cross-system integration found
-    triad_compliance_score = 95.0  # Strong Trinity Framework integration
+    triad_compliance_score = 95.0  # Strong Constellation Framework integration
 
     final_quality_score = (
         (functional_coverage_score * quality_components["functional_test_coverage"])
@@ -98,7 +98,7 @@ def generate_final_coverage_summary():
             "full_functional_coverage": [
                 "Identity System (ΛID, authentication, tiered access)",
                 "Memory System (persistence, recall, fold logging)",
-                "Consciousness System (state mgmt, Trinity integration)",
+                "Consciousness System (state mgmt, Constellation integration)",
                 "API System (FastAPI, endpoints, middleware)",
                 "Security System (Guardian, drift detection)",
                 "Bio System (structure validation, bio-inspired concepts)",
@@ -136,7 +136,7 @@ def generate_final_coverage_summary():
             "📊 10/17 systems with meaningful functional testing (+8 systems)",
             "✅ 90%+ success rate across all Priority 1-3 testing phases",
             "🎯 Quality score: 85.9% (represents production-ready testing standards)",
-            "⚛️🧠🛡️ Trinity Framework integration validated system-wide",
+            "⚛️🧠🛡️ Constellation Framework integration validated system-wide",
             "🔗 Cross-system integration patterns identified and tested",
         ],
         "priority_4_recommendations": [

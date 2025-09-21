@@ -155,9 +155,9 @@ sudo purge  # macOS only
 
 ---
 
-## 🎖️ **Trinity Framework Compliance**
+## 🎖️ **Constellation Framework Compliance**
 
-Terminal resolution aligns with Trinity Framework:
+Terminal resolution aligns with Constellation Framework:
 - **⚛️ Identity**: Preserve development environment integrity
 - **🧠 Consciousness**: Maintain system awareness and responsiveness
 - **🛡️ Guardian**: Protect against system instability

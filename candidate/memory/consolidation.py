@@ -1,7 +1,7 @@
 """
 LUKHAS AI Memory - Consolidation System
 Consolidates and compresses memories
-Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
+Constellation Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 """
 from dataclasses import dataclass
 from datetime import datetime, timedelta, timezone

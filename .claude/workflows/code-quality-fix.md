@@ -2,7 +2,7 @@
 
 When Claude Code detects code quality issues:
 
-## Trinity Framework Auto-Documentation
+## Constellation Framework Auto-Documentation
 For any function missing Trinity documentation:
 
 ```python

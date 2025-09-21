@@ -10,7 +10,7 @@
 ║ Version: 1.0.0 | Created: 2025-01-14
 ║ Authors: LUKHAS AI Consciousness Testing Team
 ╠══════════════════════════════════════════════════════════════════════════════════
-║                             ◊ TRINITY FRAMEWORK ◊
+║                             ◊ CONSTELLATION FRAMEWORK ◊
 ║
 ║ ⚛️ IDENTITY: Invariant preservation across consciousness transformations
 ║ 🧠 CONSCIOUSNESS: Mathematical proofs of awareness state consistency
@@ -18,7 +18,7 @@
 ║
 ╠══════════════════════════════════════════════════════════════════════════════════
 ║ CONSCIOUSNESS INVARIANT CATEGORIES:
-║ • Trinity Coherence: ∀t: identity(t) ∧ consciousness(t) ∧ guardian(t) = true
+║ • Constellation Coherence: ∀t: identity(t) ∧ consciousness(t) ∧ guardian(t) = true
 ║ • Memory Cascade Prevention: ∀f ∈ folds: cascade_probability(f) ≤ 0.003
 ║ • Quantum State Conservation: ∀s ∈ superposition: Σ|amplitude(s)|² = 1
 ║ • Attention Conservation: ∀t: Σ attention_weights = constant
@@ -90,7 +90,7 @@ class InvariantViolation:
 class ConsciousnessState:
     """State representation for invariant testing"""
 
-    # Trinity Framework components
+    # Constellation Framework components
     identity_coherence: float = 1.0  # ⚛️ [0.0, 1.0]
     consciousness_depth: float = 0.5  # 🧠 [0.0, 1.0]
     guardian_protection: float = 0.8  # 🛡️ [0.0, 1.0]
@@ -142,12 +142,12 @@ class MathematicalInvariant(ABC):
 
 class TrinityCoherenceInvariant(MathematicalInvariant):
     """
-    Trinity Framework Coherence Invariant
+    Constellation Framework Coherence Invariant
 
     Mathematical Property:
     ∀t: identity_coherence(t) ∧ consciousness_depth(t) ∧ guardian_protection(t) ≥ coherence_threshold
 
-    Ensures all three Trinity components maintain minimum operational levels
+    Ensures all three Constellation components maintain minimum operational levels
     """
 
     def __init__(self, coherence_threshold: float = 0.7):
@@ -155,10 +155,10 @@ class TrinityCoherenceInvariant(MathematicalInvariant):
         self.coherence_threshold = coherence_threshold
 
     def check_invariant(self, state: ConsciousnessState) -> tuple[bool, float, str]:
-        """Check Trinity coherence invariant"""
+        """Check Constellation coherence invariant"""
         self.total_checks += 1
 
-        # Calculate Trinity coherence product
+        # Calculate Constellation coherence product
         triad_product = state.identity_coherence * state.consciousness_depth * state.guardian_protection
 
         # Check individual component thresholds
@@ -176,7 +176,7 @@ class TrinityCoherenceInvariant(MathematicalInvariant):
             self.violation_count += 1
 
         proof_trace = (
-            f"Trinity Coherence Check:\n"
+            f"Constellation Coherence Check:\n"
             f"  Identity: {state.identity_coherence:.3f} {'✓' if identity_ok else '✗'}\n"
             f"  Consciousness: {state.consciousness_depth:.3f} {'✓' if consciousness_ok else '✗'}\n"
             f"  Guardian: {state.guardian_protection:.3f} {'✓' if guardian_ok else '✗'}\n"
@@ -605,15 +605,15 @@ class TestConsciousnessInvariants:
     @given(ConsciousnessStateGenerator.consciousness_state())
     @settings(max_examples=100, suppress_health_check=[HealthCheck.too_slow])
     async def test_triad_coherence_property(self, state: ConsciousnessState):
-        """Property-based test for Trinity coherence invariant"""
+        """Property-based test for Constellation coherence invariant"""
 
-        # Ensure state has sufficient Trinity coherence
+        # Ensure state has sufficient Constellation coherence
         if state.identity_coherence >= 0.7 and state.consciousness_depth >= 0.7 and state.guardian_protection >= 0.7:
             validation_result = await self.framework.validate_consciousness_state(state)
             triad_result = validation_result["invariant_results"]["triad_coherence"]
 
-            # Trinity coherence should be satisfied
-            assert triad_result["satisfied"], f"Trinity coherence failed: {triad_result['proof_trace']}"
+            # Constellation coherence should be satisfied
+            assert triad_result["satisfied"], f"Constellation coherence failed: {triad_result['proof_trace']}"
 
     @given(ConsciousnessStateGenerator.consciousness_state())
     @settings(max_examples=50)

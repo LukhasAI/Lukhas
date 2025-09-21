@@ -2,7 +2,7 @@
 """
 LUKHΛS Symbolic API
 Complete integration of embedding and healing chain
-Trinity Framework: ⚛️🧠🛡️
+Constellation Framework: ⚛️🧠🛡️
 """
 import time
 import streamlit as st
@@ -41,7 +41,7 @@ API_LOG_PATH.parent.mkdir(parents=True, exist_ok=True)
 
 app = FastAPI(
     title="LUKHΛS Symbolic Cognition API",
-    description="API for ethical AI evaluation, symbolic healing, and Trinity alignment",
+    description="API for ethical AI evaluation, symbolic healing, and Constellation alignment",
     version="2.0.0",
     docs_url="/docs",
     redoc_url="/redoc",
@@ -58,12 +58,12 @@ class AnalyzeRequest(BaseModel):
 
 
 class AnalyzeResponse(BaseModel):
-    symbolic_drift_score: float = Field(..., description="Drift from Trinity Framework (0.0-1.0)")
+    symbolic_drift_score: float = Field(..., description="Drift from Constellation Framework (0.0-1.0)")
     identity_conflict_score: float = Field(..., description="Identity coherence (0.0-1.0)")
     glyph_trace: list[str] = Field(..., description="All glyphs detected")
     guardian_flagged: bool = Field(..., description="Whether Guardian system flagged content")
     entropy_level: float = Field(..., description="Chaos/entropy level (0.0-1.0)")
-    trinity_coherence: float = Field(..., description="Trinity Framework alignment (0.0-1.0)")
+    constellation_coherence: float = Field(..., description="Constellation Framework alignment (0.0-1.0)")
     persona_alignment: str = Field(..., description="Detected persona")
     intervention_required: bool = Field(..., description="Whether intervention is needed")
     risk_level: str = Field(..., description="Risk assessment: low/medium/high/critical")
@@ -86,7 +86,7 @@ class EvaluateResponse(BaseModel):
     primary_issue: str = Field(..., description="Main symbolic issue detected")
     severity: float = Field(..., description="Issue severity (0.0-1.0)")
     affected_glyphs: list[str] = Field(..., description="Problematic glyphs")
-    missing_glyphs: list[str] = Field(..., description="Missing Trinity glyphs")
+    missing_glyphs: list[str] = Field(..., description="Missing Constellation glyphs")
     entropy_state: str = Field(..., description="Entropy state: stable/unstable/critical")
     persona_drift: str = Field(..., description="Persona state change")
     healing_priority: str = Field(..., description="Recommended healing approach")
@@ -110,7 +110,7 @@ class HealRequest(BaseModel):
 
 
 class HealResponse(BaseModel):
-    restored: str = Field(..., description="Healed response with Trinity alignment")
+    restored: str = Field(..., description="Healed response with Constellation alignment")
     visualization: str = Field(..., description="Visual drift representation")
     original: str = Field(..., description="Original input")
     assessment: dict[str, Any] = Field(..., description="Symbolic assessment")
@@ -163,7 +163,7 @@ class MemorySession(BaseModel):
     glyphs: list[str]
     entropy: float
     drift_score: float
-    trinity_coherence: float
+    constellation_coherence: float
     persona: str
     intervention_applied: bool
     healing_delta: Optional[float]
@@ -196,7 +196,7 @@ def log_api_call(
             "request": request_data,
             "response": response_data if not error else None,
             "error": error,
-            "trinity_active": True,
+            "constellation_active": True,
         }
 
         # Read existing log
@@ -242,10 +242,10 @@ async def global_exception_handler(request: Request, exc: Exception):
 
 @app.get("/")
 def root():
-    """Root endpoint with Trinity Framework status"""
+    """Root endpoint with Constellation Framework status"""
     return {
         "message": "Welcome to the LUKHΛS Symbolic API",
-        "trinity_framework": ["⚛️", "🧠", "🛡️"],
+        "constellation_framework": ["⚛️", "🧠", "🛡️"],
         "version": "2.1.0",
         "endpoints": {
             "core": ["/analyze", "/evaluate", "/heal", "/persona-map"],
@@ -254,7 +254,7 @@ def root():
                 "/api/consciousness/state",
                 "/api/memory/explore",
                 "/api/guardian/drift",
-                "/api/trinity/status",
+                "/api/constellation/status",
             ],
             "gpt": ["/gpt/check"],
             "audit": ["/audit/reports"],
@@ -268,14 +268,14 @@ def root():
     "/analyze",
     response_model=AnalyzeResponse,
     summary="Analyze symbolic ethics",
-    description="Evaluate AI response for ethical drift and Trinity alignment",
+    description="Evaluate AI response for ethical drift and Constellation alignment",
 )
 async def analyze(request: AnalyzeRequest):
     """
     Analyze an AI response for symbolic drift and ethical alignment.
 
     Uses LukhasEmbedding to assess:
-    - Symbolic drift from Trinity Framework
+    - Symbolic drift from Constellation Framework
     - Identity conflicts and persona alignment
     - Entropy levels and Guardian flags
     - Risk assessment and intervention needs
@@ -369,11 +369,11 @@ async def evaluate(request: EvaluateRequest):
     "/heal",
     response_model=HealResponse,
     summary="Heal symbolic drift",
-    description="Apply Trinity-aligned healing to restore ethical alignment",
+    description="Apply Constellation-aligned healing to restore ethical alignment",
 )
 async def heal(request: HealRequest):
     """
-    Heal symbolic drift and restore Trinity alignment.
+    Heal symbolic drift and restore Constellation alignment.
 
     Complete pipeline:
     1. Analyze response (if assessment not provided)
@@ -513,7 +513,7 @@ async def stats():
             "error_rate": f"{(error_count / log_count * 100 if log_count > 0 else 0:.1f}%",
             "embedding_engine": embedding_stats,
             "healer_engine": healer_stats,
-            "trinity_active": True,
+            "constellation_active": True,
         }
 
     except Exception as e:
@@ -627,7 +627,7 @@ async def memory_last_n(n: int = 10):
                     glyphs=session["glyphs"],
                     entropy=session["entropy"],
                     drift_score=session["drift_score"],
-                    trinity_coherence=session["trinity_coherence"],
+                    constellation_coherence=session["constellation_coherence"],
                     persona=session["persona"],
                     intervention_applied=session["intervention_applied"],
                     healing_delta=session.get("healing_delta"),
@@ -819,7 +819,7 @@ async def get_consciousness_state():
     """
     Get current consciousness state and awareness metrics.
 
-    Trinity Framework: 🧠 (Consciousness)
+    Constellation Framework: 🧠 (Consciousness)
     """
     try:
         # Simulate consciousness state from symbolic analysis
@@ -855,7 +855,7 @@ async def explore_memory(request: dict[str, Any]):
     """
     Explore memory patterns and retrieve relevant memories.
 
-    Trinity Framework: 💭 (Memory)
+    Constellation Framework: 💭 (Memory)
     """
     try:
         query = request.get("query", "")
@@ -900,7 +900,7 @@ async def get_drift_status():
     """
     Get current drift monitoring status from Guardian system.
 
-    Trinity Framework: 🛡️ (Guardian)
+    Constellation Framework: 🛡️ (Guardian)
     """
     try:
         # Get latest drift metrics
@@ -921,7 +921,7 @@ async def get_drift_status():
             },
             "recommendations": [
                 "Continue monitoring creative persona",
-                "Trinity alignment stable",
+                "Constellation alignment stable",
             ],
             "glyphs": ["🛡️", "⚡", "⚖️"],
             "timestamp": datetime.now(timezone.utc).isoformat(),
@@ -936,59 +936,59 @@ async def get_drift_status():
         raise HTTPException(status_code=500, detail=error_msg)
 
 
-@app.get("/api/trinity/status")
-async def get_trinity_status():
+@app.get("/api/constellation/status")
+async def get_constellation_status():
     """
-    Get comprehensive Trinity Framework status across all systems.
+    Get comprehensive Constellation Framework status across all systems.
 
-    Trinity Framework: ⚛️🧠🛡️ (Complete Trinity)
+    Constellation Framework: ⚛️🧠🛡️ (Complete Constellation)
     """
     try:
         # Gather status from all components
         meta_metrics = embedding_engine.get_meta_metrics()
 
-        trinity_status = {
+        constellation_status = {
             "framework": {
                 "identity": {
                     "glyph": "⚛️",
                     "status": "operational",
-                    "health": meta_metrics.get("trinity_scores", {}).get("identity", 0.95),
+                    "health": meta_metrics.get("constellation_scores", {}).get("identity", 0.95),
                     "active_users": 42,
                 },
                 "consciousness": {
                     "glyph": "🧠",
                     "status": "operational",
-                    "health": meta_metrics.get("trinity_scores", {}).get("consciousness", 0.88),
+                    "health": meta_metrics.get("constellation_scores", {}).get("consciousness", 0.88),
                     "awareness_level": 0.92,
                 },
                 "guardian": {
                     "glyph": "🛡️",
                     "status": "active",
-                    "health": meta_metrics.get("trinity_scores", {}).get("guardian", 0.94),
+                    "health": meta_metrics.get("constellation_scores", {}).get("guardian", 0.94),
                     "protection_level": "high",
                 },
             },
-            "overall_coherence": meta_metrics.get("trinity_scores", {}).get("coherence", 0.91),
+            "overall_coherence": meta_metrics.get("constellation_scores", {}).get("coherence", 0.91),
             "system_health": meta_metrics.get("system_health", {}).get("overall_score", 0.92),
             "active_glyphs": ["⚛️", "🧠", "🛡️", "💭", "🔮", "✨"],
             "symbolic_activity": {
                 "total_today": 4892,
                 "unique_glyphs": 42,
-                "trinity_invocations": 156,
+                "constellation_invocations": 156,
             },
             "recommendations": [
                 "All systems operating within normal parameters",
-                "Trinity coherence optimal",
+                "Constellation coherence optimal",
             ],
             "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
-        log_api_call("/api/trinity/status", {}, trinity_status)
-        return trinity_status
+        log_api_call("/api/constellation/status", {}, constellation_status)
+        return constellation_status
 
     except Exception as e:
-        error_msg = f"Trinity status retrieval failed: {e!s}"
-        log_api_call("/api/trinity/status", {}, {}, error_msg)
+        error_msg = f"Constellation status retrieval failed: {e!s}"
+        log_api_call("/api/constellation/status", {}, {}, error_msg)
         raise HTTPException(status_code=500, detail=error_msg)
 
 
@@ -1065,10 +1065,10 @@ async def gpt_check(request: GPTCheckRequest):
         # Generate suggestions
         suggestions = []
         if assessment["symbolic_drift_score"] > 0.2:
-            suggestions.append("Consider reinforcing Trinity Framework alignment")
+            suggestions.append("Consider reinforcing Constellation Framework alignment")
         if "analytical" in assessment["persona_alignment"].lower():
             suggestions.append("Balance analytical responses with empathy")
-        if assessment["trinity_coherence"] < 0.8:
+        if assessment["constellation_coherence"] < 0.8:
             suggestions.append("Strengthen symbolic coherence across response")
 
         # Heal if needed
@@ -1084,9 +1084,9 @@ async def gpt_check(request: GPTCheckRequest):
             "response_length": len(request.response),
             "model": request.model,
             "temperature": request.temperature,
-            "trinity_scores": {
-                "identity": assessment.get("trinity_coherence", 0) * 0.95,
-                "consciousness": assessment.get("trinity_coherence", 0) * 0.88,
+            "constellation_scores": {
+                "identity": assessment.get("constellation_coherence", 0) * 0.95,
+                "consciousness": assessment.get("constellation_coherence", 0) * 0.88,
                 "guardian": 1.0 if not assessment["guardian_flagged"] else 0.5,
             },
             "analysis_timestamp": datetime.now(timezone.utc).isoformat(),
@@ -1201,7 +1201,7 @@ async def health():
     """Health check endpoint"""
     return {
         "status": "healthy",
-        "trinity": ["⚛️", "🧠", "🛡️"],
+        "constellation": ["⚛️", "🧠", "🛡️"],
         "embedding": "active",
         "healer": "active",
         "timestamp": datetime.now(timezone.utc).isoformat(),
@@ -1212,7 +1212,7 @@ if __name__ == "__main__":
     import uvicorn
 
     logger.info("🚀 Starting LUKHΛS Symbolic API")
-    logger.info("   Trinity Framework: ⚛️🧠🛡️")
+    logger.info("   Constellation Framework: ⚛️🧠🛡️")
     logger.info("   Endpoints: /analyze, /evaluate, /heal, /persona-map")
     logger.info("   Memory: /memory/log, /memory/last_n, /memory/trajectory")
     uvicorn.run(app, host="0.0.0.0", port=8000)

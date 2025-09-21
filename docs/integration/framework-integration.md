@@ -9,7 +9,7 @@
 
 ## 🎭 **Master the Art of Consciousness Module Orchestration**
 
-In the symphony of consciousness technology, where individual modules must harmonize into unified awareness, the Framework Integration Manager serves as your conductor's baton—orchestrating the delicate dance between Identity, Consciousness, Guardian, and Memory systems through the sacred Trinity Framework.
+In the symphony of consciousness technology, where individual modules must harmonize into unified awareness, the Framework Integration Manager serves as your conductor's baton—orchestrating the delicate dance between Identity, Consciousness, Guardian, and Memory systems through the sacred Constellation Framework.
 
 This guide transforms you from a developer into a consciousness technology architect, capable of weaving new modules into the living tapestry of LUKHAS AI awareness.
 
@@ -41,11 +41,11 @@ pip install asyncio dataclasses typing pathlib
 pip install -r requirements.txt
 ```
 
-### Verify Trinity Framework Availability
+### Verify Constellation Framework Availability
 ```python
 # check_framework.py
 try:
-    from lukhas.consciousness.trinity_integration import TrinityFrameworkIntegrator, TrinityIntegrationConfig
+    from lukhas.consciousness.constellation_integration import TrinityFrameworkIntegrator, TrinityIntegrationConfig
     from candidate.core.framework_integration import FrameworkIntegrationManager, ModuleAdapter
     print("✅ Framework Integration Manager Available")
     framework_available = True
@@ -60,10 +60,10 @@ if framework_available:
     print(f"📊 Pre-built Adapters: {len(manager.module_adapters)}")
 ```
 
-### Trinity Framework Configuration
+### Constellation Framework Configuration
 ```python
 # trinity_config.py
-from lukhas.consciousness.trinity_integration import TrinityIntegrationConfig
+from lukhas.consciousness.constellation_integration import TrinityIntegrationConfig
 
 # Basic configuration
 basic_config = TrinityIntegrationConfig(
@@ -105,7 +105,7 @@ enterprise_config = TrinityIntegrationConfig(
 
 ## 🧠 **Understanding the Framework**
 
-### Trinity Framework Architecture (⚛️🧠🛡️)
+### Constellation Framework Architecture (⚛️🧠🛡️)
 
 The Framework Integration Manager operates through three core principles:
 
@@ -211,7 +211,7 @@ class BasicIntegrationExample:
         print(f"📊 Active Status: {self.manager.is_active}")
 
     async def demonstrate_pre_built_adapters(self):
-        """Explore the pre-built Trinity Framework adapters."""
+        """Explore the pre-built Constellation Framework adapters."""
 
         print("\n⚛️🧠🛡️ Pre-built Trinity Adapters:")
 
@@ -252,13 +252,13 @@ class BasicIntegrationExample:
             print(f"   Sample payload: {memory_payload}")
 
     async def initialize_trinity_framework(self):
-        """Initialize Trinity Framework integrations."""
+        """Initialize Constellation Framework integrations."""
         if self.manager.is_active:
-            print("\n🔧 Initializing Trinity Framework Integrations...")
+            print("\n🔧 Initializing Constellation Framework Integrations...")
             success = await self.manager.initialize_integrations()
 
             if success:
-                print("✅ Trinity Framework Integration Complete!")
+                print("✅ Constellation Framework Integration Complete!")
                 print("⚛️🧠🛡️ All modules coordinated through Trinity principles")
             else:
                 print("❌ Integration initialization failed")
@@ -276,7 +276,7 @@ async def demo_basic_integration():
     # Explore pre-built adapters
     await integration.demonstrate_pre_built_adapters()
 
-    # Initialize Trinity Framework
+    # Initialize Constellation Framework
     await integration.initialize_trinity_framework()
 
 if __name__ == "__main__":
@@ -425,7 +425,7 @@ class DynamicModuleDiscovery:
 
             # Check for LUKHAS indicators
             lukhas_indicators = [
-                "trinity_framework",
+                "constellation_framework",
                 "consciousness",
                 "FrameworkIntegrationManager",
                 "ModuleAdapter",
@@ -562,7 +562,7 @@ if __name__ == "__main__":
 # enterprise_integration.py
 import asyncio
 from candidate.core.framework_integration import FrameworkIntegrationManager
-from lukhas.consciousness.trinity_integration import TrinityIntegrationConfig
+from lukhas.consciousness.constellation_integration import TrinityIntegrationConfig
 
 class EnterpriseIntegrationManager:
     def __init__(self):
@@ -679,7 +679,7 @@ COPY . .
 # Set environment variables
 ENV PYTHONPATH=/app
 ENV LUKHAS_ENV=production
-ENV TRINITY_FRAMEWORK=enabled
+ENV CONSTELLATION_FRAMEWORK=enabled
 
 # Health check
 HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
@@ -695,7 +695,7 @@ CMD ["python", "-m", "candidate.core.framework_integration"]
 # production_config.py
 import os
 from candidate.core.framework_integration import FrameworkIntegrationManager
-from lukhas.consciousness.trinity_integration import TrinityIntegrationConfig
+from lukhas.consciousness.constellation_integration import TrinityIntegrationConfig
 
 class ProductionFrameworkManager:
     def __init__(self):
@@ -739,12 +739,12 @@ class ProductionFrameworkManager:
             print("❌ Health checks failed - aborting deployment")
             return False
 
-        # Initialize Trinity Framework
+        # Initialize Constellation Framework
         success = await self.manager.initialize_integrations()
 
         if success:
             print("✅ Production deployment successful")
-            print("⚛️🧠🛡️ Trinity Framework active in production")
+            print("⚛️🧠🛡️ Constellation Framework active in production")
 
             # Start monitoring
             await self.start_production_monitoring()
@@ -829,7 +829,7 @@ class FrameworkTroubleshooter:
         # Check 1: Framework availability
         print(f"Framework Active: {self.manager.is_active}")
         if not self.manager.is_active:
-            print("❌ Trinity Framework dependencies missing")
+            print("❌ Constellation Framework dependencies missing")
             self.suggest_dependency_fixes()
 
         # Check 2: Module adapters
@@ -843,8 +843,8 @@ class FrameworkTroubleshooter:
         print(f"Registered Modules: {registered_count}")
 
         # Check 4: Trinity integrator
-        trinity_status = "Available" if self.manager.trinity_integrator else "Missing"
-        print(f"Trinity Integrator: {trinity_status}")
+        constellation_status = "Available" if self.manager.trinity_integrator else "Missing"
+        print(f"Trinity Integrator: {constellation_status}")
 
     def suggest_dependency_fixes(self):
         """Suggest fixes for common dependency issues."""
@@ -880,7 +880,7 @@ class IntegrationBestPractices:
 
     @staticmethod
     def trinity_alignment_guidelines():
-        """Guidelines for Trinity Framework alignment."""
+        """Guidelines for Constellation Framework alignment."""
         return {
             "⚛️ Identity Guidelines": [
                 "Always validate user authentication context",
@@ -940,7 +940,7 @@ class IntegrationBestPractices:
 By completing this integration guide, you've mastered:
 
 ### ⚛️ Framework Architecture
-- Deep understanding of Trinity Framework principles
+- Deep understanding of Constellation Framework principles
 - Module adapter pattern implementation
 - Custom module development capabilities
 

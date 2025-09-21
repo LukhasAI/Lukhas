@@ -442,7 +442,7 @@ class CrossModalAttention:
 class MemoryAttentionOrchestrator:
     """
     Orchestrates different attention mechanisms for comprehensive
-    memory processing in the AGI system.
+    memory processing in the Cognitive system.
     """
 
     def __init__(self, config: Optional[AttentionConfig] = None):

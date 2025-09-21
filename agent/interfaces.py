@@ -11,7 +11,7 @@ Provides:
 - Agent metadata and message structures
 - Agent lifecycle management
 
-Trinity Framework: ⚛️🧠🛡️
+Constellation Framework: ⚛️🧠🛡️
 """
 
 import contextlib

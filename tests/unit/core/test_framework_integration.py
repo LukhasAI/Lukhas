@@ -11,7 +11,7 @@ class MockTrinityFrameworkIntegrator:
         self.config = config
         self.initialized = False
 
-    async def initialize_triad_frameworks(self):
+    async def initialize_constellation_frameworks(self):
         self.initialized = True
         return True
 
@@ -23,14 +23,14 @@ class MockLukhasException(Exception):
 # --- Test Setup: Patching dependencies before import ---
 
 mock_trinity_module = MagicMock()
-mock_trinity_module.TrinityFrameworkIntegrator = MockTrinityFrameworkIntegrator
-mock_trinity_module.TrinityIntegrationConfig = object()
+mock_trinity_module.ConstellationFrameworkIntegrator = MockTrinityFrameworkIntegrator
+mock_trinity_module.ConstellationIntegrationConfig = object()
 
 mock_exceptions_module = MagicMock()
 mock_exceptions_module.LukhasException = MockLukhasException
 
 MOCK_MODULES = {
-    "lukhas.consciousness.trinity_integration": mock_trinity_module,
+    "lukhas.consciousness.constellation_integration": mock_trinity_module,
     "lukhas.core.common.exceptions": mock_exceptions_module,
 }
 
@@ -51,7 +51,7 @@ def test_manager_initialization_active():
         assert len(manager.module_adapters) == 4
 
 
-@patch("candidate.core.framework_integration.TrinityFrameworkIntegrator", None)
+@patch("candidate.core.framework_integration.ConstellationFrameworkIntegrator", None)
 def test_manager_initialization_inactive():
     """Tests that the manager initializes correctly in an inactive/degraded state."""
     from candidate.core.framework_integration import FrameworkIntegrationManager
@@ -77,7 +77,7 @@ async def test_register_module_active():
 
 
 @pytest.mark.asyncio
-@patch("candidate.core.framework_integration.TrinityFrameworkIntegrator", None)
+@patch("candidate.core.framework_integration.ConstellationFrameworkIntegrator", None)
 @patch("candidate.core.framework_integration.logger")
 async def test_register_module_inactive(mock_logger):
     """Tests that module registration is ignored in an inactive manager."""
@@ -106,7 +106,7 @@ async def test_initialize_integrations_active():
 
 
 @pytest.mark.asyncio
-@patch("candidate.core.framework_integration.TrinityFrameworkIntegrator", None)
+@patch("candidate.core.framework_integration.ConstellationFrameworkIntegrator", None)
 @patch("candidate.core.framework_integration.logger")
 async def test_initialize_integrations_inactive(mock_logger):
     """Tests that initialize_integrations returns False and logs an error when inactive."""

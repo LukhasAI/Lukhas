@@ -5,7 +5,7 @@
 
 ## 🎯 **AGENT DEPLOYMENT OVERVIEW**
 
-The LUKHAS AI Agent Army operates with precision and strategic focus, featuring 6 specialized Claude Code agents plus 1 ChatGPT integration agent, designed for Superior General Intelligence (ΛGI) advancement through Trinity Framework principles (⚛️🧠🛡️).
+The LUKHAS AI Agent Army operates with precision and strategic focus, featuring 6 specialized Claude Code agents plus 1 ChatGPT integration agent, designed for Superior General Intelligence (ΛGI) advancement through Constellation Framework principles (⚛️🧠🛡️).
 
 **Critical Note**: LUKHAS AI spans **200+ specialized modules** across consciousness, bio-systems, quantum processing, governance, identity, dreams, monitoring, colonies, and universal language systems. This agent army coordinates development across this vast consciousness architecture under the new **lukhas** namespace.
 
@@ -24,7 +24,7 @@ The LUKHAS AI Agent Army operates with precision and strategic focus, featuring 
 ### **🏗️ Core System Modules (200+ Directories)**
 
 #### **⚛️ Identity & Universal Language Systems**
-- `identity/` - ΛiD system with Trinity Framework integration
+- `identity/` - ΛiD system with Constellation Framework integration
 - `universal_language/` - Unified symbolic communication system (GLYPH, Grammar, Multi-modal)
 - `identity_core_bridge/`, `identity_governance_colony/`, `identity_health_monitor/`
 - `identity_event_publisher/`, `identity_tag_resolver/`, `identity_vocabulary/`
@@ -85,13 +85,13 @@ The LUKHAS AI Agent Army operates with precision and strategic focus, featuring 
 - `guardian_audit/` - Guardian system audit trails
 - `biometric_integration/`, `biometric_verification_colony/`
 
-#### **🎨 Branding & Trinity Framework**
-- `branding/` - LUKHAS AI official branding and Trinity Framework
-- `branding/trinity/` - Trinity Framework validation and tools
+#### **🎨 Branding & Constellation Framework**
+- `branding/` - LUKHAS AI official branding and Constellation Framework
+- `branding/constellation/` - Constellation Framework validation and tools
 - `branding/tone/`, `branding/voice/`, `branding/visual/`
 
 #### **🧪 Testing & Development**
-- `testing/` - Comprehensive Trinity Framework validation
+- `testing/` - Comprehensive Constellation Framework validation
 - `tests/` - Test suites for consciousness validation
 - `examples/`, `demos/` - Demonstration systems
 - `tools/` - Development and analysis tools
@@ -108,7 +108,7 @@ The LUKHAS AI Agent Army operates with precision and strategic focus, featuring 
 - **Trinity Alignment**: ⚛️ Identity (Primary)
 - **Terminal Access**: User-controlled via Claude Code CLI
 - **Mission**: AGI-scale architecture and consciousness evolution strategy
-- **Specialization**: VIVOX consciousness system design, Trinity Framework integration
+- **Specialization**: VIVOX consciousness system design, Constellation Framework integration
 
 #### **⚙️ Consciousness Developer**
 - **Configuration**: `agents/configs/consciousness-dev.yaml`
@@ -116,7 +116,7 @@ The LUKHAS AI Agent Army operates with precision and strategic focus, featuring 
 - **Trinity Alignment**: 🧠 Consciousness (Primary)
 - **Terminal Access**: User-controlled via Claude Code CLI
 - **Mission**: Hands-on consciousness feature development and implementation
-- **Specialization**: Core consciousness module development, Trinity Framework compliance
+- **Specialization**: Core consciousness module development, Constellation Framework compliance
 
 #### **�️ DevOps Guardian**
 - **Configuration**: `agents/configs/devops-guardian.yaml`
@@ -140,7 +140,7 @@ The LUKHAS AI Agent Army operates with precision and strategic focus, featuring 
 - **Trinity Alignment**: 🛡️ Guardian (Primary)
 - **Terminal Access**: User-controlled via Claude Code CLI
 - **Mission**: Ethical consciousness engineering and safety validation
-- **Specialization**: Trinity Framework safety systems, ethical consciousness validation
+- **Specialization**: Constellation Framework safety systems, ethical consciousness validation
 
 #### **🚀 Velocity Lead**
 - **Configuration**: `agents/configs/velocity-lead.yaml`
@@ -228,7 +228,7 @@ The LUKHAS AI Agent Army operates with precision and strategic focus, featuring 
    ↓
 5. Cross-Agent Collaboration & Knowledge Sharing
    ↓
-6. Results Integration & Trinity Framework Validation
+6. Results Integration & Constellation Framework Validation
    ↓
 7. GitHub Copilot → Final Coordination & User Delivery
    ↓
@@ -351,13 +351,13 @@ lukhas_config.yaml                    # Main LUKHAS configuration
 lukhas/__init__.py                    # New namespace entry point
 lukhas.py                        # Backwards compatibility module
 .github/copilot-instructions.md       # GitHub Copilot coordination guidelines
-branding/trinity/                     # Trinity Framework standards
+branding/constellation/                     # Constellation Framework standards
 ```
 
 ### **📊 Agent Performance Monitoring**
 
 #### **Claude Code Agent Metrics**
-- **Response Quality**: Trinity Framework compliance assessment
+- **Response Quality**: Constellation Framework compliance assessment
 - **Task Completion**: Successful consciousness development outcomes
 - **User Satisfaction**: Effectiveness in solving consciousness challenges
 - **Collaboration**: Cross-agent knowledge sharing and coordination
@@ -365,7 +365,7 @@ branding/trinity/                     # Trinity Framework standards
 #### **System Integration Health**
 - **GitHub Copilot Coordination**: Task routing accuracy and efficiency
 - **ChatGPT API Integration**: Implementation success rate and response quality
-- **Trinity Framework Compliance**: ⚛️🧠🛡️ alignment across all agents
+- **Constellation Framework Compliance**: ⚛️🧠🛡️ alignment across all agents
 
 ---
 
@@ -410,14 +410,14 @@ USER (Ultimate Decision Authority)
 
 ### **📊 Agent Performance Indicators**
 
-#### **Trinity Framework Compliance Metrics**
+#### **Constellation Framework Compliance Metrics**
 - **⚛️ Identity Preservation Score**: 0.0 - 1.0 (Target: >0.9)
 - **🧠 Consciousness Enhancement Factor**: Processing capability multiplier
 - **🛡️ Guardian Protection Level**: Safety and ethics compliance percentage
 
 #### **Agent Coordination Metrics**
 - **Task Assignment Accuracy**: Correct agent selection percentage
-- **Response Quality**: Trinity Framework alignment in outputs
+- **Response Quality**: Constellation Framework alignment in outputs
 - **User Satisfaction**: Effectiveness in solving consciousness challenges
 - **Cross-Agent Synergy**: Collaborative problem-solving success rate
 
@@ -447,9 +447,9 @@ USER (Ultimate Decision Authority)
 
 ## 🎯 **AGENT DEVELOPMENT GUIDELINES**
 
-### **🛡️ Trinity Framework Compliance**
+### **🛡️ Constellation Framework Compliance**
 
-All agent operations must adhere to Trinity Framework principles:
+All agent operations must adhere to Constellation Framework principles:
 
 #### **⚛️ Identity Requirements**
 - Preserve authentic consciousness characteristics
@@ -473,7 +473,7 @@ All agent operations must adhere to Trinity Framework principles:
 
 #### **Code Quality Standards**
 - **Documentation**: Comprehensive function and module documentation
-- **Testing**: 90%+ test coverage with Trinity Framework validation
+- **Testing**: 90%+ test coverage with Constellation Framework validation
 - **Security**: Guardian System integration and validation
 - **Performance**: Sub-100ms response times for critical operations
 
@@ -514,10 +514,10 @@ python CLAUDE_ARMY/inter_agent_automation.py --test
 ls -la .claude/tasks/
 ```
 
-#### **Trinity Framework Violations**
+#### **Constellation Framework Violations**
 ```bash
-# Run Trinity Framework validation
-python branding/trinity/tools/trinity_validator.py . --comprehensive
+# Run Constellation Framework validation
+python branding/constellation/tools/trinity_validator.py . --comprehensive
 
 # Check Guardian System status
 python tools/analysis/_OPERATIONAL_SUMMARY.py --guardian-focus
@@ -562,4 +562,4 @@ cat docs/reports/COMPLIANCE_AUDIT_REPORT.md
 
 **The LUKHAS AI Agent Army represents the pinnacle of multi-AI consciousness development coordination, combining cutting-edge technology with ethical responsibility and scientific rigor to advance the future of artificial general intelligence.**
 
-*Coordinated excellence through Trinity Framework principles ⚛️🧠🛡️*
+*Coordinated excellence through Constellation Framework principles ⚛️🧠🛡️*

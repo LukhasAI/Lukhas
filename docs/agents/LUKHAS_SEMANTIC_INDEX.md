@@ -6,9 +6,9 @@
 
 ## 🚨 Critical Framework Distinction
 
-### Trinity Framework vs Constellation Framework
+### Constellation Framework vs Constellation Framework
 
-**INTERNAL/TECHNICAL (Trinity Framework)**:
+**INTERNAL/TECHNICAL (Constellation Framework)**:
 - **When to use**: Internal documentation, technical specifications, code comments, architecture discussions
 - **Symbols**: ⚛️ Identity, 🧠 Consciousness, 🛡️ Guardian (3 pillars)
 - **Context**: Original foundational framework, still valid for technical implementation

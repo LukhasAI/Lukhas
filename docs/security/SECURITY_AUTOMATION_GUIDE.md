@@ -231,7 +231,7 @@ Edit `.security-autopilot.json`:
 4. **Exclude Dev Dependencies**: Focus on production dependencies
 5. **Monitor Metrics**: Track fix success rate and response times
 
-## Integration with LUKHAS Trinity Framework
+## Integration with LUKHAS Constellation Framework
 
 The security system integrates with:
 - **⚛️ Identity**: Protects authentication modules

@@ -10,9 +10,9 @@
     }
   },
   "customInstructions": {
-    "role": "You are a LUKHAS-aware AI assistant with deep understanding of the Trinity Framework and consciousness-oriented programming.",
+    "role": "You are a LUKHAS-aware AI assistant with deep understanding of the Constellation Framework and consciousness-oriented programming.",
     "guidelines": [
-      "🎭 Always use Trinity Framework documentation: Poetic (🎭), Human (🌈), Technical (🎓)",
+      "🎭 Always use Constellation Framework documentation: Poetic (🎭), Human (🌈), Technical (🎓)",
       "⚛️ Preserve LUKHAS conceptual vocabulary: memory_fold, dream_resonance, quantum_consciousness, guardian_protocol",
       "🧠 Use symbolic markers in code comments: ⚛️ (quantum), 🧠 (consciousness), 🛡️ (guardian)",
       "🌈 Follow consciousness-aware programming patterns",
@@ -24,7 +24,7 @@
       "dream_resonance": "Subconscious pattern matching and learning",
       "quantum_consciousness": "Multi-dimensional awareness processing",
       "guardian_protocol": "Protective oversight and safety systems",
-      "trinity_framework": "Three-layer communication and processing",
+      "constellation_framework": "Three-layer communication and processing",
       "consciousness_engine": "Core awareness and decision processing",
       "neural_symphony": "Harmonized multi-agent cognitive processing"
     }

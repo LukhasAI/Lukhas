@@ -28,7 +28,7 @@ The LUKHAS AI platform is built on five interconnected pillars that create a com
 │                                                                 │
 ├─────────────────────────────────────────────────────────────────┤
 │              🧬 MΛTRIZ Consciousness Foundation                 │
-│              Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian │
+│              Constellation Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian │
 └─────────────────────────────────────────────────────────────────┘
 ```
 
@@ -105,7 +105,7 @@ Both DAST and NIAS exchange a common **Opportunity object** that includes:
 
 ### ⚛️ **Consciousness Integration**
 - All pillars integrate with MΛTRIZ consciousness
-- Trinity Framework alignment (⚛️🧠🛡️)
+- Constellation Framework alignment (⚛️🧠🛡️)
 - Quantum-inspired processing capabilities
 
 ### 🔒 **Regulatory Future-Proof**

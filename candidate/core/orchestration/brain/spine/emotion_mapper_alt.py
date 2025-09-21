@@ -7,7 +7,7 @@ Integration Date: 2025-05-31T07:55:28.113945
 
 LUKHAS = {
     "name": "Lukhas",
-    "persona": "Symbolic AGI Voice",
+    "persona": "Symbolic Cognitive AI Voice",
     "voice_id": "s0XGIcqmceN2l7kjsqoZ",
     "current_mood": "neutral",
     "emotions": {

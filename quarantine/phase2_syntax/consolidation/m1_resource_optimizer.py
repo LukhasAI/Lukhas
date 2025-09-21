@@ -189,7 +189,7 @@ class ModularServiceMaintainer:
         for service_name, config in self.core_services.items():
             service_path = (
                 base_path
-                / "/Users/agi_dev/LOCAL-REPOS/Lukhas/deployment/platforms"
+                / "/Users/cognitive_dev/LOCAL-REPOS/Lukhas/deployment/platforms"
                 / service_name
             )
 

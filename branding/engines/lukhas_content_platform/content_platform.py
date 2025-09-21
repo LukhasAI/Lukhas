@@ -301,7 +301,7 @@ class ContentPlatform:
             "QIConsciousness",
             "MultiBrain",
             "BioSymbolic",
-            "AGIController",
+            "CognitiveController",
             "AutonomousHealer",
             "DocumentationHub",
         ]

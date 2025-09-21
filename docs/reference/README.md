@@ -19,13 +19,13 @@ This directory contains comprehensive technical references, module specification
 
 #### **Component References**
 - **[COMPONENT_GUARDIAN.md](./COMPONENT_GUARDIAN.md)** - Guardian system component reference
-- **[COMPONENT_TRINITY.md](./COMPONENT_TRINITY.md)** - Trinity Framework component reference
+- **[COMPONENT_TRINITY.md](./COMPONENT_TRINITY.md)** - Constellation Framework component reference
 - **[COMPONENT_DRIFT_DETECTION.md](./COMPONENT_DRIFT_DETECTION.md)** - Drift detection system reference
 
 ### 🔧 **Technical Specifications**
 
 #### **Protocols & Standards**
-- **[PROTOCOL_TRINITY.md](./PROTOCOL_TRINITY.md)** - Trinity Framework protocol specification
+- **[PROTOCOL_TRINITY.md](./PROTOCOL_TRINITY.md)** - Constellation Framework protocol specification
 - **[PROTOCOL_CONSCIOUSNESS.md](./PROTOCOL_CONSCIOUSNESS.md)** - Consciousness protocol standards
 - **[PROTOCOL_SECURITY.md](./PROTOCOL_SECURITY.md)** - Security protocol specifications
 
@@ -49,8 +49,8 @@ This directory contains comprehensive technical references, module specification
 
 ## 🎯 **Reference Standards**
 
-### **Trinity Framework References**
-All references align with the Trinity Framework (⚛️🧠🛡️):
+### **Constellation Framework References**
+All references align with the Constellation Framework (⚛️🧠🛡️):
 - **⚛️ Identity**: Technical identity system specifications
 - **🧠 Consciousness**: Consciousness module technical details
 - **🛡️ Guardian**: Security and protection system references

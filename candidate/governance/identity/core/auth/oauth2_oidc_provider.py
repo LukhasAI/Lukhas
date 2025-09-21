@@ -11,7 +11,7 @@ Features:
 - JWT token issuance and validation
 - Tier-based scope management
 - PKCE support for enhanced security
-- Trinity Framework integration (⚛️🧠🛡️)
+- Constellation Framework integration (⚛️🧠🛡️)
 - <100ms p95 latency for token operations
 """
 import base64
@@ -63,7 +63,7 @@ class OAuthClient:
 
 
 class OAuth2OIDCProvider:
-    """⚛️🧠🛡️ Trinity-compliant OAuth2/OIDC authorization server"""
+    """⚛️🧠🛡️ Constellation-compliant OAuth2/OIDC authorization server"""
 
     def __init__(self, config: Optional[dict] = None):
         self.config = config or {}
@@ -156,7 +156,7 @@ class OAuth2OIDCProvider:
             5: {"*"},  # Admin - all scopes
         }
 
-        # Trinity Framework integration
+        # Constellation Framework integration
         self.guardian_validator = None  # 🛡️ Guardian
         self.consciousness_tracker = None  # 🧠 Consciousness
         self.identity_verifier = None  # ⚛️ Identity
@@ -476,7 +476,7 @@ class OAuth2OIDCProvider:
                     {
                         "lambda_id": token_data.get("lambda_id", ""),
                         "identity_features": self._get_tier_features(user_tier),
-                        "trinity_compliance": "⚛️🧠🛡️",
+                        "constellation_compliance": "⚛️🧠🛡️",
                     }
                 )
 

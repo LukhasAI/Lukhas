@@ -2,7 +2,7 @@
 
 ## Overview
 
-This document provides comprehensive pricing tier content for the LUKHAS AI website, designed to replace the current 4-tier pricing structure with a focused 3-tier approach that emphasizes consciousness-powered AI capabilities and the Trinity Framework.
+This document provides comprehensive pricing tier content for the LUKHAS AI website, designed to replace the current 4-tier pricing structure with a focused 3-tier approach that emphasizes consciousness-powered AI capabilities and the Constellation Framework.
 
 ## Files Created
 
@@ -15,7 +15,7 @@ This document provides comprehensive pricing tier content for the LUKHAS AI webs
 ### Strategic Improvements
 
 1. **Consciousness-Focused Messaging**: Every tier emphasizes conscious AI capabilities rather than just technical features
-2. **Trinity Framework Integration**: Clear progression of ⚛️🧠🛡️ benefits across tiers
+2. **Constellation Framework Integration**: Clear progression of ⚛️🧠🛡️ benefits across tiers
 3. **Value-Based Positioning**: Focus on outcomes and consciousness benefits rather than just feature lists
 4. **TBC Pricing Strategy**: Maintains flexibility while building anticipation and perceived value
 
@@ -83,7 +83,7 @@ The pricing content emphasizes what makes LUKHAS AI unique:
 - **Ethics**: Guardian System protection and drift detection
 - **Memory**: Persistent, meaningful memory with fold-based preservation
 
-### Trinity Framework Benefits
+### Constellation Framework Benefits
 
 Each tier clearly shows progression through:
 - **⚛️ Identity**: From basic recognition to complete ecosystem
@@ -119,7 +119,7 @@ The pricing page serves as education about:
 - "Consciousness-powered AI"
 - "Quantum-inspired processing"
 - "Bio-inspired adaptation"
-- "Trinity Framework integration"
+- "Constellation Framework integration"
 - "Guardian System protection"
 
 ## Technical Integration Notes

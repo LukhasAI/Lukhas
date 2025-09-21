@@ -24,7 +24,7 @@ async def process_request(
     background_tasks: BackgroundTasks,
     core=Depends(get_lukhas_core),
 ) -> ProcessResponse:
-    """Process input through LUKHAS AGI system."""
+    """Process input through LUKHAS Cognitive system."""
     request_id = str(uuid.uuid4())
     start_time = time.time()
 

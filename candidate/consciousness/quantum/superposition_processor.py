@@ -10,7 +10,7 @@
 ║ Version: 1.0.0 | Created: 2025-08-26
 ║ Authors: LUKHAS AI Quantum-Bio Consciousness Team
 ╠══════════════════════════════════════════════════════════════════════════════════
-║                             ◊ TRINITY FRAMEWORK ◊
+║                             ◊ CONSTELLATION FRAMEWORK ◊
 ║
 ║ ⚛️ IDENTITY: Maintains coherence across superposition collapse events
 ║ 🧠 CONSCIOUSNESS: Parallel awareness through quantum-inspired states
@@ -92,7 +92,7 @@ class QuantumState:
     entanglement_links: set[str] = field(default_factory=set)
     superposition_components: list[dict[str, Any]] = field(default_factory=list)
 
-    # Trinity Framework
+    # Constellation Framework
     identity_stability: float = 1.0  # ⚛️ Identity coherence in quantum state
     consciousness_depth: float = 0.5  # 🧠 Depth of conscious processing
     guardian_monitored: bool = True  # 🛡️ Under ethical monitoring
@@ -152,7 +152,7 @@ class SuperpositionConfiguration:
     quantum_error_correction: bool = True
     adaptive_decoherence: bool = True
 
-    # Trinity Framework settings
+    # Constellation Framework settings
     identity_preservation_priority: float = 0.9
     consciousness_enhancement_factor: float = 1.2
     guardian_monitoring_intensity: float = 0.8
@@ -198,7 +198,7 @@ class QuantumSuperpositionProcessor:
         self.quantum_gates = self._initialize_quantum_gates()
         self.processing_circuits: list[list[QuantumGate]] = []
 
-        # Trinity Framework components
+        # Constellation Framework components
         self.identity_coherence_monitor = IdentityCoherenceMonitor()
         self.consciousness_amplifier = ConsciousnessAmplifier()
         self.guardian_quantum_ethics = GuardianQuantumEthics()
@@ -932,23 +932,23 @@ class QuantumSuperpositionProcessor:
         }
 
 
-# Stub classes for Trinity Framework integration
+# Stub classes for Constellation Framework integration
 class IdentityCoherenceMonitor:
-    """Trinity Framework identity coherence monitor for quantum states"""
+    """Constellation Framework identity coherence monitor for quantum states"""
 
     def initialize(self):
         pass
 
 
 class ConsciousnessAmplifier:
-    """Trinity Framework consciousness amplifier for quantum enhancement"""
+    """Constellation Framework consciousness amplifier for quantum enhancement"""
 
     def calibrate(self):
         pass
 
 
 class GuardianQuantumEthics:
-    """Trinity Framework guardian ethics for quantum operations"""
+    """Constellation Framework guardian ethics for quantum operations"""
 
     def enable_quantum_monitoring(self):
         pass

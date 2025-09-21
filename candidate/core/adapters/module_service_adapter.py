@@ -67,7 +67,7 @@ class MemoryServiceAdapter(IMemoryService):
             "components": {
                 "fold_manager": self._fold_manager is not None,
                 "fold_system": hasattr(self, "_fold_system") and self._fold_system is not None,
-                "agi_memory": hasattr(self, "_agi_memory") and self._agi_memory is not None,
+                "cognitive_memory": hasattr(self, "_agi_memory") and self._agi_memory is not None,
             },
         }
 

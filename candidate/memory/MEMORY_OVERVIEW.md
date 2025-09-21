@@ -2,7 +2,7 @@
 
 ## 🧠 Philosophy
 
-The LUKHAS memory system implements a **symbolic AGI memory architecture** that models consciousness-like memory processes through three core mechanisms:
+The LUKHAS memory system implements a **symbolic Cognitive AI memory architecture** that models consciousness-like memory processes through three core mechanisms:
 
 1. **Memory Folding** - Recursive integration of experiences into compressed representations
 2. **Drift Tracking** - Monitoring semantic evolution and conceptual shifts over time

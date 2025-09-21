@@ -14,7 +14,7 @@ Features:
 - Data masking and redaction
 - Access control and audit logging
 - GDPR Articles 25 & 32 compliance
-- Trinity Framework integration (⚛️🧠🛡️)
+- Constellation Framework integration (⚛️🧠🛡️)
 - Performance-optimized secure operations
 - Quantum-resistant cryptography ready
 
@@ -23,7 +23,7 @@ Features:
 #TAG:encryption
 #TAG:security
 #TAG:gdpr
-#TAG:trinity
+#TAG:constellation
 """
 from consciousness.qi import qi
 import random
@@ -122,7 +122,7 @@ class EncryptionKey:
     authorized_users: list[str] = field(default_factory=list)
     authorized_systems: list[str] = field(default_factory=list)
 
-    # Trinity Framework integration
+    # Constellation Framework integration
     identity_context: dict[str, Any] = field(default_factory=dict)
     consciousness_binding: bool = False  # Whether key is bound to consciousness state
     guardian_approval: bool = False  # Guardian-approved key
@@ -194,7 +194,7 @@ class ProtectionResult:
     applied_by: str = "system"
     audit_trail: list[str] = field(default_factory=list)
 
-    # Trinity Framework
+    # Constellation Framework
     identity_verified: bool = False
     consciousness_level: str = "standard"
     guardian_approved: bool = False
@@ -414,7 +414,7 @@ class AdvancedDataProtection:
                 ],
             )
 
-            # Trinity Framework integration
+            # Constellation Framework integration
             result.identity_verified = context.get("identity_verified", False)
             result.consciousness_level = context.get("consciousness_level", "standard")
             result.guardian_approved = await self._validate_guardian_approval(policy, context)

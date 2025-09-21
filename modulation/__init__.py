@@ -12,7 +12,7 @@ Core Components:
 - ModulatedOpenAIClient: Applies modulation to OpenAI API calls
 - EndocrineLLMOrchestrator: Main orchestration layer
 
-Trinity Framework Integration: ⚛️🧠🛡️
+Constellation Framework Integration: ⚛️🧠🛡️
 - ⚛️ Identity: Authentic signal emission from consciousness modules
 - 🧠 Consciousness: Memory and learning from signal patterns
 - 🛡️ Guardian: Safety-first modulation policies

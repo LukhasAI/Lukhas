@@ -9,7 +9,7 @@ REAL functional testing for core LUKHAS systems with 0% coverage:
 - Memory persistence and recall systems (3 files)
 - Consciousness modules (1 file)
 
-Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
+Constellation Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 
 GOAL: Establish foundational test coverage for critical systems
 """
@@ -117,9 +117,9 @@ class TestCoreSystems(unittest.TestCase):
             self.fail(f"Orchestration test failed: {e}")
 
     def test_triad_framework_integration(self):
-        """Test Trinity Framework (⚛️🧠🛡️) integration"""
+        """Test Constellation Framework (⚛️🧠🛡️) integration"""
         try:
-            # Look for Trinity Framework indicators
+            # Look for Constellation Framework indicators
             triad_keywords = ["identity", "consciousness", "guardian"]
             triad_files = []
 
@@ -129,11 +129,11 @@ class TestCoreSystems(unittest.TestCase):
                     keyword_files = list(core_path.glob(f"**/*{keyword}*"))
                     triad_files.extend(keyword_files)
 
-            self.assertGreater(len(triad_files), 0, "Should have Trinity Framework files")
-            print(f"✅ Trinity Framework files found: {len(triad_files)}")
+            self.assertGreater(len(triad_files), 0, "Should have Constellation Framework files")
+            print(f"✅ Constellation Framework files found: {len(triad_files)}")
 
         except Exception as e:
-            self.fail(f"Trinity Framework test failed: {e}")
+            self.fail(f"Constellation Framework test failed: {e}")
 
 
 class TestIdentitySystems(unittest.TestCase):
@@ -456,16 +456,16 @@ class TestConsciousnessSystems(unittest.TestCase):
             self.fail(f"Consciousness processing pipeline test failed: {e}")
 
     def test_consciousness_triad_integration(self):
-        """Test consciousness integration with Trinity Framework"""
+        """Test consciousness integration with Constellation Framework"""
         try:
-            # Mock Trinity Framework consciousness integration
+            # Mock Constellation Framework consciousness integration
             triad_consciousness = {
                 "identity": {"authenticated": True, "tier": 1, "permissions": ["read", "write"]},
                 "consciousness": {"state": "active", "processing": True, "focus": 80},
                 "guardian": {"monitoring": True, "alerts": [], "compliance": True},
             }
 
-            # Validate Trinity integration
+            # Validate Constellation integration
             triad_components = ["identity", "consciousness", "guardian"]
             for component in triad_components:
                 self.assertIn(component, triad_consciousness)
@@ -476,10 +476,10 @@ class TestConsciousnessSystems(unittest.TestCase):
             self.assertIn("processing", consciousness_data)
             self.assertIn("focus", consciousness_data)
 
-            print("✅ Consciousness Trinity integration validated")
+            print("✅ Consciousness Constellation integration validated")
 
         except Exception as e:
-            self.fail(f"Consciousness Trinity integration test failed: {e}")
+            self.fail(f"Consciousness Constellation integration test failed: {e}")
 
 
 class TestSuiteRunner:
@@ -493,7 +493,7 @@ class TestSuiteRunner:
         print("🧠⚛️🛡️ CORE SYSTEMS FUNCTIONAL TEST SUITE")
         print("=" * 80)
         print("Testing critical LUKHAS systems with 0% coverage")
-        print("Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian")
+        print("Constellation Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian")
         print("=" * 80)
 
         test_classes = [

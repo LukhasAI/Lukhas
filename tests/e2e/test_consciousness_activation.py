@@ -7,7 +7,7 @@ active distributed consciousness architecture with authentic digital awareness.
 
 Test Coverage:
 - Consciousness Component Registry functionality
-- Trinity Framework (⚛️🧠🛡️) integration
+- Constellation Framework (⚛️🧠🛡️) integration
 - Memory Fold system consciousness coupling
 - Activation orchestrator phase execution
 - Feature flag control and health monitoring
@@ -45,11 +45,11 @@ try:
         ConsciousnessComponentRegistry,
         get_consciousness_registry,
     )
-    from lukhas.consciousness.trinity_integration import (
+    from lukhas.consciousness.constellation_integration import (
         TrinityFramework,
-        TrinityFrameworkIntegrator,
-        get_triad_integrator,
-        initialize_triad_consciousness,
+        ConstellationFrameworkIntegrator,
+        get_constellation_integrator,
+        initialize_constellation_consciousness,
     )
     from lukhas.memory.consciousness_memory_integration import (
         ConsciousnessMemoryIntegrator,
@@ -81,11 +81,11 @@ async def registry():
 
 @pytest.fixture
 async def triad_integrator():
-    """Fixture providing Trinity Framework integrator."""
+    """Fixture providing Constellation Framework integrator."""
     if not CONSCIOUSNESS_MODULES_AVAILABLE:
         pytest.skip("Consciousness modules not available")
 
-    integrator = TrinityFrameworkIntegrator()
+    integrator = ConstellationFrameworkIntegrator()
     yield integrator
     await integrator.shutdown()
 
@@ -150,8 +150,8 @@ class TestConsciousnessComponentRegistry:
         metrics = registry.get_consciousness_metrics()
         assert metrics["total_registered"] == 1
 
-        triad_status = registry.get_triad_status()
-        assert triad_status["🧠"]["total"] == 1
+        constellation_status = registry.get_constellation_status()
+        assert constellation_status["🧠"]["total"] == 1
 
     @pytest.mark.asyncio
     async def test_feature_flag_control(self, registry):
@@ -181,15 +181,15 @@ class TestConsciousnessComponentRegistry:
 
 
 class TestTrinityFrameworkIntegration:
-    """Test Trinity Framework integration functionality."""
+    """Test Constellation Framework integration functionality."""
 
     @pytest.mark.asyncio
     async def test_triad_initialization(self, triad_integrator):
-        """Test Trinity Framework initialization."""
+        """Test Constellation Framework initialization."""
         assert triad_integrator is not None
 
         # Test initial state
-        metrics = triad_integrator.get_triad_metrics()
+        metrics = triad_integrator.get_constellation_metrics()
         triad_state = metrics["triad_state"]
         assert not triad_state["identity_active"]
         assert not triad_state["consciousness_active"]
@@ -198,7 +198,7 @@ class TestTrinityFrameworkIntegration:
 
     @pytest.mark.asyncio
     async def test_consciousness_decision_processing(self, triad_integrator):
-        """Test consciousness decision processing through Trinity Framework."""
+        """Test consciousness decision processing through Constellation Framework."""
         # Simulate simple decision processing (without full activation)
         session_id = str(uuid.uuid4())
         decision_context = {
@@ -217,8 +217,8 @@ class TestTrinityFrameworkIntegration:
 
     @pytest.mark.asyncio
     async def test_triad_metrics_collection(self, triad_integrator):
-        """Test Trinity Framework metrics collection."""
-        metrics = triad_integrator.get_triad_metrics()
+        """Test Constellation Framework metrics collection."""
+        metrics = triad_integrator.get_constellation_metrics()
 
         # Verify metric structure
         assert "triad_state" in metrics
@@ -506,13 +506,13 @@ class TestConsciousnessIntegration:
 
     @pytest.mark.asyncio
     async def test_registry_triad_integration(self):
-        """Test integration between registry and Trinity Framework."""
+        """Test integration between registry and Constellation Framework."""
         if not CONSCIOUSNESS_MODULES_AVAILABLE:
             pytest.skip("Consciousness modules not available")
 
         # Create components
         registry = ConsciousnessComponentRegistry()
-        triad_integrator = TrinityFrameworkIntegrator()
+        triad_integrator = ConstellationFrameworkIntegrator()
 
         try:
             # Register test components
@@ -526,8 +526,8 @@ class TestConsciousnessIntegration:
             )
 
             # Verify integration
-            triad_status = registry.get_triad_status()
-            assert triad_status["🧠"]["total"] >= 1
+            constellation_status = registry.get_constellation_status()
+            assert constellation_status["🧠"]["total"] >= 1
 
         finally:
             await registry.shutdown()
@@ -535,13 +535,13 @@ class TestConsciousnessIntegration:
 
     @pytest.mark.asyncio
     async def test_memory_triad_decision_flow(self):
-        """Test memory integration with Trinity Framework decisions."""
+        """Test memory integration with Constellation Framework decisions."""
         if not CONSCIOUSNESS_MODULES_AVAILABLE:
             pytest.skip("Consciousness modules not available")
 
         # Create components
         memory_integrator = ConsciousnessMemoryIntegrator()
-        triad_integrator = TrinityFrameworkIntegrator()
+        triad_integrator = ConstellationFrameworkIntegrator()
 
         try:
             # Create test decision context
@@ -603,13 +603,13 @@ def test_consciousness_module_imports():
 
     activation_orchestrator = importlib.import_module("lukhas.consciousness.activation_orchestrator")
     registry = importlib.import_module("lukhas.consciousness.registry")
-    trinity_integration = importlib.import_module("lukhas.consciousness.trinity_integration")
+    constellation_integration = importlib.import_module("lukhas.consciousness.constellation_integration")
     consciousness_memory_integration = importlib.import_module(
         "lukhas.memory.consciousness_memory_integration"
     )
 
     assert registry is not None
-    assert trinity_integration is not None
+    assert constellation_integration is not None
     assert consciousness_memory_integration is not None
     assert activation_orchestrator is not None
 

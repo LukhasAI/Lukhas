@@ -12,7 +12,7 @@ import nacl.signing
 
 
 class EntropyBeacon:
-    """Broadcasts low-level entropy signals from wearable devices with AGI resilience."""
+    """Broadcasts low-level entropy signals from wearable devices with Cognitive AI resilience."""
 
     def __init__(self):
         self.broadcasting = False

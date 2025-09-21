@@ -186,7 +186,7 @@
     {
       "task_id": "TODO-HIGH-CONSCIOUSNESS-__INIT__.PY-039ae7c4",
       "priority": "high",
-      "title": "kept for Trinity Framework consciousness evolution",
+      "title": "kept for Constellation Framework consciousness evolution",
       "file": "./consciousness/__init__.py",
       "module": "consciousness/__init__.py",
       "trinity": "Consciousness",
@@ -379,7 +379,7 @@
       "task_id": "TODO-HIGH-LUKHAS-CONSCIOUSNESS-967749a6",
       "priority": "high",
       "title": "lukhas.consciousness.registry....",
-      "file": "./lukhas/consciousness/trinity_integration.py",
+      "file": "./lukhas/consciousness/constellation_integration.py",
       "module": "lukhas/consciousness",
       "trinity": "Consciousness",
       "line_hint": 37,
@@ -387,15 +387,15 @@
       "type": "logic",
       "size": "S",
       "evidence": {
-        "grep": "./lukhas/consciousness/trinity_integration.py:        ConsciousnessComponentRegistry,  # noqa: F401  # TODO: lukhas.consciousness.registry....",
+        "grep": "./lukhas/consciousness/constellation_integration.py:        ConsciousnessComponentRegistry,  # noqa: F401  # TODO: lukhas.consciousness.registry....",
         "last_commit": "b3b7c325f1ff6678c2bdc20ff5c6704ac9196657"
       }
     },
     {
       "task_id": "TODO-HIGH-LUKHAS-CONSCIOUSNESS-3be1209d",
       "priority": "high",
-      "title": "kept for Trinity Framework consciousness evolution",
-      "file": "./lukhas/consciousness/trinity_integration.py",
+      "title": "kept for Constellation Framework consciousness evolution",
+      "file": "./lukhas/consciousness/constellation_integration.py",
       "module": "lukhas/consciousness",
       "trinity": "Consciousness",
       "line_hint": 39,
@@ -403,7 +403,7 @@
       "type": "logic",
       "size": "L",
       "evidence": {
-        "grep": "./lukhas/consciousness/trinity_integration.py:        ConsciousnessComponentRegistry,  # noqa: F401  # TODO: lukhas.consciousness.registry....",
+        "grep": "./lukhas/consciousness/constellation_integration.py:        ConsciousnessComponentRegistry,  # noqa: F401  # TODO: lukhas.consciousness.registry....",
         "last_commit": "b3b7c325f1ff6678c2bdc20ff5c6704ac9196657"
       }
     },

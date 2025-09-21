@@ -1,6 +1,6 @@
 # Core Directory Symbolic Trace Summary (Ongoing)
 
-This document provides a summary of the symbolic roles of Python files within the `core/` directory of the LUKHAS AGI system. This is part of Task 158 assigned to Jules-01.
+This document provides a summary of the symbolic roles of Python files within the `core/` directory of the LUKHAS Cognitive system. This is part of Task 158 assigned to Jules-01.
 
 **ΛORIGIN_AGENT:** Jules-01
 **ΛTASK_ID:** 158
@@ -79,15 +79,15 @@ This section covers the initial set of files processed. This document will be up
     *   `# ΛEXPOSE` tags for Flask route functions.
 
 ### `core/api_controllers.py`
-*   **Symbolic Role:** Central API Controller for Multiple AGI Modules.
+*   **Symbolic Role:** Central API Controller for Multiple Cognitive Modules.
 *   **Key Responsibilities:**
-    *   Provides Flask API endpoints for various LUKHAS AGI modules (Ethics, Memory, Creativity, Consciousness, Learning, Quantum).
+    *   Provides Flask API endpoints for various LUKHAS Cognitive modules (Ethics, Memory, Creativity, Consciousness, Learning, Quantum).
     *   Implements authentication (`@require_auth` decorator) and standardized error handling.
     *   Uses an `IdentityClient` for user access verification and activity logging.
     *   Includes fallback service classes for development if main services fail to import.
 *   **ΛTAGS & Notes:**
     *   Uses `structlog` for ΛTRACE.
-    *   `# AIMPORT_TODO` for the direct imports of AGI services.
+    *   `# AIMPORT_TODO` for the direct imports of Cognitive services.
     *   `# ΛCAUTION` regarding the behavior of fallback service classes.
     *   `# AIDENTITY` tags related to the authentication decorator and user ID handling.
     *   `# ΛNOTE` regarding the basic service initialization pattern.
@@ -133,7 +133,7 @@ Date: 2024-07-12 (Assumed date based on interaction flow)
 The following directories, suggested as the second batch for processing, were inspected and found to be empty or non-existent. Therefore, no Python files from these directories were processed for symbolic role tagging.
 
 ### `core/agent_modeling/`
-*   **Symbolic Role:** (Intended for AGI agent modeling tools) - Directory found empty.
+*   **Symbolic Role:** (Intended for Cognitive AI agent modeling tools) - Directory found empty.
 
 ### `core/emotion_engine/`
 *   **Symbolic Role:** (Intended for symbolic affect layer interface) - Directory found empty.

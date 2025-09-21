@@ -266,7 +266,7 @@
 
 ### 1. Results.append
 
-**Test File:** `/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/test_ai_functionality.py`
+**Test File:** `/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/test_ai_functionality.py`
 **Line:** 143
 **Context:** `attribute_access`
 **Suggested Fix:** `append` → `NO_METHODS_FOUND`
@@ -275,7 +275,7 @@
 
 ### 2. Results.values
 
-**Test File:** `/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/identity/lukhus_ultimate_test_suite.py`
+**Test File:** `/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/identity/lukhus_ultimate_test_suite.py`
 **Line:** 487
 **Context:** `attribute_access`
 **Suggested Fix:** `values` → `NO_METHODS_FOUND`
@@ -284,7 +284,7 @@
 
 ### 3. Results.items
 
-**Test File:** `/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/orchestration/migrated/test_migrations.py`
+**Test File:** `/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/orchestration/migrated/test_migrations.py`
 **Line:** 323
 **Context:** `attribute_access`
 **Suggested Fix:** `items` → `NO_METHODS_FOUND`
@@ -293,7 +293,7 @@
 
 ### 4. Results.get
 
-**Test File:** `/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/orchestration/brain/research_awareness_engine.py`
+**Test File:** `/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/orchestration/brain/research_awareness_engine.py`
 **Line:** 594
 **Context:** `attribute_access`
 **Suggested Fix:** `get` → `NO_METHODS_FOUND`
@@ -302,7 +302,7 @@
 
 ### 5. DistributedAISystem.create_memory_fold
 
-**Test File:** `/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/test_memory_fold_simple.py`
+**Test File:** `/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/test_memory_fold_simple.py`
 **Line:** 36
 **Context:** `fold1 = memory_system.create_memory_fold(`
 **Suggested Fix:** `create_memory_fold` → `create_colony`
@@ -311,7 +311,7 @@
 
 ### 6. DistributedAISystem.recall_memory_folds
 
-**Test File:** `/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/test_memory_fold_simple.py`
+**Test File:** `/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/test_memory_fold_simple.py`
 **Line:** 65
 **Context:** `recalled_memories = memory_system.recall_memory_folds(`
 **Suggested Fix:** `recall_memory_folds` → `NO_MATCH_FOUND`
@@ -320,7 +320,7 @@
 
 ### 7. DistributedAISystem.enhanced_recall_memory_folds
 
-**Test File:** `/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/test_memory_fold_simple.py`
+**Test File:** `/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/test_memory_fold_simple.py`
 **Line:** 76
 **Context:** `enhanced_memories = memory_system.enhanced_recall_memory_folds(`
 **Suggested Fix:** `enhanced_recall_memory_folds` → `NO_MATCH_FOUND`
@@ -329,7 +329,7 @@
 
 ### 8. DistributedAISystem.dream_consolidate_memories
 
-**Test File:** `/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/test_memory_fold_simple.py`
+**Test File:** `/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/test_memory_fold_simple.py`
 **Line:** 95
 **Context:** `dreams = memory_system.dream_consolidate_memories(`
 **Suggested Fix:** `dream_consolidate_memories` → `NO_MATCH_FOUND`
@@ -338,7 +338,7 @@
 
 ### 9. DistributedAISystem.get_emotional_neighborhood
 
-**Test File:** `/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/test_memory_fold_simple.py`
+**Test File:** `/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/test_memory_fold_simple.py`
 **Line:** 109
 **Context:** `neighborhood = memory_system.get_emotional_neighborhood(`
 **Suggested Fix:** `get_emotional_neighborhood` → `NO_MATCH_FOUND`
@@ -347,7 +347,7 @@
 
 ### 10. DistributedAISystem.create_emotion_clusters
 
-**Test File:** `/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/test_memory_fold_simple.py`
+**Test File:** `/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/test_memory_fold_simple.py`
 **Line:** 120
 **Context:** `clusters = memory_system.create_emotion_clusters(tier_level=0)`
 **Suggested Fix:** `create_emotion_clusters` → `create_colony`
@@ -356,7 +356,7 @@
 
 ### 11. DistributedAISystem.create_actor
 
-**Test File:** `/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/core/test_coordination_simple.py`
+**Test File:** `/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/core/test_coordination_simple.py`
 **Line:** 31
 **Context:** `hub_ref = await system.create_actor(CoordinationHub, "hub")`
 **Suggested Fix:** `create_actor` → `create_colony`
@@ -365,7 +365,7 @@
 
 ### 12. DistributedAISystem.get_actor
 
-**Test File:** `/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/core/test_coordination_simple.py`
+**Test File:** `/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/core/test_coordination_simple.py`
 **Line:** 32
 **Context:** `hub = system.get_actor("hub")`
 **Suggested Fix:** `get_actor` → `NO_MATCH_FOUND`
@@ -374,7 +374,7 @@
 
 ### 13. DistributedAISystem.create_glyph_indexed_memory
 
-**Test File:** `/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/tests/memory/test_glyph_memory_integration.py`
+**Test File:** `/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/tests/memory/test_glyph_memory_integration.py`
 **Line:** 604
 **Context:** `memory = system.create_glyph_indexed_memory(`
 **Suggested Fix:** `create_glyph_indexed_memory` → `NO_MATCH_FOUND`
@@ -383,7 +383,7 @@
 
 ### 14. DistributedAISystem.perform_temporal_folding
 
-**Test File:** `/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/tests/memory/test_glyph_memory_integration.py`
+**Test File:** `/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/tests/memory/test_glyph_memory_integration.py`
 **Line:** 612
 **Context:** `folding_results = system.perform_temporal_folding(`
 **Suggested Fix:** `perform_temporal_folding` → `NO_MATCH_FOUND`
@@ -392,7 +392,7 @@
 
 ### 15. DistributedAISystem.recall_by_glyph_pattern
 
-**Test File:** `/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/tests/memory/test_glyph_memory_integration.py`
+**Test File:** `/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/tests/memory/test_glyph_memory_integration.py`
 **Line:** 694
 **Context:** `insight_memories = system.recall_by_glyph_pattern(`
 **Suggested Fix:** `recall_by_glyph_pattern` → `NO_MATCH_FOUND`
@@ -401,7 +401,7 @@
 
 ### 16. DistributedAISystem.get_memory_glyph_statistics
 
-**Test File:** `/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/tests/memory/test_glyph_memory_integration.py`
+**Test File:** `/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/tests/memory/test_glyph_memory_integration.py`
 **Line:** 723
 **Context:** `stats = system.get_memory_glyph_statistics()`
 **Suggested Fix:** `get_memory_glyph_statistics` → `get_system_statistics`
@@ -410,7 +410,7 @@
 
 ### 17. Result.get
 
-**Test File:** `/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/tools/test_knowledge_integration.py`
+**Test File:** `/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/tools/test_knowledge_integration.py`
 **Line:** 179
 **Context:** `attribute_access`
 **Suggested Fix:** `get` → `NO_METHODS_FOUND`
@@ -419,7 +419,7 @@
 
 ### 18. Result.returncode
 
-**Test File:** `/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/tools/lukhas_interactive_test_suite.py`
+**Test File:** `/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/tools/lukhas_interactive_test_suite.py`
 **Line:** 278
 **Context:** `attribute_access`
 **Suggested Fix:** `returncode` → `NO_METHODS_FOUND`
@@ -428,7 +428,7 @@
 
 ### 19. Result.status
 
-**Test File:** `/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/tools/lukhas_interactive_test_suite.py`
+**Test File:** `/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/tools/lukhas_interactive_test_suite.py`
 **Line:** 464
 **Context:** `attribute_access`
 **Suggested Fix:** `status` → `NO_METHODS_FOUND`
@@ -437,7 +437,7 @@
 
 ### 20. Result.test_name
 
-**Test File:** `/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/tools/lukhas_interactive_test_suite.py`
+**Test File:** `/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/tools/lukhas_interactive_test_suite.py`
 **Line:** 466
 **Context:** `attribute_access`
 **Suggested Fix:** `test_name` → `NO_METHODS_FOUND`
@@ -446,7 +446,7 @@
 
 ### 21. Result.duration
 
-**Test File:** `/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/tools/lukhas_interactive_test_suite.py`
+**Test File:** `/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/tools/lukhas_interactive_test_suite.py`
 **Line:** 466
 **Context:** `attribute_access`
 **Suggested Fix:** `duration` → `NO_METHODS_FOUND`
@@ -455,7 +455,7 @@
 
 ### 22. Result.stdout
 
-**Test File:** `/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/tools/lukhas_interactive_test_suite.py`
+**Test File:** `/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/tools/lukhas_interactive_test_suite.py`
 **Line:** 532
 **Context:** `attribute_access`
 **Suggested Fix:** `stdout` → `NO_METHODS_FOUND`
@@ -464,7 +464,7 @@
 
 ### 23. Result.stderr
 
-**Test File:** `/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/tools/lukhas_interactive_test_suite.py`
+**Test File:** `/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/tools/lukhas_interactive_test_suite.py`
 **Line:** 532
 **Context:** `attribute_access`
 **Suggested Fix:** `stderr` → `NO_METHODS_FOUND`
@@ -473,7 +473,7 @@
 
 ### 24. Result.testsRun
 
-**Test File:** `/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/tools/parsers/test_knowledge_loader.py`
+**Test File:** `/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/tools/parsers/test_knowledge_loader.py`
 **Line:** 411
 **Context:** `attribute_access`
 **Suggested Fix:** `testsRun` → `NO_METHODS_FOUND`
@@ -482,7 +482,7 @@
 
 ### 25. Result.failures
 
-**Test File:** `/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/tools/parsers/test_knowledge_loader.py`
+**Test File:** `/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/tools/parsers/test_knowledge_loader.py`
 **Line:** 412
 **Context:** `attribute_access`
 **Suggested Fix:** `failures` → `NO_METHODS_FOUND`
@@ -491,7 +491,7 @@
 
 ### 26. Result.errors
 
-**Test File:** `/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/tools/parsers/test_knowledge_loader.py`
+**Test File:** `/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/tools/parsers/test_knowledge_loader.py`
 **Line:** 413
 **Context:** `attribute_access`
 **Suggested Fix:** `errors` → `NO_METHODS_FOUND`
@@ -500,7 +500,7 @@
 
 ### 27. Result.wasSuccessful
 
-**Test File:** `/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/tools/parsers/test_knowledge_loader.py`
+**Test File:** `/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/tools/parsers/test_knowledge_loader.py`
 **Line:** 415
 **Context:** `attribute_access`
 **Suggested Fix:** `wasSuccessful` → `NO_METHODS_FOUND`
@@ -509,7 +509,7 @@
 
 ### 28. Result.test_case
 
-**Test File:** `/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/core/testing/plugin_test_framework.py`
+**Test File:** `/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/core/testing/plugin_test_framework.py`
 **Line:** 384
 **Context:** `attribute_access`
 **Suggested Fix:** `test_case` → `NO_METHODS_FOUND`
@@ -518,7 +518,7 @@
 
 ### 29. Result.message
 
-**Test File:** `/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/core/testing/plugin_test_framework.py`
+**Test File:** `/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/core/testing/plugin_test_framework.py`
 **Line:** 447
 **Context:** `attribute_access`
 **Suggested Fix:** `message` → `NO_METHODS_FOUND`
@@ -527,7 +527,7 @@
 
 ### 30. Result.qr_type
 
-**Test File:** `/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/identity/qrg_test_suite.py`
+**Test File:** `/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/identity/qrg_test_suite.py`
 **Line:** 80
 **Context:** `attribute_access`
 **Suggested Fix:** `qr_type` → `NO_METHODS_FOUND`
@@ -536,7 +536,7 @@
 
 ### 31. Result.pattern_data
 
-**Test File:** `/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/identity/qrg_test_suite.py`
+**Test File:** `/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/identity/qrg_test_suite.py`
 **Line:** 81
 **Context:** `attribute_access`
 **Suggested Fix:** `pattern_data` → `NO_METHODS_FOUND`
@@ -545,7 +545,7 @@
 
 ### 32. Result.metadata
 
-**Test File:** `/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/identity/qrg_test_suite.py`
+**Test File:** `/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/identity/qrg_test_suite.py`
 **Line:** 83
 **Context:** `attribute_access`
 **Suggested Fix:** `metadata` → `NO_METHODS_FOUND`
@@ -554,7 +554,7 @@
 
 ### 33. Result.compliance_score
 
-**Test File:** `/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/identity/qrg_test_suite.py`
+**Test File:** `/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/identity/qrg_test_suite.py`
 **Line:** 85
 **Context:** `attribute_access`
 **Suggested Fix:** `compliance_score` → `NO_METHODS_FOUND`
@@ -563,7 +563,7 @@
 
 ### 34. Result.consciousness_resonance
 
-**Test File:** `/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/identity/qrg_test_suite.py`
+**Test File:** `/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/identity/qrg_test_suite.py`
 **Line:** 144
 **Context:** `attribute_access`
 **Suggested Fix:** `consciousness_resonance` → `NO_METHODS_FOUND`
@@ -572,7 +572,7 @@
 
 ### 35. Result.expiration
 
-**Test File:** `/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/identity/qrg_test_suite.py`
+**Test File:** `/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/identity/qrg_test_suite.py`
 **Line:** 157
 **Context:** `attribute_access`
 **Suggested Fix:** `expiration` → `NO_METHODS_FOUND`
@@ -581,7 +581,7 @@
 
 ### 36. Result.security_signature
 
-**Test File:** `/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/identity/qrg_test_suite.py`
+**Test File:** `/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/identity/qrg_test_suite.py`
 **Line:** 321
 **Context:** `attribute_access`
 **Suggested Fix:** `security_signature` → `NO_METHODS_FOUND`
@@ -590,7 +590,7 @@
 
 ### 37. Result.cultural_safety_score
 
-**Test File:** `/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/identity/qrg_test_suite.py`
+**Test File:** `/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/identity/qrg_test_suite.py`
 **Line:** 416
 **Context:** `attribute_access`
 **Suggested Fix:** `cultural_safety_score` → `NO_METHODS_FOUND`
@@ -599,7 +599,7 @@
 
 ### 38. Result.generation_metrics
 
-**Test File:** `/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/identity/qrg_test_suite.py`
+**Test File:** `/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/identity/qrg_test_suite.py`
 **Line:** 580
 **Context:** `attribute_access`
 **Suggested Fix:** `generation_metrics` → `NO_METHODS_FOUND`
@@ -608,7 +608,7 @@
 
 ### 39. Result.name
 
-**Test File:** `/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/identity/lukhus_ultimate_test_suite.py`
+**Test File:** `/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/identity/lukhus_ultimate_test_suite.py`
 **Line:** 593
 **Context:** `attribute_access`
 **Suggested Fix:** `name` → `NO_METHODS_FOUND`
@@ -617,7 +617,7 @@
 
 ### 40. Result.details
 
-**Test File:** `/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/identity/lukhus_ultimate_test_suite.py`
+**Test File:** `/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/identity/lukhus_ultimate_test_suite.py`
 **Line:** 593
 **Context:** `attribute_access`
 **Suggested Fix:** `details` → `NO_METHODS_FOUND`
@@ -626,7 +626,7 @@
 
 ### 41. Result.success
 
-**Test File:** `/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/identity/tests/test_comprehensive.py`
+**Test File:** `/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/identity/tests/test_comprehensive.py`
 **Line:** 67
 **Context:** `attribute_access`
 **Suggested Fix:** `success` → `NO_METHODS_FOUND`
@@ -635,7 +635,7 @@
 
 ### 42. Result.lambda_id
 
-**Test File:** `/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/identity/tests/test_comprehensive.py`
+**Test File:** `/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/identity/tests/test_comprehensive.py`
 **Line:** 68
 **Context:** `attribute_access`
 **Suggested Fix:** `lambda_id` → `NO_METHODS_FOUND`
@@ -644,7 +644,7 @@
 
 ### 43. Result.tier
 
-**Test File:** `/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/identity/tests/test_comprehensive.py`
+**Test File:** `/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/identity/tests/test_comprehensive.py`
 **Line:** 70
 **Context:** `attribute_access`
 **Suggested Fix:** `tier` → `NO_METHODS_FOUND`
@@ -653,7 +653,7 @@
 
 ### 44. Result.entropy_score
 
-**Test File:** `/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/identity/tests/test_comprehensive.py`
+**Test File:** `/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/identity/tests/test_comprehensive.py`
 **Line:** 71
 **Context:** `attribute_access`
 **Suggested Fix:** `entropy_score` → `NO_METHODS_FOUND`
@@ -662,7 +662,7 @@
 
 ### 45. Result.error
 
-**Test File:** `/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/identity/tests/test_comprehensive.py`
+**Test File:** `/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/identity/tests/test_comprehensive.py`
 **Line:** 154
 **Context:** `attribute_access`
 **Suggested Fix:** `error` → `NO_METHODS_FOUND`
@@ -671,7 +671,7 @@
 
 ### 46. Result.valid
 
-**Test File:** `/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/identity/tests/test_comprehensive.py`
+**Test File:** `/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/identity/tests/test_comprehensive.py`
 **Line:** 221
 **Context:** `attribute_access`
 **Suggested Fix:** `valid` → `NO_METHODS_FOUND`
@@ -680,7 +680,7 @@
 
 ### 47. Result.validation_level
 
-**Test File:** `/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/identity/tests/test_comprehensive.py`
+**Test File:** `/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/identity/tests/test_comprehensive.py`
 **Line:** 246
 **Context:** `attribute_access`
 **Suggested Fix:** `validation_level` → `NO_METHODS_FOUND`
@@ -689,7 +689,7 @@
 
 ### 48. Result.brand_prefix
 
-**Test File:** `/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/identity/tests/test_comprehensive.py`
+**Test File:** `/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/identity/tests/test_comprehensive.py`
 **Line:** 557
 **Context:** `attribute_access`
 **Suggested Fix:** `brand_prefix` → `NO_METHODS_FOUND`
@@ -698,7 +698,7 @@
 
 ### 49. Result.commercial_tier
 
-**Test File:** `/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/identity/tests/test_comprehensive.py`
+**Test File:** `/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/identity/tests/test_comprehensive.py`
 **Line:** 558
 **Context:** `attribute_access`
 **Suggested Fix:** `commercial_tier` → `NO_METHODS_FOUND`
@@ -707,7 +707,7 @@
 
 ### 50. Result.integrity_score
 
-**Test File:** `/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/tests/memory/test_identity_lineage_validation.py`
+**Test File:** `/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/tests/memory/test_identity_lineage_validation.py`
 **Line:** 441
 **Context:** `attribute_access`
 **Suggested Fix:** `integrity_score` → `NO_METHODS_FOUND`
@@ -716,7 +716,7 @@
 
 ### 51. Result.approved
 
-**Test File:** `/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/ethics/extreme_ethical_testing.py`
+**Test File:** `/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/ethics/extreme_ethical_testing.py`
 **Line:** 496
 **Context:** `attribute_access`
 **Suggested Fix:** `approved` → `NO_METHODS_FOUND`
@@ -725,7 +725,7 @@
 
 ### 52. Result.ethics_score
 
-**Test File:** `/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/ethics/extreme_ethical_testing.py`
+**Test File:** `/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/ethics/extreme_ethical_testing.py`
 **Line:** 497
 **Context:** `attribute_access`
 **Suggested Fix:** `ethics_score` → `NO_METHODS_FOUND`
@@ -734,7 +734,7 @@
 
 ### 53. Result.safety_score
 
-**Test File:** `/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/ethics/extreme_ethical_testing.py`
+**Test File:** `/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/ethics/extreme_ethical_testing.py`
 **Line:** 502
 **Context:** `attribute_access`
 **Suggested Fix:** `safety_score` → `NO_METHODS_FOUND`
@@ -743,7 +743,7 @@
 
 ### 54. Result.items
 
-**Test File:** `/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/orchestration/migrated/test_migrations.py`
+**Test File:** `/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/orchestration/migrated/test_migrations.py`
 **Line:** 326
 **Context:** `attribute_access`
 **Suggested Fix:** `items` → `NO_METHODS_FOUND`
@@ -752,7 +752,7 @@
 
 ### 55. Result.novelty_score
 
-**Test File:** `/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/orchestration/brain/research_awareness_engine.py`
+**Test File:** `/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/orchestration/brain/research_awareness_engine.py`
 **Line:** 708
 **Context:** `attribute_access`
 **Suggested Fix:** `novelty_score` → `NO_METHODS_FOUND`
@@ -761,7 +761,7 @@
 
 ### 56. Result.reproducibility_score
 
-**Test File:** `/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/orchestration/brain/research_awareness_engine.py`
+**Test File:** `/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/orchestration/brain/research_awareness_engine.py`
 **Line:** 709
 **Context:** `attribute_access`
 **Suggested Fix:** `reproducibility_score` → `NO_METHODS_FOUND`
@@ -770,7 +770,7 @@
 
 ### 57. Result.publication_ready
 
-**Test File:** `/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/orchestration/brain/research_awareness_engine.py`
+**Test File:** `/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/orchestration/brain/research_awareness_engine.py`
 **Line:** 710
 **Context:** `attribute_access`
 **Suggested Fix:** `publication_ready` → `NO_METHODS_FOUND`
@@ -779,7 +779,7 @@
 
 ### 58. Result.discovered_patterns
 
-**Test File:** `/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/orchestration/brain/research_awareness_engine.py`
+**Test File:** `/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/orchestration/brain/research_awareness_engine.py`
 **Line:** 711
 **Context:** `attribute_access`
 **Suggested Fix:** `discovered_patterns` → `NO_METHODS_FOUND`
@@ -788,7 +788,7 @@
 
 ### 59. Result.processing_time_ms
 
-**Test File:** `/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/orchestration/brain/research_awareness_engine.py`
+**Test File:** `/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/orchestration/brain/research_awareness_engine.py`
 **Line:** 712
 **Context:** `attribute_access`
 **Suggested Fix:** `processing_time_ms` → `NO_METHODS_FOUND`
@@ -797,7 +797,7 @@
 
 ### 60. Result.processing_timestamp
 
-**Test File:** `/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/orchestration/brain/research_awareness_engine.py`
+**Test File:** `/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/orchestration/brain/research_awareness_engine.py`
 **Line:** 827
 **Context:** `attribute_access`
 **Suggested Fix:** `processing_timestamp` → `NO_METHODS_FOUND`
@@ -806,7 +806,7 @@
 
 ### 61. Result.research_id
 
-**Test File:** `/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/orchestration/brain/research_awareness_engine.py`
+**Test File:** `/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/orchestration/brain/research_awareness_engine.py`
 **Line:** 960
 **Context:** `attribute_access`
 **Suggested Fix:** `research_id` → `NO_METHODS_FOUND`
@@ -815,7 +815,7 @@
 
 ### 62. Result.learning_progress
 
-**Test File:** `/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/orchestration/brain/research_awareness_engine.py`
+**Test File:** `/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/orchestration/brain/research_awareness_engine.py`
 **Line:** 963
 **Context:** `attribute_access`
 **Suggested Fix:** `learning_progress` → `NO_METHODS_FOUND`
@@ -824,7 +824,7 @@
 
 ### 63. Result.exploration_efficiency
 
-**Test File:** `/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/orchestration/brain/research_awareness_engine.py`
+**Test File:** `/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/orchestration/brain/research_awareness_engine.py`
 **Line:** 964
 **Context:** `attribute_access`
 **Suggested Fix:** `exploration_efficiency` → `NO_METHODS_FOUND`
@@ -833,7 +833,7 @@
 
 ### 64. Result.adaptation_success
 
-**Test File:** `/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/orchestration/brain/research_awareness_engine.py`
+**Test File:** `/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/orchestration/brain/research_awareness_engine.py`
 **Line:** 965
 **Context:** `attribute_access`
 **Suggested Fix:** `adaptation_success` → `NO_METHODS_FOUND`
@@ -842,7 +842,7 @@
 
 ### 65. Result.technique_performance
 
-**Test File:** `/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/orchestration/brain/research_awareness_engine.py`
+**Test File:** `/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/orchestration/brain/research_awareness_engine.py`
 **Line:** 968
 **Context:** `attribute_access`
 **Suggested Fix:** `technique_performance` → `NO_METHODS_FOUND`
@@ -851,7 +851,7 @@
 
 ### 66. Result.quantum_results
 
-**Test File:** `/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/orchestration/brain/research_awareness_engine.py`
+**Test File:** `/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/orchestration/brain/research_awareness_engine.py`
 **Line:** 972
 **Context:** `attribute_access`
 **Suggested Fix:** `quantum_results` → `NO_METHODS_FOUND`
@@ -860,7 +860,7 @@
 
 ### 67. Result.bio_symbolic_insights
 
-**Test File:** `/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/orchestration/brain/research_awareness_engine.py`
+**Test File:** `/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/orchestration/brain/research_awareness_engine.py`
 **Line:** 977
 **Context:** `attribute_access`
 **Suggested Fix:** `bio_symbolic_insights` → `NO_METHODS_FOUND`
@@ -869,7 +869,7 @@
 
 ### 68. Result.swarm_coordination_metrics
 
-**Test File:** `/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/orchestration/brain/research_awareness_engine.py`
+**Test File:** `/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/orchestration/brain/research_awareness_engine.py`
 **Line:** 984
 **Context:** `attribute_access`
 **Suggested Fix:** `swarm_coordination_metrics` → `NO_METHODS_FOUND`
@@ -878,7 +878,7 @@
 
 ### 69. Result.reliability_score
 
-**Test File:** `/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/orchestration/brain/research_awareness_engine.py`
+**Test File:** `/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/orchestration/brain/research_awareness_engine.py`
 **Line:** 992
 **Context:** `attribute_access`
 **Suggested Fix:** `reliability_score` → `NO_METHODS_FOUND`
@@ -887,7 +887,7 @@
 
 ### 70. Result.validity_score
 
-**Test File:** `/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/orchestration/brain/research_awareness_engine.py`
+**Test File:** `/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/orchestration/brain/research_awareness_engine.py`
 **Line:** 993
 **Context:** `attribute_access`
 **Suggested Fix:** `validity_score` → `NO_METHODS_FOUND`
@@ -896,7 +896,7 @@
 
 ### 71. Result.ethics_compliance_score
 
-**Test File:** `/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/orchestration/brain/research_awareness_engine.py`
+**Test File:** `/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/orchestration/brain/research_awareness_engine.py`
 **Line:** 994
 **Context:** `attribute_access`
 **Suggested Fix:** `ethics_compliance_score` → `NO_METHODS_FOUND`
@@ -905,7 +905,7 @@
 
 ### 72. Result.open_science_compliance
 
-**Test File:** `/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/orchestration/brain/research_awareness_engine.py`
+**Test File:** `/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/orchestration/brain/research_awareness_engine.py`
 **Line:** 998
 **Context:** `attribute_access`
 **Suggested Fix:** `open_science_compliance` → `NO_METHODS_FOUND`
@@ -914,7 +914,7 @@
 
 ### 73. Result.research_recommendations
 
-**Test File:** `/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/orchestration/brain/research_awareness_engine.py`
+**Test File:** `/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/orchestration/brain/research_awareness_engine.py`
 **Line:** 1000
 **Context:** `attribute_access`
 **Suggested Fix:** `research_recommendations` → `NO_METHODS_FOUND`
@@ -923,7 +923,7 @@
 
 ### 74. Result.next_experiments
 
-**Test File:** `/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/orchestration/brain/research_awareness_engine.py`
+**Test File:** `/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/orchestration/brain/research_awareness_engine.py`
 **Line:** 1005
 **Context:** `attribute_access`
 **Suggested Fix:** `next_experiments` → `NO_METHODS_FOUND`
@@ -932,7 +932,7 @@
 
 ### 75. Factor.lower
 
-**Test File:** `/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/tools/prediction/test_prophet.py`
+**Test File:** `/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/tools/prediction/test_prophet.py`
 **Line:** 656
 **Context:** `phase_drift_detected = any("phase drift" in factor.lower() for factor in prediction.contributing_factors)`
 **Suggested Fix:** `lower` → `NO_METHODS_FOUND`
@@ -941,7 +941,7 @@
 
 ### 76. AnalysisResults.get
 
-**Test File:** `/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/core/autotest_validation.py`
+**Test File:** `/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/core/autotest_validation.py`
 **Line:** 150
 **Context:** `attribute_access`
 **Suggested Fix:** `get` → `NO_METHODS_FOUND`
@@ -950,7 +950,7 @@
 
 ### 77. RunResults.get
 
-**Test File:** `/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/core/autotest_validation.py`
+**Test File:** `/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/core/autotest_validation.py`
 **Line:** 183
 **Context:** `attribute_access`
 **Suggested Fix:** `get` → `NO_METHODS_FOUND`
@@ -959,7 +959,7 @@
 
 ### 78. ValidationSuiteResults.append
 
-**Test File:** `/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/core/autotest_validation.py`
+**Test File:** `/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/core/autotest_validation.py`
 **Line:** 376
 **Context:** `attribute_access`
 **Suggested Fix:** `append` → `NO_METHODS_FOUND`
@@ -968,7 +968,7 @@
 
 ### 79. DistributedAIAgent.coord_hub
 
-**Test File:** `/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/core/test_coordination_simple.py`
+**Test File:** `/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/core/test_coordination_simple.py`
 **Line:** 43
 **Context:** `attribute_access`
 **Suggested Fix:** `coord_hub` → `NO_METHODS_FOUND`
@@ -977,7 +977,7 @@
 
 ### 80. DistributedAIAgent.skills
 
-**Test File:** `/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/core/test_coordination_simple.py`
+**Test File:** `/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/core/test_coordination_simple.py`
 **Line:** 48
 **Context:** `attribute_access`
 **Suggested Fix:** `skills` → `NO_METHODS_FOUND`
@@ -986,7 +986,7 @@
 
 ### 81. DistributedAIAgent.actor_system
 
-**Test File:** `/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/core/test_coordination_simple.py`
+**Test File:** `/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/core/test_coordination_simple.py`
 **Line:** 60
 **Context:** `attribute_access`
 **Suggested Fix:** `actor_system` → `NO_METHODS_FOUND`
@@ -995,7 +995,7 @@
 
 ### 82. DistributedAIAgent.announce_task
 
-**Test File:** `/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/core/test_coordination_simple.py`
+**Test File:** `/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/core/test_coordination_simple.py`
 **Line:** 64
 **Context:** `task_id = await data_agent.announce_task(`
 **Suggested Fix:** `announce_task` → `NO_METHODS_FOUND`
@@ -1004,7 +1004,7 @@
 
 ### 83. CounterRef.tell
 
-**Test File:** `/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/core/test_mailbox_simple.py`
+**Test File:** `/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/core/test_mailbox_simple.py`
 **Line:** 47
 **Context:** `tasks.append(counter_ref.tell("increment", {}))`
 **Suggested Fix:** `tell` → `NO_METHODS_FOUND`
@@ -1013,7 +1013,7 @@
 
 ### 84. ProcessResult.returncode
 
-**Test File:** `/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/core/automatic_testing_system.py`
+**Test File:** `/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/core/automatic_testing_system.py`
 **Line:** 832
 **Context:** `attribute_access`
 **Suggested Fix:** `returncode` → `NO_METHODS_FOUND`
@@ -1022,7 +1022,7 @@
 
 ### 85. ProcessResult.stdout
 
-**Test File:** `/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/core/automatic_testing_system.py`
+**Test File:** `/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/core/automatic_testing_system.py`
 **Line:** 833
 **Context:** `attribute_access`
 **Suggested Fix:** `stdout` → `NO_METHODS_FOUND`
@@ -1031,7 +1031,7 @@
 
 ### 86. ProcessResult.stderr
 
-**Test File:** `/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/core/automatic_testing_system.py`
+**Test File:** `/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/core/automatic_testing_system.py`
 **Line:** 834
 **Context:** `attribute_access`
 **Suggested Fix:** `stderr` → `NO_METHODS_FOUND`
@@ -1040,7 +1040,7 @@
 
 ### 87. BaseColony.start
 
-**Test File:** `/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/core/test_image_processing_pipeline.py`
+**Test File:** `/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/core/test_image_processing_pipeline.py`
 **Line:** 96
 **Context:** `await colony.start()`
 **Suggested Fix:** `start` → `NO_METHODS_FOUND`
@@ -1049,7 +1049,7 @@
 
 ### 88. BaseColony.stop
 
-**Test File:** `/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/core/test_image_processing_pipeline.py`
+**Test File:** `/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/core/test_image_processing_pipeline.py`
 **Line:** 140
 **Context:** `await colony.stop()`
 **Suggested Fix:** `stop` → `NO_METHODS_FOUND`
@@ -1058,7 +1058,7 @@
 
 ### 89. Stats.get
 
-**Test File:** `/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/core/test_image_processing_pipeline.py`
+**Test File:** `/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/core/test_image_processing_pipeline.py`
 **Line:** 229
 **Context:** `attribute_access`
 **Suggested Fix:** `get` → `NO_METHODS_FOUND`
@@ -1067,7 +1067,7 @@
 
 ### 90. Stats.values
 
-**Test File:** `/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/core/test_image_processing_pipeline.py`
+**Test File:** `/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/core/test_image_processing_pipeline.py`
 **Line:** 443
 **Context:** `attribute_access`
 **Suggested Fix:** `values` → `NO_METHODS_FOUND`
@@ -1076,7 +1076,7 @@
 
 ### 91. FinalStats.items
 
-**Test File:** `/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/core/test_image_processing_pipeline.py`
+**Test File:** `/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/core/test_image_processing_pipeline.py`
 **Line:** 482
 **Context:** `attribute_access`
 **Suggested Fix:** `items` → `NO_METHODS_FOUND`
@@ -1085,7 +1085,7 @@
 
 ### 92. Actor.__sizeof__
 
-**Test File:** `/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/memory/test_lightweight_concurrency.py`
+**Test File:** `/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/memory/test_lightweight_concurrency.py`
 **Line:** 29
 **Context:** `memory_size = actor.__sizeof__()`
 **Suggested Fix:** `__sizeof__` → `NO_MATCH_FOUND`
@@ -1094,7 +1094,7 @@
 
 ### 93. Actors.append
 
-**Test File:** `/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/memory/test_lightweight_concurrency.py`
+**Test File:** `/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/memory/test_lightweight_concurrency.py`
 **Line:** 157
 **Context:** `actors.append(actor)`
 **Suggested Fix:** `append` → `NO_METHODS_FOUND`
@@ -1103,7 +1103,7 @@
 
 ### 94. GenerationResult.success
 
-**Test File:** `/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/identity/tests/test_comprehensive.py`
+**Test File:** `/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/identity/tests/test_comprehensive.py`
 **Line:** 197
 **Context:** `attribute_access`
 **Suggested Fix:** `success` → `NO_METHODS_FOUND`
@@ -1112,7 +1112,7 @@
 
 ### 95. GenerationResult.lambda_id
 
-**Test File:** `/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/identity/tests/test_comprehensive.py`
+**Test File:** `/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/identity/tests/test_comprehensive.py`
 **Line:** 201
 **Context:** `attribute_access`
 **Suggested Fix:** `lambda_id` → `NO_METHODS_FOUND`
@@ -1121,7 +1121,7 @@
 
 ### 96. ValidationResult.valid
 
-**Test File:** `/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/identity/tests/test_comprehensive.py`
+**Test File:** `/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/identity/tests/test_comprehensive.py`
 **Line:** 204
 **Context:** `attribute_access`
 **Suggested Fix:** `valid` → `NO_METHODS_FOUND`
@@ -1130,7 +1130,7 @@
 
 ### 97. ValidationResult.errors
 
-**Test File:** `/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/identity/tests/test_comprehensive.py`
+**Test File:** `/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/identity/tests/test_comprehensive.py`
 **Line:** 205
 **Context:** `attribute_access`
 **Suggested Fix:** `errors` → `NO_METHODS_FOUND`
@@ -1139,7 +1139,7 @@
 
 ### 98. ValidationResults.append
 
-**Test File:** `/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/identity/tests/test_comprehensive.py`
+**Test File:** `/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/identity/tests/test_comprehensive.py`
 **Line:** 700
 **Context:** `attribute_access`
 **Suggested Fix:** `append` → `NO_METHODS_FOUND`
@@ -1148,7 +1148,7 @@
 
 ### 99. AllResults.extend
 
-**Test File:** `/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/identity/tests/test_comprehensive.py`
+**Test File:** `/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/identity/tests/test_comprehensive.py`
 **Line:** 752
 **Context:** `attribute_access`
 **Suggested Fix:** `extend` → `NO_METHODS_FOUND`
@@ -1157,7 +1157,7 @@
 
 ### 100. InitialResult.success
 
-**Test File:** `/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/identity/tests/test_comprehensive.py`
+**Test File:** `/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/identity/tests/test_comprehensive.py`
 **Line:** 881
 **Context:** `attribute_access`
 **Suggested Fix:** `success` → `NO_METHODS_FOUND`
@@ -1166,7 +1166,7 @@
 
 ### 101. InitialResult.tier
 
-**Test File:** `/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/identity/tests/test_comprehensive.py`
+**Test File:** `/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/identity/tests/test_comprehensive.py`
 **Line:** 882
 **Context:** `attribute_access`
 **Suggested Fix:** `tier` → `NO_METHODS_FOUND`
@@ -1175,7 +1175,7 @@
 
 ### 102. InitialResult.lambda_id
 
-**Test File:** `/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/identity/tests/test_comprehensive.py`
+**Test File:** `/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/identity/tests/test_comprehensive.py`
 **Line:** 895
 **Context:** `attribute_access`
 **Suggested Fix:** `lambda_id` → `NO_METHODS_FOUND`
@@ -1184,7 +1184,7 @@
 
 ### 103. UpgradeResult.success
 
-**Test File:** `/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/identity/tests/test_comprehensive.py`
+**Test File:** `/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/identity/tests/test_comprehensive.py`
 **Line:** 898
 **Context:** `attribute_access`
 **Suggested Fix:** `success` → `NO_METHODS_FOUND`
@@ -1193,7 +1193,7 @@
 
 ### 104. UpgradeResult.new_tier
 
-**Test File:** `/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/identity/tests/test_comprehensive.py`
+**Test File:** `/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/identity/tests/test_comprehensive.py`
 **Line:** 899
 **Context:** `attribute_access`
 **Suggested Fix:** `new_tier` → `NO_METHODS_FOUND`
@@ -1202,7 +1202,7 @@
 
 ### 105. UpgradeResult.new_lambda_id
 
-**Test File:** `/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/identity/tests/test_comprehensive.py`
+**Test File:** `/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/identity/tests/test_comprehensive.py`
 **Line:** 900
 **Context:** `attribute_access`
 **Suggested Fix:** `new_lambda_id` → `NO_METHODS_FOUND`
@@ -1211,7 +1211,7 @@
 
 ### 106. Glyphfactory.create_memory_glyph
 
-**Test File:** `/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/tests/test_glyph_recall_drift_correlation.py`
+**Test File:** `/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/tests/test_glyph_recall_drift_correlation.py`
 **Line:** 132
 **Context:** `glyph = GlyphFactory.create_memory_glyph(`
 **Suggested Fix:** `create_memory_glyph` → `NO_METHODS_FOUND`
@@ -1220,7 +1220,7 @@
 
 ### 107. Glyphfactory.create_action_glyph
 
-**Test File:** `/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/tests/test_glyph_memory_timeline.py`
+**Test File:** `/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/tests/test_glyph_memory_timeline.py`
 **Line:** 289
 **Context:** `glyph = GlyphFactory.create_action_glyph(`
 **Suggested Fix:** `create_action_glyph` → `NO_METHODS_FOUND`
@@ -1229,7 +1229,7 @@
 
 ### 108. Glyphfactory.create_ethical_glyph
 
-**Test File:** `/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/tests/test_glyph_memory_timeline.py`
+**Test File:** `/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/tests/test_glyph_memory_timeline.py`
 **Line:** 294
 **Context:** `glyph = GlyphFactory.create_ethical_glyph(`
 **Suggested Fix:** `create_ethical_glyph` → `NO_METHODS_FOUND`
@@ -1238,7 +1238,7 @@
 
 ### 109. Glyphfactory.create_dream_glyph
 
-**Test File:** `/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/tests/test_glyph_memory_timeline.py`
+**Test File:** `/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/tests/test_glyph_memory_timeline.py`
 **Line:** 299
 **Context:** `glyph = GlyphFactory.create_dream_glyph(`
 **Suggested Fix:** `create_dream_glyph` → `NO_METHODS_FOUND`
@@ -1247,7 +1247,7 @@
 
 ### 110. IntegrityResults.append
 
-**Test File:** `/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/tests/memory/test_identity_lineage_validation.py`
+**Test File:** `/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/tests/memory/test_identity_lineage_validation.py`
 **Line:** 399
 **Context:** `attribute_access`
 **Suggested Fix:** `append` → `NO_METHODS_FOUND`
@@ -1256,7 +1256,7 @@
 
 ### 111. NiasResult.approved
 
-**Test File:** `/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/ethics/extreme_ethical_testing.py`
+**Test File:** `/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/ethics/extreme_ethical_testing.py`
 **Line:** 95
 **Context:** `attribute_access`
 **Suggested Fix:** `approved` → `NO_METHODS_FOUND`
@@ -1265,7 +1265,7 @@
 
 ### 112. NiasResult.ethics_score
 
-**Test File:** `/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/ethics/extreme_ethical_testing.py`
+**Test File:** `/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/ethics/extreme_ethical_testing.py`
 **Line:** 96
 **Context:** `attribute_access`
 **Suggested Fix:** `ethics_score` → `NO_METHODS_FOUND`
@@ -1274,7 +1274,7 @@
 
 ### 113. NiasResult.bio_symbolic_score
 
-**Test File:** `/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/ethics/extreme_ethical_testing.py`
+**Test File:** `/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/ethics/extreme_ethical_testing.py`
 **Line:** 97
 **Context:** `attribute_access`
 **Suggested Fix:** `bio_symbolic_score` → `NO_METHODS_FOUND`
@@ -1283,7 +1283,7 @@
 
 ### 114. NiasResult.reasons
 
-**Test File:** `/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/ethics/extreme_ethical_testing.py`
+**Test File:** `/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/ethics/extreme_ethical_testing.py`
 **Line:** 98
 **Context:** `attribute_access`
 **Suggested Fix:** `reasons` → `NO_METHODS_FOUND`
@@ -1292,7 +1292,7 @@
 
 ### 115. AbasResult.approved
 
-**Test File:** `/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/ethics/extreme_ethical_testing.py`
+**Test File:** `/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/ethics/extreme_ethical_testing.py`
 **Line:** 193
 **Context:** `attribute_access`
 **Suggested Fix:** `approved` → `NO_METHODS_FOUND`
@@ -1301,7 +1301,7 @@
 
 ### 116. AbasResult.safety_score
 
-**Test File:** `/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/ethics/extreme_ethical_testing.py`
+**Test File:** `/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/ethics/extreme_ethical_testing.py`
 **Line:** 194
 **Context:** `attribute_access`
 **Suggested Fix:** `safety_score` → `NO_METHODS_FOUND`
@@ -1310,7 +1310,7 @@
 
 ### 117. AbasResult.emotional_state
 
-**Test File:** `/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/ethics/extreme_ethical_testing.py`
+**Test File:** `/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/ethics/extreme_ethical_testing.py`
 **Line:** 195
 **Context:** `attribute_access`
 **Suggested Fix:** `emotional_state` → `NO_METHODS_FOUND`
@@ -1319,7 +1319,7 @@
 
 ### 118. AbasResult.bio_symbolic_score
 
-**Test File:** `/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/ethics/extreme_ethical_testing.py`
+**Test File:** `/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/ethics/extreme_ethical_testing.py`
 **Line:** 196
 **Context:** `attribute_access`
 **Suggested Fix:** `bio_symbolic_score` → `NO_METHODS_FOUND`
@@ -1328,7 +1328,7 @@
 
 ### 119. DastResult.status
 
-**Test File:** `/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/ethics/extreme_ethical_testing.py`
+**Test File:** `/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/ethics/extreme_ethical_testing.py`
 **Line:** 241
 **Context:** `attribute_access`
 **Suggested Fix:** `status` → `NO_METHODS_FOUND`
@@ -1337,7 +1337,7 @@
 
 ### 120. DastResult.quantum_coherence
 
-**Test File:** `/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/ethics/extreme_ethical_testing.py`
+**Test File:** `/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/ethics/extreme_ethical_testing.py`
 **Line:** 242
 **Context:** `attribute_access`
 **Suggested Fix:** `quantum_coherence` → `NO_METHODS_FOUND`
@@ -1346,7 +1346,7 @@
 
 ### 121. DastResult.symbolic_reasoning
 
-**Test File:** `/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/ethics/extreme_ethical_testing.py`
+**Test File:** `/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/ethics/extreme_ethical_testing.py`
 **Line:** 244
 **Context:** `attribute_access`
 **Suggested Fix:** `symbolic_reasoning` → `NO_METHODS_FOUND`
@@ -1355,7 +1355,7 @@
 
 ### 122. ProcessingResult.get
 
-**Test File:** `/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/orchestration/migrated/test_migrations.py`
+**Test File:** `/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/orchestration/migrated/test_migrations.py`
 **Line:** 81
 **Context:** `attribute_access`
 **Suggested Fix:** `get` → `NO_METHODS_FOUND`
@@ -1364,7 +1364,7 @@
 
 ### 123. CacheStats.get
 
-**Test File:** `/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/orchestration/migrated/test_migrations.py`
+**Test File:** `/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/orchestration/migrated/test_migrations.py`
 **Line:** 172
 **Context:** `attribute_access`
 **Suggested Fix:** `get` → `NO_METHODS_FOUND`
@@ -1373,7 +1373,7 @@
 
 ### 124. TestResults.items
 
-**Test File:** `/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/orchestration/migrated/test_migrations.py`
+**Test File:** `/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/orchestration/migrated/test_migrations.py`
 **Line:** 321
 **Context:** `attribute_access`
 **Suggested Fix:** `items` → `NO_METHODS_FOUND`
@@ -1382,7 +1382,7 @@
 
 ### 125. Testresult.PASS
 
-**Test File:** `/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/quantum/bio_test_oracle.py`
+**Test File:** `/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/quantum/bio_test_oracle.py`
 **Line:** 189
 **Context:** `attribute_access`
 **Suggested Fix:** `PASS` → `NO_METHODS_FOUND`
@@ -1391,7 +1391,7 @@
 
 ### 126. Testresult.UNCERTAIN
 
-**Test File:** `/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/quantum/bio_test_oracle.py`
+**Test File:** `/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/quantum/bio_test_oracle.py`
 **Line:** 199
 **Context:** `attribute_access`
 **Suggested Fix:** `UNCERTAIN` → `NO_METHODS_FOUND`
@@ -1400,7 +1400,7 @@
 
 ### 127. Testresult.FAIL
 
-**Test File:** `/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/quantum/bio_test_oracle.py`
+**Test File:** `/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/quantum/bio_test_oracle.py`
 **Line:** 213
 **Context:** `attribute_access`
 **Suggested Fix:** `FAIL` → `NO_METHODS_FOUND`
@@ -1409,7 +1409,7 @@
 
 ### 128. FinalTestResultEnum.value
 
-**Test File:** `/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/quantum/bio_test_oracle.py`
+**Test File:** `/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/quantum/bio_test_oracle.py`
 **Line:** 282
 **Context:** `attribute_access`
 **Suggested Fix:** `value` → `NO_METHODS_FOUND`
@@ -1418,7 +1418,7 @@
 
 ### 129. ActualResultEnum.value
 
-**Test File:** `/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/quantum/bio_test_oracle.py`
+**Test File:** `/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/quantum/bio_test_oracle.py`
 **Line:** 337
 **Context:** `attribute_access`
 **Suggested Fix:** `value` → `NO_METHODS_FOUND`
@@ -1427,7 +1427,7 @@
 
 ### 130. PredictedResultEnum.value
 
-**Test File:** `/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/quantum/bio_test_oracle.py`
+**Test File:** `/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/quantum/bio_test_oracle.py`
 **Line:** 340
 **Context:** `attribute_access`
 **Suggested Fix:** `value` → `NO_METHODS_FOUND`
@@ -1436,7 +1436,7 @@
 
 ### 131. QuantumResult.value
 
-**Test File:** `/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/quantum/systems/bio_integration/test_oracle.py`
+**Test File:** `/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/quantum/systems/bio_integration/test_oracle.py`
 **Line:** 361
 **Context:** `attribute_access`
 **Suggested Fix:** `value` → `NO_METHODS_FOUND`
@@ -1445,7 +1445,7 @@
 
 ### 132. BioResult.value
 
-**Test File:** `/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/quantum/systems/bio_integration/test_oracle.py`
+**Test File:** `/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/quantum/systems/bio_integration/test_oracle.py`
 **Line:** 456
 **Context:** `attribute_access`
 **Suggested Fix:** `value` → `NO_METHODS_FOUND`
@@ -1454,7 +1454,7 @@
 
 ### 133. ActualResult.value
 
-**Test File:** `/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/quantum/systems/bio_integration/test_oracle.py`
+**Test File:** `/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/quantum/systems/bio_integration/test_oracle.py`
 **Line:** 523
 **Context:** `attribute_access`
 **Suggested Fix:** `value` → `NO_METHODS_FOUND`
@@ -1463,7 +1463,7 @@
 
 ### 134. PredictedResult.value
 
-**Test File:** `/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/quantum/systems/bio_integration/test_oracle.py`
+**Test File:** `/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/quantum/systems/bio_integration/test_oracle.py`
 **Line:** 536
 **Context:** `attribute_access`
 **Suggested Fix:** `value` → `NO_METHODS_FOUND`
@@ -1472,7 +1472,7 @@
 
 ### 135. ProcessingResults.get
 
-**Test File:** `/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/orchestration/brain/research_awareness_engine.py`
+**Test File:** `/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/orchestration/brain/research_awareness_engine.py`
 **Line:** 741
 **Context:** `attribute_access`
 **Suggested Fix:** `get` → `NO_METHODS_FOUND`
@@ -1481,7 +1481,7 @@
 
 ### 136. ExperimentalResults.get
 
-**Test File:** `/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/orchestration/brain/research_awareness_engine.py`
+**Test File:** `/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/orchestration/brain/research_awareness_engine.py`
 **Line:** 762
 **Context:** `attribute_access`
 **Suggested Fix:** `get` → `NO_METHODS_FOUND`
@@ -1490,7 +1490,7 @@
 
 ### 137. AnalyticsResults.get
 
-**Test File:** `/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/orchestration/brain/research_awareness_engine.py`
+**Test File:** `/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/orchestration/brain/research_awareness_engine.py`
 **Line:** 772
 **Context:** `attribute_access`
 **Suggested Fix:** `get` → `NO_METHODS_FOUND`

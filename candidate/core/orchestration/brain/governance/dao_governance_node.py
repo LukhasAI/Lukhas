@@ -46,8 +46,8 @@ class DAOGovernanceNode:
     with multi-stakeholder participation and weighted voting.
     """
 
-    def __init__(self, agi_system=None):
-        self.ai = agi_system
+    def __init__(self, cognitive_system=None):
+        self.ai = cognitive_system
         self.logger = logging.getLogger("ΛAGI.dao_governance")
         self.logger = logging.getLogger("lukhasAGI.dao_governance")
         self.proposals = []  # Active and past proposals

@@ -48,7 +48,7 @@ This matrix defines exactly where new files should be placed in the LUKHAS AI pr
 | Dream images         | `assets/dreams/`   | `dream_001.png`, `generated_art.jpg`     |
 | UI assets            | `assets/ui/`       | `icons/`, `logos/`, `components/`        |
 | Documentation images | `assets/docs/`     | `architecture_diagram.png`               |
-| Brand assets         | `branding/assets/` | Official logos, Trinity Framework assets |
+| Brand assets         | `branding/assets/` | Official logos, Constellation Framework assets |
 
 ### **Development Resources**
 | File Type              | Destination    | Examples                                       |

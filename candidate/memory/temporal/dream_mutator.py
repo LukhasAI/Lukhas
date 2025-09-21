@@ -14,7 +14,7 @@ Integration Date: 2025-05-31T07:55:27.770763
 
 # 📄 MODULE: dream_mutator.py
 # 🔎 PURPOSE: Mutate symbolic dreams to simulate memory evolution or emotional reinterpretation
-# 🛠️ VERSION: v1.0.0 • 📅 CREATED: 2025-04-30 • ✍️ AUTHOR: LUKHAS AGI
+# 🛠️ VERSION: v1.0.0 • 📅 CREATED: 2025-04-30 • ✍️ AUTHOR: LUKHAS Cognitive AI
 
 import json
 import os

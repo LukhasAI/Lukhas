@@ -42,8 +42,8 @@ This directory contains comprehensive development documentation, integration gui
 
 ## 🎯 **Development Principles**
 
-### **Trinity Framework Development**
-All development follows the Trinity Framework (⚛️🧠🛡️):
+### **Constellation Framework Development**
+All development follows the Constellation Framework (⚛️🧠🛡️):
 - **⚛️ Identity**: Authentic consciousness development patterns
 - **🧠 Consciousness**: Memory, learning, neural processing development
 - **🛡️ Guardian**: Security, ethics, and safety in development
@@ -77,7 +77,7 @@ make pc-all && make lint-unused-strict
 ```
 
 ### **Prerequisites**
-- Understanding of Trinity Framework principles
+- Understanding of Constellation Framework principles
 - LUKHAS AI architecture familiarity
 - Development environment setup
 

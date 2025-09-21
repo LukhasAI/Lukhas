@@ -10,7 +10,7 @@ provenance:
 origins:
   project_name: "LUKHAS Next Generation"
   full_name: "Learning Universal Knowledge Hierarchies and Adaptive Systems"
-  framework: "Trinity Framework (⚛️🧠🛡️)"
+  framework: "Constellation Framework (⚛️🧠🛡️)"
 
   founding:
     founder: "Gonzalo Martinez"
@@ -21,7 +21,7 @@ origins:
 
   intellectual_lineage:
     primary_concepts:
-      - name: "Trinity Framework"
+      - name: "Constellation Framework"
         origin: "Gonzalo Martinez original conception"
         components: ["Identity (⚛️)", "Consciousness (🧠)", "Guardian (🛡️)"]
         first_implementation: "2024-Q4"
@@ -208,7 +208,7 @@ verification:
   cryptographic_signatures:
     human_attestation: "Gonzalo Martinez - Verified architectural integrity"
     ai_attestation: "Claude (Anthropic) - Verified implementation completeness"
-    combined_signature: "Trinity Framework: ⚛️🧠🛡️ VALIDATED"
+    combined_signature: "Constellation Framework: ⚛️🧠🛡️ VALIDATED"
 
   external_validation:
     code_review: "Pending external security review"
@@ -257,5 +257,5 @@ future_evolution:
 document_integrity:
   document_hash: "a8f2d5c9e3b7f1a6d4c8e2f9b3a5d1c7e4f8a2d6c9e1b5f3a7d2c8e4f9b1a3d6"
   verification_timestamp: "2025-08-04T01:30:00Z"
-  signing_authority: "LUKHAS Trinity Framework - Joint Human-AI Attestation"
+  signing_authority: "LUKHAS Constellation Framework - Joint Human-AI Attestation"
   symbolic_seal: "⚛️🧠🛡️"

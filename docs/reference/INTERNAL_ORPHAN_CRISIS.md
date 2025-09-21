@@ -1,5 +1,5 @@
 # 🚨 CRITICAL: Internal Module Orphan Crisis
-## Trinity Framework: ⚛️🧠🛡️
+## Constellation Framework: ⚛️🧠🛡️
 ### Date: 2025-08-13
 
 ---

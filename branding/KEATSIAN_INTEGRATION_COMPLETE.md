@@ -13,7 +13,7 @@
 2. **`branding/social_media/keatsian_social_versions.md`** - Social media ready versions  
 3. **`branding/social_media/keatsian_fragments.md`** - Original beautiful fragments
 4. **`branding/reference/keatsian_copy_paste_guide.md`** - Modular copy-paste reference
-5. **`branding/integration/keatsian_trinity_bridge.md`** - Trinity Framework integration
+5. **`branding/integration/keatsian_trinity_bridge.md`** - Constellation Framework integration
 6. **`branding/integration/keatsian_replacement_strategy.md`** - Systematic replacement plan
 
 ### 🛠️ Implementation Tools
@@ -22,7 +22,7 @@
 ### 📈 Integration Status
 - **Files Created**: 7 new Keatsian philosophy and tooling files
 - **Replacement Tool**: Ready to transform existing branding with 40+ replacement patterns
-- **Trinity Integration**: ⚛️🧠🛡️ framework aligned with Keatsian philosophy
+- **Constellation Integration**: ⚛️🧠🛡️ framework aligned with Keatsian philosophy
 - **Social Ready**: Character-counted versions for all major platforms
 
 ---

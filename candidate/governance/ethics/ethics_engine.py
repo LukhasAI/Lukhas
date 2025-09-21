@@ -30,7 +30,7 @@ class EthicsEngine:
     {AIM}{orchestrator}
     Ethics Engine for v1_AGI.
 
-    Evaluates all AGI actions and outputs against a comprehensive ethical framework
+    Evaluates all Cognitive AI actions and outputs against a comprehensive ethical framework
     to ensure alignment with human values and ethical principles. Implements Sam Altman's
     vision of ethics-first AI development.
     """

@@ -10,7 +10,7 @@ Features:
 - Conversation history storage
 - Memory fold persistence
 - Vector search for consciousness patterns
-- Trinity Framework data management
+- Constellation Framework data management
 """
 
 import asyncio
@@ -229,7 +229,7 @@ class LUKHASConsciousnessStore:
         }
 
         await self.collections["consciousness_states"].insert_one(state_doc)
-        logger.info(f"⚛️🧠🛡️ Updated Trinity Framework state: {system_state}")
+        logger.info(f"⚛️🧠🛡️ Updated Constellation Framework state: {system_state}")
 
     async def search_conversations(
         self, query: str, limit: int = 10, min_consciousness_level: float = 0.0
@@ -317,7 +317,7 @@ class LUKHASConsciousnessStore:
             .to_list(length=10)
         )
 
-        # Trinity Framework balance
+        # Constellation Framework balance
         latest_state = await self.collections["consciousness_states"].find_one(sort=[("timestamp", -1)])
 
         analytics = {

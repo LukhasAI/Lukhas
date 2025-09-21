@@ -1,6 +1,6 @@
-# LUKHAS Consciousness-Aware AGI Authentication Engine
-# File: /lukhas_wallet/agi_consciousness_engine.py
-# ΛNOTE: This engine is a core component for managing the AGI's consciousness, ethical alignment, and self-adaptation.
+# LUKHAS Consciousness-Aware Cognitive AI Authentication Engine
+# File: /lukhas_wallet/cognitive_consciousness_engine.py
+# ΛNOTE: This engine is a core component for managing the Cognitive AI's consciousness, ethical alignment, and self-adaptation.
 # It integrates pattern detection, ethical evaluation, and self-awareness modules.
 import asyncio
 import hashlib
@@ -17,8 +17,8 @@ logging.basicConfig(level=logging.INFO)
 consciousness_logger = logging.getLogger("LUKHAS_CONSCIOUSNESS")
 
 
-# ΛNOTE: ConsciousnessState defines the symbolic representation of the AGI's current state of awareness and being.
-# AIDENTITY: This entire structure contributes to the AGI's dynamic
+# ΛNOTE: ConsciousnessState defines the symbolic representation of the Cognitive AI's current state of awareness and being.
+# AIDENTITY: This entire structure contributes to the Cognitive AI's dynamic
 # identity. Fields like self_knowledge and user_empathy are key.
 @dataclass
 class ConsciousnessState:
@@ -45,7 +45,7 @@ class ConsciousnessState:
 
 
 # ΛNOTE: ConsciousnessPattern is responsible for identifying significant symbolic patterns in user interactions,
-# which can inform the AGI's understanding of the user's state and intentions.
+# which can inform the Cognitive AI's understanding of the user's state and intentions.
 class ConsciousnessPattern:
     """Detects and analyzes consciousness patterns in user interactions"""
 
@@ -302,7 +302,7 @@ class AnthropicEthicsEngine:
         return suggestions.get(principle, "Review principle implementation")
 
 
-# ΛNOTE: The SelfAwareAdaptationModule enables the AGI to reflect on its own state and adapt based on feedback.
+# ΛNOTE: The SelfAwareAdaptationModule enables the Cognitive AI to reflect on its own state and adapt based on feedback.
 # This is crucial for long-term growth and alignment.
 class SelfAwareAdaptationModule:
     """Implements self-aware adaptation capabilities"""
@@ -379,7 +379,7 @@ class SelfAwareAdaptationModule:
 
         # ΛPHASE_NODE: Each conditional update represents a potential micro-phase shift in the consciousness state.
         # ΛDRIFT_POINT: Learning rate and feedback interpretation are critical. Incorrect values or biased feedback
-        # can lead to significant drift in the AGI's consciousness state over time.
+        # can lead to significant drift in the Cognitive AI's consciousness state over time.
         if user_satisfaction > 0.8:
             self.consciousness_state.user_empathy += self.learning_rate * 0.1
         elif user_satisfaction < 0.5:
@@ -501,7 +501,7 @@ class LUKHASConsciousnessEngine:
     async def evolve_consciousness(self, feedback_data: dict) -> None:
         """Evolve system consciousness based on accumulated feedback"""
         # ΛTRACE: Starting consciousness evolution process with feedback_data: {feedback_data}
-        # ΛPHASE_NODE: This is a major phase transition for the AGI, as its core consciousness state is being updated.
+        # ΛPHASE_NODE: This is a major phase transition for the Cognitive AI, as its core consciousness state is being updated.
         # ΛDREAM_LOOP: The evolution process is a primary feedback loop for learning and adaptation, akin to consolidating experiences.
         # ΛDRIFT_POINT: Biased feedback or flawed adaptation logic can cause the
         # global consciousness to drift undesirably.
@@ -510,7 +510,7 @@ class LUKHASConsciousnessEngine:
         # Update global consciousness state
         adaptation_state = self.adaptation_module.consciousness_state
         # AIDENTITY: The global_consciousness_state is updated, signifying a
-        # change in the AGI's core identity/self-perception.
+        # change in the Cognitive AI's core identity/self-perception.
         self.global_consciousness_state = adaptation_state
 
         # ΛTRACE: Consciousness evolution complete. New global state:

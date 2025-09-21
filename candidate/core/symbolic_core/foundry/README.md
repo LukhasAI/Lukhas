@@ -1,6 +1,6 @@
 # 🌱 Symbolic Seeds Recovery Module
 
-This directory contains recovered early-stage symbolic cognition prototypes from the LUKHAS AGI archive deep scan performed on 2025-07-25.
+This directory contains recovered early-stage symbolic cognition prototypes from the LUKHAS Cognitive AI archive deep scan performed on 2025-07-25.
 
 ## 📦 Contents
 
@@ -71,8 +71,8 @@ The following components contain experimental symbolic logic that requires caref
 
 ## 📝 Notes
 
-These components represent the foundational thinking that influenced LUKHAS AGI's unique approach to consciousness and symbolic reasoning. While valuable, they must be carefully adapted to work within the current system's safety constraints and modular architecture.
+These components represent the foundational thinking that influenced LUKHAS Cognitive AI's unique approach to consciousness and symbolic reasoning. While valuable, they must be carefully adapted to work within the current system's safety constraints and modular architecture.
 
 ---
 
-*Symbolic Seeds Recovery Module - LUKHAS AGI*
+*Symbolic Seeds Recovery Module - LUKHAS Cognitive AI*

@@ -291,4 +291,4 @@ Creative consciousness includes inspiration partnership that enhances rather tha
 
 **© 2025 LUKHAS AI. Enhanced product intelligence implementing consciousness technology.**
 
-*Familiar applications enhanced with multi-model reasoning, dream-guided creativity, and Trinity Framework governance for beneficial AI integration.*
+*Familiar applications enhanced with multi-model reasoning, dream-guided creativity, and Constellation Framework governance for beneficial AI integration.*

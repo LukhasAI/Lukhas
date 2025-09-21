@@ -60,7 +60,7 @@ def get_files_with_datetime_issues():
             "python3", "-m", "ruff", "check", ".", 
             "--select", "DTZ005,DTZ003", 
             "--output-format=json"
-        ], capture_output=True, text=True, cwd="/Users/agi_dev/LOCAL-REPOS/Lukhas")
+        ], capture_output=True, text=True, cwd="/Users/cognitive_dev/LOCAL-REPOS/Lukhas")
 
         if result.stdout:
             violations = json.loads(result.stdout)

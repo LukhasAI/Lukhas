@@ -6,10 +6,10 @@ logger = logging.getLogger(__name__)
 """
 LUKHAS (Logical Unified Knowledge Hyper-Adaptable System) - Unified Drift Monitor Engine
 
-Copyright (c) 2025 LUKHAS AGI Development Team
+Copyright (c) 2025 LUKHAS Cognitive AI Development Team
 All rights reserved.
 
-This file is part of the LUKHAS AGI system, an enterprise artificial general
+This file is part of the LUKHAS Cognitive system, an enterprise artificial general
 intelligence platform combining symbolic reasoning, emotional intelligence,
 quantum integration, and bio-inspired architecture.
 
@@ -19,7 +19,7 @@ understanding into foresight, and foresight into shared benefit for people
 and planet.
 
 Centralized symbolic drift detection, analysis, and intervention system that
-consolidates all drift monitoring capabilities across the LUKHAS AGI system.
+consolidates all drift monitoring capabilities across the LUKHAS Cognitive system.
 Integrates symbolic, ethical, emotional, and temporal drift analysis with
 unified scoring, cascade prevention, and ethics module interaction.
 
@@ -129,7 +129,7 @@ class DriftAlert:
 
 class UnifiedDriftMonitor:
     """
-    Centralized drift monitoring engine for LUKHAS AGI.
+    Centralized drift monitoring engine for LUKHAS Cognitive AI.
 
     Consolidates all drift detection, analysis, and intervention
     capabilities into a single orchestrated system.

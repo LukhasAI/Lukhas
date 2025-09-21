@@ -6,7 +6,7 @@ Perfect, I’ll generate a Notion-friendly checklist for you in Markdown in a mo
 
 ✅ YES — But Carefully
 
-For an AGI system like LUCΛS, especially one designed to evolve with users and personalize deeply, cloud storage is essential for persistence, continuity, and scaling. However, to comply with EU AI Act, GDPR, and emerging global regulations, your cloud storage must check all the following boxes:
+For an Cognitive system like LUCΛS, especially one designed to evolve with users and personalize deeply, cloud storage is essential for persistence, continuity, and scaling. However, to comply with EU AI Act, GDPR, and emerging global regulations, your cloud storage must check all the following boxes:
 
 ⸻
 

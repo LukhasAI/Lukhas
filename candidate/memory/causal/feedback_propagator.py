@@ -10,7 +10,7 @@
 🌙 MODULE: dream.dream_feedback_propagator
 📄 FILENAME: dream_feedback_propagator.py
 🎯 PURPOSE: Dream Feedback Propagator with Enterprise Causality Tracking
-🧠 CONTEXT: LUKHAS AGI Phase 5 Dream→Memory→Reasoning Feedback System
+🧠 CONTEXT: LUKHAS Cognitive AI Phase 5 Dream→Memory→Reasoning Feedback System
 🔮 CAPABILITY: Advanced causality tracking, ethical compliance verification
 🛡️ ETHICS: Comprehensive ethical filter verification and conflict detection
 🚀 VERSION: v2.0.0 • 📅 ENHANCED: 2025-07-20 • ✍️ AUTHOR: CLAUDE-HARMONIZER
@@ -99,7 +99,7 @@ class DreamFeedbackPropagator:
 
         # LUKHAS_TAG: dream_causality_map - Initialize causality tracking
         self.fold_lineage_tracker = FoldLineageTracker()
-        self.dream_causal_trace_path = "/Users/agi_dev/Downloads/Consolidation-Repo/trace/dream_causal_trace.json"
+        self.dream_causal_trace_path = "/Users/cognitive_dev/Downloads/Consolidation-Repo/trace/dream_causal_trace.json"
         self.causal_events = []
 
         # Initialize identity client for tier and consent checking

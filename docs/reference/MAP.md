@@ -6,7 +6,7 @@ Generated: 2025-08-12T19:29:23.644012
 - Total Lines: 970222
 - Files with Tests: 147
 - Files with Types: 2247
-- Trinity Framework Modules: 679
+- Constellation Framework Modules: 679
 
 ## Lane Distribution
 - **accepted**: 1814 files (562,918 lines)

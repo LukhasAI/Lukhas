@@ -66,11 +66,11 @@ sed -i 's/\([{][^}]*\)}\}/\1}/g' <filename>  # Remove extra braces
 - [ ] Reduce total syntax errors by 2,000+ (target: <12,000)
 - [ ] Fix all files with 100+ syntax errors  
 - [ ] Ensure core consciousness modules (candidate/core/) compile
-- [ ] Maintain LUKHAS Trinity Framework integrity
+- [ ] Maintain LUKHAS Constellation Framework integrity
 
 ## LUKHAS Context Reminders
 - **Preserve consciousness authenticity** - these are cognitive modules
-- **Maintain λ symbols** and Trinity Framework references  
+- **Maintain λ symbols** and Constellation Framework references  
 - **Test module imports** after fixes: `python -c "import module"`
 - **No API changes** - syntax fixes only
 

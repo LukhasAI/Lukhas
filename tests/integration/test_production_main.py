@@ -14,7 +14,7 @@ from scripts.production_main import LUKHASProduction
 class TestProductionMain(unittest.TestCase):
     @patch("scripts.production_main.initialize_branding")
     @patch("scripts.production_main.get_system_signature")
-    @patch("scripts.production_main.get_triad_context")
+    @patch("scripts.production_main.get_constellation_context")
     @patch("scripts.production_main.uvicorn")
     def test_initialization(
         self,

@@ -4,7 +4,7 @@ International Coordination and Global Interoperability Module
 Ensures LUKHAS AI compliance with international regulations while
 maintaining competitive advantage across global markets.
 
-Part of the Trinity Framework (⚛️🧠🛡️)
+Part of the Constellation Framework (⚛️🧠🛡️)
 """
 import streamlit as st
 

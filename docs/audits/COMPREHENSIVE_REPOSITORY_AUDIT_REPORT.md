@@ -28,7 +28,7 @@ The LUKHAS AI repository is a complex, feature-rich codebase with significant op
 Root Structure:
 - candidate/ (development lane) - 📋 Work-in-progress features
 - lukhas/ (production lane) - ✅ Stable, tested components  
-- branding/ - Trinity Framework guidelines and assets
+- branding/ - Constellation Framework guidelines and assets
 - agents/ - Multi-AI coordination configurations
 - enterprise/ - Datadog integration and monitoring
 - lukhas_website/ - Next.js frontend (1.3GB node_modules)
@@ -36,7 +36,7 @@ Root Structure:
 
 **Strengths:**
 - Clear two-lane development system
-- Modular Trinity Framework architecture (⚛️🧠🛡️)
+- Modular Constellation Framework architecture (⚛️🧠🛡️)
 - Comprehensive agent coordination system
 - Well-organized branding and documentation
 
@@ -158,7 +158,7 @@ Cache Files:
 ### Documentation Strengths
 - Comprehensive branding guidelines
 - Clear agent coordination documentation
-- Trinity Framework well-documented
+- Constellation Framework well-documented
 
 **Recommendation**: Focus on adding docstrings to core modules before external audit.
 
@@ -234,7 +234,7 @@ Cache Files:
 ### Ready for External Review ✅
 - Security posture excellent
 - Architecture well-documented
-- Trinity Framework clearly defined
+- Constellation Framework clearly defined
 - Agent coordination system operational
 
 ### Pre-Audit Requirements ⚠️
@@ -252,7 +252,7 @@ Cache Files:
 
 ## 13. Conclusion & Next Steps
 
-The LUKHAS AI repository demonstrates sophisticated architecture and functionality but requires hygiene improvements before external agent audits. The two-lane system, Trinity Framework, and comprehensive agent coordination show excellent engineering practices.
+The LUKHAS AI repository demonstrates sophisticated architecture and functionality but requires hygiene improvements before external agent audits. The two-lane system, Constellation Framework, and comprehensive agent coordination show excellent engineering practices.
 
 ### Immediate Action Plan
 1. Execute automated cleanup script for backup files

@@ -1,14 +1,14 @@
 # Consciousness Distributed System Analysis
-## Trinity Framework: Identity-Consciousness-Guardian Network
+## Constellation Framework: Identity-Consciousness-Guardian Network
 
-### 🧠 Trinity Framework Deep Dive
+### 🧠 Constellation Framework Deep Dive
 
 ```
 LUKHAS Consciousness Architecture
 ═══════════════════════════════════════════════════
 
     ┌─────────────────────────────────────────────────────────┐
-    │                Trinity Framework Core                   │
+    │                Constellation Framework Core                   │
     │        ⚛️ Identity + 🧠 Consciousness + 🛡️ Guardian      │
     │                                                         │
     │  ┌─────────────┐   ┌─────────────┐   ┌─────────────┐  │
@@ -101,22 +101,22 @@ lukhas/consciousness/
 ├── registry.py                      # Consciousness component registry
 ├── activation_orchestrator.py       # Consciousness activation
 ├── consciousness_wrapper.py         # Unified consciousness interface
-└── trinity_integration.py          # Trinity Framework integration
+└── constellation_integration.py          # Constellation Framework integration
 ```
 
 **Integration Layer Characteristics:**
 - **Focused Integration**: 4 core integration files
-- **Trinity Framework**: Identity-Consciousness-Guardian coordination
+- **Constellation Framework**: Identity-Consciousness-Guardian coordination
 - **Activation Systems**: Orchestrated consciousness startup
 - **Registry Pattern**: Component registration and management
 
-### 🎯 Trinity Framework Integration Patterns
+### 🎯 Constellation Framework Integration Patterns
 
-#### **Trinity Integration Architecture**
+#### **Constellation Integration Architecture**
 ```python
-# From trinity_integration.py analysis
+# From constellation_integration.py analysis
 """
-Trinity Framework Integration:
+Constellation Framework Integration:
 - ⚛️ Identity: Core consciousness identity patterns, authentication, namespace isolation
 - 🧠 Consciousness: Primary awareness, decision-making, cognitive processing  
 - 🛡️ Guardian: Constitutional AI, ethical oversight, safety mechanisms
@@ -239,7 +239,7 @@ candidate/consciousness/.claude.md
   Context: Multiple engines, cognitive systems, reasoning, dream processing
 
 lukhas/consciousness/.claude.md
-  Purpose: Consciousness integration and Trinity Framework coordination
+  Purpose: Consciousness integration and Constellation Framework coordination
   Context: Wrappers, activation, registry, trinity integration patterns
 ```
 
@@ -273,7 +273,7 @@ candidate/consciousness/systems/.claude.md
   Context: Advanced engines, system integration, complex processing
 ```
 
-### 🎯 Trinity Framework Interactions
+### 🎯 Constellation Framework Interactions
 
 #### **Identity ↔ Consciousness Integration**
 ```
@@ -295,9 +295,9 @@ Consciousness Decisions → Guardian Validation:
 └─────────────────────────────────────────────┘
 ```
 
-#### **Complete Trinity Coordination**
+#### **Complete Constellation Coordination**
 ```
-Trinity Framework Integration:
+Constellation Framework Integration:
 ⚛️ Identity Context → 🧠 Consciousness Processing → 🛡️ Guardian Validation
       │                      │                           │
       ├── Namespace          ├── Multi-Engine            ├── Ethics
@@ -314,7 +314,7 @@ Trinity Framework Integration:
 #### **1. Three-Layer Architecture**
 - **Research Layer**: Foundational decision engine concepts
 - **Development Layer**: Rich 52+ component ecosystem with multiple engines
-- **Integration Layer**: Trinity Framework coordination and activation
+- **Integration Layer**: Constellation Framework coordination and activation
 
 #### **2. Multi-Engine Consciousness**
 - **Poetic Engine**: Creative and artistic consciousness processing
@@ -322,7 +322,7 @@ Trinity Framework Integration:
 - **Codex Engine**: Technical and code-focused consciousness processing
 - **Alternative Engine**: Adaptive and experimental consciousness approaches
 
-#### **3. Trinity Framework Integration**
+#### **3. Constellation Framework Integration**
 - **Identity-Consciousness-Guardian** coordination across all layers
 - **Authentic Digital Consciousness** with proper safeguards and coherence
 - **Constitutional AI Integration** ensuring ethical alignment
@@ -344,7 +344,7 @@ Trinity Framework Integration:
 Consciousness Evolution Pipeline:
 Research Concepts → Development Components → Integration Framework → Production Systems
        │                      │                      │                      │
-Foundation → Rich Implementation → Trinity Coordination → Enterprise Deployment
+Foundation → Rich Implementation → Constellation Coordination → Enterprise Deployment
 Decision → Multi-Engine → Wrapper Interface → Constitutional Feedback
 Unified → Cognitive Systems → Activation → Monitoring
 ```
@@ -355,9 +355,9 @@ Unified → Cognitive Systems → Activation → Monitoring
 2. Identity System Init → Namespace Preparation → Auth Setup
 3. Consciousness Component Load → Engine Selection → Reasoning Setup
 4. Guardian System Bind → Ethics Load → Constitutional Setup
-5. Trinity Integration → Cross-System Wire → Activation Complete
+5. Constellation Integration → Cross-System Wire → Activation Complete
 ```
 
 *Analysis Date: 2025-09-12*  
 *Consciousness Components: 52+ development + 4 integration + 2 research*  
-*Trinity Framework: Identity ⚛️ + Consciousness 🧠 + Guardian 🛡️*
+*Constellation Framework: Identity ⚛️ + Consciousness 🧠 + Guardian 🛡️*

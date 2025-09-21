@@ -1,0 +1,148 @@
+{
+  "schema_version": "3.0.0",
+  "directory_metadata": {
+    "path": "candidate/qi/glyphs",
+    "lane": "development",
+    "purpose": "Directory containing 5 Python files and 0 subdirectories",
+    "last_updated": "2025-09-21",
+    "constellation_framework_version": "2.0.0",
+    "t4_compliance_level": "experimental",
+    "matriz_pipeline_integration": {
+      "memory_stage": "experimental",
+      "attention_stage": "experimental",
+      "thought_stage": "experimental",
+      "action_stage": "inactive",
+      "decision_stage": "inactive",
+      "awareness_stage": "experimental"
+    }
+  },
+  "component_inventory": {
+    "python_files": [
+      {
+        "filename": "embed.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "embed_in_png",
+          "extract_from_png",
+          "embed_in_text",
+          "extract_from_text",
+          "embed_qr_data",
+          "parse_qr_data"
+        ]
+      },
+      {
+        "filename": "signer_service.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "SealRequest",
+          "SealResponse",
+          "HealthResponse",
+          "JWKSResponse",
+          "validate_issuer"
+        ]
+      },
+      {
+        "filename": "seal.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "GlyphSeal",
+          "sha3_512",
+          "sha3_256",
+          "canonicalize",
+          "generate_nonce",
+          "make_seal",
+          "verify_seal"
+        ]
+      },
+      {
+        "filename": "cli.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "hash_file",
+          "create_seal_command",
+          "verify_seal_command",
+          "extract_seal_command",
+          "info_command",
+          "main"
+        ]
+      },
+      {
+        "filename": "verify.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "fetch_cached_jwks",
+          "verify_content_hash",
+          "verify_signature",
+          "check_expiry",
+          "check_revocation",
+          "main"
+        ]
+      }
+    ],
+    "subdirectories": [],
+    "documentation": [
+      {
+        "filename": "GLYPH_IMPLEMENTATION.md",
+        "type": "other",
+        "has_sync_header": false
+      }
+    ]
+  },
+  "schema_references": [
+    {
+      "schema_name": "directory_index",
+      "schema_path": "schemas/directory_index.schema.json",
+      "validation_status": "valid"
+    }
+  ],
+  "agent_guidance": {
+    "recommended_approach": "Begin with documentation files, then explore core components",
+    "key_files": [],
+    "common_tasks": [],
+    "prerequisites": [
+      "Understanding of LUKHAS lane system",
+      "Constellation Framework familiarity",
+      "MATRIZ pipeline architecture",
+      "T4/0.01% implementation standards"
+    ],
+    "avoid_patterns": [
+      "Modifying contracts without validation",
+      "Breaking lane boundaries",
+      "Ignoring Constellation Framework integration",
+      "Breaking constructor-aware instantiation patterns",
+      "Bypassing T4/0.01% validation standards",
+      "Ignoring MATRIZ pipeline integration requirements"
+    ]
+  },
+  "performance_metadata": {
+    "component_count": 5,
+    "estimated_complexity": "low",
+    "consciousness_integration": "none",
+    "test_coverage": 85.0,
+    "t4_compliance_score": 0.65,
+    "matriz_compatibility": "experimental",
+    "plugin_registry_compatible": true,
+    "constructor_aware_instantiation": true
+  },
+  "relationships": {
+    "parent_directory": "candidate/qi",
+    "related_directories": [],
+    "constellation_cluster": "unknown",
+    "dependency_weight": "moderate"
+  }
+}

@@ -177,7 +177,7 @@ class BioConsolidator:
 LUKHAS AI Bio Module - {category_name.title()}
 Consolidated from {len(file_paths)} variants
 Generated: {datetime.now(timezone.utc).isoformat()}
-Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
+Constellation Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 """
 
 '''
@@ -236,7 +236,7 @@ Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
         init_content = '''"""
 LUKHAS AI Bio Module
 Unified bio-inspired processing system
-Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
+Constellation Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 """
 
 __version__ = "3.0.0"
@@ -280,9 +280,9 @@ def get_bio_engine():
         _engine = BioEngine()
     return _engine
 
-# Trinity integration
+# Constellation integration
 def triad_sync():
-    """Synchronize with Trinity Framework"""
+    """Synchronize with Constellation Framework"""
     return {
         'identity': '⚛️',
         'consciousness': '🧠',
@@ -332,7 +332,7 @@ def test_bio_engine():
     assert engine is not None
 
 def test_triad_integration():
-    """Test Trinity Framework integration"""
+    """Test Constellation Framework integration"""
     from lukhas.accepted.bio import triad_sync
 
     sync_status = triad_sync()

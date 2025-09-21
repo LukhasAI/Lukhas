@@ -55,7 +55,7 @@ def test_consciousness_server():
         # Test server initialization
         server = server_module.LukhosConsciousnessServer(str(project_root))
         print("   ✅ Consciousness server initialized")
-        print(f"   🔧 Trinity status: {server.triad_status}")
+        print(f"   🔧 Trinity status: {server.constellation_status}")
 
         return True
     except Exception as e:
@@ -137,7 +137,7 @@ def main():
         print("   1. Restart Claude Desktop")
         print("   2. Check for MCP server indicators in Claude interface")
         print("   3. Test LUKHAS knowledge integration:")
-        print('      • Ask: "What are the Trinity Framework principles?"')
+        print('      • Ask: "What are the Constellation Framework principles?"')
         print('      • Ask: "Generate LUKHAS-compliant variable names"')
         print('      • Ask: "Review this code using LUKHAS patterns"')
         return 0

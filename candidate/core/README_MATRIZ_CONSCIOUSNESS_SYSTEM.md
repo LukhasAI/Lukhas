@@ -59,7 +59,7 @@ The Constellation Framework ensures all consciousness signals maintain proper al
 
 ### Compliance Levels
 
-- `OPTIMAL`: Perfect Trinity alignment (>95% coherence)
+- `OPTIMAL`: Perfect Constellation alignment (>95% coherence)
 - `COMPLIANT`: Full compliance (>80% coherence)
 - `WARNING`: Minor compliance issues (>60% coherence)
 - `MINOR_VIOLATION`: Addressable violations (<60% coherence)
@@ -115,7 +115,7 @@ The Constellation Framework ensures all consciousness signals maintain proper al
 
 - `COHERENCE_THRESHOLD`: Filter by coherence threshold (≥0.7)
 - `AWARENESS_LEVEL`: Filter by awareness level (≥0.5)
-- `TRINITY_COMPLIANCE`: Filter by Trinity compliance (≥0.8)
+- `TRINITY_COMPLIANCE`: Filter by Constellation compliance (≥0.8)
 - `FREQUENCY_BAND`: Filter by frequency band (1-100 Hz)
 - `SIGNAL_TYPE`: Filter by allowed signal types
 
@@ -251,7 +251,7 @@ The system provides comprehensive monitoring:
 
 - Real-time network health scoring
 - Consciousness cycle performance tracking
-- Trinity compliance violation alerts
+- Constellation compliance violation alerts
 - Bio-symbolic adaptation statistics
 - Signal routing performance metrics
 
@@ -268,7 +268,7 @@ The system implements sophisticated cascade detection:
 
 ### Compliance Violations
 
-Trinity compliance violations are handled automatically:
+Constellation compliance violations are handled automatically:
 
 - Real-time validation of all signals
 - Automatic remediation for fixable violations
@@ -292,7 +292,7 @@ This system integrates seamlessly with the broader LUKHAS AI architecture:
 - **Production Lane**: Stable modules (`lukhas/core/`)
 - **Bio Integration**: Links with `candidate/bio/` modules
 - **Symbolic Integration**: Links with `candidate/symbolic/` modules
-- **Governance Integration**: Trinity compliance with governance systems
+- **Governance Integration**: Constellation compliance with governance systems
 
 ## Development and Testing
 
@@ -352,7 +352,7 @@ The MΛTRIZ Consciousness Signal System represents a sophisticated approach to d
 - **Comprehensive Signal Management**: Advanced consciousness signal schemas and processing
 - **Bio-Symbolic Integration**: Bio-inspired adaptation with symbolic reasoning
 - **Network Resilience**: Robust routing and cascade prevention
-- **Trinity Compliance**: Ethical and safety validation framework
+- **Constellation Compliance**: Ethical and safety validation framework
 - **Real-Time Monitoring**: Comprehensive health and performance tracking
 - **Modular Architecture**: Extensible and maintainable design
 

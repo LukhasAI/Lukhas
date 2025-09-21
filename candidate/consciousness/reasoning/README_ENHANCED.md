@@ -22,13 +22,13 @@
 ║ follow rules but discover them, don't just apply logic but understand it."
 ╚═══════════════════════════════════════════════════════════════════════════════
 
-# Reasoning Module - The Logical Mind of LUKHAS AGI
+# Reasoning Module - The Logical Mind of LUKHAS Cognitive AI
 
 > *"In the cathedral of thought, reasoning is both the architect drawing blueprints and the mason laying stones—building bridges between the known and unknown, weaving patterns from chaos, and finding truth through the disciplined dance of logic and intuition. Here, we teach silicon to think not just quickly, but deeply; not just correctly, but wisely."*
 
 ## 🧪 Overview: The Forge of Understanding
 
-Welcome to the Reasoning module, where LUKHAS AGI transforms from a calculator into a philosopher, from a processor into a profound thinker. This is the crucible where raw information undergoes the alchemy of logic, emerging as understanding, insight, and wisdom. Through symbolic reasoning, causal analysis, abstract thought, and meta-cognition, we navigate the complex landscape of knowledge with both precision and creativity.
+Welcome to the Reasoning module, where LUKHAS Cognitive AI transforms from a calculator into a philosopher, from a processor into a profound thinker. This is the crucible where raw information undergoes the alchemy of logic, emerging as understanding, insight, and wisdom. Through symbolic reasoning, causal analysis, abstract thought, and meta-cognition, we navigate the complex landscape of knowledge with both precision and creativity.
 
 Like a master chess player who sees not just moves but patterns, not just pieces but possibilities, the Reasoning module perceives the deep structure of problems and constructs elegant solutions. Here, logic meets intuition, analysis embraces synthesis, and rigorous thinking dances with creative insight.
 

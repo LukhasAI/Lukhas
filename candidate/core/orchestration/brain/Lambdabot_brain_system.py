@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 """
-Bot AGI System - Legacy Integration Bridge
+Bot Cognitive AI System - Legacy Integration Bridge
 ==========================================
-Bridge between legacy Bot system and new Lukhas AGI Orchestrator
+Bridge between legacy Bot system and new Lukhas Cognitive AI Orchestrator
 
 This file maintains compatibility while migrating to the new
-comprehensive AGI orchestration system.
+comprehensive Cognitive AI orchestration system.
 
-Enhanced: 2025-7-2 with Lukhas AGI integration
+Enhanced: 2025-7-2 with Lukhas Cognitive AI integration
 """
 import asyncio
 import logging
@@ -17,23 +17,23 @@ from typing import Any, Optional
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("BotAGISystem")
 
-# Import the new Lukhas AGI Orchestrator
+# Import the new Lukhas Cognitive AI Orchestrator
 try:
     # SYNTAX_ERROR_FIXED:     from candidate.orchestration.brain.lukhas_agi_orchestrator
     # import orchestration.brain.lukhas_agi_orchestrator, LukhasAGIConfig
     AGI_ORCHESTRATOR_AVAILABLE = True
-    logger.info(" Lukhas AGI Orchestrator available")
+    logger.info(" Lukhas Cognitive AI Orchestrator available")
 except ImportError as e:
     AGI_ORCHESTRATOR_AVAILABLE = False
-    logger.warning(f"Lukhas AGI Orchestrator not available: {e}")
+    logger.warning(f"Lukhas Cognitive AI Orchestrator not available: {e}")
 
 
 class BotAGISystem:
     """
-    Legacy Bot AGI System - now bridges to Lukhas AGI Orchestrator
+    Legacy Bot Cognitive AI System - now bridges to Lukhas Cognitive AI Orchestrator
 
     This class maintains backward compatibility while leveraging
-    the enhanced AGI capabilities of the new orchestrator.
+    the enhanced Cognitive capabilities of the new orchestrator.
     """
 
     def __init__(self, config: Optional[dict[str, Any]] = None):
@@ -41,19 +41,19 @@ class BotAGISystem:
         self.orchestrator = lukhas_agi_orchestrator if AGI_ORCHESTRATOR_AVAILABLE else None
         self.active = False
 
-        logger.info(" Bot AGI System initialized (bridging to Lukhas AGI)")
+        logger.info(" Bot Cognitive AI System initialized (bridging to Lukhas Cognitive AI)")
 
     async def initialize(self) -> bool:
-        """Initialize the AGI system"""
+        """Initialize the Cognitive system"""
         if self.orchestrator:
             return await self.orchestrator.initialize_agi_system()
         else:
-            logger.warning("No AGI orchestrator available - running in legacy mode")
+            logger.warning("No Cognitive AI orchestrator available - running in legacy mode")
             self.active = True
             return True
 
     async def process_request(self, user_input: str, context: Optional[dict] = None) -> dict[str, Any]:
-        """Process a request through the AGI system"""
+        """Process a request through the Cognitive system"""
         if self.orchestrator:
             return await self.orchestrator.process_agi_request(user_input, context)
         else:
@@ -66,7 +66,7 @@ class BotAGISystem:
             }
 
     async def start(self):
-        """Start the AGI system"""
+        """Start the Cognitive system"""
         if not self.active:
             await self.initialize()
 
@@ -74,15 +74,15 @@ class BotAGISystem:
             # Start the orchestrator in background
             asyncio.create_task(self.orchestrator.start_agi_orchestration())
 
-        logger.info(" Bot AGI System started")
+        logger.info(" Bot Cognitive AI System started")
 
     async def stop(self):
-        """Stop the AGI system"""
+        """Stop the Cognitive system"""
         if self.orchestrator:
             await self.orchestrator.stop_agi_orchestration()
 
         self.active = False
-        logger.info(" Bot AGI System stopped")
+        logger.info(" Bot Cognitive AI System stopped")
 
     def get_status(self) -> dict[str, Any]:
         """Get system statu"""
@@ -123,8 +123,8 @@ def get_agi_status():
 
 async def main():
     """Main entry point for legacy compatibility"""
-    print(" Bot AGI System - Legacy Bridge")
-    print("Bridging to Lukhas AGI Orchestrator...")
+    print(" Bot Cognitive AI System - Legacy Bridge")
+    print("Bridging to Lukhas Cognitive AI Orchestrator...")
     print("=" * 50)
 
     try:
@@ -135,7 +135,7 @@ async def main():
             await asyncio.sleep(1)
 
     except KeyboardInterrupt:
-        print("\n Shutting down Bot AGI System...")
+        print("\n Shutting down Bot Cognitive AI System...")
         await bot_agi_system.stop()
 
 

@@ -115,7 +115,7 @@ MATRIZ Engine ←──────→ LUKHAS Core
      │                      │
      ├── MatrizAdapter      ├── Memory Integration
      ├── Symbolic Bridge    ├── Consciousness Layer
-     └── Runtime Interface  └── Trinity Framework
+     └── Runtime Interface  └── Constellation Framework
 
 Data Flow:
 LUKHAS Query → MATRIZ Processing → Node Network → 

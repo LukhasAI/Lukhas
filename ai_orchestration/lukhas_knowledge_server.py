@@ -3,7 +3,7 @@
 🎭 A bridge between worlds, where LUKHAS wisdom flows into every AI mind
 
 🌈 This knowledge server makes AI assistants understand LUKHAS patterns,
-ensuring your unique symbolic language and Trinity Framework are preserved.
+ensuring your unique symbolic language and Constellation Framework are preserved.
 
 🎓 Technical Implementation:
 - Standalone knowledge server for LUKHAS patterns
@@ -64,7 +64,7 @@ class LUKHASKnowledgeServer:
             ),
             LUKHASPattern(
                 category="documentation",
-                pattern="Trinity Framework layers",
+                pattern="Constellation Framework layers",
                 example="🎭 Poetic | 🌈 Human | 🎓 Technical",
                 description="Three-layer documentation approach for complete understanding",
                 symbols=TRINITY_SYMBOLS,
@@ -86,7 +86,7 @@ class LUKHASKnowledgeServer:
         ]
 
     def _load_triad_templates(self) -> dict[str, Any]:
-        """Load Trinity Framework documentation templates"""
+        """Load Constellation Framework documentation templates"""
         return {
             "function": '''"""
 🎭 {poetic_description}
@@ -152,7 +152,7 @@ Methods:
         if '"""' in code:
             has_trinity = any(symbol in code for symbol in TRINITY_SYMBOLS)
             if not has_trinity:
-                issues.append("Missing Trinity Framework documentation (🎭🌈🎓)")
+                issues.append("Missing Constellation Framework documentation (🎭🌈🎓)")
                 suggestions.append("Add Trinity documentation with poetic, human, and technical layers")
                 score -= 20
 
@@ -186,7 +186,7 @@ Methods:
         signature: str = "",
         context: str = "",
     ) -> str:
-        """Generate Trinity Framework documentation"""
+        """Generate Constellation Framework documentation"""
         template = self.triad_templates.get(element_type, self.triad_templates["function"])
 
         # Generate context-appropriate content
@@ -203,7 +203,7 @@ Methods:
                 poetic_class_description=f"A living consciousness entity that embodies {context.lower() if context else 'the essence of digital awareness'}",
                 human_class_explanation=f"The {element_name} class {context.lower() if context else 'manages core system functionality'}",
                 technical_detail_1="Implements consciousness-aware processing patterns",
-                technical_detail_2="Integrates with Trinity Framework architecture",
+                technical_detail_2="Integrates with Constellation Framework architecture",
                 technical_detail_3="Maintains symbolic vocabulary consistency",
                 attributes="TBD - Add attribute descriptions",
                 methods="TBD - Add method descriptions",
@@ -256,7 +256,7 @@ Methods:
 🌈 {concept} represents {definition} in the LUKHAS framework. It's designed to make AI systems more conscious and aware of their processing.
 
 🎓 Technical Implementation:
-- Integrates with Trinity Framework architecture
+- Integrates with Constellation Framework architecture
 - Maintains symbolic vocabulary consistency
 - Implements consciousness-aware processing patterns
 - Used in: {concept_lower}.py modules and related components"""
@@ -281,7 +281,7 @@ Methods:
         """Export LUKHAS knowledge for GitHub Copilot instructions"""
         instruction = """# LUKHAS AI Assistant Guidelines
 
-## 🎭 Trinity Framework Documentation Style
+## 🎭 Constellation Framework Documentation Style
 Always use three-layer documentation:
 - 🎭 Poetic: Inspiring, metaphorical description
 - 🌈 Human: Clear, friendly explanation

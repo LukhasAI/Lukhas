@@ -1,0 +1,124 @@
+{
+  "schema_version": "3.0.0",
+  "directory_metadata": {
+    "path": "candidate/consciousness/quantum",
+    "lane": "development",
+    "purpose": "Directory containing 2 Python files and 0 subdirectories",
+    "last_updated": "2025-09-21",
+    "constellation_framework_version": "2.0.0",
+    "t4_compliance_level": "experimental",
+    "constellation_role": "horizon_star_primary",
+    "matriz_pipeline_integration": {
+      "memory_stage": "active",
+      "attention_stage": "active",
+      "thought_stage": "active",
+      "awareness_stage": "active",
+      "decision_stage": "experimental"
+    },
+    "cognitive_domains": [
+      "consciousness_processing",
+      "awareness_patterns",
+      "quantum_consciousness",
+      "superposition_processing"
+    ]
+  },
+  "component_inventory": {
+    "python_files": [
+      {
+        "filename": "superposition_processor.py",
+        "component_type": "MATRIZ_PROCESSOR",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/superposition_processor.json",
+        "dependencies": [],
+        "exports": [
+          "SuperpositionState",
+          "QuantumGate",
+          "QuantumState",
+          "SuperpositionConfiguration",
+          "QuantumSuperpositionProcessor",
+          "IdentityCoherenceMonitor",
+          "ConsciousnessAmplifier",
+          "GuardianQuantumEthics",
+          "update_probability",
+          "apply_phase_shift",
+          "measure_state",
+          "get_system_status",
+          "initialize",
+          "calibrate",
+          "enable_quantum_monitoring"
+        ]
+      },
+      {
+        "filename": "collapse_governance_system.py",
+        "component_type": "UTILITY",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/collapse_governance_system.json",
+        "dependencies": [],
+        "exports": [
+          "CollapseState",
+          "EthicalTier",
+          "MoralOption",
+          "CollapseEvent",
+          "TraceIndexEntry",
+          "CollapseHashSystem",
+          "DriftScoreCalculator",
+          "EthicalVault",
+          "CollapseGovernanceSystem",
+          "create_collapse_governance_system",
+          "create_ethical_hash",
+          "verify_ethical_integrity",
+          "calculate_drift_score",
+          "get_drift_prevention_rate",
+          "store_approved_solution",
+          "retrieve_approved_solution"
+        ]
+      }
+    ],
+    "subdirectories": [],
+    "documentation": []
+  },
+  "schema_references": [
+    {
+      "schema_name": "directory_index",
+      "schema_path": "schemas/directory_index.schema.json",
+      "validation_status": "valid"
+    }
+  ],
+  "agent_guidance": {
+    "recommended_approach": "Start with consciousness architecture documentation, then examine engines and processors",
+    "key_files": [],
+    "common_tasks": [],
+    "prerequisites": [
+      "Understanding of LUKHAS lane system",
+      "Constellation Framework familiarity",
+      "Consciousness architecture patterns",
+      "MATRIZ pipeline architecture",
+      "T4/0.01% implementation standards"
+    ],
+    "avoid_patterns": [
+      "Modifying contracts without validation",
+      "Breaking lane boundaries",
+      "Ignoring Constellation Framework integration",
+      "Breaking constructor-aware instantiation patterns",
+      "Bypassing T4/0.01% validation standards",
+      "Ignoring MATRIZ pipeline integration requirements"
+    ]
+  },
+  "performance_metadata": {
+    "component_count": 2,
+    "estimated_complexity": "low",
+    "consciousness_integration": "basic",
+    "test_coverage": 85.0,
+    "t4_compliance_score": 0.65,
+    "matriz_compatibility": "native",
+    "plugin_registry_compatible": true,
+    "constructor_aware_instantiation": true,
+    "cognitive_alignment_score": 0.85
+  },
+  "relationships": {
+    "parent_directory": "candidate/consciousness",
+    "related_directories": [],
+    "constellation_cluster": "horizon_star_consciousness",
+    "dependency_weight": "moderate"
+  }
+}

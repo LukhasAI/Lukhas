@@ -20,7 +20,7 @@ from datetime import timezone
     create_vivox_evrn_system,
 )
 
-sys.path.append("/Users/agi_dev/Lukhas")
+sys.path.append("/Users/cognitive_dev/Lukhas")
 
 
 class VIVOXEVRNDemo:

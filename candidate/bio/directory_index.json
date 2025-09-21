@@ -1,0 +1,368 @@
+{
+  "schema_version": "3.0.0",
+  "directory_metadata": {
+    "path": "candidate/bio",
+    "lane": "development",
+    "purpose": "Directory containing 10 Python files and 22 subdirectories",
+    "last_updated": "2025-09-21",
+    "constellation_framework_version": "2.0.0",
+    "t4_compliance_level": "experimental",
+    "matriz_pipeline_integration": {
+      "memory_stage": "experimental",
+      "attention_stage": "experimental",
+      "thought_stage": "experimental",
+      "action_stage": "inactive",
+      "decision_stage": "inactive",
+      "awareness_stage": "experimental"
+    }
+  },
+  "component_inventory": {
+    "python_files": [
+      {
+        "filename": "compound_governor.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "SystemHealthState",
+          "BiologicalModulatorState",
+          "SystemStabilityMetrics",
+          "BioCompoundGovernor",
+          "get_system_status_report"
+        ]
+      },
+      {
+        "filename": "oscillator.py",
+        "component_type": "UTILITY",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/oscillator.json",
+        "dependencies": [],
+        "exports": [
+          "OscillatorConfig",
+          "BaseOscillator",
+          "BioOscillator",
+          "QIOscillator",
+          "PrimeHarmonicOscillator",
+          "BioOrchestrator",
+          "get_orchestrator",
+          "oscillate",
+          "reset",
+          "oscillate",
+          "oscillate",
+          "oscillate",
+          "add_oscillator",
+          "step",
+          "reset_all"
+        ]
+      },
+      {
+        "filename": "core.py",
+        "component_type": "UTILITY",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/core.json",
+        "dependencies": [],
+        "exports": [
+          "BioEngine",
+          "get_bio_engine",
+          "process",
+          "reset",
+          "shutdown"
+        ]
+      },
+      {
+        "filename": "symbolic.py",
+        "component_type": "SYMBOLIC_PROCESSOR",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "BioSymbol",
+          "BioSymbolicProcessor",
+          "SymbolicResonator",
+          "get_symbolic_processor",
+          "process",
+          "add_symbol",
+          "get_active_symbols",
+          "resonate"
+        ]
+      },
+      {
+        "filename": "qi.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "VoiceQIConfig",
+          "QIVoiceEnhancer",
+          "MitochondrialQIBridge",
+          "QISynapticGate",
+          "NeuroplasticityModulator"
+        ]
+      },
+      {
+        "filename": "voice.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "VoiceBioAdapter",
+          "process_audio_chunk",
+          "optimize_for_realtime",
+          "get_voice_metrics"
+        ]
+      },
+      {
+        "filename": "symbolic_proteome.py",
+        "component_type": "SYMBOLIC_PROCESSOR",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "lukhas.core.symbolism.tags"
+        ],
+        "exports": [
+          "ProteinType",
+          "FoldingState",
+          "PostTranslationalModification",
+          "MemoryCodon",
+          "MemoryProtein",
+          "ProteinComplex",
+          "MolecularChaperone",
+          "SymbolicProteome",
+          "StubTagScope",
+          "StubSymbolicTag",
+          "from_memory_fragment",
+          "calculate_stability",
+          "is_functional",
+          "calculate_synergy",
+          "get_metrics"
+        ]
+      },
+      {
+        "filename": "awareness.py",
+        "component_type": "CONSCIOUSNESS_ENGINE",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/awareness.json",
+        "dependencies": [],
+        "exports": [
+          "AwarenessState",
+          "BioAwareness",
+          "EnhancedSystemAwareness",
+          "ProtonGradient",
+          "QIAttentionGate",
+          "CristaFilter",
+          "CardiolipinEncoder",
+          "QIOscillator",
+          "QIBioOscillator",
+          "sense",
+          "adjust_awareness",
+          "set_focus"
+        ]
+      },
+      {
+        "filename": "matriz_adapter.py",
+        "component_type": "CONSTELLATION_BRIDGE",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/matriz_adapter.json",
+        "dependencies": [],
+        "exports": [
+          "BioMatrizAdapter",
+          "create_node",
+          "emit_oscillator_state",
+          "emit_quantum_coherence",
+          "emit_adaptation_event",
+          "emit_awareness_pulse",
+          "validate_node",
+          "save_node"
+        ]
+      },
+      {
+        "filename": "adapters.py",
+        "component_type": "CONSTELLATION_BRIDGE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": []
+      }
+    ],
+    "subdirectories": [
+      {
+        "name": "endocrine_integration",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "quantum_inspired_layer",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "qi_layer",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "bio_utilities",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "core",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "bio_engine",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "memory",
+        "has_index": false,
+        "purpose": "Subdirectory with 2 Python files",
+        "component_count": 2
+      },
+      {
+        "name": "base_oscillator",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "energy",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "awareness",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "qi_bio_components",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "ai_client",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "advanced_quantum_bio",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "coherence",
+        "has_index": false,
+        "purpose": "Subdirectory with 2 Python files",
+        "component_count": 2
+      },
+      {
+        "name": "advanced_qi_bio",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "oscillator",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "simulation_controller",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "symbolic",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "bio_hub",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "systems",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "quantum_bio_components",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "bio_integration_hub",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      }
+    ],
+    "documentation": []
+  },
+  "schema_references": [
+    {
+      "schema_name": "directory_index",
+      "schema_path": "schemas/directory_index.schema.json",
+      "validation_status": "valid"
+    }
+  ],
+  "agent_guidance": {
+    "recommended_approach": "Begin with documentation files, then explore core components",
+    "key_files": [],
+    "common_tasks": [],
+    "prerequisites": [
+      "Understanding of LUKHAS lane system",
+      "Constellation Framework familiarity",
+      "MATRIZ pipeline architecture",
+      "T4/0.01% implementation standards"
+    ],
+    "avoid_patterns": [
+      "Modifying contracts without validation",
+      "Breaking lane boundaries",
+      "Ignoring Constellation Framework integration",
+      "Breaking constructor-aware instantiation patterns",
+      "Bypassing T4/0.01% validation standards",
+      "Ignoring MATRIZ pipeline integration requirements"
+    ]
+  },
+  "performance_metadata": {
+    "component_count": 10,
+    "estimated_complexity": "medium",
+    "consciousness_integration": "none",
+    "test_coverage": 85.0,
+    "t4_compliance_score": 0.65,
+    "matriz_compatibility": "experimental",
+    "plugin_registry_compatible": true,
+    "constructor_aware_instantiation": true
+  },
+  "relationships": {
+    "parent_directory": "candidate",
+    "related_directories": [],
+    "constellation_cluster": "unknown",
+    "dependency_weight": "moderate"
+  }
+}

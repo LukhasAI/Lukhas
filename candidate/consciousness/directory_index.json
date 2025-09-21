@@ -1,0 +1,498 @@
+{
+  "schema_version": "3.0.0",
+  "directory_metadata": {
+    "path": "candidate/consciousness",
+    "lane": "development",
+    "purpose": "Advanced consciousness processing systems with MATRIZ pipeline integration and Constellation Framework cognitive alignment",
+    "constellation_framework_version": "2.0.0",
+    "constellation_role": "horizon_star_primary",
+    "t4_compliance_level": "experimental",
+    "last_updated": "2025-09-20",
+    "matriz_pipeline_integration": {
+      "memory_stage": "active",
+      "attention_stage": "active",
+      "thought_stage": "active",
+      "action_stage": "experimental",
+      "decision_stage": "experimental",
+      "awareness_stage": "active"
+    },
+    "cognitive_domains": [
+      "consciousness_processing",
+      "awareness_patterns",
+      "metacognitive_reflection",
+      "dream_synthesis",
+      "quantum_consciousness"
+    ]
+  },
+  "component_inventory": {
+    "python_files": [
+      {
+        "filename": "orchestration_bridge.py",
+        "component_type": "CONSTELLATION_BRIDGE",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/orchestration_bridge.json",
+        "dependencies": [
+          "candidate.core.common",
+          "candidate.orchestration.brain.monitoring.rate_modulator",
+          "candidate.orchestration.brain.personality.personality",
+          "candidate.orchestration.brain.cognitive.cognitive_updater"
+        ],
+        "exports": [
+          "OrchestrationBridge",
+          "register_brain_component",
+          "think"
+        ]
+      },
+      {
+        "filename": "services.py",
+        "component_type": "UTILITY",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/services.json",
+        "dependencies": [],
+        "exports": [
+          "ConsciousnessService",
+          "create_consciousness_service"
+        ]
+      },
+      {
+        "filename": "bridge.py",
+        "component_type": "CONSTELLATION_BRIDGE",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/bridge.json",
+        "dependencies": [],
+        "exports": [
+          "ConsciousnessBridge",
+          "create_consciousness_bridge",
+          "get_status"
+        ]
+      },
+      {
+        "filename": "dream_bridge_adapter.py",
+        "component_type": "DREAM_PROCESSOR",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/dream_bridge_adapter.json",
+        "dependencies": [
+          "candidate.core.common"
+        ],
+        "exports": [
+          "DreamBridge"
+        ]
+      },
+      {
+        "filename": "qi_consciousness_integration.py",
+        "component_type": "UTILITY",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/qi_consciousness_integration.json",
+        "dependencies": [],
+        "exports": [
+          "QICreativeConsciousness",
+          "ElevatedConsciousnessModule",
+          "ConsciousnessLevel",
+          "QualiaType",
+          "ConsciousExperience",
+          "LukhasCreativeExpressionEngine",
+          "lukhas_tier_required",
+          "get_consciousness_integration_status",
+          "decorator",
+          "get_consciousness_status",
+          "setup_quantum_entanglement",
+          "create_entanglement"
+        ]
+      },
+      {
+        "filename": "platform.py",
+        "component_type": "UTILITY",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/platform.json",
+        "dependencies": [],
+        "exports": [
+          "ConsciousnessPlatform",
+          "create_consciousness_platform",
+          "get_platform_status"
+        ]
+      },
+      {
+        "filename": "activation.py",
+        "component_type": "UTILITY",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/activation.json",
+        "dependencies": [],
+        "exports": []
+      },
+      {
+        "filename": "dream_bridge.py",
+        "component_type": "DREAM_PROCESSOR",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/dream_bridge.json",
+        "dependencies": [
+          "candidate.core.orchestration.integration_hub",
+          "candidate.memory.core"
+        ],
+        "exports": [
+          "DreamConsciousnessBridge",
+          "register_with_hub"
+        ]
+      },
+      {
+        "filename": "pattern_separator.py",
+        "component_type": "UTILITY",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/pattern_separator.json",
+        "dependencies": [],
+        "exports": [
+          "PatternSeparator",
+          "separate",
+          "separate_batch",
+          "compute_separation_quality",
+          "create_content_vector",
+          "reset_competitive_weights",
+          "get_metrics"
+        ]
+      },
+      {
+        "filename": "neuroplastic_connector.py",
+        "component_type": "UTILITY",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/neuroplastic_connector.json",
+        "dependencies": [
+          "candidate.core.common"
+        ],
+        "exports": [
+          "NeuroplasticConnector",
+          "ConsciousnessConnector",
+          "form_synapse",
+          "strengthen_pathway",
+          "weaken_pathway",
+          "get_pathway_strength",
+          "adapt_to_stimulus",
+          "get_adaptation_summary",
+          "connect_component",
+          "emit_hormone",
+          "get_stress_response"
+        ]
+      },
+      {
+        "filename": "matriz_adapter.py",
+        "component_type": "UTILITY",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/matriz_adapter.json",
+        "dependencies": [],
+        "exports": [
+          "ConsciousnessMatrizAdapter",
+          "create_node",
+          "emit_awareness_state",
+          "emit_decision_point",
+          "emit_dream_state",
+          "emit_metacognition_event",
+          "emit_stream_of_consciousness",
+          "validate_node",
+          "save_node"
+        ]
+      },
+      {
+        "filename": "persona_similarity_engine.py",
+        "component_type": "CONSCIOUSNESS_ENGINE",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/persona_similarity_engine.json",
+        "dependencies": [],
+        "exports": [
+          "PersonaMatch",
+          "PersonaSimilarityEngine",
+          "recommend_persona",
+          "rank_personas",
+          "evolve_persona",
+          "get_fallback_if_collapse",
+          "batch_analyze",
+          "export_similarity_report",
+          "get_stats"
+        ]
+      },
+      {
+        "filename": "loop_meta_learning.py",
+        "component_type": "UTILITY",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/loop_meta_learning.json",
+        "dependencies": [
+          "lukhas.memory.core"
+        ],
+        "exports": [
+          "MetaLearningCycle",
+          "MetaLearningLoop",
+          "get_meta_learning_loop"
+        ]
+      }
+    ],
+    "subdirectories": [
+      {
+        "name": "cognitive",
+        "has_index": true,
+        "purpose": "Subdirectory with 3 Python files",
+        "component_count": 3
+      },
+      {
+        "name": "colonies",
+        "has_index": false,
+        "purpose": "Subdirectory with 0 Python files",
+        "component_count": 0
+      },
+      {
+        "name": "core",
+        "has_index": true,
+        "purpose": "Subdirectory with 6 Python files",
+        "component_count": 6
+      },
+      {
+        "name": "constellation",
+        "has_index": true,
+        "purpose": "Constellation Framework integration components",
+        "component_count": 1
+      },
+      {
+        "name": "layers",
+        "has_index": false,
+        "purpose": "Subdirectory with 0 Python files",
+        "component_count": 0
+      },
+      {
+        "name": "connected",
+        "has_index": true,
+        "purpose": "Subdirectory with 3 Python files",
+        "component_count": 3
+      },
+      {
+        "name": "processing",
+        "has_index": true,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "creativity",
+        "has_index": true,
+        "purpose": "Subdirectory with 13 Python files",
+        "component_count": 13
+      },
+      {
+        "name": "integration",
+        "has_index": true,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "streams",
+        "has_index": false,
+        "purpose": "Subdirectory with 0 Python files",
+        "component_count": 0
+      },
+      {
+        "name": "awareness",
+        "has_index": true,
+        "purpose": "Subdirectory with 14 Python files",
+        "component_count": 14
+      },
+      {
+        "name": "unified",
+        "has_index": true,
+        "purpose": "Subdirectory with 5 Python files",
+        "component_count": 5
+      },
+      {
+        "name": "bridges",
+        "has_index": false,
+        "purpose": "Subdirectory with 0 Python files",
+        "component_count": 0
+      },
+      {
+        "name": "reasoning",
+        "has_index": true,
+        "purpose": "Subdirectory with 31 Python files",
+        "component_count": 31
+      },
+      {
+        "name": "testing",
+        "has_index": true,
+        "purpose": "Subdirectory with 3 Python files",
+        "component_count": 3
+      },
+      {
+        "name": "expansion",
+        "has_index": true,
+        "purpose": "Subdirectory with 6 Python files",
+        "component_count": 6
+      },
+      {
+        "name": "common",
+        "has_index": true,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "resilience",
+        "has_index": true,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "engines",
+        "has_index": false,
+        "purpose": "Subdirectory with 0 Python files",
+        "component_count": 0
+      },
+      {
+        "name": "examples",
+        "has_index": true,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "states",
+        "has_index": true,
+        "purpose": "Subdirectory with 18 Python files",
+        "component_count": 18
+      },
+      {
+        "name": "api",
+        "has_index": false,
+        "purpose": "Subdirectory with 0 Python files",
+        "component_count": 0
+      },
+      {
+        "name": "perception",
+        "has_index": true,
+        "purpose": "Subdirectory with 4 Python files",
+        "component_count": 4
+      },
+      {
+        "name": "meta_cognitive",
+        "has_index": true,
+        "purpose": "Subdirectory with 2 Python files",
+        "component_count": 2
+      },
+      {
+        "name": "systems",
+        "has_index": true,
+        "purpose": "Subdirectory with 12 Python files",
+        "component_count": 12
+      },
+      {
+        "name": "dream",
+        "has_index": true,
+        "purpose": "Subdirectory with 31 Python files",
+        "component_count": 31
+      },
+      {
+        "name": "qi_integration",
+        "has_index": true,
+        "purpose": "Subdirectory with 5 Python files",
+        "component_count": 5
+      },
+      {
+        "name": "interfaces",
+        "has_index": true,
+        "purpose": "Subdirectory with 2 Python files",
+        "component_count": 2
+      },
+      {
+        "name": "quantum",
+        "has_index": true,
+        "purpose": "Subdirectory with 2 Python files",
+        "component_count": 2
+      },
+      {
+        "name": "reflection",
+        "has_index": true,
+        "purpose": "Subdirectory with 70 Python files",
+        "component_count": 70
+      }
+    ],
+    "documentation": [
+      {
+        "filename": "README_ENHANCED.md",
+        "type": "other",
+        "has_sync_header": false
+      },
+      {
+        "filename": "USER_GUIDE.md",
+        "type": "other",
+        "has_sync_header": false
+      },
+      {
+        "filename": "README.md",
+        "type": "README.md",
+        "has_sync_header": false
+      },
+      {
+        "filename": "lukhas_context.md",
+        "type": "lukhas_context.md",
+        "has_sync_header": false
+      },
+      {
+        "filename": "CONSCIOUSNESS_MODULE_ANALYSIS.md",
+        "type": "other",
+        "has_sync_header": false
+      },
+      {
+        "filename": "DEV_GUIDE.md",
+        "type": "other",
+        "has_sync_header": false
+      },
+      {
+        "filename": "claude.me",
+        "type": "claude.me",
+        "has_sync_header": false
+      }
+    ]
+  },
+  "schema_references": [
+    {
+      "schema_name": "directory_index",
+      "schema_path": "schemas/directory_index.schema.json",
+      "validation_status": "valid"
+    }
+  ],
+  "agent_guidance": {
+    "recommended_approach": "Start with consciousness architecture documentation, then examine engines and processors",
+    "key_files": [
+      "README.md",
+      "lukhas_context.md",
+      "claude.me",
+      "persona_similarity_engine.py"
+    ],
+    "common_tasks": [
+      {
+        "task": "Consciousness engine development",
+        "files_involved": [
+          "persona_similarity_engine.py"
+        ],
+        "complexity": "high"
+      }
+    ],
+    "prerequisites": [
+      "Understanding of LUKHAS lane system",
+      "Constellation Framework familiarity",
+      "Consciousness architecture patterns"
+    ],
+    "avoid_patterns": [
+      "Modifying contracts without validation",
+      "Breaking lane boundaries",
+      "Ignoring Constellation Framework integration",
+      "Bypassing consciousness validation checks",
+      "Direct consciousness state manipulation",
+      "Violating cognitive alignment requirements"
+    ]
+  },
+  "performance_metadata": {
+    "component_count": 13,
+    "estimated_complexity": "medium",
+    "consciousness_integration": "advanced",
+    "matriz_compatibility": "experimental",
+    "t4_compliance_score": 0.6,
+    "cognitive_alignment_score": 0.85,
+    "test_coverage": 85.0
+  },
+  "relationships": {
+    "parent_directory": "candidate",
+    "related_directories": [],
+    "constellation_cluster": "horizon_star_consciousness",
+    "dependency_weight": "moderate"
+  }
+}

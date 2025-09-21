@@ -1,5 +1,5 @@
 # Main Makefile PHONY declarations (only for targets defined in this file)
-.PHONY: install setup-hooks dev api openapi live colony-dna-smoke smoke-matriz lint lint-unused lint-unused-strict format fix fix-all fix-ultra fix-imports
+.PHONY: install setup-hooks dev api openapi live colony-dna-smoke smoke-matriz lint lint-unused lint-unused-strict format fix fix-all fix-ultra fix-imports oneiric-drift-test
 .PHONY: ai-analyze ai-setup ai-workflow clean deep-clean quick bootstrap organize organize-dry organize-suggest organize-watch
 .PHONY: codex-validate codex-fix validate-all perf migrate-dry migrate-run dna-health dna-compare admin lint-status lane-guard
 .PHONY: audit-tail sdk-py-install sdk-py-test sdk-ts-build sdk-ts-test backup-local backup-s3 restore-local restore-s3 dr-drill dr-weekly dr-quarterly dr-monthly
@@ -197,6 +197,9 @@ metrics-dashboard:
 # Check linting status
 lint-status:
 	@python tools/scripts/check_progress.py
+
+oneiric-drift-test:
+	python oneiric_core/tools/drift_dream_test.py --symbol LOYALTY --user demo --seed 7
 
 # Lane guard: forbid lukhas -> candidate imports (belt-and-suspenders)
 lane-guard:

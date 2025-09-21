@@ -15,7 +15,7 @@ class WorkspaceCleanup:
     """Comprehensive workspace cleanup and archiving"""
 
     def __init__(self):
-        self.workspace = Path("/Users/agi_dev/LOCAL-REPOS/Lukhas"
+        self.workspace = Path("/Users/cognitive_dev/LOCAL-REPOS/Lukhas"
         self.archive_dir = (
             Path.home()
             / "lukhas-archive"

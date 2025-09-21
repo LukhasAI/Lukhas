@@ -3,7 +3,7 @@ Consciousness Wrapper - Production-Safe Consciousness Interface
 ===============================================================
 
 Main production interface for LUKHAS consciousness capabilities with comprehensive safety features.
-Integrates the Trinity Framework: ⚛️ Identity, 🧠 Consciousness, 🛡️ Guardian
+Integrates the Constellation Framework: ⚛️ Identity, 🧠 Consciousness, 🛡️ Guardian
 
 This wrapper provides controlled access to the 348-file consciousness candidate system
 with safety measures including:
@@ -12,7 +12,7 @@ with safety measures including:
 - Guardian ethical oversight
 - Performance monitoring (<100ms targets)
 - Drift detection and threshold enforcement
-- Trinity Framework compliance
+- Constellation Framework compliance
 
 Author: LUKHAS AI Consciousness Systems Architect
 Version: 1.0.0
@@ -159,7 +159,7 @@ class ConsciousnessWrapper:
     Production-safe wrapper for LUKHAS consciousness capabilities
 
     Provides controlled access to consciousness processing with comprehensive
-    safety measures and Trinity Framework integration.
+    safety measures and Constellation Framework integration.
     """
 
     def __init__(self, config: Optional[ConsciousnessConfig] = None) -> None:

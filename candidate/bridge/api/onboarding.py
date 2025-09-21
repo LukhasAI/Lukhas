@@ -5,7 +5,7 @@ LUKHAS AI - Comprehensive User Onboarding API
 Advanced user onboarding system with tier assignment, consent collection,
 validation integration, and healthcare compliance support.
 
-Trinity Framework: ⚛️ (Identity), 🧠 (Consciousness), 🛡️ (Guardian)
+Constellation Framework: ⚛️ (Identity), 🧠 (Consciousness), 🛡️ (Guardian)
 Performance Target: <200ms onboarding step latency
 Supports: Multi-step onboarding, tier assignment, HIPAA compliance
 
@@ -13,7 +13,7 @@ Features:
 - Progressive onboarding with validation at each step
 - Intelligent tier assignment based on user profile
 - Comprehensive consent management with HIPAA support
-- Integration with Trinity Framework and Guardian System
+- Integration with Constellation Framework and Guardian System
 - API key generation and authentication setup
 - Real-time validation and error handling
 """
@@ -888,7 +888,7 @@ __all__ = [
 # FILENAME: onboarding.py
 # VERSION: 2.0.0
 # TIER SYSTEM: LAMBDA_TIER_4 (Enterprise-grade onboarding with intelligent tier assignment)
-# TRINITY FRAMEWORK: ⚛️ (Identity verification), 🧠 (Intelligence-driven recommendations), 🛡️ (Guardian protection)
+# CONSTELLATION FRAMEWORK: ⚛️ (Identity verification), 🧠 (Intelligence-driven recommendations), 🛡️ (Guardian protection)
 # CAPABILITIES: Comprehensive user onboarding system with intelligent tier assignment,
 #               HIPAA-compliant consent management, validation integration,
 #               API key generation, and personalized recommendations.
@@ -908,7 +908,7 @@ __all__ = [
 # HOW TO USE:
 #   Include router in FastAPI application: app.include_router(onboarding.router)
 #   Endpoints accessible at /api/v2/onboarding/* with full validation and documentation.
-# INTEGRATION NOTES: Integrates with validation system, Trinity Framework, and Guardian System.
+# INTEGRATION NOTES: Integrates with validation system, Constellation Framework, and Guardian System.
 #                    Provides comprehensive onboarding flow with intelligent recommendations.
 # MAINTENANCE: Regular updates to tier benefits, consent requirements, and compliance rules.
 #              Monitor onboarding completion rates and user satisfaction metrics.

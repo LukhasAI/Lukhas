@@ -13,7 +13,7 @@ Features:
 - Parallel reality exploration for hypothesis testing
 - Breakthrough detection and validation
 - Self-improvement through meta-learning
-- Integration with LUKHAS Trinity Framework (⚛️🧠🛡️)
+- Integration with LUKHAS Constellation Framework (⚛️🧠🛡️)
 """
 
 import asyncio

@@ -15,7 +15,7 @@ logger = logging.getLogger(__name__)
 │ 📦 MODULE      : gen_audit_logger_check.py                           │
 │ 🧾 DESCRIPTION : Trigger a basic audit logger compliance verification│
 │ 🧩 TYPE        : Tool              🔧 VERSION: v1.0.0                  │
-│ 🖋️ AUTHOR      : Lucas AGI          📅 UPDATED: 2025-04-28             │
+│ 🖋️ AUTHOR      : Lucas Cognitive AI          📅 UPDATED: 2025-04-28             │
 ├─────────────────────────────────────────────────────────────────────┤
 │ 📚 DEPENDENCIES:                                                      │
 │   - compliance.audit_logger                                           │

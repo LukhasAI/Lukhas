@@ -4,7 +4,7 @@
 Connects endocrine modulation system with LUKHAS consciousness modules,
 emitting signals from various systems and orchestrating LLM interactions.
 
-Trinity Framework: ⚛️🧠🛡️
+Constellation Framework: ⚛️🧠🛡️
 - ⚛️ Identity: Authentic signal emission from consciousness modules
 - 🧠 Consciousness: Memory and learning from signal patterns
 - 🛡️ Guardian: Safety-first signal validation and response

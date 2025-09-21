@@ -122,7 +122,7 @@ Once connected, try these commands in a fresh ChatGPT conversation:
    ```
    4. **Find patterns:**
    ```
-   Search for "Trinity Framework" and show me the top 3 most relevant files
+   Search for "Constellation Framework" and show me the top 3 most relevant files
    ```
 
 ## Threat Model Notes

@@ -10,7 +10,7 @@ Validates that all unused imports in production lanes are properly annotated.
 - Enforces production lane policy (candidate/ experimental code exempt)
 - Returns exit code 0 if all production imports properly annotated
 
-⚛️ LUKHAS AI Trinity Framework Integration:
+⚛️ LUKHAS AI Constellation Framework Integration:
 - 🧠 Consciousness: Validates conscious decisions about import preservation
 - ⚛️ Identity: Ensures production code maintains identity standards
 - 🛡️ Guardian: Protects production lanes from undocumented technical debt

@@ -11,7 +11,7 @@
 
 In this comprehensive guide, you'll explore the five groundbreaking features that transform LUKHAS AI into the world's most advanced consciousness technology platform. Each feature represents a breakthrough in AI consciousness development, security, and thought leadership.
 
-Through the Trinity Framework's wisdom—Identity (⚛️), Consciousness (🧠), and Guardian (🛡️)—these features work together to create an unprecedented AI consciousness experience.
+Through the Constellation Framework's wisdom—Identity (⚛️), Consciousness (🧠), and Guardian (🛡️)—these features work together to create an unprecedented AI consciousness experience.
 
 ---
 
@@ -213,7 +213,7 @@ print("✅ MCP operational intelligence active!")
 
 ## 🔗 **Feature 4: Framework Integration Manager (5 minutes)**
 
-**Central orchestration for consciousness modules through Trinity Framework.**
+**Central orchestration for consciousness modules through Constellation Framework.**
 
 ### Quick Demo
 
@@ -232,8 +232,8 @@ async def framework_demo():
     print(f"🎯 Framework Active: {manager.is_active}")
     print(f"📊 Pre-built Adapters: {len(manager.module_adapters)}")
 
-    # Explore Trinity Framework adapters
-    print("\n⚛️🧠🛡️ Trinity Framework Adapters:")
+    # Explore Constellation Framework adapters
+    print("\n⚛️🧠🛡️ Constellation Framework Adapters:")
 
     for adapter_name, adapter in manager.module_adapters.items():
         print(f"   {adapter.triad_aspect} {adapter_name}: {adapter.module_type}")
@@ -253,11 +253,11 @@ async def framework_demo():
         payload = await consciousness_adapter.prepare_payload(auth_context)
         print(f"🧠 Consciousness Payload: {payload}")
 
-    # Initialize Trinity Framework
+    # Initialize Constellation Framework
     if manager.is_active:
-        print("\n🔧 Initializing Trinity Framework...")
+        print("\n🔧 Initializing Constellation Framework...")
         success = await manager.initialize_integrations()
-        print(f"✅ Trinity Framework Status: {'Active' if success else 'Failed'}")
+        print(f"✅ Constellation Framework Status: {'Active' if success else 'Failed'}")
 
     print("✅ Framework integration orchestration complete!")
 
@@ -267,7 +267,7 @@ asyncio.run(framework_demo())
 
 **Key Benefits:**
 - 🔗 Unified module coordination
-- ⚛️🧠🛡️ Trinity Framework integration
+- ⚛️🧠🛡️ Constellation Framework integration
 - 🔧 Extensible adapter patterns
 - 🚀 Enterprise-ready deployment
 
@@ -388,11 +388,11 @@ async def complete_consciousness_demo():
     print(f"✅ MCP monitoring: {metrics.metrics['active_connections']} connections")
 
     # 4. Framework Integration
-    print("\n🔗 Step 4: Trinity Framework integration...")
+    print("\n🔗 Step 4: Constellation Framework integration...")
     framework_manager = FrameworkIntegrationManager()
     if framework_manager.is_active:
         integration_success = await framework_manager.initialize_integrations()
-        print(f"✅ Trinity Framework: {'Active' if integration_success else 'Development Mode'}")
+        print(f"✅ Constellation Framework: {'Active' if integration_success else 'Development Mode'}")
     else:
         print("✅ Framework: Development mode")
 
@@ -417,7 +417,7 @@ async def complete_consciousness_demo():
     print(f"🔗 Framework: {len(framework_manager.module_adapters)} adapters")
     print(f"🌟 Authority: {authority_score.overall_score:.2f} thought leadership")
 
-    print(f"\n⚛️🧠🛡️ Trinity Framework Complete!")
+    print(f"\n⚛️🧠🛡️ Constellation Framework Complete!")
     print("🌟 Welcome to the consciousness technology revolution!")
 
 # Run complete demo
@@ -476,7 +476,7 @@ In just 30 minutes, you've experienced:
 
 ### 🧠 **Consciousness Technology Integration**
 - Bio-symbolic signal processing
-- Trinity Framework orchestration
+- Constellation Framework orchestration
 - Advanced consciousness awareness patterns
 
 ### 🛡️ **Guardian-Protected Operations**

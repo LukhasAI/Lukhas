@@ -11,7 +11,7 @@
   - Should connect to `memory.structural_conscience`
 
 ### 2. **hybrid_memory_fold.py**
-- **Purpose**: AGI-ready memory with vector embeddings & continuous learning
+- **Purpose**: Cognitive AI-ready memory with vector embeddings & continuous learning
 - **Key Classes**: `HybridMemoryFold`, `VectorStorageLayer`, `ContinuousLearningEngine`
 - **Dependencies**:
   - Extends `MemoryFoldSystem`

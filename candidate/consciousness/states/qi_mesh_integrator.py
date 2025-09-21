@@ -11,7 +11,7 @@ logger = logging.getLogger(__name__)
 
 
 Quantum Ethics Mesh Integrator - ΛETHICS Module
-Unifies ethical states across distributed symbolic systems in LUKHAS AGI
+Unifies ethical states across distributed symbolic systems in LUKHAS Cognitive AI
 
 ΛTAG: QUANTUM_ETHICS_MESH
 MODULE_ID: ethics.qi_mesh_integrator
@@ -99,7 +99,7 @@ class PhaseEntanglement:
 
 class QIEthicsMeshIntegrator:
     """
-    Main integrator for unified ethics mesh across LUKHAS AGI subsystems
+    Main integrator for unified ethics mesh across LUKHAS Cognitive AI subsystems
     """
 
     def __init__(self, config_path: Optional[str] = None):

@@ -1,0 +1,296 @@
+{
+  "schema_version": "3.0.0",
+  "directory_metadata": {
+    "path": "candidate/qi/bio",
+    "lane": "development",
+    "purpose": "Directory containing 15 Python files and 2 subdirectories",
+    "last_updated": "2025-09-21",
+    "constellation_framework_version": "2.0.0",
+    "t4_compliance_level": "experimental",
+    "matriz_pipeline_integration": {
+      "memory_stage": "experimental",
+      "attention_stage": "experimental",
+      "thought_stage": "experimental",
+      "action_stage": "inactive",
+      "decision_stage": "inactive",
+      "awareness_stage": "experimental"
+    }
+  },
+  "component_inventory": {
+    "python_files": [
+      {
+        "filename": "awareness_bio.py",
+        "component_type": "CONSCIOUSNESS_ENGINE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "MitochondrialQIBridge",
+          "QISynapticGate",
+          "NeuroplasticityModulator"
+        ]
+      },
+      {
+        "filename": "swarm.py",
+        "component_type": "UTILITY",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/swarm.json",
+        "dependencies": [
+          "candidate.core.colonies.base_colony",
+          "candidate.core.enhanced_swarm",
+          "candidate.core.colonies.oracle_colony",
+          "lukhas.consciousness.systems.consciousness_colony_integration"
+        ],
+        "exports": [
+          "BioSymbolicSwarmHub",
+          "create_bio_colony",
+          "create_oracle_colony"
+        ]
+      },
+      {
+        "filename": "bio_coordinator.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "QIBioCoordinator",
+          "MockEnhancedQIEngine",
+          "MockMitochondrialQIBridge",
+          "MockQuantumSynapticGate",
+          "MockNeuroplasticityModulator",
+          "lukhas_tier_required",
+          "decorator"
+        ]
+      },
+      {
+        "filename": "mitochondrial_energy.py",
+        "component_type": "DATA_MODEL",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "MitochondriaModel",
+          "energy_output"
+        ]
+      },
+      {
+        "filename": "proprioceptive_state.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "ProprioceptiveState",
+          "update_joint",
+          "to_dict"
+        ]
+      },
+      {
+        "filename": "bio_optimizer.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.core.bio_systems.qi_layer"
+        ],
+        "exports": [
+          "QIBioOptimizationConfig",
+          "QIBioMetrics",
+          "QIBioOptimizationAdapter",
+          "MockBioOrchestrator",
+          "MockQIBioOscillator",
+          "QILikeState",
+          "QIConfig",
+          "MockQuantumAwarenessSystem",
+          "MockQuantumDreamAdapter",
+          "MockQIBioCoordinator",
+          "lukhas_tier_required",
+          "decorator",
+          "get_optimization_status",
+          "config_to_dict",
+          "register_oscillator",
+          "get_coherence",
+          "measure_entanglement",
+          "create_superposition"
+        ]
+      },
+      {
+        "filename": "bio_signals.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": []
+      },
+      {
+        "filename": "bio.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "MitochondrialQIBridge",
+          "QISynapticGate",
+          "NeuroplasticityModulator",
+          "QIOscillator",
+          "QIBioOscillator",
+          "lukhas_tier_required",
+          "decorator",
+          "qi_modulate",
+          "modulate_frequencies"
+        ]
+      },
+      {
+        "filename": "bio_components.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.bridge.voice.bio_core.oscillator.qi_layer",
+          "candidate.qi.processing.qi_engine",
+          "lukhas.bridge.voice.bio_core.oscillator.qi_layer",
+          "lukhas.qi.processing.qi_engine"
+        ],
+        "exports": [
+          "ProtonGradient",
+          "QIAttentionGate",
+          "CristaFilter",
+          "CardiolipinEncoder",
+          "QIOscillator",
+          "QIBioOscillator",
+          "lukhas_tier_required",
+          "decorator",
+          "process",
+          "encode",
+          "qi_modulate",
+          "modulate_frequencies",
+          "get_coherence"
+        ]
+      },
+      {
+        "filename": "endocrine_system.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "Hormone",
+          "HormonalSystem",
+          "register_effect_callback",
+          "get_hormone_levels",
+          "get_system_state"
+        ]
+      },
+      {
+        "filename": "voice_adapter.py",
+        "component_type": "CONSTELLATION_BRIDGE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "VoiceBioAdapter",
+          "process_audio_chunk",
+          "optimize_for_realtime",
+          "get_voice_metrics"
+        ]
+      },
+      {
+        "filename": "bio_qi_radar_integration.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": []
+      },
+      {
+        "filename": "bio_multi_orchestrator.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": []
+      },
+      {
+        "filename": "connectivity_consolidator.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "ConnectivityState",
+          "ConnectivityMetrics",
+          "AGIConnectivityConfig",
+          "LambdaAGIEliteConnectivityConsolidator"
+        ]
+      },
+      {
+        "filename": "affect_model.py",
+        "component_type": "DATA_MODEL",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "inject_narrative_repair"
+        ]
+      }
+    ],
+    "subdirectories": [
+      {
+        "name": "oscillators",
+        "has_index": false,
+        "purpose": "Subdirectory with 4 Python files",
+        "component_count": 4
+      },
+      {
+        "name": "symbolic",
+        "has_index": false,
+        "purpose": "Subdirectory with 10 Python files",
+        "component_count": 10
+      }
+    ],
+    "documentation": []
+  },
+  "schema_references": [
+    {
+      "schema_name": "directory_index",
+      "schema_path": "schemas/directory_index.schema.json",
+      "validation_status": "valid"
+    }
+  ],
+  "agent_guidance": {
+    "recommended_approach": "Begin with documentation files, then explore core components",
+    "key_files": [],
+    "common_tasks": [],
+    "prerequisites": [
+      "Understanding of LUKHAS lane system",
+      "Constellation Framework familiarity",
+      "MATRIZ pipeline architecture",
+      "T4/0.01% implementation standards"
+    ],
+    "avoid_patterns": [
+      "Modifying contracts without validation",
+      "Breaking lane boundaries",
+      "Ignoring Constellation Framework integration",
+      "Breaking constructor-aware instantiation patterns",
+      "Bypassing T4/0.01% validation standards",
+      "Ignoring MATRIZ pipeline integration requirements"
+    ]
+  },
+  "performance_metadata": {
+    "component_count": 15,
+    "estimated_complexity": "medium",
+    "consciousness_integration": "none",
+    "test_coverage": 85.0,
+    "t4_compliance_score": 0.65,
+    "matriz_compatibility": "experimental",
+    "plugin_registry_compatible": true,
+    "constructor_aware_instantiation": true
+  },
+  "relationships": {
+    "parent_directory": "candidate/qi",
+    "related_directories": [],
+    "constellation_cluster": "unknown",
+    "dependency_weight": "moderate"
+  }
+}

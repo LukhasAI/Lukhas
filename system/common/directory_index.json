@@ -1,0 +1,254 @@
+{
+  "schema_version": "3.0.0",
+  "directory_metadata": {
+    "path": "system/common",
+    "lane": "development",
+    "purpose": "Directory containing 11 Python files and 0 subdirectories",
+    "last_updated": "2025-09-21",
+    "constellation_framework_version": "2.0.0",
+    "t4_compliance_level": "experimental"
+  },
+  "component_inventory": {
+    "python_files": [
+      {
+        "filename": "interfaces.py",
+        "component_type": "API_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "BaseInterface",
+          "ProcessingInterface",
+          "StorageInterface",
+          "CommunicationInterface",
+          "ModuleInfo",
+          "to_dict"
+        ]
+      },
+      {
+        "filename": "connectivity.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "ModuleConnector",
+          "enhance_import",
+          "get_module",
+          "connect_modules"
+        ]
+      },
+      {
+        "filename": "module_interfaces.py",
+        "component_type": "API_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "IConsciousnessModule",
+          "IMemoryModule",
+          "IOrchestrationModule",
+          "IGovernanceModule",
+          "ICoreModule"
+        ]
+      },
+      {
+        "filename": "event_bus.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "Event",
+          "EventBus",
+          "EventTypes",
+          "emit_event",
+          "subscribe",
+          "unsubscribe",
+          "publish_sync",
+          "get_metrics"
+        ]
+      },
+      {
+        "filename": "dependency_container.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "DependencyContainer",
+          "inject",
+          "get_module",
+          "register",
+          "register_factory",
+          "get",
+          "resolve_dependencies",
+          "decorator",
+          "new_init"
+        ]
+      },
+      {
+        "filename": "message_queue.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "Message",
+          "MessageQueue",
+          "CacheLayer",
+          "register_processor",
+          "get_metrics",
+          "get",
+          "set",
+          "clear",
+          "get_stats"
+        ]
+      },
+      {
+        "filename": "utils.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "SingletonMeta",
+          "get_logger",
+          "load_config",
+          "save_config",
+          "async_error_handler",
+          "sync_error_handler",
+          "ensure_path",
+          "merge_dicts",
+          "wrapper"
+        ]
+      },
+      {
+        "filename": "event_adapters.py",
+        "component_type": "CONSTELLATION_BRIDGE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "ConsciousnessEventAdapter",
+          "MemoryEventAdapter",
+          "OrchestrationEventAdapter",
+          "create_consciousness_adapter",
+          "create_memory_adapter",
+          "create_orchestration_adapter"
+        ]
+      },
+      {
+        "filename": "glyph_router.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "lukhas.core.common"
+        ],
+        "exports": [
+          "GLYPHRoute",
+          "GLYPHRouter",
+          "create_glyph",
+          "add_route",
+          "register_handler",
+          "get_metrics",
+          "clear_cache"
+        ]
+      },
+      {
+        "filename": "actor_system.py",
+        "component_type": "UTILITY",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/actor_system.json",
+        "dependencies": [],
+        "exports": [
+          "ActorState",
+          "Message",
+          "Actor",
+          "ActorSupervisor",
+          "ActorSystem",
+          "register_actor",
+          "get_actor",
+          "add_child",
+          "remove_child",
+          "get_metrics",
+          "register_actor",
+          "unregister_actor",
+          "get_actor",
+          "get_actors_by_type",
+          "get_system_metrics"
+        ]
+      },
+      {
+        "filename": "constellation_generator.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "ConstellationContent",
+          "ConstellationGenerator",
+          "main",
+          "generate_feature_documentation",
+          "generate_api_documentation",
+          "save_constellation_content",
+          "validate_constellation_content"
+        ]
+      }
+    ],
+    "subdirectories": [],
+    "documentation": []
+  },
+  "schema_references": [
+    {
+      "schema_name": "directory_index",
+      "schema_path": "schemas/directory_index.schema.json",
+      "validation_status": "valid"
+    }
+  ],
+  "agent_guidance": {
+    "recommended_approach": "Begin with documentation files, then explore core components",
+    "key_files": [],
+    "common_tasks": [
+      {
+        "task": "API integration",
+        "files_involved": [
+          "interfaces.py",
+          "module_interfaces.py"
+        ],
+        "complexity": "medium"
+      }
+    ],
+    "prerequisites": [
+      "Understanding of LUKHAS lane system",
+      "Constellation Framework familiarity",
+      "MATRIZ pipeline architecture",
+      "T4/0.01% implementation standards"
+    ],
+    "avoid_patterns": [
+      "Modifying contracts without validation",
+      "Breaking lane boundaries",
+      "Ignoring Constellation Framework integration",
+      "Breaking constructor-aware instantiation patterns",
+      "Bypassing T4/0.01% validation standards",
+      "Ignoring MATRIZ pipeline integration requirements"
+    ]
+  },
+  "performance_metadata": {
+    "component_count": 11,
+    "estimated_complexity": "medium",
+    "consciousness_integration": "none",
+    "test_coverage": 85.0,
+    "t4_compliance_score": 0.65,
+    "matriz_compatibility": "standard",
+    "plugin_registry_compatible": true,
+    "constructor_aware_instantiation": true
+  },
+  "relationships": {
+    "parent_directory": "system",
+    "related_directories": [],
+    "constellation_cluster": "unknown",
+    "dependency_weight": "moderate"
+  }
+}

@@ -1,6 +1,6 @@
 # Orchestration Directory — LUKHAS_AGI_2
 
-This directory contains advanced orchestration modules for compliance, ethics, emotional modulation, and secure symbolic flows in the LUKHAS_AGI_2 system. Each file plays a unique role in the AGI's safe, explainable, and auditable operation.
+This directory contains advanced orchestration modules for compliance, ethics, emotional modulation, and secure symbolic flows in the LUKHAS_AGI_2 system. Each file plays a unique role in the Cognitive AI's safe, explainable, and auditable operation.
 
 ---
 
@@ -27,7 +27,7 @@ A compliance-safe emotional oscillator for subsystem-level emotional modulation.
 ---
 
 ### `the_oscillator.py`
-A constitutionally-aligned, quantum-enhanced orchestration layer for AGI-level compliance, ethics, and decision-making.
+A constitutionally-aligned, quantum-enhanced orchestration layer for Cognitive AI-level compliance, ethics, and decision-making.
 - **Purpose:**
   - Integrates global compliance frameworks (multi-region legal checks)
   - Implements ethical hierarchy and quantum decision logic
@@ -37,7 +37,7 @@ A constitutionally-aligned, quantum-enhanced orchestration layer for AGI-level c
   ```python
   from the_oscillator import LucasAGI
   agi = LucasAGI()
-  result = agi.process_decision({"climate": True, "personal_data": "test"})
+  result = cognitive.process_decision({"climate": True, "personal_data": "test"})
   print(result)
   ```
 - **Terminal Test:**
@@ -86,7 +86,7 @@ Marks this directory as a Python package.
 ## General Fine-Tuning & Development Tips
 - **Compliance:** Always review and update compliance logic for new regulations.
 - **Testing:** Use the provided CLI/terminal commands to simulate edge cases and stress-test safeguards.
-- **Extensibility:** Each orchestrator is modular—extend or replace components as AGI requirements evolve.
+- **Extensibility:** Each orchestrator is modular—extend or replace components as Cognitive AI requirements evolve.
 - **Logging:** All modules use Python logging for auditability. Check logs for compliance events, ethical decisions, and fallback triggers.
 
 ---

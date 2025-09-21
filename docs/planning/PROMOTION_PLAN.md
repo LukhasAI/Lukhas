@@ -95,7 +95,7 @@ Before each promotion:
 - [ ] MATRIZ instrumentation added
 - [ ] Tests cover happy and sad paths
 - [ ] Performance targets met (SLA in manifest)
-- [ ] Trinity Framework compliance verified
+- [ ] Constellation Framework compliance verified
 - [ ] No vendor SDKs in accepted lane
 - [ ] Feature flags for gradual rollout
 

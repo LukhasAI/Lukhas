@@ -50,8 +50,8 @@ This directory contains comprehensive project governance documentation, contribu
 
 ## 🎯 **Governance Principles**
 
-### **Trinity Framework Governance**
-All governance follows the Trinity Framework (⚛️🧠🛡️):
+### **Constellation Framework Governance**
+All governance follows the Constellation Framework (⚛️🧠🛡️):
 - **⚛️ Identity**: Authentic community identity and values
 - **🧠 Consciousness**: Intelligent governance with awareness and adaptability
 - **🛡️ Guardian**: Protective governance ensuring ethical standards and safety

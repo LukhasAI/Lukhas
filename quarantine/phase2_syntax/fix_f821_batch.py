@@ -17,7 +17,7 @@ def get_f821_violations():
             "python3", "-m", "ruff", "check", ".", 
             "--select", "F821",
             "--output-format=json"
-        ], capture_output=True, text=True, cwd="/Users/agi_dev/LOCAL-REPOS/Lukhas")
+        ], capture_output=True, text=True, cwd="/Users/cognitive_dev/LOCAL-REPOS/Lukhas")
 
         if result.stdout:
             violations = json.loads(result.stdout)
@@ -258,7 +258,7 @@ def main():
 
     # Show sample of fixed files
     for file_path in list(fixed_files)[:10]:
-        short_path = file_path.replace("/Users/agi_dev/LOCAL-REPOS/Lukhas/", "")
+        short_path = file_path.replace("/Users/cognitive_dev/LOCAL-REPOS/Lukhas/", "")
         print(f"  ✅ {short_path}")
 
     return len(fixed_files)

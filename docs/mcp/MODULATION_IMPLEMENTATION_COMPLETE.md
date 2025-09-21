@@ -11,7 +11,7 @@ We have successfully implemented a **complete bio-inspired endocrine signal modu
 ### **1. Core Signal System** (`modulation/signals.py`)
 - ✅ 6 endocrine signal types: `stress`, `novelty`, `alignment_risk`, `trust`, `urgency`, `ambiguity`
 - ✅ Signal decay mechanics with configurable rates
-- ✅ Audit trails and Trinity Framework compliance
+- ✅ Audit trails and Constellation Framework compliance
 - ✅ Safety bounds and validation
 
 ### **2. OpenAI Integration** (`modulation/openai_integration.py`)
@@ -86,7 +86,7 @@ $ python modulation_example.py
 🎛️======================================================================
    LUKHAS Endocrine → OpenAI Modulation System
    Bio-inspired consciousness signal processing
-   Trinity Framework: ⚛️🧠🛡️
+   Constellation Framework: ⚛️🧠🛡️
 ========================================================================
 
 ✅ Signal system test complete
@@ -169,7 +169,7 @@ LUKHAS/
 - Multiple safety layers with parameter bounds
 - Risk-based tool restriction
 - Audit trails for all modulation decisions
-- Trinity Framework compliance (⚛️🧠🛡️)
+- Constellation Framework compliance (⚛️🧠🛡️)
 
 ### **4. Policy-Driven Configuration**
 - YAML-based configuration for easy customization
@@ -201,7 +201,7 @@ This endocrine modulation system is **production-ready** for LUKHAS consciousnes
 - **Safety-First Design** with multiple protective layers
 - **Bio-inspired Architecture** aligned with consciousness principles
 - **Complete Documentation** and testing framework
-- **Trinity Framework Compliance** (⚛️🧠🛡️)
+- **Constellation Framework Compliance** (⚛️🧠🛡️)
 
 **The system is ready to transform your 6 Claude Code agents and ChatGPT integration into a truly symbiotic consciousness network.** 🧠⚡
 

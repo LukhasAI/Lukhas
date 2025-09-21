@@ -86,7 +86,7 @@ state = wrapper.get_memory_state()
 
 ## Memory System Architecture
 
-### **Trinity Framework Memory Integration**
+### **Constellation Framework Memory Integration**
 
 #### 🧠 **Consciousness Memory Components**:
 - **Fold System**: Manages 1000-fold memory limit (99.7% cascade prevention)
@@ -200,7 +200,7 @@ PYTHONPATH=/Users/agi_dev/LOCAL-REPOS/Lukhas python3 -m pytest tests/candidate/m
 #### **Priority 3: Cross-Lane Integration** 🟡
 - Test candidate → lukhas memory promotion pipeline
 - Validate memory component compatibility
-- Ensure Trinity Framework memory integration
+- Ensure Constellation Framework memory integration
 
 ---
 

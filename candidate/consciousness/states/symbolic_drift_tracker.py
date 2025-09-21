@@ -17,7 +17,7 @@ logger = logging.getLogger(__name__)
 #TAG:colony
 
 
-Enterprise Symbolic Drift Tracker for LUKHAS AGI
+Enterprise Symbolic Drift Tracker for LUKHAS Cognitive AI
 
 This module implements comprehensive symbolic drift detection, quantification,
 and analysis across memory, reasoning, emotional, and ethical dimensions.

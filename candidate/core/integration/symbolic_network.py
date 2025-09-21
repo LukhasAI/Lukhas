@@ -1,7 +1,7 @@
 # ═══════════════════════════════════════════════════════════════════════════
 # FILENAME: symbolic_network.py
 # MODULE: core.adaptive_systems.crista_optimizer.symbolic_network
-# DESCRIPTION: Defines the core symbolic network infrastructure for LUKHAS AGI,
+# DESCRIPTION: Defines the core symbolic network infrastructure for LUKHAS Cognitive AI,
 #              including node and connection types, and network management operations.
 # DEPENDENCIES: logging, numpy, typing, dataclasses, enum, json, time, .crista_optimizer
 # LICENSE: PROPRIETARY - LUKHAS AI SYSTEMS - UNAUTHORIZED ACCESS PROHIBITED

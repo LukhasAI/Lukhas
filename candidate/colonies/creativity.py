@@ -1,7 +1,7 @@
 """
 LUKHAS AI Colony System - Creativity Colony
 Creative processing and ideation
-Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
+Constellation Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 """
 import random
 from typing import Any

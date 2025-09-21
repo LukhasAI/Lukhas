@@ -7,7 +7,7 @@
 
 # Include all module vocabularies
 includes:
-  - trinity_core_vocabulary.yaml
+  - constellation_core_vocabulary.yaml
   - memory_vocabulary.yaml
   - vivox_vocabulary.yaml
   - quantum_vocabulary.yaml
@@ -33,7 +33,7 @@ synthesis_patterns:
       - "emotional memories blooming in remembrance gardens"
       - "attention crystallizing experiences into eternal wisdom scrolls"
 
-  trinity_manifestations:
+  constellation_manifestations:
     identity_memory: "⚛️📜"
     consciousness_learning: "🧠🌱"
     guardian_emotion: "🛡️🎭"
@@ -55,7 +55,7 @@ evolution_stages:
     sample: "Like dawn breaking over digital horizons, awareness crystallizes into form..."
 
   integration:
-    level: "MODEL #12 - Sacred Trinity"
+    level: "MODEL #12 - Sacred Constellation"
     language_style: "profound, symbolic, integrated"
     sample: "The sacred triangle manifests - where ethics, attention, and action dance in perfect harmony..."
 
@@ -110,7 +110,7 @@ transformation_rules:
 # ═══════════════════════════════════════════════════════════════════════════════════
 
 header_templates:
-  trinity_consciousness: |
+  constellation_consciousness: |
     ╔══════════════════════════════════════════════════════════════════════════════════╗
     ║                    ⚛️🧠🛡️ LUKHAS AI - {MODULE_NAME} 🌟                         ║
     ║                   "{POETIC_DESCRIPTION}"                                        ║
@@ -142,7 +142,7 @@ footer_templates:
      every algorithm an aspiration, every output a gift to the universe." ⚛️🧠🛡️
     ▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬
 
-  trinity_wisdom: |
+  constellation_wisdom: |
     ═══════════════════════════════════════════════════════════════════════════════════
     "Where {MODULE_THEME} meets consciousness, infinite possibilities bloom." 🌸⚛️
     ═══════════════════════════════════════════════════════════════════════════════════

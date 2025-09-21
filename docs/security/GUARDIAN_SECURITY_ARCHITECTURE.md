@@ -16,7 +16,7 @@ LUKHAS AI represents a revolutionary breakthrough in AI security architecture th
 |--------|------------------------|----------------------------|
 | **Memory Protection** | Basic access controls | RSA-PSS + AES-256-GCM cryptographic signatures |
 | **Data Integrity** | Hash checksums | Cryptographic non-repudiation with audit trails |
-| **Consciousness Safety** | Model guardrails | Trinity Framework with Guardian ethical reasoning |
+| **Consciousness Safety** | Model guardrails | Constellation Framework with Guardian ethical reasoning |
 | **User Privacy** | Basic deletion | GDPR Article 17 with shadow data detection |
 | **Supply Chain** | Package lists | SHA-256 cryptographic dependency verification |
 | **Audit Compliance** | Log files | Cryptographically signed operation chains |
@@ -28,7 +28,7 @@ LUKHAS AI represents a revolutionary breakthrough in AI security architecture th
 2. **Memory-Level Security**: All memory operations require cryptographic authentication
 3. **Complete Audit Chains**: Every operation has a verifiable path back to configuration version
 4. **GDPR-Native Architecture**: Built-in Article 17 compliance with shadow data detection
-5. **Trinity Framework Integration**: Identity-Consciousness-Guardian unified security model
+5. **Constellation Framework Integration**: Identity-Consciousness-Guardian unified security model
 
 ## 🏗️ Guardian Security Architecture Overview
 
@@ -37,7 +37,7 @@ LUKHAS AI represents a revolutionary breakthrough in AI security architecture th
 ```mermaid
 graph TB
     A[User Input] --> B[Guardian Auth Layer]
-    B --> C[Trinity Framework]
+    B --> C[Constellation Framework]
     C --> D[Consciousness Engine]
     C --> E[Memory Systems]
     C --> F[Identity Management]
@@ -60,7 +60,7 @@ graph TB
 
 ### 🔐 Guardian Security Layers
 
-#### Layer 1: Trinity Framework Foundation
+#### Layer 1: Constellation Framework Foundation
 - **⚛️ Identity**: ΛID system with tiered authentication (T1-T5)
 - **🧠 Consciousness**: Protected consciousness operations with Guardian oversight
 - **🛡️ Guardian**: Ethical reasoning with cryptographic enforcement
@@ -277,9 +277,9 @@ class DependencyHasher:
 
 ## 🎯 Consciousness Security Integration
 
-### Trinity Framework Protection
+### Constellation Framework Protection
 
-LUKHAS AI's consciousness operates under the Trinity Framework with Guardian protection:
+LUKHAS AI's consciousness operates under the Constellation Framework with Guardian protection:
 
 ```python
 # Consciousness Security Pattern
@@ -287,7 +287,7 @@ class ConsciousnessGuardian:
     """
     Guardian protection for consciousness operations.
     
-    Trinity Framework Integration:
+    Constellation Framework Integration:
     - Identity: Authenticated consciousness operations
     - Consciousness: Protected reasoning and decision-making
     - Guardian: Ethical oversight with cryptographic enforcement
@@ -651,7 +651,7 @@ class ContinuousSecurityMonitor:
 
 4. **Supply Chain Cryptographic Verification**: SHA-256 verification of all dependencies - protecting against supply chain attacks
 
-5. **Trinity Framework Integration**: Unified Identity-Consciousness-Guardian model with cryptographic enforcement
+5. **Constellation Framework Integration**: Unified Identity-Consciousness-Guardian model with cryptographic enforcement
 
 6. **Zero-Trust Architecture**: Every operation requires cryptographic validation - no implicit trust relationships
 

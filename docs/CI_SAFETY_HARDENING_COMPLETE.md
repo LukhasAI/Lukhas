@@ -159,7 +159,7 @@ SELF_HEALING_DISABLED=1 python3 tools/dashboard/self_healing_dashboard.py --mode
 ```
 🤖 LUKHAS SELF-HEALING AUTOMATION DASHBOARD
 ================================================================================
-⚛️🧠🛡️ Trinity Framework Status: 🟢 🟢 🟢
+⚛️🧠🛡️ Constellation Framework Status: 🟢 🟢 🟢
 🛡️ CI SAFETY MODE: ENABLED
 🟢 SYSTEM HEALTH: 96.2% (EXCELLENT)
 📊 Error Rate: 0.0%
@@ -191,7 +191,7 @@ SELF_HEALING_DISABLED=1 python3 tools/dashboard/self_healing_dashboard.py --mode
 - [x] Real-time health metrics
 - [x] Change budget tracking
 - [x] Risk assessment scoring
-- [x] Trinity Framework integration
+- [x] Constellation Framework integration
 - [x] CLI accessibility
 
 ## 🎉 Implementation Success

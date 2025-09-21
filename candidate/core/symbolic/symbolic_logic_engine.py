@@ -25,7 +25,7 @@ logger = logging.getLogger(__name__)
 #TAG:neuroplastic
 #TAG:colony
 
-Symbolic Logic Engine for LUKHAS AGI System
+Symbolic Logic Engine for LUKHAS Cognitive AI System
 
 This module serves as the nervous system of symbolic inference, evaluating logical pathways
 based on symbolic signatures (GLYPHs), ethical consistency, and memory influence. It implements

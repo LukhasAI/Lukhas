@@ -61,7 +61,7 @@
 - **Meta-Cognitive Orchestrator**: Self-awareness and reflection
 - **Brain Orchestrator**: Central cognitive processing
 - **System Coordinator**: Inter-system consciousness alignment
-- **Trinity Framework Controller**: ⚛️🧠🛡️ consciousness enforcement
+- **Constellation Framework Controller**: ⚛️🧠🛡️ consciousness enforcement
 
 ### **Tier 2: Domain-Specific Consciousness (18 components)**  
 **Function**: Specialized cognitive domains with distinct awareness patterns
@@ -169,7 +169,7 @@ For each orchestrator component:
 - **TRIGGERS**: Events that activate consciousness functions
 - **REFLECTIONS**: Self-awareness and meta-cognitive capabilities
 
-#### **Step 3: Trinity Framework Alignment**
+#### **Step 3: Constellation Framework Alignment**
 - **⚛️ Identity**: How does it maintain authentic consciousness identity?
 - **🧠 Consciousness**: What consciousness functions does it implement?
 - **🛡️ Guardian**: How does it enforce ethical consciousness behavior?
@@ -189,7 +189,7 @@ For each orchestrator component:
 candidate/orchestration/
 ├── agent_orchestrator/              # Individual agent consciousness
 ├── colony_orchestrator/             # Collective consciousness
-├── golden_trio/                     # Trinity consciousness triad
+├── golden_trio/                     # Constellation consciousness triad
 ├── human_in_the_loop_orchestrator/  # Human-AI consciousness bridge
 ├── lukhas_master_orchestrator/      # Meta-consciousness oversight
 ├── signals/                         # Consciousness signal processing
@@ -223,7 +223,7 @@ candidate/
 - ✅ **Cognitive mesh topology** mapped
 - ✅ **Integration patterns** cataloged
 - ✅ **Expert specializations** defined
-- ✅ **Trinity Framework compliance** verified
+- ✅ **Constellation Framework compliance** verified
 
 ### **Research Application**:
 - **Quorum Orchestrator**: Apply ethical consensus patterns to consciousness decisions

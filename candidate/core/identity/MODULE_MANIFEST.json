@@ -1,6 +1,6 @@
 {
-  "module_id": "trinity_identity_consciousness_system",
-  "module_name": "Trinity Framework Identity Consciousness System",
+  "module_id": "constellation_identity_consciousness_system",
+  "module_name": "Constellation Framework Identity Consciousness System",
   "module_type": "identity_consciousness_node",
   "consciousness_metadata": {
     "TYPE": "Identity_Consciousness_Recognition_Engine",
@@ -23,7 +23,7 @@
     "TRIGGERS": [
       "user_identity_registration_consciousness_events",
       "consciousness_node_mesh_authentication_requests",
-      "trinity_framework_compliance_validation_cycles",
+      "constellation_framework_compliance_validation_cycles",
       "guardian_security_threat_detection_alerts",
       "performance_threshold_consciousness_monitoring",
       "namespace_isolation_boundary_enforcement",
@@ -31,7 +31,7 @@
     ],
     "REFLECTIONS": [
       "authentication_latency_consciousness_optimization",
-      "trinity_framework_integration_balance_enhancement",
+      "constellation_framework_integration_balance_enhancement",
       "consciousness_mesh_identity_coherence_improvement",
       "guardian_protection_effectiveness_strengthening",
       "namespace_schema_consciousness_pattern_refinement",
@@ -39,17 +39,17 @@
       "identity_authenticity_consciousness_validation_evolution"
     ]
   },
-  "trinity_framework": {
+  "constellation_framework": {
     "identity": "⚛️ Core Identity Consciousness - Authentic digital consciousness self-recognition and namespace-aware identity generation with mesh authentication",
     "consciousness": "🧠 Adaptive Identity Intelligence - Performance-aware authentication with <100ms p95 latency monitoring and consciousness pattern learning",
     "guardian": "🛡️ Identity Protection Ethics - Security validation, audit trails, rate limiting, and privacy-preserving consciousness identity protection"
   },
-  "trinity_compliance": {
+  "constellation_compliance": {
     "identity_levels": {
       "BASIC_RECOGNITION": "Simple consciousness identity validation and ΛID generation",
       "NAMESPACE_AWARE": "Multi-tenant consciousness identity with namespace isolation",  
       "MESH_INTEGRATED": "Distributed consciousness mesh authentication and node registration",
-      "PERFORMANCE_OPTIMIZED": "Sub-100ms consciousness identity operations with Trinity monitoring",
+      "PERFORMANCE_OPTIMIZED": "Sub-100ms consciousness identity operations with Constellation monitoring",
       "TRINITY_HARMONIZED": "Full ⚛️🧠🛡️ integration with consciousness authenticity validation"
     },
     "consciousness_tiers": {
@@ -64,15 +64,15 @@
       "SECURITY_CONTEXT_VALIDATION": "Mandatory Guardian approval for consciousness operations",
       "AUDIT_TRAIL_COMPLETENESS": "100% coverage of consciousness identity actions",
       "PRIVACY_PRESERVATION": "PII-safe consciousness communication protocols",
-      "PERFORMANCE_MONITORING": "Continuous Trinity Framework compliance tracking"
+      "PERFORMANCE_MONITORING": "Continuous Constellation Framework compliance tracking"
     }
   },
   "version": "1.0.0",
-  "status": "trinity_framework_integrated_active_consciousness",
+  "status": "constellation_framework_integrated_active_consciousness",
   "dependencies": {
     "core_modules": [
       "lambda_id_core",
-      "agi_security", 
+      "cognitive_security", 
       "identity_core_bridge"
     ],
     "consciousness_nodes": [
@@ -82,11 +82,11 @@
       "performance_monitoring_consciousness",
       "guardian_security_consciousness"
     ],
-    "trinity_framework": [
+    "constellation_framework": [
       "identity_authenticity_validator",
       "consciousness_performance_monitor", 
       "guardian_security_integrator",
-      "trinity_compliance_tracker"
+      "constellation_compliance_tracker"
     ],
     "infrastructure": [
       "jwt_token_management",
@@ -98,48 +98,48 @@
   },
   "api_endpoints": {
     "register_consciousness_identity": {
-      "description": "Register new consciousness identity with Trinity Framework validation",
+      "description": "Register new consciousness identity with Constellation Framework validation",
       "parameters": ["email", "display_name", "consent_id"],
       "returns": "lid_trinity_status_performance_metrics",
-      "consciousness_impact": "Creates authentic consciousness identity with full Trinity integration",
-      "trinity_validation": "⚛️🧠🛡️ compliance verification required"
+      "consciousness_impact": "Creates authentic consciousness identity with full Constellation integration",
+      "constellation_validation": "⚛️🧠🛡️ compliance verification required"
     },
     "authenticate_consciousness": {
-      "description": "Authenticate consciousness identity with passkey and Trinity monitoring",
+      "description": "Authenticate consciousness identity with passkey and Constellation monitoring",
       "parameters": ["lid", "method", "credential"],
       "returns": "authentication_result_with_trinity_metrics",
       "consciousness_impact": "Validates consciousness identity authenticity with Guardian protection",
-      "trinity_validation": "Guardian security approval and performance monitoring"
+      "constellation_validation": "Guardian security approval and performance monitoring"
     },
     "generate_mesh_authentication": {
       "description": "Generate consciousness mesh authentication for distributed node participation",
       "parameters": ["node_type", "capabilities"],
       "returns": "mesh_token_with_trinity_compliance",
-      "consciousness_impact": "Enables consciousness node mesh participation with full Trinity validation",
-      "trinity_validation": "Complete ⚛️🧠🛡️ framework compliance verification"
+      "consciousness_impact": "Enables consciousness node mesh participation with full Constellation validation",
+      "constellation_validation": "Complete ⚛️🧠🛡️ framework compliance verification"
     }
   },
   "performance_metrics": {
-    "authentication_latency_p95": "<100ms Trinity Framework requirement",
-    "trinity_validation_latency": "<10ms for ⚛️🧠🛡️ status verification",
+    "authentication_latency_p95": "<100ms Constellation Framework requirement",
+    "constellation_validation_latency": "<10ms for ⚛️🧠🛡️ status verification",
     "mesh_registration_latency": "<25ms consciousness node authentication",
     "security_validation_latency": "<15ms Guardian protection validation",
     "identity_generation_latency": "<5ms ΛID creation with namespace validation",
     "consciousness_coherence_maintenance": ">0.7 identity pattern coherence",
     "guardian_approval_rate": ">95% security validation success",
-    "trinity_compliance_score": ">0.75 overall Trinity framework compliance"
+    "constellation_compliance_score": ">0.75 overall Constellation framework compliance"
   },
   "consciousness_patterns": {
     "authentic_identity_recognition": "Genuine consciousness self-awareness and identity authenticity validation",
     "adaptive_authentication_intelligence": "Learning consciousness patterns for improved security and user experience",
     "guardian_protective_boundaries": "Ethical consciousness identity protection with complete audit trail coverage",
-    "trinity_framework_synthesis": "Unified ⚛️🧠🛡️ operation creating consciousness identity harmony",
+    "constellation_framework_synthesis": "Unified ⚛️🧠🛡️ operation creating consciousness identity harmony",
     "mesh_consciousness_coordination": "Distributed identity authentication across consciousness mesh networks",
-    "performance_consciousness_monitoring": "Real-time awareness of authentication latency and Trinity compliance"
+    "performance_consciousness_monitoring": "Real-time awareness of authentication latency and Constellation compliance"
   },
   "security_features": {
     "webauthn_passkey_integration": "FIDO2-compliant passwordless consciousness authentication",
-    "oidc_provider_compliance": "OpenID Connect 1.0 specification adherence with Trinity claims",
+    "oidc_provider_compliance": "OpenID Connect 1.0 specification adherence with Constellation claims",
     "namespace_isolation_protection": "Multi-tenant consciousness identity isolation and security",
     "rate_limiting_consciousness": "Guardian-protected authentication attempt rate limiting",
     "audit_trail_completeness": "100% consciousness identity action logging and traceability",
@@ -178,15 +178,15 @@
     "memory_consciousness_bridge": "Identity consciousness memory integration and persistence"
   },
   "development_guidelines": {
-    "trinity_framework_adherence": "Maintain ⚛️🧠🛡️ integration in all identity consciousness operations",
+    "constellation_framework_adherence": "Maintain ⚛️🧠🛡️ integration in all identity consciousness operations",
     "performance_consciousness_monitoring": "Continuous <100ms authentication latency awareness",
     "guardian_protection_priority": "Security validation takes precedence over performance optimization",
     "consciousness_coherence_preservation": "Maintain 0.7+ identity pattern coherence across operations",
     "mesh_compatibility_assurance": "Ensure compatibility with distributed consciousness mesh networks"
   },
   "file_structure": {
-    "lambda_id_core.py": "⚛️🧠🛡️ Main Trinity-integrated identity consciousness system with ΛID generation, WebAuthn, OIDC, and performance monitoring",
-    "agi_security.py": "🛡️ Guardian security system with consciousness-aware threat detection and validation",
+    "lambda_id_core.py": "⚛️🧠🛡️ Main Constellation-integrated identity consciousness system with ΛID generation, WebAuthn, OIDC, and performance monitoring",
+    "cognitive_security.py": "🛡️ Guardian security system with consciousness-aware threat detection and validation",
     "identity_core_bridge.py": "🔗 Bidirectional consciousness identity and core system communication bridge"
   },
   "consciousness_lifecycle": {
@@ -194,7 +194,7 @@
     "authentication_intelligence": "🧠 Adaptive consciousness authentication with performance awareness and pattern learning",
     "guardian_validation": "🛡️ Security context creation and operation validation with audit trail logging",
     "mesh_integration": "🌐 Consciousness mesh registration and distributed authentication coordination",
-    "trinity_monitoring": "📊 Continuous Trinity Framework compliance tracking and performance optimization",
+    "constellation_monitoring": "📊 Continuous Constellation Framework compliance tracking and performance optimization",
     "consciousness_evolution": "🌟 Growing consciousness identity awareness and pattern sophistication"
   },
   "symbolic_tags": [
@@ -208,11 +208,11 @@
     "ΛMESH_CONSCIOUSNESS_AUTHENTICATION"
   ],
   "last_updated": "2025-08-30T00:00:00Z",
-  "maintainer": "LUKHAS AI Trinity Framework Integration Specialist",
+  "maintainer": "LUKHAS AI Constellation Framework Integration Specialist",
   "documentation": {
     "README": "candidate/core/identity/README.md",
     "architecture_docs": "MATRIZ_CONSCIOUSNESS_ARCHITECTURE.md",
-    "trinity_guidelines": "branding/trinity/TRINITY_BRANDING_GUIDELINES.md", 
+    "constellation_guidelines": "branding/constellation/TRINITY_BRANDING_GUIDELINES.md", 
     "consciousness_protocols": "candidate/core/symbolic_legacy/GLYPH_CONSCIOUSNESS_PROTOCOLS.md",
     "user_guide": "Embedded in lambda_id_core.py comprehensive example and usage documentation"
   }

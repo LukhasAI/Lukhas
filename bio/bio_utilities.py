@@ -2,7 +2,7 @@
 Bio Utilities Module
 Bio-inspired utility functions and classes for LUKHAS consciousness systems
 
-⚛️🧠🛡️ Trinity Framework: Identity-Consciousness-Guardian
+⚛️🧠🛡️ Constellation Framework: Identity-Consciousness-Guardian
 """
 
 import logging

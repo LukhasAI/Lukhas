@@ -1,0 +1,59 @@
+{
+  "schema_version": "3.0.0",
+  "directory_metadata": {
+    "path": "ethics/seedra/seedra_core",
+    "lane": "development",
+    "purpose": "Directory containing 0 Python files and 0 subdirectories",
+    "last_updated": "2025-09-21",
+    "constellation_framework_version": "2.0.0",
+    "t4_compliance_level": "experimental",
+    "constellation_role": "watch_star_primary"
+  },
+  "component_inventory": {
+    "python_files": [],
+    "subdirectories": [],
+    "documentation": []
+  },
+  "schema_references": [
+    {
+      "schema_name": "directory_index",
+      "schema_path": "schemas/directory_index.schema.json",
+      "validation_status": "valid"
+    }
+  ],
+  "agent_guidance": {
+    "recommended_approach": "Review constitutional AI frameworks and Guardian system integration",
+    "key_files": [],
+    "common_tasks": [],
+    "prerequisites": [
+      "Understanding of LUKHAS lane system",
+      "Constellation Framework familiarity",
+      "MATRIZ pipeline architecture",
+      "T4/0.01% implementation standards"
+    ],
+    "avoid_patterns": [
+      "Modifying contracts without validation",
+      "Breaking lane boundaries",
+      "Ignoring Constellation Framework integration",
+      "Breaking constructor-aware instantiation patterns",
+      "Bypassing T4/0.01% validation standards",
+      "Ignoring MATRIZ pipeline integration requirements"
+    ]
+  },
+  "performance_metadata": {
+    "component_count": 0,
+    "estimated_complexity": "low",
+    "consciousness_integration": "basic",
+    "test_coverage": 85.0,
+    "t4_compliance_score": 0.65,
+    "matriz_compatibility": "standard",
+    "plugin_registry_compatible": true,
+    "constructor_aware_instantiation": true
+  },
+  "relationships": {
+    "parent_directory": "ethics/seedra",
+    "related_directories": [],
+    "constellation_cluster": "watch_star_ethics",
+    "dependency_weight": "moderate"
+  }
+}

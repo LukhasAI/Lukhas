@@ -24,7 +24,7 @@
   ],
   "validation_criteria": [
     "All ΛTODO items implemented",
-    "Trinity Framework compliance",
+    "Constellation Framework compliance",
     "Integration tests passing",
     "Guardian safety validation"
   ],

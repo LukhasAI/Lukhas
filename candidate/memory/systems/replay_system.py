@@ -226,7 +226,7 @@ class TemporalIndex:
 
 class MemoryReplayer:
     """
-    Main memory replay system for LUKHAS AGI.
+    Main memory replay system for LUKHAS Cognitive AI.
 
     Provides sophisticated memory traversal, sequence reconstruction,
     and experiential replay capabilities with multiple modes and filters.

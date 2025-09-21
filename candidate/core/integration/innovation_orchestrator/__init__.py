@@ -4,7 +4,7 @@ Autonomous Innovation Orchestrator Module
 Master controller for all innovation engines enabling autonomous
 breakthrough generation without human intervention.
 
-Part of the LUKHAS Trinity Framework (⚛️🧠🛡️)
+Part of the LUKHAS Constellation Framework (⚛️🧠🛡️)
 """
 import streamlit as st
 

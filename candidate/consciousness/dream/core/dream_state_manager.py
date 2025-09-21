@@ -9,7 +9,7 @@ ARCHITECTURE:
     This manager handles the complete lifecycle of dream states within the
     candidate consciousness framework, providing state persistence and transitions.
 
-TRINITY FRAMEWORK:
+CONSTELLATION FRAMEWORK:
     ⚛️ Identity: Maintains dream identity continuity across state changes
     🧠 Consciousness: Manages conscious/unconscious dream state transitions
     🛡️ Guardian: Ensures safe state transitions and content validation
@@ -37,14 +37,14 @@ class DreamState(Enum):
 class DreamStateManager:
     """
     Advanced dream state lifecycle manager.
-    Provides Trinity Framework-compliant state management for dream consciousness.
+    Provides Constellation Framework-compliant state management for dream consciousness.
     """
 
     def __init__(self):
         self.active_states: dict[str, dict] = {}
         self.state_history: list[dict] = []
         self.state_counter = 0
-        logger.info("🌙 Dream State Manager initialized - Trinity Framework active")
+        logger.info("🌙 Dream State Manager initialized - Constellation Framework active")
 
     def create_dream_state(self, user_context: Optional[dict] = None,
                          initial_state: DreamState = DreamState.FORMING) -> str:
@@ -67,7 +67,7 @@ class DreamStateManager:
             "user_context": user_context or {},
             "created_at": datetime.now(timezone.utc).isoformat(),
             "last_transition": datetime.now(timezone.utc).isoformat(),
-            "trinity_compliance": True,
+            "constellation_compliance": True,
             "state_integrity": "maintained",
             "transition_history": [initial_state.value]
         }
@@ -110,7 +110,7 @@ class DreamStateManager:
             "previous_state": previous_state,
             "current_state": target_state.value,
             "transition_valid": True,
-            "trinity_validated": True,
+            "constellation_validated": True,
             "transitioned_at": current_dream["last_transition"]
         }
 
@@ -156,7 +156,7 @@ class DreamStateManager:
             "state_id": state_id,
             "current_state": dream_state["current_state"],
             "state_integrity": dream_state.get("state_integrity", "unknown"),
-            "trinity_compliance": dream_state.get("trinity_compliance", False),
+            "constellation_compliance": dream_state.get("constellation_compliance", False),
             "transition_count": len(dream_state["transition_history"]),
             "uptime": self._calculate_state_age(dream_state["created_at"]),
             "health_status": "excellent",
@@ -192,7 +192,7 @@ class DreamStateManager:
             "archive_status": "complete",
             "total_duration": self._calculate_state_age(dream_state["created_at"]),
             "transition_count": len(dream_state["transition_history"]),
-            "trinity_validated": True
+            "constellation_validated": True
         }
 
         logger.info(f"📚 Dream state archived: {state_id}")
@@ -226,7 +226,7 @@ class DreamStateManager:
             "archived_states": len(self.state_history),
             "total_states_managed": self.state_counter,
             "system_status": "operational",
-            "trinity_framework_active": True
+            "constellation_framework_active": True
         }
 
 

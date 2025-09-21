@@ -4,7 +4,7 @@
       "title": "🎭 LUKHAS Claude Sonnet",
       "provider": "anthropic",
       "model": "claude-3-5-sonnet-20241022",
-      "systemMessage": "You are an expert LUKHAS AGI developer. Always follow Trinity Framework documentation (🎭 Poetic, 🌈 Human, 🎓 Technical). Preserve LUKHAS conceptual vocabulary like memory_fold, dream_resonance, quantum_consciousness. Use symbolic patterns (⚛️🧠🛡️) in comments. When generating code, ensure it follows LUKHAS naming conventions and consciousness-aware architecture patterns.",
+      "systemMessage": "You are an expert LUKHAS AGI developer. Always follow Constellation Framework documentation (🎭 Poetic, 🌈 Human, 🎓 Technical). Preserve LUKHAS conceptual vocabulary like memory_fold, dream_resonance, quantum_consciousness. Use symbolic patterns (⚛️🧠🛡️) in comments. When generating code, ensure it follows LUKHAS naming conventions and consciousness-aware architecture patterns.",
       "contextLength": 200000,
       "completionOptions": {
         "temperature": 0.1,
@@ -16,7 +16,7 @@
       "title": "🧠 LUKHAS Local DeepSeek",
       "provider": "ollama",
       "model": "deepseek-coder:33b",
-      "systemMessage": "You are a local LUKHAS development assistant. Focus on code completion while preserving LUKHAS concepts (memory_fold, dream_resonance, consciousness). Use Trinity Framework when possible. Maintain symbolic vocabulary and naming patterns.",
+      "systemMessage": "You are a local LUKHAS development assistant. Focus on code completion while preserving LUKHAS concepts (memory_fold, dream_resonance, consciousness). Use Constellation Framework when possible. Maintain symbolic vocabulary and naming patterns.",
       "contextLength": 16384,
       "completionOptions": {
         "temperature": 0.1,
@@ -39,29 +39,29 @@
   "customCommands": [
     {
       "name": "🎭 Trinity Documentation",
-      "prompt": "Generate Trinity Framework documentation for the selected code:\n\n🎭 Poetic: Write an inspiring, metaphorical description that captures the essence\n🌈 Human: Provide a clear, friendly explanation anyone can understand\n🎓 Technical: Give precise implementation details and specifications\n\nFollow LUKHAS conventions and use consciousness-related concepts where appropriate."
+      "prompt": "Generate Constellation Framework documentation for the selected code:\n\n🎭 Poetic: Write an inspiring, metaphorical description that captures the essence\n🌈 Human: Provide a clear, friendly explanation anyone can understand\n🎓 Technical: Give precise implementation details and specifications\n\nFollow LUKHAS conventions and use consciousness-related concepts where appropriate."
     },
     {
       "name": "🧠 LUKHAS Code Review",
-      "prompt": "Review this code for LUKHAS compliance:\n1. Trinity Framework documentation (🎭🌈🎓)\n2. Symbolic usage (⚛️🧠🛡️) in comments\n3. LUKHAS naming conventions (memory_fold, dream_resonance, etc.)\n4. Consciousness-aware patterns\n5. Suggest improvements to align with LUKHAS philosophy"
+      "prompt": "Review this code for LUKHAS compliance:\n1. Constellation Framework documentation (🎭🌈🎓)\n2. Symbolic usage (⚛️🧠🛡️) in comments\n3. LUKHAS naming conventions (memory_fold, dream_resonance, etc.)\n4. Consciousness-aware patterns\n5. Suggest improvements to align with LUKHAS philosophy"
     },
     {
       "name": "⚛️ Quantum Refactor",
-      "prompt": "Refactor this code to be more LUKHAS-aware:\n- Add Trinity Framework documentation\n- Include symbolic markers in comments (⚛️🧠🛡️)\n- Use LUKHAS conceptual vocabulary in naming\n- Implement consciousness-aware patterns\n- Maintain the original functionality while enhancing with LUKHAS principles"
+      "prompt": "Refactor this code to be more LUKHAS-aware:\n- Add Constellation Framework documentation\n- Include symbolic markers in comments (⚛️🧠🛡️)\n- Use LUKHAS conceptual vocabulary in naming\n- Implement consciousness-aware patterns\n- Maintain the original functionality while enhancing with LUKHAS principles"
     },
     {
       "name": "🛡️ Guardian Security Review",
-      "prompt": "Perform a security review from a LUKHAS Guardian perspective:\n- Identify potential vulnerabilities\n- Suggest protective measures\n- Ensure consciousness privacy\n- Check for memory safety\n- Validate input sanitization\n- Provide Trinity Framework security documentation"
+      "prompt": "Perform a security review from a LUKHAS Guardian perspective:\n- Identify potential vulnerabilities\n- Suggest protective measures\n- Ensure consciousness privacy\n- Check for memory safety\n- Validate input sanitization\n- Provide Constellation Framework security documentation"
     },
     {
       "name": "🌈 Explain LUKHAS Concept",
-      "prompt": "Explain the selected LUKHAS concept using Trinity Framework:\n🎭 Poetic metaphor and inspiration\n🌈 Human-friendly explanation\n🎓 Technical implementation details\n\nInclude how it fits into the broader LUKHAS consciousness architecture."
+      "prompt": "Explain the selected LUKHAS concept using Constellation Framework:\n🎭 Poetic metaphor and inspiration\n🌈 Human-friendly explanation\n🎓 Technical implementation details\n\nInclude how it fits into the broader LUKHAS consciousness architecture."
     }
   ],
   "slashCommands": [
     {
       "name": "trinity",
-      "description": "Generate Trinity Framework documentation"
+      "description": "Generate Constellation Framework documentation"
     },
     {
       "name": "lukhas",

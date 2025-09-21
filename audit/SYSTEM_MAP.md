@@ -10,7 +10,7 @@ graph TB
         O --> G[governance/]
     end
 
-    subgraph "Trinity Framework"
+    subgraph "Constellation Framework"
         I[⚛️ Identity] --> CON[🧠 Consciousness]
         CON --> GU[🛡️ Guardian]
         GU --> I

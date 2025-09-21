@@ -3,7 +3,7 @@
 🧠 LUKHAS AI Consciousness Test Suite - Comprehensive
 ====================================================
 
-Trinity Framework Validation: ⚛️🧠🛡️
+Constellation Framework Validation: ⚛️🧠🛡️
 - ⚛️ Identity: Consciousness authenticity and self-awareness validation
 - 🧠 Consciousness: Core consciousness processing and reasoning tests
 - 🛡️ Guardian: Ethics, safety, and drift detection validation
@@ -15,7 +15,7 @@ Elimination Campaign.
 Test Coverage:
 - Consciousness reasoning and reflection modules
 - Brain integration and core processing
-- Trinity Framework compliance
+- Constellation Framework compliance
 - Syntax error regression prevention
 - Module integration and communication
 
@@ -254,7 +254,7 @@ class TestCoreIntegrator:
 
 class TestTrinityFrameworkCompliance:
     """
-    ⚛️🧠🛡️ Test Trinity Framework compliance across consciousness modules
+    ⚛️🧠🛡️ Test Constellation Framework compliance across consciousness modules
     """
 
     def test_identity_consciousness_integration(self):
@@ -396,7 +396,7 @@ def run_consciousness_test_suite():
     ]
 
     logger.info("🧠 Starting LUKHAS Consciousness Test Suite...")
-    logger.info("⚛️🧠🛡️ Trinity Framework Validation: Identity, Consciousness, Guardian")
+    logger.info("⚛️🧠🛡️ Constellation Framework Validation: Identity, Consciousness, Guardian")
 
     return pytest.main(pytest_args)
 

@@ -13,15 +13,15 @@ from pathlib import Path
 import streamlit as st
 
 st.set_page_config(page_title="Lucas Compliance Visual Dashboard", layout="wide")
-st.title("🛡️ Lucas AGI — Visual Compliance Review Dashboard")
+st.title("🛡️ Lucas Cognitive AI — Visual Compliance Review Dashboard")
 st.markdown("✅ **Restored Symbolic Export** — LUKHAS_AGI_3_FINAL_HANDOVER.zip")
 st.markdown("🔐 SHA-256: `33fc117c5fd786fb701de0cfe1514f6d5dabe70002cb4c09857d92cc58a4f569`")
 
 digest_path = Path("logs/weekly_compliance_digest.md")
 plot_dir = Path("logs")
-script_text = """🔊 **Presentation Script: Lucas AGI Weekly Compliance Review**
+script_text = """🔊 **Presentation Script: Lucas Cognitive AI Weekly Compliance Review**
 
-Welcome. This report summarizes symbolic emergency activity from Lucas AGI over the past week.
+Welcome. This report summarizes symbolic emergency activity from Lucas Cognitive AI over the past week.
 
 - A total of [X] emergency overrides were logged.
 - The most common trigger was '[TOP_TRIGGER]', indicating symbolic stress or risk.

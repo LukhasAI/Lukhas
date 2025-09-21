@@ -12,7 +12,7 @@ Features:
 - Memory cascade prevention monitoring (99.7% target)
 - API performance and latency tracking
 - Resource utilization monitoring
-- Trinity Framework health integration (⚛️🧠🛡️)
+- Constellation Framework health integration (⚛️🧠🛡️)
 - Predictive health analytics
 - Automated health remediation
 - Comprehensive health reporting
@@ -22,7 +22,7 @@ Features:
 #TAG:health
 #TAG:performance
 #TAG:monitoring
-#TAG:trinity
+#TAG:constellation
 """
 import asyncio
 import logging
@@ -114,7 +114,7 @@ class HealthMetric:
     tags: dict[str, str] = field(default_factory=dict)
     metadata: dict[str, Any] = field(default_factory=dict)
 
-    # Trinity Framework impact
+    # Constellation Framework impact
     identity_impact: Optional[float] = None  # ⚛️
     consciousness_impact: Optional[float] = None  # 🧠
     guardian_priority: str = "normal"  # 🛡️
@@ -192,7 +192,7 @@ class SystemHealthSnapshot:
     cascade_prevention_score: float = 0.997  # 99.7% target
     fold_health_score: float = 1.0
 
-    # Trinity Framework health
+    # Constellation Framework health
     identity_system_health: float = 1.0  # ⚛️
     consciousness_system_health: float = 1.0  # 🧠
     guardian_system_health: float = 1.0  # 🛡️
@@ -500,7 +500,7 @@ class SystemHealthMonitor:
             snapshot.cascade_prevention_score = cascade_metrics["prevention_score"]
             snapshot.fold_health_score = cascade_metrics["fold_health"]
 
-            # Trinity Framework health
+            # Constellation Framework health
             snapshot.identity_system_health = self.component_states[ComponentType.IDENTITY].overall_health
             snapshot.consciousness_system_health = self.component_states[ComponentType.CONSCIOUSNESS].overall_health
             snapshot.guardian_system_health = self.component_states[ComponentType.GUARDIAN].overall_health
@@ -1042,8 +1042,8 @@ class SystemHealthMonitor:
                 "error_rate": self.current_health.error_rate,
                 "uptime": self.current_health.uptime,
             },
-            # Trinity Framework health
-            "trinity_health": {
+            # Constellation Framework health
+            "constellation_health": {
                 "identity": self.current_health.identity_system_health,
                 "consciousness": self.current_health.consciousness_system_health,
                 "guardian": self.current_health.guardian_system_health,

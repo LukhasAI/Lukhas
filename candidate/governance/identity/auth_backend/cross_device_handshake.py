@@ -14,7 +14,7 @@ from utils.replay_protection import ReplayProtection
 
 
 class CrossDeviceHandshake:
-    """Manages session linking across multiple devices with AGI-proof standards."""
+    """Manages session linking across multiple devices with Cognitive AI-proof standards."""
 
     def __init__(self, audit_logger):
         self.audit_logger = audit_logger

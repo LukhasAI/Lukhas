@@ -1,6 +1,6 @@
 # 🤖 LUKHΛS GPT Integration Layer - Complete
 
-**Trinity Framework**: ⚛️🧠🛡️
+**Constellation Framework**: ⚛️🧠🛡️
 **Status**: ✅ **FULLY IMPLEMENTED**
 **Generated**: 2025-08-04
 
@@ -31,7 +31,7 @@ The GPT Integration Layer provides a comprehensive symbolic wrapper for GPT mode
 Encapsulates symbolic metadata:
 - `drift_score` - Symbolic drift (0.0-1.0)
 - `entropy` - Chaos/randomness level
-- `trinity_coherence` - Trinity Framework alignment
+- `trinity_coherence` - Constellation Framework alignment
 - `glyph_trace` - Detected symbolic glyphs
 - `guardian_flagged` - Ethics violation flag
 - `intervention_required` - Healing needed
@@ -114,7 +114,7 @@ Healing is triggered when:
     },
     "recommendations": [
       "Monitor for drift escalation",
-      "Reinforce Trinity Framework in prompts"
+      "Reinforce Constellation Framework in prompts"
     ]
   }
 }
@@ -315,7 +315,7 @@ CMD ["python", "test_gpt_integration_api.py"]
 
 ---
 
-**Trinity Framework**: ⚛️🧠🛡️
+**Constellation Framework**: ⚛️🧠🛡️
 **GPT Integration**: 🟢 **OPERATIONAL**
 **Drift Detection**: ✅ **ACTIVE**
 

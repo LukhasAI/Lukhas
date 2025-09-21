@@ -26,8 +26,8 @@ def fix_later(*args, **kwargs):
     raise NotImplementedError("fix_later is not yet implemented - replace with actual functionality")
 
 
-sys.path.append("/Users/agi_dev/LOCAL-REPOS/Lukhas/core", timezone)
-sys.path.append("/Users/agi_dev/Lukhas/Λ-ecosystem/LUKHAS AI ΛBot")
+sys.path.append("/Users/cognitive_dev/LOCAL-REPOS/Lukhas/core", timezone)
+sys.path.append("/Users/cognitive_dev/Lukhas/Λ-ecosystem/LUKHAS AI ΛBot")
 
 # Import workspace components with proper stubs
 try:
@@ -325,7 +325,7 @@ class BioSymbolicΛBot:
             symbolic_representation="🦠 Module(boundary=membrane, internals=organelles, interface=selective_channels)",
             confidence=0.89,
             locations=[
-                "core/agi_controller.py",
+                "core/cognitive_controller.py",
                 "core/bio_symbolic.py",
                 "consciousness/qi_consciousness_integration.py",
             ],
@@ -662,7 +662,7 @@ async def main():
     bio_bot = BioSymbolicΛBot()
 
     # Start bio-symbolic analysis
-    session = await bio_bot.start_bio_symbolic_analysis("/Users/agi_dev/LOCAL-REPOS/Lukhas")
+    session = await bio_bot.start_bio_symbolic_analysis("/Users/cognitive_dev/LOCAL-REPOS/Lukhas")
 
     print("\n🔬 Bio-Symbolic Analysis Session Active:")
     print(f"   Session ID: {session.session_id}")

@@ -1,5 +1,5 @@
 """
-LUKHAS Real-Time Brand Validator - Trinity Framework (⚛️🧠🛡️)
+LUKHAS Real-Time Brand Validator - Constellation Framework (⚛️🧠🛡️)
 Live brand compliance checking and automatic correction system
 """
 
@@ -98,9 +98,9 @@ class RealTimeBrandValidator:
                 BrandRule(
                     rule_id="deprecated_lukhas_agi",
                     rule_type=ValidationType.TERMINOLOGY,
-                    pattern=re.compile(r"\bLUKHAS\s+AGI\b", re.IGNORECASE),
+                    pattern=re.compile(r"\bLUKHAS\s+Cognitive AI\b", re.IGNORECASE),
                     severity=ValidationSeverity.ERROR,
-                    description="Use of deprecated 'LUKHAS AGI' terminology",
+                    description="Use of deprecated 'LUKHAS Cognitive AI' terminology",
                     auto_correctable=True,
                     correction_template="LUKHAS AI",
                 ),
@@ -192,9 +192,9 @@ class RealTimeBrandValidator:
                 BrandRule(
                     rule_id="triad_framework_mention",
                     rule_type=ValidationType.TRINITY_ALIGNMENT,
-                    pattern=re.compile(r"trinity\s+framework", re.IGNORECASE),
+                    pattern=re.compile(r"constellation\s+framework", re.IGNORECASE),
                     severity=ValidationSeverity.INFO,
-                    description="Trinity Framework properly mentioned",
+                    description="Constellation Framework properly mentioned",
                     auto_correctable=False,
                     correction_template=None,
                 ),
@@ -203,7 +203,7 @@ class RealTimeBrandValidator:
                     rule_type=ValidationType.TRINITY_ALIGNMENT,
                     pattern=re.compile(r"⚛️.*🧠.*🛡️|🧠.*⚛️.*🛡️|🛡️.*⚛️.*🧠"),
                     severity=ValidationSeverity.INFO,
-                    description="Trinity symbols properly used together",
+                    description="Constellation symbols properly used together",
                     auto_correctable=False,
                     correction_template=None,
                 ),
@@ -215,7 +215,7 @@ class RealTimeBrandValidator:
                         re.IGNORECASE,
                     ),
                     severity=ValidationSeverity.INFO,
-                    description="Trinity components mentioned together",
+                    description="Constellation components mentioned together",
                     auto_correctable=False,
                     correction_template=None,
                 ),
@@ -293,7 +293,7 @@ class RealTimeBrandValidator:
                     rule_type=ValidationType.CONTENT_APPROPRIATENESS,
                     pattern=re.compile(r"\bAGI\b|\bartificial general intelligence\b", re.IGNORECASE),
                     severity=ValidationSeverity.ERROR,
-                    description="Use 'consciousness technology' instead of AGI",
+                    description="Use 'consciousness technology' instead of Cognitive AI",
                     auto_correctable=True,
                     correction_template="consciousness technology",
                 ),
@@ -374,7 +374,7 @@ class RealTimeBrandValidator:
                     rule_id="consciousness_hashtags",
                     rule_type=ValidationType.PLATFORM_OPTIMIZATION,
                     pattern=re.compile(
-                        r"#ConsciousnessTechnology|#LUKHASIA|#TrinityFramework", re.IGNORECASE
+                        r"#ConsciousnessTechnology|#LUKHASIA|#ConstellationFramework", re.IGNORECASE
                     ),  # Fixed pattern
                     severity=ValidationSeverity.INFO,
                     description="Brand-specific hashtags present",
@@ -400,7 +400,7 @@ class RealTimeBrandValidator:
         return {
             "terminology_corrections": {
                 "LUKHAS PWM": "LUKHAS AI",
-                "LUKHAS AGI": "LUKHAS AI",
+                "LUKHAS Cognitive AI": "LUKHAS AI",
                 "PWM consciousness": "LUKHAS consciousness",
                 "AI system": "AI consciousness",
                 "lambda function": "Λ consciousness",
@@ -549,7 +549,7 @@ class RealTimeBrandValidator:
         suggestions = {
             ValidationType.TERMINOLOGY: {
                 "lukhas pwm": "Use 'LUKHAS AI' instead of deprecated 'LUKHAS PWM'",
-                "lukhas agi": "Use 'LUKHAS AI' instead of 'LUKHAS AGI'",
+                "lukhas agi": "Use 'LUKHAS AI' instead of 'LUKHAS Cognitive AI'",
                 "ai system": "Consider using 'AI consciousness' for more brand-aligned language",
             },
             ValidationType.LAMBDA_USAGE: {
@@ -557,8 +557,8 @@ class RealTimeBrandValidator:
                 "lambda processing": "Use 'Λ consciousness processing' for proper brand alignment",
             },
             ValidationType.TRINITY_ALIGNMENT: {
-                "missing_trinity": "Consider including Trinity Framework reference (⚛️🧠🛡️)",
-                "incomplete_trinity": "Include all three Trinity components: Identity, Consciousness, Guardian",
+                "missing_trinity": "Consider including Constellation Framework reference (⚛️🧠🛡️)",
+                "incomplete_trinity": "Include all three Constellation components: Identity, Consciousness, Guardian",
             },
             ValidationType.TONE_CONSISTENCY: {
                 "robotic": "Use more consciousness-focused language instead of mechanical terms",
@@ -912,7 +912,7 @@ if __name__ == "__main__":
     test_contents = [
         {
             "id": "test_1",
-            "content": "Welcome to LUKHAS AI consciousness platform with Trinity Framework (⚛️🧠🛡️)",
+            "content": "Welcome to LUKHAS AI consciousness platform with Constellation Framework (⚛️🧠🛡️)",
             "type": "marketing",
         },
         {

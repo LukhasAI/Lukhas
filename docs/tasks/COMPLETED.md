@@ -21,7 +21,7 @@
   - CI tools → `branding/automation/`
   - Added: `voice/`, `visual/`, `trinity/` guidelines
 - **New Structure**: Single `branding/` directory with complete system
-- **Trinity Alignment**: ⚛️🧠🛡️ Full Trinity Framework branding standards created
+- **Trinity Alignment**: ⚛️🧠🛡️ Full Constellation Framework branding standards created
 - **Next Steps**: All branding now centralized and easily discoverable
 
 #### **Task Management System Reorganization** ✅

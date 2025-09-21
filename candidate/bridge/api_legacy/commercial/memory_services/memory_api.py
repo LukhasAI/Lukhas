@@ -270,7 +270,7 @@ async def example_memory_usage():
 
     # Store a text memory
     text_memory = MemoryStore(
-        content="Meeting with team about AGI architecture",
+        content="Meeting with team about AI architecture",
         type="text",
         tags=["meeting", "architecture", "team"],
         metadata={"participants": ["Alice", "Bob"], "duration": 60},

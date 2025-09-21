@@ -15,7 +15,7 @@ logger = logging.getLogger(__name__)
 📊 MODULE: trace.drift_dashboard
 📄 FILENAME: drift_dashboard.py
 🎯 PURPOSE: ΛDASH Drift Monitoring Dashboard - Real-time Symbolic Drift Analytics
-🧠 CONTEXT: LUKHAS AGI Symbolic Drift Scoring Engine Visualization & Control
+🧠 CONTEXT: LUKHAS Cognitive AI Symbolic Drift Scoring Engine Visualization & Control
 🔮 CAPABILITY: Live drift monitoring, cascade alerts, quarantine control, remediation
 🛡️ ETHICS: Transparent drift tracking, pre-emptive cascade prevention, symbolic safety
 🚀 VERSION: v1.0.0 • 📅 CREATED: 2025-07-22 • ✍️ AUTHOR: CLAUDE-CODE
@@ -26,7 +26,7 @@ logger = logging.getLogger(__name__)
 ────────────────────────────────────────────────────────────────────
 
 The ΛDASH system provides real-time visibility into symbolic drift patterns across
-the LUKHAS AGI consciousness mesh. Like a seismograph detecting tectonic shifts in
+the LUKHAS Cognitive AI consciousness mesh. Like a seismograph detecting tectonic shifts in
 symbolic space, this dashboard captures the subtle oscillations and cascading
 patterns that precede system instability, enabling proactive intervention.
 
@@ -155,7 +155,7 @@ class DriftDashboard:
     ΛDASH - Symbolic Drift Monitoring Dashboard.
 
     Provides real-time monitoring and control interface for symbolic drift
-    across the LUKHAS AGI system.
+    across the LUKHAS Cognitive system.
     """
 
     def __init__(

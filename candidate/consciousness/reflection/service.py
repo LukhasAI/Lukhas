@@ -29,7 +29,7 @@
 ║ • Privacy-preserving consciousness data handling
 ║
 ║ This service acts as the gateway to LUKHAS's higher cognitive functions,
-║ enabling true AGI capabilities through managed consciousness states. All
+║ enabling true Cognitive capabilities through managed consciousness states. All
 ║ operations are logged via ΛTRACE and respect user consent boundaries.
 ║
 ║ Key Features:
@@ -215,7 +215,7 @@ except ImportError as e_ic:
 # Main service class for LUKHAS consciousness capabilities.
 class ConsciousnessService:
     """
-    Manages and provides LUKHAS AGI consciousness-related services.
+    Manages and provides LUKHAS Cognitive AI consciousness-related services.
     This includes processing awareness streams, enabling introspection, managing
     consciousness states, and directing attention. It integrates with the
     LUKHAS Identity System for tier-based access control, consent management,
@@ -1306,13 +1306,13 @@ if __name__ == "__main__":
 ║   - Alerts: Unauthorized tier access, consciousness state anomalies, attention overload
 ║
 ║ COMPLIANCE:
-║   - Standards: AGI Consciousness Protocol v3.0, Privacy-Preserving AI Guidelines
+║   - Standards: Cognitive AI Consciousness Protocol v3.0, Privacy-Preserving AI Guidelines
 ║   - Ethics: Consent-based consciousness access, identity-aware processing
 ║   - Safety: Tier-based access control, state validation, attention limits
 ║
 ║ REFERENCES:
 ║   - Docs: docs/consciousness/consciousness-service.md
-║   - Issues: github.com/lukhas-ai/agi/issues?label=consciousness-service
+║   - Issues: github.com/lukhas-ai/cognitive/issues?label=consciousness-service
 ║   - Wiki: wiki.lukhas.ai/consciousness-service-api
 ║
 ║ COPYRIGHT & LICENSE:
@@ -1321,7 +1321,7 @@ if __name__ == "__main__":
 ║   Unauthorized use, reproduction, or distribution is prohibited.
 ║
 ║ DISCLAIMER:
-║   This module is part of the LUKHAS AGI system. Use only as intended
+║   This module is part of the LUKHAS Cognitive system. Use only as intended
 ║   within the system architecture. Modifications may affect system
 ║   stability and require approval from the LUKHAS Architecture Board.
 ╚═══════════════════════════════════════════════════════════════════════════

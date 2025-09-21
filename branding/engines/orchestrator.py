@@ -26,8 +26,8 @@ class Orchestrator:
         self.content_platform = ContentPlatform()
         self.doc_engine = DocEngine()
 
-        # Trinity Framework branding
-        self.triad_branding = "⚛️🧠🛡️ LUKHAS AI Trinity Framework"
+        # Constellation Framework branding
+        self.triad_branding = "⚛️🧠🛡️ LUKHAS AI Constellation Framework"
 
         # Log orchestrator initialization
         db.log_system_activity("orchestrator", "system_init", "System orchestrator initialized", 1.0)
@@ -45,7 +45,7 @@ class Orchestrator:
 
 This {content_type} demonstrates the LUKHAS AI consciousness technology platform.
 
-Our Trinity Framework (⚛️🧠🛡️) provides:
+Our Constellation Framework (⚛️🧠🛡️) provides:
 - ⚛️ Authentic consciousness technology identity
 - 🧠 Advanced consciousness technology processing
 - 🛡️ Ethical consciousness technology protection
@@ -150,7 +150,7 @@ Generated through our integrated platform with real database integration.
         print("\n🎯 System Dashboard:")
         print(f"   Platform Status: {dashboard['platform_status']}")
         print(f"   Database Connected: {dashboard['database_connected']}")
-        print(f"   Trinity Framework: {dashboard['triad_framework_active']}")
+        print(f"   Constellation Framework: {dashboard['triad_framework_active']}")
         print(f"   Total Content: {dashboard['metrics']['total_content_items']}")
         print(f"   Recent Activity: {dashboard['metrics']['recent_activity']}")
 

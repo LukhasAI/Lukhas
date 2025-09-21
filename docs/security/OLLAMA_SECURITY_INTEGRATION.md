@@ -289,4 +289,4 @@ Typical performance on M1 Mac:
 ---
 
 **LUKHAS AI Security** - Powered by Local AI 🤖🛡️
-*Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian*
+*Constellation Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian*

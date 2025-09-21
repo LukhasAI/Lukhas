@@ -1,7 +1,7 @@
 """
 LUKHAS AI Memory Wrapper
 Production-safe wrapper for memory operations with feature flag control
-Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
+Constellation Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 """
 
 import os

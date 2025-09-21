@@ -2,7 +2,7 @@
 """
 LUKHAS Ollama Manager
 Delegated management system for Ollama models and operations
-Trinity Framework: ⚛️ (Identity), 🧠 (Consciousness), 🛡️ (Guardian)
+Constellation Framework: ⚛️ (Identity), 🧠 (Consciousness), 🛡️ (Guardian)
 """
 
 import asyncio

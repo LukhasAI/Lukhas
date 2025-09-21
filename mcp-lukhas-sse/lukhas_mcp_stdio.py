@@ -203,7 +203,7 @@ async def get_system_info() -> str:
                 "server_name": "LUKHAS AI MCP Server",
                 "version": "1.0.0",
                 "protocol_version": "2025-06-18",
-                "trinity_framework": "⚛️🧠🛡️ (Identity, Consciousness, Guardian)"
+                "constellation_framework": "⚛️🧠🛡️ (Identity, Consciousness, Guardian)"
             },
             "system": {
                 "platform": platform.platform(),
@@ -235,10 +235,10 @@ async def get_system_info() -> str:
 if __name__ == "__main__":
     # Set environment variables for security
     if not os.getenv("ALLOWED_ROOTS"):
-        os.environ["ALLOWED_ROOTS"] = "/tmp,/var/tmp,/Users/agi_dev/LOCAL-REPOS/Lukhas/test_data"
+        os.environ["ALLOWED_ROOTS"] = "/tmp,/var/tmp,/Users/cognitive_dev/LOCAL-REPOS/Lukhas/test_data"
     
     logger.info("🚀 Starting LUKHAS AI MCP STDIO Server")
-    logger.info("⚛️🧠🛡️ Trinity Framework: Identity, Consciousness, Guardian")
+    logger.info("⚛️🧠🛡️ Constellation Framework: Identity, Consciousness, Guardian")
     logger.info(f"📁 Allowed roots: {os.getenv('ALLOWED_ROOTS')}")
     logger.info("📋 Protocol: MCP v2025-06-18 with STDIO transport")
     logger.info("🔗 Ready for ChatGPT integration")

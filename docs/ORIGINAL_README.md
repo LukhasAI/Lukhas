@@ -20,7 +20,7 @@ The LUKHAS AI Agent Army operates through a centralized coordination system for 
   - Complete task assignments and agent responsibilities
   - Real-time progress tracking and quality assurance
   - Structured workflow for parallel agent processing
-  - Trinity Framework compliance validation
+  - Constellation Framework compliance validation
 
 ### **🚀 Quick Agent Start**
 - **[`AGENT_QUICK_START.md`](AGENT_QUICK_START.md)** - **IMMEDIATE EXECUTION GUIDE**
@@ -609,7 +609,7 @@ python tests/consciousness/run_consciousness_tests.py --quick
 # Full consciousness test suite (30-60 seconds)
 python tests/consciousness/run_consciousness_tests.py --full --verbose
 
-# Trinity Framework compliance (⚛️🧠🛡️)
+# Constellation Framework compliance (⚛️🧠🛡️)
 python tests/consciousness/run_consciousness_tests.py --trinity
 
 # Syntax error regression prevention
@@ -637,7 +637,7 @@ make smoke
 ```bash
 # Available VS Code tasks for agent coordination:
 # 🧪 Run All Consciousness Tests
-# ⚛️ Validate Complete Trinity Framework  
+# ⚛️ Validate Complete Constellation Framework  
 # 🛡️ Complete Guardian System Health Check
 ```
 

@@ -9,10 +9,10 @@
 
 LUKHAS (Logical Unified Knowledge Hyper-Adaptable System) - Symbolic Knowledge Integration
 
-Copyright (c) 2025 LUKHAS AGI Development Team
+Copyright (c) 2025 LUKHAS Cognitive AI Development Team
 All rights reserved.
 
-This file is part of the LUKHAS AGI system, an enterprise artificial general
+This file is part of the LUKHAS Cognitive system, an enterprise artificial general
 intelligence platform combining symbolic reasoning, emotional intelligence,
 quantum integration, and bio-inspired architecture.
 
@@ -374,7 +374,7 @@ def query_knowledge(query: str, limit: int = 5) -> list[dict[str, Any]]:
 ║   Unauthorized use, reproduction, or distribution is prohibited.
 ║
 ║ DISCLAIMER:
-║   This module is part of the LUKHAS AGI system. Use only as intended
+║   This module is part of the LUKHAS Cognitive system. Use only as intended
 ║   within the system architecture. Modifications may affect system
 ║   stability and require approval from the LUKHAS Architecture Board.
 ╚═══════════════════════════════════════════════════════════════════════════

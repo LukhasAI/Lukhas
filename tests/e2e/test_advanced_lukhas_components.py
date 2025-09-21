@@ -9,7 +9,7 @@ Comprehensive testing of real LUKHAS functionality beyond imports:
 - Dream System (replay, emotion vectors, symbolic processing)
 - Encryption & Governance (consent ledger, audit trails, compliance)
 
-Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
+Constellation Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 """
 
 import json
@@ -424,7 +424,7 @@ class TestDreamSystem:
                 "emotion_vector": {"joy": 0.9, "calm": 0.9, "stress": 0.1, "longing": 0.2},
                 "emoji": "⚛️",
                 "replay_candidate": True,
-                "content": "Trinity Framework integration achieving perfect harmony",
+                "content": "Constellation Framework integration achieving perfect harmony",
             },
         ]
 
@@ -557,10 +557,10 @@ class TestDreamSystem:
             if len(symbolic_tags) < 3:
                 raise Exception("Symbolic tag detection failed")
 
-            # Test Trinity Framework symbol detection
+            # Test Constellation Framework symbol detection
             triad_dreams = [d for d in dreams if "trinity" in d.get("tags", [])]
             if len(triad_dreams) == 0:
-                raise Exception("Trinity Framework symbol detection failed")
+                raise Exception("Constellation Framework symbol detection failed")
 
             # Test content symbolic analysis
             symbolic_content = []
@@ -682,7 +682,7 @@ class TestEncryptionGovernance:
             import hashlib
             import hmac
 
-            test_data = "LUKHAS Trinity Framework Test Data ⚛️🧠🛡️"
+            test_data = "LUKHAS Constellation Framework Test Data ⚛️🧠🛡️"
 
             # Test SHA-256 hashing
             sha256_hash = hashlib.sha256(test_data.encode()).hexdigest()
@@ -892,7 +892,7 @@ def run_comprehensive_lukhas_tests():
     print("🎭🧠🛡️ LUKHAS ADVANCED COMPONENTS TESTING SUITE")
     print("=" * 70)
     print("Testing real business logic beyond import verification")
-    print("Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian")
+    print("Constellation Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian")
     print("=" * 70)
 
     # Initialize test suites
@@ -958,7 +958,7 @@ def run_comprehensive_lukhas_tests():
         else:
             print(f"  🔴 {system}: Requires significant work")
 
-    print("\n⚛️🧠🛡️ Trinity Framework Validation Complete!")
+    print("\n⚛️🧠🛡️ Constellation Framework Validation Complete!")
 
     return all_results
 

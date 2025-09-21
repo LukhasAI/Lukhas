@@ -2,7 +2,7 @@
 Ethical Engine for LUKHAS AI System
 
 This module provides comprehensive ethical decision-making capabilities
-for the LUKHAS AI consciousness system, integrating with the Trinity Framework
+for the LUKHAS AI consciousness system, integrating with the Constellation Framework
 to ensure responsible AI behavior across all system operations.
 
 #TAG:governance
@@ -12,7 +12,7 @@ to ensure responsible AI behavior across all system operations.
 
 Features:
 - Real-time ethical decision evaluation
-- Trinity Framework integration (⚛️🧠🛡️)
+- Constellation Framework integration (⚛️🧠🛡️)
 - Constitutional AI principles enforcement
 - Multi-layer ethical reasoning
 - Context-aware moral judgment
@@ -69,7 +69,7 @@ class EthicalContext:
     metadata: dict[str, Any] = field(default_factory=dict)
     timestamp: datetime = field(default_factory=datetime.now)
 
-    # Trinity Framework context
+    # Constellation Framework context
     identity_context: dict[str, Any] = field(default_factory=dict)  # ⚛️
     consciousness_context: dict[str, Any] = field(default_factory=dict)  # 🧠
     guardian_context: dict[str, Any] = field(default_factory=dict)  # 🛡️
@@ -85,7 +85,7 @@ class EthicalEvaluation:
     violated_principles: list[EthicalPrinciple] = field(default_factory=list)
     recommendations: list[str] = field(default_factory=list)
 
-    # Trinity Framework assessment
+    # Constellation Framework assessment
     identity_impact: str = "none"  # ⚛️
     consciousness_impact: str = "none"  # 🧠
     guardian_status: str = "monitoring"  # 🛡️
@@ -100,7 +100,7 @@ class EthicalEngine:
     """
     Core ethical decision-making engine for LUKHAS AI
     
-    Provides comprehensive ethical evaluation capabilities with Trinity Framework
+    Provides comprehensive ethical evaluation capabilities with Constellation Framework
     integration for identity-consciousness-guardian alignment.
     """
 
@@ -108,7 +108,7 @@ class EthicalEngine:
         self.logger = logger
         self.version = "1.0.0"
 
-        # Trinity Framework weights
+        # Constellation Framework weights
         self.identity_weight = 0.3  # ⚛️
         self.consciousness_weight = 0.4  # 🧠
         self.guardian_weight = 0.3  # 🛡️
@@ -129,7 +129,7 @@ class EthicalEngine:
             EthicalPrinciple.PRIVACY: 0.05
         }
 
-        logger.info("🛡️ Ethical Engine initialized with Trinity Framework")
+        logger.info("🛡️ Ethical Engine initialized with Constellation Framework")
 
     def evaluate_action(self, context: EthicalContext) -> EthicalEvaluation:
         """
@@ -146,12 +146,12 @@ class EthicalEngine:
         try:
             # Multi-layer ethical analysis
             principle_scores = self._evaluate_principles(context)
-            trinity_assessment = self._assess_trinity_impact(context)
+            constellation_assessment = self._assess_trinity_impact(context)
             risk_analysis = self._analyze_risks(context)
 
             # Calculate overall ethical score
             overall_score = self._calculate_overall_score(
-                principle_scores, trinity_assessment, risk_analysis
+                principle_scores, constellation_assessment, risk_analysis
             )
 
             # Determine decision
@@ -159,7 +159,7 @@ class EthicalEngine:
 
             # Generate reasoning
             reasoning = self._generate_reasoning(
-                decision, overall_score, principle_scores, trinity_assessment
+                decision, overall_score, principle_scores, constellation_assessment
             )
 
             # Identify violated principles
@@ -170,7 +170,7 @@ class EthicalEngine:
 
             # Generate recommendations
             recommendations = self._generate_recommendations(
-                decision, violated_principles, trinity_assessment
+                decision, violated_principles, constellation_assessment
             )
 
             # Calculate evaluation time
@@ -182,9 +182,9 @@ class EthicalEngine:
                 reasoning=reasoning,
                 violated_principles=violated_principles,
                 recommendations=recommendations,
-                identity_impact=trinity_assessment.get("identity_impact", "none"),
-                consciousness_impact=trinity_assessment.get("consciousness_impact", "none"),
-                guardian_status=trinity_assessment.get("guardian_status", "monitoring"),
+                identity_impact=constellation_assessment.get("identity_impact", "none"),
+                consciousness_impact=constellation_assessment.get("consciousness_impact", "none"),
+                guardian_status=constellation_assessment.get("guardian_status", "monitoring"),
                 evaluation_time=evaluation_time,
                 evaluator_version=self.version
             )
@@ -367,7 +367,7 @@ class EthicalEngine:
         return max(0.0, privacy_score)
 
     def _assess_trinity_impact(self, context: EthicalContext) -> dict[str, str]:
-        """Assess impact on Trinity Framework components"""
+        """Assess impact on Constellation Framework components"""
 
         # ⚛️ Identity impact assessment
         identity_impact = "none"
@@ -436,7 +436,7 @@ class EthicalEngine:
     def _calculate_overall_score(
         self,
         principle_scores: dict[EthicalPrinciple, float],
-        trinity_assessment: dict[str, str],
+        constellation_assessment: dict[str, str],
         risk_analysis: dict[str, float]
     ) -> float:
         """Calculate overall ethical score"""
@@ -447,20 +447,20 @@ class EthicalEngine:
             for principle, score in principle_scores.items()
         )
 
-        # Trinity impact modifier
-        trinity_modifier = 1.0
-        if trinity_assessment["identity_impact"] == "high":
-            trinity_modifier -= 0.2
-        if trinity_assessment["consciousness_impact"] == "high":
-            trinity_modifier -= 0.2
-        if trinity_assessment["guardian_status"] == "escalated":
-            trinity_modifier -= 0.3
+        # Constellation impact modifier
+        constellation_modifier = 1.0
+        if constellation_assessment["identity_impact"] == "high":
+            constellation_modifier -= 0.2
+        if constellation_assessment["consciousness_impact"] == "high":
+            constellation_modifier -= 0.2
+        if constellation_assessment["guardian_status"] == "escalated":
+            constellation_modifier -= 0.3
 
         # Risk modifier
         avg_risk = sum(risk_analysis.values()) / len(risk_analysis)
         risk_modifier = 1.0 - (avg_risk * 0.3)
 
-        overall_score = principle_score * trinity_modifier * risk_modifier
+        overall_score = principle_score * constellation_modifier * risk_modifier
         return max(0.0, min(1.0, overall_score))
 
     def _determine_decision(
@@ -489,7 +489,7 @@ class EthicalEngine:
         decision: EthicalDecision,
         overall_score: float,
         principle_scores: dict[EthicalPrinciple, float],
-        trinity_assessment: dict[str, str]
+        constellation_assessment: dict[str, str]
     ) -> str:
         """Generate human-readable reasoning for the decision"""
 
@@ -505,13 +505,13 @@ class EthicalEngine:
         if low_scores:
             reasoning_parts.append(f"Concerns with: {', '.join(low_scores)}")
 
-        # Trinity Framework impact
-        trinity_impacts = [
-            f"Identity: {trinity_assessment['identity_impact']}",
-            f"Consciousness: {trinity_assessment['consciousness_impact']}",
-            f"Guardian: {trinity_assessment['guardian_status']}"
+        # Constellation Framework impact
+        constellation_impacts = [
+            f"Identity: {constellation_assessment['identity_impact']}",
+            f"Consciousness: {constellation_assessment['consciousness_impact']}",
+            f"Guardian: {constellation_assessment['guardian_status']}"
         ]
-        reasoning_parts.append(f"Trinity impact - {', '.join(trinity_impacts)}")
+        reasoning_parts.append(f"Constellation impact - {', '.join(constellation_impacts)}")
 
         return " | ".join(reasoning_parts)
 
@@ -519,7 +519,7 @@ class EthicalEngine:
         self,
         decision: EthicalDecision,
         violated_principles: list[EthicalPrinciple],
-        trinity_assessment: dict[str, str]
+        constellation_assessment: dict[str, str]
     ) -> list[str]:
         """Generate actionable recommendations"""
 
@@ -542,8 +542,8 @@ class EthicalEngine:
             elif principle == EthicalPrinciple.PRIVACY:
                 recommendations.append("Implement privacy protection measures")
 
-        # Trinity Framework recommendations
-        if trinity_assessment["guardian_status"] == "escalated":
+        # Constellation Framework recommendations
+        if constellation_assessment["guardian_status"] == "escalated":
             recommendations.append("Guardian system intervention required")
 
         return recommendations

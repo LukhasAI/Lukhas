@@ -59,7 +59,7 @@ Generated analysis and quality reports.
 #### `/architecture/` - System Architecture
 High-level system design and architecture documentation.
 
-- Trinity Framework specifications
+- Constellation Framework specifications
 - GLYPH communication protocols
 - Module interaction patterns
 - Integration architectures
@@ -87,7 +87,7 @@ Utility scripts and automation tools documentation.
 
 #### Core System Documentation
 1. **MATRIZ_CONSCIOUSNESS_ARCHITECTURE.md** - Essential consciousness system understanding
-2. **Trinity Framework** - ⚛️ Identity, 🧠 Consciousness, 🛡️ Guardian principles
+2. **Constellation Framework** - ⚛️ Identity, 🧠 Consciousness, 🛡️ Guardian principles
 3. **GLYPH System** - Symbolic communication and emotional vector processing
 
 #### Research & Theory

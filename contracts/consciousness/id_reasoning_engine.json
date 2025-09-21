@@ -1,0 +1,45 @@
+{
+  "schema_version": "2.0.0",
+  "component_id": "candidate.consciousness.reflection.id_reasoning_engine",
+  "component_type": "CONSCIOUSNESS_ENGINE",
+  "lane": "development",
+  "constellation_integration": {
+    "anchor_star_coupling": false,
+    "memory_star_integration": "primary",
+    "horizon_star_processing": "none", "guardian_validation": true
+  },
+  "cognitive_processing": {
+    "processing_mode": "asynchronous",
+    "input_types": [
+      "CONTEXT_INFO",
+      "SENSORY_INPUT",
+      "MEMORY_DATA",
+      "EMOTIONAL_STATE"
+    ],
+    "output_types": [
+      "CONSCIOUSNESS_STATE",
+      "EMOTIONAL_RESPONSE"
+    ],
+    "cascade_prevention": true
+  },
+  "performance_contract": {
+    "latency_target": "<250ms",
+    "throughput_target": 50.0,
+    "availability_target": 0.997,
+    "memory_limit": "100MB"
+  },
+  "governance": {
+    "ethics_validation": "required",
+    "consent_required": true,
+    "audit_level": "full",
+    "privacy_classification": "confidential"
+  },
+  "dependencies": [],
+  "metadata": {
+    "created_date": "2025-09-20",
+    "last_updated": "2025-09-20T15:12:38.535643",
+    "maintainer": "LUKHAS Consciousness Team",
+    "documentation_url": "https://docs.lukhas.ai/consciousness/candidate/consciousness/reflection/id_reasoning_engine",
+    "test_coverage": 85.0
+  }
+}

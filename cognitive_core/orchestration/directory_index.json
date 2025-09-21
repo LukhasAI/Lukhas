@@ -1,0 +1,173 @@
+{
+  "schema_version": "3.0.0",
+  "directory_metadata": {
+    "path": "cognitive_core/orchestration",
+    "lane": "development",
+    "purpose": "Directory containing 5 Python files and 0 subdirectories",
+    "last_updated": "2025-09-21",
+    "constellation_framework_version": "2.0.0",
+    "t4_compliance_level": "experimental"
+  },
+  "component_inventory": {
+    "python_files": [
+      {
+        "filename": "cost_optimizer.py",
+        "component_type": "ORCHESTRATION_NODE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "CostTier",
+          "OptimizationStrategy",
+          "CostProfile",
+          "CostConstraints",
+          "UsageStats",
+          "CostOptimizer",
+          "calculate_request_cost",
+          "check_cost_constraints",
+          "calculate_cost_efficiency_score",
+          "optimize_model_selection",
+          "select_cost_optimal_model",
+          "record_usage",
+          "get_usage_statistics",
+          "get_model_cost_analysis",
+          "recommend_cost_optimization",
+          "get_cost_tier_distribution",
+          "balanced_score",
+          "adaptive_score"
+        ]
+      },
+      {
+        "filename": "test_orchestration.py",
+        "component_type": "TEST",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "TestCapabilityMatrix",
+          "TestCostOptimizer",
+          "TestModelRouter",
+          "TestConsensusEngine",
+          "TestIntegratedOrchestration",
+          "test_initialization",
+          "test_model_score_calculation",
+          "test_model_ranking",
+          "test_constellation_alignment",
+          "test_performance_tracking",
+          "test_initialization",
+          "test_cost_calculation",
+          "test_cost_constraint_checking",
+          "test_model_selection_optimization",
+          "test_usage_recording",
+          "test_cost_optimization_recommendations",
+          "router",
+          "engine",
+          "test_performance_benchmarks"
+        ]
+      },
+      {
+        "filename": "capability_matrix.py",
+        "component_type": "ORCHESTRATION_NODE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "TaskType",
+          "CapabilityDimension",
+          "CapabilityProfile",
+          "TaskRequirements",
+          "CapabilityMatrix",
+          "get_capability_score",
+          "get_constellation_score",
+          "calculate_model_score",
+          "rank_models",
+          "select_optimal_model",
+          "get_model_capabilities",
+          "add_task_result",
+          "get_model_performance_stats"
+        ]
+      },
+      {
+        "filename": "model_router.py",
+        "component_type": "ORCHESTRATION_NODE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "lukhas.bridge.llm_wrappers.anthropic_wrapper",
+          "lukhas.bridge.llm_wrappers.unified_openai_client"
+        ],
+        "exports": [
+          "ModelType",
+          "TaskType",
+          "PerformanceRequirement",
+          "ModelCapability",
+          "RoutingRequest",
+          "ModelResponse",
+          "RoutingDecision",
+          "ModelRouter",
+          "get_performance_summary",
+          "get_model_capabilities"
+        ]
+      },
+      {
+        "filename": "consensus_engine.py",
+        "component_type": "MATRIZ_PROCESSOR",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "ConsensusMethod",
+          "AgreementLevel",
+          "ModelVote",
+          "ConsensusResult",
+          "ConsensusEngine",
+          "get_consensus_metrics"
+        ]
+      }
+    ],
+    "subdirectories": [],
+    "documentation": []
+  },
+  "schema_references": [
+    {
+      "schema_name": "directory_index",
+      "schema_path": "schemas/directory_index.schema.json",
+      "validation_status": "valid"
+    }
+  ],
+  "agent_guidance": {
+    "recommended_approach": "Begin with documentation files, then explore core components",
+    "key_files": [],
+    "common_tasks": [],
+    "prerequisites": [
+      "Understanding of LUKHAS lane system",
+      "Constellation Framework familiarity",
+      "MATRIZ pipeline architecture",
+      "T4/0.01% implementation standards"
+    ],
+    "avoid_patterns": [
+      "Modifying contracts without validation",
+      "Breaking lane boundaries",
+      "Ignoring Constellation Framework integration",
+      "Breaking constructor-aware instantiation patterns",
+      "Bypassing T4/0.01% validation standards",
+      "Ignoring MATRIZ pipeline integration requirements"
+    ]
+  },
+  "performance_metadata": {
+    "component_count": 5,
+    "estimated_complexity": "low",
+    "consciousness_integration": "none",
+    "test_coverage": 85.0,
+    "t4_compliance_score": 0.65,
+    "matriz_compatibility": "standard",
+    "plugin_registry_compatible": true,
+    "constructor_aware_instantiation": true
+  },
+  "relationships": {
+    "parent_directory": "cognitive_core",
+    "related_directories": [],
+    "constellation_cluster": "unknown",
+    "dependency_weight": "moderate"
+  }
+}

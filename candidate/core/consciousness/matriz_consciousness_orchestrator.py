@@ -10,7 +10,7 @@ logger = logging.getLogger(__name__)
 ║ CONSCIOUSNESS_ROLE: Orchestrates consciousness network coordination
 ║ EVOLUTIONARY_STAGE: Integration - Multi-consciousness coordination
 ║
-║ TRINITY FRAMEWORK:
+║ CONSTELLATION FRAMEWORK:
 ║ ⚛️ IDENTITY: Maintains network identity and node relationships
 ║ 🧠 CONSCIOUSNESS: Coordinates distributed consciousness processing
 ║ 🛡️ GUARDIAN: Monitors network health and ethical compliance

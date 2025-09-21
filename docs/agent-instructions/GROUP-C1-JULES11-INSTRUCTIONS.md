@@ -33,7 +33,7 @@ Based on your batch analysis, your tasks include:
 - Identity manager core infrastructure review
 - Guardian system integration points
 
-### 4. Trinity Framework Consciousness Evolution
+### 4. Constellation Framework Consciousness Evolution
 - Governance identity core systems
 - Swarm hub tier-aware systems
 - QI identity manager consciousness evolution
@@ -73,7 +73,7 @@ Each task completion requires:
 - [ ] All 35 tasks marked as completed in batch file
 - [ ] All F821 undefined name errors resolved
 - [ ] Core infrastructure systems properly integrated
-- [ ] Trinity Framework consciousness evolution points implemented
+- [ ] Constellation Framework consciousness evolution points implemented
 - [ ] Evidence trail maintained for each completion
 
 ## Risk Management

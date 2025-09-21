@@ -4495,7 +4495,7 @@
 │   ├── transparency_cards.html
 │   ├── trinity_examples
 │   │   └── natural_language_interface.md
-│   ├── trinity_framework.md
+│   ├── constellation_framework.md
 │   ├── troubleshooting
 │   │   └── terminal_freezing_resolution.md
 │   └── validation

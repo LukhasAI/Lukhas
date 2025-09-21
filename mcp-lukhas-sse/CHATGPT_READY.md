@@ -49,7 +49,7 @@ print(response.json())
 # Use a tool
 tool_request = {
     "tool": "list_directory", 
-    "args": {"path": "/Users/agi_dev/LOCAL-REPOS/Lukhas"}
+    "args": {"path": "/Users/cognitive_dev/LOCAL-REPOS/Lukhas"}
 }
 response = requests.post("https://fe09d37ec4e4.ngrok-free.app/sse", json=tool_request)
 print(response.json())
@@ -60,8 +60,8 @@ print(response.json())
 ### **Start Both Servers**
 ```bash
 # Terminal 1: Start MCP Server
-cd /Users/agi_dev/LOCAL-REPOS/Lukhas/mcp-lukhas-sse
-ALLOWED_ROOTS="/Users/agi_dev/LOCAL-REPOS/Lukhas" ALLOW_NO_AUTH=true python3 chatgpt_server.py &
+cd /Users/cognitive_dev/LOCAL-REPOS/Lukhas/mcp-lukhas-sse
+ALLOWED_ROOTS="/Users/cognitive_dev/LOCAL-REPOS/Lukhas" ALLOW_NO_AUTH=true python3 chatgpt_server.py &
 
 # Terminal 2: Start ngrok tunnel
 ngrok http 8080
@@ -69,7 +69,7 @@ ngrok http 8080
 
 ### **Quick Start Script**
 ```bash
-cd /Users/agi_dev/LOCAL-REPOS/Lukhas/mcp-lukhas-sse
+cd /Users/cognitive_dev/LOCAL-REPOS/Lukhas/mcp-lukhas-sse
 ./start_ngrok.sh
 ```
 
@@ -84,7 +84,7 @@ pkill -f ngrok
 1. **ngrok URL Changes**: Free ngrok URLs change when you restart ngrok
 2. **No Authentication**: Currently disabled for testing - enable for production
 3. **Public Access**: Anyone with the URL can access your server
-4. **File Access**: Limited to `/Users/agi_dev/LOCAL-REPOS/Lukhas` directory
+4. **File Access**: Limited to `/Users/cognitive_dev/LOCAL-REPOS/Lukhas` directory
 
 ## ✅ **Status**
 

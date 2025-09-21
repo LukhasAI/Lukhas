@@ -40,7 +40,7 @@
 **Previous Count**: ~7 HIGH priority items identified
 **Focus Areas**:
 - MATRIZ integration requirements
-- Trinity Framework alignment issues
+- Constellation Framework alignment issues
 - Core infrastructure dependencies
 
 ### Special Priority Categories
@@ -349,4 +349,4 @@
 
 *This master document serves as the authoritative source for all TODO-related planning and execution across the LUKHAS AI ecosystem. Last updated: September 16, 2025.*
 
-*Document Classification: INTERNAL | Trinity Framework Aligned: ⚛️🧠🛡️*
+*Document Classification: INTERNAL | Constellation Framework Aligned: ⚛️🧠🛡️*

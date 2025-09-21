@@ -3,10 +3,10 @@
 """
 LUKHAS (Logical Unified Knowledge Hyper-Adaptable System) - Core Monitoring Module
 
-Copyright (c) 2025 LUKHAS AGI Development Team
+Copyright (c) 2025 LUKHAS Cognitive AI Development Team
 All rights reserved.
 
-This file is part of the LUKHAS AGI system, an enterprise artificial general
+This file is part of the LUKHAS Cognitive system, an enterprise artificial general
 intelligence platform combining symbolic reasoning, emotional intelligence,
 quantum integration, and bio-inspired architecture.
 
@@ -17,7 +17,7 @@ and planet.
 
 Core monitoring module providing unified drift detection and system health
 monitoring capabilities. Exports the UnifiedDriftMonitor system and related
-components for comprehensive AGI system monitoring.
+components for comprehensive Cognitive system monitoring.
 
 For more information, visit: https://lukhas.ai
 """

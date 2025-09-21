@@ -2,7 +2,7 @@
 LUKHAS Accepted Bio Components
 Links to verified bio-inspired consciousness modules
 
-⚛️🧠🛡️ Trinity Framework: Identity-Consciousness-Guardian
+⚛️🧠🛡️ Constellation Framework: Identity-Consciousness-Guardian
 """
 
 # Import from existing bio modules

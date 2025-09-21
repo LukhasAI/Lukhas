@@ -6,7 +6,7 @@ Gym-compatible environment specifically designed for consciousness-based RL.
 Integrates with existing LUKHAS consciousness modules and provides rich
 state representations for consciousness decision-making.
 
-Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
+Constellation Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 """
 
 from __future__ import annotations

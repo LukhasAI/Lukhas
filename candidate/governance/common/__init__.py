@@ -9,7 +9,7 @@ import streamlit as st
     Mixin class for integrating with LUKHAS GLYPH system
 
     Provides common functionality for governance components to
-    interact with the symbolic processing and Trinity Framework.
+    interact with the symbolic processing and Constellation Framework.
     """
 
     def __init__(self):
@@ -18,7 +18,7 @@ import streamlit as st
         self.symbolic_patterns = {}
 
     def get_trinity_pattern(self, component: str) -> list:
-        """Get Trinity Framework symbolic pattern"""
+        """Get Constellation Framework symbolic pattern"""
         patterns = {
             "identity": ["⚛️", "🔑", "👤"],
             "consciousness": ["🧠", "💭", "🌟"],

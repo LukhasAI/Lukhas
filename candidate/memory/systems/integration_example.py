@@ -5,7 +5,7 @@ logger = logging.getLogger(__name__)
 """
 ══════════════════════════════════════════════════════════════════════════════════
 ║ 🔗 LUKHAS AI - MEMORY SYSTEMS INTEGRATION EXAMPLE
-║ Shows how to connect new AGI-ready memory to existing architecture
+║ Shows how to connect new Cognitive AI-ready memory to existing architecture
 ║ Copyright (c) 2025 LUKHAS AI. All rights reserved.
 ╠══════════════════════════════════════════════════════════════════════════════════
 ║ Module: integration_example.py
@@ -39,7 +39,7 @@ from memory.systems.attention_memory_layer import create_attention_orchestrator
 
 class EnhancedMemoryIntegration:
     """
-    Integration wrapper that connects new AGI-ready memory systems
+    Integration wrapper that connects new Cognitive AI-ready memory systems
     to existing LUKHAS architecture.
     """
 

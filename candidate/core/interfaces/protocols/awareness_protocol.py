@@ -1,10 +1,10 @@
 """
 ═══════════════════════════════════════════════════════════════════════════
-LUKHAS AGI Awareness Protocol Interface
+LUKHAS Cognitive AI Awareness Protocol Interface
 ═══════════════════════════════════════════════════════════════════════════
 
 Comprehensive interface for awareness assessment, tier management, and
-bio-symbolic integration across the LUKHAS AGI ecosystem.
+bio-symbolic integration across the LUKHAS Cognitive AI ecosystem.
 
 Features:
 - Multi-modal awareness assessment

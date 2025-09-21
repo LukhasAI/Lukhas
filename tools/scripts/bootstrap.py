@@ -27,7 +27,7 @@ class LUKHASBootstrap:
         main_content = '''#!/usr/bin/env python3
 """
 LUKHAS AI - Logical Unified Knowledge Hyper-Adaptable System
-Main entry point for the neuroplastic AGI system
+Main entry point for the neuroplastic Cognitive system
 """
 
 import os

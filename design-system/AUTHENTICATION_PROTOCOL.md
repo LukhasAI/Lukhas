@@ -1,7 +1,7 @@
 # 🔐 LUKHAS AI Authentication Protocol Documentation
 *Current Login, Onboarding, and User ID Assignment System*
 
-⚛️🧠🛡️ **Trinity Framework Authentication** | **Tier-Based Access Control** | **Symbolic Identity System**
+⚛️🧠🛡️ **Constellation Framework Authentication** | **Tier-Based Access Control** | **Symbolic Identity System**
 
 ---
 

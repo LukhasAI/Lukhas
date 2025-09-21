@@ -2,7 +2,7 @@
 LUKHAS Core Swarm System
 Links to enhanced swarm implementations for consciousness coordination
 
-⚛️🧠🛡️ Trinity Framework: Identity-Consciousness-Guardian
+⚛️🧠🛡️ Constellation Framework: Identity-Consciousness-Guardian
 """
 
 # Import from the enhanced swarm implementation

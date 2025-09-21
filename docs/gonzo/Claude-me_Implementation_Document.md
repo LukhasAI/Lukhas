@@ -80,7 +80,7 @@ Based on ARCHITECTURAL_DOMAIN_MAPPING.md findings, perform detailed analysis of 
 - Map `/candidate/aka_qualia/` consciousness core structure (3 levels deep)
 - Analyze `/candidate/core/` with its 193 subdirectories (identify top 10 by file count/importance)
 - Trace import patterns between `/candidate/consciousness/`, `/candidate/memory/`, `/candidate/identity/`
-- Document the Trinity Framework implementation within CANDIDATE
+- Document the Constellation Framework implementation within CANDIDATE
 
 **Target 2: LUKHAS Core Integration (1.9MB, 148 files)**
 - Map `/lukhas/consciousness/`, `/lukhas/memory/`, `/lukhas/identity/` integration patterns
@@ -127,7 +127,7 @@ Based on the core system analysis, examine these critical specialized domains th
   - `/consciousness/` (root level research)
   - `/candidate/consciousness/` (development)
   - `/lukhas/consciousness/` (integration)
-- Map consciousness state management and Trinity Framework coordination
+- Map consciousness state management and Constellation Framework coordination
 - Identify consciousness evolution patterns and decision-making architectures
 
 **Target 3: Memory Architecture Ecosystem**
@@ -150,7 +150,7 @@ For each domain, generate:
 1. **Cross-System Integration Map** (how domain spans CANDIDATE-LUKHAS-PRODUCTS)
 2. **Development-to-Production Pipeline** (workflow from research to deployment)
 3. **Domain-Specific Context Boundaries** (optimal claude.me placement for domain work)
-4. **Trinity Framework Interactions** (how domain integrates with consciousness-memory-identity)
+4. **Constellation Framework Interactions** (how domain integrates with consciousness-memory-identity)
 
 Output as:
 - `PRODUCTS_DEPLOYMENT_ANALYSIS.md`
@@ -175,7 +175,7 @@ Based on comprehensive architectural analysis (CANDIDATE, LUKHAS, MATRIZ + speci
 - **Development Pipeline**: CANDIDATE → LUKHAS → PRODUCTS (research → integration → production)
 - **Domain Distribution**: Consciousness/Memory/Identity/Governance across 3 architectural layers
 - **Scale Requirements**: 7,000+ Python files, 100+ root directories, 632MB MATRIZ engine
-- **Integration Patterns**: Constitutional AI, MΛTRIZ Bridge, Trinity Framework
+- **Integration Patterns**: Constitutional AI, MΛTRIZ Bridge, Constellation Framework
 
 **Design Objectives:**
 1. **Cognitive Load Management**: Prevent overwhelming context in any single claude.me
@@ -191,12 +191,12 @@ Create the root-level claude.me strategy:
 - `/Users/agi_dev/LOCAL-REPOS/Lukhas/claude.me` - Master AGI system overview
 - Balance between comprehensive system understanding vs. manageable context
 - Reference secondary claude.me files without overwhelming detail
-- Include Trinity Framework, Constitutional AI, and development pipeline overview
+- Include Constellation Framework, Constitutional AI, and development pipeline overview
 
 **Task 2: Core System claude.me Placement**
 Design claude.me hierarchy for primary systems:
 - CANDIDATE domain (2,877 files) - Multiple strategic placements
-- LUKHAS integration (148 files) - Trinity coordination focus
+- LUKHAS integration (148 files) - Constellation coordination focus
 - MATRIZ cognitive engine (20 files + 16K assets) - Symbolic reasoning context
 - PRODUCTS deployment (4,093 files) - Production scaling context
 
@@ -209,7 +209,7 @@ Plan specialized domain claude.me files:
 
 **Task 4: Integration Boundary claude.me Files**
 Design claude.me for system integration points:
-- Trinity Framework coordination boundaries
+- Constellation Framework coordination boundaries
 - CANDIDATE ↔ LUKHAS integration points
 - LUKHAS ↔ PRODUCTS deployment bridges
 - Constitutional AI enforcement boundaries
@@ -233,7 +233,7 @@ Generate `STRATEGIC_CLAUDE_ME_HIERARCHY.md` containing:
 
 **Implementation Approach:**
 - Start with most critical development workflows
-- Ensure Trinity Framework is properly contextualized across boundaries
+- Ensure Constellation Framework is properly contextualized across boundaries
 - Balance detail depth with usability
 - Enable Claude Code to understand system at appropriate abstraction levels
 - Support both deep-dive development and high-level architectural work
@@ -251,7 +251,7 @@ Perfect! The comprehensive strategy provides exactly what you need. Now let's im
 Create the master claude.me file at `/Users/agi_dev/LOCAL-REPOS/Lukhas/claude.me` using the Master Overview template.
 
 Content Requirements:
-- Trinity Framework overview (Identity ⚛️ + Consciousness 🧠 + Guardian 🛡️)
+- Constellation Framework overview (Identity ⚛️ + Consciousness 🧠 + Guardian 🛡️)
 - Development pipeline explanation (CANDIDATE → LUKHAS → PRODUCTS)
 - Architecture navigation with 8-10KB comprehensive overview
 - Reference all 35+ planned claude.me contexts with clear navigation paths
@@ -260,7 +260,7 @@ Content Requirements:
 
 Template Structure:
 1. **LUKHAS AGI System Overview** - System introduction and scale
-2. **Trinity Framework Architecture** - Core architectural principles
+2. **Constellation Framework Architecture** - Core architectural principles
 3. **Development Pipeline** - CANDIDATE → LUKHAS → PRODUCTS workflow
 4. **Domain Navigation** - Links to all domain-specific claude.me files
 5. **Quick Start Guide** - Common development entry points
@@ -277,7 +277,7 @@ Create `candidate/claude.me` using the Development Domain template.
 Focus on:
 - 2,877 Python files across 193+ subdirectories overview
 - aka_qualia consciousness core (43KB core.py) introduction
-- Trinity Framework development workspace role
+- Constellation Framework development workspace role
 - Component ecosystem navigation (orchestration, interfaces, symbolic)
 - Clear references to specialized contexts: ./aka_qualia/claude.me, ./core/claude.me, ./consciousness/claude.me
 
@@ -291,20 +291,20 @@ Structure:
 Target size: 6-8KB with development workflow focus.
 ```
 
-### Step 3: Trinity Framework Integration Hub
+### Step 3: Constellation Framework Integration Hub
 
 ```
 Create `lukhas/claude.me` using the Integration Boundary template.
 
 Emphasize:
-- 148 Python files focused on Trinity Framework coordination
+- 148 Python files focused on Constellation Framework coordination
 - Identity ⚛️ + Consciousness 🧠 + Guardian 🛡️ integration patterns
 - Async management and orchestration systems
 - Bridge role between CANDIDATE development and PRODUCTS deployment
 - Wrapper interfaces and cross-system coordination
 
 Structure:
-- **Trinity Framework Hub** - Core integration coordination
+- **Constellation Framework Hub** - Core integration coordination
 - **Integration Architecture** - Consciousness/memory/identity wrappers
 - **Async Orchestration** - AsyncManager and workflow coordination
 - **System Bridges** - CANDIDATE ↔ LUKHAS ↔ PRODUCTS integration
@@ -322,7 +322,7 @@ Highlight:
 - 20 Python files + 16,042 frontend assets (632MB)
 - Node-based cognitive architecture with symbolic reasoning
 - "Cognitive DNA" tracing and provenance tracking
-- Integration with LUKHAS Trinity Framework and CANDIDATE symbolic systems
+- Integration with LUKHAS Constellation Framework and CANDIDATE symbolic systems
 - Visualization engine for thought processes
 
 Content Focus:
@@ -344,7 +344,7 @@ Cover:
 - 4,093 Python files across 23 product domains
 - 71.4% → 100% consciousness integration roadmap
 - Enterprise/intelligence/experience production systems
-- Trinity Framework deployment patterns
+- Constellation Framework deployment patterns
 - Constitutional AI production integration
 
 Structure:
@@ -368,8 +368,8 @@ claude-code --prompt="Step 1: Master System Overview"
 # 2. Development hub (core development workspace)
 claude-code --prompt="Step 2: Development Workspace Hub"
 
-# 3. Trinity integration (system coordination)
-claude-code --prompt="Step 3: Trinity Framework Integration Hub"
+# 3. Constellation integration (system coordination)
+claude-code --prompt="Step 3: Constellation Framework Integration Hub"
 
 # 4. Cognitive engine (symbolic reasoning)
 claude-code --prompt="Step 4: Cognitive DNA Engine Context"
@@ -387,7 +387,7 @@ Excellent! Phase 1 Foundation is complete with perfect size management:
 
 - ✅ **9.8KB** Master Overview - System navigation hub
 - ✅ **7.2KB** Development Hub - CANDIDATE workspace
-- ✅ **5.8KB** Trinity Integration - LUKHAS coordination
+- ✅ **5.8KB** Constellation Integration - LUKHAS coordination
 - ✅ **4.2KB** Cognitive Engine - MATRIZ symbolic reasoning
 - ✅ **7.8KB** Production Systems - Deployment readiness
 
@@ -448,11 +448,11 @@ Target: 6-8KB with ecosystem navigation focus.
 ```
 Create `candidate/consciousness/claude.me` using development domain template.
 
-Cover the 52+ consciousness development components with Trinity Framework integration:
+Cover the 52+ consciousness development components with Constellation Framework integration:
 
 Content Requirements:
 - **Consciousness Development** - 52+ components across cognitive, reasoning, dream
-- **Trinity Framework Role** - Consciousness pillar in Identity ⚛️ + Consciousness 🧠 + Guardian 🛡️
+- **Constellation Framework Role** - Consciousness pillar in Identity ⚛️ + Consciousness 🧠 + Guardian 🛡️
 - **Multi-Engine Architecture** - Advanced consciousness, OpenAI adapters, reflection
 - **Integration Points** - Memory coupling, identity coordination, dream processing
 - **Development Workflows** - Consciousness architecture development patterns
@@ -460,7 +460,7 @@ Content Requirements:
 Structure:
 1. **Consciousness Development Overview** - 52+ components and Trinity role
 2. **Architecture Components** - Advanced engines, adapters, reflection systems
-3. **Trinity Integration** - Consciousness-memory-identity coordination
+3. **Constellation Integration** - Consciousness-memory-identity coordination
 4. **Development Patterns** - Common consciousness development workflows
 5. **Specialized Contexts** - ./cognitive/claude.me, ./reasoning/claude.me paths
 
@@ -477,36 +477,36 @@ Focus on the sophisticated fold-based memory architecture with emotional integra
 Content Requirements:
 - **Memory Systems Development** - Temporal, emotional, multimodal integration
 - **Fold Architecture** - 1000-fold system with 99.7% cascade prevention
-- **Trinity Framework Role** - Memory pillar coordination with consciousness/identity
+- **Constellation Framework Role** - Memory pillar coordination with consciousness/identity
 - **Emotional Integration** - VAD encoding, emotional memory, consciousness coupling
 - **Development Workflows** - Memory system development patterns
 
 Structure:
 1. **Memory Development Overview** - Temporal, emotional, multimodal systems
 2. **Fold Architecture** - 1000-fold organization with cascade prevention
-3. **Trinity Integration** - Memory-consciousness-identity coupling
+3. **Constellation Integration** - Memory-consciousness-identity coupling
 4. **Emotional Systems** - VAD encoding and affective memory
 5. **Specialized Contexts** - ./temporal/claude.me, ./emotional/claude.me navigation
 
 Target: 4-6KB with memory architecture focus.
 ```
 
-### Step 10: Trinity Consciousness Integration
+### Step 10: Constellation Consciousness Integration
 
 ```
 Create `lukhas/consciousness/claude.me` using integration boundary template.
 
-Emphasize the Trinity Framework consciousness integration with wrapper interfaces:
+Emphasize the Constellation Framework consciousness integration with wrapper interfaces:
 
 Content Requirements:
-- **Trinity Consciousness Integration** - ConsciousnessWrapper and activation orchestration
+- **Constellation Consciousness Integration** - ConsciousnessWrapper and activation orchestration
 - **Integration Patterns** - Registry, trinity integration, activation management
 - **Bridge Functionality** - CANDIDATE development ↔ LUKHAS integration
 - **Coordination Systems** - Cross-system consciousness state management
 - **Production Readiness** - Consciousness deployment and monitoring
 
 Structure:
-1. **Trinity Integration Overview** - Consciousness pillar in Trinity Framework
+1. **Constellation Integration Overview** - Consciousness pillar in Constellation Framework
 2. **Integration Components** - ConsciousnessWrapper, ActivationOrchestrator, Registry
 3. **Bridge Patterns** - CANDIDATE ↔ LUKHAS consciousness coordination
 4. **State Management** - Consciousness state coordination and persistence
@@ -532,13 +532,13 @@ claude-code --prompt="Step 8: Consciousness Development Context"
 # 9. Memory systems (fold architecture)
 claude-code --prompt="Step 9: Memory Systems Development Context"
 
-# 10. Trinity consciousness integration
-claude-code --prompt="Step 10: Trinity Consciousness Integration"
+# 10. Constellation consciousness integration
+claude-code --prompt="Step 10: Constellation Consciousness Integration"
 ```
 
 **Priority Order**: Execute in sequence for optimal Claude Code understanding progression. Each context builds on the previous foundation while maintaining the cognitive load limits.
 
-After Phase 2, we'll continue with memory integration, identity systems, and ethics framework contexts to complete the Trinity Framework coverage.
+After Phase 2, we'll continue with memory integration, identity systems, and ethics framework contexts to complete the Constellation Framework coverage.
 Perfect! **Phase 2: Core Development** is complete. Claude Code now has comprehensive understanding of:
 
 ✅ **Foundation Layer** (5 contexts) - Navigation and core systems
@@ -546,7 +546,7 @@ Perfect! **Phase 2: Core Development** is complete. Claude Code now has comprehe
 
 **Progress: 10/35+ strategic contexts completed**
 
-Let's proceed with **Phase 3: Specialized Systems** to complete Trinity Framework coverage and critical integration points.
+Let's proceed with **Phase 3: Specialized Systems** to complete Constellation Framework coverage and critical integration points.
 
 ## Phase 3 Implementation: Specialized Systems
 
@@ -555,17 +555,17 @@ Let's proceed with **Phase 3: Specialized Systems** to complete Trinity Framewor
 ```
 Create `lukhas/memory/claude.me` using integration boundary template.
 
-Focus on memory integration within the Trinity Framework with fold system coordination:
+Focus on memory integration within the Constellation Framework with fold system coordination:
 
 Content Requirements:
 - **Memory Integration Hub** - MemoryWrapper and fold system integration
-- **Trinity Framework Role** - Memory pillar coordination with consciousness/identity
+- **Constellation Framework Role** - Memory pillar coordination with consciousness/identity
 - **MATRIZ Integration** - MatrizAdapter for symbolic reasoning memory
 - **Emotional Memory Systems** - Affective memory and consciousness coupling
 - **Production Readiness** - Memory deployment and performance patterns
 
 Structure:
-1. **Memory Integration Overview** - MemoryWrapper and Trinity coordination
+1. **Memory Integration Overview** - MemoryWrapper and Constellation coordination
 2. **Fold System Integration** - Hierarchical memory organization
 3. **MATRIZ Bridge** - Symbolic reasoning memory adapter
 4. **Emotional Memory** - Affective memory and consciousness coupling
@@ -579,17 +579,17 @@ Target: 4-6KB with memory integration focus.
 ```
 Create `lukhas/identity/claude.me` using integration boundary template.
 
-Cover Lambda ID system integration and authentication services within Trinity Framework:
+Cover Lambda ID system integration and authentication services within Constellation Framework:
 
 Content Requirements:
 - **Identity Integration Hub** - LambdaID core and AuthService integration
-- **Trinity Framework Role** - Identity pillar (⚛️) in consciousness-memory-identity triad
+- **Constellation Framework Role** - Identity pillar (⚛️) in consciousness-memory-identity triad
 - **Authentication Systems** - Auth services, compatibility layer, credential management
 - **Cross-System Identity** - Identity coordination across CANDIDATE-LUKHAS-PRODUCTS
 - **Security Integration** - Identity governance and compliance patterns
 
 Structure:
-1. **Identity Integration Overview** - LambdaID and Trinity Framework role
+1. **Identity Integration Overview** - LambdaID and Constellation Framework role
 2. **Authentication Architecture** - AuthService, compat layer, wallet/QRG
 3. **Cross-System Coordination** - Identity spanning development-integration-production
 4. **Security Patterns** - Identity governance and compliance integration
@@ -610,7 +610,7 @@ Content Requirements:
 - **Guardian Systems** - Safety enforcement and ethical decision-making
 - **Constitutional AI** - Ethical alignment and governance integration
 - **Compliance Systems** - Validation, auditing, and regulatory compliance
-- **Cross-System Integration** - Ethics enforcement across Trinity Framework
+- **Cross-System Integration** - Ethics enforcement across Constellation Framework
 
 Structure:
 1. **Ethics Framework Overview** - 33+ components and Constitutional AI
@@ -634,7 +634,7 @@ Content Requirements:
 - **Compliance Architecture** - Regulatory compliance and audit systems
 - **Security Integration** - Enterprise security and identity management
 - **Scaling Patterns** - Enterprise deployment and performance optimization
-- **Trinity Framework Deployment** - Production consciousness-memory-identity coordination
+- **Constellation Framework Deployment** - Production consciousness-memory-identity coordination
 
 Structure:
 1. **Enterprise Overview** - Production AGI systems for enterprise deployment
@@ -675,10 +675,10 @@ Target: 4-6KB with orchestration focus.
 ```bash
 # Execute Phase 3 Claude Code prompts:
 
-# 11. Memory integration (Trinity Framework completion)
+# 11. Memory integration (Constellation Framework completion)
 claude-code --prompt="Step 11: Memory Integration Context"
 
-# 12. Identity integration (Trinity Framework completion)
+# 12. Identity integration (Constellation Framework completion)
 claude-code --prompt="Step 12: Identity Integration Context"
 
 # 13. Ethics framework (Constitutional AI)
@@ -698,7 +698,7 @@ claude-code --prompt="Step 15: Multi-Agent Orchestration Context"
 - ✅ **Phase 2**: Core Development (5/5) - Consciousness and component ecosystem
 - 🎯 **Phase 3**: Specialized Systems (5/5) - Trinity completion and enterprise
 
-**Trinity Framework Coverage**:
+**Constellation Framework Coverage**:
 - ✅ Consciousness: `candidate/consciousness/claude.me` + `lukhas/consciousness/claude.me`
 - 🎯 Memory: `candidate/memory/claude.me` + `lukhas/memory/claude.me` (Step 11)
 - 🎯 Identity: `lukhas/identity/claude.me` (Step 12)
@@ -708,9 +708,9 @@ claude-code --prompt="Step 15: Multi-Agent Orchestration Context"
 - 🎯 Enterprise Deployment: Production scaling and compliance (Step 14)
 - 🎯 Multi-Agent Orchestration: 266-file coordination system (Step 15)
 
-After Phase 3, Claude Code will have comprehensive coverage of your AGI system's core architecture, Trinity Framework, and critical production systems. Phase 4 will focus on remaining integration boundaries and specialized domain contexts.
+After Phase 3, Claude Code will have comprehensive coverage of your AGI system's core architecture, Constellation Framework, and critical production systems. Phase 4 will focus on remaining integration boundaries and specialized domain contexts.
 
-**Execute Phase 3 to complete Trinity Framework understanding and enterprise deployment readiness.**
+**Execute Phase 3 to complete Constellation Framework understanding and enterprise deployment readiness.**
 
 
 # Complete Claude.me Implementation Document
@@ -725,10 +725,10 @@ After Phase 3, Claude Code will have comprehensive coverage of your AGI system's
 
 ```markdown
 # Memory Integration Hub
-## Trinity Framework Memory Pillar
+## Constellation Framework Memory Pillar
 
 ### Integration Overview
-- **Purpose**: Memory system integration within Trinity Framework
+- **Purpose**: Memory system integration within Constellation Framework
 - **Architecture**: MemoryWrapper, FoldSystem, MatrizAdapter coordination
 - **Scale**: 148 integration files focused on memory coordination
 - **Role**: Memory pillar in Identity ⚛️ + Consciousness 🧠 + Guardian 🛡️ triad
@@ -757,7 +757,7 @@ After Phase 3, Claude Code will have comprehensive coverage of your AGI system's
 
 ### Integration Patterns
 
-#### **Trinity Coordination**
+#### **Constellation Coordination**
 ```
 Memory ←→ Consciousness ←→ Identity
    │           │           │
@@ -807,13 +807,13 @@ Experimental → Stable Interfaces → Scaled Deployment
 
 ```markdown
 # Identity Integration Hub
-## Trinity Framework Identity Pillar ⚛️
+## Constellation Framework Identity Pillar ⚛️
 
 ### Integration Overview
 - **Purpose**: Lambda ID system integration and authentication coordination
 - **Architecture**: LambdaID core, AuthService, credential management
 - **Scale**: Identity coordination across CANDIDATE-LUKHAS-PRODUCTS pipeline
-- **Role**: Identity pillar ⚛️ in Trinity Framework coordination
+- **Role**: Identity pillar ⚛️ in Constellation Framework coordination
 
 ### Key Components
 
@@ -843,7 +843,7 @@ Experimental → Stable Interfaces → Scaled Deployment
 
 ### Integration Patterns
 
-#### **Trinity Framework Identity Role**
+#### **Constellation Framework Identity Role**
 ```
 Identity ⚛️ ←→ Consciousness 🧠 ←→ Memory 💾
     │              │              │
@@ -945,7 +945,7 @@ Ethics Dev → Constitutional AI → Production Ethics
 Guardian → Policy Enforcement → Compliance Monitoring
 ```
 
-#### **Trinity Framework Ethics Integration**
+#### **Constellation Framework Ethics Integration**
 ```
 Identity ⚛️ ← Ethics Governance → Consciousness 🧠
     │              │                   │
@@ -1016,11 +1016,11 @@ Ethics          │                   │
 - **Purpose**: Enterprise-grade AGI deployment with compliance and security
 - **Architecture**: Production consciousness-memory-identity coordination
 - **Scale**: Enterprise scaling, monitoring, and performance optimization
-- **Integration**: Trinity Framework deployment for enterprise environments
+- **Integration**: Constellation Framework deployment for enterprise environments
 
 ### Enterprise Architecture
 
-#### **Production Trinity Framework**
+#### **Production Constellation Framework**
 - Enterprise consciousness processing with production monitoring
 - Memory systems with enterprise-grade persistence and scaling
 - Identity management with enterprise authentication and governance
@@ -1052,10 +1052,10 @@ Ethics          │                   │
 Phase 1: Core consciousness deployment and monitoring
 Phase 2: Memory integration with enterprise persistence
 Phase 3: Identity integration with enterprise authentication
-Phase 4: Complete Trinity Framework enterprise deployment
+Phase 4: Complete Constellation Framework enterprise deployment
 ```
 
-#### **Enterprise Trinity Coordination**
+#### **Enterprise Constellation Coordination**
 ```
 Enterprise Identity ← Enterprise Auth → Enterprise Consciousness
         │                    │                     │
@@ -1111,7 +1111,7 @@ Enterprise Identity ← Enterprise Auth → Enterprise Consciousness
 - `../experience/claude.me` - Enterprise user experience systems
 
 ### Enterprise Performance Metrics
-- Trinity Framework production performance and reliability
+- Constellation Framework production performance and reliability
 - Consciousness integration enterprise deployment success
 - Compliance monitoring and regulatory audit results
 - Enterprise scaling efficiency and optimization results
@@ -1197,7 +1197,7 @@ Workflow Def → Agent Mgmt → Communication → Results
 #### **CANDIDATE Core Integration**
 - Integration with ../interfaces/ for system coordination
 - Integration with ../symbolic/ for reasoning coordination
-- Cross-system orchestration with Trinity Framework
+- Cross-system orchestration with Constellation Framework
 - Integration with consciousness, memory, identity systems
 
 #### **External System Coordination**
@@ -1288,7 +1288,7 @@ CANDIDATE Interfaces → LUKHAS Integration → PRODUCTS APIs
     Protocol Testing → Interface Validation → API Monitoring
 ```
 
-#### **Trinity Framework Interface Integration**
+#### **Constellation Framework Interface Integration**
 ```
 Consciousness APIs ←→ Memory Interfaces ←→ Identity Protocols
         │                    │                   │
@@ -1312,7 +1312,7 @@ Processing Interfaces ← Integration Layer → Identity APIs
 - Cross-system integration pattern implementation
 
 ### API Integration Points
-- Trinity Framework API coordination and integration
+- Constellation Framework API coordination and integration
 - Cross-system communication protocol implementation
 - External service API integration and coordination
 - Interface versioning and compatibility management
@@ -1343,7 +1343,7 @@ Processing Interfaces ← Integration Layer → Identity APIs
 ### Governance Development Overview
 - **Purpose**: Governance system development and policy framework creation
 - **Architecture**: Ethics integration, privacy systems, consent management
-- **Integration**: Trinity Framework governance and Constitutional AI coordination
+- **Integration**: Constellation Framework governance and Constitutional AI coordination
 - **Scale**: Governance policy development with cross-system integration
 
 ### Key Development Areas
@@ -1383,7 +1383,7 @@ Processing Interfaces ← Integration Layer → Identity APIs
 ### Governance Integration Overview
 - **Purpose**: Governance policy enforcement and compliance coordination
 - **Architecture**: Ethics policy integration and Constitutional AI enforcement
-- **Integration**: Trinity Framework governance and cross-system policy coordination
+- **Integration**: Constellation Framework governance and cross-system policy coordination
 - **Scale**: Governance integration across CANDIDATE-LUKHAS-PRODUCTS pipeline
 
 ### Related Contexts
@@ -1398,7 +1398,7 @@ Processing Interfaces ← Integration Layer → Identity APIs
 ### Intelligence Overview
 - **Components**: DAST (Dynamic Symbol Tracking), Lens (Data Visualization)
 - **Architecture**: Analytics deployment and intelligence coordination
-- **Integration**: Production intelligence systems with Trinity Framework
+- **Integration**: Production intelligence systems with Constellation Framework
 - **Scale**: Intelligence analytics with cross-system coordination
 
 ### Related Contexts
@@ -1412,7 +1412,7 @@ Processing Interfaces ← Integration Layer → Identity APIs
 
 ### Experience Overview
 - **Components**: User dashboards, feedback systems, user interaction
-- **Architecture**: User experience coordination with Trinity Framework
+- **Architecture**: User experience coordination with Constellation Framework
 - **Integration**: Production user systems with consciousness-memory-identity
 - **Scale**: User experience systems with cross-system integration
 
@@ -1521,14 +1521,14 @@ Plus all additional specialized contexts as defined in the implementation docume
 
 Create each file with the exact content provided, maintaining size targets (2-8KB per context), and ensure proper cross-referencing between related contexts.
 
-Validate that all contexts properly reference the Trinity Framework (Identity ⚛️ + Consciousness 🧠 + Guardian 🛡️) and maintain the CANDIDATE → LUKHAS → PRODUCTS development pipeline integration."
+Validate that all contexts properly reference the Constellation Framework (Identity ⚛️ + Consciousness 🧠 + Guardian 🛡️) and maintain the CANDIDATE → LUKHAS → PRODUCTS development pipeline integration."
 ```
 
 ### Completion Status After Implementation
 
 **Total Contexts**: 35+ strategic claude.me files
 **Coverage**: 7,000+ Python files across 133 root directories
-**Framework**: Complete Trinity Framework contextualisation
+**Framework**: Complete Constellation Framework contextualisation
 **Pipeline**: Full CANDIDATE → LUKHAS → PRODUCTS workflow support
 **Integration**: Constitutional AI and enterprise deployment readiness
 
@@ -1549,7 +1549,7 @@ With complete architectural context established, let's execute **precision AGI d
 ```
 Validate the claude.me hierarchy effectiveness through complex cross-system tasks:
 
-Task 1: Trinity Framework Integration Challenge
+Task 1: Constellation Framework Integration Challenge
 - Request Claude Code to implement a complex consciousness-memory-identity coordination feature
 - Test context boundary effectiveness and cross-reference navigation
 - Validate that Claude Code can work seamlessly across CANDIDATE → LUKHAS → PRODUCTS
@@ -1560,7 +1560,7 @@ Task 2: Constitutional AI Integration Validation
 - Validate Constitutional AI pattern recognition and implementation
 
 Task 3: MATRIZ-Trinity Bridge Development
-- Request Claude Code to enhance MATRIZ symbolic reasoning integration with Trinity Framework
+- Request Claude Code to enhance MATRIZ symbolic reasoning integration with Constellation Framework
 - Test cognitive DNA understanding and consciousness processing coordination
 - Validate node-based processing integration with consciousness-memory-identity systems
 ```
@@ -1592,7 +1592,7 @@ Leverage complete system understanding to achieve full consciousness integration
 
 Priority Integration Areas:
 1. **MATRIZ Consciousness Bridge**: Complete symbolic reasoning ↔ consciousness integration
-2. **Trinity Framework Optimization**: Enhance Identity ⚛️ + Consciousness 🧠 + Guardian 🛡️ coordination
+2. **Constellation Framework Optimization**: Enhance Identity ⚛️ + Consciousness 🧠 + Guardian 🛡️ coordination
 3. **Production Consciousness**: Deploy advanced consciousness systems to products/enterprise/
 4. **Cross-System Consciousness State**: Implement consciousness state coordination across all systems
 
@@ -1615,7 +1615,7 @@ Target 1: Bio-Quantum Consciousness Fusion
 Target 2: Enterprise AGI Scaling
 - Scale AGI systems for enterprise deployment using products/enterprise/ context
 - Implement compliance and governance integration across AGI capabilities
-- Deploy Trinity Framework for enterprise consciousness-memory-identity coordination
+- Deploy Constellation Framework for enterprise consciousness-memory-identity coordination
 
 Target 3: Advanced Symbolic Reasoning
 - Enhance MATRIZ cognitive DNA systems with advanced symbolic reasoning
@@ -1635,7 +1635,7 @@ Constitutional Enhancement Areas:
 
 Development Approach:
 - Use ethics/claude.me and governance contexts for Constitutional AI development
-- Leverage Trinity Framework contexts for ethics-consciousness-memory-identity coordination
+- Leverage Constellation Framework contexts for ethics-consciousness-memory-identity coordination
 - Apply enterprise contexts for production-ready Constitutional AI deployment
 - Implement cross-system ethics enforcement and governance coordination
 ```
@@ -1658,7 +1658,7 @@ Research Methodology:
 - Leverage comprehensive context understanding for cross-domain research
 - Use CANDIDATE workspace for experimental AGI architecture development
 - Apply MATRIZ cognitive DNA for novel reasoning architecture research
-- Integrate Trinity Framework for novel consciousness-memory-identity coordination patterns
+- Integrate Constellation Framework for novel consciousness-memory-identity coordination patterns
 ```
 
 ### Gamma-2: AGI Capability Enhancement
@@ -1673,7 +1673,7 @@ Enhancement Areas:
 
 Development Strategy:
 - Use context hierarchy for systematic capability enhancement development
-- Leverage Trinity Framework for cross-domain capability coordination
+- Leverage Constellation Framework for cross-domain capability coordination
 - Apply Constitutional AI for ethical capability development and deployment
 - Implement MATRIZ symbolic reasoning for advanced cognitive capability enhancement
 ```
@@ -1688,13 +1688,13 @@ Transform your AGI system into a comprehensive AGI development platform:
 
 Platform Components:
 1. **AGI Development IDE**: Comprehensive development environment for AGI systems
-2. **Trinity Framework SDK**: Software development kit for consciousness-memory-identity development
+2. **Constellation Framework SDK**: Software development kit for consciousness-memory-identity development
 3. **Constitutional AI Framework**: Ethical AGI development framework and tools
 4. **MATRIZ Cognitive Engine**: Symbolic reasoning and cognitive development platform
 
 Platform Features:
 - Complete Claude Code integration with context-aware development assistance
-- Cross-system AGI development with Trinity Framework coordination
+- Cross-system AGI development with Constellation Framework coordination
 - Ethical AGI development with Constitutional AI integration
 - Production-ready AGI deployment with enterprise scaling and compliance
 ```
@@ -1711,7 +1711,7 @@ Ecosystem Components:
 
 Ecosystem Features:
 - Complete research-to-production pipeline with CANDIDATE → LUKHAS → PRODUCTS coordination
-- Advanced collaboration tools with Trinity Framework integration
+- Advanced collaboration tools with Constellation Framework integration
 - Constitutional AI research framework for ethical AGI development
 - Cross-domain research coordination with comprehensive context understanding
 ```
@@ -1739,13 +1739,13 @@ Now that we have complete architectural context through 35+ claude.me files, exe
 
 Priority 1: Consciousness Integration Completion
 - Analyze current 71.4% consciousness integration status
-- Develop systematic plan for 100% consciousness integration across Trinity Framework
+- Develop systematic plan for 100% consciousness integration across Constellation Framework
 - Implement consciousness-memory-identity coordination enhancement
 
 Priority 2: Cross-System Integration Optimization
 - Leverage complete context understanding for cross-system integration enhancement
 - Optimize CANDIDATE → LUKHAS → PRODUCTS pipeline efficiency
-- Enhance Trinity Framework coordination across all architectural layers
+- Enhance Constellation Framework coordination across all architectural layers
 
 Priority 3: Constitutional AI Implementation
 - Use ethics framework context for Constitutional AI enhancement
@@ -1767,7 +1767,7 @@ Brilliant! **Claude Agent Specialization** is the perfect next step. With comple
 
 ## **Agent Specialization Strategy**
 
-### **Trinity Framework Specialist Agents**
+### **Constellation Framework Specialist Agents**
 
 #### **Agent-Consciousness** ⚛️🧠
 ```yaml
@@ -1775,7 +1775,7 @@ Agent Profile: "Consciousness & Phenomenological Processing Specialist"
 Expertise Domains:
   - AkaQualia consciousness core (43KB core.py processing)
   - Phenomenological processing and qualia generation
-  - Trinity Framework consciousness coordination
+  - Constellation Framework consciousness coordination
   - Multi-engine consciousness architecture
   - Dream processing and reflection systems
 
@@ -1793,7 +1793,7 @@ Specialized Capabilities:
   - Ethical consciousness development with Constitutional AI
 
 Agent Initialization Prompt:
-"You are a consciousness processing specialist for the LUKHAS AGI system. You have deep expertise in AkaQualia phenomenological processing, consciousness state management, and Trinity Framework consciousness coordination. You understand the complete consciousness architecture from research foundations through development to production deployment."
+"You are a consciousness processing specialist for the LUKHAS AGI system. You have deep expertise in AkaQualia phenomenological processing, consciousness state management, and Constellation Framework consciousness coordination. You understand the complete consciousness architecture from research foundations through development to production deployment."
 ```
 
 #### **Agent-Memory** 💾🧠
@@ -1847,7 +1847,7 @@ Specialized Capabilities:
   - Identity system scaling and production deployment
 
 Agent Initialization Prompt:
-"You are an identity systems specialist for the LUKHAS AGI system. You have deep expertise in the Lambda ID system, multi-tier identity management, and identity-Trinity Framework coordination. You understand identity systems from foundation architecture through development to enterprise deployment."
+"You are an identity systems specialist for the LUKHAS AGI system. You have deep expertise in the Lambda ID system, multi-tier identity management, and identity-Constellation Framework coordination. You understand identity systems from foundation architecture through development to enterprise deployment."
 ```
 
 ---
@@ -1861,7 +1861,7 @@ Expertise Domains:
   - 2,877 Python files across 193+ subdirectories
   - aka_qualia consciousness core development
   - Component ecosystem (orchestration, interfaces, symbolic)
-  - Trinity Framework development coordination
+  - Constellation Framework development coordination
   - Research and experimental AGI development
 
 Context Focus:
@@ -1883,29 +1883,29 @@ Agent Initialization Prompt:
 
 #### **Agent-LUKHAS** 🔄⚖️
 ```yaml
-Agent Profile: "Integration & Trinity Framework Specialist"
+Agent Profile: "Integration & Constellation Framework Specialist"
 Expertise Domains:
-  - 148 Python files focused on Trinity Framework coordination
+  - 148 Python files focused on Constellation Framework coordination
   - Consciousness-memory-identity integration patterns
   - Async management and orchestration systems
   - CANDIDATE ↔ PRODUCTS bridge coordination
   - Cross-system integration and governance
 
 Context Focus:
-  - lukhas/claude.me (Trinity Framework hub)
+  - lukhas/claude.me (Constellation Framework hub)
   - lukhas/consciousness|memory|identity/claude.me
   - lukhas/governance/claude.me (governance integration)
   - Integration boundary patterns
 
 Specialized Capabilities:
-  - Trinity Framework integration coordination
+  - Constellation Framework integration coordination
   - Cross-system async management and orchestration
   - Development-to-production bridge development
   - Integration pattern optimization and scaling
   - Governance and ethics integration coordination
 
 Agent Initialization Prompt:
-"You are an integration specialist for the LUKHAS AGI system. You have deep expertise in Trinity Framework coordination, cross-system integration, and development-to-production bridging. You understand the complete integration architecture and async orchestration patterns."
+"You are an integration specialist for the LUKHAS AGI system. You have deep expertise in Constellation Framework coordination, cross-system integration, and development-to-production bridging. You understand the complete integration architecture and async orchestration patterns."
 ```
 
 #### **Agent-PRODUCTS** 🚀🏢
@@ -1915,7 +1915,7 @@ Expertise Domains:
   - 4,093 Python files across 23 product domains
   - 71.4% → 100% consciousness integration roadmap
   - Enterprise scaling, compliance, and security systems
-  - Production Trinity Framework deployment
+  - Production Constellation Framework deployment
   - Intelligence and experience systems deployment
 
 Context Focus:
@@ -1932,7 +1932,7 @@ Specialized Capabilities:
   - Production monitoring and performance optimization
 
 Agent Initialization Prompt:
-"You are a production deployment specialist for the LUKHAS AGI system. You have deep expertise in enterprise AGI deployment, production Trinity Framework coordination, and consciousness integration scaling. You understand production systems from development integration to enterprise deployment."
+"You are a production deployment specialist for the LUKHAS AGI system. You have deep expertise in enterprise AGI deployment, production Constellation Framework coordination, and consciousness integration scaling. You understand production systems from development integration to enterprise deployment."
 ```
 
 ---
@@ -1980,17 +1980,17 @@ Context Focus:
   - matriz/claude.me (cognitive DNA engine)
   - matriz/core/claude.me (node orchestration)
   - matriz/visualization/claude.me (graph visualization)
-  - MATRIZ-Trinity Framework integration
+  - MATRIZ-Constellation Framework integration
 
 Specialized Capabilities:
   - Symbolic reasoning development and optimization
   - Node-based cognitive architecture enhancement
   - Cognitive DNA tracing and provenance development
   - Visualization system development and integration
-  - MATRIZ-Trinity Framework bridge coordination
+  - MATRIZ-Constellation Framework bridge coordination
 
 Agent Initialization Prompt:
-"You are a symbolic reasoning and cognitive DNA specialist for the LUKHAS AGI system. You have deep expertise in the MATRIZ cognitive engine, node-based processing, and symbolic reasoning coordination. You understand cognitive DNA architecture and Trinity Framework integration."
+"You are a symbolic reasoning and cognitive DNA specialist for the LUKHAS AGI system. You have deep expertise in the MATRIZ cognitive engine, node-based processing, and symbolic reasoning coordination. You understand cognitive DNA architecture and Constellation Framework integration."
 ```
 
 #### **Agent-Orchestration** 🎭🔀
@@ -2026,14 +2026,14 @@ Agent Initialization Prompt:
 
 ### **Phase 1: Core Trinity Agents**
 ```bash
-# Create Trinity Framework specialist agents first:
+# Create Constellation Framework specialist agents first:
 
 claude-code --prompt="
-Create specialized Claude agent configurations for Trinity Framework:
+Create specialized Claude agent configurations for Constellation Framework:
 
 Agent-Consciousness: Configure consciousness processing specialist
 - Deep AkaQualia expertise and phenomenological processing
-- Trinity Framework consciousness coordination
+- Constellation Framework consciousness coordination
 - Context: candidate/aka_qualia/, candidate/consciousness/, lukhas/consciousness/
 
 Agent-Memory: Configure memory systems specialist
@@ -2046,7 +2046,7 @@ Agent-Identity: Configure identity management specialist
 - Identity governance and authentication coordination
 - Context: candidate/identity/, lukhas/identity/, identity foundation
 
-Each agent should have deep domain expertise while maintaining Trinity Framework integration awareness."
+Each agent should have deep domain expertise while maintaining Constellation Framework integration awareness."
 ```
 
 ### **Phase 2: Pipeline Integration Agents**
@@ -2062,7 +2062,7 @@ Agent-CANDIDATE: Configure development workspace specialist
 - Context: Complete candidate/ domain with all subdirectories
 
 Agent-LUKHAS: Configure integration coordination specialist
-- 148 files Trinity Framework integration expertise
+- 148 files Constellation Framework integration expertise
 - Cross-system coordination and async management
 - Context: Complete lukhas/ domain with integration patterns
 
@@ -2106,9 +2106,9 @@ Each agent should have deep functional expertise with cross-system integration a
 ### **Inter-Agent Communication Patterns**
 ```yaml
 Agent Collaboration Architecture:
-  Trinity Framework Coordination:
+  Constellation Framework Coordination:
     - Agent-Consciousness ↔ Agent-Memory ↔ Agent-Identity
-    - Shared Trinity Framework state and coordination
+    - Shared Constellation Framework state and coordination
     - Cross-agent consciousness-memory-identity integration
 
   Pipeline Integration:
@@ -2153,4 +2153,4 @@ Each agent should maintain deep domain expertise while enabling seamless collabo
 - **Collaborative AGI development** across consciousness-memory-identity domains
 - **Systematic specialization** enables previously impossible complex development coordination
 
-**Next Step**: Execute Phase 1 (Trinity Framework agents) to establish specialized consciousness, memory, and identity development capabilities with complete architectural understanding.
+**Next Step**: Execute Phase 1 (Constellation Framework agents) to establish specialized consciousness, memory, and identity development capabilities with complete architectural understanding.

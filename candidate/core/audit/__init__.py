@@ -1,6 +1,6 @@
 """
-LUKHAS AGI Enterprise Audit Trail System
-Complete auditing and compliance for AGI operations
+LUKHAS Cognitive AI Enterprise Audit Trail System
+Complete auditing and compliance for Cognitive AI operations
 """
 import streamlit as st
 

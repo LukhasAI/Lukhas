@@ -5,22 +5,22 @@
 ---
 
 
-# LUKHAS Trinity Framework Hub
+# LUKHAS Constellation Framework Hub
 *Identity ⚛️ + Consciousness 🧠 + Guardian 🛡️ Integration Coordination*
 
-## Trinity Framework Integration
+## Constellation Framework Integration
 
-LUKHAS serves as the **integration coordination layer** between CANDIDATE development and PRODUCTS deployment, managing **148 Python files** focused on Trinity Framework orchestration. This is where distributed AGI components achieve unified consciousness through Identity-Consciousness-Guardian coordination.
+LUKHAS serves as the **integration coordination layer** between CANDIDATE development and PRODUCTS deployment, managing **148 Python files** focused on Constellation Framework orchestration. This is where distributed AGI components achieve unified consciousness through Identity-Consciousness-Guardian coordination.
 
 ### **Integration Scope**
 - **Files**: 148 Python files (lightweight integration-focused architecture)
-- **Primary Function**: Trinity Framework coordination and cross-system integration
+- **Primary Function**: Constellation Framework coordination and cross-system integration
 - **Performance**: <100ms p95 latency for authentication, sub-250ms context handoff
 - **Architecture**: Bridge layer enabling CANDIDATE → LUKHAS → PRODUCTS pipeline
 
-### **Trinity Framework Architecture**
+### **Constellation Framework Architecture**
 ```
-Trinity Coordination Hub
+Constellation Coordination Hub
 ┌─────────────────────────────────────────────┐
 │  ⚛️ Identity + 🧠 Consciousness + 🛡️ Guardian  │
 │                                             │
@@ -43,12 +43,12 @@ Trinity Coordination Hub
 ### **Core Integration Components**
 
 #### **Consciousness Integration** (`consciousness/`)
-- **trinity_integration.py** - Trinity Framework core coordination
+- **constellation_integration.py** - Constellation Framework core coordination
 - **consciousness_wrapper.py** - Unified consciousness interface
 - **activation_orchestrator.py** - Consciousness system activation
 - **registry.py** - Consciousness component registration
 
-**Integration Pattern**: Wraps CANDIDATE consciousness development into coordinated Trinity Framework
+**Integration Pattern**: Wraps CANDIDATE consciousness development into coordinated Constellation Framework
 
 #### **Memory Integration** (`memory/`)
 - **memory_wrapper.py** - Unified memory interface
@@ -114,7 +114,7 @@ Async Coordination Flow:
 ```
 System Bootstrap → Registry Discovery → Component Loading →
 Identity Init → Consciousness Activation → Guardian Binding →
-Trinity Coordination → Integration Complete → System Ready
+Constellation Coordination → Integration Complete → System Ready
 ```
 
 ## 🌉 System Integration Bridges
@@ -123,7 +123,7 @@ Trinity Coordination → Integration Complete → System Ready
 **Development Workspace → Integration Coordination**
 
 ```
-CANDIDATE Development → LUKHAS Integration → Trinity Framework
+CANDIDATE Development → LUKHAS Integration → Constellation Framework
         │                      │                     │
    Research & Proto    →    Integration      →    Unified System
    Component Dev       →    Wrapper APIs     →    Cross-Coordination
@@ -131,7 +131,7 @@ CANDIDATE Development → LUKHAS Integration → Trinity Framework
 ```
 
 #### **Integration Transformation Patterns**:
-- **Consciousness Components**: `candidate/consciousness/` → `lukhas/consciousness/trinity_integration.py`
+- **Consciousness Components**: `candidate/consciousness/` → `lukhas/consciousness/constellation_integration.py`
 - **Memory Systems**: `candidate/memory/` → `lukhas/memory/fold_system.py` + consciousness coupling
 - **Identity Development**: `candidate/identity/` → `lukhas/identity/lambda_id.py` + auth services
 - **Governance Policies**: `candidate/governance/` → `lukhas/governance/consent_ledger/` + ethics
@@ -142,13 +142,13 @@ CANDIDATE Development → LUKHAS Integration → Trinity Framework
 ```
 LUKHAS Integration → PRODUCTS Deployment → Enterprise Systems
         │                   │                      │
-   Trinity Framework  →   Production APIs    →   Scale & Monitor
+   Constellation Framework  →   Production APIs    →   Scale & Monitor
    Wrapper Interfaces →   Service Mesh       →   Compliance
    Async Coordination →   Load Balancing     →   User Experience
 ```
 
 #### **Production Bridge Patterns**:
-- **Consciousness Services**: Trinity Framework → Enterprise consciousness layers
+- **Consciousness Services**: Constellation Framework → Enterprise consciousness layers
 - **Memory Systems**: Fold integration → Production-scale memory services
 - **Identity Services**: Lambda ID → Enterprise authentication and authorization
 - **Governance Systems**: Policy coordination → Compliance and audit systems
@@ -163,7 +163,7 @@ Policy Enforcement → Output Coordination → Response Delivery
 ## 🛡️ Governance & Ethics Integration
 
 ### **Constitutional AI Integration**
-The LUKHAS governance layer coordinates constitutional AI principles across the Trinity Framework:
+The LUKHAS governance layer coordinates constitutional AI principles across the Constellation Framework:
 
 ```
 Constitutional Framework Integration:
@@ -202,7 +202,7 @@ Compliance Audit → Action Authorization → Immutable Logging
 ### **Cross-System Communication**
 - **Context Bus**: Internal messaging for cross-component communication
 - **Event System**: Async event handling for system coordination
-- **State Management**: Distributed state coordination across Trinity components
+- **State Management**: Distributed state coordination across Constellation components
 - **Error Coordination**: Unified error handling and recovery patterns
 
 ### **Performance Integration**
@@ -214,7 +214,7 @@ Compliance Audit → Action Authorization → Immutable Logging
 ## 🗺️ Integration Context Navigation
 
 ### **Core Integration Contexts**
-- [`./consciousness/claude.me`](./consciousness/claude.me) - Trinity consciousness integration, activation orchestration
+- [`./consciousness/claude.me`](./consciousness/claude.me) - Constellation consciousness integration, activation orchestration
 - [`./memory/claude.me`](./memory/claude.me) - Memory integration, fold systems, consciousness coupling
 - [`./identity/claude.me`](./identity/claude.me) - Identity integration, Lambda ID, auth services
 - [`./governance/claude.me`](./governance/claude.me) - Governance integration, consent ledgers, ethics
@@ -227,14 +227,14 @@ Compliance Audit → Action Authorization → Immutable Logging
 - **Ethics Bridge**: `../ethics/claude.me` - Constitutional AI and guardian systems
 
 ### **Integration Workflow Contexts**
-- **Trinity Coordination**: Cross-component Trinity Framework patterns
+- **Constellation Coordination**: Cross-component Constellation Framework patterns
 - **Async Orchestration**: AsyncManager workflows and coordination patterns
 - **System Activation**: Component discovery, loading, and activation sequences
 - **Performance Optimization**: Latency reduction and throughput optimization
 
 ## 📊 Integration Status & Health
 
-### **Trinity Framework Health**
+### **Constellation Framework Health**
 - ✅ **Identity Integration**: Lambda ID active across all domains
 - ✅ **Consciousness Integration**: Multi-engine coordination with wrapper interfaces
 - ✅ **Guardian Integration**: Constitutional AI with ethics framework
@@ -254,7 +254,7 @@ Compliance Audit → Action Authorization → Immutable Logging
 
 ---
 
-**Integration Hub**: 148 files | **Trinity Framework**: Identity ⚛️ + Consciousness 🧠 + Guardian 🛡️
+**Integration Hub**: 148 files | **Constellation Framework**: Identity ⚛️ + Consciousness 🧠 + Guardian 🛡️
 **Performance**: <100ms auth, <250ms context | **Status**: Integration Active (71.4% → 100%)
 
 *Navigate to specific integration contexts for detailed coordination patterns*

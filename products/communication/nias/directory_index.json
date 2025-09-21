@@ -1,0 +1,392 @@
+{
+  "schema_version": "3.0.0",
+  "directory_metadata": {
+    "path": "products/communication/nias",
+    "lane": "development",
+    "purpose": "Directory containing 18 Python files and 4 subdirectories",
+    "last_updated": "2025-09-21",
+    "constellation_framework_version": "2.0.0",
+    "t4_compliance_level": "experimental"
+  },
+  "component_inventory": {
+    "python_files": [
+      {
+        "filename": "consent_manager.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "ConsentScope",
+          "DataSource",
+          "AIGenerationType",
+          "ConsentRecord",
+          "ConsentManager",
+          "is_valid",
+          "export_consent_data",
+          "get_system_metrics"
+        ]
+      },
+      {
+        "filename": "emotional_filter.py",
+        "component_type": "EMOTION_PROCESSOR",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "EmotionalProtectionLevel",
+          "EmotionalTransition",
+          "EmotionalVector",
+          "EmotionalProfile",
+          "EmotionalFilter",
+          "get_emotional_insights"
+        ]
+      },
+      {
+        "filename": "api_handler.py",
+        "component_type": "API_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "APIResponse",
+          "UserRegistrationRequest",
+          "DreamInitiationRequest",
+          "APIHandler"
+        ]
+      },
+      {
+        "filename": "api_validator.py",
+        "component_type": "GUARDIAN_VALIDATOR",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "ValidationError",
+          "ValidationType",
+          "ValidationRule",
+          "ValidationSchema",
+          "APIValidator",
+          "get_error_statistics",
+          "add_custom_schema",
+          "clear_cache",
+          "export_schemas"
+        ]
+      },
+      {
+        "filename": "vendor_portal.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "VendorTier",
+          "DreamSeedType",
+          "VendorProfile",
+          "DreamSeed",
+          "VendorPortal",
+          "generate_api_credentials",
+          "is_valid"
+        ]
+      },
+      {
+        "filename": "nias_core.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "ConsentLevel",
+          "MessageTier",
+          "EmotionalState",
+          "SymbolicMessage",
+          "UserContext",
+          "DeliveryResult",
+          "NIΛS",
+          "get_system_metrics"
+        ]
+      },
+      {
+        "filename": "dream_orchestrator_enhanced.py",
+        "component_type": "DREAM_PROCESSOR",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "ServiceStatus",
+          "ServiceHealth",
+          "EnhancedDreamOrchestrator",
+          "MockProfile",
+          "ABASFallback",
+          "DASTFallback",
+          "DreamGeneratorFallback"
+        ]
+      },
+      {
+        "filename": "nias_core_fixed.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "EmotionalState",
+          "MessageTier",
+          "ConsentLevel",
+          "SymbolicMessage",
+          "DeliveryResult",
+          "NIΛS",
+          "get_system_metrics",
+          "enable_stress_test_mode"
+        ]
+      },
+      {
+        "filename": "reward_system.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "RewardType",
+          "EngagementLevel",
+          "Reward",
+          "UserRewardProfile",
+          "RewardEngine",
+          "get_user_rewards_summary"
+        ]
+      },
+      {
+        "filename": "dependency_container.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "ServiceLifecycle",
+          "CircularDependencyError",
+          "ServiceNotFoundError",
+          "ServiceDescriptor",
+          "DependencyContainer",
+          "MockDreamGenerator",
+          "MockEmotionalFilter",
+          "MockVendorPortal",
+          "get_service_info"
+        ]
+      },
+      {
+        "filename": "breakpoint_detector.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "WorkflowState",
+          "BreakpointType",
+          "UserActivity",
+          "WorkflowContext",
+          "NaturalBreakpointDetector",
+          "track_activity",
+          "check_breakpoint",
+          "request_permission",
+          "record_ad_display",
+          "get_timing_recommendations"
+        ]
+      },
+      {
+        "filename": "user_data_integrator.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "DataSource",
+          "DataPermission",
+          "UserDataPreferences",
+          "UserDataProfile",
+          "EmailIntegrator",
+          "ShoppingIntegrator",
+          "CalendarIntegrator",
+          "UserDataIntegrator",
+          "MockConsentManager",
+          "extract_preferences_from_newsletters"
+        ]
+      },
+      {
+        "filename": "mock_user_database.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "MockUserDatabase",
+          "generate_all_users",
+          "generate_edge_cases",
+          "get_user_by_id",
+          "get_random_user",
+          "generate_shopping_event"
+        ]
+      },
+      {
+        "filename": "dream_generator.py",
+        "component_type": "DREAM_PROCESSOR",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "DreamMood",
+          "BioRhythm",
+          "DreamContext",
+          "GeneratedDream",
+          "DreamGenerator",
+          "get_generation_metrics"
+        ]
+      },
+      {
+        "filename": "capture_dream_image.py",
+        "component_type": "DREAM_PROCESSOR",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": []
+      },
+      {
+        "filename": "reward_engine.py",
+        "component_type": "MATRIZ_PROCESSOR",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "RewardType",
+          "ContentAccessLevel",
+          "UserRewardProfile",
+          "Reward",
+          "ExclusiveContent",
+          "NIASRewardEngine",
+          "process_ad_engagement",
+          "redeem_reward",
+          "unlock_exclusive_content",
+          "get_user_rewards_dashboard"
+        ]
+      },
+      {
+        "filename": "dream_commerce_orchestrator.py",
+        "component_type": "DREAM_PROCESSOR",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "DeliveryChannel",
+          "DreamDeliveryTiming",
+          "DreamCommerceSession",
+          "DreamDeliveryRequest",
+          "DreamCommerceOrchestrator",
+          "get_system_metrics"
+        ]
+      },
+      {
+        "filename": "native_content_formatter.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "ContentFormat",
+          "ContentContext",
+          "NativeContent",
+          "ContentTemplate",
+          "NativeContentFormatter",
+          "format_as_native",
+          "format_as_story",
+          "format_as_suggestion",
+          "format_as_related_item",
+          "adapt_to_platform"
+        ]
+      }
+    ],
+    "subdirectories": [
+      {
+        "name": "core",
+        "has_index": false,
+        "purpose": "Subdirectory with 7 Python files",
+        "component_count": 7
+      },
+      {
+        "name": "complete_implementation",
+        "has_index": false,
+        "purpose": "Subdirectory with 2 Python files",
+        "component_count": 2
+      },
+      {
+        "name": "integration",
+        "has_index": false,
+        "purpose": "Subdirectory with 4 Python files",
+        "component_count": 4
+      },
+      {
+        "name": "event_system",
+        "has_index": false,
+        "purpose": "Subdirectory with 2 Python files",
+        "component_count": 2
+      }
+    ],
+    "documentation": [
+      {
+        "filename": "README.md",
+        "type": "README.md",
+        "has_sync_header": false
+      }
+    ]
+  },
+  "schema_references": [
+    {
+      "schema_name": "directory_index",
+      "schema_path": "schemas/directory_index.schema.json",
+      "validation_status": "valid"
+    }
+  ],
+  "agent_guidance": {
+    "recommended_approach": "Begin with documentation files, then explore core components",
+    "key_files": [
+      "README.md"
+    ],
+    "common_tasks": [
+      {
+        "task": "API integration",
+        "files_involved": [
+          "api_handler.py",
+          "api_validator.py"
+        ],
+        "complexity": "medium"
+      }
+    ],
+    "prerequisites": [
+      "Understanding of LUKHAS lane system",
+      "Constellation Framework familiarity",
+      "MATRIZ pipeline architecture",
+      "T4/0.01% implementation standards"
+    ],
+    "avoid_patterns": [
+      "Modifying contracts without validation",
+      "Breaking lane boundaries",
+      "Ignoring Constellation Framework integration",
+      "Breaking constructor-aware instantiation patterns",
+      "Bypassing T4/0.01% validation standards",
+      "Ignoring MATRIZ pipeline integration requirements"
+    ]
+  },
+  "performance_metadata": {
+    "component_count": 18,
+    "estimated_complexity": "medium",
+    "consciousness_integration": "intermediate",
+    "test_coverage": 85.0,
+    "t4_compliance_score": 0.65,
+    "matriz_compatibility": "standard",
+    "plugin_registry_compatible": true,
+    "constructor_aware_instantiation": true
+  },
+  "relationships": {
+    "parent_directory": "products/communication",
+    "related_directories": [],
+    "constellation_cluster": "unknown",
+    "dependency_weight": "moderate"
+  }
+}

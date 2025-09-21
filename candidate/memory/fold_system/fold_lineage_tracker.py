@@ -6,7 +6,7 @@ logger = logging.getLogger(__name__)
 📡 MODULE: memory.core_memory.fold_lineage_tracker
 📄 FILENAME: fold_lineage_tracker.py
 🎯 PURPOSE: Fold Lineage Tracker - Enterprise Causal Analysis & Dream Integration
-🧠 CONTEXT: LUKHAS AGI Phase 5 Memory Causal Archaeology & Cross-System Validation
+🧠 CONTEXT: LUKHAS Cognitive AI Phase 5 Memory Causal Archaeology & Cross-System Validation
 🔮 CAPABILITY: Advanced causal analysis, dream integration, ethical cross-checking
 🛡️ ETHICS: Causal transparency, ethical constraint validation, integrity maintenance
 🚀 VERSION: v2.0.0 • 📅 ENHANCED: 2025-07-20 • ✍️ AUTHOR: CLAUDE-HARMONIZER
@@ -137,9 +137,9 @@ class FoldLineageTracker:
     """
 
     def __init__(self, max_drift_rate: float = MAX_DRIFT_RATE):  # JULES05_NOTE: Loop-safe guard added
-        self.lineage_log_path = "/Users/agi_dev/Downloads/Consolidation-Repo/logs/fold/fold_lineage_log.jsonl"
-        self.causal_map_path = "/Users/agi_dev/Downloads/Consolidation-Repo/logs/fold/fold_cause_map.jsonl"
-        self.lineage_graph_path = "/Users/agi_dev/Downloads/Consolidation-Repo/logs/fold/lineage_graph.jsonl"
+        self.lineage_log_path = "/Users/cognitive_dev/Downloads/Consolidation-Repo/logs/fold/fold_lineage_log.jsonl"
+        self.causal_map_path = "/Users/cognitive_dev/Downloads/Consolidation-Repo/logs/fold/fold_cause_map.jsonl"
+        self.lineage_graph_path = "/Users/cognitive_dev/Downloads/Consolidation-Repo/logs/fold/lineage_graph.jsonl"
         self.max_drift_rate = max_drift_rate  # JULES05_NOTE: Loop-safe guard added
 
         # In-memory lineage graph for fast queries

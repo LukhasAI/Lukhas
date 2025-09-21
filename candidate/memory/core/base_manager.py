@@ -3,7 +3,7 @@
 ```
 ══════════════════════════════════════════════════════════════════════════════════
 ║ ⚛️🧠🛡️ LUKHAS AI - BASE MEMORY MANAGER
-║ Trinity Framework Foundation: Abstract memory orchestration for LUKHAS AI ecosystem
+║ Constellation Framework Foundation: Abstract memory orchestration for LUKHAS AI ecosystem
 ║ ⚛️ Identity: Authenticates memory provenance and ownership
 ║ 🧠 Consciousness: Enables adaptive learning through structured memory patterns
 ║ 🛡️ Guardian: Protects memory integrity and enforces ethical access policies
@@ -131,9 +131,9 @@ class BaseMemoryManager(ABC):
             else:
                 self.logger = get_logger(f"LUKHAS.Memory.{self.__class__.__name__}", "MEMORY")
             self.logger.info(
-                "🧠 Trinity Memory Manager initializing",
+                "🧠 Constellation Memory Manager initializing",
                 manager_type=self.__class__.__name__,
-                trinity_mode="⚛️🧠🛡️",
+                constellation_mode="⚛️🧠🛡️",
             )
         except Exception as e:
             # Fallback logging if get_logger fails
@@ -268,7 +268,7 @@ class BaseMemoryManager(ABC):
                 "🆔 Generated Λ-trace memory ID",
                 memory_id=memory_id,
                 prefix=prefix,
-                trinity_component="⚛️",
+                constellation_component="⚛️",
             )
             return memory_id
         except Exception as e:
@@ -329,14 +329,14 @@ class BaseMemoryManager(ABC):
             self.logger.error("Failed to save memory index", error=str(e))
 
     def _update_index(self, memory_id: str, metadata: dict[str, Any]) -> None:
-        """Update memory index with Trinity Framework tracking."""
+        """Update memory index with Constellation Framework tracking."""
         try:
-            # Enhanced metadata with Trinity Framework integration
+            # Enhanced metadata with Constellation Framework integration
             enhanced_metadata = {
                 **metadata,
                 "last_modified": datetime.now(timezone.utc).isoformat(),
                 "manager_type": self.__class__.__name__,
-                "trinity_identity": self._extract_identity_context(metadata),
+                "constellation_identity": self._extract_identity_context(metadata),
                 "consciousness_pattern": self._analyze_consciousness_pattern(metadata),
                 "guardian_validation": self._validate_guardian_compliance(metadata),
             }
@@ -357,7 +357,7 @@ class BaseMemoryManager(ABC):
             self.logger.debug(
                 "🧠 Memory index updated",
                 memory_id=memory_id,
-                trinity_compliance="✅",
+                constellation_compliance="✅",
                 consciousness_detected=memory_id in self._consciousness_patterns,
             )
         except Exception as e:
@@ -397,13 +397,13 @@ class BaseMemoryManager(ABC):
         }
 
     async def get_statistics(self) -> dict[str, Any]:
-        """Get comprehensive manager statistics with Trinity Framework metrics."""
+        """Get comprehensive manager statistics with Constellation Framework metrics."""
         try:
             total_memories = len(self._memory_index)
             deleted_memories = sum(1 for meta in self._memory_index.values() if meta.get("deleted", False))
 
-            # Trinity Framework specific metrics
-            identity_contexts = {meta.get("trinity_identity", "⚛️anonymous") for meta in self._memory_index.values()}
+            # Constellation Framework specific metrics
+            identity_contexts = {meta.get("constellation_identity", "⚛️anonymous") for meta in self._memory_index.values()}
 
             consciousness_patterns = len(self._consciousness_patterns)
 
@@ -439,7 +439,7 @@ class BaseMemoryManager(ABC):
             }
 
     def _extract_identity_context(self, metadata: dict[str, Any]) -> str:
-        """Extract Trinity Identity context from metadata."""
+        """Extract Constellation Identity context from metadata."""
         identity_markers = ["user_id", "agent_id", "session_id", "identity"]
         for marker in identity_markers:
             if marker in metadata:
@@ -495,5 +495,5 @@ class BaseMemoryManager(ABC):
             f"{self.__class__.__name__}(path={self.base_path}, "
             f"memories={len(self._memory_index)}, "
             f"consciousness_patterns={len(self._consciousness_patterns)}, "
-            f"trinity_mode=⚛️🧠🛡️)"
+            f"constellation_mode=⚛️🧠🛡️)"
         )

@@ -18,7 +18,7 @@ Strategic positioning and architecture for the complete λWecosystem across six 
 ### Vision & Positioning
 - **λWecosystem Philosophy**: Six domains united by consciousness architecture
 - **Market Strategy**: Premium consciousness technology positioning with accessible entry points
-- **Competitive Advantages**: Trinity Framework integration, particle physics UI, consciousness-first design
+- **Competitive Advantages**: Constellation Framework integration, particle physics UI, consciousness-first design
 - **Success Metrics**: Developer adoption, enterprise engagement, consciousness community growth
 
 ### Target Audience Mapping

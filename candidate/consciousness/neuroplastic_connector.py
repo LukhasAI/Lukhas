@@ -16,7 +16,7 @@ logger = get_logger(__name__)
 
 class NeuroplasticConnector:
     """
-    ⚛️🧠🛡️ TRINITY FRAMEWORK NEUROPLASTIC CONNECTOR
+    ⚛️🧠🛡️ CONSTELLATION FRAMEWORK NEUROPLASTIC CONNECTOR
 
     Advanced neuroplastic connection system for consciousness module adaptation.
     Provides synaptic plasticity and neural pathway reorganization capabilities.

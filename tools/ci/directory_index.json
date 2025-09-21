@@ -1,0 +1,434 @@
+{
+  "schema_version": "3.0.0",
+  "directory_metadata": {
+    "path": "tools/ci",
+    "lane": "development",
+    "purpose": "Directory containing 27 Python files and 0 subdirectories",
+    "last_updated": "2025-09-21",
+    "constellation_framework_version": "2.0.0",
+    "t4_compliance_level": "experimental"
+  },
+  "component_inventory": {
+    "python_files": [
+      {
+        "filename": "generate_agent_allocations.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "load_manifest",
+          "categorize_todos",
+          "filter_todos_by_keywords",
+          "filter_todos_by_type",
+          "create_agent_spec",
+          "generate_all_allocations",
+          "get_trinity_context",
+          "get_verification_requirements"
+        ]
+      },
+      {
+        "filename": "build_manifest.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "TodoManifestBuilder",
+          "main",
+          "parse_markdown_todos",
+          "cross_check_codebase",
+          "generate_manifest"
+        ]
+      },
+      {
+        "filename": "complete_todo_allocation.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "load_and_allocate_all_todos"
+        ]
+      },
+      {
+        "filename": "update_batch_progress.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "get_pr_info",
+          "analyze_pr_completion",
+          "match_pr_to_tasks",
+          "update_batch_files",
+          "main"
+        ]
+      },
+      {
+        "filename": "build_metrics_dashboard.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "BuildMetricsCollector",
+          "main",
+          "collect_makefile_metrics",
+          "collect_t4_metrics",
+          "collect_system_health_metrics",
+          "generate_dashboard_report"
+        ]
+      },
+      {
+        "filename": "mark_unused_imports_todo.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "load_waivers",
+          "ruff_F401",
+          "ensure_header",
+          "mark_line",
+          "determine_smart_reason",
+          "main"
+        ]
+      },
+      {
+        "filename": "check_unused_imports_todo.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "resolve_finding_path",
+          "ruff_F401",
+          "check_annotation",
+          "main",
+          "main"
+        ]
+      },
+      {
+        "filename": "lock_batches.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "BatchLocker",
+          "main",
+          "lock_batches"
+        ]
+      },
+      {
+        "filename": "performance_analyzer.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "PerformanceMetric",
+          "RegressionReport",
+          "ConsciousnessPerformanceAnalyzer",
+          "main",
+          "load_baseline_data",
+          "analyze_benchmark_results",
+          "statistical_regression_analysis",
+          "generate_consciousness_specific_insights",
+          "save_results"
+        ]
+      },
+      {
+        "filename": "split_batches_v2.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "T4BatchSplitter",
+          "main",
+          "split_todos",
+          "create_batch_files"
+        ]
+      },
+      {
+        "filename": "mypy_to_md.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "is_core"
+        ]
+      },
+      {
+        "filename": "create_specialized_batches.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "SpecializedBatchCreator",
+          "main",
+          "create_batch",
+          "create_all_batches"
+        ]
+      },
+      {
+        "filename": "mypy_trend.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "count_errors",
+          "git",
+          "main"
+        ]
+      },
+      {
+        "filename": "test_orchestrator.py",
+        "component_type": "TEST",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "TestTier",
+          "TestSelection",
+          "TestResult",
+          "IntelligentTestOrchestrator",
+          "main",
+          "analyze_code_changes",
+          "select_tests_for_tier",
+          "execute_test_selection"
+        ]
+      },
+      {
+        "filename": "runtime_lane_guard.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": []
+      },
+      {
+        "filename": "mark_f821_f401_todo.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "F821F401Annotator",
+          "get_ruff_errors",
+          "add_todo_annotation",
+          "process_errors"
+        ]
+      },
+      {
+        "filename": "syntax_guardian.py",
+        "component_type": "GUARDIAN_VALIDATOR",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "main"
+        ]
+      },
+      {
+        "filename": "f401_trend.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "main"
+        ]
+      },
+      {
+        "filename": "targeted_syntax_fixer.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "TargetedSyntaxFixer",
+          "get_ruff_errors",
+          "fix_obvious_indentation_issues",
+          "fix_obvious_fstring_issues",
+          "fix_syntax_errors_in_file",
+          "rollback_problematic_files",
+          "run_targeted_fixes"
+        ]
+      },
+      {
+        "filename": "generate_progress.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "ProgressGenerator",
+          "main",
+          "generate_progress_json",
+          "generate_daily_report",
+          "save_reports"
+        ]
+      },
+      {
+        "filename": "verification_matrix.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "VerificationMatrix",
+          "main",
+          "verify_todo",
+          "generate_verification_report"
+        ]
+      },
+      {
+        "filename": "comprehensive_syntax_fixer.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "ComprehensiveSyntaxFixer",
+          "get_syntax_errors",
+          "fix_parentheses_issues",
+          "fix_fstring_issues",
+          "fix_indentation_issues",
+          "fix_duplicate_arguments",
+          "fix_file",
+          "process_syntax_errors",
+          "remove_duplicate_kwargs"
+        ]
+      },
+      {
+        "filename": "streamlit_shim.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "StreamlitMock",
+          "write",
+          "markdown",
+          "header",
+          "subheader",
+          "text",
+          "json",
+          "selectbox",
+          "button",
+          "mock_function"
+        ]
+      },
+      {
+        "filename": "split_batches.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "BatchSplitter",
+          "main",
+          "split_todos",
+          "create_batch_files"
+        ]
+      },
+      {
+        "filename": "f821_report.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "run_ruff",
+          "classify",
+          "within",
+          "main",
+          "lev"
+        ]
+      },
+      {
+        "filename": "unused_imports.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "load_waivers",
+          "run_ruff_f401",
+          "path_is_skipped",
+          "ensure_header",
+          "annotate_line",
+          "main"
+        ]
+      },
+      {
+        "filename": "fix_ci_issues.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "CIFixOrchestrator",
+          "main",
+          "fix_streamlit_imports",
+          "fix_precommit_config",
+          "create_ci_requirements",
+          "create_pytest_ini",
+          "create_github_actions_helpers",
+          "run_immediate_fixes",
+          "generate_ci_summary"
+        ]
+      }
+    ],
+    "subdirectories": [],
+    "documentation": []
+  },
+  "schema_references": [
+    {
+      "schema_name": "directory_index",
+      "schema_path": "schemas/directory_index.schema.json",
+      "validation_status": "valid"
+    }
+  ],
+  "agent_guidance": {
+    "recommended_approach": "Begin with documentation files, then explore core components",
+    "key_files": [],
+    "common_tasks": [],
+    "prerequisites": [
+      "Understanding of LUKHAS lane system",
+      "Constellation Framework familiarity",
+      "MATRIZ pipeline architecture",
+      "T4/0.01% implementation standards"
+    ],
+    "avoid_patterns": [
+      "Modifying contracts without validation",
+      "Breaking lane boundaries",
+      "Ignoring Constellation Framework integration",
+      "Breaking constructor-aware instantiation patterns",
+      "Bypassing T4/0.01% validation standards",
+      "Ignoring MATRIZ pipeline integration requirements"
+    ]
+  },
+  "performance_metadata": {
+    "component_count": 27,
+    "estimated_complexity": "high",
+    "consciousness_integration": "none",
+    "test_coverage": 85.0,
+    "t4_compliance_score": 0.65,
+    "matriz_compatibility": "standard",
+    "plugin_registry_compatible": true,
+    "constructor_aware_instantiation": true
+  },
+  "relationships": {
+    "parent_directory": "tools",
+    "related_directories": [],
+    "constellation_cluster": "unknown",
+    "dependency_weight": "moderate"
+  }
+}

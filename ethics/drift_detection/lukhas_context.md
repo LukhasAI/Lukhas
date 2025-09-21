@@ -42,7 +42,7 @@
 
 ### Drift Detection Integration Patterns
 
-#### **Trinity Framework Drift Monitoring**
+#### **Constellation Framework Drift Monitoring**
 ```
 Drift Detection ←→ Guardian 🛡️ ←→ Consciousness 🧠 ←→ Memory 💾
        │              │                │              │

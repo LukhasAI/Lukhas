@@ -9,13 +9,13 @@ Verifies determinism, attribution, bounds, and integration with IntegrityProbe.
 """
 import os
 import pytest
-from unittest.mock import Mock, patch
+from unittest.mock import Mock
 
 # Set feature flag for testing
 os.environ['LUKHAS_EXPERIMENTAL'] = '1'
 os.environ['LUKHAS_LANE'] = 'candidate'
 
-from monitoring.drift_manager import DriftManager, DriftKind, DriftResult
+from monitoring.drift_manager import DriftManager, DriftKind
 
 
 class TestDriftManager:

@@ -1,7 +1,7 @@
 """
 LUKHAS AI Bio-Symbolic Processing Module
 Bridging biological processes with symbolic reasoning
-Trinity Framework: ⚛️🧠🛡️
+Constellation Framework: ⚛️🧠🛡️
 
 This module provides bio-symbolic processing capabilities,
 mapping biological processes to symbolic representations.
@@ -273,6 +273,34 @@ class BioSymbolic:
         processor = self.processors.get(data_type, self.processors["unknown"])
         return processor.process(data)
 
+    def process_rhythm(self, data: dict[str, Any]) -> dict[str, Any]:
+        """Delegate to rhythm processor for test compatibility."""
+        return self.processors["rhythm"].process(data)
+
+    def process_energy(self, data: dict[str, Any]) -> dict[str, Any]:
+        """Delegate to energy processor for test compatibility."""
+        return self.processors["energy"].process(data)
+
+    def process_dna(self, data: dict[str, Any]) -> dict[str, Any]:
+        """Delegate to DNA processor for test compatibility."""
+        return self.processors["dna"].process(data)
+
+    def process_stress(self, data: dict[str, Any]) -> dict[str, Any]:
+        """Delegate to stress processor for test compatibility."""
+        return self.processors["stress"].process(data)
+
+    def process_homeostasis(self, data: dict[str, Any]) -> dict[str, Any]:
+        """Delegate to homeostasis processor for test compatibility."""
+        return self.processors["homeostasis"].process(data)
+
+    def process_dream(self, data: dict[str, Any]) -> dict[str, Any]:
+        """Delegate to dream processor for test compatibility."""
+        return self.processors["dream"].process(data)
+
+    def process_generic(self, data: dict[str, Any]) -> dict[str, Any]:
+        """Delegate to generic processor for test compatibility."""
+        return self.processors["unknown"].process(data)
+
     @staticmethod
     def calculate_coherence(data: dict[str, Any]) -> float:
         """
@@ -284,6 +312,10 @@ class BioSymbolic:
         Returns:
             Coherence score (0.0 to 1.0)
         """
+        # Symbolic data with glyph gets perfect coherence
+        if "glyph" in data:
+            return 1.0
+
         # Simple coherence based on data completeness
         expected_keys = {"type", "timestamp"}
         actual_keys = set(data.keys())

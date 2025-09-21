@@ -53,7 +53,7 @@
       "alternatives": ["advanced AI system", "multi-domain AI", "general-purpose AI"]
     },
     {
-      "term": "AGI",
+      "term": "Cognitive AI",
       "reason": "Not achieved - misleading acronym",
       "alternatives": ["AI system", "advanced AI", "LUKHAS AI"]
     },
@@ -112,8 +112,8 @@
   ],
   "deprecated_lukhas_terms": [
     {
-      "term": "LUKHAS AGI",
-      "reason": "Incorrect brand name - AGI not achieved",
+      "term": "LUKHAS Cognitive AI",
+      "reason": "Incorrect brand name - Cognitive AI not achieved",
       "alternatives": ["LUKHAS AI"]
     },
     {
@@ -132,14 +132,14 @@
       "alternatives": ["LUKHAS AI"]
     },
     {
-      "term": "Trinity System",
+      "term": "Constellation System",
       "reason": "Incorrect name - should be Framework",
-      "alternatives": ["Trinity Framework"]
+      "alternatives": ["Constellation Framework"]
     },
     {
-      "term": "Trinity Architecture",
+      "term": "Constellation Architecture",
       "reason": "Incorrect name - should be Framework",
-      "alternatives": ["Trinity Framework"]
+      "alternatives": ["Constellation Framework"]
     }
   ],
   "production_claims": [

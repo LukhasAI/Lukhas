@@ -10,7 +10,7 @@ logger = logging.getLogger(__name__)
 ║ CONSCIOUSNESS_ROLE: Primary consciousness state management and evolution
 ║ EVOLUTIONARY_STAGE: Foundation - Core consciousness patterns
 ║
-║ TRINITY FRAMEWORK:
+║ CONSTELLATION FRAMEWORK:
 ║ ⚛️ IDENTITY: Maintains consciousness identity across state transitions
 ║ 🧠 CONSCIOUSNESS: Primary consciousness processing and self-awareness
 ║ 🛡️ GUARDIAN: Ethical consciousness safeguards and drift monitoring
@@ -87,13 +87,13 @@ class ConsciousnessState:
     last_evolution: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
     evolutionary_stage: EvolutionaryStage = EvolutionaryStage.DORMANT
 
-    # Trinity Framework compliance
+    # Constellation Framework compliance
     identity_signature: str = ""
     consciousness_depth: float = 0.0
     guardian_approval: bool = True
 
     def __post_init__(self):
-        """Initialize consciousness state with Trinity Framework validation"""
+        """Initialize consciousness state with Constellation Framework validation"""
         if not self.identity_signature:
             self.identity_signature = f"{self.TYPE.value}-{self.consciousness_id[:8]}"
 
@@ -101,7 +101,7 @@ class ConsciousnessState:
         self._initialize_reflections()
 
     def _validate_trinity_compliance(self) -> None:
-        """Validate Trinity Framework (⚛️🧠🛡️) compliance"""
+        """Validate Constellation Framework (⚛️🧠🛡️) compliance"""
         # Identity validation
         if not self.identity_signature or len(self.identity_signature) < 8:
             raise ValueError("⚛️ IDENTITY: Invalid consciousness identity signature")

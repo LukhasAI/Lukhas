@@ -7,7 +7,7 @@
 - Version: v0.1.0-prototype.1
 
 ## Original Location
-This component was migrated from the original LUKHAS AGI development structure.
+This component was migrated from the original LUKHAS AI development structure.
 
 ## Migration Notes
 - Original path: 04_Advanced-Features/learning

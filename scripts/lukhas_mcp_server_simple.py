@@ -65,8 +65,8 @@ class LUKHASMCPServer:
                 ),
                 Resource(
                     uri="lukhas://constellation/validation",
-                    name="Trinity Framework Status",
-                    description="Trinity Framework validation status",
+                    name="Constellation Framework Status",
+                    description="Constellation Framework validation status",
                 ),
             ]
 
@@ -140,7 +140,7 @@ class LUKHASMCPServer:
                 ),
                 Tool(
                     name="triad_validate",
-                    description="Validate Trinity Framework compliance",
+                    description="Validate Constellation Framework compliance",
                 ),
                 Tool(
                     name="agent_optimize",
@@ -165,7 +165,7 @@ class LUKHASMCPServer:
                         "identity": "stable",
                         "monitoring": "tracking",
                     },
-                    "triad_status": "⚛️🧠🛡️ validated",
+                    "constellation_status": "⚛️🧠🛡️ validated",
                 }
 
             elif name == "memory_query":
@@ -179,7 +179,7 @@ class LUKHASMCPServer:
 
             elif name == "triad_validate":
                 result = {
-                    "validation": "Trinity Framework operational",
+                    "validation": "Constellation Framework operational",
                     "identity": "⚛️ Authentic consciousness characteristics",
                     "consciousness": "🧠 Enhanced processing capabilities",
                     "guardian": "🛡️ Ethical standards maintained",
@@ -192,7 +192,7 @@ class LUKHASMCPServer:
                     "recommendations": [
                         "Claude Code agents optimal for development tasks",
                         "MCP integration enhances consciousness capabilities",
-                        "Trinity Framework ensures ethical compliance",
+                        "Constellation Framework ensures ethical compliance",
                     ],
                     "efficiency": "95%",
                 }

@@ -1,0 +1,122 @@
+{
+  "schema_version": "3.0.0",
+  "directory_metadata": {
+    "path": "cognitive_core/learning",
+    "lane": "development",
+    "purpose": "Directory containing 4 Python files and 0 subdirectories",
+    "last_updated": "2025-09-21",
+    "constellation_framework_version": "2.0.0",
+    "t4_compliance_level": "experimental"
+  },
+  "component_inventory": {
+    "python_files": [
+      {
+        "filename": "skill_acquisition.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "SkillLevel",
+          "LearningPhase",
+          "Skill",
+          "LearningSession",
+          "SkillAcquisitionContext",
+          "SkillAcquisitionEngine",
+          "create_skill_acquisition_context",
+          "register_skill",
+          "get_skill_progress",
+          "get_all_skills",
+          "get_learning_sessions"
+        ]
+      },
+      {
+        "filename": "dream_guided_learner.py",
+        "component_type": "DREAM_PROCESSOR",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "LearningMode",
+          "LearningPhase",
+          "LearningObjective",
+          "LearningOutcome",
+          "LearningSession",
+          "DreamGuidedLearner",
+          "get_learning_stats"
+        ]
+      },
+      {
+        "filename": "pattern_learning.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "PatternType",
+          "Pattern",
+          "PatternLearningContext",
+          "PatternLearningEngine",
+          "create_pattern_learning_context"
+        ]
+      },
+      {
+        "filename": "meta_learning.py",
+        "component_type": "UTILITY",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/meta_learning.json",
+        "dependencies": [],
+        "exports": [
+          "MetaLearningStrategy",
+          "MetaLearningContext",
+          "MetaLearningResult",
+          "MetaLearner"
+        ]
+      }
+    ],
+    "subdirectories": [],
+    "documentation": []
+  },
+  "schema_references": [
+    {
+      "schema_name": "directory_index",
+      "schema_path": "schemas/directory_index.schema.json",
+      "validation_status": "valid"
+    }
+  ],
+  "agent_guidance": {
+    "recommended_approach": "Begin with documentation files, then explore core components",
+    "key_files": [],
+    "common_tasks": [],
+    "prerequisites": [
+      "Understanding of LUKHAS lane system",
+      "Constellation Framework familiarity",
+      "MATRIZ pipeline architecture",
+      "T4/0.01% implementation standards"
+    ],
+    "avoid_patterns": [
+      "Modifying contracts without validation",
+      "Breaking lane boundaries",
+      "Ignoring Constellation Framework integration",
+      "Breaking constructor-aware instantiation patterns",
+      "Bypassing T4/0.01% validation standards",
+      "Ignoring MATRIZ pipeline integration requirements"
+    ]
+  },
+  "performance_metadata": {
+    "component_count": 4,
+    "estimated_complexity": "low",
+    "consciousness_integration": "intermediate",
+    "test_coverage": 85.0,
+    "t4_compliance_score": 0.65,
+    "matriz_compatibility": "standard",
+    "plugin_registry_compatible": true,
+    "constructor_aware_instantiation": true
+  },
+  "relationships": {
+    "parent_directory": "cognitive_core",
+    "related_directories": [],
+    "constellation_cluster": "unknown",
+    "dependency_weight": "moderate"
+  }
+}

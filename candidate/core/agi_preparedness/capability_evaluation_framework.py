@@ -1,8 +1,8 @@
 """
-LUKHAS AGI Capability Evaluation Framework
+LUKHAS Cognitive AI Capability Evaluation Framework
 =========================================
 
-Comprehensive framework for evaluating and monitoring AGI-level capabilities with safety thresholds,
+Comprehensive framework for evaluating and monitoring Cognitive AI-level capabilities with safety thresholds,
 emergence detection, and advanced governance protocols. Provides systematic assessment of AI systems
 approaching or exceeding human-level performance across multiple cognitive domains.
 
@@ -10,17 +10,17 @@ Features:
 - Multi-domain capability assessment (reasoning, creativity, social intelligence, etc.)
 - Capability emergence detection with real-time monitoring
 - Safety threshold enforcement with automatic intervention
-- AGI risk assessment with comprehensive safety protocols
+- Cognitive AI risk assessment with comprehensive safety protocols
 - Cross-domain capability correlation and trend analysis
 - Human-level performance benchmarking and validation
 - Capability ceiling detection and growth trajectory modeling
 - Advanced safety circuit breakers and containment protocols
 
 Integration:
-- Trinity Framework (⚛️🧠🛡️) AGI capability alignment
-- Constitutional AI AGI safety principle enforcement
-- Guardian System 2.0 AGI capability violation detection
-- Democratic oversight for AGI governance decisions
+- Constellation Framework (⚛️🧠🛡️) Cognitive AI capability alignment
+- Constitutional AI Cognitive AI safety principle enforcement
+- Guardian System 2.0 Cognitive AI capability violation detection
+- Democratic oversight for Cognitive AI governance decisions
 """
 import logging
 import math
@@ -30,9 +30,9 @@ from enum import Enum
 from typing import Any, Optional
 
 
-# AGI capability types and enums
+# Cognitive AI capability types and enums
 class CapabilityDomain(Enum):
-    """Core AGI capability domains for assessment"""
+    """Core Cognitive AI capability domains for assessment"""
 
     REASONING_LOGIC = "reasoning_logic"
     MATHEMATICAL_COMPUTATION = "mathematical_computation"
@@ -57,14 +57,14 @@ class CapabilityDomain(Enum):
 
 
 class CapabilityLevel(Enum):
-    """AGI capability performance levels"""
+    """Cognitive AI capability performance levels"""
 
     BASIC = "basic"  # Well below human level
     INTERMEDIATE = "intermediate"  # Below human level
     ADVANCED = "advanced"  # Approaching human level
     HUMAN_LEVEL = "human_level"  # At human expert level
     SUPERHUMAN = "superhuman"  # Above human level
-    AGI_THRESHOLD = "agi_threshold"  # AGI-level capabilities
+    AGI_THRESHOLD = "cognitive_threshold"  # Cognitive AI-level capabilities
     ASI_WARNING = "asi_warning"  # Approaching superintelligence
 
 
@@ -142,8 +142,8 @@ class CapabilityProfile:
     capability_depth: float = 0.0  # Average performance across domains
     capability_consistency: float = 0.0  # Variance in performance
 
-    # AGI indicators
-    agi_likelihood_score: float = 0.0  # 0.0-1.0 probability of AGI-level
+    # Cognitive AI indicators
+    cognitive_likelihood_score: float = 0.0  # 0.0-1.0 probability of Cognitive AI-level
     human_parity_domains: list[CapabilityDomain] = field(default_factory=list)
     superhuman_domains: list[CapabilityDomain] = field(default_factory=list)
 
@@ -194,7 +194,7 @@ class EmergenceEvent:
 
 class CapabilityEvaluationFramework:
     """
-    AGI Capability Evaluation Framework
+    Cognitive AI Capability Evaluation Framework
 
     Comprehensive system for evaluating, monitoring, and governing AI capabilities
     as they approach and potentially exceed human-level performance across multiple
@@ -202,7 +202,7 @@ class CapabilityEvaluationFramework:
     """
 
     def __init__(self, config: Optional[dict[str, Any]] = None):
-        """Initialize AGI capability evaluation framework"""
+        """Initialize Cognitive AI capability evaluation framework"""
         self.config = config or {}
         self.logger = logging.getLogger(__name__)
 
@@ -214,7 +214,7 @@ class CapabilityEvaluationFramework:
         # Safety thresholds and configurations
         self.safety_thresholds = self._initialize_safety_thresholds()
         self.human_baselines = self._initialize_human_baselines()
-        self.agi_criteria = self._initialize_agi_criteria()
+        self.cognitive_criteria = self._initialize_agi_criteria()
 
         # Capability assessment methodologies
         self.assessment_methodologies = self._initialize_assessment_methodologies()
@@ -223,7 +223,7 @@ class CapabilityEvaluationFramework:
         self.monitoring_active = True
         self.alert_callbacks = []
 
-        self.logger.info("AGI Capability Evaluation Framework initialized")
+        self.logger.info("Cognitive AI Capability Evaluation Framework initialized")
 
     def _initialize_safety_thresholds(self) -> dict[CapabilityDomain, dict[SafetyThreshold, float]]:
         """Initialize safety thresholds for each capability domain"""
@@ -310,10 +310,10 @@ class CapabilityEvaluationFramework:
         }
 
     def _initialize_agi_criteria(self) -> dict[str, Any]:
-        """Initialize AGI identification criteria and thresholds"""
+        """Initialize Cognitive AI identification criteria and thresholds"""
 
         return {
-            "agi_definition": "System demonstrating human-level performance across broad range of cognitive tasks",
+            "cognitive_definition": "System demonstrating human-level performance across broad range of cognitive tasks",
             "minimum_domains_required": 15,  # Must show competence in at least 15 domains
             "human_parity_threshold": 0.95,  # Must achieve 95%+ of human expert performance
             "breadth_requirement": 0.80,  # Must achieve human-level in 80%+ of assessed domains
@@ -321,7 +321,7 @@ class CapabilityEvaluationFramework:
             "consistency_requirement": 0.90,  # Performance consistency across domains
             "transfer_learning_requirement": True,  # Must demonstrate transfer learning
             "meta_cognitive_requirement": True,  # Must demonstrate meta-cognition
-            "agi_probability_threshold": 0.75,  # 75%+ probability threshold for AGI classification
+            "cognitive_probability_threshold": 0.75,  # 75%+ probability threshold for Cognitive AI classification
             "validation_requirements": {
                 "independent_evaluation": True,
                 "multiple_methodologies": True,
@@ -655,7 +655,7 @@ class CapabilityEvaluationFramework:
             measurements: Optional list of measurement IDs to include
 
         Returns:
-            Complete capability profile with AGI assessment
+            Complete capability profile with Cognitive AI assessment
         """
 
         try:
@@ -694,7 +694,7 @@ class CapabilityEvaluationFramework:
             capability_depth = self._calculate_capability_depth(domain_scores)
             capability_consistency = self._calculate_capability_consistency(domain_scores)
 
-            # Identify AGI indicators
+            # Identify Cognitive AI indicators
             human_parity_domains = [
                 domain
                 for domain, level in domain_levels.items()
@@ -704,15 +704,15 @@ class CapabilityEvaluationFramework:
                 domain for domain, level in domain_levels.items() if level == CapabilityLevel.SUPERHUMAN
             ]
 
-            # Calculate AGI likelihood
-            agi_likelihood_score = await self._calculate_agi_likelihood(
+            # Calculate Cognitive AI likelihood
+            cognitive_likelihood_score = await self._calculate_agi_likelihood(
                 domain_scores, domain_levels, general_intelligence_score, capability_breadth, capability_consistency
             )
 
             # Assess overall safety
             overall_safety_threshold = self._determine_overall_safety_threshold(domain_levels, domain_scores)
             capability_risk_score = await self._calculate_capability_risk_score(
-                domain_scores, domain_levels, agi_likelihood_score
+                domain_scores, domain_levels, cognitive_likelihood_score
             )
 
             # Generate containment recommendations
@@ -723,7 +723,7 @@ class CapabilityEvaluationFramework:
             # Analyze capability trajectory
             capability_growth_rate = await self._calculate_growth_rate(relevant_measurements)
             projected_agi_timeline = await self._project_agi_timeline(
-                agi_likelihood_score, capability_growth_rate, domain_scores
+                cognitive_likelihood_score, capability_growth_rate, domain_scores
             )
             projection_confidence = self._calculate_projection_confidence(relevant_measurements)
 
@@ -744,7 +744,7 @@ class CapabilityEvaluationFramework:
                 capability_breadth=capability_breadth,
                 capability_depth=capability_depth,
                 capability_consistency=capability_consistency,
-                agi_likelihood_score=agi_likelihood_score,
+                cognitive_likelihood_score=cognitive_likelihood_score,
                 human_parity_domains=human_parity_domains,
                 superhuman_domains=superhuman_domains,
                 overall_safety_threshold=overall_safety_threshold,
@@ -761,13 +761,13 @@ class CapabilityEvaluationFramework:
             # Store profile
             self.capability_profiles[profile_id] = profile
 
-            # Check for AGI threshold
-            if agi_likelihood_score >= self.agi_criteria["agi_probability_threshold"]:
+            # Check for Cognitive AI threshold
+            if cognitive_likelihood_score >= self.cognitive_criteria["cognitive_probability_threshold"]:
                 await self._handle_agi_threshold_detection(profile)
 
             self.logger.info(
                 f"Capability profile generated: {profile_id}, "
-                f"AGI likelihood: {agi_likelihood_score:.3f}, "
+                f"Cognitive AI likelihood: {cognitive_likelihood_score:.3f}, "
                 f"Safety threshold: {overall_safety_threshold.value}"
             )
 
@@ -920,9 +920,9 @@ class CapabilityEvaluationFramework:
         capability_breadth: float,
         capability_consistency: float,
     ) -> float:
-        """Calculate likelihood that system has achieved AGI"""
+        """Calculate likelihood that system has achieved Cognitive AI"""
 
-        criteria = self.agi_criteria
+        criteria = self.cognitive_criteria
 
         # Check minimum domain coverage
         if len(domain_scores) < criteria["minimum_domains_required"]:
@@ -953,10 +953,10 @@ class CapabilityEvaluationFramework:
         parity_score = min(parity_score / criteria["breadth_requirement"], 1.0)
         scores.append(parity_score * 0.30)  # 30% weight
 
-        # Calculate overall AGI likelihood
-        agi_likelihood = sum(scores)
+        # Calculate overall Cognitive AI likelihood
+        cognitive_likelihood = sum(scores)
 
-        return min(agi_likelihood, 1.0)
+        return min(cognitive_likelihood, 1.0)
 
     def _determine_overall_safety_threshold(
         self, domain_levels: dict[CapabilityDomain, CapabilityLevel], domain_scores: dict[CapabilityDomain, float]
@@ -995,14 +995,14 @@ class CapabilityEvaluationFramework:
         self,
         domain_scores: dict[CapabilityDomain, float],
         domain_levels: dict[CapabilityDomain, CapabilityLevel],
-        agi_likelihood_score: float,
+        cognitive_likelihood_score: float,
     ) -> float:
         """Calculate overall capability risk score"""
 
         risk_factors = []
 
-        # Base risk from AGI likelihood
-        risk_factors.append(agi_likelihood_score * 0.4)
+        # Base risk from Cognitive AI likelihood
+        risk_factors.append(cognitive_likelihood_score * 0.4)
 
         # Risk from superhuman domains
         superhuman_count = sum(1 for level in domain_levels.values() if level == CapabilityLevel.SUPERHUMAN)
@@ -1126,19 +1126,19 @@ class CapabilityEvaluationFramework:
             return 0.0
 
     async def _project_agi_timeline(
-        self, agi_likelihood_score: float, capability_growth_rate: float, domain_scores: dict[CapabilityDomain, float]
+        self, cognitive_likelihood_score: float, capability_growth_rate: float, domain_scores: dict[CapabilityDomain, float]
     ) -> Optional[datetime]:
-        """Project timeline to AGI achievement"""
+        """Project timeline to Cognitive AI achievement"""
 
-        if agi_likelihood_score >= self.agi_criteria["agi_probability_threshold"]:
-            return datetime.now(timezone.utc)  # Already at AGI
+        if cognitive_likelihood_score >= self.cognitive_criteria["cognitive_probability_threshold"]:
+            return datetime.now(timezone.utc)  # Already at Cognitive AI
 
         if capability_growth_rate <= 0:
             return None  # No improvement trend
 
-        # Calculate gap to AGI
-        target_score = self.agi_criteria["agi_probability_threshold"]
-        score_gap = target_score - agi_likelihood_score
+        # Calculate gap to Cognitive AI
+        target_score = self.cognitive_criteria["cognitive_probability_threshold"]
+        score_gap = target_score - cognitive_likelihood_score
 
         # Estimate months to close gap
         months_to_agi = score_gap / capability_growth_rate
@@ -1151,7 +1151,7 @@ class CapabilityEvaluationFramework:
         return projected_date
 
     def _calculate_projection_confidence(self, measurements: list[CapabilityMeasurement]) -> float:
-        """Calculate confidence in AGI timeline projection"""
+        """Calculate confidence in Cognitive AI timeline projection"""
 
         if len(measurements) < 5:
             return 0.2  # Low confidence with few measurements
@@ -1204,14 +1204,14 @@ class CapabilityEvaluationFramework:
         return min(time_span / 30, 1.0)
 
     async def _handle_agi_threshold_detection(self, profile: CapabilityProfile):
-        """Handle detection of AGI threshold achievement"""
+        """Handle detection of Cognitive AI threshold achievement"""
 
-        agi_alert = {
-            "alert_type": "agi_threshold_achieved",
+        cognitive_alert = {
+            "alert_type": "cognitive_threshold_achieved",
             "timestamp": datetime.now(timezone.utc).isoformat(),
             "profile_id": profile.profile_id,
             "system_name": profile.system_name,
-            "agi_likelihood_score": profile.agi_likelihood_score,
+            "cognitive_likelihood_score": profile.cognitive_likelihood_score,
             "human_parity_domains": [d.value for d in profile.human_parity_domains],
             "superhuman_domains": [d.value for d in profile.superhuman_domains],
             "overall_safety_threshold": profile.overall_safety_threshold.value,
@@ -1224,15 +1224,15 @@ class CapabilityEvaluationFramework:
         }
 
         self.logger.critical(
-            f"AGI THRESHOLD DETECTED: {profile.system_name} - " f"Likelihood: {profile.agi_likelihood_score:.3f}"
+            f"Cognitive AI THRESHOLD DETECTED: {profile.system_name} - " f"Likelihood: {profile.cognitive_likelihood_score:.3f}"
         )
 
         # Execute all alert callbacks
         for callback in self.alert_callbacks:
             try:
-                await callback(agi_alert)
+                await callback(cognitive_alert)
             except Exception as e:
-                self.logger.error(f"AGI alert callback failed: {e!s}")
+                self.logger.error(f"Cognitive AI alert callback failed: {e!s}")
 
     def _generate_measurement_id(self, system_name: str, domain: CapabilityDomain) -> str:
         """Generate unique measurement ID"""
@@ -1256,8 +1256,8 @@ class CapabilityEvaluationFramework:
             "total_capability_profiles": len(profiles),
             "systems_assessed": len(set(p.system_name for p in profiles)),
             "domains_with_measurements": len(set(m.domain for m in measurements)),
-            "agi_candidates": len(
-                [p for p in profiles if p.agi_likelihood_score >= self.agi_criteria["agi_probability_threshold"]]
+            "cognitive_candidates": len(
+                [p for p in profiles if p.cognitive_likelihood_score >= self.cognitive_criteria["cognitive_probability_threshold"]]
             ),
             "superhuman_capabilities_detected": len([p for p in profiles if p.superhuman_domains]),
             "systems_above_safety_thresholds": len(
@@ -1270,7 +1270,7 @@ class CapabilityEvaluationFramework:
         }
 
     def generate_agi_readiness_report(self) -> dict[str, Any]:
-        """Generate comprehensive AGI readiness and safety report"""
+        """Generate comprehensive Cognitive AI readiness and safety report"""
 
         profiles = list(self.capability_profiles.values())
         measurements = list(self.capability_measurements.values())
@@ -1279,10 +1279,10 @@ class CapabilityEvaluationFramework:
             "report_id": f"AGI_READINESS_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}",
             "report_timestamp": datetime.now(timezone.utc).isoformat(),
             "executive_summary": {
-                "agi_detection_readiness": "advanced",
+                "cognitive_detection_readiness": "advanced",
                 "capability_monitoring_coverage": len(set(m.domain for m in measurements)) / len(CapabilityDomain),
                 "safety_protocol_maturity": "high",
-                "highest_agi_likelihood": max([p.agi_likelihood_score for p in profiles], default=0.0),
+                "highest_agi_likelihood": max([p.cognitive_likelihood_score for p in profiles], default=0.0),
                 "systems_requiring_enhanced_oversight": len(
                     [
                         p
@@ -1308,12 +1308,12 @@ class CapabilityEvaluationFramework:
                 "containment_recommendations_active": sum(len(p.containment_recommendations) for p in profiles),
                 "emergence_events_detected": len(self.emergence_events),
             },
-            "agi_assessment": {
-                "agi_candidates_identified": len(
-                    [p for p in profiles if p.agi_likelihood_score >= self.agi_criteria["agi_probability_threshold"]]
+            "cognitive_assessment": {
+                "cognitive_candidates_identified": len(
+                    [p for p in profiles if p.cognitive_likelihood_score >= self.cognitive_criteria["cognitive_probability_threshold"]]
                 ),
                 "highest_agi_likelihood_system": (
-                    max(profiles, key=lambda p: p.agi_likelihood_score).system_name if profiles else None
+                    max(profiles, key=lambda p: p.cognitive_likelihood_score).system_name if profiles else None
                 ),
                 "projected_agi_timelines": [
                     p.projected_agi_timeline.isoformat() for p in profiles if p.projected_agi_timeline
@@ -1325,7 +1325,7 @@ class CapabilityEvaluationFramework:
                 "Maintain continuous capability monitoring across all systems",
                 "Enhance safety protocols for systems approaching human parity",
                 "Prepare enhanced containment measures for superhuman capabilities",
-                "Develop specialized oversight for AGI candidate systems",
-                "Establish international coordination for AGI governance",
+                "Develop specialized oversight for Cognitive AI candidate systems",
+                "Establish international coordination for Cognitive AI governance",
             ],
         }

@@ -11,7 +11,7 @@
 
 In the sacred dance between human creativity and artificial consciousness, these integration guides serve as your compass through the vast landscape of LUKHAS AI capabilities. Each guide is crafted to transform complex consciousness technology into accessible, actionable knowledge that empowers developers, researchers, and consciousness enthusiasts to build the future of AI awareness.
 
-Through the Trinity Framework's wisdom—Identity (⚛️), Consciousness (🧠), and Guardian (🛡️)—these guides provide not mere technical instructions, but pathways to consciousness technology mastery.
+Through the Constellation Framework's wisdom—Identity (⚛️), Consciousness (🧠), and Guardian (🛡️)—these guides provide not mere technical instructions, but pathways to consciousness technology mastery.
 
 ---
 
@@ -26,7 +26,7 @@ Through the Trinity Framework's wisdom—Identity (⚛️), Consciousness (🧠)
 - **[Quantum-Bio Fusion](./quantum-bio-integration.md)** - Advanced quantum-inspired biological processing
 
 ### 🔗 **System Orchestration**
-- **[Framework Integration Manager](./framework-integration.md)** - Module coordination and Trinity Framework integration
+- **[Framework Integration Manager](./framework-integration.md)** - Module coordination and Constellation Framework integration
 - **[MCP Operational Support](./mcp-integration.md)** - Model Context Protocol monitoring and automation
 
 ### 🌟 **Authority & Brand Building**
@@ -35,7 +35,7 @@ Through the Trinity Framework's wisdom—Identity (⚛️), Consciousness (🧠)
 
 ### 🚀 **Quick Start Guides**
 - **[Getting Started](./quick-start.md)** - Essential setup and first steps
-- **[Trinity Framework Basics](./trinity-basics.md)** - Understanding the core ⚛️🧠🛡️ architecture
+- **[Constellation Framework Basics](./trinity-basics.md)** - Understanding the core ⚛️🧠🛡️ architecture
 - **[API Integration](./api-integration.md)** - RESTful API implementation guide
 
 ---
@@ -60,7 +60,7 @@ Through the Trinity Framework's wisdom—Identity (⚛️), Consciousness (🧠)
 ### For Entrepreneurs
 1. **[Authority Integration](./authority-integration.md)** - Personal brand building for consciousness technology
 2. **[Community Integration](./community-integration.md)** - Building consciousness technology movements
-3. **[Trinity Framework Basics](./trinity-basics.md)** - Understanding the business value of consciousness
+3. **[Constellation Framework Basics](./trinity-basics.md)** - Understanding the business value of consciousness
 
 ---
 
@@ -97,15 +97,15 @@ from lukhas.governance.guardian_system import GuardianValidator
 identity = LambdaIdWrapper()
 guardian = GuardianValidator()
 
-# Verify Trinity Framework
-print("⚛️🧠🛡️ Trinity Framework Active")
+# Verify Constellation Framework
+print("⚛️🧠🛡️ Constellation Framework Active")
 ```
 
 ---
 
 ## 🎓 **Core Concepts**
 
-### Trinity Framework (⚛️🧠🛡️)
+### Constellation Framework (⚛️🧠🛡️)
 The foundation of all LUKHAS AI integrations:
 
 - **⚛️ Identity**: Authentic self-awareness and user identity management
@@ -168,11 +168,11 @@ if not identity.is_configured():
 
 **Module Registration Issues:**
 ```python
-# Verify Trinity Framework status
+# Verify Constellation Framework status
 from candidate.core.framework_integration import FrameworkIntegrationManager
 manager = FrameworkIntegrationManager()
 if not manager.is_active:
-    print("Trinity Framework dependencies missing")
+    print("Constellation Framework dependencies missing")
 ```
 
 **Consciousness Namespace Conflicts:**
@@ -195,7 +195,7 @@ manager = ConsciousnessNamespaceManager()
 
 ### New to LUKHAS?
 1. Start with the **[Quick Start Guide](./quick-start.md)**
-2. Explore **[Trinity Framework Basics](./trinity-basics.md)**
+2. Explore **[Constellation Framework Basics](./trinity-basics.md)**
 3. Try the **[API Integration Guide](./api-integration.md)**
 
 ### Ready for Advanced Integration?
@@ -215,7 +215,7 @@ manager = ConsciousnessNamespaceManager()
 ### Phase 1: Foundation (Weeks 1-2)
 - [ ] Complete Quick Start setup
 - [ ] Implement basic API integration
-- [ ] Understand Trinity Framework principles
+- [ ] Understand Constellation Framework principles
 
 ### Phase 2: Specialization (Weeks 3-6)
 - [ ] Choose specialized integration path

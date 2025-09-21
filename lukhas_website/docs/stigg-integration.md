@@ -1,8 +1,8 @@
-# Stigg Integration with LUKHAS Trinity Framework
+# Stigg Integration with LUKHAS Constellation Framework
 
 ## Overview
 
-This document outlines the integration of Stigg billing and usage management system with the LUKHAS AI website, maintaining compliance with the Trinity Framework principles (⚛️🧠🛡️).
+This document outlines the integration of Stigg billing and usage management system with the LUKHAS AI website, maintaining compliance with the Constellation Framework principles (⚛️🧠🛡️).
 
 ## Architecture Integration
 
@@ -25,7 +25,7 @@ The integration implements graceful degradation when Stigg is not available:
 - Fallback UI components when SDK is not loaded
 - Error boundary protection for production stability
 
-## Trinity Framework Compliance
+## Constellation Framework Compliance
 
 ### ⚛️ Identity Integration
 - **User Authentication**: Stigg customer IDs mapped to LUKHAS ΛiD system
@@ -98,14 +98,14 @@ The integration includes comprehensive tests:
 - Provider rendering with and without API keys
 - Graceful fallback behavior
 - Error boundary protection
-- Trinity Framework compliance validation
+- Constellation Framework compliance validation
 
 ## Deployment Considerations
 
 ### Production Setup
 1. Replace placeholder API key with actual Stigg production key
 2. Verify Guardian System audit logging
-3. Test Trinity Framework integration points
+3. Test Constellation Framework integration points
 4. Validate ethical billing compliance
 
 ### Security
@@ -119,7 +119,7 @@ The integration includes comprehensive tests:
 ### Phase 1 (Current)
 - [x] Basic StiggProvider integration
 - [x] Graceful fallback implementation
-- [x] Trinity Framework compliance
+- [x] Constellation Framework compliance
 - [x] Development environment setup
 
 ### Phase 2 (Planned)
@@ -156,7 +156,7 @@ The integration includes comprehensive tests:
 ## Support
 
 For issues related to:
-- **Trinity Framework Integration**: Contact LUKHAS consciousness team
+- **Constellation Framework Integration**: Contact LUKHAS consciousness team
 - **Stigg API Issues**: Refer to Stigg documentation
 - **Guardian System Compliance**: Contact LUKHAS ethics team
 - **General Integration**: Create GitHub issue in LUKHAS repository

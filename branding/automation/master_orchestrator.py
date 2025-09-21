@@ -54,7 +54,7 @@ class MasterOrchestrator:
         self.reports_path = self.base_path / "reports"
         self.logs_path = self.base_path / "logs"
 
-        self.triad_branding = "⚛️🧠🛡️ LUKHAS AI Trinity Framework"
+        self.triad_branding = "⚛️🧠🛡️ LUKHAS AI Constellation Framework"
 
         # Initialize subsystems
         self.brand_engine = BrandAutomationEngine()

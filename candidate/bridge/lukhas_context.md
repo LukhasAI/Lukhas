@@ -42,9 +42,9 @@
 
 ### Bridge Integration Patterns
 
-#### **Trinity Framework Bridge Coordination**
+#### **Constellation Framework Bridge Coordination**
 ```
-External Services ←→ Bridge Adapters ←→ Trinity Framework
+External Services ←→ Bridge Adapters ←→ Constellation Framework
         │                   │                   │
     Service APIs ← Protocol Translation → Identity/Auth
         │                   │                   │

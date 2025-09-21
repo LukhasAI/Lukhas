@@ -17,7 +17,7 @@ logger = logging.getLogger(__name__)
 ║                             ◊ POETIC ESSENCE ◊
 ║
 ║ ║ 🚀 LUKHAS AI - MULTI-MODAL MEMORY SUPPORT
-║ ║ A harmonious tapestry of text, image, audio, and video memory integration for AGI consciousness
+║ ║ A harmonious tapestry of text, image, audio, and video memory integration for Cognitive AI consciousness
 ║ ║ Copyright (c) 2025 LUKHAS AI. All rights reserved.
 ║ ╠══════════════════════════════════════════════════════════════════════════════════
 ║ ║ Module: MULTIMODAL_MEMORY_SUPPORT.PY
@@ -82,7 +82,7 @@ except ImportError:
 
 
 class ModalityType(Enum):
-    """Supported modality types for AGI memory"""
+    """Supported modality types for Cognitive AI memory"""
 
     TEXT = "text"
     IMAGE = "image"
@@ -132,7 +132,7 @@ class MultiModalMemoryData:
 
 class ImageProcessor:
     """
-    Image processing for AGI consciousness memory.
+    Image processing for Cognitive AI consciousness memory.
 
     Handles image compression, feature extraction, and embedding generation
     with consciousness-aware optimization.
@@ -153,7 +153,7 @@ class ImageProcessor:
 
     def process_image(self, image_data: bytes, format_hint: Optional[str] = None) -> tuple[bytes, ModalityMetadata]:
         """
-        Process image data for optimal AGI memory storage.
+        Process image data for optimal Cognitive AI memory storage.
 
         Args:
             image_data: Raw image bytes
@@ -210,7 +210,7 @@ class ImageProcessor:
             )
 
             logger.debug(
-                "Image processed for AGI memory",
+                "Image processed for Cognitive AI memory",
                 original_size=original_size,
                 processed_size=image.size,
                 compression_ratio=compression_ratio,
@@ -235,7 +235,7 @@ class ImageProcessor:
         Extract visual features for consciousness embedding.
 
         This is a placeholder for more sophisticated feature extraction
-        that would integrate with the AGI's visual consciousness system.
+        that would integrate with the Cognitive AI's visual consciousness system.
         """
 
         if not PIL_AVAILABLE or not self.enable_feature_extraction:
@@ -248,7 +248,7 @@ class ImageProcessor:
                 image = image.convert("RGB")
 
             # Simple feature extraction (placeholder for advanced vision models)
-            # In a real AGI system, this would use sophisticated visual embeddings
+            # In a real Cognitive system, this would use sophisticated visual embeddings
             image_array = np.array(image)
 
             # Basic statistical features (placeholder)
@@ -291,7 +291,7 @@ class ImageProcessor:
 
 class AudioProcessor:
     """
-    Audio processing for AGI consciousness memory.
+    Audio processing for Cognitive AI consciousness memory.
 
     Handles audio compression, feature extraction, and embedding generation
     with consciousness-aware acoustic analysis.
@@ -312,7 +312,7 @@ class AudioProcessor:
 
     def process_audio(self, audio_data: bytes, format_hint: Optional[str] = None) -> tuple[bytes, ModalityMetadata]:
         """
-        Process audio data for optimal AGI memory storage.
+        Process audio data for optimal Cognitive AI memory storage.
 
         Args:
             audio_data: Raw audio bytes
@@ -371,7 +371,7 @@ class AudioProcessor:
             )
 
             logger.debug(
-                "Audio processed for AGI memory",
+                "Audio processed for Cognitive AI memory",
                 original_duration=original_duration,
                 processed_duration=processed_duration,
                 sample_rate=self.target_sample_rate,
@@ -396,7 +396,7 @@ class AudioProcessor:
         Extract acoustic features for consciousness embedding.
 
         Placeholder for sophisticated audio analysis that would integrate
-        with the AGI's auditory consciousness system.
+        with the Cognitive AI's auditory consciousness system.
         """
 
         if not AUDIO_AVAILABLE or not self.enable_feature_extraction:
@@ -459,7 +459,7 @@ class AudioProcessor:
 
 class MultiModalMemoryProcessor:
     """
-    Main processor for multi-modal AGI memories.
+    Main processor for multi-modal Cognitive AI memories.
 
     Integrates text, image, audio, and video processing into a unified
     consciousness-aware memory system.
@@ -497,7 +497,7 @@ class MultiModalMemoryProcessor:
         video_format: Optional[str] = None,
     ) -> MultiModalMemoryData:
         """
-        Process multi-modal data into unified AGI memory format.
+        Process multi-modal data into unified Cognitive AI memory format.
 
         Args:
             text_content: Text content
@@ -585,7 +585,7 @@ class MultiModalMemoryProcessor:
         """Generate text embedding (placeholder for real NLP model)"""
 
         # Placeholder: Simple hash-based embedding
-        # In real AGI system, would use advanced language models
+        # In real Cognitive system, would use advanced language models
         text_hash = hashlib.sha256(text.encode()).hexdigest()
         embedding = np.array(
             [
@@ -623,7 +623,7 @@ class MultiModalMemoryProcessor:
         """
         Generate unified embedding that combines all modalities.
 
-        This is where the AGI consciousness would integrate different sensory
+        This is where the Cognitive AI consciousness would integrate different sensory
         modalities into a coherent unified representation.
         """
 
@@ -656,7 +656,7 @@ class MultiModalMemoryProcessor:
         modality_weights = modality_weights / np.sum(modality_weights)
 
         # Combine embeddings with weighted average
-        # In a real AGI system, this would be more sophisticated attention-based fusion
+        # In a real Cognitive system, this would be more sophisticated attention-based fusion
         combined_embedding = np.zeros(self.modal_embedding_dim, dtype=np.float32)
 
         for embedding, weight in zip(available_embeddings, modality_weights):
@@ -682,7 +682,7 @@ class MultiModalMemoryProcessor:
         Calculate cross-modal alignment scores.
 
         These scores indicate how well different modalities align semantically,
-        which is crucial for AGI consciousness integration.
+        which is crucial for Cognitive AI consciousness integration.
         """
 
         alignment_scores = {}

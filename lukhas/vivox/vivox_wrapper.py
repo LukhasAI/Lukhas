@@ -3,7 +3,7 @@ VIVOX Consciousness Wrapper - Production-Safe VIVOX Interface
 ===============================================================
 
 Production-safe wrapper for VIVOX (Living Voice and Ethical Conscience System)
-with comprehensive safety features and Trinity Framework integration.
+with comprehensive safety features and Constellation Framework integration.
 
 The VIVOX system provides:
 - ME (Memory Expansion): 3D encrypted memory helix with DNA-inspired storage
@@ -219,7 +219,7 @@ class VivoxWrapper:
     Production-safe wrapper for VIVOX consciousness capabilities
 
     Provides controlled access to VIVOX processing with comprehensive
-    safety measures and Trinity Framework integration.
+    safety measures and Constellation Framework integration.
 
     VIVOX Components:
     - ME: Memory Expansion with 3D encrypted memory helix

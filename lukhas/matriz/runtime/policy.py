@@ -3,12 +3,12 @@ from __future__ import annotations
 import logging
 from collections.abc import Callable, Mapping, Sequence
 from dataclasses import dataclass, field
-from typing import Any
+from typing import Any, Union, Optional, Tuple
 
 logger = logging.getLogger(__name__)
 
 
-RuleEvaluation = bool | tuple[bool, str | None]
+RuleEvaluation = Union[bool, Tuple[bool, Optional[str]]]
 ConstitutionRule = Callable[[Mapping[str, object]], RuleEvaluation]
 
 
@@ -109,14 +109,14 @@ class PolicyEngine:
 
         return True
 
-    def _normalize_rule_result(self, result: RuleEvaluation) -> tuple[bool, str | None]:
+    def _normalize_rule_result(self, result: RuleEvaluation) -> Tuple[bool, Optional[str]]:
         if isinstance(result, tuple):
             allowed = bool(result[0])
             reason = result[1] if len(result) > 1 else None
             return allowed, reason
         return bool(result), None
 
-    def _evaluate_rule_token(self, rule: Any, labels: set[str]) -> tuple[bool, str | None]:
+    def _evaluate_rule_token(self, rule: Any, labels: set[str]) -> Tuple[bool, Optional[str]]:
         if isinstance(rule, str):
             allowed = self._apply_string_rule(rule, labels)
             return allowed, f"string_rule:{rule}" if not allowed else None

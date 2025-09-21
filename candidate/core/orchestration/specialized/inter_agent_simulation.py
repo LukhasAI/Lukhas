@@ -3,7 +3,7 @@
 Inter-Agent Simulation Module
 =============================
 
-This module provides inter-agent simulation functionality for the LUKHAS AGI system.
+This module provides inter-agent simulation functionality for the LUKHAS Cognitive system.
 It handles communication and coordination between different agents.
 """
 import streamlit as st
@@ -496,7 +496,7 @@ def get_simulation() -> InterAgentSimulation:
 
 async def main():
     """Main function for testing."""
-    print("🤖 LUKHAS AGI Inter-Agent Simulation")
+    print("🤖 LUKHAS Cognitive AI Inter-Agent Simulation")
     print("=" * 50)
 
     simulation = get_simulation()

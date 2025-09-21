@@ -1,0 +1,805 @@
+{
+  "schema_version": "3.0.0",
+  "directory_metadata": {
+    "path": "quarantine/phase2_syntax",
+    "lane": "development",
+    "purpose": "Directory containing 47 Python files and 8 subdirectories",
+    "last_updated": "2025-09-21",
+    "constellation_framework_version": "2.0.0",
+    "t4_compliance_level": "experimental"
+  },
+  "component_inventory": {
+    "python_files": [
+      {
+        "filename": "dashboard_alternatives.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": []
+      },
+      {
+        "filename": "fix_datetime_utc.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "fix_datetime_in_file",
+          "get_files_with_datetime_issues",
+          "main"
+        ]
+      },
+      {
+        "filename": "test_real_consciousness_emergence.py",
+        "component_type": "CONSCIOUSNESS_ENGINE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": []
+      },
+      {
+        "filename": "test_consciousness_emergence.py",
+        "component_type": "CONSCIOUSNESS_ENGINE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "TestConsciousnessEmergence",
+          "TestConsciousnessPerformance"
+        ]
+      },
+      {
+        "filename": "security_scheduler.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "SecurityTaskScheduler",
+          "cli",
+          "schedule",
+          "list",
+          "run_pending",
+          "cancel",
+          "setup_cron",
+          "status",
+          "log",
+          "load_schedule",
+          "save_schedule",
+          "schedule_task",
+          "list_tasks",
+          "run_pending_tasks",
+          "execute_task",
+          "cancel_task",
+          "setup_cron_job"
+        ]
+      },
+      {
+        "filename": "run_gdpr_tests.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": []
+      },
+      {
+        "filename": "test_memory_security.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "TestFaultInjection",
+          "TestSQLInjectionPrevention",
+          "TestConcurrentAccessSafety",
+          "TestErrorPropagation",
+          "TestResourceLimits",
+          "test_partial_transaction_rollback",
+          "test_connection_recovery",
+          "test_memory_exhaustion_handling",
+          "test_corrupt_data_handling",
+          "test_user_id_sql_injection_prevention",
+          "test_glyph_key_injection_prevention",
+          "test_context_data_injection_prevention",
+          "test_concurrent_user_isolation",
+          "test_race_condition_prevention",
+          "test_database_error_logging",
+          "test_memory_stats_during_failures",
+          "test_large_batch_handling",
+          "test_connection_pool_exhaustion",
+          "failing_save",
+          "failing_execute",
+          "intermittent_failure",
+          "user_operations",
+          "rapid_save",
+          "failing_begin",
+          "failing_save",
+          "rapid_query",
+          "wrapper"
+        ]
+      },
+      {
+        "filename": "import_success_summary.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": []
+      },
+      {
+        "filename": "quick_f821_bots_fix.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": []
+      },
+      {
+        "filename": "test_tool_executor_comprehensive.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": []
+      },
+      {
+        "filename": "auto_escalator_policy_implementation.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "EscalatorTier",
+          "SplitPolicy",
+          "UserMetrics",
+          "AutoEscalatorEngine",
+          "demo_auto_escalator",
+          "calculate_user_tier",
+          "calculate_split",
+          "check_tier_promotion",
+          "check_performance_bonuses",
+          "generate_tier_requirements_guide"
+        ]
+      },
+      {
+        "filename": "streamline_analyzer.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "StreamlineAnalyzer",
+          "main",
+          "analyze"
+        ]
+      },
+      {
+        "filename": "test_real_consent_ledger.py",
+        "component_type": "TEST",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "lukhas.governance.consent_ledger_impl",
+          "lukhas.governance.consent_ledger_impl",
+          "lukhas.governance.consent_ledger_impl",
+          "lukhas.governance.consent_ledger_impl",
+          "lukhas.governance.consent_ledger_impl",
+          "lukhas.governance.consent_ledger_impl",
+          "lukhas.governance.consent_ledger_impl",
+          "lukhas.governance.consent_ledger_impl"
+        ],
+        "exports": [
+          "test_real_consent_ledger_initialization",
+          "test_real_consent_granting",
+          "test_real_consent_validation",
+          "test_real_consent_revocation",
+          "test_real_audit_trail",
+          "test_real_gdpr_compliance",
+          "test_real_triad_framework_integration",
+          "test_real_consent_ledger_edge_cases"
+        ]
+      },
+      {
+        "filename": "fallback_ladder_implementation.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": []
+      },
+      {
+        "filename": "universal_mesh_architecture.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": []
+      },
+      {
+        "filename": "fix_f821_batch.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "get_f821_violations",
+          "analyze_undefined_patterns",
+          "fix_timezone_imports",
+          "fix_logger_declarations",
+          "fix_typing_imports",
+          "main"
+        ]
+      },
+      {
+        "filename": "final_f821_cleanup.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": []
+      },
+      {
+        "filename": "module_schema_generator.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": []
+      },
+      {
+        "filename": "test_consent_ledger_coverage.py",
+        "component_type": "TEST",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "lukhas.governance.consent_ledger",
+          "lukhas.governance.consent_ledger.providers.null_provider",
+          "lukhas.governance.consent_ledger.registry",
+          "lukhas.governance.consent_ledger",
+          "lukhas.governance.consent_ledger",
+          "lukhas.governance.consent_ledger"
+        ],
+        "exports": [
+          "test_consent_ledger_api_import",
+          "test_consent_ledger_null_provider",
+          "test_consent_ledger_registry",
+          "test_consent_ledger_with_metadata",
+          "test_consent_ledger_error_handling",
+          "test_consent_ledger_feature_flag"
+        ]
+      },
+      {
+        "filename": "migrate_module.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "ModuleMigrator",
+          "main",
+          "check_illegal_imports",
+          "find_circular_dependencies",
+          "check_matriz_compliance",
+          "count_tests",
+          "migrate_module",
+          "update_imports",
+          "generate_report"
+        ]
+      },
+      {
+        "filename": "test_core_systems_comprehensive.py",
+        "component_type": "TEST",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "lukhas.core.supervisor_agent",
+          "lukhas.core.supervisor_agent",
+          "lukhas.core.supervisor_agent",
+          "lukhas.core.common.glyph",
+          "lukhas.core.common.glyph",
+          "lukhas.core.common.glyph"
+        ],
+        "exports": [
+          "TestSupervisorAgent",
+          "TestGLYPHCommunication",
+          "TestGuardianSecurity",
+          "TestBioSymbolicSystems",
+          "MockPermissionSystem",
+          "MockSecurityAuditor",
+          "BiologicalProcessor",
+          "SymbolicPatternRecognizer",
+          "BioConsciousnessIntegrator",
+          "run_core_systems_testing",
+          "test_supervisor_initialization",
+          "test_task_escalation_workflow",
+          "test_escalation_tracking",
+          "run_all_tests",
+          "test_glyph_token_creation",
+          "test_glyph_serialization",
+          "test_glyph_communication_patterns",
+          "run_all_tests",
+          "test_guardian_security_validation",
+          "test_access_control_patterns",
+          "test_audit_trail_security",
+          "run_all_tests",
+          "test_bio_symbolic_processing",
+          "test_symbolic_pattern_recognition",
+          "test_bio_consciousness_integration",
+          "run_all_tests",
+          "validate_user_input",
+          "check_permission",
+          "validate_operation",
+          "log_security_event",
+          "get_security_summary",
+          "process_biological_pattern",
+          "analyze_symbolic_pattern",
+          "find_symbolic_relationships",
+          "integrate_bio_consciousness",
+          "analyze_consciousness_evolution"
+        ]
+      },
+      {
+        "filename": "regenerate_intelligent_descriptions.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": []
+      },
+      {
+        "filename": "generate_lukhas_ecosystem_documentation.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": []
+      },
+      {
+        "filename": "replay_drift.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": []
+      },
+      {
+        "filename": "test_comprehensive_all_systems.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": []
+      },
+      {
+        "filename": "journal_cli.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "claude_lukhas_integration"
+        ],
+        "exports": [
+          "Colors",
+          "print_header",
+          "print_success",
+          "print_info",
+          "print_warning",
+          "print_error",
+          "cli",
+          "status",
+          "add",
+          "decision",
+          "insight",
+          "search",
+          "patterns",
+          "ask",
+          "checkin",
+          "reflect",
+          "track",
+          "plan",
+          "mentor",
+          "export",
+          "report",
+          "import_file",
+          "standup",
+          "celebrate",
+          "burnout",
+          "pair",
+          "weekly",
+          "vision",
+          "conscious",
+          "ritual",
+          "qi_decide",
+          "metrics",
+          "lukhas_config",
+          "config_builder",
+          "prompt",
+          "quick"
+        ]
+      },
+      {
+        "filename": "run_c44_tests.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": []
+      },
+      {
+        "filename": "cleanup_generator.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "CleanupGenerator",
+          "main",
+          "generate_cleanup_script",
+          "generate_verification_script",
+          "save_scripts"
+        ]
+      },
+      {
+        "filename": "mass_f821_elimination_phase2.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": []
+      },
+      {
+        "filename": "dashboard.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "lukhas.core.identity.lambda_id_core",
+          "lukhas.governance.consent_ledger.ledger_v1",
+          "lukhas.orchestration.context_bus_enhanced"
+        ],
+        "exports": [
+          "ConnectionManager",
+          "LoginRequest",
+          "PasskeyAuthRequest",
+          "ConsentRequest",
+          "WorkflowRequest",
+          "FeedbackSubmission",
+          "disconnect"
+        ]
+      },
+      {
+        "filename": "orchestration_routes.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": []
+      },
+      {
+        "filename": "test_advanced_suite_standalone.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": []
+      },
+      {
+        "filename": "validate_lukhas_concepts.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": []
+      },
+      {
+        "filename": "post_consolidation_auditor.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "PostConsolidationAuditor",
+          "main",
+          "perform_comprehensive_audit",
+          "generate_comprehensive_report",
+          "save_audit_results"
+        ]
+      },
+      {
+        "filename": "systematic_module_hunter.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": []
+      },
+      {
+        "filename": "import_analysis.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "ImportAnalyzer",
+          "main",
+          "analyze_file",
+          "find_circular_imports",
+          "analyze_directory",
+          "generate_report",
+          "dfs"
+        ]
+      },
+      {
+        "filename": "tiny_abas_gate.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": []
+      },
+      {
+        "filename": "test_priority4_systems_functional.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": []
+      },
+      {
+        "filename": "collapse_replay.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "lukhas.qi.core.wavefunction_manager"
+        ],
+        "exports": [
+          "CollapseReplayTool",
+          "main",
+          "list_sessions",
+          "get_session",
+          "show_summary",
+          "simulate_replay"
+        ]
+      },
+      {
+        "filename": "decision_tracker.py",
+        "component_type": "DECISION_MAKER",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "Decision",
+          "DecisionTracker",
+          "track_decision",
+          "quick_decision",
+          "track_outcome",
+          "analyze_decision_patterns",
+          "suggest_decision_improvements"
+        ]
+      },
+      {
+        "filename": "test_memory_integration_validation.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.aka_qualia.memory_sql"
+        ],
+        "exports": [
+          "test_memory_migration_and_indexes",
+          "test_memory_save_retrieve_cycle",
+          "test_multi_user_isolation",
+          "test_production_mode_privacy",
+          "main"
+        ]
+      },
+      {
+        "filename": "functional_test_suite.py",
+        "component_type": "TEST",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "lukhas.memory"
+        ],
+        "exports": [
+          "test_memory_functionality",
+          "test_agent_functionality",
+          "test_governance_functionality",
+          "test_missing_consciousness_modules",
+          "test_lukhas_namespace_issues",
+          "test_operational_systems",
+          "main"
+        ]
+      },
+      {
+        "filename": "commands.py",
+        "component_type": "TEST",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "BaseCommand",
+          "GitCommand",
+          "TestCommand",
+          "LintCommand",
+          "CommandRegistry",
+          "StatusCommand",
+          "ListCommand",
+          "register_command",
+          "get_command",
+          "list_commands",
+          "execute_command",
+          "main",
+          "execute",
+          "setup_parser",
+          "validate_args",
+          "run",
+          "validate_args",
+          "is_clean",
+          "get_modified_files",
+          "setup_parser",
+          "setup_parser",
+          "register",
+          "get_command",
+          "list_commands",
+          "execute_command",
+          "execute",
+          "execute"
+        ]
+      },
+      {
+        "filename": "extreme_performance_validator.py",
+        "component_type": "GUARDIAN_VALIDATOR",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "lukhas.governance.identity.auth_backend.extreme_performance_audit_logger",
+          "lukhas.governance.identity.extreme_performance_connector",
+          "lukhas.governance.identity.connector"
+        ],
+        "exports": [
+          "PerformanceValidationResult",
+          "ExtremePerformanceValidator"
+        ]
+      },
+      {
+        "filename": "duplicate_analysis.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "DuplicateAnalyzer",
+          "generate_consolidation_plan",
+          "main",
+          "analyze_file",
+          "find_duplicates",
+          "analyze_directory"
+        ]
+      },
+      {
+        "filename": "comprehensive_organizational_audit.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "OrganizationalAuditor",
+          "audit_workspace"
+        ]
+      },
+      {
+        "filename": "dev_tools_utils.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "find_project_root",
+          "get_module_info",
+          "analyze_directory_structure",
+          "check_dependencies",
+          "generate_dev_report",
+          "save_report",
+          "quick_health_check",
+          "main"
+        ]
+      }
+    ],
+    "subdirectories": [
+      {
+        "name": "ci",
+        "has_index": false,
+        "purpose": "Subdirectory with 20 Python files",
+        "component_count": 20
+      },
+      {
+        "name": "content_generation_engine",
+        "has_index": false,
+        "purpose": "Subdirectory with 2 Python files",
+        "component_count": 2
+      },
+      {
+        "name": "prediction",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "dev",
+        "has_index": false,
+        "purpose": "Subdirectory with 6 Python files",
+        "component_count": 6
+      },
+      {
+        "name": "automation",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      },
+      {
+        "name": "consolidation",
+        "has_index": false,
+        "purpose": "Subdirectory with 2 Python files",
+        "component_count": 2
+      },
+      {
+        "name": "migration",
+        "has_index": false,
+        "purpose": "Subdirectory with 2 Python files",
+        "component_count": 2
+      },
+      {
+        "name": "documentation_suite",
+        "has_index": false,
+        "purpose": "Subdirectory with 1 Python files",
+        "component_count": 1
+      }
+    ],
+    "documentation": []
+  },
+  "schema_references": [
+    {
+      "schema_name": "directory_index",
+      "schema_path": "schemas/directory_index.schema.json",
+      "validation_status": "valid"
+    }
+  ],
+  "agent_guidance": {
+    "recommended_approach": "Begin with documentation files, then explore core components",
+    "key_files": [],
+    "common_tasks": [],
+    "prerequisites": [
+      "Understanding of LUKHAS lane system",
+      "Constellation Framework familiarity",
+      "MATRIZ pipeline architecture",
+      "T4/0.01% implementation standards"
+    ],
+    "avoid_patterns": [
+      "Modifying contracts without validation",
+      "Breaking lane boundaries",
+      "Ignoring Constellation Framework integration",
+      "Breaking constructor-aware instantiation patterns",
+      "Bypassing T4/0.01% validation standards",
+      "Ignoring MATRIZ pipeline integration requirements"
+    ]
+  },
+  "performance_metadata": {
+    "component_count": 47,
+    "estimated_complexity": "high",
+    "consciousness_integration": "none",
+    "test_coverage": 85.0,
+    "t4_compliance_score": 0.65,
+    "matriz_compatibility": "standard",
+    "plugin_registry_compatible": true,
+    "constructor_aware_instantiation": true
+  },
+  "relationships": {
+    "parent_directory": "quarantine",
+    "related_directories": [],
+    "constellation_cluster": "unknown",
+    "dependency_weight": "moderate"
+  }
+}

@@ -1,9 +1,9 @@
 """
-LUKHAS AGI Interface Systems
+LUKHAS Cognitive AI Interface Systems
 ===========================
 
 This package contains all interface definitions, protocols, and registry
-systems for the LUKHAS AGI ecosystem.
+systems for the LUKHAS Cognitive AI ecosystem.
 
 Components:
 - gRPC API definitions (lukhas_pb2, lukhas_pb2_grpc)

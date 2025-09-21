@@ -93,7 +93,7 @@
     {
       "task_id": "TODO-HIGH-CANDIDATE-CORE-fc12ea3c",
       "priority": "high",
-      "title": "specialist] Implement Trinity Framework consciousness state comparison logic",
+      "title": "specialist] Implement Constellation Framework consciousness state comparison logic",
       "file": "./candidate/core/bridges/core_safety_bridge.py",
       "line_hint": 176,
       "module": "candidate/core",

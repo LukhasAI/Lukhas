@@ -1,5 +1,5 @@
 """
-LUKHAS Brand Sentiment Intelligence Engine - Trinity Framework (⚛️🧠🛡️)
+LUKHAS Brand Sentiment Intelligence Engine - Constellation Framework (⚛️🧠🛡️)
 Advanced sentiment analysis and brand perception tracking for LUKHAS AI
 """
 
@@ -16,19 +16,19 @@ def create_sentiment_symbolic_display(polarity: str, score: float, component: st
     Args:
         polarity: Sentiment polarity ('very_positive', 'positive', 'neutral', 'negative', 'very_negative')
         score: Sentiment score from -1.0 to 1.0
-        component: Optional component name for Trinity Framework display
+        component: Optional component name for Constellation Framework display
 
     Returns:
         A symbolic string representing the sentiment with appropriate emoji and formatting
     """
     sentiment_symbols = {"very_positive": "🌟", "positive": "✅", "neutral": "⚖️", "negative": "⚠️", "very_negative": "🚨"}
 
-    trinity_symbols = {"identity": "⚛️", "consciousness": "🧠", "guardian": "🛡️"}
+    constellation_symbols = {"identity": "⚛️", "consciousness": "🧠", "guardian": "🛡️"}
 
     sentiment_symbol = sentiment_symbols.get(polarity, "❓")
 
-    if component and component in trinity_symbols:
-        component_symbol = trinity_symbols[component]
+    if component and component in constellation_symbols:
+        component_symbol = constellation_symbols[component]
         return f"{sentiment_symbol} {component_symbol} {component.title()}: {score:.3f}"
     elif component:
         return f"{sentiment_symbol} {component.replace('_', ' ').title()}: {score:.3f}"
@@ -70,7 +70,7 @@ class SentimentResult:
 class BrandSentimentEngine:
     """
     Advanced sentiment analysis engine specifically tuned for LUKHAS brand
-    perception, Trinity Framework alignment, and consciousness technology sentiment
+    perception, Constellation Framework alignment, and consciousness technology sentiment
     """
 
     def __init__(self):
@@ -228,7 +228,7 @@ class BrandSentimentEngine:
         }
 
     def _build_triad_sentiment_lexicon(self) -> dict[str, dict[str, Any]]:
-        """Build Trinity Framework-specific sentiment indicators"""
+        """Build Constellation Framework-specific sentiment indicators"""
         return {
             "identity": {
                 "positive_indicators": [
@@ -430,7 +430,7 @@ class BrandSentimentEngine:
         # Brand dimension analysis
         brand_dimensions = self._analyze_brand_dimensions(text)
 
-        # Trinity Framework sentiment analysis
+        # Constellation Framework sentiment analysis
         triad_sentiment = self._analyze_triad_sentiment(text)
 
         # Emotional indicators analysis
@@ -512,7 +512,7 @@ class BrandSentimentEngine:
         return dimension_scores
 
     def _analyze_triad_sentiment(self, text: str) -> dict[str, float]:
-        """Analyze sentiment for each Trinity Framework component"""
+        """Analyze sentiment for each Constellation Framework component"""
 
         triad_scores = {}
         text_lower = text.lower()
@@ -739,7 +739,7 @@ class BrandSentimentEngine:
                 ),
             }
 
-        # Trinity sentiment trends
+        # Constellation sentiment trends
         triad_trends = {}
         for component in ["identity", "consciousness", "guardian"]:
             component_scores = [entry["triad_sentiment"].get(component, 0.0) for entry in recent_sentiments]
@@ -833,7 +833,7 @@ class BrandSentimentEngine:
                 "key_changes": [],
             }
 
-            # Identify key changes in Trinity components
+            # Identify key changes in Constellation components
             for component in ["identity", "consciousness", "guardian"]:
                 latest_score = evolution_analysis[latest_period]["triad_strength"][component]
                 previous_score = evolution_analysis[previous_period]["triad_strength"][component]
@@ -968,7 +968,7 @@ class BrandSentimentEngine:
                     }
                 )
 
-        # Trinity Framework recommendations
+        # Constellation Framework recommendations
         triad_trends = recent_trends.get("triad_sentiment_trends", {})
         for component, data in triad_trends.items():
             if data["average"] < 0.4:
@@ -976,7 +976,7 @@ class BrandSentimentEngine:
                     {
                         "category": f"triad_{component}",
                         "priority": "high",
-                        "recommendation": f"Strengthen {component} component of Trinity Framework to improve brand coherence",
+                        "recommendation": f"Strengthen {component} component of Constellation Framework to improve brand coherence",
                     }
                 )
 
@@ -1005,7 +1005,7 @@ if __name__ == "__main__":
 
     # Test sentiment analysis
     test_texts = [
-        "LUKHAS AI consciousness platform is incredibly innovative and trustworthy. The Trinity Framework (⚛️🧠🛡️) makes it feel authentic and ethical.",
+        "LUKHAS AI consciousness platform is incredibly innovative and trustworthy. The Constellation Framework (⚛️🧠🛡️) makes it feel authentic and ethical.",
         "This system seems confusing and artificial. I don't understand how it works.",
         "The quantum-inspired technology is fascinating, but the interface could be more user-friendly.",
         "LUKHAS PWM is difficult to use and unreliable.",  # Contains deprecated terminology
@@ -1033,8 +1033,8 @@ if __name__ == "__main__":
                 )
                 print(f"  {display}")
 
-        # Show Trinity sentiment
-        print("Trinity Sentiment:")
+        # Show Constellation sentiment
+        print("Constellation Sentiment:")
         for component, score in result.triad_sentiment.items():
             if score != 0.0:
                 display = create_sentiment_symbolic_display(

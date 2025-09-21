@@ -1,0 +1,5126 @@
+{
+  "summary": {
+    "total_duplicated_concepts": 22,
+    "candidate_core_subdirs": 253,
+    "candidate_core_files": 1042,
+    "potential_separate_modules": 7,
+    "architectural_debt_score": 100
+  },
+  "duplications": {
+    "branding": [
+      "lukhas/branding",
+      "candidate/branding"
+    ],
+    "tools": [
+      "lukhas/tools",
+      "candidate/tools"
+    ],
+    "bio": [
+      "lukhas/bio",
+      "candidate/bio"
+    ],
+    "core": [
+      "lukhas/core",
+      "candidate/core"
+    ],
+    "memory": [
+      "lukhas/memory",
+      "candidate/memory"
+    ],
+    "identity": [
+      "lukhas/identity",
+      "candidate/identity",
+      "candidate/core/identity"
+    ],
+    "security": [
+      "lukhas/security",
+      "candidate/core/security"
+    ],
+    "bridge": [
+      "lukhas/bridge",
+      "candidate/bridge"
+    ],
+    "consciousness": [
+      "lukhas/consciousness",
+      "candidate/consciousness",
+      "candidate/core/consciousness"
+    ],
+    "utils": [
+      "lukhas/utils",
+      "candidate/utils",
+      "candidate/core/utils"
+    ],
+    "observability": [
+      "lukhas/observability",
+      "candidate/core/observability"
+    ],
+    "qi": [
+      "lukhas/qi",
+      "candidate/qi"
+    ],
+    "vivox": [
+      "lukhas/vivox",
+      "candidate/vivox"
+    ],
+    "orchestration": [
+      "lukhas/orchestration",
+      "candidate/orchestration",
+      "candidate/core/orchestration"
+    ],
+    "governance": [
+      "lukhas/governance",
+      "candidate/governance",
+      "candidate/core/governance"
+    ],
+    "api": [
+      "lukhas/api",
+      "candidate/api",
+      "candidate/core/api"
+    ],
+    "emotion": [
+      "lukhas/emotion",
+      "candidate/emotion"
+    ],
+    "interfaces": [
+      "lukhas/interfaces",
+      "candidate/core/interfaces"
+    ],
+    "colonies": [
+      "candidate/colonies",
+      "candidate/core/colonies"
+    ],
+    "compliance": [
+      "candidate/compliance",
+      "candidate/core/compliance"
+    ],
+    "adapters": [
+      "candidate/adapters",
+      "candidate/core/adapters"
+    ],
+    "audit": [
+      "candidate/audit",
+      "candidate/core/audit"
+    ]
+  },
+  "candidate_core_explosion": {
+    "total_subdirs": 253,
+    "total_python_files": 1042,
+    "depth_analysis": {
+      "0": [
+        "symbolic_legacy",
+        "agi",
+        "quantum_financial",
+        "net",
+        "colonies",
+        "symbolic_bridge",
+        "identity",
+        "spine",
+        "config",
+        "security",
+        "qi_biometrics",
+        "collective",
+        "log_system",
+        "integration",
+        "bio_systems",
+        "personality",
+        "symbolic_diagnostics",
+        "consciousness",
+        "qi_financial",
+        "business",
+        "unified",
+        "output",
+        "architectures",
+        "quantum_empathy",
+        "utils",
+        "observability",
+        "introspection",
+        "compliance",
+        "bridges",
+        "explainability",
+        "tagging",
+        "endocrine",
+        "rem",
+        "tags",
+        "safety",
+        "consciousness_ascension",
+        "integrations",
+        "adapters",
+        "container",
+        "common",
+        "symbolic_reasoning",
+        "ethics",
+        "audit",
+        "reality_synthesis",
+        "engines",
+        "ai",
+        "quantum_biometrics",
+        "examples",
+        "symbolism",
+        "symbolic_core",
+        "planetary_consciousness",
+        "verifold",
+        "orchestration",
+        "governance",
+        "db",
+        "api",
+        "multiverse_creative",
+        "glyph",
+        "meta_learning",
+        "telemetry",
+        "symbolic",
+        "user_interface_manager",
+        "qi_empathy",
+        "monitoring",
+        "events",
+        "performance",
+        "infrastructure",
+        "modules",
+        "neural_architectures",
+        "neural",
+        "interaction",
+        "helpers",
+        "logging",
+        "base",
+        "services",
+        "cognitive_preparedness",
+        "interfaces",
+        "hub_services",
+        "flow",
+        "router"
+      ],
+      "1": [
+        "symbolic_legacy/vocabularies",
+        "symbolic_legacy/foundry",
+        "symbolic_legacy/bio",
+        "symbolic_legacy/processing",
+        "symbolic_legacy/integration",
+        "symbolic_legacy/features",
+        "symbolic_legacy/utils",
+        "symbolic_legacy/reasoning",
+        "cognitive/adaptive",
+        "colonies/demo",
+        "collective/swarm",
+        "collective/clusters",
+        "collective/routing",
+        "integration/innovation_orchestrator",
+        "consciousness/innovation",
+        "consciousness/prediction",
+        "consciousness/oracle",
+        "consciousness/evolution",
+        "ethics/logic",
+        "ethics/rules",
+        "examples/basic",
+        "symbolic_core/vocabularies",
+        "symbolic_core/foundry",
+        "symbolic_core/bio",
+        "symbolic_core/processing",
+        "symbolic_core/integration",
+        "symbolic_core/features",
+        "symbolic_core/utils",
+        "symbolic_core/reasoning",
+        "orchestration/golden_trio",
+        "orchestration/swarm",
+        "orchestration/apis",
+        "orchestration/colonies",
+        "orchestration/core",
+        "orchestration/coordination",
+        "orchestration/config",
+        "orchestration/security",
+        "orchestration/processing",
+        "orchestration/integration",
+        "orchestration/agents",
+        "orchestration/docs",
+        "orchestration/specialized",
+        "orchestration/immune",
+        "orchestration/examples",
+        "orchestration/brain",
+        "orchestration/user_feedback",
+        "orchestration/core_modules",
+        "orchestration/monitoring",
+        "orchestration/dream",
+        "orchestration/interfaces",
+        "symbolic/collapse",
+        "symbolic/drift",
+        "modules/nias",
+        "neural_architectures/abas",
+        "services/location",
+        "services/personality",
+        "interfaces/ui",
+        "interfaces/design",
+        "interfaces/tools",
+        "interfaces/registries",
+        "interfaces/nodes",
+        "interfaces/nias",
+        "interfaces/logic",
+        "interfaces/voice",
+        "interfaces/api",
+        "interfaces/human",
+        "interfaces/protocols",
+        "interfaces/widgets",
+        "interfaces/as_agent",
+        "interfaces/flow"
+      ],
+      "2": [
+        "symbolic_legacy/features/security",
+        "symbolic_legacy/features/collapse",
+        "symbolic_legacy/features/docs",
+        "symbolic_legacy/features/drift",
+        "symbolic_legacy/features/memoria",
+        "symbolic_core/features/security",
+        "symbolic_core/features/collapse",
+        "symbolic_core/features/docs",
+        "symbolic_core/features/drift",
+        "symbolic_core/features/memoria",
+        "orchestration/security/dast",
+        "orchestration/agents/builtin",
+        "orchestration/brain/multi_agent",
+        "orchestration/brain/mesh",
+        "orchestration/brain/visualization",
+        "orchestration/brain/design",
+        "orchestration/brain/tracing",
+        "orchestration/brain/attention",
+        "orchestration/brain/cognitive",
+        "orchestration/brain/learn",
+        "orchestration/brain/think",
+        "orchestration/brain/net",
+        "orchestration/brain/context",
+        "orchestration/brain/core",
+        "orchestration/brain/access",
+        "orchestration/brain/spine",
+        "orchestration/brain/config",
+        "orchestration/brain/nodes",
+        "orchestration/brain/integration",
+        "orchestration/brain/personality",
+        "orchestration/brain/consciousness",
+        "orchestration/brain/prediction",
+        "orchestration/brain/unified_integration",
+        "orchestration/brain/user_interaction",
+        "orchestration/brain/abstract_reasoning",
+        "orchestration/brain/output",
+        "orchestration/brain/meta",
+        "orchestration/brain/self_improvement",
+        "orchestration/brain/utils",
+        "orchestration/brain/grow",
+        "orchestration/brain/qrl_code",
+        "orchestration/brain/compliance",
+        "orchestration/brain/reasoning",
+        "orchestration/brain/symbolic_ai",
+        "orchestration/brain/rem",
+        "orchestration/brain/symbolic_engine",
+        "orchestration/brain/neuro_symbolic",
+        "orchestration/brain/ethics",
+        "orchestration/brain/seamless",
+        "orchestration/brain/emotional",
+        "orchestration/brain/subsystems",
+        "orchestration/brain/orchestration",
+        "orchestration/brain/governance",
+        "orchestration/brain/dna",
+        "orchestration/brain/monitoring",
+        "orchestration/brain/meta_cognitive",
+        "orchestration/brain/dream_engine",
+        "orchestration/brain/neural",
+        "orchestration/brain/logging",
+        "orchestration/brain/flow",
+        "interfaces/ui/config",
+        "interfaces/ui/components",
+        "interfaces/ui/adaptive",
+        "interfaces/tools/research",
+        "interfaces/tools/security",
+        "interfaces/tools/dao",
+        "interfaces/tools/cli",
+        "interfaces/tools/dev",
+        "interfaces/logic/context",
+        "interfaces/logic/identity",
+        "interfaces/logic/voice",
+        "interfaces/voice/core",
+        "interfaces/voice/voice_emotional",
+        "interfaces/voice/input",
+        "interfaces/voice/integrations",
+        "interfaces/api/v1",
+        "interfaces/as_agent/agent_logic",
+        "interfaces/as_agent/streamlit",
+        "interfaces/as_agent/core",
+        "interfaces/as_agent/auth",
+        "interfaces/as_agent/sample_payloads",
+        "interfaces/as_agent/utils",
+        "interfaces/as_agent/schemas",
+        "interfaces/as_agent/sys",
+        "interfaces/as_agent/widgets",
+        "interfaces/as_agent/news_and_social"
+      ],
+      "3": [
+        "orchestration/brain/cognitive/awareness",
+        "orchestration/brain/unified_integration/adapters",
+        "orchestration/brain/meta/cognition",
+        "orchestration/brain/meta/learning",
+        "orchestration/brain/meta/integrations",
+        "orchestration/brain/symbolic_ai/modules",
+        "orchestration/brain/neuro_symbolic/governance",
+        "orchestration/brain/dream_engine/cli",
+        "interfaces/voice/integrations/elevenlabs",
+        "interfaces/api/v1/grpc",
+        "interfaces/api/v1/common",
+        "interfaces/api/v1/rest",
+        "interfaces/as_agent/streamlit/components",
+        "interfaces/as_agent/sys/nias",
+        "interfaces/as_agent/sys/dast",
+        "interfaces/as_agent/sys/abas"
+      ],
+      "4": [
+        "interfaces/api/v1/rest/routers"
+      ]
+    },
+    "largest_submodules": [
+      [
+        "orchestration",
+        268
+      ],
+      [
+        "interfaces",
+        191
+      ],
+      [
+        "symbolic",
+        71
+      ],
+      [
+        "symbolic_core",
+        36
+      ],
+      [
+        "symbolic_legacy",
+        35
+      ],
+      [
+        "integration",
+        29
+      ],
+      [
+        "colonies",
+        17
+      ],
+      [
+        "identity",
+        17
+      ],
+      [
+        "glyph",
+        17
+      ],
+      [
+        "security",
+        12
+      ],
+      [
+        "consciousness",
+        12
+      ],
+      [
+        "bridges",
+        9
+      ],
+      [
+        "ethics",
+        9
+      ],
+      [
+        "governance",
+        9
+      ],
+      [
+        "agi",
+        8
+      ],
+      [
+        "collective",
+        8
+      ],
+      [
+        "utils",
+        7
+      ],
+      [
+        "common",
+        7
+      ],
+      [
+        "meta_learning",
+        7
+      ],
+      [
+        "base",
+        7
+      ],
+      [
+        "services",
+        7
+      ],
+      [
+        "observability",
+        6
+      ],
+      [
+        "audit",
+        6
+      ],
+      [
+        "engines",
+        6
+      ],
+      [
+        "api",
+        6
+      ],
+      [
+        "neural_architectures",
+        6
+      ],
+      [
+        "personality",
+        5
+      ],
+      [
+        "business",
+        5
+      ],
+      [
+        "compliance",
+        5
+      ],
+      [
+        "infrastructure",
+        5
+      ],
+      [
+        "modules",
+        5
+      ],
+      [
+        "unified",
+        4
+      ],
+      [
+        "rem",
+        4
+      ],
+      [
+        "safety",
+        4
+      ],
+      [
+        "adapters",
+        4
+      ],
+      [
+        "examples",
+        4
+      ],
+      [
+        "symbolism",
+        4
+      ],
+      [
+        "monitoring",
+        4
+      ],
+      [
+        "neural",
+        4
+      ],
+      [
+        "cognitive_preparedness",
+        4
+      ],
+      [
+        "symbolic_bridge",
+        3
+      ],
+      [
+        "qi_biometrics",
+        3
+      ],
+      [
+        "qi_financial",
+        3
+      ],
+      [
+        "reality_synthesis",
+        3
+      ],
+      [
+        "user_interface_manager",
+        3
+      ],
+      [
+        "qi_empathy",
+        3
+      ],
+      [
+        "events",
+        3
+      ],
+      [
+        "hub_services",
+        3
+      ],
+      [
+        "quantum_financial",
+        2
+      ],
+      [
+        "net",
+        2
+      ],
+      [
+        "spine",
+        2
+      ],
+      [
+        "config",
+        2
+      ],
+      [
+        "bio_systems",
+        2
+      ],
+      [
+        "symbolic_diagnostics",
+        2
+      ],
+      [
+        "output",
+        2
+      ],
+      [
+        "quantum_empathy",
+        2
+      ],
+      [
+        "introspection",
+        2
+      ],
+      [
+        "explainability",
+        2
+      ],
+      [
+        "tagging",
+        2
+      ],
+      [
+        "endocrine",
+        2
+      ],
+      [
+        "tags",
+        2
+      ],
+      [
+        "consciousness_ascension",
+        2
+      ],
+      [
+        "integrations",
+        2
+      ],
+      [
+        "container",
+        2
+      ],
+      [
+        "symbolic_reasoning",
+        2
+      ],
+      [
+        "ai",
+        2
+      ],
+      [
+        "quantum_biometrics",
+        2
+      ],
+      [
+        "planetary_consciousness",
+        2
+      ],
+      [
+        "verifold",
+        2
+      ],
+      [
+        "db",
+        2
+      ],
+      [
+        "multiverse_creative",
+        2
+      ],
+      [
+        "telemetry",
+        2
+      ],
+      [
+        "performance",
+        2
+      ],
+      [
+        "interaction",
+        2
+      ],
+      [
+        "router",
+        2
+      ],
+      [
+        "log_system",
+        1
+      ],
+      [
+        "architectures",
+        1
+      ],
+      [
+        "helpers",
+        1
+      ],
+      [
+        "logging",
+        1
+      ],
+      [
+        "flow",
+        1
+      ]
+    ],
+    "potential_modules": [
+      {
+        "name": "symbolic_legacy",
+        "files": 35,
+        "subdirs": 8,
+        "suggestion": "candidate.symbolic_legacy",
+        "current_location": "candidate/core/symbolic_legacy"
+      },
+      {
+        "name": "integration",
+        "files": 29,
+        "subdirs": 1,
+        "suggestion": "candidate.integration",
+        "current_location": "candidate/core/integration"
+      },
+      {
+        "name": "consciousness",
+        "files": 12,
+        "subdirs": 4,
+        "suggestion": "candidate.consciousness",
+        "current_location": "candidate/core/consciousness"
+      },
+      {
+        "name": "symbolic_core",
+        "files": 36,
+        "subdirs": 8,
+        "suggestion": "candidate.symbolic_core",
+        "current_location": "candidate/core/symbolic_core"
+      },
+      {
+        "name": "orchestration",
+        "files": 268,
+        "subdirs": 21,
+        "suggestion": "candidate.orchestration",
+        "current_location": "candidate/core/orchestration"
+      },
+      {
+        "name": "symbolic",
+        "files": 71,
+        "subdirs": 2,
+        "suggestion": "candidate.symbolic",
+        "current_location": "candidate/core/symbolic"
+      },
+      {
+        "name": "interfaces",
+        "files": 191,
+        "subdirs": 14,
+        "suggestion": "candidate.interfaces",
+        "current_location": "candidate/core/interfaces"
+      }
+    ],
+    "nested_structure": {
+      "python_files": 85,
+      "subdirs": {
+        "symbolic_legacy": {
+          "python_files": 4,
+          "subdirs": {
+            "vocabularies": {
+              "python_files": 3,
+              "subdirs": {},
+              "total_files_recursive": 3
+            },
+            "foundry": {
+              "python_files": 0,
+              "subdirs": {},
+              "total_files_recursive": 0
+            },
+            "bio": {
+              "python_files": 11,
+              "subdirs": {},
+              "total_files_recursive": 11
+            },
+            "processing": {
+              "python_files": 1,
+              "subdirs": {},
+              "total_files_recursive": 1
+            },
+            "integration": {
+              "python_files": 1,
+              "subdirs": {},
+              "total_files_recursive": 1
+            },
+            "features": {
+              "python_files": 4,
+              "subdirs": {
+                "security": {
+                  "python_files": 2,
+                  "subdirs": {},
+                  "total_files_recursive": 2
+                },
+                "collapse": {
+                  "python_files": 2,
+                  "subdirs": {},
+                  "total_files_recursive": 2
+                },
+                "docs": {
+                  "python_files": 0,
+                  "subdirs": {},
+                  "total_files_recursive": 0
+                },
+                "drift": {
+                  "python_files": 2,
+                  "subdirs": {},
+                  "total_files_recursive": 2
+                },
+                "memoria": {
+                  "python_files": 2,
+                  "subdirs": {},
+                  "total_files_recursive": 2
+                }
+              },
+              "total_files_recursive": 12
+            },
+            "utils": {
+              "python_files": 2,
+              "subdirs": {},
+              "total_files_recursive": 2
+            },
+            "reasoning": {
+              "python_files": 1,
+              "subdirs": {},
+              "total_files_recursive": 1
+            }
+          },
+          "total_files_recursive": 35
+        },
+        "agi": {
+          "python_files": 6,
+          "subdirs": {
+            "adaptive": {
+              "python_files": 2,
+              "subdirs": {},
+              "total_files_recursive": 2
+            }
+          },
+          "total_files_recursive": 8
+        },
+        "quantum_financial": {
+          "python_files": 2,
+          "subdirs": {},
+          "total_files_recursive": 2
+        },
+        "net": {
+          "python_files": 2,
+          "subdirs": {},
+          "total_files_recursive": 2
+        },
+        "colonies": {
+          "python_files": 16,
+          "subdirs": {
+            "demo": {
+              "python_files": 1,
+              "subdirs": {},
+              "total_files_recursive": 1
+            }
+          },
+          "total_files_recursive": 17
+        },
+        "symbolic_bridge": {
+          "python_files": 3,
+          "subdirs": {},
+          "total_files_recursive": 3
+        },
+        "identity": {
+          "python_files": 17,
+          "subdirs": {},
+          "total_files_recursive": 17
+        },
+        "spine": {
+          "python_files": 2,
+          "subdirs": {},
+          "total_files_recursive": 2
+        },
+        "config": {
+          "python_files": 2,
+          "subdirs": {},
+          "total_files_recursive": 2
+        },
+        "security": {
+          "python_files": 12,
+          "subdirs": {},
+          "total_files_recursive": 12
+        },
+        "qi_biometrics": {
+          "python_files": 3,
+          "subdirs": {},
+          "total_files_recursive": 3
+        },
+        "collective": {
+          "python_files": 2,
+          "subdirs": {
+            "swarm": {
+              "python_files": 2,
+              "subdirs": {},
+              "total_files_recursive": 2
+            },
+            "clusters": {
+              "python_files": 2,
+              "subdirs": {},
+              "total_files_recursive": 2
+            },
+            "routing": {
+              "python_files": 2,
+              "subdirs": {},
+              "total_files_recursive": 2
+            }
+          },
+          "total_files_recursive": 8
+        },
+        "log_system": {
+          "python_files": 1,
+          "subdirs": {},
+          "total_files_recursive": 1
+        },
+        "integration": {
+          "python_files": 24,
+          "subdirs": {
+            "innovation_orchestrator": {
+              "python_files": 5,
+              "subdirs": {},
+              "total_files_recursive": 5
+            }
+          },
+          "total_files_recursive": 29
+        },
+        "bio_systems": {
+          "python_files": 2,
+          "subdirs": {},
+          "total_files_recursive": 2
+        },
+        "personality": {
+          "python_files": 5,
+          "subdirs": {},
+          "total_files_recursive": 5
+        },
+        "symbolic_diagnostics": {
+          "python_files": 2,
+          "subdirs": {},
+          "total_files_recursive": 2
+        },
+        "consciousness": {
+          "python_files": 3,
+          "subdirs": {
+            "innovation": {
+              "python_files": 2,
+              "subdirs": {},
+              "total_files_recursive": 2
+            },
+            "prediction": {
+              "python_files": 1,
+              "subdirs": {},
+              "total_files_recursive": 1
+            },
+            "oracle": {
+              "python_files": 4,
+              "subdirs": {},
+              "total_files_recursive": 4
+            },
+            "evolution": {
+              "python_files": 2,
+              "subdirs": {},
+              "total_files_recursive": 2
+            }
+          },
+          "total_files_recursive": 12
+        },
+        "qi_financial": {
+          "python_files": 3,
+          "subdirs": {},
+          "total_files_recursive": 3
+        },
+        "business": {
+          "python_files": 5,
+          "subdirs": {},
+          "total_files_recursive": 5
+        },
+        "unified": {
+          "python_files": 4,
+          "subdirs": {},
+          "total_files_recursive": 4
+        },
+        "output": {
+          "python_files": 2,
+          "subdirs": {},
+          "total_files_recursive": 2
+        },
+        "architectures": {
+          "python_files": 1,
+          "subdirs": {},
+          "total_files_recursive": 1
+        },
+        "quantum_empathy": {
+          "python_files": 2,
+          "subdirs": {},
+          "total_files_recursive": 2
+        },
+        "utils": {
+          "python_files": 7,
+          "subdirs": {},
+          "total_files_recursive": 7
+        },
+        "observability": {
+          "python_files": 6,
+          "subdirs": {},
+          "total_files_recursive": 6
+        },
+        "introspection": {
+          "python_files": 2,
+          "subdirs": {},
+          "total_files_recursive": 2
+        },
+        "compliance": {
+          "python_files": 5,
+          "subdirs": {},
+          "total_files_recursive": 5
+        },
+        "bridges": {
+          "python_files": 9,
+          "subdirs": {},
+          "total_files_recursive": 9
+        },
+        "explainability": {
+          "python_files": 2,
+          "subdirs": {},
+          "total_files_recursive": 2
+        },
+        "tagging": {
+          "python_files": 2,
+          "subdirs": {},
+          "total_files_recursive": 2
+        },
+        "endocrine": {
+          "python_files": 2,
+          "subdirs": {},
+          "total_files_recursive": 2
+        },
+        "rem": {
+          "python_files": 4,
+          "subdirs": {},
+          "total_files_recursive": 4
+        },
+        "tags": {
+          "python_files": 2,
+          "subdirs": {},
+          "total_files_recursive": 2
+        },
+        "safety": {
+          "python_files": 4,
+          "subdirs": {},
+          "total_files_recursive": 4
+        },
+        "consciousness_ascension": {
+          "python_files": 2,
+          "subdirs": {},
+          "total_files_recursive": 2
+        },
+        "integrations": {
+          "python_files": 2,
+          "subdirs": {},
+          "total_files_recursive": 2
+        },
+        "adapters": {
+          "python_files": 4,
+          "subdirs": {},
+          "total_files_recursive": 4
+        },
+        "container": {
+          "python_files": 2,
+          "subdirs": {},
+          "total_files_recursive": 2
+        },
+        "common": {
+          "python_files": 7,
+          "subdirs": {},
+          "total_files_recursive": 7
+        },
+        "symbolic_reasoning": {
+          "python_files": 2,
+          "subdirs": {},
+          "total_files_recursive": 2
+        },
+        "ethics": {
+          "python_files": 5,
+          "subdirs": {
+            "logic": {
+              "python_files": 4,
+              "subdirs": {},
+              "total_files_recursive": 4
+            },
+            "rules": {
+              "python_files": 0,
+              "subdirs": {},
+              "total_files_recursive": 0
+            }
+          },
+          "total_files_recursive": 9
+        },
+        "audit": {
+          "python_files": 6,
+          "subdirs": {},
+          "total_files_recursive": 6
+        },
+        "reality_synthesis": {
+          "python_files": 3,
+          "subdirs": {},
+          "total_files_recursive": 3
+        },
+        "engines": {
+          "python_files": 6,
+          "subdirs": {},
+          "total_files_recursive": 6
+        },
+        "ai": {
+          "python_files": 2,
+          "subdirs": {},
+          "total_files_recursive": 2
+        },
+        "quantum_biometrics": {
+          "python_files": 2,
+          "subdirs": {},
+          "total_files_recursive": 2
+        },
+        "examples": {
+          "python_files": 2,
+          "subdirs": {
+            "basic": {
+              "python_files": 2,
+              "subdirs": {},
+              "total_files_recursive": 2
+            }
+          },
+          "total_files_recursive": 4
+        },
+        "symbolism": {
+          "python_files": 4,
+          "subdirs": {},
+          "total_files_recursive": 4
+        },
+        "symbolic_core": {
+          "python_files": 5,
+          "subdirs": {
+            "vocabularies": {
+              "python_files": 3,
+              "subdirs": {},
+              "total_files_recursive": 3
+            },
+            "foundry": {
+              "python_files": 0,
+              "subdirs": {},
+              "total_files_recursive": 0
+            },
+            "bio": {
+              "python_files": 11,
+              "subdirs": {},
+              "total_files_recursive": 11
+            },
+            "processing": {
+              "python_files": 1,
+              "subdirs": {},
+              "total_files_recursive": 1
+            },
+            "integration": {
+              "python_files": 1,
+              "subdirs": {},
+              "total_files_recursive": 1
+            },
+            "features": {
+              "python_files": 4,
+              "subdirs": {
+                "security": {
+                  "python_files": 2,
+                  "subdirs": {},
+                  "total_files_recursive": 2
+                },
+                "collapse": {
+                  "python_files": 2,
+                  "subdirs": {},
+                  "total_files_recursive": 2
+                },
+                "docs": {
+                  "python_files": 0,
+                  "subdirs": {},
+                  "total_files_recursive": 0
+                },
+                "drift": {
+                  "python_files": 2,
+                  "subdirs": {},
+                  "total_files_recursive": 2
+                },
+                "memoria": {
+                  "python_files": 2,
+                  "subdirs": {},
+                  "total_files_recursive": 2
+                }
+              },
+              "total_files_recursive": 12
+            },
+            "utils": {
+              "python_files": 2,
+              "subdirs": {},
+              "total_files_recursive": 2
+            },
+            "reasoning": {
+              "python_files": 1,
+              "subdirs": {},
+              "total_files_recursive": 1
+            }
+          },
+          "total_files_recursive": 36
+        },
+        "planetary_consciousness": {
+          "python_files": 2,
+          "subdirs": {},
+          "total_files_recursive": 2
+        },
+        "verifold": {
+          "python_files": 2,
+          "subdirs": {},
+          "total_files_recursive": 2
+        },
+        "orchestration": {
+          "python_files": 14,
+          "subdirs": {
+            "golden_trio": {
+              "python_files": 2,
+              "subdirs": {},
+              "total_files_recursive": 2
+            },
+            "swarm": {
+              "python_files": 2,
+              "subdirs": {},
+              "total_files_recursive": 2
+            },
+            "apis": {
+              "python_files": 3,
+              "subdirs": {},
+              "total_files_recursive": 3
+            },
+            "colonies": {
+              "python_files": 1,
+              "subdirs": {},
+              "total_files_recursive": 1
+            },
+            "core": {
+              "python_files": 1,
+              "subdirs": {},
+              "total_files_recursive": 1
+            },
+            "coordination": {
+              "python_files": 1,
+              "subdirs": {},
+              "total_files_recursive": 1
+            },
+            "config": {
+              "python_files": 3,
+              "subdirs": {},
+              "total_files_recursive": 3
+            },
+            "security": {
+              "python_files": 3,
+              "subdirs": {
+                "dast": {
+                  "python_files": 5,
+                  "subdirs": {},
+                  "total_files_recursive": 5
+                }
+              },
+              "total_files_recursive": 8
+            },
+            "processing": {
+              "python_files": 1,
+              "subdirs": {},
+              "total_files_recursive": 1
+            },
+            "integration": {
+              "python_files": 2,
+              "subdirs": {},
+              "total_files_recursive": 2
+            },
+            "agents": {
+              "python_files": 5,
+              "subdirs": {
+                "builtin": {
+                  "python_files": 3,
+                  "subdirs": {},
+                  "total_files_recursive": 3
+                }
+              },
+              "total_files_recursive": 8
+            },
+            "docs": {
+              "python_files": 0,
+              "subdirs": {},
+              "total_files_recursive": 0
+            },
+            "specialized": {
+              "python_files": 3,
+              "subdirs": {},
+              "total_files_recursive": 3
+            },
+            "immune": {
+              "python_files": 2,
+              "subdirs": {},
+              "total_files_recursive": 2
+            },
+            "examples": {
+              "python_files": 2,
+              "subdirs": {},
+              "total_files_recursive": 2
+            },
+            "brain": {
+              "python_files": 54,
+              "subdirs": {
+                "multi_agent": {
+                  "python_files": 0,
+                  "subdirs": {},
+                  "total_files_recursive": 0
+                },
+                "mesh": {
+                  "python_files": 3,
+                  "subdirs": {},
+                  "total_files_recursive": 3
+                },
+                "visualization": {
+                  "python_files": 4,
+                  "subdirs": {},
+                  "total_files_recursive": 4
+                },
+                "design": {
+                  "python_files": 0,
+                  "subdirs": {},
+                  "total_files_recursive": 0
+                },
+                "tracing": {
+                  "python_files": 2,
+                  "subdirs": {},
+                  "total_files_recursive": 2
+                },
+                "attention": {
+                  "python_files": 2,
+                  "subdirs": {},
+                  "total_files_recursive": 2
+                },
+                "cognitive": {
+                  "python_files": 6,
+                  "subdirs": {
+                    "awareness": {
+                      "python_files": 1,
+                      "subdirs": {},
+                      "total_files_recursive": 1
+                    }
+                  },
+                  "total_files_recursive": 7
+                },
+                "learn": {
+                  "python_files": 0,
+                  "subdirs": {},
+                  "total_files_recursive": 0
+                },
+                "think": {
+                  "python_files": 0,
+                  "subdirs": {},
+                  "total_files_recursive": 0
+                },
+                "net": {
+                  "python_files": 2,
+                  "subdirs": {},
+                  "total_files_recursive": 2
+                },
+                "context": {
+                  "python_files": 1,
+                  "subdirs": {},
+                  "total_files_recursive": 1
+                },
+                "core": {
+                  "python_files": 9,
+                  "subdirs": {},
+                  "total_files_recursive": 9
+                },
+                "access": {
+                  "python_files": 2,
+                  "subdirs": {},
+                  "total_files_recursive": 2
+                },
+                "spine": {
+                  "python_files": 12,
+                  "subdirs": {},
+                  "total_files_recursive": 12
+                },
+                "config": {
+                  "python_files": 5,
+                  "subdirs": {},
+                  "total_files_recursive": 5
+                },
+                "nodes": {
+                  "python_files": 1,
+                  "subdirs": {},
+                  "total_files_recursive": 1
+                },
+                "integration": {
+                  "python_files": 3,
+                  "subdirs": {},
+                  "total_files_recursive": 3
+                },
+                "personality": {
+                  "python_files": 6,
+                  "subdirs": {},
+                  "total_files_recursive": 6
+                },
+                "consciousness": {
+                  "python_files": 2,
+                  "subdirs": {},
+                  "total_files_recursive": 2
+                },
+                "prediction": {
+                  "python_files": 2,
+                  "subdirs": {},
+                  "total_files_recursive": 2
+                },
+                "unified_integration": {
+                  "python_files": 1,
+                  "subdirs": {
+                    "adapters": {
+                      "python_files": 10,
+                      "subdirs": {},
+                      "total_files_recursive": 10
+                    }
+                  },
+                  "total_files_recursive": 11
+                },
+                "user_interaction": {
+                  "python_files": 0,
+                  "subdirs": {},
+                  "total_files_recursive": 0
+                },
+                "abstract_reasoning": {
+                  "python_files": 4,
+                  "subdirs": {},
+                  "total_files_recursive": 4
+                },
+                "output": {
+                  "python_files": 2,
+                  "subdirs": {},
+                  "total_files_recursive": 2
+                },
+                "meta": {
+                  "python_files": 1,
+                  "subdirs": {
+                    "cognition": {
+                      "python_files": 1,
+                      "subdirs": {},
+                      "total_files_recursive": 1
+                    },
+                    "learning": {
+                      "python_files": 1,
+                      "subdirs": {},
+                      "total_files_recursive": 1
+                    },
+                    "integrations": {
+                      "python_files": 1,
+                      "subdirs": {},
+                      "total_files_recursive": 1
+                    }
+                  },
+                  "total_files_recursive": 4
+                },
+                "self_improvement": {
+                  "python_files": 2,
+                  "subdirs": {},
+                  "total_files_recursive": 2
+                },
+                "utils": {
+                  "python_files": 2,
+                  "subdirs": {},
+                  "total_files_recursive": 2
+                },
+                "grow": {
+                  "python_files": 0,
+                  "subdirs": {},
+                  "total_files_recursive": 0
+                },
+                "qrl_code": {
+                  "python_files": 3,
+                  "subdirs": {},
+                  "total_files_recursive": 3
+                },
+                "compliance": {
+                  "python_files": 2,
+                  "subdirs": {},
+                  "total_files_recursive": 2
+                },
+                "reasoning": {
+                  "python_files": 2,
+                  "subdirs": {},
+                  "total_files_recursive": 2
+                },
+                "symbolic_ai": {
+                  "python_files": 1,
+                  "subdirs": {
+                    "modules": {
+                      "python_files": 2,
+                      "subdirs": {},
+                      "total_files_recursive": 2
+                    }
+                  },
+                  "total_files_recursive": 3
+                },
+                "rem": {
+                  "python_files": 6,
+                  "subdirs": {},
+                  "total_files_recursive": 6
+                },
+                "symbolic_engine": {
+                  "python_files": 1,
+                  "subdirs": {},
+                  "total_files_recursive": 1
+                },
+                "neuro_symbolic": {
+                  "python_files": 3,
+                  "subdirs": {
+                    "governance": {
+                      "python_files": 2,
+                      "subdirs": {},
+                      "total_files_recursive": 2
+                    }
+                  },
+                  "total_files_recursive": 5
+                },
+                "ethics": {
+                  "python_files": 4,
+                  "subdirs": {},
+                  "total_files_recursive": 4
+                },
+                "seamless": {
+                  "python_files": 2,
+                  "subdirs": {},
+                  "total_files_recursive": 2
+                },
+                "emotional": {
+                  "python_files": 4,
+                  "subdirs": {},
+                  "total_files_recursive": 4
+                },
+                "subsystems": {
+                  "python_files": 1,
+                  "subdirs": {},
+                  "total_files_recursive": 1
+                },
+                "orchestration": {
+                  "python_files": 5,
+                  "subdirs": {},
+                  "total_files_recursive": 5
+                },
+                "governance": {
+                  "python_files": 2,
+                  "subdirs": {},
+                  "total_files_recursive": 2
+                },
+                "dna": {
+                  "python_files": 2,
+                  "subdirs": {},
+                  "total_files_recursive": 2
+                },
+                "monitoring": {
+                  "python_files": 2,
+                  "subdirs": {},
+                  "total_files_recursive": 2
+                },
+                "meta_cognitive": {
+                  "python_files": 2,
+                  "subdirs": {},
+                  "total_files_recursive": 2
+                },
+                "dream_engine": {
+                  "python_files": 3,
+                  "subdirs": {
+                    "cli": {
+                      "python_files": 3,
+                      "subdirs": {},
+                      "total_files_recursive": 3
+                    }
+                  },
+                  "total_files_recursive": 6
+                },
+                "neural": {
+                  "python_files": 4,
+                  "subdirs": {},
+                  "total_files_recursive": 4
+                },
+                "logging": {
+                  "python_files": 0,
+                  "subdirs": {},
+                  "total_files_recursive": 0
+                },
+                "flow": {
+                  "python_files": 0,
+                  "subdirs": {},
+                  "total_files_recursive": 0
+                }
+              },
+              "total_files_recursive": 198
+            },
+            "user_feedback": {
+              "python_files": 3,
+              "subdirs": {},
+              "total_files_recursive": 3
+            },
+            "core_modules": {
+              "python_files": 5,
+              "subdirs": {},
+              "total_files_recursive": 5
+            },
+            "monitoring": {
+              "python_files": 4,
+              "subdirs": {},
+              "total_files_recursive": 4
+            },
+            "dream": {
+              "python_files": 2,
+              "subdirs": {},
+              "total_files_recursive": 2
+            },
+            "interfaces": {
+              "python_files": 3,
+              "subdirs": {},
+              "total_files_recursive": 3
+            }
+          },
+          "total_files_recursive": 268
+        },
+        "governance": {
+          "python_files": 9,
+          "subdirs": {},
+          "total_files_recursive": 9
+        },
+        "db": {
+          "python_files": 2,
+          "subdirs": {},
+          "total_files_recursive": 2
+        },
+        "api": {
+          "python_files": 6,
+          "subdirs": {},
+          "total_files_recursive": 6
+        },
+        "multiverse_creative": {
+          "python_files": 2,
+          "subdirs": {},
+          "total_files_recursive": 2
+        },
+        "glyph": {
+          "python_files": 17,
+          "subdirs": {},
+          "total_files_recursive": 17
+        },
+        "meta_learning": {
+          "python_files": 7,
+          "subdirs": {},
+          "total_files_recursive": 7
+        },
+        "telemetry": {
+          "python_files": 2,
+          "subdirs": {},
+          "total_files_recursive": 2
+        },
+        "symbolic": {
+          "python_files": 67,
+          "subdirs": {
+            "collapse": {
+              "python_files": 2,
+              "subdirs": {},
+              "total_files_recursive": 2
+            },
+            "drift": {
+              "python_files": 2,
+              "subdirs": {},
+              "total_files_recursive": 2
+            }
+          },
+          "total_files_recursive": 71
+        },
+        "user_interface_manager": {
+          "python_files": 3,
+          "subdirs": {},
+          "total_files_recursive": 3
+        },
+        "qi_empathy": {
+          "python_files": 3,
+          "subdirs": {},
+          "total_files_recursive": 3
+        },
+        "monitoring": {
+          "python_files": 4,
+          "subdirs": {},
+          "total_files_recursive": 4
+        },
+        "events": {
+          "python_files": 3,
+          "subdirs": {},
+          "total_files_recursive": 3
+        },
+        "performance": {
+          "python_files": 2,
+          "subdirs": {},
+          "total_files_recursive": 2
+        },
+        "infrastructure": {
+          "python_files": 5,
+          "subdirs": {},
+          "total_files_recursive": 5
+        },
+        "modules": {
+          "python_files": 1,
+          "subdirs": {
+            "nias": {
+              "python_files": 4,
+              "subdirs": {},
+              "total_files_recursive": 4
+            }
+          },
+          "total_files_recursive": 5
+        },
+        "neural_architectures": {
+          "python_files": 2,
+          "subdirs": {
+            "abas": {
+              "python_files": 4,
+              "subdirs": {},
+              "total_files_recursive": 4
+            }
+          },
+          "total_files_recursive": 6
+        },
+        "neural": {
+          "python_files": 4,
+          "subdirs": {},
+          "total_files_recursive": 4
+        },
+        "interaction": {
+          "python_files": 2,
+          "subdirs": {},
+          "total_files_recursive": 2
+        },
+        "helpers": {
+          "python_files": 1,
+          "subdirs": {},
+          "total_files_recursive": 1
+        },
+        "logging": {
+          "python_files": 1,
+          "subdirs": {},
+          "total_files_recursive": 1
+        },
+        "base": {
+          "python_files": 7,
+          "subdirs": {},
+          "total_files_recursive": 7
+        },
+        "services": {
+          "python_files": 1,
+          "subdirs": {
+            "location": {
+              "python_files": 3,
+              "subdirs": {},
+              "total_files_recursive": 3
+            },
+            "personality": {
+              "python_files": 3,
+              "subdirs": {},
+              "total_files_recursive": 3
+            }
+          },
+          "total_files_recursive": 7
+        },
+        "cognitive_preparedness": {
+          "python_files": 4,
+          "subdirs": {},
+          "total_files_recursive": 4
+        },
+        "interfaces": {
+          "python_files": 21,
+          "subdirs": {
+            "ui": {
+              "python_files": 3,
+              "subdirs": {
+                "config": {
+                  "python_files": 2,
+                  "subdirs": {},
+                  "total_files_recursive": 2
+                },
+                "components": {
+                  "python_files": 6,
+                  "subdirs": {},
+                  "total_files_recursive": 6
+                },
+                "adaptive": {
+                  "python_files": 1,
+                  "subdirs": {},
+                  "total_files_recursive": 1
+                }
+              },
+              "total_files_recursive": 12
+            },
+            "design": {
+              "python_files": 1,
+              "subdirs": {},
+              "total_files_recursive": 1
+            },
+            "tools": {
+              "python_files": 1,
+              "subdirs": {
+                "research": {
+                  "python_files": 3,
+                  "subdirs": {},
+                  "total_files_recursive": 3
+                },
+                "security": {
+                  "python_files": 2,
+                  "subdirs": {},
+                  "total_files_recursive": 2
+                },
+                "dao": {
+                  "python_files": 3,
+                  "subdirs": {},
+                  "total_files_recursive": 3
+                },
+                "cli": {
+                  "python_files": 3,
+                  "subdirs": {},
+                  "total_files_recursive": 3
+                },
+                "dev": {
+                  "python_files": 1,
+                  "subdirs": {},
+                  "total_files_recursive": 1
+                }
+              },
+              "total_files_recursive": 13
+            },
+            "registries": {
+              "python_files": 2,
+              "subdirs": {},
+              "total_files_recursive": 2
+            },
+            "nodes": {
+              "python_files": 1,
+              "subdirs": {},
+              "total_files_recursive": 1
+            },
+            "nias": {
+              "python_files": 2,
+              "subdirs": {},
+              "total_files_recursive": 2
+            },
+            "logic": {
+              "python_files": 9,
+              "subdirs": {
+                "context": {
+                  "python_files": 2,
+                  "subdirs": {},
+                  "total_files_recursive": 2
+                },
+                "identity": {
+                  "python_files": 1,
+                  "subdirs": {},
+                  "total_files_recursive": 1
+                },
+                "voice": {
+                  "python_files": 2,
+                  "subdirs": {},
+                  "total_files_recursive": 2
+                }
+              },
+              "total_files_recursive": 14
+            },
+            "voice": {
+              "python_files": 4,
+              "subdirs": {
+                "core": {
+                  "python_files": 2,
+                  "subdirs": {},
+                  "total_files_recursive": 2
+                },
+                "voice_emotional": {
+                  "python_files": 2,
+                  "subdirs": {},
+                  "total_files_recursive": 2
+                },
+                "input": {
+                  "python_files": 1,
+                  "subdirs": {},
+                  "total_files_recursive": 1
+                },
+                "integrations": {
+                  "python_files": 1,
+                  "subdirs": {
+                    "elevenlabs": {
+                      "python_files": 1,
+                      "subdirs": {},
+                      "total_files_recursive": 1
+                    }
+                  },
+                  "total_files_recursive": 2
+                }
+              },
+              "total_files_recursive": 11
+            },
+            "api": {
+              "python_files": 2,
+              "subdirs": {
+                "v1": {
+                  "python_files": 1,
+                  "subdirs": {
+                    "grpc": {
+                      "python_files": 5,
+                      "subdirs": {},
+                      "total_files_recursive": 5
+                    },
+                    "common": {
+                      "python_files": 5,
+                      "subdirs": {},
+                      "total_files_recursive": 5
+                    },
+                    "rest": {
+                      "python_files": 4,
+                      "subdirs": {
+                        "routers": {
+                          "python_files": 5,
+                          "subdirs": {},
+                          "total_files_recursive": 5
+                        }
+                      },
+                      "total_files_recursive": 9
+                    }
+                  },
+                  "total_files_recursive": 20
+                }
+              },
+              "total_files_recursive": 22
+            },
+            "human": {
+              "python_files": 0,
+              "subdirs": {},
+              "total_files_recursive": 0
+            },
+            "protocols": {
+              "python_files": 2,
+              "subdirs": {},
+              "total_files_recursive": 2
+            },
+            "widgets": {
+              "python_files": 0,
+              "subdirs": {},
+              "total_files_recursive": 0
+            },
+            "as_agent": {
+              "python_files": 1,
+              "subdirs": {
+                "agent_logic": {
+                  "python_files": 5,
+                  "subdirs": {},
+                  "total_files_recursive": 5
+                },
+                "streamlit": {
+                  "python_files": 2,
+                  "subdirs": {
+                    "components": {
+                      "python_files": 6,
+                      "subdirs": {},
+                      "total_files_recursive": 6
+                    }
+                  },
+                  "total_files_recursive": 8
+                },
+                "core": {
+                  "python_files": 19,
+                  "subdirs": {},
+                  "total_files_recursive": 19
+                },
+                "auth": {
+                  "python_files": 3,
+                  "subdirs": {},
+                  "total_files_recursive": 3
+                },
+                "sample_payloads": {
+                  "python_files": 2,
+                  "subdirs": {},
+                  "total_files_recursive": 2
+                },
+                "utils": {
+                  "python_files": 4,
+                  "subdirs": {},
+                  "total_files_recursive": 4
+                },
+                "schemas": {
+                  "python_files": 0,
+                  "subdirs": {},
+                  "total_files_recursive": 0
+                },
+                "sys": {
+                  "python_files": 1,
+                  "subdirs": {
+                    "nias": {
+                      "python_files": 23,
+                      "subdirs": {},
+                      "total_files_recursive": 23
+                    },
+                    "dast": {
+                      "python_files": 11,
+                      "subdirs": {},
+                      "total_files_recursive": 11
+                    },
+                    "abas": {
+                      "python_files": 2,
+                      "subdirs": {},
+                      "total_files_recursive": 2
+                    }
+                  },
+                  "total_files_recursive": 37
+                },
+                "widgets": {
+                  "python_files": 8,
+                  "subdirs": {},
+                  "total_files_recursive": 8
+                },
+                "news_and_social": {
+                  "python_files": 3,
+                  "subdirs": {},
+                  "total_files_recursive": 3
+                }
+              },
+              "total_files_recursive": 90
+            },
+            "flow": {
+              "python_files": 0,
+              "subdirs": {},
+              "total_files_recursive": 0
+            }
+          },
+          "total_files_recursive": 191
+        },
+        "hub_services": {
+          "python_files": 3,
+          "subdirs": {},
+          "total_files_recursive": 3
+        },
+        "flow": {
+          "python_files": 1,
+          "subdirs": {},
+          "total_files_recursive": 1
+        },
+        "router": {
+          "python_files": 2,
+          "subdirs": {},
+          "total_files_recursive": 2
+        }
+      },
+      "total_files_recursive": 1042
+    }
+  },
+  "overlap_analysis": {
+    "branding": {
+      "module_name": "branding",
+      "locations": [
+        "lukhas/branding",
+        "candidate/branding"
+      ],
+      "file_counts": {
+        "lukhas/branding": 2,
+        "candidate/branding": 2
+      },
+      "unique_files": {
+        "lukhas/branding": [
+          "__init__",
+          "terminology"
+        ],
+        "candidate/branding": [
+          "__init__",
+          "terminology"
+        ]
+      },
+      "common_patterns": [
+        "__init__",
+        "terminology"
+      ]
+    },
+    "tools": {
+      "module_name": "tools",
+      "locations": [
+        "lukhas/tools",
+        "candidate/tools"
+      ],
+      "file_counts": {
+        "lukhas/tools": 2,
+        "candidate/tools": 11
+      },
+      "unique_files": {
+        "lukhas/tools": [
+          "__init__",
+          "collapse_simulator"
+        ],
+        "candidate/tools": [
+          "tool_orchestrator",
+          "performance_monitor",
+          "__init__",
+          "tool_executor",
+          "external_service_integration",
+          "tool_executor_guardian",
+          "extract_claude6_tasks",
+          "save_claude_context",
+          "claude_memory_integration",
+          "claude_lukhas_integration"
+        ]
+      },
+      "common_patterns": [
+        "__init__"
+      ]
+    },
+    "bio": {
+      "module_name": "bio",
+      "locations": [
+        "lukhas/bio",
+        "candidate/bio"
+      ],
+      "file_counts": {
+        "lukhas/bio": 5,
+        "candidate/bio": 52
+      },
+      "unique_files": {
+        "lukhas/bio": [
+          "bio_symbolic",
+          "__init__",
+          "architecture_analyzer",
+          "utilities"
+        ],
+        "candidate/bio": [
+          "core",
+          "voice",
+          "__init__",
+          "matriz_adapter",
+          "bio_symbolic_validator",
+          "spirulina_atp_system",
+          "symbolic",
+          "adapters",
+          "symbolic_validator",
+          "qi",
+          "oscillator",
+          "compound_governor",
+          "awareness",
+          "symbolic_proteome"
+        ]
+      },
+      "common_patterns": [
+        "__init__"
+      ]
+    },
+    "core": {
+      "module_name": "core",
+      "locations": [
+        "lukhas/core",
+        "candidate/core"
+      ],
+      "file_counts": {
+        "lukhas/core": 45,
+        "candidate/core": 1042
+      },
+      "unique_files": {
+        "lukhas/core": [
+          "dream_orchestration",
+          "swarm",
+          "__init__",
+          "supervisor_agent",
+          "methylation_model",
+          "consciousness_dream",
+          "dream_adapter",
+          "breakthrough",
+          "trace",
+          "core_wrapper",
+          "actor_system",
+          "logger",
+          "dream_sequence",
+          "lanes",
+          "dream_state",
+          "import_router",
+          "clock",
+          "glyph",
+          "exceptions",
+          "contracts",
+          "consciousness_stream",
+          "efficient_communication",
+          "tags",
+          "dream_memory_bridge",
+          "metrics_exporters",
+          "consciousness_ticker",
+          "ring",
+          "path_manager",
+          "config",
+          "policy_guard",
+          "guardian_sentinel",
+          "base_colony",
+          "decorators",
+          "decision",
+          "distributed_tracing",
+          "drift",
+          "llm_guardrail",
+          "event_sourcing"
+        ],
+        "candidate/core": [
+          "symbolic_boot",
+          "task_manager",
+          "stream_handler",
+          "symbolic_api",
+          "lambda_sage",
+          "quantized_thought_cycles",
+          "ethical_stop",
+          "experience_core",
+          "voice_narrator",
+          "bio_integration_hub",
+          "self_improvement",
+          "core",
+          "bridge",
+          "glyph_id_hash",
+          "scheduler",
+          "safety_hub",
+          "oracle_colony",
+          "actor_supervision_integration",
+          "consciousness_stream",
+          "quantized_cycle_manager",
+          "mito_ethics_sync",
+          "symbolic_validator",
+          "memory_consciousness_bridge",
+          "emotion_mapper",
+          "neural_intelligence_api",
+          "mito_qi_attention",
+          "dao_propose",
+          "azure_free_tier_strategy",
+          "framework_integration",
+          "GlobalInstitutionalCompliantEngine",
+          "tracer",
+          "collective_ad_mind",
+          "cognitive_updater",
+          "feedback_loop",
+          "constellation_validation_test",
+          "us_institutional_awareness_engine",
+          "dream_glyph_bridge",
+          "memory_interface",
+          "tracker",
+          "multi_agent_collaboration",
+          "api_diff_analyzer",
+          "identity_integration",
+          "matriz_consciousness_coordinator",
+          "innovation_prioritization_engine",
+          "eu_awareness_engine",
+          "identity_engine",
+          "cognitive_mesh_coordinator",
+          "performance",
+          "common_interfaces",
+          "migration_router",
+          "symbolic_network",
+          "dream_adapter",
+          "symbolic_action_prrotocol",
+          "actor_system",
+          "core_utilities",
+          "meta_learner",
+          "enhancement_system",
+          "pb2_grpc",
+          "collaborative_ai_agent_system",
+          "capability_analyzer",
+          "nias_filter",
+          "audit_integration_example",
+          "glyph",
+          "service_discovery",
+          "core_hub",
+          "ethics_swarm_colony",
+          "resource_allocation_optimizer",
+          "neuroplastic_connector",
+          "collector",
+          "symbolic_trace_map",
+          "reality_synthesis_quantum_engine",
+          "widget_engine",
+          "dev_dashboard",
+          "orchestration_energy_aware_execution_planner",
+          "dynamic_adaptive_dashboard",
+          "stress_gate",
+          "learning_engine",
+          "emergence_detection_system",
+          "azure_openai_client",
+          "voice_renderer",
+          "consciousness_namespace_isolation",
+          "emotional_oscillator",
+          "temporal_colony",
+          "base_colony",
+          "cognitive_voice",
+          "learning_initializer",
+          "consciousness_cache",
+          "engine",
+          "rule_loader",
+          "replay_graphs",
+          "uk_awareness_engine",
+          "nist_ai_rmf",
+          "SymbolicReasoning",
+          "streamlit_lidar",
+          "planetary_consciousness_network",
+          "neuroplastic_consolidator",
+          "replay_queue",
+          "canadian_awareness_engine",
+          "validation_script_fixes",
+          "symbolic_knowledge_integration",
+          "geofencing_manager",
+          "constants",
+          "empathy",
+          "register_ai_supremacy_modules",
+          "bot",
+          "privacy_manager",
+          "coordinator",
+          "symbolic_matcher",
+          "qi_layer",
+          "intelligence_engine_registry",
+          "dream_divergence_map",
+          "image_processing_pipeline",
+          "voice_personality",
+          "voice_vocabulary",
+          "dna_link",
+          "archiver",
+          "loop_engine",
+          "nias_dream_bridge",
+          "identity_aware_base",
+          "llm_multiverse_router",
+          "personal_symbol_dictionary",
+          "cognitive_enhancement",
+          "sleep_cycle",
+          "symbolic_logic_engine",
+          "dao_governance_node",
+          "ai_compliance",
+          "dast_orchestrator",
+          "id",
+          "qi_empathy_engine",
+          "feedback_log_viewer",
+          "voice_handler",
+          "payload_builder",
+          "core_consciousness_bridge",
+          "replay_heatmap",
+          "symbolic_loop_controller",
+          "hub_registry",
+          "memory_colony",
+          "p2p_fabric",
+          "resource_efficiency_analyzer",
+          "pr_security_review_task",
+          "TestIntegrationSimple",
+          "guardian_integrated_platform",
+          "exceptions",
+          "matriz_consciousness_identity",
+          "symbolic_handshake",
+          "trace_verifier",
+          "healix_visualizer",
+          "system_watchdog",
+          "tags",
+          "tagging_system",
+          "common",
+          "read_settings",
+          "guardian_testing_framework",
+          "dast_integration_hub",
+          "dependency_injection",
+          "constitutional_compliance_engine",
+          "dast_logger",
+          "neuro_symbolic_engine",
+          "ethical_auditor",
+          "cognitive_core",
+          "inter_agent_simulation",
+          "generate_nias_docs",
+          "privacy_compliance_engine",
+          "env_validator",
+          "rate_modulator",
+          "self_healing",
+          "experience_manager",
+          "system_coordinator",
+          "sayit",
+          "jules",
+          "health",
+          "id_builder",
+          "journey_mapper",
+          "vulnerability_dashboard",
+          "symbolic_loop",
+          "democratic_oversight",
+          "inject_message_simulator",
+          "s_dispatcher",
+          "glyph_engine",
+          "enhanced_swarm",
+          "swarm_tag_simulation",
+          "communication_engine",
+          "oracle",
+          "main_orchestrator",
+          "trace_memory_logger",
+          "guardian_integration",
+          "safety_filter",
+          "code_process_integration_api",
+          "symbolic_core",
+          "EthicalAuditor",
+          "consistency_manager",
+          "replay_visualizer",
+          "dream_narrator_queue",
+          "recall_hooks",
+          "lambda_bot_batch_processor",
+          "cognitive_ai_client",
+          "symbolic_anomaly_explorer",
+          "awareness_adapter",
+          "ai_compliance_manager",
+          "api_manager",
+          "emotion_log",
+          "integration_manager",
+          "encrypted_perception_interface",
+          "swarm_recommendations",
+          "production_config",
+          "partner_sdk",
+          "custom_llm",
+          "capability_evaluation_framework",
+          "australian_awareness_engine",
+          "trait_sync_gpt_synb_ref",
+          "swarm_simulation",
+          "quantum_empathy_engine",
+          "speak",
+          "symbolic_reasoning_adapter",
+          "kms_manager",
+          "observability_steering",
+          "reflective_introspection_system",
+          "symbolic_integration",
+          "text_handler",
+          "reasoning_colony",
+          "swarm_visualizer",
+          "session_logger",
+          "delivery_tracker_widget",
+          "brain_integration_broken",
+          "neuro_symbolic_fusion_layer",
+          "consent_manager",
+          "dream_export_streamlit",
+          "client",
+          "tasks",
+          "drift_monitoring_api",
+          "bio_systems_inspiration",
+          "quantum_financial_consciousness_engine",
+          "autonomous_innovation_orchestrator",
+          "collaboration",
+          "integration_engine",
+          "adaptive_ux_engine",
+          "collapse_integration",
+          "performance_orchestrator",
+          "meta_learning",
+          "example",
+          "dream_processor_integrator",
+          "base_node",
+          "abas_qi_specialist_mock",
+          "vision_vocabulary",
+          "core_interface",
+          "models",
+          "glyph_redactor_engine",
+          "dsl_lite",
+          "qi_memory_bridge",
+          "legacy_adapter",
+          "breakthrough_synthesis_engine",
+          "symbolic_feedback",
+          "symptom_reporter",
+          "typed_event_bus",
+          "service_registry",
+          "governance_colony",
+          "compliance_registry",
+          "defense_monitor",
+          "bio_orchestrator_orchestrator",
+          "qi_neuro_symbolic_engine",
+          "bootstrap",
+          "symbolic_contextual_mapping_colony",
+          "swarm",
+          "constitutional_safety",
+          "token_map",
+          "node_registry",
+          "quorum_override",
+          "main_node",
+          "agent_self",
+          "learn_to_learn",
+          "dream_replay_cli",
+          "neural_integrator",
+          "audit_analytics",
+          "service_implementations",
+          "context",
+          "colony_tag_propagation",
+          "reality_synthesis_qi_engine",
+          "services",
+          "duet_conductor",
+          "telemetry",
+          "api_system",
+          "symbol_validator",
+          "mailbox",
+          "constellation_framework_monitor",
+          "hybrid_integration",
+          "universal_symbol_protocol",
+          "colony",
+          "service_stubs",
+          "resource_efficiency",
+          "audit_decorators",
+          "memory_handler",
+          "widget_config",
+          "guardian_drift_bands",
+          "credential_manager",
+          "federated_integration",
+          "pr_security_review_github_actions",
+          "bio_symbolic_bridge",
+          "constellation_validation_test",
+          "tier_aware_colony_proxy",
+          "consolidate_bio_symbolic_coherence",
+          "fault_tolerance",
+          "system_init",
+          "matriz_consciousness_orchestrator",
+          "enhanced_crypto",
+          "breakthrough_detector_v2",
+          "symbolic_trace",
+          "symbolic_chain",
+          "agent_core",
+          "endocrine_module_example",
+          "qrly",
+          "live_renderer_widget",
+          "restabilization_index",
+          "agent_interface",
+          "unified_self",
+          "trace_tools",
+          "web_formatter",
+          "store",
+          "consciousness_coherence_monitor",
+          "vector_ops",
+          "dao_vote",
+          "aggregator_fixed",
+          "pwm_deep_analysis",
+          "matriz_consciousness_integration",
+          "constellation_alignment_system",
+          "self_reflect_cron",
+          "controller",
+          "guardian_system_2_demo",
+          "brain_adapter",
+          "intent_adapter",
+          "abas_qi_specialist_wrapper",
+          "vendor_sync",
+          "rem_visualizer",
+          "master_integration",
+          "intelligence",
+          "cognitive_adapter",
+          "voice_duet",
+          "common_interface",
+          "lambdabot_autonomous_workflow_fixer",
+          "middleware",
+          "settings",
+          "glyph_memory_integration",
+          "energy_consumption_analysis",
+          "app",
+          "symbolic",
+          "prime_oscillator",
+          "voice_adapter",
+          "identity_manager",
+          "user_interaction_init",
+          "openai_adapter",
+          "dast_logger_fixed",
+          "qi_service_adapter",
+          "integration_bridge",
+          "creative_personality_clean",
+          "orchestration",
+          "pattern_recognition",
+          "security_policy",
+          "alerting_system",
+          "consciousness_engine",
+          "matriz_signal_emitters",
+          "neural_bridge",
+          "event_bus",
+          "usage_examples",
+          "lambdabot_autonomous_fixer",
+          "visualizer_core",
+          "security_integration",
+          "moral_alignment_interface",
+          "affiliate_log",
+          "com_validator",
+          "supervision",
+          "audit_decision_embedding_engine",
+          "widget_archive",
+          "symbolic_bio_symbolic",
+          "global_compliance_manager",
+          "launcher",
+          "dashboard_settings",
+          "consciousness_signal_router",
+          "identity_aware_base_colony",
+          "voice_engine",
+          "trace_log_viewer",
+          "test_consciousness_identity_patterns",
+          "symbolic_drift_tracker",
+          "delegate_logic",
+          "creative_engine",
+          "api_key_cache",
+          "symbolic_contract",
+          "context_builder",
+          "Lambdabot_brain_system",
+          "nias_core",
+          "qi_attention",
+          "altruistic_router",
+          "interfaces_hub",
+          "generate_image",
+          "connectivity_engine",
+          "auth",
+          "dream_processor",
+          "drift_tools",
+          "filter_gpt",
+          "score",
+          "supervisor_agent",
+          "ethics_loop_guard",
+          "codex",
+          "integrator",
+          "errors",
+          "lambda_id_core",
+          "identity_core_bridge",
+          "creativity_colony",
+          "dast_engine",
+          "trace_repair_engine",
+          "manager",
+          "main",
+          "collapse_chain_integrity",
+          "targeted_api_fixes",
+          "render_ai",
+          "symbolic_tuner",
+          "nias_hub",
+          "symbolic_reply_generator",
+          "consent_filter",
+          "personality",
+          "guardian_system_2",
+          "bio_symbolic_architectures",
+          "symbolic_memory_mapper",
+          "abas",
+          "checkout_handler",
+          "matriz_adapter",
+          "efficient_communication",
+          "trace_logger",
+          "registry",
+          "entropy_probe",
+          "core_safety_bridge",
+          "feedback_insight_cli",
+          "dissonance_detector",
+          "safety_tags",
+          "voice_preview_streamlit",
+          "matriz_integrated_demonstration",
+          "system_bridge",
+          "signals",
+          "consensus_mechanisms",
+          "emotion_mapper_alt",
+          "process",
+          "audio_exporter",
+          "terminal_widget",
+          "neural_intelligence_main",
+          "matriz_consciousness_identity_signals",
+          "symbolic_utils",
+          "neuro_symbolic_integration",
+          "base_health",
+          "confidence_calibrator",
+          "ai_config",
+          "dream_vocabulary",
+          "decision_explainer",
+          "creative_expressions",
+          "memory_identity",
+          "vision_prompts",
+          "constitutional_ai",
+          "emotion_trend_tracker",
+          "research_dashboard",
+          "metrics_contract",
+          "processors",
+          "metrics",
+          "node_manager",
+          "p2p_communication",
+          "module_manager",
+          "glyph_ethics_validator",
+          "collapse_mesh",
+          "validators",
+          "edge_voice",
+          "MultiBrainSymphony",
+          "listen",
+          "unified_monitoring_dashboard",
+          "autonomous_learning",
+          "verifold_unified",
+          "crypto",
+          "dast_core",
+          "neural_symbolic_bridge",
+          "matriz_consciousness_signals",
+          "coordination",
+          "mailbox_demo",
+          "vocabulary_template",
+          "symbolic_theme_clusterer",
+          "dream_log_viewer",
+          "glyph_sentinel",
+          "decorators",
+          "distributed_tracing",
+          "symbolic_dream_bridge",
+          "layer",
+          "neural_processor",
+          "qi_annealed_consensus",
+          "feedback_collector",
+          "dream_hub",
+          "generate_payload_cli",
+          "reward_reputation",
+          "crista_optimizer",
+          "migrate_xor_encryption",
+          "healix_mapper",
+          "dream_delivery_manager",
+          "dashboad",
+          "colony_coordinator",
+          "settings_loader",
+          "memory_learning_bridge",
+          "bio_symbolic_processor",
+          "awareness_protocol",
+          "context_aware_modular_voice",
+          "interface",
+          "fallback_services",
+          "core_system",
+          "trio_orchestrator",
+          "tier_unification_adapter",
+          "bio_vocabulary",
+          "entropy_tracker",
+          "personas",
+          "router",
+          "memory_core",
+          "module_registry",
+          "notion_sync",
+          "tier_manager",
+          "processor",
+          "drift_monitor",
+          "grow_init",
+          "system_health_monitor",
+          "token_engine",
+          "adaptive_enhancements",
+          "types",
+          "receptivity_windows",
+          "vocabulary",
+          "service_container",
+          "brain_integration",
+          "voice_agent",
+          "consolidate_symbolic_communication",
+          "secure_logging",
+          "message_hub",
+          "cognitive_security",
+          "core_integrator",
+          "api_client",
+          "oscillator_adapter",
+          "__init__",
+          "intent_detector",
+          "plugin_registry",
+          "base",
+          "mito_qi_attention_adapter",
+          "methylation_model",
+          "server",
+          "consensus_algorithms",
+          "symbolic_parser",
+          "monitoring",
+          "multilingual_glyph_engine",
+          "glyphs",
+          "consciousness_network_monitor",
+          "logger",
+          "delivery_loop",
+          "consciousness_core",
+          "agent_orchestrator",
+          "safety_guardrails",
+          "enhanced_matriz_adapter",
+          "tag_propagation",
+          "fix_lambda_symbols",
+          "signal_middleware",
+          "command_registry",
+          "symbolic_github_export",
+          "wallet",
+          "human_in_the_loop_orchestrator",
+          "narration_controller",
+          "main_loop",
+          "global_initialization",
+          "ethical_conflict_resolution",
+          "prediction_engine",
+          "trace_drift_tracker",
+          "plan_verifier",
+          "autonomous_system",
+          "ethics_engine",
+          "matriz_consciousness_governance",
+          "constitutional_ai_compliance",
+          "dream_ethics_injector",
+          "hormone_system",
+          "bio_hub",
+          "eu_ai_transparency",
+          "vocabulary_creativity_engine",
+          "creative_personality",
+          "dream_recorder",
+          "voice_narration_player",
+          "emotion_vocabulary",
+          "creative_market",
+          "symbolic_language",
+          "actor_model",
+          "advanced_safety_protocols",
+          "semantic_reasoner",
+          "ethics_guard",
+          "qi_financial_consciousness_engine",
+          "api_server",
+          "resource_optimization_integration",
+          "symbolic_foundry",
+          "tracing_init",
+          "mapper",
+          "main_bot",
+          "qrs_manager",
+          "socket",
+          "validate_payload",
+          "monitor_dashboard",
+          "base_config",
+          "bio_adapter",
+          "dast",
+          "observatory",
+          "remediator_agent",
+          "ethics",
+          "collapse_tracker",
+          "symbolic_healer",
+          "personality_refiner",
+          "symbolic_action_protocol",
+          "unified_self_merge_divergence",
+          "overview_log",
+          "curious_lukhas",
+          "workflow_engine",
+          "response_types",
+          "vendor_hospitality_sync",
+          "bio_signals",
+          "module_service_adapter",
+          "identity_vocabulary",
+          "oracle_nervous_system",
+          "accent_adapter",
+          "travel_widget",
+          "agent_handoff",
+          "swarm_integration",
+          "ab_safety_guard",
+          "memory_helix_visualizer",
+          "symbolic_reasoning",
+          "consciousness_ascension_catalyst_engine",
+          "symbolic_drift_tracker_trace",
+          "tensor_colony_ops",
+          "adaptive_image_generator",
+          "autonomous_github_manager",
+          "brain",
+          "demo",
+          "gui_launcher",
+          "emotional_sorter",
+          "github_vulnerability_manager",
+          "abas_qi_specialist",
+          "consciousness_clusters",
+          "integration_hub",
+          "api_budget_manager",
+          "consciousness_data_flow",
+          "agent_logic_architecture",
+          "revenue_tracker",
+          "integrated_system",
+          "cluster_sharding",
+          "qi_biometrics_engine",
+          "security_pr_analyzer",
+          "cli",
+          "minimal_actor",
+          "audit_trail",
+          "code_quality_healer",
+          "schedule_manager",
+          "quantum_biometrics_engine",
+          "llm_engine",
+          "pb2",
+          "base_module",
+          "tier_visualizer",
+          "capability_levels",
+          "GlobalInstitutionalFramework",
+          "the_oscillator",
+          "multiverse_creative_engine",
+          "state_management",
+          "bio_symbolic",
+          "dynamic_modality_broker",
+          "golden_healix_mapper",
+          "consciousness_tiered_authentication",
+          "event_sourcing",
+          "health_checks",
+          "symbolic_arbitration",
+          "aggregator",
+          "hash",
+          "predictive_resource_manager",
+          "settings_editor",
+          "symbolic_signal_router",
+          "entropy_calculator",
+          "specialized_colonies",
+          "memory_reflection_template",
+          "integrate_isolated_components",
+          "persona_engine",
+          "consciousness_qi_bridge",
+          "seven_agent_adapter",
+          "lambda_bot_api_integration",
+          "resource_scheduler",
+          "current_connectivity_analysis",
+          "cognitive_governance_framework",
+          "introspector",
+          "symbolic_glyph_hash",
+          "visualizer",
+          "dream_cli",
+          "federated_integrator",
+          "client_event",
+          "report_generator",
+          "api",
+          "contracts",
+          "matriz_consciousness_state",
+          "emotional_resonance",
+          "node_collection",
+          "id_manager",
+          "loop_recovery_simulator",
+          "das_awareness_engine",
+          "dream_stats",
+          "integration",
+          "multi_agent_consensus",
+          "glyph_exchange",
+          "executive_decision_integrator",
+          "matriz_symbolic_consciousness",
+          "symbolic_hub",
+          "generate_video",
+          "topology_manager",
+          "config",
+          "gatekeeper"
+        ]
+      },
+      "common_patterns": [
+        "actor_system",
+        "swarm",
+        "__init__",
+        "logger",
+        "supervisor_agent",
+        "base_colony",
+        "contracts",
+        "consciousness_stream",
+        "decorators",
+        "methylation_model",
+        "efficient_communication",
+        "tags",
+        "distributed_tracing",
+        "event_sourcing",
+        "dream_adapter",
+        "config",
+        "glyph",
+        "exceptions"
+      ]
+    },
+    "memory": {
+      "module_name": "memory",
+      "locations": [
+        "lukhas/memory",
+        "candidate/memory"
+      ],
+      "file_counts": {
+        "lukhas/memory": 8,
+        "candidate/memory": 421
+      },
+      "unique_files": {
+        "lukhas/memory": [
+          "matriz_adapter",
+          "__init__",
+          "consciousness_memory_integration",
+          "fold_system",
+          "memory_wrapper",
+          "sync",
+          "config"
+        ],
+        "candidate/memory": [
+          "foldout",
+          "smart_consolidation",
+          "episodic_memory",
+          "memory_planning_wrapper",
+          "exponential_learning",
+          "memory_tracker",
+          "documentation_analytics",
+          "core",
+          "base_manager",
+          "memory_cloud",
+          "dreamseed_example",
+          "trauma_lock",
+          "seed_chain_bootstrapper",
+          "drift_tracker",
+          "hyperspace_dream_simulator",
+          "integrated_system_orchestrator",
+          "memory_fold_system",
+          "memory_tracker_integration",
+          "memory_fold_tracker",
+          "secure_utils",
+          "compression",
+          "service_analysis",
+          "memory_interface",
+          "simple_store",
+          "multimodal_sentiment",
+          "federated_colony_learning",
+          "fold_engine",
+          "memory_processing",
+          "voice_memory_manager",
+          "journal_engine",
+          "fold_lineage_tracker_causal_archive",
+          "neuroplastic_connector",
+          "memory_consolidation",
+          "generative_reflex",
+          "gen_audit_logger_check",
+          "lambda_archive_inspector",
+          "memory_reflector",
+          "dna_helix",
+          "qi_memory_manager",
+          "agent_memory",
+          "diagnostic_payloads",
+          "compliance_hooks",
+          "memory_resonance_analyzer",
+          "memory_planning_mock",
+          "replayer",
+          "snapshot_divergence_plot",
+          "drift_dashboard",
+          "in_memory_log_exporter",
+          "entropy_health_api",
+          "rem",
+          "intent_language",
+          "lambda_vault_scan",
+          "adaptive_meta_learning_system",
+          "metalearningenhancementsystem_mock",
+          "emotion_log_alt",
+          "integrity_probe",
+          "memory_visualizer",
+          "structural_conscience",
+          "memory_evolution",
+          "memory_cleaner",
+          "memory_comprehensive",
+          "episodic",
+          "integration_example",
+          "snapshot_redirection_controller",
+          "memory_profiler_mock",
+          "in_memory_cache_storage_wrapper",
+          "memory_safety_features",
+          "compliance_digest",
+          "module_integrations",
+          "trauma_repair_wrapper",
+          "awareness_mechanism",
+          "pr_security_review_starter",
+          "resonant_memory_access",
+          "memory_manager",
+          "expression",
+          "basic",
+          "symbolic_quarantine_sanctum",
+          "memory_chain",
+          "causal_identity_tracker",
+          "federated_learning",
+          "colony_memory_validator",
+          "memory_consciousness_optimizer",
+          "guardian_crypto_spine",
+          "integration_adapters",
+          "memoria-checkpoint",
+          "meg_guard",
+          "compliance_report_generator",
+          "emotional_memory_manager_unified",
+          "doc_generator_learning_engine",
+          "trait_manager",
+          "hybrid_memory_fold",
+          "metalearningenhancementsystem_wrapper",
+          "meta_core",
+          "dna_healix",
+          "ethical_drift_governor",
+          "colony_memory_adapter",
+          "emotion_log",
+          "unified_memory_orchestrator",
+          "memory_endpoints",
+          "monitor",
+          "collapse_trace",
+          "replay_buffer",
+          "CausalReasoningModule",
+          "node",
+          "ISOLATED_FILES_ASSESSMENT",
+          "semantic_extractor",
+          "memory_drift_auditor",
+          "visualization",
+          "neocortical_network",
+          "emotional_memory_manager",
+          "dream_mutator",
+          "memory_recall",
+          "meta_learning",
+          "memory_node",
+          "example",
+          "output_log",
+          "memory_collapse_verifier",
+          "foldout_simple",
+          "sleep_cycle_manager",
+          "lightweight_concurrency",
+          "symbolic_feedback",
+          "context_analyzer",
+          "episodic_memory_integration",
+          "tutor_learning_engine",
+          "symbolic_proteome_archive",
+          "foldin_simple",
+          "memory_bases",
+          "helix_dna",
+          "event_replayer",
+          "colony_emotion",
+          "learn_to_learn",
+          "neural_integrator",
+          "services",
+          "duet_conductor",
+          "FederatedIntegration",
+          "meg_openai_guard",
+          "memory_handler",
+          "fold_entropy_visualizer",
+          "tutor",
+          "memory_trace",
+          "federated_integration",
+          "learning_hub",
+          "consolidate_sparse_modules",
+          "memory_session_storage",
+          "system",
+          "generate_dream_data",
+          "adaptive_interface_generator",
+          "memory_helix_golden",
+          "memory_validator",
+          "ContextAnalyzer",
+          "recaller",
+          "episodic_recall",
+          "fold_system",
+          "reflector",
+          "agent_memory_trace_animator",
+          "multimodal_memory_integration",
+          "memory_encoder",
+          "resonance_memory_retrieval",
+          "FederatedLearning",
+          "memory_research",
+          "collapse_hash",
+          "scaffold_modules_reasoning_engine",
+          "dream_log",
+          "memory_orchestrator",
+          "fold",
+          "memory_visualization",
+          "auto_heal_conflicts",
+          "fold_universal_bridge",
+          "causal_reasoning",
+          "memory_loop_rebuilder",
+          "distributed_memory",
+          "dashboard",
+          "causal_reasoner_template",
+          "integration_bridge",
+          "dream_memory_fold",
+          "agimemory_fake",
+          "qi_manager",
+          "colony_swarm_integration",
+          "mobile_ui_renderer",
+          "memory_drift_stabilizer",
+          "fold_lineage_tracker",
+          "memory_voice_helix",
+          "distributed_memory_fold",
+          "emergency_override",
+          "pin_memory_cache",
+          "dream_memory_manager",
+          "pattern_detector",
+          "constellation_framework_validator",
+          "symbolic_drift_tracker",
+          "dream_utils",
+          "healix_memory_core",
+          "meta_learning_recovery",
+          "kyi_check",
+          "identity_lineage_bridge",
+          "drift_memory_manager",
+          "episodic_interface",
+          "causal",
+          "symbolic_delta",
+          "CausalReasoning",
+          "memory_trace_logger",
+          "consolidation",
+          "hierarchical_data_store_archive",
+          "memory_seeder",
+          "trauma_repair_mock",
+          "memory_format",
+          "matriz_adapter",
+          "causal_memory_chains",
+          "vdf",
+          "registry",
+          "context_sync",
+          "unified_memory_core",
+          "consolidate_memory_dna_helix",
+          "commerce_api",
+          "memory_drift_mirror",
+          "episodic_replay_buffer",
+          "loop_monitor",
+          "adaptive_meta_learning",
+          "fold_manager",
+          "symbolic_voice_loop",
+          "memory_identity",
+          "c4_memory_guardian_adapter",
+          "memory_trace_harmonizer",
+          "voice_memory_bridge",
+          "memory_consolidator",
+          "lazy_loading_embeddings",
+          "validate_pr_security_review",
+          "dream_timeline_visualizer",
+          "colonies",
+          "ripple_generator",
+          "tier_system",
+          "enhancement_engine",
+          "memory_systems_integration_test",
+          "theta_oscillator",
+          "bot_enhancement",
+          "symbolic_snapshot",
+          "qi_memory_architecture",
+          "base_memory_colony",
+          "hippocampal_buffer",
+          "symbol_aware_tiered_memory",
+          "memory_planning",
+          "healix_mapper",
+          "affect_stagnation_detector",
+          "gpt_reflection",
+          "bio_symbolic_memory",
+          "collapse_buffer",
+          "core_system",
+          "meta_learning_patterns",
+          "optimized_fold_engine",
+          "replay_system",
+          "memory_core",
+          "simple_conflict_healer",
+          "processor",
+          "gen_architecture_log_update",
+          "memory_encryptor",
+          "episodic_memory_colony",
+          "foldin",
+          "generate_dream",
+          "openai_memory_adapter",
+          "__init__",
+          "base",
+          "dream_memory_export",
+          "creativity_adapter",
+          "memory_colonies",
+          "memory_media_file_storage",
+          "memory_system",
+          "memory_fold",
+          "safe_subprocess_executor",
+          "service",
+          "memory_lock",
+          "usage_learning",
+          "hippocampal",
+          "optimized_memory_item",
+          "memory_profiler_wrapper",
+          "memory_viz",
+          "chatgpt_memory_integrator",
+          "multimodal_memory_support",
+          "dream_memory_integration",
+          "memory_comprehensive_new",
+          "symbolic_proteome",
+          "pattern_separator_archive",
+          "emotion_intent_link",
+          "optimized_hybrid_memory_fold",
+          "atomic_memory_scaffold",
+          "drift_dashboard_visual",
+          "monitor_dashboard",
+          "symbolic_delta_compression",
+          "plugin_learning_engine",
+          "pattern_separator",
+          "concept_hierarchy",
+          "semantic_interface",
+          "memory_utils",
+          "memory_optimization",
+          "fold_lineage_tracker_archive",
+          "integrity_collapser",
+          "auto_consolidate",
+          "memory_drift_tracker",
+          "memory_checkpoint",
+          "drift_pattern_analyzer",
+          "dreams_alt",
+          "memory_helix_visualizer",
+          "pin_memory",
+          "performance_validator",
+          "helix_repair_module",
+          "dna_memory_architecture",
+          "recall_handler",
+          "trace_injector",
+          "echo_controller",
+          "memory_profiler",
+          "verifold_connector",
+          "cpu_friendly_compliance",
+          "trace_reader",
+          "in_memory_span_exporter",
+          "advanced_trauma_repair",
+          "helix_vault",
+          "memory_helix",
+          "consolidate_emotion_feeling_memory",
+          "simple_memory",
+          "dream_trace_linker",
+          "causal_program_inducer",
+          "trait_sync",
+          "dream_integrator",
+          "benchmark_swarm",
+          "attention_memory_layer",
+          "learning_gateway",
+          "hierarchical_data_store",
+          "glyph_memory_bridge",
+          "dreams",
+          "visualizer",
+          "dream_cron",
+          "contracts",
+          "helix_mapper",
+          "feedback_propagator",
+          "neurosymbolic_integration"
+        ]
+      },
+      "common_patterns": [
+        "matriz_adapter",
+        "__init__",
+        "fold_system"
+      ]
+    },
+    "identity": {
+      "module_name": "identity",
+      "locations": [
+        "lukhas/identity",
+        "candidate/identity",
+        "candidate/core/identity"
+      ],
+      "file_counts": {
+        "lukhas/identity": 16,
+        "candidate/identity": 1,
+        "candidate/core/identity": 17
+      },
+      "unique_files": {
+        "lukhas/identity": [
+          "webauthn",
+          "tier_system",
+          "core",
+          "__init__",
+          "auth_service",
+          "api",
+          "null_webauthn",
+          "compat",
+          "registry",
+          "lambda_id",
+          "auth_integration"
+        ],
+        "candidate/identity": [
+          "__init__"
+        ],
+        "candidate/core/identity": [
+          "manager",
+          "consciousness_tiered_authentication",
+          "constellation_validation_test",
+          "consciousness_namespace_isolation",
+          "persona_engine",
+          "matriz_consciousness_identity",
+          "consciousness_coherence_monitor",
+          "__init__",
+          "mapper",
+          "test_consciousness_identity_patterns",
+          "processor",
+          "engine",
+          "constellation_validation_test",
+          "constitutional_ai_compliance",
+          "id_manager",
+          "lambda_id_core",
+          "matriz_consciousness_identity_signals"
+        ]
+      },
+      "common_patterns": [
+        "__init__"
+      ]
+    },
+    "security": {
+      "module_name": "security",
+      "locations": [
+        "lukhas/security",
+        "candidate/core/security"
+      ],
+      "file_counts": {
+        "lukhas/security": 2,
+        "candidate/core/security": 12
+      },
+      "unique_files": {
+        "lukhas/security": [
+          "__init__",
+          "secure_random"
+        ],
+        "candidate/core/security": [
+          "auth",
+          "secure_logging",
+          "kms_manager",
+          "__init__",
+          "migrate_xor_encryption",
+          "security_integration",
+          "security_policy",
+          "credential_manager",
+          "defense_monitor",
+          "enhanced_crypto",
+          "crypto",
+          "cognitive_security"
+        ]
+      },
+      "common_patterns": [
+        "__init__"
+      ]
+    },
+    "bridge": {
+      "module_name": "bridge",
+      "locations": [
+        "lukhas/bridge",
+        "candidate/bridge"
+      ],
+      "file_counts": {
+        "lukhas/bridge": 5,
+        "candidate/bridge": 136
+      },
+      "unique_files": {
+        "lukhas/bridge": [
+          "openai_modulated_service",
+          "__init__",
+          "bridge_wrapper",
+          "unified_openai_client"
+        ],
+        "candidate/bridge": [
+          "integration_bridge",
+          "verify",
+          "env_loader",
+          "__init__",
+          "base",
+          "check_all_box_alignment",
+          "api_framework",
+          "consciousness",
+          "lambda_id_previewer",
+          "controllers",
+          "multi_ai_orchestrator",
+          "dream_api",
+          "create_dream_recall_api",
+          "anthropic_function_bridge",
+          "rate_limiter",
+          "embedding",
+          "paths",
+          "colony_bridge",
+          "auth_middleware",
+          "setup",
+          "ai_provider",
+          "main_app",
+          "api_hub",
+          "explainability_interface_layer",
+          "colony_endpoints",
+          "reasoning_effort",
+          "blockchain_bridge",
+          "performance_monitor",
+          "targeted_syntax_fix",
+          "create_emotional_coherence_api",
+          "memory",
+          "adapters",
+          "unified_openai_client",
+          "main",
+          "message_bus",
+          "onboarding",
+          "service_adapter_base",
+          "openai_modulated_service",
+          "transcribe",
+          "example",
+          "task_router",
+          "matriz_adapter",
+          "workflow_transparency",
+          "neuroplastic_connector",
+          "workflow_monitor",
+          "freeze_protection_check",
+          "personality_communication_engine",
+          "trace_logger",
+          "create_colony_consensus_api",
+          "LambdaDependaBoT_robust",
+          "lambda_id_routes",
+          "model_communication_engine",
+          "orchestration_endpoints",
+          "lambd_id_routes",
+          "vscode_diagnostic",
+          "oauth_manager",
+          "simple_troubleshooter",
+          "unified_router",
+          "consensus_engine",
+          "anthropic_wrapper",
+          "decoding",
+          "plugin_loader",
+          "apply_api_fixes",
+          "apply_naming_refinements",
+          "adapter",
+          "drive_adapter",
+          "documentation",
+          "create_memory_fold_api",
+          "onboarding_api",
+          "gmail_adapter",
+          "entity_extractor",
+          "test_integration",
+          "services",
+          "setup_api_keys",
+          "flows_redirect",
+          "config_manager",
+          "module_generator",
+          "validation",
+          "reasoning_report_generator",
+          "tool_executor",
+          "eleven_tts",
+          "dropbox_adapter",
+          "chat_completion_reasoning_effort",
+          "gpt_integration_layer",
+          "gemini_wrapper",
+          "create_classical_emotional_api",
+          "local_llm_fixer",
+          "launch_demo_apis",
+          "connection_visualizer",
+          "openai_function_bridge",
+          "create_classical_dream_api",
+          "context_manager",
+          "security",
+          "flows",
+          "unified_api_gateway",
+          "orchestration_api_bridge",
+          "route_handlers",
+          "azure_openai_wrapper",
+          "router",
+          "api",
+          "dream",
+          "test_orchestration_system",
+          "direct_ai_router",
+          "workflow_orchestrator",
+          "dream_commerce",
+          "TrueCoreAnalyzer",
+          "openai_optimized",
+          "intent_router",
+          "emotion",
+          "ai_interface",
+          "perplexity_wrapper",
+          "memory_api",
+          "service_adapter_verification",
+          "config",
+          "signal_router"
+        ]
+      },
+      "common_patterns": [
+        "__init__",
+        "openai_modulated_service",
+        "unified_openai_client"
+      ]
+    },
+    "consciousness": {
+      "module_name": "consciousness",
+      "locations": [
+        "lukhas/consciousness",
+        "candidate/consciousness",
+        "candidate/core/consciousness"
+      ],
+      "file_counts": {
+        "lukhas/consciousness": 6,
+        "candidate/consciousness": 381,
+        "candidate/core/consciousness": 12
+      },
+      "unique_files": {
+        "lukhas/consciousness": [
+          "consciousness_wrapper",
+          "__init__",
+          "constellation_integration",
+          "activation_orchestrator",
+          "bio_integration",
+          "registry"
+        ],
+        "candidate/consciousness": [
+          "colony_dream_coordinator",
+          "bio_system",
+          "core_integrator",
+          "monitoring_observability",
+          "response_reasoning_summary_text_done_event",
+          "dream_injector",
+          "__init__",
+          "redirect_forecaster",
+          "parallel_reality_safety",
+          "reflection_layer",
+          "dream_reflection_loop_simple",
+          "oracle_dream",
+          "response_reasoning_summary_done_event",
+          "goal_manager",
+          "dream_visualization",
+          "activation",
+          "haiku_generator",
+          "consciousness",
+          "unified_memory_manager",
+          "platform",
+          "dream_seed",
+          "creative_core",
+          "voice_narrator",
+          "dream_service_init",
+          "core",
+          "cognitive_load_estimator",
+          "memoryscape_viewport",
+          "response_reasoning_item",
+          "bridge",
+          "dream_engine",
+          "federated_learning_system",
+          "token_budget_controller",
+          "service",
+          "response_reasoning_item_param",
+          "openai_dream_integration",
+          "sentinel",
+          "self_reflection_engine",
+          "lambda_mirror",
+          "consolidate_consciousness_unification",
+          "state",
+          "collapse_governance_system",
+          "qi_creative_types",
+          "privacy_preserving_memory_vault",
+          "awareness_engine_elevated",
+          "system_awareness",
+          "dream_narrator_queue",
+          "dream_memory_manager",
+          "symbolic_drift_analyzer",
+          "practical_optimizations",
+          "learning_system",
+          "voice_personality_creativity_engine",
+          "redirect_trace_replayer",
+          "research_awareness_engine",
+          "dream_seed_simple",
+          "master_loop",
+          "symbolic_drift_tracker",
+          "integration_manager",
+          "distributed_state_manager",
+          "creative_engine",
+          "bio_symbolic_awareness_adapter",
+          "bio_crista_optimizer_adapter",
+          "narrative_engine_dream_narrator_queue",
+          "advanced_consciousness_engine",
+          "dream_viewer",
+          "federated_meta_learning",
+          "framework_integration",
+          "flatted",
+          "creative_expressions_engine",
+          "intelligence_engines",
+          "noise",
+          "cognitive_updater",
+          "symbolic_trace_logger",
+          "dream_loop_generator",
+          "auto_consciousness",
+          "tiered_state_management",
+          "reasoning_engine",
+          "dream_memory_integration",
+          "openai_core_service",
+          "MetaLearningEnhancement",
+          "dream_refold",
+          "content_enterprise_orchestrator",
+          "creative_expression_core",
+          "dream_processor",
+          "qi_consciousness_integration",
+          "superposition_processor",
+          "reasoning_colony",
+          "consciousness_api",
+          "dream_pipeline",
+          "loop_meta_learning",
+          "async_client",
+          "symbolic_bio_symbolic_orchestrator",
+          "ethics_guard",
+          "coherence_patch_validator",
+          "integrator",
+          "dream_export_streamlit",
+          "autonomous_innovation_core",
+          "dream_engine_fastapi",
+          "processing_core",
+          "client",
+          "evolution",
+          "dream_snapshot",
+          "EthicalReasoningSystem",
+          "bio_qi_engine",
+          "voice_profiling_emotion_engine",
+          "consciousness_expansion_engine",
+          "qi_consciousness_visualizer",
+          "actor_system",
+          "identity_hub",
+          "emotional_memory_manager",
+          "awareness_log_synchronizer",
+          "dream_loop",
+          "qi_dream_adapter",
+          "resonance",
+          "awareness_system",
+          "lukhas_awareness_protocol",
+          "mapper",
+          "dream_mutator",
+          "dream_verification_colony",
+          "creative_expressions_creativity_engine",
+          "run_dream_analysis",
+          "consciousness_colony_integration",
+          "creative_expression_processor",
+          "engine_codex",
+          "adaptive_reasoning_loop",
+          "cognitive_sync_adapter",
+          "awareness_boundary_transcender",
+          "example",
+          "symbolic_fallback_systems",
+          "replay",
+          "mesh",
+          "dream_processor_integrator",
+          "meta_learning",
+          "reasoning_hub",
+          "matriz_adapter",
+          "symbolic_weaver",
+          "neuroplastic_connector",
+          "persona_similarity_engine",
+          "certificate_manager",
+          "pattern_separator",
+          "invariant_testing_framework",
+          "qi_mesh_integrator",
+          "immersive_ingestion",
+          "emotional",
+          "web_app",
+          "colony_orchestrator",
+          "personality_refiner",
+          "engine_alt",
+          "symbolic_loop_harmonizer",
+          "symbolic_qi_attention",
+          "meta_cognitive_orchestrator_alt",
+          "consciousness_dimensionality_expander",
+          "lucid_dreaming",
+          "dream_summary_generator",
+          "dream_metrics_view",
+          "dream_symbolism",
+          "engine_complete",
+          "engine",
+          "natural_language_interface",
+          "full_connectivity_resolver",
+          "symbolic_logger",
+          "ConsentManager",
+          "qi_memory_manager",
+          "engine_poetic",
+          "swarm",
+          "dream_sequence_coordinator",
+          "symbolic_nervous_system",
+          "reasoning_diagnostics",
+          "archetypes",
+          "cognitive_architecture_controller",
+          "_dict_learning",
+          "dream_reflect_hook",
+          "reality_synthesis_engine",
+          "qi_consciousness_integration_wrapper",
+          "adapter",
+          "awareness_engine",
+          "world_models",
+          "brain",
+          "awareness_processor",
+          "response_reasoning_summary_delta_event",
+          "conflict_resolver",
+          "lambda_dependa_bot",
+          "dreamseed_unified",
+          "consciousness_hub",
+          "qi_layer",
+          "dream_orchestration_hub",
+          "abas_qi_specialist",
+          "atlas",
+          "dream_replay_cli",
+          "trace_summary_builder",
+          "voice_personality",
+          "FederatedLearningSystem",
+          "dream_feedback_controller",
+          "ethical_reasoning_system",
+          "services",
+          "voice_parameter",
+          "qrg_100_percent_coverage",
+          "reasoning_errors",
+          "awareness_monitoring_system",
+          "reflection",
+          "identity",
+          "intent_processor",
+          "dream_reflection_loop",
+          "dream_analytics",
+          "cross_modal_validation",
+          "innovation_drift_protection",
+          "breakthrough_detector",
+          "openai_consciousness_adapter",
+          "id_reasoning_engine",
+          "archetypal_patterns",
+          "awareness",
+          "trace_mapper",
+          "dream_limiter",
+          "symbolic_dream_interpretation",
+          "dream_data_sources",
+          "LBot_reasoning_processed",
+          "dream_log_viewer",
+          "dream_consciousness_bridge",
+          "metalearningenhancementsystem",
+          "integrated_safety_system",
+          "drift_score",
+          "validator",
+          "response_reasoning_done_event",
+          "oscillator",
+          "dream_trace_linker",
+          "shared_state",
+          "openai_modulated_service",
+          "orchestration_service",
+          "layer",
+          "dream_metrics_db",
+          "visionary_orchestrator",
+          "consciousness_multiplication_engine",
+          "circuit_breaker_framework",
+          "dream_director",
+          "system",
+          "memory_hub",
+          "qi_mesh_visualizer",
+          "dream_memory_fusion",
+          "agentic_trace",
+          "simulation_controller",
+          "meta_cognitive",
+          "parallel_reality_simulator",
+          "rl_dream_cycle",
+          "awareness_protocol",
+          "dream_interpretation",
+          "response_reasoning_delta_event",
+          "qi_creative_consciousness",
+          "response_reasoning_summary_part_added_event",
+          "ethical_drift_sentinel",
+          "bio_engine",
+          "agent_coordination",
+          "chaos_engineering_framework",
+          "dream_emotion_bridge",
+          "unified_consciousness_engine",
+          "attention_monitor",
+          "awareness_tracker",
+          "dream_replay",
+          "controller",
+          "meta_consciousness_developer",
+          "\u039bBot_consciousness_monitor",
+          "dream_cli",
+          "dream_narrator",
+          "master_orchestrator",
+          "circuit_breaker",
+          "redirect_justifier",
+          "orchestration_bridge",
+          "MetaLearningAdapter",
+          "openai_oracle_adapter",
+          "sensor_fusion",
+          "dream",
+          "healix_visualizer",
+          "metamorphic_testing_framework",
+          "meta_learning_adapter",
+          "dream_log",
+          "\u039bBot_reasoning",
+          "lambda_bot_consciousness_integration",
+          "event_replay_snapshot",
+          "voice_integrator",
+          "dream_stats",
+          "qi_consciousness_hub",
+          "response_reasoning_summary_part_done_event",
+          "oracle_predictor",
+          "brain_integration",
+          "reasoning_metrics",
+          "response_reasoning_summary_text_delta_event",
+          "dream_state_manager",
+          "dream_bridge",
+          "reflective_introspection",
+          "config",
+          "mediation",
+          "dream_bridge_adapter",
+          "reasoning"
+        ],
+        "candidate/core/consciousness": [
+          "receptivity_windows",
+          "__init__",
+          "journey_mapper",
+          "matriz_consciousness_state",
+          "matriz_consciousness_orchestrator",
+          "breakthrough_detector_v2",
+          "oracle",
+          "prediction_engine"
+        ]
+      },
+      "common_patterns": [
+        "__init__"
+      ]
+    },
+    "utils": {
+      "module_name": "utils",
+      "locations": [
+        "lukhas/utils",
+        "candidate/utils",
+        "candidate/core/utils"
+      ],
+      "file_counts": {
+        "lukhas/utils": 3,
+        "candidate/utils": 1,
+        "candidate/core/utils": 7
+      },
+      "unique_files": {
+        "lukhas/utils": [
+          "logging_config",
+          "optional_import",
+          "runtime_paths"
+        ],
+        "candidate/utils": [
+          "time"
+        ],
+        "candidate/core/utils": [
+          "symbolic_utils",
+          "tracing_init",
+          "__init__",
+          "orchestration_energy_aware_execution_planner",
+          "user_interaction_init",
+          "bio_orchestrator_orchestrator",
+          "grow_init"
+        ]
+      },
+      "common_patterns": []
+    },
+    "observability": {
+      "module_name": "observability",
+      "locations": [
+        "lukhas/observability",
+        "candidate/core/observability"
+      ],
+      "file_counts": {
+        "lukhas/observability": 3,
+        "candidate/core/observability": 6
+      },
+      "unique_files": {
+        "lukhas/observability": [
+          "matriz_decorators",
+          "__init__",
+          "matriz_emit"
+        ],
+        "candidate/core/observability": [
+          "constellation_framework_monitor",
+          "__init__",
+          "collector",
+          "unified_monitoring_dashboard",
+          "system_health_monitor",
+          "alerting_system"
+        ]
+      },
+      "common_patterns": [
+        "__init__"
+      ]
+    },
+    "qi": {
+      "module_name": "qi",
+      "locations": [
+        "lukhas/qi",
+        "candidate/qi"
+      ],
+      "file_counts": {
+        "lukhas/qi": 2,
+        "candidate/qi": 203
+      },
+      "unique_files": {
+        "lukhas/qi": [
+          "__init__",
+          "qi_wrapper"
+        ],
+        "candidate/qi": [
+          "qi_flux",
+          "jurisdiction_diff",
+          "verify",
+          "__init__",
+          "trace_viewer",
+          "promoter",
+          "receipts_api",
+          "dream_seed",
+          "policy_mutate",
+          "qi_processing_core",
+          "ui_generator",
+          "visualizer_core",
+          "bridge",
+          "service",
+          "policy_linter",
+          "system_orchestrator",
+          "ethics_sync",
+          "qi_engine",
+          "dashboard_settings",
+          "gen_module_header",
+          "qi_dream_config",
+          "tuner",
+          "creative_engine",
+          "rename_qi",
+          "bio_multi_orchestrator",
+          "qi_coordinator",
+          "pqc_crypto_engine",
+          "glyph_hash",
+          "reasoner",
+          "ethics_engine",
+          "consensus_system",
+          "human_adapt_engine",
+          "bio",
+          "lidar_emotion_interpreter",
+          "consolidate_dream_qi_learning",
+          "identity_engine",
+          "auto_safety_report",
+          "teq_unified",
+          "architectures",
+          "abstract_reasoning_demo.original",
+          "dream_adapter",
+          "loop",
+          "cockpit_api",
+          "qi_processor",
+          "consent_guard",
+          "trace",
+          "main",
+          "provenance_proxy",
+          "zero_knowledge_system",
+          "entanglement",
+          "orchestration_compatibility",
+          "bio_qi_radar_integration",
+          "mitochondrial_energy",
+          "example",
+          "distributed_qi_architecture",
+          "ci_runner",
+          "task_router",
+          "collapse_chain_simulator",
+          "confidence_router",
+          "neuroplastic_connector",
+          "seal",
+          "bio_coordinator",
+          "bio_components",
+          "qi_oscillator",
+          "qi_creative_integration",
+          "consolidate_qi_sgi_core",
+          "stress_gate",
+          "neural_symbolic_processor",
+          "proprioceptive_state",
+          "model_card",
+          "affect_model",
+          "adaptive_engine",
+          "endocrine_system",
+          "provenance_receipts",
+          "engine",
+          "bio_signals",
+          "collapse_reasoner",
+          "update_qi_refs",
+          "buffer",
+          "swarm",
+          "voice_enhancer",
+          "neuro_symbolic_integration",
+          "budgeter",
+          "vault_manager",
+          "constants",
+          "qi_state_modifier",
+          "receipts_sink",
+          "qi_identity_manager",
+          "creative_q_expression",
+          "qi_entanglement",
+          "coordinator",
+          "base_oscillator",
+          "risk_orchestrator",
+          "provenance_links",
+          "ci_report",
+          "teq_gate",
+          "qi_validator",
+          "dna_simulator",
+          "post_quantum_crypto",
+          "safe_blockchain",
+          "approver_api",
+          "unified_collapse_system",
+          "cli",
+          "ceval_runner",
+          "attention_economics",
+          "calibration",
+          "qi_security_integration",
+          "qi_glyph_registry",
+          "attention",
+          "qi_integration_manager",
+          "interface_dashboard_settings",
+          "awareness",
+          "pqc_signer",
+          "embed",
+          "integrity_probe",
+          "teq_replay",
+          "validator",
+          "oscillator",
+          "qi_waveform",
+          "qi_states",
+          "anomaly_filter",
+          "crista_optimizer",
+          "phase_qi_integration",
+          "self_healer",
+          "rate_limit",
+          "post_quantum_crypto_v2",
+          "cap_sandbox",
+          "\u039bBot_qi_security",
+          "receipt_standard",
+          "generate_hybrid_connectivity_map",
+          "awareness_bio",
+          "consolidate_identity_qi_secure",
+          "policy_report",
+          "teq_coupler",
+          "creative_integration",
+          "qi_integration_hub",
+          "model_safety_card",
+          "orchestrator_overlays",
+          "coherence",
+          "bio_optimizer",
+          "intent_inference",
+          "execute_aggressive_consolidation",
+          "teq_gate_provenance",
+          "receipts_hub",
+          "collapse_bridge",
+          "trace_graph",
+          "metrics_middleware",
+          "processor",
+          "brain_collapse_manager",
+          "qi_colony",
+          "integration",
+          "threshold_colony",
+          "web_integration",
+          "provenance",
+          "connectivity_consolidator",
+          "metadata",
+          "signer_service",
+          "pii",
+          "prime_oscillator",
+          "voice_adapter",
+          "preprocessing",
+          "provenance_uploader",
+          "provenance_streamer",
+          "consent_ledger"
+        ]
+      },
+      "common_patterns": [
+        "__init__"
+      ]
+    },
+    "vivox": {
+      "module_name": "vivox",
+      "locations": [
+        "lukhas/vivox",
+        "candidate/vivox"
+      ],
+      "file_counts": {
+        "lukhas/vivox": 2,
+        "candidate/vivox": 46
+      },
+      "unique_files": {
+        "lukhas/vivox": [
+          "__init__",
+          "vivox_wrapper"
+        ],
+        "candidate/vivox": [
+          "vector_encryption",
+          "demo_vivox_evrn",
+          "__init__",
+          "qi_substrate",
+          "anomaly_detection",
+          "demo_qready",
+          "vivox_bridge",
+          "vivox_ethics_bridge",
+          "vivox_ern_core",
+          "z_collapse_engine",
+          "precedent_seeds",
+          "vivox_srm_core",
+          "state_variety_enhancement",
+          "qsync_events",
+          "sensory_integration",
+          "event_integration",
+          "logging_config",
+          "timestamp_verification",
+          "endocrine_integration",
+          "decision_strictness_enhancement",
+          "neuroplastic_integration",
+          "moral_superposition",
+          "transparency_audit",
+          "vivox_me_core",
+          "vivox_mae_core",
+          "vivox_evrn_core",
+          "ethical_perception",
+          "symbolic_proteome",
+          "vivox_cil_core",
+          "qubit_collapse",
+          "vivox_memory_bridge"
+        ]
+      },
+      "common_patterns": [
+        "__init__"
+      ]
+    },
+    "orchestration": {
+      "module_name": "orchestration",
+      "locations": [
+        "lukhas/orchestration",
+        "candidate/orchestration",
+        "candidate/core/orchestration"
+      ],
+      "file_counts": {
+        "lukhas/orchestration": 5,
+        "candidate/orchestration": 100,
+        "candidate/core/orchestration": 268
+      },
+      "unique_files": {
+        "lukhas/orchestration": [
+          "__init__",
+          "api",
+          "kernel_bus",
+          "context_bus"
+        ],
+        "candidate/orchestration": [
+          "__init__",
+          "prompt_modulator",
+          "context_bus",
+          "high_performance_context_bus",
+          "migrate_to_kernel_bus",
+          "brain",
+          "symbolic_kernel_bus",
+          "homeostasis",
+          "gpt_colony_orchestrator",
+          "dream_orchestrator",
+          "kernel_bus_examples",
+          "signal_bus",
+          "openai_modulated_service",
+          "intelligence_monitor",
+          "unified_cognitive_orchestrator",
+          "modulator",
+          "matriz_adapter",
+          "multi_model_orchestration",
+          "intelligence_bridge",
+          "homeostasis_controller",
+          "intelligence_adapter"
+        ],
+        "candidate/core/orchestration": [
+          "core_integrator",
+          "integration_bridge",
+          "oscillator_adapter",
+          "__init__",
+          "base",
+          "plugin_registry",
+          "ethical_stop",
+          "experience_manager",
+          "experience_core",
+          "jules",
+          "core",
+          "symbolic_loop",
+          "vulnerability_dashboard",
+          "lambdabot_autonomous_fixer",
+          "visualizer_core",
+          "consciousness_core",
+          "com_validator",
+          "agent_orchestrator",
+          "safety_guardrails",
+          "main_orchestrator",
+          "trace_memory_logger",
+          "fix_lambda_symbols",
+          "code_process_integration_api",
+          "signal_middleware",
+          "human_in_the_loop_orchestrator",
+          "lambda_bot_batch_processor",
+          "voice_engine",
+          "cognitive_ai_client",
+          "main_loop",
+          "awareness_adapter",
+          "ai_compliance_manager",
+          "emotion_mapper",
+          "ethical_conflict_resolution",
+          "production_config",
+          "neural_intelligence_api",
+          "azure_free_tier_strategy",
+          "plan_verifier",
+          "Lambdabot_brain_system",
+          "autonomous_system",
+          "australian_awareness_engine",
+          "trait_sync_gpt_synb_ref",
+          "GlobalInstitutionalCompliantEngine",
+          "qi_attention",
+          "cognitive_updater",
+          "us_institutional_awareness_engine",
+          "eu_ai_transparency",
+          "reflective_introspection_system",
+          "dream_processor",
+          "creative_personality",
+          "multi_agent_collaboration",
+          "matriz_consciousness_coordinator",
+          "eu_awareness_engine",
+          "ethics_loop_guard",
+          "codex",
+          "cognitive_mesh_coordinator",
+          "brain_integration_broken",
+          "migration_router",
+          "ethics_guard",
+          "performance",
+          "dream_adapter",
+          "symbolic_action_prrotocol",
+          "drift_monitoring_api",
+          "meta_learner",
+          "collapse_chain_integrity",
+          "collaborative_ai_agent_system",
+          "symbolic_tuner",
+          "capability_analyzer",
+          "main_bot",
+          "integration_engine",
+          "personality",
+          "dream_processor_integrator",
+          "bio_adapter",
+          "trace_logger",
+          "registry",
+          "dynamic_adaptive_dashboard",
+          "entropy_probe",
+          "azure_openai_client",
+          "legacy_adapter",
+          "personality_refiner",
+          "emotional_oscillator",
+          "dissonance_detector",
+          "unified_self_merge_divergence",
+          "signals",
+          "emotion_mapper_alt",
+          "service_registry",
+          "learning_initializer",
+          "compliance_registry",
+          "cognitive_voice",
+          "engine",
+          "curious_lukhas",
+          "workflow_engine",
+          "response_types",
+          "qi_neuro_symbolic_engine",
+          "uk_awareness_engine",
+          "neural_intelligence_main",
+          "streamlit_lidar",
+          "canadian_awareness_engine",
+          "accent_adapter",
+          "confidence_calibrator",
+          "ai_config",
+          "swarm_integration",
+          "memory_helix_visualizer",
+          "privacy_manager",
+          "main_node",
+          "adaptive_image_generator",
+          "autonomous_github_manager",
+          "brain",
+          "demo",
+          "creative_expressions",
+          "memory_identity",
+          "emotional_sorter",
+          "learn_to_learn",
+          "github_vulnerability_manager",
+          "emotion_trend_tracker",
+          "integration_hub",
+          "processors",
+          "dream_replay_cli",
+          "voice_personality",
+          "dna_link",
+          "symbol_validator",
+          "collapse_mesh",
+          "MultiBrainSymphony",
+          "federated_integration",
+          "llm_engine",
+          "cognitive_enhancement",
+          "sleep_cycle",
+          "dao_governance_node",
+          "ai_compliance",
+          "capability_levels",
+          "GlobalInstitutionalFramework",
+          "the_oscillator",
+          "dast_orchestrator",
+          "golden_healix_mapper",
+          "endocrine_module_example",
+          "health_checks",
+          "qrly",
+          "qi_annealed_consensus",
+          "neural_processor",
+          "feedback_collector",
+          "dream_hub",
+          "healix_mapper",
+          "hash",
+          "agent_interface",
+          "colony_coordinator",
+          "predictive_resource_manager",
+          "settings_loader",
+          "unified_self",
+          "settings_editor",
+          "symbolic_signal_router",
+          "trace_tools",
+          "interface",
+          "trio_orchestrator",
+          "core_system",
+          "self_reflect_cron",
+          "controller",
+          "dream_cli",
+          "federated_integrator",
+          "client_event",
+          "router",
+          "brain_adapter",
+          "report_generator",
+          "api",
+          "intent_adapter",
+          "healix_visualizer",
+          "tier_manager",
+          "emotional_resonance",
+          "system_watchdog",
+          "read_settings",
+          "loop_recovery_simulator",
+          "das_awareness_engine",
+          "rem_visualizer",
+          "dream_stats",
+          "intelligence",
+          "cognitive_adapter",
+          "types",
+          "lambdabot_autonomous_workflow_fixer",
+          "settings",
+          "neuro_symbolic_engine",
+          "brain_integration",
+          "prime_oscillator",
+          "inter_agent_simulation",
+          "identity_manager",
+          "cognitive_core",
+          "voice_adapter"
+        ]
+      },
+      "common_patterns": [
+        "__init__"
+      ]
+    },
+    "governance": {
+      "module_name": "governance",
+      "locations": [
+        "lukhas/governance",
+        "candidate/governance",
+        "candidate/core/governance"
+      ],
+      "file_counts": {
+        "lukhas/governance": 31,
+        "candidate/governance": 362,
+        "candidate/core/governance": 9
+      },
+      "unique_files": {
+        "lukhas/governance": [
+          "auth_guardian_integration",
+          "__init__",
+          "guardian_bridge",
+          "auth_integration_system",
+          "auth_governance_policies",
+          "constitutional_ai",
+          "connector",
+          "interface",
+          "core",
+          "audit_logger",
+          "guardian_impl",
+          "extreme_performance_connector",
+          "null_provider",
+          "extreme_performance_audit_logger",
+          "access_control",
+          "consent_ledger_impl",
+          "api",
+          "registry",
+          "auth_glyph_registry",
+          "colony_memory_validator",
+          "guardian_wrapper",
+          "ethics_engine",
+          "consent_ledger",
+          "auth_cross_module_integration"
+        ],
+        "candidate/governance": [
+          "rule_validator",
+          "unified_auth_manager",
+          "drift_governor",
+          "integration_bridge",
+          "debug_interface",
+          "__init__",
+          "qrg_parser",
+          "security_compliance_check",
+          "base",
+          "symbolic_scopes",
+          "consent_chain_validator",
+          "monitoring_dashboard",
+          "pattern_analyzer",
+          "utils",
+          "meg_bridge",
+          "tier_aware_swarm_hub",
+          "ledger_v1",
+          "rate_modulator",
+          "lambda_id_controller",
+          "governance_engine",
+          "decision_framework",
+          "guardian",
+          "insight_cli",
+          "threat_monitor",
+          "qrg_showcase",
+          "cognitive_load_estimator",
+          "core",
+          "consent_history",
+          "ethical_engine",
+          "gpt4_policy",
+          "dream_generator",
+          "commercial_module",
+          "service",
+          "sentinel",
+          "authentication_server",
+          "ethics_monitor",
+          "access_tier_manager",
+          "multi_user_sync",
+          "bases",
+          "user_tier_mapping",
+          "qr_code_animator",
+          "risk_management_hooks",
+          "governance_model",
+          "entropy_beacon",
+          "guardian_system",
+          "consciousness_bridge",
+          "distributed_glyph_generation",
+          "constellation_glyph_integration",
+          "websocket_server",
+          "enhanced_pwm_guardian",
+          "oscillating_conscience",
+          "workspace_guardian",
+          "session_replay",
+          "biometric_integration",
+          "onboarding_cli",
+          "identity_validator",
+          "mnemonic",
+          "ethical_hierarchy",
+          "ethical_decision_maker",
+          "lambda_id_entropy",
+          "governance_checker",
+          "case_manager",
+          "compliance_drift_monitor",
+          "import_bridge",
+          "decision_support",
+          "pqc_crypto_engine",
+          "monitor",
+          "audit_ethics_monitor",
+          "enhanced_ethical_guardian",
+          "entropy_tuning",
+          "inference_adapter",
+          "ethics_engine",
+          "security_event_monitor",
+          "policy_manager",
+          "sso_engine",
+          "guardian_validator",
+          "ethical_evaluator",
+          "auth",
+          "data_protection",
+          "lambd_id_validator",
+          "ethical_safety_alignment",
+          "identity_integration",
+          "human_oversight_manager",
+          "session_logger",
+          "policy_validator",
+          "ethics_guard",
+          "replay_drift",
+          "compliance",
+          "shared_ethics_engine",
+          "consent_manager",
+          "threat_detection",
+          "community_feedback",
+          "evolution",
+          "secret_manager",
+          "identity_event_types",
+          "trace",
+          "lambd_id_controller",
+          "qi_consciousness_visualizer",
+          "ethical_reasoning_integration",
+          "flagship_security_engine",
+          "drift_dashboard_visual",
+          "connector",
+          "bio_symbolic_fusion",
+          "onboarding",
+          "qrg_generators",
+          "missing_components_analyzer",
+          "intelligence_safety_validator",
+          "qr_entropy_generator",
+          "orb",
+          "privacy_guardian",
+          "dream_verification_colony",
+          "seedra_core",
+          "steganographic_id",
+          "qrg_generator",
+          "cognitive_sync_adapter",
+          "example",
+          "_spikethickness",
+          "lambda_id_auth",
+          "matriz_adapter",
+          "adaptive_ui_controller",
+          "websocket_client",
+          "neuroplastic_connector",
+          "wallet_bridge",
+          "glyph_pipeline",
+          "entropy_engine",
+          "remediator_agent",
+          "onboarding_config",
+          "ethics_layer",
+          "biometric_fusion_engine",
+          "ethics",
+          "compliance_dashboard",
+          "pwm_workspace_guardian",
+          "lambd_id_entropy",
+          "ethical_guardian",
+          "diagnostics",
+          "red_team_simulation_suite",
+          "emotional_drift_monitoring",
+          "identity_event_publisher",
+          "security_audit_engine",
+          "cross_device_manager",
+          "decision_node",
+          "policy_engines",
+          "alignment_overseer",
+          "guardian_sentinel",
+          "grid_size_calculator",
+          "redteam_sim",
+          "drift_detector",
+          "governance",
+          "ethical_sentinel_dashboard",
+          "constitutional_gatekeeper",
+          "engine",
+          "brain_identity_connector",
+          "compliance_dashboard_visual",
+          "constitutional_ai_safety",
+          "compliance_engine20250503213400_p95",
+          "hitlo_bridge",
+          "portability_system",
+          "main_node_security_engine",
+          "activity_logger",
+          "consciousness_mapper",
+          "consciousness_verification_colony",
+          "HEADER_FOOTER_TEMPLATE",
+          "hash_utilities",
+          "iris_lock_finalizer",
+          "ethics_integration",
+          "anonymization",
+          "privacy_manager",
+          "qrg_integration",
+          "policy_engine",
+          "qrg_bridge",
+          "privacy",
+          "constitutional_ai",
+          "edu_module",
+          "lambd_id_service",
+          "consent_receipt_generator",
+          "stargate_activation",
+          "tracing",
+          "intrinsic_governor",
+          "three_laws",
+          "compliance_engine",
+          "moral_agent_template",
+          "compliance_monitor",
+          "lambda_auditor",
+          "gen_compliance_drift_scan",
+          "governance_monitor",
+          "ethical_drift_detector",
+          "trust_scorer",
+          "dream_auth",
+          "webrtc_peer_sync",
+          "validators",
+          "access_control",
+          "colony_dilemma_simulation",
+          "meta_ethics_governor",
+          "audit_trail",
+          "lambda_governor",
+          "brain_identity_integration",
+          "symbolic_vault",
+          "entropy_synchronizer",
+          "unified_login_interface",
+          "biometric_verification_colony",
+          "tier_system",
+          "tag_misinterpretation_sim",
+          "auth_optimizer",
+          "auth_glyph_registry",
+          "ethics_guardian",
+          "tier_validator",
+          "compliance_validator",
+          "guardian_reflector",
+          "accessibility_overlay",
+          "auth_cross_module_integration",
+          "export_report",
+          "hitlo_bridge_simple",
+          "auth_guardian_integration",
+          "lid",
+          "llm_assisted_entry",
+          "data_protection_validator",
+          "generate_audit_export",
+          "deployment_package",
+          "lambda_id_generator",
+          "oauth2_oidc_provider",
+          "auth_integration_system",
+          "consolidate_guardian_governance",
+          "guardian_shadow_filter",
+          "multimodal_zk_engine",
+          "cross_device_handshake",
+          "auth_governance_policies",
+          "lambd_id_generator",
+          "memory_connector",
+          "awareness_protocol",
+          "compliance_simple",
+          "interface",
+          "lambda_id_service",
+          "dao_controller",
+          "identity_health_monitor",
+          "webauthn_manager",
+          "qrg_manager",
+          "audit_logger",
+          "attention_monitor",
+          "tier_enforcer",
+          "stargate_gateway",
+          "qrg_coverage_integration",
+          "dynamic_qrglyph_engine",
+          "guardian_system_integration",
+          "glyph_timeline_generator",
+          "lambda_id_validator",
+          "guardian_dashboard",
+          "LGOV_validator",
+          "tier_manager",
+          "governance_validator",
+          "policy_board",
+          "HEADER_FOOTER_STANDARD",
+          "shared_logging",
+          "common",
+          "simplified_ethics_integration",
+          "cultural_profile_manager",
+          "namespace_manager",
+          "system_health_monitor",
+          "cultural_safety_checker",
+          "security_engine",
+          "repair_system",
+          "voice_duet",
+          "integration",
+          "audit_system",
+          "identity_tag_resolver",
+          "dao_community",
+          "compliance_drift_simulation",
+          "batch_guard",
+          "entropy_helpers",
+          "compliance_audit_system",
+          "replay_protection"
+        ],
+        "candidate/core/governance": [
+          "constitutional_compliance_engine",
+          "guardian_system_2",
+          "constitutional_ai",
+          "__init__",
+          "governance_colony",
+          "matriz_consciousness_governance",
+          "guardian_integration",
+          "guardian_testing_framework",
+          "guardian_system_2_demo"
+        ]
+      },
+      "common_patterns": [
+        "__init__",
+        "constitutional_ai"
+      ]
+    },
+    "api": {
+      "module_name": "api",
+      "locations": [
+        "lukhas/api",
+        "candidate/api",
+        "candidate/core/api"
+      ],
+      "file_counts": {
+        "lukhas/api": 1,
+        "candidate/api": 11,
+        "candidate/core/api": 6
+      },
+      "unique_files": {
+        "lukhas/api": [
+          "__init__"
+        ],
+        "candidate/api": [
+          "dna",
+          "ops",
+          "admin",
+          "audit",
+          "__init__",
+          "app",
+          "tools",
+          "metrics",
+          "perf",
+          "incidents",
+          "feedback"
+        ],
+        "candidate/core/api": [
+          "api_system",
+          "api_client",
+          "__init__",
+          "service_stubs",
+          "service_implementations",
+          "api_server"
+        ]
+      },
+      "common_patterns": [
+        "__init__"
+      ]
+    },
+    "emotion": {
+      "module_name": "emotion",
+      "locations": [
+        "lukhas/emotion",
+        "candidate/emotion"
+      ],
+      "file_counts": {
+        "lukhas/emotion": 2,
+        "candidate/emotion": 34
+      },
+      "unique_files": {
+        "lukhas/emotion": [
+          "__init__",
+          "emotion_wrapper"
+        ],
+        "candidate/emotion": [
+          "dreamseed_upgrade",
+          "recovery_protocol",
+          "__init__",
+          "emotional_echo_detector",
+          "affect_stagnation_detector",
+          "enhanced_memory_manager",
+          "security_control_validation",
+          "trust_binder",
+          "example",
+          "cycler",
+          "stability_anchor",
+          "matriz_adapter",
+          "mood_regulator",
+          "emotion_hub",
+          "neuroplastic_connector",
+          "emotional_resonance",
+          "models",
+          "recurring_emotion_tracker",
+          "mood_entropy_tracker",
+          "drift_alignment_controller",
+          "symbolic_user_intent",
+          "symbolic_entropy"
+        ]
+      },
+      "common_patterns": [
+        "__init__"
+      ]
+    },
+    "interfaces": {
+      "module_name": "interfaces",
+      "locations": [
+        "lukhas/interfaces",
+        "candidate/core/interfaces"
+      ],
+      "file_counts": {
+        "lukhas/interfaces": 1,
+        "candidate/core/interfaces": 191
+      },
+      "unique_files": {
+        "lukhas/interfaces": [
+          "identity"
+        ],
+        "candidate/core/interfaces": [
+          "__init__",
+          "server",
+          "sayit",
+          "health",
+          "voice_narrator",
+          "affiliate_log",
+          "delivery_loop",
+          "moral_alignment_interface",
+          "inject_message_simulator",
+          "scheduler",
+          "s_dispatcher",
+          "safety_filter",
+          "widget_archive",
+          "command_registry",
+          "symbolic_github_export",
+          "launcher",
+          "dashboard_settings",
+          "wallet",
+          "replay_visualizer",
+          "narration_controller",
+          "dream_narrator_queue",
+          "trace_log_viewer",
+          "main_loop",
+          "emotion_log",
+          "encrypted_perception_interface",
+          "delegate_logic",
+          "api_key_cache",
+          "dao_propose",
+          "partner_sdk",
+          "context_builder",
+          "custom_llm",
+          "nias_core",
+          "feedback_loop",
+          "interfaces_hub",
+          "speak",
+          "memory_interface",
+          "generate_image",
+          "voice_narration_player",
+          "auth",
+          "dream_recorder",
+          "filter_gpt",
+          "session_logger",
+          "delivery_tracker_widget",
+          "common_interfaces",
+          "consent_manager",
+          "errors",
+          "dream_export_streamlit",
+          "client",
+          "tasks",
+          "main",
+          "render_ai",
+          "pb2_grpc",
+          "nias_filter",
+          "symbolic_reply_generator",
+          "socket",
+          "consent_filter",
+          "validate_payload",
+          "abas",
+          "checkout_handler",
+          "dast",
+          "core_interface",
+          "widget_engine",
+          "dev_dashboard",
+          "trace_logger",
+          "models",
+          "registry",
+          "feedback_insight_cli",
+          "voice_renderer",
+          "voice_preview_streamlit",
+          "process",
+          "overview_log",
+          "audio_exporter",
+          "terminal_widget",
+          "vendor_hospitality_sync",
+          "replay_graphs",
+          "replay_queue",
+          "symbolic_utils",
+          "travel_widget",
+          "agent_handoff",
+          "constants",
+          "agent_self",
+          "vision_prompts",
+          "gui_launcher",
+          "symbolic_matcher",
+          "research_dashboard",
+          "intelligence_engine_registry",
+          "agent_logic_architecture",
+          "metrics",
+          "services",
+          "duet_conductor",
+          "validators",
+          "memory_handler",
+          "cli",
+          "edge_voice",
+          "widget_config",
+          "listen",
+          "schedule_manager",
+          "pb2",
+          "dast_core",
+          "tier_visualizer",
+          "dream_log_viewer",
+          "agent_core",
+          "generate_payload_cli",
+          "live_renderer_widget",
+          "reward_reputation",
+          "aggregator",
+          "dashboad",
+          "feedback_log_viewer",
+          "payload_builder",
+          "replay_heatmap",
+          "awareness_protocol",
+          "web_formatter",
+          "context_aware_modular_voice",
+          "store",
+          "dao_vote",
+          "aggregator_fixed",
+          "lambda_bot_api_integration",
+          "vendor_sync",
+          "adaptive_enhancements",
+          "dependency_injection",
+          "voice_duet",
+          "dast_logger",
+          "common_interface",
+          "middleware",
+          "app",
+          "voice_agent",
+          "dast_logger_fixed",
+          "generate_video",
+          "gatekeeper",
+          "generate_nias_docs"
+        ]
+      },
+      "common_patterns": []
+    },
+    "colonies": {
+      "module_name": "colonies",
+      "locations": [
+        "candidate/colonies",
+        "candidate/core/colonies"
+      ],
+      "file_counts": {
+        "candidate/colonies": 9,
+        "candidate/core/colonies": 17
+      },
+      "unique_files": {
+        "candidate/colonies": [
+          "orchestrator",
+          "creativity",
+          "reasoning",
+          "__init__",
+          "identity",
+          "governance",
+          "base",
+          "consciousness",
+          "memory"
+        ],
+        "candidate/core/colonies": [
+          "memory_colony",
+          "tag_propagation",
+          "reasoning_colony",
+          "ethics_swarm_colony",
+          "temporal_colony",
+          "__init__",
+          "colony",
+          "base_colony",
+          "consensus_mechanisms",
+          "supervisor_agent",
+          "governance_colony",
+          "swarm_simulation",
+          "consensus_algorithms",
+          "tensor_colony_ops",
+          "creativity_colony",
+          "oracle_colony"
+        ]
+      },
+      "common_patterns": [
+        "__init__"
+      ]
+    },
+    "compliance": {
+      "module_name": "compliance",
+      "locations": [
+        "candidate/compliance",
+        "candidate/core/compliance"
+      ],
+      "file_counts": {
+        "candidate/compliance": 25,
+        "candidate/core/compliance": 5
+      },
+      "unique_files": {
+        "candidate/compliance": [
+          "__init__",
+          "data_protection_validator",
+          "ai_risk_management",
+          "global_deployment_orchestrator",
+          "symbolic_governance_checker",
+          "sovereignty_preservation_system",
+          "A-consent-verifier",
+          "global_interoperability_engine",
+          "matriz_adapter",
+          "compliance_dashboard",
+          "regulatory_intelligence_system",
+          "ai_compliance",
+          "international_compliance_engine",
+          "entropy_tuning",
+          "multi_jurisdiction_engine",
+          "compliance_validator",
+          "compliance_registry",
+          "audit_log",
+          "compliance_dashboard_visual"
+        ],
+        "candidate/core/compliance": [
+          "global_compliance_manager",
+          "privacy_compliance_engine",
+          "__init__",
+          "democratic_oversight",
+          "nist_ai_rmf"
+        ]
+      },
+      "common_patterns": [
+        "__init__"
+      ]
+    },
+    "adapters": {
+      "module_name": "adapters",
+      "locations": [
+        "candidate/adapters",
+        "candidate/core/adapters"
+      ],
+      "file_counts": {
+        "candidate/adapters": 1,
+        "candidate/core/adapters": 4
+      },
+      "unique_files": {
+        "candidate/adapters": [
+          "__init__"
+        ],
+        "candidate/core/adapters": [
+          "module_service_adapter",
+          "__init__",
+          "qi_service_adapter",
+          "seven_agent_adapter"
+        ]
+      },
+      "common_patterns": [
+        "__init__"
+      ]
+    },
+    "audit": {
+      "module_name": "audit",
+      "locations": [
+        "candidate/audit",
+        "candidate/core/audit"
+      ],
+      "file_counts": {
+        "candidate/audit": 4,
+        "candidate/core/audit": 6
+      },
+      "unique_files": {
+        "candidate/audit": [
+          "__init__",
+          "analytics_read",
+          "tool_analytics",
+          "store"
+        ],
+        "candidate/core/audit": [
+          "__init__",
+          "audit_decorators",
+          "audit_trail",
+          "audit_analytics",
+          "audit_decision_embedding_engine",
+          "audit_integration_example"
+        ]
+      },
+      "common_patterns": [
+        "__init__"
+      ]
+    }
+  },
+  "recommendations": [
+    "HIGH: Merge duplicate 'branding' modules: lukhas/branding vs candidate/branding",
+    "HIGH: Merge duplicate 'tools' modules: lukhas/tools vs candidate/tools",
+    "HIGH: Merge duplicate 'bio' modules: lukhas/bio vs candidate/bio",
+    "HIGH: Merge duplicate 'core' modules: lukhas/core vs candidate/core",
+    "HIGH: Merge duplicate 'memory' modules: lukhas/memory vs candidate/memory",
+    "CRITICAL: 'identity' exists in 3 locations: lukhas/identity, candidate/identity, candidate/core/identity. Consolidate immediately.",
+    "HIGH: Merge duplicate 'security' modules: lukhas/security vs candidate/core/security",
+    "HIGH: Merge duplicate 'bridge' modules: lukhas/bridge vs candidate/bridge",
+    "CRITICAL: 'consciousness' exists in 3 locations: lukhas/consciousness, candidate/consciousness, candidate/core/consciousness. Consolidate immediately.",
+    "CRITICAL: 'utils' exists in 3 locations: lukhas/utils, candidate/utils, candidate/core/utils. Consolidate immediately.",
+    "HIGH: Merge duplicate 'observability' modules: lukhas/observability vs candidate/core/observability",
+    "HIGH: Merge duplicate 'qi' modules: lukhas/qi vs candidate/qi",
+    "HIGH: Merge duplicate 'vivox' modules: lukhas/vivox vs candidate/vivox",
+    "CRITICAL: 'orchestration' exists in 3 locations: lukhas/orchestration, candidate/orchestration, candidate/core/orchestration. Consolidate immediately.",
+    "CRITICAL: 'governance' exists in 3 locations: lukhas/governance, candidate/governance, candidate/core/governance. Consolidate immediately.",
+    "CRITICAL: 'api' exists in 3 locations: lukhas/api, candidate/api, candidate/core/api. Consolidate immediately.",
+    "HIGH: Merge duplicate 'emotion' modules: lukhas/emotion vs candidate/emotion",
+    "HIGH: Merge duplicate 'interfaces' modules: lukhas/interfaces vs candidate/core/interfaces",
+    "HIGH: Merge duplicate 'colonies' modules: candidate/colonies vs candidate/core/colonies",
+    "HIGH: Merge duplicate 'compliance' modules: candidate/compliance vs candidate/core/compliance",
+    "HIGH: Merge duplicate 'adapters' modules: candidate/adapters vs candidate/core/adapters",
+    "HIGH: Merge duplicate 'audit' modules: candidate/audit vs candidate/core/audit",
+    "EXTRACT: Move candidate/core/symbolic_legacy (35 files) to candidate/symbolic_legacy",
+    "EXTRACT: Move candidate/core/integration (29 files) to candidate/integration",
+    "EXTRACT: Move candidate/core/consciousness (12 files) to candidate/consciousness",
+    "EXTRACT: Move candidate/core/symbolic_core (36 files) to candidate/symbolic_core",
+    "EXTRACT: Move candidate/core/orchestration (268 files) to candidate/orchestration",
+    "URGENT: candidate/core mega-module needs immediate decomposition"
+  ]
+}

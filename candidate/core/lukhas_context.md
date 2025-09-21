@@ -6,17 +6,17 @@
 
 
 # CANDIDATE Core Component Ecosystem
-*193 Subdirectories - 1,029+ Python Files - Comprehensive AGI Components*
+*193 Subdirectories - 1,029+ Python Files - Comprehensive Cognitive Components*
 
 ## Component Ecosystem Overview
 
-The CANDIDATE core represents the **largest component ecosystem** in LUKHAS, containing **1,029+ Python files** across **193 subdirectories**. This is the comprehensive AGI component library where orchestration, interfaces, symbolic reasoning, and specialized systems are developed before integration through LUKHAS and deployment to PRODUCTS.
+The CANDIDATE core represents the **largest component ecosystem** in LUKHAS, containing **1,029+ Python files** across **193 subdirectories**. This is the comprehensive Cognitive AI component library where orchestration, interfaces, symbolic reasoning, and specialized systems are developed before integration through LUKHAS and deployment to PRODUCTS.
 
 ### **Ecosystem Scale**
 - **Files**: 1,029+ Python files (massive component development workspace)
 - **Directories**: 193 subdirectories with specialized component domains
-- **Purpose**: Comprehensive AGI component library and integration testing ground
-- **Architecture**: Component-based system with coordinated orchestration and interfaces
+- **Purpose**: Comprehensive Cognitive AI component library with Constellation Framework integration
+- **Architecture**: Registry-based plugins with constructor-aware instantiation and T4/0.01% standards
 
 ### **Component Organization**
 ```
@@ -332,6 +332,6 @@ async def coordinate_multi_component_development(components):
 
 **Component Ecosystem**: 1,029+ files across 193 directories | **Top Domains**: Orchestration (266) + Interfaces (190) + Symbolic (71)
 **Integration**: Cross-component coordination + LUKHAS bridge + PRODUCTS deployment readiness
-**Development**: Active component library with comprehensive AGI capabilities
+**Development**: Active component library with comprehensive Cognitive capabilities
 
 *Navigate to specialized component contexts for detailed development workflows*

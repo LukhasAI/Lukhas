@@ -1,5 +1,5 @@
 # Test Specialist Report: LUKHAS AI Testing Status
-## Trinity Framework: ⚛️🧠🛡️
+## Constellation Framework: ⚛️🧠🛡️
 ### Generated: 2025-08-13
 
 ---
@@ -232,7 +232,7 @@ The testing effort will be successful when:
 3. >80% code coverage on critical modules
 4. All entry points use NEW system (`lukhas/accepted/`)
 5. Performance benchmarks established
-6. Trinity Framework preserved in all operations
+6. Constellation Framework preserved in all operations
 
 ---
 

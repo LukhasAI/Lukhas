@@ -44,7 +44,7 @@ def test_real_consent_granting():
                 lid="test_user_001",
                 resource_type="consciousness_data",
                 scopes=["processing"],
-                purpose="Trinity Framework processing",
+                purpose="Constellation Framework processing",
             )
 
             assert consent_id is not None
@@ -54,7 +54,7 @@ def test_real_consent_granting():
             consent_record = ledger.get_consent(user_id="test_user_001", data_type="consciousness_data")
             assert consent_record is not None
             assert consent_record.get("status") == ConsentStatus.GRANTED
-            assert consent_record.get("purpose") == "Trinity Framework processing"
+            assert consent_record.get("purpose") == "Constellation Framework processing"
 
     except ImportError:
         pytest.skip("ConsentLedgerV1 or related classes not available")
@@ -204,7 +204,7 @@ def test_real_gdpr_compliance():
 
 
 def test_real_triad_framework_integration():
-    """Test real Trinity Framework integration with consent ledger."""
+    """Test real Constellation Framework integration with consent ledger."""
     try:
         from lukhas.governance.consent_ledger_impl import ConsentLedgerV1, ConsentScope
 
@@ -212,7 +212,7 @@ def test_real_triad_framework_integration():
             db_path = Path(temp_dir) / "test_consent.db"
             ledger = ConsentLedgerV1(database_path=str(db_path), triad_framework=True)
 
-            # Test Trinity Framework specific consent types
+            # Test Constellation Framework specific consent types
             triad_consent_types = [
                 ("consciousness_data", "Consciousness awareness processing"),
                 ("memory_fold_data", "Memory fold cascade prevention"),
@@ -223,12 +223,12 @@ def test_real_triad_framework_integration():
 
             for data_type, purpose in triad_consent_types:
                 consent_id = ledger.grant_consent(
-                    user_id=user_id, data_type=data_type, purpose=purpose, scope=ConsentScope.TRINITY_FRAMEWORK
+                    user_id=user_id, data_type=data_type, purpose=purpose, scope=ConsentScope.CONSTELLATION_FRAMEWORK
                 )
 
                 assert consent_id is not None
 
-                # Verify Trinity-specific validation
+                # Verify Constellation-specific validation
                 is_valid = ledger.validate_triad_consent(
                     user_id=user_id,
                     data_type=data_type,
@@ -238,7 +238,7 @@ def test_real_triad_framework_integration():
                 assert is_valid is True
 
     except ImportError:
-        pytest.skip("ConsentLedgerV1 or Trinity Framework integration not available")
+        pytest.skip("ConsentLedgerV1 or Constellation Framework integration not available")
 
 
 def test_real_consent_ledger_edge_cases():

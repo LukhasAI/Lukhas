@@ -7,7 +7,7 @@ logger = logging.getLogger(__name__)
 ═══════════════════════════════════════════════════════════════════════════
 
 PURPOSE: Real-time monitoring and alerting system for concept drift, performance
-         degradation, and behavioral changes in LUKHAS AGI systems
+         degradation, and behavioral changes in LUKHAS Cognitive AI systems
 
 CAPABILITY: Tracks performance metrics, behavioral patterns, and model drift
            with automated alerting and corrective action recommendations
@@ -57,7 +57,7 @@ INTEGRATION: Connects with all LUKHAS components to provide comprehensive
 - Performance optimization recommendations
 - Model retraining suggestions
 
-VERSION: v1.0.0 • CREATED: 2025-01-21 • AUTHOR: LUKHAS AGI TEAM
+VERSION: v1.0.0 • CREATED: 2025-01-21 • AUTHOR: LUKHAS Cognitive AI TEAM
 SYMBOLIC TAGS: ΛDRIFT, ΛMONITORING, ΛANOMALY, ΛPERFORMANCE, ΛALERTS
 """
 

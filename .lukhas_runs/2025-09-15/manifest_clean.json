@@ -616,7 +616,7 @@
     {
       "task_id": "TODO-CRIT-CANDIDATE-QI-a24bd36a",
       "priority": "critical",
-      "title": "kept for Trinity Framework consciousness evolution",
+      "title": "kept for Constellation Framework consciousness evolution",
       "file": "./candidate/qi/engines/identity/qi_identity_manager.py",
       "line_hint": 36,
       "module": "candidate/qi",
@@ -847,7 +847,7 @@
     {
       "task_id": "TODO-CRIT-CANDIDATE-GOVERNANCE-e49f4ab7",
       "priority": "critical",
-      "title": "kept for Trinity Framework consciousness evolution",
+      "title": "kept for Constellation Framework consciousness evolution",
       "file": "./candidate/governance/identity/core/swarm/tier_aware_swarm_hub.py",
       "line_hint": 19,
       "module": "candidate/governance",
@@ -855,7 +855,7 @@
       "status": "open",
       "source": "critical_todos.md",
       "evidence": {
-        "grep": "./candidate/governance/identity/core/swarm/tier_aware_swarm_hub.py:from governance.identity.core.colonies import (  # TODO[T4-UNUSED-IMPORT]: kept for Trinity Framework consciousness evolution",
+        "grep": "./candidate/governance/identity/core/swarm/tier_aware_swarm_hub.py:from governance.identity.core.colonies import (  # TODO[T4-UNUSED-IMPORT]: kept for Constellation Framework consciousness evolution",
         "last_commit": "13a3d651a7f9900001a45c4546ebee06bc847eb3"
       },
       "acceptance": [],
@@ -1246,7 +1246,7 @@
     {
       "task_id": "TODO-CRIT-CANDIDATE-GOVERNANCE-b70de571",
       "priority": "critical",
-      "title": "kept for Trinity Framework consciousness evolution",
+      "title": "kept for Constellation Framework consciousness evolution",
       "file": "./candidate/governance/identity/core/events/identity_event_publisher.py",
       "line_hint": 14,
       "module": "candidate/governance",
@@ -1254,7 +1254,7 @@
       "status": "open",
       "source": "critical_todos.md",
       "evidence": {
-        "grep": "./candidate/governance/identity/core/events/identity_event_publisher.py:from .identity_event_types import (  # TODO[T4-UNUSED-IMPORT]: kept for Trinity Framework consciousness evolution",
+        "grep": "./candidate/governance/identity/core/events/identity_event_publisher.py:from .identity_event_types import (  # TODO[T4-UNUSED-IMPORT]: kept for Constellation Framework consciousness evolution",
         "last_commit": "13a3d651a7f9900001a45c4546ebee06bc847eb3"
       },
       "acceptance": [],
@@ -4564,7 +4564,7 @@
     {
       "task_id": "TODO-HIGH-CANDIDATE-CORE-c24f150d",
       "priority": "high",
-      "title": "kept for Trinity Framework consciousness evolution",
+      "title": "kept for Constellation Framework consciousness evolution",
       "file": "./candidate/core/integration/innovation_orchestrator/autonomous_innovation_orchestrator.py",
       "line_hint": 9,
       "module": "candidate/core",
@@ -4900,7 +4900,7 @@
     {
       "task_id": "TODO-HIGH-CANDIDATE-CORE-c4d9d42b",
       "priority": "high",
-      "title": "specialist] Implement Trinity identity-consciousness state comparison",
+      "title": "specialist] Implement Constellation identity-consciousness state comparison",
       "file": "./candidate/core/bridges/identity_core_bridge.py",
       "line_hint": 171,
       "module": "candidate/core",
@@ -4908,7 +4908,7 @@
       "status": "open",
       "source": "high_todos.md",
       "evidence": {
-        "grep": "./candidate/core/bridges/identity_core_bridge.py:        state2: dict[str, Any],  # TODO[TRINITY:specialist] Implement Trinity identity-consciousness state comparison",
+        "grep": "./candidate/core/bridges/identity_core_bridge.py:        state2: dict[str, Any],  # TODO[TRINITY:specialist] Implement Constellation identity-consciousness state comparison",
         "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
       },
       "acceptance": [],
@@ -4921,7 +4921,7 @@
     {
       "task_id": "TODO-HIGH-CANDIDATE-CORE-007de334",
       "priority": "high",
-      "title": "specialist] Implement Trinity Framework identity-consciousness state comparison",
+      "title": "specialist] Implement Constellation Framework identity-consciousness state comparison",
       "file": "./candidate/core/bridges/identity_core_bridge.py",
       "line_hint": 176,
       "module": "candidate/core",
@@ -4929,7 +4929,7 @@
       "status": "open",
       "source": "high_todos.md",
       "evidence": {
-        "grep": "./candidate/core/bridges/identity_core_bridge.py:        state2: dict[str, Any],  # TODO[TRINITY:specialist] Implement Trinity identity-consciousness state comparison",
+        "grep": "./candidate/core/bridges/identity_core_bridge.py:        state2: dict[str, Any],  # TODO[TRINITY:specialist] Implement Constellation identity-consciousness state comparison",
         "last_commit": "f5dfd9e4b5c431bab2f239df2dcea41ab8e31e11"
       },
       "acceptance": [],
@@ -5068,7 +5068,7 @@
     {
       "task_id": "TODO-HIGH-CANDIDATE-CORE-fc12ea3c",
       "priority": "high",
-      "title": "specialist] Implement Trinity Framework consciousness state comparison logic",
+      "title": "specialist] Implement Constellation Framework consciousness state comparison logic",
       "file": "./candidate/core/bridges/core_safety_bridge.py",
       "line_hint": 176,
       "module": "candidate/core",
@@ -5152,7 +5152,7 @@
     {
       "task_id": "TODO-HIGH-CANDIDATE-CORE-4f3d4c11",
       "priority": "high",
-      "title": "kept for Trinity Framework consciousness evolution",
+      "title": "kept for Constellation Framework consciousness evolution",
       "file": "./candidate/core/adapters/qi_service_adapter.py",
       "line_hint": 29,
       "module": "candidate/core",
@@ -6328,7 +6328,7 @@
     {
       "task_id": "TODO-HIGH-CANDIDATE-CORE-7b573d9b",
       "priority": "high",
-      "title": "kept for Trinity Framework consciousness evolution",
+      "title": "kept for Constellation Framework consciousness evolution",
       "file": "./candidate/core/api/service_implementations.py",
       "line_hint": 63,
       "module": "candidate/core",
@@ -10360,7 +10360,7 @@
     {
       "task_id": "TODO-HIGH-CANDIDATE-CONSCIOUSNESS-2210c5ab",
       "priority": "high",
-      "title": "kept for Trinity Framework consciousness evolution",
+      "title": "kept for Constellation Framework consciousness evolution",
       "file": "./candidate/consciousness/states/openai_consciousness_adapter.py",
       "line_hint": 26,
       "module": "candidate/consciousness",
@@ -11641,7 +11641,7 @@
     {
       "task_id": "TODO-HIGH-CANDIDATE-CONSCIOUSNESS-64d5394e",
       "priority": "high",
-      "title": "kept for Trinity Framework consciousness evolution",
+      "title": "kept for Constellation Framework consciousness evolution",
       "file": "./candidate/consciousness/reflection/openai_modulated_service.py",
       "line_hint": 21,
       "module": "candidate/consciousness",
@@ -12166,7 +12166,7 @@
     {
       "task_id": "TODO-HIGH-CONSCIOUSNESS-__INIT__.PY-039ae7c4",
       "priority": "high",
-      "title": "kept for Trinity Framework consciousness evolution",
+      "title": "kept for Constellation Framework consciousness evolution",
       "file": "./consciousness/__init__.py",
       "line_hint": 28,
       "module": "consciousness/__init__.py",
@@ -12419,14 +12419,14 @@
       "task_id": "TODO-HIGH-LUKHAS-CONSCIOUSNESS-967749a6",
       "priority": "high",
       "title": "lukhas.consciousness.registry....",
-      "file": "./lukhas/consciousness/trinity_integration.py",
+      "file": "./lukhas/consciousness/constellation_integration.py",
       "line_hint": 37,
       "module": "lukhas/consciousness",
       "trinity": "Consciousness",
       "status": "open",
       "source": "high_todos.md",
       "evidence": {
-        "grep": "./lukhas/consciousness/trinity_integration.py:        ConsciousnessComponentRegistry,  # noqa: F401  # TODO: lukhas.consciousness.registry....",
+        "grep": "./lukhas/consciousness/constellation_integration.py:        ConsciousnessComponentRegistry,  # noqa: F401  # TODO: lukhas.consciousness.registry....",
         "last_commit": "b3b7c325f1ff6678c2bdc20ff5c6704ac9196657"
       },
       "acceptance": [],
@@ -12439,15 +12439,15 @@
     {
       "task_id": "TODO-HIGH-LUKHAS-CONSCIOUSNESS-3be1209d",
       "priority": "high",
-      "title": "kept for Trinity Framework consciousness evolution",
-      "file": "./lukhas/consciousness/trinity_integration.py",
+      "title": "kept for Constellation Framework consciousness evolution",
+      "file": "./lukhas/consciousness/constellation_integration.py",
       "line_hint": 39,
       "module": "lukhas/consciousness",
       "trinity": "Consciousness",
       "status": "open",
       "source": "high_todos.md",
       "evidence": {
-        "grep": "./lukhas/consciousness/trinity_integration.py:        ConsciousnessComponentRegistry,  # noqa: F401  # TODO: lukhas.consciousness.registry....",
+        "grep": "./lukhas/consciousness/constellation_integration.py:        ConsciousnessComponentRegistry,  # noqa: F401  # TODO: lukhas.consciousness.registry....",
         "last_commit": "b3b7c325f1ff6678c2bdc20ff5c6704ac9196657"
       },
       "acceptance": [],

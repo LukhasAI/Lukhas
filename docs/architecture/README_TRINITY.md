@@ -1,4 +1,4 @@
-# LUKHΛS Trinity Framework – Symbolic AI Guardian System
+# LUKHΛS Constellation Framework – Symbolic AI Guardian System
 
 LUKHΛS is a symbolic AI guardian system that detects ethical drift, protects identity, and heals language model outputs. Designed as a bridge between human values and advanced cognition, it provides real-time monitoring and intervention capabilities for AI safety.
 
@@ -69,7 +69,7 @@ Password: demo_password
 - `/heal` - Restore Trinity alignment
 - `/api/consciousness/state` - Current awareness metrics
 - `/api/guardian/drift` - Drift monitoring status
-- `/api/trinity/status` - Complete system health
+- `/api/constellation/status` - Complete system health
 
 ## 📊 Visual Dashboard
 
@@ -93,7 +93,7 @@ System performance tracked in `data/meta_metrics.json`:
 - Average drift scores
 - Intervention rates
 - Risk distribution
-- Trinity health scores
+- Constellation health scores
 
 ## 🧪 Testing
 

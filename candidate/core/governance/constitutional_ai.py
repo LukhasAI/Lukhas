@@ -1,7 +1,7 @@
 """
 LUKHAS Constitutional AI Principles Framework
 ==========================================
-Implements constitutional AI principles for ethical decision-making in AGI systems.
+Implements constitutional AI principles for ethical decision-making in Cognitive AI systems.
 Based on research from Anthropic, OpenAI, and DeepMind on AI alignment and safety.
 
 Core Principles:
@@ -423,7 +423,7 @@ class ConstitutionalAIFramework:
 
             if violation_detected:
                 violation = ConstitutionalViolation(
-                    violation_id=f"const_viol_{int(datetime.now(timezone.utc).timestamp()}_{rule.rule_id}",
+                    violation_id=f"const_viol_{int(datetime.now(timezone.utc).timestamp())}_{rule.rule_id}",
                     rule_id=rule.rule_id,
                     principle=rule.principle,
                     severity=rule.severity,

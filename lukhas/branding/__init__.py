@@ -1,13 +1,13 @@
 """
 LUKHAS AI Branding Module
 
-⚛️🧠🛡️ Trinity Framework: Identity-Consciousness-Guardian
+⚛️🧠🛡️ Constellation Framework: Identity-Consciousness-Guardian
 Official branding, terminology, and symbolic vocabulary for LUKHAS consciousness systems.
 """
 
 from __future__ import annotations
 
-# Trinity Framework Symbols
+# Constellation Framework Symbols
 TRINITY_IDENTITY = "⚛️"
 TRINITY_CONSCIOUSNESS = "🧠"
 TRINITY_GUARDIAN = "🛡️"
@@ -46,7 +46,7 @@ def get_version():
 
 
 def get_triad_framework():
-    """Get Trinity Framework description."""
+    """Get Constellation Framework description."""
     return f"{TRINITY_IDENTITY} Identity - {TRINITY_CONSCIOUSNESS} Consciousness - {TRINITY_GUARDIAN} Guardian"
 
 
@@ -56,7 +56,7 @@ def get_branding_info():
         "name": LUKHAS_NAME,
         "full_name": LUKHAS_FULL_NAME,
         "version": get_version(),
-        "trinity": get_triad_framework(),
+        "constellation": get_triad_framework(),
         "symbols": LAMBDA_SYMBOLS,
         "colors": COLORS,
     }

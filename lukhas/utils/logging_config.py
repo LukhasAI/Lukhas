@@ -8,7 +8,7 @@ Production-ready logging system with:
 - Security-aware log filtering
 - Performance monitoring integration
 - Audit trail compliance
-- Trinity Framework context inclusion
+- Constellation Framework context inclusion
 
 Author: LUKHAS AI T4 Team
 Version: 1.0.0
@@ -102,10 +102,10 @@ class PerformanceLogFilter(logging.Filter):
 
 
 class TrinityLogFilter(logging.Filter):
-    """Add Trinity Framework context to log records."""
+    """Add Constellation Framework context to log records."""
 
     def filter(self, record: logging.LogRecord) -> bool:
-        """Add Trinity Framework (⚛️🧠🛡️) context to log records."""
+        """Add Constellation Framework (⚛️🧠🛡️) context to log records."""
         # Add Trinity context
         record.triad_identity = getattr(record, "identity_context", "unknown")
         record.triad_consciousness = getattr(record, "consciousness_state", "inactive")
@@ -145,7 +145,7 @@ class LukhasJsonFormatter(jsonlogger.JsonFormatter):
         log_record["function"] = getattr(record, "funcName", "unknown")
         log_record["line"] = getattr(record, "lineno", 0)
 
-        # Add Trinity Framework context
+        # Add Constellation Framework context
         log_record["triad_component"] = getattr(record, "triad_component", "🔧_system")
         log_record["triad_identity"] = getattr(record, "triad_identity", "unknown")
         log_record["triad_consciousness"] = getattr(record, "triad_consciousness", "inactive")

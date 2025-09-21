@@ -155,7 +155,7 @@ LUKHAS/
 
 - **Main Documentation**: [README.md](README.md)
 - **Architecture Guide**: [CLAUDE.md](CLAUDE.md)
-- **Trinity Framework**: [README_TRINITY.md](README_TRINITY.md)
+- **Constellation Framework**: [README_TRINITY.md](README_TRINITY.md)
 - **Phase 2 Achievements**: [docs/planning/completed/PHASE_2_ACHIEVEMENTS.md](docs/planning/completed/PHASE_2_ACHIEVEMENTS.md)
 
 ## 🤝 Support

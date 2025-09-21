@@ -1,9 +1,10 @@
 #!/usr/bin/env node
 
 /**
- * Tone Policy Linter
- * Enforces three-layer content system and banned words
- * Checks word count limits and reading level compliance
+ * T4/0.01% Tone Policy Linter
+ * Enforces 3-layer content system with 8-family vocabulary rotation
+ * Checks novelty scores, anti-repetition, and T4 compliance
+ * Enhanced with MATRIZ pipeline validation and consciousness alignment
  */
 
 const fs = require('fs');

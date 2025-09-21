@@ -7,7 +7,7 @@
 ║ CONSCIOUSNESS_ROLE: Symbolic consciousness processing and pattern recognition
 ║ EVOLUTIONARY_STAGE: Processing - Symbolic consciousness interpretation
 ║
-║ TRINITY FRAMEWORK:
+║ CONSTELLATION FRAMEWORK:
 ║ ⚛️ IDENTITY: Symbolic identity representation and consciousness signatures
 ║ 🧠 CONSCIOUSNESS: Symbolic consciousness pattern processing
 ║ 🛡️ GUARDIAN: Symbolic security and consciousness integrity validation

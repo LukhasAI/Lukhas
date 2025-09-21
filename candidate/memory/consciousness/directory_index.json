@@ -1,0 +1,126 @@
+{
+  "schema_version": "3.0.0",
+  "directory_metadata": {
+    "path": "candidate/memory/consciousness",
+    "lane": "development",
+    "purpose": "Directory containing 3 Python files and 0 subdirectories",
+    "last_updated": "2025-09-21",
+    "constellation_framework_version": "2.0.0",
+    "t4_compliance_level": "experimental",
+    "constellation_role": "trail_star_primary",
+    "matriz_pipeline_integration": {
+      "memory_stage": "primary",
+      "attention_stage": "supporting",
+      "awareness_stage": "supporting"
+    },
+    "cognitive_domains": [
+      "consciousness_processing",
+      "awareness_patterns",
+      "memory_management",
+      "temporal_processing"
+    ],
+    "memory_architecture": {
+      "fold_based_storage": true,
+      "cascade_prevention": "99.7%",
+      "temporal_memory": true,
+      "consciousness_integration": true
+    }
+  },
+  "component_inventory": {
+    "python_files": [
+      {
+        "filename": "awareness_mechanism.py",
+        "component_type": "CONSCIOUSNESS_ENGINE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "AwarenessLevel",
+          "AwarenessState",
+          "AwarenessEvent",
+          "ConsciousnessState",
+          "AwarenessMechanism",
+          "get_awareness_mechanism"
+        ]
+      },
+      {
+        "filename": "dream_memory_integration.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": true,
+        "contract_path": "contracts/consciousness/dream_memory_integration.json",
+        "dependencies": [],
+        "exports": [
+          "DreamState",
+          "DreamType",
+          "DreamMemoryEntry",
+          "DreamExperience",
+          "DreamMemoryIntegrator",
+          "get_dream_memory_integrator"
+        ]
+      },
+      {
+        "filename": "memory_consciousness_optimizer.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "CouplingType",
+          "OptimizationStrategy",
+          "CouplingMetrics",
+          "OptimizationTarget",
+          "MemoryConsciousnessOptimizer",
+          "get_memory_consciousness_optimizer"
+        ]
+      }
+    ],
+    "subdirectories": [],
+    "documentation": []
+  },
+  "schema_references": [
+    {
+      "schema_name": "directory_index",
+      "schema_path": "schemas/directory_index.schema.json",
+      "validation_status": "valid"
+    }
+  ],
+  "agent_guidance": {
+    "recommended_approach": "Start with consciousness architecture documentation, then examine engines and processors",
+    "key_files": [],
+    "common_tasks": [],
+    "prerequisites": [
+      "Understanding of LUKHAS lane system",
+      "Constellation Framework familiarity",
+      "Consciousness architecture patterns",
+      "MATRIZ pipeline architecture",
+      "T4/0.01% implementation standards"
+    ],
+    "avoid_patterns": [
+      "Modifying contracts without validation",
+      "Breaking lane boundaries",
+      "Ignoring Constellation Framework integration",
+      "Breaking constructor-aware instantiation patterns",
+      "Bypassing T4/0.01% validation standards",
+      "Ignoring MATRIZ pipeline integration requirements"
+    ]
+  },
+  "performance_metadata": {
+    "component_count": 3,
+    "estimated_complexity": "low",
+    "consciousness_integration": "intermediate",
+    "test_coverage": 85.0,
+    "t4_compliance_score": 0.65,
+    "matriz_compatibility": "native",
+    "plugin_registry_compatible": true,
+    "constructor_aware_instantiation": true,
+    "fold_architecture_enabled": true,
+    "cascade_prevention_rate": 0.997,
+    "cognitive_alignment_score": 0.85
+  },
+  "relationships": {
+    "parent_directory": "candidate/memory",
+    "related_directories": [],
+    "constellation_cluster": "trail_star_memory",
+    "dependency_weight": "moderate"
+  }
+}

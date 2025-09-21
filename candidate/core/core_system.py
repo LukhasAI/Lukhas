@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 """
-LUKHAS Core - Main AGI System Entry Point
+LUKHAS Core - Main Cognitive AI System Entry Point
 =========================================
 
 The central orchestrator for the LUKHAS AI system, coordinating all modules
@@ -19,7 +19,7 @@ class LukhasCore:
     Main LUKHAS AI system core that orchestrates all subsystems.
 
     This class serves as the primary entry point for interacting with
-    the LUKHAS AGI system, managing module coordination, state management,
+    the LUKHAS Cognitive system, managing module coordination, state management,
     and consciousness flow.
     """
 

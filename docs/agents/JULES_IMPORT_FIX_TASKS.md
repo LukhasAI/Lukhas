@@ -14,7 +14,7 @@
 **Critical Requirements**:
 - Maintain candidate/ vs lukhas/ lane integrity
 - Follow promotion criteria (85% test coverage minimum)
-- Preserve Trinity Framework compliance (⚛️🧠🛡️)
+- Preserve Constellation Framework compliance (⚛️🧠🛡️)
 - All fixes must pass `make lint` and `make test`
 - Document all changes with clear commit messages
 
@@ -125,7 +125,7 @@
 3. **Quality Gate Enforcement** *(Priority: High)*
    - **Action**:
      - Verify all fixes meet promotion criteria
-     - Check Trinity Framework compliance
+     - Check Constellation Framework compliance
      - Validate branding/terminology consistency
      - Ensure no security vulnerabilities introduced
 
@@ -180,7 +180,7 @@
 - [ ] Memory and identity systems operational
 
 ### **Quality Assurance**:
-- [ ] Trinity Framework compliance maintained (⚛️🧠🛡️)
+- [ ] Constellation Framework compliance maintained (⚛️🧠🛡️)
 - [ ] Branding/terminology standards upheld
 - [ ] No security vulnerabilities introduced
 - [ ] Documentation updated and accurate

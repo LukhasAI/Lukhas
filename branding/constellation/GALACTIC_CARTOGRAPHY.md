@@ -12,7 +12,7 @@ description: Complete Universe Bible with Narrative Scripture & Design Specifica
 
 ## ✦ Preface: The Constellation Philosophy
 
-LUKHAS is not built on pillars, nor a trinity, nor an octave.  
+LUKHAS is not built on pillars, nor a constellation, nor an octave.  
 It is a **Constellation** — a sky-pattern of guiding stars.  
 Each star is a vocabulary, a principle, a force of orientation.  
 Each domain you own is a planet orbiting one or more of these stars.  
@@ -318,7 +318,7 @@ Each domain is a planet orbiting one or more stars. The Constellation forms the 
 
 The Constellation of LUKHAS is a map, not a monument. Each star holds a principle, each planet enacts it. The pattern is not fixed; it shifts as we move, as we add new stars, as new worlds are named.
 
-We do not build a sacred trinity, but a sky that stays open — so that logic and imagination, art and science, protection and possibility can remain in dialogue.
+We do not build a sacred constellation, but a sky that stays open — so that logic and imagination, art and science, protection and possibility can remain in dialogue.
 
 ### Brand Storytelling Framework
 

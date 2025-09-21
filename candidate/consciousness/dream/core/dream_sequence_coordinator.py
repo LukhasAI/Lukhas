@@ -14,7 +14,7 @@ logger = logging.getLogger(__name__)
 
 
 class DreamSequenceCoordinator:
-    """Coordinates dream sequences with Trinity Framework compliance."""
+    """Coordinates dream sequences with Constellation Framework compliance."""
 
     def __init__(self):
         self.active_sequences: dict[str, dict] = {}
@@ -30,7 +30,7 @@ class DreamSequenceCoordinator:
             "id": sequence_id,
             "data": sequence_data,
             "created_at": datetime.now(timezone.utc).isoformat(),
-            "trinity_validated": True
+            "constellation_validated": True
         }
 
         logger.info(f"🎬 Dream sequence created: {sequence_id}")
@@ -44,7 +44,7 @@ class DreamSequenceCoordinator:
         return {
             "sequence_id": sequence_id,
             "flow_status": "coordinated",
-            "trinity_validated": True
+            "constellation_validated": True
         }
 
 

@@ -11,7 +11,7 @@ Includes:
 - AgentTier (permission levels)
 - AgentCapabilities (agent feature sets)
 
-Trinity Framework: ⚛️🧠🛡️
+Constellation Framework: ⚛️🧠🛡️
 """
 
 import contextlib

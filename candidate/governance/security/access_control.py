@@ -6,7 +6,7 @@ logger = logging.getLogger(__name__)
 Tiered Access Control System for LUKHAS AI
 
 This module provides a comprehensive tiered access control system with
-5-tier hierarchical access levels (T1-T5), integrated with Trinity Framework,
+5-tier hierarchical access levels (T1-T5), integrated with Constellation Framework,
 constitutional principles, and comprehensive security controls.
 
 Features:
@@ -14,7 +14,7 @@ Features:
 - Role-based access control (RBAC) with dynamic permissions
 - Context-aware access decisions
 - Real-time access monitoring and audit trails
-- Integration with Trinity Framework (⚛️🧠🛡️)
+- Integration with Constellation Framework (⚛️🧠🛡️)
 - Constitutional AI compliance validation
 - Multi-factor authentication support
 - Session management and token-based authentication
@@ -32,7 +32,7 @@ Access Tiers:
 #TAG:access_control
 #TAG:authentication
 #TAG:authorization
-#TAG:trinity
+#TAG:constellation
 """
 
 import asyncio
@@ -159,7 +159,7 @@ class User:
     security_clearance: Optional[str] = None
     access_restrictions: dict[str, Any] = field(default_factory=dict)
 
-    # Trinity Framework integration
+    # Constellation Framework integration
     identity_verified: bool = False  # ⚛️ Identity system verification
     consciousness_level: int = 1  # 🧠 Consciousness interaction level
     guardian_cleared: bool = True  # 🛡️ Guardian system clearance
@@ -193,8 +193,8 @@ class AccessSession:
     security_context: dict[str, Any] = field(default_factory=dict)
     risk_score: float = 0.0
 
-    # Trinity Framework context
-    trinity_context: dict[str, Any] = field(default_factory=dict)
+    # Constellation Framework context
+    constellation_context: dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass
@@ -227,8 +227,8 @@ class AccessAuditEntry:
     user_agent: Optional[str] = None
     risk_factors: list[str] = field(default_factory=list)
 
-    # Trinity Framework audit
-    trinity_validation: dict[str, Any] = field(default_factory=dict)
+    # Constellation Framework audit
+    constellation_validation: dict[str, Any] = field(default_factory=dict)
 
     timestamp: datetime = field(default_factory=datetime.now)
 
@@ -531,8 +531,8 @@ class SessionManager:
         # Calculate risk score
         session.risk_score = await self._calculate_session_risk(user, source_ip, user_agent)
 
-        # Add Trinity Framework context
-        session.trinity_context = {
+        # Add Constellation Framework context
+        session.constellation_context = {
             "identity_verified": user.identity_verified,
             "consciousness_level": user.consciousness_level,
             "guardian_cleared": user.guardian_cleared,
@@ -571,7 +571,7 @@ class SessionManager:
         if user.current_tier.value >= 4:
             risk_score += 0.2
 
-        # Trinity Framework risk factors
+        # Constellation Framework risk factors
         if not user.identity_verified:
             risk_score += 0.3
 
@@ -656,7 +656,7 @@ class AccessControlEngine:
     Main access control engine for LUKHAS AI System
 
     Provides comprehensive tiered access control with T1-T5 hierarchy,
-    role-based permissions, session management, and Trinity Framework integration.
+    role-based permissions, session management, and Constellation Framework integration.
     """
 
     def __init__(self):
@@ -794,13 +794,13 @@ class AccessControlEngine:
                 auth_method = AuthenticationMethod.MFA
                 mfa_verified = True
 
-            # Trinity Framework validation
+            # Constellation Framework validation
             if not await self._validate_trinity_authentication(user):
                 await self._audit_event(
                     "authentication_failed",
                     user.user_id,
                     None,
-                    reason="Trinity Framework validation failed",
+                    reason="Constellation Framework validation failed",
                     source_ip=source_ip,
                 )
                 return False, None, "Additional validation required"
@@ -840,7 +840,7 @@ class AccessControlEngine:
             return False, None, "Authentication system error"
 
     async def _validate_trinity_authentication(self, user: User) -> bool:
-        """Validate authentication against Trinity Framework"""
+        """Validate authentication against Constellation Framework"""
 
         # ⚛️ Identity validation
         if not user.identity_verified and user.current_tier.value >= 3:
@@ -933,7 +933,7 @@ class AccessControlEngine:
                     user, session, resource, access_type, context, decision, reason
                 )
 
-            # Trinity Framework validation
+            # Constellation Framework validation
             if decision == AccessDecision.ALLOW:
                 decision, reason = await self._validate_trinity_access(
                     user, session, resource, access_type, context, decision, reason
@@ -1085,33 +1085,33 @@ class AccessControlEngine:
         current_decision: AccessDecision,
         current_reason: str,
     ) -> tuple[AccessDecision, str]:
-        """Validate access against Trinity Framework"""
+        """Validate access against Constellation Framework"""
 
-        trinity_issues = []
+        constellation_issues = []
 
         # ⚛️ Identity validation
         if "identity" in resource and not user.identity_verified:
-            trinity_issues.append("Identity verification required")
+            constellation_issues.append("Identity verification required")
 
         # 🧠 Consciousness validation
         if "consciousness" in resource or "ai" in resource:
             required_level = context.get("consciousness_level", 1)
             if user.consciousness_level < required_level:
-                trinity_issues.append(f"Consciousness level {required_level} required")
+                constellation_issues.append(f"Consciousness level {required_level} required")
 
         # 🛡️ Guardian validation
         if not user.guardian_cleared:
-            trinity_issues.append("Guardian clearance required")
+            constellation_issues.append("Guardian clearance required")
 
         # Check drift score from context
         drift_score = context.get("drift_score", 0.0)
         if drift_score > 0.15:
-            trinity_issues.append(f"High drift score detected: {drift_score:.3f}")
+            constellation_issues.append(f"High drift score detected: {drift_score:.3f}")
 
-        if trinity_issues:
+        if constellation_issues:
             return (
                 AccessDecision.ESCALATE,
-                f"Trinity validation failed: {'; '.join(trinity_issues)}",
+                f"Constellation validation failed: {'; '.join(constellation_issues)}",
             )
 
         return current_decision, current_reason

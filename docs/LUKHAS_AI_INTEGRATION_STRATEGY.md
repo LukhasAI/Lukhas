@@ -22,7 +22,7 @@ class LUKHASContextInjector:
         """Enhance Copilot context with LUKHAS-specific information"""
         context_parts = [
             "// LUKHAS AGI Framework Context",
-            "// Trinity Framework: ⚛️ Quantum Potential, 🧠 Consciousness, 🛡️ Protection",
+            "// Constellation Framework: ⚛️ Quantum Potential, 🧠 Consciousness, 🛡️ Protection",
             f"// Current Module: {self.detect_module_type(file_path)}",
             f"// Naming Pattern: {self.get_naming_pattern(file_path)}",
             "// Documentation Style: Trinity layers (🎭 Poetic, 🌈 Human, 🎓 Technical)",
@@ -48,7 +48,7 @@ class LUKHASContextInjector:
       "- ${4:technical detail 2}",
       "\"\"\"",
       "class ${5:ClassName}:",
-      "    # ⚛️ Trinity Framework Integration",
+      "    # ⚛️ Constellation Framework Integration",
       "    def __init__(self):",
       "        self.initialized = False",
       "        # 🧠 Consciousness tracking",
@@ -56,7 +56,7 @@ class LUKHASContextInjector:
       "        pass",
       "",
       "    async def initialize(self):",
-      "        \"\"\"Initialize with Trinity Framework awareness\"\"\"",
+      "        \"\"\"Initialize with Constellation Framework awareness\"\"\"",
       "        # Implementation here",
       "        self.initialized = True"
     ]
@@ -84,7 +84,7 @@ def get_lukhas_patterns(domain: str) -> dict:
     patterns = {
         "core": {
             "naming": "snake_case with LUKHAS concepts preserved",
-            "documentation": "Trinity Framework (🎭🌈🎓)",
+            "documentation": "Constellation Framework (🎭🌈🎓)",
             "symbols": ["⚛️", "🧠", "🛡️"],
             "patterns": ["memory_fold", "dream_resonance", "quantum_consciousness"]
         },
@@ -98,7 +98,7 @@ def get_lukhas_patterns(domain: str) -> dict:
 
 @app.tool()
 def get_trinity_template(content_type: str) -> str:
-    """Generate Trinity Framework template for content"""
+    """Generate Constellation Framework template for content"""
     templates = {
         "docstring": '''"""
 🎭 {poetic_description}
@@ -161,9 +161,9 @@ class LUKHASAIOrchestrator:
         return await self.call_provider(provider_name, context)
 
     async def trinity_documentation_generation(self, function_or_class: str) -> Dict[str, str]:
-        """Generate Trinity Framework documentation using Claude"""
+        """Generate Constellation Framework documentation using Claude"""
         prompt = f"""
-        Generate LUKHAS Trinity Framework documentation for: {function_or_class}
+        Generate LUKHAS Constellation Framework documentation for: {function_or_class}
 
         Return in this format:
         🎭 Poetic: [Inspiring, metaphorical description]
@@ -216,7 +216,7 @@ class LUKHASMCPServer(Server):
 
         @self.tool("trinity_docstring")
         async def trinity_docstring(function_signature: str) -> str:
-            """Generate Trinity Framework docstring"""
+            """Generate Constellation Framework docstring"""
             return self.generate_trinity_docstring(function_signature)
 ```
 
@@ -242,7 +242,7 @@ class LUKHASMCPServer(Server):
           "title": "LUKHAS Claude",
           "provider": "anthropic",
           "model": "claude-3-5-sonnet-20241022",
-          "systemMessage": "You are a LUKHAS-aware AI assistant. Always follow Trinity Framework (🎭🌈🎓) and preserve LUKHAS concepts like memory_fold, dream_resonance, quantum_consciousness."
+          "systemMessage": "You are a LUKHAS-aware AI assistant. Always follow Constellation Framework (🎭🌈🎓) and preserve LUKHAS concepts like memory_fold, dream_resonance, quantum_consciousness."
         },
         {
           "title": "LUKHAS Local",
@@ -262,7 +262,7 @@ class LUKHASMCPServer(Server):
 ```python
 # tools/trinity_generator.py
 """
-Automatically generate Trinity Framework content from code
+Automatically generate Constellation Framework content from code
 """
 class TrinityGenerator:
     def __init__(self, ai_orchestrator):
@@ -303,7 +303,7 @@ class TrinityGenerator:
       "args": ["/Users/agi_dev/LOCAL-REPOS/Lukhas_PWM/mcp_servers/lukhas_mcp_server.py"]
     }
   },
-  "customInstructions": "I am working on the LUKHAS AGI project. Always follow Trinity Framework documentation (🎭🌈🎓), preserve LUKHAS concepts (memory_fold, dream_resonance, quantum_consciousness), and use symbolic conventions (⚛️🧠🛡️)."
+  "customInstructions": "I am working on the LUKHAS AGI project. Always follow Constellation Framework documentation (🎭🌈🎓), preserve LUKHAS concepts (memory_fold, dream_resonance, quantum_consciousness), and use symbolic conventions (⚛️🧠🛡️)."
 }
 ```
 
@@ -316,7 +316,7 @@ class TrinityGenerator:
       "title": "LUKHAS Claude Sonnet",
       "provider": "anthropic",
       "model": "claude-3-5-sonnet-20241022",
-      "systemMessage": "You are an expert LUKHAS AGI developer. Follow Trinity Framework documentation style, preserve LUKHAS naming conventions, and integrate symbolic patterns.",
+      "systemMessage": "You are an expert LUKHAS AGI developer. Follow Constellation Framework documentation style, preserve LUKHAS naming conventions, and integrate symbolic patterns.",
       "contextLength": 200000,
       "completionOptions": {
         "temperature": 0.1,
@@ -340,11 +340,11 @@ class TrinityGenerator:
   "customCommands": [
     {
       "name": "trinity-doc",
-      "prompt": "Generate Trinity Framework documentation (🎭 Poetic, 🌈 Human, 🎓 Technical) for the selected code following LUKHAS conventions"
+      "prompt": "Generate Constellation Framework documentation (🎭 Poetic, 🌈 Human, 🎓 Technical) for the selected code following LUKHAS conventions"
     },
     {
       "name": "lukhas-review",
-      "prompt": "Review this code for LUKHAS compliance: naming conventions, Trinity Framework, symbolic usage (⚛️🧠🛡️)"
+      "prompt": "Review this code for LUKHAS compliance: naming conventions, Constellation Framework, symbolic usage (⚛️🧠🛡️)"
     }
   ]
 }
@@ -353,7 +353,7 @@ class TrinityGenerator:
 ### Expected Outcomes:
 
 1. **🎯 Context-Aware Suggestions**: Copilot suggests LUKHAS-compliant code patterns
-2. **📚 Consistent Documentation**: All docs follow Trinity Framework automatically
+2. **📚 Consistent Documentation**: All docs follow Constellation Framework automatically
 3. **🔗 Multi-AI Workflow**: Route tasks to optimal AI (Claude for architecture, local for privacy)
 4. **⚛️ Symbolic Integration**: Proper use of LUKHAS symbols and concepts
 5. **🚀 Development Velocity**: Faster coding with LUKHAS-aware AI assistance

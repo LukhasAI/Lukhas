@@ -1,6 +1,6 @@
 """
 Guardian Validator for Audio Processing Operations
-Trinity Framework: ⚛️🧠🛡️ Identity-Consciousness-Guardian
+Constellation Framework: ⚛️🧠🛡️ Identity-Consciousness-Guardian
 
 Provides validation and safety checks for audio processing operations
 within the LUKHAS AI ecosystem.

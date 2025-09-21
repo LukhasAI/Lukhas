@@ -8,7 +8,7 @@
 
 ## 🎯 Organization Achievement
 
-Successfully reorganized the LUKHAS documentation from an unstructured collection into a professional, categorized system that supports the Trinity Framework (⚛️🧠🛡️).
+Successfully reorganized the LUKHAS documentation from an unstructured collection into a professional, categorized system that supports the Constellation Framework (⚛️🧠🛡️).
 
 ### ✅ Key Accomplishments
 
@@ -40,7 +40,7 @@ docs/
 ├── administration/     # Security, compliance, operational procedures
 ├── api/               # API documentation, endpoints, specifications
 ├── architecture/      # System design, technical architecture
-├── consciousness/     # VIVOX, symbolic systems, Trinity Framework
+├── consciousness/     # VIVOX, symbolic systems, Constellation Framework
 ├── development/       # Developer guides, workflows, standards
 ├── governance/        # Policies, ethics, compliance frameworks
 ├── guides/           # User guides, tutorials, how-to documentation
@@ -63,9 +63,9 @@ docs/
 
 ---
 
-## 🎖️ Trinity Framework Integration
+## 🎖️ Constellation Framework Integration
 
-All documentation now supports the Trinity Framework principles:
+All documentation now supports the Constellation Framework principles:
 
 - **⚛️ Identity**: Clear categorization and authentic system representation
 - **🧠 Consciousness**: VIVOX and consciousness modules properly organized

@@ -1,6 +1,6 @@
 # LUKHAS Consolidation Plan
 ## Moving Everything to /lukhas/
-### Trinity Framework: ⚛️🧠🛡️
+### Constellation Framework: ⚛️🧠🛡️
 
 Generated: 2025-08-13
 
@@ -176,7 +176,7 @@ fi
 cat > lukhas/__init__.py << 'EOF'
 """
 LUKHAS AI - Logical Unified Knowledge Hyper-Adaptable System
-Trinity Framework: ⚛️🧠🛡️
+Constellation Framework: ⚛️🧠🛡️
 
 All modules consolidated under lukhas/ for clean architecture.
 """

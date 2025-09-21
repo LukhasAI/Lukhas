@@ -31,7 +31,7 @@
 ║ • Advanced reasoning chains with logical consistency validation
 ║
 ║ This controller serves as the central nervous system of LUKHAS, coordinating
-║ all cognitive functions to achieve true AGI capabilities. It manages the
+║ all cognitive functions to achieve true Cognitive capabilities. It manages the
 ║ complex interplay between memory, attention, reasoning, and consciousness.
 ║
 ║ Key Components:
@@ -1897,7 +1897,7 @@ if __name__ == "__main__":
 ║
 ║ REFERENCES:
 ║   - Docs: docs/consciousness/cognitive-architecture.md
-║   - Issues: github.com/lukhas-ai/agi/issues?label=cognitive-architecture
+║   - Issues: github.com/lukhas-ai/cognitive/issues?label=cognitive-architecture
 ║   - Wiki: wiki.lukhas.ai/cognitive-architecture-design
 ║
 ║ COPYRIGHT & LICENSE:
@@ -1906,7 +1906,7 @@ if __name__ == "__main__":
 ║   Unauthorized use, reproduction, or distribution is prohibited.
 ║
 ║ DISCLAIMER:
-║   This module is part of the LUKHAS AGI system. Use only as intended
+║   This module is part of the LUKHAS Cognitive system. Use only as intended
 ║   within the system architecture. Modifications may affect system
 ║   stability and require approval from the LUKHAS Architecture Board.
 ╚═══════════════════════════════════════════════════════════════════════════

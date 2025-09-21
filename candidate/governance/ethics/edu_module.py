@@ -18,7 +18,7 @@
 ╠══════════════════════════════════════════════════════════════════════════════════
 ║ DESCRIPTION
 ╠══════════════════════════════════════════════════════════════════════════════════
-║ This is a placeholder for an educational module within the LUKHAS AGI system.
+║ This is a placeholder for an educational module within the LUKHAS Cognitive system.
 ║ It is intended to track LUKHAS's own educational progress.
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
@@ -26,7 +26,7 @@
 # ═══════════════════════════════════════════════════════════════════════════
 # FILENAME: edu_module.py
 # MODULE: core.base.2025-04-11_lukhas.edu.edu_module
-# DESCRIPTION: Placeholder for an educational module within the LUKHAS AGI system.
+# DESCRIPTION: Placeholder for an educational module within the LUKHAS Cognitive system.
 #              Currently contains only descriptive comments and no executable code.
 #              Intended to track LUKHAS's own educational progress (#ΛBASELINE).
 # DEPENDENCIES: structlog (if actual code were present)
@@ -54,7 +54,7 @@ Integration Date: 2025-05-31T07:55:27.881866
 #
 # 📂 RESULTS:
 #     All educational logs and trace outputs are stored in:
-#     `lukhas/results/` — symbolic vault for AGI progress tracking
+#     `lukhas/results/` — symbolic vault for Cognitive AI progress tracking
 #
 # 🧬 XP Path:
 #     +1 per domain tagged in lesson metadata
@@ -80,7 +80,7 @@ Integration Date: 2025-05-31T07:55:27.881866
 # HOW TO USE:
 #   (If implemented, would define how to interact with the educational module)
 # INTEGRATION NOTES: This is a placeholder. Actual implementation is required.
-#                    The existing comments suggest a system for tracking AGI learning.
+#                    The existing comments suggest a system for tracking Cognitive AI learning.
 # MAINTENANCE: Implement functionality or formalize as a design document (e.g., .md).
 # CONTACT: LUKHAS DEVELOPMENT TEAM
 # LICENSE: PROPRIETARY - LUKHAS AI SYSTEMS - UNAUTHORIZED ACCESS PROHIBITED
@@ -116,7 +116,7 @@ Integration Date: 2025-05-31T07:55:27.881866
 ║   Unauthorized use, reproduction, or distribution is prohibited.
 ║
 ║ DISCLAIMER:
-║   This module is part of the LUKHAS AGI system. Use only as intended
+║   This module is part of the LUKHAS Cognitive system. Use only as intended
 ║   within the system architecture. Modifications may affect system
 ║   stability and require approval from the LUKHAS Architecture Board.
 ╚═══════════════════════════════════════════════════════════════════════════

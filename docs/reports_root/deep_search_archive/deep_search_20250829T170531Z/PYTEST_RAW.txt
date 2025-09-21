@@ -1,5 +1,5 @@
  LUKHAS AI Governance Module loaded: Phase 7 - Registry Updates and Policy Integration
-< Trinity Framework: Identity-Consciousness-Guardian
+< Constellation Framework: Identity-Consciousness-Guardian
  Phase 7 ID Integration: Available
 INFO:lukhas.governance.auth_guardian_integration:Authentication Guardian initialized with drift threshold: 0.15
 INFO:lukhas.governance.auth_integration_system:LUKHAS Authentication Integration System initialized: 3c05e083-49ed-45ed-a5de-ca78de88bf8a

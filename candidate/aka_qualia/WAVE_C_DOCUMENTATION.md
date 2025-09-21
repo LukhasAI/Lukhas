@@ -4,7 +4,7 @@
 **Version**: 1.0.0 Production  
 **Status**: ✅ Production Ready  
 **Last Updated**: 2025-09-01  
-**Framework**: LUKHAS Constellation (evolved from Trinity)
+**Framework**: LUKHAS Constellation (evolved from Constellation)
 
 ---
 
@@ -43,7 +43,7 @@ Wave C represents the complete implementation of LUKHAS AI's phenomenological pr
 
 ### Constellation Framework Principles
 
-Wave C implements the evolved **Constellation Framework** (successor to Trinity):
+Wave C implements the evolved **Constellation Framework** (successor to Constellation):
 
 - **⭐ Consciousness**: Coherent awareness and phenomenological processing
 - **🛡️ Ethics**: Guardian-enforced ethical decision making  
@@ -540,7 +540,7 @@ Wave C implements comprehensive observability through:
 2. **Structured Logging**
    - JSON format with consciousness context
    - Security-aware PII redaction
-   - Trinity/Constellation framework tags
+   - Constellation/Constellation framework tags
    - Performance metrics in log records
 
 3. **Health Monitoring**

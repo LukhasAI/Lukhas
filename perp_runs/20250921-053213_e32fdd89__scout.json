@@ -1,0 +1,193 @@
+{
+  "meta": {
+    "run_id": "20250921-053213_e32fdd89",
+    "model": "sonar",
+    "premise": "Replace celestial metaphors with 8 diverse families: Neural Gardens (organic), Architectural Bridges (structural), Harmonic Resonance (musical), Woven Patterns (textile), Geological Strata (earth), Fluid Dynamics (liquid), Prismatic Light (optical), Circuit Patterns (electronic). Enforce novelty ≥0.8, clarity ≥0.95, zero repetition. Target: consciousness technology with 3-layer flow (Poetic → Academic → User-Friendly) and MATRIZ integration.",
+    "pipeline_version": "1.0.0",
+    "lukhas_version": "Constellation Framework",
+    "timestamp": 1758429133.031265
+  },
+  "stage": "scout",
+  "data": {
+    "citations": [
+      {
+        "title": "From Whale-Roads to Modern Metaphors: Kennings in Contemporary Poetry",
+        "url": "https://www.gilliamwritersgroup.com/blog/from-whale-roads-to-modern-metaphors-kennings-in-contemporary-poetry",
+        "year": 2023,
+        "author": "Gilliam Writers Group",
+        "key_insight": "Kennings, metaphorical compounds rooted in Old English poetry, are adapted in contemporary poetry to evoke rich, layered imagery often drawing from natural and organic domains."
+      },
+      {
+        "title": "50 Contemporary Poets on the Best Poems they Read in 2024",
+        "url": "https://lithub.com/49-contemporary-poets-on-the-best-poems-they-read-in-2024/",
+        "year": 2024,
+        "author": "Various Contemporary Poets",
+        "key_insight": "Contemporary poetry frequently explores identity, selfhood, and class through metaphors grounded in physicality and social reality, avoiding celestial imagery."
+      },
+      {
+        "title": "The Best Twenty-First-Century Poems Everyone Should Read",
+        "url": "https://interestingliterature.com/2020/02/twenty-first-century-poems-contemporary/",
+        "year": 2020,
+        "author": "Interesting Literature",
+        "key_insight": "Poems like Alice Oswald’s ‘Dunt’ use geological and liquid metaphors (a dried-up river) to explore themes of flow and poetic creation, exemplifying non-celestial metaphor trends."
+      },
+      {
+        "title": "10 Must-Read Modern Poets",
+        "url": "https://www.britannica.com/art/10-Must-Read-Modern-Poets",
+        "year": 2023,
+        "author": "Encyclopedia Britannica",
+        "key_insight": "Poets like Ross Gay use organic and biological metaphors (gardening, rivers, animals) to convey compassion and joy, emphasizing earthly and bodily imagery over celestial."
+      },
+      {
+        "title": "Types of Poetry to Try in 2025 - Free the Verse",
+        "url": "https://www.free-the-verse.com/poetry-blog/7-different-types-of-poetry-to-try",
+        "year": 2025,
+        "author": "Free the Verse Editorial",
+        "key_insight": "Hybrid and genre-blurring poetry forms are rising, incorporating layered metaphors from diverse domains including organic and architectural, moving away from traditional celestial tropes."
+      }
+    ],
+    "metaphor_families": [
+      {
+        "name": "Neural Gardens",
+        "description": "Metaphors combining organic biology and technology to depict mental and emotional landscapes as cultivated, growing gardens or networks.",
+        "exemplar_quotes": [
+          "Thoughts bloom like wildflowers in the neural garden",
+          "Memories root deep in the soil of the mind"
+        ],
+        "devices": [
+          "metaphor",
+          "synecdoche",
+          "personification"
+        ],
+        "domains": [
+          "biology",
+          "technology",
+          "organic"
+        ]
+      },
+      {
+        "name": "Architectural Echoes",
+        "description": "Using architectural structures and construction imagery to represent identity, memory, and social constructs.",
+        "exemplar_quotes": [
+          "Walls of silence rise between us",
+          "The foundation of my past crumbles beneath"
+        ],
+        "devices": [
+          "metaphor",
+          "alliteration",
+          "imagery"
+        ],
+        "domains": [
+          "architecture",
+          "social",
+          "memory"
+        ]
+      },
+      {
+        "name": "Liquid Threads",
+        "description": "Metaphors that blend liquid and textile imagery to convey fluidity, connection, and transformation.",
+        "exemplar_quotes": [
+          "Rivers weave through the fabric of time",
+          "Threads of water stitch the earth’s skin"
+        ],
+        "devices": [
+          "metaphor",
+          "simile",
+          "imagery"
+        ],
+        "domains": [
+          "liquid",
+          "textile",
+          "geological"
+        ]
+      },
+      {
+        "name": "Quantum Patterns",
+        "description": "Metaphors inspired by quantum physics and patterns to explore uncertainty, interconnectedness, and complexity without relying on celestial imagery.",
+        "exemplar_quotes": [
+          "Particles dance in the web of possibility",
+          "Entangled fates ripple through the void"
+        ],
+        "devices": [
+          "metaphor",
+          "symbolism",
+          "allusion"
+        ],
+        "domains": [
+          "quantum physics",
+          "pattern",
+          "philosophy"
+        ]
+      },
+      {
+        "name": "Geological Time",
+        "description": "Metaphors drawing on geological processes and formations to express endurance, change, and deep time.",
+        "exemplar_quotes": [
+          "Mountains hold the weight of forgotten years",
+          "Fossils whisper secrets beneath the surface"
+        ],
+        "devices": [
+          "metaphor",
+          "personification",
+          "imagery"
+        ],
+        "domains": [
+          "geology",
+          "time",
+          "nature"
+        ]
+      },
+      {
+        "name": "Musical Currents",
+        "description": "Musical metaphors that evoke rhythm, harmony, and dissonance to describe emotional states and social dynamics.",
+        "exemplar_quotes": [
+          "Our voices rise in a discordant symphony",
+          "The heartbeat drums a steady cadence"
+        ],
+        "devices": [
+          "metaphor",
+          "onomatopoeia",
+          "alliteration"
+        ],
+        "domains": [
+          "music",
+          "emotion",
+          "social"
+        ]
+      }
+    ],
+    "taboo_list": [
+      {
+        "phrase": "stars align",
+        "why": "overused celestial metaphor cliché",
+        "prevalence": "high"
+      },
+      {
+        "phrase": "shooting star",
+        "why": "overused celestial cliché evoking fleetingness",
+        "prevalence": "high"
+      },
+      {
+        "phrase": "moonlight glow",
+        "why": "common celestial romantic cliché",
+        "prevalence": "high"
+      },
+      {
+        "phrase": "cosmic dance",
+        "why": "vague and overused celestial metaphor",
+        "prevalence": "medium"
+      },
+      {
+        "phrase": "quantum dance",
+        "why": "vague science metaphor often misused",
+        "prevalence": "medium"
+      },
+      {
+        "phrase": "heavenly light",
+        "why": "overused celestial and spiritual cliché",
+        "prevalence": "medium"
+      }
+    ]
+  },
+  "timestamp": 1758429146.399483
+}

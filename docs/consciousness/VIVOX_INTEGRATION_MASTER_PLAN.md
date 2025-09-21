@@ -20,7 +20,7 @@ agent_relevance:
   devops_guardian: 0.7
   velocity_lead: 0.6
 
-# Trinity Framework
+# Constellation Framework
 trinity_component: ["consciousness", "guardian", "identity"]
 search_keywords: ["vivox", "integration", "consciousness", "memory expansion", "ethical agi"]
 

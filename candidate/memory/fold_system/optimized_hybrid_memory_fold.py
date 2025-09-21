@@ -5,7 +5,7 @@ logger = logging.getLogger(__name__)
 """
 ══════════════════════════════════════════════════════════════════════════════════
 ║ 🚀 LUKHAS AI - OPTIMIZED HYBRID MEMORY FOLD
-║ Ultra-efficient AGI memory with 16x size reduction
+║ Ultra-efficient Cognitive AI memory with 16x size reduction
 ║ Copyright (c) 2025 LUKHAS AI. All rights reserved.
 ╠══════════════════════════════════════════════════════════════════════════════════
 ║ Module: optimized_hybrid_memory_fold.py
@@ -670,7 +670,7 @@ def create_optimized_hybrid_memory_fold(
     **kwargs,
 ) -> OptimizedHybridMemoryFold:
     """
-    Create an ultra-optimized AGI-ready hybrid memory fold system.
+    Create an ultra-optimized Cognitive AI-ready hybrid memory fold system.
 
     Args:
         embedding_dim: Dimension of vector embeddings (512 or 1024 supported)
@@ -730,7 +730,7 @@ def create_optimized_hybrid_memory_fold_512(
     Create ultra-optimized hybrid memory fold with 512-dimensional embeddings.
 
     This provides additional 50% memory savings compared to 1024-dim while
-    maintaining good semantic quality for most AGI applications.
+    maintaining good semantic quality for most Cognitive AI applications.
 
     Perfect for:
     - Resource-constrained environments

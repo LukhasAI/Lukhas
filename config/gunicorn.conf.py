@@ -55,20 +55,20 @@ raw_env = [
 ]
 
 
-# Hooks for Trinity Framework integration
+# Hooks for Constellation Framework integration
 def on_starting(server):
     """Called just before the master process is initialized."""
-    server.log.info("🚀 LUKHAS AI starting up - Trinity Framework initializing")
+    server.log.info("🚀 LUKHAS AI starting up - Constellation Framework initializing")
 
 
 def on_reload(server):
     """Called to recycle workers during a reload via SIGHUP."""
-    server.log.info("🔄 LUKHAS AI reloading - Trinity Framework reconnecting")
+    server.log.info("🔄 LUKHAS AI reloading - Constellation Framework reconnecting")
 
 
 def when_ready(server):
     """Called just after the server is started."""
-    server.log.info("✅ LUKHAS AI ready - Trinity Framework: ⚛️🧠🛡️ online")
+    server.log.info("✅ LUKHAS AI ready - Constellation Framework: ⚛️🧠🛡️ online")
     server.log.info(f"👥 Workers: {workers} | 🔗 Connections per worker: {worker_connections}")
 
 
@@ -104,13 +104,13 @@ def pre_exec(server):
 
 def pre_request(worker, req):
     """Called just before a worker processes the request."""
-    # Log high-level request info for Trinity Framework monitoring
+    # Log high-level request info for Constellation Framework monitoring
     worker.log.debug(f"🔍 Processing: {req.method} {req.path}")
 
 
 def post_request(worker, req, _environ, resp):
     """Called after a worker processes the request."""
-    # Enhanced logging for Trinity Framework analytics
+    # Enhanced logging for Constellation Framework analytics
     worker.log.debug(f"✅ Completed: {req.method} {req.path} -> {resp.status}")
 
 
@@ -128,7 +128,7 @@ def application(environ, start_response):
         return app(environ, start_response)
     except ImportError as e:
         # Fallback for testing
-        response_body = f"LUKHAS AI Trinity Framework ⚛️🧠🛡️\nError: {e!s}\n"
+        response_body = f"LUKHAS AI Constellation Framework ⚛️🧠🛡️\nError: {e!s}\n"
         status = "500 Internal Server Error"
         headers = [("Content-Type", "text/plain")]
         start_response(status, headers)

@@ -108,9 +108,9 @@ from core.integration.register_agi_supremacy_modules import initialize_agi_supre
 await initialize_agi_supremacy_modules()
 ```
 
-### LUKHAS Trinity Framework Integration
+### LUKHAS Constellation Framework Integration
 
-All modules integrate with the Trinity Framework (⚛️🧠🛡️):
+All modules integrate with the Constellation Framework (⚛️🧠🛡️):
 - **⚛️ Identity**: Service registration and authentication
 - **🧠 Consciousness**: Direct integration with consciousness systems
 - **🛡️ Guardian**: All actions validated by Guardian System

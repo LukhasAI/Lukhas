@@ -7,9 +7,9 @@
 #TAG:colony
 
 
-ΛBot AGI Real-Time Status Monitor
+ΛBot Cognitive AI Real-Time Status Monitor
 ===============================
-Monitor the autonomous AGI system in real-time
+Monitor the autonomous Cognitive system in real-time
 """
 import json
 import os
@@ -18,8 +18,8 @@ from datetime import datetime, timezone
 
 
 def monitor_agi_system():
-    """Monitor the running AGI system"""
-    print("🤖 ΛBot AGI Real-Time Monitor")
+    """Monitor the running Cognitive system"""
+    print("🤖 ΛBot Cognitive AI Real-Time Monitor")
     print("=" * 50)
     print("Monitoring autonomous operations...")
     print("Press Ctrl+C to stop monitoring")

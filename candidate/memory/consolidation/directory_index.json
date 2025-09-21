@@ -1,0 +1,294 @@
+{
+  "schema_version": "3.0.0",
+  "directory_metadata": {
+    "path": "candidate/memory/consolidation",
+    "lane": "development",
+    "purpose": "Directory containing 17 Python files and 0 subdirectories",
+    "last_updated": "2025-09-21",
+    "constellation_framework_version": "2.0.0",
+    "t4_compliance_level": "experimental",
+    "constellation_role": "trail_star_primary",
+    "matriz_pipeline_integration": {
+      "memory_stage": "primary",
+      "attention_stage": "supporting",
+      "awareness_stage": "supporting"
+    },
+    "cognitive_domains": [
+      "memory_management",
+      "temporal_processing"
+    ],
+    "memory_architecture": {
+      "fold_based_storage": true,
+      "cascade_prevention": "99.7%",
+      "temporal_memory": true,
+      "consciousness_integration": true
+    }
+  },
+  "component_inventory": {
+    "python_files": [
+      {
+        "filename": "memory_evolution.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "MemoryEvolution",
+          "evolve_memory",
+          "get_evolution_metrics"
+        ]
+      },
+      {
+        "filename": "auto_consolidate.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "Placeholder"
+        ]
+      },
+      {
+        "filename": "emergency_override.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "check_safety_flags",
+          "shutdown_systems",
+          "log_incident"
+        ]
+      },
+      {
+        "filename": "consolidate_memory_dna_helix.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "consolidate_memory_dna_helix"
+        ]
+      },
+      {
+        "filename": "visualization.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "ConsolidatedVisualization",
+          "get_visualization"
+        ]
+      },
+      {
+        "filename": "dream_utils.py",
+        "component_type": "DREAM_PROCESSOR",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "analyze_dream_symbols",
+          "merge_dream_sequences",
+          "calculate_rem_phase",
+          "dream_to_text"
+        ]
+      },
+      {
+        "filename": "sleep_cycle_manager.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": []
+      },
+      {
+        "filename": "compliance_digest.py",
+        "component_type": "UTILITY",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": []
+      },
+      {
+        "filename": "colony_emotion.py",
+        "component_type": "EMOTION_PROCESSOR",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.core.colonies.base_colony",
+          "lukhas.emotion.models"
+        ],
+        "exports": [
+          "EmotionalColony"
+        ]
+      },
+      {
+        "filename": "consolidate_emotion_feeling_memory.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "consolidate_emotion_feeling_memory"
+        ]
+      },
+      {
+        "filename": "commerce_api.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "ConsolidatedCommerceapi",
+          "get_commerce_api"
+        ]
+      },
+      {
+        "filename": "memory_consolidation.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "MemoryConsolidationEngine",
+          "compute_decay_rate"
+        ]
+      },
+      {
+        "filename": "consolidate_sparse_modules.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "backup_directory",
+          "count_files",
+          "consolidate_module",
+          "update_imports",
+          "generate_consolidation_report",
+          "main"
+        ]
+      },
+      {
+        "filename": "memory_colonies.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.core.colonies.memory_colony_enhanced",
+          "candidate.memory.adapters.colony_memory_adapter"
+        ],
+        "exports": [
+          "ColonyType",
+          "ColonyState",
+          "MemoryColony",
+          "ConsolidatedMemorycolonies",
+          "get_colony_status",
+          "get_performance_metrics"
+        ]
+      },
+      {
+        "filename": "memory_consolidator.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "MemorySystemConsolidator",
+          "main",
+          "consolidate"
+        ]
+      },
+      {
+        "filename": "memory_visualization.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [
+          "candidate.core.common.glyph_processor",
+          "candidate.memory.folds.unified_memory_core",
+          "candidate.memory.systems.memory_fold_system"
+        ],
+        "exports": [
+          "ConsolidatedMemoryvisualization",
+          "TraceAnimator",
+          "MemoryHelixVisualizer",
+          "ConnectionVisualizer",
+          "FoldEntropyVisualizer",
+          "get_performance_metrics"
+        ]
+      },
+      {
+        "filename": "ripple_generator.py",
+        "component_type": "MEMORY_INTERFACE",
+        "has_contract": false,
+        "contract_path": null,
+        "dependencies": [],
+        "exports": [
+          "RippleType",
+          "ReplayDirection",
+          "Ripple",
+          "RippleSequence",
+          "RippleGenerator",
+          "EpisodicMemory",
+          "calculate_power",
+          "add_ripple",
+          "set_memory_pool",
+          "set_priority_memories",
+          "update_sleep_stage",
+          "register_ripple_callback",
+          "register_sequence_callback",
+          "get_recent_ripples",
+          "get_metrics"
+        ]
+      }
+    ],
+    "subdirectories": [],
+    "documentation": []
+  },
+  "schema_references": [
+    {
+      "schema_name": "directory_index",
+      "schema_path": "schemas/directory_index.schema.json",
+      "validation_status": "valid"
+    }
+  ],
+  "agent_guidance": {
+    "recommended_approach": "Begin with documentation files, then explore core components",
+    "key_files": [],
+    "common_tasks": [],
+    "prerequisites": [
+      "Understanding of LUKHAS lane system",
+      "Constellation Framework familiarity",
+      "MATRIZ pipeline architecture",
+      "T4/0.01% implementation standards"
+    ],
+    "avoid_patterns": [
+      "Modifying contracts without validation",
+      "Breaking lane boundaries",
+      "Ignoring Constellation Framework integration",
+      "Breaking constructor-aware instantiation patterns",
+      "Bypassing T4/0.01% validation standards",
+      "Ignoring MATRIZ pipeline integration requirements"
+    ]
+  },
+  "performance_metadata": {
+    "component_count": 17,
+    "estimated_complexity": "medium",
+    "consciousness_integration": "intermediate",
+    "test_coverage": 85.0,
+    "t4_compliance_score": 0.65,
+    "matriz_compatibility": "native",
+    "plugin_registry_compatible": true,
+    "constructor_aware_instantiation": true,
+    "fold_architecture_enabled": true,
+    "cascade_prevention_rate": 0.997
+  },
+  "relationships": {
+    "parent_directory": "candidate/memory",
+    "related_directories": [],
+    "constellation_cluster": "trail_star_memory",
+    "dependency_weight": "moderate"
+  }
+}

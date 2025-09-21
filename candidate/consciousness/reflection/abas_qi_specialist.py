@@ -22,13 +22,13 @@ import logging
 LUKHAS - Quantum Abas Quantum Specialist
 ===============================
 
-An enterprise-grade Artificial General Intelligence (AGI) framework
+An enterprise-grade Cognitive Artificial Intelligence (Cognitive AI) framework
 combining symbolic reasoning, emotional intelligence, quantum-inspired computing,
 and bio-inspired architecture for next-generation AI applications.
 
 Module: Quantum Abas Quantum Specialist
 Path: lukhas/quantum/abas_quantum_specialist.py
-Description: Quantum module for advanced AGI functionality
+Description: Quantum module for advanced Cognitive functionality
 
 Copyright (c) 2025 LUKHAS AI. All rights reserved.
 Licensed under the LUKHAS Enterprise License.

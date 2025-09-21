@@ -362,7 +362,7 @@ def evolve_memory_globally(
 ║
 ║ REFERENCES:
 ║   - Docs: docs/memory/evolution-architecture.md
-║   - Issues: github.com/lukhas-ai/agi/issues?label=memory-evolution
+║   - Issues: github.com/lukhas-ai/cognitive/issues?label=memory-evolution
 ║   - Wiki: wiki.lukhas.ai/memory-evolution
 ║
 ║ COPYRIGHT & LICENSE:
@@ -371,7 +371,7 @@ def evolve_memory_globally(
 ║   Unauthorized use, reproduction, or distribution is prohibited.
 ║
 ║ DISCLAIMER:
-║   This module is part of the LUKHAS AGI system. Use only as intended
+║   This module is part of the LUKHAS Cognitive system. Use only as intended
 ║   within the system architecture. Modifications may affect system
 ║   stability and require approval from the LUKHAS Architecture Board.
 ╚═══════════════════════════════════════════════════════════════════════════

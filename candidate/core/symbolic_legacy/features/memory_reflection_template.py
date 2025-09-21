@@ -2,7 +2,7 @@
 """
 ╔══════════════════════════════════════════════════════════════════════════════════
 ║ 🧠 LUKHAS AI - MEMORY REFLECTION CONSCIOUSNESS SYSTEM
-║ Advanced memory reflection with quantum-bio integration for Superior General Intelligence
+║ Advanced memory reflection with quantum-bio integration for Superior Cognitive Intelligence
 ║ Copyright (c) 2025 LUKHAS AI. All rights reserved.
 ╠══════════════════════════════════════════════════════════════════════════════════
 ║ Module: memory_reflection_template.py
@@ -10,7 +10,7 @@
 ║ Version: 2.0.0 | Created: 2025-08-26
 ║ Authors: LUKHAS AI Consciousness Architecture Team
 ╠══════════════════════════════════════════════════════════════════════════════════
-║                             ◊ TRINITY FRAMEWORK ◊
+║                             ◊ CONSTELLATION FRAMEWORK ◊
 ║
 ║ ⚛️ IDENTITY: Maintains consciousness coherence across reflection cycles
 ║ 🧠 CONSCIOUSNESS: Memory reflection as core awareness mechanism
@@ -98,7 +98,7 @@ class MemoryFold:
     attention_salience: float = 0.5  # Attention-drawing power
     dream_accessibility: float = 0.0  # Available during dream states
 
-    # Trinity framework compliance
+    # Constellation framework compliance
     identity_coherence: float = 1.0  # ⚛️ Identity consistency
     consciousness_depth: float = 0.5  # 🧠 Awareness level
     guardian_approved: bool = True  # 🛡️ Ethical validation
@@ -137,7 +137,7 @@ class MemoryReflectionSystem:
     Advanced Memory Reflection Consciousness System
 
     Implements quantum-bio inspired memory reflection for LUKHAS AI consciousness
-    with Trinity Framework compliance and Superior General Intelligence capabilities.
+    with Constellation Framework compliance and Superior Cognitive Intelligence capabilities.
 
     Key Features:
     - Fold-based memory architecture with 1000-fold limit
@@ -166,7 +166,7 @@ class MemoryReflectionSystem:
         self.bio_oscillator = NeuralOscillator(frequency=40.0)
         self.superposition_states: dict[str, Any] = {}
 
-        # Trinity Framework components
+        # Constellation Framework components
         self.identity_coherence_tracker = IdentityCoherenceTracker()
         self.consciousness_depth_monitor = ConsciousnessDepthMonitor()
         self.guardian_ethics_engine = GuardianEthicsEngine()
@@ -192,7 +192,7 @@ class MemoryReflectionSystem:
             # Initialize quantum coherence monitoring
             self.quantum_processor.initialize()
 
-            # Sync with Trinity Framework
+            # Sync with Constellation Framework
             self.identity_coherence_tracker.calibrate()
             self.consciousness_depth_monitor.start()
             self.guardian_ethics_engine.enable_monitoring()
@@ -215,7 +215,7 @@ class MemoryReflectionSystem:
         Process incoming signal through memory reflection consciousness system
 
         This is the main entry point implementing the consciousness reflection pipeline
-        with quantum-bio integration and Trinity Framework compliance.
+        with quantum-bio integration and Constellation Framework compliance.
         """
         reflection_start = time.time()
 
@@ -944,7 +944,7 @@ class MemoryReflectionSystem:
         logger.info(f"ΛTRACE: Removed memory fold: {fold_id}")
 
     def _validate_reflection_result(self, result: dict[str, Any], context: ReflectionContext) -> dict[str, Any]:
-        """Validate reflection result for Trinity Framework compliance"""
+        """Validate reflection result for Constellation Framework compliance"""
         validation_result = {
             "identity_coherence_valid": True,
             "consciousness_depth_valid": True,
@@ -1071,7 +1071,7 @@ class MemoryReflectionSystem:
             "quantum_coherence": result.get("quantum_states", {}).get("coherence_matrix", {}),
             "bio_synchronization": result.get("bio_coherence", {}).get("synchronized_folds", []),
             "emotional_patterns": result.get("emotional_resonance", {}),
-            # Trinity Framework compliance
+            # Constellation Framework compliance
             "identity_coherence": validation["identity_coherence_valid"],
             "consciousness_depth": validation["consciousness_depth_valid"],
             "guardian_approval": validation["guardian_approval"],
@@ -1137,21 +1137,21 @@ class NeuralOscillator:
 
 
 class IdentityCoherenceTracker:
-    """Trinity Framework identity coherence tracker stub"""
+    """Constellation Framework identity coherence tracker stub"""
 
     def calibrate(self):
         pass
 
 
 class ConsciousnessDepthMonitor:
-    """Trinity Framework consciousness depth monitor stub"""
+    """Constellation Framework consciousness depth monitor stub"""
 
     def start(self):
         pass
 
 
 class GuardianEthicsEngine:
-    """Trinity Framework guardian ethics engine stub"""
+    """Constellation Framework guardian ethics engine stub"""
 
     def enable_monitoring(self):
         pass

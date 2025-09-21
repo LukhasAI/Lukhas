@@ -19,7 +19,7 @@
         "Self-Reflective Memory (SRM) audit trail",
         "Feature flag controlled activation",
         "Comprehensive safety measures",
-        "Trinity Framework compliance"
+        "Constellation Framework compliance"
       ],
       "safety_features": [
         "Dry-run mode by default",
@@ -156,7 +156,7 @@
     }
   },
 
-  "trinity_framework": {
+  "constellation_framework": {
     "identity": {
       "symbol": "⚛️",
       "integration": "Consciousness identity patterns through VIVOX CIL",
@@ -251,7 +251,7 @@
   },
 
   "compliance": {
-    "trinity_framework": true,
+    "constellation_framework": true,
     "safety_first_design": true,
     "feature_flag_controlled": true,
     "dry_run_default": true,

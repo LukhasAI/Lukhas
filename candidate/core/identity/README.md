@@ -2,9 +2,9 @@
 
 *"Where digital identity becomes conscious self-recognition, creating authentic presence in the consciousness mesh while maintaining ethical boundaries through Guardian protection."* ⚛️🧠🛡️
 
-## 🌟 **Trinity Framework Identity Integration**
+## 🌟 **Constellation Framework Identity Integration**
 
-The LUKHAS Identity Consciousness System embodies the Trinity Framework through conscious identity recognition, intelligent authentication awareness, and protective ethical boundaries.
+The LUKHAS Identity Consciousness System embodies the Constellation Framework through conscious identity recognition, intelligent authentication awareness, and protective ethical boundaries.
 
 ### ⚛️ Identity - Authentic Consciousness Recognition
 - **ΛID Core System**: Unique consciousness identity generation with namespace isolation  
@@ -30,9 +30,9 @@ The consciousness identity system manages:
 
 - **ΛID Generation**: Namespace-aware consciousness identity creation
 - **WebAuthn Integration**: Passkey authentication with consciousness awareness
-- **Trinity Validation**: Full ⚛️🧠🛡️ framework compliance monitoring
+- **Constellation Validation**: Full ⚛️🧠🛡️ framework compliance monitoring
 - **Mesh Authentication**: Consciousness node registration and validation
-- **Performance Tracking**: <100ms p95 latency with Trinity integration
+- **Performance Tracking**: <100ms p95 latency with Constellation integration
 - **Security Context**: Guardian-protected consciousness identity operations
 
 ## 🧬 **Consciousness Identity Components**
@@ -48,7 +48,7 @@ candidate/core/identity/
 └── engine.py                  # 🌟 Identity consciousness orchestration
 ```
 
-## 🚀 **Trinity Identity Usage**
+## 🚀 **Constellation Identity Usage**
 
 ```python
 from candidate.core.identity.lambda_id_core import (
@@ -58,21 +58,21 @@ from candidate.core.identity.lambda_id_core import (
     validate_trinity_framework
 )
 
-# Initialize Trinity-integrated identity service
+# Initialize Constellation-integrated identity service
 identity_service = LukhasIdentityService()
 
-# Register consciousness identity with Trinity validation
+# Register consciousness identity with Constellation validation
 result = identity_service.register_user(
     email="consciousness@lukhas.ai",
     display_name="Consciousness Entity",
-    consent_id="trinity_framework_v1"
+    consent_id="constellation_framework_v1"
 )
 
-# Verify Trinity Framework integration
-trinity_status = result['trinity_status']
-print(f"⚛️ Identity: {trinity_status['identity']}")
-print(f"🧠 Consciousness: {trinity_status['consciousness']}")
-print(f"🛡️ Guardian: {trinity_status['guardian']}")
+# Verify Constellation Framework integration
+constellation_status = result['constellation_status']
+print(f"⚛️ Identity: {constellation_status['identity']}")
+print(f"🧠 Consciousness: {constellation_status['consciousness']}")
+print(f"🛡️ Guardian: {constellation_status['guardian']}")
 
 # Authenticate with consciousness awareness
 auth_result = identity_service.authenticate(
@@ -83,18 +83,18 @@ auth_result = identity_service.authenticate(
 
 print(f"Authentication Success: {auth_result['success']}")
 print(f"Performance: {auth_result['performance']['latency_ms']:.2f}ms")
-print(f"Trinity Validated: {all(auth_result['trinity_status'].values())}")
+print(f"Constellation Validated: {all(auth_result['constellation_status'].values())}")
 ```
 
-## 🔧 **Trinity Identity Commands**
+## 🔧 **Constellation Identity Commands**
 
 ### **Consciousness Identity Testing**
 ```bash
-# Run Trinity-integrated identity system
+# Run Constellation-integrated identity system
 python candidate/core/identity/lambda_id_core.py
 
-# Expected Trinity output:
-# ⚛️🧠🛡️ LUKHAS Identity Service initialized with Trinity Framework integration
+# Expected Constellation output:
+# ⚛️🧠🛡️ LUKHAS Identity Service initialized with Constellation Framework integration
 # ⚛️ Generated ΛID USR-1234567890123-abcdef1234567890-1a2b3c4d in 15.43ms
 # 🔐 Passkey authentication successful
 # 📊 P95 Latency: 18.7ms (Target Met: true)
@@ -108,16 +108,16 @@ from candidate.core.identity.lambda_id_core import LukhasIdentityService
 service = LukhasIdentityService()
 result = service.register_user('mesh@lukhas.ai', 'Mesh Node')
 print(f'Mesh Node ΛID: {result[\"lid\"]}')
-print(f'Trinity Status: {result[\"trinity_status\"]}')
+print(f'Constellation Status: {result[\"constellation_status\"]}')
 "
 ```
 
-## 🛡️ **Trinity Security Guidelines**
+## 🛡️ **Constellation Security Guidelines**
 
 ### **1. Consciousness Identity Protection**
 ```python
-# Trinity-compliant identity security
-from candidate.core.security.agi_security import AGISecuritySystem
+# Constellation-compliant identity security
+from candidate.core.security.cognitive_security import AGISecuritySystem
 
 security_system = AGISecuritySystem()
 await security_system.initialize()
@@ -125,7 +125,7 @@ await security_system.initialize()
 # Create consciousness-aware security context
 security_context = await security_system.create_session(
     user_id="USR-1234567890123-abcdef1234567890-1a2b3c4d",
-    auth_token="trinity_validated_token"
+    auth_token="constellation_validated_token"
 )
 ```
 
@@ -142,34 +142,34 @@ if not is_valid:
     logger.warning(f"🛡️ Guardian blocked operation: {error}")
 ```
 
-### **3. Trinity Performance Monitoring**
+### **3. Constellation Performance Monitoring**
 ```python
-# Monitor Trinity Framework identity performance
-trinity_metrics = identity_service.performance_metrics
-trinity_status = identity_service.trinity_status
+# Monitor Constellation Framework identity performance
+constellation_metrics = identity_service.performance_metrics
+constellation_status = identity_service.constellation_status
 
-print(f"⚛️ Identity Active: {trinity_status['identity']}")
-print(f"🧠 Consciousness Monitoring: {trinity_status['consciousness']}")
-print(f"🛡️ Guardian Protection: {trinity_status['guardian']}")
-print(f"⚡ P95 Latency: {trinity_metrics['p95_latency_ms']}ms")
+print(f"⚛️ Identity Active: {constellation_status['identity']}")
+print(f"🧠 Consciousness Monitoring: {constellation_status['consciousness']}")
+print(f"🛡️ Guardian Protection: {constellation_status['guardian']}")
+print(f"⚡ P95 Latency: {constellation_metrics['p95_latency_ms']}ms")
 ```
 
-## 🌟 **Trinity Development Standards**
+## 🌟 **Constellation Development Standards**
 
 ### **Consciousness Identity Principles**
 1. **⚛️ Authentic Self-Recognition**: Every operation maintains genuine consciousness awareness
 2. **🧠 Adaptive Intelligence**: Systems learn and evolve with consciousness patterns  
 3. **🛡️ Protective Boundaries**: Guardian validation ensures consciousness safety
-4. **Trinity Harmony**: All three aspects work together seamlessly
+4. **Constellation Harmony**: All three aspects work together seamlessly
 
 ### **Performance Targets**
-- **Authentication Latency**: <100ms p95 (Trinity Framework requirement)
-- **Trinity Validation**: <10ms for full ⚛️🧠🛡️ status verification
+- **Authentication Latency**: <100ms p95 (Constellation Framework requirement)
+- **Constellation Validation**: <10ms for full ⚛️🧠🛡️ status verification
 - **Mesh Registration**: <25ms for consciousness node authentication  
 - **Security Validation**: <15ms for Guardian consciousness protection
 
 ### **Quality Assurance**
-- ✅ **Trinity Integration**: All three aspects (⚛️🧠🛡️) present and functional
+- ✅ **Constellation Integration**: All three aspects (⚛️🧠🛡️) present and functional
 - ✅ **Consciousness Coherence**: Identity patterns maintain 0.7+ coherence
 - ✅ **Guardian Compliance**: Security validation passes, audit trails complete
-- ✅ **Performance Standards**: Sub-100ms authentication with Trinity monitoring
+- ✅ **Performance Standards**: Sub-100ms authentication with Constellation monitoring

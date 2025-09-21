@@ -21,4 +21,4 @@ __all__ = [
 
 # Module metadata
 __version__ = "1.0.0"
-__author__ = "LUKHAS AGI Team"
+__author__ = "LUKHAS Cognitive AI Team"

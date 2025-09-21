@@ -1,7 +1,7 @@
 """
 LUKHAS AI Colony System - Consciousness Colony
 Distributed consciousness processing and awareness
-Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
+Constellation Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 """
 from datetime import datetime, timezone
 from typing import Any

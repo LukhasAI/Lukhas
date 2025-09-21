@@ -11,7 +11,7 @@ import streamlit as st
 """
 Node Registry System
 
-Provides centralized management of all AGI system nodes:
+Provides centralized management of all Cognitive system nodes:
 - Maintains node instances and handles their lifecycle
 - Manages node relationships and communication
 - Enables the clean integration of new node types
@@ -34,17 +34,17 @@ logger = logging.getLogger(__name__)
 class NodeRegistry:
     """
     Central registry for all system nodes that enables their integration
-    and coordinated functioning within the AGI system.
+    and coordinated functioning within the Cognitive system.
     """
 
-    def __init__(self, agi_system):
+    def __init__(self, cognitive_system):
         """
         Initialize the node registry
 
         Args:
-            agi_system: Reference to the main AGI system
+            cognitive_system: Reference to the main Cognitive system
         """
-        self.agi = agi_system
+        self.agi = cognitive_system
         self.nodes = {}  # type: Dict[str, Any]
         self.node_types = {}  # type: Dict[str, Type]
         self.node_relationships = {}  # type: Dict[str, Dict[str, List[str]]]
@@ -83,7 +83,7 @@ class NodeRegistry:
                         inspect.isclass(obj)
                         and "Node" in name
                         and hasattr(obj, "__init__")
-                        and "agi_system" in inspect.signature(obj.__init__).parameters
+                        and "cognitive_system" in inspect.signature(obj.__init__).parameters
                     ):
                         node_id = self._to_node_id(name)
                         self.node_types[node_id] = obj

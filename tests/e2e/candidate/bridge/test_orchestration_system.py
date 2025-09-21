@@ -6,7 +6,7 @@ LUKHAS AI - Orchestration System Test Suite
 Comprehensive test suite for multi-AI orchestration system validation.
 Tests function calling, consensus algorithms, streaming, and performance.
 
-Trinity Framework: ⚛️ (Identity), 🧠 (Consciousness), 🛡️ (Guardian)
+Constellation Framework: ⚛️ (Identity), 🧠 (Consciousness), 🛡️ (Guardian)
 Performance Target: <100ms orchestration latency validation
 Coverage: Integration tests, performance tests, security tests
 

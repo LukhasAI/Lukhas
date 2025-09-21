@@ -2,7 +2,7 @@
 """
 ⚛️🧠🛡️ LUKHAS AI Service Adapter Base Verification Script
 
-Verifies the enhanced Service Adapter Base with Trinity Framework integration.
+Verifies the enhanced Service Adapter Base with Constellation Framework integration.
 """
 import asyncio
 import os
@@ -55,7 +55,7 @@ def test_adapter_creation():
         adapter = TestAdapter("test_service")
         print("✅ Adapter created successfully")
         print(f"   Service name: {adapter.service_name}")
-        print("   Trinity Framework integrations:")
+        print("   Constellation Framework integrations:")
         print(f"     - Identity: {'Active' if adapter.identity_core else 'Not available'}")
         print(f"     - Consciousness: {'Active' if adapter.consciousness_active else 'Not connected'}")
         print(f"     - Guardian: {'Active' if adapter.guardian else 'Not available'}")
@@ -68,7 +68,7 @@ def test_adapter_creation():
 
 
 def test_health_status():
-    """Test health status with Trinity Framework info"""
+    """Test health status with Constellation Framework info"""
     print("\n🏥 Testing health status...")
 
     try:
@@ -87,7 +87,7 @@ def test_health_status():
         print("✅ Health status retrieved successfully")
         print(f"   Service: {status['service']}")
         print(f"   Circuit State: {status['circuit_state']}")
-        print(f"   Trinity Framework Status: {status['trinity_framework']}")
+        print(f"   Constellation Framework Status: {status['constellation_framework']}")
         return True
     except Exception as e:
         print(f"❌ Health status test failed: {e}")
@@ -155,7 +155,7 @@ async def main():
         print("🎉 All tests passed! Service Adapter Base is working correctly.")
         print("\n🔧 Key enhancements implemented:")
         print("   • Fixed ServiceAdapterBase export alias")
-        print("   • Added Trinity Framework integration (⚛️🧠🛡️)")
+        print("   • Added Constellation Framework integration (⚛️🧠🛡️)")
         print("   • Enhanced Λ-trace logging with context")
         print("   • Added consciousness system communication")
         print("   • Integrated Identity module for authentication")

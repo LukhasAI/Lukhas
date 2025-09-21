@@ -9,7 +9,7 @@ logger = logging.getLogger(__name__)
 # DESCRIPTION: Initializes the 'meta_cognitive' sub-package within core.integration.
 #              This package is designed for integrating meta-cognitive processes,
 #              such as self-reflection, learning strategy adjustment, and higher-order
-#              thought control, into the LUKHAS AGI system.
+#              thought control, into the LUKHAS Cognitive system.
 #              Acts as an #AINTEROP layer for these advanced cognitive functions.
 # DEPENDENCIES: structlog
 # LICENSE: PROPRIETARY - LUKHAS AI SYSTEMS - UNAUTHORIZED ACCESS PROHIBITED
@@ -26,7 +26,7 @@ __all__ = [
 ]
 
 # ΛNOTE: This __init__.py initializes the 'meta_cognitive' integration package.
-# Modules herein should facilitate the AGI's ability to monitor, understand,'
+# Modules herein should facilitate the Cognitive AI's ability to monitor, understand,'
 # and regulate its own cognitive processes.
 
 logger.info("ΛTRACE: core.integration.meta_cognitive package initialized.", exports=__all__)
@@ -34,7 +34,7 @@ logger.info("ΛTRACE: core.integration.meta_cognitive package initialized.", exp
 # ═══════════════════════════════════════════════════════════════════════════
 # FILENAME: __init__.py
 # VERSION: 1.0.0
-# TIER SYSTEM: Tier 4-5 (Advanced AGI meta-cognition and self-regulation)
+# TIER SYSTEM: Tier 4-5 (Advanced Cognitive AI meta-cognition and self-regulation)
 # ΛTRACE INTEGRATION: ENABLED
 # CAPABILITIES: Package initialization for meta-cognitive integration components.
 # FUNCTIONS: None directly exposed.

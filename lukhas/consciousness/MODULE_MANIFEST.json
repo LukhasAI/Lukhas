@@ -1,12 +1,12 @@
 {
   "module": "consciousness",
   "version": "1.0.0",
-  "description": "Production-safe consciousness interface with Trinity Framework integration",
+  "description": "Production-safe consciousness interface with Constellation Framework integration",
   "type": "wrapper",
   "candidate_source": "candidate/consciousness/",
   "candidate_files": 348,
   "safety_level": "production",
-  "trinity_framework": {
+  "constellation_framework": {
     "identity": "Consciousness identity patterns and symbolic self-awareness",
     "consciousness": "Primary consciousness processing with awareness, reflection, and decision-making",
     "guardian": "Ethical oversight, drift detection, and safety enforcement"
@@ -119,7 +119,7 @@
     "api_reference": "docs/api/consciousness.md",
     "user_guide": "docs/guides/consciousness_usage.md",
     "safety_guide": "docs/safety/consciousness_safety.md",
-    "trinity_integration": "docs/trinity/consciousness_trinity.md"
+    "constellation_integration": "docs/constellation/consciousness_trinity.md"
   },
   "maintenance": {
     "last_promotion": "2025-08-22T00:00:00Z",

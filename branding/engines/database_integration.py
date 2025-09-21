@@ -22,7 +22,7 @@ class LukhasDatabaseIntegration:
         else:
             self.db_path = Path(db_path)
 
-        self.triad_branding = "⚛️🧠🛡️ LUKHAS AI Trinity Framework"
+        self.triad_branding = "⚛️🧠🛡️ LUKHAS AI Constellation Framework"
 
     def get_connection(self):
         """Get database connection"""
@@ -170,7 +170,7 @@ class LukhasDatabaseIntegration:
                 system_name,
                 activity_type,
                 metric_value,
-                "⚛️🧠🛡️ Trinity Framework",
+                "⚛️🧠🛡️ Constellation Framework",
                 datetime.now(timezone.utc).isoformat(),
             ),
         )

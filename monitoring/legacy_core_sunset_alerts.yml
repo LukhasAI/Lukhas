@@ -1,0 +1,104 @@
+# PromQL alerts for Legacy Core Sunset Telemetry
+# Include in Prometheus AlertManager config
+
+groups:
+  - name: legacy_core_sunset
+    rules:
+      - alert: LegacyCoreImportsDetected
+        expr: |
+          sum(rate(legacy_core_import_total[5m])) > 0
+        for: 10m
+        labels:
+          severity: warning
+          team: platform
+          component: core_compat
+        annotations:
+          summary: "Legacy core imports detected (sunset planning)"
+          description: |
+            Legacy 'core' imports detected at {{ $value }} imports/5min.
+            Services still using legacy imports:
+            {{ range query "sum(rate(legacy_core_import_total[5m])) by (service)" }}
+            - {{ .Labels.service }}: {{ .Value | humanize }} imports/5min
+            {{ end }}
+
+            Remediation:
+            1. Run: python3 scripts/codemod_legacy_core.py --write
+            2. Or enable warnings: LUKHAS_WARN_LEGACY_CORE=1
+
+            Dashboard: /grafana/d/legacy-core-sunset
+
+      - alert: LegacyCoreUsageSpike
+        expr: |
+          sum(rate(legacy_core_import_total[5m])) > 10
+        for: 2m
+        labels:
+          severity: critical
+          team: platform
+          component: core_compat
+        annotations:
+          summary: "Legacy core import spike detected"
+          description: |
+            High legacy import rate: {{ $value }} imports/5min
+            This may indicate:
+            - New deployment with legacy imports
+            - Rollback to legacy code
+            - Automation using legacy patterns
+
+            Immediate action required for sunset timeline.
+
+      - alert: LegacyCoreSunsetReady
+        expr: |
+          sum(rate(legacy_core_import_total[7d])) == 0
+        for: 24h
+        labels:
+          severity: info
+          team: platform
+          component: core_compat
+        annotations:
+          summary: "Legacy core sunset criteria met"
+          description: |
+            Zero legacy imports detected for 24+ hours.
+            Ready for Phase 5 sunset:
+            1. Remove alias from core/__init__.py
+            2. Verify all tests pass
+            3. Deploy with monitoring
+
+            Sunset Playbook: docs/LEGACY_CORE_SUNSET_PLAN.md
+
+      - alert: ImportBudgetViolation
+        expr: |
+          histogram_quantile(0.95, rate(core_import_duration_seconds_bucket[5m])) > 0.25
+        for: 5m
+        labels:
+          severity: warning
+          team: platform
+          component: core_compat
+        annotations:
+          summary: "Core import budget exceeded"
+          description: |
+            P95 import latency: {{ $value }}s (target: <250ms)
+            Alias system may be degrading performance.
+
+            Check:
+            - Preload module list in core/__init__.py
+            - Import dependency depth
+            - Cold start optimization
+
+      - alert: BrownoutTestFailure
+        expr: |
+          increase(core_alias_brownout_errors_total[1h]) > 0
+        for: 0m
+        labels:
+          severity: critical
+          team: platform
+          component: core_compat
+        annotations:
+          summary: "Legacy core brownout test failure"
+          description: |
+            Brownout errors detected: {{ $value }} in last hour
+            IMMEDIATE ROLLBACK REQUIRED:
+            1. Set LUKHAS_DISABLE_LEGACY_CORE=0
+            2. Restart affected services
+            3. Investigate failing import paths
+
+            Rollback playbook: docs/LEGACY_CORE_SUNSET_PLAN.md#rollback

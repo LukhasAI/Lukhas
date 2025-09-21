@@ -4,7 +4,7 @@
       "command": "node",
       "args": ["--loader", "ts-node/esm", "mcp-servers/lukhas-consciousness-mcp/src/server.ts"],
       "env": {
-        "LUKHAS_ROOT": "/Users/agi_dev/LOCAL-REPOS/Lukhas"
+        "LUKHAS_ROOT": "/Users/cognitive_dev/LOCAL-REPOS/Lukhas"
       }
     }
   }

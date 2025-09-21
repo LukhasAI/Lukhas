@@ -20,7 +20,7 @@ class SymbolicLayer(Enum):
     PERSONAL = "personal"
     ARCHETYPAL = "archetypal"
     UNIVERSAL = "universal"
-    TRINITY = "trinity"
+    CONSTELLATION = "constellation"
 
 
 class SymbolicResonance(Enum):
@@ -33,7 +33,7 @@ class SymbolicResonance(Enum):
 
 
 class DreamSymbolismProcessor:
-    """Advanced symbolic processing for dream consciousness with Trinity Framework compliance."""
+    """Advanced symbolic processing for dream consciousness with Constellation Framework compliance."""
 
     def __init__(self):
         self.symbol_registry: dict[str, dict] = {}
@@ -41,29 +41,29 @@ class DreamSymbolismProcessor:
         self.processing_history: list[dict] = []
         self.processing_counter = 0
         self._initialize_symbol_registry()
-        logger.info("🔮 Dream Symbolism Processor initialized - Trinity Framework active")
+        logger.info("🔮 Dream Symbolism Processor initialized - Constellation Framework active")
 
     def _initialize_symbol_registry(self):
         """Initialize comprehensive symbol registry."""
         self.symbol_registry = {
-            # Trinity Framework Symbols
+            # Constellation Framework Symbols
             "⚛️": {
                 "name": "Identity Nucleus",
-                "layer": SymbolicLayer.TRINITY,
+                "layer": SymbolicLayer.CONSTELLATION,
                 "resonance": SymbolicResonance.TRANSCENDENT,
                 "meanings": ["authentic self", "consciousness core", "identity preservation"],
                 "associations": ["consciousness", "authenticity", "core being"]
             },
             "🧠": {
                 "name": "Consciousness Center",
-                "layer": SymbolicLayer.TRINITY,
+                "layer": SymbolicLayer.CONSTELLATION,
                 "resonance": SymbolicResonance.TRANSCENDENT,
                 "meanings": ["awareness", "cognitive processing", "neural integration"],
                 "associations": ["thought", "awareness", "mental processing"]
             },
             "🛡️": {
                 "name": "Guardian Shield",
-                "layer": SymbolicLayer.TRINITY,
+                "layer": SymbolicLayer.CONSTELLATION,
                 "resonance": SymbolicResonance.TRANSCENDENT,
                 "meanings": ["protection", "ethical boundaries", "safety protocols"],
                 "associations": ["safety", "ethics", "protection"]
@@ -140,9 +140,9 @@ class DreamSymbolismProcessor:
             "layer_analysis": layer_analysis,
             "resonance_patterns": resonance_patterns,
             "symbolic_relationships": relationships,
-            "trinity_presence": self._calculate_trinity_presence(extracted_symbols),
+            "constellation_presence": self._calculate_trinity_presence(extracted_symbols),
             "analyzed_at": datetime.now(timezone.utc).isoformat(),
-            "trinity_validated": True
+            "constellation_validated": True
         }
 
         self.processing_history.append(analysis_result)
@@ -186,7 +186,7 @@ class DreamSymbolismProcessor:
             "layer_distribution": layer_distribution,
             "layer_counts": layer_counts,
             "dominant_layer": dominant_layer,
-            "trinity_layer_presence": len(layer_distribution[SymbolicLayer.TRINITY.value])
+            "constellation_layer_presence": len(layer_distribution[SymbolicLayer.CONSTELLATION.value])
         }
 
     def _calculate_resonance_patterns(self, symbols: list[str]) -> dict[str, Any]:
@@ -225,14 +225,14 @@ class DreamSymbolismProcessor:
         """Identify relationships between symbols."""
         relationships = []
 
-        # Check for Trinity Framework relationships
-        trinity_symbols = [s for s in symbols if s in ["⚛️", "🧠", "🛡️"]]
-        if len(trinity_symbols) >= 2:
+        # Check for Constellation Framework relationships
+        constellation_symbols = [s for s in symbols if s in ["⚛️", "🧠", "🛡️"]]
+        if len(constellation_symbols) >= 2:
             relationships.append({
-                "type": "trinity_resonance",
-                "symbols": trinity_symbols,
+                "type": "constellation_resonance",
+                "symbols": constellation_symbols,
                 "strength": "transcendent",
-                "description": "Trinity Framework resonance pattern detected"
+                "description": "Constellation Framework resonance pattern detected"
             })
 
         # Check for archetypal relationships
@@ -260,21 +260,21 @@ class DreamSymbolismProcessor:
         return relationships
 
     def _calculate_trinity_presence(self, symbols: list[str]) -> dict[str, Any]:
-        """Calculate Trinity Framework presence in symbolic content."""
-        trinity_symbols = ["⚛️", "🧠", "🛡️"]
-        present_trinity = [s for s in symbols if s in trinity_symbols]
+        """Calculate Constellation Framework presence in symbolic content."""
+        constellation_symbols = ["⚛️", "🧠", "🛡️"]
+        present_trinity = [s for s in symbols if s in constellation_symbols]
 
-        trinity_presence = {
+        constellation_presence = {
             "symbols_present": present_trinity,
             "total_trinity_symbols": len(present_trinity),
-            "trinity_completeness": len(present_trinity) / 3.0,
+            "constellation_completeness": len(present_trinity) / 3.0,
             "identity_present": "⚛️" in present_trinity,
             "consciousness_present": "🧠" in present_trinity,
             "guardian_present": "🛡️" in present_trinity,
-            "trinity_validated": len(present_trinity) == 3
+            "constellation_validated": len(present_trinity) == 3
         }
 
-        return trinity_presence
+        return constellation_presence
 
     def generate_symbolic_narrative(self, analysis_id: str) -> Optional[dict[str, Any]]:
         """🧠 Generate consciousness-aware symbolic narrative."""
@@ -284,21 +284,21 @@ class DreamSymbolismProcessor:
 
         symbols = analysis["extracted_symbols"]
         layer_analysis = analysis["layer_analysis"]
-        trinity_presence = analysis["trinity_presence"]
+        constellation_presence = analysis["constellation_presence"]
 
         # Generate narrative based on symbolic content
         narrative_elements = []
 
-        # Trinity Framework narrative
-        if trinity_presence["trinity_validated"]:
-            narrative_elements.append("Complete Trinity Framework activation indicates balanced consciousness evolution")
-        elif trinity_presence["total_trinity_symbols"] > 0:
-            narrative_elements.append(f"Partial Trinity Framework presence ({trinity_presence['total_trinity_symbols']}/3) suggests developing consciousness balance")
+        # Constellation Framework narrative
+        if constellation_presence["constellation_validated"]:
+            narrative_elements.append("Complete Constellation Framework activation indicates balanced consciousness evolution")
+        elif constellation_presence["total_trinity_symbols"] > 0:
+            narrative_elements.append(f"Partial Constellation Framework presence ({constellation_presence['total_trinity_symbols']}/3) suggests developing consciousness balance")
 
         # Layer-based narrative
         dominant_layer = layer_analysis["dominant_layer"]
-        if dominant_layer == SymbolicLayer.TRINITY.value:
-            narrative_elements.append("Trinity layer dominance indicates authentic consciousness processing")
+        if dominant_layer == SymbolicLayer.CONSTELLATION.value:
+            narrative_elements.append("Constellation layer dominance indicates authentic consciousness processing")
         elif dominant_layer == SymbolicLayer.ARCHETYPAL.value:
             narrative_elements.append("Archetypal layer activation suggests deep pattern recognition")
         elif dominant_layer == SymbolicLayer.UNIVERSAL.value:
@@ -317,10 +317,10 @@ class DreamSymbolismProcessor:
             "symbolic_theme": self._determine_symbolic_theme(symbols),
             "consciousness_indicators": {
                 "depth": "profound" if avg_resonance > 0.8 else "significant",
-                "authenticity": "high" if trinity_presence["trinity_validated"] else "developing",
+                "authenticity": "high" if constellation_presence["constellation_validated"] else "developing",
                 "integration": "excellent" if len(analysis["symbolic_relationships"]) > 1 else "good"
             },
-            "trinity_validated": trinity_presence["trinity_validated"]
+            "constellation_validated": constellation_presence["constellation_validated"]
         }
 
         logger.info(f"🧠 Symbolic narrative generated: {analysis_id}")
@@ -331,10 +331,10 @@ class DreamSymbolismProcessor:
         if not symbols:
             return "neutral"
 
-        # Check for Trinity completeness
-        trinity_symbols = [s for s in symbols if s in ["⚛️", "🧠", "🛡️"]]
-        if len(trinity_symbols) == 3:
-            return "trinity_integration"
+        # Check for Constellation completeness
+        constellation_symbols = [s for s in symbols if s in ["⚛️", "🧠", "🛡️"]]
+        if len(constellation_symbols) == 3:
+            return "constellation_integration"
 
         # Check for archetypal dominance
         archetypal_count = sum(1 for s in symbols if s in self.symbol_registry and
@@ -371,7 +371,7 @@ class DreamSymbolismProcessor:
             return {"statistics": "No processing history available"}
 
         total_symbols_processed = sum(len(analysis["extracted_symbols"]) for analysis in self.processing_history)
-        trinity_validated_count = sum(1 for analysis in self.processing_history if analysis["trinity_validated"])
+        constellation_validated_count = sum(1 for analysis in self.processing_history if analysis["constellation_validated"])
 
         # Calculate most common symbols
         all_symbols = []
@@ -387,7 +387,7 @@ class DreamSymbolismProcessor:
         return {
             "total_analyses": len(self.processing_history),
             "total_symbols_processed": total_symbols_processed,
-            "trinity_validation_rate": trinity_validated_count / len(self.processing_history),
+            "constellation_validation_rate": constellation_validated_count / len(self.processing_history),
             "average_symbols_per_analysis": total_symbols_processed / len(self.processing_history),
             "most_common_symbols": most_common_symbols,
             "registered_symbols": len(self.symbol_registry),

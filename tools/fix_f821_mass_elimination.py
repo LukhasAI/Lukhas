@@ -8,7 +8,7 @@ Combining:
 - Dario's Safety: Syntax validation and rollback protection
 - Demis's Rigor: Scientific pattern classification and metrics
 
-Copyright (c) 2025 LUKHAS AI. Trinity Framework (⚛️🧠🛡️) Enhanced.
+Copyright (c) 2025 LUKHAS AI. Constellation Framework (⚛️🧠🛡️) Enhanced.
 """
 
 import ast

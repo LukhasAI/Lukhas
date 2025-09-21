@@ -27,7 +27,7 @@ logger = logging.getLogger(__name__)
 """
 # ΛNOTE: This module defines core symbolic data structures, `Summary` and `ResponseReasoningItem`,
 # used to represent individual reasoning steps, their summaries, and associated metadata (like status
-# or encrypted content) within the LUKHAS AGI's response generation process. These models are
+# or encrypted content) within the LUKHAS Cognitive AI's response generation process. These models are
 # likely part of an OpenAPI specification, suggesting they are used in API contracts or for
 # standardized internal data exchange.
 

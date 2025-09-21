@@ -1,7 +1,7 @@
 # ═══════════════════════════════════════════════════════════════════════════
 # FILENAME: lukhas_core_integrator.py
 # MODULE: core.advanced.brain.lukhas_core_integrator
-# DESCRIPTION: Central integration hub for LUKHAS AGI System, managing components,
+# DESCRIPTION: Central integration hub for LUKHAS Cognitive AI System, managing components,
 #              message routing, event subscription, and awareness protocol integration.
 # DEPENDENCIES: logging, time, typing, os, json, enum, pathlib
 # LICENSE: PROPRIETARY - LUKHAS AI SYSTEMS - UNAUTHORIZED ACCESS PROHIBITED
@@ -101,10 +101,10 @@ def lukhas_tier_required(level: int):
     return decorator
 
 
-# Human-readable comment: Core integration hub for the LUKHAS AGI System.
+# Human-readable comment: Core integration hub for the LUKHAS Cognitive AI System.
 class LUKHASCoreIntegrator:
     """
-    Core integration hub for Lukhas AGI System.
+    Core integration hub for Lukhas Cognitive AI System.
     This class provides the central integration point for Lukhas core components,
     including voice, nodes, awareness protocol, and other modules.
     """
