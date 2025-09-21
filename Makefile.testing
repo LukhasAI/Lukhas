@@ -1,0 +1,218 @@
+# LUKHAS AI Testing Makefile
+# Comprehensive testing orchestration for T4/0.01% reliability standards
+
+PYTHON := python3
+PYTEST := $(PYTHON) -m pytest
+COVERAGE := $(PYTHON) -m coverage
+
+# Test Configuration
+TEST_TIMEOUT := 300
+COVERAGE_MIN := 90
+PARALLEL_WORKERS := auto
+
+# Directory Paths
+TESTS_DIR := tests
+SRC_DIR := lukhas
+REPORTS_DIR := test_reports
+
+.PHONY: all test test-unit test-integration test-e2e test-security test-performance test-memory test-comprehensive test-coverage test-fast test-slow clean-test-reports help
+
+# Default target
+all: test-comprehensive
+
+# Quick smoke tests for development
+test-fast:
+	@echo "🚀 Running fast smoke tests..."
+	$(PYTEST) -m "smoke or unit" --maxfail=5 -x
+
+# Comprehensive test suite
+test-comprehensive:
+	@echo "🎯 Running comprehensive test suite..."
+	$(PYTHON) $(TESTS_DIR)/comprehensive_test_suite.py
+
+# Unit tests
+test-unit:
+	@echo "📋 Running unit tests..."
+	$(PYTEST) $(TESTS_DIR)/unit/ $(TESTS_DIR)/core/ -m "unit" -v
+
+# Integration tests
+test-integration:
+	@echo "🔗 Running integration tests..."
+	$(PYTEST) $(TESTS_DIR)/integration/ $(TESTS_DIR)/reliability/ -m "integration" -v
+
+# End-to-end tests
+test-e2e:
+	@echo "🌐 Running end-to-end tests..."
+	$(PYTEST) $(TESTS_DIR)/e2e/ -m "e2e" -v --timeout=$(TEST_TIMEOUT)
+
+# Security tests
+test-security:
+	@echo "🔒 Running security tests..."
+	$(PYTEST) $(TESTS_DIR)/security/ -m "security" -v --timeout=$(TEST_TIMEOUT)
+
+# Performance tests
+test-performance:
+	@echo "⚡ Running performance tests..."
+	$(PYTEST) $(TESTS_DIR)/performance/ $(TESTS_DIR)/stress/ -m "performance or stress" -v
+
+# Memory system tests
+test-memory:
+	@echo "🧠 Running memory system tests..."
+	$(PYTEST) $(TESTS_DIR)/memory/ -m "memory" -v
+
+# Guardian safety tests
+test-guardian:
+	@echo "🛡️ Running Guardian safety tests..."
+	$(PYTEST) $(TESTS_DIR)/integration/test_guardian_dsl.py -m "guardian" -v
+
+# Orchestrator tests
+test-orchestrator:
+	@echo "🎭 Running MATRIZ orchestrator tests..."
+	$(PYTEST) $(TESTS_DIR)/e2e/test_matriz_orchestration.py $(TESTS_DIR)/stress/test_orchestrator.py -v
+
+# Coverage analysis
+test-coverage:
+	@echo "📊 Running tests with coverage analysis..."
+	@mkdir -p $(REPORTS_DIR)
+	$(COVERAGE) run --source=$(SRC_DIR) -m pytest $(TESTS_DIR)/ -m "not slow and not external"
+	$(COVERAGE) report --show-missing --fail-under=$(COVERAGE_MIN)
+	$(COVERAGE) html -d $(REPORTS_DIR)/coverage_html
+	@echo "📄 Coverage report: $(REPORTS_DIR)/coverage_html/index.html"
+
+# Slow tests (stress, load, etc.)
+test-slow:
+	@echo "🐌 Running slow tests..."
+	$(PYTEST) $(TESTS_DIR)/ -m "slow or stress" -v --timeout=600
+
+# Parallel test execution
+test-parallel:
+	@echo "⚡ Running tests in parallel..."
+	$(PYTEST) $(TESTS_DIR)/ -n $(PARALLEL_WORKERS) -m "not slow" --dist=loadfile
+
+# Test specific component
+test-component:
+	@echo "🎯 Running component-specific tests..."
+	@read -p "Enter component name (guardian/memory/orchestrator/security): " component; \
+	$(PYTEST) $(TESTS_DIR)/ -k "$$component" -v
+
+# Regression tests
+test-regression:
+	@echo "🔄 Running regression tests..."
+	$(PYTEST) $(TESTS_DIR)/ -m "regression or critical" -v
+
+# Clean test artifacts
+clean-test-reports:
+	@echo "🧹 Cleaning test reports..."
+	rm -rf $(REPORTS_DIR)/
+	rm -rf htmlcov/
+	rm -rf .coverage
+	rm -rf .pytest_cache/
+	rm -rf comprehensive_test_report.json
+	rm -rf test_results_*.json
+	find . -name "*.pyc" -delete
+	find . -name "__pycache__" -type d -exec rm -rf {} +
+
+# Lint and format code before testing
+lint:
+	@echo "🔍 Linting code..."
+	$(PYTHON) -m flake8 $(SRC_DIR)/ $(TESTS_DIR)/ --max-line-length=100
+	$(PYTHON) -m black --check $(SRC_DIR)/ $(TESTS_DIR)/
+
+# Format code
+format:
+	@echo "✨ Formatting code..."
+	$(PYTHON) -m black $(SRC_DIR)/ $(TESTS_DIR)/
+	$(PYTHON) -m isort $(SRC_DIR)/ $(TESTS_DIR)/
+
+# Install test dependencies
+install-test-deps:
+	@echo "📦 Installing test dependencies..."
+	pip install pytest pytest-cov pytest-mock pytest-asyncio pytest-timeout pytest-xdist
+	pip install coverage black flake8 isort
+	pip install hypothesis faker
+
+# CI/CD test pipeline
+test-ci:
+	@echo "🚀 Running CI test pipeline..."
+	make lint
+	make test-unit
+	make test-integration
+	make test-security
+	make test-coverage
+
+# Local development test cycle
+test-dev:
+	@echo "🛠️ Running development test cycle..."
+	make test-fast
+	make test-unit
+	make lint
+
+# Performance benchmark
+benchmark:
+	@echo "📈 Running performance benchmarks..."
+	$(PYTEST) $(TESTS_DIR)/performance/ -m "benchmark" --benchmark-only
+
+# Memory leak detection
+test-memory-leaks:
+	@echo "🔍 Testing for memory leaks..."
+	$(PYTHON) -m pytest $(TESTS_DIR)/memory/ --memprof
+
+# Test with different Python versions (if pyenv available)
+test-all-python:
+	@echo "🐍 Testing with multiple Python versions..."
+	@for version in 3.9 3.10 3.11; do \
+		if command -v python$$version >/dev/null 2>&1; then \
+			echo "Testing with Python $$version..."; \
+			python$$version -m pytest $(TESTS_DIR)/unit/ -q; \
+		fi; \
+	done
+
+# Generate test reports
+reports:
+	@echo "📊 Generating test reports..."
+	@mkdir -p $(REPORTS_DIR)
+	$(PYTEST) $(TESTS_DIR)/ --html=$(REPORTS_DIR)/report.html --self-contained-html
+	$(PYTEST) $(TESTS_DIR)/ --junitxml=$(REPORTS_DIR)/junit.xml
+
+# Test database setup (if needed)
+test-db-setup:
+	@echo "🗄️ Setting up test database..."
+	# Add database setup commands here if needed
+
+# Help target
+help:
+	@echo "LUKHAS AI Testing Makefile"
+	@echo "=========================="
+	@echo ""
+	@echo "Main Targets:"
+	@echo "  test-comprehensive    Run complete test suite (default)"
+	@echo "  test-fast             Quick smoke tests for development"
+	@echo "  test-unit             Unit tests only"
+	@echo "  test-integration      Integration tests"
+	@echo "  test-e2e              End-to-end tests"
+	@echo "  test-security         Security validation tests"
+	@echo "  test-performance      Performance and stress tests"
+	@echo "  test-memory           Memory system tests"
+	@echo "  test-coverage         Tests with coverage analysis"
+	@echo ""
+	@echo "Development Targets:"
+	@echo "  test-dev              Development test cycle"
+	@echo "  test-ci               CI/CD test pipeline"
+	@echo "  lint                  Code linting"
+	@echo "  format                Code formatting"
+	@echo ""
+	@echo "Utility Targets:"
+	@echo "  clean-test-reports    Clean test artifacts"
+	@echo "  install-test-deps     Install test dependencies"
+	@echo "  reports               Generate test reports"
+	@echo "  help                  Show this help message"
+	@echo ""
+	@echo "Component-Specific:"
+	@echo "  test-guardian         Guardian safety tests"
+	@echo "  test-orchestrator     MATRIZ orchestrator tests"
+	@echo "  test-component        Interactive component testing"
+	@echo ""
+	@echo "Configuration:"
+	@echo "  TEST_TIMEOUT=$(TEST_TIMEOUT)     Test timeout in seconds"
+	@echo "  COVERAGE_MIN=$(COVERAGE_MIN)     Minimum coverage percentage"
+	@echo "  PARALLEL_WORKERS=$(PARALLEL_WORKERS)  Parallel test workers"
