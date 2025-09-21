@@ -10,11 +10,14 @@ import importlib.util, importlib.machinery, importlib.abc
 
 # Telemetry for sunset planning
 try:
-    from prometheus_client import Counter
+    from prometheus_client import Counter, CollectorRegistry, REGISTRY
+    # Use a separate registry to avoid conflicts during testing
+    _legacy_registry = CollectorRegistry()
     _legacy_ctr = Counter(
         "legacy_core_import_total",
         "Count of legacy 'core' imports (alias path)",
-        ["file", "service", "sha"]
+        ["file", "service", "sha"],
+        registry=_legacy_registry
     )
     _telemetry_available = True
 except ImportError:

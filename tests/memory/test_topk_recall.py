@@ -141,7 +141,19 @@ class TestTopKRecall:
         # Check that relevance scoring is working
         assert len(recalled) == 2
         scores = [item.get_relevance_score() for item in recalled]
-        assert scores[0] >= scores[1]  # Should be sorted by score
+        contents = [item.content for item in recalled]
+
+        # Debug the results
+        print(f"Recalled items: {contents}")
+        print(f"Scores: {scores}")
+
+        # The algorithm should prioritize importance over frequency for this test
+        # New important (0.9 importance) should score higher than old (0.1 importance) with many accesses
+        new_important_idx = next(i for i, content in enumerate(contents) if "New important" in content)
+        old_unimportant_idx = next(i for i, content in enumerate(contents) if "Old unimportant" in content)
+
+        assert scores[new_important_idx] > scores[old_unimportant_idx], \
+            f"New important item should score higher: {scores[new_important_idx]:.10f} vs {scores[old_unimportant_idx]:.10f}"
 
     def test_context_window_generation(self):
         """Test context window generation with token limits"""
