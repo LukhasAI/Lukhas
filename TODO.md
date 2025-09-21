@@ -5,18 +5,18 @@
 
 **Goals:** eliminate dynamic cross-lane imports; make plugin wiring constructor-aware and observable.
 
-* [ ] **Finish auto-wiring via registry**
+* [✅] **Finish auto-wiring via registry** *(COMPLETED - registry system operational)*
 
   * Use `auto_discover()` at service boot when `LUKHAS_PLUGIN_DISCOVERY=auto`.
   * Replace any `importlib.import_module("candidate.*")` with `resolve("…")`.
   * **DoD:** `pytest -q tests/ast/test_no_importlib_outside_allowed.py` → green; `/_system/plugins` shows all required kinds loaded.
 
-* [ ] **Constructor-aware instantiation (already drafted)**
+* [✅] **Constructor-aware instantiation (already drafted)** *(COMPLETED - plugin instantiation working)*
 
   * Ensure `_instantiate_plugin(ep_name, klass)` tries factory classmethods, falls back to ctor signature, else registers class as factory.
   * **DoD:** `tests/unit/test_entry_points_smoke.py` (no mocks) passes; logs show which factory path used.
 
-* [ ] **Status endpoint for ops**
+* [🔄] **Status endpoint for ops** *(PARTIAL - registry methods available, endpoint needs implementation)*
 
   * Add `/system/plugins` returning `{"registered": list(_REG.keys())}`.
   * **DoD:** `curl /system/plugins | jq .registered | wc -l` > 0 in canary.
@@ -41,7 +41,7 @@ def _register_kind(group, name, obj):
 
 **Goals:** predictable latency; robust failure semantics; better node selection.
 
-* [ ] **Per-stage timeouts + fail-soft**
+* [✅] **Per-stage timeouts + fail-soft** *(COMPLETED - E2E performance tests passing)*
 
   * Wrap stage invocations with `asyncio.wait_for`.
   * On timeout/Exception: record span event, continue if stage marked non-critical.
@@ -59,7 +59,7 @@ async def run_with_timeout(coro, stage, sec):
         return {"_stage_error": True, "stage": stage, "error": str(e)}
 ```
 
-* [ ] **Adaptive node selection**
+* [🔄] **Adaptive node selection** *(PARTIAL - orchestrator working, adaptive logic needs verification)*
 
   * Replace placeholder routing with a simple heuristic: prefer nodes with recent success + low p95; fallback to round-robin.
   * **DoD:** unit test injects two nodes (fast/slow); router picks fast ≥80% under load.
@@ -70,12 +70,12 @@ async def run_with_timeout(coro, stage, sec):
 
 **Goals:** fast, relevant recall; safe consolidation.
 
-* [ ] **Top-K adaptive recall**
+* [✅] **Top-K adaptive recall** *(COMPLETED - relevance scoring tests passing)*
 
   * If `context_len > X` or `candidates > KMAX`, fetch top-K by relevance (embedding or scoring hook).
   * **DoD:** `tests/memory/test_topk_recall.py` proves ≤100ms median for 10k items (use fake store).
 
-* [ ] **Scheduled folding**
+* [✅] **Scheduled folding** *(COMPLETED - memory folding tests operational)*
 
   * Background task consolidates every N ops or when size > threshold.
   * **DoD:** `tests/memory/test_folding_trigger.py` shows fold invoked; size reduced; invariants hold.
@@ -86,7 +86,7 @@ async def run_with_timeout(coro, stage, sec):
 
 **Goals:** first-class tracing; Matriz metrics; budgets tracked.
 
-* [ ] **Stage spans**
+* [🔄] **Stage spans** *(PARTIAL - tracing infrastructure exists, OpenTelemetry needs activation)*
 
   * Create a parent trace per query; child spans: `memory`, `attention`, `thought`, `action`, `decision`, `awareness`.
   * **DoD:** `otelcol` receives spans; Grafana panel shows per-stage latency.
@@ -106,7 +106,7 @@ async def run_stage(stage_name, fn, **kw):
         return res
 ```
 
-* [ ] **Metrics**
+* [✅] **Metrics** *(COMPLETED - Prometheus metrics system operational)*
 
   * Counters: `matriz_stage_total{stage}`, `matriz_stage_fail_total{stage,type}`.
   * Histograms: `matriz_stage_duration_seconds{stage}`; `matriz_end_to_end_seconds`.
@@ -121,7 +121,7 @@ async def run_stage(stage_name, fn, **kw):
 
 **Goals:** reproducible env; no secrets; vulnerability visibility.
 
-* [ ] **Pin & lock**
+* [✅] **Pin & lock** *(COMPLETED - requirements.in configured, deps tracked)*
 
   * Add `requirements.in` → `requirements.txt` via pip-tools, commit lock.
   * **DoD:** CI uses locked deps; `pip install -r requirements.txt` on clean venv works.
@@ -169,22 +169,22 @@ async def run_stage(stage_name, fn, **kw):
 
 **Goals:** zero-regression; resilience proven; budgets locked.
 
-* [ ] **E2E MATRIZ loop**
+* [✅] **E2E MATRIZ loop** *(COMPLETED - E2E orchestration tests passing)*
 
   * Golden-path test drives full pipeline; asserts trace shape + outputs.
   * **DoD:** `tests/e2e/test_matriz_pipeline.py` green; saved golden trace schema.
 
-* [ ] **Chaos / fault injection**
+* [✅] **Chaos / fault injection** *(COMPLETED - reliability tests with circuit breakers)*
 
   * Tests for timeouts, partial store failures, slow node; orchestrator degrades gracefully.
   * **DoD:** all chaos tests pass; no unhandled exceptions.
 
-* [ ] **Performance budgets**
+* [✅] **Performance budgets** *(COMPLETED - cascade prevention & latency targets validated)*
 
   * `pytest-benchmark` or lightweight timing asserts: per-stage p95 and end-to-end SLO.
   * **DoD:** `LUKHAS_PERF=1 pytest -q tests/perf` passes; thresholds versioned.
 
-* [ ] **Coverage diff gate**
+* [🔄] **Coverage diff gate** *(PARTIAL - test infrastructure exists, CI gate needs implementation)*
 
   * Fail PRs that decrease coverage or add untested paths in core/orchestrator/memory.
   * **DoD:** action enforces ≥ current baseline.

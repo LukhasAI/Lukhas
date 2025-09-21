@@ -1,0 +1,22 @@
+{
+  "symbol": "LOYALTY",
+  "user": "demo",
+  "seed": 7,
+  "recursive": false,
+  "timestamp": "2025-09-21T18:30:31.444979+00:00",
+  "driftDelta": 0.072,
+  "driftScore": 0.082,
+  "affect_delta": 0.015,
+  "collapseHash": "2a4074cef7fafb9b",
+  "top_symbols": [
+    "LOYALTY_resonance",
+    "LOYALTY_memory",
+    "LOYALTY_echo"
+  ],
+  "telemetry": {
+    "attempts": 1,
+    "successes": 1,
+    "denials": 0,
+    "p95_latency_ms": 50.433
+  }
+}
