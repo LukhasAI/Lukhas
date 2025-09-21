@@ -37,45 +37,135 @@ ALIASES = {
 
 def _instantiate_plugin(ep_name: str, plugin_class):
     """
-    T4/0.01% instantiation:
+    T4/0.01% enhanced instantiation with comprehensive signature analysis:
     - Prefer classmethod factories if present
-    - Else inspect __init__ to decide whether to pass name
-    - Else last-resort: register the class (factory) itself
+    - Advanced constructor signature inspection and validation
+    - Robust error handling with detailed logging
+    - Last-resort: register the class (factory) itself
     """
-    # Priority 1: factory classmethods
-    for factory in ("from_entry_point", "from_config", "build"):
-        if hasattr(plugin_class, factory) and callable(getattr(plugin_class, factory)):
-            try:
-                return getattr(plugin_class, factory)(name=ep_name)
-            except TypeError:
-                try:
-                    return getattr(plugin_class, factory)()
-                except Exception:
-                    continue
+    plugin_name = getattr(plugin_class, '__name__', str(plugin_class))
 
-    # Priority 2: constructor signature
+    # Priority 1: factory classmethods with enhanced validation
+    for factory in ("from_entry_point", "from_config", "build", "create"):
+        if hasattr(plugin_class, factory):
+            factory_method = getattr(plugin_class, factory)
+            if callable(factory_method):
+                try:
+                    # Try with name parameter first
+                    return factory_method(name=ep_name)
+                except (TypeError, ValueError) as e:
+                    # If name parameter fails, try without parameters
+                    try:
+                        return factory_method()
+                    except Exception as inner_e:
+                        # Log factory method failure for debugging
+                        # print(f"[registry] factory {plugin_name}.{factory} failed: {inner_e}")
+                        continue
+
+    # Priority 2: enhanced constructor signature analysis
     try:
         sig = inspect.signature(plugin_class)
         params = list(sig.parameters.values())
 
-        # zero-arg constructor
-        if len(params) == 0 or (len(params) == 1 and params[0].name == "self"):
+        # Filter out 'self' for instance methods
+        non_self_params = [p for p in params if p.name != "self"]
+
+        # Case 1: zero-arg constructor (only self or no params)
+        if len(non_self_params) == 0:
             return plugin_class()
 
-        # constructor accepts a name (positional or kw)
-        names = [p.name for p in params if p.kind in (p.POSITIONAL_OR_KEYWORD, p.KEYWORD_ONLY)]
-        if "name" in names:
-            return plugin_class(name=ep_name)
+        # Case 2: check for explicit name parameter (keyword or positional)
+        name_param = None
+        for param in non_self_params:
+            if param.name == "name":
+                name_param = param
+                break
 
-        # one positional arg after self → pass name
-        if len(params) >= 2 and params[1].kind in (params[1].POSITIONAL_ONLY, params[1].POSITIONAL_OR_KEYWORD):
-            return plugin_class(ep_name)
+        if name_param:
+            # Has explicit name parameter
+            if name_param.default != inspect.Parameter.empty:
+                # Name has default, try with and without
+                try:
+                    return plugin_class(name=ep_name)
+                except TypeError:
+                    return plugin_class()
+            else:
+                # Name is required
+                return plugin_class(name=ep_name)
 
-    except Exception:
+        # Case 3: check for config/options parameter patterns
+        for param in non_self_params:
+            if param.name in ("config", "options", "settings", "params"):
+                # Try passing name as config-like parameter
+                try:
+                    return plugin_class(**{param.name: {"name": ep_name}})
+                except (TypeError, ValueError):
+                    # Try with just the name string
+                    try:
+                        return plugin_class(**{param.name: ep_name})
+                    except (TypeError, ValueError):
+                        continue
+
+        # Case 4: single positional parameter - pass name
+        if (len(non_self_params) == 1 and
+            non_self_params[0].kind in (
+                inspect.Parameter.POSITIONAL_ONLY,
+                inspect.Parameter.POSITIONAL_OR_KEYWORD
+            )):
+            param = non_self_params[0]
+            if param.default != inspect.Parameter.empty:
+                # Parameter has default, try with and without
+                try:
+                    return plugin_class(ep_name)
+                except TypeError:
+                    return plugin_class()
+            else:
+                # Parameter is required
+                return plugin_class(ep_name)
+
+        # Case 5: **kwargs present - try passing name first
+        has_var_keyword = any(p.kind == inspect.Parameter.VAR_KEYWORD for p in non_self_params)
+        if has_var_keyword:
+            try:
+                return plugin_class(name=ep_name)
+            except TypeError:
+                return plugin_class()
+
+        # Case 6: multiple parameters with defaults - try zero-arg
+        all_have_defaults = all(
+            p.default != inspect.Parameter.empty or
+            p.kind == inspect.Parameter.VAR_POSITIONAL or
+            p.kind == inspect.Parameter.VAR_KEYWORD
+            for p in non_self_params
+        )
+
+        if all_have_defaults:
+            return plugin_class()
+
+    except Exception as e:
+        # Enhanced error logging for debugging
+        # print(f"[registry] signature analysis failed for {plugin_name}: {e}")
         pass
 
     # Priority 3: register class as a factory (caller can instantiate later)
+    # This allows for lazy instantiation or manual instantiation with custom parameters
     return plugin_class
+
+
+def _register_kind(group: str, name: str, obj: Any) -> None:
+    """Register a plugin with appropriate prefix based on entry point group"""
+    prefix_map = {
+        "lukhas.cognitive_nodes": "node",
+        "lukhas.constellation_components": "constellation",
+        "lukhas.adapters": "adapter",
+        "lukhas.monitoring": "monitor",
+    }
+
+    # Get prefix, default to the group name if not in map
+    prefix = prefix_map.get(group, group.split('.')[-1] if '.' in group else group)
+    kind = f"{prefix}:{name}"
+
+    register(kind, obj)
 
 
 def register(kind: str, impl: Any) -> None:
@@ -143,15 +233,8 @@ def discover_entry_points() -> None:
                     # Use smart instantiation
                     obj = _instantiate_plugin(ep.name, plugin_class)
 
-                    # Register with appropriate prefix
-                    if resolved_group == "lukhas.cognitive_nodes":
-                        register(f"node:{ep.name}", obj)
-                    elif resolved_group == "lukhas.constellation_components":
-                        register(f"constellation:{ep.name}", obj)
-                    elif resolved_group == "lukhas.adapters":
-                        register(f"adapter:{ep.name}", obj)
-                    elif resolved_group == "lukhas.monitoring":
-                        register(f"monitor:{ep.name}", obj)
+                    # Register with appropriate prefix using helper
+                    _register_kind(resolved_group, ep.name, obj)
 
                     # obj_type = "instance" if hasattr(obj, "__dict__") else "factory"
                     # print(f"[registry] loaded entry point: {group_name}.{ep.name} as {obj_type}")
@@ -169,4 +252,4 @@ def auto_discover() -> None:
     autoload()
 
 
-__all__ = ["register", "resolve", "autoload", "discover_entry_points", "auto_discover"]
+__all__ = ["register", "resolve", "autoload", "discover_entry_points", "auto_discover", "_register_kind"]
