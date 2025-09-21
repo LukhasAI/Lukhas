@@ -29,10 +29,10 @@ jobs:
     timeout-minutes: 8
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
 
       - name: Setup Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@82c7e631bb3cdc910f68e0081d67478d79c6982d
         with:
           python-version: "3.11"
 
@@ -116,7 +116,7 @@ jobs:
 
       - name: Upload reports
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@834a144ee995460fba8ed112a2fc961b36a5ec5a
         with:
           name: dependency-reports-${{ github.run_id }}
           path: |
@@ -178,12 +178,12 @@ jobs:
     if: github.event_name == 'pull_request' && contains(github.event.pull_request.title, 'deps:')
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Setup Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@82c7e631bb3cdc910f68e0081d67478d79c6982d
         with:
           python-version: "3.11"
 
@@ -279,10 +279,10 @@ jobs:
     if: github.event_name == 'schedule'
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
 
       - name: Setup Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@82c7e631bb3cdc910f68e0081d67478d79c6982d
         with:
           python-version: "3.11"
 
@@ -314,7 +314,7 @@ jobs:
           echo "- Core ML packages: $(pip list | grep -E "(openai|anthropic|numpy|torch)" | wc -l)" >> dependency-audit.md
 
       - name: Upload audit report
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@834a144ee995460fba8ed112a2fc961b36a5ec5a
         with:
           name: dependency-audit-${{ github.run_id }}
           path: dependency-audit.md

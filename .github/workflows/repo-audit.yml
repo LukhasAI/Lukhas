@@ -12,10 +12,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
 
       - name: Setup Python
-        uses: actions/setup-python@v6
+        uses: actions/setup-python@39cd14951b08e74b54015e9e001cdefcf80e669f
         with:
           python-version: '3.11'
 
@@ -46,7 +46,7 @@ jobs:
           python tools/ci/static_import_audit.py --out reports/audit/static_imports.json || true
 
       - name: Upload audit artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@834a144ee995460fba8ed112a2fc961b36a5ec5a
         with:
           name: repo-audit
           path: reports/audit

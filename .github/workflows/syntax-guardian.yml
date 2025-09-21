@@ -14,10 +14,10 @@ jobs:
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v4
+      uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
 
     - name: Set up Python
-      uses: actions/setup-python@v6
+      uses: actions/setup-python@39cd14951b08e74b54015e9e001cdefcf80e669f
       with:
         python-version: '3.9'
         cache: 'pip'
@@ -40,7 +40,7 @@ jobs:
 
     - name: Upload syntax report
       if: always()
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@834a144ee995460fba8ed112a2fc961b36a5ec5a
       with:
         name: syntax-guardian-report-${{ github.sha }}
         path: syntax_guardian_report.json
@@ -101,10 +101,10 @@ jobs:
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v4
+      uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
 
     - name: Set up Python
-      uses: actions/setup-python@v6
+      uses: actions/setup-python@39cd14951b08e74b54015e9e001cdefcf80e669f
       with:
         python-version: '3.9'
 
@@ -116,7 +116,7 @@ jobs:
         python tools/ci/syntax_guardian.py > syntax_trend_$(date +%Y%m%d).log
 
     - name: Archive trend report
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@834a144ee995460fba8ed112a2fc961b36a5ec5a
       with:
         name: syntax-trends
         path: syntax_trend_*.log

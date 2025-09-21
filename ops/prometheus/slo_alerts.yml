@@ -1,0 +1,168 @@
+groups:
+- name: lukhas_slo_critical
+  interval: 30s
+  rules:
+  - alert: LUKHASAPIAvailabilityBelowSLO
+    expr: |
+      (
+        sum(rate(http_requests_total{status!~"5.."}[5m])) /
+        sum(rate(http_requests_total[5m]))
+      ) < 0.999
+    for: 2m
+    labels:
+      severity: critical
+      service: lukhas-api
+      slo: availability
+      team: platform
+    annotations:
+      summary: "LUKHAS API availability below 99.9% SLO"
+      description: "API availability is {{ $value | humanizePercentage }} over the last 5 minutes, below the 99.9% SLO target"
+      runbook_url: "https://docs.lukhas.ai/runbooks/api-availability"
+
+  - alert: LUKHASMemoryRecallLatencyBelowSLO
+    expr: |
+      histogram_quantile(0.95,
+        rate(memory_recall_duration_seconds_bucket{lane=~"prod|candidate"}[5m])
+      ) > 0.1
+    for: 1m
+    labels:
+      severity: critical
+      service: lukhas-memory
+      slo: latency
+      team: core
+    annotations:
+      summary: "Memory recall P95 latency above 100ms SLO"
+      description: "Memory recall P95 latency is {{ $value }}s, above the 100ms SLO target"
+      runbook_url: "https://docs.lukhas.ai/runbooks/memory-performance"
+
+  - alert: LUKHASMATRIZPipelineLatencyBelowSLO
+    expr: |
+      histogram_quantile(0.95,
+        rate(matriz_pipeline_duration_seconds_bucket{lane=~"prod|candidate"}[5m])
+      ) > 0.25
+    for: 1m
+    labels:
+      severity: critical
+      service: lukhas-matriz
+      slo: latency
+      team: core
+    annotations:
+      summary: "MATRIZ pipeline P95 latency above 250ms SLO"
+      description: "MATRIZ pipeline P95 latency is {{ $value }}s, above the 250ms SLO target"
+      runbook_url: "https://docs.lukhas.ai/runbooks/matriz-performance"
+
+  - alert: LUKHASGuardianDecisionLatencyBelowSLO
+    expr: |
+      histogram_quantile(0.99,
+        rate(guardian_decision_duration_seconds_bucket{lane=~"prod|candidate"}[5m])
+      ) > 0.005
+    for: 30s
+    labels:
+      severity: critical
+      service: lukhas-guardian
+      slo: latency
+      team: governance
+    annotations:
+      summary: "Guardian decision P99 latency above 5ms SLO"
+      description: "Guardian decision P99 latency is {{ $value }}s, above the 5ms SLO target"
+      runbook_url: "https://docs.lukhas.ai/runbooks/guardian-performance"
+
+- name: lukhas_slo_warning
+  interval: 1m
+  rules:
+  - alert: LUKHASErrorBudgetBurnRateHigh
+    expr: |
+      (
+        rate(http_requests_total{status=~"5.."}[1h]) >
+        (0.001 * 2)  # 2x normal error budget burn rate
+      )
+    for: 5m
+    labels:
+      severity: warning
+      service: lukhas-api
+      slo: error_budget
+      team: platform
+    annotations:
+      summary: "LUKHAS API error budget burning too fast"
+      description: "Error budget burn rate is {{ $value | humanizePercentage }}/hour, above sustainable rate"
+      runbook_url: "https://docs.lukhas.ai/runbooks/error-budget-management"
+
+  - alert: LUKHASConsciousnessSuccessRateBelowSLO
+    expr: |
+      (
+        sum(rate(consciousness_queries_total{status="success"}[5m])) /
+        sum(rate(consciousness_queries_total[5m]))
+      ) < 0.90
+    for: 3m
+    labels:
+      severity: warning
+      service: lukhas-consciousness
+      slo: success_rate
+      team: core
+    annotations:
+      summary: "Consciousness processing success rate below 90% SLO"
+      description: "Consciousness success rate is {{ $value | humanizePercentage }}, below 90% SLO target"
+      runbook_url: "https://docs.lukhas.ai/runbooks/consciousness-reliability"
+
+  - alert: LUKHASErrorBudgetExhaustion
+    expr: |
+      (
+        1 - (
+          increase(http_requests_total{status=~"5.."}[30d]) /
+          increase(http_requests_total[30d])
+        )
+      ) < 0.2  # 20% error budget remaining
+    for: 1m
+    labels:
+      severity: warning
+      service: lukhas-api
+      slo: error_budget
+      team: platform
+    annotations:
+      summary: "LUKHAS API error budget running low"
+      description: "Only {{ $value | humanizePercentage }} error budget remaining for this month"
+      runbook_url: "https://docs.lukhas.ai/runbooks/error-budget-policy"
+
+- name: lukhas_slo_recording_rules
+  interval: 30s
+  rules:
+  # API Availability SLI
+  - record: lukhas:api_availability:rate5m
+    expr: |
+      sum(rate(http_requests_total{status!~"5.."}[5m])) /
+      sum(rate(http_requests_total[5m]))
+
+  # Memory Recall Latency SLI
+  - record: lukhas:memory_recall_latency:p95_5m
+    expr: |
+      histogram_quantile(0.95,
+        rate(memory_recall_duration_seconds_bucket{lane=~"prod|candidate"}[5m])
+      )
+
+  # MATRIZ Pipeline Latency SLI
+  - record: lukhas:matriz_pipeline_latency:p95_5m
+    expr: |
+      histogram_quantile(0.95,
+        rate(matriz_pipeline_duration_seconds_bucket{lane=~"prod|candidate"}[5m])
+      )
+
+  # Guardian Decision Latency SLI
+  - record: lukhas:guardian_decision_latency:p99_5m
+    expr: |
+      histogram_quantile(0.99,
+        rate(guardian_decision_duration_seconds_bucket{lane=~"prod|candidate"}[5m])
+      )
+
+  # Error Budget Burn Rate (hourly)
+  - record: lukhas:error_budget_burn_rate:1h
+    expr: |
+      rate(http_requests_total{status=~"5.."}[1h]) /
+      (0.001 / 24)  # SLO allows 0.1% errors per month = ~0.0042% per day = ~0.000175% per hour
+
+  # Monthly Error Budget Remaining
+  - record: lukhas:error_budget_remaining:30d
+    expr: |
+      1 - (
+        increase(http_requests_total{status=~"5.."}[30d]) /
+        increase(http_requests_total[30d])
+      ) / 0.001  # 0.1% monthly error budget

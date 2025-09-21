@@ -10,7 +10,7 @@ jobs:
       PYTHON_VERSION: "3.11"
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
         with:
           fetch-depth: 0
 
@@ -20,7 +20,7 @@ jobs:
           sudo apt-get install -y build-essential libpq-dev libssl-dev pkg-config
 
       - name: Setup Python
-        uses: actions/setup-python@v6
+        uses: actions/setup-python@39cd14951b08e74b54015e9e001cdefcf80e669f
         with:
           python-version: ${{ env.PYTHON_VERSION }}
 

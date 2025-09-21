@@ -15,7 +15,7 @@ jobs:
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v4
+      uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
 
     - name: Set up Python
       uses: actions/setup-python@v4
@@ -32,7 +32,7 @@ jobs:
         python scripts/automated_maintenance_pipeline.py --output github_maintenance_report.json
 
     - name: Upload maintenance report
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@834a144ee995460fba8ed112a2fc961b36a5ec5a
       if: always()
       with:
         name: lukhas-maintenance-report

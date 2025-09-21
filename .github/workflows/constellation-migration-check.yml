@@ -18,7 +18,7 @@ jobs:
     timeout-minutes: 12
 
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
 
     - name: 🔍 Check Trinity Migration Status
       continue-on-error: ${{ github.event_name == 'pull_request' }}
@@ -51,6 +51,6 @@ jobs:
     timeout-minutes: 12
     needs: [trinity-pr]
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
       - name: Run Trinity migration check (hard)
         run: .github/scripts/check-trinity-migration.sh

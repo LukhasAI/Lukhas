@@ -39,14 +39,39 @@ jobs:
           python-version: '3.11'
           cache: 'pip'
 
-      - name: Install pip-audit and syft
+      - name: Install pip-audit, syft, import-linter, and pip-licenses
         run: |
           python -m pip install --upgrade pip
-          pip install pip-audit
+          pip install pip-audit import-linter pip-licenses
           curl -sSfL https://raw.githubusercontent.com/anchore/syft/main/install.sh | sh -s -- -b /usr/local/bin
 
       - name: Generate SBOM
         run: make sbom
+
+      - name: Check lane import restrictions
+        run: |
+          echo "🔍 Checking lane import restrictions..."
+          import-linter --config config/tools/.importlinter
+          echo "✅ Lane import restrictions validated"
+
+      - name: Check license policy compliance
+        run: |
+          echo "🔍 Checking license policy compliance..."
+          pip-licenses --format=json --output-file=reports/security/licenses.json --with-license-file --no-license-path
+
+          # Define allowed licenses
+          ALLOWED_LICENSES="MIT,Apache Software License,BSD License,BSD,Apache,Apache 2.0,Python Software Foundation License,ISC License,Mozilla Public License 2.0"
+
+          # Check for disallowed licenses
+          DISALLOWED=$(pip-licenses --format=plain | grep -v -E "(MIT|Apache|BSD|Python Software Foundation|ISC|Mozilla)" | grep -v "^Name" | grep -v "^----" || true)
+
+          if [ -n "$DISALLOWED" ]; then
+            echo "❌ Found disallowed licenses:"
+            echo "$DISALLOWED"
+            exit 1
+          else
+            echo "✅ All licenses are compliant with policy"
+          fi
 
       - name: Create audit reports directory
         run: mkdir -p reports/security

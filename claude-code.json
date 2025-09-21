@@ -29,7 +29,8 @@
   "featureFlags": {
     "LUKHAS_EXPERIMENTAL": "1",
     "LUKHAS_LANE": "candidate",
-    "ENFORCE_ETHICS_DSL": "0",
+    "ENFORCE_ETHICS_DSL": "1",
+    "LUKHAS_CANARY_PERCENT": "10",
     "ENABLE_LLM_GUARDRAIL": "1"
   },
   "acceptanceGates": {

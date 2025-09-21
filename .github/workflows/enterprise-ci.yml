@@ -44,7 +44,7 @@ jobs:
 
     steps:
     - name: 📥 Checkout
-      uses: actions/checkout@v4
+      uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
       with:
         fetch-depth: 2
 
@@ -90,7 +90,7 @@ jobs:
         coverage xml -o coverage.xml || true
     - name: Upload artifacts (failures only)
       if: failure()
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@834a144ee995460fba8ed112a2fc961b36a5ec5a
       with:
         name: enterprise-ci-debug-${{ github.run_id }}
         path: |
@@ -138,7 +138,7 @@ jobs:
 
     steps:
     - name: 📥 Checkout
-      uses: actions/checkout@v4
+      uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
 
     - name: 🐍 Setup Python ${{ matrix.python-version }}
       uses: actions/setup-python@v4
@@ -207,7 +207,7 @@ jobs:
 
     steps:
     - name: 📥 Checkout
-      uses: actions/checkout@v4
+      uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
 
     - name: 🐍 Setup Python
       uses: actions/setup-python@v4
@@ -299,7 +299,7 @@ jobs:
 
     steps:
     - name: 📥 Checkout
-      uses: actions/checkout@v4
+      uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
 
     - name: 🐍 Setup Python
       uses: actions/setup-python@v4
@@ -363,7 +363,7 @@ jobs:
 
     steps:
     - name: 📥 Checkout
-      uses: actions/checkout@v4
+      uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
 
     - name: 🐍 Setup Python
       uses: actions/setup-python@v4
@@ -414,7 +414,7 @@ jobs:
 
     steps:
     - name: 📥 Checkout
-      uses: actions/checkout@v4
+      uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
 
     - name: 🎯 Blue-Green Deployment Preparation
       run: |
