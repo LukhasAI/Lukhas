@@ -21,3 +21,132 @@ jobs:
               echo "::error::advanced-testing.yml must not trigger on pull_request"; exit 1;
             fi
           fi
+
+      - name: 🔍 Check Lane Violations
+        run: |
+          echo "🔍 Scanning for lane violations in PR..."
+
+          # Create lane violation report
+          mkdir -p reports/lane-violations
+
+          VIOLATIONS_FOUND=0
+
+          # Check for cross-lane imports
+          echo "Checking for cross-lane imports..."
+          if [ -f tools/acceptance_gate_ast.py ]; then
+            python tools/acceptance_gate_ast.py --check-only --output reports/lane-violations/cross_lane_imports.json || true
+            if [ -f reports/lane-violations/cross_lane_imports.json ]; then
+              IMPORT_VIOLATIONS=$(jq -r '.violations | length' reports/lane-violations/cross_lane_imports.json 2>/dev/null || echo 0)
+              VIOLATIONS_FOUND=$((VIOLATIONS_FOUND + IMPORT_VIOLATIONS))
+              echo "Cross-lane import violations: $IMPORT_VIOLATIONS"
+            fi
+          fi
+
+          # Check for lane-specific file placements
+          echo "Checking file placements..."
+          PLACEMENT_VIOLATIONS=0
+
+          # Production files should only be in production lane
+          if git diff --name-only origin/main...HEAD | grep -E "^production/" | grep -v "^production/"; then
+            echo "Files incorrectly placed in production lane"
+            PLACEMENT_VIOLATIONS=$((PLACEMENT_VIOLATIONS + 1))
+          fi
+
+          # Candidate files should only be in candidate lane
+          if git diff --name-only origin/main...HEAD | grep -E "^candidate/" | grep -v "^candidate/"; then
+            echo "Files incorrectly placed in candidate lane"
+            PLACEMENT_VIOLATIONS=$((PLACEMENT_VIOLATIONS + 1))
+          fi
+
+          VIOLATIONS_FOUND=$((VIOLATIONS_FOUND + PLACEMENT_VIOLATIONS))
+
+          # Generate summary report
+          cat > reports/lane-violations/summary.json << EOF
+          {
+            "pr_number": "${{ github.event.number }}",
+            "total_violations": $VIOLATIONS_FOUND,
+            "cross_lane_imports": ${IMPORT_VIOLATIONS:-0},
+            "placement_violations": $PLACEMENT_VIOLATIONS,
+            "scan_timestamp": "$(date -u +%Y-%m-%dT%H:%M:%SZ)",
+            "status": "$([ $VIOLATIONS_FOUND -eq 0 ] && echo "clean" || echo "violations_found")"
+          }
+          EOF
+
+          echo ""
+          echo "📊 Lane Violation Summary:"
+          echo "   Total Violations: $VIOLATIONS_FOUND"
+          echo "   Cross-lane Imports: ${IMPORT_VIOLATIONS:-0}"
+          echo "   Placement Issues: $PLACEMENT_VIOLATIONS"
+          echo "   Status: $([ $VIOLATIONS_FOUND -eq 0 ] && echo "✅ CLEAN" || echo "⚠️ VIOLATIONS FOUND")"
+
+          # Note: Not failing the job for violations - just reporting
+          if [ $VIOLATIONS_FOUND -gt 0 ]; then
+            echo "::warning::Lane violations detected but not blocking PR"
+          fi
+
+      - name: 📋 Upload Lane Violation Report
+        uses: actions/upload-artifact@834a144ee995460fba8ed112a2fc961b36a5ec5a
+        if: always()
+        with:
+          name: lane-violation-report-pr${{ github.event.number }}
+          path: reports/lane-violations/
+          retention-days: 30
+
+      - name: 💬 Comment on PR with Lane Status
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@60a0d83039c74a4adc543d1d8de3e1b99a4e1b4c
+        with:
+          script: |
+            const fs = require('fs');
+
+            let comment = '## 🔍 Lane Violation Check\n\n';
+
+            try {
+              const summary = JSON.parse(fs.readFileSync('reports/lane-violations/summary.json', 'utf8'));
+
+              if (summary.total_violations === 0) {
+                comment += '✅ **No lane violations detected**\n\n';
+                comment += 'All files are properly placed within lane boundaries and no cross-lane imports detected.';
+              } else {
+                comment += '⚠️ **Lane violations detected**\n\n';
+                comment += `- Cross-lane imports: ${summary.cross_lane_imports}\n`;
+                comment += `- Placement violations: ${summary.placement_violations}\n`;
+                comment += `- Total violations: ${summary.total_violations}\n\n`;
+                comment += 'Please review the uploaded artifact for details.';
+              }
+
+              comment += `\n\n*Scan completed at ${summary.scan_timestamp}*`;
+
+            } catch (error) {
+              comment += '❌ **Error generating lane violation report**\n\n';
+              comment += `Error: ${error.message}`;
+            }
+
+            // Find existing bot comment
+            const { data: comments } = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+            });
+
+            const existingComment = comments.find(c =>
+              c.user.type === 'Bot' && c.body.includes('Lane Violation Check')
+            );
+
+            if (existingComment) {
+              // Update existing comment
+              await github.rest.issues.updateComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: existingComment.id,
+                body: comment
+              });
+            } else {
+              // Create new comment
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                body: comment
+              });
+            }

@@ -1,0 +1,253 @@
+name: Critical Path Dual Approval
+
+on:
+  pull_request:
+    types: [opened, synchronize, ready_for_review]
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  check-critical-paths:
+    name: 🛡️ Critical Path Approval Check
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.draft == false
+
+    steps:
+    - name: 📥 Checkout Repository
+      uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
+      with:
+        fetch-depth: 0
+
+    - name: 🔍 Identify Critical Path Changes
+      id: critical-check
+      run: |
+        echo "🔍 Checking for critical path modifications..."
+
+        # Define critical paths that require dual approval
+        CRITICAL_PATHS=(
+          "lukhas/governance/ethics/"
+          "lukhas/core/registry.py"
+          "claude-code.json"
+          "lukhas/core/guardian/"
+          ".github/workflows/security-audit.yml"
+          "ops/prometheus/"
+          "tools/security/"
+          "lukhas/observability/"
+          "matriz/core/async_orchestrator.py"
+          "lukhas/core/import_router.py"
+        )
+
+        # Get changed files in this PR
+        CHANGED_FILES=$(git diff --name-only origin/main...HEAD)
+
+        CRITICAL_CHANGES=""
+        CRITICAL_COUNT=0
+
+        echo "Changed files:"
+        echo "$CHANGED_FILES"
+        echo ""
+
+        # Check each changed file against critical paths
+        while IFS= read -r file; do
+          if [ -n "$file" ]; then
+            for critical_path in "${CRITICAL_PATHS[@]}"; do
+              if [[ "$file" == *"$critical_path"* ]]; then
+                echo "🚨 Critical path detected: $file (matches $critical_path)"
+                CRITICAL_CHANGES="$CRITICAL_CHANGES\n- $file"
+                CRITICAL_COUNT=$((CRITICAL_COUNT + 1))
+                break
+              fi
+            done
+          fi
+        done <<< "$CHANGED_FILES"
+
+        echo "critical_count=$CRITICAL_COUNT" >> $GITHUB_OUTPUT
+        echo "critical_changes<<EOF" >> $GITHUB_OUTPUT
+        echo -e "$CRITICAL_CHANGES" >> $GITHUB_OUTPUT
+        echo "EOF" >> $GITHUB_OUTPUT
+
+        if [ $CRITICAL_COUNT -gt 0 ]; then
+          echo "requires_dual_approval=true" >> $GITHUB_OUTPUT
+          echo ""
+          echo "📊 Critical Path Summary:"
+          echo "   Files Modified: $CRITICAL_COUNT"
+          echo "   Dual Approval Required: YES"
+        else
+          echo "requires_dual_approval=false" >> $GITHUB_OUTPUT
+          echo ""
+          echo "📊 Critical Path Summary:"
+          echo "   Files Modified: 0"
+          echo "   Dual Approval Required: NO"
+        fi
+
+    - name: 🔍 Check Approval Status
+      if: steps.critical-check.outputs.requires_dual_approval == 'true'
+      id: approval-check
+      uses: actions/github-script@60a0d83039c74a4adc543d1d8de3e1b99a4e1b4c
+      with:
+        script: |
+          const { data: reviews } = await github.rest.pulls.listReviews({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            pull_number: context.issue.number,
+          });
+
+          // Get unique approvals (latest review per user)
+          const latestReviews = {};
+          reviews.forEach(review => {
+            latestReviews[review.user.login] = review;
+          });
+
+          const approvals = Object.values(latestReviews).filter(
+            review => review.state === 'APPROVED'
+          );
+
+          const approverLogins = approvals.map(review => review.user.login);
+          const approvalCount = approvals.length;
+
+          console.log(`Found ${approvalCount} approvals from: ${approverLogins.join(', ')}`);
+
+          // Check if PR author is trying to approve their own PR
+          const prAuthor = context.payload.pull_request.user.login;
+          const selfApproval = approverLogins.includes(prAuthor);
+
+          core.setOutput('approval_count', approvalCount);
+          core.setOutput('approvers', approverLogins.join(', '));
+          core.setOutput('self_approval', selfApproval);
+          core.setOutput('meets_requirement', approvalCount >= 2 && !selfApproval);
+
+    - name: 🏷️ Add Critical Path Label
+      if: steps.critical-check.outputs.requires_dual_approval == 'true'
+      uses: actions/github-script@60a0d83039c74a4adc543d1d8de3e1b99a4e1b4c
+      with:
+        script: |
+          await github.rest.issues.addLabels({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            issue_number: context.issue.number,
+            labels: ['critical-path', 'requires-dual-approval']
+          });
+
+    - name: 💬 Comment on PR with Status
+      if: steps.critical-check.outputs.requires_dual_approval == 'true'
+      uses: actions/github-script@60a0d83039c74a4adc543d1d8de3e1b99a4e1b4c
+      with:
+        script: |
+          const criticalCount = '${{ steps.critical-check.outputs.critical_count }}';
+          const criticalChanges = `${{ steps.critical-check.outputs.critical_changes }}`;
+          const approvalCount = '${{ steps.approval-check.outputs.approval_count }}' || '0';
+          const approvers = '${{ steps.approval-check.outputs.approvers }}' || 'None';
+          const meetsRequirement = '${{ steps.approval-check.outputs.meets_requirement }}' === 'true';
+
+          let comment = '## 🛡️ Critical Path Dual Approval Required\n\n';
+          comment += `This PR modifies **${criticalCount} critical path(s)** that require dual approval:\n\n`;
+          comment += criticalChanges + '\n\n';
+
+          comment += '### 📋 Approval Status\n\n';
+          comment += `- **Required Approvals**: 2\n`;
+          comment += `- **Current Approvals**: ${approvalCount}\n`;
+          comment += `- **Approvers**: ${approvers}\n`;
+          comment += `- **Status**: ${meetsRequirement ? '✅ **APPROVED**' : '❌ **PENDING**'}\n\n`;
+
+          if (!meetsRequirement) {
+            comment += '### ⚠️ Next Steps\n\n';
+            comment += 'This PR requires **2 approvals** from different reviewers before it can be merged.\n';
+            comment += 'Critical paths include:\n';
+            comment += '- Security and governance systems\n';
+            comment += '- Core orchestration components\n';
+            comment += '- Configuration files\n';
+            comment += '- Monitoring and observability\n\n';
+            comment += '*Approvals from the PR author do not count toward this requirement.*';
+          } else {
+            comment += '### ✅ Ready to Merge\n\n';
+            comment += 'This PR has met the dual approval requirement for critical paths.';
+          }
+
+          // Find existing bot comment
+          const { data: comments } = await github.rest.issues.listComments({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            issue_number: context.issue.number,
+          });
+
+          const existingComment = comments.find(c =>
+            c.user.type === 'Bot' && c.body.includes('Critical Path Dual Approval')
+          );
+
+          if (existingComment) {
+            // Update existing comment
+            await github.rest.issues.updateComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              comment_id: existingComment.id,
+              body: comment
+            });
+          } else {
+            // Create new comment
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: comment
+            });
+          }
+
+    - name: ❌ Block Merge if Requirements Not Met
+      if: |
+        steps.critical-check.outputs.requires_dual_approval == 'true' &&
+        steps.approval-check.outputs.meets_requirement != 'true'
+      run: |
+        echo "🚨 CRITICAL PATH DUAL APPROVAL REQUIRED"
+        echo "======================================"
+        echo "This PR modifies critical paths and requires 2 approvals."
+        echo ""
+        echo "Current Status:"
+        echo "  Approvals: ${{ steps.approval-check.outputs.approval_count }}/2"
+        echo "  Approvers: ${{ steps.approval-check.outputs.approvers }}"
+        echo ""
+        echo "Critical paths modified:"
+        echo "${{ steps.critical-check.outputs.critical_changes }}"
+        echo ""
+        echo "⚠️ This check will block the merge until requirements are met."
+        exit 1
+
+    - name: ✅ Approval Requirements Met
+      if: |
+        steps.critical-check.outputs.requires_dual_approval == 'false' ||
+        steps.approval-check.outputs.meets_requirement == 'true'
+      run: |
+        if [ "${{ steps.critical-check.outputs.requires_dual_approval }}" == "true" ]; then
+          echo "✅ CRITICAL PATH DUAL APPROVAL SATISFIED"
+          echo "======================================="
+          echo "Approvals: ${{ steps.approval-check.outputs.approval_count }}/2"
+          echo "Approvers: ${{ steps.approval-check.outputs.approvers }}"
+          echo ""
+          echo "🎉 This PR meets all critical path approval requirements!"
+        else
+          echo "✅ NO CRITICAL PATHS MODIFIED"
+          echo "============================"
+          echo "This PR does not modify critical paths."
+          echo "Standard review process applies."
+        fi
+
+  # Summary job for branch protection
+  critical-path-summary:
+    name: 📊 Critical Path Summary
+    runs-on: ubuntu-latest
+    needs: check-critical-paths
+    if: always()
+
+    steps:
+    - name: 📊 Generate Summary
+      run: |
+        if [ "${{ needs.check-critical-paths.result }}" == "success" ]; then
+          echo "✅ Critical path approval requirements satisfied"
+        elif [ "${{ needs.check-critical-paths.result }}" == "failure" ]; then
+          echo "❌ Critical path approval requirements not met"
+          exit 1
+        else
+          echo "⚠️ Critical path check encountered an error"
+          exit 1
+        fi

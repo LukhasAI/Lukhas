@@ -15,7 +15,35 @@ import importlib.util
 import logging
 from typing import Any, ClassVar, Optional
 
+try:
+    from prometheus_client import Counter
+    METRICS_AVAILABLE = True
+except ImportError:
+    METRICS_AVAILABLE = False
+
 logger = logging.getLogger(__name__)
+
+# Router fallback metrics
+if METRICS_AVAILABLE:
+    _ROUTER_FALLBACK_TOTAL = Counter(
+        "lukhas_router_fallback_total",
+        "Total router fallback attempts",
+        ["source_module", "target_module", "outcome"]
+    )
+    _ROUTER_DEPRECATION_WARNINGS = Counter(
+        "lukhas_router_deprecation_warnings_total",
+        "Total deprecation warnings issued by router",
+        ["deprecated_module", "canonical_module"]
+    )
+    _ROUTER_RESOLUTION_TOTAL = Counter(
+        "lukhas_router_resolution_total",
+        "Total router resolution attempts",
+        ["module_type", "lane", "success"]
+    )
+else:
+    _ROUTER_FALLBACK_TOTAL = None
+    _ROUTER_DEPRECATION_WARNINGS = None
+    _ROUTER_RESOLUTION_TOTAL = None
 
 
 class ModuleRouter:
@@ -154,12 +182,50 @@ class ModuleRouter:
         # Resolve the actual path
         actual_path = self.resolve_module_path(module_path)
 
+        # Record resolution attempt metrics
+        module_type = self._classify_module_type(module_path)
+        lane = self._extract_lane(module_path)
+        success = actual_path is not None
+
+        if _ROUTER_RESOLUTION_TOTAL:
+            _ROUTER_RESOLUTION_TOTAL.labels(
+                module_type=module_type,
+                lane=lane,
+                success=str(success).lower()
+            ).inc()
+
         if actual_path:
+            # Record fallback metrics if using alternative path
+            if actual_path != module_path:
+                outcome = "success"
+                if _ROUTER_FALLBACK_TOTAL:
+                    _ROUTER_FALLBACK_TOTAL.labels(
+                        source_module=module_path,
+                        target_module=actual_path,
+                        outcome=outcome
+                    ).inc()
+
+                # Check if this is a deprecated path
+                if module_path in self.MODULE_REGISTRY:
+                    if _ROUTER_DEPRECATION_WARNINGS:
+                        _ROUTER_DEPRECATION_WARNINGS.labels(
+                            deprecated_module=module_path,
+                            canonical_module=actual_path
+                        ).inc()
+
             try:
                 module = importlib.import_module(actual_path)
                 self._import_cache[module_path] = module
                 return module
             except ImportError as err:
+                # Record failed fallback
+                if actual_path != module_path and _ROUTER_FALLBACK_TOTAL:
+                    _ROUTER_FALLBACK_TOTAL.labels(
+                        source_module=module_path,
+                        target_module=actual_path,
+                        outcome="import_failed"
+                    ).inc()
+
                 # Bind exception to a named variable for safe raise-from usage
                 if raise_on_error:
                     raise ImportError(f"Failed to import '{module_path}' (resolved to '{actual_path}'): {err}") from err
@@ -211,6 +277,32 @@ class ModuleRouter:
 
         logger.warning(f"Class '{class_name}' not found")
         return None
+
+    def _classify_module_type(self, module_path: str) -> str:
+        """Classify module type for metrics"""
+        if ".core." in module_path:
+            return "core"
+        elif ".memory." in module_path:
+            return "memory"
+        elif ".consciousness." in module_path:
+            return "consciousness"
+        elif ".bridge." in module_path:
+            return "bridge"
+        elif ".qi." in module_path:
+            return "qi"
+        else:
+            return "other"
+
+    def _extract_lane(self, module_path: str) -> str:
+        """Extract lane from module path"""
+        if module_path.startswith("lukhas."):
+            return "production"
+        elif module_path.startswith("candidate."):
+            return "candidate"
+        elif module_path.startswith("experimental."):
+            return "experimental"
+        else:
+            return "unknown"
 
     def add_module_mapping(self, canonical_path: str, alternative_paths: list[str]) -> None:
         """

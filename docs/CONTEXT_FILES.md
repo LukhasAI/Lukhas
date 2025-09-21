@@ -2,6 +2,10 @@
 
 **Dual-format AI guidance with vendor neutrality and Claude Desktop compatibility**
 
+<!-- Schema Version: v2.0.0 -->
+<!-- Framework: Constellation Framework -->
+<!-- Last Updated: 2025-09-22 -->
+
 ## 📖 Overview
 
 The LUKHAS project uses a sophisticated context file system to provide AI development tools with domain-specific architectural guidance. We maintain **42 distributed context files** in dual format to ensure compatibility with any AI tool while optimizing for Claude Desktop.

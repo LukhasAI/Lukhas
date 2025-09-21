@@ -34,7 +34,8 @@
       "Bash(python:*)",
       "Bash(.venv/bin/python:*)",
       "Bash(git checkout:*)",
-      "Bash(find:*)"
+      "Bash(find:*)",
+      "Bash(then grep -n \"guardian_emergency_disable\" lukhas/governance/ethics/ethics_engine.py)"
     ],
     "deny": [],
     "ask": []

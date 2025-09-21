@@ -34,6 +34,26 @@ except Exception:  # pragma: no cover - metrics optional in tests
 
     Counter = Histogram = _NoopMetric  # type: ignore
 
+# OpenTelemetry instrumentation
+try:
+    from lukhas.observability.otel_instrumentation import (
+        matriz_pipeline_span,
+        instrument_matriz_stage,
+        initialize_otel_instrumentation
+    )
+    OTEL_AVAILABLE = True
+except ImportError:
+    OTEL_AVAILABLE = False
+    # Provide no-op decorators
+    def matriz_pipeline_span(name, query, target_slo_ms=250.0):
+        from contextlib import nullcontext
+        return nullcontext()
+
+    def instrument_matriz_stage(stage_name, stage_type="processing", critical=True, slo_target_ms=None):
+        def decorator(func):
+            return func
+        return decorator
+
 _DEFAULT_LANE = os.getenv("LUKHAS_LANE", "experimental").lower()
 
 # ΛTAG: orchestrator_metrics -- async pipeline stage instrumentation
@@ -309,30 +329,36 @@ class AsyncCognitiveOrchestrator:
         start_time = time.perf_counter()
         stage_results = []
 
-        try:
-            # Apply total timeout to entire pipeline
-            return await asyncio.wait_for(
-                self._process_pipeline(user_input, stage_results),
-                timeout=self.total_timeout
-            )
-        except asyncio.TimeoutError:
-            total_ms = (time.perf_counter() - start_time) * 1000
-            _record_pipeline_metrics(total_ms, "timeout", False)
-            self._finalize_metrics(stage_results, total_ms)
-            logger.error(
-                "Pipeline timeout exceeded %.3fs after %.2fms",
-                self.total_timeout,
-                total_ms,
-            )
-            return {
-                "error": f"Pipeline timeout exceeded {self.total_timeout}s",
-                "partial_results": [asdict(r) for r in stage_results],
-                "metrics": {
-                    "total_duration_ms": total_ms,
-                    "timeout": True,
-                },
-                "orchestrator_metrics": asdict(self.metrics),
-            }
+        # Use OTel instrumentation for complete pipeline tracing
+        with matriz_pipeline_span(
+            "cognitive_processing",
+            user_input,
+            target_slo_ms=self.total_timeout * 1000
+        ):
+            try:
+                # Apply total timeout to entire pipeline
+                return await asyncio.wait_for(
+                    self._process_pipeline(user_input, stage_results),
+                    timeout=self.total_timeout
+                )
+            except asyncio.TimeoutError:
+                total_ms = (time.perf_counter() - start_time) * 1000
+                _record_pipeline_metrics(total_ms, "timeout", False)
+                self._finalize_metrics(stage_results, total_ms)
+                logger.error(
+                    "Pipeline timeout exceeded %.3fs after %.2fms",
+                    self.total_timeout,
+                    total_ms,
+                )
+                return {
+                    "error": f"Pipeline timeout exceeded {self.total_timeout}s",
+                    "partial_results": [asdict(r) for r in stage_results],
+                    "metrics": {
+                        "total_duration_ms": total_ms,
+                        "timeout": True,
+                    },
+                    "orchestrator_metrics": asdict(self.metrics),
+                }
 
     async def _process_pipeline(
         self,
@@ -452,6 +478,7 @@ class AsyncCognitiveOrchestrator:
             total_duration_ms
         )
 
+    @instrument_matriz_stage("intent_analysis", "reasoning", critical=True, slo_target_ms=50.0)
     async def _analyze_intent_async(self, user_input: str) -> Dict:
         """Async wrapper for intent analysis"""
         # Simulate async work - in production, could call LLM
@@ -472,6 +499,7 @@ class AsyncCognitiveOrchestrator:
             "confidence": 0.9,
         }
 
+    @instrument_matriz_stage("node_selection", "routing", critical=True, slo_target_ms=100.0)
     async def _select_node_async(self, intent_node: Dict) -> str:
         """Async node selection with adaptive routing"""
         await asyncio.sleep(0)  # Yield control
@@ -501,12 +529,14 @@ class AsyncCognitiveOrchestrator:
 
         return base_node
 
+    @instrument_matriz_stage("cognitive_processing", "processing", critical=True, slo_target_ms=120.0)
     async def _process_node_async(self, node: CognitiveNode, user_input: str) -> Dict:
         """Async wrapper for node processing"""
         # Run synchronous node.process in executor to make it truly async and cancellable
         loop = asyncio.get_event_loop()
         return await loop.run_in_executor(None, node.process, {"query": user_input})
 
+    @instrument_matriz_stage("validation", "validation", critical=False, slo_target_ms=40.0)
     async def _validate_async(self, result: Dict) -> bool:
         """Async validation"""
         await asyncio.sleep(0)  # Yield control
@@ -515,6 +545,7 @@ class AsyncCognitiveOrchestrator:
             return validator.validate_output(result)
         return True
 
+    @instrument_matriz_stage("reflection", "reflection", critical=False, slo_target_ms=30.0)
     async def _create_reflection_async(self, result: Dict, validation: bool) -> Dict:
         """Async reflection creation"""
         await asyncio.sleep(0)  # Yield control
