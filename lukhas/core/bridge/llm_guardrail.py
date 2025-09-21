@@ -12,34 +12,78 @@ Usage:
 """
 
 import json
+import logging
 import os
 import time
-from typing import Dict, Any, Callable, Optional
+from typing import Any, Callable, Dict, Optional
 
 try:
     import jsonschema
 except ImportError:
     jsonschema = None
 
-# Telemetry counters (no-op for dark merge)
-class TelemetryCounter:
-    def __init__(self, name: str):
-        self.name = name
-        self.value = 0
+try:  # pragma: no cover - optional dependency
+    from prometheus_client import Counter, Histogram
+except Exception:  # noqa: BLE001
+    Counter = None  # type: ignore[assignment]
+    Histogram = None  # type: ignore[assignment]
 
-    def labels(self, **kwargs):
+
+logger = logging.getLogger(__name__)
+
+
+class _NoopMetric:
+    """Graceful fallback when Prometheus client is unavailable."""
+
+    def labels(self, **_: Any) -> "_NoopMetric":  # noqa: D401 - simple shim
         return self
 
-    def inc(self):
-        self.value += 1
+    def inc(self, amount: float = 1.0) -> None:  # pragma: no cover - noop
+        _ = amount
 
-    def observe(self, value: float):
-        pass
+    def observe(self, value: float) -> None:  # pragma: no cover - noop
+        _ = value
 
-# Metrics (stubbed for dark merge)
-LLM_GUARDRAIL_ATTEMPTS = TelemetryCounter("llm_guardrail_attempt_total")
-LLM_GUARDRAIL_REJECTS = TelemetryCounter("llm_guardrail_reject_total")
-LLM_GUARDRAIL_LATENCY = TelemetryCounter("llm_guardrail_latency_seconds")
+
+def _counter(name: str, description: str, labelnames: tuple[str, ...]) -> Any:
+    if Counter is None:
+        logger.warning(
+            "Prometheus client unavailable for counter", extra={"metric": name}
+        )
+        return _NoopMetric()
+    return Counter(name, description, labelnames=labelnames)
+
+
+def _histogram(name: str, description: str, labelnames: tuple[str, ...]) -> Any:
+    if Histogram is None:
+        logger.warning(
+            "Prometheus client unavailable for histogram", extra={"metric": name}
+        )
+        return _NoopMetric()
+    return Histogram(
+        name,
+        description,
+        labelnames=labelnames,
+        buckets=(0.01, 0.05, 0.1, 0.2, 0.5, 1.0),
+    )
+
+
+# ΛTAG: observability_metrics
+LLM_GUARDRAIL_ATTEMPTS = _counter(
+    "llm_guardrail_attempt_total",
+    "Number of LLM guardrail evaluation attempts",
+    ("lane", "schema"),
+)
+LLM_GUARDRAIL_REJECTS = _counter(
+    "llm_guardrail_reject_total",
+    "Number of guardrail rejections",
+    ("lane", "reason"),
+)
+LLM_GUARDRAIL_LATENCY = _histogram(
+    "llm_guardrail_latency_seconds",
+    "Latency of guardrail evaluation",
+    ("lane",),
+)
 
 
 def call_llm(
