@@ -12,6 +12,7 @@ Features:
 - HTTP endpoint for Prometheus scraping
 """
 
+import os
 import time
 import threading
 from collections import defaultdict, deque
@@ -68,6 +69,8 @@ class LUKHASMetrics:
         """
         self.config = config or MetricsConfig()
         self.enabled = PROMETHEUS_AVAILABLE and self.config.enabled
+        # ΛTAG: lane_labeling -- capture active lane for consistent metric labelling
+        self.lane = os.getenv("LUKHAS_LANE", "experimental").lower()
 
         if not PROMETHEUS_AVAILABLE:
             print("Warning: Prometheus client not available. Metrics disabled.")
@@ -106,6 +109,7 @@ class LUKHASMetrics:
         self.system_uptime = Gauge(
             "system_uptime_seconds",
             "System uptime in seconds",
+            ["lane"],
             namespace=self.config.namespace,
             subsystem=self.config.subsystem,
             registry=self.registry,
@@ -114,6 +118,7 @@ class LUKHASMetrics:
         self.system_info = Info(
             "system_info",
             "System information",
+            ["lane"],
             namespace=self.config.namespace,
             subsystem=self.config.subsystem,
             registry=self.registry,
@@ -123,7 +128,7 @@ class LUKHASMetrics:
         self.requests_total = Counter(
             "requests_total",
             "Total number of requests",
-            ["endpoint", "method", "status"],
+            ["endpoint", "method", "status", "lane"],
             namespace=self.config.namespace,
             subsystem=self.config.subsystem,
             registry=self.registry,
@@ -132,7 +137,7 @@ class LUKHASMetrics:
         self.errors_total = Counter(
             "errors_total",
             "Total number of errors",
-            ["component", "error_type"],
+            ["component", "error_type", "lane"],
             namespace=self.config.namespace,
             subsystem=self.config.subsystem,
             registry=self.registry,
@@ -142,7 +147,7 @@ class LUKHASMetrics:
         self.response_time = Histogram(
             "response_time_seconds",
             "Response time distribution",
-            ["endpoint", "method"],
+            ["endpoint", "method", "lane"],
             namespace=self.config.namespace,
             subsystem=self.config.subsystem,
             registry=self.registry,
@@ -151,6 +156,7 @@ class LUKHASMetrics:
         self.active_connections = Gauge(
             "active_connections",
             "Number of active connections",
+            ["lane"],
             namespace=self.config.namespace,
             subsystem=self.config.subsystem,
             registry=self.registry,
@@ -165,7 +171,7 @@ class LUKHASMetrics:
         self.memory_operations_total = Counter(
             "memory_operations_total",
             "Total memory operations",
-            ["operation", "success"],
+            ["operation", "success", "lane"],
             namespace=self.config.namespace,
             subsystem="memory",
             registry=self.registry,
@@ -174,7 +180,7 @@ class LUKHASMetrics:
         self.memory_recall_latency = Histogram(
             "memory_recall_latency_seconds",
             "Memory recall latency distribution",
-            ["item_count_range", "success"],
+            ["item_count_range", "success", "lane"],
             buckets=[0.001, 0.005, 0.01, 0.025, 0.05, 0.1, 0.25, 0.5, 1.0, 2.5, 5.0],
             namespace=self.config.namespace,
             subsystem="memory",
@@ -184,7 +190,7 @@ class LUKHASMetrics:
         self.memory_items_total = Gauge(
             "memory_items_total",
             "Total number of memory items",
-            ["memory_type"],
+            ["memory_type", "lane"],
             namespace=self.config.namespace,
             subsystem="memory",
             registry=self.registry,
@@ -193,7 +199,7 @@ class LUKHASMetrics:
         self.memory_size_bytes = Gauge(
             "memory_size_bytes",
             "Memory usage in bytes",
-            ["component"],
+            ["component", "lane"],
             namespace=self.config.namespace,
             subsystem="memory",
             registry=self.registry,
@@ -203,7 +209,7 @@ class LUKHASMetrics:
         self.fold_operations_total = Counter(
             "fold_operations_total",
             "Total fold operations",
-            ["operation", "success"],
+            ["operation", "success", "lane"],
             namespace=self.config.namespace,
             subsystem="memory",
             registry=self.registry,
@@ -212,6 +218,7 @@ class LUKHASMetrics:
         self.fold_compression_ratio = Histogram(
             "fold_compression_ratio",
             "Fold compression ratio distribution",
+            ["lane"],
             buckets=[0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0],
             namespace=self.config.namespace,
             subsystem="memory",
@@ -221,7 +228,7 @@ class LUKHASMetrics:
         self.active_folds = Gauge(
             "active_folds",
             "Number of active memory folds",
-            ["status"],
+            ["status", "lane"],
             namespace=self.config.namespace,
             subsystem="memory",
             registry=self.registry,
@@ -236,7 +243,7 @@ class LUKHASMetrics:
         self.matriz_pipeline_duration = Histogram(
             "matriz_pipeline_duration_seconds",
             "MATRIZ pipeline execution time",
-            ["within_budget", "stages_completed"],
+            ["within_budget", "stages_completed", "lane"],
             buckets=[0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.5, 1.0, 2.0, 5.0],
             namespace=self.config.namespace,
             subsystem="matriz",
@@ -246,7 +253,7 @@ class LUKHASMetrics:
         self.matriz_stage_duration = Histogram(
             "matriz_stage_duration_seconds",
             "MATRIZ stage execution time",
-            ["stage", "success", "timeout"],
+            ["stage", "success", "timeout", "lane"],
             buckets=[0.01, 0.02, 0.05, 0.1, 0.15, 0.2, 0.3, 0.5, 1.0],
             namespace=self.config.namespace,
             subsystem="matriz",
@@ -256,7 +263,7 @@ class LUKHASMetrics:
         self.matriz_pipelines_total = Counter(
             "matriz_pipelines_total",
             "Total MATRIZ pipeline executions",
-            ["success", "within_budget"],
+            ["success", "within_budget", "lane"],
             namespace=self.config.namespace,
             subsystem="matriz",
             registry=self.registry,
@@ -265,7 +272,7 @@ class LUKHASMetrics:
         self.matriz_timeouts_total = Counter(
             "matriz_timeouts_total",
             "Total MATRIZ timeouts",
-            ["stage"],
+            ["stage", "lane"],
             namespace=self.config.namespace,
             subsystem="matriz",
             registry=self.registry,
@@ -275,7 +282,7 @@ class LUKHASMetrics:
         self.matriz_node_health = Gauge(
             "matriz_node_health",
             "MATRIZ node health score",
-            ["node_name"],
+            ["node_name", "lane"],
             namespace=self.config.namespace,
             subsystem="matriz",
             registry=self.registry,
@@ -284,7 +291,7 @@ class LUKHASMetrics:
         self.matriz_node_latency_p95 = Gauge(
             "matriz_node_latency_p95_seconds",
             "MATRIZ node 95th percentile latency",
-            ["node_name"],
+            ["node_name", "lane"],
             namespace=self.config.namespace,
             subsystem="matriz",
             registry=self.registry,
@@ -299,7 +306,7 @@ class LUKHASMetrics:
         self.plugin_operations_total = Counter(
             "plugin_operations_total",
             "Total plugin operations",
-            ["operation", "success"],
+            ["operation", "success", "lane"],
             namespace=self.config.namespace,
             subsystem="plugins",
             registry=self.registry,
@@ -308,6 +315,7 @@ class LUKHASMetrics:
         self.plugin_discovery_duration = Histogram(
             "plugin_discovery_duration_seconds",
             "Plugin discovery time",
+            ["lane"],
             buckets=[0.001, 0.005, 0.01, 0.05, 0.1, 0.5, 1.0],
             namespace=self.config.namespace,
             subsystem="plugins",
@@ -317,7 +325,7 @@ class LUKHASMetrics:
         self.plugins_registered = Gauge(
             "plugins_registered",
             "Number of registered plugins",
-            ["category", "status"],
+            ["category", "status", "lane"],
             namespace=self.config.namespace,
             subsystem="plugins",
             registry=self.registry,
@@ -326,7 +334,7 @@ class LUKHASMetrics:
         self.plugin_instantiation_success_rate = Gauge(
             "plugin_instantiation_success_rate",
             "Plugin instantiation success rate",
-            ["plugin_name"],
+            ["plugin_name", "lane"],
             namespace=self.config.namespace,
             subsystem="plugins",
             registry=self.registry,
@@ -341,7 +349,7 @@ class LUKHASMetrics:
         self.traces_exported_total = Counter(
             "traces_exported_total",
             "Total traces exported",
-            ["exporter", "success"],
+            ["exporter", "success", "lane"],
             namespace=self.config.namespace,
             subsystem="observability",
             registry=self.registry,
@@ -350,7 +358,7 @@ class LUKHASMetrics:
         self.spans_created_total = Counter(
             "spans_created_total",
             "Total spans created",
-            ["operation_type"],
+            ["operation_type", "lane"],
             namespace=self.config.namespace,
             subsystem="observability",
             registry=self.registry,
@@ -360,7 +368,7 @@ class LUKHASMetrics:
         self.metrics_collection_errors = Counter(
             "metrics_collection_errors_total",
             "Metrics collection errors",
-            ["metric_name", "error_type"],
+            ["metric_name", "error_type", "lane"],
             namespace=self.config.namespace,
             subsystem="observability",
             registry=self.registry,
@@ -369,6 +377,7 @@ class LUKHASMetrics:
         self.last_metrics_push = Gauge(
             "last_metrics_push_timestamp",
             "Timestamp of last metrics push",
+            ["lane"],
             namespace=self.config.namespace,
             subsystem="observability",
             registry=self.registry,
@@ -410,15 +419,24 @@ class LUKHASMetrics:
     def record_system_info(self, info: Dict[str, str]):
         """Record system information"""
         if self.enabled:
-            self.system_info.info(info)
+            self.system_info.labels(lane=self.lane).info(info)
 
     def record_request(self, endpoint: str, method: str, status: str, duration: float):
         """Record HTTP request metrics"""
         if not self.enabled:
             return
 
-        self.requests_total.labels(endpoint=endpoint, method=method, status=status).inc()
-        self.response_time.labels(endpoint=endpoint, method=method).observe(duration)
+        self.requests_total.labels(
+            endpoint=endpoint,
+            method=method,
+            status=status,
+            lane=self.lane,
+        ).inc()
+        self.response_time.labels(
+            endpoint=endpoint,
+            method=method,
+            lane=self.lane,
+        ).observe(duration)
 
         # Update runtime counters
         self._request_counts[f"{method}:{endpoint}"] += 1
@@ -429,7 +447,11 @@ class LUKHASMetrics:
         if not self.enabled:
             return
 
-        self.errors_total.labels(component=component, error_type=error_type).inc()
+        self.errors_total.labels(
+            component=component,
+            error_type=error_type,
+            lane=self.lane,
+        ).inc()
         self._error_counts[f"{component}:{error_type}"] += 1
 
     def record_memory_operation(
@@ -443,7 +465,11 @@ class LUKHASMetrics:
         if not self.enabled:
             return
 
-        self.memory_operations_total.labels(operation=operation, success=str(success)).inc()
+        self.memory_operations_total.labels(
+            operation=operation,
+            success=str(success),
+            lane=self.lane,
+        ).inc()
 
         if latency is not None and operation == "recall":
             # Categorize by item count range
@@ -460,7 +486,9 @@ class LUKHASMetrics:
                 range_label = "unknown"
 
             self.memory_recall_latency.labels(
-                item_count_range=range_label, success=str(success)
+                item_count_range=range_label,
+                success=str(success),
+                lane=self.lane,
             ).observe(latency)
 
     def record_memory_stats(self, items_by_type: Dict[str, int], size_by_component: Dict[str, int]):
@@ -469,10 +497,10 @@ class LUKHASMetrics:
             return
 
         for memory_type, count in items_by_type.items():
-            self.memory_items_total.labels(memory_type=memory_type).set(count)
+            self.memory_items_total.labels(memory_type=memory_type, lane=self.lane).set(count)
 
         for component, size in size_by_component.items():
-            self.memory_size_bytes.labels(component=component).set(size)
+            self.memory_size_bytes.labels(component=component, lane=self.lane).set(size)
 
     def record_fold_operation(
         self,
@@ -485,14 +513,18 @@ class LUKHASMetrics:
         if not self.enabled:
             return
 
-        self.fold_operations_total.labels(operation=operation, success=str(success)).inc()
+        self.fold_operations_total.labels(
+            operation=operation,
+            success=str(success),
+            lane=self.lane,
+        ).inc()
 
         if compression_ratio is not None:
-            self.fold_compression_ratio.observe(compression_ratio)
+            self.fold_compression_ratio.labels(lane=self.lane).observe(compression_ratio)
 
         if active_counts:
             for status, count in active_counts.items():
-                self.active_folds.labels(status=status).set(count)
+                self.active_folds.labels(status=status, lane=self.lane).set(count)
 
     def record_matriz_pipeline(
         self,
@@ -506,12 +538,15 @@ class LUKHASMetrics:
             return
 
         self.matriz_pipelines_total.labels(
-            success=str(success), within_budget=str(within_budget)
+            success=str(success),
+            within_budget=str(within_budget),
+            lane=self.lane,
         ).inc()
 
         self.matriz_pipeline_duration.labels(
             within_budget=str(within_budget),
             stages_completed=str(min(stages_completed, 5)),  # Cap for cardinality
+            lane=self.lane,
         ).observe(duration)
 
     def record_matriz_stage(
@@ -526,19 +561,22 @@ class LUKHASMetrics:
             return
 
         self.matriz_stage_duration.labels(
-            stage=stage, success=str(success), timeout=str(timeout)
+            stage=stage,
+            success=str(success),
+            timeout=str(timeout),
+            lane=self.lane,
         ).observe(duration)
 
         if timeout:
-            self.matriz_timeouts_total.labels(stage=stage).inc()
+            self.matriz_timeouts_total.labels(stage=stage, lane=self.lane).inc()
 
     def record_matriz_node_health(self, node_name: str, health_score: float, p95_latency: float):
         """Record MATRIZ node health metrics"""
         if not self.enabled:
             return
 
-        self.matriz_node_health.labels(node_name=node_name).set(health_score)
-        self.matriz_node_latency_p95.labels(node_name=node_name).set(p95_latency)
+        self.matriz_node_health.labels(node_name=node_name, lane=self.lane).set(health_score)
+        self.matriz_node_latency_p95.labels(node_name=node_name, lane=self.lane).set(p95_latency)
 
     def record_plugin_operation(
         self,
@@ -551,15 +589,22 @@ class LUKHASMetrics:
         if not self.enabled:
             return
 
-        self.plugin_operations_total.labels(operation=operation, success=str(success)).inc()
+        self.plugin_operations_total.labels(
+            operation=operation,
+            success=str(success),
+            lane=self.lane,
+        ).inc()
 
         if operation == "discovery" and duration is not None:
-            self.plugin_discovery_duration.observe(duration)
+            self.plugin_discovery_duration.labels(lane=self.lane).observe(duration)
 
         if plugin_name and operation == "instantiation":
             # Update success rate (simplified)
             current_rate = 1.0 if success else 0.0
-            self.plugin_instantiation_success_rate.labels(plugin_name=plugin_name).set(current_rate)
+            self.plugin_instantiation_success_rate.labels(
+                plugin_name=plugin_name,
+                lane=self.lane,
+            ).set(current_rate)
 
     def record_plugin_stats(self, plugin_counts: Dict[str, Dict[str, int]]):
         """Record plugin registry statistics"""
@@ -568,7 +613,11 @@ class LUKHASMetrics:
 
         for category, status_counts in plugin_counts.items():
             for status, count in status_counts.items():
-                self.plugins_registered.labels(category=category, status=status).set(count)
+                self.plugins_registered.labels(
+                    category=category,
+                    status=status,
+                    lane=self.lane,
+                ).set(count)
 
     def record_observability_operation(self, operation: str, component: str, success: bool):
         """Record observability system operation"""
@@ -576,9 +625,16 @@ class LUKHASMetrics:
             return
 
         if component == "tracing" and operation == "export":
-            self.traces_exported_total.labels(exporter="otlp", success=str(success)).inc()
+            self.traces_exported_total.labels(
+                exporter="otlp",
+                success=str(success),
+                lane=self.lane,
+            ).inc()
         elif component == "tracing" and operation == "span_created":
-            self.spans_created_total.labels(operation_type="lukhas").inc()
+            self.spans_created_total.labels(
+                operation_type="lukhas",
+                lane=self.lane,
+            ).inc()
 
     def record_communication_processed(self, product: str, channel: str):
         """Record a communication processed by a product"""
@@ -603,7 +659,8 @@ class LUKHASMetrics:
         # Use existing error metric with additional labels
         self.errors_total.labels(
             component="performance_monitor",
-            error_type=f"regression_{severity}"
+            error_type=f"regression_{severity}",
+            lane=self.lane,
         ).inc()
 
     def record_error_context(self, category: str, severity: str, operation: str, correlation_id: str):
@@ -612,7 +669,8 @@ class LUKHASMetrics:
             return
         self.errors_total.labels(
             component="error_context",
-            error_type=f"{category}_{severity}"
+            error_type=f"{category}_{severity}",
+            lane=self.lane,
         ).inc()
 
     def record_timeout(self, operation: str, timeout_ms: float):
@@ -621,7 +679,8 @@ class LUKHASMetrics:
             return
         self.errors_total.labels(
             component="timeout_manager",
-            error_type="timeout"
+            error_type="timeout",
+            lane=self.lane,
         ).inc()
 
     def record_backoff_success(self, operation: str, attempts: int):
@@ -632,7 +691,8 @@ class LUKHASMetrics:
         self.requests_total.labels(
             endpoint=operation,
             method="backoff",
-            status="success"
+            status="success",
+            lane=self.lane,
         ).inc()
 
     def record_backoff_failure(self, operation: str, max_attempts: int):
@@ -641,14 +701,15 @@ class LUKHASMetrics:
             return
         self.errors_total.labels(
             component="backoff_manager",
-            error_type="max_attempts_exceeded"
+            error_type="max_attempts_exceeded",
+            lane=self.lane,
         ).inc()
 
     def update_system_uptime(self):
         """Update system uptime metric"""
         if self.enabled:
             uptime = time.time() - self._start_time
-            self.system_uptime.set(uptime)
+            self.system_uptime.labels(lane=self.lane).set(uptime)
 
     def get_metrics_summary(self) -> Dict[str, Any]:
         """Get summary of current metrics state"""
@@ -696,12 +757,14 @@ class LUKHASMetrics:
                         registry=self.registry,
                     )
                     if self.enabled:
-                        self.last_metrics_push.set(time.time())
+                        self.last_metrics_push.labels(lane=self.lane).set(time.time())
                 except Exception as e:
                     print(f"Failed to push metrics: {e}")
                     if self.enabled:
                         self.metrics_collection_errors.labels(
-                            metric_name="push_gateway", error_type=type(e).__name__
+                            metric_name="push_gateway",
+                            error_type=type(e).__name__,
+                            lane=self.lane,
                         ).inc()
 
         self._push_thread = threading.Thread(target=push_worker, daemon=True)

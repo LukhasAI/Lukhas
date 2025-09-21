@@ -27,7 +27,7 @@ def get_trinity_python_files():
                         content = f.read()
                         if "Trinity" in content:
                             trinity_files.append(py_file)
-                except (UnicodeDecodeError, PermissionError):
+                except (UnicodeDecodeError, PermissionError, FileNotFoundError):
                     continue
 
     return trinity_files

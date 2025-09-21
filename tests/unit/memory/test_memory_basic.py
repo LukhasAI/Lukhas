@@ -1,6 +1,7 @@
 """Test memory module basic functionality."""
 
 import pytest
+from unittest.mock import patch
 
 
 def test_memory_wrapper_import():
@@ -43,3 +44,32 @@ def test_memory_config():
 
     except ImportError:
         pytest.skip("Memory config not available")
+
+
+def test_fold_manager_metrics_hooks():
+    """Ensure FoldManager emits Prometheus hooks for key operations."""
+    try:
+        from lukhas.memory.fold_system import FoldManager
+    except ImportError:
+        pytest.skip("Fold system not available")
+
+    with (
+        patch("lukhas.memory.fold_system.observe_fold_count") as mock_count,
+        patch("lukhas.memory.fold_system.observe_recall_latency") as mock_latency,
+        patch("lukhas.memory.fold_system.increment_cascade_events") as mock_cascade,
+    ):
+        manager = FoldManager()
+
+        assert mock_count.called  # initial gauge synchronisation
+        mock_count.reset_mock()
+
+        fold = manager.create_fold({"content": "metric"}, mode="active")
+        mock_count.assert_called_with(len(manager.folds))
+
+        mock_latency.reset_mock()
+        manager.retrieve_fold(fold.id, mode="active")
+        assert mock_latency.called
+
+        mock_cascade.reset_mock()
+        manager._prevent_cascade()
+        assert mock_cascade.called
