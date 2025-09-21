@@ -11,6 +11,7 @@ Features:
 """
 
 import asyncio
+import logging
 import time
 from dataclasses import asdict, dataclass, field
 from datetime import datetime, timezone
@@ -19,6 +20,9 @@ from enum import Enum
 
 from .node_interface import CognitiveNode, NodeReflection, NodeState, NodeTrigger
 from .orchestrator import ExecutionTrace
+
+
+logger = logging.getLogger(__name__)
 
 
 class StageType(Enum):
@@ -35,10 +39,10 @@ class StageConfig:
 
     DEFAULT_TIMEOUTS = {
         StageType.INTENT: 0.05,      # 50ms for intent analysis
-        StageType.DECISION: 0.02,     # 20ms for decision
-        StageType.PROCESSING: 0.10,   # 100ms for main processing
-        StageType.VALIDATION: 0.03,   # 30ms for validation
-        StageType.REFLECTION: 0.02,   # 20ms for reflection
+        StageType.DECISION: 0.10,     # 100ms for decision
+        StageType.PROCESSING: 0.12,   # 120ms for main processing
+        StageType.VALIDATION: 0.04,   # 40ms for validation
+        StageType.REFLECTION: 0.03,   # 30ms for reflection
     }
 
     DEFAULT_CRITICAL = {
@@ -92,10 +96,17 @@ async def run_with_timeout(
         timeout_sec = StageConfig.DEFAULT_TIMEOUTS[stage_type]
 
     start = time.perf_counter()
+    logger.debug("Running stage %s with timeout %.3fs", stage_type.value, timeout_sec)
 
     try:
         result = await asyncio.wait_for(coro, timeout=timeout_sec)
         duration_ms = (time.perf_counter() - start) * 1000
+
+        logger.debug(
+            "Stage %s completed successfully in %.2fms",
+            stage_type.value,
+            duration_ms,
+        )
 
         return StageResult(
             stage_type=stage_type,
@@ -106,6 +117,9 @@ async def run_with_timeout(
 
     except asyncio.TimeoutError:
         duration_ms = (time.perf_counter() - start) * 1000
+        logger.warning(
+            "Stage %s timed out after %.3fs", stage_type.value, timeout_sec
+        )
         return StageResult(
             stage_type=stage_type,
             success=False,
@@ -116,6 +130,9 @@ async def run_with_timeout(
 
     except Exception as e:
         duration_ms = (time.perf_counter() - start) * 1000
+        logger.error(
+            "Stage %s encountered error: %s", stage_type.value, e
+        )
         return StageResult(
             stage_type=stage_type,
             success=False,
@@ -150,8 +167,12 @@ class AsyncCognitiveOrchestrator:
         self.matriz_graph = {}
 
         # Timeout configuration
-        self.stage_timeouts = stage_timeouts or StageConfig.DEFAULT_TIMEOUTS
-        self.stage_critical = stage_critical or StageConfig.DEFAULT_CRITICAL
+        self.stage_timeouts = dict(StageConfig.DEFAULT_TIMEOUTS)
+        if stage_timeouts:
+            self.stage_timeouts.update(stage_timeouts)
+        self.stage_critical = dict(StageConfig.DEFAULT_CRITICAL)
+        if stage_critical:
+            self.stage_critical.update(stage_critical)
         self.total_timeout = total_timeout
 
         # Performance tracking
@@ -169,6 +190,21 @@ class AsyncCognitiveOrchestrator:
             "recent_latencies": [],
         }
         print(f"✓ Registered node: {name}")
+
+    def _update_metrics_for_stage(self, result: StageResult) -> None:
+        stage_name = result.stage_type.value
+        self.metrics.stage_durations[stage_name] = result.duration_ms
+        if result.timeout:
+            self.metrics.timeout_count += 1
+        if result.success:
+            self.metrics.stages_completed += 1
+        else:
+            self.metrics.error_count += 1
+
+    def _finalize_metrics(self, stage_results: List[StageResult], total_duration_ms: float) -> None:
+        self.metrics.total_duration_ms = total_duration_ms
+        executed = {result.stage_type for result in stage_results}
+        self.metrics.stages_skipped = max(0, len(StageType) - len(executed))
 
     async def process_query(self, user_input: str) -> Dict[str, Any]:
         """
@@ -191,13 +227,20 @@ class AsyncCognitiveOrchestrator:
             )
         except asyncio.TimeoutError:
             total_ms = (time.perf_counter() - start_time) * 1000
+            self._finalize_metrics(stage_results, total_ms)
+            logger.error(
+                "Pipeline timeout exceeded %.3fs after %.2fms",
+                self.total_timeout,
+                total_ms,
+            )
             return {
                 "error": f"Pipeline timeout exceeded {self.total_timeout}s",
                 "partial_results": [asdict(r) for r in stage_results],
                 "metrics": {
                     "total_duration_ms": total_ms,
                     "timeout": True,
-                }
+                },
+                "orchestrator_metrics": asdict(self.metrics),
             }
 
     async def _process_pipeline(
@@ -217,6 +260,7 @@ class AsyncCognitiveOrchestrator:
             self.stage_timeouts[StageType.INTENT]
         )
         stage_results.append(intent_result)
+        self._update_metrics_for_stage(intent_result)
 
         if not intent_result.success and self.stage_critical[StageType.INTENT]:
             return self._build_error_response(
@@ -234,6 +278,7 @@ class AsyncCognitiveOrchestrator:
             self.stage_timeouts[StageType.DECISION]
         )
         stage_results.append(decision_result)
+        self._update_metrics_for_stage(decision_result)
 
         if not decision_result.success and self.stage_critical[StageType.DECISION]:
             return self._build_error_response(
@@ -261,6 +306,7 @@ class AsyncCognitiveOrchestrator:
             self.stage_timeouts[StageType.PROCESSING]
         )
         stage_results.append(process_result)
+        self._update_metrics_for_stage(process_result)
 
         if not process_result.success and self.stage_critical[StageType.PROCESSING]:
             return self._build_error_response(
@@ -280,7 +326,13 @@ class AsyncCognitiveOrchestrator:
                 self.stage_timeouts[StageType.VALIDATION]
             )
             stage_results.append(validation_result)
+            self._update_metrics_for_stage(validation_result)
             validation_success = validation_result.success and validation_result.data
+            if not validation_result.success:
+                logger.warning(
+                    "Validation stage failed but marked non-critical: %s",
+                    validation_result.error,
+                )
 
         # Stage 5: Reflection (non-critical)
         if validation_success:
@@ -290,6 +342,12 @@ class AsyncCognitiveOrchestrator:
                 self.stage_timeouts[StageType.REFLECTION]
             )
             stage_results.append(reflection_result)
+            self._update_metrics_for_stage(reflection_result)
+            if not reflection_result.success:
+                logger.warning(
+                    "Reflection stage failed but will be skipped: %s",
+                    reflection_result.error,
+                )
 
         # Update node health metrics
         self._update_node_health(selected_node_name, process_result)
@@ -409,6 +467,7 @@ class AsyncCognitiveOrchestrator:
     ) -> Dict[str, Any]:
         """Build error response with metrics"""
         total_ms = (time.perf_counter() - start_time) * 1000
+        self._finalize_metrics(stage_results, total_ms)
 
         return {
             "error": error,
@@ -418,7 +477,8 @@ class AsyncCognitiveOrchestrator:
                 "stages_completed": sum(1 for r in stage_results if r.success),
                 "stages_failed": sum(1 for r in stage_results if not r.success),
                 "timeout_count": sum(1 for r in stage_results if r.timeout),
-            }
+            },
+            "orchestrator_metrics": asdict(self.metrics),
         }
 
     def _build_success_response(
@@ -432,6 +492,7 @@ class AsyncCognitiveOrchestrator:
             r.stage_type.value: r.duration_ms
             for r in stage_results
         }
+        self._finalize_metrics(stage_results, total_duration_ms)
 
         return {
             "answer": result.get("answer", "No answer"),
@@ -446,6 +507,7 @@ class AsyncCognitiveOrchestrator:
                 "within_budget": total_duration_ms < self.total_timeout * 1000,
             },
             "node_health": self.node_health,
+            "orchestrator_metrics": asdict(self.metrics),
         }
 
     def get_performance_report(self) -> Dict[str, Any]:

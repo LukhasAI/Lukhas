@@ -31,6 +31,14 @@ from typing import Any, Dict, List, Optional, Set, Tuple
 
 logger = logging.getLogger(__name__)
 
+
+def _is_truthy(value: Optional[str]) -> bool:
+    """Helper to evaluate truthy environment/config flags."""
+    if value is None:
+        return False
+    return str(value).strip().lower() in {"1", "true", "yes", "on"}
+
+
 # Ethics DSL integration (Task 11), Guardian Drift Bands (Task 12), and Safety Tags (Task 13)
 try:
     from ..ethics.logic.rule_loader import get_ethics_engine
@@ -154,6 +162,7 @@ class VerificationOutcome:
     # Safety Tags integration (Task 13)
     safety_tags: Optional[List[str]] = None
     tag_enrichment_time_ms: Optional[float] = None
+    counterfactual_decisions: Optional[List[Dict[str, Any]]] = None
 
     @property
     def result(self) -> VerificationResult:
@@ -261,6 +270,41 @@ class PlanVerifier:
         # Audit ledger
         self.verification_ledger = []
 
+        # ΛTAG: guardian_canary — Configure gradual Guardian enforcement rollout
+        canary_percent_config = self.config.get(
+            'guardian_canary_percent',
+            os.getenv('LUKHAS_CANARY_PERCENT', '10')
+        )
+        try:
+            self.guardian_canary_percent = max(0.0, min(100.0, float(canary_percent_config)))
+        except (TypeError, ValueError):
+            self.guardian_canary_percent = 0.0
+
+        config_flag = self.config.get('enforce_ethics_dsl')
+        if isinstance(config_flag, bool):
+            self.guardian_enforcement_enabled = config_flag
+        elif config_flag is not None:
+            self.guardian_enforcement_enabled = _is_truthy(str(config_flag))
+        else:
+            self.guardian_enforcement_enabled = _is_truthy(os.getenv('ENFORCE_ETHICS_DSL'))
+
+        lanes_config = self.config.get(
+            'guardian_enforced_lanes',
+            os.getenv('LUKHAS_GUARDIAN_ENFORCED_LANES', 'candidate')
+        )
+        self.guardian_enforced_lanes: Set[str] = {
+            lane.strip().lower()
+            for lane in str(lanes_config).split(',')
+            if lane and lane.strip()
+        }
+
+        self.guardian_default_lane = str(
+            self.config.get('guardian_default_lane', os.getenv('LUKHAS_LANE', 'experimental'))
+        ).lower()
+        self.guardian_counterfactual_logging = bool(
+            self.config.get('guardian_counterfactual_logging', True)
+        )
+
         ethics_mode = "DSL" if self.ethics_engine else "legacy" if self.ethics_enabled else "disabled"
         guardian_mode = "enabled" if self.guardian_bands else "disabled"
         safety_tags_mode = "enabled" if self.safety_tag_enricher else "disabled"
@@ -349,6 +393,12 @@ class PlanVerifier:
 
             # 3. Ethics and Guardian Drift Bands evaluation (Task 11 + Task 12)
             guardian_result = None
+            counterfactual_decisions: List[Dict[str, Any]] = []
+            guardian_enforced = False
+            guardian_lane = self._determine_lane(ctx)
+            if ctx.metadata is None:
+                ctx.metadata = {}
+            ctx.metadata.setdefault('guardian_lane', guardian_lane)
             if self.guardian_bands:
                 # Integrated Guardian Drift Bands evaluation
                 guardian_result = self.guardian_bands.evaluate(
@@ -357,16 +407,50 @@ class PlanVerifier:
                 )
 
                 # Guardian band enforcement
+                guardian_enforced, guardian_lane = self._should_enforce_guardian(plan_hash, ctx)
+                ctx.metadata['guardian_lane'] = guardian_lane
+
                 if guardian_result.band == GuardianBand.BLOCK:
-                    violations.append(f"guardian_block: {guardian_result.band.value}")
+                    if guardian_enforced:
+                        violations.append(f"guardian_block: {guardian_result.band.value}")
+                    else:
+                        counterfactual_decisions.append(
+                            self._record_guardian_counterfactual(guardian_result, guardian_lane, plan_hash)
+                        )
                 elif guardian_result.band == GuardianBand.REQUIRE_HUMAN:
-                    # REQUIRE_HUMAN is treated as a constraint violation that requires human override
-                    violations.append(f"guardian_human_required: {guardian_result.band.value}")
+                    if guardian_enforced:
+                        # REQUIRE_HUMAN is treated as a constraint violation that requires human override
+                        violations.append(f"guardian_human_required: {guardian_result.band.value}")
+                    else:
+                        counterfactual_decisions.append(
+                            self._record_guardian_counterfactual(guardian_result, guardian_lane, plan_hash)
+                        )
+
+                ctx.metadata['guardian_enforced'] = guardian_enforced
 
             elif self.ethics_enabled:
                 # Fallback to legacy ethics constraints if Guardian not available
                 ethics_violations = self._check_ethics_constraints(plan, ctx)
-                violations.extend(ethics_violations)
+                if ethics_violations:
+                    if self.guardian_enforcement_enabled:
+                        violations.extend(ethics_violations)
+                    else:
+                        counterfactual = {
+                            "lane": guardian_lane,
+                            "would_action": "block",
+                            "actual_action": "allow",
+                            "plan_hash": plan_hash[:16],
+                            "reasons": ethics_violations,
+                        }
+                        counterfactual_decisions.append(counterfactual)
+                        if self.guardian_counterfactual_logging:
+                            logger.warning(
+                                "Guardian legacy counterfactual triggered",
+                                extra={
+                                    "lane": guardian_lane,
+                                    "plan_hash": plan_hash[:16],
+                                },
+                            )
 
             # 3. Resource limits check
             resource_violations = self._check_resource_constraints(plan)
@@ -399,7 +483,8 @@ class PlanVerifier:
                 guardrails=guardian_result.guardrails if guardian_result else None,
                 human_requirements=guardian_result.human_requirements if guardian_result else None,
                 safety_tags=list(tagged_plan.tag_names) if tagged_plan else None,
-                tag_enrichment_time_ms=tag_enrichment_time_ms if tag_enrichment_time_ms > 0 else None
+                tag_enrichment_time_ms=tag_enrichment_time_ms if tag_enrichment_time_ms > 0 else None,
+                counterfactual_decisions=counterfactual_decisions or None
             )
 
             # Record metrics
@@ -449,6 +534,70 @@ class PlanVerifier:
 
             self._record_verification(outcome)
             return outcome
+
+    def _determine_lane(self, ctx: VerificationContext) -> str:
+        """Determine the active orchestration lane."""
+        if ctx.metadata:
+            lane = ctx.metadata.get('lane') or ctx.metadata.get('LUKHAS_LANE')
+            if lane:
+                return str(lane).lower()
+        return self.guardian_default_lane
+
+    def _should_enforce_guardian(self, plan_hash: str, ctx: VerificationContext) -> Tuple[bool, str]:
+        """Decide whether Guardian enforcement should block for this request."""
+        lane = self._determine_lane(ctx)
+
+        if not self.guardian_enforcement_enabled:
+            return False, lane
+
+        if lane not in self.guardian_enforced_lanes:
+            return False, lane
+
+        if self.guardian_canary_percent >= 100.0:
+            return True, lane
+
+        if self.guardian_canary_percent <= 0.0:
+            return False, lane
+
+        sample_source = plan_hash or ctx.request_id or ctx.session_id or ctx.user_id or lane
+        sample_int = int(hashlib.sha256(sample_source.encode("utf-8")).hexdigest(), 16)
+        sample_percent = (sample_int % 10000) / 100.0
+        return sample_percent < self.guardian_canary_percent, lane
+
+    def _record_guardian_counterfactual(
+        self,
+        guardian_result,
+        lane: str,
+        plan_hash: str,
+    ) -> Dict[str, Any]:
+        """Record counterfactual Guardian decisions for audit logging."""
+        counterfactual = {
+            "lane": lane,
+            "would_action": guardian_result.band.value,
+            "actual_action": "allow",
+            "plan_hash": plan_hash[:16],
+            "ethics_action": guardian_result.ethics_action,
+            "drift_score": guardian_result.drift_score,
+        }
+
+        if guardian_result.guardrails:
+            counterfactual["guardrails"] = guardian_result.guardrails
+        if guardian_result.human_requirements:
+            counterfactual["human_requirements"] = guardian_result.human_requirements
+
+        if self.guardian_counterfactual_logging:
+            # ΛTAG: guardian_counterfactual — emit shadow-mode telemetry
+            logger.warning(
+                "Guardian counterfactual triggered",
+                extra={
+                    "lane": lane,
+                    "would_action": guardian_result.band.value,
+                    "plan_hash": plan_hash[:16],
+                    "drift_score": guardian_result.drift_score,
+                }
+            )
+
+        return counterfactual
 
     def _hash_plan(self, plan: Dict[str, Any], ctx: VerificationContext) -> str:
         """Generate deterministic hash of plan and relevant context."""
@@ -636,6 +785,9 @@ class PlanVerifier:
             'request_id': outcome.context.request_id,
             'source': 'plan_verifier'
         }
+
+        if outcome.counterfactual_decisions:
+            ledger_entry['counterfactual'] = outcome.counterfactual_decisions
 
         self.verification_ledger.append(ledger_entry)
 
