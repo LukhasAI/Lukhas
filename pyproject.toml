@@ -96,15 +96,6 @@ intent = "candidate.core.matrix.nodes.intent_node:IntentNode"
 action = "candidate.core.matrix.nodes.action_node:ActionNode"
 vision = "candidate.core.matrix.nodes.vision_node:VisionNode"
 
-# Optional legacy alias group (kept for sunset period)
-[project.entry-points."lukhas.cognitive_nodes"]
-memory = "candidate.core.matrix.nodes.memory_node:MemoryNode"
-attention = "candidate.core.matrix.nodes.attention_node:AttentionNode"
-thought = "candidate.core.matrix.nodes.thought_node:ThoughtNode"
-risk = "candidate.core.matrix.nodes.risk_node:RiskNode"
-intent = "candidate.core.matrix.nodes.intent_node:IntentNode"
-action = "candidate.core.matrix.nodes.action_node:ActionNode"
-vision = "candidate.core.matrix.nodes.vision_node:VisionNode"
 
 [project.entry-points."lukhas.constellation_components"]
 # Constellation Framework Components

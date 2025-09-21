@@ -37,10 +37,10 @@ jobs:
       PYTHONHASHSEED: "0"
       PYTEST_ADDOPTS: "-W error::DeprecationWarning -W error::FutureWarning -W ignore::pytest.PytestRemovedIn9Warning -W ignore::DeprecationWarning:Import 'qim' is deprecated"
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@08eba0b27e820071cde6df949e0beb9ba4906955 # v4
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
         with: { python-version: "3.11" }
-      - uses: actions/cache@v4
+      - uses: actions/cache@0400d5f644dc74513175e3cd8d07132dd4860809 # v4
         with:
           path: ~/.cache/pip
           key: pip-${{ runner.os }}-${{ hashFiles('requirements*.txt', 'pyproject.toml') }}-v2
@@ -58,19 +58,6 @@ jobs:
           ruff --version || true
           ruff check --config pyproject.toml serve tests/contract || true
           PYTHONPATH=. lint-imports || true
-      - name: Secret scanning (GitLeaks)
-        run: |
-          # Install GitLeaks for quick secret scan in CI
-          GITLEAKS_VERSION="8.18.4"
-          wget -q "https://github.com/gitleaks/gitleaks/releases/download/v${GITLEAKS_VERSION}/gitleaks_${GITLEAKS_VERSION}_linux_x64.tar.gz"
-          tar -xzf "gitleaks_${GITLEAKS_VERSION}_linux_x64.tar.gz"
-          sudo mv gitleaks /usr/local/bin/
-
-          # Quick secret scan - fail fast on secrets
-          gitleaks detect --no-git --verbose || {
-            echo "🚨 Secrets detected in code! Check the secret-scanning workflow for details."
-            exit 1
-          }
       - name: Run smoke/unit selection
         run: |
           pytest -q -n auto -m "smoke or not integration and not e2e and not bench and not cloud and not enterprise" --maxfail=1 --disable-warnings --durations=10
@@ -117,14 +104,14 @@ jobs:
           with open(os.environ.get('GITHUB_STEP_SUMMARY','/dev/null'),'a') as f:
               f.write('\n'.join(out) + '\n')
           PY
-      - uses: codecov/codecov-action@v4
+      - uses: codecov/codecov-action@b9fd7d16f6d7d1b5d2bec1a2887e65ceed900238 # v4
         if: always()
         with:
           files: coverage.xml
           fail_ci_if_error: false
       - name: Upload artifacts (failures only)
         if: failure()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: ci-debug-${{ github.run_id }}
           path: |
@@ -138,11 +125,16 @@ jobs:
           if rg -n "pytest\.mark\.flaky" tests | rg -v "tests/quarantine/"; then
             echo "❌ flaky tests detected outside tests/quarantine"; exit 1; fi
 
+  security:
+    name: 🔐 Security Scan
+    needs: [critical]
+    uses: ./.github/workflows/secret-scanning.yml
+
   optional-matrix:
     name: 🔌 Optional Deps (PR light)
     runs-on: ubuntu-latest
     timeout-minutes: 12
-    needs: [critical]
+    needs: [critical, security]
     if: github.event_name == 'pull_request'
     strategy:
       fail-fast: false
@@ -155,10 +147,10 @@ jobs:
             extras: s3
             marker: cloud
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@08eba0b27e820071cde6df949e0beb9ba4906955 # v4
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
         with: { python-version: "3.11" }
-      - uses: actions/cache@v4
+      - uses: actions/cache@0400d5f644dc74513175e3cd8d07132dd4860809 # v4
         with:
           path: ~/.cache/pip
           key: pip-${{ runner.os }}-${{ hashFiles('requirements*.txt', 'pyproject.toml') }}-opt-${{ matrix.name }}-v1
@@ -197,7 +189,7 @@ jobs:
           PY
       - name: Upload artifacts (failures only)
         if: failure()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: ci-debug-${{ github.run_id }}-${{ matrix.name }}
           path: |
@@ -211,13 +203,13 @@ jobs:
     name: 🧪 Extended (integration/e2e)
     runs-on: ubuntu-latest
     timeout-minutes: 12
-    needs: [critical]
+    needs: [critical, security]
     if: github.ref == 'refs/heads/main'
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@08eba0b27e820071cde6df949e0beb9ba4906955 # v4
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
         with: { python-version: "3.11" }
-      - uses: actions/cache@v4
+      - uses: actions/cache@0400d5f644dc74513175e3cd8d07132dd4860809 # v4
         with:
           path: ~/.cache/pip
           key: pip-${{ runner.os }}-${{ hashFiles('requirements*.txt', 'pyproject.toml') }}-ext-v1
@@ -256,7 +248,7 @@ jobs:
           PY
       - name: Upload artifacts (failures only)
         if: failure()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: ci-debug-${{ github.run_id }}-extended
           path: |
@@ -269,7 +261,7 @@ jobs:
     name: 🔌 Optional Deps (main full)
     runs-on: ubuntu-latest
     timeout-minutes: 12
-    needs: [critical]
+    needs: [critical, security]
     if: github.ref == 'refs/heads/main'
     strategy:
       fail-fast: false
@@ -285,10 +277,10 @@ jobs:
             extras: dropbox
             marker: cloud
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@08eba0b27e820071cde6df949e0beb9ba4906955 # v4
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
         with: { python-version: "3.11" }
-      - uses: actions/cache@v4
+      - uses: actions/cache@0400d5f644dc74513175e3cd8d07132dd4860809 # v4
         with:
           path: ~/.cache/pip
           key: pip-${{ runner.os }}-${{ hashFiles('requirements*.txt', 'pyproject.toml') }}-opt-full-${{ matrix.name }}-v1
@@ -328,7 +320,7 @@ jobs:
           PY
       - name: Upload artifacts (failures only)
         if: failure()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: ci-debug-${{ github.run_id }}-optfull-${{ matrix.name }}
           path: |
@@ -347,8 +339,8 @@ jobs:
     # Do not run on PRs; block on pushes and scheduled (main)
     if: github.event_name != 'pull_request'
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@08eba0b27e820071cde6df949e0beb9ba4906955 # v4
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
         with: { python-version: "3.11" }
       - name: Install deps for audit
         run: |

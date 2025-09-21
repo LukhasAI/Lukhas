@@ -12,8 +12,10 @@ services:
     restart: unless-stopped
     ports:
       - "8000:8000"
+      - "9090:9090"
     environment:
       - LUKHAS_ENVIRONMENT=production
+      - LUKHAS_PROM_PORT=9090
       - DATABASE_URL=postgresql://lukhas:${POSTGRES_PASSWORD}@postgres:5432/lukhas_ai
       - REDIS_URL=redis://redis:6379/0
       - LUKHAS_ID_SECRET=${LUKHAS_ID_SECRET}
@@ -21,6 +23,47 @@ services:
       - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
       - GOOGLE_API_KEY=${GOOGLE_API_KEY}
       - PERPLEXITY_API_KEY=${PERPLEXITY_API_KEY}
+      - LUKHAS_OTEL_ENDPOINT=http://otel-collector:4318
+    volumes:
+      - lukhas_data:/app/data
+      - lukhas_logs:/app/logs
+      - lukhas_trace:/app/trace
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - lukhas-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # Canary LUKHAS AI Service
+  lukhas-ai-canary:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: lukhas-ai:latest # In a real scenario, this would be a specific canary image
+    container_name: lukhas-ai-canary
+    restart: unless-stopped
+    ports:
+      - "8002:8000" # Expose on a different host port
+      - "9092:9090"
+    environment:
+      - LUKHAS_ENVIRONMENT=production
+      - LUKHAS_PROM_PORT=9090
+      - DATABASE_URL=postgresql://lukhas:${POSTGRES_PASSWORD}@postgres:5432/lukhas_ai
+      - REDIS_URL=redis://redis:6379/0
+      - LUKHAS_ID_SECRET=${LUKHAS_ID_SECRET}
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
+      - GOOGLE_API_KEY=${GOOGLE_API_KEY}
+      - PERPLEXITY_API_KEY=${PERPLEXITY_API_KEY}
+      - LUKHAS_CANARY_MODE=true
     volumes:
       - lukhas_data:/app/data
       - lukhas_logs:/app/logs
@@ -143,6 +186,20 @@ services:
       - '--web.console.libraries=/etc/prometheus/console_libraries'
       - '--web.console.templates=/etc/prometheus/consoles'
       - '--web.enable-lifecycle'
+    networks:
+      - lukhas-network
+
+  # Monitoring - OpenTelemetry Collector
+  otel-collector:
+    image: otel/opentelemetry-collector-contrib:latest
+    container_name: lukhas-otel-collector
+    restart: unless-stopped
+    command: ["--config=/etc/otel-collector-config.yml"]
+    volumes:
+      - ./monitoring/otel-collector-config.yml:/etc/otel-collector-config.yml:ro
+    ports:
+      - "4317:4317" # gRPC
+      - "4318:4318" # HTTP
     networks:
       - lukhas-network
 

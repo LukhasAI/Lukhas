@@ -1,0 +1,40 @@
+groups:
+- name: lukhas_slos
+  rules:
+  # API Availability SLO
+  - record: job:http_requests_total:sum
+    expr: sum by (job) (http_requests_total)
+  - record: job:http_requests_error_rate_5m
+    expr: sum(rate(http_requests_total{status=~"5.."}[5m])) by (job) / sum(rate(http_requests_total[5m])) by (job)
+  - alert: APIHighErrorRate
+    expr: job:http_requests_error_rate_5m{job="lukhas-ai"} > 0.001
+    for: 5m
+    labels:
+      severity: critical
+    annotations:
+      summary: "High API error rate on {{$labels.job}}"
+      description: "The error rate for the {{$labels.job}} job is over 0.1% for the last 5 minutes."
+
+  # API Latency SLO
+  - record: job:http_request_duration_seconds_bucket:p95
+    expr: histogram_quantile(0.95, sum(rate(http_request_duration_seconds_bucket[5m])) by (le, job))
+  - alert: APITooSlow
+    expr: job:http_request_duration_seconds_bucket:p95{job="lukhas-ai"} > 0.25
+    for: 5m
+    labels:
+      severity: warning
+    annotations:
+      summary: "High API latency on {{$labels.job}}"
+      description: "The p95 latency for the {{$labels.job}} job is over 250ms for the last 5 minutes."
+
+  # MATRIZ Pipeline Latency SLO
+  - record: job:lukhas_matriz_pipeline_duration_ms_bucket:p95
+    expr: histogram_quantile(0.95, sum(rate(lukhas_matriz_pipeline_duration_ms_bucket[5m])) by (le, job))
+  - alert: MatrizPipelineTooSlow
+    expr: job:lukhas_matriz_pipeline_duration_ms_bucket:p95{job="lukhas-ai"} > 250
+    for: 5m
+    labels:
+      severity: warning
+    annotations:
+      summary: "High MATRIZ pipeline latency on {{$labels.job}}"
+      description: "The p95 latency for the MATRIZ pipeline is over 250ms for the last 5 minutes."

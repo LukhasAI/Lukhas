@@ -218,6 +218,23 @@ class TestLUKHASMetricsWithPrometheus:
         metrics.record_observability_operation("span_created", "tracing", True)
         metrics.record_observability_operation("export", "tracing", False)
 
+    def test_business_metrics_recording(self):
+        """Test business KPI metrics recording"""
+        config = MetricsConfig(push_gateway_url=None)
+        metrics = LUKHASMetrics(config)
+
+        # Record business metrics
+        metrics.record_communication_processed("product-a", "chat")
+        metrics.record_content_generated("product-b", "image")
+        metrics.record_user_feedback("product-a", 4)
+        metrics.record_user_feedback("product-a", 5)
+
+        # Export metrics and check for new metric names
+        export_data = metrics.get_metrics_export()
+        assert "lukhas_business_products_communications_total" in export_data
+        assert "lukhas_business_products_content_generated_total" in export_data
+        assert "lukhas_business_products_user_feedback_rating_bucket" in export_data
+
     def test_metrics_export(self):
         """Test metrics export functionality"""
         config = MetricsConfig(push_gateway_url=None)
