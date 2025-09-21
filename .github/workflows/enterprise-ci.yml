@@ -119,10 +119,15 @@ jobs:
   # STANDARD TESTING - Traditional + Enhanced
   # ============================================================================
 
+  security:
+    name: 🔐 Security Scan
+    uses: ./.github/workflows/secret-scanning.yml
+    needs: [quality-gates]
+
   standard-testing:
     name: 🧪 Standard Testing Suite
     runs-on: ubuntu-latest
-    needs: [quality-gates]
+    needs: [quality-gates, security]
     timeout-minutes: 20
 
     strategy:
@@ -289,7 +294,7 @@ jobs:
   performance-monitoring:
     name: 📊 Performance Monitoring & Regression Tracking
     runs-on: ubuntu-latest
-    needs: [quality-gates, standard-testing]
+    needs: [quality-gates, standard-testing, security]
     timeout-minutes: 15
 
     steps:
@@ -352,7 +357,7 @@ jobs:
   deployment-readiness:
     name: 🚀 Deployment Readiness Assessment
     runs-on: ubuntu-latest
-    needs: [quality-gates, standard-testing, performance-monitoring]
+    needs: [quality-gates, standard-testing, performance-monitoring, security]
     if: needs.quality-gates.outputs.should-deploy == 'true'
     timeout-minutes: 10
 
@@ -376,8 +381,7 @@ jobs:
         # Final security scan
         bandit -r lukhas MATRIZ -f json -o reports/security-final.json
 
-        # Check for secrets
-        python3 tools/ci/secret_scanner.py --strict
+        # Secret scanning is now handled by the 'security' job.
 
         # Validate SBOM
         cyclonedx-bom -o reports/sbom-final.json --validate
