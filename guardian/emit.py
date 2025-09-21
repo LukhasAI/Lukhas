@@ -13,7 +13,19 @@ import json
 import hashlib
 import re
 from datetime import datetime, timezone
-from typing import Dict, Any, Optional, List
+from typing import Dict, Any, Optional, List, Union
+
+def _normalize_consent_timestamp(value: Optional[Union[str, datetime]]) -> Optional[str]:
+    """Normalize consent timestamps to ISO-8601 strings."""
+
+    if value is None:
+        return None
+
+    if isinstance(value, datetime):
+        return value.astimezone(timezone.utc).isoformat()
+
+    return value
+
 
 def emit_exemption(db, rec: Dict[str, Any]) -> None:
     """
@@ -34,11 +46,14 @@ def emit_exemption(db, rec: Dict[str, Any]) -> None:
         """
         INSERT INTO guardian_exemptions(
           plan_id, tenant, env, lambda_id, action, rule_name, tags, confidences, band,
+          user_consent_timestamp, consent_method,
           purpose, retention_days, justification, override_requested, override_granted,
           approver1_id, approver2_id, created_at
         ) VALUES (
           %(plan_id)s, %(tenant)s, %(env)s, %(lambda_id)s, %(action)s, %(rule_name)s,
-          %(tags)s, %(confidences)s, %(band)s, %(purpose)s, %(retention_days)s,
+          %(tags)s, %(confidences)s, %(band)s,
+          %(user_consent_timestamp)s, %(consent_method)s,
+          %(purpose)s, %(retention_days)s,
           %(justification)s, %(override_requested)s, %(override_granted)s,
           %(approver1_id)s, %(approver2_id)s, %(created_at)s
         )
@@ -47,6 +62,7 @@ def emit_exemption(db, rec: Dict[str, Any]) -> None:
           **rec,
           "tags": json.dumps(rec.get("tags", [])),
           "confidences": json.dumps(rec.get("confidences", {})),
+          "user_consent_timestamp": _normalize_consent_timestamp(rec.get("user_consent_timestamp")),
         },
     )
 
@@ -101,7 +117,9 @@ def emit_guardian_decision(
     override_requested: bool = False,
     override_granted: bool = False,
     approver1_id: Optional[str] = None,
-    approver2_id: Optional[str] = None
+    approver2_id: Optional[str] = None,
+    user_consent_timestamp: Optional[Union[str, datetime]] = None,
+    consent_method: Optional[str] = None
 ) -> None:
     """
     Convenience wrapper to emit guardian decisions.
@@ -126,6 +144,11 @@ def emit_guardian_decision(
         approver2_id: Second approver's ΛiD (for critical overrides)
     """
 
+    # Enforce consent for financial/PII operations
+    requires_consent = any(tag.lower() in {"financial", "pii"} for tag in tags)
+    if requires_consent and (user_consent_timestamp is None or not consent_method):
+        raise ValueError("Consent evidence required for FINANCIAL/PII operations")
+
     # Build exemption record
     record = {
         "plan_id": plan_id,
@@ -143,8 +166,16 @@ def emit_guardian_decision(
         "override_requested": override_requested,
         "override_granted": override_granted,
         "approver1_id": approver1_id,
-        "approver2_id": approver2_id
+        "approver2_id": approver2_id,
+        "user_consent_timestamp": _normalize_consent_timestamp(user_consent_timestamp),
+        "consent_method": consent_method,
     }
+
+    if requires_consent:
+        # # ΛTAG: consent_guardrail
+        record.setdefault("consent_method", consent_method)
+
+    # # ΛTAG: consent_tracking
 
     # Emit to ledger
     emit_exemption(db, record)

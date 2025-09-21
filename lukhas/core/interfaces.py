@@ -24,7 +24,7 @@ Usage (example):
 
 from __future__ import annotations
 from abc import ABC, abstractmethod
-from typing import Any, Mapping, Protocol, runtime_checkable
+from typing import Any, Mapping, Optional, Protocol, runtime_checkable
 
 
 class CognitiveNodeBase(ABC):
@@ -53,3 +53,16 @@ class Memory(Protocol):
 class Guardian(Protocol):
     def band_for(self, ctx: Mapping[str, Any]) -> str: ...
     def warn(self, code: str, **fields: Any) -> None: ...
+
+
+@runtime_checkable
+class ICognitiveNode(Protocol):
+    """Protocol describing pluggable pipeline nodes."""
+
+    name: str
+
+    async def process(self, ctx: Mapping[str, Any]) -> Mapping[str, Any]: ...
+
+    async def cancel(self, reason: Optional[str] = None) -> None: ...  # # ΛTAG: pipeline_interface
+
+    async def health_check(self) -> Mapping[str, Any]: ...
