@@ -52,19 +52,23 @@ async def main():
     quarantined = [r["quarantined"] for r in results]
     runtimes = [r["runtime_s"] for r in results]
 
+    def wilson_lower_zero_fail(n, z=1.96):
+        """Wilson lower bound when failures == 0"""
+        return n / (n + z**2)
+
     print("\n=== INVESTOR DECK STATISTICS ===")
     print(f"CASCADE_PREVENTION_RATE: {statistics.mean(rates):.4f} ± {statistics.stdev(rates):.4f}")
     # Wilson 95% CI lower bound for 0 failures in n trials
     n = len(results)
     failures = sum(1 for r in rates if r < 1.0)
     if failures == 0:
-        wilson_lower = ((2*n + 1.96**2) - 1.96*((1.96**2 + 4*n)**0.5)) / (2*(n + 1.96**2))
-        print(f"95% CONFIDENCE INTERVAL: ≥ {wilson_lower:.3f} (Wilson lower bound, {failures}/{n} failures)")
+        print(f"95% CI (Wilson lower bound): ≥ {wilson_lower_zero_fail(n):.3f} with {n} runs, 0 failures")
     else:
         print(f"FAILURES_OBSERVED: {failures}/{n}")
     print(f"FOLDS_PER_RUN: {statistics.mean(folds):.1f} ± {statistics.stdev(folds):.1f}")
     print(f"QUARANTINE_RATE: {statistics.mean(quarantined):.1f} ± {statistics.stdev(quarantined):.1f}")
     print(f"RUNTIME_MS: {statistics.mean(runtimes)*1000:.1f} ± {statistics.stdev(runtimes)*1000:.1f}")
+    print(f"GUARDRAIL: ≤1000 folds/run enforced")
     print(f"SAMPLES: {len(results)}")
 
 if __name__ == "__main__":

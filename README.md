@@ -35,7 +35,7 @@ Development Lane (candidate/) → Integration Lane (core/) → Production Lane (
 
 The **MATRIZ** (Memory-Attention-Thought-Action-Decision-Awareness) engine implements the core cognitive processing pipeline:
 
-1. **Memory**: Fold-based memory with cascade prevention (99.7% success rate)
+1. **Memory**: Fold-based memory with cascade prevention (96.3%+ CI, 0/100 cascades observed)
 2. **Attention**: Focus mechanisms and pattern recognition
 3. **Thought**: Symbolic reasoning and inference
 4. **Action**: Decision execution and external interface
@@ -149,6 +149,13 @@ The **Constellation Framework** replaces traditional AI architectures:
 - **Adaptive Learning**: Bio-inspired adaptation and evolution
 - **Quantum Resonance**: Quantum-inspired superposition and entanglement
 - **Ethical Integration**: Every decision validated by Guardian system
+
+#### Memory System KPIs
+- **Cascade Event**: Any structurally-invalid fold written to long-term memory
+- **Prevention Rate**: 1 - (runs_with_cascade / total_runs)
+- **Current Performance**: 0/100 cascades observed (95% CI ≥ 96.3% Wilson lower bound)
+- **Quarantine Rate**: 2.2 ± 1.0 folds/run filtered pre-write
+- **Throughput**: 9.7 ± 1.0 folds/run with ≤1000 fold guardrail
 
 ## 🔧 Development Workflow
 
