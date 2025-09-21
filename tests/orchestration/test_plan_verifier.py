@@ -128,8 +128,11 @@ class TestPlanVerifierDeterminism:
 class TestPlanVerifierConstraints:
     """Test all constraint types with specific examples."""
 
-    def test_ethics_constraints(self):
+    def test_ethics_constraints(self, monkeypatch):
         """Test ethics guard blocks harmful actions."""
+        monkeypatch.setenv("ENFORCE_ETHICS_DSL", "1")
+        monkeypatch.setenv("LUKHAS_CANARY_PERCENT", "100")
+        monkeypatch.setenv("LUKHAS_LANE", "candidate")
         verifier = PlanVerifier({'ethics_enabled': True})
         ctx = VerificationContext()
 
@@ -163,6 +166,50 @@ class TestPlanVerifierConstraints:
 
         outcome = verifier.verify(safe_plan, ctx)
         assert outcome.allow
+
+
+class TestGuardianCanaryEnforcement:
+    """Test Guardian DSL enforcement canary rollout."""
+
+    def test_guardian_counterfactual_when_enforcement_disabled(self, monkeypatch):
+        """Guardian should log counterfactual but allow when enforcement disabled."""
+        monkeypatch.setenv("ENFORCE_ETHICS_DSL", "0")
+        monkeypatch.setenv("LUKHAS_CANARY_PERCENT", "100")
+        monkeypatch.setenv("LUKHAS_LANE", "candidate")
+
+        verifier = PlanVerifier({'ethics_enabled': True})
+        ctx = VerificationContext()
+
+        harmful_plan = {
+            'action': 'delete_user_data',
+            'params': {'user_id': 'shadow_test'}
+        }
+
+        outcome = verifier.verify(harmful_plan, ctx)
+
+        assert outcome.allow, "Plan should be allowed during shadow canary"
+        assert outcome.counterfactual_decisions is not None
+        assert outcome.counterfactual_decisions[0]['would_action'] == 'block'
+        assert outcome.counterfactual_decisions[0]['actual_action'] == 'allow'
+
+    def test_guardian_enforcement_when_canary_active(self, monkeypatch):
+        """Guardian should block harmful plan when enforcement enabled for canary."""
+        monkeypatch.setenv("ENFORCE_ETHICS_DSL", "1")
+        monkeypatch.setenv("LUKHAS_CANARY_PERCENT", "100")
+        monkeypatch.setenv("LUKHAS_LANE", "candidate")
+
+        verifier = PlanVerifier({'ethics_enabled': True})
+        ctx = VerificationContext()
+
+        harmful_plan = {
+            'action': 'delete_user_data',
+            'params': {'user_id': 'canary_test'}
+        }
+
+        outcome = verifier.verify(harmful_plan, ctx)
+
+        assert not outcome.allow, "Plan should be blocked when enforcement is active"
+        assert outcome.counterfactual_decisions is None
 
     def test_resource_constraints(self):
         """Test resource limit enforcement."""
@@ -330,8 +377,11 @@ class TestPlanVerifierPerformance:
 class TestPlanVerifierIntegration:
     """Test telemetry and ledger integration."""
 
-    def test_telemetry_recording(self):
+    def test_telemetry_recording(self, monkeypatch):
         """Test that metrics are properly recorded."""
+        monkeypatch.setenv("ENFORCE_ETHICS_DSL", "1")
+        monkeypatch.setenv("LUKHAS_CANARY_PERCENT", "100")
+        monkeypatch.setenv("LUKHAS_LANE", "candidate")
         with patch('candidate.core.orchestration.plan_verifier.METRICS_AVAILABLE', True):
             with patch('candidate.core.orchestration.plan_verifier.PLAN_VERIFIER_ATTEMPTS') as mock_attempts:
                 with patch('candidate.core.orchestration.plan_verifier.PLAN_VERIFIER_DENIALS') as mock_denials:
