@@ -3,7 +3,7 @@
 # MODULE: core.adaptive_systems.crista_optimizer.topology_manager
 # DESCRIPTION: Provides capabilities for managing and analyzing the topology of
 #              a symbolic network, including metrics calculation, optimization
-#              recommendations, and health monitoring for LUKHAS AGI.
+#              recommendations, and health monitoring for LUKHAS Cognitive AI.
 # DEPENDENCIES: logging, numpy, typing, dataclasses, enum, .crista_optimizer, .symbolic_network
 # LICENSE: PROPRIETARY - LUKHAS AI SYSTEMS - UNAUTHORIZED ACCESS PROHIBITED
 # ═══════════════════════════════════════════════════════════════════════════

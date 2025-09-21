@@ -1,6 +1,6 @@
 # 🧾 LUCΛS :: Ethics-as-a-Service (EaaS)
 
-A lightweight, symbolic protocol for enforcing consent, emotional safety, and traceable decision-making across all symbolic AGI interactions.
+A lightweight, symbolic protocol for enforcing consent, emotional safety, and traceable decision-making across all symbolic Cognitive AI interactions.
 
 ---
 

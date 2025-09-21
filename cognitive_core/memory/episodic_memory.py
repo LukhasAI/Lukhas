@@ -1,5 +1,5 @@
 """
-Episodic Memory System for AGI
+Episodic Memory System for Cognitive AI
 
 Advanced episodic memory system that stores and retrieves personal experiences,
 events, and contextual information with temporal and spatial awareness.
@@ -156,7 +156,7 @@ class EpisodicQuery:
 
 class EpisodicMemorySystem:
     """
-    Advanced Episodic Memory System for AGI
+    Advanced Episodic Memory System for Cognitive AI
 
     Manages personal experiences and events with rich temporal and contextual
     information. Integrates with LUKHAS consciousness framework.

@@ -1,5 +1,5 @@
 """
-Multi-Model Router for AGI Orchestration
+Multi-Model Router for Cognitive Orchestration
 
 Routes requests to the most appropriate AI model based on task type,
 performance requirements, cost constraints, and capability matching.
@@ -120,7 +120,7 @@ class RoutingDecision:
 
 class ModelRouter:
     """
-    Advanced model router for AGI orchestration
+    Advanced model router for Cognitive AI orchestration
 
     Routes requests to optimal models based on capabilities, performance
     requirements, cost constraints, and dream system integration.

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 """
-LUKHAS Core - Main AGI System Entry Point
+LUKHAS Core - Main Cognitive AI System Entry Point
 =========================================
 
 The central orchestrator for the LUKHAS AI system, coordinating all modules

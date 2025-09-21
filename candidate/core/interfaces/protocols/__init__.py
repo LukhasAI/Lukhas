@@ -1,5 +1,5 @@
 """
-LUKHAS AGI Protocol Interfaces
+LUKHAS Cognitive AI Protocol Interfaces
 =============================
 
 This package contains interface definitions and implementations for

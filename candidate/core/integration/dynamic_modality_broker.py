@@ -5,9 +5,9 @@ logger = logging.getLogger(__name__)
 🔌 Dynamic Modality Broker (DMB)
 ═══════════════════════════════════════════════════════════════════════════
 
-PURPOSE: Universal interface for hot-plugging sensor/actuator modalities into AGI
+PURPOSE: Universal interface for hot-plugging sensor/actuator modalities into Cognitive AI
 CAPABILITY: Runtime discovery, registration, and orchestration of I/O modalities
-FUTURE-PROOF: Designed for unlimited AGI expansion into new sensory domains
+FUTURE-PROOF: Designed for unlimited Cognitive AI expansion into new sensory domains
 INTEGRATION: Plug-and-play architecture with automatic capability detection
 
 🌐 SUPPORTED MODALITIES:
@@ -37,7 +37,7 @@ INTEGRATION: Plug-and-play architecture with automatic capability detection
 - Data validation and sanitization
 - Rate limiting and resource management
 
-VERSION: v1.0.0 • CREATED: 2025-07-20 • AUTHOR: LUKHAS AGI TEAM
+VERSION: v1.0.0 • CREATED: 2025-07-20 • AUTHOR: LUKHAS Cognitive AI TEAM
 SYMBOLIC TAGS: ΛDMB, ΛMODALITY, ΛSENSOR, ΛACTUATOR, ΛHOT_PLUG
 """
 
@@ -395,7 +395,7 @@ class DynamicModalityBroker:
     """
     Core Dynamic Modality Broker
 
-    Manages registration, discovery, and orchestration of all AGI
+    Manages registration, discovery, and orchestration of all Cognitive AI
     sensor and actuator modalities with hot-plugging capability.
     """
 

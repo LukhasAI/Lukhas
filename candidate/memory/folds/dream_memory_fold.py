@@ -10,7 +10,7 @@ logger = logging.getLogger(__name__)
 #TAG:colony
 
 
-Dream Memory Fold System for LUKHAS AGI.
+Dream Memory Fold System for LUKHAS Cognitive AI.
 
 This module implements the DreamMemoryFold syncing system for persistent
 introspective content with symbolic annotation.

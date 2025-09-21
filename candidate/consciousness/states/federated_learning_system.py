@@ -671,7 +671,7 @@ def initialize_lukhas_federated_learning(
 ║
 ║ REFERENCES:
 ║   - Docs: docs/learning/federated-learning.md
-║   - Issues: github.com/lukhas-ai/agi/issues?label=federated-learning
+║   - Issues: github.com/lukhas-ai/cognitive/issues?label=federated-learning
 ║   - Wiki: wiki.lukhas.ai/federated-learning-architecture
 ║
 ║ COPYRIGHT & LICENSE:

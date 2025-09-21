@@ -3,13 +3,13 @@
 # ΛPURPOSE: Initializes the NIAS (Non-Intrusive Ad System) plugin package for the Lukhas Cognitive system.
 # ΛTAGS: ΛMODULE_INIT, ΛPLUGIN_SYSTEM, ΛNIAS_INTEGRATION, AIO_NODE (defines package structure), AINTEROP, ΛSYMBOLIC_ECHO
 # ΛVERSION: 1.0.0 (as defined in original)
-# ΛAUTHOR: Lukhas AGI Systems (Original), AI-generated (Jules-[01]) for standardization
+# ΛAUTHOR: Lukhas Cognitive AI Systems (Original), AI-generated (Jules-[01]) for standardization
 # ΛCREATED_DATE: Unknown
 # ΛMODIFIED_DATE: 2024-07-30
 
 log = logging.getLogger(__name__)
 """
-# ΛDOC: NIAS (Non-Intrusive Ad System) Plugin for Lukhas AGI System
+# ΛDOC: NIAS (Non-Intrusive Ad System) Plugin for Lukhas Cognitive AI System
 
 A comprehensive modular plugin ecosystem for cross-sector deployment,
 integrating DAST, ABAS, and Lukhas Systems for safe, consensual interactions.
@@ -55,7 +55,7 @@ log = structlog.get_logger()  # ΛMODIFICATION: Initialized structlog (again, to
 
 # ΛDUNDER_VARIABLES_START
 __version__ = "1.0.0"  # ΛVERSION_INFO
-__author__ = "Lukhas AGI Systems"  # ΛAUTHOR_INFO
+__author__ = "Lukhas Cognitive AI Systems"  # ΛAUTHOR_INFO
 
 # ΛPUBLIC_API
 __all__ = ["NIASConfig", "NIASPlugin"]

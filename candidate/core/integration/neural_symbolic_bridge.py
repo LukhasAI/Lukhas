@@ -16,11 +16,11 @@ class NeuralSymbolicIntegration:
     Provides methods for combining predictions from both approaches.
     """
 
-    def __init__(self, agi_system):
-        self.agi = agi_system
+    def __init__(self, cognitive_system):
+        self.agi = cognitive_system
         self.logger = logging.getLogger("NeuralSymbolicIntegration")
-        self.symbolic_weight = self.agi.config["neural_symbolic"]["symbolic_weight"]
-        self.neural_weight = self.agi.config["neural_symbolic"]["neural_weight"]
+        self.symbolic_weight = self.cognitive.config["neural_symbolic"]["symbolic_weight"]
+        self.neural_weight = self.cognitive.config["neural_symbolic"]["neural_weight"]
 
     def process(
         self,

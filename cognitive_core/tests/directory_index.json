@@ -25,7 +25,7 @@
         ]
       },
       {
-        "filename": "agi_test_suite.py",
+        "filename": "cognitive_test_suite.py",
         "component_type": "TEST",
         "has_contract": false,
         "contract_path": null,

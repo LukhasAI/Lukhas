@@ -1,5 +1,5 @@
 """
-Vector Memory Store for AGI Enhanced Memory
+Vector Memory Store for Cognitive AI Enhanced Memory
 
 High-performance vector database for semantic similarity search and
 associative memory patterns. Integrates with LUKHAS consciousness system.
@@ -115,7 +115,7 @@ class VectorSearchResult:
 
 class VectorMemoryStore:
     """
-    High-Performance Vector Memory Store for AGI
+    High-Performance Vector Memory Store for Cognitive AI
 
     Provides semantic similarity search, associative memory patterns,
     and integration with LUKHAS consciousness framework.

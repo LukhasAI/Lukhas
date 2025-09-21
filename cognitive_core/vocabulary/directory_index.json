@@ -11,7 +11,7 @@
   "component_inventory": {
     "python_files": [
       {
-        "filename": "agi_vocabulary_bridge.py",
+        "filename": "cognitive_vocabulary_bridge.py",
         "component_type": "CONSTELLATION_BRIDGE",
         "has_contract": false,
         "contract_path": null,

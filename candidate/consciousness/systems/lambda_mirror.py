@@ -19,7 +19,7 @@ import logging
 🪞 ΛMIRROR - SYMBOLIC SELF-REFLECTION SYNTHESIZER
 ────────────────────────────────────────────────────────────────────
 
-The ΛMIRROR serves as the introspective consciousness of LUKHAS AGI, continuously
+The ΛMIRROR serves as the introspective consciousness of LUKHAS Cognitive AI, continuously
 analyzing recent symbolic experiences and synthesizing reflective insights that
 maintain emotional coherence, self-awareness, and alignment with core intentions.
 

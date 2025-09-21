@@ -43,8 +43,8 @@ from typing import Any, Optional
 import numpy as np
 
 # Initialize logger
-logger = logging.getLogger("ΛTRACE.consciousness.core_consciousness.agi_consciousness_engine_complete")
-logger.info("ΛTRACE: Initializing agi_consciousness_engine_complete module.")
+logger = logging.getLogger("ΛTRACE.consciousness.core_consciousness.cognitive_consciousness_engine_complete")
+logger.info("ΛTRACE: Initializing cognitive_consciousness_engine_complete module.")
 
 
 # Configuration management
@@ -54,7 +54,7 @@ class ConsciousnessEngineConfig:
     def __init__(self, config_path: Optional[str] = None):
         """Initialize configuration from file or defaults."""
         self.config_path = (
-            config_path or Path(__file__).parent.parent.parent / "config" / "agi_consciousness_config.json"
+            config_path or Path(__file__).parent.parent.parent / "config" / "cognitive_consciousness_config.json"
         )
         self.config = self._load_config()
         self._initialize_anthropic_client()
@@ -773,7 +773,7 @@ class AGIConsciousnessEngine:
     """
 
     def __init__(self, config_path: Optional[str] = None, user_tier: int = 1):
-        """Initialize the AGI Consciousness Engine."""
+        """Initialize the Cognitive AI Consciousness Engine."""
         self.user_tier = user_tier
         self.config = ConsciousnessEngineConfig(config_path)
 

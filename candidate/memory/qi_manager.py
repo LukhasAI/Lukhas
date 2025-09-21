@@ -8,7 +8,7 @@ from datetime import timezone
 ║          A symphony of consciousness, sculpting the intangible into the tangible  ║
 ╠═══════════════════════════════════════════════════════════════════════════════
 ║ Module: qi_manager.py                                                       ║
-║ Path: /Users/agi_dev/Downloads/Consolidation-Repo/memory/qi_manager.py   ║
+║ Path: /Users/cognitive_dev/Downloads/Consolidation-Repo/memory/qi_manager.py   ║
 ║ Version: 2.0.0 | Created: 2024-01-01 | Modified: 2025-07-25                   ║
 ║ Authors: LUKHAS AI Memory                                                        ║
 ╠═══════════════════════════════════════════════════════════════════════════════
@@ -545,7 +545,7 @@ class EnhancedMemoryManager:
 ║
 ║ REFERENCES:
 ║   - Docs: docs/memory/enhanced_memory_manager.md
-║   - Issues: github.com/lukhas-ai/agi/issues?label=quantum-memory
+║   - Issues: github.com/lukhas-ai/cognitive/issues?label=quantum-memory
 ║   - Wiki: wiki.lukhas.ai/quantum-memory-architecture
 ║
 ║ COPYRIGHT & LICENSE:

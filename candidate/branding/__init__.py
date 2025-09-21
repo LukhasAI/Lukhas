@@ -43,8 +43,8 @@ COLORS = {
 
 # Terminology normalization patterns
 _REPLACEMENTS: tuple[tuple[re.Pattern[str], str], ...] = (
-    # Lukhas AGI -> Lukhas AI (various caseings)
-    (re.compile(r"\bLUKHAS\s+AGI\b", re.IGNORECASE), "LUKHAS AI"),
+    # Lukhas Cognitive AI -> Lukhas AI (various caseings)
+    (re.compile(r"\bLUKHAS\s+Cognitive AI\b", re.IGNORECASE), "LUKHAS AI"),
     # quantum process family -> quantum-inspired
     (
         re.compile(
@@ -92,8 +92,8 @@ def validate_branding_compliance(text):
     issues = []
 
     # Check for approved terminology
-    if "LUKHAS AGI" in text:
-        issues.append("Use 'LUKHAS AI' instead of 'LUKHAS AGI'")
+    if "LUKHAS Cognitive AI" in text:
+        issues.append("Use 'LUKHAS AI' instead of 'LUKHAS Cognitive AI'")
 
     if "general intelligence" in text.lower() and "quantum-inspired" not in text:
         issues.append("Use 'quantum-inspired' terminology for public-facing content")
@@ -112,7 +112,7 @@ def normalize_output(text: Optional[str]) -> Optional[str]:
     for pat, repl in _REPLACEMENTS:
         out = pat.sub(repl, out)
     # Preserve casing for 'LUKHAS' if it was originally uppercase in the segment.
-    # Simple heuristic: if 'LUKHAS' present with AI/AGI, re-upcase.
+    # Simple heuristic: if 'LUKHAS' present with AI/Cognitive AI, re-upcase.
     out = re.sub(r"\bLukhas AI\b", "LUKHAS AI", out) if "LUKHAS" in text else out
     return out
 

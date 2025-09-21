@@ -496,7 +496,7 @@ def get_simulation() -> InterAgentSimulation:
 
 async def main():
     """Main function for testing."""
-    print("🤖 LUKHAS AGI Inter-Agent Simulation")
+    print("🤖 LUKHAS Cognitive AI Inter-Agent Simulation")
     print("=" * 50)
 
     simulation = get_simulation()

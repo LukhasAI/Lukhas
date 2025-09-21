@@ -215,7 +215,7 @@ except ImportError as e_ic:
 # Main service class for LUKHAS consciousness capabilities.
 class ConsciousnessService:
     """
-    Manages and provides LUKHAS AGI consciousness-related services.
+    Manages and provides LUKHAS Cognitive AI consciousness-related services.
     This includes processing awareness streams, enabling introspection, managing
     consciousness states, and directing attention. It integrates with the
     LUKHAS Identity System for tier-based access control, consent management,
@@ -1306,13 +1306,13 @@ if __name__ == "__main__":
 ║   - Alerts: Unauthorized tier access, consciousness state anomalies, attention overload
 ║
 ║ COMPLIANCE:
-║   - Standards: AGI Consciousness Protocol v3.0, Privacy-Preserving AI Guidelines
+║   - Standards: Cognitive AI Consciousness Protocol v3.0, Privacy-Preserving AI Guidelines
 ║   - Ethics: Consent-based consciousness access, identity-aware processing
 ║   - Safety: Tier-based access control, state validation, attention limits
 ║
 ║ REFERENCES:
 ║   - Docs: docs/consciousness/consciousness-service.md
-║   - Issues: github.com/lukhas-ai/agi/issues?label=consciousness-service
+║   - Issues: github.com/lukhas-ai/cognitive/issues?label=consciousness-service
 ║   - Wiki: wiki.lukhas.ai/consciousness-service-api
 ║
 ║ COPYRIGHT & LICENSE:

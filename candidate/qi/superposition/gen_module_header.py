@@ -50,7 +50,7 @@ def generate_module_header():
 """
 📦 MODULE: {module_name}
 🧾 PURPOSE: {description}
-🔧 VERSION: {version} • 📅 UPDATED: {updated} • 🖋️ AUTHOR: LUCAS AGI
+🔧 VERSION: {version} • 📅 UPDATED: {updated} • 🖋️ AUTHOR: LUCAS Cognitive AI
 📚 DEPENDENCIES: {dependencies}
 """
 # ──────────────────────────────────────────────────────────────

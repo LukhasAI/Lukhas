@@ -12,7 +12,7 @@
 ║ DESCRIPTION
 ╠══════════════════════════════════════════════════════════════════════════════════
 ║ The Reflective Introspection module implements advanced meta-cognitive
-║ capabilities for the LUKHAS AGI, enabling deep self-analysis, performance
+║ capabilities for the LUKHAS Cognitive AI, enabling deep self-analysis, performance
 ║ optimization, and adaptive learning through continuous introspection of its
 ║ own cognitive processes.
 ║
@@ -411,7 +411,7 @@ class ReflectiveIntrospectionSystem:
 #   if analysis.get("requires_adaptation"):
 #       # Apply recommended adjustments or further investigate insights
 #       pass
-# INTEGRATION NOTES: This system is designed to be integrated into a larger AGI
+# INTEGRATION NOTES: This system is designed to be integrated into a larger Cognitive AI
 #                    control loop. The `log_interaction` method should be called after
 #                    each significant system-user or internal interaction.
 #                    `analyze_recent_interactions` can be called periodically.

@@ -140,7 +140,7 @@ class LearningService:
         Returns:
             Dict: Learning results and knowledge updates
         """
-        # DREAM_LOOP: Each call to learn_from_data can be part of an ongoing learning and adaptation cycle for the AGI.
+        # DREAM_LOOP: Each call to learn_from_data can be part of an ongoing learning and adaptation cycle for the Cognitive AI.
         # TRACE: learn_from_data called
         logger.info(
             "learn_from_data_start",
@@ -265,7 +265,7 @@ class LearningService:
         Returns:
             Dict: Behavior adaptation results
         """
-        # DREAM_LOOP: Behavior adaptation is a core feedback loop for a learning AGI.
+        # DREAM_LOOP: Behavior adaptation is a core feedback loop for a learning Cognitive AI.
         # TRACE: adapt_behavior called
         logger.info(
             "adapt_behavior_start",

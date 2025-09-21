@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 LUKHAS AI - Logical Unified Knowledge Hyper-Adaptable System
-Main entry point for the neuroplastic AGI system with professional architecture
+Main entry point for the neuroplastic Cognitive AI system with professional architecture
 """
 
 import asyncio

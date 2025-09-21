@@ -85,7 +85,7 @@ class IdentityManager:
         self.identity = {
             "id": str(uuid.uuid4()),
             "created_at": time.time(),
-            "name": "Adaptive AGI System",
+            "name": "Adaptive Cognitive AI System",
             "version": "0.1.0",
             "description": "An adaptive artificial general intelligence system",
             "core_values": [

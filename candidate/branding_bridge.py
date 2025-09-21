@@ -43,8 +43,8 @@ APPROVED_TERMS = {
     "qi_terms": ["quantum-inspired", "quantum metaphor", "quantum metaphors"],
     "bio_terms": ["bio-inspired"],
     "prohibited_terms": [
-        "LUKHAS AGI",
-        "Lukhas AGI",
+        "LUKHAS Cognitive AI",
+        "Lukhas Cognitive AI",
         "quantum processing",
         "quantum process",
         "bio processing",
@@ -111,7 +111,7 @@ def validate_branding_compliance(text: str) -> list[str]:
 
     # Check for prohibited terms
     if "lukhas agi" in text_lower:
-        issues.append("Use 'LUKHAS AI' instead of 'LUKHAS AGI'")
+        issues.append("Use 'LUKHAS AI' instead of 'LUKHAS Cognitive AI'")
 
     if "quantum processing" in text_lower or "quantum process" in text_lower:
         issues.append("Use 'quantum-inspired' instead of 'quantum processing/process'")
@@ -134,8 +134,8 @@ def normalize_output(text: str) -> str:
         return text
 
     # Basic normalization
-    text = text.replace("LUKHAS AGI", "LUKHAS AI")
-    text = text.replace("Lukhas AGI", "Lukhas AI")
+    text = text.replace("LUKHAS Cognitive AI", "LUKHAS AI")
+    text = text.replace("Lukhas Cognitive AI", "Lukhas AI")
     text = text.replace("quantum processing", "quantum-inspired")
     text = text.replace("bio processing", "bio-inspired")
     return text
@@ -320,7 +320,7 @@ class LUKHASBrandingBridge:
                 return normalize_output(text)
             else:
                 # Basic fallback normalization
-                text = text.replace("LUKHAS AGI", "LUKHAS AI")
+                text = text.replace("LUKHAS Cognitive AI", "LUKHAS AI")
                 text = text.replace("quantum processing", "quantum-inspired")
                 text = text.replace("bio processing", "bio-inspired")
                 return text
@@ -383,7 +383,7 @@ class LUKHASBrandingBridge:
 
         # Basic drift detection
         drift_indicators = []
-        if "LUKHAS AGI" in content:
+        if "LUKHAS Cognitive AI" in content:
             drift_indicators.append("Incorrect system name (should be LUKHAS AI)")
         if "quantum processing" in content.lower():
             drift_indicators.append("Non-approved quantum terminology")

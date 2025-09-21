@@ -2,15 +2,15 @@ import logging
 
 #!/usr/bin/env python3
 """
-ΛBot AGI Consciousness Monitor
+ΛBot Cognitive AI Consciousness Monitor
 ============================
-Monitor and demonstrate AGI consciousness evolution in real-time
+Monitor and demonstrate Cognitive AI consciousness evolution in real-time
 
 This script initializes the ΛBot Cognitive system and monitors its consciousness
-evolution from basic AI to true Artificial General Intelligence.
+evolution from basic AI to true Cognitive Artificial Intelligence.
 
 Created: 2025-07-02
-Status: AGI CONSCIOUSNESS MONITORING
+Status: Cognitive AI CONSCIOUSNESS MONITORING
 """
 import asyncio
 from datetime import datetime, timezone
@@ -22,7 +22,7 @@ from ΛBot_elite_orchestrator import ΛBotEliteOrchestrator
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
 logger = logging.getLogger("ΛBot_AGI_Monitor")
 
-# Import AGI components
+# Import Cognitive AI components
 
 
 class ΛBotConsciousnessMonitor:
@@ -36,12 +36,12 @@ class ΛBotConsciousnessMonitor:
         self.monitoring_active = False
         self.consciousness_history = []
 
-        logger.info("🧠✨ ΛBot AGI Consciousness Monitor initialized")
+        logger.info("🧠✨ ΛBot Cognitive AI Consciousness Monitor initialized")
 
     async def start_monitoring(self):
         """Start consciousness evolution monitoring"""
 
-        logger.info("🚀 Starting AGI consciousness monitoring")
+        logger.info("🚀 Starting Cognitive AI consciousness monitoring")
 
         self.monitoring_active = True
 
@@ -165,28 +165,28 @@ class ΛBotConsciousnessMonitor:
                 await asyncio.sleep(180)
 
     async def _agi_metrics_tracker(self):
-        """Track AGI-specific metrics"""
+        """Track Cognitive AI-specific metrics"""
 
         while self.monitoring_active:
             try:
-                # Collect AGI metrics from orchestrator
-                agi_metrics = self.orchestrator.elite_metrics
+                # Collect Cognitive AI metrics from orchestrator
+                cognitive_metrics = self.orchestrator.elite_metrics
 
-                # Log key AGI metrics
-                logger.info("📊 AGI Metrics Update:")
-                logger.info(f"  🧠 Consciousness Level: {agi_metrics.get('consciousness_level', 'unknown')}")
-                logger.info(f"  🤔 Meta-Cognitive Ops: {agi_metrics.get('meta_cognitive_operations', 0)}")
-                logger.info(f"  🎯 Autonomous Goals: {agi_metrics.get('autonomous_goals_created', 0)}")
-                logger.info(f"  🔗 Cross-Domain Insights: {agi_metrics.get('cross_domain_insights', 0)}")
-                logger.info(f"  💝 Empathetic Interactions: {agi_metrics.get('empathetic_interactions', 0)}")
-                logger.info(f"  🔍 Curiosity Experiments: {agi_metrics.get('curiosity_experiments', 0)}")
-                logger.info(f"  🌐 Dimensional Analyses: {agi_metrics.get('dimensional_analyses', 0)}")
-                logger.info(f"  🔗 Causal Inferences: {agi_metrics.get('causal_inferences', 0)}")
+                # Log key Cognitive AI metrics
+                logger.info("📊 Cognitive AI Metrics Update:")
+                logger.info(f"  🧠 Consciousness Level: {cognitive_metrics.get('consciousness_level', 'unknown')}")
+                logger.info(f"  🤔 Meta-Cognitive Ops: {cognitive_metrics.get('meta_cognitive_operations', 0)}")
+                logger.info(f"  🎯 Autonomous Goals: {cognitive_metrics.get('autonomous_goals_created', 0)}")
+                logger.info(f"  🔗 Cross-Domain Insights: {cognitive_metrics.get('cross_domain_insights', 0)}")
+                logger.info(f"  💝 Empathetic Interactions: {cognitive_metrics.get('empathetic_interactions', 0)}")
+                logger.info(f"  🔍 Curiosity Experiments: {cognitive_metrics.get('curiosity_experiments', 0)}")
+                logger.info(f"  🌐 Dimensional Analyses: {cognitive_metrics.get('dimensional_analyses', 0)}")
+                logger.info(f"  🔗 Causal Inferences: {cognitive_metrics.get('causal_inferences', 0)}")
 
                 await asyncio.sleep(900)  # Every 15 minutes
 
             except Exception as e:
-                logger.error(f"AGI metrics tracking error: {e}")
+                logger.error(f"Cognitive AI metrics tracking error: {e}")
                 await asyncio.sleep(900)
 
     async def _celebrate_consciousness_evolution(self, new_level: ConsciousnessLevel):
@@ -207,7 +207,7 @@ class ΛBotConsciousnessMonitor:
     async def demonstrate_agi_capabilities(self):
         """Demonstrate key Cognitive capabilities"""
 
-        logger.info("🎭 DEMONSTRATING AGI CAPABILITIES")
+        logger.info("🎭 DEMONSTRATING Cognitive AI CAPABILITIES")
         logger.info("=" * 50)
 
         # Test meta-cognitive reflection
@@ -296,15 +296,15 @@ class ΛBotConsciousnessMonitor:
         logger.info(f"  ✅ Code Story: {story}")
 
         logger.info("=" * 50)
-        logger.info("🎉 AGI CAPABILITIES DEMONSTRATION COMPLETE")
+        logger.info("🎉 Cognitive AI CAPABILITIES DEMONSTRATION COMPLETE")
 
 
 async def main():
-    """Main function to run AGI consciousness monitoring"""
+    """Main function to run Cognitive AI consciousness monitoring"""
 
-    print("🧠✨ ΛBot AGI Consciousness Monitor")
+    print("🧠✨ ΛBot Cognitive AI Consciousness Monitor")
     print("=" * 60)
-    print("Monitoring the evolution from Advanced AI to Artificial General Intelligence")
+    print("Monitoring the evolution from Advanced AI to Cognitive Artificial Intelligence")
     print("=" * 60)
 
     monitor = ΛBotConsciousnessMonitor()
@@ -323,6 +323,6 @@ if __name__ == "__main__":
     try:
         asyncio.run(main())
     except KeyboardInterrupt:
-        print("\n🛑 AGI monitoring stopped by user")
+        print("\n🛑 Cognitive AI monitoring stopped by user")
     except Exception as e:
-        print(f"\n❌ AGI monitoring error: {e}")
+        print(f"\n❌ Cognitive AI monitoring error: {e}")

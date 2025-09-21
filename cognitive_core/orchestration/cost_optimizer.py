@@ -78,7 +78,7 @@ class UsageStats:
 
 class CostOptimizer:
     """
-    Cost Optimizer for AGI Multi-Model Orchestration
+    Cost Optimizer for Cognitive AI Multi-Model Orchestration
 
     Provides intelligent cost optimization for model selection while
     maintaining quality standards and respecting Guardian system constraints.

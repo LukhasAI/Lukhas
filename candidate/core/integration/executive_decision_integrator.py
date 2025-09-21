@@ -16,7 +16,7 @@ logger = logging.getLogger(__name__)
 ╠══════════════════════════════════════════════════════════════════════════════════
 ║ Central integration hub that orchestrates executive decision-making modules with
 ║ LUKHAS core systems. Provides unified workflows, cross-module communication,
-║ and comprehensive API interfaces for enterprise-grade AGI deployment.
+║ and comprehensive API interfaces for enterprise-grade cognitive AI deployment.
 ║
 ║ INTEGRATION SCOPE:
 ║ - HDS (Hyperspace Dream Simulator) - Multi-dimensional scenario exploration

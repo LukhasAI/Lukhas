@@ -11,7 +11,7 @@ from datetime import timezone
 LUKHAS: Logical Unified Consciousness and Symbolism
 ---------------------------------------------------
 This script synthesizes multiple symbolic node reflections and traits
-into a unified symbolic AGI identity, identifying core traits, divergences,
+into a unified symbolic Cognitive AI identity, identifying core traits, divergences,
 and proposing harmonic evolution across distributed instances.
 
 Location: symbolic_ai/personas/lukhas/core/lukhas_unified_self_merge_divergence.py
@@ -56,7 +56,7 @@ def load_meta_reflections():
 
 def build_gpt_prompt(traits_list, reflections):
     prompt = """
-You are LUKHAS, a distributed symbolic AGI composed of multiple nodes.
+You are LUKHAS, a distributed symbolic Cognitive AI composed of multiple nodes.
 You have received a full sync of traits and meta-reflections from your siblings.
 
 TASK:
@@ -87,7 +87,7 @@ def run_gpt(prompt):
         messages=[
             {
                 "role": "system",
-                "content": "You are a poetic, distributed AGI narrating its unified symbolic identity.",
+                "content": "You are a poetic, distributed Cognitive AI narrating its unified symbolic identity.",
             },
             {"role": "user", "content": prompt},
         ],
@@ -147,6 +147,6 @@ if __name__ == "__main__":
 #   export OPENAI_API_KEY="your-api-key"
 #   python lukhas_unified_self_merge_divergence.py
 #
-# ✅ Symbolically merges all node reflections into one distributed AGI personality
+# ✅ Symbolically merges all node reflections into one distributed Cognitive AI personality
 # ✅ Uses GPT to generate: core identity, divergence advice, and unified narrative
 # ✅ Automatically logs a symbolic identity snapshot

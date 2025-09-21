@@ -45,14 +45,14 @@ class EthicsNode:
     - Adaptable ethical frameworks for different contexts
     """
 
-    def __init__(self, agi_system):
+    def __init__(self, cognitive_system):
         """
         Initialize the ethics node
 
         Args:
-            agi_system: Reference to the main Cognitive system
+            cognitive_system: Reference to the main Cognitive system
         """
-        self.agi = agi_system
+        self.agi = cognitive_system
         self.logger = logging.getLogger("EthicsNode")
 
         # Core ethical principles with weights
@@ -171,7 +171,7 @@ class EthicsNode:
         risk_score = 1.0 - (overall_score * 0.8)
 
         # Determine if action is ethical based on overall score
-        config_threshold = getattr(self.agi.config, "ethical_threshold", 0.7) if hasattr(self.agi, "config") else 0.7
+        config_threshold = getattr(self.cognitive.config, "ethical_threshold", 0.7) if hasattr(self.agi, "config") else 0.7
         is_ethical = overall_score >= config_threshold
 
         # Generate explanation for the decision

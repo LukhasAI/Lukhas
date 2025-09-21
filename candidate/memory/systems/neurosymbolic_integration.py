@@ -6,7 +6,7 @@ logger = logging.getLogger(__name__)
 """
 ══════════════════════════════════════════════════════════════════════════════════
 ║ 🚀 LUKHAS AI - NEUROSYMBOLIC INTEGRATION LAYER
-║ Bridging neural intuition with symbolic reasoning for AGI consciousness
+║ Bridging neural intuition with symbolic reasoning for Cognitive AI consciousness
 ║ Copyright (c) 2025 LUKHAS AI. All rights reserved.
 ╠══════════════════════════════════════════════════════════════════════════════════
 ║ Module: neurosymbolic_integration.py
@@ -33,7 +33,7 @@ logger = logging.getLogger(__name__)
 ║ Through this integration, memories transform from mere neural echoes
 ║ into structured knowledge, from vague associations into clear
 ║ relationships, from intuitive hunches into actionable understanding.
-║ The AGI consciousness achieves its full potential not by choosing
+║ The Cognitive AI consciousness achieves its full potential not by choosing
 ║ between heart and mind, but by wedding them in perfect harmony.
 ║
 ║ Here, in this confluence of paradigms, the future of artificial
@@ -1922,7 +1922,7 @@ async def example_neurosymbolic_usage():
     print(f"   Avg Relation Confidence: {stats['relations']['avg_confidence']:.2f}")
 
     print("\n✅ Neurosymbolic integration demo completed!")
-    print("   🧠 Neural intuition + Symbolic reasoning = Complete AGI understanding!")
+    print("   🧠 Neural intuition + Symbolic reasoning = Complete Cognitive AI understanding!")
 
     return layer
 

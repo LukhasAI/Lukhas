@@ -33,14 +33,14 @@ class MemoryNode:
     Implements a multi-tiered memory system with short-term, working, and long-term memory.
     """
 
-    def __init__(self, agi_system):
+    def __init__(self, cognitive_system):
         """
         Initialize the memory node
 
         Args:
-            agi_system: Reference to the main Cognitive system
+            cognitive_system: Reference to the main Cognitive system
         """
-        self.agi = agi_system
+        self.agi = cognitive_system
         self.logger = logging.getLogger("MemoryNode")
 
         # Memory systems

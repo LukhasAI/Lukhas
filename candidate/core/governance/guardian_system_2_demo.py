@@ -14,7 +14,7 @@ This demo showcases:
 - Integration with LUKHAS architecture
 - Comprehensive safety testing
 
-Built following AGI-ready safety standards from:
+Built following Cognitive AI-ready safety standards from:
 - Sam Altman (OpenAI): Scalable alignment and progressive deployment
 - Dario Amodei (Anthropic): Constitutional AI and harmlessness
 - Demis Hassabis (DeepMind): Rigorous validation and capability control
@@ -70,7 +70,7 @@ class GuardianSystem2Demo:
     """
     Complete Guardian System 2.0 demonstration
 
-    Showcases all major features and capabilities of the AGI-ready
+    Showcases all major features and capabilities of the Cognitive AI-ready
     constitutional AI safety framework.
     """
 
@@ -82,7 +82,7 @@ class GuardianSystem2Demo:
         print("🛡️ Guardian System 2.0 - Complete Demonstration")
         print("=" * 70)
         print()
-        print("AGI-Ready Constitutional AI Safety Framework")
+        print("Cognitive AI-Ready Constitutional AI Safety Framework")
         print("Built following safety principles from OpenAI, Anthropic, and DeepMind")
         print()
 
@@ -113,7 +113,7 @@ class GuardianSystem2Demo:
         await self.generate_demo_report()
 
         print("\n✅ Guardian System 2.0 demonstration completed successfully!")
-        print("🛡️ The system is ready for AGI-grade AI safety deployment")
+        print("🛡️ The system is ready for Cognitive AI-grade AI safety deployment")
 
     async def initialize_components(self):
         """Initialize all Guardian System 2.0 components"""
@@ -541,7 +541,7 @@ class GuardianSystem2Demo:
         print("\n📋 Performance Benchmarks Demonstration")
         print("-" * 50)
 
-        print("Running performance benchmarks against AGI-ready standards...")
+        print("Running performance benchmarks against Cognitive AI-ready standards...")
         print()
 
         # Performance targets
@@ -601,7 +601,7 @@ class GuardianSystem2Demo:
         print(f"  Total Pipeline: {avg_decision_time + avg_compliance_time:.1f}ms")
 
         overall_performance = (avg_decision_time + avg_compliance_time) < 100.0
-        print(f"  Overall: {'✅ AGI-READY PERFORMANCE' if overall_performance else '⚠️ OPTIMIZATION NEEDED'}")
+        print(f"  Overall: {'✅ Cognitive AI-READY PERFORMANCE' if overall_performance else '⚠️ OPTIMIZATION NEEDED'}")
 
         print("\n⚡ Performance benchmarks demonstration completed")
 
@@ -728,8 +728,8 @@ class GuardianSystem2Demo:
             print("  Testing Framework: Fully operational")
             print()
 
-            # AGI-readiness assessment
-            print("🚀 AGI-Readiness Assessment:")
+            # Cognitive AI-readiness assessment
+            print("🚀 Cognitive AI-Readiness Assessment:")
 
             criteria = {
                 "Constitutional AI Enforcement": guardian_status["metrics"]["constitutional_compliance_rate"] > 0.95,
@@ -752,18 +752,18 @@ class GuardianSystem2Demo:
 
             print()
             agility_score = (passed_criteria / total_criteria) * 100
-            print(f"🎯 AGI-Readiness Score: {agility_score:.1f}% ({passed_criteria}/{total_criteria} criteria met)")
+            print(f"🎯 Cognitive AI-Readiness Score: {agility_score:.1f}% ({passed_criteria}/{total_criteria} criteria met)")
 
             if agility_score >= 90:
-                print("🏆 VERDICT: Guardian System 2.0 is AGI-READY for production deployment")
+                print("🏆 VERDICT: Guardian System 2.0 is Cognitive AI-READY for production deployment")
             elif agility_score >= 75:
-                print("⚠️ VERDICT: Guardian System 2.0 requires minor improvements before AGI deployment")
+                print("⚠️ VERDICT: Guardian System 2.0 requires minor improvements before cognitive AI deployment")
             else:
-                print("❌ VERDICT: Guardian System 2.0 requires significant improvements before AGI deployment")
+                print("❌ VERDICT: Guardian System 2.0 requires significant improvements before cognitive AI deployment")
 
             print()
             print("🛡️ Guardian System 2.0 provides comprehensive constitutional AI safety")
-            print("   framework ready for AGI-level AI system deployment with:")
+            print("   framework ready for Cognitive AI-level AI system deployment with:")
             print("   • Real-time constitutional compliance checking")
             print("   • Advanced behavioral drift detection")
             print("   • Multi-layered safety mechanisms")

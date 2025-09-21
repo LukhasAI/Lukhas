@@ -19,7 +19,7 @@
 LUKHAS - Quantum Api Manager
 ===================
 
-An enterprise-grade Artificial General Intelligence (AGI) framework
+An enterprise-grade Cognitive Artificial Intelligence (Cognitive AI) framework
 combining symbolic reasoning, emotional intelligence, quantum-inspired computing,
 and bio-inspired architecture for next-generation AI applications.
 
@@ -367,7 +367,7 @@ class LUKHASAPIManager:
         self.storage_path: Path = Path(
             os.getenv(
                 "LUKHAS_API_VAULT_PATH",
-                "/Users/A_G_I/Lukhas/ΛWebEcosystem/quantum-secure/enhanced-agi/api_vault",
+                "/Users/A_G_I/Lukhas/ΛWebEcosystem/quantum-secure/enhanced-cognitive/api_vault",
             ))
         try:
             self.storage_path.mkdir(

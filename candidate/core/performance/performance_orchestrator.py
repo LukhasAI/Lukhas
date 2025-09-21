@@ -3,7 +3,7 @@ LUKHAS AI Performance Orchestrator - Constellation Framework Integration
 
 Advanced performance orchestration system for consciousness-aware AI architecture.
 Integrates quantum-inspired algorithms, bio-oscillator synchronization, and
-memory fold optimization for Superior General Intelligence (SGI) evolution.
+memory fold optimization for Superior Cognitive Intelligence (SGI) evolution.
 
 Constellation Framework Components:
 - ⚛️ Identity: Performance identity patterns and symbolic optimization

@@ -13,7 +13,7 @@
 ╠══════════════════════════════════════════════════════════════════════════════════
 ║ The Model Communication Engine provides a sophisticated neural network interface
 ║ for enabling seamless communication between different AI models within the LUKHAS
-║ AGI ecosystem. This module implements advanced attention mechanisms, positional
+║ Cognitive AI ecosystem. This module implements advanced attention mechanisms, positional
 ║ embeddings, and multi-modal processing capabilities.
 ║
 ║ Key Features:

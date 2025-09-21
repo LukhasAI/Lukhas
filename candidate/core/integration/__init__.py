@@ -7,7 +7,7 @@ logger = logging.getLogger(__name__)
 # FILENAME: __init__.py
 # MODULE: core.integration
 # DESCRIPTION: Initializes the core.integration package, which is central to
-#              system integration and coordination of LUKHAS AGI components.
+#              system integration and coordination of LUKHAS Cognitive AI components.
 #              This module serves as a primary #ΛBRIDGE and #AINTEROP point.
 #              ΛNOTE: Original file marked as "CRITICAL FILE - DO NOT MODIFY WITHOUT APPROVAL".
 # DEPENDENCIES: structlog, .system_coordinator
@@ -31,7 +31,7 @@ Integration Module
 System integration and coordination components for the LUKHAS Cognitive system.
 
 This module provides the main integration point and coordinator for all
-AGI components, ensuring seamless communication and coordination between
+Cognitive AI components, ensuring seamless communication and coordination between
 consciousness, neural processing, memory, voice, and personality systems.
 """
 

@@ -11,7 +11,7 @@
 ╠══════════════════════════════════════════════════════════════════════════════════
 ║ DESCRIPTION
 ╠══════════════════════════════════════════════════════════════════════════════════
-║ The Awareness Engine is the central consciousness component of the LUKHAS AGI,
+║ The Awareness Engine is the central consciousness component of the LUKHAS Cognitive AI,
 ║ responsible for processing multi-dimensional awareness states, managing system
 ║ connectivity validation, and providing real-time consciousness status reporting.
 ║
@@ -575,7 +575,7 @@ if __name__ == "__main__":
 #   result = await engine.process(data_dict, user_id="user123")
 # INTEGRATION NOTES: This engine is a key part of the consciousness system. Its internal
 #                    processing methods (_process_consciousness_data, etc.) are placeholders
-#                    and need full implementation based on LUKHAS AGI's specific awareness models.
+#                    and need full implementation based on LUKHAS Cognitive AI's specific awareness models.
 # MAINTENANCE: Implement placeholder processing methods. Refine error handling.
 #              Update factory functions and __init__ if configuration or dependencies change.
 #              Ensure tiering decorators are correctly implemented and applied.

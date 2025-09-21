@@ -165,7 +165,7 @@ def auto_login(device_id, current_ip):
 #
 # 📦 FUTURE ENHANCEMENTS:
 #    - Add network trust scoring (e.g., home, work, public)
-#    - Use AGI pattern recognition for predictive device logins:
+#    - Use Cognitive AI pattern recognition for predictive device logins:
 #       (e.g., time of day, mood state, travel location)
 #    - Integrate multi-device handoff with session context transfer:
 #       (e.g., from phone to smart TV, with ongoing mood/visual states)
@@ -191,7 +191,7 @@ def auto_login(device_id, current_ip):
 #    - Sync user preferences with phone dashboards:
 #       - Adjust UI layouts (e.g., widget positions, color themes)
 #       - Enable dynamic dashboard changes based on context (e.g., travel mode, relaxation mode)
-#       - Integrate AGI-based mood detection to adjust visuals, fonts, or layouts in real-time
+#       - Integrate Cognitive AI-based mood detection to adjust visuals, fonts, or layouts in real-time
 #
 #    - Add modular identity override tiers for shared households:
 #       - Allow temporary guest tier logins (e.g., Airbnb visitors)

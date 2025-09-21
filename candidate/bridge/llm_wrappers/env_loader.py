@@ -56,7 +56,7 @@ def load_lukhas_env() -> dict[str, str]:
     """Load environment variables from Lukhas .env file (local paths only)"""
     # FIXED: Removed iCloud dependency, using only local paths
     env_files = [
-        "/Users/agi_dev/LOCAL-REPOS/Lukhas/.env",
+        "/Users/cognitive_dev/LOCAL-REPOS/Lukhas/.env",
         "./.env",
         "../.env",
         "~/.lukhas/.env",
@@ -155,7 +155,7 @@ load_lukhas_env()
 ║
 ║ REFERENCES:
 ║   - Docs: docs/bridge/llm-wrappers/configuration.md
-║   - Issues: github.com/lukhas-ai/agi/issues?label=env-config
+║   - Issues: github.com/lukhas-ai/cognitive/issues?label=env-config
 ║   - Wiki: wiki.lukhas.ai/api-key-management
 ║
 ║ COPYRIGHT & LICENSE:

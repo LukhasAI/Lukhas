@@ -122,7 +122,7 @@ def review(pr_number: int, auto_merge: bool, consciousness_level: str):
 
             click.echo(f"📊 Decision: {result['decision']}")
             click.echo(f"🧠 Reasoning: {result['reasoning']}")
-            click.echo(f"⚡ AI Impact: {result['agi_impact']['impact_level']}/10")
+            click.echo(f"⚡ AI Impact: {result['cognitive_impact']['impact_level']}/10")
 
             if result.get("documentation"):
                 click.echo(f"📝 Documentation: {len(result['documentation'])} types generated")

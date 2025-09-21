@@ -10,7 +10,7 @@ import logging
 # ═══════════════════════════════════════════════════════════════════════════
 # FILENAME: __init__.py
 # MODULE: consciousness.core_consciousness
-# DESCRIPTION: Core consciousness and integration components for the LUKHAS AGI
+# DESCRIPTION: Core consciousness and integration components for the LUKHAS Cognitive AI
 #              system. This module provides the central nervous system that
 #              coordinates and integrates all major cognitive components including
 #              memory, voice, personality, emotion, identity, and learning systems.
@@ -38,7 +38,7 @@ logger.info("ΛTRACE: Initializing 'consciousness.core_consciousness' package.")
 
 # Human-readable comment: Import key components from this package.
 # These are central to the core consciousness functionality.
-# ΛCRITICAL_IMPORT: The successful import of these components is essential for the AGI's core cognitive functions.
+# ΛCRITICAL_IMPORT: The successful import of these components is essential for the Cognitive AI's core cognitive functions.
 # Failure here represents a systemic collapse of the consciousness module.
 (
     ConsciousnessIntegrator,
@@ -52,7 +52,7 @@ try:
     # ΛEVENT_DRIVEN: Data structure for cognitive events.
     # ΛARBITRATOR: Main class for symbolic arbitration.
     # ΛPRIORITY_QUEUE: Enum for prioritizing cognitive events.
-    from .integrator import (  # ΛSTATE_HOLDER: Represents the AGI's current conscious state.; ΛCONTEXT_OBJECT: Holds contextual data for integration tasks.
+    from .integrator import (  # ΛSTATE_HOLDER: Represents the Cognitive AI's current conscious state.; ΛCONTEXT_OBJECT: Holds contextual data for integration tasks.
         ConsciousnessEvent,
         ConsciousnessIntegrator,
         ConsciousnessState,
@@ -132,7 +132,7 @@ logger.info(f"ΛTRACE: 'consciousness.core_consciousness' package initialized. E
 ║
 ║ EXPORTS:
 ║   - ConsciousnessIntegrator: Main consciousness arbitrator
-║   - ConsciousnessState: AGI's current conscious state
+║   - ConsciousnessState: Cognitive AI's current conscious state
 ║   - IntegrationPriority: Event prioritization enum
 ║   - ConsciousnessEvent: Cognitive event structure
 ║   - IntegrationContext: Context for integration tasks

@@ -812,7 +812,7 @@ if __name__ == "__main__":
 ║
 ║ REFERENCES:
 ║   - Docs: docs/consciousness/quantum-integration.md
-║   - Issues: github.com/lukhas-ai/agi/issues?label=quantum-consciousness
+║   - Issues: github.com/lukhas-ai/cognitive/issues?label=quantum-consciousness
 ║   - Wiki: wiki.lukhas.ai/quantum-consciousness-bridge
 ║
 ║ COPYRIGHT & LICENSE:

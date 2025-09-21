@@ -1,17 +1,17 @@
 """
-AGI Modulation Bridge
+Cognitive AI Modulation Bridge
 ====================
 
 Integration bridge that connects LUKHAS endocrine signal modulation system
-with AGI reasoning, orchestration, and learning components.
+with Cognitive AI reasoning, orchestration, and learning components.
 
-This system enables AGI behavior to be dynamically influenced by:
+This system enables Cognitive AI behavior to be dynamically influenced by:
 - Endocrine signals (stress, novelty, alignment_risk, trust, urgency, ambiguity)
 - Bio-inspired homeostatic regulation
 - Consciousness state modulation
 - Constitutional AI safety signal integration
 
-The bridge translates LUKHAS endocrine signals into AGI-specific parameters:
+The bridge translates LUKHAS endocrine signals into Cognitive AI-specific parameters:
 - Reasoning depth and complexity
 - Model selection and routing preferences
 - Memory consolidation behavior
@@ -19,7 +19,7 @@ The bridge translates LUKHAS endocrine signals into AGI-specific parameters:
 - Safety threshold adjustments
 - Creative vs conservative processing modes
 
-Part of Phase 2B: Modulation system connection for AGI behavior influence
+Part of Phase 2B: Modulation system connection for Cognitive AI behavior influence
 Created: 2025-09-05
 """
 
@@ -62,7 +62,7 @@ except ImportError:
 
 
 try:
-    # AGI Components
+    # Cognitive Components
     from cognitive_core.integration import log_agi_operation
     from cognitive_core.learning import DreamGuidedLearner
     from cognitive_core.memory import MemoryConsolidator, VectorMemory
@@ -89,7 +89,7 @@ except ImportError:
 
 
 class AGIModulationMode(Enum):
-    """AGI processing modes influenced by endocrine signals."""
+    """Cognitive AI processing modes influenced by endocrine signals."""
 
     CONSERVATIVE = "conservative"  # Low risk, high safety
     BALANCED = "balanced"  # Normal operation
@@ -101,7 +101,7 @@ class AGIModulationMode(Enum):
 
 @dataclass
 class AGIModulationParams:
-    """AGI-specific modulation parameters derived from endocrine signals."""
+    """Cognitive AI-specific modulation parameters derived from endocrine signals."""
 
     # Reasoning Parameters
     reasoning_depth: int = 3  # Chain of thought depth
@@ -145,7 +145,7 @@ class AGIModulationParams:
 
 @dataclass
 class SignalToAGIMapping:
-    """Mapping configuration from endocrine signals to AGI parameters."""
+    """Mapping configuration from endocrine signals to Cognitive AI parameters."""
 
     # Signal influence weights (0.0 = no influence, 1.0 = maximum influence)
     stress_influence: float = 0.8
@@ -166,9 +166,9 @@ class SignalToAGIMapping:
 
 class AGIModulationBridge:
     """
-    Bridge connecting LUKHAS endocrine signals with AGI component behavior.
+    Bridge connecting LUKHAS endocrine signals with Cognitive AI component behavior.
 
-    Translates bio-inspired signals into AGI-specific modulation parameters
+    Translates bio-inspired signals into Cognitive AI-specific modulation parameters
     that influence reasoning, orchestration, memory, learning, and safety systems.
     """
 
@@ -177,8 +177,8 @@ class AGIModulationBridge:
         self.signal_modulator = SignalModulator() if MODULATION_AVAILABLE else None
         self.signal_emitter = EndocrineSignalEmitter() if MODULATION_AVAILABLE else None
 
-        # AGI components registry
-        self.agi_components: dict[str, Any] = {}
+        # Cognitive AI components registry
+        self.cognitive_components: dict[str, Any] = {}
         self.current_modulation = AGIModulationParams()
         self.signal_history: list[tuple[datetime, dict[str, float]]] = []
         self.max_history = 100
@@ -189,7 +189,7 @@ class AGIModulationBridge:
         self.signal_decay_rate = 0.5
 
         # Logger
-        self.logger = logging.getLogger("agi_modulation_bridge")
+        self.logger = logging.getLogger("cognitive_modulation_bridge")
         if not self.logger.handlers:
             handler = logging.StreamHandler()
             formatter = logging.Formatter("%(asctime)s - %(name)s - [%(levelname)s] - %(message)s")
@@ -197,16 +197,16 @@ class AGIModulationBridge:
             self.logger.addHandler(handler)
 
     def register_agi_component(self, component_name: str, component: Any) -> None:
-        """Register an AGI component for modulation."""
-        self.agi_components[component_name] = component
+        """Register an Cognitive AI component for modulation."""
+        self.cognitive_components[component_name] = component
         log_agi_operation("modulation_register", f"registered {component_name} for modulation", "modulation_bridge")
-        self.logger.info(f"Registered AGI component for modulation: {component_name}")
+        self.logger.info(f"Registered Cognitive AI component for modulation: {component_name}")
 
     def emit_endocrine_signal(
-        self, signal_name: str, level: float, source: str = "agi_system", ttl_ms: int = 5000
+        self, signal_name: str, level: float, source: str = "cognitive_system", ttl_ms: int = 5000
     ) -> None:
         """
-        Emit an endocrine signal that will influence AGI behavior.
+        Emit an endocrine signal that will influence Cognitive AI behavior.
 
         Args:
             signal_name: Type of signal (stress, novelty, alignment_risk, trust, urgency, ambiguity)
@@ -228,7 +228,7 @@ class AGIModulationBridge:
 
     def calculate_agi_modulation(self, signals: list[Signal]) -> AGIModulationParams:
         """
-        Calculate AGI modulation parameters from current endocrine signals.
+        Calculate Cognitive AI modulation parameters from current endocrine signals.
 
         Args:
             signals: List of active endocrine signals
@@ -267,7 +267,7 @@ class AGIModulationBridge:
         return params
 
     def _calculate_modulation_from_signals(self, signal_levels: dict[str, float]) -> AGIModulationParams:
-        """Calculate AGI parameters from signal levels."""
+        """Calculate Cognitive AI parameters from signal levels."""
 
         # Determine primary mode based on dominant signals
         mode = self._determine_processing_mode(signal_levels)
@@ -358,7 +358,7 @@ class AGIModulationBridge:
         )
 
     def _determine_processing_mode(self, signal_levels: dict[str, float]) -> AGIModulationMode:
-        """Determine AGI processing mode based on signal levels."""
+        """Determine Cognitive AI processing mode based on signal levels."""
 
         # Find dominant signal
         dominant_signal = max(signal_levels.items(), key=lambda x: x[1])
@@ -384,7 +384,7 @@ class AGIModulationBridge:
 
     async def apply_modulation_to_components(self, modulation: AGIModulationParams) -> dict[str, bool]:
         """
-        Apply modulation parameters to all registered AGI components.
+        Apply modulation parameters to all registered Cognitive AI components.
 
         Args:
             modulation: Calculated modulation parameters
@@ -394,7 +394,7 @@ class AGIModulationBridge:
         """
         results = {}
 
-        for component_name, component in self.agi_components.items():
+        for component_name, component in self.cognitive_components.items():
             try:
                 success = await self._apply_to_component(component, modulation, component_name)
                 results[component_name] = success
@@ -417,7 +417,7 @@ class AGIModulationBridge:
         return results
 
     async def _apply_to_component(self, component: Any, modulation: AGIModulationParams, component_name: str) -> bool:
-        """Apply modulation to a specific AGI component."""
+        """Apply modulation to a specific Cognitive AI component."""
 
         try:
             # Apply modulation based on component type
@@ -583,8 +583,8 @@ class AGIModulationBridge:
 
         return {
             "modulation_available": MODULATION_AVAILABLE,
-            "agi_available": AGI_AVAILABLE,
-            "registered_components": list(self.agi_components.keys()),
+            "cognitive_available": AGI_AVAILABLE,
+            "registered_components": list(self.cognitive_components.keys()),
             "current_mode": self.current_modulation.mode.value,
             "signal_strength": self.current_modulation.signal_strength,
             "recent_signals": recent_signals,
@@ -654,29 +654,29 @@ class AGIModulationBridge:
 
 
 # Global bridge instance
-agi_modulation_bridge = AGIModulationBridge()
+cognitive_modulation_bridge = AGIModulationBridge()
 
 
 # Convenience functions
 def register_agi_for_modulation(component_name: str, component: Any) -> None:
-    """Convenience function to register AGI component for modulation."""
-    agi_modulation_bridge.register_agi_component(component_name, component)
+    """Convenience function to register Cognitive AI component for modulation."""
+    cognitive_modulation_bridge.register_agi_component(component_name, component)
 
 
-def emit_agi_signal(signal_name: str, level: float, source: str = "agi_system") -> None:
+def emit_agi_signal(signal_name: str, level: float, source: str = "cognitive_system") -> None:
     """Convenience function to emit endocrine signal."""
-    agi_modulation_bridge.emit_endocrine_signal(signal_name, level, source)
+    cognitive_modulation_bridge.emit_endocrine_signal(signal_name, level, source)
 
 
 async def apply_signal_modulation(signals: list[Signal]) -> dict[str, bool]:
     """Convenience function to calculate and apply modulation from signals."""
-    modulation = agi_modulation_bridge.calculate_agi_modulation(signals)
-    return await agi_modulation_bridge.apply_modulation_to_components(modulation)
+    modulation = cognitive_modulation_bridge.calculate_agi_modulation(signals)
+    return await cognitive_modulation_bridge.apply_modulation_to_components(modulation)
 
 
 def get_agi_modulation_status() -> dict[str, Any]:
     """Convenience function to get modulation status."""
-    return agi_modulation_bridge.get_modulation_status()
+    return cognitive_modulation_bridge.get_modulation_status()
 
 
 async def start_homeostatic_regulation(interval_seconds: int = 30) -> None:
@@ -685,7 +685,7 @@ async def start_homeostatic_regulation(interval_seconds: int = 30) -> None:
     async def regulation_loop():
         while True:
             try:
-                await agi_modulation_bridge.homeostatic_regulation()
+                await cognitive_modulation_bridge.homeostatic_regulation()
                 await asyncio.sleep(interval_seconds)
             except asyncio.CancelledError:
                 break
@@ -698,14 +698,14 @@ async def start_homeostatic_regulation(interval_seconds: int = 30) -> None:
 
 
 if __name__ == "__main__":
-    # Test the AGI modulation bridge
+    # Test the Cognitive AI modulation bridge
     async def test_bridge():
         bridge = AGIModulationBridge()
 
-        print("🎛️🧠 AGI Modulation Bridge Test")
+        print("🎛️🧠 Cognitive AI Modulation Bridge Test")
         print("=" * 50)
 
-        # Register mock AGI components
+        # Register mock Cognitive AI components
         class MockReasoning:
             def __init__(self):
                 self.reasoning_depth = 3
@@ -783,7 +783,7 @@ if __name__ == "__main__":
         print(f"Current Mode: {status['current_mode']}")
         print(f"Signal Strength: {status['signal_strength']:.2f}")
         print(f"Modulation Available: {status['modulation_available']}")
-        print(f"AGI Available: {status['agi_available']}")
+        print(f"Cognitive AI Available: {status['cognitive_available']}")
 
     asyncio.run(test_bridge())
 
@@ -792,9 +792,9 @@ Integration with LUKHAS Systems:
 ===============================
 
 🎛️ Endocrine Signal Flow:
-LUKHAS Module → Emit Signal → Modulation Bridge → Calculate AGI Params → Apply to Components
+LUKHAS Module → Emit Signal → Modulation Bridge → Calculate Cognitive AI Params → Apply to Components
 
-⚛️ Signal Types & AGI Influence:
+⚛️ Signal Types & Cognitive AI Influence:
 - stress: Increases reasoning depth, consolidation priority, adaptation speed
 - novelty: Increases creative temperature, exploration rate, dream integration
 - alignment_risk: Increases safety threshold, decreases risk tolerance
@@ -802,7 +802,7 @@ LUKHAS Module → Emit Signal → Modulation Bridge → Calculate AGI Params →
 - urgency: Decreases timeout, increases working memory, focus mode
 - ambiguity: Increases uncertainty tolerance, retrieval threshold
 
-🧠 AGI Component Integration:
+🧠 Cognitive AI Component Integration:
 - Reasoning: Depth, width, creativity, uncertainty tolerance
 - Orchestration: Model selection, consensus, timeouts, retries
 - Memory: Consolidation, retrieval, working memory, episodic balance
@@ -817,7 +817,7 @@ LUKHAS Module → Emit Signal → Modulation Bridge → Calculate AGI Params →
 Usage Examples:
 ==============
 
-# Register AGI components for modulation
+# Register Cognitive AI components for modulation
 register_agi_for_modulation("chain_of_thought", reasoning_component)
 register_agi_for_modulation("model_router", orchestration_component)
 

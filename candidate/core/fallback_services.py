@@ -24,7 +24,7 @@ logger.info("ΛTRACE: Initializing fallback_services module.")
 # ΛCAUTION: The following fallback service classes provide placeholder functionality
 # if real services fail to import. They log their use and return simplified responses,
 # bypassing actual logic and symbolic audit paths. This is for development convenience
-# and API availability but means core AGI functions are not engaged.
+# and API availability but means core Cognitive AI functions are not engaged.
 
 
 class FallbackEthicsService:

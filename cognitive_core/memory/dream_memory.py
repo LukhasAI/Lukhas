@@ -1,5 +1,5 @@
 """
-Dream Memory Bridge for AGI Enhanced Memory
+Dream Memory Bridge for Cognitive AI Enhanced Memory
 
 Integrates dream system with memory architecture for creative consolidation,
 pattern discovery, and insight generation through dream-enhanced memory processing.
@@ -84,7 +84,7 @@ class DreamSession:
 
 class DreamMemoryBridge:
     """
-    Dream Memory Bridge for AGI Memory Enhancement
+    Dream Memory Bridge for Cognitive AI Memory Enhancement
 
     Provides dream-enhanced memory processing that integrates with LUKHAS
     dream system for creative memory consolidation and insight generation.

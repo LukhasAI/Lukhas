@@ -362,7 +362,7 @@ def evolve_memory_globally(
 ║
 ║ REFERENCES:
 ║   - Docs: docs/memory/evolution-architecture.md
-║   - Issues: github.com/lukhas-ai/agi/issues?label=memory-evolution
+║   - Issues: github.com/lukhas-ai/cognitive/issues?label=memory-evolution
 ║   - Wiki: wiki.lukhas.ai/memory-evolution
 ║
 ║ COPYRIGHT & LICENSE:

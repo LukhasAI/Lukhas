@@ -1,5 +1,5 @@
 """
-Multi-Model Orchestration for AGI
+Multi-Model Orchestration for Cognitive AI
 
 Advanced orchestration system for coordinating multiple AI models
 including GPT-4, Claude, Gemini, and others for consensus-based

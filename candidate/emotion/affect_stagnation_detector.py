@@ -15,7 +15,7 @@ logger = logging.getLogger(__name__)
 ║ DESCRIPTION
 ╠══════════════════════════════════════════════════════════════════════════════════
 ║ The Affect Stagnation Detector serves as an emotional watchdog, monitoring the
-║ AGI's emotional state for patterns of stagnation that could indicate system
+║ Cognitive AI's emotional state for patterns of stagnation that could indicate system
 ║ dysfunction or emotional loops. When emotional velocity drops below critical
 ║ thresholds, it triggers recovery mechanisms to restore healthy emotional flow.
 ║

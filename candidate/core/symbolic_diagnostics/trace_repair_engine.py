@@ -14,7 +14,7 @@
 ║ The Symbolic Trace Repair Engine repairs symbolic traces that have been
 ║ flagged as inconsistent, corrupted, or incomplete. It performs automated
 ║ analysis and reconstruction of symbolic traces to maintain system integrity
-║ and ensure continuous operation of the LUKHAS AGI symbolic systems.
+║ and ensure continuous operation of the LUKHAS Cognitive AI symbolic systems.
 ║
 ║ Core Features:
 ║ • Automatic detection of trace inconsistencies and corruption

@@ -1,11 +1,11 @@
 """
-Comprehensive AGI Test Suite
+Comprehensive Cognitive AI Test Suite
 
-Advanced testing framework for AGI systems that tests reasoning,
+Advanced testing framework for Cognitive AI systems that tests reasoning,
 creativity, safety, memory, and integration capabilities.
 """
 
-from .agi_test_suite import AGITestSuite, TestCategory, TestResult
+from .cognitive_test_suite import AGITestSuite, TestCategory, TestResult
 from .creativity_tests import CreativityDimension, CreativityTestBattery
 from .integration_tests import IntegrationTestBattery, IntegrationTestType
 from .memory_tests import MemoryTestBattery, MemoryTestType

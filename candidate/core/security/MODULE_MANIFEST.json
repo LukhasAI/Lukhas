@@ -71,7 +71,7 @@
   "status": "constellation_guardian_protection_active_consciousness",
   "dependencies": {
     "core_modules": [
-      "agi_security",
+      "cognitive_security",
       "auth",
       "crypto",
       "kms_manager",
@@ -176,7 +176,7 @@
     "guardian_ethical_enforcement": "Maintain unwavering ethical constraint enforcement in consciousness operations"
   },
   "file_structure": {
-    "agi_security.py": "🛡️ Main Guardian security consciousness system with threat detection, access control, and Constellation integration",
+    "cognitive_security.py": "🛡️ Main Guardian security consciousness system with threat detection, access control, and Constellation integration",
     "auth.py": "⚛️ Authentication consciousness protocols with identity validation and security context management", 
     "crypto.py": "🔐 Cryptographic consciousness protection with encryption and key management",
     "kms_manager.py": "🔑 Key management consciousness with secure key lifecycle and rotation",
@@ -207,6 +207,6 @@
     "architecture_docs": "MATRIZ_CONSCIOUSNESS_ARCHITECTURE.md",
     "constellation_guidelines": "branding/constellation/TRINITY_BRANDING_GUIDELINES.md",
     "consciousness_protocols": "candidate/core/symbolic_legacy/GLYPH_CONSCIOUSNESS_PROTOCOLS.md",
-    "user_guide": "Embedded in agi_security.py comprehensive security system implementation and usage examples"
+    "user_guide": "Embedded in cognitive_security.py comprehensive security system implementation and usage examples"
   }
 }

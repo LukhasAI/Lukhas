@@ -1,6 +1,6 @@
 """
-Enterprise AGI Audit Trail System
-Provides comprehensive logging, tracking, and compliance for all AGI operations
+Enterprise Cognitive AI Audit Trail System
+Provides comprehensive logging, tracking, and compliance for all Cognitive AI operations
 """
 import asyncio
 import gzip
@@ -17,7 +17,7 @@ from typing import Any, Optional
 
 
 class AuditEventType(Enum):
-    """Comprehensive audit event types for AGI operations"""
+    """Comprehensive audit event types for Cognitive AI operations"""
 
     # Consciousness events
     CONSCIOUSNESS_STATE_CHANGE = "consciousness.state_change"
@@ -166,7 +166,7 @@ class ComplianceReport:
 
 class AuditTrail:
     """
-    Enterprise-grade audit trail system for AGI operations
+    Enterprise-grade audit trail system for Cognitive AI operations
     """
 
     def __init__(

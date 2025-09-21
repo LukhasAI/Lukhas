@@ -16,7 +16,7 @@ from datetime import datetime, timezone
 ║ DESCRIPTION
 ╠══════════════════════════════════════════════════════════════════════════════════
 ║ The Bridge Trace Logger provides comprehensive audit trails and trace logging
-║ for all symbolic bridge operations and transformations within the LUKHAS AGI
+║ for all symbolic bridge operations and transformations within the LUKHAS Cognitive AI
 ║ system. This module ensures complete transparency and traceability of inter-
 ║ component communications and symbolic handshakes.
 ║

@@ -235,7 +235,7 @@ async def get_system_info() -> str:
 if __name__ == "__main__":
     # Set environment variables for security
     if not os.getenv("ALLOWED_ROOTS"):
-        os.environ["ALLOWED_ROOTS"] = "/tmp,/var/tmp,/Users/agi_dev/LOCAL-REPOS/Lukhas/test_data"
+        os.environ["ALLOWED_ROOTS"] = "/tmp,/var/tmp,/Users/cognitive_dev/LOCAL-REPOS/Lukhas/test_data"
     
     logger.info("🚀 Starting LUKHAS AI MCP STDIO Server")
     logger.info("⚛️🧠🛡️ Constellation Framework: Identity, Consciousness, Guardian")

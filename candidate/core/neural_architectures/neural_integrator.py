@@ -14,7 +14,7 @@ DEPENDENCIES:
 """
 
 """
-Neural Architecture Integrator for LUKHAS AGI System
+Neural Architecture Integrator for LUKHAS Cognitive AI System
 ====================================================
 
 This module provides advanced neural processing capabilities that integrate

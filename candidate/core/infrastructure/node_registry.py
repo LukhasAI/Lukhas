@@ -37,14 +37,14 @@ class NodeRegistry:
     and coordinated functioning within the Cognitive system.
     """
 
-    def __init__(self, agi_system):
+    def __init__(self, cognitive_system):
         """
         Initialize the node registry
 
         Args:
-            agi_system: Reference to the main Cognitive system
+            cognitive_system: Reference to the main Cognitive system
         """
-        self.agi = agi_system
+        self.agi = cognitive_system
         self.nodes = {}  # type: Dict[str, Any]
         self.node_types = {}  # type: Dict[str, Type]
         self.node_relationships = {}  # type: Dict[str, Dict[str, List[str]]]
@@ -83,7 +83,7 @@ class NodeRegistry:
                         inspect.isclass(obj)
                         and "Node" in name
                         and hasattr(obj, "__init__")
-                        and "agi_system" in inspect.signature(obj.__init__).parameters
+                        and "cognitive_system" in inspect.signature(obj.__init__).parameters
                     ):
                         node_id = self._to_node_id(name)
                         self.node_types[node_id] = obj

@@ -2,7 +2,7 @@
 # FILENAME: crista_optimizer.py
 # MODULE: core.adaptive_systems.crista_optimizer.crista_optimizer
 # DESCRIPTION: Implements the CristaOptimizer for dynamic symbolic architecture management,
-#              inspired by mitochondrial cristae remodeling. Part of LUKHAS AGI's
+#              inspired by mitochondrial cristae remodeling. Part of LUKHAS Cognitive AI's
 #              bio-symbolic adaptive topology layer.
 # DEPENDENCIES: logging, numpy, typing, dataclasses, enum, .symbolic_network (for TYPE_CHECKING)
 # LICENSE: PROPRIETARY - LUKHAS AI SYSTEMS - UNAUTHORIZED ACCESS PROHIBITED

@@ -46,13 +46,13 @@ except ImportError as e:
 
 class AdaptiveAGISystem:
     """
-    Main system class that orchestrates all components of the Adaptive AGI Interface.
+    Main system class that orchestrates all components of the Adaptive Cognitive AI Interface.
     This follows the minimalist but powerful design philosophy inspired by
     both Steve Jobs and Sam Altman.
     """
 
     def __init__(self):
-        logger.info("Initializing Adaptive AGI System...")
+        logger.info("Initializing Adaptive Cognitive AI System...")
 
         # Load configuration
         self.settings = load_settings()
@@ -93,7 +93,7 @@ class AdaptiveAGISystem:
 
     async def start(self):
         """Start the system and run the main processing loop"""
-        logger.info("Starting Adaptive AGI System...")
+        logger.info("Starting Adaptive Cognitive AI System...")
         self.system_state["status"] = "running"
 
         try:
@@ -312,7 +312,7 @@ class AdaptiveAGISystem:
 
     async def shutdown(self):
         """Shut down the system gracefully"""
-        logger.info("Shutting down Adaptive AGI System...")
+        logger.info("Shutting down Adaptive Cognitive AI System...")
 
         # End all active sessions
         for session_id in list(self.system_state["active_sessions"].keys()):
@@ -378,7 +378,7 @@ class AdaptiveAGISystem:
 
 async def main():
     """Main entry point for the application"""
-    logger.info("Adaptive AGI Interface starting up...")
+    logger.info("Adaptive Cognitive AI Interface starting up...")
 
     # Create and start the system
     system = AdaptiveAGISystem()
@@ -393,7 +393,7 @@ async def main():
         # Ensure clean shutdown
         await system.shutdown()
 
-    logger.info("Adaptive AGI Interface shut down complete")
+    logger.info("Adaptive Cognitive AI Interface shut down complete")
 
 
 if __name__ == "__main__":

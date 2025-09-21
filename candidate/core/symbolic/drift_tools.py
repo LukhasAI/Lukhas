@@ -23,7 +23,7 @@ logger = logging.getLogger(__name__)
 ╠═══════════════════════════════════════════════════════════════════════════════
 ║ DESCRIPTION
 ╠═══════════════════════════════════════════════════════════════════════════════
-║ Comprehensive drift simulation and recovery testing toolkit for LUKHAS AGI.
+║ Comprehensive drift simulation and recovery testing toolkit for LUKHAS Cognitive AI.
 ║
 ║ This module provides tools for injecting controlled symbolic drift, measuring
 ║ recovery dynamics, simulating emotional cascades, and benchmarking system
@@ -91,7 +91,7 @@ class EntropyProfile:
 
 @dataclass
 class SymbolicHealth:
-    """Health metrics for a symbolic entity in LUKHAS AGI."""
+    """Health metrics for a symbolic entity in LUKHAS Cognitive AI."""
 
     coherence: float = 1.0  # 0-1 scale - {ΛCOHERENCE}
     stability: float = 1.0  # 0-1 scale - {ΛSTABILITY}
@@ -166,7 +166,7 @@ class RecoveryMetrics:
 
 class DriftRecoverySimulator:
     """
-    Main simulator for drift injection and recovery testing in LUKHAS AGI.
+    Main simulator for drift injection and recovery testing in LUKHAS Cognitive AI.
 
     This class provides comprehensive drift simulation capabilities including:
     - Controlled entropy injection with various profiles
@@ -751,7 +751,7 @@ if __name__ == "__main__":
     asyncio.run(main())
 
 # ═══════════════════════════════════════════════════════════════════════════════
-# Module Footer - LUKHAS AI AGI System
+# Module Footer - LUKHAS AI Cognitive AI System
 # ═══════════════════════════════════════════════════════════════════════════════
 # Health Check: ✓ OPERATIONAL
 # Drift Score: 0.0

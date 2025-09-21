@@ -1,11 +1,11 @@
 """
-AGI Service Initializer
+Cognitive AI Service Initializer
 =======================
 
 Initialization script that registers and configures all Cognitive services within
 the LUKHAS ecosystem. This script is responsible for:
 
-- Registering AGI components in the LUKHAS service registry
+- Registering Cognitive AI components in the LUKHAS service registry
 - Configuring service dependencies and connections
 - Establishing integration with existing LUKHAS modules
 - Starting Cognitive service monitoring and health checks
@@ -25,9 +25,9 @@ from datetime import datetime, timezone
 from typing import Any, Optional
 
 try:
-    # AGI Components
+    # Cognitive Components
     # Integration Services
-    from cognitive_core.integration import agi_service_bridge, log_agi_operation, register_agi_service, vocabulary_service
+    from cognitive_core.integration import cognitive_service_bridge, log_agi_operation, register_agi_service, vocabulary_service
     from cognitive_core.learning import DreamGuidedLearner
     from cognitive_core.memory import DreamMemory, EpisodicMemory, MemoryConsolidator, SemanticMemory, VectorMemory
     from cognitive_core.orchestration import CapabilityMatrix, ConsensusEngine, CostOptimizer, ModelRouter
@@ -38,7 +38,7 @@ try:
     COMPONENTS_AVAILABLE = True
 
 except ImportError as e:
-    logging.warning(f"Some AGI components not available: {e}")
+    logging.warning(f"Some Cognitive AI components not available: {e}")
     COMPONENTS_AVAILABLE = False
 
     # Mock components for testing
@@ -119,9 +119,9 @@ except ImportError as e:
         def log_agi_operation(self, op, details="", module="agi", severity="INFO"):
             return {"operation": op}
 
-    agi_service_bridge = MockBridge()
+    cognitive_service_bridge = MockBridge()
     vocabulary_service = MockVocabService()
-    register_agi_service = agi_service_bridge.register_agi_service
+    register_agi_service = cognitive_service_bridge.register_agi_service
     log_agi_operation = vocabulary_service.log_agi_operation
 
 
@@ -131,21 +131,21 @@ class AGIServiceConfiguration:
     def __init__(self):
         self.service_configs = {
             # Reasoning Services
-            "agi_chain_of_thought": {
+            "cognitive_chain_of_thought": {
                 "component_factory": ChainOfThought,
                 "dependencies": [],
                 "priority": 1,  # High priority - core reasoning
                 "auto_initialize": True,
                 "health_monitoring": True,
             },
-            "agi_tree_of_thoughts": {
+            "cognitive_tree_of_thoughts": {
                 "component_factory": TreeOfThoughts,
-                "dependencies": ["agi_chain_of_thought"],
+                "dependencies": ["cognitive_chain_of_thought"],
                 "priority": 1,
                 "auto_initialize": True,
                 "health_monitoring": True,
             },
-            "agi_dream_integration": {
+            "cognitive_dream_integration": {
                 "component_factory": DreamIntegration,
                 "dependencies": [],
                 "priority": 2,
@@ -153,88 +153,88 @@ class AGIServiceConfiguration:
                 "health_monitoring": True,
             },
             # Orchestration Services
-            "agi_model_router": {
+            "cognitive_model_router": {
                 "component_factory": ModelRouter,
                 "dependencies": [],
                 "priority": 1,
                 "auto_initialize": True,
                 "health_monitoring": True,
             },
-            "agi_consensus_engine": {
+            "cognitive_consensus_engine": {
                 "component_factory": ConsensusEngine,
-                "dependencies": ["agi_model_router"],
+                "dependencies": ["cognitive_model_router"],
                 "priority": 2,
                 "auto_initialize": True,
                 "health_monitoring": True,
             },
-            "agi_capability_matrix": {
+            "cognitive_capability_matrix": {
                 "component_factory": CapabilityMatrix,
-                "dependencies": ["agi_model_router"],
+                "dependencies": ["cognitive_model_router"],
                 "priority": 3,
                 "auto_initialize": True,
                 "health_monitoring": False,  # Static component
             },
-            "agi_cost_optimizer": {
+            "cognitive_cost_optimizer": {
                 "component_factory": CostOptimizer,
-                "dependencies": ["agi_model_router", "agi_capability_matrix"],
+                "dependencies": ["cognitive_model_router", "cognitive_capability_matrix"],
                 "priority": 3,
                 "auto_initialize": True,
                 "health_monitoring": True,
             },
             # Memory Services
-            "agi_vector_memory": {
+            "cognitive_vector_memory": {
                 "component_factory": VectorMemory,
                 "dependencies": [],
                 "priority": 1,
                 "auto_initialize": True,
                 "health_monitoring": True,
             },
-            "agi_episodic_memory": {
+            "cognitive_episodic_memory": {
                 "component_factory": EpisodicMemory,
-                "dependencies": ["agi_vector_memory"],
+                "dependencies": ["cognitive_vector_memory"],
                 "priority": 2,
                 "auto_initialize": True,
                 "health_monitoring": True,
             },
-            "agi_semantic_memory": {
+            "cognitive_semantic_memory": {
                 "component_factory": SemanticMemory,
-                "dependencies": ["agi_vector_memory"],
+                "dependencies": ["cognitive_vector_memory"],
                 "priority": 2,
                 "auto_initialize": True,
                 "health_monitoring": True,
             },
-            "agi_dream_memory": {
+            "cognitive_dream_memory": {
                 "component_factory": DreamMemory,
-                "dependencies": ["agi_vector_memory", "agi_dream_integration"],
+                "dependencies": ["cognitive_vector_memory", "cognitive_dream_integration"],
                 "priority": 2,
                 "auto_initialize": True,
                 "health_monitoring": True,
             },
-            "agi_memory_consolidator": {
+            "cognitive_memory_consolidator": {
                 "component_factory": MemoryConsolidator,
-                "dependencies": ["agi_vector_memory", "agi_episodic_memory", "agi_semantic_memory", "agi_dream_memory"],
+                "dependencies": ["cognitive_vector_memory", "cognitive_episodic_memory", "cognitive_semantic_memory", "cognitive_dream_memory"],
                 "priority": 3,
                 "auto_initialize": True,
                 "health_monitoring": True,
             },
             # Safety and Learning Services
-            "agi_constitutional_ai": {
+            "cognitive_constitutional_ai": {
                 "component_factory": ConstitutionalAI,
                 "dependencies": [],
                 "priority": 1,  # Critical for safety
                 "auto_initialize": True,
                 "health_monitoring": True,
             },
-            "agi_dream_guided_learner": {
+            "cognitive_dream_guided_learner": {
                 "component_factory": DreamGuidedLearner,
-                "dependencies": ["agi_dream_integration", "agi_memory_consolidator"],
+                "dependencies": ["cognitive_dream_integration", "cognitive_memory_consolidator"],
                 "priority": 2,
                 "auto_initialize": True,
                 "health_monitoring": True,
             },
-            "agi_dream_guided_tools": {
+            "cognitive_dream_guided_tools": {
                 "component_factory": DreamGuidedTools,
-                "dependencies": ["agi_dream_integration", "agi_dream_guided_learner"],
+                "dependencies": ["cognitive_dream_integration", "cognitive_dream_guided_learner"],
                 "priority": 3,
                 "auto_initialize": True,
                 "health_monitoring": True,
@@ -257,7 +257,7 @@ class AGIServiceInitializer:
         self.failed_services: list[str] = []
 
         # Logger setup
-        self.logger = logging.getLogger("agi_service_initializer")
+        self.logger = logging.getLogger("cognitive_service_initializer")
         if not self.logger.handlers:
             handler = logging.StreamHandler()
             formatter = logging.Formatter("%(asctime)s - %(name)s - [%(levelname)s] - %(message)s")
@@ -305,7 +305,7 @@ class AGIServiceInitializer:
             return False
 
         try:
-            log_agi_operation("service_init_start", service_name, "agi_initializer")
+            log_agi_operation("service_init_start", service_name, "cognitive_initializer")
 
             # Check dependencies
             for dep in config.get("dependencies", []):
@@ -328,14 +328,14 @@ class AGIServiceInitializer:
             self.initialized_services[service_name] = adapter
             self.initialization_order.append(service_name)
 
-            log_agi_operation("service_init_success", service_name, "agi_initializer")
+            log_agi_operation("service_init_success", service_name, "cognitive_initializer")
             self.logger.info(f"Successfully initialized Cognitive service: {service_name}")
 
             return True
 
         except Exception as e:
             self.failed_services.append(service_name)
-            log_agi_operation("service_init_fail", f"{service_name}: {e}", "agi_initializer", "ERROR")
+            log_agi_operation("service_init_fail", f"{service_name}: {e}", "cognitive_initializer", "ERROR")
             self.logger.error(f"Failed to initialize {service_name}: {e}")
             return False
 
@@ -346,7 +346,7 @@ class AGIServiceInitializer:
         Returns:
             Dictionary mapping service names to initialization success status
         """
-        log_agi_operation("system_init_start", "initializing all Cognitive services", "agi_initializer")
+        log_agi_operation("system_init_start", "initializing all Cognitive services", "cognitive_initializer")
 
         # Get initialization order
         service_order = self._resolve_dependency_order()
@@ -365,7 +365,7 @@ class AGIServiceInitializer:
         total_count = len(results)
 
         log_agi_operation(
-            "system_init_complete", f"{successful_count}/{total_count} services initialized", "agi_initializer"
+            "system_init_complete", f"{successful_count}/{total_count} services initialized", "cognitive_initializer"
         )
 
         self.logger.info(f"Cognitive service initialization complete: {successful_count}/{total_count} successful")
@@ -379,8 +379,8 @@ class AGIServiceInitializer:
         Args:
             interval_seconds: Health check interval
         """
-        await agi_service_bridge.start_health_monitoring(interval_seconds)
-        log_agi_operation("health_monitor_start", f"monitoring every {interval_seconds}s", "agi_initializer")
+        await cognitive_service_bridge.start_health_monitoring(interval_seconds)
+        log_agi_operation("health_monitor_start", f"monitoring every {interval_seconds}s", "cognitive_initializer")
 
     async def graceful_shutdown(self) -> dict[str, bool]:
         """
@@ -389,7 +389,7 @@ class AGIServiceInitializer:
         Returns:
             Dictionary mapping service names to shutdown success status
         """
-        log_agi_operation("system_shutdown_start", "shutting down all Cognitive services", "agi_initializer")
+        log_agi_operation("system_shutdown_start", "shutting down all Cognitive services", "cognitive_initializer")
 
         # Shutdown in reverse initialization order
         shutdown_results = {}
@@ -400,16 +400,16 @@ class AGIServiceInitializer:
                 if adapter:
                     await adapter.shutdown()
                     shutdown_results[service_name] = True
-                    log_agi_operation("service_shutdown_success", service_name, "agi_initializer")
+                    log_agi_operation("service_shutdown_success", service_name, "cognitive_initializer")
                 else:
                     shutdown_results[service_name] = False
 
             except Exception as e:
                 shutdown_results[service_name] = False
-                log_agi_operation("service_shutdown_fail", f"{service_name}: {e}", "agi_initializer", "ERROR")
+                log_agi_operation("service_shutdown_fail", f"{service_name}: {e}", "cognitive_initializer", "ERROR")
                 self.logger.error(f"Failed to shutdown {service_name}: {e}")
 
-        log_agi_operation("system_shutdown_complete", "Cognitive services shutdown", "agi_initializer")
+        log_agi_operation("system_shutdown_complete", "Cognitive services shutdown", "cognitive_initializer")
         return shutdown_results
 
     def get_initialization_status(self) -> dict[str, Any]:
@@ -425,14 +425,14 @@ class AGIServiceInitializer:
             "failed_services": len(self.failed_services),
             "initialization_order": self.initialization_order,
             "failed_service_names": self.failed_services,
-            "service_registry_info": agi_service_bridge.get_service_registry_info(),
+            "service_registry_info": cognitive_service_bridge.get_service_registry_info(),
             "components_available": COMPONENTS_AVAILABLE,
             "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
 
 # Global initializer instance
-agi_initializer = AGIServiceInitializer()
+cognitive_initializer = AGIServiceInitializer()
 
 
 # Main initialization function for external use
@@ -450,25 +450,25 @@ async def initialize_agi_system(
     Returns:
         Initialization status and results
     """
-    global agi_initializer
+    global cognitive_initializer
 
     if config:
-        agi_initializer = AGIServiceInitializer(config)
+        cognitive_initializer = AGIServiceInitializer(config)
 
-    log_agi_operation("system_init", "starting Cognitive system initialization", "agi_main")
+    log_agi_operation("system_init", "starting Cognitive system initialization", "cognitive_main")
 
     # Initialize all services
-    init_results = await agi_initializer.initialize_all_services()
+    init_results = await cognitive_initializer.initialize_all_services()
 
     # Start health monitoring if requested
     if start_monitoring:
-        await agi_initializer.start_health_monitoring(monitoring_interval)
+        await cognitive_initializer.start_health_monitoring(monitoring_interval)
 
     # Get final status
-    status = agi_initializer.get_initialization_status()
+    status = cognitive_initializer.get_initialization_status()
     status["initialization_results"] = init_results
 
-    log_agi_operation("system_ready", "Cognitive system fully operational", "agi_main")
+    log_agi_operation("system_ready", "Cognitive system fully operational", "cognitive_main")
 
     return status
 
@@ -476,7 +476,7 @@ async def initialize_agi_system(
 if __name__ == "__main__":
     # Test the Cognitive service initializer
     async def test_initializer():
-        print("🧠 AGI Service Initializer Test")
+        print("🧠 Cognitive AI Service Initializer Test")
         print("=" * 50)
 
         # Initialize the Cognitive system
@@ -497,7 +497,7 @@ if __name__ == "__main__":
 
         # Graceful shutdown
         print("\nShutting down...")
-        shutdown_results = await agi_initializer.graceful_shutdown()
+        shutdown_results = await cognitive_initializer.graceful_shutdown()
         successful_shutdowns = sum(shutdown_results.values())
         print(f"Shutdown: {successful_shutdowns}/{len(shutdown_results)} successful")
 
@@ -508,21 +508,21 @@ Usage in LUKHAS System Startup:
 ==============================
 
 # In main LUKHAS startup script:
-from cognitive_core.integration.agi_service_initializer import initialize_agi_system
+from cognitive_core.integration.cognitive_service_initializer import initialize_agi_system
 
 async def start_lukhas_system():
     # ... existing LUKHAS initialization ...
 
     # Initialize Cognitive system
-    agi_status = await initialize_agi_system(
+    cognitive_status = await initialize_agi_system(
         start_monitoring=True,
         monitoring_interval=30
     )
 
-    if agi_status["failed_services"] > 0:
-        logger.warning(f"Some Cognitive services failed: {agi_status['failed_service_names']}")
+    if cognitive_status["failed_services"] > 0:
+        logger.warning(f"Some Cognitive services failed: {cognitive_status['failed_service_names']}")
 
-    logger.info(f"LUKHAS Cognitive system ready: {agi_status['initialized_services']}/{agi_status['total_services']} services")
+    logger.info(f"LUKHAS Cognitive system ready: {cognitive_status['initialized_services']}/{cognitive_status['total_services']} services")
 
     # ... continue with rest of LUKHAS startup ...
 
@@ -530,8 +530,8 @@ async def start_lukhas_system():
 async def shutdown_lukhas_system():
     # ... existing LUKHAS shutdown ...
 
-    # Graceful AGI shutdown
-    await agi_initializer.graceful_shutdown()
+    # Graceful Cognitive AI shutdown
+    await cognitive_initializer.graceful_shutdown()
 
     # ... complete LUKHAS shutdown ...
 
@@ -542,20 +542,20 @@ Service Integration Examples:
 from cognitive_core.integration import get_agi_service
 
 # In consciousness module:
-reasoning_service = get_agi_service("agi_chain_of_thought")
+reasoning_service = get_agi_service("cognitive_chain_of_thought")
 if reasoning_service and reasoning_service.get_health()["status"] == "healthy":
-    # Use AGI reasoning capabilities
+    # Use Cognitive AI reasoning capabilities
     pass
 
 # In memory module:
-vector_memory = get_agi_service("agi_vector_memory")
+vector_memory = get_agi_service("cognitive_vector_memory")
 if vector_memory:
-    # Enhanced memory operations with AGI
+    # Enhanced memory operations with Cognitive AI
     pass
 
 # In dream module:
-dream_integration = get_agi_service("agi_dream_integration")
+dream_integration = get_agi_service("cognitive_dream_integration")
 if dream_integration:
-    # Dream-guided AGI processing
+    # Dream-guided Cognitive AI processing
     pass
 """

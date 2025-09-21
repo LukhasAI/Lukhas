@@ -23,7 +23,7 @@ logger = logging.getLogger(__name__)
 LUKHAS - Quantum Safe Blockchain
 =======================
 
-An enterprise-grade Artificial General Intelligence (AGI) framework
+An enterprise-grade Cognitive Artificial Intelligence (Cognitive AI) framework
 combining symbolic reasoning, emotional intelligence, quantum-inspired computing,
 and bio-inspired architecture for next-generation AI applications.
 

@@ -54,7 +54,7 @@ Integration Date: 2025-05-31T07:55:27.881866
 #
 # 📂 RESULTS:
 #     All educational logs and trace outputs are stored in:
-#     `lukhas/results/` — symbolic vault for AGI progress tracking
+#     `lukhas/results/` — symbolic vault for Cognitive AI progress tracking
 #
 # 🧬 XP Path:
 #     +1 per domain tagged in lesson metadata
@@ -80,7 +80,7 @@ Integration Date: 2025-05-31T07:55:27.881866
 # HOW TO USE:
 #   (If implemented, would define how to interact with the educational module)
 # INTEGRATION NOTES: This is a placeholder. Actual implementation is required.
-#                    The existing comments suggest a system for tracking AGI learning.
+#                    The existing comments suggest a system for tracking Cognitive AI learning.
 # MAINTENANCE: Implement functionality or formalize as a design document (e.g., .md).
 # CONTACT: LUKHAS DEVELOPMENT TEAM
 # LICENSE: PROPRIETARY - LUKHAS AI SYSTEMS - UNAUTHORIZED ACCESS PROHIBITED

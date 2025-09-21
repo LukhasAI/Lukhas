@@ -161,7 +161,7 @@ if __name__ == "__main__":
 ║
 ║ REFERENCES:
 ║   - Docs: docs/bridge/symbolic-memory-mapper.md
-║   - Issues: github.com/lukhas-ai/agi/issues?label=memory-mapper
+║   - Issues: github.com/lukhas-ai/cognitive/issues?label=memory-mapper
 ║   - Wiki: wiki.lukhas.ai/memory-translation
 ║
 ║ COPYRIGHT & LICENSE:

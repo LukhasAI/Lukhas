@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-AGI Core System Optimizer
-Comprehensive optimization and performance tuning for all AGI components
+Cognitive Core System Optimizer
+Comprehensive optimization and performance tuning for all Cognitive AI components
 
 Part of the LUKHAS AI MΛTRIZ Consciousness Architecture
 Implements Phase 2D: System optimization and performance enhancement
@@ -99,7 +99,7 @@ class OptimizationResult:
 
 
 class AGISystemOptimizer:
-    """Comprehensive system optimizer for all AGI components"""
+    """Comprehensive system optimizer for all Cognitive AI components"""
 
     def __init__(self):
         self.optimizer_id = str(uuid.uuid4())[:8]
@@ -115,7 +115,7 @@ class AGISystemOptimizer:
         self.system_metrics = self._initialize_system_metrics()
         self.optimization_targets = self._initialize_optimization_targets()
 
-        logger.info(f"AGI System Optimizer initialized with ID {self.optimizer_id}")
+        logger.info(f"Cognitive AI System Optimizer initialized with ID {self.optimizer_id}")
 
     def _initialize_system_metrics(self) -> dict[str, Any]:
         """Initialize baseline system metrics"""
@@ -282,7 +282,7 @@ class AGISystemOptimizer:
         bottlenecks = {
             "primary_bottlenecks": [
                 {
-                    "component": "AGI Processing Pipeline",
+                    "component": "Cognitive Processing Pipeline",
                     "bottleneck_type": "CPU-bound consciousness processing",
                     "severity": "high",
                     "impact_percentage": 35.0,
@@ -723,7 +723,7 @@ class AGISystemOptimizer:
 
         # Suggest complementary optimizations
         if OptimizationType.PERFORMANCE in opt_targets:
-            recommendations.append("Consider GPU acceleration for AGI processing")
+            recommendations.append("Consider GPU acceleration for Cognitive AI processing")
 
         if OptimizationType.CONSCIOUSNESS in opt_targets:
             recommendations.append("Explore advanced consciousness coherence algorithms")
@@ -758,9 +758,9 @@ class PerformanceOptimizer:
                 "risk_level": "low",
             },
             {
-                "name": "Optimize AGI Processing Pipeline",
+                "name": "Optimize Cognitive Processing Pipeline",
                 "type": "performance_tuning",
-                "description": "Parallelize AGI reasoning operations",
+                "description": "Parallelize Cognitive AI reasoning operations",
                 "estimated_improvement": 35.0,
                 "implementation_time": 4.0,
                 "risk_level": "medium",
@@ -892,7 +892,7 @@ class IntegrationOptimizer:
 async def demonstrate_system_optimization():
     """Demonstrate the Cognitive system optimization capabilities"""
 
-    print("🚀 AGI Core System Optimization Demo")
+    print("🚀 Cognitive Core System Optimization Demo")
     print("=" * 60)
 
     optimizer = AGISystemOptimizer()
@@ -959,7 +959,7 @@ async def demonstrate_system_optimization():
     for recommendation in result.next_recommendations:
         print(f"   • {recommendation}")
 
-    print("\n🎯 AGI System Optimization Demo Completed!")
+    print("\n🎯 Cognitive AI System Optimization Demo Completed!")
     return result
 
 

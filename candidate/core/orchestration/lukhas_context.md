@@ -6,11 +6,11 @@
 
 
 # CANDIDATE Core Orchestration Systems
-*266-File Multi-Agent Coordination - Distributed AGI Orchestration*
+*266-File Multi-Agent Coordination - Distributed Cognitive Orchestration*
 
 ## Multi-Agent Orchestration Overview
 
-CANDIDATE core orchestration represents the **largest coordination system** in LUKHAS with **266 files** implementing comprehensive multi-agent coordination, distributed task management, and external service orchestration. This is the primary AGI coordination engine that manages distributed consciousness, reasoning, and integration workflows across the entire LUKHAS ecosystem.
+CANDIDATE core orchestration represents the **largest coordination system** in LUKHAS with **266 files** implementing comprehensive multi-agent coordination, distributed task management, and external service orchestration. This is the primary Cognitive AI coordination engine that manages distributed consciousness, reasoning, and integration workflows across the entire LUKHAS ecosystem.
 
 ### **Orchestration System Scope**
 - **Files**: 266 orchestration files (largest CANDIDATE core domain)
@@ -364,4 +364,4 @@ async def integrate_external_service(self, service_specification):
 **Integration**: Multi-AI coordination + External APIs + Workflow management | **Status**: Active development with Constellation Framework integration
 **Performance**: <100ms coordination + Sub-250ms synthesis + <500ms external integration
 
-*Primary AGI coordination engine - extend through agent specialization and workflow development*
+*Primary Cognitive AI coordination engine - extend through agent specialization and workflow development*

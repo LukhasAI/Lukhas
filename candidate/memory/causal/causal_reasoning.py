@@ -844,7 +844,7 @@ logger.debug("ΛTRACE: causal_reasoning.py module `__all__` defined.", exported_
 #     - Maintains an internal causal graph of learned relationships.
 #     - Tracks a history of reasoning sessions for trend analysis.
 #
-# Integration: Designed as a component for larger AGI reasoning systems. Interacts
+# Integration: Designed as a component for larger Cognitive AI reasoning systems. Interacts
 #              with data preprocessing, attention mechanisms, and potentially
 #              knowledge bases or learning modules for more advanced inference.
 #
@@ -879,7 +879,7 @@ logger.debug("ΛTRACE: causal_reasoning.py module `__all__` defined.", exported_
 ║
 ║ REFERENCES:
 ║   - Docs: docs/reasoning/causal_reasoning.md
-║   - Issues: github.com/lukhas-ai/agi/issues?label=causal-reasoning
+║   - Issues: github.com/lukhas-ai/cognitive/issues?label=causal-reasoning
 ║   - Wiki: wiki.lukhas.ai/causal-inference
 ║
 ║ COPYRIGHT & LICENSE:

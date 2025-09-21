@@ -14,7 +14,7 @@
 
 
 def launch_lukhas():
-    print("👋 Welcome to Lukhas AGI")
+    print("👋 Welcome to Lukhas Cognitive AI")
     print("🧠 Loading symbolic interface...")
     # Placeholder for symbolic start sequence or UI CLI tools
     # You can later connect this to Streamlit, FastAPI, or GUI

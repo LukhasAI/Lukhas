@@ -90,7 +90,7 @@
   {
     "term": "LUKHAS AI",
     "preferred": "LUKHAS AI",
-    "avoid": ["LUKHAS AGI", "Lukhas AI", "lukhas ai"],
+    "avoid": ["LUKHAS Cognitive AI", "Lukhas AI", "lukhas ai"],
     "notes": "Official brand name - always use exact capitalization",
     "readingLevel": "6",
     "examples": ["LUKHAS AI platform", "LUKHAS AI system"]

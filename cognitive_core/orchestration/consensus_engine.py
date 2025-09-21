@@ -67,7 +67,7 @@ class ConsensusResult:
 
 class ConsensusEngine:
     """
-    Multi-model consensus engine for AGI decision making
+    Multi-model consensus engine for Cognitive AI decision making
 
     Coordinates multiple AI models to reach consensus on complex questions,
     providing more robust and reliable answers than single model responses.

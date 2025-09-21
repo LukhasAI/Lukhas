@@ -3,7 +3,7 @@
   "batches": {
     "critical_immediate": [
       {
-        "path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/claude.me",
+        "path": "/Users/cognitive_dev/LOCAL-REPOS/Lukhas/claude.me",
         "relative_path": "claude.me",
         "priority_score": 100,
         "impact_analysis": {
@@ -19,7 +19,7 @@
         "update_urgency": "IMMEDIATE"
       },
       {
-        "path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas_context.md",
+        "path": "/Users/cognitive_dev/LOCAL-REPOS/Lukhas/lukhas_context.md",
         "relative_path": "lukhas_context.md",
         "priority_score": 100,
         "impact_analysis": {
@@ -35,7 +35,7 @@
         "update_urgency": "IMMEDIATE"
       },
       {
-        "path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/claude.me",
+        "path": "/Users/cognitive_dev/LOCAL-REPOS/Lukhas/candidate/claude.me",
         "relative_path": "candidate/claude.me",
         "priority_score": 90,
         "impact_analysis": {
@@ -51,7 +51,7 @@
         "update_urgency": "HIGH"
       },
       {
-        "path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/claude.me",
+        "path": "/Users/cognitive_dev/LOCAL-REPOS/Lukhas/lukhas/claude.me",
         "relative_path": "lukhas/claude.me",
         "priority_score": 90,
         "impact_analysis": {
@@ -67,7 +67,7 @@
         "update_urgency": "HIGH"
       },
       {
-        "path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/lukhas_context.md",
+        "path": "/Users/cognitive_dev/LOCAL-REPOS/Lukhas/candidate/lukhas_context.md",
         "relative_path": "candidate/lukhas_context.md",
         "priority_score": 90,
         "impact_analysis": {
@@ -83,7 +83,7 @@
         "update_urgency": "HIGH"
       },
       {
-        "path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/lukhas_context.md",
+        "path": "/Users/cognitive_dev/LOCAL-REPOS/Lukhas/lukhas/lukhas_context.md",
         "relative_path": "lukhas/lukhas_context.md",
         "priority_score": 90,
         "impact_analysis": {
@@ -99,7 +99,7 @@
         "update_urgency": "HIGH"
       },
       {
-        "path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/core/claude.me",
+        "path": "/Users/cognitive_dev/LOCAL-REPOS/Lukhas/candidate/core/claude.me",
         "relative_path": "candidate/core/claude.me",
         "priority_score": 90,
         "impact_analysis": {
@@ -115,7 +115,7 @@
         "update_urgency": "HIGH"
       },
       {
-        "path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/core/lukhas_context.md",
+        "path": "/Users/cognitive_dev/LOCAL-REPOS/Lukhas/candidate/core/lukhas_context.md",
         "relative_path": "candidate/core/lukhas_context.md",
         "priority_score": 90,
         "impact_analysis": {
@@ -133,7 +133,7 @@
     ],
     "high_priority": [
       {
-        "path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/consciousness/claude.me",
+        "path": "/Users/cognitive_dev/LOCAL-REPOS/Lukhas/consciousness/claude.me",
         "relative_path": "consciousness/claude.me",
         "priority_score": 85,
         "impact_analysis": {
@@ -149,7 +149,7 @@
         "update_urgency": "HIGH"
       },
       {
-        "path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/consciousness/lukhas_context.md",
+        "path": "/Users/cognitive_dev/LOCAL-REPOS/Lukhas/consciousness/lukhas_context.md",
         "relative_path": "consciousness/lukhas_context.md",
         "priority_score": 85,
         "impact_analysis": {
@@ -165,7 +165,7 @@
         "update_urgency": "HIGH"
       },
       {
-        "path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/consciousness/claude.me",
+        "path": "/Users/cognitive_dev/LOCAL-REPOS/Lukhas/candidate/consciousness/claude.me",
         "relative_path": "candidate/consciousness/claude.me",
         "priority_score": 85,
         "impact_analysis": {
@@ -181,7 +181,7 @@
         "update_urgency": "HIGH"
       },
       {
-        "path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/aka_qualia/claude.me",
+        "path": "/Users/cognitive_dev/LOCAL-REPOS/Lukhas/candidate/aka_qualia/claude.me",
         "relative_path": "candidate/aka_qualia/claude.me",
         "priority_score": 85,
         "impact_analysis": {
@@ -197,7 +197,7 @@
         "update_urgency": "HIGH"
       },
       {
-        "path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/consciousness/claude.me",
+        "path": "/Users/cognitive_dev/LOCAL-REPOS/Lukhas/lukhas/consciousness/claude.me",
         "relative_path": "lukhas/consciousness/claude.me",
         "priority_score": 85,
         "impact_analysis": {
@@ -213,7 +213,7 @@
         "update_urgency": "HIGH"
       },
       {
-        "path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/consciousness/lukhas_context.md",
+        "path": "/Users/cognitive_dev/LOCAL-REPOS/Lukhas/candidate/consciousness/lukhas_context.md",
         "relative_path": "candidate/consciousness/lukhas_context.md",
         "priority_score": 85,
         "impact_analysis": {
@@ -229,7 +229,7 @@
         "update_urgency": "HIGH"
       },
       {
-        "path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/aka_qualia/lukhas_context.md",
+        "path": "/Users/cognitive_dev/LOCAL-REPOS/Lukhas/candidate/aka_qualia/lukhas_context.md",
         "relative_path": "candidate/aka_qualia/lukhas_context.md",
         "priority_score": 85,
         "impact_analysis": {
@@ -245,7 +245,7 @@
         "update_urgency": "HIGH"
       },
       {
-        "path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/consciousness/lukhas_context.md",
+        "path": "/Users/cognitive_dev/LOCAL-REPOS/Lukhas/lukhas/consciousness/lukhas_context.md",
         "relative_path": "lukhas/consciousness/lukhas_context.md",
         "priority_score": 85,
         "impact_analysis": {
@@ -261,7 +261,7 @@
         "update_urgency": "HIGH"
       },
       {
-        "path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/dream/claude.me",
+        "path": "/Users/cognitive_dev/LOCAL-REPOS/Lukhas/candidate/dream/claude.me",
         "relative_path": "candidate/dream/claude.me",
         "priority_score": 80,
         "impact_analysis": {
@@ -277,7 +277,7 @@
         "update_urgency": "HIGH"
       },
       {
-        "path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/orchestration/claude.me",
+        "path": "/Users/cognitive_dev/LOCAL-REPOS/Lukhas/lukhas/orchestration/claude.me",
         "relative_path": "lukhas/orchestration/claude.me",
         "priority_score": 80,
         "impact_analysis": {
@@ -293,7 +293,7 @@
         "update_urgency": "HIGH"
       },
       {
-        "path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/api/claude.me",
+        "path": "/Users/cognitive_dev/LOCAL-REPOS/Lukhas/lukhas/api/claude.me",
         "relative_path": "lukhas/api/claude.me",
         "priority_score": 80,
         "impact_analysis": {
@@ -309,7 +309,7 @@
         "update_urgency": "HIGH"
       },
       {
-        "path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/memory/lukhas_context.md",
+        "path": "/Users/cognitive_dev/LOCAL-REPOS/Lukhas/candidate/memory/lukhas_context.md",
         "relative_path": "candidate/memory/lukhas_context.md",
         "priority_score": 80,
         "impact_analysis": {
@@ -325,7 +325,7 @@
         "update_urgency": "HIGH"
       },
       {
-        "path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/bridge/lukhas_context.md",
+        "path": "/Users/cognitive_dev/LOCAL-REPOS/Lukhas/candidate/bridge/lukhas_context.md",
         "relative_path": "candidate/bridge/lukhas_context.md",
         "priority_score": 80,
         "impact_analysis": {
@@ -341,7 +341,7 @@
         "update_urgency": "HIGH"
       },
       {
-        "path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/lukhas_context.md",
+        "path": "/Users/cognitive_dev/LOCAL-REPOS/Lukhas/candidate/governance/lukhas_context.md",
         "relative_path": "candidate/governance/lukhas_context.md",
         "priority_score": 80,
         "impact_analysis": {
@@ -357,7 +357,7 @@
         "update_urgency": "HIGH"
       },
       {
-        "path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/dream/lukhas_context.md",
+        "path": "/Users/cognitive_dev/LOCAL-REPOS/Lukhas/candidate/dream/lukhas_context.md",
         "relative_path": "candidate/dream/lukhas_context.md",
         "priority_score": 80,
         "impact_analysis": {
@@ -373,7 +373,7 @@
         "update_urgency": "HIGH"
       },
       {
-        "path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/orchestration/lukhas_context.md",
+        "path": "/Users/cognitive_dev/LOCAL-REPOS/Lukhas/lukhas/orchestration/lukhas_context.md",
         "relative_path": "lukhas/orchestration/lukhas_context.md",
         "priority_score": 80,
         "impact_analysis": {
@@ -389,7 +389,7 @@
         "update_urgency": "HIGH"
       },
       {
-        "path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/api/lukhas_context.md",
+        "path": "/Users/cognitive_dev/LOCAL-REPOS/Lukhas/lukhas/api/lukhas_context.md",
         "relative_path": "lukhas/api/lukhas_context.md",
         "priority_score": 80,
         "impact_analysis": {
@@ -405,7 +405,7 @@
         "update_urgency": "HIGH"
       },
       {
-        "path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/core/orchestration/claude.me",
+        "path": "/Users/cognitive_dev/LOCAL-REPOS/Lukhas/candidate/core/orchestration/claude.me",
         "relative_path": "candidate/core/orchestration/claude.me",
         "priority_score": 80,
         "impact_analysis": {
@@ -421,7 +421,7 @@
         "update_urgency": "HIGH"
       },
       {
-        "path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/core/orchestration/lukhas_context.md",
+        "path": "/Users/cognitive_dev/LOCAL-REPOS/Lukhas/candidate/core/orchestration/lukhas_context.md",
         "relative_path": "candidate/core/orchestration/lukhas_context.md",
         "priority_score": 80,
         "impact_analysis": {
@@ -437,7 +437,7 @@
         "update_urgency": "HIGH"
       },
       {
-        "path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/core/symbolic/claude.me",
+        "path": "/Users/cognitive_dev/LOCAL-REPOS/Lukhas/candidate/core/symbolic/claude.me",
         "relative_path": "candidate/core/symbolic/claude.me",
         "priority_score": 75,
         "impact_analysis": {
@@ -453,7 +453,7 @@
         "update_urgency": "MEDIUM"
       },
       {
-        "path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/core/interfaces/claude.me",
+        "path": "/Users/cognitive_dev/LOCAL-REPOS/Lukhas/candidate/core/interfaces/claude.me",
         "relative_path": "candidate/core/interfaces/claude.me",
         "priority_score": 75,
         "impact_analysis": {
@@ -469,7 +469,7 @@
         "update_urgency": "MEDIUM"
       },
       {
-        "path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/core/symbolic/lukhas_context.md",
+        "path": "/Users/cognitive_dev/LOCAL-REPOS/Lukhas/candidate/core/symbolic/lukhas_context.md",
         "relative_path": "candidate/core/symbolic/lukhas_context.md",
         "priority_score": 75,
         "impact_analysis": {
@@ -485,7 +485,7 @@
         "update_urgency": "MEDIUM"
       },
       {
-        "path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/core/interfaces/lukhas_context.md",
+        "path": "/Users/cognitive_dev/LOCAL-REPOS/Lukhas/candidate/core/interfaces/lukhas_context.md",
         "relative_path": "candidate/core/interfaces/lukhas_context.md",
         "priority_score": 75,
         "impact_analysis": {
@@ -503,7 +503,7 @@
     ],
     "medium_priority": [
       {
-        "path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/memory/claude.me",
+        "path": "/Users/cognitive_dev/LOCAL-REPOS/Lukhas/memory/claude.me",
         "relative_path": "memory/claude.me",
         "priority_score": 70,
         "impact_analysis": {
@@ -519,7 +519,7 @@
         "update_urgency": "MEDIUM"
       },
       {
-        "path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/identity/claude.me",
+        "path": "/Users/cognitive_dev/LOCAL-REPOS/Lukhas/identity/claude.me",
         "relative_path": "identity/claude.me",
         "priority_score": 70,
         "impact_analysis": {
@@ -535,7 +535,7 @@
         "update_urgency": "MEDIUM"
       },
       {
-        "path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/governance/claude.me",
+        "path": "/Users/cognitive_dev/LOCAL-REPOS/Lukhas/governance/claude.me",
         "relative_path": "governance/claude.me",
         "priority_score": 70,
         "impact_analysis": {
@@ -551,7 +551,7 @@
         "update_urgency": "MEDIUM"
       },
       {
-        "path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/tools/lukhas_context.md",
+        "path": "/Users/cognitive_dev/LOCAL-REPOS/Lukhas/tools/lukhas_context.md",
         "relative_path": "tools/lukhas_context.md",
         "priority_score": 70,
         "impact_analysis": {
@@ -567,7 +567,7 @@
         "update_urgency": "MEDIUM"
       },
       {
-        "path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/bio/lukhas_context.md",
+        "path": "/Users/cognitive_dev/LOCAL-REPOS/Lukhas/bio/lukhas_context.md",
         "relative_path": "bio/lukhas_context.md",
         "priority_score": 70,
         "impact_analysis": {
@@ -583,7 +583,7 @@
         "update_urgency": "MEDIUM"
       },
       {
-        "path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/products/lukhas_context.md",
+        "path": "/Users/cognitive_dev/LOCAL-REPOS/Lukhas/products/lukhas_context.md",
         "relative_path": "products/lukhas_context.md",
         "priority_score": 70,
         "impact_analysis": {
@@ -599,7 +599,7 @@
         "update_urgency": "MEDIUM"
       },
       {
-        "path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/memory/lukhas_context.md",
+        "path": "/Users/cognitive_dev/LOCAL-REPOS/Lukhas/memory/lukhas_context.md",
         "relative_path": "memory/lukhas_context.md",
         "priority_score": 70,
         "impact_analysis": {
@@ -615,7 +615,7 @@
         "update_urgency": "MEDIUM"
       },
       {
-        "path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/identity/lukhas_context.md",
+        "path": "/Users/cognitive_dev/LOCAL-REPOS/Lukhas/identity/lukhas_context.md",
         "relative_path": "identity/lukhas_context.md",
         "priority_score": 70,
         "impact_analysis": {
@@ -631,7 +631,7 @@
         "update_urgency": "MEDIUM"
       },
       {
-        "path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/matriz/lukhas_context.md",
+        "path": "/Users/cognitive_dev/LOCAL-REPOS/Lukhas/matriz/lukhas_context.md",
         "relative_path": "matriz/lukhas_context.md",
         "priority_score": 70,
         "impact_analysis": {
@@ -647,7 +647,7 @@
         "update_urgency": "MEDIUM"
       },
       {
-        "path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/ethics/lukhas_context.md",
+        "path": "/Users/cognitive_dev/LOCAL-REPOS/Lukhas/ethics/lukhas_context.md",
         "relative_path": "ethics/lukhas_context.md",
         "priority_score": 70,
         "impact_analysis": {
@@ -663,7 +663,7 @@
         "update_urgency": "MEDIUM"
       },
       {
-        "path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/governance/lukhas_context.md",
+        "path": "/Users/cognitive_dev/LOCAL-REPOS/Lukhas/governance/lukhas_context.md",
         "relative_path": "governance/lukhas_context.md",
         "priority_score": 70,
         "impact_analysis": {
@@ -679,7 +679,7 @@
         "update_urgency": "MEDIUM"
       },
       {
-        "path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/quantum/lukhas_context.md",
+        "path": "/Users/cognitive_dev/LOCAL-REPOS/Lukhas/quantum/lukhas_context.md",
         "relative_path": "quantum/lukhas_context.md",
         "priority_score": 70,
         "impact_analysis": {
@@ -695,7 +695,7 @@
         "update_urgency": "MEDIUM"
       },
       {
-        "path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/matriz/core/claude.me",
+        "path": "/Users/cognitive_dev/LOCAL-REPOS/Lukhas/matriz/core/claude.me",
         "relative_path": "matriz/core/claude.me",
         "priority_score": 70,
         "impact_analysis": {
@@ -711,7 +711,7 @@
         "update_urgency": "MEDIUM"
       },
       {
-        "path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/memory/claude.me",
+        "path": "/Users/cognitive_dev/LOCAL-REPOS/Lukhas/lukhas/memory/claude.me",
         "relative_path": "lukhas/memory/claude.me",
         "priority_score": 70,
         "impact_analysis": {
@@ -727,7 +727,7 @@
         "update_urgency": "MEDIUM"
       },
       {
-        "path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/identity/claude.me",
+        "path": "/Users/cognitive_dev/LOCAL-REPOS/Lukhas/lukhas/identity/claude.me",
         "relative_path": "lukhas/identity/claude.me",
         "priority_score": 70,
         "impact_analysis": {
@@ -743,7 +743,7 @@
         "update_urgency": "MEDIUM"
       },
       {
-        "path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/governance/claude.me",
+        "path": "/Users/cognitive_dev/LOCAL-REPOS/Lukhas/lukhas/governance/claude.me",
         "relative_path": "lukhas/governance/claude.me",
         "priority_score": 70,
         "impact_analysis": {
@@ -759,7 +759,7 @@
         "update_urgency": "MEDIUM"
       },
       {
-        "path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/matriz/core/lukhas_context.md",
+        "path": "/Users/cognitive_dev/LOCAL-REPOS/Lukhas/matriz/core/lukhas_context.md",
         "relative_path": "matriz/core/lukhas_context.md",
         "priority_score": 70,
         "impact_analysis": {
@@ -775,7 +775,7 @@
         "update_urgency": "MEDIUM"
       },
       {
-        "path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/memory/lukhas_context.md",
+        "path": "/Users/cognitive_dev/LOCAL-REPOS/Lukhas/lukhas/memory/lukhas_context.md",
         "relative_path": "lukhas/memory/lukhas_context.md",
         "priority_score": 70,
         "impact_analysis": {
@@ -791,7 +791,7 @@
         "update_urgency": "MEDIUM"
       },
       {
-        "path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/identity/lukhas_context.md",
+        "path": "/Users/cognitive_dev/LOCAL-REPOS/Lukhas/lukhas/identity/lukhas_context.md",
         "relative_path": "lukhas/identity/lukhas_context.md",
         "priority_score": 70,
         "impact_analysis": {
@@ -807,7 +807,7 @@
         "update_urgency": "MEDIUM"
       },
       {
-        "path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/governance/lukhas_context.md",
+        "path": "/Users/cognitive_dev/LOCAL-REPOS/Lukhas/lukhas/governance/lukhas_context.md",
         "relative_path": "lukhas/governance/lukhas_context.md",
         "priority_score": 70,
         "impact_analysis": {
@@ -823,7 +823,7 @@
         "update_urgency": "MEDIUM"
       },
       {
-        "path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/core/identity/claude.me",
+        "path": "/Users/cognitive_dev/LOCAL-REPOS/Lukhas/candidate/core/identity/claude.me",
         "relative_path": "candidate/core/identity/claude.me",
         "priority_score": 70,
         "impact_analysis": {
@@ -839,7 +839,7 @@
         "update_urgency": "MEDIUM"
       },
       {
-        "path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/core/identity/lukhas_context.md",
+        "path": "/Users/cognitive_dev/LOCAL-REPOS/Lukhas/candidate/core/identity/lukhas_context.md",
         "relative_path": "candidate/core/identity/lukhas_context.md",
         "priority_score": 70,
         "impact_analysis": {
@@ -855,7 +855,7 @@
         "update_urgency": "MEDIUM"
       },
       {
-        "path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/memory/claude.me",
+        "path": "/Users/cognitive_dev/LOCAL-REPOS/Lukhas/candidate/memory/claude.me",
         "relative_path": "candidate/memory/claude.me",
         "priority_score": 60,
         "impact_analysis": {
@@ -871,7 +871,7 @@
         "update_urgency": "MEDIUM"
       },
       {
-        "path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/bridge/claude.me",
+        "path": "/Users/cognitive_dev/LOCAL-REPOS/Lukhas/candidate/bridge/claude.me",
         "relative_path": "candidate/bridge/claude.me",
         "priority_score": 60,
         "impact_analysis": {
@@ -887,7 +887,7 @@
         "update_urgency": "MEDIUM"
       },
       {
-        "path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/claude.me",
+        "path": "/Users/cognitive_dev/LOCAL-REPOS/Lukhas/candidate/governance/claude.me",
         "relative_path": "candidate/governance/claude.me",
         "priority_score": 60,
         "impact_analysis": {
@@ -903,7 +903,7 @@
         "update_urgency": "MEDIUM"
       },
       {
-        "path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/products/experience/claude.me",
+        "path": "/Users/cognitive_dev/LOCAL-REPOS/Lukhas/products/experience/claude.me",
         "relative_path": "products/experience/claude.me",
         "priority_score": 60,
         "impact_analysis": {
@@ -919,7 +919,7 @@
         "update_urgency": "MEDIUM"
       },
       {
-        "path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/products/enterprise/claude.me",
+        "path": "/Users/cognitive_dev/LOCAL-REPOS/Lukhas/products/enterprise/claude.me",
         "relative_path": "products/enterprise/claude.me",
         "priority_score": 60,
         "impact_analysis": {
@@ -935,7 +935,7 @@
         "update_urgency": "MEDIUM"
       },
       {
-        "path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/products/intelligence/claude.me",
+        "path": "/Users/cognitive_dev/LOCAL-REPOS/Lukhas/products/intelligence/claude.me",
         "relative_path": "products/intelligence/claude.me",
         "priority_score": 60,
         "impact_analysis": {
@@ -951,7 +951,7 @@
         "update_urgency": "MEDIUM"
       },
       {
-        "path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/matriz/visualization/claude.me",
+        "path": "/Users/cognitive_dev/LOCAL-REPOS/Lukhas/matriz/visualization/claude.me",
         "relative_path": "matriz/visualization/claude.me",
         "priority_score": 60,
         "impact_analysis": {
@@ -967,7 +967,7 @@
         "update_urgency": "MEDIUM"
       },
       {
-        "path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/ethics/drift_detection/claude.me",
+        "path": "/Users/cognitive_dev/LOCAL-REPOS/Lukhas/ethics/drift_detection/claude.me",
         "relative_path": "ethics/drift_detection/claude.me",
         "priority_score": 60,
         "impact_analysis": {
@@ -983,7 +983,7 @@
         "update_urgency": "MEDIUM"
       },
       {
-        "path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/ethics/compliance/claude.me",
+        "path": "/Users/cognitive_dev/LOCAL-REPOS/Lukhas/ethics/compliance/claude.me",
         "relative_path": "ethics/compliance/claude.me",
         "priority_score": 60,
         "impact_analysis": {
@@ -999,7 +999,7 @@
         "update_urgency": "MEDIUM"
       },
       {
-        "path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/ethics/guardian/claude.me",
+        "path": "/Users/cognitive_dev/LOCAL-REPOS/Lukhas/ethics/guardian/claude.me",
         "relative_path": "ethics/guardian/claude.me",
         "priority_score": 60,
         "impact_analysis": {
@@ -1015,7 +1015,7 @@
         "update_urgency": "MEDIUM"
       },
       {
-        "path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/products/experience/lukhas_context.md",
+        "path": "/Users/cognitive_dev/LOCAL-REPOS/Lukhas/products/experience/lukhas_context.md",
         "relative_path": "products/experience/lukhas_context.md",
         "priority_score": 60,
         "impact_analysis": {
@@ -1031,7 +1031,7 @@
         "update_urgency": "MEDIUM"
       },
       {
-        "path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/products/enterprise/lukhas_context.md",
+        "path": "/Users/cognitive_dev/LOCAL-REPOS/Lukhas/products/enterprise/lukhas_context.md",
         "relative_path": "products/enterprise/lukhas_context.md",
         "priority_score": 60,
         "impact_analysis": {
@@ -1047,7 +1047,7 @@
         "update_urgency": "MEDIUM"
       },
       {
-        "path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/products/intelligence/lukhas_context.md",
+        "path": "/Users/cognitive_dev/LOCAL-REPOS/Lukhas/products/intelligence/lukhas_context.md",
         "relative_path": "products/intelligence/lukhas_context.md",
         "priority_score": 60,
         "impact_analysis": {
@@ -1063,7 +1063,7 @@
         "update_urgency": "MEDIUM"
       },
       {
-        "path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/matriz/visualization/lukhas_context.md",
+        "path": "/Users/cognitive_dev/LOCAL-REPOS/Lukhas/matriz/visualization/lukhas_context.md",
         "relative_path": "matriz/visualization/lukhas_context.md",
         "priority_score": 60,
         "impact_analysis": {
@@ -1079,7 +1079,7 @@
         "update_urgency": "MEDIUM"
       },
       {
-        "path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/SYSTEM_CLAUDE_AUDIT/DOCS-copy-16-09025/lukhas_context.md",
+        "path": "/Users/cognitive_dev/LOCAL-REPOS/Lukhas/SYSTEM_CLAUDE_AUDIT/DOCS-copy-16-09025/lukhas_context.md",
         "relative_path": "SYSTEM_CLAUDE_AUDIT/DOCS-copy-16-09025/lukhas_context.md",
         "priority_score": 60,
         "impact_analysis": {
@@ -1095,7 +1095,7 @@
         "update_urgency": "MEDIUM"
       },
       {
-        "path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/ethics/drift_detection/lukhas_context.md",
+        "path": "/Users/cognitive_dev/LOCAL-REPOS/Lukhas/ethics/drift_detection/lukhas_context.md",
         "relative_path": "ethics/drift_detection/lukhas_context.md",
         "priority_score": 60,
         "impact_analysis": {
@@ -1111,7 +1111,7 @@
         "update_urgency": "MEDIUM"
       },
       {
-        "path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/ethics/compliance/lukhas_context.md",
+        "path": "/Users/cognitive_dev/LOCAL-REPOS/Lukhas/ethics/compliance/lukhas_context.md",
         "relative_path": "ethics/compliance/lukhas_context.md",
         "priority_score": 60,
         "impact_analysis": {
@@ -1127,7 +1127,7 @@
         "update_urgency": "MEDIUM"
       },
       {
-        "path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/ethics/guardian/lukhas_context.md",
+        "path": "/Users/cognitive_dev/LOCAL-REPOS/Lukhas/ethics/guardian/lukhas_context.md",
         "relative_path": "ethics/guardian/lukhas_context.md",
         "priority_score": 60,
         "impact_analysis": {
@@ -1145,7 +1145,7 @@
     ],
     "low_priority": [
       {
-        "path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/products/claude.me",
+        "path": "/Users/cognitive_dev/LOCAL-REPOS/Lukhas/products/claude.me",
         "relative_path": "products/claude.me",
         "priority_score": 50,
         "impact_analysis": {
@@ -1161,7 +1161,7 @@
         "update_urgency": "LOW"
       },
       {
-        "path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/matriz/claude.me",
+        "path": "/Users/cognitive_dev/LOCAL-REPOS/Lukhas/matriz/claude.me",
         "relative_path": "matriz/claude.me",
         "priority_score": 50,
         "impact_analysis": {
@@ -1177,7 +1177,7 @@
         "update_urgency": "LOW"
       },
       {
-        "path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/ethics/claude.me",
+        "path": "/Users/cognitive_dev/LOCAL-REPOS/Lukhas/ethics/claude.me",
         "relative_path": "ethics/claude.me",
         "priority_score": 50,
         "impact_analysis": {
@@ -1193,7 +1193,7 @@
         "update_urgency": "LOW"
       },
       {
-        "path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/products/experience/dashboard/claude.me",
+        "path": "/Users/cognitive_dev/LOCAL-REPOS/Lukhas/products/experience/dashboard/claude.me",
         "relative_path": "products/experience/dashboard/claude.me",
         "priority_score": 50,
         "impact_analysis": {
@@ -1209,7 +1209,7 @@
         "update_urgency": "LOW"
       },
       {
-        "path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/products/enterprise/compliance/claude.me",
+        "path": "/Users/cognitive_dev/LOCAL-REPOS/Lukhas/products/enterprise/compliance/claude.me",
         "relative_path": "products/enterprise/compliance/claude.me",
         "priority_score": 50,
         "impact_analysis": {
@@ -1225,7 +1225,7 @@
         "update_urgency": "LOW"
       },
       {
-        "path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/products/intelligence/lens/claude.me",
+        "path": "/Users/cognitive_dev/LOCAL-REPOS/Lukhas/products/intelligence/lens/claude.me",
         "relative_path": "products/intelligence/lens/claude.me",
         "priority_score": 50,
         "impact_analysis": {
@@ -1241,7 +1241,7 @@
         "update_urgency": "LOW"
       },
       {
-        "path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/products/intelligence/dast/claude.me",
+        "path": "/Users/cognitive_dev/LOCAL-REPOS/Lukhas/products/intelligence/dast/claude.me",
         "relative_path": "products/intelligence/dast/claude.me",
         "priority_score": 50,
         "impact_analysis": {
@@ -1257,7 +1257,7 @@
         "update_urgency": "LOW"
       },
       {
-        "path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/products/experience/dashboard/lukhas_context.md",
+        "path": "/Users/cognitive_dev/LOCAL-REPOS/Lukhas/products/experience/dashboard/lukhas_context.md",
         "relative_path": "products/experience/dashboard/lukhas_context.md",
         "priority_score": 50,
         "impact_analysis": {
@@ -1273,7 +1273,7 @@
         "update_urgency": "LOW"
       },
       {
-        "path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/products/enterprise/compliance/lukhas_context.md",
+        "path": "/Users/cognitive_dev/LOCAL-REPOS/Lukhas/products/enterprise/compliance/lukhas_context.md",
         "relative_path": "products/enterprise/compliance/lukhas_context.md",
         "priority_score": 50,
         "impact_analysis": {
@@ -1289,7 +1289,7 @@
         "update_urgency": "LOW"
       },
       {
-        "path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/products/intelligence/lens/lukhas_context.md",
+        "path": "/Users/cognitive_dev/LOCAL-REPOS/Lukhas/products/intelligence/lens/lukhas_context.md",
         "relative_path": "products/intelligence/lens/lukhas_context.md",
         "priority_score": 50,
         "impact_analysis": {
@@ -1305,7 +1305,7 @@
         "update_urgency": "LOW"
       },
       {
-        "path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/products/intelligence/dast/lukhas_context.md",
+        "path": "/Users/cognitive_dev/LOCAL-REPOS/Lukhas/products/intelligence/dast/lukhas_context.md",
         "relative_path": "products/intelligence/dast/lukhas_context.md",
         "priority_score": 50,
         "impact_analysis": {
@@ -1321,7 +1321,7 @@
         "update_urgency": "LOW"
       },
       {
-        "path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/tools/claude.me",
+        "path": "/Users/cognitive_dev/LOCAL-REPOS/Lukhas/tools/claude.me",
         "relative_path": "tools/claude.me",
         "priority_score": 40,
         "impact_analysis": {
@@ -1337,7 +1337,7 @@
         "update_urgency": "LOW"
       },
       {
-        "path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/bio/claude.me",
+        "path": "/Users/cognitive_dev/LOCAL-REPOS/Lukhas/bio/claude.me",
         "relative_path": "bio/claude.me",
         "priority_score": 40,
         "impact_analysis": {
@@ -1353,7 +1353,7 @@
         "update_urgency": "LOW"
       },
       {
-        "path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/quantum/claude.me",
+        "path": "/Users/cognitive_dev/LOCAL-REPOS/Lukhas/quantum/claude.me",
         "relative_path": "quantum/claude.me",
         "priority_score": 40,
         "impact_analysis": {

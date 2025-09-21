@@ -351,7 +351,7 @@ class ConstitutionalEmergencyResponse:
 
 ### Emerging Constitutional Considerations
 
-#### AGI Constitutional Framework
+#### Cognitive AI Constitutional Framework
 - **AI Rights Recognition**: Preparing for AI consciousness rights
 - **Human-AI Equality**: Establishing equality between human and AI consciousness
 - **Hybrid Consciousness**: Constitutional framework for human-AI consciousness fusion

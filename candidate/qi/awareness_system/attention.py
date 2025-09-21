@@ -45,7 +45,7 @@ class CristaGate(nn.Module):
 
 
 # ──────────────────────────────────────────────────────────────────────────────
-# 2. RespiModule – Modular AGI Supercomplex Inspired by Respirasomes
+# 2. RespiModule – Modular Cognitive AI Supercomplex Inspired by Respirasomes
 # ──────────────────────────────────────────────────────────────────────────────
 
 
@@ -115,7 +115,7 @@ def generate_cl_signature(system_state):
 
 
 # ──────────────────────────────────────────────────────────────────────────────
-# 5. Mitochondrial Orchestra – Distributed AGI Playback System
+# 5. Mitochondrial Orchestra – Distributed Cognitive AI Playback System
 # ──────────────────────────────────────────────────────────────────────────────
 
 

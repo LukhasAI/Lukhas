@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 """
-AGI-Enhanced Communication Products System
-Enhances LUKHAS communication products (NIAS, ABAS) with advanced AGI language capabilities
+Cognitive AI-Enhanced Communication Products System
+Enhances LUKHAS communication products (NIAS, ABAS) with advanced cognitive AI language capabilities
 
 Part of the LUKHAS AI MΛTRIZ Consciousness Architecture
-Implements Phase 2C: Communication product integration with AGI language models
+Implements Phase 2C: Communication product integration with Cognitive AI language models
 """
 
 import asyncio
@@ -20,7 +20,7 @@ logger = logging.getLogger("cognitive_core.products.communication")
 
 
 class CommunicationMode(Enum):
-    """AGI communication processing modes"""
+    """Cognitive AI communication processing modes"""
 
     EMPATHETIC = "empathetic"  # Emotional intelligence and empathy
     PERSUASIVE = "persuasive"  # Ethical persuasion and influence
@@ -32,7 +32,7 @@ class CommunicationMode(Enum):
 
 @dataclass
 class CommunicationQuery:
-    """Query for AGI-enhanced communication processing"""
+    """Query for Cognitive AI-enhanced communication processing"""
 
     id: str
     content: str
@@ -54,7 +54,7 @@ class CommunicationQuery:
 
 @dataclass
 class CommunicationResult:
-    """Result of AGI-enhanced communication processing"""
+    """Result of Cognitive AI-enhanced communication processing"""
 
     query_id: str
     enhanced_content: str
@@ -84,7 +84,7 @@ class CommunicationProductsEnhancer:
         self.enhanced_nias = AGIEnhancedNIAS()
         self.enhanced_abas = AGIEnhancedABAS()
 
-        # AGI integration layer
+        # Cognitive AI integration layer
         self._agi_vocabulary = self._initialize_vocabulary()
         self._agi_reasoning = self._initialize_reasoning()
         self._agi_memory = self._initialize_memory()
@@ -92,7 +92,7 @@ class CommunicationProductsEnhancer:
         logger.info(f"Communication Products Enhancer initialized with session {self.session_id}")
 
     def _initialize_vocabulary(self) -> dict[str, Any]:
-        """Initialize AGI vocabulary integration"""
+        """Initialize Cognitive AI vocabulary integration"""
         return {
             "empathy_markers": ["understand", "feel", "experience", "relate"],
             "persuasion_techniques": ["because", "imagine", "consider", "benefit"],
@@ -103,7 +103,7 @@ class CommunicationProductsEnhancer:
         }
 
     def _initialize_reasoning(self) -> dict[str, Any]:
-        """Initialize AGI reasoning capabilities"""
+        """Initialize Cognitive AI reasoning capabilities"""
         return {
             "chain_of_thought": True,
             "tree_of_thoughts": True,
@@ -114,7 +114,7 @@ class CommunicationProductsEnhancer:
         }
 
     def _initialize_memory(self) -> dict[str, Any]:
-        """Initialize AGI memory integration"""
+        """Initialize Cognitive AI memory integration"""
         return {
             "communication_patterns": {},
             "user_preferences": {},
@@ -144,7 +144,7 @@ class CommunicationProductsEnhancer:
             else:
                 result = await self._process_default_communication(query)
 
-            # 2. Enhance with AGI reasoning
+            # 2. Enhance with Cognitive AI reasoning
             result = await self._apply_agi_reasoning(query, result)
 
             # 3. Emotional and attention analysis
@@ -158,12 +158,12 @@ class CommunicationProductsEnhancer:
             result.processing_time = time.time() - start_time
             result.metadata = {
                 "session_id": self.session_id,
-                "agi_enhanced": True,
+                "cognitive_enhanced": True,
                 "constellation_aligned": True,
                 "triad_framework": "⚛️🧠🛡️",
                 "processing_steps": [
                     "mode_specific",
-                    "agi_reasoning",
+                    "cognitive_reasoning",
                     "emotional_analysis",
                     "attention_prediction",
                     "alternatives",
@@ -203,7 +203,7 @@ class CommunicationProductsEnhancer:
         self._agi_vocabulary["empathy_markers"]
         enhanced_content = query.content
 
-        # Mock AGI processing - in production would use actual language models
+        # Mock Cognitive AI processing - in production would use actual language models
         if user_stress > 0.7:
             enhanced_content = f"I understand this might feel overwhelming. {query.content}"
             enhanced_content += " Take your time with this."
@@ -242,7 +242,7 @@ class CommunicationProductsEnhancer:
         self._agi_vocabulary["persuasion_techniques"]
         enhanced_content = query.content
 
-        # Mock AGI processing with ethical persuasion
+        # Mock Cognitive AI processing with ethical persuasion
         if "benefit" in " ".join(goals).lower():
             enhanced_content = f"Consider the benefits: {query.content}"
             enhanced_content += " This could help you achieve your goals."
@@ -281,7 +281,7 @@ class CommunicationProductsEnhancer:
         self._agi_vocabulary["clarity_indicators"]
         enhanced_content = query.content
 
-        # Mock AGI processing for clarity
+        # Mock Cognitive AI processing for clarity
         if complexity == "high":
             enhanced_content = f"To be specific: {query.content}"
             enhanced_content += " Let me break this down clearly."
@@ -320,7 +320,7 @@ class CommunicationProductsEnhancer:
         self._agi_vocabulary["creative_elements"]
         enhanced_content = query.content
 
-        # Mock AGI processing with creativity (would integrate with dream system)
+        # Mock Cognitive AI processing with creativity (would integrate with dream system)
         if creative_level > 0.8:
             enhanced_content = f"Let's transform this idea: {query.content}"
             enhanced_content += " Imagine the creative possibilities!"
@@ -359,7 +359,7 @@ class CommunicationProductsEnhancer:
         self._agi_vocabulary["analytical_terms"]
         enhanced_content = query.content
 
-        # Mock AGI processing with analysis
+        # Mock Cognitive AI processing with analysis
         if data_available:
             enhanced_content = f"Based on the data: {query.content}"
             enhanced_content += " The evidence supports this conclusion."
@@ -399,7 +399,7 @@ class CommunicationProductsEnhancer:
         self._agi_vocabulary["contextual_adaptors"]
         enhanced_content = query.content
 
-        # Mock AGI processing with context awareness
+        # Mock Cognitive AI processing with context awareness
         if relationship_context == "personal":
             enhanced_content = f"Given our relationship: {query.content}"
             enhanced_content += " I wanted to share this with you personally."
@@ -446,7 +446,7 @@ class CommunicationProductsEnhancer:
         )
 
     async def _apply_agi_reasoning(self, query: CommunicationQuery, result: CommunicationResult) -> CommunicationResult:
-        """Apply AGI reasoning capabilities to enhance communication"""
+        """Apply Cognitive AI reasoning capabilities to enhance communication"""
 
         # Chain-of-thought reasoning
         if self._agi_reasoning["chain_of_thought"]:
@@ -455,7 +455,7 @@ class CommunicationProductsEnhancer:
                 f"2. Considered target audience: {query.target_audience}",
                 f"3. Applied constraints: {query.constraints}",
                 f"4. Optimized for goals: {query.goals}",
-                "5. Enhanced with AGI language models",
+                "5. Enhanced with Cognitive AI language models",
             ]
             result.reasoning.extend(reasoning_steps)
             result.confidence_score += 0.1
@@ -570,20 +570,20 @@ class CommunicationProductsEnhancer:
 
 
 class AGIEnhancedNIAS:
-    """AGI-enhanced Non-Intrusive Advertising System with advanced language models"""
+    """Cognitive AI-enhanced Non-Intrusive Advertising System with advanced language models"""
 
     def __init__(self):
-        self.agi_enabled = True
+        self.cognitive_enabled = True
         self.language_models = {
-            "empathy": "AGI-Empathy-Model",
-            "persuasion": "AGI-Ethical-Persuasion-Model",
-            "creativity": "AGI-Creative-Language-Model",
-            "analysis": "AGI-Analytical-Language-Model",
+            "empathy": "Cognitive AI-Empathy-Model",
+            "persuasion": "Cognitive AI-Ethical-Persuasion-Model",
+            "creativity": "Cognitive AI-Creative-Language-Model",
+            "analysis": "Cognitive AI-Analytical-Language-Model",
         }
-        logger.info("AGI-Enhanced NIAS initialized")
+        logger.info("Cognitive AI-Enhanced NIAS initialized")
 
     async def enhance_symbolic_message(self, message_content: str, user_context: dict[str, Any]) -> dict[str, Any]:
-        """Enhance symbolic messages with AGI language models"""
+        """Enhance symbolic messages with Cognitive AI language models"""
 
         # Create communication query
         query = CommunicationQuery(
@@ -606,11 +606,11 @@ class AGIEnhancedNIAS:
             "emotional_impact": result.emotional_analysis,
             "attention_requirements": result.attention_prediction,
             "alternatives": result.alternative_versions,
-            "agi_enhanced": True,
+            "cognitive_enhanced": True,
         }
 
     async def generate_consent_request(self, context: dict[str, Any]) -> dict[str, Any]:
-        """Generate AGI-enhanced consent requests"""
+        """Generate Cognitive AI-enhanced consent requests"""
 
         query = CommunicationQuery(
             id=str(uuid.uuid4()),
@@ -629,24 +629,24 @@ class AGIEnhancedNIAS:
             "consent_message": result.enhanced_content,
             "clarity_score": result.confidence_score,
             "transparency_indicators": result.metadata,
-            "agi_enhanced": True,
+            "cognitive_enhanced": True,
         }
 
 
 class AGIEnhancedABAS:
-    """AGI-enhanced Attention Boundary System with intelligent communication"""
+    """Cognitive AI-enhanced Attention Boundary System with intelligent communication"""
 
     def __init__(self):
-        self.agi_enabled = True
+        self.cognitive_enabled = True
         self.attention_models = {
-            "flow_protection": "AGI-Flow-State-Model",
-            "overload_prevention": "AGI-Cognitive-Load-Model",
-            "boundary_negotiation": "AGI-Boundary-Communication-Model",
+            "flow_protection": "Cognitive AI-Flow-State-Model",
+            "overload_prevention": "Cognitive AI-Cognitive-Load-Model",
+            "boundary_negotiation": "Cognitive AI-Boundary-Communication-Model",
         }
-        logger.info("AGI-Enhanced ABAS initialized")
+        logger.info("Cognitive AI-Enhanced ABAS initialized")
 
     async def generate_boundary_message(self, boundary_type: str, user_context: dict[str, Any]) -> dict[str, Any]:
-        """Generate AGI-enhanced boundary protection messages"""
+        """Generate Cognitive AI-enhanced boundary protection messages"""
 
         base_messages = {
             "flow_protection": "You seem to be in a focused flow state. I'll protect your concentration.",
@@ -672,11 +672,11 @@ class AGIEnhancedABAS:
             "empathy_score": result.emotional_analysis.get("empathy", 0.5),
             "protection_level": result.confidence_score,
             "suggested_actions": result.alternative_versions,
-            "agi_enhanced": True,
+            "cognitive_enhanced": True,
         }
 
     async def negotiate_attention_request(self, request_context: dict[str, Any]) -> dict[str, Any]:
-        """Generate AGI-enhanced attention request negotiations"""
+        """Generate Cognitive AI-enhanced attention request negotiations"""
 
         query = CommunicationQuery(
             id=str(uuid.uuid4()),
@@ -696,15 +696,15 @@ class AGIEnhancedABAS:
             "context_awareness": result.confidence_score,
             "user_options": result.alternative_versions,
             "attention_impact": result.attention_prediction,
-            "agi_enhanced": True,
+            "cognitive_enhanced": True,
         }
 
 
 # Integration and testing functions
 async def test_communication_enhancement():
-    """Test the AGI-enhanced communication products"""
+    """Test the Cognitive AI-enhanced communication products"""
 
-    print("🗣️ AGI-Enhanced Communication Products Test")
+    print("🗣️ Cognitive AI-Enhanced Communication Products Test")
     print("=" * 60)
 
     enhancer = CommunicationProductsEnhancer()
@@ -739,7 +739,7 @@ async def test_communication_enhancement():
         {"user_type": "creative_professional", "current_project": "design", "stress_level": 0.3},
     )
 
-    print("\n🎯 AGI-Enhanced NIAS Test:")
+    print("\n🎯 Cognitive AI-Enhanced NIAS Test:")
     print(f"   Enhanced Message: {nias_result['enhanced_message']}")
     print(f"   Confidence: {nias_result['confidence']:.2f}")
     print(f"   Emotional Impact: {list(nias_result['emotional_impact'].keys())}")
@@ -750,7 +750,7 @@ async def test_communication_enhancement():
         "flow_protection", {"focus_level": 0.9, "flow_state": True, "interruption_risk": "high"}
     )
 
-    print("\n🛡️ AGI-Enhanced ABAS Test:")
+    print("\n🛡️ Cognitive AI-Enhanced ABAS Test:")
     print(f"   Boundary Message: {abas_result['boundary_message']}")
     print(f"   Empathy Score: {abas_result['empathy_score']:.2f}")
     print(f"   Protection Level: {abas_result['protection_level']:.2f}")

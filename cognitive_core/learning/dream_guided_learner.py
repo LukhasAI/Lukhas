@@ -1,5 +1,5 @@
 """
-Dream-Guided Learning System for AGI
+Dream-Guided Learning System for Cognitive AI
 
 Integrates dream processing with learning mechanisms for creative
 and intuitive learning beyond traditional supervised approaches.
@@ -104,7 +104,7 @@ class LearningSession:
 
 class DreamGuidedLearner:
     """
-    Advanced Dream-Guided Learning System for AGI
+    Advanced Dream-Guided Learning System for Cognitive AI
 
     Combines traditional learning approaches with dream-enhanced creativity
     and intuition for more human-like learning experiences.

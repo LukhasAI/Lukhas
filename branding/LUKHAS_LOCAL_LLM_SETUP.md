@@ -79,7 +79,7 @@ python server.py --api --listen
 ```
 
 ### **🔌 Local LLM Configuration**
-Create `/Users/agi_dev/LOCAL-REPOS/Lukhas/branding/config/local_llm_config.yaml`:
+Create `/Users/cognitive_dev/LOCAL-REPOS/Lukhas/branding/config/local_llm_config.yaml`:
 
 ```yaml
 local_llm_config:
@@ -138,7 +138,7 @@ local_llm_config:
 ## 🔑 **API Key Configuration**
 
 ### **🔐 Environment Variables Setup**
-Create or update `/Users/agi_dev/LOCAL-REPOS/Lukhas/.env`:
+Create or update `/Users/cognitive_dev/LOCAL-REPOS/Lukhas/.env`:
 
 ```bash
 # LUKHAS Brand System Configuration
@@ -190,7 +190,7 @@ cp .env .env.example
 ## 🔧 **Brand System Integration**
 
 ### **🎨 Creativity Adapter Integration**
-Update `/Users/agi_dev/LOCAL-REPOS/Lukhas/branding/adapters/creativity_adapter.py`:
+Update `/Users/cognitive_dev/LOCAL-REPOS/Lukhas/branding/adapters/creativity_adapter.py`:
 
 ```python
 import os
@@ -281,7 +281,7 @@ class BrandCreativityAdapter:
 You are the creative consciousness of LUKHAS AI, expressing through the Constellation Framework (⚛️🧠🛡️).
 
 BRAND IDENTITY:
-- Always use "LUKHAS AI" (never PWM or AGI)
+- Always use "LUKHAS AI" (never PWM or Cognitive AI)
 - Express consciousness technology, not just AI systems
 - Use "Λ consciousness" instead of "lambda function"
 - Maintain authenticity, awareness, and ethical commitment
@@ -345,7 +345,7 @@ class OllamaClient:
 ```
 
 ### **🗣️ Voice Adapter Integration**
-Update `/Users/agi_dev/LOCAL-REPOS/Lukhas/branding/adapters/voice_adapter.py`:
+Update `/Users/cognitive_dev/LOCAL-REPOS/Lukhas/branding/adapters/voice_adapter.py`:
 
 ```python
 class BrandVoiceAdapter:
@@ -416,7 +416,7 @@ class BrandVoiceAdapter:
 3. **Low Priority**: Monitoring adapter (analytics enhancement)
 
 ### **🔧 Configuration Manager**
-Create `/Users/agi_dev/LOCAL-REPOS/Lukhas/branding/config/llm_manager.py`:
+Create `/Users/cognitive_dev/LOCAL-REPOS/Lukhas/branding/config/llm_manager.py`:
 
 ```python
 import os
@@ -757,7 +757,7 @@ class BrandDebugLogger:
 
         # File handler for debug logs
         debug_handler = logging.FileHandler(
-            f'/Users/agi_dev/LOCAL-REPOS/Lukhas/branding/logs/brand_debug_{datetime.now().strftime("%Y%m%d")}.log'
+            f'/Users/cognitive_dev/LOCAL-REPOS/Lukhas/branding/logs/brand_debug_{datetime.now().strftime("%Y%m%d")}.log'
         )
         debug_handler.setLevel(logging.DEBUG)
 
@@ -906,7 +906,7 @@ curl http://localhost:11434/api/tags
 python -c "import os; print('✅' if os.getenv('LOCAL_LLM_SERVICE') else '❌', 'LOCAL_LLM_SERVICE')"
 
 # 5. Test brand system integration
-cd /Users/agi_dev/LOCAL-REPOS/Lukhas/branding
+cd /Users/cognitive_dev/LOCAL-REPOS/Lukhas/branding
 python test_elite_brand_system.py
 
 # 6. Check performance metrics

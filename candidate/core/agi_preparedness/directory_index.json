@@ -1,7 +1,7 @@
 {
   "schema_version": "3.0.0",
   "directory_metadata": {
-    "path": "candidate/core/agi_preparedness",
+    "path": "candidate/core/cognitive_preparedness",
     "lane": "development",
     "purpose": "Directory containing 4 Python files and 0 subdirectories",
     "last_updated": "2025-09-21",
@@ -48,7 +48,7 @@
         "exports": []
       },
       {
-        "filename": "agi_governance_framework.py",
+        "filename": "cognitive_governance_framework.py",
         "component_type": "UTILITY",
         "has_contract": false,
         "contract_path": null,

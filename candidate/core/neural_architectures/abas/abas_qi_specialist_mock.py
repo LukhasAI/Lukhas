@@ -295,7 +295,7 @@ class ABASQuantumSpecialistWrapper:
 
 
 def get_quantum_biological_agi() -> Optional[ABASQuantumSpecialistWrapper]:
-    """Factory function for mock quantum biological AGI"""
+    """Factory function for mock quantum biological Cognitive AI"""
     try:
         return ABASQuantumSpecialistWrapper()
     except Exception as e:

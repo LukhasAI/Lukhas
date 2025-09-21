@@ -1,7 +1,7 @@
 """
 Enhanced Memory Architecture with Vector Store Integration
 
-Advanced memory system for AGI that integrates with LUKHAS fold-based memory
+Advanced memory system for Cognitive AI that integrates with LUKHAS fold-based memory
 and dream system for persistent, contextual, and associative memory storage.
 """
 

@@ -153,7 +153,7 @@ def symbolic_boot(workspace_path: Optional[str] = None) -> dict[str, Any]:
 
 def main():
     """Main function for testing."""
-    logger.info("🚀 LUKHAS AGI Symbolic Boot")
+    logger.info("🚀 LUKHAS Cognitive AI Symbolic Boot")
     logger.info("=" * 40)
 
     bootstrap = get_bootstrap()

@@ -64,7 +64,7 @@ Banned terms and superlatives that violate LUKHAS messaging standards.
 - Superlatives (revolutionary, groundbreaking, ultimate)
 - Misleading claims (true AI, sentient, conscious AI)
 - Inaccurate technical terms (quantum processing vs quantum-inspired)
-- Deprecated LUKHAS terms (LUKHAS AGI, MATADA)
+- Deprecated LUKHAS terms (LUKHAS Cognitive AI, MATADA)
 - Production claims (only when explicitly approved)
 - Financial claims (avoid all revenue/pricing projections)
 
@@ -87,7 +87,7 @@ Approved strong claims backed by evidence and technical documentation.
 ### Technical Accuracy Requirements
 - Always use "quantum-inspired" not "quantum processing"
 - Always use "bio-inspired" not "biological processing"
-- Use "LUKHAS AI" never "LUKHAS AGI"
+- Use "LUKHAS AI" never "LUKHAS Cognitive AI"
 - Product name: "MΛTRIZ" (display) / "Matriz" (plain text)
 
 ### Reading Level Standards
@@ -192,7 +192,7 @@ When adding new vocabulary:
 
 ### Problematic Usage
 ❌ "Revolutionary quantum AI brain"
-❌ "Sentient LUKHAS AGI achieves consciousness"
+❌ "Sentient LUKHAS Cognitive AI achieves consciousness"
 ❌ "Ultimate groundbreaking artificial general intelligence"
 ❌ "In the infinite cathedral of quantum consciousness where probability waves dance through crystalline architectures of pure awareness" (17 words over limit)
 

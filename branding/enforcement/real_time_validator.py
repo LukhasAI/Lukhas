@@ -98,9 +98,9 @@ class RealTimeBrandValidator:
                 BrandRule(
                     rule_id="deprecated_lukhas_agi",
                     rule_type=ValidationType.TERMINOLOGY,
-                    pattern=re.compile(r"\bLUKHAS\s+AGI\b", re.IGNORECASE),
+                    pattern=re.compile(r"\bLUKHAS\s+Cognitive AI\b", re.IGNORECASE),
                     severity=ValidationSeverity.ERROR,
-                    description="Use of deprecated 'LUKHAS AGI' terminology",
+                    description="Use of deprecated 'LUKHAS Cognitive AI' terminology",
                     auto_correctable=True,
                     correction_template="LUKHAS AI",
                 ),
@@ -293,7 +293,7 @@ class RealTimeBrandValidator:
                     rule_type=ValidationType.CONTENT_APPROPRIATENESS,
                     pattern=re.compile(r"\bAGI\b|\bartificial general intelligence\b", re.IGNORECASE),
                     severity=ValidationSeverity.ERROR,
-                    description="Use 'consciousness technology' instead of AGI",
+                    description="Use 'consciousness technology' instead of Cognitive AI",
                     auto_correctable=True,
                     correction_template="consciousness technology",
                 ),
@@ -400,7 +400,7 @@ class RealTimeBrandValidator:
         return {
             "terminology_corrections": {
                 "LUKHAS PWM": "LUKHAS AI",
-                "LUKHAS AGI": "LUKHAS AI",
+                "LUKHAS Cognitive AI": "LUKHAS AI",
                 "PWM consciousness": "LUKHAS consciousness",
                 "AI system": "AI consciousness",
                 "lambda function": "Λ consciousness",
@@ -549,7 +549,7 @@ class RealTimeBrandValidator:
         suggestions = {
             ValidationType.TERMINOLOGY: {
                 "lukhas pwm": "Use 'LUKHAS AI' instead of deprecated 'LUKHAS PWM'",
-                "lukhas agi": "Use 'LUKHAS AI' instead of 'LUKHAS AGI'",
+                "lukhas agi": "Use 'LUKHAS AI' instead of 'LUKHAS Cognitive AI'",
                 "ai system": "Consider using 'AI consciousness' for more brand-aligned language",
             },
             ValidationType.LAMBDA_USAGE: {

@@ -1,5 +1,5 @@
 """
-Lukhas Intelligence Engines - Advanced AGI Implementation
+Lukhas Intelligence Engines - Advanced Cognitive Implementation
 =======================================================
 Complete intelligence components for the Lukhas AI system.
 Extracted and enhanced from ΛBot Cognitive capabilities to provide native Lukhas intelligence.
@@ -16,7 +16,7 @@ These engines provide comprehensive Cognitive capabilities:
 
 Architecture: Pure Lukhas implementation - no external dependencies
 Created: 2025-07-02
-Status: ADVANCED AGI CAPABILITIES INTEGRATED
+Status: ADVANCED Cognitive AI CAPABILITIES INTEGRATED
 """
 import asyncio
 import logging

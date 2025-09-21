@@ -98,9 +98,9 @@ class AdvancedSymbolicDeltaCompressor:
         self.motif_min_frequency = motif_min_frequency
         self.emotion_weight_factor = emotion_weight_factor
         self.compressed_memory_path = (
-            "/Users/agi_dev/Downloads/Consolidation-Repo/logs/fold/advanced_compressed_memory.jsonl"
+            "/Users/cognitive_dev/Downloads/Consolidation-Repo/logs/fold/advanced_compressed_memory.jsonl"
         )
-        self.motif_database_path = "/Users/agi_dev/Downloads/Consolidation-Repo/logs/fold/motif_database.jsonl"
+        self.motif_database_path = "/Users/cognitive_dev/Downloads/Consolidation-Repo/logs/fold/motif_database.jsonl"
 
         # Emotional keyword patterns for advanced detection
         self.emotional_patterns = {
@@ -788,7 +788,7 @@ def create_advanced_compressor(
 ║
 ║ REFERENCES:
 ║   - Docs: docs/memory/compression/symbolic_delta.md
-║   - Issues: github.com/lukhas-ai/agi/issues?label=compression
+║   - Issues: github.com/lukhas-ai/cognitive/issues?label=compression
 ║   - Wiki: wiki.lukhas.ai/symbolic-compression
 ║
 ║ COPYRIGHT & LICENSE:

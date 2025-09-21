@@ -170,7 +170,7 @@ RESPOND WITH JSON:
 }
 
 Focus on these common LUKHAS patterns:
-- Use "LUKHAS AI" not "PWM" or generic "AGI"
+- Use "LUKHAS AI" not "PWM" or generic "Cognitive AI"
 - Consciousness patterns over lambda functions
 - Constellation Framework integration (⚛️🧠🛡️)
 - Proper import structures for modular architecture

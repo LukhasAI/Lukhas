@@ -6,7 +6,7 @@
 
 
 class CognitiveSyncAdapter:
-    """Adjusts entropy sync rates based on cognitive load with AGI-proof tracking."""
+    """Adjusts entropy sync rates based on cognitive load with Cognitive AI-proof tracking."""
 
     def __init__(self):
         self.sync_rate = 1.0

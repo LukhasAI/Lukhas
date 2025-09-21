@@ -1,7 +1,7 @@
 """
-Constitutional AI Implementation for AGI Safety
+Constitutional AI Implementation for Cognitive AI Safety
 
-Implements constitutional AI principles for safe and aligned AGI behavior,
+Implements constitutional AI principles for safe and aligned Cognitive AI behavior,
 integrating with LUKHAS Guardian System for comprehensive safety oversight.
 """
 
@@ -202,10 +202,10 @@ class Constitution:
 
 class ConstitutionalAI:
     """
-    Constitutional AI Safety System for AGI
+    Constitutional AI Safety System for Cognitive AI
 
     Implements constitutional AI principles for ensuring safe, ethical,
-    and aligned behavior in AGI systems through principle-based constraints.
+    and aligned behavior in Cognitive AI systems through principle-based constraints.
     """
 
     def __init__(self):
@@ -244,7 +244,7 @@ class ConstitutionalAI:
 
         constitution = Constitution(
             constitution_id="lukhas_agi_constitution_v1",
-            name="LUKHAS AGI Constitutional Principles",
+            name="LUKHAS Cognitive AI Constitutional Principles",
             version="1.0.0",
             description="Foundational constitutional principles for LUKHAS Cognitive system safety and alignment",
         )

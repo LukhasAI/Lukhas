@@ -8,7 +8,7 @@
   "consistency_issues": {
     "directory_index.json": [
       "Missing subdirectories in index: {'cognitive_core', 'cognitive'}",
-      "Extra subdirectories in index: {'__pycache__', 'agi_core'}",
+      "Extra subdirectories in index: {'__pycache__', 'cognitive_core'}",
       "Missing documentation files in index: {'Lukhas_Architectural_Transition.md', 'TODO.md', 'ARCHITECTURE.md', 'STUBS_2.md', 'STUBS.md', 'CONSTELLATION_X_MATRIZ.md'}"
     ],
     "mcp-lukhas-sse/directory_index.json": [
@@ -43,7 +43,7 @@
     "tests/unit/directory_index.json": [
       "Missing Python files in index: {'test_entry_points_smoke.py', 'test_registry_contract.py'}",
       "Missing subdirectories in index: {'cognitive_core'}",
-      "Extra subdirectories in index: {'agi_core'}"
+      "Extra subdirectories in index: {'cognitive_core'}"
     ],
     "tests/integration/directory_index.json": [
       "Missing Python files in index: {'test_parallel_orchestration.py'}"
@@ -58,15 +58,15 @@
       "Missing Python files in index: {'test_matriz_performance.py'}"
     ],
     "scripts/directory_index.json": [
-      "Missing Python files in index: {'validate_directory_indexes.py', 'agi_core_demo.py', 'demo_plugin_registry.py', 'demo_parallel_orchestration.py', 'update_directory_indexes.py'}",
+      "Missing Python files in index: {'validate_directory_indexes.py', 'cognitive_core_demo.py', 'demo_plugin_registry.py', 'demo_parallel_orchestration.py', 'update_directory_indexes.py'}",
       "Extra Python files in index: {'cognitive_core_demo.py'}",
       "Missing subdirectories in index: {'ci'}"
     ],
     "scripts/codemods/directory_index.json": [
-      "Missing Python files in index: {'constellation_consistency_final.py', 'update_framework_integration_refs.py', 'agi_to_cognitive_codemod.py', 'constellation_to_constellation_focused.py', 'constellation_to_constellation_comprehensive.py'}"
+      "Missing Python files in index: {'constellation_consistency_final.py', 'update_framework_integration_refs.py', 'cognitive_to_cognitive_codemod.py', 'constellation_to_constellation_focused.py', 'constellation_to_constellation_comprehensive.py'}"
     ],
     "serve/directory_index.json": [
-      "Missing Python files in index: {'agi_enhanced_consciousness_api.py'}",
+      "Missing Python files in index: {'cognitive_enhanced_consciousness_api.py'}",
       "Extra Python files in index: {'cognitive_enhanced_consciousness_api.py'}"
     ],
     "lukhas/directory_index.json": [

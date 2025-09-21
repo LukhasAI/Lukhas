@@ -379,7 +379,7 @@ def ethics_check_compliance_endpoint():  # Renamed for clarity:
 @app.route(f"{BASE_PATH}/memory/store", methods=["POST"])
 @require_auth("LAMBDA_TIER_1")
 def memory_store_item_endpoint():  # Renamed:
-    """Store an item (e.g., text, data) in the AGI's memory system."""
+    """Store an item (e.g., text, data) in the Cognitive AI's memory system."""
     endpoint_path = "/memory/store"
     user_id = get_request_user_id()
     logger.info(f"ΛTRACE: Request received for {endpoint_path} by user '{user_id}'.")
@@ -730,7 +730,7 @@ def learning_learn_from_data_endpoint():  # Renamed:
 @app.route(f"{BASE_PATH}/learning/adapt", methods=["POST"])
 @require_auth("LAMBDA_TIER_2")
 def learning_adapt_behavior_endpoint():  # Renamed:
-    """Adapt AGI behavior based on provided context and target behaviors."""
+    """Adapt Cognitive AI behavior based on provided context and target behaviors."""
     endpoint_path = "/learning/adapt"
     user_id = get_request_user_id()
     logger.info(f"ΛTRACE: Request received for {endpoint_path} by user '{user_id}'.")
@@ -923,7 +923,7 @@ def system_api_info_endpoint():  # Renamed:
     logger.info(f"ΛTRACE: Request received for {endpoint_path} by user '{user_id}'.")
     api_info_data = {
         "success": True,
-        "api_name": "LUKHAS AGI API",
+        "api_name": "LUKHAS Cognitive AI API",
         "api_version": API_VERSION,
         "base_path": BASE_PATH,
         "timestamp": datetime.now(timezone.utc).isoformat(),
@@ -1065,7 +1065,7 @@ if __name__ == "__main__":
         "yes",
     ]
 
-    logger.info(f"🚀 LUKHAS AGI API Server starting on {host_setting}:{port_setting} (Debug: {debug_setting})...")
+    logger.info(f"🚀 LUKHAS Cognitive AI API Server starting on {host_setting}:{port_setting} (Debug: {debug_setting})...")
     logger.info(f"🔗 API Base Path: {BASE_PATH}")
     logger.info("🔑 Authentication expected via 'X-User-ID' header.")
     logger.info(f"🩺 Health Check endpoint available at: {BASE_PATH}/health")

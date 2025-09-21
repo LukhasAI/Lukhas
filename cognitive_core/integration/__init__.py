@@ -1,12 +1,12 @@
 """
-AGI Integration Services
+Cognitive Integration Services
 =======================
 
 Integration services for connecting Cognitive capabilities with existing LUKHAS systems.
 
 This module provides:
 - Vocabulary integration and cross-system symbolic communication
-- Service bridges for AGI-LUKHAS system connections
+- Service bridges for Cognitive AI-LUKHAS system connections
 - Translation layers for legacy system compatibility
 - Unified logging and monitoring integration
 - Complete Cognitive service lifecycle management
@@ -16,32 +16,32 @@ Created: 2025-09-05
 Status: ACTIVE
 """
 
-from .agi_modulation_bridge import (
+from .cognitive_modulation_bridge import (
     AGIModulationBridge,
     AGIModulationMode,
     AGIModulationParams,
-    agi_modulation_bridge,
+    cognitive_modulation_bridge,
     apply_signal_modulation,
     emit_agi_signal,
     get_agi_modulation_status,
     register_agi_for_modulation,
     start_homeostatic_regulation,
 )
-from .agi_service_bridge import (
+from .cognitive_service_bridge import (
     AGIServiceAdapter,
     AGIServiceBridge,
     ServiceMetrics,
     ServiceRegistration,
-    agi_service_bridge,
+    cognitive_service_bridge,
     get_agi_service,
     health_check_agi_services,
     initialize_agi_services,
     register_agi_service,
 )
-from .agi_service_initializer import (
+from .cognitive_service_initializer import (
     AGIServiceConfiguration,
     AGIServiceInitializer,
-    agi_initializer,
+    cognitive_initializer,
     initialize_agi_system,
 )
 from .consent_privacy_constitutional_bridge import (
@@ -80,7 +80,7 @@ from .vocabulary_integration_service import (
 )
 
 __all__ = [
-    # AGI Modulation
+    # Cognitive AI Modulation
     "AGIModulationBridge",
     "AGIModulationMode",
     "AGIModulationParams",
@@ -101,7 +101,7 @@ __all__ = [
     "PrivacyLevel",
     "ProcessingContext",
     "ProcessingMode",
-    # QI-Bio-AGI Integration
+    # QI-Bio-Cognitive Integration
     "QIBioAGIBridge",
     "ServiceMetrics",
     "ServiceRegistration",
@@ -109,9 +109,9 @@ __all__ = [
     # Vocabulary Integration
     "VocabularyIntegrationService",
     "VocabularyMetrics",
-    "agi_initializer",
-    "agi_modulation_bridge",
-    "agi_service_bridge",
+    "cognitive_initializer",
+    "cognitive_modulation_bridge",
+    "cognitive_service_bridge",
     "apply_signal_modulation",
     "check_operation_governance",
     "consent_privacy_constitutional_bridge",

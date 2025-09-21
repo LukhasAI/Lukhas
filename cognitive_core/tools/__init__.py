@@ -1,5 +1,5 @@
 """
-Tool Use Framework with Dream-Guided Selection for AGI
+Tool Use Framework with Dream-Guided Selection for Cognitive AI
 
 Advanced tool selection and usage framework that integrates with LUKHAS
 consciousness system for intelligent tool selection based on context,

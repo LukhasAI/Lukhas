@@ -1,5 +1,5 @@
 """
-Dream-Guided Learning System for AGI
+Dream-Guided Learning System for Cognitive AI
 
 Advanced learning system that integrates with LUKHAS dream architecture
 for creative learning, pattern discovery, and skill acquisition.

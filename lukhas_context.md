@@ -13,12 +13,12 @@ Flags: ENFORCE_ETHICS_DSL, LUKHAS_LANE, LUKHAS_ADVANCED_TAGS
 Legacy core alias: enabled (warn/disable via env) — use lukhas.core.*
 
 
-# LUKHAS AGI System - Master Architecture Overview
-*Artificial General Intelligence with Constellation Framework & Constitutional AI*
+# LUKHAS Cognitive AI System - Master Architecture Overview
+*Cognitive Artificial Intelligence with Constellation Framework & Constitutional AI*
 
 ## 🧠 System Overview
 
-LUKHAS is a comprehensive AGI architecture spanning **7,000+ Python files** across **133 root directories**, implementing the Constellation Framework with constitutional AI safeguards. The system progresses from research through integration to production-ready deployment.
+LUKHAS is a comprehensive Cognitive AI architecture spanning **7,000+ Python files** across **133 root directories**, implementing the Constellation Framework with constitutional AI safeguards. The system progresses from research through integration to production-ready deployment.
 
 ### **Scale & Complexity**
 - **CANDIDATE Domain**: 2,877 files (primary development workspace)

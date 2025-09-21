@@ -15,7 +15,7 @@ Architecture:
 - SymbolicRepairLoop: Monitors and stabilizes memory integrity
 - MemoryHelix: Full immutable memory system with DNA-like structure
 
-Author: LUKHAS AGI Framework
+Author: LUKHAS Cognitive AI Framework
 Version: 1.0
 """
 

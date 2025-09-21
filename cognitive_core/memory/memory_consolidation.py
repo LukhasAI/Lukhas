@@ -1,5 +1,5 @@
 """
-Memory Consolidation System for AGI
+Memory Consolidation System for Cognitive AI
 
 Integrates with LUKHAS fold-based memory system and dream processes
 for intelligent memory consolidation, strengthening, and organization.
@@ -70,7 +70,7 @@ class ConsolidationResult:
 
 class MemoryConsolidator:
     """
-    Advanced Memory Consolidation System for AGI
+    Advanced Memory Consolidation System for Cognitive AI
 
     Provides intelligent memory consolidation that integrates with LUKHAS
     consciousness framework and dream system for optimal memory organization.

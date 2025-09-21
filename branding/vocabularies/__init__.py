@@ -4,7 +4,7 @@ LUKHAS Symbolic Vocabularies
 
 🌟 VALUABLE ASSET - DO NOT DELETE 🌟
 
-This module contains the symbolic vocabulary system for LUKHAS AGI.
+This module contains the symbolic vocabulary system for LUKHAS Cognitive AI.
 Each vocabulary provides consistent emoji/symbol mappings for human-readable
 state representation and cross-module communication.
 

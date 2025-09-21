@@ -76,7 +76,7 @@
         "contract_path": null,
         "dependencies": [
           "candidate.bridge.local_llm_fixer",
-          "candidate.core.agi.self_healing",
+          "candidate.core.cognitive.self_healing",
           "lukhas.governance.guardian"
         ],
         "exports": [

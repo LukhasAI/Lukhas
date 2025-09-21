@@ -144,10 +144,10 @@ async def run_stage(stage_name, fn, **kw):
   * Pick “Constellation”; search-replace code/docs; keep minimal shims with deprecation notice.
   * **DoD:** `grep -R "Constellation" -n | wc -l` → 0 (outside archive/notes).
 
-* [ ] **AGI → AI / cognitive**
+* [ ] **Cognitive AI → AI / cognitive**
 
-  * Rename `agi_*` where still active; add 1-release alias if needed.
-  * **DoD:** import graph has no `agi_` outside compat; CI legacy-guard passes.
+  * Rename `cognitive_*` where still active; add 1-release alias if needed.
+  * **DoD:** import graph has no `cognitive_` outside compat; CI legacy-guard passes.
 
 * [ ] **Context files sync**
 

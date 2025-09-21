@@ -498,7 +498,7 @@ class LukhasUnifiedContentPlatform:
             "ContentAutomationBot", "ContentAnalytics", "ContentRevenue",
             "SecurityCompliance", "NamingAuditorBot", "PRReviewer",
             "QIConsciousness", "MultiBrain", "BioSymbolic",
-            "AGIController", "AutonomousHealer", "DocumentationHub"
+            "CognitiveController", "AutonomousHealer", "DocumentationHub"
         ]
         return bots
 

@@ -266,7 +266,7 @@ class PersonalityManager:
     Main Personality Manager
 
     Coordinates all personality components to provide unified interaction
-    style and behavior adaptation for LUKHAS AGI.
+    style and behavior adaptation for LUKHAS Cognitive AI.
     """
 
     def __init__(self, federated_model=None):

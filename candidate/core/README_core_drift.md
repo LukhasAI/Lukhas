@@ -126,7 +126,7 @@ Date: 2024-07-12 (Assumed date based on interaction flow)
 ### `core/integration/system_coordinator.py`
 
 *   **Issue Type:** Blocked Standardization / Tool Failure (`#ΛBLOCKED`)
-*   **Description:** Complex file defining the `SystemCoordinator` class, the main integration point for LUKHAS AGI.
+*   **Description:** Complex file defining the `SystemCoordinator` class, the main integration point for LUKHAS Cognitive AI.
 *   **Processing Status:** **SKIPPED / REQUIRES MANUAL REVIEW & STANDARDIZATION.** (`#ΛPENDING_PATCH`)
 *   **Drift Implication:** Lack of standardized logging/metadata for a critical component is a significant concern. Placeholder logic for interactions is a functional drift.
 

@@ -6,16 +6,16 @@
 
 
 # CANDIDATE Core Component Ecosystem
-*193 Subdirectories - 1,029+ Python Files - Comprehensive AGI Components*
+*193 Subdirectories - 1,029+ Python Files - Comprehensive Cognitive Components*
 
 ## Component Ecosystem Overview
 
-The CANDIDATE core represents the **largest component ecosystem** in LUKHAS, containing **1,029+ Python files** across **193 subdirectories**. This is the comprehensive AGI component library where orchestration, interfaces, symbolic reasoning, and specialized systems are developed before integration through LUKHAS and deployment to PRODUCTS.
+The CANDIDATE core represents the **largest component ecosystem** in LUKHAS, containing **1,029+ Python files** across **193 subdirectories**. This is the comprehensive Cognitive AI component library where orchestration, interfaces, symbolic reasoning, and specialized systems are developed before integration through LUKHAS and deployment to PRODUCTS.
 
 ### **Ecosystem Scale**
 - **Files**: 1,029+ Python files (massive component development workspace)
 - **Directories**: 193 subdirectories with specialized component domains
-- **Purpose**: Comprehensive AGI component library with Constellation Framework integration
+- **Purpose**: Comprehensive Cognitive AI component library with Constellation Framework integration
 - **Architecture**: Registry-based plugins with constructor-aware instantiation and T4/0.01% standards
 
 ### **Component Organization**

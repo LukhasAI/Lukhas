@@ -60,7 +60,7 @@ if st.sidebar.button("🌙 Reflective Dream Scheduler"):
 
 # ─── Welcome Banner ───────────────────────────────────────────────────────────
 st.title("🌱 Welcome to LUKHAS Dashboard")
-st.markdown("> A modular AGI interface designed to reflect, assist, and adapt.")
+st.markdown("> A modular Cognitive AI interface designed to reflect, assist, and adapt.")
 
 # ─── Symbolic Identity Preview ────────────────────────────────────────────────
 if agent_enabled:
@@ -120,7 +120,7 @@ if agent_enabled:
 
 # ─── Footer Info ──────────────────────────────────────────────────────────────
 st.markdown("---")
-st.markdown("🛠 Powered by LUKHAS SYSTEMS — v1.0.0 | Modular AGI Layer | 2025")
+st.markdown("🛠 Powered by LUKHAS SYSTEMS — v1.0.0 | Modular Cognitive AI Layer | 2025")
 
 # ─────────────────────────────────────────────────────────────────────────────
 # ✅ Ready for:

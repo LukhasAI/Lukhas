@@ -1,5 +1,5 @@
 """
-LUKHAS AGI - Tool Orchestrator
+LUKHAS Cognitive AI - Tool Orchestrator
 Advanced tool coordination and orchestration system for consciousness development.
 ⚛️🧠🛡️ Constellation Framework: Identity-Consciousness-Guardian
 """

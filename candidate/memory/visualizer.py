@@ -34,7 +34,7 @@ logger = logging.getLogger(__name__)
 ║ • Real-time coherence metrics
 ║
 ║ The module integrates with quantum-inspired processing and bio-awareness components
-║ to create visualizations that reflect the full complexity of the AGI's
+║ to create visualizations that reflect the full complexity of the Cognitive AI's
 ║ memory architecture.
 ║
 ║ Symbolic Tags: {ΛVISUALIZE}, {ΛQUANTUM}, {ΛBRIDGE}, {ΛINTEROP}
@@ -337,7 +337,7 @@ class Enhanced3DVisualizer:
 ║
 ║ REFERENCES:
 ║   - Docs: docs/memory/visualization-guide.md
-║   - Issues: github.com/lukhas-ai/agi/issues?label=memory-visualization
+║   - Issues: github.com/lukhas-ai/cognitive/issues?label=memory-visualization
 ║   - Wiki: wiki.lukhas.ai/memory-visualization
 ║
 ║ COPYRIGHT & LICENSE:

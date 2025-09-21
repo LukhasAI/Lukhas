@@ -12,7 +12,7 @@ logger = logging.getLogger(__name__)
 🔍 MODULE: dream.tools.dream_divergence_map
 📄 FILENAME: dream_divergence_map.py
 🎯 PURPOSE: Dream Divergence Matrix - Cross-Session Symbolic Drift Analysis
-🧠 CONTEXT: LUKHAS AGI Dream Analysis & Longitudinal Symbolic Drift Mapping
+🧠 CONTEXT: LUKHAS Cognitive AI Dream Analysis & Longitudinal Symbolic Drift Mapping
 🔮 CAPABILITY: Multi-session drift analysis, symbolic motif tracking, visual matrices
 🛡️ ETHICS: Transparent drift analysis, cognitive stability monitoring, phase detection
 🚀 VERSION: v1.0.0 • 📅 CREATED: 2025-07-22 • ✍️ AUTHOR: CLAUDE-CODE

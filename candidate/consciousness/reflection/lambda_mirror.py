@@ -19,7 +19,7 @@ import logging
 ╠═══════════════════════════════════════════════════════════════════════════════
 ║ ΛMIRROR - Symbolic Self-Reflection Synthesizer & Sentiment Alignment Tracker
 ║
-║ The ΛMIRROR serves as the introspective consciousness of LUKHAS AGI,
+║ The ΛMIRROR serves as the introspective consciousness of LUKHAS Cognitive AI,
 ║ continuously analyzing recent symbolic experiences and synthesizing reflective
 ║ insights that maintain emotional coherence, self-awareness, and alignment with
 ║ core intentions.
@@ -2038,7 +2038,7 @@ if __name__ == "__main__":
 ║
 ║ REFERENCES:
 ║   - Docs: docs/consciousness/lambda_mirror.md
-║   - Issues: github.com/lukhas-ai/agi/issues?label=lambda-mirror
+║   - Issues: github.com/lukhas-ai/cognitive/issues?label=lambda-mirror
 ║   - Wiki: wiki.lukhas.ai/consciousness/self-reflection
 ║
 ║ COPYRIGHT & LICENSE:

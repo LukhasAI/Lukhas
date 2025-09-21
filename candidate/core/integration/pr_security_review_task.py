@@ -355,7 +355,7 @@ class PRSecurityReviewTask:
 
             if dependency_issues:
                 # Use the vulnerability manager to fix these
-                GitHubVulnerabilityManager(self.github_token, agi_mode=True)
+                GitHubVulnerabilityManager(self.github_token, cognitive_mode=True)
 
                 # Create a new PR to fix the issues
                 # This is a simplified version - the real implementation would need to:

@@ -1,11 +1,11 @@
 """
-AGI Vocabulary System
+Cognitive AI Vocabulary System
 ====================
 
-Unified vocabulary system for AGI operations with full LUKHAS consciousness integration.
+Unified vocabulary system for Cognitive AI operations with full LUKHAS consciousness integration.
 
 This module provides:
-- AGI-specific symbolic vocabulary
+- Cognitive AI-specific symbolic vocabulary
 - Cross-vocabulary translation and mapping
 - Integration with existing LUKHAS vocabularies (Dream, Bio, Emotion, etc.)
 - Unified messaging system with Constellation Framework alignment
@@ -14,7 +14,7 @@ Created: 2025-09-05
 Status: ACTIVE - Phase 2A Core Integration
 """
 
-from .agi_vocabulary_bridge import (
+from .cognitive_vocabulary_bridge import (
     AGI_INTEGRATION_SYMBOLS,
     AGI_LEARNING_SYMBOLS,
     AGI_MEMORY_SYMBOLS,
@@ -23,7 +23,7 @@ from .agi_vocabulary_bridge import (
     AGI_SAFETY_SYMBOLS,
     AGI_VOCABULARY,
     AGIVocabularyBridge,
-    agi_bridge,
+    cognitive_bridge,
     format_agi_message,
     # Convenience functions
     get_agi_symbol,
@@ -43,7 +43,7 @@ __all__ = [
     "AGI_VOCABULARY",
     # Main bridge class
     "AGIVocabularyBridge",
-    "agi_bridge",
+    "cognitive_bridge",
     "format_agi_message",
     # Convenience functions
     "get_agi_symbol",

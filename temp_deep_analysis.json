@@ -182,7 +182,7 @@
         "logging",
         "base",
         "services",
-        "agi_preparedness",
+        "cognitive_preparedness",
         "interfaces",
         "hub_services",
         "flow",
@@ -197,7 +197,7 @@
         "symbolic_legacy/features",
         "symbolic_legacy/utils",
         "symbolic_legacy/reasoning",
-        "agi/adaptive",
+        "cognitive/adaptive",
         "colonies/demo",
         "collective/swarm",
         "collective/clusters",
@@ -528,7 +528,7 @@
         4
       ],
       [
-        "agi_preparedness",
+        "cognitive_preparedness",
         4
       ],
       [
@@ -1766,7 +1766,7 @@
           },
           "total_files_recursive": 7
         },
-        "agi_preparedness": {
+        "cognitive_preparedness": {
           "python_files": 4,
           "subdirs": {},
           "total_files_recursive": 4
@@ -2730,7 +2730,7 @@
           "consolidate_symbolic_communication",
           "secure_logging",
           "message_hub",
-          "agi_security",
+          "cognitive_security",
           "core_integrator",
           "api_client",
           "oscillator_adapter",
@@ -2882,7 +2882,7 @@
           "lambda_bot_api_integration",
           "resource_scheduler",
           "current_connectivity_analysis",
-          "agi_governance_framework",
+          "cognitive_governance_framework",
           "introspector",
           "symbolic_glyph_hash",
           "visualizer",
@@ -3374,7 +3374,7 @@
           "defense_monitor",
           "enhanced_crypto",
           "crypto",
-          "agi_security"
+          "cognitive_security"
         ]
       },
       "common_patterns": [

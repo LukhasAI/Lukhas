@@ -11,7 +11,7 @@ logger = logging.getLogger(__name__)
 
 ══════════════════════════════════════════════════════════════════════════════════
 ║ 🧠 LUKHAS AI - META-ETHICS GOVERNOR
-║ Runtime-pluggable rule engine for multi-framework ethical reasoning in AGI
+║ Runtime-pluggable rule engine for multi-framework ethical reasoning in Cognitive AI
 ║ Copyright (c) 2025 LUKHAS AI. All rights reserved.
 ╠══════════════════════════════════════════════════════════════════════════════════
 ║ Module: meta_ethics_governor.py
@@ -23,7 +23,7 @@ logger = logging.getLogger(__name__)
 ╠══════════════════════════════════════════════════════════════════════════════════
 ║ The Meta-Ethics Governor (MEG) provides comprehensive ethical reasoning through
 ║ multiple philosophical frameworks integrated into a unified system. This module
-║ implements advanced ethical theories and cultural adaptation for global AGI deployment.
+║ implements advanced ethical theories and cultural adaptation for global cognitive AI deployment.
 ║
 ║ ETHICAL FRAMEWORKS IMPLEMENTED:
 ║ • Deontological Ethics - Duty-based moral reasoning using categorical imperatives
@@ -388,7 +388,7 @@ class MetaEthicsGovernor:
     Core Meta-Ethics Governor
 
     Orchestrates multiple ethical frameworks for comprehensive
-    moral reasoning and cultural adaptation in AGI systems.
+    moral reasoning and cultural adaptation in Cognitive AI systems.
     """
 
     def __init__(self, config_path: Path = Path("config/meg_config.json")):
@@ -781,7 +781,7 @@ def ethical_checkpoint(cultural_context: CulturalContext = CulturalContext.UNIVE
 ║
 ║ REFERENCES:
 ║   - Docs: docs/ethics/meta_ethics_governor.md
-║   - Issues: github.com/lukhas-ai/agi/issues?label=ethics
+║   - Issues: github.com/lukhas-ai/cognitive/issues?label=ethics
 ║   - Wiki: internal.lukhas.ai/ethics/meg
 ║
 ║ COPYRIGHT & LICENSE:

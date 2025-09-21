@@ -14,7 +14,7 @@
           {
             "name": "imports",
             "status": "failed",
-            "error": "cannot import name 'NoopMemory' from 'candidate.aka_qualia.memory' (/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/aka_qualia/memory.py)",
+            "error": "cannot import name 'NoopMemory' from 'candidate.aka_qualia.memory' (/Users/cognitive_dev/LOCAL-REPOS/Lukhas/candidate/aka_qualia/memory.py)",
             "description": "Import validation failed"
           },
           {
@@ -42,7 +42,7 @@
         "execution_time": 0.9197709560394287,
         "details": [],
         "stdout": "",
-        "stderr": "ImportError while loading conftest '/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/aka_qualia/tests/conftest.py'.\ncandidate/aka_qualia/tests/conftest.py:24: in <module>\n    from candidate.aka_qualia.memory_noop import NoopMemory\ncandidate/aka_qualia/memory_noop.py:14: in <module>\n    from memory import AkaqMemory\nE   ImportError: cannot import name 'AkaqMemory' from 'memory' (unknown location)\n"
+        "stderr": "ImportError while loading conftest '/Users/cognitive_dev/LOCAL-REPOS/Lukhas/candidate/aka_qualia/tests/conftest.py'.\ncandidate/aka_qualia/tests/conftest.py:24: in <module>\n    from candidate.aka_qualia.memory_noop import NoopMemory\ncandidate/aka_qualia/memory_noop.py:14: in <module>\n    from memory import AkaqMemory\nE   ImportError: cannot import name 'AkaqMemory' from 'memory' (unknown location)\n"
       },
       {
         "test_type": "ethics",
@@ -53,7 +53,7 @@
         "execution_time": 0.7394590377807617,
         "details": [],
         "stdout": "",
-        "stderr": "ImportError while loading conftest '/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/aka_qualia/tests/conftest.py'.\ncandidate/aka_qualia/tests/conftest.py:24: in <module>\n    from candidate.aka_qualia.memory_noop import NoopMemory\ncandidate/aka_qualia/memory_noop.py:14: in <module>\n    from memory import AkaqMemory\nE   ImportError: cannot import name 'AkaqMemory' from 'memory' (unknown location)\n"
+        "stderr": "ImportError while loading conftest '/Users/cognitive_dev/LOCAL-REPOS/Lukhas/candidate/aka_qualia/tests/conftest.py'.\ncandidate/aka_qualia/tests/conftest.py:24: in <module>\n    from candidate.aka_qualia.memory_noop import NoopMemory\ncandidate/aka_qualia/memory_noop.py:14: in <module>\n    from memory import AkaqMemory\nE   ImportError: cannot import name 'AkaqMemory' from 'memory' (unknown location)\n"
       }
     ]
   },

@@ -2,7 +2,7 @@
 """
 ╔══════════════════════════════════════════════════════════════════════════════════
 ║ 🧠 LUKHAS AI - MEMORY REFLECTION CONSCIOUSNESS SYSTEM
-║ Advanced memory reflection with quantum-bio integration for Superior General Intelligence
+║ Advanced memory reflection with quantum-bio integration for Superior Cognitive Intelligence
 ║ Copyright (c) 2025 LUKHAS AI. All rights reserved.
 ╠══════════════════════════════════════════════════════════════════════════════════
 ║ Module: memory_reflection_template.py
@@ -137,7 +137,7 @@ class MemoryReflectionSystem:
     Advanced Memory Reflection Consciousness System
 
     Implements quantum-bio inspired memory reflection for LUKHAS AI consciousness
-    with Constellation Framework compliance and Superior General Intelligence capabilities.
+    with Constellation Framework compliance and Superior Cognitive Intelligence capabilities.
 
     Key Features:
     - Fold-based memory architecture with 1000-fold limit

@@ -1,5 +1,5 @@
 """
-LUKHAS AGI - Tool Selector Engine
+LUKHAS Cognitive AI - Tool Selector Engine
 Intelligent tool selection and recommendation system for consciousness development.
 ⚛️🧠🛡️ Constellation Framework: Identity-Consciousness-Guardian
 """

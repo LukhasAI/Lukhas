@@ -1,5 +1,5 @@
 """
-Comprehensive test suite for AGI Multi-Model Orchestration Hub.
+Comprehensive test suite for Cognitive AI Multi-Model Orchestration Hub.
 
 Tests all components: ModelRouter, ConsensusEngine, CapabilityMatrix, CostOptimizer.
 """
@@ -361,7 +361,7 @@ class TestIntegratedOrchestration:
         with patch.object(router, "_call_model", return_value=mock_response):
             # Test routing
             request = RoutingRequest(
-                content="Complex AGI reasoning task",
+                content="Complex Cognitive AI reasoning task",
                 task_type=TaskType.REASONING,
                 constellation_context={"DREAM": 0.8, "GUARDIAN": 0.9},
             )
@@ -374,14 +374,14 @@ class TestIntegratedOrchestration:
             # Test consensus for critical decisions
             with patch.object(consensus_engine.model_router, "route_request", return_value=(decision, response)):
                 consensus_result = await consensus_engine.reach_consensus(
-                    question="Critical AGI decision", models=["claude-3-5-sonnet", "gpt-4-turbo"]
+                    question="Critical Cognitive AI decision", models=["claude-3-5-sonnet", "gpt-4-turbo"]
                 )
 
                 assert consensus_result.consensus_reached is True
                 assert consensus_result.confidence_score > 0.8
 
     def test_performance_benchmarks(self):
-        """Test performance meets AGI requirements."""
+        """Test performance meets Cognitive AI requirements."""
         matrix = CapabilityMatrix()
         optimizer = CostOptimizer()
 

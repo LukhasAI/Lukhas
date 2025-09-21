@@ -51,7 +51,7 @@ web: python chatgpt_server.py
 
 3. **Initialize project:**
    ```bash
-   cd /Users/agi_dev/LOCAL-REPOS/Lukhas/mcp-lukhas-sse
+   cd /Users/cognitive_dev/LOCAL-REPOS/Lukhas/mcp-lukhas-sse
    railway init
    ```
 

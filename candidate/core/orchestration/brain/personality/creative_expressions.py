@@ -11,7 +11,7 @@ import random
  PURPOSE     : Generates poetic, emotional, or symbolic dream fragments for LUKHAS' outputs
  CONTEXT     : Supports emotional resonance, creativity, and cultural inspiration injection
  ETHICS      : Filters expressive content through user settings and symbolic values
- VERSION     : v1.0.0 *  UPDATED: 2025-5-5 *  AUTHOR: LUKHAS AGI
+ VERSION     : v1.0.0 *  UPDATED: 2025-5-5 *  AUTHOR: LUKHAS Cognitive AI
 
 ++
 | This module enhances LUKHAS' personality expression via haiku,       |

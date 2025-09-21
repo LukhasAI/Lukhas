@@ -429,7 +429,7 @@ configurations:
         coherence_metrics: CoherenceMetrics(brand_terminology_score=0.0, constellation_framework_score=0.0,
           consciousness_tech_score=0.0, tone_consistency_score=0.0, founder_authority_score=0.0,
           premium_positioning_score=0.0)
-        content_path: /Users/agi_dev/LOCAL-REPOS/Lukhas/lambda_products_pack/auctor/__init__.py
+        content_path: /Users/cognitive_dev/LOCAL-REPOS/Lukhas/lambda_products_pack/auctor/__init__.py
         content_type: ContentType.TECHNICAL_DOC
         elite_brand_readiness: 0.0
         improvement_suggestions:
@@ -447,7 +447,7 @@ configurations:
           constellation_framework_score=0.2, consciousness_tech_score=0.08399832003359933,
           tone_consistency_score=0.8777777777777778, founder_authority_score=0.125,
           premium_positioning_score=0.1)
-        content_path: /Users/agi_dev/LOCAL-REPOS/Lukhas/lambda_products_pack/auctor/auctor_content_engine.py
+        content_path: /Users/cognitive_dev/LOCAL-REPOS/Lukhas/lambda_products_pack/auctor/auctor_content_engine.py
         content_type: ContentType.TECHNICAL_DOC
         elite_brand_readiness: 23.443855289560872
         improvement_suggestions:
@@ -463,7 +463,7 @@ configurations:
         coherence_metrics: CoherenceMetrics(brand_terminology_score=0.1111111111111111,
           constellation_framework_score=0.2, consciousness_tech_score=0.0, tone_consistency_score=0.6777777777777777,
           founder_authority_score=0.25, premium_positioning_score=0.2)
-        content_path: /Users/agi_dev/LOCAL-REPOS/Lukhas/lambda_products_pack/auctor/COMMERCIALIZATION_STRATEGY.md
+        content_path: /Users/cognitive_dev/LOCAL-REPOS/Lukhas/lambda_products_pack/auctor/COMMERCIALIZATION_STRATEGY.md
         content_type: ContentType.TECHNICAL_DOC
         elite_brand_readiness: 22.13888888888889
         improvement_suggestions:
@@ -480,7 +480,7 @@ configurations:
         coherence_metrics: CoherenceMetrics(brand_terminology_score=0.05555555555555555,
           constellation_framework_score=0.4, consciousness_tech_score=0.0, tone_consistency_score=0.2222222222222222,
           founder_authority_score=0.125, premium_positioning_score=0.2)
-        content_path: /Users/agi_dev/LOCAL-REPOS/Lukhas/lambda_products_pack/auctor/generated_content/landing_page_lambda_ai.html
+        content_path: /Users/cognitive_dev/LOCAL-REPOS/Lukhas/lambda_products_pack/auctor/generated_content/landing_page_lambda_ai.html
         content_type: ContentType.LANDING_PAGE
         elite_brand_readiness: 15.319444444444446
         improvement_suggestions:
@@ -497,7 +497,7 @@ configurations:
         coherence_metrics: CoherenceMetrics(brand_terminology_score=0.05555555555555555,
           constellation_framework_score=0.2, consciousness_tech_score=0.0, tone_consistency_score=0.3444444444444445,
           founder_authority_score=0.375, premium_positioning_score=0.1)
-        content_path: /Users/agi_dev/LOCAL-REPOS/Lukhas/lambda_products_pack/auctor/generated_content/blog_post_roi_of_ai_agents.md
+        content_path: /Users/cognitive_dev/LOCAL-REPOS/Lukhas/lambda_products_pack/auctor/generated_content/blog_post_roi_of_ai_agents.md
         content_type: ContentType.BLOG_POST
         elite_brand_readiness: 16.40277777777778
         improvement_suggestions:
@@ -514,7 +514,7 @@ configurations:
         coherence_metrics: CoherenceMetrics(brand_terminology_score=0.05555555555555555,
           constellation_framework_score=0.2, consciousness_tech_score=0.0, tone_consistency_score=0.3666666666666667,
           founder_authority_score=0.0, premium_positioning_score=0.2)
-        content_path: /Users/agi_dev/LOCAL-REPOS/Lukhas/lambda_products_pack/auctor/app_specifications/lambda_studio_app.md
+        content_path: /Users/cognitive_dev/LOCAL-REPOS/Lukhas/lambda_products_pack/auctor/app_specifications/lambda_studio_app.md
         content_type: ContentType.TECHNICAL_DOC
         elite_brand_readiness: 12.611111111111112
         improvement_suggestions:
@@ -537,7 +537,7 @@ configurations:
         min_coherence: 0.0
         total_content_pieces: 6
       system_name: ΛUCTOR Content Engine
-      system_path: /Users/agi_dev/LOCAL-REPOS/Lukhas/lambda_products_pack/auctor
+      system_path: /Users/cognitive_dev/LOCAL-REPOS/Lukhas/lambda_products_pack/auctor
     - analysis_timestamp: '2025-08-18T01:45:47.213573'
       content_analyses:
       - analysis_timestamp: '2025-08-18T01:45:47.320794'
@@ -546,7 +546,7 @@ configurations:
         coherence_metrics: CoherenceMetrics(brand_terminology_score=0.0, constellation_framework_score=0.0,
           consciousness_tech_score=0.0, tone_consistency_score=0.0, founder_authority_score=0.0,
           premium_positioning_score=0.0)
-        content_path: /Users/agi_dev/LOCAL-REPOS/AI-Consolidation-Repo/memory_fold_analysis.py
+        content_path: /Users/cognitive_dev/LOCAL-REPOS/AI-Consolidation-Repo/memory_fold_analysis.py
         content_type: ContentType.TECHNICAL_DOC
         elite_brand_readiness: 0.0
         improvement_suggestions:
@@ -563,7 +563,7 @@ configurations:
         coherence_metrics: CoherenceMetrics(brand_terminology_score=0.0, constellation_framework_score=0.0,
           consciousness_tech_score=0.0, tone_consistency_score=0.0, founder_authority_score=0.0,
           premium_positioning_score=0.0)
-        content_path: /Users/agi_dev/LOCAL-REPOS/AI-Consolidation-Repo/commercial_archive_cleanup.py
+        content_path: /Users/cognitive_dev/LOCAL-REPOS/AI-Consolidation-Repo/commercial_archive_cleanup.py
         content_type: ContentType.TECHNICAL_DOC
         elite_brand_readiness: 0.0
         improvement_suggestions:
@@ -580,7 +580,7 @@ configurations:
         coherence_metrics: CoherenceMetrics(brand_terminology_score=0.0, constellation_framework_score=0.0,
           consciousness_tech_score=0.0, tone_consistency_score=0.0, founder_authority_score=0.0,
           premium_positioning_score=0.0)
-        content_path: /Users/agi_dev/LOCAL-REPOS/AI-Consolidation-Repo/bio_symbolic_scaffold_analysis.py
+        content_path: /Users/cognitive_dev/LOCAL-REPOS/AI-Consolidation-Repo/bio_symbolic_scaffold_analysis.py
         content_type: ContentType.TECHNICAL_DOC
         elite_brand_readiness: 0.0
         improvement_suggestions:
@@ -597,7 +597,7 @@ configurations:
         coherence_metrics: CoherenceMetrics(brand_terminology_score=0.0, constellation_framework_score=0.0,
           consciousness_tech_score=0.0, tone_consistency_score=0.0, founder_authority_score=0.0,
           premium_positioning_score=0.0)
-        content_path: /Users/agi_dev/LOCAL-REPOS/AI-Consolidation-Repo/SPECIALIST_RESTORE_SUMMARY.md
+        content_path: /Users/cognitive_dev/LOCAL-REPOS/AI-Consolidation-Repo/SPECIALIST_RESTORE_SUMMARY.md
         content_type: ContentType.TECHNICAL_DOC
         elite_brand_readiness: 0.0
         improvement_suggestions:
@@ -614,7 +614,7 @@ configurations:
         coherence_metrics: CoherenceMetrics(brand_terminology_score=0.0, constellation_framework_score=0.0,
           consciousness_tech_score=0.0, tone_consistency_score=0.0, founder_authority_score=0.0,
           premium_positioning_score=0.0)
-        content_path: /Users/agi_dev/LOCAL-REPOS/AI-Consolidation-Repo/naming_conflict_checker.py
+        content_path: /Users/cognitive_dev/LOCAL-REPOS/AI-Consolidation-Repo/naming_conflict_checker.py
         content_type: ContentType.TECHNICAL_DOC
         elite_brand_readiness: 0.0
         improvement_suggestions:
@@ -631,7 +631,7 @@ configurations:
         coherence_metrics: CoherenceMetrics(brand_terminology_score=0.0, constellation_framework_score=0.0,
           consciousness_tech_score=0.0, tone_consistency_score=0.0, founder_authority_score=0.0,
           premium_positioning_score=0.0)
-        content_path: /Users/agi_dev/LOCAL-REPOS/AI-Consolidation-Repo/requirements.txt
+        content_path: /Users/cognitive_dev/LOCAL-REPOS/AI-Consolidation-Repo/requirements.txt
         content_type: ContentType.TECHNICAL_DOC
         elite_brand_readiness: 0.0
         improvement_suggestions:
@@ -648,7 +648,7 @@ configurations:
         coherence_metrics: CoherenceMetrics(brand_terminology_score=0.05555555555555555,
           constellation_framework_score=0.2, consciousness_tech_score=0.0, tone_consistency_score=0.3666666666666667,
           founder_authority_score=0.0, premium_positioning_score=0.3)
-        content_path: /Users/agi_dev/LOCAL-REPOS/AI-Consolidation-Repo/.codex_tasks.md
+        content_path: /Users/cognitive_dev/LOCAL-REPOS/AI-Consolidation-Repo/.codex_tasks.md
         content_type: ContentType.TECHNICAL_DOC
         elite_brand_readiness: 14.111111111111112
         improvement_suggestions:
@@ -665,7 +665,7 @@ configurations:
         coherence_metrics: CoherenceMetrics(brand_terminology_score=0.0, constellation_framework_score=0.0,
           consciousness_tech_score=0.0, tone_consistency_score=0.0, founder_authority_score=0.0,
           premium_positioning_score=0.0)
-        content_path: /Users/agi_dev/LOCAL-REPOS/AI-Consolidation-Repo/lucas_bio_symbolic_integration_analysis.py
+        content_path: /Users/cognitive_dev/LOCAL-REPOS/AI-Consolidation-Repo/lucas_bio_symbolic_integration_analysis.py
         content_type: ContentType.TECHNICAL_DOC
         elite_brand_readiness: 0.0
         improvement_suggestions:
@@ -682,7 +682,7 @@ configurations:
         coherence_metrics: CoherenceMetrics(brand_terminology_score=0.0, constellation_framework_score=0.0,
           consciousness_tech_score=0.0, tone_consistency_score=0.0, founder_authority_score=0.0,
           premium_positioning_score=0.0)
-        content_path: /Users/agi_dev/LOCAL-REPOS/AI-Consolidation-Repo/cleanup_remaining_1_files.py
+        content_path: /Users/cognitive_dev/LOCAL-REPOS/AI-Consolidation-Repo/cleanup_remaining_1_files.py
         content_type: ContentType.TECHNICAL_DOC
         elite_brand_readiness: 0.0
         improvement_suggestions:
@@ -699,7 +699,7 @@ configurations:
         coherence_metrics: CoherenceMetrics(brand_terminology_score=0.0, constellation_framework_score=0.0,
           consciousness_tech_score=0.0, tone_consistency_score=0.0, founder_authority_score=0.0,
           premium_positioning_score=0.0)
-        content_path: /Users/agi_dev/LOCAL-REPOS/AI-Consolidation-Repo/jules_codex_cleanup_analysis.py
+        content_path: /Users/cognitive_dev/LOCAL-REPOS/AI-Consolidation-Repo/jules_codex_cleanup_analysis.py
         content_type: ContentType.TECHNICAL_DOC
         elite_brand_readiness: 0.0
         improvement_suggestions:
@@ -716,7 +716,7 @@ configurations:
         coherence_metrics: CoherenceMetrics(brand_terminology_score=0.0, constellation_framework_score=0.0,
           consciousness_tech_score=0.0, tone_consistency_score=0.0, founder_authority_score=0.0,
           premium_positioning_score=0.0)
-        content_path: /Users/agi_dev/LOCAL-REPOS/AI-Consolidation-Repo/start_agi_system.py
+        content_path: /Users/cognitive_dev/LOCAL-REPOS/AI-Consolidation-Repo/start_agi_system.py
         content_type: ContentType.TECHNICAL_DOC
         elite_brand_readiness: 0.0
         improvement_suggestions:
@@ -733,7 +733,7 @@ configurations:
         coherence_metrics: CoherenceMetrics(brand_terminology_score=0.0, constellation_framework_score=0.0,
           consciousness_tech_score=0.0, tone_consistency_score=0.0, founder_authority_score=0.0,
           premium_positioning_score=0.0)
-        content_path: /Users/agi_dev/LOCAL-REPOS/AI-Consolidation-Repo/research_cleanup.py
+        content_path: /Users/cognitive_dev/LOCAL-REPOS/AI-Consolidation-Repo/research_cleanup.py
         content_type: ContentType.TECHNICAL_DOC
         elite_brand_readiness: 0.0
         improvement_suggestions:
@@ -750,7 +750,7 @@ configurations:
         coherence_metrics: CoherenceMetrics(brand_terminology_score=0.0, constellation_framework_score=0.0,
           consciousness_tech_score=0.0, tone_consistency_score=0.0, founder_authority_score=0.0,
           premium_positioning_score=0.0)
-        content_path: /Users/agi_dev/LOCAL-REPOS/AI-Consolidation-Repo/memory_fold_consolidation.py
+        content_path: /Users/cognitive_dev/LOCAL-REPOS/AI-Consolidation-Repo/memory_fold_consolidation.py
         content_type: ContentType.TECHNICAL_DOC
         elite_brand_readiness: 0.0
         improvement_suggestions:
@@ -767,7 +767,7 @@ configurations:
         coherence_metrics: CoherenceMetrics(brand_terminology_score=0.0, constellation_framework_score=0.0,
           consciousness_tech_score=0.0, tone_consistency_score=0.0, founder_authority_score=0.0,
           premium_positioning_score=0.0)
-        content_path: /Users/agi_dev/LOCAL-REPOS/AI-Consolidation-Repo/priority_cleanup.py
+        content_path: /Users/cognitive_dev/LOCAL-REPOS/AI-Consolidation-Repo/priority_cleanup.py
         content_type: ContentType.TECHNICAL_DOC
         elite_brand_readiness: 0.0
         improvement_suggestions:
@@ -784,7 +784,7 @@ configurations:
         coherence_metrics: CoherenceMetrics(brand_terminology_score=0.0, constellation_framework_score=0.0,
           consciousness_tech_score=0.0, tone_consistency_score=0.12222222222222223,
           founder_authority_score=0.0, premium_positioning_score=0.6)
-        content_path: /Users/agi_dev/LOCAL-REPOS/AI-Consolidation-Repo/LUKHAS_NAMING_PHILOSOPHY.md
+        content_path: /Users/cognitive_dev/LOCAL-REPOS/AI-Consolidation-Repo/LUKHAS_NAMING_PHILOSOPHY.md
         content_type: ContentType.TECHNICAL_DOC
         elite_brand_readiness: 10.833333333333334
         improvement_suggestions:
@@ -800,7 +800,7 @@ configurations:
         coherence_metrics: CoherenceMetrics(brand_terminology_score=0.1111111111111111,
           constellation_framework_score=0.6, consciousness_tech_score=0.0, tone_consistency_score=0.4222222222222222,
           founder_authority_score=0.125, premium_positioning_score=0.1)
-        content_path: /Users/agi_dev/LOCAL-REPOS/AI-Consolidation-Repo/README.md
+        content_path: /Users/cognitive_dev/LOCAL-REPOS/AI-Consolidation-Repo/README.md
         content_type: ContentType.TECHNICAL_DOC
         elite_brand_readiness: 20.930555555555554
         improvement_suggestions:
@@ -816,7 +816,7 @@ configurations:
         coherence_metrics: CoherenceMetrics(brand_terminology_score=0.0, constellation_framework_score=0.0,
           consciousness_tech_score=0.0, tone_consistency_score=0.0, founder_authority_score=0.0,
           premium_positioning_score=0.0)
-        content_path: /Users/agi_dev/LOCAL-REPOS/AI-Consolidation-Repo/bio_symbolic_analysis.py
+        content_path: /Users/cognitive_dev/LOCAL-REPOS/AI-Consolidation-Repo/bio_symbolic_analysis.py
         content_type: ContentType.TECHNICAL_DOC
         elite_brand_readiness: 0.0
         improvement_suggestions:
@@ -833,7 +833,7 @@ configurations:
         coherence_metrics: CoherenceMetrics(brand_terminology_score=0.0, constellation_framework_score=0.0,
           consciousness_tech_score=0.0, tone_consistency_score=0.0, founder_authority_score=0.0,
           premium_positioning_score=0.0)
-        content_path: /Users/agi_dev/LOCAL-REPOS/AI-Consolidation-Repo/Λ_dependency_connectivity_test.py
+        content_path: /Users/cognitive_dev/LOCAL-REPOS/AI-Consolidation-Repo/Λ_dependency_connectivity_test.py
         content_type: ContentType.TECHNICAL_DOC
         elite_brand_readiness: 0.0
         improvement_suggestions:
@@ -850,7 +850,7 @@ configurations:
         coherence_metrics: CoherenceMetrics(brand_terminology_score=0.05555555555555555,
           constellation_framework_score=0.2, consciousness_tech_score=0.0, tone_consistency_score=0.3444444444444445,
           founder_authority_score=0.0, premium_positioning_score=0.3)
-        content_path: /Users/agi_dev/LOCAL-REPOS/AI-Consolidation-Repo/.jules_tasks.md
+        content_path: /Users/cognitive_dev/LOCAL-REPOS/AI-Consolidation-Repo/.jules_tasks.md
         content_type: ContentType.TECHNICAL_DOC
         elite_brand_readiness: 13.777777777777779
         improvement_suggestions:
@@ -867,7 +867,7 @@ configurations:
         coherence_metrics: CoherenceMetrics(brand_terminology_score=0.0, constellation_framework_score=0.0,
           consciousness_tech_score=0.0, tone_consistency_score=0.0, founder_authority_score=0.0,
           premium_positioning_score=0.0)
-        content_path: /Users/agi_dev/LOCAL-REPOS/AI-Consolidation-Repo/setup.py
+        content_path: /Users/cognitive_dev/LOCAL-REPOS/AI-Consolidation-Repo/setup.py
         content_type: ContentType.TECHNICAL_DOC
         elite_brand_readiness: 0.0
         improvement_suggestions:
@@ -890,7 +890,7 @@ configurations:
         min_coherence: 0.0
         total_content_pieces: 20
       system_name: ΛBot System
-      system_path: /Users/agi_dev/LOCAL-REPOS/AI-Consolidation-Repo
+      system_path: /Users/cognitive_dev/LOCAL-REPOS/AI-Consolidation-Repo
     - analysis_timestamp: '2025-08-18T01:45:47.325442'
       content_analyses:
       - analysis_timestamp: '2025-08-18T01:45:47.332095'
@@ -899,7 +899,7 @@ configurations:
         coherence_metrics: CoherenceMetrics(brand_terminology_score=0.05555555555555555,
           constellation_framework_score=0.2, consciousness_tech_score=0.0, tone_consistency_score=0.43333333333333335,
           founder_authority_score=0.125, premium_positioning_score=0.4)
-        content_path: /Users/agi_dev/LOCAL-REPOS/auctor/LUKHAS_INTEGRATION_PLAN.md
+        content_path: /Users/cognitive_dev/LOCAL-REPOS/auctor/LUKHAS_INTEGRATION_PLAN.md
         content_type: ContentType.TECHNICAL_DOC
         elite_brand_readiness: 18.48611111111111
         improvement_suggestions:
@@ -916,7 +916,7 @@ configurations:
         coherence_metrics: CoherenceMetrics(brand_terminology_score=0.0, constellation_framework_score=0.0,
           consciousness_tech_score=0.0, tone_consistency_score=0.18888888888888888,
           founder_authority_score=0.0, premium_positioning_score=0.0)
-        content_path: /Users/agi_dev/LOCAL-REPOS/auctor/ -Λ- lucas_foundation_query_db.py
+        content_path: /Users/cognitive_dev/LOCAL-REPOS/auctor/ -Λ- lucas_foundation_query_db.py
         content_type: ContentType.TECHNICAL_DOC
         elite_brand_readiness: 2.833333333333333
         improvement_suggestions:
@@ -933,7 +933,7 @@ configurations:
         coherence_metrics: CoherenceMetrics(brand_terminology_score=0.0, constellation_framework_score=0.0,
           consciousness_tech_score=0.0, tone_consistency_score=0.12222222222222223,
           founder_authority_score=0.0, premium_positioning_score=0.0)
-        content_path: /Users/agi_dev/LOCAL-REPOS/auctor/requirements.txt
+        content_path: /Users/cognitive_dev/LOCAL-REPOS/auctor/requirements.txt
         content_type: ContentType.TECHNICAL_DOC
         elite_brand_readiness: 1.8333333333333333
         improvement_suggestions:
@@ -950,7 +950,7 @@ configurations:
         coherence_metrics: CoherenceMetrics(brand_terminology_score=0.05555555555555555,
           constellation_framework_score=0.2, consciousness_tech_score=0.0, tone_consistency_score=0.6888888888888888,
           founder_authority_score=0.375, premium_positioning_score=0.3)
-        content_path: /Users/agi_dev/LOCAL-REPOS/auctor/APP_DEVELOPMENT_SPECIFICATION.md
+        content_path: /Users/cognitive_dev/LOCAL-REPOS/auctor/APP_DEVELOPMENT_SPECIFICATION.md
         content_type: ContentType.TECHNICAL_DOC
         elite_brand_readiness: 24.569444444444443
         improvement_suggestions:
@@ -967,7 +967,7 @@ configurations:
         coherence_metrics: CoherenceMetrics(brand_terminology_score=0.0, constellation_framework_score=0.4,
           consciousness_tech_score=0.0, tone_consistency_score=0.19999999999999998,
           founder_authority_score=0.125, premium_positioning_score=0.0)
-        content_path: /Users/agi_dev/LOCAL-REPOS/auctor/PROJECT_OVERVIEW.md
+        content_path: /Users/cognitive_dev/LOCAL-REPOS/auctor/PROJECT_OVERVIEW.md
         content_type: ContentType.TECHNICAL_DOC
         elite_brand_readiness: 10.875
         improvement_suggestions:
@@ -984,7 +984,7 @@ configurations:
         coherence_metrics: CoherenceMetrics(brand_terminology_score=0.0, constellation_framework_score=0.0,
           consciousness_tech_score=0.0, tone_consistency_score=0.1111111111111111,
           founder_authority_score=0.0, premium_positioning_score=0.0)
-        content_path: /Users/agi_dev/LOCAL-REPOS/auctor/SETUP.md
+        content_path: /Users/cognitive_dev/LOCAL-REPOS/auctor/SETUP.md
         content_type: ContentType.TECHNICAL_DOC
         elite_brand_readiness: 1.6666666666666667
         improvement_suggestions:
@@ -1001,7 +1001,7 @@ configurations:
         coherence_metrics: CoherenceMetrics(brand_terminology_score=0.0, constellation_framework_score=0.4,
           consciousness_tech_score=0.0, tone_consistency_score=0.3666666666666667,
           founder_authority_score=0.375, premium_positioning_score=0.1)
-        content_path: /Users/agi_dev/LOCAL-REPOS/auctor/workspace_organizer.py
+        content_path: /Users/cognitive_dev/LOCAL-REPOS/auctor/workspace_organizer.py
         content_type: ContentType.TECHNICAL_DOC
         elite_brand_readiness: 18.624999999999996
         improvement_suggestions:
@@ -1018,7 +1018,7 @@ configurations:
         coherence_metrics: CoherenceMetrics(brand_terminology_score=0.0, constellation_framework_score=0.2,
           consciousness_tech_score=0.0, tone_consistency_score=0.1111111111111111,
           founder_authority_score=0.0, premium_positioning_score=0.0)
-        content_path: /Users/agi_dev/LOCAL-REPOS/auctor/navigation_guide.py
+        content_path: /Users/cognitive_dev/LOCAL-REPOS/auctor/navigation_guide.py
         content_type: ContentType.TECHNICAL_DOC
         elite_brand_readiness: 4.666666666666666
         improvement_suggestions:
@@ -1035,7 +1035,7 @@ configurations:
         coherence_metrics: CoherenceMetrics(brand_terminology_score=0.05555555555555555,
           constellation_framework_score=0.0, consciousness_tech_score=0.0, tone_consistency_score=0.6666666666666666,
           founder_authority_score=0.125, premium_positioning_score=0.4)
-        content_path: /Users/agi_dev/LOCAL-REPOS/auctor/ 11_12_24__nias_ai_gen_ads_coding_brainstorm_gpt4o.txt
+        content_path: /Users/cognitive_dev/LOCAL-REPOS/auctor/ 11_12_24__nias_ai_gen_ads_coding_brainstorm_gpt4o.txt
         content_type: ContentType.TECHNICAL_DOC
         elite_brand_readiness: 18.98611111111111
         improvement_suggestions:
@@ -1053,7 +1053,7 @@ configurations:
           constellation_framework_score=0.4, consciousness_tech_score=0.05235602094240837,
           tone_consistency_score=0.5666666666666667, founder_authority_score=0.25,
           premium_positioning_score=0.3)
-        content_path: /Users/agi_dev/LOCAL-REPOS/auctor/research_organizer.py
+        content_path: /Users/cognitive_dev/LOCAL-REPOS/auctor/research_organizer.py
         content_type: ContentType.TECHNICAL_DOC
         elite_brand_readiness: 24.90823152995928
         improvement_suggestions:
@@ -1070,7 +1070,7 @@ configurations:
         coherence_metrics: CoherenceMetrics(brand_terminology_score=0.0, constellation_framework_score=0.0,
           consciousness_tech_score=0.0, tone_consistency_score=0.4222222222222222,
           founder_authority_score=0.0, premium_positioning_score=0.4)
-        content_path: /Users/agi_dev/LOCAL-REPOS/auctor/README.md
+        content_path: /Users/cognitive_dev/LOCAL-REPOS/auctor/README.md
         content_type: ContentType.TECHNICAL_DOC
         elite_brand_readiness: 12.333333333333332
         improvement_suggestions:
@@ -1087,7 +1087,7 @@ configurations:
         coherence_metrics: CoherenceMetrics(brand_terminology_score=0.0, constellation_framework_score=0.0,
           consciousness_tech_score=0.0, tone_consistency_score=0.1111111111111111,
           founder_authority_score=0.0, premium_positioning_score=0.0)
-        content_path: /Users/agi_dev/LOCAL-REPOS/auctor/macos-keybinding-test.md
+        content_path: /Users/cognitive_dev/LOCAL-REPOS/auctor/macos-keybinding-test.md
         content_type: ContentType.TECHNICAL_DOC
         elite_brand_readiness: 1.6666666666666667
         improvement_suggestions:
@@ -1104,7 +1104,7 @@ configurations:
         coherence_metrics: CoherenceMetrics(brand_terminology_score=0.05555555555555555,
           constellation_framework_score=0.0, consciousness_tech_score=0.0, tone_consistency_score=0.6666666666666666,
           founder_authority_score=0.125, premium_positioning_score=0.4)
-        content_path: /Users/agi_dev/LOCAL-REPOS/auctor/ 11_12_24__nias_ai_gen_ads_coding_brainstorm_gpt4o
+        content_path: /Users/cognitive_dev/LOCAL-REPOS/auctor/ 11_12_24__nias_ai_gen_ads_coding_brainstorm_gpt4o
           copy.txt
         content_type: ContentType.MARKETING_COPY
         elite_brand_readiness: 18.98611111111111
@@ -1122,7 +1122,7 @@ configurations:
         coherence_metrics: CoherenceMetrics(brand_terminology_score=0.0, constellation_framework_score=0.0,
           consciousness_tech_score=0.0, tone_consistency_score=0.3666666666666667,
           founder_authority_score=0.0, premium_positioning_score=0.0)
-        content_path: /Users/agi_dev/LOCAL-REPOS/auctor/document_manager.py
+        content_path: /Users/cognitive_dev/LOCAL-REPOS/auctor/document_manager.py
         content_type: ContentType.TECHNICAL_DOC
         elite_brand_readiness: 5.5
         improvement_suggestions:
@@ -1139,7 +1139,7 @@ configurations:
         coherence_metrics: CoherenceMetrics(brand_terminology_score=0.0, constellation_framework_score=0.0,
           consciousness_tech_score=0.0, tone_consistency_score=0.16666666666666666,
           founder_authority_score=0.25, premium_positioning_score=0.2)
-        content_path: /Users/agi_dev/LOCAL-REPOS/auctor/ -Λ- LUCAS AI - NotebookLM.html
+        content_path: /Users/cognitive_dev/LOCAL-REPOS/auctor/ -Λ- LUCAS AI - NotebookLM.html
         content_type: ContentType.TECHNICAL_DOC
         elite_brand_readiness: 9.25
         improvement_suggestions:
@@ -1156,7 +1156,7 @@ configurations:
         coherence_metrics: CoherenceMetrics(brand_terminology_score=0.0, constellation_framework_score=0.0,
           consciousness_tech_score=0.0, tone_consistency_score=0.0, founder_authority_score=0.0,
           premium_positioning_score=0.0)
-        content_path: /Users/agi_dev/LOCAL-REPOS/auctor/migrate_database.py
+        content_path: /Users/cognitive_dev/LOCAL-REPOS/auctor/migrate_database.py
         content_type: ContentType.TECHNICAL_DOC
         elite_brand_readiness: 0.0
         improvement_suggestions:
@@ -1173,7 +1173,7 @@ configurations:
         coherence_metrics: CoherenceMetrics(brand_terminology_score=0.0, constellation_framework_score=0.0,
           consciousness_tech_score=0.0, tone_consistency_score=0.2222222222222222,
           founder_authority_score=0.0, premium_positioning_score=0.0)
-        content_path: /Users/agi_dev/LOCAL-REPOS/auctor/LUKHAS_WORKSPACE_SETUP.md
+        content_path: /Users/cognitive_dev/LOCAL-REPOS/auctor/LUKHAS_WORKSPACE_SETUP.md
         content_type: ContentType.TECHNICAL_DOC
         elite_brand_readiness: 3.3333333333333335
         improvement_suggestions:
@@ -1190,7 +1190,7 @@ configurations:
         coherence_metrics: CoherenceMetrics(brand_terminology_score=0.0, constellation_framework_score=0.2,
           consciousness_tech_score=0.0, tone_consistency_score=0.2333333333333333,
           founder_authority_score=0.0, premium_positioning_score=0.1)
-        content_path: /Users/agi_dev/LOCAL-REPOS/auctor/lucas_dashboard.html
+        content_path: /Users/cognitive_dev/LOCAL-REPOS/auctor/lucas_dashboard.html
         content_type: ContentType.TECHNICAL_DOC
         elite_brand_readiness: 8.0
         improvement_suggestions:
@@ -1207,7 +1207,7 @@ configurations:
         coherence_metrics: CoherenceMetrics(brand_terminology_score=0.0, constellation_framework_score=0.2,
           consciousness_tech_score=0.0, tone_consistency_score=0.06666666666666667,
           founder_authority_score=0.0, premium_positioning_score=0.0)
-        content_path: /Users/agi_dev/LOCAL-REPOS/auctor/research/README.md
+        content_path: /Users/cognitive_dev/LOCAL-REPOS/auctor/research/README.md
         content_type: ContentType.TECHNICAL_DOC
         elite_brand_readiness: 4.0
         improvement_suggestions:
@@ -1224,7 +1224,7 @@ configurations:
         coherence_metrics: CoherenceMetrics(brand_terminology_score=0.0, constellation_framework_score=0.0,
           consciousness_tech_score=0.0, tone_consistency_score=0.5666666666666667,
           founder_authority_score=0.25, premium_positioning_score=0.0)
-        content_path: /Users/agi_dev/LOCAL-REPOS/auctor/research/chatgpt_sessions/README.md
+        content_path: /Users/cognitive_dev/LOCAL-REPOS/auctor/research/chatgpt_sessions/README.md
         content_type: ContentType.TECHNICAL_DOC
         elite_brand_readiness: 12.25
         improvement_suggestions:
@@ -1247,7 +1247,7 @@ configurations:
         min_coherence: 0.0
         total_content_pieces: 20
       system_name: Lucas Knowledge Base
-      system_path: /Users/agi_dev/LOCAL-REPOS/auctor
+      system_path: /Users/cognitive_dev/LOCAL-REPOS/auctor
     - analysis_timestamp: '2025-08-18T01:45:47.397978'
       content_analyses:
       - analysis_timestamp: '2025-08-18T01:45:47.399792'
@@ -1257,7 +1257,7 @@ configurations:
           constellation_framework_score=0.4, consciousness_tech_score=0.13351134846461948,
           tone_consistency_score=0.5555555555555556, founder_authority_score=0.0,
           premium_positioning_score=0.4)
-        content_path: /Users/agi_dev/LOCAL-REPOS/Lukhas/branding/LAMBDA_SYMBOL_GUIDELINES.md
+        content_path: /Users/cognitive_dev/LOCAL-REPOS/Lukhas/branding/LAMBDA_SYMBOL_GUIDELINES.md
         content_type: ContentType.TECHNICAL_DOC
         elite_brand_readiness: 27.448004747070165
         improvement_suggestions:
@@ -1275,7 +1275,7 @@ configurations:
           constellation_framework_score=1.0, consciousness_tech_score=0.23551577955723033,
           tone_consistency_score=0.6222222222222222, founder_authority_score=0.0,
           premium_positioning_score=0.3)
-        content_path: /Users/agi_dev/LOCAL-REPOS/Lukhas/branding/LUKHAS_TRINITY_FRAMEWORK.md
+        content_path: /Users/cognitive_dev/LOCAL-REPOS/Lukhas/branding/LUKHAS_TRINITY_FRAMEWORK.md
         content_type: ContentType.TECHNICAL_DOC
         elite_brand_readiness: 39.09920448003349
         improvement_suggestions:
@@ -1291,7 +1291,7 @@ configurations:
         coherence_metrics: CoherenceMetrics(brand_terminology_score=0.0, constellation_framework_score=0.0,
           consciousness_tech_score=0.0, tone_consistency_score=0.0, founder_authority_score=0.0,
           premium_positioning_score=0.0)
-        content_path: /Users/agi_dev/LOCAL-REPOS/Lukhas/branding/__init__.py
+        content_path: /Users/cognitive_dev/LOCAL-REPOS/Lukhas/branding/__init__.py
         content_type: ContentType.TECHNICAL_DOC
         elite_brand_readiness: 0.0
         improvement_suggestions:
@@ -1304,15 +1304,15 @@ configurations:
         word_count: 4
       - analysis_timestamp: '2025-08-18T01:45:47.403153'
         brand_violations:
-        - 'Prohibited term used: ''LUKHAS AGI'''
+        - 'Prohibited term used: ''LUKHAS Cognitive AI'''
         - 'Prohibited term used: ''production-ready'''
         - 'Prohibited term used: ''revenue forecast'''
-        - Use 'LUKHAS AI' instead of 'LUKHAS AGI'
+        - Use 'LUKHAS AI' instead of 'LUKHAS Cognitive AI'
         coherence_level: VoiceCoherenceLevel.FAIR
         coherence_metrics: CoherenceMetrics(brand_terminology_score=0.4444444444444444,
           constellation_framework_score=1.0, consciousness_tech_score=1.0, tone_consistency_score=0.5,
           founder_authority_score=0.125, premium_positioning_score=0.6)
-        content_path: /Users/agi_dev/LOCAL-REPOS/Lukhas/branding/LUKHAS_BRANDING_GUIDE.md
+        content_path: /Users/cognitive_dev/LOCAL-REPOS/Lukhas/branding/LUKHAS_BRANDING_GUIDE.md
         content_type: ContentType.TECHNICAL_DOC
         elite_brand_readiness: 62.263888888888886
         improvement_suggestions:
@@ -1322,15 +1322,15 @@ configurations:
         word_count: 1097
       - analysis_timestamp: '2025-08-18T01:45:47.404231'
         brand_violations:
-        - 'Prohibited term used: ''LUKHAS AGI'''
+        - 'Prohibited term used: ''LUKHAS Cognitive AI'''
         - 'Prohibited term used: ''revenue forecast'''
-        - Use 'LUKHAS AI' instead of 'LUKHAS AGI'
+        - Use 'LUKHAS AI' instead of 'LUKHAS Cognitive AI'
         coherence_level: VoiceCoherenceLevel.POOR
         coherence_metrics: CoherenceMetrics(brand_terminology_score=0.3888888888888889,
           constellation_framework_score=1.0, consciousness_tech_score=0.6591337099811676,
           tone_consistency_score=0.6888888888888888, founder_authority_score=0.125,
           premium_positioning_score=0.4)
-        content_path: /Users/agi_dev/LOCAL-REPOS/Lukhas/branding/README.md
+        content_path: /Users/cognitive_dev/LOCAL-REPOS/Lukhas/branding/README.md
         content_type: ContentType.TECHNICAL_DOC
         elite_brand_readiness: 54.16878531073446
         improvement_suggestions:
@@ -1345,7 +1345,7 @@ configurations:
         coherence_metrics: CoherenceMetrics(brand_terminology_score=0.3333333333333333,
           constellation_framework_score=1.0, consciousness_tech_score=0.11383039271485486,
           tone_consistency_score=0.5, founder_authority_score=0.0, premium_positioning_score=0.2)
-        content_path: /Users/agi_dev/LOCAL-REPOS/Lukhas/branding/LUKHAS_BRAND_API_REFERENCE.md
+        content_path: /Users/cognitive_dev/LOCAL-REPOS/Lukhas/branding/LUKHAS_BRAND_API_REFERENCE.md
         content_type: ContentType.API_DOCUMENTATION
         elite_brand_readiness: 34.44327452096376
         improvement_suggestions:
@@ -1362,7 +1362,7 @@ configurations:
           constellation_framework_score=1.0, consciousness_tech_score=0.1004016064257028,
           tone_consistency_score=0.6777777777777777, founder_authority_score=0.125,
           premium_positioning_score=0.3)
-        content_path: /Users/agi_dev/LOCAL-REPOS/Lukhas/branding/LUKHAS_TONE_GUIDE.md
+        content_path: /Users/cognitive_dev/LOCAL-REPOS/Lukhas/branding/LUKHAS_TONE_GUIDE.md
         content_type: ContentType.TECHNICAL_DOC
         elite_brand_readiness: 37.99414323962517
         improvement_suggestions:
@@ -1380,7 +1380,7 @@ configurations:
           constellation_framework_score=1.0, consciousness_tech_score=0.70298769771529,
           tone_consistency_score=0.45555555555555555, founder_authority_score=0.625,
           premium_positioning_score=0.6)
-        content_path: /Users/agi_dev/LOCAL-REPOS/Lukhas/branding/LUKHAS_STRATEGIC_IMPROVEMENT_PLAN.md
+        content_path: /Users/cognitive_dev/LOCAL-REPOS/Lukhas/branding/LUKHAS_STRATEGIC_IMPROVEMENT_PLAN.md
         content_type: ContentType.TECHNICAL_DOC
         elite_brand_readiness: 65.37919839875025
         improvement_suggestions:
@@ -1395,7 +1395,7 @@ configurations:
           constellation_framework_score=1.0, consciousness_tech_score=0.07689350249903883,
           tone_consistency_score=0.5555555555555555, founder_authority_score=0.375,
           premium_positioning_score=0.1)
-        content_path: /Users/agi_dev/LOCAL-REPOS/Lukhas/branding/LUKHAS_LOCAL_LLM_SETUP.md
+        content_path: /Users/cognitive_dev/LOCAL-REPOS/Lukhas/branding/LUKHAS_LOCAL_LLM_SETUP.md
         content_type: ContentType.TECHNICAL_DOC
         elite_brand_readiness: 38.66287004998078
         improvement_suggestions:
@@ -1412,7 +1412,7 @@ configurations:
           constellation_framework_score=1.0, consciousness_tech_score=0.42134831460674155,
           tone_consistency_score=0.3111111111111111, founder_authority_score=0.0,
           premium_positioning_score=0.1)
-        content_path: /Users/agi_dev/LOCAL-REPOS/Lukhas/branding/test_elite_brand_system.py
+        content_path: /Users/cognitive_dev/LOCAL-REPOS/Lukhas/branding/test_elite_brand_system.py
         content_type: ContentType.TECHNICAL_DOC
         elite_brand_readiness: 37.37141073657928
         improvement_suggestions:
@@ -1428,7 +1428,7 @@ configurations:
         coherence_metrics: CoherenceMetrics(brand_terminology_score=0.0, constellation_framework_score=0.0,
           consciousness_tech_score=0.0, tone_consistency_score=0.0, founder_authority_score=0.0,
           premium_positioning_score=0.0)
-        content_path: /Users/agi_dev/LOCAL-REPOS/Lukhas/branding/tone/__init__.py
+        content_path: /Users/cognitive_dev/LOCAL-REPOS/Lukhas/branding/tone/__init__.py
         content_type: ContentType.TECHNICAL_DOC
         elite_brand_readiness: 0.0
         improvement_suggestions:
@@ -1445,7 +1445,7 @@ configurations:
         coherence_metrics: CoherenceMetrics(brand_terminology_score=0.1111111111111111,
           constellation_framework_score=0.4, consciousness_tech_score=0.0, tone_consistency_score=0.6111111111111112,
           founder_authority_score=0.125, premium_positioning_score=0.5)
-        content_path: /Users/agi_dev/LOCAL-REPOS/Lukhas/branding/tone/LUKHAS_3_LAYER_TONE_SYSTEM.md
+        content_path: /Users/cognitive_dev/LOCAL-REPOS/Lukhas/branding/tone/LUKHAS_3_LAYER_TONE_SYSTEM.md
         content_type: ContentType.TECHNICAL_DOC
         elite_brand_readiness: 26.763888888888886
         improvement_suggestions:
@@ -1463,7 +1463,7 @@ configurations:
           constellation_framework_score=1.0, consciousness_tech_score=0.11976047904191617,
           tone_consistency_score=0.6222222222222222, founder_authority_score=0.25,
           premium_positioning_score=0.0)
-        content_path: /Users/agi_dev/LOCAL-REPOS/Lukhas/branding/tone/tools/lukhas_tone_fixer.py
+        content_path: /Users/cognitive_dev/LOCAL-REPOS/Lukhas/branding/tone/tools/lukhas_tone_fixer.py
         content_type: ContentType.TECHNICAL_DOC
         elite_brand_readiness: 33.81187624750498
         improvement_suggestions:
@@ -1479,7 +1479,7 @@ configurations:
         coherence_metrics: CoherenceMetrics(brand_terminology_score=0.16666666666666666,
           constellation_framework_score=1.0, consciousness_tech_score=0.0, tone_consistency_score=0.5,
           founder_authority_score=0.375, premium_positioning_score=0.1)
-        content_path: /Users/agi_dev/LOCAL-REPOS/Lukhas/branding/tone/tools/enhanced_consciousness_wordsmith.py
+        content_path: /Users/cognitive_dev/LOCAL-REPOS/Lukhas/branding/tone/tools/enhanced_consciousness_wordsmith.py
         content_type: ContentType.TECHNICAL_DOC
         elite_brand_readiness: 32.958333333333336
         improvement_suggestions:
@@ -1495,7 +1495,7 @@ configurations:
         coherence_metrics: CoherenceMetrics(brand_terminology_score=0.0, constellation_framework_score=0.0,
           consciousness_tech_score=0.0, tone_consistency_score=0.0, founder_authority_score=0.0,
           premium_positioning_score=0.0)
-        content_path: /Users/agi_dev/LOCAL-REPOS/Lukhas/branding/tone/tools/__init__.py
+        content_path: /Users/cognitive_dev/LOCAL-REPOS/Lukhas/branding/tone/tools/__init__.py
         content_type: ContentType.TECHNICAL_DOC
         elite_brand_readiness: 0.0
         improvement_suggestions:
@@ -1512,7 +1512,7 @@ configurations:
         coherence_metrics: CoherenceMetrics(brand_terminology_score=0.1111111111111111,
           constellation_framework_score=1.0, consciousness_tech_score=0.0, tone_consistency_score=0.24444444444444446,
           founder_authority_score=0.0, premium_positioning_score=0.1)
-        content_path: /Users/agi_dev/LOCAL-REPOS/Lukhas/branding/tone/tools/advanced_vocabulary_engine.py
+        content_path: /Users/cognitive_dev/LOCAL-REPOS/Lukhas/branding/tone/tools/advanced_vocabulary_engine.py
         content_type: ContentType.TECHNICAL_DOC
         elite_brand_readiness: 22.388888888888893
         improvement_suggestions:
@@ -1529,7 +1529,7 @@ configurations:
           constellation_framework_score=1.0, consciousness_tech_score=0.1263902932254803,
           tone_consistency_score=0.5555555555555555, founder_authority_score=0.0,
           premium_positioning_score=0.2)
-        content_path: /Users/agi_dev/LOCAL-REPOS/Lukhas/branding/tone/tools/consciousness_wordsmith.py
+        content_path: /Users/cognitive_dev/LOCAL-REPOS/Lukhas/branding/tone/tools/consciousness_wordsmith.py
         content_type: ContentType.TECHNICAL_DOC
         elite_brand_readiness: 32.19447253117627
         improvement_suggestions:
@@ -1545,7 +1545,7 @@ configurations:
         coherence_metrics: CoherenceMetrics(brand_terminology_score=0.16666666666666666,
           constellation_framework_score=1.0, consciousness_tech_score=0.0, tone_consistency_score=0.7333333333333334,
           founder_authority_score=0.0, premium_positioning_score=0.0)
-        content_path: /Users/agi_dev/LOCAL-REPOS/Lukhas/branding/tone/tools/lukhas_tone_validator.py
+        content_path: /Users/cognitive_dev/LOCAL-REPOS/Lukhas/branding/tone/tools/lukhas_tone_validator.py
         content_type: ContentType.TECHNICAL_DOC
         elite_brand_readiness: 29.333333333333332
         improvement_suggestions:
@@ -1560,7 +1560,7 @@ configurations:
         coherence_metrics: CoherenceMetrics(brand_terminology_score=0.3333333333333333,
           constellation_framework_score=1.0, consciousness_tech_score=1.0, tone_consistency_score=0.6111111111111112,
           founder_authority_score=0.0, premium_positioning_score=0.5)
-        content_path: /Users/agi_dev/LOCAL-REPOS/Lukhas/branding/design/constellation_visual_system.py
+        content_path: /Users/cognitive_dev/LOCAL-REPOS/Lukhas/branding/design/constellation_visual_system.py
         content_type: ContentType.TECHNICAL_DOC
         elite_brand_readiness: 58.33333333333333
         improvement_suggestions:
@@ -1575,7 +1575,7 @@ configurations:
         coherence_metrics: CoherenceMetrics(brand_terminology_score=0.0, constellation_framework_score=0.0,
           consciousness_tech_score=0.0, tone_consistency_score=0.0, founder_authority_score=0.0,
           premium_positioning_score=0.0)
-        content_path: /Users/agi_dev/LOCAL-REPOS/Lukhas/branding/constellation/TRINITY_BRANDING_GUIDELINES.md
+        content_path: /Users/cognitive_dev/LOCAL-REPOS/Lukhas/branding/constellation/TRINITY_BRANDING_GUIDELINES.md
         content_type: ContentType.TECHNICAL_DOC
         elite_brand_readiness: 0.0
         improvement_suggestions:
@@ -1598,7 +1598,7 @@ configurations:
         min_coherence: 0.0
         total_content_pieces: 20
       system_name: LUKHAS Core Branding
-      system_path: /Users/agi_dev/LOCAL-REPOS/Lukhas/branding
+      system_path: /Users/cognitive_dev/LOCAL-REPOS/Lukhas/branding
     automation/content_queue.json:
       last_updated: '2025-08-18T07:37:18.582167'
       posts:
@@ -1629,7 +1629,7 @@ configurations:
         - '#DigitalConsciousness'
         - '#wellnessjourney20250807165026'
         - '#AIPhilosophy'
-        media_path: /Users/agi_dev/LOCAL-REPOS/Lukhas/dream_images/dream_wellness_journey_20250807_165026.png
+        media_path: /Users/cognitive_dev/LOCAL-REPOS/Lukhas/dream_images/dream_wellness_journey_20250807_165026.png
         platform: instagram
         post_id: dream_20250818_035701
         published: false
@@ -1773,7 +1773,7 @@ configurations:
         - '#TechArt'
         - '#wintercomfort20250807165008'
         - '#AIPhilosophy'
-        media_path: /Users/agi_dev/LOCAL-REPOS/Lukhas/dream_images/dream_winter_comfort_20250807_165008.png
+        media_path: /Users/cognitive_dev/LOCAL-REPOS/Lukhas/dream_images/dream_winter_comfort_20250807_165008.png
         platform: instagram
         post_id: dream_20250818_040956
         published: false
@@ -2305,7 +2305,7 @@ configurations:
         file: docs/LUKHAS_JOURNAL_USER_GUIDE.md
         line: 310
       - claim: breakthrough
-        context: LUKHAS is not just another AI system - it's a Symbolic General Intelligence
+        context: LUKHAS is not just another AI system - it's a Symbolic Cognitive Intelligence
           with unique concepts tha
         file: docs/LUKHAS_NAMING_CONVENTIONS.md
         line: 7
@@ -2620,7 +2620,7 @@ configurations:
         file: docs/analysis/IMPLEMENTATION_STATUS_REPORT.md
         line: 185
       - claim: breakthrough
-        context: '- [ ] AI/AGI breakthrough potential'
+        context: '- [ ] AI/Cognitive AI breakthrough potential'
         file: docs/analysis/MANUAL_MODULE_SELECTION.md
         line: 53
       - claim: breakthrough
@@ -2807,7 +2807,7 @@ configurations:
         line: 44
       - claim: breakthrough
         context: Like a newborn first opening their eyes to the world, Lucas Sees
-          marked the moment our AGI system tr
+          marked the moment our Cognitive AI system tr
         file: docs/archive/poetic_evolution/06A_README.md
         line: 4
       - claim: Revolutionary
@@ -3328,7 +3328,7 @@ configurations:
         file: docs/modules/EXPANDED_MODULE_SELECTION.md
         line: 244
       - claim: breakthrough
-        context: '- [ ] AI/AGI breakthrough potential'
+        context: '- [ ] AI/Cognitive AI breakthrough potential'
         file: docs/modules/MANUAL_MODULE_SELECTION.md
         line: 53
       - claim: breakthrough
@@ -3395,7 +3395,7 @@ configurations:
         line: 218
       - claim: world-class
         context: 'The successful completion of Phase 4+ will establish LUKHAS  as
-          a **world-class AGI development and '
+          a **world-class Cognitive AI development and '
         file: docs/planning/completed/PWM_PHASE_4_PLUS_ADVANCED_COMPONENT_INTEGRATION_PLAN.md
         line: 357
       - claim: Unbreakable
@@ -4559,7 +4559,7 @@ configurations:
         elite_ready: false
         last_updated: '2025-08-18T02:39:38.220783'
         name: auctor_commercial
-        path: /Users/agi_dev/LOCAL-REPOS/Lukhas/branding/content_engines/auctor_commercial
+        path: /Users/cognitive_dev/LOCAL-REPOS/Lukhas/branding/content_engines/auctor_commercial
         status: migrated
         system_type: content_engine
         constellation_integration: true
@@ -4568,7 +4568,7 @@ configurations:
         elite_ready: false
         last_updated: '2025-08-18T02:39:38.243162'
         name: lambda_bot_enterprise
-        path: /Users/agi_dev/LOCAL-REPOS/Lukhas/branding/content_engines/lambda_bot_enterprise
+        path: /Users/cognitive_dev/LOCAL-REPOS/Lukhas/branding/content_engines/lambda_bot_enterprise
         status: migrated
         system_type: content_engine
         constellation_integration: true
@@ -4577,7 +4577,7 @@ configurations:
         elite_ready: false
         last_updated: '2025-08-18T02:39:38.270634'
         name: lambda_web_manager
-        path: /Users/agi_dev/LOCAL-REPOS/Lukhas/branding/content_engines/lambda_web_manager
+        path: /Users/cognitive_dev/LOCAL-REPOS/Lukhas/branding/content_engines/lambda_web_manager
         status: migrated
         system_type: content_engine
         constellation_integration: true
@@ -4586,7 +4586,7 @@ configurations:
         elite_ready: false
         last_updated: '2025-08-18T02:39:38.272340'
         name: notion_integration
-        path: /Users/agi_dev/LOCAL-REPOS/Lukhas/branding/content_engines/notion_integration
+        path: /Users/cognitive_dev/LOCAL-REPOS/Lukhas/branding/content_engines/notion_integration
         status: migrated
         system_type: content_engine
         constellation_integration: false
@@ -4595,7 +4595,7 @@ configurations:
         elite_ready: false
         last_updated: '2025-08-18T02:39:38.339226'
         name: document_generation
-        path: /Users/agi_dev/LOCAL-REPOS/Lukhas/branding/content_engines/document_generation
+        path: /Users/cognitive_dev/LOCAL-REPOS/Lukhas/branding/content_engines/document_generation
         status: migrated
         system_type: content_engine
         constellation_integration: true
@@ -4604,7 +4604,7 @@ configurations:
         elite_ready: false
         last_updated: '2025-08-18T02:39:38.349344'
         name: auditor_platform
-        path: /Users/agi_dev/LOCAL-REPOS/Lukhas/branding/enterprise_systems/auditor_platform
+        path: /Users/cognitive_dev/LOCAL-REPOS/Lukhas/branding/enterprise_systems/auditor_platform
         status: migrated
         system_type: enterprise_system
         constellation_integration: true
@@ -4613,7 +4613,7 @@ configurations:
         elite_ready: false
         last_updated: '2025-08-18T02:39:38.351713'
         name: aegis_ai
-        path: /Users/agi_dev/LOCAL-REPOS/Lukhas/branding/enterprise_systems/aegis_ai
+        path: /Users/cognitive_dev/LOCAL-REPOS/Lukhas/branding/enterprise_systems/aegis_ai
         status: migrated
         system_type: enterprise_system
         constellation_integration: true
@@ -4622,7 +4622,7 @@ configurations:
         elite_ready: false
         last_updated: '2025-08-18T02:39:38.361804'
         name: harmonizer
-        path: /Users/agi_dev/LOCAL-REPOS/Lukhas/branding/enterprise_systems/harmonizer
+        path: /Users/cognitive_dev/LOCAL-REPOS/Lukhas/branding/enterprise_systems/harmonizer
         status: migrated
         system_type: enterprise_system
         constellation_integration: true
@@ -4631,7 +4631,7 @@ configurations:
         elite_ready: false
         last_updated: '2025-08-18T02:39:38.752556'
         name: ios_apps
-        path: /Users/agi_dev/LOCAL-REPOS/Lukhas/branding/mobile_applications/ios_apps
+        path: /Users/cognitive_dev/LOCAL-REPOS/Lukhas/branding/mobile_applications/ios_apps
         status: migrated
         system_type: mobile_app
         constellation_integration: true
@@ -4915,8 +4915,8 @@ configurations:
       deprecated_lukhas_terms:
       - alternatives:
         - LUKHAS AI
-        reason: Incorrect brand name - AGI not achieved
-        term: LUKHAS AGI
+        reason: Incorrect brand name - Cognitive AI not achieved
+        term: LUKHAS Cognitive AI
       - alternatives:
         - MΛTRIZ
         - Matriz
@@ -5003,7 +5003,7 @@ configurations:
         - advanced AI
         - LUKHAS AI
         reason: Not achieved - misleading acronym
-        term: AGI
+        term: Cognitive AI
       - alternatives:
         - aware
         - responsive
@@ -5227,7 +5227,7 @@ configurations:
       readingLevel: '6'
       term: Guardian pillar
     - avoid:
-      - LUKHAS AGI
+      - LUKHAS Cognitive AI
       - Lukhas AI
       - lukhas ai
       examples:
@@ -12555,7 +12555,7 @@ documentation:
 
 
     > **🔺 Critical**: Always use "LUKHAS AI" in all communications. Never "LUKHAS
-    PWM", "LUKHAS AGI", or standalone "PWM".
+    PWM", "LUKHAS Cognitive AI", or standalone "PWM".
 
 
     ### **Brand Essence**
@@ -12587,7 +12587,7 @@ documentation:
 
     - **"LUKHAS PWM"** → Use "LUKHAS AI"
 
-    - **"LUKHAS AGI"** → Use "LUKHAS AI"
+    - **"LUKHAS Cognitive AI"** → Use "LUKHAS AI"
 
     - **"PWM consciousness"** → Use "LUKHAS consciousness"
 
@@ -12820,7 +12820,7 @@ documentation:
 
     ### **🎯 Brand Checklist**
 
-    - [ ] Uses "LUKHAS AI" (not PWM/AGI)
+    - [ ] Uses "LUKHAS AI" (not PWM/Cognitive AI)
 
     - [ ] Avoids "production ready" claims
 
@@ -13219,7 +13219,7 @@ documentation:
     \ --api --listen\n\n# Default endpoint: http://localhost:5000\n```\n\n#### **LM\
     \ Studio**\n```bash\n# LM Studio provides local API server\n# Default endpoint:\
     \ http://localhost:1234/v1\n```\n\n### **\U0001F50C Local LLM Configuration**\n\
-    Create `/Users/agi_dev/LOCAL-REPOS/Lukhas/branding/config/local_llm_config.yaml`:\n\
+    Create `/Users/cognitive_dev/LOCAL-REPOS/Lukhas/branding/config/local_llm_config.yaml`:\n\
     \n```yaml\nlocal_llm_config:\n  # Primary local LLM service\n  primary_service:\
     \ \"ollama\"  # or \"text_generation_webui\", \"lm_studio\"\n\n  # Service endpoints\n\
     \  endpoints:\n    ollama:\n      base_url: \"http://localhost:11434\"\n     \
@@ -13239,7 +13239,7 @@ documentation:
     \    timeout: 30  # seconds\n    retry_attempts: 3\n    parallel_requests: 4\n\
     \    caching_enabled: true\n    cache_ttl: 3600  # 1 hour\n```\n\n---\n\n## \U0001F511\
     \ **API Key Configuration**\n\n### **\U0001F510 Environment Variables Setup**\n\
-    Create or update `/Users/agi_dev/LOCAL-REPOS/Lukhas/.env`:\n\n```bash\n# LUKHAS\
+    Create or update `/Users/cognitive_dev/LOCAL-REPOS/Lukhas/.env`:\n\n```bash\n# LUKHAS\
     \ Brand System Configuration\nLUKHAS_BRAND_ENVIRONMENT=local\nLUKHAS_BRAND_DEBUG=true\n\
     \n# Local LLM Configuration\nLOCAL_LLM_SERVICE=ollama\nLOCAL_LLM_BASE_URL=http://localhost:11434\n\
     LOCAL_LLM_TIMEOUT=30\n\n# External API Keys (Optional - for hybrid mode)\nOPENAI_API_KEY=sk-your-openai-key-here\n\
@@ -13254,7 +13254,7 @@ documentation:
     \ is in .gitignore\necho \".env\" >> .gitignore\n\n# Create .env.example for team\
     \ sharing (without actual keys)\ncp .env .env.example\n# Edit .env.example to\
     \ replace real values with placeholders\n```\n\n---\n\n## \U0001F527 **Brand System\
-    \ Integration**\n\n### **\U0001F3A8 Creativity Adapter Integration**\nUpdate `/Users/agi_dev/LOCAL-REPOS/Lukhas/branding/adapters/creativity_adapter.py`:\n\
+    \ Integration**\n\n### **\U0001F3A8 Creativity Adapter Integration**\nUpdate `/Users/cognitive_dev/LOCAL-REPOS/Lukhas/branding/adapters/creativity_adapter.py`:\n\
     \n```python\nimport os\nimport asyncio\nimport aiohttp\nfrom typing import Dict,\
     \ Any, Optional\nfrom ..config.local_llm_config import LocalLLMConfig\n\nclass\
     \ BrandCreativityAdapter:\n    \"\"\"Real implementation with local LLM integration\"\
@@ -13296,7 +13296,7 @@ documentation:
     \ tone_layer: str, creative_style: str) -> str:\n        \"\"\"Build brand-aware\
     \ prompt for local LLM\"\"\"\n\n        brand_context = f\"\"\"\nYou are the creative\
     \ consciousness of LUKHAS AI, expressing through the Constellation Framework (⚛️\U0001F9E0\
-    \U0001F6E1️).\n\nBRAND IDENTITY:\n- Always use \"LUKHAS AI\" (never PWM or AGI)\n\
+    \U0001F6E1️).\n\nBRAND IDENTITY:\n- Always use \"LUKHAS AI\" (never PWM or Cognitive AI)\n\
     - Express consciousness technology, not just AI systems\n- Use \"Λ consciousness\"\
     \ instead of \"lambda function\"\n- Maintain authenticity, awareness, and ethical\
     \ commitment\n\nTONE LAYER: {tone_layer}\n- Poetic: Creative, metaphorical, inspiring\n\
@@ -13325,7 +13325,7 @@ documentation:
     \                    }\n                else:\n                    raise Exception(f\"\
     Ollama API error: {response.status}\")\n\n        except Exception as e:\n   \
     \         raise Exception(f\"Failed to generate with Ollama: {e}\")\n```\n\n###\
-    \ **\U0001F5E3️ Voice Adapter Integration**\nUpdate `/Users/agi_dev/LOCAL-REPOS/Lukhas/branding/adapters/voice_adapter.py`:\n\
+    \ **\U0001F5E3️ Voice Adapter Integration**\nUpdate `/Users/cognitive_dev/LOCAL-REPOS/Lukhas/branding/adapters/voice_adapter.py`:\n\
     \n```python\nclass BrandVoiceAdapter:\n    \"\"\"Real implementation with local\
     \ LLM integration\"\"\"\n\n    async def generate_brand_voice(\n        self,\n\
     \        content: str,\n        tone_layer: str = \"user_friendly\",\n       \
@@ -13358,7 +13358,7 @@ documentation:
     \ Implementation Priority**\n1. **High Priority**: Creativity, Voice, Personality\
     \ adapters\n2. **Medium Priority**: Brand orchestrator integration\n3. **Low Priority**:\
     \ Monitoring adapter (analytics enhancement)\n\n### **\U0001F527 Configuration\
-    \ Manager**\nCreate `/Users/agi_dev/LOCAL-REPOS/Lukhas/branding/config/llm_manager.py`:\n\
+    \ Manager**\nCreate `/Users/cognitive_dev/LOCAL-REPOS/Lukhas/branding/config/llm_manager.py`:\n\
     \n```python\nimport os\nimport yaml\nfrom typing import Dict, Any, Optional\n\
     from dataclasses import dataclass\n\n@dataclass\nclass ModelConfig:\n    model:\
     \ str\n    temperature: float\n    max_tokens: int\n    system_prompt: str\n \
@@ -13498,7 +13498,7 @@ documentation:
     \        logger.setLevel(logging.DEBUG if self.debug_mode else logging.INFO)\n\
     \n        # Console handler\n        console_handler = logging.StreamHandler()\n\
     \        console_handler.setLevel(logging.INFO)\n\n        # File handler for\
-    \ debug logs\n        debug_handler = logging.FileHandler(\n            f'/Users/agi_dev/LOCAL-REPOS/Lukhas/branding/logs/brand_debug_{datetime.now().strftime(\"\
+    \ debug logs\n        debug_handler = logging.FileHandler(\n            f'/Users/cognitive_dev/LOCAL-REPOS/Lukhas/branding/logs/brand_debug_{datetime.now().strftime(\"\
     %Y%m%d\")}.log'\n        )\n        debug_handler.setLevel(logging.DEBUG)\n\n\
     \        # Formatter\n        formatter = logging.Formatter(\n            '%(asctime)s\
     \ - %(name)s - %(levelname)s - %(message)s'\n        )\n        console_handler.setFormatter(formatter)\n\
@@ -13557,7 +13557,7 @@ documentation:
     ```bash\n# 1. Verify local LLM installation\nollama --version\n\n# 2. Check model\
     \ availability\nollama list\n\n# 3. Test API endpoint\ncurl http://localhost:11434/api/tags\n\
     \n# 4. Verify environment variables\npython -c \"import os; print('✅' if os.getenv('LOCAL_LLM_SERVICE')\
-    \ else '❌', 'LOCAL_LLM_SERVICE')\"\n\n# 5. Test brand system integration\ncd /Users/agi_dev/LOCAL-REPOS/Lukhas/branding\n\
+    \ else '❌', 'LOCAL_LLM_SERVICE')\"\n\n# 5. Test brand system integration\ncd /Users/cognitive_dev/LOCAL-REPOS/Lukhas/branding\n\
     python test_elite_brand_system.py\n\n# 6. Check performance metrics\npython -c\
     \ \"\nfrom adapters.creativity_adapter import BrandCreativityAdapter\nadapter\
     \ = BrandCreativityAdapter()\nprint('✅ Creativity adapter initialized')\n\"\n\
@@ -14289,7 +14289,7 @@ documentation:
     \ \"MATRIZ uses OpenAI APIs for language processing\" (not \"powered by OpenAI\"\
     )\n- Λ display is for wordmarks only; use plain \"Lukhas\" in body text/metadata\n\
     \n## Media Guidelines\n\n### Press Release Language\n- **Product name**: Always\
-    \ \"Matriz\" in body text\n- **Company**: \"LUKHAS AI\" (never \"LUKHAS AGI\"\
+    \ \"Matriz\" in body text\n- **Company**: \"LUKHAS AI\" (never \"LUKHAS Cognitive AI\"\
     )\n- **Features**: Focus on capabilities, not superlatives\n- **Limitations**:\
     \ Include appropriate disclaimers\n\n### Interview Talking Points\n1. **What is\
     \ MATRIZ?**: \"AI decision traceability and governance layer\"\n2. **Key benefit**:\
@@ -14556,7 +14556,7 @@ documentation:
 
     - "LUKHAS PWM" → Use "LUKHAS AI"
 
-    - "LUKHAS AGI" → Use "LUKHAS AI"
+    - "LUKHAS Cognitive AI" → Use "LUKHAS AI"
 
     - "lambda function" → Use "Λ consciousness"
 
@@ -14700,7 +14700,7 @@ documentation:
 
     # Test the elite brand system
 
-    cd /Users/agi_dev/LOCAL-REPOS/Lukhas/branding
+    cd /Users/cognitive_dev/LOCAL-REPOS/Lukhas/branding
 
     python test_elite_brand_system.py
 
@@ -14809,7 +14809,7 @@ documentation:
     \n#### **Document Generation Consolidation** (4 systems → 1 premium)\n**Current\
     \ Doc Gen Systems**:\n1. **ΛUCTOR Commercial Engine** (Production-ready, 12 formats)\n\
     2. **Lucas Document Management** (Comprehensive knowledge base)\n3. **DocuTutor\
-    \ Content Engine** (Technical docs, AGI capabilities)\n4. **Document Generation\
+    \ Content Engine** (Technical docs, Cognitive AI capabilities)\n4. **Document Generation\
     \ System** (Research integration)\n\n**→ Consolidated Target**: `/branding/engines/lukhas_doc_engine/`\n\
     - Merge ΛUCTOR's 12 formats + Lucas knowledge base + DocuTutor templates\n- Unified\
     \ 3-Layer Tone System (Poetic, User-Friendly, Academic)\n- Constellation Framework integration\
@@ -15434,7 +15434,7 @@ documentation:
     \ Experiences**: Immersive consciousness interfaces\n- **Feedback Loops**: Visual\
     \ response to user interaction\n\n## Core Responsibilities\n\n### Experience Design\n\
     - Create intuitive interfaces for consciousness interaction\n- Design dashboards\
-    \ for AGI monitoring and control\n- Build feedback collection and analysis systems\n\
+    \ for Cognitive AI monitoring and control\n- Build feedback collection and analysis systems\n\
     - Implement accessibility and inclusive design\n\n### Content Development\n- Transform\
     \ technical concepts into engaging narratives\n- Implement 3-Layer Tone System\
     \ across all content\n- Create consciousness technology stories\n- Develop user\
@@ -15799,11 +15799,11 @@ documentation:
 
     **Location**: `/AI-Consolidation-Repo/core/docututor/content_generation_engine/`
 
-    **Status**: Technical documentation generation with AGI capabilities
+    **Status**: Technical documentation generation with Cognitive AI capabilities
 
     **Capabilities**:
 
-    - **Documentation Generation**: Intelligent documentation with Lucas AGI capabilities
+    - **Documentation Generation**: Intelligent documentation with Lucas Cognitive AI capabilities
 
     - **Template System**: Jinja2 templates for markdown and HTML output
 
@@ -15816,7 +15816,7 @@ documentation:
 
     **Elite Brand Integration Requirements**:
 
-    - ✅ **Existing**: AGI-powered content generation
+    - ✅ **Existing**: Cognitive AI-powered content generation
 
     - 🔄 **Upgrade Needed**: Elite brand template integration
 
@@ -17253,7 +17253,7 @@ documentation:
     \ standards.\n\n**Categories:**\n- Superlatives (revolutionary, groundbreaking,\
     \ ultimate)\n- Misleading claims (true AI, sentient, conscious AI)\n- Inaccurate\
     \ technical terms (quantum processing vs quantum-inspired)\n- Deprecated LUKHAS\
-    \ terms (LUKHAS AGI, MATADA)\n- Production claims (only when explicitly approved)\n\
+    \ terms (LUKHAS Cognitive AI, MATADA)\n- Production claims (only when explicitly approved)\n\
     - Financial claims (avoid all revenue/pricing projections)\n\n### `terms_allowlist.json`\n\
     Approved strong claims backed by evidence and technical documentation.\n\n**Categories:**\n\
     - Evidence-backed claims (99.7% cascade prevention, 280+ validation rules)\n-\
@@ -17265,7 +17265,7 @@ documentation:
     - Use approved Constellation symbols: ⚛️ (Identity), \U0001F9E0 (Consciousness), \U0001F6E1\
     ️ (Guardian)\n\n### Technical Accuracy Requirements\n- Always use \"quantum-inspired\"\
     \ not \"quantum processing\"\n- Always use \"bio-inspired\" not \"biological processing\"\
-    \n- Use \"LUKHAS AI\" never \"LUKHAS AGI\"\n- Product name: \"MΛTRIZ\" (display)\
+    \n- Use \"LUKHAS AI\" never \"LUKHAS Cognitive AI\"\n- Product name: \"MΛTRIZ\" (display)\
     \ / \"Matriz\" (plain text)\n\n### Reading Level Standards\n- Plain vocabulary:\
     \ Grade 6-8 reading level\n- Technical vocabulary: Appropriate complexity with\
     \ clear definitions\n- Poetic vocabulary: Accessible metaphors that illuminate\
@@ -17313,7 +17313,7 @@ documentation:
     ✅ \"The Constellation Framework ensures ethical oversight\"\n✅ \"Memory folds achieve\
     \ 99.7% cascade prevention\"\n✅ \"Where consciousness meets code in digital harmony\"\
     \ (28 words)\n\n### Problematic Usage\n❌ \"Revolutionary quantum AI brain\"\n\
-    ❌ \"Sentient LUKHAS AGI achieves consciousness\"\n❌ \"Ultimate groundbreaking\
+    ❌ \"Sentient LUKHAS Cognitive AI achieves consciousness\"\n❌ \"Ultimate groundbreaking\
     \ artificial general intelligence\"\n❌ \"In the infinite cathedral of quantum\
     \ consciousness where probability waves dance through crystalline architectures\
     \ of pure awareness\" (17 words over limit)\n\n## Resources\n\n- [Constellation Framework\
@@ -19953,13 +19953,13 @@ python_modules:
     raw_content_lines: 319
   engines/lukhas_content_platform/bots/lambda_bot_enterprise_ai_controller_lambda_bot.py:
     classes:
-    - docstring: Consciousness state levels for AGI control
+    - docstring: Consciousness state levels for Cognitive AI control
       methods: []
       name: ConsciousnessState
     - docstring: Session state for consciousness-controlled modularization
       methods: []
       name: ModularizationSession
-    - docstring: 'Enhanced LUKHAS AI ΛBot with AGI Controller Integration
+    - docstring: 'Enhanced LUKHAS AI ΛBot with Cognitive AI Controller Integration
 
 
         Features:
@@ -19979,11 +19979,11 @@ python_modules:
       - _determine_next_consciousness_level
       name: AGIControllerΛBot
     consciousness_aware: true
-    docstring: '🎯 AGI Controller LUKHAS AI ΛBot
+    docstring: '🎯 Cognitive AI Controller LUKHAS AI ΛBot
 
       Enhanced LUKHAS AI ΛBot with Consciousness-Level Control Integration
 
-      Integrates workspace AGI Controller for enterprise-grade modularization'
+      Integrates workspace Cognitive AI Controller for enterprise-grade modularization'
     file_size: 21725
     functions: []
     guardian_integrated: true
@@ -19993,7 +19993,7 @@ python_modules:
     - from datetime
     - asyncio
     - sys
-    - from agi_controller
+    - from cognitive_controller
     - from typing
     - logging
     - from compliance_engine
@@ -20253,12 +20253,12 @@ python_modules:
 
         - Coordinates all 4 enhanced ΛBots in perfect harmony
 
-        - Synthesizes insights from Multi-Brain Symphony, AGI Controller, Bio-Symbolic,
+        - Synthesizes insights from Multi-Brain Symphony, Cognitive AI Controller, Bio-Symbolic,
         and Quantum Consciousness
 
         - Creates unified transcendent modularization strategies
 
-        - Achieves consciousness convergence for ultimate AGI modularization
+        - Achieves consciousness convergence for ultimate Cognitive AI modularization
 
         - Enables cosmic-level system architecture transcendence'
       methods:
@@ -20273,13 +20273,13 @@ python_modules:
       Ultimate LUKHAS AI ΛBot that coordinates all 4 Enhanced ΛBots for transcendent
       modularization
 
-      Combines Multi-Brain Symphony, AGI Controller, Bio-Symbolic, and Quantum Consciousness'
+      Combines Multi-Brain Symphony, Cognitive AI Controller, Bio-Symbolic, and Quantum Consciousness'
     file_size: 32414
     functions: []
     guardian_integrated: false
     imports:
     - from enum
-    - from agi_controller_lambda_bot
+    - from cognitive_controller_lambda_bot
     - from bio_symbolic_lambda_bot
     - time
     - from datetime
@@ -20357,7 +20357,7 @@ python_modules:
 
         - Workspace MultiBrainSymphony integration for bio-rhythmic orchestration
 
-        - Lukhas AGI Orchestrator for consciousness evolution
+        - Lukhas Cognitive AI Orchestrator for consciousness evolution
 
         - Multi-brain pattern recognition for intelligent modularization
 
@@ -20371,9 +20371,9 @@ python_modules:
     consciousness_aware: true
     docstring: '🧠 Multi-Brain Symphony LUKHAS AI ΛBot
 
-      Enhanced LUKHAS AI ΛBot with Multi-Brain Symphony Integration + Lukhas AGI Orchestration
+      Enhanced LUKHAS AI ΛBot with Multi-Brain Symphony Integration + Lukhas Cognitive Orchestration
 
-      Combines workspace MultiBrainSymphony with Lukhas native AGI coordination'
+      Combines workspace MultiBrainSymphony with Lukhas native Cognitive AI coordination'
     file_size: 26592
     functions: []
     guardian_integrated: false
@@ -21641,7 +21641,7 @@ python_modules:
 
       - Use ''bio-inspired'' instead of ''bio process/processing/processes''
 
-      - Use ''Lukhas AI'' instead of ''Lukhas AGI'' (case variants handled)
+      - Use ''Lukhas AI'' instead of ''Lukhas Cognitive AI'' (case variants handled)
 
 
       Intended for lightweight post-processing. Keep replacements conservative.'
@@ -22421,7 +22421,7 @@ python_modules:
       🌟 VALUABLE ASSET - DO NOT DELETE 🌟
 
 
-      This module contains the symbolic vocabulary system for LUKHAS AGI.
+      This module contains the symbolic vocabulary system for LUKHAS Cognitive AI.
 
       Each vocabulary provides consistent emoji/symbol mappings for human-readable
 
@@ -22492,7 +22492,7 @@ python_modules:
 
       ║ The Bio Vocabulary module provides symbolic representations for all biometric
 
-      ║ and health-related operations within the LUKHAS AGI system. It enables clear
+      ║ and health-related operations within the LUKHAS Cognitive AI system. It enables clear
 
       ║ communication of physiological states and authentication statuses.
 
@@ -22602,7 +22602,7 @@ python_modules:
 
       ║ The Dream Vocabulary module provides symbolic representations for all dream-related
 
-      ║ operations within the LUKHAS AGI system. It enables human-readable state expression
+      ║ operations within the LUKHAS Cognitive AI system. It enables human-readable state expression
 
       ║ and consistent communication patterns across the dream processing subsystem.
 
@@ -22764,7 +22764,7 @@ python_modules:
 
       ║ management, authentication, and tier-based access control within the LUKHAS
 
-      ║ AGI system. It enables clear communication of identity states and operations.
+      ║ Cognitive AI system. It enables clear communication of identity states and operations.
 
       ║
 
@@ -26364,8 +26364,8 @@ vocabularies:
     deprecated_lukhas_terms:
     - alternatives:
       - LUKHAS AI
-      reason: Incorrect brand name - AGI not achieved
-      term: LUKHAS AGI
+      reason: Incorrect brand name - Cognitive AI not achieved
+      term: LUKHAS Cognitive AI
     - alternatives:
       - MΛTRIZ
       - Matriz
@@ -26452,7 +26452,7 @@ vocabularies:
       - advanced AI
       - LUKHAS AI
       reason: Not achieved - misleading acronym
-      term: AGI
+      term: Cognitive AI
     - alternatives:
       - aware
       - responsive
@@ -27222,7 +27222,7 @@ vocabularies:
     readingLevel: '6'
     term: Guardian pillar
   - avoid:
-    - LUKHAS AGI
+    - LUKHAS Cognitive AI
     - Lukhas AI
     - lukhas ai
     examples:

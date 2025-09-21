@@ -45,7 +45,7 @@ from candidate.orchestration.brain.spine.fold_engine import AGIMemory
 LUKHAS AI System - Memory Fold Engine (v1_AGI)
 This module provides the foundational classes for creating, managing, and
 interacting with memory units (MemoryFolds) and a system for recognizing
-symbolic patterns within them. It forms a core part of the AGI's memory architecture.
+symbolic patterns within them. It forms a core part of the Cognitive AI's memory architecture.
 """
 
 # Standard Library Imports
@@ -761,7 +761,7 @@ def fold_dream_experience(:
         dream_id: Unique identifier for the dream
         dream_content: Textual content of the dream
         dream_metadata: Additional dream metadata and context
-        memory_manager: AGI memory manager instance
+        memory_manager: Cognitive AI memory manager instance
         emotional_memory: Emotional memory system instance
 
     Returns:
@@ -1046,7 +1046,7 @@ class MemoryIntegrityLedger:
     """
 
     LEDGER_PATH = (
-        "/Users/agi_dev/Downloads/Consolidation-Repo/logs/fold/fold_integrity_log.jsonl"
+        "/Users/cognitive_dev/Downloads/Consolidation-Repo/logs/fold/fold_integrity_log.jsonl"
     )
     _last_hash: Optional[str] = None
 
@@ -1168,7 +1168,7 @@ class SymbolicDeltaCompressor:
     Currently a stub implementation for production-ready scaffolding.
     """
 
-    COMPRESSED_MEMORY_PATH = "/Users/agi_dev/Downloads/Consolidation-Repo/logs/fold/compressed_symbolic_memory.jsonl"
+    COMPRESSED_MEMORY_PATH = "/Users/cognitive_dev/Downloads/Consolidation-Repo/logs/fold/compressed_symbolic_memory.jsonl"
 
     @classmethod
     def compress_fold_delta(cls, fold_key: str, content: Any, emotion_priority: float = 0.5) -> Dict[str, Any]:

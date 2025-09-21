@@ -8,17 +8,17 @@
 
 ══════════════════════════════════════════════════════════════════════════════════
 ║ 🧠 LUKHAS AI - QUANTUM IDENTITY MANAGER
-║ Future AGI & Quantum-Proof Identity Integration System
+║ Future Cognitive AI & Quantum-Proof Identity Integration System
 ║ Copyright (c) 2025 LUKHAS AI. All rights reserved.
 ╠══════════════════════════════════════════════════════════════════════════════════
 ║ Module: qi_identity_manager.py
 ║ Path: core/qi_identity_manager.py
 ║ Version: 1.0.0 | Created: 2025-07-28
-║ Authors: LUKHAS AGI Identity Team | Claude Code
+║ Authors: LUKHAS Cognitive AI Identity Team | Claude Code
 ╠══════════════════════════════════════════════════════════════════════════════════
 ║ DESCRIPTION
 ╠══════════════════════════════════════════════════════════════════════════════════
-║ Revolutionary quantum-proof identity management system designed for future AGI
+║ Revolutionary quantum-proof identity management system designed for future Cognitive AI
 ║ systems. Integrates post-quantum cryptography, dynamic tier management, and
 ║ advanced identity models for superintelligence-ready applications.
 ║
@@ -80,14 +80,14 @@ class QISecurityLevel(Enum):
 
 
 class AGIIdentityType(Enum):
-    """Identity types for different AGI scenarios."""
+    """Identity types for different Cognitive AI scenarios."""
 
     HUMAN = "human"  # Traditional human user identity
     AI_ASSISTANT = "ai_assistant"  # AI assistant with human oversight
     AUTONOMOUS_AI = "autonomous_ai"  # Fully autonomous AI system
     COMPOSITE_AI = "composite_ai"  # Multi-agent AI with shared identity
     EMERGENT_AI = "emergent_ai"  # Spontaneously emerged AI entity
-    SUPERINTELLIGENCE = "superintelligence"  # AGI/ASI level systems
+    SUPERINTELLIGENCE = "superintelligence"  # Cognitive AI/ASI level systems
 
 
 class QITierLevel(Enum):
@@ -98,7 +98,7 @@ class QITierLevel(Enum):
     QUANTUM_TIER_2 = 2  # Enhanced features with quantum entanglement
     QUANTUM_TIER_3 = 3  # Advanced features with quantum consciousness
     QUANTUM_TIER_4 = 4  # Superintelligence features with quantum prediction
-    QUANTUM_TIER_5 = 5  # Full AGI access with quantum omniscience
+    QUANTUM_TIER_5 = 5  # Full Cognitive AI access with quantum omniscience
 
     @property
     def lambda_tier(self) -> str:
@@ -204,7 +204,7 @@ class QIUserContext:
 
 class QIIdentityManager:
     """
-    Revolutionary quantum-proof identity management system for future AGI.
+    Revolutionary quantum-proof identity management system for future Cognitive AI.
 
     Designed to handle everything from human users to superintelligent AI systems
     with post-quantum cryptographic security and dynamic capability allocation.
@@ -212,7 +212,7 @@ class QIIdentityManager:
 
     def __init__(self):
         self.logger = logging.getLogger(f"{__name__}.QIIdentityManager")
-        self.logger.info("Initializing Quantum Identity Manager for Future AGI")
+        self.logger.info("Initializing Quantum Identity Manager for Future Cognitive AI")
 
         # Identity storage (in production, this would be distributed/encrypted)
         self.identity_cache: dict[str, QIUserContext] = {}
@@ -342,7 +342,7 @@ class QIIdentityManager:
         parent_identity_id: Optional[str] = None,
     ) -> QIUserContext:
         """
-        Create a new quantum-proof identity with advanced AGI support.
+        Create a new quantum-proof identity with advanced cognitive AI support.
 
         Args:
             user_id: Unique identifier for the user/AI
@@ -817,7 +817,7 @@ def get_quantum_identity_manager() -> QIIdentityManager:
 
 # Convenience functions for common operations
 async def create_agi_identity(user_id: str, identity_type: AGIIdentityType = AGIIdentityType.HUMAN) -> QIUserContext:
-    """Create AGI-ready identity with quantum security."""
+    """Create Cognitive AI-ready identity with quantum security."""
     manager = get_quantum_identity_manager()
     return await manager.create_quantum_identity(user_id, identity_type)
 

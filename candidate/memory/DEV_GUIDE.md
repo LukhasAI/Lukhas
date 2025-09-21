@@ -5,7 +5,7 @@
 ╠═══════════════════════════════════════════════════════════════════════════════
 ║ Document: Memory Module Developer Guide
 ║ Version: 1.0.0 | Created: 2025-07-26
-║ For: Core Developers, System Architects, and AGI Engineers
+║ For: Core Developers, System Architects, and Cognitive AI Engineers
 ╚═══════════════════════════════════════════════════════════════════════════════
 
 # Memory Module Developer Guide
@@ -1012,7 +1012,7 @@ The Memory Module is based on extensive research:
 ### Future Research Directions
 
 1. **Quantum Memory Superposition**: Storing memories in quantum-like states
-2. **Collective Memory Networks**: Distributed memory across AGI instances
+2. **Collective Memory Networks**: Distributed memory across Cognitive AI instances
 3. **Temporal Memory Compression**: Time-aware compression algorithms
 4. **Emotional Memory Synthesis**: Generating new emotional experiences
 5. **Causal Memory Prediction**: Anticipating future memory formation

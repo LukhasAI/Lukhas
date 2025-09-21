@@ -3,7 +3,7 @@
 """
 LUKHAS (Logical Unified Knowledge Hyper-Adaptable System) - Dream Viewer
 
-Copyright (c) 2025 LUKHAS AGI Development Team
+Copyright (c) 2025 LUKHAS Cognitive AI Development Team
 All rights reserved.
 
 This file is part of the LUKHAS Cognitive system, an enterprise artificial general

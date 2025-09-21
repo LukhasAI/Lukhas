@@ -36,4 +36,4 @@ def echo_behavior(actor, message):
 # Example usage
 if __name__ == "__main__":
     actor = Actor(echo_behavior)
-    actor.send("Hello, AGI world!")
+    actor.send("Hello, Cognitive AI world!")

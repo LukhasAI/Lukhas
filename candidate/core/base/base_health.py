@@ -1,7 +1,7 @@
 """
 ══════════════════════════════════════════════════════════════════════════════════
 ║ 🧠 LUKHAS AI - BASE HEALTH MONITORING SYSTEM
-║ Comprehensive health status tracking and reporting for AGI components
+║ Comprehensive health status tracking and reporting for Cognitive AI components
 ║ Copyright (c) 2025 LUKHAS AI. All rights reserved.
 ╠══════════════════════════════════════════════════════════════════════════════════
 ║ Module: base_health.py
@@ -21,7 +21,7 @@
 ║ • Component-level health monitoring with cascading status
 ║ • Extensible health check framework for custom diagnostics
 ║
-║ The health monitoring system is critical for maintaining AGI stability,
+║ The health monitoring system is critical for maintaining Cognitive AI stability,
 ║ detecting anomalies early, and ensuring graceful degradation when issues
 ║ arise. It integrates with the LUKHAS alerting and observability stack.
 ║
@@ -139,7 +139,7 @@ class BaseHealthMonitor:
 ║
 ║ REFERENCES:
 ║   - Docs: docs/common/health-monitoring.md
-║   - Issues: github.com/lukhas-ai/agi/issues?label=health
+║   - Issues: github.com/lukhas-ai/cognitive/issues?label=health
 ║   - Wiki: wiki.lukhas.ai/health-monitoring
 ║
 ║ COPYRIGHT & LICENSE:

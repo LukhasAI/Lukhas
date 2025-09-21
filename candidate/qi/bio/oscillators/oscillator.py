@@ -12,7 +12,7 @@
 ║ DESCRIPTION
 ╠══════════════════════════════════════════════════════════════════════════════════
 ║ Bio-inspired oscillator implementing biological neural rhythm patterns for
-║ coordinated AGI processing, synchronization, and temporal coherence.
+║ coordinated Cognitive AI processing, synchronization, and temporal coherence.
 ║
 ║ KEY FEATURES:
 ║ - Multiple oscillation types (Alpha, Beta, Gamma, Delta, Theta)
@@ -308,7 +308,7 @@ class BioOscillator:
 # ΛTAG: phase_control
 class MoodOscillator(BioOscillator):
     """
-    An oscillator that simulates mood swings and their effect on the AGI's internal state.
+    An oscillator that simulates mood swings and their effect on the Cognitive AI's internal state.
     """
 
     def __init__(self, simulate_trauma_lock=False, auto_regulate_neuroplasticity=False):

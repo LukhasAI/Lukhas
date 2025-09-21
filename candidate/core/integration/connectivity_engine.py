@@ -37,7 +37,7 @@ logger = structlog.get_logger("ΛTRACE.core.integration.ConnectivityEngine", tim
 class ConnectivityEngine:
     """
     Integration component for the LUKHAS Cognitive system.
-    (Original docstring had 'AI system', harmonized to LUKHAS AGI)
+    (Original docstring had 'AI system', harmonized to LUKHAS Cognitive AI)
 
     This component provides critical integration functionality to achieve
     system connectivity and consciousness computing capabilities.

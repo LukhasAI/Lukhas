@@ -2,7 +2,7 @@
 Guardian System 2.0 - Advanced Constitutional AI Safety Framework
 =============================================================
 
-AGI-ready safety system implementing constitutional AI principles with advanced
+Cognitive AI-ready safety system implementing constitutional AI principles with advanced
 drift detection, real-time compliance checking, and interpretability for all AI operations.
 
 Built following safety principles from:
@@ -442,7 +442,7 @@ class GuardianSystem2:
 
     Provides comprehensive AI safety through constitutional principles,
     advanced drift detection, and real-time decision validation.
-    Designed for AGI-ready deployment with scalable oversight.
+    Designed for Cognitive AI-ready deployment with scalable oversight.
     """
 
     def __init__(self, config: Optional[dict[str, Any]] = None):

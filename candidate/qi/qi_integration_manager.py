@@ -13,7 +13,7 @@
 LUKHAS - Quantum System
 ==============
 
-An enterprise-grade Artificial General Intelligence (AGI) framework
+An enterprise-grade Cognitive Artificial Intelligence (Cognitive AI) framework
 combining symbolic reasoning, emotional intelligence, quantum-inspired computing,
 and bio-inspired architecture for next-generation AI applications.
 
@@ -250,7 +250,7 @@ class UnifiedQuantumSystem:
 ║
 ║ REFERENCES:
 ║   - Docs: docs/quantum/unified-system-architecture.md
-║   - Issues: github.com/lukhas-ai/agi/issues?label=quantum-unified
+║   - Issues: github.com/lukhas-ai/cognitive/issues?label=quantum-unified
 ║   - Wiki: wiki.lukhas.ai/quantum-orchestration
 ║
 ║ COPYRIGHT & LICENSE:

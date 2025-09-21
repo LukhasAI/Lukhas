@@ -1,5 +1,5 @@
 """
-Tree of Thoughts reasoning for LUKHAS AGI.
+Tree of Thoughts reasoning for LUKHAS Cognitive AI.
 
 This module implements tree-based reasoning that explores multiple thought paths
 to arrive at better solutions through systematic exploration of the solution space.

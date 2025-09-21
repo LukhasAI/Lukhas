@@ -26,7 +26,7 @@ __all__ = [
 
 # ΛNOTE: This __init__.py initializes the 'governance' integration package.
 # Modules herein should focus on connecting governance frameworks, policy engines,
-# and ethical review boards with the operational AGI components.
+# and ethical review boards with the operational Cognitive AI components.
 
 logger.info("ΛTRACE: core.integration.governance package initialized.", exports=__all__)
 
@@ -46,7 +46,7 @@ logger.info("ΛTRACE: core.integration.governance package initialized.", exports
 # AUTHENTICATION: Not applicable.
 # HOW TO USE:
 #   from candidate.core.integration.governance import PolicyBoardConnector # Example
-# INTEGRATION NOTES: Connects core AGI to governance and ethics layers.
+# INTEGRATION NOTES: Connects core Cognitive AI to governance and ethics layers.
 #                    May involve #ΛEXTERNAL interfaces to compliance systems.
 # MAINTENANCE: Update __all__ as components are added/refactored.
 # CONTACT: LUKHAS DEVELOPMENT TEAM

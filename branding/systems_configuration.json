@@ -6,7 +6,7 @@
     {
       "name": "auctor_commercial",
       "system_type": "content_engine",
-      "path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/branding/content_engines/auctor_commercial",
+      "path": "/Users/cognitive_dev/LOCAL-REPOS/Lukhas/branding/content_engines/auctor_commercial",
       "status": "migrated",
       "voice_coherence": 46.529994400111995,
       "constellation_integration": true,
@@ -17,7 +17,7 @@
     {
       "name": "lambda_bot_enterprise",
       "system_type": "content_engine",
-      "path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/branding/content_engines/lambda_bot_enterprise",
+      "path": "/Users/cognitive_dev/LOCAL-REPOS/Lukhas/branding/content_engines/lambda_bot_enterprise",
       "status": "migrated",
       "voice_coherence": 44.06018518518519,
       "constellation_integration": true,
@@ -28,7 +28,7 @@
     {
       "name": "lambda_web_manager",
       "system_type": "content_engine",
-      "path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/branding/content_engines/lambda_web_manager",
+      "path": "/Users/cognitive_dev/LOCAL-REPOS/Lukhas/branding/content_engines/lambda_web_manager",
       "status": "migrated",
       "voice_coherence": 54.86452835527812,
       "constellation_integration": true,
@@ -39,7 +39,7 @@
     {
       "name": "notion_integration",
       "system_type": "content_engine",
-      "path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/branding/content_engines/notion_integration",
+      "path": "/Users/cognitive_dev/LOCAL-REPOS/Lukhas/branding/content_engines/notion_integration",
       "status": "migrated",
       "voice_coherence": 2.4691358024691357,
       "constellation_integration": false,
@@ -50,7 +50,7 @@
     {
       "name": "document_generation",
       "system_type": "content_engine",
-      "path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/branding/content_engines/document_generation",
+      "path": "/Users/cognitive_dev/LOCAL-REPOS/Lukhas/branding/content_engines/document_generation",
       "status": "migrated",
       "voice_coherence": 46.0540691835461,
       "constellation_integration": true,
@@ -61,7 +61,7 @@
     {
       "name": "auditor_platform",
       "system_type": "enterprise_system",
-      "path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/branding/enterprise_systems/auditor_platform",
+      "path": "/Users/cognitive_dev/LOCAL-REPOS/Lukhas/branding/enterprise_systems/auditor_platform",
       "status": "migrated",
       "voice_coherence": 19.606481481481485,
       "constellation_integration": true,
@@ -72,7 +72,7 @@
     {
       "name": "aegis_ai",
       "system_type": "enterprise_system",
-      "path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/branding/enterprise_systems/aegis_ai",
+      "path": "/Users/cognitive_dev/LOCAL-REPOS/Lukhas/branding/enterprise_systems/aegis_ai",
       "status": "migrated",
       "voice_coherence": 38.88888888888889,
       "constellation_integration": true,
@@ -83,7 +83,7 @@
     {
       "name": "harmonizer",
       "system_type": "enterprise_system",
-      "path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/branding/enterprise_systems/harmonizer",
+      "path": "/Users/cognitive_dev/LOCAL-REPOS/Lukhas/branding/enterprise_systems/harmonizer",
       "status": "migrated",
       "voice_coherence": 38.18173939676569,
       "constellation_integration": true,
@@ -94,7 +94,7 @@
     {
       "name": "ios_apps",
       "system_type": "mobile_app",
-      "path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/branding/mobile_applications/ios_apps",
+      "path": "/Users/cognitive_dev/LOCAL-REPOS/Lukhas/branding/mobile_applications/ios_apps",
       "status": "migrated",
       "voice_coherence": 39.875616704885,
       "constellation_integration": true,

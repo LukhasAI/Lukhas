@@ -1,5 +1,5 @@
 """
-LUKHAS AGI - Skill Acquisition Engine
+LUKHAS Cognitive AI - Skill Acquisition Engine
 Advanced skill acquisition and mastery system for consciousness development.
 ⚛️🧠🛡️ Constellation Framework: Identity-Consciousness-Guardian
 """

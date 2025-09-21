@@ -15,7 +15,7 @@ from datetime import datetime, timezone
 # ═══════════════════════════════════════════════════════════════════════════
 # FILENAME: engine.py
 # MODULE: core.lukhas_analyze.engine
-# DESCRIPTION: Implements the core LucasAnalyzeEngine for AGI-powered data analysis,
+# DESCRIPTION: Implements the core LucasAnalyzeEngine for Cognitive AI-powered data analysis,
 #              featuring adaptive learning, multi-modal understanding, symbolic reasoning,
 #              and natural language query processing.
 # DEPENDENCIES: structlog, asyncio, time, pandas, numpy, typing, dataclasses, enum, io,
@@ -24,9 +24,9 @@ from datetime import datetime, timezone
 # ═══════════════════════════════════════════════════════════════════════════
 
 """
-🧠 LUKHAS ANALYZE ENGINE - Core AGI Data Analysis System (Original Docstring)
+🧠 LUKHAS ANALYZE ENGINE - Core Cognitive AI Data Analysis System (Original Docstring)
 
-Future-Proof AGI Architecture:
+Future-Proof Cognitive Architecture:
 - Adaptive learning from analysis patterns
 - Multi-modal data understanding (text, numbers, images, time-series)
 - Symbolic reasoning for insight generation
@@ -94,7 +94,7 @@ class AnalysisType(Enum):
     PREDICTIVE = "predictive"  # What will happen?
     PRESCRIPTIVE = "prescriptive"  # What should we do?
     EXPLORATORY = "exploratory"  # What patterns exist?
-    AUTO = "auto"  # Let AGI decide
+    AUTO = "auto"  # Let Cognitive AI decide
 
 
 # ΛEXPOSE
@@ -112,10 +112,10 @@ class DataType(Enum):
 
 
 # ΛEXPOSE
-# Dataclass for AGI-Ready analysis request structure.
+# Dataclass for Cognitive AI-Ready analysis request structure.
 @dataclass
 class AnalysisRequest:
-    """AGI-Ready analysis request structure"""
+    """Cognitive AI-Ready analysis request structure"""
 
     data: Any
     question: Optional[str] = None
@@ -232,7 +232,7 @@ class LucasAnalyzeEngine:
         **kwargs: Any,
     ) -> dict[str, Any]:
         """
-        Main analysis interface - AGI-powered insights in seconds
+        Main analysis interface - Cognitive AI-powered insights in seconds
 
         Performance Target: <2s for complex analysis, <100ms for cached results
         #ΛNOTE: Performance targets are ambitious and depend on underlying implementations.
@@ -634,7 +634,7 @@ class LucasAnalyzeEngine:
         profile: dict[str, Any],
     ) -> AnalysisType:
         """
-        AGI-powered analysis type detection using symbolic reasoning.
+        Cognitive AI-powered analysis type detection using symbolic reasoning.
         #ΛNOTE: SymbolicProcessor interaction is conceptual. Fallback uses keywords and data profile.
         """
         self.logger.debug("Detecting analysis type.", question_present=bool(question))
@@ -1159,7 +1159,7 @@ class LucasAnalyzeEngine:
 # ═══════════════════════════════════════════════════════════════════════════
 # FILENAME: engine.py
 # VERSION: 1.0.0
-# TIER SYSTEM: Tier 3-5 (Advanced AGI data analysis and inference capabilities)
+# TIER SYSTEM: Tier 3-5 (Advanced Cognitive AI data analysis and inference capabilities)
 # ΛTRACE INTEGRATION: ENABLED
 # CAPABILITIES: Provides an advanced data analysis engine (`LucasAnalyzeEngine`) with features like
 #               automatic analysis type detection, data profiling, insight generation,

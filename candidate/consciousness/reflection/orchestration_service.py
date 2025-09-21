@@ -1484,7 +1484,7 @@ class OrchestrationService:
                     "consciousness_integrity_preserved": True,
                     "execution_time_ms": optimization_result.get("execution_time_ms", 0),
                     "optimized_at": optimization_result.get("optimized_at"),
-                    "sgi_evolution_pathway_maintained": True,  # Superior General Intelligence evolution
+                    "sgi_evolution_pathway_maintained": True,  # Superior Cognitive Intelligence evolution
                 }
             else:
                 return optimization_result
@@ -2126,7 +2126,7 @@ async def send_module_message(
 
 # =====================================================================
 # Enhanced Constellation Framework Performance API Functions
-# Bio-Quantum Consciousness Integration for Superior General Intelligence
+# Bio-Quantum Consciousness Integration for Superior Cognitive Intelligence
 # =====================================================================
 
 
@@ -2304,7 +2304,7 @@ if __name__ == "__main__":
         print("  🌊 Bio-oscillator synchronization (40Hz target)")
         print("  ⚛️ Quantum coherence optimization")
         print("  🔗 Memory fold cascade prevention (99.7% target)")
-        print("  🚀 Superior General Intelligence (SGI) evolution support")
+        print("  🚀 Superior Cognitive Intelligence (SGI) evolution support")
 
     asyncio.run(main())
 

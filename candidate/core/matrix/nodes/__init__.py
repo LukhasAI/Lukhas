@@ -6,7 +6,7 @@ This package contains the cognitive nodes used in the MATRIZ pipeline:
 Memory, Attention, Thought, Risk, Intent, Action, and Vision.
 
 Compatibility Note: This package supports both new cognitive naming
-and legacy agi_* naming during the transition period.
+and legacy cognitive_* naming during the transition period.
 """
 
 import os

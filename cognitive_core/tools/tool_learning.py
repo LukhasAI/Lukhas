@@ -1,5 +1,5 @@
 """
-Tool learning capabilities for LUKHAS AGI.
+Tool learning capabilities for LUKHAS Cognitive AI.
 
 This module provides adaptive tool learning functionality that enables the system
 to learn how to use tools more effectively and discover optimal tool combinations.

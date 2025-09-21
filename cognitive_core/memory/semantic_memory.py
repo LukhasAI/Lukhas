@@ -1,5 +1,5 @@
 """
-Semantic Memory Graph for AGI
+Semantic Memory Graph for Cognitive AI
 
 Advanced semantic memory system that stores and organizes factual knowledge,
 concepts, and their relationships in a graph-based structure.
@@ -158,7 +158,7 @@ class SemanticQuery:
 
 class SemanticMemoryGraph:
     """
-    Advanced Semantic Memory Graph for AGI
+    Advanced Semantic Memory Graph for Cognitive AI
 
     Manages factual knowledge and concept relationships in a graph structure
     with advanced querying and reasoning capabilities.

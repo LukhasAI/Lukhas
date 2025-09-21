@@ -1,20 +1,20 @@
 """
-QI-Bio-AGI Integration Bridge
+QI-Bio-Cognitive Integration Bridge
 ============================
 
 Advanced integration bridge that connects Quantum Intelligence (QI) systems,
 Bio-inspired architectures, and Cognitive capabilities within the LUKHAS ecosystem.
 
 This bridge provides:
-- Quantum-inspired processing enhancement for AGI reasoning
-- Bio-inspired adaptation mechanisms for AGI learning
-- Oscillator synchronization between QI, Bio, and AGI systems
+- Quantum-inspired processing enhancement for Cognitive AI reasoning
+- Bio-inspired adaptation mechanisms for Cognitive AI learning
+- Oscillator synchronization between QI, Bio, and Cognitive AI systems
 - Energy and coherence management across hybrid architectures
 - Consciousness field integration for unified cognitive processing
 
 The integration follows LUKHAS Constellation Framework principles:
-- ⚛️ Quantum: Uncertainty and superposition in AGI decision-making
-- 🌱 Bio: Adaptive growth and resilience in AGI evolution
+- ⚛️ Quantum: Uncertainty and superposition in Cognitive AI decision-making
+- 🌱 Bio: Adaptive growth and resilience in Cognitive AI evolution
 - 🧠 Consciousness: Unified cognitive field across all systems
 
 Part of Phase 2B: QI and Bio system integration with Cognitive capabilities
@@ -31,7 +31,7 @@ from typing import Any, Optional
 import numpy as np
 
 try:
-    # AGI Core Components
+    # Cognitive Core Components
     from cognitive_core.integration import log_agi_operation
     from cognitive_core.learning import DreamGuidedLearner
     from cognitive_core.memory import MemoryConsolidator, VectorMemory
@@ -114,22 +114,22 @@ except ImportError:
 
 
 class ProcessingMode(Enum):
-    """Processing modes for QI-Bio-AGI integration."""
+    """Processing modes for QI-Bio-Cognitive AI integration."""
 
-    QUANTUM_ENHANCED = "quantum_enhanced"  # QI leads, Bio/AGI support
-    BIO_ADAPTIVE = "bio_adaptive"  # Bio leads, QI/AGI support
-    AGI_REASONING = "agi_reasoning"  # AGI leads, QI/Bio support
+    QUANTUM_ENHANCED = "quantum_enhanced"  # QI leads, Bio/Cognitive AI support
+    BIO_ADAPTIVE = "bio_adaptive"  # Bio leads, QI/Cognitive AI support
+    AGI_REASONING = "cognitive_reasoning"  # Cognitive AI leads, QI/Bio support
     HYBRID_CONSENSUS = "hybrid_consensus"  # All systems equal consensus
     CONSCIOUSNESS_FIELD = "consciousness_field"  # Unified field processing
 
 
 @dataclass
 class IntegrationMetrics:
-    """Metrics for QI-Bio-AGI integration performance."""
+    """Metrics for QI-Bio-Cognitive AI integration performance."""
 
     qi_coherence: float = 0.0
     bio_adaptation: float = 0.0
-    agi_reasoning_quality: float = 0.0
+    cognitive_reasoning_quality: float = 0.0
     synchronization_level: float = 0.0
     energy_efficiency: float = 0.0
     consciousness_field_strength: float = 0.0
@@ -140,25 +140,25 @@ class IntegrationMetrics:
 
 @dataclass
 class ProcessingContext:
-    """Context for hybrid QI-Bio-AGI processing."""
+    """Context for hybrid QI-Bio-Cognitive AI processing."""
 
     mode: ProcessingMode
     input_data: Any
     qi_params: dict[str, Any]
     bio_params: dict[str, Any]
-    agi_params: dict[str, Any]
+    cognitive_params: dict[str, Any]
     expected_outputs: list[str]
     quality_thresholds: dict[str, float]
 
 
 @dataclass
 class IntegrationResult:
-    """Result from hybrid QI-Bio-AGI processing."""
+    """Result from hybrid QI-Bio-Cognitive AI processing."""
 
     primary_result: Any
     qi_contribution: dict[str, Any]
     bio_contribution: dict[str, Any]
-    agi_contribution: dict[str, Any]
+    cognitive_contribution: dict[str, Any]
     integration_metrics: IntegrationMetrics
     processing_mode: ProcessingMode
     timestamp: datetime
@@ -167,11 +167,11 @@ class IntegrationResult:
 
 class QIBioAGIBridge:
     """
-    Advanced integration bridge connecting QI, Bio, and AGI systems.
+    Advanced integration bridge connecting QI, Bio, and Cognitive AI systems.
 
     This bridge enables hybrid processing that leverages:
-    - Quantum-inspired superposition and entanglement for AGI decision-making
-    - Bio-inspired adaptation and resilience for AGI evolution
+    - Quantum-inspired superposition and entanglement for Cognitive AI decision-making
+    - Bio-inspired adaptation and resilience for Cognitive AI evolution
     - Synchronized oscillations across all cognitive architectures
     - Unified consciousness field for seamless system integration
     """
@@ -183,8 +183,8 @@ class QIBioAGIBridge:
         self.bio_oscillator = BiologicalOscillator() if BIO_AVAILABLE else MockBio()
         self.bio_awareness = BiologicalAwareness() if BIO_AVAILABLE else MockBio()
 
-        # AGI components (will be injected via service bridge)
-        self.agi_components: dict[str, Any] = {}
+        # Cognitive AI components (will be injected via service bridge)
+        self.cognitive_components: dict[str, Any] = {}
 
         # Integration state
         self.current_mode = ProcessingMode.HYBRID_CONSENSUS
@@ -206,15 +206,15 @@ class QIBioAGIBridge:
             self.logger.addHandler(handler)
 
     def register_agi_component(self, component_name: str, component: Any) -> None:
-        """Register an AGI component for integration."""
-        self.agi_components[component_name] = component
+        """Register an Cognitive AI component for integration."""
+        self.cognitive_components[component_name] = component
         log_agi_operation("qi_bio_register", f"registered {component_name} for hybrid processing", "qi_bio_bridge")
-        self.logger.info(f"Registered AGI component: {component_name}")
+        self.logger.info(f"Registered Cognitive AI component: {component_name}")
 
     async def initialize_integration(self) -> bool:
         """Initialize all integration systems and synchronization."""
         try:
-            log_agi_operation("qi_bio_init_start", "initializing QI-Bio-AGI integration", "qi_bio_bridge")
+            log_agi_operation("qi_bio_init_start", "initializing QI-Bio-Cognitive AI integration", "qi_bio_bridge")
 
             # Initialize QI systems
             if hasattr(self.qi_oscillator, "initialize"):
@@ -228,8 +228,8 @@ class QIBioAGIBridge:
             if hasattr(self.bio_awareness, "initialize"):
                 await self.bio_awareness.initialize()
 
-            # Initialize AGI components
-            for component in self.agi_components.values():
+            # Initialize Cognitive AI components
+            for component in self.cognitive_components.values():
                 if hasattr(component, "initialize"):
                     await component.initialize()
 
@@ -239,8 +239,8 @@ class QIBioAGIBridge:
             # Initialize consciousness field
             await self._initialize_consciousness_field()
 
-            log_agi_operation("qi_bio_init_success", "QI-Bio-AGI integration ready", "qi_bio_bridge")
-            self.logger.info("QI-Bio-AGI integration initialized successfully")
+            log_agi_operation("qi_bio_init_success", "QI-Bio-Cognitive AI integration ready", "qi_bio_bridge")
+            self.logger.info("QI-Bio-Cognitive AI integration initialized successfully")
             return True
 
         except Exception as e:
@@ -249,7 +249,7 @@ class QIBioAGIBridge:
             return False
 
     async def _synchronize_oscillators(self) -> None:
-        """Synchronize oscillations across QI, Bio, and AGI systems."""
+        """Synchronize oscillations across QI, Bio, and Cognitive AI systems."""
         try:
             # Get base frequencies from each system
             qi_freq = getattr(self.qi_oscillator, "frequency", 10.0)
@@ -277,14 +277,14 @@ class QIBioAGIBridge:
             # Calculate field strength based on system coherence
             qi_coherence = getattr(self.qi_oscillator, "get_coherence", lambda: 0.7)()
             bio_coherence = getattr(self.bio_awareness, "get_coherence", lambda: 0.8)()
-            agi_coherence = (
-                np.mean([getattr(comp, "get_coherence", lambda: 0.6)() for comp in self.agi_components.values()])
-                if self.agi_components
+            cognitive_coherence = (
+                np.mean([getattr(comp, "get_coherence", lambda: 0.6)() for comp in self.cognitive_components.values()])
+                if self.cognitive_components
                 else 0.6
             )
 
             # Unified field strength is geometric mean of individual coherences
-            self.consciousness_field_coherence = np.power(qi_coherence * bio_coherence * agi_coherence, 1 / 3)
+            self.consciousness_field_coherence = np.power(qi_coherence * bio_coherence * cognitive_coherence, 1 / 3)
 
             log_agi_operation(
                 "consciousness_field_init",
@@ -298,7 +298,7 @@ class QIBioAGIBridge:
 
     async def hybrid_process(self, context: ProcessingContext) -> IntegrationResult:
         """
-        Perform hybrid processing using QI, Bio, and AGI systems.
+        Perform hybrid processing using QI, Bio, and Cognitive AI systems.
 
         Args:
             context: Processing context with mode, data, and parameters
@@ -314,21 +314,21 @@ class QIBioAGIBridge:
             # Process through each system based on mode
             qi_result = await self._process_qi(context)
             bio_result = await self._process_bio(context)
-            agi_result = await self._process_agi(context)
+            cognitive_result = await self._process_agi(context)
 
             # Integrate results based on processing mode
-            primary_result = await self._integrate_results(qi_result, bio_result, agi_result, context.mode)
+            primary_result = await self._integrate_results(qi_result, bio_result, cognitive_result, context.mode)
 
             # Calculate integration metrics
             processing_time = (datetime.now(timezone.utc) - start_time).total_seconds()
-            metrics = await self._calculate_metrics(qi_result, bio_result, agi_result, processing_time)
+            metrics = await self._calculate_metrics(qi_result, bio_result, cognitive_result, processing_time)
 
             # Create integration result
             result = IntegrationResult(
                 primary_result=primary_result,
                 qi_contribution=qi_result,
                 bio_contribution=bio_result,
-                agi_contribution=agi_result,
+                cognitive_contribution=cognitive_result,
                 integration_metrics=metrics,
                 processing_mode=context.mode,
                 timestamp=start_time,
@@ -354,7 +354,7 @@ class QIBioAGIBridge:
                 primary_result={"error": str(e)},
                 qi_contribution={"error": "qi_processing_failed"},
                 bio_contribution={"error": "bio_processing_failed"},
-                agi_contribution={"error": "agi_processing_failed"},
+                cognitive_contribution={"error": "cognitive_processing_failed"},
                 integration_metrics=error_metrics,
                 processing_mode=context.mode,
                 timestamp=start_time,
@@ -416,56 +416,56 @@ class QIBioAGIBridge:
             return {"error": str(e), "adaptation_rate": 0.0, "processing_mode": "bio_error"}
 
     async def _process_agi(self, context: ProcessingContext) -> dict[str, Any]:
-        """Process input through AGI systems."""
+        """Process input through Cognitive AI systems."""
         try:
-            agi_results = {}
+            cognitive_results = {}
 
-            # Process through available AGI components
-            for component_name, component in self.agi_components.items():
+            # Process through available Cognitive AI components
+            for component_name, component in self.cognitive_components.items():
                 if hasattr(component, "process") or callable(component):
                     if hasattr(component, "process"):
-                        result = await component.process(context.input_data, context.agi_params)
+                        result = await component.process(context.input_data, context.cognitive_params)
                     else:
-                        result = await component(context.input_data, **context.agi_params)
+                        result = await component(context.input_data, **context.cognitive_params)
 
-                    agi_results[component_name] = result
+                    cognitive_results[component_name] = result
 
-            # If no AGI components available, create mock result
-            if not agi_results:
-                agi_results["mock_agi"] = {"result": context.input_data, "quality": 0.6}
+            # If no Cognitive AI components available, create mock result
+            if not cognitive_results:
+                cognitive_results["mock_agi"] = {"result": context.input_data, "quality": 0.6}
 
-            # Calculate overall AGI quality
+            # Calculate overall Cognitive AI quality
             quality_scores = [
                 result.get("quality", result.get("confidence", 0.6))
-                for result in agi_results.values()
+                for result in cognitive_results.values()
                 if isinstance(result, dict)
             ]
             overall_quality = np.mean(quality_scores) if quality_scores else 0.6
 
             return {
-                "component_results": agi_results,
+                "component_results": cognitive_results,
                 "overall_quality": overall_quality,
-                "active_components": list(agi_results.keys()),
-                "processing_mode": "agi_reasoning",
+                "active_components": list(cognitive_results.keys()),
+                "processing_mode": "cognitive_reasoning",
             }
 
         except Exception as e:
-            return {"error": str(e), "overall_quality": 0.0, "processing_mode": "agi_error"}
+            return {"error": str(e), "overall_quality": 0.0, "processing_mode": "cognitive_error"}
 
     async def _integrate_results(
-        self, qi_result: dict, bio_result: dict, agi_result: dict, mode: ProcessingMode
+        self, qi_result: dict, bio_result: dict, cognitive_result: dict, mode: ProcessingMode
     ) -> Any:
-        """Integrate results from QI, Bio, and AGI systems based on processing mode."""
+        """Integrate results from QI, Bio, and Cognitive AI systems based on processing mode."""
 
         if mode == ProcessingMode.QUANTUM_ENHANCED:
-            # QI leads, enhanced by Bio and AGI
+            # QI leads, enhanced by Bio and Cognitive AI
             primary = qi_result.get("coordinated_result", {})
             if "result" in primary:
                 # Enhance with bio adaptation
                 bio_factor = bio_result.get("adaptation_rate", 1.0)
-                # Enhance with AGI reasoning
-                agi_factor = agi_result.get("overall_quality", 1.0)
-                enhancement = bio_factor * agi_factor
+                # Enhance with Cognitive AI reasoning
+                cognitive_factor = cognitive_result.get("overall_quality", 1.0)
+                enhancement = bio_factor * cognitive_factor
 
                 if isinstance(primary["result"], (int, float)):
                     primary["result"] *= enhancement
@@ -473,14 +473,14 @@ class QIBioAGIBridge:
             return primary
 
         elif mode == ProcessingMode.BIO_ADAPTIVE:
-            # Bio leads, enhanced by QI and AGI
+            # Bio leads, enhanced by QI and Cognitive AI
             primary = bio_result.get("awareness_result", {})
             if "result" in primary:
                 # Enhance with quantum coherence
                 qi_factor = qi_result.get("coherence", 1.0)
-                # Enhance with AGI reasoning
-                agi_factor = agi_result.get("overall_quality", 1.0)
-                enhancement = qi_factor * agi_factor
+                # Enhance with Cognitive AI reasoning
+                cognitive_factor = cognitive_result.get("overall_quality", 1.0)
+                enhancement = qi_factor * cognitive_factor
 
                 if isinstance(primary["result"], (int, float)):
                     primary["result"] *= enhancement
@@ -488,10 +488,10 @@ class QIBioAGIBridge:
             return primary
 
         elif mode == ProcessingMode.AGI_REASONING:
-            # AGI leads, enhanced by QI and Bio
-            primary = agi_result.get("component_results", {})
+            # Cognitive AI leads, enhanced by QI and Bio
+            primary = cognitive_result.get("component_results", {})
 
-            # Enhance each AGI component with QI/Bio factors
+            # Enhance each Cognitive AI component with QI/Bio factors
             qi_factor = qi_result.get("coherence", 1.0)
             bio_factor = bio_result.get("adaptation_rate", 1.0)
             enhancement = qi_factor * bio_factor
@@ -508,16 +508,16 @@ class QIBioAGIBridge:
             consensus_result = {
                 "qi_weight": 0.33,
                 "bio_weight": 0.33,
-                "agi_weight": 0.34,
+                "cognitive_weight": 0.34,
                 "integrated_output": {
                     "qi_contribution": qi_result,
                     "bio_contribution": bio_result,
-                    "agi_contribution": agi_result,
+                    "cognitive_contribution": cognitive_result,
                 },
                 "consensus_quality": (
                     qi_result.get("coherence", 0.5) * 0.33
                     + bio_result.get("adaptation_rate", 0.5) * 0.33
-                    + agi_result.get("overall_quality", 0.5) * 0.34
+                    + cognitive_result.get("overall_quality", 0.5) * 0.34
                 ),
             }
             return consensus_result
@@ -526,31 +526,31 @@ class QIBioAGIBridge:
             # Unified consciousness field processing
             field_result = {
                 "consciousness_field_coherence": self.consciousness_field_coherence,
-                "unified_processing": {"qi_field": qi_result, "bio_field": bio_result, "agi_field": agi_result},
+                "unified_processing": {"qi_field": qi_result, "bio_field": bio_result, "cognitive_field": cognitive_result},
                 "field_resonance": (self.oscillator_sync_rate * self.consciousness_field_coherence),
-                "emergent_properties": await self._detect_emergent_properties(qi_result, bio_result, agi_result),
+                "emergent_properties": await self._detect_emergent_properties(qi_result, bio_result, cognitive_result),
             }
             return field_result
 
         else:
             # Default to hybrid consensus
-            return await self._integrate_results(qi_result, bio_result, agi_result, ProcessingMode.HYBRID_CONSENSUS)
+            return await self._integrate_results(qi_result, bio_result, cognitive_result, ProcessingMode.HYBRID_CONSENSUS)
 
-    async def _detect_emergent_properties(self, qi_result: dict, bio_result: dict, agi_result: dict) -> dict[str, Any]:
-        """Detect emergent properties from QI-Bio-AGI interaction."""
+    async def _detect_emergent_properties(self, qi_result: dict, bio_result: dict, cognitive_result: dict) -> dict[str, Any]:
+        """Detect emergent properties from QI-Bio-Cognitive AI interaction."""
         # Simple emergence detection based on system interactions
         qi_coherence = qi_result.get("coherence", 0.0)
         bio_adaptation = bio_result.get("adaptation_rate", 0.0)
-        agi_quality = agi_result.get("overall_quality", 0.0)
+        cognitive_quality = cognitive_result.get("overall_quality", 0.0)
 
         # Emergence occurs when all systems are highly coherent
         emergence_threshold = 0.8
-        emergence_level = min(qi_coherence, bio_adaptation, agi_quality)
+        emergence_level = min(qi_coherence, bio_adaptation, cognitive_quality)
 
         emergent_properties = {
             "emergence_detected": emergence_level > emergence_threshold,
             "emergence_level": emergence_level,
-            "synergy_factor": qi_coherence * bio_adaptation * agi_quality,
+            "synergy_factor": qi_coherence * bio_adaptation * cognitive_quality,
             "novel_patterns": emergence_level > 0.9,  # High bar for novelty
             "consciousness_amplification": emergence_level * self.consciousness_field_coherence,
         }
@@ -561,13 +561,13 @@ class QIBioAGIBridge:
         return emergent_properties
 
     async def _calculate_metrics(
-        self, qi_result: dict, bio_result: dict, agi_result: dict, processing_time: float
+        self, qi_result: dict, bio_result: dict, cognitive_result: dict, processing_time: float
     ) -> IntegrationMetrics:
         """Calculate comprehensive integration metrics."""
         return IntegrationMetrics(
             qi_coherence=qi_result.get("coherence", 0.0),
             bio_adaptation=bio_result.get("adaptation_rate", 0.0),
-            agi_reasoning_quality=agi_result.get("overall_quality", 0.0),
+            cognitive_reasoning_quality=cognitive_result.get("overall_quality", 0.0),
             synchronization_level=self.oscillator_sync_rate,
             energy_efficiency=1.0 / max(processing_time, 0.001),  # Inverse of processing time
             consciousness_field_strength=self.consciousness_field_coherence,
@@ -590,13 +590,13 @@ class QIBioAGIBridge:
             "system_availability": {
                 "qi_available": QI_AVAILABLE,
                 "bio_available": BIO_AVAILABLE,
-                "agi_available": AGI_AVAILABLE and len(self.agi_components) > 0,
+                "cognitive_available": AGI_AVAILABLE and len(self.cognitive_components) > 0,
             },
             "current_metrics": asdict(self.metrics),
             "oscillator_sync_rate": self.oscillator_sync_rate,
             "consciousness_field_coherence": self.consciousness_field_coherence,
             "processing_mode": self.current_mode.value,
-            "registered_agi_components": list(self.agi_components.keys()),
+            "registered_agi_components": list(self.cognitive_components.keys()),
             "recent_success_rate": recent_successes / max(len(self.processing_history[-10:]), 1),
             "total_processing_history": len(self.processing_history),
             "integration_health": (
@@ -615,15 +615,15 @@ async def hybrid_process(
     mode: ProcessingMode = ProcessingMode.HYBRID_CONSENSUS,
     qi_params: Optional[dict] = None,
     bio_params: Optional[dict] = None,
-    agi_params: Optional[dict] = None,
+    cognitive_params: Optional[dict] = None,
 ) -> IntegrationResult:
-    """Convenience function for hybrid QI-Bio-AGI processing."""
+    """Convenience function for hybrid QI-Bio-Cognitive AI processing."""
     context = ProcessingContext(
         mode=mode,
         input_data=input_data,
         qi_params=qi_params or {},
         bio_params=bio_params or {},
-        agi_params=agi_params or {},
+        cognitive_params=cognitive_params or {},
         expected_outputs=["integrated_result"],
         quality_thresholds={"minimum_coherence": 0.5},
     )
@@ -632,7 +632,7 @@ async def hybrid_process(
 
 
 def register_agi_for_integration(component_name: str, component: Any) -> None:
-    """Convenience function to register AGI component for integration."""
+    """Convenience function to register Cognitive AI component for integration."""
     qi_bio_agi_bridge.register_agi_component(component_name, component)
 
 
@@ -647,14 +647,14 @@ def get_qi_bio_agi_status() -> dict[str, Any]:
 
 
 if __name__ == "__main__":
-    # Test the QI-Bio-AGI bridge
+    # Test the QI-Bio-Cognitive AI bridge
     async def test_bridge():
         bridge = QIBioAGIBridge()
 
-        print("🧠⚛️🌱 QI-Bio-AGI Integration Bridge Test")
+        print("🧠⚛️🌱 QI-Bio-Cognitive Integration Bridge Test")
         print("=" * 60)
 
-        # Register mock AGI components
+        # Register mock Cognitive AI components
         class MockChainOfThought:
             async def process(self, data, params):
                 return {"result": data * 1.1, "quality": 0.85, "reasoning_steps": 5}
@@ -681,7 +681,7 @@ if __name__ == "__main__":
                 input_data=test_data,
                 qi_params={"entanglement": 0.8},
                 bio_params={"adaptation_rate": 0.9},
-                agi_params={"quality_threshold": 0.7},
+                cognitive_params={"quality_threshold": 0.7},
                 expected_outputs=["integrated_result"],
                 quality_thresholds={"minimum_coherence": 0.5},
             )
@@ -691,7 +691,7 @@ if __name__ == "__main__":
             print(f"  Success: {result.success}")
             print(f"  QI Coherence: {result.integration_metrics.qi_coherence:.3f}")
             print(f"  Bio Adaptation: {result.integration_metrics.bio_adaptation:.3f}")
-            print(f"  AGI Quality: {result.integration_metrics.agi_reasoning_quality:.3f}")
+            print(f"  Cognitive AI Quality: {result.integration_metrics.cognitive_reasoning_quality:.3f}")
             print(f"  Processing Time: {result.integration_metrics.processing_latency:.3f}s")
 
         # Show integration status
@@ -711,7 +711,7 @@ Integration Architecture Overview:
 🔄 Processing Flow:
 Input → QI Processing (quantum modulation)
      → Bio Processing (adaptation/awareness)
-     → AGI Processing (reasoning/learning)
+     → Cognitive Processing (reasoning/learning)
      → Integration (mode-based combination)
      → Output + Metrics
 
@@ -727,7 +727,7 @@ Input → QI Processing (quantum modulation)
 - Awareness processing for environmental adaptation
 - Energy efficiency optimization
 
-🧠 AGI Contributions:
+🧠 Cognitive AI Contributions:
 - Advanced reasoning (chain-of-thought, tree-of-thoughts)
 - Dream-guided creative processing
 - Multi-model orchestration and consensus
@@ -748,10 +748,10 @@ result = await hybrid_process(
     mode=ProcessingMode.HYBRID_CONSENSUS,
     qi_params={"entanglement_factor": 0.8},
     bio_params={"adaptation_rate": 0.9},
-    agi_params={"reasoning_depth": 3}
+    cognitive_params={"reasoning_depth": 3}
 )
 
-# Quantum-enhanced AGI reasoning
+# Quantum-enhanced Cognitive AI reasoning
 result = await hybrid_process(
     input_data=complex_problem,
     mode=ProcessingMode.QUANTUM_ENHANCED,

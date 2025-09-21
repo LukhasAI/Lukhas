@@ -240,7 +240,7 @@ def test_vocabulary_completeness(vocabulary):
 
 ## Conclusion
 
-The Symbolic Vocabulary System is a critical component of LUKHAS AGI's human interface. By following this development plan, we will create a comprehensive, intuitive, and culturally sensitive symbolic language that enhances human-AI communication and understanding.
+The Symbolic Vocabulary System is a critical component of LUKHAS Cognitive AI's human interface. By following this development plan, we will create a comprehensive, intuitive, and culturally sensitive symbolic language that enhances human-AI communication and understanding.
 
 ---
 

@@ -132,7 +132,7 @@ default_config = BaseConfig(
 ║
 ║ REFERENCES:
 ║   - Docs: docs/common/configuration.md
-║   - Issues: github.com/lukhas-ai/agi/issues?label=config
+║   - Issues: github.com/lukhas-ai/cognitive/issues?label=config
 ║   - Wiki: wiki.lukhas.ai/configuration-management
 ║
 ║ COPYRIGHT & LICENSE:

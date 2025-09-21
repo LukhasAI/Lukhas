@@ -1,8 +1,8 @@
 """
-Tests for QI-Bio-AGI Integration Bridge
+Tests for QI-Bio-Cognitive Integration Bridge
 ======================================
 
-Comprehensive test suite for the QI-Bio-AGI integration bridge system.
+Comprehensive test suite for the QI-Bio-Cognitive AI integration bridge system.
 Tests hybrid processing, system integration, metrics calculation, and error handling.
 
 Created: 2025-09-05
@@ -27,7 +27,7 @@ from cognitive_core.integration.qi_bio_agi_bridge import (
 
 
 class TestQIBioAGIBridge:
-    """Test suite for QI-Bio-AGI integration bridge."""
+    """Test suite for QI-Bio-Cognitive AI integration bridge."""
 
     @pytest.fixture
     def bridge(self):
@@ -36,7 +36,7 @@ class TestQIBioAGIBridge:
 
     @pytest.fixture
     def mock_agi_component(self):
-        """Create a mock AGI component."""
+        """Create a mock Cognitive AI component."""
         component = Mock()
         component.process = AsyncMock(return_value={"result": 42.0, "quality": 0.85, "confidence": 0.9})
         component.get_health = Mock(return_value={"status": "healthy"})
@@ -50,7 +50,7 @@ class TestQIBioAGIBridge:
             input_data=100.0,
             qi_params={"entanglement_factor": 0.8},
             bio_params={"adaptation_rate": 0.9},
-            agi_params={"quality_threshold": 0.7},
+            cognitive_params={"quality_threshold": 0.7},
             expected_outputs=["integrated_result"],
             quality_thresholds={"minimum_coherence": 0.5},
         )
@@ -64,16 +64,16 @@ class TestBridgeInitialization:
         bridge = QIBioAGIBridge()
         assert bridge is not None
         assert bridge.current_mode == ProcessingMode.HYBRID_CONSENSUS
-        assert bridge.agi_components == {}
+        assert bridge.cognitive_components == {}
         assert bridge.oscillator_sync_rate == 0.0
         assert bridge.consciousness_field_coherence == 0.0
 
     def test_agi_component_registration(self, bridge, mock_agi_component):
-        """Test AGI component registration."""
+        """Test Cognitive AI component registration."""
         bridge.register_agi_component("test_reasoning", mock_agi_component)
 
-        assert "test_reasoning" in bridge.agi_components
-        assert bridge.agi_components["test_reasoning"] == mock_agi_component
+        assert "test_reasoning" in bridge.cognitive_components
+        assert bridge.cognitive_components["test_reasoning"] == mock_agi_component
 
     @pytest.mark.asyncio
     async def test_initialization_success(self, bridge, mock_agi_component):
@@ -115,15 +115,15 @@ class TestHybridProcessing:
         assert result.processing_mode == ProcessingMode.HYBRID_CONSENSUS
         assert "qi_contribution" in result.__dict__
         assert "bio_contribution" in result.__dict__
-        assert "agi_contribution" in result.__dict__
+        assert "cognitive_contribution" in result.__dict__
 
         # Check consensus structure
         assert "qi_weight" in result.primary_result
         assert "bio_weight" in result.primary_result
-        assert "agi_weight" in result.primary_result
+        assert "cognitive_weight" in result.primary_result
         assert result.primary_result["qi_weight"] == 0.33
         assert result.primary_result["bio_weight"] == 0.33
-        assert result.primary_result["agi_weight"] == 0.34
+        assert result.primary_result["cognitive_weight"] == 0.34
 
     @pytest.mark.asyncio
     async def test_quantum_enhanced_mode(self, bridge, mock_agi_component):
@@ -135,7 +135,7 @@ class TestHybridProcessing:
             input_data=50.0,
             qi_params={"entanglement_factor": 0.9},
             bio_params={},
-            agi_params={},
+            cognitive_params={},
             expected_outputs=["qi_enhanced_result"],
             quality_thresholds={},
         )
@@ -156,7 +156,7 @@ class TestHybridProcessing:
             input_data=75.0,
             qi_params={},
             bio_params={"adaptation_rate": 0.95},
-            agi_params={},
+            cognitive_params={},
             expected_outputs=["bio_adapted_result"],
             quality_thresholds={},
         )
@@ -179,7 +179,7 @@ class TestHybridProcessing:
             input_data=200.0,
             qi_params={},
             bio_params={},
-            agi_params={},
+            cognitive_params={},
             expected_outputs=["consciousness_field_result"],
             quality_thresholds={},
         )
@@ -195,7 +195,7 @@ class TestHybridProcessing:
     @pytest.mark.asyncio
     async def test_processing_error_handling(self, bridge):
         """Test error handling in processing pipeline."""
-        # Force processing error by not registering any AGI components
+        # Force processing error by not registering any Cognitive AI components
         # and making QI processing fail
         bridge.qi_oscillator.qi_modulate = Mock(side_effect=Exception("QI failed"))
 
@@ -204,7 +204,7 @@ class TestHybridProcessing:
             input_data=10.0,
             qi_params={},
             bio_params={},
-            agi_params={},
+            cognitive_params={},
             expected_outputs=[],
             quality_thresholds={},
         )
@@ -224,9 +224,9 @@ class TestEmergenceDetection:
         """Test emergence detection with high system coherence."""
         qi_result = {"coherence": 0.95}
         bio_result = {"adaptation_rate": 0.92}
-        agi_result = {"overall_quality": 0.88}
+        cognitive_result = {"overall_quality": 0.88}
 
-        emergent = await bridge._detect_emergent_properties(qi_result, bio_result, agi_result)
+        emergent = await bridge._detect_emergent_properties(qi_result, bio_result, cognitive_result)
 
         assert emergent["emergence_detected"] is True
         assert emergent["emergence_level"] == 0.88  # Min of the three
@@ -238,9 +238,9 @@ class TestEmergenceDetection:
         """Test emergence detection with low system coherence."""
         qi_result = {"coherence": 0.3}
         bio_result = {"adaptation_rate": 0.4}
-        agi_result = {"overall_quality": 0.2}
+        cognitive_result = {"overall_quality": 0.2}
 
-        emergent = await bridge._detect_emergent_properties(qi_result, bio_result, agi_result)
+        emergent = await bridge._detect_emergent_properties(qi_result, bio_result, cognitive_result)
 
         assert emergent["emergence_detected"] is False
         assert emergent["emergence_level"] == 0.2
@@ -254,9 +254,9 @@ class TestEmergenceDetection:
 
         qi_result = {"coherence": 0.95}
         bio_result = {"adaptation_rate": 0.92}
-        agi_result = {"overall_quality": 0.91}
+        cognitive_result = {"overall_quality": 0.91}
 
-        emergent = await bridge._detect_emergent_properties(qi_result, bio_result, agi_result)
+        emergent = await bridge._detect_emergent_properties(qi_result, bio_result, cognitive_result)
 
         assert emergent["emergence_detected"] is True
         assert emergent["novel_patterns"] is True  # Above 0.9 threshold
@@ -271,17 +271,17 @@ class TestMetricsCalculation:
         """Test comprehensive metrics calculation."""
         qi_result = {"coherence": 0.8}
         bio_result = {"adaptation_rate": 0.75}
-        agi_result = {"overall_quality": 0.9}
+        cognitive_result = {"overall_quality": 0.9}
         processing_time = 0.125
 
         bridge.oscillator_sync_rate = 0.85
         bridge.consciousness_field_coherence = 0.7
 
-        metrics = await bridge._calculate_metrics(qi_result, bio_result, agi_result, processing_time)
+        metrics = await bridge._calculate_metrics(qi_result, bio_result, cognitive_result, processing_time)
 
         assert metrics.qi_coherence == 0.8
         assert metrics.bio_adaptation == 0.75
-        assert metrics.agi_reasoning_quality == 0.9
+        assert metrics.cognitive_reasoning_quality == 0.9
         assert metrics.synchronization_level == 0.85
         assert metrics.consciousness_field_strength == 0.7
         assert metrics.processing_latency == 0.125
@@ -293,7 +293,7 @@ class TestMetricsCalculation:
         metrics = IntegrationMetrics(
             qi_coherence=0.9,
             bio_adaptation=0.8,
-            agi_reasoning_quality=0.85,
+            cognitive_reasoning_quality=0.85,
             synchronization_level=0.7,
             energy_efficiency=5.0,
             consciousness_field_strength=0.75,
@@ -304,7 +304,7 @@ class TestMetricsCalculation:
 
         assert metrics.qi_coherence == 0.9
         assert metrics.bio_adaptation == 0.8
-        assert metrics.agi_reasoning_quality == 0.85
+        assert metrics.cognitive_reasoning_quality == 0.85
 
 
 class TestStatusAndMonitoring:
@@ -374,14 +374,14 @@ class TestConvenienceFunctions:
                 mode=ProcessingMode.BIO_ADAPTIVE,
                 qi_params={"test": "qi"},
                 bio_params={"test": "bio"},
-                agi_params={"test": "agi"},
+                cognitive_params={"test": "agi"},
             )
 
             assert result == mock_result
             mock_bridge.hybrid_process.assert_called_once()
 
     def test_register_agi_convenience(self):
-        """Test convenience function for AGI registration."""
+        """Test convenience function for Cognitive AI registration."""
         mock_component = Mock()
 
         with patch("cognitive_core.integration.qi_bio_agi_bridge.qi_bio_agi_bridge") as mock_bridge:
@@ -416,7 +416,7 @@ class TestProcessingModeEnum:
         """Test all processing modes are defined correctly."""
         assert ProcessingMode.QUANTUM_ENHANCED.value == "quantum_enhanced"
         assert ProcessingMode.BIO_ADAPTIVE.value == "bio_adaptive"
-        assert ProcessingMode.AGI_REASONING.value == "agi_reasoning"
+        assert ProcessingMode.AGI_REASONING.value == "cognitive_reasoning"
         assert ProcessingMode.HYBRID_CONSENSUS.value == "hybrid_consensus"
         assert ProcessingMode.CONSCIOUSNESS_FIELD.value == "consciousness_field"
 
@@ -424,7 +424,7 @@ class TestProcessingModeEnum:
         expected_modes = {
             "quantum_enhanced",
             "bio_adaptive",
-            "agi_reasoning",
+            "cognitive_reasoning",
             "hybrid_consensus",
             "consciousness_field",
         }
@@ -438,10 +438,10 @@ class TestFullIntegrationWorkflow:
 
     @pytest.mark.asyncio
     async def test_complete_workflow(self):
-        """Test complete QI-Bio-AGI integration workflow."""
+        """Test complete QI-Bio-Cognitive AI integration workflow."""
         bridge = QIBioAGIBridge(enable_monitoring=False)
 
-        # Step 1: Register AGI components
+        # Step 1: Register Cognitive AI components
         reasoning_component = Mock()
         reasoning_component.process = AsyncMock(return_value={"result": 150.0, "quality": 0.9, "reasoning_steps": 3})
 
@@ -467,7 +467,7 @@ class TestFullIntegrationWorkflow:
                 input_data=test_data,
                 qi_params={"entanglement_factor": 0.8},
                 bio_params={"adaptation_rate": 0.85},
-                agi_params={"quality_threshold": 0.7},
+                cognitive_params={"quality_threshold": 0.7},
                 expected_outputs=["result"],
                 quality_thresholds={"minimum_coherence": 0.5},
             )

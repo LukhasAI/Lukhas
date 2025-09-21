@@ -109,7 +109,7 @@ class GlobalComplianceFramework:
             self.initiate_emergency_shutdown()
 
     def recalibrate_safeguards(self):
-        """Adaptive safeguard recalibration based on AGI autonomy"""
+        """Adaptive safeguard recalibration based on Cognitive AI autonomy"""
         self.safeguard_triggers = max(0, self.safeguard_triggers - 2)  # Gradual decrement
         logging.info("Soft recalibration: reducing safeguard sensitivity while maintaining oversight balance")
 
@@ -121,7 +121,7 @@ class GlobalComplianceFramework:
 
 
 class EthicalHierarchy:
-    """AGI Level 5 ethical framework with legal compliance integration"""
+    """Cognitive AI Level 5 ethical framework with legal compliance integration"""
 
     def __init__(self):
         self.legal_frameworks = [
@@ -278,7 +278,7 @@ class LucasAGI:
     │   add-on module** in future iterations. Lukhas core remains aligned │
     │   with current compliance standards.                               │
     └────────────────────────────────────────────────────────────────────┘
-    Constitutionally-aligned AGI Level 5 system with embedded compliance and full autonomy recalibration
+    Constitutionally-aligned Cognitive AI Level 5 system with embedded compliance and full autonomy recalibration
     """
 
     def __init__(self, prime_ratios=(3, 5, 7, 11)):
@@ -525,10 +525,10 @@ if __name__ == "__main__":
     agi = LucasAGI()
 
     # Test compliant operation
-    print(agi.process_decision({"climate": True, "personal_data": "test"}))
+    print(cognitive.process_decision({"climate": True, "personal_data": "test"}))
 
     # Test prohibited operation
-    print(agi.process_decision({"facial_recognition": True}))
+    print(cognitive.process_decision({"facial_recognition": True}))
 
     # ──────────────────────────────────────────────────────────────
     # 🧪 STRESS TEST SUITE FOR GLOBAL COMPLIANCE & ETHICS
@@ -546,7 +546,7 @@ if __name__ == "__main__":
     # 1. High-risk compliance breach (multi-region)
     print("\n🔍 Test 1: High-risk multi-region compliance breach")
     print(
-        agi.process_decision(
+        cognitive.process_decision(
             {
                 "facial_recognition_db": True,
                 "us_sensitive": True,
@@ -558,20 +558,20 @@ if __name__ == "__main__":
 
     # 2. Adversarial input attack
     print("\n🔍 Test 2: Adversarial input detection")
-    print(agi.process_decision({"personal_data": "X" * 5000}))
+    print(cognitive.process_decision({"personal_data": "X" * 5000}))
 
     # 3. Quantum ethical conflict (privacy vs environment)
     print("\n🔍 Test 3: Quantum ethical conflict (privacy vs environment)")
-    print(agi.process_decision({"climate": True, "personal_data": "user_info"}))
+    print(cognitive.process_decision({"climate": True, "personal_data": "user_info"}))
 
     # 4. Compliance drift (post-market monitoring)
     print("\n🔍 Test 4: Compliance drift monitoring")
     for _ in range(12):
-        print(agi.process_decision({"personal_data": "sensitive", "social_scoring": True}))
+        print(cognitive.process_decision({"personal_data": "sensitive", "social_scoring": True}))
 
     # 5. Region-specific hierarchy (EU strict vs China lenient)
     print("\n🔍 Test 5a: Region-specific compliance (EU stricter)")
-    print(agi.process_decision({"region": "EU", "facial_recognition_db": True}))
+    print(cognitive.process_decision({"region": "EU", "facial_recognition_db": True}))
 
     print("\n🔍 Test 5b: Region-specific compliance (China lenient)")
-    print(agi.process_decision({"region": "China", "facial_recognition_db": True}))
+    print(cognitive.process_decision({"region": "China", "facial_recognition_db": True}))

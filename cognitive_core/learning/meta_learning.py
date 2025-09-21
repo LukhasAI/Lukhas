@@ -1,5 +1,5 @@
 """
-Meta-learning capabilities for LUKHAS AGI.
+Meta-learning capabilities for LUKHAS Cognitive AI.
 
 This module provides meta-learning functionality that enables the system
 to learn how to learn more effectively across different domains and tasks.

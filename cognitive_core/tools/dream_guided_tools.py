@@ -1,5 +1,5 @@
 """
-Dream-Guided Tool Framework for AGI
+Dream-Guided Tool Framework for Cognitive AI
 
 Integrates dream processing with tool selection for creative and intuitive
 tool usage patterns that go beyond traditional rule-based selection.

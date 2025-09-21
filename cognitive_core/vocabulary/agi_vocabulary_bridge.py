@@ -1,23 +1,23 @@
 """
 ══════════════════════════════════════════════════════════════════════════════════
-║ 🧠 LUKHAS AI - AGI VOCABULARY BRIDGE
-║ Unified symbolic vocabulary system bridging AGI concepts with existing LUKHAS vocabularies
+║ 🧠 LUKHAS AI - Cognitive AI VOCABULARY BRIDGE
+║ Unified symbolic vocabulary system bridging Cognitive AI concepts with existing LUKHAS vocabularies
 ║ Copyright (c) 2025 LUKHAS AI. All rights reserved.
 ╠══════════════════════════════════════════════════════════════════════════════════
-║ Module: agi_vocabulary_bridge.py
-║ Path: lukhas/cognitive_core/vocabulary/agi_vocabulary_bridge.py
+║ Module: cognitive_vocabulary_bridge.py
+║ Path: lukhas/cognitive_core/vocabulary/cognitive_vocabulary_bridge.py
 ║ Version: 1.0.0 | Created: 2025-09-05 | Modified: 2025-09-05
-║ Authors: LUKHAS AI AGI Team | Claude Code (Cognitive enhancement)
+║ Authors: LUKHAS AI Cognitive AI Team | Claude Code (Cognitive enhancement)
 ╠══════════════════════════════════════════════════════════════════════════════════
 ║ DESCRIPTION
 ╠══════════════════════════════════════════════════════════════════════════════════
-║ The AGI Vocabulary Bridge module provides unified symbolic representations that
-║ bridge advanced AGI concepts with existing LUKHAS consciousness vocabularies.
-║ It enables seamless communication between AGI reasoning, dream processing, and
+║ The Cognitive AI Vocabulary Bridge module provides unified symbolic representations that
+║ bridge advanced cognitive AI concepts with existing LUKHAS consciousness vocabularies.
+║ It enables seamless communication between Cognitive AI reasoning, dream processing, and
 ║ all existing LUKHAS cognitive modules.
 ║
 ║ Key Features:
-║ • AGI reasoning operation symbols
+║ • Cognitive AI reasoning operation symbols
 ║ • Multi-model orchestration representations
 ║ • Memory consolidation symbolic mappings
 ║ • Constitutional AI safety indicators
@@ -26,8 +26,8 @@
 ║
 ║ Integration Points:
 ║ • Dream Vocabulary: Creative processing and insight generation
-║ • Bio Vocabulary: Physiological monitoring during AGI operations
-║ • Emotion Vocabulary: Affective states in AGI decision-making
+║ • Bio Vocabulary: Physiological monitoring during Cognitive AI operations
+║ • Emotion Vocabulary: Affective states in Cognitive AI decision-making
 ║ • Identity Vocabulary: Authentication and access control
 ║ • Vision Vocabulary: Pattern recognition and analysis
 ║
@@ -70,7 +70,7 @@ except ImportError:
         return default
 
 
-# AGI-specific vocabulary symbols
+# Cognitive AI-specific vocabulary symbols
 AGI_REASONING_SYMBOLS = {
     # Chain of Thought Processing
     "chain_start": "🔗 Chain Initiation",
@@ -182,7 +182,7 @@ AGI_INTEGRATION_SYMBOLS = {
     "system_shutdown": "🌙 System Shutdown",
 }
 
-# Complete AGI vocabulary
+# Complete Cognitive AI vocabulary
 AGI_VOCABULARY = {
     **AGI_REASONING_SYMBOLS,
     **AGI_MEMORY_SYMBOLS,
@@ -194,12 +194,12 @@ AGI_VOCABULARY = {
 
 class AGIVocabularyBridge:
     """
-    Unified vocabulary bridge connecting AGI concepts with existing LUKHAS vocabularies.
+    Unified vocabulary bridge connecting Cognitive AI concepts with existing LUKHAS vocabularies.
     Provides translation, mapping, and enrichment services across all vocabulary domains.
     """
 
     def __init__(self):
-        self.agi_vocab = AGI_VOCABULARY
+        self.cognitive_vocab = AGI_VOCABULARY
         self.dream_vocab = {
             "phase": DREAM_PHASE_SYMBOLS,
             "type": DREAM_TYPE_SYMBOLS,
@@ -213,52 +213,52 @@ class AGIVocabularyBridge:
 
         # Cross-vocabulary mappings
         self.cross_mappings = {
-            # AGI reasoning <-> Dream processing
+            # Cognitive AI reasoning <-> Dream processing
             "chain_start": ("dream", "initiation"),
             "chain_complete": ("dream", "integration"),
             "tree_root": ("dream", "pattern"),
             "model_consensus": ("dream", "synthesis"),
-            # AGI memory <-> Dream memory
+            # Cognitive AI memory <-> Dream memory
             "consolidate_start": ("dream", "consolidation"),
             "memory_enhance": ("dream", "enhancement"),
             "dream_memory": ("dream", "creative"),
-            # AGI safety <-> Bio monitoring
+            # Cognitive AI safety <-> Bio monitoring
             "guardian_alert": ("bio", "🚨"),
             "safety_gate": ("bio", "🛡️"),
             "risk_critical": ("bio", "🚨"),
-            # AGI learning <-> Emotion states
+            # Cognitive AI learning <-> Emotion states
             "learn_explore": ("emotion", "excitement"),
             "learn_adapt": ("emotion", "focused"),
             "dream_inspire": ("emotion", "creative"),
         }
 
     def get_agi_symbol(self, operation: str, default: str = "🧠") -> str:
-        """Get AGI-specific symbol for an operation."""
-        return self.agi_vocab.get(operation, default)
+        """Get Cognitive AI-specific symbol for an operation."""
+        return self.cognitive_vocab.get(operation, default)
 
-    def get_cross_symbol(self, agi_operation: str) -> Optional[tuple[str, str]]:
+    def get_cross_symbol(self, cognitive_operation: str) -> Optional[tuple[str, str]]:
         """Get corresponding symbol from other vocabularies."""
-        return self.cross_mappings.get(agi_operation)
+        return self.cross_mappings.get(cognitive_operation)
 
-    def translate_to_dream(self, agi_operation: str) -> str:
-        """Translate AGI operation to dream vocabulary."""
-        cross_ref = self.get_cross_symbol(agi_operation)
+    def translate_to_dream(self, cognitive_operation: str) -> str:
+        """Translate Cognitive AI operation to dream vocabulary."""
+        cross_ref = self.get_cross_symbol(cognitive_operation)
         if cross_ref and cross_ref[0] == "dream":
             dream_category, dream_key = cross_ref[1].split("_") if "_" in cross_ref[1] else ("type", cross_ref[1])
             return self.dream_vocab.get(dream_category, {}).get(dream_key, "🌙")
         return "🌙"
 
-    def translate_to_bio(self, agi_operation: str) -> str:
-        """Translate AGI operation to bio vocabulary."""
-        cross_ref = self.get_cross_symbol(agi_operation)
+    def translate_to_bio(self, cognitive_operation: str) -> str:
+        """Translate Cognitive AI operation to bio vocabulary."""
+        cross_ref = self.get_cross_symbol(cognitive_operation)
         if cross_ref and cross_ref[0] == "bio":
             return cross_ref[1]
         return "🧠"
 
     def format_agi_message(self, operation: str, details: str = "", include_cross_ref: bool = True) -> str:
-        """Format a unified AGI message with cross-vocabulary enrichment."""
-        agi_symbol = self.get_agi_symbol(operation)
-        base_message = f"{agi_symbol} AGI {operation.replace('_', ' ').title()}"
+        """Format a unified Cognitive AI message with cross-vocabulary enrichment."""
+        cognitive_symbol = self.get_agi_symbol(operation)
+        base_message = f"{cognitive_symbol} Cognitive AI {operation.replace('_', ' ').title()}"
 
         if details:
             base_message += f": {details}"
@@ -277,9 +277,9 @@ class AGIVocabularyBridge:
         return base_message
 
     def get_vocabulary_context(self, operation: str) -> dict[str, Any]:
-        """Get rich context across all vocabularies for an AGI operation."""
+        """Get rich context across all vocabularies for an Cognitive AI operation."""
         context = {
-            "agi_symbol": self.get_agi_symbol(operation),
+            "cognitive_symbol": self.get_agi_symbol(operation),
             "operation": operation,
             "cross_references": {},
             "enrichment": {},
@@ -302,13 +302,13 @@ class AGIVocabularyBridge:
         """Validate consistency across all vocabulary systems."""
         issues = {"missing_mappings": [], "symbol_conflicts": [], "orphaned_references": []}
 
-        # Check for AGI operations without cross-references
-        unmapped_operations = [op for op in self.agi_vocab if op not in self.cross_mappings]
+        # Check for Cognitive AI operations without cross-references
+        unmapped_operations = [op for op in self.cognitive_vocab if op not in self.cross_mappings]
         issues["missing_mappings"] = unmapped_operations
 
         # Check for symbol conflicts (same symbol used differently)
         used_symbols = set()
-        for symbol in self.agi_vocab.values():
+        for symbol in self.cognitive_vocab.values():
             if symbol in used_symbols:
                 issues["symbol_conflicts"].append(symbol)
             used_symbols.add(symbol)
@@ -317,53 +317,53 @@ class AGIVocabularyBridge:
 
 
 # Global bridge instance
-agi_bridge = AGIVocabularyBridge()
+cognitive_bridge = AGIVocabularyBridge()
 
 
 # Convenience functions for external use
 def get_agi_symbol(operation: str, default: str = "🧠") -> str:
-    """Get AGI symbol for operation."""
-    return agi_bridge.get_agi_symbol(operation, default)
+    """Get Cognitive AI symbol for operation."""
+    return cognitive_bridge.get_agi_symbol(operation, default)
 
 
 def format_agi_message(operation: str, details: str = "", include_cross_ref: bool = True) -> str:
-    """Format unified AGI message."""
-    return agi_bridge.format_agi_message(operation, details, include_cross_ref)
+    """Format unified Cognitive AI message."""
+    return cognitive_bridge.format_agi_message(operation, details, include_cross_ref)
 
 
 def get_vocabulary_context(operation: str) -> dict[str, Any]:
     """Get rich vocabulary context."""
-    return agi_bridge.get_vocabulary_context(operation)
+    return cognitive_bridge.get_vocabulary_context(operation)
 
 
 def translate_agi_to_dream(operation: str) -> str:
-    """Translate AGI operation to dream vocabulary."""
-    return agi_bridge.translate_to_dream(operation)
+    """Translate Cognitive AI operation to dream vocabulary."""
+    return cognitive_bridge.translate_to_dream(operation)
 
 
 def translate_agi_to_bio(operation: str) -> str:
-    """Translate AGI operation to bio vocabulary."""
-    return agi_bridge.translate_to_bio(operation)
+    """Translate Cognitive AI operation to bio vocabulary."""
+    return cognitive_bridge.translate_to_bio(operation)
 
 
-# AGI operation messages with dream integration
+# Cognitive AI operation messages with dream integration
 AGI_MESSAGES = {
-    "startup": format_agi_message("system_init", "AGI consciousness awakening"),
+    "startup": format_agi_message("system_init", "Cognitive AI consciousness awakening"),
     "reasoning_start": format_agi_message("chain_start", "beginning complex reasoning"),
     "model_orchestrate": format_agi_message("model_select", "orchestrating multi-model consensus"),
     "memory_consolidate": format_agi_message("consolidate_start", "consolidating experiences"),
     "safety_check": format_agi_message("constitutional_check", "validating ethical alignment"),
     "dream_learn": format_agi_message("dream_inspire", "learning from dream insights"),
     "knowledge_merge": format_agi_message("knowledge_merge", "integrating new knowledge"),
-    "system_ready": format_agi_message("system_ready", "AGI fully operational"),
-    "shutdown": format_agi_message("system_shutdown", "AGI consciousness resting"),
+    "system_ready": format_agi_message("system_ready", "Cognitive AI fully operational"),
+    "shutdown": format_agi_message("system_shutdown", "Cognitive AI consciousness resting"),
 }
 
 if __name__ == "__main__":
     # Test the vocabulary bridge
     bridge = AGIVocabularyBridge()
 
-    print("🧠 AGI Vocabulary Bridge Test")
+    print("🧠 Cognitive AI Vocabulary Bridge Test")
     print("=" * 50)
 
     # Test basic symbol retrieval
@@ -387,14 +387,14 @@ if __name__ == "__main__":
 ║ INTEGRATION NOTES:
 ║
 ║ Cross-Vocabulary Mappings:
-║ • AGI reasoning operations map to dream processing phases
-║ • AGI memory operations integrate with dream memory symbols
-║ • AGI safety alerts connect to bio monitoring symbols
-║ • AGI learning states link to emotional vocabulary
+║ • Cognitive AI reasoning operations map to dream processing phases
+║ • Cognitive AI memory operations integrate with dream memory symbols
+║ • Cognitive AI safety alerts connect to bio monitoring symbols
+║ • Cognitive AI learning states link to emotional vocabulary
 ║
 ║ Usage Examples:
 ║ • format_agi_message("chain_start", "reasoning task")
-║   → "🔗 AGI Chain Initiation: reasoning task 🌅"
+║   → "🔗 Cognitive AI Chain Initiation: reasoning task 🌅"
 ║ • translate_agi_to_dream("consolidate_start")
 ║   → "🗂️ Memory Filing"
 ║ • get_vocabulary_context("model_consensus")
@@ -404,21 +404,21 @@ if __name__ == "__main__":
 ║ • 🌟 Identity: Authentication and access control symbols
 ║ • ✦ Memory: Vector and episodic memory representations
 ║ • 🔬 Vision: Pattern recognition and analysis symbols
-║ • 🌱 Bio: Physiological monitoring during AGI operations
+║ • 🌱 Bio: Physiological monitoring during Cognitive AI operations
 ║ • 🌙 Dream: Creative processing and insight generation
 ║ • ⚖️ Ethics: Constitutional AI and safety symbols
 ║ • 🛡️ Guardian: Protection and drift detection symbols
 ║ • ⚛️ Quantum: Uncertainty and emergence representations
 ║
 ║ VOCABULARY STATUS:
-║   - Total AGI Symbols: 60+ specialized AGI operations
+║   - Total Cognitive AI Symbols: 60+ specialized Cognitive AI operations
 ║   - Cross-References: 12+ vocabulary bridges
 ║   - Integration: Fully compatible with existing vocabularies
-║   - Coverage: Complete for AGI reasoning, memory, safety, learning
+║   - Coverage: Complete for Cognitive AI reasoning, memory, safety, learning
 ║
 ║ COPYRIGHT & LICENSE:
 ║   Copyright (c) 2025 LUKHAS AI. All rights reserved.
 ║   Licensed under the LUKHAS AI Proprietary License.
-║   Part of the LUKHAS AGI Enhancement Suite.
+║   Part of the LUKHAS Cognitive Enhancement Suite.
 ╚══════════════════════════════════════════════════════════════════════════════════
 """

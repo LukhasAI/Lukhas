@@ -2,7 +2,7 @@
 🌐 LUKHAS DAST API
 
 RESTful API endpoints for the enhanced DAST system with Jobs-level UX
-and Altman AGI vision integration. Provides enterprise-grade endpoints
+and Altman Cognitive AI vision integration. Provides enterprise-grade endpoints
 for task management, collaboration, and workflow optimization.
 """
 import time
@@ -21,7 +21,7 @@ class LucasDASTAPI:
     - One-line complexity: Simple, intuitive endpoints
     - Sub-100ms responses: Optimized for speed
     - Self-documenting: Clear, consistent naming
-    - AGI-ready: Future-proof architecture
+    - Cognitive AI-ready: Future-proof architecture
     """
 
     def __init__(self, dast_engine):

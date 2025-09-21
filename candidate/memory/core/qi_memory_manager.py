@@ -499,7 +499,7 @@ class EnhancedMemoryManager:
 ║
 ║ REFERENCES:
 ║   - Docs: docs/memory/memory-manager.md
-║   - Issues: github.com/lukhas-ai/agi/issues?label=memory-manager
+║   - Issues: github.com/lukhas-ai/cognitive/issues?label=memory-manager
 ║   - Wiki: wiki.lukhas.ai/memory-management-architecture
 ║
 ║ COPYRIGHT & LICENSE:

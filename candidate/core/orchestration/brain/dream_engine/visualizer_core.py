@@ -7,7 +7,7 @@ Integration Date: 2025-05-31T07:55:28.267934
 #!/usr/bin/env python3
 # 📄 MODULE: visualizer.py
 # 🔎 PURPOSE: Convert flashbacks into visual prompts for OpenAI DALL·E or other generators
-# 🛠️ VERSION: v1.0.0 • 📅 CREATED: 2025-04-30 • ✍️ AUTHOR: LUKHAS AGI
+# 🛠️ VERSION: v1.0.0 • 📅 CREATED: 2025-04-30 • ✍️ AUTHOR: LUKHAS Cognitive AI
 import json
 import os
 

@@ -4,7 +4,7 @@
 
 Immutable memory architecture with DNA-inspired structure for LUKHAS.
 Provides drift detection, controlled repair, and multi-dimensional memory storage.
-Implements MATADA cognitive DNA framework for AGI memory.
+Implements MATADA cognitive DNA framework for Cognitive AI memory.
 """
 import streamlit as st
 
@@ -30,7 +30,7 @@ from .dna_memory_architecture import (
 __version__ = "2.0.0"
 
 # Module metadata
-__author__ = "LUKHAS AGI Framework"
+__author__ = "LUKHAS Cognitive AI Framework"
 __description__ = "DNA-inspired immutable memory architecture with MATADA cognitive framework"
 
 __all__ = [

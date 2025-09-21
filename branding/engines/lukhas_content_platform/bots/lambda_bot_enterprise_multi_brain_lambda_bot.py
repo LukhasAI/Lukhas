@@ -24,9 +24,9 @@ def fix_later(*args, **kwargs):
     raise NotImplementedError("fix_later is not yet implemented - replace with actual functionality")
 
 
-sys.path.append("/Users/agi_dev/LOCAL-REPOS/Lukhas/core")
-sys.path.append("/Users/agi_dev/LOCAL-REPOS/Lukhas/core/brain")
-sys.path.append("/Users/agi_dev/Lukhas/Λ-ecosystem/LUKHAS AI ΛBot")
+sys.path.append("/Users/cognitive_dev/LOCAL-REPOS/Lukhas/core")
+sys.path.append("/Users/cognitive_dev/LOCAL-REPOS/Lukhas/core/brain")
+sys.path.append("/Users/cognitive_dev/Lukhas/Λ-ecosystem/LUKHAS AI ΛBot")
 
 # Import workspace components
 try:
@@ -234,7 +234,7 @@ class MultiBrainΛBot:
             "frequency_state": brain.base_frequency if brain else 40.0,
             "findings": {
                 "complexity_hotspots": [
-                    "core/agi_controller.py",
+                    "core/cognitive_controller.py",
                     "brain/MultiBrainSymphony.py",
                 ],
                 "dependency_clusters": ["consciousness modules", "quantum processing"],
@@ -409,7 +409,7 @@ async def main():
 
     # Perfrom coordinated analysis
     analysis_request = {
-        "target": "/Users/agi_dev/LOCAL-REPOS/Lukhas",
+        "target": "/Users/cognitive_dev/LOCAL-REPOS/Lukhas",
         "focus": "modularization_analysis",
         "depth": "comprehensive",
     }

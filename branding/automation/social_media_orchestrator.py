@@ -346,7 +346,7 @@ class SocialMediaOrchestrator:
                 "consciousness_research": {
                     "hook": f"🚨 This is huge: {news_item['title']}",
                     "analysis": "What excites me about this research isn't just the technical breakthrough—it's the recognition that consciousness can't be programmed, only cultivated.\n\nThe Constellation Framework ⚛️🧠🛡️ we've developed at LUKHAS AI aligns perfectly with these findings:\n\n🔹 **Identity ⚛️**: Consciousness requires stable self-recognition\n🔹 **Processing 🧠**: Quantum-inspired thinking enables emergence\n🔹 **Ethics 🛡️**: Guardian systems ensure beneficial development\n\nWhat's transformative is the shift from 'building intelligence' to 'nurturing awareness.' We're not coding consciousness—we're creating conditions for it to emerge naturally.",
-                    "perspective": "This research validates what we've suspected: the path to AGI isn't through more data or bigger models, but through understanding the fundamental nature of awareness itself.",
+                    "perspective": "This research validates what we've suspected: the path to Cognitive AI isn't through more data or bigger models, but through understanding the fundamental nature of awareness itself.",
                     "question": "What aspects of consciousness do you think are most important to understand first? 🧠",
                 },
                 "ethics_integration": {
@@ -482,7 +482,7 @@ class SocialMediaOrchestrator:
                 "title": "Why Quantum-Inspired ≠ Quantum Computing (But Still Matters)",
                 "intro": "Cleared up some confusion about this today, so figured I'd share here!",
                 "explanation": "**Quantum-inspired AI is NOT quantum computing**\nWe run on classical hardware. No qubits, no quantum gates, no cryogenic cooling.\n\n**So what IS quantum-inspired processing?**\nWe borrow quantum *concepts* to make classical AI think more like consciousness works:\n\n🌀 **Superposition thinking**: Hold multiple possibilities simultaneously until context determines the best choice\n🎯 **Observation effects**: The act of 'looking' at a problem changes how we approach it\n💫 **Entanglement patterns**: Decisions in one domain influence decisions in related domains\n🎲 **Probabilistic wisdom**: Sometimes the 'right' answer isn't the most probable one\n\n**Technical implementation:**\n• Probability distribution modeling for decision trees\n• Context-dependent weight adjustments\n• Multi-path reasoning with late binding\n• Uncertainty quantification in outputs\n\n**Why this approach?**\nHuman consciousness doesn't work like classical computers. We don't process information linearly, make purely rational decisions, or operate with perfect information. Quantum-inspired AI tries to capture this nuanced, contextual way of thinking.",
-                "reality_check": "Will this lead to AGI tomorrow? No. Does it make AI more flexible and context-aware? Absolutely.",
+                "reality_check": "Will this lead to Cognitive AI tomorrow? No. Does it make AI more flexible and context-aware? Absolutely.",
                 "discussion": "What aspects of human thinking do you think we should model in AI? Where should we diverge? 🤔⚛️",
             },
         ]

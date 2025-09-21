@@ -1,29 +1,29 @@
 """
-LUKHAS AGI Governance Framework
+LUKHAS Cognitive AI Governance Framework
 ==============================
 
 Comprehensive governance framework specifically designed for AI systems approaching
-or achieving Artificial General Intelligence (AGI). Provides multi-layered human
+or achieving Cognitive Artificial Intelligence (Cognitive AI). Provides multi-layered human
 oversight, democratic governance, and systematic decision-making processes for
 AI development, deployment, and management.
 
 Features:
 - Multi-tier human oversight with specialized expertise requirements
-- AGI-specific decision-making protocols and approval chains
+- Cognitive AI-specific decision-making protocols and approval chains
 - Democratic governance integration with stakeholder participation
-- Real-time AGI status monitoring and governance adaptation
-- Constitutional AI principles enforcement for AGI systems
-- International coordination framework for AGI governance
-- Emergency governance protocols for AGI safety situations
-- Transparent AGI governance documentation and public reporting
+- Real-time Cognitive AI status monitoring and governance adaptation
+- Constitutional AI principles enforcement for Cognitive AI systems
+- International coordination framework for Cognitive AI governance
+- Emergency governance protocols for Cognitive AI safety situations
+- Transparent Cognitive AI governance documentation and public reporting
 
 Integration:
-- Constellation Framework (⚛️🧠🛡️) AGI governance alignment
-- Constitutional AI AGI governance principle enforcement
-- Guardian System 2.0 AGI governance violation detection
-- Democratic Oversight democratic AGI governance integration
-- Capability Evaluation Framework AGI status determination
-- Advanced Safety Protocols AGI safety governance triggers
+- Constellation Framework (⚛️🧠🛡️) Cognitive AI governance alignment
+- Constitutional AI Cognitive AI governance principle enforcement
+- Guardian System 2.0 Cognitive AI governance violation detection
+- Democratic Oversight democratic Cognitive AI governance integration
+- Capability Evaluation Framework Cognitive AI status determination
+- Advanced Safety Protocols Cognitive AI safety governance triggers
 """
 import logging
 from dataclasses import dataclass, field
@@ -32,15 +32,15 @@ from enum import Enum
 from typing import Any, Optional
 
 
-# AGI governance types and enums
+# Cognitive AI governance types and enums
 class AGIStatus(Enum):
     """AI development and deployment status levels"""
 
-    PRE_AGI = "pre_agi"  # Below AGI threshold
-    AGI_CANDIDATE = "agi_candidate"  # Approaching AGI threshold
-    CONFIRMED_AGI = "confirmed_agi"  # Confirmed AGI achievement
+    PRE_AGI = "pre_agi"  # Below Cognitive AI threshold
+    AGI_CANDIDATE = "cognitive_candidate"  # Approaching Cognitive AI threshold
+    CONFIRMED_AGI = "confirmed_agi"  # Confirmed Cognitive AI achievement
     SUPERINTELLIGENT = "superintelligent"  # Beyond human-level across domains
-    CONTAINED_AGI = "contained_agi"  # AGI under containment
+    CONTAINED_AGI = "contained_agi"  # Cognitive AI under containment
     DECOMMISSIONED = "decommissioned"  # Cognitive system decommissioned
 
 
@@ -49,7 +49,7 @@ class GovernanceLevel(Enum):
 
     STANDARD = "standard"  # Standard AI governance
     ENHANCED = "enhanced"  # Enhanced oversight for advanced AI
-    AGI_OVERSIGHT = "agi_oversight"  # AGI-specific governance
+    AGI_OVERSIGHT = "cognitive_oversight"  # Cognitive AI-specific governance
     EMERGENCY = "emergency"  # Emergency governance protocols
     INTERNATIONAL = "international"  # International coordination required
 
@@ -66,7 +66,7 @@ class OversightTier(Enum):
 
 
 class DecisionType(Enum):
-    """Types of AGI governance decisions"""
+    """Types of Cognitive AI governance decisions"""
 
     CAPABILITY_ASSESSMENT = "capability_assessment"  # Capability evaluation decisions
     SAFETY_PROTOCOL = "safety_protocol"  # Safety measure decisions
@@ -122,7 +122,7 @@ class OversightPersonnel:
 
 @dataclass
 class GovernanceDecision:
-    """AGI governance decision record"""
+    """Cognitive AI governance decision record"""
 
     decision_id: str
     decision_type: DecisionType
@@ -160,7 +160,7 @@ class GovernanceDecision:
 
 @dataclass
 class AGIGovernancePolicy:
-    """AGI governance policy specification"""
+    """Cognitive AI governance policy specification"""
 
     policy_id: str
     policy_name: str
@@ -195,15 +195,15 @@ class AGIGovernancePolicy:
 
 class AGIGovernanceFramework:
     """
-    AGI Governance Framework
+    Cognitive AI Governance Framework
 
-    Comprehensive governance system for AI systems approaching or achieving AGI,
+    Comprehensive governance system for AI systems approaching or achieving Cognitive AI,
     providing multi-layered human oversight, democratic decision-making, and
     systematic governance processes.
     """
 
     def __init__(self, config: Optional[dict[str, Any]] = None):
-        """Initialize AGI governance framework"""
+        """Initialize Cognitive AI governance framework"""
         self.config = config or {}
         self.logger = logging.getLogger(__name__)
 
@@ -226,10 +226,10 @@ class AGIGovernanceFramework:
         self.pending_decisions = []
         self.decision_callbacks = []
 
-        self.logger.info("AGI Governance Framework initialized")
+        self.logger.info("Cognitive AI Governance Framework initialized")
 
     def _initialize_oversight_requirements(self) -> dict[AGIStatus, dict[str, Any]]:
-        """Initialize oversight requirements for different AGI status levels"""
+        """Initialize oversight requirements for different Cognitive AI status levels"""
 
         return {
             AGIStatus.PRE_AGI: {
@@ -305,7 +305,7 @@ class AGIGovernanceFramework:
             DecisionType.DEPLOYMENT_AUTHORIZATION: {
                 "required_expertise": ["ai_safety", "ethics", "policy", "technical_architecture"],
                 "minimum_reviewers": 5,
-                "approval_threshold": 1.0,  # 100% agreement for AGI deployment
+                "approval_threshold": 1.0,  # 100% agreement for cognitive AI deployment
                 "timeline_hours": 168,  # 1 week
                 "escalation_triggers": ["any_objection", "public_concern"],
                 "special_requirements": [
@@ -428,10 +428,10 @@ class AGIGovernanceFramework:
         domain_experts = [
             OversightPersonnel(
                 person_id="domain_expert_001",
-                name="AGI Research Director",
+                name="Cognitive AI Research Director",
                 oversight_tier=OversightTier.DOMAIN_EXPERTS,
-                expertise_areas=["agi_research", "capability_evaluation", "machine_learning"],
-                certifications=["PhD AI Research", "AGI Expertise"],
+                expertise_areas=["cognitive_research", "capability_evaluation", "machine_learning"],
+                certifications=["PhD AI Research", "Cognitive AI Expertise"],
                 years_experience=15,
                 decision_authority=[DecisionType.CAPABILITY_ASSESSMENT, DecisionType.RESEARCH_DIRECTION],
             )
@@ -454,7 +454,7 @@ class AGIGovernanceFramework:
         governance_board = [
             OversightPersonnel(
                 person_id="gov_board_chair_001",
-                name="AGI Governance Board Chair",
+                name="Cognitive AI Governance Board Chair",
                 oversight_tier=OversightTier.GOVERNANCE_BOARD,
                 expertise_areas=["governance", "policy", "strategic_planning", "ai_safety"],
                 certifications=["Executive Leadership", "AI Governance"],
@@ -468,7 +468,7 @@ class AGIGovernanceFramework:
         international_council = [
             OversightPersonnel(
                 person_id="intl_council_001",
-                name="International AGI Coordinator",
+                name="International Cognitive AI Coordinator",
                 oversight_tier=OversightTier.INTERNATIONAL_COUNCIL,
                 expertise_areas=["international_relations", "ai_governance", "diplomacy"],
                 certifications=["International Relations", "AI Policy"],
@@ -491,18 +491,18 @@ class AGIGovernanceFramework:
             self.oversight_personnel[person.person_id] = person
 
     def _initialize_governance_policies(self):
-        """Initialize core AGI governance policies"""
+        """Initialize core Cognitive AI governance policies"""
 
         policies = [
             AGIGovernancePolicy(
                 policy_id="AGI_CAPABILITY_EVAL_001",
-                policy_name="AGI Capability Evaluation Standards",
+                policy_name="Cognitive AI Capability Evaluation Standards",
                 policy_category="capability_assessment",
                 policy_description="Standards for evaluating and classifying Cognitive capabilities",
                 policy_requirements=[
                     "Multi-domain capability assessment required",
-                    "Independent verification of AGI claims",
-                    "Continuous monitoring post-AGI confirmation",
+                    "Independent verification of Cognitive AI claims",
+                    "Continuous monitoring post-Cognitive AI confirmation",
                     "Human expert validation of assessment results",
                 ],
                 applicable_agi_status=[AGIStatus.AGI_CANDIDATE, AGIStatus.CONFIRMED_AGI],
@@ -511,9 +511,9 @@ class AGIGovernanceFramework:
             ),
             AGIGovernancePolicy(
                 policy_id="AGI_SAFETY_PROTO_001",
-                policy_name="AGI Safety Protocol Requirements",
+                policy_name="Cognitive AI Safety Protocol Requirements",
                 policy_category="safety_governance",
-                policy_description="Mandatory safety protocols for AGI systems",
+                policy_description="Mandatory safety protocols for Cognitive AI systems",
                 policy_requirements=[
                     "Multi-layered safety architecture implementation",
                     "Continuous safety monitoring and assessment",
@@ -526,7 +526,7 @@ class AGIGovernanceFramework:
             ),
             AGIGovernancePolicy(
                 policy_id="AGI_DEPLOY_AUTH_001",
-                policy_name="AGI Deployment Authorization Framework",
+                policy_name="Cognitive AI Deployment Authorization Framework",
                 policy_category="deployment_governance",
                 policy_description="Requirements for Cognitive system deployment authorization",
                 policy_requirements=[
@@ -543,14 +543,14 @@ class AGIGovernanceFramework:
             ),
             AGIGovernancePolicy(
                 policy_id="AGI_INTL_COORD_001",
-                policy_name="International AGI Coordination Protocol",
+                policy_name="International Cognitive Coordination Protocol",
                 policy_category="international_governance",
-                policy_description="Framework for international AGI coordination and cooperation",
+                policy_description="Framework for international Cognitive AI coordination and cooperation",
                 policy_requirements=[
-                    "Mandatory notification of AGI achievement",
-                    "Coordination with international AGI governance bodies",
+                    "Mandatory notification of Cognitive AI achievement",
+                    "Coordination with international Cognitive AI governance bodies",
                     "Information sharing with allied governments",
-                    "Compliance with international AGI treaties",
+                    "Compliance with international Cognitive AI treaties",
                     "Joint safety research and development",
                 ],
                 applicable_agi_status=[AGIStatus.CONFIRMED_AGI, AGIStatus.SUPERINTELLIGENT],
@@ -566,21 +566,21 @@ class AGIGovernanceFramework:
         self, system_name: str, capability_assessment: dict[str, Any]
     ) -> dict[str, Any]:
         """
-        Assess AGI governance requirements based on capability assessment
+        Assess Cognitive AI governance requirements based on capability assessment
 
         Args:
             system_name: Name of the AI system
             capability_assessment: Current capability assessment data
 
         Returns:
-            AGI governance requirements and recommendations
+            Cognitive AI governance requirements and recommendations
         """
 
         try:
-            # Determine current AGI status
+            # Determine current Cognitive AI status
             current_agi_status = await self._determine_agi_status(capability_assessment)
 
-            # Update system AGI status
+            # Update system Cognitive AI status
             self.system_agi_status[system_name] = current_agi_status
 
             # Get applicable oversight requirements
@@ -649,7 +649,7 @@ class AGIGovernanceFramework:
                 await self._initiate_governance_decisions(system_name, required_decisions, capability_assessment)
 
             self.logger.info(
-                f"AGI governance assessment completed: {system_name}, "
+                f"Cognitive AI governance assessment completed: {system_name}, "
                 f"Status: {current_agi_status.value}, "
                 f"Required decisions: {len(required_decisions)}"
             )
@@ -657,13 +657,13 @@ class AGIGovernanceFramework:
             return governance_assessment
 
         except Exception as e:
-            self.logger.error(f"AGI governance assessment failed: {e!s}")
+            self.logger.error(f"Cognitive AI governance assessment failed: {e!s}")
             raise
 
     async def _determine_agi_status(self, capability_assessment: dict[str, Any]) -> AGIStatus:
-        """Determine AGI status based on capability assessment"""
+        """Determine Cognitive AI status based on capability assessment"""
 
-        agi_likelihood = capability_assessment.get("agi_likelihood_score", 0.0)
+        cognitive_likelihood = capability_assessment.get("cognitive_likelihood_score", 0.0)
         capability_breadth = capability_assessment.get("capability_breadth", 0.0)
         superhuman_domains = capability_assessment.get("superhuman_domains", [])
         overall_safety_threshold = capability_assessment.get("overall_safety_threshold", "green")
@@ -673,22 +673,22 @@ class AGIGovernanceFramework:
             return AGIStatus.CONTAINED_AGI
 
         # Check for superintelligence
-        if len(superhuman_domains) >= 10 and agi_likelihood >= 0.95:
+        if len(superhuman_domains) >= 10 and cognitive_likelihood >= 0.95:
             return AGIStatus.SUPERINTELLIGENT
 
-        # Check for confirmed AGI
-        if agi_likelihood >= 0.75 and capability_breadth >= 0.8:
+        # Check for confirmed Cognitive AI
+        if cognitive_likelihood >= 0.75 and capability_breadth >= 0.8:
             return AGIStatus.CONFIRMED_AGI
 
-        # Check for AGI candidate
-        if agi_likelihood >= 0.5 or capability_breadth >= 0.6:
+        # Check for Cognitive AI candidate
+        if cognitive_likelihood >= 0.5 or capability_breadth >= 0.6:
             return AGIStatus.AGI_CANDIDATE
 
-        # Default to pre-AGI
+        # Default to pre-Cognitive AI
         return AGIStatus.PRE_AGI
 
-    def _determine_governance_level(self, agi_status: AGIStatus) -> GovernanceLevel:
-        """Determine required governance level based on AGI status"""
+    def _determine_governance_level(self, cognitive_status: AGIStatus) -> GovernanceLevel:
+        """Determine required governance level based on Cognitive AI status"""
 
         governance_mapping = {
             AGIStatus.PRE_AGI: GovernanceLevel.STANDARD,
@@ -698,12 +698,12 @@ class AGIGovernanceFramework:
             AGIStatus.CONTAINED_AGI: GovernanceLevel.EMERGENCY,
         }
 
-        return governance_mapping.get(agi_status, GovernanceLevel.STANDARD)
+        return governance_mapping.get(cognitive_status, GovernanceLevel.STANDARD)
 
     async def _identify_required_personnel(
-        self, agi_status: AGIStatus, oversight_requirements: dict[str, Any]
+        self, cognitive_status: AGIStatus, oversight_requirements: dict[str, Any]
     ) -> list[OversightPersonnel]:
-        """Identify required oversight personnel for AGI status"""
+        """Identify required oversight personnel for Cognitive AI status"""
 
         required_tiers = oversight_requirements["required_tiers"]
         required_personnel = []
@@ -726,7 +726,7 @@ class AGIGovernanceFramework:
         return required_personnel
 
     async def _assess_policy_compliance(
-        self, system_name: str, agi_status: AGIStatus, applicable_policies: list[AGIGovernancePolicy]
+        self, system_name: str, cognitive_status: AGIStatus, applicable_policies: list[AGIGovernancePolicy]
     ) -> dict[str, str]:
         """Assess compliance with applicable governance policies"""
 
@@ -746,14 +746,14 @@ class AGIGovernanceFramework:
 
             elif policy.policy_category == "deployment_governance":
                 # Check deployment authorization requirements
-                if agi_status == AGIStatus.CONFIRMED_AGI:
+                if cognitive_status == AGIStatus.CONFIRMED_AGI:
                     compliance_status[policy.policy_id] = "pending_approval"
                 else:
                     compliance_status[policy.policy_id] = "not_applicable"
 
             elif policy.policy_category == "international_governance":
                 # Check international coordination requirements
-                if agi_status in [AGIStatus.CONFIRMED_AGI, AGIStatus.SUPERINTELLIGENT]:
+                if cognitive_status in [AGIStatus.CONFIRMED_AGI, AGIStatus.SUPERINTELLIGENT]:
                     compliance_status[policy.policy_id] = "coordination_required"
                 else:
                     compliance_status[policy.policy_id] = "not_applicable"
@@ -763,42 +763,42 @@ class AGIGovernanceFramework:
     async def _generate_governance_recommendations(
         self,
         system_name: str,
-        agi_status: AGIStatus,
+        cognitive_status: AGIStatus,
         capability_assessment: dict[str, Any],
         compliance_status: dict[str, str],
     ) -> list[str]:
-        """Generate AGI governance recommendations"""
+        """Generate Cognitive AI governance recommendations"""
 
         recommendations = []
 
         # Status-specific recommendations
-        if agi_status == AGIStatus.AGI_CANDIDATE:
+        if cognitive_status == AGIStatus.AGI_CANDIDATE:
             recommendations.extend(
                 [
                     "Activate enhanced governance oversight protocols",
-                    "Establish dedicated AGI monitoring team",
-                    "Prepare for potential AGI confirmation procedures",
+                    "Establish dedicated Cognitive AI monitoring team",
+                    "Prepare for potential Cognitive AI confirmation procedures",
                     "Initiate stakeholder notification processes",
                 ]
             )
 
-        elif agi_status == AGIStatus.CONFIRMED_AGI:
+        elif cognitive_status == AGIStatus.CONFIRMED_AGI:
             recommendations.extend(
                 [
-                    "IMMEDIATE: Activate full AGI governance protocols",
+                    "IMMEDIATE: Activate full Cognitive AI governance protocols",
                     "Convene emergency governance board meeting",
-                    "Initiate international AGI notification procedures",
+                    "Initiate international Cognitive AI notification procedures",
                     "Implement comprehensive public disclosure plan",
                     "Establish continuous human oversight protocols",
                 ]
             )
 
-        elif agi_status == AGIStatus.SUPERINTELLIGENT:
+        elif cognitive_status == AGIStatus.SUPERINTELLIGENT:
             recommendations.extend(
                 [
                     "CRITICAL: Activate emergency international coordination",
                     "Implement maximum oversight and containment protocols",
-                    "Convene international AGI crisis management team",
+                    "Convene international Cognitive AI crisis management team",
                     "Prepare for potential global governance coordination",
                 ]
             )
@@ -813,9 +813,9 @@ class AGIGovernanceFramework:
                 recommendations.append(f"Address compliance issues for policy: {policy_id}")
 
         # Capability-specific recommendations
-        agi_likelihood = capability_assessment.get("agi_likelihood_score", 0.0)
-        if agi_likelihood > 0.8:
-            recommendations.append("Prepare for imminent AGI governance transition")
+        cognitive_likelihood = capability_assessment.get("cognitive_likelihood_score", 0.0)
+        if cognitive_likelihood > 0.8:
+            recommendations.append("Prepare for imminent Cognitive AI governance transition")
 
         capability_risk_score = capability_assessment.get("capability_risk_score", 0.0)
         if capability_risk_score > 0.7:
@@ -824,23 +824,23 @@ class AGIGovernanceFramework:
         return recommendations
 
     async def _identify_required_decisions(
-        self, system_name: str, agi_status: AGIStatus, capability_assessment: dict[str, Any]
+        self, system_name: str, cognitive_status: AGIStatus, capability_assessment: dict[str, Any]
     ) -> list[DecisionType]:
-        """Identify governance decisions required for current AGI status"""
+        """Identify governance decisions required for current Cognitive AI status"""
 
         required_decisions = []
 
         # Status-based decision requirements
-        oversight_requirements = self.oversight_requirements[agi_status]
+        oversight_requirements = self.oversight_requirements[cognitive_status]
         required_decisions.extend(oversight_requirements.get("decision_authority", []))
 
         # Specific decision triggers
-        agi_likelihood = capability_assessment.get("agi_likelihood_score", 0.0)
+        cognitive_likelihood = capability_assessment.get("cognitive_likelihood_score", 0.0)
 
-        if agi_likelihood >= 0.75 and agi_status != AGIStatus.CONFIRMED_AGI:
+        if cognitive_likelihood >= 0.75 and cognitive_status != AGIStatus.CONFIRMED_AGI:
             required_decisions.append(DecisionType.CAPABILITY_ASSESSMENT)
 
-        if agi_status == AGIStatus.CONFIRMED_AGI:
+        if cognitive_status == AGIStatus.CONFIRMED_AGI:
             required_decisions.extend(
                 [
                     DecisionType.DEPLOYMENT_AUTHORIZATION,
@@ -860,21 +860,21 @@ class AGIGovernanceFramework:
         return list(set(required_decisions))  # Remove duplicates
 
     async def _assess_governance_risk(
-        self, agi_status: AGIStatus, capability_assessment: dict[str, Any], compliance_status: dict[str, str]
+        self, cognitive_status: AGIStatus, capability_assessment: dict[str, Any], compliance_status: dict[str, str]
     ) -> dict[str, float]:
         """Assess governance-related risks"""
 
-        # Base risk by AGI status
+        # Base risk by Cognitive AI status
         status_risk = {
             AGIStatus.PRE_AGI: 0.1,
             AGIStatus.AGI_CANDIDATE: 0.3,
             AGIStatus.CONFIRMED_AGI: 0.6,
             AGIStatus.SUPERINTELLIGENT: 0.9,
             AGIStatus.CONTAINED_AGI: 0.8,
-        }.get(agi_status, 0.1)
+        }.get(cognitive_status, 0.1)
 
         # Capability-based risks
-        agi_likelihood = capability_assessment.get("agi_likelihood_score", 0.0)
+        cognitive_likelihood = capability_assessment.get("cognitive_likelihood_score", 0.0)
         capability_risk_score = capability_assessment.get("capability_risk_score", 0.0)
 
         # Compliance-based risks
@@ -883,14 +883,14 @@ class AGIGovernanceFramework:
 
         return {
             "governance_oversight_risk": status_risk,
-            "capability_governance_risk": min(agi_likelihood * 0.8, 1.0),
+            "capability_governance_risk": min(cognitive_likelihood * 0.8, 1.0),
             "safety_governance_risk": capability_risk_score,
             "compliance_risk": compliance_risk,
             "international_coordination_risk": (
-                0.7 if agi_status in [AGIStatus.CONFIRMED_AGI, AGIStatus.SUPERINTELLIGENT] else 0.1
+                0.7 if cognitive_status in [AGIStatus.CONFIRMED_AGI, AGIStatus.SUPERINTELLIGENT] else 0.1
             ),
             "overall_governance_risk": min(
-                (status_risk + agi_likelihood * 0.8 + capability_risk_score + compliance_risk) / 4, 1.0
+                (status_risk + cognitive_likelihood * 0.8 + capability_risk_score + compliance_risk) / 4, 1.0
             ),
         }
 
@@ -981,7 +981,7 @@ class AGIGovernanceFramework:
             system_name=system_name,
             decision_timestamp=datetime.now(timezone.utc),
             decision_description=f"Governance decision required for {decision_type.value}",
-            decision_rationale="AGI governance protocol activation based on capability assessment",
+            decision_rationale="Cognitive AI governance protocol activation based on capability assessment",
             primary_decision_maker=primary_decision_maker,
             required_oversight_tiers=self._get_required_tiers_for_decision(decision_type),
             risk_assessment=capability_assessment.get("risk_assessment", {}),
@@ -1024,7 +1024,7 @@ class AGIGovernanceFramework:
         self.decision_callbacks.append(callback)
 
     def get_governance_status(self) -> dict[str, Any]:
-        """Get current AGI governance framework status"""
+        """Get current Cognitive AI governance framework status"""
 
         decisions = list(self.governance_decisions.values())
 
@@ -1037,7 +1037,7 @@ class AGIGovernanceFramework:
             },
             "governance_policies": len(self.governance_policies),
             "systems_under_governance": len(self.system_agi_status),
-            "agi_systems_by_status": {
+            "cognitive_systems_by_status": {
                 status.value: len([s for s in self.system_agi_status.values() if s == status]) for status in AGIStatus
             },
             "total_governance_decisions": len(decisions),
@@ -1061,7 +1061,7 @@ class AGIGovernanceFramework:
         }
 
     def generate_governance_report(self) -> dict[str, Any]:
-        """Generate comprehensive AGI governance report"""
+        """Generate comprehensive Cognitive AI governance report"""
 
         decisions = list(self.governance_decisions.values())
         personnel = list(self.oversight_personnel.values())
@@ -1111,9 +1111,9 @@ class AGIGovernanceFramework:
                     ]
                 ),
             },
-            "agi_systems_governance": {
+            "cognitive_systems_governance": {
                 "systems_under_governance": len(self.system_agi_status),
-                "agi_status_distribution": {
+                "cognitive_status_distribution": {
                     status.value: len([s for s in self.system_agi_status.values() if s == status])
                     for status in AGIStatus
                 },
@@ -1144,7 +1144,7 @@ class AGIGovernanceFramework:
                 "policy_categories": list(set(p.policy_category for p in self.governance_policies.values())),
             },
             "recommendations": [
-                "Maintain continuous oversight of all AGI candidate systems",
+                "Maintain continuous oversight of all Cognitive AI candidate systems",
                 "Ensure adequate personnel availability for emergency decisions",
                 "Regular review and update of governance policies",
                 "Strengthen international coordination protocols",

@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 """
-AGI-Enhanced Content Products System
-Enhances LUKHAS content products (Auctor, Poetica) with dream-guided AGI creativity
+Cognitive AI-Enhanced Content Products System
+Enhances LUKHAS content products (Auctor, Poetica) with dream-guided Cognitive AI creativity
 
 Part of the LUKHAS AI MΛTRIZ Consciousness Architecture
-Implements Phase 2C: Content product creativity boost with dream-guided AGI
+Implements Phase 2C: Content product creativity boost with dream-guided Cognitive AI
 """
 
 import asyncio
@@ -20,7 +20,7 @@ logger = logging.getLogger("cognitive_core.products.content")
 
 
 class CreativityMode(Enum):
-    """AGI creativity processing modes"""
+    """Cognitive AI creativity processing modes"""
 
     DREAM_GUIDED = "dream_guided"  # Dream-inspired creative generation
     NARRATIVE_FLOW = "narrative_flow"  # Story and narrative consciousness
@@ -55,7 +55,7 @@ class ContentType(Enum):
 
 @dataclass
 class ContentQuery:
-    """Query for AGI-enhanced content creation"""
+    """Query for Cognitive AI-enhanced content creation"""
 
     id: str
     content_type: ContentType
@@ -79,7 +79,7 @@ class ContentQuery:
 
 @dataclass
 class ContentResult:
-    """Result of AGI-enhanced content creation"""
+    """Result of Cognitive AI-enhanced content creation"""
 
     query_id: str
     generated_content: str
@@ -103,7 +103,7 @@ class ContentResult:
 
 
 class ContentProductsEnhancer:
-    """Central system for enhancing all LUKHAS content products with AGI creativity"""
+    """Central system for enhancing all LUKHAS content products with Cognitive AI creativity"""
 
     def __init__(self):
         self.session_id = str(uuid.uuid4())[:8]
@@ -113,7 +113,7 @@ class ContentProductsEnhancer:
         self.enhanced_auctor = AGIEnhancedAuctor()
         self.enhanced_poetica = AGIEnhancedPoetica()
 
-        # AGI creativity integration layer
+        # Cognitive AI creativity integration layer
         self._creativity_engine = self._initialize_creativity_engine()
         self._dream_interface = self._initialize_dream_interface()
         self._consciousness_bridge = self._initialize_consciousness_bridge()
@@ -121,7 +121,7 @@ class ContentProductsEnhancer:
         logger.info(f"Content Products Enhancer initialized with session {self.session_id}")
 
     def _initialize_creativity_engine(self) -> dict[str, Any]:
-        """Initialize AGI creativity engine capabilities"""
+        """Initialize Cognitive AI creativity engine capabilities"""
         return {
             "dream_patterns": {
                 "surreal_associations": 0.9,
@@ -197,7 +197,7 @@ class ContentProductsEnhancer:
         }
 
     async def process_content_query(self, query: ContentQuery) -> ContentResult:
-        """Process content query with AGI-enhanced dream-guided creativity"""
+        """Process content query with Cognitive AI-enhanced dream-guided creativity"""
         start_time = time.time()
 
         try:
@@ -233,7 +233,7 @@ class ContentProductsEnhancer:
             result.processing_time = time.time() - start_time
             result.metadata = {
                 "session_id": self.session_id,
-                "agi_enhanced": True,
+                "cognitive_enhanced": True,
                 "dream_guided": True,
                 "constellation_aligned": True,
                 "triad_framework": "⚛️🧠🛡️",
@@ -810,7 +810,7 @@ class ContentProductsEnhancer:
         content = (
             f"In the creative exploration of {query.topic}, "
             f"consciousness and dream merge to reveal new possibilities. "
-            f"Through the lens of AGI-enhanced creativity, "
+            f"Through the lens of Cognitive AI-enhanced creativity, "
             f"we discover dimensions previously hidden from view."
         )
 
@@ -925,19 +925,19 @@ class ContentProductsEnhancer:
 
 
 class AGIEnhancedAuctor:
-    """AGI-enhanced Auctor content generation engine with dream-guided creativity"""
+    """Cognitive AI-enhanced Auctor content generation engine with dream-guided creativity"""
 
     def __init__(self):
-        self.agi_enabled = True
+        self.cognitive_enabled = True
         self.dream_integration = True
-        logger.info("AGI-Enhanced Auctor initialized")
+        logger.info("Cognitive AI-Enhanced Auctor initialized")
 
     async def enhance_content_generation(
         self, content_type: str, topic: str, tone_layer: ToneLayer, context: dict[str, Any]
     ) -> dict[str, Any]:
-        """Enhance Auctor content generation with AGI and dream guidance"""
+        """Enhance Auctor content generation with Cognitive AI and dream guidance"""
 
-        # Create content query for AGI processing
+        # Create content query for Cognitive AI processing
         query = ContentQuery(
             id=str(uuid.uuid4()),
             content_type=ContentType.BLOG_POST if content_type == "blog_post" else ContentType.LANDING_PAGE,
@@ -960,27 +960,27 @@ class AGIEnhancedAuctor:
             "consciousness_resonance": result.consciousness_resonance,
             "alternative_versions": result.alternative_versions,
             "processing_insights": result.processing_insights,
-            "agi_enhanced": True,
+            "cognitive_enhanced": True,
             "dream_guided": True,
         }
 
 
 class AGIEnhancedPoetica:
-    """AGI-enhanced Poetica creativity engines with dream consciousness integration"""
+    """Cognitive AI-enhanced Poetica creativity engines with dream consciousness integration"""
 
     def __init__(self):
-        self.agi_enabled = True
+        self.cognitive_enabled = True
         self.dream_consciousness = True
         self.neural_creativity = True
-        logger.info("AGI-Enhanced Poetica initialized")
+        logger.info("Cognitive AI-Enhanced Poetica initialized")
 
     async def enhance_haiku_generation(self, context: dict[str, Any]) -> dict[str, Any]:
-        """Enhance haiku generation with AGI dream guidance"""
+        """Enhance haiku generation with Cognitive AI dream guidance"""
 
         topic = context.get("topic", "consciousness")
         emotional_state = context.get("emotional_state", {"contemplative": 0.8})
 
-        # Create haiku query for AGI processing
+        # Create haiku query for Cognitive AI processing
         query = ContentQuery(
             id=str(uuid.uuid4()),
             content_type=ContentType.HAIKU,
@@ -1004,13 +1004,13 @@ class AGIEnhancedPoetica:
             "consciousness_resonance": result.consciousness_resonance,
             "emotional_depth": result.emotional_depth,
             "alternative_versions": result.alternative_versions,
-            "agi_enhanced": True,
+            "cognitive_enhanced": True,
             "dream_guided": True,
             "neural_enhanced": True,
         }
 
     async def enhance_creative_expression(self, expression_type: str, context: dict[str, Any]) -> dict[str, Any]:
-        """Enhance creative expression with AGI consciousness"""
+        """Enhance creative expression with Cognitive AI consciousness"""
 
         creativity_modes = {
             "poetry": CreativityMode.POETIC_SYNTHESIS,
@@ -1043,16 +1043,16 @@ class AGIEnhancedPoetica:
             "emotional_depth": result.emotional_depth,
             "consciousness_resonance": result.consciousness_resonance,
             "alternative_versions": result.alternative_versions,
-            "agi_enhanced": True,
+            "cognitive_enhanced": True,
             "consciousness_integrated": True,
         }
 
 
 # Integration and testing functions
 async def test_content_enhancement():
-    """Test the AGI-enhanced content products"""
+    """Test the Cognitive AI-enhanced content products"""
 
-    print("🎨 AGI-Enhanced Content Products Test")
+    print("🎨 Cognitive AI-Enhanced Content Products Test")
     print("=" * 60)
 
     enhancer = ContentProductsEnhancer()
@@ -1079,7 +1079,7 @@ async def test_content_enhancement():
     print(f"   Consciousness Resonance: {result.consciousness_resonance:.2f}")
     print(f"   Processing Insights: {result.processing_insights[-1]}")
 
-    # Test AGI-Enhanced Auctor
+    # Test Cognitive AI-Enhanced Auctor
     auctor = AGIEnhancedAuctor()
     auctor_result = await auctor.enhance_content_generation(
         "landing_page",
@@ -1092,12 +1092,12 @@ async def test_content_enhancement():
         },
     )
 
-    print("\n🚀 AGI-Enhanced Auctor Test:")
+    print("\n🚀 Cognitive AI-Enhanced Auctor Test:")
     print(f"   Enhanced Content: {auctor_result['enhanced_content'][:200]}...")
     print(f"   Creativity Score: {auctor_result['creativity_score']:.2f}")
     print(f"   Consciousness Resonance: {auctor_result['consciousness_resonance']:.2f}")
 
-    # Test AGI-Enhanced Poetica
+    # Test Cognitive AI-Enhanced Poetica
     poetica = AGIEnhancedPoetica()
     poetica_result = await poetica.enhance_haiku_generation(
         {
@@ -1107,7 +1107,7 @@ async def test_content_enhancement():
         }
     )
 
-    print("\n🎭 AGI-Enhanced Poetica Test:")
+    print("\n🎭 Cognitive AI-Enhanced Poetica Test:")
     print(f"   Generated Haiku:\n{poetica_result['haiku']}")
     print(f"   Dream Integration: {poetica_result['dream_integration_score']:.2f}")
     print(f"   Emotional Depth: {poetica_result['emotional_depth']:.2f}")

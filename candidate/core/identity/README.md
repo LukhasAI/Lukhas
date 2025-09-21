@@ -117,7 +117,7 @@ print(f'Constellation Status: {result[\"constellation_status\"]}')
 ### **1. Consciousness Identity Protection**
 ```python
 # Constellation-compliant identity security
-from candidate.core.security.agi_security import AGISecuritySystem
+from candidate.core.security.cognitive_security import AGISecuritySystem
 
 security_system = AGISecuritySystem()
 await security_system.initialize()

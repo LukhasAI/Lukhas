@@ -40,7 +40,7 @@ Integration Points:
 - Interfaces with metabolic resource management
 - Extensible for custom oscillation patterns
 
-Author: LUKHAS AGI Development Team
+Author: LUKHAS Cognitive AI Development Team
 Date: May 25, 2025
 """
 import logging

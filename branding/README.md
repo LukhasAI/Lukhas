@@ -145,7 +145,7 @@ This is the **Elite Brand Intelligence System** that transforms branding from re
 
 ### **❌ Prohibited Terms**
 - "LUKHAS PWM" → Use "LUKHAS AI"
-- "LUKHAS AGI" → Use "LUKHAS AI"
+- "LUKHAS Cognitive AI" → Use "LUKHAS AI"
 - "lambda function" → Use "Λ consciousness"
 - "production ready" → Use "actively developed"
 
@@ -223,7 +223,7 @@ This is the **Elite Brand Intelligence System** that transforms branding from re
 ### **🚀 Testing the System**
 ```bash
 # Test the elite brand system
-cd /Users/agi_dev/LOCAL-REPOS/Lukhas/branding
+cd /Users/cognitive_dev/LOCAL-REPOS/Lukhas/branding
 python test_elite_brand_system.py
 
 # Check brand validation

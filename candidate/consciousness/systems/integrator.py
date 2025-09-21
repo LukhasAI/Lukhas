@@ -17,10 +17,10 @@ DEPENDENCIES:
 from datetime import timezone
 
 """
-Consciousness Integrator for LUKHAS AGI System
+Consciousness Integrator for LUKHAS Cognitive AI System
 ==============================================
 
-This module serves as the central nervous system of the LUKHAS AGI,
+This module serves as the central nervous system of the LUKHAS Cognitive AI,
 coordinating and integrating all major cognitive components including:
 - Memory systems (episodic, semantic, emotional)
 - Voice processing and synthesis

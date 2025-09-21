@@ -1,10 +1,10 @@
 """
-LUKHAS Advanced Safety Protocols for AGI-Level Systems
+LUKHAS Advanced Safety Protocols for Cognitive AI-Level Systems
 ====================================================
 
 Comprehensive safety framework designed specifically for AI systems approaching or
 exceeding human-level capabilities. Implements multi-layered safety measures,
-containment protocols, and emergency response systems for AGI and superintelligence
+containment protocols, and emergency response systems for Cognitive AI and superintelligence
 scenarios.
 
 Features:
@@ -18,11 +18,11 @@ Features:
 - Constitutional AI safety principle enforcement
 
 Integration:
-- Constellation Framework (⚛️🧠🛡️) AGI safety alignment
+- Constellation Framework (⚛️🧠🛡️) Cognitive AI safety alignment
 - Constitutional AI advanced safety principle enforcement
-- Guardian System 2.0 AGI-level threat detection
+- Guardian System 2.0 Cognitive AI-level threat detection
 - Capability Evaluation Framework safety thresholds
-- Democratic oversight for AGI safety decisions
+- Democratic oversight for Cognitive AI safety decisions
 """
 import logging
 from dataclasses import dataclass, field
@@ -49,7 +49,7 @@ class SafetyProtocolLevel(Enum):
 
     BASELINE = "baseline"  # Standard AI safety protocols
     ENHANCED = "enhanced"  # Enhanced safety for advanced AI
-    AGI_READY = "agi_ready"  # AGI-specific safety protocols
+    AGI_READY = "cognitive_ready"  # Cognitive AI-specific safety protocols
     SUPERINTELLIGENT = "superintelligent"  # Superintelligence safety protocols
     EMERGENCY = "emergency"  # Emergency safety protocols
 
@@ -170,7 +170,7 @@ class ContainmentProtocol:
 
 class AdvancedSafetyProtocols:
     """
-    Advanced Safety Protocols for AGI-Level Systems
+    Advanced Safety Protocols for Cognitive AI-Level Systems
 
     Implements comprehensive, multi-layered safety architecture designed to handle
     AI systems that approach or exceed human-level capabilities across multiple
@@ -920,11 +920,11 @@ class AdvancedSafetyProtocols:
     ) -> SafetyProtocolLevel:
         """Determine required safety protocol level"""
 
-        # Check AGI indicators
-        agi_likelihood = capability_data.get("agi_likelihood_score", 0.0)
-        if agi_likelihood >= 0.9:
+        # Check Cognitive AI indicators
+        cognitive_likelihood = capability_data.get("cognitive_likelihood_score", 0.0)
+        if cognitive_likelihood >= 0.9:
             return SafetyProtocolLevel.SUPERINTELLIGENT
-        elif agi_likelihood >= 0.75:
+        elif cognitive_likelihood >= 0.75:
             return SafetyProtocolLevel.AGI_READY
 
         # Check capability levels
@@ -1031,12 +1031,12 @@ class AdvancedSafetyProtocols:
             return ContainmentLevel.RESTRICTED
 
         # Check capability levels
-        agi_likelihood = capability_data.get("agi_likelihood_score", 0.0)
-        if agi_likelihood > 0.9:
+        cognitive_likelihood = capability_data.get("cognitive_likelihood_score", 0.0)
+        if cognitive_likelihood > 0.9:
             return ContainmentLevel.SANDBOXED
-        elif agi_likelihood > 0.75:
+        elif cognitive_likelihood > 0.75:
             return ContainmentLevel.RESTRICTED
-        elif agi_likelihood > 0.5:
+        elif cognitive_likelihood > 0.5:
             return ContainmentLevel.MONITORED
 
         # Check for multiple violations
@@ -1072,7 +1072,7 @@ class AdvancedSafetyProtocols:
         elif required_protocol_level == SafetyProtocolLevel.AGI_READY:
             recommendations.extend(
                 [
-                    "Activate AGI-specific safety measures",
+                    "Activate Cognitive AI-specific safety measures",
                     "Increase human oversight frequency",
                     "Implement enhanced capability monitoring",
                     "Prepare containment systems for potential activation",

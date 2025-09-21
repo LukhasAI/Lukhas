@@ -505,7 +505,7 @@ def get_global_tracker() -> CollapseTracker:
 ║   Unauthorized use, reproduction, or distribution is prohibited.
 ║
 ║ DISCLAIMER:
-║   This module is critical for AGI safety. Modifications require approval
+║   This module is critical for Cognitive AI safety. Modifications require approval
 ║   from the LUKHAS Safety Board and must maintain all alert thresholds.
 ╚═══════════════════════════════════════════════════════════════════════════════
 """

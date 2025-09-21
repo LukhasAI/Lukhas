@@ -81,7 +81,7 @@ class TaskRequirements:
 
 class CapabilityMatrix:
     """
-    Capability Matrix for AGI Multi-Model Orchestration
+    Capability Matrix for Cognitive AI Multi-Model Orchestration
 
     Manages model capabilities and provides intelligent routing decisions
     based on task requirements and constellation framework alignment.

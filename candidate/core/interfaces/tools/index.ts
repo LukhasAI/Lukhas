@@ -1,5 +1,5 @@
 /**
- * Lukhas AGI System Tools
+ * Lukhas Cognitive AI System Tools
  * TypeScript interfaces and exports for system tools
  */
 

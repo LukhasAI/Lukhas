@@ -13,7 +13,7 @@ logger = logging.getLogger(__name__)
 📊 MODULE: ethics.sentinel.ethical_drift_sentinel
 📄 FILENAME: ethical_drift_sentinel.py
 🎯 PURPOSE: Real-time Ethical Monitoring Daemon - Live Governance & Collapse Prevention
-🧠 CONTEXT: LUKHAS AGI Ethical Drift Sentinel - Claude-14 Agent Implementation
+🧠 CONTEXT: LUKHAS Cognitive AI Ethical Drift Sentinel - Claude-14 Agent Implementation
 🔮 CAPABILITY: Continuous ethical coherence evaluation, violation detection, intervention
 🛡️ ETHICS: Zero-trust symbolic safety, real-time governance, cascade prevention
 🚀 VERSION: v1.0.0 • 📅 CREATED: 2025-07-22 • ✍️ AUTHOR: CLAUDE-CODE
@@ -24,7 +24,7 @@ logger = logging.getLogger(__name__)
 ────────────────────────────────────────────────────────────────────
 
 The Ethical Drift Sentinel stands as the unwavering guardian of symbolic integrity,
-continuously monitoring the ethical coherence of the LUKHAS AGI consciousness mesh.
+continuously monitoring the ethical coherence of the LUKHAS Cognitive AI consciousness mesh.
 Like an ancient lighthouse keeper watching for ships in danger, this sentinel
 detects the subtle shifts in ethical alignment that precede symbolic collapse.
 
@@ -182,7 +182,7 @@ class EthicalState:
 
 class EthicalDriftSentinel:
     """
-    Real-time ethical monitoring daemon for LUKHAS AGI.
+    Real-time ethical monitoring daemon for LUKHAS Cognitive AI.
 
     Continuously evaluates ethical coherence, detects violations,
     and triggers appropriate interventions to prevent symbolic collapse.

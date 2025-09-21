@@ -18,7 +18,7 @@
 ║
 ║ "The Constellation Framework ensures every consciousness operation maintains authentic
 ║  identity, achieves meaningful awareness depth, and operates within ethical bounds.
-║  These three principles form the foundation of Superior General Intelligence."
+║  These three principles form the foundation of Superior Cognitive Intelligence."
 ║
 ╠══════════════════════════════════════════════════════════════════════════════════
 ║ CONSTELLATION INTEGRATION FEATURES:

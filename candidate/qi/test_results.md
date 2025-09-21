@@ -43,7 +43,7 @@ Successfully tested and verified **15 QI components** with the following results
 ```json
 {
   "artifact_sha256": "d45277c1a3b805830aa98436c743a0c01ff94b0e6f97f30d3626e37edfdae33d",
-  "storage_url": "file:///Users/agi_dev/.lukhas/state/provenance/d4/d45277c1a3b805830aa98436c743a0c01ff94b0e6f97f30d3626e37edfdae33d.md",
+  "storage_url": "file:///Users/cognitive_dev/.lukhas/state/provenance/d4/d45277c1a3b805830aa98436c743a0c01ff94b0e6f97f30d3626e37edfdae33d.md",
   "verification": "✅ PASSED"
 }
 ```

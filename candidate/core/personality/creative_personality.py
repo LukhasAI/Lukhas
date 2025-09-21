@@ -39,7 +39,7 @@ MODULE_NAME = "lukhas_es_creativo"
 
 class LucasAGI:
     """
-    Lukhas AGI - Creative and Ethical AI System
+    Lukhas Cognitive AI - Creative and Ethical AI System
     Integrates meta-learning, federated learning, and reflective introspection
     """
 

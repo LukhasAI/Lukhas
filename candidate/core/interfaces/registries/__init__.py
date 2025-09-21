@@ -1,5 +1,5 @@
 """
-LUKHAS AGI Registry Systems
+LUKHAS Cognitive AI Registry Systems
 ==========================
 
 This package contains registry implementations for managing various

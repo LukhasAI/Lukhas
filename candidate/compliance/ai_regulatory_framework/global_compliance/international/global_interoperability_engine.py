@@ -1,7 +1,7 @@
 """
 Global Interoperability Engine
 
-MARKET DOMINATION: Ensures AGI systems comply with all international
+MARKET DOMINATION: Ensures Cognitive AI systems comply with all international
 regulations while maintaining competitive advantage.
 
 Integration with LUKHAS Constellation Framework (⚛️🧠🛡️)
@@ -43,7 +43,7 @@ class ComplianceResult:
 
 class GlobalInteroperabilityEngine(CoreInterface):
     """
-    MARKET DOMINATION: Ensures AGI systems comply with all international
+    MARKET DOMINATION: Ensures Cognitive AI systems comply with all international
     regulations while maintaining competitive advantage.
 
     Integrates with LUKHAS governance and compliance systems.

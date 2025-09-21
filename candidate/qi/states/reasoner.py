@@ -87,7 +87,7 @@ class CollapseResult:
 
 class QICollapseEngine:
     """
-    Quantum Collapse Engine for LUKHAS AGI symbolic reasoning resolution.
+    Quantum Collapse Engine for LUKHAS Cognitive AI symbolic reasoning resolution.
 
     This engine governs symbolic collapse resolution when multiple reasoning
     branches exist and must be resolved into a single dominant trajectory.

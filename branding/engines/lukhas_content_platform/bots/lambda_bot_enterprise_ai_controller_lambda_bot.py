@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """
-🎯 AGI Controller LUKHAS AI ΛBot
+🎯 Cognitive AI Controller LUKHAS AI ΛBot
 Enhanced LUKHAS AI ΛBot with Consciousness-Level Control Integration
-Integrates workspace AGI Controller for enterprise-grade modularization
+Integrates workspace Cognitive AI Controller for enterprise-grade modularization
 """
 
 import asyncio
@@ -104,8 +104,8 @@ except Exception:
 
 # Import workspace components
 try:
-    from agi_controller import (  # noqa: F401  # TODO: agi_controller.ModuleStatus; c...
-        AGIController,
+    from cognitive_controller import (  # noqa: F401  # TODO: cognitive_controller.ModuleStatus; c...
+        CognitiveController,
         ConsciousnessLevel,
         ModuleStatus,
     )
@@ -113,7 +113,7 @@ try:
 
     WORKSPACE_AGI_AVAILABLE = True
 except ImportError as e:
-    print(f"⚠️ Workspace AGI Controller not available: {e}")
+    print(f"⚠️ Workspace Cognitive AI Controller not available: {e}")
     WORKSPACE_AGI_AVAILABLE = False
 
 # Import base LUKHAS AI ΛBot
@@ -131,7 +131,7 @@ logger = logging.getLogger("AGIControllerΛBot")
 
 
 class ConsciousnessState(Enum):
-    """Consciousness state levels for AGI control"""
+    """Consciousness state levels for Cognitive AI control"""
 
     DORMANT = "dormant"
     AWAKENING = "awakening"
@@ -156,7 +156,7 @@ class ModularizationSession:
 
 class AGIControllerΛBot:
     """
-    Enhanced LUKHAS AI ΛBot with AGI Controller Integration
+    Enhanced LUKHAS AI ΛBot with Cognitive AI Controller Integration
 
     Features:
     - Consciousness-level modularization control
@@ -167,25 +167,25 @@ class AGIControllerΛBot:
     """
 
     def __init__(self):
-        logger.info("🎯 Initializing AGI Controller LUKHAS AI ΛBot...")
+        logger.info("🎯 Initializing Cognitive AI Controller LUKHAS AI ΛBot...")
 
         # Initialize base components
-        self.agi_controller = None
+        self.cognitive_controller = None
         self.compliance_engine = None
         self.current_session = None
         self.consciousness_history = []
         self.module_registry = {}
 
-        # Initialize workspace AGI integration
+        # Initialize workspace Cognitive AI integration
         if WORKSPACE_AGI_AVAILABLE:
             try:
-                self.agi_controller = AGIController()
+                self.cognitive_controller = CognitiveController()
                 self.compliance_engine = ComplianceEngine()
                 self._initialize_consciousness_monitoring()
-                logger.info("✅ Workspace AGI Controller integration successful")
+                logger.info("✅ Workspace Cognitive AI Controller integration successful")
             except Exception as e:
-                logger.error(f"❌ AGI Controller integration failed: {e}")
-                self.agi_controller = None
+                logger.error(f"❌ Cognitive AI Controller integration failed: {e}")
+                self.cognitive_controller = None
 
         # Initialize base LUKHAS AI ΛBot if available
         self.base_lambda_bot = None
@@ -213,19 +213,19 @@ class AGIControllerΛBot:
 
     async def initialize_consciousness_control(self) -> bool:
         """Initialize consciousness-controlled modularization system"""
-        if not self.agi_controller:
-            logger.warning("⚠️ AGI Controller not available - using mock mode")
+        if not self.cognitive_controller:
+            logger.warning("⚠️ Cognitive AI Controller not available - using mock mode")
             return False
 
         try:
-            # Initialize AGI Controller
-            await self.agi_controller.initialize()
+            # Initialize Cognitive AI Controller
+            await self.cognitive_controller.initialize()
 
             # Initialize compliance engine
             await self.compliance_engine.initialize()
 
             # Set consciousness level to AWARE for modularization
-            consciousness_result = await self.agi_controller.set_consciousness_level(ConsciousnessLevel.AWARE)
+            consciousness_result = await self.cognitive_controller.set_consciousness_level(ConsciousnessLevel.AWARE)
 
             if consciousness_result.success:
                 logger.info("🧠 Consciousness level set to AWARE")
@@ -242,7 +242,7 @@ class AGIControllerΛBot:
         self, project_path: str, compliance_requirements: Optional[list[str]] = None
     ) -> ModularizationSession:
         """Start a consciousness-controlled modularization session"""
-        session_id = f"agi_mod_{int(time.time())}"
+        session_id = f"cognitive_mod_{int(time.time())}"
 
         session = ModularizationSession(
             session_id=session_id,
@@ -255,7 +255,7 @@ class AGIControllerΛBot:
         logger.info(f"🚀 Starting consciousness modularization session: {session_id}")
 
         # Initialize consciousness control
-        if self.agi_controller:
+        if self.cognitive_controller:
             await self.initialize_consciousness_control()
             session.consciousness_level = ConsciousnessState.AWARE
 
@@ -332,7 +332,7 @@ class AGIControllerΛBot:
             "consciousness_level": "aware",
             "awareness_scope": "full_system_consciousness",
             "consciousness_insights": {
-                "system_awareness": "AGI system demonstrates full awareness of modularization implications",
+                "system_awareness": "Cognitive AI system demonstrates full awareness of modularization implications",
                 "self_modification_capacity": "System can safely modify its own architecture",
                 "consciousness_boundaries": [
                     "core consciousness preservation",
@@ -555,16 +555,16 @@ class AGIControllerΛBot:
 
 
 async def main():
-    """Main function for testing AGI Controller LUKHAS AI ΛBot"""
-    print("🎯 AGI Controller LUKHAS AI ΛBot - Consciousness-Level Modularization Control")
+    """Main function for testing Cognitive AI Controller LUKHAS AI ΛBot"""
+    print("🎯 Cognitive AI Controller LUKHAS AI ΛBot - Consciousness-Level Modularization Control")
     print("=" * 70)
 
-    # Initialize AGI Controller LUKHAS AI ΛBot
-    agi_bot = AGIControllerΛBot()
+    # Initialize Cognitive AI Controller LUKHAS AI ΛBot
+    cognitive_bot = AGIControllerΛBot()
 
     # Start consciousness session
-    session = await agi_bot.start_consciousness_modularization_session(
-        project_path="/Users/agi_dev/LOCAL-REPOS/Lukhas",
+    session = await cognitive_bot.start_consciousness_modularization_session(
+        project_path="/Users/cognitive_dev/LOCAL-REPOS/Lukhas",
         compliance_requirements=["gdpr", "ccpa", "iso_27001"],
     )
 
@@ -575,7 +575,7 @@ async def main():
 
     # Perfrom consciousness-guided analysis
     print("\n🧠 Starting Consciousness-Guided Analysis...")
-    analysis = await agi_bot.consciousness_guided_analysis("/Users/agi_dev/LOCAL-REPOS/Lukhas/core")
+    analysis = await cognitive_bot.consciousness_guided_analysis("/Users/cognitive_dev/LOCAL-REPOS/Lukhas/core")
 
     print("\n✅ Consciousness Analysis Complete!")
     print(f"   Consciousness Level: {analysis['consciousness_level']}")
@@ -583,13 +583,13 @@ async def main():
     print(f"   Ethical Score: {analysis['ethical_assessment']['ethical_score']}")
 
     # Monitor session
-    status = await agi_bot.monitor_consciousness_session()
+    status = await cognitive_bot.monitor_consciousness_session()
     print("\n📊 Session Status:")
     print(f"   Runtime: {status['runtime']:.1f}s")
     print(f"   Consciousness Health: {status['consciousness_health']}")
     print(f"   Next Level: {status['next_consciousness_level']}")
 
-    print("\n🎯 AGI Controller LUKHAS AI ΛBot Analysis Complete! 🧠")
+    print("\n🎯 Cognitive AI Controller LUKHAS AI ΛBot Analysis Complete! 🧠")
 
 
 if __name__ == "__main__":

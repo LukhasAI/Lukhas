@@ -142,7 +142,7 @@ class LukhasMCPServer:
         """List files and directories in the given path."""
         try:
             # Security: Only allow paths under allowed roots
-            allowed_roots = os.getenv("ALLOWED_ROOTS", "/tmp,/var/tmp,/Users/agi_dev/LOCAL-REPOS/Lukhas/test_data").split(",")
+            allowed_roots = os.getenv("ALLOWED_ROOTS", "/tmp,/var/tmp,/Users/cognitive_dev/LOCAL-REPOS/Lukhas/test_data").split(",")
             abs_path = os.path.abspath(path)
             
             if not any(abs_path.startswith(os.path.abspath(root.strip())) for root in allowed_roots):
@@ -190,7 +190,7 @@ class LukhasMCPServer:
         """Read the contents of a text file."""
         try:
             # Security: Only allow paths under allowed roots
-            allowed_roots = os.getenv("ALLOWED_ROOTS", "/tmp,/var/tmp,/Users/agi_dev/LOCAL-REPOS/Lukhas/test_data").split(",")
+            allowed_roots = os.getenv("ALLOWED_ROOTS", "/tmp,/var/tmp,/Users/cognitive_dev/LOCAL-REPOS/Lukhas/test_data").split(",")
             abs_path = os.path.abspath(path)
             
             if not any(abs_path.startswith(os.path.abspath(root.strip())) for root in allowed_roots):
@@ -251,7 +251,7 @@ class LukhasMCPServer:
             import fnmatch
             
             # Security: Only allow paths under allowed roots
-            allowed_roots = os.getenv("ALLOWED_ROOTS", "/tmp,/var/tmp,/Users/agi_dev/LOCAL-REPOS/Lukhas/test_data").split(",")
+            allowed_roots = os.getenv("ALLOWED_ROOTS", "/tmp,/var/tmp,/Users/cognitive_dev/LOCAL-REPOS/Lukhas/test_data").split(",")
             abs_directory = os.path.abspath(directory)
             
             if not any(abs_directory.startswith(os.path.abspath(root.strip())) for root in allowed_roots):
@@ -482,7 +482,7 @@ async def main():
         # Default to safe directories
         default_roots = ["/tmp", "/var/tmp"]
         # Add test data directory if it exists
-        test_data_path = "/Users/agi_dev/LOCAL-REPOS/Lukhas/test_data"
+        test_data_path = "/Users/cognitive_dev/LOCAL-REPOS/Lukhas/test_data"
         if os.path.exists(test_data_path):
             default_roots.append(test_data_path)
         os.environ["ALLOWED_ROOTS"] = ",".join(default_roots)

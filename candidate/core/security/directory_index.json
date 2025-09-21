@@ -106,7 +106,7 @@
         "exports": []
       },
       {
-        "filename": "agi_security.py",
+        "filename": "cognitive_security.py",
         "component_type": "UTILITY",
         "has_contract": false,
         "contract_path": null,

@@ -602,7 +602,7 @@ if __name__ == "__main__":
 ║
 ║ REFERENCES:
 ║   - Docs: docs/memory/memory-service-api.md
-║   - Issues: github.com/lukhas-ai/agi/issues?label=memory-service
+║   - Issues: github.com/lukhas-ai/cognitive/issues?label=memory-service
 ║   - Wiki: wiki.lukhas.ai/memory-service-integration
 ║
 ║ COPYRIGHT & LICENSE:

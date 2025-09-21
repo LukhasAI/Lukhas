@@ -19,7 +19,7 @@ from typing import Any
 
 def load_all_specifications() -> dict[str, Any]:
     """Load all JSON specifications."""
-    base_path = Path("/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/core/memory")
+    base_path = Path("/Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/core/memory")
     specs = {}
 
     files = [

@@ -10,7 +10,7 @@
 📊 MODULE: ethics.sentinel.ethical_sentinel_dashboard
 📄 FILENAME: ethical_sentinel_dashboard.py
 🎯 PURPOSE: Visual Dashboard for Ethical Drift Sentinel - Real-time Monitoring UI
-🧠 CONTEXT: LUKHAS AGI Ethical Governance Visualization Interface
+🧠 CONTEXT: LUKHAS Cognitive AI Ethical Governance Visualization Interface
 🔮 CAPABILITY: Live violation tracking, intervention status, system risk display
 🛡️ ETHICS: Transparent ethical monitoring, audit visualization, intervention tracking
 🚀 VERSION: v1.0.0 • 📅 CREATED: 2025-07-22 • ✍️ AUTHOR: CLAUDE-CODE

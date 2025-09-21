@@ -14,7 +14,7 @@ Metadata:
   LUKHAS_TAGS: ethical_monitoring, drift_governor, symbolic_alignment
 
 License:
-  OpenAI-aligned AGI Symbolic Framework (internal use)
+  OpenAI-aligned Cognitive AI Symbolic Framework (internal use)
 """
 
 import hashlib

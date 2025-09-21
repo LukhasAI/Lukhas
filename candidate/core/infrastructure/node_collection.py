@@ -8,7 +8,7 @@ from consciousness.qi import qi
 import streamlit as st
 
 """
-Node Set Registration for the Adaptive AGI Interface
+Node Set Registration for the Adaptive Cognitive AI Interface
 
 This module registers the common node types with the node registry.
 """
@@ -27,8 +27,8 @@ class IntentNode:
     This is the heart of the system that directs tasks and decisions.
     """
 
-    def __init__(self, agi_system=None):
-        self.agi = agi_system
+    def __init__(self, cognitive_system=None):
+        self.agi = cognitive_system
         self.logger = logging.getLogger("IntentNode")
 
     def process(self, input_data):
@@ -60,11 +60,11 @@ class MemoryNode:
     """
     Responsible for storing and retrieving memories.
     Supports encrypted, traceable, and evolving memory logs.
-    Incorporates neuro-symbolic structures inspired by lukhas-agi-core.
+    Incorporates neuro-symbolic structures inspired by lukhas-cognitive-core.
     """
 
-    def __init__(self, agi_system=None):
-        self.agi = agi_system
+    def __init__(self, cognitive_system=None):
+        self.agi = cognitive_system
         self.logger = logging.getLogger("MemoryNode")
         self.short_term = {}
         self.long_term = {}
@@ -133,8 +133,8 @@ class EthicsNode:
     Self-updates based on feedback and past decisions.
     """
 
-    def __init__(self, agi_system=None):
-        self.agi = agi_system
+    def __init__(self, cognitive_system=None):
+        self.agi = cognitive_system
         self.logger = logging.getLogger("EthicsNode")
         self.principles = {
             "autonomy": 0.8,
@@ -195,8 +195,8 @@ class GoalManagementNode:
     Translates intents into actionable goals and sub-goals.
     """
 
-    def __init__(self, agi_system=None):
-        self.agi = agi_system
+    def __init__(self, cognitive_system=None):
+        self.agi = cognitive_system
         self.logger = logging.getLogger("GoalManagementNode")
         self.active_goals = []
         self.completed_goals = []
@@ -257,8 +257,8 @@ class DAOGovernanceNode:
     Ensures that critical decisions are vetted through a governance process.
     """
 
-    def __init__(self, agi_system=None):
-        self.agi = agi_system
+    def __init__(self, cognitive_system=None):
+        self.agi = cognitive_system
         self.logger = logging.getLogger("DAOGovernanceNode")
         self.proposals = []
         self.council_members = self._initialize_council()

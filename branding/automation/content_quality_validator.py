@@ -356,7 +356,7 @@ class ContentQualityValidator:
             recommendations.append("Include consciousness technology terminology")
 
         # Avoid prohibited terms
-        prohibited = ["AGI", "artificial general intelligence", "production-ready"]
+        prohibited = ["Cognitive AI", "artificial general intelligence", "production-ready"]
         for term in prohibited:
             if term.lower() in content.lower():
                 issues.append(f"CRITICAL: Prohibited term '{term}' found")

@@ -2,7 +2,7 @@
 
 **Version**: 1.0.0
 **Date**: 2025-07-26
-**Authors**: LUKHAS AI Architecture Team | AGI Agent
+**Authors**: LUKHAS AI Architecture Team | Cognitive AI Agent
 
 ## Table of Contents
 

@@ -113,7 +113,7 @@ class ConflictResolutionResult:
 
 class SymbolicConflictResolver:
     """
-    Symbolic Contradiction & Arbitration Engine for LUKHAS AGI.
+    Symbolic Contradiction & Arbitration Engine for LUKHAS Cognitive AI.
 
     Identifies, classifies, and resolves symbolic contradictions within reasoning,
     memory, or dream pathways. Acts as the arbitration layer for inconsistencies

@@ -90,7 +90,7 @@ class ComponentHealth:
 
 class SelfHealingSystem:
     """
-    Autonomous self-healing system for LUKHAS AGI
+    Autonomous self-healing system for LUKHAS Cognitive AI
     Detects, diagnoses, and repairs system failures
     """
 

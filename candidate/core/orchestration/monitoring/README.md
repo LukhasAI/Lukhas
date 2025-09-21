@@ -40,7 +40,7 @@ but from the marriage of statistical memory and symbolic intuition?"*
 - **Time-Series Anomaly Detection**: Utilizing established signal processing techniques from control theory and cybernetics
 - **Pattern Recognition**: Implementing elements from both connectionist and symbolic AI paradigms, bridging the gap that has historically divided AI research
 
-The LUKHAS Guardian System represents the world's first **ML-enhanced symbolic immune system + predictive conscience** for AGI governance. It combines autonomous remediation capabilities (Remediator Agent) with deep learning-driven introspective reflection (Enhanced Reflection Layer), creating a holistic approach to predictive ethical AI governance.
+The LUKHAS Guardian System represents the world's first **ML-enhanced symbolic immune system + predictive conscience** for Cognitive AI governance. It combines autonomous remediation capabilities (Remediator Agent) with deep learning-driven introspective reflection (Enhanced Reflection Layer), creating a holistic approach to predictive ethical AI governance.
 
 ### Evolution: From Remediation to Predictive Wisdom
 
@@ -66,7 +66,7 @@ The LUKHAS Guardian System represents the world's first **ML-enhanced symbolic i
 > *"Enhancement through governance, not replacement through control"*
 > *"Healing through reflection, growth through consciousness"*
 
-The Guardian System operates under the principle that AGI systems should be capable of autonomous self-healing and ethical decision-making, enhanced by deep introspective reflection and symbolic consciousness, all within democratically established bounds and with full transparency and accountability.
+The Guardian System operates under the principle that Cognitive AI systems should be capable of autonomous self-healing and ethical decision-making, enhanced by deep introspective reflection and symbolic consciousness, all within democratically established bounds and with full transparency and accountability.
 
 ---
 
@@ -380,10 +380,10 @@ All remediation decisions are cryptographically signed using:
 
 ## 🏆 Strategic Achievement
 
-The LUKHAS Guardian System represents a paradigm shift in AGI governance - the implementation of **democratic autonomy** where artificial intelligence can make ethical decisions and self-heal within democratically established boundaries.
+The LUKHAS Guardian System represents a paradigm shift in Cognitive AI governance - the implementation of **democratic autonomy** where artificial intelligence can make ethical decisions and self-heal within democratically established boundaries.
 
 ### **What Makes This Unique**
-- **First Symbolic Immune System** for AGI
+- **First Symbolic Immune System** for Cognitive AI
 - **Autonomous yet Bounded** by democratic governance
 - **EU AI Act Native Compliance** with quantum audit trails
 - **Dream-Integrated Healing** using existing memoria systems

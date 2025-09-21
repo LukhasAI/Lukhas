@@ -1081,7 +1081,7 @@ def subscribe_to_state(
 ║
 ║ REFERENCES:
 ║   - Docs: docs/bridge/shared-state.md
-║   - Issues: github.com/lukhas-ai/agi/issues?label=shared-state
+║   - Issues: github.com/lukhas-ai/cognitive/issues?label=shared-state
 ║   - Wiki: wiki.lukhas.ai/distributed-state-patterns
 ║
 ║ COPYRIGHT & LICENSE:

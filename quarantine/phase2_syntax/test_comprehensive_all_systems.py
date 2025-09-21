@@ -25,7 +25,7 @@ TEST_MODE = True
 class SystemDiscovery:
     """🔍 Discover and catalog all LUKHAS systems"""
 
-    def __init__(self, base_path="/Users/agi_dev/LOCAL-REPOS/Lukhas"):
+    def __init__(self, base_path="/Users/cognitive_dev/LOCAL-REPOS/Lukhas"):
         self.base_path = Path(base_path)
         self.discovered_systems = {}
 
@@ -100,7 +100,7 @@ class TestConsciousnessIntelligence:
             print("    🔬 Testing QI quantum intelligence...")
 
             # Check for QI system structure
-            qi_path = Path("/Users/agi_dev/LOCAL-REPOS/Lukhas/qi")
+            qi_path = Path("/Users/cognitive_dev/LOCAL-REPOS/Lukhas/qi")
             if not qi_path.exists():
                 print("    ⚠️ QI system directory not found")
                 return False
@@ -137,7 +137,7 @@ class TestConsciousnessIntelligence:
         try:
             print("    🤔 Testing reasoning systems...")
 
-            reasoning_path = Path("/Users/agi_dev/LOCAL-REPOS/Lukhas/reasoning")
+            reasoning_path = Path("/Users/cognitive_dev/LOCAL-REPOS/Lukhas/reasoning")
             if not reasoning_path.exists():
                 print("    ⚠️ Reasoning system directory not found")
                 return False
@@ -178,8 +178,8 @@ class TestConsciousnessIntelligence:
             print("    🧠 Testing consciousness core...")
 
             # Test lukhas consciousness
-            lukhas_consciousness = Path("/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/consciousness")
-            consciousness_direct = Path("/Users/agi_dev/LOCAL-REPOS/Lukhas/consciousness")
+            lukhas_consciousness = Path("/Users/cognitive_dev/LOCAL-REPOS/Lukhas/lukhas/consciousness")
+            consciousness_direct = Path("/Users/cognitive_dev/LOCAL-REPOS/Lukhas/consciousness")
 
             systems_found = 0
 
@@ -250,7 +250,7 @@ class TestMemoryDataSystems:
         try:
             print("    🛡️ Testing memory protection systems...")
 
-            memory_protection = Path("/Users/agi_dev/LOCAL-REPOS/Lukhas/memory/protection")
+            memory_protection = Path("/Users/cognitive_dev/LOCAL-REPOS/Lukhas/memory/protection")
             if memory_protection.exists():
                 python_files = list(memory_protection.glob("*.py"))
                 if python_files:
@@ -258,7 +258,7 @@ class TestMemoryDataSystems:
                     return True
 
             # Check for memory security tests
-            memory_security_tests = Path("/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/memory_security")
+            memory_security_tests = Path("/Users/cognitive_dev/LOCAL-REPOS/Lukhas/tests/memory_security")
             if memory_security_tests.exists():
                 test_files = list(memory_security_tests.glob("*.py"))
                 if test_files:
@@ -277,7 +277,7 @@ class TestMemoryDataSystems:
         try:
             print("    🌈 Testing qualia memory systems...")
 
-            qualia_path = Path("/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/aka_qualia")
+            qualia_path = Path("/Users/cognitive_dev/LOCAL-REPOS/Lukhas/candidate/aka_qualia")
             if not qualia_path.exists():
                 print("    ⚠️ Qualia systems directory not found")
                 return False
@@ -308,8 +308,8 @@ class TestMemoryDataSystems:
         try:
             print("    📊 Testing data analytics systems...")
 
-            data_path = Path("/Users/agi_dev/LOCAL-REPOS/Lukhas/data")
-            analytics_path = Path("/Users/agi_dev/LOCAL-REPOS/Lukhas/analytics")
+            data_path = Path("/Users/cognitive_dev/LOCAL-REPOS/Lukhas/data")
+            analytics_path = Path("/Users/cognitive_dev/LOCAL-REPOS/Lukhas/analytics")
 
             systems_found = 0
 
@@ -379,7 +379,7 @@ class TestSecurityGovernance:
         try:
             print("    ⚖️ Testing ethics systems...")
 
-            ethics_path = Path("/Users/agi_dev/LOCAL-REPOS/Lukhas/ethics")
+            ethics_path = Path("/Users/cognitive_dev/LOCAL-REPOS/Lukhas/ethics")
             if not ethics_path.exists():
                 print("    ⚠️ Ethics system directory not found")
                 return False
@@ -416,7 +416,7 @@ class TestSecurityGovernance:
         try:
             print("    🏛️ Testing extended governance...")
 
-            governance_ext = Path("/Users/agi_dev/LOCAL-REPOS/Lukhas/governance_extended")
+            governance_ext = Path("/Users/cognitive_dev/LOCAL-REPOS/Lukhas/governance_extended")
             if not governance_ext.exists():
                 print("    ⚠️ Extended governance directory not found")
                 return False
@@ -446,8 +446,8 @@ class TestSecurityGovernance:
         try:
             print("    🔒 Testing security infrastructure...")
 
-            security_path = Path("/Users/agi_dev/LOCAL-REPOS/Lukhas/security")
-            lukhas_security = Path("/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/security")
+            security_path = Path("/Users/cognitive_dev/LOCAL-REPOS/Lukhas/security")
+            lukhas_security = Path("/Users/cognitive_dev/LOCAL-REPOS/Lukhas/lukhas/security")
 
             systems_found = 0
 
@@ -517,7 +517,7 @@ class TestProductIntegration:
         try:
             print("    📦 Testing product systems...")
 
-            products_path = Path("/Users/agi_dev/LOCAL-REPOS/Lukhas/products")
+            products_path = Path("/Users/cognitive_dev/LOCAL-REPOS/Lukhas/products")
             if not products_path.exists():
                 print("    ⚠️ Products directory not found")
                 return False
@@ -547,7 +547,7 @@ class TestProductIntegration:
         try:
             print("    🛠️ Testing SDK systems...")
 
-            sdk_path = Path("/Users/agi_dev/LOCAL-REPOS/Lukhas/sdk")
+            sdk_path = Path("/Users/cognitive_dev/LOCAL-REPOS/Lukhas/sdk")
             if not sdk_path.exists():
                 print("    ⚠️ SDK directory not found")
                 return False
@@ -577,7 +577,7 @@ class TestProductIntegration:
         try:
             print("    🔗 Testing MATRIZ systems...")
 
-            matriz_path = Path("/Users/agi_dev/LOCAL-REPOS/Lukhas/matriz")
+            matriz_path = Path("/Users/cognitive_dev/LOCAL-REPOS/Lukhas/matriz")
             if not matriz_path.exists():
                 print("    ⚠️ MATRIZ directory not found")
                 return False
@@ -646,7 +646,7 @@ class TestInfrastructureOps:
         try:
             print("    🎼 Testing orchestration systems...")
 
-            orchestration_path = Path("/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/orchestration")
+            orchestration_path = Path("/Users/cognitive_dev/LOCAL-REPOS/Lukhas/lukhas/orchestration")
             if not orchestration_path.exists():
                 print("    ⚠️ Orchestration directory not found")
                 return False
@@ -668,9 +668,9 @@ class TestInfrastructureOps:
         try:
             print("    📊 Testing monitoring & observability...")
 
-            monitoring_path = Path("/Users/agi_dev/LOCAL-REPOS/Lukhas/monitoring")
-            observability_path = Path("/Users/agi_dev/LOCAL-REPOS/Lukhas/observability")
-            lukhas_observability = Path("/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/observability")
+            monitoring_path = Path("/Users/cognitive_dev/LOCAL-REPOS/Lukhas/monitoring")
+            observability_path = Path("/Users/cognitive_dev/LOCAL-REPOS/Lukhas/observability")
+            lukhas_observability = Path("/Users/cognitive_dev/LOCAL-REPOS/Lukhas/lukhas/observability")
 
             systems_found = 0
 
@@ -700,8 +700,8 @@ class TestInfrastructureOps:
         try:
             print("    🤖 Testing agent systems...")
 
-            agents_path = Path("/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/agents")
-            agents_external = Path("/Users/agi_dev/LOCAL-REPOS/Lukhas/agents_external")
+            agents_path = Path("/Users/cognitive_dev/LOCAL-REPOS/Lukhas/lukhas/agents")
+            agents_external = Path("/Users/cognitive_dev/LOCAL-REPOS/Lukhas/agents_external")
 
             systems_found = 0
 
@@ -771,8 +771,8 @@ class TestAdvancedFeatures:
         try:
             print("    🌊 Testing VIVOX systems...")
 
-            lukhas_vivox = Path("/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/vivox")
-            candidate_vivox = Path("/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/vivox")
+            lukhas_vivox = Path("/Users/cognitive_dev/LOCAL-REPOS/Lukhas/lukhas/vivox")
+            candidate_vivox = Path("/Users/cognitive_dev/LOCAL-REPOS/Lukhas/candidate/vivox")
 
             systems_found = 0
 
@@ -803,7 +803,7 @@ class TestAdvancedFeatures:
         try:
             print("    🧮 Testing RL systems...")
 
-            rl_path = Path("/Users/agi_dev/LOCAL-REPOS/Lukhas/rl")
+            rl_path = Path("/Users/cognitive_dev/LOCAL-REPOS/Lukhas/rl")
             if not rl_path.exists():
                 print("    ⚠️ RL directory not found")
                 return False
@@ -833,8 +833,8 @@ class TestAdvancedFeatures:
         try:
             print("    😊 Testing emotion & modulation...")
 
-            emotion_path = Path("/Users/agi_dev/LOCAL-REPOS/Lukhas/emotion")
-            modulation_path = Path("/Users/agi_dev/LOCAL-REPOS/Lukhas/modulation")
+            emotion_path = Path("/Users/cognitive_dev/LOCAL-REPOS/Lukhas/emotion")
+            modulation_path = Path("/Users/cognitive_dev/LOCAL-REPOS/Lukhas/modulation")
 
             systems_found = 0
 

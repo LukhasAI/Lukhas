@@ -46,7 +46,7 @@ LUKHAS uses **two distinct frameworks** depending on audience and context:
 
 **Company Naming**:
 - **LUKHΛS** (display with Λ) / **Lukhas** (plain text)
-- Never "LUKHAS AGI" - always "LUKHAS AI"
+- Never "LUKHAS Cognitive AI" - always "LUKHAS AI"
 
 **Product Naming**:
 - **MΛTRIZ** (display with Λ) / **Matriz** (plain text)  
@@ -59,7 +59,7 @@ LUKHAS uses **two distinct frameworks** depending on audience and context:
 **Approved Technical Language**:
 - "Quantum-inspired" (not "quantum processing")
 - "Bio-inspired" (not "bio processes")
-- "Consciousness technology" (not "AGI technology")
+- "Consciousness technology" (not "Cognitive AI technology")
 - "Awareness systems" (not "sentient systems")
 
 ## 🛡️ Enforcement

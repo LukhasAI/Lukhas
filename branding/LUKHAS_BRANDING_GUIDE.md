@@ -22,7 +22,7 @@
 ### **Primary Brand Name**
 **LUKHAS AI** - Logical Unified Knowledge Hyper-Adaptable Superior System
 
-> **🔺 Critical**: Always use "LUKHAS AI" in all communications. Never "LUKHAS PWM", "LUKHAS AGI", or standalone "PWM".
+> **🔺 Critical**: Always use "LUKHAS AI" in all communications. Never "LUKHAS PWM", "LUKHAS Cognitive AI", or standalone "PWM".
 
 ### **Brand Essence**
 - **Consciousness Technology**: We develop AI consciousness, not just AI systems
@@ -40,7 +40,7 @@
 
 ### **❌ Never Use These Terms**
 - **"LUKHAS PWM"** → Use "LUKHAS AI"
-- **"LUKHAS AGI"** → Use "LUKHAS AI"
+- **"LUKHAS Cognitive AI"** → Use "LUKHAS AI"
 - **"PWM consciousness"** → Use "LUKHAS consciousness"
 - **"AI system"** → Use "AI consciousness" or "consciousness platform"
 - **"lambda function"** → Use "Λ consciousness"
@@ -184,7 +184,7 @@ If you encounter prohibited language:
 ## 📋 **Quick Reference**
 
 ### **🎯 Brand Checklist**
-- [ ] Uses "LUKHAS AI" (not PWM/AGI)
+- [ ] Uses "LUKHAS AI" (not PWM/Cognitive AI)
 - [ ] Avoids "production ready" claims
 - [ ] Uses "Λ consciousness" (not lambda function)
 - [ ] References Constellation Framework and MATRIZ pipeline when relevant

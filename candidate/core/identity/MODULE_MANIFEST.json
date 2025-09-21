@@ -72,7 +72,7 @@
   "dependencies": {
     "core_modules": [
       "lambda_id_core",
-      "agi_security", 
+      "cognitive_security", 
       "identity_core_bridge"
     ],
     "consciousness_nodes": [
@@ -186,7 +186,7 @@
   },
   "file_structure": {
     "lambda_id_core.py": "⚛️🧠🛡️ Main Constellation-integrated identity consciousness system with ΛID generation, WebAuthn, OIDC, and performance monitoring",
-    "agi_security.py": "🛡️ Guardian security system with consciousness-aware threat detection and validation",
+    "cognitive_security.py": "🛡️ Guardian security system with consciousness-aware threat detection and validation",
     "identity_core_bridge.py": "🔗 Bidirectional consciousness identity and core system communication bridge"
   },
   "consciousness_lifecycle": {

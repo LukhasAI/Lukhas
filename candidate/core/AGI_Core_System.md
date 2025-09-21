@@ -14,7 +14,7 @@ The core system provides the fundamental architecture and processing pipeline fo
 
 ## Key Files
 
-- `cognitive_core.py`: Main integration point for all AGI subsystems
+- `cognitive_core.py`: Main integration point for all Cognitive AI subsystems
 - `__init__.py`: Package initialization
 
 ## Usage

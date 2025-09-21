@@ -1897,7 +1897,7 @@ if __name__ == "__main__":
 ║
 ║ REFERENCES:
 ║   - Docs: docs/consciousness/cognitive-architecture.md
-║   - Issues: github.com/lukhas-ai/agi/issues?label=cognitive-architecture
+║   - Issues: github.com/lukhas-ai/cognitive/issues?label=cognitive-architecture
 ║   - Wiki: wiki.lukhas.ai/cognitive-architecture-design
 ║
 ║ COPYRIGHT & LICENSE:

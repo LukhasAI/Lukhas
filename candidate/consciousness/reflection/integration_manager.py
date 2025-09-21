@@ -9,14 +9,14 @@ import logging
 #TAG:colony
 
 
-Lukhas System AGI Integration Manager
+Lukhas System Cognitive Integration Manager
 ====================================
 Central integration manager for connecting Cognitive capabilities across
 the entire Lukhas ecosystem.
 
 This manager coordinates:
-1. Main Lukhas AGI Orchestrator
-2. Cognitive Core AGI Enhancement
+1. Main Lukhas Cognitive AI Orchestrator
+2. Cognitive Core Cognitive Enhancement
 3. Brain Orchestration Integration
 4. Bot GitHub App Cognitive capabilities
 5. Legacy system compatibility
@@ -36,7 +36,7 @@ logger = logging.getLogger("LukhasAGIIntegration")
 
 class LukhasAGIIntegrationManager:
     """
-    Central manager for AGI integration across the Lukhas ecosystem
+    Central manager for Cognitive AI integration across the Lukhas ecosystem
     """
 
     def __init__(self):
@@ -53,16 +53,16 @@ class LukhasAGIIntegrationManager:
             "autonomous_goals_achieved": 0,
         }
 
-        logger.info(" Lukhas AGI Integration Manager initialized")
+        logger.info(" Lukhas Cognitive Integration Manager initialized")
 
     async def initialize_complete_integration(self) -> bool:
         """
-        Initialize complete AGI integration across all Lukhas components
+        Initialize complete Cognitive AI integration across all Lukhas components
         """
-        logger.info(" Initializing complete Lukhas AGI integration...")
+        logger.info(" Initializing complete Lukhas Cognitive AI integration...")
 
         try:
-            # Step 1: Initialize main AGI orchestrator
+            # Step 1: Initialize main Cognitive AI orchestrator
             await self._initialize_agi_orchestrator()
 
             # Step 2: Enhance cognitive core
@@ -84,15 +84,15 @@ class LukhasAGIIntegrationManager:
             await self._start_background_orchestration()
 
             self.integration_active = True
-            logger.info(" Complete Lukhas AGI integration successful")
+            logger.info(" Complete Lukhas Cognitive AI integration successful")
             return True
 
         except Exception as e:
-            logger.error(f" AGI integration failed: {e}")
+            logger.error(f" Cognitive AI integration failed: {e}")
             return False
 
     async def _initialize_agi_orchestrator(self):
-        """Initialize the main AGI orchestrator"""
+        """Initialize the main Cognitive AI orchestrator"""
         try:
             # SYNTAX_ERROR_FIXED:             from
             # orchestration.brain.lukhas_agi_orchestrator import
@@ -100,16 +100,16 @@ class LukhasAGIIntegrationManager:
 
             success = await lukhas_agi_orchestrator.initialize_agi_system()
             if success:
-                self.components["agi_orchestrator"] = lukhas_agi_orchestrator
-                self.integration_status["agi_orchestrator"] = "active"
-                logger.info(" AGI orchestrator initialized")
+                self.components["cognitive_orchestrator"] = lukhas_agi_orchestrator
+                self.integration_status["cognitive_orchestrator"] = "active"
+                logger.info(" Cognitive AI orchestrator initialized")
             else:
-                self.integration_status["agi_orchestrator"] = "failed"
-                logger.error(" AGI orchestrator initialization failed")
+                self.integration_status["cognitive_orchestrator"] = "failed"
+                logger.error(" Cognitive AI orchestrator initialization failed")
 
         except ImportError as e:
-            self.integration_status["agi_orchestrator"] = "unavailable"
-            logger.warning(f"AGI orchestrator not available: {e}")
+            self.integration_status["cognitive_orchestrator"] = "unavailable"
+            logger.warning(f"Cognitive AI orchestrator not available: {e}")
 
     async def _initialize_cognitive_enhancement(self):
         """Initialize cognitive core Cognitive enhancement"""
@@ -154,7 +154,7 @@ class LukhasAGIIntegrationManager:
     async def _initialize_github_app_integration(self):
         """Initialize GitHub App Cognitive capabilities integration"""
         try:
-            # Check if GitHub App AGI components are available
+            # Check if GitHub App Cognitive AI components are available
             github_app_path = Path(__file__).parent / "Bot_GitHub_App"
             if github_app_path.exists():
                 # Import Cognitive capabilities from GitHub App
@@ -166,20 +166,20 @@ class LukhasAGIIntegrationManager:
                 # from Bot_consciousness_monitor import BotConsciousnessMonitor  # TODO:
                 # Install or implement Bot_consciousness_monitor
 
-                # Create GitHub App AGI integration
+                # Create GitHub App Cognitive AI integration
                 github_agi_core = BotAGICore()
                 await github_agi_core.initialize()
 
                 self.components["github_app_agi"] = github_agi_core
                 self.integration_status["github_app_agi"] = "active"
-                logger.info(" GitHub App AGI integration initialized")
+                logger.info(" GitHub App Cognitive AI integration initialized")
             else:
                 self.integration_status["github_app_agi"] = "unavailable"
-                logger.warning("GitHub App AGI components not found")
+                logger.warning("GitHub App Cognitive AI components not found")
 
         except Exception as e:
             self.integration_status["github_app_agi"] = "failed"
-            logger.error(f"GitHub App AGI integration failed: {e}")
+            logger.error(f"GitHub App Cognitive AI integration failed: {e}")
 
     async def _initialize_legacy_compatibility(self):
         """Initialize legacy system compatibility"""
@@ -201,7 +201,7 @@ class LukhasAGIIntegrationManager:
 
         # Create communication pathways
         self.communication_channels = {
-            "agi_to_cognitive": self._create_agi_cognitive_channel(),
+            "cognitive_to_cognitive": self._create_agi_cognitive_channel(),
             "cognitive_to_brain": self._create_cognitive_brain_channel(),
             "brain_to_github": self._create_brain_github_channel(),
             "github_to_legacy": self._create_github_legacy_channel(),
@@ -211,7 +211,7 @@ class LukhasAGIIntegrationManager:
         logger.info(" Communication channels established")
 
     def _create_agi_cognitive_channel(self):
-        """Create AGI to Cognitive communication channel"""
+        """Create Cognitive AI to Cognitive communication channel"""
         return {
             "send_insights": self._send_agi_insights_to_cognitive,
             "receive_feedback": self._receive_cognitive_feedback_from_agi,
@@ -270,14 +270,14 @@ class LukhasAGIIntegrationManager:
         processing_start = datetime.now(timezone.utc)
         request_id = f"unified_{int(processing_start.timestamp())}"
 
-        logger.info(f" Processing unified AGI request: {request_id}")
+        logger.info(f" Processing unified Cognitive AI request: {request_id}")
 
         try:
-            # Stage 1: AGI Orchestrator processing
-            agi_result = None
-            if "agi_orchestrator" in self.components:
-                agi_result = await self.components["agi_orchestrator"].process_agi_request(user_input, context)
-                logger.info(" AGI orchestrator processing complete")
+            # Stage 1: Cognitive AI Orchestrator processing
+            cognitive_result = None
+            if "cognitive_orchestrator" in self.components:
+                cognitive_result = await self.components["cognitive_orchestrator"].process_agi_request(user_input, context)
+                logger.info(" Cognitive AI orchestrator processing complete")
 
             # Stage 2: Cognitive enhancement processing
             cognitive_result = None
@@ -293,26 +293,26 @@ class LukhasAGIIntegrationManager:
                 brain_input = {
                     "text": user_input,
                     "context": context,
-                    "agi_insights": agi_result,
+                    "cognitive_insights": cognitive_result,
                     "cognitive_insights": cognitive_result,
                 }
                 brain_result = await self.components["brain_orchestrator"].orchestrate_processing(brain_input)
                 logger.info(" Brain orchestration processing complete")
 
-            # Stage 4: GitHub App AGI processing
+            # Stage 4: GitHub App Cognitive AI processing
             github_result = None
             if "github_app_agi" in self.components:
                 github_result = await self._process_through_github_agi(
-                    user_input, context, agi_result, cognitive_result, brain_result
+                    user_input, context, cognitive_result, cognitive_result, brain_result
                 )
-                logger.info(" GitHub App AGI processing complete")
+                logger.info(" GitHub App Cognitive AI processing complete")
 
             # Stage 5: Unified result compilation
             unified_result = await self._compile_unified_result(
                 request_id=request_id,
                 user_input=user_input,
                 context=context,
-                agi_result=agi_result,
+                cognitive_result=cognitive_result,
                 cognitive_result=cognitive_result,
                 brain_result=brain_result,
                 github_result=github_result,
@@ -322,11 +322,11 @@ class LukhasAGIIntegrationManager:
             # Update performance metrics
             await self._update_performance_metrics(unified_result)
 
-            logger.info(f" Unified AGI request completed: {request_id}")
+            logger.info(f" Unified Cognitive AI request completed: {request_id}")
             return unified_result
 
         except Exception as e:
-            logger.error(f" Unified AGI request processing failed: {e}")
+            logger.error(f" Unified Cognitive AI request processing failed: {e}")
             return {
                 "request_id": request_id,
                 "error": str(e),
@@ -334,23 +334,23 @@ class LukhasAGIIntegrationManager:
                 "integration_status": self.integration_status,
             }
 
-    async def _process_through_github_agi(self, user_input, context, agi_result, cognitive_result, brain_result):
-        """Process through GitHub App AGI capabilitie"""
+    async def _process_through_github_agi(self, user_input, context, cognitive_result, cognitive_result, brain_result):
+        """Process through GitHub App Cognitive AI capabilitie"""
 
         github_agi = self.components.get("github_app_agi")
         if not github_agi:
             return {"status": "github_agi_unavailable"}
 
-        # Combine all previous processing results for GitHub AGI
+        # Combine all previous processing results for GitHub Cognitive AI
         combined_input = {
             "user_input": user_input,
             "context": context,
-            "lukhas_agi_insights": agi_result,
+            "lukhas_agi_insights": cognitive_result,
             "cognitive_insights": cognitive_result,
             "brain_orchestration": brain_result,
         }
 
-        # Process through GitHub AGI engines
+        # Process through GitHub Cognitive AI engines
         meta_cognitive_result = await github_agi.meta_cognitive_engine.process_meta_cognitive_awareness(combined_input)
 
         causal_result = await github_agi.causal_reasoning_engine.analyze_causal_relationships(combined_input)
@@ -374,14 +374,14 @@ class LukhasAGIIntegrationManager:
             "request_id": kwargs["request_id"],
             "user_input": kwargs["user_input"],
             "unified_processing": {
-                "agi_orchestrator": kwargs["agi_result"],
+                "cognitive_orchestrator": kwargs["cognitive_result"],
                 "cognitive_enhancement": kwargs["cognitive_result"],
                 "brain_orchestration": kwargs["brain_result"],
                 "github_app_agi": kwargs["github_result"],
             },
             "integration_insights": {
                 "cross_component_synthesis": await self._synthesize_cross_component_insights(
-                    kwargs["agi_result"],
+                    kwargs["cognitive_result"],
                     kwargs["cognitive_result"],
                     kwargs["brain_result"],
                     kwargs["github_result"],
@@ -407,7 +407,7 @@ class LukhasAGIIntegrationManager:
             },
         }
 
-    async def _synthesize_cross_component_insights(self, agi_result, cognitive_result, brain_result, github_result):
+    async def _synthesize_cross_component_insights(self, cognitive_result, cognitive_result, brain_result, github_result):
         """Synthesize insights across all component"""
 
         synthesis = {
@@ -419,7 +419,7 @@ class LukhasAGIIntegrationManager:
         }
 
         # Analyze agreement between components
-        if agi_result and cognitive_result and brain_result and github_result:
+        if cognitive_result and cognitive_result and brain_result and github_result:
             # Calculate agreement score (placeholder - implement actual agreement
             # analysis)
             synthesis["component_agreement_score"] = 0.85
@@ -428,7 +428,7 @@ class LukhasAGIIntegrationManager:
             # Identify reinforcing insights
             synthesis["reinforcing_insights"] = [
                 "All components show high confidence in reasoning",
-                "Consistent consciousness level across AGI components",
+                "Consistent consciousness level across Cognitive AI components",
                 "Aligned cognitive and brain processing results",
             ]
 
@@ -447,8 +447,8 @@ class LukhasAGIIntegrationManager:
         consciousness_levels = []
 
         # Collect consciousness levels from all components
-        if "agi_orchestrator" in self.components:
-            level = self.components["agi_orchestrator"].consciousness_level
+        if "cognitive_orchestrator" in self.components:
+            level = self.components["cognitive_orchestrator"].consciousness_level
             if level:
                 consciousness_levels.append(level.value)
 
@@ -635,7 +635,7 @@ class LukhasAGIIntegrationManager:
 
     async def stop_integration(self):
         """Stop the integration manager"""
-        logger.info(" Stopping Lukhas AGI Integration Manager...")
+        logger.info(" Stopping Lukhas Cognitive Integration Manager...")
 
         self.integration_active = False
 
@@ -653,7 +653,7 @@ class LukhasAGIIntegrationManager:
                 except Exception as e:
                     logger.error(f" Error stopping {component_name}: {e}")
 
-        logger.info(" Lukhas AGI Integration Manager stopped")
+        logger.info(" Lukhas Cognitive Integration Manager stopped")
 
 
 # Global instance
@@ -661,8 +661,8 @@ lukhas_agi_integration_manager = LukhasAGIIntegrationManager()
 
 
 async def main():
-    """Main entry point for Lukhas AGI Integration"""
-    print(" Lukhas AGI Integration Manager")
+    """Main entry point for Lukhas Cognitive Integration"""
+    print(" Lukhas Cognitive Integration Manager")
     print("Unified Intelligence Orchestration")
     print("=" * 50)
 
@@ -670,14 +670,14 @@ async def main():
         # Initialize complete integration
         success = await lukhas_agi_integration_manager.initialize_complete_integration()
         if not success:
-            print(" Failed to initialize AGI integration")
+            print(" Failed to initialize Cognitive AI integration")
             return 1
 
-        print(" AGI integration initialized successfully")
+        print(" Cognitive AI integration initialized successfully")
         print(f"Integration Status: {lukhas_agi_integration_manager.get_integration_status()}")
 
         # Test unified processing
-        print("\n Testing unified AGI processing...")
+        print("\n Testing unified Cognitive AI processing...")
         test_result = await lukhas_agi_integration_manager.process_unified_request(
             "Hello, I want to understand how consciousness emerges from intelligence.",
             {"test_mode": True},
@@ -691,10 +691,10 @@ async def main():
         await asyncio.sleep(60)
 
     except KeyboardInterrupt:
-        print("\n Shutting down AGI integration...")
+        print("\n Shutting down Cognitive AI integration...")
         await lukhas_agi_integration_manager.stop_integration()
     except Exception as e:
-        print(f" AGI integration error: {e}")
+        print(f" Cognitive AI integration error: {e}")
         return 1
 
     return 0

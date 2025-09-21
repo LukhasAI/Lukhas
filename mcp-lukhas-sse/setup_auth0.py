@@ -46,7 +46,7 @@ def setup_auth0_config():
     
     # Prepare new configuration
     new_config = {
-        "LUKHAS_MCP_ROOTS": current_config.get("LUKHAS_MCP_ROOTS", "/Users/agi_dev/LOCAL-REPOS/Lukhas"),
+        "LUKHAS_MCP_ROOTS": current_config.get("LUKHAS_MCP_ROOTS", "/Users/cognitive_dev/LOCAL-REPOS/Lukhas"),
         "WRITE_ENABLED": current_config.get("WRITE_ENABLED", "false"),
         "OAUTH_ISSUER": oauth_issuer,
         "OAUTH_AUDIENCE": api_identifier,

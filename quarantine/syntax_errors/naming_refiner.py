@@ -135,7 +135,7 @@ class LukhasNamingRefiner:
             name = re.sub(r"\blukhas\b", "LUKHAS", name, flags=re.IGNORECASE)
             name = re.sub(r"\b\b", "", name, flags=re.IGNORECASE)
             name = re.sub(r"\bsgi\b", "SGI", name, flags=re.IGNORECASE)
-            name = re.sub(r"\bagi\b", "AGI", name, flags=re.IGNORECASE)
+            name = re.sub(r"\bagi\b", "Cognitive AI", name, flags=re.IGNORECASE)
 
         # Convert to PascalCase
         if "_" in name:
@@ -306,7 +306,7 @@ class LukhasNamingRefiner:
                     "Guardian",
                     "SGIProcessor",
                 ],
-                "preserve": ["LUKHAS", "", "SGI", "AGI as uppercase"],
+                "preserve": ["LUKHAS", "", "SGI", "Cognitive AI as uppercase"],
             },
             "functions": {
                 "pattern": "snake_case",

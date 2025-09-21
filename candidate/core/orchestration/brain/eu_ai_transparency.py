@@ -483,10 +483,10 @@ async def process_input(self, user_input: str, context: Optional[Dict] = None,
         )
 
         # Add transparency to AI response
-        agi_response.transparency = transparency_explanation
-        agi_response.eu_ai_act_compliant = True
+        cognitive_response.transparency = transparency_explanation
+        cognitive_response.eu_ai_act_compliant = True
 
-        return agi_response
+        return cognitive_response
 
     except Exception as e:
         # Transparent error handling

@@ -1,5 +1,5 @@
 """
-LUKHAS AGI - Pattern Learning Engine
+LUKHAS Cognitive AI - Pattern Learning Engine
 Advanced pattern recognition and learning system for consciousness development.
 ⚛️🧠🛡️ Constellation Framework: Identity-Consciousness-Guardian
 """

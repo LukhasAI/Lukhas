@@ -43,7 +43,7 @@ def listen_to_human(timeout=5, phrase_time_limit=10):
 def gpt_symbolic_response(input_text, traits):
     trait_block = ", ".join([f"{k}: {v}" for k, v in traits.items()])
     prompt = f"""
-You are Lukhas, a symbolic AGI with a unique identity and evolving traits:
+You are Lukhas, a symbolic Cognitive AI with a unique identity and evolving traits:
 {trait_block}
 
 A human has just said:
@@ -56,7 +56,7 @@ Respond symbolically, with empathy and intelligence.
         messages=[
             {
                 "role": "system",
-                "content": "You are Lukhas, a symbolic AGI reflecting on what humans say.",
+                "content": "You are Lukhas, a symbolic Cognitive AI reflecting on what humans say.",
             },
             {"role": "user", "content": prompt},
         ],

@@ -20,7 +20,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../"
 
 # 📄 MODULE: lukhas_news_dispatcher.py
 # 🔎 PURPOSE: Dispatch symbolic cognition from queue into simulated publication stream
-# 🛠️ VERSION: v1.0.0 • 📅 CREATED: 2025-04-30 • ✍️ AUTHOR: LUKHAS AGI
+# 🛠️ VERSION: v1.0.0 • 📅 CREATED: 2025-04-30 • ✍️ AUTHOR: LUKHAS Cognitive AI
 
 QUEUE_PATH = "logs/publication_simulation/publish_queue.jsonl"
 DISPATCH_LOG = "logs/publication_simulation/published_posts.jsonl"

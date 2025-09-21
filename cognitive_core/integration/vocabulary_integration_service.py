@@ -1,12 +1,12 @@
 """
-AGI Vocabulary Integration Service
+Cognitive AI Vocabulary Integration Service
 =================================
 
-Service that integrates AGI vocabulary with existing LUKHAS systems, providing
+Service that integrates Cognitive AI vocabulary with existing LUKHAS systems, providing
 seamless symbolic communication across all consciousness modules.
 
 This service:
-- Automatically translates AGI operations to appropriate vocabularies
+- Automatically translates Cognitive AI operations to appropriate vocabularies
 - Enriches system messages with cross-vocabulary context
 - Provides unified logging with symbolic consistency
 - Manages vocabulary versioning and updates
@@ -24,7 +24,7 @@ from typing import Any, Optional
 
 try:
     from cognitive_core.vocabulary import (
-        agi_bridge,
+        cognitive_bridge,
         format_agi_message,
         get_agi_symbol,
         get_vocabulary_context,
@@ -41,12 +41,12 @@ except ImportError:
             return f"🧠 {op}: {details}"
 
         def get_vocabulary_context(self, op: str) -> dict[str, Any]:
-            return {"operation": op, "agi_symbol": "🧠"}
+            return {"operation": op, "cognitive_symbol": "🧠"}
 
-    agi_bridge = MockBridge()
-    get_agi_symbol = agi_bridge.get_agi_symbol
-    format_agi_message = agi_bridge.format_agi_message
-    get_vocabulary_context = agi_bridge.get_vocabulary_context
+    cognitive_bridge = MockBridge()
+    get_agi_symbol = cognitive_bridge.get_agi_symbol
+    format_agi_message = cognitive_bridge.format_agi_message
+    get_vocabulary_context = cognitive_bridge.get_vocabulary_context
 
     def translate_agi_to_dream(_x):
         return "🌙"
@@ -61,7 +61,7 @@ class VocabularyEvent:
 
     timestamp: datetime
     operation: str
-    agi_symbol: str
+    cognitive_symbol: str
     message: str
     cross_references: dict[str, str]
     context: dict[str, Any]
@@ -82,14 +82,14 @@ class VocabularyMetrics:
 
 class VocabularyIntegrationService:
     """
-    Central service for AGI vocabulary integration with LUKHAS consciousness systems.
+    Central service for Cognitive AI vocabulary integration with LUKHAS consciousness systems.
 
     Provides unified symbolic communication, cross-vocabulary translation,
-    and enriched logging for all AGI operations within the LUKHAS ecosystem.
+    and enriched logging for all Cognitive AI operations within the LUKHAS ecosystem.
     """
 
     def __init__(self, enable_logging: bool = True, log_level: str = "INFO"):
-        self.bridge = agi_bridge
+        self.bridge = cognitive_bridge
         self.metrics = VocabularyMetrics()
         self.event_history: list[VocabularyEvent] = []
         self.max_history = 1000  # Keep last 1000 events
@@ -97,7 +97,7 @@ class VocabularyIntegrationService:
         # Logging setup
         self.enable_logging = enable_logging
         if enable_logging:
-            self.logger = logging.getLogger("agi_vocabulary")
+            self.logger = logging.getLogger("cognitive_vocabulary")
             self.logger.setLevel(getattr(logging, log_level))
 
             if not self.logger.handlers:
@@ -115,7 +115,7 @@ class VocabularyIntegrationService:
         Create a vocabulary-enriched event with cross-system context.
 
         Args:
-            operation: AGI operation name (e.g., 'chain_start', 'model_consensus')
+            operation: Cognitive AI operation name (e.g., 'chain_start', 'model_consensus')
             details: Additional operation details
             module: Source module name
             severity: Event severity level
@@ -123,8 +123,8 @@ class VocabularyIntegrationService:
         Returns:
             VocabularyEvent with full symbolic context
         """
-        # Get AGI symbol and context
-        agi_symbol = get_agi_symbol(operation)
+        # Get Cognitive AI symbol and context
+        cognitive_symbol = get_agi_symbol(operation)
         full_context = get_vocabulary_context(operation)
 
         # Create cross-references
@@ -143,7 +143,7 @@ class VocabularyIntegrationService:
         event = VocabularyEvent(
             timestamp=datetime.now(timezone.utc),
             operation=operation,
-            agi_symbol=agi_symbol,
+            cognitive_symbol=cognitive_symbol,
             message=enriched_message,
             cross_references=cross_refs,
             context=full_context,
@@ -167,9 +167,9 @@ class VocabularyIntegrationService:
         self, operation: str, details: str = "", module: str = "cognitive_core", severity: str = "INFO"
     ) -> VocabularyEvent:
         """
-        Log an AGI operation with enriched vocabulary context.
+        Log an Cognitive AI operation with enriched vocabulary context.
 
-        This is the main method for logging AGI operations throughout the system.
+        This is the main method for logging Cognitive AI operations throughout the system.
         It automatically handles vocabulary translation, cross-referencing, and
         integration with existing LUKHAS logging systems.
         """
@@ -183,10 +183,10 @@ class VocabularyIntegrationService:
 
     def translate_for_module(self, operation: str, target_module: str) -> str:
         """
-        Translate an AGI operation to the vocabulary of a target module.
+        Translate an Cognitive AI operation to the vocabulary of a target module.
 
         Args:
-            operation: AGI operation name
+            operation: Cognitive AI operation name
             target_module: Target module ('dream', 'bio', 'emotion', etc.)
 
         Returns:
@@ -197,14 +197,14 @@ class VocabularyIntegrationService:
         elif target_module == "bio":
             return translate_agi_to_bio(operation)
         else:
-            # Default to AGI symbol
+            # Default to Cognitive AI symbol
             return get_agi_symbol(operation)
 
     def create_module_message(self, operation: str, target_module: str, details: str = "") -> str:
         """
         Create a message formatted for a specific target module.
 
-        Useful when AGI operations need to communicate with specific
+        Useful when Cognitive AI operations need to communicate with specific
         LUKHAS modules using their native vocabulary.
         """
         translated_symbol = self.translate_for_module(operation, target_module)
@@ -288,7 +288,7 @@ class VocabularyIntegrationService:
         """
         Async version of log_agi_operation for high-performance scenarios.
 
-        Useful when vocabulary logging is part of async AGI processing pipelines.
+        Useful when vocabulary logging is part of async Cognitive AI processing pipelines.
         """
         # Run vocabulary processing in thread pool if needed
         return await asyncio.get_event_loop().run_in_executor(
@@ -304,7 +304,7 @@ vocabulary_service = VocabularyIntegrationService()
 def log_agi_operation(
     operation: str, details: str = "", module: str = "cognitive_core", severity: str = "INFO"
 ) -> VocabularyEvent:
-    """Convenience function to log AGI operation with vocabulary enrichment."""
+    """Convenience function to log Cognitive AI operation with vocabulary enrichment."""
     return vocabulary_service.log_agi_operation(operation, details, module, severity)
 
 
@@ -351,34 +351,34 @@ Integration Points with LUKHAS Systems:
 =====================================
 
 1. Dream Module Integration:
-   - AGI reasoning operations map to dream processing phases
-   - Creative AGI tasks trigger dream-guided enhancement
-   - Memory consolidation bridges AGI and dream vocabularies
+   - Cognitive AI reasoning operations map to dream processing phases
+   - Creative Cognitive AI tasks trigger dream-guided enhancement
+   - Memory consolidation bridges Cognitive AI and dream vocabularies
 
 2. Bio Module Integration:
-   - AGI safety alerts connect to bio monitoring systems
-   - Physiological feedback influences AGI decision-making
-   - Stress detection modulates AGI processing intensity
+   - Cognitive AI safety alerts connect to bio monitoring systems
+   - Physiological feedback influences Cognitive AI decision-making
+   - Stress detection modulates Cognitive AI processing intensity
 
 3. Emotion Module Integration:
-   - AGI learning states reflect emotional contexts
-   - Affective reasoning influences AGI model selection
-   - Emotional feedback guides AGI behavior adaptation
+   - Cognitive AI learning states reflect emotional contexts
+   - Affective reasoning influences Cognitive AI model selection
+   - Emotional feedback guides Cognitive AI behavior adaptation
 
 4. Identity Module Integration:
-   - AGI operations respect identity-based access controls
-   - User preferences influence AGI vocabulary selection
-   - Authentication states affect AGI capability availability
+   - Cognitive AI operations respect identity-based access controls
+   - User preferences influence Cognitive AI vocabulary selection
+   - Authentication states affect Cognitive AI capability availability
 
 5. Guardian Module Integration:
-   - AGI safety symbols trigger guardian system responses
+   - Cognitive AI safety symbols trigger guardian system responses
    - Ethical violations automatically escalate through vocabularies
    - Constitutional AI principles map to guardian frameworks
 
 Usage in LUKHAS Systems:
 ======================
 
-# In AGI reasoning module
+# In Cognitive AI reasoning module
 log_agi_operation("chain_start", "user query analysis", "reasoning", "INFO")
 
 # In dream processing

@@ -104,7 +104,7 @@ class VoiceCoherenceAnalyzer:
             "neural processing",
         ]
         self.prohibited_terms = [
-            "LUKHAS AGI",
+            "LUKHAS Cognitive AI",
             "quantum processing",
             "bio processes",
             "production-ready",
@@ -339,8 +339,8 @@ class VoiceCoherenceAnalyzer:
                 violations.append(f"Prohibited term used: '{term}'")
 
         # Check for unapproved terminology
-        if "LUKHAS AGI" in content:
-            violations.append("Use 'LUKHAS AI' instead of 'LUKHAS AGI'")
+        if "LUKHAS Cognitive AI" in content:
+            violations.append("Use 'LUKHAS AI' instead of 'LUKHAS Cognitive AI'")
 
         if "quantum processing" in content:
             violations.append("Use 'quantum-inspired' instead of 'quantum processing'")
@@ -583,11 +583,11 @@ def main():
     content_systems = [
         {
             "name": "ΛUCTOR Content Engine",
-            "path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lambda_products_pack/auctor",
+            "path": "/Users/cognitive_dev/LOCAL-REPOS/Lukhas/lambda_products_pack/auctor",
         },
-        {"name": "ΛBot System", "path": "/Users/agi_dev/LOCAL-REPOS/AI-Consolidation-Repo"},
-        {"name": "Lucas Knowledge Base", "path": "/Users/agi_dev/LOCAL-REPOS/auctor"},
-        {"name": "LUKHAS Core Branding", "path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/branding"},
+        {"name": "ΛBot System", "path": "/Users/cognitive_dev/LOCAL-REPOS/AI-Consolidation-Repo"},
+        {"name": "Lucas Knowledge Base", "path": "/Users/cognitive_dev/LOCAL-REPOS/auctor"},
+        {"name": "LUKHAS Core Branding", "path": "/Users/cognitive_dev/LOCAL-REPOS/Lukhas/branding"},
     ]
 
     analyses = []
@@ -618,12 +618,12 @@ def main():
     report = analyzer.generate_coherence_report(analyses)
 
     # Save report
-    report_path = "/Users/agi_dev/LOCAL-REPOS/Lukhas/branding/analysis/VOICE_COHERENCE_REPORT.md"
+    report_path = "/Users/cognitive_dev/LOCAL-REPOS/Lukhas/branding/analysis/VOICE_COHERENCE_REPORT.md"
     with open(report_path, "w") as f:
         f.write(report)
 
     # Save detailed analysis
-    analysis_path = "/Users/agi_dev/LOCAL-REPOS/Lukhas/branding/analysis/voice_coherence_analysis.json"
+    analysis_path = "/Users/cognitive_dev/LOCAL-REPOS/Lukhas/branding/analysis/voice_coherence_analysis.json"
     with open(analysis_path, "w") as f:
         json.dump(analyses, f, indent=2, default=str)
 

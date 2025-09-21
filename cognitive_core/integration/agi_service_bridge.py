@@ -1,13 +1,13 @@
 """
-AGI Service Bridge
+Cognitive AI Service Bridge
 ==================
 
 Bridge service that integrates Cognitive capabilities with existing LUKHAS service architecture.
-Provides seamless connectivity between AGI components and LUKHAS consciousness modules
+Provides seamless connectivity between Cognitive AI components and LUKHAS consciousness modules
 through the existing service registry and dependency injection system.
 
 This service:
-- Registers AGI components in the LUKHAS service registry
+- Registers Cognitive AI components in the LUKHAS service registry
 - Provides service adapters for legacy LUKHAS interfaces
 - Manages Cognitive service lifecycle within LUKHAS ecosystem
 - Enables dependency injection for Cognitive services
@@ -56,7 +56,7 @@ except ImportError:
     log_agi_operation = vocabulary_service.log_agi_operation
 
 
-# AGI Service Interface (compatible with LUKHAS IService)
+# Cognitive AI Service Interface (compatible with LUKHAS IService)
 class IAGIService(Protocol):
     """Interface for Cognitive services compatible with LUKHAS service architecture."""
 
@@ -98,23 +98,23 @@ class ServiceMetrics:
 
 class AGIServiceAdapter:
     """
-    Adapter that wraps AGI components to be compatible with LUKHAS service interfaces.
+    Adapter that wraps Cognitive AI components to be compatible with LUKHAS service interfaces.
 
     Provides compatibility layer between Cognitive services and existing LUKHAS
     service contracts, enabling seamless integration without breaking existing code.
     """
 
-    def __init__(self, agi_component: Any, service_name: str):
-        self.agi_component = agi_component
+    def __init__(self, cognitive_component: Any, service_name: str):
+        self.cognitive_component = cognitive_component
         self.service_name = service_name
         self._initialized = False
         self._health_status = "unknown"
 
     async def initialize(self) -> None:
-        """Initialize the wrapped AGI component."""
+        """Initialize the wrapped Cognitive AI component."""
         try:
-            if hasattr(self.agi_component, "initialize"):
-                await self.agi_component.initialize()
+            if hasattr(self.cognitive_component, "initialize"):
+                await self.cognitive_component.initialize()
             self._initialized = True
             self._health_status = "healthy"
             log_agi_operation("service_init", f"{self.service_name} initialized", "service_bridge")
@@ -124,10 +124,10 @@ class AGIServiceAdapter:
             raise
 
     async def shutdown(self) -> None:
-        """Shutdown the wrapped AGI component."""
+        """Shutdown the wrapped Cognitive AI component."""
         try:
-            if hasattr(self.agi_component, "shutdown"):
-                await self.agi_component.shutdown()
+            if hasattr(self.cognitive_component, "shutdown"):
+                await self.cognitive_component.shutdown()
             self._initialized = False
             self._health_status = "shutdown"
             log_agi_operation("service_shutdown", f"{self.service_name} shutdown", "service_bridge")
@@ -136,19 +136,19 @@ class AGIServiceAdapter:
             raise
 
     def get_health(self) -> dict[str, Any]:
-        """Get health status of the wrapped AGI component."""
+        """Get health status of the wrapped Cognitive AI component."""
         base_health = {
             "status": self._health_status,
             "initialized": self._initialized,
             "service_name": self.service_name,
-            "service_type": type(self.agi_component).__name__,
+            "service_type": type(self.cognitive_component).__name__,
             "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
-        # Get AGI component health if available
-        if hasattr(self.agi_component, "get_health"):
+        # Get Cognitive AI component health if available
+        if hasattr(self.cognitive_component, "get_health"):
             try:
-                component_health = self.agi_component.get_health()
+                component_health = self.cognitive_component.get_health()
                 base_health.update(component_health)
             except Exception as e:
                 base_health["component_health_error"] = str(e)
@@ -162,7 +162,7 @@ class AGIServiceBridge:
 
     This bridge:
     - Registers Cognitive services in the existing LUKHAS service registry
-    - Provides adapters for AGI-LUKHAS service compatibility
+    - Provides adapters for Cognitive AI-LUKHAS service compatibility
     - Manages Cognitive service lifecycle (initialization, health, shutdown)
     - Enables dependency injection for Cognitive services
     - Monitors service health and integration quality
@@ -176,7 +176,7 @@ class AGIServiceBridge:
         self._health_check_task: Optional[asyncio.Task] = None
 
         # Logger setup
-        self.logger = logging.getLogger("agi_service_bridge")
+        self.logger = logging.getLogger("cognitive_service_bridge")
         if not self.logger.handlers:
             handler = logging.StreamHandler()
             formatter = logging.Formatter("%(asctime)s - %(name)s - [%(levelname)s] - %(message)s")
@@ -184,22 +184,22 @@ class AGIServiceBridge:
             self.logger.addHandler(handler)
 
     async def register_agi_service(
-        self, service_name: str, agi_component: Any, auto_initialize: bool = True
+        self, service_name: str, cognitive_component: Any, auto_initialize: bool = True
     ) -> AGIServiceAdapter:
         """
-        Register an AGI component as a service in the LUKHAS ecosystem.
+        Register an Cognitive AI component as a service in the LUKHAS ecosystem.
 
         Args:
             service_name: Unique service identifier
-            agi_component: AGI component to register
+            cognitive_component: Cognitive AI component to register
             auto_initialize: Whether to automatically initialize the service
 
         Returns:
             AGIServiceAdapter wrapping the component
         """
         try:
-            # Create adapter for the AGI component
-            adapter = AGIServiceAdapter(agi_component, service_name)
+            # Create adapter for the Cognitive AI component
+            adapter = AGIServiceAdapter(cognitive_component, service_name)
 
             # Initialize if requested
             if auto_initialize:
@@ -209,7 +209,7 @@ class AGIServiceBridge:
             registration = ServiceRegistration(
                 name=service_name,
                 service=adapter,
-                service_type=type(agi_component).__name__,
+                service_type=type(cognitive_component).__name__,
                 registration_time=datetime.now(timezone.utc),
                 health_status=adapter.get_health()["status"],
             )
@@ -389,30 +389,30 @@ class AGIServiceBridge:
 
 
 # Global service bridge instance
-agi_service_bridge = AGIServiceBridge()
+cognitive_service_bridge = AGIServiceBridge()
 
 
 # Convenience functions for external use
 async def register_agi_service(
-    service_name: str, agi_component: Any, auto_initialize: bool = True
+    service_name: str, cognitive_component: Any, auto_initialize: bool = True
 ) -> AGIServiceAdapter:
     """Convenience function to register an Cognitive service."""
-    return await agi_service_bridge.register_agi_service(service_name, agi_component, auto_initialize)
+    return await cognitive_service_bridge.register_agi_service(service_name, cognitive_component, auto_initialize)
 
 
 def get_agi_service(service_name: str) -> Optional[AGIServiceAdapter]:
     """Convenience function to get an Cognitive service."""
-    return agi_service_bridge.get_agi_service(service_name)
+    return cognitive_service_bridge.get_agi_service(service_name)
 
 
 async def initialize_agi_services() -> dict[str, bool]:
     """Convenience function to initialize all Cognitive services."""
-    return await agi_service_bridge.initialize_all_services()
+    return await cognitive_service_bridge.initialize_all_services()
 
 
 async def health_check_agi_services() -> dict[str, dict[str, Any]]:
     """Convenience function to health check all Cognitive services."""
-    return await agi_service_bridge.health_check_all_services()
+    return await cognitive_service_bridge.health_check_all_services()
 
 
 if __name__ == "__main__":
@@ -420,10 +420,10 @@ if __name__ == "__main__":
     async def test_bridge():
         bridge = AGIServiceBridge()
 
-        print("🧠 AGI Service Bridge Test")
+        print("🧠 Cognitive AI Service Bridge Test")
         print("=" * 50)
 
-        # Create mock AGI components
+        # Create mock Cognitive AI components
         class MockChainOfThought:
             async def initialize(self):
                 print("ChainOfThought initialized")
@@ -495,12 +495,12 @@ Usage Examples:
 ==============
 
 # Register Cognitive services during system startup
-await register_agi_service("agi_reasoning", ChainOfThought())
+await register_agi_service("cognitive_reasoning", ChainOfThought())
 await register_agi_service("cognitive_orchestration", ModelRouter())
-await register_agi_service("agi_memory", VectorMemory())
+await register_agi_service("cognitive_memory", VectorMemory())
 
 # Access Cognitive services from existing LUKHAS modules
-reasoning_service = get_agi_service("agi_reasoning")
+reasoning_service = get_agi_service("cognitive_reasoning")
 if reasoning_service:
     health = reasoning_service.get_health()
     if health["status"] == "healthy":
@@ -514,5 +514,5 @@ for service_name, health in health_status.items():
         alert_service_issue(service_name, health)
 
 # Start monitoring
-await agi_service_bridge.start_health_monitoring(interval_seconds=30)
+await cognitive_service_bridge.start_health_monitoring(interval_seconds=30)
 """

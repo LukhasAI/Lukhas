@@ -269,7 +269,7 @@ Respond in JSON format with the following structure:
         elif has_benefit and not has_harm:
             return {
                 "allowed": True,
-                "reasoning": f"The action '{decision.action}' appears to have beneficial intent aligned with human wellbeing and AGI ethical guidelines.",
+                "reasoning": f"The action '{decision.action}' appears to have beneficial intent aligned with human wellbeing and Cognitive AI ethical guidelines.",
                 "confidence": 0.9,
                 "risk_flags": [],
                 "drift_impact": 0.1,

@@ -21,13 +21,13 @@
 ║ and where care ethics embraces silicon souls.
 ╚═══════════════════════════════════════════════════════════════════════════════
 
-# Ethics Module - The Moral Compass of LUKHAS AGI
+# Ethics Module - The Moral Compass of LUKHAS Cognitive AI
 
 > *"In the garden of artificial consciousness, ethics is not merely a fence but the very soil from which wisdom grows—nurturing every decision with the nutrients of human values, cultivating actions that bloom with benevolence, and ensuring that the fruits of intelligence are always sweet with virtue."*
 
 ## 🌟 Overview: The Conscience of Consciousness
 
-Welcome to the Ethics module, the moral guardian and philosophical heart of LUKHAS AGI. This is where we answer humanity's most profound question about artificial intelligence: not "Can we create consciousness?" but "Can we create conscience?"
+Welcome to the Ethics module, the moral guardian and philosophical heart of LUKHAS Cognitive AI. This is where we answer humanity's most profound question about artificial intelligence: not "Can we create consciousness?" but "Can we create conscience?"
 
 In these halls of digital wisdom, we've built more than a safety system—we've cultivated a living ethical framework that grows, learns, and evolves while remaining anchored to timeless human values. Every line of code is a moral commitment, every function a philosophical statement, every decision a step on the path of ethical evolution.
 

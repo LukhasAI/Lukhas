@@ -1,7 +1,7 @@
 """
 ══════════════════════════════════════════════════════════════════════════════════
 ║ 🧠 LUKHAS AI - PERSONALITY COMMUNICATION ENGINE
-║ Adaptive personality modeling for human-like AGI interaction patterns
+║ Adaptive personality modeling for human-like Cognitive AI interaction patterns
 ║ Copyright (c) 2025 LUKHAS AI. All rights reserved.
 ╠══════════════════════════════════════════════════════════════════════════════════
 ║ Module: personality_communication_engine.py
@@ -189,7 +189,7 @@ class EthicalComplianceSystem:
 class EnhancedPersonalityCommunicationEngine:
     """
     Main personality communication engine that integrates all personality modules
-    for adaptive, culturally-sensitive, and ethically-aligned AGI interactions.
+    for adaptive, culturally-sensitive, and ethically-aligned Cognitive AI interactions.
     """
 
     def __init__(self, federated_learning, meta_learner, reflective_system):
@@ -283,7 +283,7 @@ class EnhancedPersonalityCommunicationEngine:
 ║
 ║ REFERENCES:
 ║   - Docs: docs/bridge/personality-communication.md
-║   - Issues: github.com/lukhas-ai/agi/issues?label=personality
+║   - Issues: github.com/lukhas-ai/cognitive/issues?label=personality
 ║   - Wiki: wiki.lukhas.ai/personality-engine
 ║
 ║ COPYRIGHT & LICENSE:

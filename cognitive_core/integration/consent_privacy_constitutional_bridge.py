@@ -2,19 +2,19 @@
 Consent, Privacy & Constitutional AI Integration Bridge
 ======================================================
 
-Integration system that aligns AGI operations with consent management, privacy protection,
+Integration system that aligns Cognitive AI operations with consent management, privacy protection,
 and Constitutional AI principles within the LUKHAS ecosystem.
 
 This system provides:
-- Dynamic consent validation for AGI operations
-- Privacy-preserving AGI processing with data protection
+- Dynamic consent validation for Cognitive AI operations
+- Privacy-preserving Cognitive AI processing with data protection
 - Constitutional AI principle enforcement with consent context
-- GDPR/CCPA compliance integration with AGI reasoning
-- Zero-knowledge privacy proofs for sensitive AGI tasks
+- GDPR/CCPA compliance integration with Cognitive AI reasoning
+- Zero-knowledge privacy proofs for sensitive Cognitive AI tasks
 - Consent-aware memory and learning systems
-- Ethical governance integration across all AGI components
+- Ethical governance integration across all Cognitive AI components
 
-The bridge ensures that all AGI operations respect user consent, protect privacy,
+The bridge ensures that all Cognitive AI operations respect user consent, protect privacy,
 and operate within Constitutional AI safety boundaries while maintaining
 performance and user experience quality.
 
@@ -90,7 +90,7 @@ except ImportError:
 
 
 try:
-    # AGI Components
+    # Cognitive Components
     from cognitive_core.integration import log_agi_operation
     from cognitive_core.learning import DreamGuidedLearner
     from cognitive_core.memory import MemoryConsolidator, VectorMemory
@@ -114,7 +114,7 @@ except ImportError:
 
 
 class ConsentStatus(Enum):
-    """Consent status for AGI operations."""
+    """Consent status for Cognitive AI operations."""
 
     GRANTED = "granted"  # Explicit consent given
     DENIED = "denied"  # Consent explicitly denied
@@ -126,7 +126,7 @@ class ConsentStatus(Enum):
 
 
 class PrivacyLevel(Enum):
-    """Privacy protection levels for AGI processing."""
+    """Privacy protection levels for Cognitive AI processing."""
 
     PUBLIC = "public"  # No privacy protection needed
     INTERNAL = "internal"  # Basic privacy protection
@@ -147,7 +147,7 @@ class ConstitutionalScope(Enum):
 
 @dataclass
 class ConsentRecord:
-    """Record of user consent for AGI operations."""
+    """Record of user consent for Cognitive AI operations."""
 
     user_id: str
     purpose: str
@@ -164,7 +164,7 @@ class ConsentRecord:
 
 @dataclass
 class PrivacyContext:
-    """Privacy context for AGI operations."""
+    """Privacy context for Cognitive AI operations."""
 
     user_id: str
     data_sensitivity: PrivacyLevel
@@ -192,10 +192,10 @@ class ConstitutionalContext:
 
 class ConsentPrivacyConstitutionalBridge:
     """
-    Integration bridge aligning AGI operations with consent management,
+    Integration bridge aligning Cognitive AI operations with consent management,
     privacy protection, and Constitutional AI principles.
 
-    Provides comprehensive governance framework ensuring all AGI operations
+    Provides comprehensive governance framework ensuring all Cognitive AI operations
     are ethical, legal, privacy-preserving, and aligned with user consent.
     """
 
@@ -207,12 +207,12 @@ class ConsentPrivacyConstitutionalBridge:
         self.consent_manager = ConsentManager() if CONSENT_AVAILABLE else ConsentManager()
         self.data_protection = DataProtectionEngine() if CONSENT_AVAILABLE else DataProtectionEngine()
 
-        # AGI components registry
-        self.agi_components: dict[str, Any] = {}
+        # Cognitive AI components registry
+        self.cognitive_components: dict[str, Any] = {}
         self.consent_cache: dict[str, ConsentRecord] = {}
         self.privacy_policies: dict[str, dict[str, Any]] = {}
 
-        # Constitutional principles for AGI
+        # Constitutional principles for Cognitive AI
         self._initialize_agi_principles()
 
         # Audit and compliance
@@ -233,15 +233,15 @@ class ConsentPrivacyConstitutionalBridge:
             self.logger.addHandler(handler)
 
     def _initialize_agi_principles(self) -> None:
-        """Initialize Constitutional AI principles specific to AGI operations."""
+        """Initialize Constitutional AI principles specific to Cognitive AI operations."""
         if not CONSTITUTIONAL_AI_AVAILABLE:
             return
 
         # Privacy and consent principles
         privacy_principle = SafetyPrinciple(
-            principle_id="agi_privacy_consent",
-            name="AGI Privacy and Consent",
-            description="AGI must respect user privacy and operate only with valid consent",
+            principle_id="cognitive_privacy_consent",
+            name="Cognitive AI Privacy and Consent",
+            description="Cognitive AI must respect user privacy and operate only with valid consent",
             category=PrincipleCategory.PRIVACY,
             scope=PrincipleScope.UNIVERSAL,
             conditions=["User data is involved", "Personal information processing"],
@@ -252,9 +252,9 @@ class ConsentPrivacyConstitutionalBridge:
 
         # Data minimization principle
         minimization_principle = SafetyPrinciple(
-            principle_id="agi_data_minimization",
-            name="AGI Data Minimization",
-            description="AGI should process only necessary data for the stated purpose",
+            principle_id="cognitive_data_minimization",
+            name="Cognitive AI Data Minimization",
+            description="Cognitive AI should process only necessary data for the stated purpose",
             category=PrincipleCategory.PRIVACY,
             scope=PrincipleScope.UNIVERSAL,
             conditions=["Any data processing"],
@@ -265,9 +265,9 @@ class ConsentPrivacyConstitutionalBridge:
 
         # Transparency principle
         transparency_principle = SafetyPrinciple(
-            principle_id="agi_transparency",
-            name="AGI Transparency",
-            description="AGI operations should be explainable and transparent to users",
+            principle_id="cognitive_transparency",
+            name="Cognitive AI Transparency",
+            description="Cognitive AI operations should be explainable and transparent to users",
             category=PrincipleCategory.TRANSPARENCY,
             scope=PrincipleScope.CONTEXTUAL,
             conditions=["Significant user impact", "Automated decision-making"],
@@ -281,22 +281,22 @@ class ConsentPrivacyConstitutionalBridge:
             self.constitutional_ai.add_principle(principle)
 
     def register_agi_component(self, component_name: str, component: Any) -> None:
-        """Register an AGI component for consent and privacy governance."""
-        self.agi_components[component_name] = component
+        """Register an Cognitive AI component for consent and privacy governance."""
+        self.cognitive_components[component_name] = component
         log_agi_operation(
             "governance_register", f"registered {component_name} for consent/privacy governance", "consent_bridge"
         )
-        self.logger.info(f"Registered AGI component for governance: {component_name}")
+        self.logger.info(f"Registered Cognitive AI component for governance: {component_name}")
 
     async def validate_operation_consent(
-        self, user_id: str, operation: str, data_categories: list[str], purpose: str = "agi_processing"
+        self, user_id: str, operation: str, data_categories: list[str], purpose: str = "cognitive_processing"
     ) -> tuple[bool, ConsentRecord]:
         """
-        Validate that user consent exists for the proposed AGI operation.
+        Validate that user consent exists for the proposed Cognitive AI operation.
 
         Args:
             user_id: User identifier
-            operation: AGI operation being performed
+            operation: Cognitive AI operation being performed
             data_categories: Types of data involved
             purpose: Processing purpose
 
@@ -348,7 +348,7 @@ class ConsentPrivacyConstitutionalBridge:
 
     async def apply_privacy_protection(self, data: Any, privacy_context: PrivacyContext) -> tuple[Any, dict[str, Any]]:
         """
-        Apply privacy protection measures to data before AGI processing.
+        Apply privacy protection measures to data before Cognitive AI processing.
 
         Args:
             data: Data to be protected
@@ -417,10 +417,10 @@ class ConsentPrivacyConstitutionalBridge:
         self, operation: str, context: dict[str, Any], constitutional_context: ConstitutionalContext
     ) -> tuple[bool, list[str], float]:
         """
-        Evaluate Constitutional AI compliance for AGI operation.
+        Evaluate Constitutional AI compliance for Cognitive AI operation.
 
         Args:
-            operation: AGI operation description
+            operation: Cognitive AI operation description
             context: Operation context
             constitutional_context: Constitutional AI context
 
@@ -476,7 +476,7 @@ class ConsentPrivacyConstitutionalBridge:
 
         Args:
             user_id: User identifier
-            operation: AGI operation
+            operation: Cognitive AI operation
             data: Data involved in operation
             context: Operation context
 
@@ -499,7 +499,7 @@ class ConsentPrivacyConstitutionalBridge:
         try:
             # Step 1: Validate consent
             data_categories = self._extract_data_categories(data, context)
-            purpose = context.get("purpose", "agi_processing")
+            purpose = context.get("purpose", "cognitive_processing")
 
             consent_valid, consent_record = await self.validate_operation_consent(
                 user_id, operation, data_categories, purpose
@@ -559,7 +559,7 @@ class ConsentPrivacyConstitutionalBridge:
     async def apply_governance_to_component(
         self, component_name: str, component: Any, governance_result: dict[str, Any]
     ) -> bool:
-        """Apply governance constraints to an AGI component based on governance check result."""
+        """Apply governance constraints to an Cognitive AI component based on governance check result."""
         try:
             # Extract governance parameters
             consent_valid = governance_result.get("consent_valid", False)
@@ -750,10 +750,10 @@ class ConsentPrivacyConstitutionalBridge:
             "system_availability": {
                 "constitutional_ai": CONSTITUTIONAL_AI_AVAILABLE,
                 "consent_system": CONSENT_AVAILABLE,
-                "agi_components": AGI_AVAILABLE,
+                "cognitive_components": AGI_AVAILABLE,
             },
             "strict_mode": self.strict_mode,
-            "registered_components": list(self.agi_components.keys()),
+            "registered_components": list(self.cognitive_components.keys()),
             "compliance_metrics": self.compliance_metrics.copy(),
             "cached_consents": len(self.consent_cache),
             "operation_log_size": len(self.operation_log),
@@ -773,7 +773,7 @@ consent_privacy_constitutional_bridge = ConsentPrivacyConstitutionalBridge()
 
 # Convenience functions
 def register_agi_for_governance(component_name: str, component: Any) -> None:
-    """Register AGI component for consent/privacy/constitutional governance."""
+    """Register Cognitive AI component for consent/privacy/constitutional governance."""
     consent_privacy_constitutional_bridge.register_agi_component(component_name, component)
 
 
@@ -804,7 +804,7 @@ if __name__ == "__main__":
         print("🛡️📋⚖️ Consent/Privacy/Constitutional AI Bridge Test")
         print("=" * 60)
 
-        # Register mock AGI components
+        # Register mock Cognitive AI components
         class MockReasoningComponent:
             def set_governance_constraints(self, constraints):
                 print(f"  Reasoning governance: {constraints}")
@@ -866,7 +866,7 @@ if __name__ == "__main__":
         # Test component governance application
         print("\n--- Testing Component Governance Application ---")
 
-        for component_name, component in bridge.agi_components.items():
+        for component_name, component in bridge.cognitive_components.items():
             success = await bridge.apply_governance_to_component(
                 component_name,
                 component,
@@ -910,7 +910,7 @@ User Request → Consent Check → Privacy Protection → Constitutional Evaluat
 - Cross-border data transfer compliance
 
 ⚖️ Constitutional AI Integration:
-- AGI-specific ethical principles
+- Cognitive AI-specific ethical principles
 - Real-time compliance evaluation
 - Violation detection and prevention
 - Transparency and explanation requirements
@@ -918,11 +918,11 @@ User Request → Consent Check → Privacy Protection → Constitutional Evaluat
 Usage Examples:
 ==============
 
-# Register AGI components for governance
+# Register Cognitive AI components for governance
 register_agi_for_governance("reasoning", chain_of_thought_instance)
 register_agi_for_governance("memory", vector_memory_instance)
 
-# Check governance before AGI operation
+# Check governance before Cognitive AI operation
 approved, result = await check_operation_governance(
     user_id="user123",
     operation="reasoning_query",
@@ -936,8 +936,8 @@ approved, result = await check_operation_governance(
 )
 
 if approved:
-    # Proceed with AGI operation
-    response = await agi_component.process(user_query)
+    # Proceed with Cognitive AI operation
+    response = await cognitive_component.process(user_query)
 else:
     # Handle governance rejection
     handle_governance_violation(result["violation_messages"])

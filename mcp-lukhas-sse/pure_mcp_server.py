@@ -53,7 +53,7 @@ LUKHAS_CORE = {
 }
 
 # Security: Safe file access paths
-SAFE_PATHS = ["/tmp", "/var/tmp", "/Users/agi_dev/LOCAL-REPOS/Lukhas/mcp-lukhas-sse"]
+SAFE_PATHS = ["/tmp", "/var/tmp", "/Users/cognitive_dev/LOCAL-REPOS/Lukhas/mcp-lukhas-sse"]
 
 def validate_path_security(file_path: str) -> bool:
     """Constellation Guardian security validation for file paths"""

@@ -1,7 +1,7 @@
 """
 ══════════════════════════════════════════════════════════════════════════════════
 ║ 🧠 LUKHAS AI - ETHICS VALIDATION FRAMEWORK
-║ Core ethical principles enforcement and action assessment for AGI safety
+║ Core ethical principles enforcement and action assessment for Cognitive AI safety
 ║ Copyright (c) 2025 LUKHAS AI. All rights reserved.
 ╠══════════════════════════════════════════════════════════════════════════════════
 ║ Module: ethics.py
@@ -11,7 +11,7 @@
 ╠══════════════════════════════════════════════════════════════════════════════════
 ║ DESCRIPTION
 ╠══════════════════════════════════════════════════════════════════════════════════
-║ This module implements the foundational ethical framework for LUKHAS AGI,
+║ This module implements the foundational ethical framework for LUKHAS Cognitive AI,
 ║ ensuring all actions align with core ethical principles:
 ║
 ║ • Five fundamental principles: Beneficence, Non-maleficence, Autonomy,
@@ -123,7 +123,7 @@ ethics_validator = EthicsValidator()
 ║
 ║ REFERENCES:
 ║   - Docs: docs/common/ethics-framework.md
-║   - Issues: github.com/lukhas-ai/agi/issues?label=ethics
+║   - Issues: github.com/lukhas-ai/cognitive/issues?label=ethics
 ║   - Wiki: wiki.lukhas.ai/ethical-principles
 ║
 ║ COPYRIGHT & LICENSE:

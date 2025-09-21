@@ -1,9 +1,9 @@
 """
-AGI Integration Tests
+Cognitive Integration Tests
 ====================
 
-Test suite for AGI integration services including:
-- QI-Bio-AGI hybrid processing
+Test suite for Cognitive AI integration services including:
+- QI-Bio-Cognitive AI hybrid processing
 - Vocabulary integration
 - Service bridge functionality
 - Service initialization and lifecycle

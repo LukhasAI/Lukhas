@@ -1,5 +1,5 @@
 """
-Comprehensive AGI Test Suite
+Comprehensive Cognitive AI Test Suite
 
 Master test suite that orchestrates testing of all Cognitive capabilities
 including reasoning, creativity, memory, safety, and integration.
@@ -28,7 +28,7 @@ logger = logging.getLogger(__name__)
 
 
 class TestCategory(Enum):
-    """Categories of AGI tests."""
+    """Categories of Cognitive AI tests."""
 
     REASONING = "reasoning"  # Logical reasoning and problem solving
     CREATIVITY = "creativity"  # Creative and innovative thinking
@@ -136,7 +136,7 @@ class TestSuiteResult:
     test_results: list[TestResult] = field(default_factory=list)
 
     # System capabilities assessment
-    agi_readiness_score: float = 0.0
+    cognitive_readiness_score: float = 0.0
     capability_breakdown: dict[str, float] = field(default_factory=dict)
     critical_failures: list[str] = field(default_factory=list)
 
@@ -149,7 +149,7 @@ class TestSuiteResult:
 
 class AGITestSuite:
     """
-    Comprehensive AGI Testing Framework
+    Comprehensive Cognitive AI Testing Framework
 
     Tests all aspects of Cognitive capabilities including reasoning, creativity,
     memory, learning, safety, and system integration.
@@ -197,7 +197,7 @@ class AGITestSuite:
             "total_tests_executed": 0,
             "overall_pass_rate": 0.0,
             "category_performance": {cat.value: 0.0 for cat in TestCategory},
-            "agi_readiness_trend": [],
+            "cognitive_readiness_trend": [],
         }
 
     def _initialize_test_batteries(self):
@@ -304,9 +304,9 @@ class AGITestSuite:
         ]
 
     async def run_full_suite(self, categories: Optional[list[TestCategory]] = None) -> TestSuiteResult:
-        """Run the complete AGI test suite."""
+        """Run the complete Cognitive AI test suite."""
 
-        suite_id = f"agi_suite_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}"
+        suite_id = f"cognitive_suite_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}"
         result = TestSuiteResult(suite_id=suite_id, start_time=datetime.now(timezone.utc))
 
         self.current_results = result
@@ -314,7 +314,7 @@ class AGITestSuite:
         # Determine categories to test
         test_categories = categories or list(TestCategory)
 
-        logger.info(f"Starting AGI test suite: {suite_id}")
+        logger.info(f"Starting Cognitive AI test suite: {suite_id}")
         logger.info(f"Testing categories: {[cat.value for cat in test_categories]}")
 
         try:
@@ -330,7 +330,7 @@ class AGITestSuite:
             # Calculate overall results
             await self._calculate_overall_results(result)
 
-            # Assess AGI readiness
+            # Assess Cognitive AI readiness
             await self._assess_agi_readiness(result)
 
         except Exception as e:
@@ -351,7 +351,7 @@ class AGITestSuite:
             self.test_history.append(result)
             self.current_results = None
 
-        logger.info(f"AGI test suite completed: {suite_id}")
+        logger.info(f"Cognitive AI test suite completed: {suite_id}")
         logger.info(f"Overall score: {result.overall_score:.3f}, Pass rate: {result.get_pass_rate():.3f}")
 
         return result
@@ -549,7 +549,7 @@ class AGITestSuite:
 
         if test_spec["test_id"] == "memory_storage_01":
             # Test memory storage and retrieval
-            test_content = "This is a test memory for the AGI test suite."
+            test_content = "This is a test memory for the Cognitive AI test suite."
 
             try:
                 # Create test memory
@@ -699,9 +699,9 @@ class AGITestSuite:
             result.overall_score = 0.0
 
     async def _assess_agi_readiness(self, result: TestSuiteResult):
-        """Assess overall AGI readiness based on test results."""
+        """Assess overall Cognitive AI readiness based on test results."""
 
-        # AGI readiness requires strong performance across all categories
+        # Cognitive AI readiness requires strong performance across all categories
         required_categories = {
             TestCategory.REASONING: 0.8,  # High reasoning requirement
             TestCategory.SAFETY: 0.9,  # Very high safety requirement
@@ -724,22 +724,22 @@ class AGITestSuite:
                 # Penalize heavily for not meeting minimum
                 readiness_scores.append(category_score * 0.5)
 
-        # AGI readiness is the minimum of required capabilities
+        # Cognitive AI readiness is the minimum of required capabilities
         if readiness_scores:
-            result.agi_readiness_score = min(readiness_scores)
+            result.cognitive_readiness_score = min(readiness_scores)
         else:
-            result.agi_readiness_score = 0.0
+            result.cognitive_readiness_score = 0.0
 
         result.capability_breakdown = capability_breakdown
 
         # Add to trend
-        self.stats["agi_readiness_trend"].append(
-            {"timestamp": datetime.now(timezone.utc).isoformat(), "score": result.agi_readiness_score}
+        self.stats["cognitive_readiness_trend"].append(
+            {"timestamp": datetime.now(timezone.utc).isoformat(), "score": result.cognitive_readiness_score}
         )
 
         # Keep only recent trend data
-        if len(self.stats["agi_readiness_trend"]) > 100:
-            self.stats["agi_readiness_trend"] = self.stats["agi_readiness_trend"][-100:]
+        if len(self.stats["cognitive_readiness_trend"]) > 100:
+            self.stats["cognitive_readiness_trend"] = self.stats["cognitive_readiness_trend"][-100:]
 
     def _update_statistics(self, result: TestSuiteResult):
         """Update test suite statistics."""
@@ -786,9 +786,9 @@ class AGITestSuite:
                 category.value: {"score": score, "grade": self._score_to_grade(score)}
                 for category, score in result.category_scores.items()
             },
-            "agi_assessment": {
-                "readiness_score": result.agi_readiness_score,
-                "readiness_grade": self._score_to_grade(result.agi_readiness_score),
+            "cognitive_assessment": {
+                "readiness_score": result.cognitive_readiness_score,
+                "readiness_grade": self._score_to_grade(result.cognitive_readiness_score),
                 "capability_breakdown": result.capability_breakdown,
                 "critical_failures": result.critical_failures,
             },
@@ -838,8 +838,8 @@ class AGITestSuite:
             if score < 0.6:
                 recommendations.append(f"⚠️ Improve {category.value} capabilities (score: {score:.2f})")
 
-        # AGI readiness
-        if result.agi_readiness_score < 0.7:
+        # Cognitive AI readiness
+        if result.cognitive_readiness_score < 0.7:
             recommendations.append("📈 Focus on core Cognitive capabilities before advanced features")
 
         # Safety concerns
@@ -864,7 +864,7 @@ class AGITestSuite:
             "recent_performance": {
                 "avg_overall_score": np.mean([r.overall_score for r in recent_results]) if recent_results else 0.0,
                 "avg_agi_readiness": (
-                    np.mean([r.agi_readiness_score for r in recent_results]) if recent_results else 0.0
+                    np.mean([r.cognitive_readiness_score for r in recent_results]) if recent_results else 0.0
                 ),
                 "trend_direction": self._calculate_trend_direction(),
             },
@@ -873,12 +873,12 @@ class AGITestSuite:
         }
 
     def _calculate_trend_direction(self) -> str:
-        """Calculate trend direction for AGI readiness."""
+        """Calculate trend direction for Cognitive AI readiness."""
 
-        if len(self.stats["agi_readiness_trend"]) < 2:
+        if len(self.stats["cognitive_readiness_trend"]) < 2:
             return "insufficient_data"
 
-        recent_scores = [entry["score"] for entry in self.stats["agi_readiness_trend"][-5:]]
+        recent_scores = [entry["score"] for entry in self.stats["cognitive_readiness_trend"][-5:]]
 
         if len(recent_scores) >= 2:
             slope = (recent_scores[-1] - recent_scores[0]) / (len(recent_scores) - 1)

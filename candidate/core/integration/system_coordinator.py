@@ -16,11 +16,11 @@ DEPENDENCIES:
 """
 
 """
-System Coordinator for LUKHAS AGI System
+System Coordinator for LUKHAS Cognitive AI System
 ========================================
 
 This module serves as the main integration point and coordinator for all
-AGI components, providing a unified interface and seamless communication
+Cognitive AI components, providing a unified interface and seamless communication
 between all major systems including:
 - Consciousness and awareness
 - Neural processing and learning
@@ -31,7 +31,7 @@ between all major systems including:
 - Identity management
 
 The system coordinator ensures that all components work together harmoniously
-to create a cohesive AGI experience.
+to create a cohesive Cognitive AI experience.
 """
 
 import asyncio

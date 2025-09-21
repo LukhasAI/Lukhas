@@ -50,7 +50,7 @@
         ]
       },
       {
-        "filename": "agi_service_bridge.py",
+        "filename": "cognitive_service_bridge.py",
         "component_type": "CONSTELLATION_BRIDGE",
         "has_contract": false,
         "contract_path": null,
@@ -77,7 +77,7 @@
         ]
       },
       {
-        "filename": "agi_service_initializer.py",
+        "filename": "cognitive_service_initializer.py",
         "component_type": "UTILITY",
         "has_contract": false,
         "contract_path": null,
@@ -178,7 +178,7 @@
         ]
       },
       {
-        "filename": "agi_modulation_bridge.py",
+        "filename": "cognitive_modulation_bridge.py",
         "component_type": "CONSTELLATION_BRIDGE",
         "has_contract": false,
         "contract_path": null,

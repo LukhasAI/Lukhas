@@ -20,8 +20,8 @@ class DAOGovernanceNode:
     Ensures that critical decisions are vetted through a governance process.
     """
 
-    def __init__(self, agi_system):
-        self.agi = agi_system
+    def __init__(self, cognitive_system):
+        self.agi = cognitive_system
         self.logger = logging.getLogger("DAOGovernanceNode")
         self.proposals = []  # Active and past proposals
         self.council_members = self._initialize_council()

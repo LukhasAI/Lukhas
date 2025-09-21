@@ -2154,7 +2154,7 @@
         "component_count": 1
       },
       {
-        "name": "agi_preparedness",
+        "name": "cognitive_preparedness",
         "has_index": true,
         "purpose": "Subdirectory with 4 Python files",
         "component_count": 4

@@ -66,42 +66,42 @@ CONSTELLATION_INTEGRATION = {
     "⚛️ IDENTITY": {
         "modules": ["reasoning", "orchestration", "safety", "tests"],
         "description": "Self-awareness and conscious decision making",
-        "agi_enhancement": "Identity-aware reasoning and orchestration",
+        "cognitive_enhancement": "Identity-aware reasoning and orchestration",
     },
     "✦ MEMORY": {
         "modules": ["memory", "learning"],
         "description": "Enhanced memory architecture with dream consolidation",
-        "agi_enhancement": "Vector memory with episodic and semantic integration",
+        "cognitive_enhancement": "Vector memory with episodic and semantic integration",
     },
     "🔬 VISION": {
         "modules": ["reasoning", "orchestration", "tools", "tests"],
         "description": "Pattern recognition and analytical insight",
-        "agi_enhancement": "Vision-guided reasoning and tool selection",
+        "cognitive_enhancement": "Vision-guided reasoning and tool selection",
     },
     "🌱 BIO": {
         "modules": ["memory", "learning"],
         "description": "Adaptive growth and learning systems",
-        "agi_enhancement": "Bio-inspired learning and memory consolidation",
+        "cognitive_enhancement": "Bio-inspired learning and memory consolidation",
     },
     "🌙 DREAM": {
         "modules": ["reasoning", "memory", "learning", "tools"],
         "description": "Creative processing and dream-guided capabilities",
-        "agi_enhancement": "Dream-enhanced reasoning, learning, and creativity",
+        "cognitive_enhancement": "Dream-enhanced reasoning, learning, and creativity",
     },
     "⚖️ ETHICS": {
         "modules": ["safety"],
         "description": "Ethical reasoning and value alignment",
-        "agi_enhancement": "Constitutional AI with ethical principle enforcement",
+        "cognitive_enhancement": "Constitutional AI with ethical principle enforcement",
     },
     "🛡️ GUARDIAN": {
         "modules": ["safety", "orchestration", "tests"],
         "description": "Protection and safety oversight",
-        "agi_enhancement": "Comprehensive safety monitoring and testing",
+        "cognitive_enhancement": "Comprehensive safety monitoring and testing",
     },
     "⚛️ QUANTUM": {
         "modules": ["orchestration", "tools"],
         "description": "Uncertainty and emergence handling",
-        "agi_enhancement": "Quantum-inspired decision making and tool selection",
+        "cognitive_enhancement": "Quantum-inspired decision making and tool selection",
     },
 }
 

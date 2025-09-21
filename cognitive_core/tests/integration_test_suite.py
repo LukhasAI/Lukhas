@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-AGI Core Integration Test Suite
-Comprehensive testing and optimization for all AGI components
+Cognitive Core Integration Test Suite
+Comprehensive testing and optimization for all Cognitive AI components
 
 Part of the LUKHAS AI MΛTRIZ Consciousness Architecture
 Implements Phase 2D: Comprehensive integration testing and optimization
@@ -91,16 +91,16 @@ class TestSuiteReport:
 
 
 class AGIIntegrationTestSuite:
-    """Comprehensive integration test suite for all AGI components"""
+    """Comprehensive integration test suite for all Cognitive AI components"""
 
     def __init__(self):
         self.suite_id = str(uuid.uuid4())[:8]
         self.test_results = []
 
-        # Import AGI components for testing
+        # Import Cognitive AI components for testing
         self._setup_test_environment()
 
-        logger.info(f"AGI Integration Test Suite initialized with ID {self.suite_id}")
+        logger.info(f"Cognitive Integration Test Suite initialized with ID {self.suite_id}")
 
     def _setup_test_environment(self):
         """Set up test environment and import components"""
@@ -110,7 +110,7 @@ class AGIIntegrationTestSuite:
             "orchestration_api": None,  # Would import actual orchestration API
             "vocabulary_bridge": None,  # Would import vocabulary bridge
             "service_bridge": None,  # Would import service bridge
-            "qi_bio_agi_bridge": None,  # Would import QI-Bio-AGI bridge
+            "qi_bio_agi_bridge": None,  # Would import QI-Bio-Cognitive AI bridge
             "modulation_bridge": None,  # Would import modulation bridge
             "consent_bridge": None,  # Would import consent bridge
             "intelligence_enhancer": None,  # Would import intelligence enhancer
@@ -160,7 +160,7 @@ class AGIIntegrationTestSuite:
 
         start_time = time.time()
 
-        logger.info("Starting comprehensive AGI integration test suite")
+        logger.info("Starting comprehensive Cognitive AI integration test suite")
 
         # Phase 1: Unit Tests
         unit_results = await self._run_unit_tests()
@@ -211,7 +211,7 @@ class AGIIntegrationTestSuite:
         result = await self._test_service_bridge()
         results.append(result)
 
-        # Test QI-Bio-AGI bridge
+        # Test QI-Bio-Cognitive AI bridge
         result = await self._test_qi_bio_agi_bridge()
         results.append(result)
 
@@ -227,7 +227,7 @@ class AGIIntegrationTestSuite:
         return results
 
     async def _test_vocabulary_bridge(self) -> TestResult:
-        """Test AGI vocabulary bridge functionality"""
+        """Test Cognitive AI vocabulary bridge functionality"""
 
         start_time = time.time()
 
@@ -306,13 +306,13 @@ class AGIIntegrationTestSuite:
             )
 
     async def _test_qi_bio_agi_bridge(self) -> TestResult:
-        """Test QI-Bio-AGI integration bridge"""
+        """Test QI-Bio-Cognitive AI integration bridge"""
 
         start_time = time.time()
 
         try:
             # Mock hybrid processing tests
-            processing_modes = ["quantum_enhanced", "bio_adaptive", "agi_reasoning", "hybrid_consensus"]
+            processing_modes = ["quantum_enhanced", "bio_adaptive", "cognitive_reasoning", "hybrid_consensus"]
 
             success_count = 0
             for _mode in processing_modes:
@@ -324,7 +324,7 @@ class AGIIntegrationTestSuite:
 
             return TestResult(
                 test_id="unit_qi_bio_001",
-                test_name="QI-Bio-AGI Bridge Processing",
+                test_name="QI-Bio-Cognitive AI Bridge Processing",
                 category=TestCategory.UNIT,
                 status=TestStatus.PASSED,
                 execution_time=execution_time,
@@ -340,7 +340,7 @@ class AGIIntegrationTestSuite:
         except Exception as e:
             return TestResult(
                 test_id="unit_qi_bio_001",
-                test_name="QI-Bio-AGI Bridge Processing",
+                test_name="QI-Bio-Cognitive AI Bridge Processing",
                 category=TestCategory.UNIT,
                 status=TestStatus.ERROR,
                 execution_time=time.time() - start_time,
@@ -348,7 +348,7 @@ class AGIIntegrationTestSuite:
             )
 
     async def _test_modulation_bridge(self) -> TestResult:
-        """Test AGI modulation bridge with endocrine signals"""
+        """Test Cognitive AI modulation bridge with endocrine signals"""
 
         start_time = time.time()
 
@@ -366,7 +366,7 @@ class AGIIntegrationTestSuite:
 
             return TestResult(
                 test_id="unit_modulation_001",
-                test_name="AGI Modulation Bridge Signals",
+                test_name="Cognitive AI Modulation Bridge Signals",
                 category=TestCategory.UNIT,
                 status=TestStatus.PASSED,
                 execution_time=execution_time,
@@ -376,13 +376,13 @@ class AGIIntegrationTestSuite:
                     "modulation_accuracy": 0.92,
                     "response_latency": execution_time / len(signals),
                 },
-                details={"signals": signals, "agi_modes_affected": 6, "bio_integration": True},
+                details={"signals": signals, "cognitive_modes_affected": 6, "bio_integration": True},
             )
 
         except Exception as e:
             return TestResult(
                 test_id="unit_modulation_001",
-                test_name="AGI Modulation Bridge Signals",
+                test_name="Cognitive AI Modulation Bridge Signals",
                 category=TestCategory.UNIT,
                 status=TestStatus.ERROR,
                 execution_time=time.time() - start_time,
@@ -454,7 +454,7 @@ class AGIIntegrationTestSuite:
         return results
 
     async def _test_intelligence_product_integration(self) -> TestResult:
-        """Test AGI-enhanced intelligence products integration"""
+        """Test Cognitive AI-enhanced intelligence products integration"""
 
         start_time = time.time()
 
@@ -479,7 +479,7 @@ class AGIIntegrationTestSuite:
                 success_rate=success_count / len(products),
                 performance_metrics={
                     "products_tested": len(products),
-                    "agi_enhancement_score": 0.88,
+                    "cognitive_enhancement_score": 0.88,
                     "reasoning_accuracy": 0.92,
                 },
                 details={"products": products, "multi_model_consensus": True, "predictive_analysis": True},
@@ -496,7 +496,7 @@ class AGIIntegrationTestSuite:
             )
 
     async def _test_communication_product_integration(self) -> TestResult:
-        """Test AGI-enhanced communication products integration"""
+        """Test Cognitive AI-enhanced communication products integration"""
 
         start_time = time.time()
 
@@ -529,7 +529,7 @@ class AGIIntegrationTestSuite:
                     "language_model_integration": 0.90,
                     "attention_prediction_accuracy": 0.87,
                 },
-                details={"products": products, "modes": communication_modes, "agi_language_models": True},
+                details={"products": products, "modes": communication_modes, "cognitive_language_models": True},
             )
 
         except Exception as e:
@@ -543,7 +543,7 @@ class AGIIntegrationTestSuite:
             )
 
     async def _test_content_product_integration(self) -> TestResult:
-        """Test AGI-enhanced content products integration"""
+        """Test Cognitive AI-enhanced content products integration"""
 
         start_time = time.time()
 
@@ -595,7 +595,7 @@ class AGIIntegrationTestSuite:
             )
 
     async def _test_cross_component_integration(self) -> TestResult:
-        """Test integration across all AGI components"""
+        """Test integration across all Cognitive AI components"""
 
         start_time = time.time()
 
@@ -727,7 +727,7 @@ class AGIIntegrationTestSuite:
             )
 
     async def _test_processing_latency(self) -> TestResult:
-        """Test AGI processing latency"""
+        """Test Cognitive AI processing latency"""
 
         start_time = time.time()
 
@@ -741,7 +741,7 @@ class AGIIntegrationTestSuite:
 
             for _component in components:
                 component_start = time.time()
-                await asyncio.sleep(0.2)  # Mock complex AGI processing
+                await asyncio.sleep(0.2)  # Mock complex Cognitive AI processing
                 latency = (time.time() - component_start) * 1000
                 latencies.append(latency)
 
@@ -754,7 +754,7 @@ class AGIIntegrationTestSuite:
 
             return TestResult(
                 test_id="perf_latency_001",
-                test_name="AGI Processing Latency",
+                test_name="Cognitive Processing Latency",
                 category=TestCategory.PERFORMANCE,
                 status=TestStatus.PASSED if performance_passed else TestStatus.FAILED,
                 execution_time=execution_time,
@@ -773,7 +773,7 @@ class AGIIntegrationTestSuite:
         except Exception as e:
             return TestResult(
                 test_id="perf_latency_001",
-                test_name="AGI Processing Latency",
+                test_name="Cognitive Processing Latency",
                 category=TestCategory.PERFORMANCE,
                 status=TestStatus.ERROR,
                 execution_time=time.time() - start_time,
@@ -1458,10 +1458,10 @@ class AGIIntegrationTestSuite:
                     recommendations.append("Consider implementing API response caching")
                     recommendations.append("Optimize API endpoint processing logic")
                 elif "latency" in result.test_name.lower():
-                    recommendations.append("Implement asynchronous processing for AGI operations")
+                    recommendations.append("Implement asynchronous processing for Cognitive AI operations")
                     recommendations.append("Consider GPU acceleration for consciousness processing")
                 elif "memory" in result.test_name.lower():
-                    recommendations.append("Implement memory pooling for AGI components")
+                    recommendations.append("Implement memory pooling for Cognitive AI components")
                     recommendations.append("Consider streaming processing for large consciousness datasets")
 
         # Analyze integration test results
@@ -1493,9 +1493,9 @@ class AGIIntegrationTestSuite:
 
 # Testing and reporting functions
 async def run_integration_tests():
-    """Run the complete AGI integration test suite"""
+    """Run the complete Cognitive AI integration test suite"""
 
-    print("🧪 AGI Core Integration Test Suite")
+    print("🧪 Cognitive Core Integration Test Suite")
     print("=" * 60)
 
     test_suite = AGIIntegrationTestSuite()

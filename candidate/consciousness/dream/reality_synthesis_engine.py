@@ -658,7 +658,7 @@ class RealitySynthesisEngine(CoreInterface):
     async def _analyze_competitive_advantages(self, innovations: list[FusedInnovation]) -> list[str]:
         """Analyze competitive advantages from innovations"""
         return [
-            "First-mover in AGI safety",
+            "First-mover in Cognitive AI safety",
             "Unbreachable patent moat",
             "10x performance advantage",
             "Network effects from scale",

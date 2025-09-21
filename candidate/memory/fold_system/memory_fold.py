@@ -296,7 +296,7 @@ class HybridMemoryFold(MemoryFoldSystem):
     Enhanced memory fold system with neural-symbolic integration.
 
     Combines the efficiency of symbolic tags with the semantic
-    richness of vector embeddings for AGI-ready memory.
+    richness of vector embeddings for Cognitive AI-ready memory.
     """
 
     def __init__(
@@ -688,7 +688,7 @@ def create_hybrid_memory_fold(
     **kwargs,
 ) -> HybridMemoryFold:
     """
-    Create an AGI-ready hybrid memory fold system.
+    Create an Cognitive AI-ready hybrid memory fold system.
 
     Args:
         embedding_dim: Dimension of vector embeddings

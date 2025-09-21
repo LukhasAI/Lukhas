@@ -116,7 +116,7 @@
         "component_count": 0
       },
       {
-        "name": "agi_core",
+        "name": "cognitive_core",
         "has_index": false,
         "purpose": "Subdirectory with 1 Python files",
         "component_count": 1

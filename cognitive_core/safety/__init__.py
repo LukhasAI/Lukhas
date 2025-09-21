@@ -1,8 +1,8 @@
 """
-Constitutional AI Safety Layer for AGI
+Constitutional AI Safety Layer for Cognitive AI
 
 Advanced safety system that implements constitutional AI principles,
-ethical constraints, and safety monitoring for AGI systems.
+ethical constraints, and safety monitoring for Cognitive AI systems.
 """
 
 from .constitutional_ai import Constitution, ConstitutionalAI, SafetyPrinciple

@@ -550,7 +550,7 @@ def create_ethics_hitlo_bridge(
 ║
 ║ REFERENCES:
 ║   - Docs: docs/ethics/hitlo_bridge.md
-║   - Issues: github.com/lukhas-ai/agi/issues?label=ethics-hitlo
+║   - Issues: github.com/lukhas-ai/cognitive/issues?label=ethics-hitlo
 ║   - Wiki: internal.lukhas.ai/ethics/hitlo-bridge
 ║
 ║ COPYRIGHT & LICENSE:

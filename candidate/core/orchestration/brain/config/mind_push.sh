@@ -5,7 +5,7 @@
 # ╚════════════════════════════════════════════╝
 
 REPO_NAME="lukhas_mind_private"
-ORG_NAME="L-U-C-A-S-AGI"
+ORG_NAME="L-U-C-A-S-Cognitive AI"
 REPO_VISIBILITY="private"
 
 echo "🧠 Initializing symbolic GitHub push for: $REPO_NAME"
@@ -15,7 +15,7 @@ if gh repo view "$ORG_NAME/$REPO_NAME" > /dev/null 2>&1; then
   echo "🔁 Repo already exists on GitHub: $ORG_NAME/$REPO_NAME"
 else
   echo "🛠️ Creating GitHub repo..."
-  gh repo create "$ORG_NAME/$REPO_NAME" --private --confirm --description "Symbolic AGI Core — Lukhas_Mind Scaffold"
+  gh repo create "$ORG_NAME/$REPO_NAME" --private --confirm --description "Symbolic Cognitive Core — Lukhas_Mind Scaffold"
 fi
 
 if [ ! -d .git ]; then
@@ -28,7 +28,7 @@ else
 fi
 
 git add .
-git commit -m "🌕 Initial commit — Symbolic AGI scaffold and encrypted structure"
+git commit -m "🌕 Initial commit — Symbolic Cognitive AI scaffold and encrypted structure"
 git push -u origin main
 
 echo "✅ LUKHAS_MIND pushed to GitHub: https://github.com/$ORG_NAME/$REPO_NAME"

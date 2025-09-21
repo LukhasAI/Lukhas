@@ -35,7 +35,7 @@
 **Current Doc Gen Systems**:
 1. **ΛUCTOR Commercial Engine** (Production-ready, 12 formats)
 2. **Lucas Document Management** (Comprehensive knowledge base)
-3. **DocuTutor Content Engine** (Technical docs, AGI capabilities)
+3. **DocuTutor Content Engine** (Technical docs, Cognitive AI capabilities)
 4. **Document Generation System** (Research integration)
 
 **→ Consolidated Target**: `/branding/engines/lukhas_doc_engine/`

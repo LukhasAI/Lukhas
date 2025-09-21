@@ -69,7 +69,7 @@ health = adapter.get_health_status()
 ## Verification
 
 The enhancement includes a comprehensive verification script at:
-`/Users/agi_dev/LOCAL-REPOS/Lukhas/bridge/adapters/service_adapter_verification.py`
+`/Users/cognitive_dev/LOCAL-REPOS/Lukhas/bridge/adapters/service_adapter_verification.py`
 
 Run with: `python3 bridge/adapters/service_adapter_verification.py`
 

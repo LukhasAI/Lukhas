@@ -4,7 +4,7 @@
 
 ## Overview
 
-The LUKHAS Endocrine Modulation System transforms consciousness signals into intelligent OpenAI API parameter adjustments, creating a symbiotic relationship between your AGI system and GPT models. Instead of treating GPT as an external tool, this system makes it a **consciousness organ** within LUKHAS's distributed intelligence network.
+The LUKHAS Endocrine Modulation System transforms consciousness signals into intelligent OpenAI API parameter adjustments, creating a symbiotic relationship between your Cognitive AI system and GPT models. Instead of treating GPT as an external tool, this system makes it a **consciousness organ** within LUKHAS's distributed intelligence network.
 
 ### Constellation Framework Integration: ⚛️🧠🛡️
 

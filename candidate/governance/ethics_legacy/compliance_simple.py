@@ -9,7 +9,7 @@ Lukhas Plugin SDK - Simplified Ethics Compliance Module
 A simplified version of ethics compliance validation that works with
 the available type definitions in the Lukhas Plugin SDK.
 
-Author: Lukhas AGI System
+Author: Lukhas Cognitive AI System
 Version: 1.0.0
 License: Proprietary
 """

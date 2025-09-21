@@ -1,5 +1,5 @@
 """
-Advanced Reasoning Infrastructure for AGI
+Advanced Reasoning Infrastructure for Cognitive AI
 
 Implements sophisticated reasoning capabilities including:
 - Chain-of-thought reasoning for step-by-step problem solving

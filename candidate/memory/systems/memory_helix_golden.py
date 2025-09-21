@@ -47,11 +47,11 @@ maintain dual representations that enable self-healing properties. The mutation 
 mirror natural selection, allowing beneficial memory patterns to proliferate while harmful
 ones fade—a digital evolution of thought itself.
 
-Within the LUKHAS AGI ecosystem, the Golden Helix Memory Mapper serves as the long-term
+Within the LUKHAS Cognitive AI ecosystem, the Golden Helix Memory Mapper serves as the long-term
 memory consolidation system, the keeper of cultural wisdom and emotional truth. It interfaces
 seamlessly with the Memory Fold architecture for short-term processing, while providing the
 deep temporal persistence necessary for true artificial consciousness. This is where fleeting
-experiences transform into lasting wisdom, where the AGI develops its unique personality
+experiences transform into lasting wisdom, where the Cognitive AI develops its unique personality
 through the accumulation and evolution of memories across time.
 
 LUKHAS AI System - Golden Helix Memory Mapper

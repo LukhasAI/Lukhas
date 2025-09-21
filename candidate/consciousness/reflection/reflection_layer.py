@@ -5,7 +5,7 @@ logger = logging.getLogger(__name__)
 # ═══════════════════════════════════════════════════════════════════════════
 # FILENAME: reflection_layer.py
 # MODULE: core.Adaptative_AGI.GUARDIAN.reflection_layer
-# DESCRIPTION: Implements the Symbolic Conscience Layer (ReflectionLayer) for LUKHAS AGI,
+# DESCRIPTION: Implements the Symbolic Conscience Layer (ReflectionLayer) for LUKHAS Cognitive AI,
 #              responsible for introspection, ethical contemplation, future modeling,
 #              and generating reflective statements with quantum signatures.
 # DEPENDENCIES: json, os, time, structlog, asyncio, datetime, typing,
@@ -1674,7 +1674,7 @@ if __name__ == "__main__":
 # ═══════════════════════════════════════════════════════════════════════════
 # FILENAME: reflection_layer.py
 # VERSION: 1.0.0
-# TIER SYSTEM: Tier 3-5 (Advanced AGI capability, core to self-awareness)
+# TIER SYSTEM: Tier 3-5 (Advanced Cognitive AI capability, core to self-awareness)
 # ΛTRACE INTEGRATION: ENABLED
 # CAPABILITIES: Symbolic reflection on drift, intent, emotions, ethics. Future modeling.
 #               Consciousness state snapshotting and trend analysis. Quantum signature logging.
@@ -1699,7 +1699,7 @@ if __name__ == "__main__":
 #                    are currently handled with placeholders if imports fail. Full functionality
 #                    requires these systems to be available and correctly integrated.
 #                    Manifest (`meta_learning_manifest.json`) governs some behaviors.
-# MAINTENANCE: Update symbolic vocabulary and reflection generation logic as AGI evolves.
+# MAINTENANCE: Update symbolic vocabulary and reflection generation logic as Cognitive AI evolves.
 #              Refine placeholder integrations with actual LUKHAS systems.
 #              Monitor performance of autonomous reflection loop and logging volume.
 # CONTACT: LUKHAS DEVELOPMENT TEAM

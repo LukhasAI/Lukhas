@@ -1,6 +1,6 @@
 # core
 
-This directory is part of the LUKHAS AGI project.
+This directory is part of the LUKHAS Cognitive AI project.
 
 ## Purpose
 Describe the purpose of this component.

@@ -1,16 +1,16 @@
 """
-AGI-Enhanced Intelligence Products
+Cognitive AI-Enhanced Intelligence Products
 =================================
 
-Integration system that enhances LUKHAS intelligence products with advanced AGI reasoning,
+Integration system that enhances LUKHAS intelligence products with advanced cognitive AI reasoning,
 orchestration, and learning capabilities. Transforms existing intelligence systems into
-AGI-powered analytical engines with sophisticated reasoning and predictive capabilities.
+Cognitive AI-powered analytical engines with sophisticated reasoning and predictive capabilities.
 
 Enhanced Products:
-- ΛLens: AGI-powered symbolic analysis with consciousness-guided insights
-- DAST: AGI-enhanced task intelligence with predictive optimization
-- Argus: AGI-augmented monitoring with intelligent anomaly detection
-- Market Intelligence: AGI-driven market analysis with predictive modeling
+- ΛLens: Cognitive AI-powered symbolic analysis with consciousness-guided insights
+- DAST: Cognitive AI-enhanced task intelligence with predictive optimization
+- Argus: Cognitive AI-augmented monitoring with intelligent anomaly detection
+- Market Intelligence: Cognitive AI-driven market analysis with predictive modeling
 
 Key Enhancements:
 - Multi-model reasoning for complex analysis
@@ -20,7 +20,7 @@ Key Enhancements:
 - Real-time learning and adaptation
 - Cross-product intelligence synthesis
 
-Part of Phase 2C: Intelligence product enhancement with AGI reasoning
+Part of Phase 2C: Intelligence product enhancement with Cognitive AI reasoning
 Created: 2025-09-05
 """
 
@@ -32,7 +32,7 @@ from enum import Enum
 from typing import Any, Optional
 
 try:
-    # AGI Core Systems
+    # Cognitive Core Systems
     from cognitive_core.integration import (
         ProcessingMode,
         check_operation_governance,
@@ -64,7 +64,7 @@ except ImportError:
         return type("MockResult", (), {"primary_result": {"analysis": "mock", "confidence": 0.8}, "success": True})()
 
     class ProcessingMode(Enum):
-        AGI_REASONING = "agi_reasoning"
+        AGI_REASONING = "cognitive_reasoning"
 
     async def check_operation_governance(*args):
         return True, {"overall_approved": True}
@@ -129,7 +129,7 @@ class IntelligenceProductType(Enum):
 
 
 class AnalysisMode(Enum):
-    """AGI analysis modes for intelligence products."""
+    """Cognitive AI analysis modes for intelligence products."""
 
     QUICK = "quick"  # Fast analysis with basic reasoning
     COMPREHENSIVE = "comprehensive"  # Deep analysis with full reasoning
@@ -140,7 +140,7 @@ class AnalysisMode(Enum):
 
 @dataclass
 class IntelligenceQuery:
-    """Query for AGI-enhanced intelligence analysis."""
+    """Query for Cognitive AI-enhanced intelligence analysis."""
 
     query_id: str
     product_type: IntelligenceProductType
@@ -155,7 +155,7 @@ class IntelligenceQuery:
 
 @dataclass
 class IntelligenceResult:
-    """Result from AGI-enhanced intelligence analysis."""
+    """Result from Cognitive AI-enhanced intelligence analysis."""
 
     query_id: str
     product_type: IntelligenceProductType
@@ -174,7 +174,7 @@ class IntelligenceResult:
 
 class AGIEnhancedLens:
     """
-    AGI-enhanced ΛLens with advanced reasoning and consciousness-guided analysis.
+    Cognitive AI-enhanced ΛLens with advanced reasoning and consciousness-guided analysis.
 
     Enhancements:
     - Multi-model reasoning for symbolic interpretation
@@ -190,7 +190,7 @@ class AGIEnhancedLens:
         self.vector_memory = VectorMemory()
 
     async def enhanced_file_analysis(self, file_path: str, query: IntelligenceQuery) -> IntelligenceResult:
-        """Perform AGI-enhanced file analysis with symbolic reasoning."""
+        """Perform Cognitive AI-enhanced file analysis with symbolic reasoning."""
         try:
             # Governance check
             governance_approved, governance_result = await check_operation_governance(
@@ -203,7 +203,7 @@ class AGIEnhancedLens:
             # Base symbolic analysis
             base_result = await self.base_lens.process_file(file_path, **query.context)
 
-            # AGI-enhanced reasoning
+            # Cognitive AI-enhanced reasoning
             reasoning_context = {
                 "symbols": base_result.get("symbols", []),
                 "file_type": query.context.get("file_type", "unknown"),
@@ -218,13 +218,13 @@ class AGIEnhancedLens:
                     mode=ProcessingMode.CONSCIOUSNESS_FIELD,
                     qi_params={"creativity_boost": 0.8},
                     bio_params={"pattern_sensitivity": 0.9},
-                    agi_params={"reasoning_depth": 4},
+                    cognitive_params={"reasoning_depth": 4},
                 )
             else:
                 enhanced_result = await hybrid_process(
                     input_data=base_result,
                     mode=ProcessingMode.AGI_REASONING,
-                    agi_params={"reasoning_depth": 5 if query.analysis_mode == AnalysisMode.COMPREHENSIVE else 3},
+                    cognitive_params={"reasoning_depth": 5 if query.analysis_mode == AnalysisMode.COMPREHENSIVE else 3},
                 )
 
             # Extract insights and patterns
@@ -255,9 +255,9 @@ class AGIEnhancedLens:
                 governance_approved=governance_approved,
                 processing_metadata={
                     "base_symbols": len(base_result.get("symbols", [])),
-                    "agi_processing_time": enhanced_result.primary_result.get("processing_time", 0),
+                    "cognitive_processing_time": enhanced_result.primary_result.get("processing_time", 0),
                     "enhancement_quality": (
-                        enhanced_result.integration_metrics.agi_reasoning_quality
+                        enhanced_result.integration_metrics.cognitive_reasoning_quality
                         if hasattr(enhanced_result, "integration_metrics")
                         else 0.8
                     ),
@@ -271,9 +271,9 @@ class AGIEnhancedLens:
             return self._create_error_result(query, str(e))
 
     async def _extract_symbolic_insights(
-        self, base_result: dict, agi_result: dict, context: dict
+        self, base_result: dict, cognitive_result: dict, context: dict
     ) -> list[dict[str, Any]]:
-        """Extract enhanced symbolic insights using AGI reasoning."""
+        """Extract enhanced symbolic insights using Cognitive AI reasoning."""
         insights = []
 
         # Analyze symbol patterns
@@ -285,19 +285,19 @@ class AGIEnhancedLens:
                     "description": f"Identified {len(symbols)} symbolic elements with enhanced reasoning",
                     "details": {
                         "symbol_density": len(symbols) / max(1, len(str(base_result))),
-                        "pattern_complexity": agi_result.get("complexity_score", 0.5),
-                        "symbolic_coherence": agi_result.get("coherence", 0.7),
+                        "pattern_complexity": cognitive_result.get("complexity_score", 0.5),
+                        "symbolic_coherence": cognitive_result.get("coherence", 0.7),
                     },
                 }
             )
 
-        # AGI-enhanced relationship analysis
-        if "relationships" in agi_result:
+        # Cognitive AI-enhanced relationship analysis
+        if "relationships" in cognitive_result:
             insights.append(
                 {
                     "type": "relationship_analysis",
-                    "description": "AGI-discovered relationships and connections",
-                    "details": agi_result["relationships"],
+                    "description": "Cognitive AI-discovered relationships and connections",
+                    "details": cognitive_result["relationships"],
                 }
             )
 
@@ -310,7 +310,7 @@ class AGIEnhancedLens:
                     "details": {
                         "goal_coverage": 0.85,  # Example metric
                         "missing_elements": [],
-                        "optimization_suggestions": agi_result.get("optimizations", []),
+                        "optimization_suggestions": cognitive_result.get("optimizations", []),
                     },
                 }
             )
@@ -387,7 +387,7 @@ class AGIEnhancedLens:
 
 class AGIEnhancedDAST:
     """
-    AGI-enhanced DAST with predictive task intelligence and optimization.
+    Cognitive AI-enhanced DAST with predictive task intelligence and optimization.
 
     Enhancements:
     - Multi-model consensus for task complexity assessment
@@ -407,7 +407,7 @@ class AGIEnhancedDAST:
         self.learner = DreamGuidedLearner()
 
     async def enhanced_task_analysis(self, task_description: str, query: IntelligenceQuery) -> IntelligenceResult:
-        """Perform AGI-enhanced task analysis with predictive optimization."""
+        """Perform Cognitive AI-enhanced task analysis with predictive optimization."""
         try:
             # Governance check
             governance_approved, governance_result = await check_operation_governance(
@@ -420,7 +420,7 @@ class AGIEnhancedDAST:
             # Base task analysis
             base_analysis = self.task_intelligence.analyze_task_complexity(task_description, query.context)
 
-            # AGI-enhanced multi-model consensus
+            # Cognitive AI-enhanced multi-model consensus
             consensus_result = await self.consensus_engine.build_consensus(
                 [
                     {"model": "complexity_analyzer", "result": base_analysis},
@@ -492,7 +492,7 @@ class AGIEnhancedDAST:
             return self._create_error_result(query, str(e))
 
     async def _pattern_analysis(self, task_description: str) -> dict[str, Any]:
-        """Analyze task patterns using AGI reasoning."""
+        """Analyze task patterns using Cognitive AI reasoning."""
         # Use chain of thought for pattern analysis
         pattern_result = await self.consensus_engine.process(
             task_description, {"analysis_type": "pattern_recognition", "focus": "task_patterns"}
@@ -506,7 +506,7 @@ class AGIEnhancedDAST:
         }
 
     async def _resource_estimation(self, base_analysis: dict) -> dict[str, Any]:
-        """Estimate resource requirements using AGI reasoning."""
+        """Estimate resource requirements using Cognitive AI reasoning."""
         complexity = base_analysis.get("complexity_score", 5.0)
 
         return {
@@ -583,7 +583,7 @@ class AGIEnhancedDAST:
 
 class AGIEnhancedArgus:
     """
-    AGI-enhanced Argus monitoring with intelligent anomaly detection and prediction.
+    Cognitive AI-enhanced Argus monitoring with intelligent anomaly detection and prediction.
 
     Enhancements:
     - AI-powered anomaly detection with reasoning
@@ -598,7 +598,7 @@ class AGIEnhancedArgus:
         self.memory = MemoryConsolidator()
 
     async def enhanced_monitoring_analysis(self, query: IntelligenceQuery) -> IntelligenceResult:
-        """Perform AGI-enhanced monitoring analysis with intelligent anomaly detection."""
+        """Perform Cognitive AI-enhanced monitoring analysis with intelligent anomaly detection."""
         try:
             # Governance check
             governance_approved, governance_result = await check_operation_governance(
@@ -611,7 +611,7 @@ class AGIEnhancedArgus:
             # Collect base monitoring data
             monitoring_data = await self.base_monitoring.collect_metrics()
 
-            # AGI-enhanced anomaly detection
+            # Cognitive AI-enhanced anomaly detection
             anomaly_analysis = await self._intelligent_anomaly_detection(monitoring_data, query.analysis_mode)
 
             # Predictive analysis
@@ -679,7 +679,7 @@ class AGIEnhancedArgus:
         """Perform AI-powered anomaly detection with reasoning."""
         reasoning_depth = 5 if mode == AnalysisMode.COMPREHENSIVE else 3
 
-        # Use AGI reasoning for anomaly analysis
+        # Use Cognitive AI reasoning for anomaly analysis
         reasoning_result = await self.reasoning_engine.process(
             monitoring_data,
             {"analysis_type": "anomaly_detection", "reasoning_depth": reasoning_depth, "focus": "system_health"},
@@ -734,7 +734,7 @@ class AGIEnhancedArgus:
         }
 
     async def _automated_root_cause_analysis(self, anomaly_analysis: dict, monitoring_data: dict) -> dict[str, Any]:
-        """Perform automated root cause analysis using AGI reasoning."""
+        """Perform automated root cause analysis using Cognitive AI reasoning."""
         anomalies = anomaly_analysis.get("anomalies", [])
         if not anomalies:
             return {"root_causes": [], "analysis": "No anomalies detected"}
@@ -792,7 +792,7 @@ class IntelligenceProductsEnhancer:
     """
     Central system for enhancing all LUKHAS intelligence products with Cognitive capabilities.
 
-    Manages and coordinates AGI enhancements across all intelligence products,
+    Manages and coordinates Cognitive AI enhancements across all intelligence products,
     providing unified access and orchestration.
     """
 
@@ -801,7 +801,7 @@ class IntelligenceProductsEnhancer:
         self.enhanced_dast = AGIEnhancedDAST()
         self.enhanced_argus = AGIEnhancedArgus()
 
-        # Register with AGI integration system
+        # Register with Cognitive AI integration system
         register_agi_for_integration("intelligence_lens", self.enhanced_lens)
         register_agi_for_integration("intelligence_dast", self.enhanced_dast)
         register_agi_for_integration("intelligence_argus", self.enhanced_argus)
@@ -824,13 +824,13 @@ class IntelligenceProductsEnhancer:
 
     async def process_intelligence_query(self, query: IntelligenceQuery) -> IntelligenceResult:
         """
-        Process an intelligence query using the appropriate AGI-enhanced product.
+        Process an intelligence query using the appropriate Cognitive AI-enhanced product.
 
         Args:
             query: Intelligence query with product type and analysis requirements
 
         Returns:
-            IntelligenceResult with AGI-enhanced analysis
+            IntelligenceResult with Cognitive AI-enhanced analysis
         """
         try:
             self.enhancement_metrics["total_queries"] += 1
@@ -874,9 +874,9 @@ class IntelligenceProductsEnhancer:
 
     async def _handle_custom_intelligence_query(self, query: IntelligenceQuery) -> IntelligenceResult:
         """Handle custom intelligence product queries."""
-        # For custom products, use general AGI reasoning
+        # For custom products, use general Cognitive AI reasoning
         enhanced_result = await hybrid_process(
-            input_data=query.input_data, mode=ProcessingMode.AGI_REASONING, agi_params={"reasoning_depth": 4}
+            input_data=query.input_data, mode=ProcessingMode.AGI_REASONING, cognitive_params={"reasoning_depth": 4}
         )
 
         return IntelligenceResult(
@@ -959,7 +959,7 @@ class IntelligenceProductsEnhancer:
         """Get comprehensive enhancement system status."""
         return {
             "system_availability": {
-                "agi_available": AGI_AVAILABLE,
+                "cognitive_available": AGI_AVAILABLE,
                 "intelligence_products_available": INTELLIGENCE_PRODUCTS_AVAILABLE,
             },
             "enhancement_metrics": self.enhancement_metrics.copy(),
@@ -981,7 +981,7 @@ intelligence_products_enhancer = IntelligenceProductsEnhancer()
 async def enhance_lens_analysis(
     file_path: str, user_id: str, mode: AnalysisMode = AnalysisMode.COMPREHENSIVE, **kwargs
 ) -> IntelligenceResult:
-    """Convenience function for AGI-enhanced ΛLens analysis."""
+    """Convenience function for Cognitive AI-enhanced ΛLens analysis."""
     query = IntelligenceQuery(
         query_id=f"lens_{datetime.now(timezone.utc).timestamp()}",
         product_type=IntelligenceProductType.LENS,
@@ -996,7 +996,7 @@ async def enhance_lens_analysis(
 async def enhance_task_analysis(
     task_description: str, user_id: str, mode: AnalysisMode = AnalysisMode.PREDICTIVE, **kwargs
 ) -> IntelligenceResult:
-    """Convenience function for AGI-enhanced DAST task analysis."""
+    """Convenience function for Cognitive AI-enhanced DAST task analysis."""
     query = IntelligenceQuery(
         query_id=f"dast_{datetime.now(timezone.utc).timestamp()}",
         product_type=IntelligenceProductType.DAST,
@@ -1011,7 +1011,7 @@ async def enhance_task_analysis(
 async def enhance_monitoring_analysis(
     user_id: str, mode: AnalysisMode = AnalysisMode.MONITORING, **kwargs
 ) -> IntelligenceResult:
-    """Convenience function for AGI-enhanced Argus monitoring analysis."""
+    """Convenience function for Cognitive AI-enhanced Argus monitoring analysis."""
     query = IntelligenceQuery(
         query_id=f"argus_{datetime.now(timezone.utc).timestamp()}",
         product_type=IntelligenceProductType.ARGUS,
@@ -1033,7 +1033,7 @@ if __name__ == "__main__":
     async def test_enhancer():
         IntelligenceProductsEnhancer()
 
-        print("🧠📊 Intelligence Products AGI Enhancement Test")
+        print("🧠📊 Intelligence Products Cognitive Enhancement Test")
         print("=" * 60)
 
         # Test ΛLens enhancement
@@ -1091,7 +1091,7 @@ if __name__ == "__main__":
     asyncio.run(test_enhancer())
 
 """
-Intelligence Products AGI Enhancement Summary:
+Intelligence Products Cognitive Enhancement Summary:
 ============================================
 
 🔬 Enhanced ΛLens:
@@ -1113,7 +1113,7 @@ Intelligence Products AGI Enhancement Summary:
 - Intelligent alert clustering and prioritization
 
 🎯 Key Benefits:
-- Unified AGI reasoning across all intelligence products
+- Unified Cognitive AI reasoning across all intelligence products
 - Constitutional AI governance for all analyses
 - Dream-guided creative insights and pattern discovery
 - Predictive capabilities with uncertainty quantification

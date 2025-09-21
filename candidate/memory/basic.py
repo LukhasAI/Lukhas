@@ -16,7 +16,7 @@ logger = logging.getLogger(__name__)
 ║                             ◊ POETIC ESSENCE ◊
 ║
 ║ ║ 🧠 LUKHAS AI - BASIC MEMORY INTERFACE
-║ ║ A Harmonious Symphony of Simple Memory Functions for the LUKHAS AGI System
+║ ║ A Harmonious Symphony of Simple Memory Functions for the LUKHAS Cognitive AI System
 ║ ║ Copyright (c) 2025 LUKHAS AI. All rights reserved.
 ║ ╠═══════════════════════════════════════════════════════════════════════════════
 ║ ║ Module: BASIC MEMORY SYSTEM
@@ -33,7 +33,7 @@ logger = logging.getLogger(__name__)
 ║
 ╠══════════════════════════════════════════════════════════════════════════════════
 ║ TECHNICAL FEATURES:
-║ - Provides a foundational interface for memory operations within LUKHAS AGI.
+║ - Provides a foundational interface for memory operations within LUKHAS Cognitive AI.
 ║ - Facilitates the storage and retrieval of data with intuitive methods.
 ║ - Supports test-driven development, ensuring reliability and robustness.
 ║ - Allows for the management of ephemeral and persistent memory states.
@@ -273,7 +273,7 @@ def search(query: str, limit: int = 10) -> list[MemoryEntry]:
 ║
 ║ REFERENCES:
 ║   - Docs: docs/memory/basic_memory.md
-║   - Issues: github.com/lukhas-ai/agi/issues?label=memory
+║   - Issues: github.com/lukhas-ai/cognitive/issues?label=memory
 ║   - Wiki: wiki.lukhas.ai/memory-architecture
 ║
 ║ COPYRIGHT & LICENSE:

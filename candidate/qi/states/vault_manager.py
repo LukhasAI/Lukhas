@@ -20,7 +20,7 @@
 LUKHAS - Quantum Vault Manager
 =====================
 
-An enterprise-grade Artificial General Intelligence (AGI) framework
+An enterprise-grade Cognitive Artificial Intelligence (Cognitive AI) framework
 combining symbolic reasoning, emotional intelligence, quantum-inspired computing,
 and bio-inspired architecture for next-generation AI applications.
 
@@ -512,7 +512,7 @@ if __name__ == "__main__":
 ║
 ║ REFERENCES:
 ║   - Docs: docs/quantum/vault-security.md
-║   - Issues: github.com/lukhas-ai/agi/issues?label=quantum-vault
+║   - Issues: github.com/lukhas-ai/cognitive/issues?label=quantum-vault
 ║   - Wiki: wiki.lukhas.ai/quantum-security-architecture
 ║
 ║ COPYRIGHT & LICENSE:

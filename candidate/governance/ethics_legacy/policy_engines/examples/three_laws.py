@@ -40,7 +40,7 @@ logger = get_logger(__name__)
 class ThreeLawsPolicy(EthicsPolicy):
     """Asimov's Three Laws of Robotics ethics policy
 
-    This implementation interprets the Three Laws for an AGI context,
+    This implementation interprets the Three Laws for an Cognitive AI context,
     considering both direct and indirect consequences of actions.
     """
 

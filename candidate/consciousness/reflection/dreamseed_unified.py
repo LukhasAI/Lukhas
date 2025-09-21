@@ -11,7 +11,7 @@
 🌙 MODULE: emotion.dreamseed_unified
 📄 FILENAME: dreamseed_unified.py
 🎯 PURPOSE: DREAMSEED Protocol with Unified Tier System Integration
-🧠 CONTEXT: LUKHAS AGI Emotion Subsystem with LAMBDA_TIER Integration
+🧠 CONTEXT: LUKHAS Cognitive AI Emotion Subsystem with LAMBDA_TIER Integration
 🔮 CAPABILITY: Unified emotion regulation, tier-based access, consent management
 🛡️ ETHICS: Multi-layer safety with centralized identity integration
 🚀 VERSION: v2.0.0 • 📅 CREATED: 2025-07-26 • ✍️ AUTHOR: CLAUDE-4-SONNET
@@ -237,7 +237,7 @@ class UnifiedDreamSeedEmotionEngine:
         self.tier_access_log: list[dict[str, Any]] = []
 
         # Logging paths
-        self.logs_dir = "/Users/agi_dev/Downloads/Consolidation-Repo/logs/emotion"
+        self.logs_dir = "/Users/cognitive_dev/Downloads/Consolidation-Repo/logs/emotion"
         os.makedirs(self.logs_dir, exist_ok=True)
 
         self.safety_log_path = os.path.join(

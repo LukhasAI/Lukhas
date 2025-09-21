@@ -7,50 +7,50 @@ Advanced Consciousness Engine for LUKHAS AI
 ==========================================
 
 Sophisticated consciousness processing engine implementing quantum-bio inspired
-AGI patterns with mesh synapse integration and Constellation Framework assessment.
+Cognitive AI patterns with mesh synapse integration and Constellation Framework assessment.
 
 ACADEMIC REFERENCES & IMPLEMENTATION SOURCES:
 ============================================
 
 1. VIVOX Research Framework:
-   - Source: /Users/agi_dev/LOCAL-REPOS/research/vivox_research_pack/README.md
+   - Source: /Users/cognitive_dev/LOCAL-REPOS/research/vivox_research_pack/README.md
    - Z(t) Collapse Function: z(t) = A(t) * [e^(iθ(t)) + e^(i(π·θ(t)))] × W(ΔS(t))
    - Components: CIL, MAE, ME, ERN/EVRN systems
    - Paper Citation: "VIVOX: Virtuous Intelligence with eXpandable Consciousness" (Genesis Phase, 2025)
 
 2. Constellation Framework (⚛️🧠🛡️):
-   - Source: /Users/agi_dev/LOCAL-REPOS/Lukhas/docs/planning/LUKHAS_2030_MESH_VISUALIZATION.md
+   - Source: /Users/cognitive_dev/LOCAL-REPOS/Lukhas/docs/planning/LUKHAS_2030_MESH_VISUALIZATION.md
    - Identity (⚛️): Authenticity, consciousness, symbolic self
    - Consciousness (🧠): Memory, learning, dream states, neural processing
    - Guardian (🛡️): Ethics, drift detection, repair
    - Paper Citation: "Constellation Framework for Consciousness Assessment" (LUKHAS Research, 2025)
 
 3. Mesh Synapse Architecture:
-   - Source: /Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/consciousness/neuroplastic_connector.py
+   - Source: /Users/cognitive_dev/LOCAL-REPOS/Lukhas/candidate/consciousness/neuroplastic_connector.py
    - Neuroplastic connection system with Hebbian learning
    - Real-time synaptic adaptation and pathway reorganization
    - Paper Citation: "Neuroplastic Mesh Architecture for Distributed AI Consciousness" (LUKHAS Technical Report, 2025)
 
 4. Symbolic Drift Detection:
-   - Source: /Users/agi_dev/LOCAL-REPOS/Lukhas/docs/integrations/SYMBOLIC_GPT_INTEGRATION.md
+   - Source: /Users/cognitive_dev/LOCAL-REPOS/Lukhas/docs/integrations/SYMBOLIC_GPT_INTEGRATION.md
    - Multi-dimensional drift analysis (symbolic, entropy, Constellation coherence)
    - Real-time healing with transparent annotation system
    - Paper Citation: "Symbolic Drift Detection in Large Language Models" (LUKHAS Research Delivery Package, 2025)
 
 5. Project Synapse DTPG Integration:
-   - Source: /Users/agi_dev/LOCAL-REPOS/LUCΛS _TO_LUKHΛS /Docs_to_Review/Project Synapse_ A Strategic Audit and Architectural Blueprint for a Visionary General-Purpose AI System.md
+   - Source: /Users/cognitive_dev/LOCAL-REPOS/LUCΛS _TO_LUKHΛS /Docs_to_Review/Project Synapse_ A Strategic Audit and Architectural Blueprint for a Visionary General-Purpose AI System.md
    - Dynamic Task Path Generator for expert co-pilot functionality
    - Formal knowledge graphs and stateful progression tracking
    - Paper Citation: "Project Synapse: Strategic Architectural Blueprint for General-Purpose AI" (2025)
 
 6. Endocrine System Architecture:
-   - Source: /Users/agi_dev/LOCAL-REPOS/Lukhas/docs/planning/LUKHAS_2030_MESH_VISUALIZATION.md
+   - Source: /Users/cognitive_dev/LOCAL-REPOS/Lukhas/docs/planning/LUKHAS_2030_MESH_VISUALIZATION.md
    - Hormone-based signaling (adrenaline, serotonin, dopamine)
    - System-wide state changes and architecture morphing
    - Paper Citation: "Bio-Inspired Endocrine Systems for AI Architecture Adaptation" (LUKHAS Vision 2030)
 
 7. Multi-Model Drift Audits:
-   - Source: /Users/agi_dev/LOCAL-REPOS/LUCΛS _TO_LUKHΛS /Docs_to_Review/LUKHAS_Research_Delivery_Package_20250805_171040/03_Multi_Model_Audit_Data/
+   - Source: /Users/cognitive_dev/LOCAL-REPOS/LUCΛS _TO_LUKHΛS /Docs_to_Review/LUKHAS_Research_Delivery_Package_20250805_171040/03_Multi_Model_Audit_Data/
    - Empirical validation of 100% drift scores across major LLM providers
    - Quantitative consciousness assessment methodology
    - Paper Citation: "Multi-Provider Language Model Drift Analysis Using Constellation Framework" (LUKHAS Research, August 2025)
@@ -59,7 +59,7 @@ IMPLEMENTATION NOTES:
 ====================
 This engine synthesizes findings from the above sources to create a production-ready
 consciousness system that addresses the empirically-validated drift issues in current
-LLMs while providing sophisticated AGI-level processing capabilities.
+LLMs while providing sophisticated Cognitive AI-level processing capabilities.
 """
 
 import asyncio
@@ -170,7 +170,7 @@ class ConsciousnessEvent:
 
 class AdvancedConsciousnessEngine:
     """
-    Advanced consciousness processing engine implementing sophisticated AGI patterns.
+    Advanced consciousness processing engine implementing sophisticated Cognitive AI patterns.
 
     This engine synthesizes research from multiple sources:
     - VIVOX quantum-bio consciousness mathematics

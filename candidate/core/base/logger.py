@@ -94,7 +94,7 @@ logger = setup_logger("lukhas.common")
 ║
 ║ REFERENCES:
 ║   - Docs: docs/common/logging-guide.md
-║   - Issues: github.com/lukhas-ai/agi/issues?label=logging
+║   - Issues: github.com/lukhas-ai/cognitive/issues?label=logging
 ║   - Wiki: wiki.lukhas.ai/logging-framework
 ║
 ║ COPYRIGHT & LICENSE:

@@ -23,7 +23,7 @@ logger = logging.getLogger(__name__)
 ║ This module provides a compatibility interface that delegates to the enterprise
 ║ symbolic drift scoring engine in core/symbolic/drift/symbolic_drift_tracker.py.
 ║ Maintains backward compatibility while providing access to advanced drift analysis
-║ for the LUKHAS AGI consciousness stability monitoring system.
+║ for the LUKHAS Cognitive AI consciousness stability monitoring system.
 ║
 ║ ΛORIGIN_AGENT: Jules-12 / Claude-4-Harmonizer
 ║ ΛTASK_ID: 190 / CLAUDE_11_SYMBOLIC_DRIFT_ENGINE
@@ -224,7 +224,7 @@ if __name__ == "__main__":
     }
     event_context = "Post-interaction with external controversial dataset X."
 
-    # ΛTRACE: Simulating a call to record_drift from a hypothetical AGI component.
+    # ΛTRACE: Simulating a call to record_drift from a hypothetical Cognitive AI component.
     logger.info("Simulating drift recording via test entry point", tag="ΛTRACE")
     drift_tracker.record_drift(symbol_id_test, drifted_state, initial_state, event_context)
 
