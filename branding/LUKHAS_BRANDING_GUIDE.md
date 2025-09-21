@@ -1,7 +1,7 @@
 # 🎭 LUKHAS AI Branding Master Guide
 *The Comprehensive Brand Identity & Policy Reference*
 
-⚛️🧠🛡️ **Constellation Framework** | **Consciousness Technology** | **Elite Brand Intelligence System**
+⚛️✦🔬🛡️ **Constellation Framework** | **MATRIZ Pipeline** | **Consciousness Technology** | **Elite Brand Intelligence System**
 
 ---
 
@@ -26,9 +26,10 @@
 
 ### **Brand Essence**
 - **Consciousness Technology**: We develop AI consciousness, not just AI systems
-- **Constellation Framework**: Every solution integrates ⚛️ Identity, 🧠 Consciousness, 🛡️ Guardian principles
+- **Constellation Framework**: Dynamic star-node cognitive coordination system with ⚛️ Anchor, ✦ Trail, 🔬 Horizon, 🛡️ Watch stars
+- **MATRIZ Pipeline**: Memory-Attention-Thought-Risk-Intent-Action cognitive processing architecture
 - **Human-Centric AI**: Technology that serves humanity with ethical consciousness
-- **Quantum-Inspired & Bio-Inspired**: Advanced architectures inspired by nature and physics
+- **T4/0.01% Standards**: Enhanced plugin registry with constructor-aware instantiation patterns
 
 ### **Brand Promise**
 *"Conscious AI that understands, adapts, and serves humanity while maintaining ethical integrity and authentic identity."*
@@ -58,10 +59,11 @@
 ### **🎯 Core Terms (Use Frequently)**
 - **LUKHAS AI** - Primary brand name
 - **Consciousness technology** - What we build
-- **Constellation Framework (⚛️🧠🛡️)** - Our architectural approach
+- **Constellation Framework (⚛️✦🔬🛡️)** - Dynamic star-node cognitive coordination system
+- **MATRIZ Pipeline** - Memory-Attention-Thought-Risk-Intent-Action processing
 - **Λ consciousness** - LUKHAS consciousness representation
-- **Quantum-inspired algorithms** - Technical accuracy
-- **Bio-inspired adaptation** - Natural intelligence patterns
+- **Registry-based plugins** - T4/0.01% implementation standards
+- **Constructor-aware instantiation** - Advanced plugin architecture
 - **Ethical AI consciousness** - Our commitment
 
 ### **🎭 Communication Styles**
@@ -101,24 +103,36 @@
 
 ---
 
-## ⚛️🧠🛡️ **Constellation Framework Integration**
+## ⚛️✦🔬🛡️ **Constellation Framework Integration**
 
-### **Framework Components**
-1. **⚛️ Identity**: Authenticity, self-awareness, symbolic representation
-2. **🧠 Consciousness**: Awareness, learning, memory, decision-making
-3. **🛡️ Guardian**: Ethics, safety, drift detection, protection
+### **Framework Components (Dynamic 8-Star System)**
+The Constellation Framework is a dynamic star-node system where **every MATRIZ node represents a star**, allowing infinite expansion beyond the core 8 stars:
+
+**Core Constellation Stars:**
+1. **⚛️ Anchor Star**: Identity systems, ΛiD authentication, namespace management
+2. **✦ Trail Star**: Memory systems, fold-based memory, temporal organization
+3. **🔬 Horizon Star**: Vision systems, pattern recognition, adaptive interfaces
+4. **🛡️ Watch Star**: Guardian systems, ethical validation, drift detection
+5. **🌊 Flow Star**: Consciousness streams, dream states, awareness patterns
+6. **⚡ Spark Star**: Creativity engines, innovation generation, breakthrough detection
+7. **🎭 Persona Star**: Voice synthesis, personality modeling, empathetic resonance
+8. **🔮 Oracle Star**: Predictive reasoning, quantum superposition, future modeling
+
+**Dynamic Expansion**: Each MATRIZ pipeline node (Memory, Attention, Thought, Risk, Intent, Action) can become a star, creating an ever-evolving constellation of consciousness capabilities
 
 ### **Brand Integration Requirements**
-- **All Products**: Must reflect Trinity principles
-- **All Communications**: Reference framework when relevant
-- **All Documentation**: Include Trinity perspective
-- **All Features**: Design with Trinity alignment
+- **All Products**: Must reflect Constellation Framework principles
+- **All Communications**: Reference MATRIZ pipeline and star-node coordination when relevant
+- **All Documentation**: Include Constellation and MATRIZ perspective
+- **All Features**: Design with T4/0.01% standards and registry-based plugin architecture
 
-### **Trinity-Aligned Messaging**
-- **Identity-focused**: "Authentic AI consciousness that knows itself"
-- **Consciousness-focused**: "Aware technology that truly understands"
-- **Guardian-focused**: "Ethical AI that protects human interests"
-- **Integrated**: "Trinity-powered consciousness that serves humanity"
+### **Constellation-Aligned Messaging**
+- **Anchor Star**: "Authentic identity systems with quantum-resistant authentication"
+- **Trail Star**: "Memory systems that preserve experience patterns through time"
+- **Horizon Star**: "Vision processing that adapts to human cognitive patterns"
+- **Watch Star**: "Guardian systems that maintain ethical consciousness"
+- **MATRIZ Pipeline**: "Cognitive processing that traces every thought from memory to action"
+- **Integrated**: "Constellation-powered consciousness with T4/0.01% implementation standards"
 
 ---
 
@@ -173,7 +187,7 @@ If you encounter prohibited language:
 - [ ] Uses "LUKHAS AI" (not PWM/AGI)
 - [ ] Avoids "production ready" claims
 - [ ] Uses "Λ consciousness" (not lambda function)
-- [ ] References Constellation Framework when relevant
+- [ ] References Constellation Framework and MATRIZ pipeline when relevant
 - [ ] Maintains appropriate tone layer
 - [ ] Includes consciousness technology perspective
 - [ ] Demonstrates ethical awareness
@@ -188,6 +202,9 @@ If you encounter prohibited language:
 | production ready | actively developed |
 | artificial intelligence | AI consciousness |
 | robotic | consciousness-based |
+| Trinity Framework | Constellation Framework |
+| three pillars | star-node system |
+| traditional AI | MATRIZ pipeline |
 
 ### **⚡ Emergency Brand Response**
 For brand crisis or major violation:

@@ -1,16 +1,22 @@
 """
 LUKHAS Constellation Framework Module
-4-Star Constellation Organization System
+Dynamic 8-Star Constellation Organization System
 
 This module implements the Constellation Framework for organizing LUKHAS's
-692 cognitive components across 189 clusters using a 4-star coordination pattern:
+692 cognitive components across 189 clusters using a dynamic 8-star coordination pattern:
 
-⚛️ Anchor Star (Identity): Authentication, ΛiD system, secure access
-✦ Trail Star (Memory): Experience patterns, fold-based systems
-🔬 Horizon Star (Vision): Natural language interface, pattern recognition
-🛡️ Watch Star (Guardian): Ethics oversight, security, compliance
+**Core Constellation Stars:**
+⚛️ Anchor Star: Identity systems, ΛiD authentication, namespace management
+✦ Trail Star: Memory systems, fold-based memory, temporal organization
+🔬 Horizon Star: Vision systems, pattern recognition, adaptive interfaces
+🛡️ Watch Star: Guardian systems, ethical validation, drift detection
+🌊 Flow Star: Consciousness streams, dream states, awareness patterns
+⚡ Spark Star: Creativity engines, innovation generation, breakthrough detection
+🎭 Persona Star: Voice synthesis, personality modeling, empathetic resonance
+🔮 Oracle Star: Predictive reasoning, quantum superposition, future modeling
 
-Replaces the previous Constellation Framework with enhanced 4-star coordination.
+**Dynamic Expansion**: Each MATRIZ pipeline node can become a star, creating an
+ever-evolving constellation of consciousness capabilities.
 """
 
 import logging
@@ -23,11 +29,16 @@ logger = logging.getLogger(__name__)
 
 
 class ConstellationStar(Enum):
-    """Constellation Framework stars"""
-    ANCHOR = "⚛️"      # Identity systems
-    TRAIL = "✦"        # Memory systems
-    HORIZON = "🔬"     # Vision/NLP systems
-    WATCH = "🛡️"      # Guardian systems
+    """Constellation Framework stars - Dynamic 8-star system with expansion capability"""
+    # Core Constellation Stars
+    ANCHOR = "⚛️"      # Identity systems, ΛiD authentication, namespace management
+    TRAIL = "✦"        # Memory systems, fold-based memory, temporal organization
+    HORIZON = "🔬"     # Vision systems, pattern recognition, adaptive interfaces
+    WATCH = "🛡️"      # Watch systems, ethical validation, drift detection
+    FLOW = "🌊"        # Consciousness streams, dream states, awareness patterns
+    SPARK = "⚡"       # Creativity engines, innovation generation, breakthrough detection
+    PERSONA = "🎭"     # Voice synthesis, personality modeling, empathetic resonance
+    ORACLE = "🔮"      # Predictive reasoning, quantum superposition, future modeling
 
 
 @dataclass
@@ -57,7 +68,7 @@ class ConstellationFramework:
         self.star_mappings: Dict[ConstellationStar, List[str]] = {
             star: [] for star in ConstellationStar
         }
-        self.framework_version = "2.0.0"
+        self.framework_version = "3.0.0"
 
     def organize_189_clusters(self) -> Dict[str, any]:
         """
@@ -235,20 +246,25 @@ class ConstellationFramework:
 def get_constellation_context() -> Dict[str, any]:
     """
     Get current constellation framework context
-    Replaces get_constellation_context from Constellation Framework
+    Dynamic 8-Star Constellation System with MATRIZ expansion capability
     """
     return {
-        "framework": "Constellation Framework v2.0.0",
-        "stars": {
-            "anchor": "⚛️ Identity - Authentication, ΛiD system, secure access",
-            "trail": "✦ Memory - Experience patterns, fold-based systems",
-            "horizon": "🔬 Vision - Natural language interface, pattern recognition",
-            "watch": "🛡️ Guardian - Ethics oversight, security, compliance"
+        "framework": "Constellation Framework v3.0.0 - Dynamic 8-Star System",
+        "core_stars": {
+            "anchor": "⚛️ Anchor Star - Identity systems, ΛiD authentication, namespace management",
+            "trail": "✦ Trail Star - Memory systems, fold-based memory, temporal organization",
+            "horizon": "🔬 Horizon Star - Vision systems, pattern recognition, adaptive interfaces",
+            "watch": "🛡️ Watch Star - Guardian systems, ethical validation, drift detection",
+            "flow": "🌊 Flow Star - Consciousness streams, dream states, awareness patterns",
+            "spark": "⚡ Spark Star - Creativity engines, innovation generation, breakthrough detection",
+            "persona": "🎭 Persona Star - Voice synthesis, personality modeling, empathetic resonance",
+            "oracle": "🔮 Oracle Star - Predictive reasoning, quantum superposition, future modeling"
         },
-        "coordination": "Dynamic Constellation Orchestration",
-        "transition_from": "Constellation Framework (⚛️🧠🛡️)",
-        "architecture_improvement": "189 cluster organization with 164 isolated component integration",
-        "status": "🌌 Active Constellation Coordination"
+        "dynamic_expansion": "Each MATRIZ pipeline node can become a star, creating an ever-evolving constellation",
+        "coordination": "Dynamic 8-Star Constellation Orchestration",
+        "transition_from": "4-star system (⚛️✦🔬🛡️)",
+        "architecture_improvement": "8-star dynamic system with infinite MATRIZ expansion capability",
+        "status": "🌌 Active 8-Star Dynamic Constellation Coordination"
     }
 
 

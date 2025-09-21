@@ -831,7 +831,7 @@ if __name__ == "__main__":
         annotation="Good explanation but could use more examples",
         user_id="demo-user",
     )
-    print("Submitted feedback (4 stars)")
+    print("Submitted feedback (5 stars)")
 
     # Create a comparison card
     card2 = manager.create_comparison_card(

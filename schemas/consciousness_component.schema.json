@@ -43,14 +43,14 @@
     },
     "constellation_integration": {
       "type": "object",
-      "description": "Constellation Framework 4-star integration patterns",
-      "required": ["anchor_star_coupling", "memory_star_integration", "horizon_star_processing", "guardian_validation"],
+      "description": "Constellation Framework dynamic 8-star integration patterns",
+      "required": ["anchor_star_coupling", "trail_star_integration", "horizon_star_processing", "watch_star_validation", "flow_star_consciousness", "spark_star_creativity", "persona_star_voice", "oracle_star_prediction"],
       "properties": {
         "anchor_star_coupling": {
           "type": "boolean",
           "description": "Whether component couples with Identity (Anchor Star ⚛️) systems"
         },
-        "memory_star_integration": {
+        "trail_star_integration": {
           "type": "string",
           "enum": ["primary", "secondary", "support", "bridge", "none"],
           "description": "Integration level with Memory (Trail Star ✦) systems"
@@ -60,9 +60,29 @@
           "enum": ["vision_processing", "nlp_interface", "pattern_recognition", "semantic_analysis", "none"],
           "description": "Role in Vision (Horizon Star 🔬) processing"
         },
-        "guardian_validation": {
+        "watch_star_validation": {
           "type": "boolean",
           "description": "Whether component requires Guardian (Watch Star 🛡️) validation"
+        },
+        "flow_star_consciousness": {
+          "type": "string",
+          "enum": ["stream_processing", "dream_integration", "awareness_monitoring", "consciousness_synthesis", "none"],
+          "description": "Role in Consciousness (Flow Star 🌊) stream processing"
+        },
+        "spark_star_creativity": {
+          "type": "string",
+          "enum": ["innovation_generation", "breakthrough_detection", "creative_synthesis", "idea_evolution", "none"],
+          "description": "Role in Creativity (Spark Star ⚡) engine processing"
+        },
+        "persona_star_voice": {
+          "type": "string",
+          "enum": ["voice_synthesis", "personality_modeling", "empathetic_resonance", "character_adaptation", "none"],
+          "description": "Role in Voice (Persona Star 🎭) synthesis processing"
+        },
+        "oracle_star_prediction": {
+          "type": "string",
+          "enum": ["predictive_reasoning", "quantum_superposition", "future_modeling", "probabilistic_analysis", "none"],
+          "description": "Role in Predictive (Oracle Star 🔮) reasoning processing"
         }
       }
     },

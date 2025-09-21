@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-LUKHAS Tone Validator - Constellation Framework Compliance (⚛️🧠🛡️)
-Basic tone validation for LUKHAS consciousness platform
+LUKHAS Tone Validator - Constellation Framework Compliance (⚛️✦🔬🛡️)
+T4/0.01% tone validation for LUKHAS consciousness platform with MATRIZ pipeline integration
 """
 
 import sys
@@ -10,22 +10,29 @@ from typing import Any
 
 
 class LukhasToneValidator:
-    """LUKHAS Constellation Framework tone validation"""
+    """LUKHAS Constellation Framework + MATRIZ Pipeline tone validation with T4/0.01% standards"""
 
     def __init__(self):
         self.approved_terminology = {
             "lukhas_ai",
             "lukhas",
-            "triad_framework",
+            "constellation_framework",
+            "matriz_pipeline",
+            "anchor_star",
+            "trail_star",
+            "horizon_star",
+            "watch_star",
             "consciousness",
-            "qi_inspired",
-            "bio_inspired",
-            "symbolic",
+            "lambda_id",
+            "registry_based_plugins",
+            "constructor_aware",
+            "t4_standards",
+            "fold_based_memory",
+            "symbolic_reasoning",
             "guardian",
             "identity",
             "memory",
             "orchestration",
-            "agent_army",
         }
 
         self.deprecated_terms = {
@@ -33,9 +40,15 @@ class LukhasToneValidator:
             "pwm": "lukhas",
             "_pwm": "",
             "lukhas_agi": "lukhas_ai",
+            "trinity_framework": "constellation_framework",
+            "three_pillars": "star_node_system",
+            "traditional_ai": "matriz_pipeline",
+            "lambda_function": "lambda_consciousness",
         }
 
-        self.triad_symbols = ["⚛️", "🧠", "🛡️"]
+        self.constellation_symbols = ["⚛️", "✦", "🔬", "🛡️"]
+        self.matriz_symbols = ["M", "A", "T", "R", "I", "A"]
+        self.matriz_emojis = ["📜", "🔍", "💭", "⚖️", "🎯", "⚡"]
 
     def validate_content(self, content: str, filepath: str = "") -> tuple[bool, list[str]]:
         """Validate content against LUKHAS tone requirements"""
@@ -46,8 +59,12 @@ class LukhasToneValidator:
             if deprecated.lower() in content.lower():
                 issues.append(f"Deprecated term '{deprecated}' found. Consider '{replacement}'")
 
-        # Basic Constellation Framework check
-        has_trinity = any(symbol in content for symbol in self.triad_symbols)
+        # Constellation Framework check
+        has_constellation = any(symbol in content for symbol in self.constellation_symbols)
+        has_matriz_pipeline = any(stage in content.upper() for stage in ["MEMORY", "ATTENTION", "THOUGHT", "RISK", "INTENT", "ACTION"])
+
+        # T4/0.01% standards check
+        has_t4_standards = any(term in content.lower() for term in ["t4", "0.01%", "constructor-aware", "registry-based"])
         if filepath.endswith(".md") and len(content) > 1000 and not has_trinity:
             issues.append("Large documentation file missing Constellation Framework symbols (⚛️🧠🛡️)")
 

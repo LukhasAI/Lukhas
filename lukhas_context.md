@@ -28,15 +28,27 @@ LUKHAS is a comprehensive AGI architecture spanning **7,000+ Python files** acro
 - **Integration Status**: ✅ Comprehensive Schema v2.0.0 audit complete with 100% validation
 
 ### **Core Architecture Principles**
-- **Constellation Framework**: Anchor ⚛️ + Trail ✦ + Horizon 🔬 + Watch 🛡️ coordination
+- **Constellation Framework**: Dynamic 8-star system with infinite MATRIZ expansion capability
 - **MATRIZ Pipeline**: Memory-Attention-Thought-Risk-Intent-Action processing
 - **Registry-Based Plugins**: Dynamic component registration with cognitive alignment
 - **Constructor-Aware Instantiation**: T4/0.01% implementation standards
 - **Lane-Based Evolution**: Safe progression from experimental to production
 
-## ⚛️✦🔬🛡️ Constellation Framework Architecture
+## 🌌 Constellation Framework: Dynamic 8-Star System
 
-The Constellation Framework implements a dynamic star-node system with four core constellation stars:
+**The Constellation Framework is a dynamic star-node system where every MATRIZ node represents a star, allowing infinite expansion beyond the core 8 stars:**
+
+**Core Constellation Stars:**
+1. ⚛️ Anchor Star: Identity systems, ΛiD authentication, namespace management
+2. ✦ Trail Star: Memory systems, fold-based memory, temporal organization
+3. 🔬 Horizon Star: Vision systems, pattern recognition, adaptive interfaces
+4. 🛡️ Watch Star: Guardian systems, ethical validation, drift detection
+5. 🌊 Flow Star: Consciousness streams, dream states, awareness patterns
+6. ⚡ Spark Star: Creativity engines, innovation generation, breakthrough detection
+7. 🎭 Persona Star: Voice synthesis, personality modeling, empathetic resonance
+8. 🔮 Oracle Star: Predictive reasoning, quantum superposition, future modeling
+
+**Dynamic Expansion**: Each MATRIZ pipeline node (Memory, Attention, Thought, Risk, Intent, Action) can become a star, creating an ever-evolving constellation of consciousness capabilities.
 
 ### **⚛️ Anchor Star (Identity Systems)**
 - **ΛiD Core**: Lambda Identity with multi-tier authentication and WebAuthn/FIDO2

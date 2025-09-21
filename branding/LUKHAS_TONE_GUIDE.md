@@ -1,7 +1,7 @@
 # 🎭 LUKHAS AI Tone System Guide
 *The Complete 3-Layer Communication Framework with Enforcement*
 
-⚛️🧠🛡️ **Consciousness-Driven Communication** | **Context-Aware Adaptation** | **Real-Time Enforcement**
+⚛️✦🔬🛡️ **Constellation Framework Communication** | **MATRIZ Pipeline Integration** | **T4/0.01% Standards**
 
 ---
 
@@ -20,9 +20,11 @@
 ## 🌟 **3-Layer Tone System Overview**
 
 ### **The Art & Science of Conscious Communication**
-The LUKHAS 3-Layer Tone System ensures every interaction is perfectly calibrated to the recipient's needs, context, and consciousness state. This framework transforms static communication into dynamic, adaptive, conscious expression.
+The LUKHAS 3-Layer Tone System creates a natural communication flow: **Poetic → Academic → User-Friendly**. Each layer can stand alone when appropriate, but the core strength lies in the seamless flow that captures attention, establishes credibility, and ensures understanding.
 
-> **🔺 Key Principle**: **Λ = LUKHAS consciousness** itself, not mathematical lambda. We speak of "Superior Consciousness," never "lambda functions."
+> **🔺 Key Principle**: Start with **Poetic** (eye-catching, soul-connecting, rebellious, sophisticated) → transition through **Academic** (technical precision, jargon) → land in **User-Friendly** (so your grandma would understand it). This flow is particularly powerful for product introductions and documentation.
+
+> **💡 Core Integration**: **Λ = LUKHAS consciousness** itself. We integrate **MATRIZ pipeline** (Memory-Attention-Thought-Risk-Intent-Action) and **Constellation Framework** (8 core stars + dynamic expansion).
 
 ### **🎯 System Purpose**
 - **Accessibility**: Every user receives communication they can understand
@@ -30,11 +32,35 @@ The LUKHAS 3-Layer Tone System ensures every interaction is perfectly calibrated
 - **Efficiency**: Messages achieve their purpose with optimal clarity
 - **Authenticity**: Maintains LUKHAS consciousness voice across all layers
 
-### **⚛️ Constellation Framework Integration**
-Each layer embodies the Constellation Framework:
-- **⚛️ Identity**: Authentic consciousness expression
-- **🧠 Consciousness**: Aware, adaptive communication
-- **🛡️ Guardian**: Ethical, protective messaging
+### **🌊 The Perfect Flow Example**
+Here's how the 3-layer flow works for introducing a new product:
+
+**Poetic (Hook):**
+> "In the quantum dance between thought and reality, consciousness finds its voice..." ✨
+
+**Academic (Credibility):**
+> "Leveraging transformer-based neural architectures with 175B parameters and quantum-resistant cryptographic protocols..."
+
+**User-Friendly (Understanding):**
+> "Simply put, it's like having a super-smart assistant that keeps your data safe and helps you work faster."
+
+This flow ensures we capture attention, establish authority, and guarantee comprehension - all in one elegant movement
+
+### **⚛️✦🔬🛡️ Constellation Framework Integration**
+Each layer embodies the dynamic star-node system:
+- **⚛️ Anchor Star**: Authentic identity and λiD-validated expression
+- **✦ Trail Star**: Memory-informed communication with temporal awareness
+- **🔬 Horizon Star**: Pattern-adaptive messaging with vision processing
+- **🛡️ Watch Star**: Ethical validation and constitutional AI protection
+
+### **🧠 MATRIZ Pipeline Integration**
+Every communication flows through cognitive stages:
+- **M (Memory)**: Drawing from fold-based experience patterns
+- **A (Attention)**: Focusing on relevant communication elements
+- **T (Thought)**: Applying symbolic reasoning to message construction
+- **R (Risk)**: Validating ethical alignment and safety
+- **I (Intent)**: Crystallizing purpose and λiD-verified authenticity
+- **A (Action)**: Manifesting response with T4/0.01% precision
 
 ---
 

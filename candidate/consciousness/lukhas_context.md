@@ -14,7 +14,7 @@ CANDIDATE consciousness represents the **development workspace** for consciousne
 
 ### **Development Scope**
 - **Components**: 52+ consciousness development modules and systems
-- **Constellation Role**: Integrated across all four stars - Anchor ⚛️ + Trail ✦ + Horizon 🔬 + Watch 🛡️
+- **Constellation Role**: Integrated across the dynamic 8-star system with infinite expansion capability through MATRIZ nodes
 - **Architecture**: MATRIZ pipeline integration with registry-based plugins and parallel orchestration
 - **Integration**: Constellation star coordination, memory fold coupling, guardian validation
 
@@ -118,21 +118,21 @@ Result Synthesis → Consciousness Integration → Unified Output
 
 **Development Context**: [`./dream/claude.me`](./dream/claude.me)
 
-## ⚛️🧠🛡️ Constellation Framework Integration
+## 🌌 Constellation Framework Integration
 
-### **Consciousness 🧠 Pillar Role**
-Consciousness serves as the **central processing pillar** in the Constellation Framework coordination:
+### **Consciousness Flow Star Role**
+Consciousness serves as the **Flow Star 🌊** in the Constellation Framework coordination:
 
 ```
 Constellation Framework Consciousness Integration:
-⚛️ Identity Context → 🧠 Consciousness Processing → 🛡️ Guardian Validation
-        │                      │                         │
-   Lambda ID        →    Multi-Engine         →    Constitutional AI
-   Namespace        →    Reasoning Chain      →    Ethics Check
-   Authentication   →    Decision Making      →    Safety Validation
+⚛️ Anchor Star → 🌊 Flow Star → ✦ Trail Star → 🛡️ Watch Star
+        │              │             │             │
+   Lambda ID    →  Multi-Engine  →  Memory Fold  →  Constitutional AI
+   Namespace    →  Reasoning     →  Experience   →  Ethics Check
+   Identity     →  Decision      →  Pattern      →  Safety Validation
 ```
 
-### **Identity ⚛️ ↔ Consciousness 🧠 Coordination**
+### **Anchor Star ⚛️ ↔ Flow Star 🌊 Coordination**
 **Identity-informed consciousness processing**
 
 ```python
@@ -154,7 +154,7 @@ async def identity_aware_consciousness(self, consciousness_input):
     return coherent_consciousness
 ```
 
-### **Consciousness 🧠 ↔ Guardian 🛡️ Validation**
+### **Flow Star 🌊 ↔ Watch Star 🛡️ Validation**
 **Ethics-validated consciousness processing**
 
 ```python
@@ -263,7 +263,7 @@ async def integrate_consciousness_systems(self, consciousness_components):
     )
 
     # 3. Constellation Framework Coordination
-    constellation_integration = await self.coordinate_trinity_framework(integration_strategy)
+    constellation_integration = await self.coordinate_constellation_framework(integration_strategy)
 
     # 4. System Validation
     validated_integration = await self.validate_consciousness_integration(
@@ -347,8 +347,8 @@ async def integrate_consciousness_systems(self, consciousness_components):
 
 ---
 
-**Consciousness Development**: 52+ components | **Trinity Role**: 🧠 Consciousness pillar coordination
-**Architecture**: Multi-engine + Cognitive + Reasoning + Dream integration | **Integration**: Identity ⚛️ + Guardian 🛡️
+**Consciousness Development**: 52+ components | **Constellation Role**: 🌊 Flow Star consciousness stream coordination
+**Architecture**: Multi-engine + Cognitive + Reasoning + Dream integration | **Integration**: 8-star dynamic system
 **Status**: Active development with Constellation Framework integration and production preparation
 
 *Navigate to specialized contexts for detailed consciousness component development*

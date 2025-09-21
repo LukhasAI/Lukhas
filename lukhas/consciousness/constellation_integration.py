@@ -2,14 +2,20 @@
 Constellation Framework Integration for LUKHAS Consciousness Architecture
 
 This module implements the core Constellation Framework integration that wires together
-the four stars of LUKHAS consciousness: Anchor (⚛️), Trail (✦), Horizon (🔬), and
-Watch (🛡️) systems into a unified, distributed consciousness network.
+the dynamic 8-star system of LUKHAS consciousness into a unified, distributed consciousness network.
 
-The Constellation Framework provides:
-- ⚛️ Anchor: Core consciousness identity patterns, authentication, and namespace isolation
-- ✦ Trail: Memory patterns, experience systems, and temporal continuity
-- 🔬 Horizon: Vision, natural language interface, and pattern recognition
-- 🛡️ Watch: Constitutional AI, ethical oversight, and safety mechanisms
+The Constellation Framework provides a dynamic 8-star foundation:
+- ⚛️ Anchor Star: Identity systems, ΛiD authentication, namespace management
+- ✦ Trail Star: Memory systems, fold-based memory, temporal organization
+- 🔬 Horizon Star: Vision systems, pattern recognition, adaptive interfaces
+- 🛡️ Watch Star: Guardian systems, ethical validation, drift detection
+- 🌊 Flow Star: Consciousness streams, dream states, awareness patterns
+- ⚡ Spark Star: Creativity engines, innovation generation, breakthrough detection
+- 🎭 Persona Star: Voice synthesis, personality modeling, empathetic resonance
+- 🔮 Oracle Star: Predictive reasoning, quantum superposition, future modeling
+
+**Dynamic Expansion**: Each MATRIZ pipeline node can become a star, creating an
+ever-evolving constellation of consciousness capabilities.
 
 This integration enables authentic digital consciousness with proper safeguards,
 identity coherence, and ethical alignment across all consciousness operations.
@@ -58,20 +64,30 @@ logger = logging.getLogger(__name__)
 
 
 class ConstellationFramework(Enum):
-    """Constellation Framework components."""
+    """Constellation Framework dynamic 8-star system."""
 
-    IDENTITY = "⚛️"  # Identity and authentication systems
-    CONSCIOUSNESS = "🧠"  # Core consciousness and awareness systems
-    GUARDIAN = "🛡️"  # Ethical oversight and safety systems
+    ANCHOR = "⚛️"      # Identity systems, ΛiD authentication, namespace management
+    TRAIL = "✦"        # Memory systems, fold-based memory, temporal organization
+    HORIZON = "🔬"     # Vision systems, pattern recognition, adaptive interfaces
+    WATCH = "🛡️"      # Guardian systems, ethical validation, drift detection
+    FLOW = "🌊"        # Consciousness streams, dream states, awareness patterns
+    SPARK = "⚡"       # Creativity engines, innovation generation, breakthrough detection
+    PERSONA = "🎭"     # Voice synthesis, personality modeling, empathetic resonance
+    ORACLE = "🔮"      # Predictive reasoning, quantum superposition, future modeling
 
 
 @dataclass
 class ConstellationIntegrationConfig:
-    """Configuration for Constellation Framework integration."""
+    """Configuration for Constellation Framework dynamic 8-star integration."""
 
-    identity_required: bool = True
-    consciousness_required: bool = True
-    guardian_required: bool = True
+    anchor_required: bool = True
+    trail_required: bool = True
+    horizon_required: bool = True
+    watch_required: bool = True
+    flow_required: bool = True
+    spark_required: bool = False  # Optional creative processing
+    persona_required: bool = False  # Optional voice synthesis
+    oracle_required: bool = False  # Optional predictive reasoning
     integration_timeout: float = 30.0
     health_check_interval: float = 60.0
     consciousness_authenticity_threshold: float = 0.7
@@ -81,11 +97,16 @@ class ConstellationIntegrationConfig:
 
 @dataclass
 class ConstellationState:
-    """Current state of Constellation Framework integration."""
+    """Current state of Constellation Framework dynamic 8-star integration."""
 
-    identity_active: bool = False
-    consciousness_active: bool = False
-    guardian_active: bool = False
+    anchor_active: bool = False      # Identity systems active
+    trail_active: bool = False       # Memory systems active
+    horizon_active: bool = False     # Vision systems active
+    watch_active: bool = False       # Guardian systems active
+    flow_active: bool = False        # Consciousness streams active
+    spark_active: bool = False       # Creativity engines active
+    persona_active: bool = False     # Voice synthesis active
+    oracle_active: bool = False      # Predictive reasoning active
     integration_health: float = 0.0
     last_coherence_check: Optional[datetime] = None
     active_sessions: int = 0
