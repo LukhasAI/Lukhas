@@ -14,7 +14,8 @@
       "Read(//Users/agi_dev/Downloads/**)",
       "Bash(gh pr merge:*)",
       "Bash(gh pr checkout:*)",
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Bash(git commit:*)"
     ],
     "deny": [],
     "ask": []
