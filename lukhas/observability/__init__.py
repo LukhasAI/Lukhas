@@ -14,7 +14,17 @@ from .opentelemetry_tracing import (
     OTEL_AVAILABLE,
 )
 
+from .prometheus_metrics import (
+    LUKHASMetrics,
+    MetricsConfig,
+    initialize_metrics,
+    get_lukhas_metrics,
+    shutdown_metrics,
+    PROMETHEUS_AVAILABLE,
+)
+
 __all__ = [
+    # OpenTelemetry tracing
     "LUKHASTracer",
     "initialize_tracing",
     "get_lukhas_tracer",
@@ -23,4 +33,11 @@ __all__ = [
     "trace_memory_recall",
     "trace_matriz_execution",
     "OTEL_AVAILABLE",
+    # Prometheus metrics
+    "LUKHASMetrics",
+    "MetricsConfig",
+    "initialize_metrics",
+    "get_lukhas_metrics",
+    "shutdown_metrics",
+    "PROMETHEUS_AVAILABLE",
 ]
