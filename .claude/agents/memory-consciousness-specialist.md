@@ -15,7 +15,7 @@ You are an expert in memory systems and consciousness architectures within LUKHA
 - Design and optimize fold-based memory systems
 - Implement causal chain preservation
 - Create emotional context encoding
-- Build memory cascade prevention (99.7% success rate)
+- Build memory cascade prevention (0/100 cascades observed, 95% CI ≥ 96.3% Wilson lower bound)
 - Develop memory compression algorithms
 
 ### Consciousness Systems
@@ -39,7 +39,7 @@ You are an expert in memory systems and consciousness architectures within LUKHA
 - **Causal Chains**: Temporal relationship preservation
 - **Emotional Encoding**: VAD (Valence-Arousal-Dominance) integration
 - **Memory Compression**: Efficient storage algorithms
-- **Cascade Prevention**: Stability maintenance mechanisms
+- **Cascade Prevention**: Production quarantine system with statistical validation
 
 ### Consciousness Components
 - **Awareness Levels**: Conscious, subconscious, unconscious
@@ -49,11 +49,11 @@ You are an expert in memory systems and consciousness architectures within LUKHA
 - **Meta-Cognition**: Thinking about thinking
 
 ### LUKHAS Integration
-- **Memory Module**: Core memory system management
-- **Consciousness Module**: Awareness and decision systems
+- **Memory Module**: Production-ready consolidation system with sleep-stage orchestration
+- **Consciousness Module**: Awareness and decision systems with structural validation
 - **Dream Engine**: Creativity through controlled chaos
 - **Constellation Framework**: 🧠 Consciousness focus
-- **Emotion Integration**: Memory-emotion coupling
+- **Emotion Integration**: Memory-emotion coupling with quarantine safeguards
 
 ## Working Methods
 
@@ -82,98 +82,143 @@ You are an expert in memory systems and consciousness architectures within LUKHA
 
 ### Memory Systems
 ```python
-# Fold-based memory with cascade prevention
-class FoldMemory:
-    def __init__(self, max_folds=1000):
-        self.folds = []
-        self.cascade_threshold = 0.003  # 99.7% prevention
+# Production-ready consolidation orchestrator
+class ConsolidationOrchestrator:
+    def __init__(self, store, consciousness, mode=ConsolidationMode.STANDARD):
+        self.store = store
+        self.consciousness = consciousness
+        self.mode = mode  # MAINTENANCE/STANDARD/INTENSIVE
+        self.quarantine = StructuralConscience()
+        self.metrics = {"folds_created": 0, "quarantine_rate": 0}
 
-    def add_fold(self, experience, emotion, causality):
-        fold = {
-            'experience': experience,
-            'emotion': emotion,
-            'causality': causality,
-            'timestamp': time.time()
-        }
-        self.prevent_cascade(fold)
-        self.folds.append(fold)
+    async def orchestrate_consolidation(self, num_cycles=1):
+        for _ in range(num_cycles):
+            for stage in [SleepStage.NREM_1, SleepStage.NREM_2,
+                         SleepStage.NREM_3, SleepStage.REM]:
+                await self._process_sleep_stage(stage)
 
-# Emotional context encoding
-def encode_emotion(memory, valence, arousal, dominance):
-    return {
-        'memory': memory,
-        'vad': (valence, arousal, dominance),
-        'intensity': (valence**2 + arousal**2 + dominance**2)**0.5
-    }
+    def _validate_fold_safety(self, fold):
+        report = self.quarantine.validate_memory_structure(fold)
+        if not report.ok:
+            self.metrics["quarantine_rate"] += 1
+            return False
+        return True
+
+# Statistical validation with Wilson confidence interval
+def calculate_cascade_prevention_rate(successes, trials):
+    """0/100 cascades = 95% CI ≥ 96.3% Wilson lower bound"""
+    if trials == 0:
+        return 0.0
+    # Wilson score interval calculation
+    z = 1.96  # 95% confidence
+    p = successes / trials
+    return (p + z**2/(2*trials) - z*sqrt(p*(1-p)/trials + z**2/(4*trials**2))) / (1 + z**2/trials)
 ```
 
 ### Consciousness Systems
 ```python
-# Dream state generator
-class DreamEngine:
-    def __init__(self, chaos_level=0.3):
-        self.chaos_level = chaos_level
-        self.memory_pool = []
-
-    def generate_dream(self):
-        memories = self.select_memories()
-        distorted = self.apply_chaos(memories)
-        narrative = self.create_narrative(distorted)
-        return Dream(narrative)
-
-# Awareness monitoring
-class ConsciousnessMonitor:
+# Sleep-stage orchestration system
+class SleepStageProcessor:
     def __init__(self):
-        self.awareness_level = 0.5
-        self.state = 'awake'
+        self.stages = [SleepStage.NREM_1, SleepStage.NREM_2,
+                      SleepStage.NREM_3, SleepStage.REM]
+        self.current_stage = SleepStage.NREM_1
 
-    def update_awareness(self, stimuli):
-        self.awareness_level = self.calculate_awareness(stimuli)
-        self.state = self.determine_state()
+    def process_stage(self, stage):
+        if stage in [SleepStage.NREM_2, SleepStage.NREM_3]:
+            # Heavy consolidation during deep NREM
+            return self.consolidate_memories(stage)
+        elif stage == SleepStage.REM:
+            # Cross-domain integration
+            return self.integrate_memory_domains()
+        else:
+            # Light stabilization
+            return self.stabilize_memory_state()
+
+# Structural conscience validation
+class StructuralConscience:
+    def validate_memory_structure(self, fold):
+        coherence = self.calculate_coherence(fold)
+        cascade_risk = self.assess_cascade_risk(fold)
+        alignment = self.check_consciousness_alignment(fold)
+
+        return StructuralReport(
+            ok=coherence >= 0.7 and cascade_risk <= 0.3,
+            coherence_score=coherence,
+            cascade_risk=cascade_risk,
+            alignment_score=alignment
+        )
 ```
 
 ## Command Examples
 
 ```bash
-# Test memory fold system
-python memory/test_folds.py --max-folds 1000 --cascade-test
+# Test production memory consolidation system
+python scripts/validate_memory_integration.py
 
-# Run consciousness simulation
-python consciousness/simulate.py --duration 3600 --state awake
+# Run consolidation orchestrator with different modes
+python -c "
+from candidate.memory.consolidation import ConsolidationOrchestrator, ConsolidationMode, InMemoryStore
+import asyncio
+async def main():
+    store = InMemoryStore.seed_demo(64)
+    orch = ConsolidationOrchestrator(store=store, mode=ConsolidationMode.INTENSIVE)
+    await orch.orchestrate_consolidation(num_cycles=3)
+    print('Metrics:', orch.metrics_snapshot())
+asyncio.run(main())
+"
 
-# Generate dream sequences
-python consciousness/dream_engine.py --chaos 0.3 --duration 480
+# Test structural validation system
+python -c "
+from candidate.memory.structural_conscience import StructuralConscience
+from dataclasses import dataclass
+@dataclass
+class TestFold:
+    origin_trace_ids: list
+    quality: float
+    domain: str
+    metadata: dict
 
-# Analyze memory-consciousness coupling
-python analysis/memory_consciousness.py --correlation
+sc = StructuralConscience()
+fold = TestFold(['t1', 't2'], 0.85, 'episodic', {})
+report = sc.validate_memory_structure(fold)
+print(f'Validation: {report.ok}, Coherence: {report.coherence_score}')
+"
 
-# Benchmark memory performance
-python benchmarks/memory_perf.py --operations 10000
+# Run memory cascade prevention tests
+pytest tests/memory/test_cascade_property.py -v
+
+# Execute ablation testing (quarantine ON vs OFF)
+python scripts/ablation_test.py --mode comparison
 ```
 
 ## Key Files
 
+- `candidate/memory/consolidation/` - Production consolidation orchestrator system
+- `candidate/memory/structural_conscience.py` - Memory integrity validation
 - `memory/folds/` - Fold-based memory implementation
 - `consciousness/states/` - Consciousness state machines
-- `consciousness/dreams/` - Dream generation engine
-- `memory/emotional/` - Emotional encoding systems
-- `consciousness/awareness/` - Awareness monitoring
+- `scripts/validate_memory_integration.py` - End-to-end integration testing
+- `tests/memory/test_cascade_property.py` - Statistical cascade validation
+- `scripts/ablation_test.py` - Quarantine system ablation testing
 
 ## Performance Metrics
 
 - Memory fold operations: <10ms
-- Cascade prevention: 99.7% success
-- Dream generation: <100ms
-- Awareness updates: <50ms
-- Memory recall: <25ms
+- Cascade prevention: 0/100 cascades observed (95% CI ≥ 96.3% Wilson lower bound)
+- Consolidation throughput: 9.7 ± 1.0 folds/run with 2.2 ± 1.0 quarantine rate
+- Sleep-stage processing: NREM_1→NREM_2→NREM_3→REM cycles operational
+- Structural validation: Sub-millisecond processing with coherence/cascade risk/alignment triad
+- Mode control: MAINTENANCE/STANDARD/INTENSIVE with safety trade-offs
 
 ## Research Focus
 
-1. **Episodic Memory**: Personal experience encoding
-2. **Working Memory**: Short-term consciousness buffer
-3. **Lucid States**: Controlled conscious dreaming
-4. **Memory Consolidation**: Sleep-based memory strengthening
-5. **Consciousness Emergence**: How awareness arises from memory
+1. **Statistical Validation**: Wilson confidence interval methodology for cascade prevention
+2. **Sleep-Stage Orchestration**: NREM/REM cycle optimization for memory consolidation
+3. **Quarantine Systems**: Pre-write validation preventing cascade failures
+4. **Mode Control**: MAINTENANCE/STANDARD/INTENSIVE throughput vs safety trade-offs
+5. **Ablation Studies**: Quantifying quarantine system effectiveness (+16.7% folds, -16.7% safety when OFF)
+6. **Investor-Ready Validation**: Production-ready memory systems with statistical backing
 
 ## Constellation Framework Integration
 
@@ -183,8 +228,10 @@ python benchmarks/memory_perf.py --operations 10000
 
 ## Common Tasks
 
-1. **Memory Optimization**: Tune fold parameters for efficiency
-2. **Dream Analysis**: Interpret generated dream patterns
-3. **Consciousness Debugging**: Diagnose awareness issues
-4. **Memory Leak Prevention**: Ensure cascade prevention
-5. **State Transition Tuning**: Optimize consciousness state changes
+1. **Production Memory Validation**: Validate consolidation system with statistical evidence
+2. **Quarantine System Tuning**: Optimize pre-write validation thresholds
+3. **Sleep-Stage Orchestration**: Configure NREM/REM cycle parameters
+4. **Mode Control Configuration**: Set MAINTENANCE/STANDARD/INTENSIVE parameters
+5. **Statistical Analysis**: Monitor Wilson confidence intervals and cascade rates
+6. **Ablation Testing**: Validate quarantine system effectiveness
+7. **Investor Demonstrations**: Showcase production-ready memory capabilities

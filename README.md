@@ -35,7 +35,7 @@ Development Lane (candidate/) → Integration Lane (core/) → Production Lane (
 
 The **MATRIZ** (Memory-Attention-Thought-Action-Decision-Awareness) engine implements the core cognitive processing pipeline:
 
-1. **Memory**: Fold-based memory with cascade prevention (96.3%+ CI, 0/100 cascades observed)
+1. **Memory**: Fold-based memory with statistical validation (0/100 cascades observed, 95% CI ≥ 96.3% Wilson lower bound)
 2. **Attention**: Focus mechanisms and pattern recognition
 3. **Thought**: Symbolic reasoning and inference
 4. **Action**: Decision execution and external interface

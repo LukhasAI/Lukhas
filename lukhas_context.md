@@ -62,7 +62,7 @@ LUKHAS is a comprehensive AGI architecture spanning **7,000+ Python files** acro
 - `lukhas/identity/claude.me` - Identity integration layer
 
 ### **✦ Trail Star (Memory Systems)**
-- **Fold-Based Memory**: Hierarchical memory with 99.7% cascade prevention
+- **Fold-Based Memory**: Hierarchical memory with statistical validation (0/100 cascades observed, 95% CI ≥ 96.3% Wilson lower bound)
 - **Temporal Memory**: Experience patterns and chronological organization
 - **Memory Coherence**: Experience integration with consciousness coupling
 - **MATRIZ Integration**: Memory-Attention-Thought-Risk-Intent-Action pipeline
@@ -252,7 +252,7 @@ CANDIDATE Research → LUKHAS Integration → PRODUCTS Deployment
 - **Constellation Framework**: Active coordination across all lanes
 
 ### **Key Performance Metrics**
-- **Memory System**: 1000-fold architecture with 99.7% cascade prevention
+- **Memory System**: 1000-fold architecture with production quarantine system (0/100 cascades observed, 95% CI ≥ 96.3% Wilson lower bound)
 - **Authentication**: <100ms p95 latency with multi-modal support
 - **Ethics Processing**: Real-time constitutional AI validation
 - **Consciousness Integration**: Multi-engine coordination with Constellation Framework
