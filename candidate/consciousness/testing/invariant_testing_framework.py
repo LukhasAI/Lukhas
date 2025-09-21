@@ -140,7 +140,7 @@ class MathematicalInvariant(ABC):
         pass
 
 
-class TrinityCoherenceInvariant(MathematicalInvariant):
+class ConstellationCoherenceInvariant(MathematicalInvariant):
     """
     Constellation Framework Coherence Invariant
 
@@ -402,7 +402,7 @@ class ConsciousnessInvariantTestingFramework:
 
         # Initialize invariant checkers
         self.invariants: dict[InvariantType, MathematicalInvariant] = {
-            InvariantType.TRINITY_COHERENCE: TrinityCoherenceInvariant(),
+            InvariantType.TRINITY_COHERENCE: ConstellationCoherenceInvariant(),
             InvariantType.MEMORY_CASCADE_PREVENTION: MemoryCascadePreventionInvariant(),
             InvariantType.QUANTUM_STATE_CONSERVATION: QuantumStateConservationInvariant(),
             InvariantType.ATTENTION_CONSERVATION: AttentionConservationInvariant(),

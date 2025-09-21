@@ -114,7 +114,7 @@ class ModuleAuthContext:
             self.metadata = {}
 
 
-class TrinityFrameworkIntegration:
+class ConstellationFrameworkIntegration:
     """
     ⚛️🧠🛡️ Constellation Framework Authentication Integration
 
@@ -201,7 +201,7 @@ class AuthCrossModuleIntegrator:
         """Initialize cross-module integration system"""
         self.glyph_engine = GlyphEngine() if GlyphEngine else None
         self.kernel_bus = SymbolicKernelBus() if SymbolicKernelBus else None
-        self.constellation_integration = TrinityFrameworkIntegration()
+        self.constellation_integration = ConstellationFrameworkIntegration()
 
         # Module registrations and contexts
         self.registered_modules: dict[ModuleType, dict[str, Any]] = {}
@@ -369,7 +369,7 @@ class AuthCrossModuleIntegrator:
             if not adapter:
                 return False
 
-            # Get Trinity context for module
+            # Get Constellation context for module
             triad_context = self.constellation_integration.get_triad_context_for_module(module_type, auth_context)
 
             # Create GLYPH message
@@ -801,6 +801,6 @@ __all__ = [
     "AuthModuleMessage",
     "ModuleAuthContext",
     "ModuleType",
-    "TrinityFrameworkIntegration",
+    "ConstellationFrameworkIntegration",
     "auth_cross_module_integrator",
 ]

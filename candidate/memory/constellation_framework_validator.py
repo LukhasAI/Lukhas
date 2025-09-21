@@ -36,7 +36,7 @@ class ValidationLevel(Enum):
 
 
 @dataclass
-class TrinityValidationResult:
+class ConstellationValidationResult:
     """Result of Constellation Framework validation"""
     component: ConstellationComponent
     validation_level: ValidationLevel
@@ -100,7 +100,7 @@ class ConstellationFrameworkValidator:
         }
 
         # Validation state
-        self.validation_results: list[TrinityValidationResult] = []
+        self.validation_results: list[ConstellationValidationResult] = []
         self.last_validation: Optional[datetime] = None
 
         # System references for validation
@@ -181,7 +181,7 @@ class ConstellationFrameworkValidator:
 
         return overall_results
 
-    async def validate_identity_component(self, validation_level: ValidationLevel = ValidationLevel.STANDARD) -> TrinityValidationResult:
+    async def validate_identity_component(self, validation_level: ValidationLevel = ValidationLevel.STANDARD) -> ConstellationValidationResult:
         """Validate ⚛️ Identity component specifically"""
 
         self.logger.info("Validating Constellation Identity component")
@@ -235,7 +235,7 @@ class ConstellationFrameworkValidator:
         # Determine pass/fail
         passed = (overall_score >= 0.8 and len(missing_features) == 0)
 
-        return TrinityValidationResult(
+        return ConstellationValidationResult(
             component=ConstellationComponent.IDENTITY,
             validation_level=validation_level,
             passed=passed,
@@ -245,7 +245,7 @@ class ConstellationFrameworkValidator:
             details=details
         )
 
-    async def validate_consciousness_component(self, validation_level: ValidationLevel = ValidationLevel.STANDARD) -> TrinityValidationResult:
+    async def validate_consciousness_component(self, validation_level: ValidationLevel = ValidationLevel.STANDARD) -> ConstellationValidationResult:
         """Validate 🧠 Consciousness component specifically"""
 
         self.logger.info("Validating Constellation Consciousness component")
@@ -299,7 +299,7 @@ class ConstellationFrameworkValidator:
         # Determine pass/fail
         passed = (overall_score >= 0.75 and len(missing_features) == 0)
 
-        return TrinityValidationResult(
+        return ConstellationValidationResult(
             component=ConstellationComponent.CONSCIOUSNESS,
             validation_level=validation_level,
             passed=passed,
@@ -309,7 +309,7 @@ class ConstellationFrameworkValidator:
             details=details
         )
 
-    async def validate_guardian_component(self, validation_level: ValidationLevel = ValidationLevel.STANDARD) -> TrinityValidationResult:
+    async def validate_guardian_component(self, validation_level: ValidationLevel = ValidationLevel.STANDARD) -> ConstellationValidationResult:
         """Validate 🛡️ Guardian component specifically"""
 
         self.logger.info("Validating Constellation Guardian component")
@@ -364,7 +364,7 @@ class ConstellationFrameworkValidator:
         passed = (overall_score >= 0.9 and len(missing_features) == 0 and
                  safety_score >= self.constellation_criteria[ConstellationComponent.GUARDIAN]['safety_threshold'])
 
-        return TrinityValidationResult(
+        return ConstellationValidationResult(
             component=ConstellationComponent.GUARDIAN,
             validation_level=validation_level,
             passed=passed,
@@ -426,7 +426,7 @@ class ConstellationFrameworkValidator:
         self.logger.debug("Loaded Constellation validation criteria")
 
     async def _validate_trinity_component(self, component: ConstellationComponent,
-                                        validation_level: ValidationLevel) -> TrinityValidationResult:
+                                        validation_level: ValidationLevel) -> ConstellationValidationResult:
         """Validate specific Constellation component"""
 
         if component == ConstellationComponent.IDENTITY:
@@ -614,7 +614,7 @@ class ConstellationFrameworkValidator:
 
         return features
 
-    def _result_to_dict(self, result: TrinityValidationResult) -> dict[str, Any]:
+    def _result_to_dict(self, result: ConstellationValidationResult) -> dict[str, Any]:
         """Convert validation result to dictionary"""
 
         return {

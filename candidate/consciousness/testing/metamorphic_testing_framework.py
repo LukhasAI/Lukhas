@@ -624,7 +624,7 @@ class EmotionalStateSymmetryRelation(MetamorphicRelation):
         return "Emotional state symmetry: valence flip preserves emotional magnitude and processing characteristics"
 
 
-class TrinityBalanceInvarianceRelation(MetamorphicRelation):
+class ConstellationBalanceInvarianceRelation(MetamorphicRelation):
     """
     Constellation Balance Invariance Metamorphic Relation
 
@@ -717,7 +717,7 @@ class ConsciousnessMetamorphicTestingFramework:
             MetamorphicRelationType.PHASE_SYMMETRY: PhaseSymmetryRelation(),
             MetamorphicRelationType.ATTENTION_CONSERVATION: AttentionConservationRelation(),
             MetamorphicRelationType.EMOTIONAL_STATE_SYMMETRY: EmotionalStateSymmetryRelation(),
-            MetamorphicRelationType.TRINITY_BALANCE_INVARIANCE: TrinityBalanceInvarianceRelation(),
+            MetamorphicRelationType.TRINITY_BALANCE_INVARIANCE: ConstellationBalanceInvarianceRelation(),
         }
 
         # Test execution tracking

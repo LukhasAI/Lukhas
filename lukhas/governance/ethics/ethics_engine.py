@@ -1,6 +1,6 @@
 """
 LUKHAS AI Governance Ethics Engine
-Constitutional AI Framework for Trinity-Compliant Ethics
+Constitutional AI Framework for Constellation-Compliant Ethics
 
 ⚛️🧠🛡️ Constellation Framework: Identity-Consciousness-Guardian
 """

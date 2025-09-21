@@ -1,22 +1,22 @@
 {
   "symbol": "LOYALTY",
-  "user": "demo",
-  "seed": 7,
+  "user": "test-user",
+  "seed": 42,
   "recursive": false,
-  "timestamp": "2025-09-21T18:30:31.444979+00:00",
-  "driftDelta": 0.072,
-  "driftScore": 0.082,
-  "affect_delta": 0.015,
-  "collapseHash": "2a4074cef7fafb9b",
+  "timestamp": "2025-09-21T22:06:16.703392+00:00",
+  "driftDelta": 0.131,
+  "driftScore": 0.145,
+  "affect_delta": -0.022,
+  "collapseHash": "49bc40cbd60ac785",
   "top_symbols": [
-    "LOYALTY_resonance",
     "LOYALTY_memory",
-    "LOYALTY_echo"
+    "LOYALTY_echo",
+    "LOYALTY_resonance"
   ],
   "telemetry": {
     "attempts": 1,
     "successes": 1,
     "denials": 0,
-    "p95_latency_ms": 50.433
+    "p95_latency_ms": 61.741
   }
 }

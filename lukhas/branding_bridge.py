@@ -31,7 +31,7 @@ logger = logging.getLogger(__name__)
 # Core System Constants
 SYSTEM_NAME = "LUKHAS AI"
 SYSTEM_VERSION = "2.0"
-# New naming: Constellation replaces Trinity; keep the old name as a compatible alias.
+# Constellation Framework: Primary cognitive architecture naming.
 CONSTELLATION_FRAMEWORK = "✦ Constellation Framework"
 CONSTELLATION_FRAMEWORK = CONSTELLATION_FRAMEWORK
 
@@ -95,7 +95,7 @@ def _get_system_signature() -> str:
 
 
 def get_triad_description() -> dict[str, Any]:
-    """Get comprehensive Constellation (formerly Trinity) Framework description.
+    """Get comprehensive Constellation Framework description.
 
     The function name is preserved for backwards compatibility. The returned
     "framework" value uses the new CONSTELLATION_FRAMEWORK string.
@@ -111,7 +111,7 @@ def get_triad_description() -> dict[str, Any]:
 def validate_branding_compliance(text: str) -> list[str]:
     """Return list of branding issues found in text.
 
-    Uses Constellation/Trinity-approved terminology rules.
+    Uses Constellation Framework approved terminology rules.
     """
     if not isinstance(text, str):
         return []
@@ -263,7 +263,7 @@ class LUKHASBrandingBridge:
         return f"{SYSTEM_NAME} {CONSTELLATION_FRAMEWORK} v{SYSTEM_VERSION}"
 
     def get_constellation_context(self, emphasis: str = "balanced") -> dict[str, Any]:
-        """Get Constellation (aka Trinity) Framework context for operations
+        """Get Constellation Framework context for operations
 
         DEPRECATION: This method name is preserved for backwards compatibility.
         New code should call `get_constellation_context` or `get_bridge().get_constellation_context`.

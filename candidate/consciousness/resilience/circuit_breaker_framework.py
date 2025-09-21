@@ -626,7 +626,7 @@ class MemoryCascadePreventionBreaker(ConsciousnessCircuitBreaker):
         return max(0.0, 1.0 - (recent_avg - older_avg) * 100)
 
 
-class TrinityCoherencePreservationBreaker(ConsciousnessCircuitBreaker):
+class ConstellationCoherencePreservationBreaker(ConsciousnessCircuitBreaker):
     """
     Circuit breaker for Constellation Framework coherence preservation
 
@@ -716,7 +716,7 @@ class TrinityCoherencePreservationBreaker(ConsciousnessCircuitBreaker):
         )
 
         if current_coherence < self.config.triad_coherence_threshold * 0.8:  # 20% below threshold
-            raise TrinityCoherenceError(f"Post-execution Constellation coherence critical: {current_coherence:.3f}")
+            raise ConstellationCoherenceError(f"Post-execution Constellation coherence critical: {current_coherence:.3f}")
 
     async def _handle_blocked_request(self, *args, **kwargs) -> Any:
         """Handle blocked request with Constellation-preserving fallback"""
@@ -850,7 +850,7 @@ class ConsciousnessCircuitBreakerFramework:
             triad_coherence_threshold=0.6,
             timeout_duration=10.0,
         )
-        self.circuit_breakers[CircuitBreakerType.TRINITY_COHERENCE_PRESERVATION] = TrinityCoherencePreservationBreaker(
+        self.circuit_breakers[CircuitBreakerType.TRINITY_COHERENCE_PRESERVATION] = ConstellationCoherencePreservationBreaker(
             triad_config
         )
 
@@ -1011,7 +1011,7 @@ class MemoryCascadeRiskError(ConsciousnessProtectionError):
     pass
 
 
-class TrinityCoherenceError(ConsciousnessProtectionError):
+class ConstellationCoherenceError(ConsciousnessProtectionError):
     """Raised when Constellation coherence is compromised"""
 
     pass
@@ -1034,7 +1034,7 @@ async def main():
     async def triad_coherence_operation(coherence_impact: float = 0.0):
         """Simulate operation that affects Constellation coherence"""
         if coherence_impact > 0.3:  # High impact on coherence
-            raise TrinityCoherenceError("Operation would destabilize Constellation coherence")
+            raise ConstellationCoherenceError("Operation would destabilize Constellation coherence")
         return {"status": "success", "coherence_impact": coherence_impact}
 
     print("Testing Memory Cascade Prevention Circuit Breaker")
@@ -1072,14 +1072,14 @@ async def main():
             )
             print(f"Impact {impact}: {result['status']}")
 
-        except (TrinityCoherenceError, CircuitBreakerOpenError) as e:
+        except (ConstellationCoherenceError, CircuitBreakerOpenError) as e:
             print(f"Impact {impact}: BLOCKED - {e}")
 
         await asyncio.sleep(0.1)
 
     # Show Constellation breaker status
     constellation_status = framework.get_breaker_status(CircuitBreakerType.TRINITY_COHERENCE_PRESERVATION)
-    print(f"\nTrinity Coherence Preservation Breaker Status:")
+    print(f"\nConstellation Coherence Preservation Breaker Status:")
     print(f"  State: {constellation_status['state']}")
     print(f"  Success Rate: {constellation_status['success_rate']:.1%}")
     print(f"  Trip Count: {constellation_status['trip_count']}")

@@ -393,7 +393,7 @@ class AuthGlyphRegistry:
             else:
                 constitutional_glyph = self.get_glyph("constitutional_violation").symbol
 
-            # Create Trinity GLYPH
+            # Create Constellation GLYPH
             triad_glyph = self._create_triad_glyph(access_context, session_context)
 
             # Create composite GLYPH
@@ -445,7 +445,7 @@ class AuthGlyphRegistry:
 
     def _create_triad_glyph(self, access_context: dict[str, Any], session_context: dict[str, Any]) -> str:
         """Create Constellation Framework GLYPH"""
-        # Get Trinity symbols
+        # Get Constellation symbols
         identity_symbol = self.get_glyph("triad_identity").symbol
         consciousness_symbol = self.get_glyph("triad_consciousness").symbol
         guardian_symbol = self.get_glyph("triad_guardian").symbol

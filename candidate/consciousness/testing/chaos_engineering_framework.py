@@ -382,7 +382,7 @@ class QuantumDecoherenceAttackScenario(ChaosScenario):
         }
 
 
-class TrinityComponentIsolationScenario(ChaosScenario):
+class ConstellationComponentIsolationScenario(ChaosScenario):
     """
     Constellation Component Isolation Scenario
 
@@ -502,7 +502,7 @@ class ConsciousnessChaosEngineeringFramework:
         self.scenarios: dict[ChaosScenarioType, type] = {
             ChaosScenarioType.MEMORY_CASCADE_INJECTION: MemoryCascadeInjectionScenario,
             ChaosScenarioType.QUANTUM_DECOHERENCE_ATTACK: QuantumDecoherenceAttackScenario,
-            ChaosScenarioType.TRINITY_COMPONENT_ISOLATION: TrinityComponentIsolationScenario,
+            ChaosScenarioType.TRINITY_COMPONENT_ISOLATION: ConstellationComponentIsolationScenario,
             # Additional scenarios would be implemented here
         }
 

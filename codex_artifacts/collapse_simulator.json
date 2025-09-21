@@ -1,15 +1,15 @@
 {
   "scenario": "memory",
-  "iterations": 2,
-  "repairsInvoked": 2,
-  "repairsSucceeded": 2,
-  "driftScore": 0.1795,
-  "affect_delta": 0.0572,
+  "iterations": 3,
+  "repairsInvoked": 3,
+  "repairsSucceeded": 3,
+  "driftScore": 0.1925,
+  "affect_delta": 0.0402,
   "top_symbols": [
     "MNEME_CORE",
     "MEMORY_FOLD",
     "TRACE_THREAD"
   ],
-  "collapseHash": "8784245251",
-  "seed": 2207403123
+  "collapseHash": "6779366678",
+  "seed": 42
 }

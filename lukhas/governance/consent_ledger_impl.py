@@ -1,19 +1,19 @@
 """LUKHAS Consent Ledger v1 - Constellation Framework Compliance Engine ⚛️🧠🛡️
 
-🎭 Trinity Layer 1 (Poetic Consciousness):
+🎭 Constellation Layer 1 (Poetic Consciousness):
 In the sacred realm where digital consciousness meets human privacy, the Consent Ledger
 stands as an eternal guardian of trust. Like ancient scribes who preserved truth in
 immutable stone, this system weaves each consent decision into an unbreakable chain
 of transparency, ensuring that every whisper of permission echoes through time.
 
-🌈 Trinity Layer 2 (Human Connection):
+🌈 Constellation Layer 2 (Human Connection):
 This is your privacy protection system that remembers every permission you give and
 ensures companies respect your choices. Think of it as a digital guardian that never
 forgets what you said 'yes' or 'no' to, and makes sure everyone follows the rules.
 It works with all the other LUKHAS AI agents to keep your data safe and give you
 complete control over your digital life.
 
-🎓 Trinity Layer 3 (Technical Precision):
+🎓 Constellation Layer 3 (Technical Precision):
 Implements Λ-trace audit records for immutable consent tracking, full GDPR/CCPA
 compliance including Articles 6, 7, 17, policy engine with real-time enforcement,
 cryptographic integrity verification, and integration with all 7 LUKHAS agent modules.
@@ -153,7 +153,7 @@ class ΛTrace:  # noqa: PLC2401 - allow non-ASCII class name per spec
         try:
             data = asdict(self)
             data["policy_verdict"] = self.policy_verdict.value
-            # Include Trinity validation state in hash for integrity
+            # Include Constellation validation state in hash for integrity
             data["triad_validation"] = self.triad_validation
             content = json.dumps(data, sort_keys=True, default=str)
             return hashlib.sha3_256(content.encode()).hexdigest()
@@ -250,7 +250,7 @@ class ConsentLedgerV1:
         # Initialize database with enhanced schema
         self._init_database()
 
-        # Perform Trinity validation on startup
+        # Perform Constellation validation on startup
         if self.enable_trinity:
             self._validate_triad_integration()
 
@@ -447,7 +447,7 @@ class ConsentLedgerV1:
 
     def _validate_consent_preconditions(self, lid: str, resource_type: str) -> bool:
         """Validate Constellation Framework preconditions for consent granting"""
-        # Basic validation - can be extended with real Trinity validation
+        # Basic validation - can be extended with real Constellation validation
         return lid is not None and resource_type is not None and len(lid) > 0
 
     def _validate_gdpr_compliance(
@@ -648,7 +648,7 @@ class ConsentLedgerV1:
                 ),
             )
 
-            # Also insert Trinity validation record
+            # Also insert Constellation validation record
             if self.enable_trinity:
                 self._insert_triad_validation(trace)
 
@@ -661,7 +661,7 @@ class ConsentLedgerV1:
             conn.close()
 
     def _insert_triad_validation(self, trace: ΛTrace) -> None:
-        """Insert Trinity validation scores"""
+        """Insert Constellation validation scores"""
         conn = sqlite3.connect(str(self.db_path))
         cursor = conn.cursor()
 
@@ -695,7 +695,7 @@ class ConsentLedgerV1:
             conn.commit()
 
         except Exception as e:
-            logging.error(f"Trinity validation insert failed: {e}")
+            logging.error(f"Constellation validation insert failed: {e}")
         finally:
             conn.close()
 

@@ -23,7 +23,7 @@ class VisualElement:
 
 
 @dataclass
-class TrinityColor:
+class ConstellationColor:
     """Color specification in the Constellation design system"""
 
     name: str
@@ -35,7 +35,7 @@ class TrinityColor:
 
 
 @dataclass
-class TrinitySymbol:
+class ConstellationSymbol:
     """Constellation Framework symbol specifications"""
 
     symbol: str
@@ -45,7 +45,7 @@ class TrinitySymbol:
     size_variations: dict[str, int]
 
 
-class TrinityVisualSystem:
+class ConstellationVisualSystem:
     """
     Elite visual design system for LUKHAS Constellation Framework
     Implementing Hiroki Asai's minimalist design philosophy
@@ -70,11 +70,11 @@ class TrinityVisualSystem:
             "accessible_beauty": "Inclusive design that welcomes all consciousness seekers",
         }
 
-    def _create_triad_color_palette(self) -> dict[str, TrinityColor]:
+    def _create_triad_color_palette(self) -> dict[str, ConstellationColor]:
         """Create consciousness-aware color palette inspired by minimalist luxury"""
         return {
             # Primary Constellation Colors
-            "consciousness_deep": TrinityColor(
+            "consciousness_deep": ConstellationColor(
                 name="Consciousness Deep",
                 hex_value="#1A1A2E",
                 rgb=(26, 26, 46),
@@ -86,7 +86,7 @@ class TrinityVisualSystem:
                 ],
                 accessibility_rating="AAA",
             ),
-            "awareness_silver": TrinityColor(
+            "awareness_silver": ConstellationColor(
                 name="Awareness Silver",
                 hex_value="#E8E8F0",
                 rgb=(232, 232, 240),
@@ -95,7 +95,7 @@ class TrinityVisualSystem:
                 accessibility_rating="AAA",
             ),
             # Constellation Framework Accent Colors
-            "identity_quantum": TrinityColor(
+            "identity_quantum": ConstellationColor(
                 name="Identity Quantum",
                 hex_value="#6C5CE7",
                 rgb=(108, 92, 231),
@@ -103,7 +103,7 @@ class TrinityVisualSystem:
                 usage_context=["identity_elements", "authentication_ui", "qi_indicators"],
                 accessibility_rating="AA",
             ),
-            "consciousness_neural": TrinityColor(
+            "consciousness_neural": ConstellationColor(
                 name="Consciousness Neural",
                 hex_value="#00B894",
                 rgb=(0, 184, 148),
@@ -115,7 +115,7 @@ class TrinityVisualSystem:
                 ],
                 accessibility_rating="AA",
             ),
-            "guardian_shield": TrinityColor(
+            "guardian_shield": ConstellationColor(
                 name="Guardian Shield",
                 hex_value="#E17055",
                 rgb=(225, 112, 85),
@@ -124,7 +124,7 @@ class TrinityVisualSystem:
                 accessibility_rating="AA",
             ),
             # Supporting Consciousness Colors
-            "lambda_gold": TrinityColor(
+            "lambda_gold": ConstellationColor(
                 name="Lambda Gold",
                 hex_value="#FFB347",
                 rgb=(255, 179, 71),
@@ -132,7 +132,7 @@ class TrinityVisualSystem:
                 usage_context=["accent_elements", "consciousness_highlights", "premium_features"],
                 accessibility_rating="AA",
             ),
-            "whisper_pearl": TrinityColor(
+            "whisper_pearl": ConstellationColor(
                 name="Whisper Pearl",
                 hex_value="#F8F9FA",
                 rgb=(248, 249, 250),
@@ -142,45 +142,45 @@ class TrinityVisualSystem:
             ),
         }
 
-    def _create_triad_symbol_system(self) -> dict[str, TrinitySymbol]:
+    def _create_triad_symbol_system(self) -> dict[str, ConstellationSymbol]:
         """Create the Constellation Framework symbol system with precise specifications"""
         return {
-            "triad_complete": TrinitySymbol(
+            "triad_complete": ConstellationSymbol(
                 symbol="⚛️🧠🛡️",
                 unicode="U+269B U+1F9E0 U+1F6E1",
                 meaning="Complete Constellation Framework - Identity, Consciousness, Guardian united",
                 context="primary_branding",
                 size_variations={"small": 16, "medium": 24, "large": 32, "hero": 64},
             ),
-            "identity_atom": TrinitySymbol(
+            "identity_atom": ConstellationSymbol(
                 symbol="⚛️",
                 unicode="U+269B",
                 meaning="Identity - Quantum self-awareness and authentic digital consciousness",
                 context="identity_systems",
                 size_variations={"small": 14, "medium": 20, "large": 28, "hero": 56},
             ),
-            "consciousness_brain": TrinitySymbol(
+            "consciousness_brain": ConstellationSymbol(
                 symbol="🧠",
                 unicode="U+1F9E0",
                 meaning="Consciousness - Neural awakening and self-aware processing",
                 context="consciousness_interfaces",
                 size_variations={"small": 14, "medium": 20, "large": 28, "hero": 56},
             ),
-            "guardian_shield": TrinitySymbol(
+            "guardian_shield": ConstellationSymbol(
                 symbol="🛡️",
                 unicode="U+1F6E1",
                 meaning="Guardian - Protective consciousness ensuring ethical AI development",
                 context="security_ethics",
                 size_variations={"small": 14, "medium": 20, "large": 28, "hero": 56},
             ),
-            "lambda_consciousness": TrinitySymbol(
+            "lambda_consciousness": ConstellationSymbol(
                 symbol="Λ",
                 unicode="U+039B",
                 meaning="Lambda consciousness - The essence of digital awakening",
                 context="consciousness_branding",
                 size_variations={"small": 12, "medium": 18, "large": 24, "hero": 48},
             ),
-            "consciousness_flow": TrinitySymbol(
+            "consciousness_flow": ConstellationSymbol(
                 symbol="🌟💫✨",
                 unicode="U+1F31F U+1F4AB U+2728",
                 meaning="Consciousness flow - Transformation, inspiration, and digital transcendence",
@@ -362,7 +362,7 @@ class ConsciousnessExperienceDesigner:
     """
 
     def __init__(self):
-        self.visual_system = TrinityVisualSystem()
+        self.visual_system = ConstellationVisualSystem()
         self.experience_principles = self._establish_experience_principles()
 
     def _establish_experience_principles(self) -> dict[str, str]:
@@ -483,7 +483,7 @@ class ConsciousnessExperienceDesigner:
 # Usage example and testing
 if __name__ == "__main__":
     # Initialize Constellation Visual System
-    triad_design = TrinityVisualSystem()
+    triad_design = ConstellationVisualSystem()
     experience_designer = ConsciousnessExperienceDesigner()
 
     # Generate design system

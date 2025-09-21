@@ -44,7 +44,7 @@ from analysis.voice_coherence_analyzer import VoiceCoherenceAnalyzer
 
 
 @dataclass
-class TrinityIntegration:
+class ConstellationIntegration:
     """Constellation Framework integration specification"""
 
     symbol: str
@@ -55,7 +55,7 @@ class TrinityIntegration:
 
 
 @dataclass
-class TrinityDeploymentResult:
+class ConstellationDeploymentResult:
     """Result of Constellation Framework deployment"""
 
     file_path: str
@@ -65,7 +65,7 @@ class TrinityDeploymentResult:
     success: bool
 
 
-class TrinityFrameworkDeployer:
+class ConstellationFrameworkDeployer:
     """
     Elite Constellation Framework deployer for LUKHAS AI consciousness technology
     Systematically integrates ⚛️🧠🛡️ across all content systems for premium brand coherence
@@ -77,7 +77,7 @@ class TrinityFrameworkDeployer:
 
         # Define comprehensive Constellation Framework specifications
         self.triad_specifications = {
-            "identity": TrinityIntegration(
+            "identity": ConstellationIntegration(
                 symbol="⚛️",
                 domain="Identity & Authentication",
                 description="Symbolic consciousness identity and authentic self-expression",
@@ -98,7 +98,7 @@ class TrinityFrameworkDeployer:
                     "Constellation Framework ⚛️ Identity: Authentic digital consciousness representation",
                 ],
             ),
-            "consciousness": TrinityIntegration(
+            "consciousness": ConstellationIntegration(
                 symbol="🧠",
                 domain="Consciousness & Learning",
                 description="Digital consciousness, memory, learning, and neural processing",
@@ -121,7 +121,7 @@ class TrinityFrameworkDeployer:
                     "Constellation Framework 🧠 Consciousness: Elite consciousness technology platform",
                 ],
             ),
-            "guardian": TrinityIntegration(
+            "guardian": ConstellationIntegration(
                 symbol="🛡️",
                 domain="Ethics & Security",
                 description="Ethical AI governance, security, and guardian protection",
@@ -150,7 +150,7 @@ class TrinityFrameworkDeployer:
 
     def _setup_logging(self) -> logging.Logger:
         """Setup elite logging system"""
-        logger = logging.getLogger("LUKHAS_Trinity_Deployer")
+        logger = logging.getLogger("LUKHAS_Constellation_Deployer")
         logger.setLevel(logging.INFO)
 
         # Create logs directory if it doesn't exist
@@ -176,7 +176,7 @@ class TrinityFrameworkDeployer:
 
         return logger
 
-    async def deploy_triad_framework(self, system_path: str, system_name: str) -> list[TrinityDeploymentResult]:
+    async def deploy_triad_framework(self, system_path: str, system_name: str) -> list[ConstellationDeploymentResult]:
         """Deploy Constellation Framework integration for an entire content system"""
         self.logger.info(f"🎯 Deploying Constellation Framework for {system_name}...")
 
@@ -229,7 +229,7 @@ class TrinityFrameworkDeployer:
 
         return results
 
-    async def _deploy_triad_to_file(self, file_path: Path) -> TrinityDeploymentResult:
+    async def _deploy_triad_to_file(self, file_path: Path) -> ConstellationDeploymentResult:
         """Deploy Constellation Framework integration to a single file"""
         try:
             # Read original content
@@ -268,7 +268,7 @@ class TrinityFrameworkDeployer:
 
             # Only proceed if Constellation integrations were added
             if integrations_added == 0:
-                return TrinityDeploymentResult(
+                return ConstellationDeploymentResult(
                     file_path=str(file_path),
                     integrations_added=0,
                     triad_coherence_score=0.0,
@@ -287,7 +287,7 @@ class TrinityFrameworkDeployer:
                 f"⚛️🧠🛡️ Enhanced {file_path.name}: {integrations_added} Constellation integrations, {triad_coherence:.1f}% coherence"
             )
 
-            return TrinityDeploymentResult(
+            return ConstellationDeploymentResult(
                 file_path=str(file_path),
                 integrations_added=integrations_added,
                 triad_coherence_score=triad_coherence,
@@ -298,7 +298,7 @@ class TrinityFrameworkDeployer:
         except Exception as e:
             error_msg = create_deployment_error_message(e, "Constellation file deployment", str(file_path))
             self.logger.error(error_msg)
-            return TrinityDeploymentResult(
+            return ConstellationDeploymentResult(
                 file_path=str(file_path),
                 integrations_added=0,
                 triad_coherence_score=0.0,
@@ -562,7 +562,7 @@ class TrinityFrameworkDeployer:
 
 async def main():
     """Main Constellation Framework deployment execution"""
-    deployer = TrinityFrameworkDeployer()
+    deployer = ConstellationFrameworkDeployer()
 
     print("⚛️🧠🛡️ LUKHAS AI Constellation Framework Deployer")
     print("=" * 50)

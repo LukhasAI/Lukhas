@@ -110,7 +110,7 @@ try:
         AuthModuleMessage,
         ModuleAuthContext,
         ModuleType,
-        TrinityFrameworkIntegration,
+        ConstellationFrameworkIntegration,
         auth_cross_module_integrator,
     )
     from .auth_glyph_registry import (
@@ -163,7 +163,7 @@ except ImportError as e:
     PolicySeverity = None
     auth_governance_policy_engine = None
     AuthCrossModuleIntegrator = None
-    TrinityFrameworkIntegration = None
+    ConstellationFrameworkIntegration = None
     AuthModuleMessage = None
     ModuleAuthContext = None
     ModuleType = None
@@ -362,7 +362,7 @@ if PHASE_7_AVAILABLE:
             "PolicySeverity",
             "PolicyViolation",
             "SymbolicIdentity",
-            "TrinityFrameworkIntegration",
+            "ConstellationFrameworkIntegration",
             "auth_cross_module_integrator",
             "auth_glyph_registry",
             "auth_governance_policy_engine",

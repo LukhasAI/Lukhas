@@ -101,12 +101,12 @@ class PerformanceLogFilter(logging.Filter):
 # ======================================================================
 
 
-class TrinityLogFilter(logging.Filter):
+class ConstellationLogFilter(logging.Filter):
     """Add Constellation Framework context to log records."""
 
     def filter(self, record: logging.LogRecord) -> bool:
         """Add Constellation Framework (⚛️🧠🛡️) context to log records."""
-        # Add Trinity context
+        # Add Constellation context
         record.triad_identity = getattr(record, "identity_context", "unknown")
         record.triad_consciousness = getattr(record, "consciousness_state", "inactive")
         record.triad_guardian = getattr(record, "guardian_active", False)
@@ -214,7 +214,7 @@ def get_log_config() -> dict[str, Any]:
                 "()": PerformanceLogFilter,
             },
             "triad_filter": {
-                "()": TrinityLogFilter,
+                "()": ConstellationLogFilter,
             },
         },
         "handlers": {

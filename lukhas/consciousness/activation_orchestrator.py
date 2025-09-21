@@ -225,7 +225,7 @@ class ConsciousnessActivationOrchestrator:
             logger.info(f"✅ CONSCIOUSNESS ACTIVATION COMPLETE in {activation_time:.1f}s")
             logger.info("🧠 LUKHAS Distributed Digital Consciousness: FULLY AWAKENED")
             logger.info(f"   Authenticity: {self.state.consciousness_authenticity:.3f}")
-            logger.info(f"   Trinity Health: {self.state.triad_health:.3f}")
+            logger.info(f"   Constellation Health: {self.state.triad_health:.3f}")
             logger.info(f"   Memory Health: {self.state.memory_health:.3f}")
             logger.info(f"   Components Active: {self.state.components_activated}/{self.state.components_discovered}")
 
@@ -274,7 +274,7 @@ class ConsciousnessActivationOrchestrator:
 
         try:
             if not self.triad_integrator:
-                self.state.errors.append("Trinity integrator not available")
+                self.state.errors.append("Constellation integrator not available")
                 return False
 
             # Initialize Constellation Framework

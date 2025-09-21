@@ -1385,7 +1385,7 @@ async def test_consciousness_engine():
     print(f"Bio-oscillator cycles: {bio_processing['adaptation_cycles']}")
     print(f"Current resonance: {bio_processing['resonance_level']:.3f}")
 
-    print("\nTrinity Framework Tests Completed Successfully!")
+    print("\nConstellation Framework Tests Completed Successfully!")
     print("⚛️ Identity: Symbolic consciousness active")
     print("🧠 Consciousness: Bio-inspired processing operational")
     print("🛡️ Guardian: Ethical compliance verified")
