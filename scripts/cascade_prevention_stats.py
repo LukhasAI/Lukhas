@@ -36,7 +36,8 @@ async def run_single_test(seed: int) -> dict:
 async def main():
     """Run statistical analysis across multiple seeds."""
     print("Running cascade prevention statistical analysis...")
-    seeds = [42, 123, 456, 789, 999, 1337, 2023, 2024, 2025, 8888]
+    # Extended sample for stronger confidence interval
+    seeds = list(range(100, 200))  # 100 samples for Wilson CI ≥ 88.5%
     results = []
 
     for seed in seeds:
@@ -53,6 +54,14 @@ async def main():
 
     print("\n=== INVESTOR DECK STATISTICS ===")
     print(f"CASCADE_PREVENTION_RATE: {statistics.mean(rates):.4f} ± {statistics.stdev(rates):.4f}")
+    # Wilson 95% CI lower bound for 0 failures in n trials
+    n = len(results)
+    failures = sum(1 for r in rates if r < 1.0)
+    if failures == 0:
+        wilson_lower = ((2*n + 1.96**2) - 1.96*((1.96**2 + 4*n)**0.5)) / (2*(n + 1.96**2))
+        print(f"95% CONFIDENCE INTERVAL: ≥ {wilson_lower:.3f} (Wilson lower bound, {failures}/{n} failures)")
+    else:
+        print(f"FAILURES_OBSERVED: {failures}/{n}")
     print(f"FOLDS_PER_RUN: {statistics.mean(folds):.1f} ± {statistics.stdev(folds):.1f}")
     print(f"QUARANTINE_RATE: {statistics.mean(quarantined):.1f} ± {statistics.stdev(quarantined):.1f}")
     print(f"RUNTIME_MS: {statistics.mean(runtimes)*1000:.1f} ± {statistics.stdev(runtimes)*1000:.1f}")

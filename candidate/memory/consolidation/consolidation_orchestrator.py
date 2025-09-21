@@ -145,6 +145,8 @@ class ConsolidationOrchestrator:
         self.sleep_stage = SleepStage.NREM_1
         self.consolidation_active = False
         self.cycle_count = 0
+        # Policy: ≤1000 folds/run guardrail for cascade prevention
+        # Prevents memory overflow and maintains system stability
         self.max_folds_per_run = 1000
         self._metrics = {
             "batches": 0,
