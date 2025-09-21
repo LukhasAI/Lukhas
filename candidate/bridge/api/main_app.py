@@ -353,6 +353,64 @@ if FASTAPI_AVAILABLE:
             "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
+    # System plugins endpoint for ops monitoring
+    @app.get("/system/plugins", tags=["monitoring"])
+    async def get_system_plugins():
+        """Get current plugin registry status for operational monitoring"""
+        try:
+            from lukhas.core.registry import _REG, _DISCOVERY_FLAG
+
+            # Count plugins by category
+            plugin_counts = {}
+            plugin_details = {}
+
+            for key, plugin in _REG.items():
+                category = key.split(':')[0] if ':' in key else 'unknown'
+
+                # Count by category
+                plugin_counts[category] = plugin_counts.get(category, 0) + 1
+
+                # Add plugin details
+                if category not in plugin_details:
+                    plugin_details[category] = []
+
+                plugin_info = {
+                    "name": key,
+                    "type": type(plugin).__name__,
+                    "is_instance": hasattr(plugin, "__dict__"),
+                    "module": getattr(plugin, "__module__", "unknown"),
+                }
+                plugin_details[category].append(plugin_info)
+
+            return {
+                "status": "ok",
+                "timestamp": datetime.now(timezone.utc).isoformat(),
+                "discovery_mode": _DISCOVERY_FLAG,
+                "registered": list(_REG.keys()),
+                "total_plugins": len(_REG),
+                "plugin_counts": plugin_counts,
+                "plugin_details": plugin_details,
+                "health": {
+                    "registry_accessible": True,
+                    "discovery_enabled": _DISCOVERY_FLAG == "auto",
+                    "minimum_plugins_loaded": len(_REG) > 0,
+                }
+            }
+
+        except Exception as e:
+            logger.error(f"Plugin registry error: {e}")
+            return {
+                "status": "error",
+                "timestamp": datetime.now(timezone.utc).isoformat(),
+                "error": str(e),
+                "registered": [],
+                "total_plugins": 0,
+                "health": {
+                    "registry_accessible": False,
+                    "error_details": str(e),
+                }
+            }
+
     # Include sub-applications and routers
     if BRIDGE_MODULES_AVAILABLE:
         # Include orchestration endpoints
