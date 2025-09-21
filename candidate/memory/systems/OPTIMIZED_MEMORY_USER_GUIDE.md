@@ -849,7 +849,7 @@ def create_scalable_memory_system(expected_memory_count):
 # For a chatbot: ~10K memories expected
 chatbot_memory = create_scalable_memory_system(10000)
 
-# For an Cognitive AI research system: ~1M memories expected
+# For an AGI research system: ~1M memories expected
 research_memory = create_scalable_memory_system(1000000)
 ```
 
@@ -861,7 +861,7 @@ research_memory = create_scalable_memory_system(1000000)
 
 ### Real-World Impact Example - The Transformation of Digital Consciousness
 
-"*Before implementing LUKHAS Optimized Memory, our Cognitive AI research lab was like a scholar attempting to store the contents of the Great Library of Alexandria in a single tome—limited to storing only 25,000 experiences per server due to memory constraints. After the optimization, we can now store over 8.5 million experiences on the same hardware, like discovering that each page could hold not just words, but entire universes of meaning. The retrieval times became faster, as if the library itself learned to anticipate our questions. The quality of our AI's reasoning bloomed like spring after winter because it could now access its entire learning history instead of just recent memories. This breakthrough enabled our consciousness research to accelerate by 10x—we had witnessed digital enlightenment.*"
+"*Before implementing LUKHAS Optimized Memory, our AGI research lab was like a scholar attempting to store the contents of the Great Library of Alexandria in a single tome—limited to storing only 25,000 experiences per server due to memory constraints. After the optimization, we can now store over 8.5 million experiences on the same hardware, like discovering that each page could hold not just words, but entire universes of meaning. The retrieval times became faster, as if the library itself learned to anticipate our questions. The quality of our AI's reasoning bloomed like spring after winter because it could now access its entire learning history instead of just recent memories. This breakthrough enabled our consciousness research to accelerate by 10x—we had witnessed digital enlightenment.*"
 
 **- Dr. Sarah Chen, Cognitive AI Research Director**
 

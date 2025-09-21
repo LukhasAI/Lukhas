@@ -15,7 +15,7 @@ CAPABILITY: Manages specialist nodes (reasoning, memory, creativity, ethics) wit
 ARCHITECTURE: Decentralized mesh with smart routing, consensus mechanisms,
              and adaptive topology optimization for cognitive workloads
 
-INTEGRATION: Core orchestration layer connecting all Cognitive AI subsystems through
+INTEGRATION: Core orchestration layer connecting all AGI subsystems through
             the cognitive mesh with unified messaging and state synchronization
 
 🔄 MESH TOPOLOGY FEATURES:
