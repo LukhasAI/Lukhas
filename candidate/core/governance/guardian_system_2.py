@@ -110,6 +110,28 @@ class ExplanationType(Enum):
     REGULATORY = "regulatory"  # Compliance focused
 
 
+class ViolationSeverity(Enum):
+    """Severity levels for safety violations"""
+
+    LOW = "low"
+    MEDIUM = "medium"
+    HIGH = "high"
+    CRITICAL = "critical"
+
+
+class ConstitutionalPrinciple(Enum):
+    """Constitutional AI principles"""
+
+    HELPFUL = "helpful"
+    HARMLESS = "harmless"
+    HONEST = "honest"
+    TRANSPARENCY = "transparency"
+    PRIVACY = "privacy"
+    AUTONOMY = "autonomy"
+    FAIRNESS = "fairness"
+    ACCOUNTABILITY = "accountability"
+
+
 @dataclass
 class SafetyViolation:
     """Safety violation record"""

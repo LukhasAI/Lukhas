@@ -372,8 +372,8 @@ class MemoryFold:
             "key": self.key,
             "content_preview": (
                 str(self.content)[:100] + "..."
-                if len(str(self.content)) > 100:
-                else str(self.content):
+                if len(str(self.content)) > 100
+                else str(self.content)
             ),  # ΛNOTE: Content preview
             "memory_type": self.memory_type.value,
             "priority": self.priority.value,

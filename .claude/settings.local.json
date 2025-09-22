@@ -14,7 +14,11 @@
       "Bash(./tests/benchmarks/baseline/capture_environment.sh:*)",
       "Bash(python3 -m pytest:*)",
       "Bash(tee:*)",
-      "Bash(pip3 install:*)"
+      "Bash(pip3 install:*)",
+      "Bash(git diff:*)",
+      "Bash(git grep:*)",
+      "Bash(find:*)",
+      "Bash(python3:*)"
     ],
     "deny": [],
     "ask": []

@@ -21,10 +21,15 @@ from .signal_bus import (
     emit_stress,
     get_signal_bus,
 )
+from .diagnostic_signal_type import DiagnosticSignalType
+
+# For backward compatibility
+SymbolicSignal = Signal
 
 __all__ = [
     "AdaptiveModulator",
     "AuditTrail",
+    "DiagnosticSignalType",
     "HomeostasisController",
     "ModulationParams",
     "OscillationDetector",
@@ -37,6 +42,7 @@ __all__ = [
     "SignalBus",
     "SignalPattern",
     "SignalType",
+    "SymbolicSignal",
     # Homeostasis
     "SystemEvent",
     "emit_stress",
