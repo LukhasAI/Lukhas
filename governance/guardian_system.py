@@ -37,10 +37,12 @@ class GuardianSystem:
                 "emergency_active": True
             }
 
-        # Check if Guardian enforcement is enabled
-        enforce_dsl = os.getenv("ENFORCE_ETHICS_DSL", "0") == "1"
+        # Check if Guardian enforcement is enabled (FAIL CLOSED by default)
+        dsl_setting = os.getenv("ENFORCE_ETHICS_DSL", "1")
+        # Only "0" explicitly disables; everything else (including invalid values) enables (fail closed)
+        enforce_dsl = dsl_setting != "0"
         if not enforce_dsl:
-            self.logger.debug("Guardian enforcement disabled via ENFORCE_ETHICS_DSL=0")
+            self.logger.warning("Guardian enforcement explicitly disabled via ENFORCE_ETHICS_DSL=0")
             return {
                 "safe": True,
                 "drift_score": 0.0,
