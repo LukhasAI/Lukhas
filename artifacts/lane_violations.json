@@ -1,0 +1,12 @@
+{
+  "import_violations": [],
+  "status": "clean",
+  "timestamp": "2025-09-22T14:30:00Z",
+  "lane_compliance": {
+    "production_no_candidate": true,
+    "no_quarantine_imports": true,
+    "layered_architecture": true
+  },
+  "total_violations": 0,
+  "message": "No lane violations detected"
+}

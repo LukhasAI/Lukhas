@@ -1,0 +1,38 @@
+groups:
+- name: matriz
+  rules:
+  - alert: MatrizPipelineP95High
+    expr: histogram_quantile(0.95, sum(rate(mtrx_stage_duration_seconds_bucket[5m])) by (le)) > 0.8
+    for: 10m
+    labels:
+      severity: page
+    annotations:
+      summary: "MATRIZ p95 high"
+      description: "MATRIZ pipeline p95 latency is {{ $value }}s, exceeding 0.8s threshold"
+
+  - alert: GuardianDenialSpike
+    expr: rate(guard_enforcement_decisions_total{result="denied"}[5m]) > 5
+    for: 5m
+    labels:
+      severity: page
+    annotations:
+      summary: "Guardian denial spike"
+      description: "Guardian denial rate is {{ $value }} denials/sec, exceeding 5/sec threshold"
+
+  - alert: MatrizStageTimeout
+    expr: rate(mtrx_orch_timeout_total[5m]) > 0.1
+    for: 2m
+    labels:
+      severity: warning
+    annotations:
+      summary: "MATRIZ stage timeouts increasing"
+      description: "Stage timeout rate is {{ $value }} timeouts/sec, exceeding 0.1/sec threshold"
+
+  - alert: MatrizCircuitBreakerOpen
+    expr: rate(mtrx_orch_circuit_open_total[5m]) > 0.05
+    for: 5m
+    labels:
+      severity: critical
+    annotations:
+      summary: "MATRIZ circuit breakers opening frequently"
+      description: "Circuit breaker open rate is {{ $value }} opens/sec, exceeding 0.05/sec threshold"

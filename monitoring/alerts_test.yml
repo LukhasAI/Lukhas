@@ -1,0 +1,39 @@
+rule_files:
+  - alerts.yml
+
+tests:
+- interval: 5m
+  input_series:
+    - series: 'mtrx_stage_duration_seconds_bucket{le="1"}'
+      values: '0+0x5 10+0x5'
+    - series: 'guard_enforcement_decisions_total{result="denied"}'
+      values: '0+10x10'
+    - series: 'mtrx_orch_timeout_total'
+      values: '0+5x10'
+    - series: 'mtrx_orch_circuit_open_total'
+      values: '0+3x10'
+
+  alert_rule_test:
+  - alertname: MatrizPipelineP95High
+    eval_time: 10m
+    exp_alerts:
+    - labels:
+        severity: page
+
+  - alertname: GuardianDenialSpike
+    eval_time: 5m
+    exp_alerts:
+    - labels:
+        severity: page
+
+  - alertname: MatrizStageTimeout
+    eval_time: 2m
+    exp_alerts:
+    - labels:
+        severity: warning
+
+  - alertname: MatrizCircuitBreakerOpen
+    eval_time: 5m
+    exp_alerts:
+    - labels:
+        severity: critical
