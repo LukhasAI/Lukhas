@@ -4,7 +4,12 @@
       "Bash(docker run:*)",
       "Bash(import-linter:*)",
       "Bash(lint-imports:*)",
-      "Bash(gitleaks detect:*)"
+      "Bash(gitleaks detect:*)",
+      "Bash(chmod:*)",
+      "Bash(pytest:*)",
+      "Bash(python -m pytest -m \"memory_safety or memory_interleavings or slow\" --collect-only)",
+      "Bash(python3 -m pytest -m \"memory_safety or memory_interleavings or slow\" --collect-only)",
+      "Bash(git add:*)"
     ],
     "deny": [],
     "ask": []
