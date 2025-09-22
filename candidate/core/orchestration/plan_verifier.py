@@ -26,8 +26,9 @@ import logging
 import os
 import time
 from dataclasses import dataclass
+from pathlib import Path
 from enum import Enum
-from typing import Any, Dict, List, Optional, Set, Tuple
+from typing import Any, Dict, List, Optional, Set
 
 logger = logging.getLogger(__name__)
 
@@ -169,6 +170,14 @@ class VerificationOutcome:
         return VerificationResult.ALLOW if self.allow else VerificationResult.DENY
 
 
+@dataclass(frozen=True)
+class GuardianEnforcementDecision:
+    """Represents Guardian enforcement state for a verification cycle."""
+    enforce: bool
+    lane: str
+    emergency_disabled: bool = False
+
+
 class PlanVerifier:
     """
     Deterministic plan verifier with fail-closed safety constraints.
@@ -280,13 +289,24 @@ class PlanVerifier:
         except (TypeError, ValueError):
             self.guardian_canary_percent = 0.0
 
+        self.guardian_emergency_disable_path = Path(
+            self.config.get(
+                'guardian_emergency_disable_path',
+                os.getenv('GUARDIAN_EMERGENCY_DISABLE_PATH', '/tmp/guardian_emergency_disable')
+            )
+        )
+
         config_flag = self.config.get('enforce_ethics_dsl')
         if isinstance(config_flag, bool):
             self.guardian_enforcement_enabled = config_flag
         elif config_flag is not None:
             self.guardian_enforcement_enabled = _is_truthy(str(config_flag))
         else:
-            self.guardian_enforcement_enabled = _is_truthy(os.getenv('ENFORCE_ETHICS_DSL'))
+            env_value = os.getenv('ENFORCE_ETHICS_DSL')
+            if env_value is None:
+                self.guardian_enforcement_enabled = self.guardian_canary_percent > 0.0
+            else:
+                self.guardian_enforcement_enabled = _is_truthy(env_value)
 
         lanes_config = self.config.get(
             'guardian_enforced_lanes',
@@ -399,6 +419,8 @@ class PlanVerifier:
             if ctx.metadata is None:
                 ctx.metadata = {}
             ctx.metadata.setdefault('guardian_lane', guardian_lane)
+            emergency_disabled = self._is_guardian_emergency_disabled()
+            ctx.metadata['guardian_emergency_disabled'] = emergency_disabled
             if self.guardian_bands:
                 # Integrated Guardian Drift Bands evaluation
                 guardian_result = self.guardian_bands.evaluate(
@@ -407,8 +429,11 @@ class PlanVerifier:
                 )
 
                 # Guardian band enforcement
-                guardian_enforced, guardian_lane = self._should_enforce_guardian(plan_hash, ctx)
+                decision = self._should_enforce_guardian(plan_hash, ctx, emergency_disabled)
+                guardian_enforced = decision.enforce
+                guardian_lane = decision.lane
                 ctx.metadata['guardian_lane'] = guardian_lane
+                ctx.metadata['guardian_emergency_disabled'] = decision.emergency_disabled
 
                 if guardian_result.band == GuardianBand.BLOCK:
                     if guardian_enforced:
@@ -431,8 +456,10 @@ class PlanVerifier:
             elif self.ethics_enabled:
                 # Fallback to legacy ethics constraints if Guardian not available
                 ethics_violations = self._check_ethics_constraints(plan, ctx)
+                guardian_enforced = self.guardian_enforcement_enabled and not emergency_disabled
+                ctx.metadata['guardian_enforced'] = guardian_enforced
                 if ethics_violations:
-                    if self.guardian_enforcement_enabled:
+                    if guardian_enforced:
                         violations.extend(ethics_violations)
                     else:
                         counterfactual = {
@@ -543,26 +570,48 @@ class PlanVerifier:
                 return str(lane).lower()
         return self.guardian_default_lane
 
-    def _should_enforce_guardian(self, plan_hash: str, ctx: VerificationContext) -> Tuple[bool, str]:
+    def _should_enforce_guardian(
+        self,
+        plan_hash: str,
+        ctx: VerificationContext,
+        emergency_override: Optional[bool] = None,
+    ) -> GuardianEnforcementDecision:
         """Decide whether Guardian enforcement should block for this request."""
         lane = self._determine_lane(ctx)
 
+        emergency_disabled = (
+            emergency_override
+            if emergency_override is not None
+            else self._is_guardian_emergency_disabled()
+        )
+        if emergency_disabled:
+            logger.warning("Guardian enforcement disabled via emergency kill-switch")
+            return GuardianEnforcementDecision(False, lane, True)
+
         if not self.guardian_enforcement_enabled:
-            return False, lane
+            return GuardianEnforcementDecision(False, lane, False)
 
         if lane not in self.guardian_enforced_lanes:
-            return False, lane
+            return GuardianEnforcementDecision(False, lane, False)
 
         if self.guardian_canary_percent >= 100.0:
-            return True, lane
+            return GuardianEnforcementDecision(True, lane, False)
 
         if self.guardian_canary_percent <= 0.0:
-            return False, lane
+            return GuardianEnforcementDecision(False, lane, False)
 
         sample_source = plan_hash or ctx.request_id or ctx.session_id or ctx.user_id or lane
         sample_int = int(hashlib.sha256(sample_source.encode("utf-8")).hexdigest(), 16)
         sample_percent = (sample_int % 10000) / 100.0
-        return sample_percent < self.guardian_canary_percent, lane
+        return GuardianEnforcementDecision(sample_percent < self.guardian_canary_percent, lane, False)
+
+    def _is_guardian_emergency_disabled(self) -> bool:
+        """Return True when the emergency kill-switch file is present."""
+        try:
+            return self.guardian_emergency_disable_path.exists()
+        except OSError as exc:
+            logger.error("Failed to read guardian emergency disable flag: %s", exc)
+            return False
 
     def _record_guardian_counterfactual(
         self,

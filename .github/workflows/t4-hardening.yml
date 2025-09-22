@@ -91,6 +91,19 @@ jobs:
           mkdir -p reports
           pytest -m "not prod_only" --maxfail=1 -q --junitxml=reports/junit-unit.xml
 
+      - name: Guardian enforcement safety gate
+        if: matrix.python-version == '3.11'
+        run: |
+          pytest tests/orchestration/test_guardian_enforcement.py \
+            tests/orchestration/test_killswitch.py \
+            -v --tb=short --maxfail=1
+
+      - name: Async orchestrator metrics gate
+        if: matrix.python-version == '3.11'
+        run: |
+          pytest tests/orchestration/test_async_orchestrator_metrics.py \
+            -v --tb=short --maxfail=1
+
       - name: Verify performance budgets
         run: |
           python tools/verify_perf.py

@@ -54,6 +54,10 @@ if Counter is None or Histogram is None or Gauge is None:
     stage_timeouts = _NoopCounter()
     guardian_band = _NoopCounter()
     retry_attempts_total = _NoopCounter()  # # ΛTAG: error_recovery
+    mtrx_stage_duration_seconds = _NoopHistogram()
+    mtrx_orch_timeout_total = _NoopCounter()
+    mtrx_orch_retry_total = _NoopCounter()
+    mtrx_orch_circuit_open_total = _NoopCounter()
 
     # Domain-specific AI metrics
     memory_cascade_prevention_rate = _NoopGauge()
@@ -95,6 +99,30 @@ else:
         "Retry attempts per stage and error type",
         ["stage", "error_type"]
     )  # # ΛTAG: error_recovery
+
+    mtrx_stage_duration_seconds = Histogram(
+        "mtrx_stage_duration_seconds",
+        "Observed duration per stage execution",
+        ["stage", "node", "outcome"]
+    )
+
+    mtrx_orch_timeout_total = Counter(
+        "mtrx_orch_timeout_total",
+        "Total orchestrator stage timeouts",
+        ["stage"]
+    )
+
+    mtrx_orch_retry_total = Counter(
+        "mtrx_orch_retry_total",
+        "Retry attempts triggered within the orchestrator",
+        ["stage", "reason"]
+    )
+
+    mtrx_orch_circuit_open_total = Counter(
+        "mtrx_orch_circuit_open_total",
+        "Circuit breaker activations per stage/node",
+        ["stage", "node"]
+    )
 
     # Domain-specific AI metrics
     memory_cascade_prevention_rate = Gauge(
@@ -185,6 +213,8 @@ else:
 __all__ = [
     # Core metrics
     "stage_latency", "stage_timeouts", "guardian_band",
+    "mtrx_stage_duration_seconds", "mtrx_orch_timeout_total",
+    "mtrx_orch_retry_total", "mtrx_orch_circuit_open_total",
     # Domain-specific metrics
     "memory_cascade_prevention_rate", "guardian_violations_total",
     "consciousness_state_changes", "reasoning_chain_length",

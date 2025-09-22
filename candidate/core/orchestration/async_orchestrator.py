@@ -23,12 +23,22 @@ from .consensus_arbitrator import Proposal, choose
 from .meta_controller import MetaController
 from .otel import stage_span
 from lukhas.metrics import (
-    stage_latency, stage_timeouts, guardian_band,
-    reasoning_chain_length, ethics_risk_distribution,
-    node_confidence_scores, constellation_star_activations,
-    arbitration_decisions_total, oscillation_detections_total,
-    parallel_batch_duration, parallel_execution_mode_total,
+    stage_latency,
+    stage_timeouts,
+    guardian_band,
+    reasoning_chain_length,
+    ethics_risk_distribution,
+    node_confidence_scores,
+    constellation_star_activations,
+    arbitration_decisions_total,
+    oscillation_detections_total,
+    parallel_batch_duration,
+    parallel_execution_mode_total,
     retry_attempts_total,
+    mtrx_stage_duration_seconds,
+    mtrx_orch_timeout_total,
+    mtrx_orch_retry_total,
+    mtrx_orch_circuit_open_total,
 )
 
 
@@ -187,6 +197,13 @@ class AsyncOrchestrator:
         entry["latencies"].append(duration_ms)
         entry["p95_latency_ms"] = self._compute_p95(entry["latencies"])
 
+        outcome = "success" if success else "failure"
+        mtrx_stage_duration_seconds.labels(
+            stage_config.name,
+            node_key,
+            outcome,
+        ).observe(max(duration_ms, 0.0) / 1000.0)
+
         if success:
             entry["successes"] += 1
             entry["consecutive_failures"] = 0
@@ -198,7 +215,12 @@ class AsyncOrchestrator:
             entry["last_error"] = metadata or {}
             backoff_seconds = (stage_config.backoff_base_ms / 1000.0) * (2 ** min(entry["consecutive_failures"], 3))
             penalty = max(self._circuit_breaker_penalty, backoff_seconds)
-            entry["circuit_open_until"] = time.monotonic() + penalty
+
+            if metadata and metadata.get("status") == "skipped":
+                entry["circuit_open_until"] = 0.0
+            else:
+                entry["circuit_open_until"] = time.monotonic() + penalty
+                mtrx_orch_circuit_open_total.labels(stage_config.name, node_key).inc()
 
     def _is_stage_success(self, result: Any) -> bool:
         if isinstance(result, dict):
@@ -392,6 +414,7 @@ class AsyncOrchestrator:
                     raise
 
                 retry_attempts_total.labels(stage_config.name, type(exc).__name__).inc()
+                mtrx_orch_retry_total.labels(stage_config.name, type(exc).__name__).inc()
                 jitter_ms = random.uniform(0, delay_ms * 0.2)
                 await asyncio.sleep((delay_ms + jitter_ms) / 1000)
 
@@ -469,6 +492,7 @@ class AsyncOrchestrator:
 
             except asyncio.TimeoutError:
                 stage_timeouts.labels(stage_config.name).inc()
+                mtrx_orch_timeout_total.labels(stage_config.name).inc()
                 return {
                     "action": "timeout",
                     "stage": stage_config.name,
