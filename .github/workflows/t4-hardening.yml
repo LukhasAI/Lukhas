@@ -85,6 +85,24 @@ jobs:
         run: |
           if [ -f scripts/audit_tests.py ]; then python scripts/audit_tests.py; else echo "No audit script found"; fi
 
+      - name: Verify guardian production defaults
+        run: |
+          set -euo pipefail
+          echo "Checking guardian fail-closed defaults"
+          if ! grep -q '^ENFORCE_ETHICS_DSL=1' .env.production; then
+            echo "❌ ENFORCE_ETHICS_DSL must default to 1 in production";
+            exit 1;
+          fi
+          if ! grep -q '^LUKHAS_CANARY_PERCENT=' .env.production; then
+            echo "❌ LUKHAS_CANARY_PERCENT missing in production env";
+            exit 1;
+          fi
+          if grep -q '^ENFORCE_ETHICS_DSL=0' .env.production; then
+            echo "❌ Found disabled guardian configuration in production env";
+            exit 1;
+          fi
+          echo "✅ Guardian defaults verified"
+
 
       - name: Run unit tests (with JUnit)
         run: |
@@ -222,6 +240,51 @@ jobs:
             reports/e2e.json
             requirements-${{ matrix.python-version }}.lock
           if-no-files-found: ignore
+
+  perf-budget:
+    name: Orchestrator perf budgets (py3.11)
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    needs: tests
+    env:
+      PYTHONHASHSEED: "0"
+      TZ: "UTC"
+      LUKHAS_PERF: "1"
+      LUKHAS_ASYNC_PROFILING: "1"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@82c7e631bb3cdc910f68e0081d67478d79c6982d
+        with:
+          python-version: "3.11"
+          cache: "pip"
+
+      - name: Install perf dependencies
+        run: |
+          python -m pip install --upgrade pip
+          if ! pip install -e .[perf]; then
+            echo "⚠️ perf extra missing; falling back to base install"
+            pip install -e .
+          fi
+          pip install pytest pytest-asyncio pytest-benchmark psutil
+
+      - name: Run orchestrator perf suite
+        run: |
+          set -euo pipefail
+          mkdir -p reports
+          PYTHONPATH=. pytest tests/perf/test_async_orchestrator_perf.py \
+            -k "pipeline_p95_under_budget" -v --tb=short \
+            --maxfail=1 2>&1 | tee reports/orchestrator_perf.log
+
+      - name: Upload perf artifacts
+        if: always()
+        uses: actions/upload-artifact@834a144ee995460fba8ed112a2fc961b36a5ec5a
+        with:
+          name: orchestrator-perf
+          path: reports/orchestrator_perf.log
+          if-no-files-found: error
 
   drift-check:
     name: Dependency drift check (unlocked install)

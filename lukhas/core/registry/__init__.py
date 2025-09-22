@@ -49,11 +49,11 @@ def _load_legacy_registry() -> Optional[ModuleType]:
 _legacy_module = _load_legacy_registry()
 
 
-def _get_attr(name: str, fallback: Callable[..., Any] | None = None) -> Any:
+def _get_attr(name: str, fallback: Optional[Callable[[], Any]] = None) -> Any:
     if _legacy_module and hasattr(_legacy_module, name):
         return getattr(_legacy_module, name)
     if fallback is not None:
-        return fallback
+        return fallback()
     raise AttributeError(f"Legacy registry export '{name}' is not available")
 
 
@@ -65,7 +65,10 @@ discover_entry_points: Callable[..., None] = _get_attr("discover_entry_points")
 auto_discover: Callable[..., None] = _get_attr("auto_discover")
 _register_kind: Callable[..., None] = _get_attr("_register_kind")
 _instantiate_plugin: Callable[..., Any] = _get_attr("_instantiate_plugin")
-_REG: dict[str, Any] = _get_attr("_REG", fallback=dict)  # type: ignore[assignment]
+_REG_value = _get_attr("_REG", fallback=dict)
+if not isinstance(_REG_value, dict):  # pragma: no cover - defensive
+    _REG_value = dict(_REG_value)
+_REG: dict[str, Any] = _REG_value
 
 
 __all__ = [
