@@ -45,8 +45,24 @@ jobs:
           pip install pip-audit import-linter pip-licenses
           curl -sSfL https://raw.githubusercontent.com/anchore/syft/main/install.sh | sh -s -- -b /usr/local/bin
 
-      - name: Generate SBOM
-        run: make sbom
+      - name: Generate SBOM (Software Bill of Materials)
+        run: |
+          echo "🔍 Generating Software Bill of Materials..."
+          make sbom
+
+          # Verify SBOM was generated successfully
+          if [ ! -f "reports/sbom/sbom.json" ]; then
+            echo "❌ BLOCKING: SBOM generation failed - required for production compliance"
+            exit 1
+          fi
+
+          # Validate SBOM format
+          if ! jq -e '.bomFormat' reports/sbom/sbom.json > /dev/null 2>&1; then
+            echo "❌ BLOCKING: SBOM format validation failed"
+            exit 1
+          fi
+
+          echo "✅ SBOM generated and validated successfully"
 
       - name: Check lane import restrictions
         run: |
@@ -78,7 +94,6 @@ jobs:
 
       - name: Run pip-audit on requirements.txt
         id: audit-requirements
-        continue-on-error: true
         run: |
           echo "🔍 Auditing requirements.txt..."
           pip-audit \
@@ -99,11 +114,12 @@ jobs:
             echo "❌ Found $VULN_COUNT vulnerabilities in requirements.txt"
             echo "requirements_status=vulnerable" >> $GITHUB_OUTPUT
             echo "requirements_vulns=$VULN_COUNT" >> $GITHUB_OUTPUT
+            echo "🚨 BLOCKING: Security vulnerabilities detected in requirements.txt"
+            exit 1
           fi
 
       - name: Run pip-audit on constraints.txt
         id: audit-constraints
-        continue-on-error: true
         run: |
           echo "🔍 Auditing constraints.txt..."
           pip-audit \
@@ -124,6 +140,8 @@ jobs:
             echo "❌ Found $VULN_COUNT vulnerabilities in constraints.txt"
             echo "constraints_status=vulnerable" >> $GITHUB_OUTPUT
             echo "constraints_vulns=$VULN_COUNT" >> $GITHUB_OUTPUT
+            echo "🚨 BLOCKING: Security vulnerabilities detected in constraints.txt"
+            exit 1
           fi
 
       - name: Generate security summary

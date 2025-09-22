@@ -41,6 +41,26 @@ except ImportError:
     CollectorRegistry = None
 
 
+def setup_metrics_endpoint(port: int = 8090) -> bool:
+    """
+    Set up Prometheus metrics HTTP endpoint.
+
+    Args:
+        port: Port to serve metrics on
+
+    Returns:
+        True if successfully started, False otherwise
+    """
+    if not PROMETHEUS_AVAILABLE:
+        return False
+
+    try:
+        start_http_server(port)
+        return True
+    except Exception:
+        return False
+
+
 @dataclass
 class MetricsConfig:
     """Configuration for Prometheus metrics collection"""

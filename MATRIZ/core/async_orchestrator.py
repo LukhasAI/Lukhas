@@ -54,6 +54,19 @@ except ImportError:
             return func
         return decorator
 
+# Circuit Breaker integration for retries/backpressure
+try:
+    from lukhas.core.reliability.circuit_breaker import circuit_breaker, get_circuit_health
+    CIRCUIT_BREAKER_AVAILABLE = True
+except ImportError:
+    CIRCUIT_BREAKER_AVAILABLE = False
+    def circuit_breaker(name, **kwargs):
+        def decorator(func):
+            return func
+        return decorator
+    def get_circuit_health():
+        return {}
+
 _DEFAULT_LANE = os.getenv("LUKHAS_LANE", "experimental").lower()
 
 # ΛTAG: orchestrator_metrics -- async pipeline stage instrumentation
@@ -529,9 +542,10 @@ class AsyncCognitiveOrchestrator:
 
         return base_node
 
+    @circuit_breaker("matriz_cognitive_processing", failure_threshold=0.3, recovery_timeout=30.0)
     @instrument_matriz_stage("cognitive_processing", "processing", critical=True, slo_target_ms=120.0)
     async def _process_node_async(self, node: CognitiveNode, user_input: str) -> Dict:
-        """Async wrapper for node processing"""
+        """Async wrapper for node processing with circuit breaker protection"""
         # Run synchronous node.process in executor to make it truly async and cancellable
         loop = asyncio.get_event_loop()
         return await loop.run_in_executor(None, node.process, {"query": user_input})
@@ -637,10 +651,17 @@ class AsyncCognitiveOrchestrator:
         }
 
     def get_performance_report(self) -> Dict[str, Any]:
-        """Get detailed performance report"""
-        return {
+        """Get detailed performance report with circuit breaker status"""
+        report = {
             "node_health": self.node_health,
             "stage_timeouts": {k.value: v for k, v in self.stage_timeouts.items()},
             "stage_critical": {k.value: v for k, v in self.stage_critical.items()},
             "total_timeout": self.total_timeout,
+            "orchestrator_metrics": asdict(self.metrics),
         }
+
+        # Add circuit breaker health if available
+        if CIRCUIT_BREAKER_AVAILABLE:
+            report["circuit_breaker_health"] = get_circuit_health()
+
+        return report

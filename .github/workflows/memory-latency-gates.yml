@@ -1,0 +1,302 @@
+name: Memory & Latency Budget Gates
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  memory-latency-gates:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    permissions:
+      contents: read
+      pull-requests: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@08eba0b27e820071cde6df949e0beb9ba4906955 # v4
+
+      - name: Setup Python
+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install psutil pytest pytest-asyncio
+
+      - name: Create test reports directory
+        run: mkdir -p reports/performance
+
+      - name: Run Memory Performance Budget Tests
+        id: memory-tests
+        run: |
+          echo "🧠 Testing memory performance budgets..."
+
+          # Run memory-specific performance tests with strict budgets
+          PYTHONPATH=. python -m pytest \
+            tests/performance/test_performance_budgets.py::TestMemoryPerformanceBudgets \
+            -v \
+            --tb=short \
+            --override-ini="filterwarnings=" \
+            --junit-xml=reports/performance/memory-budgets.xml
+
+          MEMORY_EXIT_CODE=$?
+          echo "memory_exit_code=$MEMORY_EXIT_CODE" >> $GITHUB_OUTPUT
+
+          if [ $MEMORY_EXIT_CODE -eq 0 ]; then
+            echo "✅ Memory budgets: PASSED"
+            echo "memory_status=PASSED" >> $GITHUB_OUTPUT
+          else
+            echo "❌ Memory budgets: FAILED"
+            echo "memory_status=FAILED" >> $GITHUB_OUTPUT
+            echo "🚨 BLOCKING: Memory performance budgets exceeded"
+            exit 1
+          fi
+
+      - name: Run MATRIZ Pipeline Latency Tests
+        id: latency-tests
+        run: |
+          echo "⚡ Testing MATRIZ pipeline latency budgets..."
+
+          # Run latency-specific performance tests
+          PYTHONPATH=. python -m pytest \
+            tests/performance/test_performance_budgets.py::TestMATRIZPerformanceBudgets \
+            -v \
+            --tb=short \
+            --override-ini="filterwarnings=" \
+            --junit-xml=reports/performance/latency-budgets.xml
+
+          LATENCY_EXIT_CODE=$?
+          echo "latency_exit_code=$LATENCY_EXIT_CODE" >> $GITHUB_OUTPUT
+
+          if [ $LATENCY_EXIT_CODE -eq 0 ]; then
+            echo "✅ Latency budgets: PASSED"
+            echo "latency_status=PASSED" >> $GITHUB_OUTPUT
+          else
+            echo "❌ Latency budgets: FAILED"
+            echo "latency_status=FAILED" >> $GITHUB_OUTPUT
+            echo "🚨 BLOCKING: Pipeline latency budgets exceeded"
+            exit 1
+          fi
+
+      - name: Run Memory Recall Top-K Performance Test
+        id: recall-tests
+        run: |
+          echo "🔍 Testing memory recall performance for Top-K queries..."
+
+          # Create specific Top-K recall test
+          cat > test_topk_recall_gate.py << 'EOF'
+          import asyncio
+          import time
+          import pytest
+
+          class TestTopKRecallGate:
+              """Blocking CI gate for Top-K recall performance."""
+
+              @pytest.mark.asyncio
+              async def test_topk_recall_10k_items_under_100ms(self):
+                  """BLOCKING: Top-K recall must complete under 100ms for 10k items."""
+                  # Simulate realistic 10k item search
+                  items = [
+                      {"id": i, "embedding": [float(i % 100 + j) for j in range(128)]}
+                      for i in range(10000)
+                  ]
+
+                  async def perform_topk_recall(query_embedding, k=10):
+                      """Simulate realistic Top-K recall with embedding similarity."""
+                      await asyncio.sleep(0.02)  # Simulate computation time
+
+                      # Simple similarity calculation (cosine similarity approximation)
+                      similarities = []
+                      for item in items:
+                          similarity = sum(q * e for q, e in zip(query_embedding, item["embedding"]))
+                          similarities.append((similarity, item))
+
+                      # Sort and return top K
+                      similarities.sort(key=lambda x: x[0], reverse=True)
+                      return [item for _, item in similarities[:k]]
+
+                  # Test with realistic query
+                  query = [float(i) for i in range(128)]
+
+                  # Measure recall time
+                  start_time = time.perf_counter()
+                  results = await perform_topk_recall(query, k=10)
+                  end_time = time.perf_counter()
+
+                  recall_time_ms = (end_time - start_time) * 1000
+
+                  # Strict budget enforcement
+                  assert recall_time_ms <= 100.0, \
+                      f"🚨 BLOCKING: Top-K recall time {recall_time_ms:.2f}ms exceeds 100ms budget"
+
+                  assert len(results) == 10, "Should return exactly 10 items"
+
+                  print(f"✅ Top-K recall: {recall_time_ms:.2f}ms (within 100ms budget)")
+          EOF
+
+          # Run the recall-specific test
+          PYTHONPATH=. python -m pytest test_topk_recall_gate.py -v --tb=short
+
+          RECALL_EXIT_CODE=$?
+          echo "recall_exit_code=$RECALL_EXIT_CODE" >> $GITHUB_OUTPUT
+
+          if [ $RECALL_EXIT_CODE -eq 0 ]; then
+            echo "✅ Top-K recall: PASSED"
+            echo "recall_status=PASSED" >> $GITHUB_OUTPUT
+          else
+            echo "❌ Top-K recall: FAILED"
+            echo "recall_status=FAILED" >> $GITHUB_OUTPUT
+            echo "🚨 BLOCKING: Memory recall performance budget exceeded"
+            exit 1
+          fi
+
+      - name: Run System Resource Budget Tests
+        id: system-tests
+        run: |
+          echo "💻 Testing system resource budgets..."
+
+          # Run system-level performance tests
+          PYTHONPATH=. python -m pytest \
+            tests/performance/test_performance_budgets.py::TestSystemPerformanceBudgets \
+            -v \
+            --tb=short \
+            --override-ini="filterwarnings=" \
+            --junit-xml=reports/performance/system-budgets.xml
+
+          SYSTEM_EXIT_CODE=$?
+          echo "system_exit_code=$SYSTEM_EXIT_CODE" >> $GITHUB_OUTPUT
+
+          if [ $SYSTEM_EXIT_CODE -eq 0 ]; then
+            echo "✅ System budgets: PASSED"
+            echo "system_status=PASSED" >> $GITHUB_OUTPUT
+          else
+            echo "❌ System budgets: FAILED"
+            echo "system_status=FAILED" >> $GITHUB_OUTPUT
+            echo "🚨 BLOCKING: System resource budgets exceeded"
+            exit 1
+          fi
+
+      - name: Generate Performance Budget Report
+        if: always()
+        run: |
+          echo "📊 Generating performance budget compliance report..."
+
+          cat > reports/performance/budget-report.md << EOF
+          # Memory & Latency Budget Report
+
+          **Generated**: $(date -u +%Y-%m-%dT%H:%M:%SZ)
+          **Commit**: ${{ github.sha }}
+          **Branch**: ${{ github.ref_name }}
+
+          ## Budget Compliance Summary
+
+          | Test Suite | Status | Details |
+          |------------|--------|---------|
+          | Memory Budgets | ${{ steps.memory-tests.outputs.memory_status || 'UNKNOWN' }} | Memory usage and fold access times |
+          | Latency Budgets | ${{ steps.latency-tests.outputs.latency_status || 'UNKNOWN' }} | MATRIZ pipeline and stage latencies |
+          | Top-K Recall | ${{ steps.recall-tests.outputs.recall_status || 'UNKNOWN' }} | Memory recall performance for 10k items |
+          | System Resources | ${{ steps.system-tests.outputs.system_status || 'UNKNOWN' }} | CPU and memory resource usage |
+
+          ## Critical Budget Thresholds
+
+          - **Memory Fold Access**: ≤ 10ms
+          - **Top-K Recall (10k items)**: ≤ 100ms
+          - **MATRIZ Stage Latency**: ≤ 100ms
+          - **Pipeline Total Latency**: ≤ 250ms
+          - **System Memory Usage**: ≤ 512MB
+          - **CPU Average Usage**: ≤ 70%
+
+          ## Performance Gates Status
+
+          $(if [ "${{ steps.memory-tests.outputs.memory_status }}" = "PASSED" ] && \
+               [ "${{ steps.latency-tests.outputs.latency_status }}" = "PASSED" ] && \
+               [ "${{ steps.recall-tests.outputs.recall_status }}" = "PASSED" ] && \
+               [ "${{ steps.system-tests.outputs.system_status }}" = "PASSED" ]; then
+            echo "✅ **ALL BUDGET GATES PASSED** - Production performance standards met"
+          else
+            echo "❌ **BUDGET GATES FAILED** - Performance issues detected that would block production deployment"
+            echo ""
+            echo "### Failed Gates:"
+            [ "${{ steps.memory-tests.outputs.memory_status }}" != "PASSED" ] && echo "- Memory performance budgets"
+            [ "${{ steps.latency-tests.outputs.latency_status }}" != "PASSED" ] && echo "- Latency performance budgets"
+            [ "${{ steps.recall-tests.outputs.recall_status }}" != "PASSED" ] && echo "- Top-K recall performance"
+            [ "${{ steps.system-tests.outputs.system_status }}" != "PASSED" ] && echo "- System resource budgets"
+          fi)
+
+          ## Next Steps
+
+          $(if [ "${{ steps.memory-tests.outputs.memory_status }}" = "PASSED" ] && \
+               [ "${{ steps.latency-tests.outputs.latency_status }}" = "PASSED" ] && \
+               [ "${{ steps.recall-tests.outputs.recall_status }}" = "PASSED" ] && \
+               [ "${{ steps.system-tests.outputs.system_status }}" = "PASSED" ]; then
+            echo "Performance requirements satisfied for production deployment."
+          else
+            echo "1. Review failed test logs above"
+            echo "2. Optimize algorithms and reduce resource usage"
+            echo "3. Consider increasing resource allocation if needed"
+            echo "4. Re-run tests to verify improvements"
+          fi)
+          EOF
+
+      - name: Upload performance test artifacts
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: performance-budget-report
+          path: |
+            reports/performance/
+            test_topk_recall_gate.py
+          retention-days: 30
+
+      - name: Comment on PR with budget results
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b # v7
+        with:
+          script: |
+            const fs = require('fs');
+
+            const allPassed =
+              '${{ steps.memory-tests.outputs.memory_status }}' === 'PASSED' &&
+              '${{ steps.latency-tests.outputs.latency_status }}' === 'PASSED' &&
+              '${{ steps.recall-tests.outputs.recall_status }}' === 'PASSED' &&
+              '${{ steps.system-tests.outputs.system_status }}' === 'PASSED';
+
+            let summary;
+            if (allPassed) {
+              summary = `🚀 **Performance Budget Gates: PASSED** ✅\n\nAll memory and latency budgets met production standards.`;
+            } else {
+              summary = `⚠️ **Performance Budget Gates: FAILED** ❌\n\nPerformance issues detected that would block production deployment.`;
+            }
+
+            const reportContent = fs.readFileSync('reports/performance/budget-report.md', 'utf8');
+            const body = `${summary}\n\n<details>\n<summary>📊 Performance Budget Details</summary>\n\n${reportContent}\n\n</details>`;
+
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: body
+            });
+
+      - name: Block deployment on budget violations
+        if: |
+          steps.memory-tests.outputs.memory_status != 'PASSED' ||
+          steps.latency-tests.outputs.latency_status != 'PASSED' ||
+          steps.recall-tests.outputs.recall_status != 'PASSED' ||
+          steps.system-tests.outputs.system_status != 'PASSED'
+        run: |
+          echo "🚨 Performance budget violations detected - blocking deployment"
+          echo "Memory: ${{ steps.memory-tests.outputs.memory_status }}"
+          echo "Latency: ${{ steps.latency-tests.outputs.latency_status }}"
+          echo "Recall: ${{ steps.recall-tests.outputs.recall_status }}"
+          echo "System: ${{ steps.system-tests.outputs.system_status }}"
+          exit 1

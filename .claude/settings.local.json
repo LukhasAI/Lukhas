@@ -6,7 +6,9 @@
       "Bash(export ENFORCE_ETHICS_DSL=1)",
       "Bash(./guardian/flag_snapshot.sh:*)",
       "Bash(echo:*)",
-      "Bash(if [ \"$ENFORCE_ETHICS_DSL\" = \"1\" ])"
+      "Bash(if [ \"$ENFORCE_ETHICS_DSL\" = \"1\" ])",
+      "Bash(LUKHAS_LANE=candidate PYTHONPATH=. python3 lukhas/bootstrap.py)",
+      "Bash(pip3 install:*)"
     ],
     "deny": [],
     "ask": []
