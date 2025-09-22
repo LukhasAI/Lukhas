@@ -632,7 +632,7 @@ if __name__ == "__main__":
 
         print("\n📊 Workflow Result:")
         print(f"   State: {result['state']}")
-        print(f"   Steps completed: {len(result.get('results', [])}")
+        print(f"   Steps completed: {len(result.get('results', []))}")
 
         if "narrative" in result:
             print("\n📖 Workflow Narrative:")

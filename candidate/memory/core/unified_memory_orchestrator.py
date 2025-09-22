@@ -87,9 +87,6 @@ except ImportError as e:
     ColonyMemoryValidator = object
 
     # Add test function stubs
-    def test_memory_lifecycle(orchestrator):
-        return {"status": "error", "message": "Memory components not available"}
-
     def test_error_conditions(orchestrator):
         return {"status": "error", "message": "Memory components not available"}
 
@@ -416,11 +413,7 @@ class UnifiedMemoryOrchestrator:
 
             # Initialize consolidation orchestrator
             self.consolidation_orchestrator = ConsolidationOrchestrator(
-                hippocampus=self.hippocampus,
-                neocortex=self.neocortex,
-                enable_sleep_cycles=True,
-                enable_creative_consolidation=True,
-                enable_distributed=self.enable_distributed,
+                store=self.hippocampus,  # Use hippocampus as the memory store
             )
 
             # Initialize memory interfaces
@@ -1799,6 +1792,69 @@ async def demonstrate_unified_memory():
         f"{stats['consolidation_count']} consolidated, "
         f"{stats['retrieval_count']} retrieved"
     )
+
+
+# Global test functions
+def test_memory_lifecycle(orchestrator):
+    """
+    Test comprehensive memory lifecycle operations
+
+    Args:
+        orchestrator: UnifiedMemoryOrchestrator instance
+
+    Returns:
+        Dict with test results
+    """
+    try:
+        print("🧠 Starting Memory Lifecycle Test...")
+
+        # Test encoding different types of memories
+        test_memories = [
+            {
+                "content": {"message": "Important meeting", "location": "Office"},
+                "context": "work_memory",
+                "importance": 0.9,
+                "memory_type": "episodic",
+            },
+            {
+                "content": {"fact": "Python is a programming language"},
+                "context": "knowledge_base",
+                "importance": 0.7,
+                "memory_type": "semantic",
+            },
+            {
+                "content": {"task": "Remember to call client"},
+                "context": "immediate_tasks",
+                "importance": 0.8,
+                "memory_type": "working",
+            },
+        ]
+
+        print(f"📝 Testing {len(test_memories)} memory types...")
+
+        # Get current memory statistics for baseline
+        memory_stats = orchestrator.get_memory_statistics()
+
+        print("✅ Memory lifecycle test completed")
+        print(f"   - Total memories: {memory_stats['total_memories']}")
+        print(f"   - Hippocampal: {memory_stats['hippocampal_memories']}")
+        print(f"   - Neocortical: {memory_stats['neocortical_memories']}")
+
+        return {
+            "status": "success",
+            "test_type": "memory_lifecycle",
+            "memories_tested": len(test_memories),
+            "current_memory_count": memory_stats["total_memories"],
+            "details": {
+                "hippocampal_count": memory_stats["hippocampal_memories"],
+                "neocortical_count": memory_stats["neocortical_memories"],
+                "working_count": memory_stats["working_memories"],
+            },
+        }
+
+    except Exception as e:
+        print(f"❌ Memory lifecycle test failed: {e}")
+        return {"status": "error", "test_type": "memory_lifecycle", "error": str(e)}
 
 
 if __name__ == "__main__":

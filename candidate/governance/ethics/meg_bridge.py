@@ -30,8 +30,8 @@ from .meta_ethics_governor import (
 from .meta_ethics_governor import (
     EthicalEvaluation as MEGEvaluation,
 )
-from .policy_engines.base import Decision as EthicsDecision
-from .policy_engines.base import EthicsEvaluation, RiskLevel
+from ..policy.base import Decision as EthicsDecision, RiskLevel
+from .ethical_decision_maker import ComprehensiveEthicalDecision as EthicsEvaluation
 
 logger = get_logger(__name__)
 

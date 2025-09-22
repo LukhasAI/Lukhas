@@ -60,7 +60,7 @@ from datetime import timezone
     HumanInTheLoopOrchestrator,
     ReviewResponse,
 )
-from .policy_engines.base import Decision, EthicsEvaluation
+from ..policy.base import Decision, RiskLevel
 
 logger = get_logger(__name__)
 

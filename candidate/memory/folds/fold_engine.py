@@ -730,8 +730,8 @@ class MemoryFold:
                 "current_importance": self.importance_score,
                 "reflection_reason": (
                     "high_drift"
-                    if self.driftScore > reflection_threshold:
-                    else "entropy_divergence":
+                    if self.driftScore > reflection_threshold
+                    else "entropy_divergence"
                 ),
                 "timestamp_utc": datetime.now(timezone.utc).isoformat(),
                 "suggested_action": (
@@ -744,7 +744,7 @@ class MemoryFold:
 
 
 # LUKHAS_TAG: dreamseed_folding_logic
-def fold_dream_experience(:
+def fold_dream_experience(
     dream_id: str,
     dream_content: str,
     dream_metadata: Dict[str, Any],
@@ -834,7 +834,7 @@ def fold_dream_experience(:
 
         # Create primary dream fold
         dream_fold = MemoryFold(
-            key=f"DREAM_{dream_id}_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S'}",
+            key=f"DREAM_{dream_id}_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}",
             content={
                 "dream_content": dream_content,
                 "dream_metadata": dream_metadata,
@@ -844,7 +844,7 @@ def fold_dream_experience(:
                     "symbolic_origin_id": dream_trace.symbolic_origin_id,
                     "entanglement_level": dream_trace.entanglement_level
                 }
-            )},
+            },
             memory_type=memory_type,
             priority=MemoryPriority.HIGH if dream_trace.entanglement_level > 8 else MemoryPriority.MEDIUM,
             owner_id="DREAMSEED_SYSTEM",
@@ -976,13 +976,13 @@ def fold_dream_experience(:
     return folding_results
 
 
-def _determine_dream_memory_type(:
+def _determine_dream_memory_type(
     dream_content: str, dream_metadata: Dict[str, Any], dream_trace: Any
 ) -> MemoryType:
     """Determine appropriate memory type for a dream experience."""
 
     # Check for identity-related content
-    if any(sig.identity_marker in ["core_self", "personality", "values"]:
+    if any(sig.identity_marker in ["core_self", "personality", "values"]
            for sig in dream_trace.identity_signatures):
         return MemoryType.IDENTITY
 
