@@ -1,0 +1,394 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
+metadata:
+  name: lukhas-matriz-orchestrator
+  namespace: lukhas-ai
+  labels:
+    app: lukhas-matriz
+    component: orchestrator
+    deployment-strategy: canary
+spec:
+  replicas: 6
+  strategy:
+    canary:
+      # Canary deployment strategy
+      canaryService: lukhas-matriz-canary
+      stableService: lukhas-matriz-stable
+
+      # Traffic splitting configuration
+      trafficRouting:
+        nginx:
+          stableIngress: lukhas-matriz-ingress
+          annotationPrefix: nginx.ingress.kubernetes.io
+          additionalIngressAnnotations:
+            canary-by-header: "X-Canary-Deploy"
+            canary-by-header-value: "canary"
+
+      # Canary progression steps
+      steps:
+      - setWeight: 10    # 10% traffic to canary
+      - pause:
+          duration: "2m"  # Wait 2 minutes
+      - analysis:
+          templates:
+          - templateName: matriz-success-rate
+          - templateName: matriz-latency-p95
+          args:
+          - name: service-name
+            value: lukhas-matriz-canary
+      - setWeight: 25    # 25% traffic to canary
+      - pause:
+          duration: "5m"  # Wait 5 minutes
+      - analysis:
+          templates:
+          - templateName: matriz-success-rate
+          - templateName: matriz-latency-p95
+          - templateName: matriz-error-rate
+          args:
+          - name: service-name
+            value: lukhas-matriz-canary
+      - setWeight: 50    # 50% traffic to canary
+      - pause:
+          duration: "10m" # Wait 10 minutes
+      - analysis:
+          templates:
+          - templateName: matriz-comprehensive-health
+          args:
+          - name: service-name
+            value: lukhas-matriz-canary
+      - setWeight: 100   # Full traffic to canary
+
+      # Automatic rollback configuration
+      abortScaleDownDelaySeconds: 30
+      scaleDownDelaySeconds: 30
+
+  selector:
+    matchLabels:
+      app: lukhas-matriz
+      component: orchestrator
+  template:
+    metadata:
+      labels:
+        app: lukhas-matriz
+        component: orchestrator
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "9090"
+        prometheus.io/path: "/metrics"
+        # Canary deployment annotations
+        deployment.lukhas.ai/canary-enabled: "true"
+        deployment.lukhas.ai/strategy: "canary"
+    spec:
+      serviceAccountName: lukhas-matriz-service-account
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+      containers:
+      - name: matriz-orchestrator
+        image: ghcr.io/lukhasai/matriz-orchestrator:latest
+        imagePullPolicy: Always
+        ports:
+        - name: http
+          containerPort: 8080
+          protocol: TCP
+        - name: metrics
+          containerPort: 9090
+          protocol: TCP
+        - name: otel-grpc
+          containerPort: 4317
+          protocol: TCP
+        - name: otel-http
+          containerPort: 4318
+          protocol: TCP
+        env:
+        - name: LUKHAS_LANE
+          value: "candidate"
+        - name: LUKHAS_PERF
+          value: "1"
+        - name: OTEL_EXPORTER_OTLP_ENDPOINT
+          value: "http://otel-collector:4318/v1/traces"
+        - name: OTEL_SERVICE_NAME
+          value: "lukhas-matriz-orchestrator"
+        - name: OTEL_RESOURCE_ATTRIBUTES
+          value: "service.version=1.0.0,deployment.environment=production,deployment.strategy=canary"
+        - name: PROMETHEUS_METRICS_ENABLED
+          value: "true"
+        - name: DATABASE_URL
+          valueFrom:
+            secretKeyRef:
+              name: lukhas-matriz-secrets
+              key: database-url
+        - name: REDIS_URL
+          valueFrom:
+            secretKeyRef:
+              name: lukhas-matriz-secrets
+              key: redis-url
+        envFrom:
+        - configMapRef:
+            name: lukhas-matriz-config
+        resources:
+          requests:
+            memory: "1Gi"
+            cpu: "500m"
+          limits:
+            memory: "4Gi"
+            cpu: "2000m"
+        livenessProbe:
+          httpGet:
+            path: /health/live
+            port: http
+          initialDelaySeconds: 60
+          periodSeconds: 30
+          timeoutSeconds: 10
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            path: /health/ready
+            port: http
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 3
+        startupProbe:
+          httpGet:
+            path: /health/startup
+            port: http
+          initialDelaySeconds: 10
+          periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 30
+        volumeMounts:
+        - name: matriz-logs
+          mountPath: /app/logs
+        - name: matriz-config
+          mountPath: /app/config
+          readOnly: true
+        - name: otel-config
+          mountPath: /app/config/otel
+          readOnly: true
+      volumes:
+      - name: matriz-logs
+        emptyDir: {}
+      - name: matriz-config
+        configMap:
+          name: lukhas-matriz-config
+      - name: otel-config
+        configMap:
+          name: lukhas-otel-config
+      nodeSelector:
+        kubernetes.io/arch: amd64
+        node-type: compute-optimized
+      tolerations:
+      - key: "node.kubernetes.io/not-ready"
+        operator: "Exists"
+        effect: "NoExecute"
+        tolerationSeconds: 300
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: app
+                operator: In
+                values:
+                - lukhas-matriz
+              - key: component
+                operator: In
+                values:
+                - orchestrator
+            topologyKey: kubernetes.io/hostname
+
+---
+# Canary Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: lukhas-matriz-canary
+  namespace: lukhas-ai
+  labels:
+    app: lukhas-matriz
+    component: orchestrator
+    service-type: canary
+spec:
+  type: ClusterIP
+  ports:
+  - name: http
+    port: 80
+    targetPort: http
+    protocol: TCP
+  - name: metrics
+    port: 9090
+    targetPort: metrics
+    protocol: TCP
+  selector:
+    app: lukhas-matriz
+    component: orchestrator
+
+---
+# Stable Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: lukhas-matriz-stable
+  namespace: lukhas-ai
+  labels:
+    app: lukhas-matriz
+    component: orchestrator
+    service-type: stable
+spec:
+  type: ClusterIP
+  ports:
+  - name: http
+    port: 80
+    targetPort: http
+    protocol: TCP
+  - name: metrics
+    port: 9090
+    targetPort: metrics
+    protocol: TCP
+  selector:
+    app: lukhas-matriz
+    component: orchestrator
+
+---
+# Analysis Templates for Canary Validation
+apiVersion: argoproj.io/v1alpha1
+kind: AnalysisTemplate
+metadata:
+  name: matriz-success-rate
+  namespace: lukhas-ai
+spec:
+  metrics:
+  - name: success-rate
+    interval: 60s
+    count: 5
+    successCondition: result[0] >= 0.995  # 99.5% success rate required
+    failureLimit: 2
+    provider:
+      prometheus:
+        address: http://prometheus:9090
+        query: |
+          sum(rate(http_requests_total{job="lukhas-matriz-canary",status!~"5.."}[2m])) /
+          sum(rate(http_requests_total{job="lukhas-matriz-canary"}[2m]))
+
+---
+apiVersion: argoproj.io/v1alpha1
+kind: AnalysisTemplate
+metadata:
+  name: matriz-latency-p95
+  namespace: lukhas-ai
+spec:
+  metrics:
+  - name: latency-p95
+    interval: 60s
+    count: 5
+    successCondition: result[0] <= 0.250  # P95 ≤ 250ms
+    failureLimit: 2
+    provider:
+      prometheus:
+        address: http://prometheus:9090
+        query: |
+          histogram_quantile(0.95,
+            sum(rate(lukhas_matriz_pipeline_duration_seconds_bucket{job="lukhas-matriz-canary"}[2m])) by (le)
+          )
+
+---
+apiVersion: argoproj.io/v1alpha1
+kind: AnalysisTemplate
+metadata:
+  name: matriz-error-rate
+  namespace: lukhas-ai
+spec:
+  metrics:
+  - name: error-rate
+    interval: 60s
+    count: 3
+    successCondition: result[0] <= 0.001  # ≤ 0.1% error rate
+    failureLimit: 1
+    provider:
+      prometheus:
+        address: http://prometheus:9090
+        query: |
+          sum(rate(http_requests_total{job="lukhas-matriz-canary",status=~"5.."}[2m])) /
+          sum(rate(http_requests_total{job="lukhas-matriz-canary"}[2m]))
+
+---
+apiVersion: argoproj.io/v1alpha1
+kind: AnalysisTemplate
+metadata:
+  name: matriz-comprehensive-health
+  namespace: lukhas-ai
+spec:
+  metrics:
+  - name: comprehensive-health-score
+    interval: 120s
+    count: 3
+    successCondition: result[0] >= 0.98  # 98% overall health score
+    failureLimit: 1
+    provider:
+      prometheus:
+        address: http://prometheus:9090
+        query: |
+          (
+            (sum(rate(http_requests_total{job="lukhas-matriz-canary",status!~"5.."}[5m])) /
+             sum(rate(http_requests_total{job="lukhas-matriz-canary"}[5m]))) * 0.4 +
+            (1 - bool(histogram_quantile(0.95,
+              sum(rate(lukhas_matriz_pipeline_duration_seconds_bucket{job="lukhas-matriz-canary"}[5m])) by (le)
+            ) > 0.250)) * 0.3 +
+            (1 - bool(histogram_quantile(0.99,
+              sum(rate(guardian_decision_duration_seconds_bucket{job="lukhas-matriz-canary"}[5m])) by (le)
+            ) > 0.005)) * 0.3
+          )
+
+---
+# Service Account for MATRIZ Orchestrator
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: lukhas-matriz-service-account
+  namespace: lukhas-ai
+  labels:
+    app: lukhas-matriz
+    component: rbac
+
+---
+# Role for MATRIZ Orchestrator
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  namespace: lukhas-ai
+  name: lukhas-matriz-role
+  labels:
+    app: lukhas-matriz
+    component: rbac
+rules:
+- apiGroups: [""]
+  resources: ["configmaps", "secrets"]
+  verbs: ["get", "list", "watch"]
+- apiGroups: [""]
+  resources: ["pods", "services"]
+  verbs: ["get", "list", "watch"]
+- apiGroups: ["apps"]
+  resources: ["deployments", "replicasets"]
+  verbs: ["get", "list", "watch"]
+
+---
+# Role Binding for MATRIZ Orchestrator
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: lukhas-matriz-rolebinding
+  namespace: lukhas-ai
+  labels:
+    app: lukhas-matriz
+    component: rbac
+subjects:
+- kind: ServiceAccount
+  name: lukhas-matriz-service-account
+  namespace: lukhas-ai
+roleRef:
+  kind: Role
+  name: lukhas-matriz-role
+  apiGroup: rbac.authorization.k8s.io

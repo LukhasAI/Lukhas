@@ -1,0 +1,118 @@
+# Production OpenTelemetry Collector Configuration
+# Handles traces, metrics, and logs from LUKHAS components
+
+receivers:
+  otlp:
+    protocols:
+      grpc:
+        endpoint: 0.0.0.0:4317
+      http:
+        endpoint: 0.0.0.0:4318
+
+  # Health check endpoint
+  prometheus/internal:
+    config:
+      scrape_configs:
+      - job_name: 'otel-collector'
+        scrape_interval: 10s
+        static_configs:
+        - targets: ['0.0.0.0:8888']
+
+processors:
+  # Memory limiter to prevent OOM
+  memory_limiter:
+    limit_mib: 1000
+
+  # Batch processing for efficiency
+  batch:
+    timeout: 1s
+    send_batch_size: 1024
+    send_batch_max_size: 2048
+
+  # Resource detection
+  resourcedetection:
+    detectors: [env, system, docker]
+    timeout: 5s
+    override: false
+
+  # Sampling for high-volume environments
+  probabilistic_sampler:
+    sampling_percentage: 100  # 100% for canary, reduce for production scale
+
+  # Attribute processing for LUKHAS-specific tags
+  attributes:
+    actions:
+    - key: service.name
+      value: lukhas-matriz
+      action: upsert
+    - key: service.version
+      from_attribute: lukhas.version
+      action: insert
+    - key: deployment.environment
+      from_attribute: lukhas.lane
+      action: insert
+
+exporters:
+  # Console exporter for debugging
+  logging:
+    loglevel: info
+    sampling_initial: 5
+    sampling_thereafter: 200
+
+  # Prometheus metrics export
+  prometheus:
+    endpoint: "0.0.0.0:8889"
+    const_labels:
+      service: lukhas-matriz
+
+  # OTLP export to tracing backend (configure for your backend)
+  otlp/tracing:
+    endpoint: "${TRACING_BACKEND_ENDPOINT:-http://jaeger:14250}"
+    tls:
+      insecure: true
+    headers:
+      api-key: "${TRACING_API_KEY:-}"
+
+  # Prometheus remote write (configure for your Prometheus)
+  prometheusremotewrite:
+    endpoint: "${PROMETHEUS_REMOTE_WRITE_ENDPOINT:-http://prometheus:9090/api/v1/write}"
+    headers:
+      authorization: "Bearer ${PROMETHEUS_API_KEY:-}"
+
+service:
+  pipelines:
+    # Traces pipeline
+    traces:
+      receivers: [otlp]
+      processors: [memory_limiter, resourcedetection, attributes, probabilistic_sampler, batch]
+      exporters: [logging, otlp/tracing]
+
+    # Metrics pipeline
+    metrics:
+      receivers: [otlp, prometheus/internal]
+      processors: [memory_limiter, resourcedetection, attributes, batch]
+      exporters: [logging, prometheus, prometheusremotewrite]
+
+  # Collector health and performance monitoring
+  extensions: [health_check, pprof, zpages]
+
+  # Telemetry configuration
+  telemetry:
+    logs:
+      level: "info"
+    metrics:
+      level: detailed
+      address: 0.0.0.0:8888
+
+extensions:
+  # Health check extension
+  health_check:
+    endpoint: 0.0.0.0:13133
+
+  # Performance profiling
+  pprof:
+    endpoint: 0.0.0.0:1777
+
+  # zPages for debugging
+  zpages:
+    endpoint: 0.0.0.0:55679

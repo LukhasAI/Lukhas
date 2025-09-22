@@ -14,6 +14,28 @@ env:
   PYTHONPATH: .
 
 jobs:
+  prometheus-alerts-test:
+    name: 🚨 Prometheus Alert Rules Validation
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
+
+      - name: Test Prometheus alert rules with promtool
+        run: |
+          docker run --rm \
+            -v ${{ github.workspace }}/ops/prometheus:/etc/prometheus \
+            prom/prometheus:latest \
+            promtool test rules /etc/prometheus/slo_alerts_test.yml
+
+      - name: Validate alert rule syntax
+        run: |
+          docker run --rm \
+            -v ${{ github.workspace }}/ops/prometheus:/etc/prometheus \
+            prom/prometheus:latest \
+            promtool check rules /etc/prometheus/slo_alerts.yml
+
   performance-validation:
     runs-on: ubuntu-latest
     timeout-minutes: 15
