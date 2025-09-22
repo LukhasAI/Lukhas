@@ -1,0 +1,282 @@
+{
+  "dashboard": {
+    "id": null,
+    "title": "LUKHAS System Overview",
+    "tags": ["lukhas", "matriz", "constellation"],
+    "style": "dark",
+    "timezone": "browser",
+    "refresh": "30s",
+    "schemaVersion": 30,
+    "version": 1,
+    "time": {
+      "from": "now-1h",
+      "to": "now"
+    },
+    "timepicker": {},
+    "templating": {
+      "list": [
+        {
+          "name": "lane",
+          "type": "query",
+          "query": "label_values(lukhas_matriz_pipeline_duration_seconds, lane)",
+          "current": {
+            "value": "All",
+            "text": "All"
+          },
+          "includeAll": true,
+          "multi": true
+        }
+      ]
+    },
+    "panels": [
+      {
+        "id": 1,
+        "title": "🚀 MATRIZ Pipeline Performance",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "histogram_quantile(0.95, sum(rate(lukhas_matriz_pipeline_duration_seconds_bucket{lane=~\"$lane\"}[5m])) by (le))",
+            "legendFormat": "P95 Pipeline Latency",
+            "refId": "A"
+          },
+          {
+            "expr": "histogram_quantile(0.50, sum(rate(lukhas_matriz_pipeline_duration_seconds_bucket{lane=~\"$lane\"}[5m])) by (le))",
+            "legendFormat": "P50 Pipeline Latency",
+            "refId": "B"
+          }
+        ],
+        "yAxes": [
+          {
+            "unit": "s",
+            "min": 0,
+            "max": 0.5
+          }
+        ],
+        "alert": {
+          "conditions": [
+            {
+              "query": {
+                "queryType": "",
+                "refId": "A"
+              },
+              "reducer": {
+                "type": "last",
+                "params": []
+              },
+              "evaluator": {
+                "params": [0.25],
+                "type": "gt"
+              }
+            }
+          ],
+          "executionErrorState": "alerting",
+          "noDataState": "no_data",
+          "frequency": "30s",
+          "handler": 1,
+          "name": "MATRIZ Pipeline SLO Violation",
+          "message": "MATRIZ pipeline P95 latency exceeds 250ms SLO"
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 12,
+          "x": 0,
+          "y": 0
+        }
+      },
+      {
+        "id": 2,
+        "title": "🧠 Memory System Performance",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "histogram_quantile(0.95, sum(rate(lukhas_memory_recall_duration_seconds_bucket{lane=~\"$lane\"}[5m])) by (le))",
+            "legendFormat": "P95 Memory Recall",
+            "refId": "A"
+          },
+          {
+            "expr": "rate(lukhas_memory_cascade_prevented_total{lane=~\"$lane\"}[5m])",
+            "legendFormat": "Cascade Prevention Rate",
+            "refId": "B"
+          }
+        ],
+        "yAxes": [
+          {
+            "unit": "s",
+            "min": 0,
+            "max": 0.2
+          }
+        ],
+        "gridPos": {
+          "h": 8,
+          "w": 12,
+          "x": 12,
+          "y": 0
+        }
+      },
+      {
+        "id": 3,
+        "title": "🛡️ Guardian System Status",
+        "type": "stat",
+        "targets": [
+          {
+            "expr": "lukhas_guardian_decisions_total{lane=~\"$lane\",decision=\"allowed\"}",
+            "legendFormat": "Allowed Decisions",
+            "refId": "A"
+          },
+          {
+            "expr": "lukhas_guardian_decisions_total{lane=~\"$lane\",decision=\"blocked\"}",
+            "legendFormat": "Blocked Decisions",
+            "refId": "B"
+          },
+          {
+            "expr": "lukhas_guardian_emergency_active{lane=~\"$lane\"}",
+            "legendFormat": "Emergency Status",
+            "refId": "C"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "thresholds": {
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 1
+                }
+              ]
+            }
+          }
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 8,
+          "x": 0,
+          "y": 8
+        }
+      },
+      {
+        "id": 4,
+        "title": "📊 System Throughput",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "sum(rate(lukhas_matriz_pipeline_total{lane=~\"$lane\",status=\"success\"}[5m]))",
+            "legendFormat": "Successful Pipelines/sec",
+            "refId": "A"
+          },
+          {
+            "expr": "sum(rate(lukhas_matriz_pipeline_total{lane=~\"$lane\",status=\"error\"}[5m]))",
+            "legendFormat": "Failed Pipelines/sec",
+            "refId": "B"
+          }
+        ],
+        "yAxes": [
+          {
+            "unit": "reqps",
+            "min": 0
+          }
+        ],
+        "gridPos": {
+          "h": 8,
+          "w": 8,
+          "x": 8,
+          "y": 8
+        }
+      },
+      {
+        "id": 5,
+        "title": "🔄 Router Fallback Metrics",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "sum(rate(lukhas_router_fallback_total{lane=~\"$lane\",outcome=\"success\"}[5m]))",
+            "legendFormat": "Successful Fallbacks/sec",
+            "refId": "A"
+          },
+          {
+            "expr": "sum(rate(lukhas_router_deprecation_warnings_total{lane=~\"$lane\"}[5m]))",
+            "legendFormat": "Deprecation Warnings/sec",
+            "refId": "B"
+          }
+        ],
+        "gridPos": {
+          "h": 8,
+          "w": 8,
+          "x": 16,
+          "y": 8
+        }
+      },
+      {
+        "id": 6,
+        "title": "⚡ MATRIZ Stage Breakdown",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "histogram_quantile(0.95, sum(rate(lukhas_matriz_stage_duration_seconds_bucket{lane=~\"$lane\"}[5m])) by (le, stage))",
+            "legendFormat": "P95 {{stage}}",
+            "refId": "A"
+          }
+        ],
+        "yAxes": [
+          {
+            "unit": "s",
+            "min": 0
+          }
+        ],
+        "gridPos": {
+          "h": 8,
+          "w": 12,
+          "x": 0,
+          "y": 16
+        }
+      },
+      {
+        "id": 7,
+        "title": "🏗️ System Resources",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "process_resident_memory_bytes",
+            "legendFormat": "Memory Usage",
+            "refId": "A"
+          },
+          {
+            "expr": "rate(process_cpu_seconds_total[5m])",
+            "legendFormat": "CPU Usage",
+            "refId": "B"
+          }
+        ],
+        "yAxes": [
+          {
+            "unit": "bytes",
+            "min": 0
+          }
+        ],
+        "gridPos": {
+          "h": 8,
+          "w": 12,
+          "x": 12,
+          "y": 16
+        }
+      }
+    ],
+    "annotations": {
+      "list": [
+        {
+          "name": "Guardian Events",
+          "datasource": "prometheus",
+          "enable": true,
+          "expr": "changes(lukhas_guardian_emergency_active[5m]) > 0",
+          "iconColor": "red",
+          "titleFormat": "Guardian Emergency State Change"
+        }
+      ]
+    }
+  }
+}

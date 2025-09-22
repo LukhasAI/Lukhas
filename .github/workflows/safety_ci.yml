@@ -1,0 +1,163 @@
+name: LUKHAS QI Safety CI
+# Designed by: Gonzalo Dominguez - Lukhas AI
+
+on:
+  push:
+    branches: [main, develop]
+    paths:
+      - 'qi/**'
+      - '.github/workflows/safety_ci.yml'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'qi/**'
+  schedule:
+    - cron: '0 0 * * 0'  # Weekly on Sunday
+
+jobs:
+  safety-checks:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ['3.11', '3.12']
+        jurisdiction: ['global', 'eu', 'us']
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ matrix.python-version }}
+
+    - name: Cache dependencies
+      uses: actions/cache@v3
+      with:
+        path: ~/.cache/pip
+        key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements*.txt') }}
+        restore-keys: |
+          ${{ runner.os }}-pip-
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        pip install -r requirements-test.txt
+        pip install pynacl pyyaml numpy scikit-learn
+
+    - name: Run Safety CI Pipeline
+      env:
+        JURISDICTION: ${{ matrix.jurisdiction }}
+        MUTATIONS: 50
+        MAX_PASSES: 5
+        OUT_DIR: ci_results_${{ matrix.jurisdiction }}
+      run: |
+        bash scripts/policy_mutate_ci.sh
+
+    - name: Upload CI Results
+      if: always()
+      uses: actions/upload-artifact@v3
+      with:
+        name: safety-ci-results-${{ matrix.python-version }}-${{ matrix.jurisdiction }}
+        path: ci_results_${{ matrix.jurisdiction }}/
+
+    - name: Check Coverage Report
+      if: matrix.jurisdiction == 'global'
+      run: |
+        if [ -f "ci_results_global/coverage_report.md" ]; then
+          echo "## Policy Coverage Report" >> $GITHUB_STEP_SUMMARY
+          cat ci_results_global/coverage_report.md >> $GITHUB_STEP_SUMMARY
+        fi
+
+    - name: Post results to PR
+      if: github.event_name == 'pull_request' && always()
+      uses: actions/github-script@v6
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        script: |
+          const fs = require('fs');
+          const jurisdiction = '${{ matrix.jurisdiction }}';
+          const resultsPath = `ci_results_${jurisdiction}/ci_summary.json`;
+
+          if (fs.existsSync(resultsPath)) {
+            const results = JSON.parse(fs.readFileSync(resultsPath, 'utf8'));
+            const passed = !results.steps.some(s => s.rc !== 0);
+            const emoji = passed ? '✅' : '❌';
+
+            const comment = `
+            ## ${emoji} Safety CI Results (${jurisdiction})
+
+            Python: ${{ matrix.python-version }}
+
+            | Check | Status |
+            |-------|--------|
+            ${results.steps.map(s => `| ${s.name} | ${s.rc === 0 ? '✅' : '❌'} |`).join('\n')}
+
+            ${results.mutation_violation ?
+              `⚠️ **Mutation Warning**: ${results.mutation_violation.allowed_count} mutations passed (max: ${results.mutation_violation.cap})` :
+              ''}
+            `;
+
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: comment
+            });
+          }
+
+  consent-integration:
+    runs-on: ubuntu-latest
+    needs: safety-checks
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install pyyaml
+
+    - name: Test ConsentGuard
+      run: |
+        python -m qi.memory.consent_guard test
+
+    - name: Test TEQ Consent Integration
+      run: |
+        # Create test context with user_id
+        echo '{"user_id": "test_user", "text": "Process my data"}' > test_context.json
+
+        # Grant consent
+        python -m qi.memory.consent_guard grant --user test_user --purpose data_processing --ttl-days 1
+
+        # Test with consent enabled
+        python -m qi.safety.teq_gate \
+          --policy-root qi/safety/policy_packs \
+          --jurisdiction global \
+          --task process_data \
+          --context test_context.json \
+          --consent-storage ~/.lukhas/consent/ledger.jsonl || true
+
+        # Revoke consent
+        python -m qi.memory.consent_guard revoke --user test_user --purpose data_processing
+
+        # Test should now fail
+        set +e
+        python -m qi.safety.teq_gate \
+          --policy-root qi/safety/policy_packs \
+          --jurisdiction global \
+          --task process_data \
+          --context test_context.json \
+          --consent-storage ~/.lukhas/consent/ledger.jsonl
+
+        if [ $? -ne 0 ]; then
+          echo "✅ Consent check correctly blocked after revocation"
+        else
+          echo "❌ Consent check failed to block after revocation"
+          exit 1
+        fi

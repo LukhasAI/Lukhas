@@ -37,6 +37,10 @@ jobs:
           "lukhas/observability/"
           "matriz/core/async_orchestrator.py"
           "lukhas/core/import_router.py"
+          "guardian/flag_snapshot.sh"
+          "docs/templates/canary_decision_one_page.md"
+          ".github/workflows/ci.yml"
+          "benchmarks/"
         )
 
         # Get changed files in this PR
