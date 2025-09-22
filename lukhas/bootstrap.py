@@ -9,7 +9,43 @@ import os
 import logging
 from typing import Dict, Any
 
+# Early OTel initialization
+from opentelemetry import trace
+from opentelemetry.sdk.trace import TracerProvider
+from opentelemetry.sdk.resources import Resource
+from opentelemetry.sdk.trace.export import BatchSpanProcessor, ConsoleSpanExporter
+
+try:
+    from opentelemetry.exporter.otlp.proto.http.trace_exporter import OTLPSpanExporter
+except ImportError:
+    OTLPSpanExporter = None
+
 logger = logging.getLogger(__name__)
+
+
+def init_tracing(service_name: str = "lukhas-matriz"):
+    """Initialize OpenTelemetry tracing early in bootstrap."""
+    if trace.get_tracer_provider().__class__.__name__ == "TracerProvider":
+        # already initialized
+        return
+
+    resource = Resource.create({"service.name": service_name})
+    provider = TracerProvider(resource=resource)
+    trace.set_tracer_provider(provider)
+
+    # always at least one sink (console) to catch local issues
+    provider.add_span_processor(BatchSpanProcessor(ConsoleSpanExporter()))
+
+    # if OTLP endpoint is provided in CI/prod, add it
+    otlp = os.getenv("OTEL_EXPORTER_OTLP_ENDPOINT")
+    if otlp and OTLPSpanExporter:
+        provider.add_span_processor(BatchSpanProcessor(OTLPSpanExporter(endpoint=otlp)))
+
+    logger.info(f"✅ OTel tracing initialized for {service_name} (endpoint: {otlp or 'console-only'})")
+
+
+# call once on process start
+init_tracing()
 
 
 def initialize_lukhas_services() -> Dict[str, Any]:
