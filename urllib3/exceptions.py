@@ -3,6 +3,11 @@
 # ΛTAG: test_stub
 
 
+class HTTPError(Exception):
+    """Base HTTP error exception."""
+    pass
+
+
 class NotOpenSSLWarning(Warning):
     """Placeholder warning to satisfy pytest filters."""
 

@@ -1,0 +1,78 @@
+# LUKHAS Prometheus Configuration
+# Memory Safety & Performance Monitoring
+
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+  external_labels:
+    monitor: 'lukhas-monitor'
+    environment: 'development'
+
+# Alertmanager configuration
+alerting:
+  alertmanagers:
+    - static_configs:
+        - targets:
+          - localhost:9093
+
+# Load rules
+rule_files:
+  - "alert_rules.yml"
+
+# Scrape configurations
+scrape_configs:
+  # Prometheus self-monitoring
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']
+
+  # LUKHAS Memory System
+  - job_name: 'memory_system'
+    metrics_path: '/metrics'
+    static_configs:
+      - targets:
+        - 'localhost:8001'
+        labels:
+          service: 'memory'
+          component: 'fold_system'
+
+  # LUKHAS Consciousness System
+  - job_name: 'consciousness_system'
+    metrics_path: '/metrics'
+    static_configs:
+      - targets:
+        - 'localhost:8002'
+        labels:
+          service: 'consciousness'
+          component: 'aka_qualia'
+
+  # LUKHAS Identity System
+  - job_name: 'identity_system'
+    metrics_path: '/metrics'
+    static_configs:
+      - targets:
+        - 'localhost:8003'
+        labels:
+          service: 'identity'
+          component: 'lambda_id'
+
+  # LUKHAS Orchestration
+  - job_name: 'orchestration'
+    metrics_path: '/metrics'
+    static_configs:
+      - targets:
+        - 'localhost:8004'
+        labels:
+          service: 'orchestration'
+          component: 'context_bus'
+
+  # Node Exporter (system metrics)
+  - job_name: 'node'
+    static_configs:
+      - targets: ['localhost:9100']
+        labels:
+          instance: 'lukhas-host'
+
+# Remote write configuration (optional)
+# remote_write:
+#   - url: "http://localhost:9009/api/v1/push"

@@ -9,7 +9,12 @@
       "Bash(pytest:*)",
       "Bash(python -m pytest -m \"memory_safety or memory_interleavings or slow\" --collect-only)",
       "Bash(python3 -m pytest -m \"memory_safety or memory_interleavings or slow\" --collect-only)",
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Bash(mkdir:*)",
+      "Bash(./tests/benchmarks/baseline/capture_environment.sh:*)",
+      "Bash(python3 -m pytest:*)",
+      "Bash(tee:*)",
+      "Bash(pip3 install:*)"
     ],
     "deny": [],
     "ask": []

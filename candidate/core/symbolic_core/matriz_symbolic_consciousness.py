@@ -205,7 +205,10 @@ class MatrizSymbolicConsciousnessProcessor:
 
         # Initialize processor consciousness
         if consciousness_state_manager:
-            asyncio.create_task(self._initialize_processor_consciousness())
+            # Defer task creation to avoid "no running event loop" error
+            self._pending_initialization = True
+        else:
+            self._pending_initialization = False
 
     async def _initialize_processor_consciousness(self) -> None:
         """Initialize symbolic processor consciousness"""
