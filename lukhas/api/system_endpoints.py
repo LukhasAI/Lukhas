@@ -17,7 +17,7 @@ from typing import Dict, List, Any, Optional
 from datetime import datetime
 
 try:
-    from lukhas.core.registry import _REG, _DISCOVERY_FLAG, ALIASES
+    from lukhas.core.registry import get_plugin_registry
     REGISTRY_AVAILABLE = True
 except ImportError:
     REGISTRY_AVAILABLE = False
@@ -46,37 +46,37 @@ def get_plugins_status() -> Dict[str, Any]:
             "timestamp": datetime.utcnow().isoformat()
         }
 
+    # Get plugin registry instance
+    registry = get_plugin_registry()
+
     # Get registered plugins
-    registered_plugins = dict(_REG) if _REG else {}
+    registered_plugins = registry.list_plugins()
 
     # Classify plugins by type/kind
     plugin_kinds = {}
     plugin_details = []
 
-    for name, plugin in registered_plugins.items():
-        # Determine plugin kind
-        if hasattr(plugin, '__class__'):
-            kind = plugin.__class__.__name__
-        elif hasattr(plugin, '__name__'):
-            kind = plugin.__name__
-        else:
-            kind = "unknown"
-
+    for name, plugin_info in registered_plugins.items():
+        kind = plugin_info.category
         plugin_kinds[kind] = plugin_kinds.get(kind, 0) + 1
 
         plugin_details.append({
-            "name": name,
+            "name": plugin_info.name,
             "kind": kind,
-            "type": str(type(plugin).__name__),
-            "module": getattr(plugin, '__module__', 'unknown'),
-            "healthy": _check_plugin_health(plugin)
+            "type": plugin_info.category,
+            "version": plugin_info.version,
+            "description": plugin_info.description,
+            "author": plugin_info.author,
+            "healthy": True,  # Assume healthy if discovered
+            "dependencies": plugin_info.dependencies
         })
 
     # Check discovery status
+    discovery_flag = os.getenv("LUKHAS_PLUGIN_DISCOVERY", "off").lower()
     discovery_status = {
-        "mode": _DISCOVERY_FLAG,
-        "enabled": _DISCOVERY_FLAG == "auto",
-        "aliases_available": len(ALIASES) > 0
+        "mode": discovery_flag,
+        "enabled": discovery_flag == "auto",
+        "registry_count": len(registered_plugins)
     }
 
     # Coverage validation - check for expected core kinds

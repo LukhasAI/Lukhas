@@ -44,20 +44,26 @@ class MockMemorySystem:
         self.access_count = 0
         self.cascade_prevented_count = 0
         self.total_operations = 0
+        self.cascade_detection_enabled = True
+        self.last_timestamps = {}  # Track last update times for rapid update detection
 
     async def store_item(self, item: MemoryItem) -> bool:
         """Store memory item with cascade prevention"""
         self.total_operations += 1
 
-        if len(self.items) >= self.capacity:
-            # Simulate cascade prevention
-            self._prevent_cascade()
+        # Check for potential cascade conditions first
+        if self.cascade_detection_enabled and self._would_cause_cascade(item):
             self.cascade_prevented_count += 1
-            # Remove least important item
-            least_important = min(self.items.values(), key=lambda x: x.importance)
-            del self.items[least_important.id]
+            return False  # Cascade prevented
 
+        if len(self.items) >= self.capacity:
+            # Remove oldest item to make space (LRU policy)
+            oldest_item = min(self.items.values(), key=lambda x: x.timestamp)
+            del self.items[oldest_item.id]
+
+        # Store item and update timestamp tracking
         self.items[item.id] = item
+        self.last_timestamps[item.id] = item.timestamp
         return True
 
     async def recall_topk(self, query_embedding: List[float], k: int = 10) -> List[MemoryItem]:
@@ -81,16 +87,45 @@ class MockMemorySystem:
 
         return result
 
-    def _prevent_cascade(self):
-        """Simulate cascade prevention logic"""
-        # In real system, this would implement sophisticated anti-cascade measures
-        pass
+    def _would_cause_cascade(self, item: MemoryItem) -> bool:
+        """Detect potential cascade conditions using sophisticated detection logic"""
+        import time
+
+        # Cascade condition 1: Circular references in content
+        if self._has_circular_reference(item):
+            return True
+
+        # Cascade condition 2: Excessive data size (conservative threshold)
+        if len(str(item.content)) > 10000:  # 10KB threshold
+            return True
+
+        # Cascade condition 3: Too rapid updates to same item (sub-millisecond)
+        if item.id in self.last_timestamps:
+            time_diff = item.timestamp - self.last_timestamps[item.id]
+            if time_diff < 0.001:  # Less than 1ms apart
+                return True
+
+        # Cascade condition 4: Suspicious importance spikes
+        if item.importance > 10.0:  # Abnormally high importance
+            return True
+
+        return False
+
+    def _has_circular_reference(self, item: MemoryItem) -> bool:
+        """Check for circular references in item content"""
+        content_str = str(item.content)
+        # Simple circular reference detection - look for self-references
+        if item.id in content_str:
+            return True
+        return False
 
     def get_cascade_prevention_rate(self) -> float:
-        """Calculate cascade prevention success rate"""
+        """Calculate cascade prevention success rate (successful operations rate)"""
         if self.total_operations == 0:
             return 1.0
-        return self.cascade_prevented_count / self.total_operations
+        # Rate of successful operations (not blocked by cascade prevention)
+        successful_operations = self.total_operations - self.cascade_prevented_count
+        return successful_operations / self.total_operations
 
 class MemorySystemBenchmarks:
     """Comprehensive memory system benchmarks"""

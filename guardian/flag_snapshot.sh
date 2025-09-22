@@ -11,7 +11,7 @@ APPROVAL_COUNT=0
 
 if [ -f "$CANARY_DECISION_FILE" ]; then
     # Count approval signatures
-    APPROVAL_COUNT=$(grep -c -E "(Approved by:|Signature:|@.*approved)" "$CANARY_DECISION_FILE" 2>/dev/null || echo 0)
+    APPROVAL_COUNT=$(grep -c -E "(Approved by:|Signature:|@.*approved)" "$CANARY_DECISION_FILE" 2>/dev/null | head -1 || echo 0)
     if [ "$APPROVAL_COUNT" -ge 2 ]; then
         DUAL_APPROVAL_VALID="true"
     fi
