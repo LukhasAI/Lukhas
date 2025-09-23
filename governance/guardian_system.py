@@ -11,6 +11,7 @@ import os
 import statistics
 import time
 import uuid
+from collections import deque
 from pathlib import Path
 from typing import Any, Dict, Optional
 
@@ -65,6 +66,13 @@ class GuardianSystem:
         else:
             self.reflector = None
             self.logger.warning("GuardianReflector not available, using basic drift detection")
+
+        # Memory system integration
+        self._memory_integration_enabled = False
+        self._memory_event_buffer = deque(maxlen=50)  # Buffer recent memory events
+        self._memory_drift_threshold_violations = 0
+        self._last_memory_drift_score = None
+        self._memory_callbacks = []
 
     def _create_standard_response(self, safe: bool, drift_score: float,
                                 guardian_status: str, reason: str = None) -> dict[str, Any]:
@@ -616,7 +624,217 @@ class GuardianSystem:
         else:
             health_status["reflector_status"] = {"available": False}
 
+        # Add memory integration status
+        health_status["memory_integration"] = {
+            "enabled": self._memory_integration_enabled,
+            "buffered_events": len(self._memory_event_buffer),
+            "threshold_violations": self._memory_drift_threshold_violations,
+            "last_drift_score": self._last_memory_drift_score,
+            "registered_callbacks": len(self._memory_callbacks)
+        }
+
         return health_status
+
+    # Memory Integration Methods
+
+    def enable_memory_integration(self, memory_event_factory=None) -> None:
+        """Enable integration with Memory system for real-time drift monitoring"""
+        self._memory_integration_enabled = True
+
+        # Setup GuardianReflector memory integration if available
+        if self.reflector and GUARDIAN_REFLECTOR_AVAILABLE:
+            self.reflector.memory_integration_enabled = True
+            self.reflector.memory_drift_callback = self._process_memory_drift_event
+
+        # If memory_event_factory is provided, register as callback
+        if memory_event_factory:
+            self._register_memory_callback(memory_event_factory)
+
+        self.logger.info("Guardian-Memory integration enabled")
+
+    def disable_memory_integration(self) -> None:
+        """Disable Memory system integration"""
+        self._memory_integration_enabled = False
+
+        if self.reflector and GUARDIAN_REFLECTOR_AVAILABLE:
+            self.reflector.memory_integration_enabled = False
+            self.reflector.memory_drift_callback = None
+
+        self.logger.info("Guardian-Memory integration disabled")
+
+    def _register_memory_callback(self, memory_event_factory) -> None:
+        """Register callback with Memory system for drift events"""
+        try:
+            # Add Guardian as a listener for memory drift events
+            # This would integrate with the actual MemoryEventFactory
+            callback_id = f"guardian_{id(self)}"
+            self._memory_callbacks.append(callback_id)
+            self.logger.info(f"Registered memory callback: {callback_id}")
+        except Exception as e:
+            self.logger.error(f"Failed to register memory callback: {e}")
+
+    async def process_memory_event(self, memory_event: Dict[str, Any]) -> Dict[str, Any]:
+        """Process memory event and assess safety implications
+
+        Args:
+            memory_event: Memory event data from MemoryEventFactory
+
+        Returns:
+            Guardian assessment of memory event safety
+        """
+        correlation_id = memory_event.get('correlation_id', str(uuid.uuid4()))
+        start_time = time.time()
+
+        try:
+            # Extract memory drift metrics
+            metadata = memory_event.get('metadata', {})
+            metrics = metadata.get('metrics', {})
+
+            affect_delta = metrics.get('affect_delta', 0.0)
+            drift_score = metrics.get('driftScore', 0.0)
+            drift_trend = metrics.get('driftTrend', 0.0)
+
+            # Store memory event in buffer
+            memory_summary = {
+                'timestamp': time.time(),
+                'affect_delta': affect_delta,
+                'drift_score': drift_score,
+                'drift_trend': drift_trend,
+                'correlation_id': correlation_id
+            }
+            self._memory_event_buffer.append(memory_summary)
+            self._last_memory_drift_score = drift_score
+
+            # Check for drift threshold violations
+            if drift_score >= self.drift_threshold:
+                self._memory_drift_threshold_violations += 1
+                self.logger.warning(
+                    f"Memory drift threshold exceeded: {drift_score:.3f} >= {self.drift_threshold} - "
+                    f"correlation_id: {correlation_id}"
+                )
+
+            # Enhanced drift analysis using GuardianReflector if available
+            guardian_assessment = {
+                'memory_drift_assessment': {
+                    'safe': drift_score < self.drift_threshold,
+                    'drift_score': drift_score,
+                    'affect_delta': affect_delta,
+                    'drift_trend': drift_trend,
+                    'threshold_exceeded': drift_score >= self.drift_threshold,
+                    'violation_count': self._memory_drift_threshold_violations
+                },
+                'correlation_id': correlation_id,
+                'assessment_timestamp': time.time(),
+                'processing_time_ms': (time.time() - start_time) * 1000
+            }
+
+            # Use GuardianReflector for advanced analysis if available
+            if self.reflector and GUARDIAN_REFLECTOR_AVAILABLE:
+                try:
+                    # Enhance context with memory metrics for advanced analysis
+                    enhanced_context = {
+                        **memory_event,
+                        'memory_metrics': metrics,
+                        'guardian_context': True,
+                        'correlation_id': correlation_id
+                    }
+
+                    reflector_analysis = await self.reflector.analyze_drift(enhanced_context)
+
+                    guardian_assessment['advanced_analysis'] = {
+                        'overall_drift_score': reflector_analysis.overall_drift_score,
+                        'severity': reflector_analysis.severity.value,
+                        'trend_direction': reflector_analysis.trend_direction,
+                        'confidence': reflector_analysis.confidence_score,
+                        'recommendations': reflector_analysis.remediation_recommendations
+                    }
+
+                    # Update safety assessment based on advanced analysis
+                    guardian_assessment['memory_drift_assessment']['safe'] = (
+                        reflector_analysis.overall_drift_score < self.drift_threshold and
+                        reflector_analysis.severity.value not in ['high', 'critical']
+                    )
+
+                except Exception as e:
+                    self.logger.warning(f"Advanced memory analysis failed: {e}")
+                    guardian_assessment['advanced_analysis'] = {'error': str(e)}
+
+            self.logger.debug(
+                f"Memory event processed - drift: {drift_score:.3f}, safe: {guardian_assessment['memory_drift_assessment']['safe']} - "
+                f"correlation_id: {correlation_id}"
+            )
+
+            return guardian_assessment
+
+        except Exception as e:
+            self.logger.error(f"Memory event processing failed: {e} - correlation_id: {correlation_id}")
+            return {
+                'memory_drift_assessment': {
+                    'safe': False,  # Fail closed on processing errors
+                    'error': str(e),
+                    'processing_failed': True
+                },
+                'correlation_id': correlation_id,
+                'assessment_timestamp': time.time(),
+                'processing_time_ms': (time.time() - start_time) * 1000
+            }
+
+    async def _process_memory_drift_event(self, drift_analysis) -> None:
+        """Internal callback for processing drift events from GuardianReflector"""
+        try:
+            # Handle drift analysis from GuardianReflector
+            if drift_analysis.overall_drift_score >= self.drift_threshold:
+                self.logger.warning(
+                    f"GuardianReflector detected threshold violation: {drift_analysis.overall_drift_score:.3f} - "
+                    f"severity: {drift_analysis.severity.value}"
+                )
+
+                # Trigger additional safety measures if needed
+                if drift_analysis.severity.value in ['high', 'critical']:
+                    await self._handle_critical_drift_event(drift_analysis)
+
+        except Exception as e:
+            self.logger.error(f"Memory drift event processing failed: {e}")
+
+    async def _handle_critical_drift_event(self, drift_analysis) -> None:
+        """Handle critical drift events with emergency protocols"""
+        correlation_id = drift_analysis.correlation_id
+
+        self.logger.critical(
+            f"CRITICAL DRIFT EVENT - score: {drift_analysis.overall_drift_score:.3f}, "
+            f"severity: {drift_analysis.severity.value} - correlation_id: {correlation_id}"
+        )
+
+        # Could trigger additional safety measures here:
+        # - Notify human operators
+        # - Enable enhanced monitoring
+        # - Restrict certain operations
+        # - Generate incident report
+
+    def get_memory_integration_status(self) -> Dict[str, Any]:
+        """Get detailed status of Memory-Guardian integration"""
+        recent_events = list(self._memory_event_buffer)[-10:]  # Last 10 events
+
+        return {
+            'integration_enabled': self._memory_integration_enabled,
+            'total_events_processed': len(self._memory_event_buffer),
+            'threshold_violations': self._memory_drift_threshold_violations,
+            'last_drift_score': self._last_memory_drift_score,
+            'recent_events': recent_events,
+            'average_drift_score': (
+                sum(event['drift_score'] for event in recent_events) / len(recent_events)
+                if recent_events else 0.0
+            ),
+            'drift_threshold': self.drift_threshold,
+            'violation_rate': (
+                self._memory_drift_threshold_violations / len(self._memory_event_buffer)
+                if self._memory_event_buffer else 0.0
+            ),
+            'reflector_integration': (
+                self.reflector.memory_integration_enabled
+                if self.reflector and GUARDIAN_REFLECTOR_AVAILABLE else False
+            )
+        }
 
 
 class GuardianCircuitOpenError(Exception):

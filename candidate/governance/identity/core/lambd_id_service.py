@@ -20,10 +20,12 @@ Features:
 - Cross-device synchronization
 - Audit trail and analytics
 - Rate limiting and security
+- Guardian ethical validation integration
 
 Author: LUKHAS AI Systems
-Version: 2.0.0
+Version: 2.1.0 - Guardian Integration
 Created: 2025-07-05
+Updated: 2025-09-23
 """
 
 import hashlib
@@ -32,13 +34,22 @@ import logging
 import re
 import secrets
 import time
+import uuid
 from dataclasses import asdict, dataclass
 from datetime import datetime
 from enum import Enum, IntEnum
 from pathlib import Path
-from typing import Any, Optional, Union
+from typing import Any, Dict, Optional, Union
 
 from candidate.core.common import get_logger
+
+# Guardian system integration for ethical ΛiD operations
+try:
+    from governance.guardian_system import GuardianSystem
+    GUARDIAN_AVAILABLE = True
+except ImportError:
+    GUARDIAN_AVAILABLE = False
+    print("⚠️  Guardian system not available - ΛiD operations without ethical validation")
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -121,7 +132,7 @@ class LambdaIDService:
 
     def __init__(self, config_path: Optional[str] = None, database_adapter=None):
         """
-        Initialize the ΛiD service.
+        Initialize the ΛiD service with Guardian ethical validation.
 
         Args:
             config_path: Path to tier configuration JSON
@@ -133,9 +144,26 @@ class LambdaIDService:
         self.generated_ids = set()  # In-memory collision prevention
         self.rate_limiters = {}  # Rate limiting by user/IP
 
+        # Guardian integration for ethical ΛiD operations
+        self._guardian_integration_enabled = False
+        self._guardian_instance = None
+        self._lambda_id_violations = 0
+        self._validated_generations = 0
+        self._blocked_generations = 0
+
+        # Initialize Guardian if available
+        if GUARDIAN_AVAILABLE:
+            try:
+                self._guardian_instance = GuardianSystem()
+                self._guardian_integration_enabled = True
+                logger.info("🛡️  Guardian-ΛiD integration enabled for ethical identity generation")
+            except Exception as e:
+                logger.error(f"⚠️  Failed to initialize Guardian integration: {e}")
+                self._guardian_integration_enabled = False
+
         logger.info(f"ΛiD Service initialized with {len(self.tier_config['tier_permissions'])} tiers")
 
-    def generate_lambda_id(
+    async def generate_lambda_id(
         self,
         tier: Union[int, TierLevel],
         user_context: Optional[UserContext] = None,
@@ -143,7 +171,7 @@ class LambdaIDService:
         custom_options: Optional[dict[str, Any]] = None,
     ) -> LambdaIDResult:
         """
-        Generate a new ΛiD with comprehensive validation and features.
+        Generate a new ΛiD with comprehensive validation and Guardian ethical validation.
 
         Args:
             tier: User tier level (0-5)
@@ -155,8 +183,57 @@ class LambdaIDService:
             LambdaIDResult with generation details
         """
         start_time = time.time()
+        correlation_id = f"lambda_gen_{int(time.time() * 1000)}_{str(uuid.uuid4())[:8]}"
 
         try:
+            # Guardian pre-validation for ΛiD generation
+            if self._guardian_integration_enabled:
+                guardian_context = {
+                    "action_type": "lambda_id_generation",
+                    "tier": self._normalize_tier(tier),
+                    "user_context": {
+                        "user_id": user_context.user_id if user_context else None,
+                        "email": user_context.email if user_context else None,
+                        "commercial_account": user_context.commercial_account if user_context else False,
+                        "brand_prefix": user_context.brand_prefix if user_context else None
+                    },
+                    "generation_options": {
+                        "symbolic_preference": symbolic_preference,
+                        "custom_options": custom_options or {}
+                    },
+                    "correlation_id": correlation_id,
+                    "operation": "generate_lambda_id"
+                }
+
+                try:
+                    if hasattr(self._guardian_instance, 'validate_action_async'):
+                        guardian_result = await self._guardian_instance.validate_action_async(guardian_context)
+                    else:
+                        guardian_result = self._guardian_instance.validate_safety(guardian_context)
+
+                    if not guardian_result.get("safe", False):
+                        self._blocked_generations += 1
+                        self._lambda_id_violations += 1
+                        reason = guardian_result.get("reason", "ΛiD generation blocked by Guardian")
+
+                        logger.warning(f"ΛiD generation blocked for tier {tier}: {reason}")
+
+                        return LambdaIDResult(
+                            success=False,
+                            error_message=f"ΛiD generation blocked for security reasons: {reason}",
+                            metadata={
+                                "guardian_blocked": True,
+                                "guardian_reason": reason,
+                                "correlation_id": correlation_id,
+                                "timestamp": datetime.now(timezone.utc).isoformat()
+                            }
+                        )
+
+                    self._validated_generations += 1
+
+                except Exception as e:
+                    logger.warning(f"Guardian validation failed for ΛiD generation {correlation_id}: {e}")
+
             # Normalize tier
             tier_level = self._normalize_tier(tier)
 
@@ -178,7 +255,7 @@ class LambdaIDService:
             # Collision prevention
             if self._check_collision(lambda_id):
                 logger.warning(f"Collision detected for {lambda_id}, regenerating...")
-                return self._handle_collision(tier_level, user_context, symbolic_preference, custom_options)
+                return await self._handle_collision(tier_level, user_context, symbolic_preference, custom_options)
 
             # Calculate entropy score
             entropy_score = self._calculate_entropy(lambda_id, tier_level)
@@ -194,7 +271,7 @@ class LambdaIDService:
             self.generated_ids.add(lambda_id)
 
             # Log generation event
-            self._log_generation_event(lambda_id, tier_level, user_context)
+            self._log_generation_event(lambda_id, tier_level, user_context, correlation_id)
 
             generation_time = (time.time() - start_time) * 1000
 
@@ -208,7 +285,9 @@ class LambdaIDService:
                 metadata={
                     "tier_info": tier_info,
                     "timestamp": datetime.now(timezone.utc).isoformat(),
-                    "version": "2.0.0",
+                    "version": "2.1.0",
+                    "correlation_id": correlation_id,
+                    "guardian_validated": self._guardian_integration_enabled,
                 },
             )
 
@@ -505,7 +584,7 @@ class LambdaIDService:
 
         return False
 
-    def _handle_collision(
+    async def _handle_collision(
         self,
         tier: int,
         user_context: Optional[UserContext],
@@ -517,7 +596,7 @@ class LambdaIDService:
         collision_options["collision_retry"] = True
         collision_options["retry_timestamp"] = time.time()
 
-        return self.generate_lambda_id(tier, user_context, symbolic_preference, collision_options)
+        return await self.generate_lambda_id(tier, user_context, symbolic_preference, collision_options)
 
     def _validate_format(self, lambda_id: str) -> tuple[bool, list[str]]:
         """Validate ΛiD format"""
@@ -616,9 +695,16 @@ class LambdaIDService:
                 }
             )
 
-    def _log_generation_event(self, lambda_id: str, tier: int, user_context: Optional[UserContext]) -> None:
-        """Log ΛiD generation event"""
-        logger.info(f"ΛiD Generated: {lambda_id} (Tier {tier})")
+    def _log_generation_event(self, lambda_id: str, tier: int, user_context: Optional[UserContext],
+                             correlation_id: Optional[str] = None) -> None:
+        """Log ΛiD generation event with Guardian integration metadata"""
+        log_message = f"ΛiD Generated: {lambda_id} (Tier {tier})"
+        if correlation_id:
+            log_message += f" [{correlation_id}]"
+        if self._guardian_integration_enabled:
+            log_message += " [Guardian Validated]"
+
+        logger.info(log_message)
 
     def _check_automatic_upgrade(self, upgrade_key: str, user_context: Optional[UserContext]) -> dict[str, Any]:
         """Check automatic upgrade eligibility"""
@@ -629,6 +715,113 @@ class LambdaIDService:
         """Check manual upgrade eligibility"""
         # TODO: Implement manual upgrade logic
         return {"eligible": False, "reason": "Not implemented"}
+
+    # Guardian Integration Methods for ΛiD Security
+
+    async def validate_lambda_id_operation(self, operation_type: str, operation_data: Dict[str, Any],
+                                         user_id: str = "unknown") -> Dict[str, Any]:
+        """Standalone method to validate ΛiD operations with Guardian"""
+        if not self._guardian_integration_enabled or not self._guardian_instance:
+            return {
+                "validated": True,
+                "reason": "Guardian validation not available",
+                "safe": True
+            }
+
+        correlation_id = f"lambda_validation_{int(time.time() * 1000)}_{str(uuid.uuid4())[:8]}"
+
+        guardian_context = {
+            "action_type": f"lambda_id_{operation_type}",
+            "user_id": user_id,
+            "operation_data": operation_data,
+            "correlation_id": correlation_id,
+            "operation": f"validate_{operation_type}"
+        }
+
+        try:
+            if hasattr(self._guardian_instance, 'validate_action_async'):
+                result = await self._guardian_instance.validate_action_async(guardian_context)
+            else:
+                result = self._guardian_instance.validate_safety(guardian_context)
+
+            return {
+                "validated": True,
+                "safe": result.get("safe", False),
+                "reason": result.get("reason", "Guardian validation completed"),
+                "drift_score": result.get("drift_score", 0),
+                "guardian_status": result.get("guardian_status", "unknown"),
+                "correlation_id": correlation_id,
+                "guardian_result": result
+            }
+
+        except Exception as e:
+            return {
+                "validated": False,
+                "safe": False,
+                "reason": f"Guardian validation failed: {str(e)}",
+                "error": True,
+                "correlation_id": correlation_id
+            }
+
+    def get_guardian_lambda_id_status(self) -> Dict[str, Any]:
+        """Get comprehensive Guardian-ΛiD integration status for monitoring"""
+        if not self._guardian_integration_enabled:
+            return {
+                "enabled": False,
+                "available": GUARDIAN_AVAILABLE,
+                "reason": "Guardian integration not enabled"
+            }
+
+        # Calculate metrics
+        total_generations = self._validated_generations + self._blocked_generations
+        validation_rate = self._validated_generations / total_generations if total_generations > 0 else 0
+        block_rate = self._blocked_generations / total_generations if total_generations > 0 else 0
+
+        return {
+            "enabled": True,
+            "available": GUARDIAN_AVAILABLE,
+            "performance": {
+                "total_generation_attempts": total_generations,
+                "validated_generations": self._validated_generations,
+                "blocked_generations": self._blocked_generations,
+                "validation_rate": validation_rate,
+                "block_rate": block_rate,
+                "lambda_id_violations": self._lambda_id_violations
+            },
+            "protected_operations": [
+                "lambda_id_generation",
+                "lambda_id_validation",
+                "tier_upgrade_check",
+                "entropy_calculation"
+            ],
+            "service_metrics": {
+                "total_generated_ids": len(self.generated_ids),
+                "tier_config_version": self.tier_config.get("tier_system", {}).get("version"),
+                "available_tiers": len(self.tier_config.get("tier_permissions", {})),
+                "rate_limiters_active": len(self.rate_limiters)
+            },
+            "health_assessment": self._assess_lambda_id_guardian_health()
+        }
+
+    def _assess_lambda_id_guardian_health(self) -> str:
+        """Assess overall Guardian-ΛiD integration health"""
+        if not self._guardian_integration_enabled:
+            return "disabled"
+
+        # Check block rate
+        total_generations = self._validated_generations + self._blocked_generations
+        if total_generations > 10:  # Only assess if we have enough data
+            block_rate = self._blocked_generations / total_generations
+            if block_rate > 0.2:  # >20% block rate is concerning for ΛiD operations
+                return "high_block_rate"
+            elif block_rate > 0.1:  # >10% block rate warrants monitoring
+                return "elevated_blocks"
+
+        # Check for excessive violations
+        if self._lambda_id_violations > 25:  # Threshold for ΛiD violations
+            return "security_concerns"
+
+        return "healthy"
 
 
 # Singleton instance for easy access

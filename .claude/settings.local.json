@@ -1,8 +1,12 @@
 {
   "permissions": {
     "allow": [
-      "Bash(PYTHONHASHSEED=0 LUKHAS_MODE=release PYTHONDONTWRITEBYTECODE=1 python3 scripts/bench_t4_excellence.py)",
-      "Bash(PYTHONHASHSEED=0 LUKHAS_MODE=release PYTHONDONTWRITEBYTECODE=1 SKIP_PREFLIGHT=1 python3 -c \"\nimport os, sys\nsys.path.insert(0, ''scripts'')\nos.environ[''SKIP_PREFLIGHT''] = ''1''\nfrom bench_t4_excellence import run_t4_excellence_validation\nrun_t4_excellence_validation()\n\")"
+      "Bash(PYTHONHASHSEED=0 LUKHAS_MODE=release PYTHONDONTWRITEBYTECODE=1 python3 test_guardian_integration_validation.py)",
+      "Bash(python3 tests:*)",
+      "Bash(python3:*)",
+      "Bash(git add:*)",
+      "Bash(PYTHONHASHSEED=0 LUKHAS_MODE=release PYTHONDONTWRITEBYTECODE=1 python3 scripts/preflight_check.py)",
+      "Bash(PYTHONHASHSEED=0 LUKHAS_MODE=release PYTHONDONTWRITEBYTECODE=1 python3 tests/consciousness/test_reflection_engine.py)"
     ],
     "deny": [],
     "ask": []
