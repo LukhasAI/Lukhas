@@ -33,37 +33,62 @@ from .tier_system import TierLevel, normalize_tier
 
 tracer = trace.get_tracer(__name__)
 
-# Prometheus metrics
-token_validation_total = Counter(
-    'lukhas_token_validation_total',
-    'Total token validations',
-    ['component', 'result', 'error_type']
-)
+# Prometheus metrics (test-safe)
+class MockMetric:
+    def labels(self, **kwargs):
+        return self
+    def inc(self, amount=1):
+        pass
+    def observe(self, amount):
+        pass
+    def set(self, value):
+        pass
 
-token_validation_latency_seconds = Histogram(
-    'lukhas_token_validation_latency_seconds',
-    'Token validation latency',
-    ['component'],
-    buckets=[0.001, 0.005, 0.01, 0.025, 0.05, 0.1, 0.25, 0.5, 1.0]
-)
+try:
+    token_validation_total = Counter(
+        'lukhas_token_validation_total',
+        'Total token validations',
+        ['component', 'result', 'error_type']
+    )
+except ValueError:
+    token_validation_total = MockMetric()
 
-token_validation_errors_total = Counter(
-    'lukhas_token_validation_errors_total',
-    'Token validation errors',
-    ['component', 'error_type']
-)
+try:
+    token_validation_latency_seconds = Histogram(
+        'lukhas_token_validation_latency_seconds',
+        'Token validation latency',
+        ['component'],
+        buckets=[0.001, 0.005, 0.01, 0.025, 0.05, 0.1, 0.25, 0.5, 1.0]
+    )
+except ValueError:
+    token_validation_latency_seconds = MockMetric()
 
-active_tokens_gauge = Gauge(
-    'lukhas_active_tokens_total',
-    'Number of active tokens in cache',
-    ['component']
-)
+try:
+    token_validation_errors_total = Counter(
+        'lukhas_token_validation_errors_total',
+        'Token validation errors',
+        ['component', 'error_type']
+    )
+except ValueError:
+    token_validation_errors_total = MockMetric()
 
-guardian_validation_total = Counter(
-    'lukhas_guardian_validation_total',
-    'Guardian ethical validations',
-    ['component', 'action', 'result']
-)
+try:
+    active_tokens_gauge = Gauge(
+        'lukhas_active_tokens_total',
+        'Number of active tokens in cache',
+        ['component']
+    )
+except ValueError:
+    active_tokens_gauge = MockMetric()
+
+try:
+    guardian_validation_total = Counter(
+        'lukhas_guardian_validation_total',
+        'Guardian ethical validations',
+        ['component', 'action', 'result']
+    )
+except ValueError:
+    guardian_validation_total = MockMetric()
 
 logger = logging.getLogger(__name__)
 
@@ -750,6 +775,10 @@ class TokenValidator:
         self._token_cache.clear()
         active_tokens_gauge.labels(component=self._component_id).set(0)
         logger.info("Token validation cache cleared")
+
+    def verify(self, token: str, context: Optional[ValidationContext] = None) -> ValidationResult:
+        """Alias for validate method for backward compatibility."""
+        return self.validate(token, context)
 
 
 # Export public interface

@@ -24,25 +24,42 @@ from .alias_format import make_alias, ΛiDAlias
 
 tracer = trace.get_tracer(__name__)
 
-# Prometheus metrics
-token_generation_total = Counter(
-    'lukhas_token_generation_total',
-    'Total tokens generated',
-    ['component', 'realm', 'zone']
-)
+# Prometheus metrics (test-safe)
+class MockMetric:
+    def labels(self, **kwargs):
+        return self
+    def inc(self, amount=1):
+        pass
+    def observe(self, amount):
+        pass
 
-token_generation_latency_seconds = Histogram(
-    'lukhas_token_generation_latency_seconds',
-    'Token generation latency',
-    ['component'],
-    buckets=[0.001, 0.005, 0.01, 0.025, 0.05, 0.1, 0.25, 0.5, 1.0]
-)
+try:
+    token_generation_total = Counter(
+        'lukhas_token_generation_total',
+        'Total tokens generated',
+        ['component', 'realm', 'zone']
+    )
+except ValueError:
+    token_generation_total = MockMetric()
 
-token_generation_errors_total = Counter(
-    'lukhas_token_generation_errors_total',
-    'Token generation errors',
-    ['component', 'error_type']
-)
+try:
+    token_generation_latency_seconds = Histogram(
+        'lukhas_token_generation_latency_seconds',
+        'Token generation latency',
+        ['component'],
+        buckets=[0.001, 0.005, 0.01, 0.025, 0.05, 0.1, 0.25, 0.5, 1.0]
+    )
+except ValueError:
+    token_generation_latency_seconds = MockMetric()
+
+try:
+    token_generation_errors_total = Counter(
+        'lukhas_token_generation_errors_total',
+        'Token generation errors',
+        ['component', 'error_type']
+    )
+except ValueError:
+    token_generation_errors_total = MockMetric()
 
 
 @dataclass

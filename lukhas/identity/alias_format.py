@@ -163,7 +163,7 @@ def parse_alias(alias: str) -> Optional[ΛiDAlias]:
         zone=zone,
         major_version=major_version,
         uuid_part=uuid_part,
-        crc_hex=crc_hex
+        crc32_hex=crc_hex
     )
 
 
