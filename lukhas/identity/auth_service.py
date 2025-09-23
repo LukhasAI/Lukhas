@@ -25,6 +25,15 @@ try:
 except ImportError:
     JWT_AVAILABLE = False
 
+# Import LUKHAS identity token components
+try:
+    from .token_generator import TokenGenerator, EnvironmentSecretProvider
+    from .token_validator import TokenValidator, ValidationContext, ValidationResult
+    from .alias_format import make_alias, parse_alias
+    TOKEN_SYSTEM_AVAILABLE = True
+except ImportError:
+    TOKEN_SYSTEM_AVAILABLE = False
+
 # Try importing LUKHAS identity components with real implementations
 try:
     from lukhas.identity.wallet import WalletManager
@@ -181,6 +190,9 @@ class AuthenticationService:
         # Initialize wallet integration
         self._init_wallet_integration()
 
+        # Initialize ΛiD token system
+        self._init_token_system()
+
         # Session management
         self.active_sessions: dict[str, dict[str, Any]] = {}
         self.session_timeout = self.config.get("session_timeout", 3600)  # 1 hour
@@ -288,6 +300,93 @@ class AuthenticationService:
             self.wallet_manager = None
             self.logger.info("Info: Wallet authentication not available")
 
+    def _init_token_system(self) -> None:
+        """Initialize ΛiD token generation and validation system"""
+        if TOKEN_SYSTEM_AVAILABLE:
+            try:
+                # Initialize secret provider
+                self.secret_provider = EnvironmentSecretProvider()
+
+                # Initialize token generator
+                self.token_generator = TokenGenerator(
+                    secret_provider=self.secret_provider,
+                    ttl_seconds=self.session_timeout,
+                    issuer="lukhas.ai"
+                )
+
+                # Initialize Guardian validator hook
+                guardian_validator = None
+                if REAL_IDENTITY_AVAILABLE:
+                    try:
+                        guardian_validator = self._create_guardian_validator()
+                    except Exception as e:
+                        self.logger.warning(f"Guardian validator initialization failed: {e}")
+
+                # Initialize token validator
+                self.token_validator = TokenValidator(
+                    secret_provider=self.secret_provider,
+                    guardian_validator=guardian_validator,
+                    cache_size=self.config.get("token_cache_size", 10000),
+                    cache_ttl_seconds=self.config.get("token_cache_ttl", 300)
+                )
+
+                self.logger.info("✅ ΛiD token system initialized successfully")
+                self._token_system_available = True
+
+            except Exception as e:
+                self.logger.warning(f"ΛiD token system initialization failed: {e}")
+                self.token_generator = None
+                self.token_validator = None
+                self._token_system_available = False
+        else:
+            self.token_generator = None
+            self.token_validator = None
+            self._token_system_available = False
+            self.logger.info("Info: ΛiD token system not available")
+
+    def _create_guardian_validator(self):
+        """Create Guardian validation function for token validation"""
+        def guardian_validate(context: dict[str, Any]) -> dict[str, Any]:
+            """Guardian validation function for ethical token assessment"""
+            try:
+                # Import Guardian validation function if available
+                from lukhas.governance.guardian.guardian_impl import validate_action
+
+                # Create Guardian action for token validation
+                action = {
+                    "action_type": context.get("action_type", "token_validation"),
+                    "target": context.get("token_claims", {}).get("sub", "unknown"),
+                    "context": context,
+                    "severity": "medium"  # Token validation is medium severity
+                }
+
+                # Perform Guardian validation
+                guardian_result = validate_action(action)
+
+                return {
+                    "approved": guardian_result.get("allowed", True),
+                    "reason": guardian_result.get("reason", "Guardian validation completed"),
+                    "score": guardian_result.get("confidence", 0.8)
+                }
+
+            except ImportError:
+                # Guardian not available, approve by default
+                return {
+                    "approved": True,
+                    "reason": "Guardian validation not available (approved by default)",
+                    "score": 1.0
+                }
+            except Exception as e:
+                self.logger.warning(f"Guardian validation error: {e}")
+                # Fail open for Guardian errors
+                return {
+                    "approved": True,
+                    "reason": f"Guardian validation error (fail-open): {e}",
+                    "score": 0.5
+                }
+
+        return guardian_validate
+
     def authenticate_user(self, username: str, password: str, auth_method: str = "password") -> AuthResult:
         """
         Authenticate user with username/password using real implementations
@@ -315,6 +414,10 @@ class AuthenticationService:
                         },
                     )
                 )
+
+            # Try ΛiD token authentication if method is specified
+            if auth_method == "lid_token" and self._token_system_available:
+                return self._authenticate_lid_token(username, password)
 
             # Try wallet authentication first if available
             if auth_method == "wallet" and self.wallet_manager:
@@ -347,18 +450,25 @@ class AuthenticationService:
 
             return AuthResult(success=False, error=str(e), auth_method=auth_method)
 
-    def authenticate_token(self, token: str) -> AuthResult:
+    def authenticate_token(self, token: str, context: Optional[ValidationContext] = None) -> AuthResult:
         """
-        Authenticate using a session token or JWT
+        Authenticate using a session token, JWT, or ΛiD token
 
         Args:
             token: Authentication token
+            context: Optional validation context for ΛiD tokens
 
         Returns:
             Authentication result
         """
         try:
-            # Try JWT first if available
+            # Try ΛiD token validation first if available
+            if self._token_system_available and token.count(".") == 2:
+                lid_result = self._authenticate_lid_token_direct(token, context)
+                if lid_result.success:
+                    return lid_result
+
+            # Try JWT if available
             if JWT_AVAILABLE and token.count(".") == 2:
                 return self._authenticate_jwt(token)
 
@@ -726,6 +836,229 @@ class AuthenticationService:
             auth_method="session",
         )
 
+    def _authenticate_lid_token(self, username: str, password: str) -> AuthResult:
+        """
+        Authenticate user and generate ΛiD token.
+
+        Args:
+            username: Username or email
+            password: Password for authentication
+
+        Returns:
+            AuthResult with ΛiD token
+        """
+        if not self._token_system_available:
+            return AuthResult(
+                success=False,
+                error="ΛiD token system not available",
+                auth_method="lid_token"
+            )
+
+        # First authenticate the user with local method
+        local_result = self._authenticate_local(username, password)
+        if not local_result.success:
+            return local_result
+
+        try:
+            # Get user data for token generation
+            user_data = self.users.get(local_result.user_id, {})
+
+            # Determine realm and zone from user data or defaults
+            realm = user_data.get("realm", "lukhas")
+            zone = user_data.get("zone", "prod")
+
+            # Get user tier for token claims
+            tier = 1  # Default authenticated tier
+            if self._implementation_type == "production":
+                try:
+                    tier_name = self.access_tier_manager.get_user_tier(local_result.user_id)  # type: ignore[attr-defined]
+                    # Convert tier name to integer
+                    tier_map = {
+                        "T1_basic": 1, "T2_authenticated": 2, "T3_elevated": 3,
+                        "T4_privileged": 4, "T5_admin": 5, "T6_system": 6
+                    }
+                    tier = tier_map.get(tier_name, 1)
+                except Exception:
+                    tier = 1
+
+            # Create token claims
+            claims = {
+                "aud": "lukhas",
+                "lukhas_tier": tier,
+                "lukhas_namespace": user_data.get("namespace", "default"),
+                "permissions": user_data.get("permissions", ["basic_access"])
+            }
+
+            # Generate ΛiD token
+            token_response = self.token_generator.create(
+                claims=claims,
+                realm=realm,
+                zone=zone
+            )
+
+            return AuthResult(
+                success=True,
+                user_id=local_result.user_id,
+                session_token=token_response.jwt,
+                permissions=claims["permissions"],
+                expires_at=token_response.exp,
+                auth_method="lid_token"
+            )
+
+        except Exception as e:
+            self.logger.error(f"ΛiD token generation failed: {e}")
+            return AuthResult(
+                success=False,
+                error=f"Token generation failed: {e}",
+                auth_method="lid_token"
+            )
+
+    def _authenticate_lid_token_direct(self, token: str, context: Optional[ValidationContext] = None) -> AuthResult:
+        """
+        Validate ΛiD token directly.
+
+        Args:
+            token: ΛiD JWT token
+            context: Optional validation context
+
+        Returns:
+            AuthResult with validation status
+        """
+        if not self._token_system_available:
+            return AuthResult(
+                success=False,
+                error="ΛiD token system not available",
+                auth_method="lid_token_validation"
+            )
+
+        try:
+            # Use default validation context if none provided
+            if context is None:
+                context = ValidationContext(
+                    expected_audience="lukhas",
+                    guardian_enabled=True,
+                    ethical_validation_enabled=True
+                )
+
+            # Validate token
+            validation_result = self.token_validator.validate(token, context)
+
+            if not validation_result.valid:
+                return AuthResult(
+                    success=False,
+                    error=validation_result.error_message or "Token validation failed",
+                    auth_method="lid_token_validation"
+                )
+
+            # Extract user information from validated token
+            alias = validation_result.alias
+            claims = validation_result.claims or {}
+
+            # Get user ID from parsed alias or claims
+            user_id = None
+            if validation_result.parsed_alias:
+                # In a real system, you'd lookup user by alias
+                # For now, use a placeholder approach
+                user_id = f"lid_user_{validation_result.parsed_alias.realm}_{validation_result.parsed_alias.zone}"
+
+            permissions = claims.get("permissions", ["basic_access"])
+            if validation_result.tier_level:
+                permissions.append(f"tier_{validation_result.tier_level.value}")
+
+            return AuthResult(
+                success=True,
+                user_id=user_id,
+                session_token=token,
+                permissions=permissions,
+                expires_at=claims.get("exp"),
+                auth_method="lid_token_validation"
+            )
+
+        except Exception as e:
+            self.logger.error(f"ΛiD token validation failed: {e}")
+            return AuthResult(
+                success=False,
+                error=f"Token validation failed: {e}",
+                auth_method="lid_token_validation"
+            )
+
+    def generate_lid_token(self, user_id: str, realm: str = "lukhas", zone: str = "prod") -> Optional[str]:
+        """
+        Generate ΛiD token for existing user.
+
+        Args:
+            user_id: User identifier
+            realm: Security realm
+            zone: Zone within realm
+
+        Returns:
+            ΛiD JWT token string or None if generation fails
+        """
+        if not self._token_system_available:
+            return None
+
+        try:
+            user_data = self.users.get(user_id, {})
+
+            # Get user tier
+            tier = 1
+            if self._implementation_type == "production":
+                try:
+                    tier_name = self.access_tier_manager.get_user_tier(user_id)  # type: ignore[attr-defined]
+                    tier_map = {
+                        "T1_basic": 1, "T2_authenticated": 2, "T3_elevated": 3,
+                        "T4_privileged": 4, "T5_admin": 5, "T6_system": 6
+                    }
+                    tier = tier_map.get(tier_name, 1)
+                except Exception:
+                    tier = 1
+
+            claims = {
+                "aud": "lukhas",
+                "lukhas_tier": tier,
+                "lukhas_namespace": user_data.get("namespace", "default"),
+                "permissions": user_data.get("permissions", ["basic_access"])
+            }
+
+            token_response = self.token_generator.create(
+                claims=claims,
+                realm=realm,
+                zone=zone
+            )
+
+            return token_response.jwt
+
+        except Exception as e:
+            self.logger.error(f"ΛiD token generation failed: {e}")
+            return None
+
+    def validate_lid_token(self, token: str, context: Optional[ValidationContext] = None) -> ValidationResult:
+        """
+        Validate ΛiD token and return detailed result.
+
+        Args:
+            token: ΛiD JWT token
+            context: Optional validation context
+
+        Returns:
+            Detailed validation result
+        """
+        if not self._token_system_available:
+            return ValidationResult(
+                valid=False,
+                error_code="system_unavailable",
+                error_message="ΛiD token system not available"
+            )
+
+        if context is None:
+            context = ValidationContext(
+                expected_audience="lukhas",
+                guardian_enabled=True,
+                ethical_validation_enabled=True
+            )
+
+        return self.token_validator.validate(token, context)
+
     def _create_session_token(self, user_id: str) -> str:
         """Create a new session token"""
         token = secrets.token_urlsafe(32)
@@ -825,6 +1158,9 @@ class AuthenticationService:
                 "wallet_manager": self.wallet_manager is not None,
                 "real_identity_available": REAL_IDENTITY_AVAILABLE,
                 "jwt_available": JWT_AVAILABLE,
+                "token_system_available": getattr(self, "_token_system_available", False),
+                "token_generator": hasattr(self, "token_generator") and self.token_generator is not None,
+                "token_validator": hasattr(self, "token_validator") and self.token_validator is not None,
             },
             "session_stats": {
                 "active_sessions": len(self.active_sessions),
@@ -835,6 +1171,13 @@ class AuthenticationService:
                 "storage_path": str(self.storage_path),
             },
         }
+
+        # Add ΛiD token system status
+        if getattr(self, "_token_system_available", False):
+            status["lid_token_system"] = {
+                "cache_stats": self.token_validator.get_cache_stats() if self.token_validator else {},
+                "generator_stats": self.token_generator.get_performance_stats() if self.token_generator else {}
+            }
 
         # Add real component status if available
         if hasattr(self, "access_tier_manager"):
@@ -925,5 +1268,7 @@ __all__ = [
     "authenticate_token",
     "authenticate_user",
     "get_auth_service",
-    "auth_service",  # Add the missing export
+    "auth_service",
+    "ValidationContext",
+    "ValidationResult"
 ]
