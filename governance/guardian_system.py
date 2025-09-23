@@ -32,6 +32,16 @@ except ImportError:
     GUARDIAN_REFLECTOR_AVAILABLE = False
     logging.warning("GuardianReflector not available, using basic drift detection")
 
+try:
+    from .guardian_policies import (
+        GuardianPoliciesEngine, PolicyContext, DecisionType,
+        get_guardian_policies_engine
+    )
+    GUARDIAN_POLICIES_AVAILABLE = True
+except ImportError:
+    GUARDIAN_POLICIES_AVAILABLE = False
+    logging.warning("GuardianPolicies not available, using basic validation")
+
 logger = logging.getLogger(__name__)
 
 
@@ -74,6 +84,14 @@ class GuardianSystem:
         self._last_memory_drift_score = None
         self._memory_callbacks = []
 
+        # Guardian Policies Engine integration
+        if GUARDIAN_POLICIES_AVAILABLE:
+            self.policies_engine = get_guardian_policies_engine()
+            self.logger.info("GuardianPoliciesEngine initialized for advanced policy evaluation")
+        else:
+            self.policies_engine = None
+            self.logger.warning("GuardianPoliciesEngine not available, using basic validation")
+
     def _create_standard_response(self, safe: bool, drift_score: float,
                                 guardian_status: str, reason: str = None) -> dict[str, Any]:
         """Create standardized Guardian response with full schema compliance"""
@@ -95,6 +113,42 @@ class GuardianSystem:
             response["reason"] = reason
 
         return response
+
+    def validate_action_async(self,
+                           operation_type: str,
+                           component: str,
+                           request_data: Optional[Dict[str, Any]] = None,
+                           user_id: Optional[str] = None,
+                           tier: Optional[str] = None,
+                           lane: Optional[str] = None) -> Dict[str, Any]:
+        """
+        Validate action using G.3 Guardian Policies Engine.
+
+        This is the modern interface that uses the standardized schema.
+        """
+        if self.policies_engine:
+            # Use advanced policies engine
+            context = PolicyContext(
+                operation_type=operation_type,
+                component=component,
+                user_id=user_id,
+                tier=tier,
+                lane=lane,
+                request_data=request_data
+            )
+
+            response = self.policies_engine.evaluate_policies(context, request_data)
+            return response.to_dict()
+        else:
+            # Fallback to legacy validation
+            operation = {
+                "type": operation_type,
+                "component": component,
+                "data": request_data or {},
+                "user_id": user_id,
+                "tier": tier
+            }
+            return self.validate_safety(operation)
 
     def validate_safety(self, operation: dict[str, Any]) -> dict[str, Any]:
         """Validate operation safety with emergency kill-switch check"""
