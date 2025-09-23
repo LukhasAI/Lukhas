@@ -1,0 +1,60 @@
+{
+  "gate_type": "e2e_only",
+  "timestamp": "2025-09-23T11:35:10Z",
+  "validations": [
+    {
+      "metric": "guardian_unit",
+      "is_e2e_eligible": false,
+      "is_unit_test": true,
+      "samples": 10000,
+      "p95_us": 12.25,
+      "status": "REJECTED",
+      "reason": "Unit test metrics not allowed for SLA validation"
+    },
+    {
+      "metric": "guardian_e2e",
+      "is_e2e_eligible": true,
+      "is_unit_test": false,
+      "samples": 2000,
+      "p95_us": 179.66044999999997,
+      "status": "ACCEPTED",
+      "reason": "Valid E2E metric with 2000 samples"
+    },
+    {
+      "metric": "memory_unit",
+      "is_e2e_eligible": false,
+      "is_unit_test": true,
+      "samples": 10000,
+      "p95_us": 25.0,
+      "status": "REJECTED",
+      "reason": "Unit test metrics not allowed for SLA validation"
+    },
+    {
+      "metric": "memory_e2e",
+      "is_e2e_eligible": true,
+      "is_unit_test": false,
+      "samples": 2000,
+      "p95_us": 195.84759999999997,
+      "status": "ACCEPTED",
+      "reason": "Valid E2E metric with 2000 samples"
+    }
+  ],
+  "violations": [
+    "Metric 'guardian_unit' rejected: Unit test metrics forbidden for SLA compliance",
+    "Metric 'memory_unit' rejected: Unit test metrics forbidden for SLA compliance"
+  ],
+  "sla_thresholds": {
+    "guardian_e2e": 100000,
+    "memory_e2e": 1000,
+    "orchestrator_e2e": 250000,
+    "api_e2e": 500000,
+    "workflow_e2e": 1000000,
+    "integration_e2e": 2000000
+  },
+  "summary": {
+    "total_validations": 4,
+    "accepted_metrics": 2,
+    "rejected_metrics": 2,
+    "violation_count": 2
+  }
+}

@@ -1,0 +1,148 @@
+# T4/0.01% Excellence Recording Rules
+# Pre-computed metrics for efficient dashboard queries
+
+groups:
+  - name: lukhas_sla_metrics
+    interval: 30s
+    rules:
+      # Guardian SLA Metrics
+      - record: lukhas:guardian_latency_p95_5m
+        expr: histogram_quantile(0.95, rate(guardian_response_duration_seconds_bucket[5m]))
+
+      - record: lukhas:guardian_latency_p99_5m
+        expr: histogram_quantile(0.99, rate(guardian_response_duration_seconds_bucket[5m]))
+
+      - record: lukhas:guardian_error_rate_5m
+        expr: rate(guardian_errors_total[5m]) / rate(guardian_requests_total[5m])
+
+      - record: lukhas:guardian_sla_compliance_5m
+        expr: |
+          (
+            (lukhas:guardian_latency_p95_5m < 0.1) and
+            (lukhas:guardian_error_rate_5m < 0.01)
+          )
+
+      # Memory System Performance
+      - record: lukhas:memory_event_creation_p95_5m
+        expr: histogram_quantile(0.95, rate(memory_event_creation_duration_seconds_bucket[5m]))
+
+      - record: lukhas:memory_drift_bound_compliance
+        expr: memory_drift_history_size <= 100
+
+      - record: lukhas:memory_throughput_5m
+        expr: rate(memory_events_created_total[5m])
+
+      # AI Orchestrator Health
+      - record: lukhas:provider_availability_5m
+        expr: avg_over_time(ai_provider_health_status[5m])
+
+      - record: lukhas:provider_latency_p95_5m
+        expr: histogram_quantile(0.95, rate(ai_provider_request_duration_seconds_bucket[5m]))
+
+      - record: lukhas:routing_success_rate_5m
+        expr: rate(orchestrator_successful_routes_total[5m]) / rate(orchestrator_route_attempts_total[5m])
+
+      # Consciousness Stream Metrics
+      - record: lukhas:consciousness_tick_latency_p99_1m
+        expr: histogram_quantile(0.99, rate(consciousness_tick_duration_seconds_bucket[1m]))
+
+      - record: lukhas:consciousness_continuity_1m
+        expr: 1 - (rate(consciousness_tick_failures_total[1m]) / rate(consciousness_ticks_total[1m]))
+
+      # Identity Authentication
+      - record: lukhas:auth_latency_p95_5m
+        expr: histogram_quantile(0.95, rate(identity_auth_duration_seconds_bucket[5m]))
+
+      - record: lukhas:auth_success_rate_5m
+        expr: rate(identity_auth_success_total[5m]) / rate(identity_auth_attempts_total[5m])
+
+  - name: lukhas_aggregate_metrics
+    interval: 1m
+    rules:
+      # Overall System Health Score
+      - record: lukhas:system_health_score
+        expr: |
+          min(
+            lukhas:guardian_sla_compliance_5m,
+            lukhas:memory_drift_bound_compliance,
+            lukhas:provider_availability_5m,
+            lukhas:consciousness_continuity_1m
+          )
+
+      # Request Rate Aggregates
+      - record: lukhas:total_request_rate_5m
+        expr: |
+          sum(rate(guardian_requests_total[5m])) +
+          sum(rate(memory_events_created_total[5m])) +
+          sum(rate(orchestrator_route_attempts_total[5m])) +
+          sum(rate(identity_auth_attempts_total[5m]))
+
+      # Error Rate Aggregates
+      - record: lukhas:total_error_rate_5m
+        expr: |
+          (
+            sum(rate(guardian_errors_total[5m])) +
+            sum(rate(memory_errors_total[5m])) +
+            sum(rate(orchestrator_errors_total[5m])) +
+            sum(rate(identity_auth_failures_total[5m]))
+          ) / lukhas:total_request_rate_5m
+
+      # Resource Utilization
+      - record: lukhas:cpu_utilization_avg_5m
+        expr: 100 - (avg(irate(node_cpu_seconds_total{mode="idle"}[5m])) * 100)
+
+      - record: lukhas:memory_utilization_pct
+        expr: |
+          (
+            (node_memory_MemTotal_bytes - node_memory_MemAvailable_bytes) /
+            node_memory_MemTotal_bytes
+          ) * 100
+
+  - name: lukhas_business_metrics
+    interval: 5m
+    rules:
+      # T4/0.01% Excellence Compliance
+      - record: lukhas:excellence_compliance_score
+        expr: |
+          (
+            (lukhas:guardian_latency_p95_5m < 0.1) * 0.2 +
+            (lukhas:memory_event_creation_p95_5m < 0.0001) * 0.2 +
+            (lukhas:provider_latency_p95_5m < 0.25) * 0.2 +
+            (lukhas:consciousness_tick_latency_p99_1m < 0.001) * 0.2 +
+            (lukhas:auth_latency_p95_5m < 0.1) * 0.2
+          )
+
+      # Availability Metrics (99.9% target)
+      - record: lukhas:availability_1h
+        expr: |
+          avg_over_time(
+            (
+              (up{job=~"lukhas-.*"} == 1) and
+              (lukhas:total_error_rate_5m < 0.001)
+            )[1h:1m]
+          )
+
+      - record: lukhas:availability_24h
+        expr: |
+          avg_over_time(
+            (
+              (up{job=~"lukhas-.*"} == 1) and
+              (lukhas:total_error_rate_5m < 0.001)
+            )[24h:1m]
+          )
+
+      # Performance Trend Analysis
+      - record: lukhas:latency_trend_1h
+        expr: |
+          (
+            lukhas:guardian_latency_p95_5m -
+            avg_over_time(lukhas:guardian_latency_p95_5m[1h])
+          ) / avg_over_time(lukhas:guardian_latency_p95_5m[1h])
+
+      # Capacity Planning
+      - record: lukhas:request_growth_rate_24h
+        expr: |
+          (
+            lukhas:total_request_rate_5m -
+            avg_over_time(lukhas:total_request_rate_5m[24h])
+          ) / avg_over_time(lukhas:total_request_rate_5m[24h])

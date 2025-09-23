@@ -1,0 +1,194 @@
+{
+  "audit_run_id": "preflight_1758626468",
+  "preflight_version": "1.0.0",
+  "timestamp": "2025-09-23T11:21:08Z",
+  "duration_seconds": 0.49292993545532227,
+  "platform": {
+    "system": "Darwin",
+    "release": "25.1.0",
+    "machine": "arm64",
+    "processor": "arm",
+    "python_version": "3.9.6"
+  },
+  "summary": {
+    "total_checks": 20,
+    "passed": 11,
+    "failed": 4,
+    "warnings": 2,
+    "skipped": 3,
+    "critical_violations": 4,
+    "validation_passed": false
+  },
+  "checks": [
+    {
+      "category": "env",
+      "name": "PYTHONHASHSEED",
+      "status": "PASS",
+      "details": "PYTHONHASHSEED=0",
+      "critical": true,
+      "timestamp": 1758626468.0856252
+    },
+    {
+      "category": "env",
+      "name": "LUKHAS_MODE",
+      "status": "PASS",
+      "details": "LUKHAS_MODE=release",
+      "critical": true,
+      "timestamp": 1758626468.0856268
+    },
+    {
+      "category": "env",
+      "name": "PYTHONDONTWRITEBYTECODE",
+      "status": "PASS",
+      "details": "PYTHONDONTWRITEBYTECODE=1",
+      "critical": true,
+      "timestamp": 1758626468.0856278
+    },
+    {
+      "category": "python",
+      "name": "version",
+      "status": "PASS",
+      "details": "Python 3.9.6",
+      "critical": true,
+      "timestamp": 1758626468.08563
+    },
+    {
+      "category": "python",
+      "name": "package_psutil",
+      "status": "PASS",
+      "details": "psutil available",
+      "critical": true,
+      "timestamp": 1758626468.085631
+    },
+    {
+      "category": "python",
+      "name": "package_numpy",
+      "status": "PASS",
+      "details": "numpy available",
+      "critical": true,
+      "timestamp": 1758626468.172595
+    },
+    {
+      "category": "python",
+      "name": "package_hypothesis",
+      "status": "PASS",
+      "details": "hypothesis available",
+      "critical": true,
+      "timestamp": 1758626468.334769
+    },
+    {
+      "category": "cpu",
+      "name": "governor",
+      "status": "SKIP",
+      "details": "CPU governor check only available on Linux",
+      "critical": false,
+      "timestamp": 1758626468.334778
+    },
+    {
+      "category": "cpu",
+      "name": "turbo",
+      "status": "SKIP",
+      "details": "Turbo boost check only available on Linux",
+      "critical": false,
+      "timestamp": 1758626468.33478
+    },
+    {
+      "category": "time",
+      "name": "ntp_sync",
+      "status": "FAIL",
+      "details": "NTP not synchronized",
+      "critical": true,
+      "timestamp": 1758626468.3380249
+    },
+    {
+      "category": "tools",
+      "name": "promtool",
+      "status": "FAIL",
+      "details": "Tool not found or not executable",
+      "critical": true,
+      "timestamp": 1758626468.339249
+    },
+    {
+      "category": "tools",
+      "name": "gh",
+      "status": "PASS",
+      "details": "Available: gh version 2.75.0 (2025-07-09)",
+      "critical": true,
+      "timestamp": 1758626468.449638
+    },
+    {
+      "category": "tools",
+      "name": "kubectl",
+      "status": "PASS",
+      "details": "Available: Client Version: v1.32.2",
+      "critical": true,
+      "timestamp": 1758626468.572374
+    },
+    {
+      "category": "tools",
+      "name": "jq",
+      "status": "PASS",
+      "details": "Available: jq-1.7.1-apple",
+      "critical": true,
+      "timestamp": 1758626468.5756102
+    },
+    {
+      "category": "tools",
+      "name": "gpg",
+      "status": "FAIL",
+      "details": "Tool not found or not executable",
+      "critical": true,
+      "timestamp": 1758626468.576884
+    },
+    {
+      "category": "tools",
+      "name": "tc",
+      "status": "FAIL",
+      "details": "Tool not found or not executable",
+      "critical": true,
+      "timestamp": 1758626468.578063
+    },
+    {
+      "category": "security",
+      "name": "container",
+      "status": "SKIP",
+      "details": "Not running in container",
+      "critical": false,
+      "timestamp": 1758626468.578173
+    },
+    {
+      "category": "noise",
+      "name": "cpu_load",
+      "status": "WARN",
+      "details": "Moderate CPU load: 31.4%",
+      "critical": true,
+      "timestamp": 1758626468.578208
+    },
+    {
+      "category": "noise",
+      "name": "memory",
+      "status": "WARN",
+      "details": "Moderate memory usage: 68.7%",
+      "critical": true,
+      "timestamp": 1758626468.578232
+    },
+    {
+      "category": "noise",
+      "name": "disk_io",
+      "status": "PASS",
+      "details": "Disk I/O monitoring available",
+      "critical": true,
+      "timestamp": 1758626468.578519
+    }
+  ],
+  "violations": [
+    "time.ntp_sync: NTP not synchronized",
+    "tools.promtool: Tool not found or not executable",
+    "tools.gpg: Tool not found or not executable",
+    "tools.tc: Tool not found or not executable"
+  ],
+  "warnings": [
+    "noise.cpu_load: Moderate CPU load: 31.4%",
+    "noise.memory: Moderate memory usage: 68.7%"
+  ]
+}

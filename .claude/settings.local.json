@@ -1,24 +1,8 @@
 {
   "permissions": {
     "allow": [
-      "Bash(docker run:*)",
-      "Bash(import-linter:*)",
-      "Bash(lint-imports:*)",
-      "Bash(gitleaks detect:*)",
-      "Bash(chmod:*)",
-      "Bash(pytest:*)",
-      "Bash(python -m pytest -m \"memory_safety or memory_interleavings or slow\" --collect-only)",
-      "Bash(python3 -m pytest -m \"memory_safety or memory_interleavings or slow\" --collect-only)",
-      "Bash(git add:*)",
-      "Bash(mkdir:*)",
-      "Bash(./tests/benchmarks/baseline/capture_environment.sh:*)",
-      "Bash(python3 -m pytest:*)",
-      "Bash(tee:*)",
-      "Bash(pip3 install:*)",
-      "Bash(git diff:*)",
-      "Bash(git grep:*)",
-      "Bash(find:*)",
-      "Bash(python3:*)"
+      "Bash(PYTHONHASHSEED=0 LUKHAS_MODE=release PYTHONDONTWRITEBYTECODE=1 python3 scripts/bench_t4_excellence.py)",
+      "Bash(PYTHONHASHSEED=0 LUKHAS_MODE=release PYTHONDONTWRITEBYTECODE=1 SKIP_PREFLIGHT=1 python3 -c \"\nimport os, sys\nsys.path.insert(0, ''scripts'')\nos.environ[''SKIP_PREFLIGHT''] = ''1''\nfrom bench_t4_excellence import run_t4_excellence_validation\nrun_t4_excellence_validation()\n\")"
     ],
     "deny": [],
     "ask": []

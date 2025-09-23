@@ -1,0 +1,197 @@
+# Vector Configuration for T4/0.01% Excellence Log Collection
+# High-performance log aggregation and routing
+
+[api]
+enabled = true
+address = "0.0.0.0:8686"
+
+# Sources - Log Collection
+[sources.lukhas_application_logs]
+type = "file"
+include = ["/var/log/lukhas/*.log"]
+ignore_older_secs = 86400  # 24 hours
+max_line_bytes = 262144    # 256KB
+fingerprint.strategy = "device_and_inode"
+
+[sources.lukhas_error_logs]
+type = "file"
+include = ["/var/log/lukhas/error.log"]
+ignore_older_secs = 3600   # 1 hour
+max_line_bytes = 1048576   # 1MB
+
+[sources.docker_container_logs]
+type = "docker_logs"
+include_labels = ["com.lukhas.component"]
+
+[sources.system_logs]
+type = "journald"
+current_boot_only = true
+units = ["lukhas-*"]
+
+# Transforms - Log Processing
+[transforms.parse_lukhas_logs]
+type = "remap"
+inputs = ["lukhas_application_logs"]
+source = '''
+# Parse JSON logs
+if is_string(.message) {
+  parsed = parse_json(.message) ?? {}
+  . = merge(., parsed)
+}
+
+# Add T4 excellence metadata
+.t4_excellence = true
+.environment = "production"
+.service_namespace = "lukhas"
+
+# Extract performance metrics from logs
+if exists(.response_time_ms) {
+  .performance.response_time = to_float(.response_time_ms) ?? 0.0
+}
+
+if exists(.memory_usage_bytes) {
+  .performance.memory_usage = to_int(.memory_usage_bytes) ?? 0
+}
+
+# Categorize log levels
+.level = downcase(.level ?? "info")
+if .level == "error" || .level == "fatal" {
+  .severity = "high"
+} else if .level == "warn" || .level == "warning" {
+  .severity = "medium"
+} else {
+  .severity = "low"
+}
+
+# Parse Guardian-specific fields
+if exists(.guardian_status) {
+  .component = "guardian"
+  .guardian.status = .guardian_status
+  .guardian.drift_score = to_float(.drift_score) ?? 0.0
+  .guardian.safe = to_bool(.safe) ?? true
+}
+
+# Parse Memory Event fields
+if exists(.memory_event_type) {
+  .component = "memory"
+  .memory.event_type = .memory_event_type
+  .memory.affect_delta = to_float(.affect_delta) ?? 0.0
+}
+
+# Parse AI Orchestrator fields
+if exists(.provider_name) {
+  .component = "orchestrator"
+  .orchestrator.provider = .provider_name
+  .orchestrator.latency_ms = to_float(.latency_ms) ?? 0.0
+}
+
+# Parse Consciousness fields
+if exists(.consciousness_tick) {
+  .component = "consciousness"
+  .consciousness.tick_id = .consciousness_tick
+  .consciousness.tick_duration_ms = to_float(.tick_duration_ms) ?? 0.0
+}
+
+# Parse Identity fields
+if exists(.auth_method) {
+  .component = "identity"
+  .identity.auth_method = .auth_method
+  .identity.user_id = .user_id
+}
+'''
+
+[transforms.filter_performance_logs]
+type = "filter"
+inputs = ["parse_lukhas_logs"]
+condition = '''
+.severity == "high" ||
+(.performance.response_time ?? 0) > 100 ||
+(.guardian.drift_score ?? 0) > 0.8 ||
+(.memory.affect_delta ?? 0) > 0.9
+'''
+
+[transforms.enrich_with_metrics]
+type = "remap"
+inputs = ["parse_lukhas_logs"]
+source = '''
+# Add correlation ID for tracing
+if !exists(.correlation_id) {
+  .correlation_id = uuid_v4()
+}
+
+# Add timestamp in ISO8601 format
+.@timestamp = format_timestamp!(now(), format: "%+")
+
+# Calculate SLA compliance
+.sla_compliance = {}
+
+if exists(.performance.response_time) {
+  if .component == "guardian" {
+    .sla_compliance.guardian = .performance.response_time <= 100.0
+  } else if .component == "memory" {
+    .sla_compliance.memory = .performance.response_time <= 0.1
+  } else if .component == "orchestrator" {
+    .sla_compliance.orchestrator = .performance.response_time <= 250.0
+  } else if .component == "consciousness" {
+    .sla_compliance.consciousness = .performance.response_time <= 1.0
+  } else if .component == "identity" {
+    .sla_compliance.identity = .performance.response_time <= 100.0
+  }
+}
+
+# Security event detection
+.security_event = false
+if match(.message, r"(?i)(unauthorized|forbidden|hack|attack|breach|vulnerability)") {
+  .security_event = true
+  .severity = "high"
+}
+
+# Error pattern detection
+if match(.message, r"(?i)(exception|error|fail|crash|timeout|panic)") {
+  .error_detected = true
+  if .level != "error" {
+    .level = "error"
+    .severity = "high"
+  }
+}
+'''
+
+# Sinks - Output Destinations
+[sinks.prometheus_metrics]
+type = "prometheus_exporter"
+inputs = ["enrich_with_metrics"]
+address = "0.0.0.0:9598"
+namespace = "lukhas_logs"
+
+[sinks.file_archive]
+type = "file"
+inputs = ["enrich_with_metrics"]
+path = "/var/log/lukhas/archive/lukhas-%Y-%m-%d.log"
+encoding.codec = "json"
+
+[sinks.performance_alerts]
+type = "file"
+inputs = ["filter_performance_logs"]
+path = "/var/log/lukhas/alerts/performance-%Y-%m-%d.log"
+encoding.codec = "json"
+
+[sinks.elasticsearch]
+type = "elasticsearch"
+inputs = ["enrich_with_metrics"]
+endpoints = ["http://elasticsearch:9200"]
+index = "lukhas-logs-%Y.%m.%d"
+doc_type = "_doc"
+compression = "gzip"
+
+[sinks.console_debug]
+type = "console"
+inputs = ["filter_performance_logs"]
+target = "stdout"
+encoding.codec = "json"
+
+# Health and observability
+[sinks.internal_metrics]
+type = "prometheus_exporter"
+inputs = ["parse_lukhas_logs"]
+address = "0.0.0.0:9599"
+namespace = "vector_internal"

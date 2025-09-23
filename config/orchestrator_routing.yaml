@@ -1,0 +1,94 @@
+# LUKHAS AI Orchestrator - Dynamic Routing Configuration
+# T4/0.01% Excellence: Configurable, A/B testable, externally managed routing
+
+version: "1.0.0"
+default_provider: "claude"
+
+# Primary routing rules - optimized for task characteristics
+routing_rules:
+  # Documentation and Architecture Tasks (Claude Strengths)
+  triad_documentation:
+    primary: "claude"
+    fallbacks: ["gpt", "ollama"]
+    reason: "Claude excels at structured documentation and architectural reasoning"
+
+  architecture_design:
+    primary: "claude"
+    fallbacks: ["gpt", "ollama"]
+    reason: "Claude's reasoning capabilities ideal for system architecture"
+
+  code_review:
+    primary: "claude"
+    fallbacks: ["gpt", "ollama"]
+    reason: "Claude provides thorough, structured code analysis"
+
+  security_analysis:
+    primary: "claude"
+    fallbacks: ["gpt", "ollama"]
+    reason: "Claude's analytical depth excellent for security review"
+
+  # Creative and General Tasks (GPT Strengths)
+  creative_naming:
+    primary: "gpt"
+    fallbacks: ["claude", "ollama"]
+    reason: "GPT excels at creative language tasks"
+
+  general_coding:
+    primary: "gpt"
+    fallbacks: ["claude", "ollama"]
+    reason: "GPT provides versatile coding assistance"
+
+  explanations:
+    primary: "gpt"
+    fallbacks: ["claude", "ollama"]
+    reason: "GPT excellent at clear, accessible explanations"
+
+  # Local and Fast Tasks (Ollama Strengths)
+  code_completion:
+    primary: "ollama"
+    fallbacks: ["gpt", "claude"]
+    reason: "Local Ollama provides fast completion without API latency"
+
+  local_analysis:
+    primary: "ollama"
+    fallbacks: ["gpt", "claude"]
+    reason: "Local processing for privacy-sensitive analysis"
+
+  fast_completion:
+    primary: "ollama"
+    fallbacks: ["gpt", "claude"]
+    reason: "Ollama optimized for low-latency responses"
+
+# A/B Testing Configuration
+ab_testing:
+  enabled: false
+  experiments: []
+  # Example experiment structure:
+  # - name: "claude_vs_gpt_documentation"
+  #   tasks: ["triad_documentation"]
+  #   variants:
+  #     A: "claude"
+  #     B: "gpt"
+  #   traffic_split: 50
+  #   metrics: ["latency", "user_satisfaction", "accuracy"]
+
+# Provider Health Thresholds
+health_requirements:
+  max_latency_ms: 250
+  min_success_rate: 0.95
+  health_check_interval_seconds: 300
+
+# Routing Preferences
+preferences:
+  prefer_healthy_providers: true
+  enable_smart_fallback: true
+  log_routing_decisions: true
+  enable_cost_optimization: false
+
+# Cost Optimization (Future Enhancement)
+cost_optimization:
+  enabled: false
+  cost_weights:
+    claude: 1.0
+    gpt: 0.8
+    ollama: 0.1

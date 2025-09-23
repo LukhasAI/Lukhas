@@ -1,0 +1,158 @@
+# OpenTelemetry Collector Configuration for T4/0.01% Excellence
+# Comprehensive telemetry collection and routing
+
+receivers:
+  # OTLP receivers for application telemetry
+  otlp:
+    protocols:
+      grpc:
+        endpoint: 0.0.0.0:4317
+      http:
+        endpoint: 0.0.0.0:4318
+
+  # Prometheus receiver for scraping metrics
+  prometheus:
+    config:
+      scrape_configs:
+        - job_name: 'lukhas-applications'
+          scrape_interval: 15s
+          static_configs:
+            - targets: ['localhost:8080', 'localhost:8081', 'localhost:8082']
+
+  # Host metrics
+  hostmetrics:
+    collection_interval: 30s
+    scrapers:
+      cpu:
+      memory:
+      load:
+      disk:
+      filesystem:
+      network:
+      process:
+
+processors:
+  # Batch processor for efficiency
+  batch:
+    timeout: 10s
+    send_batch_size: 1024
+
+  # Memory limiter to prevent OOM
+  memory_limiter:
+    limit_mib: 512
+    spike_limit_mib: 128
+
+  # Resource processor to add common attributes
+  resource:
+    attributes:
+      - key: service.namespace
+        value: lukhas
+        action: upsert
+      - key: deployment.environment
+        value: production
+        action: upsert
+      - key: telemetry.sdk.version
+        value: 1.0.0
+        action: upsert
+
+  # Attributes processor for T4 excellence tagging
+  attributes:
+    actions:
+      - key: t4.excellence.enabled
+        value: true
+        action: insert
+      - key: t4.sla.monitoring
+        value: active
+        action: insert
+
+  # Span processor for distributed tracing
+  span:
+    name:
+      to_attributes:
+        rules:
+          - ^\/api\/v(?P<version>\d+)\/(?P<operation>.+)$
+      from_attributes: ["http.method", "http.route"]
+
+  # Filter processor to reduce noise
+  filter/performance:
+    metrics:
+      exclude:
+        match_type: strict
+        metric_names:
+          - go_gc_duration_seconds
+          - go_memstats_alloc_bytes_total
+
+exporters:
+  # Prometheus exporter for metrics
+  prometheus:
+    endpoint: "0.0.0.0:8888"
+    namespace: lukhas
+    const_labels:
+      environment: production
+      version: 1.0.0
+
+  # Jaeger exporter for traces
+  jaeger:
+    endpoint: jaeger:14250
+    tls:
+      insecure: true
+
+  # Logging exporter for debugging
+  logging:
+    loglevel: info
+    sampling_initial: 5
+    sampling_thereafter: 200
+
+  # File exporter for audit trails
+  file/traces:
+    path: /var/log/lukhas/traces.jsonl
+    rotation:
+      max_megabytes: 100
+      max_days: 7
+
+  file/metrics:
+    path: /var/log/lukhas/metrics.jsonl
+    rotation:
+      max_megabytes: 50
+      max_days: 3
+
+extensions:
+  # Health check extension
+  health_check:
+    endpoint: 0.0.0.0:13133
+
+  # Performance profiling
+  pprof:
+    endpoint: 0.0.0.0:1777
+
+  # Memory ballast for stability
+  memory_ballast:
+    size_mib: 64
+
+service:
+  extensions: [health_check, pprof, memory_ballast]
+
+  pipelines:
+    # Traces pipeline
+    traces:
+      receivers: [otlp]
+      processors: [memory_limiter, resource, span, batch]
+      exporters: [jaeger, file/traces, logging]
+
+    # Metrics pipeline
+    metrics:
+      receivers: [otlp, prometheus, hostmetrics]
+      processors: [memory_limiter, resource, attributes, filter/performance, batch]
+      exporters: [prometheus, file/metrics]
+
+    # Logs pipeline
+    logs:
+      receivers: [otlp]
+      processors: [memory_limiter, resource, batch]
+      exporters: [logging]
+
+  telemetry:
+    logs:
+      level: info
+    metrics:
+      address: 0.0.0.0:8888
