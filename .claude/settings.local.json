@@ -1,12 +1,16 @@
 {
   "permissions": {
     "allow": [
-      "Bash(PYTHONHASHSEED=0 LUKHAS_MODE=release PYTHONDONTWRITEBYTECODE=1 python3 test_guardian_integration_validation.py)",
-      "Bash(python3 tests:*)",
+      "Bash(python -m pytest tests/memory/ -v)",
+      "Bash(PYTHONHASHSEED=0 LUKHAS_MODE=release PYTHONDONTWRITEBYTECODE=1 python3 scripts/validate_m1_memory.py)",
+      "Bash(PYTHONHASHSEED=0 LUKHAS_MODE=release PYTHONDONTWRITEBYTECODE=1 python3 scripts/validate_m1_optimized.py)",
+      "Bash(python3 -m pytest tests/consciousness/test_c1_consciousness_components.py -v --tb=short)",
+      "Bash(pip install:*)",
+      "Bash(python3 -m pip install:*)",
+      "Bash(python3 -m pytest tests/consciousness/test_c1_consciousness_components.py::TestAwarenessEngine::test_awareness_update_basic -v --tb=short)",
       "Bash(python3:*)",
       "Bash(git add:*)",
-      "Bash(PYTHONHASHSEED=0 LUKHAS_MODE=release PYTHONDONTWRITEBYTECODE=1 python3 scripts/preflight_check.py)",
-      "Bash(PYTHONHASHSEED=0 LUKHAS_MODE=release PYTHONDONTWRITEBYTECODE=1 python3 tests/consciousness/test_reflection_engine.py)"
+      "Bash(git commit:*)"
     ],
     "deny": [],
     "ask": []

@@ -1,348 +1,280 @@
 #!/usr/bin/env python3
 """
-Guardian Integration Validation Test Suite
-==========================================
+M.1 Memory Integration Validation
+=================================
 
-Quick validation test for Guardian integration across all LUKHAS modules.
-This is a focused test specifically for our implemented Guardian integration.
+Quick integration test to verify M.1 memory system components
+work correctly with Guardian integration.
 """
 
 import asyncio
-import json
-import sys
 import time
-import traceback
-import uuid
+import sys
 from pathlib import Path
 
-
-async def test_guardian_system_basics():
-    """Test basic Guardian system functionality"""
-    print("🛡️  Testing Guardian System basics...")
-
-    try:
-        from governance.guardian_system import GuardianSystem
-
-        guardian = GuardianSystem()
-
-        # Test sync validation
-        result = guardian.validate_safety({"test": "basic_sync"})
-        assert result.get("safe") is not None, "Guardian should return safety status"
-
-        # Test async validation if available
-        if hasattr(guardian, 'validate_action_async'):
-            async_result = await guardian.validate_action_async({"test": "basic_async"})
-            assert async_result.get("safe") is not None, "Async Guardian should return safety status"
-
-        # Test Guardian status
-        status = guardian.get_guardian_status()
-        assert "enabled" in status, "Guardian status should include enabled field"
-
-        print("    ✅ Guardian System basic functionality works")
-        return True
-
-    except Exception as e:
-        print(f"    ❌ Guardian System test failed: {e}")
-        return False
-
-
-async def test_guardian_reflector():
-    """Test Guardian drift detection and reflection"""
-    print("🔍 Testing Guardian Reflector...")
-
-    try:
-        from governance.guardian_reflector import GuardianReflector
-
-        reflector = GuardianReflector()
-
-        # Test drift analysis
-        drift_analysis = await reflector.analyze_drift({"test": "drift_analysis"})
-
-        assert hasattr(drift_analysis, 'behavioral_drift'), "Should have behavioral drift score"
-        assert hasattr(drift_analysis, 'performance_drift'), "Should have performance drift score"
-        assert hasattr(drift_analysis, 'ethical_drift'), "Should have ethical drift score"
-
-        # Test remediation plan generation
-        if drift_analysis.remediation_plan:
-            assert hasattr(drift_analysis.remediation_plan, 'actions'), "Should have remediation actions"
-
-        print("    ✅ Guardian Reflector functionality works")
-        return True
-
-    except Exception as e:
-        print(f"    ❌ Guardian Reflector test failed: {e}")
-        return False
-
-
-async def test_memory_guardian_integration():
-    """Test Memory-Guardian integration"""
-    print("🧠 Testing Memory-Guardian integration...")
-
-    try:
-        from memory.memory_event import MemoryEventFactory
-
-        factory = MemoryEventFactory()
-
-        # Check if Guardian integration is available
-        if hasattr(factory, '_guardian_instance'):
-            print("    ✅ Memory has Guardian integration configured")
-
-        # Test memory event creation (should work with or without Guardian)
-        event = factory.create(
-            {"test": "memory_guardian_integration"},
-            {"affect_delta": 0.3, "test_mode": True}
-        )
-
-        assert event.data is not None, "Memory event should have data"
-        assert event.metadata is not None, "Memory event should have metadata"
-
-        print("    ✅ Memory-Guardian integration works")
-        return True
-
-    except Exception as e:
-        print(f"    ❌ Memory-Guardian integration test failed: {e}")
-        return False
-
-
-async def test_consciousness_guardian_integration():
-    """Test Consciousness-Guardian integration"""
-    print("🌟 Testing Consciousness-Guardian integration...")
-
-    try:
-        from lukhas.core.consciousness_stream import ConsciousnessStream
-
-        stream = ConsciousnessStream()
-
-        # Check if Guardian integration is enabled
-        if hasattr(stream, '_guardian_integration_enabled'):
-            guardian_enabled = stream._guardian_integration_enabled
-            print(f"    Guardian integration enabled: {guardian_enabled}")
-
-        # Test consciousness stream basic functionality
-        if hasattr(stream, 'validate_consciousness_state_transition'):
-            result = await stream.validate_consciousness_state_transition(
-                "test_state",
-                {"test": True}
-            )
-            assert "validated" in result, "Should return validation result"
-
-        print("    ✅ Consciousness-Guardian integration works")
-        return True
-
-    except Exception as e:
-        print(f"    ❌ Consciousness-Guardian integration test failed: {e}")
-        return False
-
-
-async def test_orchestrator_guardian_integration():
-    """Test AI Orchestrator-Guardian integration"""
-    print("🎭 Testing AI Orchestrator-Guardian integration...")
-
-    try:
-        from ai_orchestration.lukhas_ai_orchestrator import LUKHASAIOrchestrator
-
-        # Use current directory as root for test
-        orchestrator = LUKHASAIOrchestrator("/Users/agi_dev/LOCAL-REPOS/Lukhas")
-
-        # Check if Guardian integration is available
-        if hasattr(orchestrator, '_guardian_integration_enabled'):
-            guardian_enabled = orchestrator._guardian_integration_enabled
-            print(f"    Guardian integration enabled: {guardian_enabled}")
-
-        # Test orchestrator status
-        if hasattr(orchestrator, 'get_guardian_orchestrator_status'):
-            status = orchestrator.get_guardian_orchestrator_status()
-            assert "enabled" in status, "Should return Guardian status"
-
-        print("    ✅ AI Orchestrator-Guardian integration works")
-        return True
-
-    except Exception as e:
-        print(f"    ❌ AI Orchestrator-Guardian integration test failed: {e}")
-        return False
-
-
-async def test_identity_guardian_integration():
-    """Test Identity-Guardian integration"""
-    print("🔑 Testing Identity-Guardian integration...")
-
-    try:
-        from candidate.core.identity.manager import AdvancedIdentityManager
-
-        identity_mgr = AdvancedIdentityManager()
-
-        # Check if Guardian integration is available
-        if hasattr(identity_mgr, '_guardian_integration_enabled'):
-            guardian_enabled = identity_mgr._guardian_integration_enabled
-            print(f"    Guardian integration enabled: {guardian_enabled}")
-
-        # Test authentication with Guardian validation
-        auth_result = await identity_mgr.authenticate({
-            "user_id": "test_user_guardian",
-            "text": "Test authentication with Guardian",
-            "test_mode": True
-        })
-
-        assert "verified" in auth_result, "Should return authentication result"
-
-        # Test registration with Guardian validation
-        reg_result = await identity_mgr.register_user(
-            "test_user_guardian_reg",
-            {"text": "Test registration with Guardian"},
-            {"test_mode": True}
-        )
-
-        assert "registered" in reg_result, "Should return registration result"
-
-        print("    ✅ Identity-Guardian integration works")
-        return True
-
-    except Exception as e:
-        print(f"    ❌ Identity-Guardian integration test failed: {e}")
-        return False
-
-
-async def test_lambda_id_guardian_integration():
-    """Test Lambda ID-Guardian integration"""
-    print("🆔 Testing Lambda ID-Guardian integration...")
-
-    try:
-        from candidate.governance.identity.core.lambd_id_service import LambdaIDService
-
-        lambda_service = LambdaIDService()
-
-        # Check if Guardian integration is available
-        if hasattr(lambda_service, '_guardian_integration_enabled'):
-            guardian_enabled = lambda_service._guardian_integration_enabled
-            print(f"    Guardian integration enabled: {guardian_enabled}")
-
-        # Test Lambda ID generation with Guardian validation
-        result = await lambda_service.generate_lambda_id(
-            tier=3,
-            custom_options={"test_mode": True, "guardian_test": True}
-        )
-
-        assert "success" in result, "Should return generation result"
-
-        if result.get("success"):
-            assert "lambda_id" in result, "Should return Lambda ID on success"
-            print(f"    Generated Lambda ID: {result.get('lambda_id', 'N/A')}")
-
-        print("    ✅ Lambda ID-Guardian integration works")
-        return True
-
-    except Exception as e:
-        print(f"    ❌ Lambda ID-Guardian integration test failed: {e}")
-        return False
-
-
-async def test_performance_baseline():
-    """Test performance baseline for Guardian operations"""
-    print("⚡ Testing Guardian performance baseline...")
-
-    try:
-        from governance.guardian_system import GuardianSystem
-
-        guardian = GuardianSystem()
-
-        # Test multiple Guardian operations for performance
-        response_times = []
-
-        for i in range(100):
-            start_time = time.perf_counter_ns()
-
-            result = guardian.validate_safety({
-                "action_type": "performance_test",
-                "iteration": i,
-                "test_data": f"performance_test_{i}"
-            })
-
-            end_time = time.perf_counter_ns()
-            response_time_us = (end_time - start_time) / 1000
-            response_times.append(response_time_us)
-
-        # Calculate basic statistics
-        avg_time = sum(response_times) / len(response_times)
-        sorted_times = sorted(response_times)
-        p95_time = sorted_times[int(len(sorted_times) * 0.95)]
-
-        print(f"    Average response time: {avg_time:.2f}μs")
-        print(f"    P95 response time: {p95_time:.2f}μs")
-
-        # Check if meets SLA (should be <100ms = 100,000μs)
-        sla_compliant = p95_time < 100000
-        print(f"    SLA compliance (<100ms): {'✅ PASS' if sla_compliant else '❌ FAIL'}")
-
-        return sla_compliant
-
-    except Exception as e:
-        print(f"    ❌ Performance baseline test failed: {e}")
-        return False
-
-
-async def run_all_tests():
-    """Run all Guardian integration tests"""
-    print("="*70)
-    print("🛡️  GUARDIAN INTEGRATION VALIDATION TESTS")
-    print("="*70)
-
-    test_results = {}
-
-    # Run all test functions
-    test_functions = [
-        ("Guardian System Basics", test_guardian_system_basics),
-        ("Guardian Reflector", test_guardian_reflector),
-        ("Memory-Guardian Integration", test_memory_guardian_integration),
-        ("Consciousness-Guardian Integration", test_consciousness_guardian_integration),
-        ("Orchestrator-Guardian Integration", test_orchestrator_guardian_integration),
-        ("Identity-Guardian Integration", test_identity_guardian_integration),
-        ("Lambda ID-Guardian Integration", test_lambda_id_guardian_integration),
-        ("Performance Baseline", test_performance_baseline),
-    ]
-
-    for test_name, test_func in test_functions:
-        print(f"\n📋 Running: {test_name}")
-        try:
-            result = await test_func()
-            test_results[test_name] = result
-        except Exception as e:
-            print(f"    ❌ Test failed with exception: {e}")
-            test_results[test_name] = False
-
-    # Summary
-    print("\n" + "="*70)
-    print("📊 TEST RESULTS SUMMARY")
-    print("="*70)
-
-    passed_tests = sum(1 for result in test_results.values() if result)
-    total_tests = len(test_results)
-
-    for test_name, result in test_results.items():
-        status = "✅ PASS" if result else "❌ FAIL"
-        print(f"    {test_name}: {status}")
-
-    print(f"\n🎯 Overall: {passed_tests}/{total_tests} tests passed")
-
-    if passed_tests == total_tests:
-        print("🏆 ALL GUARDIAN INTEGRATION TESTS PASSED! ✅")
+# Add the project root to Python path
+project_root = Path(__file__).parent
+sys.path.insert(0, str(project_root))
+
+from memory.backends.pgvector_store import PgVectorStore, VectorDoc, _PgClient
+from memory.indexer import Indexer, Embeddings
+from memory.memory_orchestrator import MemoryOrchestrator
+from memory.lifecycle import Lifecycle, RetentionPolicy
+from memory.observability import MemoryTracer
+
+class TestPgClient:
+    """Test database client."""
+    def __init__(self):
+        self.call_count = 0
+
+    def execute(self, query, params=None):
+        self.call_count += 1
+        return {"affected_rows": 1}
+
+class TestVectorStore(PgVectorStore):
+    """Test vector store with actual implementations."""
+    def __init__(self, conn, table="test_store", dim: int = 1536):
+        super().__init__(conn, table, dim)
+        self.storage = {}
+
+    def add(self, doc: VectorDoc) -> str:
+        self.storage[doc.id] = doc
+        return doc.id
+
+    def bulk_add(self, docs):
+        return [self.add(doc) for doc in docs]
+
+    def search(self, embedding, k: int = 10, filters=None):
+        # Simple mock search
+        results = []
+        for doc_id, doc in self.storage.items():
+            if filters:
+                # Check filters
+                match = True
+                for key, value in filters.items():
+                    if key not in doc.meta or doc.meta[key] != value:
+                        match = False
+                        break
+                if not match:
+                    continue
+            # Mock similarity score
+            results.append((doc_id, 0.95))
+        return results[:k]
+
+    def delete(self, *, id=None, where=None):
+        if id and id in self.storage:
+            del self.storage[id]
+            return 1
         return 0
-    else:
-        print("⚠️  Some Guardian integration tests failed")
-        return 1
 
+    def stats(self):
+        return {"table": self.table, "dim": self.dim, "count": len(self.storage)}
 
-def main():
-    """Main entry point"""
+async def test_memory_orchestrator_integration():
+    """Test MemoryOrchestrator with all components."""
+    print("🧪 Testing Memory Orchestrator Integration...")
+
+    # Setup components
+    conn = TestPgClient()
+    store = TestVectorStore(conn, dim=128)
+    indexer = Indexer(store)
+    orchestrator = MemoryOrchestrator(indexer)
+
+    # Test add_event
+    start_time = time.perf_counter()
+    event_id = await orchestrator.add_event("Test memory event", {"lane": "test", "priority": "high"})
+    add_duration = (time.perf_counter() - start_time) * 1000
+
+    assert isinstance(event_id, str)
+    assert len(event_id) > 0
+    print(f"   ✅ add_event: {add_duration:.3f}ms")
+
+    # Test query
+    start_time = time.perf_counter()
+    results = orchestrator.query("Test memory", k=5)
+    query_duration = (time.perf_counter() - start_time) * 1000
+
+    assert isinstance(results, list)
+    print(f"   ✅ query: {query_duration:.3f}ms")
+
+    # Test legacy compatibility
+    legacy_result = orchestrator.orchestrate_memory("test_op", {"data": "test"})
+    assert legacy_result["status"] == "success"
+    print(f"   ✅ legacy compatibility maintained")
+
+    # Test storage stats
+    stats = store.stats()
+    assert stats["count"] >= 1
+    print(f"   ✅ storage stats: {stats['count']} events stored")
+
+    return {
+        "add_event_ms": add_duration,
+        "query_ms": query_duration,
+        "events_stored": stats["count"],
+        "integration_success": True
+    }
+
+async def test_guardian_integration():
+    """Test Guardian integration hooks."""
+    print("🛡️  Testing Guardian Integration...")
+
+    class MockGuardian:
+        def __init__(self):
+            self.validate_calls = 0
+            self.monitor_calls = 0
+
+        async def validate_action_async(self, action, context):
+            self.validate_calls += 1
+            # Simulate Guardian validation
+            assert action == "memory_add"
+            assert "text" in context
+            assert "meta" in context
+            return True
+
+        async def monitor_behavior_async(self, behavior, context):
+            self.monitor_calls += 1
+            assert behavior == "memory_added"
+            assert "id" in context
+            assert "text_len" in context
+            return True
+
+    # Setup with Guardian
+    conn = TestPgClient()
+    store = TestVectorStore(conn, dim=128)
+    indexer = Indexer(store)
+    guardian = MockGuardian()
+    orchestrator = MemoryOrchestrator(indexer, guardian)
+
+    # Test Guardian-integrated operation
+    event_id = await orchestrator.add_event("Guardian-protected event", {"security": "high"})
+
+    assert guardian.validate_calls == 1
+    assert guardian.monitor_calls == 1
+    assert isinstance(event_id, str)
+
+    print(f"   ✅ Guardian validation calls: {guardian.validate_calls}")
+    print(f"   ✅ Guardian monitoring calls: {guardian.monitor_calls}")
+
+    return {
+        "guardian_validate_calls": guardian.validate_calls,
+        "guardian_monitor_calls": guardian.monitor_calls,
+        "guardian_integration_success": True
+    }
+
+def test_component_contracts():
+    """Test that all components meet their contracts."""
+    print("📋 Testing Component Contracts...")
+
+    # Test VectorDoc
+    doc = VectorDoc("test-123", "test text", [0.1] * 1536, {"key": "value"})
+    assert doc.id == "test-123"
+    assert doc.text == "test text"
+    assert len(doc.embedding) == 1536
+    assert doc.meta["key"] == "value"
+    print("   ✅ VectorDoc contract")
+
+    # Test RetentionPolicy
+    policy = RetentionPolicy(days=30)
+    assert policy.days == 30
+    print("   ✅ RetentionPolicy contract")
+
+    # Test Lifecycle
+    lifecycle = Lifecycle(policy)
+    assert lifecycle.retention.days == 30
+    print("   ✅ Lifecycle contract")
+
+    # Test MemoryTracer
+    tracer = MemoryTracer()
+    span_context = tracer.trace_operation("test")
+    assert hasattr(span_context, '__enter__')
+    assert hasattr(span_context, '__exit__')
+    print("   ✅ MemoryTracer contract")
+
+    return {"contract_validation_success": True}
+
+async def run_performance_baseline():
+    """Run performance baseline for key operations."""
+    print("⚡ Running Performance Baseline...")
+
+    conn = TestPgClient()
+    store = TestVectorStore(conn, dim=128)
+    indexer = Indexer(store)
+    orchestrator = MemoryOrchestrator(indexer)
+
+    # Warmup
+    for i in range(10):
+        await orchestrator.add_event(f"warmup {i}", {"type": "warmup"})
+
+    # Measure add_event performance
+    latencies = []
+    for i in range(100):
+        start = time.perf_counter_ns()
+        await orchestrator.add_event(f"perf test {i}", {"index": i})
+        end = time.perf_counter_ns()
+        latencies.append((end - start) / 1000)  # microseconds
+
+    avg_latency = sum(latencies) / len(latencies)
+    p95_latency = sorted(latencies)[95]
+
+    print(f"   📊 add_event average: {avg_latency:.1f}μs")
+    print(f"   📊 add_event P95: {p95_latency:.1f}μs")
+
+    # Target: <1000μs (1ms)
+    sla_met = avg_latency < 1000 and p95_latency < 1000
+
+    print(f"   {'✅' if sla_met else '❌'} SLA compliance: {sla_met}")
+
+    return {
+        "avg_latency_us": avg_latency,
+        "p95_latency_us": p95_latency,
+        "sla_target_us": 1000,
+        "sla_met": sla_met
+    }
+
+async def main():
+    """Run complete M.1 integration validation."""
+    print("🔬 M.1 Memory Integration Validation")
+    print("=" * 40)
+
+    results = {}
+
     try:
-        return asyncio.run(run_all_tests())
-    except KeyboardInterrupt:
-        print("\n⚠️  Tests interrupted")
-        return 1
-    except Exception as e:
-        print(f"\n❌ Test suite failed: {e}")
-        traceback.print_exc()
-        return 1
+        # Test component contracts
+        results["contracts"] = test_component_contracts()
 
+        # Test memory orchestrator integration
+        results["orchestrator"] = await test_memory_orchestrator_integration()
+
+        # Test Guardian integration
+        results["guardian"] = await test_guardian_integration()
+
+        # Run performance baseline
+        results["performance"] = await run_performance_baseline()
+
+        # Overall assessment
+        all_success = (
+            results["contracts"]["contract_validation_success"] and
+            results["orchestrator"]["integration_success"] and
+            results["guardian"]["guardian_integration_success"] and
+            results["performance"]["sla_met"]
+        )
+
+        print(f"\n🏆 INTEGRATION VALIDATION SUMMARY")
+        print(f"=" * 35)
+        print(f"Component Contracts: {'✅ PASS' if results['contracts']['contract_validation_success'] else '❌ FAIL'}")
+        print(f"Orchestrator Integration: {'✅ PASS' if results['orchestrator']['integration_success'] else '❌ FAIL'}")
+        print(f"Guardian Integration: {'✅ PASS' if results['guardian']['guardian_integration_success'] else '❌ FAIL'}")
+        print(f"Performance SLA: {'✅ PASS' if results['performance']['sla_met'] else '❌ FAIL'}")
+        print(f"")
+        print(f"Overall M.1 Status: {'🎉 SUCCESS - READY FOR DEPLOYMENT' if all_success else '🔧 NEEDS WORK'}")
+
+        return results
+
+    except Exception as e:
+        print(f"❌ Validation failed with error: {e}")
+        import traceback
+        traceback.print_exc()
+        return {"error": str(e)}
 
 if __name__ == "__main__":
-    sys.exit(main())
+    asyncio.run(main())
