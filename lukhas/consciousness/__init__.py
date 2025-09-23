@@ -1,55 +1,87 @@
+#!/usr/bin/env python3
 """
-LUKHAS AI Consciousness Module
-=============================
+LUKHAS Consciousness Module - Production Schema v1.0.0
 
-Production-safe consciousness interface with comprehensive safety measures.
-Implements the Constellation Framework principles: ⚛️ Anchor, ✦ Trail, 🔬 Horizon, 🛡️ Watch
+Complete consciousness system implementation with awareness monitoring,
+reflection processing, dream cycles, and autonomous decision-making.
 
-This module provides controlled access to consciousness capabilities with:
-- Feature flags for safe activation (dry-run by default)
-- MATRIZ instrumentation for observability
-- Guardian integration for ethical oversight
-- Performance boundaries (<100ms responses)
-- Drift detection and safety thresholds
-
-The consciousness module coordinates across the Constellation Framework:
-- ⚛️ Anchor Star: Identity-consciousness coupling and authentication
-- ✦ Trail Star: Memory-consciousness integration and experience patterns
-- 🔬 Horizon Star: Natural language consciousness interface
-- 🛡️ Watch Star: Ethical oversight and consciousness validation
-
-Author: LUKHAS AI Consciousness Systems Architect
-Version: 2.0.0 (Constellation Framework)
+Constellation Framework: Flow Star (🌊), Spark Star (⚡), Oracle Star (🔮)
 """
 
-from .bio_integration import (
-    BIO_CONSCIOUSNESS_MAP,
-    BioAwareConsciousnessState,
-    bio_feedback_loop,
-)
-from .consciousness_wrapper import (
-    AwarenessLevel,
-    ConsciousnessConfig,
+from .types import (
+    # Core types
     ConsciousnessState,
-    ConsciousnessWrapper,
-    SafetyMode,
+    AwarenessSnapshot,
+    ReflectionReport,
+    DreamTrace,
+    DecisionContext,
+    ConsciousnessMetrics,
+
+    # Enums
+    StatePhase,
+    DreamPhase,
+    AwarenessLevel,
+    AnomalySeverity,
+
+    # Type aliases
+    ConsciousnessEvent,
+    EngineState,
+    SignalData,
+
+    # Configuration constants
+    DEFAULT_AWARENESS_CONFIG,
+    DEFAULT_REFLECTION_CONFIG,
+    DEFAULT_DREAM_CONFIG
 )
 
-# Alias for backward compatibility
-ConsciousnessKernel = ConsciousnessWrapper
-ConsciousnessModule = ConsciousnessWrapper  # Alias for RL integration
+from .awareness_engine import AwarenessEngine
+from .dream_engine import DreamEngine, DreamState
+from .auto_consciousness import AutoConsciousness, GuardianResponse
+from .consciousness_stream import ConsciousnessStream
 
-__all__ = [
-    "AwarenessLevel",
-    "BIO_CONSCIOUSNESS_MAP",
-    "BioAwareConsciousnessState",
-    "ConsciousnessConfig",
-    "ConsciousnessKernel",  # Alias
-    "ConsciousnessModule",  # Alias for RL
-    "ConsciousnessState",
-    "ConsciousnessWrapper",
-    "SafetyMode",
-    "bio_feedback_loop",
-]
-
+# Version information
 __version__ = "1.0.0"
+__schema_version__ = "1.0.0"
+__framework__ = "Constellation Framework - Flow Star (🌊)"
+
+# Export all public interfaces
+__all__ = [
+    # Main consciousness stream
+    "ConsciousnessStream",
+
+    # Core engines
+    "AwarenessEngine",
+    "DreamEngine",
+    "AutoConsciousness",
+
+    # Core data types
+    "ConsciousnessState",
+    "AwarenessSnapshot",
+    "ReflectionReport",
+    "DreamTrace",
+    "DecisionContext",
+    "ConsciousnessMetrics",
+
+    # Supporting types
+    "GuardianResponse",
+    "DreamState",
+
+    # Type definitions
+    "StatePhase",
+    "DreamPhase",
+    "AwarenessLevel",
+    "AnomalySeverity",
+    "ConsciousnessEvent",
+    "EngineState",
+    "SignalData",
+
+    # Configuration
+    "DEFAULT_AWARENESS_CONFIG",
+    "DEFAULT_REFLECTION_CONFIG",
+    "DEFAULT_DREAM_CONFIG",
+
+    # Metadata
+    "__version__",
+    "__schema_version__",
+    "__framework__"
+]
