@@ -31,12 +31,8 @@ from .dream_engine import DreamEngine
 from .auto_consciousness import AutoConsciousness
 from .creativity_engine import CreativityEngine
 
-# Import reflection engine from existing implementation
-try:
-    from candidate.consciousness.reflection.self_reflection_engine import SelfReflectionEngine
-except ImportError:
-    # Fallback if not available
-    SelfReflectionEngine = None
+# Import LUKHAS reflection engine
+from .reflection_engine import ReflectionEngine
 
 tracer = trace.get_tracer(__name__)
 logger = logging.getLogger(__name__)
@@ -100,12 +96,11 @@ class ConsciousnessStream:
             guardian_validator=self.config.get("guardian_validator")
         )
 
-        # Initialize reflection engine if available
-        if SelfReflectionEngine:
-            self.reflection_engine = SelfReflectionEngine()
-        else:
-            self.reflection_engine = None
-            logger.warning("SelfReflectionEngine not available")
+        # Initialize LUKHAS reflection engine
+        self.reflection_engine = ReflectionEngine(
+            memory_backend=self.config.get("memory_backend"),
+            guardian_validator=self.config.get("guardian_validator")
+        )
 
         # Consciousness state
         self._current_state = ConsciousnessState()
@@ -284,37 +279,33 @@ class ConsciousnessStream:
 
     async def _process_reflect_phase(self) -> None:
         """Process REFLECT phase - self-reflection."""
-        if not self.reflection_engine:
-            logger.warning("ReflectionEngine not available, skipping reflection")
-            return
-
         try:
-            # Use the existing reflection engine
-            reflection_result = await self.reflection_engine.reflect(
+            # Update reflection engine with current state for drift analysis
+            self.reflection_engine.update_state_history(self._current_state)
+
+            # Perform comprehensive reflection analysis
+            self._recent_reflection = await self.reflection_engine.reflect(
+                consciousness_state=self._current_state,
+                awareness_snapshot=self._recent_awareness,
                 context={
-                    "consciousness_state": asdict(self._current_state),
-                    "awareness_snapshot": asdict(self._recent_awareness) if self._recent_awareness else None,
-                    "signal_buffer": self._signal_buffer
+                    "signal_buffer": self._signal_buffer,
+                    "memory_events": self._memory_events[-10:],  # Recent memory events
+                    "tick_count": self._tick_count
                 }
             )
 
-            # Convert to ReflectionReport format
-            self._recent_reflection = ReflectionReport(
-                coherence_score=reflection_result.get("coherence_score", 0.0),
-                drift_ema=reflection_result.get("drift_ema", 0.0),
-                state_delta_magnitude=reflection_result.get("state_delta_magnitude", 0.0),
-                reflection_duration_ms=reflection_result.get("latency_ms", 0.0),
-                consciousness_level=self._current_state.level,
-                awareness_type=self._current_state.awareness_level,
-                emotional_tone=self._current_state.emotional_tone
-            )
-
-            # Add to memory events
+            # Add reflection results to memory events
             self._memory_events.append({
                 "type": "reflection_completed",
                 "data": asdict(self._recent_reflection),
                 "timestamp": time.time()
             })
+
+            # Log performance metrics
+            if self._recent_reflection.reflection_duration_ms > 100:
+                logger.warning(
+                    f"Reflection exceeded 100ms target: {self._recent_reflection.reflection_duration_ms:.2f}ms"
+                )
 
         except Exception as e:
             logger.error(f"Reflection processing failed: {e}")
@@ -631,6 +622,9 @@ class ConsciousnessStream:
         if hasattr(self.awareness_engine, 'get_performance_stats'):
             stats["awareness_engine"] = self.awareness_engine.get_performance_stats()
 
+        if hasattr(self.reflection_engine, 'get_performance_stats'):
+            stats["reflection_engine"] = self.reflection_engine.get_performance_stats()
+
         if hasattr(self.creativity_engine, 'get_performance_stats'):
             stats["creativity_engine"] = self.creativity_engine.get_performance_stats()
 
@@ -654,6 +648,8 @@ class ConsciousnessStream:
         # Reset engine states
         if hasattr(self.awareness_engine, 'reset_state'):
             self.awareness_engine.reset_state()
+        if hasattr(self.reflection_engine, 'reset_state'):
+            self.reflection_engine.reset_state()
         if hasattr(self.creativity_engine, 'reset_state'):
             await self.creativity_engine.reset_state()
         if hasattr(self.dream_engine, 'reset_state'):
