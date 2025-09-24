@@ -1,0 +1,631 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://lukhas.ai/schemas/ledger.v2.json",
+  "title": "LUKHAS Consent Ledger Events Schema v2.0.0",
+  "description": "JSON Schema for LUKHAS consent ledger event sourcing with GDPR/CCPA compliance validation",
+  "version": "2.0.0",
+  "type": "object",
+  "definitions": {
+    "consentType": {
+      "type": "string",
+      "enum": [
+        "explicit",
+        "implied",
+        "contractual",
+        "vital_interests",
+        "public_task"
+      ]
+    },
+    "policyVerdict": {
+      "type": "string",
+      "enum": [
+        "allow",
+        "deny",
+        "step_up_required",
+        "duress_detected",
+        "triad_review_required",
+        "data_residency_violation",
+        "consent_expired",
+        "insufficient_scope"
+      ]
+    },
+    "dataSubjectRights": {
+      "type": "string",
+      "enum": [
+        "access",
+        "rectification",
+        "erasure",
+        "restrict",
+        "portability",
+        "object",
+        "automated"
+      ]
+    },
+    "eventType": {
+      "type": "string",
+      "enum": [
+        "consent_granted",
+        "consent_revoked",
+        "consent_checked",
+        "trace_created",
+        "duress_detected",
+        "data_subject_request",
+        "policy_violation"
+      ]
+    },
+    "baseEvent": {
+      "type": "object",
+      "required": [
+        "event_id",
+        "event_type",
+        "timestamp",
+        "schema_version",
+        "lid"
+      ],
+      "properties": {
+        "event_id": {
+          "type": "string",
+          "pattern": "^EVT-[a-f0-9]{32}$",
+          "description": "Unique event identifier"
+        },
+        "event_type": {
+          "$ref": "#/definitions/eventType"
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time",
+          "description": "ISO 8601 timestamp"
+        },
+        "schema_version": {
+          "type": "string",
+          "enum": ["2.0.0"],
+          "description": "Event schema version"
+        },
+        "lid": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256,
+          "description": "LUKHAS Lambda ID"
+        },
+        "correlation_id": {
+          "type": ["string", "null"],
+          "description": "Request correlation identifier"
+        },
+        "causation_id": {
+          "type": ["string", "null"],
+          "description": "Causal event identifier"
+        },
+        "metadata": {
+          "type": "object",
+          "additionalProperties": true,
+          "description": "Additional event metadata"
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "oneOf": [
+    {
+      "title": "ConsentGrantedEvent",
+      "allOf": [
+        {
+          "$ref": "#/definitions/baseEvent"
+        },
+        {
+          "properties": {
+            "event_type": {
+              "const": "consent_granted"
+            },
+            "consent_id": {
+              "type": "string",
+              "pattern": "^CONSENT-[a-f0-9]{32}$",
+              "description": "Unique consent identifier"
+            },
+            "resource_type": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128,
+              "description": "Type of resource being consented to"
+            },
+            "scopes": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 64
+              },
+              "minItems": 1,
+              "maxItems": 50,
+              "description": "Consent scopes/permissions"
+            },
+            "purpose": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 512,
+              "description": "Purpose of data processing"
+            },
+            "lawful_basis": {
+              "type": "string",
+              "enum": [
+                "consent",
+                "contract",
+                "legal_obligation",
+                "vital_interests",
+                "public_task",
+                "legitimate_interests"
+              ],
+              "description": "GDPR Article 6 lawful basis"
+            },
+            "consent_type": {
+              "$ref": "#/definitions/consentType"
+            },
+            "granted_at": {
+              "type": "string",
+              "format": "date-time",
+              "description": "When consent was granted"
+            },
+            "expires_at": {
+              "type": ["string", "null"],
+              "format": "date-time",
+              "description": "Consent expiration time"
+            },
+            "data_categories": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 128
+              },
+              "maxItems": 20,
+              "description": "Categories of personal data"
+            },
+            "third_parties": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 256
+              },
+              "maxItems": 10,
+              "description": "Third parties who may receive data"
+            },
+            "processing_locations": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "pattern": "^[A-Z]{2}(-[A-Z0-9]+)?$"
+              },
+              "maxItems": 10,
+              "description": "Data processing locations (ISO country codes)"
+            },
+            "withdrawal_method": {
+              "type": "string",
+              "maxLength": 128,
+              "default": "api_revoke_consent",
+              "description": "How consent can be withdrawn"
+            },
+            "data_subject_rights": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/dataSubjectRights"
+              },
+              "maxItems": 10,
+              "description": "Available data subject rights"
+            },
+            "retention_period": {
+              "type": ["integer", "null"],
+              "minimum": 1,
+              "maximum": 36500,
+              "description": "Data retention period in days"
+            },
+            "automated_decision_making": {
+              "type": "boolean",
+              "description": "GDPR Article 22 automated decision making"
+            },
+            "profiling": {
+              "type": "boolean",
+              "description": "Whether profiling is involved"
+            },
+            "children_data": {
+              "type": "boolean",
+              "description": "Special protection for children's data"
+            },
+            "sensitive_data": {
+              "type": "boolean",
+              "description": "GDPR Article 9 special categories"
+            },
+            "trace_id": {
+              "type": "string",
+              "pattern": "^LT-[a-f0-9]{32}$",
+              "description": "Associated Lambda trace ID"
+            }
+          },
+          "required": [
+            "consent_id",
+            "resource_type",
+            "scopes",
+            "purpose",
+            "lawful_basis",
+            "consent_type",
+            "granted_at",
+            "trace_id"
+          ]
+        }
+      ]
+    },
+    {
+      "title": "ConsentRevokedEvent",
+      "allOf": [
+        {
+          "$ref": "#/definitions/baseEvent"
+        },
+        {
+          "properties": {
+            "event_type": {
+              "const": "consent_revoked"
+            },
+            "consent_id": {
+              "type": "string",
+              "pattern": "^CONSENT-[a-f0-9]{32}$"
+            },
+            "revoked_at": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "reason": {
+              "type": ["string", "null"],
+              "maxLength": 512,
+              "description": "Reason for revocation"
+            },
+            "revocation_method": {
+              "type": "string",
+              "maxLength": 128,
+              "default": "api_request"
+            },
+            "cascade_deletions": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "maxItems": 100,
+              "description": "Related data that should be deleted"
+            },
+            "trace_id": {
+              "type": "string",
+              "pattern": "^LT-[a-f0-9]{32}$"
+            }
+          },
+          "required": [
+            "consent_id",
+            "revoked_at",
+            "trace_id"
+          ]
+        }
+      ]
+    },
+    {
+      "title": "ConsentCheckedEvent",
+      "allOf": [
+        {
+          "$ref": "#/definitions/baseEvent"
+        },
+        {
+          "properties": {
+            "event_type": {
+              "const": "consent_checked"
+            },
+            "resource_type": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128
+            },
+            "action": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 64
+            },
+            "consent_id": {
+              "type": ["string", "null"],
+              "pattern": "^CONSENT-[a-f0-9]{32}$"
+            },
+            "allowed": {
+              "type": "boolean"
+            },
+            "reason": {
+              "type": ["string", "null"],
+              "maxLength": 256
+            },
+            "require_step_up": {
+              "type": "boolean"
+            },
+            "context": {
+              "type": "object",
+              "additionalProperties": true
+            },
+            "trace_id": {
+              "type": "string",
+              "pattern": "^LT-[a-f0-9]{32}$"
+            }
+          },
+          "required": [
+            "resource_type",
+            "action",
+            "allowed",
+            "trace_id"
+          ]
+        }
+      ]
+    },
+    {
+      "title": "TraceCreatedEvent",
+      "allOf": [
+        {
+          "$ref": "#/definitions/baseEvent"
+        },
+        {
+          "properties": {
+            "event_type": {
+              "const": "trace_created"
+            },
+            "trace_id": {
+              "type": "string",
+              "pattern": "^LT-[a-f0-9]{32}$"
+            },
+            "parent_trace_id": {
+              "type": ["string", "null"],
+              "pattern": "^LT-[a-f0-9]{32}$"
+            },
+            "action": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128
+            },
+            "resource": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 256
+            },
+            "purpose": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 512
+            },
+            "policy_verdict": {
+              "$ref": "#/definitions/policyVerdict"
+            },
+            "capability_token_id": {
+              "type": ["string", "null"],
+              "maxLength": 128
+            },
+            "context": {
+              "type": "object",
+              "additionalProperties": true
+            },
+            "explanation_unl": {
+              "type": ["string", "null"],
+              "maxLength": 1024,
+              "description": "Universal Language explanation"
+            },
+            "glyph_signature": {
+              "type": ["string", "null"],
+              "maxLength": 512,
+              "description": "GLYPH system signature"
+            },
+            "triad_validation": {
+              "type": "object",
+              "properties": {
+                "identity_verified": {
+                  "type": "boolean"
+                },
+                "consciousness_aligned": {
+                  "type": "boolean"
+                },
+                "guardian_approved": {
+                  "type": "boolean"
+                }
+              },
+              "required": [
+                "identity_verified",
+                "consciousness_aligned",
+                "guardian_approved"
+              ],
+              "additionalProperties": false
+            },
+            "compliance_flags": {
+              "type": "object",
+              "additionalProperties": true
+            },
+            "chain_integrity": {
+              "type": ["string", "null"],
+              "pattern": "^[a-f0-9]{64}$",
+              "description": "SHA256 chain integrity hash"
+            }
+          },
+          "required": [
+            "trace_id",
+            "action",
+            "resource",
+            "purpose",
+            "policy_verdict"
+          ]
+        }
+      ]
+    },
+    {
+      "title": "DuressDetectedEvent",
+      "allOf": [
+        {
+          "$ref": "#/definitions/baseEvent"
+        },
+        {
+          "properties": {
+            "event_type": {
+              "const": "duress_detected"
+            },
+            "signal_id": {
+              "type": "string",
+              "pattern": "^DURESS-[a-f0-9]{32}$"
+            },
+            "signal_type": {
+              "type": "string",
+              "enum": [
+                "shadow_gesture_detected",
+                "panic_phrase_spoken",
+                "rapid_delete_pattern",
+                "unusual_location_access",
+                "forced_unlock_detected"
+              ]
+            },
+            "detected_at": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "response_action": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 256
+            },
+            "severity_level": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 10
+            },
+            "context_data": {
+              "type": "object",
+              "additionalProperties": true
+            },
+            "trace_id": {
+              "type": "string",
+              "pattern": "^LT-[a-f0-9]{32}$"
+            }
+          },
+          "required": [
+            "signal_id",
+            "signal_type",
+            "detected_at",
+            "response_action",
+            "trace_id"
+          ]
+        }
+      ]
+    },
+    {
+      "title": "DataSubjectRequestEvent",
+      "allOf": [
+        {
+          "$ref": "#/definitions/baseEvent"
+        },
+        {
+          "properties": {
+            "event_type": {
+              "const": "data_subject_request"
+            },
+            "request_id": {
+              "type": "string",
+              "pattern": "^DSR-[a-f0-9]{32}$"
+            },
+            "request_type": {
+              "$ref": "#/definitions/dataSubjectRights"
+            },
+            "submitted_at": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "status": {
+              "type": "string",
+              "enum": [
+                "pending",
+                "processing",
+                "completed",
+                "rejected",
+                "cancelled"
+              ]
+            },
+            "processing_deadline": {
+              "type": ["string", "null"],
+              "format": "date-time"
+            },
+            "response_data": {
+              "type": ["object", "null"],
+              "additionalProperties": true
+            },
+            "trace_id": {
+              "type": "string",
+              "pattern": "^LT-[a-f0-9]{32}$"
+            }
+          },
+          "required": [
+            "request_id",
+            "request_type",
+            "submitted_at",
+            "status",
+            "trace_id"
+          ]
+        }
+      ]
+    },
+    {
+      "title": "PolicyViolationEvent",
+      "allOf": [
+        {
+          "$ref": "#/definitions/baseEvent"
+        },
+        {
+          "properties": {
+            "event_type": {
+              "const": "policy_violation"
+            },
+            "violation_id": {
+              "type": "string",
+              "pattern": "^VIOL-[a-f0-9]{32}$"
+            },
+            "violation_type": {
+              "type": "string",
+              "enum": [
+                "data_residency_violation",
+                "consent_expired",
+                "insufficient_scope",
+                "unauthorized_access",
+                "policy_bypass_attempt",
+                "jailbreak_attempt"
+              ]
+            },
+            "detected_at": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "severity": {
+              "type": "string",
+              "enum": ["low", "medium", "high", "critical"]
+            },
+            "violated_policy": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 256
+            },
+            "context": {
+              "type": "object",
+              "additionalProperties": true
+            },
+            "remediation_action": {
+              "type": ["string", "null"],
+              "maxLength": 512
+            },
+            "trace_id": {
+              "type": "string",
+              "pattern": "^LT-[a-f0-9]{32}$"
+            }
+          },
+          "required": [
+            "violation_id",
+            "violation_type",
+            "detected_at",
+            "severity",
+            "violated_policy",
+            "trace_id"
+          ]
+        }
+      ]
+    }
+  ]
+}

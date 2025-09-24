@@ -1,0 +1,210 @@
+groups:
+  - name: lukhas_ledger_alerts
+    rules:
+      # T4/0.01% Excellence Performance Alerts
+
+      - alert: LedgerAppendLatencyHigh
+        expr: histogram_quantile(0.95, rate(ledger_append_seconds_bucket[5m])) > 0.050
+        for: 2m
+        labels:
+          severity: critical
+          component: ledger
+          sla: t4_excellence
+        annotations:
+          summary: "Ledger append P95 latency exceeds T4/0.01% excellence requirement"
+          description: |
+            P95 append latency is {{ $value | humanizeDuration }} which exceeds the 50ms T4/0.01% excellence requirement.
+            Event types: {{ range query "sum by (event_type) (rate(ledger_append_seconds_count[5m]))" }}{{ .Labels.event_type }}={{ .Value | humanize }} {{ end }}
+            This violates our T4/0.01% excellence commitment and may impact user experience.
+
+      - alert: LedgerConsumerLagHigh
+        expr: ledger_consumer_lag > 1000
+        for: 5m
+        labels:
+          severity: warning
+          component: ledger
+        annotations:
+          summary: "Ledger consumer lag is high"
+          description: |
+            Consumer {{ $labels.consumer_id }} ({{ $labels.handler_type }}) has {{ $value }} events lag.
+            This may indicate processing issues or capacity constraints.
+            Consumer: {{ $labels.consumer_id }}
+            Handler: {{ $labels.handler_type }}
+
+      - alert: LedgerConsumerLagCritical
+        expr: ledger_consumer_lag > 5000
+        for: 2m
+        labels:
+          severity: critical
+          component: ledger
+        annotations:
+          summary: "Ledger consumer lag is critically high"
+          description: |
+            Consumer {{ $labels.consumer_id }} has {{ $value }} events lag which is critically high.
+            This may lead to data inconsistency and violate T4/0.01% excellence requirements.
+            Immediate intervention required.
+
+      - alert: LedgerCircuitBreakerOpen
+        expr: ledger_circuit_breaker_status == 1
+        for: 1m
+        labels:
+          severity: critical
+          component: ledger
+        annotations:
+          summary: "Ledger circuit breaker is open"
+          description: |
+            Circuit breaker for component {{ $labels.component }} is open.
+            This indicates repeated failures and service degradation.
+            Processing may be severely impacted.
+
+      - alert: LedgerErrorRateHigh
+        expr: |
+          (
+            rate(ledger_events_total{status="error"}[5m]) /
+            rate(ledger_events_total[5m])
+          ) > 0.01
+        for: 3m
+        labels:
+          severity: warning
+          component: ledger
+        annotations:
+          summary: "Ledger error rate is high"
+          description: |
+            Error rate is {{ $value | humanizePercentage }} which exceeds the 1% threshold.
+            This may indicate issues with event processing or data validation.
+
+      - alert: LedgerBusUnhealthy
+        expr: ledger_bus_health == 0
+        for: 2m
+        labels:
+          severity: critical
+          component: ledger
+        annotations:
+          summary: "Ledger event bus is unhealthy"
+          description: |
+            Event bus component {{ $labels.component }} is reporting unhealthy status.
+            This may severely impact consent management and audit capabilities.
+
+      - alert: LedgerDeadLetterQueueGrowing
+        expr: increase(ledger_dead_letter_queue_size[10m]) > 50
+        for: 5m
+        labels:
+          severity: warning
+          component: ledger
+        annotations:
+          summary: "Ledger dead letter queue is growing"
+          description: |
+            Dead letter queue has grown by {{ $value }} events in the last 10 minutes.
+            Current size: {{ query "ledger_dead_letter_queue_size" | first | value }}
+            This indicates persistent processing failures that require investigation.
+
+      # Database Performance Alerts
+
+      - alert: LedgerDatabaseSlowQueries
+        expr: histogram_quantile(0.95, rate(ledger_db_operations_seconds_bucket[5m])) > 0.100
+        for: 5m
+        labels:
+          severity: warning
+          component: ledger_db
+        annotations:
+          summary: "Ledger database queries are slow"
+          description: |
+            P95 database operation latency is {{ $value | humanizeDuration }} which may impact append performance.
+            Operation: {{ $labels.operation }}
+            Table: {{ $labels.table }}
+
+      # Replay Performance Alerts
+
+      - alert: LedgerReplaySlowness
+        expr: histogram_quantile(0.95, rate(ledger_replay_seconds_bucket[5m])) > 2.0
+        for: 5m
+        labels:
+          severity: warning
+          component: ledger
+        annotations:
+          summary: "Ledger replay operations are slow"
+          description: |
+            P95 replay latency is {{ $value | humanizeDuration }} which may impact disaster recovery.
+            This could indicate database performance issues or large event volumes.
+
+      # Capacity and Volume Alerts
+
+      - alert: LedgerHighThroughput
+        expr: rate(ledger_events_total[1m]) > 1000
+        for: 2m
+        labels:
+          severity: info
+          component: ledger
+        annotations:
+          summary: "High event throughput detected"
+          description: |
+            Event processing rate is {{ $value | humanize }} events/sec.
+            Monitor for potential capacity constraints.
+
+      # Compliance and Audit Alerts
+
+      - alert: LedgerSchemaValidationFailures
+        expr: |
+          rate(ledger_events_total{status="error"}[5m]) > 0 and
+          on() rate(ledger_events_total{status="error"}[5m]) / rate(ledger_events_total[5m]) > 0.001
+        for: 1m
+        labels:
+          severity: critical
+          component: ledger
+          compliance: gdpr_ccpa
+        annotations:
+          summary: "Schema validation failures detected"
+          description: |
+            Events failing schema validation detected at {{ $value | humanize }} failures/sec.
+            This violates GDPR/CCPA compliance requirements and T4/0.01% excellence standards.
+            Immediate investigation required.
+
+  - name: lukhas_ledger_sla_tracking
+    rules:
+      # SLA Tracking Rules (for dashboards and reporting)
+
+      - record: ledger:append_p95_5m
+        expr: histogram_quantile(0.95, rate(ledger_append_seconds_bucket[5m]))
+
+      - record: ledger:append_p99_5m
+        expr: histogram_quantile(0.99, rate(ledger_append_seconds_bucket[5m]))
+
+      - record: ledger:error_rate_5m
+        expr: |
+          rate(ledger_events_total{status="error"}[5m]) /
+          rate(ledger_events_total[5m])
+
+      - record: ledger:throughput_5m
+        expr: rate(ledger_events_total[5m])
+
+      - record: ledger:sla_compliance_5m
+        expr: |
+          (ledger:append_p95_5m < 0.050) and
+          (ledger:error_rate_5m < 0.01) and
+          (avg(ledger_consumer_lag) < 1000)
+
+  - name: lukhas_ledger_business_metrics
+    rules:
+      # Business Intelligence Rules
+
+      - record: ledger:consent_grant_rate_5m
+        expr: rate(ledger_events_total{event_type="consent_granted"}[5m])
+
+      - record: ledger:consent_revoke_rate_5m
+        expr: rate(ledger_events_total{event_type="consent_revoked"}[5m])
+
+      - record: ledger:consent_check_rate_5m
+        expr: rate(ledger_events_total{event_type="consent_checked"}[5m])
+
+      - record: ledger:duress_detection_rate_5m
+        expr: rate(ledger_events_total{event_type="duress_detected"}[5m])
+
+      # Compliance Ratios
+
+      - record: ledger:consent_revoke_ratio_5m
+        expr: |
+          rate(ledger_events_total{event_type="consent_revoked"}[5m]) /
+          rate(ledger_events_total{event_type="consent_granted"}[5m])
+
+      - record: ledger:gdpr_request_rate_5m
+        expr: rate(ledger_events_total{event_type="data_subject_request"}[5m])
