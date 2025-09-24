@@ -24,11 +24,12 @@ from prometheus_client import Counter, Histogram, Gauge
 from .types import (
     ConsciousnessState, AwarenessSnapshot, ReflectionReport,
     DreamTrace, DecisionContext, ConsciousnessMetrics,
-    StatePhase
+    CreativitySnapshot, CreativeTask, StatePhase
 )
 from .awareness_engine import AwarenessEngine
 from .dream_engine import DreamEngine
 from .auto_consciousness import AutoConsciousness
+from .creativity_engine import CreativityEngine
 
 # Import reflection engine from existing implementation
 try:
@@ -91,6 +92,10 @@ class ConsciousnessStream:
         # Initialize consciousness engines
         self.awareness_engine = AwarenessEngine(self.config.get("awareness", {}))
         self.dream_engine = DreamEngine(self.config.get("dream", {}))
+        self.creativity_engine = CreativityEngine(
+            config=self.config.get("creativity", {}),
+            guardian_validator=self.config.get("guardian_validator")
+        )
         self.auto_consciousness = AutoConsciousness(
             guardian_validator=self.config.get("guardian_validator")
         )
@@ -115,12 +120,13 @@ class ConsciousnessStream:
         self._recent_awareness: Optional[AwarenessSnapshot] = None
         self._recent_reflection: Optional[ReflectionReport] = None
         self._recent_dream: Optional[DreamTrace] = None
+        self._recent_creativity: Optional[CreativitySnapshot] = None
         self._recent_decision: Optional[DecisionContext] = None
 
         # Performance tracking
         self._tick_latencies: List[float] = []
         self._phase_durations: Dict[StatePhase, List[float]] = {
-            phase: [] for phase in ["IDLE", "AWARE", "REFLECT", "DREAM", "DECIDE"]
+            phase: [] for phase in ["IDLE", "AWARE", "REFLECT", "CREATE", "DREAM", "DECIDE"]
         }
 
         # Signal processing
@@ -228,6 +234,8 @@ class ConsciousnessStream:
             await self._process_aware_phase()
         elif self._current_state.phase == "REFLECT":
             await self._process_reflect_phase()
+        elif self._current_state.phase == "CREATE":
+            await self._process_create_phase()
         elif self._current_state.phase == "DREAM":
             await self._process_dream_phase()
         elif self._current_state.phase == "DECIDE":
@@ -246,6 +254,7 @@ class ConsciousnessStream:
         # Clear recent processing artifacts
         self._recent_awareness = None
         self._recent_reflection = None
+        self._recent_creativity = None
         self._recent_dream = None
         self._recent_decision = None
 
@@ -311,6 +320,52 @@ class ConsciousnessStream:
             logger.error(f"Reflection processing failed: {e}")
             self._recent_reflection = None
 
+    async def _process_create_phase(self) -> None:
+        """Process CREATE phase - creative idea generation."""
+        try:
+            # Determine if creative processing is warranted
+            creative_triggers = self._assess_creative_triggers()
+
+            if creative_triggers["should_create"]:
+                # Create creative task from current context
+                creative_task = CreativeTask(
+                    prompt=creative_triggers.get("prompt", "Generate creative insights"),
+                    context={
+                        "consciousness_state": asdict(self._current_state),
+                        "awareness_data": asdict(self._recent_awareness) if self._recent_awareness else {},
+                        "reflection_data": asdict(self._recent_reflection) if self._recent_reflection else {}
+                    },
+                    constraints=creative_triggers.get("constraints", []),
+                    preferred_process=creative_triggers.get("process_type"),
+                    imagination_mode=creative_triggers.get("imagination_mode", "conceptual"),
+                    min_ideas=creative_triggers.get("min_ideas", 3),
+                    seed_concepts=creative_triggers.get("seed_concepts", [])
+                )
+
+                # Generate creative ideas
+                self._recent_creativity = await self.creativity_engine.generate_ideas(
+                    creative_task,
+                    self._current_state,
+                    self._signal_buffer
+                )
+
+                # Add creativity results to memory events
+                if self._recent_creativity and self._recent_creativity.ideas:
+                    self._memory_events.append({
+                        "type": "creativity_session",
+                        "data": {
+                            "ideas_generated": len(self._recent_creativity.ideas),
+                            "novelty_score": self._recent_creativity.novelty_score,
+                            "coherence_score": self._recent_creativity.coherence_score,
+                            "flow_state": self._recent_creativity.flow_state
+                        },
+                        "timestamp": time.time()
+                    })
+
+        except Exception as e:
+            logger.error(f"Creative processing failed: {e}")
+            self._recent_creativity = None
+
     async def _process_dream_phase(self) -> None:
         """Process DREAM phase - memory consolidation."""
         try:
@@ -356,6 +411,56 @@ class ConsciousnessStream:
             logger.error(f"Decision processing failed: {e}")
             self._recent_decision = None
 
+    def _assess_creative_triggers(self) -> Dict[str, Any]:
+        """Assess whether creative processing should be triggered."""
+
+        triggers = {
+            "should_create": False,
+            "prompt": "Generate creative insights",
+            "constraints": [],
+            "process_type": None,
+            "imagination_mode": "conceptual",
+            "min_ideas": 3,
+            "seed_concepts": []
+        }
+
+        # Trigger creativity if consciousness level is high
+        if self._current_state.level > 0.7:
+            triggers["should_create"] = True
+            triggers["prompt"] = "High consciousness creative exploration"
+
+        # Trigger if we have interesting anomalies from awareness
+        if (self._recent_awareness and
+            len(self._recent_awareness.anomalies) > 0 and
+            any(a.get("severity") in ["medium", "high"] for a in self._recent_awareness.anomalies)):
+            triggers["should_create"] = True
+            triggers["prompt"] = "Creative solutions for detected anomalies"
+            triggers["process_type"] = "convergent"
+
+        # Trigger if reflection suggests creative opportunities
+        if (self._recent_reflection and
+            self._recent_reflection.coherence_score > 0.8):
+            triggers["should_create"] = True
+            triggers["prompt"] = "Creative insights from reflection"
+            triggers["process_type"] = "divergent"
+
+        # Extract seed concepts from signal buffer
+        if self._signal_buffer:
+            # Look for creative cues in signals
+            creative_signals = [k for k in self._signal_buffer.keys()
+                             if "creative" in k.lower() or "idea" in k.lower()]
+            if creative_signals:
+                triggers["should_create"] = True
+                triggers["seed_concepts"] = creative_signals[:5]
+
+        # Adjust imagination mode based on consciousness state
+        if self._current_state.awareness_level in ["enhanced", "transcendent", "unified"]:
+            triggers["imagination_mode"] = "abstract"
+        elif self._current_state.emotional_tone == "curious":
+            triggers["imagination_mode"] = "conceptual"
+
+        return triggers
+
     async def _update_consciousness_phase(self) -> None:
         """Update consciousness phase based on current state and processing results."""
 
@@ -375,6 +480,19 @@ class ConsciousnessStream:
                 self._current_state.level = min(0.9, self._current_state.level + 0.1)
 
         elif current_phase == "REFLECT":
+            # Transition to CREATE if creative triggers are present, otherwise DREAM/DECIDE
+            creative_triggers = self._assess_creative_triggers()
+            memory_pressure = len(self._memory_events) / 100.0
+
+            if creative_triggers["should_create"] and self._current_state.level > 0.6:
+                self._current_state.phase = "CREATE"
+                self._current_state.level = min(0.95, self._current_state.level + 0.05)
+            elif memory_pressure > 0.5 or self.dream_engine.should_trigger_dream():
+                self._current_state.phase = "DREAM"
+            else:
+                self._current_state.phase = "DECIDE"
+
+        elif current_phase == "CREATE":
             # Transition to DREAM if memory pressure is high, otherwise DECIDE
             memory_pressure = len(self._memory_events) / 100.0
             if memory_pressure > 0.5 or self.dream_engine.should_trigger_dream():
@@ -490,6 +608,7 @@ class ConsciousnessStream:
         return {
             "awareness": asdict(self._recent_awareness) if self._recent_awareness else None,
             "reflection": asdict(self._recent_reflection) if self._recent_reflection else None,
+            "creativity": asdict(self._recent_creativity) if self._recent_creativity else None,
             "dream": asdict(self._recent_dream) if self._recent_dream else None,
             "decision": asdict(self._recent_decision) if self._recent_decision else None
         }
@@ -512,6 +631,9 @@ class ConsciousnessStream:
         if hasattr(self.awareness_engine, 'get_performance_stats'):
             stats["awareness_engine"] = self.awareness_engine.get_performance_stats()
 
+        if hasattr(self.creativity_engine, 'get_performance_stats'):
+            stats["creativity_engine"] = self.creativity_engine.get_performance_stats()
+
         if hasattr(self.dream_engine, 'get_performance_stats'):
             stats["dream_engine"] = self.dream_engine.get_performance_stats()
 
@@ -532,6 +654,8 @@ class ConsciousnessStream:
         # Reset engine states
         if hasattr(self.awareness_engine, 'reset_state'):
             self.awareness_engine.reset_state()
+        if hasattr(self.creativity_engine, 'reset_state'):
+            await self.creativity_engine.reset_state()
         if hasattr(self.dream_engine, 'reset_state'):
             self.dream_engine.reset_state()
         if hasattr(self.auto_consciousness, 'reset_state'):

@@ -16,7 +16,7 @@ import time
 import uuid
 
 # Core state phases for consciousness lifecycle
-StatePhase = Literal["IDLE", "AWARE", "REFLECT", "DREAM", "DECIDE"]
+StatePhase = Literal["IDLE", "AWARE", "REFLECT", "CREATE", "DREAM", "DECIDE"]
 
 # Dream engine finite state machine phases
 DreamPhase = Literal["IDLE", "ENTERING", "DREAMING", "EXITING"]
