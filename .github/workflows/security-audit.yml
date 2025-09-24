@@ -70,6 +70,33 @@ jobs:
           import-linter --config config/tools/.importlinter
           echo "✅ Lane import restrictions validated"
 
+      - name: Verify GitHub Actions are SHA-pinned
+        run: |
+          echo "🔍 Verifying all GitHub Actions use SHA-pinned versions..."
+
+          # Find all workflow files
+          WORKFLOW_FILES=$(find .github/workflows -name "*.yml" -o -name "*.yaml")
+
+          # Check for non-SHA pinned actions
+          UNPINNED_ACTIONS=""
+          for file in $WORKFLOW_FILES; do
+            # Look for uses: statements that aren't SHA pinned (don't end with @<40-char-hash>)
+            UNPINNED=$(grep -n "uses:" "$file" | grep -v "@[a-f0-9]\{40\}" | grep -v "@main" | grep -v "@master" || true)
+            if [ -n "$UNPINNED" ]; then
+              echo "❌ Found unpinned actions in $file:"
+              echo "$UNPINNED"
+              UNPINNED_ACTIONS="true"
+            fi
+          done
+
+          if [ -n "$UNPINNED_ACTIONS" ]; then
+            echo "🚨 BLOCKING: Some GitHub Actions are not SHA-pinned"
+            echo "Please pin all actions to specific commit SHAs for supply chain security"
+            exit 1
+          fi
+
+          echo "✅ All GitHub Actions are properly SHA-pinned"
+
       - name: Check license policy compliance
         run: |
           echo "🔍 Checking license policy compliance..."
@@ -92,15 +119,16 @@ jobs:
       - name: Create audit reports directory
         run: mkdir -p reports/security
 
-      - name: Run pip-audit on requirements.txt
+      - name: Run pip-audit on requirements.txt (STRICT MODE)
         id: audit-requirements
         run: |
-          echo "🔍 Auditing requirements.txt..."
+          echo "🔍 Auditing requirements.txt with STRICT enforcement..."
           pip-audit \
             --requirement requirements.txt \
             --format=json \
             --output=reports/security/requirements-audit.json \
-            --progress-spinner=off
+            --progress-spinner=off \
+            --strict
 
           AUDIT_EXIT_CODE=$?
           echo "audit_exit_code=$AUDIT_EXIT_CODE" >> $GITHUB_OUTPUT
@@ -111,10 +139,14 @@ jobs:
             echo "requirements_vulns=0" >> $GITHUB_OUTPUT
           else
             VULN_COUNT=$(jq -r '[.vulnerabilities[]] | length' reports/security/requirements-audit.json 2>/dev/null || echo 0)
-            echo "❌ Found $VULN_COUNT vulnerabilities in requirements.txt"
+            HIGH_CRIT_COUNT=$(jq -r '[.vulnerabilities[] | select(.severity == "HIGH" or .severity == "CRITICAL")] | length' reports/security/requirements-audit.json 2>/dev/null || echo 0)
+            echo "❌ Found $VULN_COUNT total vulnerabilities ($HIGH_CRIT_COUNT HIGH/CRITICAL) in requirements.txt"
             echo "requirements_status=vulnerable" >> $GITHUB_OUTPUT
             echo "requirements_vulns=$VULN_COUNT" >> $GITHUB_OUTPUT
+            echo "requirements_high_crit=$HIGH_CRIT_COUNT" >> $GITHUB_OUTPUT
             echo "🚨 BLOCKING: Security vulnerabilities detected in requirements.txt"
+            echo "📊 Vulnerability breakdown:"
+            jq -r '.vulnerabilities[] | "- \(.id): \(.title) [\(.severity)]"' reports/security/requirements-audit.json || true
             exit 1
           fi
 

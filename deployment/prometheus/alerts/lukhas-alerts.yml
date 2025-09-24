@@ -1,0 +1,334 @@
+groups:
+- name: lukhas.identity
+  rules:
+  - alert: HighIdentityLatency
+    expr: histogram_quantile(0.95, lukhas_identity_operation_latency_seconds) > 0.1
+    for: 2m
+    labels:
+      severity: warning
+      component: identity
+    annotations:
+      summary: "High identity operation latency"
+      description: "95th percentile identity operation latency is {{ $value }}s"
+
+  - alert: IdentityServiceDown
+    expr: up{job="lukhas-identity"} == 0
+    for: 1m
+    labels:
+      severity: critical
+      component: identity
+    annotations:
+      summary: "Identity service is down"
+      description: "Identity service has been down for more than 1 minute"
+
+  - alert: HighAuthenticationFailureRate
+    expr: rate(lukhas_identity_authentication_failures_total[5m]) > 0.1
+    for: 2m
+    labels:
+      severity: warning
+      component: identity
+    annotations:
+      summary: "High authentication failure rate"
+      description: "Authentication failure rate is {{ $value }} failures/sec"
+
+  - alert: TierValidationErrors
+    expr: rate(lukhas_identity_tier_validation_errors_total[5m]) > 0.01
+    for: 1m
+    labels:
+      severity: critical
+      component: identity
+    annotations:
+      summary: "Tier validation errors detected"
+      description: "Tier validation error rate: {{ $value }} errors/sec"
+
+- name: lukhas.consciousness
+  rules:
+  - alert: ConsciousnessTickLatencyHigh
+    expr: histogram_quantile(0.95, lukhas_consciousness_tick_latency_seconds) > 0.05
+    for: 2m
+    labels:
+      severity: warning
+      component: consciousness
+    annotations:
+      summary: "High consciousness tick latency"
+      description: "95th percentile consciousness tick latency is {{ $value }}s"
+
+  - alert: ConsciousnessAnomalyRateHigh
+    expr: lukhas_consciousness_anomaly_rate > 0.1
+    for: 5m
+    labels:
+      severity: warning
+      component: consciousness
+    annotations:
+      summary: "High consciousness anomaly rate"
+      description: "Consciousness anomaly rate is {{ $value }}"
+
+  - alert: ReflectionLatencyHigh
+    expr: histogram_quantile(0.95, lukhas_reflection_latency_seconds) > 0.01
+    for: 2m
+    labels:
+      severity: critical
+      component: consciousness
+    annotations:
+      summary: "High reflection processing latency"
+      description: "95th percentile reflection latency is {{ $value }}s (should be <10ms)"
+
+  - alert: CreativityEngineErrors
+    expr: rate(lukhas_creativity_errors_total[5m]) > 0.01
+    for: 1m
+    labels:
+      severity: warning
+      component: consciousness
+    annotations:
+      summary: "Creativity engine errors detected"
+      description: "Creativity engine error rate: {{ $value }} errors/sec"
+
+  - alert: DreamCycleFailed
+    expr: rate(lukhas_dream_cycle_failures_total[10m]) > 0.001
+    for: 1m
+    labels:
+      severity: critical
+      component: consciousness
+    annotations:
+      summary: "Dream cycle failures detected"
+      description: "Dream cycle failure rate: {{ $value }} failures/sec"
+
+- name: lukhas.memory
+  rules:
+  - alert: MemoryFoldCascadeDetected
+    expr: rate(lukhas_memory_cascade_events_total[5m]) > 0
+    for: 0s
+    labels:
+      severity: critical
+      component: memory
+    annotations:
+      summary: "Memory fold cascade detected"
+      description: "Memory cascade event rate: {{ $value }} cascades/sec"
+
+  - alert: MemoryFoldLimitApproaching
+    expr: lukhas_memory_active_folds_total / 1000 > 0.9
+    for: 2m
+    labels:
+      severity: warning
+      component: memory
+    annotations:
+      summary: "Memory fold limit approaching"
+      description: "Active memory folds: {{ $value }}/1000 (90%+ capacity)"
+
+  - alert: MemorySearchLatencyHigh
+    expr: histogram_quantile(0.95, lukhas_memory_search_seconds) > 0.1
+    for: 2m
+    labels:
+      severity: warning
+      component: memory
+    annotations:
+      summary: "High memory search latency"
+      description: "95th percentile memory search latency is {{ $value }}s"
+
+  - alert: FederationNodeDown
+    expr: lukhas_federation_active_nodes_total < lukhas_federation_required_nodes_total
+    for: 1m
+    labels:
+      severity: critical
+      component: memory
+    annotations:
+      summary: "Federation node(s) down"
+      description: "Active nodes: {{ $value }}, Required: {{ $labels.required }}"
+
+  - alert: MemoryIntegrityViolation
+    expr: lukhas_memory_integrity_violations_total > 0
+    for: 0s
+    labels:
+      severity: critical
+      component: memory
+    annotations:
+      summary: "Memory integrity violation detected"
+      description: "Memory integrity violations: {{ $value }}"
+
+- name: lukhas.governance
+  rules:
+  - alert: GuardianDecisionLatencyHigh
+    expr: histogram_quantile(0.95, lukhas_guardian_decision_latency_seconds) > 0.5
+    for: 2m
+    labels:
+      severity: warning
+      component: governance
+    annotations:
+      summary: "High Guardian decision latency"
+      description: "95th percentile Guardian decision latency is {{ $value }}s"
+
+  - alert: PolicyViolationDetected
+    expr: rate(lukhas_guardian_policy_violations_total[5m]) > 0.01
+    for: 1m
+    labels:
+      severity: warning
+      component: governance
+    annotations:
+      summary: "Policy violations detected"
+      description: "Policy violation rate: {{ $value }} violations/sec"
+
+  - alert: AuditTrailIntegrityFailed
+    expr: lukhas_audit_integrity_check_success == 0
+    for: 0s
+    labels:
+      severity: critical
+      component: governance
+    annotations:
+      summary: "Audit trail integrity check failed"
+      description: "Audit trail integrity verification failed"
+
+  - alert: ComplianceScoreLow
+    expr: lukhas_compliance_score < 0.95
+    for: 5m
+    labels:
+      severity: warning
+      component: governance
+    annotations:
+      summary: "Compliance score below threshold"
+      description: "Compliance score: {{ $value }} (threshold: 0.95)"
+
+  - alert: AuditEventBacklog
+    expr: lukhas_audit_pending_events_total > 1000
+    for: 2m
+    labels:
+      severity: warning
+      component: governance
+    annotations:
+      summary: "High audit event backlog"
+      description: "Pending audit events: {{ $value }}"
+
+- name: lukhas.infrastructure
+  rules:
+  - alert: HighCPUUsage
+    expr: 100 - (avg by(instance) (irate(node_cpu_seconds_total{mode="idle"}[5m])) * 100) > 80
+    for: 5m
+    labels:
+      severity: warning
+      component: infrastructure
+    annotations:
+      summary: "High CPU usage"
+      description: "CPU usage is {{ $value }}% on {{ $labels.instance }}"
+
+  - alert: HighMemoryUsage
+    expr: (1 - (node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes)) * 100 > 90
+    for: 5m
+    labels:
+      severity: critical
+      component: infrastructure
+    annotations:
+      summary: "High memory usage"
+      description: "Memory usage is {{ $value }}% on {{ $labels.instance }}"
+
+  - alert: DiskSpaceLow
+    expr: (1 - (node_filesystem_avail_bytes / node_filesystem_size_bytes)) * 100 > 85
+    for: 2m
+    labels:
+      severity: warning
+      component: infrastructure
+    annotations:
+      summary: "Low disk space"
+      description: "Disk usage is {{ $value }}% on {{ $labels.device }} ({{ $labels.instance }})"
+
+  - alert: DatabaseConnectionsHigh
+    expr: pg_stat_activity_count / pg_settings_max_connections * 100 > 80
+    for: 2m
+    labels:
+      severity: warning
+      component: database
+    annotations:
+      summary: "High database connection usage"
+      description: "Database connections: {{ $value }}%"
+
+  - alert: RedisMemoryHigh
+    expr: redis_memory_used_bytes / redis_memory_max_bytes * 100 > 90
+    for: 2m
+    labels:
+      severity: warning
+      component: cache
+    annotations:
+      summary: "High Redis memory usage"
+      description: "Redis memory usage: {{ $value }}%"
+
+- name: lukhas.security
+  rules:
+  - alert: SecurityScanFailed
+    expr: lukhas_security_scan_success == 0
+    for: 0s
+    labels:
+      severity: critical
+      component: security
+    annotations:
+      summary: "Security scan failed"
+      description: "Security vulnerability scan failed"
+
+  - alert: UnauthorizedAccessAttempts
+    expr: rate(lukhas_unauthorized_access_attempts_total[5m]) > 0.1
+    for: 1m
+    labels:
+      severity: warning
+      component: security
+    annotations:
+      summary: "High unauthorized access attempts"
+      description: "Unauthorized access attempt rate: {{ $value }} attempts/sec"
+
+  - alert: TLSCertificateExpiringSoon
+    expr: probe_ssl_earliest_cert_expiry - time() < 86400 * 7
+    for: 1h
+    labels:
+      severity: warning
+      component: security
+    annotations:
+      summary: "TLS certificate expiring soon"
+      description: "TLS certificate for {{ $labels.instance }} expires in {{ $value }} seconds"
+
+  - alert: DeviceTrustScoreLow
+    expr: avg(lukhas_device_trust_score) < 0.5
+    for: 5m
+    labels:
+      severity: warning
+      component: security
+    annotations:
+      summary: "Average device trust score low"
+      description: "Average device trust score: {{ $value }}"
+
+- name: lukhas.performance
+  rules:
+  - alert: OverallAPILatencyHigh
+    expr: histogram_quantile(0.95, rate(lukhas_api_request_duration_seconds_bucket[5m])) > 1.0
+    for: 2m
+    labels:
+      severity: warning
+      component: performance
+    annotations:
+      summary: "High API latency"
+      description: "95th percentile API latency: {{ $value }}s"
+
+  - alert: ThroughputLow
+    expr: rate(lukhas_api_requests_total[5m]) < 10
+    for: 5m
+    labels:
+      severity: info
+      component: performance
+    annotations:
+      summary: "Low API throughput"
+      description: "API request rate: {{ $value }} req/sec"
+
+  - alert: ErrorRateHigh
+    expr: rate(lukhas_api_errors_total[5m]) / rate(lukhas_api_requests_total[5m]) * 100 > 5
+    for: 2m
+    labels:
+      severity: critical
+      component: performance
+    annotations:
+      summary: "High error rate"
+      description: "Error rate: {{ $value }}%"
+
+  - alert: WebSocketConnectionsHigh
+    expr: lukhas_websocket_connections_active > 10000
+    for: 2m
+    labels:
+      severity: warning
+      component: performance
+    annotations:
+      summary: "High WebSocket connection count"
+      description: "Active WebSocket connections: {{ $value }}"

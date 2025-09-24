@@ -1,0 +1,410 @@
+name: MATRIZ Canary Deployment
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'matriz/**'
+      - 'candidate/core/orchestration/**'
+      - 'lukhas/core/matriz/**'
+      - 'deployment/canary/**'
+  workflow_dispatch:
+    inputs:
+      image_tag:
+        description: 'Docker image tag for canary deployment'
+        required: false
+        default: 'latest'
+      traffic_percentage:
+        description: 'Initial traffic percentage for canary'
+        required: false
+        default: '10'
+        type: choice
+        options:
+          - '5'
+          - '10'
+          - '25'
+      environment:
+        description: 'Target environment'
+        required: false
+        default: 'staging'
+        type: choice
+        options:
+          - 'staging'
+          - 'production'
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: lukhasai/matriz-orchestrator
+  LUKHAS_LANE: candidate
+  LUKHAS_PERF: 1
+
+permissions:
+  contents: read
+  packages: write
+  deployments: write
+
+jobs:
+  validate-canary-config:
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@08eba0b27e820071cde6df949e0beb9ba4906955 # v4
+
+      - name: Validate canary deployment configuration
+        run: |
+          echo "🔍 Validating canary deployment configuration..."
+
+          # Check required files exist
+          required_files=(
+            "deployment/canary/matriz-canary-deployment.yaml"
+            "deployment/canary/docker-compose.canary.yml"
+            "deployment/canary/deploy-canary.sh"
+            "monitoring/otel-production.yaml"
+            "monitoring/grafana-dashboard-matriz.json"
+          )
+
+          for file in "${required_files[@]}"; do
+            if [ ! -f "$file" ]; then
+              echo "❌ Missing required file: $file"
+              exit 1
+            fi
+            echo "✅ Found: $file"
+          done
+
+          # Validate Kubernetes manifests
+          if command -v kubectl >/dev/null 2>&1; then
+            echo "🔍 Validating Kubernetes manifests..."
+            kubectl --dry-run=client apply -f deployment/canary/matriz-canary-deployment.yaml || {
+              echo "❌ Invalid Kubernetes manifest"
+              exit 1
+            }
+            echo "✅ Kubernetes manifest valid"
+          fi
+
+          # Validate docker-compose file
+          if command -v docker-compose >/dev/null 2>&1; then
+            echo "🔍 Validating Docker Compose configuration..."
+            docker-compose -f deployment/canary/docker-compose.canary.yml config >/dev/null || {
+              echo "❌ Invalid Docker Compose configuration"
+              exit 1
+            }
+            echo "✅ Docker Compose configuration valid"
+          fi
+
+          # Check deployment script permissions
+          if [ ! -x "deployment/canary/deploy-canary.sh" ]; then
+            echo "❌ Deployment script not executable"
+            exit 1
+          fi
+          echo "✅ Deployment script executable"
+
+          echo "✅ All canary deployment configurations validated"
+
+  build-canary-image:
+    runs-on: ubuntu-latest
+    needs: validate-canary-config
+    if: github.ref == 'refs/heads/main'
+
+    outputs:
+      image-tag: ${{ steps.meta.outputs.tags }}
+      image-digest: ${{ steps.build.outputs.digest }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@08eba0b27e820071cde6df949e0beb9ba4906955 # v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@885d1462b80bc1c1c7f0b00334ad271f09369c55 # v2
+
+      - name: Log in to Container Registry
+        uses: docker/login-action@465a07811f14bebb1938fbed4728c6a1ff8901fc # v2
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract metadata
+        id: meta
+        uses: docker/metadata-action@818d4b7b91585d195f67373fd9cb0332e31a7175 # v4
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          tags: |
+            type=ref,event=branch
+            type=sha,prefix={{branch}}-
+            type=raw,value=canary
+            type=raw,value=latest,enable={{is_default_branch}}
+
+      - name: Build and push canary image
+        id: build
+        uses: docker/build-push-action@2eb1c1961a95fc15694676618e422e8ba1d63825 # v4
+        with:
+          context: .
+          file: ./matriz/Dockerfile
+          platforms: linux/amd64,linux/arm64
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          build-args: |
+            LUKHAS_LANE=candidate
+            BUILD_VERSION=${{ github.sha }}
+            BUILD_DATE=${{ github.event.head_commit.timestamp }}
+
+      - name: Generate SBOM
+        uses: anchore/sbom-action@78fc58e266e87a38d4194b2137a3d4e9bcaf7ca1 # v0.14.3
+        with:
+          image: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:canary
+          format: spdx-json
+          output-file: sbom-canary.spdx.json
+
+      - name: Upload SBOM artifact
+        uses: actions/upload-artifact@a8a3f3ad30e3422c9c7b888a15615d19a852ae32 # v3
+        with:
+          name: canary-sbom
+          path: sbom-canary.spdx.json
+          retention-days: 30
+
+  security-scan-canary:
+    runs-on: ubuntu-latest
+    needs: build-canary-image
+    if: github.ref == 'refs/heads/main'
+
+    steps:
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@7b7aa264d83dc58691451798b4d117d53d21edfe # v0.12.0
+        with:
+          image-ref: ${{ needs.build-canary-image.outputs.image-tag }}
+          format: 'sarif'
+          output: 'trivy-results.sarif'
+
+      - name: Upload Trivy scan results to GitHub Security tab
+        uses: github/codeql-action/upload-sarif@74483a38d39275f33fcff5f35b679b5ca4a26a99 # v2
+        if: always()
+        with:
+          sarif_file: 'trivy-results.sarif'
+
+  deploy-staging-canary:
+    runs-on: ubuntu-latest
+    needs: [build-canary-image, security-scan-canary]
+    if: github.ref == 'refs/heads/main'
+    environment: staging-canary
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@08eba0b27e820071cde6df949e0beb9ba4906955 # v4
+
+      - name: Set up Python
+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: '3.11'
+
+      - name: Install monitoring dependencies
+        run: |
+          pip install prometheus-client grafana-api
+
+      - name: Deploy canary to staging
+        env:
+          CANARY_IMAGE_TAG: ${{ github.sha }}
+          CANARY_TRAFFIC_PERCENTAGE: ${{ inputs.traffic_percentage || '10' }}
+          TARGET_ENVIRONMENT: staging
+        run: |
+          echo "🚀 Deploying MATRIZ canary to staging environment..."
+          echo "Image: ${{ needs.build-canary-image.outputs.image-tag }}"
+          echo "Traffic: ${CANARY_TRAFFIC_PERCENTAGE}%"
+
+          # Set up deployment environment
+          chmod +x deployment/canary/deploy-canary.sh
+
+          # Deploy with Docker Compose (for staging)
+          ./deployment/canary/deploy-canary.sh start \
+            --platform=docker \
+            --image="$CANARY_IMAGE_TAG" \
+            --traffic="$CANARY_TRAFFIC_PERCENTAGE" \
+            --monitoring
+
+      - name: Wait for canary health checks
+        run: |
+          echo "⏳ Waiting for canary service health checks..."
+
+          max_attempts=30
+          attempt=0
+
+          while [ $attempt -lt $max_attempts ]; do
+            if curl -f http://localhost:8081/health/ready >/dev/null 2>&1; then
+              echo "✅ Canary service is healthy"
+              break
+            fi
+
+            attempt=$((attempt + 1))
+            echo "Health check attempt $attempt/$max_attempts..."
+            sleep 10
+          done
+
+          if [ $attempt -eq $max_attempts ]; then
+            echo "❌ Canary service failed health checks"
+            exit 1
+          fi
+
+      - name: Run canary validation tests
+        run: |
+          echo "🧪 Running canary validation tests..."
+
+          # Set up test environment
+          export LUKHAS_LANE=candidate
+          export LUKHAS_PERF=1
+          export PYTHONPATH=.
+
+          # Run specific canary validation tests
+          python -m pytest tests/e2e/test_matriz_orchestration.py::TestMATRIZE2E::test_e2e_performance_targets \
+            -v --tb=short --timeout=300
+
+          # Run memory safeguards validation
+          python -m pytest tests/memory/test_memory_safeguards.py \
+            -m "memory and not slow" -v --tb=short
+
+      - name: Monitor canary metrics
+        run: |
+          echo "📊 Monitoring canary metrics..."
+
+          # Wait for metrics to populate
+          sleep 30
+
+          # Check key metrics (simplified version - in production would use actual monitoring)
+          echo "Checking canary service metrics..."
+
+          # Verify service is responding
+          response=$(curl -s http://localhost:8081/health || echo "ERROR")
+          if [[ "$response" == "ERROR" ]]; then
+            echo "❌ Canary service not responding"
+            exit 1
+          fi
+
+          echo "✅ Canary metrics validation completed"
+
+  production-canary-approval:
+    runs-on: ubuntu-latest
+    needs: deploy-staging-canary
+    if: github.ref == 'refs/heads/main' && (inputs.environment == 'production' || github.event_name == 'workflow_dispatch')
+    environment: production-canary-approval
+
+    steps:
+      - name: Request production deployment approval
+        run: |
+          echo "🔐 Production canary deployment requires manual approval"
+          echo "Staging canary validation completed successfully"
+          echo "Ready for production canary deployment"
+
+  deploy-production-canary:
+    runs-on: ubuntu-latest
+    needs: [build-canary-image, production-canary-approval]
+    if: github.ref == 'refs/heads/main' && (inputs.environment == 'production' || needs.production-canary-approval.result == 'success')
+    environment: production-canary
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@08eba0b27e820071cde6df949e0beb9ba4906955 # v4
+
+      - name: Set up kubectl
+        uses: azure/setup-kubectl@901a10e89ea615cf61f57ac05cecdf23e7de06d8 # v3
+        with:
+          version: 'v1.28.0'
+
+      - name: Configure kubectl for production
+        env:
+          KUBE_CONFIG_DATA: ${{ secrets.PRODUCTION_KUBE_CONFIG }}
+        run: |
+          echo "$KUBE_CONFIG_DATA" | base64 -d > kubeconfig
+          export KUBECONFIG=kubeconfig
+          kubectl cluster-info
+
+      - name: Deploy production canary
+        env:
+          CANARY_IMAGE_TAG: ${{ github.sha }}
+          CANARY_TRAFFIC_PERCENTAGE: ${{ inputs.traffic_percentage || '5' }}
+        run: |
+          echo "🚀 Deploying MATRIZ canary to production..."
+
+          # Set up deployment
+          chmod +x deployment/canary/deploy-canary.sh
+
+          # Deploy to Kubernetes production cluster
+          ./deployment/canary/deploy-canary.sh start \
+            --platform=k8s \
+            --image="$CANARY_IMAGE_TAG" \
+            --traffic="$CANARY_TRAFFIC_PERCENTAGE" \
+            --monitoring
+
+      - name: Validate production canary
+        run: |
+          echo "✅ Production canary deployment initiated"
+          echo "Canary will be automatically validated by Argo Rollouts"
+          echo "Monitor progress in Kubernetes dashboard and Grafana"
+
+  cleanup-failed-deployment:
+    runs-on: ubuntu-latest
+    if: failure() && (needs.deploy-staging-canary.result == 'failure' || needs.deploy-production-canary.result == 'failure')
+    needs: [deploy-staging-canary, deploy-production-canary]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@08eba0b27e820071cde6df949e0beb9ba4906955 # v4
+
+      - name: Clean up failed canary deployment
+        run: |
+          echo "🧹 Cleaning up failed canary deployment..."
+
+          chmod +x deployment/canary/deploy-canary.sh
+
+          # Rollback staging if it was deployed
+          if [ "${{ needs.deploy-staging-canary.result }}" = "failure" ]; then
+            echo "Rolling back staging canary..."
+            ./deployment/canary/deploy-canary.sh rollback --platform=docker || true
+          fi
+
+          # Rollback production if it was deployed
+          if [ "${{ needs.deploy-production-canary.result }}" = "failure" ]; then
+            echo "Rolling back production canary..."
+            ./deployment/canary/deploy-canary.sh rollback --platform=k8s || true
+          fi
+
+          echo "✅ Cleanup completed"
+
+  notify-deployment-status:
+    runs-on: ubuntu-latest
+    if: always() && github.ref == 'refs/heads/main'
+    needs: [deploy-staging-canary, deploy-production-canary]
+
+    steps:
+      - name: Notify deployment status
+        run: |
+          echo "📢 MATRIZ Canary Deployment Status Report"
+          echo "======================================="
+
+          staging_status="${{ needs.deploy-staging-canary.result }}"
+          production_status="${{ needs.deploy-production-canary.result }}"
+
+          echo "Staging Canary: $staging_status"
+          echo "Production Canary: $production_status"
+
+          if [ "$staging_status" = "success" ]; then
+            echo "✅ Staging canary deployment successful"
+          else
+            echo "❌ Staging canary deployment failed"
+          fi
+
+          if [ "$production_status" = "success" ]; then
+            echo "✅ Production canary deployment successful"
+          elif [ "$production_status" = "skipped" ]; then
+            echo "⏭️ Production canary deployment skipped"
+          else
+            echo "❌ Production canary deployment failed"
+          fi
+
+          echo ""
+          echo "🔗 Monitoring Links:"
+          echo "  - Grafana: https://grafana.lukhas.ai/d/matriz-performance"
+          echo "  - Jaeger: https://jaeger.lukhas.ai"
+          echo "  - Kubernetes: https://k8s.lukhas.ai"

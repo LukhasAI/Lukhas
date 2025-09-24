@@ -1,0 +1,77 @@
+groups:
+  - name: lukhas.core
+    rules:
+      # API Performance Alerts
+      - alert: LUKHASAPIHighLatency
+        expr: histogram_quantile(0.95, rate(lukhas_api_request_duration_seconds_bucket[5m])) > 0.5
+        for: 2m
+        labels:
+          severity: warning
+          component: api
+          tier: t4
+        annotations:
+          summary: "LUKHAS API high latency detected"
+          description: "95th percentile API latency is {{ $value }}s, exceeding T4/0.01% target of 500ms"
+          runbook: "https://docs.lukhas.ai/runbooks/api-latency"
+
+      - alert: LUKHASAPIHighErrorRate
+        expr: rate(lukhas_api_requests_total{status=~"5.."}[5m]) / rate(lukhas_api_requests_total[5m]) > 0.01
+        for: 1m
+        labels:
+          severity: critical
+          component: api
+          tier: t4
+        annotations:
+          summary: "LUKHAS API high error rate"
+          description: "API error rate is {{ $value | humanizePercentage }}, exceeding T4/0.01% target"
+          runbook: "https://docs.lukhas.ai/runbooks/api-errors"
+
+      # WebAuthn Security Alerts
+      - alert: LUKHASWebAuthnRateLimitExceeded
+        expr: rate(lukhas_webauthn_api_requests_total{status="429"}[5m]) > 0.1
+        for: 30s
+        labels:
+          severity: warning
+          component: webauthn
+          tier: t4
+        annotations:
+          summary: "WebAuthn rate limiting triggered"
+          description: "WebAuthn rate limiting active at {{ $value }} requests/sec"
+          runbook: "https://docs.lukhas.ai/runbooks/rate-limiting"
+
+      - alert: LUKHASWebAuthnHighLatency
+        expr: histogram_quantile(0.95, rate(lukhas_webauthn_api_latency_seconds_bucket[5m])) > 0.1
+        for: 2m
+        labels:
+          severity: warning
+          component: webauthn
+          tier: t4
+        annotations:
+          summary: "WebAuthn API high latency"
+          description: "WebAuthn 95th percentile latency is {{ $value }}s, exceeding 100ms target"
+          runbook: "https://docs.lukhas.ai/runbooks/webauthn-latency"
+
+      # System Health Alerts
+      - alert: LUKHASSystemDown
+        expr: up{job="lukhas-api"} == 0
+        for: 30s
+        labels:
+          severity: critical
+          component: system
+          tier: t4
+        annotations:
+          summary: "LUKHAS system is down"
+          description: "LUKHAS API is not responding to health checks"
+          runbook: "https://docs.lukhas.ai/runbooks/system-down"
+
+      - alert: LUKHASActiveConnectionsHigh
+        expr: lukhas_api_active_connections > 1000
+        for: 5m
+        labels:
+          severity: warning
+          component: api
+          tier: t4
+        annotations:
+          summary: "High number of active connections"
+          description: "Active connections: {{ $value }}, approaching capacity limits"
+          runbook: "https://docs.lukhas.ai/runbooks/connection-limits"

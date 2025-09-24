@@ -1,0 +1,236 @@
+version: '3.8'
+
+services:
+  # Production MATRIZ Orchestrator (Stable)
+  matriz-orchestrator-stable:
+    image: ghcr.io/lukhasai/matriz-orchestrator:stable
+    container_name: lukhas-matriz-stable
+    restart: unless-stopped
+    environment:
+      - LUKHAS_LANE=production
+      - LUKHAS_PERF=1
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://otel-collector:4318/v1/traces
+      - OTEL_SERVICE_NAME=lukhas-matriz-orchestrator
+      - OTEL_RESOURCE_ATTRIBUTES=service.version=1.0.0,deployment.environment=production,deployment.strategy=stable
+      - PROMETHEUS_METRICS_ENABLED=true
+      - DATABASE_URL=${DATABASE_URL}
+      - REDIS_URL=${REDIS_URL}
+    ports:
+      - "8080:8080"    # HTTP API
+      - "9090:9090"    # Prometheus metrics
+    volumes:
+      - ./config:/app/config:ro
+      - matriz-stable-logs:/app/logs
+    networks:
+      - lukhas-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health/ready"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    deploy:
+      replicas: 3
+      resources:
+        limits:
+          memory: 4G
+          cpus: '2.0'
+        reservations:
+          memory: 1G
+          cpus: '0.5'
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.matriz-stable.rule=Host(`matriz.lukhas.ai`) && HeadersRegexp(`X-Canary-Deploy`, `^$`)"
+      - "traefik.http.routers.matriz-stable.priority=1"
+      - "traefik.http.services.matriz-stable.loadbalancer.server.port=8080"
+      - "traefik.http.services.matriz-stable.loadbalancer.healthcheck.path=/health/ready"
+
+  # Canary MATRIZ Orchestrator
+  matriz-orchestrator-canary:
+    image: ghcr.io/lukhasai/matriz-orchestrator:canary
+    container_name: lukhas-matriz-canary
+    restart: unless-stopped
+    environment:
+      - LUKHAS_LANE=candidate
+      - LUKHAS_PERF=1
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://otel-collector:4318/v1/traces
+      - OTEL_SERVICE_NAME=lukhas-matriz-orchestrator
+      - OTEL_RESOURCE_ATTRIBUTES=service.version=1.1.0,deployment.environment=production,deployment.strategy=canary
+      - PROMETHEUS_METRICS_ENABLED=true
+      - DATABASE_URL=${DATABASE_URL}
+      - REDIS_URL=${REDIS_URL}
+      # Canary-specific configuration
+      - CANARY_DEPLOYMENT=true
+      - CANARY_TRAFFIC_PERCENTAGE=${CANARY_TRAFFIC_PERCENTAGE:-10}
+    ports:
+      - "8081:8080"    # HTTP API (different port)
+      - "9091:9090"    # Prometheus metrics (different port)
+    volumes:
+      - ./config:/app/config:ro
+      - matriz-canary-logs:/app/logs
+    networks:
+      - lukhas-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health/ready"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    deploy:
+      replicas: 1
+      resources:
+        limits:
+          memory: 4G
+          cpus: '2.0'
+        reservations:
+          memory: 1G
+          cpus: '0.5'
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.matriz-canary.rule=Host(`matriz.lukhas.ai`) && Header(`X-Canary-Deploy`, `canary`)"
+      - "traefik.http.routers.matriz-canary.priority=10"
+      - "traefik.http.services.matriz-canary.loadbalancer.server.port=8080"
+      - "traefik.http.services.matriz-canary.loadbalancer.healthcheck.path=/health/ready"
+
+  # Load Balancer with Canary Traffic Splitting
+  traefik:
+    image: traefik:v3.0
+    container_name: lukhas-traefik-lb
+    restart: unless-stopped
+    command:
+      - "--api.dashboard=true"
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.web.address=:80"
+      - "--entrypoints.websecure.address=:443"
+      - "--metrics.prometheus=true"
+      - "--metrics.prometheus.entrypoint=metrics"
+      - "--entrypoints.metrics.address=:8082"
+      - "--log.level=INFO"
+      - "--accesslog=true"
+    ports:
+      - "80:80"        # HTTP
+      - "443:443"      # HTTPS
+      - "8888:8080"    # Traefik dashboard
+      - "8082:8082"    # Metrics
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./traefik/certs:/certs:ro
+    networks:
+      - lukhas-network
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.traefik.rule=Host(`traefik.lukhas.ai`)"
+
+  # OpenTelemetry Collector for observability
+  otel-collector:
+    image: otel/opentelemetry-collector-contrib:latest
+    container_name: lukhas-otel-collector
+    restart: unless-stopped
+    command: ["--config=/etc/otel-collector-config.yaml"]
+    volumes:
+      - ./monitoring/otel-production.yaml:/etc/otel-collector-config.yaml:ro
+    ports:
+      - "4317:4317"    # OTLP gRPC receiver
+      - "4318:4318"    # OTLP HTTP receiver
+      - "8889:8889"    # Prometheus metrics export
+      - "13133:13133"  # Health check
+    environment:
+      - TRACING_BACKEND_ENDPOINT=${TRACING_BACKEND_ENDPOINT:-http://jaeger:14250}
+      - PROMETHEUS_REMOTE_WRITE_ENDPOINT=${PROMETHEUS_REMOTE_WRITE_ENDPOINT:-http://prometheus:9090/api/v1/write}
+    networks:
+      - lukhas-network
+    depends_on:
+      - prometheus
+      - jaeger
+
+  # Prometheus for metrics collection
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: lukhas-prometheus
+    restart: unless-stopped
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/etc/prometheus/console_libraries'
+      - '--web.console.templates=/etc/prometheus/consoles'
+      - '--storage.tsdb.retention.time=15d'
+      - '--web.enable-lifecycle'
+    volumes:
+      - ./monitoring/prometheus-config.yml:/etc/prometheus/prometheus.yml:ro
+      - ./monitoring/alert-rules.yml:/etc/prometheus/rules/alert-rules.yml:ro
+      - prometheus-data:/prometheus
+    ports:
+      - "9090:9090"
+    networks:
+      - lukhas-network
+
+  # Jaeger for distributed tracing
+  jaeger:
+    image: jaegertracing/all-in-one:latest
+    container_name: lukhas-jaeger
+    restart: unless-stopped
+    environment:
+      - COLLECTOR_OTLP_ENABLED=true
+    ports:
+      - "16686:16686"  # Jaeger UI
+      - "14250:14250"  # gRPC
+    networks:
+      - lukhas-network
+    volumes:
+      - jaeger-data:/badger
+
+  # Grafana for visualization
+  grafana:
+    image: grafana/grafana:latest
+    container_name: lukhas-grafana
+    restart: unless-stopped
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_PASSWORD:-admin}
+      - GF_INSTALL_PLUGINS=grafana-piechart-panel
+    volumes:
+      - grafana-data:/var/lib/grafana
+      - ./monitoring/grafana-dashboard-matriz.json:/var/lib/grafana/dashboards/matriz.json:ro
+    ports:
+      - "3000:3000"
+    networks:
+      - lukhas-network
+    depends_on:
+      - prometheus
+
+  # Canary Analysis Service
+  canary-analyzer:
+    image: flaggerhq/flagger-loadtester:latest
+    container_name: lukhas-canary-analyzer
+    restart: unless-stopped
+    environment:
+      - PORT=8080
+    volumes:
+      - ./deployment/canary/analysis-scripts:/scripts:ro
+    ports:
+      - "8083:8080"
+    networks:
+      - lukhas-network
+    command:
+      - "./flagger-loadtester"
+      - "-port=8080"
+
+volumes:
+  matriz-stable-logs:
+    driver: local
+  matriz-canary-logs:
+    driver: local
+  prometheus-data:
+    driver: local
+  grafana-data:
+    driver: local
+  jaeger-data:
+    driver: local
+
+networks:
+  lukhas-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16

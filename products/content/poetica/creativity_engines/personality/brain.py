@@ -14,7 +14,7 @@ Integration Date: 2025-05-31T07:55:27.705072
 
 import logging
 from dataclasses import dataclass, field
-from typing import Any, Dict
+from typing import Any, Dict, Optional
 
 logger = logging.getLogger(__name__)
 
@@ -92,7 +92,7 @@ class EnhancedMemoryManager:
         self.qi_attention = qi_attention
         self._memory: list[MemoryTrace] = []
 
-    def record_event(self, event: str, metadata: dict[str, Any] | None = None) -> MemoryTrace:
+    def record_event(self, event: str, metadata: Optional[dict[str, Any]] = None) -> MemoryTrace:
         metadata = metadata or {}
         affect_delta = self.emotional_oscillator.modulate(metadata.get("emotional_intensity", 0.0))
         trace = MemoryTrace(event=event, metadata=metadata, affect_delta=affect_delta)

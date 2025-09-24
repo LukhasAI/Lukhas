@@ -1,0 +1,17 @@
+{
+  "validation_metadata": {
+    "validation_id": "i2_validation_1758656170",
+    "timestamp": "2025-09-23T19:36:10.492591+00:00",
+    "component": "I.2_Tiered_Authentication",
+    "standard": "T4/0.01% Excellence",
+    "validator": "Claude Code",
+    "runs": 100
+  },
+  "performance_validation": {},
+  "reliability_validation": {},
+  "security_validation": {},
+  "statistical_analysis": {},
+  "compliance_validation": {},
+  "excellence_verdict": {},
+  "validation_error": "Authentication failed for T1: internal_error: meth() got multiple values for argument 'event'"
+}

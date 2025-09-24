@@ -1,0 +1,82 @@
+# AlertManager Configuration for T4/0.01% Excellence
+# Routes alerts based on severity and component
+
+global:
+  smtp_smarthost: 'localhost:587'
+  smtp_from: 'lukhas-alerts@example.com'
+
+route:
+  group_by: ['alertname', 'component']
+  group_wait: 30s
+  group_interval: 5m
+  repeat_interval: 4h
+  receiver: 'default'
+  routes:
+    # Critical SLA violations - immediate notification
+    - match:
+        severity: critical
+      receiver: 'critical-alerts'
+      group_wait: 10s
+      repeat_interval: 1h
+
+    # T4 Excellence specific alerts
+    - match:
+        sla: latency
+      receiver: 'performance-team'
+      group_interval: 2m
+
+    # Security alerts
+    - match:
+        component: security
+      receiver: 'security-team'
+      group_wait: 5s
+
+    # Infrastructure alerts
+    - match:
+        component: infrastructure
+      receiver: 'infrastructure-team'
+
+receivers:
+  - name: 'default'
+    webhook_configs:
+      - url: 'http://localhost:8080/webhook/alerts'
+        send_resolved: true
+
+  - name: 'critical-alerts'
+    email_configs:
+      - to: 'critical-alerts@example.com'
+        subject: '🚨 LUKHAS Critical Alert: {{ .GroupLabels.alertname }}'
+        body: |
+          {{ range .Alerts }}
+          Alert: {{ .Annotations.summary }}
+          Description: {{ .Annotations.description }}
+          Severity: {{ .Labels.severity }}
+          Component: {{ .Labels.component }}
+          Time: {{ .StartsAt }}
+          {{ end }}
+    webhook_configs:
+      - url: 'http://localhost:8080/webhook/critical'
+        send_resolved: true
+
+  - name: 'performance-team'
+    email_configs:
+      - to: 'performance-team@example.com'
+        subject: '⚡ LUKHAS Performance Alert: {{ .GroupLabels.alertname }}'
+
+  - name: 'security-team'
+    email_configs:
+      - to: 'security-team@example.com'
+        subject: '🔒 LUKHAS Security Alert: {{ .GroupLabels.alertname }}'
+
+  - name: 'infrastructure-team'
+    email_configs:
+      - to: 'infrastructure-team@example.com'
+        subject: '🏗️ LUKHAS Infrastructure Alert: {{ .GroupLabels.alertname }}'
+
+inhibit_rules:
+  # Inhibit warning if critical alert is firing
+  - source_match:
+      severity: 'critical'
+    target_match:
+      severity: 'warning'
+    equal: ['alertname', 'component']

@@ -1,0 +1,164 @@
+rules:
+  - id: hardcoded-production-secrets
+    patterns:
+      - pattern-either:
+          - pattern: password = "..."
+          - pattern: secret = "..."
+          - pattern: api_key = "..."
+          - pattern: token = "..."
+          - pattern: private_key = "..."
+      - pattern-not: password = ""
+      - pattern-not: secret = ""
+      - pattern-not: api_key = ""
+      - pattern-not: token = ""
+      - pattern-not: private_key = ""
+    message: |
+      Hardcoded secret detected in production code.
+
+      Secrets should be loaded from environment variables or secure vaults.
+      Never commit secrets to version control.
+    languages: [python]
+    severity: ERROR
+    metadata:
+      category: security
+      technology: [lukhas]
+      confidence: HIGH
+      impact: HIGH
+      likelihood: MEDIUM
+      subcategory: [secrets]
+
+  - id: debug-mode-in-production
+    patterns:
+      - pattern-either:
+          - pattern: debug=True
+          - pattern: DEBUG = True
+          - pattern: app.debug = True
+          - pattern: reload=True
+    message: |
+      Debug mode enabled in production code.
+
+      Debug mode should be disabled in production as it can expose
+      sensitive information and create security vulnerabilities.
+    languages: [python]
+    severity: ERROR
+    metadata:
+      category: security
+      technology: [lukhas, fastapi]
+      confidence: HIGH
+      impact: MEDIUM
+      likelihood: HIGH
+      subcategory: [audit]
+
+  - id: insecure-random-usage
+    patterns:
+      - pattern-either:
+          - pattern: random.random()
+          - pattern: random.randint(...)
+          - pattern: random.choice(...)
+          - pattern: random.shuffle(...)
+    message: |
+      Insecure random number generation detected.
+
+      Use secrets.SystemRandom() or os.urandom() for cryptographic purposes.
+      The random module is not suitable for security-sensitive operations.
+    languages: [python]
+    severity: WARNING
+    metadata:
+      category: security
+      technology: [lukhas, crypto]
+      confidence: HIGH
+      impact: MEDIUM
+      likelihood: MEDIUM
+      subcategory: [crypto]
+
+  - id: sql-injection-risk
+    patterns:
+      - pattern-either:
+          - pattern: f"SELECT * FROM {$TABLE} WHERE ..."
+          - pattern: "SELECT * FROM " + $TABLE
+          - pattern: cursor.execute(f"...")
+          - pattern: execute(f"SELECT ...")
+    message: |
+      Potential SQL injection vulnerability detected.
+
+      Use parameterized queries or ORM methods instead of string formatting
+      for SQL queries to prevent SQL injection attacks.
+    languages: [python]
+    severity: ERROR
+    metadata:
+      category: security
+      technology: [lukhas, database]
+      confidence: MEDIUM
+      impact: HIGH
+      likelihood: MEDIUM
+      subcategory: [injection]
+
+  - id: unsafe-yaml-loading
+    patterns:
+      - pattern: yaml.load(...)
+      - pattern: yaml.unsafe_load(...)
+    message: |
+      Unsafe YAML loading detected.
+
+      Use yaml.safe_load() instead of yaml.load() to prevent
+      arbitrary code execution vulnerabilities.
+    languages: [python]
+    severity: ERROR
+    metadata:
+      category: security
+      technology: [lukhas, yaml]
+      confidence: HIGH
+      impact: HIGH
+      likelihood: MEDIUM
+      subcategory: [deserialization]
+
+  - id: rate-limiting-bypass
+    patterns:
+      - pattern-either:
+          - pattern: |
+              # rate_limit_check: ...
+              def $FUNC(...):
+                  ...
+          - pattern: |
+              @app.post("...")
+              def $FUNC(...):
+                  # ... no rate limiting dependency
+    message: |
+      API endpoint may lack rate limiting protection.
+
+      Ensure all production API endpoints have appropriate rate limiting
+      using the Depends(rate_limit_check) pattern.
+    languages: [python]
+    severity: INFO
+    metadata:
+      category: security
+      technology: [lukhas, fastapi]
+      confidence: LOW
+      impact: MEDIUM
+      likelihood: LOW
+      subcategory: [dos]
+
+  - id: cors-wildcard-origins
+    patterns:
+      - pattern: allow_origins=["*"]
+      - pattern: allow_origins="*"
+      - pattern: |
+          CORSMiddleware(
+              ...
+              allow_origins=["*"]
+              ...
+          )
+    message: |
+      CORS configured with wildcard origins.
+
+      Wildcard origins (*) should be avoided in production.
+      Specify explicit allowed origins for better security.
+    languages: [python]
+    severity: WARNING
+    metadata:
+      category: security
+      technology: [lukhas, fastapi, cors]
+      confidence: HIGH
+      impact: MEDIUM
+      likelihood: MEDIUM
+      subcategory: [cors]

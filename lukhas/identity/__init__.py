@@ -86,6 +86,26 @@ except ImportError:
     AuthenticationService = None
     AuthResult = None
 
+# ΛiD Token System - Production Schema v1.0.0 (Constellation Framework)
+try:
+    from .alias_format import (
+        make_alias, verify_crc, parse_alias, validate_alias_format, ΛiDAlias
+    )
+    from .token_generator import (
+        TokenGenerator, TokenClaims, TokenResponse,
+        SecretProvider, EnvironmentSecretProvider
+    )
+    from .token_validator import (
+        TokenValidator, ValidationResult, TokenValidationError
+    )
+    from .token_storage import (
+        TokenStorage, StoredToken, KeyRotationRecord, TokenStatus
+    )
+
+    ΛTOKEN_SYSTEM_AVAILABLE = True
+except ImportError:
+    ΛTOKEN_SYSTEM_AVAILABLE = False
+
 # Export components
 __all__ = [
     "AUTHENTICATION_AVAILABLE",
@@ -97,6 +117,17 @@ __all__ = [
     "lambda_id",
     "webauthn",
 ]
+
+# Add ΛiD Token System components if available
+if ΛTOKEN_SYSTEM_AVAILABLE:
+    __all__.extend([
+        "make_alias", "verify_crc", "parse_alias", "validate_alias_format", "ΛiDAlias",
+        "TokenGenerator", "TokenClaims", "TokenResponse",
+        "SecretProvider", "EnvironmentSecretProvider",
+        "TokenValidator", "ValidationResult", "TokenValidationError",
+        "TokenStorage", "StoredToken", "KeyRotationRecord", "TokenStatus",
+        "ΛTOKEN_SYSTEM_AVAILABLE"
+    ])
 
 # Add identity core components if available
 if IDENTITY_CORE_AVAILABLE:

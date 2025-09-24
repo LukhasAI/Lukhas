@@ -15,11 +15,20 @@ from __future__ import annotations
 
 import os
 import logging
+import asyncio
 from datetime import datetime, timedelta
 from uuid import uuid4, UUID
 from typing import Dict, Any, Optional, List
 from collections import deque
 import statistics
+
+# Guardian system integration
+try:
+    from governance.guardian_system import GuardianSystem
+    GUARDIAN_AVAILABLE = True
+except ImportError:
+    GUARDIAN_AVAILABLE = False
+    logging.warning("Guardian system not available for consciousness validation")
 
 from lukhas.core.clock import Ticker
 from lukhas.core.ring import DecimatingRing
@@ -123,10 +132,40 @@ class ConsciousnessStream:
         self._drift_alpha = 0.1                                   # EMA smoothing factor
         self._last_metrics_update = datetime.utcnow()
 
+        # Guardian integration for consciousness safety
+        self._guardian_integration_enabled = False
+        self._guardian_instance = None
+        self._consciousness_safety_violations = 0
+        self._guardian_processing_overhead = deque(maxlen=50)  # Track Guardian overhead
+        self._last_guardian_check = None
+        self._consciousness_state = "initializing"  # initializing, active, suspended, error
+
         # Subscribe to ticker
         self.ticker.subscribe(self._on_consciousness_tick)
 
         logger.info(f"ConsciousnessStream initialized: lane={self.lane}, fps={fps}, glyph_id={self.glyph_id}")
+
+    def enable_guardian_integration(self, guardian_instance: Optional[Any] = None) -> None:
+        """Enable Guardian safety validation for consciousness processing"""
+        if not GUARDIAN_AVAILABLE:
+            logger.warning("Guardian system not available, cannot enable consciousness validation")
+            return
+
+        if guardian_instance:
+            self._guardian_instance = guardian_instance
+        elif GUARDIAN_AVAILABLE:
+            # Create default Guardian instance
+            self._guardian_instance = GuardianSystem()
+
+        self._guardian_integration_enabled = True
+        self._consciousness_state = "active"
+        logger.info("Guardian-Consciousness integration enabled")
+
+    def disable_guardian_integration(self) -> None:
+        """Disable Guardian safety validation"""
+        self._guardian_integration_enabled = False
+        self._guardian_instance = None
+        logger.info("Guardian-Consciousness integration disabled")
 
     def _log_router_event(self, event_type: str, data: dict) -> None:
         """Router logging callback - captures router activity."""
@@ -150,6 +189,77 @@ class ConsciousnessStream:
 
         try:
             self.tick_count = tick_count
+
+            # Guardian pre-processing validation
+            if self._guardian_integration_enabled and self._guardian_instance:
+                guardian_check_start = datetime.utcnow()
+
+                # Prepare consciousness context for Guardian validation
+                consciousness_context = {
+                    "action_type": "consciousness_tick",
+                    "tick_count": tick_count,
+                    "stream_state": {
+                        "running": self.running,
+                        "events_processed": self.events_processed,
+                        "drift_ema": self._drift_ema,
+                        "processing_times": list(self._tick_processing_times)[-5:] if self._tick_processing_times else [],
+                        "consciousness_state": self._consciousness_state
+                    },
+                    "correlation_id": f"consciousness_tick_{tick_count}_{int(tick_start.timestamp() * 1000)}",
+                    "timestamp": tick_start.isoformat()
+                }
+
+                # Synchronous Guardian validation (for tick processing speed)
+                try:
+                    guardian_result = self._guardian_instance.validate_safety(consciousness_context)
+
+                    guardian_overhead = (datetime.utcnow() - guardian_check_start).total_seconds() * 1000
+                    self._guardian_processing_overhead.append(guardian_overhead)
+                    self._last_guardian_check = datetime.utcnow()
+
+                    # Check if consciousness processing is safe
+                    if not guardian_result.get("safe", False):
+                        self._consciousness_safety_violations += 1
+                        violation_reason = guardian_result.get("reason", "Unknown safety concern")
+
+                        logger.warning(
+                            f"Guardian blocked consciousness tick {tick_count}: {violation_reason}"
+                        )
+
+                        # Create safety violation event
+                        violation_event = Event.create(
+                            kind="consciousness_safety_violation",
+                            lane=self.lane,
+                            glyph_id=self.glyph_id,
+                            payload={
+                                "tick_count": tick_count,
+                                "guardian_result": guardian_result,
+                                "violation_count": self._consciousness_safety_violations,
+                                "context": consciousness_context
+                            },
+                            ts=tick_start
+                        )
+
+                        if self._should_store_event(violation_event):
+                            self.event_store.append(violation_event)
+
+                        # Decide on violation response based on severity
+                        if guardian_result.get("guardian_status") == "emergency_disabled":
+                            self._consciousness_state = "suspended"
+                            logger.critical("Consciousness processing suspended due to Guardian emergency")
+                            return  # Skip this tick entirely
+                        elif guardian_result.get("drift_score", 0) > 0.5:
+                            # High drift - proceed with enhanced monitoring
+                            logger.warning(f"High drift detected: {guardian_result.get('drift_score')}, proceeding with caution")
+                        else:
+                            # Minor issue - log and continue
+                            logger.info(f"Minor safety concern: {violation_reason}, continuing with monitoring")
+
+                except Exception as guardian_error:
+                    logger.error(f"Guardian validation failed for tick {tick_count}: {guardian_error}")
+                    # On Guardian failure, proceed with consciousness (fail-open for availability)
+                    # but log the failure for investigation
+                    self._consciousness_safety_violations += 1
 
             # Create consciousness tick event
             tick_event = Event.create(
@@ -205,6 +315,27 @@ class ConsciousnessStream:
             timing_drift = abs(processing_duration - target_interval)
             self._drift_ema = (1 - self._drift_alpha) * self._drift_ema + self._drift_alpha * timing_drift
 
+            # Enhanced drift monitoring with Guardian integration
+            if self._guardian_integration_enabled and self._guardian_instance and hasattr(self._guardian_instance, 'reflector'):
+                # Prepare drift context for advanced Guardian analysis
+                drift_context = {
+                    "drift_ema": self._drift_ema,
+                    "timing_drift": timing_drift,
+                    "processing_duration_ms": processing_ms,
+                    "target_interval_ms": target_interval * 1000,
+                    "tick_count": tick_count,
+                    "recent_processing_times": list(self._tick_processing_times)[-10:],
+                    "breakthrough_count": len(self._breakthrough_timestamps),
+                    "consciousness_state": self._consciousness_state,
+                    "correlation_id": f"consciousness_drift_{tick_count}"
+                }
+
+                # Store drift context for potential async Guardian analysis
+                # (We don't await here to maintain tick processing speed)
+                if hasattr(self, '_pending_drift_analyses'):
+                    self._pending_drift_analyses = getattr(self, '_pending_drift_analyses', deque(maxlen=10))
+                    self._pending_drift_analyses.append(drift_context)
+
             # Create a processing completion event
             completion_event = Event.create(
                 kind="tick_processed",
@@ -215,7 +346,16 @@ class ConsciousnessStream:
                     "processing_duration_ms": processing_ms,
                     "events_in_store": len(self.event_store.events),
                     "router_logs_count": len(self._router_logs),
-                    "drift_ema": self._drift_ema
+                    "drift_ema": self._drift_ema,
+                "guardian_integration": {
+                    "enabled": self._guardian_integration_enabled,
+                    "safety_violations": self._consciousness_safety_violations,
+                    "last_check": self._last_guardian_check.isoformat() if self._last_guardian_check else None,
+                    "avg_overhead_ms": (
+                        sum(self._guardian_processing_overhead) / len(self._guardian_processing_overhead)
+                        if self._guardian_processing_overhead else 0
+                    )
+                }
                 }
             )
             if self._should_store_event(completion_event):
@@ -234,17 +374,29 @@ class ConsciousnessStream:
 
         except Exception as e:
             logger.error(f"Error processing consciousness tick {tick_count}: {e}")
+            self._consciousness_state = "error"
 
-            # Create error event
+            # Create error event with Guardian context
+            error_payload = {
+                "tick_count": tick_count,
+                "error": str(e),
+                "error_type": type(e).__name__,
+                "consciousness_state": self._consciousness_state
+            }
+
+            # Add Guardian context to error if available
+            if self._guardian_integration_enabled:
+                error_payload["guardian_context"] = {
+                    "safety_violations": self._consciousness_safety_violations,
+                    "last_check": self._last_guardian_check.isoformat() if self._last_guardian_check else None,
+                    "integration_enabled": True
+                }
+
             error_event = Event.create(
                 kind="processing_error",
                 lane=self.lane,
                 glyph_id=self.glyph_id,
-                payload={
-                    "tick_count": tick_count,
-                    "error": str(e),
-                    "error_type": type(e).__name__
-                }
+                payload=error_payload
             )
             self.event_store.append(error_event)
 
@@ -388,6 +540,202 @@ class ConsciousnessStream:
                 }
             )
         }
+
+    def get_guardian_integration_status(self) -> Dict[str, Any]:
+        """Get detailed Guardian-Consciousness integration status"""
+        if not self._guardian_integration_enabled:
+            return {
+                "enabled": False,
+                "available": GUARDIAN_AVAILABLE,
+                "reason": "Integration not enabled"
+            }
+
+        recent_overhead = list(self._guardian_processing_overhead)[-10:]
+
+        return {
+            "enabled": True,
+            "available": GUARDIAN_AVAILABLE,
+            "consciousness_state": self._consciousness_state,
+            "safety_violations": self._consciousness_safety_violations,
+            "last_guardian_check": self._last_guardian_check.isoformat() if self._last_guardian_check else None,
+            "guardian_performance": {
+                "total_checks": len(self._guardian_processing_overhead),
+                "avg_overhead_ms": (
+                    sum(self._guardian_processing_overhead) / len(self._guardian_processing_overhead)
+                    if self._guardian_processing_overhead else 0
+                ),
+                "recent_overhead_ms": recent_overhead,
+                "max_overhead_ms": max(self._guardian_processing_overhead) if self._guardian_processing_overhead else 0,
+                "overhead_std_dev": (
+                    statistics.stdev(self._guardian_processing_overhead)
+                    if len(self._guardian_processing_overhead) > 1 else 0
+                )
+            },
+            "safety_metrics": {
+                "violation_rate": (
+                    self._consciousness_safety_violations / self.tick_count
+                    if self.tick_count > 0 else 0
+                ),
+                "consecutive_safe_ticks": self._calculate_consecutive_safe_ticks(),
+                "safety_trend": self._calculate_safety_trend()
+            },
+            "integration_health": self._assess_integration_health()
+        }
+
+    def _calculate_consecutive_safe_ticks(self) -> int:
+        """Calculate consecutive ticks without safety violations"""
+        # Simple implementation - could be enhanced with more sophisticated tracking
+        recent_events = self.get_recent_events(100)
+        consecutive_safe = 0
+
+        for event in reversed(recent_events):
+            if event.kind == "consciousness_safety_violation":
+                break
+            elif event.kind == "consciousness_tick":
+                consecutive_safe += 1
+
+        return consecutive_safe
+
+    def _calculate_safety_trend(self) -> str:
+        """Calculate safety trend over recent period"""
+        if self._consciousness_safety_violations == 0:
+            return "excellent"
+        elif self.tick_count == 0:
+            return "unknown"
+
+        violation_rate = self._consciousness_safety_violations / self.tick_count
+
+        if violation_rate < 0.01:  # Less than 1% violation rate
+            return "good"
+        elif violation_rate < 0.05:  # Less than 5% violation rate
+            return "acceptable"
+        else:
+            return "concerning"
+
+    def _assess_integration_health(self) -> str:
+        """Assess overall Guardian-Consciousness integration health"""
+        if not self._guardian_integration_enabled:
+            return "disabled"
+
+        if self._consciousness_state == "suspended":
+            return "suspended"
+        elif self._consciousness_state == "error":
+            return "error"
+
+        # Check Guardian overhead
+        if self._guardian_processing_overhead:
+            avg_overhead = sum(self._guardian_processing_overhead) / len(self._guardian_processing_overhead)
+            if avg_overhead > 5.0:  # More than 5ms average overhead
+                return "high_overhead"
+
+        # Check violation rate
+        safety_trend = self._calculate_safety_trend()
+        if safety_trend == "concerning":
+            return "unstable"
+        elif safety_trend in ["good", "excellent"]:
+            return "healthy"
+        else:
+            return "stable"
+
+    def suspend_consciousness_processing(self, reason: str = "Manual suspension") -> None:
+        """Suspend consciousness processing for safety reasons"""
+        self._consciousness_state = "suspended"
+        logger.warning(f"Consciousness processing suspended: {reason}")
+
+        # Create suspension event
+        suspension_event = Event.create(
+            kind="consciousness_suspended",
+            lane=self.lane,
+            glyph_id=self.glyph_id,
+            payload={
+                "reason": reason,
+                "tick_count": self.tick_count,
+                "safety_violations": self._consciousness_safety_violations,
+                "timestamp": datetime.utcnow().isoformat()
+            }
+        )
+
+        if self._should_store_event(suspension_event):
+            self.event_store.append(suspension_event)
+
+    def resume_consciousness_processing(self, reason: str = "Manual resume") -> None:
+        """Resume consciousness processing after suspension"""
+        if self._consciousness_state != "suspended":
+            logger.warning(f"Cannot resume consciousness - current state: {self._consciousness_state}")
+            return
+
+        self._consciousness_state = "active"
+        logger.info(f"Consciousness processing resumed: {reason}")
+
+        # Create resume event
+        resume_event = Event.create(
+            kind="consciousness_resumed",
+            lane=self.lane,
+            glyph_id=self.glyph_id,
+            payload={
+                "reason": reason,
+                "tick_count": self.tick_count,
+                "timestamp": datetime.utcnow().isoformat()
+            }
+        )
+
+        if self._should_store_event(resume_event):
+            self.event_store.append(resume_event)
+
+    async def validate_consciousness_state_transition(self, new_state: str, context: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
+        """Validate consciousness state transitions through Guardian"""
+        if not self._guardian_integration_enabled or not self._guardian_instance:
+            return {
+                "approved": True,
+                "reason": "Guardian validation not enabled",
+                "guardian_available": False
+            }
+
+        # Prepare state transition context
+        transition_context = {
+            "action_type": "consciousness_state_transition",
+            "current_state": self._consciousness_state,
+            "new_state": new_state,
+            "tick_count": self.tick_count,
+            "safety_violations": self._consciousness_safety_violations,
+            "context": context or {},
+            "correlation_id": f"state_transition_{int(datetime.utcnow().timestamp() * 1000)}"
+        }
+
+        try:
+            # Use async Guardian validation for state transitions
+            if hasattr(self._guardian_instance, 'validate_action_async'):
+                validation_result = await self._guardian_instance.validate_action_async(
+                    transition_context
+                )
+            else:
+                # Fallback to sync validation
+                validation_result = self._guardian_instance.validate_safety(transition_context)
+
+            approved = validation_result.get("safe", False)
+            reason = validation_result.get("reason", "Guardian validation completed")
+
+            if approved:
+                logger.info(f"Guardian approved consciousness state transition: {self._consciousness_state} -> {new_state}")
+            else:
+                logger.warning(f"Guardian blocked consciousness state transition: {self._consciousness_state} -> {new_state}, reason: {reason}")
+
+            return {
+                "approved": approved,
+                "reason": reason,
+                "guardian_available": True,
+                "guardian_result": validation_result,
+                "transition_context": transition_context
+            }
+
+        except Exception as e:
+            logger.error(f"Guardian validation failed for state transition: {e}")
+            return {
+                "approved": False,
+                "reason": f"Guardian validation error: {str(e)}",
+                "guardian_available": True,
+                "error": True
+            }
 
     def get_recent_events(self, limit: int = 100) -> List[Event]:
         """Get recent events from the store for monitoring."""

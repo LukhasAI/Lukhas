@@ -1,0 +1,247 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.lukhas.ai/governance/guardian-response/v1",
+  "title": "LUKHAS Guardian Response Schema",
+  "description": "Standardized response schema for LUKHAS Guardian System v1.0.0",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "timestamp",
+    "correlation_id",
+    "emergency_active",
+    "enforcement_enabled",
+    "decision",
+    "reasons"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$",
+      "description": "Schema version following semantic versioning",
+      "examples": ["1.0.0"]
+    },
+    "timestamp": {
+      "type": "number",
+      "minimum": 1000000000,
+      "description": "Unix timestamp (seconds since epoch)",
+      "examples": [1727123853.622]
+    },
+    "correlation_id": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+      "description": "Unique correlation ID for request tracing (UUID v4)",
+      "examples": ["550e8400-e29b-41d4-a716-446655440000"]
+    },
+    "emergency_active": {
+      "type": "boolean",
+      "description": "Whether emergency kill-switch is active"
+    },
+    "enforcement_enabled": {
+      "type": "boolean",
+      "description": "Whether policy enforcement is enabled"
+    },
+    "decision": {
+      "type": "string",
+      "enum": ["allow", "deny", "review", "defer"],
+      "description": "Guardian policy decision"
+    },
+    "reasons": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["code", "message", "severity"],
+        "properties": {
+          "code": {
+            "type": "string",
+            "pattern": "^[A-Z][A-Z0-9_]*$",
+            "description": "Machine-readable reason code",
+            "examples": ["DRIFT_THRESHOLD_EXCEEDED", "RATE_LIMIT_VIOLATION", "POLICY_VIOLATION"]
+          },
+          "message": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 500,
+            "description": "Human-readable reason message"
+          },
+          "severity": {
+            "type": "string",
+            "enum": ["low", "medium", "high", "critical"],
+            "description": "Severity level of the reason"
+          },
+          "details": {
+            "type": "object",
+            "description": "Additional context-specific details",
+            "additionalProperties": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "description": "List of reasons for the decision"
+    },
+    "metrics": {
+      "type": "object",
+      "description": "Performance and operational metrics",
+      "properties": {
+        "processing_time_ms": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Processing time in milliseconds"
+        },
+        "drift_score": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "Calculated drift score (0-1)"
+        },
+        "confidence_score": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "Confidence in the decision (0-1)"
+        },
+        "policies_evaluated": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Number of policies evaluated"
+        },
+        "circuit_breaker_state": {
+          "type": "string",
+          "enum": ["closed", "open", "half_open"],
+          "description": "Circuit breaker state during evaluation"
+        }
+      },
+      "additionalProperties": false
+    },
+    "context": {
+      "type": "object",
+      "description": "Request context information",
+      "properties": {
+        "operation_type": {
+          "type": "string",
+          "description": "Type of operation being evaluated"
+        },
+        "component": {
+          "type": "string",
+          "description": "LUKHAS component making the request"
+        },
+        "user_id": {
+          "type": "string",
+          "description": "User identifier (if applicable)"
+        },
+        "tier": {
+          "type": "string",
+          "pattern": "^T[1-5]$",
+          "description": "Authentication tier (T1-T5)"
+        },
+        "lane": {
+          "type": "string",
+          "enum": ["stable", "candidate", "experimental"],
+          "description": "LUKHAS lane"
+        }
+      },
+      "additionalProperties": false
+    },
+    "actions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["type", "target"],
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": ["log", "alert", "throttle", "block", "audit"],
+            "description": "Type of action to take"
+          },
+          "target": {
+            "type": "string",
+            "description": "Target for the action"
+          },
+          "parameters": {
+            "type": "object",
+            "description": "Action-specific parameters",
+            "additionalProperties": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "description": "Actions to be taken based on the decision"
+    }
+  },
+  "additionalProperties": false,
+  "examples": [
+    {
+      "schema_version": "1.0.0",
+      "timestamp": 1727123853.622,
+      "correlation_id": "550e8400-e29b-41d4-a716-446655440000",
+      "emergency_active": false,
+      "enforcement_enabled": true,
+      "decision": "allow",
+      "reasons": [],
+      "metrics": {
+        "processing_time_ms": 2.5,
+        "drift_score": 0.05,
+        "confidence_score": 0.95,
+        "policies_evaluated": 3,
+        "circuit_breaker_state": "closed"
+      },
+      "context": {
+        "operation_type": "memory_storage",
+        "component": "memory",
+        "tier": "T2",
+        "lane": "candidate"
+      },
+      "actions": []
+    },
+    {
+      "schema_version": "1.0.0",
+      "timestamp": 1727123853.622,
+      "correlation_id": "550e8400-e29b-41d4-a716-446655441111",
+      "emergency_active": false,
+      "enforcement_enabled": true,
+      "decision": "deny",
+      "reasons": [
+        {
+          "code": "DRIFT_THRESHOLD_EXCEEDED",
+          "message": "Drift score 0.25 exceeds threshold 0.15",
+          "severity": "high",
+          "details": {
+            "current_drift": 0.25,
+            "threshold": 0.15,
+            "trend": "increasing"
+          }
+        }
+      ],
+      "metrics": {
+        "processing_time_ms": 5.2,
+        "drift_score": 0.25,
+        "confidence_score": 0.88,
+        "policies_evaluated": 5,
+        "circuit_breaker_state": "closed"
+      },
+      "context": {
+        "operation_type": "consciousness_decision",
+        "component": "consciousness",
+        "tier": "T3",
+        "lane": "experimental"
+      },
+      "actions": [
+        {
+          "type": "log",
+          "target": "security_log",
+          "parameters": {
+            "level": "warning",
+            "category": "drift_violation"
+          }
+        },
+        {
+          "type": "alert",
+          "target": "ops_team",
+          "parameters": {
+            "severity": "high",
+            "escalation_delay": 300
+          }
+        }
+      ]
+    }
+  ]
+}

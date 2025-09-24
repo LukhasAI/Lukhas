@@ -27,8 +27,19 @@ import asyncio
 import hashlib
 import json
 import logging
+import time
 import uuid
+from collections import deque
 from datetime import datetime, timezone
+from typing import Any, Dict, Optional
+
+# Guardian system integration for ethical identity management
+try:
+    from governance.guardian_system import GuardianSystem
+    GUARDIAN_AVAILABLE = True
+except ImportError:
+    GUARDIAN_AVAILABLE = False
+    print("⚠️  Guardian system not available - identity operations without ethical validation")
 
 logger = logging.getLogger(__name__)
 
@@ -412,6 +423,23 @@ class AdvancedIdentityManager:
         self.anonymous_usage_allowed = True
         self.identity_events = []
 
+        # Guardian integration for ethical identity management
+        self._guardian_integration_enabled = False
+        self._guardian_instance = None
+        self._identity_violations = 0
+        self._validated_operations = 0
+        self._blocked_operations = 0
+
+        # Initialize Guardian if available
+        if GUARDIAN_AVAILABLE:
+            try:
+                self._guardian_instance = GuardianSystem()
+                self._guardian_integration_enabled = True
+                logger.info("🛡️  Guardian-Identity integration enabled for ethical identity management")
+            except Exception as e:
+                logger.error(f"⚠️  Failed to initialize Guardian integration: {e}")
+                self._guardian_integration_enabled = False
+
     async def get_user_identity(self, user_id):
         """Get user identity information"""
         if user_id in self.users:
@@ -432,16 +460,59 @@ class AdvancedIdentityManager:
 
             return new_user
 
-    def authenticate(self, user_input):
+    async def authenticate(self, user_input):
         """
-        Authenticate a user based on input
+        Authenticate a user based on input with Guardian ethical validation
         Returns authentication result
         """
+        correlation_id = f"auth_{int(time.time() * 1000)}_{str(uuid.uuid4())[:8]}"
+        claimed_user_id = user_input.get("user_id", "unknown")
+
+        # Guardian pre-validation for authentication attempts
+        if self._guardian_integration_enabled:
+            guardian_context = {
+                "action_type": "identity_authentication",
+                "user_id": claimed_user_id,
+                "input_data": {
+                    "text_length": len(user_input.get("text", "")),
+                    "has_user_id": bool(user_input.get("user_id")),
+                    "metadata_keys": list(user_input.keys())
+                },
+                "correlation_id": correlation_id,
+                "operation": "authenticate"
+            }
+
+            try:
+                if hasattr(self._guardian_instance, 'validate_action_async'):
+                    guardian_result = await self._guardian_instance.validate_action_async(guardian_context)
+                else:
+                    guardian_result = self._guardian_instance.validate_safety(guardian_context)
+
+                if not guardian_result.get("safe", False):
+                    self._blocked_operations += 1
+                    self._identity_violations += 1
+                    reason = guardian_result.get("reason", "Authentication blocked by Guardian")
+
+                    self._log_identity_event(
+                        "authentication_blocked",
+                        claimed_user_id,
+                        {"reason": reason, "correlation_id": correlation_id},
+                    )
+
+                    return {
+                        "verified": False,
+                        "reason": "Authentication blocked for security reasons",
+                        "guardian_reason": reason,
+                        "correlation_id": correlation_id
+                    }
+
+                self._validated_operations += 1
+
+            except Exception as e:
+                logger.warning(f"Guardian validation failed for authentication {correlation_id}: {e}")
+
         # Extract emotional vector
         emotional_vector = self.emotional_memory.extract_vector(user_input)
-
-        # Get claimed user ID if available
-        claimed_user_id = user_input.get("user_id")
 
         # Verify identity
         verification_result = self.symbolic_identity_hash.verify(emotional_vector, claimed_user_id)
@@ -449,14 +520,66 @@ class AdvancedIdentityManager:
         # Log authentication attempt
         self._log_identity_event(
             "authentication_attempt",
-            claimed_user_id or "unknown",
-            {"success": verification_result.get("verified", False)},
+            claimed_user_id,
+            {
+                "success": verification_result.get("verified", False),
+                "correlation_id": correlation_id,
+                "guardian_validated": self._guardian_integration_enabled
+            },
         )
 
         return verification_result
 
-    def register_user(self, user_id, user_input, metadata=None):
-        """Register a new user or update existing user"""
+    async def register_user(self, user_id, user_input, metadata=None):
+        """Register a new user or update existing user with Guardian ethical validation"""
+        correlation_id = f"reg_{int(time.time() * 1000)}_{str(uuid.uuid4())[:8]}"
+
+        # Guardian pre-validation for user registration
+        if self._guardian_integration_enabled:
+            guardian_context = {
+                "action_type": "identity_registration",
+                "user_id": user_id,
+                "input_data": {
+                    "text_content": user_input.get("text", "")[:200],  # Preview only
+                    "text_length": len(user_input.get("text", "")),
+                    "metadata": metadata or {},
+                    "is_update": user_id in self.users
+                },
+                "correlation_id": correlation_id,
+                "operation": "register_user"
+            }
+
+            try:
+                if hasattr(self._guardian_instance, 'validate_action_async'):
+                    guardian_result = await self._guardian_instance.validate_action_async(guardian_context)
+                else:
+                    guardian_result = self._guardian_instance.validate_safety(guardian_context)
+
+                if not guardian_result.get("safe", False):
+                    self._blocked_operations += 1
+                    self._identity_violations += 1
+                    reason = guardian_result.get("reason", "Registration blocked by Guardian")
+
+                    self._log_identity_event(
+                        "registration_blocked",
+                        user_id,
+                        {"reason": reason, "correlation_id": correlation_id},
+                    )
+
+                    return {
+                        "user_id": user_id,
+                        "registered": False,
+                        "blocked": True,
+                        "reason": "Registration blocked for security reasons",
+                        "guardian_reason": reason,
+                        "correlation_id": correlation_id
+                    }
+
+                self._validated_operations += 1
+
+            except Exception as e:
+                logger.warning(f"Guardian validation failed for registration {correlation_id}: {e}")
+
         # Extract emotional vector
         emotional_vector = self.emotional_memory.extract_vector(user_input)
 
@@ -479,7 +602,11 @@ class AdvancedIdentityManager:
             self.users[user_id]["verified"] = True
 
             # Log update event
-            self._log_identity_event("user_updated", user_id, {"was_locked": was_locked})
+            self._log_identity_event("user_updated", user_id, {
+                "was_locked": was_locked,
+                "correlation_id": correlation_id,
+                "guardian_validated": self._guardian_integration_enabled
+            })
         else:
             # Create new user entry
             new_user = {
@@ -492,12 +619,18 @@ class AdvancedIdentityManager:
             self.users[user_id] = new_user
 
             # Log creation event
-            self._log_identity_event("user_created", user_id, {"was_locked": was_locked})
+            self._log_identity_event("user_created", user_id, {
+                "was_locked": was_locked,
+                "correlation_id": correlation_id,
+                "guardian_validated": self._guardian_integration_enabled
+            })
 
         return {
             "user_id": user_id,
             "registered": True,
             "trauma_locked": was_locked,
+            "correlation_id": correlation_id,
+            "guardian_validated": self._guardian_integration_enabled
         }
 
     def update(self, input_data, result, context=None):
@@ -521,10 +654,63 @@ class AdvancedIdentityManager:
 
         return True
 
-    def apply_trauma_lock(self, memory_vector):
-        """Apply trauma lock to a memory vector"""
+    async def apply_trauma_lock(self, memory_vector, user_id="unknown"):
+        """Apply trauma lock to a memory vector with Guardian validation"""
+        correlation_id = f"trauma_{int(time.time() * 1000)}_{str(uuid.uuid4())[:8]}"
+
+        # Guardian validation for trauma lock operations
+        if self._guardian_integration_enabled:
+            guardian_context = {
+                "action_type": "identity_trauma_lock",
+                "user_id": user_id,
+                "operation_data": {
+                    "memory_vector_present": bool(memory_vector),
+                    "vector_keys": list(memory_vector.keys()) if memory_vector else [],
+                    "valence": memory_vector.get("valence", 0) if memory_vector else 0,
+                    "arousal": memory_vector.get("arousal", 0) if memory_vector else 0
+                },
+                "correlation_id": correlation_id,
+                "operation": "apply_trauma_lock"
+            }
+
+            try:
+                if hasattr(self._guardian_instance, 'validate_action_async'):
+                    guardian_result = await self._guardian_instance.validate_action_async(guardian_context)
+                else:
+                    guardian_result = self._guardian_instance.validate_safety(guardian_context)
+
+                if not guardian_result.get("safe", False):
+                    self._blocked_operations += 1
+                    self._identity_violations += 1
+                    reason = guardian_result.get("reason", "Trauma lock operation blocked by Guardian")
+
+                    self._log_identity_event(
+                        "trauma_lock_blocked",
+                        user_id,
+                        {"reason": reason, "correlation_id": correlation_id},
+                    )
+
+                    return memory_vector, False  # Return original vector, not locked
+
+                self._validated_operations += 1
+
+            except Exception as e:
+                logger.warning(f"Guardian validation failed for trauma lock {correlation_id}: {e}")
+
         # ΛTAG: trauma_lock
         secured_vector, was_locked = self.trauma_lock.secure(memory_vector)
+
+        # Log trauma lock event
+        if was_locked:
+            self._log_identity_event(
+                "trauma_lock_applied",
+                user_id,
+                {
+                    "correlation_id": correlation_id,
+                    "guardian_validated": self._guardian_integration_enabled
+                },
+            )
+
         return secured_vector, was_locked
 
     def _log_identity_event(self, event_type, user_id, data=None):
@@ -542,6 +728,112 @@ class AdvancedIdentityManager:
             self.identity_events = self.identity_events[-1000:]
 
         logger.info(f"Identity event: {event_type} for user {user_id}")
+
+    # Guardian Integration Methods for Identity Security
+
+    async def validate_identity_operation(self, operation_type: str, operation_data: Dict[str, Any],
+                                        user_id: str = "unknown") -> Dict[str, Any]:
+        """Standalone method to validate identity operations with Guardian"""
+        if not self._guardian_integration_enabled or not self._guardian_instance:
+            return {
+                "validated": True,
+                "reason": "Guardian validation not available",
+                "safe": True
+            }
+
+        correlation_id = f"validation_{int(time.time() * 1000)}_{str(uuid.uuid4())[:8]}"
+
+        guardian_context = {
+            "action_type": f"identity_{operation_type}",
+            "user_id": user_id,
+            "operation_data": operation_data,
+            "correlation_id": correlation_id,
+            "operation": f"validate_{operation_type}"
+        }
+
+        try:
+            if hasattr(self._guardian_instance, 'validate_action_async'):
+                result = await self._guardian_instance.validate_action_async(guardian_context)
+            else:
+                result = self._guardian_instance.validate_safety(guardian_context)
+
+            return {
+                "validated": True,
+                "safe": result.get("safe", False),
+                "reason": result.get("reason", "Guardian validation completed"),
+                "drift_score": result.get("drift_score", 0),
+                "guardian_status": result.get("guardian_status", "unknown"),
+                "correlation_id": correlation_id,
+                "guardian_result": result
+            }
+
+        except Exception as e:
+            return {
+                "validated": False,
+                "safe": False,
+                "reason": f"Guardian validation failed: {str(e)}",
+                "error": True,
+                "correlation_id": correlation_id
+            }
+
+    def get_guardian_identity_status(self) -> Dict[str, Any]:
+        """Get comprehensive Guardian-Identity integration status for monitoring"""
+        if not self._guardian_integration_enabled:
+            return {
+                "enabled": False,
+                "available": GUARDIAN_AVAILABLE,
+                "reason": "Guardian integration not enabled"
+            }
+
+        # Calculate metrics
+        total_operations = self._validated_operations + self._blocked_operations
+        validation_rate = self._validated_operations / total_operations if total_operations > 0 else 0
+        block_rate = self._blocked_operations / total_operations if total_operations > 0 else 0
+
+        return {
+            "enabled": True,
+            "available": GUARDIAN_AVAILABLE,
+            "performance": {
+                "total_operations": total_operations,
+                "validated_operations": self._validated_operations,
+                "blocked_operations": self._blocked_operations,
+                "validation_rate": validation_rate,
+                "block_rate": block_rate,
+                "identity_violations": self._identity_violations
+            },
+            "protected_operations": [
+                "identity_authentication",
+                "identity_registration",
+                "identity_trauma_lock",
+                "identity_profile_update"
+            ],
+            "user_metrics": {
+                "total_users": len(self.users),
+                "total_events": len(self.identity_events),
+                "anonymous_allowed": self.anonymous_usage_allowed
+            },
+            "health_assessment": self._assess_identity_guardian_health()
+        }
+
+    def _assess_identity_guardian_health(self) -> str:
+        """Assess overall Guardian-Identity integration health"""
+        if not self._guardian_integration_enabled:
+            return "disabled"
+
+        # Check block rate
+        total_operations = self._validated_operations + self._blocked_operations
+        if total_operations > 10:  # Only assess if we have enough data
+            block_rate = self._blocked_operations / total_operations
+            if block_rate > 0.3:  # >30% block rate is concerning for identity operations
+                return "high_block_rate"
+            elif block_rate > 0.15:  # >15% block rate warrants monitoring
+                return "elevated_blocks"
+
+        # Check for excessive violations
+        if self._identity_violations > 50:  # Arbitrary threshold for demo
+            return "security_concerns"
+
+        return "healthy"
 
 
 # Example usage and testing

@@ -1,0 +1,277 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.9.6, pytest-8.4.2, pluggy-1.6.0
+rootdir: /Users/agi_dev/LOCAL-REPOS/Lukhas
+configfile: pytest.ini
+plugins: anyio-4.9.0, asyncio-1.1.0, xdist-3.8.0, timeout-2.4.0, hypothesis-6.140.0, cov-7.0.0
+collected 65 items / 27 deselected / 38 selected
+
+tests/e2e/test_example_e2e.py ..                                         [  5%]
+tests/monitoring/test_alert_rules.py ............                        [ 36%]
+tests/memory/test_memory_properties_hypothesis.py FF...                  [ 50%]
+tests/e2e/lukhas/test_consciousness.py EEEEEEEEEEFFFFEEEFF               [100%]
+
+==================================== ERRORS ====================================
+________ ERROR at setup of TestConsciousnessWrapper.test_initialization ________
+tests/e2e/lukhas/test_consciousness.py:46: in mock_config
+    safety_mode=SafetyMode.STRICT,
+/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/enum.py:429: in __getattr__
+    raise AttributeError(name) from None
+E   AttributeError: STRICT
+______ ERROR at setup of TestConsciousnessWrapper.test_alias_equivalence _______
+tests/e2e/lukhas/test_consciousness.py:46: in mock_config
+    safety_mode=SafetyMode.STRICT,
+/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/enum.py:429: in __getattr__
+    raise AttributeError(name) from None
+E   AttributeError: STRICT
+__________ ERROR at setup of TestConsciousnessWrapper.test_activation __________
+tests/e2e/lukhas/test_consciousness.py:46: in mock_config
+    safety_mode=SafetyMode.STRICT,
+/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/enum.py:429: in __getattr__
+    raise AttributeError(name) from None
+E   AttributeError: STRICT
+___ ERROR at setup of TestConsciousnessWrapper.test_safety_mode_enforcement ____
+tests/e2e/lukhas/test_consciousness.py:46: in mock_config
+    safety_mode=SafetyMode.STRICT,
+/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/enum.py:429: in __getattr__
+    raise AttributeError(name) from None
+E   AttributeError: STRICT
+____ ERROR at setup of TestConsciousnessWrapper.test_processing_time_limits ____
+tests/e2e/lukhas/test_consciousness.py:46: in mock_config
+    safety_mode=SafetyMode.STRICT,
+/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/enum.py:429: in __getattr__
+    raise AttributeError(name) from None
+E   AttributeError: STRICT
+_ ERROR at setup of TestConsciousnessWrapper.test_constellation_framework_compliance _
+tests/e2e/lukhas/test_consciousness.py:46: in mock_config
+    safety_mode=SafetyMode.STRICT,
+/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/enum.py:429: in __getattr__
+    raise AttributeError(name) from None
+E   AttributeError: STRICT
+______ ERROR at setup of TestConsciousnessWrapper.test_state_transitions _______
+tests/e2e/lukhas/test_consciousness.py:46: in mock_config
+    safety_mode=SafetyMode.STRICT,
+/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/enum.py:429: in __getattr__
+    raise AttributeError(name) from None
+E   AttributeError: STRICT
+________ ERROR at setup of TestConsciousnessWrapper.test_error_handling ________
+tests/e2e/lukhas/test_consciousness.py:46: in mock_config
+    safety_mode=SafetyMode.STRICT,
+/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/enum.py:429: in __getattr__
+    raise AttributeError(name) from None
+E   AttributeError: STRICT
+____ ERROR at setup of TestConsciousnessWrapper.test_memory_leak_prevention ____
+tests/e2e/lukhas/test_consciousness.py:46: in mock_config
+    safety_mode=SafetyMode.STRICT,
+/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/enum.py:429: in __getattr__
+    raise AttributeError(name) from None
+E   AttributeError: STRICT
+____ ERROR at setup of TestConsciousnessWrapper.test_concurrent_operations _____
+tests/e2e/lukhas/test_consciousness.py:46: in mock_config
+    safety_mode=SafetyMode.STRICT,
+/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/enum.py:429: in __getattr__
+    raise AttributeError(name) from None
+E   AttributeError: STRICT
+_______ ERROR at setup of TestConsciousnessPerformance.test_memory_usage _______
+file /Users/agi_dev/LOCAL-REPOS/Lukhas/tests/e2e/lukhas/test_consciousness.py, line 286
+      @pytest.mark.performance
+      def test_memory_usage(self, consciousness: ConsciousnessWrapper):
+E       fixture 'consciousness' not found
+>       available fixtures: _stub_streamlit_for_tests, anyio_backend, anyio_backend_name, anyio_backend_options, cache, capfd, capfdbinary, caplog, capsys, capsysbinary, capteesys, cov, doctest_namespace, fixtures_dir, free_tcp_port, free_tcp_port_factory, free_udp_port, free_udp_port_factory, lukhas_test_config, module_path, monkeypatch, no_cover, pytestconfig, record_property, record_testsuite_property, record_xml_attribute, recwarn, settings, sqlite_db, test_data_dir, testrun_uid, tmp_path, tmp_path_factory, tmpdir, tmpdir_factory, worker_id
+>       use 'pytest --fixtures [testpath]' for help on them.
+
+/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/e2e/lukhas/test_consciousness.py:286
+_ ERROR at setup of TestConsciousnessSecurity.test_injection_attack_prevention _
+file /Users/agi_dev/LOCAL-REPOS/Lukhas/tests/e2e/lukhas/test_consciousness.py, line 309
+      @pytest.mark.security
+      @pytest.mark.critical
+      def test_injection_attack_prevention(self, consciousness: ConsciousnessWrapper):
+E       fixture 'consciousness' not found
+>       available fixtures: _stub_streamlit_for_tests, anyio_backend, anyio_backend_name, anyio_backend_options, cache, capfd, capfdbinary, caplog, capsys, capsysbinary, capteesys, cov, doctest_namespace, fixtures_dir, free_tcp_port, free_tcp_port_factory, free_udp_port, free_udp_port_factory, lukhas_test_config, module_path, monkeypatch, no_cover, pytestconfig, record_property, record_testsuite_property, record_xml_attribute, recwarn, settings, sqlite_db, test_data_dir, testrun_uid, tmp_path, tmp_path_factory, tmpdir, tmpdir_factory, worker_id
+>       use 'pytest --fixtures [testpath]' for help on them.
+
+/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/e2e/lukhas/test_consciousness.py:309
+___ ERROR at setup of TestConsciousnessSecurity.test_sensitive_data_handling ___
+file /Users/agi_dev/LOCAL-REPOS/Lukhas/tests/e2e/lukhas/test_consciousness.py, line 325
+      @pytest.mark.security
+      def test_sensitive_data_handling(self, consciousness: ConsciousnessWrapper):
+E       fixture 'consciousness' not found
+>       available fixtures: _stub_streamlit_for_tests, anyio_backend, anyio_backend_name, anyio_backend_options, cache, capfd, capfdbinary, caplog, capsys, capsysbinary, capteesys, cov, doctest_namespace, fixtures_dir, free_tcp_port, free_tcp_port_factory, free_udp_port, free_udp_port_factory, lukhas_test_config, module_path, monkeypatch, no_cover, pytestconfig, record_property, record_testsuite_property, record_xml_attribute, recwarn, settings, sqlite_db, test_data_dir, testrun_uid, tmp_path, tmp_path_factory, tmpdir, tmpdir_factory, worker_id
+>       use 'pytest --fixtures [testpath]' for help on them.
+
+/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/e2e/lukhas/test_consciousness.py:325
+=================================== FAILURES ===================================
+_________________ test_memory_system_10k_operations_invariants _________________
+tests/memory/test_memory_properties_hypothesis.py:302: in test_memory_system_10k_operations_invariants
+    @settings(
+../../Library/Python/3.9/lib/python/site-packages/hypothesis/internal/conjecture/engine.py:927: in run
+    self._run()
+../../Library/Python/3.9/lib/python/site-packages/hypothesis/internal/conjecture/engine.py:1497: in _run
+    self.generate_new_examples()
+../../Library/Python/3.9/lib/python/site-packages/hypothesis/internal/conjecture/engine.py:1253: in generate_new_examples
+    self.test_function(data)
+../../Library/Python/3.9/lib/python/site-packages/hypothesis/internal/conjecture/engine.py:517: in test_function
+    self.__stoppable_test_function(data)
+../../Library/Python/3.9/lib/python/site-packages/hypothesis/internal/conjecture/engine.py:411: in __stoppable_test_function
+    self._test_function(data)
+../../Library/Python/3.9/lib/python/site-packages/hypothesis/core.py:1207: in _execute_once_for_engine
+    result = self.execute_once(data)
+../../Library/Python/3.9/lib/python/site-packages/hypothesis/core.py:1147: in execute_once
+    result = self.test_runner(data, run)
+../../Library/Python/3.9/lib/python/site-packages/hypothesis/core.py:822: in default_executor
+    return function(data)
+../../Library/Python/3.9/lib/python/site-packages/hypothesis/core.py:1050: in run
+    kw, argslices = context.prep_args_kwargs_from_strategies(
+../../Library/Python/3.9/lib/python/site-packages/hypothesis/control.py:176: in prep_args_kwargs_from_strategies
+    obj = self.data.draw(s, observe_as=f"generate:{k}")
+../../Library/Python/3.9/lib/python/site-packages/hypothesis/internal/conjecture/data.py:1217: in draw
+    v = unwrapped.do_draw(self)
+../../Library/Python/3.9/lib/python/site-packages/hypothesis/strategies/_internal/core.py:1875: in do_draw
+    return self.definition(data.draw, *self.args, **self.kwargs)
+tests/memory/test_memory_properties_hypothesis.py:156: in memory_workload_strategy
+    embedding=draw(embedding_strategy(dimensions=128)),
+../../Library/Python/3.9/lib/python/site-packages/hypothesis/internal/conjecture/data.py:1212: in draw
+    return unwrapped.do_draw(self)
+../../Library/Python/3.9/lib/python/site-packages/hypothesis/strategies/_internal/core.py:1875: in do_draw
+    return self.definition(data.draw, *self.args, **self.kwargs)
+tests/memory/test_memory_properties_hypothesis.py:104: in embedding_strategy
+    components = draw(st.lists(
+../../Library/Python/3.9/lib/python/site-packages/hypothesis/internal/conjecture/data.py:1212: in draw
+    return unwrapped.do_draw(self)
+../../Library/Python/3.9/lib/python/site-packages/hypothesis/strategies/_internal/collections.py:206: in do_draw
+    result.append(data.draw(self.element_strategy))
+../../Library/Python/3.9/lib/python/site-packages/hypothesis/internal/conjecture/data.py:1212: in draw
+    return unwrapped.do_draw(self)
+../../Library/Python/3.9/lib/python/site-packages/hypothesis/strategies/_internal/numbers.py:185: in do_draw
+    return data.draw_float(
+../../Library/Python/3.9/lib/python/site-packages/hypothesis/internal/conjecture/data.py:952: in draw_float
+    return self._draw("float", constraints, observe=observe, forced=forced)
+../../Library/Python/3.9/lib/python/site-packages/hypothesis/internal/conjecture/data.py:816: in _draw
+    value = getattr(self.provider, f"draw_{choice_type}")(**constraints)
+../../Library/Python/3.9/lib/python/site-packages/hypothesis/internal/conjecture/providers.py:830: in draw_float
+    constant := self._maybe_draw_constant("float", constraints, p=0.15)
+../../Library/Python/3.9/lib/python/site-packages/hypothesis/internal/conjecture/providers.py:694: in _maybe_draw_constant
+    assert self._local_constants is not None
+/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/functools.py:969: in __get__
+    val = self.func(instance)
+../../Library/Python/3.9/lib/python/site-packages/hypothesis/internal/conjecture/providers.py:677: in _local_constants
+    return _get_local_constants()
+../../Library/Python/3.9/lib/python/site-packages/hypothesis/internal/conjecture/providers.py:287: in _get_local_constants
+    ) is not None and is_local_module_file(module_file):
+../../Library/Python/3.9/lib/python/site-packages/hypothesis/internal/constants_ast.py:265: in is_local_module_file
+    and "/site-packages/" not in path
+E   TypeError: argument of type 'IdentitySubmoduleBridge' is not iterable
+E   while generating 'workload' from memory_workload_strategy(max_ops=5000)
+---------------------------------- Hypothesis ----------------------------------
+You can add @seed(70069727759471078208078676297944647541) to this test or run pytest with --hypothesis-seed=70069727759471078208078676297944647541 to reproduce this failure.
+______________ test_topk_monotonicity_under_adversarial_workload _______________
+tests/memory/test_memory_properties_hypothesis.py:415: in test_topk_monotonicity_under_adversarial_workload
+    k_values=st.lists(
+../../Library/Python/3.9/lib/python/site-packages/hypothesis/internal/conjecture/engine.py:927: in run
+    self._run()
+../../Library/Python/3.9/lib/python/site-packages/hypothesis/internal/conjecture/engine.py:1497: in _run
+    self.generate_new_examples()
+../../Library/Python/3.9/lib/python/site-packages/hypothesis/internal/conjecture/engine.py:1253: in generate_new_examples
+    self.test_function(data)
+../../Library/Python/3.9/lib/python/site-packages/hypothesis/internal/conjecture/engine.py:517: in test_function
+    self.__stoppable_test_function(data)
+../../Library/Python/3.9/lib/python/site-packages/hypothesis/internal/conjecture/engine.py:411: in __stoppable_test_function
+    self._test_function(data)
+../../Library/Python/3.9/lib/python/site-packages/hypothesis/core.py:1207: in _execute_once_for_engine
+    result = self.execute_once(data)
+../../Library/Python/3.9/lib/python/site-packages/hypothesis/core.py:1147: in execute_once
+    result = self.test_runner(data, run)
+../../Library/Python/3.9/lib/python/site-packages/hypothesis/core.py:822: in default_executor
+    return function(data)
+../../Library/Python/3.9/lib/python/site-packages/hypothesis/core.py:1050: in run
+    kw, argslices = context.prep_args_kwargs_from_strategies(
+../../Library/Python/3.9/lib/python/site-packages/hypothesis/control.py:176: in prep_args_kwargs_from_strategies
+    obj = self.data.draw(s, observe_as=f"generate:{k}")
+../../Library/Python/3.9/lib/python/site-packages/hypothesis/internal/conjecture/data.py:1217: in draw
+    v = unwrapped.do_draw(self)
+../../Library/Python/3.9/lib/python/site-packages/hypothesis/strategies/_internal/collections.py:206: in do_draw
+    result.append(data.draw(self.element_strategy))
+../../Library/Python/3.9/lib/python/site-packages/hypothesis/internal/conjecture/data.py:1212: in draw
+    return unwrapped.do_draw(self)
+../../Library/Python/3.9/lib/python/site-packages/hypothesis/strategies/_internal/numbers.py:84: in do_draw
+    return data.draw_integer(
+../../Library/Python/3.9/lib/python/site-packages/hypothesis/internal/conjecture/data.py:908: in draw_integer
+    return self._draw("integer", constraints, observe=observe, forced=forced)
+../../Library/Python/3.9/lib/python/site-packages/hypothesis/internal/conjecture/data.py:816: in _draw
+    value = getattr(self.provider, f"draw_{choice_type}")(**constraints)
+../../Library/Python/3.9/lib/python/site-packages/hypothesis/internal/conjecture/providers.py:751: in draw_integer
+    constant := self._maybe_draw_constant(
+../../Library/Python/3.9/lib/python/site-packages/hypothesis/internal/conjecture/providers.py:694: in _maybe_draw_constant
+    assert self._local_constants is not None
+/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/functools.py:969: in __get__
+    val = self.func(instance)
+../../Library/Python/3.9/lib/python/site-packages/hypothesis/internal/conjecture/providers.py:677: in _local_constants
+    return _get_local_constants()
+../../Library/Python/3.9/lib/python/site-packages/hypothesis/internal/conjecture/providers.py:287: in _get_local_constants
+    ) is not None and is_local_module_file(module_file):
+../../Library/Python/3.9/lib/python/site-packages/hypothesis/internal/constants_ast.py:265: in is_local_module_file
+    and "/site-packages/" not in path
+E   TypeError: argument of type 'IdentitySubmoduleBridge' is not iterable
+E   while generating 'k_values' from lists(integers(min_value=1, max_value=20), min_size=3, max_size=10)
+---------------------------------- Hypothesis ----------------------------------
+You can add @seed(329181693719530002247374722628532619857) to this test or run pytest with --hypothesis-seed=329181693719530002247374722628532619857 to reproduce this failure.
+________________ TestConsciousnessConfig.test_config_validation ________________
+tests/e2e/lukhas/test_consciousness.py:210: in test_config_validation
+    safety_mode=SafetyMode.MODERATE,
+/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/enum.py:429: in __getattr__
+    raise AttributeError(name) from None
+E   AttributeError: MODERATE
+___________ TestConsciousnessConfig.test_security_config_enforcement ___________
+tests/e2e/lukhas/test_consciousness.py:229: in test_security_config_enforcement
+    config = ConsciousnessConfig(safety_mode=SafetyMode.STRICT)
+/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/enum.py:429: in __getattr__
+    raise AttributeError(name) from None
+E   AttributeError: STRICT
+_______________ TestConsciousnessState.test_state_serialization ________________
+tests/e2e/lukhas/test_consciousness.py:243: in test_state_serialization
+    state = ConsciousnessState(awareness=AwarenessLevel.ENHANCED, is_active=True, last_activity=time.time())
+E   TypeError: __init__() got an unexpected keyword argument 'awareness'
+________________ TestConsciousnessState.test_state_immutability ________________
+tests/e2e/lukhas/test_consciousness.py:259: in test_state_immutability
+    state = ConsciousnessState(awareness=AwarenessLevel.BASIC)
+/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/enum.py:429: in __getattr__
+    raise AttributeError(name) from None
+E   AttributeError: BASIC
+________ TestConsciousnessIntegration.test_guardian_system_integration _________
+async def functions are not natively supported.
+You need to install a suitable plugin for your async framework, for example:
+  - anyio
+  - pytest-asyncio
+  - pytest-tornasync
+  - pytest-trio
+  - pytest-twisted
+_________ TestConsciousnessIntegration.test_memory_system_integration __________
+async def functions are not natively supported.
+You need to install a suitable plugin for your async framework, for example:
+  - anyio
+  - pytest-asyncio
+  - pytest-tornasync
+  - pytest-trio
+  - pytest-twisted
+=========================== short test summary info ============================
+ERROR tests/e2e/lukhas/test_consciousness.py::TestConsciousnessWrapper::test_initialization
+ERROR tests/e2e/lukhas/test_consciousness.py::TestConsciousnessWrapper::test_alias_equivalence
+ERROR tests/e2e/lukhas/test_consciousness.py::TestConsciousnessWrapper::test_activation
+ERROR tests/e2e/lukhas/test_consciousness.py::TestConsciousnessWrapper::test_safety_mode_enforcement
+ERROR tests/e2e/lukhas/test_consciousness.py::TestConsciousnessWrapper::test_processing_time_limits
+ERROR tests/e2e/lukhas/test_consciousness.py::TestConsciousnessWrapper::test_constellation_framework_compliance
+ERROR tests/e2e/lukhas/test_consciousness.py::TestConsciousnessWrapper::test_state_transitions
+ERROR tests/e2e/lukhas/test_consciousness.py::TestConsciousnessWrapper::test_error_handling
+ERROR tests/e2e/lukhas/test_consciousness.py::TestConsciousnessWrapper::test_memory_leak_prevention
+ERROR tests/e2e/lukhas/test_consciousness.py::TestConsciousnessWrapper::test_concurrent_operations
+ERROR tests/e2e/lukhas/test_consciousness.py::TestConsciousnessPerformance::test_memory_usage
+ERROR tests/e2e/lukhas/test_consciousness.py::TestConsciousnessSecurity::test_injection_attack_prevention
+ERROR tests/e2e/lukhas/test_consciousness.py::TestConsciousnessSecurity::test_sensitive_data_handling
+FAILED tests/memory/test_memory_properties_hypothesis.py::test_memory_system_10k_operations_invariants
+FAILED tests/memory/test_memory_properties_hypothesis.py::test_topk_monotonicity_under_adversarial_workload
+FAILED tests/e2e/lukhas/test_consciousness.py::TestConsciousnessConfig::test_config_validation
+FAILED tests/e2e/lukhas/test_consciousness.py::TestConsciousnessConfig::test_security_config_enforcement
+FAILED tests/e2e/lukhas/test_consciousness.py::TestConsciousnessState::test_state_serialization
+FAILED tests/e2e/lukhas/test_consciousness.py::TestConsciousnessState::test_state_immutability
+FAILED tests/e2e/lukhas/test_consciousness.py::TestConsciousnessIntegration::test_guardian_system_integration
+FAILED tests/e2e/lukhas/test_consciousness.py::TestConsciousnessIntegration::test_memory_system_integration
+====== 8 failed, 17 passed, 27 deselected, 3 warnings, 13 errors in 7.27s ======

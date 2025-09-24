@@ -1,0 +1,50 @@
+{
+  "version": "1.0.0",
+  "timestamp": "2025-09-23T10:42:33Z",
+  "environment": {
+    "platform": "macOS-26.1-arm64-arm-64bit",
+    "processor": "arm",
+    "python": "3.9.6",
+    "cpu_count": 10,
+    "cpu_freq_current": 4,
+    "cpu_freq_max": 4,
+    "memory_gb": 16.0,
+    "pythonhashseed": "0",
+    "lukhas_mode": "release",
+    "timestamp": 1758624084.235571,
+    "hostname": "g.local"
+  },
+  "sla_compliance": true,
+  "summary": {
+    "total_benchmarks": 6,
+    "unit_benchmarks": 3,
+    "e2e_benchmarks": 3
+  },
+  "sla_results": {
+    "guardian_validate": {
+      "sla": "<100ms",
+      "p95_us": 196.33509999999998,
+      "ci95_lower": 194.63324500000002,
+      "ci95_upper": 197.375,
+      "samples": 2000,
+      "passed": true
+    },
+    "memory_event_create": {
+      "sla": "<1ms",
+      "p95_us": 199.6333,
+      "ci95_lower": 198.23271249999996,
+      "ci95_upper": 200.91905000000003,
+      "samples": 2000,
+      "passed": true
+    },
+    "orchestrator_health": {
+      "sla": "<250ms",
+      "p95_us": 54451.5274,
+      "ci95_lower": 53429.424999999996,
+      "ci95_upper": 54998.834,
+      "samples": 500,
+      "passed": true
+    }
+  },
+  "report_sha256": "d8309c09f6433cfbde5b1608e9db41e068e74bf0d3f77a80159305650bfcd61e"
+}

@@ -1,0 +1,15 @@
+receivers:
+  otlp:
+    protocols:
+      http: {}
+
+exporters:
+  logging: {}
+  prometheus:
+    endpoint: "0.0.0.0:9464"
+
+service:
+  pipelines:
+    traces:
+      receivers: [otlp]
+      exporters: [logging]

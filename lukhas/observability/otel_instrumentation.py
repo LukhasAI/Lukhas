@@ -469,6 +469,34 @@ def _record_stage_error(
     )
 
 
+@contextmanager
+def stage_span(stage: str, attrs: Dict[str, Any] = None):
+    """
+    Simple stage span helper for basic tracing.
+
+    Args:
+        stage: Stage name (e.g., "intent", "decision")
+        attrs: Optional attributes dict
+
+    Usage:
+        with stage_span("INTENT", {"lane": lane, "node_count": len(nodes)}):
+            # intent work...
+    """
+    if not OTEL_AVAILABLE or not _tracer:
+        yield
+        return
+
+    with _tracer.start_as_current_span(f"matriz.{stage.lower()}") as sp:
+        if attrs:
+            for k, v in attrs.items():
+                try:
+                    sp.set_attribute(f"matriz.{k}", v)
+                except Exception:
+                    # Ignore attribute setting errors
+                    pass
+        yield sp
+
+
 def get_instrumentation_status() -> Dict[str, Any]:
     """Get current instrumentation status and configuration"""
     return {

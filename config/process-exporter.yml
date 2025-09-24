@@ -1,0 +1,68 @@
+# Process Exporter Configuration for T4/0.01% Excellence
+# Monitors LUKHAS application processes with performance tracking
+
+process_names:
+  # LUKHAS Core Services
+  - name: "{{.Comm}}"
+    cmdline:
+      - 'lukhas-guardian'
+      - 'lukhas-memory'
+      - 'lukhas-orchestrator'
+      - 'lukhas-consciousness'
+      - 'lukhas-identity'
+
+  # Python LUKHAS Services
+  - name: "lukhas-{{.Matches.service}}"
+    cmdline:
+      - 'python.*lukhas_(?P<service>\w+)\.py'
+
+  # LUKHAS API Services
+  - name: "lukhas-api-{{.Matches.component}}"
+    cmdline:
+      - 'python.*api.*(?P<component>guardian|memory|orchestrator|consciousness|identity)'
+
+  # LUKHAS Workers
+  - name: "lukhas-worker-{{.Matches.worker_type}}"
+    cmdline:
+      - 'python.*worker.*(?P<worker_type>\w+)'
+
+  # Supporting Services
+  - name: "redis-lukhas"
+    cmdline:
+      - 'redis-server.*lukhas'
+
+  # Monitoring Stack
+  - name: "{{.Comm}}"
+    cmdline:
+      - 'prometheus'
+      - 'grafana-server'
+      - 'alertmanager'
+
+# Performance tracking configuration
+collect:
+  - cpu_time
+  - memory_rss
+  - memory_vms
+  - memory_swap
+  - open_fds
+  - worst_fd_ratio
+  - read_bytes
+  - write_bytes
+  - major_page_faults
+  - minor_page_faults
+  - context_switches
+  - threads
+
+# T4/0.01% Excellence specific metrics
+custom_metrics:
+  - name: "lukhas_process_excellence_score"
+    help: "T4/0.01% excellence compliance score for LUKHAS processes"
+    type: "gauge"
+
+  - name: "lukhas_process_sla_compliance"
+    help: "SLA compliance status for LUKHAS processes"
+    type: "gauge"
+
+  - name: "lukhas_process_performance_ratio"
+    help: "Performance ratio compared to T4/0.01% targets"
+    type: "gauge"

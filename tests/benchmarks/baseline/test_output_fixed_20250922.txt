@@ -1,0 +1,774 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.9.6, pytest-8.4.2, pluggy-1.6.0
+rootdir: /Users/agi_dev/LOCAL-REPOS/Lukhas
+configfile: pytest.ini
+testpaths: tests
+plugins: anyio-4.9.0, asyncio-1.1.0, xdist-3.8.0, timeout-2.4.0, hypothesis-6.140.0, cov-7.0.0
+timeout: 600.0s
+timeout method: signal
+timeout func_only: False
+collected 2061 items / 57 errors / 2032 deselected / 7 skipped / 29 selected
+
+==================================== ERRORS ====================================
+_________ ERROR collecting tests/candidate/qi/test_qi_entanglement.py __________
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/candidate/qi/test_qi_entanglement.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/importlib/__init__.py:127: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+tests/candidate/qi/test_qi_entanglement.py:5: in <module>
+    from candidate.qi.qi_entanglement import (
+candidate/qi/__init__.py:15: in <module>
+    from consciousness.qi import qi
+E   ModuleNotFoundError: No module named 'consciousness.qi'
+_____________ ERROR collecting tests/contract/candidate/aka_qualia _____________
+/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/importlib/__init__.py:127: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+<frozen importlib._bootstrap>:1030: in _gcd_import
+    ???
+<frozen importlib._bootstrap>:1007: in _find_and_load
+    ???
+<frozen importlib._bootstrap>:986: in _find_and_load_unlocked
+    ???
+<frozen importlib._bootstrap>:680: in _load_unlocked
+    ???
+../../Library/Python/3.9/lib/python/site-packages/_pytest/assertion/rewrite.py:186: in exec_module
+    exec(co, module.__dict__)
+tests/contract/candidate/aka_qualia/conftest.py:24: in <module>
+    from candidate.aka_qualia.core import AkaQualia
+candidate/aka_qualia/__init__.py:37: in <module>
+    from candidate.aka_qualia.core import AkaQualia
+candidate/aka_qualia/core.py:32: in <module>
+    from candidate.aka_qualia.oneiric_hook import OneiricHook, create_oneiric_hook
+candidate/aka_qualia/oneiric_hook.py:17: in <module>
+    import requests
+../../Library/Python/3.9/lib/python/site-packages/requests/__init__.py:45: in <module>
+    from .exceptions import RequestsDependencyWarning
+../../Library/Python/3.9/lib/python/site-packages/requests/exceptions.py:9: in <module>
+    from .compat import JSONDecodeError as CompatJSONDecodeError
+../../Library/Python/3.9/lib/python/site-packages/requests/compat.py:16: in <module>
+    from urllib3 import __version__ as urllib3_version
+E   ImportError: cannot import name '__version__' from 'urllib3' (/Users/agi_dev/LOCAL-REPOS/Lukhas/urllib3/__init__.py)
+_______________ ERROR collecting tests/e2e/candidate/aka_qualia ________________
+/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/importlib/__init__.py:127: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+<frozen importlib._bootstrap>:1030: in _gcd_import
+    ???
+<frozen importlib._bootstrap>:1007: in _find_and_load
+    ???
+<frozen importlib._bootstrap>:986: in _find_and_load_unlocked
+    ???
+<frozen importlib._bootstrap>:680: in _load_unlocked
+    ???
+../../Library/Python/3.9/lib/python/site-packages/_pytest/assertion/rewrite.py:186: in exec_module
+    exec(co, module.__dict__)
+tests/e2e/candidate/aka_qualia/conftest.py:24: in <module>
+    from candidate.aka_qualia.core import AkaQualia
+candidate/aka_qualia/__init__.py:37: in <module>
+    from candidate.aka_qualia.core import AkaQualia
+candidate/aka_qualia/core.py:32: in <module>
+    from candidate.aka_qualia.oneiric_hook import OneiricHook, create_oneiric_hook
+candidate/aka_qualia/oneiric_hook.py:17: in <module>
+    import requests
+../../Library/Python/3.9/lib/python/site-packages/requests/__init__.py:45: in <module>
+    from .exceptions import RequestsDependencyWarning
+../../Library/Python/3.9/lib/python/site-packages/requests/exceptions.py:9: in <module>
+    from .compat import JSONDecodeError as CompatJSONDecodeError
+../../Library/Python/3.9/lib/python/site-packages/requests/compat.py:16: in <module>
+    from urllib3 import __version__ as urllib3_version
+E   ImportError: cannot import name '__version__' from 'urllib3' (/Users/agi_dev/LOCAL-REPOS/Lukhas/urllib3/__init__.py)
+___________ ERROR collecting tests/integration/candidate/aka_qualia ____________
+/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/importlib/__init__.py:127: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+<frozen importlib._bootstrap>:1030: in _gcd_import
+    ???
+<frozen importlib._bootstrap>:1007: in _find_and_load
+    ???
+<frozen importlib._bootstrap>:986: in _find_and_load_unlocked
+    ???
+<frozen importlib._bootstrap>:680: in _load_unlocked
+    ???
+../../Library/Python/3.9/lib/python/site-packages/_pytest/assertion/rewrite.py:186: in exec_module
+    exec(co, module.__dict__)
+tests/integration/candidate/aka_qualia/conftest.py:24: in <module>
+    from candidate.aka_qualia.core import AkaQualia
+candidate/aka_qualia/__init__.py:37: in <module>
+    from candidate.aka_qualia.core import AkaQualia
+candidate/aka_qualia/core.py:32: in <module>
+    from candidate.aka_qualia.oneiric_hook import OneiricHook, create_oneiric_hook
+candidate/aka_qualia/oneiric_hook.py:17: in <module>
+    import requests
+../../Library/Python/3.9/lib/python/site-packages/requests/__init__.py:45: in <module>
+    from .exceptions import RequestsDependencyWarning
+../../Library/Python/3.9/lib/python/site-packages/requests/exceptions.py:9: in <module>
+    from .compat import JSONDecodeError as CompatJSONDecodeError
+../../Library/Python/3.9/lib/python/site-packages/requests/compat.py:16: in <module>
+    from urllib3 import __version__ as urllib3_version
+E   ImportError: cannot import name '__version__' from 'urllib3' (/Users/agi_dev/LOCAL-REPOS/Lukhas/urllib3/__init__.py)
+___ ERROR collecting tests/integration/candidate/tools/test_tool_executor.py ___
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/integration/candidate/tools/test_tool_executor.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/importlib/__init__.py:127: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+tests/integration/candidate/tools/test_tool_executor.py:5: in <module>
+    import docker
+../../Library/Python/3.9/lib/python/site-packages/docker/__init__.py:1: in <module>
+    from .api import APIClient
+../../Library/Python/3.9/lib/python/site-packages/docker/api/__init__.py:1: in <module>
+    from .client import APIClient
+../../Library/Python/3.9/lib/python/site-packages/docker/api/client.py:6: in <module>
+    import requests
+../../Library/Python/3.9/lib/python/site-packages/requests/__init__.py:45: in <module>
+    from .exceptions import RequestsDependencyWarning
+../../Library/Python/3.9/lib/python/site-packages/requests/exceptions.py:9: in <module>
+    from .compat import JSONDecodeError as CompatJSONDecodeError
+../../Library/Python/3.9/lib/python/site-packages/requests/compat.py:16: in <module>
+    from urllib3 import __version__ as urllib3_version
+E   ImportError: cannot import name '__version__' from 'urllib3' (/Users/agi_dev/LOCAL-REPOS/Lukhas/urllib3/__init__.py)
+_ ERROR collecting tests/integration/core/test_matriz_consciousness_integration.py _
+tests/integration/core/test_matriz_consciousness_integration.py:25: in <module>
+    from candidate.core.governance.matriz_consciousness_governance import consciousness_governance_system
+candidate/core/governance/__init__.py:54: in <module>
+    from .guardian_system_2 import GuardianSystem
+candidate/core/governance/guardian_system_2.py:114: in <module>
+    class SafetyViolation:
+candidate/core/governance/guardian_system_2.py:119: in SafetyViolation
+    severity: ViolationSeverity
+E   NameError: name 'ViolationSeverity' is not defined
+__ ERROR collecting tests/integration/end_to_end/test_authentication_flow.py ___
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/integration/end_to_end/test_authentication_flow.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/importlib/__init__.py:127: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+tests/integration/end_to_end/test_authentication_flow.py:9: in <module>
+    import requests
+../../Library/Python/3.9/lib/python/site-packages/requests/__init__.py:45: in <module>
+    from .exceptions import RequestsDependencyWarning
+../../Library/Python/3.9/lib/python/site-packages/requests/exceptions.py:9: in <module>
+    from .compat import JSONDecodeError as CompatJSONDecodeError
+../../Library/Python/3.9/lib/python/site-packages/requests/compat.py:16: in <module>
+    from urllib3 import __version__ as urllib3_version
+E   ImportError: cannot import name '__version__' from 'urllib3' (/Users/agi_dev/LOCAL-REPOS/Lukhas/urllib3/__init__.py)
+__ ERROR collecting tests/integration/end_to_end/test_consciousness_memory.py __
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/integration/end_to_end/test_consciousness_memory.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/importlib/__init__.py:127: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+tests/integration/end_to_end/test_consciousness_memory.py:10: in <module>
+    import requests
+../../Library/Python/3.9/lib/python/site-packages/requests/__init__.py:45: in <module>
+    from .exceptions import RequestsDependencyWarning
+../../Library/Python/3.9/lib/python/site-packages/requests/exceptions.py:9: in <module>
+    from .compat import JSONDecodeError as CompatJSONDecodeError
+../../Library/Python/3.9/lib/python/site-packages/requests/compat.py:16: in <module>
+    from urllib3 import __version__ as urllib3_version
+E   ImportError: cannot import name '__version__' from 'urllib3' (/Users/agi_dev/LOCAL-REPOS/Lukhas/urllib3/__init__.py)
+___ ERROR collecting tests/integration/end_to_end/test_decision_pipeline.py ____
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/integration/end_to_end/test_decision_pipeline.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/importlib/__init__.py:127: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+tests/integration/end_to_end/test_decision_pipeline.py:9: in <module>
+    import requests
+../../Library/Python/3.9/lib/python/site-packages/requests/__init__.py:45: in <module>
+    from .exceptions import RequestsDependencyWarning
+../../Library/Python/3.9/lib/python/site-packages/requests/exceptions.py:9: in <module>
+    from .compat import JSONDecodeError as CompatJSONDecodeError
+../../Library/Python/3.9/lib/python/site-packages/requests/compat.py:16: in <module>
+    from urllib3 import __version__ as urllib3_version
+E   ImportError: cannot import name '__version__' from 'urllib3' (/Users/agi_dev/LOCAL-REPOS/Lukhas/urllib3/__init__.py)
+_ ERROR collecting tests/integration/end_to_end/test_governance_orchestration.py _
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/integration/end_to_end/test_governance_orchestration.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/importlib/__init__.py:127: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+tests/integration/end_to_end/test_governance_orchestration.py:9: in <module>
+    import requests
+../../Library/Python/3.9/lib/python/site-packages/requests/__init__.py:45: in <module>
+    from .exceptions import RequestsDependencyWarning
+../../Library/Python/3.9/lib/python/site-packages/requests/exceptions.py:9: in <module>
+    from .compat import JSONDecodeError as CompatJSONDecodeError
+../../Library/Python/3.9/lib/python/site-packages/requests/compat.py:16: in <module>
+    from urllib3 import __version__ as urllib3_version
+E   ImportError: cannot import name '__version__' from 'urllib3' (/Users/agi_dev/LOCAL-REPOS/Lukhas/urllib3/__init__.py)
+_ ERROR collecting tests/integration/end_to_end/test_multi_component_workflows.py _
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/integration/end_to_end/test_multi_component_workflows.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/importlib/__init__.py:127: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+tests/integration/end_to_end/test_multi_component_workflows.py:9: in <module>
+    import requests
+../../Library/Python/3.9/lib/python/site-packages/requests/__init__.py:45: in <module>
+    from .exceptions import RequestsDependencyWarning
+../../Library/Python/3.9/lib/python/site-packages/requests/exceptions.py:9: in <module>
+    from .compat import JSONDecodeError as CompatJSONDecodeError
+../../Library/Python/3.9/lib/python/site-packages/requests/compat.py:16: in <module>
+    from urllib3 import __version__ as urllib3_version
+E   ImportError: cannot import name '__version__' from 'urllib3' (/Users/agi_dev/LOCAL-REPOS/Lukhas/urllib3/__init__.py)
+__ ERROR collecting tests/integration/identity/test_authentication_server.py ___
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/integration/identity/test_authentication_server.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/importlib/__init__.py:127: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+tests/integration/identity/test_authentication_server.py:12: in <module>
+    from candidate.governance.identity.auth_backend.authentication_server import (
+candidate/governance/identity/auth_backend/authentication_server.py:43: in <module>
+    from ..core.entropy_synchronizer import EntropySynchronizer
+E   ModuleNotFoundError: No module named 'candidate.governance.identity.core.entropy_synchronizer'
+____________ ERROR collecting tests/integration/test_aka_qualia.py _____________
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/integration/test_aka_qualia.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/importlib/__init__.py:127: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+tests/integration/test_aka_qualia.py:15: in <module>
+    from candidate.aka_qualia.core import AkaQualia
+candidate/aka_qualia/__init__.py:37: in <module>
+    from candidate.aka_qualia.core import AkaQualia
+candidate/aka_qualia/core.py:32: in <module>
+    from candidate.aka_qualia.oneiric_hook import OneiricHook, create_oneiric_hook
+candidate/aka_qualia/oneiric_hook.py:17: in <module>
+    import requests
+../../Library/Python/3.9/lib/python/site-packages/requests/__init__.py:45: in <module>
+    from .exceptions import RequestsDependencyWarning
+../../Library/Python/3.9/lib/python/site-packages/requests/exceptions.py:9: in <module>
+    from .compat import JSONDecodeError as CompatJSONDecodeError
+../../Library/Python/3.9/lib/python/site-packages/requests/compat.py:16: in <module>
+    from urllib3 import __version__ as urllib3_version
+E   ImportError: cannot import name '__version__' from 'urllib3' (/Users/agi_dev/LOCAL-REPOS/Lukhas/urllib3/__init__.py)
+______ ERROR collecting tests/integration/tools/test_dependency_hasher.py ______
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/integration/tools/test_dependency_hasher.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/importlib/__init__.py:127: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+tests/integration/tools/test_dependency_hasher.py:14: in <module>
+    from tools.security.dependency_hasher import DependencyHasher
+tools/security/dependency_hasher.py:21: in <module>
+    import requests
+../../Library/Python/3.9/lib/python/site-packages/requests/__init__.py:45: in <module>
+    from .exceptions import RequestsDependencyWarning
+../../Library/Python/3.9/lib/python/site-packages/requests/exceptions.py:9: in <module>
+    from .compat import JSONDecodeError as CompatJSONDecodeError
+../../Library/Python/3.9/lib/python/site-packages/requests/compat.py:16: in <module>
+    from urllib3 import __version__ as urllib3_version
+E   ImportError: cannot import name '__version__' from 'urllib3' (/Users/agi_dev/LOCAL-REPOS/Lukhas/urllib3/__init__.py)
+__________ ERROR collecting tests/orchestration/test_plan_verifier.py __________
+import file mismatch:
+imported module 'test_plan_verifier' has this __file__ attribute:
+  /Users/agi_dev/LOCAL-REPOS/Lukhas/tests/constraints/test_plan_verifier.py
+which is not the same as the test file we want to collect:
+  /Users/agi_dev/LOCAL-REPOS/Lukhas/tests/orchestration/test_plan_verifier.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+__________ ERROR collecting tests/system/integration/test_failover.py __________
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/system/integration/test_failover.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/importlib/__init__.py:127: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+tests/system/integration/test_failover.py:12: in <module>
+    import requests
+../../Library/Python/3.9/lib/python/site-packages/requests/__init__.py:45: in <module>
+    from .exceptions import RequestsDependencyWarning
+../../Library/Python/3.9/lib/python/site-packages/requests/exceptions.py:9: in <module>
+    from .compat import JSONDecodeError as CompatJSONDecodeError
+../../Library/Python/3.9/lib/python/site-packages/requests/compat.py:16: in <module>
+    from urllib3 import __version__ as urllib3_version
+E   ImportError: cannot import name '__version__' from 'urllib3' (/Users/agi_dev/LOCAL-REPOS/Lukhas/urllib3/__init__.py)
+______ ERROR collecting tests/system/integration/test_system_lifecycle.py ______
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/system/integration/test_system_lifecycle.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/importlib/__init__.py:127: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+tests/system/integration/test_system_lifecycle.py:12: in <module>
+    import requests
+../../Library/Python/3.9/lib/python/site-packages/requests/__init__.py:45: in <module>
+    from .exceptions import RequestsDependencyWarning
+../../Library/Python/3.9/lib/python/site-packages/requests/exceptions.py:9: in <module>
+    from .compat import JSONDecodeError as CompatJSONDecodeError
+../../Library/Python/3.9/lib/python/site-packages/requests/compat.py:16: in <module>
+    from urllib3 import __version__ as urllib3_version
+E   ImportError: cannot import name '__version__' from 'urllib3' (/Users/agi_dev/LOCAL-REPOS/Lukhas/urllib3/__init__.py)
+____________ ERROR collecting tests/test_creative_market_import.py _____________
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/test_creative_market_import.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/importlib/__init__.py:127: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+tests/test_creative_market_import.py:3: in <module>
+    from candidate.core.symbolic.creative_market import CreativeMarket
+candidate/core/symbolic/creative_market.py:30: in <module>
+    from ..symbolic.symbolic_glyph_hash import compute_glyph_hash
+E   ModuleNotFoundError: No module named 'candidate.core.symbolic.symbolic_glyph_hash'
+_ ERROR collecting tests/unit/adapters/tests/unit/adapters/tests/unit/adapters/test_emotion_adapter.py _
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/unit/adapters/tests/unit/adapters/tests/unit/adapters/test_emotion_adapter.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/importlib/__init__.py:127: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+tests/unit/adapters/tests/unit/adapters/tests/unit/adapters/test_emotion_adapter.py:3: in <module>
+    from matriz.adapters.emotion_adapter import UemotionAdapter
+E   ImportError: cannot import name 'UemotionAdapter' from 'matriz.adapters.emotion_adapter' (/Users/agi_dev/LOCAL-REPOS/Lukhas/matriz/adapters/emotion_adapter.py)
+_ ERROR collecting tests/unit/adapters/tests/unit/adapters/tests/unit/adapters/test_governance_adapter.py _
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/unit/adapters/tests/unit/adapters/tests/unit/adapters/test_governance_adapter.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/importlib/__init__.py:127: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+tests/unit/adapters/tests/unit/adapters/tests/unit/adapters/test_governance_adapter.py:3: in <module>
+    from matriz.adapters.governance_adapter import UgovernanceAdapter
+E   ImportError: cannot import name 'UgovernanceAdapter' from 'matriz.adapters.governance_adapter' (/Users/agi_dev/LOCAL-REPOS/Lukhas/matriz/adapters/governance_adapter.py)
+_ ERROR collecting tests/unit/adapters/tests/unit/adapters/tests/unit/adapters/test_identity_adapter.py _
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/unit/adapters/tests/unit/adapters/tests/unit/adapters/test_identity_adapter.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/importlib/__init__.py:127: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+tests/unit/adapters/tests/unit/adapters/tests/unit/adapters/test_identity_adapter.py:3: in <module>
+    from matriz.adapters.identity_adapter import UidentityAdapter
+E   ImportError: cannot import name 'UidentityAdapter' from 'matriz.adapters.identity_adapter' (/Users/agi_dev/LOCAL-REPOS/Lukhas/matriz/adapters/identity_adapter.py)
+_ ERROR collecting tests/unit/adapters/tests/unit/adapters/tests/unit/adapters/test_orchestration_adapter.py _
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/unit/adapters/tests/unit/adapters/tests/unit/adapters/test_orchestration_adapter.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/importlib/__init__.py:127: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+tests/unit/adapters/tests/unit/adapters/tests/unit/adapters/test_orchestration_adapter.py:3: in <module>
+    from matriz.adapters.orchestration_adapter import UorchestrationAdapter
+E   ImportError: cannot import name 'UorchestrationAdapter' from 'matriz.adapters.orchestration_adapter' (/Users/agi_dev/LOCAL-REPOS/Lukhas/matriz/adapters/orchestration_adapter.py)
+_ ERROR collecting tests/unit/ai_orchestration/test_mcp_operational_support.py _
+'mcp_operational' not found in `markers` configuration option
+________ ERROR collecting tests/unit/branding/test_keatsian_replacer.py ________
+tests/unit/branding/test_keatsian_replacer.py:19: in <module>
+    spec.loader.exec_module(module)
+<frozen importlib._bootstrap_external>:850: in exec_module
+    ???
+<frozen importlib._bootstrap>:228: in _call_with_frames_removed
+    ???
+branding/tools/keatsian_replacer.py:21: in <module>
+    context: str | None = None,
+E   TypeError: unsupported operand type(s) for |: 'type' and 'NoneType'
+______ ERROR collecting tests/unit/bridge/adapters/test_gmail_adapter.py _______
+import file mismatch:
+imported module 'test_gmail_adapter' has this __file__ attribute:
+  /Users/agi_dev/LOCAL-REPOS/Lukhas/tests/integration/bridge/adapters/test_gmail_adapter.py
+which is not the same as the test file we want to collect:
+  /Users/agi_dev/LOCAL-REPOS/Lukhas/tests/unit/bridge/adapters/test_gmail_adapter.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+______ ERROR collecting tests/unit/bridge/adapters/test_oauth_manager.py _______
+import file mismatch:
+imported module 'test_oauth_manager' has this __file__ attribute:
+  /Users/agi_dev/LOCAL-REPOS/Lukhas/tests/integration/bridge/adapters/test_oauth_manager.py
+which is not the same as the test file we want to collect:
+  /Users/agi_dev/LOCAL-REPOS/Lukhas/tests/unit/bridge/adapters/test_oauth_manager.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+__ ERROR collecting tests/unit/bridge/adapters/test_oauth_manager_advanced.py __
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/unit/bridge/adapters/test_oauth_manager_advanced.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/importlib/__init__.py:127: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+tests/unit/bridge/adapters/test_oauth_manager_advanced.py:31: in <module>
+    from candidate.bridge.external_adapters.oauth_manager import (
+E   ImportError: cannot import name 'CircuitBreaker' from 'candidate.bridge.external_adapters.oauth_manager' (/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/bridge/external_adapters/oauth_manager.py)
+__ ERROR collecting tests/unit/bridge/external_adapters/test_gmail_adapter.py __
+import file mismatch:
+imported module 'test_gmail_adapter' has this __file__ attribute:
+  /Users/agi_dev/LOCAL-REPOS/Lukhas/tests/integration/bridge/adapters/test_gmail_adapter.py
+which is not the same as the test file we want to collect:
+  /Users/agi_dev/LOCAL-REPOS/Lukhas/tests/unit/bridge/external_adapters/test_gmail_adapter.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+_________ ERROR collecting tests/unit/bridge/test_direct_ai_router.py __________
+tests/unit/bridge/test_direct_ai_router.py:4: in <module>
+    from candidate.bridge.api.direct_ai_router import DirectAIRouter
+candidate/bridge/api/direct_ai_router.py:26: in <module>
+    DEFAULT_ROUTER_PATH = config.ai_router_path
+E   AttributeError: 'ConfigLoader' object has no attribute 'ai_router_path'
+_______________ ERROR collecting tests/unit/candidate/aka_qualia _______________
+/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/importlib/__init__.py:127: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+<frozen importlib._bootstrap>:1030: in _gcd_import
+    ???
+<frozen importlib._bootstrap>:1007: in _find_and_load
+    ???
+<frozen importlib._bootstrap>:986: in _find_and_load_unlocked
+    ???
+<frozen importlib._bootstrap>:680: in _load_unlocked
+    ???
+../../Library/Python/3.9/lib/python/site-packages/_pytest/assertion/rewrite.py:186: in exec_module
+    exec(co, module.__dict__)
+tests/unit/candidate/aka_qualia/conftest.py:24: in <module>
+    from candidate.aka_qualia.core import AkaQualia
+candidate/aka_qualia/__init__.py:37: in <module>
+    from candidate.aka_qualia.core import AkaQualia
+candidate/aka_qualia/core.py:32: in <module>
+    from candidate.aka_qualia.oneiric_hook import OneiricHook, create_oneiric_hook
+candidate/aka_qualia/oneiric_hook.py:17: in <module>
+    import requests
+../../Library/Python/3.9/lib/python/site-packages/requests/__init__.py:45: in <module>
+    from .exceptions import RequestsDependencyWarning
+../../Library/Python/3.9/lib/python/site-packages/requests/exceptions.py:9: in <module>
+    from .compat import JSONDecodeError as CompatJSONDecodeError
+../../Library/Python/3.9/lib/python/site-packages/requests/compat.py:16: in <module>
+    from urllib3 import __version__ as urllib3_version
+E   ImportError: cannot import name '__version__' from 'urllib3' (/Users/agi_dev/LOCAL-REPOS/Lukhas/urllib3/__init__.py)
+__ ERROR collecting tests/unit/candidate/bridge/test_unified_openai_client.py __
+import file mismatch:
+imported module 'test_unified_openai_client' has this __file__ attribute:
+  /Users/agi_dev/LOCAL-REPOS/Lukhas/tests/unit/bridge/test_unified_openai_client.py
+which is not the same as the test file we want to collect:
+  /Users/agi_dev/LOCAL-REPOS/Lukhas/tests/unit/candidate/bridge/test_unified_openai_client.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+_ ERROR collecting tests/unit/candidate/core/identity/test_constitutional_ai_compliance.py _
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/unit/candidate/core/identity/test_constitutional_ai_compliance.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/importlib/__init__.py:127: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+tests/unit/candidate/core/identity/test_constitutional_ai_compliance.py:5: in <module>
+    from candidate.core.identity.constitutional_ai_compliance import (
+E   ImportError: cannot import name 'ConstitutionalAIComplianceMonitor' from 'candidate.core.identity.constitutional_ai_compliance' (/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/core/identity/constitutional_ai_compliance.py)
+_______ ERROR collecting tests/unit/candidate/core/matrix/test_nodes.py ________
+tests/unit/candidate/core/matrix/test_nodes.py:16: in <module>
+    def _ensure_package(name: str, path: str | None = None) -> types.ModuleType:
+E   TypeError: unsupported operand type(s) for |: 'type' and 'NoneType'
+_ ERROR collecting tests/unit/candidate/core/quantum_financial/test_quantum_financial_consciousness_engine.py _
+../../Library/Python/3.9/lib/python/site-packages/_pytest/python.py:498: in importtestmodule
+    mod = import_path(
+../../Library/Python/3.9/lib/python/site-packages/_pytest/pathlib.py:587: in import_path
+    importlib.import_module(module_name)
+/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/importlib/__init__.py:127: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+<frozen importlib._bootstrap>:1030: in _gcd_import
+    ???
+<frozen importlib._bootstrap>:1007: in _find_and_load
+    ???
+<frozen importlib._bootstrap>:986: in _find_and_load_unlocked
+    ???
+<frozen importlib._bootstrap>:680: in _load_unlocked
+    ???
+../../Library/Python/3.9/lib/python/site-packages/_pytest/assertion/rewrite.py:177: in exec_module
+    source_stat, co = _rewrite_test(fn, self.config)
+../../Library/Python/3.9/lib/python/site-packages/_pytest/assertion/rewrite.py:357: in _rewrite_test
+    tree = ast.parse(source, filename=strfn)
+/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/ast.py:50: in parse
+    return compile(source, filename, mode, flags,
+E     File "/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/unit/candidate/core/quantum_financial/test_quantum_financial_consciousness_engine.py", line 12
+E       <<<<<<< ours
+E       ^
+E   SyntaxError: invalid syntax
+______ ERROR collecting tests/unit/candidate/core/test_symbolic_colony.py ______
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/unit/candidate/core/test_symbolic_colony.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/importlib/__init__.py:127: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+tests/unit/candidate/core/test_symbolic_colony.py:18: in <module>
+    from candidate.core.symbolic_core import plan_symbolic_core_preservation
+E   ImportError: cannot import name 'plan_symbolic_core_preservation' from 'candidate.core.symbolic_core' (/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/core/symbolic_core/__init__.py)
+______ ERROR collecting tests/unit/candidate/qi/bio/test_bio_optimizer.py ______
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/unit/candidate/qi/bio/test_bio_optimizer.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/importlib/__init__.py:127: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+tests/unit/candidate/qi/bio/test_bio_optimizer.py:2: in <module>
+    from candidate.qi.bio.bio_optimizer import (
+candidate/qi/__init__.py:15: in <module>
+    from consciousness.qi import qi
+E   ModuleNotFoundError: No module named 'consciousness.qi'
+_ ERROR collecting tests/unit/candidate/qi/engines/identity/test_consolidate_identity_qi_secure.py _
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/unit/candidate/qi/engines/identity/test_consolidate_identity_qi_secure.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/importlib/__init__.py:127: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+tests/unit/candidate/qi/engines/identity/test_consolidate_identity_qi_secure.py:2: in <module>
+    from candidate.qi.engines.identity.consolidate_identity_qi_secure import consolidate_identities
+candidate/qi/__init__.py:15: in <module>
+    from consciousness.qi import qi
+E   ModuleNotFoundError: No module named 'consciousness.qi'
+_ ERROR collecting tests/unit/cognitive_core/integration/test_agi_service_initializer.py _
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/unit/cognitive_core/integration/test_agi_service_initializer.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/importlib/__init__.py:127: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+tests/unit/cognitive_core/integration/test_agi_service_initializer.py:1: in <module>
+    from cognitive_core.integration.agi_service_initializer import AGIServiceConfiguration, AGIServiceInitializer
+cognitive_core/integration/__init__.py:19: in <module>
+    from .cognitive_modulation_bridge import (
+E   ModuleNotFoundError: No module named 'cognitive_core.integration.cognitive_modulation_bridge'
+_ ERROR collecting tests/unit/consciousness/test_core_integrator_access_tier.py _
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/unit/consciousness/test_core_integrator_access_tier.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/importlib/__init__.py:127: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+tests/unit/consciousness/test_core_integrator_access_tier.py:5: in <module>
+    from candidate.consciousness.reflection.core_integrator import AccessTier, resolve_access_tier
+E   ImportError: cannot import name 'resolve_access_tier' from 'candidate.consciousness.reflection.core_integrator' (/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/consciousness/reflection/core_integrator.py)
+_ ERROR collecting tests/unit/consciousness/test_registry_activation_order.py __
+tests/unit/consciousness/test_registry_activation_order.py:8: in <module>
+    dependencies: list[str] | None = None,
+E   TypeError: unsupported operand type(s) for |: 'types.GenericAlias' and 'NoneType'
+_____ ERROR collecting tests/unit/core/test_core_wrapper_relationships.py ______
+tests/unit/core/test_core_wrapper_relationships.py:6: in <module>
+    class StubSymbol:
+tests/unit/core/test_core_wrapper_relationships.py:7: in StubSymbol
+    def __init__(self, name: str, properties: dict | None = None):
+E   TypeError: unsupported operand type(s) for |: 'type' and 'NoneType'
+_ ERROR collecting tests/unit/governance/ethics/test_guardian_reflector_imports.py _
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/unit/governance/ethics/test_guardian_reflector_imports.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/importlib/__init__.py:127: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+tests/unit/governance/ethics/test_guardian_reflector_imports.py:3: in <module>
+    from candidate.governance.ethics.guardian_reflector import (
+E   ImportError: cannot import name 'EthicsEngine' from 'candidate.governance.ethics.guardian_reflector' (/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/ethics/guardian_reflector.py)
+________ ERROR collecting tests/unit/governance/test_consent_manager.py ________
+import file mismatch:
+imported module 'test_consent_manager' has this __file__ attribute:
+  /Users/agi_dev/LOCAL-REPOS/Lukhas/tests/unit/governance/compliance/test_consent_manager.py
+which is not the same as the test file we want to collect:
+  /Users/agi_dev/LOCAL-REPOS/Lukhas/tests/unit/governance/test_consent_manager.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+___ ERROR collecting tests/unit/governance/test_constitutional_ai_safety.py ____
+tests/unit/governance/test_constitutional_ai_safety.py:11: in <module>
+    @pytest_asyncio.fixture
+E   AttributeError: module 'pytest_asyncio' has no attribute 'fixture'
+_______ ERROR collecting tests/unit/identity/test_lambda_id_generator.py _______
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/unit/identity/test_lambda_id_generator.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/importlib/__init__.py:127: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+tests/unit/identity/test_lambda_id_generator.py:4: in <module>
+    from candidate.governance.identity.core.id_service.lambd_id_generator import (
+candidate/governance/identity/core/id_service/lambd_id_generator.py:9: in <module>
+    from .lambda_id_generator import LambdaIDGenerator
+candidate/governance/identity/core/id_service/lambda_id_generator.py:9: in <module>
+    from .lambd_id_generator import LambdaIDGenerator
+E   ImportError: cannot import name 'LambdaIDGenerator' from partially initialized module 'candidate.governance.identity.core.id_service.lambd_id_generator' (most likely due to a circular import) (/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/core/id_service/lambd_id_generator.py)
+_ ERROR collecting tests/unit/identity/test_matriz_consciousness_identity_signals.py _
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/unit/identity/test_matriz_consciousness_identity_signals.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/importlib/__init__.py:127: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+tests/unit/identity/test_matriz_consciousness_identity_signals.py:17: in <module>
+    from candidate.core.identity.matriz_consciousness_identity_signals import (
+E   ImportError: cannot import name 'ConsciousnessIdentitySignalProcessor' from 'candidate.core.identity.matriz_consciousness_identity_signals' (/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/core/identity/matriz_consciousness_identity_signals.py)
+____________ ERROR collecting tests/unit/memory/test_fold_engine.py ____________
+../../Library/Python/3.9/lib/python/site-packages/_pytest/python.py:498: in importtestmodule
+    mod = import_path(
+../../Library/Python/3.9/lib/python/site-packages/_pytest/pathlib.py:587: in import_path
+    importlib.import_module(module_name)
+/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/importlib/__init__.py:127: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+<frozen importlib._bootstrap>:1030: in _gcd_import
+    ???
+<frozen importlib._bootstrap>:1007: in _find_and_load
+    ???
+<frozen importlib._bootstrap>:986: in _find_and_load_unlocked
+    ???
+<frozen importlib._bootstrap>:680: in _load_unlocked
+    ???
+../../Library/Python/3.9/lib/python/site-packages/_pytest/assertion/rewrite.py:186: in exec_module
+    exec(co, module.__dict__)
+tests/unit/memory/test_fold_engine.py:10: in <module>
+    from candidate.memory.fakes.agimemory_fake import AGIMemoryFake
+candidate/memory/fakes/agimemory_fake.py:4: in <module>
+    from candidate.memory.folds.fold_engine import MemoryFold, MemoryPriority, MemoryType
+E     File "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/memory/folds/fold_engine.py", line 375
+E       if len(str(self.content)) > 100:
+E                                      ^
+E   SyntaxError: invalid syntax
+__________ ERROR collecting tests/unit/memory/test_memory_manager.py ___________
+../../Library/Python/3.9/lib/python/site-packages/_pytest/python.py:498: in importtestmodule
+    mod = import_path(
+../../Library/Python/3.9/lib/python/site-packages/_pytest/pathlib.py:587: in import_path
+    importlib.import_module(module_name)
+/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/importlib/__init__.py:127: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+<frozen importlib._bootstrap>:1030: in _gcd_import
+    ???
+<frozen importlib._bootstrap>:1007: in _find_and_load
+    ???
+<frozen importlib._bootstrap>:986: in _find_and_load_unlocked
+    ???
+<frozen importlib._bootstrap>:680: in _load_unlocked
+    ???
+../../Library/Python/3.9/lib/python/site-packages/_pytest/assertion/rewrite.py:186: in exec_module
+    exec(co, module.__dict__)
+tests/unit/memory/test_memory_manager.py:10: in <module>
+    from candidate.memory.fakes.agimemory_fake import AGIMemoryFake
+candidate/memory/fakes/agimemory_fake.py:4: in <module>
+    from candidate.memory.folds.fold_engine import MemoryFold, MemoryPriority, MemoryType
+E     File "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/memory/folds/fold_engine.py", line 375
+E       if len(str(self.content)) > 100:
+E                                      ^
+E   SyntaxError: invalid syntax
+__ ERROR collecting tests/unit/orchestration/test_openai_modulated_service.py __
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/unit/orchestration/test_openai_modulated_service.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/importlib/__init__.py:127: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+tests/unit/orchestration/test_openai_modulated_service.py:10: in <module>
+    from candidate.orchestration.openai_modulated_service import (
+candidate/orchestration/openai_modulated_service.py:21: in <module>
+    from candidate.core.orchestration.core_modules.symbolic_signal_router import route_signal, SymbolicSignal, SignalType
+candidate/core/orchestration/core_modules/symbolic_signal_router.py:15: in <module>
+    from candidate.orchestration.signals import DiagnosticSignalType, SymbolicSignal, SignalType
+E   ImportError: cannot import name 'DiagnosticSignalType' from 'candidate.orchestration.signals' (/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/orchestration/signals/__init__.py)
+_________ ERROR collecting tests/unit/qi/test_bio_coordinator_smoke.py _________
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/unit/qi/test_bio_coordinator_smoke.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/importlib/__init__.py:127: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+tests/unit/qi/test_bio_coordinator_smoke.py:3: in <module>
+    from candidate.qi.bio.bio_coordinator import QIBioCoordinator
+candidate/qi/__init__.py:15: in <module>
+    from consciousness.qi import qi
+E   ModuleNotFoundError: No module named 'consciousness.qi'
+_______________ ERROR collecting tests/unit/qi/test_budgeter.py ________________
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/unit/qi/test_budgeter.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/importlib/__init__.py:127: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+tests/unit/qi/test_budgeter.py:6: in <module>
+    from candidate.qi.ops import budgeter as budgeter_mod
+candidate/qi/__init__.py:15: in <module>
+    from consciousness.qi import qi
+E   ModuleNotFoundError: No module named 'consciousness.qi'
+_____ ERROR collecting tests/unit/security/test_enhanced_authentication.py _____
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/unit/security/test_enhanced_authentication.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/importlib/__init__.py:127: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+tests/unit/security/test_enhanced_authentication.py:4: in <module>
+    from candidate.core.security.auth import EnhancedAuthenticationSystem
+candidate/core/security/__init__.py:53: in <module>
+    from .cognitive_security import (
+E   ModuleNotFoundError: No module named 'candidate.core.security.cognitive_security'
+____________ ERROR collecting tests/unit/security/test_security.py _____________
+import file mismatch:
+imported module 'test_security' has this __file__ attribute:
+  /Users/agi_dev/LOCAL-REPOS/Lukhas/tests/integration/security/test_security.py
+which is not the same as the test file we want to collect:
+  /Users/agi_dev/LOCAL-REPOS/Lukhas/tests/unit/security/test_security.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+____________ ERROR collecting tests/unit/test_awareness_protocol.py ____________
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/unit/test_awareness_protocol.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/importlib/__init__.py:127: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+tests/unit/test_awareness_protocol.py:3: in <module>
+    from candidate.consciousness.awareness.awareness_protocol import map_local_tier_to_global
+E   ImportError: cannot import name 'map_local_tier_to_global' from 'candidate.consciousness.awareness.awareness_protocol' (/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/consciousness/awareness/awareness_protocol.py)
+____________ ERROR collecting tests/unit/test_personality_brain.py _____________
+tests/unit/test_personality_brain.py:1: in <module>
+    from products.content.poetica.creativity_engines.personality.brain import LUKHASBrain
+products/content/poetica/creativity_engines/personality/brain.py:85: in <module>
+    class EnhancedMemoryManager:
+products/content/poetica/creativity_engines/personality/brain.py:95: in EnhancedMemoryManager
+    def record_event(self, event: str, metadata: dict[str, Any] | None = None) -> MemoryTrace:
+E   TypeError: unsupported operand type(s) for |: 'types.GenericAlias' and 'NoneType'
+________________ ERROR collecting tests/unit/test_public_api.py ________________
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/unit/test_public_api.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/importlib/__init__.py:127: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+tests/unit/test_public_api.py:7: in <module>
+    from candidate.core.security.auth import get_auth_system
+candidate/core/security/__init__.py:53: in <module>
+    from .cognitive_security import (
+E   ModuleNotFoundError: No module named 'candidate.core.security.cognitive_security'
+________ ERROR collecting tests/unit/tools/test_performance_monitor.py _________
+tests/unit/tools/test_performance_monitor.py:14: in <module>
+    from candidate.tools.performance_monitor import (
+candidate/tools/performance_monitor.py:18: in <module>
+    logger = logging.getLogger("ΛTRACE.tools.performance", timezone)
+E   TypeError: getLogger() takes from 0 to 1 positional arguments but 2 were given
+=========================== short test summary info ============================
+SKIPPED [1] tests/e2e/phase2/test_orchestration_integration.py:43: Phase 2 modules not available: cannot import name 'WorkflowExecution' from 'candidate.orchestration.multi_model_orchestration' (/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/orchestration/multi_model_orchestration.py)
+SKIPPED [1] tests/e2e/phase2/test_performance_benchmarks.py:50: Performance testing modules not available: cannot import name '__version__' from 'urllib3' (/Users/agi_dev/LOCAL-REPOS/Lukhas/urllib3/__init__.py)
+SKIPPED [1] tests/e2e/phase2/test_tool_execution_safety.py:34: Tool execution modules not available: No module named 'candidate.tools.code_executor'
+SKIPPED [1] tests/integration/ai_orchestration/test_lukhas_mcp_server.py:3: could not import 'mcp': No module named 'mcp'
+SKIPPED [1] tests/integration/bridge/adapters/test_dropbox_adapter.py:8: could not import 'dropbox': No module named 'dropbox'
+SKIPPED [1] tests/integration/phase2/test_security_compliance.py:43: Security modules not available: cannot import name 'ComplianceEngine' from 'candidate.compliance.ai_compliance' (/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/compliance/ai_compliance.py)
+SKIPPED [1] tests/unit/test_qi_creative_types.py:13: Quantum creative types unavailable: non-default argument 'notes' follows default argument
+ERROR tests/candidate/qi/test_qi_entanglement.py
+ERROR tests/contract/candidate/aka_qualia - ImportError: cannot import name '...
+ERROR tests/e2e/candidate/aka_qualia - ImportError: cannot import name '__ver...
+ERROR tests/integration/candidate/aka_qualia - ImportError: cannot import nam...
+ERROR tests/integration/candidate/tools/test_tool_executor.py
+ERROR tests/integration/core/test_matriz_consciousness_integration.py - NameE...
+ERROR tests/integration/end_to_end/test_authentication_flow.py
+ERROR tests/integration/end_to_end/test_consciousness_memory.py
+ERROR tests/integration/end_to_end/test_decision_pipeline.py
+ERROR tests/integration/end_to_end/test_governance_orchestration.py
+ERROR tests/integration/end_to_end/test_multi_component_workflows.py
+ERROR tests/integration/identity/test_authentication_server.py
+ERROR tests/integration/test_aka_qualia.py
+ERROR tests/integration/tools/test_dependency_hasher.py
+ERROR tests/orchestration/test_plan_verifier.py
+ERROR tests/system/integration/test_failover.py
+ERROR tests/system/integration/test_system_lifecycle.py
+ERROR tests/test_creative_market_import.py
+ERROR tests/unit/adapters/tests/unit/adapters/tests/unit/adapters/test_emotion_adapter.py
+ERROR tests/unit/adapters/tests/unit/adapters/tests/unit/adapters/test_governance_adapter.py
+ERROR tests/unit/adapters/tests/unit/adapters/tests/unit/adapters/test_identity_adapter.py
+ERROR tests/unit/adapters/tests/unit/adapters/tests/unit/adapters/test_orchestration_adapter.py
+ERROR tests/unit/ai_orchestration/test_mcp_operational_support.py - Failed: '...
+ERROR tests/unit/branding/test_keatsian_replacer.py - TypeError: unsupported ...
+ERROR tests/unit/bridge/adapters/test_gmail_adapter.py
+ERROR tests/unit/bridge/adapters/test_oauth_manager.py
+ERROR tests/unit/bridge/adapters/test_oauth_manager_advanced.py
+ERROR tests/unit/bridge/external_adapters/test_gmail_adapter.py
+ERROR tests/unit/bridge/test_direct_ai_router.py - AttributeError: 'ConfigLoa...
+ERROR tests/unit/candidate/aka_qualia - ImportError: cannot import name '__ve...
+ERROR tests/unit/candidate/bridge/test_unified_openai_client.py
+ERROR tests/unit/candidate/core/identity/test_constitutional_ai_compliance.py
+ERROR tests/unit/candidate/core/matrix/test_nodes.py - TypeError: unsupported...
+ERROR tests/unit/candidate/core/quantum_financial/test_quantum_financial_consciousness_engine.py
+ERROR tests/unit/candidate/core/test_symbolic_colony.py
+ERROR tests/unit/candidate/qi/bio/test_bio_optimizer.py
+ERROR tests/unit/candidate/qi/engines/identity/test_consolidate_identity_qi_secure.py
+ERROR tests/unit/cognitive_core/integration/test_agi_service_initializer.py
+ERROR tests/unit/consciousness/test_core_integrator_access_tier.py
+ERROR tests/unit/consciousness/test_registry_activation_order.py - TypeError:...
+ERROR tests/unit/core/test_core_wrapper_relationships.py - TypeError: unsuppo...
+ERROR tests/unit/governance/ethics/test_guardian_reflector_imports.py
+ERROR tests/unit/governance/test_consent_manager.py
+ERROR tests/unit/governance/test_constitutional_ai_safety.py - AttributeError...
+ERROR tests/unit/identity/test_lambda_id_generator.py
+ERROR tests/unit/identity/test_matriz_consciousness_identity_signals.py
+ERROR tests/unit/memory/test_fold_engine.py
+ERROR tests/unit/memory/test_memory_manager.py
+ERROR tests/unit/orchestration/test_openai_modulated_service.py
+ERROR tests/unit/qi/test_bio_coordinator_smoke.py
+ERROR tests/unit/qi/test_budgeter.py
+ERROR tests/unit/security/test_enhanced_authentication.py
+ERROR tests/unit/security/test_security.py
+ERROR tests/unit/test_awareness_protocol.py
+ERROR tests/unit/test_personality_brain.py - TypeError: unsupported operand t...
+ERROR tests/unit/test_public_api.py
+ERROR tests/unit/tools/test_performance_monitor.py - TypeError: getLogger() t...
+!!!!!!!!!!!!!!!!!!! Interrupted: 57 errors during collection !!!!!!!!!!!!!!!!!!!
+========= 7 skipped, 2032 deselected, 31 warnings, 57 errors in 4.98s ==========

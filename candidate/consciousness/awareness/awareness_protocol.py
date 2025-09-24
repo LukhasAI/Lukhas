@@ -406,3 +406,15 @@ class LUKHASAwarenessProtocol:
 ║   stability and require approval from the LUKHAS Architecture Board.
 ╚═══════════════════════════════════════════════════════════════════════════
 """
+
+
+def map_local_tier_to_global(local_tier: str) -> str:
+    """Map local tier to global tier for awareness protocol."""
+    tier_mapping = {
+        "T1": "global_basic",
+        "T2": "global_standard",
+        "T3": "global_advanced",
+        "T4": "global_expert",
+        "T5": "global_enterprise"
+    }
+    return tier_mapping.get(local_tier, "global_standard")

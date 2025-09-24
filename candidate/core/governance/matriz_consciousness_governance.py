@@ -166,7 +166,10 @@ class MatrizConsciousnessGovernanceSystem:
 
         # Register with consciousness network if available
         if consciousness_state_manager:
-            asyncio.create_task(self._initialize_governance_consciousness())
+            # Defer task creation to avoid "no running event loop" error
+            self._pending_initialization = True
+        else:
+            self._pending_initialization = False
 
     def _initialize_constitutional_principles(self) -> dict[str, dict[str, Any]]:
         """Initialize constitutional AI principles for consciousness governance"""

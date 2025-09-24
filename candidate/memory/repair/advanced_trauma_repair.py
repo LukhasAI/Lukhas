@@ -60,8 +60,8 @@ from uuid import uuid4
 try:
     from candidate.core.symbolism.tags import TagScope
     from memory.integrity.collapse_hash import IntegrityStatus
-    from memory.persistence.orthogonal_persistence import OrthogonalPersistence
-    from memory.proteome.symbolic_proteome import PostTranslationalModification
+    from ..proteome.symbolic_proteome import PostTranslationalModification
+    # OrthogonalPersistence will be stubbed locally
 
     LUKHAS_AVAILABLE = True
 except ImportError as e:

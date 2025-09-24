@@ -56,11 +56,16 @@ from uuid import uuid4
 
 import numpy as np
 
+# Define core enums (always available)
+class PersistenceMode(Enum):
+    IMMEDIATE = "immediate"
+    LAZY = "lazy"
+    SNAPSHOT = "snapshot"
+    HYBRID = "hybrid"
+
 # Import LUKHAS components
 try:
     from candidate.core.symbolism.tags import TagScope
-    from memory.persistence.orthogonal_persistence import PersistenceMode
-
     LUKHAS_AVAILABLE = True
 except ImportError as e:
     print(f"Warning: Some LUKHAS modules not available: {e}")
@@ -73,10 +78,6 @@ except ImportError as e:
         ETHICAL = "ethical"
         TEMPORAL = "temporal"
         GENETIC = "genetic"
-
-    class PersistenceMode(Enum):
-        IMMEDIATE = "immediate"
-        LAZY = "lazy"
 
 
 class HippocampalState(Enum):

@@ -1,0 +1,44 @@
+{
+  "telemetry_version": "1.0.0",
+  "capture_timestamp": "2025-09-23T11:35:10Z",
+  "baseline": {
+    "timestamp": 1758627289.293663,
+    "label": "baseline",
+    "cpu_freq_mhz": 4,
+    "cpu_freq_min": 0,
+    "cpu_freq_max": 4,
+    "cpu_temp_c": null,
+    "load_1min": 1.7685546875,
+    "load_5min": 2.01318359375,
+    "load_15min": 2.134765625,
+    "memory_percent": 70.6,
+    "memory_available_gb": 4.707305908203125
+  },
+  "benchmark_samples": 1,
+  "analysis": {
+    "throttling_detected": false,
+    "frequency_variance_percent": 0.0,
+    "monitoring_duration_seconds": 0.0,
+    "frequency_stats": {
+      "min_mhz": 4,
+      "max_mhz": 4,
+      "mean_mhz": 4.0,
+      "samples": 1
+    }
+  },
+  "raw_readings": [
+    {
+      "timestamp": 1758627289.2945101,
+      "label": "benchmark",
+      "cpu_freq_mhz": 4,
+      "cpu_freq_min": 0,
+      "cpu_freq_max": 4,
+      "cpu_temp_c": null,
+      "load_1min": 1.7685546875,
+      "load_5min": 2.01318359375,
+      "load_15min": 2.134765625,
+      "memory_percent": 70.6,
+      "memory_available_gb": 4.70733642578125
+    }
+  ]
+}

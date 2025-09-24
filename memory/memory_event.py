@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import copy
 import logging
+from collections import deque
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from typing import Any, Dict, Optional
@@ -27,7 +28,7 @@ class MemoryEventFactory:
 
     def __init__(self) -> None:
         self._last_affect_delta: Optional[float] = None
-        self._drift_history: list[float] = []
+        self._drift_history: deque[float] = deque(maxlen=100)
 
     def create(self, data: Dict[str, Any], metadata: Dict[str, Any]) -> MemoryEvent:
         """Create a new :class:`MemoryEvent` instance.
@@ -102,7 +103,7 @@ class MemoryEventFactory:
             {
                 "affect_delta": affect_delta,
                 "driftScore": drift_score,
-                "driftTrend": sum(self._drift_history[-3:]) / min(len(self._drift_history), 3),
+                "driftTrend": sum(list(self._drift_history)[-3:]) / min(len(self._drift_history), 3) if self._drift_history else 0.0,
             }
         )
 

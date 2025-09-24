@@ -1,0 +1,127 @@
+{
+  "dashboard": {
+    "id": null,
+    "title": "LUKHAS Identity - Deep Dive",
+    "tags": ["lukhas", "identity"],
+    "timezone": "browser",
+    "panels": [
+      {
+        "id": 1,
+        "title": "Authentication Success Rate",
+        "type": "stat",
+        "targets": [
+          {
+            "expr": "(rate(lukhas_identity_authentication_success_total[5m]) / rate(lukhas_identity_authentication_attempts_total[5m])) * 100",
+            "legendFormat": "Success Rate %"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "color": {"mode": "thresholds"},
+            "thresholds": {
+              "steps": [
+                {"color": "red", "value": 0},
+                {"color": "yellow", "value": 90},
+                {"color": "green", "value": 95}
+              ]
+            }
+          }
+        },
+        "gridPos": {"h": 8, "w": 6, "x": 0, "y": 0}
+      },
+      {
+        "id": 2,
+        "title": "Session Duration",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "histogram_quantile(0.50, lukhas_identity_session_duration_seconds)",
+            "legendFormat": "50th percentile"
+          },
+          {
+            "expr": "histogram_quantile(0.95, lukhas_identity_session_duration_seconds)",
+            "legendFormat": "95th percentile"
+          }
+        ],
+        "gridPos": {"h": 8, "w": 9, "x": 6, "y": 0}
+      },
+      {
+        "id": 3,
+        "title": "Active Sessions",
+        "type": "stat",
+        "targets": [
+          {
+            "expr": "lukhas_identity_active_sessions_total",
+            "legendFormat": "Active Sessions"
+          }
+        ],
+        "gridPos": {"h": 8, "w": 6, "x": 15, "y": 0}
+      },
+      {
+        "id": 4,
+        "title": "Lambda ID Operations",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "rate(lukhas_identity_lambda_id_operations_total[5m])",
+            "legendFormat": "{{operation}}"
+          }
+        ],
+        "gridPos": {"h": 8, "w": 12, "x": 0, "y": 8}
+      },
+      {
+        "id": 5,
+        "title": "Device Trust Scores",
+        "type": "heatmap",
+        "targets": [
+          {
+            "expr": "lukhas_identity_device_trust_score",
+            "legendFormat": "{{device_id}}"
+          }
+        ],
+        "gridPos": {"h": 8, "w": 12, "x": 12, "y": 8}
+      },
+      {
+        "id": 6,
+        "title": "OAuth2 Token Issuance",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "rate(lukhas_identity_oauth2_tokens_issued_total[5m])",
+            "legendFormat": "{{token_type}}"
+          }
+        ],
+        "gridPos": {"h": 8, "w": 12, "x": 0, "y": 16}
+      },
+      {
+        "id": 7,
+        "title": "Tier Level Distribution",
+        "type": "piechart",
+        "targets": [
+          {
+            "expr": "count by (tier_level) (lukhas_identity_user_tier_level)",
+            "legendFormat": "Tier {{tier_level}}"
+          }
+        ],
+        "gridPos": {"h": 8, "w": 12, "x": 12, "y": 16}
+      },
+      {
+        "id": 8,
+        "title": "Failed Authentication Sources",
+        "type": "table",
+        "targets": [
+          {
+            "expr": "topk(10, rate(lukhas_identity_authentication_failures_total[5m]))",
+            "legendFormat": "{{source_ip}} - {{failure_reason}}"
+          }
+        ],
+        "gridPos": {"h": 8, "w": 24, "x": 0, "y": 24}
+      }
+    ],
+    "time": {
+      "from": "now-1h",
+      "to": "now"
+    },
+    "refresh": "30s"
+  }
+}

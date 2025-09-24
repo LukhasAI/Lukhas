@@ -23,7 +23,7 @@ from typing import Any, Callable, Optional
 
 # Import our extreme performance optimizations
 try:
-    from enterprise.performance.extreme_auth_optimization import (
+    from products.enterprise.core.performance.extreme_auth_optimization import (
         AuthPerformanceMetrics,
         get_extreme_optimizer,
     )

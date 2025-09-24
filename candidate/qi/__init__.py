@@ -12,6 +12,10 @@ import warnings
 
 import streamlit as st
 
+# Import the qi stub we created
+import sys
+import os
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '../..'))
 from consciousness.qi import qi
 
 warnings.warn(

@@ -43,7 +43,7 @@ import streamlit as st
 
 # Core Guardian System imports
 try:
-    from .guardian import Guardian
+    from .guardian import Guardian, get_guardian
     from .guardian_sentinel import GuardianSentinel
     from .guardian_shadow_filter import GuardianShadowFilter
     from .guardian_system import GuardianSystem
@@ -52,6 +52,7 @@ except ImportError:
     GuardianSentinel = None
     GuardianShadowFilter = None
     Guardian = None
+    get_guardian = None
 
 # Promoted Guardian System (lukhas/governance/guardian)
 try:
@@ -328,6 +329,7 @@ __all__ = [
     "evaluate_ethics",
     "get_governance_status",
     "get_guardian_status",
+    "get_guardian",
     "initialize_governance_system",
 ]
 

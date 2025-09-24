@@ -1,0 +1,154 @@
+rule_files:
+  - slo_alerts.yml
+
+tests:
+# Test API Availability SLO Alert (should fire when availability < 99.9%)
+- interval: 1m
+  input_series:
+    - series: 'http_requests_total{status="200"}'
+      values: '100+100x10'  # 100 successful requests per minute
+    - series: 'http_requests_total{status="500"}'
+      values: '0+2x10'      # 2 failed requests per minute (98% availability)
+  alert_rule_test:
+  - alertname: LUKHASAPIAvailabilityBelowSLO
+    eval_time: 2m
+    exp_alerts:
+    - labels:
+        severity: critical
+        service: lukhas-api
+        slo: availability
+        team: platform
+
+# Test Memory Recall Latency SLO Alert (should fire when P95 > 100ms)
+- interval: 1m
+  input_series:
+    - series: 'memory_recall_duration_seconds_bucket{lane="prod",le="0.05"}'
+      values: '50+50x10'   # 50 requests under 50ms
+    - series: 'memory_recall_duration_seconds_bucket{lane="prod",le="0.1"}'
+      values: '90+90x10'   # 90 requests under 100ms (P95 ≈ 100ms)
+    - series: 'memory_recall_duration_seconds_bucket{lane="prod",le="0.2"}'
+      values: '95+95x10'   # 95 requests under 200ms
+    - series: 'memory_recall_duration_seconds_bucket{lane="prod",le="+Inf"}'
+      values: '100+100x10' # 100 total requests
+  alert_rule_test:
+  - alertname: LUKHASMemoryRecallLatencyBelowSLO
+    eval_time: 1m
+    exp_alerts:
+    - labels:
+        severity: critical
+        service: lukhas-memory
+        slo: latency
+        team: core
+
+# Test MATRIZ Pipeline Latency SLO Alert (should fire when P95 > 250ms)
+- interval: 1m
+  input_series:
+    - series: 'matriz_pipeline_duration_seconds_bucket{lane="prod",le="0.1"}'
+      values: '20+20x10'   # 20 requests under 100ms
+    - series: 'matriz_pipeline_duration_seconds_bucket{lane="prod",le="0.25"}'
+      values: '90+90x10'   # 90 requests under 250ms (P95 = 250ms)
+    - series: 'matriz_pipeline_duration_seconds_bucket{lane="prod",le="0.5"}'
+      values: '95+95x10'   # 95 requests under 500ms
+    - series: 'matriz_pipeline_duration_seconds_bucket{lane="prod",le="+Inf"}'
+      values: '100+100x10' # 100 total requests
+  alert_rule_test:
+  - alertname: LUKHASMATRIZPipelineLatencyBelowSLO
+    eval_time: 1m
+    exp_alerts:
+    - labels:
+        severity: critical
+        service: lukhas-matriz
+        slo: latency
+        team: core
+
+# Test Guardian Decision Latency SLO Alert (should fire when P99 > 5ms)
+- interval: 1m
+  input_series:
+    - series: 'guardian_decision_duration_seconds_bucket{lane="prod",le="0.001"}'
+      values: '90+90x10'   # 90 requests under 1ms
+    - series: 'guardian_decision_duration_seconds_bucket{lane="prod",le="0.005"}'
+      values: '99+99x10'   # 99 requests under 5ms (P99 = 5ms)
+    - series: 'guardian_decision_duration_seconds_bucket{lane="prod",le="0.01"}'
+      values: '100+100x10' # All requests under 10ms
+    - series: 'guardian_decision_duration_seconds_bucket{lane="prod",le="+Inf"}'
+      values: '100+100x10' # 100 total requests
+  alert_rule_test:
+  - alertname: LUKHASGuardianDecisionLatencyBelowSLO
+    eval_time: 30s
+    exp_alerts:
+    - labels:
+        severity: critical
+        service: lukhas-guardian
+        slo: latency
+        team: governance
+
+# Test Error Budget Burn Rate Alert (should fire when error rate > 2x normal)
+- interval: 1h
+  input_series:
+    - series: 'http_requests_total{status="500"}'
+      values: '0+10x24'    # 10 errors per hour = high burn rate
+    - series: 'http_requests_total{status="200"}'
+      values: '1000+1000x24' # 1000 successful requests per hour
+  alert_rule_test:
+  - alertname: LUKHASErrorBudgetBurnRateHigh
+    eval_time: 5m
+    exp_alerts:
+    - labels:
+        severity: warning
+        service: lukhas-api
+        slo: error_budget
+        team: platform
+
+# Test Consciousness Success Rate Alert (should fire when success rate < 90%)
+- interval: 1m
+  input_series:
+    - series: 'consciousness_queries_total{status="success"}'
+      values: '80+80x10'   # 80 successful queries per minute
+    - series: 'consciousness_queries_total{status="failure"}'
+      values: '20+20x10'   # 20 failed queries per minute (80% success rate)
+  alert_rule_test:
+  - alertname: LUKHASConsciousnessSuccessRateBelowSLO
+    eval_time: 3m
+    exp_alerts:
+    - labels:
+        severity: warning
+        service: lukhas-consciousness
+        slo: success_rate
+        team: core
+
+# Test that alerts DON'T fire under normal conditions
+- interval: 1m
+  input_series:
+    # Normal API performance (99.95% availability)
+    - series: 'http_requests_total{status="200"}'
+      values: '1000+1000x10'
+    - series: 'http_requests_total{status="500"}'
+      values: '0+0.5x10'
+    # Normal memory performance (P95 = 50ms)
+    - series: 'memory_recall_duration_seconds_bucket{lane="prod",le="0.05"}'
+      values: '95+95x10'
+    - series: 'memory_recall_duration_seconds_bucket{lane="prod",le="+Inf"}'
+      values: '100+100x10'
+    # Normal pipeline performance (P95 = 150ms)
+    - series: 'matriz_pipeline_duration_seconds_bucket{lane="prod",le="0.15"}'
+      values: '95+95x10'
+    - series: 'matriz_pipeline_duration_seconds_bucket{lane="prod",le="+Inf"}'
+      values: '100+100x10'
+    # Normal guardian performance (P99 = 2ms)
+    - series: 'guardian_decision_duration_seconds_bucket{lane="prod",le="0.002"}'
+      values: '99+99x10'
+    - series: 'guardian_decision_duration_seconds_bucket{lane="prod",le="+Inf"}'
+      values: '100+100x10'
+  alert_rule_test:
+  - alertname: LUKHASAPIAvailabilityBelowSLO
+    eval_time: 5m
+    exp_alerts: []
+  - alertname: LUKHASMemoryRecallLatencyBelowSLO
+    eval_time: 5m
+    exp_alerts: []
+  - alertname: LUKHASMATRIZPipelineLatencyBelowSLO
+    eval_time: 5m
+    exp_alerts: []
+  - alertname: LUKHASGuardianDecisionLatencyBelowSLO
+    eval_time: 5m
+    exp_alerts: []

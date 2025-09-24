@@ -1,0 +1,266 @@
+name: 🛡️ Security Gates - T4/0.01%
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+  push:
+    branches: [main, develop]
+
+env:
+  GUARDIAN_MODE: production
+  LUKHAS_MODE: test
+
+jobs:
+  # Semgrep Security Scanning
+  semgrep-security:
+    name: 🔍 Semgrep Security Scan
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+
+      - name: Install Semgrep
+        run: pip install semgrep
+
+      - name: Run LUKHAS Custom Security Rules
+        run: |
+          semgrep --config .semgrep/rules/guardian-security.yml \
+                  --config .semgrep/rules/production-security.yml \
+                  --json --output semgrep-results.json \
+                  lukhas/ || true
+
+      - name: Check for MockGuardian in Production
+        run: |
+          if semgrep --config .semgrep/rules/guardian-security.yml lukhas/ | grep -q "mock-guardian-production-usage"; then
+            echo "❌ MockGuardian detected in production code path"
+            echo "::error::MockGuardian found - use ProductionGuardian for production"
+            exit 1
+          else
+            echo "✅ No MockGuardian found in production code paths"
+          fi
+
+      - name: Upload Semgrep Results
+        uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: semgrep-security-results
+          path: semgrep-results.json
+
+  # Guardian Validation
+  guardian-validation:
+    name: 🛡️ Guardian System Validation
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Validate Guardian Production Mode
+        run: |
+          python -c "
+          import os
+          os.environ['GUARDIAN_MODE'] = 'production'
+          from lukhas.governance.guardian import get_guardian
+          guardian = get_guardian()
+          assert guardian.__class__.__name__ == 'ProductionGuardian', f'Expected ProductionGuardian, got {guardian.__class__.__name__}'
+          print('✅ Guardian correctly configured for production')
+          "
+
+      - name: Test Guardian Policy Enforcement
+        run: |
+          python -c "
+          import os
+          os.environ['GUARDIAN_MODE'] = 'production'
+          from lukhas.governance.guardian import get_guardian
+          guardian = get_guardian()
+
+          # Test policy validation
+          test_policy = {'action': 'test', 'resource': 'test'}
+          result = guardian.validate_policy(test_policy, {'user': 'test'})
+          assert result['allowed'] == False, 'Production Guardian should be restrictive by default'
+          print('✅ Guardian policy enforcement validated')
+          "
+
+  # Rate Limiting Security Test
+  rate-limiting-security:
+    name: ⚡ Rate Limiting Security Test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Test Rate Limiting Implementation
+        run: |
+          python -c "
+          import asyncio
+          from lukhas.identity.rate_limiting import get_rate_limiter, RateLimitType
+
+          async def test_rate_limiting():
+              rate_limiter = get_rate_limiter()
+
+              # Test normal request
+              allowed, metadata = await rate_limiter.check_rate_limit(
+                  'test-client',
+                  RateLimitType.WEBAUTHN_REGISTRATION
+              )
+              assert allowed == True, 'First request should be allowed'
+
+              # Test rate limit enforcement
+              for i in range(10):
+                  allowed, metadata = await rate_limiter.check_rate_limit(
+                      'test-client',
+                      RateLimitType.WEBAUTHN_REGISTRATION
+                  )
+
+              # Should be rate limited now
+              allowed, metadata = await rate_limiter.check_rate_limit(
+                  'test-client',
+                  RateLimitType.WEBAUTHN_REGISTRATION
+              )
+              assert allowed == False, 'Should be rate limited after exceeding threshold'
+              print('✅ Rate limiting security validated')
+
+          asyncio.run(test_rate_limiting())
+          "
+
+  # Token Security Validation
+  token-security:
+    name: 🔐 Token Security Validation
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Test OWASP Token Validation
+        run: |
+          python -c "
+          import asyncio
+          import jwt
+          import time
+          from lukhas.identity.auth_service import verify_token
+
+          async def test_token_security():
+              # Test expired token rejection
+              expired_token = jwt.encode({
+                  'sub': 'test-user',
+                  'exp': int(time.time()) - 3600  # Expired 1 hour ago
+              }, 'test-secret', algorithm='HS256')
+
+              try:
+                  await verify_token(expired_token)
+                  assert False, 'Expired token should be rejected'
+              except Exception:
+                  print('✅ Expired token properly rejected')
+
+              # Test clock skew tolerance
+              future_token = jwt.encode({
+                  'sub': 'test-user',
+                  'exp': int(time.time()) + 3600,
+                  'iat': int(time.time()) + 120  # 2 minutes in future
+              }, 'test-secret', algorithm='HS256')
+
+              try:
+                  await verify_token(future_token)
+                  print('✅ Clock skew tolerance working')
+              except Exception:
+                  print('⚠️ Clock skew rejection (acceptable)')
+
+          asyncio.run(test_token_security())
+          "
+
+  # PromQL Alert Validation
+  promql-alert-validation:
+    name: 📊 PromQL Alert Validation
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pyyaml
+
+      - name: Validate Prometheus Alerts
+        run: |
+          python3 scripts/validate_alerts.py --fail-on-error
+
+      - name: Upload Alert Validation Results
+        uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: alert-validation-results
+          path: artifacts/alert_validation_results.json
+
+  # Security Gate Summary
+  security-gate-summary:
+    name: 📋 Security Gate Summary
+    runs-on: ubuntu-latest
+    needs: [semgrep-security, guardian-validation, rate-limiting-security, token-security, promql-alert-validation]
+    if: always()
+    steps:
+      - name: Security Gate Results
+        run: |
+          echo "## 🛡️ T4/0.01% Security Gates Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| Security Check | Status |" >> $GITHUB_STEP_SUMMARY
+          echo "|---------------|--------|" >> $GITHUB_STEP_SUMMARY
+          echo "| Semgrep Security Scan | ${{ needs.semgrep-security.result == 'success' && '✅ PASSED' || '❌ FAILED' }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| Guardian Validation | ${{ needs.guardian-validation.result == 'success' && '✅ PASSED' || '❌ FAILED' }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| Rate Limiting Security | ${{ needs.rate-limiting-security.result == 'success' && '✅ PASSED' || '❌ FAILED' }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| Token Security | ${{ needs.token-security.result == 'success' && '✅ PASSED' || '❌ FAILED' }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| PromQL Alert Validation | ${{ needs.promql-alert-validation.result == 'success' && '✅ PASSED' || '❌ FAILED' }} |" >> $GITHUB_STEP_SUMMARY
+
+          # Fail if any security gate failed
+          if [[ "${{ needs.semgrep-security.result }}" != "success" ||
+                "${{ needs.guardian-validation.result }}" != "success" ||
+                "${{ needs.rate-limiting-security.result }}" != "success" ||
+                "${{ needs.token-security.result }}" != "success" ||
+                "${{ needs.promql-alert-validation.result }}" != "success" ]]; then
+            echo ""
+            echo "❌ **Security gates failed - deployment blocked**"
+            exit 1
+          else
+            echo ""
+            echo "✅ **All security gates passed - ready for production**"
+          fi

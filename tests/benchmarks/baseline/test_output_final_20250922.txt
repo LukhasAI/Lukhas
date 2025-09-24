@@ -1,0 +1,70 @@
+============================= test session starts ==============================
+collected 2061 items / 57 errors / 2032 deselected / 7 skipped / 29 selected
+
+=========================== short test summary info ============================
+SKIPPED [1] tests/e2e/phase2/test_orchestration_integration.py:43: Phase 2 modules not available: cannot import name 'WorkflowExecution' from 'candidate.orchestration.multi_model_orchestration' (/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/orchestration/multi_model_orchestration.py)
+SKIPPED [1] tests/e2e/phase2/test_performance_benchmarks.py:50: Performance testing modules not available: cannot import name 'DependencyWarning' from 'urllib3.exceptions' (/Users/agi_dev/LOCAL-REPOS/Lukhas/urllib3/exceptions.py)
+SKIPPED [1] tests/e2e/phase2/test_tool_execution_safety.py:34: Tool execution modules not available: No module named 'candidate.tools.code_executor'
+SKIPPED [1] tests/integration/ai_orchestration/test_lukhas_mcp_server.py:3: could not import 'mcp': No module named 'mcp'
+SKIPPED [1] tests/integration/bridge/adapters/test_dropbox_adapter.py:8: could not import 'dropbox': No module named 'dropbox'
+SKIPPED [1] tests/integration/phase2/test_security_compliance.py:43: Security modules not available: cannot import name 'ComplianceEngine' from 'candidate.compliance.ai_compliance' (/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/compliance/ai_compliance.py)
+SKIPPED [1] tests/unit/test_qi_creative_types.py:13: Quantum creative types unavailable: non-default argument 'notes' follows default argument
+ERROR tests/candidate/qi/test_qi_entanglement.py
+ERROR tests/contract/candidate/aka_qualia - ImportError: cannot import name '...
+ERROR tests/e2e/candidate/aka_qualia - ImportError: cannot import name 'Depen...
+ERROR tests/integration/candidate/aka_qualia - ImportError: cannot import nam...
+ERROR tests/integration/candidate/tools/test_tool_executor.py
+ERROR tests/integration/core/test_matriz_consciousness_integration.py - NameE...
+ERROR tests/integration/end_to_end/test_authentication_flow.py
+ERROR tests/integration/end_to_end/test_consciousness_memory.py
+ERROR tests/integration/end_to_end/test_decision_pipeline.py
+ERROR tests/integration/end_to_end/test_governance_orchestration.py
+ERROR tests/integration/end_to_end/test_multi_component_workflows.py
+ERROR tests/integration/identity/test_authentication_server.py
+ERROR tests/integration/test_aka_qualia.py
+ERROR tests/integration/tools/test_dependency_hasher.py
+ERROR tests/orchestration/test_plan_verifier.py
+ERROR tests/system/integration/test_failover.py
+ERROR tests/system/integration/test_system_lifecycle.py
+ERROR tests/test_creative_market_import.py
+ERROR tests/unit/adapters/tests/unit/adapters/tests/unit/adapters/test_emotion_adapter.py
+ERROR tests/unit/adapters/tests/unit/adapters/tests/unit/adapters/test_governance_adapter.py
+ERROR tests/unit/adapters/tests/unit/adapters/tests/unit/adapters/test_identity_adapter.py
+ERROR tests/unit/adapters/tests/unit/adapters/tests/unit/adapters/test_orchestration_adapter.py
+ERROR tests/unit/ai_orchestration/test_mcp_operational_support.py - Failed: '...
+ERROR tests/unit/branding/test_keatsian_replacer.py - TypeError: unsupported ...
+ERROR tests/unit/bridge/adapters/test_gmail_adapter.py
+ERROR tests/unit/bridge/adapters/test_oauth_manager.py
+ERROR tests/unit/bridge/adapters/test_oauth_manager_advanced.py
+ERROR tests/unit/bridge/external_adapters/test_gmail_adapter.py
+ERROR tests/unit/bridge/test_direct_ai_router.py - AttributeError: 'ConfigLoa...
+ERROR tests/unit/candidate/aka_qualia - ImportError: cannot import name 'Depe...
+ERROR tests/unit/candidate/bridge/test_unified_openai_client.py
+ERROR tests/unit/candidate/core/identity/test_constitutional_ai_compliance.py
+ERROR tests/unit/candidate/core/matrix/test_nodes.py - TypeError: unsupported...
+ERROR tests/unit/candidate/core/quantum_financial/test_quantum_financial_consciousness_engine.py
+ERROR tests/unit/candidate/core/test_symbolic_colony.py
+ERROR tests/unit/candidate/qi/bio/test_bio_optimizer.py
+ERROR tests/unit/candidate/qi/engines/identity/test_consolidate_identity_qi_secure.py
+ERROR tests/unit/cognitive_core/integration/test_agi_service_initializer.py
+ERROR tests/unit/consciousness/test_core_integrator_access_tier.py
+ERROR tests/unit/consciousness/test_registry_activation_order.py - TypeError:...
+ERROR tests/unit/core/test_core_wrapper_relationships.py - TypeError: unsuppo...
+ERROR tests/unit/governance/ethics/test_guardian_reflector_imports.py
+ERROR tests/unit/governance/test_consent_manager.py
+ERROR tests/unit/governance/test_constitutional_ai_safety.py - AttributeError...
+ERROR tests/unit/identity/test_lambda_id_generator.py
+ERROR tests/unit/identity/test_matriz_consciousness_identity_signals.py
+ERROR tests/unit/memory/test_fold_engine.py
+ERROR tests/unit/memory/test_memory_manager.py
+ERROR tests/unit/orchestration/test_openai_modulated_service.py
+ERROR tests/unit/qi/test_bio_coordinator_smoke.py
+ERROR tests/unit/qi/test_budgeter.py
+ERROR tests/unit/security/test_enhanced_authentication.py
+ERROR tests/unit/security/test_security.py
+ERROR tests/unit/test_awareness_protocol.py
+ERROR tests/unit/test_personality_brain.py - TypeError: unsupported operand t...
+ERROR tests/unit/test_public_api.py
+ERROR tests/unit/tools/test_performance_monitor.py - TypeError: getLogger() t...
+!!!!!!!!!!!!!!!!!!! Interrupted: 57 errors during collection !!!!!!!!!!!!!!!!!!!
+========= 7 skipped, 2032 deselected, 31 warnings, 57 errors in 4.49s ==========

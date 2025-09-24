@@ -1,0 +1,168 @@
+# T4/0.01% Excellence Alert Rules
+# Critical SLA monitoring and performance degradation detection
+
+groups:
+  - name: lukhas_sla_alerts
+    rules:
+      # Guardian System SLA Violations
+      - alert: GuardianLatencyHigh
+        expr: histogram_quantile(0.95, guardian_response_duration_seconds_bucket) > 0.1
+        for: 1m
+        labels:
+          severity: critical
+          component: guardian
+          sla: latency
+        annotations:
+          summary: "Guardian response latency exceeds 100ms SLA"
+          description: "Guardian p95 latency is {{ $value }}s, exceeding 100ms SLA"
+
+      - alert: GuardianErrorRateHigh
+        expr: rate(guardian_errors_total[5m]) > 0.01
+        for: 2m
+        labels:
+          severity: critical
+          component: guardian
+          sla: error_rate
+        annotations:
+          summary: "Guardian error rate exceeds 1% threshold"
+          description: "Guardian error rate is {{ $value | humanizePercentage }}"
+
+      # Memory System Performance
+      - alert: MemoryEventCreationSlow
+        expr: histogram_quantile(0.95, memory_event_creation_duration_seconds_bucket) > 0.0001
+        for: 1m
+        labels:
+          severity: warning
+          component: memory
+          sla: performance
+        annotations:
+          summary: "Memory event creation exceeds 100μs"
+          description: "Memory event p95 creation time is {{ $value }}s"
+
+      - alert: MemoryDriftHistoryBounded
+        expr: memory_drift_history_size > 100
+        for: 0s
+        labels:
+          severity: critical
+          component: memory
+          sla: bounds
+        annotations:
+          summary: "Memory drift history exceeded bounds"
+          description: "Drift history size is {{ $value }}, should be ≤100"
+
+      # AI Orchestrator Health
+      - alert: ProviderHealthCheckFailed
+        expr: ai_provider_health_status == 0
+        for: 2m
+        labels:
+          severity: warning
+          component: orchestrator
+          sla: availability
+        annotations:
+          summary: "AI provider health check failed"
+          description: "Provider {{ $labels.provider }} health check failing"
+
+      - alert: ProviderLatencyHigh
+        expr: histogram_quantile(0.95, ai_provider_request_duration_seconds_bucket) > 0.25
+        for: 2m
+        labels:
+          severity: warning
+          component: orchestrator
+          sla: latency
+        annotations:
+          summary: "AI provider latency exceeds 250ms SLA"
+          description: "Provider {{ $labels.provider }} p95 latency is {{ $value }}s"
+
+      # Consciousness Stream Critical
+      - alert: ConsciousnessStreamInterrupted
+        expr: increase(consciousness_tick_failures_total[1m]) > 0
+        for: 0s
+        labels:
+          severity: critical
+          component: consciousness
+          sla: continuity
+        annotations:
+          summary: "Consciousness stream interrupted"
+          description: "{{ $value }} consciousness tick failures in last minute"
+
+      - alert: ConsciousnessTickLatency
+        expr: histogram_quantile(0.99, consciousness_tick_duration_seconds_bucket) > 0.001
+        for: 30s
+        labels:
+          severity: warning
+          component: consciousness
+          sla: latency
+        annotations:
+          summary: "Consciousness tick latency high"
+          description: "Consciousness p99 tick latency is {{ $value }}s"
+
+      # Identity Authentication SLA
+      - alert: AuthenticationLatencyHigh
+        expr: histogram_quantile(0.95, identity_auth_duration_seconds_bucket) > 0.1
+        for: 1m
+        labels:
+          severity: warning
+          component: identity
+          sla: latency
+        annotations:
+          summary: "Authentication latency exceeds 100ms SLA"
+          description: "Authentication p95 latency is {{ $value }}s"
+
+  - name: lukhas_infrastructure_alerts
+    rules:
+      # Resource Exhaustion
+      - alert: HighMemoryUsage
+        expr: (node_memory_MemTotal_bytes - node_memory_MemAvailable_bytes) / node_memory_MemTotal_bytes > 0.85
+        for: 2m
+        labels:
+          severity: warning
+          component: infrastructure
+        annotations:
+          summary: "High memory usage detected"
+          description: "Memory usage is {{ $value | humanizePercentage }}"
+
+      - alert: HighCPUUsage
+        expr: 100 - (avg by (instance) (irate(node_cpu_seconds_total{mode="idle"}[5m])) * 100) > 80
+        for: 5m
+        labels:
+          severity: warning
+          component: infrastructure
+        annotations:
+          summary: "High CPU usage detected"
+          description: "CPU usage is {{ $value }}%"
+
+      # Disk Space
+      - alert: DiskSpaceLow
+        expr: (node_filesystem_avail_bytes{fstype!="tmpfs"} / node_filesystem_size_bytes{fstype!="tmpfs"}) < 0.1
+        for: 1m
+        labels:
+          severity: critical
+          component: infrastructure
+        annotations:
+          summary: "Disk space critically low"
+          description: "Disk space on {{ $labels.device }} is {{ $value | humanizePercentage }} full"
+
+  - name: lukhas_quality_gates
+    rules:
+      # Test Coverage SLA
+      - alert: TestCoverageLow
+        expr: lukhas_test_coverage_percentage < 85
+        for: 0s
+        labels:
+          severity: critical
+          component: quality
+          sla: coverage
+        annotations:
+          summary: "Test coverage below 85% threshold"
+          description: "Test coverage is {{ $value }}%, minimum required: 85%"
+
+      # Security Violations
+      - alert: SecurityVulnerabilityDetected
+        expr: increase(security_vulnerabilities_total[1h]) > 0
+        for: 0s
+        labels:
+          severity: critical
+          component: security
+        annotations:
+          summary: "Security vulnerability detected"
+          description: "{{ $value }} new security vulnerabilities found"

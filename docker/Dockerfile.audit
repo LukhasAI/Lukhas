@@ -1,0 +1,72 @@
+# T4/0.01% Excellence Audit Container
+# Reproducible audit environment for independent verification
+
+FROM python:3.9.6-slim
+
+# Set audit environment variables for reproducibility
+ENV PYTHONHASHSEED=0
+ENV LUKHAS_MODE=release
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    git \
+    gcc \
+    g++ \
+    make \
+    curl \
+    gnupg \
+    software-properties-common \
+    procps \
+    && rm -rf /var/lib/apt/lists/*
+
+# Create audit user and directories
+RUN useradd -m -s /bin/bash audit && \
+    mkdir -p /audit /artifacts /output && \
+    chown -R audit:audit /audit /artifacts /output
+
+# Copy application code
+COPY --chown=audit:audit . /audit/
+
+# Set working directory
+WORKDIR /audit
+
+# Install Python dependencies for audit framework
+RUN pip install --no-cache-dir \
+    pytest>=6.0.0 \
+    numpy>=1.20.0 \
+    scipy>=1.7.0 \
+    matplotlib>=3.5.0 \
+    seaborn>=0.11.0 \
+    psutil>=5.8.0 \
+    prometheus-client>=0.12.0 \
+    opentelemetry-api>=1.12.0 \
+    opentelemetry-sdk>=1.12.0 \
+    hypothesis>=6.0.0 \
+    pytest-benchmark>=3.4.1
+
+# Make scripts executable
+RUN chmod +x scripts/*.py
+
+# Switch to audit user for security
+USER audit
+
+# Create audit entry point script
+COPY --chown=audit:audit docker/audit_entrypoint.sh /usr/local/bin/audit_entrypoint.sh
+
+# Set permissions for entry point
+USER root
+RUN chmod +x /usr/local/bin/audit_entrypoint.sh
+USER audit
+
+# Set default command to run comprehensive audit
+ENTRYPOINT ["/usr/local/bin/audit_entrypoint.sh"]
+CMD ["--environment", "docker", "--samples", "1000", "--output", "/artifacts/audit_docker.json"]
+
+# Metadata
+LABEL version="1.0.0"
+LABEL description="LUKHAS AI T4/0.01% Excellence Audit Container"
+LABEL maintainer="LUKHAS AI Team"
+LABEL audit.type="performance"
+LABEL audit.standard="T4/0.01%"

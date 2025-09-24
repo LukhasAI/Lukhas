@@ -1,0 +1,101 @@
+groups:
+  - name: lukhas.orchestration
+    rules:
+      # Multi-AI Orchestration Alerts
+      - alert: LUKHASOrchestrationLatencyHigh
+        expr: histogram_quantile(0.95, rate(lukhas_orchestration_api_latency_seconds_bucket[5m])) > 0.25
+        for: 2m
+        labels:
+          severity: warning
+          component: orchestration
+          tier: t4
+        annotations:
+          summary: "Orchestration API high latency"
+          description: "Orchestration 95th percentile latency is {{ $value }}s, exceeding 250ms T4 target"
+          runbook: "https://docs.lukhas.ai/runbooks/orchestration-latency"
+
+      - alert: LUKHASOrchestrationErrorRate
+        expr: rate(lukhas_orchestration_api_requests_total{status=~"5.."}[5m]) / rate(lukhas_orchestration_api_requests_total[5m]) > 0.01
+        for: 1m
+        labels:
+          severity: warning
+          component: orchestration
+          tier: t4
+        annotations:
+          summary: "Orchestration high error rate"
+          description: "Orchestration error rate is {{ $value | humanizePercentage }}, exceeding T4/0.01% target"
+          runbook: "https://docs.lukhas.ai/runbooks/orchestration-errors"
+
+      # MATRIZ Pipeline Alerts
+      - alert: LUKHASMatrizPipelineLatencyHigh
+        expr: histogram_quantile(0.95, rate(matriz_pipeline_duration_seconds_bucket[5m])) > 1.0
+        for: 3m
+        labels:
+          severity: warning
+          component: matriz
+          tier: t4
+        annotations:
+          summary: "MATRIZ pipeline high latency"
+          description: "MATRIZ pipeline 95th percentile is {{ $value }}s, exceeding 1s target"
+          runbook: "https://docs.lukhas.ai/runbooks/matriz-latency"
+
+      - alert: LUKHASMatrizTimeoutRate
+        expr: rate(matriz_timeouts_total[5m]) / rate(matriz_pipelines_total[5m]) > 0.05
+        for: 2m
+        labels:
+          severity: warning
+          component: matriz
+          tier: t4
+        annotations:
+          summary: "High MATRIZ timeout rate"
+          description: "MATRIZ timeout rate is {{ $value | humanizePercentage }}, exceeding 5% threshold"
+          runbook: "https://docs.lukhas.ai/runbooks/matriz-timeouts"
+
+      - alert: LUKHASMatrizNodeUnhealthy
+        expr: matriz_node_health < 0.8
+        for: 2m
+        labels:
+          severity: warning
+          component: matriz
+          tier: t4
+        annotations:
+          summary: "MATRIZ node unhealthy"
+          description: "MATRIZ node {{ $labels.node_id }} health score is {{ $value }}"
+          runbook: "https://docs.lukhas.ai/runbooks/matriz-node-health"
+
+      - alert: LUKHASMatrizNodeLatencyHigh
+        expr: matriz_node_latency_p95_seconds > 0.1
+        for: 5m
+        labels:
+          severity: info
+          component: matriz
+          tier: t4
+        annotations:
+          summary: "MATRIZ node high latency"
+          description: "MATRIZ node {{ $labels.node_id }} P95 latency is {{ $value }}s"
+          runbook: "https://docs.lukhas.ai/runbooks/matriz-node-latency"
+
+      # Plugin System Alerts
+      - alert: LUKHASPluginInstantiationFailureRate
+        expr: plugin_instantiation_success_rate < 0.95
+        for: 5m
+        labels:
+          severity: warning
+          component: plugins
+          tier: t4
+        annotations:
+          summary: "Low plugin instantiation success rate"
+          description: "Plugin instantiation success rate is {{ $value | humanizePercentage }}"
+          runbook: "https://docs.lukhas.ai/runbooks/plugin-failures"
+
+      - alert: LUKHASPluginDiscoveryLatencyHigh
+        expr: histogram_quantile(0.95, rate(plugin_discovery_duration_seconds_bucket[5m])) > 5.0
+        for: 3m
+        labels:
+          severity: info
+          component: plugins
+          tier: t4
+        annotations:
+          summary: "Plugin discovery taking too long"
+          description: "Plugin discovery 95th percentile is {{ $value }}s"
+          runbook: "https://docs.lukhas.ai/runbooks/plugin-discovery"

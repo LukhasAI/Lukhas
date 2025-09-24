@@ -49,6 +49,29 @@ groups:
         annotations:
           summary: "High error rate detected"
           description: "Error rate is {{ $value | humanizePercentage }} over the last 5 minutes"
+          runbook_url: "https://docs.lukhas.ai/runbooks/high-error-rate"
+
+      - alert: MemoryCascadeDetected
+        expr: increase(lukhas_memory_cascade_events_total[5m]) > 0
+        for: 30s
+        labels:
+          severity: critical
+          component: memory
+        annotations:
+          summary: "Memory cascade event detected"
+          description: "{{ $value }} memory cascade events detected in the last 5 minutes"
+          runbook_url: "https://docs.lukhas.ai/runbooks/memory-cascade"
+
+      - alert: HighLatency
+        expr: histogram_quantile(0.95, rate(lukhas_matriz_pipeline_duration_seconds_bucket[5m])) > 0.25
+        for: 3m
+        labels:
+          severity: critical
+          component: matriz
+        annotations:
+          summary: "MATRIZ pipeline latency too high"
+          description: "P95 pipeline latency is {{ $value }}s, exceeding 250ms SLO"
+          runbook_url: "https://docs.lukhas.ai/runbooks/high-latency"
 
   - name: lukhas-warning
     interval: 60s
@@ -165,6 +188,36 @@ groups:
           summary: "Tool execution timeouts increasing"
           description: "{{ $value }} tool execution timeouts in the last 10 minutes"
 
+      - alert: MATRIZStageLatencyHigh
+        expr: histogram_quantile(0.95, rate(lukhas_matriz_stage_duration_seconds_bucket[5m])) > 0.1
+        for: 5m
+        labels:
+          severity: warning
+          component: matriz
+        annotations:
+          summary: "MATRIZ stage latency elevated"
+          description: "P95 stage latency is {{ $value }}s, exceeding 100ms target"
+
+      - alert: GuardianDecisionSlow
+        expr: histogram_quantile(0.99, rate(guardian_decision_duration_seconds_bucket[5m])) > 0.005
+        for: 2m
+        labels:
+          severity: warning
+          component: guardian
+        annotations:
+          summary: "Guardian decision latency too high"
+          description: "P99 Guardian decision time is {{ $value }}s, exceeding 5ms SLO"
+
+      - alert: MemoryRecallSlow
+        expr: histogram_quantile(0.95, rate(memory_recall_duration_seconds_bucket[5m])) > 0.1
+        for: 3m
+        labels:
+          severity: warning
+          component: memory
+        annotations:
+          summary: "Memory recall performance degraded"
+          description: "P95 memory recall latency is {{ $value }}s, exceeding 100ms target"
+
   - name: lukhas-business
     interval: 300s  # 5 minute intervals for business metrics
     rules:
@@ -189,6 +242,7 @@ groups:
         annotations:
           summary: "Ethical policy violations detected"
           description: "{{ $value }} ethical policy violations in the last 30 minutes"
+          runbook_url: "https://docs.lukhas.ai/runbooks/ethical-violations"
 
       - alert: TrinityFrameworkImbalance
         expr: abs(lukhas_trinity_identity_score - lukhas_trinity_consciousness_score) > 0.3 or abs(lukhas_trinity_consciousness_score - lukhas_trinity_guardian_score) > 0.3

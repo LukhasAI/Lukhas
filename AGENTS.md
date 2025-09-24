@@ -12,44 +12,73 @@
 
 ## Agent Specialization Matrix
 
-### 🔧 CODEX (Deep System Infrastructure)
-**Primary:** Performance-critical refactors, Python infrastructure, orchestrator hardening
-**Expertise:** Registry systems, memory management, async orchestration, lane isolation
-**Assignments:** SG001-003, SG005, SG009, MS001, MS004-007, MP001-002, MP004-005, MP007-011, OB003, LM001, LM004, DC001-002, TP002, TP004
+### 🔧 CODEX (Security & Authentication Infrastructure)
+**Primary:** Identity systems, authentication protocols, cryptographic implementations
+**Expertise:** OIDC/JWT, WebAuthn, tiered auth, crypto operations, security hardening
+**Legacy Assignments:** SG001-003, SG005, SG009, MS001, MS004-007, MP001-002, MP004-005, MP007-011, OB003, LM001, LM004, DC001-002, TP002, TP004
+
+**LUKHAS Module TODO Assignments:**
+- **I.1**: ΛiD token generation/validation (HMAC, CRC32, token rotation)
+- **I.2**: T1-T5 tiered authentication system (Password, OTP, WebAuthn, Biometrics)
+- **I.3**: OIDC provider and JWT system implementation
+- **I.5**: Production identity API endpoints (/authenticate, /verify, /tier-check)
+- **I.6**: Security hardening and penetration testing framework
 
 **Handoff Prompt:**
 ```
-You're inheriting production-ready LUKHAS AI infrastructure. Focus on: registry auto-discovery, orchestrator timeouts, memory cascade prevention, and lane isolation enforcement. Prioritize performance budgets and robust error handling. All changes must maintain <250ms p95 latency and 99.7% cascade prevention rates.
+You're building LUKHAS identity and authentication systems from scratch. Implement: ΛiD token system with HMAC security, T1-T5 tiered authentication including WebAuthn/biometrics, full OIDC provider with JWT, and production-ready security hardening. Target: <100ms auth latency, 99.99% token validation accuracy, enterprise security compliance.
 ```
 
-### 📊 Jules (DevOps/Observability)
-**Primary:** CI/CD pipelines, monitoring, security scanning, infrastructure automation
-**Expertise:** Prometheus/Grafana, OpenTelemetry, GitHub Actions, SBOM generation
-**Assignments:** SG006-007, SG010, MP003, MP006, OB001-002, OB004-008, SC001-005, LM002, TP003, TP007-008
+### 📊 Jules (Consciousness & Cognitive Architecture)
+**Primary:** Advanced reasoning systems, cognitive modeling, ML optimization
+**Expertise:** Neural architectures, behavioral modeling, consciousness engines, advanced AI
+**Legacy Assignments:** SG006-007, SG010, MP003, MP006, OB001-002, OB004-008, SC001-005, LM002, TP003, TP007-008
 
-**Handoff Prompt:**
-```
-You're enhancing LUKHAS CI/CD and observability stack. Implement: Prometheus metrics, OpenTelemetry tracing, Grafana dashboards, SBOM generation, and security scanning. Target: complete observability with runbook-linked alerts and evidence bundles per PR.
-```
-
-### 📚 Claude Code (Testing/Documentation)
-**Primary:** Test authoring, DSL validation, documentation, edge-case reasoning
-**Expertise:** Property-based testing, runbooks, API documentation, compliance
-**Assignments:** SG004, SG008, MS002-003, MS008, MP003, MP012, OB005-006, SC006, LM003, LM005, DC003-005, TP001, TP005-006
+**LUKHAS Module TODO Assignments:**
+- **C.1**: Missing ReflectionEngine and DreamEngine implementation
+- **C.2**: Memory/Emotion bridges for consciousness processing
+- **C.5**: Performance optimization with dynamic scaling and load balancing
+- **O.3**: Advanced AI method enhancements (ML-based routing, intelligent optimization)
+- **Advanced Features**: Consciousness-Guardian learning feedback loops
 
 **Handoff Prompt:**
 ```
-You're ensuring LUKHAS production readiness through comprehensive testing and clear documentation. Create: property-based tests, DSL validation, golden datasets, runbooks, and API docs. Goal: 90% coverage with zero-regression test strategy.
+You're implementing LUKHAS advanced consciousness and cognitive systems. Build: ReflectionEngine for meta-cognitive processing, DreamEngine for background learning, Memory/Emotion bridges for context-aware consciousness, and ML-based optimization algorithms. Target: sophisticated cognitive architecture with <10ms tick processing and stable behavioral patterns.
 ```
 
-### ⚙️ Copilot (Mechanical Refactoring)
-**Primary:** Systematic edits, migration scripts, repetitive patterns
-**Expertise:** Find/replace operations, docstring updates, import cleanup
-**Assignments:** TP005 (supporting), DC001 (supporting), mechanical Trinity→Constellation edits
+### 📚 Claude Code (Guardian & Ethical Safety Systems)
+**Primary:** Safety-critical systems, ethical frameworks, complex architecture, cross-module integration
+**Expertise:** Async programming, ethical reasoning, safety systems, architectural coordination
+**Legacy Assignments:** SG004, SG008, MS002-003, MS008, MP003, MP012, OB005-006, SC006, LM003, LM005, DC003-005, TP001, TP005-006
+
+**LUKHAS Module TODO Assignments:**
+- **G.1**: Async Guardian methods (initialize, validate_action, monitor_behavior)
+- **G.2**: GuardianReflector and drift detection system (0.15 threshold)
+- **C.3**: Guardian integration for consciousness processing
+- **X.1**: Guardian-Memory integration for risk assessment
+- **X.3**: Identity-Guardian validation for ethical compliance
+- **X.4**: Orchestrator-Guardian integration for ethical AI decisions
 
 **Handoff Prompt:**
 ```
-You're supporting LUKHAS modernization through systematic refactoring. Handle: Trinity→Constellation migration, docstring updates, repetitive test patterns, and import cleanup. Maintain consistency across the codebase.
+You're implementing LUKHAS critical safety and ethical systems. Build: async Guardian methods with fail-safe defaults, sophisticated drift detection with remediation, Guardian integration across all modules for ethical validation. Target: 99.9% ethical compliance, <100ms response time, comprehensive cross-module safety coordination.
+```
+
+### ⚙️ Copilot (Memory & Data Infrastructure)
+**Primary:** Data operations, storage systems, API implementations, standard patterns
+**Expertise:** Vector databases, CRUD operations, API patterns, data flow optimization
+**Legacy Assignments:** TP005 (supporting), DC001 (supporting), mechanical Trinity→Constellation edits
+
+**LUKHAS Module TODO Assignments:**
+- **M.1**: Actual memory storage/retrieval with vector database integration
+- **M.2**: Memory-decision system integration (Memory→Guardian/Consciousness data flow)
+- **C.4**: Consciousness API endpoint connections to actual data
+- **I.4**: Consent ledger and audit trail implementation
+- **Data Infrastructure**: Memory indexing, search capabilities, lifecycle management
+
+**Handoff Prompt:**
+```
+You're building LUKHAS memory and data infrastructure systems. Implement: vector database integration for actual memory storage, Memory→Guardian/Consciousness data pipelines, consciousness API endpoint wiring, and consent ledger with audit trails. Target: <50ms memory retrieval, scalable data architecture, comprehensive audit compliance.
 ```
 
 ---
@@ -77,28 +106,59 @@ You're supporting LUKHAS modernization through systematic refactoring. Handle: T
 
 ---
 
-## Task Categories & Priorities
+## LUKHAS Module TODO Priorities (Based on Implementation Analysis)
 
-### P0: Production Blockers (Week 1)
-**Guardian Enforcement:** SG001, SG002, SG006
-**Missing Infrastructure:** MS001, MP001, OB001
-**Security Critical:** SC003, LM001
+### P0: Critical Foundation (Week 1-2)
+**Guardian Safety Systems (Claude Code):**
+- G.1: Async Guardian methods (initialize, validate_action, monitor_behavior)
+- G.2: GuardianReflector and drift detection system
 
-### P1: Safety & Performance (Week 2)
-**LLM Guardrails:** SG003, SG008, SG009
-**Memory System:** MS002-MS004, MS007-MS008
-**Orchestration:** MP002-MP006, MP011
-**Observability:** OB002-OB005
+**Identity Authentication (CODEX):**
+- I.1: ΛiD token generation/validation system
+- I.2: T1-T5 tiered authentication framework
 
-### P2: Feature Completion (Week 3)
-**Documentation:** SG004, DC003-DC005
-**Testing:** TP001-TP003, TP006-TP007
-**Supply Chain:** SC001-SC002, SC004-SC006
+**Memory Storage (Copilot):**
+- M.1: Actual memory storage/retrieval with vector database
 
-### P3: Polish & Optimization (Week 4)
-**Performance Tuning:** MP008-MP010
-**Comprehensive Testing:** TP004-TP005, TP008
-**Final Documentation:** DC001-DC002
+### P1: Core Integration (Week 3-4)
+**Cross-Module Safety (Claude Code):**
+- X.1: Guardian-Memory integration for risk assessment
+- X.3: Identity-Guardian validation
+- C.3: Guardian integration for consciousness
+
+**Advanced Consciousness (Jules):**
+- C.1: ReflectionEngine and DreamEngine implementation
+- C.2: Memory/Emotion bridges
+
+**Data Infrastructure (Copilot):**
+- M.2: Memory-decision system integration
+- I.4: Consent ledger and audit trails
+
+### P2: Advanced Features (Week 5-6)
+**Identity Production (CODEX):**
+- I.3: OIDC provider and JWT system
+- I.5: Production API endpoints
+- I.6: Security hardening
+
+**Consciousness Performance (Jules):**
+- C.5: Performance optimization and scaling
+- O.3: Advanced AI method enhancements
+
+**API Connections (Copilot):**
+- C.4: Consciousness API endpoint wiring
+
+### P3: Final Integration (Week 7-8)
+**Orchestrator Safety (Claude Code):**
+- X.4: Orchestrator-Guardian integration
+
+**Legacy Task Categories (Original System):**
+- **Guardian Enforcement:** SG001, SG002, SG006
+- **Missing Infrastructure:** MS001, MP001, OB001
+- **Security Critical:** SC003, LM001
+- **LLM Guardrails:** SG003, SG008, SG009
+- **Memory System:** MS002-MS004, MS007-MS008
+- **Orchestration:** MP002-MP006, MP011
+- **Observability:** OB002-OB005
 
 ---
 
@@ -187,7 +247,33 @@ export ENABLE_LLM_GUARDRAIL=0
 
 ## Success Metrics
 
-### System Health KPIs
+### LUKHAS Module TODO Success Criteria
+**Guardian Module (Claude Code):**
+- ✅ G.1: Async methods with <100ms response time, fail-safe defaults
+- ✅ G.2: Drift detection at 0.15 threshold with 99.7% prevention rate
+- ✅ Cross-module integration: 100% ethical validation coverage
+
+**Identity Module (CODEX):**
+- ✅ I.1: ΛiD tokens with HMAC security, <100ms validation
+- ✅ I.2: T1-T5 auth with 99.99% accuracy, biometric support
+- ✅ I.3: OIDC compliance with enterprise integration
+
+**Memory Module (Copilot):**
+- ✅ M.1: Vector DB with <50ms retrieval, 1M+ memory capacity
+- ✅ M.2: Real-time data flow to Guardian/Consciousness systems
+- ✅ Cascade prevention: 99.7% success rate maintained
+
+**Consciousness Module (Jules):**
+- ✅ C.1: ReflectionEngine + DreamEngine with <10ms tick processing
+- ✅ C.2: Memory/Emotion bridges with context-aware processing
+- ✅ C.5: Dynamic scaling with stable behavioral patterns
+
+**Cross-Module Integration (All Agents):**
+- ✅ X.1-X.4: Complete ethical validation across all modules
+- ✅ Data flow integrity: Guardian↔Memory↔Consciousness↔Identity
+- ✅ Performance: End-to-end <250ms p95 latency maintained
+
+### Legacy System Health KPIs
 - Guardian enforcement: 100% with <5ms overhead
 - Memory performance: <100ms recall at scale
 - Pipeline reliability: <250ms p95 latency

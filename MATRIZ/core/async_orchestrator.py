@@ -67,7 +67,7 @@ except ImportError:
     def get_circuit_health():
         return {}
 
-_DEFAULT_LANE = os.getenv("LUKHAS_LANE", "experimental").lower()
+_DEFAULT_LANE = os.getenv("LUKHAS_LANE", "canary").lower()
 
 # ΛTAG: orchestrator_metrics -- async pipeline stage instrumentation
 if isinstance(Histogram, type):

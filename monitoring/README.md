@@ -8,6 +8,8 @@ Comprehensive monitoring and alerting configuration for LUKHAS AI production dep
 - **`prometheus-config.yml`** - Main Prometheus configuration with scrape targets
 - **`alert-rules.yml`** - Comprehensive alerting rules for all LUKHAS components
 - **`legacy_core_sunset_alerts.yml`** - Specific alerts for legacy core deprecation monitoring
+- **`otel-production.yaml`** - Production OpenTelemetry Collector configuration
+- **`grafana-dashboard-matriz.json`** - MATRIZ Pipeline performance dashboard
 
 ### Python Modules
 - **`drift_manager.py`** - Drift detection and management automation
@@ -76,6 +78,41 @@ docker-compose -f monitoring/docker-compose.yml up -d
 kubectl apply -f monitoring/k8s/
 ```
 
+## OpenTelemetry Integration
+
+### OTel Collector Configuration
+Production-ready collector setup in `otel-production.yaml`:
+- **OTLP Receivers**: GRPC (:4317) and HTTP (:4318)
+- **Health Check**: :13133
+- **Metrics Endpoint**: :8888
+- **Performance Profiling**: :1777
+
+### MATRIZ Pipeline Tracing
+Comprehensive span instrumentation throughout the pipeline:
+```bash
+# Start OTel Collector
+docker run -p 4317:4317 -p 4318:4318 -p 8888:8888 -p 13133:13133 \
+  -v $(pwd)/monitoring/otel-production.yaml:/etc/otel-collector-config.yaml \
+  otel/opentelemetry-collector-contrib:latest \
+  --config=/etc/otel-collector-config.yaml
+
+# Test span emission
+OTEL_EXPORTER_OTLP_ENDPOINT="http://127.0.0.1:4318/v1/traces" \
+LUKHAS_LANE="candidate" PYTHONPATH=. python3 -c "
+import lukhas.bootstrap
+from candidate.core.orchestration.async_orchestrator import AsyncOrchestrator
+import asyncio
+asyncio.run(AsyncOrchestrator().process_query({'query': 'test'}))
+"
+```
+
+### SLO Monitoring
+Key performance targets tracked via Grafana dashboard:
+- **MATRIZ Pipeline P95**: ≤ 250ms
+- **Memory Recall P95**: ≤ 100ms
+- **Guardian Decision P99**: ≤ 5ms
+- **API Availability**: ≥ 99.9%
+
 ## Alert Destinations
 
 ### Severity Levels
@@ -94,6 +131,7 @@ All alerts include runbook URLs for standardized response procedures:
 - **Guardian System** - Dashboard ID: 12002
 - **Memory System** - Dashboard ID: 12003
 - **Consciousness Metrics** - Dashboard ID: 12004
+- **MATRIZ Pipeline Performance** - `grafana-dashboard-matriz.json`
 
 ### Import Command
 ```bash
@@ -101,6 +139,11 @@ All alerts include runbook URLs for standardized response procedures:
 curl -X POST http://grafana:3000/api/dashboards/import \
   -H "Content-Type: application/json" \
   -d @monitoring/dashboards/lukhas-overview.json
+
+# Import MATRIZ performance dashboard
+curl -X POST http://grafana:3000/api/dashboards/import \
+  -H "Content-Type: application/json" \
+  -d @monitoring/grafana-dashboard-matriz.json
 ```
 
 ## Key PromQL Queries

@@ -1,0 +1,310 @@
+# LUKHAS O.2 Configurable Routing System Configuration
+# T4/0.01% Excellence: Production-ready routing with hot reload and A/B testing
+
+routing_version: "1.0.0"
+last_updated: "2025-09-23T19:00:00Z"
+hot_reload_enabled: true
+
+# Default routing configuration
+defaults:
+  provider: "claude"
+  timeout_seconds: 30
+  max_retries: 3
+  fallback_provider: "openai"
+  lane: "candidate"
+
+# Provider definitions
+providers:
+  claude:
+    name: "Claude Sonnet 4"
+    endpoint: "https://api.anthropic.com/v1/messages"
+    model: "claude-sonnet-4-20250514"
+    capabilities:
+      - "code_generation"
+      - "analysis"
+      - "reasoning"
+      - "consciousness_tasks"
+      - "identity_management"
+    max_tokens: 4096
+    temperature: 0.1
+    priority: 1
+    enabled: true
+
+  openai:
+    name: "OpenAI GPT-4"
+    endpoint: "https://api.openai.com/v1/chat/completions"
+    model: "gpt-4-turbo"
+    capabilities:
+      - "code_generation"
+      - "analysis"
+      - "reasoning"
+      - "memory_tasks"
+    max_tokens: 4096
+    temperature: 0.1
+    priority: 2
+    enabled: true
+
+  google:
+    name: "Google Gemini Pro"
+    endpoint: "https://generativelanguage.googleapis.com/v1beta/models"
+    model: "gemini-pro"
+    capabilities:
+      - "analysis"
+      - "reasoning"
+      - "multimodal"
+    max_tokens: 4096
+    temperature: 0.1
+    priority: 3
+    enabled: false
+
+  ollama:
+    name: "Local Ollama"
+    endpoint: "http://localhost:11434/api/generate"
+    model: "llama3:8b"
+    capabilities:
+      - "local_processing"
+      - "privacy_sensitive"
+    max_tokens: 2048
+    temperature: 0.1
+    priority: 4
+    enabled: false
+
+# Routing rules (evaluated in order)
+rules:
+  # Emergency and critical operations
+  - name: "emergency_stop"
+    description: "Route emergency operations to most reliable provider"
+    conditions:
+      - field: "operation_type"
+        operator: "equals"
+        value: "emergency"
+      - field: "priority"
+        operator: "equals"
+        value: "critical"
+    target:
+      provider: "claude"
+      options:
+        timeout_seconds: 10
+        max_retries: 1
+    enabled: true
+    weight: 100
+
+  # Guardian and governance operations
+  - name: "guardian_operations"
+    description: "Route Guardian system operations to Claude"
+    conditions:
+      - field: "component"
+        operator: "equals"
+        value: "guardian"
+    target:
+      provider: "claude"
+      options:
+        temperature: 0.0
+        max_tokens: 2048
+    enabled: true
+    weight: 95
+
+  # Identity and authentication operations
+  - name: "identity_operations"
+    description: "Route identity operations to Claude with strict parameters"
+    conditions:
+      - field: "component"
+        operator: "in"
+        value: ["identity", "authentication", "oidc"]
+    target:
+      provider: "claude"
+      options:
+        temperature: 0.0
+        max_tokens: 3072
+    enabled: true
+    weight: 90
+
+  # Consciousness operations
+  - name: "consciousness_operations"
+    description: "Route consciousness tasks to Claude"
+    conditions:
+      - field: "component"
+        operator: "equals"
+        value: "consciousness"
+    target:
+      provider: "claude"
+      options:
+        temperature: 0.2
+        max_tokens: 4096
+    enabled: true
+    weight: 85
+
+  # Memory operations - A/B test between Claude and OpenAI
+  - name: "memory_operations_ab_test"
+    description: "A/B test memory operations between providers"
+    conditions:
+      - field: "component"
+        operator: "equals"
+        value: "memory"
+    target:
+      ab_test:
+        enabled: true
+        test_name: "memory_provider_test"
+        buckets:
+          - provider: "claude"
+            percentage: 70
+            options:
+              temperature: 0.1
+          - provider: "openai"
+            percentage: 30
+            options:
+              temperature: 0.1
+    enabled: true
+    weight: 80
+
+  # Code generation tasks
+  - name: "code_generation"
+    description: "Route code generation to best provider based on language"
+    conditions:
+      - field: "task_type"
+        operator: "equals"
+        value: "code_generation"
+    target:
+      provider: "claude"
+      options:
+        temperature: 0.1
+        max_tokens: 4096
+    enabled: true
+    weight: 75
+
+  # High-security operations (T4+ tiers)
+  - name: "high_security_operations"
+    description: "Route high-security operations to local provider if available"
+    conditions:
+      - field: "tier"
+        operator: "in"
+        value: ["T4", "T5"]
+      - field: "security_level"
+        operator: "equals"
+        value: "high"
+    target:
+      provider: "ollama"
+      fallback: "claude"
+      options:
+        temperature: 0.0
+        max_tokens: 2048
+    enabled: false  # Disabled until Ollama is configured
+    weight: 70
+
+  # Lane-based routing
+  - name: "experimental_lane"
+    description: "Route experimental lane to specific providers"
+    conditions:
+      - field: "lane"
+        operator: "equals"
+        value: "experimental"
+    target:
+      provider: "google"
+      fallback: "claude"
+      options:
+        temperature: 0.3
+        max_tokens: 4096
+    enabled: false  # Disabled until Google provider is configured
+    weight: 65
+
+  # Load balancing for general tasks
+  - name: "general_load_balancing"
+    description: "Load balance general tasks across available providers"
+    conditions:
+      - field: "task_type"
+        operator: "equals"
+        value: "general"
+    target:
+      load_balance:
+        enabled: true
+        strategy: "round_robin"
+        providers:
+          - provider: "claude"
+            weight: 70
+          - provider: "openai"
+            weight: 30
+    enabled: true
+    weight: 50
+
+  # Default fallback rule
+  - name: "default_fallback"
+    description: "Default routing for unmatched requests"
+    conditions: []  # No conditions - matches everything
+    target:
+      provider: "claude"
+      options:
+        temperature: 0.1
+        max_tokens: 4096
+    enabled: true
+    weight: 0
+
+# A/B testing configuration
+ab_testing:
+  enabled: true
+  bucket_assignment_strategy: "hash_based"  # or "random"
+  bucket_persistence: true
+  analytics:
+    enabled: true
+    metrics:
+      - "response_time"
+      - "success_rate"
+      - "token_usage"
+      - "user_satisfaction"
+
+# Canary deployment configuration
+canary:
+  enabled: true
+  percentage: 5  # 5% of traffic for canary rules
+  rules:
+    - name: "new_claude_model_test"
+      description: "Test new Claude model with small percentage of traffic"
+      conditions:
+        - field: "component"
+          operator: "equals"
+          value: "consciousness"
+      target:
+        provider: "claude"
+        options:
+          model: "claude-sonnet-4-experimental"
+      enabled: false
+      percentage: 2
+
+# Monitoring and observability
+monitoring:
+  enabled: true
+  metrics:
+    - "routing_decisions_total"
+    - "provider_response_time"
+    - "provider_success_rate"
+    - "ab_test_performance"
+  alerts:
+    - name: "high_error_rate"
+      condition: "error_rate > 0.05"
+      action: "disable_provider"
+    - name: "high_latency"
+      condition: "p95_latency > 30s"
+      action: "switch_to_fallback"
+
+# Circuit breaker configuration
+circuit_breaker:
+  enabled: true
+  failure_threshold: 5
+  recovery_timeout: 60
+  half_open_max_calls: 3
+
+# Rate limiting
+rate_limiting:
+  enabled: true
+  global_limit: 1000  # requests per minute
+  per_provider_limits:
+    claude: 500
+    openai: 300
+    google: 200
+    ollama: 100
+
+# Security configuration
+security:
+  guardian_validation: true
+  request_signing: true
+  response_validation: true
+  audit_logging: true

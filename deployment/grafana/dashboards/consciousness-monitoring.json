@@ -1,0 +1,189 @@
+{
+  "dashboard": {
+    "id": null,
+    "title": "LUKHAS Consciousness - Monitoring",
+    "tags": ["lukhas", "consciousness"],
+    "timezone": "browser",
+    "panels": [
+      {
+        "id": 1,
+        "title": "Consciousness Phases",
+        "type": "piechart",
+        "targets": [
+          {
+            "expr": "count by (phase) (lukhas_consciousness_current_phase)",
+            "legendFormat": "{{phase}}"
+          }
+        ],
+        "gridPos": {"h": 8, "w": 8, "x": 0, "y": 0}
+      },
+      {
+        "id": 2,
+        "title": "Tick Rate",
+        "type": "gauge",
+        "targets": [
+          {
+            "expr": "lukhas_consciousness_tick_rate_hz",
+            "legendFormat": "Ticks/sec"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "min": 0,
+            "max": 20,
+            "thresholds": {
+              "steps": [
+                {"color": "red", "value": 0},
+                {"color": "yellow", "value": 5},
+                {"color": "green", "value": 10}
+              ]
+            }
+          }
+        },
+        "gridPos": {"h": 8, "w": 8, "x": 8, "y": 0}
+      },
+      {
+        "id": 3,
+        "title": "Awareness Level",
+        "type": "gauge",
+        "targets": [
+          {
+            "expr": "lukhas_consciousness_awareness_level",
+            "legendFormat": "Awareness"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "min": 0,
+            "max": 1,
+            "thresholds": {
+              "steps": [
+                {"color": "red", "value": 0},
+                {"color": "yellow", "value": 0.3},
+                {"color": "green", "value": 0.7}
+              ]
+            }
+          }
+        },
+        "gridPos": {"h": 8, "w": 8, "x": 16, "y": 0}
+      },
+      {
+        "id": 4,
+        "title": "Consciousness Tick Latency",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "histogram_quantile(0.50, lukhas_consciousness_tick_latency_seconds)",
+            "legendFormat": "50th percentile"
+          },
+          {
+            "expr": "histogram_quantile(0.95, lukhas_consciousness_tick_latency_seconds)",
+            "legendFormat": "95th percentile"
+          },
+          {
+            "expr": "histogram_quantile(0.99, lukhas_consciousness_tick_latency_seconds)",
+            "legendFormat": "99th percentile"
+          }
+        ],
+        "gridPos": {"h": 8, "w": 12, "x": 0, "y": 8}
+      },
+      {
+        "id": 5,
+        "title": "Anomaly Detection",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "lukhas_consciousness_anomaly_rate",
+            "legendFormat": "Anomaly Rate"
+          },
+          {
+            "expr": "lukhas_consciousness_anomaly_threshold",
+            "legendFormat": "Threshold"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "color": {"mode": "palette-classic"},
+            "thresholds": {
+              "steps": [
+                {"color": "green", "value": 0},
+                {"color": "yellow", "value": 0.05},
+                {"color": "red", "value": 0.1}
+              ]
+            }
+          }
+        },
+        "gridPos": {"h": 8, "w": 12, "x": 12, "y": 8}
+      },
+      {
+        "id": 6,
+        "title": "Reflection Processing",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "rate(lukhas_reflection_operations_total[5m])",
+            "legendFormat": "Reflections/sec"
+          },
+          {
+            "expr": "histogram_quantile(0.95, lukhas_reflection_latency_seconds)",
+            "legendFormat": "95th percentile latency"
+          }
+        ],
+        "gridPos": {"h": 8, "w": 12, "x": 0, "y": 16}
+      },
+      {
+        "id": 7,
+        "title": "Creativity Engine Status",
+        "type": "stat",
+        "targets": [
+          {
+            "expr": "lukhas_creativity_engine_active",
+            "legendFormat": "Active Engines"
+          },
+          {
+            "expr": "rate(lukhas_creativity_ideas_generated_total[5m])",
+            "legendFormat": "Ideas/sec"
+          }
+        ],
+        "gridPos": {"h": 8, "w": 12, "x": 12, "y": 16}
+      },
+      {
+        "id": 8,
+        "title": "Dream Cycle Health",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "lukhas_dream_cycle_success_rate",
+            "legendFormat": "Success Rate"
+          },
+          {
+            "expr": "lukhas_dream_cycle_duration_seconds",
+            "legendFormat": "Duration (s)"
+          }
+        ],
+        "gridPos": {"h": 8, "w": 12, "x": 0, "y": 24}
+      },
+      {
+        "id": 9,
+        "title": "Emotional Context",
+        "type": "heatmap",
+        "targets": [
+          {
+            "expr": "lukhas_consciousness_emotional_valence",
+            "legendFormat": "Valence"
+          },
+          {
+            "expr": "lukhas_consciousness_emotional_arousal",
+            "legendFormat": "Arousal"
+          }
+        ],
+        "gridPos": {"h": 8, "w": 12, "x": 12, "y": 24}
+      }
+    ],
+    "time": {
+      "from": "now-1h",
+      "to": "now"
+    },
+    "refresh": "10s"
+  }
+}
