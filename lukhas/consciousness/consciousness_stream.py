@@ -34,6 +34,18 @@ from .creativity_engine import CreativityEngine
 # Import LUKHAS reflection engine
 from .reflection_engine import ReflectionEngine
 
+# Import Guardian integration
+try:
+    from .guardian_integration import (
+        ConsciousnessGuardianIntegration, GuardianValidationConfig,
+        ConsciousnessValidationContext, GuardianValidationType,
+        create_validation_context
+    )
+    GUARDIAN_INTEGRATION_AVAILABLE = True
+except ImportError:
+    GUARDIAN_INTEGRATION_AVAILABLE = False
+    ConsciousnessGuardianIntegration = None
+
 tracer = trace.get_tracer(__name__)
 logger = logging.getLogger(__name__)
 
@@ -85,6 +97,20 @@ class ConsciousnessStream:
         self.config = config or {}
         self._component_id = "ConsciousnessStream"
 
+        # Initialize Guardian integration if available
+        if GUARDIAN_INTEGRATION_AVAILABLE and self.config.get("guardian_integration_enabled", True):
+            guardian_config = GuardianValidationConfig(
+                drift_threshold=0.15,  # AUDITOR_CHECKLIST.md requirement
+                p95_target_ms=200.0,   # Conservative for Phase 3
+                p99_target_ms=250.0,   # PHASE_MATRIX.md requirement
+                enforcement_mode=self.config.get("guardian_enforcement_mode", "enforced"),
+                gdpr_audit_enabled=True,
+                constitutional_check_enabled=True
+            )
+            self.guardian_integration = ConsciousnessGuardianIntegration(config=guardian_config)
+        else:
+            self.guardian_integration = None
+
         # Initialize consciousness engines
         self.awareness_engine = AwarenessEngine(self.config.get("awareness", {}))
         self.dream_engine = DreamEngine(self.config.get("dream", {}))
@@ -99,7 +125,8 @@ class ConsciousnessStream:
         # Initialize LUKHAS reflection engine
         self.reflection_engine = ReflectionEngine(
             memory_backend=self.config.get("memory_backend"),
-            guardian_validator=self.config.get("guardian_validator")
+            guardian_validator=self.config.get("guardian_validator"),
+            guardian_integration=self.guardian_integration
         )
 
         # Consciousness state
@@ -455,6 +482,10 @@ class ConsciousnessStream:
     async def _update_consciousness_phase(self) -> None:
         """Update consciousness phase based on current state and processing results."""
 
+        # Guardian validation for state transitions if available
+        if self.guardian_integration and self.config.get("guardian_state_validation", True):
+            await self._validate_state_transition_with_guardian()
+
         # Simple phase transition logic
         current_phase = self._current_state.phase
 
@@ -517,6 +548,14 @@ class ConsciousnessStream:
         # Keep recent history
         if len(self._state_history) > 1000:
             self._state_history = self._state_history[-500:]
+
+        # Update Guardian baseline state if available
+        if self.guardian_integration:
+            self.guardian_integration.update_baseline_state(
+                state=self._current_state,
+                tenant=self.config.get("tenant", "default"),
+                session_id=self.config.get("session_id")
+            )
 
     async def _generate_metrics(self) -> ConsciousnessMetrics:
         """Generate comprehensive consciousness metrics."""
@@ -636,6 +675,79 @@ class ConsciousnessStream:
 
         return stats
 
+    async def _validate_state_transition_with_guardian(self) -> None:
+        """Validate consciousness state transition with Guardian integration"""
+
+        if not self.guardian_integration:
+            return
+
+        try:
+            # Create validation context for state transition
+            validation_context = create_validation_context(
+                validation_type=GuardianValidationType.CONSCIOUSNESS_STATE_TRANSITION,
+                consciousness_state=self._current_state,
+                user_id=self.config.get("user_id"),
+                session_id=self.config.get("session_id"),
+                tenant=self.config.get("tenant", "default"),
+                sensitive_operation=self._current_state.phase in ["DECIDE", "CREATE"]
+            )
+
+            # Add context from recent processing
+            if self._recent_awareness:
+                validation_context.awareness_snapshot = self._recent_awareness
+                # Add risk indicators from awareness anomalies
+                if self._recent_awareness.anomalies:
+                    for anomaly in self._recent_awareness.anomalies:
+                        if anomaly.get("severity") in ["high", "critical"]:
+                            validation_context.risk_indicators.append(f"awareness_anomaly_{anomaly.get('type')}")
+
+            if self._recent_reflection:
+                validation_context.reflection_report = self._recent_reflection
+                # Add risk indicators from reflection
+                if self._recent_reflection.coherence_score < 0.3:
+                    validation_context.risk_indicators.append("low_reflection_coherence")
+                if self._recent_reflection.anomaly_count > 3:
+                    validation_context.risk_indicators.append("high_reflection_anomalies")
+
+            # Perform Guardian validation
+            validation_result = await self.guardian_integration.validate_consciousness_operation(
+                context=validation_context
+            )
+
+            # Handle validation results
+            if not validation_result.is_approved():
+                logger.warning(
+                    f"Guardian denied consciousness state transition: {validation_result.reason} "
+                    f"(confidence: {validation_result.confidence:.2f})"
+                )
+
+                # Add Guardian denial to memory events for tracking
+                self._memory_events.append({
+                    "type": "guardian_state_transition_denied",
+                    "data": {
+                        "reason": validation_result.reason,
+                        "confidence": validation_result.confidence,
+                        "validation_duration_ms": validation_result.validation_duration_ms,
+                        "current_phase": self._current_state.phase,
+                        "recommendations": validation_result.recommendations
+                    },
+                    "timestamp": time.time()
+                })
+
+                # In fail-closed mode, we could prevent the state transition
+                # For now, we log and continue but track the denial
+
+            else:
+                logger.debug(
+                    f"Guardian approved consciousness state transition "
+                    f"(duration: {validation_result.validation_duration_ms:.2f}ms)"
+                )
+
+        except Exception as e:
+            logger.error(f"Guardian state transition validation failed: {e}")
+            # In fail-closed mode, log the error but continue operation
+            # The Guardian integration handles fail-closed behavior internally
+
     async def reset_state(self) -> None:
         """Reset consciousness stream state for testing."""
         self._current_state = ConsciousnessState()
@@ -656,6 +768,8 @@ class ConsciousnessStream:
             self.dream_engine.reset_state()
         if hasattr(self.auto_consciousness, 'reset_state'):
             self.auto_consciousness.reset_state()
+        if hasattr(self.guardian_integration, 'reset_state'):
+            await self.guardian_integration.reset_state()
 
 
 # Export for public API

@@ -52,6 +52,18 @@ except ImportError:
     OBSERVABILITY_AVAILABLE = False
     get_lukhas_metrics = lambda: None
 
+# Import Guardian integration
+try:
+    from .guardian_integration import (
+        ConsciousnessGuardianIntegration, GuardianValidationConfig,
+        ConsciousnessValidationContext, GuardianValidationType,
+        create_validation_context
+    )
+    GUARDIAN_INTEGRATION_AVAILABLE = True
+except ImportError:
+    GUARDIAN_INTEGRATION_AVAILABLE = False
+    ConsciousnessGuardianIntegration = None
+
 tracer = trace.get_tracer(__name__)
 logger = logging.getLogger(__name__)
 
@@ -149,7 +161,8 @@ class ReflectionEngine:
         self,
         config: Optional[ReflectionConfig] = None,
         memory_backend: Optional[MemoryBackend] = None,
-        guardian_validator: Optional[Any] = None
+        guardian_validator: Optional[Any] = None,
+        guardian_integration: Optional[ConsciousnessGuardianIntegration] = None
     ):
         """
         Initialize ReflectionEngine.
@@ -163,6 +176,20 @@ class ReflectionEngine:
         self.memory_backend = memory_backend
         self.guardian_validator = guardian_validator
         self._component_id = "ReflectionEngine"
+
+        # Initialize Guardian integration
+        if GUARDIAN_INTEGRATION_AVAILABLE and guardian_integration:
+            self.guardian_integration = guardian_integration
+        elif GUARDIAN_INTEGRATION_AVAILABLE and self.config.guardian_validation_required:
+            # Create default Guardian integration
+            guardian_config = GuardianValidationConfig(
+                drift_threshold=0.15,  # From AUDITOR_CHECKLIST.md
+                p95_target_ms=self.config.p95_target_ms,
+                fail_closed_on_error=True
+            )
+            self.guardian_integration = ConsciousnessGuardianIntegration(config=guardian_config)
+        else:
+            self.guardian_integration = None
 
         # Validate configuration
         config_errors = self.config.validate()
@@ -283,8 +310,11 @@ class ReflectionEngine:
                     )
 
                 # Phase 5: Guardian safety validation
-                if self.config.guardian_validation_required and self.guardian_validator:
-                    await self._validate_with_guardian(report, consciousness_state)
+                if self.config.guardian_validation_required:
+                    if self.guardian_integration:
+                        await self._validate_with_guardian_integration(report, consciousness_state, context)
+                    elif self.guardian_validator:
+                        await self._validate_with_guardian(report, consciousness_state)
 
                 # Finalize reflection timing and metrics
                 reflection_duration = (time.time() - reflection_start_time) * 1000
@@ -737,12 +767,99 @@ class ReflectionEngine:
         except Exception as e:
             logger.error(f"Memory system synchronization failed: {e}")
 
+    async def _validate_with_guardian_integration(
+        self,
+        report: ReflectionReport,
+        state: ConsciousnessState,
+        context: Optional[Dict[str, Any]]
+    ) -> None:
+        """Validate reflection results with Guardian integration system."""
+
+        if not self.guardian_integration:
+            return
+
+        with tracer.start_as_current_span("guardian_integration_validation"):
+            try:
+                # Create validation context
+                validation_context = create_validation_context(
+                    validation_type=GuardianValidationType.REFLECTION_ANALYSIS,
+                    consciousness_state=state,
+                    user_id=context.get("user_id") if context else None,
+                    session_id=context.get("session_id") if context else None,
+                    tenant=context.get("tenant", "default") if context else "default",
+                    sensitive_operation=report.anomaly_count > 3  # High anomaly count = sensitive
+                )
+
+                # Add risk indicators based on reflection results
+                if report.coherence_score < 0.3:
+                    validation_context.risk_indicators.append("low_coherence")
+                if report.anomaly_count > 5:
+                    validation_context.risk_indicators.append("high_anomaly_count")
+                if report.drift_ema > 0.8:
+                    validation_context.risk_indicators.append("excessive_drift")
+
+                # Perform Guardian validation
+                validation_result = await self.guardian_integration.validate_consciousness_operation(
+                    context=validation_context
+                )
+
+                # Process validation results
+                if not validation_result.is_approved():
+                    # Add Guardian denial as anomaly
+                    guardian_anomaly = {
+                        "type": "guardian_denial",
+                        "severity": "high",
+                        "details": validation_result.reason,
+                        "timestamp": time.time(),
+                        "confidence": validation_result.confidence,
+                        "validation_duration_ms": validation_result.validation_duration_ms
+                    }
+                    report.anomalies.append(guardian_anomaly)
+                    report.anomaly_count += 1
+
+                    # Add Guardian recommendations
+                    if validation_result.recommendations:
+                        for recommendation in validation_result.recommendations:
+                            guardian_rec = {
+                                "type": "guardian_recommendation",
+                                "severity": "medium",
+                                "details": recommendation,
+                                "timestamp": time.time()
+                            }
+                            report.anomalies.append(guardian_rec)
+                            report.anomaly_count += 1
+
+                # Update baseline state for drift detection
+                self.guardian_integration.update_baseline_state(
+                    state=state,
+                    tenant=validation_context.tenant,
+                    session_id=validation_context.session_id
+                )
+
+                logger.debug(
+                    f"Guardian integration validation completed: {validation_result.result.value} "
+                    f"(duration: {validation_result.validation_duration_ms:.2f}ms, "
+                    f"confidence: {validation_result.confidence:.2f})"
+                )
+
+            except Exception as e:
+                logger.error(f"Guardian integration validation failed: {e}")
+                # Add validation error as anomaly (fail-closed behavior)
+                error_anomaly = {
+                    "type": "guardian_integration_error",
+                    "severity": "high",  # Elevated severity for fail-closed
+                    "details": f"Guardian integration validation error: {str(e)}",
+                    "timestamp": time.time()
+                }
+                report.anomalies.append(error_anomaly)
+                report.anomaly_count += 1
+
     async def _validate_with_guardian(
         self,
         report: ReflectionReport,
         state: ConsciousnessState
     ) -> None:
-        """Validate reflection results with Guardian system."""
+        """Validate reflection results with Guardian system (legacy)."""
 
         if not self.guardian_validator:
             return
