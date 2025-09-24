@@ -65,13 +65,37 @@ processors:
         value: active
         action: insert
 
+  # MATRIZ cognitive pipeline attributes processor
+  attributes/cognitive:
+    actions:
+      - key: matriz.cognitive.enabled
+        value: true
+        action: insert
+      - key: matriz.cognitive.anomaly_detection
+        value: active
+        action: insert
+      - key: matriz.cognitive.version
+        value: "1.0.0"
+        action: insert
+
   # Span processor for distributed tracing
   span:
     name:
       to_attributes:
         rules:
           - ^\/api\/v(?P<version>\d+)\/(?P<operation>.+)$
-      from_attributes: ["http.method", "http.route"]
+          - ^matriz\.cognitive\.(?P<stage>\w+)$
+          - ^matriz\.cognitive_event\.(?P<event>\w+)$
+      from_attributes: ["http.method", "http.route", "matriz.cognitive.stage", "matriz.event.name"]
+
+  # Cognitive pipeline span processor
+  span/cognitive:
+    name:
+      to_attributes:
+        rules:
+          - ^matriz\.cognitive\.pipeline\.(?P<pipeline_name>.+)$
+          - ^matriz\.cognitive\.(?P<cognitive_stage>\w+)$
+      from_attributes: ["matriz.cognitive.node_id", "matriz.cognitive.intent_type"]
 
   # Filter processor to reduce noise
   filter/performance:
@@ -81,6 +105,20 @@ processors:
         metric_names:
           - go_gc_duration_seconds
           - go_memstats_alloc_bytes_total
+
+  # Cognitive anomaly filter (ensures all anomalies are captured)
+  filter/cognitive_anomalies:
+    traces:
+      include:
+        match_type: regexp
+        span_names:
+          - "matriz\\.cognitive.*"
+          - "matriz\\.cognitive_event.*"
+    metrics:
+      include:
+        match_type: regexp
+        metric_names:
+          - "matriz_cognitive.*"
 
 exporters:
   # Prometheus exporter for metrics
@@ -116,6 +154,13 @@ exporters:
       max_megabytes: 50
       max_days: 3
 
+  # Dedicated cognitive metrics file export
+  file/cognitive:
+    path: /var/log/lukhas/cognitive_metrics.jsonl
+    rotation:
+      max_megabytes: 100
+      max_days: 7
+
 extensions:
   # Health check extension
   health_check:
@@ -133,17 +178,29 @@ service:
   extensions: [health_check, pprof, memory_ballast]
 
   pipelines:
-    # Traces pipeline
+    # Traces pipeline with cognitive processing
     traces:
       receivers: [otlp]
-      processors: [memory_limiter, resource, span, batch]
+      processors: [memory_limiter, resource, span, span/cognitive, batch]
       exporters: [jaeger, file/traces, logging]
 
-    # Metrics pipeline
+    # Cognitive traces pipeline (dedicated for anomaly detection)
+    traces/cognitive:
+      receivers: [otlp]
+      processors: [memory_limiter, resource, span/cognitive, filter/cognitive_anomalies, batch]
+      exporters: [jaeger, file/traces]
+
+    # Metrics pipeline with cognitive enhancement
     metrics:
       receivers: [otlp, prometheus, hostmetrics]
-      processors: [memory_limiter, resource, attributes, filter/performance, batch]
+      processors: [memory_limiter, resource, attributes, attributes/cognitive, filter/performance, batch]
       exporters: [prometheus, file/metrics]
+
+    # Dedicated cognitive metrics pipeline
+    metrics/cognitive:
+      receivers: [otlp]
+      processors: [memory_limiter, resource, attributes/cognitive, filter/cognitive_anomalies, batch]
+      exporters: [prometheus, file/cognitive]
 
     # Logs pipeline
     logs:

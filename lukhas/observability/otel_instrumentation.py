@@ -9,11 +9,17 @@ Provides comprehensive OTel spans, histograms, and counters for:
 - SLO compliance validation
 
 Usage:
-    from lukhas.observability.otel_instrumentation import instrument_matriz_stage
+    from lukhas.observability.otel_instrumentation import instrument_matriz_stage, instrument_cognitive_event
 
     @instrument_matriz_stage("memory_recall")
     async def recall_memories(query: str):
         # Your stage implementation
+        return result
+
+    # For MATRIZ cognitive pipeline events:
+    @instrument_cognitive_event("process_matriz_event")
+    async def process_matriz_event(event: Dict) -> MatrizResult:
+        # MATRIZ processing logic
         return result
 """
 
@@ -512,6 +518,280 @@ def get_instrumentation_status() -> Dict[str, Any]:
             "error_counter": _error_counter is not None,
         }
     }
+
+
+def instrument_cognitive_event(
+    event_name: str,
+    cognitive_stage: Optional[str] = None,
+    node_id_extractor: Optional[Callable[[Dict], str]] = None,
+    slo_target_ms: float = 250.0
+):
+    """
+    Decorator to instrument MATRIZ cognitive pipeline events like process_matriz_event.
+
+    This decorator provides comprehensive observability for cognitive events with:
+    - Automatic stage detection from event data
+    - Node ID extraction and tracking
+    - Processing time metrics per cognitive stage
+    - Anomaly detection for cognitive patterns
+    - Full span tracing with cognitive context
+
+    Args:
+        event_name: Name of the cognitive event (e.g., "process_matriz_event")
+        cognitive_stage: Override cognitive stage detection
+        node_id_extractor: Function to extract node ID from event data
+        slo_target_ms: SLO target for the cognitive event processing
+
+    Usage:
+        @instrument_cognitive_event("process_matriz_event", slo_target_ms=100.0)
+        def process_matriz_event(event: Dict) -> MatrizResult:
+            # Extract cognitive stage from event
+            stage = event.get('node_type', 'unknown').lower()
+            node_id = event.get('id', 'unknown')
+
+            # Your MATRIZ processing logic here
+            return result
+    """
+    def decorator(func: Callable) -> Callable:
+        @functools.wraps(func)
+        async def async_wrapper(*args, **kwargs) -> Any:
+            return await _execute_cognitive_event_instrumented(
+                func, event_name, cognitive_stage, node_id_extractor, slo_target_ms, args, kwargs
+            )
+
+        @functools.wraps(func)
+        def sync_wrapper(*args, **kwargs) -> Any:
+            import asyncio
+            # Convert sync function to async for consistent instrumentation
+            async def _async_func():
+                return func(*args, **kwargs)
+            return asyncio.run(_execute_cognitive_event_instrumented(
+                _async_func, event_name, cognitive_stage, node_id_extractor, slo_target_ms, (), {}
+            ))
+
+        # Return appropriate wrapper
+        if hasattr(func, '__code__') and func.__code__.co_flags & 0x80:
+            return async_wrapper
+        else:
+            return sync_wrapper
+
+    return decorator
+
+
+async def _execute_cognitive_event_instrumented(
+    func: Callable,
+    event_name: str,
+    cognitive_stage: Optional[str],
+    node_id_extractor: Optional[Callable[[Dict], str]],
+    slo_target_ms: float,
+    args: tuple,
+    kwargs: dict
+) -> Any:
+    """Execute cognitive event function with comprehensive instrumentation"""
+
+    if not _metrics_initialized or not OTEL_AVAILABLE:
+        # Fall back to direct execution without instrumentation
+        if hasattr(func, '__code__') and func.__code__.co_flags & 0x80:
+            return await func(*args, **kwargs)
+        else:
+            return func(*args, **kwargs)
+
+    start_time = time.perf_counter()
+
+    # Extract event data for context (assume first argument is event dict)
+    event_data = args[0] if args and isinstance(args[0], dict) else {}
+
+    # Determine cognitive stage and node ID
+    detected_stage = cognitive_stage or event_data.get('node_type', 'unknown').lower()
+    if node_id_extractor:
+        node_id = node_id_extractor(event_data)
+    else:
+        node_id = event_data.get('id', event_data.get('node_id', f"node_{int(time.time() * 1000)}"))
+
+    lane = os.getenv("LUKHAS_LANE", "experimental")
+
+    # Create comprehensive span for cognitive event
+    with _tracer.start_as_current_span(
+        f"matriz.cognitive_event.{event_name}",
+        attributes={
+            "matriz.event.name": event_name,
+            "matriz.event.cognitive_stage": detected_stage,
+            "matriz.event.node_id": node_id,
+            "matriz.event.slo_target_ms": slo_target_ms,
+            "matriz.lane": lane,
+            "matriz.event.data_keys": ",".join(event_data.keys()) if event_data else "",
+        }
+    ) as span:
+
+        try:
+            # Execute the function
+            if hasattr(func, '__code__') and func.__code__.co_flags & 0x80:
+                result = await func(*args, **kwargs)
+            else:
+                result = func(*args, **kwargs)
+
+            # Calculate duration
+            duration_s = time.perf_counter() - start_time
+            duration_ms = duration_s * 1000
+            within_slo = duration_ms <= slo_target_ms
+
+            # Record cognitive event metrics
+            _record_cognitive_event_success(
+                event_name, detected_stage, node_id, lane, duration_s, slo_target_ms
+            )
+
+            # Update span attributes
+            span.set_attributes({
+                "matriz.event.duration_ms": duration_ms,
+                "matriz.event.success": True,
+                "matriz.event.within_slo": within_slo,
+                "matriz.event.result_type": type(result).__name__,
+            })
+
+            # Add cognitive-specific attributes if result has cognitive data
+            if hasattr(result, '__dict__') or isinstance(result, dict):
+                result_dict = result.__dict__ if hasattr(result, '__dict__') else result
+                if isinstance(result_dict, dict):
+                    if 'confidence' in result_dict:
+                        span.set_attribute("matriz.cognitive.confidence", result_dict['confidence'])
+                    if 'reasoning_depth' in result_dict:
+                        span.set_attribute("matriz.cognitive.reasoning_depth", result_dict['reasoning_depth'])
+
+            span.set_status(Status(StatusCode.OK))
+
+            logger.debug(
+                f"Cognitive event {event_name} completed successfully",
+                extra={
+                    "cognitive_event": event_name,
+                    "cognitive_stage": detected_stage,
+                    "node_id": node_id,
+                    "duration_ms": duration_ms,
+                    "within_slo": within_slo,
+                    "lane": lane,
+                }
+            )
+
+            return result
+
+        except Exception as e:
+            # Calculate duration for failed execution
+            duration_s = time.perf_counter() - start_time
+            duration_ms = duration_s * 1000
+
+            # Record error metrics
+            _record_cognitive_event_error(
+                event_name, detected_stage, node_id, lane, duration_s, str(type(e).__name__)
+            )
+
+            # Add error info to span
+            span.set_attributes({
+                "matriz.event.duration_ms": duration_ms,
+                "matriz.event.success": False,
+                "matriz.event.error_type": type(e).__name__,
+                "matriz.event.error_message": str(e)[:500],  # Truncate for span limits
+            })
+
+            span.set_status(Status(StatusCode.ERROR, str(e)))
+
+            logger.error(
+                f"Cognitive event {event_name} failed after {duration_ms:.2f}ms: {e}",
+                extra={
+                    "cognitive_event": event_name,
+                    "cognitive_stage": detected_stage,
+                    "node_id": node_id,
+                    "duration_ms": duration_ms,
+                    "error_type": type(e).__name__,
+                    "lane": lane,
+                },
+                exc_info=True
+            )
+
+            raise
+
+
+def _record_cognitive_event_success(
+    event_name: str,
+    stage: str,
+    node_id: str,
+    lane: str,
+    duration_s: float,
+    slo_target_ms: float
+):
+    """Record successful cognitive event execution metrics"""
+    if not _metrics_initialized:
+        return
+
+    within_slo = (duration_s * 1000) <= slo_target_ms
+
+    _stage_duration_histogram.record(
+        duration_s,
+        attributes={
+            "event_name": event_name,
+            "cognitive_stage": stage,
+            "node_id": node_id,
+            "lane": lane,
+            "outcome": "success",
+            "within_slo": str(within_slo).lower()
+        }
+    )
+
+    _stage_counter.add(
+        1,
+        attributes={
+            "event_name": event_name,
+            "cognitive_stage": stage,
+            "node_id": node_id,
+            "lane": lane,
+            "outcome": "success"
+        }
+    )
+
+
+def _record_cognitive_event_error(
+    event_name: str,
+    stage: str,
+    node_id: str,
+    lane: str,
+    duration_s: float,
+    error_type: str
+):
+    """Record failed cognitive event execution metrics"""
+    if not _metrics_initialized:
+        return
+
+    _stage_duration_histogram.record(
+        duration_s,
+        attributes={
+            "event_name": event_name,
+            "cognitive_stage": stage,
+            "node_id": node_id,
+            "lane": lane,
+            "outcome": "error",
+            "within_slo": "false"
+        }
+    )
+
+    _stage_counter.add(
+        1,
+        attributes={
+            "event_name": event_name,
+            "cognitive_stage": stage,
+            "node_id": node_id,
+            "lane": lane,
+            "outcome": "error"
+        }
+    )
+
+    _error_counter.add(
+        1,
+        attributes={
+            "event_name": event_name,
+            "cognitive_stage": stage,
+            "error_type": error_type,
+            "node_id": node_id,
+            "lane": lane
+        }
+    )
 
 
 # Auto-initialize if running in production environment

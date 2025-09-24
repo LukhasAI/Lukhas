@@ -1,0 +1,294 @@
+groups:
+  - name: matriz_cognitive_critical
+    interval: 15s
+    rules:
+      # Memory subsystem alerts
+      - alert: MatrizMemoryCascadeRisk
+        expr: matriz_memory_cascade_risk > 80
+        for: 30s
+        labels:
+          severity: critical
+          team: ai
+          cognitive_stage: memory
+        annotations:
+          summary: "MATRIZ memory cascade risk detected"
+          description: "Memory cascade risk is {{ $value }}% for fold system {{ $labels.fold_count_range }} with {{ $labels.retrieval_depth_range }} retrieval depth"
+          runbook_url: "https://docs.lukhas.ai/runbooks/matriz-memory-cascade"
+
+      - alert: MatrizMemoryFoldLimit
+        expr: matriz_memory_cascade_risk{fold_count_range="critical"} > 0
+        for: 10s
+        labels:
+          severity: critical
+          team: ai
+          cognitive_stage: memory
+        annotations:
+          summary: "MATRIZ approaching memory fold limit"
+          description: "Memory fold count is in critical range (>800 folds), immediate attention required"
+
+      # Attention and focus alerts
+      - alert: MatrizFocusDriftHigh
+        expr: rate(matriz_focus_drift_score[5m]) > 500
+        for: 1m
+        labels:
+          severity: warning
+          team: ai
+          cognitive_stage: attention
+        annotations:
+          summary: "High focus drift detected in MATRIZ attention system"
+          description: "Focus drift rate {{ $value }} on node {{ $labels.node_id }} exceeds normal bounds"
+
+      - alert: MatrizAttentionAnomaly
+        expr: histogram_quantile(0.95, rate(matriz_attention_weight_distribution_bucket[5m])) > 0.9
+        for: 2m
+        labels:
+          severity: warning
+          team: ai
+          cognitive_stage: attention
+        annotations:
+          summary: "Attention weight distribution anomaly"
+          description: "P95 attention weights {{ $value }} indicate potential focus concentration issues"
+
+      # Thought processing alerts
+      - alert: MatrizThoughtComplexitySpike
+        expr: matriz_thought_complexity_score > 100
+        for: 30s
+        labels:
+          severity: warning
+          team: ai
+          cognitive_stage: thought
+        annotations:
+          summary: "Extreme thought complexity detected"
+          description: "Thought complexity score {{ $value }} on {{ $labels.reasoning_depth_range }} reasoning with {{ $labels.logic_chains_range }} chains"
+
+      - alert: MatrizReasoningDepthAnomaly
+        expr: histogram_quantile(0.99, rate(matriz_reasoning_depth_levels_bucket[5m])) > 15
+        for: 1m
+        labels:
+          severity: info
+          team: ai
+          cognitive_stage: thought
+        annotations:
+          summary: "Unusually deep reasoning detected"
+          description: "P99 reasoning depth {{ $value }} may indicate processing inefficiency"
+
+      # Decision making alerts
+      - alert: MatrizLowDecisionConfidence
+        expr: avg_over_time(matriz_decision_confidence_score[5m]) < 30
+        for: 2m
+        labels:
+          severity: warning
+          team: ai
+          cognitive_stage: decision
+        annotations:
+          summary: "Consistently low decision confidence"
+          description: "Average decision confidence {{ $value }}% over 5 minutes on {{ $labels.decision_type }}"
+
+      - alert: MatrizDecisionConfidenceDrop
+        expr: rate(matriz_decision_confidence_score{confidence_range="low"}[5m]) > 10
+        for: 1m
+        labels:
+          severity: critical
+          team: ai
+          cognitive_stage: decision
+        annotations:
+          summary: "High rate of low-confidence decisions"
+          description: "{{ $value }} low-confidence decisions per second indicating decision quality issues"
+
+      # Cognitive stage performance alerts
+      - alert: MatrizCognitiveStageLatency
+        expr: histogram_quantile(0.95, rate(matriz_cognitive_stage_duration_seconds_bucket[5m])) > 0.1
+        for: 2m
+        labels:
+          severity: warning
+          team: ai
+        annotations:
+          summary: "High cognitive stage latency"
+          description: "P95 latency {{ $value }}s for stage {{ $labels.stage }} on node {{ $labels.node_id }}"
+
+      - alert: MatrizCognitiveStageFails
+        expr: rate(matriz_cognitive_stage_events_total{outcome="error"}[5m]) > 0.1
+        for: 1m
+        labels:
+          severity: critical
+          team: ai
+        annotations:
+          summary: "High cognitive stage failure rate"
+          description: "{{ $value }} failures per second for stage {{ $labels.stage }} with {{ $labels.intent_type }} intent"
+
+      # Overall cognitive load alerts
+      - alert: MatrizCognitiveLoadHigh
+        expr: matriz_cognitive_load > 80
+        for: 2m
+        labels:
+          severity: warning
+          team: ai
+        annotations:
+          summary: "High cognitive load detected"
+          description: "Cognitive load {{ $value }} for {{ $labels.pipeline }} pipeline may affect performance"
+
+      # Anomaly detection alerts - these are the critical 1-in-10,000 alerts
+      - alert: MatrizCognitiveAnomaly
+        expr: rate(matriz_cognitive_anomalies_total[5m]) > 0
+        for: 10s
+        labels:
+          severity: critical
+          team: ai
+          priority: p1
+        annotations:
+          summary: "Cognitive anomaly detected in MATRIZ"
+          description: "{{ $labels.anomaly_type }} anomaly detected on {{ $labels.node_id }} with {{ $labels.severity }} severity"
+          runbook_url: "https://docs.lukhas.ai/runbooks/cognitive-anomalies"
+
+      - alert: MatrizPerformanceOutlier
+        expr: matriz_cognitive_anomalies_total{anomaly_type="performance_outlier"} > 0
+        for: 5s
+        labels:
+          severity: warning
+          team: ai
+        annotations:
+          summary: "Performance outlier in cognitive processing"
+          description: "Performance anomaly detected - investigate for potential system issues"
+
+      - alert: MatrizStageError
+        expr: matriz_cognitive_anomalies_total{anomaly_type="stage_error"} > 0
+        for: 1s
+        labels:
+          severity: critical
+          team: ai
+          priority: p0
+        annotations:
+          summary: "Critical stage error in MATRIZ cognitive pipeline"
+          description: "Stage error detected - immediate investigation required"
+
+  - name: matriz_cognitive_slo
+    interval: 30s
+    rules:
+      # SLO-based alerting for cognitive pipeline
+      - alert: MatrizCognitivePipelineSLOViolation
+        expr: |
+          (
+            rate(matriz_cognitive_stage_events_total{outcome="error"}[1h])
+            / rate(matriz_cognitive_stage_events_total[1h])
+          ) > 0.001
+        for: 5m
+        labels:
+          severity: critical
+          team: ai
+          slo: availability
+        annotations:
+          summary: "Cognitive pipeline SLO violation"
+          description: "Error rate {{ $value | humanizePercentage }} exceeds 0.1% SLO threshold"
+
+      - alert: MatrizCognitiveLatencySLOViolation
+        expr: histogram_quantile(0.95, rate(matriz_cognitive_stage_duration_seconds_bucket[5m])) > 0.25
+        for: 5m
+        labels:
+          severity: critical
+          team: ai
+          slo: latency
+        annotations:
+          summary: "Cognitive latency SLO violation"
+          description: "P95 latency {{ $value }}s exceeds 250ms SLO for cognitive processing"
+
+      - alert: MatrizCognitivePipelineBudgetBurn
+        expr: |
+          (
+            rate(matriz_cognitive_stage_events_total{outcome="error"}[1h])
+            / rate(matriz_cognitive_stage_events_total[1h])
+          ) > (1 - 0.999) * 14.4
+        for: 2m
+        labels:
+          severity: critical
+          team: ai
+          slo: error_budget
+        annotations:
+          summary: "Cognitive pipeline error budget burn rate too high"
+          description: "At current burn rate, cognitive SLO budget will be exhausted in {{ $value }} hours"
+
+  - name: matriz_cognitive_capacity
+    interval: 1m
+    rules:
+      # Capacity planning and resource usage
+      - alert: MatrizCognitiveCapacityWarning
+        expr: rate(matriz_cognitive_stage_events_total[5m]) > 100
+        for: 5m
+        labels:
+          severity: warning
+          team: ai
+        annotations:
+          summary: "High cognitive processing volume"
+          description: "{{ $value }} cognitive events per second may require capacity scaling"
+
+      - alert: MatrizNodeUtilizationHigh
+        expr: |
+          (
+            sum(rate(matriz_cognitive_stage_events_total[5m])) by (node_id)
+            / scalar(count(count(matriz_cognitive_stage_events_total) by (node_id)))
+          ) > 50
+        for: 10m
+        labels:
+          severity: info
+          team: ai
+        annotations:
+          summary: "High node utilization in cognitive processing"
+          description: "Node {{ $labels.node_id }} processing {{ $value }} events per second"
+
+  - name: matriz_cognitive_quality
+    interval: 2m
+    rules:
+      # Quality and effectiveness metrics
+      - alert: MatrizLowProcessingQuality
+        expr: |
+          (
+            rate(matriz_decision_confidence_score{confidence_range="high"}[1h])
+            / rate(matriz_decision_confidence_score[1h])
+          ) < 0.7
+        for: 10m
+        labels:
+          severity: warning
+          team: ai
+        annotations:
+          summary: "Low cognitive processing quality"
+          description: "High-confidence decisions {{ $value | humanizePercentage }} below 70% threshold"
+
+      - alert: MatrizReasoningEfficiency
+        expr: avg_over_time(matriz_thought_complexity_score[1h]) / avg_over_time(matriz_cognitive_stage_duration_seconds{stage="thought"}[1h]) < 10
+        for: 15m
+        labels:
+          severity: info
+          team: ai
+        annotations:
+          summary: "Low reasoning efficiency detected"
+          description: "Reasoning complexity-to-time ratio {{ $value }} indicates potential optimization opportunities"
+
+  - name: matriz_cognitive_business
+    interval: 5m
+    rules:
+      # Business impact metrics
+      - alert: MatrizUserExperienceImpact
+        expr: |
+          histogram_quantile(0.95,
+            rate(matriz_cognitive_stage_duration_seconds_bucket{stage="decision"}[1h])
+          ) > 0.1
+        for: 15m
+        labels:
+          severity: warning
+          team: product
+        annotations:
+          summary: "Cognitive processing may impact user experience"
+          description: "P95 decision latency {{ $value }}s may cause user-visible delays"
+
+      - alert: MatrizCognitiveCostOptimization
+        expr: |
+          (
+            sum(rate(matriz_cognitive_stage_events_total{outcome="success"}[1h]))
+            / sum(rate(matriz_cognitive_stage_events_total[1h]))
+          ) < 0.95
+        for: 30m
+        labels:
+          severity: info
+          team: finops
+        annotations:
+          summary: "Cognitive processing efficiency opportunity"
+          description: "Success rate {{ $value | humanizePercentage }} indicates cost optimization potential"

@@ -26,6 +26,11 @@ from matriz.core.async_orchestrator import AsyncCognitiveOrchestrator, StageType
 from matriz.core.node_interface import CognitiveNode, NodeState, NodeTrigger
 from lukhas.observability.prometheus_metrics import LUKHASMetrics
 from lukhas.observability.opentelemetry_tracing import LUKHASTracer
+from lukhas.observability.matriz_instrumentation import (
+    instrument_cognitive_stage, cognitive_pipeline_span,
+    record_focus_drift, record_memory_cascade_risk, record_thought_complexity,
+    record_decision_confidence, initialize_cognitive_instrumentation
+)
 
 
 class CacheType(Enum):
@@ -310,6 +315,9 @@ class OptimizedAsyncOrchestrator(AsyncCognitiveOrchestrator):
             "total_optimizations_applied": 0
         }
 
+        # Initialize cognitive instrumentation
+        self.cognitive_enabled = initialize_cognitive_instrumentation(enable_metrics=metrics_enabled)
+
         # Circuit breaker state
         self.circuit_breaker_state = {
             "open": False,
@@ -327,10 +335,25 @@ class OptimizedAsyncOrchestrator(AsyncCognitiveOrchestrator):
 
     async def process_query(self, user_input: str) -> Dict[str, Any]:
         """
-        Optimized process_query with caching and fast paths.
+        Optimized process_query with caching, fast paths, and cognitive observability.
 
         Target: p95 < 250ms, p99 < 300ms
         """
+        # Use cognitive pipeline span if enabled
+        if self.cognitive_enabled:
+            expected_stages = ["memory", "attention", "thought", "action", "decision", "awareness"]
+            async with cognitive_pipeline_span(
+                "optimized_cognitive_pipeline",
+                user_input,
+                expected_stages=expected_stages,
+                target_slo_ms=self.total_timeout * 1000
+            ):
+                return await self._process_query_with_observability(user_input)
+        else:
+            return await self._process_query_with_observability(user_input)
+
+    async def _process_query_with_observability(self, user_input: str) -> Dict[str, Any]:
+        """Internal process query method with observability hooks"""
         start_time = time.perf_counter()
 
         # Check circuit breaker
@@ -448,8 +471,9 @@ class OptimizedAsyncOrchestrator(AsyncCognitiveOrchestrator):
                 "optimization_metrics": self.optimization_metrics.copy()
             }
 
+    @instrument_cognitive_stage("attention", node_id="intent_analyzer", slo_target_ms=30.0)
     async def _optimized_analyze_intent(self, user_input: str, context: Dict[str, Any]) -> StageResult:
-        """Optimized intent analysis with caching"""
+        """Optimized intent analysis with caching and cognitive observability"""
         stage_start = time.perf_counter()
 
         if self.cache_enabled:
@@ -495,6 +519,11 @@ class OptimizedAsyncOrchestrator(AsyncCognitiveOrchestrator):
             if self.cache_enabled:
                 self.caches[CacheType.INTENT_ANALYSIS].put(cache_key, intent_data, ttl=60)
 
+            # Record attention focus metrics
+            if self.cognitive_enabled:
+                attention_weights = [0.9, 0.1] if has_math_ops else [0.7, 0.3] if has_question else [0.5, 0.5]
+                record_focus_drift("intent_analyzer", attention_weights, window_size=5)
+
             success = True
             context["optimization_applied"].append("fast_intent_detection")
 
@@ -510,8 +539,9 @@ class OptimizedAsyncOrchestrator(AsyncCognitiveOrchestrator):
             duration_ms=duration_ms
         )
 
+    @instrument_cognitive_stage("decision", node_id="node_selector", slo_target_ms=40.0)
     async def _optimized_select_node(self, context: Dict[str, Any]) -> StageResult:
-        """Optimized node selection using health-based routing"""
+        """Optimized node selection using health-based routing with cognitive observability"""
         stage_start = time.perf_counter()
 
         try:
@@ -523,6 +553,11 @@ class OptimizedAsyncOrchestrator(AsyncCognitiveOrchestrator):
 
             if not selected_node:
                 selected_node = "default"
+
+            # Record decision confidence based on node selection
+            if self.cognitive_enabled:
+                confidence = 0.9 if selected_node != "default" else 0.3
+                record_decision_confidence(confidence, "node_selection", "node_selector")
 
             context["optimization_applied"].append("health_based_routing")
 
@@ -543,8 +578,9 @@ class OptimizedAsyncOrchestrator(AsyncCognitiveOrchestrator):
                 duration_ms=duration_ms
             )
 
+    @instrument_cognitive_stage("thought", node_id="thought_processor", slo_target_ms=100.0)
     async def _optimized_process_node(self, context: Dict[str, Any]) -> StageResult:
-        """Optimized node processing with reduced overhead"""
+        """Optimized node processing with reduced overhead and cognitive metrics"""
         stage_start = time.perf_counter()
         selected_node_name = context["selected_node"]
         user_input = context["user_input"]
@@ -574,6 +610,15 @@ class OptimizedAsyncOrchestrator(AsyncCognitiveOrchestrator):
 
             # Update node statistics
             self.node_pool.update_node_stats(selected_node_name, duration_ms, True)
+
+            # Record thought complexity metrics
+            if self.cognitive_enabled:
+                # Estimate complexity based on processing time and result
+                reasoning_depth = min(10, int(duration_ms / 10))  # Rough estimation
+                logic_chains = 2 if "calculation" in str(result).lower() else 1
+                inference_steps = max(1, int(duration_ms / 5))  # Another rough estimation
+                record_thought_complexity(reasoning_depth, logic_chains, inference_steps)
+
             context["optimization_applied"].append("optimized_node_execution")
 
             return StageResult(
