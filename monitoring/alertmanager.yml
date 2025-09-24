@@ -1,0 +1,131 @@
+global:
+  # LUKHAS T4/0.01% Alert Manager Configuration
+  smtp_smarthost: 'localhost:587'
+  smtp_from: 'alerts@lukhas.ai'
+  slack_api_url: '${SLACK_WEBHOOK_URL}'
+
+# Alert routing tree optimized for T4/0.01% excellence
+route:
+  group_by: ['alertname', 'cluster', 'service']
+  group_wait: 10s
+  group_interval: 5m
+  repeat_interval: 4h
+  receiver: 'lukhas-default'
+
+  routes:
+    # Critical security alerts - immediate notification
+    - match:
+        security: critical
+      receiver: 'lukhas-security-critical'
+      group_wait: 0s
+      group_interval: 1m
+      repeat_interval: 15m
+
+    # Guardian system alerts - highest priority
+    - match:
+        component: guardian
+      receiver: 'lukhas-guardian'
+      group_wait: 0s
+      group_interval: 2m
+      repeat_interval: 30m
+
+    # T4/0.01% tier alerts - production engineering team
+    - match:
+        tier: t4
+        severity: critical
+      receiver: 'lukhas-t4-critical'
+      group_wait: 30s
+      group_interval: 5m
+      repeat_interval: 1h
+
+    # Performance and latency alerts
+    - match_re:
+        alertname: '.*Latency.*|.*Performance.*'
+      receiver: 'lukhas-performance'
+      group_wait: 1m
+      group_interval: 10m
+      repeat_interval: 2h
+
+    # API and service alerts
+    - match:
+        component: 'api|webauthn|orchestration'
+      receiver: 'lukhas-services'
+      group_wait: 2m
+      group_interval: 15m
+      repeat_interval: 4h
+
+receivers:
+  - name: 'lukhas-default'
+    slack_configs:
+      - channel: '#lukhas-alerts'
+        title: 'LUKHAS Alert: {{ range .Alerts }}{{ .Annotations.summary }}{{ end }}'
+        text: '{{ range .Alerts }}{{ .Annotations.description }}{{ end }}'
+
+  - name: 'lukhas-security-critical'
+    slack_configs:
+      - channel: '#lukhas-security'
+        title: '🚨 CRITICAL SECURITY ALERT: {{ range .Alerts }}{{ .Annotations.summary }}{{ end }}'
+        text: '{{ range .Alerts }}{{ .Annotations.description }}{{ end }}'
+        color: 'danger'
+    email_configs:
+      - to: 'security@lukhas.ai'
+        subject: '[CRITICAL] LUKHAS Security Alert'
+        body: |
+          {{ range .Alerts }}
+          Alert: {{ .Annotations.summary }}
+          Description: {{ .Annotations.description }}
+          Runbook: {{ .Annotations.runbook }}
+          {{ end }}
+
+  - name: 'lukhas-guardian'
+    slack_configs:
+      - channel: '#lukhas-guardian'
+        title: '🛡️ Guardian Alert: {{ range .Alerts }}{{ .Annotations.summary }}{{ end }}'
+        text: '{{ range .Alerts }}{{ .Annotations.description }}{{ end }}'
+        color: 'warning'
+
+  - name: 'lukhas-t4-critical'
+    slack_configs:
+      - channel: '#lukhas-production'
+        title: '⚠️ T4/0.01% Critical: {{ range .Alerts }}{{ .Annotations.summary }}{{ end }}'
+        text: '{{ range .Alerts }}{{ .Annotations.description }}{{ end }}'
+        color: 'danger'
+    pagerduty_configs:
+      - service_key: '${PAGERDUTY_T4_SERVICE_KEY}'
+        description: 'T4/0.01% Critical Alert'
+
+  - name: 'lukhas-performance'
+    slack_configs:
+      - channel: '#lukhas-performance'
+        title: '📊 Performance Alert: {{ range .Alerts }}{{ .Annotations.summary }}{{ end }}'
+        text: '{{ range .Alerts }}{{ .Annotations.description }}{{ end }}'
+        color: 'warning'
+
+  - name: 'lukhas-services'
+    slack_configs:
+      - channel: '#lukhas-services'
+        title: '🔧 Service Alert: {{ range .Alerts }}{{ .Annotations.summary }}{{ end }}'
+        text: '{{ range .Alerts }}{{ .Annotations.description }}{{ end }}'
+
+# Alert inhibition rules
+inhibit_rules:
+  # If system is down, inhibit all other alerts for that service
+  - source_match:
+      alertname: 'LUKHASSystemDown'
+    target_match_re:
+      alertname: '.*API.*|.*WebAuthn.*|.*Orchestration.*'
+    equal: ['job', 'service']
+
+  # If Guardian lockdown is active, inhibit performance alerts
+  - source_match:
+      alertname: 'LUKHASGuardianLockdownActive'
+    target_match_re:
+      alertname: '.*Latency.*|.*Performance.*'
+    equal: ['cluster']
+
+  # If memory cascade risk, inhibit individual memory alerts
+  - source_match:
+      alertname: 'LUKHASMemoryFoldsCascadeRisk'
+    target_match:
+      alertname: 'LUKHASMemoryRecallLatencyHigh'
+    equal: ['cluster']

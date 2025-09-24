@@ -1,0 +1,213 @@
+# LUKHAS Lane Assignment Configuration
+# T4/0.01% Production Schema v1.0.0
+#
+# Lane progression path: Integration → Production Canary → Production (100%)
+# This file defines the current lane assignment for all LUKHAS components.
+
+meta:
+  version: "1.2.0"
+  last_updated: "2025-09-24"
+  standard: "T4/0.01%"
+  schema: "production"
+
+# Lane definitions
+lanes:
+  production:
+    description: "Full production deployment (100%)"
+    deployment_percentage: 100
+    requirements:
+      - "Complete test coverage"
+      - "Performance SLOs met"
+      - "Security audit passed"
+      - "T4/0.01% compliance validated"
+
+  production_canary:
+    description: "Production canary deployment (10-25%)"
+    deployment_percentage: 15  # Can be configured per environment
+    requirements:
+      - "Integration tests passing"
+      - "Basic performance validation"
+      - "Security scan clean"
+      - "Feature flags enabled"
+
+  integration:
+    description: "Integration testing lane"
+    deployment_percentage: 0  # Test environment only
+    requirements:
+      - "Unit tests passing"
+      - "Basic functionality verified"
+      - "CI pipeline green"
+
+# Component assignments
+components:
+
+  # Registry System - PRODUCTION (100%)
+  registry:
+    current_lane: "production"
+    target_lane: "production"
+    deployment_percentage: 100
+    rationale: "Core registry system - stable and critical"
+    last_updated: "2025-09-20"
+    status: "stable"
+
+  # Guardian DSL + Kill-switch - PRODUCTION CANARY (15%)
+  guardian:
+    current_lane: "production_canary"
+    target_lane: "production_canary"
+    deployment_percentage: 15
+    rationale: "Recent ProductionGuardian implementation - needs canary validation"
+    last_updated: "2025-09-24"
+    status: "canary"
+    canary_config:
+      env_variable: "LUKHAS_CANARY_PERCENT"
+      drift_check_enabled: true
+      enforce_ethics_dsl: true
+
+  # O.2 Multi-AI Router - PRODUCTION CANARY (20%)
+  orchestration:
+    current_lane: "production_canary"
+    target_lane: "production_canary"
+    deployment_percentage: 20
+    rationale: "Mock client mode with provider adapters - passing P95 tests"
+    last_updated: "2025-09-24"
+    status: "canary"
+    feature_flags:
+      - "LUKHAS_ENABLE_PROVIDER_CALLS=0"  # Mock mode
+    performance_targets:
+      p95_latency_ms: 250
+
+  # I.4 WebAuthn - INTEGRATION (promote after CI job lands)
+  identity_webauthn:
+    current_lane: "integration"
+    target_lane: "production_canary"
+    deployment_percentage: 0
+    rationale: "Awaiting dedicated CI job and alert rules completion"
+    last_updated: "2025-09-24"
+    status: "promotion_pending"
+    promotion_criteria:
+      - "Identity CI job implemented"
+      - "WebAuthn alert rules validated"
+      - "Rate limiting stress tests passing"
+      - "Performance artifacts generated"
+    promotion_gates:
+      ci_job: "identity-suite"
+      alerts: "lukhas-core.yml, lukhas-guardian.yml"
+      performance_slos:
+        registration_p95_ms: 100
+        authentication_p95_ms: 100
+
+  # Memory System - Production
+  memory:
+    current_lane: "production"
+    target_lane: "production"
+    deployment_percentage: 100
+    rationale: "M.1 T4/0.01% excellence certified"
+    last_updated: "2025-09-23"
+    status: "stable"
+
+  # Consciousness Core - Production Canary
+  consciousness:
+    current_lane: "production_canary"
+    target_lane: "production"
+    deployment_percentage: 25
+    rationale: "Advanced features requiring gradual rollout"
+    last_updated: "2025-09-24"
+    status: "canary"
+
+  # API Gateway/Main - Production Canary
+  api_main:
+    current_lane: "production_canary"
+    target_lane: "production"
+    deployment_percentage: 30
+    rationale: "New main API integration - comprehensive but recent"
+    last_updated: "2025-09-24"
+    status: "canary"
+
+# Environment-specific configurations
+environments:
+  production:
+    default_canary_percentage: 15
+    guardian_mode: "production"
+    enforce_ethics_dsl: true
+    feature_flags:
+      LUKHAS_ENABLE_PROVIDER_CALLS: false  # Keep mock mode for safety
+
+  staging:
+    default_canary_percentage: 50
+    guardian_mode: "production"
+    enforce_ethics_dsl: true
+    feature_flags:
+      LUKHAS_ENABLE_PROVIDER_CALLS: true   # Can test real providers
+
+  development:
+    default_canary_percentage: 100
+    guardian_mode: "development"
+    enforce_ethics_dsl: false
+    feature_flags:
+      LUKHAS_ENABLE_PROVIDER_CALLS: false  # Mock for consistency
+
+# Promotion rules
+promotion_rules:
+  integration_to_canary:
+    criteria:
+      - "All CI jobs green for 7 days"
+      - "Performance SLOs met"
+      - "Security scans passing"
+      - "Manual approval from T4 team"
+    cooldown_period: "7d"
+
+  canary_to_production:
+    criteria:
+      - "Canary deployment stable for 14 days"
+      - "Error rate < 0.01%"
+      - "Performance within T4/0.01% targets"
+      - "No security incidents"
+      - "Customer feedback positive"
+    cooldown_period: "14d"
+
+# Rollback configurations
+rollback:
+  automatic_triggers:
+    - "error_rate > 0.05%"
+    - "p95_latency > 2x baseline"
+    - "security_alert_critical"
+
+  manual_triggers:
+    - "customer_escalation"
+    - "data_corruption_detected"
+    - "performance_degradation"
+
+  rollback_speed:
+    immediate: "0-5 minutes"
+    fast: "5-30 minutes"
+    standard: "30-120 minutes"
+
+# Monitoring and alerts
+monitoring:
+  lane_metrics:
+    - "deployment_percentage_by_lane"
+    - "error_rate_by_lane"
+    - "performance_by_lane"
+    - "promotion_success_rate"
+
+  alert_thresholds:
+    canary_error_rate: 0.02
+    production_error_rate: 0.01
+    performance_degradation: 1.5x
+
+# T4/0.01% Excellence compliance
+t4_compliance:
+  required_for_production: true
+  metrics:
+    api_latency_p95: "< 500ms"
+    webauthn_latency_p95: "< 100ms"
+    memory_recall_p95: "< 50ms"
+    error_rate: "< 0.01%"
+    drift_threshold: "< 0.15"
+
+  validation_gates:
+    - "Performance artifacts generated"
+    - "Security scans passing"
+    - "Guardian validation complete"
+    - "Alert coverage > 80%"
+    - "PromQL syntax validated"

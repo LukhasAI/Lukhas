@@ -17,7 +17,11 @@
       "Bash(yamllint:*)",
       "Bash(docker-compose:*)",
       "Bash(shellcheck:*)",
-      "Bash(bash:*)"
+      "Bash(bash:*)",
+      "Bash(git push:*)",
+      "Bash(chmod:*)",
+      "Bash(semgrep:*)",
+      "Bash(source:*)"
     ],
     "deny": [],
     "ask": []

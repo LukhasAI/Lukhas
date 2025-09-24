@@ -1,0 +1,34 @@
+rules:
+  # LUKHAS Custom Security Rules
+  - .semgrep/rules/guardian-security.yml
+  - .semgrep/rules/production-security.yml
+
+  # Standard Security Rulesets
+  - auto
+
+# Exclude test files and development utilities
+exclude:
+  - tests/
+  - test_*.py
+  - "*_test.py"
+  - conftest.py
+  - .venv/
+  - __pycache__/
+  - .git/
+  - node_modules/
+  - "*.pyc"
+
+# Include specific patterns for production code
+include:
+  - lukhas/
+  - scripts/
+  - "*.py"
+
+# Configure severity levels
+severity:
+  - ERROR
+  - WARNING
+
+# Performance settings
+max_target_bytes: 1000000
+timeout: 30

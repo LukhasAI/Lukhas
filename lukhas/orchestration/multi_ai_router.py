@@ -20,6 +20,9 @@ from opentelemetry import trace
 from prometheus_client import Counter, Histogram, Gauge
 import logging
 
+# Import provider factory
+from .providers import create_provider_client, get_provider_status, validate_provider_configuration
+
 tracer = trace.get_tracer(__name__)
 logger = logging.getLogger(__name__)
 
@@ -523,6 +526,7 @@ class MultiAIRouter:
         self.consensus_engine = ConsensusEngine()
         self.ai_clients: Dict[AIProvider, Any] = {}
         self.default_models: List[str] = []
+        self._initialize_providers()
 
     def register_ai_client(self, provider: AIProvider, client: Any) -> None:
         """Register an AI client for a provider"""
@@ -563,6 +567,61 @@ class MultiAIRouter:
         ))
 
         logger.info("Registered default AI models")
+
+    def _initialize_providers(self) -> None:
+        """Initialize AI provider clients with feature flag gating"""
+        logger.info("Initializing AI provider clients...")
+
+        # Validate provider configuration
+        validation = validate_provider_configuration()
+        logger.info(f"Provider validation: {validation}")
+
+        # Create clients for all providers
+        for provider in AIProvider:
+            try:
+                client = create_provider_client(provider)
+                self.ai_clients[provider] = client
+                logger.info(f"✅ {provider.value} client initialized")
+            except Exception as e:
+                logger.error(f"❌ Failed to initialize {provider.value} client: {e}")
+                # Fall back to mock client
+                from .providers import MockAIClient
+                self.ai_clients[provider] = MockAIClient()
+                logger.warning(f"🔄 Using mock client for {provider.value}")
+
+        # Log provider status
+        status = get_provider_status()
+        logger.info(f"Provider status summary: {status}")
+
+    def _calculate_confidence(self, ai_response) -> float:
+        """Calculate confidence score based on AI response"""
+        base_confidence = 0.8  # Default confidence
+
+        if ai_response.metadata and ai_response.metadata.get('mock'):
+            return base_confidence
+
+        # Adjust confidence based on response characteristics
+        confidence = base_confidence
+
+        # Factor in response length (longer responses often more confident)
+        if len(ai_response.content) > 100:
+            confidence += 0.1
+        elif len(ai_response.content) < 20:
+            confidence -= 0.1
+
+        # Factor in finish reason
+        if ai_response.finish_reason == 'stop':
+            confidence += 0.05
+        elif ai_response.finish_reason in ['length', 'content_filter']:
+            confidence -= 0.1
+
+        # Factor in latency (reasonable latency suggests good response)
+        if 100 <= ai_response.latency_ms <= 2000:
+            confidence += 0.05
+        elif ai_response.latency_ms > 5000:
+            confidence -= 0.1
+
+        return max(0.1, min(1.0, confidence))  # Clamp between 0.1 and 1.0
 
     async def route_request(self, request: RoutingRequest) -> ConsensusResult:
         """Route request to multiple AI models and return consensus"""
@@ -676,11 +735,17 @@ class MultiAIRouter:
                 if not client:
                     raise ValueError(f"No client registered for {model.provider.value}")
 
-                # Mock implementation - in production, call actual AI APIs
-                await asyncio.sleep(0.1)  # Simulate API call
+                # Call actual AI provider or mock
+                ai_response = await client.generate(
+                    prompt=request.prompt,
+                    model=model.model_id,
+                    max_tokens=request.max_tokens,
+                    temperature=model.temperature,
+                    system_prompt=getattr(request, 'system_prompt', None)
+                )
 
-                response_text = f"Mock response from {model.model_id}: {request.prompt[:50]}..."
-                tokens_used = len(response_text.split())
+                response_text = ai_response.content
+                tokens_used = ai_response.usage.get('total_tokens', len(response_text.split())) if ai_response.usage else len(response_text.split())
                 cost = tokens_used * model.cost_per_token
                 latency = time.time() - start_time
 
@@ -711,8 +776,12 @@ class MultiAIRouter:
                     latency=latency,
                     tokens_used=tokens_used,
                     cost=cost,
-                    confidence=0.8,  # Mock confidence
-                    metadata={"temperature": model.temperature}
+                    confidence=self._calculate_confidence(ai_response),
+                    metadata={
+                        "temperature": model.temperature,
+                        "provider_metadata": ai_response.metadata,
+                        "finish_reason": ai_response.finish_reason
+                    }
                 )
 
             except Exception as e:

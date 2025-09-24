@@ -1,0 +1,119 @@
+rules:
+  - id: mock-guardian-production-usage
+    patterns:
+      - pattern-either:
+          - pattern: MockGuardian(...)
+          - pattern: from $MODULE import MockGuardian
+          - pattern: import $MODULE.MockGuardian
+          - pattern: _global_guardian = MockGuardian()
+          - pattern: return MockGuardian()
+          - pattern: guardian_mode == "development"
+    message: |
+      MockGuardian detected in production code path. Use ProductionGuardian for production deployments.
+
+      MockGuardian bypasses security policies and should never be used in production.
+      Ensure GUARDIAN_MODE environment variable is set to "production" and code uses ProductionGuardian.
+    languages: [python]
+    severity: ERROR
+    metadata:
+      category: security
+      technology: [lukhas, guardian]
+      confidence: HIGH
+      impact: HIGH
+      likelihood: MEDIUM
+      subcategory: [audit]
+      references:
+        - "LUKHAS T4/0.01% Production Standards"
+        - "Guardian Security Architecture"
+
+  - id: guardian-environment-bypass
+    patterns:
+      - pattern-either:
+          - pattern: os.environ.get("GUARDIAN_MODE", "production")
+          - pattern: os.getenv("GUARDIAN_MODE", "production")
+          - pattern: guardian_mode = "development"
+          - pattern: GUARDIAN_MODE = "development"
+    message: |
+      Guardian environment configuration may bypass production security.
+
+      Default GUARDIAN_MODE should be "production" in production code paths.
+      Development mode disables critical security policies.
+    languages: [python]
+    severity: WARNING
+    metadata:
+      category: security
+      technology: [lukhas, guardian]
+      confidence: MEDIUM
+      impact: HIGH
+      likelihood: LOW
+      subcategory: [audit]
+
+  - id: hardcoded-guardian-development
+    patterns:
+      - pattern-either:
+          - pattern: |
+              if guardian_mode == "development":
+                  ...
+                  MockGuardian()
+                  ...
+          - pattern: |
+              guardian_mode = "development"
+              ...
+              MockGuardian()
+    message: |
+      Hardcoded development mode Guardian configuration detected.
+
+      This creates a code path where MockGuardian could be instantiated
+      in production if environment variables are misconfigured.
+    languages: [python]
+    severity: INFO
+    metadata:
+      category: security
+      technology: [lukhas, guardian]
+      confidence: MEDIUM
+      impact: MEDIUM
+      likelihood: LOW
+      subcategory: [audit]
+
+  - id: guardian-policy-disabled
+    patterns:
+      - pattern-either:
+          - pattern: self.enabled = False
+          - pattern: enabled=False
+          - pattern: '"enabled": False'
+    message: |
+      Guardian policy explicitly disabled.
+
+      Verify this is intentional and appropriate for the deployment environment.
+      Disabled Guardian policies bypass critical security controls.
+    languages: [python]
+    severity: WARNING
+    metadata:
+      category: security
+      technology: [lukhas, guardian]
+      confidence: LOW
+      impact: HIGH
+      likelihood: LOW
+      subcategory: [audit]
+
+  - id: mock-guardian-import-statement
+    patterns:
+      - pattern: from lukhas.governance.guardian import MockGuardian
+      - pattern: from .guardian import MockGuardian
+      - pattern: import MockGuardian
+    message: |
+      MockGuardian import detected.
+
+      MockGuardian should only be imported in test files or development-specific modules.
+      Production code should use ProductionGuardian through get_guardian() factory.
+    languages: [python]
+    severity: ERROR
+    metadata:
+      category: security
+      technology: [lukhas, guardian]
+      confidence: HIGH
+      impact: HIGH
+      likelihood: HIGH
+      subcategory: [audit]
+      references:
+        - "LUKHAS Guardian Security Model"

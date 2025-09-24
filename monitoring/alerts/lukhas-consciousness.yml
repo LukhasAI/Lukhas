@@ -1,0 +1,101 @@
+groups:
+  - name: lukhas.consciousness
+    rules:
+      # Creativity Engine Alerts
+      - alert: LUKHASCreativityLatencyHigh
+        expr: histogram_quantile(0.95, rate(lukhas_creativity_latency_seconds_bucket[5m])) > 2.0
+        for: 3m
+        labels:
+          severity: warning
+          component: creativity
+          tier: t4
+        annotations:
+          summary: "Creativity engine high latency"
+          description: "Creativity processing latency is {{ $value }}s, exceeding 2s target"
+          runbook: "https://docs.lukhas.ai/runbooks/creativity-latency"
+
+      - alert: LUKHASCreativityFlowStateBlocked
+        expr: lukhas_creativity_flow_state == 0
+        for: 10m
+        labels:
+          severity: warning
+          component: creativity
+          tier: t4
+        annotations:
+          summary: "Creativity flow state blocked"
+          description: "Creativity engine has been in blocked state for 10+ minutes"
+          runbook: "https://docs.lukhas.ai/runbooks/creativity-blocked"
+
+      - alert: LUKHASCreativityNoveltyLow
+        expr: lukhas_creativity_novelty_score < 0.3
+        for: 5m
+        labels:
+          severity: info
+          component: creativity
+          tier: t4
+        annotations:
+          summary: "Low creativity novelty score"
+          description: "Novelty score is {{ $value }}, below optimal range (0.7-0.9)"
+          runbook: "https://docs.lukhas.ai/runbooks/creativity-novelty"
+
+      - alert: LUKHASCreativityGuardianRejections
+        expr: rate(lukhas_creativity_guardian_approvals_total{decision="rejected"}[5m]) > 0.5
+        for: 2m
+        labels:
+          severity: warning
+          component: creativity
+          tier: t4
+        annotations:
+          summary: "High creativity Guardian rejection rate"
+          description: "Guardian is rejecting {{ $value }} creative ideas per second"
+          runbook: "https://docs.lukhas.ai/runbooks/guardian-rejections"
+
+      # Memory System Alerts
+      - alert: LUKHASMemoryRecallLatencyHigh
+        expr: histogram_quantile(0.95, rate(memory_recall_latency_seconds_bucket[5m])) > 0.05
+        for: 2m
+        labels:
+          severity: warning
+          component: memory
+          tier: t4
+        annotations:
+          summary: "Memory recall latency high"
+          description: "Memory recall 95th percentile is {{ $value }}s, exceeding 50ms target"
+          runbook: "https://docs.lukhas.ai/runbooks/memory-latency"
+
+      - alert: LUKHASMemoryFoldsApproachingLimit
+        expr: active_folds > 900
+        for: 1m
+        labels:
+          severity: warning
+          component: memory
+          tier: t4
+        annotations:
+          summary: "Memory folds approaching limit"
+          description: "Active folds: {{ $value }}/1000, approaching cascade risk threshold"
+          runbook: "https://docs.lukhas.ai/runbooks/memory-folds"
+
+      - alert: LUKHASMemoryFoldsCascadeRisk
+        expr: active_folds > 950
+        for: 30s
+        labels:
+          severity: critical
+          component: memory
+          tier: t4
+        annotations:
+          summary: "Memory cascade risk detected"
+          description: "Active folds: {{ $value }}/1000, immediate cascade prevention required"
+          runbook: "https://docs.lukhas.ai/runbooks/memory-cascade"
+
+      # Drift Detection
+      - alert: LUKHASDriftThresholdExceeded
+        expr: lukhas_drift_ema > 0.15
+        for: 1m
+        labels:
+          severity: critical
+          component: drift
+          tier: t4
+        annotations:
+          summary: "System drift threshold exceeded"
+          description: "Drift EMA is {{ $value }}, exceeding T4/0.01% threshold of 0.15"
+          runbook: "https://docs.lukhas.ai/runbooks/drift-detection"
