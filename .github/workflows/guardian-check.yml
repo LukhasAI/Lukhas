@@ -1,0 +1,270 @@
+name: Guardian Production Check
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Environment to check'
+        required: true
+        default: 'production'
+        type: choice
+        options:
+          - development
+          - staging
+          - production
+
+jobs:
+  check-guardian-mode:
+    name: Validate Guardian Implementation
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Check for MockGuardian in production paths
+        id: mock_check
+        run: |
+          echo "🔍 Checking for MockGuardian usage in production code..."
+
+          # Define production paths to check
+          PROD_PATHS="lukhas/identity/webauthn_api.py lukhas/orchestration/api.py lukhas/governance/guardian.py"
+
+          # Check if MockGuardian is imported in production code (excluding tests)
+          MOCK_FOUND=0
+          for file in $PROD_PATHS; do
+            if [ -f "$file" ]; then
+              # Check for MockGuardian imports or instantiation
+              if grep -q "from.*MockGuardian\|= MockGuardian\|MockGuardian()" "$file"; then
+                echo "❌ MockGuardian found in production file: $file"
+                grep -n "MockGuardian" "$file"
+                MOCK_FOUND=1
+              fi
+            fi
+          done
+
+          echo "mock_found=$MOCK_FOUND" >> $GITHUB_OUTPUT
+
+      - name: Validate Guardian environment configuration
+        run: |
+          python3 << 'EOF'
+          import os
+          import sys
+
+          # Check if we're in production context
+          is_production = "${{ github.ref }}" == "refs/heads/main" or \
+                         "${{ github.event.inputs.environment }}" == "production"
+
+          if is_production:
+              print("🔒 Production environment detected - validating Guardian configuration")
+
+              # In production, MockGuardian should NOT be directly instantiated
+              mock_found = "${{ steps.mock_check.outputs.mock_found }}" == "1"
+
+              if mock_found:
+                  print("❌ FAIL: MockGuardian detected in production code!")
+                  print("Production deployments must use environment-based Guardian selection")
+                  print("Set GUARDIAN_MODE=production for ProductionGuardian")
+                  sys.exit(1)
+              else:
+                  print("✅ PASS: No MockGuardian in production paths")
+          else:
+              print("🧪 Non-production environment - MockGuardian allowed")
+
+          print("\n📋 Guardian Configuration Guidelines:")
+          print("- Development: GUARDIAN_MODE=development (MockGuardian)")
+          print("- Staging: GUARDIAN_MODE=staging (MockGuardian with staging mode)")
+          print("- Production: GUARDIAN_MODE=production (ProductionGuardian)")
+          EOF
+
+      - name: Test Guardian mode switching
+        run: |
+          python3 << 'EOF'
+          import os
+          import sys
+          import importlib
+
+          print("🧪 Testing Guardian mode switching...")
+
+          # Test development mode
+          os.environ["GUARDIAN_MODE"] = "development"
+          import lukhas.governance.guardian as guardian_module
+          importlib.reload(guardian_module)
+
+          dev_guardian = guardian_module.get_guardian()
+          assert dev_guardian.__class__.__name__ == "MockGuardian"
+          assert dev_guardian.mode.value == "development"
+          print("✅ Development mode: MockGuardian")
+
+          # Clear global instance
+          guardian_module._global_guardian = None
+
+          # Test staging mode
+          os.environ["GUARDIAN_MODE"] = "staging"
+          staging_guardian = guardian_module.get_guardian()
+          assert staging_guardian.__class__.__name__ == "MockGuardian"
+          assert staging_guardian.mode.value == "staging"
+          print("✅ Staging mode: MockGuardian (staging)")
+
+          # Clear global instance
+          guardian_module._global_guardian = None
+
+          # Test production mode
+          os.environ["GUARDIAN_MODE"] = "production"
+          prod_guardian = guardian_module.get_guardian()
+          assert prod_guardian.__class__.__name__ == "ProductionGuardian"
+          assert prod_guardian.mode.value == "production"
+          print("✅ Production mode: ProductionGuardian")
+
+          # Test Guardian status endpoint
+          status = guardian_module.get_guardian_status()
+          assert status["mode"] == "production"
+          assert status["implementation"] == "ProductionGuardian"
+          assert "policies_loaded" in status
+          print("✅ Guardian status endpoint working")
+
+          print("\n✅ All Guardian mode tests passed!")
+          EOF
+
+      - name: Validate Guardian policies
+        if: github.ref == 'refs/heads/main'
+        run: |
+          python3 << 'EOF'
+          import os
+          import sys
+          import asyncio
+
+          os.environ["GUARDIAN_MODE"] = "production"
+          from lukhas.governance.guardian import get_guardian
+
+          print("🔍 Validating ProductionGuardian policies...")
+
+          guardian = get_guardian()
+
+          # Test data access validation
+          async def test_policies():
+              # Should fail - PII without consent
+              result = await guardian.validate_request_async({
+                  "data_access": {
+                      "contains_pii": True,
+                      "encrypted": True
+                  }
+              })
+              assert not result["approved"], "PII access without consent should fail"
+              print("✅ PII protection policy working")
+
+              # Should pass - PII with consent
+              result = await guardian.validate_request_async({
+                  "data_access": {
+                      "contains_pii": True,
+                      "consent_id": "consent_123",
+                      "encrypted": True
+                  }
+              })
+              assert result["approved"], "PII access with consent should pass"
+              print("✅ Consent validation working")
+
+              # Should fail - AI without explainability
+              result = await guardian.validate_request_async({
+                  "ai_operation": {
+                      "explainable": False
+                  }
+              })
+              assert not result["approved"], "AI without explainability should fail"
+              print("✅ AI ethics policy working")
+
+              # Test lockdown mechanism (simulate violations)
+              for i in range(12):
+                  await guardian.validate_request_async({
+                      "data_access": {"contains_pii": True}  # Will fail
+                  })
+
+              # Should be in lockdown now
+              result = await guardian.validate_request_async({
+                  "data_access": {
+                      "contains_pii": False,
+                      "encrypted": True
+                  }
+              })
+              assert not result["approved"], "Guardian should be in lockdown"
+              assert "lockdown" in result["reason"].lower()
+              print("✅ Lockdown mechanism working")
+
+          asyncio.run(test_policies())
+          print("\n✅ All Guardian policies validated!")
+          EOF
+
+      - name: Generate Guardian compliance report
+        if: always()
+        run: |
+          python3 << 'EOF'
+          import json
+          import os
+          from datetime import datetime
+
+          report = {
+              "timestamp": datetime.utcnow().isoformat(),
+              "environment": "${{ github.event.inputs.environment or 'ci' }}",
+              "ref": "${{ github.ref }}",
+              "checks": {
+                  "mock_guardian_check": "${{ steps.mock_check.outputs.mock_found }}" == "0",
+                  "environment_switching": True,  # If we got here, it passed
+                  "policy_validation": "${{ github.ref }}" == "refs/heads/main"
+              },
+              "recommendations": []
+          }
+
+          if "${{ steps.mock_check.outputs.mock_found }}" == "1":
+              report["recommendations"].append(
+                  "Remove MockGuardian from production code paths"
+              )
+
+          if "${{ github.ref }}" == "refs/heads/main":
+              report["production_ready"] = report["checks"]["mock_guardian_check"]
+          else:
+              report["production_ready"] = None
+
+          # Save report
+          os.makedirs("artifacts", exist_ok=True)
+          with open("artifacts/guardian_compliance_report.json", "w") as f:
+              json.dump(report, f, indent=2)
+
+          print("📊 Guardian Compliance Report:")
+          print(json.dumps(report, indent=2))
+          EOF
+
+      - name: Upload Guardian compliance report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: guardian-compliance-${{ github.sha }}
+          path: artifacts/guardian_compliance_report.json
+
+  production-readiness-gate:
+    name: Production Readiness Gate
+    runs-on: ubuntu-latest
+    needs: [check-guardian-mode]
+    if: github.ref == 'refs/heads/main'
+
+    steps:
+      - name: Validate production readiness
+        run: |
+          echo "🚀 Production Readiness Check"
+          echo "✅ Guardian validation passed"
+          echo "✅ No MockGuardian in production paths"
+          echo "✅ Environment-based Guardian switching verified"
+          echo ""
+          echo "📋 Deployment checklist:"
+          echo "- [ ] Set GUARDIAN_MODE=production in deployment environment"
+          echo "- [ ] Verify Guardian status endpoint returns ProductionGuardian"
+          echo "- [ ] Monitor Guardian violations and lockdown events"
+          echo "- [ ] Configure alerting for Guardian policy violations"

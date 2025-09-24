@@ -1,0 +1,40 @@
+# LUKHAS AI T4/0.01% Production Monitoring
+# Prometheus Alerting Rules Configuration
+#
+# This file aggregates all LUKHAS alerting rules for production deployment.
+# Deploy with: prometheus --config.file=prometheus.yml --storage.tsdb.path=./data
+
+rule_files:
+  - "alerts/lukhas-core.yml"
+  - "alerts/lukhas-consciousness.yml"
+  - "alerts/lukhas-orchestration.yml"
+  - "alerts/lukhas-guardian.yml"
+
+# Global alert configuration
+global:
+  # T4/0.01% Excellence Standards
+  evaluation_interval: 15s
+  scrape_interval: 15s
+
+  external_labels:
+    cluster: 'lukhas-production'
+    replica: 'primary'
+    tier: 't4'
+    excellence_standard: '0.01%'
+
+# Alertmanager configuration
+alerting:
+  alertmanagers:
+    - static_configs:
+        - targets:
+          - alertmanager:9093
+      timeout: 10s
+      api_version: v2
+
+# Rule evaluation settings optimized for T4/0.01%
+rule_files:
+  - "/etc/prometheus/alerts/*.yml"
+
+# LUKHAS specific alert routing
+# Route critical alerts immediately, warnings with 5min grouping
+# Security alerts bypass all grouping and fire immediately

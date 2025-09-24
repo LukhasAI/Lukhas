@@ -12,7 +12,7 @@ Constellation Framework: Identity ⚛️ API layer
 from __future__ import annotations
 import time
 from typing import Dict, Any, List, Optional
-from fastapi import APIRouter, HTTPException, Depends, status
+from fastapi import APIRouter, HTTPException, Depends, status, Request
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from pydantic import BaseModel, Field
 from opentelemetry import trace
@@ -24,6 +24,7 @@ from .webauthn_production import (
     get_webauthn_manager
 )
 from .auth_service import verify_token
+from .rate_limiting import check_webauthn_rate_limit, get_rate_limiter, RateLimitType
 
 tracer = trace.get_tracer(__name__)
 logger = logging.getLogger(__name__)
@@ -110,10 +111,63 @@ async def get_current_user(credentials: HTTPAuthorizationCredentials = Depends(s
         )
 
 
+async def get_client_ip(request: Request) -> str:
+    """Extract client IP address from request"""
+    # Check for forwarded headers (behind proxy)
+    forwarded_for = request.headers.get("X-Forwarded-For")
+    if forwarded_for:
+        return forwarded_for.split(",")[0].strip()
+
+    real_ip = request.headers.get("X-Real-IP")
+    if real_ip:
+        return real_ip
+
+    return request.client.host if request.client else "unknown"
+
+
+async def registration_rate_limit(request: Request):
+    """Rate limiting dependency for WebAuthn registration endpoints"""
+    client_ip = await get_client_ip(request)
+    rate_limiter = get_rate_limiter()
+
+    allowed, metadata = await rate_limiter.check_rate_limit(
+        client_ip, RateLimitType.WEBAUTHN_REGISTRATION
+    )
+
+    if not allowed:
+        raise HTTPException(
+            status_code=429,
+            detail=metadata,
+            headers={"Retry-After": str(metadata.get("retry_after", 60))}
+        )
+
+    return metadata
+
+
+async def authentication_rate_limit(request: Request):
+    """Rate limiting dependency for WebAuthn authentication endpoints"""
+    client_ip = await get_client_ip(request)
+    rate_limiter = get_rate_limiter()
+
+    allowed, metadata = await rate_limiter.check_rate_limit(
+        client_ip, RateLimitType.WEBAUTHN_AUTHENTICATION
+    )
+
+    if not allowed:
+        raise HTTPException(
+            status_code=429,
+            detail=metadata,
+            headers={"Retry-After": str(metadata.get("retry_after", 60))}
+        )
+
+    return metadata
+
+
 @router.post("/register/begin")
 async def begin_registration(
     request: RegistrationBeginRequest,
-    current_user: Dict[str, Any] = Depends(get_current_user)
+    current_user: Dict[str, Any] = Depends(get_current_user),
+    rate_limit_check: Dict[str, Any] = Depends(registration_rate_limit)
 ):
     """Begin WebAuthn credential registration"""
 
@@ -188,7 +242,8 @@ async def begin_registration(
 @router.post("/register/finish")
 async def finish_registration(
     request: RegistrationFinishRequest,
-    current_user: Dict[str, Any] = Depends(get_current_user)
+    current_user: Dict[str, Any] = Depends(get_current_user),
+    rate_limit_check: Dict[str, Any] = Depends(registration_rate_limit)
 ):
     """Complete WebAuthn credential registration"""
 
@@ -260,7 +315,10 @@ async def finish_registration(
 
 
 @router.post("/authenticate/begin")
-async def begin_authentication(request: AuthenticationBeginRequest):
+async def begin_authentication(
+    request: AuthenticationBeginRequest,
+    rate_limit_check: Dict[str, Any] = Depends(authentication_rate_limit)
+):
     """Begin WebAuthn authentication"""
 
     with tracer.start_span("webauthn_api.begin_authentication") as span:
@@ -329,7 +387,10 @@ async def begin_authentication(request: AuthenticationBeginRequest):
 
 
 @router.post("/authenticate/finish")
-async def finish_authentication(request: AuthenticationFinishRequest):
+async def finish_authentication(
+    request: AuthenticationFinishRequest,
+    rate_limit_check: Dict[str, Any] = Depends(authentication_rate_limit)
+):
     """Complete WebAuthn authentication"""
 
     with tracer.start_span("webauthn_api.finish_authentication") as span:

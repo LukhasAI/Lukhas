@@ -1,0 +1,121 @@
+groups:
+  - name: lukhas.guardian
+    rules:
+      # Guardian System Alerts
+      - alert: LUKHASGuardianDisabled
+        expr: absent(up{job="lukhas-guardian"}) or up{job="lukhas-guardian"} == 0
+        for: 30s
+        labels:
+          severity: critical
+          component: guardian
+          tier: t4
+          security: critical
+        annotations:
+          summary: "Guardian system is disabled or down"
+          description: "Guardian system is not active - CRITICAL SECURITY RISK"
+          runbook: "https://docs.lukhas.ai/runbooks/guardian-down"
+
+      - alert: LUKHASMockGuardianInProduction
+        expr: guardian_mode{mode="development"} and environment{env="production"}
+        for: 0s
+        labels:
+          severity: critical
+          component: guardian
+          tier: t4
+          security: critical
+        annotations:
+          summary: "MockGuardian detected in production"
+          description: "MockGuardian is running in production environment - IMMEDIATE ACTION REQUIRED"
+          runbook: "https://docs.lukhas.ai/runbooks/mock-guardian-production"
+
+      - alert: LUKHASGuardianPolicyViolations
+        expr: rate(guardian_policy_violations_total[5m]) > 0
+        for: 30s
+        labels:
+          severity: warning
+          component: guardian
+          tier: t4
+          security: high
+        annotations:
+          summary: "Guardian policy violations detected"
+          description: "{{ $value }} policy violations per second detected"
+          runbook: "https://docs.lukhas.ai/runbooks/guardian-violations"
+
+      - alert: LUKHASGuardianLockdownActive
+        expr: guardian_lockdown_active == 1
+        for: 0s
+        labels:
+          severity: critical
+          component: guardian
+          tier: t4
+          security: critical
+        annotations:
+          summary: "Guardian lockdown is active"
+          description: "Guardian has initiated system lockdown due to security threat"
+          runbook: "https://docs.lukhas.ai/runbooks/guardian-lockdown"
+
+      - alert: LUKHASGuardianDriftDetection
+        expr: guardian_drift_score > 0.15
+        for: 1m
+        labels:
+          severity: critical
+          component: guardian
+          tier: t4
+          security: high
+        annotations:
+          summary: "Guardian drift threshold exceeded"
+          description: "Guardian drift score is {{ $value }}, exceeding T4/0.01% threshold"
+          runbook: "https://docs.lukhas.ai/runbooks/guardian-drift"
+
+      # Rate Limiting Security Alerts
+      - alert: LUKHASRateLimitBypassAttempt
+        expr: increase(rate_limit_violations_total[1m]) > 100
+        for: 30s
+        labels:
+          severity: warning
+          component: security
+          tier: t4
+          security: medium
+        annotations:
+          summary: "Potential rate limit bypass attempt"
+          description: "{{ $value }} rate limit violations in 1 minute - potential attack"
+          runbook: "https://docs.lukhas.ai/runbooks/rate-limit-attack"
+
+      - alert: LUKHASClientLockedOut
+        expr: rate_limit_lockouts_active > 10
+        for: 2m
+        labels:
+          severity: info
+          component: security
+          tier: t4
+        annotations:
+          summary: "Multiple clients locked out"
+          description: "{{ $value }} clients currently locked out due to rate limiting"
+          runbook: "https://docs.lukhas.ai/runbooks/client-lockouts"
+
+      # Token Security Alerts
+      - alert: LUKHASTokenReplayDetected
+        expr: rate(token_replay_attempts_total[5m]) > 0
+        for: 0s
+        labels:
+          severity: critical
+          component: security
+          tier: t4
+          security: critical
+        annotations:
+          summary: "Token replay attack detected"
+          description: "{{ $value }} token replay attempts per second detected"
+          runbook: "https://docs.lukhas.ai/runbooks/token-replay"
+
+      - alert: LUKHASExpiredTokenUsage
+        expr: rate(expired_token_attempts_total[5m]) > 1
+        for: 1m
+        labels:
+          severity: warning
+          component: security
+          tier: t4
+          security: medium
+        annotations:
+          summary: "High expired token usage"
+          description: "{{ $value }} expired token attempts per second"
+          runbook: "https://docs.lukhas.ai/runbooks/expired-tokens"
