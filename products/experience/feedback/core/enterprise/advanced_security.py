@@ -23,9 +23,16 @@ import numpy as np
 from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 
-from candidate.core.common import get_logger
-from feedback.user_feedback_system import FeedbackItem
 from lukhas.core.interfaces import CoreInterface
+
+# Use relative import for local modules and standard logging
+from ..user_feedback_system import FeedbackItem
+
+
+def get_logger(name: str):
+    """Get logger instance - stable interface"""
+    return logging.getLogger(name)
+
 
 logger = get_logger(__name__)
 

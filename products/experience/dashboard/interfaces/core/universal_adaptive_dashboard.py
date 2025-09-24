@@ -55,7 +55,30 @@ from bio.core.symbolic_adaptive_threshold_colony import AdaptiveThresholdColony
 
 # Import existing LUKHAS adaptive systems
 from bio.core.symbolic_fallback_systems import BioSymbolicFallbackManager
-from candidate.orchestration.brain.dynamic_adaptive_dashboard import AdaptiveDashboard
+# Use stable imports adapter instead of direct candidate/ imports
+from ...stable_imports_adapter import get_service, AdaptiveDashboardInterface
+
+
+def get_adaptive_dashboard() -> AdaptiveDashboardInterface:
+    """Get adaptive dashboard implementation via registry"""
+    return get_service("adaptive_dashboard") or None
+
+
+# Create a proxy class to maintain interface compatibility
+class AdaptiveDashboard:
+    """Registry-based adaptive dashboard proxy"""
+
+    def __init__(self):
+        self._implementation = get_adaptive_dashboard()
+
+    def __getattr__(self, name):
+        if self._implementation:
+            return getattr(self._implementation, name)
+        else:
+            # Return no-op methods for missing implementation
+            def noop(*args, **kwargs):
+                return None
+            return noop
 from lukhas.core.colonies.ethics_swarm_colony import get_ethics_swarm_colony
 from lukhas.core.monitoring.drift_monitor import UnifiedDriftMonitor
 from lukhas.core.oracle_nervous_system import get_oracle_nervous_system

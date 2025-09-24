@@ -22,7 +22,13 @@
       "Bash(chmod:*)",
       "Bash(semgrep:*)",
       "Bash(source:*)",
-      "Bash(./scripts/generate_lukhas_context.sh:*)"
+      "Bash(./scripts/generate_lukhas_context.sh:*)",
+      "Bash(PYTHONHASHSEED=0 LUKHAS_MODE=release PYTHONDONTWRITEBYTECODE=1 python3 -m pytest tests/consciousness/test_c1_consciousness_components.py::TestAwarenessEngine::test_awareness_update_basic -v --tb=short)",
+      "Bash(python -m pytest tests/observability/test_matriz_cognitive_instrumentation.py::TestCognitiveInstrumentationInitialization::test_initialization_success -v --tb=short)",
+      "Bash(PYTHONHASHSEED=0 LUKHAS_MODE=release PYTHONDONTWRITEBYTECODE=1 python3 /Users/agi_dev/LOCAL-REPOS/Lukhas/scripts/validate_ledger_performance.py --samples 100 --verbose)",
+      "Bash(PYTHONHASHSEED=0 LUKHAS_MODE=release PYTHONDONTWRITEBYTECODE=1 python3 scripts/validate_ledger_performance.py --samples 100 --verbose)",
+      "Bash(cat:*)",
+      "Bash(PYTHONHASHSEED=0 LUKHAS_MODE=release PYTHONDONTWRITEBYTECODE=1 python3 scripts/audit_baseline.py --environment local --samples 1000 --confidence 0.95 --output artifacts/audit_local_$AUDIT_RUN_ID.json)"
     ],
     "deny": [],
     "ask": []

@@ -66,3 +66,19 @@ class ICognitiveNode(Protocol):
     async def cancel(self, reason: Optional[str] = None) -> None: ...  # # ΛTAG: pipeline_interface
 
     async def health_check(self) -> Mapping[str, Any]: ...
+
+
+@runtime_checkable
+class CoreInterface(Protocol):
+    """Base protocol for core system components - T4 architecture compliance"""
+
+    def get_health_status(self) -> Mapping[str, Any]: ...
+
+
+class ServiceInterface(ABC):
+    """Abstract base class for service implementations"""
+
+    @abstractmethod
+    def get_health_status(self) -> dict[str, Any]:
+        """Return health status of the service"""
+        raise NotImplementedError

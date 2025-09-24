@@ -25,10 +25,35 @@ from datetime import datetime, timedelta, timezone
 from enum import Enum
 from typing import Any, Optional
 
-from candidate.core.common.exceptions import LukhasError, ValidationError
-from candidate.core.common.logger import get_logger
-from candidate.core.interfaces import CoreInterface
-from candidate.core.interfaces.dependency_injection import get_service, register_service
+# Use stable module interfaces instead of candidate/ imports
+from lukhas.core.interfaces import CoreInterface
+from lukhas.core.registry import resolve, register
+
+
+class LukhasError(Exception):
+    """Base exception for LUKHAS system errors"""
+    pass
+
+
+class ValidationError(LukhasError):
+    """Exception for validation errors"""
+    pass
+
+
+def get_logger(name: str):
+    """Get logger instance - stable interface"""
+    return logging.getLogger(name)
+
+
+def get_service(service_name: str):
+    """Get service via registry - T4 compliant interface"""
+    return resolve(service_name)
+
+
+def register_service(service_name: str, service_instance):
+    """Register service via registry - T4 compliant interface"""
+    return register(service_name, service_instance)
+
 
 logger = get_logger(__name__)
 
