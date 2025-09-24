@@ -38,6 +38,31 @@ ImaginationMode = Literal["visual", "conceptual", "narrative", "abstract", "hybr
 
 
 @dataclass
+class ThoughtLoopContext:
+    """Context for thought loop processing."""
+    session_id: str
+    query: str
+    context_data: Dict[str, Any]
+    time_budget_ms: float
+    quality_threshold: float
+    tenant: str
+
+@dataclass
+class ThoughtLoopResult:
+    """Result of complete thought loop processing."""
+    success: bool
+    thought_synthesis: Optional[Any]
+    inference_results: List[Any]
+    contradiction_analysis: Optional[Any]
+    memory_validation: Optional[Any]
+    awareness_snapshot: Optional[Any]
+    meta_assessment: Optional[Any]
+    overall_quality_score: float
+    reasoning_confidence: float
+    contradiction_score: float
+    total_processing_time_ms: float
+
+@dataclass
 class ConsciousnessState:
     """
     Core consciousness state representation.
@@ -45,8 +70,15 @@ class ConsciousnessState:
     Tracks the current phase, awareness level, and contextual information
     for the consciousness system. Used across all consciousness engines.
     """
+    awareness_level: float = 0.7
+    cognitive_load: float = 0.5
+    focus_intensity: float = 0.8
+    memory_coherence: float = 0.9
+    reasoning_depth: float = 0.7
+    contradiction_tension: float = 0.2
+    meta_awareness: float = 0.6
+    timestamp: float = field(default_factory=time.time)
     phase: StatePhase = "IDLE"
-    awareness_level: AwarenessLevel = "basic"
     emotional_tone: str = "neutral"
     level: float = 0.7  # Consciousness intensity [0.0-1.0]
     ts_ms: int = field(default_factory=lambda: int(time.time() * 1000))

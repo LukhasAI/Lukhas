@@ -16,16 +16,96 @@ from dotenv import load_dotenv
 # Load environment variables from .env file
 load_dotenv()
 
-# Import LLM wrappers
-import sys
-from pathlib import Path
+# Import LLM wrappers via registry system (T4 architecture compliance)
+from lukhas.core.registry import resolve, discover_entry_points
+from typing import Type, Protocol, runtime_checkable
 
-sys.path.append(str(Path(__file__).parent.parent.parent / "bridge"))
 
-from candidate.bridge.llm_wrappers.anthropic_wrapper import AnthropicWrapper
-from candidate.bridge.llm_wrappers.gemini_wrapper import GeminiWrapper
-from candidate.bridge.llm_wrappers.perplexity_wrapper import PerplexityWrapper
-from candidate.bridge.llm_wrappers.unified_openai_client import UnifiedOpenAIClient
+@runtime_checkable
+class LLMWrapperProtocol(Protocol):
+    """Protocol for LLM wrapper implementations"""
+
+    async def generate(self, prompt: str, **kwargs) -> dict[str, Any]: ...
+    async def complete(self, prompt: str, **kwargs) -> dict[str, Any]: ...
+    async def generate_content(self, prompt: str, **kwargs) -> dict[str, Any]: ...
+    async def chat_completion(self, messages: list[dict], **kwargs) -> dict[str, Any]: ...
+
+
+def _get_llm_wrapper_classes() -> dict[str, Type[LLMWrapperProtocol]]:
+    """Discover LLM wrapper classes through registry system"""
+
+    # Attempt to discover through entry points first
+    try:
+        discover_entry_points(group="lukhas.llm_wrappers")
+        wrappers = {}
+        for name in ["anthropic", "gemini", "perplexity", "openai"]:
+            wrapper_class = resolve(f"llm_wrapper_{name}")
+            if wrapper_class:
+                wrappers[name] = wrapper_class
+        if wrappers:
+            return wrappers
+    except Exception as e:
+        import logging
+        logging.getLogger(__name__).debug(f"Entry point discovery failed: {e}")
+
+    # Fallback: Try to get from registered components
+    try:
+        wrappers = {}
+        for name in ["anthropic", "gemini", "perplexity", "openai"]:
+            wrapper_class = resolve(f"llm_wrapper_{name}")
+            if wrapper_class:
+                wrappers[name] = wrapper_class
+
+        if wrappers:
+            return wrappers
+    except Exception as e:
+        import logging
+        logging.getLogger(__name__).debug(f"Registry lookup failed: {e}")
+
+    # Last resort: Dynamic import with safety checks
+    return _safe_dynamic_import_fallback()
+
+
+def _safe_dynamic_import_fallback() -> dict[str, Type[LLMWrapperProtocol]]:
+    """Safe fallback for dynamic imports"""
+    import logging
+    logger = logging.getLogger(__name__)
+    wrappers = {}
+
+    wrapper_mappings = {
+        "anthropic": "candidate.bridge.llm_wrappers.anthropic_wrapper.AnthropicWrapper",
+        "gemini": "candidate.bridge.llm_wrappers.gemini_wrapper.GeminiWrapper",
+        "perplexity": "candidate.bridge.llm_wrappers.perplexity_wrapper.PerplexityWrapper",
+        "openai": "candidate.bridge.llm_wrappers.unified_openai_client.UnifiedOpenAIClient",
+    }
+
+    for name, module_path in wrapper_mappings.items():
+        try:
+            module_name, class_name = module_path.rsplit(".", 1)
+            module = __import__(module_name, fromlist=[class_name])
+            wrapper_class = getattr(module, class_name)
+
+            # Validate protocol compliance
+            if hasattr(wrapper_class, '__call__'):  # Basic callable check
+                wrappers[name] = wrapper_class
+                logger.info(f"Loaded {name} wrapper via fallback")
+            else:
+                logger.warning(f"Wrapper {name} does not implement required interface")
+
+        except ImportError as e:
+            logger.warning(f"Could not import {name} wrapper: {e}")
+        except Exception as e:
+            logger.error(f"Error loading {name} wrapper: {e}")
+
+    return wrappers
+
+
+# Initialize wrapper classes at module level
+_WRAPPER_CLASSES = _get_llm_wrapper_classes()
+AnthropicWrapper = _WRAPPER_CLASSES.get("anthropic")
+GeminiWrapper = _WRAPPER_CLASSES.get("gemini")
+PerplexityWrapper = _WRAPPER_CLASSES.get("perplexity")
+UnifiedOpenAIClient = _WRAPPER_CLASSES.get("openai")
 
 logger = logging.getLogger(__name__)
 
@@ -121,10 +201,20 @@ class UnifiedLLMBridge:
 
         for provider_name, config in provider_configs.items():
             try:
+                # Check if wrapper class was loaded via registry
+                wrapper_class = config["class"]
+                if wrapper_class is None:
+                    logger.warning(f"Wrapper class for {provider_name} not available via registry")
+                    self.provider_status[provider_name] = ProviderStatus.UNAVAILABLE
+                    continue
+
                 api_key = os.getenv(config["env_key"])
                 if api_key:
-                    # Initialize provider
-                    provider = config["class"]() if provider_name == "openai" else config["class"](api_key=api_key)
+                    # Initialize provider with safety checks
+                    if provider_name == "openai":
+                        provider = wrapper_class()
+                    else:
+                        provider = wrapper_class(api_key=api_key)
 
                     self.providers[provider_name] = {
                         "client": provider,

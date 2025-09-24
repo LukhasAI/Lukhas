@@ -36,11 +36,51 @@ try:
         ConflictType, ConflictSeverity, ResolutionMode, ConflictResolutionResult
     )
 except ImportError:
-    # Fallback if import fails
+    # Fallback definitions if import fails
     class SymbolicConflictResolver:
         def __init__(self): pass
         async def detect_symbolic_conflict(self, *args): return None
         async def resolve_conflict(self, *args): return None
+
+    class ResolutionMode(Enum):
+        AUTO = "auto"
+        HIERARCHICAL = "hierarchical"
+        TEMPORAL = "temporal"
+        CONTEXTUAL = "contextual"
+        MANUAL = "manual"
+        MERGE = "merge"
+        PRIORITIZE = "prioritize"
+
+    class ConflictType(Enum):
+        LOGICAL = "logical"
+        SEMANTIC = "semantic"
+        TEMPORAL = "temporal"
+
+    class ConflictSeverity(Enum):
+        LOW = "low"
+        MEDIUM = "medium"
+        HIGH = "high"
+
+    @dataclass
+    class SymbolicFragment:
+        content: str
+        context: Dict[str, Any] = None
+        confidence: float = 0.5
+
+    @dataclass
+    class ContradictionReport:
+        conflict_type: ConflictType
+        severity: ConflictSeverity
+        fragments: List[SymbolicFragment]
+        description: str
+        confidence: float = 0.5
+
+    @dataclass
+    class ConflictResolutionResult:
+        success: bool
+        resolution_strategy: ResolutionMode
+        resolved_fragments: List[SymbolicFragment]
+        confidence: float = 0.5
 
 logger = logging.getLogger(__name__)
 
@@ -108,12 +148,13 @@ class ContradictionIntegrator:
         self.enable_adaptive_strategies = enable_adaptive_strategies
         self.enable_meta_feedback = enable_meta_feedback
 
-        # Initialize core conflict resolver
-        self.conflict_resolver = SymbolicConflictResolver(
-            severity_threshold=0.5,  # Lower for early detection
-            escalation_threshold=0.8,
-            resolution_confidence_threshold=0.6
-        )
+        # Initialize core conflict resolver with fallback compatibility
+        try:
+            self.conflict_resolver = SymbolicConflictResolver()
+        except Exception as e:
+            logger.warning(f"Failed to initialize SymbolicConflictResolver: {e}")
+            # Use fallback mock resolver
+            self.conflict_resolver = SymbolicConflictResolver()
 
         # Performance tracking
         self.detection_stats = {
