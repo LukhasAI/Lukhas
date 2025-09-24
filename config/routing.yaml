@@ -1,0 +1,204 @@
+# LUKHAS Phase 4 - Externalized Routing Configuration
+# T4/0.01% Excellence: Hot-reloadable, A/B testable, performance-optimized
+version: "2.0.0"
+default_strategy: "health_based"
+default_providers: ["anthropic", "openai", "google"]
+
+# Routing Rules - Pattern-based intelligent routing
+rules:
+  # Documentation and Architecture Tasks (Claude's strength domain)
+  - name: "documentation_tasks"
+    pattern: "document|architecture|design|review|analyze|explain|structure"
+    strategy: "weighted"
+    providers: ["anthropic", "openai", "google"]
+    weights:
+      anthropic: 0.7  # Claude excels at documentation
+      openai: 0.2
+      google: 0.1
+    health_threshold: 0.95
+    latency_threshold_ms: 250.0
+    fallback_providers: ["openai", "google"]
+    metadata:
+      description: "Routes documentation and architectural tasks to Claude"
+      priority: "high"
+
+  # Code Generation and Implementation (GPT's versatility)
+  - name: "code_generation"
+    pattern: "code|implement|debug|programming|function|class|script"
+    strategy: "round_robin"
+    providers: ["openai", "anthropic", "google"]
+    health_threshold: 0.95
+    latency_threshold_ms: 200.0
+    fallback_providers: ["anthropic", "google"]
+    metadata:
+      description: "Distributes code generation across providers"
+      priority: "high"
+
+  # Analysis and Understanding (Balanced approach)
+  - name: "analysis_tasks"
+    pattern: "analyze|understand|interpret|summarize|extract"
+    strategy: "latency_based"
+    providers: ["google", "openai", "anthropic"]
+    health_threshold: 0.90
+    latency_threshold_ms: 150.0
+    fallback_providers: ["openai", "anthropic"]
+    metadata:
+      description: "Optimizes for fastest response on analysis tasks"
+      priority: "medium"
+
+  # Creative and Brainstorming (GPT's creativity)
+  - name: "creative_tasks"
+    pattern: "creative|brainstorm|generate ideas|naming|story|content"
+    strategy: "weighted"
+    providers: ["openai", "anthropic", "google"]
+    weights:
+      openai: 0.6
+      anthropic: 0.3
+      google: 0.1
+    health_threshold: 0.92
+    latency_threshold_ms: 300.0
+    fallback_providers: ["anthropic", "google"]
+    metadata:
+      description: "Favors GPT for creative tasks"
+      priority: "medium"
+
+  # Performance-Critical Tasks (Cost-optimized)
+  - name: "performance_critical"
+    pattern: "fast|quick|urgent|immediate|real-time"
+    strategy: "cost_optimized"
+    providers: ["google", "openai", "anthropic"]
+    health_threshold: 0.90
+    latency_threshold_ms: 100.0
+    fallback_providers: ["openai", "anthropic"]
+    metadata:
+      description: "Cost-optimized routing for performance-critical tasks"
+      priority: "high"
+
+  # Consensus Tasks (Multi-AI validation)
+  - name: "consensus_tasks"
+    pattern: "validate|verify|consensus|double-check|critical"
+    strategy: "hybrid"
+    providers: ["anthropic", "openai", "google"]
+    health_threshold: 0.98
+    latency_threshold_ms: 500.0
+    fallback_providers: ["anthropic", "openai"]
+    metadata:
+      description: "Uses hybrid strategy for critical validation tasks"
+      priority: "critical"
+
+# A/B Testing Configuration
+ab_tests:
+  - name: "documentation_claude_vs_gpt"
+    enabled: true
+    traffic_split:
+      anthropic: 70
+      openai: 30
+    rules: ["documentation_tasks"]
+    metadata:
+      description: "Test Claude vs GPT for documentation quality"
+      start_date: "2024-09-24"
+      end_date: "2024-10-24"
+      metrics: ["quality_score", "user_satisfaction", "completion_time"]
+
+  - name: "code_generation_round_robin_vs_weighted"
+    enabled: false
+    traffic_split:
+      round_robin: 50
+      weighted: 50
+    rules: ["code_generation"]
+    metadata:
+      description: "Test routing strategy effectiveness"
+      start_date: "2024-10-01"
+      end_date: "2024-11-01"
+      metrics: ["latency", "success_rate", "user_preference"]
+
+  - name: "latency_optimization_test"
+    enabled: false
+    traffic_split:
+      google_first: 40
+      openai_first: 30
+      anthropic_first: 30
+    rules: ["analysis_tasks"]
+    metadata:
+      description: "Test provider latency optimization"
+      metrics: ["response_time", "accuracy", "cost"]
+
+# Health and Performance Configuration
+health_check_interval: 30.0  # seconds
+circuit_breaker_threshold: 5  # consecutive failures
+circuit_breaker_timeout: 60.0  # seconds
+context_timeout: 10.0  # seconds
+
+# SLA Thresholds
+sla_requirements:
+  max_latency_ms: 2000
+  min_success_rate: 0.99
+  max_error_rate: 0.01
+  uptime_percentage: 99.9
+
+# Provider-Specific Configuration
+provider_config:
+  anthropic:
+    models:
+      primary: "claude-3-sonnet-20240229"
+      fallback: "claude-3-haiku-20240307"
+    rate_limits:
+      requests_per_minute: 1000
+      tokens_per_minute: 100000
+    specialties: ["documentation", "analysis", "architecture"]
+
+  openai:
+    models:
+      primary: "gpt-4"
+      fallback: "gpt-3.5-turbo"
+    rate_limits:
+      requests_per_minute: 3000
+      tokens_per_minute: 150000
+    specialties: ["code", "creative", "general"]
+
+  google:
+    models:
+      primary: "gemini-pro"
+      fallback: "gemini-pro"
+    rate_limits:
+      requests_per_minute: 2000
+      tokens_per_minute: 120000
+    specialties: ["fast_response", "cost_effective", "analysis"]
+
+# Feature Flags
+features:
+  hot_reload_enabled: true
+  metrics_collection_enabled: true
+  ab_testing_enabled: true
+  circuit_breaker_enabled: true
+  context_preservation_enabled: true
+  health_monitoring_enabled: true
+  admin_api_enabled: true
+
+# Security Configuration
+security:
+  admin_auth_required: true
+  api_key_rotation_days: 30
+  audit_logging_enabled: true
+  rate_limiting_enabled: true
+
+# Monitoring and Observability
+monitoring:
+  prometheus_metrics_enabled: true
+  opentelemetry_tracing_enabled: true
+  log_level: "INFO"
+  performance_targets:
+    routing_decision_ms: 100
+    context_handoff_ms: 250
+    health_check_ms: 50
+    availability_percentage: 99.9
+
+# Metadata
+metadata:
+  created_by: "lukhas_phase4_implementation"
+  created_at: "2024-09-24T16:00:00Z"
+  updated_at: "2024-09-24T16:00:00Z"
+  description: "LUKHAS Phase 4 externalized routing configuration with hot-reload, A/B testing, and health-aware routing"
+  version_changelog:
+    "2.0.0": "Phase 4 implementation with externalized routing, hot-reload, and advanced strategies"
+    "1.0.0": "Initial basic routing configuration"

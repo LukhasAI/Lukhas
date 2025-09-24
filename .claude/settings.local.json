@@ -28,7 +28,8 @@
       "Bash(PYTHONHASHSEED=0 LUKHAS_MODE=release PYTHONDONTWRITEBYTECODE=1 python3 /Users/agi_dev/LOCAL-REPOS/Lukhas/scripts/validate_ledger_performance.py --samples 100 --verbose)",
       "Bash(PYTHONHASHSEED=0 LUKHAS_MODE=release PYTHONDONTWRITEBYTECODE=1 python3 scripts/validate_ledger_performance.py --samples 100 --verbose)",
       "Bash(cat:*)",
-      "Bash(PYTHONHASHSEED=0 LUKHAS_MODE=release PYTHONDONTWRITEBYTECODE=1 python3 scripts/audit_baseline.py --environment local --samples 1000 --confidence 0.95 --output artifacts/audit_local_$AUDIT_RUN_ID.json)"
+      "Bash(PYTHONHASHSEED=0 LUKHAS_MODE=release PYTHONDONTWRITEBYTECODE=1 python3 scripts/audit_baseline.py --environment local --samples 1000 --confidence 0.95 --output artifacts/audit_local_$AUDIT_RUN_ID.json)",
+      "Bash(find:*)"
     ],
     "deny": [],
     "ask": []

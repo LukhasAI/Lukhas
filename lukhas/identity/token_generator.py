@@ -15,6 +15,7 @@ import base64
 import json
 import time
 import os
+import zlib
 from typing import Dict, Any, Optional, Callable
 from dataclasses import dataclass, asdict
 from opentelemetry import trace
@@ -103,7 +104,8 @@ class TokenResponse:
     kid: str  # Key ID used for signing
     exp: int  # Expiration timestamp
     claims: TokenClaims
-    schema_version: str = "1.0.0"
+    crc32: str  # CRC32 integrity checksum
+    schema_version: str = "1.1.0"  # Updated for CRC32 support
 
 
 def _b64url_encode(data: bytes) -> str:
@@ -132,6 +134,37 @@ def _b64url_decode(data: str) -> bytes:
     # Restore padding
     padding = "=" * (-len(data) % 4)
     return base64.urlsafe_b64decode(data + padding)
+
+
+def _calculate_crc32(data: bytes) -> str:
+    """
+    Calculate CRC32 checksum for token integrity verification.
+
+    Part of the ΛID security specification for token tampering detection.
+
+    Args:
+        data: Token data bytes
+
+    Returns:
+        Hex-encoded CRC32 checksum (8 characters)
+    """
+    crc = zlib.crc32(data) & 0xffffffff
+    return f"{crc:08x}"
+
+
+def _verify_crc32(data: bytes, expected_crc: str) -> bool:
+    """
+    Verify CRC32 checksum for token integrity.
+
+    Args:
+        data: Token data bytes
+        expected_crc: Expected CRC32 hex string
+
+    Returns:
+        True if CRC32 matches, False otherwise
+    """
+    calculated_crc = _calculate_crc32(data)
+    return calculated_crc == expected_crc.lower()
 
 
 class SecretProvider:
@@ -302,8 +335,8 @@ class TokenGenerator:
                     if key not in token_dict:
                         token_dict[key] = value
 
-                # Create JWT
-                jwt_token = self._create_jwt(token_dict)
+                # Create JWT with CRC32
+                jwt_token, crc32_checksum = self._create_jwt_with_crc32(token_dict)
 
                 # Update metrics
                 token_generation_total.labels(
@@ -327,7 +360,8 @@ class TokenGenerator:
                     jwt=jwt_token,
                     kid=self.kid,
                     exp=token_claims.exp,
-                    claims=token_claims
+                    claims=token_claims,
+                    crc32=crc32_checksum
                 )
 
             except Exception as e:
@@ -340,21 +374,24 @@ class TokenGenerator:
                 span.set_status(trace.Status(trace.StatusCode.ERROR, str(e)))
                 raise
 
-    def _create_jwt(self, claims: Dict[str, Any]) -> str:
+    def _create_jwt_with_crc32(self, claims: Dict[str, Any]) -> tuple[str, str]:
         """
-        Create HMAC-signed JWT token.
+        Create HMAC-signed JWT token with CRC32 integrity trailer.
+
+        Enhanced ΛID format: JWT + CRC32 for tamper detection and rotation validation.
 
         Args:
             claims: Token claims dictionary
 
         Returns:
-            Complete JWT token string
+            Tuple of (JWT token with CRC32, CRC32 checksum)
         """
         # Create header
         header = {
             "alg": "HS256",
             "typ": "JWT",
-            "kid": self.kid
+            "kid": self.kid,
+            "crc": True  # Indicate CRC32 support
         }
 
         # Encode header and payload
@@ -369,7 +406,34 @@ class TokenGenerator:
         signature = hmac.new(secret, signing_input, hashlib.sha256).digest()
         signature_encoded = _b64url_encode(signature)
 
-        return f"{signing_input.decode()}.{signature_encoded}"
+        # Create base JWT
+        base_jwt = f"{signing_input.decode()}.{signature_encoded}"
+
+        # Calculate CRC32 for the complete JWT
+        jwt_bytes = base_jwt.encode('utf-8')
+        crc32_checksum = _calculate_crc32(jwt_bytes)
+
+        # Append CRC32 to create ΛID format: JWT.CRC32
+        enhanced_jwt = f"{base_jwt}.{crc32_checksum}"
+
+        return enhanced_jwt, crc32_checksum
+
+    def _create_jwt(self, claims: Dict[str, Any]) -> str:
+        """
+        Legacy JWT creation method (deprecated in favor of CRC32 version).
+
+        Maintained for backward compatibility.
+
+        Args:
+            claims: Token claims dictionary
+
+        Returns:
+            Complete JWT token string
+        """
+        enhanced_jwt, _ = self._create_jwt_with_crc32(claims)
+        # Return JWT without CRC32 trailer for compatibility
+        parts = enhanced_jwt.split('.')
+        return '.'.join(parts[:3])  # header.payload.signature
 
     def rotate_key(self, new_kid: str) -> None:
         """
@@ -392,6 +456,48 @@ class TokenGenerator:
             span.set_attribute("component", self._component_id)
             span.set_attribute("old_kid", old_kid)
             span.set_attribute("new_kid", new_kid)
+
+    def validate_crc32(self, jwt_with_crc: str) -> bool:
+        """
+        Validate CRC32 integrity of ΛID-enhanced token.
+
+        Args:
+            jwt_with_crc: JWT token with appended CRC32
+
+        Returns:
+            True if CRC32 is valid, False otherwise
+        """
+        try:
+            # Split JWT and CRC32
+            parts = jwt_with_crc.split('.')
+            if len(parts) < 4:
+                return False  # Not a CRC32-enhanced token
+
+            # Extract JWT and CRC32
+            jwt_part = '.'.join(parts[:-1])
+            provided_crc = parts[-1]
+
+            # Verify CRC32
+            jwt_bytes = jwt_part.encode('utf-8')
+            return _verify_crc32(jwt_bytes, provided_crc)
+
+        except Exception:
+            return False
+
+    def extract_jwt_from_enhanced(self, jwt_with_crc: str) -> str:
+        """
+        Extract standard JWT from ΛID-enhanced token.
+
+        Args:
+            jwt_with_crc: JWT token with appended CRC32
+
+        Returns:
+            Standard JWT token (header.payload.signature)
+        """
+        parts = jwt_with_crc.split('.')
+        if len(parts) >= 4:
+            return '.'.join(parts[:-1])  # Remove CRC32
+        return jwt_with_crc  # Already standard JWT
 
     def get_performance_stats(self) -> Dict[str, Any]:
         """

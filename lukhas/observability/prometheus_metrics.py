@@ -254,6 +254,205 @@ class LUKHASMetrics:
             registry=self.registry,
         )
 
+        # Compression metrics
+        self.compression_operations_total = Counter(
+            "compression_operations_total",
+            "Total compression operations",
+            ["algorithm", "result", "lane"],
+            namespace=self.config.namespace,
+            subsystem="memory",
+            registry=self.registry,
+        )
+
+        self.compression_ratio = Histogram(
+            "compression_ratio",
+            "Compression ratio distribution",
+            ["algorithm", "lane"],
+            buckets=[0.1, 0.25, 0.5, 1.0, 2.0, 3.0, 4.0, 5.0, 7.5, 10.0],
+            namespace=self.config.namespace,
+            subsystem="memory",
+            registry=self.registry,
+        )
+
+        self.compression_speed_mbps = Gauge(
+            "compression_speed_mbps",
+            "Compression speed in MB/s",
+            ["algorithm", "lane"],
+            namespace=self.config.namespace,
+            subsystem="memory",
+            registry=self.registry,
+        )
+
+        self.compression_duration_ms = Histogram(
+            "compression_duration_ms",
+            "Compression operation duration",
+            ["algorithm", "lane"],
+            buckets=[1, 5, 10, 25, 50, 100, 250, 500, 1000, 2500],
+            namespace=self.config.namespace,
+            subsystem="memory",
+            registry=self.registry,
+        )
+
+        self.decompression_operations_total = Counter(
+            "decompression_operations_total",
+            "Total decompression operations",
+            ["algorithm", "result", "lane"],
+            namespace=self.config.namespace,
+            subsystem="memory",
+            registry=self.registry,
+        )
+
+        self.decompression_speed_mbps = Gauge(
+            "decompression_speed_mbps",
+            "Decompression speed in MB/s",
+            ["algorithm", "lane"],
+            namespace=self.config.namespace,
+            subsystem="memory",
+            registry=self.registry,
+        )
+
+        self.decompression_duration_ms = Histogram(
+            "decompression_duration_ms",
+            "Decompression operation duration",
+            ["algorithm", "lane"],
+            buckets=[0.5, 1, 2, 5, 10, 25, 50, 100, 250, 500],
+            namespace=self.config.namespace,
+            subsystem="memory",
+            registry=self.registry,
+        )
+
+        # Indexing metrics
+        self.indexer_documents_indexed = Counter(
+            "indexer_documents_indexed",
+            "Total documents indexed",
+            ["lane"],
+            namespace=self.config.namespace,
+            subsystem="memory",
+            registry=self.registry,
+        )
+
+        self.indexer_duplicates_detected = Counter(
+            "indexer_duplicates_detected",
+            "Total duplicate documents detected",
+            ["lane"],
+            namespace=self.config.namespace,
+            subsystem="memory",
+            registry=self.registry,
+        )
+
+        self.indexer_embedding_errors = Counter(
+            "indexer_embedding_errors",
+            "Total embedding generation errors",
+            ["lane"],
+            namespace=self.config.namespace,
+            subsystem="memory",
+            registry=self.registry,
+        )
+
+        self.indexer_errors = Counter(
+            "indexer_errors",
+            "Total indexer errors",
+            ["lane"],
+            namespace=self.config.namespace,
+            subsystem="memory",
+            registry=self.registry,
+        )
+
+        self.indexer_document_processing_duration_ms = Histogram(
+            "indexer_document_processing_duration_ms",
+            "Document indexing processing time",
+            ["lane"],
+            buckets=[10, 25, 50, 100, 250, 500, 1000, 2500, 5000, 10000],
+            namespace=self.config.namespace,
+            subsystem="memory",
+            registry=self.registry,
+        )
+
+        self.indexer_batch_processing_duration_ms = Histogram(
+            "indexer_batch_processing_duration_ms",
+            "Batch indexing processing time",
+            ["lane"],
+            buckets=[100, 500, 1000, 2500, 5000, 10000, 25000, 50000, 100000],
+            namespace=self.config.namespace,
+            subsystem="memory",
+            registry=self.registry,
+        )
+
+        self.indexer_batch_processed = Counter(
+            "indexer_batch_processed",
+            "Total batches processed",
+            ["lane"],
+            namespace=self.config.namespace,
+            subsystem="memory",
+            registry=self.registry,
+        )
+
+        self.indexer_batch_success_count = Gauge(
+            "indexer_batch_success_count",
+            "Number of successful documents in last batch",
+            ["lane"],
+            namespace=self.config.namespace,
+            subsystem="memory",
+            registry=self.registry,
+        )
+
+        self.indexer_word_count = Gauge(
+            "indexer_word_count",
+            "Word count of last processed document",
+            ["lane"],
+            namespace=self.config.namespace,
+            subsystem="memory",
+            registry=self.registry,
+        )
+
+        # Lifecycle management metrics
+        self.lifecycle_cleanup_duration_ms = Histogram(
+            "lifecycle_cleanup_duration_ms",
+            "Document cleanup operation duration",
+            ["lane"],
+            buckets=[100, 500, 1000, 2500, 5000, 10000, 30000, 60000],
+            namespace=self.config.namespace,
+            subsystem="memory",
+            registry=self.registry,
+        )
+
+        self.lifecycle_documents_processed = Counter(
+            "lifecycle_documents_processed",
+            "Total documents processed in lifecycle operations",
+            ["lane"],
+            namespace=self.config.namespace,
+            subsystem="memory",
+            registry=self.registry,
+        )
+
+        self.lifecycle_documents_deleted = Counter(
+            "lifecycle_documents_deleted",
+            "Total documents deleted by lifecycle manager",
+            ["lane"],
+            namespace=self.config.namespace,
+            subsystem="memory",
+            registry=self.registry,
+        )
+
+        self.lifecycle_gdpr_requests_processed = Counter(
+            "lifecycle_gdpr_requests_processed",
+            "Total GDPR deletion requests processed",
+            ["lane"],
+            namespace=self.config.namespace,
+            subsystem="memory",
+            registry=self.registry,
+        )
+
+        self.lifecycle_gdpr_processing_duration_ms = Histogram(
+            "lifecycle_gdpr_processing_duration_ms",
+            "GDPR request processing duration",
+            ["lane"],
+            buckets=[100, 500, 1000, 5000, 10000, 30000, 60000, 300000],
+            namespace=self.config.namespace,
+            subsystem="memory",
+            registry=self.registry,
+        )
+
     def _init_matriz_metrics(self):
         """Initialize MATRIZ orchestration metrics"""
         if not self.enabled:

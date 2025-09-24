@@ -58,6 +58,7 @@ dev = [
     "bandit>=1.7.5",
     "pre-commit>=3.4.0",
     "PyJWT>=2.8.0",
+    "import-linter>=2.0.0",
 ]
 lambda = [
     "msgpack>=1.0.5",
@@ -332,3 +333,35 @@ exclude = [
     "*.pyc"
 ]
 report_only = true
+
+# T4 Lane Isolation Enforcement
+[tool.importlinter]
+root_package = "."
+include_external_packages = false
+
+[[tool.importlinter.contracts]]
+name = "Candidate-to-LUKHAS lane isolation"
+type = "forbidden"
+source_modules = ["candidate"]
+forbidden_modules = ["lukhas", "MATRIZ"]
+
+[[tool.importlinter.contracts]]
+name = "LUKHAS-to-Candidate isolation"
+type = "forbidden"
+source_modules = ["lukhas"]
+forbidden_modules = ["candidate"]
+
+[[tool.importlinter.contracts]]
+name = "MATRIZ independence"
+type = "forbidden"
+source_modules = ["MATRIZ"]
+forbidden_modules = ["candidate", "lukhas"]
+
+[[tool.importlinter.contracts]]
+name = "Production lane isolation"
+type = "layers"
+layers = [
+    "candidate",
+    "lukhas",
+    "MATRIZ"
+]

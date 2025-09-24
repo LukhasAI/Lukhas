@@ -14,7 +14,50 @@ env:
   PYTHONPATH: .
 
 jobs:
+  preflight-and-lanes:
+    name: 🚀 Preflight & Lane Isolation Check
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
+
+      - name: Set up Python 3.9
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.9"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install import-linter>=2.0.0
+
+      - name: Run preflight system checks
+        run: |
+          echo "🚀 Running T4 preflight system checks..."
+          python3 scripts/preflight_check.py --output artifacts/preflight_$(date +%Y%m%d_%H%M%S).json
+
+      - name: Validate lane isolation rules
+        run: |
+          echo "🚧 Validating lane isolation (candidate → lukhas → MATRIZ)"
+          import-linter --config pyproject.toml
+
+      - name: Run SLO burn rate validation
+        run: |
+          echo "🔥 Running SLO burn rate tests (4/1h, 2/6h windows)"
+          python3 -m pytest tests/auditor/test_burn_rate.py -v --tb=short
+
+      - name: Upload preflight artifacts
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: preflight-validation-results
+          path: |
+            artifacts/preflight_*.json
+          retention-days: 7
+
   prometheus-alerts-test:
+    needs: preflight-and-lanes
     name: 🚨 Prometheus Alert Rules Validation
     runs-on: ubuntu-latest
     timeout-minutes: 5
@@ -37,6 +80,7 @@ jobs:
             promtool check rules /etc/prometheus/slo_alerts.yml
 
   performance-validation:
+    needs: preflight-and-lanes
     runs-on: ubuntu-latest
     timeout-minutes: 15
 
