@@ -203,11 +203,40 @@ jobs:
           asyncio.run(test_token_security())
           "
 
+  # PromQL Alert Validation
+  promql-alert-validation:
+    name: 📊 PromQL Alert Validation
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pyyaml
+
+      - name: Validate Prometheus Alerts
+        run: |
+          python3 scripts/validate_alerts.py --fail-on-error
+
+      - name: Upload Alert Validation Results
+        uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: alert-validation-results
+          path: artifacts/alert_validation_results.json
+
   # Security Gate Summary
   security-gate-summary:
     name: 📋 Security Gate Summary
     runs-on: ubuntu-latest
-    needs: [semgrep-security, guardian-validation, rate-limiting-security, token-security]
+    needs: [semgrep-security, guardian-validation, rate-limiting-security, token-security, promql-alert-validation]
     if: always()
     steps:
       - name: Security Gate Results
@@ -220,12 +249,14 @@ jobs:
           echo "| Guardian Validation | ${{ needs.guardian-validation.result == 'success' && '✅ PASSED' || '❌ FAILED' }} |" >> $GITHUB_STEP_SUMMARY
           echo "| Rate Limiting Security | ${{ needs.rate-limiting-security.result == 'success' && '✅ PASSED' || '❌ FAILED' }} |" >> $GITHUB_STEP_SUMMARY
           echo "| Token Security | ${{ needs.token-security.result == 'success' && '✅ PASSED' || '❌ FAILED' }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| PromQL Alert Validation | ${{ needs.promql-alert-validation.result == 'success' && '✅ PASSED' || '❌ FAILED' }} |" >> $GITHUB_STEP_SUMMARY
 
           # Fail if any security gate failed
           if [[ "${{ needs.semgrep-security.result }}" != "success" ||
                 "${{ needs.guardian-validation.result }}" != "success" ||
                 "${{ needs.rate-limiting-security.result }}" != "success" ||
-                "${{ needs.token-security.result }}" != "success" ]]; then
+                "${{ needs.token-security.result }}" != "success" ||
+                "${{ needs.promql-alert-validation.result }}" != "success" ]]; then
             echo ""
             echo "❌ **Security gates failed - deployment blocked**"
             exit 1
