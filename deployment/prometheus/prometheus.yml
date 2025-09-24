@@ -1,0 +1,111 @@
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+  external_labels:
+    cluster: 'lukhas-production'
+    environment: 'production'
+
+rule_files:
+  - "alerts/*.yml"
+
+alerting:
+  alertmanagers:
+    - static_configs:
+        - targets:
+          - alertmanager:9093
+
+scrape_configs:
+  # LUKHAS Core Services
+  - job_name: 'lukhas-core'
+    static_configs:
+      - targets: ['lukhas-core:8080']
+    metrics_path: '/metrics'
+    scrape_interval: 15s
+    scrape_timeout: 10s
+
+  - job_name: 'lukhas-identity'
+    static_configs:
+      - targets: ['lukhas-identity:8080']
+    metrics_path: '/metrics'
+    scrape_interval: 15s
+
+  - job_name: 'lukhas-memory'
+    static_configs:
+      - targets: ['lukhas-memory:8080']
+    metrics_path: '/metrics'
+    scrape_interval: 15s
+
+  - job_name: 'lukhas-consciousness'
+    static_configs:
+      - targets: ['lukhas-consciousness:8080']
+    metrics_path: '/metrics'
+    scrape_interval: 15s
+
+  - job_name: 'lukhas-governance'
+    static_configs:
+      - targets: ['lukhas-governance:8080']
+    metrics_path: '/metrics'
+    scrape_interval: 15s
+
+  # Infrastructure Services
+  - job_name: 'postgres'
+    static_configs:
+      - targets: ['postgres-exporter:9187']
+    scrape_interval: 30s
+
+  - job_name: 'redis'
+    static_configs:
+      - targets: ['redis-exporter:9121']
+    scrape_interval: 30s
+
+  - job_name: 'nginx'
+    static_configs:
+      - targets: ['nginx-exporter:9113']
+    scrape_interval: 30s
+
+  # Node Exporter for System Metrics
+  - job_name: 'node-exporter'
+    static_configs:
+      - targets: ['node-exporter:9100']
+    scrape_interval: 30s
+
+  # Container Metrics
+  - job_name: 'cadvisor'
+    static_configs:
+      - targets: ['cadvisor:8080']
+    scrape_interval: 30s
+
+  # Blackbox Exporter for External Monitoring
+  - job_name: 'blackbox'
+    metrics_path: /probe
+    params:
+      module: [http_2xx]
+    static_configs:
+      - targets:
+        - https://lukhas.ai
+        - https://api.lukhas.ai/health
+        - https://identity.lukhas.ai/health
+        - https://memory.lukhas.ai/health
+        - https://consciousness.lukhas.ai/health
+        - https://governance.lukhas.ai/health
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: blackbox-exporter:9115
+
+  # Federation Monitoring
+  - job_name: 'prometheus-federation'
+    scrape_interval: 15s
+    honor_labels: true
+    metrics_path: '/federate'
+    params:
+      'match[]':
+        - '{job=~"lukhas.*"}'
+        - '{__name__=~"up|lukhas_.*"}'
+    static_configs:
+      - targets:
+        - 'prometheus-eu:9090'
+        - 'prometheus-asia:9090'

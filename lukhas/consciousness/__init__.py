@@ -16,12 +16,17 @@ from .types import (
     DreamTrace,
     DecisionContext,
     ConsciousnessMetrics,
+    CreativitySnapshot,
+    CreativeTask,
 
     # Enums
     StatePhase,
     DreamPhase,
     AwarenessLevel,
     AnomalySeverity,
+    CreativeProcessType,
+    CreativeFlowState,
+    ImaginationMode,
 
     # Type aliases
     ConsciousnessEvent,
@@ -31,10 +36,12 @@ from .types import (
     # Configuration constants
     DEFAULT_AWARENESS_CONFIG,
     DEFAULT_REFLECTION_CONFIG,
-    DEFAULT_DREAM_CONFIG
+    DEFAULT_DREAM_CONFIG,
+    DEFAULT_CREATIVITY_CONFIG
 )
 
 from .awareness_engine import AwarenessEngine
+from .creativity_engine import CreativityEngine
 from .dream_engine import DreamEngine, DreamState
 from .auto_consciousness import AutoConsciousness, GuardianResponse
 from .consciousness_stream import ConsciousnessStream
@@ -51,6 +58,7 @@ __all__ = [
 
     # Core engines
     "AwarenessEngine",
+    "CreativityEngine",
     "DreamEngine",
     "AutoConsciousness",
 
@@ -58,6 +66,8 @@ __all__ = [
     "ConsciousnessState",
     "AwarenessSnapshot",
     "ReflectionReport",
+    "CreativitySnapshot",
+    "CreativeTask",
     "DreamTrace",
     "DecisionContext",
     "ConsciousnessMetrics",
@@ -71,6 +81,9 @@ __all__ = [
     "DreamPhase",
     "AwarenessLevel",
     "AnomalySeverity",
+    "CreativeProcessType",
+    "CreativeFlowState",
+    "ImaginationMode",
     "ConsciousnessEvent",
     "EngineState",
     "SignalData",
@@ -79,6 +92,7 @@ __all__ = [
     "DEFAULT_AWARENESS_CONFIG",
     "DEFAULT_REFLECTION_CONFIG",
     "DEFAULT_DREAM_CONFIG",
+    "DEFAULT_CREATIVITY_CONFIG",
 
     # Metadata
     "__version__",

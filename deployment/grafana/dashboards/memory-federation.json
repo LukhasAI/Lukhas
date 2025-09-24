@@ -1,0 +1,206 @@
+{
+  "dashboard": {
+    "id": null,
+    "title": "LUKHAS Memory - Federation",
+    "tags": ["lukhas", "memory", "federation"],
+    "timezone": "browser",
+    "panels": [
+      {
+        "id": 1,
+        "title": "Memory Fold Capacity",
+        "type": "gauge",
+        "targets": [
+          {
+            "expr": "lukhas_memory_active_folds_total / 1000",
+            "legendFormat": "Fold Usage"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "min": 0,
+            "max": 1,
+            "thresholds": {
+              "steps": [
+                {"color": "green", "value": 0},
+                {"color": "yellow", "value": 0.7},
+                {"color": "red", "value": 0.9}
+              ]
+            }
+          }
+        },
+        "gridPos": {"h": 8, "w": 6, "x": 0, "y": 0}
+      },
+      {
+        "id": 2,
+        "title": "Federation Health",
+        "type": "stat",
+        "targets": [
+          {
+            "expr": "lukhas_federation_health_score",
+            "legendFormat": "Health Score"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "color": {"mode": "thresholds"},
+            "thresholds": {
+              "steps": [
+                {"color": "red", "value": 0},
+                {"color": "yellow", "value": 0.8},
+                {"color": "green", "value": 0.95}
+              ]
+            }
+          }
+        },
+        "gridPos": {"h": 8, "w": 6, "x": 6, "y": 0}
+      },
+      {
+        "id": 3,
+        "title": "Active Nodes",
+        "type": "stat",
+        "targets": [
+          {
+            "expr": "lukhas_federation_active_nodes_total",
+            "legendFormat": "Active"
+          },
+          {
+            "expr": "lukhas_federation_required_nodes_total",
+            "legendFormat": "Required"
+          }
+        ],
+        "gridPos": {"h": 8, "w": 6, "x": 12, "y": 0}
+      },
+      {
+        "id": 4,
+        "title": "Consensus Success Rate",
+        "type": "stat",
+        "targets": [
+          {
+            "expr": "lukhas_federation_consensus_success_rate",
+            "legendFormat": "Consensus Success %"
+          }
+        ],
+        "gridPos": {"h": 8, "w": 6, "x": 18, "y": 0}
+      },
+      {
+        "id": 5,
+        "title": "Memory Operations",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "rate(lukhas_memory_operations_total[5m])",
+            "legendFormat": "{{operation}}"
+          }
+        ],
+        "gridPos": {"h": 8, "w": 12, "x": 0, "y": 8}
+      },
+      {
+        "id": 6,
+        "title": "Search Latency",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "histogram_quantile(0.50, lukhas_memory_search_seconds)",
+            "legendFormat": "50th percentile"
+          },
+          {
+            "expr": "histogram_quantile(0.95, lukhas_memory_search_seconds)",
+            "legendFormat": "95th percentile"
+          }
+        ],
+        "gridPos": {"h": 8, "w": 12, "x": 12, "y": 8}
+      },
+      {
+        "id": 7,
+        "title": "Cascade Events",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "rate(lukhas_memory_cascade_events_total[5m])",
+            "legendFormat": "Cascade Events/sec"
+          },
+          {
+            "expr": "lukhas_memory_cascade_prevention_success_rate",
+            "legendFormat": "Prevention Success Rate"
+          }
+        ],
+        "alert": {
+          "conditions": [
+            {
+              "evaluator": {"params": [0], "type": "gt"},
+              "operator": {"type": "and"},
+              "query": {"params": ["A", "5m", "now"]},
+              "reducer": {"params": [], "type": "last"},
+              "type": "query"
+            }
+          ],
+          "executionErrorState": "alerting",
+          "for": "0m",
+          "frequency": "10s",
+          "handler": 1,
+          "name": "Memory Cascade Detected",
+          "noDataState": "no_data",
+          "notifications": []
+        },
+        "gridPos": {"h": 8, "w": 12, "x": 0, "y": 16}
+      },
+      {
+        "id": 8,
+        "title": "Replication Status",
+        "type": "table",
+        "targets": [
+          {
+            "expr": "lukhas_memory_replication_lag_seconds",
+            "legendFormat": "{{cluster_id}} - {{node_id}}"
+          }
+        ],
+        "gridPos": {"h": 8, "w": 12, "x": 12, "y": 16}
+      },
+      {
+        "id": 9,
+        "title": "Memory Types Distribution",
+        "type": "piechart",
+        "targets": [
+          {
+            "expr": "count by (memory_type) (lukhas_memory_folds_by_type)",
+            "legendFormat": "{{memory_type}}"
+          }
+        ],
+        "gridPos": {"h": 8, "w": 8, "x": 0, "y": 24}
+      },
+      {
+        "id": 10,
+        "title": "Storage Efficiency",
+        "type": "gauge",
+        "targets": [
+          {
+            "expr": "lukhas_memory_compression_ratio",
+            "legendFormat": "Compression Ratio"
+          }
+        ],
+        "gridPos": {"h": 8, "w": 8, "x": 8, "y": 24}
+      },
+      {
+        "id": 11,
+        "title": "Federation Topology",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "lukhas_federation_topology_changes_total",
+            "legendFormat": "Topology Changes"
+          },
+          {
+            "expr": "lukhas_federation_partition_events_total",
+            "legendFormat": "Partition Events"
+          }
+        ],
+        "gridPos": {"h": 8, "w": 8, "x": 16, "y": 24}
+      }
+    ],
+    "time": {
+      "from": "now-1h",
+      "to": "now"
+    },
+    "refresh": "30s"
+  }
+}
