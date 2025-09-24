@@ -1,0 +1,254 @@
+# MATRIZ Pipeline Tail Latency Monitoring
+# T4/0.01% Performance Monitoring and Alerting
+
+groups:
+  - name: matriz_tail_latency
+    interval: 15s
+    rules:
+
+      # P95 Latency Monitoring
+      - alert: MATRIZPipelineP95LatencyHigh
+        expr: |
+          histogram_quantile(0.95, rate(lukhas_matriz_async_pipeline_duration_seconds_bucket[5m])) * 1000 > 250
+        for: 1m
+        labels:
+          severity: critical
+          component: matriz_pipeline
+          slo: "T4/0.01%"
+        annotations:
+          summary: "MATRIZ Pipeline P95 latency exceeds 250ms threshold"
+          description: |
+            P95 latency for MATRIZ async pipeline is {{ $value }}ms, exceeding the 250ms T4/0.01% target.
+            Lane: {{ $labels.lane }}
+            Current P95: {{ printf "%.1f" $value }}ms
+            Target: < 250ms
+            Impact: Violates T4/0.01% excellence standards
+
+      # P99 Latency Monitoring (Safety Margin)
+      - alert: MATRIZPipelineP99LatencyHigh
+        expr: |
+          histogram_quantile(0.99, rate(lukhas_matriz_async_pipeline_duration_seconds_bucket[5m])) * 1000 > 300
+        for: 2m
+        labels:
+          severity: warning
+          component: matriz_pipeline
+          slo: "T4/0.01%"
+        annotations:
+          summary: "MATRIZ Pipeline P99 latency exceeds safety margin"
+          description: |
+            P99 latency for MATRIZ async pipeline is {{ $value }}ms, exceeding the 300ms safety margin.
+            Lane: {{ $labels.lane }}
+            Current P99: {{ printf "%.1f" $value }}ms
+            Safety Margin: < 300ms
+            Action: Monitor closely for degradation
+
+      # Stage-Level Latency Monitoring
+      - alert: MATRIZStageLatencyHigh
+        expr: |
+          histogram_quantile(0.95, rate(lukhas_matriz_async_stage_duration_seconds_bucket[5m])) * 1000 > 100
+        for: 30s
+        labels:
+          severity: warning
+          component: matriz_stage
+          slo: "T4/0.01%"
+        annotations:
+          summary: "MATRIZ Stage {{ $labels.stage }} P95 latency high"
+          description: |
+            Stage {{ $labels.stage }} P95 latency is {{ $value }}ms, exceeding 100ms threshold.
+            Lane: {{ $labels.lane }}
+            Stage: {{ $labels.stage }}
+            Current P95: {{ printf "%.1f" $value }}ms
+            Threshold: < 100ms
+
+      # Error Rate Monitoring
+      - alert: MATRIZPipelineErrorRateHigh
+        expr: |
+          (
+            rate(lukhas_matriz_async_pipeline_total{status="error"}[5m]) /
+            rate(lukhas_matriz_async_pipeline_total[5m])
+          ) * 100 > 0.01
+        for: 1m
+        labels:
+          severity: critical
+          component: matriz_pipeline
+          slo: "T4/0.01%"
+        annotations:
+          summary: "MATRIZ Pipeline error rate exceeds 0.01% threshold"
+          description: |
+            Error rate for MATRIZ async pipeline is {{ $value }}%, exceeding 0.01% T4/0.01% target.
+            Lane: {{ $labels.lane }}
+            Current Error Rate: {{ printf "%.4f" $value }}%
+            Target: < 0.01%
+            Impact: Critical SLO violation
+
+      # Budget Compliance Monitoring
+      - alert: MATRIZPipelineBudgetViolation
+        expr: |
+          (
+            rate(lukhas_matriz_async_pipeline_total{within_budget="false"}[5m]) /
+            rate(lukhas_matriz_async_pipeline_total[5m])
+          ) * 100 > 5
+        for: 2m
+        labels:
+          severity: warning
+          component: matriz_pipeline
+          slo: "T4/0.01%"
+        annotations:
+          summary: "MATRIZ Pipeline budget violations increasing"
+          description: |
+            {{ $value }}% of MATRIZ pipeline executions are exceeding their latency budget.
+            Lane: {{ $labels.lane }}
+            Budget Violation Rate: {{ printf "%.1f" $value }}%
+            Threshold: < 5%
+            Action: Investigate performance degradation
+
+      # Circuit Breaker Monitoring
+      - alert: MATRIZCircuitBreakerTripped
+        expr: |
+          increase(matriz_circuit_breaker_trips_total[5m]) > 0
+        for: 0s
+        labels:
+          severity: critical
+          component: matriz_pipeline
+          slo: "T4/0.01%"
+        annotations:
+          summary: "MATRIZ Pipeline circuit breaker activated"
+          description: |
+            Circuit breaker has been triggered {{ $value }} times in the last 5 minutes.
+            Component: {{ $labels.component }}
+            Action: Immediate investigation required
+
+      # Cache Performance Monitoring
+      - alert: MATRIZCacheHitRateLow
+        expr: |
+          (
+            rate(matriz_cache_hits_total[10m]) /
+            (rate(matriz_cache_hits_total[10m]) + rate(matriz_cache_misses_total[10m]))
+          ) * 100 < 70
+        for: 5m
+        labels:
+          severity: warning
+          component: matriz_cache
+          slo: "T4/0.01%"
+        annotations:
+          summary: "MATRIZ Cache hit rate below optimal threshold"
+          description: |
+            Cache hit rate is {{ $value }}%, below the 70% optimal threshold.
+            Cache Type: {{ $labels.cache_type }}
+            Current Hit Rate: {{ printf "%.1f" $value }}%
+            Optimal: > 70%
+            Impact: Potential latency degradation
+
+      # Memory Access Pattern Monitoring
+      - alert: MATRIZMemoryAccessLatencyHigh
+        expr: |
+          histogram_quantile(0.95, rate(matriz_memory_access_duration_seconds_bucket[5m])) * 1000 > 50
+        for: 3m
+        labels:
+          severity: warning
+          component: matriz_memory
+          slo: "T4/0.01%"
+        annotations:
+          summary: "MATRIZ Memory access P95 latency high"
+          description: |
+            Memory access P95 latency is {{ $value }}ms, exceeding 50ms threshold.
+            Memory Type: {{ $labels.memory_type }}
+            Current P95: {{ printf "%.1f" $value }}ms
+            Threshold: < 50ms
+
+      # Node Health Monitoring
+      - alert: MATRIZNodeHealthDegraded
+        expr: |
+          matriz_node_health_score < 0.8
+        for: 2m
+        labels:
+          severity: warning
+          component: matriz_node
+          slo: "T4/0.01%"
+        annotations:
+          summary: "MATRIZ Node {{ $labels.node_name }} health degraded"
+          description: |
+            Node {{ $labels.node_name }} health score is {{ $value }}, below 0.8 threshold.
+            Node: {{ $labels.node_name }}
+            Health Score: {{ printf "%.2f" $value }}
+            Threshold: > 0.8
+            Action: Review node performance and routing
+
+      # Timeout Monitoring
+      - alert: MATRIZTimeoutRateHigh
+        expr: |
+          (
+            rate(lukhas_matriz_async_stage_total{outcome="timeout"}[5m]) /
+            rate(lukhas_matriz_async_stage_total[5m])
+          ) * 100 > 1
+        for: 1m
+        labels:
+          severity: critical
+          component: matriz_stage
+          slo: "T4/0.01%"
+        annotations:
+          summary: "MATRIZ Stage timeout rate high"
+          description: |
+            Stage {{ $labels.stage }} timeout rate is {{ $value }}%, exceeding 1% threshold.
+            Lane: {{ $labels.lane }}
+            Stage: {{ $labels.stage }}
+            Timeout Rate: {{ printf "%.2f" $value }}%
+            Threshold: < 1%
+            Impact: Potential pipeline instability
+
+      # Optimization Effectiveness
+      - alert: MATRIZOptimizationDegraded
+        expr: |
+          rate(matriz_optimization_applied_total[10m]) / rate(lukhas_matriz_async_pipeline_total[10m]) < 0.5
+        for: 5m
+        labels:
+          severity: warning
+          component: matriz_optimization
+          slo: "T4/0.01%"
+        annotations:
+          summary: "MATRIZ Pipeline optimizations not being applied effectively"
+          description: |
+            Only {{ $value | humanizePercentage }} of pipeline executions are benefiting from optimizations.
+            Expected: > 50%
+            Current: {{ printf "%.1f" $value }}%
+            Action: Review optimization configuration
+
+      # SLO Recording Rules for Dashboards
+      - record: matriz:slo:latency_p95_ms
+        expr: |
+          histogram_quantile(0.95, rate(lukhas_matriz_async_pipeline_duration_seconds_bucket[5m])) * 1000
+
+      - record: matriz:slo:latency_p99_ms
+        expr: |
+          histogram_quantile(0.99, rate(lukhas_matriz_async_pipeline_duration_seconds_bucket[5m])) * 1000
+
+      - record: matriz:slo:error_rate_percent
+        expr: |
+          (
+            rate(lukhas_matriz_async_pipeline_total{status="error"}[5m]) /
+            rate(lukhas_matriz_async_pipeline_total[5m])
+          ) * 100
+
+      - record: matriz:slo:within_budget_rate_percent
+        expr: |
+          (
+            rate(lukhas_matriz_async_pipeline_total{within_budget="true"}[5m]) /
+            rate(lukhas_matriz_async_pipeline_total[5m])
+          ) * 100
+
+      - record: matriz:slo:cache_hit_rate_percent
+        expr: |
+          (
+            rate(matriz_cache_hits_total[5m]) /
+            (rate(matriz_cache_hits_total[5m]) + rate(matriz_cache_misses_total[5m]))
+          ) * 100
+
+      # Composite SLO Status
+      - record: matriz:slo:compliance_score
+        expr: |
+          (
+            (matriz:slo:latency_p95_ms < 250) * 0.4 +
+            (matriz:slo:latency_p99_ms < 300) * 0.3 +
+            (matriz:slo:error_rate_percent < 0.01) * 0.2 +
+            (matriz:slo:within_budget_rate_percent > 95) * 0.1
+          )

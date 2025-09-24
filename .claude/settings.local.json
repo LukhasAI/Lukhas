@@ -21,7 +21,8 @@
       "Bash(git push:*)",
       "Bash(chmod:*)",
       "Bash(semgrep:*)",
-      "Bash(source:*)"
+      "Bash(source:*)",
+      "Bash(./scripts/generate_lukhas_context.sh:*)"
     ],
     "deny": [],
     "ask": []

@@ -1,0 +1,113 @@
+{
+  "metadata": {
+    "timestamp": 1758719921.503964,
+    "version": "1.0.0",
+    "target_p95_ms": 250.0,
+    "target_p99_ms": 300.0,
+    "target_error_rate": 0.0001
+  },
+  "results": {
+    "standard": {
+      "total_queries": 100,
+      "successful_queries": 100,
+      "failed_queries": 0,
+      "p50_ms": 0.4632705000000015,
+      "p95_ms": 0.501058649999994,
+      "p99_ms": 0.7920039199999975,
+      "avg_ms": 0.4698416900000005,
+      "max_ms": 0.7926659999999974,
+      "min_ms": 0.44329199999998403,
+      "error_rate": 0.0,
+      "within_budget_rate": 1.0,
+      "cache_hit_rate": 0.0,
+      "circuit_breaker_trips": 0,
+      "total_duration_s": 0.047041041000000006,
+      "latency_histogram": {
+        "0-0ms": 86,
+        "0-1ms": 11,
+        "1-1ms": 0
+      },
+      "t4_compliance": {
+        "p95_compliant": true,
+        "p99_compliant": true,
+        "error_compliant": true,
+        "overall_compliant": true
+      }
+    },
+    "optimized": {
+      "total_queries": 100,
+      "successful_queries": 100,
+      "failed_queries": 0,
+      "p50_ms": 0.0012085000000022772,
+      "p95_ms": 0.1487878500000081,
+      "p99_ms": 0.17727249999999725,
+      "avg_ms": 0.023469119999999233,
+      "max_ms": 0.1774999999999971,
+      "min_ms": 0.0010830000000128237,
+      "error_rate": 0.0,
+      "within_budget_rate": 1.0,
+      "cache_hit_rate": 0.85,
+      "circuit_breaker_trips": 0,
+      "total_duration_s": 0.0023755420000000083,
+      "latency_histogram": {
+        "0-0ms": 0
+      },
+      "t4_compliance": {
+        "p95_compliant": true,
+        "p99_compliant": true,
+        "error_compliant": true,
+        "overall_compliant": true
+      }
+    },
+    "stress_test": {
+      "total_queries": 15,
+      "successful_queries": 15,
+      "failed_queries": 0,
+      "p50_ms": 0.002209000000003014,
+      "p95_ms": 0.15490040000000205,
+      "p99_ms": 0.15684728000000758,
+      "avg_ms": 0.05099453333332985,
+      "max_ms": 0.15429200000000032,
+      "min_ms": 0.0011659999999968917,
+      "error_rate": 0.0,
+      "within_budget_rate": 1.0,
+      "cache_hit_rate": 0.6666666666666666,
+      "circuit_breaker_trips": 0,
+      "total_duration_s": 0.0007699590000000145,
+      "latency_histogram": {
+        "0-0ms": 4
+      },
+      "t4_compliance": {
+        "p95_compliant": true,
+        "p99_compliant": true,
+        "error_compliant": true,
+        "overall_compliant": true
+      }
+    },
+    "load_test": {
+      "total_queries": 50,
+      "successful_queries": 50,
+      "failed_queries": 0,
+      "p50_ms": 0.0012080000000025404,
+      "p95_ms": 0.001408150000017927,
+      "p99_ms": 0.002583000000000446,
+      "avg_ms": 0.0012216000000020433,
+      "max_ms": 0.002583000000000446,
+      "min_ms": 0.0010829999999850681,
+      "error_rate": 0.0,
+      "within_budget_rate": 1.0,
+      "cache_hit_rate": 0.0,
+      "circuit_breaker_trips": 0,
+      "total_duration_s": 0.0002752920000000103,
+      "latency_histogram": {
+        "0-0ms": 0
+      },
+      "t4_compliance": {
+        "p95_compliant": true,
+        "p99_compliant": true,
+        "error_compliant": true,
+        "overall_compliant": true
+      }
+    }
+  }
+}
