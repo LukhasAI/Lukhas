@@ -67,6 +67,42 @@ except ImportError:
             return {"active": False, "fallback": True}
 
 
+# Mock guardian for API compatibility
+class MockGuardian:
+    """Mock Guardian implementation for testing"""
+
+    def __init__(self):
+        self.enabled = True
+
+    async def validate_request_async(self, request: dict) -> dict:
+        """Mock async request validation"""
+        return {
+            "approved": True,
+            "reason": "Mock Guardian approval",
+            "confidence": 0.95
+        }
+
+    def validate_action(self, action: dict) -> dict:
+        """Mock synchronous action validation"""
+        return {
+            "allowed": True,
+            "reason": "Mock Guardian validation",
+            "confidence": 0.95
+        }
+
+
+# Global guardian instance
+_global_guardian = None
+
+
+def get_guardian() -> MockGuardian:
+    """Get global Guardian instance"""
+    global _global_guardian
+    if _global_guardian is None:
+        _global_guardian = MockGuardian()
+    return _global_guardian
+
+
 __all__ = [
     "GUARDIAN_ACTIVE",
     "DriftResult",
@@ -79,4 +115,5 @@ __all__ = [
     "detect_drift",
     "evaluate_ethics",
     "get_guardian_status",
+    "get_guardian",
 ]

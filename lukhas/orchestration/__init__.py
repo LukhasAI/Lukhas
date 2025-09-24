@@ -1,9 +1,11 @@
 """
-LUKHAS AI Orchestration Module
+LUKHAS AI Orchestration Module - O.2 Orchestration Core
 Constellation Framework: ⚛️🧠🛡️
 
-Orchestration system with integrated branding compliance for
-multi-agent coordination and Constellation Framework decision making.
+Complete orchestration system with multi-AI routing, consensus mechanisms,
+and integrated branding compliance for multi-agent coordination.
+
+Production Schema v1.0.0
 """
 
 import streamlit as st
@@ -18,6 +20,21 @@ from .kernel_bus import (
     get_kernel_bus,
     subscribe,
 )
+
+# Import O.2 Orchestration Core components
+from .multi_ai_router import (
+    AIProvider,
+    AIModel,
+    AIResponse,
+    ConsensusType,
+    ConsensusResult,
+    MultiAIRouter,
+    RoutingRequest,
+    get_multi_ai_router,
+    route_multi_ai_request,
+)
+
+from .api import router as orchestration_router
 
 _orchestration_branding_available = False
 try:
@@ -41,6 +58,7 @@ ORCHESTRATION_BRANDING_AVAILABLE = _orchestration_branding_available
 OrchestrationHub = KernelBus
 
 __all__ = [
+    # Legacy context bus
     "CONTEXT_BUS_ACTIVE",
     "ORCHESTRATION_BRANDING_AVAILABLE",
     "BrandContext",
@@ -55,4 +73,15 @@ __all__ = [
     "normalize_output_text",
     "subscribe",
     "validate_output",
+    # O.2 Orchestration Core
+    "AIProvider",
+    "AIModel",
+    "AIResponse",
+    "ConsensusType",
+    "ConsensusResult",
+    "MultiAIRouter",
+    "RoutingRequest",
+    "get_multi_ai_router",
+    "route_multi_ai_request",
+    "orchestration_router",
 ]

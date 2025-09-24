@@ -1256,6 +1256,34 @@ def authenticate_api_key(api_key: str, service_name: str = "unknown") -> AuthRes
     return get_auth_service().authenticate_api_key(api_key, service_name)
 
 
+async def verify_token(token: str) -> dict[str, Any]:
+    """
+    Async token verification function for API endpoints
+
+    Args:
+        token: Authentication token (JWT, ΛiD token, or session token)
+
+    Returns:
+        Dict containing user information and claims
+
+    Raises:
+        ValueError: If token is invalid or expired
+    """
+    auth_result = authenticate_token(token)
+
+    if not auth_result.success:
+        raise ValueError(auth_result.error or "Invalid token")
+
+    # Return standardized payload
+    return {
+        "sub": auth_result.user_id,
+        "permissions": auth_result.permissions or [],
+        "expires_at": auth_result.expires_at,
+        "auth_method": auth_result.auth_method,
+        "tenant_id": "default"  # Default tenant
+    }
+
+
 # Create default instance for backwards compatibility
 auth_service = get_auth_service()
 
@@ -1269,6 +1297,7 @@ __all__ = [
     "authenticate_user",
     "get_auth_service",
     "auth_service",
+    "verify_token",
     "ValidationContext",
     "ValidationResult"
 ]
