@@ -1,0 +1,66 @@
+# module.lane.yaml
+name: lukhas.orchestration
+lane: integration            # candidate | integration | production
+owner: "@orchestration-team"
+description: "Multi-AI orchestration, routing, and coordination systems"
+
+slo:
+  p95_ms:
+    tick: 100
+    reflect: 10
+    decide: 50
+    e2e: 250
+    routing: 50
+    coordination: 100
+  success_rate: 99.5
+  availability: 99.0
+
+gates:
+  - unit_tests
+  - integration_tests
+  - perf_e2e
+  - schema_guard
+  - chaos_fail_closed
+  - guardian_enforced
+  - telemetry_contracts
+  - import_hygiene
+  - security_scan
+  - multi_ai_validation
+
+artifacts:
+  - "artifacts/*orchestration*.json"
+  - "artifacts/routing_validation.json"
+  - "artifacts/multi_ai_coordination_validation.json"
+
+dependencies:
+  - lukhas.core
+  - lukhas.governance
+
+performance_budgets:
+  routing_decision_ms: 50
+  multi_ai_coordination_ms: 100
+  context_handoff_ms: 25
+  provider_selection_ms: 10
+
+monitoring:
+  metrics:
+    - orchestration_requests_total
+    - orchestration_routing_duration_seconds
+    - orchestration_multi_ai_calls_total
+    - orchestration_provider_selection_duration_seconds
+  alerts:
+    - orchestration_routing_latency_high
+    - multi_ai_coordination_failures_high
+    - provider_selection_timeout
+
+security:
+  data_sensitivity: high
+  audit_required: true
+  gdpr_applicable: true
+
+providers:
+  supported:
+    - openai
+    - anthropic
+    - google
+    - perplexity

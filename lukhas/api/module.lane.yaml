@@ -1,0 +1,68 @@
+# module.lane.yaml
+name: lukhas.api
+lane: integration            # candidate | integration | production
+owner: "@api-team"
+description: "Public API endpoints, REST/GraphQL services, and external interfaces"
+
+slo:
+  p95_ms:
+    tick: 100
+    reflect: 10
+    decide: 50
+    e2e: 250
+    api_response: 200
+  success_rate: 99.5
+  availability: 99.9
+
+gates:
+  - unit_tests
+  - integration_tests
+  - perf_e2e
+  - schema_guard
+  - chaos_fail_closed
+  - guardian_enforced
+  - telemetry_contracts
+  - import_hygiene
+  - security_scan
+  - api_conformance
+  - load_testing
+
+artifacts:
+  - "artifacts/*api*.json"
+  - "artifacts/rest_api_validation.json"
+  - "artifacts/graphql_validation.json"
+  - "artifacts/api_load_test_results.json"
+
+dependencies:
+  - lukhas.core
+  - lukhas.governance
+  - lukhas.identity
+
+performance_budgets:
+  api_response_ms: 200
+  authentication_ms: 50
+  rate_limiting_ms: 5
+  request_validation_ms: 25
+
+monitoring:
+  metrics:
+    - api_requests_total
+    - api_response_duration_seconds
+    - api_authentication_duration_seconds
+    - api_rate_limit_hits_total
+  alerts:
+    - api_response_latency_high
+    - api_authentication_failures_high
+    - api_rate_limit_exceeded
+
+security:
+  data_sensitivity: high
+  audit_required: true
+  gdpr_applicable: true
+  rate_limiting: required
+  authentication: required
+
+api_specifications:
+  rest_version: "1.0"
+  graphql_version: "1.0"
+  openapi_version: "3.0.3"

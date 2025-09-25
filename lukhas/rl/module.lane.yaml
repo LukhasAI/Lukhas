@@ -1,0 +1,55 @@
+# module.lane.yaml
+name: lukhas.rl
+lane: candidate            # candidate | integration | production
+owner: "@rl-team"
+description: "Reinforcement learning, coordination algorithms, and adaptive environments"
+
+slo:
+  p95_ms:
+    tick: 200
+    reflect: 20
+    decide: 100
+    e2e: 500
+    rl_training_step: 1000
+  success_rate: 95.0
+  availability: 90.0
+
+gates:
+  - unit_tests
+  - import_hygiene
+  - security_scan
+
+artifacts:
+  - "artifacts/*rl*.json"
+  - "artifacts/reinforcement_learning_validation.json"
+  - "artifacts/coordination_validation.json"
+
+dependencies:
+  - lukhas.core
+
+performance_budgets:
+  training_step_ms: 1000
+  policy_evaluation_ms: 500
+  environment_step_ms: 200
+  experience_replay_ms: 100
+
+monitoring:
+  metrics:
+    - rl_training_steps_total
+    - rl_policy_evaluations_total
+    - rl_environment_steps_total
+    - rl_experience_replays_total
+  alerts:
+    - rl_training_convergence_slow
+    - policy_evaluation_failures_high
+
+security:
+  data_sensitivity: low
+  audit_required: false
+  gdpr_applicable: false
+
+rl_components:
+  - coordination_engine
+  - adaptive_environments
+  - experience_management
+  - policy_optimization

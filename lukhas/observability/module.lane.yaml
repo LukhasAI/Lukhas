@@ -1,0 +1,61 @@
+# module.lane.yaml
+name: lukhas.observability
+lane: integration            # candidate | integration | production
+owner: "@observability-team"
+description: "Monitoring, metrics, tracing, and observability infrastructure"
+
+slo:
+  p95_ms:
+    tick: 100
+    reflect: 10
+    decide: 50
+    e2e: 250
+    metrics_collection: 10
+  success_rate: 99.5
+  availability: 99.9
+
+gates:
+  - unit_tests
+  - integration_tests
+  - perf_e2e
+  - schema_guard
+  - chaos_fail_closed
+  - guardian_enforced
+  - telemetry_contracts
+  - import_hygiene
+  - security_scan
+
+artifacts:
+  - "artifacts/*observability*.json"
+  - "artifacts/metrics_validation.json"
+  - "artifacts/tracing_validation.json"
+
+dependencies:
+  - lukhas.core
+
+performance_budgets:
+  metrics_collection_ms: 10
+  trace_processing_ms: 25
+  dashboard_rendering_ms: 500
+  alert_evaluation_ms: 100
+
+monitoring:
+  metrics:
+    - observability_metrics_collected_total
+    - observability_traces_processed_total
+    - observability_alerts_evaluated_total
+    - observability_dashboard_requests_total
+  alerts:
+    - metrics_collection_failures_high
+    - trace_processing_latency_high
+    - alert_evaluation_timeout
+
+security:
+  data_sensitivity: medium
+  audit_required: true
+  gdpr_applicable: false
+
+telemetry:
+  metrics_retention_days: 90
+  traces_retention_days: 30
+  logs_retention_days: 14

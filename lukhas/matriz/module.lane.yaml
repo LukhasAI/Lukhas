@@ -1,0 +1,68 @@
+# module.lane.yaml
+name: lukhas.matriz
+lane: integration            # candidate | integration | production
+owner: "@matriz-team"
+description: "MATRIZ cognitive engine - Memory-Attention-Thought-Action-Decision-Awareness processing"
+
+slo:
+  p95_ms:
+    tick: 100
+    reflect: 10
+    decide: 50
+    e2e: 250
+    matriz_cycle: 200
+  success_rate: 99.7
+  availability: 99.0
+
+gates:
+  - unit_tests
+  - integration_tests
+  - perf_e2e
+  - schema_guard
+  - chaos_fail_closed
+  - guardian_enforced
+  - telemetry_contracts
+  - import_hygiene
+  - security_scan
+  - cognitive_validation
+
+artifacts:
+  - "artifacts/*matriz*.json"
+  - "artifacts/cognitive_engine_validation.json"
+  - "artifacts/matriz_cycle_validation.json"
+
+dependencies:
+  - lukhas.core
+  - lukhas.memory
+  - lukhas.consciousness
+  - lukhas.governance
+
+performance_budgets:
+  matriz_tick_ms: 87
+  matriz_reflect_ms: 7
+  matriz_decide_ms: 42
+  matriz_total_ms: 136
+
+monitoring:
+  metrics:
+    - matriz_cycles_total
+    - matriz_tick_duration_seconds
+    - matriz_reflect_duration_seconds
+    - matriz_decide_duration_seconds
+  alerts:
+    - matriz_cycle_latency_high
+    - matriz_tick_timeout
+    - matriz_decision_failures_high
+
+security:
+  data_sensitivity: high
+  audit_required: true
+  gdpr_applicable: true
+
+cognitive_components:
+  - memory_processing
+  - attention_mechanisms
+  - thought_generation
+  - action_planning
+  - decision_validation
+  - awareness_evolution

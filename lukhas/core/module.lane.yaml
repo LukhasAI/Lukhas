@@ -1,0 +1,60 @@
+# module.lane.yaml
+name: lukhas.core
+lane: integration            # candidate | integration | production
+owner: "@core-team"
+description: "Core infrastructure, registry, orchestration, and foundational systems"
+
+slo:
+  p95_ms:
+    tick: 100
+    reflect: 10
+    decide: 50
+    e2e: 250
+    registry_lookup: 5
+  success_rate: 99.9
+  availability: 99.9
+
+gates:
+  - unit_tests
+  - integration_tests
+  - perf_e2e
+  - schema_guard
+  - chaos_fail_closed
+  - guardian_enforced
+  - telemetry_contracts
+  - import_hygiene
+  - security_scan
+
+artifacts:
+  - "artifacts/*core*.json"
+  - "artifacts/registry_validation.json"
+  - "artifacts/orchestration_core_validation.json"
+
+dependencies: []  # Core has no dependencies
+
+performance_budgets:
+  registry_lookup_ms: 5
+  plugin_loading_ms: 100
+  filesystem_operations_ms: 50
+  symbolic_processing_ms: 25
+
+monitoring:
+  metrics:
+    - core_registry_lookups_total
+    - core_plugin_loads_total
+    - core_filesystem_operations_total
+    - core_symbolic_operations_total
+  alerts:
+    - registry_lookup_latency_high
+    - plugin_loading_failures_high
+    - filesystem_operation_timeout
+
+security:
+  data_sensitivity: high
+  audit_required: true
+  gdpr_applicable: false
+
+infrastructure:
+  critical_system: true
+  high_availability: true
+  disaster_recovery: required

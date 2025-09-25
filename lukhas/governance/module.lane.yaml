@@ -1,0 +1,67 @@
+# module.lane.yaml
+name: lukhas.governance
+lane: integration            # candidate | integration | production
+owner: "@governance-team"
+description: "Ethics oversight, Guardian system, consent ledger, and compliance frameworks"
+
+slo:
+  p95_ms:
+    tick: 100
+    reflect: 10
+    decide: 50
+    e2e: 250
+    guardian_validation: 50
+  success_rate: 99.9
+  availability: 99.9
+
+gates:
+  - unit_tests
+  - integration_tests
+  - perf_e2e
+  - schema_guard
+  - chaos_fail_closed
+  - guardian_enforced
+  - telemetry_contracts
+  - import_hygiene
+  - security_scan
+  - gdpr_compliance
+  - audit_logging
+
+artifacts:
+  - "artifacts/*governance*.json"
+  - "artifacts/*guardian*.json"
+  - "artifacts/*consent*.json"
+  - "artifacts/ethics_validation.json"
+
+dependencies:
+  - lukhas.core
+
+performance_budgets:
+  guardian_validation_ms: 50
+  consent_ledger_write_ms: 100
+  ethics_evaluation_ms: 200
+  audit_trail_write_ms: 50
+
+monitoring:
+  metrics:
+    - governance_guardian_validations_total
+    - governance_consent_operations_total
+    - governance_ethics_evaluations_total
+    - governance_audit_trail_entries_total
+  alerts:
+    - guardian_validation_failures_high
+    - consent_ledger_write_latency_high
+    - ethics_evaluation_timeout
+
+security:
+  data_sensitivity: critical
+  audit_required: true
+  gdpr_applicable: true
+  encryption_required: true
+
+compliance:
+  frameworks:
+    - GDPR
+    - SOC2
+    - ISO27001
+  retention_years: 7

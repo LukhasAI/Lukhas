@@ -1,0 +1,63 @@
+# module.lane.yaml
+name: lukhas.deployment
+lane: integration            # candidate | integration | production
+owner: "@deployment-team"
+description: "Deployment orchestration, infrastructure management, and release automation"
+
+slo:
+  p95_ms:
+    tick: 100
+    reflect: 10
+    decide: 50
+    e2e: 250
+    deployment_operation: 5000
+  success_rate: 99.0
+  availability: 99.0
+
+gates:
+  - unit_tests
+  - integration_tests
+  - perf_e2e
+  - schema_guard
+  - chaos_fail_closed
+  - guardian_enforced
+  - telemetry_contracts
+  - import_hygiene
+  - security_scan
+
+artifacts:
+  - "artifacts/*deployment*.json"
+  - "artifacts/deployment_orchestration_validation.json"
+  - "artifacts/infrastructure_management_validation.json"
+
+dependencies:
+  - lukhas.core
+  - lukhas.security
+  - lukhas.observability
+
+performance_budgets:
+  deployment_operation_ms: 5000
+  infrastructure_provisioning_ms: 10000
+  release_automation_ms: 3000
+  health_check_ms: 1000
+
+monitoring:
+  metrics:
+    - deployment_operations_total
+    - deployment_infrastructure_provisions_total
+    - deployment_releases_total
+    - deployment_health_checks_total
+  alerts:
+    - deployment_operation_timeout
+    - infrastructure_provisioning_failures_high
+
+security:
+  data_sensitivity: high
+  audit_required: true
+  gdpr_applicable: false
+
+deployment_capabilities:
+  - infrastructure_orchestration
+  - release_automation
+  - health_monitoring
+  - rollback_management

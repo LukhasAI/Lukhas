@@ -33,7 +33,7 @@ artifacts:
   - "artifacts/namespace_isolation_validation.json"
 
 dependencies:
-  - lukhas.guardian
+  - lukhas.governance
 
 performance_budgets:
   token_generation_ms: 50

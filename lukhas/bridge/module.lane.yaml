@@ -1,0 +1,55 @@
+# module.lane.yaml
+name: lukhas.bridge
+lane: candidate            # candidate | integration | production
+owner: "@bridge-team"
+description: "External system bridges, LLM wrappers, and integration adapters"
+
+slo:
+  p95_ms:
+    tick: 200
+    reflect: 20
+    decide: 100
+    e2e: 500
+    bridge_call: 1000
+  success_rate: 95.0
+  availability: 90.0
+
+gates:
+  - unit_tests
+  - import_hygiene
+  - security_scan
+
+artifacts:
+  - "artifacts/*bridge*.json"
+  - "artifacts/llm_wrapper_validation.json"
+  - "artifacts/external_integration_validation.json"
+
+dependencies:
+  - lukhas.core
+
+performance_budgets:
+  bridge_call_ms: 1000
+  llm_wrapper_ms: 2000
+  integration_adapter_ms: 500
+  response_processing_ms: 200
+
+monitoring:
+  metrics:
+    - bridge_calls_total
+    - bridge_llm_requests_total
+    - bridge_integrations_total
+    - bridge_response_processing_total
+  alerts:
+    - bridge_call_latency_high
+    - llm_wrapper_failures_high
+
+security:
+  data_sensitivity: high
+  audit_required: true
+  gdpr_applicable: true
+
+bridge_types:
+  - llm_wrappers
+  - external_apis
+  - legacy_systems
+  - third_party_services

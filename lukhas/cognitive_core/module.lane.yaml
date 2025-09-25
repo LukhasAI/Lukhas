@@ -1,0 +1,55 @@
+# module.lane.yaml
+name: lukhas.cognitive_core
+lane: candidate            # candidate | integration | production
+owner: "@cognitive-team"
+description: "Core cognitive processing, reasoning engine, and symbolic computation"
+
+slo:
+  p95_ms:
+    tick: 200
+    reflect: 20
+    decide: 100
+    e2e: 500
+    reasoning_cycle: 300
+  success_rate: 95.0
+  availability: 90.0
+
+gates:
+  - unit_tests
+  - import_hygiene
+  - security_scan
+
+artifacts:
+  - "artifacts/*cognitive_core*.json"
+  - "artifacts/reasoning_engine_validation.json"
+  - "artifacts/symbolic_computation_validation.json"
+
+dependencies:
+  - lukhas.core
+
+performance_budgets:
+  reasoning_cycle_ms: 300
+  symbolic_computation_ms: 200
+  cognitive_processing_ms: 400
+  inference_ms: 150
+
+monitoring:
+  metrics:
+    - cognitive_reasoning_cycles_total
+    - cognitive_symbolic_computations_total
+    - cognitive_processing_operations_total
+    - cognitive_inferences_total
+  alerts:
+    - reasoning_cycle_latency_high
+    - symbolic_computation_failures_high
+
+security:
+  data_sensitivity: medium
+  audit_required: true
+  gdpr_applicable: false
+
+cognitive_components:
+  - reasoning_engine
+  - symbolic_computation
+  - inference_system
+  - cognitive_processing

@@ -1,0 +1,62 @@
+# module.lane.yaml
+name: lukhas.trace
+lane: integration            # candidate | integration | production
+owner: "@trace-team"
+description: "Distributed tracing, execution tracking, and performance analysis"
+
+slo:
+  p95_ms:
+    tick: 100
+    reflect: 10
+    decide: 50
+    e2e: 250
+    trace_collection: 25
+  success_rate: 99.0
+  availability: 99.0
+
+gates:
+  - unit_tests
+  - integration_tests
+  - perf_e2e
+  - schema_guard
+  - chaos_fail_closed
+  - guardian_enforced
+  - telemetry_contracts
+  - import_hygiene
+  - security_scan
+
+artifacts:
+  - "artifacts/*trace*.json"
+  - "artifacts/distributed_tracing_validation.json"
+  - "artifacts/performance_analysis_validation.json"
+
+dependencies:
+  - lukhas.core
+  - lukhas.observability
+
+performance_budgets:
+  trace_collection_ms: 25
+  span_processing_ms: 10
+  trace_aggregation_ms: 100
+  analysis_generation_ms: 500
+
+monitoring:
+  metrics:
+    - trace_spans_collected_total
+    - trace_processing_duration_seconds
+    - trace_aggregations_total
+    - trace_analyses_generated_total
+  alerts:
+    - trace_collection_latency_high
+    - span_processing_failures_high
+
+security:
+  data_sensitivity: medium
+  audit_required: true
+  gdpr_applicable: false
+
+tracing_features:
+  - distributed_tracing
+  - performance_analysis
+  - execution_tracking
+  - bottleneck_detection

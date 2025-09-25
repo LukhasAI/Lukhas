@@ -30,7 +30,7 @@ artifacts:
   - "artifacts/gdpr_compliance_validation.json"
 
 dependencies:
-  - lukhas.guardian
+  - lukhas.governance
 
 performance_budgets:
   fold_write_ms: 50

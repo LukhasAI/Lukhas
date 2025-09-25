@@ -1,0 +1,55 @@
+# module.lane.yaml
+name: lukhas.bio
+lane: candidate            # candidate | integration | production
+owner: "@bio-team"
+description: "Bio-inspired computing, swarm intelligence, and biological pattern modeling"
+
+slo:
+  p95_ms:
+    tick: 200
+    reflect: 20
+    decide: 100
+    e2e: 500
+    bio_simulation: 1000
+  success_rate: 95.0
+  availability: 90.0
+
+gates:
+  - unit_tests
+  - import_hygiene
+  - security_scan
+
+artifacts:
+  - "artifacts/*bio*.json"
+  - "artifacts/swarm_intelligence_validation.json"
+  - "artifacts/biological_patterns_validation.json"
+
+dependencies:
+  - lukhas.core
+
+performance_budgets:
+  swarm_simulation_ms: 1000
+  pattern_recognition_ms: 500
+  bio_algorithm_ms: 200
+  evolution_step_ms: 100
+
+monitoring:
+  metrics:
+    - bio_simulations_total
+    - bio_pattern_recognitions_total
+    - bio_evolution_steps_total
+    - bio_swarm_operations_total
+  alerts:
+    - bio_simulation_timeout
+    - pattern_recognition_failures_high
+
+security:
+  data_sensitivity: low
+  audit_required: false
+  gdpr_applicable: false
+
+experimental_features:
+  - swarm_intelligence
+  - genetic_algorithms
+  - neural_evolution
+  - biological_patterns

@@ -1,0 +1,67 @@
+# module.lane.yaml
+name: lukhas.security
+lane: integration            # candidate | integration | production
+owner: "@security-team"
+description: "Security controls, vulnerability management, and threat detection"
+
+slo:
+  p95_ms:
+    tick: 100
+    reflect: 10
+    decide: 50
+    e2e: 250
+    security_validation: 100
+  success_rate: 99.9
+  availability: 99.9
+
+gates:
+  - unit_tests
+  - integration_tests
+  - perf_e2e
+  - schema_guard
+  - chaos_fail_closed
+  - guardian_enforced
+  - telemetry_contracts
+  - import_hygiene
+  - security_scan
+  - penetration_testing
+  - vulnerability_assessment
+
+artifacts:
+  - "artifacts/*security*.json"
+  - "artifacts/vulnerability_scan_results.json"
+  - "artifacts/penetration_test_results.json"
+
+dependencies:
+  - lukhas.core
+  - lukhas.governance
+
+performance_budgets:
+  security_validation_ms: 100
+  threat_detection_ms: 50
+  vulnerability_scan_ms: 5000
+  access_control_ms: 25
+
+monitoring:
+  metrics:
+    - security_validations_total
+    - security_threats_detected_total
+    - security_vulnerabilities_found_total
+    - security_access_control_checks_total
+  alerts:
+    - security_validation_failures_high
+    - threats_detected
+    - vulnerabilities_found
+
+security:
+  data_sensitivity: critical
+  audit_required: true
+  gdpr_applicable: true
+  encryption_required: true
+
+security_controls:
+  - access_control
+  - threat_detection
+  - vulnerability_management
+  - incident_response
+  - compliance_monitoring

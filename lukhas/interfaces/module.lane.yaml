@@ -1,0 +1,63 @@
+# module.lane.yaml
+name: lukhas.interfaces
+lane: integration            # candidate | integration | production
+owner: "@interfaces-team"
+description: "User interfaces, natural language processing, and external communication"
+
+slo:
+  p95_ms:
+    tick: 100
+    reflect: 10
+    decide: 50
+    e2e: 250
+    interface_response: 300
+  success_rate: 99.0
+  availability: 99.0
+
+gates:
+  - unit_tests
+  - integration_tests
+  - perf_e2e
+  - schema_guard
+  - chaos_fail_closed
+  - guardian_enforced
+  - telemetry_contracts
+  - import_hygiene
+  - security_scan
+
+artifacts:
+  - "artifacts/*interfaces*.json"
+  - "artifacts/nlp_validation.json"
+  - "artifacts/ui_responsiveness_validation.json"
+
+dependencies:
+  - lukhas.core
+  - lukhas.api
+  - lukhas.governance
+
+performance_budgets:
+  interface_response_ms: 300
+  nlp_processing_ms: 200
+  ui_rendering_ms: 100
+  user_interaction_ms: 50
+
+monitoring:
+  metrics:
+    - interfaces_interactions_total
+    - interfaces_nlp_processing_total
+    - interfaces_ui_renders_total
+    - interfaces_user_sessions_total
+  alerts:
+    - interface_response_latency_high
+    - nlp_processing_failures_high
+
+security:
+  data_sensitivity: high
+  audit_required: true
+  gdpr_applicable: true
+
+interface_types:
+  - natural_language
+  - web_interface
+  - api_interface
+  - command_line

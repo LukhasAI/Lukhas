@@ -1,0 +1,56 @@
+# module.lane.yaml
+name: lukhas.agents
+lane: candidate            # candidate | integration | production
+owner: "@agents-team"
+description: "Agent systems, autonomous behavior, and multi-agent coordination"
+
+slo:
+  p95_ms:
+    tick: 200
+    reflect: 20
+    decide: 100
+    e2e: 500
+    agent_coordination: 300
+  success_rate: 95.0
+  availability: 90.0
+
+gates:
+  - unit_tests
+  - import_hygiene
+  - security_scan
+
+artifacts:
+  - "artifacts/*agents*.json"
+  - "artifacts/agent_coordination_validation.json"
+  - "artifacts/autonomous_behavior_validation.json"
+
+dependencies:
+  - lukhas.core
+  - lukhas.orchestration
+
+performance_budgets:
+  agent_coordination_ms: 300
+  autonomous_decision_ms: 200
+  multi_agent_communication_ms: 100
+  behavior_planning_ms: 400
+
+monitoring:
+  metrics:
+    - agents_coordinations_total
+    - agents_autonomous_decisions_total
+    - agents_communications_total
+    - agents_behavior_plans_total
+  alerts:
+    - agent_coordination_latency_high
+    - autonomous_decision_failures_high
+
+security:
+  data_sensitivity: medium
+  audit_required: true
+  gdpr_applicable: true
+
+agent_capabilities:
+  - autonomous_planning
+  - multi_agent_coordination
+  - behavior_adaptation
+  - goal_optimization

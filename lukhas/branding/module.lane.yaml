@@ -1,0 +1,52 @@
+# module.lane.yaml
+name: lukhas.branding
+lane: candidate            # candidate | integration | production
+owner: "@branding-team"
+description: "Brand identity, visual assets, and corporate messaging systems"
+
+slo:
+  p95_ms:
+    tick: 200
+    reflect: 20
+    decide: 100
+    e2e: 500
+    asset_serving: 100
+  success_rate: 95.0
+  availability: 90.0
+
+gates:
+  - unit_tests
+  - import_hygiene
+  - security_scan
+
+artifacts:
+  - "artifacts/*branding*.json"
+  - "artifacts/brand_consistency_validation.json"
+
+dependencies:
+  - lukhas.core
+
+performance_budgets:
+  asset_serving_ms: 100
+  brand_validation_ms: 50
+  visual_rendering_ms: 200
+
+monitoring:
+  metrics:
+    - branding_assets_served_total
+    - branding_validations_total
+    - branding_visual_renders_total
+  alerts:
+    - asset_serving_latency_high
+    - brand_validation_failures_high
+
+security:
+  data_sensitivity: low
+  audit_required: false
+  gdpr_applicable: false
+
+brand_components:
+  - visual_identity
+  - messaging
+  - asset_management
+  - consistency_validation

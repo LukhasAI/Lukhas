@@ -30,7 +30,7 @@ artifacts:
 
 dependencies:
   - lukhas.memory
-  - lukhas.guardian
+  - lukhas.governance
 
 performance_budgets:
   awareness_update_ms: 50

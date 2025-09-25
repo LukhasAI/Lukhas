@@ -1,0 +1,64 @@
+# module.lane.yaml
+name: lukhas.constellation
+lane: integration            # candidate | integration | production
+owner: "@constellation-team"
+description: "Constellation Framework - distributed cognitive architecture coordination"
+
+slo:
+  p95_ms:
+    tick: 100
+    reflect: 10
+    decide: 50
+    e2e: 250
+    constellation_coordination: 150
+  success_rate: 99.5
+  availability: 99.0
+
+gates:
+  - unit_tests
+  - integration_tests
+  - perf_e2e
+  - schema_guard
+  - chaos_fail_closed
+  - guardian_enforced
+  - telemetry_contracts
+  - import_hygiene
+  - security_scan
+
+artifacts:
+  - "artifacts/*constellation*.json"
+  - "artifacts/framework_coordination_validation.json"
+  - "artifacts/cognitive_architecture_validation.json"
+
+dependencies:
+  - lukhas.core
+  - lukhas.consciousness
+  - lukhas.memory
+  - lukhas.identity
+
+performance_budgets:
+  constellation_coordination_ms: 150
+  star_communication_ms: 50
+  triad_synchronization_ms: 100
+  framework_update_ms: 200
+
+monitoring:
+  metrics:
+    - constellation_coordinations_total
+    - constellation_star_communications_total
+    - constellation_triad_synchronizations_total
+    - constellation_framework_updates_total
+  alerts:
+    - constellation_coordination_latency_high
+    - star_communication_failures_high
+
+security:
+  data_sensitivity: high
+  audit_required: true
+  gdpr_applicable: true
+
+constellation_components:
+  - anchor_star      # Identity
+  - trail_star       # Memory
+  - horizon_star     # Vision
+  - watch_star       # Guardian

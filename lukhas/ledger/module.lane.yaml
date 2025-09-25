@@ -1,0 +1,64 @@
+# module.lane.yaml
+name: lukhas.ledger
+lane: integration            # candidate | integration | production
+owner: "@ledger-team"
+description: "Distributed ledger, blockchain integration, and transaction management"
+
+slo:
+  p95_ms:
+    tick: 100
+    reflect: 10
+    decide: 50
+    e2e: 250
+    transaction_write: 500
+  success_rate: 99.5
+  availability: 99.0
+
+gates:
+  - unit_tests
+  - integration_tests
+  - perf_e2e
+  - schema_guard
+  - chaos_fail_closed
+  - guardian_enforced
+  - telemetry_contracts
+  - import_hygiene
+  - security_scan
+  - consensus_validation
+
+artifacts:
+  - "artifacts/*ledger*.json"
+  - "artifacts/transaction_validation.json"
+  - "artifacts/consensus_validation.json"
+
+dependencies:
+  - lukhas.core
+  - lukhas.security
+
+performance_budgets:
+  transaction_write_ms: 500
+  transaction_read_ms: 50
+  consensus_ms: 1000
+  block_validation_ms: 200
+
+monitoring:
+  metrics:
+    - ledger_transactions_total
+    - ledger_consensus_duration_seconds
+    - ledger_block_validations_total
+    - ledger_transaction_confirmation_duration_seconds
+  alerts:
+    - transaction_write_latency_high
+    - consensus_timeout
+    - block_validation_failures_high
+
+security:
+  data_sensitivity: high
+  audit_required: true
+  gdpr_applicable: true
+  immutable_records: true
+
+blockchain:
+  consensus_mechanism: "proof_of_stake"
+  block_time_seconds: 30
+  confirmation_blocks: 6
