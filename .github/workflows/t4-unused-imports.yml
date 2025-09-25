@@ -127,7 +127,7 @@ jobs:
 
       - name: Upload T4 Reports
         if: always()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@a8a3f3ad30e3422c9c7b888a15615d19a852ae32  # v3
         with:
           name: t4-unused-imports-report
           path: |
@@ -336,7 +336,7 @@ jobs:
           echo "✅ Comprehensive report generated: reports/t4/comprehensive_report.md"
 
       - name: Upload T4 Comprehensive Report
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@a8a3f3ad30e3422c9c7b888a15615d19a852ae32  # v3
         with:
           name: t4-comprehensive-report
           path: reports/t4/

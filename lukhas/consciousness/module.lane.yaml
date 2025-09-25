@@ -1,0 +1,52 @@
+# module.lane.yaml
+name: lukhas.consciousness
+lane: integration            # candidate | integration | production
+owner: "@consciousness-team"
+description: "Core consciousness processing and awareness mechanisms"
+
+slo:
+  p95_ms:
+    tick: 100
+    reflect: 10
+    decide: 50
+    e2e: 250
+  success_rate: 99.5
+  availability: 99.0
+
+gates:
+  - unit_tests
+  - integration_tests
+  - perf_e2e
+  - schema_guard
+  - chaos_fail_closed
+  - guardian_enforced
+  - telemetry_contracts
+  - import_hygiene
+
+artifacts:
+  - "artifacts/*consciousness*.json"
+  - "artifacts/awareness_engine_validation.json"
+  - "artifacts/dream_processing_validation.json"
+
+dependencies:
+  - lukhas.memory
+  - lukhas.guardian
+
+performance_budgets:
+  awareness_update_ms: 50
+  dream_processing_ms: 100
+  consciousness_tick_ms: 100
+
+monitoring:
+  metrics:
+    - consciousness_awareness_updates_total
+    - consciousness_dream_processing_duration_seconds
+    - consciousness_state_transitions_total
+  alerts:
+    - consciousness_awareness_lag_high
+    - consciousness_processing_errors_high
+
+security:
+  data_sensitivity: high
+  audit_required: true
+  gdpr_applicable: true

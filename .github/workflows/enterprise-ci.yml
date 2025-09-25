@@ -49,7 +49,7 @@ jobs:
         fetch-depth: 2
 
     - name: 🐍 Setup Python
-      uses: actions/setup-python@v4
+      uses: actions/setup-python@65d7f2d534ac1bc67fcd62888c5f4f3d2cb2b236  # v4
       with:
         python-version: ${{ env.PYTHON_VERSION }}
         cache: pip
@@ -141,7 +141,7 @@ jobs:
       uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
 
     - name: 🐍 Setup Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v4
+      uses: actions/setup-python@65d7f2d534ac1bc67fcd62888c5f4f3d2cb2b236  # v4
       with:
         python-version: ${{ matrix.python-version }}
         cache: pip
@@ -176,7 +176,7 @@ jobs:
 
     - name: 📊 Upload Test Results
       if: always()
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@a8a3f3ad30e3422c9c7b888a15615d19a852ae32  # v3
       with:
         name: test-results-${{ matrix.python-version }}-${{ matrix.test-category }}
         path: reports/tests/
@@ -210,7 +210,7 @@ jobs:
       uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
 
     - name: 🐍 Setup Python
-      uses: actions/setup-python@v4
+      uses: actions/setup-python@65d7f2d534ac1bc67fcd62888c5f4f3d2cb2b236  # v4
       with:
         python-version: ${{ env.PYTHON_VERSION }}
         cache: pip
@@ -281,7 +281,7 @@ jobs:
 
     - name: 📁 Upload Advanced Test Artifacts
       if: always()
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@a8a3f3ad30e3422c9c7b888a15615d19a852ae32  # v3
       with:
         name: advanced-tests-${{ matrix.methodology }}
         path: reports/advanced/${{ matrix.methodology }}/
@@ -302,7 +302,7 @@ jobs:
       uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
 
     - name: 🐍 Setup Python
-      uses: actions/setup-python@v4
+      uses: actions/setup-python@65d7f2d534ac1bc67fcd62888c5f4f3d2cb2b236  # v4
       with:
         python-version: ${{ env.PYTHON_VERSION }}
         cache: pip
@@ -344,7 +344,7 @@ jobs:
         echo "Check reports/performance/regression_analysis.json for details"
 
     - name: 📁 Upload Performance Data
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@a8a3f3ad30e3422c9c7b888a15615d19a852ae32  # v3
       with:
         name: performance-data
         path: reports/performance/
@@ -366,7 +366,7 @@ jobs:
       uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
 
     - name: 🐍 Setup Python
-      uses: actions/setup-python@v4
+      uses: actions/setup-python@65d7f2d534ac1bc67fcd62888c5f4f3d2cb2b236  # v4
       with:
         python-version: ${{ env.PYTHON_VERSION }}
         cache: pip

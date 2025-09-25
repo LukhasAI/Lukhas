@@ -23,7 +23,7 @@ jobs:
         uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
 
       - name: Set up Python 3.9
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@65d7f2d534ac1bc67fcd62888c5f4f3d2cb2b236  # v4
         with:
           python-version: "3.9"
 
@@ -49,7 +49,7 @@ jobs:
 
       - name: Upload preflight artifacts
         if: always()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@a8a3f3ad30e3422c9c7b888a15615d19a852ae32  # v3
         with:
           name: preflight-validation-results
           path: |
@@ -166,7 +166,7 @@ jobs:
 
       - name: Upload Prometheus validation artifacts
         if: always()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@a8a3f3ad30e3422c9c7b888a15615d19a852ae32  # v3
         with:
           name: prometheus-rules-validation
           path: |
@@ -184,7 +184,7 @@ jobs:
         uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
 
       - name: Set up Python 3.9
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@65d7f2d534ac1bc67fcd62888c5f4f3d2cb2b236  # v4
         with:
           python-version: "3.9"
 
@@ -363,7 +363,7 @@ jobs:
 
       - name: Upload memory lifecycle artifacts
         if: always()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@a8a3f3ad30e3422c9c7b888a15615d19a852ae32  # v3
         with:
           name: memory-lifecycle-validation
           path: |
@@ -383,7 +383,7 @@ jobs:
         uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
 
       - name: Set up Python 3.9
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@65d7f2d534ac1bc67fcd62888c5f4f3d2cb2b236  # v4
         with:
           python-version: "3.9"
 
@@ -523,7 +523,7 @@ jobs:
 
       - name: Upload observability contract artifacts
         if: always()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@a8a3f3ad30e3422c9c7b888a15615d19a852ae32  # v3
         with:
           name: observability-contracts-validation
           path: |
@@ -541,7 +541,7 @@ jobs:
         uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
 
       - name: Set up Python 3.9
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@65d7f2d534ac1bc67fcd62888c5f4f3d2cb2b236  # v4
         with:
           python-version: "3.9"
 
@@ -669,7 +669,7 @@ jobs:
 
       - name: Upload lane isolation artifacts
         if: always()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@a8a3f3ad30e3422c9c7b888a15615d19a852ae32  # v3
         with:
           name: lane-isolation-validation
           path: |
@@ -687,7 +687,7 @@ jobs:
         uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
 
       - name: Set up Python 3.9
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@65d7f2d534ac1bc67fcd62888c5f4f3d2cb2b236  # v4
         with:
           python-version: "3.9"
 
@@ -793,7 +793,7 @@ jobs:
 
       - name: Upload Guardian schema validation artifacts
         if: always()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@a8a3f3ad30e3422c9c7b888a15615d19a852ae32  # v3
         with:
           name: guardian-schema-validation
           path: |
@@ -811,7 +811,7 @@ jobs:
         uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
 
       - name: Set up Python 3.9
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@65d7f2d534ac1bc67fcd62888c5f4f3d2cb2b236  # v4
         with:
           python-version: "3.9"
 
@@ -932,7 +932,7 @@ jobs:
 
       - name: Upload OIDC conformance validation artifacts
         if: always()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@a8a3f3ad30e3422c9c7b888a15615d19a852ae32  # v3
         with:
           name: oidc-conformance-validation
           path: |
@@ -949,7 +949,7 @@ jobs:
         uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
 
       - name: Set up Python 3.9
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@65d7f2d534ac1bc67fcd62888c5f4f3d2cb2b236  # v4
         with:
           python-version: "3.9"
 
@@ -1035,7 +1035,7 @@ jobs:
 
       - name: Upload unit performance artifacts
         if: always()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@a8a3f3ad30e3422c9c7b888a15615d19a852ae32  # v3
         with:
           name: unit-performance-artifacts
           path: |
@@ -1054,7 +1054,7 @@ jobs:
         uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
 
       - name: Set up Python 3.9
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@65d7f2d534ac1bc67fcd62888c5f4f3d2cb2b236  # v4
         with:
           python-version: "3.9"
 
@@ -1146,7 +1146,7 @@ jobs:
 
       - name: Upload E2E performance artifacts
         if: always()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@a8a3f3ad30e3422c9c7b888a15615d19a852ae32  # v3
         with:
           name: e2e-performance-artifacts
           path: |
@@ -1174,7 +1174,7 @@ jobs:
       uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
 
     - name: Set up Python 3.9
-      uses: actions/setup-python@v4
+      uses: actions/setup-python@65d7f2d534ac1bc67fcd62888c5f4f3d2cb2b236  # v4
       with:
         python-version: "3.9"
 
@@ -1305,7 +1305,7 @@ jobs:
 
     - name: Upload performance artifacts
       if: always()
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@a8a3f3ad30e3422c9c7b888a15615d19a852ae32  # v3
       with:
         name: t4-performance-report-${{ matrix.test-suite }}
         path: |
@@ -1323,12 +1323,12 @@ jobs:
       uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
 
     - name: Set up Python 3.9
-      uses: actions/setup-python@v4
+      uses: actions/setup-python@65d7f2d534ac1bc67fcd62888c5f4f3d2cb2b236  # v4
       with:
         python-version: "3.9"
 
     - name: Download all performance artifacts
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@9bc31d5ccc31df68ecc42ccf4149144866c47d8a  # v3
 
     - name: Create consolidated artifacts directory
       run: mkdir -p consolidated_artifacts
@@ -1487,7 +1487,7 @@ jobs:
         "
 
     - name: Upload consolidated performance artifacts
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@a8a3f3ad30e3422c9c7b888a15615d19a852ae32  # v3
       with:
         name: consolidated-performance-artifacts
         path: |
@@ -1565,7 +1565,7 @@ jobs:
         uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
 
       - name: Set up Python 3.9
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@65d7f2d534ac1bc67fcd62888c5f4f3d2cb2b236  # v4
         with:
           python-version: "3.9"
 
@@ -1668,7 +1668,7 @@ jobs:
 
       - name: Upload SBOM artifacts
         if: always()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@a8a3f3ad30e3422c9c7b888a15615d19a852ae32  # v3
         with:
           name: security-sbom-artifacts
           path: |
@@ -1685,7 +1685,7 @@ jobs:
         uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
 
       - name: Set up Python 3.9
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@65d7f2d534ac1bc67fcd62888c5f4f3d2cb2b236  # v4
         with:
           python-version: "3.9"
 
@@ -1779,7 +1779,7 @@ jobs:
 
       - name: Upload security scan artifacts
         if: always()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@a8a3f3ad30e3422c9c7b888a15615d19a852ae32  # v3
         with:
           name: security-scan-artifacts
           path: |
@@ -1797,7 +1797,7 @@ jobs:
         uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
 
       - name: Set up Python 3.9
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@65d7f2d534ac1bc67fcd62888c5f4f3d2cb2b236  # v4
         with:
           python-version: "3.9"
 
@@ -1937,7 +1937,7 @@ jobs:
 
       - name: Upload abuse testing artifacts
         if: always()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@a8a3f3ad30e3422c9c7b888a15615d19a852ae32  # v3
         with:
           name: security-abuse-testing-artifacts
           path: |
@@ -1955,7 +1955,7 @@ jobs:
         uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
 
       - name: Set up Python 3.9
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@65d7f2d534ac1bc67fcd62888c5f4f3d2cb2b236  # v4
         with:
           python-version: "3.9"
 
@@ -1965,7 +1965,7 @@ jobs:
           pip install pyyaml
 
       - name: Download all security artifacts
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@9bc31d5ccc31df68ecc42ccf4149144866c47d8a  # v3
 
       - name: Generate consolidated security report
         run: |
@@ -2097,7 +2097,7 @@ jobs:
 
       - name: Upload consolidated security artifacts
         if: always()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@a8a3f3ad30e3422c9c7b888a15615d19a852ae32  # v3
         with:
           name: security-validation-consolidated
           path: |

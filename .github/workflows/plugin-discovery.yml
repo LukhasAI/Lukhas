@@ -32,7 +32,7 @@ jobs:
       uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
 
     - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v4
+      uses: actions/setup-python@65d7f2d534ac1bc67fcd62888c5f4f3d2cb2b236  # v4
       with:
         python-version: ${{ matrix.python-version }}
 
@@ -282,7 +282,7 @@ jobs:
 
     - name: Upload plugin discovery artifacts
       if: always()
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@a8a3f3ad30e3422c9c7b888a15615d19a852ae32  # v3
       with:
         name: plugin-discovery-report-py${{ matrix.python-version }}
         path: |

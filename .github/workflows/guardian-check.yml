@@ -24,10 +24,10 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332  # v4
 
       - name: Set up Python 3.11
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@65d7f2d534ac1bc67fcd62888c5f4f3d2cb2b236  # v4
         with:
           python-version: '3.11'
 
@@ -244,7 +244,7 @@ jobs:
 
       - name: Upload Guardian compliance report
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@65462800fd760344b1a7b4382951275a0abb4808  # v4
         with:
           name: guardian-compliance-${{ github.sha }}
           path: artifacts/guardian_compliance_report.json

@@ -20,12 +20,12 @@ jobs:
     timeout-minutes: 30
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332  # v4
         with:
           fetch-depth: 0  # Full history for comprehensive analysis
 
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@65d7f2d534ac1bc67fcd62888c5f4f3d2cb2b236  # v4
         with:
           python-version: '3.9'
 
@@ -132,7 +132,7 @@ jobs:
           "
 
       - name: Upload T4 Validation Results
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@a8a3f3ad30e3422c9c7b888a15615d19a852ae32  # v3
         if: always()
         with:
           name: t4-validation-results
@@ -146,7 +146,7 @@ jobs:
     if: github.ref == 'refs/heads/main'
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332  # v4
 
       - name: Production Environment Validation
         run: |
@@ -210,10 +210,10 @@ jobs:
     if: github.event_name == 'schedule'
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332  # v4
 
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@65d7f2d534ac1bc67fcd62888c5f4f3d2cb2b236  # v4
         with:
           python-version: '3.9'
 
@@ -268,7 +268,7 @@ jobs:
           "
 
       - name: Upload Excellence Report
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@a8a3f3ad30e3422c9c7b888a15615d19a852ae32  # v3
         with:
           name: excellence-monitoring-report
           path: excellence_monitoring.json

@@ -65,7 +65,7 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332  # v4
         with:
           fetch-depth: 0  # Full history for security analysis
 
@@ -126,12 +126,12 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332  # v4
         with:
           fetch-depth: 0
 
       - name: Setup Python for security tools
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@82c7e631bb3cdc910f68e0081d67478d79c6982d  # v5
         with:
           python-version: '3.11'
 
@@ -217,7 +217,7 @@ jobs:
 
       - name: Upload Semgrep artifacts
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@65462800fd760344b1a7b4382951275a0abb4808  # v4
         with:
           name: semgrep-security-results
           path: security-reports/
@@ -238,10 +238,10 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332  # v4
 
       - name: Setup Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@82c7e631bb3cdc910f68e0081d67478d79c6982d  # v5
         with:
           python-version: ${{ matrix.python-version }}
 
@@ -286,7 +286,7 @@ jobs:
 
       - name: Upload crypto test results
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@65462800fd760344b1a7b4382951275a0abb4808  # v4
         with:
           name: crypto-hygiene-results-${{ matrix.python-version }}
           path: test-reports/
@@ -307,10 +307,10 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332  # v4
 
       - name: Setup Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@82c7e631bb3cdc910f68e0081d67478d79c6982d  # v5
         with:
           python-version: '3.11'
 
@@ -402,7 +402,7 @@ jobs:
 
       - name: Upload dependency scan results
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@65462800fd760344b1a7b4382951275a0abb4808  # v4
         with:
           name: dependency-security-results
           path: security-reports/
@@ -420,10 +420,10 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332  # v4
 
       - name: Setup Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@82c7e631bb3cdc910f68e0081d67478d79c6982d  # v5
         with:
           python-version: '3.11'
 
@@ -507,7 +507,7 @@ jobs:
 
       - name: Upload security audit reports
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@65462800fd760344b1a7b4382951275a0abb4808  # v4
         with:
           name: comprehensive-security-audit
           path: |

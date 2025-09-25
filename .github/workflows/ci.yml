@@ -10,7 +10,7 @@ jobs:
   lane-guard:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332  # v4
       - name: Install ripgrep
         run: |
           sudo apt-get update -y
@@ -23,7 +23,7 @@ jobs:
     needs: [lane-guard]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332  # v4
       - name: Waiver ratchet
         run: |
           bash tools/ci/waiver_ratchet.sh
@@ -31,8 +31,8 @@ jobs:
   quarantine-guard:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332  # v4
+      - uses: actions/setup-python@82c7e631bb3cdc910f68e0081d67478d79c6982d  # v5
         with:
           python-version: "3.10"
       - name: Check quarantine imports
@@ -48,8 +48,8 @@ jobs:
   pii-scan:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332  # v4
+      - uses: actions/setup-python@82c7e631bb3cdc910f68e0081d67478d79c6982d  # v5
         with:
           python-version: "3.10"
       - name: Run PII linter
@@ -61,8 +61,8 @@ jobs:
   import-contracts:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332  # v4
+      - uses: actions/setup-python@82c7e631bb3cdc910f68e0081d67478d79c6982d  # v5
         with:
           python-version: "3.10"
       - name: Install import-linter
@@ -80,8 +80,8 @@ jobs:
   matriz-validation:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332  # v4
+      - uses: actions/setup-python@82c7e631bb3cdc910f68e0081d67478d79c6982d  # v5
         with:
           python-version: "3.10"
       - name: Install dependencies with constraints
@@ -117,14 +117,14 @@ jobs:
     runs-on: ubuntu-latest
     needs: [lane-guard, waiver-ratchet]   # asegura orden; sigue yendo antes de lint
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332  # v4
         with:
           fetch-depth: 0                  # necesario para calcular diffs
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@82c7e631bb3cdc910f68e0081d67478d79c6982d  # v5
         with:
           python-version: "3.11"
       - name: Cache pre-commit
-        uses: actions/cache@v4
+        uses: actions/cache@0c45773b623bea8c8e75f6c82b208c3cf94ea4f9  # v4
         with:
           path: ~/.cache/pre-commit
           key: pre-commit-${{ runner.os }}-${{ hashFiles('.pre-commit-config.yaml') }}
@@ -148,8 +148,8 @@ jobs:
       matrix:
         python-version: ["3.8", "3.9", "3.10"]
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332  # v4
+      - uses: actions/setup-python@82c7e631bb3cdc910f68e0081d67478d79c6982d  # v5
         with:
           python-version: ${{ matrix.python-version }}
       - name: Install dependencies
@@ -169,8 +169,8 @@ jobs:
     needs: [quarantine-guard]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332  # v4
+      - uses: actions/setup-python@82c7e631bb3cdc910f68e0081d67478d79c6982d  # v5
         with:
           python-version: "3.10"
       - name: Install dependencies
@@ -194,8 +194,8 @@ jobs:
       matrix:
         python-version: ["3.8", "3.9", "3.10"]
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332  # v4
+      - uses: actions/setup-python@82c7e631bb3cdc910f68e0081d67478d79c6982d  # v5
         with:
           python-version: ${{ matrix.python-version }}
       - name: Install dependencies
@@ -206,7 +206,7 @@ jobs:
       - name: Run tests
         run: pytest --cov=lukhas --cov-report=xml || echo "⚠️ Test failures (non-blocking during migration)"
       - name: Upload coverage report
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@65462800fd760344b1a7b4382951275a0abb4808  # v4
         with:
           name: coverage-${{ matrix.python-version }}
           path: coverage.xml
@@ -216,7 +216,7 @@ jobs:
     needs: [test]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332  # v4
       - name: Go/No-Go Decision
         run: |
           echo "🚦 Migration Go/No-Go Check"

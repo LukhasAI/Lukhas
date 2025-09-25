@@ -1,0 +1,56 @@
+# module.lane.yaml
+name: lukhas.memory
+lane: integration            # candidate | integration | production
+owner: "@memory-team"
+description: "Fold-based memory system with cascade prevention and GDPR compliance"
+
+slo:
+  p95_ms:
+    tick: 100
+    reflect: 10
+    decide: 50
+    e2e: 250
+  success_rate: 99.5
+  cascade_prevention_rate: 99.7
+
+gates:
+  - unit_tests
+  - integration_tests
+  - perf_e2e
+  - schema_guard
+  - chaos_fail_closed
+  - guardian_enforced
+  - telemetry_contracts
+  - import_hygiene
+  - gdpr_compliance
+
+artifacts:
+  - "artifacts/*memory*.json"
+  - "artifacts/fold_cascade_validation.json"
+  - "artifacts/gdpr_compliance_validation.json"
+
+dependencies:
+  - lukhas.guardian
+
+performance_budgets:
+  fold_write_ms: 50
+  memory_retrieval_ms: 10
+  cascade_detection_ms: 5
+  gdpr_tombstone_ms: 500
+
+monitoring:
+  metrics:
+    - memory_folds_written_total
+    - memory_cascade_events_total
+    - memory_retrieval_duration_seconds
+    - gdpr_tombstone_operations_total
+  alerts:
+    - memory_cascade_rate_high
+    - memory_write_latency_high
+    - gdpr_compliance_violation
+
+security:
+  data_sensitivity: high
+  audit_required: true
+  gdpr_applicable: true
+  encryption_required: true

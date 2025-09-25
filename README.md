@@ -44,6 +44,19 @@ The **MATRIZ** (Memory-Attention-Thought-Action-Decision-Awareness) engine imple
 
 **Performance Targets**: <250ms p95 latency, <100MB memory usage, 50+ ops/sec throughput
 
+## MATRIZ Lanes
+
+- **candidate** → experimental, no external commitments
+- **integration** → stable APIs, enforced SLOs, shadow traffic allowed
+- **production** → canary → ramp → 100%, rollback ≤30s
+
+### Promotion Gates (must all pass)
+1) E2E perf budgets (tick<100ms, reflect<10ms, decide<50ms, E2E<250ms)
+2) Schema drift guard (no breaking changes)
+3) Chaos fail-closed (guardian + kill-switch)
+4) Telemetry contracts (promtool + label policy)
+5) Import hygiene (lane boundaries)
+
 ## 🚀 Quick Start
 
 ### Prerequisites

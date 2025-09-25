@@ -1,0 +1,60 @@
+# module.lane.yaml
+name: lukhas.identity
+lane: integration            # candidate | integration | production
+owner: "@identity-team"
+description: "ΛID Core Identity System with WebAuthn, OIDC, and namespace isolation"
+
+slo:
+  p95_ms:
+    tick: 100
+    reflect: 10
+    decide: 50
+    e2e: 250
+    authentication: 100
+  success_rate: 99.5
+  availability: 99.9
+
+gates:
+  - unit_tests
+  - integration_tests
+  - perf_e2e
+  - schema_guard
+  - chaos_fail_closed
+  - guardian_enforced
+  - telemetry_contracts
+  - import_hygiene
+  - security_hardening
+  - oidc_conformance
+
+artifacts:
+  - "artifacts/*identity*.json"
+  - "artifacts/webauthn_validation.json"
+  - "artifacts/oidc_conformance_validation.json"
+  - "artifacts/namespace_isolation_validation.json"
+
+dependencies:
+  - lukhas.guardian
+
+performance_budgets:
+  token_generation_ms: 50
+  webauthn_verification_ms: 100
+  oidc_token_validation_ms: 50
+  namespace_resolution_ms: 10
+
+monitoring:
+  metrics:
+    - identity_authentications_total
+    - identity_token_generations_total
+    - identity_webauthn_operations_total
+    - identity_oidc_flows_total
+  alerts:
+    - identity_auth_failures_high
+    - identity_token_generation_slow
+    - webauthn_verification_failures
+
+security:
+  data_sensitivity: critical
+  audit_required: true
+  gdpr_applicable: true
+  encryption_required: true
+  key_rotation_required: true

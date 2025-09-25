@@ -21,10 +21,10 @@ jobs:
     timeout-minutes: 10
 
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332  # v4
 
     - name: Setup Python
-      uses: actions/setup-python@v4
+      uses: actions/setup-python@65d7f2d534ac1bc67fcd62888c5f4f3d2cb2b236  # v4
       with:
         python-version: ${{ env.PYTHON_VERSION }}
         cache: 'pip'
@@ -66,10 +66,10 @@ jobs:
           --health-retries 5
 
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332  # v4
 
     - name: Setup Python
-      uses: actions/setup-python@v4
+      uses: actions/setup-python@65d7f2d534ac1bc67fcd62888c5f4f3d2cb2b236  # v4
       with:
         python-version: ${{ env.PYTHON_VERSION }}
 
@@ -96,10 +96,10 @@ jobs:
     needs: unit_tests
 
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332  # v4
 
     - name: Setup Python
-      uses: actions/setup-python@v4
+      uses: actions/setup-python@65d7f2d534ac1bc67fcd62888c5f4f3d2cb2b236  # v4
       with:
         python-version: ${{ env.PYTHON_VERSION }}
 
@@ -129,10 +129,10 @@ jobs:
     timeout-minutes: 10
 
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332  # v4
 
     - name: Setup Python
-      uses: actions/setup-python@v4
+      uses: actions/setup-python@65d7f2d534ac1bc67fcd62888c5f4f3d2cb2b236  # v4
       with:
         python-version: ${{ env.PYTHON_VERSION }}
 
@@ -158,7 +158,7 @@ jobs:
 
     - name: Upload security reports
       if: always()
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@a8a3f3ad30e3422c9c7b888a15615d19a852ae32  # v3
       with:
         name: security-reports
         path: |
@@ -174,10 +174,10 @@ jobs:
     needs: [unit_tests, integration_tests]
 
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332  # v4
 
     - name: Setup Python
-      uses: actions/setup-python@v4
+      uses: actions/setup-python@65d7f2d534ac1bc67fcd62888c5f4f3d2cb2b236  # v4
       with:
         python-version: ${{ env.PYTHON_VERSION }}
 
@@ -209,7 +209,7 @@ jobs:
     needs: [unit_tests, integration_tests, property_tests]
 
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332  # v4
 
     - name: Setup monitoring stack
       run: |

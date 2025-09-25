@@ -23,15 +23,15 @@ jobs:
         jurisdiction: ['global', 'eu', 'us']
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@f43a0e5ff2bd294095638e18286ca9a3d1956744  # v3
 
     - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v4
+      uses: actions/setup-python@65d7f2d534ac1bc67fcd62888c5f4f3d2cb2b236  # v4
       with:
         python-version: ${{ matrix.python-version }}
 
     - name: Cache dependencies
-      uses: actions/cache@v3
+      uses: actions/cache@88522ab9f39a2ea568f7027eddc7d8d8bc9d59c8  # v3
       with:
         path: ~/.cache/pip
         key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements*.txt') }}
@@ -56,7 +56,7 @@ jobs:
 
     - name: Upload CI Results
       if: always()
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@a8a3f3ad30e3422c9c7b888a15615d19a852ae32  # v3
       with:
         name: safety-ci-results-${{ matrix.python-version }}-${{ matrix.jurisdiction }}
         path: ci_results_${{ matrix.jurisdiction }}/
@@ -111,10 +111,10 @@ jobs:
     needs: safety-checks
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@f43a0e5ff2bd294095638e18286ca9a3d1956744  # v3
 
     - name: Set up Python
-      uses: actions/setup-python@v4
+      uses: actions/setup-python@65d7f2d534ac1bc67fcd62888c5f4f3d2cb2b236  # v4
       with:
         python-version: '3.11'
 
