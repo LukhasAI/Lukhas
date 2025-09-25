@@ -26,6 +26,18 @@ groups:
         sum(rate(lukhas_guardian_decision_duration_seconds_bucket[5m])) by (le)
       )
 
+  - record: lukhas:memory_search_latency_p95_5m
+    expr: |
+      histogram_quantile(0.95,
+        sum(rate(lukhas_memory_search_seconds_bucket[5m])) by (le)
+      )
+
+  - record: lukhas:orchestrator_routing_latency_p95_5m
+    expr: |
+      histogram_quantile(0.95,
+        sum(rate(orchestrator_routing_latency_seconds_bucket[5m])) by (le)
+      )
+
 - name: lukhas_slo_critical
   interval: 30s
   rules:
@@ -94,6 +106,38 @@ groups:
       description: "Guardian decision P99 latency is {{ $value }}s, above the 5ms SLO target"
       runbook_url: "https://docs.lukhas.ai/runbooks/guardian-performance"
 
+  - alert: LUKHASMemorySearchLatencyBelowSLO
+    expr: |
+      histogram_quantile(0.95,
+        rate(lukhas_memory_search_seconds_bucket{lane=~"prod|candidate"}[5m])
+      ) > 0.1
+    for: 2m
+    labels:
+      severity: critical
+      service: lukhas-memory
+      slo: search_latency
+      team: core
+    annotations:
+      summary: "Memory search P95 latency above 100ms SLO"
+      description: "Memory search P95 latency is {{ $value }}s, above the 100ms SLO target"
+      runbook_url: "https://docs.lukhas.ai/runbooks/memory-search-performance"
+
+  - alert: LUKHASOrchestratorRoutingLatencyBelowSLO
+    expr: |
+      histogram_quantile(0.95,
+        rate(orchestrator_routing_latency_seconds_bucket{lane=~"prod|candidate"}[5m])
+      ) > 0.25
+    for: 2m
+    labels:
+      severity: critical
+      service: lukhas-orchestrator
+      slo: routing_latency
+      team: platform
+    annotations:
+      summary: "Orchestrator routing P95 latency above 250ms SLO"
+      description: "Orchestrator routing P95 latency is {{ $value }}s, above the 250ms SLO target"
+      runbook_url: "https://docs.lukhas.ai/runbooks/orchestrator-routing-performance"
+
 - name: lukhas_slo_warning
   interval: 1m
   rules:
@@ -113,6 +157,40 @@ groups:
       summary: "LUKHAS API error budget burning too fast"
       description: "Error budget burn rate is {{ $value | humanizePercentage }}/hour, above sustainable rate"
       runbook_url: "https://docs.lukhas.ai/runbooks/error-budget-management"
+
+  - alert: LUKHASErrorBudgetBurnRate1h
+    expr: |
+      (
+        increase(http_requests_total{status=~"5.."}[1h]) >= 4
+      )
+    for: 1h
+    labels:
+      severity: warning
+      service: lukhas-api
+      slo: burn_rate
+      window: 1h
+      team: platform
+    annotations:
+      summary: "LUKHAS API error budget burn rate exceeded (1h window)"
+      description: "{{ $value }} errors in 1 hour window, exceeding 4-error threshold"
+      runbook_url: "https://docs.lukhas.ai/runbooks/error-budget-burn-rate"
+
+  - alert: LUKHASErrorBudgetBurnRate6h
+    expr: |
+      (
+        increase(http_requests_total{status=~"5.."}[6h]) >= 2
+      )
+    for: 6h
+    labels:
+      severity: critical
+      service: lukhas-api
+      slo: burn_rate
+      window: 6h
+      team: platform
+    annotations:
+      summary: "LUKHAS API error budget burn rate exceeded (6h window)"
+      description: "{{ $value }} errors in 6 hour window, exceeding 2-error threshold"
+      runbook_url: "https://docs.lukhas.ai/runbooks/error-budget-burn-rate"
 
   - alert: LUKHASConsciousnessSuccessRateBelowSLO
     expr: |

@@ -1,0 +1,40 @@
+{
+  "version": "2.1.0",
+  "timestamp": "2025-09-25T06:00:00Z",
+  "schema_hash": "placeholder_will_be_computed",
+  "critical_properties": {
+    "schema_version_pattern": "^2\\.\\d+\\.\\d+$",
+    "decision_statuses": ["allow", "deny", "challenge", "quarantine", "error"],
+    "tier_values": ["T1", "T2", "T3", "T4", "T5"],
+    "lane_values": ["candidate", "lukhas", "MATRIZ", "integration", "production", "canary", "experimental"],
+    "signature_algorithms": ["ed25519", "es256", "rs256"],
+    "required_root_properties": [
+      "schema_version",
+      "decision",
+      "subject",
+      "context",
+      "metrics",
+      "enforcement",
+      "audit",
+      "integrity"
+    ],
+    "additionalProperties": false
+  },
+  "schema_structure": {
+    "type": "object",
+    "properties_count": 12,
+    "has_integrity_block": true,
+    "has_extensions_for_compatibility": true,
+    "fail_closed_defaults": {
+      "enforcement_enabled": true,
+      "error_status_treated_as_deny": true
+    }
+  },
+  "compliance": {
+    "t4_excellence": true,
+    "constellation_framework": true,
+    "fail_closed_behavior": true,
+    "tamper_evident": true,
+    "forward_compatible": true
+  }
+}

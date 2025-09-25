@@ -339,23 +339,66 @@ report_only = true
 root_package = "."
 include_external_packages = false
 
+# T4/0.01% Lane Isolation - Canonical LUKHAS Lane Progression
+# candidate → lukhas → MATRIZ → products
+# Reference: lukhas.governance.schema_registry.LUKHASLane
+
 [[tool.importlinter.contracts]]
-name = "Candidate-to-LUKHAS lane isolation"
+name = "Candidate Lane Isolation"
 type = "forbidden"
 source_modules = ["candidate"]
-forbidden_modules = ["lukhas", "MATRIZ"]
+forbidden_modules = ["lukhas", "MATRIZ", "products"]
+ignore_imports = [
+    "lukhas.governance.schema_registry.get_lane_enum",  # Canonical taxonomy access
+    "lukhas.core.logging",                              # Shared logging
+    "lukhas.core.types"                                 # Shared types
+]
 
 [[tool.importlinter.contracts]]
-name = "LUKHAS-to-Candidate isolation"
+name = "LUKHAS Lane Isolation"
 type = "forbidden"
 source_modules = ["lukhas"]
-forbidden_modules = ["candidate"]
+forbidden_modules = ["candidate", "MATRIZ", "products"]
+ignore_imports = [
+    "lukhas.governance.schema_registry.get_lane_enum",  # Canonical taxonomy access
+]
 
 [[tool.importlinter.contracts]]
-name = "MATRIZ independence"
+name = "MATRIZ Lane Isolation"
 type = "forbidden"
 source_modules = ["MATRIZ"]
-forbidden_modules = ["candidate", "lukhas"]
+forbidden_modules = ["candidate", "lukhas", "products"]
+ignore_imports = [
+    "lukhas.governance.schema_registry.get_lane_enum",  # Canonical taxonomy access
+    "lukhas.core.logging",                              # Shared logging
+    "lukhas.core.types"                                 # Shared types
+]
+
+[[tool.importlinter.contracts]]
+name = "Products Lane Independence"
+type = "forbidden"
+source_modules = ["products"]
+forbidden_modules = ["candidate", "lukhas", "MATRIZ"]
+ignore_imports = [
+    "lukhas.governance.schema_registry.get_lane_enum",  # Canonical taxonomy access
+    "lukhas.core.logging",                              # Shared logging
+    "lukhas.api"                                        # Public API access
+]
+
+[[tool.importlinter.contracts]]
+name = "Lane Progression Flow Enforcement"
+type = "layers"
+layers = [
+    "candidate",
+    "lukhas",
+    "MATRIZ",
+    "products"
+]
+ignore_imports = [
+    "lukhas.governance.schema_registry.get_lane_enum",  # Canonical taxonomy access
+    "lukhas.core.logging",                              # Shared logging infrastructure
+    "lukhas.core.types"                                 # Shared type definitions
+]
 
 [[tool.importlinter.contracts]]
 name = "Production lane isolation"

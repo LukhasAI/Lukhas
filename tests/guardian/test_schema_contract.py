@@ -306,28 +306,213 @@ class TestGuardianSchemaContract:
 
 
 class TestSchemaSnapshotProtection:
-    """Schema drift protection tests."""
+    """Schema drift protection tests with comprehensive snapshot comparison."""
 
-    def test_schema_snapshot_locked(self):
-        """Test that schema hasn't drifted from locked snapshot."""
+    @pytest.fixture
+    def schema(self) -> Dict[str, Any]:
+        """Load current Guardian schema."""
+        schema_path = pathlib.Path(__file__).parent.parent.parent / "governance" / "guardian_schema.json"
+        return json.loads(schema_path.read_text())
+
+    @pytest.fixture
+    def schema_snapshot(self) -> Dict[str, Any]:
+        """Load baseline schema snapshot."""
+        snapshot_path = pathlib.Path(__file__).parent / "__snapshots__" / "guardian_schema_v2.json"
+        return json.loads(snapshot_path.read_text())
+
+    def test_schema_hash_unchanged(self, schema: Dict[str, Any]):
+        """Test that schema content hash matches locked baseline."""
         schema_path = pathlib.Path(__file__).parent.parent.parent / "governance" / "guardian_schema.json"
         schema_content = schema_path.read_bytes()
         actual_hash = hashlib.sha256(schema_content).hexdigest()
 
-        # This hash should be updated when schema is intentionally changed
-        # For initial implementation, we'll compute and lock it
-        expected_hash = hashlib.sha256(schema_content).hexdigest()
+        # Load expected hash from snapshot
+        snapshot_path = pathlib.Path(__file__).parent / "__snapshots__" / "guardian_schema_v2.json"
+        if snapshot_path.exists():
+            snapshot = json.loads(snapshot_path.read_text())
+            expected_hash = snapshot.get("schema_hash")
 
-        assert actual_hash == expected_hash, f"Schema drift detected! Expected {expected_hash}, got {actual_hash}"
+            # If this is the first run, update the snapshot with actual hash
+            if expected_hash == "placeholder_will_be_computed":
+                snapshot["schema_hash"] = actual_hash
+                snapshot_path.write_text(json.dumps(snapshot, indent=2))
+                pytest.skip(f"Updated baseline snapshot with schema hash: {actual_hash}")
 
-    def test_schema_version_is_v2(self):
-        """Test that schema version is v2.x.x for Constellation era."""
-        schema_path = pathlib.Path(__file__).parent.parent.parent / "governance" / "guardian_schema.json"
-        schema = json.loads(schema_path.read_text())
+            assert actual_hash == expected_hash, (
+                f"🚨 SCHEMA DRIFT DETECTED! 🚨\n"
+                f"Expected: {expected_hash}\n"
+                f"Actual:   {actual_hash}\n"
+                f"If this change is intentional, update the snapshot with:\n"
+                f"python -c \"import json; s=json.load(open('{snapshot_path}')); s['schema_hash']='{actual_hash}'; json.dump(s, open('{snapshot_path}', 'w'), indent=2)\""
+            )
 
-        # Schema should be version 2.x.x for Constellation era
+    def test_critical_properties_unchanged(self, schema: Dict[str, Any], schema_snapshot: Dict[str, Any]):
+        """Test that critical schema properties haven't changed."""
+        critical = schema_snapshot["critical_properties"]
+
+        # Version pattern check
+        actual_version_pattern = schema["properties"]["schema_version"]["pattern"]
+        expected_version_pattern = critical["schema_version_pattern"]
+        assert actual_version_pattern == expected_version_pattern, (
+            f"Schema version pattern changed: {actual_version_pattern} != {expected_version_pattern}"
+        )
+
+        # Decision status enum
+        decision_enum = schema["$defs"]["Decision"]["properties"]["status"]["enum"]
+        assert sorted(decision_enum) == sorted(critical["decision_statuses"]), (
+            f"Decision status enum changed: {sorted(decision_enum)} != {sorted(critical['decision_statuses'])}"
+        )
+
+        # Tier enum
+        tier_enum = schema["$defs"]["Actor"]["properties"]["tier"]["enum"]
+        assert sorted(tier_enum) == sorted(critical["tier_values"]), (
+            f"Tier enum changed: {sorted(tier_enum)} != {sorted(critical['tier_values'])}"
+        )
+
+        # Lane enum
+        lane_enum = schema["$defs"]["Subject"]["properties"]["lane"]["enum"]
+        assert sorted(lane_enum) == sorted(critical["lane_values"]), (
+            f"Lane enum changed: {sorted(lane_enum)} != {sorted(critical['lane_values'])}"
+        )
+
+        # Signature algorithms
+        sig_alg_enum = schema["$defs"]["Signature"]["properties"]["alg"]["enum"]
+        assert sorted(sig_alg_enum) == sorted(critical["signature_algorithms"]), (
+            f"Signature algorithms changed: {sorted(sig_alg_enum)} != {sorted(critical['signature_algorithms'])}"
+        )
+
+        # Required root properties
+        actual_required = schema["required"]
+        expected_required = critical["required_root_properties"]
+        assert sorted(actual_required) == sorted(expected_required), (
+            f"Required root properties changed: {sorted(actual_required)} != {sorted(expected_required)}"
+        )
+
+        # Additional properties restriction
+        assert schema["additionalProperties"] == critical["additionalProperties"], (
+            f"additionalProperties policy changed: {schema['additionalProperties']} != {critical['additionalProperties']}"
+        )
+
+    def test_schema_structure_preserved(self, schema: Dict[str, Any], schema_snapshot: Dict[str, Any]):
+        """Test that essential schema structure is preserved."""
+        structure = schema_snapshot["schema_structure"]
+
+        # Schema type
+        assert schema["type"] == structure["type"], f"Schema type changed: {schema['type']} != {structure['type']}"
+
+        # Properties count (approximate - allows for minor additions)
+        actual_props_count = len(schema["properties"])
+        expected_props_count = structure["properties_count"]
+        assert actual_props_count >= expected_props_count, (
+            f"Properties count decreased: {actual_props_count} < {expected_props_count}"
+        )
+
+        # Integrity block exists
+        assert "integrity" in schema["properties"], "Missing integrity block"
+        assert schema["properties"]["integrity"]["$ref"] == "#/$defs/Integrity", "Integrity reference changed"
+
+        # Extensions exist for forward compatibility
+        assert "extensions" in schema["properties"], "Missing extensions for forward compatibility"
+
+    def test_fail_closed_compliance_preserved(self, schema: Dict[str, Any], schema_snapshot: Dict[str, Any]):
+        """Test that fail-closed behavior compliance is preserved."""
+        fail_closed = schema_snapshot["schema_structure"]["fail_closed_defaults"]
+
+        # Verify error status is in decision enum (fail-closed behavior)
+        decision_statuses = schema["$defs"]["Decision"]["properties"]["status"]["enum"]
+        assert "error" in decision_statuses, "Missing 'error' status for fail-closed behavior"
+        assert "deny" in decision_statuses, "Missing 'deny' status for fail-closed behavior"
+
+        # Verify enforcement structure supports fail-closed defaults
+        assert "enforcement" in schema["properties"], "Missing enforcement block"
+        enforcement_ref = schema["properties"]["enforcement"]["$ref"]
+        assert enforcement_ref == "#/$defs/Enforcement", "Enforcement reference changed"
+
+    def test_no_breaking_changes_detected(self, schema: Dict[str, Any], schema_snapshot: Dict[str, Any]):
+        """Test for potential breaking changes in the schema."""
+        breaking_changes = []
+
+        # Check if any required fields were added (breaking change)
+        if "previous_required" in schema_snapshot.get("critical_properties", {}):
+            previous_required = set(schema_snapshot["critical_properties"]["previous_required"])
+            current_required = set(schema["required"])
+            new_required = current_required - previous_required
+            if new_required:
+                breaking_changes.append(f"New required fields: {list(new_required)}")
+
+        # Check if any enum values were removed (breaking change)
+        for enum_path, expected_values in [
+            ("decision_statuses", schema["$defs"]["Decision"]["properties"]["status"]["enum"]),
+            ("tier_values", schema["$defs"]["Actor"]["properties"]["tier"]["enum"]),
+            ("lane_values", schema["$defs"]["Subject"]["properties"]["lane"]["enum"]),
+        ]:
+            if enum_path in schema_snapshot["critical_properties"]:
+                previous_values = set(schema_snapshot["critical_properties"][enum_path])
+                current_values = set(expected_values)
+                removed_values = previous_values - current_values
+                if removed_values:
+                    breaking_changes.append(f"Removed {enum_path}: {list(removed_values)}")
+
+        assert not breaking_changes, f"Breaking changes detected: {'; '.join(breaking_changes)}"
+
+    def test_schema_version_is_v2_constellation(self, schema: Dict[str, Any]):
+        """Test that schema enforces v2.x.x versioning for Constellation Framework era."""
         version_pattern = schema["properties"]["schema_version"]["pattern"]
-        assert version_pattern == "^2\\.\\d+\\.\\d+$", "Schema should enforce v2.x.x versioning"
+        assert version_pattern == "^2\\.\\d+\\.\\d+$", (
+            f"Schema should enforce v2.x.x versioning for Constellation era, got: {version_pattern}"
+        )
+
+    def test_generate_drift_report(self, schema: Dict[str, Any], schema_snapshot: Dict[str, Any]):
+        """Generate comprehensive schema drift report for CI."""
+        schema_path = pathlib.Path(__file__).parent.parent.parent / "governance" / "guardian_schema.json"
+        schema_content = schema_path.read_bytes()
+        current_hash = hashlib.sha256(schema_content).hexdigest()
+
+        # Create drift report
+        report = {
+            "timestamp": datetime.now(timezone.utc).isoformat(),
+            "schema_file": str(schema_path),
+            "baseline_snapshot": str(pathlib.Path(__file__).parent / "__snapshots__" / "guardian_schema_v2.json"),
+            "current_schema_hash": current_hash,
+            "baseline_schema_hash": schema_snapshot.get("schema_hash", "unknown"),
+            "schema_drift_detected": current_hash != schema_snapshot.get("schema_hash", "unknown"),
+            "properties_count": {
+                "current": len(schema["properties"]),
+                "baseline": schema_snapshot["schema_structure"]["properties_count"],
+                "changed": len(schema["properties"]) != schema_snapshot["schema_structure"]["properties_count"]
+            },
+            "critical_enums": {
+                "decision_statuses": {
+                    "current": sorted(schema["$defs"]["Decision"]["properties"]["status"]["enum"]),
+                    "baseline": sorted(schema_snapshot["critical_properties"]["decision_statuses"]),
+                    "changed": sorted(schema["$defs"]["Decision"]["properties"]["status"]["enum"]) != sorted(schema_snapshot["critical_properties"]["decision_statuses"])
+                },
+                "lane_values": {
+                    "current": sorted(schema["$defs"]["Subject"]["properties"]["lane"]["enum"]),
+                    "baseline": sorted(schema_snapshot["critical_properties"]["lane_values"]),
+                    "changed": sorted(schema["$defs"]["Subject"]["properties"]["lane"]["enum"]) != sorted(schema_snapshot["critical_properties"]["lane_values"])
+                }
+            },
+            "compliance_status": {
+                "t4_excellence": all([
+                    "integrity" in schema["properties"],
+                    "extensions" in schema["properties"],
+                    schema["additionalProperties"] == False,
+                    "error" in schema["$defs"]["Decision"]["properties"]["status"]["enum"]
+                ]),
+                "fail_closed_behavior": "error" in schema["$defs"]["Decision"]["properties"]["status"]["enum"],
+                "constellation_framework": schema["properties"]["schema_version"]["pattern"] == "^2\\.\\d+\\.\\d+$"
+            }
+        }
+
+        # Write drift report for CI artifacts
+        artifacts_dir = pathlib.Path("artifacts")
+        artifacts_dir.mkdir(exist_ok=True)
+        report_path = artifacts_dir / f"guardian_schema_validation_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
+        report_path.write_text(json.dumps(report, indent=2))
+
+        # Always pass - this is just for reporting
+        assert True, f"Schema drift report generated: {report_path}"
 
 
 class TestIntegrityValidation:

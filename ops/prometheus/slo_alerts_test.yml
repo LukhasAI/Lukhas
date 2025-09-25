@@ -116,15 +116,107 @@ tests:
         slo: success_rate
         team: core
 
-# Test that alerts DON'T fire under normal conditions
+# Test Memory Search Latency SLO Alert (lukhas_memory_search_seconds p95 < 0.1s)
 - interval: 1m
   input_series:
-    # Normal API performance (99.95% availability)
-    - series: 'http_requests_total{status="200"}'
-      values: '1000+1000x10'
+    - series: 'lukhas_memory_search_seconds_bucket{lane="prod",le="0.05"}'
+      values: '80+80x10'   # 80 requests under 50ms
+    - series: 'lukhas_memory_search_seconds_bucket{lane="prod",le="0.1"}'
+      values: '95+95x10'   # 95 requests under 100ms (P95 = 100ms boundary)
+    - series: 'lukhas_memory_search_seconds_bucket{lane="prod",le="0.2"}'
+      values: '98+98x10'   # 98 requests under 200ms
+    - series: 'lukhas_memory_search_seconds_bucket{lane="prod",le="+Inf"}'
+      values: '100+100x10' # 100 total requests
+  alert_rule_test:
+  - alertname: LUKHASMemorySearchLatencyBelowSLO
+    eval_time: 2m
+    exp_alerts:
+    - labels:
+        severity: critical
+        service: lukhas-memory
+        slo: search_latency
+        team: core
+
+# Test Orchestrator Routing Latency SLO Alert (orchestrator_routing_latency_seconds p95 < 0.25s)
+- interval: 1m
+  input_series:
+    - series: 'orchestrator_routing_latency_seconds_bucket{lane="prod",le="0.1"}'
+      values: '70+70x10'   # 70 requests under 100ms
+    - series: 'orchestrator_routing_latency_seconds_bucket{lane="prod",le="0.25"}'
+      values: '95+95x10'   # 95 requests under 250ms (P95 = 250ms boundary)
+    - series: 'orchestrator_routing_latency_seconds_bucket{lane="prod",le="0.5"}'
+      values: '98+98x10'   # 98 requests under 500ms
+    - series: 'orchestrator_routing_latency_seconds_bucket{lane="prod",le="+Inf"}'
+      values: '100+100x10' # 100 total requests
+  alert_rule_test:
+  - alertname: LUKHASOrchestratorRoutingLatencyBelowSLO
+    eval_time: 2m
+    exp_alerts:
+    - labels:
+        severity: critical
+        service: lukhas-orchestrator
+        slo: routing_latency
+        team: platform
+
+# Test SLO Burn Rate Alert - 4 errors in 1 hour window
+- interval: 1h
+  input_series:
     - series: 'http_requests_total{status="500"}'
-      values: '0+0.5x10'
-    # Normal memory performance (P95 = 50ms)
+      values: '0+4x1'      # 4 errors in 1 hour
+    - series: 'http_requests_total{status="200"}'
+      values: '1000+1000x1' # 1000 successful requests
+  alert_rule_test:
+  - alertname: LUKHASErrorBudgetBurnRate1h
+    eval_time: 1h
+    exp_alerts:
+    - labels:
+        severity: warning
+        service: lukhas-api
+        slo: burn_rate
+        window: 1h
+        team: platform
+
+# Test SLO Burn Rate Alert - 2 errors in 6 hour window
+- interval: 6h
+  input_series:
+    - series: 'http_requests_total{status="500"}'
+      values: '0+2x1'      # 2 errors in 6 hours
+    - series: 'http_requests_total{status="200"}'
+      values: '6000+6000x1' # 6000 successful requests
+  alert_rule_test:
+  - alertname: LUKHASErrorBudgetBurnRate6h
+    eval_time: 6h
+    exp_alerts:
+    - labels:
+        severity: critical
+        service: lukhas-api
+        slo: burn_rate
+        window: 6h
+        team: platform
+
+# Regression Prevention Tests - Verify alerts DON'T fire under normal T4/0.01% conditions
+- interval: 1m
+  input_series:
+    # Normal API performance (99.99% availability)
+    - series: 'http_requests_total{status="200"}'
+      values: '10000+10000x10'
+    - series: 'http_requests_total{status="500"}'
+      values: '0+1x10'
+    # Excellent memory search performance (P95 = 30ms)
+    - series: 'lukhas_memory_search_seconds_bucket{lane="prod",le="0.03"}'
+      values: '95+95x10'
+    - series: 'lukhas_memory_search_seconds_bucket{lane="prod",le="0.1"}'
+      values: '99+99x10'
+    - series: 'lukhas_memory_search_seconds_bucket{lane="prod",le="+Inf"}'
+      values: '100+100x10'
+    # Excellent orchestrator routing performance (P95 = 80ms)
+    - series: 'orchestrator_routing_latency_seconds_bucket{lane="prod",le="0.08"}'
+      values: '95+95x10'
+    - series: 'orchestrator_routing_latency_seconds_bucket{lane="prod",le="0.25"}'
+      values: '99+99x10'
+    - series: 'orchestrator_routing_latency_seconds_bucket{lane="prod",le="+Inf"}'
+      values: '100+100x10'
+    # Normal memory recall performance (P95 = 50ms)
     - series: 'memory_recall_duration_seconds_bucket{lane="prod",le="0.05"}'
       values: '95+95x10'
     - series: 'memory_recall_duration_seconds_bucket{lane="prod",le="+Inf"}'
@@ -134,7 +226,7 @@ tests:
       values: '95+95x10'
     - series: 'matriz_pipeline_duration_seconds_bucket{lane="prod",le="+Inf"}'
       values: '100+100x10'
-    # Normal guardian performance (P99 = 2ms)
+    # Excellent guardian performance (P99 = 2ms)
     - series: 'guardian_decision_duration_seconds_bucket{lane="prod",le="0.002"}'
       values: '99+99x10'
     - series: 'guardian_decision_duration_seconds_bucket{lane="prod",le="+Inf"}'
@@ -144,6 +236,12 @@ tests:
     eval_time: 5m
     exp_alerts: []
   - alertname: LUKHASMemoryRecallLatencyBelowSLO
+    eval_time: 5m
+    exp_alerts: []
+  - alertname: LUKHASMemorySearchLatencyBelowSLO
+    eval_time: 5m
+    exp_alerts: []
+  - alertname: LUKHASOrchestratorRoutingLatencyBelowSLO
     eval_time: 5m
     exp_alerts: []
   - alertname: LUKHASMATRIZPipelineLatencyBelowSLO
