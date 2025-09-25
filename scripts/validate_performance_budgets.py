@@ -198,8 +198,9 @@ class PerformanceBudgetValidator:
 
         budget_ops_per_sec = self.budgets["performance_budgets"]["guardian_performance"]["throughput"]["budget_ops_per_sec"]
 
-        # Extract throughput measurement
-        actual_throughput = guardian_data.get("throughput_ops_per_sec", 0.0)
+        # Extract throughput measurement from nested structure
+        throughput_metrics = guardian_data.get("throughput_metrics", {})
+        actual_throughput = throughput_metrics.get("throughput_ops_per_sec", 0.0)
 
         if actual_throughput < budget_ops_per_sec:
             self.violations.append(
@@ -222,8 +223,9 @@ class PerformanceBudgetValidator:
 
         budget_ms = self.budgets["performance_budgets"]["guardian_performance"]["latency"]["budget_ms"]
 
-        # Extract mean latency
-        mean_latency_ms = guardian_data.get("mean_latency_ms", float('inf'))
+        # Extract mean latency from nested structure
+        latency_metrics = guardian_data.get("latency_metrics", {})
+        mean_latency_ms = latency_metrics.get("mean_latency_ms", float('inf'))
 
         if mean_latency_ms > budget_ms:
             self.violations.append(
@@ -250,9 +252,20 @@ class PerformanceBudgetValidator:
 
         budget_ms = self.budgets["performance_budgets"]["cross_stack_integration"]["orchestrator_to_matriz"]["budget_ms"]
 
-        # Extract p95 timing
-        p95_ms = (e2e_data.get("total_time_stats", {}).get("ci95_upper_ms") or
-                 e2e_data.get("e2e_p95_ms", float('inf')))
+        # Extract p95 timing from different possible structures
+        if "total_time_stats" in e2e_data:
+            # E2E bootstrap format
+            p95_ms = e2e_data["total_time_stats"].get("ci95_upper_ms", float('inf'))
+        elif "integration_flows" in e2e_data:
+            # Cross-stack integration format - find end-to-end roundtrip
+            roundtrip_flow = None
+            for flow in e2e_data["integration_flows"]:
+                if "end_to_end" in flow["flow_name"] or "roundtrip" in flow["flow_name"]:
+                    roundtrip_flow = flow
+                    break
+            p95_ms = roundtrip_flow.get("p95_ms", float('inf')) if roundtrip_flow else float('inf')
+        else:
+            p95_ms = e2e_data.get("e2e_p95_ms", float('inf'))
 
         if p95_ms > budget_ms:
             self.violations.append(

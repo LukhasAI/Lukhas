@@ -1,7 +1,7 @@
 {
   "version": "1.0.0",
   "timestamp": "2025-09-25T13:00:00Z",
-  "schema_hash": "placeholder_will_be_computed",
+  "schema_hash": "076ed3d268ae8cdd0eb6909d9cfdabc36f5ff23edac621b21b78607d9bd02fc7",
   "critical_properties": {
     "schema_version_pattern": "^1\\.\\d+\\.\\d+$",
     "processing_stages": [
@@ -15,11 +15,37 @@
       "awareness_update",
       "finalization"
     ],
-    "consciousness_states": ["DORMANT", "AWAKENING", "ACTIVE", "REFLECTION", "DEEP_PROCESSING"],
-    "lane_values": ["candidate", "lukhas", "MATRIZ", "integration", "production", "canary", "experimental"],
-    "enforcement_modes": ["enforced", "advisory", "disabled"],
-    "complexity_levels": ["simple", "moderate", "complex"],
-    "signature_algorithms": ["ed25519", "es256", "rs256"],
+    "consciousness_states": [
+      "DORMANT",
+      "AWAKENING",
+      "ACTIVE",
+      "REFLECTION",
+      "DEEP_PROCESSING"
+    ],
+    "lane_values": [
+      "candidate",
+      "lukhas",
+      "MATRIZ",
+      "integration",
+      "production",
+      "canary",
+      "experimental"
+    ],
+    "enforcement_modes": [
+      "enforced",
+      "advisory",
+      "disabled"
+    ],
+    "complexity_levels": [
+      "simple",
+      "moderate",
+      "complex"
+    ],
+    "signature_algorithms": [
+      "ed25519",
+      "es256",
+      "rs256"
+    ],
     "required_root_properties": [
       "decision",
       "subject",

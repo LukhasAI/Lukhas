@@ -68,19 +68,13 @@
     "matriz_decide_timings.json",
     "cross_stack_integration_perf.json"
   ],
-  "total_violations": 7,
+  "total_violations": 1,
   "total_warnings": 0,
   "validation_passed": false,
-  "validation_timestamp": "2025-09-25T13:18:57.062648Z",
+  "validation_timestamp": "2025-09-25T13:38:53.748963Z",
   "validator_version": "1.0.0",
   "violations": [
-    "Missing performance artifacts: ['matriz_perf_e2e_bootstrap.json', 'guardian_throughput_soak.json', 'matriz_tick_timings.json', 'matriz_reflect_timings.json', 'matriz_decide_timings.json', 'cross_stack_integration_perf.json']",
-    "MATRIZ tick timing data not found",
-    "MATRIZ reflect timing data not found",
-    "MATRIZ decide timing data not found",
-    "Guardian throughput data not found",
-    "Guardian latency data not found",
-    "E2E orchestration timing data not found"
+    "Missing performance artifacts: ['matriz_tick_timings.json', 'matriz_reflect_timings.json', 'matriz_decide_timings.json']"
   ],
   "warnings": []
 }

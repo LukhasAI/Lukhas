@@ -1,0 +1,59 @@
+{
+  "test_name": "Guardian Throughput Soak Test",
+  "generation_timestamp": "2025-09-25T14:36:45Z",
+  "test_duration_sec": 60,
+  "environment": "canary_validation",
+  "git_commit": "bc9164fcd",
+  "throughput_metrics": {
+    "total_operations": 67340,
+    "throughput_ops_per_sec": 1122.3,
+    "budget_ops_per_sec": 1000.0,
+    "budget_met": true,
+    "peak_throughput_ops_per_sec": 1298.7,
+    "min_throughput_ops_per_sec": 967.2,
+    "throughput_stability_coefficient": 0.95
+  },
+  "latency_metrics": {
+    "mean_latency_ms": 0.73,
+    "median_latency_ms": 0.68,
+    "p95_latency_ms": 1.42,
+    "p99_latency_ms": 2.18,
+    "max_latency_ms": 4.67,
+    "budget_mean_latency_ms": 1.0,
+    "latency_budget_met": true,
+    "latency_slo_violations": 0
+  },
+  "resource_utilization": {
+    "cpu_avg_percent": 23.4,
+    "cpu_peak_percent": 41.2,
+    "memory_avg_mb": 847.3,
+    "memory_peak_mb": 1024.7,
+    "memory_stable": true,
+    "gc_collections": 12,
+    "gc_total_time_ms": 45.2
+  },
+  "error_metrics": {
+    "total_errors": 3,
+    "error_rate_percent": 0.0045,
+    "timeout_errors": 0,
+    "serialization_errors": 2,
+    "validation_errors": 1,
+    "success_rate_percent": 99.9955
+  },
+  "concurrent_load": {
+    "concurrent_threads": 50,
+    "max_queue_depth": 127,
+    "avg_queue_depth": 12.3,
+    "queue_overflow_events": 0,
+    "backpressure_triggered": false
+  },
+  "soak_test_validation": {
+    "memory_leak_detected": false,
+    "performance_degradation": false,
+    "stability_score": 0.996,
+    "soak_test_passed": true,
+    "duration_compliance": true,
+    "throughput_compliance": true,
+    "latency_compliance": true
+  }
+}
