@@ -19,6 +19,7 @@ Constellation Framework: 🌊 Metrics Contract Compliance
 import logging
 import pytest
 import time
+import re
 from typing import Dict, Any, List, Set
 from unittest.mock import Mock, patch
 from collections import defaultdict
@@ -39,7 +40,15 @@ class MATRIZMetricsContractValidator:
         """Initialize contract validator."""
         self.metrics_collector = ServiceMetricsCollector()
         self.contract_violations = []
-        self.forbidden_labels = {"correlation_id", "request_id", "trace_id", "span_id"}
+        self.forbidden_labels = {"correlation_id", "request_id", "trace_id", "span_id", "session_id", "user_id", "timestamp"}
+        self.dynamic_id_patterns = [
+            r".*[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}.*",  # UUIDs
+            r".*[0-9]{13,}.*",  # Timestamps (13+ digits)
+            r".*req_[0-9a-zA-Z]+.*",  # Request IDs
+            r".*sess_[0-9a-zA-Z]+.*",  # Session IDs
+            r".*usr_[0-9a-zA-Z]+.*",  # User IDs
+            r".*tx_[0-9a-zA-Z]+.*",  # Transaction IDs
+        ]
         self.required_labels = {"lane", "component", "phase"}
         self.valid_prometheus_name_pattern = r"^[a-zA-Z_:][a-zA-Z0-9_:]*$"
 
@@ -67,6 +76,23 @@ class MATRIZMetricsContractValidator:
         for label_key, label_value in labels.items():
             if not self._is_valid_label_value(label_value):
                 violations.append(f"Invalid label value format '{label_value}' for key '{label_key}' in metric '{metric_name}'")
+
+        # Check for dynamic ID patterns that would cause cardinality explosion
+        dynamic_violations = self.validate_dynamic_id_prevention(metric_name, labels)
+        violations.extend(dynamic_violations)
+
+        return violations
+
+    def validate_dynamic_id_prevention(self, metric_name: str, labels: Dict[str, str]) -> List[str]:
+        """Validate that no dynamic IDs are used as Prometheus labels."""
+        violations = []
+
+        for label_key, label_value in labels.items():
+            # Check if value matches any dynamic ID pattern
+            for pattern in self.dynamic_id_patterns:
+                if re.match(pattern, str(label_value), re.IGNORECASE):
+                    violations.append(f"Dynamic ID detected in label '{label_key}={label_value}' for metric '{metric_name}' - pattern: {pattern}")
+                    break
 
         return violations
 
@@ -184,27 +210,55 @@ class TestMATRIZMetricsContract:
     """MATRIZ metrics contract enforcement tests."""
 
     def test_forbidden_correlation_id_labels(self):
-        """Test that correlation_id is NEVER used as a Prometheus label."""
+        """Test that correlation_id and other high-cardinality labels are NEVER used."""
         validator = MATRIZMetricsContractValidator()
 
-        # Attempt to record metric with forbidden correlation_id label
+        # Test forbidden static high-cardinality labels
+        forbidden_test_cases = [
+            ("correlation_id", "should-be-forbidden"),
+            ("request_id", "req_123456"),
+            ("trace_id", "trace_abcdef"),
+            ("span_id", "span_789abc"),
+            ("session_id", "sess_xyz123"),
+            ("user_id", "user_456def"),
+            ("timestamp", "1695646894123")
+        ]
+
+        for forbidden_label, test_value in forbidden_test_cases:
+            violations = validator.record_and_validate_matriz_metric(
+                name="lukhas_matriz_tick_duration_seconds",
+                value=0.075,
+                service=ServiceType.CONSCIOUSNESS,
+                metric_type=MetricType.HISTOGRAM,
+                operation="tick",
+                phase="processing",
+                lane="production",
+                labels={forbidden_label: test_value}
+            )
+
+            # Assert violation detected for forbidden labels
+            assert len(violations) > 0, f"{forbidden_label} label should be forbidden"
+            forbidden_violations = [v for v in violations if forbidden_label in v]
+            assert len(forbidden_violations) > 0, f"{forbidden_label} violation not detected"
+
+            logger.info(f"✓ Forbidden {forbidden_label} label properly detected")
+
+        # Test dynamic ID in seemingly innocent label
         violations = validator.record_and_validate_matriz_metric(
-            name="lukhas_matriz_tick_duration_seconds",
-            value=0.075,
+            name="lukhas_matriz_sneaky_test",
+            value=1.0,
             service=ServiceType.CONSCIOUSNESS,
-            metric_type=MetricType.HISTOGRAM,
-            operation="tick",
+            metric_type=MetricType.COUNTER,
+            operation="test",
             phase="processing",
             lane="production",
-            labels={"correlation_id": "should-be-forbidden"}
+            labels={"deployment_id": "deploy-f47ac10b-58cc-4372-a567-0e02b2c3d479"}  # UUID hidden in deployment
         )
 
-        # Assert violation detected
-        assert len(violations) > 0, "correlation_id label should be forbidden"
-        correlation_violations = [v for v in violations if "correlation_id" in v]
-        assert len(correlation_violations) > 0, "correlation_id violation not detected"
+        dynamic_violations = [v for v in violations if "Dynamic ID detected" in v]
+        assert len(dynamic_violations) > 0, "Hidden UUID in deployment_id not detected"
 
-        logger.info(f"✓ Forbidden correlation_id label properly detected: {correlation_violations[0]}")
+        logger.info("✓ Hidden dynamic IDs in innocent-looking labels properly detected")
 
     def test_required_labels_enforcement(self):
         """Test that required labels {lane, component, phase} are enforced."""
@@ -308,6 +362,233 @@ class TestMATRIZMetricsContract:
             assert len(format_violations) == 0, f"Valid label format '{valid_value}' incorrectly flagged"
 
         logger.info("✓ Label value format validation working")
+
+    def test_dynamic_id_prevention_uuids(self):
+        """Test that UUID values are NEVER used as Prometheus labels."""
+        validator = MATRIZMetricsContractValidator()
+
+        # Test various UUID formats that should be detected and forbidden
+        uuid_test_cases = [
+            "550e8400-e29b-41d4-a716-446655440000",  # Standard UUID v4
+            "f47ac10b-58cc-4372-a567-0e02b2c3d479",  # Another UUID v4
+            "6ba7b810-9dad-11d1-80b4-00c04fd430c8",  # UUID v1
+            "prefix-550e8400-e29b-41d4-a716-446655440000-suffix"  # UUID with prefix/suffix
+        ]
+
+        for uuid_value in uuid_test_cases:
+            violations = validator.record_and_validate_matriz_metric(
+                name="lukhas_matriz_uuid_test_metric",
+                value=1.0,
+                service=ServiceType.CONSCIOUSNESS,
+                metric_type=MetricType.COUNTER,
+                operation="test",
+                phase="processing",
+                lane="production",
+                labels={"dynamic_uuid": uuid_value}
+            )
+
+            # Assert UUID was detected as dynamic ID
+            uuid_violations = [v for v in violations if "Dynamic ID detected" in v and uuid_value in v]
+            assert len(uuid_violations) > 0, f"UUID '{uuid_value}' not detected as dynamic ID"
+
+            logger.info(f"✓ UUID dynamic ID detection working: {uuid_value[:8]}...")
+
+    def test_dynamic_id_prevention_timestamps(self):
+        """Test that timestamp values are NEVER used as Prometheus labels."""
+        validator = MATRIZMetricsContractValidator()
+
+        # Test various timestamp formats that should be detected and forbidden
+        timestamp_test_cases = [
+            "1695646894123",      # 13-digit Unix timestamp (ms)
+            "1695646894123456",   # 16-digit Unix timestamp (μs)
+            "20230925134134",     # 14-digit timestamp format
+            "ts_1695646894123",   # Prefixed timestamp
+        ]
+
+        for timestamp_value in timestamp_test_cases:
+            violations = validator.record_and_validate_matriz_metric(
+                name="lukhas_matriz_timestamp_test_metric",
+                value=1.0,
+                service=ServiceType.CONSCIOUSNESS,
+                metric_type=MetricType.COUNTER,
+                operation="test",
+                phase="processing",
+                lane="production",
+                labels={"dynamic_timestamp": timestamp_value}
+            )
+
+            # Assert timestamp was detected as dynamic ID
+            timestamp_violations = [v for v in violations if "Dynamic ID detected" in v and timestamp_value in v]
+            assert len(timestamp_violations) > 0, f"Timestamp '{timestamp_value}' not detected as dynamic ID"
+
+            logger.info(f"✓ Timestamp dynamic ID detection working: {timestamp_value}")
+
+    def test_dynamic_id_prevention_request_ids(self):
+        """Test that request/session/user IDs are NEVER used as Prometheus labels."""
+        validator = MATRIZMetricsContractValidator()
+
+        # Test various ID formats that should be detected and forbidden
+        id_test_cases = [
+            ("req_abc123def", "request ID"),
+            ("sess_456789abc", "session ID"),
+            ("usr_xyz789def", "user ID"),
+            ("tx_transaction123", "transaction ID"),
+        ]
+
+        for id_value, id_type in id_test_cases:
+            violations = validator.record_and_validate_matriz_metric(
+                name="lukhas_matriz_id_test_metric",
+                value=1.0,
+                service=ServiceType.CONSCIOUSNESS,
+                metric_type=MetricType.COUNTER,
+                operation="test",
+                phase="processing",
+                lane="production",
+                labels={"dynamic_id": id_value}
+            )
+
+            # Assert ID was detected as dynamic ID
+            id_violations = [v for v in violations if "Dynamic ID detected" in v and id_value in v]
+            assert len(id_violations) > 0, f"{id_type} '{id_value}' not detected as dynamic ID"
+
+            logger.info(f"✓ {id_type} dynamic ID detection working: {id_value}")
+
+    def test_dynamic_id_prevention_ci_integration(self):
+        """Test automated CI integration for dynamic ID prevention."""
+        validator = MATRIZMetricsContractValidator()
+
+        # Simulate CI environment variables or test configurations
+        ci_test_scenarios = [
+            {
+                "scenario": "Production metric with clean labels",
+                "labels": {"environment": "production", "version": "v1.2.3", "deployment": "stable"},
+                "should_pass": True
+            },
+            {
+                "scenario": "Metric with sneaky UUID in deployment label",
+                "labels": {"environment": "production", "deployment": "deploy-550e8400-e29b-41d4-a716-446655440000"},
+                "should_pass": False
+            },
+            {
+                "scenario": "Metric with timestamp in version label",
+                "labels": {"environment": "staging", "version": "build-1695646894123"},
+                "should_pass": False
+            },
+            {
+                "scenario": "Valid semantic versioning and environment",
+                "labels": {"environment": "canary", "version": "v2.1.0-rc.1", "region": "us-west-2"},
+                "should_pass": True
+            }
+        ]
+
+        passed_scenarios = 0
+        total_scenarios = len(ci_test_scenarios)
+
+        for scenario_config in ci_test_scenarios:
+            violations = validator.record_and_validate_matriz_metric(
+                name="lukhas_matriz_ci_test_metric",
+                value=1.0,
+                service=ServiceType.CONSCIOUSNESS,
+                metric_type=MetricType.COUNTER,
+                operation="test",
+                phase="ci_validation",
+                lane="production",
+                labels=scenario_config["labels"]
+            )
+
+            has_dynamic_id_violations = any("Dynamic ID detected" in v for v in violations)
+            should_pass = scenario_config["should_pass"]
+            scenario_name = scenario_config["scenario"]
+
+            if should_pass:
+                # Should have no dynamic ID violations
+                assert not has_dynamic_id_violations, f"CI scenario '{scenario_name}' should pass but has dynamic ID violations: {violations}"
+                passed_scenarios += 1
+                logger.info(f"✓ CI scenario PASS: {scenario_name}")
+            else:
+                # Should have dynamic ID violations
+                assert has_dynamic_id_violations, f"CI scenario '{scenario_name}' should fail with dynamic ID violations but passed"
+                logger.info(f"✓ CI scenario FAIL (expected): {scenario_name}")
+
+        # Assert overall CI integration effectiveness
+        expected_pass_rate = sum(1 for s in ci_test_scenarios if s["should_pass"]) / total_scenarios
+        actual_pass_rate = passed_scenarios / total_scenarios
+
+        assert actual_pass_rate == expected_pass_rate, f"CI integration pass rate mismatch: {actual_pass_rate} vs {expected_pass_rate}"
+
+        logger.info(f"✅ CI integration for dynamic ID prevention: {passed_scenarios}/{total_scenarios} scenarios passed as expected")
+
+    def test_comprehensive_dynamic_id_hardening(self):
+        """Comprehensive test ensuring ALL dynamic ID patterns are caught."""
+        validator = MATRIZMetricsContractValidator()
+
+        # Test matrix covering all dynamic ID patterns
+        dynamic_id_test_matrix = [
+            # UUIDs
+            {"pattern_type": "UUID", "value": "f47ac10b-58cc-4372-a567-0e02b2c3d479", "should_detect": True},
+            {"pattern_type": "UUID", "value": "not-a-uuid", "should_detect": False},
+
+            # Timestamps
+            {"pattern_type": "Timestamp", "value": "1695646894123", "should_detect": True},
+            {"pattern_type": "Timestamp", "value": "123", "should_detect": False},  # Too short
+
+            # Request IDs
+            {"pattern_type": "Request ID", "value": "req_abc123", "should_detect": True},
+            {"pattern_type": "Request ID", "value": "request_normal", "should_detect": False},
+
+            # Session IDs
+            {"pattern_type": "Session ID", "value": "sess_xyz789", "should_detect": True},
+            {"pattern_type": "Session ID", "value": "session_type", "should_detect": False},
+
+            # User IDs
+            {"pattern_type": "User ID", "value": "usr_def456", "should_detect": True},
+            {"pattern_type": "User ID", "value": "user_role", "should_detect": False},
+
+            # Transaction IDs
+            {"pattern_type": "Transaction ID", "value": "tx_transaction123", "should_detect": True},
+            {"pattern_type": "Transaction ID", "value": "transaction_type", "should_detect": False},
+        ]
+
+        detection_accuracy = 0
+        total_tests = len(dynamic_id_test_matrix)
+
+        for test_case in dynamic_id_test_matrix:
+            pattern_type = test_case["pattern_type"]
+            test_value = test_case["value"]
+            should_detect = test_case["should_detect"]
+
+            violations = validator.record_and_validate_matriz_metric(
+                name="lukhas_matriz_comprehensive_test",
+                value=1.0,
+                service=ServiceType.CONSCIOUSNESS,
+                metric_type=MetricType.COUNTER,
+                operation="test",
+                phase="comprehensive",
+                lane="production",
+                labels={"test_label": test_value}
+            )
+
+            has_dynamic_detection = any("Dynamic ID detected" in v for v in violations)
+
+            if should_detect == has_dynamic_detection:
+                detection_accuracy += 1
+                status = "✓ CORRECT"
+            else:
+                status = "✗ INCORRECT"
+
+            expected_result = "DETECT" if should_detect else "ALLOW"
+            actual_result = "DETECTED" if has_dynamic_detection else "ALLOWED"
+
+            logger.info(f"{status} {pattern_type}: {test_value} - Expected: {expected_result}, Got: {actual_result}")
+
+        # Assert comprehensive hardening effectiveness
+        accuracy_rate = detection_accuracy / total_tests
+        logger.info(f"Dynamic ID detection accuracy: {detection_accuracy}/{total_tests} ({accuracy_rate:.1%})")
+
+        # Require 100% accuracy for T4/0.01% excellence
+        assert accuracy_rate == 1.0, f"Dynamic ID detection accuracy {accuracy_rate:.1%} below T4/0.01% standard (100%)"
+
+        logger.info("✅ Comprehensive dynamic ID hardening PASSED at T4/0.01% excellence")
 
     def test_matriz_histogram_bucket_requirements(self):
         """Test MATRIZ histogram metrics have appropriate buckets."""
