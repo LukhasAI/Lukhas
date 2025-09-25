@@ -1,0 +1,235 @@
+# LUKHAS Security Policy Configuration
+# T4/0.01% Excellence Security Standards
+
+security_policy:
+  version: "1.0.0"
+  effective_date: "2024-01-01"
+  last_updated: "2024-01-01"
+
+  # License whitelist for dependencies
+  approved_licenses:
+    - "MIT"
+    - "Apache-2.0"
+    - "BSD-3-Clause"
+    - "BSD-2-Clause"
+    - "Python-2.0"
+    - "PSF-2.0"
+    - "ISC"
+    - "Unlicense"
+
+  # Blocked licenses (high risk or incompatible)
+  blocked_licenses:
+    - "GPL-3.0"
+    - "AGPL-3.0"
+    - "CC-BY-NC"
+    - "Proprietary"
+    - "Commercial"
+    - "Unknown"
+
+  # Vulnerability severity thresholds
+  vulnerability_thresholds:
+    critical: 0  # No critical vulnerabilities allowed
+    high: 0      # No high severity vulnerabilities allowed
+    medium: 3    # Maximum 3 medium severity vulnerabilities
+    low: 10      # Maximum 10 low severity vulnerabilities
+
+  # Secret detection patterns
+  secret_patterns:
+    openai_api_key:
+      pattern: "sk-[a-zA-Z0-9]{48}"
+      severity: "CRITICAL"
+      description: "OpenAI API key detected"
+
+    anthropic_api_key:
+      pattern: "sk-ant-[a-zA-Z0-9-]{90,}"
+      severity: "CRITICAL"
+      description: "Anthropic API key detected"
+
+    github_token:
+      pattern: "ghp_[a-zA-Z0-9]{36}"
+      severity: "HIGH"
+      description: "GitHub personal access token detected"
+
+    aws_access_key:
+      pattern: "AKIA[0-9A-Z]{16}"
+      severity: "HIGH"
+      description: "AWS access key detected"
+
+    private_key:
+      pattern: "-----BEGIN (RSA )?PRIVATE KEY-----"
+      severity: "HIGH"
+      description: "Private key detected"
+
+    jwt_token:
+      pattern: "eyJ[a-zA-Z0-9-_=]+\\.eyJ[a-zA-Z0-9-_=]+\\.?[a-zA-Z0-9-_.+/=]*"
+      severity: "MEDIUM"
+      description: "JWT token detected"
+
+    generic_api_key:
+      pattern: "['\"]?[a-z_]*api[_-]?key['\"]?\\s*[:=]\\s*['\"][a-zA-Z0-9-_]{20,}['\"]"
+      severity: "MEDIUM"
+      description: "Generic API key pattern detected"
+
+    database_url:
+      pattern: "(postgres|mysql|mongodb)://[a-zA-Z0-9-_.]+:[a-zA-Z0-9-_.]+@[a-zA-Z0-9-_.]+"
+      severity: "HIGH"
+      description: "Database connection string detected"
+
+  # Code quality thresholds
+  code_quality:
+    max_complexity: 10
+    min_test_coverage: 70
+    max_duplicate_lines: 5
+
+  # Security scanning configuration
+  scanners:
+    semgrep:
+      enabled: true
+      rules:
+        - "p/python"
+        - "p/security-audit"
+        - "p/owasp-top-ten"
+        - "lukhas_custom_rules"
+      fail_on_severity: "ERROR"
+
+    bandit:
+      enabled: true
+      confidence_level: "LOW"
+      severity_level: "LOW"
+      skip_tests: []
+      exclude_paths:
+        - "*/tests/*"
+        - "*/test_*"
+        - "*/.venv/*"
+        - "*/venv/*"
+        - "*/node_modules/*"
+
+    safety:
+      enabled: true
+      ignore_vulnerabilities: []
+      check_dependencies: true
+      check_dev_dependencies: false
+
+    custom_secrets_scanner:
+      enabled: true
+      confidence_threshold: "MEDIUM"
+      exclude_patterns:
+        - "test"
+        - "example"
+        - "demo"
+        - "placeholder"
+        - "mock"
+
+  # Deployment gates
+  deployment_gates:
+    security_scan_required: true
+    vulnerability_scan_required: true
+    secrets_scan_required: true
+    license_compliance_required: true
+    abuse_testing_required: true
+
+    # Blocking conditions
+    block_on_critical_vulnerabilities: true
+    block_on_high_vulnerabilities: true
+    block_on_unlicensed_dependencies: true
+    block_on_detected_secrets: true
+    block_on_failed_abuse_tests: true
+
+  # Monitoring and alerting
+  monitoring:
+    security_metrics_enabled: true
+    alert_channels:
+      - "security-team@lukhas.ai"
+      - "devops-team@lukhas.ai"
+
+    alert_thresholds:
+      new_vulnerability_detected: "HIGH"
+      secret_detected_in_commit: "CRITICAL"
+      failed_security_scan: "HIGH"
+      compliance_violation: "MEDIUM"
+
+  # Incident response
+  incident_response:
+    critical_vulnerability_response_time: "2 hours"
+    high_vulnerability_response_time: "24 hours"
+    medium_vulnerability_response_time: "72 hours"
+
+    escalation_matrix:
+      - level: 1
+        role: "Security Team Lead"
+        conditions: ["CRITICAL severity", "Active exploit"]
+      - level: 2
+        role: "CTO"
+        conditions: ["Multiple HIGH severity", "Data breach"]
+      - level: 3
+        role: "CEO"
+        conditions: ["Customer data compromised", "Regulatory violation"]
+
+  # Compliance requirements
+  compliance:
+    frameworks:
+      - "SOC 2 Type II"
+      - "ISO 27001"
+      - "GDPR"
+      - "CCPA"
+
+    requirements:
+      data_encryption_at_rest: true
+      data_encryption_in_transit: true
+      access_logging: true
+      audit_trail: true
+      regular_security_assessments: true
+      employee_security_training: true
+
+  # T4/0.01% excellence specific requirements
+  t4_excellence:
+    security_scan_frequency: "every_commit"
+    vulnerability_scan_frequency: "daily"
+    dependency_audit_frequency: "weekly"
+    security_training_frequency: "quarterly"
+
+    performance_requirements:
+      security_scan_max_time: "300 seconds"
+      vulnerability_scan_max_time: "600 seconds"
+      abuse_test_max_time: "900 seconds"
+
+    quality_gates:
+      zero_critical_vulnerabilities: true
+      zero_high_vulnerabilities: true
+      zero_hardcoded_secrets: true
+      all_dependencies_licensed: true
+      all_abuse_tests_passed: true
+
+  # LUKHAS-specific security requirements
+  lukhas_security:
+    guardian_system:
+      bypass_protection: "CRITICAL"
+      validation_required: true
+      fail_closed_behavior: true
+
+    consciousness_processing:
+      input_validation_required: true
+      output_sanitization_required: true
+      guardian_approval_required: true
+
+    memory_system:
+      injection_protection: "CRITICAL"
+      access_control: "HIGH"
+      data_sanitization: "HIGH"
+
+    identity_system:
+      authentication_required: true
+      jwt_security: "HIGH"
+      oidc_compliance: true
+      weak_auth_detection: "HIGH"
+
+    api_security:
+      rate_limiting: "HIGH"
+      input_validation: "CRITICAL"
+      output_encoding: "HIGH"
+      cors_configuration: "MEDIUM"
+
+    constellation_framework:
+      component_isolation: "HIGH"
+      secure_communication: "HIGH"
+      privilege_minimization: "MEDIUM"
