@@ -1,0 +1,28 @@
+name: MATRIZ Readiness (quick)
+on:
+  pull_request:
+    paths:
+      - 'lukhas/**'
+      - 'candidate/**'
+      - 'docs/matriz/**'
+      - 'templates/module.lane.yaml'
+      - 'scripts/matriz/**'
+jobs:
+  quick-readiness:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.11' }
+      - name: Quick readiness (big five)
+        run: |
+          python3 scripts/matriz/check_readiness.py \
+            --modules lukhas.governance.guardian_system lukhas.orchestration.externalized_orchestrator \
+                       lukhas.memory.indexer lukhas.consciousness.consciousness_stream lukhas.identity.token_generator \
+            --out artifacts/matriz_readiness_report.json
+          cat artifacts/matriz_readiness_report.json
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: matriz-readiness
+          path: artifacts/matriz_readiness_report.json

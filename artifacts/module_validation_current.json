@@ -1,0 +1,14 @@
+{
+  "validation_timestamp": "2025-09-25T18:50:49.f+00:00",
+  "modules_scanned": 24,
+  "modules_with_manifests": 24,
+  "modules_missing_manifests": 0,
+  "lane_distribution": {
+    "candidate": 9,
+    "integration": 15,
+    "production": 0
+  },
+  "validation_errors": [],
+  "missing_manifests": [],
+  "invalid_manifests": []
+}

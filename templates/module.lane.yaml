@@ -1,0 +1,17 @@
+name: your.module.path
+lane: candidate   # candidate | integration | production
+owner: "@owner_handle"
+slo:
+  p95_ms:
+    tick: 100
+    reflect: 10
+    decide: 50
+gates:
+  - perf_e2e
+  - schema_guard
+  - chaos_fail_closed
+  - guardian_enforced
+  - telemetry_contracts
+artifacts:
+  - "artifacts/*your-module*validation*.json"
+notes: "Copy to module root and adjust."
