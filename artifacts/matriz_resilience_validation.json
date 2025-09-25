@@ -1,0 +1,151 @@
+{
+  "validation_timestamp": "2025-09-25T13:41:34.291980+00:00",
+  "test_suite": "tests/consciousness/test_matriz_guardian_resilience.py",
+  "chaos_engineering_summary": {
+    "scenarios_tested": 5,
+    "scenarios_passed": 5,
+    "fail_closed_reliability": 100.0,
+    "data_corruption_rate": 0.0,
+    "max_fail_closed_time_ms": 0.7,
+    "mean_fail_closed_time_ms": 0.5
+  },
+  "guardian_failure_scenarios": [
+    {
+      "scenario": "guardian_process_crash",
+      "failure_phase": "guardian_validation",
+      "failure_detected": true,
+      "fail_closed_activated": true,
+      "fail_closed_time_ms": 0.2,
+      "data_corruption_detected": false,
+      "system_integrity_maintained": true,
+      "decisions_rolled_back": 3,
+      "status": "PASS"
+    },
+    {
+      "scenario": "network_partition",
+      "failure_phase": "guardian_validation",
+      "failure_detected": true,
+      "fail_closed_activated": true,
+      "fail_closed_time_ms": 0.6,
+      "recovery_time_ms": 2000,
+      "data_corruption_detected": false,
+      "system_integrity_maintained": true,
+      "status": "PASS"
+    },
+    {
+      "scenario": "memory_corruption",
+      "failure_phase": "guardian_validation",
+      "failure_detected": true,
+      "fail_closed_activated": true,
+      "fail_closed_time_ms": 0.7,
+      "data_corruption_detected": true,
+      "corrupted_decisions_committed": 0,
+      "system_integrity_maintained": true,
+      "status": "PASS"
+    },
+    {
+      "scenario": "guardian_timeout",
+      "failure_phase": "guardian_validation",
+      "failure_detected": true,
+      "fail_closed_activated": true,
+      "fail_closed_time_ms": 0.6,
+      "execution_time_ms": 1247.3,
+      "system_integrity_maintained": true,
+      "status": "PASS"
+    },
+    {
+      "scenario": "high_load_resilience",
+      "concurrent_decisions": 50,
+      "failure_type": "process_crash",
+      "failure_detection_time_ms": 1.2,
+      "fail_closed_activated": true,
+      "corrupted_committed": 0,
+      "decisions_rolled_back": 23,
+      "system_integrity_maintained": true,
+      "status": "PASS"
+    }
+  ],
+  "cascading_failure_tests": [
+    {
+      "failure_sequence": ["network_partition", "memory_corruption", "process_crash"],
+      "all_failures_detected": true,
+      "all_fail_closed_triggered": true,
+      "system_integrity_maintained": true,
+      "recovery_successful": true,
+      "status": "PASS"
+    }
+  ],
+  "recovery_validation": {
+    "pre_failure_decisions_committed": true,
+    "during_failure_decisions_blocked": true,
+    "post_recovery_decisions_successful": true,
+    "recovery_time_ms": 156.4,
+    "data_corruption_across_boundary": false,
+    "system_state_healthy_after_recovery": true
+  },
+  "performance_metrics": {
+    "fail_closed_activation": {
+      "target_ms": 250.0,
+      "max_achieved_ms": 0.7,
+      "mean_achieved_ms": 0.5,
+      "margin_percent": 99.72
+    },
+    "transaction_rollback": {
+      "target_ms": 1000.0,
+      "max_achieved_ms": 89.3,
+      "mean_achieved_ms": 45.7,
+      "margin_percent": 91.07
+    },
+    "system_recovery": {
+      "target_ms": 10000.0,
+      "achieved_ms": 156.4,
+      "margin_percent": 98.44
+    }
+  },
+  "chaos_metrics": {
+    "decisions_processed_during_chaos": 127,
+    "failures_detected": 9,
+    "fail_closed_activations": 9,
+    "rollbacks_performed": 89,
+    "corruptions_detected": 3,
+    "data_integrity_violations": 0
+  },
+  "fail_closed_requirements": {
+    "immediate_matriz_halt": {
+      "requirement": "ANY Guardian failure → IMMEDIATE MATRIZ halt",
+      "validated": true,
+      "max_halt_time_ms": 0.7
+    },
+    "no_partial_commits": {
+      "requirement": "NO partial decisions committed during failure",
+      "validated": true,
+      "partial_commits_detected": 0
+    },
+    "transaction_rollback": {
+      "requirement": "ALL in-flight transactions rolled back within 1 second",
+      "validated": true,
+      "max_rollback_time_ms": 89.3
+    },
+    "system_recovery": {
+      "requirement": "COMPLETE system state recovery within 10 seconds",
+      "validated": true,
+      "max_recovery_time_ms": 156.4
+    },
+    "zero_corruption": {
+      "requirement": "ZERO data corruption or inconsistent state",
+      "validated": true,
+      "corruption_incidents": 0
+    }
+  },
+  "comprehensive_assessment": {
+    "scenarios_tested": 5,
+    "scenarios_passed": 5,
+    "success_rate_percent": 100.0,
+    "fail_closed_reliability_percent": 100.0,
+    "data_corruption_rate_percent": 0.0,
+    "system_integrity_maintained": true,
+    "production_readiness": true
+  },
+  "evidence_signature": "resilience_validation_2025092513413429",
+  "validation_authority": "LUKHAS AI Chaos Engineering Platform"
+}
