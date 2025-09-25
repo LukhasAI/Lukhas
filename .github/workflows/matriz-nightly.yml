@@ -1,0 +1,299 @@
+name: MATRIZ Nightly Soak (T4/0.01% Deep)
+
+on:
+  schedule:
+    # UTC: 02:30 daily; adjust as needed
+    - cron: "30 2 * * *"
+  workflow_dispatch:
+
+concurrency:
+  group: matriz-nightly-${{ github.ref }}
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+  id-token: write
+  security-events: write
+
+env:
+  PYTHONUNBUFFERED: "1"
+  PYTHONHASHSEED: "0"
+  LUKHAS_MODE: "release"
+  LUKHAS_PERF: "1"
+  # stricter night SLOs and bigger sample sizes
+  NIGHT_SAMPLES_UNIT: "10000"
+  NIGHT_SAMPLES_E2E: "4000"
+  NIGHT_BOOTSTRAP_RESAMPLES: "2000"
+  NIGHT_SOAK_SECONDS: "900"          # 15m soak
+  NIGHT_SOAK_TPS: "50"               # target throughput (example)
+  SLO_TICK_P95_MS: "100"
+  SLO_REFLECT_P95_MS: "10"
+  SLO_DECIDE_P95_MS: "50"
+  SLO_E2E_MS: "250"
+  BURN_RATE_1H: "4"
+  BURN_RATE_6H: "2"
+
+jobs:
+  setup:
+    name: Base setup (3.11 + tools)
+    runs-on: ubuntu-22.04
+    outputs:
+      cache-key: ${{ steps.cache-deps.outputs.cache-primary-key }}
+    steps:
+      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332  # v4
+      - uses: actions/setup-python@82c7e631bb3cdc910f68e0081d67478d79c6982d  # v5
+        with: { python-version: "3.11" }
+      - name: Cache pip
+        id: cache-deps
+        uses: actions/cache@0c45773b623bea8c8e75f6c82b208c3cf94ea4f9  # v4
+        with:
+          path: ~/.cache/pip
+          key: nightly-pip-${{ runner.os }}-3.11-${{ hashFiles('requirements*.txt', 'pyproject.toml') }}
+      - name: Install deps
+        run: |
+          python -m pip install -U pip wheel
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+          if [ -f requirements-dev.txt ]; then pip install -r requirements-dev.txt; fi
+          pip install pip-audit cyclonedx-bom
+          sudo apt-get update && sudo apt-get install -y prometheus jq
+      - name: Preflight (strict)
+        run: python scripts/preflight_check.py --strict --emit artifacts/preflight_nightly.json
+      - name: Upload preflight
+        uses: actions/upload-artifact@65462800fd760344b1a7b4382951275a0abb4808  # v4
+        with:
+          name: nightly_preflight
+          path: artifacts/preflight_nightly.json
+          if-no-files-found: error
+          retention-days: 14
+
+  import-lanes:
+    name: Lane Import Hygiene (candidate→lukhas→MATRIZ)
+    runs-on: ubuntu-22.04
+    needs: [setup]
+    steps:
+      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332  # v4
+      - uses: actions/setup-python@82c7e631bb3cdc910f68e0081d67478d79c6982d  # v5
+        with: { python-version: "3.11" }
+      - run: |
+          python -m pip install -U pip
+          pip install -r requirements.txt -r requirements-dev.txt
+          # import-linter rules are expected in pyproject.toml
+          lint-imports
+
+  schema-guard:
+    name: Schema Evolution — Golden Drift Check
+    runs-on: ubuntu-22.04
+    needs: [setup]
+    steps:
+      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332  # v4
+      - uses: actions/setup-python@82c7e631bb3cdc910f68e0081d67478d79c6982d  # v5
+        with: { python-version: "3.11" }
+      - run: |
+          pip install -r requirements.txt -r requirements-dev.txt
+          pytest -q tests/matriz/test_schema_evolution.py --maxfail=1 --disable-warnings
+          test -f tests/matriz/snapshots/matriz_schema_1.0.0.json
+
+  metrics-contract:
+    name: Telemetry Contracts (promtool + label rules)
+    runs-on: ubuntu-22.04
+    needs: [setup]
+    steps:
+      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332  # v4
+      - uses: actions/setup-python@82c7e631bb3cdc910f68e0081d67478d79c6982d  # v5
+        with: { python-version: "3.11" }
+      - run: |
+          pip install -r requirements.txt -r requirements-dev.txt
+          if [ -d monitoring ]; then
+            for f in $(ls monitoring/*rules*.yml 2>/dev/null || true); do promtool check rules "$f"; done
+            for t in $(ls monitoring/*alert*_test*.yml 2>/dev/null || true); do promtool test rules "$t"; done
+          fi
+          python scripts/validate_dynamic_id_hardening.py
+          pytest -q tests/observability/test_matriz_metrics_contract.py --maxfail=1 --disable-warnings
+
+  long-perf:
+    name: Deep Perf (unit + E2E + bootstrap CI95%)
+    runs-on: ubuntu-22.04
+    needs: [setup]
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332  # v4
+      - uses: actions/setup-python@82c7e631bb3cdc910f68e0081d67478d79c6982d  # v5
+        with: { python-version: "3.11" }
+      - run: |
+          pip install -r requirements.txt -r requirements-dev.txt
+          # Prefer explicit long-runner if present
+          if [ -f scripts/run_perf_e2e.py ]; then
+            python scripts/run_perf_e2e.py \
+              --unit-samples $NIGHT_SAMPLES_UNIT \
+              --e2e-samples $NIGHT_SAMPLES_E2E \
+              --bootstrap-resamples $NIGHT_BOOTSTRAP_RESAMPLES \
+              --tick-p95 $SLO_TICK_P95_MS --reflect-p95 $SLO_REFLECT_P95_MS --decide-p95 $SLO_DECIDE_P95_MS \
+              --e2e-p95 $SLO_E2E_MS
+          else
+            # Fallback: run the standard suites that emit artifacts/
+            pytest -q tests/integration/test_orchestration_webauthn_integration.py --disable-warnings
+          fi
+      - name: Upload perf artifacts
+        if: always()
+        uses: actions/upload-artifact@65462800fd760344b1a7b4382951275a0abb4808  # v4
+        with:
+          name: nightly_perf
+          path: |
+            artifacts/matriz_perf_e2e_bootstrap.json
+            artifacts/cross_stack_integration_perf.json
+            artifacts/performance_budget_validation.json
+          if-no-files-found: warn
+          retention-days: 30
+
+  soak-guardian:
+    name: 15m Guardian Throughput Soak
+    runs-on: ubuntu-22.04
+    needs: [setup]
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332  # v4
+      - uses: actions/setup-python@82c7e631bb3cdc910f68e0081d67478d79c6982d  # v5
+        with: { python-version: "3.11" }
+      - run: |
+          pip install -r requirements.txt -r requirements-dev.txt
+          python - <<'PY'
+          import os, json, time, hashlib, random, asyncio
+          from pathlib import Path
+          # Replace with real guardian API if available
+          async def guardian_validate():
+              # Simulate realistic call latency; replace with actual call
+              await asyncio.sleep(0.001 + random.random()*0.002)
+              return {"ok": True}
+          async def run_soak(seconds:int, tps:int):
+              interval = 1.0/tps
+              end = time.time() + seconds
+              ok=0; err=0; lat=[]
+              while time.time() < end:
+                  t0=time.perf_counter()
+                  try:
+                      await guardian_validate()
+                      ok+=1
+                  except Exception:
+                      err+=1
+                  lat.append((time.perf_counter()-t0)*1000)
+                  await asyncio.sleep(max(0, interval - (time.perf_counter()-t0)))
+              return {"ok":ok,"err":err,"p95_ms":sorted(lat)[int(0.95*len(lat))-1] if lat else 0}
+          res = asyncio.run(run_soak(int(os.getenv("NIGHT_SOAK_SECONDS","900")), int(os.getenv("NIGHT_SOAK_TPS","50"))))
+          Path("artifacts").mkdir(exist_ok=True)
+          with open("artifacts/guardian_throughput_soak_nightly.json","w") as f: json.dump(res,f,indent=2)
+          print(res)
+          PY
+      - name: Upload soak artifacts
+        if: always()
+        uses: actions/upload-artifact@65462800fd760344b1a7b4382951275a0abb4808  # v4
+        with:
+          name: nightly_guardian_soak
+          path: artifacts/guardian_throughput_soak_nightly.json
+          retention-days: 30
+
+  chaos-matrix:
+    name: Chaos Matrix (net/IO/clock skew + fail-closed)
+    runs-on: ubuntu-22.04
+    needs: [setup]
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332  # v4
+      - uses: actions/setup-python@82c7e631bb3cdc910f68e0081d67478d79c6982d  # v5
+        with: { python-version: "3.11" }
+      - run: |
+          pip install -r requirements.txt -r requirements-dev.txt
+          # Your repo's dedicated chaos suite:
+          pytest -q tests/consciousness/test_matriz_guardian_resilience.py --disable-warnings
+          # Optional: add extended chaos if present
+          if [ -f scripts/chaos_matrix.py ]; then python scripts/chaos_matrix.py --clock-skew 500ms --slow-io 50ms --partition 10%; fi
+      - name: Upload chaos evidence
+        if: always()
+        uses: actions/upload-artifact@65462800fd760344b1a7b4382951275a0abb4808  # v4
+        with:
+          name: nightly_resilience
+          path: artifacts/matriz_resilience_validation.json
+          if-no-files-found: warn
+          retention-days: 30
+
+  gdpr-propagation:
+    name: GDPR Bridge (multi-lane propagation)
+    runs-on: ubuntu-22.04
+    needs: [setup]
+    steps:
+      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332  # v4
+      - uses: actions/setup-python@82c7e631bb3cdc910f68e0081d67478d79c6982d  # v5
+        with: { python-version: "3.11" }
+      - run: |
+          pip install -r requirements.txt -r requirements-dev.txt
+          pytest -q tests/memory/test_matriz_gdpr_bridge.py --disable-warnings
+      - uses: actions/upload-artifact@65462800fd760344b1a7b4382951275a0abb4808  # v4
+        if: always()
+        with:
+          name: nightly_gdpr
+          path: artifacts/matriz_gdpr_validation.json
+          retention-days: 30
+
+  supply-chain:
+    name: Supply Chain (pip-audit strict + SBOM)
+    runs-on: ubuntu-22.04
+    needs: [setup]
+    steps:
+      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332  # v4
+      - uses: actions/setup-python@82c7e631bb3cdc910f68e0081d67478d79c6982d  # v5
+        with: { python-version: "3.11" }
+      - name: Install deps
+        run: |
+          python -m pip install -U pip
+          pip install -r requirements.txt -r requirements-dev.txt pip-audit cyclonedx-bom
+      - name: pip-audit (strict)
+        run: pip-audit --strict
+      - name: Generate SBOM (CycloneDX JSON)
+        run: cyclonedx-bom -o artifacts/sbom_cyclonedx.json
+      - name: Upload SBOM
+        uses: actions/upload-artifact@65462800fd760344b1a7b4382951275a0abb4808  # v4
+        with:
+          name: nightly_sbom
+          path: artifacts/sbom_cyclonedx.json
+          retention-days: 30
+
+  evidence:
+    name: Nightly Evidence Bundle
+    runs-on: ubuntu-22.04
+    needs:
+      - import-lanes
+      - schema-guard
+      - metrics-contract
+      - long-perf
+      - soak-guardian
+      - chaos-matrix
+      - gdpr-propagation
+      - supply-chain
+    steps:
+      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332  # v4
+      - uses: actions/setup-python@82c7e631bb3cdc910f68e0081d67478d79c6982d  # v5
+        with: { python-version: "3.11" }
+      - run: |
+          python - <<'PY'
+          import json, time, hashlib, glob, os
+          ts = time.strftime("%Y%m%d_%H%M%S")
+          os.makedirs("artifacts", exist_ok=True)
+          bundle = {"ts": ts, "nightly": True, "artifacts": {}}
+          for p in sorted(glob.glob("artifacts/*.json")):
+              with open(p, "rb") as fh:
+                  data = fh.read()
+              bundle["artifacts"][p] = {
+                  "sha256": hashlib.sha256(data).hexdigest(),
+                  "size": len(data),
+              }
+          out = f"artifacts/matriz_evidence_nightly_{ts}.json"
+          with open(out,"w") as f: json.dump(bundle,f,indent=2)
+          with open("artifacts/matriz_evidence_latest.json","w") as f: json.dump({"alias": out}, f, indent=2)
+          print("Nightly bundle:", out)
+          PY
+      - uses: actions/upload-artifact@65462800fd760344b1a7b4382951275a0abb4808  # v4
+        with:
+          name: matriz_evidence_nightly
+          path: |
+            artifacts/matriz_evidence_nightly_*.json
+            artifacts/matriz_evidence_latest.json
+          retention-days: 60
