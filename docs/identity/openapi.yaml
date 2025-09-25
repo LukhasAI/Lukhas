@@ -1,0 +1,1092 @@
+openapi: 3.0.3
+info:
+  title: LUKHAS Identity Service API
+  description: |
+    Production-ready OpenID Connect 1.0 and OAuth2 API with T4/0.01% excellence standards.
+
+    ## Security Features
+
+    - **Comprehensive Rate Limiting**: Tiered rate limits per endpoint and operation type
+    - **WebAuthn Support**: Passwordless, phishing-resistant authentication
+    - **PKCE Required**: Proof Key for Code Exchange for all public clients
+    - **Security Hardening**: Anti-replay protection, request fingerprinting, anomaly detection
+    - **CORS Protection**: Strict CORS policy for production domains only
+    - **Audit Logging**: Complete audit trail with correlation ID tracking
+    - **Performance Monitoring**: Sub-100ms p95 latency with comprehensive metrics
+
+    ## Authentication Flows
+
+    - **Authorization Code Flow** (recommended): Most secure for web applications
+    - **Authorization Code Flow with PKCE**: Required for public clients and SPAs
+    - **Client Credentials Flow**: For service-to-service authentication
+    - **Device Authorization Flow**: For devices with limited input capability
+
+    ## Rate Limits
+
+    - Discovery: 10 requests/minute
+    - JWKS: 5 requests/minute
+    - Token endpoints: 5 requests/minute
+    - Authorization: 30 requests/minute
+    - UserInfo: 100 requests/minute
+
+    ## Error Handling
+
+    All errors follow RFC 6749 OAuth2 error response format with additional
+    correlation ID for debugging and comprehensive error descriptions.
+
+  version: 1.0.0
+  contact:
+    name: LUKHAS AI Identity Team
+    url: https://lukhas.ai/identity
+    email: identity@lukhas.ai
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+
+servers:
+  - url: https://identity.lukhas.ai
+    description: Production Identity Server
+  - url: https://staging-identity.lukhas.ai
+    description: Staging Identity Server
+  - url: http://localhost:8000
+    description: Development Server
+
+security:
+  - BearerAuth: []
+  - OAuth2AuthCode: []
+  - OAuth2ClientCredentials: []
+
+paths:
+  /.well-known/openid-configuration:
+    get:
+      tags:
+        - Discovery
+      summary: OpenID Connect Discovery Document
+      description: |
+        Returns OpenID Provider Configuration Information per OIDC Discovery 1.0.
+
+        This endpoint provides metadata about the OIDC provider including:
+        - Supported endpoints
+        - Supported authentication methods
+        - Supported scopes and claims
+        - LUKHAS-specific extensions
+      operationId: getDiscoveryDocument
+      parameters:
+        - $ref: '#/components/parameters/CorrelationId'
+      responses:
+        '200':
+          description: Discovery document retrieved successfully
+          headers:
+            Cache-Control:
+              description: Caching directives for CDN and browsers
+              schema:
+                type: string
+                example: "public, max-age=3600, s-maxage=3600"
+            X-Correlation-ID:
+              $ref: '#/components/headers/CorrelationId'
+            X-Content-Type-Options:
+              $ref: '#/components/headers/ContentTypeOptions'
+            X-Frame-Options:
+              $ref: '#/components/headers/FrameOptions'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DiscoveryDocument'
+              examples:
+                standard:
+                  summary: Standard OIDC discovery document
+                  value:
+                    issuer: "https://identity.lukhas.ai"
+                    authorization_endpoint: "https://identity.lukhas.ai/oauth2/authorize"
+                    token_endpoint: "https://identity.lukhas.ai/oauth2/token"
+                    userinfo_endpoint: "https://identity.lukhas.ai/oauth2/userinfo"
+                    jwks_uri: "https://identity.lukhas.ai/.well-known/jwks.json"
+                    response_types_supported: ["code", "id_token", "token id_token"]
+                    grant_types_supported: ["authorization_code", "client_credentials", "refresh_token"]
+                    subject_types_supported: ["public"]
+                    id_token_signing_alg_values_supported: ["RS256", "ES256"]
+                    scopes_supported: ["openid", "profile", "email", "offline_access", "lukhas", "biometric"]
+                    lukhas_version: "1.0.0"
+                    tier_authentication_supported: true
+                    webauthn_supported: true
+                    biometric_authentication_supported: true
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+  /.well-known/jwks.json:
+    get:
+      tags:
+        - Discovery
+      summary: JSON Web Key Set
+      description: |
+        Returns public keys for JWT token verification per RFC 7517.
+
+        Features high-performance caching with sub-100ms p95 latency:
+        - Aggressive edge caching (1-2 hours)
+        - Intelligent cache invalidation on key rotation
+        - Cross-origin access for token validation
+      operationId: getJWKS
+      parameters:
+        - $ref: '#/components/parameters/CorrelationId'
+      responses:
+        '200':
+          description: JWKS retrieved successfully
+          headers:
+            Cache-Control:
+              description: Aggressive caching for performance
+              schema:
+                type: string
+                example: "public, max-age=3600, s-maxage=7200"
+            X-Correlation-ID:
+              $ref: '#/components/headers/CorrelationId'
+            Access-Control-Allow-Origin:
+              description: CORS header for cross-origin token validation
+              schema:
+                type: string
+                example: "*"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JWKS'
+              examples:
+                rsa_keys:
+                  summary: RSA signing keys
+                  value:
+                    keys:
+                      - kty: "RSA"
+                        kid: "lukhas-2024-primary"
+                        use: "sig"
+                        alg: "RS256"
+                        n: "example-n-value"
+                        e: "AQAB"
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+  /oauth2/authorize:
+    get:
+      tags:
+        - OAuth2
+      summary: OAuth2 Authorization Endpoint
+      description: |
+        Initiates OAuth2 authorization flow per RFC 6749.
+
+        Security features:
+        - Comprehensive parameter validation
+        - PKCE support and enforcement for public clients
+        - Anti-CSRF state parameter validation
+        - Rate limiting per client IP
+        - Suspicious request detection
+
+        Supported response types:
+        - `code`: Authorization code flow (recommended)
+        - `id_token`: Implicit ID token flow
+        - `code id_token`: Hybrid flow
+      operationId: authorize
+      parameters:
+        - $ref: '#/components/parameters/CorrelationId'
+        - $ref: '#/components/parameters/Nonce'
+        - name: client_id
+          in: query
+          required: true
+          description: OAuth2 client identifier
+          schema:
+            type: string
+            pattern: '^[a-zA-Z0-9_-]+$'
+            maxLength: 255
+          example: "lukhas_web_app_2024"
+        - name: response_type
+          in: query
+          required: true
+          description: OAuth2 response type
+          schema:
+            type: string
+            enum: ["code", "token", "id_token", "code token", "code id_token", "token id_token"]
+          example: "code"
+        - name: redirect_uri
+          in: query
+          required: true
+          description: Client callback URI (must be HTTPS in production)
+          schema:
+            type: string
+            format: uri
+            maxLength: 2048
+          example: "https://app.lukhas.ai/auth/callback"
+        - name: scope
+          in: query
+          required: true
+          description: Space-separated OAuth2 scopes
+          schema:
+            type: string
+            pattern: '^[a-zA-Z0-9_\\s]+$'
+            maxLength: 1000
+          example: "openid profile email lukhas"
+        - name: state
+          in: query
+          required: false
+          description: Anti-CSRF state parameter (recommended)
+          schema:
+            type: string
+            pattern: '^[a-zA-Z0-9_.-]+$'
+            maxLength: 500
+          example: "random_state_123"
+        - name: nonce
+          in: query
+          required: false
+          description: Cryptographic nonce (required for implicit flows)
+          schema:
+            type: string
+            pattern: '^[a-zA-Z0-9_.-]+$'
+            maxLength: 500
+          example: "random_nonce_456"
+        - name: code_challenge
+          in: query
+          required: false
+          description: PKCE code challenge
+          schema:
+            type: string
+            pattern: '^[a-zA-Z0-9_.-~]+$'
+            maxLength: 128
+          example: "dBjftJeZ4CVP-mB92K27uhbUJU1p1r_wW1gFWFOEjXk"
+        - name: code_challenge_method
+          in: query
+          required: false
+          description: PKCE code challenge method
+          schema:
+            type: string
+            enum: ["plain", "S256"]
+            default: "S256"
+          example: "S256"
+        - name: prompt
+          in: query
+          required: false
+          description: Authentication prompt behavior
+          schema:
+            type: string
+            pattern: '^(none|login|consent|select_account)( (none|login|consent|select_account))*$'
+          example: "consent"
+        - name: max_age
+          in: query
+          required: false
+          description: Maximum authentication age in seconds
+          schema:
+            type: integer
+            minimum: 0
+            maximum: 86400
+          example: 3600
+      responses:
+        '302':
+          description: Redirect to callback or authentication
+          headers:
+            Location:
+              description: Redirect URL with authorization code or error
+              schema:
+                type: string
+                format: uri
+              examples:
+                success:
+                  value: "https://app.lukhas.ai/auth/callback?code=auth_code_123&state=random_state_123"
+                error:
+                  value: "https://app.lukhas.ai/auth/callback?error=access_denied&state=random_state_123"
+                login_required:
+                  value: "https://identity.lukhas.ai/auth/login?client_id=client123&redirect_uri=..."
+            X-Correlation-ID:
+              $ref: '#/components/headers/CorrelationId'
+        '200':
+          description: Consent required (interactive flow)
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [action, client, scopes, consent_url]
+                properties:
+                  action:
+                    type: string
+                    enum: ["consent_required"]
+                  client:
+                    $ref: '#/components/schemas/ClientInfo'
+                  scopes:
+                    type: array
+                    items:
+                      type: string
+                  consent_url:
+                    type: string
+                    format: uri
+                  correlation_id:
+                    type: string
+        '400':
+          $ref: '#/components/responses/InvalidRequest'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+  /oauth2/token:
+    post:
+      tags:
+        - OAuth2
+      summary: OAuth2 Token Endpoint
+      description: |
+        Exchanges authorization codes for tokens or refreshes access tokens per RFC 6749.
+
+        Security features:
+        - Client authentication (secret or PKCE)
+        - Authorization code replay protection
+        - PKCE verification for public clients
+        - Rate limiting per client
+        - Token binding and rotation
+
+        Supported grant types:
+        - `authorization_code`: Exchange auth code for tokens
+        - `refresh_token`: Refresh access token
+        - `client_credentials`: Service-to-service authentication
+      operationId: token
+      parameters:
+        - $ref: '#/components/parameters/CorrelationId'
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              required: [grant_type, client_id]
+              properties:
+                grant_type:
+                  type: string
+                  enum: ["authorization_code", "refresh_token", "client_credentials"]
+                  example: "authorization_code"
+                client_id:
+                  type: string
+                  pattern: '^[a-zA-Z0-9_-]+$'
+                  maxLength: 255
+                  example: "lukhas_web_app_2024"
+                client_secret:
+                  type: string
+                  maxLength: 512
+                  description: "Required for confidential clients"
+                code:
+                  type: string
+                  maxLength: 512
+                  description: "Required for authorization_code grant"
+                redirect_uri:
+                  type: string
+                  format: uri
+                  maxLength: 2048
+                  description: "Required for authorization_code grant"
+                code_verifier:
+                  type: string
+                  pattern: '^[a-zA-Z0-9_.-~]+$'
+                  maxLength: 128
+                  description: "Required for PKCE"
+                refresh_token:
+                  type: string
+                  maxLength: 512
+                  description: "Required for refresh_token grant"
+            examples:
+              authorization_code:
+                summary: Authorization code exchange
+                value:
+                  grant_type: "authorization_code"
+                  client_id: "lukhas_web_app_2024"
+                  code: "auth_code_123"
+                  redirect_uri: "https://app.lukhas.ai/auth/callback"
+                  code_verifier: "dBjftJeZ4CVP-mB92K27uhbUJU1p1r_wW1gFWFOEjXk"
+              refresh_token:
+                summary: Refresh token
+                value:
+                  grant_type: "refresh_token"
+                  client_id: "lukhas_web_app_2024"
+                  refresh_token: "refresh_token_123"
+              client_credentials:
+                summary: Client credentials
+                value:
+                  grant_type: "client_credentials"
+                  client_id: "lukhas_service_client"
+                  client_secret: "client_secret_456"
+      responses:
+        '200':
+          description: Tokens issued successfully
+          headers:
+            Cache-Control:
+              description: No caching for sensitive token response
+              schema:
+                type: string
+                example: "no-store, no-cache, must-revalidate"
+            X-Correlation-ID:
+              $ref: '#/components/headers/CorrelationId'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenResponse'
+              examples:
+                with_refresh:
+                  summary: Token response with refresh token
+                  value:
+                    access_token: "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9..."
+                    token_type: "Bearer"
+                    expires_in: 3600
+                    refresh_token: "refresh_token_123"
+                    id_token: "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9..."
+                    scope: "openid profile email lukhas"
+        '400':
+          $ref: '#/components/responses/InvalidGrant'
+        '401':
+          $ref: '#/components/responses/InvalidClient'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+  /oauth2/userinfo:
+    get:
+      tags:
+        - OpenID Connect
+      summary: OIDC UserInfo Endpoint
+      description: |
+        Returns user information for the provided access token per OIDC Core 1.0.
+
+        Security features:
+        - Bearer token validation
+        - Scope-based claim filtering
+        - Rate limiting per token
+        - PII protection and minimal disclosure
+
+        Requires `openid` scope in access token.
+      operationId: userinfo
+      parameters:
+        - $ref: '#/components/parameters/CorrelationId'
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: User information retrieved successfully
+          headers:
+            Cache-Control:
+              description: No caching for user data
+              schema:
+                type: string
+                example: "no-store, no-cache, must-revalidate"
+            X-Correlation-ID:
+              $ref: '#/components/headers/CorrelationId'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserInfo'
+              examples:
+                basic_profile:
+                  summary: Basic user profile
+                  value:
+                    sub: "lukhas_user_12345"
+                    name: "Alice Johnson"
+                    email: "alice@example.com"
+                    email_verified: true
+                    tier_level: 3
+                    updated_at: 1640995200
+        '401':
+          $ref: '#/components/responses/InvalidToken'
+        '403':
+          $ref: '#/components/responses/InsufficientScope'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '500':
+          $ref: '#/components/responses/ServerError'
+    post:
+      tags:
+        - OpenID Connect
+      summary: OIDC UserInfo Endpoint (POST)
+      description: Alternative POST method for UserInfo endpoint
+      operationId: userinfoPost
+      parameters:
+        - $ref: '#/components/parameters/CorrelationId'
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              required: [access_token]
+              properties:
+                access_token:
+                  type: string
+                  maxLength: 2048
+                  description: Bearer access token
+      responses:
+        '200':
+          description: User information retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserInfo'
+        '401':
+          $ref: '#/components/responses/InvalidToken'
+        '403':
+          $ref: '#/components/responses/InsufficientScope'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+  /oauth2/revoke:
+    post:
+      tags:
+        - OAuth2
+      summary: OAuth2 Token Revocation
+      description: |
+        Revokes access tokens or refresh tokens per RFC 7009.
+
+        Security features:
+        - Client authentication required
+        - Token binding verification
+        - Cascade revocation of related tokens
+        - Audit logging of revocation events
+      operationId: revokeToken
+      parameters:
+        - $ref: '#/components/parameters/CorrelationId'
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              required: [token, client_id]
+              properties:
+                token:
+                  type: string
+                  maxLength: 2048
+                  description: Token to revoke
+                token_type_hint:
+                  type: string
+                  enum: ["access_token", "refresh_token"]
+                  description: Hint about token type for optimization
+                client_id:
+                  type: string
+                  pattern: '^[a-zA-Z0-9_-]+$'
+                  maxLength: 255
+                client_secret:
+                  type: string
+                  maxLength: 512
+                  description: Required for confidential clients
+      responses:
+        '200':
+          description: Token revocation completed (always returns 200 per RFC)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  revoked:
+                    type: boolean
+                    description: Whether token was actually revoked
+                  correlation_id:
+                    type: string
+        '401':
+          $ref: '#/components/responses/InvalidClient'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+  /oauth2/introspect:
+    post:
+      tags:
+        - OAuth2
+      summary: OAuth2 Token Introspection
+      description: |
+        Returns metadata about a token per RFC 7662.
+
+        Security features:
+        - Client authentication required
+        - Token binding verification
+        - Minimal information disclosure
+        - Rate limiting per client
+      operationId: introspectToken
+      parameters:
+        - $ref: '#/components/parameters/CorrelationId'
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              required: [token, client_id]
+              properties:
+                token:
+                  type: string
+                  maxLength: 2048
+                  description: Token to introspect
+                token_type_hint:
+                  type: string
+                  enum: ["access_token", "refresh_token"]
+                  description: Hint about token type
+                client_id:
+                  type: string
+                  pattern: '^[a-zA-Z0-9_-]+$'
+                  maxLength: 255
+                client_secret:
+                  type: string
+                  maxLength: 512
+                  description: Required for confidential clients
+      responses:
+        '200':
+          description: Token introspection completed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IntrospectionResponse'
+              examples:
+                active_token:
+                  summary: Active access token
+                  value:
+                    active: true
+                    client_id: "lukhas_web_app_2024"
+                    username: "lukhas_user_12345"
+                    scope: "openid profile email"
+                    exp: 1640998800
+                    token_type: "access_token"
+                    tier_level: 3
+                inactive_token:
+                  summary: Inactive/expired token
+                  value:
+                    active: false
+        '401':
+          $ref: '#/components/responses/InvalidClient'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: JWT access token in Authorization header
+    OAuth2AuthCode:
+      type: oauth2
+      description: OAuth2 authorization code flow
+      flows:
+        authorizationCode:
+          authorizationUrl: https://identity.lukhas.ai/oauth2/authorize
+          tokenUrl: https://identity.lukhas.ai/oauth2/token
+          scopes:
+            openid: OpenID Connect authentication
+            profile: User profile information
+            email: User email address
+            offline_access: Refresh token for offline access
+            lukhas: LUKHAS-specific claims and features
+            biometric: Biometric authentication data
+    OAuth2ClientCredentials:
+      type: oauth2
+      description: OAuth2 client credentials flow
+      flows:
+        clientCredentials:
+          tokenUrl: https://identity.lukhas.ai/oauth2/token
+          scopes:
+            lukhas: Service-to-service access
+
+  parameters:
+    CorrelationId:
+      name: X-Correlation-ID
+      in: header
+      required: false
+      description: Correlation ID for request tracking
+      schema:
+        type: string
+        pattern: '^[a-zA-Z0-9_-]+$'
+        maxLength: 64
+      example: "req_12345_abcde"
+
+    Nonce:
+      name: X-Nonce
+      in: header
+      required: false
+      description: Cryptographic nonce for anti-replay protection
+      schema:
+        type: string
+        pattern: '^nonce_[0-9]+_[a-zA-Z0-9]+$'
+        maxLength: 64
+      example: "nonce_1640995200_abc123def"
+
+  headers:
+    CorrelationId:
+      description: Correlation ID for request tracking
+      schema:
+        type: string
+        example: "req_12345_abcde"
+
+    ContentTypeOptions:
+      description: Prevents MIME type sniffing
+      schema:
+        type: string
+        example: "nosniff"
+
+    FrameOptions:
+      description: Prevents clickjacking
+      schema:
+        type: string
+        example: "DENY"
+
+  schemas:
+    DiscoveryDocument:
+      type: object
+      required:
+        - issuer
+        - authorization_endpoint
+        - token_endpoint
+        - userinfo_endpoint
+        - jwks_uri
+        - response_types_supported
+        - subject_types_supported
+        - id_token_signing_alg_values_supported
+      properties:
+        issuer:
+          type: string
+          format: uri
+          description: OIDC issuer identifier
+        authorization_endpoint:
+          type: string
+          format: uri
+        token_endpoint:
+          type: string
+          format: uri
+        userinfo_endpoint:
+          type: string
+          format: uri
+        jwks_uri:
+          type: string
+          format: uri
+        registration_endpoint:
+          type: string
+          format: uri
+        introspection_endpoint:
+          type: string
+          format: uri
+        revocation_endpoint:
+          type: string
+          format: uri
+        response_types_supported:
+          type: array
+          items:
+            type: string
+        grant_types_supported:
+          type: array
+          items:
+            type: string
+        subject_types_supported:
+          type: array
+          items:
+            type: string
+            enum: ["public", "pairwise"]
+        id_token_signing_alg_values_supported:
+          type: array
+          items:
+            type: string
+        scopes_supported:
+          type: array
+          items:
+            type: string
+        token_endpoint_auth_methods_supported:
+          type: array
+          items:
+            type: string
+        claims_supported:
+          type: array
+          items:
+            type: string
+        code_challenge_methods_supported:
+          type: array
+          items:
+            type: string
+            enum: ["plain", "S256"]
+        # LUKHAS extensions
+        lukhas_version:
+          type: string
+          description: LUKHAS Identity Service version
+        tier_authentication_supported:
+          type: boolean
+          description: Support for tiered authentication
+        webauthn_supported:
+          type: boolean
+          description: WebAuthn/FIDO2 support
+        biometric_authentication_supported:
+          type: boolean
+          description: Biometric authentication support
+
+    JWKS:
+      type: object
+      required: [keys]
+      properties:
+        keys:
+          type: array
+          items:
+            $ref: '#/components/schemas/JWK'
+
+    JWK:
+      type: object
+      required: [kty, kid]
+      properties:
+        kty:
+          type: string
+          enum: ["RSA", "EC", "oct"]
+          description: Key type
+        kid:
+          type: string
+          description: Key ID
+        use:
+          type: string
+          enum: ["sig", "enc"]
+          description: Key usage
+        alg:
+          type: string
+          description: Algorithm
+        n:
+          type: string
+          description: RSA modulus (for RSA keys)
+        e:
+          type: string
+          description: RSA exponent (for RSA keys)
+        x:
+          type: string
+          description: X coordinate (for EC keys)
+        y:
+          type: string
+          description: Y coordinate (for EC keys)
+        crv:
+          type: string
+          description: Curve (for EC keys)
+
+    TokenResponse:
+      type: object
+      required: [access_token, token_type, expires_in]
+      properties:
+        access_token:
+          type: string
+          description: JWT access token
+        token_type:
+          type: string
+          enum: ["Bearer"]
+          description: Token type
+        expires_in:
+          type: integer
+          minimum: 1
+          description: Access token lifetime in seconds
+        refresh_token:
+          type: string
+          description: Refresh token (if offline_access scope granted)
+        id_token:
+          type: string
+          description: OpenID Connect ID token (if openid scope granted)
+        scope:
+          type: string
+          description: Granted scopes (space-separated)
+
+    UserInfo:
+      type: object
+      required: [sub]
+      properties:
+        sub:
+          type: string
+          description: Subject identifier
+        name:
+          type: string
+          description: Full name
+        given_name:
+          type: string
+          description: Given name
+        family_name:
+          type: string
+          description: Family name
+        email:
+          type: string
+          format: email
+          description: Email address
+        email_verified:
+          type: boolean
+          description: Email verification status
+        picture:
+          type: string
+          format: uri
+          description: Profile picture URL
+        updated_at:
+          type: integer
+          description: Profile last update time (Unix timestamp)
+        # LUKHAS extensions
+        tier_level:
+          type: integer
+          minimum: 1
+          maximum: 10
+          description: LUKHAS authentication tier level
+
+    IntrospectionResponse:
+      type: object
+      required: [active]
+      properties:
+        active:
+          type: boolean
+          description: Token active status
+        client_id:
+          type: string
+          description: Client that the token was issued to
+        username:
+          type: string
+          description: Human-readable identifier for the resource owner
+        scope:
+          type: string
+          description: Space-separated scopes
+        exp:
+          type: integer
+          description: Expiration time (Unix timestamp)
+        token_type:
+          type: string
+          description: Token type
+        # LUKHAS extensions
+        tier_level:
+          type: integer
+          minimum: 1
+          maximum: 10
+          description: Authentication tier level
+
+    ClientInfo:
+      type: object
+      required: [client_id, client_name]
+      properties:
+        client_id:
+          type: string
+          description: Client identifier
+        client_name:
+          type: string
+          description: Human-readable client name
+        client_uri:
+          type: string
+          format: uri
+          description: Client information URL
+        logo_uri:
+          type: string
+          format: uri
+          description: Client logo URL
+
+    ErrorResponse:
+      type: object
+      required: [error]
+      properties:
+        error:
+          type: string
+          description: OAuth2 error code
+        error_description:
+          type: string
+          description: Human-readable error description
+        error_uri:
+          type: string
+          format: uri
+          description: URI with error information
+        correlation_id:
+          type: string
+          description: Request correlation ID for debugging
+        state:
+          type: string
+          description: State parameter from authorization request
+
+  responses:
+    InvalidRequest:
+      description: Invalid request parameters
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            error: "invalid_request"
+            error_description: "Missing required parameter: client_id"
+            correlation_id: "req_12345_abcde"
+
+    InvalidGrant:
+      description: Invalid or expired authorization grant
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            error: "invalid_grant"
+            error_description: "Authorization code has expired"
+            correlation_id: "req_12345_abcde"
+
+    InvalidClient:
+      description: Client authentication failed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            error: "invalid_client"
+            error_description: "Client authentication failed"
+            correlation_id: "req_12345_abcde"
+
+    InvalidToken:
+      description: Invalid or expired access token
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            error: "invalid_token"
+            error_description: "Access token is invalid or expired"
+            correlation_id: "req_12345_abcde"
+
+    InsufficientScope:
+      description: Insufficient scope for requested resource
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            error: "insufficient_scope"
+            error_description: "The request requires higher privileges than provided"
+            correlation_id: "req_12345_abcde"
+
+    RateLimited:
+      description: Rate limit exceeded
+      headers:
+        Retry-After:
+          description: Seconds to wait before retrying
+          schema:
+            type: integer
+            example: 60
+        X-Correlation-ID:
+          $ref: '#/components/headers/CorrelationId'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            error: "access_denied"
+            error_description: "Rate limit exceeded"
+            correlation_id: "req_12345_abcde"
+
+    ServerError:
+      description: Internal server error
+      headers:
+        X-Correlation-ID:
+          $ref: '#/components/headers/CorrelationId'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            error: "server_error"
+            error_description: "Internal server error occurred"
+            correlation_id: "req_12345_abcde"
+
+tags:
+  - name: Discovery
+    description: OpenID Connect discovery endpoints
+  - name: OAuth2
+    description: OAuth2 authorization and token endpoints
+  - name: OpenID Connect
+    description: OpenID Connect user information endpoints
+
+externalDocs:
+  description: LUKHAS Identity Documentation
+  url: https://docs.lukhas.ai/identity
