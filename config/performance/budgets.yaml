@@ -1,0 +1,157 @@
+# MATRIZ Performance Budgets - T4/0.01% Excellence
+# ===============================================
+#
+# Locked performance budgets enforced as code for MATRIZ canary readiness.
+# These budgets are contractual obligations for production deployment.
+#
+# Performance Standards:
+# - tick: <100ms p95 (thought generation)
+# - reflect: <10ms p95 (meta-cognitive assessment)
+# - decide: <50ms p95 (final synthesis)
+# - Guardian: >1K ops/s throughput, <1ms mean latency
+# - E2E: <250ms p95 (full orchestration flow)
+#
+# Constellation Framework: ⏱️ Performance Contract Enforcement
+
+performance_budgets:
+  matriz_thought_loop:
+    tick_operation:
+      budget_ms: 100.0
+      percentile: 95
+      slo_name: "matriz_tick_p95"
+      enforcement: "hard_fail"
+      description: "MATRIZ tick operation - thought generation phase"
+
+    reflect_operation:
+      budget_ms: 10.0
+      percentile: 95
+      slo_name: "matriz_reflect_p95"
+      enforcement: "hard_fail"
+      description: "MATRIZ reflect operation - meta-cognitive assessment"
+
+    decide_operation:
+      budget_ms: 50.0
+      percentile: 95
+      slo_name: "matriz_decide_p95"
+      enforcement: "hard_fail"
+      description: "MATRIZ decide operation - final synthesis"
+
+  guardian_performance:
+    throughput:
+      budget_ops_per_sec: 1000.0
+      measurement_duration_sec: 60
+      slo_name: "guardian_throughput_1k_ops"
+      enforcement: "hard_fail"
+      description: "Guardian serializer throughput under load"
+
+    latency:
+      budget_ms: 1.0
+      percentile: 50
+      slo_name: "guardian_latency_mean"
+      enforcement: "hard_fail"
+      description: "Guardian operation mean latency"
+
+  cross_stack_integration:
+    orchestrator_to_matriz:
+      budget_ms: 250.0
+      percentile: 95
+      slo_name: "e2e_orchestration_p95"
+      enforcement: "hard_fail"
+      description: "Full Orchestrator→MATRIZ→Guardian→Identity roundtrip"
+
+# Locked Artifact Names - DO NOT MODIFY
+# These names are referenced by evidence collection and CI/CD pipelines
+artifact_names:
+  performance_artifacts:
+    - "matriz_perf_e2e_bootstrap.json"      # E2E performance with bootstrap CI95%
+    - "guardian_throughput_soak.json"       # Guardian throughput soak testing
+    - "matriz_tick_timings.json"           # MATRIZ tick operation timings
+    - "matriz_reflect_timings.json"        # MATRIZ reflect operation timings
+    - "matriz_decide_timings.json"         # MATRIZ decide operation timings
+    - "cross_stack_integration_perf.json"  # Cross-stack integration timing
+
+  schema_artifacts:
+    - "matriz_schema_1.0.0.json"           # Golden schema snapshot
+    - "schema_drift_report.json"           # Schema drift detection results
+
+  evidence_bundles:
+    - "matriz_evidence_bundle.json"        # Comprehensive evidence bundle
+    - "canary_readiness_report.json"       # Final canary readiness assessment
+
+# Budget Enforcement Rules
+enforcement:
+  failure_modes:
+    hard_fail:
+      action: "fail_build"
+      notify: ["matriz-team", "sre-oncall"]
+      escalation_threshold: 3
+
+    soft_warn:
+      action: "log_warning"
+      notify: ["matriz-team"]
+      escalation_threshold: 10
+
+  validation_requirements:
+    minimum_samples: 1000        # Bootstrap validation requirement
+    confidence_interval: 0.95    # CI95% statistical rigor
+    warmup_iterations: 200       # Performance test warmup
+    measurement_duration: 60     # Soak test duration (seconds)
+
+# SLO Monitoring Integration
+monitoring:
+  prometheus_metrics:
+    matriz_tick_duration_ms:
+      type: "histogram"
+      buckets: [1, 5, 10, 25, 50, 100, 250, 500, 1000]
+      labels: ["lane", "stage", "tenant"]
+
+    matriz_reflect_duration_ms:
+      type: "histogram"
+      buckets: [0.1, 0.5, 1, 2.5, 5, 10, 25, 50]
+      labels: ["lane", "stage", "tenant"]
+
+    matriz_decide_duration_ms:
+      type: "histogram"
+      buckets: [1, 5, 10, 25, 50, 100, 250]
+      labels: ["lane", "stage", "tenant"]
+
+    guardian_operation_duration_ms:
+      type: "histogram"
+      buckets: [0.1, 0.5, 1, 2, 5, 10, 25]
+      labels: ["operation_type", "tenant"]
+
+    guardian_throughput_ops_per_sec:
+      type: "gauge"
+      labels: ["instance", "tenant"]
+
+  alerting:
+    matriz_performance_degradation:
+      condition: "matriz_tick_duration_ms_p95 > 100"
+      duration: "5m"
+      severity: "critical"
+      annotations:
+        description: "MATRIZ tick operation exceeding 100ms p95 budget"
+
+    guardian_throughput_below_slo:
+      condition: "guardian_throughput_ops_per_sec < 1000"
+      duration: "2m"
+      severity: "critical"
+      annotations:
+        description: "Guardian throughput below 1K ops/s SLO"
+
+# Integration Points
+ci_cd_integration:
+  github_actions:
+    performance_gate_job: "validate-performance-budgets"
+    required_checks: ["performance-validation", "budget-enforcement"]
+
+  build_pipeline:
+    pre_deployment_gates:
+      - "validate_artifact_naming"
+      - "enforce_performance_budgets"
+      - "verify_evidence_completeness"
+
+    failure_handling:
+      budget_violation: "fail_fast"
+      missing_artifacts: "fail_build"
+      incomplete_evidence: "fail_deployment"

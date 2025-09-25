@@ -188,36 +188,43 @@ class MATRIZEvidenceGenerator:
         """Collect schema validation and drift evidence."""
         evidence = []
 
-        # Check MATRIZ schema
-        schema_file = self.project_root / "matriz" / "schemas" / "matriz_schema.json"
+        # Check MATRIZ schema - FIXED: Use uppercase MATRIZ path
+        schema_file = self.project_root / "MATRIZ" / "schemas" / "matriz_schema.json"
         snapshot_file = self.project_root / "tests" / "matriz" / "snapshots" / "matriz_schema_v1.json"
 
-        if schema_file.exists() and snapshot_file.exists():
-            try:
-                with open(schema_file, 'r') as f:
-                    schema_data = json.load(f)
+        # HARD FAIL: Schema artifacts must exist for canary readiness
+        if not schema_file.exists():
+            raise FileNotFoundError(f"Critical artifact missing: {schema_file} - MATRIZ canary cannot proceed without schema")
 
-                with open(snapshot_file, 'r') as f:
-                    snapshot_data = json.load(f)
+        if not snapshot_file.exists():
+            raise FileNotFoundError(f"Critical artifact missing: {snapshot_file} - Schema validation requires baseline snapshot")
 
-                # Calculate schema hash
-                schema_str = json.dumps(schema_data, sort_keys=True, separators=(',', ':'))
-                schema_hash = hashlib.sha256(schema_str.encode()).hexdigest()
+        # Schema artifacts validated - proceed with evidence collection
+        try:
+            with open(schema_file, 'r') as f:
+                schema_data = json.load(f)
 
-                evidence.append(SchemaEvidence(
-                    schema_name="matriz_decision_schema",
-                    schema_version=schema_data.get("version", "1.0.0"),
-                    schema_hash=schema_hash,
-                    validation_valid=True,  # Would be determined by schema validation
-                    drift_detected=schema_hash != snapshot_data.get("schema_hash", ""),
-                    breaking_changes=[],  # Would be populated by drift detection
-                    required_fields_validated=True,
-                    enum_compatibility_maintained=True,
-                    constraint_compliance=True
-                ))
+            with open(snapshot_file, 'r') as f:
+                snapshot_data = json.load(f)
 
-            except Exception as e:
-                logger.warning(f"Could not collect schema evidence: {e}")
+            # Calculate schema hash
+            schema_str = json.dumps(schema_data, sort_keys=True, separators=(',', ':'))
+            schema_hash = hashlib.sha256(schema_str.encode()).hexdigest()
+
+            evidence.append(SchemaEvidence(
+                schema_name="matriz_decision_schema",
+                schema_version=schema_data.get("version", "1.0.0"),
+                schema_hash=schema_hash,
+                validation_valid=True,  # Would be determined by schema validation
+                drift_detected=schema_hash != snapshot_data.get("schema_hash", ""),
+                breaking_changes=[],  # Would be populated by drift detection
+                required_fields_validated=True,
+                enum_compatibility_maintained=True,
+                constraint_compliance=True
+            ))
+
+        except Exception as e:
+            logger.warning(f"Could not collect schema evidence: {e}")
 
         return evidence
 
@@ -372,12 +379,46 @@ class MATRIZEvidenceGenerator:
             all(p.slo_compliant for p in self.performance_results)
         )
 
-        # MATRIZ readiness assessment
-        matriz_ready = (
-            t4_excellence and
-            len(self.integration_results) > 0 and
-            all(i.performance_target_met for i in self.integration_results)
-        )
+        # HARD GATES: MATRIZ readiness assessment with explicit failure modes
+        hard_gate_failures = []
+
+        # Gate 1: T4 excellence is mandatory
+        if not t4_excellence:
+            hard_gate_failures.append("T4/0.01% excellence standards not met")
+
+        # Gate 2: Performance evidence must exist and be compliant
+        if len(self.performance_results) == 0:
+            hard_gate_failures.append("No performance evidence found - critical artifacts missing")
+        elif not all(p.slo_compliant for p in self.performance_results):
+            failed_perf = [p for p in self.performance_results if not p.slo_compliant]
+            hard_gate_failures.append(f"Performance SLO failures: {len(failed_perf)} targets not met")
+
+        # Gate 3: Schema evidence must exist and be drift-free
+        if len(self.schema_results) == 0:
+            hard_gate_failures.append("No schema evidence found - schema validation required")
+        elif any(s.drift_detected for s in self.schema_results):
+            hard_gate_failures.append("Schema drift detected - breaking changes not allowed")
+
+        # Gate 4: Integration evidence must exist and be successful
+        if len(self.integration_results) == 0:
+            hard_gate_failures.append("No integration evidence found - cross-stack validation required")
+        elif not all(i.performance_target_met and i.success_rate >= 95.0 for i in self.integration_results):
+            hard_gate_failures.append("Integration performance/reliability below threshold")
+
+        # Gate 5: Compliance evidence must show full compliance
+        if not overall_compliance:
+            hard_gate_failures.append("Compliance violations detected - must resolve before deployment")
+
+        # Final readiness determination
+        matriz_ready = len(hard_gate_failures) == 0
+
+        # Log hard gate status
+        if hard_gate_failures:
+            logger.error(f"❌ HARD GATE FAILURES ({len(hard_gate_failures)}):")
+            for i, failure in enumerate(hard_gate_failures, 1):
+                logger.error(f"   {i}. {failure}")
+        else:
+            logger.info("✅ ALL HARD GATES PASSED - MATRIZ ready for canary deployment")
 
         # Create bundle
         bundle = MATRIZEvidenceBundle(
@@ -392,7 +433,7 @@ class MATRIZEvidenceGenerator:
             overall_compliance=overall_compliance,
             t4_excellence_achieved=t4_excellence,
             matriz_ready=matriz_ready,
-            recommendations=recommendations
+            recommendations=recommendations + (hard_gate_failures if hard_gate_failures else [])
         )
 
         # Calculate signature
@@ -506,26 +547,53 @@ async def main():
     generator = MATRIZEvidenceGenerator()
 
     print("🔍 Generating MATRIZ Evidence Bundle...")
+    print("T4/0.01% Excellence Standards with Hard Gate Enforcement")
+    print()
 
-    # Generate evidence bundle
-    bundle = generator.generate_evidence_bundle()
+    try:
+        # Generate evidence bundle
+        bundle = generator.generate_evidence_bundle()
 
-    # Save bundle
-    bundle_path = generator.save_evidence_bundle(bundle)
+        # Save bundle
+        bundle_path = generator.save_evidence_bundle(bundle)
 
-    # Generate and display summary
-    summary = generator.generate_summary_report(bundle)
-    print("\n" + summary)
+        # Generate and display summary
+        summary = generator.generate_summary_report(bundle)
+        print("\n" + summary)
 
-    # Save summary report
-    summary_path = bundle_path.with_suffix('.txt')
-    with open(summary_path, 'w') as f:
-        f.write(summary)
+        # Save summary report
+        summary_path = bundle_path.with_suffix('.txt')
+        with open(summary_path, 'w') as f:
+            f.write(summary)
 
-    print(f"\n📄 Evidence bundle: {bundle_path}")
-    print(f"📄 Summary report: {summary_path}")
+        print(f"\n📄 Evidence bundle: {bundle_path}")
+        print(f"📄 Summary report: {summary_path}")
 
-    return bundle.matriz_ready
+        # Hard gate result
+        if bundle.matriz_ready:
+            print("\n✅ HARD GATES PASSED - Build can proceed to canary deployment")
+            print("🚀 MATRIZ ready for production traffic")
+        else:
+            print("\n❌ HARD GATES FAILED - Build must be blocked")
+            print("🛑 MATRIZ not ready - address all issues before deployment")
+
+            # Extract hard gate failures from recommendations
+            failures = [r for r in bundle.recommendations if any(keyword in r.lower()
+                       for keyword in ['gate', 'critical', 'missing', 'failure', 'violation'])]
+            if failures:
+                print("\n💥 Hard Gate Failures:")
+                for i, failure in enumerate(failures, 1):
+                    print(f"   {i}. {failure}")
+
+            print("\n🔧 Fix all hard gate failures and regenerate evidence bundle")
+
+        return bundle.matriz_ready
+
+    except Exception as e:
+        print(f"\n❌ EVIDENCE GENERATION FAILED: {e}")
+        logger.error(f"Evidence generation error: {e}")
+        print("🛑 Build blocked due to evidence generation failure")
+        return False
 
 
 if __name__ == "__main__":

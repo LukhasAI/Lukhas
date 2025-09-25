@@ -66,12 +66,31 @@ class LaneImportLinter:
             }
         }
 
-        # Approved integration points (exceptions to the rules)
+        # Approved integration points (PINNED SURFACES - T4/0.01%)
         self.approved_integrations = {
             "lukhas.consciousness.matriz_thought_loop",
             "lukhas.observability.matriz_instrumentation",
             "lukhas.observability.matriz_decorators",
             "lukhas.memory.matriz_adapter"
+        }
+
+        # Additional forbidden patterns (internal/private modules)
+        self.additional_forbidden = {
+            "lukhas": {
+                "MATRIZ.internal",
+                "MATRIZ.private",
+                "MATRIZ.experimental",
+                "MATRIZ.schemas.internal",
+                "MATRIZ.core.private",
+                "MATRIZ.processing.internal"
+            },
+            "candidate": {
+                "lukhas.governance.guardian_serializers.production",
+                "lukhas.identity.webauthn_production.core",
+                "lukhas.observability.prometheus_metrics.production",
+                "lukhas.orchestration.production_workflows",
+                "lukhas.memory.production_stores"
+            }
         }
 
         self.violations = []
@@ -154,6 +173,15 @@ class LaneImportLinter:
                     violations.append(
                         f"{file_lane} lane file {file_path} imports forbidden module '{import_name}' from pattern '{forbidden_pattern}'"
                     )
+
+            # Check additional forbidden patterns (internal/private modules)
+            if file_lane in self.additional_forbidden:
+                additional_patterns = self.additional_forbidden[file_lane]
+                for forbidden_pattern in additional_patterns:
+                    if import_name.startswith(forbidden_pattern):
+                        violations.append(
+                            f"{file_lane} lane file {file_path} imports RESTRICTED module '{import_name}' (internal/private/production-critical)"
+                        )
 
         return violations
 

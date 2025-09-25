@@ -1,0 +1,85 @@
+{
+  "generated_at": "2025-09-25T13:17:14.169706Z",
+  "generator_version": "1.0.0",
+  "integrity": {
+    "canonical_schema": "{\"$id\":\"https://schemas.lukhas.ai/matriz/v1.0.0/decision\",\"$schema\":\"https://json-schema.org/draft/2020-12/schema\",\"additionalProperties\":false,\"description\":\"T4/0.01% Excellence schema for MATRIZ thought loop decision payloads\",\"properties\":{\"audit\":{\"additionalProperties\":false,\"description\":\"Audit trail and compliance tracking\",\"properties\":{\"compliance_status\":{\"additionalProperties\":false,\"properties\":{\"constellation_framework\":{\"description\":\"Constellation Framework compliance\",\"type\":\"boolean\"},\"processing_pipeline_valid\":{\"description\":\"Processing pipeline validation status\",\"type\":\"boolean\"},\"t4_excellence\":{\"description\":\"T4/0.01% excellence compliance\",\"type\":\"boolean\"}},\"required\":[\"t4_excellence\",\"constellation_framework\"],\"type\":\"object\"},\"correlation_id\":{\"description\":\"Unique correlation identifier for tracing\",\"maxLength\":128,\"minLength\":16,\"pattern\":\"^[a-zA-Z0-9_-]+$\",\"type\":\"string\"},\"errors_encountered\":{\"description\":\"Errors encountered during processing\",\"items\":{\"minLength\":1,\"type\":\"string\"},\"maxItems\":1000,\"type\":\"array\"},\"timestamp\":{\"description\":\"Audit timestamp in ISO8601 format\",\"format\":\"date-time\",\"type\":\"string\"},\"warnings\":{\"description\":\"Warnings generated during processing\",\"items\":{\"minLength\":1,\"type\":\"string\"},\"maxItems\":1000,\"type\":\"array\"}},\"required\":[\"correlation_id\",\"timestamp\",\"compliance_status\"],\"type\":\"object\"},\"context\":{\"additionalProperties\":false,\"description\":\"Processing context and configuration\",\"properties\":{\"lane\":{\"description\":\"LUKHAS processing lane from canonical taxonomy\",\"enum\":[\"candidate\",\"lukhas\",\"MATRIZ\",\"integration\",\"production\",\"canary\",\"experimental\"],\"type\":\"string\"},\"memory_signals\":{\"items\":{\"properties\":{\"content\":{\"minLength\":1,\"type\":\"string\"},\"id\":{\"minLength\":1,\"type\":\"string\"},\"score\":{\"maximum\":1.0,\"minimum\":0.0,\"type\":\"number\"}},\"required\":[\"id\",\"content\",\"score\"],\"type\":\"object\"},\"maxItems\":1000,\"type\":\"array\"},\"metadata\":{\"additionalProperties\":true,\"description\":\"Additional context metadata\",\"type\":\"object\"},\"processing_config\":{\"additionalProperties\":true,\"properties\":{\"complexity\":{\"default\":\"moderate\",\"enum\":[\"simple\",\"moderate\",\"complex\"],\"type\":\"string\"},\"enable_all_features\":{\"default\":true,\"type\":\"boolean\"},\"time_budget_ms\":{\"default\":240.0,\"maximum\":5000.0,\"minimum\":10.0,\"type\":\"number\"}},\"type\":\"object\"}},\"required\":[\"processing_config\",\"lane\"],\"type\":\"object\"},\"decision\":{\"additionalProperties\":false,\"description\":\"Core MATRIZ decision data\",\"properties\":{\"affect_delta\":{\"description\":\"Emotional affect change\",\"maximum\":1.0,\"minimum\":-1.0,\"type\":\"number\"},\"confidence\":{\"description\":\"Decision confidence score\",\"maximum\":1.0,\"minimum\":0.0,\"type\":\"number\"},\"processing_stage\":{\"description\":\"Current processing stage\",\"enum\":[\"initialization\",\"memory_recall\",\"deep_inference\",\"thought_synthesis\",\"contradiction_detection\",\"memory_validation\",\"meta_assessment\",\"awareness_update\",\"finalization\"],\"type\":\"string\"},\"quality_score\":{\"description\":\"Overall reasoning quality assessment\",\"maximum\":1.0,\"minimum\":0.0,\"type\":\"number\"},\"synthesis\":{\"description\":\"Primary synthesis output from thought loop\",\"maxLength\":10000,\"minLength\":1,\"type\":\"string\"},\"timestamp\":{\"description\":\"Decision timestamp in ISO8601 format\",\"format\":\"date-time\",\"type\":\"string\"}},\"required\":[\"synthesis\",\"confidence\",\"processing_stage\"],\"type\":\"object\"},\"enforcement\":{\"additionalProperties\":false,\"description\":\"Enforcement and execution directives\",\"properties\":{\"cognitive_adjustments\":{\"description\":\"Cognitive adjustments made during processing\",\"items\":{\"minLength\":1,\"type\":\"string\"},\"maxItems\":100,\"type\":\"array\"},\"mode\":{\"default\":\"enforced\",\"description\":\"Enforcement mode\",\"enum\":[\"enforced\",\"advisory\",\"disabled\"],\"type\":\"string\"},\"recommendations\":{\"description\":\"System recommendations\",\"items\":{\"minLength\":1,\"type\":\"string\"},\"maxItems\":100,\"type\":\"array\"},\"success\":{\"description\":\"Whether processing was successful\",\"type\":\"boolean\"},\"supporting_memory_ids\":{\"description\":\"Memory IDs supporting the decision\",\"items\":{\"minLength\":1,\"type\":\"string\"},\"maxItems\":1000,\"type\":\"array\"}},\"required\":[\"mode\",\"success\"],\"type\":\"object\"},\"integrity\":{\"additionalProperties\":false,\"description\":\"Tamper-evident integrity verification\",\"properties\":{\"algorithm\":{\"description\":\"Signature algorithm used\",\"enum\":[\"ed25519\",\"es256\",\"rs256\"],\"type\":\"string\"},\"keyid\":{\"description\":\"Key identifier used for signing\",\"maxLength\":64,\"pattern\":\"^[a-zA-Z0-9_-]+$\",\"type\":\"string\"},\"payload_hash\":{\"description\":\"SHA256 hash of the payload for integrity verification\",\"pattern\":\"^[a-f0-9]{64}$\",\"type\":\"string\"},\"schema_version\":{\"description\":\"Schema version in semver format\",\"pattern\":\"^1\\\\.\\\\d+\\\\.\\\\d+$\",\"type\":\"string\"},\"signature\":{\"description\":\"Cryptographic signature (base64 encoded)\",\"pattern\":\"^[A-Za-z0-9+/]+=*$\",\"type\":\"string\"}},\"required\":[\"schema_version\",\"payload_hash\"],\"type\":\"object\"},\"metrics\":{\"additionalProperties\":false,\"description\":\"Performance and cognitive metrics\",\"properties\":{\"cognitive_load\":{\"description\":\"Cognitive processing load factor\",\"maximum\":1.0,\"minimum\":0.0,\"type\":\"number\"},\"contradictions_detected\":{\"description\":\"Number of contradictions detected\",\"maximum\":1000,\"minimum\":0,\"type\":\"integer\"},\"inference_depth_reached\":{\"description\":\"Maximum inference depth achieved\",\"maximum\":50,\"minimum\":0,\"type\":\"integer\"},\"memory_conflicts_detected\":{\"description\":\"Number of memory conflicts found\",\"maximum\":1000,\"minimum\":0,\"type\":\"integer\"},\"processing_time_ms\":{\"description\":\"Total processing time in milliseconds\",\"maximum\":10000.0,\"minimum\":0.0,\"type\":\"number\"},\"reasoning_chains_count\":{\"description\":\"Number of reasoning chains explored\",\"maximum\":1000,\"minimum\":0,\"type\":\"integer\"},\"self_awareness_score\":{\"description\":\"Meta-cognitive self-awareness score\",\"maximum\":1.0,\"minimum\":0.0,\"type\":\"number\"},\"stage_timings\":{\"additionalProperties\":{\"minimum\":0.0,\"type\":\"number\"},\"description\":\"Per-stage processing timings\",\"type\":\"object\"},\"t4_compliant\":{\"description\":\"Whether processing meets T4/0.01% performance standards\",\"type\":\"boolean\"}},\"required\":[\"processing_time_ms\",\"inference_depth_reached\",\"t4_compliant\"],\"type\":\"object\"},\"subject\":{\"additionalProperties\":false,\"description\":\"Subject context for the MATRIZ decision\",\"properties\":{\"consciousness_state\":{\"description\":\"Current consciousness state\",\"enum\":[\"DORMANT\",\"AWAKENING\",\"ACTIVE\",\"REFLECTION\",\"DEEP_PROCESSING\"],\"type\":\"string\"},\"query\":{\"description\":\"Input query or prompt\",\"maxLength\":50000,\"minLength\":1,\"type\":\"string\"},\"session_id\":{\"description\":\"Unique session identifier\",\"maxLength\":128,\"minLength\":8,\"pattern\":\"^[a-zA-Z0-9_-]+$\",\"type\":\"string\"},\"tenant\":{\"default\":\"default\",\"description\":\"Tenant identifier\",\"maxLength\":64,\"minLength\":1,\"pattern\":\"^[a-zA-Z0-9_-]+$\",\"type\":\"string\"}},\"required\":[\"query\",\"session_id\"],\"type\":\"object\"}},\"required\":[\"decision\",\"subject\",\"context\",\"metrics\",\"enforcement\",\"audit\",\"integrity\"],\"title\":\"MATRIZ Decision Schema\",\"type\":\"object\",\"version\":\"1.0.0\"}",
+    "hash_algorithm": "SHA256",
+    "validation_passed": true
+  },
+  "schema_hash": "519d5613d1ce0f17b067a989df9a8302659f2d9b6915c827bf1a2dd7bd32940e",
+  "schema_name": "matriz_decision_schema",
+  "schema_version": "1.0.0",
+  "validation_rules": {
+    "decision_properties": [
+      "decision",
+      "subject",
+      "context",
+      "metrics",
+      "enforcement",
+      "audit",
+      "integrity"
+    ],
+    "enum_constraints": {
+      "properties.context.properties.lane": [
+        "candidate",
+        "lukhas",
+        "MATRIZ",
+        "integration",
+        "production",
+        "canary",
+        "experimental"
+      ],
+      "properties.context.properties.processing_config.properties.complexity": [
+        "simple",
+        "moderate",
+        "complex"
+      ],
+      "properties.decision.properties.processing_stage": [
+        "initialization",
+        "memory_recall",
+        "deep_inference",
+        "thought_synthesis",
+        "contradiction_detection",
+        "memory_validation",
+        "meta_assessment",
+        "awareness_update",
+        "finalization"
+      ],
+      "properties.enforcement.properties.mode": [
+        "enforced",
+        "advisory",
+        "disabled"
+      ],
+      "properties.integrity.properties.algorithm": [
+        "ed25519",
+        "es256",
+        "rs256"
+      ],
+      "properties.subject.properties.consciousness_state": [
+        "DORMANT",
+        "AWAKENING",
+        "ACTIVE",
+        "REFLECTION",
+        "DEEP_PROCESSING"
+      ]
+    },
+    "required_fields": [
+      "decision",
+      "subject",
+      "context",
+      "metrics",
+      "enforcement",
+      "audit",
+      "integrity"
+    ],
+    "type_constraints": {
+      "audit": "object",
+      "context": "object",
+      "decision": "object",
+      "enforcement": "object",
+      "integrity": "object",
+      "metrics": "object",
+      "subject": "object"
+    }
+  }
+}

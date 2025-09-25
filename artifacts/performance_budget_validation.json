@@ -1,0 +1,86 @@
+{
+  "artifacts_validated": [],
+  "budget_compliance": {
+    "e2e_orchestration_ms": null,
+    "guardian_latency_ms": null,
+    "guardian_throughput_ops": null,
+    "matriz_decide_ms": null,
+    "matriz_reflect_ms": null,
+    "matriz_tick_ms": null
+  },
+  "budget_config_version": "1.0.0",
+  "budget_definitions": {
+    "cross_stack_integration": {
+      "orchestrator_to_matriz": {
+        "budget_ms": 250.0,
+        "description": "Full Orchestrator\u2192MATRIZ\u2192Guardian\u2192Identity roundtrip",
+        "enforcement": "hard_fail",
+        "percentile": 95,
+        "slo_name": "e2e_orchestration_p95"
+      }
+    },
+    "guardian_performance": {
+      "latency": {
+        "budget_ms": 1.0,
+        "description": "Guardian operation mean latency",
+        "enforcement": "hard_fail",
+        "percentile": 50,
+        "slo_name": "guardian_latency_mean"
+      },
+      "throughput": {
+        "budget_ops_per_sec": 1000.0,
+        "description": "Guardian serializer throughput under load",
+        "enforcement": "hard_fail",
+        "measurement_duration_sec": 60,
+        "slo_name": "guardian_throughput_1k_ops"
+      }
+    },
+    "matriz_thought_loop": {
+      "decide_operation": {
+        "budget_ms": 50.0,
+        "description": "MATRIZ decide operation - final synthesis",
+        "enforcement": "hard_fail",
+        "percentile": 95,
+        "slo_name": "matriz_decide_p95"
+      },
+      "reflect_operation": {
+        "budget_ms": 10.0,
+        "description": "MATRIZ reflect operation - meta-cognitive assessment",
+        "enforcement": "hard_fail",
+        "percentile": 95,
+        "slo_name": "matriz_reflect_p95"
+      },
+      "tick_operation": {
+        "budget_ms": 100.0,
+        "description": "MATRIZ tick operation - thought generation phase",
+        "enforcement": "hard_fail",
+        "percentile": 95,
+        "slo_name": "matriz_tick_p95"
+      }
+    }
+  },
+  "enforcement_mode": "hard_fail",
+  "locked_artifact_names": [
+    "matriz_perf_e2e_bootstrap.json",
+    "guardian_throughput_soak.json",
+    "matriz_tick_timings.json",
+    "matriz_reflect_timings.json",
+    "matriz_decide_timings.json",
+    "cross_stack_integration_perf.json"
+  ],
+  "total_violations": 7,
+  "total_warnings": 0,
+  "validation_passed": false,
+  "validation_timestamp": "2025-09-25T13:18:57.062648Z",
+  "validator_version": "1.0.0",
+  "violations": [
+    "Missing performance artifacts: ['matriz_perf_e2e_bootstrap.json', 'guardian_throughput_soak.json', 'matriz_tick_timings.json', 'matriz_reflect_timings.json', 'matriz_decide_timings.json', 'cross_stack_integration_perf.json']",
+    "MATRIZ tick timing data not found",
+    "MATRIZ reflect timing data not found",
+    "MATRIZ decide timing data not found",
+    "Guardian throughput data not found",
+    "Guardian latency data not found",
+    "E2E orchestration timing data not found"
+  ],
+  "warnings": []
+}
