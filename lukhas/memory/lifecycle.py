@@ -22,8 +22,8 @@ from typing import Dict, List, Optional, Any, Set, Callable
 import logging
 
 from lukhas.memory.backends.base import VectorDocument, AbstractVectorStore
-from lukhas.observability.metrics import get_metrics_collector
-from lukhas.core.logging import get_logger
+from lukhas.observability.service_metrics import get_metrics_collector, ServiceType, MetricType
+from lukhas.core.common.logger import get_logger
 
 logger = get_logger(__name__)
 metrics = get_metrics_collector()
@@ -403,9 +403,8 @@ class MemoryLifecycleManager:
             # Get expired documents
             now = datetime.now(timezone.utc)
 
-            # This would need to be implemented by the vector store
-            # For now, we'll simulate with a placeholder
-            expired_docs = []  # await self.vector_store.list_expired_documents(now, batch_size)
+            # Get expired documents from the vector store
+            expired_docs = await self.vector_store.list_expired_documents(now, batch_size)
 
             processed_count = 0
 
@@ -459,18 +458,27 @@ class MemoryLifecycleManager:
                 time.perf_counter() - start_time
             ) * 1000
 
-            # Record metrics
-            metrics.record_histogram(
-                "lifecycle_cleanup_duration_ms",
-                cleanup_stats.cleanup_duration_ms
+            # Record Prometheus metrics for lifecycle operations
+            metrics.record_metric(
+                "lukhas_memory_lifecycle_seconds",
+                cleanup_stats.cleanup_duration_ms / 1000.0,
+                ServiceType.MEMORY,
+                MetricType.HISTOGRAM,
+                {"operation": "cleanup"}
             )
-            metrics.increment_counter(
-                "lifecycle_documents_processed",
-                processed_count
+            metrics.record_metric(
+                "lukhas_memory_retained_total",
+                cleanup_stats.documents_deleted,
+                ServiceType.MEMORY,
+                MetricType.COUNTER,
+                {"operation": "delete"}
             )
-            metrics.increment_counter(
-                "lifecycle_documents_deleted",
-                cleanup_stats.documents_deleted
+            metrics.record_metric(
+                "lukhas_memory_archived_total",
+                cleanup_stats.documents_archived,
+                ServiceType.MEMORY,
+                MetricType.COUNTER,
+                {"operation": "archive"}
             )
 
             logger.info(
@@ -741,8 +749,20 @@ class MemoryLifecycleManager:
                 duration_ms=duration_ms
             )
 
-            metrics.increment_counter("lifecycle_gdpr_requests_processed")
-            metrics.record_histogram("lifecycle_gdpr_processing_duration_ms", duration_ms)
+            metrics.record_metric(
+                "lukhas_memory_gdpr_deleted_total",
+                deleted_count,
+                ServiceType.MEMORY,
+                MetricType.COUNTER,
+                {"operation": "gdpr_deletion"}
+            )
+            metrics.record_metric(
+                "lukhas_memory_lifecycle_seconds",
+                duration_ms / 1000.0,
+                ServiceType.MEMORY,
+                MetricType.HISTOGRAM,
+                {"operation": "gdpr_deletion"}
+            )
 
             return summary
 

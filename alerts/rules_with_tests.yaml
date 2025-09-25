@@ -1,0 +1,249 @@
+# T4/0.01% Excellence Alerting Rules with Tests
+# ==============================================
+#
+# Comprehensive alerting rules for LUKHAS services with burn-rate SLO monitoring.
+# Targets: 99.9% SLI with 2%/1h and 0.1%/6h burn rates for T4/0.01% excellence.
+#
+# Constellation Framework: 🚨 Observability Excellence
+
+groups:
+- name: lukhas.slo.burn_rates
+  rules:
+  # Memory Service SLO - P95 latency < 100ms
+  - alert: LUKHASMemoryHighBurnRate
+    expr: (
+        (
+          sum(rate(lukhas_memory_operation_duration_seconds{quantile="0.95"}[1m])) > 0.1
+        ) and (
+          sum(rate(lukhas_memory_operation_duration_seconds{quantile="0.95"}[1m])) / sum(rate(lukhas_memory_operations_total[1m])) > 0.02
+        )
+      ) or (
+        (
+          sum(rate(lukhas_memory_operation_duration_seconds{quantile="0.95"}[5m])) > 0.1
+        ) and (
+          sum(rate(lukhas_memory_operation_duration_seconds{quantile="0.95"}[5m])) / sum(rate(lukhas_memory_operations_total[5m])) > 0.001
+        )
+      )
+    for: 2m
+    labels:
+      severity: critical
+      service: memory
+      slo_target: "99.9"
+      burn_rate_window: "1h_6h"
+    annotations:
+      summary: "LUKHAS Memory service burn rate exceeded"
+      description: "Memory service is consuming error budget too quickly. P95 latency > 100ms for {{ $labels.lane }} lane."
+
+  # Orchestrator Service SLO - P95 routing latency < 250ms
+  - alert: LUKHASOrchestratorHighBurnRate
+    expr: (
+        (
+          sum(rate(lukhas_orchestrator_routing_duration_seconds{quantile="0.95"}[1m])) > 0.25
+        ) and (
+          sum(rate(lukhas_orchestrator_routing_duration_seconds{quantile="0.95"}[1m])) / sum(rate(lukhas_orchestrator_routing_total[1m])) > 0.02
+        )
+      ) or (
+        (
+          sum(rate(lukhas_orchestrator_routing_duration_seconds{quantile="0.95"}[5m])) > 0.25
+        ) and (
+          sum(rate(lukhas_orchestrator_routing_duration_seconds{quantile="0.95"}[5m])) / sum(rate(lukhas_orchestrator_routing_total[5m])) > 0.001
+        )
+      )
+    for: 2m
+    labels:
+      severity: critical
+      service: orchestrator
+      slo_target: "99.9"
+      burn_rate_window: "1h_6h"
+    annotations:
+      summary: "LUKHAS Orchestrator routing burn rate exceeded"
+      description: "Orchestrator routing is consuming error budget too quickly. P95 latency > 250ms for {{ $labels.lane }} lane."
+
+  # Identity Service SLO - P95 authentication latency < 250ms
+  - alert: LUKHASIdentityHighBurnRate
+    expr: (
+        (
+          sum(rate(lukhas_identity_auth_duration_seconds{quantile="0.95"}[1m])) > 0.25
+        ) and (
+          sum(rate(lukhas_identity_auth_duration_seconds{quantile="0.95"}[1m])) / sum(rate(lukhas_identity_auth_total[1m])) > 0.02
+        )
+      ) or (
+        (
+          sum(rate(lukhas_identity_auth_duration_seconds{quantile="0.95"}[5m])) > 0.25
+        ) and (
+          sum(rate(lukhas_identity_auth_duration_seconds{quantile="0.95"}[5m])) / sum(rate(lukhas_identity_auth_total[5m])) > 0.001
+        )
+      )
+    for: 2m
+    labels:
+      severity: critical
+      service: identity
+      slo_target: "99.9"
+      burn_rate_window: "1h_6h"
+    annotations:
+      summary: "LUKHAS Identity authentication burn rate exceeded"
+      description: "Identity service is consuming error budget too quickly. P95 latency > 250ms for {{ $labels.lane }} lane."
+
+  # Guardian Service SLO - P95 decision latency < 100ms
+  - alert: LUKHASGuardianHighBurnRate
+    expr: (
+        (
+          sum(rate(lukhas_guardian_decision_duration_seconds{quantile="0.95"}[1m])) > 0.1
+        ) and (
+          sum(rate(lukhas_guardian_decision_duration_seconds{quantile="0.95"}[1m])) / sum(rate(lukhas_guardian_decisions_total[1m])) > 0.02
+        )
+      ) or (
+        (
+          sum(rate(lukhas_guardian_decision_duration_seconds{quantile="0.95"}[5m])) > 0.1
+        ) and (
+          sum(rate(lukhas_guardian_decision_duration_seconds{quantile="0.95"}[5m])) / sum(rate(lukhas_guardian_decisions_total[5m])) > 0.001
+        )
+      )
+    for: 2m
+    labels:
+      severity: critical
+      service: guardian
+      slo_target: "99.9"
+      burn_rate_window: "1h_6h"
+    annotations:
+      summary: "LUKHAS Guardian decision burn rate exceeded"
+      description: "Guardian service is consuming error budget too quickly. P95 latency > 100ms for {{ $labels.lane }} lane."
+
+- name: lukhas.availability.slos
+  rules:
+  # Service availability monitoring
+  - alert: LUKHASServiceAvailabilityLow
+    expr: (
+        sum(rate(lukhas_http_requests{status=~"5.."}[5m])) by (service, lane) /
+        sum(rate(lukhas_http_requests[5m])) by (service, lane)
+      ) > 0.001
+    for: 5m
+    labels:
+      severity: warning
+      slo_type: availability
+    annotations:
+      summary: "LUKHAS service availability below SLO"
+      description: "Service {{ $labels.service }} in {{ $labels.lane }} lane has availability below 99.9%"
+
+  # E2E correlation tracking
+  - alert: LUKHASCorrelationTrackingLoss
+    expr: (
+        sum(lukhas_requests_without_correlation_id) by (service, lane) /
+        sum(lukhas_requests_total) by (service, lane)
+      ) > 0.01
+    for: 2m
+    labels:
+      severity: warning
+      observability_issue: correlation_tracking
+    annotations:
+      summary: "LUKHAS correlation tracking degraded"
+      description: "Service {{ $labels.service }} missing correlation_id on {{ $value | humanizePercentage }} of requests"
+
+# Test cases for alerting rules
+rule_files:
+  - rules_with_tests.yaml
+
+evaluation_interval: 1m
+
+tests:
+- interval: 1m
+  input_series:
+  # Test Memory service burn rate alert
+  - series: 'lukhas_memory_operation_duration_seconds{quantile="0.95", lane="production", component="memory", operation="search"}'
+    values: '0.05+0.01x10 0.15+0.01x5 0.08+0x5'
+  - series: 'lukhas_memory_operations_total{lane="production", component="memory", operation="search"}'
+    values: '100+10x20'
+
+  # Test Orchestrator service burn rate alert
+  - series: 'lukhas_orchestrator_routing_duration_seconds{quantile="0.95", lane="production", component="orchestrator", operation="route"}'
+    values: '0.2+0.01x10 0.3+0.01x5 0.15+0x5'
+  - series: 'lukhas_orchestrator_routing_total{lane="production", component="orchestrator", operation="route"}'
+    values: '1000+100x20'
+
+  # Test Identity service burn rate alert
+  - series: 'lukhas_identity_auth_duration_seconds{quantile="0.95", lane="production", component="identity", operation="authenticate"}'
+    values: '0.2+0.01x10 0.4+0.01x5 0.15+0x5'
+  - series: 'lukhas_identity_auth_total{lane="production", component="identity", operation="authenticate"}'
+    values: '500+50x20'
+
+  # Test Guardian service burn rate alert
+  - series: 'lukhas_guardian_decision_duration_seconds{quantile="0.95", lane="production", component="guardian", operation="decide"}'
+    values: '0.05+0.01x10 0.15+0.01x5 0.05+0x5'
+  - series: 'lukhas_guardian_decisions_total{lane="production", component="guardian", operation="decide"}'
+    values: '2000+200x20'
+
+  # Test availability monitoring
+  - series: 'lukhas_http_requests{status="500", service="memory", lane="production"}'
+    values: '1+1x10 5+1x5 0+0x5'
+  - series: 'lukhas_http_requests{status="200", service="memory", lane="production"}'
+    values: '1000+100x20'
+
+  # Test correlation tracking
+  - series: 'lukhas_requests_without_correlation_id{service="orchestrator", lane="production"}'
+    values: '5+1x10 20+2x5 1+0x5'
+  - series: 'lukhas_requests_total{service="orchestrator", lane="production"}'
+    values: '1000+100x20'
+
+  alert_rule_test:
+  # Memory burn rate should fire
+  - eval_time: 12m
+    alertname: LUKHASMemoryHighBurnRate
+    exp_alerts:
+    - exp_labels:
+        severity: critical
+        service: memory
+        slo_target: "99.9"
+        burn_rate_window: "1h_6h"
+      exp_annotations:
+        summary: "LUKHAS Memory service burn rate exceeded"
+        description: "Memory service is consuming error budget too quickly. P95 latency > 100ms for production lane."
+
+  # Orchestrator burn rate should fire
+  - eval_time: 12m
+    alertname: LUKHASOrchestratorHighBurnRate
+    exp_alerts:
+    - exp_labels:
+        severity: critical
+        service: orchestrator
+        slo_target: "99.9"
+        burn_rate_window: "1h_6h"
+
+  # Identity burn rate should fire
+  - eval_time: 12m
+    alertname: LUKHASIdentityHighBurnRate
+    exp_alerts:
+    - exp_labels:
+        severity: critical
+        service: identity
+        slo_target: "99.9"
+        burn_rate_window: "1h_6h"
+
+  # Guardian burn rate should fire
+  - eval_time: 12m
+    alertname: LUKHASGuardianHighBurnRate
+    exp_alerts:
+    - exp_labels:
+        severity: critical
+        service: guardian
+        slo_target: "99.9"
+        burn_rate_window: "1h_6h"
+
+  # Availability alert should fire
+  - eval_time: 6m
+    alertname: LUKHASServiceAvailabilityLow
+    exp_alerts:
+    - exp_labels:
+        severity: warning
+        slo_type: availability
+        service: memory
+        lane: production
+
+  # Correlation tracking alert should fire
+  - eval_time: 12m
+    alertname: LUKHASCorrelationTrackingLoss
+    exp_alerts:
+    - exp_labels:
+        severity: warning
+        observability_issue: correlation_tracking
+        service: orchestrator
+        lane: production

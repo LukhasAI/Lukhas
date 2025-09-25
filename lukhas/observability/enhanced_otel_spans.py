@@ -81,6 +81,13 @@ class SpanContext:
     custom_attributes: Dict[str, Any] = field(default_factory=dict)
     performance_target_ms: Optional[float] = None
 
+    # Required T4/0.01% observability attributes
+    correlation_id: Optional[str] = None
+    lane: Optional[str] = None
+    provider: Optional[str] = None
+    rule_name: Optional[str] = None
+    component: Optional[str] = None
+
 
 @dataclass
 class SpanMetrics:
@@ -168,6 +175,18 @@ class EnhancedTracer:
             span.set_attribute("request.id", span_context.request_id)
         if span_context.performance_target_ms:
             span.set_attribute("performance.target_ms", span_context.performance_target_ms)
+
+        # Set T4/0.01% required observability attributes
+        if span_context.correlation_id:
+            span.set_attribute("lukhas.correlation_id", span_context.correlation_id)
+        if span_context.lane:
+            span.set_attribute("lukhas.lane", span_context.lane)
+        if span_context.provider:
+            span.set_attribute("lukhas.provider", span_context.provider)
+        if span_context.rule_name:
+            span.set_attribute("lukhas.rule_name", span_context.rule_name)
+        if span_context.component:
+            span.set_attribute("lukhas.component", span_context.component)
 
         # Set custom attributes
         for key, value in span_context.custom_attributes.items():

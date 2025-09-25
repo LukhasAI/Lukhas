@@ -31,8 +31,8 @@ from .base import (
     DocumentNotFoundError,
     DimensionMismatchError
 )
-from lukhas.observability.metrics import get_metrics_collector
-from lukhas.core.logging import get_logger
+from lukhas.observability.service_metrics import get_metrics_collector
+from lukhas.core.common.logger import get_logger
 
 
 logger = get_logger(__name__)

@@ -13,6 +13,8 @@ from typing import Dict, List, Optional, Any, Union, Tuple
 from enum import Enum
 import numpy as np
 
+from lukhas.governance.schema_registry import get_lane_enum
+
 
 class VectorDimension(Enum):
     """Standard vector dimensions for different embedding models"""
@@ -37,7 +39,7 @@ class VectorDocument:
 
     # LUKHAS-specific fields
     identity_id: Optional[str] = None
-    lane: str = "candidate"  # candidate, integration, production
+    lane: str = field(default_factory=lambda: get_lane_enum()[0])  # Use canonical lane enum
     fold_id: Optional[str] = None
     tags: List[str] = field(default_factory=list)
 
@@ -337,6 +339,42 @@ class AbstractVectorStore(ABC):
         pass
 
     # Maintenance operations
+    @abstractmethod
+    async def list_expired_documents(
+        self,
+        as_of: datetime,
+        batch_size: int = 1000
+    ) -> List[VectorDocument]:
+        """
+        List expired documents for lifecycle processing.
+
+        Args:
+            as_of: Timestamp to check expiration against
+            batch_size: Maximum number of documents to return
+
+        Returns:
+            List of expired documents
+        """
+        pass
+
+    @abstractmethod
+    async def list_by_identity(
+        self,
+        identity_id: str,
+        limit: int = 1000
+    ) -> List[VectorDocument]:
+        """
+        List all documents for a specific identity (for GDPR compliance).
+
+        Args:
+            identity_id: Identity ID to filter by
+            limit: Maximum number of documents to return
+
+        Returns:
+            List of documents for the identity
+        """
+        pass
+
     @abstractmethod
     async def cleanup_expired(self) -> int:
         """

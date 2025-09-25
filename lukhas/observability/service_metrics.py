@@ -178,23 +178,60 @@ class ServiceMetricsCollector:
             }
         }
 
+    def create_standard_labels(self,
+                              lane: Optional[str] = None,
+                              component: Optional[str] = None,
+                              operation: Optional[str] = None,
+                              provider: Optional[str] = None,
+                              **custom_labels) -> Dict[str, str]:
+        """Create standardized Prometheus labels for T4/0.01% compliance"""
+        labels = {}
+
+        # Standard T4 labels (avoid high-cardinality IDs)
+        if lane:
+            labels["lane"] = lane
+        if component:
+            labels["component"] = component
+        if operation:
+            labels["operation"] = operation
+        if provider:
+            labels["provider"] = provider
+
+        # Add any custom labels
+        labels.update(custom_labels)
+
+        return labels
+
     def record_metric(self,
                      name: str,
                      value: float,
                      service: ServiceType,
                      metric_type: MetricType = MetricType.GAUGE,
                      labels: Optional[Dict[str, str]] = None,
-                     help_text: str = ""):
-        """Record a service metric"""
+                     help_text: str = "",
+                     lane: Optional[str] = None,
+                     component: Optional[str] = None,
+                     operation: Optional[str] = None,
+                     provider: Optional[str] = None):
+        """Record a service metric with standardized labels"""
         with self._lock:
             metric_key = f"{service.value}_{name}"
+
+            # Create standardized labels
+            standard_labels = self.create_standard_labels(
+                lane=lane,
+                component=component,
+                operation=operation,
+                provider=provider,
+                **(labels or {})
+            )
 
             metric = ServiceMetric(
                 name=name,
                 service=service,
                 metric_type=metric_type,
                 value=value,
-                labels=labels or {},
+                labels=standard_labels,
                 help_text=help_text
             )
 

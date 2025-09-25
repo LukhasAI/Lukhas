@@ -46,6 +46,39 @@ from jsonschema.validators import Draft202012Validator
 logger = logging.getLogger(__name__)
 
 
+class LUKHASLane(Enum):
+    """Canonical LUKHAS lane taxonomy - single source of truth"""
+    CANDIDATE = "candidate"
+    LUKHAS = "lukhas"
+    MATRIZ = "MATRIZ"
+    INTEGRATION = "integration"
+    PRODUCTION = "production"
+    CANARY = "canary"
+    EXPERIMENTAL = "experimental"
+
+    @classmethod
+    def get_all_values(cls) -> List[str]:
+        """Return all lane values as a list"""
+        return [lane.value for lane in cls]
+
+    @classmethod
+    def is_valid_lane(cls, lane: str) -> bool:
+        """Check if a lane string is valid"""
+        return lane in cls.get_all_values()
+
+
+def get_lane_enum() -> List[str]:
+    """
+    Get the canonical lane enum values.
+    This is the single source of truth for LUKHAS lane taxonomy.
+    All components must use this function instead of defining local lane constants.
+
+    Returns:
+        List of valid lane strings
+    """
+    return LUKHASLane.get_all_values()
+
+
 class SchemaVersion:
     """Semantic version handling for schemas"""
 

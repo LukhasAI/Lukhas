@@ -23,7 +23,18 @@ forbidden_modules =
 [importlinter:contract:no_archive]
 name = Nothing may import archive
 type = forbidden
-source_modules = 
+source_modules =
     lukhas
-forbidden_modules = 
+forbidden_modules =
     archive
+
+[importlinter:contract:lane_consistency]
+name = Lane constants must use schema_registry
+type = forbidden
+source_modules =
+    lukhas
+    candidate
+forbidden_modules_regex =
+    .*\.lanes?
+    .*lane_enum.*
+    .*lane_constants.*
