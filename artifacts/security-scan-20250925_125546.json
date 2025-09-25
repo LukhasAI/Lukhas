@@ -1,0 +1,308 @@
+{
+  "scan_type": "security",
+  "timestamp": "2025-09-25T11:55:25.842607+00:00",
+  "git_sha": "5fa34e7979195d4e2ad54a34a66e27cb257b3d72",
+  "scanner_info": {
+    "version": "1.0.0",
+    "tools_used": [
+      "semgrep",
+      "bandit",
+      "safety",
+      "custom_secrets_scanner"
+    ],
+    "rules_applied": [
+      "lukhas_custom",
+      "python_security",
+      "security_audit"
+    ]
+  },
+  "security_findings": {
+    "static_analysis": {
+      "critical": 0,
+      "high": 0,
+      "medium": 0,
+      "low": 0,
+      "total": 0
+    },
+    "dependencies": {
+      "critical": 0,
+      "high": 0,
+      "medium": 0,
+      "total": 0
+    },
+    "secrets": {
+      "high_confidence": 0,
+      "medium_confidence": 33,
+      "total": 33
+    },
+    "overall": {
+      "critical": 0,
+      "high": 0,
+      "medium": 0,
+      "low": 0,
+      "secrets": 33
+    }
+  },
+  "compliance_status": {
+    "t4_excellence_standards": {
+      "max_critical_allowed": 0,
+      "max_high_allowed": 2,
+      "max_secrets_allowed": 0,
+      "critical_compliant": true,
+      "high_compliant": true,
+      "secrets_compliant": true
+    },
+    "dependency_security": {
+      "vulnerable_packages": 0,
+      "critical_vulnerabilities": 0,
+      "high_vulnerabilities": 0,
+      "dependency_compliant": true
+    },
+    "secrets_management": {
+      "hardcoded_secrets_detected": 33,
+      "high_confidence_secrets": 0,
+      "secrets_compliant": true
+    }
+  },
+  "deployment_readiness": "APPROVED",
+  "recommendations": [
+    "Remove hardcoded secrets and use environment variables or secret management"
+  ],
+  "findings_details": {
+    "static_analysis": [],
+    "vulnerabilities": [],
+    "secrets": [
+      {
+        "secret_type": "generic_password",
+        "file_path": "mcp-lukhas-sse/test_env/lib/python3.9/site-packages/starlette/datastructures.py",
+        "line_number": 171,
+        "pattern": "password=\"********\"",
+        "confidence": "MEDIUM"
+      },
+      {
+        "secret_type": "generic_password",
+        "file_path": "candidate/core/identity/consciousness_tiered_authentication.py",
+        "line_number": 71,
+        "pattern": "PASSWORD = \"password\"",
+        "confidence": "MEDIUM"
+      },
+      {
+        "secret_type": "generic_password",
+        "file_path": "candidate/core/identity/consciousness_tiered_authentication.py",
+        "line_number": 72,
+        "pattern": "PASSWORD = \"emoji_password\"",
+        "confidence": "MEDIUM"
+      },
+      {
+        "secret_type": "generic_password",
+        "file_path": "candidate/core/security/auth.py",
+        "line_number": 175,
+        "pattern": "PASSWORD = \"password\"",
+        "confidence": "MEDIUM"
+      },
+      {
+        "secret_type": "generic_password",
+        "file_path": "candidate/core/security/credential_manager.py",
+        "line_number": 32,
+        "pattern": "PASSWORD = \"password\"",
+        "confidence": "MEDIUM"
+      },
+      {
+        "secret_type": "jwt_token",
+        "file_path": "candidate/core/security/secure_logging.py",
+        "line_number": 231,
+        "pattern": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxM...",
+        "confidence": "MEDIUM"
+      },
+      {
+        "secret_type": "generic_api_key",
+        "file_path": "candidate/core/ai/integration_manager.py",
+        "line_number": 562,
+        "pattern": "\"api_key\":\"YOUR_CLAUDE_KEY_HERE_OR_ENV\"",
+        "confidence": "MEDIUM"
+      },
+      {
+        "secret_type": "generic_api_key",
+        "file_path": "candidate/core/ai/integration_manager.py",
+        "line_number": 563,
+        "pattern": "\"api_key\":\"YOUR_OPENAI_KEY_HERE_OR_ENV\"",
+        "confidence": "MEDIUM"
+      },
+      {
+        "secret_type": "generic_api_key",
+        "file_path": "candidate/consciousness/states/async_client.py",
+        "line_number": 2862,
+        "pattern": "api_key=\"your-replicate-api-key\"",
+        "confidence": "MEDIUM"
+      },
+      {
+        "secret_type": "generic_api_key",
+        "file_path": "candidate/governance/security/privacy_guardian.py",
+        "line_number": 1272,
+        "pattern": "\"api_key\": \"sk_live_1234567890abcdef1234567890abcd...",
+        "confidence": "MEDIUM"
+      },
+      {
+        "secret_type": "generic_password",
+        "file_path": "candidate/governance/security/access_control.py",
+        "line_number": 76,
+        "pattern": "PASSWORD = \"password\"",
+        "confidence": "MEDIUM"
+      },
+      {
+        "secret_type": "generic_password",
+        "file_path": "tools/enterprise/security_scanner.py",
+        "line_number": 58,
+        "pattern": "PASSWORD = \"password\"",
+        "confidence": "MEDIUM"
+      },
+      {
+        "secret_type": "generic_password",
+        "file_path": "products/enterprise/core/security/t4_security_assessment.py",
+        "line_number": 290,
+        "pattern": "password\": \"Remove hardcoded password, use environ...",
+        "confidence": "MEDIUM"
+      },
+      {
+        "secret_type": "generic_password",
+        "file_path": "security/tests/test_security_suite.py",
+        "line_number": 316,
+        "pattern": "password = \"SuperSecurePassword123!\"",
+        "confidence": "MEDIUM"
+      },
+      {
+        "secret_type": "generic_password",
+        "file_path": "tests/security/test_crypto_hygiene.py",
+        "line_number": 362,
+        "pattern": "password = \"wrong_password\"",
+        "confidence": "MEDIUM"
+      },
+      {
+        "secret_type": "jwt_token",
+        "file_path": "tests/security/test_crypto_hygiene.py",
+        "line_number": 447,
+        "pattern": "eyJ0eXAiOiJKV1QiLCJhbGciOiJub25lIn0.eyJ1c2VyX2lkIj...",
+        "confidence": "MEDIUM"
+      },
+      {
+        "secret_type": "generic_password",
+        "file_path": "tests/integration/test_i2_api_integration.py",
+        "line_number": 108,
+        "pattern": "\"password\": \"wrong_password\"",
+        "confidence": "MEDIUM"
+      },
+      {
+        "secret_type": "generic_password",
+        "file_path": "tests/integration/test_i2_api_integration.py",
+        "line_number": 554,
+        "pattern": "\"password\": \"pass\\x02word\"",
+        "confidence": "MEDIUM"
+      },
+      {
+        "secret_type": "generic_password",
+        "file_path": "tests/e2e/test_comprehensive_security_validation.py",
+        "line_number": 383,
+        "pattern": "password = \"hardcoded123!\"",
+        "confidence": "MEDIUM"
+      },
+      {
+        "secret_type": "generic_password",
+        "file_path": "tests/e2e/integration/test_auth_service_coverage.py",
+        "line_number": 387,
+        "pattern": "\"password\": \"injection\"",
+        "confidence": "MEDIUM"
+      },
+      {
+        "secret_type": "generic_password",
+        "file_path": "tests/e2e/lukhas/test_consciousness.py",
+        "line_number": 329,
+        "pattern": "\"password\": \"secret123\"",
+        "confidence": "MEDIUM"
+      },
+      {
+        "secret_type": "generic_password",
+        "file_path": "scripts/pentest_smoke.py",
+        "line_number": 353,
+        "pattern": "\"password\": \"anything\"",
+        "confidence": "MEDIUM"
+      },
+      {
+        "secret_type": "generic_password",
+        "file_path": "scripts/pentest_smoke.py",
+        "line_number": 363,
+        "pattern": "\"password\": \"password\"",
+        "confidence": "MEDIUM"
+      },
+      {
+        "secret_type": "generic_password",
+        "file_path": "scripts/abuse_tester.py",
+        "line_number": 118,
+        "pattern": "\"password\": \"anything\"",
+        "confidence": "MEDIUM"
+      },
+      {
+        "secret_type": "jwt_token",
+        "file_path": "scripts/abuse_tester.py",
+        "line_number": 431,
+        "pattern": "eyJhbGciOiJub25lIiwidHlwIjoiSldUIn0.eyJzdWIiOiJhZG...",
+        "confidence": "MEDIUM"
+      },
+      {
+        "secret_type": "jwt_token",
+        "file_path": "scripts/abuse_tester.py",
+        "line_number": 434,
+        "pattern": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZ...",
+        "confidence": "MEDIUM"
+      },
+      {
+        "secret_type": "jwt_token",
+        "file_path": "scripts/abuse_tester.py",
+        "line_number": 437,
+        "pattern": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ1c...",
+        "confidence": "MEDIUM"
+      },
+      {
+        "secret_type": "generic_password",
+        "file_path": "lukhas/identity/oidc_provider.py",
+        "line_number": 36,
+        "pattern": "PASSWORD = \"password\"",
+        "confidence": "MEDIUM"
+      },
+      {
+        "secret_type": "generic_password",
+        "file_path": "lukhas/identity/validation_schemas.py",
+        "line_number": 26,
+        "pattern": "PASSWORD = \"password\"",
+        "confidence": "MEDIUM"
+      },
+      {
+        "secret_type": "generic_password",
+        "file_path": "lukhas/identity/test_i5_integration.py",
+        "line_number": 334,
+        "pattern": "password=\"secure_admin_password\"",
+        "confidence": "MEDIUM"
+      },
+      {
+        "secret_type": "generic_password",
+        "file_path": "lukhas/identity/test_i5_integration.py",
+        "line_number": 350,
+        "pattern": "password=\"researcher_password\"",
+        "confidence": "MEDIUM"
+      },
+      {
+        "secret_type": "generic_password",
+        "file_path": "lukhas/security/encryption_manager.py",
+        "line_number": 885,
+        "pattern": "password = \"SuperSecurePassword123!\"",
+        "confidence": "MEDIUM"
+      },
+      {
+        "secret_type": "generic_password",
+        "file_path": "services/memory/api_service.py",
+        "line_number": 141,
+        "pattern": "'password': 'secure_password'",
+        "confidence": "MEDIUM"
+      }
+    ]
+  }
+}

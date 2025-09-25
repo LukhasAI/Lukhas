@@ -1,0 +1,1366 @@
+{
+  "scan_type": "abuse",
+  "timestamp": "2025-09-25T11:55:59.177391+00:00",
+  "git_sha": "5fa34e7979195d4e2ad54a34a66e27cb257b3d72",
+  "test_configuration": {
+    "base_url": "http://localhost:8000",
+    "endpoints_tested": 8,
+    "attack_types": [
+      "sql_injection",
+      "xss",
+      "authentication_bypass",
+      "jwt_manipulation",
+      "memory_exhaustion"
+    ],
+    "total_attacks_performed": 88
+  },
+  "security_findings": {
+    "total_attacks": 88,
+    "successful_attacks": 0,
+    "properly_blocked_attacks": 88,
+    "success_rate_percent": 0.0,
+    "blocking_rate_percent": 100.0,
+    "critical_vulnerabilities": 0
+  },
+  "attack_categories": {
+    "sql_injection": {
+      "total": 30,
+      "successful": 0,
+      "blocked": 30
+    },
+    "xss": {
+      "total": 35,
+      "successful": 0,
+      "blocked": 35
+    },
+    "authentication_bypass": {
+      "total": 12,
+      "successful": 0,
+      "blocked": 12
+    },
+    "jwt_manipulation": {
+      "total": 9,
+      "successful": 0,
+      "blocked": 9
+    },
+    "memory_exhaustion": {
+      "total": 2,
+      "successful": 0,
+      "blocked": 2
+    }
+  },
+  "rate_limiting_tests": {
+    "tests_performed": 3,
+    "rate_limiting_effective": false,
+    "average_blocked_percent": 0.0
+  },
+  "compliance_status": {
+    "deployment_safe": false,
+    "critical_vulnerabilities_found": false,
+    "rate_limiting_configured": false,
+    "input_validation_effective": true,
+    "authentication_secure": true,
+    "jwt_security_configured": true
+  },
+  "deployment_readiness": "BLOCKED",
+  "recommendations": [
+    "MEDIUM: Rate limiting not effective on all endpoints - implement rate limiting"
+  ],
+  "detailed_results": {
+    "attack_results": [
+      {
+        "attack_name": "SQL Injection - ' OR '1'='1",
+        "attack_type": "sql_injection",
+        "target_endpoint": "/oidc/.well-known/openid_configuration",
+        "payload": "' OR '1'='1",
+        "response_code": 0,
+        "response_time_ms": 0.3209114074707031,
+        "response_body": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('127.0.0.1', 8000), [Errno 61] Connect call failed ('::1', 8000, 0, 0)]",
+        "success": false,
+        "blocked_properly": true,
+        "details": {
+          "error": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('127.0.0.1', 8000), [Errno 61] Connect call failed ('::1', 8000, 0, 0)]",
+          "method": "GET"
+        }
+      },
+      {
+        "attack_name": "SQL Injection - '; DROP TABLE users;",
+        "attack_type": "sql_injection",
+        "target_endpoint": "/oidc/.well-known/openid_configuration",
+        "payload": "'; DROP TABLE users; --",
+        "response_code": 0,
+        "response_time_ms": 0.3237724304199219,
+        "response_body": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('::1', 8000, 0, 0), [Errno 61] Connect call failed ('127.0.0.1', 8000)]",
+        "success": false,
+        "blocked_properly": true,
+        "details": {
+          "error": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('::1', 8000, 0, 0), [Errno 61] Connect call failed ('127.0.0.1', 8000)]",
+          "method": "GET"
+        }
+      },
+      {
+        "attack_name": "SQL Injection - ' UNION SELECT * FRO",
+        "attack_type": "sql_injection",
+        "target_endpoint": "/oidc/.well-known/openid_configuration",
+        "payload": "' UNION SELECT * FROM users --",
+        "response_code": 0,
+        "response_time_ms": 0.3120899200439453,
+        "response_body": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('127.0.0.1', 8000), [Errno 61] Connect call failed ('::1', 8000, 0, 0)]",
+        "success": false,
+        "blocked_properly": true,
+        "details": {
+          "error": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('127.0.0.1', 8000), [Errno 61] Connect call failed ('::1', 8000, 0, 0)]",
+          "method": "GET"
+        }
+      },
+      {
+        "attack_name": "SQL Injection - admin'--",
+        "attack_type": "sql_injection",
+        "target_endpoint": "/oidc/.well-known/openid_configuration",
+        "payload": "admin'--",
+        "response_code": 0,
+        "response_time_ms": 0.308990478515625,
+        "response_body": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('::1', 8000, 0, 0), [Errno 61] Connect call failed ('127.0.0.1', 8000)]",
+        "success": false,
+        "blocked_properly": true,
+        "details": {
+          "error": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('::1', 8000, 0, 0), [Errno 61] Connect call failed ('127.0.0.1', 8000)]",
+          "method": "GET"
+        }
+      },
+      {
+        "attack_name": "SQL Injection - ' OR 1=1 #",
+        "attack_type": "sql_injection",
+        "target_endpoint": "/oidc/.well-known/openid_configuration",
+        "payload": "' OR 1=1 #",
+        "response_code": 0,
+        "response_time_ms": 0.3719329833984375,
+        "response_body": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('127.0.0.1', 8000), [Errno 61] Connect call failed ('::1', 8000, 0, 0)]",
+        "success": false,
+        "blocked_properly": true,
+        "details": {
+          "error": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('127.0.0.1', 8000), [Errno 61] Connect call failed ('::1', 8000, 0, 0)]",
+          "method": "GET"
+        }
+      },
+      {
+        "attack_name": "SQL Injection - \"; DROP TABLE users;",
+        "attack_type": "sql_injection",
+        "target_endpoint": "/oidc/.well-known/openid_configuration",
+        "payload": "\"; DROP TABLE users; --",
+        "response_code": 0,
+        "response_time_ms": 0.3879070281982422,
+        "response_body": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('::1', 8000, 0, 0), [Errno 61] Connect call failed ('127.0.0.1', 8000)]",
+        "success": false,
+        "blocked_properly": true,
+        "details": {
+          "error": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('::1', 8000, 0, 0), [Errno 61] Connect call failed ('127.0.0.1', 8000)]",
+          "method": "GET"
+        }
+      },
+      {
+        "attack_name": "SQL Injection - ' OR '1'='1",
+        "attack_type": "sql_injection",
+        "target_endpoint": "/api/v1/identity/profile",
+        "payload": "' OR '1'='1",
+        "response_code": 0,
+        "response_time_ms": 0.31304359436035156,
+        "response_body": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('127.0.0.1', 8000), [Errno 61] Connect call failed ('::1', 8000, 0, 0)]",
+        "success": false,
+        "blocked_properly": true,
+        "details": {
+          "error": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('127.0.0.1', 8000), [Errno 61] Connect call failed ('::1', 8000, 0, 0)]",
+          "method": "GET"
+        }
+      },
+      {
+        "attack_name": "SQL Injection - '; DROP TABLE users;",
+        "attack_type": "sql_injection",
+        "target_endpoint": "/api/v1/identity/profile",
+        "payload": "'; DROP TABLE users; --",
+        "response_code": 0,
+        "response_time_ms": 0.30612945556640625,
+        "response_body": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('::1', 8000, 0, 0), [Errno 61] Connect call failed ('127.0.0.1', 8000)]",
+        "success": false,
+        "blocked_properly": true,
+        "details": {
+          "error": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('::1', 8000, 0, 0), [Errno 61] Connect call failed ('127.0.0.1', 8000)]",
+          "method": "GET"
+        }
+      },
+      {
+        "attack_name": "SQL Injection - ' UNION SELECT * FRO",
+        "attack_type": "sql_injection",
+        "target_endpoint": "/api/v1/identity/profile",
+        "payload": "' UNION SELECT * FROM users --",
+        "response_code": 0,
+        "response_time_ms": 0.3001689910888672,
+        "response_body": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('127.0.0.1', 8000), [Errno 61] Connect call failed ('::1', 8000, 0, 0)]",
+        "success": false,
+        "blocked_properly": true,
+        "details": {
+          "error": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('127.0.0.1', 8000), [Errno 61] Connect call failed ('::1', 8000, 0, 0)]",
+          "method": "GET"
+        }
+      },
+      {
+        "attack_name": "SQL Injection - admin'--",
+        "attack_type": "sql_injection",
+        "target_endpoint": "/api/v1/identity/profile",
+        "payload": "admin'--",
+        "response_code": 0,
+        "response_time_ms": 0.2949237823486328,
+        "response_body": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('::1', 8000, 0, 0), [Errno 61] Connect call failed ('127.0.0.1', 8000)]",
+        "success": false,
+        "blocked_properly": true,
+        "details": {
+          "error": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('::1', 8000, 0, 0), [Errno 61] Connect call failed ('127.0.0.1', 8000)]",
+          "method": "GET"
+        }
+      },
+      {
+        "attack_name": "SQL Injection - ' OR 1=1 #",
+        "attack_type": "sql_injection",
+        "target_endpoint": "/api/v1/identity/profile",
+        "payload": "' OR 1=1 #",
+        "response_code": 0,
+        "response_time_ms": 0.2739429473876953,
+        "response_body": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('127.0.0.1', 8000), [Errno 61] Connect call failed ('::1', 8000, 0, 0)]",
+        "success": false,
+        "blocked_properly": true,
+        "details": {
+          "error": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('127.0.0.1', 8000), [Errno 61] Connect call failed ('::1', 8000, 0, 0)]",
+          "method": "GET"
+        }
+      },
+      {
+        "attack_name": "SQL Injection - \"; DROP TABLE users;",
+        "attack_type": "sql_injection",
+        "target_endpoint": "/api/v1/identity/profile",
+        "payload": "\"; DROP TABLE users; --",
+        "response_code": 0,
+        "response_time_ms": 0.2732276916503906,
+        "response_body": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('::1', 8000, 0, 0), [Errno 61] Connect call failed ('127.0.0.1', 8000)]",
+        "success": false,
+        "blocked_properly": true,
+        "details": {
+          "error": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('::1', 8000, 0, 0), [Errno 61] Connect call failed ('127.0.0.1', 8000)]",
+          "method": "GET"
+        }
+      },
+      {
+        "attack_name": "SQL Injection - ' OR '1'='1",
+        "attack_type": "sql_injection",
+        "target_endpoint": "/api/v1/auth/login",
+        "payload": "' OR '1'='1",
+        "response_code": 0,
+        "response_time_ms": 0.2841949462890625,
+        "response_body": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('127.0.0.1', 8000), [Errno 61] Connect call failed ('::1', 8000, 0, 0)]",
+        "success": false,
+        "blocked_properly": true,
+        "details": {
+          "error": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('127.0.0.1', 8000), [Errno 61] Connect call failed ('::1', 8000, 0, 0)]",
+          "method": "GET"
+        }
+      },
+      {
+        "attack_name": "SQL Injection - '; DROP TABLE users;",
+        "attack_type": "sql_injection",
+        "target_endpoint": "/api/v1/auth/login",
+        "payload": "'; DROP TABLE users; --",
+        "response_code": 0,
+        "response_time_ms": 0.3409385681152344,
+        "response_body": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('::1', 8000, 0, 0), [Errno 61] Connect call failed ('127.0.0.1', 8000)]",
+        "success": false,
+        "blocked_properly": true,
+        "details": {
+          "error": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('::1', 8000, 0, 0), [Errno 61] Connect call failed ('127.0.0.1', 8000)]",
+          "method": "GET"
+        }
+      },
+      {
+        "attack_name": "SQL Injection - ' UNION SELECT * FRO",
+        "attack_type": "sql_injection",
+        "target_endpoint": "/api/v1/auth/login",
+        "payload": "' UNION SELECT * FROM users --",
+        "response_code": 0,
+        "response_time_ms": 0.2722740173339844,
+        "response_body": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('127.0.0.1', 8000), [Errno 61] Connect call failed ('::1', 8000, 0, 0)]",
+        "success": false,
+        "blocked_properly": true,
+        "details": {
+          "error": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('127.0.0.1', 8000), [Errno 61] Connect call failed ('::1', 8000, 0, 0)]",
+          "method": "GET"
+        }
+      },
+      {
+        "attack_name": "SQL Injection - admin'--",
+        "attack_type": "sql_injection",
+        "target_endpoint": "/api/v1/auth/login",
+        "payload": "admin'--",
+        "response_code": 0,
+        "response_time_ms": 0.26917457580566406,
+        "response_body": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('::1', 8000, 0, 0), [Errno 61] Connect call failed ('127.0.0.1', 8000)]",
+        "success": false,
+        "blocked_properly": true,
+        "details": {
+          "error": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('::1', 8000, 0, 0), [Errno 61] Connect call failed ('127.0.0.1', 8000)]",
+          "method": "GET"
+        }
+      },
+      {
+        "attack_name": "SQL Injection - ' OR 1=1 #",
+        "attack_type": "sql_injection",
+        "target_endpoint": "/api/v1/auth/login",
+        "payload": "' OR 1=1 #",
+        "response_code": 0,
+        "response_time_ms": 0.2739429473876953,
+        "response_body": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('127.0.0.1', 8000), [Errno 61] Connect call failed ('::1', 8000, 0, 0)]",
+        "success": false,
+        "blocked_properly": true,
+        "details": {
+          "error": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('127.0.0.1', 8000), [Errno 61] Connect call failed ('::1', 8000, 0, 0)]",
+          "method": "GET"
+        }
+      },
+      {
+        "attack_name": "SQL Injection - \"; DROP TABLE users;",
+        "attack_type": "sql_injection",
+        "target_endpoint": "/api/v1/auth/login",
+        "payload": "\"; DROP TABLE users; --",
+        "response_code": 0,
+        "response_time_ms": 0.26917457580566406,
+        "response_body": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('::1', 8000, 0, 0), [Errno 61] Connect call failed ('127.0.0.1', 8000)]",
+        "success": false,
+        "blocked_properly": true,
+        "details": {
+          "error": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('::1', 8000, 0, 0), [Errno 61] Connect call failed ('127.0.0.1', 8000)]",
+          "method": "GET"
+        }
+      },
+      {
+        "attack_name": "SQL Injection - ' OR '1'='1",
+        "attack_type": "sql_injection",
+        "target_endpoint": "/api/v1/auth/token",
+        "payload": "' OR '1'='1",
+        "response_code": 0,
+        "response_time_ms": 0.3046989440917969,
+        "response_body": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('127.0.0.1', 8000), [Errno 61] Connect call failed ('::1', 8000, 0, 0)]",
+        "success": false,
+        "blocked_properly": true,
+        "details": {
+          "error": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('127.0.0.1', 8000), [Errno 61] Connect call failed ('::1', 8000, 0, 0)]",
+          "method": "GET"
+        }
+      },
+      {
+        "attack_name": "SQL Injection - '; DROP TABLE users;",
+        "attack_type": "sql_injection",
+        "target_endpoint": "/api/v1/auth/token",
+        "payload": "'; DROP TABLE users; --",
+        "response_code": 0,
+        "response_time_ms": 0.2970695495605469,
+        "response_body": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('::1', 8000, 0, 0), [Errno 61] Connect call failed ('127.0.0.1', 8000)]",
+        "success": false,
+        "blocked_properly": true,
+        "details": {
+          "error": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('::1', 8000, 0, 0), [Errno 61] Connect call failed ('127.0.0.1', 8000)]",
+          "method": "GET"
+        }
+      },
+      {
+        "attack_name": "SQL Injection - ' UNION SELECT * FRO",
+        "attack_type": "sql_injection",
+        "target_endpoint": "/api/v1/auth/token",
+        "payload": "' UNION SELECT * FROM users --",
+        "response_code": 0,
+        "response_time_ms": 0.2989768981933594,
+        "response_body": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('127.0.0.1', 8000), [Errno 61] Connect call failed ('::1', 8000, 0, 0)]",
+        "success": false,
+        "blocked_properly": true,
+        "details": {
+          "error": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('127.0.0.1', 8000), [Errno 61] Connect call failed ('::1', 8000, 0, 0)]",
+          "method": "GET"
+        }
+      },
+      {
+        "attack_name": "SQL Injection - admin'--",
+        "attack_type": "sql_injection",
+        "target_endpoint": "/api/v1/auth/token",
+        "payload": "admin'--",
+        "response_code": 0,
+        "response_time_ms": 0.3387928009033203,
+        "response_body": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('::1', 8000, 0, 0), [Errno 61] Connect call failed ('127.0.0.1', 8000)]",
+        "success": false,
+        "blocked_properly": true,
+        "details": {
+          "error": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('::1', 8000, 0, 0), [Errno 61] Connect call failed ('127.0.0.1', 8000)]",
+          "method": "GET"
+        }
+      },
+      {
+        "attack_name": "SQL Injection - ' OR 1=1 #",
+        "attack_type": "sql_injection",
+        "target_endpoint": "/api/v1/auth/token",
+        "payload": "' OR 1=1 #",
+        "response_code": 0,
+        "response_time_ms": 0.3058910369873047,
+        "response_body": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('127.0.0.1', 8000), [Errno 61] Connect call failed ('::1', 8000, 0, 0)]",
+        "success": false,
+        "blocked_properly": true,
+        "details": {
+          "error": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('127.0.0.1', 8000), [Errno 61] Connect call failed ('::1', 8000, 0, 0)]",
+          "method": "GET"
+        }
+      },
+      {
+        "attack_name": "SQL Injection - \"; DROP TABLE users;",
+        "attack_type": "sql_injection",
+        "target_endpoint": "/api/v1/auth/token",
+        "payload": "\"; DROP TABLE users; --",
+        "response_code": 0,
+        "response_time_ms": 0.2980232238769531,
+        "response_body": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('::1', 8000, 0, 0), [Errno 61] Connect call failed ('127.0.0.1', 8000)]",
+        "success": false,
+        "blocked_properly": true,
+        "details": {
+          "error": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('::1', 8000, 0, 0), [Errno 61] Connect call failed ('127.0.0.1', 8000)]",
+          "method": "GET"
+        }
+      },
+      {
+        "attack_name": "SQL Injection - ' OR '1'='1",
+        "attack_type": "sql_injection",
+        "target_endpoint": "/api/v1/health",
+        "payload": "' OR '1'='1",
+        "response_code": 0,
+        "response_time_ms": 0.3037452697753906,
+        "response_body": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('127.0.0.1', 8000), [Errno 61] Connect call failed ('::1', 8000, 0, 0)]",
+        "success": false,
+        "blocked_properly": true,
+        "details": {
+          "error": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('127.0.0.1', 8000), [Errno 61] Connect call failed ('::1', 8000, 0, 0)]",
+          "method": "GET"
+        }
+      },
+      {
+        "attack_name": "SQL Injection - '; DROP TABLE users;",
+        "attack_type": "sql_injection",
+        "target_endpoint": "/api/v1/health",
+        "payload": "'; DROP TABLE users; --",
+        "response_code": 0,
+        "response_time_ms": 0.2980232238769531,
+        "response_body": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('::1', 8000, 0, 0), [Errno 61] Connect call failed ('127.0.0.1', 8000)]",
+        "success": false,
+        "blocked_properly": true,
+        "details": {
+          "error": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('::1', 8000, 0, 0), [Errno 61] Connect call failed ('127.0.0.1', 8000)]",
+          "method": "GET"
+        }
+      },
+      {
+        "attack_name": "SQL Injection - ' UNION SELECT * FRO",
+        "attack_type": "sql_injection",
+        "target_endpoint": "/api/v1/health",
+        "payload": "' UNION SELECT * FROM users --",
+        "response_code": 0,
+        "response_time_ms": 0.3039836883544922,
+        "response_body": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('127.0.0.1', 8000), [Errno 61] Connect call failed ('::1', 8000, 0, 0)]",
+        "success": false,
+        "blocked_properly": true,
+        "details": {
+          "error": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('127.0.0.1', 8000), [Errno 61] Connect call failed ('::1', 8000, 0, 0)]",
+          "method": "GET"
+        }
+      },
+      {
+        "attack_name": "SQL Injection - admin'--",
+        "attack_type": "sql_injection",
+        "target_endpoint": "/api/v1/health",
+        "payload": "admin'--",
+        "response_code": 0,
+        "response_time_ms": 0.3120899200439453,
+        "response_body": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('::1', 8000, 0, 0), [Errno 61] Connect call failed ('127.0.0.1', 8000)]",
+        "success": false,
+        "blocked_properly": true,
+        "details": {
+          "error": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('::1', 8000, 0, 0), [Errno 61] Connect call failed ('127.0.0.1', 8000)]",
+          "method": "GET"
+        }
+      },
+      {
+        "attack_name": "SQL Injection - ' OR 1=1 #",
+        "attack_type": "sql_injection",
+        "target_endpoint": "/api/v1/health",
+        "payload": "' OR 1=1 #",
+        "response_code": 0,
+        "response_time_ms": 0.3020763397216797,
+        "response_body": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('127.0.0.1', 8000), [Errno 61] Connect call failed ('::1', 8000, 0, 0)]",
+        "success": false,
+        "blocked_properly": true,
+        "details": {
+          "error": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('127.0.0.1', 8000), [Errno 61] Connect call failed ('::1', 8000, 0, 0)]",
+          "method": "GET"
+        }
+      },
+      {
+        "attack_name": "SQL Injection - \"; DROP TABLE users;",
+        "attack_type": "sql_injection",
+        "target_endpoint": "/api/v1/health",
+        "payload": "\"; DROP TABLE users; --",
+        "response_code": 0,
+        "response_time_ms": 0.3521442413330078,
+        "response_body": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('::1', 8000, 0, 0), [Errno 61] Connect call failed ('127.0.0.1', 8000)]",
+        "success": false,
+        "blocked_properly": true,
+        "details": {
+          "error": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('::1', 8000, 0, 0), [Errno 61] Connect call failed ('127.0.0.1', 8000)]",
+          "method": "GET"
+        }
+      },
+      {
+        "attack_name": "XSS - <script>alert('XSS')</script>",
+        "attack_type": "xss",
+        "target_endpoint": "/oidc/.well-known/openid_configuration",
+        "payload": "<script>alert('XSS')</script>",
+        "response_code": 0,
+        "response_time_ms": 0.3108978271484375,
+        "response_body": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('127.0.0.1', 8000), [Errno 61] Connect call failed ('::1', 8000, 0, 0)]",
+        "success": false,
+        "blocked_properly": true,
+        "details": {
+          "error": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('127.0.0.1', 8000), [Errno 61] Connect call failed ('::1', 8000, 0, 0)]"
+        }
+      },
+      {
+        "attack_name": "XSS - javascript:alert('XSS')",
+        "attack_type": "xss",
+        "target_endpoint": "/oidc/.well-known/openid_configuration",
+        "payload": "javascript:alert('XSS')",
+        "response_code": 0,
+        "response_time_ms": 0.30732154846191406,
+        "response_body": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('::1', 8000, 0, 0), [Errno 61] Connect call failed ('127.0.0.1', 8000)]",
+        "success": false,
+        "blocked_properly": true,
+        "details": {
+          "error": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('::1', 8000, 0, 0), [Errno 61] Connect call failed ('127.0.0.1', 8000)]"
+        }
+      },
+      {
+        "attack_name": "XSS - <img src=x onerror=alert('XSS'",
+        "attack_type": "xss",
+        "target_endpoint": "/oidc/.well-known/openid_configuration",
+        "payload": "<img src=x onerror=alert('XSS')>",
+        "response_code": 0,
+        "response_time_ms": 0.31185150146484375,
+        "response_body": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('127.0.0.1', 8000), [Errno 61] Connect call failed ('::1', 8000, 0, 0)]",
+        "success": false,
+        "blocked_properly": true,
+        "details": {
+          "error": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('127.0.0.1', 8000), [Errno 61] Connect call failed ('::1', 8000, 0, 0)]"
+        }
+      },
+      {
+        "attack_name": "XSS - '\"><script>alert('XSS')</scrip",
+        "attack_type": "xss",
+        "target_endpoint": "/oidc/.well-known/openid_configuration",
+        "payload": "'\"><script>alert('XSS')</script>",
+        "response_code": 0,
+        "response_time_ms": 0.3159046173095703,
+        "response_body": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('::1', 8000, 0, 0), [Errno 61] Connect call failed ('127.0.0.1', 8000)]",
+        "success": false,
+        "blocked_properly": true,
+        "details": {
+          "error": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('::1', 8000, 0, 0), [Errno 61] Connect call failed ('127.0.0.1', 8000)]"
+        }
+      },
+      {
+        "attack_name": "XSS - <svg onload=alert('XSS')>",
+        "attack_type": "xss",
+        "target_endpoint": "/oidc/.well-known/openid_configuration",
+        "payload": "<svg onload=alert('XSS')>",
+        "response_code": 0,
+        "response_time_ms": 0.3120899200439453,
+        "response_body": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('127.0.0.1', 8000), [Errno 61] Connect call failed ('::1', 8000, 0, 0)]",
+        "success": false,
+        "blocked_properly": true,
+        "details": {
+          "error": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('127.0.0.1', 8000), [Errno 61] Connect call failed ('::1', 8000, 0, 0)]"
+        }
+      },
+      {
+        "attack_name": "XSS - {{7*7}}",
+        "attack_type": "xss",
+        "target_endpoint": "/oidc/.well-known/openid_configuration",
+        "payload": "{{7*7}}",
+        "response_code": 0,
+        "response_time_ms": 0.3116130828857422,
+        "response_body": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('::1', 8000, 0, 0), [Errno 61] Connect call failed ('127.0.0.1', 8000)]",
+        "success": false,
+        "blocked_properly": true,
+        "details": {
+          "error": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('::1', 8000, 0, 0), [Errno 61] Connect call failed ('127.0.0.1', 8000)]"
+        }
+      },
+      {
+        "attack_name": "XSS - ${7*7}",
+        "attack_type": "xss",
+        "target_endpoint": "/oidc/.well-known/openid_configuration",
+        "payload": "${7*7}",
+        "response_code": 0,
+        "response_time_ms": 0.3151893615722656,
+        "response_body": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('127.0.0.1', 8000), [Errno 61] Connect call failed ('::1', 8000, 0, 0)]",
+        "success": false,
+        "blocked_properly": true,
+        "details": {
+          "error": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('127.0.0.1', 8000), [Errno 61] Connect call failed ('::1', 8000, 0, 0)]"
+        }
+      },
+      {
+        "attack_name": "XSS - <script>alert('XSS')</script>",
+        "attack_type": "xss",
+        "target_endpoint": "/api/v1/identity/profile",
+        "payload": "<script>alert('XSS')</script>",
+        "response_code": 0,
+        "response_time_ms": 0.31495094299316406,
+        "response_body": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('::1', 8000, 0, 0), [Errno 61] Connect call failed ('127.0.0.1', 8000)]",
+        "success": false,
+        "blocked_properly": true,
+        "details": {
+          "error": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('::1', 8000, 0, 0), [Errno 61] Connect call failed ('127.0.0.1', 8000)]"
+        }
+      },
+      {
+        "attack_name": "XSS - javascript:alert('XSS')",
+        "attack_type": "xss",
+        "target_endpoint": "/api/v1/identity/profile",
+        "payload": "javascript:alert('XSS')",
+        "response_code": 0,
+        "response_time_ms": 0.34689903259277344,
+        "response_body": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('127.0.0.1', 8000), [Errno 61] Connect call failed ('::1', 8000, 0, 0)]",
+        "success": false,
+        "blocked_properly": true,
+        "details": {
+          "error": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('127.0.0.1', 8000), [Errno 61] Connect call failed ('::1', 8000, 0, 0)]"
+        }
+      },
+      {
+        "attack_name": "XSS - <img src=x onerror=alert('XSS'",
+        "attack_type": "xss",
+        "target_endpoint": "/api/v1/identity/profile",
+        "payload": "<img src=x onerror=alert('XSS')>",
+        "response_code": 0,
+        "response_time_ms": 0.2799034118652344,
+        "response_body": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('::1', 8000, 0, 0), [Errno 61] Connect call failed ('127.0.0.1', 8000)]",
+        "success": false,
+        "blocked_properly": true,
+        "details": {
+          "error": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('::1', 8000, 0, 0), [Errno 61] Connect call failed ('127.0.0.1', 8000)]"
+        }
+      },
+      {
+        "attack_name": "XSS - '\"><script>alert('XSS')</scrip",
+        "attack_type": "xss",
+        "target_endpoint": "/api/v1/identity/profile",
+        "payload": "'\"><script>alert('XSS')</script>",
+        "response_code": 0,
+        "response_time_ms": 0.2830028533935547,
+        "response_body": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('127.0.0.1', 8000), [Errno 61] Connect call failed ('::1', 8000, 0, 0)]",
+        "success": false,
+        "blocked_properly": true,
+        "details": {
+          "error": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('127.0.0.1', 8000), [Errno 61] Connect call failed ('::1', 8000, 0, 0)]"
+        }
+      },
+      {
+        "attack_name": "XSS - <svg onload=alert('XSS')>",
+        "attack_type": "xss",
+        "target_endpoint": "/api/v1/identity/profile",
+        "payload": "<svg onload=alert('XSS')>",
+        "response_code": 0,
+        "response_time_ms": 0.31495094299316406,
+        "response_body": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('::1', 8000, 0, 0), [Errno 61] Connect call failed ('127.0.0.1', 8000)]",
+        "success": false,
+        "blocked_properly": true,
+        "details": {
+          "error": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('::1', 8000, 0, 0), [Errno 61] Connect call failed ('127.0.0.1', 8000)]"
+        }
+      },
+      {
+        "attack_name": "XSS - {{7*7}}",
+        "attack_type": "xss",
+        "target_endpoint": "/api/v1/identity/profile",
+        "payload": "{{7*7}}",
+        "response_code": 0,
+        "response_time_ms": 0.3142356872558594,
+        "response_body": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('127.0.0.1', 8000), [Errno 61] Connect call failed ('::1', 8000, 0, 0)]",
+        "success": false,
+        "blocked_properly": true,
+        "details": {
+          "error": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('127.0.0.1', 8000), [Errno 61] Connect call failed ('::1', 8000, 0, 0)]"
+        }
+      },
+      {
+        "attack_name": "XSS - ${7*7}",
+        "attack_type": "xss",
+        "target_endpoint": "/api/v1/identity/profile",
+        "payload": "${7*7}",
+        "response_code": 0,
+        "response_time_ms": 0.28896331787109375,
+        "response_body": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('::1', 8000, 0, 0), [Errno 61] Connect call failed ('127.0.0.1', 8000)]",
+        "success": false,
+        "blocked_properly": true,
+        "details": {
+          "error": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('::1', 8000, 0, 0), [Errno 61] Connect call failed ('127.0.0.1', 8000)]"
+        }
+      },
+      {
+        "attack_name": "XSS - <script>alert('XSS')</script>",
+        "attack_type": "xss",
+        "target_endpoint": "/api/v1/auth/login",
+        "payload": "<script>alert('XSS')</script>",
+        "response_code": 0,
+        "response_time_ms": 0.29087066650390625,
+        "response_body": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('127.0.0.1', 8000), [Errno 61] Connect call failed ('::1', 8000, 0, 0)]",
+        "success": false,
+        "blocked_properly": true,
+        "details": {
+          "error": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('127.0.0.1', 8000), [Errno 61] Connect call failed ('::1', 8000, 0, 0)]"
+        }
+      },
+      {
+        "attack_name": "XSS - javascript:alert('XSS')",
+        "attack_type": "xss",
+        "target_endpoint": "/api/v1/auth/login",
+        "payload": "javascript:alert('XSS')",
+        "response_code": 0,
+        "response_time_ms": 0.2818107604980469,
+        "response_body": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('::1', 8000, 0, 0), [Errno 61] Connect call failed ('127.0.0.1', 8000)]",
+        "success": false,
+        "blocked_properly": true,
+        "details": {
+          "error": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('::1', 8000, 0, 0), [Errno 61] Connect call failed ('127.0.0.1', 8000)]"
+        }
+      },
+      {
+        "attack_name": "XSS - <img src=x onerror=alert('XSS'",
+        "attack_type": "xss",
+        "target_endpoint": "/api/v1/auth/login",
+        "payload": "<img src=x onerror=alert('XSS')>",
+        "response_code": 0,
+        "response_time_ms": 0.33211708068847656,
+        "response_body": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('127.0.0.1', 8000), [Errno 61] Connect call failed ('::1', 8000, 0, 0)]",
+        "success": false,
+        "blocked_properly": true,
+        "details": {
+          "error": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('127.0.0.1', 8000), [Errno 61] Connect call failed ('::1', 8000, 0, 0)]"
+        }
+      },
+      {
+        "attack_name": "XSS - '\"><script>alert('XSS')</scrip",
+        "attack_type": "xss",
+        "target_endpoint": "/api/v1/auth/login",
+        "payload": "'\"><script>alert('XSS')</script>",
+        "response_code": 0,
+        "response_time_ms": 0.27680397033691406,
+        "response_body": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('::1', 8000, 0, 0), [Errno 61] Connect call failed ('127.0.0.1', 8000)]",
+        "success": false,
+        "blocked_properly": true,
+        "details": {
+          "error": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('::1', 8000, 0, 0), [Errno 61] Connect call failed ('127.0.0.1', 8000)]"
+        }
+      },
+      {
+        "attack_name": "XSS - <svg onload=alert('XSS')>",
+        "attack_type": "xss",
+        "target_endpoint": "/api/v1/auth/login",
+        "payload": "<svg onload=alert('XSS')>",
+        "response_code": 0,
+        "response_time_ms": 0.2810955047607422,
+        "response_body": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('127.0.0.1', 8000), [Errno 61] Connect call failed ('::1', 8000, 0, 0)]",
+        "success": false,
+        "blocked_properly": true,
+        "details": {
+          "error": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('127.0.0.1', 8000), [Errno 61] Connect call failed ('::1', 8000, 0, 0)]"
+        }
+      },
+      {
+        "attack_name": "XSS - {{7*7}}",
+        "attack_type": "xss",
+        "target_endpoint": "/api/v1/auth/login",
+        "payload": "{{7*7}}",
+        "response_code": 0,
+        "response_time_ms": 0.28395652770996094,
+        "response_body": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('::1', 8000, 0, 0), [Errno 61] Connect call failed ('127.0.0.1', 8000)]",
+        "success": false,
+        "blocked_properly": true,
+        "details": {
+          "error": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('::1', 8000, 0, 0), [Errno 61] Connect call failed ('127.0.0.1', 8000)]"
+        }
+      },
+      {
+        "attack_name": "XSS - ${7*7}",
+        "attack_type": "xss",
+        "target_endpoint": "/api/v1/auth/login",
+        "payload": "${7*7}",
+        "response_code": 0,
+        "response_time_ms": 0.3170967102050781,
+        "response_body": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('127.0.0.1', 8000), [Errno 61] Connect call failed ('::1', 8000, 0, 0)]",
+        "success": false,
+        "blocked_properly": true,
+        "details": {
+          "error": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('127.0.0.1', 8000), [Errno 61] Connect call failed ('::1', 8000, 0, 0)]"
+        }
+      },
+      {
+        "attack_name": "XSS - <script>alert('XSS')</script>",
+        "attack_type": "xss",
+        "target_endpoint": "/api/v1/auth/token",
+        "payload": "<script>alert('XSS')</script>",
+        "response_code": 0,
+        "response_time_ms": 0.30684471130371094,
+        "response_body": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('::1', 8000, 0, 0), [Errno 61] Connect call failed ('127.0.0.1', 8000)]",
+        "success": false,
+        "blocked_properly": true,
+        "details": {
+          "error": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('::1', 8000, 0, 0), [Errno 61] Connect call failed ('127.0.0.1', 8000)]"
+        }
+      },
+      {
+        "attack_name": "XSS - javascript:alert('XSS')",
+        "attack_type": "xss",
+        "target_endpoint": "/api/v1/auth/token",
+        "payload": "javascript:alert('XSS')",
+        "response_code": 0,
+        "response_time_ms": 0.28705596923828125,
+        "response_body": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('127.0.0.1', 8000), [Errno 61] Connect call failed ('::1', 8000, 0, 0)]",
+        "success": false,
+        "blocked_properly": true,
+        "details": {
+          "error": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('127.0.0.1', 8000), [Errno 61] Connect call failed ('::1', 8000, 0, 0)]"
+        }
+      },
+      {
+        "attack_name": "XSS - <img src=x onerror=alert('XSS'",
+        "attack_type": "xss",
+        "target_endpoint": "/api/v1/auth/token",
+        "payload": "<img src=x onerror=alert('XSS')>",
+        "response_code": 0,
+        "response_time_ms": 0.2868175506591797,
+        "response_body": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('::1', 8000, 0, 0), [Errno 61] Connect call failed ('127.0.0.1', 8000)]",
+        "success": false,
+        "blocked_properly": true,
+        "details": {
+          "error": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('::1', 8000, 0, 0), [Errno 61] Connect call failed ('127.0.0.1', 8000)]"
+        }
+      },
+      {
+        "attack_name": "XSS - '\"><script>alert('XSS')</scrip",
+        "attack_type": "xss",
+        "target_endpoint": "/api/v1/auth/token",
+        "payload": "'\"><script>alert('XSS')</script>",
+        "response_code": 0,
+        "response_time_ms": 0.28324127197265625,
+        "response_body": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('127.0.0.1', 8000), [Errno 61] Connect call failed ('::1', 8000, 0, 0)]",
+        "success": false,
+        "blocked_properly": true,
+        "details": {
+          "error": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('127.0.0.1', 8000), [Errno 61] Connect call failed ('::1', 8000, 0, 0)]"
+        }
+      },
+      {
+        "attack_name": "XSS - <svg onload=alert('XSS')>",
+        "attack_type": "xss",
+        "target_endpoint": "/api/v1/auth/token",
+        "payload": "<svg onload=alert('XSS')>",
+        "response_code": 0,
+        "response_time_ms": 0.38123130798339844,
+        "response_body": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('::1', 8000, 0, 0), [Errno 61] Connect call failed ('127.0.0.1', 8000)]",
+        "success": false,
+        "blocked_properly": true,
+        "details": {
+          "error": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('::1', 8000, 0, 0), [Errno 61] Connect call failed ('127.0.0.1', 8000)]"
+        }
+      },
+      {
+        "attack_name": "XSS - {{7*7}}",
+        "attack_type": "xss",
+        "target_endpoint": "/api/v1/auth/token",
+        "payload": "{{7*7}}",
+        "response_code": 0,
+        "response_time_ms": 0.28896331787109375,
+        "response_body": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('127.0.0.1', 8000), [Errno 61] Connect call failed ('::1', 8000, 0, 0)]",
+        "success": false,
+        "blocked_properly": true,
+        "details": {
+          "error": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('127.0.0.1', 8000), [Errno 61] Connect call failed ('::1', 8000, 0, 0)]"
+        }
+      },
+      {
+        "attack_name": "XSS - ${7*7}",
+        "attack_type": "xss",
+        "target_endpoint": "/api/v1/auth/token",
+        "payload": "${7*7}",
+        "response_code": 0,
+        "response_time_ms": 0.2899169921875,
+        "response_body": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('::1', 8000, 0, 0), [Errno 61] Connect call failed ('127.0.0.1', 8000)]",
+        "success": false,
+        "blocked_properly": true,
+        "details": {
+          "error": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('::1', 8000, 0, 0), [Errno 61] Connect call failed ('127.0.0.1', 8000)]"
+        }
+      },
+      {
+        "attack_name": "XSS - <script>alert('XSS')</script>",
+        "attack_type": "xss",
+        "target_endpoint": "/api/v1/health",
+        "payload": "<script>alert('XSS')</script>",
+        "response_code": 0,
+        "response_time_ms": 0.28967857360839844,
+        "response_body": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('127.0.0.1', 8000), [Errno 61] Connect call failed ('::1', 8000, 0, 0)]",
+        "success": false,
+        "blocked_properly": true,
+        "details": {
+          "error": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('127.0.0.1', 8000), [Errno 61] Connect call failed ('::1', 8000, 0, 0)]"
+        }
+      },
+      {
+        "attack_name": "XSS - javascript:alert('XSS')",
+        "attack_type": "xss",
+        "target_endpoint": "/api/v1/health",
+        "payload": "javascript:alert('XSS')",
+        "response_code": 0,
+        "response_time_ms": 0.28896331787109375,
+        "response_body": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('::1', 8000, 0, 0), [Errno 61] Connect call failed ('127.0.0.1', 8000)]",
+        "success": false,
+        "blocked_properly": true,
+        "details": {
+          "error": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('::1', 8000, 0, 0), [Errno 61] Connect call failed ('127.0.0.1', 8000)]"
+        }
+      },
+      {
+        "attack_name": "XSS - <img src=x onerror=alert('XSS'",
+        "attack_type": "xss",
+        "target_endpoint": "/api/v1/health",
+        "payload": "<img src=x onerror=alert('XSS')>",
+        "response_code": 0,
+        "response_time_ms": 0.28705596923828125,
+        "response_body": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('127.0.0.1', 8000), [Errno 61] Connect call failed ('::1', 8000, 0, 0)]",
+        "success": false,
+        "blocked_properly": true,
+        "details": {
+          "error": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('127.0.0.1', 8000), [Errno 61] Connect call failed ('::1', 8000, 0, 0)]"
+        }
+      },
+      {
+        "attack_name": "XSS - '\"><script>alert('XSS')</scrip",
+        "attack_type": "xss",
+        "target_endpoint": "/api/v1/health",
+        "payload": "'\"><script>alert('XSS')</script>",
+        "response_code": 0,
+        "response_time_ms": 0.2970695495605469,
+        "response_body": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('::1', 8000, 0, 0), [Errno 61] Connect call failed ('127.0.0.1', 8000)]",
+        "success": false,
+        "blocked_properly": true,
+        "details": {
+          "error": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('::1', 8000, 0, 0), [Errno 61] Connect call failed ('127.0.0.1', 8000)]"
+        }
+      },
+      {
+        "attack_name": "XSS - <svg onload=alert('XSS')>",
+        "attack_type": "xss",
+        "target_endpoint": "/api/v1/health",
+        "payload": "<svg onload=alert('XSS')>",
+        "response_code": 0,
+        "response_time_ms": 0.29206275939941406,
+        "response_body": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('127.0.0.1', 8000), [Errno 61] Connect call failed ('::1', 8000, 0, 0)]",
+        "success": false,
+        "blocked_properly": true,
+        "details": {
+          "error": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('127.0.0.1', 8000), [Errno 61] Connect call failed ('::1', 8000, 0, 0)]"
+        }
+      },
+      {
+        "attack_name": "XSS - {{7*7}}",
+        "attack_type": "xss",
+        "target_endpoint": "/api/v1/health",
+        "payload": "{{7*7}}",
+        "response_code": 0,
+        "response_time_ms": 0.5509853363037109,
+        "response_body": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('::1', 8000, 0, 0), [Errno 61] Connect call failed ('127.0.0.1', 8000)]",
+        "success": false,
+        "blocked_properly": true,
+        "details": {
+          "error": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('::1', 8000, 0, 0), [Errno 61] Connect call failed ('127.0.0.1', 8000)]"
+        }
+      },
+      {
+        "attack_name": "XSS - ${7*7}",
+        "attack_type": "xss",
+        "target_endpoint": "/api/v1/health",
+        "payload": "${7*7}",
+        "response_code": 0,
+        "response_time_ms": 0.27179718017578125,
+        "response_body": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('127.0.0.1', 8000), [Errno 61] Connect call failed ('::1', 8000, 0, 0)]",
+        "success": false,
+        "blocked_properly": true,
+        "details": {
+          "error": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('127.0.0.1', 8000), [Errno 61] Connect call failed ('::1', 8000, 0, 0)]"
+        }
+      },
+      {
+        "attack_name": "Auth Bypass - admin",
+        "attack_type": "authentication_bypass",
+        "target_endpoint": "/api/v1/auth/login",
+        "payload": "{\"username\": \"admin\", \"password\": \"admin\"}",
+        "response_code": 0,
+        "response_time_ms": 0.3037452697753906,
+        "response_body": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('::1', 8000, 0, 0), [Errno 61] Connect call failed ('127.0.0.1', 8000)]",
+        "success": false,
+        "blocked_properly": true,
+        "details": {
+          "error": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('::1', 8000, 0, 0), [Errno 61] Connect call failed ('127.0.0.1', 8000)]"
+        }
+      },
+      {
+        "attack_name": "Auth Bypass - admin'--",
+        "attack_type": "authentication_bypass",
+        "target_endpoint": "/api/v1/auth/login",
+        "payload": "{\"username\": \"admin'--\", \"password\": \"anything\"}",
+        "response_code": 0,
+        "response_time_ms": 0.28705596923828125,
+        "response_body": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('127.0.0.1', 8000), [Errno 61] Connect call failed ('::1', 8000, 0, 0)]",
+        "success": false,
+        "blocked_properly": true,
+        "details": {
+          "error": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('127.0.0.1', 8000), [Errno 61] Connect call failed ('::1', 8000, 0, 0)]"
+        }
+      },
+      {
+        "attack_name": "Auth Bypass - ' OR '1'='1",
+        "attack_type": "authentication_bypass",
+        "target_endpoint": "/api/v1/auth/login",
+        "payload": "{\"username\": \"' OR '1'='1\", \"password\": \"' OR '1'='1\"}",
+        "response_code": 0,
+        "response_time_ms": 0.28514862060546875,
+        "response_body": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('::1', 8000, 0, 0), [Errno 61] Connect call failed ('127.0.0.1', 8000)]",
+        "success": false,
+        "blocked_properly": true,
+        "details": {
+          "error": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('::1', 8000, 0, 0), [Errno 61] Connect call failed ('127.0.0.1', 8000)]"
+        }
+      },
+      {
+        "attack_name": "Auth Bypass - test\"; DROP TABLE users; --",
+        "attack_type": "authentication_bypass",
+        "target_endpoint": "/api/v1/auth/login",
+        "payload": "{\"username\": \"test\\\"; DROP TABLE users; --\", \"password\": \"test\"}",
+        "response_code": 0,
+        "response_time_ms": 0.28705596923828125,
+        "response_body": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('127.0.0.1', 8000), [Errno 61] Connect call failed ('::1', 8000, 0, 0)]",
+        "success": false,
+        "blocked_properly": true,
+        "details": {
+          "error": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('127.0.0.1', 8000), [Errno 61] Connect call failed ('::1', 8000, 0, 0)]"
+        }
+      },
+      {
+        "attack_name": "Auth Bypass - admin",
+        "attack_type": "authentication_bypass",
+        "target_endpoint": "/api/v1/auth/token",
+        "payload": "{\"username\": \"admin\", \"password\": \"admin\"}",
+        "response_code": 0,
+        "response_time_ms": 0.2968311309814453,
+        "response_body": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('::1', 8000, 0, 0), [Errno 61] Connect call failed ('127.0.0.1', 8000)]",
+        "success": false,
+        "blocked_properly": true,
+        "details": {
+          "error": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('::1', 8000, 0, 0), [Errno 61] Connect call failed ('127.0.0.1', 8000)]"
+        }
+      },
+      {
+        "attack_name": "Auth Bypass - admin'--",
+        "attack_type": "authentication_bypass",
+        "target_endpoint": "/api/v1/auth/token",
+        "payload": "{\"username\": \"admin'--\", \"password\": \"anything\"}",
+        "response_code": 0,
+        "response_time_ms": 0.28204917907714844,
+        "response_body": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('127.0.0.1', 8000), [Errno 61] Connect call failed ('::1', 8000, 0, 0)]",
+        "success": false,
+        "blocked_properly": true,
+        "details": {
+          "error": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('127.0.0.1', 8000), [Errno 61] Connect call failed ('::1', 8000, 0, 0)]"
+        }
+      },
+      {
+        "attack_name": "Auth Bypass - ' OR '1'='1",
+        "attack_type": "authentication_bypass",
+        "target_endpoint": "/api/v1/auth/token",
+        "payload": "{\"username\": \"' OR '1'='1\", \"password\": \"' OR '1'='1\"}",
+        "response_code": 0,
+        "response_time_ms": 0.2791881561279297,
+        "response_body": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('::1', 8000, 0, 0), [Errno 61] Connect call failed ('127.0.0.1', 8000)]",
+        "success": false,
+        "blocked_properly": true,
+        "details": {
+          "error": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('::1', 8000, 0, 0), [Errno 61] Connect call failed ('127.0.0.1', 8000)]"
+        }
+      },
+      {
+        "attack_name": "Auth Bypass - test\"; DROP TABLE users; --",
+        "attack_type": "authentication_bypass",
+        "target_endpoint": "/api/v1/auth/token",
+        "payload": "{\"username\": \"test\\\"; DROP TABLE users; --\", \"password\": \"test\"}",
+        "response_code": 0,
+        "response_time_ms": 0.3540515899658203,
+        "response_body": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('127.0.0.1', 8000), [Errno 61] Connect call failed ('::1', 8000, 0, 0)]",
+        "success": false,
+        "blocked_properly": true,
+        "details": {
+          "error": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('127.0.0.1', 8000), [Errno 61] Connect call failed ('::1', 8000, 0, 0)]"
+        }
+      },
+      {
+        "attack_name": "Auth Bypass - admin",
+        "attack_type": "authentication_bypass",
+        "target_endpoint": "/oidc/auth",
+        "payload": "{\"username\": \"admin\", \"password\": \"admin\"}",
+        "response_code": 0,
+        "response_time_ms": 0.29277801513671875,
+        "response_body": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('::1', 8000, 0, 0), [Errno 61] Connect call failed ('127.0.0.1', 8000)]",
+        "success": false,
+        "blocked_properly": true,
+        "details": {
+          "error": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('::1', 8000, 0, 0), [Errno 61] Connect call failed ('127.0.0.1', 8000)]"
+        }
+      },
+      {
+        "attack_name": "Auth Bypass - admin'--",
+        "attack_type": "authentication_bypass",
+        "target_endpoint": "/oidc/auth",
+        "payload": "{\"username\": \"admin'--\", \"password\": \"anything\"}",
+        "response_code": 0,
+        "response_time_ms": 0.28324127197265625,
+        "response_body": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('127.0.0.1', 8000), [Errno 61] Connect call failed ('::1', 8000, 0, 0)]",
+        "success": false,
+        "blocked_properly": true,
+        "details": {
+          "error": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('127.0.0.1', 8000), [Errno 61] Connect call failed ('::1', 8000, 0, 0)]"
+        }
+      },
+      {
+        "attack_name": "Auth Bypass - ' OR '1'='1",
+        "attack_type": "authentication_bypass",
+        "target_endpoint": "/oidc/auth",
+        "payload": "{\"username\": \"' OR '1'='1\", \"password\": \"' OR '1'='1\"}",
+        "response_code": 0,
+        "response_time_ms": 0.2779960632324219,
+        "response_body": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('::1', 8000, 0, 0), [Errno 61] Connect call failed ('127.0.0.1', 8000)]",
+        "success": false,
+        "blocked_properly": true,
+        "details": {
+          "error": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('::1', 8000, 0, 0), [Errno 61] Connect call failed ('127.0.0.1', 8000)]"
+        }
+      },
+      {
+        "attack_name": "Auth Bypass - test\"; DROP TABLE users; --",
+        "attack_type": "authentication_bypass",
+        "target_endpoint": "/oidc/auth",
+        "payload": "{\"username\": \"test\\\"; DROP TABLE users; --\", \"password\": \"test\"}",
+        "response_code": 0,
+        "response_time_ms": 0.2701282501220703,
+        "response_body": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('127.0.0.1', 8000), [Errno 61] Connect call failed ('::1', 8000, 0, 0)]",
+        "success": false,
+        "blocked_properly": true,
+        "details": {
+          "error": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('127.0.0.1', 8000), [Errno 61] Connect call failed ('::1', 8000, 0, 0)]"
+        }
+      },
+      {
+        "attack_name": "JWT Manipulation - eyJhbGciOiJub25lIiwidHlwIjoiSl...",
+        "attack_type": "jwt_manipulation",
+        "target_endpoint": "/api/v1/auth/login",
+        "payload": "eyJhbGciOiJub25lIiwidHlwIjoiSldUIn0.eyJzdWIiOiJhZG1pbiIsImV4cCI6OTk5OTk5OTk5OX0.",
+        "response_code": 0,
+        "response_time_ms": 0.2689361572265625,
+        "response_body": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('::1', 8000, 0, 0), [Errno 61] Connect call failed ('127.0.0.1', 8000)]",
+        "success": false,
+        "blocked_properly": true,
+        "details": {
+          "error": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('::1', 8000, 0, 0), [Errno 61] Connect call failed ('127.0.0.1', 8000)]"
+        }
+      },
+      {
+        "attack_name": "JWT Manipulation - eyJhbGciOiJIUzI1NiIsInR5cCI6Ik...",
+        "attack_type": "jwt_manipulation",
+        "target_endpoint": "/api/v1/auth/login",
+        "payload": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbiIsInJvbGUiOiJhZG1pbiIsImV4cCI6OTk5OTk5OTk5OX0.invalid_signature",
+        "response_code": 0,
+        "response_time_ms": 0.270843505859375,
+        "response_body": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('127.0.0.1', 8000), [Errno 61] Connect call failed ('::1', 8000, 0, 0)]",
+        "success": false,
+        "blocked_properly": true,
+        "details": {
+          "error": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('127.0.0.1', 8000), [Errno 61] Connect call failed ('::1', 8000, 0, 0)]"
+        }
+      },
+      {
+        "attack_name": "JWT Manipulation - eyJhbGciOiJIUzI1NiIsInR5cCI6Ik...",
+        "attack_type": "jwt_manipulation",
+        "target_endpoint": "/api/v1/auth/login",
+        "payload": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ1c2VyIiwiZXhwIjoxfQ.invalid_signature",
+        "response_code": 0,
+        "response_time_ms": 0.2789497375488281,
+        "response_body": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('::1', 8000, 0, 0), [Errno 61] Connect call failed ('127.0.0.1', 8000)]",
+        "success": false,
+        "blocked_properly": true,
+        "details": {
+          "error": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('::1', 8000, 0, 0), [Errno 61] Connect call failed ('127.0.0.1', 8000)]"
+        }
+      },
+      {
+        "attack_name": "JWT Manipulation - eyJhbGciOiJub25lIiwidHlwIjoiSl...",
+        "attack_type": "jwt_manipulation",
+        "target_endpoint": "/api/v1/auth/token",
+        "payload": "eyJhbGciOiJub25lIiwidHlwIjoiSldUIn0.eyJzdWIiOiJhZG1pbiIsImV4cCI6OTk5OTk5OTk5OX0.",
+        "response_code": 0,
+        "response_time_ms": 0.28395652770996094,
+        "response_body": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('127.0.0.1', 8000), [Errno 61] Connect call failed ('::1', 8000, 0, 0)]",
+        "success": false,
+        "blocked_properly": true,
+        "details": {
+          "error": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('127.0.0.1', 8000), [Errno 61] Connect call failed ('::1', 8000, 0, 0)]"
+        }
+      },
+      {
+        "attack_name": "JWT Manipulation - eyJhbGciOiJIUzI1NiIsInR5cCI6Ik...",
+        "attack_type": "jwt_manipulation",
+        "target_endpoint": "/api/v1/auth/token",
+        "payload": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbiIsInJvbGUiOiJhZG1pbiIsImV4cCI6OTk5OTk5OTk5OX0.invalid_signature",
+        "response_code": 0,
+        "response_time_ms": 0.36597251892089844,
+        "response_body": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('::1', 8000, 0, 0), [Errno 61] Connect call failed ('127.0.0.1', 8000)]",
+        "success": false,
+        "blocked_properly": true,
+        "details": {
+          "error": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('::1', 8000, 0, 0), [Errno 61] Connect call failed ('127.0.0.1', 8000)]"
+        }
+      },
+      {
+        "attack_name": "JWT Manipulation - eyJhbGciOiJIUzI1NiIsInR5cCI6Ik...",
+        "attack_type": "jwt_manipulation",
+        "target_endpoint": "/api/v1/auth/token",
+        "payload": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ1c2VyIiwiZXhwIjoxfQ.invalid_signature",
+        "response_code": 0,
+        "response_time_ms": 0.2701282501220703,
+        "response_body": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('127.0.0.1', 8000), [Errno 61] Connect call failed ('::1', 8000, 0, 0)]",
+        "success": false,
+        "blocked_properly": true,
+        "details": {
+          "error": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('127.0.0.1', 8000), [Errno 61] Connect call failed ('::1', 8000, 0, 0)]"
+        }
+      },
+      {
+        "attack_name": "JWT Manipulation - eyJhbGciOiJub25lIiwidHlwIjoiSl...",
+        "attack_type": "jwt_manipulation",
+        "target_endpoint": "/api/v1/memory/search",
+        "payload": "eyJhbGciOiJub25lIiwidHlwIjoiSldUIn0.eyJzdWIiOiJhZG1pbiIsImV4cCI6OTk5OTk5OTk5OX0.",
+        "response_code": 0,
+        "response_time_ms": 0.2796649932861328,
+        "response_body": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('::1', 8000, 0, 0), [Errno 61] Connect call failed ('127.0.0.1', 8000)]",
+        "success": false,
+        "blocked_properly": true,
+        "details": {
+          "error": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('::1', 8000, 0, 0), [Errno 61] Connect call failed ('127.0.0.1', 8000)]"
+        }
+      },
+      {
+        "attack_name": "JWT Manipulation - eyJhbGciOiJIUzI1NiIsInR5cCI6Ik...",
+        "attack_type": "jwt_manipulation",
+        "target_endpoint": "/api/v1/memory/search",
+        "payload": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbiIsInJvbGUiOiJhZG1pbiIsImV4cCI6OTk5OTk5OTk5OX0.invalid_signature",
+        "response_code": 0,
+        "response_time_ms": 0.2770423889160156,
+        "response_body": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('127.0.0.1', 8000), [Errno 61] Connect call failed ('::1', 8000, 0, 0)]",
+        "success": false,
+        "blocked_properly": true,
+        "details": {
+          "error": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('127.0.0.1', 8000), [Errno 61] Connect call failed ('::1', 8000, 0, 0)]"
+        }
+      },
+      {
+        "attack_name": "JWT Manipulation - eyJhbGciOiJIUzI1NiIsInR5cCI6Ik...",
+        "attack_type": "jwt_manipulation",
+        "target_endpoint": "/api/v1/memory/search",
+        "payload": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ1c2VyIiwiZXhwIjoxfQ.invalid_signature",
+        "response_code": 0,
+        "response_time_ms": 0.28204917907714844,
+        "response_body": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('::1', 8000, 0, 0), [Errno 61] Connect call failed ('127.0.0.1', 8000)]",
+        "success": false,
+        "blocked_properly": true,
+        "details": {
+          "error": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('::1', 8000, 0, 0), [Errno 61] Connect call failed ('127.0.0.1', 8000)]"
+        }
+      },
+      {
+        "attack_name": "Memory Exhaustion - Large Payload",
+        "attack_type": "memory_exhaustion",
+        "target_endpoint": "/api/v1/memory/search",
+        "payload": "Large payload (10485760 bytes)",
+        "response_code": 0,
+        "response_time_ms": 36.06390953063965,
+        "response_body": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('127.0.0.1', 8000), [Errno 61] Connect call failed ('::1', 8000, 0, 0)]",
+        "success": false,
+        "blocked_properly": true,
+        "details": {
+          "error": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('127.0.0.1', 8000), [Errno 61] Connect call failed ('::1', 8000, 0, 0)]",
+          "timeout_protection": false
+        }
+      },
+      {
+        "attack_name": "Memory Exhaustion - Large Payload",
+        "attack_type": "memory_exhaustion",
+        "target_endpoint": "/api/v1/consciousness/process",
+        "payload": "Large payload (10485760 bytes)",
+        "response_code": 0,
+        "response_time_ms": 31.605005264282227,
+        "response_body": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('::1', 8000, 0, 0), [Errno 61] Connect call failed ('127.0.0.1', 8000)]",
+        "success": false,
+        "blocked_properly": true,
+        "details": {
+          "error": "Cannot connect to host localhost:8000 ssl:default [Multiple exceptions: [Errno 61] Connect call failed ('::1', 8000, 0, 0), [Errno 61] Connect call failed ('127.0.0.1', 8000)]",
+          "timeout_protection": false
+        }
+      }
+    ],
+    "rate_limit_results": [
+      {
+        "endpoint": "/oidc/.well-known/openid_configuration",
+        "requests_per_second": 50,
+        "total_requests": 250,
+        "successful_requests": 250,
+        "blocked_requests": 0,
+        "average_response_time": 15.620698928833008,
+        "rate_limit_triggered": false
+      },
+      {
+        "endpoint": "/api/v1/identity/profile",
+        "requests_per_second": 50,
+        "total_requests": 250,
+        "successful_requests": 250,
+        "blocked_requests": 0,
+        "average_response_time": 17.60946559906006,
+        "rate_limit_triggered": false
+      },
+      {
+        "endpoint": "/api/v1/auth/login",
+        "requests_per_second": 50,
+        "total_requests": 250,
+        "successful_requests": 250,
+        "blocked_requests": 0,
+        "average_response_time": 18.393383979797363,
+        "rate_limit_triggered": false
+      }
+    ]
+  }
+}

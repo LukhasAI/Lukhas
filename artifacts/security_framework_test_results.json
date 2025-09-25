@@ -1,0 +1,131 @@
+{
+  "timestamp": "2025-09-25T11:57:18.617235+00:00",
+  "project_root": "/Users/agi_dev/LOCAL-REPOS/Lukhas",
+  "artifacts_dir": "/var/folders/x0/nwzv169j7vs2bp580bwfrd480000gn/T/tmpd36rj4_a/artifacts",
+  "tests": [
+    {
+      "name": "Security Policy Validation",
+      "success": true,
+      "details": "Policy loaded successfully with 15 sections"
+    },
+    {
+      "command": "python3 scripts/security_sbom_generator.py --project-root /Users/agi_dev/LOCAL-REPOS/Lukhas --output-dir /var/folders/x0/nwzv169j7vs2bp580bwfrd480000gn/T/tmpd36rj4_a/artifacts",
+      "description": "SBOM Generation",
+      "exit_code": 1,
+      "stdout": "\ud83d\ude80 LUKHAS Security SBOM Generator v1.0.0\n\ud83d\udcc1 Project Root: /Users/agi_dev/LOCAL-REPOS/Lukhas\n\ud83d\udcc2 Output Directory: /var/folders/x0/nwzv169j7vs2bp580bwfrd480000gn/T/tmpd36rj4_a/artifacts\n\u23f0 Timestamp: 20250925_125718\n\ud83d\udd0d Analyzing project dependencies...\n\ud83d\udcca Found 1673 components\n\ud83d\udcbe SBOM saved to: /var/folders/x0/nwzv169j7vs2bp580bwfrd480000gn/T/tmpd36rj4_a/artifacts/lukhas-sbom-20250925_125718.json\n\n\ud83d\udee1\ufe0f  Security Analysis Summary:\n   Total Components: 1673\n   Vulnerable Components: 0\n   Unlicensed Components: 1673\n   Critical Vulnerabilities: 0\n   High Vulnerabilities: 0\n   License Compliant: \u274c\n   Vulnerability Free: \u2705\n   Deployment Approved: \u274c\n\n\u274c DEPLOYMENT BLOCKED: Security compliance issues detected\n   - Unlicensed components found\n",
+      "stderr": "/Users/agi_dev/LOCAL-REPOS/Lukhas/scripts/security_sbom_generator.py:17: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.\n  import pkg_resources\n",
+      "success": false
+    },
+    {
+      "name": "SBOM Output Validation",
+      "success": true,
+      "details": {
+        "valid": true,
+        "missing_fields": [],
+        "data_structure": [
+          "bomFormat",
+          "specVersion",
+          "serialNumber",
+          "version",
+          "metadata",
+          "components"
+        ]
+      }
+    },
+    {
+      "command": "python3 scripts/security_scanner.py --project-root /Users/agi_dev/LOCAL-REPOS/Lukhas --output-dir /var/folders/x0/nwzv169j7vs2bp580bwfrd480000gn/T/tmpd36rj4_a/artifacts",
+      "description": "Security Scanner",
+      "exit_code": 0,
+      "stdout": "\ud83d\ude80 Starting LUKHAS comprehensive security scan...\n\ud83d\udcc1 Project: /Users/agi_dev/LOCAL-REPOS/Lukhas\n\u23f0 Timestamp: 2025-09-25T11:57:19.481403+00:00\n\ud83d\udd0d Running Semgrep static analysis...\n\u26a0\ufe0f  Semgrep not installed. Install with: pip install semgrep\n\ud83d\udd0d Running Bandit security linting...\n\u26a0\ufe0f  Bandit not installed. Install with: pip install bandit\n\ud83d\udd0d Running dependency vulnerability scan...\n\u26a0\ufe0f  Safety not installed. Install with: pip install safety\n\ud83d\udd0d Running secrets detection scan...\n\u26a0\ufe0f  Error scanning /Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/core/interfaces/api/v1/grpc/lukhas_pb2.py: [Errno 2] No such file or directory: '/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/core/interfaces/api/v1/grpc/lukhas_pb2.py'\n\u26a0\ufe0f  Error scanning /Users/agi_dev/LOCAL-REPOS/Lukhas/quarantine/critical/override_logic.py: 'utf-8' codec can't decode byte 0x9b in position 109: invalid start byte\n\u26a0\ufe0f  Error scanning /Users/agi_dev/LOCAL-REPOS/Lukhas/quarantine/encoding/lambda_products_gpt_adapter.py: 'utf-8' codec can't decode byte 0x9b in position 90: invalid start byte\n\n\ud83d\udcca Security Scan Results:\n   Static Analysis Findings: 0\n   Vulnerability Findings: 0\n   Secret Findings: 33\n   Deployment Status: APPROVED\n\ud83d\udcbe Report saved to: /var/folders/x0/nwzv169j7vs2bp580bwfrd480000gn/T/tmpd36rj4_a/artifacts/security-scan-20250925_125740.json\n\n\u2705 SECURITY SCAN PASSED: No critical security issues detected\n",
+      "stderr": "",
+      "success": true
+    },
+    {
+      "name": "Security Scanner Output Validation",
+      "success": true,
+      "details": {
+        "valid": true,
+        "missing_fields": [],
+        "data_structure": [
+          "scan_type",
+          "timestamp",
+          "git_sha",
+          "scanner_info",
+          "security_findings",
+          "compliance_status",
+          "deployment_readiness",
+          "recommendations",
+          "findings_details"
+        ]
+      }
+    },
+    {
+      "command": "python3 scripts/abuse_tester.py --base-url http://localhost:8000 --output-dir /var/folders/x0/nwzv169j7vs2bp580bwfrd480000gn/T/tmpd36rj4_a/artifacts",
+      "description": "Abuse Testing (Mock Mode)",
+      "exit_code": 1,
+      "stdout": "\ud83d\ude80 Starting LUKHAS comprehensive abuse testing...\n\ud83c\udfaf Target: http://localhost:8000\n\u23f0 Timestamp: 2025-09-25T11:57:40.511976+00:00\n\ud83d\udd0d Discovering endpoints...\n\ud83d\udcca Found 10 endpoints to test\n\u2694\ufe0f  Running SQL injection tests...\n\ud83d\udd77\ufe0f  Running XSS tests...\n\ud83d\udd13 Running authentication bypass tests...\n\ud83c\udfad Running JWT manipulation tests...\n\ud83d\udca5 Running memory exhaustion tests...\n\ud83d\udea6 Running rate limiting tests...\n\ud83d\ude80 Testing rate limiting: /oidc/auth (50 req/s)\n\ud83d\ude80 Testing rate limiting: /api/v1/auth/login (50 req/s)\n\ud83d\ude80 Testing rate limiting: /api/v1/guardian/validate (50 req/s)\n\n\ud83d\udcca Abuse Test Results:\n   Total Attacks: 88\n   Successful Attacks: 0\n   Critical Vulnerabilities: 0\n   Rate Limiting Effective: \u274c\n   Deployment Status: BLOCKED\n\ud83d\udcbe Report saved to: /var/folders/x0/nwzv169j7vs2bp580bwfrd480000gn/T/tmpd36rj4_a/artifacts/abuse-test-20250925_125755.json\n\n\u274c ABUSE TESTING FAILED: Critical security vulnerabilities detected\n   Review findings and fix vulnerabilities before deployment\n",
+      "stderr": "",
+      "success": false
+    },
+    {
+      "name": "Abuse Tester Output Validation",
+      "success": true,
+      "details": {
+        "valid": true,
+        "missing_fields": [],
+        "data_structure": [
+          "scan_type",
+          "timestamp",
+          "git_sha",
+          "test_configuration",
+          "security_findings",
+          "attack_categories",
+          "rate_limiting_tests",
+          "compliance_status",
+          "deployment_readiness",
+          "recommendations",
+          "detailed_results"
+        ]
+      }
+    },
+    {
+      "name": "Artifact Generation",
+      "success": true,
+      "details": {
+        "lukhas-sbom-*.json": {
+          "files_found": 1,
+          "files": [
+            "lukhas-sbom-20250925_125718.json"
+          ]
+        },
+        "security-scan-*.json": {
+          "files_found": 1,
+          "files": [
+            "security-scan-20250925_125740.json"
+          ]
+        },
+        "abuse-test-*.json": {
+          "files_found": 1,
+          "files": [
+            "abuse-test-20250925_125755.json"
+          ]
+        }
+      }
+    },
+    {
+      "name": "CI Workflow Configuration",
+      "success": true,
+      "details": {
+        "required_jobs": [
+          "security-sbom-generation",
+          "security-static-analysis",
+          "security-abuse-testing",
+          "security-validation-summary"
+        ],
+        "missing_jobs": [],
+        "workflow_length": 2177
+      }
+    }
+  ],
+  "overall_success": false
+}
