@@ -45,6 +45,20 @@ except ImportError:
     SCHEMA_VALIDATION = False
     logger.warning("jsonschema not available - schema validation disabled")
 
+# Import EthicalSeverity
+from .guardian.core import EthicalSeverity
+
+
+class GuardianJSONEncoder(json.JSONEncoder):
+    """Custom JSON encoder for Guardian types"""
+
+    def default(self, obj):
+        if isinstance(obj, EthicalSeverity):
+            return obj.value
+        if isinstance(obj, Enum):
+            return obj.value
+        return super().default(obj)
+
 
 class DecisionStatus(Enum):
     """Guardian decision status enum - fail-closed design."""
@@ -319,6 +333,7 @@ class GuardianSystem:
         canonical_json = json.dumps(
             envelope,
             separators=(",", ":"),
+            cls=GuardianJSONEncoder,
             sort_keys=True,
             ensure_ascii=False
         ).encode("utf-8")
@@ -406,6 +421,7 @@ class GuardianSystem:
             canonical_json = json.dumps(
                 envelope_for_hash,
                 separators=(",", ":"),
+                cls=GuardianJSONEncoder,
                 sort_keys=True,
                 ensure_ascii=False
             ).encode("utf-8")

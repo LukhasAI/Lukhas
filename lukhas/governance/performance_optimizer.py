@@ -492,27 +492,27 @@ class PerformanceOptimizer:
     def precompile_common_patterns(self) -> None:
         """Precompile common validation patterns"""
         # Guardian decision validation
+        guardian_required_fields = {"schema_version", "decision", "subject", "context", "metrics", "enforcement", "audit", "integrity"}
         def guardian_decision_validator(data: Dict[str, Any]) -> Dict[str, bool]:
-            required_fields = {"schema_version", "decision", "subject", "context", "metrics", "enforcement", "audit", "integrity"}
-            missing_fields = required_fields - set(data.keys())
+            missing_fields = guardian_required_fields - set(data.keys())
             return {
                 "is_valid": len(missing_fields) == 0,
                 "missing_fields": list(missing_fields)
             }
 
-        guardian_decision_validator._required_fields = required_fields
+        guardian_decision_validator._required_fields = guardian_required_fields
         self.compiled_validator.compile_pattern("guardian_decision", guardian_decision_validator)
 
         # Subject validation
+        subject_required_fields = {"correlation_id", "actor", "operation"}
         def subject_validator(data: Dict[str, Any]) -> Dict[str, bool]:
-            required_fields = {"correlation_id", "actor", "operation"}
-            missing_fields = required_fields - set(data.keys())
+            missing_fields = subject_required_fields - set(data.keys())
             return {
                 "is_valid": len(missing_fields) == 0,
                 "missing_fields": list(missing_fields)
             }
 
-        subject_validator._required_fields = required_fields
+        subject_validator._required_fields = subject_required_fields
         self.compiled_validator.compile_pattern("subject", subject_validator)
 
         logger.info("Precompiled common validation patterns")

@@ -803,9 +803,8 @@ class ConsciousnessGuardianIntegration:
                 enforcement=enforcement,
                 audit=audit,
                 reasons=[{
-                    "category": "consciousness_validation",
-                    "description": result.reason,
-                    "confidence": result.confidence
+                    "code": "CONSCIOUSNESS_VALIDATION",
+                    "message": result.reason
                 }]
             )
 

@@ -21,6 +21,10 @@ class EthicalSeverity(Enum):
     HIGH = "high"
     CRITICAL = "critical"
 
+    def __json__(self):
+        """JSON serialization support"""
+        return self.value
+
 
 @dataclass
 class GovernanceAction:

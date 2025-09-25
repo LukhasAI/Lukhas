@@ -113,7 +113,7 @@
         },
         "lane": {
           "type": "string",
-          "enum": ["candidate", "integration", "production", "canary"]
+          "enum": ["candidate", "lukhas", "MATRIZ", "integration", "production", "canary", "experimental"]
         },
         "canary_percent": {
           "type": "number",
