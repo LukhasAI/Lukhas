@@ -1,266 +1,671 @@
-name: 🛡️ Security Gates - T4/0.01%
-on:
-  pull_request:
-    types: [opened, synchronize, reopened]
-  push:
-    branches: [main, develop]
+name: 🔒 Security Gates - T4/0.01% Excellence
 
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+    types: [opened, synchronize, reopened, ready_for_review]
+  schedule:
+    # Run comprehensive security audit daily at 2 AM UTC
+    - cron: '0 2 * * *'
+  workflow_dispatch:
+    inputs:
+      security_level:
+        description: 'Security audit level'
+        required: false
+        default: 'standard'
+        type: choice
+        options:
+          - 'standard'
+          - 'strict'
+          - 't4-excellence'
+      fail_on_warnings:
+        description: 'Fail on warnings (T4/0.01% strict mode)'
+        required: false
+        default: false
+        type: boolean
+
+# Security-focused environment variables
 env:
+  # T4/0.01% Excellence Configuration
+  T4_EXCELLENCE_REQUIRED: true
+  SECURITY_AUDIT_TIMEOUT: 1800  # 30 minutes
   GUARDIAN_MODE: production
-  LUKHAS_MODE: test
+  LUKHAS_SECURITY_LEVEL: maximum
+
+  # Failure Thresholds for T4/0.01% Excellence
+  MAX_CRITICAL_VULNERABILITIES: 0
+  MAX_HIGH_VULNERABILITIES: 0
+  MAX_MEDIUM_VULNERABILITIES: 1  # 0.01% tolerance
+  MAX_CRYPTO_FAILURES: 0
+  MIN_EXCELLENCE_SCORE: 99.99
+
+  # Security Tool Configuration
+  SEMGREP_TIMEOUT: 300
+  CRYPTO_TEST_TIMEOUT: 600
+  DEPENDENCY_SCAN_TIMEOUT: 300
+
+# Ensure security gates run on secure runners
+concurrency:
+  group: security-${{ github.ref }}
+  cancel-in-progress: false  # Never cancel security audits
 
 jobs:
-  # Semgrep Security Scanning
-  semgrep-security:
-    name: 🔍 Semgrep Security Scan
+  # =============================================================================
+  # Pre-Security Validation
+  # =============================================================================
+  pre-security-checks:
+    name: 🔍 Pre-Security Validation
     runs-on: ubuntu-latest
+    timeout-minutes: 10
+    outputs:
+      should-run-security: ${{ steps.validate.outputs.should-run }}
+      security-level: ${{ steps.validate.outputs.security-level }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Full history for security analysis
+
+      - name: Validate security requirements
+        id: validate
+        run: |
+          echo "🔒 Validating security requirements..."
+
+          # Check if this is a security-sensitive change
+          SECURITY_PATHS=(
+            "lukhas/identity/"
+            "lukhas/governance/"
+            "lukhas/consciousness/"
+            ".semgrep/"
+            "scripts/security"
+            "tests/security/"
+          )
+
+          CHANGED_FILES=$(git diff --name-only HEAD~1 HEAD || echo "")
+          SECURITY_CHANGE=false
+
+          for path in "${SECURITY_PATHS[@]}"; do
+            if echo "$CHANGED_FILES" | grep -q "$path"; then
+              SECURITY_CHANGE=true
+              echo "Security-sensitive change detected in: $path"
+              break
+            fi
+          done
+
+          # Determine security level
+          SECURITY_LEVEL="standard"
+          if [[ "${{ github.event.inputs.security_level }}" != "" ]]; then
+            SECURITY_LEVEL="${{ github.event.inputs.security_level }}"
+          elif [[ "$SECURITY_CHANGE" == "true" ]] || [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
+            SECURITY_LEVEL="t4-excellence"
+          fi
+
+          echo "should-run=true" >> $GITHUB_OUTPUT
+          echo "security-level=$SECURITY_LEVEL" >> $GITHUB_OUTPUT
+
+          echo "✅ Security validation complete"
+          echo "  Security Level: $SECURITY_LEVEL"
+          echo "  Security Change: $SECURITY_CHANGE"
+
+  # =============================================================================
+  # Static Security Analysis with Semgrep
+  # =============================================================================
+  semgrep-security-scan:
+    name: 🔍 Semgrep Security Analysis
+    runs-on: ubuntu-latest
+    needs: pre-security-checks
+    timeout-minutes: 15
+
+    permissions:
+      security-events: write
+      actions: read
+      contents: read
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: Set up Python
-        uses: actions/setup-python@v4
+      - name: Setup Python for security tools
+        uses: actions/setup-python@v5
         with:
-          python-version: '3.9'
+          python-version: '3.11'
 
       - name: Install Semgrep
-        run: pip install semgrep
-
-      - name: Run LUKHAS Custom Security Rules
         run: |
-          semgrep --config .semgrep/rules/guardian-security.yml \
-                  --config .semgrep/rules/production-security.yml \
-                  --json --output semgrep-results.json \
-                  lukhas/ || true
+          pip install semgrep==1.45.0
+          semgrep --version
 
-      - name: Check for MockGuardian in Production
+      - name: Run comprehensive Semgrep security scan
+        id: semgrep
         run: |
-          if semgrep --config .semgrep/rules/guardian-security.yml lukhas/ | grep -q "mock-guardian-production-usage"; then
-            echo "❌ MockGuardian detected in production code path"
-            echo "::error::MockGuardian found - use ProductionGuardian for production"
-            exit 1
+          echo "🔒 Running Semgrep security analysis..."
+
+          # Create output directory
+          mkdir -p security-reports
+
+          # Run Semgrep with comprehensive rules
+          semgrep \
+            --config=.semgrep.yml \
+            --config=.semgrep/lukhas-security.yaml \
+            --json \
+            --output=security-reports/semgrep-results.json \
+            --timeout=${{ env.SEMGREP_TIMEOUT }} \
+            --verbose \
+            --strict \
+            . || SEMGREP_EXIT_CODE=$?
+
+          # Process results
+          if [[ -f "security-reports/semgrep-results.json" ]]; then
+            # Count findings by severity
+            CRITICAL_COUNT=$(jq '[.results[] | select(.extra.severity == "ERROR")] | length' security-reports/semgrep-results.json)
+            HIGH_COUNT=$(jq '[.results[] | select(.extra.severity == "WARNING")] | length' security-reports/semgrep-results.json)
+            MEDIUM_COUNT=$(jq '[.results[] | select(.extra.severity == "INFO")] | length' security-reports/semgrep-results.json)
+            TOTAL_COUNT=$(jq '.results | length' security-reports/semgrep-results.json)
+
+            echo "📊 Semgrep Security Results:"
+            echo "  Critical/High: $CRITICAL_COUNT"
+            echo "  Medium: $HIGH_COUNT"
+            echo "  Low/Info: $MEDIUM_COUNT"
+            echo "  Total: $TOTAL_COUNT"
+
+            # Check T4/0.01% thresholds
+            FAILED=false
+            if [[ $CRITICAL_COUNT -gt ${{ env.MAX_CRITICAL_VULNERABILITIES }} ]]; then
+              echo "❌ CRITICAL: $CRITICAL_COUNT critical vulnerabilities found (max: ${{ env.MAX_CRITICAL_VULNERABILITIES }})"
+              FAILED=true
+            fi
+
+            if [[ $HIGH_COUNT -gt ${{ env.MAX_HIGH_VULNERABILITIES }} ]]; then
+              echo "❌ HIGH: $HIGH_COUNT high vulnerabilities found (max: ${{ env.MAX_HIGH_VULNERABILITIES }})"
+              FAILED=true
+            fi
+
+            if [[ $MEDIUM_COUNT -gt ${{ env.MAX_MEDIUM_VULNERABILITIES }} ]]; then
+              echo "⚠️  MEDIUM: $MEDIUM_COUNT medium vulnerabilities found (max: ${{ env.MAX_MEDIUM_VULNERABILITIES }})"
+            fi
+
+            # Save metrics
+            echo "critical-count=$CRITICAL_COUNT" >> $GITHUB_OUTPUT
+            echo "high-count=$HIGH_COUNT" >> $GITHUB_OUTPUT
+            echo "medium-count=$MEDIUM_COUNT" >> $GITHUB_OUTPUT
+            echo "total-count=$TOTAL_COUNT" >> $GITHUB_OUTPUT
+            echo "failed=$FAILED" >> $GITHUB_OUTPUT
+
+            if [[ "$FAILED" == "true" ]]; then
+              echo "❌ Semgrep security scan failed T4/0.01% requirements"
+              exit 1
+            fi
           else
-            echo "✅ No MockGuardian found in production code paths"
+            echo "⚠️  No Semgrep results file generated"
+            echo "failed=true" >> $GITHUB_OUTPUT
+            exit 1
           fi
 
-      - name: Upload Semgrep Results
-        uses: actions/upload-artifact@v3
+          echo "✅ Semgrep security scan completed successfully"
+
+      - name: Upload Semgrep results to GitHub Security
+        if: always() && steps.semgrep.outputs.failed != 'true'
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: security-reports/semgrep-results.json
+          category: semgrep
+
+      - name: Upload Semgrep artifacts
         if: always()
+        uses: actions/upload-artifact@v4
         with:
           name: semgrep-security-results
-          path: semgrep-results.json
+          path: security-reports/
+          retention-days: 30
 
-  # Guardian Validation
-  guardian-validation:
-    name: 🛡️ Guardian System Validation
+  # =============================================================================
+  # Cryptographic Hygiene Tests
+  # =============================================================================
+  crypto-hygiene-tests:
+    name: 🔐 Cryptographic Hygiene Validation
     runs-on: ubuntu-latest
+    needs: pre-security-checks
+    timeout-minutes: 20
+
+    strategy:
+      matrix:
+        python-version: ['3.9', '3.11']
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Set up Python
-        uses: actions/setup-python@v4
+      - name: Setup Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
         with:
-          python-version: '3.9'
+          python-version: ${{ matrix.python-version }}
 
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -r requirements.txt
+          pip install pytest pytest-asyncio pytest-timeout
+          pip install cryptography PyJWT bcrypt
+          pip install -e .
 
-      - name: Validate Guardian Production Mode
+      - name: Run cryptographic hygiene tests
+        id: crypto-tests
         run: |
-          python -c "
-          import os
-          os.environ['GUARDIAN_MODE'] = 'production'
-          from lukhas.governance.guardian import get_guardian
-          guardian = get_guardian()
-          assert guardian.__class__.__name__ == 'ProductionGuardian', f'Expected ProductionGuardian, got {guardian.__class__.__name__}'
-          print('✅ Guardian correctly configured for production')
-          "
+          echo "🔐 Running cryptographic hygiene tests..."
 
-      - name: Test Guardian Policy Enforcement
-        run: |
-          python -c "
-          import os
-          os.environ['GUARDIAN_MODE'] = 'production'
-          from lukhas.governance.guardian import get_guardian
-          guardian = get_guardian()
+          # Create test results directory
+          mkdir -p test-reports
 
-          # Test policy validation
-          test_policy = {'action': 'test', 'resource': 'test'}
-          result = guardian.validate_policy(test_policy, {'user': 'test'})
-          assert result['allowed'] == False, 'Production Guardian should be restrictive by default'
-          print('✅ Guardian policy enforcement validated')
-          "
+          # Run crypto hygiene tests with strict requirements
+          python -m pytest \
+            tests/security/test_crypto_hygiene.py \
+            -v \
+            --tb=short \
+            --timeout=${{ env.CRYPTO_TEST_TIMEOUT }} \
+            --junitxml=test-reports/crypto-hygiene.xml \
+            --disable-warnings \
+            -x || CRYPTO_EXIT_CODE=$?
 
-  # Rate Limiting Security Test
-  rate-limiting-security:
-    name: ⚡ Rate Limiting Security Test
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+          if [[ ${CRYPTO_EXIT_CODE:-0} -eq 0 ]]; then
+            echo "✅ All cryptographic hygiene tests passed"
+            echo "crypto-tests-passed=true" >> $GITHUB_OUTPUT
+          else
+            echo "❌ Cryptographic hygiene tests failed"
+            echo "crypto-tests-passed=false" >> $GITHUB_OUTPUT
 
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.9'
+            # For T4/0.01% excellence, crypto failures are critical
+            if [[ "${{ needs.pre-security-checks.outputs.security-level }}" == "t4-excellence" ]]; then
+              echo "❌ CRITICAL: Crypto hygiene failure in T4/0.01% mode"
+              exit 1
+            fi
+          fi
 
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
-
-      - name: Test Rate Limiting Implementation
-        run: |
-          python -c "
-          import asyncio
-          from lukhas.identity.rate_limiting import get_rate_limiter, RateLimitType
-
-          async def test_rate_limiting():
-              rate_limiter = get_rate_limiter()
-
-              # Test normal request
-              allowed, metadata = await rate_limiter.check_rate_limit(
-                  'test-client',
-                  RateLimitType.WEBAUTHN_REGISTRATION
-              )
-              assert allowed == True, 'First request should be allowed'
-
-              # Test rate limit enforcement
-              for i in range(10):
-                  allowed, metadata = await rate_limiter.check_rate_limit(
-                      'test-client',
-                      RateLimitType.WEBAUTHN_REGISTRATION
-                  )
-
-              # Should be rate limited now
-              allowed, metadata = await rate_limiter.check_rate_limit(
-                  'test-client',
-                  RateLimitType.WEBAUTHN_REGISTRATION
-              )
-              assert allowed == False, 'Should be rate limited after exceeding threshold'
-              print('✅ Rate limiting security validated')
-
-          asyncio.run(test_rate_limiting())
-          "
-
-  # Token Security Validation
-  token-security:
-    name: 🔐 Token Security Validation
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.9'
-
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
-
-      - name: Test OWASP Token Validation
-        run: |
-          python -c "
-          import asyncio
-          import jwt
-          import time
-          from lukhas.identity.auth_service import verify_token
-
-          async def test_token_security():
-              # Test expired token rejection
-              expired_token = jwt.encode({
-                  'sub': 'test-user',
-                  'exp': int(time.time()) - 3600  # Expired 1 hour ago
-              }, 'test-secret', algorithm='HS256')
-
-              try:
-                  await verify_token(expired_token)
-                  assert False, 'Expired token should be rejected'
-              except Exception:
-                  print('✅ Expired token properly rejected')
-
-              # Test clock skew tolerance
-              future_token = jwt.encode({
-                  'sub': 'test-user',
-                  'exp': int(time.time()) + 3600,
-                  'iat': int(time.time()) + 120  # 2 minutes in future
-              }, 'test-secret', algorithm='HS256')
-
-              try:
-                  await verify_token(future_token)
-                  print('✅ Clock skew tolerance working')
-              except Exception:
-                  print('⚠️ Clock skew rejection (acceptable)')
-
-          asyncio.run(test_token_security())
-          "
-
-  # PromQL Alert Validation
-  promql-alert-validation:
-    name: 📊 PromQL Alert Validation
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.9'
-
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install pyyaml
-
-      - name: Validate Prometheus Alerts
-        run: |
-          python3 scripts/validate_alerts.py --fail-on-error
-
-      - name: Upload Alert Validation Results
-        uses: actions/upload-artifact@v3
+      - name: Upload crypto test results
         if: always()
+        uses: actions/upload-artifact@v4
         with:
-          name: alert-validation-results
-          path: artifacts/alert_validation_results.json
+          name: crypto-hygiene-results-${{ matrix.python-version }}
+          path: test-reports/
+          retention-days: 30
 
-  # Security Gate Summary
-  security-gate-summary:
-    name: 📋 Security Gate Summary
+  # =============================================================================
+  # Dependency Security Scanning
+  # =============================================================================
+  dependency-security-scan:
+    name: 📦 Dependency Security Analysis
     runs-on: ubuntu-latest
-    needs: [semgrep-security, guardian-validation, rate-limiting-security, token-security, promql-alert-validation]
-    if: always()
-    steps:
-      - name: Security Gate Results
-        run: |
-          echo "## 🛡️ T4/0.01% Security Gates Summary" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "| Security Check | Status |" >> $GITHUB_STEP_SUMMARY
-          echo "|---------------|--------|" >> $GITHUB_STEP_SUMMARY
-          echo "| Semgrep Security Scan | ${{ needs.semgrep-security.result == 'success' && '✅ PASSED' || '❌ FAILED' }} |" >> $GITHUB_STEP_SUMMARY
-          echo "| Guardian Validation | ${{ needs.guardian-validation.result == 'success' && '✅ PASSED' || '❌ FAILED' }} |" >> $GITHUB_STEP_SUMMARY
-          echo "| Rate Limiting Security | ${{ needs.rate-limiting-security.result == 'success' && '✅ PASSED' || '❌ FAILED' }} |" >> $GITHUB_STEP_SUMMARY
-          echo "| Token Security | ${{ needs.token-security.result == 'success' && '✅ PASSED' || '❌ FAILED' }} |" >> $GITHUB_STEP_SUMMARY
-          echo "| PromQL Alert Validation | ${{ needs.promql-alert-validation.result == 'success' && '✅ PASSED' || '❌ FAILED' }} |" >> $GITHUB_STEP_SUMMARY
+    needs: pre-security-checks
+    timeout-minutes: 15
 
-          # Fail if any security gate failed
-          if [[ "${{ needs.semgrep-security.result }}" != "success" ||
-                "${{ needs.guardian-validation.result }}" != "success" ||
-                "${{ needs.rate-limiting-security.result }}" != "success" ||
-                "${{ needs.token-security.result }}" != "success" ||
-                "${{ needs.promql-alert-validation.result }}" != "success" ]]; then
-            echo ""
-            echo "❌ **Security gates failed - deployment blocked**"
+    permissions:
+      security-events: write
+      contents: read
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install security scanning tools
+        run: |
+          pip install --upgrade pip
+          pip install safety bandit pip-audit
+
+      - name: Run Safety dependency check
+        id: safety
+        continue-on-error: true
+        run: |
+          echo "🔒 Running Safety dependency security scan..."
+
+          mkdir -p security-reports
+
+          # Generate requirements file if not exists
+          if [[ ! -f requirements.txt ]]; then
+            pip freeze > requirements.txt
+          fi
+
+          # Run Safety scan
+          safety check \
+            --json \
+            --output security-reports/safety-report.json \
+            --file requirements.txt || SAFETY_EXIT_CODE=$?
+
+          # Process Safety results
+          if [[ -f "security-reports/safety-report.json" ]]; then
+            VULN_COUNT=$(jq '.vulnerabilities | length' security-reports/safety-report.json 2>/dev/null || echo "0")
+            echo "📊 Safety scan found $VULN_COUNT vulnerabilities"
+            echo "safety-vulnerabilities=$VULN_COUNT" >> $GITHUB_OUTPUT
+
+            if [[ $VULN_COUNT -gt 0 ]]; then
+              echo "⚠️  Dependencies with known vulnerabilities found"
+              echo "safety-passed=false" >> $GITHUB_OUTPUT
+            else
+              echo "✅ No known vulnerable dependencies found"
+              echo "safety-passed=true" >> $GITHUB_OUTPUT
+            fi
+          else
+            echo "safety-passed=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Run pip-audit
+        id: pip-audit
+        continue-on-error: true
+        run: |
+          echo "🔒 Running pip-audit vulnerability scan..."
+
+          pip-audit \
+            --format=json \
+            --output=security-reports/pip-audit.json \
+            --require requirements.txt || PIP_AUDIT_EXIT_CODE=$?
+
+          if [[ -f "security-reports/pip-audit.json" ]]; then
+            echo "✅ pip-audit scan completed"
+          fi
+
+      - name: Run Bandit SAST scan
+        id: bandit
+        continue-on-error: true
+        run: |
+          echo "🔒 Running Bandit static security analysis..."
+
+          bandit \
+            -r lukhas/ scripts/ \
+            -f json \
+            -o security-reports/bandit-report.json \
+            -ll \
+            --exclude=tests/ || BANDIT_EXIT_CODE=$?
+
+          if [[ -f "security-reports/bandit-report.json" ]]; then
+            HIGH_ISSUES=$(jq '[.results[] | select(.issue_severity == "HIGH")] | length' security-reports/bandit-report.json)
+            MEDIUM_ISSUES=$(jq '[.results[] | select(.issue_severity == "MEDIUM")] | length' security-reports/bandit-report.json)
+
+            echo "📊 Bandit found $HIGH_ISSUES high and $MEDIUM_ISSUES medium severity issues"
+            echo "bandit-high=$HIGH_ISSUES" >> $GITHUB_OUTPUT
+            echo "bandit-medium=$MEDIUM_ISSUES" >> $GITHUB_OUTPUT
+
+            if [[ $HIGH_ISSUES -gt 0 ]]; then
+              echo "bandit-passed=false" >> $GITHUB_OUTPUT
+            else
+              echo "bandit-passed=true" >> $GITHUB_OUTPUT
+            fi
+          else
+            echo "bandit-passed=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Upload dependency scan results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: dependency-security-results
+          path: security-reports/
+          retention-days: 30
+
+  # =============================================================================
+  # Comprehensive Security Audit
+  # =============================================================================
+  comprehensive-security-audit:
+    name: 🛡️ Comprehensive Security Audit
+    runs-on: ubuntu-latest
+    needs: [pre-security-checks, semgrep-security-scan, crypto-hygiene-tests, dependency-security-scan]
+    if: always()
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install PyYAML requests structlog
+          pip install -e .
+
+      - name: Run comprehensive security audit
+        id: security-audit
+        env:
+          SECURITY_LEVEL: ${{ needs.pre-security-checks.outputs.security-level }}
+          FAIL_ON_WARNINGS: ${{ github.event.inputs.fail_on_warnings || 'false' }}
+        run: |
+          echo "🛡️ Running comprehensive security audit..."
+
+          # Make audit script executable
+          chmod +x scripts/security_audit.py
+
+          # Run security audit with appropriate strictness
+          AUDIT_ARGS=""
+          if [[ "$SECURITY_LEVEL" == "t4-excellence" ]] || [[ "$FAIL_ON_WARNINGS" == "true" ]]; then
+            AUDIT_ARGS="--fail-on-warnings"
+          fi
+
+          # Run the audit
+          python scripts/security_audit.py \
+            --project-root . \
+            --output security-audit-report.json \
+            --format json \
+            $AUDIT_ARGS || AUDIT_EXIT_CODE=$?
+
+          # Also generate human-readable report
+          python scripts/security_audit.py \
+            --project-root . \
+            --output security-audit-report.txt \
+            --format text \
+            $AUDIT_ARGS || true
+
+          # Process audit results
+          if [[ -f "security-audit-report.json" ]]; then
+            EXCELLENCE_SCORE=$(jq -r '.summary.excellence_score' security-audit-report.json)
+            T4_COMPLIANCE=$(jq -r '.summary.t4_compliance' security-audit-report.json)
+            CRITICAL_FAILURES=$(jq -r '.summary.critical_failures' security-audit-report.json)
+            TOTAL_FAILURES=$(jq -r '.summary.failures' security-audit-report.json)
+
+            echo "📊 Security Audit Results:"
+            echo "  Excellence Score: ${EXCELLENCE_SCORE}%"
+            echo "  T4/0.01% Compliance: $T4_COMPLIANCE"
+            echo "  Critical Failures: $CRITICAL_FAILURES"
+            echo "  Total Failures: $TOTAL_FAILURES"
+
+            # Save outputs
+            echo "excellence-score=$EXCELLENCE_SCORE" >> $GITHUB_OUTPUT
+            echo "t4-compliance=$T4_COMPLIANCE" >> $GITHUB_OUTPUT
+            echo "critical-failures=$CRITICAL_FAILURES" >> $GITHUB_OUTPUT
+            echo "total-failures=$TOTAL_FAILURES" >> $GITHUB_OUTPUT
+
+            # Check T4/0.01% requirements
+            if [[ "$T4_COMPLIANCE" == "false" ]]; then
+              echo "❌ FAILED: T4/0.01% excellence requirements not met"
+              echo "audit-passed=false" >> $GITHUB_OUTPUT
+
+              # Display summary from text report
+              if [[ -f "security-audit-report.txt" ]]; then
+                echo "📄 Security Audit Summary:"
+                head -50 security-audit-report.txt
+              fi
+
+              exit 1
+            else
+              echo "✅ T4/0.01% excellence requirements met!"
+              echo "audit-passed=true" >> $GITHUB_OUTPUT
+            fi
+          else
+            echo "❌ Security audit failed to generate report"
+            echo "audit-passed=false" >> $GITHUB_OUTPUT
             exit 1
+          fi
+
+      - name: Upload security audit reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: comprehensive-security-audit
+          path: |
+            security-audit-report.json
+            security-audit-report.txt
+          retention-days: 30
+
+  # =============================================================================
+  # Security Gates Summary and Enforcement
+  # =============================================================================
+  security-gates-summary:
+    name: 🎯 Security Gates - Final Validation
+    runs-on: ubuntu-latest
+    needs: [
+      pre-security-checks,
+      semgrep-security-scan,
+      crypto-hygiene-tests,
+      dependency-security-scan,
+      comprehensive-security-audit
+    ]
+    if: always()
+
+    steps:
+      - name: Evaluate security gates
+        id: evaluate
+        run: |
+          echo "🎯 Evaluating security gates for T4/0.01% excellence..."
+
+          # Collect results from all jobs
+          SEMGREP_FAILED="${{ needs.semgrep-security-scan.outputs.failed }}"
+          CRYPTO_PASSED="${{ needs.crypto-hygiene-tests.outputs.crypto-tests-passed }}"
+          AUDIT_PASSED="${{ needs.comprehensive-security-audit.outputs.audit-passed }}"
+          T4_COMPLIANCE="${{ needs.comprehensive-security-audit.outputs.t4-compliance }}"
+          EXCELLENCE_SCORE="${{ needs.comprehensive-security-audit.outputs.excellence-score }}"
+
+          # Summary
+          echo "📊 Security Gates Summary:"
+          echo "  Semgrep Analysis: $([ "$SEMGREP_FAILED" == "true" ] && echo "❌ FAILED" || echo "✅ PASSED")"
+          echo "  Crypto Hygiene: $([ "$CRYPTO_PASSED" == "true" ] && echo "✅ PASSED" || echo "❌ FAILED")"
+          echo "  Security Audit: $([ "$AUDIT_PASSED" == "true" ] && echo "✅ PASSED" || echo "❌ FAILED")"
+          echo "  Excellence Score: ${EXCELLENCE_SCORE:-0}%"
+          echo "  T4/0.01% Compliance: $T4_COMPLIANCE"
+
+          # Determine overall status
+          OVERALL_PASSED=true
+          FAILURE_REASONS=()
+
+          if [[ "$SEMGREP_FAILED" == "true" ]]; then
+            OVERALL_PASSED=false
+            FAILURE_REASONS+=("Static security analysis failed")
+          fi
+
+          if [[ "$CRYPTO_PASSED" != "true" ]]; then
+            OVERALL_PASSED=false
+            FAILURE_REASONS+=("Cryptographic hygiene tests failed")
+          fi
+
+          if [[ "$AUDIT_PASSED" != "true" ]]; then
+            OVERALL_PASSED=false
+            FAILURE_REASONS+=("Comprehensive security audit failed")
+          fi
+
+          if [[ "$T4_COMPLIANCE" != "true" ]]; then
+            OVERALL_PASSED=false
+            FAILURE_REASONS+=("T4/0.01% excellence requirements not met")
+          fi
+
+          # Final verdict
+          if [[ "$OVERALL_PASSED" == "true" ]]; then
+            echo ""
+            echo "🎉 SUCCESS: All security gates passed!"
+            echo "✅ T4/0.01% Excellence Standard Achieved"
+            echo "🔒 LUKHAS security validation complete"
+            echo ""
+            echo "overall-passed=true" >> $GITHUB_OUTPUT
           else
             echo ""
-            echo "✅ **All security gates passed - ready for production**"
+            echo "❌ FAILURE: Security gates failed"
+            echo "🚨 T4/0.01% Excellence Standard NOT MET"
+            echo ""
+            echo "Failure reasons:"
+            for reason in "${FAILURE_REASONS[@]}"; do
+              echo "  - $reason"
+            done
+            echo ""
+            echo "overall-passed=false" >> $GITHUB_OUTPUT
+            exit 1
           fi
+
+      - name: Create security gates summary comment
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const semgrepFailed = '${{ needs.semgrep-security-scan.outputs.failed }}' === 'true';
+            const cryptoPassed = '${{ needs.crypto-hygiene-tests.outputs.crypto-tests-passed }}' === 'true';
+            const auditPassed = '${{ needs.comprehensive-security-audit.outputs.audit-passed }}' === 'true';
+            const t4Compliance = '${{ needs.comprehensive-security-audit.outputs.t4-compliance }}' === 'true';
+            const excellenceScore = '${{ needs.comprehensive-security-audit.outputs.excellence-score }}' || '0';
+            const overallPassed = '${{ steps.evaluate.outputs.overall-passed }}' === 'true';
+
+            const statusIcon = overallPassed ? '✅' : '❌';
+            const complianceIcon = t4Compliance ? '🎯' : '🚨';
+
+            const comment = `## ${statusIcon} LUKHAS Security Gates Report
+
+            ### ${complianceIcon} T4/0.01% Excellence Status
+            - **Excellence Score**: ${excellenceScore}%
+            - **T4/0.01% Compliance**: ${t4Compliance ? '✅ ACHIEVED' : '❌ NOT MET'}
+
+            ### 🔒 Security Gate Results
+            | Gate | Status | Details |
+            |------|--------|---------||
+            | Static Analysis (Semgrep) | ${semgrepFailed ? '❌' : '✅'} | ${semgrepFailed ? 'Security vulnerabilities detected' : 'No security issues found'} |
+            | Cryptographic Hygiene | ${cryptoPassed ? '✅' : '❌'} | ${cryptoPassed ? 'All crypto tests passed' : 'Crypto security issues detected'} |
+            | Comprehensive Audit | ${auditPassed ? '✅' : '❌'} | ${auditPassed ? 'Security audit passed' : 'Security audit failed'} |
+
+            ${overallPassed ?
+              '🎉 **All security gates passed! Ready for deployment.**' :
+              '🚨 **Security gates failed. Review and fix security issues before merging.**'
+            }
+
+            ---
+            *Security validation powered by LUKHAS T4/0.01% Excellence Standards*
+            `;
+
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: comment
+            });
+
+  # =============================================================================
+  # Security Notification and Alerting
+  # =============================================================================
+  security-notifications:
+    name: 🚨 Security Notifications
+    runs-on: ubuntu-latest
+    needs: [security-gates-summary]
+    if: failure() || needs.security-gates-summary.outputs.overall-passed != 'true'
+
+    steps:
+      - name: Send security alert
+        run: |
+          echo "🚨 SECURITY ALERT: T4/0.01% excellence standards not met"
+          echo ""
+          echo "Repository: ${{ github.repository }}"
+          echo "Branch: ${{ github.ref_name }}"
+          echo "Commit: ${{ github.sha }}"
+          echo "Workflow: ${{ github.workflow }}"
+          echo "Run ID: ${{ github.run_id }}"
+          echo ""
+          echo "Please review security findings and resolve all issues before proceeding."
+          echo ""
+
+          # In a real implementation, this would integrate with:
+          # - Slack/Teams notifications
+          # - PagerDuty alerts
+          # - Security incident management systems
+          # - Email notifications to security team

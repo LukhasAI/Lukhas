@@ -1,5 +1,6 @@
 rules:
-  # LUKHAS Custom Security Rules
+  # LUKHAS T4/0.01% Excellence Security Rules
+  - .semgrep/lukhas-security.yaml
   - .semgrep/rules/guardian-security.yml
   - .semgrep/rules/production-security.yml
 

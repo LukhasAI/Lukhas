@@ -1,0 +1,756 @@
+rules:
+  # =============================================================================
+  # LUKHAS Comprehensive Security Rules - T4/0.01% Excellence
+  # =============================================================================
+  # Advanced security rules for LUKHAS AI system covering:
+  # - JWT security vulnerabilities
+  # - Cryptographic weakness detection
+  # - Authentication bypass prevention
+  # - Injection attack prevention
+  # - Sensitive data exposure prevention
+  # - Input validation and sanitization
+  # =============================================================================
+
+  # JWT Security Rules
+  # =============================================================================
+
+  - id: jwt-none-algorithm-vulnerability
+    patterns:
+      - pattern-either:
+          - pattern: jwt.decode($TOKEN, verify=False, ...)
+          - pattern: jwt.decode($TOKEN, options={"verify_signature": False}, ...)
+          - pattern: jwt.decode($TOKEN, algorithms=["none"], ...)
+          - pattern: PyJWT.decode($TOKEN, verify=False, ...)
+          - pattern: |
+              algorithms = ["none"]
+              jwt.decode(...)
+    message: |
+      Critical JWT security vulnerability: 'none' algorithm or disabled verification detected.
+
+      This allows attackers to bypass JWT signature verification entirely.
+      NEVER use 'none' algorithm or disable signature verification in production.
+
+      Fix: Use secure algorithms like RS256, ES256 with proper key validation.
+    languages: [python]
+    severity: ERROR
+    metadata:
+      category: security
+      technology: [lukhas, jwt, authentication]
+      confidence: HIGH
+      impact: HIGH
+      likelihood: HIGH
+      subcategory: [auth-bypass]
+      cwe: "CWE-287: Improper Authentication"
+      owasp: "A02:2021 - Cryptographic Failures"
+      references:
+        - "https://auth0.com/blog/a-look-at-the-latest-draft-for-jwt-bcp/"
+        - "LUKHAS T4/0.01% Authentication Standards"
+
+  - id: jwt-weak-secret-key
+    patterns:
+      - pattern-either:
+          - pattern: jwt.encode(..., key="secret", ...)
+          - pattern: jwt.encode(..., key="password", ...)
+          - pattern: jwt.encode(..., key="123456", ...)
+          - pattern: jwt.decode(..., key="secret", ...)
+          - pattern: jwt.decode(..., key="password", ...)
+          - pattern: SECRET_KEY = "..."
+          - pattern: JWT_SECRET = "..."
+      - pattern-not: SECRET_KEY = ""
+      - pattern-not: JWT_SECRET = ""
+    message: |
+      Weak JWT secret key detected.
+
+      Hardcoded or weak JWT secrets can be easily brute-forced,
+      allowing attackers to forge valid tokens.
+
+      Fix: Use cryptographically strong secrets (>=256 bits) from environment variables.
+    languages: [python]
+    severity: ERROR
+    metadata:
+      category: security
+      technology: [lukhas, jwt, crypto]
+      confidence: HIGH
+      impact: HIGH
+      likelihood: MEDIUM
+      subcategory: [weak-crypto]
+      cwe: "CWE-330: Use of Insufficiently Random Values"
+
+  - id: jwt-algorithm-confusion
+    patterns:
+      - pattern-either:
+          - pattern: jwt.decode($TOKEN, key=$KEY, algorithms=None, ...)
+          - pattern: jwt.decode($TOKEN, key=$KEY, algorithms=[], ...)
+          - pattern: jwt.decode($TOKEN, key=$KEY, algorithms=["HS256", "RS256"], ...)
+    message: |
+      JWT algorithm confusion vulnerability.
+
+      Allowing multiple algorithms or no algorithm specification can enable
+      algorithm substitution attacks.
+
+      Fix: Specify exactly one expected algorithm for each endpoint.
+    languages: [python]
+    severity: WARNING
+    metadata:
+      category: security
+      technology: [lukhas, jwt]
+      confidence: MEDIUM
+      impact: HIGH
+      likelihood: LOW
+      subcategory: [auth-bypass]
+
+  # Cryptographic Security Rules
+  # =============================================================================
+
+  - id: weak-cryptographic-hash
+    patterns:
+      - pattern-either:
+          - pattern: hashlib.md5(...)
+          - pattern: hashlib.sha1(...)
+          - pattern: Crypto.Hash.MD5.new(...)
+          - pattern: Crypto.Hash.SHA1.new(...)
+          - pattern: from hashlib import md5
+          - pattern: from hashlib import sha1
+    message: |
+      Weak cryptographic hash algorithm detected.
+
+      MD5 and SHA1 are cryptographically broken and vulnerable to collision attacks.
+
+      Fix: Use SHA-256, SHA-3, or bcrypt for password hashing.
+    languages: [python]
+    severity: ERROR
+    metadata:
+      category: security
+      technology: [lukhas, crypto]
+      confidence: HIGH
+      impact: HIGH
+      likelihood: MEDIUM
+      subcategory: [weak-crypto]
+      cwe: "CWE-327: Use of a Broken or Risky Cryptographic Algorithm"
+
+  - id: weak-password-hashing
+    patterns:
+      - pattern-either:
+          - pattern: hashlib.sha256($PASSWORD.encode()).hexdigest()
+          - pattern: hashlib.sha512($PASSWORD.encode()).hexdigest()
+          - pattern: hash($PASSWORD)
+          - pattern: |
+              password_hash = hashlib.sha256(password.encode())
+    message: |
+      Weak password hashing detected.
+
+      Simple SHA hashing without salt is vulnerable to rainbow table attacks.
+
+      Fix: Use bcrypt, scrypt, or Argon2 with proper salt for password hashing.
+    languages: [python]
+    severity: ERROR
+    metadata:
+      category: security
+      technology: [lukhas, crypto, auth]
+      confidence: HIGH
+      impact: HIGH
+      likelihood: HIGH
+      subcategory: [weak-crypto]
+      cwe: "CWE-916: Use of Password Hash With Insufficient Computational Effort"
+
+  - id: weak-encryption-algorithm
+    patterns:
+      - pattern-either:
+          - pattern: Crypto.Cipher.DES.new(...)
+          - pattern: Crypto.Cipher.ARC4.new(...)
+          - pattern: Crypto.Cipher.Blowfish.new(...)
+          - pattern: cryptography.hazmat.primitives.ciphers.algorithms.TripleDES(...)
+          - pattern: from Crypto.Cipher import DES
+          - pattern: from Crypto.Cipher import ARC4
+    message: |
+      Weak encryption algorithm detected.
+
+      DES, 3DES, RC4, and Blowfish are cryptographically weak.
+
+      Fix: Use AES-256-GCM or ChaCha20-Poly1305 for symmetric encryption.
+    languages: [python]
+    severity: ERROR
+    metadata:
+      category: security
+      technology: [lukhas, crypto]
+      confidence: HIGH
+      impact: HIGH
+      likelihood: MEDIUM
+      subcategory: [weak-crypto]
+      cwe: "CWE-327: Use of a Broken or Risky Cryptographic Algorithm"
+
+  - id: hardcoded-encryption-key
+    patterns:
+      - pattern-either:
+          - pattern: |
+              key = b"..."
+              cipher = AES.new(key, ...)
+          - pattern: |
+              encryption_key = "..."
+              ...
+          - pattern: ENCRYPTION_KEY = "..."
+          - pattern: AES_KEY = "..."
+      - pattern-not: key = b""
+      - pattern-not: ENCRYPTION_KEY = ""
+    message: |
+      Hardcoded encryption key detected.
+
+      Hardcoded keys in source code can be extracted by attackers.
+
+      Fix: Generate keys securely and store in environment variables or key management systems.
+    languages: [python]
+    severity: ERROR
+    metadata:
+      category: security
+      technology: [lukhas, crypto]
+      confidence: HIGH
+      impact: HIGH
+      likelihood: MEDIUM
+      subcategory: [hardcoded-secrets]
+
+  # Authentication and Authorization Rules
+  # =============================================================================
+
+  - id: authentication-bypass-risk
+    patterns:
+      - pattern-either:
+          - pattern: |
+              if not authenticate_user(...):
+                  # bypass authentication
+                  pass
+          - pattern: |
+              if DEBUG:
+                  # skip authentication
+                  return True
+          - pattern: |
+              @app.route("...")
+              def $FUNC(...):
+                  # No authentication decorator
+                  ...
+          - pattern: authenticate = False
+    message: |
+      Potential authentication bypass detected.
+
+      Code paths that skip authentication create security vulnerabilities.
+
+      Fix: Ensure all protected endpoints require proper authentication.
+    languages: [python]
+    severity: HIGH
+    metadata:
+      category: security
+      technology: [lukhas, auth]
+      confidence: MEDIUM
+      impact: HIGH
+      likelihood: LOW
+      subcategory: [auth-bypass]
+
+  - id: privilege-escalation-risk
+    patterns:
+      - pattern-either:
+          - pattern: user.role = "admin"
+          - pattern: user.is_admin = True
+          - pattern: user.permissions = "all"
+          - pattern: |
+              if user.id == $ID:
+                  user.role = "admin"
+    message: |
+      Potential privilege escalation vulnerability.
+
+      Direct privilege assignment without proper authorization checks.
+
+      Fix: Implement proper authorization checks and privilege management.
+    languages: [python]
+    severity: WARNING
+    metadata:
+      category: security
+      technology: [lukhas, auth]
+      confidence: MEDIUM
+      impact: HIGH
+      likelihood: LOW
+      subcategory: [privilege-escalation]
+
+  - id: session-fixation-vulnerability
+    patterns:
+      - pattern-either:
+          - pattern: session.regenerate_id = False
+          - pattern: |
+              def login(...):
+                  # ... authenticate user
+                  # No session ID regeneration
+                  return redirect(...)
+    message: |
+      Session fixation vulnerability.
+
+      Session ID should be regenerated after successful authentication.
+
+      Fix: Regenerate session ID after login to prevent session fixation attacks.
+    languages: [python]
+    severity: WARNING
+    metadata:
+      category: security
+      technology: [lukhas, session]
+      confidence: MEDIUM
+      impact: MEDIUM
+      likelihood: LOW
+      subcategory: [session-management]
+
+  # Injection Attack Prevention
+  # =============================================================================
+
+  - id: sql-injection-vulnerability
+    patterns:
+      - pattern-either:
+          - pattern: f"SELECT * FROM users WHERE id = {$USER_ID}"
+          - pattern: f"INSERT INTO {$TABLE} VALUES ({$VALUES})"
+          - pattern: f"UPDATE {$TABLE} SET {$COLUMN} = {$VALUE}"
+          - pattern: f"DELETE FROM {$TABLE} WHERE {$CONDITION}"
+          - pattern: "SELECT * FROM " + $TABLE + " WHERE " + $CONDITION
+          - pattern: cursor.execute(f"SELECT * FROM {$TABLE}")
+          - pattern: query = f"SELECT * FROM {$TABLE}"
+    message: |
+      SQL injection vulnerability detected.
+
+      String interpolation in SQL queries allows attackers to inject malicious SQL.
+
+      Fix: Use parameterized queries or ORM methods with parameter binding.
+    languages: [python]
+    severity: ERROR
+    metadata:
+      category: security
+      technology: [lukhas, database]
+      confidence: HIGH
+      impact: HIGH
+      likelihood: HIGH
+      subcategory: [injection]
+      cwe: "CWE-89: SQL Injection"
+      owasp: "A03:2021 - Injection"
+
+  - id: nosql-injection-vulnerability
+    patterns:
+      - pattern-either:
+          - pattern: |
+              query = {
+                  "$where": f"this.{$FIELD} == '{$VALUE}'"
+              }
+          - pattern: collection.find({"$where": $USER_INPUT})
+          - pattern: |
+              filter = json.loads($USER_INPUT)
+              collection.find(filter)
+    message: |
+      NoSQL injection vulnerability detected.
+
+      Direct user input in NoSQL queries can lead to injection attacks.
+
+      Fix: Validate and sanitize input, use parameterized queries.
+    languages: [python]
+    severity: ERROR
+    metadata:
+      category: security
+      technology: [lukhas, database, nosql]
+      confidence: HIGH
+      impact: HIGH
+      likelihood: MEDIUM
+      subcategory: [injection]
+
+  - id: command-injection-vulnerability
+    patterns:
+      - pattern-either:
+          - pattern: os.system(f"command {$USER_INPUT}")
+          - pattern: subprocess.call(f"command {$USER_INPUT}", shell=True)
+          - pattern: subprocess.run(f"command {$USER_INPUT}", shell=True)
+          - pattern: subprocess.Popen(f"command {$USER_INPUT}", shell=True)
+          - pattern: os.popen(f"command {$USER_INPUT}")
+    message: |
+      Command injection vulnerability detected.
+
+      User input in system commands allows arbitrary command execution.
+
+      Fix: Use subprocess with argument lists, validate/sanitize input.
+    languages: [python]
+    severity: ERROR
+    metadata:
+      category: security
+      technology: [lukhas, system]
+      confidence: HIGH
+      impact: HIGH
+      likelihood: HIGH
+      subcategory: [injection]
+      cwe: "CWE-78: OS Command Injection"
+
+  - id: path-traversal-vulnerability
+    patterns:
+      - pattern-either:
+          - pattern: open(f"files/{$USER_INPUT}")
+          - pattern: Path(f"files/{$USER_INPUT}")
+          - pattern: os.path.join("files", $USER_INPUT)
+          - pattern: f"files/{$USER_INPUT}"
+      - pattern-not: os.path.join("files", os.path.basename($USER_INPUT))
+    message: |
+      Path traversal vulnerability detected.
+
+      Unsanitized user input in file paths allows directory traversal attacks.
+
+      Fix: Validate file paths, use os.path.basename(), check against whitelist.
+    languages: [python]
+    severity: ERROR
+    metadata:
+      category: security
+      technology: [lukhas, filesystem]
+      confidence: MEDIUM
+      impact: HIGH
+      likelihood: MEDIUM
+      subcategory: [path-traversal]
+      cwe: "CWE-22: Path Traversal"
+
+  # Input Validation and Sanitization
+  # =============================================================================
+
+  - id: missing-input-validation
+    patterns:
+      - pattern-either:
+          - pattern: |
+              @app.post("...")
+              def $FUNC(data: dict):
+                  # No input validation
+                  process_data(data)
+          - pattern: |
+              def $FUNC($PARAM):
+                  # Direct use without validation
+                  return database.save($PARAM)
+    message: |
+      Missing input validation detected.
+
+      All user input should be validated before processing.
+
+      Fix: Implement input validation using Pydantic models or validation libraries.
+    languages: [python]
+    severity: WARNING
+    metadata:
+      category: security
+      technology: [lukhas, input-validation]
+      confidence: LOW
+      impact: MEDIUM
+      likelihood: HIGH
+      subcategory: [input-validation]
+
+  - id: xss-vulnerability-risk
+    patterns:
+      - pattern-either:
+          - pattern: f"<script>{$USER_INPUT}</script>"
+          - pattern: f"<div>{$USER_INPUT}</div>"
+          - pattern: return f"<html>...{$USER_INPUT}...</html>"
+          - pattern: render_template_string(f"...{$USER_INPUT}...")
+    message: |
+      Cross-Site Scripting (XSS) vulnerability risk.
+
+      Unescaped user input in HTML responses can lead to XSS attacks.
+
+      Fix: Use template engines with automatic escaping, sanitize HTML input.
+    languages: [python]
+    severity: ERROR
+    metadata:
+      category: security
+      technology: [lukhas, web]
+      confidence: MEDIUM
+      impact: HIGH
+      likelihood: MEDIUM
+      subcategory: [xss]
+      cwe: "CWE-79: Cross-site Scripting"
+      owasp: "A03:2021 - Injection"
+
+  # Sensitive Data Exposure Prevention
+  # =============================================================================
+
+  - id: sensitive-data-in-logs
+    patterns:
+      - pattern-either:
+          - pattern: logger.info(f"Password: {$PASSWORD}")
+          - pattern: logger.debug(f"Token: {$TOKEN}")
+          - pattern: logger.error(f"Secret: {$SECRET}")
+          - pattern: print(f"Password: {$PASSWORD}")
+          - pattern: print(f"API Key: {$API_KEY}")
+    message: |
+      Sensitive data exposure in logs detected.
+
+      Passwords, tokens, and secrets should never be logged.
+
+      Fix: Remove sensitive data from log statements, use log sanitization.
+    languages: [python]
+    severity: ERROR
+    metadata:
+      category: security
+      technology: [lukhas, logging]
+      confidence: HIGH
+      impact: HIGH
+      likelihood: MEDIUM
+      subcategory: [data-exposure]
+      cwe: "CWE-532: Information Exposure Through Log Files"
+
+  - id: hardcoded-api-credentials
+    patterns:
+      - pattern-either:
+          - pattern: API_KEY = "sk-..."
+          - pattern: API_SECRET = "..."
+          - pattern: OPENAI_API_KEY = "sk-..."
+          - pattern: AWS_ACCESS_KEY_ID = "AKIA..."
+          - pattern: STRIPE_SECRET_KEY = "sk_..."
+      - pattern-not: API_KEY = ""
+      - pattern-not: API_SECRET = ""
+    message: |
+      Hardcoded API credentials detected.
+
+      API keys and secrets should be stored securely, not in source code.
+
+      Fix: Use environment variables or secure credential management systems.
+    languages: [python]
+    severity: ERROR
+    metadata:
+      category: security
+      technology: [lukhas, credentials]
+      confidence: HIGH
+      impact: HIGH
+      likelihood: HIGH
+      subcategory: [hardcoded-secrets]
+      cwe: "CWE-798: Hard-coded Credentials"
+
+  - id: sensitive-data-in-url
+    patterns:
+      - pattern-either:
+          - pattern: f"https://api.example.com/user/{$PASSWORD}"
+          - pattern: f"https://api.example.com/token/{$TOKEN}"
+          - pattern: requests.get(f"...?password={$PASSWORD}")
+          - pattern: requests.get(f"...?secret={$SECRET}")
+    message: |
+      Sensitive data in URL detected.
+
+      URLs with sensitive data can be logged in access logs and referrer headers.
+
+      Fix: Use POST requests with body parameters or headers for sensitive data.
+    languages: [python]
+    severity: WARNING
+    metadata:
+      category: security
+      technology: [lukhas, http]
+      confidence: HIGH
+      impact: MEDIUM
+      likelihood: MEDIUM
+      subcategory: [data-exposure]
+
+  # LUKHAS-Specific Security Rules
+  # =============================================================================
+
+  - id: lukhas-identity-bypass
+    patterns:
+      - pattern-either:
+          - pattern: |
+              def authenticate_λid(...):
+                  # TODO: implement authentication
+                  return True
+          - pattern: |
+              if DEVELOPMENT_MODE:
+                  # skip ΛiD validation
+                  return mock_identity()
+          - pattern: λid_validation_enabled = False
+    message: |
+      LUKHAS Identity (ΛiD) authentication bypass detected.
+
+      ΛiD authentication is critical for LUKHAS security architecture.
+
+      Fix: Implement proper ΛiD validation without bypass mechanisms.
+    languages: [python]
+    severity: ERROR
+    metadata:
+      category: security
+      technology: [lukhas, identity, lambda-id]
+      confidence: HIGH
+      impact: HIGH
+      likelihood: LOW
+      subcategory: [auth-bypass]
+
+  - id: guardian-system-disabled
+    patterns:
+      - pattern-either:
+          - pattern: GUARDIAN_ENABLED = False
+          - pattern: guardian_system = MockGuardian()
+          - pattern: |
+              if not PRODUCTION:
+                  guardian = DisabledGuardian()
+          - pattern: guardian.disable_all_policies()
+    message: |
+      LUKHAS Guardian System disabled or mocked.
+
+      Guardian System provides critical security monitoring and policy enforcement.
+
+      Fix: Use ProductionGuardian with proper policy configuration.
+    languages: [python]
+    severity: ERROR
+    metadata:
+      category: security
+      technology: [lukhas, guardian]
+      confidence: HIGH
+      impact: HIGH
+      likelihood: LOW
+      subcategory: [security-bypass]
+
+  - id: consciousness-safety-bypass
+    patterns:
+      - pattern-either:
+          - pattern: consciousness.safety_checks = False
+          - pattern: |
+              def consciousness_safety_check(...):
+                  return True  # bypass safety
+          - pattern: CONSCIOUSNESS_SAFETY_ENABLED = False
+    message: |
+      LUKHAS Consciousness safety checks bypassed.
+
+      Consciousness safety checks prevent harmful or unintended AI behavior.
+
+      Fix: Enable consciousness safety checks in production environments.
+    languages: [python]
+    severity: ERROR
+    metadata:
+      category: security
+      technology: [lukhas, consciousness, ai-safety]
+      confidence: HIGH
+      impact: HIGH
+      likelihood: LOW
+      subcategory: [ai-safety]
+
+  # Configuration Security Rules
+  # =============================================================================
+
+  - id: insecure-ssl-configuration
+    patterns:
+      - pattern-either:
+          - pattern: ssl_context = None
+          - pattern: verify=False
+          - pattern: ssl_verify=False
+          - pattern: check_hostname=False
+          - pattern: |
+              context = ssl.create_default_context()
+              context.check_hostname = False
+              context.verify_mode = ssl.CERT_NONE
+    message: |
+      Insecure SSL/TLS configuration detected.
+
+      Disabled SSL verification allows man-in-the-middle attacks.
+
+      Fix: Enable SSL certificate verification and hostname checking.
+    languages: [python]
+    severity: ERROR
+    metadata:
+      category: security
+      technology: [lukhas, ssl, https]
+      confidence: HIGH
+      impact: HIGH
+      likelihood: MEDIUM
+      subcategory: [ssl-tls]
+      cwe: "CWE-295: Certificate Verification"
+
+  - id: weak-session-configuration
+    patterns:
+      - pattern-either:
+          - pattern: SESSION_COOKIE_SECURE = False
+          - pattern: SESSION_COOKIE_HTTPONLY = False
+          - pattern: SESSION_COOKIE_SAMESITE = None
+          - pattern: app.config["SESSION_COOKIE_SECURE"] = False
+    message: |
+      Weak session cookie configuration detected.
+
+      Insecure session cookies are vulnerable to interception and XSS attacks.
+
+      Fix: Enable Secure, HttpOnly, and SameSite cookie attributes.
+    languages: [python]
+    severity: WARNING
+    metadata:
+      category: security
+      technology: [lukhas, session, cookies]
+      confidence: HIGH
+      impact: MEDIUM
+      likelihood: MEDIUM
+      subcategory: [session-management]
+
+  - id: debug-information-disclosure
+    patterns:
+      - pattern-either:
+          - pattern: app.config["DEBUG"] = True
+          - pattern: debug=True
+          - pattern: |
+              try:
+                  ...
+              except Exception as e:
+                  return str(e)  # Information disclosure
+    message: |
+      Debug information disclosure vulnerability.
+
+      Debug mode and detailed error messages can leak sensitive information.
+
+      Fix: Disable debug mode in production, implement proper error handling.
+    languages: [python]
+    severity: WARNING
+    metadata:
+      category: security
+      technology: [lukhas, debugging]
+      confidence: HIGH
+      impact: MEDIUM
+      likelihood: HIGH
+      subcategory: [information-disclosure]
+
+  # Performance and DoS Prevention
+  # =============================================================================
+
+  - id: missing-rate-limiting
+    patterns:
+      - pattern-either:
+          - pattern: |
+              @app.post("/api/expensive-operation")
+              def expensive_operation(...):
+                  # No rate limiting
+                  ...
+          - pattern: |
+              @router.post("...")
+              async def $FUNC(...):
+                  # No rate limiting dependency
+                  ...
+    message: |
+      Missing rate limiting on potentially expensive endpoint.
+
+      Endpoints without rate limiting are vulnerable to DoS attacks.
+
+      Fix: Implement rate limiting using middleware or decorators.
+    languages: [python]
+    severity: INFO
+    metadata:
+      category: security
+      technology: [lukhas, rate-limiting]
+      confidence: LOW
+      impact: MEDIUM
+      likelihood: HIGH
+      subcategory: [dos-prevention]
+
+  - id: resource-exhaustion-risk
+    patterns:
+      - pattern-either:
+          - pattern: |
+              while True:
+                  # Infinite loop without break condition
+                  process_data()
+          - pattern: |
+              data = []
+              for item in unlimited_source():
+                  data.append(item)  # Unbounded memory growth
+    message: |
+      Resource exhaustion vulnerability detected.
+
+      Infinite loops or unbounded data structures can cause DoS.
+
+      Fix: Implement proper bounds, limits, and circuit breakers.
+    languages: [python]
+    severity: WARNING
+    metadata:
+      category: security
+      technology: [lukhas, resource-management]
+      confidence: LOW
+      impact: HIGH
+      likelihood: LOW
+      subcategory: [dos-prevention]
