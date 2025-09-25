@@ -207,6 +207,151 @@ class TestMetricsLabelContracts:
             assert all(c.isalnum() or c in "_-." for c in label_str)
 
 
+class TestMemoryLifecycleLabelContracts:
+    """Contract tests for memory lifecycle operations."""
+
+    def setup_method(self):
+        """Setup test fixtures."""
+        self.metrics = ServiceMetricsCollector()
+
+    def test_memory_lifecycle_operation_labels(self):
+        """Test memory lifecycle operations have required labels."""
+        lifecycle_operations = ["archive", "gdpr_deletion", "cleanup"]
+
+        for operation in lifecycle_operations:
+            with patch('lukhas.observability.service_metrics.ServiceMetricsCollector._update_prometheus_metric'):
+                # Test duration metric
+                self.metrics.record_metric(
+                    name="lukhas_memory_lifecycle_seconds",
+                    value=2.5,  # 2.5s duration
+                    service=ServiceType.MEMORY,
+                    metric_type=MetricType.HISTOGRAM,
+                    operation=operation,
+                    lane="production"
+                )
+
+                # Test operations counter
+                self.metrics.record_metric(
+                    name="lukhas_memory_lifecycle_operations_total",
+                    value=1,
+                    service=ServiceType.MEMORY,
+                    metric_type=MetricType.COUNTER,
+                    operation=operation,
+                    lane="production"
+                )
+
+                # Verify required labels present
+                duration_key = f"memory_lukhas_memory_lifecycle_seconds"
+                operations_key = f"memory_lukhas_memory_lifecycle_operations_total"
+
+                assert duration_key in self.metrics.metrics
+                assert operations_key in self.metrics.metrics
+
+                duration_metric = self.metrics.metrics[duration_key]
+                operations_metric = self.metrics.metrics[operations_key]
+
+                # Check required labels
+                for metric in [duration_metric, operations_metric]:
+                    assert "lane" in metric.labels
+                    assert "operation" in metric.labels
+                    assert metric.labels["operation"] == operation
+                    assert metric.labels["lane"] == "production"
+
+    def test_memory_lifecycle_error_labels(self):
+        """Test memory lifecycle error metrics have required labels."""
+        error_operations = ["archive", "gdpr_deletion"]
+
+        for operation in error_operations:
+            with patch('lukhas.observability.service_metrics.ServiceMetricsCollector._update_prometheus_metric'):
+                # Test error counter
+                self.metrics.record_metric(
+                    name="lukhas_memory_lifecycle_errors_total",
+                    value=1,
+                    service=ServiceType.MEMORY,
+                    metric_type=MetricType.COUNTER,
+                    operation=operation,
+                    lane="candidate"
+                )
+
+                # Verify required labels present
+                error_key = f"memory_lukhas_memory_lifecycle_errors_total"
+                assert error_key in self.metrics.metrics
+
+                error_metric = self.metrics.metrics[error_key]
+                assert "lane" in error_metric.labels
+                assert "operation" in error_metric.labels
+                assert error_metric.labels["operation"] == operation
+                assert error_metric.labels["lane"] == "candidate"
+
+    def test_forbidden_correlation_id_in_labels(self):
+        """Test that correlation_id is NEVER used as a Prometheus label."""
+        with patch('lukhas.observability.service_metrics.ServiceMetricsCollector._update_prometheus_metric'):
+            # Attempt to record metric with correlation_id in labels (should be filtered out)
+            self.metrics.record_metric(
+                name="lukhas_memory_lifecycle_seconds",
+                value=1.5,
+                service=ServiceType.MEMORY,
+                metric_type=MetricType.HISTOGRAM,
+                operation="archive",
+                lane="production",
+                labels={"correlation_id": "should-not-appear"}  # This should be filtered out
+            )
+
+            metric_key = f"memory_lukhas_memory_lifecycle_seconds"
+            assert metric_key in self.metrics.metrics
+
+            metric = self.metrics.metrics[metric_key]
+            # correlation_id should NOT be in labels to prevent cardinality explosion
+            assert "correlation_id" not in metric.labels
+
+            # Required labels should still be present
+            assert "lane" in metric.labels
+            assert "operation" in metric.labels
+
+    def test_memory_upsert_latency_labels(self):
+        """Test memory upsert operations have correct labels."""
+        with patch('lukhas.observability.service_metrics.ServiceMetricsCollector._update_prometheus_metric'):
+            self.metrics.record_metric(
+                name="lukhas_memory_upsert_seconds",
+                value=0.085,  # 85ms - within 100ms SLO
+                service=ServiceType.MEMORY,
+                metric_type=MetricType.HISTOGRAM,
+                operation="upsert",
+                lane="production"
+            )
+
+            metric_key = f"memory_lukhas_memory_upsert_seconds"
+            assert metric_key in self.metrics.metrics
+
+            metric = self.metrics.metrics[metric_key]
+            assert "lane" in metric.labels
+            assert "operation" in metric.labels
+            assert metric.labels["operation"] == "upsert"
+            assert metric.labels["lane"] == "production"
+
+    def test_canonical_lane_values_in_metrics(self):
+        """Test metrics use canonical lane enum values."""
+        canonical_lanes = ["candidate", "lukhas", "MATRIZ", "integration", "production", "canary", "experimental"]
+
+        for lane_value in canonical_lanes:
+            with patch('lukhas.observability.service_metrics.ServiceMetricsCollector._update_prometheus_metric'):
+                self.metrics.record_metric(
+                    name="lukhas_memory_lifecycle_operations_total",
+                    value=1,
+                    service=ServiceType.MEMORY,
+                    metric_type=MetricType.COUNTER,
+                    operation="archive",
+                    lane=lane_value
+                )
+
+                metric_key = f"memory_lukhas_memory_lifecycle_operations_total"
+                metric = self.metrics.metrics[metric_key]
+
+                # Lane value should match canonical taxonomy
+                assert metric.labels["lane"] == lane_value
+                assert metric.labels["lane"] in canonical_lanes
+
+
 class TestSLOBurnRateMetrics:
     """Contract tests for SLO burn-rate specific metrics."""
 

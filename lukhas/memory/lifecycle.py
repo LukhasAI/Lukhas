@@ -109,8 +109,23 @@ class AbstractVectorStore(ABC):
         pass
 # Use standard Python logging instead of custom logger
 import logging
+import uuid
+from contextvars import ContextVar
 
 logger = logging.getLogger(__name__)
+
+# OpenTelemetry imports with graceful fallback
+try:
+    from opentelemetry import trace
+    from opentelemetry.trace import Status, StatusCode
+    OTEL_AVAILABLE = True
+    tracer = trace.get_tracer(__name__)
+except ImportError:
+    OTEL_AVAILABLE = False
+    tracer = None
+
+# Context variable for correlation_id propagation
+correlation_id_var: ContextVar[Optional[str]] = ContextVar('correlation_id', default=None)
 
 # Mock metrics collector for testing
 class MockMetricsCollector:
@@ -800,7 +815,8 @@ class MemoryLifecycleManager:
     async def cleanup_expired_documents(
         self,
         batch_size: int = 1000,
-        max_documents: Optional[int] = None
+        max_documents: Optional[int] = None,
+        correlation_id: Optional[str] = None
     ) -> LifecycleStats:
         """
         Clean up expired documents according to retention policies.
@@ -808,12 +824,30 @@ class MemoryLifecycleManager:
         Args:
             batch_size: Number of documents to process per batch
             max_documents: Maximum documents to process (None = all)
+            correlation_id: Request correlation ID for tracing
 
         Returns:
             Cleanup statistics
         """
+        # Set correlation_id in context for propagation
+        if correlation_id:
+            correlation_id_var.set(correlation_id)
+        else:
+            correlation_id = correlation_id_var.get() or str(uuid.uuid4())
+
         start_time = time.perf_counter()
         cleanup_stats = LifecycleStats()
+
+        # Create OTEL span for lifecycle operation
+        span = None
+        if OTEL_AVAILABLE and tracer:
+            span = tracer.start_span("memory_lifecycle_cleanup")
+            span.set_attribute("operation", "cleanup")
+            span.set_attribute("lane", "unknown")  # Will be updated per document
+            span.set_attribute("correlation_id", correlation_id)
+            span.set_attribute("batch_size", batch_size)
+            if max_documents:
+                span.set_attribute("max_documents", max_documents)
 
         try:
             # Get expired documents
@@ -897,23 +931,40 @@ class MemoryLifecycleManager:
                 {"operation": "archive"}
             )
 
+            # Update span with final metrics
+            if span:
+                span.set_attribute("processed_count", processed_count)
+                span.set_attribute("documents_deleted", cleanup_stats.documents_deleted)
+                span.set_attribute("documents_archived", cleanup_stats.documents_archived)
+                span.set_attribute("duration_ms", cleanup_stats.cleanup_duration_ms)
+                span.set_status(Status(StatusCode.OK))
+
             logger.info(
                 "Document cleanup completed",
                 processed=processed_count,
                 deleted=cleanup_stats.documents_deleted,
                 archived=cleanup_stats.documents_archived,
-                duration_ms=cleanup_stats.cleanup_duration_ms
+                duration_ms=cleanup_stats.cleanup_duration_ms,
+                correlation_id=correlation_id
             )
 
             return cleanup_stats
 
         except Exception as e:
+            if span:
+                span.record_exception(e)
+                span.set_status(Status(StatusCode.ERROR, str(e)))
+
             logger.error(
                 "Document cleanup failed",
                 error=str(e),
-                duration_ms=(time.perf_counter() - start_time) * 1000
+                duration_ms=(time.perf_counter() - start_time) * 1000,
+                correlation_id=correlation_id
             )
             raise
+        finally:
+            if span:
+                span.end()
 
     def _should_delete_by_default(
         self,
@@ -981,7 +1032,20 @@ class MemoryLifecycleManager:
         if not self.archival_backend:
             raise ValueError("No archival backend configured")
 
+        correlation_id = correlation_id_var.get()
         start_time = time.perf_counter()
+
+        # Create OTEL span for archival operation
+        span = None
+        if OTEL_AVAILABLE and tracer:
+            span = tracer.start_span("memory_lifecycle_archive")
+            span.set_attribute("operation", "archive")
+            span.set_attribute("lane", document.lane)
+            span.set_attribute("document_id", document.id)
+            span.set_attribute("archive_tier", rule.archive_tier.value)
+            span.set_attribute("compress_on_archive", rule.compress_on_archive)
+            if correlation_id:
+                span.set_attribute("correlation_id", correlation_id)
 
         try:
             # Execute pre-archival callback
@@ -1005,24 +1069,64 @@ class MemoryLifecycleManager:
             duration_ms = (time.perf_counter() - start_time) * 1000
             self.stats.archival_duration_ms += duration_ms
 
+            # Record metrics with lane and operation labels (no correlation_id!)
+            metrics.record_metric(
+                "lukhas_memory_lifecycle_seconds",
+                duration_ms / 1000,
+                ServiceType.MEMORY,
+                MetricType.HISTOGRAM,
+                {"operation": "archive", "lane": document.lane}
+            )
+            metrics.record_metric(
+                "lukhas_memory_lifecycle_operations_total",
+                1,
+                ServiceType.MEMORY,
+                MetricType.COUNTER,
+                {"operation": "archive", "lane": document.lane}
+            )
+
+            # Update span with success metrics
+            if span:
+                span.set_attribute("archive_id", archive_id)
+                span.set_attribute("duration_ms", duration_ms)
+                span.set_status(Status(StatusCode.OK))
+
             logger.info(
                 "Document archived successfully",
                 document_id=document.id,
                 archive_id=archive_id,
                 tier=rule.archive_tier.value,
                 compressed=rule.compress_on_archive,
-                duration_ms=duration_ms
+                duration_ms=duration_ms,
+                correlation_id=correlation_id
             )
 
             return archive_id
 
         except Exception as e:
+            # Record error metrics
+            metrics.record_metric(
+                "lukhas_memory_lifecycle_errors_total",
+                1,
+                ServiceType.MEMORY,
+                MetricType.COUNTER,
+                {"operation": "archive", "lane": document.lane}
+            )
+
+            if span:
+                span.record_exception(e)
+                span.set_status(Status(StatusCode.ERROR, str(e)))
+
             logger.error(
                 "Failed to archive document",
                 document_id=document.id,
-                error=str(e)
+                error=str(e),
+                correlation_id=correlation_id
             )
             raise
+        finally:
+            if span:
+                span.end()
 
     async def _delete_document_with_tombstone(
         self,
@@ -1034,7 +1138,23 @@ class MemoryLifecycleManager:
         """
         Delete document and create GDPR tombstone if required.
         """
+        correlation_id = correlation_id_var.get()
         start_time = time.perf_counter()
+
+        # Create OTEL span for GDPR deletion operation
+        span = None
+        if OTEL_AVAILABLE and tracer:
+            span = tracer.start_span("memory_lifecycle_gdpr_deletion")
+            span.set_attribute("operation", "gdpr_deletion")
+            span.set_attribute("lane", document.lane)
+            span.set_attribute("document_id", document.id)
+            span.set_attribute("deletion_reason", deletion_reason)
+            if requested_by:
+                span.set_attribute("requested_by", requested_by)
+            if rule_name:
+                span.set_attribute("rule_name", rule_name)
+            if correlation_id:
+                span.set_attribute("correlation_id", correlation_id)
 
         try:
             # Create tombstone if GDPR compliance enabled
@@ -1070,22 +1190,66 @@ class MemoryLifecycleManager:
                     / self.stats.tombstones_created if self.stats.tombstones_created > 0 else duration_ms
                 )
 
+                # Record metrics with lane and operation labels (no correlation_id!)
+                metrics.record_metric(
+                    "lukhas_memory_lifecycle_seconds",
+                    duration_ms / 1000,
+                    ServiceType.MEMORY,
+                    MetricType.HISTOGRAM,
+                    {"operation": "gdpr_deletion", "lane": document.lane}
+                )
+                metrics.record_metric(
+                    "lukhas_memory_lifecycle_operations_total",
+                    1,
+                    ServiceType.MEMORY,
+                    MetricType.COUNTER,
+                    {"operation": "gdpr_deletion", "lane": document.lane}
+                )
+
+                # Update span with success metrics
+                if span:
+                    span.set_attribute("tombstone_created", True)
+                    span.set_attribute("duration_ms", duration_ms)
+                    span.set_status(Status(StatusCode.OK))
+
                 logger.debug(
                     "Document deleted with tombstone",
                     document_id=document.id,
                     reason=deletion_reason,
-                    duration_ms=duration_ms
+                    duration_ms=duration_ms,
+                    correlation_id=correlation_id
                 )
+            else:
+                if span:
+                    span.set_attribute("tombstone_created", False)
+                    span.set_status(Status(StatusCode.ERROR, "Tombstone creation failed"))
 
             return success
 
         except Exception as e:
+            # Record error metrics
+            metrics.record_metric(
+                "lukhas_memory_lifecycle_errors_total",
+                1,
+                ServiceType.MEMORY,
+                MetricType.COUNTER,
+                {"operation": "gdpr_deletion", "lane": document.lane}
+            )
+
+            if span:
+                span.record_exception(e)
+                span.set_status(Status(StatusCode.ERROR, str(e)))
+
             logger.error(
                 "Failed to delete document with tombstone",
                 document_id=document.id,
-                error=str(e)
+                error=str(e),
+                correlation_id=correlation_id
             )
             raise
+        finally:
+            if span:
+                span.end()
 
     async def process_gdpr_deletion_request(
         self,

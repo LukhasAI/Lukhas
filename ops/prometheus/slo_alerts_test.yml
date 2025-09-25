@@ -250,3 +250,150 @@ tests:
   - alertname: LUKHASGuardianDecisionLatencyBelowSLO
     eval_time: 5m
     exp_alerts: []
+
+# Test Memory Upsert Latency SLO Alert (lukhas_memory_upsert_seconds p95 < 0.1s)
+- interval: 1m
+  input_series:
+    - series: 'lukhas_memory_upsert_seconds_bucket{lane="prod",le="0.05"}'
+      values: '75+75x10'   # 75 requests under 50ms
+    - series: 'lukhas_memory_upsert_seconds_bucket{lane="prod",le="0.1"}'
+      values: '95+95x10'   # 95 requests under 100ms (P95 = 100ms boundary)
+    - series: 'lukhas_memory_upsert_seconds_bucket{lane="prod",le="0.2"}'
+      values: '98+98x10'   # 98 requests under 200ms
+    - series: 'lukhas_memory_upsert_seconds_bucket{lane="prod",le="+Inf"}'
+      values: '100+100x10' # 100 total requests
+  alert_rule_test:
+  - alertname: LUKHASMemoryUpsertLatencyBelowSLO
+    eval_time: 2m
+    exp_alerts:
+    - labels:
+        severity: critical
+        service: lukhas-memory
+        slo: upsert_latency
+        team: core
+
+# Test Memory Lifecycle Archive Operation SLO Alert (lukhas_memory_lifecycle_seconds{operation="archive"} p95 < 5s)
+- interval: 1m
+  input_series:
+    - series: 'lukhas_memory_lifecycle_seconds_bucket{lane="prod",operation="archive",le="1"}'
+      values: '60+60x10'   # 60 operations under 1s
+    - series: 'lukhas_memory_lifecycle_seconds_bucket{lane="prod",operation="archive",le="3"}'
+      values: '85+85x10'   # 85 operations under 3s
+    - series: 'lukhas_memory_lifecycle_seconds_bucket{lane="prod",operation="archive",le="5"}'
+      values: '95+95x10'   # 95 operations under 5s (P95 = 5s boundary)
+    - series: 'lukhas_memory_lifecycle_seconds_bucket{lane="prod",operation="archive",le="10"}'
+      values: '98+98x10'   # 98 operations under 10s
+    - series: 'lukhas_memory_lifecycle_seconds_bucket{lane="prod",operation="archive",le="+Inf"}'
+      values: '100+100x10' # 100 total operations
+  alert_rule_test:
+  - alertname: LUKHASMemoryLifecycleArchiveLatencyBelowSLO
+    eval_time: 2m
+    exp_alerts:
+    - labels:
+        severity: warning
+        service: lukhas-memory
+        slo: lifecycle_archive_latency
+        team: core
+
+# Test Memory Lifecycle GDPR Operation SLO Alert (lukhas_memory_lifecycle_seconds{operation="gdpr_deletion"} p95 < 5s)
+- interval: 1m
+  input_series:
+    - series: 'lukhas_memory_lifecycle_seconds_bucket{lane="prod",operation="gdpr_deletion",le="1"}'
+      values: '70+70x10'   # 70 operations under 1s
+    - series: 'lukhas_memory_lifecycle_seconds_bucket{lane="prod",operation="gdpr_deletion",le="3"}'
+      values: '88+88x10'   # 88 operations under 3s
+    - series: 'lukhas_memory_lifecycle_seconds_bucket{lane="prod",operation="gdpr_deletion",le="5"}'
+      values: '95+95x10'   # 95 operations under 5s (P95 = 5s boundary)
+    - series: 'lukhas_memory_lifecycle_seconds_bucket{lane="prod",operation="gdpr_deletion",le="10"}'
+      values: '99+99x10'   # 99 operations under 10s
+    - series: 'lukhas_memory_lifecycle_seconds_bucket{lane="prod",operation="gdpr_deletion",le="+Inf"}'
+      values: '100+100x10' # 100 total operations
+  alert_rule_test:
+  - alertname: LUKHASMemoryLifecycleGDPRLatencyBelowSLO
+    eval_time: 2m
+    exp_alerts:
+    - labels:
+        severity: critical
+        service: lukhas-memory
+        slo: lifecycle_gdpr_latency
+        team: core
+
+# Test Memory Lifecycle Error Rate Burn Rate Alert - 4 errors in 1 hour window
+- interval: 1h
+  input_series:
+    - series: 'lukhas_memory_lifecycle_errors_total{lane="prod",operation="archive"}'
+      values: '0+4x1'      # 4 errors in 1 hour
+    - series: 'lukhas_memory_lifecycle_operations_total{lane="prod",operation="archive"}'
+      values: '1000+1000x1' # 1000 total operations
+  alert_rule_test:
+  - alertname: LUKHASMemoryLifecycleErrorBurnRate1h
+    eval_time: 1h
+    exp_alerts:
+    - labels:
+        severity: warning
+        service: lukhas-memory
+        slo: lifecycle_error_burn_rate
+        window: 1h
+        team: core
+
+# Test Memory Lifecycle Error Rate Burn Rate Alert - 2 errors in 6 hour window
+- interval: 6h
+  input_series:
+    - series: 'lukhas_memory_lifecycle_errors_total{lane="prod",operation="gdpr_deletion"}'
+      values: '0+2x1'      # 2 errors in 6 hours
+    - series: 'lukhas_memory_lifecycle_operations_total{lane="prod",operation="gdpr_deletion"}'
+      values: '6000+6000x1' # 6000 total operations
+  alert_rule_test:
+  - alertname: LUKHASMemoryLifecycleErrorBurnRate6h
+    eval_time: 6h
+    exp_alerts:
+    - labels:
+        severity: critical
+        service: lukhas-memory
+        slo: lifecycle_error_burn_rate
+        window: 6h
+        team: core
+
+# Regression Prevention for Memory Lifecycle - Verify alerts DON'T fire under normal T4/0.01% conditions
+- interval: 1m
+  input_series:
+    # Excellent memory upsert performance (P95 = 40ms)
+    - series: 'lukhas_memory_upsert_seconds_bucket{lane="prod",le="0.04"}'
+      values: '95+95x10'
+    - series: 'lukhas_memory_upsert_seconds_bucket{lane="prod",le="0.1"}'
+      values: '99+99x10'
+    - series: 'lukhas_memory_upsert_seconds_bucket{lane="prod",le="+Inf"}'
+      values: '100+100x10'
+    # Excellent lifecycle archive performance (P95 = 2s)
+    - series: 'lukhas_memory_lifecycle_seconds_bucket{lane="prod",operation="archive",le="2"}'
+      values: '95+95x10'
+    - series: 'lukhas_memory_lifecycle_seconds_bucket{lane="prod",operation="archive",le="5"}'
+      values: '99+99x10'
+    - series: 'lukhas_memory_lifecycle_seconds_bucket{lane="prod",operation="archive",le="+Inf"}'
+      values: '100+100x10'
+    # Excellent lifecycle GDPR performance (P95 = 1.5s)
+    - series: 'lukhas_memory_lifecycle_seconds_bucket{lane="prod",operation="gdpr_deletion",le="1.5"}'
+      values: '95+95x10'
+    - series: 'lukhas_memory_lifecycle_seconds_bucket{lane="prod",operation="gdpr_deletion",le="5"}'
+      values: '99+99x10'
+    - series: 'lukhas_memory_lifecycle_seconds_bucket{lane="prod",operation="gdpr_deletion",le="+Inf"}'
+      values: '100+100x10'
+    # Low error rates (< 0.1%)
+    - series: 'lukhas_memory_lifecycle_errors_total{lane="prod",operation="archive"}'
+      values: '0+0x10'
+    - series: 'lukhas_memory_lifecycle_operations_total{lane="prod",operation="archive"}'
+      values: '10000+10000x10'
+    - series: 'lukhas_memory_lifecycle_errors_total{lane="prod",operation="gdpr_deletion"}'
+      values: '0+1x10'
+    - series: 'lukhas_memory_lifecycle_operations_total{lane="prod",operation="gdpr_deletion"}'
+      values: '10000+10000x10'
+  alert_rule_test:
+  - alertname: LUKHASMemoryUpsertLatencyBelowSLO
+    eval_time: 5m
+    exp_alerts: []
+  - alertname: LUKHASMemoryLifecycleArchiveLatencyBelowSLO
+    eval_time: 5m
+    exp_alerts: []
+  - alertname: LUKHASMemoryLifecycleGDPRLatencyBelowSLO
+    eval_time: 5m
+    exp_alerts: []

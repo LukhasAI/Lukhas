@@ -38,6 +38,34 @@ groups:
         sum(rate(orchestrator_routing_latency_seconds_bucket[5m])) by (le)
       )
 
+  - record: lukhas:memory_upsert_latency_p95_5m
+    expr: |
+      histogram_quantile(0.95,
+        sum(rate(lukhas_memory_upsert_seconds_bucket[5m])) by (le)
+      )
+
+  - record: lukhas:memory_lifecycle_archive_latency_p95_5m
+    expr: |
+      histogram_quantile(0.95,
+        sum(rate(lukhas_memory_lifecycle_seconds_bucket{operation="archive"}[5m])) by (le)
+      )
+
+  - record: lukhas:memory_lifecycle_gdpr_latency_p95_5m
+    expr: |
+      histogram_quantile(0.95,
+        sum(rate(lukhas_memory_lifecycle_seconds_bucket{operation="gdpr_deletion"}[5m])) by (le)
+      )
+
+  - record: lukhas:memory_lifecycle_error_rate_1h
+    expr: |
+      sum(rate(lukhas_memory_lifecycle_errors_total[1h])) by (lane, operation) /
+      sum(rate(lukhas_memory_lifecycle_operations_total[1h])) by (lane, operation)
+
+  - record: lukhas:memory_lifecycle_error_rate_6h
+    expr: |
+      sum(rate(lukhas_memory_lifecycle_errors_total[6h])) by (lane, operation) /
+      sum(rate(lukhas_memory_lifecycle_operations_total[6h])) by (lane, operation)
+
 - name: lukhas_slo_critical
   interval: 30s
   rules:
@@ -138,6 +166,54 @@ groups:
       description: "Orchestrator routing P95 latency is {{ $value }}s, above the 250ms SLO target"
       runbook_url: "https://docs.lukhas.ai/runbooks/orchestrator-routing-performance"
 
+  - alert: LUKHASMemoryUpsertLatencyBelowSLO
+    expr: |
+      histogram_quantile(0.95,
+        rate(lukhas_memory_upsert_seconds_bucket{lane=~"prod|candidate"}[5m])
+      ) > 0.1
+    for: 2m
+    labels:
+      severity: critical
+      service: lukhas-memory
+      slo: upsert_latency
+      team: core
+    annotations:
+      summary: "Memory upsert P95 latency above 100ms SLO"
+      description: "Memory upsert P95 latency is {{ $value }}s, above the 100ms SLO target"
+      runbook_url: "https://docs.lukhas.ai/runbooks/memory-upsert-performance"
+
+  - alert: LUKHASMemoryLifecycleArchiveLatencyBelowSLO
+    expr: |
+      histogram_quantile(0.95,
+        rate(lukhas_memory_lifecycle_seconds_bucket{operation="archive",lane=~"prod|candidate"}[5m])
+      ) > 5
+    for: 2m
+    labels:
+      severity: warning
+      service: lukhas-memory
+      slo: lifecycle_archive_latency
+      team: core
+    annotations:
+      summary: "Memory lifecycle archive P95 latency above 5s SLO"
+      description: "Memory archive operations P95 latency is {{ $value }}s, above the 5s SLO target"
+      runbook_url: "https://docs.lukhas.ai/runbooks/memory-lifecycle-performance"
+
+  - alert: LUKHASMemoryLifecycleGDPRLatencyBelowSLO
+    expr: |
+      histogram_quantile(0.95,
+        rate(lukhas_memory_lifecycle_seconds_bucket{operation="gdpr_deletion",lane=~"prod|candidate"}[5m])
+      ) > 5
+    for: 2m
+    labels:
+      severity: critical
+      service: lukhas-memory
+      slo: lifecycle_gdpr_latency
+      team: core
+    annotations:
+      summary: "Memory lifecycle GDPR deletion P95 latency above 5s SLO"
+      description: "Memory GDPR deletion operations P95 latency is {{ $value }}s, above the 5s SLO target"
+      runbook_url: "https://docs.lukhas.ai/runbooks/memory-gdpr-performance"
+
 - name: lukhas_slo_warning
   interval: 1m
   rules:
@@ -208,6 +284,40 @@ groups:
       summary: "Consciousness processing success rate below 90% SLO"
       description: "Consciousness success rate is {{ $value | humanizePercentage }}, below 90% SLO target"
       runbook_url: "https://docs.lukhas.ai/runbooks/consciousness-reliability"
+
+  - alert: LUKHASMemoryLifecycleErrorBurnRate1h
+    expr: |
+      (
+        increase(lukhas_memory_lifecycle_errors_total{lane=~"prod|candidate"}[1h]) >= 4
+      )
+    for: 1h
+    labels:
+      severity: warning
+      service: lukhas-memory
+      slo: lifecycle_error_burn_rate
+      window: 1h
+      team: core
+    annotations:
+      summary: "Memory lifecycle error budget burn rate exceeded (1h window)"
+      description: "{{ $value }} memory lifecycle errors in 1 hour window, exceeding 4-error threshold"
+      runbook_url: "https://docs.lukhas.ai/runbooks/memory-lifecycle-error-budget"
+
+  - alert: LUKHASMemoryLifecycleErrorBurnRate6h
+    expr: |
+      (
+        increase(lukhas_memory_lifecycle_errors_total{lane=~"prod|candidate"}[6h]) >= 2
+      )
+    for: 6h
+    labels:
+      severity: critical
+      service: lukhas-memory
+      slo: lifecycle_error_burn_rate
+      window: 6h
+      team: core
+    annotations:
+      summary: "Memory lifecycle error budget burn rate exceeded (6h window)"
+      description: "{{ $value }} memory lifecycle errors in 6 hour window, exceeding 2-error threshold"
+      runbook_url: "https://docs.lukhas.ai/runbooks/memory-lifecycle-error-budget"
 
   - alert: LUKHASErrorBudgetExhaustion
     expr: |
