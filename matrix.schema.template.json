@@ -432,6 +432,50 @@
       }
     },
 
+    "identity": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "requires_auth": { "type": "boolean", "default": true },
+        "accepted_subjects": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Allowlist of subject patterns (users/services), e.g., lukhas:user:*, lukhas:svc:orchestrator"
+        },
+        "required_tiers": {
+          "type": "array",
+          "items": { "type": "string", "enum": ["guest", "visitor", "friend", "trusted", "inner_circle", "root_dev"] },
+          "description": "Human-readable tier names matching existing ΛiD system"
+        },
+        "required_tiers_numeric": {
+          "type": "array",
+          "items": { "type": "integer", "minimum": 0, "maximum": 5 },
+          "description": "Canonical numeric tiers: guest=0, visitor=1, friend=2, trusted=3, inner_circle=4, root_dev=5"
+        },
+        "scopes": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Action-level scopes, e.g., memoria.read, memoria.fold"
+        },
+        "webauthn_required": { "type": "boolean", "default": false },
+        "api_policies": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "fn": { "type": "string" },
+              "requires_step_up": { "type": "boolean", "default": false },
+              "extra_scopes": { "type": "array", "items": { "type": "string" } },
+              "rate_limit_tiered": { "type": "boolean", "default": true }
+            },
+            "required": ["fn"]
+          },
+          "description": "Per-API method authorization policies"
+        }
+      }
+    },
+
     "docs": {
       "type": "object",
       "additionalProperties": false,

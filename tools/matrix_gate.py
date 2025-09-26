@@ -3,13 +3,15 @@
 Matrix Contract Gate Validator
 
 Validates JSON contracts against schema and enforces quality gates based on run reports.
-Supports JSON Schema 2020-12, RATS/EAT attestation verification, and CycloneDX SBOM validation.
+Supports JSON Schema 2020-12, RATS/EAT attestation verification, CycloneDX SBOM validation,
+and Matrix identity/authorization validation.
 
 Standards:
 - JSON Schema 2020-12: https://json-schema.org/draft/2020-12/schema
 - CycloneDX ECMA-424: https://cyclonedx.org/
 - RATS/EAT RFC 9334: https://datatracker.ietf.org/doc/rfc9334/
 - OpenTelemetry semconv: https://opentelemetry.io/docs/specs/semconv/
+- LUKHAS ΛiD Identity System: Tier-based authorization
 """
 
 import json
@@ -197,6 +199,117 @@ class MatrixGate:
             print(f"[WARN] Could not compare {actual} {op} {expected}: {e}")
             return False
 
+    def validate_identity_block(self, matrix: Dict, contract_path: str) -> List[str]:
+        """Validate identity block in matrix contract."""
+        errors = []
+
+        if "identity" not in matrix:
+            # Identity block is optional, but warn if missing for non-test modules
+            if "test" not in contract_path.lower():
+                errors.append("Missing identity block (recommended for production modules)")
+            return errors
+
+        identity = matrix["identity"]
+
+        # Load canonical ΛiD tier permissions for validation
+        try:
+            tier_perms_path = pathlib.Path("candidate/governance/identity/config/tier_permissions.json")
+            if tier_perms_path.exists():
+                with open(tier_perms_path) as f:
+                    tier_permissions = json.load(f)
+                    valid_tiers = list(tier_permissions["tier_permissions"].keys())
+                    valid_tier_names = [
+                        tier_permissions["tier_permissions"][k]["name"].lower().replace(" ", "_").replace("/", "_")
+                        for k in valid_tiers
+                    ]
+            else:
+                # Fallback tier names
+                valid_tier_names = ["guest", "visitor", "friend", "trusted", "inner_circle", "root_dev"]
+        except Exception as e:
+            errors.append(f"Could not load ΛiD tier permissions: {e}")
+            valid_tier_names = ["guest", "visitor", "friend", "trusted", "inner_circle", "root_dev"]
+
+        # Validate required_tiers
+        required_tiers = identity.get("required_tiers", [])
+        for tier in required_tiers:
+            if tier not in valid_tier_names:
+                errors.append(f"Invalid tier name: '{tier}' (valid: {valid_tier_names})")
+
+        # Validate required_tiers_numeric
+        required_tiers_numeric = identity.get("required_tiers_numeric", [])
+        for tier_num in required_tiers_numeric:
+            if not isinstance(tier_num, int) or tier_num < 0 or tier_num > 5:
+                errors.append(f"Invalid tier number: {tier_num} (must be 0-5)")
+
+        # Validate consistency between textual and numeric tiers
+        if required_tiers and required_tiers_numeric:
+            tier_map = {"guest": 0, "visitor": 1, "friend": 2, "trusted": 3, "inner_circle": 4, "root_dev": 5}
+            expected_numeric = [tier_map.get(tier, -1) for tier in required_tiers if tier in tier_map]
+            if set(expected_numeric) != set(required_tiers_numeric):
+                errors.append(f"Tier mismatch: textual {required_tiers} != numeric {required_tiers_numeric}")
+
+        # Validate scopes format
+        scopes = identity.get("scopes", [])
+        for scope in scopes:
+            if not isinstance(scope, str) or "." not in scope:
+                errors.append(f"Invalid scope format: '{scope}' (expected: module.action)")
+
+        # Validate accepted_subjects patterns
+        accepted_subjects = identity.get("accepted_subjects", [])
+        for subject in accepted_subjects:
+            if not subject.startswith("lukhas:"):
+                errors.append(f"Invalid subject pattern: '{subject}' (must start with 'lukhas:')")
+
+        # Validate api_policies
+        api_policies = identity.get("api_policies", [])
+        interface = matrix.get("interface", {})
+        public_apis = {api["fn"] for api in interface.get("public_api", [])}
+
+        for policy in api_policies:
+            fn_name = policy.get("fn")
+            if fn_name and fn_name not in public_apis:
+                errors.append(f"API policy references unknown function: '{fn_name}'")
+
+        # Check for step-up requirements without MFA capability
+        step_up_apis = [p["fn"] for p in api_policies if p.get("requires_step_up", False)]
+        if step_up_apis and not any(tier in ["trusted", "inner_circle", "root_dev"]
+                                   for tier in required_tiers):
+            errors.append(f"Step-up required for {step_up_apis} but no high-tier access allowed")
+
+        return errors
+
+    def check_policy_checksum(self) -> Tuple[bool, str]:
+        """Check if OPA policy bundle checksum matches canonical tier permissions."""
+        try:
+            # Load current tier permissions
+            tier_perms_path = pathlib.Path("candidate/governance/identity/config/tier_permissions.json")
+            if not tier_perms_path.exists():
+                return False, "ΛiD tier permissions not found"
+
+            with open(tier_perms_path) as f:
+                tier_permissions = json.load(f)
+
+            # Calculate expected checksum
+            import hashlib
+            canonical_json = json.dumps(tier_permissions, sort_keys=True, separators=(',', ':'))
+            expected_checksum = hashlib.sha256(canonical_json.encode()).hexdigest()
+
+            # Load policy checksum
+            checksum_file = pathlib.Path("policies/matrix/permissions.checksum")
+            if not checksum_file.exists():
+                return False, "Policy checksum file not found (run: make generate-opa-bundle)"
+
+            with open(checksum_file) as f:
+                actual_checksum = f.read().strip()
+
+            if actual_checksum != expected_checksum:
+                return False, f"Policy checksum mismatch (expected: {expected_checksum[:16]}..., got: {actual_checksum[:16]}...)"
+
+            return True, "Policy checksum valid"
+
+        except Exception as e:
+            return False, f"Policy checksum validation error: {e}"
+
     def verify_sbom(self, matrix: Dict) -> bool:
         """Verify SBOM file exists and is valid CycloneDX."""
         sbom_ref = matrix.get("supply_chain", {}).get("sbom_ref")
@@ -309,11 +422,28 @@ def main():
         action="store_true",
         help="Run OSV scanner on SBOMs and enforce security gates"
     )
+    parser.add_argument(
+        "--identity",
+        action="store_true",
+        help="Validate identity blocks and check policy checksum"
+    )
 
     args = parser.parse_args()
 
     # Initialize gate validator
     gate = MatrixGate(schema_path=args.schema)
+
+    # Check policy checksum if identity validation requested
+    if args.identity:
+        print("[INFO] Checking OPA policy bundle checksum...")
+        checksum_valid, checksum_msg = gate.check_policy_checksum()
+        if checksum_valid:
+            print(f"[PASS] {checksum_msg}")
+        else:
+            print(f"[ERROR] {checksum_msg}")
+            if args.strict:
+                sys.exit(1)
+        print("=" * 60)
 
     # Find all matrix contracts
     paths = glob.glob(args.pattern, recursive=True)
@@ -341,6 +471,20 @@ def main():
 
         print(f"  Module: {matrix.get('module', 'unknown')}")
         print(f"  Version: {matrix.get('schema_version', 'unknown')}")
+
+        # Validate identity block if requested
+        if args.identity:
+            print("\n  Identity Validation:")
+            identity_errors = gate.validate_identity_block(matrix, path)
+            if identity_errors:
+                for error in identity_errors:
+                    print(f"    [ERROR] {error}")
+                if "identity" not in results:
+                    results[path] = {"failures": []}
+                results[path]["failures"].extend([("identity", error, "valid") for error in identity_errors])
+                any_failure = True
+            else:
+                print("    [PASS] Identity block valid")
 
         # Get latest run report
         module_dir = pathlib.Path(path).parent

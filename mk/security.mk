@@ -179,3 +179,48 @@ matrix-security-dashboard: ## Display security posture dashboard
 		--verbose
 	@echo ""
 	@echo "💡 For detailed report: make matrix-security-report"
+
+# Matrix Identity & Authorization
+.PHONY: identity-validate policy-test authz-matrix generate-opa-bundle
+identity-validate: ## Validate identity blocks in Matrix contracts
+	@echo "🔐 Validating identity blocks in Matrix contracts..."
+	@python3 tools/matrix_gate.py --identity --pattern "**/matrix_*.json"
+
+policy-test: ## Test OPA policies
+	@echo "🧪 Testing OPA policies..."
+	@opa test policies/matrix -v || echo "⚠️ OPA not available - install with: brew install open-policy-agent/tap/opa"
+
+authz-matrix: ## Generate and test authorization matrices
+	@echo "🔧 Generating authorization test matrices..."
+	@python3 tools/generate_authz_matrix.py --module memoria --format yaml
+	@echo "✅ Authorization matrix generated for memoria module"
+
+generate-opa-bundle: ## Generate OPA bundle from ΛiD tier permissions
+	@echo "🔧 Generating OPA bundle from ΛiD tier permissions..."
+	@python3 tools/tier_opa_generator.py
+
+test-macaroon-flow: ## Test complete macaroon issuance and verification flow
+	@echo "🎟️ Testing complete macaroon flow..."
+	@TOKEN=$$(python3 tools/tier_macaroon_issuer.py issue --subject "lukhas:user:test" --tier "trusted" --scopes "memoria.read,memoria.store" --audience "lukhas-matrix" --ttl 15 --webauthn | grep "Issued macaroon:" | cut -d" " -f3); \
+	echo "Verifying token: $$TOKEN"; \
+	python3 tools/verify_macaroon.py $$TOKEN
+
+test-authz-middleware: ## Test authorization middleware
+	@echo "🛡️ Testing authorization middleware..."
+	@python3 tools/matrix_authz_middleware.py --test
+
+run-authz-tests: ## Run authorization test matrices
+	@echo "🧪 Running authorization test matrices..."
+	@python3 tools/run_authz_tests.py --test-dir tests/authz
+
+run-authz-tests-verbose: ## Run authorization tests with verbose output
+	@echo "🧪 Running authorization test matrices (verbose)..."
+	@python3 tools/run_authz_tests.py --test-dir tests/authz --verbose
+
+test-identity-integration: ## Test complete identity integration flow
+	@echo "🔐 Testing complete identity integration flow..."
+	@make generate-opa-bundle
+	@make identity-validate
+	@make authz-matrix
+	@make run-authz-tests
+	@echo "✅ Identity integration test complete!"

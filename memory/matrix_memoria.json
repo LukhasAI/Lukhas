@@ -158,6 +158,28 @@
     "artifact": "../artifacts/emissions.csv"
   },
 
+  "identity": {
+    "requires_auth": true,
+    "accepted_subjects": ["lukhas:user:*", "lukhas:svc:orchestrator"],
+    "required_tiers": ["friend", "trusted", "inner_circle", "root_dev"],
+    "required_tiers_numeric": [2, 3, 4, 5],
+    "scopes": ["memoria.read", "memoria.store"],
+    "webauthn_required": false,
+    "api_policies": [
+      {
+        "fn": "fold(memories: list[str]) -> str",
+        "requires_step_up": true,
+        "extra_scopes": ["memoria.fold"],
+        "rate_limit_tiered": true
+      },
+      {
+        "fn": "cascade_prevent() -> bool",
+        "requires_step_up": false,
+        "rate_limit_tiered": true
+      }
+    ]
+  },
+
   "docs": {
     "lens_markdown": "../products/intelligence/lens/baseline.qmd",
     "design_notes": "../docs/memory/architecture.md"

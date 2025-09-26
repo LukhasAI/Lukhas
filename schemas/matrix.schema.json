@@ -403,6 +403,79 @@
       }
     },
 
+    "tokenization": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Optional on-chain anchoring of validations/attestations (e.g., minting receipts on Solana or other networks). This is disabled by default and is opt-in per module.",
+      "properties": {
+        "enabled": { "type": "boolean", "default": false },
+        "network": {
+          "type": "string",
+          "enum": ["solana", "ethereum", "polygon", "base", "arbitrum", "optimism", "near", "avalanche", "cosmos", "celestia", "tezos"],
+          "description": "Primary chain where validation receipts are anchored."
+        },
+        "standard": {
+          "type": "string",
+          "enum": ["solana:spl-token", "solana:mpl-core", "solana:compressed-nft", "ethereum:erc-20", "ethereum:erc-721", "ethereum:erc-1155"],
+          "description": "Token or receipt standard used for anchoring."
+        },
+        "mint_address": { "type": ["string", "null"], "description": "Mint address (Solana) or contract address (EVM) used for receipts." },
+        "token_id": { "type": ["string", "null"], "description": "Token/NFT id when applicable (e.g., ERC-721/1155)." },
+        "anchor_txid": { "type": ["string", "null"], "description": "Transaction id of the most recent on-chain anchor." },
+        "anchor_block": { "type": ["integer", "null"], "description": "Block/slot number of the most recent on-chain anchor." },
+        "anchor_digest": { "type": ["string", "null"], "pattern": "^sha256:.*", "description": "Digest of the validated artifact that was anchored (e.g., gate results hash)." },
+        "anchor_merkle_root": { "type": ["string", "null"], "description": "Merkle root when batching many validations into a single anchor." },
+        "issuer": { "type": ["string", "null"], "description": "Entity or program id that issued the anchor (e.g., program/contract authority)." },
+        "policy_version": { "type": ["string", "null"], "description": "Version of the tokenization/anchoring policy used during mint." },
+        "proof_uri": { "type": ["string", "null"], "description": "URI to off-chain proof bundle (e.g., IPFS/Arweave) that complements the on-chain anchor." },
+        "note": { "type": ["string", "null"], "description": "Human-readable context for the anchor event." }
+      }
+    },
+
+    "identity": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "requires_auth": { "type": "boolean", "default": true },
+        "accepted_subjects": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Allowlist of subject patterns (users/services), e.g., lukhas:user:*, lukhas:svc:orchestrator"
+        },
+        "required_tiers": {
+          "type": "array",
+          "items": { "type": "string", "enum": ["guest", "visitor", "friend", "trusted", "inner_circle", "root_dev"] },
+          "description": "Human-readable tier names matching existing ΛiD system"
+        },
+        "required_tiers_numeric": {
+          "type": "array",
+          "items": { "type": "integer", "minimum": 0, "maximum": 5 },
+          "description": "Canonical numeric tiers: guest=0, visitor=1, friend=2, trusted=3, inner_circle=4, root_dev=5"
+        },
+        "scopes": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Action-level scopes, e.g., memoria.read, memoria.fold"
+        },
+        "webauthn_required": { "type": "boolean", "default": false },
+        "api_policies": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "fn": { "type": "string" },
+              "requires_step_up": { "type": "boolean", "default": false },
+              "extra_scopes": { "type": "array", "items": { "type": "string" } },
+              "rate_limit_tiered": { "type": "boolean", "default": true }
+            },
+            "required": ["fn"]
+          },
+          "description": "Per-API method authorization policies"
+        }
+      }
+    },
+
     "docs": {
       "type": "object",
       "additionalProperties": false,
