@@ -1,0 +1,165 @@
+{
+  "schema_version": "1.0.0",
+  "module": "memory",
+  "owner": {
+    "team": "Core",
+    "codeowners": ["@gonzo.dominguez", "@lukhas-core"]
+  },
+
+  "interface": {
+    "public_api": [
+      {"fn": "recall(query: str, k: int) -> list[str]", "stability": "stable", "doc": "Retrieve top-k memories matching query"},
+      {"fn": "store(content: str, metadata: dict) -> str", "stability": "stable", "doc": "Store new memory with metadata"},
+      {"fn": "fold(memories: list[str]) -> str", "stability": "experimental", "doc": "Fold multiple memories into one"},
+      {"fn": "cascade_prevent() -> bool", "stability": "stable", "doc": "Prevent memory cascade failures"}
+    ],
+    "contracts": [
+      {"name": "topk_ordering", "type": "invariant", "desc": "Results ordered by score descending, then lexicographically ascending"},
+      {"name": "fold_limit", "type": "invariant", "desc": "Maximum 1000 folds before consolidation required"},
+      {"name": "cascade_prevention", "type": "postcondition", "desc": "99.7% cascade prevention success rate maintained"}
+    ]
+  },
+
+  "params": {
+    "recall_cap": {"type": "int", "default": 512, "min": 64, "max": 4096},
+    "fold_threshold": {"type": "int", "default": 1000, "min": 100, "max": 10000},
+    "cascade_timeout": {"type": "float", "default": 0.5, "min": 0.1, "max": 5.0}
+  },
+
+  "gates": [
+    {"metric": "latency.runtime_s_10k", "op": "<=", "value": 20},
+    {"metric": "symbolic.DriftScore", "op": ">=", "value": 0.010},
+    {"metric": "security.osv_high", "op": "==", "value": 0},
+    {"metric": "attestation.rats_verified", "op": "==", "value": 1},
+    {"metric": "memory.cascade_prevention_rate", "op": ">=", "value": 0.997}
+  ],
+
+  "telemetry": {
+    "opentelemetry_semconv_version": "1.37.0",
+    "spans": [
+      {"name": "memory.recall", "attrs": ["code.function", "lukhas.module", "lukhas.k", "lukhas.query_length"]},
+      {"name": "memory.store", "attrs": ["code.function", "lukhas.module", "lukhas.content_size"]},
+      {"name": "memory.fold", "attrs": ["code.function", "lukhas.module", "lukhas.fold_count"]}
+    ],
+    "metrics": [
+      {"name": "lukhas.memory.latency", "unit": "s", "type": "histogram"},
+      {"name": "lukhas.memory.recall.results", "unit": "1", "type": "gauge"},
+      {"name": "lukhas.memory.folds.active", "unit": "1", "type": "gauge"},
+      {"name": "lukhas.memory.cascade.prevented", "unit": "1", "type": "counter"}
+    ]
+  },
+
+  "lineage": {
+    "openlineage_event_id": "urn:uuid:a0b1c2d3-e4f5-6789-abcd-ef0123456789",
+    "datasets_in": ["lukhas://memory/corpus/v3.2", "lukhas://memory/embeddings/v3.2"],
+    "datasets_out": ["lukhas://memory/index/v3.2", "lukhas://memory/folds/v1.0"],
+    "job": "lukhas.memory.build-index"
+  },
+
+  "provenance": {
+    "@context": "https://www.w3.org/ns/prov.jsonld",
+    "commit": "9d161be17",
+    "branch": "main",
+    "built_by": {"prov:agent": "gha://actions@github"},
+    "environment": {"os": "Darwin 25.1.0", "cpu": "Apple M4", "python": "3.11.6"},
+    "config_fingerprint": "sha256:pending"
+  },
+
+  "causal_provenance": {
+    "ipld_root_cid": "bafybeipending",
+    "car_uri": "ipfs://pending/memoria.car",
+    "lamport_time": 0,
+    "vector_clock": {"memory": 0, "consciousness": 0, "identity": 0},
+    "bft": {"algorithm": "hotstuff", "view": 0, "qc_hash": "0x0000000000000000"},
+    "crdt": {"type": "or-set", "last_join_cid": "bafybeipending"}
+  },
+
+  "formal": {
+    "tla_plus": {"spec": "specs/memory/consistency.tla", "result": "UNKNOWN"},
+    "proofs": [],
+    "probabilistic": {
+      "tool": "prism",
+      "model": "models/memory/cascade.pm",
+      "properties": [
+        "P>=0.997 [F \"no_cascade\"]"
+      ]
+    }
+  },
+
+  "privacy": {
+    "epsilon": 0.10,
+    "delta": 1e-10,
+    "mechanism": "gaussian",
+    "composition": "advanced"
+  },
+
+  "attestation": {
+    "rats": {
+      "evidence_jwt": "pending",
+      "verifier_policy": "rats/policy-v2.1.json"
+    },
+    "tee": [
+      {
+        "type": "amd-sev-snp",
+        "report_sha256": "sha256:pending",
+        "vlek_chain": "pem://pending"
+      }
+    ],
+    "ebpf": {
+      "program_id": "sha256:pending",
+      "policy": "opa://policies/syscalls.rego"
+    }
+  },
+
+  "crypto": {
+    "pqc": {
+      "signatures": ["ML-DSA-65", "SLH-DSA-128s"],
+      "kem": "ML-KEM-1024",
+      "hash": "SHA3-512"
+    }
+  },
+
+  "verifiable_claims": {
+    "zk": {
+      "scheme": "groth16",
+      "circuit_cid": null,
+      "proof_uri": null,
+      "vk_uri": null,
+      "setup": {"pot_round": null, "ref": null}
+    },
+    "mpc": {
+      "protocol": "spdz",
+      "threshold": "2/3",
+      "participants": 3
+    }
+  },
+
+  "supply_chain": {
+    "sbom_ref": "../sbom/memoria.cdx.json",
+    "licenses": ["Apache-2.0"],
+    "sarif_report": "../artifacts/memoria.sarif.json",
+    "osv_snapshot": "../artifacts/memoria.osv.json",
+    "attestations": [
+      {
+        "type": "slsa.provenance",
+        "uri": "oci://registry/lukhas/memoria@sha256:pending"
+      }
+    ]
+  },
+
+  "experiments": {
+    "mlflow_tracking_uri": "mlflow://lukhas",
+    "dvc_metrics_ref": "../dvc_metrics/recall.json"
+  },
+
+  "energy": {
+    "tool": "codecarbon",
+    "location": "US-CA",
+    "artifact": "../artifacts/emissions.csv"
+  },
+
+  "docs": {
+    "lens_markdown": "../products/intelligence/lens/baseline.qmd",
+    "design_notes": "../docs/memory/architecture.md"
+  }
+}

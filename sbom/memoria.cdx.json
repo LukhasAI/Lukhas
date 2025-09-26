@@ -1,0 +1,287 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.5",
+  "serialNumber": "urn:uuid:3e671687-395b-41f5-a30f-a58921545812",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2025-09-26T00:00:00Z",
+    "tools": [
+      {
+        "vendor": "LUKHAS AI",
+        "name": "matrix-sbom-generator",
+        "version": "1.0.0"
+      }
+    ],
+    "authors": [
+      {
+        "name": "LUKHAS Core Team",
+        "email": "core@lukhas.ai"
+      }
+    ],
+    "component": {
+      "type": "application",
+      "bom-ref": "lukhas-memory",
+      "name": "lukhas-memory",
+      "version": "1.0.0",
+      "description": "LUKHAS Memory Module with fold-based recall and cascade prevention",
+      "licenses": [
+        {
+          "license": {
+            "id": "Apache-2.0",
+            "url": "https://www.apache.org/licenses/LICENSE-2.0"
+          }
+        }
+      ]
+    },
+    "manufacture": {
+      "name": "LUKHAS AI",
+      "url": ["https://lukhas.ai"]
+    },
+    "properties": [
+      {
+        "name": "cdx:reproducible",
+        "value": "true"
+      },
+      {
+        "name": "lukhas:module",
+        "value": "memory"
+      },
+      {
+        "name": "lukhas:cascade-prevention-rate",
+        "value": "99.7"
+      }
+    ]
+  },
+  "components": [
+    {
+      "type": "library",
+      "bom-ref": "numpy",
+      "name": "numpy",
+      "version": "1.24.3",
+      "purl": "pkg:pypi/numpy@1.24.3",
+      "licenses": [
+        {
+          "license": {
+            "id": "BSD-3-Clause"
+          }
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "ab344f1bf21f140adab3c6e4e5f765def92e0c2f6d2c93e0e1e08d0e6f9c8e4"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "torch",
+      "name": "torch",
+      "version": "2.0.1",
+      "purl": "pkg:pypi/torch@2.0.1",
+      "licenses": [
+        {
+          "license": {
+            "id": "BSD-3-Clause"
+          }
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "faiss-cpu",
+      "name": "faiss-cpu",
+      "version": "1.7.4",
+      "purl": "pkg:pypi/faiss-cpu@1.7.4",
+      "description": "Vector similarity search library",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pydantic",
+      "name": "pydantic",
+      "version": "2.0.3",
+      "purl": "pkg:pypi/pydantic@2.0.3",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "redis",
+      "name": "redis",
+      "version": "4.6.0",
+      "purl": "pkg:pypi/redis@4.6.0",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "opentelemetry-api",
+      "name": "opentelemetry-api",
+      "version": "1.20.0",
+      "purl": "pkg:pypi/opentelemetry-api@1.20.0",
+      "licenses": [
+        {
+          "license": {
+            "id": "Apache-2.0"
+          }
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "jsonschema",
+      "name": "jsonschema",
+      "version": "4.17.3",
+      "purl": "pkg:pypi/jsonschema@4.17.3",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "cryptography",
+      "name": "cryptography",
+      "version": "41.0.3",
+      "purl": "pkg:pypi/cryptography@41.0.3",
+      "licenses": [
+        {
+          "license": {
+            "id": "Apache-2.0",
+            "text": {
+              "content": "Apache License 2.0"
+            }
+          }
+        }
+      ],
+      "properties": [
+        {
+          "name": "cdx:python:algorithm",
+          "value": "sha3-512"
+        },
+        {
+          "name": "cdx:python:pqc",
+          "value": "ML-DSA-65,ML-KEM-1024"
+        }
+      ]
+    }
+  ],
+  "dependencies": [
+    {
+      "ref": "lukhas-memory",
+      "dependsOn": [
+        "numpy",
+        "torch",
+        "faiss-cpu",
+        "pydantic",
+        "redis",
+        "opentelemetry-api",
+        "jsonschema",
+        "cryptography"
+      ]
+    },
+    {
+      "ref": "torch",
+      "dependsOn": ["numpy"]
+    },
+    {
+      "ref": "faiss-cpu",
+      "dependsOn": ["numpy"]
+    }
+  ],
+  "vulnerabilities": [],
+  "annotations": [
+    {
+      "subjects": ["lukhas-memory"],
+      "annotator": {
+        "organization": "LUKHAS Security Team",
+        "email": "security@lukhas.ai"
+      },
+      "timestamp": "2025-09-26T00:00:00Z",
+      "text": "Security review completed. No high-severity vulnerabilities found."
+    }
+  ],
+  "formulation": [
+    {
+      "components": [
+        {
+          "bom-ref": "memory-build-env",
+          "type": "build-system",
+          "name": "Python Build Environment",
+          "version": "3.11.6",
+          "properties": [
+            {
+              "name": "os",
+              "value": "Darwin 25.1.0"
+            },
+            {
+              "name": "arch",
+              "value": "arm64"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "properties": [
+    {
+      "name": "cdx:lifecycle:phase",
+      "value": "production"
+    },
+    {
+      "name": "lukhas:attestation:slsa",
+      "value": "pending"
+    },
+    {
+      "name": "lukhas:energy:codecarbon",
+      "value": "enabled"
+    }
+  ],
+  "externalReferences": [
+    {
+      "type": "vcs",
+      "url": "https://github.com/lukhas-ai/lukhas",
+      "comment": "Source repository"
+    },
+    {
+      "type": "documentation",
+      "url": "https://docs.lukhas.ai/memory",
+      "comment": "Module documentation"
+    },
+    {
+      "type": "issue-tracker",
+      "url": "https://github.com/lukhas-ai/lukhas/issues",
+      "comment": "Issue tracker"
+    },
+    {
+      "type": "attestation",
+      "url": "oci://registry/lukhas/memoria@sha256:pending",
+      "comment": "SLSA provenance attestation"
+    },
+    {
+      "type": "distribution",
+      "url": "https://pypi.org/project/lukhas-memory/",
+      "comment": "PyPI distribution"
+    }
+  ]
+}

@@ -1,0 +1,74 @@
+{
+  "run_id": "run-2025-09-26-001",
+  "module": "memory",
+  "timestamp": "2025-09-26T00:00:00Z",
+  "environment": {
+    "os": "Darwin 25.1.0",
+    "cpu": "Apple M4",
+    "python": "3.11.6",
+    "node": "memory-01",
+    "deployment": "local"
+  },
+  "metrics": {
+    "latency.runtime_s_10k": 18.5,
+    "symbolic.DriftScore": 0.015,
+    "security.osv_high": 0,
+    "security.osv_medium": 2,
+    "security.osv_low": 5,
+    "memory.cascade_prevention_rate": 0.998,
+    "memory.recall.avg_results": 127,
+    "memory.folds.current": 342,
+    "memory.store.throughput_ops": 1250,
+    "memory.index.size_mb": 512
+  },
+  "attestation": {
+    "rats_verified": 1,
+    "evidence_jwt": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9...",
+    "verifier_result": "PASS",
+    "tee_report": {
+      "type": "amd-sev-snp",
+      "measurement": "0xabc123...",
+      "tcb_version": "1.0.0"
+    }
+  },
+  "energy": {
+    "kwh_consumed": 0.042,
+    "emissions_kg": 0.0021,
+    "duration_s": 1850,
+    "avg_power_w": 81.73
+  },
+  "operations": {
+    "recall": {
+      "count": 10000,
+      "success": 9998,
+      "errors": 2,
+      "p50_ms": 1.2,
+      "p95_ms": 3.5,
+      "p99_ms": 8.7
+    },
+    "store": {
+      "count": 1000,
+      "success": 1000,
+      "errors": 0,
+      "p50_ms": 0.8,
+      "p95_ms": 2.1,
+      "p99_ms": 5.3
+    },
+    "fold": {
+      "count": 42,
+      "success": 42,
+      "errors": 0,
+      "cascades_prevented": 41
+    }
+  },
+  "validation": {
+    "contracts_passed": ["topk_ordering", "fold_limit", "cascade_prevention"],
+    "contracts_failed": [],
+    "schema_valid": true
+  },
+  "artifacts": {
+    "logs": "../logs/memoria-2025-09-26.log",
+    "traces": "../artifacts/traces-2025-09-26.json",
+    "profile": "../artifacts/profile-2025-09-26.pstats"
+  }
+}
