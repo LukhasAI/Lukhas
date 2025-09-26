@@ -47,7 +47,12 @@
       "Bash(file:*)",
       "Bash(do echo \"$module gates:\")",
       "Bash(while read f)",
-      "Bash(do jq:*)"
+      "Bash(do jq:*)",
+      "Bash(do echo -n \"$module: \")",
+      "Bash(if [ -f \"lukhas/$module/matrix_$module.json\" ])",
+      "Bash(then jq -r '.identity.webauthn_required' \"lukhas/$module/matrix_$module.json\")",
+      "Bash(else echo \"no contract\")",
+      "Bash(xargs -I {} sh -c 'echo \"\"\"\"=== {} ===\"\"\"\" && grep -A 15 \"\"\"\"\\\"\"\"\"identity\\\"\"\"\":\"\"\"\" \"\"\"\"{}\"\"\"\"')"
     ],
     "deny": [],
     "ask": []

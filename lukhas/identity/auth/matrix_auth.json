@@ -292,7 +292,7 @@
       "auth.read",
       "auth.write"
     ],
-    "webauthn_required": false,
+    "webauthn_required": true,
     "api_policies": []
   },
   "docs": {

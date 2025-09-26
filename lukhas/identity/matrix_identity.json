@@ -291,7 +291,7 @@
       "identity.read",
       "identity.write"
     ],
-    "webauthn_required": false,
+    "webauthn_required": true,
     "api_policies": []
   },
   "docs": {

@@ -18,6 +18,37 @@ repos:
         files: ^examples/matrix_tracks/.*\.sh$
         args: ['-e', 'SC1091']  # Exclude "file not found" for relative imports
 
+  # Matrix Contracts Validation
+  - repo: local
+    hooks:
+      - id: matrix-contract-presence
+        name: Matrix Contract Presence
+        entry: python3 tools/validate_contract_presence.py --enforce --quiet
+        language: system
+        files: lukhas/.*/__init__\.py
+        pass_filenames: false
+
+      - id: matrix-contract-schema
+        name: Matrix Contract Schema Validation
+        entry: python3 tools/matrix_gate.py --pattern "lukhas/**/matrix_*.json"
+        language: system
+        files: lukhas/.*/matrix_.*\.json
+        pass_filenames: false
+
+      - id: matrix-identity-validation
+        name: Matrix Identity Block Validation
+        entry: python3 tools/matrix_gate.py --identity --pattern "lukhas/**/matrix_*.json"
+        language: system
+        files: lukhas/.*/matrix_.*\.json
+        pass_filenames: false
+
+      - id: lukhas-tier-consistency
+        name: ΛiD Tier Consistency Check
+        entry: python3 tools/lukhas_id_bridge.py --check-consistency
+        language: system
+        files: (lukhas/.*/matrix_.*\.json|candidate/governance/identity/config/tier_permissions\.json)
+        pass_filenames: false
+
   - repo: local
     hooks:
       # T4: guardrail usage (ban direct LLM calls)

@@ -136,7 +136,7 @@ tests/benchmarks/baseline/
 
 ### Medium Priority
 1. Enable `memory_interleavings` specific tests
-2. Add more slow test variants
+2. Add more slow test variants2
 3. Improve test isolation to prevent circular imports
 
 ### Low Priority

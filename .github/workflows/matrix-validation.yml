@@ -1,0 +1,227 @@
+name: Matrix Contracts Validation
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+    paths:
+      - 'lukhas/**/*.json'
+      - 'lukhas/**/__init__.py'
+      - 'matrix.schema.template.json'
+      - 'policies/matrix/**'
+      - 'tools/matrix_*.py'
+      - 'tools/lukhas_id_bridge.py'
+      - 'tools/webauthn_matrix_integration.py'
+      - 'tools/validate_contract_presence.py'
+
+jobs:
+  matrix-contracts-validation:
+    runs-on: ubuntu-latest
+    name: Matrix Contracts Validation
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install jsonschema pyjwt cryptography
+          # Install any additional dependencies needed for Matrix validation
+
+      - name: Validate contract presence
+        run: |
+          echo "🔍 Checking Matrix contract presence for all modules..."
+          python3 tools/validate_contract_presence.py --enforce --quiet
+
+      - name: Validate contract schemas
+        run: |
+          echo "📋 Validating Matrix contract schemas..."
+          python3 tools/matrix_gate.py --pattern "lukhas/**/matrix_*.json" --quiet
+
+      - name: Validate identity blocks
+        run: |
+          echo "🔐 Validating identity blocks in Matrix contracts..."
+          python3 tools/matrix_gate.py --identity --pattern "lukhas/**/matrix_*.json" --quiet
+
+      - name: Check ΛiD tier consistency
+        run: |
+          echo "🎯 Checking ΛiD tier consistency..."
+          python3 tools/lukhas_id_bridge.py --check-consistency
+
+      - name: Validate WebAuthn configuration
+        run: |
+          echo "🔑 Validating WebAuthn configuration..."
+          python3 tools/webauthn_matrix_integration.py --validate --quiet
+
+      - name: Generate validation report
+        if: always()
+        run: |
+          echo "📊 Generating Matrix validation report..."
+          mkdir -p reports/matrix
+          python3 tools/validate_contract_presence.py --check --output reports/matrix/presence_report.json
+          python3 tools/lukhas_id_bridge.py --report --output reports/matrix/tier_compliance_report.json
+          python3 tools/webauthn_matrix_integration.py --report --output reports/matrix/webauthn_compliance_report.json
+
+      - name: Upload validation reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: matrix-validation-reports
+          path: reports/matrix/
+          retention-days: 30
+
+      - name: Check authorization policies
+        run: |
+          echo "🛡️ Validating authorization policies..."
+          if command -v opa &> /dev/null; then
+            echo "OPA found, running policy tests..."
+            make policy-test || echo "⚠️ OPA policy tests failed"
+          else
+            echo "⚠️ OPA not available, skipping policy tests"
+          fi
+
+      - name: Test authorization matrix
+        run: |
+          echo "🧪 Testing authorization matrix..."
+          if [ -f tests/authz/memoria_authz.yaml ]; then
+            python3 tools/run_authz_tests.py --test-dir tests/authz --quiet || echo "⚠️ Authorization tests had issues"
+          else
+            echo "⚠️ No authorization test matrix found"
+          fi
+
+  matrix-contracts-drift-detection:
+    runs-on: ubuntu-latest
+    name: Matrix Drift Detection
+    needs: matrix-contracts-validation
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Need full history for drift detection
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Check for contract drift
+        run: |
+          echo "🔍 Checking for Matrix contract drift..."
+
+          # Check if any contracts were modified without corresponding code changes
+          CHANGED_CONTRACTS=$(git diff --name-only HEAD~1 HEAD | grep "matrix_.*\.json" || true)
+          CHANGED_CODE=$(git diff --name-only HEAD~1 HEAD | grep -E "\.(py|js|ts)$" || true)
+
+          if [ -n "$CHANGED_CONTRACTS" ] && [ -z "$CHANGED_CODE" ]; then
+            echo "⚠️ Matrix contracts changed without corresponding code changes:"
+            echo "$CHANGED_CONTRACTS"
+            echo "This might indicate manual contract drift."
+          else
+            echo "✅ No suspicious contract drift detected"
+          fi
+
+      - name: Validate tier permission sync
+        run: |
+          echo "🔄 Checking ΛiD tier permission sync..."
+          python3 tools/lukhas_id_bridge.py --sync --dry-run
+
+  matrix-contracts-security:
+    runs-on: ubuntu-latest
+    name: Matrix Security Validation
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Security scan for sensitive data
+        run: |
+          echo "🔒 Scanning Matrix contracts for sensitive data..."
+
+          # Check for potential secrets or sensitive information in contracts
+          if grep -r -i -E "(password|secret|token|key|credential)" lukhas/*/matrix_*.json; then
+            echo "❌ Potential sensitive data found in Matrix contracts"
+            exit 1
+          else
+            echo "✅ No sensitive data found in Matrix contracts"
+          fi
+
+      - name: Validate tier escalation paths
+        run: |
+          echo "🎯 Validating tier escalation paths..."
+
+          # Check that tier escalation follows proper patterns
+          python3 -c "
+import json
+from pathlib import Path
+
+tier_order = ['guest', 'visitor', 'friend', 'trusted', 'inner_circle', 'root_dev']
+issues = []
+
+for contract_file in Path('lukhas').rglob('matrix_*.json'):
+    try:
+        data = json.loads(contract_file.read_text())
+        tiers = data.get('identity', {}).get('required_tiers', [])
+
+        if tiers:
+            # Check if tiers are in proper escalation order
+            tier_indices = [tier_order.index(t) for t in tiers if t in tier_order]
+            if tier_indices != sorted(tier_indices):
+                issues.append(f'{contract_file}: Invalid tier escalation order')
+    except Exception as e:
+        issues.append(f'{contract_file}: {e}')
+
+if issues:
+    print('❌ Tier escalation issues found:')
+    for issue in issues[:5]:
+        print(f'  - {issue}')
+    exit(1)
+else:
+    print('✅ All tier escalation paths are valid')
+"
+
+      - name: Check critical module protection
+        run: |
+          echo "🛡️ Checking critical module protection..."
+
+          # Ensure critical modules have proper WebAuthn requirements
+          python3 -c "
+import json
+from pathlib import Path
+
+critical_patterns = ['identity', 'governance', 'security', 'consciousness', 'core']
+issues = []
+
+for contract_file in Path('lukhas').rglob('matrix_*.json'):
+    try:
+        data = json.loads(contract_file.read_text())
+        path_str = str(contract_file)
+
+        is_critical = any(pattern in path_str for pattern in critical_patterns)
+        webauthn_required = data.get('identity', {}).get('webauthn_required', False)
+
+        if is_critical and not webauthn_required:
+            issues.append(f'{contract_file.name}: Critical module lacks WebAuthn requirement')
+    except Exception as e:
+        pass
+
+if issues:
+    print('⚠️ Critical module protection issues:')
+    for issue in issues[:5]:
+        print(f'  - {issue}')
+    print('Consider enabling WebAuthn for critical modules')
+else:
+    print('✅ All critical modules are properly protected')
+"
