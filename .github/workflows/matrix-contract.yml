@@ -11,6 +11,9 @@ on:
       - '**/runs/*.json'
       - 'memory/**'
       - 'sbom/**'
+      - 'telemetry/**'
+      - 'tests/test_telemetry_semconv.py'
+      - 'pytest.ini'
       - 'Makefile'
   push:
     branches: [main]
@@ -23,6 +26,9 @@ on:
       - '**/runs/*.json'
       - 'memory/**'
       - 'sbom/**'
+      - 'telemetry/**'
+      - 'tests/test_telemetry_semconv.py'
+      - 'pytest.ini'
       - 'Makefile'
 
 permissions:
@@ -169,6 +175,33 @@ jobs:
               echo "✅ $sbom is valid"
             fi
           done
+
+      - name: Ensure telemetry fixtures present
+        run: |
+          echo "🔍 Ensuring telemetry fixtures exist..."
+          test -f telemetry/memory_spans.json
+          test -f telemetry/memory_metrics.json
+          echo "✅ Telemetry fixtures present"
+
+      - name: Run telemetry smoke tests
+        run: |
+          echo "🧪 Running telemetry semantic conventions tests..."
+          python3 -m pytest tests/test_telemetry_semconv.py -v -m telemetry
+          echo "✅ Telemetry smoke tests passed"
+
+      - name: Install OSV Scanner
+        run: |
+          echo "🔧 Installing OSV Scanner..."
+          curl -sSfL https://raw.githubusercontent.com/google/osv-scanner/main/install.sh | sh -s -- -b /usr/local/bin
+          osv-scanner --version
+          echo "✅ OSV Scanner installed"
+
+      - name: Run OSV Security Scan
+        run: |
+          echo "🛡️ Running OSV security scan with fallback logic..."
+          mkdir -p artifacts
+          python3 tools/matrix_gate.py --pattern "**/matrix_*.json" --verbose --osv
+          echo "✅ OSV security scan completed"
 
       - name: Generate Gate Report
         if: always()
