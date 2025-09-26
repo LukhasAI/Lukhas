@@ -668,6 +668,13 @@ test.t4:
 		pytest tests/capabilities -m capability -v && \
 		pytest tests/e2e/consciousness/test_consciousness_emergence.py -v -k "signal_cascade_prevention or network_coherence_emergence"
 
+# Matrix Contract Validation
+.PHONY: validate-matrix
+validate-matrix:
+	@echo "🔍 Validating matrix contracts..."
+	@python3 tools/matrix_gate.py --verbose --pattern "**/matrix_*.json"
+	@echo "✅ Matrix contract validation complete"
+
 # CLI Tools
 oneiric-drift-test:
 	python3 -m oneiric_core.tools.drift_dream_test --symbol LOYALTY --user test --seed 42
