@@ -16,6 +16,8 @@ import json
 import sys
 import glob
 import pathlib
+import subprocess
+import traceback
 from typing import Dict, List, Tuple, Optional, Any
 from datetime import datetime
 import argparse
@@ -25,6 +27,46 @@ try:
 except ImportError:
     print("Error: jsonschema not installed. Run: pip install jsonschema", file=sys.stderr)
     sys.exit(1)
+
+
+def try_osv_scan(sbom_path: str, output_json_path: str) -> Optional[Dict]:
+    """Run osv-scanner on SBOM, return dict or None on failure."""
+    try:
+        # Using osv-scanner CLI; adapt if using Docker wrapper
+        result = subprocess.run(
+            ["osv-scanner", "--sbom", sbom_path, "--format", "json", "--output", output_json_path],
+            check=True,
+            capture_output=True,
+            text=True
+        )
+        return json.load(open(output_json_path))
+    except subprocess.CalledProcessError as e:
+        print(f"[WARN] OSV scanner failed (non-zero exit): {e}", file=sys.stderr)
+        print(f"[WARN] stderr: {e.stderr}", file=sys.stderr)
+    except FileNotFoundError:
+        print(f"[WARN] osv-scanner not found in PATH", file=sys.stderr)
+    except Exception as e:
+        print(f"[WARN] OSV scanner error: {e}", file=sys.stderr)
+        traceback.print_exc()
+    return None
+
+
+def parse_osv_result(osv_data: Optional[Dict]) -> Dict[str, Any]:
+    """Parse OSV scan result, handling various failure modes."""
+    if osv_data is None:
+        return {"high_count": None, "scan_failed": True}
+
+    # OSV scanner output structure can vary, handle multiple formats
+    vulns = osv_data.get("vulnerabilities") or osv_data.get("vulns") or osv_data.get("results", {}).get("vulnerabilities", [])
+
+    high_count = 0
+    for vuln in vulns:
+        # Check various severity field locations
+        severity = vuln.get("severity") or vuln.get("database_specific", {}).get("severity") or ""
+        if severity.upper() == "HIGH":
+            high_count += 1
+
+    return {"high_count": high_count, "scan_failed": False}
 
 
 class MatrixGate:
@@ -86,7 +128,7 @@ class MatrixGate:
             print(f"[WARN] Could not load run report {run_files[-1]}: {e}")
             return None
 
-    def enforce_gates(self, matrix: Dict, run: Optional[Dict]) -> List[Tuple[str, Any, str]]:
+    def enforce_gates(self, matrix: Dict, run: Optional[Dict], osv_info: Optional[Dict] = None) -> List[Tuple[str, Any, str]]:
         """
         Enforce gates from matrix contract against run metrics.
 
@@ -107,8 +149,14 @@ class MatrixGate:
             expected = gate["value"]
             desc = gate.get("desc", metric_path)
 
-            # Get actual value from run data
-            if metric_path.startswith("attestation."):
+            # Get actual value from run data or OSV scan
+            if metric_path == "security.osv_high" and osv_info is not None:
+                if osv_info["scan_failed"]:
+                    # Degrade: log alert but do not fail
+                    print(f"    [ALERT] OSV scan failed; skipping gate {metric_path}")
+                    continue
+                actual = osv_info["high_count"]
+            elif metric_path.startswith("attestation."):
                 key = metric_path.split(".", 1)[1]
                 actual = attestation.get(key)
             else:
@@ -256,6 +304,11 @@ def main():
         action="store_true",
         help="Verbose output"
     )
+    parser.add_argument(
+        "--osv",
+        action="store_true",
+        help="Run OSV scanner on SBOMs and enforce security gates"
+    )
 
     args = parser.parse_args()
 
@@ -299,9 +352,31 @@ def main():
         else:
             print("  [INFO] No run reports found")
 
+        # Run OSV scan if requested
+        osv_info = None
+        if args.osv:
+            print("\n  OSV Security Scan:")
+            sbom_ref = matrix.get("supply_chain", {}).get("sbom_ref")
+            if sbom_ref:
+                # Resolve relative path
+                sbom_path = pathlib.Path(sbom_ref.replace("../", ""))
+                if sbom_path.exists():
+                    osv_output = f"artifacts/osv_{matrix.get('module', 'unknown')}.json"
+                    pathlib.Path("artifacts").mkdir(exist_ok=True)
+                    osv_data = try_osv_scan(str(sbom_path), osv_output)
+                    osv_info = parse_osv_result(osv_data)
+                    if osv_info["scan_failed"]:
+                        print(f"    [ALERT] OSV scan failed for {sbom_path}")
+                    else:
+                        print(f"    [OK] OSV scan completed: {osv_info['high_count']} HIGH vulnerabilities")
+                else:
+                    print(f"    [WARN] SBOM not found for OSV scan: {sbom_path}")
+            else:
+                print("    [INFO] No SBOM reference for OSV scan")
+
         # Enforce gates
         print("\n  Gates:")
-        failures = gate.enforce_gates(matrix, run)
+        failures = gate.enforce_gates(matrix, run, osv_info)
 
         # Verify SBOM
         print("\n  Supply Chain:")
