@@ -108,9 +108,15 @@ subject_ok {{
     pats := input.contract.identity.accepted_subjects
     pats == []  # empty means any authenticated ΛiD subject
 }} {{
+    # Check exact match first (for specific service accounts)
+    input.subject in input.contract.identity.accepted_subjects
+}} {{
+    # Check wildcard patterns
     some p
-    p := pats[_]
-    startswith(input.subject, trim(p, "*"))
+    p := input.contract.identity.accepted_subjects[_]
+    endswith(p, "*")
+    prefix := trim_right(p, "*")
+    startswith(input.subject, prefix)
 }}
 
 tier_ok {{
@@ -119,7 +125,8 @@ tier_ok {{
     reqt := input.contract.identity.required_tiers
     reqn := input.contract.identity.required_tiers_numeric
 
-    reqt == [] && reqn == []  # no tier requirement
+    reqt == []  # no tier requirement
+    reqn == []
 }} {{
     reqt != []
     tier_match_text(t, reqt)
@@ -167,6 +174,12 @@ all_scopes_present(need, have) {{
 # Time-based token validation
 token_valid {{
     time.now_ns() < input.token.exp * 1000000000
+    audience_valid
+}}
+
+# Audience validation
+audience_valid {{
+    input.token.aud == "lukhas-matrix"
 }}
 
 # Rate limiting check (advisory - gateway should enforce)

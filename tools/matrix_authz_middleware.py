@@ -315,13 +315,48 @@ class MatrixAuthzMiddleware:
                         "reason": f"Step-up authentication required for {action}"
                     }
 
-        # Check token expiration
+        # Check token expiration and audience
         token = opa_input.get("token", {})
-        if token.get("exp", 0) < time.time():
+        token_exp = token.get("exp", 0)
+        token_aud = token.get("aud", "")
+        current_time = opa_input.get("env", {}).get("time", int(time.time()))
+
+        if token_exp > 0 and current_time >= token_exp:
             return {
                 "allow": False,
                 "reason": "Token expired"
             }
+
+        # Check audience
+        if token_aud and token_aud != "lukhas-matrix":
+            return {
+                "allow": False,
+                "reason": "Wrong audience in token"
+            }
+
+        # Subject validation - check exact match first, then patterns
+        accepted_subjects = identity.get("accepted_subjects", [])
+        if accepted_subjects:  # If subjects are specified, validate them
+            subject = opa_input.get("subject", "")
+            subject_allowed = False
+
+            # Check exact match
+            if subject in accepted_subjects:
+                subject_allowed = True
+            else:
+                # Check wildcard patterns
+                for pattern in accepted_subjects:
+                    if pattern.endswith("*"):
+                        prefix = pattern[:-1]
+                        if subject.startswith(prefix):
+                            subject_allowed = True
+                            break
+
+            if not subject_allowed:
+                return {
+                    "allow": False,
+                    "reason": f"Unknown service account"
+                }
 
         return {
             "allow": True,

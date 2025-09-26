@@ -72,7 +72,7 @@ class AuthzTestRunner:
                 result = subprocess.run([
                     "opa", "eval",
                     "-d", "policies/matrix",
-                    "-I", input_file,
+                    "-i", input_file,
                     "data.matrix.authz.allow"
                 ], capture_output=True, text=True, timeout=5.0)
 
@@ -129,8 +129,9 @@ class AuthzTestRunner:
             "action": test_input["action"],
             "contract": contract,
             "token": {
-                "exp": int(1758894061),  # Future expiry
-                "iat": int(1758892261)   # Recent issue
+                "exp": test_input.get("token", {}).get("exp", int(1758894061)),  # Future expiry by default
+                "iat": test_input.get("token", {}).get("iat", int(1758892261)),  # Recent issue by default
+                "aud": test_input.get("token", {}).get("aud", "lukhas-matrix")   # Default audience
             },
             "env": {
                 "mfa": test_input.get("env", {}).get("mfa", False),

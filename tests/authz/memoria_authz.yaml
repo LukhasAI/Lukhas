@@ -149,12 +149,13 @@ test_cases:
     scopes:
     - memoria.read
     - memoria.store
+    - memoria.fold
     action: 'fold(memories: list[str]) -> str'
     env:
-      mfa: false
+      mfa: true
       webauthn_verified: true
   expected: true
-  reason: 'Tier friend allowed for fold(memories: list[str]) -> str'
+  reason: 'Tier friend allowed for fold(memories: list[str]) -> str with MFA'
 - name: friend_cascade_prevent() -> bool_basic
   input:
     subject: lukhas:user:test_friend
@@ -205,12 +206,13 @@ test_cases:
     scopes:
     - memoria.read
     - memoria.store
+    - memoria.fold
     action: 'fold(memories: list[str]) -> str'
     env:
-      mfa: false
+      mfa: true
       webauthn_verified: true
   expected: true
-  reason: 'Tier trusted allowed for fold(memories: list[str]) -> str'
+  reason: 'Tier trusted allowed for fold(memories: list[str]) -> str with MFA'
 - name: trusted_cascade_prevent() -> bool_basic
   input:
     subject: lukhas:user:test_trusted
@@ -261,12 +263,13 @@ test_cases:
     scopes:
     - memoria.read
     - memoria.store
+    - memoria.fold
     action: 'fold(memories: list[str]) -> str'
     env:
-      mfa: false
+      mfa: true
       webauthn_verified: true
   expected: true
-  reason: 'Tier inner_circle allowed for fold(memories: list[str]) -> str'
+  reason: 'Tier inner_circle allowed for fold(memories: list[str]) -> str with MFA'
 - name: inner_circle_cascade_prevent() -> bool_basic
   input:
     subject: lukhas:user:test_inner_circle
@@ -317,12 +320,13 @@ test_cases:
     scopes:
     - memoria.read
     - memoria.store
+    - memoria.fold
     action: 'fold(memories: list[str]) -> str'
     env:
-      mfa: false
+      mfa: true
       webauthn_verified: true
   expected: true
-  reason: 'Tier root_dev allowed for fold(memories: list[str]) -> str'
+  reason: 'Tier root_dev allowed for fold(memories: list[str]) -> str with MFA'
 - name: root_dev_cascade_prevent() -> bool_basic
   input:
     subject: lukhas:user:test_root_dev
@@ -371,6 +375,9 @@ test_cases:
     - memoria.read
     - memoria.store
     action: read
+    token:
+      exp: 1658892261  # Past expiry (2022)
+      aud: lukhas-matrix
     env:
       mfa: false
       webauthn_verified: true
@@ -385,6 +392,9 @@ test_cases:
     - memoria.read
     - memoria.store
     action: read
+    token:
+      exp: 1758894061  # Future expiry
+      aud: wrong-audience
     env:
       mfa: false
       webauthn_verified: true

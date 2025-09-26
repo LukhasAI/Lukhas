@@ -17,7 +17,7 @@ test_tier_guest_denied {
                 "scopes": ["memoria.read"]
             }
         },
-        "token": {"exp": 1758895789},
+        "token": {"exp": 1758898206},
         "env": {"mfa": false, "webauthn_verified": true}
     }
 }
@@ -35,7 +35,7 @@ test_tier_trusted_allowed {
                 "scopes": ["memoria.read"]
             }
         },
-        "token": {"exp": 1758895789},
+        "token": {"exp": 1758898206},
         "env": {"mfa": false, "webauthn_verified": true}
     }
 }
@@ -57,7 +57,7 @@ test_step_up_required {
                 ]
             }
         },
-        "token": {"exp": 1758895789},
+        "token": {"exp": 1758898206},
         "env": {"mfa": false, "webauthn_verified": true}
     }
 }
@@ -79,7 +79,7 @@ test_step_up_satisfied {
                 ]
             }
         },
-        "token": {"exp": 1758895789},
+        "token": {"exp": 1758898206},
         "env": {"mfa": true, "webauthn_verified": true}
     }
 }
@@ -97,7 +97,7 @@ test_expired_token {
                 "scopes": ["memoria.read"]
             }
         },
-        "token": {"exp": 1758888589},
+        "token": {"exp": 1758891006},
         "env": {"mfa": false, "webauthn_verified": true}
     }
 }

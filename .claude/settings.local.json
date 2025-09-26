@@ -35,7 +35,19 @@
       "Bash(python -m pytest tests/identity/test_oidc_security_hardening.py -v --tb=short)",
       "Bash(python:*)",
       "Bash(make validate-matrix:*)",
-      "Bash(make:*)"
+      "Bash(make:*)",
+      "Bash(brew install:*)",
+      "Bash(opa:*)",
+      "Bash(jq:*)",
+      "Bash(for:*)",
+      "Bash(done)",
+      "Bash(do file=\"lukhas/$module/matrix_$module.json\")",
+      "Bash(if [ -f \"$file\" ])",
+      "Bash(fi)",
+      "Bash(file:*)",
+      "Bash(do echo \"$module gates:\")",
+      "Bash(while read f)",
+      "Bash(do jq:*)"
     ],
     "deny": [],
     "ask": []
