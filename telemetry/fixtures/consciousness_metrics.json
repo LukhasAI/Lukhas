@@ -1,0 +1,133 @@
+{
+  "metrics": [
+    {
+      "name": "lukhas.consciousness.awareness.level",
+      "description": "current consciousness awareness level",
+      "unit": "1",
+      "type": "gauge",
+      "data_points": [
+        {
+          "attributes": {
+            "awareness.dimension": "temporal",
+            "processing.mode": "reflective"
+          },
+          "value": 0.85
+        },
+        {
+          "attributes": {
+            "awareness.dimension": "spatial",
+            "processing.mode": "intuitive"
+          },
+          "value": 0.72
+        },
+        {
+          "attributes": {
+            "awareness.dimension": "social",
+            "processing.mode": "analytical"
+          },
+          "value": 0.91
+        }
+      ]
+    },
+    {
+      "name": "lukhas.consciousness.dreams.processing_time",
+      "description": "dream state processing duration",
+      "unit": "s",
+      "type": "histogram",
+      "data_points": [
+        {
+          "attributes": {
+            "dream.state": "REM",
+            "integration.type": "episodic"
+          },
+          "count": 25,
+          "sum": 12.5,
+          "bounds": [
+            0.1,
+            0.25,
+            0.5,
+            1.0,
+            2.0,
+            5.0
+          ],
+          "bucket_counts": [
+            2,
+            8,
+            10,
+            4,
+            1,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "name": "lukhas.consciousness.emergence.events",
+      "description": "emergence pattern detection events",
+      "unit": "1",
+      "type": "counter",
+      "data_points": [
+        {
+          "attributes": {
+            "pattern.type": "novel_connection",
+            "confidence.threshold": "high"
+          },
+          "value": 142
+        },
+        {
+          "attributes": {
+            "pattern.type": "creative_insight",
+            "confidence.threshold": "medium"
+          },
+          "value": 73
+        }
+      ]
+    },
+    {
+      "name": "lukhas.consciousness.ethics.decisions",
+      "description": "ethical decision evaluations",
+      "unit": "1",
+      "type": "counter",
+      "data_points": [
+        {
+          "attributes": {
+            "framework": "consequentialist",
+            "complexity": "high",
+            "resolution": "weighted_optimization"
+          },
+          "value": 28
+        },
+        {
+          "attributes": {
+            "framework": "deontological",
+            "complexity": "medium",
+            "resolution": "rule_based"
+          },
+          "value": 41
+        }
+      ]
+    },
+    {
+      "name": "lukhas.consciousness.drift.score",
+      "description": "consciousness drift detection score",
+      "unit": "1",
+      "type": "gauge",
+      "data_points": [
+        {
+          "attributes": {
+            "detector": "statistical",
+            "window": "1h"
+          },
+          "value": 0.023
+        },
+        {
+          "attributes": {
+            "detector": "behavioral",
+            "window": "24h"
+          },
+          "value": 0.015
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,242 @@
+# RATS Verification Policy v2.1
+#
+# Defines attestation requirements for LUKHAS modules according to RFC 9334.
+# Each module can have different security requirements based on risk profile.
+
+version: "2.1"
+schema_url: "https://lukhas.ai/rats/policy-schema/v2.1"
+
+# Global policy defaults
+defaults:
+  max_age_seconds: 3600  # Evidence expires after 1 hour
+  clock_skew_tolerance: 300  # Allow 5 minutes clock skew
+  require_tee: false  # TEE not required by default
+  min_key_size: 2048  # Minimum RSA key size
+
+# Module-specific policies
+policies:
+  # Identity module: High security requirements
+  - module: identity
+    description: "WebAuthn authentication and user credential management"
+    required_claims:
+      # Standard EAT claims
+      - claim: "iss"
+        operator: "equals"
+        expected: "lukhas.identity"
+
+      - claim: "exp"
+        operator: "future"
+        description: "Evidence must not be expired"
+
+      # TEE attestation required
+      - claim: "tee_evidence.type"
+        operator: "in"
+        expected: ["amd-sev-snp", "intel-tdx", "arm-cca"]
+        severity: "error"
+
+      # Code integrity
+      - claim: "software_components.code_hash"
+        operator: "matches"
+        expected: "sha256:[a-f0-9]{64}"
+        description: "Module code must be integrity-verified"
+
+      # Configuration integrity
+      - claim: "software_components.config_hash"
+        operator: "matches"
+        expected: "sha256:[a-f0-9]{64}"
+
+    optional_claims:
+      # Additional security context
+      - claim: "tee_evidence.report.reported_tcb.snp"
+        operator: "gte"
+        expected: 12
+        description: "Minimum SNP firmware version"
+
+      - claim: "runtime.hostname"
+        operator: "matches"
+        expected: "^(prod|staging)-.*"
+        description: "Must run on approved infrastructure"
+
+    # Verification behavior
+    enforcement:
+      mode: "strict"  # fail | warn | strict
+      allow_mock_tee: false
+      require_fresh_evidence: true
+
+  # API Gateway: Medium security requirements
+  - module: api_gateway
+    description: "External API endpoint and rate limiting"
+    required_claims:
+      - claim: "iss"
+        operator: "equals"
+        expected: "lukhas.api_gateway"
+
+      - claim: "exp"
+        operator: "future"
+
+      # Code integrity required
+      - claim: "software_components.code_hash"
+        operator: "exists"
+
+    optional_claims:
+      # TEE preferred but not required
+      - claim: "tee_evidence.type"
+        operator: "exists"
+        severity: "warn"
+
+    enforcement:
+      mode: "warn"
+      allow_mock_tee: true
+      require_fresh_evidence: false
+
+  # Memory module: Focus on runtime integrity
+  - module: memory
+    description: "Memory fold management and cascade prevention"
+    required_claims:
+      - claim: "iss"
+        operator: "equals"
+        expected: "lukhas.memory"
+
+      - claim: "exp"
+        operator: "future"
+
+      # Runtime context required
+      - claim: "runtime.timestamp"
+        operator: "recent"
+        max_age: 1800  # 30 minutes
+
+    optional_claims:
+      # Memory-specific measurements
+      - claim: "software_components.fold_config_hash"
+        operator: "exists"
+        description: "Fold configuration should be measured"
+
+    enforcement:
+      mode: "warn"
+      allow_mock_tee: true
+
+  # Governance module: Maximum security
+  - module: governance
+    description: "Ethics engine and decision auditing"
+    required_claims:
+      - claim: "iss"
+        operator: "equals"
+        expected: "lukhas.governance"
+
+      - claim: "exp"
+        operator: "future"
+
+      # Multiple attestation layers required
+      - claim: "tee_evidence.type"
+        operator: "in"
+        expected: ["amd-sev-snp", "intel-tdx", "arm-cca"]
+
+      - claim: "software_components.code_hash"
+        operator: "exists"
+
+      - claim: "software_components.config_hash"
+        operator: "exists"
+
+    # Dual attestation requirement
+    additional_verification:
+      - type: "multi_party_computation"
+        threshold: "2/3"
+        participants: 3
+
+      - type: "formal_verification"
+        tool: "prism"
+        property: "P>=0.999 [G ethics_invariant]"
+
+    enforcement:
+      mode: "strict"
+      allow_mock_tee: false
+      require_fresh_evidence: true
+      audit_all_decisions: true
+
+# Policy evaluation operators
+operators:
+  equals:
+    description: "Exact string match"
+
+  matches:
+    description: "Regular expression match"
+
+  in:
+    description: "Value in allowed list"
+
+  exists:
+    description: "Claim must be present"
+
+  future:
+    description: "Timestamp must be in the future"
+
+  recent:
+    description: "Timestamp must be recent (within max_age)"
+
+  gte:
+    description: "Numeric greater than or equal"
+
+  lte:
+    description: "Numeric less than or equal"
+
+# TEE-specific validation rules
+tee_validation:
+  amd-sev-snp:
+    required_fields:
+      - "report.measurement"
+      - "report.reported_tcb"
+      - "report.chip_id"
+    min_tcb_version:
+      boot_loader: 3
+      tee: 0
+      snp: 12
+
+  intel-tdx:
+    required_fields:
+      - "report.td_info.mrtd"
+      - "report.td_info.rtmrs"
+    min_version: "1.0"
+
+  arm-cca:
+    required_fields:
+      - "report.platform_token.implementation_id"
+      - "report.realm_token.initial_measurement"
+    min_profile_version: "PSA_IOT_PROFILE_1"
+
+# Audit and logging configuration
+audit:
+  log_all_verifications: true
+  log_level: "INFO"
+  retention_days: 90
+
+  # What to log
+  events:
+    - "policy_evaluation_start"
+    - "claim_verification"
+    - "policy_violation"
+    - "enforcement_action"
+    - "evidence_expiry"
+
+  # Where to send alerts
+  alerts:
+    webhook_url: "https://lukhas.ai/security/alerts"
+    severity_threshold: "warn"
+    rate_limit: "10/hour"
+
+# Development and testing overrides
+development:
+  # Allow mock TEE in dev environments
+  allow_mock_attestation: true
+
+  # Relaxed time constraints
+  max_age_seconds: 86400  # 24 hours
+
+  # Override enforcement modes
+  force_mode: "warn"  # Override all strict modes to warn
+
+# Emergency bypass (use with extreme caution)
+emergency_bypass:
+  enabled: false
+  requires_approval: true
+  max_duration_hours: 24
+  audit_extensively: true

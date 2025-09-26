@@ -1,0 +1,102 @@
+{
+  "spans": [
+    {
+      "trace_id": "8f0b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4",
+      "span_id": "1a2b3c4d5e6f7a8b",
+      "parent_span_id": null,
+      "name": "consciousness.process_awareness",
+      "kind": "INTERNAL",
+      "start_time_unix_nano": 1758883037155368960,
+      "end_time_unix_nano": 1758883037455368960,
+      "attributes": {
+        "code.function": "process_awareness",
+        "lukhas.module": "consciousness",
+        "consciousness.level": "meta",
+        "awareness.dimension": "temporal",
+        "processing.mode": "reflective",
+        "otel.semconv.version": "1.37.0"
+      },
+      "status": {
+        "code": "UNSET"
+      },
+      "events": [
+        {
+          "time_unix_nano": 1758883037205368960,
+          "name": "awareness.threshold_reached",
+          "attributes": {
+            "threshold.value": 0.75,
+            "threshold.type": "meta_cognitive"
+          }
+        }
+      ]
+    },
+    {
+      "trace_id": "8f0b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4",
+      "span_id": "9c8b7a6d5e4f3a2b",
+      "parent_span_id": "1a2b3c4d5e6f7a8b",
+      "name": "consciousness.dream_process",
+      "kind": "INTERNAL",
+      "start_time_unix_nano": 1758883037175368960,
+      "end_time_unix_nano": 1758883037425368960,
+      "attributes": {
+        "code.function": "process_dream_state",
+        "lukhas.module": "consciousness",
+        "dream.state": "REM",
+        "dream.intensity": 0.82,
+        "memory.integration": true,
+        "otel.semconv.version": "1.37.0"
+      },
+      "status": {
+        "code": "UNSET"
+      },
+      "events": [
+        {
+          "time_unix_nano": 1758883037185368960,
+          "name": "dream.memory_consolidation_start",
+          "attributes": {
+            "memory.fold_count": 47,
+            "consolidation.type": "episodic"
+          }
+        },
+        {
+          "time_unix_nano": 1758883037395368960,
+          "name": "dream.emergence_detected",
+          "attributes": {
+            "emergence.pattern": "novel_connection",
+            "pattern.confidence": 0.91
+          }
+        }
+      ]
+    },
+    {
+      "trace_id": "7e9f1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d",
+      "span_id": "5d4c3b2a1f0e9d8c",
+      "parent_span_id": null,
+      "name": "consciousness.evaluate_ethics",
+      "kind": "INTERNAL",
+      "start_time_unix_nano": 1758883037255368960,
+      "end_time_unix_nano": 1758883037355368960,
+      "attributes": {
+        "code.function": "evaluate_ethical_decision",
+        "lukhas.module": "consciousness",
+        "ethics.framework": "consequentialist",
+        "decision.complexity": "high",
+        "stakeholder.count": 3,
+        "otel.semconv.version": "1.37.0"
+      },
+      "status": {
+        "code": "UNSET"
+      },
+      "events": [
+        {
+          "time_unix_nano": 1758883037285368960,
+          "name": "ethics.principle_conflict",
+          "attributes": {
+            "conflict.type": "autonomy_vs_beneficence",
+            "resolution.strategy": "weighted_optimization"
+          }
+        }
+      ]
+    }
+  ]
+}

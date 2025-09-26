@@ -1,0 +1,170 @@
+{
+  "metrics": [
+    {
+      "name": "lukhas.memory.folds.count",
+      "description": "current number of memory folds",
+      "unit": "1",
+      "type": "gauge",
+      "data_points": [
+        {
+          "attributes": {
+            "fold.type": "episodic",
+            "status": "active"
+          },
+          "value": 347
+        },
+        {
+          "attributes": {
+            "fold.type": "semantic",
+            "status": "active"
+          },
+          "value": 189
+        },
+        {
+          "attributes": {
+            "fold.type": "procedural",
+            "status": "active"
+          },
+          "value": 94
+        }
+      ]
+    },
+    {
+      "name": "lukhas.memory.cascade.prevention_rate",
+      "description": "cascade prevention success rate",
+      "unit": "1",
+      "type": "gauge",
+      "data_points": [
+        {
+          "attributes": {
+            "measurement_window": "1h"
+          },
+          "value": 0.9973
+        },
+        {
+          "attributes": {
+            "measurement_window": "24h"
+          },
+          "value": 0.9981
+        }
+      ]
+    },
+    {
+      "name": "lukhas.memory.fold.operations",
+      "description": "memory fold operations",
+      "unit": "1",
+      "type": "counter",
+      "data_points": [
+        {
+          "attributes": {
+            "operation": "create",
+            "fold.type": "episodic",
+            "result": "success"
+          },
+          "value": 1247
+        },
+        {
+          "attributes": {
+            "operation": "compress",
+            "fold.type": "episodic",
+            "result": "success"
+          },
+          "value": 1198
+        },
+        {
+          "attributes": {
+            "operation": "cascade_prevented",
+            "fold.type": "all",
+            "result": "success"
+          },
+          "value": 23
+        }
+      ]
+    },
+    {
+      "name": "lukhas.memory.recall.latency",
+      "description": "memory recall operation latency",
+      "unit": "s",
+      "type": "histogram",
+      "data_points": [
+        {
+          "attributes": {
+            "recall.type": "semantic",
+            "similarity.method": "cosine"
+          },
+          "count": 156,
+          "sum": 15.6,
+          "bounds": [
+            0.01,
+            0.05,
+            0.1,
+            0.25,
+            0.5,
+            1.0
+          ],
+          "bucket_counts": [
+            12,
+            47,
+            63,
+            28,
+            6,
+            0
+          ]
+        },
+        {
+          "attributes": {
+            "recall.type": "episodic",
+            "similarity.method": "euclidean"
+          },
+          "count": 89,
+          "sum": 12.3,
+          "bounds": [
+            0.01,
+            0.05,
+            0.1,
+            0.25,
+            0.5,
+            1.0
+          ],
+          "bucket_counts": [
+            8,
+            31,
+            35,
+            13,
+            2,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "name": "lukhas.memory.storage.utilization",
+      "description": "memory storage utilization",
+      "unit": "1",
+      "type": "gauge",
+      "data_points": [
+        {
+          "attributes": {
+            "storage.tier": "hot",
+            "compression": "enabled"
+          },
+          "value": 0.73
+        },
+        {
+          "attributes": {
+            "storage.tier": "warm",
+            "compression": "enabled"
+          },
+          "value": 0.45
+        },
+        {
+          "attributes": {
+            "storage.tier": "cold",
+            "compression": "enabled"
+          },
+          "value": 0.12
+        }
+      ]
+    }
+  ]
+}
