@@ -1,0 +1,269 @@
+name: Matrix Contracts
+
+on:
+  pull_request:
+    paths:
+      - '**/matrix_*.json'
+      - 'schemas/matrix.schema.json'
+      - 'matrix.schema.template.json'
+      - 'tools/matrix_gate.py'
+      - '.github/workflows/matrix-contract.yml'
+      - '**/runs/*.json'
+      - 'memory/**'
+      - 'sbom/**'
+      - 'Makefile'
+  push:
+    branches: [main]
+    paths:
+      - '**/matrix_*.json'
+      - 'schemas/matrix.schema.json'
+      - 'matrix.schema.template.json'
+      - 'tools/matrix_gate.py'
+      - '.github/workflows/matrix-contract.yml'
+      - '**/runs/*.json'
+      - 'memory/**'
+      - 'sbom/**'
+      - 'Makefile'
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  matrix-validate:
+    name: Validate Matrix Contracts
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Ensure canonical schema exists
+        run: |
+          test -f schemas/matrix.schema.json || cp matrix.schema.template.json schemas/matrix.schema.json
+
+      - name: Install Dependencies
+        run: |
+          pip install --upgrade pip
+          pip install jsonschema>=4.17.0 codecarbon
+          # Install jq for JSON processing
+          sudo apt-get update && sudo apt-get install -y jq
+
+      - name: Validate Schema Structure
+        run: |
+          echo "🔍 Validating matrix schema structure..."
+          python -c "
+          import json
+          from jsonschema import Draft202012Validator
+
+          with open('schemas/matrix.schema.json') as f:
+              schema = json.load(f)
+
+          # Check it's valid JSON Schema 2020-12
+          Draft202012Validator.check_schema(schema)
+          print('✅ Schema is valid JSON Schema 2020-12')
+          "
+
+      - name: Validate All Matrix Contracts
+        run: |
+          echo "📋 Validating all matrix contracts..."
+          python - <<'PY'
+          import glob
+          import json
+          import sys
+          from jsonschema import Draft202012Validator, ValidationError
+
+          schema = json.load(open('schemas/matrix.schema.json'))
+          validator = Draft202012Validator(schema)
+
+          errors = []
+          contracts = glob.glob('**/matrix_*.json', recursive=True)
+
+          if not contracts:
+              print('⚠️ No matrix contracts found')
+              sys.exit(0)
+
+          print(f'Found {len(contracts)} contract(s)')
+
+          for path in contracts:
+              try:
+                  with open(path) as f:
+                      data = json.load(f)
+                  validator.validate(data)
+                  print(f'✅ {path} - valid')
+              except json.JSONDecodeError as e:
+                  print(f'❌ {path} - JSON parse error: {e}')
+                  errors.append(path)
+              except ValidationError as e:
+                  print(f'❌ {path} - Schema validation error:')
+                  print(f'   Path: {" -> ".join(str(p) for p in e.path)}')
+                  print(f'   Message: {e.message}')
+                  errors.append(path)
+
+          if errors:
+              print(f'\n❌ {len(errors)} contract(s) failed validation')
+              sys.exit(1)
+          else:
+              print(f'\n✅ All {len(contracts)} contract(s) valid')
+          PY
+
+      - name: Enforce Quality Gates
+        id: gates
+        run: |
+          echo "🚦 Enforcing quality gates..."
+          python tools/matrix_gate.py --verbose --pattern "**/matrix_*.json"
+
+      - name: Check SBOM Presence
+        run: |
+          echo "📦 Checking SBOM references..."
+          python - <<'PY'
+          import glob
+          import json
+          import pathlib
+
+          contracts = glob.glob('**/matrix_*.json', recursive=True)
+          missing_sboms = []
+
+          for contract_path in contracts:
+              with open(contract_path) as f:
+                  data = json.load(f)
+
+              sbom_ref = data.get('supply_chain', {}).get('sbom_ref')
+              if sbom_ref:
+                  # Resolve relative path
+                  sbom_path = pathlib.Path(sbom_ref.replace('../', ''))
+                  if not sbom_path.exists():
+                      print(f'⚠️ Missing SBOM for {contract_path}: {sbom_ref}')
+                      missing_sboms.append(contract_path)
+                  else:
+                      print(f'✅ SBOM found for {contract_path}')
+              else:
+                  print(f'ℹ️ No SBOM reference in {contract_path}')
+
+          if missing_sboms:
+              print(f'\n⚠️ {len(missing_sboms)} contract(s) have missing SBOMs')
+          PY
+
+      - name: Install CycloneDX CLI
+        run: |
+          echo "📦 Installing CycloneDX CLI..."
+          curl -sSL https://github.com/CycloneDX/cyclonedx-cli/releases/latest/download/cyclonedx-linux-x64 -o cyclonedx
+          chmod +x cyclonedx
+          sudo mv cyclonedx /usr/local/bin/
+          cyclonedx --version
+
+      - name: Validate CycloneDX SBOMs
+        run: |
+          echo "🔍 Validating CycloneDX SBOMs..."
+          for sbom in sbom/*.cdx.json; do
+            if [ -f "$sbom" ]; then
+              echo "Validating $sbom..."
+              cyclonedx validate --input-file "$sbom"
+              echo "✅ $sbom is valid"
+            fi
+          done
+
+      - name: Generate Gate Report
+        if: always()
+        run: |
+          echo "📊 Generating gate report..."
+          python tools/matrix_gate.py --pattern "**/matrix_*.json" > gate_report.txt 2>&1 || true
+
+          # Create JSON summary
+          python - <<'PY' > matrix_summary.json
+          import json
+          import glob
+
+          contracts = glob.glob('**/matrix_*.json', recursive=True)
+          summary = {
+              "total_contracts": len(contracts),
+              "modules": [],
+              "timestamp": "$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          }
+
+          for path in contracts:
+              try:
+                  with open(path) as f:
+                      data = json.load(f)
+                  summary["modules"].append({
+                      "path": path,
+                      "module": data.get("module"),
+                      "version": data.get("schema_version"),
+                      "gates_count": len(data.get("gates", []))
+                  })
+              except:
+                  pass
+
+          print(json.dumps(summary, indent=2))
+          PY
+
+      - name: Upload Gate Report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: matrix-gate-report
+          path: |
+            gate_report.txt
+            matrix_summary.json
+
+      - name: Comment PR (if applicable)
+        if: github.event_name == 'pull_request' && always()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            let summary = '## 📋 Matrix Contract Validation\n\n';
+
+            try {
+              const report = fs.readFileSync('matrix_summary.json', 'utf8');
+              const data = JSON.parse(report);
+
+              summary += `- **Total Contracts:** ${data.total_contracts}\n`;
+              summary += `- **Modules:** ${data.modules.map(m => m.module).join(', ')}\n\n`;
+
+              summary += '### Module Details\n\n';
+              summary += '| Module | Version | Gates |\n';
+              summary += '|--------|---------|-------|\n';
+
+              for (const mod of data.modules) {
+                summary += `| ${mod.module} | ${mod.version} | ${mod.gates_count} |\n`;
+              }
+            } catch (e) {
+              summary += '⚠️ Could not generate detailed summary\n';
+            }
+
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: summary
+            });
+
+      - name: Summary
+        if: always()
+        run: |
+          echo "### Matrix Gate Summary" >> $GITHUB_STEP_SUMMARY
+          python3 tools/matrix_gate.py --pattern "**/matrix_*.json" --summary 2>/dev/null >> $GITHUB_STEP_SUMMARY || \
+          python3 tools/matrix_gate.py --pattern "**/matrix_*.json" >> $GITHUB_STEP_SUMMARY
+
+      - name: Matrix Contract Success
+        if: success()
+        run: |
+          echo "✅ Matrix contract validation passed!"
+          echo "All contracts conform to JSON Schema 2020-12"
+          echo "All quality gates enforced"
+          echo "CycloneDX SBOMs validated"
+
+      - name: Matrix Contract Failure
+        if: failure()
+        run: |
+          echo "❌ Matrix contract validation failed!"
+          echo "Check the logs above for details"
+          exit 1
