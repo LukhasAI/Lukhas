@@ -668,12 +668,57 @@ test.t4:
 		pytest tests/capabilities -m capability -v && \
 		pytest tests/e2e/consciousness/test_consciousness_emergence.py -v -k "signal_cascade_prevention or network_coherence_emergence"
 
-# Matrix Contract Validation
-.PHONY: validate-matrix
+# Matrix Contract Operations
+.PHONY: validate-matrix validate-matrix-osv matrix-init telemetry-fixtures telemetry-test telemetry-test-all
 validate-matrix:
 	@echo "🔍 Validating matrix contracts..."
-	@python3 tools/matrix_gate.py --verbose --pattern "**/matrix_*.json"
+	@if [ -n "$(MODULE)" ]; then \
+		python3 tools/matrix_gate.py --verbose --pattern "$(MODULE)/matrix_*.json"; \
+	else \
+		python3 tools/matrix_gate.py --verbose --pattern "**/matrix_*.json"; \
+	fi
 	@echo "✅ Matrix contract validation complete"
+
+validate-matrix-osv:
+	@echo "🛡️ Validating matrix contracts with OSV scanning..."
+	@if [ -n "$(MODULE)" ]; then \
+		python3 tools/matrix_gate.py --verbose --osv --pattern "$(MODULE)/matrix_*.json"; \
+	else \
+		python3 tools/matrix_gate.py --verbose --osv --pattern "**/matrix_*.json"; \
+	fi
+	@echo "✅ Matrix contract validation with OSV complete"
+
+matrix-init:
+	@if [ -z "$(MODULE)" ]; then \
+		echo "❌ Usage: make matrix-init MODULE=your.module.name"; \
+		exit 1; \
+	fi
+	@echo "🚀 Initializing matrix contract for $(MODULE)..."
+	@python3 tools/matrix_init.py --module $(MODULE)
+	@echo "✅ Matrix contract initialized for $(MODULE)"
+
+telemetry-fixtures:
+	@if [ -z "$(MODULE)" ]; then \
+		echo "❌ Usage: make telemetry-fixtures MODULE=your.module.name"; \
+		exit 1; \
+	fi
+	@echo "📊 Generating telemetry fixtures for $(MODULE)..."
+	@python3 tools/generate_telemetry_fixtures.py --module $(MODULE) --output telemetry/
+	@echo "✅ Telemetry fixtures generated for $(MODULE)"
+
+telemetry-test:
+	@if [ -z "$(MODULE)" ]; then \
+		echo "❌ Usage: make telemetry-test MODULE=your.module.name"; \
+		exit 1; \
+	fi
+	@echo "🧪 Testing telemetry semconv for $(MODULE)..."
+	@python3 -m pytest tests/test_telemetry_$(MODULE).py -v -m telemetry
+	@echo "✅ Telemetry tests passed for $(MODULE)"
+
+telemetry-test-all:
+	@echo "🧪 Running all telemetry smoke tests..."
+	@python3 -m pytest -v -m telemetry
+	@echo "✅ All telemetry tests passed"
 
 # CLI Tools
 oneiric-drift-test:
