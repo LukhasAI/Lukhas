@@ -279,10 +279,61 @@ jobs:
               body: summary
             });
 
-      - name: Summary
+      - name: Generate Track Status Badges
         if: always()
         run: |
-          echo "### Matrix Gate Summary" >> $GITHUB_STEP_SUMMARY
+          echo "🏷️ Generating Matrix Tracks status badges..."
+          mkdir -p reports
+          python3 tools/generate_track_badges.py --pattern "**/matrix_*.json"
+
+      - name: Generate Adoption Scoreboard
+        if: always()
+        run: |
+          echo "🏆 Generating Matrix Tracks adoption scoreboard..."
+          python3 tools/generate_adoption_scoreboard.py --output docs/matrix_tracks_scoreboard.md
+
+      - name: Enhanced Matrix Summary
+        if: always()
+        run: |
+          echo "### 📊 Matrix Tracks Status" >> $GITHUB_STEP_SUMMARY
+
+          # Add track status table
+          python3 - <<'PY' >> $GITHUB_STEP_SUMMARY
+          import json
+          import glob
+          from pathlib import Path
+
+          contracts = glob.glob('**/matrix_*.json', recursive=True)
+          print("| Module | Verification | Provenance | Attestation |")
+          print("|--------|--------------|------------|-------------|")
+
+          for contract_path in contracts:
+              try:
+                  with open(contract_path) as f:
+                      contract = json.load(f)
+
+                  module = contract.get('module', 'unknown')
+
+                  # Check tracks
+                  formal = contract.get('formal', {}).get('probabilistic', {})
+                  cid = contract.get('causal_provenance', {}).get('ipld_root_cid', '')
+                  rats = contract.get('attestation', {}).get('rats', {})
+
+                  verification = "✅" if formal.get('tool') == 'prism' else "⚪"
+                  provenance = "✅" if cid and cid != 'bafybeipending' else "⚠️" if cid == 'bafybeipending' else "⚪"
+                  attestation = "✅" if rats.get('evidence_jwt') and rats.get('evidence_jwt') != 'pending' else "⚠️" if rats.get('verifier_policy') else "⚪"
+
+                  print(f"| **{module}** | {verification} | {provenance} | {attestation} |")
+              except Exception:
+                  pass
+          PY
+
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Legend:** ✅ Active • ⚠️ Pending • ⚪ Not Configured" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+
+          # Add gate summary
+          echo "### 🚦 Quality Gates Summary" >> $GITHUB_STEP_SUMMARY
           python3 tools/matrix_gate.py --pattern "**/matrix_*.json" --summary 2>/dev/null >> $GITHUB_STEP_SUMMARY || \
           python3 tools/matrix_gate.py --pattern "**/matrix_*.json" >> $GITHUB_STEP_SUMMARY
 

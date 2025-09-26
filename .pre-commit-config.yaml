@@ -10,6 +10,14 @@ repos:
     hooks:
       - id: ruff
         args: [--fix, --exit-non-zero-on-fix]
+  # Matrix Tracks hygiene hooks
+  - repo: https://github.com/shellcheck-py/shellcheck-py
+    rev: v0.10.0.1
+    hooks:
+      - id: shellcheck
+        files: ^examples/matrix_tracks/.*\.sh$
+        args: ['-e', 'SC1091']  # Exclude "file not found" for relative imports
+
   - repo: local
     hooks:
       # T4: guardrail usage (ban direct LLM calls)
@@ -27,3 +35,25 @@ repos:
         language: system
         pass_filenames: false
         stages: [pre-push]
+
+      # Matrix Tracks specific validation hooks
+      - id: matrix-contract-validation
+        name: Validate Matrix Contracts
+        entry: python3 tools/pre_commit_matrix_check.py
+        language: system
+        files: ^.*matrix_.*\.json$
+        pass_filenames: true
+
+      - id: telemetry-semconv-validation
+        name: Validate Telemetry Semantic Conventions
+        entry: python3 tools/pre_commit_telemetry_check.py
+        language: system
+        files: ^telemetry/fixtures/.*\.json$
+        pass_filenames: true
+
+      - id: demo-script-validation
+        name: Validate Matrix Tracks Demo Scripts
+        entry: python3 tools/pre_commit_demo_lint.py
+        language: system
+        files: ^examples/matrix_tracks/.*\.sh$
+        pass_filenames: true

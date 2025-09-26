@@ -1,0 +1,141 @@
+name: Matrix Tracks Weekly SLO Report
+
+on:
+  schedule:
+    # Run every Monday at 9 AM UTC
+    - cron: '0 9 * * 1'
+  workflow_dispatch:  # Allow manual trigger
+
+permissions:
+  contents: read
+  issues: write
+  pull-requests: write
+
+jobs:
+  slo-report:
+    name: Generate Weekly SLO Report
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 30  # Get enough history for trend analysis
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install Dependencies
+        run: |
+          pip install --upgrade pip
+          pip install pyyaml jsonschema
+
+      - name: Generate SLO Report
+        id: slo_report
+        run: |
+          echo "📊 Generating weekly Matrix Tracks SLO report..."
+          mkdir -p reports/slo
+
+          # Generate report
+          python3 tools/slo_monitor.py --output reports/slo/weekly_report.md
+
+          # Extract key metrics for summary
+          SLO_STATUS=$(python3 tools/slo_monitor.py --json-only | jq -r '.overall_status')
+          echo "slo_status=$SLO_STATUS" >> $GITHUB_OUTPUT
+
+      - name: Create SLO Summary Issue
+        if: always()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const path = 'reports/slo/weekly_report.md';
+
+            if (!fs.existsSync(path)) {
+              console.log('SLO report not found, skipping issue creation');
+              return;
+            }
+
+            const reportContent = fs.readFileSync(path, 'utf8');
+            const status = '${{ steps.slo_report.outputs.slo_status }}';
+            const statusEmoji = status === 'passing' ? '✅' : '❌';
+
+            const issueTitle = `${statusEmoji} Weekly Matrix Tracks SLO Report - ${new Date().toISOString().slice(0, 10)}`;
+
+            const issueBody = `## 📊 Weekly Matrix Tracks SLO Report
+
+**Status:** ${statusEmoji} ${status.toUpperCase()}
+**Generated:** ${new Date().toISOString()}
+
+---
+
+${reportContent}
+
+---
+
+## 🔗 Useful Links
+
+- [Matrix Tracks Documentation](docs/MATRIX_TRACKS.md)
+- [SLO Configuration](docs/matrix_tracks_slos.yaml)
+- [Track Status Dashboard](reports/matrix_tracks_status_latest.md)
+
+## 👥 Owners
+
+- **Gate Infrastructure:** @platform-team
+- **Security Response:** @security-team
+- **Telemetry Compliance:** @observability-team
+
+---
+
+*This is an automated weekly report. For urgent issues, escalate to the appropriate team.*`;
+
+            // Create issue
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: issueTitle,
+              body: issueBody,
+              labels: ['matrix-tracks', 'slo-report', status === 'passing' ? 'status:healthy' : 'status:attention-needed']
+            });
+
+      - name: Update Latest SLO Report
+        if: always()
+        run: |
+          # Keep a "latest" version for easy access
+          if [ -f "reports/slo/weekly_report.md" ]; then
+            cp reports/slo/weekly_report.md reports/slo/latest_slo_report.md
+            echo "✅ Updated latest SLO report"
+          fi
+
+      - name: Upload SLO Report Artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: slo-report
+          path: |
+            reports/slo/weekly_report.md
+            reports/slo/weekly_report.json
+          retention-days: 90
+
+      - name: SLO Alert (if failing)
+        if: steps.slo_report.outputs.slo_status != 'passing'
+        run: |
+          echo "🚨 SLO Status: ATTENTION NEEDED"
+          echo "One or more Matrix Tracks SLOs are failing or need attention."
+          echo "Check the generated issue for details and action items."
+          echo ""
+          echo "Quick remediation checklist:"
+          echo "- Review gate flakiness rate and improve infrastructure reliability"
+          echo "- Check security vulnerability response times"
+          echo "- Validate telemetry compliance in recent PRs"
+
+          # In production, this could send alerts to Slack, PagerDuty, etc.
+          # For now, just ensure the failing status is visible
+
+      - name: Success Summary
+        if: steps.slo_report.outputs.slo_status == 'passing'
+        run: |
+          echo "✅ All Matrix Tracks SLOs are healthy!"
+          echo "System reliability and cultural adoption metrics are within targets."
+          echo "Weekly report has been generated and archived."

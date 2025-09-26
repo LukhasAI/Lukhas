@@ -1,0 +1,321 @@
+name: Security Posture Monitor
+
+on:
+  schedule:
+    # Run security posture analysis daily at 6 AM UTC
+    - cron: '0 6 * * *'
+  push:
+    branches: [main]
+    paths:
+      - '**/matrix_*.json'
+      - 'tools/security_posture_monitor.py'
+      - '.github/workflows/security-posture.yml'
+  pull_request:
+    paths:
+      - '**/matrix_*.json'
+      - 'tools/security_posture_monitor.py'
+      - '.github/workflows/security-posture.yml'
+  workflow_dispatch:
+    inputs:
+      alert_threshold:
+        description: 'Alert on security score below threshold'
+        required: false
+        default: '70'
+        type: string
+
+permissions:
+  contents: read
+  issues: write
+  security-events: write
+
+jobs:
+  security-posture-analysis:
+    name: Security Posture Analysis
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install Dependencies
+        run: |
+          pip install --upgrade pip
+          # No additional dependencies needed - uses stdlib only
+
+      - name: Run Security Posture Analysis
+        id: analysis
+        run: |
+          echo "🛡️ Running security posture analysis..."
+          mkdir -p artifacts
+
+          # Run the analysis with verbose output and save report
+          python3 tools/security_posture_monitor.py \
+            --pattern "**/matrix_*.json" \
+            --output artifacts/security_posture_report.json \
+            --verbose
+
+          # Extract key metrics for step outputs
+          OVERALL_SCORE=$(python3 -c "
+          import json
+          with open('artifacts/security_posture_report.json') as f:
+              data = json.load(f)
+          score = data['security_posture_report']['metrics']['overall_posture_score']
+          print(f'{score:.1f}')
+          ")
+
+          CRITICAL_ALERTS=$(python3 -c "
+          import json
+          with open('artifacts/security_posture_report.json') as f:
+              data = json.load(f)
+          count = data['security_posture_report']['summary']['critical_alerts']
+          print(count)
+          ")
+
+          HIGH_ALERTS=$(python3 -c "
+          import json
+          with open('artifacts/security_posture_report.json') as f:
+              data = json.load(f)
+          count = data['security_posture_report']['summary']['high_alerts']
+          print(count)
+          ")
+
+          POSTURE_GRADE=$(python3 -c "
+          import json
+          with open('artifacts/security_posture_report.json') as f:
+              data = json.load(f)
+          grade = data['security_posture_report']['summary']['posture_grade']
+          print(grade)
+          ")
+
+          echo "overall_score=$OVERALL_SCORE" >> $GITHUB_OUTPUT
+          echo "critical_alerts=$CRITICAL_ALERTS" >> $GITHUB_OUTPUT
+          echo "high_alerts=$HIGH_ALERTS" >> $GITHUB_OUTPUT
+          echo "posture_grade=$POSTURE_GRADE" >> $GITHUB_OUTPUT
+
+      - name: Check Security Threshold
+        run: |
+          THRESHOLD="${{ github.event.inputs.alert_threshold || '70' }}"
+          SCORE="${{ steps.analysis.outputs.overall_score }}"
+
+          echo "Security posture score: $SCORE"
+          echo "Alert threshold: $THRESHOLD"
+
+          # Use bc for float comparison
+          if command -v bc >/dev/null; then
+            BELOW_THRESHOLD=$(echo "$SCORE < $THRESHOLD" | bc -l)
+          else
+            # Fallback to python for float comparison
+            BELOW_THRESHOLD=$(python3 -c "print(1 if float('$SCORE') < float('$THRESHOLD') else 0)")
+          fi
+
+          if [ "$BELOW_THRESHOLD" = "1" ]; then
+            echo "⚠️ Security posture score ($SCORE) is below threshold ($THRESHOLD)"
+            echo "threshold_exceeded=true" >> $GITHUB_ENV
+          else
+            echo "✅ Security posture score ($SCORE) meets threshold ($THRESHOLD)"
+            echo "threshold_exceeded=false" >> $GITHUB_ENV
+          fi
+
+      - name: Generate Security Badge Data
+        run: |
+          SCORE="${{ steps.analysis.outputs.overall_score }}"
+          GRADE="${{ steps.analysis.outputs.posture_grade }}"
+
+          # Determine badge color based on grade
+          case $GRADE in
+            A) COLOR="brightgreen" ;;
+            B) COLOR="green" ;;
+            C) COLOR="yellow" ;;
+            D) COLOR="orange" ;;
+            F) COLOR="red" ;;
+            *) COLOR="lightgrey" ;;
+          esac
+
+          # Create badge JSON for shields.io
+          mkdir -p badges
+          cat > badges/security_posture.json <<EOF
+          {
+            "schemaVersion": 1,
+            "label": "security posture",
+            "message": "$SCORE/100 ($GRADE)",
+            "color": "$COLOR"
+          }
+          EOF
+
+          echo "Security badge created with grade $GRADE and color $COLOR"
+
+      - name: Generate Security Dashboard
+        run: |
+          echo "📊 Generating security dashboard markdown..."
+
+          # Create security dashboard markdown
+          python3 - <<'PY' > artifacts/security_dashboard.md
+          import json
+          import datetime
+          from pathlib import Path
+
+          # Load the security report
+          with open('artifacts/security_posture_report.json') as f:
+              report = json.load(f)['security_posture_report']
+
+          metrics = report['metrics']
+          alerts = report['alerts']
+          summary = report['summary']
+          recommendations = report.get('recommendations', [])
+
+          # Generate markdown dashboard
+          md = f"""# 🛡️ Matrix Tracks Security Posture Dashboard
+
+          **Report Generated:** {datetime.datetime.utcnow().strftime('%Y-%m-%d %H:%M UTC')}
+          **Overall Grade:** {summary['posture_grade']} ({metrics['overall_posture_score']:.1f}/100)
+
+          ## 📊 Security Metrics
+
+          | Metric | Score | Status |
+          |--------|-------|--------|
+          | **Vulnerability Exposure** | {metrics['vulnerability_exposure']:.1f}% | {'🟢' if metrics['vulnerability_exposure'] >= 80 else '🟡' if metrics['vulnerability_exposure'] >= 60 else '🔴'} |
+          | **Attestation Coverage** | {metrics['attestation_coverage']:.1f}% | {'🟢' if metrics['attestation_coverage'] >= 80 else '🟡' if metrics['attestation_coverage'] >= 60 else '🔴'} |
+          | **Supply Chain Integrity** | {metrics['supply_chain_integrity']:.1f}% | {'🟢' if metrics['supply_chain_integrity'] >= 80 else '🟡' if metrics['supply_chain_integrity'] >= 60 else '🔴'} |
+          | **Telemetry Compliance** | {metrics['telemetry_compliance']:.1f}% | {'🟢' if metrics['telemetry_compliance'] >= 80 else '🟡' if metrics['telemetry_compliance'] >= 60 else '🔴'} |
+
+          ## 🚨 Security Alerts Summary
+
+          - **Critical:** {summary['critical_alerts']} alerts
+          - **High:** {summary['high_alerts']} alerts
+          - **Medium:** {summary['medium_alerts']} alerts
+          - **Low:** {summary['low_alerts']} alerts
+          - **Total:** {summary['total_alerts']} alerts
+
+          """
+
+          # Add alert details if any exist
+          if alerts:
+              md += "\n## 🔍 Alert Details\n\n"
+
+              # Group alerts by severity
+              severity_order = ['critical', 'high', 'medium', 'low']
+              for severity in severity_order:
+                  severity_alerts = [a for a in alerts if a['severity'] == severity]
+                  if severity_alerts:
+                      severity_icon = {
+                          'critical': '🚨',
+                          'high': '⚠️',
+                          'medium': '⚡',
+                          'low': 'ℹ️'
+                      }[severity]
+
+                      md += f"\n### {severity_icon} {severity.title()} Severity\n\n"
+                      for alert in severity_alerts:
+                          md += f"- **{alert['category'].replace('_', ' ').title()}:** {alert['message']}\n"
+                          md += f"  - *Affected:* {', '.join(alert['affected_modules'])}\n"
+                          md += f"  - *Remediation:* {alert['remediation']}\n\n"
+
+          # Add recommendations
+          if recommendations:
+              md += "\n## 💡 Recommendations\n\n"
+              for i, rec in enumerate(recommendations, 1):
+                  md += f"{i}. {rec}\n"
+
+          md += f"\n---\n*Dashboard auto-generated by Matrix Tracks Security Posture Monitor*"
+
+          print(md)
+          PY
+
+      - name: Update Step Summary
+        run: |
+          echo "## 🛡️ Security Posture Analysis Results" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Overall Score:** ${{ steps.analysis.outputs.overall_score }}/100 (Grade: ${{ steps.analysis.outputs.posture_grade }})" >> $GITHUB_STEP_SUMMARY
+          echo "**Critical Alerts:** ${{ steps.analysis.outputs.critical_alerts }}" >> $GITHUB_STEP_SUMMARY
+          echo "**High Priority Alerts:** ${{ steps.analysis.outputs.high_alerts }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+
+          # Add dashboard content to step summary
+          cat artifacts/security_dashboard.md >> $GITHUB_STEP_SUMMARY
+
+      - name: Upload Security Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: security-posture-report
+          path: |
+            artifacts/security_posture_report.json
+            artifacts/security_dashboard.md
+            badges/security_posture.json
+
+      - name: Create Security Issue (On Threshold Breach)
+        if: env.threshold_exceeded == 'true' && github.event_name == 'schedule'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+
+            // Load security dashboard content
+            const dashboardContent = fs.readFileSync('artifacts/security_dashboard.md', 'utf8');
+
+            const issueTitle = `🛡️ Security Posture Alert: Score Below Threshold (${{ steps.analysis.outputs.overall_score }}/100)`;
+            const issueBody = `## Security Posture Alert
+
+            The Matrix Tracks security posture score has fallen below the configured threshold.
+
+            **Current Score:** ${{ steps.analysis.outputs.overall_score }}/100 (Grade: ${{ steps.analysis.outputs.posture_grade }})
+            **Threshold:** ${{ github.event.inputs.alert_threshold || '70' }}/100
+            **Critical Alerts:** ${{ steps.analysis.outputs.critical_alerts }}
+            **High Priority Alerts:** ${{ steps.analysis.outputs.high_alerts }}
+
+            ${dashboardContent}
+
+            ---
+
+            This issue was automatically created by the Security Posture Monitor.
+            **Action Required:** Review and address the security alerts above to improve the posture score.
+            `;
+
+            // Create the issue
+            github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: issueTitle,
+              body: issueBody,
+              labels: ['security', 'posture-alert', 'automated']
+            });
+
+      - name: Comment on PR (if applicable)
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+
+            // Load dashboard content
+            const dashboardContent = fs.readFileSync('artifacts/security_dashboard.md', 'utf8');
+
+            const commentBody = `## 🛡️ Security Posture Analysis
+
+            **Overall Score:** ${{ steps.analysis.outputs.overall_score }}/100 (Grade: ${{ steps.analysis.outputs.posture_grade }})
+
+            ${dashboardContent}
+            `;
+
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: commentBody
+            });
+
+      - name: Security Analysis Complete
+        run: |
+          echo "✅ Security posture analysis completed successfully"
+          echo "📊 Overall Score: ${{ steps.analysis.outputs.overall_score }}/100"
+          echo "🏆 Grade: ${{ steps.analysis.outputs.posture_grade }}"
+
+          if [ "${{ steps.analysis.outputs.critical_alerts }}" -gt 0 ]; then
+            echo "🚨 ${{ steps.analysis.outputs.critical_alerts }} critical alert(s) require immediate attention"
+          else
+            echo "✅ No critical security alerts detected"
+          fi

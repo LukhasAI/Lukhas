@@ -32,7 +32,10 @@
       "Bash(find:*)",
       "Bash(git grep:*)",
       "Bash(python -m pytest tests/identity/test_oidc_conformance.py -v --tb=short)",
-      "Bash(python -m pytest tests/identity/test_oidc_security_hardening.py -v --tb=short)"
+      "Bash(python -m pytest tests/identity/test_oidc_security_hardening.py -v --tb=short)",
+      "Bash(python:*)",
+      "Bash(make validate-matrix:*)",
+      "Bash(make:*)"
     ],
     "deny": [],
     "ask": []

@@ -1,0 +1,464 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://lukhas.ai/schemas/matrix.schema.template.json",
+  "title": "LUKHΛS Matrix Contract (template)",
+  "description": "Template schema for rich, cryptographically-verifiable per-module contracts (matrix_<module>.json).",
+  "type": "object",
+  "additionalProperties": false,
+  "unevaluatedProperties": false,
+
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$",
+      "description": "SemVer of this JSON contract format."
+    },
+
+    "module": {
+      "type": "string",
+      "pattern": "^[a-zA-Z_][a-zA-Z0-9_]*(\\.[a-zA-Z_][a-zA-Z0-9_]*)*$",
+      "description": "Python dotted path of the module (e.g., lukhas.core.memoria)."
+    },
+
+    "owner": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "team": {"type": "string"},
+        "codeowners": {
+          "type": "array",
+          "items": {"type": "string"},
+          "minItems": 1
+        }
+      },
+      "required": ["team", "codeowners"]
+    },
+
+    "interface": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "public_api": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "fn": {"type": "string"},
+              "stability": {"type": "string", "enum": ["stable", "experimental", "internal"]},
+              "doc": {"type": "string"}
+            },
+            "required": ["fn", "stability"]
+          }
+        },
+        "contracts": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "name": {"type": "string"},
+              "type": {"type": "string", "enum": ["invariant", "precondition", "postcondition"]},
+              "desc": {"type": "string"}
+            },
+            "required": ["name", "type"]
+          }
+        }
+      }
+    },
+
+    "params": {
+      "type": "object",
+      "description": "Tunable parameters and their bounds/types.",
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "type": {"type": "string", "enum": ["int", "float", "string", "bool"]},
+          "default": {},
+          "min": {"type": ["number", "integer"]},
+          "max": {"type": ["number", "integer"]},
+          "enum": {"type": "array", "items": {}},
+          "description": {"type": "string"}
+        },
+        "required": ["type"]
+      }
+    },
+
+    "gates": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/gate"},
+      "minItems": 1
+    },
+
+    "telemetry": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "opentelemetry_semconv_version": {"type": "string"},
+        "spans": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "name": {"type": "string"},
+              "attrs": {"type": "array", "items": {"type": "string"}}
+            },
+            "required": ["name"]
+          }
+        },
+        "metrics": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "name": {"type": "string"},
+              "unit": {"type": "string"},
+              "type": {"type": "string", "enum": ["histogram", "counter", "gauge"]}
+            },
+            "required": ["name"]
+          }
+        }
+      }
+    },
+
+    "symbolic_diagnostics": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "CollapseHash": {"type": "string"},
+        "DriftScore": {"type": "number"},
+        "EthicalDriftIndex": {"type": "number"},
+        "ConvergencePct": {"type": "number", "minimum": 0, "maximum": 100}
+      }
+    },
+
+    "lineage": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "openlineage_event_id": {"type": "string"},
+        "datasets_in": {"type": "array", "items": {"type": "string"}},
+        "datasets_out": {"type": "array", "items": {"type": "string"}},
+        "job": {"type": "string"}
+      }
+    },
+
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "@context": {"type": "string"},
+        "commit": {"type": "string"},
+        "branch": {"type": "string"},
+        "built_by": {"type": "object"},
+        "environment": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "os": {"type": "string"},
+            "cpu": {"type": "string"},
+            "python": {"type": "string"}
+          }
+        },
+        "config_fingerprint": {"type": "string", "pattern": "^sha256:.*"}
+      }
+    },
+
+    "causal_provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "ipld_root_cid": {"type": "string"},
+        "car_uri": {"type": "string"},
+        "lamport_time": {"type": "integer", "minimum": 0},
+        "vector_clock": {
+          "type": "object",
+          "additionalProperties": {"type": "integer", "minimum": 0}
+        },
+        "bft": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "algorithm": {"type": "string", "enum": ["hotstuff", "tendermint", "raft"]},
+            "view": {"type": "integer", "minimum": 0},
+            "qc_hash": {"type": "string"}
+          }
+        },
+        "crdt": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "type": {"type": "string", "enum": ["or-set", "lww-register", "mv-register", "g-counter"]},
+            "last_join_cid": {"type": "string"}
+          }
+        }
+      }
+    },
+
+    "formal": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "tla_plus": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "spec": {"type": "string"},
+            "tlc_config": {"type": "string"},
+            "result": {"type": "string", "enum": ["PASS", "FAIL", "UNKNOWN"]},
+            "counterexample_hash": {"type": ["string", "null"]}
+          }
+        },
+        "proofs": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "tool": {"type": "string", "enum": ["coq", "lean4", "isabelle"]},
+              "theorem": {"type": "string"},
+              "artifact_sha256": {"type": "string", "pattern": "^sha256:.*"}
+            },
+            "required": ["tool", "theorem", "artifact_sha256"]
+          }
+        },
+        "probabilistic": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "tool": {"type": "string", "enum": ["prism"]},
+            "model": {"type": "string"},
+            "properties": {"type": "array", "items": {"type": "string"}},
+            "result_digest": {"type": "string", "pattern": "^sha256:.*"}
+          }
+        }
+      }
+    },
+
+    "privacy": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "epsilon": {"type": "number", "minimum": 0},
+        "delta": {"type": "number", "minimum": 0},
+        "mechanism": {"type": "string", "enum": ["gaussian", "laplace", "rr"]},
+        "composition": {"type": "string", "enum": ["basic", "advanced", "rpd"]}
+      }
+    },
+
+    "attestation": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "rats": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "evidence_jwt": {"type": "string"},
+            "verifier_policy": {"type": "string"}
+          }
+        },
+        "tee": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "type": {"type": "string", "enum": ["amd-sev-snp", "intel-sgx", "intel-tdx", "arm-cca"]},
+              "report_sha256": {"type": ["string", "null"], "pattern": "^sha256:.*"},
+              "realm_token": {"type": ["string", "null"]},
+              "vlek_chain": {"type": ["string", "null"]}
+            },
+            "required": ["type"]
+          }
+        },
+        "ebpf": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "program_id": {"type": "string", "pattern": "^sha256:.*"},
+            "policy": {"type": "string"},
+            "last_enforce": {"type": "string", "format": "date-time"}
+          }
+        }
+      }
+    },
+
+    "crypto": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "pqc": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "signatures": {"type": "array", "items": {"type": "string"}},
+            "kem": {"type": "string"},
+            "hash": {"type": "string"}
+          }
+        }
+      }
+    },
+
+    "verifiable_claims": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "zk": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "scheme": {"type": "string", "enum": ["groth16", "plonk", "marlin"]},
+            "circuit_cid": {"type": ["string", "null"]},
+            "proof_uri": {"type": ["string", "null"]},
+            "vk_uri": {"type": ["string", "null"]},
+            "setup": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "pot_round": {"type": ["integer", "null"]},
+                "ref": {"type": ["string", "null"]}
+              }
+            }
+          }
+        },
+        "mpc": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "protocol": {"type": "string", "enum": ["spdz", "aby3", "falcon"]},
+            "threshold": {"type": "string"},
+            "participants": {"type": "integer", "minimum": 1}
+          }
+        }
+      }
+    },
+
+    "capabilities": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "macaroons": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "id": {"type": "string"},
+              "caveats": {"type": "array", "items": {"type": "string"}}
+            },
+            "required": ["id"]
+          }
+        },
+        "policy_engine": {"type": "string", "enum": ["opa"]},
+        "policy_packages": {"type": "array", "items": {"type": "string"}}
+      }
+    },
+
+    "experiments": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "mlflow_tracking_uri": {"type": ["string", "null"]},
+        "last_run_id": {"type": ["string", "null"]},
+        "dvc_metrics_ref": {"type": ["string", "null"]}
+      }
+    },
+
+    "energy": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "tool": {"type": "string", "enum": ["codecarbon"]},
+        "last_kwh_10k": {"type": ["number", "null"]},
+        "last_emissions_kg": {"type": ["number", "null"]},
+        "location": {"type": ["string", "null"]},
+        "artifact": {"type": ["string", "null"]}
+      }
+    },
+
+    "supply_chain": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "sbom_ref": {"type": "string"},
+        "licenses": {"type": "array", "items": {"type": "string"}},
+        "sarif_report": {"type": ["string", "null"]},
+        "osv_snapshot": {"type": ["string", "null"]},
+        "attestations": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "type": {"type": "string"},
+              "uri": {"type": "string"}
+            },
+            "required": ["type", "uri"]
+          }
+        }
+      }
+    },
+
+    "tokenization": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Optional on-chain anchoring of validations/attestations (e.g., minting receipts on Solana or other networks). This is disabled by default and is opt-in per module.",
+      "properties": {
+        "enabled": { "type": "boolean", "default": false },
+        "network": {
+          "type": "string",
+          "enum": ["solana", "ethereum", "polygon", "base", "arbitrum", "optimism", "near", "avalanche", "cosmos", "celestia", "tezos"],
+          "description": "Primary chain where validation receipts are anchored."
+        },
+        "standard": {
+          "type": "string",
+          "enum": ["solana:spl-token", "solana:mpl-core", "solana:compressed-nft", "ethereum:erc-20", "ethereum:erc-721", "ethereum:erc-1155"],
+          "description": "Token or receipt standard used for anchoring."
+        },
+        "mint_address": { "type": ["string", "null"], "description": "Mint address (Solana) or contract address (EVM) used for receipts." },
+        "token_id": { "type": ["string", "null"], "description": "Token/NFT id when applicable (e.g., ERC-721/1155)." },
+        "anchor_txid": { "type": ["string", "null"], "description": "Transaction id of the most recent on-chain anchor." },
+        "anchor_block": { "type": ["integer", "null"], "description": "Block/slot number of the most recent on-chain anchor." },
+        "anchor_digest": { "type": ["string", "null"], "pattern": "^sha256:.*", "description": "Digest of the validated artifact that was anchored (e.g., gate results hash)." },
+        "anchor_merkle_root": { "type": ["string", "null"], "description": "Merkle root when batching many validations into a single anchor." },
+        "issuer": { "type": ["string", "null"], "description": "Entity or program id that issued the anchor (e.g., program/contract authority)." },
+        "policy_version": { "type": ["string", "null"], "description": "Version of the tokenization/anchoring policy used during mint." },
+        "proof_uri": { "type": ["string", "null"], "description": "URI to off-chain proof bundle (e.g., IPFS/Arweave) that complements the on-chain anchor." },
+        "note": { "type": ["string", "null"], "description": "Human-readable context for the anchor event." }
+      }
+    },
+
+    "docs": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "lens_markdown": {"type": ["string", "null"]},
+        "design_notes": {"type": ["string", "null"]}
+      }
+    }
+  },
+
+  "required": [
+    "schema_version",
+    "module",
+    "owner",
+    "gates"
+  ],
+
+  "$defs": {
+    "gate": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "metric": {"type": "string"},
+        "op": {"type": "string", "enum": ["<=", "<", ">=", ">", "==", "!="]},
+        "value": {}
+      },
+      "required": ["metric", "op", "value"]
+    }
+  }
+}

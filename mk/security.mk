@@ -1,5 +1,5 @@
 # Security operations & automation
-.PHONY: security security-scan security-update security-audit security-fix security-fix-vulnerabilities security-fix-issues security-fix-all security-ollama security-ollama-fix security-ollama-setup security-comprehensive-scan security-emergency-patch test-security security-autopilot security-monitor security-status security-schedule security-schedule-3h security-schedule-tonight security-schedule-list security-schedule-run
+.PHONY: security security-scan security-update security-audit security-fix security-fix-vulnerabilities security-fix-issues security-fix-all security-ollama security-ollama-fix security-ollama-setup security-comprehensive-scan security-emergency-patch test-security security-autopilot security-monitor security-status security-schedule security-schedule-3h security-schedule-tonight security-schedule-list security-schedule-run matrix-security-posture matrix-security-report matrix-security-alerts matrix-security-dashboard
 security: security-audit security-scan ## Full security check suite
 	@echo "✅ Full security check complete!"
 
@@ -143,3 +143,39 @@ sbom:
 	@mkdir -p reports/sbom
 	syft packages dir:. -o cyclonedx-json > reports/sbom/cyclonedx.json
 	@echo "✅ SBOM generated at reports/sbom/cyclonedx.json"
+
+# Matrix Tracks Security Posture Monitoring
+matrix-security-posture: ## Run Matrix Tracks security posture analysis
+	@echo "🛡️ Running Matrix Tracks Security Posture Analysis..."
+	@mkdir -p artifacts/security
+	@python3 tools/security_posture_monitor.py \
+		--pattern "**/matrix_*.json" \
+		--output artifacts/security/posture_report.json \
+		--verbose
+	@echo "✅ Security posture analysis complete!"
+
+matrix-security-report: ## Generate detailed security report
+	@echo "📊 Generating Matrix Tracks security dashboard..."
+	@mkdir -p artifacts/security
+	@python3 tools/security_posture_monitor.py \
+		--pattern "**/matrix_*.json" \
+		--output artifacts/security/posture_report.json \
+		--verbose
+	@echo "📄 Security report available at artifacts/security/posture_report.json"
+
+matrix-security-alerts: ## Check for critical security alerts
+	@echo "🚨 Checking for critical security alerts..."
+	@python3 tools/security_posture_monitor.py \
+		--pattern "**/matrix_*.json" \
+		--output artifacts/security/posture_report.json \
+		--alert-on-critical
+	@echo "✅ Security alert check complete!"
+
+matrix-security-dashboard: ## Display security posture dashboard
+	@echo "🖥️ Matrix Tracks Security Posture Dashboard"
+	@echo "============================================"
+	@python3 tools/security_posture_monitor.py \
+		--pattern "**/matrix_*.json" \
+		--verbose
+	@echo ""
+	@echo "💡 For detailed report: make matrix-security-report"
