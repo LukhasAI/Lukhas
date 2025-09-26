@@ -1,0 +1,12 @@
+{
+  "version": 1,
+  "roots": [
+    "bafybeicdb8242b19a826472288ca1f5472f2447167d3c5bfc743b89d02"
+  ],
+  "blocks": [
+    {
+      "cid": "bafybeicdb8242b19a826472288ca1f5472f2447167d3c5bfc743b89d02",
+      "data": "{\"@context\": \"https://lukhas.ai/provenance/v1\", \"causal_ordering\": {\"lamport_time\": 1, \"vector_clock\": {\"memory\": 1}}, \"gates\": {\"@context\": \"https://lukhas.ai/provenance/v1\", \"artifacts\": [\"artifacts/memoria_run_20250926_120000.log\", \"artifacts/memoria_prism_20250926_120000.json\"], \"causal_ordering\": {\"lamport_time\": 42, \"vector_clock\": {\"consciousness\": 38, \"identity\": 21, \"memory\": 42}}, \"gates\": {\"latency.runtime_s_10k\": {\"status\": \"pass\", \"threshold\": 30, \"value\": 18.4}, \"memory.cascade_prevention_rate\": {\"status\": \"pass\", \"threshold\": 0.997, \"value\": 0.9974}, \"security.osv_high\": {\"status\": \"pass\", \"threshold\": 0, \"value\": 0}}, \"module\": \"memory\", \"provenance\": {\"environment\": {\"os\": \"Darwin 25.1.0\", \"python\": \"3.11.6\"}, \"generated_by\": \"matrix_gate.py\"}, \"result\": \"success\", \"run_id\": \"demo-memoria-001\", \"schema_version\": \"1.0.0\", \"timestamp\": \"2025-09-26T12:00:00Z\", \"verification\": {\"prism\": {\"model\": \"models/memory/cascade.pm\", \"property\": \"P>=0.997 [F \\\"no_cascade\\\"]\", \"result\": 0.9974127439, \"satisfied\": true}}}, \"module\": \"memory\", \"provenance\": {\"environment\": {\"os\": \"Darwin\", \"python\": \"3.11.6\"}, \"generated_by\": \"matrix_gate.py\"}, \"schema_version\": \"1.0.0\", \"timestamp\": \"2025-09-26T12:03:42.217322Z\"}"
+    }
+  ]
+}

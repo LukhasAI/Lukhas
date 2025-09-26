@@ -1,0 +1,45 @@
+{
+  "description": "Mock RATS/EAT evidence JWT for demo purposes",
+  "jwt_header": {
+    "alg": "RS256",
+    "typ": "JWT",
+    "kid": "lukhas-demo-key-1"
+  },
+  "jwt_payload": {
+    "iss": "lukhas.identity",
+    "sub": "module:identity",
+    "iat": 1758883200,
+    "exp": 1758886800,
+    "lukhas": {
+      "module": "identity",
+      "version": "1.0.0",
+      "schema_version": "1.0.0"
+    },
+    "software_components": {
+      "code_hash": "sha256:abc123def456789abcdef0123456789abcdef0123456789abcdef0123456789",
+      "config_hash": "sha256:def456abc123456def789abc0123456789def0123456789abc0123456789abc",
+      "python_version": "3.11.6",
+      "platform": "Darwin-25.1.0-arm64"
+    },
+    "tee_evidence": {
+      "type": "amd-sev-snp",
+      "report": {
+        "measurement": "0123456789abcdef0123456789abcdef0123456789abcdef",
+        "reported_tcb": {
+          "boot_loader": 3,
+          "tee": 0,
+          "snp": 12,
+          "microcode": 209
+        },
+        "chip_id": "fedcba9876543210fedcba9876543210fedcba9876543210fedcba9876543210"
+      }
+    },
+    "runtime": {
+      "timestamp": "2025-09-26T12:00:00Z",
+      "hostname": "demo-secure-node",
+      "process_id": "12345"
+    }
+  },
+  "jwt_signature": "demo_signature_would_be_here_in_base64url_encoding",
+  "full_jwt": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Imx1a2hhcy1kZW1vLWtleS0xIn0.eyJpc3MiOiJsdWtoYXMuaWRlbnRpdHkiLCJzdWIiOiJtb2R1bGU6aWRlbnRpdHkiLCJpYXQiOjE3NTg4ODMyMDAsImV4cCI6MTc1ODg4NjgwMCwibHVraGFzIjp7Im1vZHVsZSI6ImlkZW50aXR5IiwidmVyc2lvbiI6IjEuMC4wIiwic2NoZW1hX3ZlcnNpb24iOiIxLjAuMCJ9LCJzb2Z0d2FyZV9jb21wb25lbnRzIjp7ImNvZGVfaGFzaCI6InNoYTI1NjphYmMxMjNkZWY0NTY3ODlhYmNkZWYwMTIzNDU2Nzg5YWJjZGVmMDEyMzQ1Njc4OWFiY2RlZjAxMjM0NTY3ODkiLCJjb25maWdfaGFzaCI6InNoYTI1NjpkZWY0NTZhYmMxMjM0NTZkZWY3ODlhYmMwMTIzNDU2Nzg5ZGVmMDEyMzQ1Njc4OWFiYzAxMjM0NTY3ODlhYmMiLCJweXRob25fdmVyc2lvbiI6IjMuMTEuNiIsInBsYXRmb3JtIjoiRGFyd2luLTI1LjEuMC1hcm02NCJ9LCJ0ZWVfZXZpZGVuY2UiOnsidHlwZSI6ImFtZC1zZXYtc25wIiwicmVwb3J0Ijp7Im1lYXN1cmVtZW50IjoiMDEyMzQ1Njc4OWFiY2RlZjAxMjM0NTY3ODlhYmNkZWYwMTIzNDU2Nzg5YWJjZGVmIiwicmVwb3J0ZWRfdGNiIjp7ImJvb3RfbG9hZGVyIjozLCJ0ZWUiOjAsInNucCI6MTIsIm1pY3JvY29kZSI6MjA5fSwiY2hpcF9pZCI6ImZlZGNiYTk4NzY1NDMyMTBmZWRjYmE5ODc2NTQzMjEwZmVkY2JhOTg3NjU0MzIxMGZlZGNiYTk4NzY1NDMyMTAifX0sInJ1bnRpbWUiOnsidGltZXN0YW1wIjoiMjAyNS0wOS0yNlQxMjowMDowMFoiLCJob3N0bmFtZSI6ImRlbW8tc2VjdXJlLW5vZGUiLCJwcm9jZXNzX2lkIjoiMTIzNDUifX0.demo_signature_would_be_here_in_base64url_encoding"
+}

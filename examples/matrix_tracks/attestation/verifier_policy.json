@@ -1,0 +1,66 @@
+{
+  "description": "Minimal RATS verifier policy for demo",
+  "version": "2.1",
+  "policy_for": "identity_module_demo",
+  "enforcement": {
+    "mode": "warn",
+    "allow_mock_tee": true,
+    "require_fresh_evidence": false
+  },
+  "required_claims": [
+    {
+      "claim": "iss",
+      "operator": "equals",
+      "expected": "lukhas.identity",
+      "description": "Evidence must be from identity module"
+    },
+    {
+      "claim": "exp",
+      "operator": "future",
+      "description": "Evidence must not be expired"
+    },
+    {
+      "claim": "software_components.code_hash",
+      "operator": "matches",
+      "expected": "sha256:[a-f0-9]{64}",
+      "description": "Code must have SHA256 integrity hash"
+    }
+  ],
+  "optional_claims": [
+    {
+      "claim": "tee_evidence.type",
+      "operator": "in",
+      "expected": ["amd-sev-snp", "intel-tdx", "arm-cca", "mock"],
+      "severity": "warn",
+      "description": "TEE evidence preferred but not required in demo"
+    },
+    {
+      "claim": "tee_evidence.report.reported_tcb.snp",
+      "operator": "gte",
+      "expected": 12,
+      "description": "Minimum SNP firmware version"
+    }
+  ],
+  "tee_validation": {
+    "amd-sev-snp": {
+      "required_fields": [
+        "report.measurement",
+        "report.reported_tcb",
+        "report.chip_id"
+      ],
+      "min_tcb_version": {
+        "boot_loader": 3,
+        "snp": 12
+      }
+    }
+  },
+  "audit": {
+    "log_all_verifications": true,
+    "log_level": "INFO"
+  },
+  "demo_notes": [
+    "This policy is for demonstration only",
+    "Production policies should have stricter requirements",
+    "See rats/policy-v2.1.yaml for complete example"
+  ]
+}

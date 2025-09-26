@@ -669,7 +669,7 @@ test.t4:
 		pytest tests/e2e/consciousness/test_consciousness_emergence.py -v -k "signal_cascade_prevention or network_coherence_emergence"
 
 # Matrix Contract Operations
-.PHONY: validate-matrix validate-matrix-osv matrix-init telemetry-fixtures telemetry-test telemetry-test-all
+.PHONY: validate-matrix validate-matrix-osv matrix-init telemetry-fixtures telemetry-test telemetry-test-all demo-verification demo-provenance demo-attestation
 validate-matrix:
 	@echo "🔍 Validating matrix contracts..."
 	@if [ -n "$(MODULE)" ]; then \
@@ -726,3 +726,16 @@ oneiric-drift-test:
 
 collapse:
 	python3 -m lukhas.tools.collapse_simulator --scenario ethical --seed 42
+
+# Matrix Tracks Demo Targets
+demo-verification:
+	@echo "🔮 Running Matrix Tracks Verification Demo..."
+	@cd examples/matrix_tracks/verification && chmod +x run_prism.sh && ./run_prism.sh
+
+demo-provenance:
+	@echo "🔗 Running Matrix Tracks Provenance Demo..."
+	@cd examples/matrix_tracks/provenance && chmod +x generate_car.sh verify_car.sh && ./generate_car.sh && ./verify_car.sh
+
+demo-attestation:
+	@echo "🛡️ Running Matrix Tracks Attestation Demo..."
+	@cd examples/matrix_tracks/attestation && chmod +x verify_evidence.sh && ./verify_evidence.sh

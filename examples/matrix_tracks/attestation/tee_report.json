@@ -1,0 +1,81 @@
+{
+  "description": "Mock AMD SEV-SNP attestation report for demo",
+  "tee_type": "amd-sev-snp",
+  "report_version": "1.0",
+  "generated_at": "2025-09-26T12:00:00Z",
+  "attestation_report": {
+    "version": 1,
+    "guest_svn": 0,
+    "policy": {
+      "abi_minor": 0,
+      "abi_major": 1,
+      "smt": false,
+      "migrate_ma": false,
+      "debug": false,
+      "single_socket": false
+    },
+    "family_id": "0123456789abcdef0123456789abcdef",
+    "image_id": "fedcba9876543210fedcba9876543210",
+    "vmpl": 0,
+    "signature_algo": 1,
+    "platform_version": {
+      "boot_loader": 3,
+      "tee": 0,
+      "snp": 12,
+      "microcode": 209
+    },
+    "platform_info": {
+      "smt_enabled": false,
+      "tsme_enabled": true
+    },
+    "author_key_en": 1,
+    "report_data": "0000000000000000000000000000000000000000000000000000000000000000",
+    "measurement": "0123456789abcdef0123456789abcdef0123456789abcdef",
+    "host_data": "00000000000000000000000000000000",
+    "id_key_digest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "author_key_digest": "cccccccccccccccccccccccccccccccccccccccccccccccc",
+    "report_id": "dddddddddddddddddddddddddddddddd",
+    "report_id_ma": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+    "reported_tcb": {
+      "boot_loader": 3,
+      "tee": 0,
+      "snp": 12,
+      "microcode": 209
+    },
+    "chip_id": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+    "committed_tcb": {
+      "boot_loader": 3,
+      "tee": 0,
+      "snp": 12,
+      "microcode": 209
+    },
+    "launch_tcb": {
+      "boot_loader": 3,
+      "tee": 0,
+      "snp": 12,
+      "microcode": 209
+    },
+    "signature": {
+      "r": "1111111111111111111111111111111111111111111111111111111111111111",
+      "s": "2222222222222222222222222222222222222222222222222222222222222222"
+    }
+  },
+  "certificate_chain": {
+    "description": "VLEK certificate chain (mocked)",
+    "ark_cert": "-----BEGIN CERTIFICATE-----\n[AMD Root Key certificate would be here]\n-----END CERTIFICATE-----",
+    "ask_cert": "-----BEGIN CERTIFICATE-----\n[AMD Signing Key certificate would be here]\n-----END CERTIFICATE-----",
+    "vlek_cert": "-----BEGIN CERTIFICATE-----\n[Versioned Loaded Endorsement Key certificate would be here]\n-----END CERTIFICATE-----"
+  },
+  "validation": {
+    "cert_chain_valid": true,
+    "signature_valid": true,
+    "tcb_level_acceptable": true,
+    "policy_compliant": true
+  },
+  "demo_notes": [
+    "This is mock data for demonstration only",
+    "Real SEV-SNP reports contain cryptographic proofs",
+    "Production systems must validate certificate chains",
+    "Use AMD SEV tools for real attestation"
+  ]
+}
