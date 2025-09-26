@@ -224,3 +224,31 @@ test-identity-integration: ## Test complete identity integration flow
 	@make authz-matrix
 	@make run-authz-tests
 	@echo "✅ Identity integration test complete!"
+
+# Matrix Contract Bootstrap
+.PHONY: matrix-bootstrap-all matrix-bootstrap-all-write matrix-bootstrap-overwrite matrix-bootstrap-some validate-matrix-all
+
+matrix-bootstrap-all: ## Discover & generate contracts for all modules (dry-run)
+	@echo "🔍 Matrix Contract Discovery (dry-run)..."
+	@python3 tools/matrix_bootstrap_all.py
+
+matrix-bootstrap-all-write: ## Generate contracts for all modules (skip existing)
+	@echo "📝 Generating Matrix contracts for all modules..."
+	@python3 tools/matrix_bootstrap_all.py --write
+	@echo "✅ Matrix contract generation complete!"
+
+matrix-bootstrap-overwrite: ## Force overwrite existing contracts (use sparingly)
+	@echo "⚠️  OVERWRITING existing Matrix contracts..."
+	@python3 tools/matrix_bootstrap_all.py --write --overwrite
+	@echo "✅ Matrix contract overwrite complete!"
+
+matrix-bootstrap-some: ## Generate contracts for specific modules (set MODULES="a,b,c")
+	@echo "📝 Generating Matrix contracts for modules: $(MODULES)..."
+	@python3 tools/matrix_bootstrap_all.py --write --modules "$(MODULES)"
+	@echo "✅ Matrix contract generation complete for: $(MODULES)"
+
+validate-matrix-all: ## Validate all Matrix contracts (schema + identity)
+	@echo "🔍 Validating all Matrix contracts..."
+	@make validate-matrix || echo "⚠️ Schema validation issues found"
+	@python3 tools/matrix_gate.py --identity --pattern "**/matrix_*.json" || echo "⚠️ Identity validation issues found"
+	@echo "✅ Matrix contract validation complete!"

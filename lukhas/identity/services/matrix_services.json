@@ -1,0 +1,302 @@
+{
+  "schema_version": "1.0.0",
+  "module": "identity.services",
+  "owner": {
+    "team": "Core",
+    "codeowners": [
+      "@gonzo.dominguez",
+      "@lukhas-core"
+    ]
+  },
+  "interface": {
+    "public_api": [
+      {
+        "fn": "TokenService",
+        "stability": "stable",
+        "doc": "Public API: TokenService"
+      },
+      {
+        "fn": "SessionService",
+        "stability": "stable",
+        "doc": "Public API: SessionService"
+      },
+      {
+        "fn": "Session",
+        "stability": "stable",
+        "doc": "Public API: Session"
+      },
+      {
+        "fn": "PasswordAuthenticator",
+        "stability": "stable",
+        "doc": "Public API: PasswordAuthenticator"
+      },
+      {
+        "fn": "ApiKeyAuthenticator",
+        "stability": "stable",
+        "doc": "Public API: ApiKeyAuthenticator"
+      },
+      {
+        "fn": "UserCredentials",
+        "stability": "stable",
+        "doc": "Public API: UserCredentials"
+      },
+      {
+        "fn": "create_password_authenticator",
+        "stability": "experimental",
+        "doc": "Public API: create_password_authenticator"
+      },
+      {
+        "fn": "create_api_key_authenticator",
+        "stability": "experimental",
+        "doc": "Public API: create_api_key_authenticator"
+      }
+    ],
+    "contracts": [
+      {
+        "name": "module_initialization",
+        "type": "postcondition",
+        "desc": "Module initializes without errors"
+      }
+    ]
+  },
+  "params": {
+    "log_level": {
+      "type": "string",
+      "default": "INFO",
+      "enum": [
+        "DEBUG",
+        "INFO",
+        "WARN",
+        "ERROR"
+      ]
+    },
+    "enable_telemetry": {
+      "type": "bool",
+      "default": true
+    }
+  },
+  "gates": [
+    {
+      "metric": "security.osv_high",
+      "op": "==",
+      "value": 0
+    },
+    {
+      "metric": "symbolic.DriftScore",
+      "op": ">=",
+      "value": 0.01
+    },
+    {
+      "metric": "attestation.rats_verified",
+      "op": "==",
+      "value": 1
+    },
+    {
+      "metric": "latency.runtime_s_1k",
+      "op": "<=",
+      "value": 15
+    }
+  ],
+  "telemetry": {
+    "opentelemetry_semconv_version": "1.37.0",
+    "spans": [
+      {
+        "name": "services.operation",
+        "attrs": [
+          "code.function",
+          "lukhas.module",
+          "lukhas.services.operation"
+        ]
+      }
+    ],
+    "metrics": [
+      {
+        "name": "lukhas.services.latency",
+        "unit": "s",
+        "type": "histogram"
+      },
+      {
+        "name": "lukhas.services.operations",
+        "unit": "1",
+        "type": "counter"
+      }
+    ]
+  },
+  "symbolic_diagnostics": {
+    "CollapseHash": "sha256:pending",
+    "DriftScore": 0.01,
+    "EthicalDriftIndex": 0.0,
+    "ConvergencePct": 0.0
+  },
+  "lineage": {
+    "openlineage_event_id": "urn:uuid:851b314a-f7c6-d730-c3cf-46cddd4ceea9",
+    "datasets_in": [],
+    "datasets_out": [],
+    "job": "lukhas.services.pipeline"
+  },
+  "provenance": {
+    "@context": "https://www.w3.org/ns/prov.jsonld",
+    "commit": "pending",
+    "branch": "main",
+    "built_by": {
+      "prov:agent": "matrix_bootstrap_all.py"
+    },
+    "environment": {
+      "os": "pending",
+      "cpu": "pending",
+      "python": "3.11+"
+    },
+    "config_fingerprint": "sha256:pending"
+  },
+  "causal_provenance": {
+    "ipld_root_cid": "bafybeipending",
+    "car_uri": "ipfs://pending/services.car",
+    "lamport_time": 0,
+    "vector_clock": {
+      "services": 0,
+      "consciousness": 0,
+      "identity": 0
+    },
+    "bft": {
+      "algorithm": "hotstuff",
+      "view": 0,
+      "qc_hash": "0x0000000000000000"
+    },
+    "crdt": {
+      "type": "or-set",
+      "last_join_cid": "bafybeipending"
+    }
+  },
+  "formal": {
+    "tla_plus": {
+      "spec": "specs/services/module.tla",
+      "result": "UNKNOWN"
+    },
+    "proofs": [],
+    "probabilistic": {
+      "tool": "prism",
+      "model": "models/services/behavior.pm",
+      "properties": [
+        "P>=0.99 [F \"module_ready\"]"
+      ]
+    }
+  },
+  "privacy": {
+    "epsilon": 0.0,
+    "delta": 0.0,
+    "mechanism": "gaussian",
+    "composition": "basic"
+  },
+  "attestation": {
+    "rats": {
+      "evidence_jwt": "pending",
+      "verifier_policy": "rats/policy-v2.1.json"
+    },
+    "tee": [],
+    "ebpf": {
+      "program_id": "sha256:pending",
+      "policy": "opa://policies/services.rego"
+    }
+  },
+  "crypto": {
+    "pqc": {
+      "signatures": [
+        "ML-DSA-65"
+      ],
+      "kem": "ML-KEM-1024",
+      "hash": "SHA3-512"
+    }
+  },
+  "verifiable_claims": {
+    "zk": {
+      "scheme": "groth16",
+      "circuit_cid": null,
+      "proof_uri": null,
+      "vk_uri": null,
+      "setup": {
+        "pot_round": null,
+        "ref": null
+      }
+    },
+    "mpc": {
+      "protocol": "spdz",
+      "threshold": "2/3",
+      "participants": 3
+    }
+  },
+  "capabilities": {
+    "macaroons": [],
+    "policy_engine": "opa",
+    "policy_packages": [
+      "matrix.services"
+    ]
+  },
+  "experiments": {
+    "mlflow_tracking_uri": "mlflow://lukhas",
+    "last_run_id": null,
+    "dvc_metrics_ref": "../dvc_metrics/services.json"
+  },
+  "energy": {
+    "tool": "codecarbon",
+    "last_kwh_10k": null,
+    "last_emissions_kg": null,
+    "location": "US-CA",
+    "artifact": "../artifacts/services_emissions.csv"
+  },
+  "supply_chain": {
+    "sbom_ref": "../sbom/services.cdx.json",
+    "licenses": [
+      "Apache-2.0"
+    ],
+    "sarif_report": "../artifacts/services.sarif.json",
+    "osv_snapshot": "../artifacts/services.osv.json",
+    "attestations": [
+      {
+        "type": "slsa.provenance",
+        "uri": "oci://registry/lukhas/services@sha256:pending"
+      }
+    ]
+  },
+  "tokenization": {
+    "enabled": false,
+    "network": "solana",
+    "standard": "solana:compressed-nft",
+    "mint_address": null,
+    "token_id": null,
+    "anchor_txid": null,
+    "anchor_block": null,
+    "anchor_digest": null,
+    "anchor_merkle_root": null,
+    "issuer": null,
+    "policy_version": null,
+    "proof_uri": null,
+    "note": null
+  },
+  "identity": {
+    "requires_auth": true,
+    "accepted_subjects": [
+      "lukhas:user:*",
+      "lukhas:svc:orchestrator"
+    ],
+    "required_tiers": [
+      "trusted",
+      "inner_circle",
+      "root_dev"
+    ],
+    "required_tiers_numeric": [
+      3,
+      4,
+      5
+    ],
+    "scopes": [
+      "services.read",
+      "services.write"
+    ],
+    "webauthn_required": false,
+    "api_policies": []
+  },
+  "docs": {
+    "lens_markdown": "../products/intelligence/lens/services.qmd",
+    "design_notes": "../docs/services/architecture.md"
+  }
+}

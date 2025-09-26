@@ -1,0 +1,312 @@
+{
+  "schema_version": "1.0.0",
+  "module": "orchestration",
+  "owner": {
+    "team": "Core",
+    "codeowners": [
+      "@gonzo.dominguez",
+      "@lukhas-core"
+    ]
+  },
+  "interface": {
+    "public_api": [
+      {
+        "fn": "CONTEXT_BUS_ACTIVE",
+        "stability": "experimental",
+        "doc": "Public API: CONTEXT_BUS_ACTIVE"
+      },
+      {
+        "fn": "ORCHESTRATION_BRANDING_AVAILABLE",
+        "stability": "experimental",
+        "doc": "Public API: ORCHESTRATION_BRANDING_AVAILABLE"
+      },
+      {
+        "fn": "BrandContext",
+        "stability": "stable",
+        "doc": "Public API: BrandContext"
+      },
+      {
+        "fn": "EventPriority",
+        "stability": "stable",
+        "doc": "Public API: EventPriority"
+      },
+      {
+        "fn": "KernelBus",
+        "stability": "stable",
+        "doc": "Public API: KernelBus"
+      },
+      {
+        "fn": "OrchestrationHub",
+        "stability": "stable",
+        "doc": "Public API: OrchestrationHub"
+      },
+      {
+        "fn": "build_context",
+        "stability": "experimental",
+        "doc": "Public API: build_context"
+      },
+      {
+        "fn": "emit",
+        "stability": "stable",
+        "doc": "Public API: emit"
+      },
+      {
+        "fn": "get_brand_voice",
+        "stability": "experimental",
+        "doc": "Public API: get_brand_voice"
+      },
+      {
+        "fn": "get_constellation_context",
+        "stability": "experimental",
+        "doc": "Public API: get_constellation_context"
+      }
+    ],
+    "contracts": [
+      {
+        "name": "module_initialization",
+        "type": "postcondition",
+        "desc": "Module initializes without errors"
+      }
+    ]
+  },
+  "params": {
+    "log_level": {
+      "type": "string",
+      "default": "INFO",
+      "enum": [
+        "DEBUG",
+        "INFO",
+        "WARN",
+        "ERROR"
+      ]
+    },
+    "enable_telemetry": {
+      "type": "bool",
+      "default": true
+    }
+  },
+  "gates": [
+    {
+      "metric": "security.osv_high",
+      "op": "==",
+      "value": 0
+    },
+    {
+      "metric": "symbolic.DriftScore",
+      "op": ">=",
+      "value": 0.01
+    },
+    {
+      "metric": "attestation.rats_verified",
+      "op": "==",
+      "value": 1
+    },
+    {
+      "metric": "latency.runtime_s_1k",
+      "op": "<=",
+      "value": 5
+    }
+  ],
+  "telemetry": {
+    "opentelemetry_semconv_version": "1.37.0",
+    "spans": [
+      {
+        "name": "orchestration.operation",
+        "attrs": [
+          "code.function",
+          "lukhas.module",
+          "lukhas.orchestration.operation"
+        ]
+      }
+    ],
+    "metrics": [
+      {
+        "name": "lukhas.orchestration.latency",
+        "unit": "s",
+        "type": "histogram"
+      },
+      {
+        "name": "lukhas.orchestration.operations",
+        "unit": "1",
+        "type": "counter"
+      }
+    ]
+  },
+  "symbolic_diagnostics": {
+    "CollapseHash": "sha256:pending",
+    "DriftScore": 0.01,
+    "EthicalDriftIndex": 0.0,
+    "ConvergencePct": 0.0
+  },
+  "lineage": {
+    "openlineage_event_id": "urn:uuid:c0146ede-8301-1e4f-4f71-b9f74fcf93b3",
+    "datasets_in": [],
+    "datasets_out": [],
+    "job": "lukhas.orchestration.pipeline"
+  },
+  "provenance": {
+    "@context": "https://www.w3.org/ns/prov.jsonld",
+    "commit": "pending",
+    "branch": "main",
+    "built_by": {
+      "prov:agent": "matrix_bootstrap_all.py"
+    },
+    "environment": {
+      "os": "pending",
+      "cpu": "pending",
+      "python": "3.11+"
+    },
+    "config_fingerprint": "sha256:pending"
+  },
+  "causal_provenance": {
+    "ipld_root_cid": "bafybeipending",
+    "car_uri": "ipfs://pending/orchestration.car",
+    "lamport_time": 0,
+    "vector_clock": {
+      "orchestration": 0,
+      "consciousness": 0,
+      "identity": 0
+    },
+    "bft": {
+      "algorithm": "hotstuff",
+      "view": 0,
+      "qc_hash": "0x0000000000000000"
+    },
+    "crdt": {
+      "type": "or-set",
+      "last_join_cid": "bafybeipending"
+    }
+  },
+  "formal": {
+    "tla_plus": {
+      "spec": "specs/orchestration/module.tla",
+      "result": "UNKNOWN"
+    },
+    "proofs": [],
+    "probabilistic": {
+      "tool": "prism",
+      "model": "models/orchestration/behavior.pm",
+      "properties": [
+        "P>=0.99 [F \"module_ready\"]"
+      ]
+    }
+  },
+  "privacy": {
+    "epsilon": 0.0,
+    "delta": 0.0,
+    "mechanism": "gaussian",
+    "composition": "basic"
+  },
+  "attestation": {
+    "rats": {
+      "evidence_jwt": "pending",
+      "verifier_policy": "rats/policy-v2.1.json"
+    },
+    "tee": [],
+    "ebpf": {
+      "program_id": "sha256:pending",
+      "policy": "opa://policies/orchestration.rego"
+    }
+  },
+  "crypto": {
+    "pqc": {
+      "signatures": [
+        "ML-DSA-65"
+      ],
+      "kem": "ML-KEM-1024",
+      "hash": "SHA3-512"
+    }
+  },
+  "verifiable_claims": {
+    "zk": {
+      "scheme": "groth16",
+      "circuit_cid": null,
+      "proof_uri": null,
+      "vk_uri": null,
+      "setup": {
+        "pot_round": null,
+        "ref": null
+      }
+    },
+    "mpc": {
+      "protocol": "spdz",
+      "threshold": "2/3",
+      "participants": 3
+    }
+  },
+  "capabilities": {
+    "macaroons": [],
+    "policy_engine": "opa",
+    "policy_packages": [
+      "matrix.orchestration"
+    ]
+  },
+  "experiments": {
+    "mlflow_tracking_uri": "mlflow://lukhas",
+    "last_run_id": null,
+    "dvc_metrics_ref": "../dvc_metrics/orchestration.json"
+  },
+  "energy": {
+    "tool": "codecarbon",
+    "last_kwh_10k": null,
+    "last_emissions_kg": null,
+    "location": "US-CA",
+    "artifact": "../artifacts/orchestration_emissions.csv"
+  },
+  "supply_chain": {
+    "sbom_ref": "../sbom/orchestration.cdx.json",
+    "licenses": [
+      "Apache-2.0"
+    ],
+    "sarif_report": "../artifacts/orchestration.sarif.json",
+    "osv_snapshot": "../artifacts/orchestration.osv.json",
+    "attestations": [
+      {
+        "type": "slsa.provenance",
+        "uri": "oci://registry/lukhas/orchestration@sha256:pending"
+      }
+    ]
+  },
+  "tokenization": {
+    "enabled": false,
+    "network": "solana",
+    "standard": "solana:compressed-nft",
+    "mint_address": null,
+    "token_id": null,
+    "anchor_txid": null,
+    "anchor_block": null,
+    "anchor_digest": null,
+    "anchor_merkle_root": null,
+    "issuer": null,
+    "policy_version": null,
+    "proof_uri": null,
+    "note": null
+  },
+  "identity": {
+    "requires_auth": true,
+    "accepted_subjects": [
+      "lukhas:user:*",
+      "lukhas:svc:orchestrator"
+    ],
+    "required_tiers": [
+      "trusted",
+      "inner_circle",
+      "root_dev"
+    ],
+    "required_tiers_numeric": [
+      3,
+      4,
+      5
+    ],
+    "scopes": [
+      "orchestration.read",
+      "orchestration.write"
+    ],
+    "webauthn_required": false,
+    "api_policies": []
+  },
+  "docs": {
+    "lens_markdown": "../products/intelligence/lens/orchestration.qmd",
+    "design_notes": "../docs/orchestration/architecture.md"
+  }
+}
