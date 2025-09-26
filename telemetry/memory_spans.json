@@ -1,0 +1,38 @@
+{
+  "spans": [
+    {
+      "trace_id": "4f3f0a2a4a6d5b8f9c1e2d3c4b5a6978",
+      "span_id": "9a7b6c5d4e3f2100",
+      "parent_span_id": null,
+      "name": "memory.recall",
+      "kind": "INTERNAL",
+      "start_time_unix_nano": 1758844800000000000,
+      "end_time_unix_nano": 1758844801000000000,
+      "attributes": {
+        "code.function": "recall",
+        "lukhas.module": "memory",
+        "lukhas.k": 10,
+        "otel.semconv.version": "1.37.0"
+      },
+      "status": { "code": "UNSET" },
+      "events": []
+    },
+    {
+      "trace_id": "4f3f0a2a4a6d5b8f9c1e2d3c4b5a6978",
+      "span_id": "ab12cd34ef567890",
+      "parent_span_id": "9a7b6c5d4e3f2100",
+      "name": "memory.fold",
+      "kind": "INTERNAL",
+      "start_time_unix_nano": 1758844800200000000,
+      "end_time_unix_nano": 1758844800300000000,
+      "attributes": {
+        "code.function": "fold",
+        "lukhas.module": "memory",
+        "lukhas.fold_count": 3,
+        "otel.semconv.version": "1.37.0"
+      },
+      "status": { "code": "UNSET" },
+      "events": []
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "metrics": [
+    {
+      "name": "lukhas.memory.latency",
+      "description": "end-to-end latency for memory operations",
+      "unit": "s",
+      "type": "histogram",
+      "data_points": [
+        { "attributes": { "operation": "recall" }, "count": 10, "sum": 1.23, "bounds": [0.01, 0.05, 0.1, 0.5, 1.0], "bucket_counts": [2, 4, 2, 1, 1] }
+      ]
+    },
+    {
+      "name": "lukhas.memory.recall.results",
+      "description": "number of recall results returned",
+      "unit": "1",
+      "type": "gauge",
+      "data_points": [
+        { "attributes": { "k": 10 }, "value": 10 }
+      ]
+    },
+    {
+      "name": "lukhas.memory.cascade.prevented",
+      "description": "count of cascades prevented",
+      "unit": "1",
+      "type": "counter",
+      "data_points": [
+        { "attributes": {}, "value": 1 }
+      ]
+    }
+  ]
+}
