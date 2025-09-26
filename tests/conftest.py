@@ -134,7 +134,8 @@ def pytest_collection_modifyitems(config, items):
     selected = []
     for item in items:
         marks = {m.name for m in item.iter_markers()}
-        if "smoke" in marks or not marks.intersection(skip_marks):
+        # Include telemetry tests in quality gates as they are smoke tests
+        if "smoke" in marks or "telemetry" in marks or not marks.intersection(skip_marks):
             selected.append(item)
     items[:] = selected
 

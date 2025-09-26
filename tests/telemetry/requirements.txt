@@ -1,0 +1,20 @@
+# Requirements for telemetry smoke tests
+
+# Testing framework
+pytest>=7.0.0
+pytest-asyncio>=0.21.0
+pytest-timeout>=2.1.0
+
+# OpenTelemetry dependencies
+opentelemetry-api>=1.20.0
+opentelemetry-sdk>=1.20.0
+opentelemetry-semantic-conventions>=0.41b0
+
+# Metrics collection (optional for future expansion)
+prometheus-client>=0.17.0
+
+# YAML support for test matrices
+PyYAML>=6.0
+
+# Mock and testing utilities
+pytest-mock>=3.10.0
