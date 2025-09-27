@@ -462,7 +462,7 @@
           "type": "array",
           "items": {
             "type": "object",
-1            "additionalProperties": false,
+            "additionalProperties": false,
             "properties": {
               "fn": { "type": "string" },
               "requires_step_up": { "type": "boolean", "default": false },

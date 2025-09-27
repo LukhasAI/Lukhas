@@ -52,7 +52,8 @@
       "Bash(if [ -f \"lukhas/$module/matrix_$module.json\" ])",
       "Bash(then jq -r '.identity.webauthn_required' \"lukhas/$module/matrix_$module.json\")",
       "Bash(else echo \"no contract\")",
-      "Bash(xargs -I {} sh -c 'echo \"\"\"\"=== {} ===\"\"\"\" && grep -A 15 \"\"\"\"\\\"\"\"\"identity\\\"\"\"\":\"\"\"\" \"\"\"\"{}\"\"\"\"')"
+      "Bash(xargs -I {} sh -c 'echo \"\"\"\"=== {} ===\"\"\"\" && grep -A 15 \"\"\"\"\\\"\"\"\"identity\\\"\"\"\":\"\"\"\" \"\"\"\"{}\"\"\"\"')",
+      "Bash(pip3 install:*)"
     ],
     "deny": [],
     "ask": []

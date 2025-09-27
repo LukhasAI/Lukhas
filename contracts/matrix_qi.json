@@ -1,0 +1,152 @@
+{
+  "schema_version": "1.0.0",
+  "module": "lukhas.qi",
+  "owner": {
+    "team": "lukhas-core",
+    "codeowners": [
+      "@lukhas-devs",
+      "@gonzo.dominguez"
+    ]
+  },
+  "interface": {
+    "public_api": [
+      {
+        "fn": "qi_init",
+        "stability": "stable",
+        "doc": "Initialize qi module"
+      },
+      {
+        "fn": "qi_process",
+        "stability": "experimental",
+        "doc": "Process qi operations"
+      }
+    ],
+    "contracts": [
+      {
+        "name": "qi_invariant",
+        "type": "invariant",
+        "desc": "Core invariants for qi"
+      }
+    ]
+  },
+  "params": {
+    "max_connections": {
+      "type": "int",
+      "default": 100,
+      "min": 1,
+      "max": 10000,
+      "description": "Maximum concurrent connections"
+    },
+    "timeout_ms": {
+      "type": "int",
+      "default": 5000,
+      "min": 100,
+      "max": 60000,
+      "description": "Operation timeout in milliseconds"
+    }
+  },
+  "gates": [
+    {
+      "metric": "coverage",
+      "op": ">=",
+      "value": 90
+    },
+    {
+      "metric": "latency_ms",
+      "op": "<=",
+      "value": 100
+    },
+    {
+      "metric": "error_rate",
+      "op": "<=",
+      "value": 0.01
+    }
+  ],
+  "telemetry": {
+    "opentelemetry_semconv_version": "1.37.0",
+    "spans": [
+      {
+        "name": "qi.operation",
+        "attrs": [
+          "code.function",
+          "lukhas.module",
+          "lukhas.tier"
+        ]
+      }
+    ],
+    "metrics": [
+      {
+        "name": "lukhas.qi.requests",
+        "unit": "1",
+        "type": "counter"
+      },
+      {
+        "name": "lukhas.qi.latency",
+        "unit": "ms",
+        "type": "histogram"
+      }
+    ]
+  },
+  "symbolic_diagnostics": {
+    "CollapseHash": "sha256:pending_qi",
+    "DriftScore": 0.01,
+    "EthicalDriftIndex": 0.0,
+    "ConvergencePct": 95.0
+  },
+  "lineage": {
+    "openlineage_event_id": "lukhas_qi_v1",
+    "datasets_in": [],
+    "datasets_out": [],
+    "job": "lukhas.qi.job"
+  },
+  "provenance": {
+    "@context": "https://lukhas.ai/provenance/v1",
+    "commit": "",
+    "branch": "main",
+    "built_by": {
+      "user": "matrix-generator",
+      "timestamp": "2024-01-01T00:00:00Z"
+    },
+    "environment": {
+      "os": "darwin",
+      "cpu": "arm64",
+      "python": "3.11"
+    },
+    "config_fingerprint": "sha256:qi_config"
+  },
+  "identity": {
+    "requires_auth": true,
+    "accepted_subjects": [
+      "lukhas:user:*"
+    ],
+    "required_tiers": [
+      "friend",
+      "trusted"
+    ],
+    "required_tiers_numeric": [
+      2,
+      3
+    ],
+    "scopes": [
+      "qi.read",
+      "qi.write",
+      "qi.execute",
+      "qi.admin"
+    ],
+    "webauthn_required": false,
+    "api_policies": []
+  },
+  "tokenization": {
+    "enabled": false,
+    "network": "solana",
+    "standard": "solana:compressed-nft",
+    "mint_address": null,
+    "anchor_txid": null,
+    "policy_version": "1.0.0",
+    "note": "Tokenization placeholder for qi module"
+  },
+  "docs": {
+    "lens_markdown": "../docs/qi/lens.md",
+    "design_notes": "../docs/qi/architecture.md"
+  }
+}
