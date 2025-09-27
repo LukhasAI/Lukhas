@@ -154,7 +154,13 @@
     "mint_address": null,
     "anchor_txid": null,
     "policy_version": "1.0.0",
-    "note": "Tokenization placeholder for wallet module"
+    "note": "Tokenization placeholder for wallet module",
+    "token_id": null,
+    "anchor_block": null,
+    "anchor_digest": null,
+    "anchor_merkle_root": null,
+    "issuer": null,
+    "proof_uri": null
   },
   "docs": {
     "lens_markdown": "../docs/wallet/lens.md",
@@ -165,5 +171,40 @@
       "evidence_jwt": "",
       "verifier_policy": "lukhas_wallet_verifier"
     }
+  },
+  "glyph_provenance": {
+    "glyph_signature": null,
+    "entropy_phase": "null",
+    "drift_index": null,
+    "attractor_state": "null"
+  },
+  "dream_provenance": {
+    "last_dream_cid": null,
+    "drift_delta": null,
+    "recurrence_score": null,
+    "dream_depth": null,
+    "coherence_index": null
+  },
+  "guardian_check": {
+    "enabled": true,
+    "policy_ref": "guardian/ethics.v1",
+    "dissonance_threshold": 0.05,
+    "last_check_timestamp": null,
+    "drift_detection": true
+  },
+  "biosymbolic_map": {
+    "compound": "NAD+",
+    "role": "homeostasis",
+    "state": "baseline",
+    "pathway_coupling": null,
+    "symbolic_ph": null
+  },
+  "quantum_proof": {
+    "zkp_circuit": null,
+    "merkle_dag_root": null,
+    "post_quantum_sig": null,
+    "lattice_commitment": null,
+    "entanglement_witness": null,
+    "superposition_state": "null"
   }
 }

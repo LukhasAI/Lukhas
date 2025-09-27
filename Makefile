@@ -7,7 +7,7 @@
 .PHONY: check-scoped lint-scoped test-contract type-scoped doctor doctor-tools doctor-py doctor-ci doctor-lanes doctor-tests doctor-audit doctor-dup-targets doctor-phony doctor-summary doctor-strict doctor-dup-targets-strict doctor-json
 .PHONY: todo-unused todo-unused-check todo-unused-core todo-unused-candidate t4-annotate t4-check audit-f821 fix-f821-core annotate-f821-candidate types-audit types-enforce types-core types-trend types-audit-trend types-enforce-trend f401-audit f401-trend
 .PHONY: test-tier1 test-all test-fast test-report test-clean spec-lint contract-check specs-sync test-goldens oneiric-drift-test collapse
-.PHONY: validate-matrix-all authz-run coverage-report
+.PHONY: validate-matrix-all authz-run coverage-report matrix-v3-upgrade matrix-v3-check
 
 # Note: Additional PHONY targets are declared in mk/*.mk include files
 
@@ -755,7 +755,7 @@ validate-matrix-all:
 	print('✅ Contract presence gate: PASS')"
 	@echo ""
 	@echo "📋 Stage 2: Schema Validation (JSON Schema 2020-12)"
-	@python3 tools/validate_all_matrix.py --schema-only --quiet
+	@python3 tools/validate_all_matrix.py --schema matrix.schema.template.json --pattern "contracts/matrix_*.json" --quiet
 	@echo "✅ Schema validation: PASS"
 	@echo ""
 	@echo "📋 Stage 3: OPA Policy Tests"
@@ -775,104 +775,14 @@ authz-run:
 
 coverage-report:
 	@echo "📊 Generating Matrix Identity Coverage Report"
-	@mkdir -p tests
-	@python3 -c "\
-	import json, glob, datetime; \
-	from pathlib import Path; \
-	\
-	contracts = sorted(glob.glob('contracts/matrix_*.json')); \
-	valid_contracts = 0; \
-	total_contracts = len(contracts); \
-	webauthn_modules = []; \
-	\
-	for contract_path in contracts: \
-	    try: \
-	        with open(contract_path) as f: \
-	            contract = json.load(f); \
-	        if contract.get('identity', {}).get('webauthn_required', False): \
-	            module = contract_path.split('/')[-1].replace('matrix_', '').replace('.json', ''); \
-	            webauthn_modules.append(module); \
-	        valid_contracts += 1; \
-	    except: \
-	        pass; \
-	\
-	authz_data = {}; \
-	try: \
-	    with open('artifacts/matrix_validation_results.json') as f: \
-	        authz_data = json.load(f); \
-	except: \
-	    authz_data = {'summary': {'pass_rate': 0.963, 'passed': 2391, 'total_tests': 2484}}; \
-	\
-	pass_rate = authz_data.get('summary', {}).get('pass_rate', 0.963); \
-	passed_tests = authz_data.get('summary', {}).get('passed', 2391); \
-	total_tests = authz_data.get('summary', {}).get('total_tests', 2484); \
-	\
-	timestamp = datetime.datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%S.%fZ'); \
-	\
-	report = f'''# Matrix Identity Coverage Report
-_Generated: {timestamp}_
+	@python3 tools/generate_coverage_report.py
 
-**Contracts:** {valid_contracts}/{total_contracts} valid
-**AuthZ:** {passed_tests}/{total_tests} ({pass_rate:.1%})
-**Schema Validation:** 100%
-**Identity Lint:** 100%
-**Telemetry Smoke:** ✅ PASS
-**Policy Tests:** ✅ PASS
+# Matrix v3 Schema Operations
+matrix-v3-upgrade:
+	@echo "🚀 Upgrading all Matrix contracts with v3 placeholders"
+	@python3 tools/matrix_upgrade_v3.py --pattern "contracts/matrix_*.json"
+	@echo "✅ Matrix v3 upgrade complete"
 
-## Summary Statistics
-
-- **Total Contracts**: {total_contracts}
-- **Schema Compliance**: 100% ({valid_contracts}/{total_contracts})
-- **Identity Compliance**: 100% ({valid_contracts}/{total_contracts})
-- **WebAuthn Required**: {len(webauthn_modules)} modules
-- **Critical Modules Protected**: 100%
-- **Tier Distribution**: All 6 tiers covered
-
-## Validation Results
-
-| Module | Schema | Identity | WebAuthn | AuthZ Coverage |
-|---|---:|---:|---:|---:|'''; \
-	\
-	for contract_path in contracts[:10]: \
-	    try: \
-	        with open(contract_path) as f: \
-	            contract = json.load(f); \
-	        module = contract_path.split('/')[-1].replace('matrix_', '').replace('.json', ''); \
-	        webauthn = '✅' if contract.get('identity', {}).get('webauthn_required', False) else '❌'; \
-	        coverage = '40/40' if module in ['governance', 'identity'] else '38/40'; \
-	        report += f'''
-| \`{module}\` | ✅ | ✅ | {webauthn} | {coverage} |'''; \
-	    except: \
-	        pass; \
-	\
-	report += f'''
-
-## Critical Modules (WebAuthn Required)
-
-{chr(10).join([f'- **{mod}**: trusted, inner_circle tiers' for mod in webauthn_modules[:6]])}
-
-## Tier Coverage
-
-- **guest** (L0): 3 modules
-- **visitor** (L1): 6 modules
-- **friend** (L2): 30 modules
-- **trusted** (L3): 52 modules
-- **inner_circle** (L4): 36 modules
-- **root_dev** (L5): 18 modules
-
-## Acceptance Criteria
-
-✅ **Contracts**: {valid_contracts}/{total_contracts} (100%)
-✅ **Schema OK**: 100%
-✅ **AuthZ pass rate**: {pass_rate:.1%} (≥ 95%)
-✅ **Telemetry smoke**: authz.check spans present
-✅ **Policy tests**: OPA validation passed
-✅ **Critical module protection**: All protected
-
-All validation checks passed successfully.
-'''; \
-	\
-	with open('tests/matrix_coverage_report.md', 'w') as f: \
-	    f.write(report); \
-	\
-	print('✅ Coverage report generated: tests/matrix_coverage_report.md');"
+matrix-v3-check:
+	@echo "🔍 Checking v3 upgrade idempotency"
+	@python3 tools/matrix_upgrade_v3.py --pattern "contracts/matrix_*.json" --dry-run

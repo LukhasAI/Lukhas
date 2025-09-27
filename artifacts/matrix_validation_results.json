@@ -1,0 +1,2466 @@
+{
+  "timestamp": "2025-09-27T11:03:53.325981Z",
+  "summary": {
+    "total": 65,
+    "valid": 65,
+    "schema_ok": 65,
+    "identity_ok": 65,
+    "tokenization_ok": 65,
+    "critical_modules": 18,
+    "webauthn_required": 36,
+    "errors_by_type": {
+      "schema": 0,
+      "identity": 0,
+      "tokenization": 0
+    }
+  },
+  "modules": {
+    "accepted": {
+      "path": "contracts/matrix_accepted.json",
+      "module": "accepted",
+      "schema_ok": true,
+      "identity_ok": true,
+      "tokenization_ok": true,
+      "valid": true,
+      "errors": [],
+      "identity_info": {
+        "requires_auth": true,
+        "webauthn_required": false,
+        "tiers": [
+          "guest",
+          "visitor"
+        ],
+        "tiers_numeric": [
+          0,
+          1
+        ],
+        "scopes": [
+          "accepted.read",
+          "accepted.write",
+          "accepted.execute",
+          "accepted.admin"
+        ],
+        "accepted_subjects": [
+          "lukhas:user:*"
+        ],
+        "api_policies": []
+      },
+      "error_count": 0
+    },
+    "accepted_bio": {
+      "path": "contracts/matrix_accepted_bio.json",
+      "module": "accepted_bio",
+      "schema_ok": true,
+      "identity_ok": true,
+      "tokenization_ok": true,
+      "valid": true,
+      "errors": [],
+      "identity_info": {
+        "requires_auth": true,
+        "webauthn_required": false,
+        "tiers": [
+          "guest",
+          "visitor"
+        ],
+        "tiers_numeric": [
+          0,
+          1
+        ],
+        "scopes": [
+          "bio.read",
+          "bio.write",
+          "bio.execute",
+          "bio.admin"
+        ],
+        "accepted_subjects": [
+          "lukhas:user:*"
+        ],
+        "api_policies": []
+      },
+      "error_count": 0
+    },
+    "agents": {
+      "path": "contracts/matrix_agents.json",
+      "module": "agents",
+      "schema_ok": true,
+      "identity_ok": true,
+      "tokenization_ok": true,
+      "valid": true,
+      "errors": [],
+      "identity_info": {
+        "requires_auth": true,
+        "webauthn_required": false,
+        "tiers": [
+          "visitor",
+          "friend",
+          "trusted"
+        ],
+        "tiers_numeric": [
+          1,
+          2,
+          3
+        ],
+        "scopes": [
+          "agents.read",
+          "agents.write",
+          "agents.execute",
+          "agents.admin"
+        ],
+        "accepted_subjects": [
+          "lukhas:user:*"
+        ],
+        "api_policies": []
+      },
+      "error_count": 0
+    },
+    "api": {
+      "path": "contracts/matrix_api.json",
+      "module": "api",
+      "schema_ok": true,
+      "identity_ok": true,
+      "tokenization_ok": true,
+      "valid": true,
+      "errors": [],
+      "identity_info": {
+        "requires_auth": true,
+        "webauthn_required": false,
+        "tiers": [
+          "visitor",
+          "friend",
+          "trusted"
+        ],
+        "tiers_numeric": [
+          1,
+          2,
+          3
+        ],
+        "scopes": [
+          "api.query",
+          "api.mutate",
+          "api.subscribe",
+          "api.admin"
+        ],
+        "accepted_subjects": [
+          "lukhas:user:*",
+          "lukhas:svc:api"
+        ],
+        "api_policies": []
+      },
+      "error_count": 0
+    },
+    "bio": {
+      "path": "contracts/matrix_bio.json",
+      "module": "bio",
+      "schema_ok": true,
+      "identity_ok": true,
+      "tokenization_ok": true,
+      "valid": true,
+      "errors": [],
+      "identity_info": {
+        "requires_auth": true,
+        "webauthn_required": false,
+        "tiers": [
+          "friend",
+          "trusted"
+        ],
+        "tiers_numeric": [
+          2,
+          3
+        ],
+        "scopes": [
+          "bio.read",
+          "bio.write",
+          "bio.execute",
+          "bio.admin"
+        ],
+        "accepted_subjects": [
+          "lukhas:user:*"
+        ],
+        "api_policies": []
+      },
+      "error_count": 0
+    },
+    "bio_core": {
+      "path": "contracts/matrix_bio_core.json",
+      "module": "bio_core",
+      "schema_ok": true,
+      "identity_ok": true,
+      "tokenization_ok": true,
+      "valid": true,
+      "errors": [],
+      "identity_info": {
+        "requires_auth": true,
+        "webauthn_required": true,
+        "tiers": [
+          "trusted",
+          "inner_circle"
+        ],
+        "tiers_numeric": [
+          3,
+          4
+        ],
+        "scopes": [
+          "core.read",
+          "core.write",
+          "core.execute",
+          "core.admin"
+        ],
+        "accepted_subjects": [
+          "lukhas:user:*"
+        ],
+        "api_policies": [
+          {
+            "fn": "core_admin",
+            "requires_step_up": true,
+            "extra_scopes": [
+              "core.admin"
+            ],
+            "rate_limit_tiered": true
+          }
+        ]
+      },
+      "error_count": 0
+    },
+    "branding": {
+      "path": "contracts/matrix_branding.json",
+      "module": "branding",
+      "schema_ok": true,
+      "identity_ok": true,
+      "tokenization_ok": true,
+      "valid": true,
+      "errors": [],
+      "identity_info": {
+        "requires_auth": true,
+        "webauthn_required": false,
+        "tiers": [
+          "guest",
+          "visitor"
+        ],
+        "tiers_numeric": [
+          0,
+          1
+        ],
+        "scopes": [
+          "branding.read",
+          "branding.write",
+          "branding.execute",
+          "branding.admin"
+        ],
+        "accepted_subjects": [
+          "lukhas:user:*"
+        ],
+        "api_policies": []
+      },
+      "error_count": 0
+    },
+    "bridge": {
+      "path": "contracts/matrix_bridge.json",
+      "module": "bridge",
+      "schema_ok": true,
+      "identity_ok": true,
+      "tokenization_ok": true,
+      "valid": true,
+      "errors": [],
+      "identity_info": {
+        "requires_auth": true,
+        "webauthn_required": false,
+        "tiers": [
+          "friend",
+          "trusted"
+        ],
+        "tiers_numeric": [
+          2,
+          3
+        ],
+        "scopes": [
+          "bridge.connect",
+          "bridge.transform",
+          "bridge.sync",
+          "bridge.relay"
+        ],
+        "accepted_subjects": [
+          "lukhas:user:*"
+        ],
+        "api_policies": []
+      },
+      "error_count": 0
+    },
+    "bridge_llm_wrappers": {
+      "path": "contracts/matrix_bridge_llm_wrappers.json",
+      "module": "bridge_llm_wrappers",
+      "schema_ok": true,
+      "identity_ok": true,
+      "tokenization_ok": true,
+      "valid": true,
+      "errors": [],
+      "identity_info": {
+        "requires_auth": true,
+        "webauthn_required": false,
+        "tiers": [
+          "friend",
+          "trusted"
+        ],
+        "tiers_numeric": [
+          2,
+          3
+        ],
+        "scopes": [
+          "llm_wrappers.connect",
+          "llm_wrappers.transform",
+          "llm_wrappers.sync",
+          "llm_wrappers.relay"
+        ],
+        "accepted_subjects": [
+          "lukhas:user:*"
+        ],
+        "api_policies": []
+      },
+      "error_count": 0
+    },
+    "consciousness": {
+      "path": "contracts/matrix_consciousness.json",
+      "module": "consciousness",
+      "schema_ok": true,
+      "identity_ok": true,
+      "tokenization_ok": true,
+      "valid": true,
+      "errors": [],
+      "identity_info": {
+        "requires_auth": true,
+        "webauthn_required": true,
+        "tiers": [
+          "friend",
+          "trusted",
+          "inner_circle"
+        ],
+        "tiers_numeric": [
+          2,
+          3,
+          4
+        ],
+        "scopes": [
+          "consciousness.sense",
+          "consciousness.process",
+          "consciousness.dream",
+          "consciousness.aware"
+        ],
+        "accepted_subjects": [
+          "lukhas:user:*"
+        ],
+        "api_policies": [
+          {
+            "fn": "consciousness_admin",
+            "requires_step_up": true,
+            "extra_scopes": [
+              "consciousness.admin"
+            ],
+            "rate_limit_tiered": true
+          }
+        ]
+      },
+      "error_count": 0
+    },
+    "constellation": {
+      "path": "contracts/matrix_constellation.json",
+      "module": "constellation",
+      "schema_ok": true,
+      "identity_ok": true,
+      "tokenization_ok": true,
+      "valid": true,
+      "errors": [],
+      "identity_info": {
+        "requires_auth": true,
+        "webauthn_required": false,
+        "tiers": [
+          "friend",
+          "trusted"
+        ],
+        "tiers_numeric": [
+          2,
+          3
+        ],
+        "scopes": [
+          "constellation.read",
+          "constellation.write",
+          "constellation.execute",
+          "constellation.admin"
+        ],
+        "accepted_subjects": [
+          "lukhas:user:*"
+        ],
+        "api_policies": []
+      },
+      "error_count": 0
+    },
+    "constellation_triad": {
+      "path": "contracts/matrix_constellation_triad.json",
+      "module": "constellation_triad",
+      "schema_ok": true,
+      "identity_ok": true,
+      "tokenization_ok": true,
+      "valid": true,
+      "errors": [],
+      "identity_info": {
+        "requires_auth": true,
+        "webauthn_required": false,
+        "tiers": [
+          "friend",
+          "trusted"
+        ],
+        "tiers_numeric": [
+          2,
+          3
+        ],
+        "scopes": [
+          "triad.read",
+          "triad.write",
+          "triad.execute",
+          "triad.admin"
+        ],
+        "accepted_subjects": [
+          "lukhas:user:*"
+        ],
+        "api_policies": []
+      },
+      "error_count": 0
+    },
+    "core": {
+      "path": "contracts/matrix_core.json",
+      "module": "core",
+      "schema_ok": true,
+      "identity_ok": true,
+      "tokenization_ok": true,
+      "valid": true,
+      "errors": [],
+      "identity_info": {
+        "requires_auth": true,
+        "webauthn_required": true,
+        "tiers": [
+          "trusted",
+          "inner_circle"
+        ],
+        "tiers_numeric": [
+          3,
+          4
+        ],
+        "scopes": [
+          "core.read",
+          "core.write",
+          "core.execute",
+          "core.admin"
+        ],
+        "accepted_subjects": [
+          "lukhas:user:*"
+        ],
+        "api_policies": [
+          {
+            "fn": "core_admin",
+            "requires_step_up": true,
+            "extra_scopes": [
+              "core.admin"
+            ],
+            "rate_limit_tiered": true
+          }
+        ]
+      },
+      "error_count": 0
+    },
+    "core_bridge": {
+      "path": "contracts/matrix_core_bridge.json",
+      "module": "core_bridge",
+      "schema_ok": true,
+      "identity_ok": true,
+      "tokenization_ok": true,
+      "valid": true,
+      "errors": [],
+      "identity_info": {
+        "requires_auth": true,
+        "webauthn_required": true,
+        "tiers": [
+          "trusted",
+          "inner_circle"
+        ],
+        "tiers_numeric": [
+          3,
+          4
+        ],
+        "scopes": [
+          "bridge.connect",
+          "bridge.transform",
+          "bridge.sync",
+          "bridge.relay"
+        ],
+        "accepted_subjects": [
+          "lukhas:user:*"
+        ],
+        "api_policies": [
+          {
+            "fn": "bridge_admin",
+            "requires_step_up": true,
+            "extra_scopes": [
+              "bridge.admin"
+            ],
+            "rate_limit_tiered": true
+          }
+        ]
+      },
+      "error_count": 0
+    },
+    "core_colonies": {
+      "path": "contracts/matrix_core_colonies.json",
+      "module": "core_colonies",
+      "schema_ok": true,
+      "identity_ok": true,
+      "tokenization_ok": true,
+      "valid": true,
+      "errors": [],
+      "identity_info": {
+        "requires_auth": true,
+        "webauthn_required": true,
+        "tiers": [
+          "trusted",
+          "inner_circle"
+        ],
+        "tiers_numeric": [
+          3,
+          4
+        ],
+        "scopes": [
+          "colonies.read",
+          "colonies.write",
+          "colonies.execute",
+          "colonies.admin"
+        ],
+        "accepted_subjects": [
+          "lukhas:user:*"
+        ],
+        "api_policies": [
+          {
+            "fn": "colonies_admin",
+            "requires_step_up": true,
+            "extra_scopes": [
+              "colonies.admin"
+            ],
+            "rate_limit_tiered": true
+          }
+        ]
+      },
+      "error_count": 0
+    },
+    "core_common": {
+      "path": "contracts/matrix_core_common.json",
+      "module": "core_common",
+      "schema_ok": true,
+      "identity_ok": true,
+      "tokenization_ok": true,
+      "valid": true,
+      "errors": [],
+      "identity_info": {
+        "requires_auth": true,
+        "webauthn_required": true,
+        "tiers": [
+          "trusted",
+          "inner_circle"
+        ],
+        "tiers_numeric": [
+          3,
+          4
+        ],
+        "scopes": [
+          "common.read",
+          "common.write",
+          "common.execute",
+          "common.admin"
+        ],
+        "accepted_subjects": [
+          "lukhas:user:*"
+        ],
+        "api_policies": [
+          {
+            "fn": "common_admin",
+            "requires_step_up": true,
+            "extra_scopes": [
+              "common.admin"
+            ],
+            "rate_limit_tiered": true
+          }
+        ]
+      },
+      "error_count": 0
+    },
+    "core_filesystem": {
+      "path": "contracts/matrix_core_filesystem.json",
+      "module": "core_filesystem",
+      "schema_ok": true,
+      "identity_ok": true,
+      "tokenization_ok": true,
+      "valid": true,
+      "errors": [],
+      "identity_info": {
+        "requires_auth": true,
+        "webauthn_required": true,
+        "tiers": [
+          "trusted",
+          "inner_circle"
+        ],
+        "tiers_numeric": [
+          3,
+          4
+        ],
+        "scopes": [
+          "filesystem.read",
+          "filesystem.write",
+          "filesystem.execute",
+          "filesystem.admin"
+        ],
+        "accepted_subjects": [
+          "lukhas:user:*"
+        ],
+        "api_policies": [
+          {
+            "fn": "filesystem_admin",
+            "requires_step_up": true,
+            "extra_scopes": [
+              "filesystem.admin"
+            ],
+            "rate_limit_tiered": true
+          }
+        ]
+      },
+      "error_count": 0
+    },
+    "core_matriz": {
+      "path": "contracts/matrix_core_matriz.json",
+      "module": "core_matriz",
+      "schema_ok": true,
+      "identity_ok": true,
+      "tokenization_ok": true,
+      "valid": true,
+      "errors": [],
+      "identity_info": {
+        "requires_auth": true,
+        "webauthn_required": true,
+        "tiers": [
+          "trusted",
+          "inner_circle"
+        ],
+        "tiers_numeric": [
+          3,
+          4
+        ],
+        "scopes": [
+          "matriz.read",
+          "matriz.write",
+          "matriz.execute",
+          "matriz.admin"
+        ],
+        "accepted_subjects": [
+          "lukhas:user:*"
+        ],
+        "api_policies": [
+          {
+            "fn": "matriz_admin",
+            "requires_step_up": true,
+            "extra_scopes": [
+              "matriz.admin"
+            ],
+            "rate_limit_tiered": true
+          }
+        ]
+      },
+      "error_count": 0
+    },
+    "core_policy": {
+      "path": "contracts/matrix_core_policy.json",
+      "module": "core_policy",
+      "schema_ok": true,
+      "identity_ok": true,
+      "tokenization_ok": true,
+      "valid": true,
+      "errors": [],
+      "identity_info": {
+        "requires_auth": true,
+        "webauthn_required": true,
+        "tiers": [
+          "trusted",
+          "inner_circle"
+        ],
+        "tiers_numeric": [
+          3,
+          4
+        ],
+        "scopes": [
+          "policy.read",
+          "policy.write",
+          "policy.execute",
+          "policy.admin"
+        ],
+        "accepted_subjects": [
+          "lukhas:user:*"
+        ],
+        "api_policies": [
+          {
+            "fn": "policy_admin",
+            "requires_step_up": true,
+            "extra_scopes": [
+              "policy.admin"
+            ],
+            "rate_limit_tiered": true
+          }
+        ]
+      },
+      "error_count": 0
+    },
+    "core_registry": {
+      "path": "contracts/matrix_core_registry.json",
+      "module": "core_registry",
+      "schema_ok": true,
+      "identity_ok": true,
+      "tokenization_ok": true,
+      "valid": true,
+      "errors": [],
+      "identity_info": {
+        "requires_auth": true,
+        "webauthn_required": true,
+        "tiers": [
+          "trusted",
+          "inner_circle"
+        ],
+        "tiers_numeric": [
+          3,
+          4
+        ],
+        "scopes": [
+          "registry.read",
+          "registry.write",
+          "registry.execute",
+          "registry.admin"
+        ],
+        "accepted_subjects": [
+          "lukhas:user:*"
+        ],
+        "api_policies": [
+          {
+            "fn": "registry_admin",
+            "requires_step_up": true,
+            "extra_scopes": [
+              "registry.admin"
+            ],
+            "rate_limit_tiered": true
+          }
+        ]
+      },
+      "error_count": 0
+    },
+    "core_reliability": {
+      "path": "contracts/matrix_core_reliability.json",
+      "module": "core_reliability",
+      "schema_ok": true,
+      "identity_ok": true,
+      "tokenization_ok": true,
+      "valid": true,
+      "errors": [],
+      "identity_info": {
+        "requires_auth": true,
+        "webauthn_required": true,
+        "tiers": [
+          "trusted",
+          "inner_circle"
+        ],
+        "tiers_numeric": [
+          3,
+          4
+        ],
+        "scopes": [
+          "reliability.read",
+          "reliability.write",
+          "reliability.execute",
+          "reliability.admin"
+        ],
+        "accepted_subjects": [
+          "lukhas:user:*"
+        ],
+        "api_policies": [
+          {
+            "fn": "reliability_admin",
+            "requires_step_up": true,
+            "extra_scopes": [
+              "reliability.admin"
+            ],
+            "rate_limit_tiered": true
+          }
+        ]
+      },
+      "error_count": 0
+    },
+    "core_symbolic": {
+      "path": "contracts/matrix_core_symbolic.json",
+      "module": "core_symbolic",
+      "schema_ok": true,
+      "identity_ok": true,
+      "tokenization_ok": true,
+      "valid": true,
+      "errors": [],
+      "identity_info": {
+        "requires_auth": true,
+        "webauthn_required": true,
+        "tiers": [
+          "trusted",
+          "inner_circle"
+        ],
+        "tiers_numeric": [
+          3,
+          4
+        ],
+        "scopes": [
+          "symbolic.read",
+          "symbolic.write",
+          "symbolic.execute",
+          "symbolic.admin"
+        ],
+        "accepted_subjects": [
+          "lukhas:user:*"
+        ],
+        "api_policies": [
+          {
+            "fn": "symbolic_admin",
+            "requires_step_up": true,
+            "extra_scopes": [
+              "symbolic.admin"
+            ],
+            "rate_limit_tiered": true
+          }
+        ]
+      },
+      "error_count": 0
+    },
+    "core_symbolic_constraints": {
+      "path": "contracts/matrix_core_symbolic_constraints.json",
+      "module": "core_symbolic_constraints",
+      "schema_ok": true,
+      "identity_ok": true,
+      "tokenization_ok": true,
+      "valid": true,
+      "errors": [],
+      "identity_info": {
+        "requires_auth": true,
+        "webauthn_required": true,
+        "tiers": [
+          "trusted",
+          "inner_circle"
+        ],
+        "tiers_numeric": [
+          3,
+          4
+        ],
+        "scopes": [
+          "constraints.read",
+          "constraints.write",
+          "constraints.execute",
+          "constraints.admin"
+        ],
+        "accepted_subjects": [
+          "lukhas:user:*"
+        ],
+        "api_policies": [
+          {
+            "fn": "constraints_admin",
+            "requires_step_up": true,
+            "extra_scopes": [
+              "constraints.admin"
+            ],
+            "rate_limit_tiered": true
+          }
+        ]
+      },
+      "error_count": 0
+    },
+    "core_symbolism": {
+      "path": "contracts/matrix_core_symbolism.json",
+      "module": "core_symbolism",
+      "schema_ok": true,
+      "identity_ok": true,
+      "tokenization_ok": true,
+      "valid": true,
+      "errors": [],
+      "identity_info": {
+        "requires_auth": true,
+        "webauthn_required": true,
+        "tiers": [
+          "trusted",
+          "inner_circle"
+        ],
+        "tiers_numeric": [
+          3,
+          4
+        ],
+        "scopes": [
+          "symbolism.read",
+          "symbolism.write",
+          "symbolism.execute",
+          "symbolism.admin"
+        ],
+        "accepted_subjects": [
+          "lukhas:user:*"
+        ],
+        "api_policies": [
+          {
+            "fn": "symbolism_admin",
+            "requires_step_up": true,
+            "extra_scopes": [
+              "symbolism.admin"
+            ],
+            "rate_limit_tiered": true
+          }
+        ]
+      },
+      "error_count": 0
+    },
+    "deployment": {
+      "path": "contracts/matrix_deployment.json",
+      "module": "deployment",
+      "schema_ok": true,
+      "identity_ok": true,
+      "tokenization_ok": true,
+      "valid": true,
+      "errors": [],
+      "identity_info": {
+        "requires_auth": true,
+        "webauthn_required": true,
+        "tiers": [
+          "trusted",
+          "inner_circle"
+        ],
+        "tiers_numeric": [
+          3,
+          4
+        ],
+        "scopes": [
+          "deployment.deploy",
+          "deployment.rollback",
+          "deployment.scale",
+          "deployment.monitor"
+        ],
+        "accepted_subjects": [
+          "lukhas:user:*"
+        ],
+        "api_policies": [
+          {
+            "fn": "deployment_admin",
+            "requires_step_up": true,
+            "extra_scopes": [
+              "deployment.admin"
+            ],
+            "rate_limit_tiered": true
+          }
+        ]
+      },
+      "error_count": 0
+    },
+    "emotion": {
+      "path": "contracts/matrix_emotion.json",
+      "module": "emotion",
+      "schema_ok": true,
+      "identity_ok": true,
+      "tokenization_ok": true,
+      "valid": true,
+      "errors": [],
+      "identity_info": {
+        "requires_auth": true,
+        "webauthn_required": false,
+        "tiers": [
+          "friend",
+          "trusted"
+        ],
+        "tiers_numeric": [
+          2,
+          3
+        ],
+        "scopes": [
+          "emotion.read",
+          "emotion.write",
+          "emotion.execute",
+          "emotion.admin"
+        ],
+        "accepted_subjects": [
+          "lukhas:user:*"
+        ],
+        "api_policies": []
+      },
+      "error_count": 0
+    },
+    "governance": {
+      "path": "contracts/matrix_governance.json",
+      "module": "governance",
+      "schema_ok": true,
+      "identity_ok": true,
+      "tokenization_ok": true,
+      "valid": true,
+      "errors": [],
+      "identity_info": {
+        "requires_auth": true,
+        "webauthn_required": true,
+        "tiers": [
+          "inner_circle",
+          "root_dev"
+        ],
+        "tiers_numeric": [
+          4,
+          5
+        ],
+        "scopes": [
+          "governance.enforce",
+          "governance.audit",
+          "governance.approve",
+          "governance.govern"
+        ],
+        "accepted_subjects": [
+          "lukhas:user:*",
+          "lukhas:svc:guardian"
+        ],
+        "api_policies": [
+          {
+            "fn": "governance_admin",
+            "requires_step_up": true,
+            "extra_scopes": [
+              "governance.admin"
+            ],
+            "rate_limit_tiered": true
+          }
+        ]
+      },
+      "error_count": 0
+    },
+    "governance_consent_ledger": {
+      "path": "contracts/matrix_governance_consent_ledger.json",
+      "module": "governance_consent_ledger",
+      "schema_ok": true,
+      "identity_ok": true,
+      "tokenization_ok": true,
+      "valid": true,
+      "errors": [],
+      "identity_info": {
+        "requires_auth": true,
+        "webauthn_required": true,
+        "tiers": [
+          "inner_circle",
+          "root_dev"
+        ],
+        "tiers_numeric": [
+          4,
+          5
+        ],
+        "scopes": [
+          "consent_ledger.enforce",
+          "consent_ledger.audit",
+          "consent_ledger.approve",
+          "consent_ledger.govern"
+        ],
+        "accepted_subjects": [
+          "lukhas:user:*",
+          "lukhas:svc:guardian"
+        ],
+        "api_policies": [
+          {
+            "fn": "consent_ledger_admin",
+            "requires_step_up": true,
+            "extra_scopes": [
+              "consent_ledger.admin"
+            ],
+            "rate_limit_tiered": true
+          }
+        ]
+      },
+      "error_count": 0
+    },
+    "governance_consent_ledger_providers": {
+      "path": "contracts/matrix_governance_consent_ledger_providers.json",
+      "module": "governance_consent_ledger_providers",
+      "schema_ok": true,
+      "identity_ok": true,
+      "tokenization_ok": true,
+      "valid": true,
+      "errors": [],
+      "identity_info": {
+        "requires_auth": true,
+        "webauthn_required": true,
+        "tiers": [
+          "inner_circle",
+          "root_dev"
+        ],
+        "tiers_numeric": [
+          4,
+          5
+        ],
+        "scopes": [
+          "providers.enforce",
+          "providers.audit",
+          "providers.approve",
+          "providers.govern"
+        ],
+        "accepted_subjects": [
+          "lukhas:user:*",
+          "lukhas:svc:guardian"
+        ],
+        "api_policies": [
+          {
+            "fn": "providers_admin",
+            "requires_step_up": true,
+            "extra_scopes": [
+              "providers.admin"
+            ],
+            "rate_limit_tiered": true
+          }
+        ]
+      },
+      "error_count": 0
+    },
+    "governance_ethics": {
+      "path": "contracts/matrix_governance_ethics.json",
+      "module": "governance_ethics",
+      "schema_ok": true,
+      "identity_ok": true,
+      "tokenization_ok": true,
+      "valid": true,
+      "errors": [],
+      "identity_info": {
+        "requires_auth": true,
+        "webauthn_required": true,
+        "tiers": [
+          "inner_circle",
+          "root_dev"
+        ],
+        "tiers_numeric": [
+          4,
+          5
+        ],
+        "scopes": [
+          "ethics.enforce",
+          "ethics.audit",
+          "ethics.approve",
+          "ethics.govern"
+        ],
+        "accepted_subjects": [
+          "lukhas:user:*",
+          "lukhas:svc:guardian"
+        ],
+        "api_policies": [
+          {
+            "fn": "ethics_admin",
+            "requires_step_up": true,
+            "extra_scopes": [
+              "ethics.admin"
+            ],
+            "rate_limit_tiered": true
+          }
+        ]
+      },
+      "error_count": 0
+    },
+    "governance_guardian": {
+      "path": "contracts/matrix_governance_guardian.json",
+      "module": "governance_guardian",
+      "schema_ok": true,
+      "identity_ok": true,
+      "tokenization_ok": true,
+      "valid": true,
+      "errors": [],
+      "identity_info": {
+        "requires_auth": true,
+        "webauthn_required": true,
+        "tiers": [
+          "inner_circle",
+          "root_dev"
+        ],
+        "tiers_numeric": [
+          4,
+          5
+        ],
+        "scopes": [
+          "guardian.enforce",
+          "guardian.audit",
+          "guardian.approve",
+          "guardian.govern"
+        ],
+        "accepted_subjects": [
+          "lukhas:user:*",
+          "lukhas:svc:guardian"
+        ],
+        "api_policies": [
+          {
+            "fn": "guardian_admin",
+            "requires_step_up": true,
+            "extra_scopes": [
+              "guardian.admin"
+            ],
+            "rate_limit_tiered": true
+          }
+        ]
+      },
+      "error_count": 0
+    },
+    "governance_identity": {
+      "path": "contracts/matrix_governance_identity.json",
+      "module": "governance_identity",
+      "schema_ok": true,
+      "identity_ok": true,
+      "tokenization_ok": true,
+      "valid": true,
+      "errors": [],
+      "identity_info": {
+        "requires_auth": true,
+        "webauthn_required": true,
+        "tiers": [
+          "inner_circle",
+          "root_dev"
+        ],
+        "tiers_numeric": [
+          4,
+          5
+        ],
+        "scopes": [
+          "identity.login",
+          "identity.refresh",
+          "identity.validate",
+          "identity.revoke"
+        ],
+        "accepted_subjects": [
+          "lukhas:user:*",
+          "lukhas:svc:guardian"
+        ],
+        "api_policies": [
+          {
+            "fn": "identity_admin",
+            "requires_step_up": true,
+            "extra_scopes": [
+              "identity.admin"
+            ],
+            "rate_limit_tiered": true
+          }
+        ]
+      },
+      "error_count": 0
+    },
+    "governance_identity_auth_backend": {
+      "path": "contracts/matrix_governance_identity_auth_backend.json",
+      "module": "governance_identity_auth_backend",
+      "schema_ok": true,
+      "identity_ok": true,
+      "tokenization_ok": true,
+      "valid": true,
+      "errors": [],
+      "identity_info": {
+        "requires_auth": true,
+        "webauthn_required": true,
+        "tiers": [
+          "inner_circle",
+          "root_dev"
+        ],
+        "tiers_numeric": [
+          4,
+          5
+        ],
+        "scopes": [
+          "auth_backend.login",
+          "auth_backend.refresh",
+          "auth_backend.validate",
+          "auth_backend.revoke"
+        ],
+        "accepted_subjects": [
+          "lukhas:user:*",
+          "lukhas:svc:guardian"
+        ],
+        "api_policies": [
+          {
+            "fn": "auth_backend_admin",
+            "requires_step_up": true,
+            "extra_scopes": [
+              "auth_backend.admin"
+            ],
+            "rate_limit_tiered": true
+          }
+        ]
+      },
+      "error_count": 0
+    },
+    "governance_security": {
+      "path": "contracts/matrix_governance_security.json",
+      "module": "governance_security",
+      "schema_ok": true,
+      "identity_ok": true,
+      "tokenization_ok": true,
+      "valid": true,
+      "errors": [],
+      "identity_info": {
+        "requires_auth": true,
+        "webauthn_required": true,
+        "tiers": [
+          "inner_circle",
+          "root_dev"
+        ],
+        "tiers_numeric": [
+          4,
+          5
+        ],
+        "scopes": [
+          "security.enforce",
+          "security.audit",
+          "security.approve",
+          "security.govern"
+        ],
+        "accepted_subjects": [
+          "lukhas:user:*",
+          "lukhas:svc:guardian"
+        ],
+        "api_policies": [
+          {
+            "fn": "security_admin",
+            "requires_step_up": true,
+            "extra_scopes": [
+              "security.admin"
+            ],
+            "rate_limit_tiered": true
+          }
+        ]
+      },
+      "error_count": 0
+    },
+    "identity": {
+      "path": "contracts/matrix_identity.json",
+      "module": "identity",
+      "schema_ok": true,
+      "identity_ok": true,
+      "tokenization_ok": true,
+      "valid": true,
+      "errors": [],
+      "identity_info": {
+        "requires_auth": true,
+        "webauthn_required": true,
+        "tiers": [
+          "trusted",
+          "inner_circle",
+          "root_dev"
+        ],
+        "tiers_numeric": [
+          3,
+          4,
+          5
+        ],
+        "scopes": [
+          "identity.login",
+          "identity.refresh",
+          "identity.validate",
+          "identity.revoke"
+        ],
+        "accepted_subjects": [
+          "lukhas:user:*"
+        ],
+        "api_policies": [
+          {
+            "fn": "identity_admin",
+            "requires_step_up": true,
+            "extra_scopes": [
+              "identity.admin"
+            ],
+            "rate_limit_tiered": true
+          }
+        ]
+      },
+      "error_count": 0
+    },
+    "identity_auth": {
+      "path": "contracts/matrix_identity_auth.json",
+      "module": "identity_auth",
+      "schema_ok": true,
+      "identity_ok": true,
+      "tokenization_ok": true,
+      "valid": true,
+      "errors": [],
+      "identity_info": {
+        "requires_auth": true,
+        "webauthn_required": true,
+        "tiers": [
+          "trusted",
+          "inner_circle",
+          "root_dev"
+        ],
+        "tiers_numeric": [
+          3,
+          4,
+          5
+        ],
+        "scopes": [
+          "auth.login",
+          "auth.refresh",
+          "auth.validate",
+          "auth.revoke"
+        ],
+        "accepted_subjects": [
+          "lukhas:user:*"
+        ],
+        "api_policies": [
+          {
+            "fn": "auth_admin",
+            "requires_step_up": true,
+            "extra_scopes": [
+              "auth.admin"
+            ],
+            "rate_limit_tiered": true
+          }
+        ]
+      },
+      "error_count": 0
+    },
+    "identity_facades": {
+      "path": "contracts/matrix_identity_facades.json",
+      "module": "identity_facades",
+      "schema_ok": true,
+      "identity_ok": true,
+      "tokenization_ok": true,
+      "valid": true,
+      "errors": [],
+      "identity_info": {
+        "requires_auth": true,
+        "webauthn_required": true,
+        "tiers": [
+          "trusted",
+          "inner_circle",
+          "root_dev"
+        ],
+        "tiers_numeric": [
+          3,
+          4,
+          5
+        ],
+        "scopes": [
+          "facades.login",
+          "facades.refresh",
+          "facades.validate",
+          "facades.revoke"
+        ],
+        "accepted_subjects": [
+          "lukhas:user:*"
+        ],
+        "api_policies": [
+          {
+            "fn": "facades_admin",
+            "requires_step_up": true,
+            "extra_scopes": [
+              "facades.admin"
+            ],
+            "rate_limit_tiered": true
+          }
+        ]
+      },
+      "error_count": 0
+    },
+    "identity_oidc": {
+      "path": "contracts/matrix_identity_oidc.json",
+      "module": "identity_oidc",
+      "schema_ok": true,
+      "identity_ok": true,
+      "tokenization_ok": true,
+      "valid": true,
+      "errors": [],
+      "identity_info": {
+        "requires_auth": true,
+        "webauthn_required": true,
+        "tiers": [
+          "trusted",
+          "inner_circle",
+          "root_dev"
+        ],
+        "tiers_numeric": [
+          3,
+          4,
+          5
+        ],
+        "scopes": [
+          "oidc.login",
+          "oidc.refresh",
+          "oidc.validate",
+          "oidc.revoke"
+        ],
+        "accepted_subjects": [
+          "lukhas:user:*"
+        ],
+        "api_policies": [
+          {
+            "fn": "oidc_admin",
+            "requires_step_up": true,
+            "extra_scopes": [
+              "oidc.admin"
+            ],
+            "rate_limit_tiered": true
+          }
+        ]
+      },
+      "error_count": 0
+    },
+    "identity_passkey": {
+      "path": "contracts/matrix_identity_passkey.json",
+      "module": "identity_passkey",
+      "schema_ok": true,
+      "identity_ok": true,
+      "tokenization_ok": true,
+      "valid": true,
+      "errors": [],
+      "identity_info": {
+        "requires_auth": true,
+        "webauthn_required": true,
+        "tiers": [
+          "trusted",
+          "inner_circle",
+          "root_dev"
+        ],
+        "tiers_numeric": [
+          3,
+          4,
+          5
+        ],
+        "scopes": [
+          "passkey.login",
+          "passkey.refresh",
+          "passkey.validate",
+          "passkey.revoke"
+        ],
+        "accepted_subjects": [
+          "lukhas:user:*"
+        ],
+        "api_policies": [
+          {
+            "fn": "passkey_admin",
+            "requires_step_up": true,
+            "extra_scopes": [
+              "passkey.admin"
+            ],
+            "rate_limit_tiered": true
+          }
+        ]
+      },
+      "error_count": 0
+    },
+    "identity_passkey_providers": {
+      "path": "contracts/matrix_identity_passkey_providers.json",
+      "module": "identity_passkey_providers",
+      "schema_ok": true,
+      "identity_ok": true,
+      "tokenization_ok": true,
+      "valid": true,
+      "errors": [],
+      "identity_info": {
+        "requires_auth": true,
+        "webauthn_required": true,
+        "tiers": [
+          "trusted",
+          "inner_circle",
+          "root_dev"
+        ],
+        "tiers_numeric": [
+          3,
+          4,
+          5
+        ],
+        "scopes": [
+          "providers.login",
+          "providers.refresh",
+          "providers.validate",
+          "providers.revoke"
+        ],
+        "accepted_subjects": [
+          "lukhas:user:*"
+        ],
+        "api_policies": [
+          {
+            "fn": "providers_admin",
+            "requires_step_up": true,
+            "extra_scopes": [
+              "providers.admin"
+            ],
+            "rate_limit_tiered": true
+          }
+        ]
+      },
+      "error_count": 0
+    },
+    "identity_qrg": {
+      "path": "contracts/matrix_identity_qrg.json",
+      "module": "identity_qrg",
+      "schema_ok": true,
+      "identity_ok": true,
+      "tokenization_ok": true,
+      "valid": true,
+      "errors": [],
+      "identity_info": {
+        "requires_auth": true,
+        "webauthn_required": true,
+        "tiers": [
+          "trusted",
+          "inner_circle",
+          "root_dev"
+        ],
+        "tiers_numeric": [
+          3,
+          4,
+          5
+        ],
+        "scopes": [
+          "qrg.login",
+          "qrg.refresh",
+          "qrg.validate",
+          "qrg.revoke"
+        ],
+        "accepted_subjects": [
+          "lukhas:user:*"
+        ],
+        "api_policies": [
+          {
+            "fn": "qrg_admin",
+            "requires_step_up": true,
+            "extra_scopes": [
+              "qrg.admin"
+            ],
+            "rate_limit_tiered": true
+          }
+        ]
+      },
+      "error_count": 0
+    },
+    "identity_services": {
+      "path": "contracts/matrix_identity_services.json",
+      "module": "identity_services",
+      "schema_ok": true,
+      "identity_ok": true,
+      "tokenization_ok": true,
+      "valid": true,
+      "errors": [],
+      "identity_info": {
+        "requires_auth": true,
+        "webauthn_required": true,
+        "tiers": [
+          "trusted",
+          "inner_circle",
+          "root_dev"
+        ],
+        "tiers_numeric": [
+          3,
+          4,
+          5
+        ],
+        "scopes": [
+          "services.login",
+          "services.refresh",
+          "services.validate",
+          "services.revoke"
+        ],
+        "accepted_subjects": [
+          "lukhas:user:*"
+        ],
+        "api_policies": [
+          {
+            "fn": "services_admin",
+            "requires_step_up": true,
+            "extra_scopes": [
+              "services.admin"
+            ],
+            "rate_limit_tiered": true
+          }
+        ]
+      },
+      "error_count": 0
+    },
+    "identity_wallet": {
+      "path": "contracts/matrix_identity_wallet.json",
+      "module": "identity_wallet",
+      "schema_ok": true,
+      "identity_ok": true,
+      "tokenization_ok": true,
+      "valid": true,
+      "errors": [],
+      "identity_info": {
+        "requires_auth": true,
+        "webauthn_required": true,
+        "tiers": [
+          "trusted",
+          "inner_circle",
+          "root_dev"
+        ],
+        "tiers_numeric": [
+          3,
+          4,
+          5
+        ],
+        "scopes": [
+          "wallet.login",
+          "wallet.refresh",
+          "wallet.validate",
+          "wallet.revoke"
+        ],
+        "accepted_subjects": [
+          "lukhas:user:*"
+        ],
+        "api_policies": [
+          {
+            "fn": "wallet_admin",
+            "requires_step_up": true,
+            "extra_scopes": [
+              "wallet.admin"
+            ],
+            "rate_limit_tiered": true
+          }
+        ]
+      },
+      "error_count": 0
+    },
+    "ledger": {
+      "path": "contracts/matrix_ledger.json",
+      "module": "ledger",
+      "schema_ok": true,
+      "identity_ok": true,
+      "tokenization_ok": true,
+      "valid": true,
+      "errors": [],
+      "identity_info": {
+        "requires_auth": true,
+        "webauthn_required": false,
+        "tiers": [
+          "friend",
+          "trusted"
+        ],
+        "tiers_numeric": [
+          2,
+          3
+        ],
+        "scopes": [
+          "ledger.read",
+          "ledger.write",
+          "ledger.execute",
+          "ledger.admin"
+        ],
+        "accepted_subjects": [
+          "lukhas:user:*"
+        ],
+        "api_policies": []
+      },
+      "error_count": 0
+    },
+    "matriz": {
+      "path": "contracts/matrix_matriz.json",
+      "module": "matriz",
+      "schema_ok": true,
+      "identity_ok": true,
+      "tokenization_ok": true,
+      "valid": true,
+      "errors": [],
+      "identity_info": {
+        "requires_auth": true,
+        "webauthn_required": false,
+        "tiers": [
+          "friend",
+          "trusted"
+        ],
+        "tiers_numeric": [
+          2,
+          3
+        ],
+        "scopes": [
+          "matriz.read",
+          "matriz.write",
+          "matriz.execute",
+          "matriz.admin"
+        ],
+        "accepted_subjects": [
+          "lukhas:user:*"
+        ],
+        "api_policies": []
+      },
+      "error_count": 0
+    },
+    "matriz_runtime": {
+      "path": "contracts/matrix_matriz_runtime.json",
+      "module": "matriz_runtime",
+      "schema_ok": true,
+      "identity_ok": true,
+      "tokenization_ok": true,
+      "valid": true,
+      "errors": [],
+      "identity_info": {
+        "requires_auth": true,
+        "webauthn_required": false,
+        "tiers": [
+          "friend",
+          "trusted"
+        ],
+        "tiers_numeric": [
+          2,
+          3
+        ],
+        "scopes": [
+          "runtime.read",
+          "runtime.write",
+          "runtime.execute",
+          "runtime.admin"
+        ],
+        "accepted_subjects": [
+          "lukhas:user:*"
+        ],
+        "api_policies": []
+      },
+      "error_count": 0
+    },
+    "memory": {
+      "path": "contracts/matrix_memory.json",
+      "module": "memory",
+      "schema_ok": true,
+      "identity_ok": true,
+      "tokenization_ok": true,
+      "valid": true,
+      "errors": [],
+      "identity_info": {
+        "requires_auth": true,
+        "webauthn_required": true,
+        "tiers": [
+          "friend",
+          "trusted",
+          "inner_circle"
+        ],
+        "tiers_numeric": [
+          2,
+          3,
+          4
+        ],
+        "scopes": [
+          "memory.store",
+          "memory.retrieve",
+          "memory.forget",
+          "memory.consolidate"
+        ],
+        "accepted_subjects": [
+          "lukhas:user:*"
+        ],
+        "api_policies": [
+          {
+            "fn": "memory_admin",
+            "requires_step_up": true,
+            "extra_scopes": [
+              "memory.admin"
+            ],
+            "rate_limit_tiered": true
+          }
+        ]
+      },
+      "error_count": 0
+    },
+    "memory_backends": {
+      "path": "contracts/matrix_memory_backends.json",
+      "module": "memory_backends",
+      "schema_ok": true,
+      "identity_ok": true,
+      "tokenization_ok": true,
+      "valid": true,
+      "errors": [],
+      "identity_info": {
+        "requires_auth": true,
+        "webauthn_required": true,
+        "tiers": [
+          "friend",
+          "trusted",
+          "inner_circle"
+        ],
+        "tiers_numeric": [
+          2,
+          3,
+          4
+        ],
+        "scopes": [
+          "backends.store",
+          "backends.retrieve",
+          "backends.forget",
+          "backends.consolidate"
+        ],
+        "accepted_subjects": [
+          "lukhas:user:*"
+        ],
+        "api_policies": [
+          {
+            "fn": "backends_admin",
+            "requires_step_up": true,
+            "extra_scopes": [
+              "backends.admin"
+            ],
+            "rate_limit_tiered": true
+          }
+        ]
+      },
+      "error_count": 0
+    },
+    "memory_emotional": {
+      "path": "contracts/matrix_memory_emotional.json",
+      "module": "memory_emotional",
+      "schema_ok": true,
+      "identity_ok": true,
+      "tokenization_ok": true,
+      "valid": true,
+      "errors": [],
+      "identity_info": {
+        "requires_auth": true,
+        "webauthn_required": true,
+        "tiers": [
+          "friend",
+          "trusted",
+          "inner_circle"
+        ],
+        "tiers_numeric": [
+          2,
+          3,
+          4
+        ],
+        "scopes": [
+          "emotional.store",
+          "emotional.retrieve",
+          "emotional.forget",
+          "emotional.consolidate"
+        ],
+        "accepted_subjects": [
+          "lukhas:user:*"
+        ],
+        "api_policies": [
+          {
+            "fn": "emotional_admin",
+            "requires_step_up": true,
+            "extra_scopes": [
+              "emotional.admin"
+            ],
+            "rate_limit_tiered": true
+          }
+        ]
+      },
+      "error_count": 0
+    },
+    "observability": {
+      "path": "contracts/matrix_observability.json",
+      "module": "observability",
+      "schema_ok": true,
+      "identity_ok": true,
+      "tokenization_ok": true,
+      "valid": true,
+      "errors": [],
+      "identity_info": {
+        "requires_auth": true,
+        "webauthn_required": false,
+        "tiers": [
+          "friend",
+          "trusted"
+        ],
+        "tiers_numeric": [
+          2,
+          3
+        ],
+        "scopes": [
+          "observability.trace",
+          "observability.metric",
+          "observability.log",
+          "observability.alert"
+        ],
+        "accepted_subjects": [
+          "lukhas:user:*"
+        ],
+        "api_policies": []
+      },
+      "error_count": 0
+    },
+    "orchestration": {
+      "path": "contracts/matrix_orchestration.json",
+      "module": "orchestration",
+      "schema_ok": true,
+      "identity_ok": true,
+      "tokenization_ok": true,
+      "valid": true,
+      "errors": [],
+      "identity_info": {
+        "requires_auth": true,
+        "webauthn_required": false,
+        "tiers": [
+          "friend",
+          "trusted"
+        ],
+        "tiers_numeric": [
+          2,
+          3
+        ],
+        "scopes": [
+          "orchestration.dispatch",
+          "orchestration.route",
+          "orchestration.coordinate",
+          "orchestration.monitor"
+        ],
+        "accepted_subjects": [
+          "lukhas:user:*",
+          "lukhas:svc:orchestration"
+        ],
+        "api_policies": []
+      },
+      "error_count": 0
+    },
+    "orchestration_context": {
+      "path": "contracts/matrix_orchestration_context.json",
+      "module": "orchestration_context",
+      "schema_ok": true,
+      "identity_ok": true,
+      "tokenization_ok": true,
+      "valid": true,
+      "errors": [],
+      "identity_info": {
+        "requires_auth": true,
+        "webauthn_required": false,
+        "tiers": [
+          "friend",
+          "trusted"
+        ],
+        "tiers_numeric": [
+          2,
+          3
+        ],
+        "scopes": [
+          "context.dispatch",
+          "context.route",
+          "context.coordinate",
+          "context.monitor"
+        ],
+        "accepted_subjects": [
+          "lukhas:user:*",
+          "lukhas:svc:context"
+        ],
+        "api_policies": []
+      },
+      "error_count": 0
+    },
+    "orchestration_providers": {
+      "path": "contracts/matrix_orchestration_providers.json",
+      "module": "orchestration_providers",
+      "schema_ok": true,
+      "identity_ok": true,
+      "tokenization_ok": true,
+      "valid": true,
+      "errors": [],
+      "identity_info": {
+        "requires_auth": true,
+        "webauthn_required": false,
+        "tiers": [
+          "friend",
+          "trusted"
+        ],
+        "tiers_numeric": [
+          2,
+          3
+        ],
+        "scopes": [
+          "providers.dispatch",
+          "providers.route",
+          "providers.coordinate",
+          "providers.monitor"
+        ],
+        "accepted_subjects": [
+          "lukhas:user:*",
+          "lukhas:svc:providers"
+        ],
+        "api_policies": []
+      },
+      "error_count": 0
+    },
+    "qi": {
+      "path": "contracts/matrix_qi.json",
+      "module": "qi",
+      "schema_ok": true,
+      "identity_ok": true,
+      "tokenization_ok": true,
+      "valid": true,
+      "errors": [],
+      "identity_info": {
+        "requires_auth": true,
+        "webauthn_required": false,
+        "tiers": [
+          "friend",
+          "trusted"
+        ],
+        "tiers_numeric": [
+          2,
+          3
+        ],
+        "scopes": [
+          "qi.read",
+          "qi.write",
+          "qi.execute",
+          "qi.admin"
+        ],
+        "accepted_subjects": [
+          "lukhas:user:*"
+        ],
+        "api_policies": []
+      },
+      "error_count": 0
+    },
+    "rl": {
+      "path": "contracts/matrix_rl.json",
+      "module": "rl",
+      "schema_ok": true,
+      "identity_ok": true,
+      "tokenization_ok": true,
+      "valid": true,
+      "errors": [],
+      "identity_info": {
+        "requires_auth": true,
+        "webauthn_required": false,
+        "tiers": [
+          "friend",
+          "trusted"
+        ],
+        "tiers_numeric": [
+          2,
+          3
+        ],
+        "scopes": [
+          "rl.read",
+          "rl.write",
+          "rl.execute",
+          "rl.admin"
+        ],
+        "accepted_subjects": [
+          "lukhas:user:*"
+        ],
+        "api_policies": []
+      },
+      "error_count": 0
+    },
+    "rl_coordination": {
+      "path": "contracts/matrix_rl_coordination.json",
+      "module": "rl_coordination",
+      "schema_ok": true,
+      "identity_ok": true,
+      "tokenization_ok": true,
+      "valid": true,
+      "errors": [],
+      "identity_info": {
+        "requires_auth": true,
+        "webauthn_required": false,
+        "tiers": [
+          "friend",
+          "trusted"
+        ],
+        "tiers_numeric": [
+          2,
+          3
+        ],
+        "scopes": [
+          "coordination.read",
+          "coordination.write",
+          "coordination.execute",
+          "coordination.admin"
+        ],
+        "accepted_subjects": [
+          "lukhas:user:*"
+        ],
+        "api_policies": []
+      },
+      "error_count": 0
+    },
+    "rl_engine": {
+      "path": "contracts/matrix_rl_engine.json",
+      "module": "rl_engine",
+      "schema_ok": true,
+      "identity_ok": true,
+      "tokenization_ok": true,
+      "valid": true,
+      "errors": [],
+      "identity_info": {
+        "requires_auth": true,
+        "webauthn_required": false,
+        "tiers": [
+          "friend",
+          "trusted"
+        ],
+        "tiers_numeric": [
+          2,
+          3
+        ],
+        "scopes": [
+          "engine.read",
+          "engine.write",
+          "engine.execute",
+          "engine.admin"
+        ],
+        "accepted_subjects": [
+          "lukhas:user:*"
+        ],
+        "api_policies": []
+      },
+      "error_count": 0
+    },
+    "rl_environments": {
+      "path": "contracts/matrix_rl_environments.json",
+      "module": "rl_environments",
+      "schema_ok": true,
+      "identity_ok": true,
+      "tokenization_ok": true,
+      "valid": true,
+      "errors": [],
+      "identity_info": {
+        "requires_auth": true,
+        "webauthn_required": false,
+        "tiers": [
+          "friend",
+          "trusted"
+        ],
+        "tiers_numeric": [
+          2,
+          3
+        ],
+        "scopes": [
+          "environments.read",
+          "environments.write",
+          "environments.execute",
+          "environments.admin"
+        ],
+        "accepted_subjects": [
+          "lukhas:user:*"
+        ],
+        "api_policies": []
+      },
+      "error_count": 0
+    },
+    "rl_experience": {
+      "path": "contracts/matrix_rl_experience.json",
+      "module": "rl_experience",
+      "schema_ok": true,
+      "identity_ok": true,
+      "tokenization_ok": true,
+      "valid": true,
+      "errors": [],
+      "identity_info": {
+        "requires_auth": true,
+        "webauthn_required": false,
+        "tiers": [
+          "friend",
+          "trusted"
+        ],
+        "tiers_numeric": [
+          2,
+          3
+        ],
+        "scopes": [
+          "experience.read",
+          "experience.write",
+          "experience.execute",
+          "experience.admin"
+        ],
+        "accepted_subjects": [
+          "lukhas:user:*"
+        ],
+        "api_policies": []
+      },
+      "error_count": 0
+    },
+    "root": {
+      "path": "contracts/matrix_root.json",
+      "module": "root",
+      "schema_ok": true,
+      "identity_ok": true,
+      "tokenization_ok": true,
+      "valid": true,
+      "errors": [],
+      "identity_info": {
+        "requires_auth": true,
+        "webauthn_required": false,
+        "tiers": [
+          "friend",
+          "trusted"
+        ],
+        "tiers_numeric": [
+          2,
+          3
+        ],
+        "scopes": [
+          "root.read",
+          "root.write",
+          "root.execute",
+          "root.admin"
+        ],
+        "accepted_subjects": [
+          "lukhas:user:*"
+        ],
+        "api_policies": []
+      },
+      "error_count": 0
+    },
+    "security": {
+      "path": "contracts/matrix_security.json",
+      "module": "security",
+      "schema_ok": true,
+      "identity_ok": true,
+      "tokenization_ok": true,
+      "valid": true,
+      "errors": [],
+      "identity_info": {
+        "requires_auth": true,
+        "webauthn_required": true,
+        "tiers": [
+          "inner_circle",
+          "root_dev"
+        ],
+        "tiers_numeric": [
+          4,
+          5
+        ],
+        "scopes": [
+          "security.encrypt",
+          "security.decrypt",
+          "security.sign",
+          "security.verify"
+        ],
+        "accepted_subjects": [
+          "lukhas:user:*",
+          "lukhas:svc:guardian"
+        ],
+        "api_policies": [
+          {
+            "fn": "security_admin",
+            "requires_step_up": true,
+            "extra_scopes": [
+              "security.admin"
+            ],
+            "rate_limit_tiered": true
+          }
+        ]
+      },
+      "error_count": 0
+    },
+    "tools": {
+      "path": "contracts/matrix_tools.json",
+      "module": "tools",
+      "schema_ok": true,
+      "identity_ok": true,
+      "tokenization_ok": true,
+      "valid": true,
+      "errors": [],
+      "identity_info": {
+        "requires_auth": true,
+        "webauthn_required": false,
+        "tiers": [
+          "visitor",
+          "friend"
+        ],
+        "tiers_numeric": [
+          1,
+          2
+        ],
+        "scopes": [
+          "tools.execute",
+          "tools.analyze",
+          "tools.generate",
+          "tools.validate"
+        ],
+        "accepted_subjects": [
+          "lukhas:user:*"
+        ],
+        "api_policies": []
+      },
+      "error_count": 0
+    },
+    "trace": {
+      "path": "contracts/matrix_trace.json",
+      "module": "trace",
+      "schema_ok": true,
+      "identity_ok": true,
+      "tokenization_ok": true,
+      "valid": true,
+      "errors": [],
+      "identity_info": {
+        "requires_auth": true,
+        "webauthn_required": false,
+        "tiers": [
+          "friend",
+          "trusted"
+        ],
+        "tiers_numeric": [
+          2,
+          3
+        ],
+        "scopes": [
+          "trace.read",
+          "trace.write",
+          "trace.execute",
+          "trace.admin"
+        ],
+        "accepted_subjects": [
+          "lukhas:user:*"
+        ],
+        "api_policies": []
+      },
+      "error_count": 0
+    },
+    "trinity": {
+      "path": "contracts/matrix_trinity.json",
+      "module": "trinity",
+      "schema_ok": true,
+      "identity_ok": true,
+      "tokenization_ok": true,
+      "valid": true,
+      "errors": [],
+      "identity_info": {
+        "requires_auth": true,
+        "webauthn_required": false,
+        "tiers": [
+          "friend",
+          "trusted"
+        ],
+        "tiers_numeric": [
+          2,
+          3
+        ],
+        "scopes": [
+          "trinity.read",
+          "trinity.write",
+          "trinity.execute",
+          "trinity.admin"
+        ],
+        "accepted_subjects": [
+          "lukhas:user:*"
+        ],
+        "api_policies": []
+      },
+      "error_count": 0
+    },
+    "vivox": {
+      "path": "contracts/matrix_vivox.json",
+      "module": "vivox",
+      "schema_ok": true,
+      "identity_ok": true,
+      "tokenization_ok": true,
+      "valid": true,
+      "errors": [],
+      "identity_info": {
+        "requires_auth": true,
+        "webauthn_required": false,
+        "tiers": [
+          "friend",
+          "trusted"
+        ],
+        "tiers_numeric": [
+          2,
+          3
+        ],
+        "scopes": [
+          "vivox.read",
+          "vivox.write",
+          "vivox.execute",
+          "vivox.admin"
+        ],
+        "accepted_subjects": [
+          "lukhas:user:*"
+        ],
+        "api_policies": []
+      },
+      "error_count": 0
+    }
+  }
+}

@@ -476,6 +476,171 @@
       }
     },
 
+    "glyph_provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "EQNOX glyph system provenance tracking for symbolic state evolution",
+      "properties": {
+        "glyph_signature": {
+          "type": ["string", "null"],
+          "pattern": "^sha256:.*",
+          "description": "Hash of the symbolic glyph representation"
+        },
+        "entropy_phase": {
+          "type": ["string", "null"],
+          "enum": ["theta", "delta", "gamma", "beta", "alpha", "null"],
+          "description": "Current entropy phase of the glyph state"
+        },
+        "drift_index": {
+          "type": ["number", "null"],
+          "minimum": 0,
+          "maximum": 1,
+          "description": "Link to driftScore metric indicating symbolic drift"
+        },
+        "attractor_state": {
+          "type": ["string", "null"],
+          "enum": ["stable", "chaotic", "convergent", "divergent", "null"],
+          "description": "Current attractor/repeller dynamics state"
+        }
+      }
+    },
+
+    "dream_provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Oneiric Core dream layer provenance for consciousness state tracking",
+      "properties": {
+        "last_dream_cid": {
+          "type": ["string", "null"],
+          "description": "IPLD CID of the last recorded dream state (CAR format)"
+        },
+        "drift_delta": {
+          "type": ["number", "null"],
+          "description": "Emotional/symbolic drift coefficient from baseline"
+        },
+        "recurrence_score": {
+          "type": ["number", "null"],
+          "minimum": 0,
+          "maximum": 1,
+          "description": "Probability of symbol recurrence in future dreams"
+        },
+        "dream_depth": {
+          "type": ["integer", "null"],
+          "minimum": 0,
+          "description": "Nesting depth of dream within dream sequences"
+        },
+        "coherence_index": {
+          "type": ["number", "null"],
+          "minimum": 0,
+          "maximum": 1,
+          "description": "Measure of internal logical consistency within dream state"
+        }
+      }
+    },
+
+    "guardian_check": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Guardian System ethical governance integration",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "Whether Guardian System checks are active for this module"
+        },
+        "policy_ref": {
+          "type": ["string", "null"],
+          "default": "guardian/ethics.v1",
+          "description": "Reference to the Guardian policy version being applied"
+        },
+        "dissonance_threshold": {
+          "type": ["number", "null"],
+          "minimum": 0,
+          "maximum": 1,
+          "default": 0.05,
+          "description": "Threshold for ethical dissonance detection (0-1 scale)"
+        },
+        "last_check_timestamp": {
+          "type": ["string", "null"],
+          "format": "date-time",
+          "description": "ISO timestamp of the last Guardian System check"
+        },
+        "drift_detection": {
+          "type": ["boolean", "null"],
+          "default": true,
+          "description": "Enable ethical drift detection beyond threshold"
+        }
+      }
+    },
+
+    "biosymbolic_map": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Bio-symbolic anchoring for metabolic-symbolic coherence",
+      "properties": {
+        "compound": {
+          "type": ["string", "null"],
+          "enum": ["NAD+", "ATP", "NADPH", "CoA", "FAD", "heme", "glucose", "lactate", "null"],
+          "description": "Primary biochemical compound representing symbolic state"
+        },
+        "role": {
+          "type": ["string", "null"],
+          "enum": ["memory_repair", "energy_transfer", "signal_transduction", "stress_response", "homeostasis", "null"],
+          "description": "Metaphorical biological role in system dynamics"
+        },
+        "state": {
+          "type": ["string", "null"],
+          "enum": ["baseline", "stressed", "resilient", "depleted", "saturated", "null"],
+          "description": "Current metabolic state relative to baseline"
+        },
+        "pathway_coupling": {
+          "type": ["array", "null"],
+          "items": {"type": "string"},
+          "description": "Related biochemical pathways that influence this module"
+        },
+        "symbolic_ph": {
+          "type": ["number", "null"],
+          "minimum": 0,
+          "maximum": 14,
+          "description": "Symbolic pH representing system balance (7.0 = neutral)"
+        }
+      }
+    },
+
+    "quantum_proof": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Quantum-resistant cryptographic placeholders for future-proofing",
+      "properties": {
+        "zkp_circuit": {
+          "type": ["string", "null"],
+          "description": "Reference to zero-knowledge proof circuit for this module"
+        },
+        "merkle_dag_root": {
+          "type": ["string", "null"],
+          "pattern": "^sha256:.*",
+          "description": "Merkle DAG root hash of complete validation history"
+        },
+        "post_quantum_sig": {
+          "type": ["string", "null"],
+          "description": "SPHINCS+/Dilithium signature for quantum-resistant attestation"
+        },
+        "lattice_commitment": {
+          "type": ["string", "null"],
+          "description": "Lattice-based cryptographic commitment to module state"
+        },
+        "entanglement_witness": {
+          "type": ["string", "null"],
+          "description": "Quantum entanglement witness for distributed system coherence"
+        },
+        "superposition_state": {
+          "type": ["string", "null"],
+          "enum": ["collapsed", "superposed", "entangled", "decoherent", "null"],
+          "description": "Quantum state metaphor for module's decision state"
+        }
+      }
+    },
+
     "docs": {
       "type": "object",
       "additionalProperties": false,
