@@ -112,6 +112,57 @@ jobs:
           sys.exit(0)
           PY
 
+  # Phase Gate: Matrix v3 Sandbox Validation
+  matrix-v3-sandbox:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332  # v4
+      - uses: actions/setup-python@82c7e631bb3cdc910f68e0081d67478d79c6982d  # v5
+        with:
+          python-version: "3.10"
+      - name: Install dependencies for Matrix v3
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install -r requirements-test.txt
+      - name: Matrix v3 tokenization sandbox
+        run: |
+          echo "🪙 Testing Matrix v3 tokenization sandbox..."
+          python3 tools/matrix_tokenize.py --contract contracts/matrix_identity.json --verbose
+          if [ -f artifacts/token_anchor.json ]; then
+            echo "✅ Tokenization artifact generated"
+          else
+            echo "❌ Tokenization failed - no artifact"
+            exit 1
+          fi
+      - name: Matrix v3 provenance generation
+        run: |
+          echo "🔗 Testing Matrix v3 provenance generation..."
+          python3 tools/matrix_provenance.py --contracts "contracts/matrix_*.json" --verbose
+          if [ -f artifacts/provenance.car ] && [ -f artifacts/provenance_report.json ]; then
+            echo "✅ Provenance artifacts generated"
+          else
+            echo "❌ Provenance generation failed"
+            exit 1
+          fi
+      - name: Matrix v3 provenance verification
+        run: |
+          echo "🔍 Testing Matrix v3 provenance verification..."
+          chmod +x tools/verify_provenance.sh
+          tools/verify_provenance.sh --verbose
+      - name: Matrix v3 smoke tests
+        run: |
+          echo "🧪 Running Matrix v3 provenance smoke tests..."
+          python3 -m pytest tests/test_provenance_smoke.py -v --tb=short
+      - name: Upload Matrix v3 artifacts
+        uses: actions/upload-artifact@65462800fd760344b1a7b4382951275a0abb4808  # v4
+        with:
+          name: matrix-v3-artifacts
+          path: |
+            artifacts/provenance.car
+            artifacts/provenance_report.json
+            artifacts/token_anchor.json
+
   # Phase Gate: Pre-commit Hooks Validation
   pre-commit:
     runs-on: ubuntu-latest
@@ -142,7 +193,7 @@ jobs:
         run: pre-commit run --all-files
 
   lint:
-    needs: [quarantine-guard, pii-scan, matriz-validation, pre-commit]
+    needs: [quarantine-guard, pii-scan, matriz-validation, matrix-v3-sandbox, pre-commit]
     runs-on: ubuntu-latest
     strategy:
       matrix:

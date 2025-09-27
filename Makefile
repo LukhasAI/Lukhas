@@ -7,7 +7,7 @@
 .PHONY: check-scoped lint-scoped test-contract type-scoped doctor doctor-tools doctor-py doctor-ci doctor-lanes doctor-tests doctor-audit doctor-dup-targets doctor-phony doctor-summary doctor-strict doctor-dup-targets-strict doctor-json
 .PHONY: todo-unused todo-unused-check todo-unused-core todo-unused-candidate t4-annotate t4-check audit-f821 fix-f821-core annotate-f821-candidate types-audit types-enforce types-core types-trend types-audit-trend types-enforce-trend f401-audit f401-trend
 .PHONY: test-tier1 test-all test-fast test-report test-clean spec-lint contract-check specs-sync test-goldens oneiric-drift-test collapse
-.PHONY: validate-matrix-all authz-run coverage-report matrix-v3-upgrade matrix-v3-check
+.PHONY: validate-matrix-all authz-run coverage-report matrix-v3-upgrade matrix-v3-check matrix-tokenize matrix-provenance matrix-verify-provenance
 
 # Note: Additional PHONY targets are declared in mk/*.mk include files
 
@@ -786,3 +786,22 @@ matrix-v3-upgrade:
 matrix-v3-check:
 	@echo "🔍 Checking v3 upgrade idempotency"
 	@python3 tools/matrix_upgrade_v3.py --pattern "contracts/matrix_*.json" --dry-run
+
+# Matrix v3 Sandbox Activation (safe mock implementations)
+matrix-tokenize:
+	@echo "🪙 Matrix v3 Tokenization (Sandbox Mode)"
+	@echo "📋 Tokenizing sample contracts..."
+	@python3 tools/matrix_tokenize.py --contract contracts/matrix_identity.json --verbose
+	@python3 tools/matrix_tokenize.py --contract contracts/matrix_governance.json --network ethereum
+	@python3 tools/matrix_tokenize.py --contract contracts/matrix_memory.json --network polygon
+	@echo "✅ Matrix tokenization samples complete"
+
+matrix-provenance:
+	@echo "🔗 Matrix v3 Provenance Generation (IPLD CAR)"
+	@python3 tools/matrix_provenance.py --contracts "contracts/matrix_*.json"
+	@echo "✅ Matrix provenance CAR generated"
+
+matrix-verify-provenance:
+	@echo "🔍 Matrix v3 Provenance Verification"
+	@tools/verify_provenance.sh
+	@echo "✅ Matrix provenance verification complete"
