@@ -1,0 +1,1412 @@
+{
+  "timestamp": "2025-09-27T13:12:00Z",
+  "root_path": "/Users/agi_dev/LOCAL-REPOS/Lukhas",
+  "total_modules": 141,
+  "modules_with_contracts": 133,
+  "modules_without_contracts": 8,
+  "modules": [
+    {
+      "module": "accepted",
+      "paths": [
+        "lukhas/accepted"
+      ],
+      "contracts": [
+        "lukhas/accepted/matrix_accepted.json"
+      ],
+      "has_contract": true
+    },
+    {
+      "module": "accepted.bio",
+      "paths": [
+        "lukhas/accepted/bio"
+      ],
+      "contracts": [
+        "lukhas/accepted/bio/matrix_bio.json"
+      ],
+      "has_contract": true
+    },
+    {
+      "module": "agents",
+      "paths": [
+        "lukhas/agents"
+      ],
+      "contracts": [
+        "lukhas/agents/matrix_agents.json"
+      ],
+      "has_contract": true
+    },
+    {
+      "module": "api",
+      "paths": [
+        "api",
+        "lukhas/api"
+      ],
+      "contracts": [
+        "lukhas/api/matrix_api.json"
+      ],
+      "has_contract": true
+    },
+    {
+      "module": "bio",
+      "paths": [
+        "bio",
+        "lukhas/bio"
+      ],
+      "contracts": [
+        "lukhas/bio/matrix_bio.json"
+      ],
+      "has_contract": true
+    },
+    {
+      "module": "bio.core",
+      "paths": [
+        "lukhas/bio/core"
+      ],
+      "contracts": [
+        "lukhas/bio/core/matrix_core.json"
+      ],
+      "has_contract": true
+    },
+    {
+      "module": "branding",
+      "paths": [
+        "branding",
+        "lukhas/branding"
+      ],
+      "contracts": [
+        "lukhas/branding/matrix_branding.json"
+      ],
+      "has_contract": true
+    },
+    {
+      "module": "bridge",
+      "paths": [
+        "lukhas/bridge"
+      ],
+      "contracts": [
+        "lukhas/bridge/matrix_bridge.json"
+      ],
+      "has_contract": true
+    },
+    {
+      "module": "bridge.llm_wrappers",
+      "paths": [
+        "lukhas/bridge/llm_wrappers"
+      ],
+      "contracts": [
+        "lukhas/bridge/llm_wrappers/matrix_llm_wrappers.json"
+      ],
+      "has_contract": true
+    },
+    {
+      "module": "candidate",
+      "paths": [
+        "candidate"
+      ],
+      "contracts": [],
+      "has_contract": false
+    },
+    {
+      "module": "cognitive_core",
+      "paths": [
+        "lukhas/cognitive_core"
+      ],
+      "contracts": [],
+      "has_contract": false
+    },
+    {
+      "module": "consciousness",
+      "paths": [
+        "lukhas/consciousness"
+      ],
+      "contracts": [
+        "lukhas/consciousness/matrix_consciousness.json"
+      ],
+      "has_contract": true
+    },
+    {
+      "module": "constellation",
+      "paths": [
+        "lukhas/constellation"
+      ],
+      "contracts": [
+        "lukhas/constellation/matrix_constellation.json"
+      ],
+      "has_contract": true
+    },
+    {
+      "module": "constellation.triad",
+      "paths": [
+        "lukhas/constellation/triad"
+      ],
+      "contracts": [
+        "lukhas/constellation/triad/matrix_triad.json"
+      ],
+      "has_contract": true
+    },
+    {
+      "module": "contracts",
+      "paths": [
+        "contracts"
+      ],
+      "contracts": [],
+      "has_contract": false
+    },
+    {
+      "module": "core",
+      "paths": [
+        "core",
+        "lukhas/core"
+      ],
+      "contracts": [
+        "lukhas/core/matrix_core.json"
+      ],
+      "has_contract": true
+    },
+    {
+      "module": "core.bridge",
+      "paths": [
+        "lukhas/core/bridge"
+      ],
+      "contracts": [
+        "lukhas/core/bridge/matrix_bridge.json"
+      ],
+      "has_contract": true
+    },
+    {
+      "module": "core.colonies",
+      "paths": [
+        "lukhas/core/colonies"
+      ],
+      "contracts": [
+        "lukhas/core/colonies/matrix_colonies.json"
+      ],
+      "has_contract": true
+    },
+    {
+      "module": "core.common",
+      "paths": [
+        "lukhas/core/common"
+      ],
+      "contracts": [
+        "lukhas/core/common/matrix_common.json"
+      ],
+      "has_contract": true
+    },
+    {
+      "module": "core.filesystem",
+      "paths": [
+        "lukhas/core/filesystem"
+      ],
+      "contracts": [
+        "lukhas/core/filesystem/matrix_filesystem.json"
+      ],
+      "has_contract": true
+    },
+    {
+      "module": "core.matriz",
+      "paths": [
+        "lukhas/core/matriz"
+      ],
+      "contracts": [
+        "lukhas/core/matriz/matrix_matriz.json"
+      ],
+      "has_contract": true
+    },
+    {
+      "module": "core.policy",
+      "paths": [
+        "lukhas/core/policy"
+      ],
+      "contracts": [
+        "lukhas/core/policy/matrix_policy.json"
+      ],
+      "has_contract": true
+    },
+    {
+      "module": "core.registry",
+      "paths": [
+        "lukhas/core/registry"
+      ],
+      "contracts": [
+        "lukhas/core/registry/matrix_registry.json"
+      ],
+      "has_contract": true
+    },
+    {
+      "module": "core.reliability",
+      "paths": [
+        "lukhas/core/reliability"
+      ],
+      "contracts": [
+        "lukhas/core/reliability/matrix_reliability.json"
+      ],
+      "has_contract": true
+    },
+    {
+      "module": "core.symbolic",
+      "paths": [
+        "lukhas/core/symbolic"
+      ],
+      "contracts": [
+        "lukhas/core/symbolic/matrix_symbolic.json"
+      ],
+      "has_contract": true
+    },
+    {
+      "module": "core.symbolic.constraints",
+      "paths": [
+        "lukhas/core/symbolic/constraints"
+      ],
+      "contracts": [
+        "lukhas/core/symbolic/constraints/matrix_constraints.json"
+      ],
+      "has_contract": true
+    },
+    {
+      "module": "core.symbolism",
+      "paths": [
+        "lukhas/core/symbolism"
+      ],
+      "contracts": [
+        "lukhas/core/symbolism/matrix_symbolism.json"
+      ],
+      "has_contract": true
+    },
+    {
+      "module": "deployment",
+      "paths": [
+        "lukhas/deployment"
+      ],
+      "contracts": [
+        "lukhas/deployment/matrix_deployment.json"
+      ],
+      "has_contract": true
+    },
+    {
+      "module": "emotion",
+      "paths": [
+        "lukhas/emotion"
+      ],
+      "contracts": [
+        "lukhas/emotion/matrix_emotion.json"
+      ],
+      "has_contract": true
+    },
+    {
+      "module": "governance",
+      "paths": [
+        "governance",
+        "lukhas/governance"
+      ],
+      "contracts": [
+        "lukhas/governance/matrix_governance.json"
+      ],
+      "has_contract": true
+    },
+    {
+      "module": "governance.consent_ledger",
+      "paths": [
+        "lukhas/governance/consent_ledger"
+      ],
+      "contracts": [
+        "lukhas/governance/consent_ledger/matrix_consent_ledger.json"
+      ],
+      "has_contract": true
+    },
+    {
+      "module": "governance.consent_ledger.providers",
+      "paths": [
+        "lukhas/governance/consent_ledger/providers"
+      ],
+      "contracts": [
+        "lukhas/governance/consent_ledger/providers/matrix_providers.json"
+      ],
+      "has_contract": true
+    },
+    {
+      "module": "governance.ethics",
+      "paths": [
+        "lukhas/governance/ethics"
+      ],
+      "contracts": [
+        "lukhas/governance/ethics/matrix_ethics.json"
+      ],
+      "has_contract": true
+    },
+    {
+      "module": "governance.guardian",
+      "paths": [
+        "lukhas/governance/guardian"
+      ],
+      "contracts": [
+        "lukhas/governance/guardian/matrix_guardian.json"
+      ],
+      "has_contract": true
+    },
+    {
+      "module": "governance.identity",
+      "paths": [
+        "lukhas/governance/identity"
+      ],
+      "contracts": [
+        "lukhas/governance/identity/matrix_identity.json"
+      ],
+      "has_contract": true
+    },
+    {
+      "module": "governance.identity.auth_backend",
+      "paths": [
+        "lukhas/governance/identity/auth_backend"
+      ],
+      "contracts": [
+        "lukhas/governance/identity/auth_backend/matrix_auth_backend.json"
+      ],
+      "has_contract": true
+    },
+    {
+      "module": "governance.security",
+      "paths": [
+        "lukhas/governance/security"
+      ],
+      "contracts": [
+        "lukhas/governance/security/matrix_security.json"
+      ],
+      "has_contract": true
+    },
+    {
+      "module": "identity",
+      "paths": [
+        "identity",
+        "lukhas/identity"
+      ],
+      "contracts": [
+        "lukhas/identity/matrix_identity.json"
+      ],
+      "has_contract": true
+    },
+    {
+      "module": "identity.auth",
+      "paths": [
+        "lukhas/identity/auth"
+      ],
+      "contracts": [
+        "lukhas/identity/auth/matrix_auth.json"
+      ],
+      "has_contract": true
+    },
+    {
+      "module": "identity.facades",
+      "paths": [
+        "lukhas/identity/facades"
+      ],
+      "contracts": [
+        "lukhas/identity/facades/matrix_facades.json"
+      ],
+      "has_contract": true
+    },
+    {
+      "module": "identity.oidc",
+      "paths": [
+        "lukhas/identity/oidc"
+      ],
+      "contracts": [
+        "lukhas/identity/oidc/matrix_oidc.json"
+      ],
+      "has_contract": true
+    },
+    {
+      "module": "identity.passkey",
+      "paths": [
+        "lukhas/identity/passkey"
+      ],
+      "contracts": [
+        "lukhas/identity/passkey/matrix_passkey.json"
+      ],
+      "has_contract": true
+    },
+    {
+      "module": "identity.passkey.providers",
+      "paths": [
+        "lukhas/identity/passkey/providers"
+      ],
+      "contracts": [
+        "lukhas/identity/passkey/providers/matrix_providers.json"
+      ],
+      "has_contract": true
+    },
+    {
+      "module": "identity.qrg",
+      "paths": [
+        "lukhas/identity/qrg"
+      ],
+      "contracts": [
+        "lukhas/identity/qrg/matrix_qrg.json"
+      ],
+      "has_contract": true
+    },
+    {
+      "module": "identity.services",
+      "paths": [
+        "lukhas/identity/services"
+      ],
+      "contracts": [
+        "lukhas/identity/services/matrix_services.json"
+      ],
+      "has_contract": true
+    },
+    {
+      "module": "identity.wallet",
+      "paths": [
+        "lukhas/identity/wallet"
+      ],
+      "contracts": [
+        "lukhas/identity/wallet/matrix_wallet.json"
+      ],
+      "has_contract": true
+    },
+    {
+      "module": "interfaces",
+      "paths": [
+        "lukhas/interfaces"
+      ],
+      "contracts": [],
+      "has_contract": false
+    },
+    {
+      "module": "ledger",
+      "paths": [
+        "lukhas/ledger"
+      ],
+      "contracts": [
+        "lukhas/ledger/matrix_ledger.json"
+      ],
+      "has_contract": true
+    },
+    {
+      "module": "lukhas",
+      "paths": [
+        "lukhas"
+      ],
+      "contracts": [],
+      "has_contract": false
+    },
+    {
+      "module": "lukhas.accepted",
+      "paths": [
+        "contracts"
+      ],
+      "contracts": [
+        "contracts/matrix_accepted.json"
+      ],
+      "has_contract": true
+    },
+    {
+      "module": "lukhas.accepted.bio",
+      "paths": [
+        "contracts"
+      ],
+      "contracts": [
+        "contracts/matrix_accepted_bio.json"
+      ],
+      "has_contract": true
+    },
+    {
+      "module": "lukhas.agents",
+      "paths": [
+        "contracts"
+      ],
+      "contracts": [
+        "contracts/matrix_agents.json"
+      ],
+      "has_contract": true
+    },
+    {
+      "module": "lukhas.api",
+      "paths": [
+        "contracts"
+      ],
+      "contracts": [
+        "contracts/matrix_api.json"
+      ],
+      "has_contract": true
+    },
+    {
+      "module": "lukhas.bio",
+      "paths": [
+        "contracts"
+      ],
+      "contracts": [
+        "contracts/matrix_bio.json"
+      ],
+      "has_contract": true
+    },
+    {
+      "module": "lukhas.bio.core",
+      "paths": [
+        "contracts"
+      ],
+      "contracts": [
+        "contracts/matrix_bio_core.json"
+      ],
+      "has_contract": true
+    },
+    {
+      "module": "lukhas.branding",
+      "paths": [
+        "contracts"
+      ],
+      "contracts": [
+        "contracts/matrix_branding.json"
+      ],
+      "has_contract": true
+    },
+    {
+      "module": "lukhas.bridge",
+      "paths": [
+        "contracts"
+      ],
+      "contracts": [
+        "contracts/matrix_bridge.json"
+      ],
+      "has_contract": true
+    },
+    {
+      "module": "lukhas.bridge.llm_wrappers",
+      "paths": [
+        "contracts"
+      ],
+      "contracts": [
+        "contracts/matrix_bridge_llm_wrappers.json"
+      ],
+      "has_contract": true
+    },
+    {
+      "module": "lukhas.consciousness",
+      "paths": [
+        "contracts"
+      ],
+      "contracts": [
+        "contracts/matrix_consciousness.json"
+      ],
+      "has_contract": true
+    },
+    {
+      "module": "lukhas.constellation",
+      "paths": [
+        "contracts"
+      ],
+      "contracts": [
+        "contracts/matrix_constellation.json"
+      ],
+      "has_contract": true
+    },
+    {
+      "module": "lukhas.constellation.triad",
+      "paths": [
+        "contracts"
+      ],
+      "contracts": [
+        "contracts/matrix_constellation_triad.json"
+      ],
+      "has_contract": true
+    },
+    {
+      "module": "lukhas.core",
+      "paths": [
+        "contracts"
+      ],
+      "contracts": [
+        "contracts/matrix_core.json"
+      ],
+      "has_contract": true
+    },
+    {
+      "module": "lukhas.core.bridge",
+      "paths": [
+        "contracts"
+      ],
+      "contracts": [
+        "contracts/matrix_core_bridge.json"
+      ],
+      "has_contract": true
+    },
+    {
+      "module": "lukhas.core.colonies",
+      "paths": [
+        "contracts"
+      ],
+      "contracts": [
+        "contracts/matrix_core_colonies.json"
+      ],
+      "has_contract": true
+    },
+    {
+      "module": "lukhas.core.common",
+      "paths": [
+        "contracts"
+      ],
+      "contracts": [
+        "contracts/matrix_core_common.json"
+      ],
+      "has_contract": true
+    },
+    {
+      "module": "lukhas.core.filesystem",
+      "paths": [
+        "contracts"
+      ],
+      "contracts": [
+        "contracts/matrix_core_filesystem.json"
+      ],
+      "has_contract": true
+    },
+    {
+      "module": "lukhas.core.matriz",
+      "paths": [
+        "contracts"
+      ],
+      "contracts": [
+        "contracts/matrix_core_matriz.json"
+      ],
+      "has_contract": true
+    },
+    {
+      "module": "lukhas.core.policy",
+      "paths": [
+        "contracts"
+      ],
+      "contracts": [
+        "contracts/matrix_core_policy.json"
+      ],
+      "has_contract": true
+    },
+    {
+      "module": "lukhas.core.registry",
+      "paths": [
+        "contracts"
+      ],
+      "contracts": [
+        "contracts/matrix_core_registry.json"
+      ],
+      "has_contract": true
+    },
+    {
+      "module": "lukhas.core.reliability",
+      "paths": [
+        "contracts"
+      ],
+      "contracts": [
+        "contracts/matrix_core_reliability.json"
+      ],
+      "has_contract": true
+    },
+    {
+      "module": "lukhas.core.symbolic",
+      "paths": [
+        "contracts"
+      ],
+      "contracts": [
+        "contracts/matrix_core_symbolic.json"
+      ],
+      "has_contract": true
+    },
+    {
+      "module": "lukhas.core.symbolic.constraints",
+      "paths": [
+        "contracts"
+      ],
+      "contracts": [
+        "contracts/matrix_core_symbolic_constraints.json"
+      ],
+      "has_contract": true
+    },
+    {
+      "module": "lukhas.core.symbolism",
+      "paths": [
+        "contracts"
+      ],
+      "contracts": [
+        "contracts/matrix_core_symbolism.json"
+      ],
+      "has_contract": true
+    },
+    {
+      "module": "lukhas.deployment",
+      "paths": [
+        "contracts"
+      ],
+      "contracts": [
+        "contracts/matrix_deployment.json"
+      ],
+      "has_contract": true
+    },
+    {
+      "module": "lukhas.emotion",
+      "paths": [
+        "contracts"
+      ],
+      "contracts": [
+        "contracts/matrix_emotion.json"
+      ],
+      "has_contract": true
+    },
+    {
+      "module": "lukhas.governance",
+      "paths": [
+        "contracts"
+      ],
+      "contracts": [
+        "contracts/matrix_governance.json"
+      ],
+      "has_contract": true
+    },
+    {
+      "module": "lukhas.governance.consent_ledger",
+      "paths": [
+        "contracts"
+      ],
+      "contracts": [
+        "contracts/matrix_governance_consent_ledger.json"
+      ],
+      "has_contract": true
+    },
+    {
+      "module": "lukhas.governance.consent_ledger.providers",
+      "paths": [
+        "contracts"
+      ],
+      "contracts": [
+        "contracts/matrix_governance_consent_ledger_providers.json"
+      ],
+      "has_contract": true
+    },
+    {
+      "module": "lukhas.governance.ethics",
+      "paths": [
+        "contracts"
+      ],
+      "contracts": [
+        "contracts/matrix_governance_ethics.json"
+      ],
+      "has_contract": true
+    },
+    {
+      "module": "lukhas.governance.guardian",
+      "paths": [
+        "contracts"
+      ],
+      "contracts": [
+        "contracts/matrix_governance_guardian.json"
+      ],
+      "has_contract": true
+    },
+    {
+      "module": "lukhas.governance.identity",
+      "paths": [
+        "contracts"
+      ],
+      "contracts": [
+        "contracts/matrix_governance_identity.json"
+      ],
+      "has_contract": true
+    },
+    {
+      "module": "lukhas.governance.identity.auth_backend",
+      "paths": [
+        "contracts"
+      ],
+      "contracts": [
+        "contracts/matrix_governance_identity_auth_backend.json"
+      ],
+      "has_contract": true
+    },
+    {
+      "module": "lukhas.governance.security",
+      "paths": [
+        "contracts"
+      ],
+      "contracts": [
+        "contracts/matrix_governance_security.json"
+      ],
+      "has_contract": true
+    },
+    {
+      "module": "lukhas.identity",
+      "paths": [
+        "contracts"
+      ],
+      "contracts": [
+        "contracts/matrix_identity.json"
+      ],
+      "has_contract": true
+    },
+    {
+      "module": "lukhas.identity.auth",
+      "paths": [
+        "contracts"
+      ],
+      "contracts": [
+        "contracts/matrix_identity_auth.json"
+      ],
+      "has_contract": true
+    },
+    {
+      "module": "lukhas.identity.facades",
+      "paths": [
+        "contracts"
+      ],
+      "contracts": [
+        "contracts/matrix_identity_facades.json"
+      ],
+      "has_contract": true
+    },
+    {
+      "module": "lukhas.identity.oidc",
+      "paths": [
+        "contracts"
+      ],
+      "contracts": [
+        "contracts/matrix_identity_oidc.json"
+      ],
+      "has_contract": true
+    },
+    {
+      "module": "lukhas.identity.passkey",
+      "paths": [
+        "contracts"
+      ],
+      "contracts": [
+        "contracts/matrix_identity_passkey.json"
+      ],
+      "has_contract": true
+    },
+    {
+      "module": "lukhas.identity.passkey.providers",
+      "paths": [
+        "contracts"
+      ],
+      "contracts": [
+        "contracts/matrix_identity_passkey_providers.json"
+      ],
+      "has_contract": true
+    },
+    {
+      "module": "lukhas.identity.qrg",
+      "paths": [
+        "contracts"
+      ],
+      "contracts": [
+        "contracts/matrix_identity_qrg.json"
+      ],
+      "has_contract": true
+    },
+    {
+      "module": "lukhas.identity.services",
+      "paths": [
+        "contracts"
+      ],
+      "contracts": [
+        "contracts/matrix_identity_services.json"
+      ],
+      "has_contract": true
+    },
+    {
+      "module": "lukhas.identity.wallet",
+      "paths": [
+        "contracts"
+      ],
+      "contracts": [
+        "contracts/matrix_identity_wallet.json"
+      ],
+      "has_contract": true
+    },
+    {
+      "module": "lukhas.ledger",
+      "paths": [
+        "contracts"
+      ],
+      "contracts": [
+        "contracts/matrix_ledger.json"
+      ],
+      "has_contract": true
+    },
+    {
+      "module": "lukhas.matriz",
+      "paths": [
+        "contracts"
+      ],
+      "contracts": [
+        "contracts/matrix_matriz.json"
+      ],
+      "has_contract": true
+    },
+    {
+      "module": "lukhas.matriz.runtime",
+      "paths": [
+        "contracts"
+      ],
+      "contracts": [
+        "contracts/matrix_matriz_runtime.json"
+      ],
+      "has_contract": true
+    },
+    {
+      "module": "lukhas.memory",
+      "paths": [
+        "contracts"
+      ],
+      "contracts": [
+        "contracts/matrix_memory.json"
+      ],
+      "has_contract": true
+    },
+    {
+      "module": "lukhas.memory.backends",
+      "paths": [
+        "contracts"
+      ],
+      "contracts": [
+        "contracts/matrix_memory_backends.json"
+      ],
+      "has_contract": true
+    },
+    {
+      "module": "lukhas.memory.emotional",
+      "paths": [
+        "contracts"
+      ],
+      "contracts": [
+        "contracts/matrix_memory_emotional.json"
+      ],
+      "has_contract": true
+    },
+    {
+      "module": "lukhas.observability",
+      "paths": [
+        "contracts"
+      ],
+      "contracts": [
+        "contracts/matrix_observability.json"
+      ],
+      "has_contract": true
+    },
+    {
+      "module": "lukhas.orchestration",
+      "paths": [
+        "contracts"
+      ],
+      "contracts": [
+        "contracts/matrix_orchestration.json"
+      ],
+      "has_contract": true
+    },
+    {
+      "module": "lukhas.orchestration.context",
+      "paths": [
+        "contracts"
+      ],
+      "contracts": [
+        "contracts/matrix_orchestration_context.json"
+      ],
+      "has_contract": true
+    },
+    {
+      "module": "lukhas.orchestration.providers",
+      "paths": [
+        "contracts"
+      ],
+      "contracts": [
+        "contracts/matrix_orchestration_providers.json"
+      ],
+      "has_contract": true
+    },
+    {
+      "module": "lukhas.qi",
+      "paths": [
+        "contracts"
+      ],
+      "contracts": [
+        "contracts/matrix_qi.json"
+      ],
+      "has_contract": true
+    },
+    {
+      "module": "lukhas.rl",
+      "paths": [
+        "contracts"
+      ],
+      "contracts": [
+        "contracts/matrix_rl.json"
+      ],
+      "has_contract": true
+    },
+    {
+      "module": "lukhas.rl.coordination",
+      "paths": [
+        "contracts"
+      ],
+      "contracts": [
+        "contracts/matrix_rl_coordination.json"
+      ],
+      "has_contract": true
+    },
+    {
+      "module": "lukhas.rl.engine",
+      "paths": [
+        "contracts"
+      ],
+      "contracts": [
+        "contracts/matrix_rl_engine.json"
+      ],
+      "has_contract": true
+    },
+    {
+      "module": "lukhas.rl.environments",
+      "paths": [
+        "contracts"
+      ],
+      "contracts": [
+        "contracts/matrix_rl_environments.json"
+      ],
+      "has_contract": true
+    },
+    {
+      "module": "lukhas.rl.experience",
+      "paths": [
+        "contracts"
+      ],
+      "contracts": [
+        "contracts/matrix_rl_experience.json"
+      ],
+      "has_contract": true
+    },
+    {
+      "module": "lukhas.root",
+      "paths": [
+        "contracts"
+      ],
+      "contracts": [
+        "contracts/matrix_root.json"
+      ],
+      "has_contract": true
+    },
+    {
+      "module": "lukhas.security",
+      "paths": [
+        "contracts"
+      ],
+      "contracts": [
+        "contracts/matrix_security.json"
+      ],
+      "has_contract": true
+    },
+    {
+      "module": "lukhas.tools",
+      "paths": [
+        "contracts"
+      ],
+      "contracts": [
+        "contracts/matrix_tools.json"
+      ],
+      "has_contract": true
+    },
+    {
+      "module": "lukhas.trace",
+      "paths": [
+        "contracts"
+      ],
+      "contracts": [
+        "contracts/matrix_trace.json"
+      ],
+      "has_contract": true
+    },
+    {
+      "module": "lukhas.trinity",
+      "paths": [
+        "contracts"
+      ],
+      "contracts": [
+        "contracts/matrix_trinity.json"
+      ],
+      "has_contract": true
+    },
+    {
+      "module": "lukhas.vivox",
+      "paths": [
+        "contracts"
+      ],
+      "contracts": [
+        "contracts/matrix_vivox.json"
+      ],
+      "has_contract": true
+    },
+    {
+      "module": "matriz",
+      "paths": [
+        "lukhas/matriz"
+      ],
+      "contracts": [
+        "lukhas/matriz/matrix_matriz.json"
+      ],
+      "has_contract": true
+    },
+    {
+      "module": "matriz.runtime",
+      "paths": [
+        "lukhas/matriz/runtime"
+      ],
+      "contracts": [
+        "lukhas/matriz/runtime/matrix_runtime.json"
+      ],
+      "has_contract": true
+    },
+    {
+      "module": "memory",
+      "paths": [
+        "memory",
+        "lukhas/memory"
+      ],
+      "contracts": [
+        "lukhas/memory/matrix_memory.json",
+        "memory/matrix_memoria.json"
+      ],
+      "has_contract": true
+    },
+    {
+      "module": "memory.backends",
+      "paths": [
+        "lukhas/memory/backends"
+      ],
+      "contracts": [
+        "lukhas/memory/backends/matrix_backends.json"
+      ],
+      "has_contract": true
+    },
+    {
+      "module": "memory.emotional",
+      "paths": [
+        "lukhas/memory/emotional"
+      ],
+      "contracts": [
+        "lukhas/memory/emotional/matrix_emotional.json"
+      ],
+      "has_contract": true
+    },
+    {
+      "module": "observability",
+      "paths": [
+        "lukhas/observability"
+      ],
+      "contracts": [
+        "lukhas/observability/matrix_observability.json"
+      ],
+      "has_contract": true
+    },
+    {
+      "module": "orchestration",
+      "paths": [
+        "lukhas/orchestration"
+      ],
+      "contracts": [
+        "lukhas/orchestration/matrix_orchestration.json"
+      ],
+      "has_contract": true
+    },
+    {
+      "module": "orchestration.context",
+      "paths": [
+        "lukhas/orchestration/context"
+      ],
+      "contracts": [
+        "lukhas/orchestration/context/matrix_context.json"
+      ],
+      "has_contract": true
+    },
+    {
+      "module": "orchestration.providers",
+      "paths": [
+        "lukhas/orchestration/providers"
+      ],
+      "contracts": [
+        "lukhas/orchestration/providers/matrix_providers.json"
+      ],
+      "has_contract": true
+    },
+    {
+      "module": "qi",
+      "paths": [
+        "lukhas/qi"
+      ],
+      "contracts": [
+        "lukhas/qi/matrix_qi.json"
+      ],
+      "has_contract": true
+    },
+    {
+      "module": "rl",
+      "paths": [
+        "lukhas/rl"
+      ],
+      "contracts": [
+        "lukhas/rl/matrix_rl.json"
+      ],
+      "has_contract": true
+    },
+    {
+      "module": "rl.coordination",
+      "paths": [
+        "lukhas/rl/coordination"
+      ],
+      "contracts": [
+        "lukhas/rl/coordination/matrix_coordination.json"
+      ],
+      "has_contract": true
+    },
+    {
+      "module": "rl.engine",
+      "paths": [
+        "lukhas/rl/engine"
+      ],
+      "contracts": [
+        "lukhas/rl/engine/matrix_engine.json"
+      ],
+      "has_contract": true
+    },
+    {
+      "module": "rl.environments",
+      "paths": [
+        "lukhas/rl/environments"
+      ],
+      "contracts": [
+        "lukhas/rl/environments/matrix_environments.json"
+      ],
+      "has_contract": true
+    },
+    {
+      "module": "rl.experience",
+      "paths": [
+        "lukhas/rl/experience"
+      ],
+      "contracts": [
+        "lukhas/rl/experience/matrix_experience.json"
+      ],
+      "has_contract": true
+    },
+    {
+      "module": "root",
+      "paths": [
+        "lukhas"
+      ],
+      "contracts": [
+        "lukhas/matrix_root.json"
+      ],
+      "has_contract": true
+    },
+    {
+      "module": "security",
+      "paths": [
+        "lukhas/security"
+      ],
+      "contracts": [
+        "lukhas/security/matrix_security.json"
+      ],
+      "has_contract": true
+    },
+    {
+      "module": "shims",
+      "paths": [
+        "lukhas/shims"
+      ],
+      "contracts": [],
+      "has_contract": false
+    },
+    {
+      "module": "tests",
+      "paths": [
+        "tests"
+      ],
+      "contracts": [],
+      "has_contract": false
+    },
+    {
+      "module": "tools",
+      "paths": [
+        "tools",
+        "lukhas/tools"
+      ],
+      "contracts": [
+        "lukhas/tools/matrix_tools.json"
+      ],
+      "has_contract": true
+    },
+    {
+      "module": "trace",
+      "paths": [
+        "lukhas/trace"
+      ],
+      "contracts": [
+        "lukhas/trace/matrix_trace.json"
+      ],
+      "has_contract": true
+    },
+    {
+      "module": "tracks.status",
+      "paths": [
+        "docs"
+      ],
+      "contracts": [
+        "docs/matrix_tracks.status.json"
+      ],
+      "has_contract": true
+    },
+    {
+      "module": "tracks_slo_report_20250926_121703",
+      "paths": [
+        "reports/slo"
+      ],
+      "contracts": [
+        "reports/slo/matrix_tracks_slo_report_20250926_121703.json"
+      ],
+      "has_contract": true
+    },
+    {
+      "module": "trinity",
+      "paths": [
+        "lukhas/trinity"
+      ],
+      "contracts": [
+        "lukhas/trinity/matrix_trinity.json"
+      ],
+      "has_contract": true
+    },
+    {
+      "module": "utils",
+      "paths": [
+        "lukhas/utils"
+      ],
+      "contracts": [],
+      "has_contract": false
+    },
+    {
+      "module": "validation_results",
+      "paths": [
+        "artifacts"
+      ],
+      "contracts": [
+        "artifacts/matrix_validation_results.json"
+      ],
+      "has_contract": true
+    },
+    {
+      "module": "vivox",
+      "paths": [
+        "lukhas/vivox"
+      ],
+      "contracts": [
+        "lukhas/vivox/matrix_vivox.json"
+      ],
+      "has_contract": true
+    }
+  ]
+}

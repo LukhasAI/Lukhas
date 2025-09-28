@@ -8,6 +8,7 @@
 .PHONY: todo-unused todo-unused-check todo-unused-core todo-unused-candidate t4-annotate t4-check audit-f821 fix-f821-core annotate-f821-candidate types-audit types-enforce types-core types-trend types-audit-trend types-enforce-trend f401-audit f401-trend
 .PHONY: test-tier1 test-all test-fast test-report test-clean spec-lint contract-check specs-sync test-goldens oneiric-drift-test collapse
 .PHONY: validate-matrix-all authz-run coverage-report matrix-v3-upgrade matrix-v3-check matrix-tokenize matrix-provenance matrix-verify-provenance
+.PHONY: matriz-audit matriz-where
 
 # Note: Additional PHONY targets are declared in mk/*.mk include files
 
@@ -805,3 +806,28 @@ matrix-verify-provenance:
 	@echo "🔍 Matrix v3 Provenance Verification"
 	@tools/verify_provenance.sh
 	@echo "✅ Matrix provenance verification complete"
+
+# MATRIZ Audit System
+matriz-audit:
+	@echo "🔍 MATRIZ Comprehensive Audit Pipeline"
+	@echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+	@echo "📋 Stage 1: Module Discovery"
+	@python3 tools/matriz_audit_discovery.py --verbose
+	@echo ""
+	@echo "📋 Stage 2: Import Analysis"
+	@python3 tools/matriz_import_scan.py --verbose
+	@echo ""
+	@echo "📋 Stage 3: Lane Assessment"
+	@python3 tools/matriz_lane_assessor.py --verbose
+	@echo ""
+	@echo "📋 Stage 4: Data Aggregation"
+	@python3 tools/matriz_audit_aggregate.py --verbose
+	@echo ""
+	@echo "📋 Stage 5: Report Generation"
+	@python3 tools/matriz_report_generator.py --verbose
+	@echo ""
+	@echo "✅ MATRIZ audit complete! Check artifacts/ directory for results."
+
+matriz-where:
+	@echo "📍 Generating module location reports"
+	@python3 tools/matriz_report_generator.py --verbose

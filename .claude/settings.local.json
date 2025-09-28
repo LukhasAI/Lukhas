@@ -55,7 +55,8 @@
       "Bash(xargs -I {} sh -c 'echo \"\"\"\"=== {} ===\"\"\"\" && grep -A 15 \"\"\"\"\\\"\"\"\"identity\\\"\"\"\":\"\"\"\" \"\"\"\"{}\"\"\"\"')",
       "Bash(pip3 install:*)",
       "Bash(./tools/verify_provenance.sh:*)",
-      "Bash(tools/verify_provenance.sh:*)"
+      "Bash(tools/verify_provenance.sh:*)",
+      "Bash(echo:*)"
     ],
     "deny": [],
     "ask": []

@@ -1,0 +1,6407 @@
+{
+  "timestamp": "2025-09-27T13:12:00Z",
+  "total_modules": 141,
+  "lane_distribution": {
+    "L4": 2,
+    "L2": 36,
+    "L3": 27,
+    "L1": 7,
+    "L0": 69
+  },
+  "lane_criteria": {
+    "L0": {
+      "name": "Archive",
+      "description": "Deprecated or archived modules",
+      "criteria": [
+        "deprecated",
+        "unused",
+        "legacy"
+      ]
+    },
+    "L1": {
+      "name": "Experimental",
+      "description": "Early development, high risk",
+      "criteria": [
+        "experimental",
+        "prototype",
+        "unstable"
+      ]
+    },
+    "L2": {
+      "name": "Development",
+      "description": "Active development, moderate stability",
+      "criteria": [
+        "development",
+        "active",
+        "testing"
+      ]
+    },
+    "L3": {
+      "name": "Candidate",
+      "description": "Stable development, ready for promotion",
+      "criteria": [
+        "candidate",
+        "stable",
+        "validated"
+      ]
+    },
+    "L4": {
+      "name": "Accepted",
+      "description": "Production-ready, well-tested",
+      "criteria": [
+        "accepted",
+        "production",
+        "core"
+      ]
+    },
+    "L5": {
+      "name": "Core",
+      "description": "Critical infrastructure, maximum stability",
+      "criteria": [
+        "core",
+        "critical",
+        "infrastructure"
+      ]
+    }
+  },
+  "assessments": [
+    {
+      "module": "accepted",
+      "current_paths": [
+        "lukhas/accepted"
+      ],
+      "contracts": [
+        "lukhas/accepted/matrix_accepted.json"
+      ],
+      "provisional_lane": "L4",
+      "lane_name": "Accepted",
+      "characteristics": {
+        "has_contract": true,
+        "path_indicators": {
+          "in_core": false,
+          "in_accepted": true,
+          "in_candidate": false,
+          "in_experimental": false,
+          "in_archive": false,
+          "in_lukhas_root": true,
+          "nested_deep": false
+        },
+        "name_indicators": {
+          "has_core": false,
+          "has_experimental": false,
+          "has_test": false,
+          "has_deprecated": false,
+          "has_governance": false,
+          "has_identity": false,
+          "has_api": false,
+          "has_bridge": false
+        },
+        "contract_indicators": {
+          "maturity_score": 2,
+          "has_identity_config": true,
+          "has_policy_config": false
+        },
+        "file_count": 4,
+        "test_coverage": {
+          "has_tests": false,
+          "test_file_count": 0
+        },
+        "dependency_score": 0
+      },
+      "confidence": 0.8999999999999999
+    },
+    {
+      "module": "accepted.bio",
+      "current_paths": [
+        "lukhas/accepted/bio"
+      ],
+      "contracts": [
+        "lukhas/accepted/bio/matrix_bio.json"
+      ],
+      "provisional_lane": "L4",
+      "lane_name": "Accepted",
+      "characteristics": {
+        "has_contract": true,
+        "path_indicators": {
+          "in_core": false,
+          "in_accepted": true,
+          "in_candidate": false,
+          "in_experimental": false,
+          "in_archive": false,
+          "in_lukhas_root": false,
+          "nested_deep": false
+        },
+        "name_indicators": {
+          "has_core": false,
+          "has_experimental": false,
+          "has_test": false,
+          "has_deprecated": false,
+          "has_governance": false,
+          "has_identity": false,
+          "has_api": false,
+          "has_bridge": false
+        },
+        "contract_indicators": {
+          "maturity_score": 2,
+          "has_identity_config": true,
+          "has_policy_config": false
+        },
+        "file_count": 2,
+        "test_coverage": {
+          "has_tests": false,
+          "test_file_count": 0
+        },
+        "dependency_score": 0
+      },
+      "confidence": 0.8999999999999999
+    },
+    {
+      "module": "agents",
+      "current_paths": [
+        "lukhas/agents"
+      ],
+      "contracts": [
+        "lukhas/agents/matrix_agents.json"
+      ],
+      "provisional_lane": "L2",
+      "lane_name": "Development",
+      "characteristics": {
+        "has_contract": true,
+        "path_indicators": {
+          "in_core": false,
+          "in_accepted": false,
+          "in_candidate": false,
+          "in_experimental": false,
+          "in_archive": false,
+          "in_lukhas_root": true,
+          "nested_deep": false
+        },
+        "name_indicators": {
+          "has_core": false,
+          "has_experimental": false,
+          "has_test": false,
+          "has_deprecated": false,
+          "has_governance": false,
+          "has_identity": false,
+          "has_api": false,
+          "has_bridge": false
+        },
+        "contract_indicators": {
+          "maturity_score": 2,
+          "has_identity_config": true,
+          "has_policy_config": false
+        },
+        "file_count": 1,
+        "test_coverage": {
+          "has_tests": false,
+          "test_file_count": 0
+        },
+        "dependency_score": 0
+      },
+      "confidence": 0.8999999999999999
+    },
+    {
+      "module": "api",
+      "current_paths": [
+        "api",
+        "lukhas/api"
+      ],
+      "contracts": [
+        "lukhas/api/matrix_api.json"
+      ],
+      "provisional_lane": "L3",
+      "lane_name": "Candidate",
+      "characteristics": {
+        "has_contract": true,
+        "path_indicators": {
+          "in_core": false,
+          "in_accepted": false,
+          "in_candidate": false,
+          "in_experimental": false,
+          "in_archive": false,
+          "in_lukhas_root": true,
+          "nested_deep": false
+        },
+        "name_indicators": {
+          "has_core": false,
+          "has_experimental": false,
+          "has_test": false,
+          "has_deprecated": false,
+          "has_governance": false,
+          "has_identity": false,
+          "has_api": true,
+          "has_bridge": false
+        },
+        "contract_indicators": {
+          "maturity_score": 2,
+          "has_identity_config": true,
+          "has_policy_config": false
+        },
+        "file_count": 14,
+        "test_coverage": {
+          "has_tests": false,
+          "test_file_count": 0
+        },
+        "dependency_score": 2
+      },
+      "confidence": 0.8999999999999999
+    },
+    {
+      "module": "bio",
+      "current_paths": [
+        "bio",
+        "lukhas/bio"
+      ],
+      "contracts": [
+        "lukhas/bio/matrix_bio.json"
+      ],
+      "provisional_lane": "L3",
+      "lane_name": "Candidate",
+      "characteristics": {
+        "has_contract": true,
+        "path_indicators": {
+          "in_core": false,
+          "in_accepted": false,
+          "in_candidate": false,
+          "in_experimental": false,
+          "in_archive": false,
+          "in_lukhas_root": true,
+          "nested_deep": false
+        },
+        "name_indicators": {
+          "has_core": false,
+          "has_experimental": false,
+          "has_test": false,
+          "has_deprecated": false,
+          "has_governance": false,
+          "has_identity": false,
+          "has_api": false,
+          "has_bridge": false
+        },
+        "contract_indicators": {
+          "maturity_score": 2,
+          "has_identity_config": true,
+          "has_policy_config": false
+        },
+        "file_count": 25,
+        "test_coverage": {
+          "has_tests": false,
+          "test_file_count": 0
+        },
+        "dependency_score": 0
+      },
+      "confidence": 0.8999999999999999
+    },
+    {
+      "module": "bio.core",
+      "current_paths": [
+        "lukhas/bio/core"
+      ],
+      "contracts": [
+        "lukhas/bio/core/matrix_core.json"
+      ],
+      "provisional_lane": "L2",
+      "lane_name": "Development",
+      "characteristics": {
+        "has_contract": true,
+        "path_indicators": {
+          "in_core": true,
+          "in_accepted": false,
+          "in_candidate": false,
+          "in_experimental": false,
+          "in_archive": false,
+          "in_lukhas_root": false,
+          "nested_deep": false
+        },
+        "name_indicators": {
+          "has_core": true,
+          "has_experimental": false,
+          "has_test": false,
+          "has_deprecated": false,
+          "has_governance": false,
+          "has_identity": false,
+          "has_api": false,
+          "has_bridge": false
+        },
+        "contract_indicators": {
+          "maturity_score": 2,
+          "has_identity_config": true,
+          "has_policy_config": false
+        },
+        "file_count": 3,
+        "test_coverage": {
+          "has_tests": false,
+          "test_file_count": 0
+        },
+        "dependency_score": 3
+      },
+      "confidence": 0.8999999999999999
+    },
+    {
+      "module": "branding",
+      "current_paths": [
+        "branding",
+        "lukhas/branding"
+      ],
+      "contracts": [
+        "lukhas/branding/matrix_branding.json"
+      ],
+      "provisional_lane": "L3",
+      "lane_name": "Candidate",
+      "characteristics": {
+        "has_contract": true,
+        "path_indicators": {
+          "in_core": false,
+          "in_accepted": false,
+          "in_candidate": false,
+          "in_experimental": false,
+          "in_archive": false,
+          "in_lukhas_root": true,
+          "nested_deep": false
+        },
+        "name_indicators": {
+          "has_core": false,
+          "has_experimental": false,
+          "has_test": false,
+          "has_deprecated": false,
+          "has_governance": false,
+          "has_identity": false,
+          "has_api": false,
+          "has_bridge": false
+        },
+        "contract_indicators": {
+          "maturity_score": 2,
+          "has_identity_config": true,
+          "has_policy_config": false
+        },
+        "file_count": 119,
+        "test_coverage": {
+          "has_tests": true,
+          "test_file_count": 1
+        },
+        "dependency_score": 0
+      },
+      "confidence": 0.9999999999999999
+    },
+    {
+      "module": "bridge",
+      "current_paths": [
+        "lukhas/bridge"
+      ],
+      "contracts": [
+        "lukhas/bridge/matrix_bridge.json"
+      ],
+      "provisional_lane": "L3",
+      "lane_name": "Candidate",
+      "characteristics": {
+        "has_contract": true,
+        "path_indicators": {
+          "in_core": false,
+          "in_accepted": false,
+          "in_candidate": false,
+          "in_experimental": false,
+          "in_archive": false,
+          "in_lukhas_root": true,
+          "nested_deep": false
+        },
+        "name_indicators": {
+          "has_core": false,
+          "has_experimental": false,
+          "has_test": false,
+          "has_deprecated": false,
+          "has_governance": false,
+          "has_identity": false,
+          "has_api": false,
+          "has_bridge": true
+        },
+        "contract_indicators": {
+          "maturity_score": 2,
+          "has_identity_config": true,
+          "has_policy_config": false
+        },
+        "file_count": 5,
+        "test_coverage": {
+          "has_tests": false,
+          "test_file_count": 0
+        },
+        "dependency_score": 2
+      },
+      "confidence": 0.8999999999999999
+    },
+    {
+      "module": "bridge.llm_wrappers",
+      "current_paths": [
+        "lukhas/bridge/llm_wrappers"
+      ],
+      "contracts": [
+        "lukhas/bridge/llm_wrappers/matrix_llm_wrappers.json"
+      ],
+      "provisional_lane": "L2",
+      "lane_name": "Development",
+      "characteristics": {
+        "has_contract": true,
+        "path_indicators": {
+          "in_core": false,
+          "in_accepted": false,
+          "in_candidate": false,
+          "in_experimental": false,
+          "in_archive": false,
+          "in_lukhas_root": false,
+          "nested_deep": false
+        },
+        "name_indicators": {
+          "has_core": false,
+          "has_experimental": false,
+          "has_test": false,
+          "has_deprecated": false,
+          "has_governance": false,
+          "has_identity": false,
+          "has_api": false,
+          "has_bridge": true
+        },
+        "contract_indicators": {
+          "maturity_score": 2,
+          "has_identity_config": true,
+          "has_policy_config": false
+        },
+        "file_count": 3,
+        "test_coverage": {
+          "has_tests": false,
+          "test_file_count": 0
+        },
+        "dependency_score": 2
+      },
+      "confidence": 0.7999999999999999
+    },
+    {
+      "module": "candidate",
+      "current_paths": [
+        "candidate"
+      ],
+      "contracts": [],
+      "provisional_lane": "L3",
+      "lane_name": "Candidate",
+      "characteristics": {
+        "has_contract": false,
+        "path_indicators": {
+          "in_core": false,
+          "in_accepted": false,
+          "in_candidate": true,
+          "in_experimental": false,
+          "in_archive": false,
+          "in_lukhas_root": false,
+          "nested_deep": false
+        },
+        "name_indicators": {
+          "has_core": false,
+          "has_experimental": false,
+          "has_test": false,
+          "has_deprecated": false,
+          "has_governance": false,
+          "has_identity": false,
+          "has_api": false,
+          "has_bridge": false
+        },
+        "contract_indicators": {
+          "maturity_score": 0,
+          "has_identity_config": false,
+          "has_policy_config": false
+        },
+        "file_count": 2947,
+        "test_coverage": {
+          "has_tests": true,
+          "test_file_count": 17
+        },
+        "dependency_score": 0
+      },
+      "confidence": 0.7
+    },
+    {
+      "module": "cognitive_core",
+      "current_paths": [
+        "lukhas/cognitive_core"
+      ],
+      "contracts": [],
+      "provisional_lane": "L1",
+      "lane_name": "Experimental",
+      "characteristics": {
+        "has_contract": false,
+        "path_indicators": {
+          "in_core": true,
+          "in_accepted": false,
+          "in_candidate": false,
+          "in_experimental": false,
+          "in_archive": false,
+          "in_lukhas_root": true,
+          "nested_deep": false
+        },
+        "name_indicators": {
+          "has_core": true,
+          "has_experimental": false,
+          "has_test": false,
+          "has_deprecated": false,
+          "has_governance": false,
+          "has_identity": false,
+          "has_api": false,
+          "has_bridge": false
+        },
+        "contract_indicators": {
+          "maturity_score": 0,
+          "has_identity_config": false,
+          "has_policy_config": false
+        },
+        "file_count": 2,
+        "test_coverage": {
+          "has_tests": false,
+          "test_file_count": 0
+        },
+        "dependency_score": 3
+      },
+      "confidence": 0.6
+    },
+    {
+      "module": "consciousness",
+      "current_paths": [
+        "lukhas/consciousness"
+      ],
+      "contracts": [
+        "lukhas/consciousness/matrix_consciousness.json"
+      ],
+      "provisional_lane": "L3",
+      "lane_name": "Candidate",
+      "characteristics": {
+        "has_contract": true,
+        "path_indicators": {
+          "in_core": false,
+          "in_accepted": false,
+          "in_candidate": false,
+          "in_experimental": false,
+          "in_archive": false,
+          "in_lukhas_root": true,
+          "nested_deep": false
+        },
+        "name_indicators": {
+          "has_core": false,
+          "has_experimental": false,
+          "has_test": false,
+          "has_deprecated": false,
+          "has_governance": false,
+          "has_identity": false,
+          "has_api": false,
+          "has_bridge": false
+        },
+        "contract_indicators": {
+          "maturity_score": 2,
+          "has_identity_config": true,
+          "has_policy_config": false
+        },
+        "file_count": 21,
+        "test_coverage": {
+          "has_tests": false,
+          "test_file_count": 0
+        },
+        "dependency_score": 2
+      },
+      "confidence": 0.8999999999999999
+    },
+    {
+      "module": "constellation",
+      "current_paths": [
+        "lukhas/constellation"
+      ],
+      "contracts": [
+        "lukhas/constellation/matrix_constellation.json"
+      ],
+      "provisional_lane": "L2",
+      "lane_name": "Development",
+      "characteristics": {
+        "has_contract": true,
+        "path_indicators": {
+          "in_core": false,
+          "in_accepted": false,
+          "in_candidate": false,
+          "in_experimental": false,
+          "in_archive": false,
+          "in_lukhas_root": true,
+          "nested_deep": false
+        },
+        "name_indicators": {
+          "has_core": false,
+          "has_experimental": false,
+          "has_test": false,
+          "has_deprecated": false,
+          "has_governance": false,
+          "has_identity": false,
+          "has_api": false,
+          "has_bridge": false
+        },
+        "contract_indicators": {
+          "maturity_score": 2,
+          "has_identity_config": true,
+          "has_policy_config": false
+        },
+        "file_count": 2,
+        "test_coverage": {
+          "has_tests": false,
+          "test_file_count": 0
+        },
+        "dependency_score": 0
+      },
+      "confidence": 0.8999999999999999
+    },
+    {
+      "module": "constellation.triad",
+      "current_paths": [
+        "lukhas/constellation/triad"
+      ],
+      "contracts": [
+        "lukhas/constellation/triad/matrix_triad.json"
+      ],
+      "provisional_lane": "L2",
+      "lane_name": "Development",
+      "characteristics": {
+        "has_contract": true,
+        "path_indicators": {
+          "in_core": false,
+          "in_accepted": false,
+          "in_candidate": false,
+          "in_experimental": false,
+          "in_archive": false,
+          "in_lukhas_root": false,
+          "nested_deep": false
+        },
+        "name_indicators": {
+          "has_core": false,
+          "has_experimental": false,
+          "has_test": false,
+          "has_deprecated": false,
+          "has_governance": false,
+          "has_identity": false,
+          "has_api": false,
+          "has_bridge": false
+        },
+        "contract_indicators": {
+          "maturity_score": 2,
+          "has_identity_config": true,
+          "has_policy_config": false
+        },
+        "file_count": 1,
+        "test_coverage": {
+          "has_tests": false,
+          "test_file_count": 0
+        },
+        "dependency_score": 0
+      },
+      "confidence": 0.7999999999999999
+    },
+    {
+      "module": "contracts",
+      "current_paths": [
+        "contracts"
+      ],
+      "contracts": [],
+      "provisional_lane": "L0",
+      "lane_name": "Archive",
+      "characteristics": {
+        "has_contract": false,
+        "path_indicators": {
+          "in_core": false,
+          "in_accepted": false,
+          "in_candidate": false,
+          "in_experimental": false,
+          "in_archive": false,
+          "in_lukhas_root": false,
+          "nested_deep": false
+        },
+        "name_indicators": {
+          "has_core": false,
+          "has_experimental": false,
+          "has_test": false,
+          "has_deprecated": false,
+          "has_governance": false,
+          "has_identity": false,
+          "has_api": false,
+          "has_bridge": false
+        },
+        "contract_indicators": {
+          "maturity_score": 0,
+          "has_identity_config": false,
+          "has_policy_config": false
+        },
+        "file_count": 0,
+        "test_coverage": {
+          "has_tests": false,
+          "test_file_count": 0
+        },
+        "dependency_score": 0
+      },
+      "confidence": 0.5
+    },
+    {
+      "module": "core",
+      "current_paths": [
+        "core",
+        "lukhas/core"
+      ],
+      "contracts": [
+        "lukhas/core/matrix_core.json"
+      ],
+      "provisional_lane": "L3",
+      "lane_name": "Candidate",
+      "characteristics": {
+        "has_contract": true,
+        "path_indicators": {
+          "in_core": true,
+          "in_accepted": false,
+          "in_candidate": false,
+          "in_experimental": false,
+          "in_archive": false,
+          "in_lukhas_root": true,
+          "nested_deep": false
+        },
+        "name_indicators": {
+          "has_core": true,
+          "has_experimental": false,
+          "has_test": false,
+          "has_deprecated": false,
+          "has_governance": false,
+          "has_identity": false,
+          "has_api": false,
+          "has_bridge": false
+        },
+        "contract_indicators": {
+          "maturity_score": 2,
+          "has_identity_config": true,
+          "has_policy_config": false
+        },
+        "file_count": 71,
+        "test_coverage": {
+          "has_tests": false,
+          "test_file_count": 0
+        },
+        "dependency_score": 3
+      },
+      "confidence": 0.8999999999999999
+    },
+    {
+      "module": "core.bridge",
+      "current_paths": [
+        "lukhas/core/bridge"
+      ],
+      "contracts": [
+        "lukhas/core/bridge/matrix_bridge.json"
+      ],
+      "provisional_lane": "L2",
+      "lane_name": "Development",
+      "characteristics": {
+        "has_contract": true,
+        "path_indicators": {
+          "in_core": true,
+          "in_accepted": false,
+          "in_candidate": false,
+          "in_experimental": false,
+          "in_archive": false,
+          "in_lukhas_root": false,
+          "nested_deep": false
+        },
+        "name_indicators": {
+          "has_core": true,
+          "has_experimental": false,
+          "has_test": false,
+          "has_deprecated": false,
+          "has_governance": false,
+          "has_identity": false,
+          "has_api": false,
+          "has_bridge": true
+        },
+        "contract_indicators": {
+          "maturity_score": 2,
+          "has_identity_config": true,
+          "has_policy_config": false
+        },
+        "file_count": 2,
+        "test_coverage": {
+          "has_tests": false,
+          "test_file_count": 0
+        },
+        "dependency_score": 5
+      },
+      "confidence": 0.8999999999999999
+    },
+    {
+      "module": "core.colonies",
+      "current_paths": [
+        "lukhas/core/colonies"
+      ],
+      "contracts": [
+        "lukhas/core/colonies/matrix_colonies.json"
+      ],
+      "provisional_lane": "L2",
+      "lane_name": "Development",
+      "characteristics": {
+        "has_contract": true,
+        "path_indicators": {
+          "in_core": true,
+          "in_accepted": false,
+          "in_candidate": false,
+          "in_experimental": false,
+          "in_archive": false,
+          "in_lukhas_root": false,
+          "nested_deep": false
+        },
+        "name_indicators": {
+          "has_core": true,
+          "has_experimental": false,
+          "has_test": false,
+          "has_deprecated": false,
+          "has_governance": false,
+          "has_identity": false,
+          "has_api": false,
+          "has_bridge": false
+        },
+        "contract_indicators": {
+          "maturity_score": 2,
+          "has_identity_config": true,
+          "has_policy_config": false
+        },
+        "file_count": 2,
+        "test_coverage": {
+          "has_tests": false,
+          "test_file_count": 0
+        },
+        "dependency_score": 3
+      },
+      "confidence": 0.8999999999999999
+    },
+    {
+      "module": "core.common",
+      "current_paths": [
+        "lukhas/core/common"
+      ],
+      "contracts": [
+        "lukhas/core/common/matrix_common.json"
+      ],
+      "provisional_lane": "L3",
+      "lane_name": "Candidate",
+      "characteristics": {
+        "has_contract": true,
+        "path_indicators": {
+          "in_core": true,
+          "in_accepted": false,
+          "in_candidate": false,
+          "in_experimental": false,
+          "in_archive": false,
+          "in_lukhas_root": false,
+          "nested_deep": false
+        },
+        "name_indicators": {
+          "has_core": true,
+          "has_experimental": false,
+          "has_test": false,
+          "has_deprecated": false,
+          "has_governance": false,
+          "has_identity": false,
+          "has_api": false,
+          "has_bridge": false
+        },
+        "contract_indicators": {
+          "maturity_score": 2,
+          "has_identity_config": true,
+          "has_policy_config": false
+        },
+        "file_count": 6,
+        "test_coverage": {
+          "has_tests": false,
+          "test_file_count": 0
+        },
+        "dependency_score": 3
+      },
+      "confidence": 0.8999999999999999
+    },
+    {
+      "module": "core.filesystem",
+      "current_paths": [
+        "lukhas/core/filesystem"
+      ],
+      "contracts": [
+        "lukhas/core/filesystem/matrix_filesystem.json"
+      ],
+      "provisional_lane": "L2",
+      "lane_name": "Development",
+      "characteristics": {
+        "has_contract": true,
+        "path_indicators": {
+          "in_core": true,
+          "in_accepted": false,
+          "in_candidate": false,
+          "in_experimental": false,
+          "in_archive": false,
+          "in_lukhas_root": false,
+          "nested_deep": false
+        },
+        "name_indicators": {
+          "has_core": true,
+          "has_experimental": false,
+          "has_test": false,
+          "has_deprecated": false,
+          "has_governance": false,
+          "has_identity": false,
+          "has_api": false,
+          "has_bridge": false
+        },
+        "contract_indicators": {
+          "maturity_score": 2,
+          "has_identity_config": true,
+          "has_policy_config": false
+        },
+        "file_count": 2,
+        "test_coverage": {
+          "has_tests": false,
+          "test_file_count": 0
+        },
+        "dependency_score": 3
+      },
+      "confidence": 0.8999999999999999
+    },
+    {
+      "module": "core.matriz",
+      "current_paths": [
+        "lukhas/core/matriz"
+      ],
+      "contracts": [
+        "lukhas/core/matriz/matrix_matriz.json"
+      ],
+      "provisional_lane": "L3",
+      "lane_name": "Candidate",
+      "characteristics": {
+        "has_contract": true,
+        "path_indicators": {
+          "in_core": true,
+          "in_accepted": false,
+          "in_candidate": false,
+          "in_experimental": false,
+          "in_archive": false,
+          "in_lukhas_root": false,
+          "nested_deep": false
+        },
+        "name_indicators": {
+          "has_core": true,
+          "has_experimental": false,
+          "has_test": false,
+          "has_deprecated": false,
+          "has_governance": false,
+          "has_identity": false,
+          "has_api": false,
+          "has_bridge": false
+        },
+        "contract_indicators": {
+          "maturity_score": 2,
+          "has_identity_config": true,
+          "has_policy_config": false
+        },
+        "file_count": 5,
+        "test_coverage": {
+          "has_tests": false,
+          "test_file_count": 0
+        },
+        "dependency_score": 5
+      },
+      "confidence": 0.8999999999999999
+    },
+    {
+      "module": "core.policy",
+      "current_paths": [
+        "lukhas/core/policy"
+      ],
+      "contracts": [
+        "lukhas/core/policy/matrix_policy.json"
+      ],
+      "provisional_lane": "L2",
+      "lane_name": "Development",
+      "characteristics": {
+        "has_contract": true,
+        "path_indicators": {
+          "in_core": true,
+          "in_accepted": false,
+          "in_candidate": false,
+          "in_experimental": false,
+          "in_archive": false,
+          "in_lukhas_root": false,
+          "nested_deep": false
+        },
+        "name_indicators": {
+          "has_core": true,
+          "has_experimental": false,
+          "has_test": false,
+          "has_deprecated": false,
+          "has_governance": false,
+          "has_identity": false,
+          "has_api": false,
+          "has_bridge": false
+        },
+        "contract_indicators": {
+          "maturity_score": 2,
+          "has_identity_config": true,
+          "has_policy_config": false
+        },
+        "file_count": 2,
+        "test_coverage": {
+          "has_tests": false,
+          "test_file_count": 0
+        },
+        "dependency_score": 3
+      },
+      "confidence": 0.8999999999999999
+    },
+    {
+      "module": "core.registry",
+      "current_paths": [
+        "lukhas/core/registry"
+      ],
+      "contracts": [
+        "lukhas/core/registry/matrix_registry.json"
+      ],
+      "provisional_lane": "L2",
+      "lane_name": "Development",
+      "characteristics": {
+        "has_contract": true,
+        "path_indicators": {
+          "in_core": true,
+          "in_accepted": false,
+          "in_candidate": false,
+          "in_experimental": false,
+          "in_archive": false,
+          "in_lukhas_root": false,
+          "nested_deep": false
+        },
+        "name_indicators": {
+          "has_core": true,
+          "has_experimental": false,
+          "has_test": false,
+          "has_deprecated": false,
+          "has_governance": false,
+          "has_identity": false,
+          "has_api": false,
+          "has_bridge": false
+        },
+        "contract_indicators": {
+          "maturity_score": 2,
+          "has_identity_config": true,
+          "has_policy_config": false
+        },
+        "file_count": 2,
+        "test_coverage": {
+          "has_tests": false,
+          "test_file_count": 0
+        },
+        "dependency_score": 3
+      },
+      "confidence": 0.8999999999999999
+    },
+    {
+      "module": "core.reliability",
+      "current_paths": [
+        "lukhas/core/reliability"
+      ],
+      "contracts": [
+        "lukhas/core/reliability/matrix_reliability.json"
+      ],
+      "provisional_lane": "L3",
+      "lane_name": "Candidate",
+      "characteristics": {
+        "has_contract": true,
+        "path_indicators": {
+          "in_core": true,
+          "in_accepted": false,
+          "in_candidate": false,
+          "in_experimental": false,
+          "in_archive": false,
+          "in_lukhas_root": false,
+          "nested_deep": false
+        },
+        "name_indicators": {
+          "has_core": true,
+          "has_experimental": false,
+          "has_test": false,
+          "has_deprecated": false,
+          "has_governance": false,
+          "has_identity": false,
+          "has_api": false,
+          "has_bridge": false
+        },
+        "contract_indicators": {
+          "maturity_score": 2,
+          "has_identity_config": true,
+          "has_policy_config": false
+        },
+        "file_count": 5,
+        "test_coverage": {
+          "has_tests": false,
+          "test_file_count": 0
+        },
+        "dependency_score": 3
+      },
+      "confidence": 0.8999999999999999
+    },
+    {
+      "module": "core.symbolic",
+      "current_paths": [
+        "lukhas/core/symbolic"
+      ],
+      "contracts": [
+        "lukhas/core/symbolic/matrix_symbolic.json"
+      ],
+      "provisional_lane": "L2",
+      "lane_name": "Development",
+      "characteristics": {
+        "has_contract": true,
+        "path_indicators": {
+          "in_core": true,
+          "in_accepted": false,
+          "in_candidate": false,
+          "in_experimental": false,
+          "in_archive": false,
+          "in_lukhas_root": false,
+          "nested_deep": false
+        },
+        "name_indicators": {
+          "has_core": true,
+          "has_experimental": false,
+          "has_test": false,
+          "has_deprecated": false,
+          "has_governance": false,
+          "has_identity": false,
+          "has_api": false,
+          "has_bridge": false
+        },
+        "contract_indicators": {
+          "maturity_score": 2,
+          "has_identity_config": true,
+          "has_policy_config": false
+        },
+        "file_count": 3,
+        "test_coverage": {
+          "has_tests": false,
+          "test_file_count": 0
+        },
+        "dependency_score": 3
+      },
+      "confidence": 0.8999999999999999
+    },
+    {
+      "module": "core.symbolic.constraints",
+      "current_paths": [
+        "lukhas/core/symbolic/constraints"
+      ],
+      "contracts": [
+        "lukhas/core/symbolic/constraints/matrix_constraints.json"
+      ],
+      "provisional_lane": "L2",
+      "lane_name": "Development",
+      "characteristics": {
+        "has_contract": true,
+        "path_indicators": {
+          "in_core": true,
+          "in_accepted": false,
+          "in_candidate": false,
+          "in_experimental": false,
+          "in_archive": false,
+          "in_lukhas_root": false,
+          "nested_deep": false
+        },
+        "name_indicators": {
+          "has_core": true,
+          "has_experimental": false,
+          "has_test": false,
+          "has_deprecated": false,
+          "has_governance": false,
+          "has_identity": false,
+          "has_api": false,
+          "has_bridge": false
+        },
+        "contract_indicators": {
+          "maturity_score": 2,
+          "has_identity_config": true,
+          "has_policy_config": false
+        },
+        "file_count": 2,
+        "test_coverage": {
+          "has_tests": false,
+          "test_file_count": 0
+        },
+        "dependency_score": 3
+      },
+      "confidence": 0.8999999999999999
+    },
+    {
+      "module": "core.symbolism",
+      "current_paths": [
+        "lukhas/core/symbolism"
+      ],
+      "contracts": [
+        "lukhas/core/symbolism/matrix_symbolism.json"
+      ],
+      "provisional_lane": "L2",
+      "lane_name": "Development",
+      "characteristics": {
+        "has_contract": true,
+        "path_indicators": {
+          "in_core": true,
+          "in_accepted": false,
+          "in_candidate": false,
+          "in_experimental": false,
+          "in_archive": false,
+          "in_lukhas_root": false,
+          "nested_deep": false
+        },
+        "name_indicators": {
+          "has_core": true,
+          "has_experimental": false,
+          "has_test": false,
+          "has_deprecated": false,
+          "has_governance": false,
+          "has_identity": false,
+          "has_api": false,
+          "has_bridge": false
+        },
+        "contract_indicators": {
+          "maturity_score": 2,
+          "has_identity_config": true,
+          "has_policy_config": false
+        },
+        "file_count": 3,
+        "test_coverage": {
+          "has_tests": false,
+          "test_file_count": 0
+        },
+        "dependency_score": 3
+      },
+      "confidence": 0.8999999999999999
+    },
+    {
+      "module": "deployment",
+      "current_paths": [
+        "lukhas/deployment"
+      ],
+      "contracts": [
+        "lukhas/deployment/matrix_deployment.json"
+      ],
+      "provisional_lane": "L3",
+      "lane_name": "Candidate",
+      "characteristics": {
+        "has_contract": true,
+        "path_indicators": {
+          "in_core": false,
+          "in_accepted": false,
+          "in_candidate": false,
+          "in_experimental": false,
+          "in_archive": false,
+          "in_lukhas_root": true,
+          "nested_deep": false
+        },
+        "name_indicators": {
+          "has_core": false,
+          "has_experimental": false,
+          "has_test": false,
+          "has_deprecated": false,
+          "has_governance": false,
+          "has_identity": false,
+          "has_api": false,
+          "has_bridge": false
+        },
+        "contract_indicators": {
+          "maturity_score": 2,
+          "has_identity_config": true,
+          "has_policy_config": false
+        },
+        "file_count": 5,
+        "test_coverage": {
+          "has_tests": false,
+          "test_file_count": 0
+        },
+        "dependency_score": 0
+      },
+      "confidence": 0.8999999999999999
+    },
+    {
+      "module": "emotion",
+      "current_paths": [
+        "lukhas/emotion"
+      ],
+      "contracts": [
+        "lukhas/emotion/matrix_emotion.json"
+      ],
+      "provisional_lane": "L2",
+      "lane_name": "Development",
+      "characteristics": {
+        "has_contract": true,
+        "path_indicators": {
+          "in_core": false,
+          "in_accepted": false,
+          "in_candidate": false,
+          "in_experimental": false,
+          "in_archive": false,
+          "in_lukhas_root": true,
+          "nested_deep": false
+        },
+        "name_indicators": {
+          "has_core": false,
+          "has_experimental": false,
+          "has_test": false,
+          "has_deprecated": false,
+          "has_governance": false,
+          "has_identity": false,
+          "has_api": false,
+          "has_bridge": false
+        },
+        "contract_indicators": {
+          "maturity_score": 2,
+          "has_identity_config": true,
+          "has_policy_config": false
+        },
+        "file_count": 2,
+        "test_coverage": {
+          "has_tests": false,
+          "test_file_count": 0
+        },
+        "dependency_score": 0
+      },
+      "confidence": 0.8999999999999999
+    },
+    {
+      "module": "governance",
+      "current_paths": [
+        "governance",
+        "lukhas/governance"
+      ],
+      "contracts": [
+        "lukhas/governance/matrix_governance.json"
+      ],
+      "provisional_lane": "L3",
+      "lane_name": "Candidate",
+      "characteristics": {
+        "has_contract": true,
+        "path_indicators": {
+          "in_core": false,
+          "in_accepted": false,
+          "in_candidate": false,
+          "in_experimental": false,
+          "in_archive": false,
+          "in_lukhas_root": true,
+          "nested_deep": false
+        },
+        "name_indicators": {
+          "has_core": false,
+          "has_experimental": false,
+          "has_test": false,
+          "has_deprecated": false,
+          "has_governance": true,
+          "has_identity": false,
+          "has_api": false,
+          "has_bridge": false
+        },
+        "contract_indicators": {
+          "maturity_score": 2,
+          "has_identity_config": true,
+          "has_policy_config": false
+        },
+        "file_count": 58,
+        "test_coverage": {
+          "has_tests": false,
+          "test_file_count": 0
+        },
+        "dependency_score": 3
+      },
+      "confidence": 0.8999999999999999
+    },
+    {
+      "module": "governance.consent_ledger",
+      "current_paths": [
+        "lukhas/governance/consent_ledger"
+      ],
+      "contracts": [
+        "lukhas/governance/consent_ledger/matrix_consent_ledger.json"
+      ],
+      "provisional_lane": "L3",
+      "lane_name": "Candidate",
+      "characteristics": {
+        "has_contract": true,
+        "path_indicators": {
+          "in_core": false,
+          "in_accepted": false,
+          "in_candidate": false,
+          "in_experimental": false,
+          "in_archive": false,
+          "in_lukhas_root": false,
+          "nested_deep": false
+        },
+        "name_indicators": {
+          "has_core": false,
+          "has_experimental": false,
+          "has_test": false,
+          "has_deprecated": false,
+          "has_governance": true,
+          "has_identity": false,
+          "has_api": false,
+          "has_bridge": false
+        },
+        "contract_indicators": {
+          "maturity_score": 2,
+          "has_identity_config": true,
+          "has_policy_config": false
+        },
+        "file_count": 5,
+        "test_coverage": {
+          "has_tests": false,
+          "test_file_count": 0
+        },
+        "dependency_score": 3
+      },
+      "confidence": 0.7999999999999999
+    },
+    {
+      "module": "governance.consent_ledger.providers",
+      "current_paths": [
+        "lukhas/governance/consent_ledger/providers"
+      ],
+      "contracts": [
+        "lukhas/governance/consent_ledger/providers/matrix_providers.json"
+      ],
+      "provisional_lane": "L2",
+      "lane_name": "Development",
+      "characteristics": {
+        "has_contract": true,
+        "path_indicators": {
+          "in_core": false,
+          "in_accepted": false,
+          "in_candidate": false,
+          "in_experimental": false,
+          "in_archive": false,
+          "in_lukhas_root": false,
+          "nested_deep": false
+        },
+        "name_indicators": {
+          "has_core": false,
+          "has_experimental": false,
+          "has_test": false,
+          "has_deprecated": false,
+          "has_governance": true,
+          "has_identity": false,
+          "has_api": false,
+          "has_bridge": false
+        },
+        "contract_indicators": {
+          "maturity_score": 2,
+          "has_identity_config": true,
+          "has_policy_config": false
+        },
+        "file_count": 2,
+        "test_coverage": {
+          "has_tests": false,
+          "test_file_count": 0
+        },
+        "dependency_score": 3
+      },
+      "confidence": 0.7999999999999999
+    },
+    {
+      "module": "governance.ethics",
+      "current_paths": [
+        "lukhas/governance/ethics"
+      ],
+      "contracts": [
+        "lukhas/governance/ethics/matrix_ethics.json"
+      ],
+      "provisional_lane": "L2",
+      "lane_name": "Development",
+      "characteristics": {
+        "has_contract": true,
+        "path_indicators": {
+          "in_core": false,
+          "in_accepted": false,
+          "in_candidate": false,
+          "in_experimental": false,
+          "in_archive": false,
+          "in_lukhas_root": false,
+          "nested_deep": false
+        },
+        "name_indicators": {
+          "has_core": false,
+          "has_experimental": false,
+          "has_test": false,
+          "has_deprecated": false,
+          "has_governance": true,
+          "has_identity": false,
+          "has_api": false,
+          "has_bridge": false
+        },
+        "contract_indicators": {
+          "maturity_score": 2,
+          "has_identity_config": true,
+          "has_policy_config": false
+        },
+        "file_count": 3,
+        "test_coverage": {
+          "has_tests": false,
+          "test_file_count": 0
+        },
+        "dependency_score": 3
+      },
+      "confidence": 0.7999999999999999
+    },
+    {
+      "module": "governance.guardian",
+      "current_paths": [
+        "lukhas/governance/guardian"
+      ],
+      "contracts": [
+        "lukhas/governance/guardian/matrix_guardian.json"
+      ],
+      "provisional_lane": "L2",
+      "lane_name": "Development",
+      "characteristics": {
+        "has_contract": true,
+        "path_indicators": {
+          "in_core": false,
+          "in_accepted": false,
+          "in_candidate": false,
+          "in_experimental": false,
+          "in_archive": false,
+          "in_lukhas_root": false,
+          "nested_deep": false
+        },
+        "name_indicators": {
+          "has_core": false,
+          "has_experimental": false,
+          "has_test": false,
+          "has_deprecated": false,
+          "has_governance": true,
+          "has_identity": false,
+          "has_api": false,
+          "has_bridge": false
+        },
+        "contract_indicators": {
+          "maturity_score": 2,
+          "has_identity_config": true,
+          "has_policy_config": false
+        },
+        "file_count": 4,
+        "test_coverage": {
+          "has_tests": false,
+          "test_file_count": 0
+        },
+        "dependency_score": 3
+      },
+      "confidence": 0.7999999999999999
+    },
+    {
+      "module": "governance.identity",
+      "current_paths": [
+        "lukhas/governance/identity"
+      ],
+      "contracts": [
+        "lukhas/governance/identity/matrix_identity.json"
+      ],
+      "provisional_lane": "L3",
+      "lane_name": "Candidate",
+      "characteristics": {
+        "has_contract": true,
+        "path_indicators": {
+          "in_core": false,
+          "in_accepted": false,
+          "in_candidate": false,
+          "in_experimental": false,
+          "in_archive": false,
+          "in_lukhas_root": false,
+          "nested_deep": false
+        },
+        "name_indicators": {
+          "has_core": false,
+          "has_experimental": false,
+          "has_test": false,
+          "has_deprecated": false,
+          "has_governance": true,
+          "has_identity": true,
+          "has_api": false,
+          "has_bridge": false
+        },
+        "contract_indicators": {
+          "maturity_score": 2,
+          "has_identity_config": true,
+          "has_policy_config": false
+        },
+        "file_count": 7,
+        "test_coverage": {
+          "has_tests": false,
+          "test_file_count": 0
+        },
+        "dependency_score": 3
+      },
+      "confidence": 0.7999999999999999
+    },
+    {
+      "module": "governance.identity.auth_backend",
+      "current_paths": [
+        "lukhas/governance/identity/auth_backend"
+      ],
+      "contracts": [
+        "lukhas/governance/identity/auth_backend/matrix_auth_backend.json"
+      ],
+      "provisional_lane": "L2",
+      "lane_name": "Development",
+      "characteristics": {
+        "has_contract": true,
+        "path_indicators": {
+          "in_core": false,
+          "in_accepted": false,
+          "in_candidate": false,
+          "in_experimental": false,
+          "in_archive": false,
+          "in_lukhas_root": false,
+          "nested_deep": false
+        },
+        "name_indicators": {
+          "has_core": false,
+          "has_experimental": false,
+          "has_test": false,
+          "has_deprecated": false,
+          "has_governance": true,
+          "has_identity": true,
+          "has_api": false,
+          "has_bridge": false
+        },
+        "contract_indicators": {
+          "maturity_score": 2,
+          "has_identity_config": true,
+          "has_policy_config": false
+        },
+        "file_count": 3,
+        "test_coverage": {
+          "has_tests": false,
+          "test_file_count": 0
+        },
+        "dependency_score": 3
+      },
+      "confidence": 0.7999999999999999
+    },
+    {
+      "module": "governance.security",
+      "current_paths": [
+        "lukhas/governance/security"
+      ],
+      "contracts": [
+        "lukhas/governance/security/matrix_security.json"
+      ],
+      "provisional_lane": "L2",
+      "lane_name": "Development",
+      "characteristics": {
+        "has_contract": true,
+        "path_indicators": {
+          "in_core": false,
+          "in_accepted": false,
+          "in_candidate": false,
+          "in_experimental": false,
+          "in_archive": false,
+          "in_lukhas_root": false,
+          "nested_deep": false
+        },
+        "name_indicators": {
+          "has_core": false,
+          "has_experimental": false,
+          "has_test": false,
+          "has_deprecated": false,
+          "has_governance": true,
+          "has_identity": false,
+          "has_api": false,
+          "has_bridge": false
+        },
+        "contract_indicators": {
+          "maturity_score": 2,
+          "has_identity_config": true,
+          "has_policy_config": false
+        },
+        "file_count": 2,
+        "test_coverage": {
+          "has_tests": false,
+          "test_file_count": 0
+        },
+        "dependency_score": 3
+      },
+      "confidence": 0.7999999999999999
+    },
+    {
+      "module": "identity",
+      "current_paths": [
+        "identity",
+        "lukhas/identity"
+      ],
+      "contracts": [
+        "lukhas/identity/matrix_identity.json"
+      ],
+      "provisional_lane": "L3",
+      "lane_name": "Candidate",
+      "characteristics": {
+        "has_contract": true,
+        "path_indicators": {
+          "in_core": false,
+          "in_accepted": false,
+          "in_candidate": false,
+          "in_experimental": false,
+          "in_archive": false,
+          "in_lukhas_root": true,
+          "nested_deep": false
+        },
+        "name_indicators": {
+          "has_core": false,
+          "has_experimental": false,
+          "has_test": false,
+          "has_deprecated": false,
+          "has_governance": false,
+          "has_identity": true,
+          "has_api": false,
+          "has_bridge": false
+        },
+        "contract_indicators": {
+          "maturity_score": 2,
+          "has_identity_config": true,
+          "has_policy_config": false
+        },
+        "file_count": 62,
+        "test_coverage": {
+          "has_tests": true,
+          "test_file_count": 4
+        },
+        "dependency_score": 3
+      },
+      "confidence": 0.9999999999999999
+    },
+    {
+      "module": "identity.auth",
+      "current_paths": [
+        "lukhas/identity/auth"
+      ],
+      "contracts": [
+        "lukhas/identity/auth/matrix_auth.json"
+      ],
+      "provisional_lane": "L2",
+      "lane_name": "Development",
+      "characteristics": {
+        "has_contract": true,
+        "path_indicators": {
+          "in_core": false,
+          "in_accepted": false,
+          "in_candidate": false,
+          "in_experimental": false,
+          "in_archive": false,
+          "in_lukhas_root": false,
+          "nested_deep": false
+        },
+        "name_indicators": {
+          "has_core": false,
+          "has_experimental": false,
+          "has_test": false,
+          "has_deprecated": false,
+          "has_governance": false,
+          "has_identity": true,
+          "has_api": false,
+          "has_bridge": false
+        },
+        "contract_indicators": {
+          "maturity_score": 2,
+          "has_identity_config": true,
+          "has_policy_config": false
+        },
+        "file_count": 1,
+        "test_coverage": {
+          "has_tests": false,
+          "test_file_count": 0
+        },
+        "dependency_score": 3
+      },
+      "confidence": 0.7999999999999999
+    },
+    {
+      "module": "identity.facades",
+      "current_paths": [
+        "lukhas/identity/facades"
+      ],
+      "contracts": [
+        "lukhas/identity/facades/matrix_facades.json"
+      ],
+      "provisional_lane": "L2",
+      "lane_name": "Development",
+      "characteristics": {
+        "has_contract": true,
+        "path_indicators": {
+          "in_core": false,
+          "in_accepted": false,
+          "in_candidate": false,
+          "in_experimental": false,
+          "in_archive": false,
+          "in_lukhas_root": false,
+          "nested_deep": false
+        },
+        "name_indicators": {
+          "has_core": false,
+          "has_experimental": false,
+          "has_test": false,
+          "has_deprecated": false,
+          "has_governance": false,
+          "has_identity": true,
+          "has_api": false,
+          "has_bridge": false
+        },
+        "contract_indicators": {
+          "maturity_score": 2,
+          "has_identity_config": true,
+          "has_policy_config": false
+        },
+        "file_count": 2,
+        "test_coverage": {
+          "has_tests": false,
+          "test_file_count": 0
+        },
+        "dependency_score": 3
+      },
+      "confidence": 0.7999999999999999
+    },
+    {
+      "module": "identity.oidc",
+      "current_paths": [
+        "lukhas/identity/oidc"
+      ],
+      "contracts": [
+        "lukhas/identity/oidc/matrix_oidc.json"
+      ],
+      "provisional_lane": "L3",
+      "lane_name": "Candidate",
+      "characteristics": {
+        "has_contract": true,
+        "path_indicators": {
+          "in_core": false,
+          "in_accepted": false,
+          "in_candidate": false,
+          "in_experimental": false,
+          "in_archive": false,
+          "in_lukhas_root": false,
+          "nested_deep": false
+        },
+        "name_indicators": {
+          "has_core": false,
+          "has_experimental": false,
+          "has_test": false,
+          "has_deprecated": false,
+          "has_governance": false,
+          "has_identity": true,
+          "has_api": false,
+          "has_bridge": false
+        },
+        "contract_indicators": {
+          "maturity_score": 2,
+          "has_identity_config": true,
+          "has_policy_config": false
+        },
+        "file_count": 5,
+        "test_coverage": {
+          "has_tests": false,
+          "test_file_count": 0
+        },
+        "dependency_score": 3
+      },
+      "confidence": 0.7999999999999999
+    },
+    {
+      "module": "identity.passkey",
+      "current_paths": [
+        "lukhas/identity/passkey"
+      ],
+      "contracts": [
+        "lukhas/identity/passkey/matrix_passkey.json"
+      ],
+      "provisional_lane": "L3",
+      "lane_name": "Candidate",
+      "characteristics": {
+        "has_contract": true,
+        "path_indicators": {
+          "in_core": false,
+          "in_accepted": false,
+          "in_candidate": false,
+          "in_experimental": false,
+          "in_archive": false,
+          "in_lukhas_root": false,
+          "nested_deep": false
+        },
+        "name_indicators": {
+          "has_core": false,
+          "has_experimental": false,
+          "has_test": false,
+          "has_deprecated": false,
+          "has_governance": false,
+          "has_identity": true,
+          "has_api": false,
+          "has_bridge": false
+        },
+        "contract_indicators": {
+          "maturity_score": 2,
+          "has_identity_config": true,
+          "has_policy_config": false
+        },
+        "file_count": 5,
+        "test_coverage": {
+          "has_tests": false,
+          "test_file_count": 0
+        },
+        "dependency_score": 3
+      },
+      "confidence": 0.7999999999999999
+    },
+    {
+      "module": "identity.passkey.providers",
+      "current_paths": [
+        "lukhas/identity/passkey/providers"
+      ],
+      "contracts": [
+        "lukhas/identity/passkey/providers/matrix_providers.json"
+      ],
+      "provisional_lane": "L2",
+      "lane_name": "Development",
+      "characteristics": {
+        "has_contract": true,
+        "path_indicators": {
+          "in_core": false,
+          "in_accepted": false,
+          "in_candidate": false,
+          "in_experimental": false,
+          "in_archive": false,
+          "in_lukhas_root": false,
+          "nested_deep": false
+        },
+        "name_indicators": {
+          "has_core": false,
+          "has_experimental": false,
+          "has_test": false,
+          "has_deprecated": false,
+          "has_governance": false,
+          "has_identity": true,
+          "has_api": false,
+          "has_bridge": false
+        },
+        "contract_indicators": {
+          "maturity_score": 2,
+          "has_identity_config": true,
+          "has_policy_config": false
+        },
+        "file_count": 2,
+        "test_coverage": {
+          "has_tests": false,
+          "test_file_count": 0
+        },
+        "dependency_score": 3
+      },
+      "confidence": 0.7999999999999999
+    },
+    {
+      "module": "identity.qrg",
+      "current_paths": [
+        "lukhas/identity/qrg"
+      ],
+      "contracts": [
+        "lukhas/identity/qrg/matrix_qrg.json"
+      ],
+      "provisional_lane": "L2",
+      "lane_name": "Development",
+      "characteristics": {
+        "has_contract": true,
+        "path_indicators": {
+          "in_core": false,
+          "in_accepted": false,
+          "in_candidate": false,
+          "in_experimental": false,
+          "in_archive": false,
+          "in_lukhas_root": false,
+          "nested_deep": false
+        },
+        "name_indicators": {
+          "has_core": false,
+          "has_experimental": false,
+          "has_test": false,
+          "has_deprecated": false,
+          "has_governance": false,
+          "has_identity": true,
+          "has_api": false,
+          "has_bridge": false
+        },
+        "contract_indicators": {
+          "maturity_score": 2,
+          "has_identity_config": true,
+          "has_policy_config": false
+        },
+        "file_count": 1,
+        "test_coverage": {
+          "has_tests": false,
+          "test_file_count": 0
+        },
+        "dependency_score": 3
+      },
+      "confidence": 0.7999999999999999
+    },
+    {
+      "module": "identity.services",
+      "current_paths": [
+        "lukhas/identity/services"
+      ],
+      "contracts": [
+        "lukhas/identity/services/matrix_services.json"
+      ],
+      "provisional_lane": "L2",
+      "lane_name": "Development",
+      "characteristics": {
+        "has_contract": true,
+        "path_indicators": {
+          "in_core": false,
+          "in_accepted": false,
+          "in_candidate": false,
+          "in_experimental": false,
+          "in_archive": false,
+          "in_lukhas_root": false,
+          "nested_deep": false
+        },
+        "name_indicators": {
+          "has_core": false,
+          "has_experimental": false,
+          "has_test": false,
+          "has_deprecated": false,
+          "has_governance": false,
+          "has_identity": true,
+          "has_api": false,
+          "has_bridge": false
+        },
+        "contract_indicators": {
+          "maturity_score": 2,
+          "has_identity_config": true,
+          "has_policy_config": false
+        },
+        "file_count": 4,
+        "test_coverage": {
+          "has_tests": false,
+          "test_file_count": 0
+        },
+        "dependency_score": 3
+      },
+      "confidence": 0.7999999999999999
+    },
+    {
+      "module": "identity.wallet",
+      "current_paths": [
+        "lukhas/identity/wallet"
+      ],
+      "contracts": [
+        "lukhas/identity/wallet/matrix_wallet.json"
+      ],
+      "provisional_lane": "L2",
+      "lane_name": "Development",
+      "characteristics": {
+        "has_contract": true,
+        "path_indicators": {
+          "in_core": false,
+          "in_accepted": false,
+          "in_candidate": false,
+          "in_experimental": false,
+          "in_archive": false,
+          "in_lukhas_root": false,
+          "nested_deep": false
+        },
+        "name_indicators": {
+          "has_core": false,
+          "has_experimental": false,
+          "has_test": false,
+          "has_deprecated": false,
+          "has_governance": false,
+          "has_identity": true,
+          "has_api": false,
+          "has_bridge": false
+        },
+        "contract_indicators": {
+          "maturity_score": 2,
+          "has_identity_config": true,
+          "has_policy_config": false
+        },
+        "file_count": 1,
+        "test_coverage": {
+          "has_tests": false,
+          "test_file_count": 0
+        },
+        "dependency_score": 3
+      },
+      "confidence": 0.7999999999999999
+    },
+    {
+      "module": "interfaces",
+      "current_paths": [
+        "lukhas/interfaces"
+      ],
+      "contracts": [],
+      "provisional_lane": "L1",
+      "lane_name": "Experimental",
+      "characteristics": {
+        "has_contract": false,
+        "path_indicators": {
+          "in_core": false,
+          "in_accepted": false,
+          "in_candidate": false,
+          "in_experimental": false,
+          "in_archive": false,
+          "in_lukhas_root": true,
+          "nested_deep": false
+        },
+        "name_indicators": {
+          "has_core": false,
+          "has_experimental": false,
+          "has_test": false,
+          "has_deprecated": false,
+          "has_governance": false,
+          "has_identity": false,
+          "has_api": false,
+          "has_bridge": false
+        },
+        "contract_indicators": {
+          "maturity_score": 0,
+          "has_identity_config": false,
+          "has_policy_config": false
+        },
+        "file_count": 1,
+        "test_coverage": {
+          "has_tests": false,
+          "test_file_count": 0
+        },
+        "dependency_score": 0
+      },
+      "confidence": 0.6
+    },
+    {
+      "module": "ledger",
+      "current_paths": [
+        "lukhas/ledger"
+      ],
+      "contracts": [
+        "lukhas/ledger/matrix_ledger.json"
+      ],
+      "provisional_lane": "L3",
+      "lane_name": "Candidate",
+      "characteristics": {
+        "has_contract": true,
+        "path_indicators": {
+          "in_core": false,
+          "in_accepted": false,
+          "in_candidate": false,
+          "in_experimental": false,
+          "in_archive": false,
+          "in_lukhas_root": true,
+          "nested_deep": false
+        },
+        "name_indicators": {
+          "has_core": false,
+          "has_experimental": false,
+          "has_test": false,
+          "has_deprecated": false,
+          "has_governance": false,
+          "has_identity": false,
+          "has_api": false,
+          "has_bridge": false
+        },
+        "contract_indicators": {
+          "maturity_score": 2,
+          "has_identity_config": true,
+          "has_policy_config": false
+        },
+        "file_count": 6,
+        "test_coverage": {
+          "has_tests": false,
+          "test_file_count": 0
+        },
+        "dependency_score": 0
+      },
+      "confidence": 0.8999999999999999
+    },
+    {
+      "module": "lukhas",
+      "current_paths": [
+        "lukhas"
+      ],
+      "contracts": [],
+      "provisional_lane": "L1",
+      "lane_name": "Experimental",
+      "characteristics": {
+        "has_contract": false,
+        "path_indicators": {
+          "in_core": false,
+          "in_accepted": false,
+          "in_candidate": false,
+          "in_experimental": false,
+          "in_archive": false,
+          "in_lukhas_root": false,
+          "nested_deep": false
+        },
+        "name_indicators": {
+          "has_core": false,
+          "has_experimental": false,
+          "has_test": false,
+          "has_deprecated": false,
+          "has_governance": false,
+          "has_identity": false,
+          "has_api": false,
+          "has_bridge": false
+        },
+        "contract_indicators": {
+          "maturity_score": 0,
+          "has_identity_config": false,
+          "has_policy_config": false
+        },
+        "file_count": 335,
+        "test_coverage": {
+          "has_tests": true,
+          "test_file_count": 5
+        },
+        "dependency_score": 0
+      },
+      "confidence": 0.6
+    },
+    {
+      "module": "lukhas.accepted",
+      "current_paths": [
+        "contracts"
+      ],
+      "contracts": [
+        "contracts/matrix_accepted.json"
+      ],
+      "provisional_lane": "L0",
+      "lane_name": "Archive",
+      "characteristics": {
+        "has_contract": true,
+        "path_indicators": {
+          "in_core": false,
+          "in_accepted": false,
+          "in_candidate": false,
+          "in_experimental": false,
+          "in_archive": false,
+          "in_lukhas_root": false,
+          "nested_deep": false
+        },
+        "name_indicators": {
+          "has_core": false,
+          "has_experimental": false,
+          "has_test": false,
+          "has_deprecated": false,
+          "has_governance": false,
+          "has_identity": false,
+          "has_api": false,
+          "has_bridge": false
+        },
+        "contract_indicators": {
+          "maturity_score": 2,
+          "has_identity_config": true,
+          "has_policy_config": false
+        },
+        "file_count": 0,
+        "test_coverage": {
+          "has_tests": false,
+          "test_file_count": 0
+        },
+        "dependency_score": 0
+      },
+      "confidence": 0.7999999999999999
+    },
+    {
+      "module": "lukhas.accepted.bio",
+      "current_paths": [
+        "contracts"
+      ],
+      "contracts": [
+        "contracts/matrix_accepted_bio.json"
+      ],
+      "provisional_lane": "L0",
+      "lane_name": "Archive",
+      "characteristics": {
+        "has_contract": true,
+        "path_indicators": {
+          "in_core": false,
+          "in_accepted": false,
+          "in_candidate": false,
+          "in_experimental": false,
+          "in_archive": false,
+          "in_lukhas_root": false,
+          "nested_deep": false
+        },
+        "name_indicators": {
+          "has_core": false,
+          "has_experimental": false,
+          "has_test": false,
+          "has_deprecated": false,
+          "has_governance": false,
+          "has_identity": false,
+          "has_api": false,
+          "has_bridge": false
+        },
+        "contract_indicators": {
+          "maturity_score": 2,
+          "has_identity_config": true,
+          "has_policy_config": false
+        },
+        "file_count": 0,
+        "test_coverage": {
+          "has_tests": false,
+          "test_file_count": 0
+        },
+        "dependency_score": 0
+      },
+      "confidence": 0.7999999999999999
+    },
+    {
+      "module": "lukhas.agents",
+      "current_paths": [
+        "contracts"
+      ],
+      "contracts": [
+        "contracts/matrix_agents.json"
+      ],
+      "provisional_lane": "L0",
+      "lane_name": "Archive",
+      "characteristics": {
+        "has_contract": true,
+        "path_indicators": {
+          "in_core": false,
+          "in_accepted": false,
+          "in_candidate": false,
+          "in_experimental": false,
+          "in_archive": false,
+          "in_lukhas_root": false,
+          "nested_deep": false
+        },
+        "name_indicators": {
+          "has_core": false,
+          "has_experimental": false,
+          "has_test": false,
+          "has_deprecated": false,
+          "has_governance": false,
+          "has_identity": false,
+          "has_api": false,
+          "has_bridge": false
+        },
+        "contract_indicators": {
+          "maturity_score": 2,
+          "has_identity_config": true,
+          "has_policy_config": false
+        },
+        "file_count": 0,
+        "test_coverage": {
+          "has_tests": false,
+          "test_file_count": 0
+        },
+        "dependency_score": 0
+      },
+      "confidence": 0.7999999999999999
+    },
+    {
+      "module": "lukhas.api",
+      "current_paths": [
+        "contracts"
+      ],
+      "contracts": [
+        "contracts/matrix_api.json"
+      ],
+      "provisional_lane": "L0",
+      "lane_name": "Archive",
+      "characteristics": {
+        "has_contract": true,
+        "path_indicators": {
+          "in_core": false,
+          "in_accepted": false,
+          "in_candidate": false,
+          "in_experimental": false,
+          "in_archive": false,
+          "in_lukhas_root": false,
+          "nested_deep": false
+        },
+        "name_indicators": {
+          "has_core": false,
+          "has_experimental": false,
+          "has_test": false,
+          "has_deprecated": false,
+          "has_governance": false,
+          "has_identity": false,
+          "has_api": true,
+          "has_bridge": false
+        },
+        "contract_indicators": {
+          "maturity_score": 2,
+          "has_identity_config": true,
+          "has_policy_config": false
+        },
+        "file_count": 0,
+        "test_coverage": {
+          "has_tests": false,
+          "test_file_count": 0
+        },
+        "dependency_score": 2
+      },
+      "confidence": 0.7999999999999999
+    },
+    {
+      "module": "lukhas.bio",
+      "current_paths": [
+        "contracts"
+      ],
+      "contracts": [
+        "contracts/matrix_bio.json"
+      ],
+      "provisional_lane": "L0",
+      "lane_name": "Archive",
+      "characteristics": {
+        "has_contract": true,
+        "path_indicators": {
+          "in_core": false,
+          "in_accepted": false,
+          "in_candidate": false,
+          "in_experimental": false,
+          "in_archive": false,
+          "in_lukhas_root": false,
+          "nested_deep": false
+        },
+        "name_indicators": {
+          "has_core": false,
+          "has_experimental": false,
+          "has_test": false,
+          "has_deprecated": false,
+          "has_governance": false,
+          "has_identity": false,
+          "has_api": false,
+          "has_bridge": false
+        },
+        "contract_indicators": {
+          "maturity_score": 2,
+          "has_identity_config": true,
+          "has_policy_config": false
+        },
+        "file_count": 0,
+        "test_coverage": {
+          "has_tests": false,
+          "test_file_count": 0
+        },
+        "dependency_score": 0
+      },
+      "confidence": 0.7999999999999999
+    },
+    {
+      "module": "lukhas.bio.core",
+      "current_paths": [
+        "contracts"
+      ],
+      "contracts": [
+        "contracts/matrix_bio_core.json"
+      ],
+      "provisional_lane": "L0",
+      "lane_name": "Archive",
+      "characteristics": {
+        "has_contract": true,
+        "path_indicators": {
+          "in_core": false,
+          "in_accepted": false,
+          "in_candidate": false,
+          "in_experimental": false,
+          "in_archive": false,
+          "in_lukhas_root": false,
+          "nested_deep": false
+        },
+        "name_indicators": {
+          "has_core": true,
+          "has_experimental": false,
+          "has_test": false,
+          "has_deprecated": false,
+          "has_governance": false,
+          "has_identity": false,
+          "has_api": false,
+          "has_bridge": false
+        },
+        "contract_indicators": {
+          "maturity_score": 2,
+          "has_identity_config": true,
+          "has_policy_config": false
+        },
+        "file_count": 0,
+        "test_coverage": {
+          "has_tests": false,
+          "test_file_count": 0
+        },
+        "dependency_score": 3
+      },
+      "confidence": 0.7999999999999999
+    },
+    {
+      "module": "lukhas.branding",
+      "current_paths": [
+        "contracts"
+      ],
+      "contracts": [
+        "contracts/matrix_branding.json"
+      ],
+      "provisional_lane": "L0",
+      "lane_name": "Archive",
+      "characteristics": {
+        "has_contract": true,
+        "path_indicators": {
+          "in_core": false,
+          "in_accepted": false,
+          "in_candidate": false,
+          "in_experimental": false,
+          "in_archive": false,
+          "in_lukhas_root": false,
+          "nested_deep": false
+        },
+        "name_indicators": {
+          "has_core": false,
+          "has_experimental": false,
+          "has_test": false,
+          "has_deprecated": false,
+          "has_governance": false,
+          "has_identity": false,
+          "has_api": false,
+          "has_bridge": false
+        },
+        "contract_indicators": {
+          "maturity_score": 2,
+          "has_identity_config": true,
+          "has_policy_config": false
+        },
+        "file_count": 0,
+        "test_coverage": {
+          "has_tests": false,
+          "test_file_count": 0
+        },
+        "dependency_score": 0
+      },
+      "confidence": 0.7999999999999999
+    },
+    {
+      "module": "lukhas.bridge",
+      "current_paths": [
+        "contracts"
+      ],
+      "contracts": [
+        "contracts/matrix_bridge.json"
+      ],
+      "provisional_lane": "L0",
+      "lane_name": "Archive",
+      "characteristics": {
+        "has_contract": true,
+        "path_indicators": {
+          "in_core": false,
+          "in_accepted": false,
+          "in_candidate": false,
+          "in_experimental": false,
+          "in_archive": false,
+          "in_lukhas_root": false,
+          "nested_deep": false
+        },
+        "name_indicators": {
+          "has_core": false,
+          "has_experimental": false,
+          "has_test": false,
+          "has_deprecated": false,
+          "has_governance": false,
+          "has_identity": false,
+          "has_api": false,
+          "has_bridge": true
+        },
+        "contract_indicators": {
+          "maturity_score": 2,
+          "has_identity_config": true,
+          "has_policy_config": false
+        },
+        "file_count": 0,
+        "test_coverage": {
+          "has_tests": false,
+          "test_file_count": 0
+        },
+        "dependency_score": 2
+      },
+      "confidence": 0.7999999999999999
+    },
+    {
+      "module": "lukhas.bridge.llm_wrappers",
+      "current_paths": [
+        "contracts"
+      ],
+      "contracts": [
+        "contracts/matrix_bridge_llm_wrappers.json"
+      ],
+      "provisional_lane": "L0",
+      "lane_name": "Archive",
+      "characteristics": {
+        "has_contract": true,
+        "path_indicators": {
+          "in_core": false,
+          "in_accepted": false,
+          "in_candidate": false,
+          "in_experimental": false,
+          "in_archive": false,
+          "in_lukhas_root": false,
+          "nested_deep": false
+        },
+        "name_indicators": {
+          "has_core": false,
+          "has_experimental": false,
+          "has_test": false,
+          "has_deprecated": false,
+          "has_governance": false,
+          "has_identity": false,
+          "has_api": false,
+          "has_bridge": true
+        },
+        "contract_indicators": {
+          "maturity_score": 2,
+          "has_identity_config": true,
+          "has_policy_config": false
+        },
+        "file_count": 0,
+        "test_coverage": {
+          "has_tests": false,
+          "test_file_count": 0
+        },
+        "dependency_score": 2
+      },
+      "confidence": 0.7999999999999999
+    },
+    {
+      "module": "lukhas.consciousness",
+      "current_paths": [
+        "contracts"
+      ],
+      "contracts": [
+        "contracts/matrix_consciousness.json"
+      ],
+      "provisional_lane": "L0",
+      "lane_name": "Archive",
+      "characteristics": {
+        "has_contract": true,
+        "path_indicators": {
+          "in_core": false,
+          "in_accepted": false,
+          "in_candidate": false,
+          "in_experimental": false,
+          "in_archive": false,
+          "in_lukhas_root": false,
+          "nested_deep": false
+        },
+        "name_indicators": {
+          "has_core": false,
+          "has_experimental": false,
+          "has_test": false,
+          "has_deprecated": false,
+          "has_governance": false,
+          "has_identity": false,
+          "has_api": false,
+          "has_bridge": false
+        },
+        "contract_indicators": {
+          "maturity_score": 2,
+          "has_identity_config": true,
+          "has_policy_config": false
+        },
+        "file_count": 0,
+        "test_coverage": {
+          "has_tests": false,
+          "test_file_count": 0
+        },
+        "dependency_score": 2
+      },
+      "confidence": 0.7999999999999999
+    },
+    {
+      "module": "lukhas.constellation",
+      "current_paths": [
+        "contracts"
+      ],
+      "contracts": [
+        "contracts/matrix_constellation.json"
+      ],
+      "provisional_lane": "L0",
+      "lane_name": "Archive",
+      "characteristics": {
+        "has_contract": true,
+        "path_indicators": {
+          "in_core": false,
+          "in_accepted": false,
+          "in_candidate": false,
+          "in_experimental": false,
+          "in_archive": false,
+          "in_lukhas_root": false,
+          "nested_deep": false
+        },
+        "name_indicators": {
+          "has_core": false,
+          "has_experimental": false,
+          "has_test": false,
+          "has_deprecated": false,
+          "has_governance": false,
+          "has_identity": false,
+          "has_api": false,
+          "has_bridge": false
+        },
+        "contract_indicators": {
+          "maturity_score": 2,
+          "has_identity_config": true,
+          "has_policy_config": false
+        },
+        "file_count": 0,
+        "test_coverage": {
+          "has_tests": false,
+          "test_file_count": 0
+        },
+        "dependency_score": 0
+      },
+      "confidence": 0.7999999999999999
+    },
+    {
+      "module": "lukhas.constellation.triad",
+      "current_paths": [
+        "contracts"
+      ],
+      "contracts": [
+        "contracts/matrix_constellation_triad.json"
+      ],
+      "provisional_lane": "L0",
+      "lane_name": "Archive",
+      "characteristics": {
+        "has_contract": true,
+        "path_indicators": {
+          "in_core": false,
+          "in_accepted": false,
+          "in_candidate": false,
+          "in_experimental": false,
+          "in_archive": false,
+          "in_lukhas_root": false,
+          "nested_deep": false
+        },
+        "name_indicators": {
+          "has_core": false,
+          "has_experimental": false,
+          "has_test": false,
+          "has_deprecated": false,
+          "has_governance": false,
+          "has_identity": false,
+          "has_api": false,
+          "has_bridge": false
+        },
+        "contract_indicators": {
+          "maturity_score": 2,
+          "has_identity_config": true,
+          "has_policy_config": false
+        },
+        "file_count": 0,
+        "test_coverage": {
+          "has_tests": false,
+          "test_file_count": 0
+        },
+        "dependency_score": 0
+      },
+      "confidence": 0.7999999999999999
+    },
+    {
+      "module": "lukhas.core",
+      "current_paths": [
+        "contracts"
+      ],
+      "contracts": [
+        "contracts/matrix_core.json"
+      ],
+      "provisional_lane": "L0",
+      "lane_name": "Archive",
+      "characteristics": {
+        "has_contract": true,
+        "path_indicators": {
+          "in_core": false,
+          "in_accepted": false,
+          "in_candidate": false,
+          "in_experimental": false,
+          "in_archive": false,
+          "in_lukhas_root": false,
+          "nested_deep": false
+        },
+        "name_indicators": {
+          "has_core": true,
+          "has_experimental": false,
+          "has_test": false,
+          "has_deprecated": false,
+          "has_governance": false,
+          "has_identity": false,
+          "has_api": false,
+          "has_bridge": false
+        },
+        "contract_indicators": {
+          "maturity_score": 2,
+          "has_identity_config": true,
+          "has_policy_config": false
+        },
+        "file_count": 0,
+        "test_coverage": {
+          "has_tests": false,
+          "test_file_count": 0
+        },
+        "dependency_score": 3
+      },
+      "confidence": 0.7999999999999999
+    },
+    {
+      "module": "lukhas.core.bridge",
+      "current_paths": [
+        "contracts"
+      ],
+      "contracts": [
+        "contracts/matrix_core_bridge.json"
+      ],
+      "provisional_lane": "L0",
+      "lane_name": "Archive",
+      "characteristics": {
+        "has_contract": true,
+        "path_indicators": {
+          "in_core": false,
+          "in_accepted": false,
+          "in_candidate": false,
+          "in_experimental": false,
+          "in_archive": false,
+          "in_lukhas_root": false,
+          "nested_deep": false
+        },
+        "name_indicators": {
+          "has_core": true,
+          "has_experimental": false,
+          "has_test": false,
+          "has_deprecated": false,
+          "has_governance": false,
+          "has_identity": false,
+          "has_api": false,
+          "has_bridge": true
+        },
+        "contract_indicators": {
+          "maturity_score": 2,
+          "has_identity_config": true,
+          "has_policy_config": false
+        },
+        "file_count": 0,
+        "test_coverage": {
+          "has_tests": false,
+          "test_file_count": 0
+        },
+        "dependency_score": 5
+      },
+      "confidence": 0.7999999999999999
+    },
+    {
+      "module": "lukhas.core.colonies",
+      "current_paths": [
+        "contracts"
+      ],
+      "contracts": [
+        "contracts/matrix_core_colonies.json"
+      ],
+      "provisional_lane": "L0",
+      "lane_name": "Archive",
+      "characteristics": {
+        "has_contract": true,
+        "path_indicators": {
+          "in_core": false,
+          "in_accepted": false,
+          "in_candidate": false,
+          "in_experimental": false,
+          "in_archive": false,
+          "in_lukhas_root": false,
+          "nested_deep": false
+        },
+        "name_indicators": {
+          "has_core": true,
+          "has_experimental": false,
+          "has_test": false,
+          "has_deprecated": false,
+          "has_governance": false,
+          "has_identity": false,
+          "has_api": false,
+          "has_bridge": false
+        },
+        "contract_indicators": {
+          "maturity_score": 2,
+          "has_identity_config": true,
+          "has_policy_config": false
+        },
+        "file_count": 0,
+        "test_coverage": {
+          "has_tests": false,
+          "test_file_count": 0
+        },
+        "dependency_score": 3
+      },
+      "confidence": 0.7999999999999999
+    },
+    {
+      "module": "lukhas.core.common",
+      "current_paths": [
+        "contracts"
+      ],
+      "contracts": [
+        "contracts/matrix_core_common.json"
+      ],
+      "provisional_lane": "L0",
+      "lane_name": "Archive",
+      "characteristics": {
+        "has_contract": true,
+        "path_indicators": {
+          "in_core": false,
+          "in_accepted": false,
+          "in_candidate": false,
+          "in_experimental": false,
+          "in_archive": false,
+          "in_lukhas_root": false,
+          "nested_deep": false
+        },
+        "name_indicators": {
+          "has_core": true,
+          "has_experimental": false,
+          "has_test": false,
+          "has_deprecated": false,
+          "has_governance": false,
+          "has_identity": false,
+          "has_api": false,
+          "has_bridge": false
+        },
+        "contract_indicators": {
+          "maturity_score": 2,
+          "has_identity_config": true,
+          "has_policy_config": false
+        },
+        "file_count": 0,
+        "test_coverage": {
+          "has_tests": false,
+          "test_file_count": 0
+        },
+        "dependency_score": 3
+      },
+      "confidence": 0.7999999999999999
+    },
+    {
+      "module": "lukhas.core.filesystem",
+      "current_paths": [
+        "contracts"
+      ],
+      "contracts": [
+        "contracts/matrix_core_filesystem.json"
+      ],
+      "provisional_lane": "L0",
+      "lane_name": "Archive",
+      "characteristics": {
+        "has_contract": true,
+        "path_indicators": {
+          "in_core": false,
+          "in_accepted": false,
+          "in_candidate": false,
+          "in_experimental": false,
+          "in_archive": false,
+          "in_lukhas_root": false,
+          "nested_deep": false
+        },
+        "name_indicators": {
+          "has_core": true,
+          "has_experimental": false,
+          "has_test": false,
+          "has_deprecated": false,
+          "has_governance": false,
+          "has_identity": false,
+          "has_api": false,
+          "has_bridge": false
+        },
+        "contract_indicators": {
+          "maturity_score": 2,
+          "has_identity_config": true,
+          "has_policy_config": false
+        },
+        "file_count": 0,
+        "test_coverage": {
+          "has_tests": false,
+          "test_file_count": 0
+        },
+        "dependency_score": 3
+      },
+      "confidence": 0.7999999999999999
+    },
+    {
+      "module": "lukhas.core.matriz",
+      "current_paths": [
+        "contracts"
+      ],
+      "contracts": [
+        "contracts/matrix_core_matriz.json"
+      ],
+      "provisional_lane": "L0",
+      "lane_name": "Archive",
+      "characteristics": {
+        "has_contract": true,
+        "path_indicators": {
+          "in_core": false,
+          "in_accepted": false,
+          "in_candidate": false,
+          "in_experimental": false,
+          "in_archive": false,
+          "in_lukhas_root": false,
+          "nested_deep": false
+        },
+        "name_indicators": {
+          "has_core": true,
+          "has_experimental": false,
+          "has_test": false,
+          "has_deprecated": false,
+          "has_governance": false,
+          "has_identity": false,
+          "has_api": false,
+          "has_bridge": false
+        },
+        "contract_indicators": {
+          "maturity_score": 2,
+          "has_identity_config": true,
+          "has_policy_config": false
+        },
+        "file_count": 0,
+        "test_coverage": {
+          "has_tests": false,
+          "test_file_count": 0
+        },
+        "dependency_score": 5
+      },
+      "confidence": 0.7999999999999999
+    },
+    {
+      "module": "lukhas.core.policy",
+      "current_paths": [
+        "contracts"
+      ],
+      "contracts": [
+        "contracts/matrix_core_policy.json"
+      ],
+      "provisional_lane": "L0",
+      "lane_name": "Archive",
+      "characteristics": {
+        "has_contract": true,
+        "path_indicators": {
+          "in_core": false,
+          "in_accepted": false,
+          "in_candidate": false,
+          "in_experimental": false,
+          "in_archive": false,
+          "in_lukhas_root": false,
+          "nested_deep": false
+        },
+        "name_indicators": {
+          "has_core": true,
+          "has_experimental": false,
+          "has_test": false,
+          "has_deprecated": false,
+          "has_governance": false,
+          "has_identity": false,
+          "has_api": false,
+          "has_bridge": false
+        },
+        "contract_indicators": {
+          "maturity_score": 2,
+          "has_identity_config": true,
+          "has_policy_config": false
+        },
+        "file_count": 0,
+        "test_coverage": {
+          "has_tests": false,
+          "test_file_count": 0
+        },
+        "dependency_score": 3
+      },
+      "confidence": 0.7999999999999999
+    },
+    {
+      "module": "lukhas.core.registry",
+      "current_paths": [
+        "contracts"
+      ],
+      "contracts": [
+        "contracts/matrix_core_registry.json"
+      ],
+      "provisional_lane": "L0",
+      "lane_name": "Archive",
+      "characteristics": {
+        "has_contract": true,
+        "path_indicators": {
+          "in_core": false,
+          "in_accepted": false,
+          "in_candidate": false,
+          "in_experimental": false,
+          "in_archive": false,
+          "in_lukhas_root": false,
+          "nested_deep": false
+        },
+        "name_indicators": {
+          "has_core": true,
+          "has_experimental": false,
+          "has_test": false,
+          "has_deprecated": false,
+          "has_governance": false,
+          "has_identity": false,
+          "has_api": false,
+          "has_bridge": false
+        },
+        "contract_indicators": {
+          "maturity_score": 2,
+          "has_identity_config": true,
+          "has_policy_config": false
+        },
+        "file_count": 0,
+        "test_coverage": {
+          "has_tests": false,
+          "test_file_count": 0
+        },
+        "dependency_score": 3
+      },
+      "confidence": 0.7999999999999999
+    },
+    {
+      "module": "lukhas.core.reliability",
+      "current_paths": [
+        "contracts"
+      ],
+      "contracts": [
+        "contracts/matrix_core_reliability.json"
+      ],
+      "provisional_lane": "L0",
+      "lane_name": "Archive",
+      "characteristics": {
+        "has_contract": true,
+        "path_indicators": {
+          "in_core": false,
+          "in_accepted": false,
+          "in_candidate": false,
+          "in_experimental": false,
+          "in_archive": false,
+          "in_lukhas_root": false,
+          "nested_deep": false
+        },
+        "name_indicators": {
+          "has_core": true,
+          "has_experimental": false,
+          "has_test": false,
+          "has_deprecated": false,
+          "has_governance": false,
+          "has_identity": false,
+          "has_api": false,
+          "has_bridge": false
+        },
+        "contract_indicators": {
+          "maturity_score": 2,
+          "has_identity_config": true,
+          "has_policy_config": false
+        },
+        "file_count": 0,
+        "test_coverage": {
+          "has_tests": false,
+          "test_file_count": 0
+        },
+        "dependency_score": 3
+      },
+      "confidence": 0.7999999999999999
+    },
+    {
+      "module": "lukhas.core.symbolic",
+      "current_paths": [
+        "contracts"
+      ],
+      "contracts": [
+        "contracts/matrix_core_symbolic.json"
+      ],
+      "provisional_lane": "L0",
+      "lane_name": "Archive",
+      "characteristics": {
+        "has_contract": true,
+        "path_indicators": {
+          "in_core": false,
+          "in_accepted": false,
+          "in_candidate": false,
+          "in_experimental": false,
+          "in_archive": false,
+          "in_lukhas_root": false,
+          "nested_deep": false
+        },
+        "name_indicators": {
+          "has_core": true,
+          "has_experimental": false,
+          "has_test": false,
+          "has_deprecated": false,
+          "has_governance": false,
+          "has_identity": false,
+          "has_api": false,
+          "has_bridge": false
+        },
+        "contract_indicators": {
+          "maturity_score": 2,
+          "has_identity_config": true,
+          "has_policy_config": false
+        },
+        "file_count": 0,
+        "test_coverage": {
+          "has_tests": false,
+          "test_file_count": 0
+        },
+        "dependency_score": 3
+      },
+      "confidence": 0.7999999999999999
+    },
+    {
+      "module": "lukhas.core.symbolic.constraints",
+      "current_paths": [
+        "contracts"
+      ],
+      "contracts": [
+        "contracts/matrix_core_symbolic_constraints.json"
+      ],
+      "provisional_lane": "L0",
+      "lane_name": "Archive",
+      "characteristics": {
+        "has_contract": true,
+        "path_indicators": {
+          "in_core": false,
+          "in_accepted": false,
+          "in_candidate": false,
+          "in_experimental": false,
+          "in_archive": false,
+          "in_lukhas_root": false,
+          "nested_deep": false
+        },
+        "name_indicators": {
+          "has_core": true,
+          "has_experimental": false,
+          "has_test": false,
+          "has_deprecated": false,
+          "has_governance": false,
+          "has_identity": false,
+          "has_api": false,
+          "has_bridge": false
+        },
+        "contract_indicators": {
+          "maturity_score": 2,
+          "has_identity_config": true,
+          "has_policy_config": false
+        },
+        "file_count": 0,
+        "test_coverage": {
+          "has_tests": false,
+          "test_file_count": 0
+        },
+        "dependency_score": 3
+      },
+      "confidence": 0.7999999999999999
+    },
+    {
+      "module": "lukhas.core.symbolism",
+      "current_paths": [
+        "contracts"
+      ],
+      "contracts": [
+        "contracts/matrix_core_symbolism.json"
+      ],
+      "provisional_lane": "L0",
+      "lane_name": "Archive",
+      "characteristics": {
+        "has_contract": true,
+        "path_indicators": {
+          "in_core": false,
+          "in_accepted": false,
+          "in_candidate": false,
+          "in_experimental": false,
+          "in_archive": false,
+          "in_lukhas_root": false,
+          "nested_deep": false
+        },
+        "name_indicators": {
+          "has_core": true,
+          "has_experimental": false,
+          "has_test": false,
+          "has_deprecated": false,
+          "has_governance": false,
+          "has_identity": false,
+          "has_api": false,
+          "has_bridge": false
+        },
+        "contract_indicators": {
+          "maturity_score": 2,
+          "has_identity_config": true,
+          "has_policy_config": false
+        },
+        "file_count": 0,
+        "test_coverage": {
+          "has_tests": false,
+          "test_file_count": 0
+        },
+        "dependency_score": 3
+      },
+      "confidence": 0.7999999999999999
+    },
+    {
+      "module": "lukhas.deployment",
+      "current_paths": [
+        "contracts"
+      ],
+      "contracts": [
+        "contracts/matrix_deployment.json"
+      ],
+      "provisional_lane": "L0",
+      "lane_name": "Archive",
+      "characteristics": {
+        "has_contract": true,
+        "path_indicators": {
+          "in_core": false,
+          "in_accepted": false,
+          "in_candidate": false,
+          "in_experimental": false,
+          "in_archive": false,
+          "in_lukhas_root": false,
+          "nested_deep": false
+        },
+        "name_indicators": {
+          "has_core": false,
+          "has_experimental": false,
+          "has_test": false,
+          "has_deprecated": false,
+          "has_governance": false,
+          "has_identity": false,
+          "has_api": false,
+          "has_bridge": false
+        },
+        "contract_indicators": {
+          "maturity_score": 2,
+          "has_identity_config": true,
+          "has_policy_config": false
+        },
+        "file_count": 0,
+        "test_coverage": {
+          "has_tests": false,
+          "test_file_count": 0
+        },
+        "dependency_score": 0
+      },
+      "confidence": 0.7999999999999999
+    },
+    {
+      "module": "lukhas.emotion",
+      "current_paths": [
+        "contracts"
+      ],
+      "contracts": [
+        "contracts/matrix_emotion.json"
+      ],
+      "provisional_lane": "L0",
+      "lane_name": "Archive",
+      "characteristics": {
+        "has_contract": true,
+        "path_indicators": {
+          "in_core": false,
+          "in_accepted": false,
+          "in_candidate": false,
+          "in_experimental": false,
+          "in_archive": false,
+          "in_lukhas_root": false,
+          "nested_deep": false
+        },
+        "name_indicators": {
+          "has_core": false,
+          "has_experimental": false,
+          "has_test": false,
+          "has_deprecated": false,
+          "has_governance": false,
+          "has_identity": false,
+          "has_api": false,
+          "has_bridge": false
+        },
+        "contract_indicators": {
+          "maturity_score": 2,
+          "has_identity_config": true,
+          "has_policy_config": false
+        },
+        "file_count": 0,
+        "test_coverage": {
+          "has_tests": false,
+          "test_file_count": 0
+        },
+        "dependency_score": 0
+      },
+      "confidence": 0.7999999999999999
+    },
+    {
+      "module": "lukhas.governance",
+      "current_paths": [
+        "contracts"
+      ],
+      "contracts": [
+        "contracts/matrix_governance.json"
+      ],
+      "provisional_lane": "L0",
+      "lane_name": "Archive",
+      "characteristics": {
+        "has_contract": true,
+        "path_indicators": {
+          "in_core": false,
+          "in_accepted": false,
+          "in_candidate": false,
+          "in_experimental": false,
+          "in_archive": false,
+          "in_lukhas_root": false,
+          "nested_deep": false
+        },
+        "name_indicators": {
+          "has_core": false,
+          "has_experimental": false,
+          "has_test": false,
+          "has_deprecated": false,
+          "has_governance": true,
+          "has_identity": false,
+          "has_api": false,
+          "has_bridge": false
+        },
+        "contract_indicators": {
+          "maturity_score": 2,
+          "has_identity_config": true,
+          "has_policy_config": false
+        },
+        "file_count": 0,
+        "test_coverage": {
+          "has_tests": false,
+          "test_file_count": 0
+        },
+        "dependency_score": 3
+      },
+      "confidence": 0.7999999999999999
+    },
+    {
+      "module": "lukhas.governance.consent_ledger",
+      "current_paths": [
+        "contracts"
+      ],
+      "contracts": [
+        "contracts/matrix_governance_consent_ledger.json"
+      ],
+      "provisional_lane": "L0",
+      "lane_name": "Archive",
+      "characteristics": {
+        "has_contract": true,
+        "path_indicators": {
+          "in_core": false,
+          "in_accepted": false,
+          "in_candidate": false,
+          "in_experimental": false,
+          "in_archive": false,
+          "in_lukhas_root": false,
+          "nested_deep": false
+        },
+        "name_indicators": {
+          "has_core": false,
+          "has_experimental": false,
+          "has_test": false,
+          "has_deprecated": false,
+          "has_governance": true,
+          "has_identity": false,
+          "has_api": false,
+          "has_bridge": false
+        },
+        "contract_indicators": {
+          "maturity_score": 2,
+          "has_identity_config": true,
+          "has_policy_config": false
+        },
+        "file_count": 0,
+        "test_coverage": {
+          "has_tests": false,
+          "test_file_count": 0
+        },
+        "dependency_score": 3
+      },
+      "confidence": 0.7999999999999999
+    },
+    {
+      "module": "lukhas.governance.consent_ledger.providers",
+      "current_paths": [
+        "contracts"
+      ],
+      "contracts": [
+        "contracts/matrix_governance_consent_ledger_providers.json"
+      ],
+      "provisional_lane": "L0",
+      "lane_name": "Archive",
+      "characteristics": {
+        "has_contract": true,
+        "path_indicators": {
+          "in_core": false,
+          "in_accepted": false,
+          "in_candidate": false,
+          "in_experimental": false,
+          "in_archive": false,
+          "in_lukhas_root": false,
+          "nested_deep": false
+        },
+        "name_indicators": {
+          "has_core": false,
+          "has_experimental": false,
+          "has_test": false,
+          "has_deprecated": false,
+          "has_governance": true,
+          "has_identity": false,
+          "has_api": false,
+          "has_bridge": false
+        },
+        "contract_indicators": {
+          "maturity_score": 2,
+          "has_identity_config": true,
+          "has_policy_config": false
+        },
+        "file_count": 0,
+        "test_coverage": {
+          "has_tests": false,
+          "test_file_count": 0
+        },
+        "dependency_score": 3
+      },
+      "confidence": 0.7999999999999999
+    },
+    {
+      "module": "lukhas.governance.ethics",
+      "current_paths": [
+        "contracts"
+      ],
+      "contracts": [
+        "contracts/matrix_governance_ethics.json"
+      ],
+      "provisional_lane": "L0",
+      "lane_name": "Archive",
+      "characteristics": {
+        "has_contract": true,
+        "path_indicators": {
+          "in_core": false,
+          "in_accepted": false,
+          "in_candidate": false,
+          "in_experimental": false,
+          "in_archive": false,
+          "in_lukhas_root": false,
+          "nested_deep": false
+        },
+        "name_indicators": {
+          "has_core": false,
+          "has_experimental": false,
+          "has_test": false,
+          "has_deprecated": false,
+          "has_governance": true,
+          "has_identity": false,
+          "has_api": false,
+          "has_bridge": false
+        },
+        "contract_indicators": {
+          "maturity_score": 2,
+          "has_identity_config": true,
+          "has_policy_config": false
+        },
+        "file_count": 0,
+        "test_coverage": {
+          "has_tests": false,
+          "test_file_count": 0
+        },
+        "dependency_score": 3
+      },
+      "confidence": 0.7999999999999999
+    },
+    {
+      "module": "lukhas.governance.guardian",
+      "current_paths": [
+        "contracts"
+      ],
+      "contracts": [
+        "contracts/matrix_governance_guardian.json"
+      ],
+      "provisional_lane": "L0",
+      "lane_name": "Archive",
+      "characteristics": {
+        "has_contract": true,
+        "path_indicators": {
+          "in_core": false,
+          "in_accepted": false,
+          "in_candidate": false,
+          "in_experimental": false,
+          "in_archive": false,
+          "in_lukhas_root": false,
+          "nested_deep": false
+        },
+        "name_indicators": {
+          "has_core": false,
+          "has_experimental": false,
+          "has_test": false,
+          "has_deprecated": false,
+          "has_governance": true,
+          "has_identity": false,
+          "has_api": false,
+          "has_bridge": false
+        },
+        "contract_indicators": {
+          "maturity_score": 2,
+          "has_identity_config": true,
+          "has_policy_config": false
+        },
+        "file_count": 0,
+        "test_coverage": {
+          "has_tests": false,
+          "test_file_count": 0
+        },
+        "dependency_score": 3
+      },
+      "confidence": 0.7999999999999999
+    },
+    {
+      "module": "lukhas.governance.identity",
+      "current_paths": [
+        "contracts"
+      ],
+      "contracts": [
+        "contracts/matrix_governance_identity.json"
+      ],
+      "provisional_lane": "L0",
+      "lane_name": "Archive",
+      "characteristics": {
+        "has_contract": true,
+        "path_indicators": {
+          "in_core": false,
+          "in_accepted": false,
+          "in_candidate": false,
+          "in_experimental": false,
+          "in_archive": false,
+          "in_lukhas_root": false,
+          "nested_deep": false
+        },
+        "name_indicators": {
+          "has_core": false,
+          "has_experimental": false,
+          "has_test": false,
+          "has_deprecated": false,
+          "has_governance": true,
+          "has_identity": true,
+          "has_api": false,
+          "has_bridge": false
+        },
+        "contract_indicators": {
+          "maturity_score": 2,
+          "has_identity_config": true,
+          "has_policy_config": false
+        },
+        "file_count": 0,
+        "test_coverage": {
+          "has_tests": false,
+          "test_file_count": 0
+        },
+        "dependency_score": 3
+      },
+      "confidence": 0.7999999999999999
+    },
+    {
+      "module": "lukhas.governance.identity.auth_backend",
+      "current_paths": [
+        "contracts"
+      ],
+      "contracts": [
+        "contracts/matrix_governance_identity_auth_backend.json"
+      ],
+      "provisional_lane": "L0",
+      "lane_name": "Archive",
+      "characteristics": {
+        "has_contract": true,
+        "path_indicators": {
+          "in_core": false,
+          "in_accepted": false,
+          "in_candidate": false,
+          "in_experimental": false,
+          "in_archive": false,
+          "in_lukhas_root": false,
+          "nested_deep": false
+        },
+        "name_indicators": {
+          "has_core": false,
+          "has_experimental": false,
+          "has_test": false,
+          "has_deprecated": false,
+          "has_governance": true,
+          "has_identity": true,
+          "has_api": false,
+          "has_bridge": false
+        },
+        "contract_indicators": {
+          "maturity_score": 2,
+          "has_identity_config": true,
+          "has_policy_config": false
+        },
+        "file_count": 0,
+        "test_coverage": {
+          "has_tests": false,
+          "test_file_count": 0
+        },
+        "dependency_score": 3
+      },
+      "confidence": 0.7999999999999999
+    },
+    {
+      "module": "lukhas.governance.security",
+      "current_paths": [
+        "contracts"
+      ],
+      "contracts": [
+        "contracts/matrix_governance_security.json"
+      ],
+      "provisional_lane": "L0",
+      "lane_name": "Archive",
+      "characteristics": {
+        "has_contract": true,
+        "path_indicators": {
+          "in_core": false,
+          "in_accepted": false,
+          "in_candidate": false,
+          "in_experimental": false,
+          "in_archive": false,
+          "in_lukhas_root": false,
+          "nested_deep": false
+        },
+        "name_indicators": {
+          "has_core": false,
+          "has_experimental": false,
+          "has_test": false,
+          "has_deprecated": false,
+          "has_governance": true,
+          "has_identity": false,
+          "has_api": false,
+          "has_bridge": false
+        },
+        "contract_indicators": {
+          "maturity_score": 2,
+          "has_identity_config": true,
+          "has_policy_config": false
+        },
+        "file_count": 0,
+        "test_coverage": {
+          "has_tests": false,
+          "test_file_count": 0
+        },
+        "dependency_score": 3
+      },
+      "confidence": 0.7999999999999999
+    },
+    {
+      "module": "lukhas.identity",
+      "current_paths": [
+        "contracts"
+      ],
+      "contracts": [
+        "contracts/matrix_identity.json"
+      ],
+      "provisional_lane": "L0",
+      "lane_name": "Archive",
+      "characteristics": {
+        "has_contract": true,
+        "path_indicators": {
+          "in_core": false,
+          "in_accepted": false,
+          "in_candidate": false,
+          "in_experimental": false,
+          "in_archive": false,
+          "in_lukhas_root": false,
+          "nested_deep": false
+        },
+        "name_indicators": {
+          "has_core": false,
+          "has_experimental": false,
+          "has_test": false,
+          "has_deprecated": false,
+          "has_governance": false,
+          "has_identity": true,
+          "has_api": false,
+          "has_bridge": false
+        },
+        "contract_indicators": {
+          "maturity_score": 2,
+          "has_identity_config": true,
+          "has_policy_config": false
+        },
+        "file_count": 0,
+        "test_coverage": {
+          "has_tests": false,
+          "test_file_count": 0
+        },
+        "dependency_score": 3
+      },
+      "confidence": 0.7999999999999999
+    },
+    {
+      "module": "lukhas.identity.auth",
+      "current_paths": [
+        "contracts"
+      ],
+      "contracts": [
+        "contracts/matrix_identity_auth.json"
+      ],
+      "provisional_lane": "L0",
+      "lane_name": "Archive",
+      "characteristics": {
+        "has_contract": true,
+        "path_indicators": {
+          "in_core": false,
+          "in_accepted": false,
+          "in_candidate": false,
+          "in_experimental": false,
+          "in_archive": false,
+          "in_lukhas_root": false,
+          "nested_deep": false
+        },
+        "name_indicators": {
+          "has_core": false,
+          "has_experimental": false,
+          "has_test": false,
+          "has_deprecated": false,
+          "has_governance": false,
+          "has_identity": true,
+          "has_api": false,
+          "has_bridge": false
+        },
+        "contract_indicators": {
+          "maturity_score": 2,
+          "has_identity_config": true,
+          "has_policy_config": false
+        },
+        "file_count": 0,
+        "test_coverage": {
+          "has_tests": false,
+          "test_file_count": 0
+        },
+        "dependency_score": 3
+      },
+      "confidence": 0.7999999999999999
+    },
+    {
+      "module": "lukhas.identity.facades",
+      "current_paths": [
+        "contracts"
+      ],
+      "contracts": [
+        "contracts/matrix_identity_facades.json"
+      ],
+      "provisional_lane": "L0",
+      "lane_name": "Archive",
+      "characteristics": {
+        "has_contract": true,
+        "path_indicators": {
+          "in_core": false,
+          "in_accepted": false,
+          "in_candidate": false,
+          "in_experimental": false,
+          "in_archive": false,
+          "in_lukhas_root": false,
+          "nested_deep": false
+        },
+        "name_indicators": {
+          "has_core": false,
+          "has_experimental": false,
+          "has_test": false,
+          "has_deprecated": false,
+          "has_governance": false,
+          "has_identity": true,
+          "has_api": false,
+          "has_bridge": false
+        },
+        "contract_indicators": {
+          "maturity_score": 2,
+          "has_identity_config": true,
+          "has_policy_config": false
+        },
+        "file_count": 0,
+        "test_coverage": {
+          "has_tests": false,
+          "test_file_count": 0
+        },
+        "dependency_score": 3
+      },
+      "confidence": 0.7999999999999999
+    },
+    {
+      "module": "lukhas.identity.oidc",
+      "current_paths": [
+        "contracts"
+      ],
+      "contracts": [
+        "contracts/matrix_identity_oidc.json"
+      ],
+      "provisional_lane": "L0",
+      "lane_name": "Archive",
+      "characteristics": {
+        "has_contract": true,
+        "path_indicators": {
+          "in_core": false,
+          "in_accepted": false,
+          "in_candidate": false,
+          "in_experimental": false,
+          "in_archive": false,
+          "in_lukhas_root": false,
+          "nested_deep": false
+        },
+        "name_indicators": {
+          "has_core": false,
+          "has_experimental": false,
+          "has_test": false,
+          "has_deprecated": false,
+          "has_governance": false,
+          "has_identity": true,
+          "has_api": false,
+          "has_bridge": false
+        },
+        "contract_indicators": {
+          "maturity_score": 2,
+          "has_identity_config": true,
+          "has_policy_config": false
+        },
+        "file_count": 0,
+        "test_coverage": {
+          "has_tests": false,
+          "test_file_count": 0
+        },
+        "dependency_score": 3
+      },
+      "confidence": 0.7999999999999999
+    },
+    {
+      "module": "lukhas.identity.passkey",
+      "current_paths": [
+        "contracts"
+      ],
+      "contracts": [
+        "contracts/matrix_identity_passkey.json"
+      ],
+      "provisional_lane": "L0",
+      "lane_name": "Archive",
+      "characteristics": {
+        "has_contract": true,
+        "path_indicators": {
+          "in_core": false,
+          "in_accepted": false,
+          "in_candidate": false,
+          "in_experimental": false,
+          "in_archive": false,
+          "in_lukhas_root": false,
+          "nested_deep": false
+        },
+        "name_indicators": {
+          "has_core": false,
+          "has_experimental": false,
+          "has_test": false,
+          "has_deprecated": false,
+          "has_governance": false,
+          "has_identity": true,
+          "has_api": false,
+          "has_bridge": false
+        },
+        "contract_indicators": {
+          "maturity_score": 2,
+          "has_identity_config": true,
+          "has_policy_config": false
+        },
+        "file_count": 0,
+        "test_coverage": {
+          "has_tests": false,
+          "test_file_count": 0
+        },
+        "dependency_score": 3
+      },
+      "confidence": 0.7999999999999999
+    },
+    {
+      "module": "lukhas.identity.passkey.providers",
+      "current_paths": [
+        "contracts"
+      ],
+      "contracts": [
+        "contracts/matrix_identity_passkey_providers.json"
+      ],
+      "provisional_lane": "L0",
+      "lane_name": "Archive",
+      "characteristics": {
+        "has_contract": true,
+        "path_indicators": {
+          "in_core": false,
+          "in_accepted": false,
+          "in_candidate": false,
+          "in_experimental": false,
+          "in_archive": false,
+          "in_lukhas_root": false,
+          "nested_deep": false
+        },
+        "name_indicators": {
+          "has_core": false,
+          "has_experimental": false,
+          "has_test": false,
+          "has_deprecated": false,
+          "has_governance": false,
+          "has_identity": true,
+          "has_api": false,
+          "has_bridge": false
+        },
+        "contract_indicators": {
+          "maturity_score": 2,
+          "has_identity_config": true,
+          "has_policy_config": false
+        },
+        "file_count": 0,
+        "test_coverage": {
+          "has_tests": false,
+          "test_file_count": 0
+        },
+        "dependency_score": 3
+      },
+      "confidence": 0.7999999999999999
+    },
+    {
+      "module": "lukhas.identity.qrg",
+      "current_paths": [
+        "contracts"
+      ],
+      "contracts": [
+        "contracts/matrix_identity_qrg.json"
+      ],
+      "provisional_lane": "L0",
+      "lane_name": "Archive",
+      "characteristics": {
+        "has_contract": true,
+        "path_indicators": {
+          "in_core": false,
+          "in_accepted": false,
+          "in_candidate": false,
+          "in_experimental": false,
+          "in_archive": false,
+          "in_lukhas_root": false,
+          "nested_deep": false
+        },
+        "name_indicators": {
+          "has_core": false,
+          "has_experimental": false,
+          "has_test": false,
+          "has_deprecated": false,
+          "has_governance": false,
+          "has_identity": true,
+          "has_api": false,
+          "has_bridge": false
+        },
+        "contract_indicators": {
+          "maturity_score": 2,
+          "has_identity_config": true,
+          "has_policy_config": false
+        },
+        "file_count": 0,
+        "test_coverage": {
+          "has_tests": false,
+          "test_file_count": 0
+        },
+        "dependency_score": 3
+      },
+      "confidence": 0.7999999999999999
+    },
+    {
+      "module": "lukhas.identity.services",
+      "current_paths": [
+        "contracts"
+      ],
+      "contracts": [
+        "contracts/matrix_identity_services.json"
+      ],
+      "provisional_lane": "L0",
+      "lane_name": "Archive",
+      "characteristics": {
+        "has_contract": true,
+        "path_indicators": {
+          "in_core": false,
+          "in_accepted": false,
+          "in_candidate": false,
+          "in_experimental": false,
+          "in_archive": false,
+          "in_lukhas_root": false,
+          "nested_deep": false
+        },
+        "name_indicators": {
+          "has_core": false,
+          "has_experimental": false,
+          "has_test": false,
+          "has_deprecated": false,
+          "has_governance": false,
+          "has_identity": true,
+          "has_api": false,
+          "has_bridge": false
+        },
+        "contract_indicators": {
+          "maturity_score": 2,
+          "has_identity_config": true,
+          "has_policy_config": false
+        },
+        "file_count": 0,
+        "test_coverage": {
+          "has_tests": false,
+          "test_file_count": 0
+        },
+        "dependency_score": 3
+      },
+      "confidence": 0.7999999999999999
+    },
+    {
+      "module": "lukhas.identity.wallet",
+      "current_paths": [
+        "contracts"
+      ],
+      "contracts": [
+        "contracts/matrix_identity_wallet.json"
+      ],
+      "provisional_lane": "L0",
+      "lane_name": "Archive",
+      "characteristics": {
+        "has_contract": true,
+        "path_indicators": {
+          "in_core": false,
+          "in_accepted": false,
+          "in_candidate": false,
+          "in_experimental": false,
+          "in_archive": false,
+          "in_lukhas_root": false,
+          "nested_deep": false
+        },
+        "name_indicators": {
+          "has_core": false,
+          "has_experimental": false,
+          "has_test": false,
+          "has_deprecated": false,
+          "has_governance": false,
+          "has_identity": true,
+          "has_api": false,
+          "has_bridge": false
+        },
+        "contract_indicators": {
+          "maturity_score": 2,
+          "has_identity_config": true,
+          "has_policy_config": false
+        },
+        "file_count": 0,
+        "test_coverage": {
+          "has_tests": false,
+          "test_file_count": 0
+        },
+        "dependency_score": 3
+      },
+      "confidence": 0.7999999999999999
+    },
+    {
+      "module": "lukhas.ledger",
+      "current_paths": [
+        "contracts"
+      ],
+      "contracts": [
+        "contracts/matrix_ledger.json"
+      ],
+      "provisional_lane": "L0",
+      "lane_name": "Archive",
+      "characteristics": {
+        "has_contract": true,
+        "path_indicators": {
+          "in_core": false,
+          "in_accepted": false,
+          "in_candidate": false,
+          "in_experimental": false,
+          "in_archive": false,
+          "in_lukhas_root": false,
+          "nested_deep": false
+        },
+        "name_indicators": {
+          "has_core": false,
+          "has_experimental": false,
+          "has_test": false,
+          "has_deprecated": false,
+          "has_governance": false,
+          "has_identity": false,
+          "has_api": false,
+          "has_bridge": false
+        },
+        "contract_indicators": {
+          "maturity_score": 2,
+          "has_identity_config": true,
+          "has_policy_config": false
+        },
+        "file_count": 0,
+        "test_coverage": {
+          "has_tests": false,
+          "test_file_count": 0
+        },
+        "dependency_score": 0
+      },
+      "confidence": 0.7999999999999999
+    },
+    {
+      "module": "lukhas.matriz",
+      "current_paths": [
+        "contracts"
+      ],
+      "contracts": [
+        "contracts/matrix_matriz.json"
+      ],
+      "provisional_lane": "L0",
+      "lane_name": "Archive",
+      "characteristics": {
+        "has_contract": true,
+        "path_indicators": {
+          "in_core": false,
+          "in_accepted": false,
+          "in_candidate": false,
+          "in_experimental": false,
+          "in_archive": false,
+          "in_lukhas_root": false,
+          "nested_deep": false
+        },
+        "name_indicators": {
+          "has_core": false,
+          "has_experimental": false,
+          "has_test": false,
+          "has_deprecated": false,
+          "has_governance": false,
+          "has_identity": false,
+          "has_api": false,
+          "has_bridge": false
+        },
+        "contract_indicators": {
+          "maturity_score": 2,
+          "has_identity_config": true,
+          "has_policy_config": false
+        },
+        "file_count": 0,
+        "test_coverage": {
+          "has_tests": false,
+          "test_file_count": 0
+        },
+        "dependency_score": 2
+      },
+      "confidence": 0.7999999999999999
+    },
+    {
+      "module": "lukhas.matriz.runtime",
+      "current_paths": [
+        "contracts"
+      ],
+      "contracts": [
+        "contracts/matrix_matriz_runtime.json"
+      ],
+      "provisional_lane": "L0",
+      "lane_name": "Archive",
+      "characteristics": {
+        "has_contract": true,
+        "path_indicators": {
+          "in_core": false,
+          "in_accepted": false,
+          "in_candidate": false,
+          "in_experimental": false,
+          "in_archive": false,
+          "in_lukhas_root": false,
+          "nested_deep": false
+        },
+        "name_indicators": {
+          "has_core": false,
+          "has_experimental": false,
+          "has_test": false,
+          "has_deprecated": false,
+          "has_governance": false,
+          "has_identity": false,
+          "has_api": false,
+          "has_bridge": false
+        },
+        "contract_indicators": {
+          "maturity_score": 2,
+          "has_identity_config": true,
+          "has_policy_config": false
+        },
+        "file_count": 0,
+        "test_coverage": {
+          "has_tests": false,
+          "test_file_count": 0
+        },
+        "dependency_score": 2
+      },
+      "confidence": 0.7999999999999999
+    },
+    {
+      "module": "lukhas.memory",
+      "current_paths": [
+        "contracts"
+      ],
+      "contracts": [
+        "contracts/matrix_memory.json"
+      ],
+      "provisional_lane": "L0",
+      "lane_name": "Archive",
+      "characteristics": {
+        "has_contract": true,
+        "path_indicators": {
+          "in_core": false,
+          "in_accepted": false,
+          "in_candidate": false,
+          "in_experimental": false,
+          "in_archive": false,
+          "in_lukhas_root": false,
+          "nested_deep": false
+        },
+        "name_indicators": {
+          "has_core": false,
+          "has_experimental": false,
+          "has_test": false,
+          "has_deprecated": false,
+          "has_governance": false,
+          "has_identity": false,
+          "has_api": false,
+          "has_bridge": false
+        },
+        "contract_indicators": {
+          "maturity_score": 2,
+          "has_identity_config": true,
+          "has_policy_config": false
+        },
+        "file_count": 0,
+        "test_coverage": {
+          "has_tests": false,
+          "test_file_count": 0
+        },
+        "dependency_score": 2
+      },
+      "confidence": 0.7999999999999999
+    },
+    {
+      "module": "lukhas.memory.backends",
+      "current_paths": [
+        "contracts"
+      ],
+      "contracts": [
+        "contracts/matrix_memory_backends.json"
+      ],
+      "provisional_lane": "L0",
+      "lane_name": "Archive",
+      "characteristics": {
+        "has_contract": true,
+        "path_indicators": {
+          "in_core": false,
+          "in_accepted": false,
+          "in_candidate": false,
+          "in_experimental": false,
+          "in_archive": false,
+          "in_lukhas_root": false,
+          "nested_deep": false
+        },
+        "name_indicators": {
+          "has_core": false,
+          "has_experimental": false,
+          "has_test": false,
+          "has_deprecated": false,
+          "has_governance": false,
+          "has_identity": false,
+          "has_api": false,
+          "has_bridge": false
+        },
+        "contract_indicators": {
+          "maturity_score": 2,
+          "has_identity_config": true,
+          "has_policy_config": false
+        },
+        "file_count": 0,
+        "test_coverage": {
+          "has_tests": false,
+          "test_file_count": 0
+        },
+        "dependency_score": 2
+      },
+      "confidence": 0.7999999999999999
+    },
+    {
+      "module": "lukhas.memory.emotional",
+      "current_paths": [
+        "contracts"
+      ],
+      "contracts": [
+        "contracts/matrix_memory_emotional.json"
+      ],
+      "provisional_lane": "L0",
+      "lane_name": "Archive",
+      "characteristics": {
+        "has_contract": true,
+        "path_indicators": {
+          "in_core": false,
+          "in_accepted": false,
+          "in_candidate": false,
+          "in_experimental": false,
+          "in_archive": false,
+          "in_lukhas_root": false,
+          "nested_deep": false
+        },
+        "name_indicators": {
+          "has_core": false,
+          "has_experimental": false,
+          "has_test": false,
+          "has_deprecated": false,
+          "has_governance": false,
+          "has_identity": false,
+          "has_api": false,
+          "has_bridge": false
+        },
+        "contract_indicators": {
+          "maturity_score": 2,
+          "has_identity_config": true,
+          "has_policy_config": false
+        },
+        "file_count": 0,
+        "test_coverage": {
+          "has_tests": false,
+          "test_file_count": 0
+        },
+        "dependency_score": 2
+      },
+      "confidence": 0.7999999999999999
+    },
+    {
+      "module": "lukhas.observability",
+      "current_paths": [
+        "contracts"
+      ],
+      "contracts": [
+        "contracts/matrix_observability.json"
+      ],
+      "provisional_lane": "L0",
+      "lane_name": "Archive",
+      "characteristics": {
+        "has_contract": true,
+        "path_indicators": {
+          "in_core": false,
+          "in_accepted": false,
+          "in_candidate": false,
+          "in_experimental": false,
+          "in_archive": false,
+          "in_lukhas_root": false,
+          "nested_deep": false
+        },
+        "name_indicators": {
+          "has_core": false,
+          "has_experimental": false,
+          "has_test": false,
+          "has_deprecated": false,
+          "has_governance": false,
+          "has_identity": false,
+          "has_api": false,
+          "has_bridge": false
+        },
+        "contract_indicators": {
+          "maturity_score": 2,
+          "has_identity_config": true,
+          "has_policy_config": false
+        },
+        "file_count": 0,
+        "test_coverage": {
+          "has_tests": false,
+          "test_file_count": 0
+        },
+        "dependency_score": 0
+      },
+      "confidence": 0.7999999999999999
+    },
+    {
+      "module": "lukhas.orchestration",
+      "current_paths": [
+        "contracts"
+      ],
+      "contracts": [
+        "contracts/matrix_orchestration.json"
+      ],
+      "provisional_lane": "L0",
+      "lane_name": "Archive",
+      "characteristics": {
+        "has_contract": true,
+        "path_indicators": {
+          "in_core": false,
+          "in_accepted": false,
+          "in_candidate": false,
+          "in_experimental": false,
+          "in_archive": false,
+          "in_lukhas_root": false,
+          "nested_deep": false
+        },
+        "name_indicators": {
+          "has_core": false,
+          "has_experimental": false,
+          "has_test": false,
+          "has_deprecated": false,
+          "has_governance": false,
+          "has_identity": false,
+          "has_api": false,
+          "has_bridge": false
+        },
+        "contract_indicators": {
+          "maturity_score": 2,
+          "has_identity_config": true,
+          "has_policy_config": false
+        },
+        "file_count": 0,
+        "test_coverage": {
+          "has_tests": false,
+          "test_file_count": 0
+        },
+        "dependency_score": 2
+      },
+      "confidence": 0.7999999999999999
+    },
+    {
+      "module": "lukhas.orchestration.context",
+      "current_paths": [
+        "contracts"
+      ],
+      "contracts": [
+        "contracts/matrix_orchestration_context.json"
+      ],
+      "provisional_lane": "L0",
+      "lane_name": "Archive",
+      "characteristics": {
+        "has_contract": true,
+        "path_indicators": {
+          "in_core": false,
+          "in_accepted": false,
+          "in_candidate": false,
+          "in_experimental": false,
+          "in_archive": false,
+          "in_lukhas_root": false,
+          "nested_deep": false
+        },
+        "name_indicators": {
+          "has_core": false,
+          "has_experimental": false,
+          "has_test": false,
+          "has_deprecated": false,
+          "has_governance": false,
+          "has_identity": false,
+          "has_api": false,
+          "has_bridge": false
+        },
+        "contract_indicators": {
+          "maturity_score": 2,
+          "has_identity_config": true,
+          "has_policy_config": false
+        },
+        "file_count": 0,
+        "test_coverage": {
+          "has_tests": false,
+          "test_file_count": 0
+        },
+        "dependency_score": 2
+      },
+      "confidence": 0.7999999999999999
+    },
+    {
+      "module": "lukhas.orchestration.providers",
+      "current_paths": [
+        "contracts"
+      ],
+      "contracts": [
+        "contracts/matrix_orchestration_providers.json"
+      ],
+      "provisional_lane": "L0",
+      "lane_name": "Archive",
+      "characteristics": {
+        "has_contract": true,
+        "path_indicators": {
+          "in_core": false,
+          "in_accepted": false,
+          "in_candidate": false,
+          "in_experimental": false,
+          "in_archive": false,
+          "in_lukhas_root": false,
+          "nested_deep": false
+        },
+        "name_indicators": {
+          "has_core": false,
+          "has_experimental": false,
+          "has_test": false,
+          "has_deprecated": false,
+          "has_governance": false,
+          "has_identity": false,
+          "has_api": false,
+          "has_bridge": false
+        },
+        "contract_indicators": {
+          "maturity_score": 2,
+          "has_identity_config": true,
+          "has_policy_config": false
+        },
+        "file_count": 0,
+        "test_coverage": {
+          "has_tests": false,
+          "test_file_count": 0
+        },
+        "dependency_score": 2
+      },
+      "confidence": 0.7999999999999999
+    },
+    {
+      "module": "lukhas.qi",
+      "current_paths": [
+        "contracts"
+      ],
+      "contracts": [
+        "contracts/matrix_qi.json"
+      ],
+      "provisional_lane": "L0",
+      "lane_name": "Archive",
+      "characteristics": {
+        "has_contract": true,
+        "path_indicators": {
+          "in_core": false,
+          "in_accepted": false,
+          "in_candidate": false,
+          "in_experimental": false,
+          "in_archive": false,
+          "in_lukhas_root": false,
+          "nested_deep": false
+        },
+        "name_indicators": {
+          "has_core": false,
+          "has_experimental": false,
+          "has_test": false,
+          "has_deprecated": false,
+          "has_governance": false,
+          "has_identity": false,
+          "has_api": false,
+          "has_bridge": false
+        },
+        "contract_indicators": {
+          "maturity_score": 2,
+          "has_identity_config": true,
+          "has_policy_config": false
+        },
+        "file_count": 0,
+        "test_coverage": {
+          "has_tests": false,
+          "test_file_count": 0
+        },
+        "dependency_score": 0
+      },
+      "confidence": 0.7999999999999999
+    },
+    {
+      "module": "lukhas.rl",
+      "current_paths": [
+        "contracts"
+      ],
+      "contracts": [
+        "contracts/matrix_rl.json"
+      ],
+      "provisional_lane": "L0",
+      "lane_name": "Archive",
+      "characteristics": {
+        "has_contract": true,
+        "path_indicators": {
+          "in_core": false,
+          "in_accepted": false,
+          "in_candidate": false,
+          "in_experimental": false,
+          "in_archive": false,
+          "in_lukhas_root": false,
+          "nested_deep": false
+        },
+        "name_indicators": {
+          "has_core": false,
+          "has_experimental": false,
+          "has_test": false,
+          "has_deprecated": false,
+          "has_governance": false,
+          "has_identity": false,
+          "has_api": false,
+          "has_bridge": false
+        },
+        "contract_indicators": {
+          "maturity_score": 2,
+          "has_identity_config": true,
+          "has_policy_config": false
+        },
+        "file_count": 0,
+        "test_coverage": {
+          "has_tests": false,
+          "test_file_count": 0
+        },
+        "dependency_score": 0
+      },
+      "confidence": 0.7999999999999999
+    },
+    {
+      "module": "lukhas.rl.coordination",
+      "current_paths": [
+        "contracts"
+      ],
+      "contracts": [
+        "contracts/matrix_rl_coordination.json"
+      ],
+      "provisional_lane": "L0",
+      "lane_name": "Archive",
+      "characteristics": {
+        "has_contract": true,
+        "path_indicators": {
+          "in_core": false,
+          "in_accepted": false,
+          "in_candidate": false,
+          "in_experimental": false,
+          "in_archive": false,
+          "in_lukhas_root": false,
+          "nested_deep": false
+        },
+        "name_indicators": {
+          "has_core": false,
+          "has_experimental": false,
+          "has_test": false,
+          "has_deprecated": false,
+          "has_governance": false,
+          "has_identity": false,
+          "has_api": false,
+          "has_bridge": false
+        },
+        "contract_indicators": {
+          "maturity_score": 2,
+          "has_identity_config": true,
+          "has_policy_config": false
+        },
+        "file_count": 0,
+        "test_coverage": {
+          "has_tests": false,
+          "test_file_count": 0
+        },
+        "dependency_score": 0
+      },
+      "confidence": 0.7999999999999999
+    },
+    {
+      "module": "lukhas.rl.engine",
+      "current_paths": [
+        "contracts"
+      ],
+      "contracts": [
+        "contracts/matrix_rl_engine.json"
+      ],
+      "provisional_lane": "L0",
+      "lane_name": "Archive",
+      "characteristics": {
+        "has_contract": true,
+        "path_indicators": {
+          "in_core": false,
+          "in_accepted": false,
+          "in_candidate": false,
+          "in_experimental": false,
+          "in_archive": false,
+          "in_lukhas_root": false,
+          "nested_deep": false
+        },
+        "name_indicators": {
+          "has_core": false,
+          "has_experimental": false,
+          "has_test": false,
+          "has_deprecated": false,
+          "has_governance": false,
+          "has_identity": false,
+          "has_api": false,
+          "has_bridge": false
+        },
+        "contract_indicators": {
+          "maturity_score": 2,
+          "has_identity_config": true,
+          "has_policy_config": false
+        },
+        "file_count": 0,
+        "test_coverage": {
+          "has_tests": false,
+          "test_file_count": 0
+        },
+        "dependency_score": 0
+      },
+      "confidence": 0.7999999999999999
+    },
+    {
+      "module": "lukhas.rl.environments",
+      "current_paths": [
+        "contracts"
+      ],
+      "contracts": [
+        "contracts/matrix_rl_environments.json"
+      ],
+      "provisional_lane": "L0",
+      "lane_name": "Archive",
+      "characteristics": {
+        "has_contract": true,
+        "path_indicators": {
+          "in_core": false,
+          "in_accepted": false,
+          "in_candidate": false,
+          "in_experimental": false,
+          "in_archive": false,
+          "in_lukhas_root": false,
+          "nested_deep": false
+        },
+        "name_indicators": {
+          "has_core": false,
+          "has_experimental": false,
+          "has_test": false,
+          "has_deprecated": false,
+          "has_governance": false,
+          "has_identity": false,
+          "has_api": false,
+          "has_bridge": false
+        },
+        "contract_indicators": {
+          "maturity_score": 2,
+          "has_identity_config": true,
+          "has_policy_config": false
+        },
+        "file_count": 0,
+        "test_coverage": {
+          "has_tests": false,
+          "test_file_count": 0
+        },
+        "dependency_score": 0
+      },
+      "confidence": 0.7999999999999999
+    },
+    {
+      "module": "lukhas.rl.experience",
+      "current_paths": [
+        "contracts"
+      ],
+      "contracts": [
+        "contracts/matrix_rl_experience.json"
+      ],
+      "provisional_lane": "L0",
+      "lane_name": "Archive",
+      "characteristics": {
+        "has_contract": true,
+        "path_indicators": {
+          "in_core": false,
+          "in_accepted": false,
+          "in_candidate": false,
+          "in_experimental": false,
+          "in_archive": false,
+          "in_lukhas_root": false,
+          "nested_deep": false
+        },
+        "name_indicators": {
+          "has_core": false,
+          "has_experimental": true,
+          "has_test": false,
+          "has_deprecated": false,
+          "has_governance": false,
+          "has_identity": false,
+          "has_api": false,
+          "has_bridge": false
+        },
+        "contract_indicators": {
+          "maturity_score": 2,
+          "has_identity_config": true,
+          "has_policy_config": false
+        },
+        "file_count": 0,
+        "test_coverage": {
+          "has_tests": false,
+          "test_file_count": 0
+        },
+        "dependency_score": 0
+      },
+      "confidence": 0.7999999999999999
+    },
+    {
+      "module": "lukhas.root",
+      "current_paths": [
+        "contracts"
+      ],
+      "contracts": [
+        "contracts/matrix_root.json"
+      ],
+      "provisional_lane": "L0",
+      "lane_name": "Archive",
+      "characteristics": {
+        "has_contract": true,
+        "path_indicators": {
+          "in_core": false,
+          "in_accepted": false,
+          "in_candidate": false,
+          "in_experimental": false,
+          "in_archive": false,
+          "in_lukhas_root": false,
+          "nested_deep": false
+        },
+        "name_indicators": {
+          "has_core": false,
+          "has_experimental": false,
+          "has_test": false,
+          "has_deprecated": false,
+          "has_governance": false,
+          "has_identity": false,
+          "has_api": false,
+          "has_bridge": false
+        },
+        "contract_indicators": {
+          "maturity_score": 2,
+          "has_identity_config": true,
+          "has_policy_config": false
+        },
+        "file_count": 0,
+        "test_coverage": {
+          "has_tests": false,
+          "test_file_count": 0
+        },
+        "dependency_score": 0
+      },
+      "confidence": 0.7999999999999999
+    },
+    {
+      "module": "lukhas.security",
+      "current_paths": [
+        "contracts"
+      ],
+      "contracts": [
+        "contracts/matrix_security.json"
+      ],
+      "provisional_lane": "L0",
+      "lane_name": "Archive",
+      "characteristics": {
+        "has_contract": true,
+        "path_indicators": {
+          "in_core": false,
+          "in_accepted": false,
+          "in_candidate": false,
+          "in_experimental": false,
+          "in_archive": false,
+          "in_lukhas_root": false,
+          "nested_deep": false
+        },
+        "name_indicators": {
+          "has_core": false,
+          "has_experimental": false,
+          "has_test": false,
+          "has_deprecated": false,
+          "has_governance": false,
+          "has_identity": false,
+          "has_api": false,
+          "has_bridge": false
+        },
+        "contract_indicators": {
+          "maturity_score": 2,
+          "has_identity_config": true,
+          "has_policy_config": false
+        },
+        "file_count": 0,
+        "test_coverage": {
+          "has_tests": false,
+          "test_file_count": 0
+        },
+        "dependency_score": 0
+      },
+      "confidence": 0.7999999999999999
+    },
+    {
+      "module": "lukhas.tools",
+      "current_paths": [
+        "contracts"
+      ],
+      "contracts": [
+        "contracts/matrix_tools.json"
+      ],
+      "provisional_lane": "L0",
+      "lane_name": "Archive",
+      "characteristics": {
+        "has_contract": true,
+        "path_indicators": {
+          "in_core": false,
+          "in_accepted": false,
+          "in_candidate": false,
+          "in_experimental": false,
+          "in_archive": false,
+          "in_lukhas_root": false,
+          "nested_deep": false
+        },
+        "name_indicators": {
+          "has_core": false,
+          "has_experimental": false,
+          "has_test": false,
+          "has_deprecated": false,
+          "has_governance": false,
+          "has_identity": false,
+          "has_api": false,
+          "has_bridge": false
+        },
+        "contract_indicators": {
+          "maturity_score": 2,
+          "has_identity_config": true,
+          "has_policy_config": false
+        },
+        "file_count": 0,
+        "test_coverage": {
+          "has_tests": false,
+          "test_file_count": 0
+        },
+        "dependency_score": 0
+      },
+      "confidence": 0.7999999999999999
+    },
+    {
+      "module": "lukhas.trace",
+      "current_paths": [
+        "contracts"
+      ],
+      "contracts": [
+        "contracts/matrix_trace.json"
+      ],
+      "provisional_lane": "L0",
+      "lane_name": "Archive",
+      "characteristics": {
+        "has_contract": true,
+        "path_indicators": {
+          "in_core": false,
+          "in_accepted": false,
+          "in_candidate": false,
+          "in_experimental": false,
+          "in_archive": false,
+          "in_lukhas_root": false,
+          "nested_deep": false
+        },
+        "name_indicators": {
+          "has_core": false,
+          "has_experimental": false,
+          "has_test": false,
+          "has_deprecated": false,
+          "has_governance": false,
+          "has_identity": false,
+          "has_api": false,
+          "has_bridge": false
+        },
+        "contract_indicators": {
+          "maturity_score": 2,
+          "has_identity_config": true,
+          "has_policy_config": false
+        },
+        "file_count": 0,
+        "test_coverage": {
+          "has_tests": false,
+          "test_file_count": 0
+        },
+        "dependency_score": 0
+      },
+      "confidence": 0.7999999999999999
+    },
+    {
+      "module": "lukhas.trinity",
+      "current_paths": [
+        "contracts"
+      ],
+      "contracts": [
+        "contracts/matrix_trinity.json"
+      ],
+      "provisional_lane": "L0",
+      "lane_name": "Archive",
+      "characteristics": {
+        "has_contract": true,
+        "path_indicators": {
+          "in_core": false,
+          "in_accepted": false,
+          "in_candidate": false,
+          "in_experimental": false,
+          "in_archive": false,
+          "in_lukhas_root": false,
+          "nested_deep": false
+        },
+        "name_indicators": {
+          "has_core": false,
+          "has_experimental": false,
+          "has_test": false,
+          "has_deprecated": false,
+          "has_governance": false,
+          "has_identity": false,
+          "has_api": false,
+          "has_bridge": false
+        },
+        "contract_indicators": {
+          "maturity_score": 2,
+          "has_identity_config": true,
+          "has_policy_config": false
+        },
+        "file_count": 0,
+        "test_coverage": {
+          "has_tests": false,
+          "test_file_count": 0
+        },
+        "dependency_score": 0
+      },
+      "confidence": 0.7999999999999999
+    },
+    {
+      "module": "lukhas.vivox",
+      "current_paths": [
+        "contracts"
+      ],
+      "contracts": [
+        "contracts/matrix_vivox.json"
+      ],
+      "provisional_lane": "L0",
+      "lane_name": "Archive",
+      "characteristics": {
+        "has_contract": true,
+        "path_indicators": {
+          "in_core": false,
+          "in_accepted": false,
+          "in_candidate": false,
+          "in_experimental": false,
+          "in_archive": false,
+          "in_lukhas_root": false,
+          "nested_deep": false
+        },
+        "name_indicators": {
+          "has_core": false,
+          "has_experimental": false,
+          "has_test": false,
+          "has_deprecated": false,
+          "has_governance": false,
+          "has_identity": false,
+          "has_api": false,
+          "has_bridge": false
+        },
+        "contract_indicators": {
+          "maturity_score": 2,
+          "has_identity_config": true,
+          "has_policy_config": false
+        },
+        "file_count": 0,
+        "test_coverage": {
+          "has_tests": false,
+          "test_file_count": 0
+        },
+        "dependency_score": 0
+      },
+      "confidence": 0.7999999999999999
+    },
+    {
+      "module": "matriz",
+      "current_paths": [
+        "lukhas/matriz"
+      ],
+      "contracts": [
+        "lukhas/matriz/matrix_matriz.json"
+      ],
+      "provisional_lane": "L2",
+      "lane_name": "Development",
+      "characteristics": {
+        "has_contract": true,
+        "path_indicators": {
+          "in_core": false,
+          "in_accepted": false,
+          "in_candidate": false,
+          "in_experimental": false,
+          "in_archive": false,
+          "in_lukhas_root": true,
+          "nested_deep": false
+        },
+        "name_indicators": {
+          "has_core": false,
+          "has_experimental": false,
+          "has_test": false,
+          "has_deprecated": false,
+          "has_governance": false,
+          "has_identity": false,
+          "has_api": false,
+          "has_bridge": false
+        },
+        "contract_indicators": {
+          "maturity_score": 2,
+          "has_identity_config": true,
+          "has_policy_config": false
+        },
+        "file_count": 4,
+        "test_coverage": {
+          "has_tests": false,
+          "test_file_count": 0
+        },
+        "dependency_score": 2
+      },
+      "confidence": 0.8999999999999999
+    },
+    {
+      "module": "matriz.runtime",
+      "current_paths": [
+        "lukhas/matriz/runtime"
+      ],
+      "contracts": [
+        "lukhas/matriz/runtime/matrix_runtime.json"
+      ],
+      "provisional_lane": "L2",
+      "lane_name": "Development",
+      "characteristics": {
+        "has_contract": true,
+        "path_indicators": {
+          "in_core": false,
+          "in_accepted": false,
+          "in_candidate": false,
+          "in_experimental": false,
+          "in_archive": false,
+          "in_lukhas_root": false,
+          "nested_deep": false
+        },
+        "name_indicators": {
+          "has_core": false,
+          "has_experimental": false,
+          "has_test": false,
+          "has_deprecated": false,
+          "has_governance": false,
+          "has_identity": false,
+          "has_api": false,
+          "has_bridge": false
+        },
+        "contract_indicators": {
+          "maturity_score": 2,
+          "has_identity_config": true,
+          "has_policy_config": false
+        },
+        "file_count": 3,
+        "test_coverage": {
+          "has_tests": false,
+          "test_file_count": 0
+        },
+        "dependency_score": 2
+      },
+      "confidence": 0.7999999999999999
+    },
+    {
+      "module": "memory",
+      "current_paths": [
+        "memory",
+        "lukhas/memory"
+      ],
+      "contracts": [
+        "lukhas/memory/matrix_memory.json",
+        "memory/matrix_memoria.json"
+      ],
+      "provisional_lane": "L3",
+      "lane_name": "Candidate",
+      "characteristics": {
+        "has_contract": true,
+        "path_indicators": {
+          "in_core": false,
+          "in_accepted": false,
+          "in_candidate": false,
+          "in_experimental": false,
+          "in_archive": false,
+          "in_lukhas_root": true,
+          "nested_deep": false
+        },
+        "name_indicators": {
+          "has_core": false,
+          "has_experimental": false,
+          "has_test": false,
+          "has_deprecated": false,
+          "has_governance": false,
+          "has_identity": false,
+          "has_api": false,
+          "has_bridge": false
+        },
+        "contract_indicators": {
+          "maturity_score": 4,
+          "has_identity_config": true,
+          "has_policy_config": false
+        },
+        "file_count": 36,
+        "test_coverage": {
+          "has_tests": false,
+          "test_file_count": 0
+        },
+        "dependency_score": 2
+      },
+      "confidence": 0.8999999999999999
+    },
+    {
+      "module": "memory.backends",
+      "current_paths": [
+        "lukhas/memory/backends"
+      ],
+      "contracts": [
+        "lukhas/memory/backends/matrix_backends.json"
+      ],
+      "provisional_lane": "L3",
+      "lane_name": "Candidate",
+      "characteristics": {
+        "has_contract": true,
+        "path_indicators": {
+          "in_core": false,
+          "in_accepted": false,
+          "in_candidate": false,
+          "in_experimental": false,
+          "in_archive": false,
+          "in_lukhas_root": false,
+          "nested_deep": false
+        },
+        "name_indicators": {
+          "has_core": false,
+          "has_experimental": false,
+          "has_test": false,
+          "has_deprecated": false,
+          "has_governance": false,
+          "has_identity": false,
+          "has_api": false,
+          "has_bridge": false
+        },
+        "contract_indicators": {
+          "maturity_score": 2,
+          "has_identity_config": true,
+          "has_policy_config": false
+        },
+        "file_count": 6,
+        "test_coverage": {
+          "has_tests": false,
+          "test_file_count": 0
+        },
+        "dependency_score": 2
+      },
+      "confidence": 0.7999999999999999
+    },
+    {
+      "module": "memory.emotional",
+      "current_paths": [
+        "lukhas/memory/emotional"
+      ],
+      "contracts": [
+        "lukhas/memory/emotional/matrix_emotional.json"
+      ],
+      "provisional_lane": "L2",
+      "lane_name": "Development",
+      "characteristics": {
+        "has_contract": true,
+        "path_indicators": {
+          "in_core": false,
+          "in_accepted": false,
+          "in_candidate": false,
+          "in_experimental": false,
+          "in_archive": false,
+          "in_lukhas_root": false,
+          "nested_deep": false
+        },
+        "name_indicators": {
+          "has_core": false,
+          "has_experimental": false,
+          "has_test": false,
+          "has_deprecated": false,
+          "has_governance": false,
+          "has_identity": false,
+          "has_api": false,
+          "has_bridge": false
+        },
+        "contract_indicators": {
+          "maturity_score": 2,
+          "has_identity_config": true,
+          "has_policy_config": false
+        },
+        "file_count": 1,
+        "test_coverage": {
+          "has_tests": false,
+          "test_file_count": 0
+        },
+        "dependency_score": 2
+      },
+      "confidence": 0.7999999999999999
+    },
+    {
+      "module": "observability",
+      "current_paths": [
+        "lukhas/observability"
+      ],
+      "contracts": [
+        "lukhas/observability/matrix_observability.json"
+      ],
+      "provisional_lane": "L3",
+      "lane_name": "Candidate",
+      "characteristics": {
+        "has_contract": true,
+        "path_indicators": {
+          "in_core": false,
+          "in_accepted": false,
+          "in_candidate": false,
+          "in_experimental": false,
+          "in_archive": false,
+          "in_lukhas_root": true,
+          "nested_deep": false
+        },
+        "name_indicators": {
+          "has_core": false,
+          "has_experimental": false,
+          "has_test": false,
+          "has_deprecated": false,
+          "has_governance": false,
+          "has_identity": false,
+          "has_api": false,
+          "has_bridge": false
+        },
+        "contract_indicators": {
+          "maturity_score": 2,
+          "has_identity_config": true,
+          "has_policy_config": false
+        },
+        "file_count": 19,
+        "test_coverage": {
+          "has_tests": false,
+          "test_file_count": 0
+        },
+        "dependency_score": 0
+      },
+      "confidence": 0.8999999999999999
+    },
+    {
+      "module": "orchestration",
+      "current_paths": [
+        "lukhas/orchestration"
+      ],
+      "contracts": [
+        "lukhas/orchestration/matrix_orchestration.json"
+      ],
+      "provisional_lane": "L3",
+      "lane_name": "Candidate",
+      "characteristics": {
+        "has_contract": true,
+        "path_indicators": {
+          "in_core": false,
+          "in_accepted": false,
+          "in_candidate": false,
+          "in_experimental": false,
+          "in_archive": false,
+          "in_lukhas_root": true,
+          "nested_deep": false
+        },
+        "name_indicators": {
+          "has_core": false,
+          "has_experimental": false,
+          "has_test": false,
+          "has_deprecated": false,
+          "has_governance": false,
+          "has_identity": false,
+          "has_api": false,
+          "has_bridge": false
+        },
+        "contract_indicators": {
+          "maturity_score": 2,
+          "has_identity_config": true,
+          "has_policy_config": false
+        },
+        "file_count": 19,
+        "test_coverage": {
+          "has_tests": false,
+          "test_file_count": 0
+        },
+        "dependency_score": 2
+      },
+      "confidence": 0.8999999999999999
+    },
+    {
+      "module": "orchestration.context",
+      "current_paths": [
+        "lukhas/orchestration/context"
+      ],
+      "contracts": [
+        "lukhas/orchestration/context/matrix_context.json"
+      ],
+      "provisional_lane": "L2",
+      "lane_name": "Development",
+      "characteristics": {
+        "has_contract": true,
+        "path_indicators": {
+          "in_core": false,
+          "in_accepted": false,
+          "in_candidate": false,
+          "in_experimental": false,
+          "in_archive": false,
+          "in_lukhas_root": false,
+          "nested_deep": false
+        },
+        "name_indicators": {
+          "has_core": false,
+          "has_experimental": false,
+          "has_test": false,
+          "has_deprecated": false,
+          "has_governance": false,
+          "has_identity": false,
+          "has_api": false,
+          "has_bridge": false
+        },
+        "contract_indicators": {
+          "maturity_score": 2,
+          "has_identity_config": true,
+          "has_policy_config": false
+        },
+        "file_count": 2,
+        "test_coverage": {
+          "has_tests": false,
+          "test_file_count": 0
+        },
+        "dependency_score": 2
+      },
+      "confidence": 0.7999999999999999
+    },
+    {
+      "module": "orchestration.providers",
+      "current_paths": [
+        "lukhas/orchestration/providers"
+      ],
+      "contracts": [
+        "lukhas/orchestration/providers/matrix_providers.json"
+      ],
+      "provisional_lane": "L3",
+      "lane_name": "Candidate",
+      "characteristics": {
+        "has_contract": true,
+        "path_indicators": {
+          "in_core": false,
+          "in_accepted": false,
+          "in_candidate": false,
+          "in_experimental": false,
+          "in_archive": false,
+          "in_lukhas_root": false,
+          "nested_deep": false
+        },
+        "name_indicators": {
+          "has_core": false,
+          "has_experimental": false,
+          "has_test": false,
+          "has_deprecated": false,
+          "has_governance": false,
+          "has_identity": false,
+          "has_api": false,
+          "has_bridge": false
+        },
+        "contract_indicators": {
+          "maturity_score": 2,
+          "has_identity_config": true,
+          "has_policy_config": false
+        },
+        "file_count": 7,
+        "test_coverage": {
+          "has_tests": false,
+          "test_file_count": 0
+        },
+        "dependency_score": 2
+      },
+      "confidence": 0.7999999999999999
+    },
+    {
+      "module": "qi",
+      "current_paths": [
+        "lukhas/qi"
+      ],
+      "contracts": [
+        "lukhas/qi/matrix_qi.json"
+      ],
+      "provisional_lane": "L2",
+      "lane_name": "Development",
+      "characteristics": {
+        "has_contract": true,
+        "path_indicators": {
+          "in_core": false,
+          "in_accepted": false,
+          "in_candidate": false,
+          "in_experimental": false,
+          "in_archive": false,
+          "in_lukhas_root": true,
+          "nested_deep": false
+        },
+        "name_indicators": {
+          "has_core": false,
+          "has_experimental": false,
+          "has_test": false,
+          "has_deprecated": false,
+          "has_governance": false,
+          "has_identity": false,
+          "has_api": false,
+          "has_bridge": false
+        },
+        "contract_indicators": {
+          "maturity_score": 2,
+          "has_identity_config": true,
+          "has_policy_config": false
+        },
+        "file_count": 2,
+        "test_coverage": {
+          "has_tests": false,
+          "test_file_count": 0
+        },
+        "dependency_score": 0
+      },
+      "confidence": 0.8999999999999999
+    },
+    {
+      "module": "rl",
+      "current_paths": [
+        "lukhas/rl"
+      ],
+      "contracts": [
+        "lukhas/rl/matrix_rl.json"
+      ],
+      "provisional_lane": "L3",
+      "lane_name": "Candidate",
+      "characteristics": {
+        "has_contract": true,
+        "path_indicators": {
+          "in_core": false,
+          "in_accepted": false,
+          "in_candidate": false,
+          "in_experimental": false,
+          "in_archive": false,
+          "in_lukhas_root": true,
+          "nested_deep": false
+        },
+        "name_indicators": {
+          "has_core": false,
+          "has_experimental": false,
+          "has_test": false,
+          "has_deprecated": false,
+          "has_governance": false,
+          "has_identity": false,
+          "has_api": false,
+          "has_bridge": false
+        },
+        "contract_indicators": {
+          "maturity_score": 2,
+          "has_identity_config": true,
+          "has_policy_config": false
+        },
+        "file_count": 11,
+        "test_coverage": {
+          "has_tests": false,
+          "test_file_count": 0
+        },
+        "dependency_score": 0
+      },
+      "confidence": 0.8999999999999999
+    },
+    {
+      "module": "rl.coordination",
+      "current_paths": [
+        "lukhas/rl/coordination"
+      ],
+      "contracts": [
+        "lukhas/rl/coordination/matrix_coordination.json"
+      ],
+      "provisional_lane": "L2",
+      "lane_name": "Development",
+      "characteristics": {
+        "has_contract": true,
+        "path_indicators": {
+          "in_core": false,
+          "in_accepted": false,
+          "in_candidate": false,
+          "in_experimental": false,
+          "in_archive": false,
+          "in_lukhas_root": false,
+          "nested_deep": false
+        },
+        "name_indicators": {
+          "has_core": false,
+          "has_experimental": false,
+          "has_test": false,
+          "has_deprecated": false,
+          "has_governance": false,
+          "has_identity": false,
+          "has_api": false,
+          "has_bridge": false
+        },
+        "contract_indicators": {
+          "maturity_score": 2,
+          "has_identity_config": true,
+          "has_policy_config": false
+        },
+        "file_count": 2,
+        "test_coverage": {
+          "has_tests": false,
+          "test_file_count": 0
+        },
+        "dependency_score": 0
+      },
+      "confidence": 0.7999999999999999
+    },
+    {
+      "module": "rl.engine",
+      "current_paths": [
+        "lukhas/rl/engine"
+      ],
+      "contracts": [
+        "lukhas/rl/engine/matrix_engine.json"
+      ],
+      "provisional_lane": "L2",
+      "lane_name": "Development",
+      "characteristics": {
+        "has_contract": true,
+        "path_indicators": {
+          "in_core": false,
+          "in_accepted": false,
+          "in_candidate": false,
+          "in_experimental": false,
+          "in_archive": false,
+          "in_lukhas_root": false,
+          "nested_deep": false
+        },
+        "name_indicators": {
+          "has_core": false,
+          "has_experimental": false,
+          "has_test": false,
+          "has_deprecated": false,
+          "has_governance": false,
+          "has_identity": false,
+          "has_api": false,
+          "has_bridge": false
+        },
+        "contract_indicators": {
+          "maturity_score": 2,
+          "has_identity_config": true,
+          "has_policy_config": false
+        },
+        "file_count": 4,
+        "test_coverage": {
+          "has_tests": false,
+          "test_file_count": 0
+        },
+        "dependency_score": 0
+      },
+      "confidence": 0.7999999999999999
+    },
+    {
+      "module": "rl.environments",
+      "current_paths": [
+        "lukhas/rl/environments"
+      ],
+      "contracts": [
+        "lukhas/rl/environments/matrix_environments.json"
+      ],
+      "provisional_lane": "L2",
+      "lane_name": "Development",
+      "characteristics": {
+        "has_contract": true,
+        "path_indicators": {
+          "in_core": false,
+          "in_accepted": false,
+          "in_candidate": false,
+          "in_experimental": false,
+          "in_archive": false,
+          "in_lukhas_root": false,
+          "nested_deep": false
+        },
+        "name_indicators": {
+          "has_core": false,
+          "has_experimental": false,
+          "has_test": false,
+          "has_deprecated": false,
+          "has_governance": false,
+          "has_identity": false,
+          "has_api": false,
+          "has_bridge": false
+        },
+        "contract_indicators": {
+          "maturity_score": 2,
+          "has_identity_config": true,
+          "has_policy_config": false
+        },
+        "file_count": 2,
+        "test_coverage": {
+          "has_tests": false,
+          "test_file_count": 0
+        },
+        "dependency_score": 0
+      },
+      "confidence": 0.7999999999999999
+    },
+    {
+      "module": "rl.experience",
+      "current_paths": [
+        "lukhas/rl/experience"
+      ],
+      "contracts": [
+        "lukhas/rl/experience/matrix_experience.json"
+      ],
+      "provisional_lane": "L1",
+      "lane_name": "Experimental",
+      "characteristics": {
+        "has_contract": true,
+        "path_indicators": {
+          "in_core": false,
+          "in_accepted": false,
+          "in_candidate": false,
+          "in_experimental": false,
+          "in_archive": false,
+          "in_lukhas_root": false,
+          "nested_deep": false
+        },
+        "name_indicators": {
+          "has_core": false,
+          "has_experimental": true,
+          "has_test": false,
+          "has_deprecated": false,
+          "has_governance": false,
+          "has_identity": false,
+          "has_api": false,
+          "has_bridge": false
+        },
+        "contract_indicators": {
+          "maturity_score": 2,
+          "has_identity_config": true,
+          "has_policy_config": false
+        },
+        "file_count": 2,
+        "test_coverage": {
+          "has_tests": false,
+          "test_file_count": 0
+        },
+        "dependency_score": 0
+      },
+      "confidence": 0.7999999999999999
+    },
+    {
+      "module": "root",
+      "current_paths": [
+        "lukhas"
+      ],
+      "contracts": [
+        "lukhas/matrix_root.json"
+      ],
+      "provisional_lane": "L3",
+      "lane_name": "Candidate",
+      "characteristics": {
+        "has_contract": true,
+        "path_indicators": {
+          "in_core": false,
+          "in_accepted": false,
+          "in_candidate": false,
+          "in_experimental": false,
+          "in_archive": false,
+          "in_lukhas_root": false,
+          "nested_deep": false
+        },
+        "name_indicators": {
+          "has_core": false,
+          "has_experimental": false,
+          "has_test": false,
+          "has_deprecated": false,
+          "has_governance": false,
+          "has_identity": false,
+          "has_api": false,
+          "has_bridge": false
+        },
+        "contract_indicators": {
+          "maturity_score": 2,
+          "has_identity_config": true,
+          "has_policy_config": false
+        },
+        "file_count": 335,
+        "test_coverage": {
+          "has_tests": true,
+          "test_file_count": 5
+        },
+        "dependency_score": 0
+      },
+      "confidence": 0.8999999999999999
+    },
+    {
+      "module": "security",
+      "current_paths": [
+        "lukhas/security"
+      ],
+      "contracts": [
+        "lukhas/security/matrix_security.json"
+      ],
+      "provisional_lane": "L3",
+      "lane_name": "Candidate",
+      "characteristics": {
+        "has_contract": true,
+        "path_indicators": {
+          "in_core": false,
+          "in_accepted": false,
+          "in_candidate": false,
+          "in_experimental": false,
+          "in_archive": false,
+          "in_lukhas_root": true,
+          "nested_deep": false
+        },
+        "name_indicators": {
+          "has_core": false,
+          "has_experimental": false,
+          "has_test": false,
+          "has_deprecated": false,
+          "has_governance": false,
+          "has_identity": false,
+          "has_api": false,
+          "has_bridge": false
+        },
+        "contract_indicators": {
+          "maturity_score": 2,
+          "has_identity_config": true,
+          "has_policy_config": false
+        },
+        "file_count": 8,
+        "test_coverage": {
+          "has_tests": false,
+          "test_file_count": 0
+        },
+        "dependency_score": 0
+      },
+      "confidence": 0.8999999999999999
+    },
+    {
+      "module": "shims",
+      "current_paths": [
+        "lukhas/shims"
+      ],
+      "contracts": [],
+      "provisional_lane": "L1",
+      "lane_name": "Experimental",
+      "characteristics": {
+        "has_contract": false,
+        "path_indicators": {
+          "in_core": false,
+          "in_accepted": false,
+          "in_candidate": false,
+          "in_experimental": false,
+          "in_archive": false,
+          "in_lukhas_root": true,
+          "nested_deep": false
+        },
+        "name_indicators": {
+          "has_core": false,
+          "has_experimental": false,
+          "has_test": false,
+          "has_deprecated": false,
+          "has_governance": false,
+          "has_identity": false,
+          "has_api": false,
+          "has_bridge": false
+        },
+        "contract_indicators": {
+          "maturity_score": 0,
+          "has_identity_config": false,
+          "has_policy_config": false
+        },
+        "file_count": 1,
+        "test_coverage": {
+          "has_tests": false,
+          "test_file_count": 0
+        },
+        "dependency_score": 0
+      },
+      "confidence": 0.6
+    },
+    {
+      "module": "tests",
+      "current_paths": [
+        "tests"
+      ],
+      "contracts": [],
+      "provisional_lane": "L1",
+      "lane_name": "Experimental",
+      "characteristics": {
+        "has_contract": false,
+        "path_indicators": {
+          "in_core": false,
+          "in_accepted": false,
+          "in_candidate": false,
+          "in_experimental": false,
+          "in_archive": false,
+          "in_lukhas_root": false,
+          "nested_deep": false
+        },
+        "name_indicators": {
+          "has_core": false,
+          "has_experimental": false,
+          "has_test": true,
+          "has_deprecated": false,
+          "has_governance": false,
+          "has_identity": false,
+          "has_api": false,
+          "has_bridge": false
+        },
+        "contract_indicators": {
+          "maturity_score": 0,
+          "has_identity_config": false,
+          "has_policy_config": false
+        },
+        "file_count": 515,
+        "test_coverage": {
+          "has_tests": true,
+          "test_file_count": 470
+        },
+        "dependency_score": 0
+      },
+      "confidence": 0.6
+    },
+    {
+      "module": "tools",
+      "current_paths": [
+        "tools",
+        "lukhas/tools"
+      ],
+      "contracts": [
+        "lukhas/tools/matrix_tools.json"
+      ],
+      "provisional_lane": "L3",
+      "lane_name": "Candidate",
+      "characteristics": {
+        "has_contract": true,
+        "path_indicators": {
+          "in_core": false,
+          "in_accepted": false,
+          "in_candidate": false,
+          "in_experimental": false,
+          "in_archive": false,
+          "in_lukhas_root": true,
+          "nested_deep": false
+        },
+        "name_indicators": {
+          "has_core": false,
+          "has_experimental": false,
+          "has_test": false,
+          "has_deprecated": false,
+          "has_governance": false,
+          "has_identity": false,
+          "has_api": false,
+          "has_bridge": false
+        },
+        "contract_indicators": {
+          "maturity_score": 2,
+          "has_identity_config": true,
+          "has_policy_config": false
+        },
+        "file_count": 371,
+        "test_coverage": {
+          "has_tests": true,
+          "test_file_count": 5
+        },
+        "dependency_score": 0
+      },
+      "confidence": 0.9999999999999999
+    },
+    {
+      "module": "trace",
+      "current_paths": [
+        "lukhas/trace"
+      ],
+      "contracts": [
+        "lukhas/trace/matrix_trace.json"
+      ],
+      "provisional_lane": "L2",
+      "lane_name": "Development",
+      "characteristics": {
+        "has_contract": true,
+        "path_indicators": {
+          "in_core": false,
+          "in_accepted": false,
+          "in_candidate": false,
+          "in_experimental": false,
+          "in_archive": false,
+          "in_lukhas_root": true,
+          "nested_deep": false
+        },
+        "name_indicators": {
+          "has_core": false,
+          "has_experimental": false,
+          "has_test": false,
+          "has_deprecated": false,
+          "has_governance": false,
+          "has_identity": false,
+          "has_api": false,
+          "has_bridge": false
+        },
+        "contract_indicators": {
+          "maturity_score": 2,
+          "has_identity_config": true,
+          "has_policy_config": false
+        },
+        "file_count": 2,
+        "test_coverage": {
+          "has_tests": false,
+          "test_file_count": 0
+        },
+        "dependency_score": 0
+      },
+      "confidence": 0.8999999999999999
+    },
+    {
+      "module": "tracks.status",
+      "current_paths": [
+        "docs"
+      ],
+      "contracts": [
+        "docs/matrix_tracks.status.json"
+      ],
+      "provisional_lane": "L0",
+      "lane_name": "Archive",
+      "characteristics": {
+        "has_contract": true,
+        "path_indicators": {
+          "in_core": false,
+          "in_accepted": false,
+          "in_candidate": false,
+          "in_experimental": false,
+          "in_archive": false,
+          "in_lukhas_root": false,
+          "nested_deep": false
+        },
+        "name_indicators": {
+          "has_core": false,
+          "has_experimental": false,
+          "has_test": false,
+          "has_deprecated": false,
+          "has_governance": false,
+          "has_identity": false,
+          "has_api": false,
+          "has_bridge": false
+        },
+        "contract_indicators": {
+          "maturity_score": 1,
+          "has_identity_config": false,
+          "has_policy_config": false
+        },
+        "file_count": 0,
+        "test_coverage": {
+          "has_tests": false,
+          "test_file_count": 0
+        },
+        "dependency_score": 0
+      },
+      "confidence": 0.7999999999999999
+    },
+    {
+      "module": "tracks_slo_report_20250926_121703",
+      "current_paths": [
+        "reports/slo"
+      ],
+      "contracts": [
+        "reports/slo/matrix_tracks_slo_report_20250926_121703.json"
+      ],
+      "provisional_lane": "L0",
+      "lane_name": "Archive",
+      "characteristics": {
+        "has_contract": true,
+        "path_indicators": {
+          "in_core": false,
+          "in_accepted": false,
+          "in_candidate": false,
+          "in_experimental": false,
+          "in_archive": false,
+          "in_lukhas_root": false,
+          "nested_deep": false
+        },
+        "name_indicators": {
+          "has_core": false,
+          "has_experimental": false,
+          "has_test": false,
+          "has_deprecated": false,
+          "has_governance": false,
+          "has_identity": false,
+          "has_api": false,
+          "has_bridge": false
+        },
+        "contract_indicators": {
+          "maturity_score": 0,
+          "has_identity_config": false,
+          "has_policy_config": false
+        },
+        "file_count": 0,
+        "test_coverage": {
+          "has_tests": false,
+          "test_file_count": 0
+        },
+        "dependency_score": 0
+      },
+      "confidence": 0.7
+    },
+    {
+      "module": "trinity",
+      "current_paths": [
+        "lukhas/trinity"
+      ],
+      "contracts": [
+        "lukhas/trinity/matrix_trinity.json"
+      ],
+      "provisional_lane": "L2",
+      "lane_name": "Development",
+      "characteristics": {
+        "has_contract": true,
+        "path_indicators": {
+          "in_core": false,
+          "in_accepted": false,
+          "in_candidate": false,
+          "in_experimental": false,
+          "in_archive": false,
+          "in_lukhas_root": true,
+          "nested_deep": false
+        },
+        "name_indicators": {
+          "has_core": false,
+          "has_experimental": false,
+          "has_test": false,
+          "has_deprecated": false,
+          "has_governance": false,
+          "has_identity": false,
+          "has_api": false,
+          "has_bridge": false
+        },
+        "contract_indicators": {
+          "maturity_score": 2,
+          "has_identity_config": true,
+          "has_policy_config": false
+        },
+        "file_count": 1,
+        "test_coverage": {
+          "has_tests": false,
+          "test_file_count": 0
+        },
+        "dependency_score": 0
+      },
+      "confidence": 0.8999999999999999
+    },
+    {
+      "module": "utils",
+      "current_paths": [
+        "lukhas/utils"
+      ],
+      "contracts": [],
+      "provisional_lane": "L1",
+      "lane_name": "Experimental",
+      "characteristics": {
+        "has_contract": false,
+        "path_indicators": {
+          "in_core": false,
+          "in_accepted": false,
+          "in_candidate": false,
+          "in_experimental": false,
+          "in_archive": false,
+          "in_lukhas_root": true,
+          "nested_deep": false
+        },
+        "name_indicators": {
+          "has_core": false,
+          "has_experimental": false,
+          "has_test": false,
+          "has_deprecated": false,
+          "has_governance": false,
+          "has_identity": false,
+          "has_api": false,
+          "has_bridge": false
+        },
+        "contract_indicators": {
+          "maturity_score": 0,
+          "has_identity_config": false,
+          "has_policy_config": false
+        },
+        "file_count": 3,
+        "test_coverage": {
+          "has_tests": false,
+          "test_file_count": 0
+        },
+        "dependency_score": 0
+      },
+      "confidence": 0.6
+    },
+    {
+      "module": "validation_results",
+      "current_paths": [
+        "artifacts"
+      ],
+      "contracts": [
+        "artifacts/matrix_validation_results.json"
+      ],
+      "provisional_lane": "L0",
+      "lane_name": "Archive",
+      "characteristics": {
+        "has_contract": true,
+        "path_indicators": {
+          "in_core": false,
+          "in_accepted": false,
+          "in_candidate": false,
+          "in_experimental": false,
+          "in_archive": false,
+          "in_lukhas_root": false,
+          "nested_deep": false
+        },
+        "name_indicators": {
+          "has_core": false,
+          "has_experimental": false,
+          "has_test": false,
+          "has_deprecated": false,
+          "has_governance": false,
+          "has_identity": false,
+          "has_api": false,
+          "has_bridge": false
+        },
+        "contract_indicators": {
+          "maturity_score": 0,
+          "has_identity_config": false,
+          "has_policy_config": false
+        },
+        "file_count": 0,
+        "test_coverage": {
+          "has_tests": false,
+          "test_file_count": 0
+        },
+        "dependency_score": 0
+      },
+      "confidence": 0.7
+    },
+    {
+      "module": "vivox",
+      "current_paths": [
+        "lukhas/vivox"
+      ],
+      "contracts": [
+        "lukhas/vivox/matrix_vivox.json"
+      ],
+      "provisional_lane": "L2",
+      "lane_name": "Development",
+      "characteristics": {
+        "has_contract": true,
+        "path_indicators": {
+          "in_core": false,
+          "in_accepted": false,
+          "in_candidate": false,
+          "in_experimental": false,
+          "in_archive": false,
+          "in_lukhas_root": true,
+          "nested_deep": false
+        },
+        "name_indicators": {
+          "has_core": false,
+          "has_experimental": false,
+          "has_test": false,
+          "has_deprecated": false,
+          "has_governance": false,
+          "has_identity": false,
+          "has_api": false,
+          "has_bridge": false
+        },
+        "contract_indicators": {
+          "maturity_score": 2,
+          "has_identity_config": true,
+          "has_policy_config": false
+        },
+        "file_count": 2,
+        "test_coverage": {
+          "has_tests": false,
+          "test_file_count": 0
+        },
+        "dependency_score": 0
+      },
+      "confidence": 0.8999999999999999
+    }
+  ]
+}
