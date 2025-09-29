@@ -7,7 +7,7 @@ deadlocking and that proper decimation/backpressure occurs under load.
 import asyncio
 import pytest
 
-from candidate.core.matriz_consciousness_integration import create_matriz_consciousness_system
+from lukhas.core.matriz_consciousness_integration import create_matriz_consciousness_system
 
 
 @pytest.mark.capability

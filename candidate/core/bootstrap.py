@@ -7,7 +7,7 @@ import logging
 from datetime import datetime
 from typing import Any, Optional
 
-from candidate.orchestration.brain.unified_cognitive_orchestrator import UnifiedCognitiveOrchestrator
+from lukhas.orchestration.brain.unified_cognitive_orchestrator import UnifiedCognitiveOrchestrator
 from lukhas.core.adapters.module_service_adapter import register_service_adapters
 from lukhas.core.adapters.seven_agent_adapter import register_seven_agent_services
 from lukhas.core.container.service_container import ServiceContainer, get_container

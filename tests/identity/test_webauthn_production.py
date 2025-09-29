@@ -7,14 +7,11 @@ Comprehensive test suite for WebAuthn/FIDO2 operations,
 biometric authentication, and performance validation.
 """
 
-import asyncio
 import pytest
 import time
 import json
 import base64
-import secrets
 from datetime import datetime, timezone, timedelta
-from unittest.mock import Mock, patch
 
 from lukhas.identity.webauthn_production import (
     WebAuthnManager, WebAuthnCredential, WebAuthnChallenge,
@@ -541,7 +538,6 @@ class TestWebAuthnPerformanceRequirements:
     @pytest.mark.asyncio
     async def test_registration_latency_p95(self):
         """Test that registration latency meets p95 < 100ms requirement"""
-        import json
         import os
         from datetime import datetime
 
@@ -613,7 +609,6 @@ class TestWebAuthnPerformanceRequirements:
     @pytest.mark.asyncio
     async def test_authentication_latency_p95(self):
         """Test that authentication latency meets p95 < 100ms requirement"""
-        import json
         import os
         from datetime import datetime
 

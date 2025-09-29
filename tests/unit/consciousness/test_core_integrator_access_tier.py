@@ -2,7 +2,7 @@
 
 import pytest
 
-from candidate.consciousness.reflection.core_integrator import AccessTier, resolve_access_tier
+from lukhas.consciousness.reflection.core_integrator import AccessTier, resolve_access_tier
 from lukhas.tiers import GlobalTier, TierMappingError
 
 

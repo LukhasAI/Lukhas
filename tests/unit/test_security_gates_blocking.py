@@ -6,7 +6,6 @@ Validates that security gates (pip-audit, SBOM) are properly configured
 to block CI when vulnerabilities or compliance issues are detected.
 """
 
-import os
 import yaml
 import subprocess
 from pathlib import Path

@@ -28,7 +28,6 @@ Usage:
 """
 
 import functools
-import hashlib
 import time
 from typing import Any, Callable, Dict, List, Optional, Union
 from contextlib import contextmanager
@@ -38,12 +37,10 @@ import logging
 
 # Import existing OTel infrastructure
 from lukhas.observability.otel_instrumentation import (
-    OTEL_AVAILABLE, _tracer, _meter, _metrics_initialized,
-    initialize_otel_instrumentation
+    OTEL_AVAILABLE, _tracer, _metrics_initialized
 )
 
 if OTEL_AVAILABLE:
-    from opentelemetry import trace, metrics
     from opentelemetry.trace import Status, StatusCode
     from opentelemetry.metrics import get_meter
 

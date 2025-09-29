@@ -15,7 +15,7 @@ Usage:
 import asyncio
 import time
 import statistics
-from typing import Dict, List, Tuple
+from typing import Dict, List
 import pytest
 
 try:

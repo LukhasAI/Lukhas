@@ -9,8 +9,7 @@ import logging
 import hashlib
 import hmac
 import os
-import time
-from typing import Any, Optional, Dict, Set
+from typing import Any, Optional, Dict
 from dataclasses import dataclass
 
 from ..facades.authentication_facade import AuthenticatorInterface, AuthResult

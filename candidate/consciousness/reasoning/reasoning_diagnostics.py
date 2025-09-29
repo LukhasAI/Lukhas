@@ -15,7 +15,7 @@ from datetime import datetime, timedelta
 from enum import Enum
 from typing import Any, Optional
 
-from candidate.core.common import get_logger
+from lukhas.core.common import get_logger
 from reasoning.adaptive_reasoning_loop import AdaptiveReasoningLoop, ReasoningContext
 from reasoning.reasoning_engine import SymbolicEngine
 from reasoning.reasoning_metrics import get_metrics_calculator

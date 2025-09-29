@@ -6,16 +6,13 @@ and benchmarking with T4/0.01% excellence standards.
 """
 
 import pytest
-import asyncio
 import time
-from unittest.mock import Mock, patch
+from unittest.mock import Mock
 import numpy as np
 
 from lukhas.memory.compression import (
     CompressionAlgorithm,
-    CompressionLevel,
     CompressionResult,
-    DecompressionResult,
     AdaptiveCompressionManager,
     GzipCompressor,
     Bz2Compressor,

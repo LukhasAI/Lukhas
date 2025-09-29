@@ -7,9 +7,8 @@ for modules based on their characteristics, dependencies, and maturity.
 """
 
 import json
-import os
 import pathlib
-from typing import List, Dict, Any, Set
+from typing import List, Dict, Any
 import argparse
 import sys
 

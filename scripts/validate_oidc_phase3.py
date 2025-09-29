@@ -14,12 +14,11 @@ Validates:
 - Security compliance
 """
 
-import asyncio
 import json
 import os
 import time
 from datetime import datetime, timezone
-from typing import Dict, Any
+from typing import Dict
 
 def validate_file_structure():
     """Validate that all required files are present"""

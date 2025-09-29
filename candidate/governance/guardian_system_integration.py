@@ -41,7 +41,7 @@ from typing import Any, Callable, Optional
 
 # Guardian System Components
 try:
-    from candidate.governance.consent_ledger.ledger_v1 import (
+    from lukhas.governance.consent_ledger.ledger_v1 import (
         ConsentLedgerV1,
         PolicyVerdict,
     )
@@ -51,7 +51,7 @@ except ImportError:
     logging.warning("ConsentLedgerV1 not available - using fallback")
 
 try:
-    from candidate.governance.guardian.drift_detector import (
+    from lukhas.governance.guardian.drift_detector import (
         AdvancedDriftDetector,
         DriftSeverity,
         DriftType,
@@ -63,7 +63,7 @@ except ImportError:
     logging.warning("AdvancedDriftDetector not available - using fallback")
 
 try:
-    from candidate.governance.identity.core.sent.policy_engine import (
+    from lukhas.governance.identity.core.sent.policy_engine import (
         ComprehensiveEthicsPolicyEngine,
         EthicalFramework,
         PolicyAction,
@@ -75,7 +75,7 @@ except ImportError:
     logging.warning("ComprehensiveEthicsPolicyEngine not available - using fallback")
 
 try:
-    from candidate.governance.security.audit_system import (
+    from lukhas.governance.security.audit_system import (
         AuditCategory,
         AuditEventType,
         AuditLevel,
@@ -90,7 +90,7 @@ except ImportError:
 
 # Core system integrations
 try:
-    from candidate.core.glyph import GlyphEngine
+    from lukhas.core.glyph import GlyphEngine
 except ImportError:
     GlyphEngine = None
     logging.warning("GlyphEngine not available - Constellation integration limited")

@@ -56,7 +56,10 @@
       "Bash(pip3 install:*)",
       "Bash(./tools/verify_provenance.sh:*)",
       "Bash(tools/verify_provenance.sh:*)",
-      "Bash(echo:*)"
+      "Bash(echo:*)",
+      "Bash(mkdir:*)",
+      "Bash(git checkout:*)",
+      "Bash(ruff check:*)"
     ],
     "deny": [],
     "ask": []

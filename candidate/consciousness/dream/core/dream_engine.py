@@ -54,9 +54,9 @@ except ImportError:
 
 
 try:
-    from candidate.core.unified.bio_signals import QIBioOscillator
-    from candidate.core.unified.integration import UnifiedIntegration
-    from candidate.core.unified.orchestration import BioOrchestrator
+    from lukhas.core.unified.bio_signals import QIBioOscillator
+    from lukhas.core.unified.integration import UnifiedIntegration
+    from lukhas.core.unified.orchestration import BioOrchestrator
 except ImportError:
     # Create placeholders if the modules don't exist
     class BioOrchestrator:

@@ -70,7 +70,7 @@ def test_identity_api_imports():
         candidate_identity_spec = importlib.util.find_spec("candidate.governance.identity")
         if candidate_identity_spec is not None:
             # Just verify it can be imported
-            import candidate.governance.identity
+            import lukhas.governance.identity
 
     except ImportError as e:
         pytest.fail(f"Identity API import failed: {e}")
@@ -87,12 +87,12 @@ def test_guardian_api_imports():
         ethics_spec = importlib.util.find_spec("candidate.core.ethics")
         if ethics_spec is not None:
             # Just verify it can be imported without error
-            import candidate.core.ethics
+            import lukhas.core.ethics
 
         # Look for governance modules
         governance_spec = importlib.util.find_spec("candidate.core.governance")
         if governance_spec is not None:
-            import candidate.core.governance
+            import lukhas.core.governance
 
     except ImportError as e:
         pytest.fail(f"Guardian API import failed: {e}")
@@ -108,7 +108,7 @@ def test_memory_api_imports():
         memory_spec = importlib.util.find_spec("candidate.memory")
         if memory_spec is not None:
             # Verify basic import
-            import candidate.memory
+            import lukhas.memory
 
         # Check for lukhas memory if it exists
         lukhas_memory_spec = importlib.util.find_spec("lukhas.memory")

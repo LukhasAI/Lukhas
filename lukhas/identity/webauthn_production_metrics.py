@@ -18,22 +18,20 @@ Metrics Categories:
 
 import time
 import asyncio
-from typing import Dict, List, Optional, Any, Tuple
-from datetime import datetime, timedelta
+from typing import Dict, Optional, Any
+from datetime import datetime
 from enum import Enum
-import json
 from prometheus_client import (
-    Counter, Histogram, Gauge, Info, Summary,
-    CollectorRegistry, generate_latest
+    Counter, Histogram, Gauge, CollectorRegistry, generate_latest
 )
-from dataclasses import dataclass, asdict
+from dataclasses import dataclass
 import structlog
 
 from lukhas.identity.webauthn_security_hardening import (
-    SecurityEvent, ThreatLevel, SecurityMetrics
+    SecurityEvent
 )
 from lukhas.identity.webauthn_production import (
-    WebAuthnCredential, AuthenticatorType, AuthenticatorTier
+    WebAuthnCredential
 )
 
 logger = structlog.get_logger(__name__)

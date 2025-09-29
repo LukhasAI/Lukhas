@@ -9,10 +9,8 @@ Usage:
     python tools/security/pin_github_actions.py --update
 """
 
-import os
 import re
 import argparse
-import subprocess
 from pathlib import Path
 from typing import Dict, List, Tuple
 

@@ -13,17 +13,17 @@ from dataclasses import dataclass, field
 from enum import Enum
 from typing import Any, Optional
 
-from candidate.bridge.voice.systems.voice_synthesis import (
+from lukhas.bridge.voice.systems.voice_synthesis import (
     CoquiProvider,
     EdgeTTSProvider,
     ElevenLabsProvider,
     VoiceSynthesisProvider,
 )
-from candidate.core.common.glyph import GLYPHSymbol, create_glyph
-from candidate.core.common.logger import get_logger
-from candidate.governance.guardian import GuardianValidator
-from candidate.voice.audio_processing import LUKHASAudioProcessor, ProcessingQuality
-from candidate.voice.voice_modulator import VoiceModulationMode, VoiceModulator
+from lukhas.core.common.glyph import GLYPHSymbol, create_glyph
+from lukhas.core.common.logger import get_logger
+from lukhas.governance.guardian import GuardianValidator
+from lukhas.voice.audio_processing import LUKHASAudioProcessor, ProcessingQuality
+from lukhas.voice.voice_modulator import VoiceModulationMode, VoiceModulator
 
 logger = get_logger(__name__)
 

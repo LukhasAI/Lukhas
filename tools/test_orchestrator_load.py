@@ -10,12 +10,9 @@ Usage:
 """
 
 import asyncio
-import json
 import time
 import statistics
-from typing import List, Dict, Any
 from dataclasses import dataclass
-from concurrent.futures import ThreadPoolExecutor
 
 @dataclass
 class LoadTestResult:

@@ -24,8 +24,8 @@ from typing import Any, Optional
 
 # Import core systems with fallbacks
 try:
-    from candidate.core.colonies.memory_colony_enhanced import EnhancedMemoryColony
-    from candidate.memory.adapters.colony_memory_adapter import ColonyMemoryAdapter
+    from lukhas.core.colonies.memory_colony_enhanced import EnhancedMemoryColony
+    from lukhas.memory.adapters.colony_memory_adapter import ColonyMemoryAdapter
 except ImportError:
     EnhancedMemoryColony = None
     ColonyMemoryAdapter = None

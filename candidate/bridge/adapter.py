@@ -5,7 +5,7 @@ Please update imports to: lukhas.accepted.adapters.base
 """
 import warnings
 
-from lukhas.accepted.adapters.base import *
+from lukhas.adapters.base import *
 
 warnings.warn(
     "Import 'bridge.adapter' is deprecated and will be removed on 2025-11-01. "

@@ -34,7 +34,7 @@ sys.path.insert(0, str(current_dir))
 
 try:
     # Import MemoryType from interface to break circular dependency
-    from candidate.core.interfaces.memory_interface import (
+    from lukhas.core.interfaces.memory_interface import (
         MemoryTestInterface,
         MemoryType,
         register_test_module,
@@ -209,7 +209,7 @@ if MEMORY_CORE_AVAILABLE:
             """Test error handling conditions"""
             # Since the original function expects an orchestrator parameter,
             # we'll need to get it through dependency injection
-            from candidate.core.interfaces.dependency_injection import get_service
+            from lukhas.core.interfaces.dependency_injection import get_service
 
             try:
                 orchestrator = get_service("memory_orchestrator")
@@ -223,7 +223,7 @@ if MEMORY_CORE_AVAILABLE:
 
         async def test_memory_lifecycle(self) -> dict:
             """Test memory lifecycle operations"""
-            from candidate.core.interfaces.dependency_injection import get_service
+            from lukhas.core.interfaces.dependency_injection import get_service
 
             try:
                 orchestrator = get_service("memory_orchestrator")

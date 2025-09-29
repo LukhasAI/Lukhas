@@ -5,7 +5,7 @@ This module provides the base model definitions used throughout the LUKHAS syste
 Re-exports Pydantic BaseModel and provides LUKHAS-specific base classes.
 
 This file was created to resolve import issues in auto-generated consciousness
-reasoning modules that expect to import BaseModel from candidate.core.models.
+reasoning modules that expect to import BaseModel from lukhas.core.models.
 """
 
 import logging

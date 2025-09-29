@@ -5,7 +5,7 @@ Validates noise injection clamping and safety guarantees.
 import os
 from unittest.mock import patch
 
-from candidate.consciousness.dream.expand.noise import (
+from lukhas.consciousness.dream.expand.noise import (
     inject_noise, get_noise_config, validate_noise_output
 )
 

@@ -46,14 +46,14 @@ try:
     # ΛNOTE: Attempting to import core components. Placeholders used if imports fail.
     #        These imports suggest a dependency on a 'CORE' package structure.
     from bio.core import BioOrchestrator  # type: ignore
-    from candidate.core.bio_systems.qi_layer import QIBioOscillator
-    from candidate.core.security.access_control import (
+    from lukhas.core.bio_systems.qi_layer import QIBioOscillator
+    from lukhas.core.security.access_control import (
         AccessController,  # type: ignore
         AccessTier,
     )
-    from candidate.core.security.compliance import ComplianceMonitor  # type: ignore
-    from candidate.core.security.qi_auth import QIAuthenticator  # type: ignore
-    from candidate.core.unified_integration import UnifiedIntegration  # type: ignore
+    from lukhas.core.security.compliance import ComplianceMonitor  # type: ignore
+    from lukhas.core.security.qi_auth import QIAuthenticator  # type: ignore
+    from lukhas.core.unified_integration import UnifiedIntegration  # type: ignore
 
     CORE_COMPONENTS_LOADED_FLAG_ECI = True
     log.debug("LUKHΛS CORE components for EnhancedCoreIntegrator imported successfully.")

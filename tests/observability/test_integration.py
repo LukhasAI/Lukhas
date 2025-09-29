@@ -5,12 +5,11 @@ End-to-end tests for the complete observability stack integration.
 """
 
 import asyncio
-import json
 import pytest
 import tempfile
-from datetime import datetime, timedelta, timezone
+from datetime import datetime
 from pathlib import Path
-from unittest.mock import patch, MagicMock, AsyncMock
+from unittest.mock import patch, MagicMock
 
 # Test imports
 import sys
@@ -24,7 +23,7 @@ from lukhas.observability.performance_regression import PerformanceRegressionDet
 from lukhas.observability.intelligent_alerting import IntelligentAlertingSystem
 from lukhas.observability.compliance_dashboard import ComplianceDashboard
 from lukhas.observability.enhanced_distributed_tracing import (
-    EnhancedLUKHASTracer, TraceConfig, initialize_enhanced_tracing
+    EnhancedLUKHASTracer, TraceConfig
 )
 
 

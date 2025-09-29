@@ -31,18 +31,18 @@ from enum import Enum
 from typing import Any, Optional
 
 try:
-    from candidate.bridge.llm_wrappers.anthropic_function_bridge import (
+    from lukhas.bridge.llm_wrappers.anthropic_function_bridge import (
         AnthropicFunctionBridge,
         ClaudeModel,
         ClaudeResponse,
         ToolUseMode,
     )
-    from candidate.bridge.llm_wrappers.openai_function_bridge import (
+    from lukhas.bridge.llm_wrappers.openai_function_bridge import (
         FunctionCallMode,
         OpenAIFunctionBridge,
         OpenAIResponse,
     )
-    from candidate.orchestration.multi_model_orchestration import (
+    from lukhas.orchestration.multi_model_orchestration import (
         ConsensusStrategy,
         MultiModelOrchestrator,
         OrchestrationMode,
@@ -229,7 +229,7 @@ class ComprehensiveAPIOrchestrator:
         # Google Bridge
         if google_key or self._get_env_key("GOOGLE_API_KEY"):
             try:
-                from candidate.bridge.llm_wrappers.gemini_wrapper import GeminiWrapper
+                from lukhas.bridge.llm_wrappers.gemini_wrapper import GeminiWrapper
 
                 self.bridges[APIProvider.GOOGLE] = GeminiWrapper()
                 logger.info("✅ Google Gemini bridge initialized")
@@ -239,7 +239,7 @@ class ComprehensiveAPIOrchestrator:
         # Perplexity Bridge
         if perplexity_key or self._get_env_key("PERPLEXITY_API_KEY"):
             try:
-                from candidate.bridge.llm_wrappers.perplexity_wrapper import (
+                from lukhas.bridge.llm_wrappers.perplexity_wrapper import (
                     PerplexityWrapper,
                 )
 

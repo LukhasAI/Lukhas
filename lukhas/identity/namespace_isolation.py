@@ -17,11 +17,10 @@ Constellation Framework: Identity ⚛️ + Guardian 🛡️ + Memory 🗃️ coo
 
 from __future__ import annotations
 import hashlib
-import hmac
 import base64
 import json
 import logging
-from typing import Dict, Any, Optional, List, Set, Callable, Union, Tuple
+from typing import Dict, Any, Optional, List, Set, Callable
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
@@ -30,7 +29,7 @@ from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
 from opentelemetry import trace
 
-from .multi_tenant import TenantMetadata, TenantUser
+from .multi_tenant import TenantMetadata
 
 tracer = trace.get_tracer(__name__)
 logger = logging.getLogger(__name__)

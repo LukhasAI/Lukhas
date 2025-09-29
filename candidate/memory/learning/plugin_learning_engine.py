@@ -20,7 +20,7 @@ from lucas_core import (
 )
 from pydantic import BaseModel
 
-from candidate.core.common import get_logger
+from lukhas.core.common import get_logger
 
 from .content_generation_engine.doc_generator import DocGenerator
 from .symbolic_knowledge_core.knowledge_graph import SystemKnowledgeGraph

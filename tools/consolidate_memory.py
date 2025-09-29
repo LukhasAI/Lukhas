@@ -831,7 +831,7 @@ def test_memory_imports():
 
 def test_memory_systems():
     """Test core memory systems are available"""
-    from lukhas.accepted.memory import fold, causal, episodic, consolidation, colonies
+    from lukhas.memory import fold, causal, episodic, consolidation, colonies
 
     assert fold is not None
     assert causal is not None
@@ -841,7 +841,7 @@ def test_memory_systems():
 
 def test_fold_manager():
     """Test fold manager functionality"""
-    from lukhas.accepted.memory import get_fold_manager
+    from lukhas.memory import get_fold_manager
 
     manager = get_fold_manager()
     assert manager is not None
@@ -856,7 +856,7 @@ def test_fold_manager():
 
 def test_episodic_memory():
     """Test episodic memory storage"""
-    from lukhas.accepted.memory import get_episodic_memory
+    from lukhas.memory import get_episodic_memory
 
     episodic = get_episodic_memory()
 
@@ -870,7 +870,7 @@ def test_episodic_memory():
 
 def test_memory_colony():
     """Test colony-based distributed memory"""
-    from lukhas.accepted.memory import get_memory_colony
+    from lukhas.memory import get_memory_colony
 
     colony = get_memory_colony()
     status = colony.get_colony_status()
@@ -884,7 +884,7 @@ def test_memory_colony():
 
 def test_unified_memory():
     """Test unified memory interface"""
-    from lukhas.accepted.memory import get_unified_memory
+    from lukhas.memory import get_unified_memory
 
     memory = get_unified_memory()
 
@@ -899,7 +899,7 @@ def test_unified_memory():
 
 def test_triad_integration():
     """Test Constellation Framework integration"""
-    from lukhas.accepted.memory import triad_sync
+    from lukhas.memory import triad_sync
 
     sync_status = triad_sync()
     assert sync_status['identity'] == '⚛️'

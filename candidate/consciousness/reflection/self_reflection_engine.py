@@ -18,8 +18,8 @@ from typing import Any, Dict, List, Optional, Protocol, Union
 from contextlib import contextmanager
 import statistics
 
-from candidate.core.common.logger import get_logger
-from candidate.consciousness.systems.state import ConsciousnessState
+from lukhas.core.common.logger import get_logger
+from lukhas.consciousness.systems.state import ConsciousnessState
 
 # Feature flag configuration
 REFLECTION_ENABLED = os.getenv("CONSC_REFLECTION_ENABLED", "1").lower() in ("1", "true", "on")

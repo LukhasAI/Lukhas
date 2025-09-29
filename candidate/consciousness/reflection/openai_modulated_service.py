@@ -11,11 +11,11 @@ from dataclasses import dataclass
 from datetime import datetime
 from typing import Any, Optional
 
-from candidate.orchestration.signals.homeostasis import HomeostasisController
-from candidate.orchestration.signals.modulator import PromptModulator
+from lukhas.orchestration.signals.homeostasis import HomeostasisController
+from lukhas.orchestration.signals.modulator import PromptModulator
 
 # Import modulation components
-from candidate.orchestration.signals.signal_bus import Signal, SignalBus, SignalType
+from lukhas.orchestration.signals.signal_bus import Signal, SignalBus, SignalType
 
 # Import core components
 from consciousness.reflection.openai_core_service import (  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for Constellation Framework consciousness evolution

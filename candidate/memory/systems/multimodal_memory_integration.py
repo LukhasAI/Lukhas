@@ -10,7 +10,7 @@ from typing import Any, Optional, Union
 
 import numpy as np
 
-from candidate.core.common import get_logger
+from lukhas.core.common import get_logger
 
 from .multimodal_memory_support import (  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept pending MATRIZ wiring (document or remove)
 from datetime import timezone

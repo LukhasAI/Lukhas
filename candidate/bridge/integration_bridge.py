@@ -41,10 +41,10 @@ log = structlog.get_logger(__name__)
 LUKHAS_FRAMEWORK_COMPONENTS_AVAILABLE = False
 try:
     # Try candidate lane first
-    from candidate.bridge.plugin_base import LucasPlugin, LucasPluginManifest
-    from candidate.bridge.plugin_loader import PluginLoader
-    from candidate.core.registry import core_registry
-    from candidate.core.utils.base_module import BaseLucasModule
+    from lukhas.bridge.plugin_base import LucasPlugin, LucasPluginManifest
+    from lukhas.bridge.plugin_loader import PluginLoader
+    from lukhas.core.registry import core_registry
+    from lukhas.core.utils.base_module import BaseLucasModule
 
     LUKHAS_FRAMEWORK_COMPONENTS_AVAILABLE = True
     log.info("LUKHΛS framework components imported successfully from candidate lane.")
@@ -66,8 +66,8 @@ except ImportError:
 
             # Try to import core components from common locations
             try:
-                from candidate.core.registry import core_registry
-                from candidate.core.utils.base_module import BaseLucasModule
+                from lukhas.core.registry import core_registry
+                from lukhas.core.utils.base_module import BaseLucasModule
             except ImportError:
                 from lukhas.core.registry import core_registry
                 from lukhas.core.utils.base_module import BaseLucasModule

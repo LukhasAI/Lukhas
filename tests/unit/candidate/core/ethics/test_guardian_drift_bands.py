@@ -24,7 +24,7 @@ from unittest.mock import Mock, patch
 
 # Import test targets
 try:
-    from candidate.core.ethics.guardian_drift_bands import (
+    from lukhas.core.ethics.guardian_drift_bands import (
         GuardianBand,
         GuardianThresholds,
         GuardianDriftBands,
@@ -33,7 +33,7 @@ try:
         GuardianBandResult,
         create_guardian_drift_bands
     )
-    from candidate.core.ethics.logic.ethics_engine import EthicsAction, EthicsResult, EthicsEngine
+    from lukhas.core.ethics.logic.ethics_engine import EthicsAction, EthicsResult, EthicsEngine
     GUARDIAN_AVAILABLE = True
 except ImportError:
     GUARDIAN_AVAILABLE = False

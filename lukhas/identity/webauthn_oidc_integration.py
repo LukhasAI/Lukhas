@@ -17,7 +17,6 @@ Features:
 Implementation: T4/0.01% excellence targeting zero authentication bypasses
 """
 
-import asyncio
 import base64
 import hashlib
 import json
@@ -26,17 +25,15 @@ import time
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
 from enum import Enum
-from typing import Any, Dict, List, Optional, Set, Tuple
+from typing import Any, Dict, List, Optional, Set
 from uuid import uuid4
 
 import jwt
 import structlog
-from cryptography.hazmat.primitives import hashes, serialization
 from cryptography.hazmat.primitives.asymmetric import rsa
-from cryptography.hazmat.primitives.serialization import load_pem_public_key
 
-from .webauthn_security_hardening import WebAuthnSecurityHardening, SecurityEvent as WebAuthnSecurityEvent
-from .oidc_security_hardening import OIDCSecurityHardening, SecurityEvent as OIDCSecurityEvent
+from .webauthn_security_hardening import WebAuthnSecurityHardening
+from .oidc_security_hardening import OIDCSecurityHardening
 from .oidc.discovery import DiscoveryProvider
 
 logger = structlog.get_logger(__name__)

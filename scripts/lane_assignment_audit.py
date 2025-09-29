@@ -6,12 +6,9 @@ Comprehensive analysis of LUKHAS codebase to determine production readiness
 and assign modules to appropriate development lanes for T4/0.01% targets.
 """
 
-import os
-import re
 import ast
 import json
-import time
-from typing import Dict, List, Optional, Tuple, Set
+from typing import Dict, List
 from pathlib import Path
 from dataclasses import dataclass, asdict
 from collections import defaultdict

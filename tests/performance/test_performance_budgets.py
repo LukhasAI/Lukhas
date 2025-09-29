@@ -15,7 +15,6 @@ import pytest
 import time
 import psutil
 import gc
-from typing import Dict, List, Optional, Callable
 from dataclasses import dataclass
 from contextlib import asynccontextmanager
 

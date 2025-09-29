@@ -1199,7 +1199,7 @@ class ReflectionLayer:
         """Get actual drift score from UnifiedDriftMonitor or fallback"""
         try:
             # Try to import and use the actual drift monitor
-            from candidate.core.monitoring.drift_monitor import UnifiedDriftMonitor
+            from lukhas.core.monitoring.drift_monitor import UnifiedDriftMonitor
 
             # Create a temporary monitor to get drift metrics
             # In production, this would use a shared instance
@@ -1388,7 +1388,7 @@ class ReflectionLayer:
         """Initialize the actual voice handler for reflection vocalization"""
         try:
             # Try to import and initialize the actual VoiceHandler
-            from candidate.core.user_interface_manager.voice_handler import VoiceHandler
+            from lukhas.core.user_interface_manager.voice_handler import VoiceHandler
 
             voice_config = {
                 "reflection_mode": True,
@@ -1404,7 +1404,7 @@ class ReflectionLayer:
             self.logger.warning("VoiceHandler not available - falling back to voice renderer")
             # Fallback to voice renderer
             try:
-                from candidate.core.interfaces.logic.voice.voice_renderer import (
+                from lukhas.core.interfaces.logic.voice.voice_renderer import (
                     render_voice,
                 )
 
@@ -1692,7 +1692,7 @@ if __name__ == "__main__":
 #          and interactions with (placeholder) infrastructure. Standalone config for __main__.
 # AUTHENTICATION: Not applicable at this component level.
 # HOW TO USE:
-#   from candidate.core.Adaptative_AGI.GUARDIAN.reflection_layer import create_reflection_layer
+#   from lukhas.core.Adaptative_AGI.GUARDIAN.reflection_layer import create_reflection_layer
 #   reflection_svc = create_reflection_layer(config)
 #   reflection_svc.process_reflection_cycle(trigger_data)
 # INTEGRATION NOTES: Critical dependencies on LUKHAS core infrastructure (spine, bio_core, etc.)

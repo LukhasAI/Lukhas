@@ -11,7 +11,7 @@ Integrates with LUKHAS consciousness system for enhanced creative output.
 import time
 from typing import Any
 
-from candidate.core.common import get_logger
+from lukhas.core.common import get_logger
 
 logger = get_logger(__name__)
 

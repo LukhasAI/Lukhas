@@ -952,8 +952,8 @@ class TopologyManager:
 # LOGGING: ΛTRACE_ENABLED via Python's logging module for detailed tracing of analyses and recommendations.
 # AUTHENTICATION: Not applicable at this component level.
 # HOW TO USE:
-#   from candidate.core.adaptive_systems.crista_optimizer.topology_manager import TopologyManager, TopologyMetrics
-#   from candidate.core.adaptive_systems.crista_optimizer.symbolic_network import SymbolicNetwork # and NetworkConfig
+#   from lukhas.core.adaptive_systems.crista_optimizer.topology_manager import TopologyManager, TopologyMetrics
+#   from lukhas.core.adaptive_systems.crista_optimizer.symbolic_network import SymbolicNetwork # and NetworkConfig
 #   # ... (assuming network is an initialized SymbolicNetwork instance) ...
 #   topo_manager = TopologyManager(network)
 #   metrics = topo_manager.analyze_topology()

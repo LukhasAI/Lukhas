@@ -317,7 +317,7 @@ def test_bio_imports():
 
 def test_bio_core_components():
     """Test core bio components are available"""
-    from lukhas.accepted.bio import oscillator, symbolic, awareness
+    from lukhas.bio import oscillator, symbolic, awareness
 
     # Check modules exist
     assert oscillator is not None
@@ -326,14 +326,14 @@ def test_bio_core_components():
 
 def test_bio_engine():
     """Test bio engine initialization"""
-    from lukhas.accepted.bio import get_bio_engine
+    from lukhas.bio import get_bio_engine
 
     engine = get_bio_engine()
     assert engine is not None
 
 def test_triad_integration():
     """Test Constellation Framework integration"""
-    from lukhas.accepted.bio import triad_sync
+    from lukhas.bio import triad_sync
 
     sync_status = triad_sync()
     assert sync_status['identity'] == '⚛️'

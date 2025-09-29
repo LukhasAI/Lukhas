@@ -681,7 +681,7 @@ def test_system():
         from block_builder import BlockBuilder
         from markdown_parser import MarkdownParser
 
-        from candidate.core.config_manager import ConfigManager
+        from lukhas.core.config_manager import ConfigManager
 
         print("✅ All imports successful")
 

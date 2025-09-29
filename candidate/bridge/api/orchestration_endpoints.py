@@ -45,7 +45,7 @@ try:
     from pydantic import BaseModel, Field, ValidationError  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for API expansion (document or implement)
 
     # LUKHAS imports
-    from candidate.bridge.api.orchestration_api_bridge import (
+    from lukhas.bridge.api.orchestration_api_bridge import (
         APIProvider,
         ComprehensiveAPIOrchestrator,
         OrchestrationRequest,

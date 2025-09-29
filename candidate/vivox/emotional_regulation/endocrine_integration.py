@@ -10,11 +10,11 @@ from dataclasses import dataclass
 from datetime import datetime, timezone
 from typing import Any, Optional
 
-from candidate.core.common import get_logger
+from lukhas.core.common import get_logger
 
 # Import endocrine system
 try:
-    from candidate.core.endocrine.hormone_system import HormoneSystem, HormoneType
+    from lukhas.core.endocrine.hormone_system import HormoneSystem, HormoneType
 
     ENDOCRINE_AVAILABLE = True
 except ImportError:

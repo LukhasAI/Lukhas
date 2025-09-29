@@ -87,7 +87,7 @@ class MemoryServiceAdapter(IMemoryService):
 
         # Emit event through existing event bus
         try:
-            from candidate.orchestration.symbolic_kernel_bus import kernel_bus
+            from lukhas.orchestration.symbolic_kernel_bus import kernel_bus
 
             EventBus()
             event = MemoryFoldCreated(
@@ -579,8 +579,8 @@ class BridgeServiceAdapter(IBridgeService):
         """Lazy load bridge components"""
         if not self._initialized:
             try:
-                from candidate.bridge.api_connector import APIConnector
-                from candidate.bridge.protocol_translator import ProtocolTranslator
+                from lukhas.bridge.api_connector import APIConnector
+                from lukhas.bridge.protocol_translator import ProtocolTranslator
 
                 self._api_connector = APIConnector() if APIConnector else None
                 self._translator = ProtocolTranslator() if ProtocolTranslator else None
@@ -646,7 +646,7 @@ class BridgeServiceAdapter(IBridgeService):
 
 def register_service_adapters():
     """Register all service adapters with the container"""
-    from candidate.core.container.service_container import get_container
+    from lukhas.core.container.service_container import get_container
 
     container = get_container()
 

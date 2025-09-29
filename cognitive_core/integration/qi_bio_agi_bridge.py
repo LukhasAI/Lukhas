@@ -60,11 +60,11 @@ except ImportError:
 
 try:
     # QI System Components
-    from candidate.qi.bio.bio_coordinator import QIBioCoordinator
-    from candidate.qi.bio.mitochondrial_energy import MitochondrialEnergySystem
-    from candidate.qi.bio.oscillators.base_oscillator import BaseOscillator
-    from candidate.qi.processing.consensus_system import ConsensusSystem
-    from candidate.qi.processing.qi_engine import QIOscillator
+    from lukhas.qi.bio.bio_coordinator import QIBioCoordinator
+    from lukhas.qi.bio.mitochondrial_energy import MitochondrialEnergySystem
+    from lukhas.qi.bio.oscillators.base_oscillator import BaseOscillator
+    from lukhas.qi.processing.consensus_system import ConsensusSystem
+    from lukhas.qi.processing.qi_engine import QIOscillator
 
     QI_AVAILABLE = True
 except ImportError:
@@ -88,10 +88,10 @@ except ImportError:
 
 try:
     # Bio System Components
-    from candidate.bio.awareness import BiologicalAwareness
-    from candidate.bio.core import BioCore
-    from candidate.bio.oscillator import BiologicalOscillator
-    from candidate.bio.symbolic import SymbolicBio
+    from lukhas.bio.awareness import BiologicalAwareness
+    from lukhas.bio.core import BioCore
+    from lukhas.bio.oscillator import BiologicalOscillator
+    from lukhas.bio.symbolic import SymbolicBio
 
     BIO_AVAILABLE = True
 except ImportError:

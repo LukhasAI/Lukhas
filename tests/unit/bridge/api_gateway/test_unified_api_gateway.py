@@ -8,7 +8,7 @@ from unittest.mock import AsyncMock, MagicMock
 import pytest
 from fastapi.testclient import TestClient
 
-from candidate.bridge.api_gateway.unified_api_gateway import UnifiedAPIGateway
+from lukhas.bridge.api_gateway.unified_api_gateway import UnifiedAPIGateway
 
 
 @pytest.mark.tier3

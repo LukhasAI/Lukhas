@@ -16,7 +16,7 @@ import statistics
 import time
 import sys
 from pathlib import Path
-from typing import Dict, List, Any, Tuple
+from typing import Dict, List, Any
 from dataclasses import dataclass
 import argparse
 

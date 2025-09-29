@@ -12,8 +12,7 @@ Usage:
 import json
 import subprocess
 import sys
-import os
-from typing import Dict, List, Any
+from typing import Dict, Any
 from pathlib import Path
 
 def check_pinned_github_actions() -> Dict[str, Any]:

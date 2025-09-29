@@ -1,5 +1,5 @@
 import pytest
-from candidate.qi.bio.bio_optimizer import (
+from lukhas.qi.bio.bio_optimizer import (
     handle_failed_target,
     reset_metabolic_baseline,
     adjust_sensitivity,

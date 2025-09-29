@@ -39,7 +39,7 @@ def is_allowed_now(user_context):
 ──────────────────────────────────────────────────────────────────────────────────────
 EXECUTION:
     - Import using:
-        from candidate.core.modules.abas.abas import is_allowed_now
+        from lukhas.core.modules.abas.abas import is_allowed_now
 
 USED BY:
     - nias_core.py

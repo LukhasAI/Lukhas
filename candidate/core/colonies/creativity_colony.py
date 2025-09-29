@@ -6,7 +6,7 @@ from typing import Any
 
 # Updated import path to avoid deprecation warning
 try:
-    from lukhas.accepted.bio.utils import fatigue_level
+    from lukhas.bio.utils import fatigue_level
 except ImportError:
     # Fallback to legacy import if new path not available
     try:

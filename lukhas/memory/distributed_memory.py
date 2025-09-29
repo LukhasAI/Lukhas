@@ -10,15 +10,13 @@ import logging
 import time
 import uuid
 from datetime import datetime, timedelta
-from typing import Dict, List, Optional, Set, Any, Tuple, Callable
+from typing import Dict, Optional, Set, Any, Callable
 from dataclasses import dataclass, field, asdict
 from enum import Enum
-from collections import defaultdict, deque
-import socket
-import struct
+from collections import deque
 
 from lukhas.memory.fold_system import MemoryFold
-from lukhas.memory.consciousness_memory_integration import ConsciousnessMemoryIntegrator, MemoryFoldType
+from lukhas.memory.consciousness_memory_integration import ConsciousnessMemoryIntegrator
 
 logger = logging.getLogger(__name__)
 

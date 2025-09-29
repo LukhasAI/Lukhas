@@ -95,7 +95,7 @@ from datetime import datetime
 from enum import Enum
 from typing import Any, Callable, Optional
 
-from candidate.core.common import get_logger
+from lukhas.core.common import get_logger
 
 # Set up logger first
 logger = get_logger(__name__)

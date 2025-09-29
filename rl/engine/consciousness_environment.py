@@ -29,7 +29,7 @@ except ImportError:
     np = None
 
 # MΛTRIZ schema and consciousness imports
-from candidate.core.common import get_logger
+from lukhas.core.common import get_logger
 
 logger = get_logger(__name__)
 
@@ -114,19 +114,19 @@ class ConsciousnessEnvironment:
         # Dynamic loading of existing modules
         try:
             if module_path == "memory.fold.v1":
-                from candidate.memory.temporal.compliance_hooks import ComplianceHooks
+                from lukhas.memory.temporal.compliance_hooks import ComplianceHooks
 
                 module = ComplianceHooks()
             elif module_path == "governance.guardian.v1":
-                from candidate.governance.guardian.guardian_system import GuardianSystem
+                from lukhas.governance.guardian.guardian_system import GuardianSystem
 
                 module = GuardianSystem()
             elif module_path == "consciousness.observer.v1":
-                from candidate.consciousness.reflection.consciousness_hub import ConsciousnessHub
+                from lukhas.consciousness.reflection.consciousness_hub import ConsciousnessHub
 
                 module = ConsciousnessHub()
             elif module_path == "orchestration.hub.v1":
-                from candidate.core.orchestration.agent_orchestrator import AgentOrchestrator
+                from lukhas.core.orchestration.agent_orchestrator import AgentOrchestrator
 
                 module = AgentOrchestrator()
             else:

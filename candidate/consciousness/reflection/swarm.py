@@ -21,13 +21,13 @@ from typing import Any, Callable, Optional, Union
 
 import numpy as np
 
-from candidate.core.actor_system import Actor
-from candidate.core.common import get_logger
-from candidate.core.distributed_tracing import AIAgentTracer, get_global_tracer
+from lukhas.core.actor_system import Actor
+from lukhas.core.common import get_logger
+from lukhas.core.distributed_tracing import AIAgentTracer, get_global_tracer
 
 # Import BaseColony infrastructure for coherence
 try:
-    from candidate.core.colonies.base_colony import BaseColony
+    from lukhas.core.colonies.base_colony import BaseColony
 
     BASE_COLONY_AVAILABLE = True
 except ImportError:

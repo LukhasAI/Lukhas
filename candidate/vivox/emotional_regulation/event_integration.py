@@ -12,16 +12,16 @@ from dataclasses import dataclass
 from datetime import datetime, timezone
 from typing import Any, Optional
 
-from candidate.core.common import get_logger
+from lukhas.core.common import get_logger
 
 # Import event system
 try:
-    from candidate.core.events.contracts import (
+    from lukhas.core.events.contracts import (
         DomainEvent,
         EmotionalRegulationApplied,
         EmotionalStateChanged,
     )
-    from candidate.core.events.typed_event_bus import TypedEventBus
+    from lukhas.core.events.typed_event_bus import TypedEventBus
 
     EVENT_SYSTEM_AVAILABLE = True
 except ImportError:

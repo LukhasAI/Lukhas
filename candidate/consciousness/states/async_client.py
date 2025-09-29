@@ -111,7 +111,7 @@ from huggingface_hub.utils import build_hf_headers, get_session, hf_raise_for_st
 from huggingface_hub.utils._auth import get_token
 from huggingface_hub.utils._deprecation import _deprecate_method
 
-from candidate.core.common import get_logger
+from lukhas.core.common import get_logger
 
 from .._common import _async_yield_from, _import_aiohttp
 

@@ -70,7 +70,7 @@ from typing import Any, Optional
 import numpy as np
 
 # Add logging
-from candidate.core.common import get_logger
+from lukhas.core.common import get_logger
 
 logger = get_logger(__name__)
 

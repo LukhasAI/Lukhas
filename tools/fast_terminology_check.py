@@ -6,7 +6,6 @@ Quick validation of terminology migration and schema compliance.
 """
 
 import subprocess
-import os
 from pathlib import Path
 
 def run_fast_terminology_check():

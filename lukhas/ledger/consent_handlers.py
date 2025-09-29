@@ -13,8 +13,8 @@ import logging
 import sqlite3
 import time
 from abc import ABC, abstractmethod
-from dataclasses import asdict, dataclass, field
-from datetime import datetime, timedelta, timezone
+from dataclasses import dataclass, field
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 import threading
@@ -25,9 +25,6 @@ from .events import (
     ConsentRevokedEvent,
     ConsentCheckedEvent,
     TraceCreatedEvent,
-    DuressDetectedEvent,
-    DataSubjectRequestEvent,
-    PolicyViolationEvent,
     EventType,
 )
 from .event_bus import AsyncEventBus, EventOffset, EventSubscriber

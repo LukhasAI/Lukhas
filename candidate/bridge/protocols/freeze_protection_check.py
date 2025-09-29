@@ -4,7 +4,7 @@ logger = logging.getLogger(__name__)
 # LUKHAS_TAG: freeze_protection, core_trace
 import inspect
 
-from candidate.core.common import get_logger
+from lukhas.core.common import get_logger
 
 # TAG:bridge
 # TAG:protocols

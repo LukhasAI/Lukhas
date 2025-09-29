@@ -1,7 +1,7 @@
 import json
 from pathlib import Path
 
-from candidate.consciousness.awareness.awareness_log_synchronizer import AwarenessLogSynchronizer
+from lukhas.consciousness.awareness.awareness_log_synchronizer import AwarenessLogSynchronizer
 from lukhas.tiers import GlobalTier
 
 

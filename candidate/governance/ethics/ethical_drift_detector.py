@@ -28,7 +28,7 @@ from typing import Any, Optional
 
 import yaml
 
-from candidate.core.symbolic.symbolic_tracer import SymbolicTracer
+from lukhas.core.symbolic.symbolic_tracer import SymbolicTracer
 
 # Add the necessary paths for imports
 sys.path.append(str(Path(__file__).parent.parent.parent))

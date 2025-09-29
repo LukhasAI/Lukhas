@@ -38,7 +38,7 @@ async def test_sampl_memory_system():
     print_test_header("SAMPL MEMORY SYSTEM", "Testing spreading activation and non-monotonic plasticity")
 
     try:
-        from candidate.memory.fold_system.hybrid_memory_fold import SAMPLMemoryEngine
+        from lukhas.memory.fold_system.hybrid_memory_fold import SAMPLMemoryEngine
 
         # Initialize system
         sampl = SAMPLMemoryEngine()
@@ -238,7 +238,7 @@ async def test_spirulina_atp_system():
     print_test_header("SPIRULINA-ATP ENERGY SYSTEM", "Testing bio-hybrid energy efficiency")
 
     try:
-        from candidate.bio.energy.spirulina_atp_system import SpirulinaATPHybridSystem
+        from lukhas.bio.energy.spirulina_atp_system import SpirulinaATPHybridSystem
 
         # Initialize system
         energy_system = SpirulinaATPHybridSystem(system_scale=1.0)
@@ -310,7 +310,7 @@ async def test_collapse_governance_system():
     print_test_header("COLLAPSE GOVERNANCE SYSTEM", "Testing ethical decision-making and drift prevention")
 
     try:
-        from candidate.consciousness.quantum.collapse_governance_system import CollapseGovernanceSystem
+        from lukhas.consciousness.quantum.collapse_governance_system import CollapseGovernanceSystem
 
         # Initialize system
         governance = CollapseGovernanceSystem()

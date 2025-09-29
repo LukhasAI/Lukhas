@@ -5,7 +5,7 @@ Validates genetic algorithm functionality and safety constraints.
 import os
 from unittest.mock import patch
 
-from candidate.consciousness.dream.expand.evolution import (
+from lukhas.consciousness.dream.expand.evolution import (
     StrategyGenome, EvolutionEngine, save_strategy, load_strategy, get_evolution_config
 )
 

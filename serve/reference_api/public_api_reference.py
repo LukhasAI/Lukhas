@@ -40,7 +40,7 @@ from slowapi.util import get_remote_address
 
 # Updated imports for current LUKHAS structure
 try:
-    from candidate.core.security.auth import get_auth_system
+    from lukhas.core.security.auth import get_auth_system
 except ImportError:
     # Fallback for development - would need to implement
     def get_auth_system():

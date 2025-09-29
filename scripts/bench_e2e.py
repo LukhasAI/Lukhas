@@ -191,8 +191,6 @@ class E2EPerformanceSuite:
 
     def test_orchestrator_e2e(self):
         """Orchestrator E2E with simulated network delay"""
-        import aiohttp
-        from unittest.mock import patch
 
         async def simulate_network_call():
             """Simulate real network latency"""

@@ -5,31 +5,24 @@ Comprehensive test suite for session store, token rotation, and CRC32 validation
 Tests both Redis and SQLite backends with performance benchmarks and chaos scenarios.
 """
 
-import asyncio
 import pytest
 import tempfile
 import time
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
-from unittest.mock import Mock, patch
-from typing import Dict, Any, Optional
+from typing import Dict, Optional
 
 from lukhas.identity.session_store import (
     SessionData,
     SessionManager,
     RedisSessionStore,
     SQLiteSessionStore,
-    SessionStoreError,
-    SessionNotFoundError,
-    SessionExpiredError,
-    create_redis_session_manager,
-    create_sqlite_session_manager
+    SessionNotFoundError
 )
 
 from lukhas.identity.token_generator import (
     TokenGenerator,
     TokenResponse,
-    TokenClaims,
     _calculate_crc32,
     _verify_crc32
 )

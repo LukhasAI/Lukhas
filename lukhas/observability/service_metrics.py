@@ -16,11 +16,10 @@ Features:
 
 import time
 import threading
-from typing import Dict, Any, Optional, List, Callable
+from typing import Dict, Any, Optional, List
 from dataclasses import dataclass, field
 from enum import Enum
 from collections import defaultdict, deque
-import statistics
 import logging
 
 logger = logging.getLogger(__name__)

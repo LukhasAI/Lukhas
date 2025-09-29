@@ -28,7 +28,7 @@ from slowapi import Limiter, _rate_limit_exceeded_handler
 from slowapi.errors import RateLimitExceeded
 from slowapi.util import get_remote_address
 
-from candidate.core.security.auth import get_auth_system
+from lukhas.core.security.auth import get_auth_system
 
 # Import LUKHAS components
 from lukhas.branding_bridge import get_system_signature, get_triad_context, initialize_branding

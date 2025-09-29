@@ -18,14 +18,13 @@ Test Coverage:
 """
 
 import asyncio
-import json
 import time
 from datetime import datetime, timedelta, timezone
-from unittest.mock import AsyncMock, MagicMock, patch
+from unittest.mock import AsyncMock, patch
 
 import pytest
 from hypothesis import given, strategies as st, settings, HealthCheck
-from hypothesis.strategies import text, integers, floats, booleans, dictionaries
+from hypothesis.strategies import text
 
 # Import the components under test
 try:

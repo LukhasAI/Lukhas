@@ -43,7 +43,7 @@ import random
 from datetime import datetime
 from typing import Any, Optional
 
-from candidate.core.common import get_logger
+from lukhas.core.common import get_logger
 
 # Configure module logger
 logger = get_logger(__name__)
@@ -54,7 +54,7 @@ MODULE_NAME = "voice_personality"
 
 # Import personality components
 try:
-    from candidate.core.personality.creative_expressions import NeuroHaikuGenerator
+    from lukhas.core.personality.creative_expressions import NeuroHaikuGenerator
 
     HAIKU_AVAILABLE = True
 except ImportError:
@@ -62,7 +62,7 @@ except ImportError:
     logger.warning("NeuroHaikuGenerator not available. Some creative features will be disabled.")
 
 try:
-    from candidate.orchestration.brain.personality.personality_refiner import (
+    from lukhas.orchestration.brain.personality.personality_refiner import (
         PersonalityRefiner,
     )
 
@@ -72,7 +72,7 @@ except ImportError:
     logger.warning("PersonalityRefiner not available. Adaptive personality features will be disabled.")
 
 try:
-    from candidate.orchestration.brain.orchestration.emotional_oscillator import (
+    from lukhas.orchestration.brain.orchestration.emotional_oscillator import (
         EmotionalOscillator,
     )
 

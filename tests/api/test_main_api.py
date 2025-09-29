@@ -7,9 +7,7 @@ Tests API wiring, endpoint discovery, and integration between components.
 """
 
 import pytest
-import httpx
 from fastapi.testclient import TestClient
-import json
 import os
 from unittest.mock import patch
 

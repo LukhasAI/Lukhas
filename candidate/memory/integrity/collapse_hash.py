@@ -55,13 +55,13 @@ from typing import Any, Optional
 from uuid import uuid4
 
 # Add logging
-from candidate.core.common import get_logger
+from lukhas.core.common import get_logger
 
 logger = get_logger(__name__)
 
 # Import LUKHAS components
 try:
-    from candidate.core.symbolism.tags import TagScope
+    from lukhas.core.symbolism.tags import TagScope
 
     LUKHAS_AVAILABLE = True
 except ImportError as e:

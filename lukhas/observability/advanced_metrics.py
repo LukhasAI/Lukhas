@@ -14,15 +14,12 @@ Features:
 """
 
 import asyncio
-import json
-import os
 import statistics
-import time
 from collections import defaultdict, deque
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
 from enum import Enum
-from typing import Any, Dict, List, Optional, Set, Tuple, Union
+from typing import Any, Dict, List, Optional, Tuple, Union
 from uuid import uuid4
 
 try:
@@ -31,7 +28,7 @@ try:
 except ImportError:
     NUMPY_AVAILABLE = False
 
-from .prometheus_metrics import LUKHASMetrics, get_lukhas_metrics
+from .prometheus_metrics import get_lukhas_metrics
 from .evidence_collection import EvidenceType, collect_evidence
 
 

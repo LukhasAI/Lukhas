@@ -19,7 +19,7 @@ import logging
 import streamlit as st
 
 # Module imports
-from candidate.core.common import get_logger
+from lukhas.core.common import get_logger
 
 # Configure module logger
 logger = get_logger(__name__)
@@ -69,7 +69,7 @@ __all__ = [
     "BioSymbolicAwarenessAdapter",
     "LucasAwarenessProtocol",
     "SymbolicTraceLogger",
-    # Add other names to be exported by 'from candidate.core.advanced.brain.awareness import *'
+    # Add other names to be exported by 'from lukhas.core.advanced.brain.awareness import *'
 ]
 
 logger.info(f"ΛTRACE: 'core.advanced.brain.awareness' package initialized. Exposed symbols in __all__: {__all__}")
@@ -90,7 +90,7 @@ logger.info(f"ΛTRACE: 'core.advanced.brain.awareness' package initialized. Expo
 # LOGGING: ΛTRACE_ENABLED via Python's logging module for package initialization and imports.
 # AUTHENTICATION: Not applicable at package initialization level.
 # HOW TO USE:
-#   from candidate.core.advanced.brain.awareness import LucasAwarenessProtocol
+#   from lukhas.core.advanced.brain.awareness import LucasAwarenessProtocol
 #   awareness_protocol = LucasAwarenessProtocol()
 # INTEGRATION NOTES: This package is central to system self-monitoring and potentially
 #                    higher-level cognitive functions. Ensure all exported classes are stable.

@@ -4,7 +4,7 @@ import asyncio
 import tempfile
 from datetime import datetime
 
-from candidate.governance.security.audit_system import (
+from lukhas.governance.security.audit_system import (
     AuditCategory,
     AuditEvent,
     AuditEventType,

@@ -4,7 +4,7 @@
 
 import asyncio
 
-from candidate.aka_qualia import AkaQualia
+from lukhas.aka_qualia import AkaQualia
 
 
 async def test_dangerous_input():

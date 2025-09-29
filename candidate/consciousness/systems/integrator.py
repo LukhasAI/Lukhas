@@ -46,9 +46,9 @@ from enum import Enum
 from pathlib import Path
 from typing import Any, Optional
 
-# Try to import from candidate.core.common if available
+# Try to import from lukhas.core.common if available
 try:
-    from candidate.core.common import get_logger
+    from lukhas.core.common import get_logger
 
     logger = get_logger("consciousness", timezone)
 except ImportError:

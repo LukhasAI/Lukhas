@@ -19,7 +19,7 @@ from typing import Any, Optional
 
 import structlog
 
-from candidate.orchestration.signals.signal_bus import SignalBus
+from lukhas.orchestration.signals.signal_bus import SignalBus
 
 # Support both package and direct module execution import styles
 try:
@@ -147,7 +147,7 @@ class HormoneDrivenDashboard:
         # Lazy import for global bus getter to avoid circulars
         if signal_bus is None:
             try:
-                from candidate.orchestration.signals.signal_bus import (
+                from lukhas.orchestration.signals.signal_bus import (
                     get_signal_bus as _get_bus,
                 )
 

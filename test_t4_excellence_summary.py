@@ -6,7 +6,6 @@ T4/0.01% Excellence Test Summary
 Comprehensive validation of all T4/0.01% excellence implementations
 """
 
-import asyncio
 import subprocess
 import sys
 import time

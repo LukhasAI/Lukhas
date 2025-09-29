@@ -15,9 +15,7 @@ Features:
 - Emergency revocation and incident response
 """
 
-import asyncio
 import hashlib
-import ipaddress
 import time
 import logging
 from typing import Dict, Any, Optional, List, Tuple, Set
@@ -26,10 +24,9 @@ from enum import Enum
 from datetime import datetime, timedelta, timezone
 from collections import defaultdict, deque
 import json
-import hmac
 import secrets
 
-from .webauthn_production import WebAuthnCredential, AuthenticatorTier, CredentialStatus
+from .webauthn_production import WebAuthnCredential, CredentialStatus
 
 logger = logging.getLogger(__name__)
 

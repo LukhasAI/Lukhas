@@ -18,13 +18,13 @@ from typing import Any, Optional
 import numpy as np
 
 # Import colony infrastructure
-from candidate.core.colonies.base_colony import BaseColony, ConsensusResult
-from candidate.core.enhanced_swarm import AgentCapability, AgentMemory, AgentState
-from candidate.core.enhanced_swarm import EnhancedSwarmAgent as SwarmAgent
+from lukhas.core.colonies.base_colony import BaseColony, ConsensusResult
+from lukhas.core.enhanced_swarm import AgentCapability, AgentMemory, AgentState
+from lukhas.core.enhanced_swarm import EnhancedSwarmAgent as SwarmAgent
 
 # Import event bus for dream coordination
 try:
-    from candidate.orchestration.symbolic_kernel_bus import DreamEventType
+    from lukhas.orchestration.symbolic_kernel_bus import DreamEventType
 except ImportError:
     DreamEventType = None
 
@@ -561,7 +561,7 @@ class DreamVerificationColony(BaseColony):
         await super().initialize()
 
         # Get event systems
-        from candidate.core.event_bus import get_global_event_bus
+        from lukhas.core.event_bus import get_global_event_bus
         from governance.identity.core.events import get_identity_event_publisher
 
         self.event_publisher = await get_identity_event_publisher()

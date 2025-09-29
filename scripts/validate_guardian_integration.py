@@ -20,18 +20,16 @@ import logging
 import os
 import pickle
 import platform
-import psutil
 import statistics
 import sys
-import tempfile
 import time
 import traceback
 import uuid
-from collections import defaultdict, deque
+from collections import defaultdict
 from contextlib import asynccontextmanager
-from dataclasses import asdict, dataclass, field
+from dataclasses import asdict, dataclass
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Dict
 
 # Suppress verbose logging during validation
 logging.getLogger().setLevel(logging.CRITICAL)
@@ -39,7 +37,6 @@ logging.getLogger().setLevel(logging.CRITICAL)
 # Add project root to path
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 
-from bench_core import PerformanceBenchmark
 from preflight_check import PreflightValidator
 
 
@@ -270,7 +267,7 @@ class GuardianIntegrationValidator:
         # Memory Module Integration
         print("    🧠 Testing Memory-Guardian integration...")
         try:
-            from candidate.core.identity.manager import AdvancedIdentityManager
+            from lukhas.core.identity.manager import AdvancedIdentityManager
 
             identity_mgr = AdvancedIdentityManager()
 
@@ -321,7 +318,7 @@ class GuardianIntegrationValidator:
         # Lambda ID Service Integration
         print("    🆔 Testing Lambda ID-Guardian integration...")
         try:
-            from candidate.governance.identity.core.lambd_id_service import LambdaIDService
+            from lukhas.governance.identity.core.lambd_id_service import LambdaIDService
 
             lambda_service = LambdaIDService()
 
@@ -595,7 +592,7 @@ class GuardianIntegrationValidator:
         print("    📝 Test 2: Audit trail completeness")
         try:
             # Test that all Guardian operations are properly logged
-            from candidate.core.identity.manager import AdvancedIdentityManager
+            from lukhas.core.identity.manager import AdvancedIdentityManager
 
             identity_mgr = AdvancedIdentityManager()
 

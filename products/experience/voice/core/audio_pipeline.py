@@ -19,22 +19,22 @@ from typing import Any, Optional
 
 import numpy as np
 
-from candidate.core.common.glyph import GLYPHSymbol, create_glyph
-from candidate.core.common.logger import get_logger
-from candidate.governance.guardian import GuardianValidator
-from candidate.voice.audio_processing import (
+from lukhas.core.common.glyph import GLYPHSymbol, create_glyph
+from lukhas.core.common.logger import get_logger
+from lukhas.governance.guardian import GuardianValidator
+from lukhas.voice.audio_processing import (
     AudioBuffer,
     AudioFormat,
     LUKHASAudioProcessor,
     ProcessingQuality,
 )
-from candidate.voice.tts_integration import LUKHASTTSService, TTSRequest
-from candidate.voice.voice_effects import (
+from lukhas.voice.tts_integration import LUKHASTTSService, TTSRequest
+from lukhas.voice.voice_effects import (
     EffectIntensity,
     VoiceEffectsProcessor,
     VoiceEffectType,
 )
-from candidate.voice.voice_modulator import VoiceModulationMode, VoiceModulator
+from lukhas.voice.voice_modulator import VoiceModulationMode, VoiceModulator
 
 logger = get_logger(__name__)
 
@@ -387,7 +387,7 @@ class EffectsProcessingStage(PipelineStageProcessor):
         # Apply custom effects
         for effect_type, effect_params in pipeline_input.custom_effects:
             try:
-                from candidate.voice.voice_effects import EffectParameters
+                from lukhas.voice.voice_effects import EffectParameters
 
                 # Convert dict to EffectParameters
                 params = EffectParameters(

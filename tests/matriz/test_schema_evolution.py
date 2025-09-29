@@ -29,9 +29,8 @@ import logging
 import pytest
 import time
 from pathlib import Path
-from typing import Dict, Any, List, Set, Optional, Tuple
+from typing import Dict, Any, List, Set
 from dataclasses import dataclass
-from unittest.mock import patch
 
 logger = logging.getLogger(__name__)
 

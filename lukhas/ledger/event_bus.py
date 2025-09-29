@@ -25,11 +25,10 @@ from dataclasses import asdict, dataclass
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, AsyncIterator, Callable, Dict, List, Optional, Protocol
-from contextlib import asynccontextmanager
 import threading
 from enum import Enum
 
-from .events import ConsentEvent, create_event_from_dict, validate_event_schema, compute_event_chain_hash
+from .events import ConsentEvent, create_event_from_dict, validate_event_schema
 
 logger = logging.getLogger(__name__)
 

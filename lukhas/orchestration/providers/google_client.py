@@ -9,7 +9,7 @@ Google Gemini API client adapter with feature flag gating and production error h
 import os
 import time
 import asyncio
-from typing import List, Optional, Dict, Any
+from typing import List, Optional
 import logging
 
 from .base_client import BaseAIClient, AIResponse, AIProvider

@@ -14,7 +14,7 @@ from typing import Any, Optional
 
 import numpy as np
 
-from candidate.core.common import get_logger
+from lukhas.core.common import get_logger
 
 from ..coherence.qsync_events import QISynchronizer, SyncType
 from ..collapse.moral_superposition import EthicalDimension, MoralSuperposition

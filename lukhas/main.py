@@ -13,9 +13,8 @@ Central FastAPI application that wires all LUKHAS services together:
 import os
 import logging
 from contextlib import asynccontextmanager
-from typing import Dict, Any
 
-from fastapi import FastAPI, HTTPException, Depends, Request
+from fastapi import FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.middleware.trustedhost import TrustedHostMiddleware
 from fastapi.responses import JSONResponse

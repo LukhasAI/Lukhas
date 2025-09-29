@@ -148,15 +148,15 @@ from typing import Any, Optional
 
 # Import core memory systems with comprehensive fallbacks
 try:
-    from candidate.memory.compression.symbolic_delta import (
+    from lukhas.memory.compression.symbolic_delta import (
         AdvancedSymbolicDeltaCompressor,
     )
-    from candidate.memory.protection.symbolic_quarantine_sanctum import (
+    from lukhas.memory.protection.symbolic_quarantine_sanctum import (
         SymbolicQuarantineSanctum,
     )
-    from candidate.memory.systems.causal_memory_chains import CausalMemoryChains
-    from candidate.memory.systems.emotional_memory import EmotionalMemory
-    from candidate.memory.systems.memory_fold_system import (
+    from lukhas.memory.systems.causal_memory_chains import CausalMemoryChains
+    from lukhas.memory.systems.emotional_memory import EmotionalMemory
+    from lukhas.memory.systems.memory_fold_system import (
         FoldMetrics,
         MemoryFoldSystem,
     )

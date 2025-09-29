@@ -23,7 +23,7 @@ import sys
 import time
 import hashlib
 from pathlib import Path
-from typing import Dict, List, Optional, Any
+from typing import Dict, Optional, Any
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)

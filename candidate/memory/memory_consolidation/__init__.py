@@ -7,7 +7,7 @@ import warnings
 
 import streamlit as st
 
-from lukhas.accepted.memory.consolidation import *
+from lukhas.memory.consolidation import *
 
 warnings.warn(
     "Import 'memory.memory_consolidation' is deprecated and will be removed on 2025-11-01. "

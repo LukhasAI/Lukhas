@@ -5,8 +5,8 @@ from typing import Optional
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 
-from candidate.bridge.llm_wrappers.base import LLMProvider
-from candidate.bridge.orchestration.multi_ai_orchestrator import ModelOrchestrator
+from lukhas.bridge.llm_wrappers.base import LLMProvider
+from lukhas.bridge.orchestration.multi_ai_orchestrator import ModelOrchestrator
 
 orchestrator: Optional[ModelOrchestrator] = None
 

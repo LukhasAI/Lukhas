@@ -10,8 +10,8 @@ import statistics as stats
 import pytest
 
 from lukhas.core.registry import register
-from candidate.core.orchestration.async_orchestrator import AsyncOrchestrator
-from candidate.nodes.example_nodes import IntentNode, ThoughtNode, DecisionNode
+from lukhas.core.orchestration.async_orchestrator import AsyncOrchestrator
+from lukhas.nodes.example_nodes import IntentNode, ThoughtNode, DecisionNode
 
 
 @pytest.fixture

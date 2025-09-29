@@ -6,7 +6,7 @@ Please update imports to: lukhas.accepted.memory.colonies
 import warnings
 
 try:
-    from lukhas.accepted.memory.colonies import *
+    from lukhas.memory.colonies import *
 except ImportError:
     # Fallback for gradual migration
     pass

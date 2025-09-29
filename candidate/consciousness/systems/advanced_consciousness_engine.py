@@ -73,8 +73,8 @@ from typing import Any, Optional
 
 import numpy as np
 
-from candidate.consciousness.neuroplastic_connector import ConsciousnessConnector, NeuroplasticConnector
-from candidate.core.common import get_logger
+from lukhas.consciousness.neuroplastic_connector import ConsciousnessConnector, NeuroplasticConnector
+from lukhas.core.common import get_logger
 
 logger = get_logger(__name__)
 

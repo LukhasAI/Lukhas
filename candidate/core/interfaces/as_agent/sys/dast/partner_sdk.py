@@ -101,9 +101,9 @@ def receive_partner_input(source, tags, metadata=None):
 ──────────────────────────────────────────────────────────────────────────────────────
 EXECUTION:
     - Import with:
-        from candidate.core.modules.dast.partner_sdk import receive_partner_input
+        from lukhas.core.modules.dast.partner_sdk import receive_partner_input
         # OR class-based:
-        from candidate.core.modules.dast.partner_sdk import PartnerSDK
+        from lukhas.core.modules.dast.partner_sdk import PartnerSDK
 
 USED BY:
     - dast_core.py

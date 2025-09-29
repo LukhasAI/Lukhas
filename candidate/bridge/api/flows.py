@@ -23,8 +23,8 @@ try:
     LUKHAS_IDENTITY_AVAILABLE = True
 except ImportError:
     try:
-        from candidate.governance.identity.connector import IdentityConnector
-        from candidate.identity.auth_service import AuthService
+        from lukhas.governance.identity.connector import IdentityConnector
+        from lukhas.identity.auth_service import AuthService
 
         LUKHAS_IDENTITY_AVAILABLE = True
     except ImportError:

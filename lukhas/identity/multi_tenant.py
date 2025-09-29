@@ -16,21 +16,19 @@ Constellation Framework: Identity ⚛️ + Guardian 🛡️ + Memory 🗃️ coo
 """
 
 from __future__ import annotations
-import json
 import time
 import logging
 import hashlib
-from typing import Dict, Any, Optional, List, Set, Callable, Tuple
+from typing import Dict, Any, Optional, List, Callable
 from dataclasses import dataclass, field
-from datetime import datetime, timezone, timedelta
+from datetime import datetime, timezone
 from enum import Enum
 from uuid import uuid4
 from opentelemetry import trace
 
-from .alias_format import make_alias, parse_alias, ΛiDAlias
-from .token_generator import TokenGenerator, TokenClaims, SecretProvider
+from .token_generator import TokenGenerator
 from .token_validator import TokenValidator, ValidationResult, ValidationContext
-from .tier_system import TierLevel, normalize_tier
+from .tier_system import TierLevel
 
 tracer = trace.get_tracer(__name__)
 logger = logging.getLogger(__name__)

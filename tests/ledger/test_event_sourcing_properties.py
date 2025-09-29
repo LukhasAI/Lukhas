@@ -16,26 +16,20 @@ import json
 import os
 import tempfile
 import time
-from datetime import datetime, timezone
 from pathlib import Path
-from typing import List, Any, Dict
 import pytest
 import hypothesis.strategies as st
-from hypothesis import given, assume, settings, example, note, Verbosity
-from hypothesis.stateful import RuleBasedStateMachine, Bundle, rule, invariant, initialize, precondition
+from hypothesis import given, assume, settings, note
+from hypothesis.stateful import RuleBasedStateMachine, Bundle, rule, invariant, initialize
 
 # Import our ledger components
 import sys
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
 from lukhas.ledger.events import (
-    ConsentEvent,
     ConsentGrantedEvent,
     ConsentRevokedEvent,
-    ConsentCheckedEvent,
     TraceCreatedEvent,
-    DuressDetectedEvent,
-    EventType,
     ConsentType,
     DataSubjectRights,
     PolicyVerdict,
@@ -43,7 +37,7 @@ from lukhas.ledger.events import (
     compute_event_chain_hash,
     create_event_from_dict,
 )
-from lukhas.ledger.event_bus import AsyncEventBus, EventOffset
+from lukhas.ledger.event_bus import AsyncEventBus
 from lukhas.ledger.consent_handlers import IdempotentConsentHandler, IdempotentTraceHandler
 
 

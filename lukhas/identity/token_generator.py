@@ -16,12 +16,12 @@ import json
 import time
 import os
 import zlib
-from typing import Dict, Any, Optional, Callable
+from typing import Dict, Any, Optional
 from dataclasses import dataclass, asdict
 from opentelemetry import trace
 from prometheus_client import Counter, Histogram
 
-from .alias_format import make_alias, ΛiDAlias
+from .alias_format import make_alias
 
 tracer = trace.get_tracer(__name__)
 

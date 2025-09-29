@@ -60,16 +60,16 @@ from typing import Any, Optional
 
 # Memory Manager - Use candidate/memory/basic.py as primary
 try:
-    from candidate.memory.basic import MemoryManager
+    from lukhas.memory.basic import MemoryManager
 except ImportError:
     try:
-        from candidate.memory.systems.memory_learning.memory_manager import MemoryManager
+        from lukhas.memory.systems.memory_learning.memory_manager import MemoryManager
     except ImportError:
         MemoryManager = None
 
 # Awareness Engine - Use candidate/consciousness/awareness/awareness_engine.py
 try:
-    from candidate.consciousness.awareness.awareness_engine import (
+    from lukhas.consciousness.awareness.awareness_engine import (
         AwarenessEngine as BioAwarenessSystem,
     )
 except ImportError:
@@ -77,16 +77,16 @@ except ImportError:
 
 # Dream Engine - Use candidate/consciousness/dream/engine/dream_engine.py
 try:
-    from candidate.consciousness.dream.engine.dream_engine import DreamEngine
+    from lukhas.consciousness.dream.engine.dream_engine import DreamEngine
 except ImportError:
     try:
-        from candidate.consciousness.dream.core.dream_engine import DreamEngine
+        from lukhas.consciousness.dream.core.dream_engine import DreamEngine
     except ImportError:
         DreamEngine = None
 
 # Ethics Guardian - Use candidate/governance/ethics/ethics_guardian.py
 try:
-    from candidate.governance.ethics.ethics_guardian import EthicsGuardian as EthicsCore
+    from lukhas.governance.ethics.ethics_guardian import EthicsGuardian as EthicsCore
 except ImportError:
     EthicsCore = None
 
@@ -99,14 +99,14 @@ except ImportError:
 # Bio Core - Use candidate.bio.core directly to avoid circular imports
 try:
     # Import from the module file directly
-    import candidate.bio.core
+    import lukhas.bio.core
 
     BioCore = candidate.bio.core.BioEngine
 except (ImportError, AttributeError):
     BioCore = None
 
 # ModuleRegistry is implemented and available
-from candidate.core.module_registry import ModuleRegistry
+from lukhas.core.module_registry import ModuleRegistry
 
 logger = logging.getLogger(__name__)
 

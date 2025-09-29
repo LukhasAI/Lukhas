@@ -5,7 +5,7 @@ Please update imports to: lukhas.accepted.orchestrator.brain
 """
 import warnings
 
-from lukhas.accepted.orchestrator.brain import *
+from lukhas.orchestrator.brain import *
 
 warnings.warn(
     "Import 'orchestration.brain' is deprecated and will be removed on 2025-11-01. "

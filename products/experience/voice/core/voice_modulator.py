@@ -14,9 +14,9 @@ from typing import Any, Optional, Union
 
 import numpy as np
 
-from candidate.core.common.glyph import GLYPHSymbol, create_glyph
-from candidate.core.common.logger import get_logger
-from candidate.governance.guardian import GuardianValidator
+from lukhas.core.common.glyph import GLYPHSymbol, create_glyph
+from lukhas.core.common.logger import get_logger
+from lukhas.governance.guardian import GuardianValidator
 
 logger = get_logger(__name__)
 

@@ -48,13 +48,13 @@ import uuid
 from datetime import datetime, timedelta, timezone
 from typing import Any, Optional, Union
 
-# from candidate.core.common import LukhasError
+# from lukhas.core.common import LukhasError
 # Use built-in Exception if core.common not available
 try:
-    from candidate.core.common import LukhasError
+    from lukhas.core.common import LukhasError
 except ImportError:
     try:
-        from candidate.core.common import LukhasError
+        from lukhas.core.common import LukhasError
     except ImportError:
 
         class LukhasError(Exception):

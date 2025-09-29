@@ -6,7 +6,6 @@ Validates that memory and latency gates are properly configured to block CI
 when performance budgets are exceeded.
 """
 
-import os
 import yaml
 import time
 from pathlib import Path

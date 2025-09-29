@@ -13,7 +13,7 @@ import secrets
 import hashlib
 import base64
 import time
-from typing import Dict, Optional, List, Set, Any, Tuple
+from typing import Dict, Optional, Set, Any, Tuple
 from dataclasses import dataclass, field
 from enum import Enum
 from opentelemetry import trace

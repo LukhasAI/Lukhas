@@ -17,7 +17,7 @@ class TestConsciousnessIntegration:
     @pytest.mark.asyncio
     async def test_awareness_tracker_full_workflow(self):
         """Test complete awareness tracker processing workflow."""
-        from candidate.consciousness.awareness.awareness_tracker import AwarenessTracker
+        from lukhas.consciousness.awareness.awareness_tracker import AwarenessTracker
 
         tracker = AwarenessTracker({"test_mode": True})
 
@@ -54,7 +54,7 @@ class TestConsciousnessIntegration:
     @pytest.mark.asyncio
     async def test_creative_engine_full_generation(self):
         """Test complete creative engine haiku generation workflow."""
-        from candidate.consciousness.creativity.creative_engine import (
+        from lukhas.consciousness.creativity.creative_engine import (
             CreativeConfig,
             CreativeContext,
             CreativeStyle,
@@ -121,9 +121,9 @@ class TestConsciousnessIntegration:
     @pytest.mark.asyncio
     async def test_platform_integration_workflow(self):
         """Test complete platform integration and component management."""
-        from candidate.consciousness.awareness.awareness_tracker import AwarenessTracker
-        from candidate.consciousness.bridge import create_consciousness_bridge
-        from candidate.consciousness.platform import create_consciousness_platform
+        from lukhas.consciousness.awareness.awareness_tracker import AwarenessTracker
+        from lukhas.consciousness.bridge import create_consciousness_bridge
+        from lukhas.consciousness.platform import create_consciousness_platform
 
         # Create platform
         platform = create_consciousness_platform({"integration_test": True})
@@ -180,8 +180,8 @@ class TestConsciousnessIntegration:
     @pytest.mark.asyncio
     async def test_end_to_end_consciousness_workflow(self):
         """Test complete end-to-end consciousness processing workflow."""
-        from candidate.consciousness.awareness.awareness_tracker import AwarenessTracker
-        from candidate.consciousness.creativity.creative_engine import (
+        from lukhas.consciousness.awareness.awareness_tracker import AwarenessTracker
+        from lukhas.consciousness.creativity.creative_engine import (
             CreativeConfig,
             CreativeContext,
             CreativeStyle,
@@ -190,7 +190,7 @@ class TestConsciousnessIntegration:
             MockNeuralModel,
             MockSymbolicKB,
         )
-        from candidate.consciousness.platform import create_consciousness_platform
+        from lukhas.consciousness.platform import create_consciousness_platform
 
         # Setup integrated system
         platform = create_consciousness_platform()
@@ -244,9 +244,9 @@ class TestConsciousnessIntegration:
 
     def test_consciousness_system_contracts(self):
         """Test that consciousness systems adhere to expected contracts."""
-        from candidate.consciousness.awareness.awareness_tracker import AwarenessTracker
-        from candidate.consciousness.bridge import ConsciousnessBridge
-        from candidate.consciousness.platform import ConsciousnessPlatform
+        from lukhas.consciousness.awareness.awareness_tracker import AwarenessTracker
+        from lukhas.consciousness.bridge import ConsciousnessBridge
+        from lukhas.consciousness.platform import ConsciousnessPlatform
 
         # Test class instantiation contracts
         tracker = AwarenessTracker()
@@ -271,7 +271,7 @@ class TestConsciousnessIntegration:
     @pytest.mark.asyncio
     async def test_error_handling_and_resilience(self):
         """Test system resilience and error handling."""
-        from candidate.consciousness.awareness.awareness_tracker import AwarenessTracker
+        from lukhas.consciousness.awareness.awareness_tracker import AwarenessTracker
 
         tracker = AwarenessTracker()
         await tracker.initialize()

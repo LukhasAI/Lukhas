@@ -20,7 +20,7 @@ class TestMemorySystemValidation:
     async def test_unified_memory_core_cascade_prevention(self):
         """Test that unified memory core achieves 99.7% cascade prevention rate"""
         try:
-            from candidate.memory.folds.unified_memory_core import (
+            from lukhas.memory.folds.unified_memory_core import (
                 ConsolidatedUnifiedmemorycore,
             )
 
@@ -63,7 +63,7 @@ class TestMemorySystemValidation:
     async def test_memory_operation_performance(self):
         """Test that memory operations complete within 100ms target"""
         try:
-            from candidate.memory.folds.unified_memory_core import (
+            from lukhas.memory.folds.unified_memory_core import (
                 ConsolidatedUnifiedmemorycore,
             )
 
@@ -104,7 +104,7 @@ class TestMemorySystemValidation:
     async def test_memory_colonies_neuroplastic_adaptation(self):
         """Test neuroplastic memory colonies adaptation capabilities"""
         try:
-            from candidate.memory.consolidation.memory_colonies import (
+            from lukhas.memory.consolidation.memory_colonies import (
                 ConsolidatedMemorycolonies,
             )
 
@@ -140,7 +140,7 @@ class TestMemorySystemValidation:
     async def test_dream_trace_quantum_resonance(self):
         """Test quantum dream resonance detection functionality"""
         try:
-            from candidate.memory.systems.dream_trace_linker import DreamtraceLinker
+            from lukhas.memory.systems.dream_trace_linker import DreamtraceLinker
 
             linker = DreamtraceLinker()
 
@@ -176,7 +176,7 @@ class TestMemorySystemValidation:
     async def test_memory_cleaner_comprehensive_health(self):
         """Test comprehensive memory health assessment"""
         try:
-            from candidate.memory.causal.memory_cleaner import MemoryCleaner
+            from lukhas.memory.causal.memory_cleaner import MemoryCleaner
 
             cleaner = MemoryCleaner(parent_id="test_parent", task_data={"test": True})
 
@@ -203,7 +203,7 @@ class TestMemorySystemValidation:
     async def test_triad_framework_integration(self):
         """Test Constellation Framework integration across memory systems"""
         try:
-            from candidate.memory.consolidation.memory_visualization import (
+            from lukhas.memory.consolidation.memory_visualization import (
                 ConsolidatedMemoryvisualization,
             )
 
@@ -236,7 +236,7 @@ class TestMemorySystemValidation:
     async def test_predictive_compression_scheduling(self):
         """Test ML-based predictive compression scheduling"""
         try:
-            from candidate.memory.systems.symbolic_delta_compression import (
+            from lukhas.memory.systems.symbolic_delta_compression import (
                 SymbolicDeltaCompression,
             )
 

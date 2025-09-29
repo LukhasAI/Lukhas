@@ -24,10 +24,10 @@ from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, Optional
 
-from candidate.core.common import GLYPHSymbol, GLYPHToken, get_logger
-from candidate.core.common.exceptions import LukhasError
-from candidate.core.interfaces import CoreInterface
-from candidate.core.interfaces.dependency_injection import get_service, register_service
+from lukhas.core.common import GLYPHSymbol, GLYPHToken, get_logger
+from lukhas.core.common.exceptions import LukhasError
+from lukhas.core.interfaces import CoreInterface
+from lukhas.core.interfaces.dependency_injection import get_service, register_service
 
 from .parallel_reality_safety import ParallelRealitySafetyFramework, SafetyLevel
 from .parallel_reality_simulator import ParallelRealitySimulator, RealityType

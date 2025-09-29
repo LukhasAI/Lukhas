@@ -23,7 +23,7 @@ from enum import Enum
 from pathlib import Path
 from typing import Any, Optional, Union
 
-from candidate.core.common import get_logger
+from lukhas.core.common import get_logger
 
 logger = get_logger(__name__)
 

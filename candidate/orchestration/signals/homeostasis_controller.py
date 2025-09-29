@@ -15,7 +15,7 @@ from enum import Enum
 from pathlib import Path
 from typing import Any, Callable, Optional
 
-from candidate.orchestration.signals.signal_bus import Signal, SignalBus, SignalType
+from lukhas.orchestration.signals.signal_bus import Signal, SignalBus, SignalType
 
 logger = logging.getLogger(__name__)
 

@@ -11,7 +11,7 @@ try:
 except ImportError:
     DreamEngine = None
 
-from candidate.core.orchestration.integration_hub import get_integration_hub
+from lukhas.core.orchestration.integration_hub import get_integration_hub
 
 try:
     from consciousness.bridge import ConsciousnessBridge
@@ -19,7 +19,7 @@ except ImportError:
     ConsciousnessBridge = None
 
 try:
-    from candidate.memory.core import MemoryCore
+    from lukhas.memory.core import MemoryCore
 except ImportError:
     MemoryCore = None
 

@@ -17,11 +17,10 @@ Features:
 Performance Target: <5ms per contradiction check
 """
 
-import asyncio
 import time
 import logging
 import uuid
-from typing import Any, Dict, List, Optional, Tuple, Union
+from typing import Any, Dict, List, Optional
 from dataclasses import dataclass
 from enum import Enum
 

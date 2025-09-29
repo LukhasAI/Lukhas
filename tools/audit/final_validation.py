@@ -14,9 +14,8 @@ Usage:
 """
 
 import json
-import os
 from pathlib import Path
-from typing import Dict, List
+from typing import Dict
 
 def validate_github_actions_hardening() -> Dict:
     """Validate GitHub Actions security hardening"""

@@ -1,4 +1,4 @@
-from candidate.governance.identity.core.sent.consent_history import ConsentHistoryManager
+from lukhas.governance.identity.core.sent.consent_history import ConsentHistoryManager
 
 # ΛTAG: consent_history_test
 

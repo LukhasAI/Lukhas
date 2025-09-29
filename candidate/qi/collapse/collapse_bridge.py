@@ -19,7 +19,7 @@ from typing import Any
 
 import structlog
 
-from candidate.orchestration.brain.unified_collapse_system import BrainCollapseManager
+from lukhas.orchestration.brain.unified_collapse_system import BrainCollapseManager
 
 # TAG:qim
 # TAG:qi_states

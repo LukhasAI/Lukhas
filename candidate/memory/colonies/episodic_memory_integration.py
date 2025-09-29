@@ -12,7 +12,7 @@ import uuid
 from datetime import datetime
 from typing import Any, Optional
 
-from candidate.core.common import get_logger
+from lukhas.core.common import get_logger
 
 try:
     from .episodic_memory_colony import EpisodicMemoryColony, EpisodicMemoryRecord

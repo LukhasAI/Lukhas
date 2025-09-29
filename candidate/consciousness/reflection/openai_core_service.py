@@ -39,9 +39,9 @@ from datetime import datetime, timedelta, timezone
 from enum import Enum
 from typing import Any, Optional, Union
 
-# Try to import from candidate.core.common if available
+# Try to import from lukhas.core.common if available
 try:
-    from candidate.core.common import get_logger
+    from lukhas.core.common import get_logger
 
     logger = get_logger("ΛTRACE.bridge.openai_core", timezone)
 except ImportError:

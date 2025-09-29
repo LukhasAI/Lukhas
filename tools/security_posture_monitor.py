@@ -11,11 +11,9 @@ import json
 import sys
 import glob
 import datetime
-import subprocess
 from pathlib import Path
-from typing import Dict, List, Any, Tuple
+from typing import Dict, List, Any
 from dataclasses import dataclass
-from collections import defaultdict
 
 
 @dataclass

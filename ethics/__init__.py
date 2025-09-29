@@ -6,9 +6,9 @@ Provides ethical evaluation, safety monitoring, and constraint validation
 # Import real implementations from governance
 try:
     # Try candidate path first (where the actual implementations are)
-    from candidate.governance.ethics.ethics_engine import EthicsEngine
-    from candidate.governance.ethics.meg_bridge import MegBridge, MEGPolicyBridge
-    from candidate.governance.ethics.safety_checker import SafetyChecker
+    from lukhas.governance.ethics.ethics_engine import EthicsEngine
+    from lukhas.governance.ethics.meg_bridge import MegBridge, MEGPolicyBridge
+    from lukhas.governance.ethics.safety_checker import SafetyChecker
 
     # Try lukhas governance for additional components
     try:
@@ -37,13 +37,13 @@ try:
 
     # Try to import PolicyEngines separately - prefer rehabilitated policy_engine
     try:
-        from candidate.governance.ethics.policy_engine import PolicyEngines
+        from lukhas.governance.ethics.policy_engine import PolicyEngines
 
         policy_engines = PolicyEngines()
         print("✅ Using rehabilitated ethics policy engine")
     except ImportError:
         try:
-            from candidate.governance.ethics.policy_engines import PolicyEngines
+            from lukhas.governance.ethics.policy_engines import PolicyEngines
 
             policy_engines = PolicyEngines()
             print("⚠️ Using alternative policy engines")
@@ -60,7 +60,7 @@ try:
             print("⚠️ Using fallback policy engines")
 
 except ImportError as e:
-    print(f"Warning: Failed to import from candidate.governance.ethics: {e}")
+    print(f"Warning: Failed to import from lukhas.governance.ethics: {e}")
 
     # Create fallback implementations
     class MegBridge:

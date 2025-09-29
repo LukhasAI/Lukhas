@@ -9,10 +9,10 @@ OpenAI API client adapter with feature flag gating and production error handling
 import os
 import time
 import asyncio
-from typing import List, Optional, Dict, Any
+from typing import List, Optional
 import logging
 
-from .base_client import BaseAIClient, AIResponse, AIProvider, AIError
+from .base_client import BaseAIClient, AIResponse, AIProvider
 
 logger = logging.getLogger(__name__)
 

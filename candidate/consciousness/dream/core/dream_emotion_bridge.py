@@ -7,7 +7,7 @@ Description: Provides bridge logic for dream-emotion replay triggers.
 import json
 from pathlib import Path
 
-from candidate.memory.emotional import EmotionalMemory
+from lukhas.memory.emotional import EmotionalMemory
 
 REPLAY_QUEUE_PATH = Path("core/logs/replay_queue.jsonl")
 

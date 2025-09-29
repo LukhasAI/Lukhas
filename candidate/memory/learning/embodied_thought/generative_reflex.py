@@ -13,7 +13,7 @@ logger = logging.getLogger(__name__)
 # ΛCOMMIT_WINDOW: pre-O3-sweep
 # ΛPROVED_BY: Human Overseer (Gonzalo)
 
-from candidate.core.common import get_logger
+from lukhas.core.common import get_logger
 
 # #ΛTRACE_NODE: Initialize logger for generative reflex.
 logger = get_logger(__name__)

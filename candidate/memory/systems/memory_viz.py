@@ -17,7 +17,7 @@ from functools import lru_cache
 from itertools import groupby
 from typing import Any
 
-from candidate.core.common import get_logger
+from lukhas.core.common import get_logger
 
 # Configure logging
 logger = get_logger(__name__)

@@ -11,7 +11,6 @@ Features:
 - Memory pressure management
 """
 
-import asyncio
 import heapq
 import logging
 import threading
@@ -23,7 +22,6 @@ from enum import Enum
 from typing import Any, Dict, List, Optional, Tuple
 
 import hashlib
-import json
 
 from lukhas.memory.embedding_index import EmbeddingIndex
 

@@ -32,13 +32,12 @@ import time
 from collections import deque, defaultdict
 from dataclasses import dataclass, field
 from typing import Dict, List, Optional, Callable, Any
-from enum import Enum
 
 from opentelemetry import trace
-from prometheus_client import Counter, Histogram, Gauge, Summary
+from prometheus_client import Counter, Histogram, Gauge
 
 from .routing_config import ProviderHealth, HealthStatus
-from .providers import get_provider_status, create_provider_client, AIProvider
+from .providers import create_provider_client, AIProvider
 
 tracer = trace.get_tracer(__name__)
 logger = logging.getLogger(__name__)

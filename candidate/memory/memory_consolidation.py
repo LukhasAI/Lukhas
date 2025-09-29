@@ -6,7 +6,7 @@ Please update imports to: lukhas.accepted.memory.consolidation
 import warnings
 
 try:
-    from lukhas.accepted.memory.consolidation import *
+    from lukhas.memory.consolidation import *
 except ImportError:
     # Fallback for gradual migration
     pass

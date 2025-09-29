@@ -13,7 +13,7 @@ Total entities: 220
 # Lazy imports to avoid circular dependencies
 import importlib
 
-from candidate.core.common import get_logger
+from lukhas.core.common import get_logger
 
 logger = get_logger(__name__)
 

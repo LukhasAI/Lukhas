@@ -16,7 +16,7 @@ import argparse
 import pathlib
 import uuid
 import time
-from typing import Dict, List, Any
+from typing import Dict, Any
 
 
 def generate_trace_id() -> str:

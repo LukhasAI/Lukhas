@@ -54,7 +54,7 @@ from dataclasses import dataclass
 from datetime import datetime
 from typing import Any, Optional, Union
 
-from candidate.core.common import get_logger
+from lukhas.core.common import get_logger
 
 # Internal imports
 from symbolic.glyphs.glyph import EmotionVector, Glyph, GlyphFactory

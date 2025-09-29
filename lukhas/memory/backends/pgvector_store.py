@@ -11,13 +11,10 @@ Performance targets:
 - Index optimization: <30s (100k docs)
 """
 
-import asyncio
 import json
 import time
-import uuid
 from datetime import datetime, timezone
-from typing import Dict, List, Optional, Any, Tuple
-import logging
+from typing import Dict, List, Optional, Any
 
 import asyncpg
 import numpy as np
@@ -29,9 +26,7 @@ from .base import (
     SearchResult,
     StorageStats,
     VectorStoreError,
-    DocumentNotFoundError,
-    DimensionMismatchError,
-    StorageCapacityError
+    DocumentNotFoundError
 )
 from lukhas.observability.service_metrics import get_metrics_collector
 from lukhas.core.common.logger import get_logger

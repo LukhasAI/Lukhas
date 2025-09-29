@@ -2,7 +2,7 @@
 # LUKHAS_TAG: reasoning_error
 
 
-from candidate.core.common import LukhasError
+from lukhas.core.common import LukhasError
 
 
 class ReasoningError(LukhasError):

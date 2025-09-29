@@ -12,10 +12,9 @@ import pytest
 import time
 import uuid
 from pathlib import Path
-from unittest.mock import patch, MagicMock
+from unittest.mock import patch
 
 import sys
-import os
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '../../..'))
 
 from governance.guardian_system import GuardianSystem

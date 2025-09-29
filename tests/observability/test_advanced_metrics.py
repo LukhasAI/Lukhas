@@ -21,7 +21,6 @@ from lukhas.observability.advanced_metrics import (
     AnomalyType,
     MetricSeverity,
     initialize_advanced_metrics,
-    get_advanced_metrics,
     record_metric,
     record_operation_performance,
 )

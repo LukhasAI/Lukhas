@@ -57,7 +57,7 @@ import pandas as pd
 import plotly.graph_objects as go
 import streamlit as st
 
-from candidate.core.symbolic.drift.symbolic_drift_tracker import SymbolicDriftTracker
+from lukhas.core.symbolic.drift.symbolic_drift_tracker import SymbolicDriftTracker
 
 # Add parent directory to path for imports
 PROJECT_ROOT = Path(__file__).parent.parent

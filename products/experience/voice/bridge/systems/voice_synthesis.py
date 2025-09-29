@@ -14,7 +14,7 @@ from typing import Any, Optional
 
 import requests
 
-from candidate.core.common import get_logger
+from lukhas.core.common import get_logger
 
 """
 Advanced Voice Synthesis Module

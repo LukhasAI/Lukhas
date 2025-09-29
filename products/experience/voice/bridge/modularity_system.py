@@ -18,13 +18,13 @@ import logging
 from datetime import datetime, timezone
 from typing import Any
 
-from candidate.core.interfaces.voice.voice_emotional.context_aware_modular_voice import (
+from lukhas.core.interfaces.voice.voice_emotional.context_aware_modular_voice import (
     ComplianceEngine,
 )
-from candidate.memory.temporal.ContextAnalyzer import ContextAnalyzer
+from lukhas.memory.temporal.ContextAnalyzer import ContextAnalyzer
 
 # Import actual implementations
-from candidate.memory.voice_memory_manager import MemoryManager
+from lukhas.memory.voice_memory_manager import MemoryManager
 
 from .modulator import VoiceModulator
 from .safety.voice_safety_guard import SafetyGuard

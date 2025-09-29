@@ -12,10 +12,8 @@ Usage:
     python -m pytest benchmarks/memory_performance.py --benchmark
 """
 
-import asyncio
 import time
 import statistics
-from typing import List
 import uuid
 import pytest
 

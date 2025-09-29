@@ -292,7 +292,7 @@ class TestIntegrityProbeIntegration:
         """Test that IntegrityProbe correctly consumes drift scores."""
         # Skip if module has import issues
         try:
-            from candidate.qi.states.integrity_probe import IntegrityProbe
+            from lukhas.qi.states.integrity_probe import IntegrityProbe
         except (ImportError, NameError) as e:
             pytest.skip(f"IntegrityProbe import failed: {e}")
 
@@ -343,7 +343,7 @@ class TestIntegrityProbeIntegration:
         """Test IntegrityProbe returns False when drift exceeds threshold."""
         # Skip if module has import issues
         try:
-            from candidate.qi.states.integrity_probe import IntegrityProbe
+            from lukhas.qi.states.integrity_probe import IntegrityProbe
         except (ImportError, NameError) as e:
             pytest.skip(f"IntegrityProbe import failed: {e}")
 

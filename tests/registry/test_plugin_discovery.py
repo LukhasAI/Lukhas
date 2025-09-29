@@ -18,9 +18,7 @@ import pytest
 import os
 import sys
 import tempfile
-import importlib
-from typing import Any, Dict, List
-from unittest.mock import patch, Mock, MagicMock
+from unittest.mock import patch, Mock
 from pathlib import Path
 import subprocess
 import time
@@ -29,7 +27,7 @@ import time
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 from lukhas.core.registry import (
     register, resolve, discover_entry_points, auto_discover, autoload,
-    _instantiate_plugin, _register_kind, _REG
+    _instantiate_plugin, _REG
 )
 
 

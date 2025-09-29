@@ -1,0 +1,10 @@
+{
+  "schema_version": "3.0.0",
+  "module": "openai",
+  "identity": {
+    "requires_auth": false
+  },
+  "guardian_check": {
+    "enabled": true
+  }
+}

@@ -30,7 +30,7 @@ from typing import Any, Callable, Optional
 
 import numpy as np
 
-from candidate.core.common import get_logger
+from lukhas.core.common import get_logger
 
 # from sklearn.metrics.pairwise import cosine_similarity  # Optional dependency
 

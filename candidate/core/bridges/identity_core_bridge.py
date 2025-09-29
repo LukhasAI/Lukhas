@@ -7,7 +7,7 @@ from typing import Any
 
 # Import system hubs (will be available after hub creation)
 # from identity.identity_hub import get_identity_hub
-# from candidate.core.core_hub import get_core_hub
+# from lukhas.core.core_hub import get_core_hub
 
 logger = logging.getLogger(__name__)
 

@@ -51,10 +51,10 @@ from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, Optional
 
-from candidate.core.identity_integration import TierMappingConfig, get_identity_client, require_identity
+from lukhas.core.identity_integration import TierMappingConfig, get_identity_client, require_identity
 
 # Unified tier system imports
-from candidate.core.tier_unification_adapter import EmotionalTierAdapter, get_unified_adapter
+from lukhas.core.tier_unification_adapter import EmotionalTierAdapter, get_unified_adapter
 
 # LUKHAS Core Imports
 from lukhas.memory.emotional import EmotionalMemory

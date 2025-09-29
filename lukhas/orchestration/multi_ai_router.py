@@ -15,7 +15,7 @@ import time
 import hashlib
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Dict, List, Any, Optional, Callable, Union
+from typing import Dict, List, Any, Optional
 from opentelemetry import trace
 from prometheus_client import Counter, Histogram, Gauge
 import logging

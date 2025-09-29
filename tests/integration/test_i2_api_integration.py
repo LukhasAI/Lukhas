@@ -15,11 +15,9 @@ Coverage:
 - Security validation
 """
 
-import asyncio
 import json
 import time
-from datetime import datetime, timezone
-from unittest.mock import AsyncMock, patch
+from unittest.mock import patch
 
 import pytest
 from fastapi.testclient import TestClient

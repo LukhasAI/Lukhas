@@ -18,19 +18,16 @@ Test Coverage:
 import pytest
 import os
 import sys
-import tempfile
 from typing import Dict, List, Any
-from unittest.mock import patch, Mock, MagicMock
+from unittest.mock import patch, Mock
 from pathlib import Path
 from dataclasses import dataclass
 import threading
-import time
 
 # Import registry components
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 from lukhas.core.registry import (
-    register, resolve, _REG, _register_kind,
-    discover_entry_points, auto_discover
+    register, resolve, _REG, discover_entry_points
 )
 
 
@@ -445,7 +442,6 @@ class TestLaneIsolationEnforcement:
     def test_concurrent_lane_isolation(self):
         """Test that lane isolation works with concurrent operations"""
 
-        import threading
         import queue
 
         results = queue.Queue()

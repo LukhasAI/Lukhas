@@ -19,7 +19,7 @@ except Exception:  # pragma: no cover - optional
 import uuid
 from collections import Counter
 
-from candidate.core.common import get_logger
+from lukhas.core.common import get_logger
 
 try:
     from lukhas.memory.systems.helix_mapper import HelixMapper
@@ -31,7 +31,7 @@ except Exception:  # pragma: no cover - optional fallback
 
 
 try:
-    from candidate.orchestration.brain.cognitive.voice_engine import (
+    from lukhas.orchestration.brain.cognitive.voice_engine import (
         CognitiveVoiceEngine,
     )
 except Exception:  # pragma: no cover - optional fallback
@@ -40,7 +40,7 @@ except Exception:  # pragma: no cover - optional fallback
         pass
 
 
-from candidate.core.colonies.creativity_colony import CreativityColony
+from lukhas.core.colonies.creativity_colony import CreativityColony
 
 logger = get_logger(__name__)
 

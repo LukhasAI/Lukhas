@@ -8,8 +8,8 @@ Ensures the emergency disable file is honored within a single request cycle.
 
 import pytest
 
-from candidate.core.ethics.guardian_drift_bands import GuardianBand, GuardianBandResult
-from candidate.core.orchestration.plan_verifier import PlanVerifier, VerificationContext
+from lukhas.core.ethics.guardian_drift_bands import GuardianBand, GuardianBandResult
+from lukhas.core.orchestration.plan_verifier import PlanVerifier, VerificationContext
 
 
 @pytest.mark.guardian

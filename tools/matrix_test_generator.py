@@ -6,7 +6,6 @@ Generates comprehensive test matrices for all 65 modules based on their identity
 
 import json
 import yaml
-import os
 import sys
 from pathlib import Path
 from typing import Dict, List, Tuple, Any, Optional

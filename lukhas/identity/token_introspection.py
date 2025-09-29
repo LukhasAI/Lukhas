@@ -20,12 +20,11 @@ import time
 import hashlib
 import logging
 from typing import Dict, Any, Optional, List
-from dataclasses import dataclass, asdict
-from datetime import datetime, timezone
+from dataclasses import dataclass
 from opentelemetry import trace
 from prometheus_client import Counter, Histogram, Gauge
 
-from .token_validator import TokenValidator, ValidationContext, ValidationResult
+from .token_validator import ValidationContext, ValidationResult
 from .auth_service import AuthenticationService, get_auth_service
 
 tracer = trace.get_tracer(__name__)

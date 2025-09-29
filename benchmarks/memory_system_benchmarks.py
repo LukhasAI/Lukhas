@@ -17,7 +17,7 @@ import asyncio
 import time
 import statistics
 import random
-from typing import List, Dict, Any, Tuple
+from typing import List, Dict, Any
 from dataclasses import dataclass
 import pytest
 
@@ -89,7 +89,6 @@ class MockMemorySystem:
 
     def _would_cause_cascade(self, item: MemoryItem) -> bool:
         """Detect potential cascade conditions using sophisticated detection logic"""
-        import time
 
         # Cascade condition 1: Circular references in content
         if self._has_circular_reference(item):

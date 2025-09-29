@@ -16,8 +16,8 @@ Tests comprehensive observability functionality including:
 import asyncio
 import pytest
 import time
-from unittest.mock import Mock, patch, MagicMock
-from typing import Dict, Any, List
+from unittest.mock import Mock, patch
+from typing import Dict, Any
 
 from lukhas.observability.matriz_instrumentation import (
     instrument_cognitive_stage,
@@ -27,13 +27,11 @@ from lukhas.observability.matriz_instrumentation import (
     record_thought_complexity,
     record_decision_confidence,
     initialize_cognitive_instrumentation,
-    get_cognitive_instrumentation_status,
-    CognitiveStage
+    get_cognitive_instrumentation_status
 )
 
 from lukhas.observability.otel_instrumentation import (
-    instrument_cognitive_event,
-    initialize_otel_instrumentation
+    instrument_cognitive_event
 )
 
 from lukhas.core.matriz.optimized_orchestrator import OptimizedAsyncOrchestrator

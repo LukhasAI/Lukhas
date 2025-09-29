@@ -24,13 +24,13 @@ import pytest
 
 # Test imports with fallback handling
 try:
-    from candidate.governance.guardian_system import GuardianSystem
-    from candidate.orchestration.high_performance_context_bus import (
+    from lukhas.governance.guardian_system import GuardianSystem
+    from lukhas.orchestration.high_performance_context_bus import (
         ContextMessage,
         ContextPriority,
         HighPerformanceContextBus,
     )
-    from candidate.orchestration.multi_model_orchestration import (
+    from lukhas.orchestration.multi_model_orchestration import (
         ConsensusResult,
         ModelProvider,
         MultiModelOrchestrator,

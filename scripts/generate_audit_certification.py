@@ -9,12 +9,10 @@ Creates regulatory-grade certification documents with cryptographic verification
 import argparse
 import json
 import hashlib
-import sys
 from pathlib import Path
-from typing import Dict, Any, List, Optional, Tuple
+from typing import Dict, Any, List, Optional
 from dataclasses import dataclass
 from datetime import datetime, timezone
-import re
 
 @dataclass
 class CertificationEvidence:

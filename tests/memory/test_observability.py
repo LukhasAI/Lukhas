@@ -1,6 +1,5 @@
 """Unit tests for memory observability."""
 
-import pytest
 from unittest.mock import Mock, patch
 from memory.observability import MemoryTracer, MemorySpan, PrometheusMetrics
 

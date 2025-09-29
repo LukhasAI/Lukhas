@@ -5,9 +5,9 @@ LUKHAS Observability System
 Central imports for observability and monitoring functionality.
 """
 
-# Import from candidate.aka_qualia.observability for backward compatibility
+# Import from lukhas.aka_qualia.observability for backward compatibility
 try:
-    from candidate.aka_qualia.observability import (
+    from lukhas.aka_qualia.observability import (
         CONTENT_TYPE_LATEST,
         AkaqMetrics,
         get_observability,

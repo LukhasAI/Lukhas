@@ -3,7 +3,7 @@ import warnings
 
 with warnings.catch_warnings():
     warnings.filterwarnings("ignore", category=DeprecationWarning)
-    from candidate.qi.ops import budgeter as budgeter_mod
+    from lukhas.qi.ops import budgeter as budgeter_mod
 
 
 def test_plan_and_check_defaults(tmp_path):

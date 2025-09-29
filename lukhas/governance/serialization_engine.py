@@ -27,21 +27,18 @@ Version: 1.0.0
 Phase: 7 - Guardian Schema Serializers
 """
 
-import asyncio
 import gzip
 import json
 import logging
 import lz4.frame
 import msgpack
-import pickle
 import threading
 import time
 import zstandard as zstd
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from enum import Enum
-from io import BytesIO
-from typing import Any, BinaryIO, Dict, List, Optional, Protocol, Union
+from typing import Any, BinaryIO, Dict, List, Optional
 
 # Try to import protobuf - graceful degradation if not available
 try:

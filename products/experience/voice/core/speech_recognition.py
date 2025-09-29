@@ -16,10 +16,10 @@ from typing import Any, Optional
 
 import numpy as np
 
-from candidate.core.common.glyph import GLYPHSymbol, create_glyph
-from candidate.core.common.logger import get_logger
-from candidate.governance.guardian import GuardianValidator
-from candidate.voice.audio_processing import AudioFormat, LUKHASAudioProcessor
+from lukhas.core.common.glyph import GLYPHSymbol, create_glyph
+from lukhas.core.common.logger import get_logger
+from lukhas.governance.guardian import GuardianValidator
+from lukhas.voice.audio_processing import AudioFormat, LUKHASAudioProcessor
 
 logger = get_logger(__name__)
 

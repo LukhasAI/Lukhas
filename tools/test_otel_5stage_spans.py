@@ -14,10 +14,8 @@ Usage:
 """
 
 import asyncio
-import json
 import time
-from contextlib import nullcontext
-from typing import Dict, Any, List
+from typing import Dict, Any
 from dataclasses import dataclass
 
 # Import OTEL instrumentation

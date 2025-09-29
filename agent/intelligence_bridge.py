@@ -3,7 +3,7 @@ LUKHAS Agent Intelligence Bridge
 ==============================
 
 Communication layer between LUKHAS agents and intelligence engines.
-Migrated from candidate.orchestration.agent_orchestrator.intelligence_bridge
+Migrated from lukhas.orchestration.agent_orchestrator.intelligence_bridge
 
 Provides standardized API for agent-driven intelligence operations.
 Enables 6 specialized Claude Code agents to coordinate intelligence engine operations.

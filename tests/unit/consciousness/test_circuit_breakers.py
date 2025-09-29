@@ -3,7 +3,7 @@ from datetime import datetime, timedelta, timezone
 
 import pytest
 
-from candidate.consciousness.resilience.circuit_breaker_framework import (
+from lukhas.consciousness.resilience.circuit_breaker_framework import (
     CircuitBreakerConfig,
     CircuitBreakerState,
     MemoryCascadePreventionBreaker,

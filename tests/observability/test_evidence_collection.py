@@ -5,13 +5,11 @@ Comprehensive tests for tamper-evident audit logging and evidence integrity.
 """
 
 import asyncio
-import json
-import os
 import tempfile
 import pytest
-from datetime import datetime, timedelta, timezone
+from datetime import datetime, timezone
 from pathlib import Path
-from unittest.mock import patch, AsyncMock
+from unittest.mock import patch
 
 # Test imports
 import sys
@@ -19,11 +17,9 @@ sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
 from lukhas.observability.evidence_collection import (
     EvidenceCollectionEngine,
-    EvidenceRecord,
     EvidenceType,
     ComplianceRegime,
     initialize_evidence_collection,
-    get_evidence_engine,
     collect_evidence,
 )
 

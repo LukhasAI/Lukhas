@@ -10,16 +10,12 @@ import sys
 import asyncio
 import aiohttp
 import time
-import random
-import string
 import datetime
 from pathlib import Path
-from typing import Dict, List, Any, Optional, Tuple
+from typing import Dict, List, Any, Tuple
 import argparse
 from dataclasses import dataclass, asdict
 from urllib.parse import urljoin
-import hashlib
-import base64
 
 
 @dataclass

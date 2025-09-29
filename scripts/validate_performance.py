@@ -13,7 +13,7 @@ import glob
 import os
 import sys
 from datetime import datetime, timezone
-from typing import Dict, Any, List, Optional
+from typing import Dict, Any, Optional
 
 
 class PerformanceValidator:

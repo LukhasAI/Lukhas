@@ -22,8 +22,8 @@ from typing import Any, Optional
 
 import numpy as np
 
-from candidate.core.colonies.base_colony import BaseColony
-from candidate.core.symbolism.tags import TagPermission, TagScope
+from lukhas.core.colonies.base_colony import BaseColony
+from lukhas.core.symbolism.tags import TagPermission, TagScope
 
 logger = logging.getLogger("ΛTRACE.bio.threshold", timezone)
 

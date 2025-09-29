@@ -82,7 +82,7 @@ class ContextAwareRecommendation:
 
     def __init__(self) -> None:
         try:
-            from candidate.orchestration.golden_trio import get_trio_orchestrator
+            from lukhas.orchestration.golden_trio import get_trio_orchestrator
 
             self.orchestrator = get_trio_orchestrator()
         except Exception:

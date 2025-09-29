@@ -16,18 +16,16 @@ Features:
 - Rate limiting and abuse protection
 """
 
-import asyncio
 import time
 import logging
-import traceback
-from typing import Dict, Any, List, Optional, Union
+from typing import Dict, Any, List, Optional
 from contextlib import asynccontextmanager
 
-from fastapi import FastAPI, HTTPException, Request, Response, Depends, status
+from fastapi import FastAPI, HTTPException, Request, Depends, status
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.middleware.gzip import GZipMiddleware
 from fastapi.responses import JSONResponse, PlainTextResponse
-from pydantic import BaseModel, Field, validator
+from pydantic import BaseModel, Field
 import uvicorn
 
 from .api_read import MemoryReadService, SearchQuery, SearchType, SearchResponse
@@ -35,7 +33,7 @@ from .api_write import MemoryWriteService, WriteOperation, BatchWriteOperation, 
 from .circuit_breaker import CircuitBreakerRegistry, CircuitBreakerFactory, CircuitBreakerError
 from .backpressure import AdaptiveBackpressure, BackpressureFactory, BackpressureMode
 from .metrics import (
-    get_metrics_collector, time_async_operation, get_t4_compliance_report,
+    time_async_operation, get_t4_compliance_report,
     export_prometheus_metrics
 )
 from .adapters.vector_store_base import VectorStoreFactory, VectorStoreType

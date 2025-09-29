@@ -58,18 +58,18 @@ from typing import Any, Optional
 
 # Import orchestration components
 try:
-    from candidate.orchestration.bio_symbolic_orchestrator import (
+    from lukhas.orchestration.bio_symbolic_orchestrator import (
         BioSymbolicMode,
         BioSymbolicOrchestrator,
         BioSymbolicTask,
     )
-    from candidate.orchestration.colony_orchestrator import (
+    from lukhas.orchestration.colony_orchestrator import (
         ColonyConfig,
         ColonyOrchestrator,
         ColonyTask,
         ColonyType,
     )
-    from candidate.orchestration.swarm_orchestration_adapter import (
+    from lukhas.orchestration.swarm_orchestration_adapter import (
         SwarmOperationType,
         SwarmOrchestrationAdapter,
     )
@@ -81,12 +81,12 @@ except ImportError as e:
 
 # Import brain and memory orchestration components with safety protocols
 try:
-    from candidate.memory.consolidation.memory_colonies import memory_colonies_instance
-    from candidate.memory.consolidation.memory_visualization import (
+    from lukhas.memory.consolidation.memory_colonies import memory_colonies_instance
+    from lukhas.memory.consolidation.memory_visualization import (
         memory_visualization_instance,
     )
-    from candidate.memory.folds.unified_memory_core import unified_memory_core_instance
-    from candidate.orchestration.brain.primary_hub import PrimaryBrainHub
+    from lukhas.memory.folds.unified_memory_core import unified_memory_core_instance
+    from lukhas.orchestration.brain.primary_hub import PrimaryBrainHub
 
     MEMORY_ORCHESTRATION_AVAILABLE = True
 except ImportError as e:
@@ -99,10 +99,10 @@ except ImportError as e:
 
 # Import energy and workflow components
 try:
-    from candidate.core.utils.orchestration_energy_aware_execution_planner import (
+    from lukhas.core.utils.orchestration_energy_aware_execution_planner import (
         EnergyAwareExecutionPlanner,
     )
-    from candidate.orchestration.workflow_engine import WorkflowEngine
+    from lukhas.orchestration.workflow_engine import WorkflowEngine
 
     WORKFLOW_COMPONENTS_AVAILABLE = True
 except ImportError as e:

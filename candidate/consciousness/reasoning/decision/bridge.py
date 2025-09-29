@@ -59,10 +59,10 @@ import numpy as np
 
 # Import Lukhas core components
 try:
-    from candidate.core.integration.neuro_symbolic_fusion_layer import (
+    from lukhas.core.integration.neuro_symbolic_fusion_layer import (
         NeuroSymbolicFusionLayer,
     )
-    from candidate.core.utils.orchestration_energy_aware_execution_planner import (
+    from lukhas.core.utils.orchestration_energy_aware_execution_planner import (
         EnergyAwareExecutionPlanner,
     )
     from lukhas.memory.governance.ethical_drift_governor import EthicalDriftGovernor  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept pending MATRIZ wiring (document or remove)
