@@ -59,7 +59,17 @@
       "Bash(echo:*)",
       "Bash(mkdir:*)",
       "Bash(git checkout:*)",
-      "Bash(ruff check:*)"
+      "Bash(ruff check:*)",
+      "Bash(do)",
+      "Bash([ ! -f \"../$file\" ])",
+      "Bash(then)",
+      "Bash(git mv:*)",
+      "Bash(elif [ -f \"$file\" ])",
+      "Bash(if [ -d \"$module\" ])",
+      "Bash(else)",
+      "Bash(while read file)",
+      "Bash(do rootfile=\"$file#candidate/\" if [ ! -f \"$rootfile\" ])",
+      "Bash(then echo \"Unique file: $file -> should be moved to $rootfile\" fi done)"
     ],
     "deny": [],
     "ask": []

@@ -2,7 +2,7 @@ import math
 
 import pytest
 
-from lukhas.qi.qi_entanglement import (
+from qi.qi_entanglement import (
     QuantumState,
     compute_entanglement,
     generate_entanglement_report,
