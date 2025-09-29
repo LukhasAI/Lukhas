@@ -1,6 +1,6 @@
 import pytest
 
-from candidate.consciousness.awareness.awareness_engine import AwarenessEngine
+from lukhas.consciousness.awareness.awareness_engine import AwarenessEngine
 
 # ΛTAG: awareness_setup_test
 

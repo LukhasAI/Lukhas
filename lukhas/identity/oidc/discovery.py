@@ -23,8 +23,8 @@ import json
 import os
 import time
 from datetime import datetime, timedelta, timezone
-from typing import Dict, Any, List, Optional, Set
-from dataclasses import dataclass, asdict, field
+from typing import Dict, Any, List, Optional
+from dataclasses import dataclass, field
 from urllib.parse import urlparse
 from opentelemetry import trace
 import structlog

@@ -25,10 +25,10 @@ from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, Optional
 
-from candidate.core.common import GLYPHSymbol, GLYPHToken, get_logger
-from candidate.core.common.exceptions import LukhasError, ValidationError
-from candidate.core.interfaces import CoreInterface
-from candidate.core.interfaces.dependency_injection import get_service, register_service
+from lukhas.core.common import GLYPHSymbol, GLYPHToken, get_logger
+from lukhas.core.common.exceptions import LukhasError, ValidationError
+from lukhas.core.interfaces import CoreInterface
+from lukhas.core.interfaces.dependency_injection import get_service, register_service
 
 from .parallel_reality_safety import (
     DriftMetrics,
@@ -829,7 +829,7 @@ class ParallelRealitySimulator(CoreInterface):
             memory_content["insights"] = simulation.insights
 
         try:
-            from candidate.core.interfaces.memory_interface import MemoryType
+            from lukhas.core.interfaces.memory_interface import MemoryType
 
             memory_id = await self.memory_service.store(
                 content=memory_content,
@@ -974,7 +974,7 @@ async def demonstrate_parallel_reality():
     mock_guardian = Mock()
     mock_guardian.validate_action = AsyncMock(return_value={"approved": True, "confidence": 0.9})
 
-    from candidate.core.interfaces.dependency_injection import register_service
+    from lukhas.core.interfaces.dependency_injection import register_service
 
     register_service("memory_service", mock_memory)
     register_service("guardian_service", mock_guardian)

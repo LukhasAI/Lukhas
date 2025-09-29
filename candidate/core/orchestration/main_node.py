@@ -69,19 +69,19 @@ class AdaptiveAGISystem:
             from learning.meta_learning import MetaLearningSystem
             from voice.speech_processor import SpeechProcessor
 
-            from candidate.core.common.interfaces.ui.adaptive.adaptive_interface_generator import (
+            from lukhas.core.common.interfaces.ui.adaptive.adaptive_interface_generator import (
                 AdaptiveInterfaceGenerator,
             )
-            from candidate.core.common.interfaces.ui.multimodal.image_generator import (
+            from lukhas.core.common.interfaces.ui.multimodal.image_generator import (
                 AdaptiveImageGenerator,
             )
 
             # Utils and config
-            from candidate.core.orchestration.brain.config.settings import load_settings
-            from candidate.core.orchestration.brain.neuro_symbolic.neuro_symbolic_engine import (
+            from lukhas.core.orchestration.brain.config.settings import load_settings
+            from lukhas.core.orchestration.brain.neuro_symbolic.neuro_symbolic_engine import (
                 NeuroSymbolicEngine,
             )
-            from candidate.orchestration.brain.privacy_manager import PrivacyManager
+            from lukhas.orchestration.brain.privacy_manager import PrivacyManager
             from lukhas.governance.identity.core.id_service.identity_manager import (
                 IdentityManager,
             )

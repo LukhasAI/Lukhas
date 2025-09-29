@@ -21,7 +21,7 @@ from typing import Optional
 
 import structlog
 
-from candidate.orchestration.service_registry import ServiceNames, register_factory
+from lukhas.orchestration.service_registry import ServiceNames, register_factory
 
 # Initialize logger
 logger = structlog.get_logger("ΛTRACE.orchestration.learning_initializer")
@@ -155,7 +155,7 @@ initialize_learning_service()
 
 if __name__ == "__main__":
     # Example/test usage
-    from candidate.orchestration.service_registry import get_service
+    from lukhas.orchestration.service_registry import get_service
 
     logger.info("ΛTRACE: Testing learning service initialization")
 

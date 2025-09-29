@@ -18,8 +18,7 @@ import time
 from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Dict, List, Optional, Any, Tuple
-import logging
+from typing import Dict, List, Optional, Any
 import threading
 
 try:
@@ -37,9 +36,7 @@ from .base import (
     SearchResult,
     StorageStats,
     VectorStoreError,
-    DocumentNotFoundError,
-    DimensionMismatchError,
-    StorageCapacityError
+    DocumentNotFoundError
 )
 from lukhas.observability.service_metrics import get_metrics_collector
 from lukhas.core.common.logger import get_logger

@@ -45,7 +45,7 @@ from typing import Any, Optional
 # ΛTRACE: Initialize logger for this module. #ΛTEMPORAL_HOOK (Logger init
 # time - Event) #AIDENTITY_BRIDGE (Module identity) #ΛECHO (Logger
 # configuration echoes global settings)
-from candidate.core.common import get_logger
+from lukhas.core.common import get_logger
 
 # Initialize module logger
 logger = get_logger(__name__)

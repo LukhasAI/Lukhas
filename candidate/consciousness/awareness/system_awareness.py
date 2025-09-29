@@ -51,7 +51,7 @@ from typing import Any, Optional
 
 import numpy as np
 
-from candidate.core.common import get_logger
+from lukhas.core.common import get_logger
 
 from ..bio_core.bio_symbolic import CardiolipinEncoder, CristaFilter, ProtonGradient, QIAttentionGate
 

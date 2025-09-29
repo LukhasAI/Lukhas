@@ -43,7 +43,7 @@ from typing import Any, Callable, Optional, TypeVar, Union
 
 import numpy as np
 
-from candidate.core.common import get_logger
+from lukhas.core.common import get_logger
 
 # Set up logging
 logging.basicConfig(level=logging.INFO)

@@ -9,10 +9,10 @@ from collections import deque
 from datetime import datetime, timezone
 from typing import Any
 
-from candidate.core.colonies.base_colony import BaseColony
-from candidate.core.efficient_communication import MessagePriority
-from candidate.core.swarm import SwarmAgent
-from candidate.core.symbolism.tags import TagScope
+from lukhas.core.colonies.base_colony import BaseColony
+from lukhas.core.efficient_communication import MessagePriority
+from lukhas.core.swarm import SwarmAgent
+from lukhas.core.symbolism.tags import TagScope
 
 # Import EthicsEngine from ethics module (uses stub implementation)
 # Import SafetyChecker from ethics module (uses stub implementation)

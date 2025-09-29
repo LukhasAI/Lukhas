@@ -14,21 +14,16 @@ Key Optimizations:
 import asyncio
 import hashlib
 import time
-import weakref
 from collections import OrderedDict
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from enum import Enum
-from typing import Any, Dict, List, Optional, Tuple, Union
-from contextlib import asynccontextmanager
-import functools
+from typing import Any, Dict, List, Optional
 
-from matriz.core.async_orchestrator import AsyncCognitiveOrchestrator, StageType, StageResult, OrchestrationMetrics
-from matriz.core.node_interface import CognitiveNode, NodeState, NodeTrigger
-from lukhas.observability.prometheus_metrics import LUKHASMetrics
-from lukhas.observability.opentelemetry_tracing import LUKHASTracer
+from matriz.core.async_orchestrator import AsyncCognitiveOrchestrator, StageType, StageResult
+from matriz.core.node_interface import CognitiveNode
 from lukhas.observability.matriz_instrumentation import (
     instrument_cognitive_stage, cognitive_pipeline_span,
-    record_focus_drift, record_memory_cascade_risk, record_thought_complexity,
+    record_focus_drift, record_thought_complexity,
     record_decision_confidence, initialize_cognitive_instrumentation
 )
 

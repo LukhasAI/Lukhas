@@ -50,8 +50,8 @@ class TestConsciousnessModuleIntegrity:
         """Test that consciousness reasoning modules can be imported"""
         try:
             # Test the modules we just fixed for syntax errors
-            from candidate.consciousness.reasoning import id_reasoning_engine  # noqa: F401
-            from candidate.consciousness.reflection import brain_integration, core_integrator  # noqa: F401
+            from lukhas.consciousness.reasoning import id_reasoning_engine  # noqa: F401
+            from lukhas.consciousness.reflection import brain_integration, core_integrator  # noqa: F401
 
             logger.info("✅ All consciousness reasoning modules imported successfully")
             assert True
@@ -144,7 +144,7 @@ class TestBrainIntegration:
     def test_brain_integration_imports(self):
         """Test that brain integration module imports correctly after fixes"""
         try:
-            from candidate.consciousness.reflection import brain_integration
+            from lukhas.consciousness.reflection import brain_integration
 
             # Verify the module has expected attributes
             assert hasattr(brain_integration, "__file__")
@@ -205,7 +205,7 @@ class TestCoreIntegrator:
     def test_core_integrator_imports(self):
         """Test that core integrator module imports correctly after fixes"""
         try:
-            from candidate.consciousness.reflection import core_integrator
+            from lukhas.consciousness.reflection import core_integrator
 
             assert hasattr(core_integrator, "__file__")
             logger.info("✅ Core integrator module imports successfully")

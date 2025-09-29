@@ -32,13 +32,13 @@ from enum import Enum
 from typing import Any, Callable, Optional
 
 try:
-    from candidate.governance.consent_ledger.ledger_v1 import ConsentLedgerV1, PolicyVerdict
+    from lukhas.governance.consent_ledger.ledger_v1 import ConsentLedgerV1, PolicyVerdict
 except ImportError:
     PolicyVerdict = None
     ConsentLedgerV1 = None
 
 try:
-    from candidate.governance.security.audit_system import (
+    from lukhas.governance.security.audit_system import (
         AuditCategory,
         AuditEventType,
         AuditLevel,

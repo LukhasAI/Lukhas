@@ -22,7 +22,7 @@ from datetime import datetime
 from enum import Enum, auto
 from typing import Any
 
-from candidate.core.common import get_logger
+from lukhas.core.common import get_logger
 from ethics.seedra import get_seedra
 from symbolic.core import Symbol, SymbolicDomain, SymbolicType, get_symbolic_vocabulary
 

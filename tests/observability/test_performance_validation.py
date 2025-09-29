@@ -22,7 +22,6 @@ from lukhas.observability.evidence_collection import (
 )
 from lukhas.observability.advanced_metrics import AdvancedMetricsSystem
 from lukhas.observability.performance_regression import PerformanceRegressionDetector
-from lukhas.observability.intelligent_alerting import IntelligentAlertingSystem
 from lukhas.observability.security_hardening import ObservabilitySecurityHardening
 
 

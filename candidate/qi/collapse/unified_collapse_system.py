@@ -16,12 +16,12 @@ import asyncio
 from datetime import datetime, timezone
 from typing import Any, Optional
 
-from candidate.orchestration.brain.collapse_chain_integrity import (
+from lukhas.orchestration.brain.collapse_chain_integrity import (
     CollapseChainIntegrity,
 )
-from candidate.orchestration.brain.integrity_probe import IntegrityProbe
-from candidate.orchestration.brain.mesh.collapse_mesh import CollapseMesh
-from candidate.orchestration.brain.unified_collapse_system import (
+from lukhas.orchestration.brain.integrity_probe import IntegrityProbe
+from lukhas.orchestration.brain.mesh.collapse_mesh import CollapseMesh
+from lukhas.orchestration.brain.unified_collapse_system import (
     BrainCollapseManager,
     CollapseBridge,
 )

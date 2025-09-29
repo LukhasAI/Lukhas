@@ -11,9 +11,9 @@ from dataclasses import dataclass
 from datetime import datetime, timezone
 from typing import Any
 
-from candidate.core.container.service_container import ServiceContainer
-from candidate.core.interfaces import CoreInterface
-from candidate.core.symbolic_engine import SymbolicEffect, SymbolicEvent
+from lukhas.core.container.service_container import ServiceContainer
+from lukhas.core.interfaces import CoreInterface
+from lukhas.core.symbolic_engine import SymbolicEffect, SymbolicEvent
 
 logger = logging.getLogger(__name__)
 
@@ -86,7 +86,7 @@ class ConsciousnessExpansionEngine(CoreInterface):
         try:
             self.kernel_bus = container.get_service("symbolic_kernel_bus")
         except:
-            from candidate.orchestration.symbolic_kernel_bus import SymbolicKernelBus
+            from lukhas.orchestration.symbolic_kernel_bus import SymbolicKernelBus
 
             self.kernel_bus = SymbolicKernelBus()
 

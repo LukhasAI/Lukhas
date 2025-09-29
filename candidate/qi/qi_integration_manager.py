@@ -41,7 +41,7 @@ from pathlib import Path
 from typing import Any, Optional
 
 from bio.systems.orchestration.bio_orchestrator import BioOrchestrator
-from candidate.core.unified_integration import UnifiedIntegration
+from lukhas.core.unified_integration import UnifiedIntegration
 from dream.quantum_dream_adapter import DreamQuantumConfig, QuantumDreamAdapter
 from qi.awareness_system import AwarenessQuantumConfig, QuantumAwarenessSystem
 from qi.dast_orchestrator import DASTQuantumConfig, QuantumDASTOrchestrator

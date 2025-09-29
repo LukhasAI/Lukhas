@@ -9,12 +9,12 @@ from typing import Any, Optional
 
 # Guardian System Integration
 try:
-    from candidate.governance.guardian_system import GuardianSystem
+    from lukhas.governance.guardian_system import GuardianSystem
 except ImportError:
     GuardianSystem = None
 
 try:
-    from candidate.core.security import AGISecuritySystem
+    from lukhas.core.security import AGISecuritySystem
 except ImportError:
     AGISecuritySystem = None
 

@@ -8,7 +8,7 @@ from datetime import datetime, timedelta, timezone
 import jwt
 import pytest
 
-from candidate.bridge.api.validation import AuthenticationValidator, ValidationErrorType
+from lukhas.bridge.api.validation import AuthenticationValidator, ValidationErrorType
 
 
 @pytest.mark.asyncio

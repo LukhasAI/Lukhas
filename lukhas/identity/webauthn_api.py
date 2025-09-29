@@ -20,11 +20,11 @@ from prometheus_client import Counter, Histogram
 import logging
 
 from .webauthn_production import (
-    WebAuthnManager, AuthenticatorTier, AuthenticatorType,
+    AuthenticatorTier, AuthenticatorType,
     get_webauthn_manager
 )
 from .auth_service import verify_token
-from .rate_limiting import check_webauthn_rate_limit, get_rate_limiter, RateLimitType
+from .rate_limiting import get_rate_limiter, RateLimitType
 
 tracer = trace.get_tracer(__name__)
 logger = logging.getLogger(__name__)

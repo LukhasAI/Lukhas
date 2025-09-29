@@ -7,7 +7,7 @@ Validates metrics collection with and without Prometheus client available.
 import os
 import time
 import threading
-from unittest.mock import Mock, patch, MagicMock
+from unittest.mock import patch
 import pytest
 import sys
 from pathlib import Path

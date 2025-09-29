@@ -13,7 +13,7 @@ Usage:
 
 import os
 import json
-from typing import Dict, List, Any, Optional
+from typing import Dict, Any
 from datetime import datetime
 
 try:

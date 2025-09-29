@@ -15,9 +15,9 @@ from typing import Any, Optional
 import numpy as np
 
 # Import colony infrastructure
-from candidate.core.colonies.base_colony import BaseColony, ConsensusResult
-from candidate.core.enhanced_swarm import AgentCapability, AgentMemory, AgentState
-from candidate.core.enhanced_swarm import EnhancedSwarmAgent as SwarmAgent
+from lukhas.core.colonies.base_colony import BaseColony, ConsensusResult
+from lukhas.core.enhanced_swarm import AgentCapability, AgentMemory, AgentState
+from lukhas.core.enhanced_swarm import EnhancedSwarmAgent as SwarmAgent
 
 # Import identity events
 # Import identity events

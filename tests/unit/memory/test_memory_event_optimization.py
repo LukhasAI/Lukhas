@@ -10,13 +10,10 @@ import gc
 import psutil
 import pytest
 import sys
-import threading
 import time
 from collections import deque
 from concurrent.futures import ThreadPoolExecutor
-from unittest.mock import patch, MagicMock
 
-import sys
 import os
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '../../..'))
 
@@ -276,7 +273,6 @@ class TestMemoryEventIntegration:
 
     def test_memory_event_metrics_integration(self):
         """Test optimized events integrate properly with metrics system"""
-        from memory.metrics import compute_affect_delta, compute_drift
 
         factory = MemoryEventFactory()
 

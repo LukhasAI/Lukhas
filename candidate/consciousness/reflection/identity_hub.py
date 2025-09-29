@@ -22,8 +22,8 @@ import time
 from dataclasses import asdict
 from typing import Any, Optional
 
-from candidate.core.bridges.identity_core_bridge import IdentityCoreBridge
-from candidate.core.common import get_logger
+from lukhas.core.bridges.identity_core_bridge import IdentityCoreBridge
+from lukhas.core.common import get_logger
 from identity.deployment_package import DemoOrchestrator, TestOrchestrator
 from identity.lukhus_ultimate_test_suite import UltimateTestOrchestrator
 from identity.qrg_test_suite import TestQRGCore
@@ -173,7 +173,7 @@ except ImportError as e:
 
 # Agent 1 Task 12: Add persona engine imports
 try:
-    from candidate.core.identity.persona_engine import (
+    from lukhas.core.identity.persona_engine import (
         PersonaEngine,
         create_and_initialize_identity_component,
         create_identity_component,
@@ -211,7 +211,7 @@ except ImportError as e:
 
 # Task 3B: Add connectivity imports
 try:
-    from candidate.core.core_hub import get_core_hub
+    from lukhas.core.core_hub import get_core_hub
 except ImportError:
     get_core_hub = None
     logging.warning("CoreHub not available")

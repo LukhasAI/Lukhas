@@ -70,9 +70,9 @@ import openai
 
 # Import LUKHlukhasS core modules
 try:
-    from candidate.core.elite.ai_constitution_checker import AIConstitutionChecker
-    from candidate.core.elite.emotional_secure_logger import EmotionalSecureLogger
-    from candidate.core.elite.symbolic_trust_scorer import SymbolicTrustScorer
+    from lukhas.core.elite.ai_constitution_checker import AIConstitutionChecker
+    from lukhas.core.elite.emotional_secure_logger import EmotionalSecureLogger
+    from lukhas.core.elite.symbolic_trust_scorer import SymbolicTrustScorer
 except ImportError:
     print("Warning: Elite modules not found. Some features may be limited.", timezone)
     SymbolicTrustScorer = None

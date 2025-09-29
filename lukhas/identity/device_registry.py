@@ -11,7 +11,6 @@ from datetime import datetime, timedelta
 from typing import Dict, List, Optional, Set, Tuple, Any
 from dataclasses import dataclass, field
 from enum import Enum
-import uuid
 import asyncio
 
 from lukhas.identity.session_manager import DeviceInfo, DeviceType

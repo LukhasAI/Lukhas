@@ -12,8 +12,8 @@ import re
 import unittest
 from typing import Any, Optional
 
-from candidate.core.common import get_logger
-from candidate.core.interfaces.voice.core.sayit import SafetyGuard
+from lukhas.core.common import get_logger
+from lukhas.core.interfaces.voice.core.sayit import SafetyGuard
 
 logger = get_logger(__name__)
 

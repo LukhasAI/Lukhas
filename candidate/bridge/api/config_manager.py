@@ -11,7 +11,7 @@
 # Import LukhasConfig for type hinting if needed
 import logging
 
-from candidate.core.common.config import LukhasConfig, config
+from lukhas.core.common.config import LukhasConfig, config
 
 # Initialize logger for ΛTRACE
 
@@ -84,7 +84,7 @@ logger.info(f"ΛTRACE: config_manager module initialized. Exposed symbols in __a
 # LOGGING: ΛTRACE_ENABLED for initialization and function calls.
 # AUTHENTICATION: Not applicable.
 # HOW TO USE:
-#   from candidate.core.config_manager import config, get_config
+#   from lukhas.core.config_manager import config, get_config
 #   current_cfg = get_config()
 #   # Direct use of 'config' is often preferred:
 #   # print(config.openai_api_key)

@@ -26,19 +26,15 @@ import secrets
 import time
 import pytest
 from datetime import datetime, timedelta, timezone
-from typing import Dict, Any, List, Optional, Set
-from urllib.parse import urlencode, parse_qs, urlparse
+from urllib.parse import parse_qs, urlparse
 
 import jwt
-from cryptography.hazmat.primitives import serialization, hashes
+from cryptography.hazmat.primitives import serialization
 from cryptography.hazmat.primitives.asymmetric import rsa
-from cryptography.hazmat.primitives.serialization import load_pem_private_key
 
 from lukhas.identity.oidc.provider import OIDCProvider
 from lukhas.identity.oidc.discovery import DiscoveryProvider
-from lukhas.identity.oidc.client_registry import ClientRegistry, OIDCClient
-from lukhas.identity.oidc.tokens import OIDCTokenManager
-from lukhas.identity.jwt_utils import JWTManager
+from lukhas.identity.oidc.client_registry import OIDCClient
 from lukhas.identity.security_hardening import SecurityHardening
 from lukhas.identity.webauthn_security_hardening import WebAuthnSecurityHardening
 

@@ -6,7 +6,7 @@ Validates tracing functionality with and without OpenTelemetry available.
 
 import time
 import pytest
-from unittest.mock import Mock, patch, MagicMock
+from unittest.mock import patch
 import sys
 from pathlib import Path
 

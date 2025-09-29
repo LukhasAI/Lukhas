@@ -1,6 +1,6 @@
 import pytest
 
-from candidate.governance.ethics.constitutional_ai import (
+from lukhas.governance.ethics.constitutional_ai import (
     ConstitutionalFramework,
     ConstitutionalRule,
     EthicalDecisionMaker,

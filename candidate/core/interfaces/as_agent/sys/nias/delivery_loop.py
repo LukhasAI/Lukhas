@@ -25,7 +25,7 @@ DESCRIPTION:
 
 from nias.core.nias_engine import NIASEngine
 
-from candidate.orchestration.golden_trio.trio_orchestrator import TrioOrchestrator
+from lukhas.orchestration.golden_trio.trio_orchestrator import TrioOrchestrator
 from ethics.seedra.seedra_core import SEEDRACore
 
 # Explicit imports replacing star imports per PEP8 guidelines # CLAUDE_EDIT_v0.8

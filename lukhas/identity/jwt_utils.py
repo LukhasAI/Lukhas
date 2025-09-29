@@ -11,14 +11,12 @@ T4/0.01% Excellence: High-performance JWT operations with caching.
 from __future__ import annotations
 import jwt
 import time
-import json
 import os
 import secrets
 from typing import Dict, Any, List, Optional, Union
 from dataclasses import dataclass
 from enum import Enum
 from cryptography.hazmat.primitives.asymmetric import rsa, ec
-from cryptography.hazmat.primitives import serialization
 from opentelemetry import trace
 from prometheus_client import Counter, Histogram
 

@@ -5,7 +5,6 @@ Validates compression, LRU eviction, and background scheduling.
 """
 
 import time
-import threading
 from datetime import datetime, timedelta
 import pytest
 import sys

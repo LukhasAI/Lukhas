@@ -9,14 +9,13 @@ and automated remediation planning.
 
 import asyncio
 import logging
-import math
 import statistics
 import time
 import uuid
-from collections import deque, defaultdict
+from collections import deque
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Any, Dict, List, Optional, Tuple, Union
+from typing import Any, Dict, List
 
 logger = logging.getLogger(__name__)
 

@@ -16,15 +16,15 @@ import pytest
 
 # Test imports
 try:
-    from candidate.bridge.api_gateway import UnifiedAPIGateway
-    from candidate.bridge.orchestration import (
+    from lukhas.bridge.api_gateway import UnifiedAPIGateway
+    from lukhas.bridge.orchestration import (
         AIProvider,
         ConsensusResult,
         MultiAIOrchestrator,
         OrchestrationRequest,
         TaskType,
     )
-    from candidate.bridge.workflow.workflow_orchestrator import WorkflowOrchestrator  # noqa: F401
+    from lukhas.bridge.workflow.workflow_orchestrator import WorkflowOrchestrator  # noqa: F401
 
     ORCHESTRATION_AVAILABLE = True
 except ImportError:

@@ -91,7 +91,7 @@ except ImportError:
 
 # Import core components with fallbacks
 try:
-    from candidate.core.spine.fold_engine import AGIMemory, MemoryFold, MemoryPriority, MemoryType
+    from lukhas.core.spine.fold_engine import AGIMemory, MemoryFold, MemoryPriority, MemoryType
 except ImportError:
     try:
         # Commented out until CORE is available

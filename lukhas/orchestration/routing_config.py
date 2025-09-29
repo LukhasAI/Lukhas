@@ -22,19 +22,17 @@ from __future__ import annotations
 import asyncio
 import hashlib
 import logging
-import os
 import time
-import uuid
 from dataclasses import dataclass, field
 from enum import Enum
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Union
+from typing import Any, Dict, List, Optional
 from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
 
 import yaml
 from opentelemetry import trace
-from prometheus_client import Counter, Histogram, Gauge, Summary
+from prometheus_client import Counter, Histogram
 
 tracer = trace.get_tracer(__name__)
 logger = logging.getLogger(__name__)

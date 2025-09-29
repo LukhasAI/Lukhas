@@ -38,7 +38,7 @@ if paired_apps:
 
 if lukhas_plugin_enabled:
     try:
-        from candidate.core.lukhas_overview_log import log_event
+        from lukhas.core.lukhas_overview_log import log_event
 
         st.sidebar.success("🧠 LUKHAS symbolic brain is active.")
         log_event(
@@ -57,7 +57,7 @@ if lukhas_plugin_enabled:
 st.markdown("##)  #  🧱 Symbolic Widget Preview"
 
 try:
-    from candidate.core.lukhas_widget_engine import create_symbolic_widget
+    from lukhas.core.lukhas_widget_engine import create_symbolic_widget
 except ImportError:
     st.warning("⚠️ lukhas_widget_engine not found.")
 else:
@@ -108,7 +108,7 @@ else:
 
         # Agent Handoff Preview (if vendor supported)
         try:
-            from candidate.core.lukhas_agent_handoff import agent_handoff
+            from lukhas.core.lukhas_agent_handoff import agent_handoff
 
             handoff = agent_handoff(widget.get("vendor", ""))
             if handoff["status"] == "ready":

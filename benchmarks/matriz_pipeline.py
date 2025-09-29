@@ -15,8 +15,6 @@ Usage:
 import asyncio
 import time
 import statistics
-from typing import List, Dict
-import uuid
 import pytest
 
 try:

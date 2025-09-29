@@ -19,7 +19,7 @@ from lukhas.core.registry import register
 
 def discover_nodes(root_package: str = "candidate") -> int:
     """
-    Discover and register cognitive nodes from candidate.*.nodes modules.
+    Discover and register cognitive nodes from lukhas.*.nodes modules.
 
     Scans all packages under root_package for modules containing 'nodes'
     and registers any CognitiveNodeBase subclasses with AUTOINIT=True.

@@ -10,7 +10,7 @@ Generates human-readable reports from audit data, including:
 import json
 import csv
 import pathlib
-from typing import List, Dict, Any
+from typing import Dict, Any
 import argparse
 import sys
 

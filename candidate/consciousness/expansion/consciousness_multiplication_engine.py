@@ -8,7 +8,7 @@ import uuid
 from dataclasses import dataclass
 from typing import Any
 
-from candidate.core.interfaces import CoreInterface
+from lukhas.core.interfaces import CoreInterface
 
 logger = logging.getLogger(__name__)
 

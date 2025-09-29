@@ -64,7 +64,7 @@ st.markdown("> A modular Cognitive AI interface designed to reflect, assist, and
 # ─── Symbolic Identity Preview ────────────────────────────────────────────────
 if agent_enabled:
     try:
-        from candidate.core.lukhas_self import who_am_i
+        from lukhas.core.lukhas_self import who_am_i
 
         st.success("🧠 Agent Online: " + who_am_i())
     except Exception as e:

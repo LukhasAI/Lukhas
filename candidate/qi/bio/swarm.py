@@ -16,8 +16,8 @@ import logging
 from datetime import datetime, timezone
 from typing import Any, Optional
 
-from candidate.core.colonies.base_colony import BaseColony
-from candidate.core.enhanced_swarm import EnhancedSwarmHub
+from lukhas.core.colonies.base_colony import BaseColony
+from lukhas.core.enhanced_swarm import EnhancedSwarmHub
 
 # Import bio-symbolic colonies
 try:
@@ -32,7 +32,7 @@ except ImportError:
 
 # Import oracle colony
 try:
-    from candidate.core.colonies.oracle_colony import OracleColony, OracleQuery
+    from lukhas.core.colonies.oracle_colony import OracleColony, OracleQuery
 
     ORACLE_AVAILABLE = True
 except ImportError:

@@ -28,7 +28,7 @@ import pytest
 from hypothesis import assume, given, settings
 from hypothesis import strategies as st
 
-from candidate.bridge.external_adapters.oauth_manager import (
+from lukhas.bridge.external_adapters.oauth_manager import (
     CircuitBreaker,
     CircuitBreakerState,
     OAuthManager,

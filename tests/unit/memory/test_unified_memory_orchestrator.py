@@ -5,7 +5,7 @@
 
 import pytest
 
-from candidate.memory.core.unified_memory_orchestrator import MemoryType, SleepStage, UnifiedMemoryOrchestrator
+from lukhas.memory.core.unified_memory_orchestrator import MemoryType, SleepStage, UnifiedMemoryOrchestrator
 
 
 @pytest.fixture

@@ -11,7 +11,7 @@ import time
 import asyncio
 import random
 import statistics
-from typing import Dict, Optional, Callable, Any, Union
+from typing import Dict, Optional, Callable, Any
 from dataclasses import dataclass
 from collections import deque
 from enum import Enum

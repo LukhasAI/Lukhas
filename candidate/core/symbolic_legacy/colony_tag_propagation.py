@@ -34,7 +34,7 @@ except ImportError:
 
 # TODO[GLYPH:specialist] - Implement proper symbolic vocabulary integration
 try:
-    from candidate.core.symbolic_legacy.vocabularies import SymbolicVocabulary
+    from lukhas.core.symbolic_legacy.vocabularies import SymbolicVocabulary
 except ImportError:
     # Stub implementation for development
     class SymbolicVocabulary:

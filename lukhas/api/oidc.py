@@ -683,6 +683,7 @@ async def authorize(
                     "correlation_id": correlation_id
                 }
             )
+    """
     OAuth2 Authorization endpoint.
 
     Handles authorization requests from OAuth2 clients.

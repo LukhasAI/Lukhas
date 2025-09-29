@@ -8,7 +8,7 @@ from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from typing import Any, Optional
 
-from candidate.core.colonies.supervisor_agent import SupervisorAgent
+from lukhas.core.colonies.supervisor_agent import SupervisorAgent
 from lukhas.core.actor_system import ActorRef, AIAgentActor, get_global_actor_system
 from lukhas.core.distributed_tracing import create_ai_tracer
 from lukhas.core.efficient_communication import EfficientCommunicationFabric

@@ -12,7 +12,6 @@ CI/CD gate for T4/0.01% excellence compliance:
 
 import asyncio
 import json
-import os
 import sys
 import time
 from pathlib import Path
@@ -26,7 +25,7 @@ import statistics
 project_root = Path(__file__).parent.parent
 sys.path.insert(0, str(project_root))
 
-from lukhas.ledger.events import ConsentGrantedEvent, ConsentType, DataSubjectRights, validate_event_schema
+from lukhas.ledger.events import ConsentGrantedEvent, ConsentType, validate_event_schema
 from lukhas.ledger.event_bus import AsyncEventBus
 from lukhas.ledger.metrics import get_metrics, reset_metrics
 import jsonschema

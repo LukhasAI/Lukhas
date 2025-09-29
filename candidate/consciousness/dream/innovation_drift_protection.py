@@ -38,11 +38,11 @@ from vivox.emotional_regulation.vivox_ern_core import (
 )
 
 # Core LUKHAS imports
-from candidate.core.common import GLYPHToken, get_logger
-from candidate.core.common.exceptions import LukhasError, ValidationError
-from candidate.core.interfaces import CoreInterface
-from candidate.core.interfaces.dependency_injection import get_service, register_service
-from candidate.core.monitoring.drift_monitor import (
+from lukhas.core.common import GLYPHToken, get_logger
+from lukhas.core.common.exceptions import LukhasError, ValidationError
+from lukhas.core.interfaces import CoreInterface
+from lukhas.core.interfaces.dependency_injection import get_service, register_service
+from lukhas.core.monitoring.drift_monitor import (
     DriftType,
     InterventionType,
     UnifiedDriftMonitor,

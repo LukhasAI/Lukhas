@@ -7,11 +7,10 @@ error classification - the kind of debugging visibility that transforms
 incident response from hours to minutes.
 """
 
-import sys
 import traceback
 import time
 import uuid
-from typing import Dict, List, Optional, Any, Union
+from typing import Dict, List, Optional, Any
 from dataclasses import dataclass, field
 from enum import Enum
 from contextlib import contextmanager

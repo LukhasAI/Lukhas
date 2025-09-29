@@ -70,8 +70,8 @@ import numpy as np
 
 # Internal imports
 try:
-    from candidate.core.common.glyph import EmotionVector, Glyph, GlyphFactory, GlyphType
-    from candidate.core.glyph.glyphs import GLYPH_MAP, get_glyph_meaning
+    from lukhas.core.common.glyph import EmotionVector, Glyph, GlyphFactory, GlyphType
+    from lukhas.core.glyph.glyphs import GLYPH_MAP, get_glyph_meaning
 except ImportError:
     # Fallback imports if core modules not available
     GLYPH_MAP = {}

@@ -1,7 +1,7 @@
 import json
 from pathlib import Path
 
-from candidate.governance.identity.core.id_service.lambd_id_generator import (
+from lukhas.governance.identity.core.id_service.lambd_id_generator import (
     LambdaIDGenerator,
     TierLevel,
 )

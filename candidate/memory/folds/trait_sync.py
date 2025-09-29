@@ -38,7 +38,7 @@ import os
 from datetime import datetime, timezone
 from pathlib import Path
 
-from candidate.orchestration.brain.spine.trait_manager import load_traits
+from lukhas.orchestration.brain.spine.trait_manager import load_traits
 
 # CONFIG
 NODE_ID = "lukhas_london"

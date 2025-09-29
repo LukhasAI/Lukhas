@@ -32,14 +32,14 @@ try:
     import websockets
     from httpx import AsyncClient
 
-    from candidate.bridge.api.orchestration_api_bridge import (
+    from lukhas.bridge.api.orchestration_api_bridge import (
         APIProvider,
         ComprehensiveAPIOrchestrator,
         OrchestrationRequest,
         OrchestrationStrategy,
     )
-    from candidate.bridge.api.orchestration_endpoints import app
-    from candidate.bridge.llm_wrappers.anthropic_function_bridge import (
+    from lukhas.bridge.api.orchestration_endpoints import app
+    from lukhas.bridge.llm_wrappers.anthropic_function_bridge import (
         AnthropicFunctionBridge,
         ClaudeModel,
         ToolDefinition,
@@ -47,7 +47,7 @@ try:
     )
 
     # LUKHAS imports
-    from candidate.bridge.llm_wrappers.openai_function_bridge import (
+    from lukhas.bridge.llm_wrappers.openai_function_bridge import (
         FunctionCallMode,
         FunctionDefinition,
         OpenAIFunctionBridge,

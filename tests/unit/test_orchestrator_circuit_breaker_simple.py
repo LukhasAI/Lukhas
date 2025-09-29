@@ -5,7 +5,6 @@ Simple Circuit Breaker Integration Test
 Validates that circuit breaker integration is properly wired into the orchestrator.
 """
 
-import time
 from unittest.mock import Mock
 
 from matriz.core.async_orchestrator import AsyncCognitiveOrchestrator

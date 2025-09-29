@@ -1,4 +1,4 @@
-from candidate.consciousness.dream.expand import atlas
+from lukhas.consciousness.dream.expand import atlas
 
 def test_log_creates_entry():
     result = atlas.log("test_run", {"name": "test"}, 0.5, 0.3)

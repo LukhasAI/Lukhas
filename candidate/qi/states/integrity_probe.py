@@ -52,7 +52,7 @@ def _get_microcheck_metrics():
 
 # Optional imports for full functionality (not needed for drift-only mode)
 try:
-    from candidate.core.symbolic_diagnostics.trace_repair_engine import TraceRepairEngine
+    from lukhas.core.symbolic_diagnostics.trace_repair_engine import TraceRepairEngine
 except ImportError:
     TraceRepairEngine = None
 

@@ -8,9 +8,8 @@ Provides automated verification with tolerance checking and detailed reporting.
 
 import argparse
 import json
-import sys
 from pathlib import Path
-from typing import Dict, Any, List, Tuple, Optional
+from typing import Dict, Any, List, Optional
 from dataclasses import dataclass
 import re
 

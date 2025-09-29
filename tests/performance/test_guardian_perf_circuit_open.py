@@ -2,7 +2,7 @@ import time
 
 import pytest
 
-from candidate.governance.guardian_system_integration import (
+from lukhas.governance.guardian_system_integration import (
     GuardianSystemIntegration,
     GuardianValidationRequest,
 )

@@ -28,15 +28,15 @@ from typing import Any
 
 import pytest
 
-from candidate.aka_qualia.core import AkaQualia
-from candidate.aka_qualia.models import (
+from lukhas.aka_qualia.core import AkaQualia
+from lukhas.aka_qualia.models import (
     AgencyFeel,
     ProtoQualia,
     RiskProfile,
     SeverityLevel,
     TemporalFeel,
 )
-from candidate.aka_qualia.teq_hook import TEQGuardian
+from lukhas.aka_qualia.teq_hook import TEQGuardian
 
 
 class ComponentAblationFramework:

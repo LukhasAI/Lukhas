@@ -14,9 +14,8 @@ import json
 import glob
 import pathlib
 import re
-import sys
 from datetime import datetime
-from typing import Dict, List, Optional, Tuple, Any
+from typing import Dict, List, Any
 
 
 class TrackBadgeGenerator:

@@ -14,7 +14,7 @@ Constellation Framework: 🛡️ Lane Consistency Excellence Testing
 import json
 import pathlib
 import pytest
-from typing import Set, List
+from typing import List
 from lukhas.governance.schema_registry import get_lane_enum, LUKHASLane
 
 

@@ -24,7 +24,7 @@ Based on the advanced implementation from Lukhas GitHub repository.
 import datetime
 from typing import Any
 
-from candidate.core.common import get_logger
+from lukhas.core.common import get_logger
 
 logger = get_logger(__name__)
 

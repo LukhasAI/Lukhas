@@ -6,7 +6,7 @@ Ensures all systems properly integrate with identity and safety checks.
 import functools
 from typing import Callable
 
-from candidate.orchestration.integration_hub import get_integration_hub
+from lukhas.orchestration.integration_hub import get_integration_hub
 from identity.audit_logger import AuditLogger
 from identity.safety_monitor import SafetyMonitor
 from identity.tiered_access import TieredAccessControl

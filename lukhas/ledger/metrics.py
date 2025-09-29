@@ -17,7 +17,6 @@ from prometheus_client import (
     Gauge,
     CollectorRegistry,
     generate_latest,
-    CONTENT_TYPE_LATEST,
     start_http_server,
 )
 import threading

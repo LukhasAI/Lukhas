@@ -500,7 +500,7 @@ if __name__ == "__main__":
 ║
 ║ 1. Dream Engine Integration:
 ║    ```python
-║    from candidate.core.ethics.dream_ethics_injector import DreamEthicsInjector
+║    from lukhas.core.ethics.dream_ethics_injector import DreamEthicsInjector
 ║
 ║    # In dream processing pipeline
 ║    ethics_injector = DreamEthicsInjector()

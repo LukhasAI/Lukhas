@@ -6,7 +6,7 @@ Common patterns for using the new kernel bus in LUKHΛS components.
 """
 
 
-from candidate.orchestration.symbolic_kernel_bus import (
+from lukhas.orchestration.symbolic_kernel_bus import (
     EventPriority,
     SymbolicEffect,
     kernel_bus,

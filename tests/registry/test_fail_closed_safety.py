@@ -19,22 +19,17 @@ Test Coverage:
 import pytest
 import os
 import sys
-import tempfile
-import signal
 import threading
 import time
-from typing import Any, Dict, List
-from unittest.mock import patch, Mock, MagicMock
+from unittest.mock import patch, Mock
 from pathlib import Path
-import subprocess
-import resource
 import gc
 
 # Import registry components
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 from lukhas.core.registry import (
     register, resolve, _REG, discover_entry_points,
-    auto_discover, _instantiate_plugin, _DISCOVERY_FLAG
+    auto_discover, _instantiate_plugin
 )
 
 
@@ -541,7 +536,6 @@ class TestFailClosedSafetyMechanisms:
             if 'LUKHAS_PLUGIN_DISCOVERY' in os.environ:
                 del os.environ['LUKHAS_PLUGIN_DISCOVERY']
 
-            from lukhas.core.registry import _DISCOVERY_FLAG
             # Discovery flag might be cached, but behavior should be safe
             # Main point is that explicit enabling is required
 

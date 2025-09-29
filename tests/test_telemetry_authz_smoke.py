@@ -8,8 +8,6 @@ with required attributes for auditing and observability.
 
 import pytest
 import json
-from unittest.mock import Mock, patch, MagicMock
-from opentelemetry import trace
 from opentelemetry.sdk.trace import TracerProvider
 from opentelemetry.sdk.trace.export import SimpleSpanProcessor
 from opentelemetry.sdk.trace.export.in_memory_span_exporter import InMemorySpanExporter

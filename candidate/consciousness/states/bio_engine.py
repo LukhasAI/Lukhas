@@ -35,7 +35,7 @@ import numpy as np
 from bio.core.symbolic_mito_ethics_sync import MitoEthicsSync
 from bio.core.symbolic_mito_quantum_attention import MitoQIAttention
 from bio.core.systems_mitochondria_model import MitochondriaModel
-from candidate.core.common import get_logger
+from lukhas.core.common import get_logger
 
 # Quantum bio integration
 try:

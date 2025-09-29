@@ -19,19 +19,14 @@ import gzip
 import hashlib
 import json
 import os
-import shutil
-import tempfile
-import time
 import zlib
 from collections import defaultdict
-from cryptography.hazmat.primitives import hashes, serialization
-from cryptography.hazmat.primitives.asymmetric import rsa, padding
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
-from dataclasses import asdict, dataclass, field
+from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
 from enum import Enum
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Tuple, Union
+from typing import Any, Dict, List, Optional, Union
 from uuid import uuid4
 
 try:
@@ -54,8 +49,8 @@ except ImportError:
     GCS_AVAILABLE = False
 
 from .evidence_collection import (
-    EvidenceRecord, EvidenceChain, ComplianceRegime,
-    get_evidence_engine, EvidenceCollectionEngine
+    ComplianceRegime,
+    get_evidence_engine
 )
 
 

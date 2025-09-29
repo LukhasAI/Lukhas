@@ -44,7 +44,7 @@ except ImportError:
 
 try:
     # 🧠 Consciousness integration
-    from candidate.orchestration.symbolic_kernel_bus import SymbolicKernelBus
+    from lukhas.orchestration.symbolic_kernel_bus import SymbolicKernelBus
 except ImportError:
     SymbolicKernelBus = None
 

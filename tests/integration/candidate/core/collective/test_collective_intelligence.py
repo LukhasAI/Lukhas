@@ -4,12 +4,12 @@ Tests for the Collective Intelligence Layer.
 
 import pytest
 
-from candidate.core.collective.clusters.consciousness_clusters import (
+from lukhas.core.collective.clusters.consciousness_clusters import (
     ConsciousnessClusteringEngine,
 )
-from candidate.core.collective.collective_ad_mind import CollectiveAdMind
-from candidate.core.collective.routing.altruistic_router import AltruisticAdRouter
-from candidate.core.collective.swarm.swarm_recommendations import (
+from lukhas.core.collective.collective_ad_mind import CollectiveAdMind
+from lukhas.core.collective.routing.altruistic_router import AltruisticAdRouter
+from lukhas.core.collective.swarm.swarm_recommendations import (
     SwarmRecommendationSystem,
 )
 

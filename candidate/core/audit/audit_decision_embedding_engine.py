@@ -13,7 +13,7 @@ from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, Optional
 
-from candidate.orchestration.golden_trio.trio_orchestrator import \
+from lukhas.orchestration.golden_trio.trio_orchestrator import \
     TrioOrchestrator
 from ethics.core.shared_ethics_engine import SharedEthicsEngine
 from ethics.seedra.seedra_core import SEEDRACore

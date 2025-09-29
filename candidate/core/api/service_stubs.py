@@ -16,7 +16,7 @@ log = structlog.get_logger(__name__)
 
 # Import real implementations
 try:
-    from candidate.core.glyph.glyph_engine import GlyphEngine as SymbolicEngine
+    from lukhas.core.glyph.glyph_engine import GlyphEngine as SymbolicEngine
 except ImportError:
     # Fallback to stub if real implementation unavailable
     class SymbolicEngine:

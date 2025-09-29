@@ -5,7 +5,7 @@ Core Module
 # ΛTAG: ethics_core_bridge
 
 try:
-    from candidate.governance.ethics.shared_ethics_engine import (
+    from lukhas.governance.ethics.shared_ethics_engine import (
         DecisionType,
         EthicalConstraint,
         EthicalDecision,

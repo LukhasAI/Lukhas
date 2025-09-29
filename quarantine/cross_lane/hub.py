@@ -8,7 +8,7 @@ try:
     logger.info("lukhas.accepted.bio.hub -> bio.hub")
 except Exception:
     try:
-        from candidate.bio.bio_integration_hub import *
+        from lukhas.bio.bio_integration_hub import *
         logger.info("lukhas.accepted.bio.hub -> candidate.bio.bio_integration_hub")
     except Exception as e:
         logger.warning(f"Could not wire bio hub: {e}")

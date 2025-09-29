@@ -15,8 +15,8 @@ import asyncio
 import os
 import statistics
 import time
-from unittest.mock import AsyncMock, Mock, patch
-from typing import Dict, Any, List
+from unittest.mock import patch
+from typing import Dict, Any
 
 import pytest
 from hypothesis import given, strategies as st, settings, HealthCheck
@@ -25,15 +25,12 @@ from hypothesis import given, strategies as st, settings, HealthCheck
 os.environ["CONSC_REFLECTION_ENABLED"] = "1"
 os.environ["LUKHAS_LANE"] = "testing"
 
-from candidate.consciousness.reflection.self_reflection_engine import (
+from lukhas.consciousness.reflection.self_reflection_engine import (
     SelfReflectionEngine,
     ReflectionReport,
-    ContextProvider,
     REFLECTION_P95_TARGET_MS,
-    COHERENCE_THRESHOLD,
-    create_reflection_engine,
 )
-from candidate.consciousness.systems.state import ConsciousnessState
+from lukhas.consciousness.systems.state import ConsciousnessState
 
 
 class MockContextProvider:

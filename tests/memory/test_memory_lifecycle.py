@@ -8,9 +8,7 @@ and lifecycle automation with T4/0.01% excellence standards.
 import pytest
 import asyncio
 from datetime import datetime, timezone, timedelta
-from unittest.mock import Mock, AsyncMock, patch
-import tempfile
-import json
+from unittest.mock import patch
 
 from lukhas.memory.lifecycle import (
     MemoryLifecycleManager,
@@ -18,7 +16,6 @@ from lukhas.memory.lifecycle import (
     RetentionPolicy,
     ArchivalTier,
     GDPRTombstone,
-    LifecycleStats,
     AbstractArchivalBackend,
     AbstractTombstoneStore
 )

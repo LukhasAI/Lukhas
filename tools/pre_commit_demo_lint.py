@@ -7,7 +7,6 @@ Provides fast feedback on demo script quality before commit.
 """
 
 import sys
-import os
 import stat
 import subprocess
 from typing import List

@@ -18,14 +18,12 @@ T4/0.01% Excellence: 99.9% accurate rollback decision making
 Constellation Framework: 🔥 Canary Circuit Protection
 """
 
-import asyncio
 import logging
 import pytest
 import time
 import statistics
 from dataclasses import dataclass
 from typing import Dict, Any, List, Optional, Tuple
-from unittest.mock import Mock, AsyncMock, patch
 from enum import Enum
 
 logger = logging.getLogger(__name__)

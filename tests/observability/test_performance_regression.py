@@ -22,7 +22,6 @@ from lukhas.observability.performance_regression import (
     RegressionSeverity,
     DetectionMethod,
     initialize_regression_detector,
-    get_regression_detector,
     record_performance_data,
 )
 

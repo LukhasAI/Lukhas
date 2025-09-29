@@ -22,11 +22,9 @@ import os
 import sys
 sys.path.append('/Users/agi_dev/LOCAL-REPOS/Lukhas')
 
-from memory.backends.pgvector_store import PgVectorStore, VectorDoc, _PgClient
+from memory.backends.pgvector_store import PgVectorStore, VectorDoc
 from memory.indexer import Indexer, Embeddings
 from memory.memory_orchestrator import MemoryOrchestrator
-from memory.lifecycle import Lifecycle, RetentionPolicy
-from memory.observability import MemoryTracer
 
 class OptimizedMockClient:
     """Optimized mock client with minimal, consistent latency."""

@@ -34,8 +34,8 @@ if TYPE_CHECKING:
     from opentelemetry import metrics as otel_metrics
     from opentelemetry.sdk.trace.export import BatchSpanProcessor
 
-    from candidate.consciousness import ConsciousnessCore
-    from candidate.memory import MemoryFoldSystem
+    from lukhas.consciousness import ConsciousnessCore
+    from lukhas.memory import MemoryFoldSystem
     from lukhas.guardian import GuardianSystem
 
 

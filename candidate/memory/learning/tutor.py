@@ -13,7 +13,7 @@ from typing import Any, Optional
 
 from pydantic import BaseModel
 
-from candidate.core.common import get_logger
+from lukhas.core.common import get_logger
 
 from ..symbolic_knowledge_core.knowledge_graph import SKGNode, SystemKnowledgeGraph
 

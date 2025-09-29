@@ -25,11 +25,11 @@ import pytest
 
 # Tool execution imports with fallback handling
 try:
-    from candidate.governance.guardian_system import GuardianSystem
-    from candidate.tools.code_executor import CodeExecutor
-    from candidate.tools.docker_sandbox import DockerSandbox
-    from candidate.tools.tool_executor import ResourceLimits, ToolExecutor
-    from candidate.tools.web_scraper import SafeWebScraper
+    from lukhas.governance.guardian_system import GuardianSystem
+    from lukhas.tools.code_executor import CodeExecutor
+    from lukhas.tools.docker_sandbox import DockerSandbox
+    from lukhas.tools.tool_executor import ResourceLimits, ToolExecutor
+    from lukhas.tools.web_scraper import SafeWebScraper
 except ImportError as e:
     pytest.skip(f"Tool execution modules not available: {e}", allow_module_level=True)
 

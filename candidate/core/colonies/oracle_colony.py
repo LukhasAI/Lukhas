@@ -32,8 +32,8 @@ from dataclasses import dataclass
 from datetime import datetime, timezone
 from typing import Any, Optional
 
-from candidate.consciousness.reflection.openai_core_service import ModelType, OpenAICoreService, OpenAIRequest
-from candidate.core.colonies.base_colony import BaseColony
+from lukhas.consciousness.reflection.openai_core_service import ModelType, OpenAICoreService, OpenAIRequest
+from lukhas.core.colonies.base_colony import BaseColony
 
 logger = logging.getLogger("ΛTRACE.oracle_colony")
 
@@ -567,7 +567,7 @@ async def prophecy(context: dict[str, Any], time_horizon: str = "medium") -> Ora
 ║ • Prophetic insights with actionable recommendations
 ║
 ║ Usage:
-║   from candidate.core.colonies.oracle_colony import get_oracle_colony, predict, dream, prophecy
+║   from lukhas.core.colonies.oracle_colony import get_oracle_colony, predict, dream, prophecy
 ║
 ║   # Direct usage
 ║   prediction = await predict({"system_state": "stable"})

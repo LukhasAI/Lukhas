@@ -40,10 +40,9 @@ MOCK_MODULES = {
 def test_manager_initialization_active():
     """Tests that the manager initializes correctly in an active state."""
     with patch.dict("sys.modules", MOCK_MODULES):
-        import candidate.core.framework_integration
 
         importlib.reload(candidate.core.framework_integration)
-        from candidate.core.framework_integration import FrameworkIntegrationManager
+        from lukhas.core.framework_integration import FrameworkIntegrationManager
 
         manager = FrameworkIntegrationManager()
         assert manager.is_active
@@ -54,7 +53,7 @@ def test_manager_initialization_active():
 @patch("candidate.core.framework_integration.ConstellationFrameworkIntegrator", None)
 def test_manager_initialization_inactive():
     """Tests that the manager initializes correctly in an inactive/degraded state."""
-    from candidate.core.framework_integration import FrameworkIntegrationManager
+    from lukhas.core.framework_integration import FrameworkIntegrationManager
 
     manager = FrameworkIntegrationManager()
     assert not manager.is_active
@@ -65,10 +64,9 @@ def test_manager_initialization_inactive():
 async def test_register_module_active():
     """Tests module registration in an active manager."""
     with patch.dict("sys.modules", MOCK_MODULES):
-        import candidate.core.framework_integration
 
         importlib.reload(candidate.core.framework_integration)
-        from candidate.core.framework_integration import FrameworkIntegrationManager, ModuleAdapter
+        from lukhas.core.framework_integration import FrameworkIntegrationManager, ModuleAdapter
 
         manager = FrameworkIntegrationManager()
         adapter = ModuleAdapter(prepare_payload=lambda x: x, module_type="test", triad_aspect="🧪")
@@ -81,7 +79,7 @@ async def test_register_module_active():
 @patch("candidate.core.framework_integration.logger")
 async def test_register_module_inactive(mock_logger):
     """Tests that module registration is ignored in an inactive manager."""
-    from candidate.core.framework_integration import FrameworkIntegrationManager, ModuleAdapter
+    from lukhas.core.framework_integration import FrameworkIntegrationManager, ModuleAdapter
 
     manager = FrameworkIntegrationManager()
     adapter = ModuleAdapter(prepare_payload=lambda x: x, module_type="test", triad_aspect="🧪")
@@ -94,10 +92,9 @@ async def test_register_module_inactive(mock_logger):
 async def test_initialize_integrations_active():
     """Tests that initialize_integrations calls the trinity_integrator method when active."""
     with patch.dict("sys.modules", MOCK_MODULES):
-        import candidate.core.framework_integration
 
         importlib.reload(candidate.core.framework_integration)
-        from candidate.core.framework_integration import FrameworkIntegrationManager
+        from lukhas.core.framework_integration import FrameworkIntegrationManager
 
         manager = FrameworkIntegrationManager()
         result = await manager.initialize_integrations()
@@ -110,7 +107,7 @@ async def test_initialize_integrations_active():
 @patch("candidate.core.framework_integration.logger")
 async def test_initialize_integrations_inactive(mock_logger):
     """Tests that initialize_integrations returns False and logs an error when inactive."""
-    from candidate.core.framework_integration import FrameworkIntegrationManager
+    from lukhas.core.framework_integration import FrameworkIntegrationManager
 
     manager = FrameworkIntegrationManager()
     result = await manager.initialize_integrations()
@@ -121,10 +118,9 @@ async def test_initialize_integrations_inactive(mock_logger):
 def test_default_adapters_creation():
     """Tests that the default adapters are created correctly."""
     with patch.dict("sys.modules", MOCK_MODULES):
-        import candidate.core.framework_integration
 
         importlib.reload(candidate.core.framework_integration)
-        from candidate.core.framework_integration import FrameworkIntegrationManager
+        from lukhas.core.framework_integration import FrameworkIntegrationManager
 
         manager = FrameworkIntegrationManager()
         assert "identity" in manager.module_adapters
@@ -136,10 +132,9 @@ def test_default_adapters_creation():
 async def test_adapter_payload_function():
     """Tests that the prepare_payload function of an adapter can be called."""
     with patch.dict("sys.modules", MOCK_MODULES):
-        import candidate.core.framework_integration
 
         importlib.reload(candidate.core.framework_integration)
-        from candidate.core.framework_integration import FrameworkIntegrationManager
+        from lukhas.core.framework_integration import FrameworkIntegrationManager
 
         manager = FrameworkIntegrationManager()
         consciousness_adapter = manager.get_module_adapter("consciousness")

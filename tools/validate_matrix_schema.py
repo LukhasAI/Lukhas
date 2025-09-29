@@ -9,7 +9,6 @@ import json
 import sys
 from pathlib import Path
 from typing import Dict, List, Any, Tuple
-import jsonschema
 from jsonschema import Draft202012Validator
 
 # Repository structure

@@ -26,18 +26,17 @@ Constellation Framework: Flow Star (🌊) coordination hub
 
 from __future__ import annotations
 
-import asyncio
 import random
 import time
 import uuid
 from abc import ABC, abstractmethod
-from collections import defaultdict, deque
+from collections import defaultdict
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Dict, List, Optional, Tuple, Any
+from typing import Dict, List, Optional, Any
 
 from opentelemetry import trace
-from prometheus_client import Counter, Histogram, Gauge
+from prometheus_client import Counter, Gauge
 
 from .routing_config import (
     RoutingStrategy,

@@ -1,7 +1,7 @@
 """
 
 # Import the integration hub to connect all systems
-from candidate.orchestration.integration_hub import get_integration_hub
+from lukhas.orchestration.integration_hub import get_integration_hub
 
 # Initialize the hub to ensure all systems are connected
 integration_hub = get_integration_hub()

@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from candidate.bridge.api.orchestration_endpoints import APIKeyManager
+from lukhas.bridge.api.orchestration_endpoints import APIKeyManager
 
 
 def _build_manager(*, minute_limit: int = 1, daily_cost_limit: float = 1.0) -> APIKeyManager:

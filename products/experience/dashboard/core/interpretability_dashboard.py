@@ -1066,7 +1066,7 @@ async def demo_interpretability_dashboard():
         }
     )
 
-    from candidate.core.interfaces.dependency_injection import register_service
+    from lukhas.core.interfaces.dependency_injection import register_service
 
     register_service("user_feedback_system", mock_feedback)
     register_service("consciousness_service", mock_consciousness)

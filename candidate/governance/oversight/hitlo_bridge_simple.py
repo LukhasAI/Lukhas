@@ -14,7 +14,7 @@ Simple HITLOBridge class for ethics module connectivity
 
 from typing import Any
 
-from candidate.core.common import get_logger
+from lukhas.core.common import get_logger
 
 logger = get_logger(__name__)
 

@@ -8,27 +8,18 @@ Tests security, performance, validation, and compliance.
 """
 
 import asyncio
-import json
 import pytest
 import time
-from datetime import datetime, timezone
-from typing import Dict, Any
-from unittest.mock import Mock, AsyncMock, patch
+from unittest.mock import Mock, patch
 
-import httpx
-from fastapi import FastAPI, status
+from fastapi import FastAPI
 from fastapi.testclient import TestClient
 
 # Import modules to test
 from lukhas.api.oidc import (
-    router, get_correlation_id, security_check_dependency,
-    get_oidc_provider, PRODUCTION_DOMAINS
-)
-from lukhas.identity.validation_schemas import (
-    AuthorizationRequest, TokenRequest, ErrorResponse
+    router, get_correlation_id, security_check_dependency
 )
 from lukhas.identity.security_hardening import SecurityAction
-from lukhas.identity.rate_limiting import RateLimitType
 
 
 @pytest.fixture

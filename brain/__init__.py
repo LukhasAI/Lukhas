@@ -58,7 +58,7 @@ try:
 
     # Also import brain monitoring if available
     try:
-        from candidate.orchestration.brain.monitoring.intelligence_monitor import (
+        from lukhas.orchestration.brain.monitoring.intelligence_monitor import (
             AlertEvent,
             AlertLevel,
             LukhasIntelligenceMonitor,

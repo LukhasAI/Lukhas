@@ -17,7 +17,7 @@ Constellation Framework: 🛡️ Telemetry Hardening
 import sys
 import time
 import logging
-from typing import Dict, Any, List, Tuple
+from typing import Dict, Any, Tuple
 from pathlib import Path
 
 # Add project root to path

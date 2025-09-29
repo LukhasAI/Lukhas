@@ -14,15 +14,13 @@ Features:
 """
 
 import asyncio
-import json
 import math
 import statistics
-import time
 from collections import defaultdict, deque
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
 from enum import Enum
-from typing import Any, Dict, List, Optional, Tuple, Union
+from typing import Any, Dict, List, Optional, Tuple
 from uuid import uuid4
 
 try:
@@ -41,7 +39,7 @@ try:
 except ImportError:
     SKLEARN_AVAILABLE = False
 
-from .advanced_metrics import get_advanced_metrics, MetricSeverity, AnomalyType
+from .advanced_metrics import get_advanced_metrics, MetricSeverity
 from .intelligent_alerting import get_alerting_system
 from .evidence_collection import EvidenceType, collect_evidence
 

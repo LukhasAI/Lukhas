@@ -60,13 +60,13 @@ from typing import Any, Optional
 
 # Import colony infrastructure
 try:
-    from candidate.core.colonies.base_colony import BaseColony
-    from candidate.core.colonies.creativity_colony import CreativityColony
-    from candidate.core.colonies.ethics_swarm_colony import EthicsSwarmColony
-    from candidate.core.colonies.memory_colony import MemoryColony
-    from candidate.core.colonies.oracle_colony import OracleColony
-    from candidate.core.colonies.reasoning_colony import ReasoningColony
-    from candidate.core.colonies.temporal_colony import TemporalColony
+    from lukhas.core.colonies.base_colony import BaseColony
+    from lukhas.core.colonies.creativity_colony import CreativityColony
+    from lukhas.core.colonies.ethics_swarm_colony import EthicsSwarmColony
+    from lukhas.core.colonies.memory_colony import MemoryColony
+    from lukhas.core.colonies.oracle_colony import OracleColony
+    from lukhas.core.colonies.reasoning_colony import ReasoningColony
+    from lukhas.core.colonies.temporal_colony import TemporalColony
 
     COLONY_SYSTEM_AVAILABLE = True
 except ImportError as e:
@@ -98,7 +98,7 @@ except ImportError as e:
 
 # Import quantum identity integration
 try:
-    from candidate.core.tier_aware_colony_proxy import TierAwareColonyProxy
+    from lukhas.core.tier_aware_colony_proxy import TierAwareColonyProxy
 
     from ._cleanup_archive.BACKUP_BEFORE_CONSOLIDATION_20250801_002312.core.qi_identity_manager import (
         QIUserContext,

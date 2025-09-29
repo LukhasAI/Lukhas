@@ -9,9 +9,8 @@ preserving technical accuracy and semantic meaning.
 
 import os
 import re
-import sys
 from pathlib import Path
-from typing import Dict, List, Tuple, Set
+from typing import List, Tuple
 import logging
 
 # Setup logging

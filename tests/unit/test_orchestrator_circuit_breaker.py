@@ -13,9 +13,9 @@ from unittest.mock import Mock, patch
 
 # pytest-asyncio is already configured globally
 
-from matriz.core.async_orchestrator import AsyncCognitiveOrchestrator, StageType
+from matriz.core.async_orchestrator import AsyncCognitiveOrchestrator
 from matriz.core.node_interface import CognitiveNode
-from lukhas.core.reliability.circuit_breaker import CircuitState, get_circuit_health
+from lukhas.core.reliability.circuit_breaker import get_circuit_health
 
 
 class TestOrchestratoresWithCircuitBreakers:

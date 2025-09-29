@@ -7,7 +7,7 @@ from unittest.mock import AsyncMock, patch
 
 import pytest
 
-from candidate.bio.energy.spirulina_atp_system import (
+from lukhas.bio.energy.spirulina_atp_system import (
     SpirulinaATPHybridSystem,
     create_spirulina_atp_system,
 )

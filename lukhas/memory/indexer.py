@@ -11,14 +11,12 @@ Performance targets:
 - Content extraction: 99.9% accuracy
 """
 
-import asyncio
 import hashlib
 import time
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
-from typing import Dict, List, Optional, Any, Union, Callable
-import logging
+from typing import Dict, List, Optional, Any
 import re
 
 import numpy as np

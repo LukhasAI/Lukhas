@@ -379,7 +379,7 @@ if __name__ == "__main__":
 # LOGGING: ΛTRACE_ENABLED for interface initialization, request routing, and errors.
 # AUTHENTICATION: Not handled directly; relies on the external AI router for any authentication.
 # HOW TO USE:
-#   from candidate.core.lukhas_ai_interface import LukhusAI, LukhusAITaskType, ai_code
+#   from lukhas.core.lukhas_ai_interface import LukhusAI, LukhusAITaskType, ai_code
 #   # Using class instance
 #   ai = LukhusAI(component_name="MyModule")
 #   response = ai.generate_response("Explain black holes.", LukhusAITaskType.GENERAL)

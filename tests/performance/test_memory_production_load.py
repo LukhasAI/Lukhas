@@ -19,8 +19,7 @@ import time
 import pytest
 import psutil
 import statistics
-from typing import List, Dict, Any
-from concurrent.futures import ThreadPoolExecutor, as_completed
+from typing import Dict, Any
 
 # Import memory system components
 try:

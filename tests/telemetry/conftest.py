@@ -7,7 +7,6 @@ during authorization operations in test environments.
 
 import json
 import tempfile
-import time
 from pathlib import Path
 from typing import Dict, List, Any, Optional
 from dataclasses import dataclass, field
@@ -22,7 +21,7 @@ from opentelemetry.sdk.trace.export import (
     SpanExportResult
 )
 from opentelemetry.sdk.resources import Resource
-from opentelemetry.trace import Span, Status, StatusCode
+from opentelemetry.trace import Span, StatusCode
 
 
 @dataclass

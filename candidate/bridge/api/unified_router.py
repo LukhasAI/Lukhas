@@ -15,7 +15,7 @@ from typing import Any
 
 from fastapi import APIRouter, HTTPException
 
-from candidate.core.common import get_logger
+from lukhas.core.common import get_logger
 from memory import memory_manager
 
 # Import LUKHAS AI branding system for API responses

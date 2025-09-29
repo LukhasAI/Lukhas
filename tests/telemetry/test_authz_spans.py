@@ -12,7 +12,6 @@ These are smoke tests focused on:
 """
 
 import sys
-import asyncio
 from pathlib import Path
 
 import pytest

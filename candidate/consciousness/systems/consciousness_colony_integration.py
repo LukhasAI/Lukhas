@@ -9,12 +9,12 @@ from typing import Any, Optional
 
 import numpy as np
 
-from candidate.bridge.shared_state import SharedStateManager
-from candidate.core.colonies.creativity_colony import CreativityColony
-from candidate.core.colonies.memory_colony import MemoryColony
-from candidate.core.colonies.reasoning_colony import ReasoningColony
-from candidate.core.common import get_logger
-from candidate.core.swarm import SwarmHub
+from lukhas.bridge.shared_state import SharedStateManager
+from lukhas.core.colonies.creativity_colony import CreativityColony
+from lukhas.core.colonies.memory_colony import MemoryColony
+from lukhas.core.colonies.reasoning_colony import ReasoningColony
+from lukhas.core.common import get_logger
+from lukhas.core.swarm import SwarmHub
 from consciousness.systems.engine import LUKHASConsciousnessEngine
 
 logger = get_logger(__name__)

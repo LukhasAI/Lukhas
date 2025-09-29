@@ -34,13 +34,12 @@ import logging
 import time
 import uuid
 import zlib
-from dataclasses import dataclass, field, asdict
+from dataclasses import dataclass, field
 from enum import Enum
-from typing import Dict, List, Optional, Any, Union
-from datetime import datetime, timedelta
+from typing import Dict, List, Optional, Any
 
 from opentelemetry import trace
-from prometheus_client import Counter, Histogram, Gauge, Summary
+from prometheus_client import Counter, Histogram, Gauge
 
 tracer = trace.get_tracer(__name__)
 logger = logging.getLogger(__name__)

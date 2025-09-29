@@ -21,12 +21,10 @@ import sys
 import tempfile
 import threading
 import time
-from collections import defaultdict
 from contextlib import contextmanager
 from dataclasses import dataclass, asdict, field
 from pathlib import Path
-from typing import Dict, List, Optional, Tuple, Any
-import numpy as np
+from typing import Dict, List, Tuple, Any
 
 # Suppress verbose logging
 logging.getLogger().setLevel(logging.CRITICAL)

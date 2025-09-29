@@ -76,20 +76,20 @@ MODULE_NAME = "shared_state"
 
 
 # Identity integration
-# AIMPORT_TODO: Review robustness of importing IdentityClient from candidate.core.lukhas_id.
+# AIMPORT_TODO: Review robustness of importing IdentityClient from lukhas.core.lukhas_id.
 # Consider if it should be part of a shared, installable library or if current path assumptions are stable.
 # ΛNOTE: The system attempts to use IdentityClient. If unavailable, it
 # falls back, limiting identity-based features.
 identity_available = False
 IdentityClient = None  # Placeholder
 try:
-    from candidate.core.identity.vault.lukhas_id import IdentityClient  # type: ignore
+    from lukhas.core.identity.vault.lukhas_id import IdentityClient  # type: ignore
 
     identity_available = True
-    logger.info("IdentityClient imported successfully from candidate.core.lukhas_id.")
+    logger.info("IdentityClient imported successfully from lukhas.core.lukhas_id.")
 except ImportError as e:
     logger.warning(
-        "Failed to import IdentityClient from candidate.core.lukhas_id. Identity features will be limited.",
+        "Failed to import IdentityClient from lukhas.core.lukhas_id. Identity features will be limited.",
         error=str(e),
     )
 
@@ -1057,7 +1057,7 @@ def subscribe_to_state(
 #          access checks, subscriptions, conflicts, and errors.
 # AUTHENTICATION: Uses IdentityClient (if available) for user_id/tier based access control (AIDENTITY).
 # HOW TO USE:
-#   from candidate.core.communication import shared_state, StateAccessLevel
+#   from lukhas.core.communication import shared_state, StateAccessLevel
 #   shared_state.set_shared_state("my_key", "my_value", "module_A", user_id="user123", access_level=StateAccessLevel.PRIVATE)
 #   value = shared_state.get_shared_state("my_key", "module_A", user_id="user123")
 """

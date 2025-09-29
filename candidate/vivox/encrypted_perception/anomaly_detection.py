@@ -10,8 +10,8 @@ from typing import Any, Optional
 
 import numpy as np
 
-from candidate.core.common import get_logger
-from candidate.core.interfaces.encrypted_perception_interface import (
+from lukhas.core.common import get_logger
+from lukhas.core.interfaces.encrypted_perception_interface import (
     AnomalySignature,
     EthicalSignificance,
     PerceptualVector)

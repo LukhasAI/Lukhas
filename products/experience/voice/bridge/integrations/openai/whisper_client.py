@@ -16,8 +16,8 @@ from typing import Any, BinaryIO, Optional, Union
 
 import aiohttp
 
-from candidate.core.common import get_logger
-from candidate.core.common.config import settings
+from lukhas.core.common import get_logger
+from lukhas.core.common.config import settings
 
 logger = get_logger(__name__)
 

@@ -15,8 +15,7 @@ import logging
 import os
 import time
 from dataclasses import asdict, dataclass, field
-from datetime import datetime, timezone
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Dict, List, Optional
 from enum import Enum
 
 try:
@@ -138,8 +137,7 @@ def _record_pipeline_metrics(duration_ms: float, status: str, within_budget: Opt
         within_budget=within_label,
     ).inc()
 
-from .node_interface import CognitiveNode, NodeReflection, NodeState, NodeTrigger
-from .orchestrator import ExecutionTrace
+from .node_interface import CognitiveNode
 
 
 logger = logging.getLogger(__name__)

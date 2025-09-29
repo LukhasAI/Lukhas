@@ -15,10 +15,8 @@ import subprocess
 import json
 import sys
 import pathlib
-from typing import Dict, List, Tuple, Optional, Any
+from typing import Dict, List, Optional, Any
 import argparse
-import tempfile
-import shutil
 
 
 class DemoParityChecker:

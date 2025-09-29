@@ -1,7 +1,7 @@
 """Unit tests for PgVectorStore."""
 
 import pytest
-from memory.backends.pgvector_store import PgVectorStore, VectorDoc, _PgClient
+from memory.backends.pgvector_store import PgVectorStore, VectorDoc
 
 class MockPgClient:
     """Mock database client for testing."""

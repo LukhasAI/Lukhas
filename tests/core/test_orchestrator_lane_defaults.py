@@ -11,7 +11,6 @@ import os
 import pytest
 from unittest.mock import patch
 
-from matriz.core.async_orchestrator import _DEFAULT_LANE
 
 
 class TestOrchestratorLaneDefaults:

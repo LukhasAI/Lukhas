@@ -7,7 +7,7 @@ import warnings
 
 import streamlit as st
 
-from lukhas.accepted.memory.fold import *
+from lukhas.memory.fold import *
 
 warnings.warn(
     "Import 'memory.fold_manager' is deprecated and will be removed on 2025-11-01. "

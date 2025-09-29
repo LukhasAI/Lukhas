@@ -18,7 +18,7 @@ Key Concepts
 
 Usage
 -----
-from candidate.memory.consolidation.consolidation_orchestrator import (
+from lukhas.memory.consolidation.consolidation_orchestrator import (
     ConsolidationOrchestrator, ConsolidationMode, SleepStage,
     InMemoryStore, BasicConsciousnessAdapter,
 )
@@ -186,7 +186,7 @@ class ConsolidationOrchestrator:
             folds = self._consolidate_batch(batch)
 
             # Quarantine failing folds and enforce fold cap
-            from candidate.memory.structural_conscience import StructuralConscience
+            from lukhas.memory.structural_conscience import StructuralConscience
             validator = StructuralConscience()
             validated = []
             for f in folds:

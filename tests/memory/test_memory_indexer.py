@@ -7,20 +7,14 @@ and batch processing with T4/0.01% excellence standards.
 
 import pytest
 import asyncio
-import tempfile
-import hashlib
-from datetime import datetime, timezone
-from unittest.mock import Mock, patch, AsyncMock
 import numpy as np
 
 from lukhas.memory.indexer import (
     DocumentIndexer,
     OpenAIEmbeddingProvider,
     SentenceTransformersProvider,
-    ContentExtractor,
-    IndexingResult
+    ContentExtractor
 )
-from lukhas.memory.backends.base import VectorDocument
 
 
 class TestContentExtractor:

@@ -26,8 +26,8 @@ import uuid
 from datetime import datetime, timezone
 from typing import Optional
 
-from candidate.orchestration.brain.core.capability_levels import AGICapabilityLevel
-from candidate.orchestration.brain.core.response_types import AGIResponse
+from lukhas.orchestration.brain.core.capability_levels import AGICapabilityLevel
+from lukhas.orchestration.brain.core.response_types import AGIResponse
 
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 
@@ -35,7 +35,7 @@ sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 
 # Try to import available components
 try:
-    from candidate.orchestration.brain.attention.qi_attention import QIInspiredAttention
+    from lukhas.orchestration.brain.attention.qi_attention import QIInspiredAttention
 
     QUANTUM_ATTENTION_AVAILABLE = True
 except ImportError:
@@ -56,7 +56,7 @@ except ImportError:
     SYMBOLIC_REASONING_AVAILABLE = False
 
 try:
-    from candidate.orchestration.agents.MetaCognitiveOrchestrator import (
+    from lukhas.orchestration.agents.MetaCognitiveOrchestrator import (
         MetaCognitiveOrchestrator,
     )
 
@@ -65,7 +65,7 @@ except ImportError:
     ORCHESTRATOR_AVAILABLE = False
 
 try:
-    from candidate.orchestration.brain.compliance.ethical_engine import ComplianceEngine
+    from lukhas.orchestration.brain.compliance.ethical_engine import ComplianceEngine
 
     COMPLIANCE_AVAILABLE = True
 except ImportError:
@@ -80,7 +80,7 @@ except ImportError:
     DREAMS_AVAILABLE = False
 
 try:
-    from candidate.orchestration.brain.visualization.golden_healix_mapper import (
+    from lukhas.orchestration.brain.visualization.golden_healix_mapper import (
         GoldenHelixMapper,
     )
 

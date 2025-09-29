@@ -18,12 +18,9 @@ import asyncpg
 import json
 import time
 import logging
-from typing import Dict, Any, List, Optional, Union, Tuple
-from dataclasses import asdict
-import numpy as np
+from typing import Dict, Any, List, Optional
 
 from .vector_store_base import (
-    VectorStoreBase,
     BatchVectorStoreBase,
     VectorDocument,
     VectorSearchQuery,
@@ -31,7 +28,6 @@ from .vector_store_base import (
     VectorSearchResponse,
     VectorStoreType,
     VectorStoreError,
-    VectorStoreDimensionError,
     VectorStoreConnectionError,
     VectorStoreFactory
 )

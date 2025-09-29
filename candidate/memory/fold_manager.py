@@ -6,7 +6,7 @@ Please update imports to: lukhas.accepted.memory.fold
 import warnings
 
 try:
-    from lukhas.accepted.memory.fold import *
+    from lukhas.memory.fold import *
 except ImportError:
     # Fallback for gradual migration
     pass

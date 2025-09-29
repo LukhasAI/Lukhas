@@ -11,7 +11,7 @@ import asyncio
 from datetime import datetime
 from typing import Any, Optional
 
-from candidate.core.common import get_logger
+from lukhas.core.common import get_logger
 
 logger = get_logger(__name__)
 
@@ -26,13 +26,13 @@ except ImportError as e:
 
 # Agent 1 Task 4: Add meta-learning enhancement system imports
 try:
-    from candidate.core.meta_learning.enhancement_system import (
+    from lukhas.core.meta_learning.enhancement_system import (
         EnhancementMode as CoreEnhancementMode,
     )
-    from candidate.core.meta_learning.enhancement_system import (
+    from lukhas.core.meta_learning.enhancement_system import (
         MetaLearningEnhancementSystem as CoreMetaLearningEnhancementSystem,
     )
-    from candidate.core.meta_learning.enhancement_system import (
+    from lukhas.core.meta_learning.enhancement_system import (
         SystemIntegrationStatus as CoreSystemIntegrationStatus,
     )
 
@@ -264,7 +264,7 @@ class LearningHub:
     def _register_with_service_discovery(self):
         """Register services with global service discovery"""
         try:
-            from candidate.core.integration.service_discovery import (
+            from lukhas.core.integration.service_discovery import (
                 get_service_discovery,
             )
 

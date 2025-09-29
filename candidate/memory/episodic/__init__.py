@@ -7,7 +7,7 @@ import warnings
 
 import streamlit as st
 
-from lukhas.accepted.memory.episodic import *
+from lukhas.memory.episodic import *
 
 warnings.warn(
     "Import 'memory.episodic' is deprecated and will be removed on 2025-11-01. "

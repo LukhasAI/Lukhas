@@ -1,4 +1,4 @@
-from candidate.governance.identity.core.sent.symbolic_scopes import SymbolicScopesManager
+from lukhas.governance.identity.core.sent.symbolic_scopes import SymbolicScopesManager
 
 
 def test_define_scope_updates_symbol_registry():

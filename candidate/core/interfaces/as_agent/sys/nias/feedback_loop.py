@@ -64,7 +64,7 @@ def record_feedback(message_id, user_id, score, notes=None, emoji=None, user_con
 """
 ──────────────────────────────────────────────────────────────────────────────────────
 USAGE:
-    from candidate.core.modules.nias.feedback_loop import record_feedback
+    from lukhas.core.modules.nias.feedback_loop import record_feedback
 
     record_feedback(
         message_id="msg_2025_001",

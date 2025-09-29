@@ -1281,7 +1281,6 @@ async def verify_token(token: str,
     """
     import time
     import hashlib
-    from datetime import datetime, timezone
 
     # OWASP ASVS 3.2.1: Token validation with proper error handling
     if not token or len(token.strip()) == 0:

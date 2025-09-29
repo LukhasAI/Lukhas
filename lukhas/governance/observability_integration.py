@@ -50,7 +50,7 @@ try:
 except ImportError:
     OPENTELEMETRY_AVAILABLE = False
 
-from .guardian_serializers import GuardianResult, GuardianOperation, OperationType
+from .guardian_serializers import GuardianResult, GuardianOperation
 
 logger = logging.getLogger(__name__)
 

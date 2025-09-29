@@ -81,7 +81,7 @@ class AutonomousInnovationOrchestrator(CoreInterface):
         try:
             self.kernel_bus = container.get_service("symbolic_kernel_bus")
         except:
-            from candidate.orchestration.symbolic_kernel_bus import SymbolicKernelBus
+            from lukhas.orchestration.symbolic_kernel_bus import SymbolicKernelBus
 
             self.kernel_bus = SymbolicKernelBus()
 
@@ -618,7 +618,7 @@ class AutonomousInnovationOrchestrator(CoreInterface):
     def _get_breakthrough_detector_v2(self) -> Optional[Any]:
         """Get breakthrough detector v2"""
         try:
-            from candidate.core.consciousness.innovation.breakthrough_detector_v2 import (
+            from lukhas.core.consciousness.innovation.breakthrough_detector_v2 import (
                 BreakthroughDetectorV2,
             )
 

@@ -16,15 +16,11 @@ import time
 import statistics
 import asyncio
 import logging
-import concurrent.futures
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Dict, List, Any, Optional
+from typing import Dict, Any, Optional
 import subprocess
 import sys
-import os
-import threading
-import requests
 
 # Add project root to Python path
 sys.path.insert(0, str(Path(__file__).parent.parent))

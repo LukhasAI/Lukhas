@@ -13,8 +13,8 @@ from datetime import datetime, timezone
 import pytest
 
 try:
-    from candidate.core.bridges.identity_core_bridge import get_identity_core_bridge
-    from candidate.core.identity.lambda_id_core import (
+    from lukhas.core.bridges.identity_core_bridge import get_identity_core_bridge
+    from lukhas.core.identity.lambda_id_core import (
         LukhasIdentityService,
         WebAuthnPasskeyManager,
         validate_constellation_framework,

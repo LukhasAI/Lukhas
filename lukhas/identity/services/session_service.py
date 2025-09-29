@@ -7,7 +7,6 @@ Implements SessionManagerInterface for T4 architecture compliance.
 
 import logging
 import time
-import json
 import asyncio
 import uuid
 from typing import Any, Optional, Dict

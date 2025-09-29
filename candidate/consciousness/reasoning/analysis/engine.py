@@ -1179,7 +1179,7 @@ class LucasAnalyzeEngine:
 #          type detection, insight generation, etc.), cache operations, errors, and performance.
 # AUTHENTICATION: Uses `AccessController` for basic permission checks (#AIDENTITY).
 # HOW TO USE:
-#   from candidate.core.lukhas_analyze.engine import LucasAnalyzeEngine, AnalysisRequest, AnalysisType
+#   from lukhas.core.lukhas_analyze.engine import LucasAnalyzeEngine, AnalysisRequest, AnalysisType
 #   engine = LucasAnalyzeEngine()
 #   analysis_data = pd.DataFrame(...) # or path to file
 #   result = await engine.analyze(analysis_data, question="What are the sales trends?")

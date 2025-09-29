@@ -19,7 +19,7 @@ from typing import Any, Optional, Union
 
 import numpy as np
 
-from candidate.core.common import get_logger
+from lukhas.core.common import get_logger
 
 logger = get_logger(__name__)
 
@@ -151,7 +151,7 @@ class VIVOXEncryptedPerceptionNode:
         self.ethical_thresholds = self._initialize_ethical_thresholds()
 
         # Initialize sub-components
-        from candidate.core.interfaces.dependency_injection import get_service
+        from lukhas.core.interfaces.dependency_injection import get_service
 
         from .ethical_perception import EthicalPerceptionFilter
         from .vector_encryption import PerceptualEncryptor

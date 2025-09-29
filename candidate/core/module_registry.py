@@ -47,8 +47,8 @@ MODULE_NAME = "module_registry"
 
 # Import tier system components
 try:
-    from candidate.governance.identity.core.lambd_id_service import TierLevel
-    from candidate.governance.identity.interface import IdentityClient
+    from lukhas.governance.identity.core.lambd_id_service import TierLevel
+    from lukhas.governance.identity.interface import IdentityClient
 
     TIER_SYSTEM_AVAILABLE = True
 except ImportError as e:

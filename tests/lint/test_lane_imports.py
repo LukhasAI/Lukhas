@@ -22,13 +22,11 @@ Constellation Framework: 🌊 Architectural Boundary Enforcement
 
 import ast
 import logging
-import os
 import sys
 from pathlib import Path
 from typing import Dict, List, Set, Tuple, Optional
 import pytest
 import subprocess
-import importlib.util
 
 logger = logging.getLogger(__name__)
 

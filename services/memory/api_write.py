@@ -26,7 +26,6 @@ from typing import Dict, List, Optional, Any, Set
 from dataclasses import dataclass, field
 from enum import Enum
 
-from lukhas.memory.fold_system import MemoryFold
 from lukhas.memory.consciousness_memory_integration import ConsciousnessMemoryIntegrator, MemoryFoldType
 
 # Import services components

@@ -21,7 +21,7 @@ os.environ.setdefault("LUKHAS_AUTOREPAIR_ENABLED", "1")
 
 def test_microcheck_triggers_once(monkeypatch):
     """Test that micro-check triggers repair exactly once, no oscillation."""
-    from candidate.aka_qualia.core import AkaQualia
+    from lukhas.aka_qualia.core import AkaQualia
 
     q = AkaQualia()
 
@@ -72,7 +72,7 @@ def test_microcheck_triggers_once(monkeypatch):
 
 def test_microcheck_performance_overhead():
     """Test that micro-check adds ≤5% overhead to AkaQualia loop."""
-    from candidate.aka_qualia.core import AkaQualia
+    from lukhas.aka_qualia.core import AkaQualia
 
     # Measure baseline (no micro-check)
     q_baseline = AkaQualia()
@@ -114,7 +114,7 @@ def test_microcheck_performance_overhead():
 
 def test_microcheck_no_false_positives():
     """Test that micro-check doesn't trigger false positives on stable corpus."""
-    from candidate.aka_qualia.core import AkaQualia
+    from lukhas.aka_qualia.core import AkaQualia
     from monitoring.drift_manager import DriftManager
 
     q = AkaQualia()
@@ -142,7 +142,7 @@ def test_microcheck_no_false_positives():
 
 def test_microcheck_detects_injected_inconsistency():
     """Test that micro-check detects artificially injected drift."""
-    from candidate.aka_qualia.core import AkaQualia
+    from lukhas.aka_qualia.core import AkaQualia
 
     q = AkaQualia()
 
@@ -191,8 +191,8 @@ def test_microcheck_detects_injected_inconsistency():
 
 def test_microcheck_telemetry():
     """Test that micro-check telemetry metrics are recorded."""
-    from candidate.aka_qualia.core import AkaQualia
-    from candidate.qi.states.integrity_probe import _get_microcheck_metrics
+    from lukhas.aka_qualia.core import AkaQualia
+    from lukhas.qi.states.integrity_probe import _get_microcheck_metrics
 
     metrics = _get_microcheck_metrics()
     if not metrics:
@@ -215,7 +215,7 @@ def test_microcheck_telemetry():
 def test_threshold_consistency():
     """Test that all components use the same critical threshold from env."""
     import os
-    from candidate.aka_qualia.core import AkaQualia
+    from lukhas.aka_qualia.core import AkaQualia
     from monitoring.drift_manager import DriftManager
 
     # Set custom threshold for test
@@ -253,7 +253,7 @@ def test_threshold_consistency():
 def test_dwell_after_successful_repair():
     """Test that micro-check implements dwell period after successful repair."""
     import os
-    from candidate.aka_qualia.core import AkaQualia
+    from lukhas.aka_qualia.core import AkaQualia
     from monitoring.drift_manager import DriftManager
 
     # Set short dwell period for test
@@ -300,7 +300,7 @@ def test_dwell_after_successful_repair():
 
 def test_microcheck_with_rate_limiting():
     """Test that micro-check respects repair rate limiting."""
-    from candidate.aka_qualia.core import AkaQualia
+    from lukhas.aka_qualia.core import AkaQualia
     from monitoring.drift_manager import DriftManager
 
     q = AkaQualia()

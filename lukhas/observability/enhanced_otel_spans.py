@@ -18,7 +18,7 @@ import time
 import functools
 import asyncio
 import logging
-from typing import Dict, Any, Optional, Callable, Union, List
+from typing import Dict, Any, Optional, Callable, Union
 from dataclasses import dataclass, field
 from enum import Enum
 from contextvars import ContextVar

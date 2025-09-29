@@ -8,7 +8,7 @@ import logging
 import sys
 from datetime import datetime
 
-from candidate.core.common import get_logger
+from lukhas.core.common import get_logger
 
 # Configure logging
 logging.basicConfig(

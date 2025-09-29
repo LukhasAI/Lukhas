@@ -18,11 +18,8 @@ Constellation Framework: 🌊 Metrics Contract Compliance
 
 import logging
 import pytest
-import time
 import re
-from typing import Dict, Any, List, Set
-from unittest.mock import Mock, patch
-from collections import defaultdict
+from typing import Dict, Any, List
 
 # Import observability components
 from lukhas.observability.service_metrics import (

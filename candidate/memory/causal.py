@@ -6,7 +6,7 @@ Please update imports to: lukhas.accepted.memory.causal
 import warnings
 
 try:
-    from lukhas.accepted.memory.causal import *
+    from lukhas.memory.causal import *
 except ImportError:
     # Fallback for gradual migration
     pass

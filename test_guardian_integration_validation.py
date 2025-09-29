@@ -16,8 +16,8 @@ from pathlib import Path
 project_root = Path(__file__).parent
 sys.path.insert(0, str(project_root))
 
-from memory.backends.pgvector_store import PgVectorStore, VectorDoc, _PgClient
-from memory.indexer import Indexer, Embeddings
+from memory.backends.pgvector_store import PgVectorStore, VectorDoc
+from memory.indexer import Indexer
 from memory.memory_orchestrator import MemoryOrchestrator
 from memory.lifecycle import Lifecycle, RetentionPolicy
 from memory.observability import MemoryTracer

@@ -24,15 +24,15 @@ from typing import Any, Optional
 
 import numpy as np
 
-from candidate.core.colonies.advanced_consensus_algorithms import (
+from lukhas.core.colonies.advanced_consensus_algorithms import (
     AdvancedColonyConsensus,
     AdvancedConsensusMethod,
     VoteType,
 )
 
 # Import existing services
-from candidate.core.container.service_container import get_container
-from candidate.core.events.contracts import (
+from lukhas.core.container.service_container import get_container
+from lukhas.core.events.contracts import (
     ConsensusReached,
     GlyphCreated,
     MemoryFoldCreated,
@@ -40,11 +40,11 @@ from candidate.core.events.contracts import (
 )
 
 # Import event system
-from candidate.core.events.typed_event_bus import get_typed_event_bus
+from lukhas.core.events.typed_event_bus import get_typed_event_bus
 
 # Import enhanced core components
-from candidate.core.glyph.glyph_engine_enhanced import get_enhanced_glyph_engine
-from candidate.core.glyph.universal_symbol_protocol import (
+from lukhas.core.glyph.glyph_engine_enhanced import get_enhanced_glyph_engine
+from lukhas.core.glyph.universal_symbol_protocol import (
     SymbolDomain,
     SymbolModality,
     UniversalSymbol,

@@ -63,8 +63,8 @@ except ImportError as e:
 
 # Multi-AI Orchestration
 try:
-    from candidate.bridge.orchestration.consensus_engine import ConsensusEngine
-    from candidate.bridge.orchestration.multi_ai_orchestrator import MultiAIOrchestrator
+    from lukhas.bridge.orchestration.consensus_engine import ConsensusEngine
+    from lukhas.bridge.orchestration.multi_ai_orchestrator import MultiAIOrchestrator
 
     ORCHESTRATION_AVAILABLE = True
 except ImportError as orchestration_error:

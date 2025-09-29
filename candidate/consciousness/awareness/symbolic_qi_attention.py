@@ -19,7 +19,7 @@ import numpy as np
 from bio.core import BioOrchestrator, ResourcePriority
 
 # TODO: Re-enable when qi_attention is properly implemented
-# from candidate.orchestration.brain.attention.qi_attention import *
+# from lukhas.orchestration.brain.attention.qi_attention import *
 
 logger = logging.getLogger("QIAttention")
 

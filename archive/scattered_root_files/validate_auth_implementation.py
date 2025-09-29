@@ -29,7 +29,7 @@ def test_api_key_validation():
     print("🔑 Testing API Key Validation...")
 
     try:
-        from candidate.core.interfaces.api.v1.common.auth import (
+        from lukhas.core.interfaces.api.v1.common.auth import (
             _validate_key_format,
             _verify_key_signature,
             generate_api_key,
@@ -68,7 +68,7 @@ def test_authentication_flows():
     print("🛡️ Testing Authentication Flows...")
 
     try:
-        from candidate.bridge.api.flows import (
+        from lukhas.bridge.api.flows import (
             _generate_access_token,
             _generate_lambda_id,
             _generate_refresh_token,
@@ -139,7 +139,7 @@ def test_session_management():
     print("🔐 Testing Session Management...")
 
     try:
-        from candidate.bridge.api.flows import (
+        from lukhas.bridge.api.flows import (
             _check_account_lockout,
             blacklisted_tokens,
             failed_login_attempts,

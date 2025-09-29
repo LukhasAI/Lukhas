@@ -22,22 +22,11 @@ import asyncio
 import time
 import pytest
 import logging
-from typing import Dict, Any, List
-from unittest.mock import Mock, AsyncMock, patch
+from unittest.mock import patch
 
 from lukhas.consciousness.matriz_thought_loop import MATRIZThoughtLoop
-from lukhas.consciousness.enhanced_thought_node import EnhancedThoughtNode
-from lukhas.consciousness.enhanced_awareness_engine import EnhancedAwarenessEngine
-from lukhas.consciousness.memory_contradiction_bridge import MemoryContradictionBridge
 from lukhas.consciousness.types import (
-    ConsciousnessState, ThoughtLoopContext, ThoughtLoopResult,
-    AwarenessSnapshot
-)
-from lukhas.cognitive_core.reasoning.deep_inference_engine import (
-    InferenceRequest, InferenceResult, InferenceType
-)
-from lukhas.cognitive_core.reasoning.contradiction_integrator import (
-    ContradictionDetectionResult
+    ConsciousnessState, ThoughtLoopContext, ThoughtLoopResult
 )
 from lukhas.consciousness.meta_cognitive_assessor import (
     MetaCognitiveAssessment, CognitiveLoadLevel

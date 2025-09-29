@@ -15,7 +15,7 @@ from dataclasses import dataclass, field
 from datetime import datetime
 from typing import Any, Optional
 
-from candidate.core.common import LukhasError, get_logger
+from lukhas.core.common import LukhasError, get_logger
 
 logger = get_logger(__name__)
 

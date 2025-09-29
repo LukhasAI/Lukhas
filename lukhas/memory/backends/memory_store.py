@@ -11,13 +11,10 @@ Performance targets:
 - Memory efficient: <1GB for 100k vectors (1536d)
 """
 
-import asyncio
-import heapq
 import time
 import threading
 from datetime import datetime, timezone
-from typing import Dict, List, Optional, Any, Set
-import logging
+from typing import Dict, List, Optional, Any
 
 import numpy as np
 from scipy.spatial.distance import cosine
@@ -28,8 +25,7 @@ from .base import (
     SearchResult,
     StorageStats,
     VectorStoreError,
-    DocumentNotFoundError,
-    DimensionMismatchError
+    DocumentNotFoundError
 )
 from lukhas.observability.service_metrics import get_metrics_collector
 from lukhas.core.common.logger import get_logger

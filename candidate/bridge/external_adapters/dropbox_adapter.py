@@ -11,7 +11,7 @@ from typing import Optional
 
 import aiohttp
 
-from candidate.bridge.adapters.service_adapter_base import (
+from lukhas.bridge.adapters.service_adapter_base import (
     BaseServiceAdapter,
     CapabilityToken,
     DryRunPlanner,

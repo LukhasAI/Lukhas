@@ -9,18 +9,15 @@ Comprehensive test suite for memory lifecycle management including:
 - Performance target validation (<100ms p95 for tombstones)
 """
 
-import asyncio
 import json
 import gzip
 import tempfile
 import shutil
 from datetime import datetime, timezone, timedelta
 from pathlib import Path
-from unittest.mock import AsyncMock, MagicMock
 from typing import Dict, Any
 
 import pytest
-import pytest_asyncio
 import numpy as np
 
 from lukhas.memory.lifecycle import (
@@ -35,9 +32,7 @@ from lukhas.memory.lifecycle import (
 )
 
 # Import VectorDocument directly without importing from backends package
-import numpy as np
-from datetime import datetime, timezone
-from typing import Dict, List, Optional, Any
+from typing import List, Optional
 from dataclasses import dataclass, field
 
 # Define a minimal VectorDocument class for testing

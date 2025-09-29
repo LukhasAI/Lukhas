@@ -11,13 +11,12 @@ Follows T4/0.01% excellence standards with regulatory-grade validation.
 import asyncio
 import time
 import statistics
-from unittest.mock import Mock, AsyncMock, patch
-from dataclasses import asdict
+from unittest.mock import Mock, patch
 import pytest
 from hypothesis import given, strategies as st, settings, HealthCheck
 
 # Import LUKHAS consciousness components
-from lukhas.consciousness.reflection_engine import ReflectionEngine, ReflectionConfig, ReflectionError
+from lukhas.consciousness.reflection_engine import ReflectionEngine, ReflectionConfig
 from lukhas.consciousness.types import ConsciousnessState, AwarenessSnapshot, ReflectionReport
 
 

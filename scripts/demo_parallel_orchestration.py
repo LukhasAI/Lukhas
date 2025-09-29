@@ -12,7 +12,7 @@ from pathlib import Path
 # Add project root to path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from candidate.core.orchestration.async_orchestrator import AsyncOrchestrator
+from lukhas.core.orchestration.async_orchestrator import AsyncOrchestrator
 from lukhas.core.interfaces import CognitiveNodeBase
 
 

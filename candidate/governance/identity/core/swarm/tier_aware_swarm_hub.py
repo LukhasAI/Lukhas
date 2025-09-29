@@ -12,10 +12,10 @@ from datetime import datetime, timedelta
 from enum import Enum
 from typing import Any, Optional
 
-from candidate.core.enhanced_swarm import EnhancedSwarmHub
+from lukhas.core.enhanced_swarm import EnhancedSwarmHub
 
 # Import swarm infrastructure
-from candidate.core.swarm import SwarmTask, TaskPriority
+from lukhas.core.swarm import SwarmTask, TaskPriority
 from governance.identity.core.colonies import (  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for Constellation Framework consciousness evolution
 from datetime import timezone
     BiometricVerificationColony,

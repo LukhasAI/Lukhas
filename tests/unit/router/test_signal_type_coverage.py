@@ -6,8 +6,8 @@ but no routing rules are created for them.
 """
 import pytest
 
-from candidate.core.consciousness_signal_router import ConsciousnessSignalRouter
-from candidate.core.matriz_consciousness_signals import ConsciousnessSignal, ConsciousnessSignalType
+from lukhas.core.consciousness_signal_router import ConsciousnessSignalRouter
+from lukhas.core.matriz_consciousness_signals import ConsciousnessSignal, ConsciousnessSignalType
 
 
 def test_all_signal_types_have_rules_and_targets():
@@ -139,7 +139,7 @@ def test_router_metrics_integration():
 
     # Test signal with no matching rules (should increment no_rule metric)
     # Create signal with type that has no rules
-    from candidate.core.metrics import router_no_rule_total
+    from lukhas.core.metrics import router_no_rule_total
 
     # Get initial counter value (may not be zero due to other tests)
     initial_count = router_no_rule_total.labels(

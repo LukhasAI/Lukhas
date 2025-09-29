@@ -15,7 +15,7 @@ sys.path.insert(0, os.path.abspath("."))
 import sqlite3
 import tempfile
 
-from candidate.aka_qualia.memory_sql import SqlMemory
+from lukhas.aka_qualia.memory_sql import SqlMemory
 
 
 def test_memory_migration_and_indexes():

@@ -1,4 +1,4 @@
-from candidate.consciousness.dream.expand import mediation
+from lukhas.consciousness.dream.expand import mediation
 
 def test_mediate_creates_compromise():
     a = {"confidence": 0.8, "joy": 0.6}

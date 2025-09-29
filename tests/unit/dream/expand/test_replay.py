@@ -1,4 +1,4 @@
-from candidate.consciousness.dream.expand import replay
+from lukhas.consciousness.dream.expand import replay
 
 def test_describe_formats_trace():
     trace = {"target": "dream_123", "reason": "high_alignment"}

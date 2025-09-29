@@ -7,9 +7,9 @@ from unittest.mock import AsyncMock
 
 import pytest
 
-from candidate.memory.fakes.agimemory_fake import AGIMemoryFake
-from candidate.memory.folds.fold_engine import MemoryType
-from candidate.memory.systems.memory_manager import AdvancedMemoryManager
+from lukhas.memory.fakes.agimemory_fake import AGIMemoryFake
+from lukhas.memory.folds.fold_engine import MemoryType
+from lukhas.memory.systems.memory_manager import AdvancedMemoryManager
 
 
 @pytest.fixture

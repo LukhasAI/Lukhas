@@ -29,8 +29,7 @@ import time
 from dataclasses import dataclass, asdict
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Dict, Any, List, Optional, Tuple
-import statistics
+from typing import Dict, List, Optional
 
 logger = logging.getLogger(__name__)
 

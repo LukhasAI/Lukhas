@@ -4,7 +4,7 @@ LUKHAS Consciousness System Validation with Correct Import Paths
 =================    print('🎉 CORRECTED IMPORT PATHS:')
     print('=' * 30)
     print('✅ MemoryWrapper: from lukhas.memory.memory_wrapper import MemoryWrapper')
-    print('✅ SymbolicContext: from candidate.core.symbolic.context import SymbolicContext')
+    print('✅ SymbolicContext: from lukhas.core.symbolic.context import SymbolicContext')
     print('   (Fixed: dependency-free standalone version)')
 
     return results========================================
@@ -57,7 +57,7 @@ def validate_consciousness_system():
 
     # Test Symbolic Context - FIXED!
     try:
-        from candidate.core.symbolic.context import SymbolicContext
+        from lukhas.core.symbolic.context import SymbolicContext
 
         print("✅ Symbolic context: Operational (FIXED!)")
         print("   📍 Path: candidate.core.symbolic.context.SymbolicContext")
@@ -114,7 +114,7 @@ def validate_consciousness_system():
     print("\n🎉 CORRECTED IMPORT PATHS:")
     print("=" * 30)
     print("✅ MemoryWrapper: from lukhas.memory.memory_wrapper import MemoryWrapper")
-    print("✅ SymbolicContext: from candidate.core.symbolic.context import SymbolicContext")
+    print("✅ SymbolicContext: from lukhas.core.symbolic.context import SymbolicContext")
     print("   (Fixed: dependency-free standalone version)")
 
     return results

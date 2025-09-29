@@ -21,10 +21,10 @@ from typing import Any
 
 import structlog
 
-from candidate.orchestration.signals.signal_bus import Signal, SignalBus, SignalType
+from lukhas.orchestration.signals.signal_bus import Signal, SignalBus, SignalType
 
 try:
-    from candidate.orchestration.signals.homeostasis_controller import (
+    from lukhas.orchestration.signals.homeostasis_controller import (
         HomeostasisController,
         HomeostasisState,
     )

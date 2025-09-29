@@ -2,7 +2,7 @@ import asyncio
 
 import pytest
 
-from candidate.orchestration.multi_model_orchestration import (
+from lukhas.orchestration.multi_model_orchestration import (
     ConsensusStrategy,
     ModelProvider,
     MultiModelOrchestrator,

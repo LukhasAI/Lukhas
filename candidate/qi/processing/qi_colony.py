@@ -14,9 +14,9 @@ from typing import Any
 import numpy as np
 
 from bio.oscillator import PrimeOscillator
-from candidate.core.colonies.base_colony import BaseColony
-from candidate.core.efficient_communication import MessagePriority
-from candidate.core.swarm import SwarmAgent
+from lukhas.core.colonies.base_colony import BaseColony
+from lukhas.core.efficient_communication import MessagePriority
+from lukhas.core.swarm import SwarmAgent
 from qi.qi_layer import QIBioOscillator
 
 logger = logging.getLogger(__name__)

@@ -9,11 +9,10 @@ Part of T4/0.01% Excellence Security Framework
 
 import json
 import sys
-import subprocess
 import hashlib
 import datetime
 from pathlib import Path
-from typing import Dict, List, Any, Optional, Set
+from typing import Dict, List, Any, Optional
 import pkg_resources
 import argparse
 from dataclasses import dataclass, asdict

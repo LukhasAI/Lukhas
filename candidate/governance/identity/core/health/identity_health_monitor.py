@@ -17,7 +17,7 @@ import numpy as np
 import psutil
 
 # Import self-healing components
-from candidate.core.self_healing import HealingStrategy, HealthStatus, SelfHealingSystem
+from lukhas.core.self_healing import HealingStrategy, HealthStatus, SelfHealingSystem
 
 # Import identity components
 from governance.identity.core.events import IdentityEventPriority, IdentityEventPublisher, get_identity_event_publisher

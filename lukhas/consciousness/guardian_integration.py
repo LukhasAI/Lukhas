@@ -14,23 +14,22 @@ Constellation Framework: 🛡️ Guardian-🧠 Consciousness Integration
 """
 
 from __future__ import annotations
-import asyncio
 import time
 import logging
 import uuid
 import json
-from typing import Dict, Any, Optional, List, Union, Callable, Awaitable
+from typing import Dict, Any, Optional, List, Callable, Awaitable
 from dataclasses import dataclass, field, asdict
 from datetime import datetime, timezone
 from enum import Enum
 
 from opentelemetry import trace
-from prometheus_client import Counter, Histogram, Gauge, Summary
+from prometheus_client import Counter, Histogram
 
 # Import consciousness types
 from .types import (
     ConsciousnessState, AwarenessSnapshot, ReflectionReport,
-    DreamTrace, DecisionContext, CreativitySnapshot, AnomalySeverity
+    CreativitySnapshot
 )
 
 # Import Guardian components

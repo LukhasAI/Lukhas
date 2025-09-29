@@ -5,11 +5,10 @@ Advanced bidirectional bridge between consciousness and memory systems with real
 
 import asyncio
 import time
-import json
 import logging
 from datetime import datetime, timedelta
 from typing import Dict, List, Optional, Set, Any, Callable, Tuple
-from dataclasses import dataclass, field, asdict
+from dataclasses import dataclass, asdict
 from enum import Enum
 import uuid
 from collections import defaultdict, deque

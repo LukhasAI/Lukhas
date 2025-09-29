@@ -15,14 +15,11 @@ Features:
 
 import argparse
 import json
-import os
 import re
 import sys
 import hashlib
-import ast
 from pathlib import Path
-from typing import Dict, List, Any, Tuple, Optional
-from datetime import datetime, timezone
+from typing import Dict, List, Any, Tuple
 
 # Repository structure
 ROOT = Path(__file__).resolve().parents[1]  # repo root

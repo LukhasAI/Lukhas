@@ -30,11 +30,10 @@ from .enhanced_thought_engine import (
     EnhancedThoughtEngine, ThoughtContext, ThoughtComplexity, ThoughtResult
 )
 from .enhanced_awareness_engine import EnhancedAwarenessEngine
-from .types import ConsciousnessState
 
 # Import MATRIZ base classes
 try:
-    from candidate.core.matrix.nodes.base import BaseMatrixNode
+    from lukhas.core.matrix.nodes.base import BaseMatrixNode
     from MATRIZ.core.node_interface import NodeState
     MATRIZ_AVAILABLE = True
 except ImportError:

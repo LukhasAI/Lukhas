@@ -10,8 +10,7 @@ Constellation Framework: Flow Star (🌊) API layer
 """
 
 from __future__ import annotations
-import asyncio
-from typing import Dict, Any, List, Optional
+from typing import Dict, Any, List
 from fastapi import APIRouter, HTTPException, Depends, status
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from pydantic import BaseModel, Field
@@ -20,7 +19,7 @@ from prometheus_client import Counter, Histogram
 import logging
 
 from .multi_ai_router import (
-    RoutingRequest, ConsensusResult, ConsensusType,
+    RoutingRequest, ConsensusType,
     get_multi_ai_router, AIProvider
 )
 from lukhas.identity.auth_service import verify_token

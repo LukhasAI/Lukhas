@@ -16,7 +16,6 @@ Features:
 import asyncio
 import json
 import smtplib
-import time
 from collections import defaultdict, deque
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
@@ -24,7 +23,7 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from enum import Enum
 from pathlib import Path
-from typing import Any, Callable, Dict, List, Optional, Set, Tuple
+from typing import Any, Dict, List, Optional, Set
 from uuid import uuid4
 
 try:
@@ -33,7 +32,7 @@ try:
 except ImportError:
     AIOHTTP_AVAILABLE = False
 
-from .advanced_metrics import MetricSeverity, AnomalyType, get_advanced_metrics
+from .advanced_metrics import MetricSeverity, get_advanced_metrics
 from .evidence_collection import EvidenceType, collect_evidence
 
 

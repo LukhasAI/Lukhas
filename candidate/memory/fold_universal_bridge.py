@@ -51,7 +51,7 @@ except ImportError:
 
 # Bio-simulation
 try:
-    from candidate.core.bio_systems.bio_simulation_controller import (
+    from lukhas.core.bio_systems.bio_simulation_controller import (
         BioSimulationController)
 
     bio_sim_available = True
@@ -100,7 +100,7 @@ except ImportError:
 
 # Orchestration
 try:
-    from candidate.orchestration.orchestrator_core import OrchestrationCore
+    from lukhas.orchestration.orchestrator_core import OrchestrationCore
 
     orchestration_available = True
 except ImportError:

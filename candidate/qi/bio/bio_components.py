@@ -51,10 +51,10 @@ log = structlog.get_logger(__name__)
 LUKHAS_OSCILLATORS_AVAILABLE = False
 try:
     # Try absolute imports first (candidate lane structure)
-    from candidate.bridge.voice.bio_core.oscillator.qi_layer import QIBioOscillator
+    from lukhas.bridge.voice.bio_core.oscillator.qi_layer import QIBioOscillator
 
     # type: ignore
-    from candidate.qi.processing.qi_engine import QIOscillator  # type: ignore
+    from lukhas.qi.processing.qi_engine import QIOscillator  # type: ignore
 
     LUKHAS_OSCILLATORS_AVAILABLE = True
     log.debug("LUKHAS Oscillators imported successfully from candidate lane.")

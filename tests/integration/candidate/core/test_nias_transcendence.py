@@ -4,8 +4,8 @@ Tests for the NIAS Transcendence system integration.
 
 import pytest
 
-from candidate.core.collective.collective_ad_mind import CollectiveAdMind
-from candidate.core.consciousness.oracle.oracle import ConsciousnessOracle
+from lukhas.core.collective.collective_ad_mind import CollectiveAdMind
+from lukhas.core.consciousness.oracle.oracle import ConsciousnessOracle
 
 
 @pytest.mark.nias_transcendence

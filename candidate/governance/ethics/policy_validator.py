@@ -30,8 +30,8 @@ from enum import Enum
 from typing import Any, Optional
 
 try:
-    from candidate.core.common import get_logger
-    from candidate.governance.ethics.policy_engine import (
+    from lukhas.core.common import get_logger
+    from lukhas.governance.ethics.policy_engine import (
         ConditionOperator,
         PolicyAction,
         PolicyCondition,

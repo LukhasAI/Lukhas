@@ -21,14 +21,13 @@ import random
 import string
 from typing import List, Dict, Any
 from dataclasses import dataclass
-import numpy as np
 
 from ..api_read import MemoryReadService, SearchQuery, SearchType
 from ..api_write import MemoryWriteService, WriteOperation, BatchWriteOperation
 from ..circuit_breaker import CircuitBreakerRegistry, CircuitBreakerFactory
 from ..backpressure import AdaptiveBackpressure, BackpressureFactory
 from ..metrics import get_metrics_collector, get_t4_compliance_report
-from ..adapters.vector_store_base import VectorStoreFactory, VectorStoreType, VectorDocument
+from ..adapters.vector_store_base import VectorDocument
 
 
 @dataclass

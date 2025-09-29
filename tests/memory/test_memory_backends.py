@@ -11,17 +11,15 @@ import tempfile
 import shutil
 import os
 from datetime import datetime, timezone, timedelta
-from unittest.mock import Mock, patch, AsyncMock
+from unittest.mock import patch
 import numpy as np
 
 from lukhas.memory.backends.base import (
     VectorDocument,
     SearchResult,
     StorageStats,
-    VectorStoreError,
     DocumentNotFoundError,
-    DimensionMismatchError,
-    VectorDimension
+    DimensionMismatchError
 )
 from lukhas.memory.backends.memory_store import InMemoryVectorStore
 from lukhas.memory.backends.faiss_store import FAISSVectorStore

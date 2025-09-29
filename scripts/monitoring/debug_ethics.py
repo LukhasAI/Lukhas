@@ -2,7 +2,7 @@
 
 import asyncio
 
-from candidate.aka_qualia.core import AkaQualia
+from lukhas.aka_qualia.core import AkaQualia
 
 
 def debug_ethics_enforcement():
@@ -65,7 +65,7 @@ def debug_ethics_enforcement():
         severity = scene.risk.severity
         print(f"Risk classification check: score={risk_score}, severity={severity}")
 
-        from candidate.aka_qualia.models import SeverityLevel
+        from lukhas.aka_qualia.models import SeverityLevel
 
         if (
             (risk_score <= 0.1 and severity == SeverityLevel.NONE)

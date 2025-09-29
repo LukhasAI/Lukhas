@@ -2,7 +2,7 @@ import json
 
 import pytest
 
-from candidate.bridge.trace_logger import (
+from lukhas.bridge.trace_logger import (
     BridgeTraceLogger,
     TraceCategory,
     TraceLevel,

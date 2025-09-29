@@ -41,11 +41,11 @@ import uuid
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Dict, List, Optional, Union
+from typing import Any, Dict, List, Optional
 
 from .performance_optimizer import get_performance_optimizer, cached_validation
 from .schema_migration import get_migration_engine, migrate_guardian_data
-from .schema_registry import get_schema_registry, validate_guardian_decision
+from .schema_registry import get_schema_registry
 from .serialization_engine import (
     CompressionType,
     SerializationFormat,
@@ -54,7 +54,6 @@ from .serialization_engine import (
     deserialize_guardian_decision
 )
 from .validation_framework import (
-    ValidationTier,
     get_validation_framework,
     validate_guardian_data
 )

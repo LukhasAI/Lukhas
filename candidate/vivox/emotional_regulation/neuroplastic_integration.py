@@ -13,12 +13,12 @@ from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from typing import Any, Optional
 
-from candidate.core.common import get_logger
+from lukhas.core.common import get_logger
 
 # Import tag system
 try:
-    from candidate.core.tags import get_tag_registry
-    from candidate.core.tags.registry import TagCategory, TagDefinition, TagRegistry
+    from lukhas.core.tags import get_tag_registry
+    from lukhas.core.tags.registry import TagCategory, TagDefinition, TagRegistry
 
     TAG_SYSTEM_AVAILABLE = True
 except ImportError:

@@ -28,17 +28,15 @@ Version: 1.0.0
 Phase: 7 - Guardian Schema Serializers
 """
 
-import asyncio
 import json
 import logging
 import threading
 import time
 import uuid
-from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Callable, Dict, List, Optional, Set, Tuple, Union
+from typing import Any, Callable, Dict, List, Optional, Set, Tuple
 
 from .schema_registry import SchemaVersion
 

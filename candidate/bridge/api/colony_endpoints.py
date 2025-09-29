@@ -4,7 +4,7 @@ from typing import Any, Optional
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 
-from candidate.core.swarm import SwarmHub
+from lukhas.core.swarm import SwarmHub
 
 # TAG:bridge
 # TAG:api
@@ -32,7 +32,7 @@ async def spawn_colony(request: ColonySpawnRequest):
     try:
         swarm = SwarmHub()
         if request.colony_type == "reasoning":
-            from candidate.core.colonies.reasoning_colony import ReasoningColony
+            from lukhas.core.colonies.reasoning_colony import ReasoningColony
 
             colony = ReasoningColony(f"dynamic-reasoning-{datetime.now(timezone.utc).timestamp()}")
         else:

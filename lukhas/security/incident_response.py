@@ -20,17 +20,15 @@ Constellation Framework: 🛡️ Guardian Excellence - Incident Response
 """
 
 import os
-import json
 import time
 import logging
 import hashlib
 import threading
-import subprocess
-from typing import Dict, List, Set, Optional, Any, Union, Callable, Tuple
-from dataclasses import dataclass, field, asdict
+from typing import Dict, List, Set, Optional, Any, Callable
+from dataclasses import dataclass, field
 from enum import Enum
-from datetime import datetime, timezone, timedelta
-from collections import defaultdict, deque
+from datetime import datetime, timezone
+from collections import deque
 import uuid
 
 logger = logging.getLogger(__name__)

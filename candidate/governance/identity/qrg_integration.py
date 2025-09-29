@@ -32,7 +32,7 @@ from typing import Any
 try:
     from backend.audit_logger import AuditLogger
 
-    from candidate.core.interfaces.as_agent.core.gatekeeper import (
+    from lukhas.core.interfaces.as_agent.core.gatekeeper import (
         ConstitutionalGatekeeper,
     )
     from governance.identity.auth.cultural_profile_manager import CulturalProfileManager

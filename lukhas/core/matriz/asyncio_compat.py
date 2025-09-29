@@ -6,7 +6,7 @@ Provides asyncio.timeout equivalent for older Python versions.
 import asyncio
 import sys
 from contextlib import asynccontextmanager
-from typing import Optional, Any
+from typing import Optional
 
 
 if sys.version_info >= (3, 11):

@@ -6,7 +6,7 @@ Please update imports to: lukhas.accepted.memory.helix
 import warnings
 
 try:
-    from lukhas.accepted.memory.helix import *
+    from lukhas.memory.helix import *
 except ImportError:
     # Fallback for gradual migration
     pass

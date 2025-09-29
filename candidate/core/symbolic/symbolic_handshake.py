@@ -17,8 +17,8 @@ import logging
 import time
 from typing import Any, Callable, Optional
 
-from candidate.orchestration.signal_router import route_signal
-from candidate.orchestration.signals import SignalType, SymbolicSignal
+from lukhas.orchestration.signal_router import route_signal
+from lukhas.orchestration.signals import SignalType, SymbolicSignal
 
 logger = logging.getLogger("SymbolicHandshake")
 

@@ -8,9 +8,9 @@ Orchestration Bridge - Connects brain components to consciousness module
 import contextlib
 from typing import Any, Optional
 
-from candidate.core.common import get_logger
-from candidate.orchestration.brain.monitoring.rate_modulator import RateModulator
-from candidate.orchestration.brain.personality.personality import PersonalityEngine
+from lukhas.core.common import get_logger
+from lukhas.orchestration.brain.monitoring.rate_modulator import RateModulator
+from lukhas.orchestration.brain.personality.personality import PersonalityEngine
 
 logger = get_logger(__name__)
 
@@ -46,7 +46,7 @@ orchestration_bridge = OrchestrationBridge()
 
 # Import cognitive components
 try:
-    from candidate.orchestration.brain.cognitive.cognitive_updater import CognitiveUpdater
+    from lukhas.orchestration.brain.cognitive.cognitive_updater import CognitiveUpdater
     orchestration_bridge.register_brain_component("cognitive_updater", CognitiveUpdater())
 except ImportError:
     pass

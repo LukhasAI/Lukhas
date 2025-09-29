@@ -7,7 +7,7 @@ from unittest.mock import AsyncMock, patch
 
 import pytest
 
-from candidate.bridge.adapters.gmail_adapter import GmailAdapter
+from lukhas.bridge.adapters.gmail_adapter import GmailAdapter
 
 
 @pytest.mark.tier3

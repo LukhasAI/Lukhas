@@ -26,8 +26,8 @@ import numpy as np
 from contracts import ProcessingResult
 from openai import AsyncOpenAI
 
-from candidate.core.common import get_logger
-from candidate.orchestration.brain.consciousness_core import ConsciousnessCore
+from lukhas.core.common import get_logger
+from lukhas.orchestration.brain.consciousness_core import ConsciousnessCore
 from qi.attention_economics import QIAttentionEconomics
 
 logger = get_logger(__name__)

@@ -18,7 +18,6 @@ Features:
 Constellation Framework: 🌊 Flow Star Complete Integration
 """
 
-import asyncio
 import time
 import logging
 from typing import Any, Dict, List, Optional
@@ -28,9 +27,6 @@ from enum import Enum
 from .enhanced_thought_node import EnhancedThoughtNode
 from .enhanced_awareness_engine import EnhancedAwarenessEngine, EnhancedAwarenessSnapshot
 from .memory_contradiction_bridge import MemoryContradictionBridge, MemoryValidationContext
-from ..cognitive_core.reasoning.deep_inference_engine import DeepInferenceEngine
-from ..cognitive_core.reasoning.contradiction_integrator import ContradictionIntegrator
-from .meta_cognitive_assessor import MetaCognitiveAssessor
 from .types import ConsciousnessState
 
 logger = logging.getLogger(__name__)

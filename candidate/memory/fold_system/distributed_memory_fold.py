@@ -56,7 +56,7 @@ from typing import Any, Optional
 import aiohttp
 import numpy as np
 
-from candidate.core.common.config import get_config
+from lukhas.core.common.config import get_config
 
 
 class NodeState(Enum):
