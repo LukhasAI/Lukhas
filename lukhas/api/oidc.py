@@ -20,37 +20,34 @@ import json
 import logging
 import time
 import uuid
-from contextlib import asynccontextmanager
-from typing import Dict, Any, Optional, List
+from typing import Dict, Any, Optional
 from urllib.parse import urlencode
 
 from fastapi import (
     APIRouter, Request, Form, Header, HTTPException, Depends,
     BackgroundTasks, status
 )
-from fastapi.responses import JSONResponse, RedirectResponse, PlainTextResponse
+from fastapi.responses import JSONResponse, RedirectResponse
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
-from fastapi.middleware.cors import CORSMiddleware
 from pydantic import ValidationError
 from opentelemetry import trace
 
 # Import LUKHAS identity components
 from ..identity.oidc_provider import OIDCProvider
 from ..identity.validation_schemas import (
-    AuthorizationRequest, TokenRequest, IntrospectionRequest,
-    RevocationRequest, UserInfoRequest, ErrorResponse,
-    TokenResponse, UserInfoResponse, sanitize_correlation_id
+    AuthorizationRequest, ErrorResponse,
+    sanitize_correlation_id
 )
 from ..identity.rate_limiting import RateLimitType, get_rate_limiter
 from ..identity.security_hardening import (
-    SecurityHardeningManager, ThreatLevel, SecurityAction,
+    SecurityAction,
     create_security_hardening_manager
 )
 from ..identity.metrics_collector import (
     get_metrics_collector, OperationType, ThreatLevel as MetricThreatLevel,
     record_endpoint_metrics
 )
-from ..identity.jwks_cache import get_jwks_cache, cached_get_jwks
+from ..identity.jwks_cache import get_jwks_cache
 
 # Initialize components
 logger = logging.getLogger(__name__)
@@ -709,28 +706,28 @@ async def authorize(
             span.set_attribute("oidc.action", result.get("action", "unknown"))
 
             if result.get("action") == "redirect":
-                oidc_api_requests_total.labels(
+                record_endpoint_metrics(
                     endpoint="authorize",
                     method="GET",
-                    status="302"
-                ).inc()
+                    status_code=302
+                )
                 return RedirectResponse(url=result["redirect_url"], status_code=302)
 
             elif result.get("action") == "authenticate":
-                oidc_api_requests_total.labels(
+                record_endpoint_metrics(
                     endpoint="authorize",
                     method="GET",
-                    status="302"
-                ).inc()
+                    status_code=302
+                )
                 # Redirect to login with original parameters
                 return RedirectResponse(url=result["login_url"], status_code=302)
 
             elif result.get("action") == "consent":
-                oidc_api_requests_total.labels(
+                record_endpoint_metrics(
                     endpoint="authorize",
                     method="GET",
-                    status="200"
-                ).inc()
+                    status_code=200
+                )
                 # Return consent page information
                 return JSONResponse(content={
                     "action": "consent_required",
