@@ -25,7 +25,7 @@ import json
 import time
 import numpy as np
 from pathlib import Path
-from typing import Dict, List, Any, Optional
+from typing import Dict, List, Any
 from dataclasses import dataclass, asdict
 import pytest
 import logging
@@ -34,8 +34,7 @@ from unittest.mock import Mock, patch
 # Import MATRIZ components
 from lukhas.consciousness.matriz_thought_loop import (
     MATRIZThoughtLoop,
-    MATRIZProcessingContext,
-    ProcessingStage
+    MATRIZProcessingContext
 )
 from lukhas.consciousness.types import ConsciousnessState
 

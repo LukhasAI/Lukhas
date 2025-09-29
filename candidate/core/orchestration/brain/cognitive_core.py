@@ -27,8 +27,8 @@ if brain_dir not in sys.path:
     sys.path.insert(0, brain_dir)
 
 try:
-    from candidate.orchestration.brain.core.capability_levels import AGICapabilityLevel
-    from candidate.orchestration.brain.core.response_types import AGIResponse
+    from lukhas.orchestration.brain.core.capability_levels import AGICapabilityLevel
+    from lukhas.orchestration.brain.core.response_types import AGIResponse
 except ImportError:
     # Fallback to basic classes if modules don't exist
     from enum import Enum
@@ -50,7 +50,7 @@ except ImportError:
 
 # Optional imports - create fallbacks if modules don't exist
 try:
-    from candidate.bridge.llm_wrappers.unified_openai_client import UnifiedOpenAIClient
+    from lukhas.bridge.llm_wrappers.unified_openai_client import UnifiedOpenAIClient
 
     lukhas_openai = UnifiedOpenAIClient()
     OPENAI_AVAILABLE = True
@@ -88,7 +88,7 @@ except ImportError:
 
 
 try:
-    from candidate.orchestration.agents.MetaCognitiveOrchestrator import MetaCognitiveOrchestrator
+    from lukhas.orchestration.agents.MetaCognitiveOrchestrator import MetaCognitiveOrchestrator
 except ImportError:
 
     class MetaCognitiveOrchestrator:

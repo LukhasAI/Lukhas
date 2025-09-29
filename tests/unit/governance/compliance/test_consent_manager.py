@@ -7,7 +7,7 @@ from datetime import datetime, timedelta, timezone
 
 import pytest
 
-from candidate.governance.consent.consent_manager import (
+from lukhas.governance.consent.consent_manager import (
     AdvancedConsentManager,
     ConsentMethod,
     ConsentStatus,

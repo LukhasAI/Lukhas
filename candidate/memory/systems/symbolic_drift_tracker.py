@@ -9,7 +9,7 @@ logger = logging.getLogger(__name__)
 """
 
 # ΛTAGS: ΛALIAS, ΛMEMORY_CORE, ΛSYMBOLIC_DRIFT
-from candidate.core.symbolic.drift.symbolic_drift_tracker import SymbolicDriftTracker
+from lukhas.core.symbolic.drift.symbolic_drift_tracker import SymbolicDriftTracker
 
 logger.debug("memory.core_memory.symbolic_drift_tracker alias loaded")
 

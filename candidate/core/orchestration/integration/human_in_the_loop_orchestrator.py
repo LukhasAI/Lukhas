@@ -65,7 +65,7 @@ try:
         ExplainabilityInterfaceLayer,
     )
 
-    from candidate.orchestration.lukhas_master_orchestrator import (
+    from lukhas.orchestration.lukhas_master_orchestrator import (
         LukhasMasterOrchestrator,
     )
     from ethics.meta_ethics_governor import EthicalVerdict, MetaEthicsGovernor

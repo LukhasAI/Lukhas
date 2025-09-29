@@ -65,7 +65,7 @@ class PersistenceMode(Enum):
 
 # Import LUKHAS components
 try:
-    from candidate.core.symbolism.tags import TagScope
+    from lukhas.core.symbolism.tags import TagScope
     LUKHAS_AVAILABLE = True
 except ImportError as e:
     print(f"Warning: Some LUKHAS modules not available: {e}")

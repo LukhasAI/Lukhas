@@ -7,8 +7,8 @@ from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
 
-from candidate.bridge.adapters.gmail_adapter import GmailAdapter, GmailContextIntegration
-from candidate.bridge.adapters.service_adapter_base import CapabilityToken
+from lukhas.bridge.adapters.gmail_adapter import GmailAdapter, GmailContextIntegration
+from lukhas.bridge.adapters.service_adapter_base import CapabilityToken
 
 
 @pytest.mark.tier3

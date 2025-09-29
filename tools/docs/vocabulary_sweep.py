@@ -16,10 +16,9 @@ Usage:
 
 import argparse
 import json
-import os
 import re
 from pathlib import Path
-from typing import Dict, List, Tuple, Set
+from typing import Dict, List
 from dataclasses import dataclass, asdict
 from datetime import datetime
 

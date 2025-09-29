@@ -13,8 +13,7 @@ import sys
 import re
 import logging
 from pathlib import Path
-from typing import Dict, List, Any, Set
-import subprocess
+from typing import Set
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')

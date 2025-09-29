@@ -11,7 +11,7 @@ Handles symbolic traces, pattern recognition, and memory evolution.
 
 from typing import Any, Optional
 
-from candidate.core.common import get_logger
+from lukhas.core.common import get_logger
 
 logger = get_logger(__name__)
 

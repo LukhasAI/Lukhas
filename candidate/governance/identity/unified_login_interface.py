@@ -51,7 +51,7 @@ except ImportError:
     sys.path.insert(0, str(Path(__file__).parent))
     from lambda_id_auth import AuthTier
 
-    from candidate.core.unified_auth_manager import (
+    from lukhas.core.unified_auth_manager import (
         AuthMethod,
         ConsciousnessState,
         UnifiedAuthContext,

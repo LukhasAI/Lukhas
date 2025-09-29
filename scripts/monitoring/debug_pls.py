@@ -2,7 +2,7 @@
 
 """Debug PLS threat extraction"""
 
-from candidate.aka_qualia.pls import PLS
+from lukhas.aka_qualia.pls import PLS
 
 # Create PLS instance
 pls = PLS(random_seed=123, enable_stochasticity=False)

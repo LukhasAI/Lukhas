@@ -46,7 +46,7 @@ logger = get_logger(__name__)
 # AIMPORT_TODO: Resolve these imports via proper packaging or PYTHONPATH.
 LUKHAS_SYMBOLIC_COMPONENTS_REPLAYER_AVAILABLE_FLAG = False  # Unique flag
 try:
-    from candidate.orchestration.brain.spine.trait_manager import load_traits
+    from lukhas.orchestration.brain.spine.trait_manager import load_traits
 
     # type: ignore
     from symbolic.lukhas_voice import speak  # type: ignore
@@ -109,7 +109,7 @@ def load_recent_dream_logs(
     log_date: Optional[datetime] = None,
     specific_log_file: Optional[Path] = None,
 ) -> list[dict[str, Any]]:
-    """Loads recent dream log entries from candidate.core.common dream logs."""
+    """Loads recent dream log entries from lukhas.core.common dream logs."""
     log.debug(
         "Loading recent dream logs for replay.",
         load_limit=limit,

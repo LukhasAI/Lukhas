@@ -54,8 +54,8 @@ try:
     from personas.persona_manager import PersonaManager
     from voice.processor import VoiceProcessor
 
-    from candidate.core.identity.identity_manager import IdentityManager
-    from candidate.core.neural_architectures.neural_integrator import (
+    from lukhas.core.identity.identity_manager import IdentityManager
+    from lukhas.core.neural_architectures.neural_integrator import (
         NeuralContext,
         NeuralIntegrator,
         NeuralMode)
@@ -222,7 +222,7 @@ class SystemCoordinator:
             logger.info("Consciousness integrator initialized")
 
             # Initialize neural integrator
-            from candidate.core.neural_architectures.neural_integrator import (
+            from lukhas.core.neural_architectures.neural_integrator import (
                 NeuralIntegrator,
             )
 

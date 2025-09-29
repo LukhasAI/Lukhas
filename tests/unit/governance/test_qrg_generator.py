@@ -1,4 +1,4 @@
-from candidate.governance.identity.core.qrs.qrg_generator import QRGGenerator
+from lukhas.governance.identity.core.qrs.qrg_generator import QRGGenerator
 
 
 def test_generate_and_validate_pairing_code_success():

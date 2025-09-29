@@ -28,7 +28,7 @@ try:
 except ImportError:
     np = None
 
-from candidate.core.common import get_logger
+from lukhas.core.common import get_logger
 
 from ..engine.consciousness_environment import MatrizNode
 
@@ -126,7 +126,7 @@ class ConsciousnessMetaLearning:
         """Get reference to existing consciousness module (no duplication)"""
         try:
             if module_path == "consciousness.reflection.v1":
-                from candidate.consciousness.reflection.awareness_system import AwarenessSystem
+                from lukhas.consciousness.reflection.awareness_system import AwarenessSystem
 
                 return AwarenessSystem()
             elif module_path == "consciousness.monitor.v1":

@@ -23,15 +23,14 @@ import statistics
 import argparse
 import sys
 from pathlib import Path
-from typing import Dict, Any, List, Optional, Tuple
-from dataclasses import asdict
+from typing import Dict, Any, List
 from datetime import datetime, timezone
 
 # Add LUKHAS to path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 # Import LUKHAS components
-from lukhas.consciousness.types import ConsciousnessState, AnomalySeverity
+from lukhas.consciousness.types import ConsciousnessState
 from lukhas.consciousness.guardian_integration import (
     ConsciousnessGuardianIntegration,
     GuardianValidationConfig,

@@ -331,7 +331,7 @@ class TestMemorySystemsIntegration(unittest.TestCase):
         try:
             from systems.memory_collapse_verifier import MemoryCollapseVerifier, MemoryNode
 
-            from candidate.core.symbolic.symbolic_tracer import SymbolicTracer
+            from lukhas.core.symbolic.symbolic_tracer import SymbolicTracer
 
             # Create mock tracer
             class MockTracer:

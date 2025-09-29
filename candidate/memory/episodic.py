@@ -6,7 +6,7 @@ Please update imports to: lukhas.accepted.memory.episodic
 import warnings
 
 try:
-    from lukhas.accepted.memory.episodic import *
+    from lukhas.memory.episodic import *
 except ImportError:
     # Fallback for gradual migration
     pass

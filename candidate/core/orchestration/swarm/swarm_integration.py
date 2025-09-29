@@ -10,7 +10,7 @@ from colony.coordinator import ColonyCoordinator
 from event_bus.manager import EventBusManager
 from swarm.intelligence import SwarmIntelligence
 
-from candidate.orchestration.integration_hub import get_integration_hub
+from lukhas.orchestration.integration_hub import get_integration_hub
 
 
 class ColonySwarmIntegration:

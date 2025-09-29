@@ -12,10 +12,10 @@ Tests enforce monotonicity, range validation, and falsifiable claims.
 
 import pytest
 
-from candidate.aka_qualia.core import AkaQualia
+from lukhas.aka_qualia.core import AkaQualia
 
 # Import the components under test
-from candidate.aka_qualia.models import (
+from lukhas.aka_qualia.models import (
     AgencyFeel,
     PhenomenalScene,
     ProtoQualia,
@@ -24,8 +24,8 @@ from candidate.aka_qualia.models import (
     SeverityLevel,
     TemporalFeel,
 )
-from candidate.aka_qualia.pls import PLS
-from candidate.aka_qualia.teq_hook import TEQGuardian
+from lukhas.aka_qualia.pls import PLS
+from lukhas.aka_qualia.teq_hook import TEQGuardian
 
 
 class TestT1PackageStructure:

@@ -60,7 +60,7 @@ def create_symbolic_widget(widget_type, user_tier, context_data=None):
     props = get_widget_properties(widget_type)
 
     # NIAS filtering for ad permissions
-    from candidate.core.interfaces.as_agent.core.nias_filter import \
+    from lukhas.core.interfaces.as_agent.core.nias_filter import \
         evaluate_ad_permission
 
     vendor_name = (
@@ -152,7 +152,7 @@ def create_symbolic_widget(widget_type, user_tier, context_data=None):
     }
 
     # Paired App Trace (for connected experiences)
-    from candidate.core.dashboard_settings import get_paired_apps  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for core infrastructure (review and implement)
+    from lukhas.core.dashboard_settings import get_paired_apps  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for core infrastructure (review and implement)
 
     widget["paired_apps"] = get_paired_apps(context_data.get("user_id", "default_user"))
 

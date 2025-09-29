@@ -15,9 +15,8 @@ Validates system ready for 85-90 audit score and canary rollout.
 """
 
 import json
-import os
 from pathlib import Path
-from typing import Dict, List, Any
+from typing import Dict, Any
 
 def validate_ci_workflows_enabled() -> Dict[str, Any]:
     """Validate CI workflows moved from disabled to active"""

@@ -21,9 +21,8 @@ import pytest
 import time
 import uuid
 from typing import Dict, Any, List, Optional
-from unittest.mock import Mock, patch, MagicMock
+from unittest.mock import Mock
 from dataclasses import dataclass
-from collections import defaultdict
 
 # Mock OpenTelemetry imports
 try:

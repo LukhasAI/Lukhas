@@ -12,7 +12,7 @@ from fromfromfromcandidate.core.common import (
     MemoryDriftError,
 )
 
-from candidate.core.common import get_logger
+from lukhas.core.common import get_logger
 
 logger = get_logger(__name__)
 

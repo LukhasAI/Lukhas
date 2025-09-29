@@ -5,7 +5,7 @@ Validates decay behavior and safety constraints.
 import os
 from unittest.mock import patch
 
-from candidate.consciousness.dream.expand.resonance import (
+from lukhas.consciousness.dream.expand.resonance import (
     ResonanceField, create_resonance_field, get_resonance_config, simulate_resonance_decay
 )
 

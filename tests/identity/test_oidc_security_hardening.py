@@ -19,24 +19,19 @@ Implementation: T4/0.01% excellence targeting zero security bypasses
 import asyncio
 import base64
 import json
-import hashlib
-import secrets
 import time
 import pytest
 from datetime import datetime, timedelta, timezone
-from typing import Dict, Any, List
-from unittest.mock import Mock, AsyncMock, patch
+from unittest.mock import AsyncMock, patch
 
 from lukhas.identity.oidc_security_hardening import (
     OIDCSecurityHardening,
-    SecurityEvent,
     OIDCSecurityEventType,
     SecurityThreatLevel,
     SecurityResponse
 )
 from lukhas.identity.webauthn_oidc_integration import (
     WebAuthnOIDCIntegration,
-    WebAuthnOIDCSession,
     IntegrationSecurityLevel
 )
 

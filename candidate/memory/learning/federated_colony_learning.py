@@ -6,8 +6,8 @@ import torch
 import torch.nn as nn
 from learning.meta_adaptive import MetaLearner
 
-from candidate.core.colonies.base_colony import BaseColony
-from candidate.core.swarm import SwarmAgent
+from lukhas.core.colonies.base_colony import BaseColony
+from lukhas.core.swarm import SwarmAgent
 
 
 class LearningAgent(SwarmAgent):

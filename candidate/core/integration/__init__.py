@@ -104,7 +104,7 @@ logger.info("ΛTRACE: core.integration package initialized.", exports=__all__)
 # LOGGING: ΛTRACE_ENABLED via structlog.
 # AUTHENTICATION: Not applicable at package initialization.
 # HOW TO USE:
-#   from candidate.core.integration import SystemCoordinator, get_system_coordinator
+#   from lukhas.core.integration import SystemCoordinator, get_system_coordinator
 #   coordinator = get_system_coordinator()
 # INTEGRATION NOTES: This package is a #ΛBRIDGE for various LUKHAS components.
 #                    Its stability and the correctness of `system_coordinator` are paramount.

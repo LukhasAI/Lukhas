@@ -106,9 +106,9 @@ def load_tags_from_file(filename="dast_tags.json"):
 ──────────────────────────────────────────────────────────────────────────────────────
 EXECUTION:
     - Import with:
-        from candidate.core.modules.dast.store import save_tags_to_file, load_tags_from_file
+        from lukhas.core.modules.dast.store import save_tags_to_file, load_tags_from_file
         # OR class-based:
-        from candidate.core.modules.dast.store import DASTStore
+        from lukhas.core.modules.dast.store import DASTStore
 
 USED BY:
     - dast_core.py

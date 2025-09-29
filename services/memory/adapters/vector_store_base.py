@@ -6,10 +6,9 @@ Abstract base classes defining the interface for vector store implementations.
 Supports semantic search, metadata filtering, and T4/0.01% excellence SLOs.
 """
 
-import asyncio
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
-from typing import Dict, Any, List, Optional, Union, Tuple
+from typing import Dict, Any, List, Optional
 from enum import Enum
 import time
 import logging

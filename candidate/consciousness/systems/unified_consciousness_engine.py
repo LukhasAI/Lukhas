@@ -34,7 +34,7 @@ from enum import Enum
 from typing import Any, Callable, Optional
 
 try:
-    from candidate.core.common import get_logger
+    from lukhas.core.common import get_logger
 except ImportError:
     def get_logger(name):
         import logging

@@ -21,7 +21,6 @@ import os
 import sqlite3
 import threading
 import time
-from dataclasses import asdict
 from datetime import datetime, timezone, timedelta
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Callable
@@ -31,7 +30,6 @@ from .events import (
     ConsentRevokedEvent,
     ConsentCheckedEvent,
     TraceCreatedEvent,
-    DuressDetectedEvent,
     ConsentType,
     DataSubjectRights,
     PolicyVerdict,
@@ -43,14 +41,12 @@ from .consent_handlers import (
     IdempotentTraceHandler,
     ConsentHandlerOrchestrator,
 )
-from .metrics import get_metrics, time_append_operation, time_replay_operation
+from .metrics import get_metrics, time_append_operation
 
 # Import original types for compatibility
 from ..governance.consent_ledger_impl import (
     ConsentRecord,
     ΛTrace,
-    PolicyEngine,
-    ContentModerationIntegration,
 )
 
 logger = logging.getLogger(__name__)

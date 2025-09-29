@@ -15,7 +15,7 @@ from __future__ import annotations
 import asyncio
 import time
 import logging
-from typing import Dict, Any, Optional, List, Callable
+from typing import Dict, Any, Optional, List
 from dataclasses import asdict
 from opentelemetry import trace
 from prometheus_client import Counter, Histogram, Gauge

@@ -17,11 +17,10 @@ import asyncio
 import argparse
 import logging
 import os
-import random
 import statistics
 import sys
 import time
-from typing import List, Dict, Any, Tuple
+from typing import List, Dict, Any
 
 # Add project root to path
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
@@ -34,8 +33,7 @@ from lukhas.observability.matriz_instrumentation import (
     record_memory_cascade_risk,
     record_thought_complexity,
     record_decision_confidence,
-    get_cognitive_instrumentation_status,
-    CognitiveStage
+    get_cognitive_instrumentation_status
 )
 
 from lukhas.observability.otel_instrumentation import (

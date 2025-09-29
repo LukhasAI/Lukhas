@@ -22,7 +22,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
-from candidate.core.common import get_logger
+from lukhas.core.common import get_logger
 
 # Configure module logger
 logger = get_logger(__name__)

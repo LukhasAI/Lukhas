@@ -22,7 +22,7 @@ from typing import (
 from flask import Flask, jsonify, request
 
 # Import service registry to get learning service without circular dependency
-from candidate.orchestration.service_registry import ServiceNames, get_service
+from lukhas.orchestration.service_registry import ServiceNames, get_service
 
 # Initialize logger for ΛTRACE using structlog
 # Assumes structlog is configured in a higher-level __init__.py (e.g., core/__init__.py)

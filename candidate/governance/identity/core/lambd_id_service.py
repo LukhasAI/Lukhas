@@ -41,7 +41,7 @@ from enum import Enum, IntEnum
 from pathlib import Path
 from typing import Any, Dict, Optional, Union
 
-from candidate.core.common import get_logger
+from lukhas.core.common import get_logger
 
 # Guardian system integration for ethical ΛiD operations
 try:

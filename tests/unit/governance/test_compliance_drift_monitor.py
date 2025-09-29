@@ -4,7 +4,7 @@ from unittest.mock import MagicMock
 
 import pytest
 
-from candidate.governance.compliance_drift_monitor import ComplianceMonitor
+from lukhas.governance.compliance_drift_monitor import ComplianceMonitor
 
 
 @pytest.fixture

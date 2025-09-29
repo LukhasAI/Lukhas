@@ -7,9 +7,8 @@ Produces a comprehensive inventory of modules, their paths, and contracts.
 """
 
 import json
-import os
 import pathlib
-from typing import List, Dict, Any, Set
+from typing import List, Dict, Any
 import argparse
 import sys
 

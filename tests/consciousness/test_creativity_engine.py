@@ -7,15 +7,12 @@ Tests creative processes, Guardian integration, performance targets, and observa
 """
 
 import pytest
-import asyncio
 import time
-from unittest.mock import AsyncMock, MagicMock
-from typing import Dict, Any
+from unittest.mock import AsyncMock
 
 from lukhas.consciousness.creativity_engine import CreativityEngine
 from lukhas.consciousness.types import (
     ConsciousnessState, CreativitySnapshot, CreativeTask,
-    CreativeProcessType, CreativeFlowState, ImaginationMode,
     DEFAULT_CREATIVITY_CONFIG
 )
 

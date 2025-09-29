@@ -22,14 +22,11 @@ Integration:
 from __future__ import annotations
 
 import asyncio
-import hashlib
-import hmac
 import logging
-import secrets
 import time
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
-from typing import Any, Dict, Literal, Optional, Set, Union
+from typing import Any, Dict, Literal, Optional, Set
 from uuid import uuid4
 
 import argon2

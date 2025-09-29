@@ -15,7 +15,6 @@ Features:
 
 import asyncio
 import json
-import os
 from collections import defaultdict
 from dataclasses import asdict, dataclass, field
 from datetime import datetime, timedelta, timezone
@@ -39,8 +38,7 @@ except ImportError:
     PLOTTING_AVAILABLE = False
 
 from .evidence_collection import (
-    EvidenceType, ComplianceRegime, get_evidence_engine,
-    EvidenceCollectionEngine
+    EvidenceType, ComplianceRegime, get_evidence_engine
 )
 from .advanced_metrics import get_advanced_metrics
 from .intelligent_alerting import get_alerting_system

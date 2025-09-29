@@ -20,13 +20,12 @@ import asyncio
 import time
 import random
 import logging
-from typing import List, Dict, Any, Optional
+from typing import Dict, Any
 from dataclasses import dataclass
-from unittest.mock import AsyncMock, patch
 import gc
 
 from ..api_read import MemoryReadService, SearchQuery, SearchType
-from ..api_write import MemoryWriteService, WriteOperation
+from ..api_write import MemoryWriteService
 from ..circuit_breaker import CircuitBreakerRegistry, CircuitBreakerFactory, CircuitBreakerError
 from ..backpressure import AdaptiveBackpressure, BackpressureFactory
 from ..adapters.vector_store_base import VectorStoreError, VectorStoreConnectionError

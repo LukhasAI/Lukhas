@@ -9,7 +9,7 @@ that prevents incidents before they impact users.
 
 import time
 import statistics
-from typing import Dict, List, Optional, Tuple, Any
+from typing import Dict, List, Optional, Any
 from dataclasses import dataclass
 from collections import defaultdict, deque
 from enum import Enum

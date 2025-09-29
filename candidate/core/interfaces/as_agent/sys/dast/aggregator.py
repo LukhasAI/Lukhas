@@ -26,7 +26,7 @@ from typing import Any, Optional
 
 # Import connectivity features with graceful degradation
 try:
-    from candidate.orchestration.golden_trio.trio_orchestrator import TrioOrchestrator
+    from lukhas.orchestration.golden_trio.trio_orchestrator import TrioOrchestrator
 except ImportError:
     TrioOrchestrator = None
 

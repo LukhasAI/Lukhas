@@ -11,18 +11,18 @@ while maintaining backward compatibility.
 import time
 from enum import Enum
 
-from candidate.core.fault_tolerance import SupervisionStrategy
-from candidate.core.minimal_actor import Actor
+from lukhas.core.fault_tolerance import SupervisionStrategy
+from lukhas.core.minimal_actor import Actor
 
 # Import enhanced implementations for better functionality
 try:
-    from candidate.core.enhanced_swarm import (
+    from lukhas.core.enhanced_swarm import (
         EnhancedColony as AgentColonyEnhanced,
     )
-    from candidate.core.enhanced_swarm import (
+    from lukhas.core.enhanced_swarm import (
         EnhancedSwarmAgent as SwarmAgentEnhanced,
     )
-    from candidate.core.enhanced_swarm import (
+    from lukhas.core.enhanced_swarm import (
         EnhancedSwarmHub as SwarmHubEnhanced,
     )
 

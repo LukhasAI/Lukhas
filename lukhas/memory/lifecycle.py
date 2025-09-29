@@ -14,21 +14,17 @@ Performance targets:
 import asyncio
 import gzip
 import json
-import os
 import time
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
-from datetime import datetime, timezone, timedelta
+from datetime import datetime, timezone
 from enum import Enum
 from pathlib import Path
-from typing import Dict, List, Optional, Any, Set, Callable
+from typing import Dict, List, Optional, Any, Callable
 import logging
 
 # Import base classes directly to avoid circular imports
-from abc import ABC, abstractmethod
 import numpy as np
-from typing import Dict, List, Optional, Any
-from dataclasses import dataclass, field
 
 # Define minimal VectorDocument interface for lifecycle management
 @dataclass
@@ -108,7 +104,6 @@ class AbstractVectorStore(ABC):
         """List documents by identity"""
         pass
 # Use standard Python logging instead of custom logger
-import logging
 import uuid
 from contextvars import ContextVar
 

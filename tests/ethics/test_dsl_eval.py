@@ -15,14 +15,14 @@ Test coverage:
 import pytest
 import time
 
-from candidate.core.ethics.logic.dsl_lite import (
+from lukhas.core.ethics.logic.dsl_lite import (
     compile_rule, hash_rule, DSLError,
     contains, equals, greater_than, less_than, matches, is_empty, is_present,
     not_has_consent, domain_is, domain_etld1, param_bytes_lte, param_seconds_lte,
     canonical_domain, parse_bytes, parse_seconds,
     and_op, or_op, not_op
 )
-from candidate.core.ethics.logic.ethics_engine import (
+from lukhas.core.ethics.logic.ethics_engine import (
     EthicsEngine, RuleSet, EthicsRule, EthicsAction, Priority
 )
 
@@ -668,7 +668,7 @@ class TestProductionHardening:
 
     def test_reason_codes_taxonomy(self):
         """Test reason code taxonomy."""
-        from candidate.core.ethics.logic.ethics_engine import ReasonCode
+        from lukhas.core.ethics.logic.ethics_engine import ReasonCode
 
         # Test mapping from rule names to codes
         assert ReasonCode.from_rule_name("block_harmful_actions") == ReasonCode.HARMFUL_ACTION

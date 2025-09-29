@@ -44,7 +44,7 @@ from serve.storage.trace_provider import (
 
 # Try to import TraceMemoryLogger, handle gracefully if not available
 try:
-    from candidate.core.orchestration.brain.trace_memory_logger import TraceMemoryLogger
+    from lukhas.core.orchestration.brain.trace_memory_logger import TraceMemoryLogger
 except ImportError:
     TraceMemoryLogger = None
 

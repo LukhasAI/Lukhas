@@ -6,8 +6,8 @@ preventing silent routing failures that could degrade system performance.
 """
 import pytest
 
-from candidate.core.metrics import router_no_rule_total
-from candidate.core.matriz_consciousness_integration import create_matriz_consciousness_system
+from lukhas.core.metrics import router_no_rule_total
+from lukhas.core.matriz_consciousness_integration import create_matriz_consciousness_system
 
 
 def _get_no_rule_count():

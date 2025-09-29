@@ -13,7 +13,7 @@ log = structlog.get_logger(__name__)
 
 # Import real implementations with graceful fallbacks
 try:
-    from candidate.core.glyph.glyph_engine import GlyphEngine as SymbolicEngine
+    from lukhas.core.glyph.glyph_engine import GlyphEngine as SymbolicEngine
 
     SYMBOLIC_ENGINE_AVAILABLE = True
 except ImportError:
@@ -30,7 +30,7 @@ try:
     if candidate_path not in sys.path:
         sys.path.insert(0, candidate_path)
 
-    from candidate.memory.systems.memory_learning.memory_manager import MemoryManager
+    from lukhas.memory.systems.memory_learning.memory_manager import MemoryManager
 
     MEMORY_MANAGER_AVAILABLE = True
 except ImportError as e:
@@ -38,7 +38,7 @@ except ImportError as e:
     MEMORY_MANAGER_AVAILABLE = False
 
 try:
-    from candidate.governance.guardian_system import GuardianSystem
+    from lukhas.governance.guardian_system import GuardianSystem
 
     GUARDIAN_SYSTEM_AVAILABLE = True
 except ImportError:
@@ -46,7 +46,7 @@ except ImportError:
     GUARDIAN_SYSTEM_AVAILABLE = False
 
 try:
-    from candidate.emotion.emotion_hub import DreamSeedEmotionEngine as EmotionEngine
+    from lukhas.emotion.emotion_hub import DreamSeedEmotionEngine as EmotionEngine
 
     EMOTION_ENGINE_AVAILABLE = True
 except ImportError:
@@ -60,7 +60,7 @@ except ImportError:
         EMOTION_ENGINE_AVAILABLE = False
 
 try:
-    from candidate.consciousness.dream.core.dream_engine import DreamEngine  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for Constellation Framework consciousness evolution
+    from lukhas.consciousness.dream.core.dream_engine import DreamEngine  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for Constellation Framework consciousness evolution
 
     DREAM_ENGINE_AVAILABLE = True
 except ImportError:
@@ -68,7 +68,7 @@ except ImportError:
     DREAM_ENGINE_AVAILABLE = False
 
 try:
-    from candidate.core.coordination import ContractNetInitiator as CoordinationManager  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for API expansion (document or implement)
+    from lukhas.core.coordination import ContractNetInitiator as CoordinationManager  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for API expansion (document or implement)
 
     COORDINATION_MANAGER_AVAILABLE = True
 except ImportError:

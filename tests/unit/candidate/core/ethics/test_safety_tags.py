@@ -22,7 +22,7 @@ from unittest.mock import Mock, patch
 
 # Import test targets
 try:
-    from candidate.core.ethics.safety_tags import (
+    from lukhas.core.ethics.safety_tags import (
         SafetyTag,
         SafetyTagCategory,
         SafetyTagEnricher,
@@ -35,7 +35,7 @@ try:
         GDPRDetector,
         create_safety_tag_enricher
     )
-    from candidate.core.ethics.logic.dsl_lite import (
+    from lukhas.core.ethics.logic.dsl_lite import (
         has_tag,
         has_category,
         tag_confidence,

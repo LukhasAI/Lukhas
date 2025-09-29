@@ -1,4 +1,4 @@
-from candidate.consciousness.dream.expand import sentinel
+from lukhas.consciousness.dream.expand import sentinel
 
 def test_detect_blocks_high_fear():
     snap = {"emotional_context":{"fear":0.9}}

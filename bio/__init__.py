@@ -5,7 +5,7 @@ Provides backward compatibility for bio.bio_utilities imports
 
 import warnings
 
-from lukhas.accepted.bio.utils import *
+from lukhas.bio.utils import *
 
 # Import bio_utilities for backward compatibility
 try:
@@ -17,7 +17,7 @@ except ImportError:
     # Create a virtual bio_utilities module
     bio_utilities = types.ModuleType("bio_utilities")
 
-    # Re-export everything from lukhas.accepted.bio.utils
+    # Re-export everything from lukhas.bio.utils
     for name in dir():
         if not name.startswith("_"):
             setattr(bio_utilities, name, globals()[name])

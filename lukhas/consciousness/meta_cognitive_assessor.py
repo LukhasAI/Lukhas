@@ -18,17 +18,15 @@ Features:
 Performance Target: T4/0.01% compliance with sub-50ms assessment cycles
 """
 
-import asyncio
 import time
 import logging
 import statistics
-from typing import Any, Dict, List, Optional, Tuple, Union
+from typing import Any, Dict, List, Optional
 from dataclasses import dataclass, field
 from enum import Enum
-from datetime import datetime, timezone
 
 from .types import ConsciousnessState
-from ..cognitive_core.reasoning.deep_inference_engine import InferenceResult, InferenceChain
+from ..cognitive_core.reasoning.deep_inference_engine import InferenceResult
 
 logger = logging.getLogger(__name__)
 

@@ -24,7 +24,6 @@ import pytest
 from pathlib import Path
 from typing import Dict, Any, List, Set, Optional
 from dataclasses import dataclass
-import jsonschema
 from jsonschema.validators import Draft202012Validator
 
 logger = logging.getLogger(__name__)

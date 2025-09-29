@@ -17,22 +17,19 @@ Constellation Framework: Oracle Star (🔮) - Deep introspection and analysis
 """
 
 from __future__ import annotations
-import asyncio
 import time
 import logging
 import statistics
-from typing import Dict, Any, Optional, List, Union, Tuple
-from dataclasses import dataclass, field, asdict
-from datetime import datetime, timezone
+from typing import Dict, Any, Optional, List
+from dataclasses import dataclass, asdict
 import uuid
 
 from opentelemetry import trace
-from prometheus_client import Counter, Histogram, Gauge, Summary
+from prometheus_client import Counter, Histogram, Gauge
 
 # Import LUKHAS types
 from .types import (
-    ConsciousnessState, ReflectionReport, AwarenessSnapshot,
-    AnomalySeverity, DEFAULT_REFLECTION_CONFIG
+    ConsciousnessState, ReflectionReport, AwarenessSnapshot
 )
 
 # Import memory and observability systems

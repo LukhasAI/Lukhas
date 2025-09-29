@@ -1,6 +1,6 @@
 # tests/obs/test_spans_smoke.py
 import contextlib
-from candidate.core.orchestration.otel import stage_span
+from lukhas.core.orchestration.otel import stage_span
 
 def test_span_noop_ok():
     # Works even if opentelemetry is not installed

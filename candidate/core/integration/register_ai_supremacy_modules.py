@@ -122,7 +122,7 @@ async def initialize_agi_supremacy_modules() -> dict[str, Any]:
 
     # 4. Breakthrough Detector V2
     try:
-        from candidate.core.consciousness.innovation.breakthrough_detector_v2 import (
+        from lukhas.core.consciousness.innovation.breakthrough_detector_v2 import (
             BreakthroughDetectorV2,
         )
 
@@ -151,7 +151,7 @@ async def initialize_agi_supremacy_modules() -> dict[str, Any]:
 
     # 5. Autonomous Innovation Orchestrator
     try:
-        from candidate.core.integration.innovation_orchestrator.autonomous_innovation_orchestrator import (
+        from lukhas.core.integration.innovation_orchestrator.autonomous_innovation_orchestrator import (
             AutonomousInnovationOrchestrator,
         )
 

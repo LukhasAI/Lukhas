@@ -576,10 +576,10 @@ All old imports will continue working until **2025-11-01** via compatibility shi
 Example shim usage:
 ```python
 # Old import (will show deprecation warning)
-from lukhas.accepted.bio.core import BioEngine
+from lukhas.bio.core import BioEngine
 
 # New import (recommended)
-from lukhas.accepted.bio import BioEngine
+from lukhas.bio import BioEngine
 ```
 
 ## Feature Flags

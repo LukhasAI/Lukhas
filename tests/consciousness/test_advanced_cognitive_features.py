@@ -24,27 +24,17 @@ import time
 import pytest
 import logging
 import numpy as np
-from typing import Dict, Any, List, Optional
-from unittest.mock import Mock, AsyncMock, patch
-from dataclasses import dataclass
 
 from lukhas.cognitive_core.reasoning.deep_inference_engine import (
     DeepInferenceEngine, InferenceRequest, InferenceResult, InferenceType
 )
 from lukhas.cognitive_core.reasoning.contradiction_integrator import (
-    ContradictionIntegrator, ContradictionDetectionResult
-)
-from lukhas.consciousness.enhanced_thought_engine import (
-    EnhancedThoughtEngine, ThoughtSynthesisRequest, ThoughtSynthesisResult
+    ContradictionIntegrator
 )
 from lukhas.consciousness.meta_cognitive_assessor import (
-    MetaCognitiveAssessor, MetaCognitiveContext, MetaCognitiveAssessment,
-    CognitiveLoadLevel, MetaCognitiveInsight
+    MetaCognitiveAssessor, MetaCognitiveContext, CognitiveLoadLevel
 )
-from lukhas.consciousness.enhanced_awareness_engine import (
-    EnhancedAwarenessEngine, EnhancedAwarenessSnapshot
-)
-from lukhas.consciousness.types import ConsciousnessState, AwarenessSnapshot
+from lukhas.consciousness.types import ConsciousnessState
 
 # Test configuration
 pytestmark = pytest.mark.asyncio

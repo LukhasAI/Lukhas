@@ -5,7 +5,7 @@ Candidate → Lukhas promotion helper (safe, auditable).
 
 Features:
 - Copy a module or package from `candidate/` into `lukhas/` preserving layout
-- Rewrite intra-repo imports: `from candidate.` → `from lukhas.`
+- Rewrite intra-repo imports: `from lukhas.` → `from lukhas.`
 - Optional shim module to preserve legacy imports during transition
 - Dry-run mode and human-readable report
 

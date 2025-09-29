@@ -107,7 +107,7 @@ try:
 
     CONSCIOUSNESS_AVAILABLE = True
     logger.info(
-        "ΛTRACE: ElevatedConsciousnessModule imported successfully from candidate.core.consciousness.lukhasElevatedConsciousnessModule."
+        "ΛTRACE: ElevatedConsciousnessModule imported successfully from lukhas.core.consciousness.lukhasElevatedConsciousnessModule."
     )
 except ImportError as e_con:
     logger.warning(

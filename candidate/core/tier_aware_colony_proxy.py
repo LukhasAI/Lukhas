@@ -39,7 +39,7 @@ from typing import Any, Callable, Optional, Union
 
 # Import quantum identity components
 try:
-    from candidate.core.identity_aware_base_colony import (
+    from lukhas.core.identity_aware_base_colony import (
         IdentityValidationError,
         QISecurityError,
         TierAccessDeniedError,
@@ -58,7 +58,7 @@ except ImportError:
 
 # Import base colony infrastructure
 try:
-    from candidate.core.colonies.base_colony import BaseColony
+    from lukhas.core.colonies.base_colony import BaseColony
 
     BASE_COLONY_AVAILABLE = True
 except ImportError:

@@ -13,7 +13,7 @@ import sys
 import subprocess
 import tempfile
 from pathlib import Path
-from typing import Dict, List, Any, Tuple
+from typing import Dict, Any, Tuple
 import argparse
 
 

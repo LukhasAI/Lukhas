@@ -14,9 +14,9 @@ from unittest.mock import Mock, patch
 
 import pytest
 
-from candidate.aka_qualia.glyphs import GLYPH_KEYS, map_scene_to_glyphs
-from candidate.aka_qualia.models import AgencyFeel, PhenomenalScene, ProtoQualia, RiskGauge, RiskSeverity, TemporalFeel
-from candidate.aka_qualia.router_client import (
+from lukhas.aka_qualia.glyphs import GLYPH_KEYS, map_scene_to_glyphs
+from lukhas.aka_qualia.models import AgencyFeel, PhenomenalScene, ProtoQualia, RiskGauge, RiskSeverity, TemporalFeel
+from lukhas.aka_qualia.router_client import (
     MockRouterClient,
     SymbolicMeshRouterClient,
     compute_routing_priority,

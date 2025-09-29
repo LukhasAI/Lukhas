@@ -10,10 +10,9 @@ DoD: This test passes green → no unauthorized importlib usage detected
 """
 
 import ast
-import os
 import sys
 from pathlib import Path
-from typing import List, Set, Tuple
+from typing import List, Tuple
 
 import pytest
 

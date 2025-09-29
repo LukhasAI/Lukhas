@@ -49,9 +49,9 @@
 import json
 from datetime import datetime, timezone
 
-from candidate.core.bio_systems.stability_anchor import StabilityAnchor
-from candidate.core.bio_systems.stress_signal import StressSignal
-from candidate.core.bio_systems.symbolic_entropy import entropy_state_snapshot
+from lukhas.core.bio_systems.stability_anchor import StabilityAnchor
+from lukhas.core.bio_systems.stress_signal import StressSignal
+from lukhas.core.bio_systems.symbolic_entropy import entropy_state_snapshot
 
 
 # LUKHAS_TAG: hormonal_feedback

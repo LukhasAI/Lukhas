@@ -10,15 +10,13 @@ Constellation Framework: Flow Star (🌊)
 
 from __future__ import annotations
 import time
-import asyncio
 from typing import Dict, Any, Optional, List
 from opentelemetry import trace
 from prometheus_client import Counter, Histogram, Gauge
 import math
 
 from .types import (
-    ConsciousnessState, AwarenessSnapshot, AnomalySeverity,
-    DEFAULT_AWARENESS_CONFIG
+    ConsciousnessState, AwarenessSnapshot, DEFAULT_AWARENESS_CONFIG
 )
 
 tracer = trace.get_tracer(__name__)

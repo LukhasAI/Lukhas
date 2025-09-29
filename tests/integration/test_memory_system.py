@@ -10,14 +10,12 @@ Tests race conditions, concurrent access, and system-wide memory behavior.
 
 import pytest
 import asyncio
-import threading
 import tempfile
 import time
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime, timedelta
-from typing import List, Dict, Any, Optional
+from typing import List, Dict
 from pathlib import Path
-from uuid import uuid4
 
 try:
     from lukhas.memory.adaptive_memory import (

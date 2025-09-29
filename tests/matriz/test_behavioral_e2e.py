@@ -10,8 +10,8 @@ import asyncio
 import pytest
 
 from lukhas.core.registry import register
-from candidate.core.orchestration.async_orchestrator import AsyncOrchestrator
-from candidate.nodes.example_nodes import IntentNode, ThoughtNode, ActionNode, VisionNode, DecisionNode
+from lukhas.core.orchestration.async_orchestrator import AsyncOrchestrator
+from lukhas.nodes.example_nodes import IntentNode, ThoughtNode, ActionNode, VisionNode, DecisionNode
 
 
 @pytest.fixture
@@ -224,7 +224,7 @@ async def test_cognitive_loop_memory_integration(full_orchestrator, register_ful
 async def test_cognitive_loop_error_recovery(full_orchestrator, register_full_cognitive_nodes):
     """Test cognitive loop error handling and recovery."""
     # Register a failing node temporarily
-    from candidate.nodes.example_nodes import ErrorNode
+    from lukhas.nodes.example_nodes import ErrorNode
     register("node:error_test", ErrorNode())
 
     # Configure pipeline with error node

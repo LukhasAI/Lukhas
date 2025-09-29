@@ -45,7 +45,7 @@ except ImportError:
     HealthStatus = None
 
 try:
-    from candidate.governance.guardian.monitoring_dashboard import (
+    from lukhas.governance.guardian.monitoring_dashboard import (
         AlertSeverity,
         GuardianMonitoringDashboard,
         MonitoringScope,
@@ -56,7 +56,7 @@ except ImportError:
     AlertSeverity = None
 
 try:
-    from candidate.consciousness.awareness.awareness_monitoring_system import (
+    from lukhas.consciousness.awareness.awareness_monitoring_system import (
         AwarenessLevel,
         AwarenessMonitoringSystem,
     )

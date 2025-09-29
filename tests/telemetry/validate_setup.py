@@ -7,7 +7,6 @@ correctly before running the full test suite.
 """
 
 import sys
-import os
 from pathlib import Path
 
 # Add project root to Python path

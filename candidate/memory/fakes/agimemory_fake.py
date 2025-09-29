@@ -1,7 +1,7 @@
 from typing import Any, Optional
 
-from candidate.memory.contracts import AGIMemoryProtocol
-from candidate.memory.folds.fold_engine import MemoryFold, MemoryPriority, MemoryType
+from lukhas.memory.contracts import AGIMemoryProtocol
+from lukhas.memory.folds.fold_engine import MemoryFold, MemoryPriority, MemoryType
 
 
 class AGIMemoryFake(AGIMemoryProtocol):

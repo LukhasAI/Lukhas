@@ -21,10 +21,10 @@ from unittest.mock import Mock
 import pytest
 from sqlalchemy import create_engine
 
-from candidate.aka_qualia.core import AkaQualia
-from candidate.aka_qualia.memory_noop import NoopMemory
-from candidate.aka_qualia.memory_sql import SqlMemory
-from candidate.aka_qualia.models import (
+from lukhas.aka_qualia.core import AkaQualia
+from lukhas.aka_qualia.memory_noop import NoopMemory
+from lukhas.aka_qualia.memory_sql import SqlMemory
+from lukhas.aka_qualia.models import (
     AgencyFeel,
     PhenomenalGlyph,
     PhenomenalScene,
@@ -211,7 +211,7 @@ def test_policy():
 @pytest.fixture
 def test_metrics():
     """Standard metrics for testing"""
-    from candidate.aka_qualia.models import Metrics
+    from lukhas.aka_qualia.models import Metrics
 
     return Metrics(
         drift_phi=0.95,

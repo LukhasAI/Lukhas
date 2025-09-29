@@ -14,7 +14,7 @@ import pytest
 project_root = Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(project_root))
 
-from candidate.core.identity.matriz_consciousness_identity_signals import (
+from lukhas.core.identity.matriz_consciousness_identity_signals import (
     ConsciousnessIdentitySignalProcessor,
     CorrelationMatrix,
     IdentitySignalType,
@@ -39,7 +39,6 @@ class MockConsciousnessSignal:
     bio_symbolic_data: MockBioSymbolicData = field(default_factory=MockBioSymbolicData)
 
 # Patch the ConsciousnessSignal in the module with our mock
-import candidate.core.identity.matriz_consciousness_identity_signals
 
 candidate.core.identity.matriz_consciousness_identity_signals.ConsciousnessSignal = MockConsciousnessSignal
 

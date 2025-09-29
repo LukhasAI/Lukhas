@@ -85,7 +85,7 @@ from typing import Any, Optional
 
 import numpy as np
 
-from candidate.core.common import get_logger
+from lukhas.core.common import get_logger
 
 # Initialize logger for consciousness tracing
 logger = logging.getLogger("ΛTRACE.consciousness.engine", timezone)

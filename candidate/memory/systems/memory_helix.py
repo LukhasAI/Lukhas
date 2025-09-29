@@ -91,7 +91,7 @@ import re
 from datetime import datetime
 from typing import Any, Optional
 
-from candidate.core.common import get_logger
+from lukhas.core.common import get_logger
 
 # Configure logging
 logger = get_logger(__name__)

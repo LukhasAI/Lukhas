@@ -121,7 +121,7 @@ def match_message_to_context(message, user_context):
 ──────────────────────────────────────────────────────────────────────────────────────
 EXECUTION:
     - Import via:
-        from candidate.core.modules.nias.symbolic_matcher import match_message_to_context
+        from lukhas.core.modules.nias.symbolic_matcher import match_message_to_context
 
 USED BY:
     - nias_core.py

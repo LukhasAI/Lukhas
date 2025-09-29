@@ -7,8 +7,8 @@ from datetime import datetime, timedelta, timezone
 
 import pytest
 
-from candidate.memory.fakes.agimemory_fake import AGIMemoryFake
-from candidate.memory.folds.fold_engine import MemoryFold, MemoryPriority, MemoryType
+from lukhas.memory.fakes.agimemory_fake import AGIMemoryFake
+from lukhas.memory.folds.fold_engine import MemoryFold, MemoryPriority, MemoryType
 
 
 @pytest.mark.tier1

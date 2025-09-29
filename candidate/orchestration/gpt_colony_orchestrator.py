@@ -14,14 +14,14 @@ from dataclasses import dataclass, field
 from enum import Enum
 from typing import Any, Optional
 
-from candidate.core.colonies.consensus_mechanisms import ColonyConsensus
+from lukhas.core.colonies.consensus_mechanisms import ColonyConsensus
 
 # Import our components
-from candidate.core.colonies.enhanced_colony import (
+from lukhas.core.colonies.enhanced_colony import (
     ConsensusResult,
     EnhancedReasoningColony,
 )
-from candidate.orchestration.signals.signal_bus import Signal, SignalBus, SignalType
+from lukhas.orchestration.signals.signal_bus import Signal, SignalBus, SignalType
 from lukhas.consciousness.reflection.openai_modulated_service import (
     OpenAICapability,
     OpenAIModulatedService,

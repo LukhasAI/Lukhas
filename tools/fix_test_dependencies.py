@@ -135,7 +135,7 @@ def fix_import_paths():
         if "from memory_noop import NoopMemory" in content:
             print("📝 Fixing memory_noop import in test_c5_observability.py...")
             content = content.replace(
-                "from memory_noop import NoopMemory", "from candidate.aka_qualia.memory_noop import NoopMemory"
+                "from memory_noop import NoopMemory", "from lukhas.aka_qualia.memory_noop import NoopMemory"
             )
             obs_test_file.write_text(content)
             print("✅ Fixed memory_noop import")

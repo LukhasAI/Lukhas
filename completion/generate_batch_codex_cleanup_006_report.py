@@ -382,7 +382,7 @@ TODO_ITEMS: tuple[TodoEntry, ...] = (
         category="blocked",
         status="Model import unresolved",
         notes=(
-            "Text delta event continues to import BaseModel from candidate.core.models without validation."
+            "Text delta event continues to import BaseModel from lukhas.core.models without validation."
         ),
     ),
     TodoEntry(

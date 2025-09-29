@@ -60,7 +60,7 @@ try:
         ExplainabilityInterfaceLayer,
     )
 
-    from candidate.orchestration.human_in_the_loop_orchestrator import (
+    from lukhas.orchestration.human_in_the_loop_orchestrator import (
         HumanInTheLoopOrchestrator,
     )
     from dream.hyperspace_dream_simulator import HyperspaceDreamSimulator
@@ -80,7 +80,7 @@ except ImportError as e:
 
 # Import core Lukhas systems
 try:
-    from candidate.core.integration.dynamic_modality_broker import DynamicModalityBroker
+    from lukhas.core.integration.dynamic_modality_broker import DynamicModalityBroker
     from ethics.meta_ethics_governor import MetaEthicsGovernor
     from ethics.self_reflective_debugger import SelfReflectiveDebugger
     from lukhas.memory.emotional import EmotionalMemory

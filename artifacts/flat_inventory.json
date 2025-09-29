@@ -1,0 +1,695 @@
+{
+  "modules": {
+    "branding": [
+      "Lukhas/branding",
+      "candidate/branding"
+    ],
+    "cognitive_core": [
+      "Lukhas/cognitive_core"
+    ],
+    "ledger": [
+      "Lukhas/ledger"
+    ],
+    "tools": [
+      "Lukhas/tools",
+      "candidate/tools"
+    ],
+    "bio": [
+      "Lukhas/bio",
+      "candidate/bio",
+      "Lukhas/accepted/bio"
+    ],
+    "trace": [
+      "Lukhas/trace"
+    ],
+    "core": [
+      "Lukhas/core",
+      "candidate/core"
+    ],
+    "trinity": [
+      "Lukhas/trinity"
+    ],
+    "memory": [
+      "Lukhas/memory",
+      "candidate/memory"
+    ],
+    "identity": [
+      "Lukhas/identity",
+      "candidate/identity"
+    ],
+    "security": [
+      "Lukhas/security"
+    ],
+    "constellation": [
+      "Lukhas/constellation"
+    ],
+    "bridge": [
+      "Lukhas/bridge",
+      "candidate/bridge"
+    ],
+    "consciousness": [
+      "Lukhas/consciousness",
+      "candidate/consciousness"
+    ],
+    "agents": [
+      "Lukhas/agents"
+    ],
+    "utils": [
+      "Lukhas/utils",
+      "candidate/utils"
+    ],
+    "accepted": [
+      "Lukhas/accepted"
+    ],
+    "matriz": [
+      "Lukhas/matriz"
+    ],
+    "observability": [
+      "Lukhas/observability"
+    ],
+    "qi": [
+      "Lukhas/qi",
+      "candidate/qi"
+    ],
+    "shims": [
+      "Lukhas/shims"
+    ],
+    "vivox": [
+      "Lukhas/vivox",
+      "candidate/vivox"
+    ],
+    "deployment": [
+      "Lukhas/deployment"
+    ],
+    "orchestration": [
+      "Lukhas/orchestration",
+      "candidate/orchestration"
+    ],
+    "governance": [
+      "Lukhas/governance",
+      "candidate/governance"
+    ],
+    "api": [
+      "Lukhas/api",
+      "candidate/api"
+    ],
+    "rl": [
+      "Lukhas/rl"
+    ],
+    "emotion": [
+      "Lukhas/emotion",
+      "candidate/emotion"
+    ],
+    "interfaces": [
+      "Lukhas/interfaces"
+    ],
+    "modulation": [
+      "candidate/modulation"
+    ],
+    "quantum_bio_consciousness": [
+      "candidate/quantum_bio_consciousness"
+    ],
+    "colonies": [
+      "candidate/colonies"
+    ],
+    "flags": [
+      "candidate/flags"
+    ],
+    "nodes": [
+      "candidate/nodes"
+    ],
+    "nias": [
+      "candidate/nias"
+    ],
+    "colony": [
+      "candidate/colony"
+    ],
+    "compliance": [
+      "candidate/compliance"
+    ],
+    "feedback": [
+      "candidate/feedback"
+    ],
+    "adapters": [
+      "candidate/adapters"
+    ],
+    "audit": [
+      "candidate/audit"
+    ],
+    "voice": [
+      "candidate/voice"
+    ],
+    "dna": [
+      "candidate/dna"
+    ],
+    "migration": [
+      "candidate/migration"
+    ],
+    "dream": [
+      "candidate/dream"
+    ],
+    "orchestrator": [
+      "candidate/orchestrator"
+    ],
+    "openai": [
+      "candidate/openai"
+    ],
+    "aka_qualia": [
+      "candidate/aka_qualia"
+    ]
+  },
+  "contracts": [
+    {
+      "module": "memoria",
+      "path": "memory/matrix_memoria.json"
+    },
+    {
+      "module": "core_bridge",
+      "path": "contracts/matrix_core_bridge.json"
+    },
+    {
+      "module": "bridge",
+      "path": "contracts/matrix_bridge.json"
+    },
+    {
+      "module": "rl_engine",
+      "path": "contracts/matrix_rl_engine.json"
+    },
+    {
+      "module": "rl",
+      "path": "contracts/matrix_rl.json"
+    },
+    {
+      "module": "vivox",
+      "path": "contracts/matrix_vivox.json"
+    },
+    {
+      "module": "core_policy",
+      "path": "contracts/matrix_core_policy.json"
+    },
+    {
+      "module": "identity_wallet",
+      "path": "contracts/matrix_identity_wallet.json"
+    },
+    {
+      "module": "governance",
+      "path": "contracts/matrix_governance.json"
+    },
+    {
+      "module": "bio",
+      "path": "contracts/matrix_bio.json"
+    },
+    {
+      "module": "branding",
+      "path": "contracts/matrix_branding.json"
+    },
+    {
+      "module": "accepted",
+      "path": "contracts/matrix_accepted.json"
+    },
+    {
+      "module": "core_filesystem",
+      "path": "contracts/matrix_core_filesystem.json"
+    },
+    {
+      "module": "governance_guardian",
+      "path": "contracts/matrix_governance_guardian.json"
+    },
+    {
+      "module": "core",
+      "path": "contracts/matrix_core.json"
+    },
+    {
+      "module": "constellation_triad",
+      "path": "contracts/matrix_constellation_triad.json"
+    },
+    {
+      "module": "bridge_llm_wrappers",
+      "path": "contracts/matrix_bridge_llm_wrappers.json"
+    },
+    {
+      "module": "bio_core",
+      "path": "contracts/matrix_bio_core.json"
+    },
+    {
+      "module": "governance_identity_auth_backend",
+      "path": "contracts/matrix_governance_identity_auth_backend.json"
+    },
+    {
+      "module": "identity_passkey_providers",
+      "path": "contracts/matrix_identity_passkey_providers.json"
+    },
+    {
+      "module": "core_common",
+      "path": "contracts/matrix_core_common.json"
+    },
+    {
+      "module": "core_colonies",
+      "path": "contracts/matrix_core_colonies.json"
+    },
+    {
+      "module": "memory",
+      "path": "contracts/matrix_memory.json"
+    },
+    {
+      "module": "root",
+      "path": "contracts/matrix_root.json"
+    },
+    {
+      "module": "observability",
+      "path": "contracts/matrix_observability.json"
+    },
+    {
+      "module": "matriz",
+      "path": "contracts/matrix_matriz.json"
+    },
+    {
+      "module": "core_matriz",
+      "path": "contracts/matrix_core_matriz.json"
+    },
+    {
+      "module": "orchestration",
+      "path": "contracts/matrix_orchestration.json"
+    },
+    {
+      "module": "identity_oidc",
+      "path": "contracts/matrix_identity_oidc.json"
+    },
+    {
+      "module": "security",
+      "path": "contracts/matrix_security.json"
+    },
+    {
+      "module": "governance_identity",
+      "path": "contracts/matrix_governance_identity.json"
+    },
+    {
+      "module": "identity_passkey",
+      "path": "contracts/matrix_identity_passkey.json"
+    },
+    {
+      "module": "agents",
+      "path": "contracts/matrix_agents.json"
+    },
+    {
+      "module": "rl_experience",
+      "path": "contracts/matrix_rl_experience.json"
+    },
+    {
+      "module": "core_symbolism",
+      "path": "contracts/matrix_core_symbolism.json"
+    },
+    {
+      "module": "identity_auth",
+      "path": "contracts/matrix_identity_auth.json"
+    },
+    {
+      "module": "accepted_bio",
+      "path": "contracts/matrix_accepted_bio.json"
+    },
+    {
+      "module": "core_symbolic_constraints",
+      "path": "contracts/matrix_core_symbolic_constraints.json"
+    },
+    {
+      "module": "core_reliability",
+      "path": "contracts/matrix_core_reliability.json"
+    },
+    {
+      "module": "memory_backends",
+      "path": "contracts/matrix_memory_backends.json"
+    },
+    {
+      "module": "governance_consent_ledger",
+      "path": "contracts/matrix_governance_consent_ledger.json"
+    },
+    {
+      "module": "rl_environments",
+      "path": "contracts/matrix_rl_environments.json"
+    },
+    {
+      "module": "governance_consent_ledger_providers",
+      "path": "contracts/matrix_governance_consent_ledger_providers.json"
+    },
+    {
+      "module": "core_symbolic",
+      "path": "contracts/matrix_core_symbolic.json"
+    },
+    {
+      "module": "governance_security",
+      "path": "contracts/matrix_governance_security.json"
+    },
+    {
+      "module": "identity",
+      "path": "contracts/matrix_identity.json"
+    },
+    {
+      "module": "governance_ethics",
+      "path": "contracts/matrix_governance_ethics.json"
+    },
+    {
+      "module": "emotion",
+      "path": "contracts/matrix_emotion.json"
+    },
+    {
+      "module": "trinity",
+      "path": "contracts/matrix_trinity.json"
+    },
+    {
+      "module": "orchestration_providers",
+      "path": "contracts/matrix_orchestration_providers.json"
+    },
+    {
+      "module": "rl_coordination",
+      "path": "contracts/matrix_rl_coordination.json"
+    },
+    {
+      "module": "tools",
+      "path": "contracts/matrix_tools.json"
+    },
+    {
+      "module": "matriz_runtime",
+      "path": "contracts/matrix_matriz_runtime.json"
+    },
+    {
+      "module": "identity_qrg",
+      "path": "contracts/matrix_identity_qrg.json"
+    },
+    {
+      "module": "identity_services",
+      "path": "contracts/matrix_identity_services.json"
+    },
+    {
+      "module": "orchestration_context",
+      "path": "contracts/matrix_orchestration_context.json"
+    },
+    {
+      "module": "identity_facades",
+      "path": "contracts/matrix_identity_facades.json"
+    },
+    {
+      "module": "memory_emotional",
+      "path": "contracts/matrix_memory_emotional.json"
+    },
+    {
+      "module": "deployment",
+      "path": "contracts/matrix_deployment.json"
+    },
+    {
+      "module": "trace",
+      "path": "contracts/matrix_trace.json"
+    },
+    {
+      "module": "ledger",
+      "path": "contracts/matrix_ledger.json"
+    },
+    {
+      "module": "qi",
+      "path": "contracts/matrix_qi.json"
+    },
+    {
+      "module": "constellation",
+      "path": "contracts/matrix_constellation.json"
+    },
+    {
+      "module": "core_registry",
+      "path": "contracts/matrix_core_registry.json"
+    },
+    {
+      "module": "consciousness",
+      "path": "contracts/matrix_consciousness.json"
+    },
+    {
+      "module": "api",
+      "path": "contracts/matrix_api.json"
+    },
+    {
+      "module": "tracks.status",
+      "path": "docs/matrix_tracks.status.json"
+    },
+    {
+      "module": "root",
+      "path": "lukhas/matrix_root.json"
+    },
+    {
+      "module": "branding",
+      "path": "lukhas/branding/matrix_branding.json"
+    },
+    {
+      "module": "ledger",
+      "path": "lukhas/ledger/matrix_ledger.json"
+    },
+    {
+      "module": "tools",
+      "path": "lukhas/tools/matrix_tools.json"
+    },
+    {
+      "module": "bio",
+      "path": "lukhas/bio/matrix_bio.json"
+    },
+    {
+      "module": "core",
+      "path": "lukhas/bio/core/matrix_core.json"
+    },
+    {
+      "module": "trace",
+      "path": "lukhas/trace/matrix_trace.json"
+    },
+    {
+      "module": "core",
+      "path": "lukhas/core/matrix_core.json"
+    },
+    {
+      "module": "colonies",
+      "path": "lukhas/core/colonies/matrix_colonies.json"
+    },
+    {
+      "module": "bridge",
+      "path": "lukhas/core/bridge/matrix_bridge.json"
+    },
+    {
+      "module": "filesystem",
+      "path": "lukhas/core/filesystem/matrix_filesystem.json"
+    },
+    {
+      "module": "matriz",
+      "path": "lukhas/core/matriz/matrix_matriz.json"
+    },
+    {
+      "module": "common",
+      "path": "lukhas/core/common/matrix_common.json"
+    },
+    {
+      "module": "reliability",
+      "path": "lukhas/core/reliability/matrix_reliability.json"
+    },
+    {
+      "module": "symbolism",
+      "path": "lukhas/core/symbolism/matrix_symbolism.json"
+    },
+    {
+      "module": "registry",
+      "path": "lukhas/core/registry/matrix_registry.json"
+    },
+    {
+      "module": "symbolic",
+      "path": "lukhas/core/symbolic/matrix_symbolic.json"
+    },
+    {
+      "module": "constraints",
+      "path": "lukhas/core/symbolic/constraints/matrix_constraints.json"
+    },
+    {
+      "module": "policy",
+      "path": "lukhas/core/policy/matrix_policy.json"
+    },
+    {
+      "module": "trinity",
+      "path": "lukhas/trinity/matrix_trinity.json"
+    },
+    {
+      "module": "memory",
+      "path": "lukhas/memory/matrix_memory.json"
+    },
+    {
+      "module": "backends",
+      "path": "lukhas/memory/backends/matrix_backends.json"
+    },
+    {
+      "module": "emotional",
+      "path": "lukhas/memory/emotional/matrix_emotional.json"
+    },
+    {
+      "module": "identity",
+      "path": "lukhas/identity/matrix_identity.json"
+    },
+    {
+      "module": "passkey",
+      "path": "lukhas/identity/passkey/matrix_passkey.json"
+    },
+    {
+      "module": "providers",
+      "path": "lukhas/identity/passkey/providers/matrix_providers.json"
+    },
+    {
+      "module": "auth",
+      "path": "lukhas/identity/auth/matrix_auth.json"
+    },
+    {
+      "module": "oidc",
+      "path": "lukhas/identity/oidc/matrix_oidc.json"
+    },
+    {
+      "module": "facades",
+      "path": "lukhas/identity/facades/matrix_facades.json"
+    },
+    {
+      "module": "wallet",
+      "path": "lukhas/identity/wallet/matrix_wallet.json"
+    },
+    {
+      "module": "services",
+      "path": "lukhas/identity/services/matrix_services.json"
+    },
+    {
+      "module": "qrg",
+      "path": "lukhas/identity/qrg/matrix_qrg.json"
+    },
+    {
+      "module": "security",
+      "path": "lukhas/security/matrix_security.json"
+    },
+    {
+      "module": "constellation",
+      "path": "lukhas/constellation/matrix_constellation.json"
+    },
+    {
+      "module": "triad",
+      "path": "lukhas/constellation/triad/matrix_triad.json"
+    },
+    {
+      "module": "bridge",
+      "path": "lukhas/bridge/matrix_bridge.json"
+    },
+    {
+      "module": "llm_wrappers",
+      "path": "lukhas/bridge/llm_wrappers/matrix_llm_wrappers.json"
+    },
+    {
+      "module": "consciousness",
+      "path": "lukhas/consciousness/matrix_consciousness.json"
+    },
+    {
+      "module": "agents",
+      "path": "lukhas/agents/matrix_agents.json"
+    },
+    {
+      "module": "accepted",
+      "path": "lukhas/accepted/matrix_accepted.json"
+    },
+    {
+      "module": "bio",
+      "path": "lukhas/accepted/bio/matrix_bio.json"
+    },
+    {
+      "module": "matriz",
+      "path": "lukhas/matriz/matrix_matriz.json"
+    },
+    {
+      "module": "runtime",
+      "path": "lukhas/matriz/runtime/matrix_runtime.json"
+    },
+    {
+      "module": "observability",
+      "path": "lukhas/observability/matrix_observability.json"
+    },
+    {
+      "module": "qi",
+      "path": "lukhas/qi/matrix_qi.json"
+    },
+    {
+      "module": "vivox",
+      "path": "lukhas/vivox/matrix_vivox.json"
+    },
+    {
+      "module": "deployment",
+      "path": "lukhas/deployment/matrix_deployment.json"
+    },
+    {
+      "module": "orchestration",
+      "path": "lukhas/orchestration/matrix_orchestration.json"
+    },
+    {
+      "module": "context",
+      "path": "lukhas/orchestration/context/matrix_context.json"
+    },
+    {
+      "module": "providers",
+      "path": "lukhas/orchestration/providers/matrix_providers.json"
+    },
+    {
+      "module": "governance",
+      "path": "lukhas/governance/matrix_governance.json"
+    },
+    {
+      "module": "identity",
+      "path": "lukhas/governance/identity/matrix_identity.json"
+    },
+    {
+      "module": "auth_backend",
+      "path": "lukhas/governance/identity/auth_backend/matrix_auth_backend.json"
+    },
+    {
+      "module": "security",
+      "path": "lukhas/governance/security/matrix_security.json"
+    },
+    {
+      "module": "ethics",
+      "path": "lukhas/governance/ethics/matrix_ethics.json"
+    },
+    {
+      "module": "consent_ledger",
+      "path": "lukhas/governance/consent_ledger/matrix_consent_ledger.json"
+    },
+    {
+      "module": "providers",
+      "path": "lukhas/governance/consent_ledger/providers/matrix_providers.json"
+    },
+    {
+      "module": "guardian",
+      "path": "lukhas/governance/guardian/matrix_guardian.json"
+    },
+    {
+      "module": "api",
+      "path": "lukhas/api/matrix_api.json"
+    },
+    {
+      "module": "rl",
+      "path": "lukhas/rl/matrix_rl.json"
+    },
+    {
+      "module": "experience",
+      "path": "lukhas/rl/experience/matrix_experience.json"
+    },
+    {
+      "module": "coordination",
+      "path": "lukhas/rl/coordination/matrix_coordination.json"
+    },
+    {
+      "module": "environments",
+      "path": "lukhas/rl/environments/matrix_environments.json"
+    },
+    {
+      "module": "engine",
+      "path": "lukhas/rl/engine/matrix_engine.json"
+    },
+    {
+      "module": "emotion",
+      "path": "lukhas/emotion/matrix_emotion.json"
+    },
+    {
+      "module": "tracks_slo_report_20250926_121703",
+      "path": "reports/slo/matrix_tracks_slo_report_20250926_121703.json"
+    }
+  ]
+}

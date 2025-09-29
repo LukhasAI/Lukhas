@@ -10,7 +10,7 @@ from typing import Optional
 import aiohttp
 
 # Import base framework
-from candidate.bridge.adapters.service_adapter_base import (
+from lukhas.bridge.adapters.service_adapter_base import (
     BaseServiceAdapter,
     CapabilityToken,
     DryRunPlanner,

@@ -10,9 +10,8 @@ import sys
 import subprocess
 import datetime
 import re
-import hashlib
 from pathlib import Path
-from typing import Dict, List, Any, Optional, Set
+from typing import Dict, List, Any, Optional
 import argparse
 from dataclasses import dataclass, asdict
 

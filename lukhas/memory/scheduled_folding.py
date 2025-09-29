@@ -11,16 +11,14 @@ Features:
 - Integration with adaptive memory system
 """
 
-import asyncio
 import hashlib
 import json
 import threading
-import time
 import zlib
-from collections import OrderedDict, defaultdict
+from collections import OrderedDict
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta
-from typing import Any, Dict, List, Optional, Set, Tuple
+from typing import Any, Dict, List, Optional, Set
 from enum import Enum
 
 from .adaptive_memory import MemoryFold, MemoryItem, MemoryType

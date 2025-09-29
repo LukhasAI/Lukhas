@@ -22,11 +22,9 @@ import argparse
 import logging
 import re
 import sys
-import yaml
 from pathlib import Path
-from typing import Dict, List, Set, Tuple
+from typing import Dict, List, Tuple
 import requests
-import json
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)

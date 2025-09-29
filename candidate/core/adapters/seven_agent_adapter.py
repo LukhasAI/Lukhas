@@ -67,7 +67,7 @@ class LambdaIdentityServiceAdapter(IIdentityService):
         """Lazy load ΛID identity module"""
         if not self._initialized:
             try:
-                from candidate.core.identity.lambda_id_core import (
+                from lukhas.core.identity.lambda_id_core import (
                     IdentityNamespace,
                     LukhasIdentityService,
                     OIDCProvider,
@@ -330,9 +330,9 @@ class ExternalAdaptersServiceAdapter(IBridgeService):
         """Lazy load external adapters"""
         if not self._initialized:
             try:
-                from candidate.bridge.adapters.drive_adapter import GoogleDriveAdapter
-                from candidate.bridge.adapters.dropbox_adapter import DropboxAdapter
-                from candidate.bridge.adapters.gmail_adapter import GmailAdapter
+                from lukhas.bridge.adapters.drive_adapter import GoogleDriveAdapter
+                from lukhas.bridge.adapters.dropbox_adapter import DropboxAdapter
+                from lukhas.bridge.adapters.gmail_adapter import GmailAdapter
 
                 self._adapters["gmail"] = GmailAdapter()
                 self._adapters["drive"] = GoogleDriveAdapter()
@@ -470,7 +470,7 @@ class ContextBusEnhancedAdapter:
         """Lazy load enhanced context bus"""
         if not self._initialized:
             try:
-                from candidate.orchestration.context_bus_enhanced import (
+                from lukhas.orchestration.context_bus_enhanced import (
                     ContextBusEnhanced,
                     MessageRouter,
                     PipelineManager,
@@ -501,7 +501,7 @@ class ContextBusEnhancedAdapter:
 
 def register_seven_agent_services(container=None):
     """Register all 7-agent services with the service container"""
-    from candidate.core.container.service_container import get_container
+    from lukhas.core.container.service_container import get_container
 
     container = container or get_container()
 
@@ -530,7 +530,7 @@ def register_seven_agent_services(container=None):
 
 # Auto-register on import
 try:
-    from candidate.core.container.service_container import get_container
+    from lukhas.core.container.service_container import get_container
 
     register_seven_agent_services(get_container())
 except ImportError:

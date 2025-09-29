@@ -1,4 +1,4 @@
-import candidate.bridge.api.ai_interface as ai_interface
+import lukhas.bridge.api.ai_interface as ai_interface
 
 
 def test_global_ai_code_structured(monkeypatch):

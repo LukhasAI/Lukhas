@@ -49,23 +49,23 @@ from typing import Optional
 
 import numpy as np
 
-from candidate.core.common import get_logger
+from lukhas.core.common import get_logger
 
 # Lukhas core imports
 try:
-    from candidate.core.docututor.memory_evolution.bio_oscillator import (
+    from lukhas.core.docututor.memory_evolution.bio_oscillator import (
         BioOscillatorAdapter,
     )
-    from candidate.core.docututor.memory_evolution.document_analyzer import (
+    from lukhas.core.docututor.memory_evolution.document_analyzer import (
         DocumentStructureAnalyzer,
     )
-    from candidate.core.docututor.memory_evolution.knowledge_adaptation import (
+    from lukhas.core.docututor.memory_evolution.knowledge_adaptation import (
         KnowledgeAdaptation,
     )
-    from candidate.core.docututor.memory_evolution.usage_learning import (
+    from lukhas.core.docututor.memory_evolution.usage_learning import (
         UsageBasedLearning,
     )
-    from candidate.core.docututor.memory_evolution.version_control import (
+    from lukhas.core.docututor.memory_evolution.version_control import (
         DocumentVersionControl,
     )
 except ImportError as e:
@@ -125,7 +125,7 @@ except ImportError as e:
 
 # Voice synthesis adapter
 try:
-    from candidate.bridge.voice.systems.synthesis import (
+    from lukhas.bridge.voice.systems.synthesis import (
         AdaptiveVoiceSynthesis as VoiceSynthesisAdapter,
     )
 except ImportError:

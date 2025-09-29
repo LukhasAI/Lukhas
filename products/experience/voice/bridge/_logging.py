@@ -5,7 +5,7 @@ from __future__ import annotations
 import logging
 from typing import Optional
 
-from candidate.core.common.logger import get_logger
+from lukhas.core.common.logger import get_logger
 
 # ΛTAG: voice_logging_helper
 _BASE_ADAPTER = get_logger("products.experience.voice.bridge", module_name="products.voice.bridge")

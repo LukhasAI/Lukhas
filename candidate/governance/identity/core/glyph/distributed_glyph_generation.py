@@ -19,9 +19,9 @@ import numpy as np
 from PIL import Image
 
 # Import colony infrastructure
-from candidate.core.colonies.base_colony import BaseColony
-from candidate.core.enhanced_swarm import AgentState
-from candidate.core.enhanced_swarm import EnhancedSwarmAgent as SwarmAgent
+from lukhas.core.colonies.base_colony import BaseColony
+from lukhas.core.enhanced_swarm import AgentState
+from lukhas.core.enhanced_swarm import EnhancedSwarmAgent as SwarmAgent
 
 # Import identity components
 from governance.identity.core.events import IdentityEventType, get_identity_event_publisher

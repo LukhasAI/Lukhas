@@ -8,7 +8,7 @@ import asyncio
 import logging
 from typing import Optional
 
-from candidate.bridge.llm_wrappers.unified_openai_client import (
+from lukhas.bridge.llm_wrappers.unified_openai_client import (
     UnifiedOpenAIClient as GPTClient,
 )
 from integrations.openai.dalle_client import DALLEClient

@@ -10,14 +10,14 @@ Tests all branches, idempotency, cultural palette mapping, and loop camouflaging
 
 import pytest
 
-from candidate.aka_qualia.glyphs import (
+from lukhas.aka_qualia.glyphs import (
     GLYPH_KEYS,
     compute_glyph_priority,
     map_scene_to_glyphs,
     normalize_glyph_keys,
     validate_glyph_determinism,
 )
-from candidate.aka_qualia.models import (
+from lukhas.aka_qualia.models import (
     AgencyFeel,
     PhenomenalGlyph,
     PhenomenalScene,
@@ -26,7 +26,7 @@ from candidate.aka_qualia.models import (
     SeverityLevel,
     TemporalFeel,
 )
-from candidate.aka_qualia.palette import (
+from lukhas.aka_qualia.palette import (
     compute_palette_harmony,
     get_safe_palette_recommendation,
     map_colorfield,

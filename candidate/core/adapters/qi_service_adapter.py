@@ -87,7 +87,7 @@ class QIServiceAdapter(IQuantumService):
 
 def register_quantum_service(container) -> None:
     """Register quantum service with container"""
-    from candidate.core.interfaces.services import IQuantumService
+    from lukhas.core.interfaces.services import IQuantumService
 
     container.register(IQuantumService, QIServiceAdapter, ServiceLifetime.SINGLETON)
     logger.info("QIM Quantum Service registered ⚛️")

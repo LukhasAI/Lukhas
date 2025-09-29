@@ -16,9 +16,8 @@ import os
 import time
 import threading
 from collections import defaultdict, deque
-from dataclasses import dataclass, field
-from typing import Any, Dict, List, Optional, Union
-from datetime import datetime, timedelta
+from dataclasses import dataclass
+from typing import Any, Dict, Optional
 
 try:
     from prometheus_client import (

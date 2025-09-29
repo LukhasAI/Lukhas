@@ -13,15 +13,15 @@ from datetime import datetime, timezone
 from typing import Any, Optional
 
 try:
-    from candidate.core.bio_symbolic_swarm_hub import BioSymbolicSwarmHub
-    from candidate.core.cluster_sharding import ShardManager
-    from candidate.core.core_system import LukhasCore
-    from candidate.core.enhanced_swarm import EnhancedSwarmHub
+    from lukhas.core.bio_symbolic_swarm_hub import BioSymbolicSwarmHub
+    from lukhas.core.cluster_sharding import ShardManager
+    from lukhas.core.core_system import LukhasCore
+    from lukhas.core.enhanced_swarm import EnhancedSwarmHub
 
     # Agent 1 Task 2: Add event replay and snapshot system imports
-    from candidate.core.event_replay_snapshot import ActorStateSnapshot, Event, EventStore, EventType, SnapshotStore
-    from candidate.core.id import LukhosIDManager
-    from candidate.core.integrator import (
+    from lukhas.core.event_replay_snapshot import ActorStateSnapshot, Event, EventStore, EventType, SnapshotStore
+    from lukhas.core.id import LukhosIDManager
+    from lukhas.core.integrator import (
         BioOrchestrator,
         CoreMessageType,
         EnhancedCoreConfig,
@@ -29,14 +29,14 @@ try:
     )
 
     # Agent 1 Task 5: Add resource efficiency analyzer imports
-    from candidate.core.resource_efficiency_analyzer import (
+    from lukhas.core.resource_efficiency_analyzer import (
         EfficiencyReport,
         ResourceEfficiencyAnalyzer,
         ResourceSnapshot,
         ResourceTrend,
         ResourceType,
     )
-    from candidate.core.swarm import SwarmHub
+    from lukhas.core.swarm import SwarmHub
 except Exception as e:
     logging.error(f"Failed to import LUKHΛS CORE components: {e}")
     SwarmHub = object
@@ -74,13 +74,13 @@ from lukhas.core.bridges.core_safety_bridge import CoreSafetyBridge
 
 # Task 3A: Add connectivity imports
 try:
-    from candidate.orchestration.golden_trio.trio_orchestrator import TrioOrchestrator
+    from lukhas.orchestration.golden_trio.trio_orchestrator import TrioOrchestrator
 except ImportError:
     TrioOrchestrator = None
     logging.warning("TrioOrchestrator not available")
 
 try:
-    from candidate.bridge.integration_bridge import IntegrationBridge
+    from lukhas.bridge.integration_bridge import IntegrationBridge
 except ImportError:
     IntegrationBridge = None
     logging.warning("IntegrationBridge not available")
@@ -331,7 +331,7 @@ class CoreHub:
     def _register_with_service_discovery(self):
         """Register services with global service discovery"""
         try:
-            from candidate.core.integration.service_discovery import (
+            from lukhas.core.integration.service_discovery import (
                 get_service_discovery,
             )
 
@@ -528,7 +528,7 @@ class CoreHub:
         import time
         import uuid
 
-        from candidate.core.event_replay_snapshot import Event, EventType
+        from lukhas.core.event_replay_snapshot import Event, EventType
 
         # Convert string event_type to EventType enum if needed
         if isinstance(event_type, str):
@@ -575,7 +575,7 @@ class CoreHub:
             logger.warning("Snapshot store not available")
             return False
 
-        from candidate.core.event_replay_snapshot import ActorStateSnapshot
+        from lukhas.core.event_replay_snapshot import ActorStateSnapshot
 
         try:
             snapshot = ActorStateSnapshot.create_from_actor(actor, event_id)

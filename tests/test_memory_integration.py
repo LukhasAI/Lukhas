@@ -1,10 +1,9 @@
-import asyncio
 import pytest
 
-from candidate.memory.consolidation import (
+from lukhas.memory.consolidation import (
     ConsolidationOrchestrator, ConsolidationMode, InMemoryStore
 )
-from candidate.memory.structural_conscience import StructuralConscience
+from lukhas.memory.structural_conscience import StructuralConscience
 
 @pytest.mark.asyncio
 async def test_end_to_end_consolidation():

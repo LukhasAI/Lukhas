@@ -17,10 +17,9 @@ Features:
 import asyncio
 import time
 import logging
-from typing import Dict, Any, Optional, Union
+from typing import Dict, Any, Optional
 from dataclasses import dataclass
 from enum import Enum
-import statistics
 from collections import deque
 
 logger = logging.getLogger(__name__)

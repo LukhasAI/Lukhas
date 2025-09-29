@@ -8,7 +8,7 @@ from unittest.mock import AsyncMock
 
 import pytest
 
-from candidate.core.business.guardian_integrated_platform import (
+from lukhas.core.business.guardian_integrated_platform import (
     GuardianIntegratedPlatform,
     GuardianSystemAdapter,
 )

@@ -15,7 +15,7 @@ import os
 import sys
 import requests
 from pathlib import Path
-from typing import Dict, List, Optional, Tuple
+from typing import Dict, List
 
 
 class DashboardValidator:

@@ -153,7 +153,7 @@ def get_glyph_meaning(glyph_char: str) -> str:
 # LOGGING: ΛTRACE_ENABLED (structlog). Logs module initialization and map definition.
 # AUTHENTICATION: N/A
 # HOW TO USE:
-#   from candidate.core.glyph.glyphs import GLYPH_MAP, get_glyph_meaning
+#   from lukhas.core.glyph.glyphs import GLYPH_MAP, get_glyph_meaning
 #
 #   bifurcation_glyph = "☯"
 #   meaning = GLYPH_MAP.get(bifurcation_glyph)

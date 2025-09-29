@@ -12,7 +12,7 @@ from datetime import datetime, timezone
 from typing import Any
 
 from bio.endocrine_integration import EndocrineIntegration
-from candidate.orchestration.signals.signal_bus import SignalBus
+from lukhas.orchestration.signals.signal_bus import SignalBus
 
 # Import LUKHAS modules to demonstrate data integration
 from lukhas.consciousness.unified.auto_consciousness import AutoConsciousness

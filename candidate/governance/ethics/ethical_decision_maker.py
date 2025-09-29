@@ -32,8 +32,8 @@ from datetime import datetime
 from enum import Enum
 from typing import Any, Optional
 
-from candidate.core.common import get_logger
-from candidate.governance.ethics.constitutional_ai import ConstitutionalFramework
+from lukhas.core.common import get_logger
+from lukhas.governance.ethics.constitutional_ai import ConstitutionalFramework
 
 logger = get_logger(__name__)
 

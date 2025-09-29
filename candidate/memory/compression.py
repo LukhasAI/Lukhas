@@ -6,7 +6,7 @@ Please update imports to: lukhas.accepted.memory.compression
 import warnings
 
 try:
-    from lukhas.accepted.memory.compression import *
+    from lukhas.memory.compression import *
 except ImportError:
     # Fallback for gradual migration
     pass

@@ -3,7 +3,7 @@ LUKHAS Agent Orchestration Interfaces
 ====================================
 
 Standard interfaces for LUKHAS agent orchestration.
-Migrated from candidate.core.orchestration.interfaces.agent_interface
+Migrated from lukhas.core.orchestration.interfaces.agent_interface
 
 Provides:
 - AgentInterface (base interface)
@@ -19,7 +19,7 @@ import contextlib
 # Import agent interface system
 _available = False
 with contextlib.suppress(ImportError):
-    from candidate.core.orchestration.interfaces.agent_interface import (
+    from lukhas.core.orchestration.interfaces.agent_interface import (
         AgentCapability,
         AgentContext,
         AgentInterface,

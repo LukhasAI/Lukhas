@@ -9,11 +9,8 @@ T4/0.01% Excellence: Production-ready OIDC provider with comprehensive validatio
 """
 
 from __future__ import annotations
-import secrets
-import hashlib
-import base64
 import urllib.parse
-from typing import Dict, Optional, List, Any, Tuple
+from typing import Dict, Optional, List, Any
 from dataclasses import dataclass
 from opentelemetry import trace
 from prometheus_client import Counter, Histogram

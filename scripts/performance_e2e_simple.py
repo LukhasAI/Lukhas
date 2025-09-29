@@ -8,7 +8,6 @@ This version avoids complex imports to test the CI workflow structure.
 import json
 import time
 import statistics
-import asyncio
 from datetime import datetime, timezone
 from pathlib import Path
 import subprocess

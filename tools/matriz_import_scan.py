@@ -8,12 +8,11 @@ Focuses on detecting bad root patterns and module boundary violations.
 
 import ast
 import json
-import os
 import pathlib
-from typing import List, Dict, Any, Set, Tuple
+from typing import List, Dict, Any, Set
 import argparse
 import sys
-from collections import defaultdict, deque
+from collections import defaultdict
 
 
 class ImportVisitor(ast.NodeVisitor):

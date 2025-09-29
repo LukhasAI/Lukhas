@@ -22,7 +22,7 @@ import bcrypt
 import jwt
 from flask import Flask
 
-from candidate.bridge.api.flows import (
+from lukhas.bridge.api.flows import (
     JWT_ALGORITHM,
     JWT_SECRET_KEY,
     _generate_access_token,
@@ -37,7 +37,7 @@ from candidate.bridge.api.flows import (
 )
 
 # Import our authentication modules
-from candidate.core.interfaces.api.v1.common.auth import (
+from lukhas.core.interfaces.api.v1.common.auth import (
     _check_rate_limit,
     _validate_key_format,
     _verify_key_signature,
@@ -56,7 +56,7 @@ class TestAPIKeyValidation(unittest.TestCase):
     def setUp(self):
         """Set up test environment."""
         # Clear rate limiting store
-        from candidate.core.interfaces.api.v1.common.auth import _rate_limit_store
+        from lukhas.core.interfaces.api.v1.common.auth import _rate_limit_store
 
         _rate_limit_store.clear()
 

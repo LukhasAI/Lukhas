@@ -14,7 +14,7 @@ Validates benchmark results against T4/0.01% performance requirements:
 import json
 import sys
 from pathlib import Path
-from typing import Dict, List, Tuple
+from typing import Dict, List
 
 
 class PerformanceSLAValidator:

@@ -40,7 +40,7 @@
 """
 import logging
 
-from candidate.branding.terminology import normalize_output
+from lukhas.branding.terminology import normalize_output
 
 from .base import LLMWrapper
 

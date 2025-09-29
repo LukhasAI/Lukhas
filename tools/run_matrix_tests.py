@@ -8,14 +8,12 @@ comprehensive results for CI/CD validation.
 
 import yaml
 import json
-import os
 import sys
 import argparse
 from pathlib import Path
-from typing import Dict, List, Any, Tuple
+from typing import Dict, List, Any
 import logging
 import glob
-from collections import defaultdict
 from datetime import datetime
 
 # Configure logging

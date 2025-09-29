@@ -1,6 +1,6 @@
 """Unit tests validating candidate.core.symbolic.symbolic_reasoning_adapter cleanup flows."""
 
-from candidate.core.symbolic.symbolic_reasoning_adapter import (
+from lukhas.core.symbolic.symbolic_reasoning_adapter import (
     ReasoningContext,
     ReasoningMode,
     SymbolicReasoningAdapter,

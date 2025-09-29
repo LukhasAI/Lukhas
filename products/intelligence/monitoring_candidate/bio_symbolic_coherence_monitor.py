@@ -18,7 +18,7 @@ from typing import Any, Optional
 
 import structlog
 
-from candidate.orchestration.signals.signal_bus import (
+from lukhas.orchestration.signals.signal_bus import (
     Signal,
     SignalBus,
     SignalType,

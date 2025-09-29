@@ -53,7 +53,7 @@ import numpy as np  # ΛTRACE_ADD: For neuroplasticity calculations
 
 from bio.qi_layer import QIBioOscillator
 from bio.systems.orchestration.bio_orchestrator import BioOrchestrator
-from candidate.core.unified.integration import UnifiedIntegration
+from lukhas.core.unified.integration import UnifiedIntegration
 from consciousness.awareness.awareness_engine import AwarenessEngine
 from dream.core import DreamPhase
 from ethics.engine import EthicalFramework, EthicalRiskLevel, QIEthics
@@ -1108,7 +1108,7 @@ class QIAwarenessSystem:
 #                     Ensured datetime objects in state responses are ISO strings.
 # 2025-07-27: Claude - Fixed import paths:
 #                     Changed from bio.qi_layer to lukhas.bio.qi_layer
-#                     Changed from candidate.core.unified_integration to lukhas.core.unified.integration
+#                     Changed from lukhas.core.unified_integration to lukhas.core.unified.integration
 #                     Added missing asdict import from dataclasses
 # 2025-07-27: Claude - Added consciousness/dream/ethics integration:
 #                     Integrated with consciousness engine for awareness synchronization

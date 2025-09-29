@@ -9,7 +9,7 @@ Links to enhanced swarm implementations for consciousness coordination
 
 try:
     # Prefer the candidate enhanced swarm when available
-    from candidate.core.enhanced_swarm import (
+    from lukhas.core.enhanced_swarm import (
         AgentColony,
         AgentState,
         CapabilityLevel,

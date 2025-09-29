@@ -2,7 +2,7 @@
 Shim module for core.swarm components.
 
 This module provides fallback implementations for swarm-related classes
-to ensure backward compatibility and avoid cross-lane imports from candidate.
+to ensure backward compatibility and avoid cross-lane imports from lukhas.
 """
 
 class SwarmHub:

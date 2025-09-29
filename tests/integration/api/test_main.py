@@ -4,7 +4,7 @@ import pytest
 from asgi_lifespan import LifespanManager
 from httpx import AsyncClient
 
-from candidate.bridge.llm_wrappers.base import LLMProvider
+from lukhas.bridge.llm_wrappers.base import LLMProvider
 from enterprise.api.main import app
 
 

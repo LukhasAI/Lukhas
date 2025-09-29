@@ -16,7 +16,6 @@ Features:
 Performance Target: <10ms memory validation cycles
 """
 
-import asyncio
 import time
 import logging
 from typing import Any, Dict, List, Optional, Tuple
@@ -24,8 +23,7 @@ from dataclasses import dataclass, field
 from enum import Enum
 
 from ..cognitive_core.reasoning.contradiction_integrator import (
-    ContradictionIntegrator, ContradictionContext, ContradictionScope,
-    ContradictionDetectionResult
+    ContradictionIntegrator, ContradictionContext, ContradictionScope
 )
 try:
     from ..memory.memory_bridge import MemoryBridge

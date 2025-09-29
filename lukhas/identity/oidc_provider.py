@@ -6,23 +6,18 @@ Production-ready OIDC Provider with JWT token management and OAuth2 flows.
 import asyncio
 import base64
 import hashlib
-import json
 import logging
 import secrets
-import time
 import uuid
 from datetime import datetime, timedelta
-from typing import Dict, List, Optional, Set, Any, Tuple
-from dataclasses import dataclass, field, asdict
+from typing import Dict, List, Optional, Set, Any
+from dataclasses import dataclass, field
 from enum import Enum
-from urllib.parse import urlencode, parse_qs, urlparse
+from urllib.parse import urlencode
 
-import jwt
-from cryptography.hazmat.primitives import serialization
-from cryptography.hazmat.primitives.asymmetric import rsa
 
 from lukhas.identity.jwt_utils import JWTManager
-from lukhas.identity.session_manager import SessionManager, SessionInfo
+from lukhas.identity.session_manager import SessionManager
 from lukhas.identity.tiers import TierSystem
 from lukhas.identity.observability import IdentityObservability
 

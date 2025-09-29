@@ -5,7 +5,7 @@ Ensures multi-agent aggregation is deterministic and safe.
 import os
 from unittest.mock import patch
 
-from candidate.consciousness.dream.expand.mesh import (
+from lukhas.consciousness.dream.expand.mesh import (
     mesh_align, mesh_consensus, analyze_mesh_diversity,
     validate_mesh_output, get_mesh_config
 )

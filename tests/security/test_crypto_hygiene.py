@@ -24,8 +24,7 @@ import jwt
 import os
 import secrets
 import time
-from typing import Any, Dict, List, Optional, Tuple
-from unittest.mock import patch, MagicMock
+from unittest.mock import patch
 
 import pytest
 from cryptography.hazmat.primitives import hashes, serialization

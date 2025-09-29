@@ -15,7 +15,6 @@ import pytest
 from typing import List, Dict, Any, Set
 from dataclasses import dataclass
 from concurrent.futures import ThreadPoolExecutor, as_completed
-import threading
 
 # Import memory system components
 try:

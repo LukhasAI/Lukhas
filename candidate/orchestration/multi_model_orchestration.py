@@ -31,7 +31,7 @@ from typing import Any, Optional, Union
 
 # Import LUKHAS components
 try:
-    from candidate.orchestration.high_performance_context_bus import (
+    from lukhas.orchestration.high_performance_context_bus import (
         ContextMessage,
         ContextPriority,
         HighPerformanceContextBus,

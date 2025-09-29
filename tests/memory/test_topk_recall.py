@@ -20,7 +20,6 @@ from lukhas.memory.adaptive_memory import (
     MemoryType,
     MemoryItem,
     MemoryFold,
-    get_memory_system,
 )
 
 

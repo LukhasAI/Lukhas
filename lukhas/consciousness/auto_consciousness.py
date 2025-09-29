@@ -10,11 +10,9 @@ Constellation Framework: Flow Star (🌊)
 
 from __future__ import annotations
 import time
-import asyncio
 from typing import Dict, Any, Optional, List, Callable
 from opentelemetry import trace
 from prometheus_client import Counter, Histogram, Gauge
-import json
 
 from .types import (
     ConsciousnessState, AwarenessSnapshot, ReflectionReport,

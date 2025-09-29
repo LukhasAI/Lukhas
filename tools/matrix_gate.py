@@ -21,7 +21,6 @@ import pathlib
 import subprocess
 import traceback
 from typing import Dict, List, Tuple, Optional, Any
-from datetime import datetime
 import argparse
 
 try:

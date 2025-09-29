@@ -18,17 +18,17 @@ def fix_imports_in_file(file_path):
 
         # Fix common problematic patterns in candidate files
         fixes = [
-            # from bridge.module -> from candidate.bridge.module
-            (r"from bridge\.([a-zA-Z_][a-zA-Z0-9_.]*)", r"from candidate.bridge.\1"),
-            # from orchestration.module -> from candidate.orchestration.module
+            # from bridge.module -> from lukhas.bridge.module
+            (r"from bridge\.([a-zA-Z_][a-zA-Z0-9_.]*)", r"from lukhas.bridge.\1"),
+            # from orchestration.module -> from lukhas.orchestration.module
             (
                 r"from orchestration\.([a-zA-Z_][a-zA-Z0-9_.]*)",
-                r"from candidate.orchestration.\1",
+                r"from lukhas.orchestration.\1",
             ),
-            # from core.module -> from candidate.core.module (but avoid lukhas.core)
+            # from core.module -> from lukhas.core.module (but avoid lukhas.core)
             (
                 r"(?<!lukhas\.)from core\.([a-zA-Z_][a-zA-Z0-9_.]*)",
-                r"from candidate.core.\1",
+                r"from lukhas.core.\1",
             ),
             # from lukhas.module -> keep as is (these should stay)
         ]

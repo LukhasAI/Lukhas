@@ -12,7 +12,6 @@ import sys
 from pathlib import Path
 from typing import Dict, List, Any, Tuple
 from glob import glob
-import jsonschema
 from jsonschema import Draft202012Validator
 from datetime import datetime
 

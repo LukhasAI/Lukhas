@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-from candidate.governance.security.audit_system import AuditEvent
+from lukhas.governance.security.audit_system import AuditEvent
 
 print("🔍 Testing hasattr on AuditEvent fields:")
 print(f"hasattr(AuditEvent, 'compliance_relevant'): {hasattr(AuditEvent, 'compliance_relevant')}")

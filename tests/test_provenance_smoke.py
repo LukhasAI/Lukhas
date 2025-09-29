@@ -12,7 +12,6 @@ import pytest
 import subprocess
 import tempfile
 from pathlib import Path
-from typing import Dict, Any
 
 
 class TestProvenanceSmoke:

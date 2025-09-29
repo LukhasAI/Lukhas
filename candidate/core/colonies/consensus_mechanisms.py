@@ -16,7 +16,7 @@ from enum import Enum
 from typing import Any, Optional
 
 # Import our signal system
-from candidate.orchestration.signals.signal_bus import Signal, SignalBus, SignalType
+from lukhas.orchestration.signals.signal_bus import Signal, SignalBus, SignalType
 
 logger = logging.getLogger(__name__)
 

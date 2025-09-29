@@ -2,7 +2,7 @@
 
 import asyncio
 
-from candidate.aka_qualia.core import AkaQualia
+from lukhas.aka_qualia.core import AkaQualia
 
 
 def debug_proto_values():

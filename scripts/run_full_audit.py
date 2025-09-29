@@ -8,12 +8,9 @@ Provides end-to-end validation of LUKHAS AI system performance and compliance.
 
 import argparse
 import subprocess
-import sys
 import json
 from pathlib import Path
 from datetime import datetime
-import tempfile
-import shutil
 
 def run_command(cmd, description="", check=True, capture_output=True):
     """Run a command with error handling."""

@@ -17,7 +17,6 @@ Production Excellence: T4/0.01% standards with comprehensive observability.
 """
 
 import time
-import asyncio
 import logging
 from typing import Dict, Any, List, Optional
 from dataclasses import dataclass

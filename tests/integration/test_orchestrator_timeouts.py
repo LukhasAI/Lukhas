@@ -6,7 +6,6 @@ Tests T4/0.01% performance requirements and fail-soft behavior.
 
 import asyncio
 import time
-from unittest.mock import Mock, AsyncMock
 import pytest
 import sys
 from pathlib import Path
@@ -17,7 +16,6 @@ sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 from matriz.core.async_orchestrator import (
     AsyncCognitiveOrchestrator,
     StageType,
-    StageConfig,
     run_with_timeout,
     StageResult,
 )

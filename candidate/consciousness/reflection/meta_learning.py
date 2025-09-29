@@ -10,7 +10,7 @@ from typing import Optional
 
 import numpy as np
 
-from candidate.core.common import get_logger
+from lukhas.core.common import get_logger
 
 # TAG:consciousness
 # TAG:reflection

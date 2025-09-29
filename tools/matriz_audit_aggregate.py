@@ -7,9 +7,8 @@ comprehensive audit reports and generates suggested move operations.
 """
 
 import json
-import os
 import pathlib
-from typing import List, Dict, Any, Set
+from typing import List, Dict, Any
 import argparse
 import sys
 from datetime import datetime

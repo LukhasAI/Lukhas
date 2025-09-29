@@ -1,9 +1,9 @@
 from typing import Optional
 
-from candidate.bridge.llm_wrappers.anthropic_wrapper import AnthropicWrapper
-from candidate.bridge.llm_wrappers.base import LLMProvider, LLMWrapper
-from candidate.bridge.llm_wrappers.gemini_wrapper import GeminiWrapper
-from candidate.bridge.llm_wrappers.unified_openai_client import UnifiedOpenAIClient
+from lukhas.bridge.llm_wrappers.anthropic_wrapper import AnthropicWrapper
+from lukhas.bridge.llm_wrappers.base import LLMProvider, LLMWrapper
+from lukhas.bridge.llm_wrappers.gemini_wrapper import GeminiWrapper
+from lukhas.bridge.llm_wrappers.unified_openai_client import UnifiedOpenAIClient
 
 
 class ModelOrchestrator:

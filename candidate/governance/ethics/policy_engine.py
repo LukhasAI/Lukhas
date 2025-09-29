@@ -32,7 +32,7 @@ from enum import Enum
 from typing import Any, Optional
 
 try:
-    from candidate.core.common import get_logger
+    from lukhas.core.common import get_logger
 except ImportError:
     import logging
     def get_logger(name):

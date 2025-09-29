@@ -18,7 +18,7 @@ import random
 import time
 from unittest.mock import patch
 
-from candidate.core.orchestration.plan_verifier import (
+from lukhas.core.orchestration.plan_verifier import (
     PlanVerifier,
     VerificationContext,
     get_plan_verifier
@@ -458,7 +458,6 @@ class TestPlanVerifierGlobalInstance:
     def test_get_plan_verifier_singleton(self):
         """Test that get_plan_verifier returns singleton."""
         # Clear any existing instance
-        import candidate.core.orchestration.plan_verifier
         candidate.core.orchestration.plan_verifier._plan_verifier_instance = None
 
         verifier1 = get_plan_verifier()

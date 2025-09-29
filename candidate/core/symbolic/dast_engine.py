@@ -28,7 +28,7 @@ class DASTEngine:
         self.symbolic: SymbolicVocabulary = get_symbolic_vocabulary()
         self.ethics = get_shared_ethics_engine()
         try:
-            from candidate.orchestration.golden_trio import (
+            from lukhas.orchestration.golden_trio import (
                 SystemType,
                 get_trio_orchestrator,
             )

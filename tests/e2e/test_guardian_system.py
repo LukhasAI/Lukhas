@@ -24,7 +24,7 @@ import pytest
 
 # Guardian System components
 try:
-    from candidate.governance.guardian_system_integration import (
+    from lukhas.governance.guardian_system_integration import (
         GuardianAlertLevel,
         GuardianSystemIntegration,
         GuardianValidationRequest,
@@ -38,7 +38,7 @@ except ImportError:
     print("Guardian System Integration not available for testing")
 
 try:
-    from candidate.governance.consent_ledger.ledger_v1 import (
+    from lukhas.governance.consent_ledger.ledger_v1 import (
         ConsentLedgerV1,
         ConsentType,
         DataSubjectRights,
@@ -51,7 +51,7 @@ except ImportError:
     print("Consent Ledger not available for testing")
 
 try:
-    from candidate.governance.guardian.drift_detector import (
+    from lukhas.governance.guardian.drift_detector import (
         AdvancedDriftDetector,
         DriftSeverity,
         DriftType,
@@ -63,7 +63,7 @@ except ImportError:
     print("Drift Detector not available for testing")
 
 try:
-    from candidate.governance.identity.core.sent.policy_engine import (
+    from lukhas.governance.identity.core.sent.policy_engine import (
         ComprehensiveEthicsPolicyEngine,
         EthicalFramework,
         PolicyAction,
@@ -75,7 +75,7 @@ except ImportError:
     print("Ethics Policy Engine not available for testing")
 
 try:
-    from candidate.governance.security.audit_system import (
+    from lukhas.governance.security.audit_system import (
         AuditEventType,
         AuditQuery,
         ComprehensiveAuditSystem,

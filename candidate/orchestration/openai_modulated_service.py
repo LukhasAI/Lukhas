@@ -18,8 +18,8 @@ except ImportError:
     OPENAI_AVAILABLE = False
     openai = None
 
-from candidate.core.orchestration.core_modules.symbolic_signal_router import route_signal, SymbolicSignal, SignalType
-from candidate.orchestration.context_bus import ContextBusOrchestrator
+from lukhas.core.orchestration.core_modules.symbolic_signal_router import route_signal, SymbolicSignal, SignalType
+from lukhas.orchestration.context_bus import ContextBusOrchestrator
 
 logger = logging.getLogger(__name__)
 

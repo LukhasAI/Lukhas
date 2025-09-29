@@ -9,10 +9,9 @@ and I.4 WebAuthn/Passkeys working together with full authentication flow.
 Constellation Framework: ⚛️🧠🛡️ integrated validation
 """
 
-import asyncio
 import pytest
 import time
-from unittest.mock import Mock, patch
+from unittest.mock import Mock
 
 from lukhas.orchestration.multi_ai_router import (
     get_multi_ai_router, RoutingRequest, ConsensusType, AIProvider

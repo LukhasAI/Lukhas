@@ -1,7 +1,7 @@
 """Unit tests for memory Indexer."""
 
 import pytest
-from unittest.mock import Mock, MagicMock
+from unittest.mock import Mock
 from memory.indexer import Indexer, Embeddings, _fingerprint
 from memory.backends.pgvector_store import VectorDoc
 

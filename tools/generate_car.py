@@ -15,7 +15,7 @@ import hashlib
 import argparse
 import pathlib
 from datetime import datetime
-from typing import Dict, Any, Optional
+from typing import Dict, Optional
 
 
 class MockIPLD:

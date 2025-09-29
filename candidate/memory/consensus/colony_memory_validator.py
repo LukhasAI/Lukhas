@@ -57,13 +57,13 @@ try:
     )
 except ImportError:
     try:
-        from candidate.memory.core.interfaces.memory_interface import (
+        from lukhas.memory.core.interfaces.memory_interface import (
             MemoryOperation,
             ValidationResult,
         )
     except ImportError:
         # Final fallback for development
-        from candidate.memory.interfaces.memory_interface import (
+        from lukhas.memory.interfaces.memory_interface import (
             MemoryOperation,
             ValidationResult,
         )

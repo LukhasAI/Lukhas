@@ -8,23 +8,15 @@ Tests end-to-end functionality, security hardening, and performance.
 """
 
 import asyncio
-import json
 import pytest
 import time
-from datetime import datetime, timedelta, timezone
-from typing import Dict, Any
-from unittest.mock import Mock, AsyncMock, patch
 
-import httpx
-from fastapi import FastAPI, status
-from fastapi.testclient import TestClient
 
 # Import components to test
-from lukhas.identity.jwks_cache import JWKSCache, get_jwks_cache
+from lukhas.identity.jwks_cache import JWKSCache
 from lukhas.identity.rate_limiting import RateLimiter, RateLimitType
 from lukhas.identity.security_hardening import SecurityHardeningManager, ThreatLevel
 from lukhas.identity.metrics_collector import ServiceMetricsCollector
-from lukhas.identity.validation_schemas import AuthorizationRequest, TokenRequest
 
 
 @pytest.fixture

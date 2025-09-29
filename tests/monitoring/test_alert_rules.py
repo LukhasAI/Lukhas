@@ -8,13 +8,11 @@ Critical for T4/0.01% operational excellence.
 """
 
 import os
-import json
 import subprocess
 import tempfile
 import yaml
 import pytest
 from pathlib import Path
-from typing import Dict, List, Any
 
 
 class TestPromQLAlertRules:

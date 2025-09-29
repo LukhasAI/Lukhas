@@ -20,14 +20,14 @@ import logging
 from datetime import datetime, timezone
 from typing import Any, Optional
 
-from candidate.core.bridges.memory_consciousness_bridge import get_memory_consciousness_bridge
-from candidate.core.bridges.memory_learning_bridge import MemoryLearningBridge
-from candidate.core.common import get_logger
+from lukhas.core.bridges.memory_consciousness_bridge import get_memory_consciousness_bridge
+from lukhas.core.bridges.memory_learning_bridge import MemoryLearningBridge
+from lukhas.core.common import get_logger
 from lukhas.memory.core.base_manager import BaseMemoryManager
 
 # Task 3C: Add connectivity imports
 try:
-    from candidate.core.core_hub import get_core_hub
+    from lukhas.core.core_hub import get_core_hub
 except ImportError:
     get_core_hub = None
     logging.warning("CoreHub not available")
@@ -39,7 +39,7 @@ except ImportError:
     logging.warning("SymbolicHub not available")
 
 try:
-    from candidate.bridge.symbolic_memory_mapper import SymbolicMemoryMapper
+    from lukhas.bridge.symbolic_memory_mapper import SymbolicMemoryMapper
 except ImportError:
     SymbolicMemoryMapper = None
     logging.warning("SymbolicMemoryMapper not available")
@@ -516,7 +516,7 @@ class MemoryHub:
     def _register_with_service_discovery(self):
         """Register services with global service discovery"""
         try:
-            from candidate.core.integration.service_discovery import (
+            from lukhas.core.integration.service_discovery import (
                 get_service_discovery,
             )
 

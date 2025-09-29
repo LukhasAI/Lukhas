@@ -1,6 +1,6 @@
 import pytest
 
-from candidate.core.symbolic_legacy.colony_tag_propagation import SymbolicReasoningColony
+from lukhas.core.symbolic_legacy.colony_tag_propagation import SymbolicReasoningColony
 
 
 @pytest.fixture()

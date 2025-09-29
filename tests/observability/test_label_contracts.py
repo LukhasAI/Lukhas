@@ -20,8 +20,7 @@ Test Coverage:
 - High-performance label generation
 """
 
-import pytest
-from unittest.mock import Mock, patch
+from unittest.mock import patch
 from lukhas.observability.service_metrics import ServiceMetricsCollector, ServiceType, MetricType
 from lukhas.governance.schema_registry import LUKHASLane
 

@@ -1,9 +1,9 @@
 import pytest
 
-from candidate.core.quantum_financial.quantum_financial_consciousness_engine import (
+from lukhas.core.quantum_financial.quantum_financial_consciousness_engine import (
     QuantumFinancialConsciousnessEngine,
 )
-from candidate.flags.ff import Flags
+from lukhas.flags.ff import Flags
 
 
 @pytest.mark.asyncio

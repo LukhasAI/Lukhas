@@ -306,12 +306,12 @@ class EthicsSwarmColony(BaseColony):
 
         try:
             # Initialize collapse tracking
-            from candidate.core.monitoring.collapse_tracker import CollapseTracker
+            from lukhas.core.monitoring.collapse_tracker import CollapseTracker
 
             self.collapse_tracker = CollapseTracker()
 
             # Initialize VeriFold connector
-            from candidate.core.verifold.verifold_unified import VeriFoldConnector
+            from lukhas.core.verifold.verifold_unified import VeriFoldConnector
 
             self.verifold_connector = VeriFoldConnector()
 

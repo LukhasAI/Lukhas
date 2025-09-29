@@ -33,7 +33,7 @@ except ImportError as e:
 # Agent interfaces and orchestration
 _agent_interfaces_available = False
 with contextlib.suppress(ImportError):
-    from candidate.core.orchestration.interfaces.agent_interface import (
+    from lukhas.core.orchestration.interfaces.agent_interface import (
         AgentCapability,
         AgentContext,
         AgentInterface,
@@ -48,7 +48,7 @@ with contextlib.suppress(ImportError):
 # Collaborative agent system
 _collaborative_agents_available = False
 with contextlib.suppress(ImportError):
-    from candidate.core.orchestration.brain.collaborative_ai_agent_system import (
+    from lukhas.core.orchestration.brain.collaborative_ai_agent_system import (
         AgentCapabilities,
         AgentTier,
         LukhasAIAgent,
@@ -60,7 +60,7 @@ with contextlib.suppress(ImportError):
 # Intelligence bridge
 _intelligence_bridge_available = False
 with contextlib.suppress(ImportError):
-    from candidate.orchestration.agent_orchestrator.intelligence_bridge import (
+    from lukhas.orchestration.agent_orchestrator.intelligence_bridge import (
         AgentIntelligenceBridge,
         AgentType,
         IntelligenceRequestType,

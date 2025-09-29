@@ -6,7 +6,6 @@ Tests the emergency kill-switch behavior in Guardian system.
 """
 
 import os
-import tempfile
 import unittest
 from pathlib import Path
 from unittest.mock import patch

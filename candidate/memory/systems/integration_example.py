@@ -29,7 +29,7 @@ import asyncio
 from typing import Any
 
 # Existing systems to integrate with
-from candidate.core.integration.connectivity_engine import ConnectivityEngine
+from lukhas.core.integration.connectivity_engine import ConnectivityEngine
 from lukhas.consciousness.reflection.unified_memory_manager import EnhancedMemoryManager
 
 # New memory systems

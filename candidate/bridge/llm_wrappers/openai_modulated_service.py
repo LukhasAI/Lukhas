@@ -20,7 +20,7 @@ import time
 import uuid
 from typing import Any, cast
 
-from candidate.bridge.llm_wrappers.tool_executor import (
+from lukhas.bridge.llm_wrappers.tool_executor import (
     execute_tool as bridged_execute_tool,
 )
 
@@ -32,15 +32,15 @@ def get_analytics():
 
 
 from branding.policy.terminology import normalize_chunk, normalize_output
-from candidate.metrics import get_metrics_collector
-from candidate.openai.tooling import build_tools_from_allowlist, get_all_tools
-from candidate.orchestration.signals.homeostasis import (
+from lukhas.metrics import get_metrics_collector
+from lukhas.openai.tooling import build_tools_from_allowlist, get_all_tools
+from lukhas.orchestration.signals.homeostasis import (
     HomeostasisController,
     ModulationParams,
     SystemEvent,
 )
-from candidate.orchestration.signals.modulator import PromptModulation, PromptModulator
-from candidate.orchestration.signals.signal_bus import Signal, get_signal_bus
+from lukhas.orchestration.signals.modulator import PromptModulation, PromptModulator
+from lukhas.orchestration.signals.signal_bus import Signal, get_signal_bus
 
 from .unified_openai_client import UnifiedOpenAIClient
 
@@ -662,8 +662,8 @@ async def _run_modulated_completion_impl(
         from lukhas.audit.store import audit_log_write as _audit_log_write
     except Exception:  # pragma: no cover - optional in offline tests
         _audit_log_write = None  # type: ignore
-    from candidate.orchestration.signals.homeostasis import ModulationParams
-    from candidate.orchestration.signals.signal_bus import Signal, SignalType
+    from lukhas.orchestration.signals.homeostasis import ModulationParams
+    from lukhas.orchestration.signals.signal_bus import Signal, SignalType
 
     ctx_snips = ctx_snips or []
     endocrine_signals = endocrine_signals or {}

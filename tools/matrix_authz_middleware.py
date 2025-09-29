@@ -27,7 +27,7 @@ from opentelemetry.trace import Status, StatusCode
 from prometheus_client import Counter, Histogram, Gauge
 
 # Import our tools
-from tier_macaroon_issuer import TierMacaroonVerifier, MacaroonError
+from tier_macaroon_issuer import TierMacaroonVerifier
 
 
 tracer = trace.get_tracer(__name__)
