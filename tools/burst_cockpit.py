@@ -237,7 +237,15 @@ def main():
 
 🤖 Generated with [Claude Code](https://claude.com/claude-code) - Burst Mode"""
 
-        run_cmd(f'gh pr create --title "{pr_title}" --body "{pr_body}"', check=False)
+        # Create PR and get PR number
+        result = run_cmd(f'gh pr create --title "{pr_title}" --body "{pr_body}"', check=False)
+        pr_url = result.stdout.strip()
+        pr_number = pr_url.split('/')[-1] if pr_url else None
+
+        # Add dashboard comment
+        if pr_number and pr_number.isdigit():
+            print(f"📊 Adding dashboard comment to PR #{pr_number}")
+            run_cmd(f"python3 tools/dashboard_bot.py --mode pr-comment --pr-number {pr_number}", check=False)
 
     print(f"📋 Checkpoint saved: artifacts/burst_checkpoint.json")
 

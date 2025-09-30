@@ -213,7 +213,15 @@ Co-Authored-By: Claude <noreply@anthropic.com>"""
 
 🤖 Generated with [Claude Code](https://claude.com/claude-code)"""
 
-        run_cmd(f'gh pr create --title "{pr_title}" --body "{pr_body}"')
+        # Create PR and get PR number
+        result = run_cmd(f'gh pr create --title "{pr_title}" --body "{pr_body}"')
+        pr_url = result.stdout.strip()
+        pr_number = pr_url.split('/')[-1] if pr_url else None
+
+        # Add dashboard comment
+        if pr_number and pr_number.isdigit():
+            print(f"\n📊 STEP 7: Adding Dashboard Comment")
+            run_cmd(f"python3 tools/dashboard_bot.py --mode pr-comment --pr-number {pr_number}", check=False)
 
     print("\n🎉 BATCH COCKPIT COMPLETE")
     print("=" * 60)
