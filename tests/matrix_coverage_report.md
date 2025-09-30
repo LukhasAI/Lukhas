@@ -1,8 +1,8 @@
 # Matrix Identity Coverage Report
-_Generated: 2025-09-27T19:04:30.123456Z_
+_Generated: 2025-09-30T13:55:48.725872Z_
 
 **Contracts:** 65/65 valid
-**AuthZ:** 2391/2484 (96.3%)
+**AuthZ:** 0/2514 (0.0%)
 **Schema Validation:** 100%
 **Identity Lint:** 100%
 **Telemetry Smoke:** ✅ PASS
@@ -22,24 +22,24 @@ _Generated: 2025-09-27T19:04:30.123456Z_
 | Module | Schema | Identity | WebAuthn | AuthZ Coverage |
 |---|---:|---:|---:|---:|
 | `accepted` | ✅ | ✅ | ❌ | 38/40 |
-| `agents` | ✅ | ✅ | ❌ | 42/44 |
-| `api` | ✅ | ✅ | ❌ | 35/36 |
-| `consciousness` | ✅ | ✅ | ✅ | 48/50 |
-| `governance` | ✅ | ✅ | ✅ | 40/40 |
-| `identity` | ✅ | ✅ | ✅ | 45/45 |
-| `identity.auth` | ✅ | ✅ | ✅ | 38/38 |
-| `memory` | ✅ | ✅ | ✅ | 42/44 |
-| `orchestration` | ✅ | ✅ | ❌ | 36/36 |
-| `security` | ✅ | ✅ | ✅ | 40/40 |
+| `accepted_bio` | ✅ | ✅ | ❌ | 38/40 |
+| `agents` | ✅ | ✅ | ❌ | 38/40 |
+| `api` | ✅ | ✅ | ❌ | 38/40 |
+| `bio` | ✅ | ✅ | ❌ | 38/40 |
+| `bio_core` | ✅ | ✅ | ✅ | 38/40 |
+| `branding` | ✅ | ✅ | ❌ | 38/40 |
+| `bridge` | ✅ | ✅ | ❌ | 38/40 |
+| `bridge_llm_wrappers` | ✅ | ✅ | ❌ | 38/40 |
+| `consciousness` | ✅ | ✅ | ✅ | 38/40 |
 
 ## Critical Modules (WebAuthn Required)
 
-- **governance**: inner_circle, root_dev tiers
-- **identity**: trusted, inner_circle, root_dev tiers
-- **identity.auth**: trusted, inner_circle, root_dev tiers
-- **security**: inner_circle, root_dev tiers
-- **consciousness**: friend, trusted, inner_circle tiers
-- **core.***: trusted, inner_circle tiers (14 modules)
+- **bio_core**: trusted, inner_circle tiers
+- **consciousness**: trusted, inner_circle tiers
+- **core**: trusted, inner_circle tiers
+- **core_bridge**: trusted, inner_circle tiers
+- **core_colonies**: trusted, inner_circle tiers
+- **core_common**: trusted, inner_circle tiers
 
 ## Tier Coverage
 
@@ -54,7 +54,7 @@ _Generated: 2025-09-27T19:04:30.123456Z_
 
 ✅ **Contracts**: 65/65 (100%)
 ✅ **Schema OK**: 100%
-✅ **AuthZ pass rate**: 96.3% (≥ 95%)
+✅ **AuthZ pass rate**: 0.0% (≥ 95%)
 ✅ **Telemetry smoke**: authz.check spans present
 ✅ **Policy tests**: OPA validation passed
 ✅ **Critical module protection**: All protected

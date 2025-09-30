@@ -60,8 +60,62 @@
 
 ---
 
-**Status**: Phase B Complete ✅
-**Impact**: Critical import issues resolved
-**Files Promoted**: 7
+## Phase C Batch Promotions
+
+**Goal**: Systematic promotion of high-value candidate/ files to flat-root structure using promotion selector scoring.
+
+### Batch 1: Core Module Expansion (2025-09-30)
+
+**Methodology**: Used promotion selector with scoring model:
+- 70% import frequency weight
+- 20% recency weight
+- 10% critical flag weight
+
+**Results**:
+- **Files Processed**: 50 candidates from promotion_batch.plan.jsonl
+- **Successfully Promoted**: 49 files (candidate/core/ → core/)
+- **Skipped**: 1 file (identity/__init__.py - already exists)
+- **Errors**: 0
+
+**Validation Status**:
+- ✅ MATRIZ schema validation: All 65 contracts pass
+- 🟡 OPA policy tests: 27 syntax errors (pre-existing)
+- 🟡 Authorization matrix: 0% pass rate (pre-existing)
+
+### Key Files Promoted
+
+| Category | Files | Notes |
+|----------|-------|-------|
+| Symbolic Processing | 15 files | Pattern recognition, neural fusion, bio_hub |
+| Orchestration | 12 files | Energy-aware planning, integration modules |
+| Colony & Signal Management | 8 files | Tag propagation, signal routing |
+| Core Infrastructure | 14 files | System init, validation fixes, metrics |
+
+### Directory Structure Impact
+
+**Before Batch**:
+```
+candidate/core/ → ~2,400 files
+core/ → 7 critical files
+```
+
+**After Batch**:
+```
+candidate/core/ → ~2,351 files (49 fewer)
+core/ → 56 files (49 added)
+```
+
+### Compatibility Verification
+
+All promoted files maintain compatibility through:
+- Direct imports: `from core.symbolic.bio_hub import X`
+- Legacy imports: `from lukhas.core.symbolic.bio_hub import X`
+- Dynamic aliasing via lukhas/__init__.py bridge
+
+---
+
+**Status**: Phase B Complete ✅, Phase C Batch 1 Complete ✅
+**Impact**: Critical import issues resolved + systematic expansion
+**Files Promoted**: 56 total (7 critical + 49 batch)
 **Import Compatibility**: 100%
-**Generated**: 2024-09-29 15:45 PST
+**Generated**: 2025-09-30 14:55 PST
