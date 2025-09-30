@@ -68,6 +68,7 @@ import json
 import math
 import os
 import pathlib
+import re
 import sys
 import time
 from typing import Dict, List, Optional, Tuple, Iterable
@@ -82,6 +83,43 @@ LEGACY_LANES = [
 ]
 
 DEFAULT_TOP = 100
+
+
+def _split_source_lane_module_rel(source_path: str):
+    """Extract lane, module, and relative path from source.
+    Handles patterns like: candidate/<module>/... or Lukhas/lukhas/<module>/...
+    """
+    parts = re.split(r"[\\/]", source_path)
+    if len(parts) < 2:
+        return None, None, ""
+    lane = parts[0]
+    module = parts[1]
+    rel = "/".join(parts[2:]) if len(parts) > 2 else ""
+    return lane, module, rel
+
+
+def _compute_target(record: dict, layout: str, target_root: str) -> str:
+    """Compute target path based on layout strategy."""
+    # Ensure module + relpath present
+    lane, mod_from_src, rel_from_src = _split_source_lane_module_rel(record["source"])
+    mod = record.get("module") or mod_from_src or "unknown"
+    rel = record.get("relpath") or record.get("rel_from_module") or rel_from_src or ""
+
+    if layout == "legacy":
+        # Use any legacy target already provided, else fallback
+        tgt = record.get("legacy_target")
+        if tgt:
+            return tgt
+        # Fallback to old behavior
+        if rel:
+            return f"Lukhas/{mod}/{rel}"
+        else:
+            base = os.path.basename(record["source"])
+            return f"Lukhas/{mod}/{base}"
+
+    # flat layout
+    base = f"{target_root.rstrip('/')}/{mod}"
+    return f"{base}/{rel}" if rel else f"{base}/"
 
 
 @dataclasses.dataclass
@@ -131,7 +169,7 @@ def _discover_legacy_files(modules_filter: Optional[set]) -> List[FileCandidate]
                 mt = p.stat().st_mtime
             except Exception:
                 mt = 0.0
-            out.append(FileCandidate(
+            fc = FileCandidate(
                 source=str(p.as_posix()),
                 module=module,
                 rel_from_module=rel_from_module,
@@ -139,7 +177,8 @@ def _discover_legacy_files(modules_filter: Optional[set]) -> List[FileCandidate]
                 import_freq=0.0,
                 mtime=mt,
                 critical=False,
-            ))
+            )
+            out.append(fc)
     return out
 
 
@@ -238,7 +277,9 @@ def select_candidates(top: int,
                       modules_filter: Optional[set],
                       w_freq: float,
                       w_recency: float,
-                      w_critical: float) -> List[FileCandidate]:
+                      w_critical: float,
+                      layout: str = "flat",
+                      target_root: str = "Lukhas") -> List[FileCandidate]:
     files = _discover_legacy_files(modules_filter)
     if not files:
         return []
@@ -264,10 +305,14 @@ def select_candidates(top: int,
         nt = mtime_norm[i] if mtime_norm else 0.0
         cc = 1.0 if f.critical else 0.0
         f.score = (w_freq * nf) + (w_recency * nt) + (w_critical * cc)
-        # build target path
-        rel = f.rel_from_module
-        target = f"Lukhas/{f.module}/{rel}" if rel else f"Lukhas/{f.module}/{os.path.basename(f.source)}"
-        f.target = target
+        # build target path using layout strategy
+        record = {
+            "source": f.source,
+            "module": f.module,
+            "rel_from_module": f.rel_from_module,
+            "relpath": f.rel_from_module
+        }
+        f.target = _compute_target(record, layout, target_root)
 
     files.sort(key=lambda x: x.score, reverse=True)
     return files[:top]
@@ -287,6 +332,7 @@ def _write_plan_jsonl(rows: List[FileCandidate], path: pathlib.Path) -> None:
                 "import_freq": r.import_freq,
                 "mtime": r.mtime,
                 "critical": r.critical,
+                "relpath": r.rel_from_module,  # Include for compatibility
             }
             f.write(json.dumps(obj) + "\n")
 
@@ -326,6 +372,10 @@ def main(argv: Optional[List[str]] = None) -> int:
     ap.add_argument("--weight-freq", type=float, default=0.7, help="Weight for import frequency")
     ap.add_argument("--weight-recency", type=float, default=0.2, help="Weight for file recency (mtime)")
     ap.add_argument("--weight-critical", type=float, default=0.1, help="Weight for critical flag")
+    ap.add_argument("--layout", choices=["flat", "legacy"], default="flat",
+                    help="Target layout for moves (default: flat)")
+    ap.add_argument("--target-root", default="Lukhas",
+                    help="Root folder for flat layout (default: Lukhas)")
     ap.add_argument("--dry-run", action="store_true", help="Compute but do not write artifact files")
     ap.add_argument("--out-jsonl", type=str, default="artifacts/promotion_batch.plan.jsonl", help="Output JSONL plan path")
     ap.add_argument("--out-md", type=str, default="artifacts/promotion_selector.md", help="Output Markdown summary path")
@@ -340,6 +390,8 @@ def main(argv: Optional[List[str]] = None) -> int:
         w_freq=args.weight_freq,
         w_recency=args.weight_recency,
         w_critical=args.weight_critical,
+        layout=args.layout,
+        target_root=args.target_root,
     )
 
     if not rows:
