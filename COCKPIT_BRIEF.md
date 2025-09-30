@@ -101,4 +101,45 @@ cat artifacts/promotion_log.md | tail -20
 **Safety**: T4/0.01% bulletproof with full rollback capability
 **Pace**: Sustainable 50 files/day → candidate/ drain complete in ~45 days
 
-🎯 **Next Action**: Paste this brief into Claude Code and run the conveyor!
+---
+
+## 💥 BURST MODE - Weekend Sprint Conveyor
+
+### TL;DR - Accelerated Drain
+```bash
+# Weekend burst: 200 files in 4x50 batches with checkpoints
+python3 tools/burst_cockpit.py --target 200
+
+# Sprint mode: 400 files in 8x50 batches (max safe burst)
+python3 tools/burst_cockpit.py --target 400 --max-batches 8
+
+# Custom burst: 300 files in 6x50 batches
+python3 tools/burst_cockpit.py --target 300 --batch-size 50
+```
+
+### What Burst Mode Does
+**Multi-Batch Orchestration**:
+- Executes 4-8 consecutive promotion batches automatically
+- Validation checkpoints every 2 batches (MATRIZ + imports + coverage)
+- Auto-halt on any validation failure (bulletproof safety)
+- Single summary PR for entire burst session
+- Checkpoint artifacts for audit trail
+
+### Safety Features
+- **Validation Gates**: MATRIZ + import health checked every 100 files
+- **Auto-Halt**: Stops immediately on any validation failure
+- **Rollback Ready**: Each batch preserves git history via git mv
+- **Checkpoint Artifacts**: Full session logs in `artifacts/burst_checkpoint.json`
+- **Max Batch Limit**: Hard cap prevents runaway execution
+
+### Recommended Schedule
+- **Mon-Thu**: Daily 50-file batches (`batch_cockpit.py`)
+- **Friday**: Stabilization + validation review
+- **Weekend**: Burst sessions 200-400 files (`burst_cockpit.py`)
+
+### Timeline Impact
+- **Baseline**: 50/day × 4 days = 200 files/week → 45 weeks
+- **Hybrid**: 200/weekday + 300/weekend = 500 files/week → **18 weeks**
+- **Sprint**: 200/weekday + 400/weekend = 600 files/week → **15 weeks**
+
+🎯 **Next Action**: Choose your velocity and run the conveyor!
