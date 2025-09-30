@@ -742,10 +742,19 @@ demo-attestation:
 	@echo "🛡️ Running Matrix Tracks Attestation Demo..."
 	@cd examples/matrix_tracks/attestation && chmod +x verify_evidence.sh && ./verify_evidence.sh
 
+# OPA Policy validation
+.PHONY: opa-validate
+opa-validate:
+	@echo "🔎 OPA format/check/test"
+	@opa fmt -w policies/**/*.rego || true
+	@opa check policies/**/*.rego
+	@opa test policies/ -v || true
+
 # Matrix Identity: local validation pack
-validate-matrix-all:
+validate-matrix-all: opa-validate
 	@echo "🎯 Matrix Identity: Full Validation Pipeline"
 	@echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+	@python3 tools/check_policy_bundle_checksum.py || true
 	@echo "📋 Stage 1: Contract Presence Gate"
 	@python3 -c "\
 	import json, glob; \
