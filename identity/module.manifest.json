@@ -1,11 +1,12 @@
 {
   "schema_version": "3.0.0",
   "module": "identity",
-  "description": "LUKHAS identity module",
+  "description": "Identity and authentication infrastructure providing \u03bbID Core Identity System, WebAuthn/FIDO2 integration, OAuth2/OIDC flows, and secure credential management with namespace isolation.",
   "ownership": {
-    "team": "Core",
+    "team": "Identity",
     "codeowners": [
-      "@lukhas-core"
+      "@lukhas-identity",
+      "@lukhas-security"
     ]
   },
   "layout": {
@@ -20,7 +21,27 @@
   },
   "runtime": {
     "language": "python",
-    "entrypoints": []
+    "entrypoints": [
+      "identity",
+      "identity.tier_system:TierLevel",
+      "identity.tier_system:AccessType",
+      "identity.tier_system:PermissionScope",
+      "identity.tier_system:AccessContext",
+      "identity.tier_system:TierPermission",
+      "identity.tier_system:AccessDecision",
+      "identity.tier_system:DynamicTierSystem",
+      "identity.tier_system:lukhas_tier_required",
+      "identity.tier_system:create_tier_system",
+      "identity.tier_system:symbolic_access_test",
+      "identity.tier_system:check_access_level",
+      "identity.tier_system:check_access",
+      "identity.tier_system:elevate_session",
+      "identity.tier_system:decorator",
+      "identity.tier_system:wrapper",
+      "identity.identity_connector:IdentityConnector",
+      "identity.identity_connector:validate_identity",
+      "identity.identity_connector:get_user_permissions"
+    ]
   },
   "matrix": {
     "contract": "",
@@ -37,9 +58,21 @@
     "docs": "./docs/README.md",
     "issues": "https://github.com/LukhasAI/Lukhas/issues"
   },
-  "tags": [],
+  "tags": [
+    "t4-experimental",
+    "webauthn",
+    "identity",
+    "oauth2",
+    "security",
+    "authentication",
+    "anchor-star-primary"
+  ],
   "observability": {
-    "required_spans": [],
+    "required_spans": [
+      "lukhas.identity.auth",
+      "lukhas.identity.oauth",
+      "lukhas.identity.webauthn"
+    ],
     "otel_semconv_version": "1.37.0"
   },
   "tokenization": {

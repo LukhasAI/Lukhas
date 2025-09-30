@@ -1,7 +1,7 @@
 {
   "schema_version": "3.0.0",
   "module": "core",
-  "description": "LUKHAS core module",
+  "description": "Core orchestration and infrastructure layer providing system coordination, symbolic network integration, consciousness-core coupling, and fundamental LUKHAS primitives.",
   "ownership": {
     "team": "Core",
     "codeowners": [
@@ -20,7 +20,9 @@
   },
   "runtime": {
     "language": "python",
-    "entrypoints": []
+    "entrypoints": [
+      "core"
+    ]
   },
   "matrix": {
     "contract": "",
@@ -37,9 +39,17 @@
     "docs": "./docs/README.md",
     "issues": "https://github.com/LukhasAI/Lukhas/issues"
   },
-  "tags": [],
+  "tags": [
+    "core",
+    "t4-experimental",
+    "orchestration",
+    "coordination",
+    "infrastructure"
+  ],
   "observability": {
-    "required_spans": [],
+    "required_spans": [
+      "lukhas.core.operation"
+    ],
     "otel_semconv_version": "1.37.0"
   },
   "tokenization": {

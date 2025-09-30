@@ -1,0 +1,128 @@
+{
+  "schema_version": "3.0.0",
+  "module": "orchestration",
+  "description": "Multi-AI orchestration platform coordinating GPT-4, Claude, Gemini consensus workflows with Context Bus implementation and sub-100ms API latency optimization.",
+  "ownership": {
+    "team": "Orchestration",
+    "codeowners": [
+      "@lukhas-orchestration",
+      "@lukhas-ai"
+    ]
+  },
+  "layout": {
+    "code_layout": "package-root",
+    "paths": {
+      "code": ".",
+      "config": "config",
+      "tests": "tests",
+      "docs": "docs",
+      "assets": "assets"
+    }
+  },
+  "runtime": {
+    "language": "python",
+    "entrypoints": []
+  },
+  "matrix": {
+    "contract": "",
+    "lane": "L2",
+    "gates_profile": "standard"
+  },
+  "identity": {
+    "requires_auth": false,
+    "tiers": [],
+    "scopes": []
+  },
+  "links": {
+    "repo": "https://github.com/LukhasAI/Lukhas",
+    "docs": "./docs/README.md",
+    "issues": "https://github.com/LukhasAI/Lukhas/issues"
+  },
+  "tags": [
+    "t4-experimental",
+    "multi-ai",
+    "orchestration",
+    "context-bus",
+    "consensus"
+  ],
+  "observability": {
+    "required_spans": [
+      "lukhas.orchestration.multi_ai",
+      "lukhas.orchestration.consensus"
+    ],
+    "otel_semconv_version": "1.37.0"
+  },
+  "tokenization": {
+    "enabled": false,
+    "chain": "none"
+  },
+  "dependencies": [
+    "core",
+    "api"
+  ],
+  "contracts": [],
+  "x_legacy": {
+    "directory_metadata": {
+      "path": "orchestration",
+      "lane": "development",
+      "purpose": "Directory containing 0 Python files and 1 subdirectories",
+      "last_updated": "2025-09-21",
+      "constellation_framework_version": "2.0.0",
+      "t4_compliance_level": "experimental"
+    },
+    "component_inventory": {
+      "python_files": [],
+      "subdirectories": [
+        {
+          "name": "brain",
+          "has_index": false,
+          "purpose": "Subdirectory with 2 Python files",
+          "component_count": 2
+        }
+      ],
+      "documentation": []
+    },
+    "schema_references": [
+      {
+        "schema_name": "directory_index",
+        "schema_path": "schemas/directory_index.schema.json",
+        "validation_status": "valid"
+      }
+    ],
+    "agent_guidance": {
+      "recommended_approach": "Begin with documentation files, then explore core components",
+      "key_files": [],
+      "common_tasks": [],
+      "prerequisites": [
+        "Understanding of LUKHAS lane system",
+        "Constellation Framework familiarity",
+        "MATRIZ pipeline architecture",
+        "T4/0.01% implementation standards"
+      ],
+      "avoid_patterns": [
+        "Modifying contracts without validation",
+        "Breaking lane boundaries",
+        "Ignoring Constellation Framework integration",
+        "Breaking constructor-aware instantiation patterns",
+        "Bypassing T4/0.01% validation standards",
+        "Ignoring MATRIZ pipeline integration requirements"
+      ]
+    },
+    "performance_metadata": {
+      "component_count": 0,
+      "estimated_complexity": "low",
+      "consciousness_integration": "none",
+      "test_coverage": 85.0,
+      "t4_compliance_score": 0.65,
+      "matriz_compatibility": "standard",
+      "plugin_registry_compatible": true,
+      "constructor_aware_instantiation": true
+    },
+    "relationships": {
+      "parent_directory": null,
+      "related_directories": [],
+      "constellation_cluster": "unknown",
+      "dependency_weight": "moderate"
+    }
+  }
+}

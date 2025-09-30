@@ -1,10 +1,11 @@
 {
   "schema_version": "3.0.0",
   "module": "memory",
-  "description": "LUKHAS memory module",
+  "description": "LUKHAS memory module implementing memory_management, temporal_processing with consciousness integration and MATRIZ pipeline compatibility.",
   "ownership": {
-    "team": "Core",
+    "team": "Memory",
     "codeowners": [
+      "@lukhas-memory",
       "@lukhas-core"
     ]
   },
@@ -20,7 +21,52 @@
   },
   "runtime": {
     "language": "python",
-    "entrypoints": []
+    "entrypoints": [
+      "memory",
+      "memory.hierarchical_data_store:MemoryTier",
+      "memory.hierarchical_data_store:CompressionLevel",
+      "memory.hierarchical_data_store:MemoryNode",
+      "memory.hierarchical_data_store:RetrievalContext",
+      "memory.hierarchical_data_store:HierarchicalDataStore",
+      "memory.hierarchical_data_store:get_status",
+      "memory.hierarchical_data_store:build_tree",
+      "memory.metrics:compute_affect_delta",
+      "memory.metrics:compute_drift",
+      "memory.memory_identity:MemoryIdentity",
+      "memory.memory_identity:MemoryIdentityRegistry",
+      "memory.memory_identity:MemoryIdentityFactory",
+      "memory.memory_identity:register",
+      "memory.memory_identity:get_identity",
+      "memory.memory_identity:get_metrics",
+      "memory.memory_identity:create",
+      "memory.folds:FoldGuard",
+      "memory.folds:_No",
+      "memory.folds:start_tick",
+      "memory.folds:allow",
+      "memory.folds:window",
+      "memory.folds:ops",
+      "memory.folds:depth",
+      "memory.folds:inc",
+      "memory.memory_orchestrator:MemoryOrchestrator",
+      "memory.memory_orchestrator:orchestrate_memory",
+      "memory.memory_event:MemoryEvent",
+      "memory.memory_event:MemoryEventFactory",
+      "memory.memory_event:create",
+      "memory.fold_lineage_tracker:CausationType",
+      "memory.fold_lineage_tracker:CausalLink",
+      "memory.fold_lineage_tracker:FoldLineageNode",
+      "memory.fold_lineage_tracker:LineageChain",
+      "memory.fold_lineage_tracker:FoldLineageTracker",
+      "memory.fold_lineage_tracker:create_lineage_tracker",
+      "memory.fold_lineage_tracker:create_enhanced_lineage_tracker",
+      "memory.fold_lineage_tracker:add_lineage_entry",
+      "memory.fold_lineage_tracker:get_lineage",
+      "memory.fold_lineage_tracker:track_causation",
+      "memory.fold_lineage_tracker:track_fold_state",
+      "memory.fold_lineage_tracker:analyze_fold_lineage",
+      "memory.fold_lineage_tracker:generate_lineage_graph",
+      "memory.fold_lineage_tracker:get_causal_insights"
+    ]
   },
   "matrix": {
     "contract": "matrix_memoria.json",
@@ -37,16 +83,32 @@
     "docs": "./docs/README.md",
     "issues": "https://github.com/LukhasAI/Lukhas/issues"
   },
-  "tags": [],
+  "tags": [
+    "fold-architecture",
+    "t4-experimental",
+    "semantic",
+    "episodic",
+    "trail-star-primary",
+    "memory",
+    "temporal-processing",
+    "memory-management",
+    "temporal"
+  ],
   "observability": {
-    "required_spans": [],
+    "required_spans": [
+      "lukhas.memory.fold",
+      "lukhas.memory.retrieval",
+      "lukhas.memory.temporal"
+    ],
     "otel_semconv_version": "1.37.0"
   },
   "tokenization": {
     "enabled": false,
     "chain": "none"
   },
-  "dependencies": [],
+  "dependencies": [
+    "core"
+  ],
   "contracts": [
     "matrix_memoria.json"
   ],

@@ -1,0 +1,429 @@
+{
+  "schema_version": "3.0.0",
+  "module": "candidate",
+  "description": "LUKHAS candidate module",
+  "ownership": {
+    "team": "Core",
+    "codeowners": [
+      "@lukhas-core"
+    ]
+  },
+  "layout": {
+    "code_layout": "package-root",
+    "paths": {
+      "code": ".",
+      "config": "config",
+      "tests": "tests",
+      "docs": "docs",
+      "assets": "assets"
+    }
+  },
+  "runtime": {
+    "language": "python",
+    "entrypoints": []
+  },
+  "matrix": {
+    "contract": "",
+    "lane": "L2",
+    "gates_profile": "standard"
+  },
+  "identity": {
+    "requires_auth": false,
+    "tiers": [],
+    "scopes": []
+  },
+  "links": {
+    "repo": "https://github.com/LukhasAI/Lukhas",
+    "docs": "./docs/README.md",
+    "issues": "https://github.com/LukhasAI/Lukhas/issues"
+  },
+  "tags": [],
+  "observability": {
+    "required_spans": [],
+    "otel_semconv_version": "1.37.0"
+  },
+  "tokenization": {
+    "enabled": false,
+    "chain": "none"
+  },
+  "dependencies": [],
+  "contracts": [],
+  "x_legacy": {
+    "directory_metadata": {
+      "path": "candidate",
+      "lane": "development",
+      "purpose": "Experimental development lane for consciousness research and MATRIZ pipeline prototyping",
+      "constellation_framework_version": "2.0.0",
+      "t4_compliance_level": "experimental",
+      "last_updated": "2025-09-20",
+      "matriz_pipeline_integration": {
+        "memory_stage": "experimental",
+        "attention_stage": "experimental",
+        "thought_stage": "experimental",
+        "action_stage": "experimental",
+        "decision_stage": "experimental",
+        "awareness_stage": "experimental"
+      }
+    },
+    "component_inventory": {
+      "python_files": [
+        {
+          "filename": "metrics.py",
+          "component_type": "UTILITY",
+          "has_contract": false,
+          "contract_path": null,
+          "dependencies": [],
+          "exports": [
+            "MetricsCollector",
+            "get_metrics_collector",
+            "record_blocked_tool",
+            "record_auto_tighten",
+            "record_openai_error",
+            "record_tool_duration",
+            "record_openai_latency",
+            "record_token_usage",
+            "set_safety_mode",
+            "set_active_tools",
+            "set_lut_temperature",
+            "record_request",
+            "record_aka_qualia_scene",
+            "record_aka_qualia_regulation",
+            "record_aka_qualia_processing_time",
+            "get_metrics",
+            "check_alert_conditions"
+          ]
+        },
+        {
+          "filename": "branding_bridge.py",
+          "component_type": "CONSTELLATION_BRIDGE",
+          "has_contract": false,
+          "contract_path": null,
+          "dependencies": [],
+          "exports": [
+            "BrandContext",
+            "LUKHASBrandingBridge",
+            "get_constellation_description",
+            "validate_branding_compliance",
+            "normalize_output",
+            "normalize_chunk",
+            "get_bridge",
+            "get_system_signature",
+            "get_constellation_context",
+            "validate_output",
+            "normalize_output_text",
+            "get_brand_voice",
+            "generate_branded_content",
+            "monitor_brand_drift",
+            "get_brand_status",
+            "get_system_signature",
+            "get_constellation_context",
+            "validate_output",
+            "normalize_output",
+            "get_brand_voice",
+            "generate_branded_content",
+            "monitor_brand_drift",
+            "get_brand_status"
+          ]
+        },
+        {
+          "filename": "flags.py",
+          "component_type": "UTILITY",
+          "has_contract": false,
+          "contract_path": null,
+          "dependencies": [],
+          "exports": [
+            "FeatureFlags",
+            "FeatureFlagContext",
+            "get_flags",
+            "require_feature",
+            "when_enabled",
+            "is_enabled",
+            "get",
+            "set_override",
+            "clear_override",
+            "clear_all_overrides",
+            "all_flags",
+            "decorator",
+            "wrapper"
+          ]
+        },
+        {
+          "filename": "client.py",
+          "component_type": "UTILITY",
+          "has_contract": true,
+          "contract_path": "contracts/consciousness/client.json",
+          "dependencies": [],
+          "exports": [
+            "LukhasError",
+            "FeedbackCard",
+            "Lukhas",
+            "feedback_card",
+            "feedback_lut",
+            "tools_registry",
+            "tools_names",
+            "tool_schema",
+            "dna_health",
+            "dna_compare",
+            "admin_summary",
+            "audit_view_url"
+          ]
+        },
+        {
+          "filename": "ai_client.py",
+          "component_type": "UTILITY",
+          "has_contract": false,
+          "contract_path": null,
+          "dependencies": [],
+          "exports": [
+            "LUKHASAIClient",
+            "get_ai_client",
+            "initialize_ai_client",
+            "get_available_models",
+            "get_best_model_for_task",
+            "get_client_status"
+          ]
+        }
+      ],
+      "subdirectories": [
+        {
+          "name": "modulation",
+          "has_index": true,
+          "purpose": "Subdirectory with 3 Python files",
+          "component_count": 3
+        },
+        {
+          "name": "branding",
+          "has_index": true,
+          "purpose": "Subdirectory with 2 Python files",
+          "component_count": 2
+        },
+        {
+          "name": "tools",
+          "has_index": true,
+          "purpose": "Subdirectory with 6 Python files",
+          "component_count": 6
+        },
+        {
+          "name": "bio",
+          "has_index": true,
+          "purpose": "Subdirectory with 11 Python files",
+          "component_count": 11
+        },
+        {
+          "name": "quantum_bio_consciousness",
+          "has_index": true,
+          "purpose": "Subdirectory with 2 Python files",
+          "component_count": 2
+        },
+        {
+          "name": "colonies",
+          "has_index": true,
+          "purpose": "Subdirectory with 9 Python files",
+          "component_count": 9
+        },
+        {
+          "name": "flags",
+          "has_index": true,
+          "purpose": "Subdirectory with 2 Python files",
+          "component_count": 2
+        },
+        {
+          "name": "core",
+          "has_index": true,
+          "purpose": "Subdirectory with 85 Python files",
+          "component_count": 85
+        },
+        {
+          "name": "memory",
+          "has_index": true,
+          "purpose": "Subdirectory with 33 Python files",
+          "component_count": 33
+        },
+        {
+          "name": "identity",
+          "has_index": true,
+          "purpose": "Subdirectory with 1 Python files",
+          "component_count": 1
+        },
+        {
+          "name": "nias",
+          "has_index": true,
+          "purpose": "Subdirectory with 3 Python files",
+          "component_count": 3
+        },
+        {
+          "name": "bridge",
+          "has_index": true,
+          "purpose": "Subdirectory with 14 Python files",
+          "component_count": 14
+        },
+        {
+          "name": "colony",
+          "has_index": true,
+          "purpose": "Subdirectory with 2 Python files",
+          "component_count": 2
+        },
+        {
+          "name": "consciousness",
+          "has_index": true,
+          "purpose": "Subdirectory with 14 Python files",
+          "component_count": 14
+        },
+        {
+          "name": "utils",
+          "has_index": true,
+          "purpose": "Subdirectory with 1 Python files",
+          "component_count": 1
+        },
+        {
+          "name": "compliance",
+          "has_index": true,
+          "purpose": "Subdirectory with 10 Python files",
+          "component_count": 10
+        },
+        {
+          "name": "qi",
+          "has_index": true,
+          "purpose": "Subdirectory with 16 Python files",
+          "component_count": 16
+        },
+        {
+          "name": "feedback",
+          "has_index": true,
+          "purpose": "Subdirectory with 2 Python files",
+          "component_count": 2
+        },
+        {
+          "name": "adapters",
+          "has_index": true,
+          "purpose": "Subdirectory with 1 Python files",
+          "component_count": 1
+        },
+        {
+          "name": "audit",
+          "has_index": true,
+          "purpose": "Subdirectory with 4 Python files",
+          "component_count": 4
+        },
+        {
+          "name": "vivox",
+          "has_index": true,
+          "purpose": "Subdirectory with 1 Python files",
+          "component_count": 1
+        },
+        {
+          "name": "orchestration",
+          "has_index": true,
+          "purpose": "Subdirectory with 12 Python files",
+          "component_count": 12
+        },
+        {
+          "name": "governance",
+          "has_index": true,
+          "purpose": "Subdirectory with 21 Python files",
+          "component_count": 21
+        },
+        {
+          "name": "api",
+          "has_index": true,
+          "purpose": "Subdirectory with 11 Python files",
+          "component_count": 11
+        },
+        {
+          "name": "dna",
+          "has_index": true,
+          "purpose": "Subdirectory with 3 Python files",
+          "component_count": 3
+        },
+        {
+          "name": "migration",
+          "has_index": true,
+          "purpose": "Subdirectory with 5 Python files",
+          "component_count": 5
+        },
+        {
+          "name": "dream",
+          "has_index": true,
+          "purpose": "Subdirectory with 0 Python files",
+          "component_count": 0
+        },
+        {
+          "name": "orchestrator",
+          "has_index": true,
+          "purpose": "Subdirectory with 1 Python files",
+          "component_count": 1
+        },
+        {
+          "name": "emotion",
+          "has_index": true,
+          "purpose": "Subdirectory with 11 Python files",
+          "component_count": 11
+        },
+        {
+          "name": "openai",
+          "has_index": true,
+          "purpose": "Subdirectory with 2 Python files",
+          "component_count": 2
+        },
+        {
+          "name": "aka_qualia",
+          "has_index": true,
+          "purpose": "Subdirectory with 27 Python files",
+          "component_count": 27
+        }
+      ],
+      "documentation": [
+        {
+          "filename": "lukhas_context.md",
+          "type": "lukhas_context.md",
+          "has_sync_header": false
+        },
+        {
+          "filename": "claude.me",
+          "type": "claude.me",
+          "has_sync_header": true
+        }
+      ]
+    },
+    "schema_references": [
+      {
+        "schema_name": "directory_index",
+        "schema_path": "schemas/directory_index.schema.json",
+        "validation_status": "valid"
+      }
+    ],
+    "agent_guidance": {
+      "recommended_approach": "Begin with documentation files, then explore core components",
+      "key_files": [
+        "lukhas_context.md",
+        "claude.me"
+      ],
+      "common_tasks": [],
+      "prerequisites": [
+        "Understanding of LUKHAS lane system",
+        "Constellation Framework familiarity"
+      ],
+      "avoid_patterns": [
+        "Modifying contracts without validation",
+        "Breaking lane boundaries",
+        "Ignoring Constellation Framework integration",
+        "Bypassing MATRIZ pipeline validation",
+        "Violating T4/0.01% reliability standards"
+      ]
+    },
+    "performance_metadata": {
+      "component_count": 5,
+      "estimated_complexity": "low",
+      "consciousness_integration": "basic",
+      "matriz_compatibility": "experimental",
+      "t4_compliance_score": 0.3,
+      "test_coverage": 85.0
+    },
+    "relationships": {
+      "parent_directory": null,
+      "related_directories": [],
+      "constellation_cluster": "development_lane",
+      "dependency_weight": "moderate"
+    }
+  }
+}

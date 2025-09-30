@@ -1,10 +1,11 @@
 {
   "schema_version": "3.0.0",
   "module": "consciousness",
-  "description": "LUKHAS consciousness module",
+  "description": "LUKHAS consciousness module implementing consciousness_processing, awareness_patterns with consciousness integration and MATRIZ pipeline compatibility.",
   "ownership": {
-    "team": "Core",
+    "team": "Consciousness",
     "codeowners": [
+      "@lukhas-consciousness",
       "@lukhas-core"
     ]
   },
@@ -20,7 +21,14 @@
   },
   "runtime": {
     "language": "python",
-    "entrypoints": []
+    "entrypoints": [
+      "consciousness",
+      "consciousness.decision_engine:ConsciousnessDecisionEngine",
+      "consciousness.decision_engine:make_decision",
+      "consciousness.qi:QI",
+      "consciousness.qi:process",
+      "consciousness.qi:get_status"
+    ]
   },
   "matrix": {
     "contract": "",
@@ -37,16 +45,32 @@
     "docs": "./docs/README.md",
     "issues": "https://github.com/LukhasAI/Lukhas/issues"
   },
-  "tags": [],
+  "tags": [
+    "consciousness",
+    "awareness",
+    "cognition",
+    "t4-experimental",
+    "horizon-star-primary",
+    "consciousness-processing",
+    "matriz-processor",
+    "awareness-patterns",
+    "decision-engine"
+  ],
   "observability": {
-    "required_spans": [],
+    "required_spans": [
+      "lukhas.consciousness.decision",
+      "lukhas.consciousness.awareness"
+    ],
     "otel_semconv_version": "1.37.0"
   },
   "tokenization": {
     "enabled": false,
     "chain": "none"
   },
-  "dependencies": [],
+  "dependencies": [
+    "memoria",
+    "core"
+  ],
   "contracts": [],
   "x_legacy": {
     "directory_metadata": {

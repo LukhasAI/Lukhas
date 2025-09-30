@@ -72,7 +72,8 @@
       "Bash(then echo \"Unique file: $file -> should be moved to $rootfile\" fi done)",
       "Bash(wc -l echo echo \"4. Critical missing module (needed by tests):\" find . -name \"matriz_consciousness_integration.py\" -type f echo echo \"5. Sample of modules in candidate/core that aren''''t in root core/:\" ls candidate/core/)",
       "Bash(if [ -f \"candidate/core/$dep.py\" ])",
-      "Bash(if [ -f \"core/$dep.py\" ])"
+      "Bash(if [ -f \"core/$dep.py\" ])",
+      "Bash(grep:*)"
     ],
     "deny": [],
     "ask": []

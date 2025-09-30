@@ -1,10 +1,11 @@
 {
   "schema_version": "3.0.0",
   "module": "matriz",
-  "description": "LUKHAS matriz module",
+  "description": "MATRIZ core processing engine providing bio-symbolic adaptation, consciousness data flows, quantum-inspired algorithms, and symbolic reasoning for AGI development.",
   "ownership": {
-    "team": "Core",
+    "team": "MATRIZ",
     "codeowners": [
+      "@lukhas-matriz",
       "@lukhas-core"
     ]
   },
@@ -20,7 +21,42 @@
   },
   "runtime": {
     "language": "python",
-    "entrypoints": []
+    "entrypoints": [
+      "matriz",
+      "matriz.legacy_shims:register_legacy_node",
+      "matriz.legacy_shims:register_many",
+      "matriz.legacy_shims:shim_for",
+      "matriz.legacy_shims:get_shimmed_nodes",
+      "matriz.legacy_shims:bootstrap_router",
+      "matriz.legacy_shim:LegacyShim",
+      "matriz.legacy_shim:create_shim",
+      "matriz.legacy_shim:is_legacy_available",
+      "matriz.legacy_shim:migrate_legacy_nodes",
+      "matriz.legacy_shim:handle",
+      "matriz.traces_router:TraceMeta",
+      "matriz.traces_router:load_trace_file",
+      "matriz.node_contract:Topic",
+      "matriz.node_contract:GLYPH",
+      "matriz.node_contract:MatrizMessage",
+      "matriz.node_contract:MatrizResult",
+      "matriz.node_contract:MatrizNode",
+      "matriz.node_contract:canonical_json",
+      "matriz.node_contract:message_digest",
+      "matriz.node_contract:is_jsonable",
+      "matriz.node_contract:to_dict",
+      "matriz.node_contract:from_dict",
+      "matriz.node_contract:validate_glyph",
+      "matriz.node_contract:validate_message",
+      "matriz.node_contract:validate_result",
+      "matriz.node_contract:validate_message_ex",
+      "matriz.node_contract:mk_guardian_token",
+      "matriz.node_contract:handle",
+      "matriz.run_api_server:main",
+      "matriz.router:SymbolicMeshRouter",
+      "matriz.router:register",
+      "matriz.router:publish",
+      "matriz.router:start"
+    ]
   },
   "matrix": {
     "contract": "",
@@ -37,9 +73,18 @@
     "docs": "./docs/README.md",
     "issues": "https://github.com/LukhasAI/Lukhas/issues"
   },
-  "tags": [],
+  "tags": [
+    "bio-symbolic",
+    "t4-experimental",
+    "quantum-inspired",
+    "symbolic-reasoning",
+    "matriz"
+  ],
   "observability": {
-    "required_spans": [],
+    "required_spans": [
+      "lukhas.matriz.processing",
+      "lukhas.matriz.symbolic"
+    ],
     "otel_semconv_version": "1.37.0"
   },
   "tokenization": {

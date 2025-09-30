@@ -1,0 +1,199 @@
+{
+  "schema_version": "3.0.0",
+  "module": "rl",
+  "description": "LUKHAS rl module",
+  "ownership": {
+    "team": "Core",
+    "codeowners": [
+      "@lukhas-core"
+    ]
+  },
+  "layout": {
+    "code_layout": "package-root",
+    "paths": {
+      "code": ".",
+      "config": "config",
+      "tests": "tests",
+      "docs": "docs",
+      "assets": "assets"
+    }
+  },
+  "runtime": {
+    "language": "python",
+    "entrypoints": []
+  },
+  "matrix": {
+    "contract": "",
+    "lane": "L2",
+    "gates_profile": "standard"
+  },
+  "identity": {
+    "requires_auth": false,
+    "tiers": [],
+    "scopes": []
+  },
+  "links": {
+    "repo": "https://github.com/LukhasAI/Lukhas",
+    "docs": "./docs/README.md",
+    "issues": "https://github.com/LukhasAI/Lukhas/issues"
+  },
+  "tags": [],
+  "observability": {
+    "required_spans": [],
+    "otel_semconv_version": "1.37.0"
+  },
+  "tokenization": {
+    "enabled": false,
+    "chain": "none"
+  },
+  "dependencies": [],
+  "contracts": [],
+  "x_legacy": {
+    "directory_metadata": {
+      "path": "rl",
+      "lane": "development",
+      "purpose": "Directory containing 1 Python files and 6 subdirectories",
+      "last_updated": "2025-09-21",
+      "constellation_framework_version": "2.0.0",
+      "t4_compliance_level": "experimental"
+    },
+    "component_inventory": {
+      "python_files": [
+        {
+          "filename": "run_advanced_tests.py",
+          "component_type": "TEST",
+          "has_contract": false,
+          "contract_path": null,
+          "dependencies": [],
+          "exports": [
+            "check_dependencies",
+            "run_available_tests",
+            "run_performance_tests",
+            "run_mutation_tests",
+            "print_summary",
+            "main"
+          ]
+        }
+      ],
+      "subdirectories": [
+        {
+          "name": "experience",
+          "has_index": false,
+          "purpose": "Subdirectory with 2 Python files",
+          "component_count": 2
+        },
+        {
+          "name": "coordination",
+          "has_index": false,
+          "purpose": "Subdirectory with 2 Python files",
+          "component_count": 2
+        },
+        {
+          "name": "rewards",
+          "has_index": false,
+          "purpose": "Subdirectory with 2 Python files",
+          "component_count": 2
+        },
+        {
+          "name": "tests",
+          "has_index": false,
+          "purpose": "Subdirectory with 7 Python files",
+          "component_count": 7
+        },
+        {
+          "name": "meta_learning",
+          "has_index": false,
+          "purpose": "Subdirectory with 2 Python files",
+          "component_count": 2
+        },
+        {
+          "name": "engine",
+          "has_index": false,
+          "purpose": "Subdirectory with 4 Python files",
+          "component_count": 4
+        }
+      ],
+      "documentation": [
+        {
+          "filename": "ARCHITECTURE.md",
+          "type": "other",
+          "has_sync_header": false
+        },
+        {
+          "filename": "API_REFERENCE.md",
+          "type": "other",
+          "has_sync_header": false
+        },
+        {
+          "filename": "README.md",
+          "type": "README.md",
+          "has_sync_header": false
+        },
+        {
+          "filename": "lukhas-rl-decision-system.md",
+          "type": "other",
+          "has_sync_header": false
+        },
+        {
+          "filename": "GETTING_STARTED.md",
+          "type": "other",
+          "has_sync_header": false
+        },
+        {
+          "filename": "lukhas-rl-missing-modules.md",
+          "type": "other",
+          "has_sync_header": false
+        },
+        {
+          "filename": "ADVANCED_TESTING_SUITE.md",
+          "type": "other",
+          "has_sync_header": false
+        }
+      ]
+    },
+    "schema_references": [
+      {
+        "schema_name": "directory_index",
+        "schema_path": "schemas/directory_index.schema.json",
+        "validation_status": "valid"
+      }
+    ],
+    "agent_guidance": {
+      "recommended_approach": "Begin with documentation files, then explore core components",
+      "key_files": [
+        "README.md"
+      ],
+      "common_tasks": [],
+      "prerequisites": [
+        "Understanding of LUKHAS lane system",
+        "Constellation Framework familiarity",
+        "MATRIZ pipeline architecture",
+        "T4/0.01% implementation standards"
+      ],
+      "avoid_patterns": [
+        "Modifying contracts without validation",
+        "Breaking lane boundaries",
+        "Ignoring Constellation Framework integration",
+        "Breaking constructor-aware instantiation patterns",
+        "Bypassing T4/0.01% validation standards",
+        "Ignoring MATRIZ pipeline integration requirements"
+      ]
+    },
+    "performance_metadata": {
+      "component_count": 1,
+      "estimated_complexity": "low",
+      "consciousness_integration": "none",
+      "test_coverage": 85.0,
+      "t4_compliance_score": 0.65,
+      "matriz_compatibility": "standard",
+      "plugin_registry_compatible": true,
+      "constructor_aware_instantiation": true
+    },
+    "relationships": {
+      "parent_directory": null,
+      "related_directories": [],
+      "constellation_cluster": "unknown",
+      "dependency_weight": "moderate"
+    }
+  }
+}

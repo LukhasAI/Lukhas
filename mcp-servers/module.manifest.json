@@ -1,0 +1,51 @@
+{
+  "schema_version": "1.0.0",
+  "module": "mcp-servers",
+  "description": "LUKHAS mcp-servers module",
+  "ownership": {
+    "team": "Core",
+    "codeowners": [
+      "@lukhas-core"
+    ]
+  },
+  "layout": {
+    "code_layout": "package-root",
+    "paths": {
+      "code": ".",
+      "config": "config",
+      "tests": "tests",
+      "docs": "docs",
+      "assets": "assets"
+    }
+  },
+  "runtime": {
+    "language": "python",
+    "entrypoints": []
+  },
+  "matrix": {
+    "contract": "",
+    "lane": "L2",
+    "gates_profile": "standard"
+  },
+  "identity": {
+    "requires_auth": false,
+    "tiers": [],
+    "scopes": []
+  },
+  "links": {
+    "repo": "https://github.com/LukhasAI/Lukhas",
+    "docs": "./docs/README.md",
+    "issues": "https://github.com/LukhasAI/Lukhas/issues"
+  },
+  "tags": [],
+  "observability": {
+    "required_spans": [],
+    "otel_semconv_version": "1.37.0"
+  },
+  "tokenization": {
+    "enabled": false,
+    "chain": "none"
+  },
+  "dependencies": [],
+  "contracts": []
+}
