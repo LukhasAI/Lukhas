@@ -1,0 +1,67 @@
+{
+  "root": "Lukhas",
+  "generated_at": "2025-09-30T23:44:59Z",
+  "modules": [
+    {
+      "module": "core",
+      "path": "Lukhas/core",
+      "created_dirs": {
+        "docs": false,
+        "tests": false,
+        "config": false,
+        "schema": false
+      },
+      "manifest_before": {},
+      "manifest_after": {
+        "name": "core",
+        "description": "",
+        "version": "0.1.0",
+        "lane": "L2",
+        "tier": "L2",
+        "matriz_contract": "",
+        "owner": {
+          "team": "",
+          "codeowners": []
+        },
+        "tags": [],
+        "module_id": "mod-33421ac15b16cd33",
+        "matriz_ready": false,
+        "provenance": {
+          "created_at": "2025-09-30T23:44:59Z",
+          "updated_at": "2025-09-30T23:44:59Z"
+        },
+        "imports_validated": false,
+        "dependencies": [],
+        "contracts": []
+      },
+      "manifest_path": "Lukhas/core/module.json",
+      "manifest_renamed": false,
+      "module_schema_before": {},
+      "module_schema_after": {
+        "module": "core",
+        "schema_version": "1.0.0",
+        "layout": {
+          "code_layout": "package-root",
+          "paths": {
+            "code": ".",
+            "config": "config/",
+            "tests": "tests/",
+            "docs": "docs/",
+            "assets": "assets/"
+          }
+        },
+        "runtime": {
+          "language": "python",
+          "entrypoints": []
+        },
+        "observability": {
+          "required_spans": [],
+          "otel_semconv_version": "1.37.0"
+        }
+      },
+      "module_schema_path": "Lukhas/core/schema/module_schema.json",
+      "problems": [],
+      "ok": true
+    }
+  ]
+}

@@ -1,0 +1,2180 @@
+{
+  "timestamp": "2025-09-30T23:48:50.269172+00:00",
+  "root_directory": ".",
+  "modules": [
+    {
+      "name": "CLAUDE_ARMY",
+      "path": "CLAUDE_ARMY",
+      "has_legacy_index": true,
+      "has_manifest": false,
+      "has_matrix_contract": false,
+      "matrix_contract": null,
+      "code_layout": "package-root",
+      "missing_directories": [
+        "docs",
+        "tests",
+        "config",
+        "schema"
+      ]
+    },
+    {
+      "name": "Jules--branch",
+      "path": "Jules--branch",
+      "has_legacy_index": true,
+      "has_manifest": false,
+      "has_matrix_contract": false,
+      "matrix_contract": null,
+      "code_layout": "package-root",
+      "missing_directories": [
+        "docs",
+        "tests",
+        "config",
+        "schema"
+      ]
+    },
+    {
+      "name": "SYSTEM_CLAUDE_AUDIT",
+      "path": "SYSTEM_CLAUDE_AUDIT",
+      "has_legacy_index": false,
+      "has_manifest": false,
+      "has_matrix_contract": false,
+      "matrix_contract": null,
+      "code_layout": "package-root",
+      "missing_directories": [
+        "docs",
+        "tests",
+        "config",
+        "schema"
+      ]
+    },
+    {
+      "name": "TODO",
+      "path": "TODO",
+      "has_legacy_index": false,
+      "has_manifest": false,
+      "has_matrix_contract": false,
+      "matrix_contract": null,
+      "code_layout": "package-root",
+      "missing_directories": [
+        "docs",
+        "tests",
+        "config",
+        "schema"
+      ]
+    },
+    {
+      "name": "__pycache__",
+      "path": "__pycache__",
+      "has_legacy_index": false,
+      "has_manifest": false,
+      "has_matrix_contract": false,
+      "matrix_contract": null,
+      "code_layout": "package-root",
+      "missing_directories": [
+        "docs",
+        "tests",
+        "config",
+        "schema"
+      ]
+    },
+    {
+      "name": "adapters",
+      "path": "adapters",
+      "has_legacy_index": true,
+      "has_manifest": false,
+      "has_matrix_contract": false,
+      "matrix_contract": null,
+      "code_layout": "package-root",
+      "missing_directories": [
+        "docs",
+        "tests",
+        "config",
+        "schema"
+      ]
+    },
+    {
+      "name": "agent",
+      "path": "agent",
+      "has_legacy_index": true,
+      "has_manifest": false,
+      "has_matrix_contract": false,
+      "matrix_contract": null,
+      "code_layout": "package-root",
+      "missing_directories": [
+        "docs",
+        "tests",
+        "config",
+        "schema"
+      ]
+    },
+    {
+      "name": "agents",
+      "path": "agents",
+      "has_legacy_index": false,
+      "has_manifest": false,
+      "has_matrix_contract": false,
+      "matrix_contract": null,
+      "code_layout": "package-root",
+      "missing_directories": [
+        "docs",
+        "tests",
+        "config",
+        "schema"
+      ]
+    },
+    {
+      "name": "agents_external",
+      "path": "agents_external",
+      "has_legacy_index": true,
+      "has_manifest": false,
+      "has_matrix_contract": false,
+      "matrix_contract": null,
+      "code_layout": "package-root",
+      "missing_directories": [
+        "docs",
+        "tests",
+        "config",
+        "schema"
+      ]
+    },
+    {
+      "name": "ai_orchestration",
+      "path": "ai_orchestration",
+      "has_legacy_index": true,
+      "has_manifest": false,
+      "has_matrix_contract": false,
+      "matrix_contract": null,
+      "code_layout": "package-root",
+      "missing_directories": [
+        "docs",
+        "tests",
+        "config",
+        "schema"
+      ]
+    },
+    {
+      "name": "alerts",
+      "path": "alerts",
+      "has_legacy_index": false,
+      "has_manifest": false,
+      "has_matrix_contract": false,
+      "matrix_contract": null,
+      "code_layout": "package-root",
+      "missing_directories": [
+        "docs",
+        "tests",
+        "config",
+        "schema"
+      ]
+    },
+    {
+      "name": "analytics",
+      "path": "analytics",
+      "has_legacy_index": true,
+      "has_manifest": false,
+      "has_matrix_contract": false,
+      "matrix_contract": null,
+      "code_layout": "package-root",
+      "missing_directories": [
+        "docs",
+        "tests",
+        "config",
+        "schema"
+      ]
+    },
+    {
+      "name": "api",
+      "path": "api",
+      "has_legacy_index": true,
+      "has_manifest": false,
+      "has_matrix_contract": false,
+      "matrix_contract": null,
+      "code_layout": "package-root",
+      "missing_directories": [
+        "docs",
+        "tests",
+        "config",
+        "schema"
+      ]
+    },
+    {
+      "name": "archive",
+      "path": "archive",
+      "has_legacy_index": false,
+      "has_manifest": false,
+      "has_matrix_contract": false,
+      "matrix_contract": null,
+      "code_layout": "package-root",
+      "missing_directories": [
+        "docs",
+        "tests",
+        "config",
+        "schema"
+      ]
+    },
+    {
+      "name": "artifacts",
+      "path": "artifacts",
+      "has_legacy_index": false,
+      "has_manifest": false,
+      "has_matrix_contract": true,
+      "matrix_contract": "matrix_validation_results.json",
+      "code_layout": "package-root",
+      "missing_directories": [
+        "docs",
+        "tests",
+        "config",
+        "schema"
+      ]
+    },
+    {
+      "name": "assets",
+      "path": "assets",
+      "has_legacy_index": false,
+      "has_manifest": false,
+      "has_matrix_contract": false,
+      "matrix_contract": null,
+      "code_layout": "package-root",
+      "missing_directories": [
+        "docs",
+        "tests",
+        "config",
+        "schema"
+      ]
+    },
+    {
+      "name": "audit",
+      "path": "audit",
+      "has_legacy_index": false,
+      "has_manifest": false,
+      "has_matrix_contract": false,
+      "matrix_contract": null,
+      "code_layout": "package-root",
+      "missing_directories": [
+        "docs",
+        "tests",
+        "config",
+        "schema"
+      ]
+    },
+    {
+      "name": "benchmarks",
+      "path": "benchmarks",
+      "has_legacy_index": false,
+      "has_manifest": false,
+      "has_matrix_contract": false,
+      "matrix_contract": null,
+      "code_layout": "package-root",
+      "missing_directories": [
+        "docs",
+        "tests",
+        "config",
+        "schema"
+      ]
+    },
+    {
+      "name": "bio",
+      "path": "bio",
+      "has_legacy_index": true,
+      "has_manifest": false,
+      "has_matrix_contract": false,
+      "matrix_contract": null,
+      "code_layout": "package-root",
+      "missing_directories": [
+        "docs",
+        "tests",
+        "config",
+        "schema"
+      ]
+    },
+    {
+      "name": "brain",
+      "path": "brain",
+      "has_legacy_index": true,
+      "has_manifest": false,
+      "has_matrix_contract": false,
+      "matrix_contract": null,
+      "code_layout": "package-root",
+      "missing_directories": [
+        "docs",
+        "tests",
+        "config",
+        "schema"
+      ]
+    },
+    {
+      "name": "branding",
+      "path": "branding",
+      "has_legacy_index": true,
+      "has_manifest": false,
+      "has_matrix_contract": false,
+      "matrix_contract": null,
+      "code_layout": "package-root",
+      "missing_directories": [
+        "docs",
+        "tests",
+        "schema"
+      ]
+    },
+    {
+      "name": "bridge",
+      "path": "bridge",
+      "has_legacy_index": true,
+      "has_manifest": false,
+      "has_matrix_contract": false,
+      "matrix_contract": null,
+      "code_layout": "package-root",
+      "missing_directories": [
+        "docs",
+        "tests",
+        "config",
+        "schema"
+      ]
+    },
+    {
+      "name": "business",
+      "path": "business",
+      "has_legacy_index": true,
+      "has_manifest": false,
+      "has_matrix_contract": false,
+      "matrix_contract": null,
+      "code_layout": "package-root",
+      "missing_directories": [
+        "docs",
+        "tests",
+        "config",
+        "schema"
+      ]
+    },
+    {
+      "name": "candidate",
+      "path": "candidate",
+      "has_legacy_index": true,
+      "has_manifest": false,
+      "has_matrix_contract": false,
+      "matrix_contract": null,
+      "code_layout": "package-root",
+      "missing_directories": [
+        "docs",
+        "tests",
+        "config",
+        "schema"
+      ]
+    },
+    {
+      "name": "ci",
+      "path": "ci",
+      "has_legacy_index": false,
+      "has_manifest": false,
+      "has_matrix_contract": false,
+      "matrix_contract": null,
+      "code_layout": "package-root",
+      "missing_directories": [
+        "docs",
+        "tests",
+        "config",
+        "schema"
+      ]
+    },
+    {
+      "name": "codex_artifacts",
+      "path": "codex_artifacts",
+      "has_legacy_index": false,
+      "has_manifest": false,
+      "has_matrix_contract": false,
+      "matrix_contract": null,
+      "code_layout": "package-root",
+      "missing_directories": [
+        "docs",
+        "tests",
+        "config",
+        "schema"
+      ]
+    },
+    {
+      "name": "cognitive",
+      "path": "cognitive",
+      "has_legacy_index": false,
+      "has_manifest": false,
+      "has_matrix_contract": false,
+      "matrix_contract": null,
+      "code_layout": "package-root",
+      "missing_directories": [
+        "docs",
+        "tests",
+        "config",
+        "schema"
+      ]
+    },
+    {
+      "name": "cognitive_core",
+      "path": "cognitive_core",
+      "has_legacy_index": true,
+      "has_manifest": false,
+      "has_matrix_contract": false,
+      "matrix_contract": null,
+      "code_layout": "package-root",
+      "missing_directories": [
+        "docs",
+        "config",
+        "schema"
+      ]
+    },
+    {
+      "name": "completion",
+      "path": "completion",
+      "has_legacy_index": true,
+      "has_manifest": false,
+      "has_matrix_contract": false,
+      "matrix_contract": null,
+      "code_layout": "package-root",
+      "missing_directories": [
+        "docs",
+        "tests",
+        "config",
+        "schema"
+      ]
+    },
+    {
+      "name": "config",
+      "path": "config",
+      "has_legacy_index": true,
+      "has_manifest": false,
+      "has_matrix_contract": false,
+      "matrix_contract": null,
+      "code_layout": "package-root",
+      "missing_directories": [
+        "docs",
+        "tests",
+        "config",
+        "schema"
+      ]
+    },
+    {
+      "name": "consciousness",
+      "path": "consciousness",
+      "has_legacy_index": true,
+      "has_manifest": false,
+      "has_matrix_contract": false,
+      "matrix_contract": null,
+      "code_layout": "package-root",
+      "missing_directories": [
+        "docs",
+        "tests",
+        "config",
+        "schema"
+      ]
+    },
+    {
+      "name": "consent",
+      "path": "consent",
+      "has_legacy_index": true,
+      "has_manifest": false,
+      "has_matrix_contract": false,
+      "matrix_contract": null,
+      "code_layout": "package-root",
+      "missing_directories": [
+        "docs",
+        "tests",
+        "config",
+        "schema"
+      ]
+    },
+    {
+      "name": "contracts",
+      "path": "contracts",
+      "has_legacy_index": false,
+      "has_manifest": false,
+      "has_matrix_contract": true,
+      "matrix_contract": "matrix_core_bridge.json",
+      "code_layout": "package-root",
+      "missing_directories": [
+        "docs",
+        "tests",
+        "config",
+        "schema"
+      ]
+    },
+    {
+      "name": "core",
+      "path": "core",
+      "has_legacy_index": true,
+      "has_manifest": false,
+      "has_matrix_contract": false,
+      "matrix_contract": null,
+      "code_layout": "package-root",
+      "missing_directories": [
+        "docs",
+        "tests",
+        "config",
+        "schema"
+      ]
+    },
+    {
+      "name": "dashboards",
+      "path": "dashboards",
+      "has_legacy_index": false,
+      "has_manifest": false,
+      "has_matrix_contract": false,
+      "matrix_contract": null,
+      "code_layout": "package-root",
+      "missing_directories": [
+        "docs",
+        "tests",
+        "config",
+        "schema"
+      ]
+    },
+    {
+      "name": "data",
+      "path": "data",
+      "has_legacy_index": false,
+      "has_manifest": false,
+      "has_matrix_contract": false,
+      "matrix_contract": null,
+      "code_layout": "package-root",
+      "missing_directories": [
+        "docs",
+        "tests",
+        "config",
+        "schema"
+      ]
+    },
+    {
+      "name": "delegation_reports",
+      "path": "delegation_reports",
+      "has_legacy_index": true,
+      "has_manifest": false,
+      "has_matrix_contract": false,
+      "matrix_contract": null,
+      "code_layout": "package-root",
+      "missing_directories": [
+        "docs",
+        "tests",
+        "config",
+        "schema"
+      ]
+    },
+    {
+      "name": "demos",
+      "path": "demos",
+      "has_legacy_index": true,
+      "has_manifest": false,
+      "has_matrix_contract": false,
+      "matrix_contract": null,
+      "code_layout": "package-root",
+      "missing_directories": [
+        "docs",
+        "tests",
+        "config",
+        "schema"
+      ]
+    },
+    {
+      "name": "deployment",
+      "path": "deployment",
+      "has_legacy_index": false,
+      "has_manifest": false,
+      "has_matrix_contract": false,
+      "matrix_contract": null,
+      "code_layout": "package-root",
+      "missing_directories": [
+        "docs",
+        "tests",
+        "config",
+        "schema"
+      ]
+    },
+    {
+      "name": "design-system",
+      "path": "design-system",
+      "has_legacy_index": false,
+      "has_manifest": false,
+      "has_matrix_contract": false,
+      "matrix_contract": null,
+      "code_layout": "package-root",
+      "missing_directories": [
+        "docs",
+        "tests",
+        "config",
+        "schema"
+      ]
+    },
+    {
+      "name": "diagnostics",
+      "path": "diagnostics",
+      "has_legacy_index": true,
+      "has_manifest": false,
+      "has_matrix_contract": false,
+      "matrix_contract": null,
+      "code_layout": "package-root",
+      "missing_directories": [
+        "docs",
+        "tests",
+        "config",
+        "schema"
+      ]
+    },
+    {
+      "name": "doc",
+      "path": "doc",
+      "has_legacy_index": false,
+      "has_manifest": false,
+      "has_matrix_contract": false,
+      "matrix_contract": null,
+      "code_layout": "package-root",
+      "missing_directories": [
+        "docs",
+        "tests",
+        "config",
+        "schema"
+      ]
+    },
+    {
+      "name": "docker",
+      "path": "docker",
+      "has_legacy_index": false,
+      "has_manifest": false,
+      "has_matrix_contract": false,
+      "matrix_contract": null,
+      "code_layout": "package-root",
+      "missing_directories": [
+        "docs",
+        "tests",
+        "config",
+        "schema"
+      ]
+    },
+    {
+      "name": "docs",
+      "path": "docs",
+      "has_legacy_index": false,
+      "has_manifest": false,
+      "has_matrix_contract": true,
+      "matrix_contract": "matrix_tracks.status.json",
+      "code_layout": "package-root",
+      "missing_directories": [
+        "docs",
+        "tests",
+        "config",
+        "schema"
+      ]
+    },
+    {
+      "name": "dream",
+      "path": "dream",
+      "has_legacy_index": true,
+      "has_manifest": false,
+      "has_matrix_contract": false,
+      "matrix_contract": null,
+      "code_layout": "package-root",
+      "missing_directories": [
+        "docs",
+        "tests",
+        "config",
+        "schema"
+      ]
+    },
+    {
+      "name": "dreams",
+      "path": "dreams",
+      "has_legacy_index": true,
+      "has_manifest": false,
+      "has_matrix_contract": false,
+      "matrix_contract": null,
+      "code_layout": "package-root",
+      "missing_directories": [
+        "docs",
+        "tests",
+        "config",
+        "schema"
+      ]
+    },
+    {
+      "name": "dreamweaver_helpers_bundle",
+      "path": "dreamweaver_helpers_bundle",
+      "has_legacy_index": false,
+      "has_manifest": false,
+      "has_matrix_contract": false,
+      "matrix_contract": null,
+      "code_layout": "package-root",
+      "missing_directories": [
+        "docs",
+        "tests",
+        "config",
+        "schema"
+      ]
+    },
+    {
+      "name": "emotion",
+      "path": "emotion",
+      "has_legacy_index": true,
+      "has_manifest": false,
+      "has_matrix_contract": false,
+      "matrix_contract": null,
+      "code_layout": "package-root",
+      "missing_directories": [
+        "docs",
+        "tests",
+        "config",
+        "schema"
+      ]
+    },
+    {
+      "name": "enforcement",
+      "path": "enforcement",
+      "has_legacy_index": false,
+      "has_manifest": false,
+      "has_matrix_contract": false,
+      "matrix_contract": null,
+      "code_layout": "package-root",
+      "missing_directories": [
+        "docs",
+        "tests",
+        "config",
+        "schema"
+      ]
+    },
+    {
+      "name": "enterprise",
+      "path": "enterprise",
+      "has_legacy_index": true,
+      "has_manifest": false,
+      "has_matrix_contract": false,
+      "matrix_contract": null,
+      "code_layout": "package-root",
+      "missing_directories": [
+        "docs",
+        "tests",
+        "config",
+        "schema"
+      ]
+    },
+    {
+      "name": "environments",
+      "path": "environments",
+      "has_legacy_index": false,
+      "has_manifest": false,
+      "has_matrix_contract": false,
+      "matrix_contract": null,
+      "code_layout": "package-root",
+      "missing_directories": [
+        "docs",
+        "tests",
+        "config",
+        "schema"
+      ]
+    },
+    {
+      "name": "ethics",
+      "path": "ethics",
+      "has_legacy_index": true,
+      "has_manifest": false,
+      "has_matrix_contract": false,
+      "matrix_contract": null,
+      "code_layout": "package-root",
+      "missing_directories": [
+        "docs",
+        "tests",
+        "config",
+        "schema"
+      ]
+    },
+    {
+      "name": "eval_runs",
+      "path": "eval_runs",
+      "has_legacy_index": false,
+      "has_manifest": false,
+      "has_matrix_contract": false,
+      "matrix_contract": null,
+      "code_layout": "package-root",
+      "missing_directories": [
+        "docs",
+        "tests",
+        "config",
+        "schema"
+      ]
+    },
+    {
+      "name": "examples",
+      "path": "examples",
+      "has_legacy_index": true,
+      "has_manifest": false,
+      "has_matrix_contract": false,
+      "matrix_contract": null,
+      "code_layout": "package-root",
+      "missing_directories": [
+        "docs",
+        "tests",
+        "config",
+        "schema"
+      ]
+    },
+    {
+      "name": "exports",
+      "path": "exports",
+      "has_legacy_index": false,
+      "has_manifest": false,
+      "has_matrix_contract": false,
+      "matrix_contract": null,
+      "code_layout": "package-root",
+      "missing_directories": [
+        "docs",
+        "tests",
+        "config",
+        "schema"
+      ]
+    },
+    {
+      "name": "feedback",
+      "path": "feedback",
+      "has_legacy_index": true,
+      "has_manifest": false,
+      "has_matrix_contract": false,
+      "matrix_contract": null,
+      "code_layout": "package-root",
+      "missing_directories": [
+        "docs",
+        "tests",
+        "config",
+        "schema"
+      ]
+    },
+    {
+      "name": "final-sweep",
+      "path": "final-sweep",
+      "has_legacy_index": false,
+      "has_manifest": false,
+      "has_matrix_contract": false,
+      "matrix_contract": null,
+      "code_layout": "package-root",
+      "missing_directories": [
+        "docs",
+        "tests",
+        "config",
+        "schema"
+      ]
+    },
+    {
+      "name": "governance",
+      "path": "governance",
+      "has_legacy_index": true,
+      "has_manifest": false,
+      "has_matrix_contract": false,
+      "matrix_contract": null,
+      "code_layout": "package-root",
+      "missing_directories": [
+        "docs",
+        "tests",
+        "config",
+        "schema"
+      ]
+    },
+    {
+      "name": "governance_extended",
+      "path": "governance_extended",
+      "has_legacy_index": true,
+      "has_manifest": false,
+      "has_matrix_contract": false,
+      "matrix_contract": null,
+      "code_layout": "package-root",
+      "missing_directories": [
+        "docs",
+        "tests",
+        "config",
+        "schema"
+      ]
+    },
+    {
+      "name": "grafana",
+      "path": "grafana",
+      "has_legacy_index": false,
+      "has_manifest": false,
+      "has_matrix_contract": false,
+      "matrix_contract": null,
+      "code_layout": "package-root",
+      "missing_directories": [
+        "docs",
+        "tests",
+        "config",
+        "schema"
+      ]
+    },
+    {
+      "name": "graphs",
+      "path": "graphs",
+      "has_legacy_index": false,
+      "has_manifest": false,
+      "has_matrix_contract": false,
+      "matrix_contract": null,
+      "code_layout": "package-root",
+      "missing_directories": [
+        "docs",
+        "tests",
+        "config",
+        "schema"
+      ]
+    },
+    {
+      "name": "gtpsi",
+      "path": "gtpsi",
+      "has_legacy_index": true,
+      "has_manifest": false,
+      "has_matrix_contract": false,
+      "matrix_contract": null,
+      "code_layout": "package-root",
+      "missing_directories": [
+        "docs",
+        "tests",
+        "config",
+        "schema"
+      ]
+    },
+    {
+      "name": "guardian",
+      "path": "guardian",
+      "has_legacy_index": true,
+      "has_manifest": false,
+      "has_matrix_contract": false,
+      "matrix_contract": null,
+      "code_layout": "package-root",
+      "missing_directories": [
+        "docs",
+        "tests",
+        "config",
+        "schema"
+      ]
+    },
+    {
+      "name": "gymnasium_local",
+      "path": "gymnasium_local",
+      "has_legacy_index": true,
+      "has_manifest": false,
+      "has_matrix_contract": false,
+      "matrix_contract": null,
+      "code_layout": "package-root",
+      "missing_directories": [
+        "docs",
+        "tests",
+        "config",
+        "schema"
+      ]
+    },
+    {
+      "name": "healing",
+      "path": "healing",
+      "has_legacy_index": false,
+      "has_manifest": false,
+      "has_matrix_contract": false,
+      "matrix_contract": null,
+      "code_layout": "package-root",
+      "missing_directories": [
+        "docs",
+        "tests",
+        "config",
+        "schema"
+      ]
+    },
+    {
+      "name": "health_reports",
+      "path": "health_reports",
+      "has_legacy_index": false,
+      "has_manifest": false,
+      "has_matrix_contract": false,
+      "matrix_contract": null,
+      "code_layout": "package-root",
+      "missing_directories": [
+        "docs",
+        "tests",
+        "config",
+        "schema"
+      ]
+    },
+    {
+      "name": "hooks",
+      "path": "hooks",
+      "has_legacy_index": true,
+      "has_manifest": false,
+      "has_matrix_contract": false,
+      "matrix_contract": null,
+      "code_layout": "package-root",
+      "missing_directories": [
+        "docs",
+        "tests",
+        "config",
+        "schema"
+      ]
+    },
+    {
+      "name": "htmlcov",
+      "path": "htmlcov",
+      "has_legacy_index": false,
+      "has_manifest": false,
+      "has_matrix_contract": false,
+      "matrix_contract": null,
+      "code_layout": "package-root",
+      "missing_directories": [
+        "docs",
+        "tests",
+        "config",
+        "schema"
+      ]
+    },
+    {
+      "name": "identity",
+      "path": "identity",
+      "has_legacy_index": true,
+      "has_manifest": false,
+      "has_matrix_contract": false,
+      "matrix_contract": null,
+      "code_layout": "package-root",
+      "missing_directories": [
+        "docs",
+        "tests",
+        "config",
+        "schema"
+      ]
+    },
+    {
+      "name": "integrations",
+      "path": "integrations",
+      "has_legacy_index": true,
+      "has_manifest": false,
+      "has_matrix_contract": false,
+      "matrix_contract": null,
+      "code_layout": "package-root",
+      "missing_directories": [
+        "docs",
+        "tests",
+        "config",
+        "schema"
+      ]
+    },
+    {
+      "name": "logs",
+      "path": "logs",
+      "has_legacy_index": false,
+      "has_manifest": false,
+      "has_matrix_contract": false,
+      "matrix_contract": null,
+      "code_layout": "package-root",
+      "missing_directories": [
+        "docs",
+        "tests",
+        "config",
+        "schema"
+      ]
+    },
+    {
+      "name": "lukhas",
+      "path": "lukhas",
+      "has_legacy_index": false,
+      "has_manifest": false,
+      "has_matrix_contract": false,
+      "matrix_contract": null,
+      "code_layout": "package-root",
+      "missing_directories": [
+        "docs",
+        "tests",
+        "config",
+        "schema"
+      ]
+    },
+    {
+      "name": "lukhas-ai-intro",
+      "path": "lukhas-ai-intro",
+      "has_legacy_index": false,
+      "has_manifest": false,
+      "has_matrix_contract": false,
+      "matrix_contract": null,
+      "code_layout": "package-root",
+      "missing_directories": [
+        "docs",
+        "tests",
+        "config",
+        "schema"
+      ]
+    },
+    {
+      "name": "lukhas_ai.egg-info",
+      "path": "lukhas_ai.egg-info",
+      "has_legacy_index": false,
+      "has_manifest": false,
+      "has_matrix_contract": false,
+      "matrix_contract": null,
+      "code_layout": "package-root",
+      "missing_directories": [
+        "docs",
+        "tests",
+        "config",
+        "schema"
+      ]
+    },
+    {
+      "name": "lukhas_website",
+      "path": "lukhas_website",
+      "has_legacy_index": false,
+      "has_manifest": false,
+      "has_matrix_contract": false,
+      "matrix_contract": null,
+      "code_layout": "package-root",
+      "missing_directories": [
+        "schema"
+      ]
+    },
+    {
+      "name": "matriz",
+      "path": "matriz",
+      "has_legacy_index": true,
+      "has_manifest": false,
+      "has_matrix_contract": false,
+      "matrix_contract": null,
+      "code_layout": "package-root",
+      "missing_directories": [
+        "tests",
+        "config",
+        "schema"
+      ]
+    },
+    {
+      "name": "mcp-lukhas-sse",
+      "path": "mcp-lukhas-sse",
+      "has_legacy_index": true,
+      "has_manifest": false,
+      "has_matrix_contract": false,
+      "matrix_contract": null,
+      "code_layout": "package-root",
+      "missing_directories": [
+        "docs",
+        "tests",
+        "config",
+        "schema"
+      ]
+    },
+    {
+      "name": "mcp-server",
+      "path": "mcp-server",
+      "has_legacy_index": false,
+      "has_manifest": false,
+      "has_matrix_contract": false,
+      "matrix_contract": null,
+      "code_layout": "package-root",
+      "missing_directories": [
+        "docs",
+        "tests",
+        "config",
+        "schema"
+      ]
+    },
+    {
+      "name": "mcp-servers",
+      "path": "mcp-servers",
+      "has_legacy_index": false,
+      "has_manifest": false,
+      "has_matrix_contract": false,
+      "matrix_contract": null,
+      "code_layout": "package-root",
+      "missing_directories": [
+        "docs",
+        "tests",
+        "config",
+        "schema"
+      ]
+    },
+    {
+      "name": "mcp_servers",
+      "path": "mcp_servers",
+      "has_legacy_index": true,
+      "has_manifest": false,
+      "has_matrix_contract": false,
+      "matrix_contract": null,
+      "code_layout": "package-root",
+      "missing_directories": [
+        "docs",
+        "tests",
+        "config",
+        "schema"
+      ]
+    },
+    {
+      "name": "memory",
+      "path": "memory",
+      "has_legacy_index": true,
+      "has_manifest": false,
+      "has_matrix_contract": true,
+      "matrix_contract": "matrix_memoria.json",
+      "code_layout": "package-root",
+      "missing_directories": [
+        "docs",
+        "tests",
+        "config",
+        "schema"
+      ]
+    },
+    {
+      "name": "mk",
+      "path": "mk",
+      "has_legacy_index": false,
+      "has_manifest": false,
+      "has_matrix_contract": false,
+      "matrix_contract": null,
+      "code_layout": "package-root",
+      "missing_directories": [
+        "docs",
+        "tests",
+        "config",
+        "schema"
+      ]
+    },
+    {
+      "name": "models",
+      "path": "models",
+      "has_legacy_index": false,
+      "has_manifest": false,
+      "has_matrix_contract": false,
+      "matrix_contract": null,
+      "code_layout": "package-root",
+      "missing_directories": [
+        "docs",
+        "tests",
+        "config",
+        "schema"
+      ]
+    },
+    {
+      "name": "modulation",
+      "path": "modulation",
+      "has_legacy_index": true,
+      "has_manifest": false,
+      "has_matrix_contract": false,
+      "matrix_contract": null,
+      "code_layout": "package-root",
+      "missing_directories": [
+        "docs",
+        "tests",
+        "config",
+        "schema"
+      ]
+    },
+    {
+      "name": "modules",
+      "path": "modules",
+      "has_legacy_index": false,
+      "has_manifest": false,
+      "has_matrix_contract": false,
+      "matrix_contract": null,
+      "code_layout": "package-root",
+      "missing_directories": [
+        "docs",
+        "tests",
+        "config",
+        "schema"
+      ]
+    },
+    {
+      "name": "monitoring",
+      "path": "monitoring",
+      "has_legacy_index": true,
+      "has_manifest": false,
+      "has_matrix_contract": false,
+      "matrix_contract": null,
+      "code_layout": "package-root",
+      "missing_directories": [
+        "docs",
+        "tests",
+        "config",
+        "schema"
+      ]
+    },
+    {
+      "name": "next_gen",
+      "path": "next_gen",
+      "has_legacy_index": true,
+      "has_manifest": false,
+      "has_matrix_contract": false,
+      "matrix_contract": null,
+      "code_layout": "package-root",
+      "missing_directories": [
+        "docs",
+        "tests",
+        "config",
+        "schema"
+      ]
+    },
+    {
+      "name": "observability",
+      "path": "observability",
+      "has_legacy_index": true,
+      "has_manifest": false,
+      "has_matrix_contract": false,
+      "matrix_contract": null,
+      "code_layout": "package-root",
+      "missing_directories": [
+        "docs",
+        "tests",
+        "config",
+        "schema"
+      ]
+    },
+    {
+      "name": "oneiric_core",
+      "path": "oneiric_core",
+      "has_legacy_index": true,
+      "has_manifest": false,
+      "has_matrix_contract": false,
+      "matrix_contract": null,
+      "code_layout": "package-root",
+      "missing_directories": [
+        "docs",
+        "tests",
+        "config",
+        "schema"
+      ]
+    },
+    {
+      "name": "ops",
+      "path": "ops",
+      "has_legacy_index": false,
+      "has_manifest": false,
+      "has_matrix_contract": false,
+      "matrix_contract": null,
+      "code_layout": "package-root",
+      "missing_directories": [
+        "docs",
+        "tests",
+        "config",
+        "schema"
+      ]
+    },
+    {
+      "name": "orchestration",
+      "path": "orchestration",
+      "has_legacy_index": true,
+      "has_manifest": false,
+      "has_matrix_contract": false,
+      "matrix_contract": null,
+      "code_layout": "package-root",
+      "missing_directories": [
+        "docs",
+        "tests",
+        "config",
+        "schema"
+      ]
+    },
+    {
+      "name": "out",
+      "path": "out",
+      "has_legacy_index": false,
+      "has_manifest": false,
+      "has_matrix_contract": false,
+      "matrix_contract": null,
+      "code_layout": "package-root",
+      "missing_directories": [
+        "docs",
+        "tests",
+        "config",
+        "schema"
+      ]
+    },
+    {
+      "name": "packages",
+      "path": "packages",
+      "has_legacy_index": false,
+      "has_manifest": false,
+      "has_matrix_contract": false,
+      "matrix_contract": null,
+      "code_layout": "package-root",
+      "missing_directories": [
+        "docs",
+        "tests",
+        "config",
+        "schema"
+      ]
+    },
+    {
+      "name": "performance",
+      "path": "performance",
+      "has_legacy_index": true,
+      "has_manifest": false,
+      "has_matrix_contract": false,
+      "matrix_contract": null,
+      "code_layout": "package-root",
+      "missing_directories": [
+        "docs",
+        "tests",
+        "config",
+        "schema"
+      ]
+    },
+    {
+      "name": "perp_runs",
+      "path": "perp_runs",
+      "has_legacy_index": false,
+      "has_manifest": false,
+      "has_matrix_contract": false,
+      "matrix_contract": null,
+      "code_layout": "package-root",
+      "missing_directories": [
+        "docs",
+        "tests",
+        "config",
+        "schema"
+      ]
+    },
+    {
+      "name": "personality",
+      "path": "personality",
+      "has_legacy_index": true,
+      "has_manifest": false,
+      "has_matrix_contract": false,
+      "matrix_contract": null,
+      "code_layout": "package-root",
+      "missing_directories": [
+        "docs",
+        "tests",
+        "config",
+        "schema"
+      ]
+    },
+    {
+      "name": "phase1_verification_pack",
+      "path": "phase1_verification_pack",
+      "has_legacy_index": false,
+      "has_manifest": false,
+      "has_matrix_contract": false,
+      "matrix_contract": null,
+      "code_layout": "package-root",
+      "missing_directories": [
+        "docs",
+        "tests",
+        "config",
+        "schema"
+      ]
+    },
+    {
+      "name": "policies",
+      "path": "policies",
+      "has_legacy_index": false,
+      "has_manifest": false,
+      "has_matrix_contract": false,
+      "matrix_contract": null,
+      "code_layout": "package-root",
+      "missing_directories": [
+        "docs",
+        "tests",
+        "config",
+        "schema"
+      ]
+    },
+    {
+      "name": "presentations",
+      "path": "presentations",
+      "has_legacy_index": false,
+      "has_manifest": false,
+      "has_matrix_contract": false,
+      "matrix_contract": null,
+      "code_layout": "package-root",
+      "missing_directories": [
+        "docs",
+        "tests",
+        "config",
+        "schema"
+      ]
+    },
+    {
+      "name": "products",
+      "path": "products",
+      "has_legacy_index": true,
+      "has_manifest": false,
+      "has_matrix_contract": false,
+      "matrix_contract": null,
+      "code_layout": "package-root",
+      "missing_directories": [
+        "docs",
+        "tests",
+        "config",
+        "schema"
+      ]
+    },
+    {
+      "name": "prometheus",
+      "path": "prometheus",
+      "has_legacy_index": false,
+      "has_manifest": false,
+      "has_matrix_contract": false,
+      "matrix_contract": null,
+      "code_layout": "package-root",
+      "missing_directories": [
+        "docs",
+        "tests",
+        "config",
+        "schema"
+      ]
+    },
+    {
+      "name": "pytest_asyncio",
+      "path": "pytest_asyncio",
+      "has_legacy_index": false,
+      "has_manifest": false,
+      "has_matrix_contract": false,
+      "matrix_contract": null,
+      "code_layout": "package-root",
+      "missing_directories": [
+        "docs",
+        "tests",
+        "config",
+        "schema"
+      ]
+    },
+    {
+      "name": "qi",
+      "path": "qi",
+      "has_legacy_index": true,
+      "has_manifest": false,
+      "has_matrix_contract": false,
+      "matrix_contract": null,
+      "code_layout": "package-root",
+      "missing_directories": [
+        "tests",
+        "schema"
+      ]
+    },
+    {
+      "name": "quantum",
+      "path": "quantum",
+      "has_legacy_index": true,
+      "has_manifest": false,
+      "has_matrix_contract": false,
+      "matrix_contract": null,
+      "code_layout": "package-root",
+      "missing_directories": [
+        "docs",
+        "tests",
+        "config",
+        "schema"
+      ]
+    },
+    {
+      "name": "quarantine",
+      "path": "quarantine",
+      "has_legacy_index": false,
+      "has_manifest": false,
+      "has_matrix_contract": false,
+      "matrix_contract": null,
+      "code_layout": "package-root",
+      "missing_directories": [
+        "docs",
+        "tests",
+        "config",
+        "schema"
+      ]
+    },
+    {
+      "name": "rats",
+      "path": "rats",
+      "has_legacy_index": false,
+      "has_manifest": false,
+      "has_matrix_contract": false,
+      "matrix_contract": null,
+      "code_layout": "package-root",
+      "missing_directories": [
+        "docs",
+        "tests",
+        "config",
+        "schema"
+      ]
+    },
+    {
+      "name": "reasoning",
+      "path": "reasoning",
+      "has_legacy_index": true,
+      "has_manifest": false,
+      "has_matrix_contract": false,
+      "matrix_contract": null,
+      "code_layout": "package-root",
+      "missing_directories": [
+        "docs",
+        "tests",
+        "config",
+        "schema"
+      ]
+    },
+    {
+      "name": "recovered_components",
+      "path": "recovered_components",
+      "has_legacy_index": false,
+      "has_manifest": false,
+      "has_matrix_contract": false,
+      "matrix_contract": null,
+      "code_layout": "package-root",
+      "missing_directories": [
+        "docs",
+        "tests",
+        "config",
+        "schema"
+      ]
+    },
+    {
+      "name": "reports",
+      "path": "reports",
+      "has_legacy_index": false,
+      "has_manifest": false,
+      "has_matrix_contract": false,
+      "matrix_contract": null,
+      "code_layout": "package-root",
+      "missing_directories": [
+        "docs",
+        "config",
+        "schema"
+      ]
+    },
+    {
+      "name": "rl",
+      "path": "rl",
+      "has_legacy_index": true,
+      "has_manifest": false,
+      "has_matrix_contract": false,
+      "matrix_contract": null,
+      "code_layout": "package-root",
+      "missing_directories": [
+        "docs",
+        "config",
+        "schema"
+      ]
+    },
+    {
+      "name": "rules",
+      "path": "rules",
+      "has_legacy_index": false,
+      "has_manifest": false,
+      "has_matrix_contract": false,
+      "matrix_contract": null,
+      "code_layout": "package-root",
+      "missing_directories": [
+        "docs",
+        "tests",
+        "config",
+        "schema"
+      ]
+    },
+    {
+      "name": "samples",
+      "path": "samples",
+      "has_legacy_index": false,
+      "has_manifest": false,
+      "has_matrix_contract": false,
+      "matrix_contract": null,
+      "code_layout": "package-root",
+      "missing_directories": [
+        "docs",
+        "tests",
+        "config",
+        "schema"
+      ]
+    },
+    {
+      "name": "sbom",
+      "path": "sbom",
+      "has_legacy_index": false,
+      "has_manifest": false,
+      "has_matrix_contract": false,
+      "matrix_contract": null,
+      "code_layout": "package-root",
+      "missing_directories": [
+        "docs",
+        "tests",
+        "config",
+        "schema"
+      ]
+    },
+    {
+      "name": "schemas",
+      "path": "schemas",
+      "has_legacy_index": false,
+      "has_manifest": false,
+      "has_matrix_contract": false,
+      "matrix_contract": null,
+      "code_layout": "package-root",
+      "missing_directories": [
+        "docs",
+        "tests",
+        "config",
+        "schema"
+      ]
+    },
+    {
+      "name": "scripts",
+      "path": "scripts",
+      "has_legacy_index": true,
+      "has_manifest": false,
+      "has_matrix_contract": false,
+      "matrix_contract": null,
+      "code_layout": "package-root",
+      "missing_directories": [
+        "docs",
+        "tests",
+        "config",
+        "schema"
+      ]
+    },
+    {
+      "name": "sdk",
+      "path": "sdk",
+      "has_legacy_index": true,
+      "has_manifest": false,
+      "has_matrix_contract": false,
+      "matrix_contract": null,
+      "code_layout": "package-root",
+      "missing_directories": [
+        "docs",
+        "tests",
+        "config",
+        "schema"
+      ]
+    },
+    {
+      "name": "security",
+      "path": "security",
+      "has_legacy_index": true,
+      "has_manifest": false,
+      "has_matrix_contract": false,
+      "matrix_contract": null,
+      "code_layout": "package-root",
+      "missing_directories": [
+        "docs",
+        "config",
+        "schema"
+      ]
+    },
+    {
+      "name": "security-reports",
+      "path": "security-reports",
+      "has_legacy_index": false,
+      "has_manifest": false,
+      "has_matrix_contract": false,
+      "matrix_contract": null,
+      "code_layout": "package-root",
+      "missing_directories": [
+        "docs",
+        "tests",
+        "config",
+        "schema"
+      ]
+    },
+    {
+      "name": "serve",
+      "path": "serve",
+      "has_legacy_index": true,
+      "has_manifest": false,
+      "has_matrix_contract": false,
+      "matrix_contract": null,
+      "code_layout": "package-root",
+      "missing_directories": [
+        "docs",
+        "tests",
+        "schema"
+      ]
+    },
+    {
+      "name": "server",
+      "path": "server",
+      "has_legacy_index": false,
+      "has_manifest": false,
+      "has_matrix_contract": false,
+      "matrix_contract": null,
+      "code_layout": "package-root",
+      "missing_directories": [
+        "docs",
+        "tests",
+        "config",
+        "schema"
+      ]
+    },
+    {
+      "name": "services",
+      "path": "services",
+      "has_legacy_index": false,
+      "has_manifest": false,
+      "has_matrix_contract": false,
+      "matrix_contract": null,
+      "code_layout": "package-root",
+      "missing_directories": [
+        "docs",
+        "tests",
+        "config",
+        "schema"
+      ]
+    },
+    {
+      "name": "src",
+      "path": "src",
+      "has_legacy_index": false,
+      "has_manifest": false,
+      "has_matrix_contract": false,
+      "matrix_contract": null,
+      "code_layout": "package-root",
+      "missing_directories": [
+        "docs",
+        "tests",
+        "config",
+        "schema"
+      ]
+    },
+    {
+      "name": "storage",
+      "path": "storage",
+      "has_legacy_index": true,
+      "has_manifest": false,
+      "has_matrix_contract": false,
+      "matrix_contract": null,
+      "code_layout": "package-root",
+      "missing_directories": [
+        "docs",
+        "tests",
+        "config",
+        "schema"
+      ]
+    },
+    {
+      "name": "symbolic",
+      "path": "symbolic",
+      "has_legacy_index": true,
+      "has_manifest": false,
+      "has_matrix_contract": false,
+      "matrix_contract": null,
+      "code_layout": "package-root",
+      "missing_directories": [
+        "docs",
+        "tests",
+        "config",
+        "schema"
+      ]
+    },
+    {
+      "name": "system",
+      "path": "system",
+      "has_legacy_index": true,
+      "has_manifest": false,
+      "has_matrix_contract": false,
+      "matrix_contract": null,
+      "code_layout": "package-root",
+      "missing_directories": [
+        "docs",
+        "tests",
+        "config",
+        "schema"
+      ]
+    },
+    {
+      "name": "tagging",
+      "path": "tagging",
+      "has_legacy_index": true,
+      "has_manifest": false,
+      "has_matrix_contract": false,
+      "matrix_contract": null,
+      "code_layout": "package-root",
+      "missing_directories": [
+        "docs",
+        "tests",
+        "config",
+        "schema"
+      ]
+    },
+    {
+      "name": "telemetry",
+      "path": "telemetry",
+      "has_legacy_index": false,
+      "has_manifest": false,
+      "has_matrix_contract": false,
+      "matrix_contract": null,
+      "code_layout": "package-root",
+      "missing_directories": [
+        "docs",
+        "tests",
+        "config",
+        "schema"
+      ]
+    },
+    {
+      "name": "temp",
+      "path": "temp",
+      "has_legacy_index": false,
+      "has_manifest": false,
+      "has_matrix_contract": false,
+      "matrix_contract": null,
+      "code_layout": "package-root",
+      "missing_directories": [
+        "docs",
+        "tests",
+        "config",
+        "schema"
+      ]
+    },
+    {
+      "name": "templates",
+      "path": "templates",
+      "has_legacy_index": false,
+      "has_manifest": false,
+      "has_matrix_contract": false,
+      "matrix_contract": null,
+      "code_layout": "package-root",
+      "missing_directories": [
+        "docs",
+        "tests",
+        "config",
+        "schema"
+      ]
+    },
+    {
+      "name": "test_data",
+      "path": "test_data",
+      "has_legacy_index": false,
+      "has_manifest": false,
+      "has_matrix_contract": false,
+      "matrix_contract": null,
+      "code_layout": "package-root",
+      "missing_directories": [
+        "docs",
+        "tests",
+        "config",
+        "schema"
+      ]
+    },
+    {
+      "name": "test_results",
+      "path": "test_results",
+      "has_legacy_index": false,
+      "has_manifest": false,
+      "has_matrix_contract": false,
+      "matrix_contract": null,
+      "code_layout": "package-root",
+      "missing_directories": [
+        "docs",
+        "tests",
+        "config",
+        "schema"
+      ]
+    },
+    {
+      "name": "tests",
+      "path": "tests",
+      "has_legacy_index": true,
+      "has_manifest": false,
+      "has_matrix_contract": false,
+      "matrix_contract": null,
+      "code_layout": "package-root",
+      "missing_directories": [
+        "docs",
+        "tests",
+        "schema"
+      ]
+    },
+    {
+      "name": "tests_new",
+      "path": "tests_new",
+      "has_legacy_index": false,
+      "has_manifest": false,
+      "has_matrix_contract": false,
+      "matrix_contract": null,
+      "code_layout": "package-root",
+      "missing_directories": [
+        "docs",
+        "tests",
+        "config",
+        "schema"
+      ]
+    },
+    {
+      "name": "third_party_stubs",
+      "path": "third_party_stubs",
+      "has_legacy_index": false,
+      "has_manifest": false,
+      "has_matrix_contract": false,
+      "matrix_contract": null,
+      "code_layout": "package-root",
+      "missing_directories": [
+        "docs",
+        "tests",
+        "config",
+        "schema"
+      ]
+    },
+    {
+      "name": "tone",
+      "path": "tone",
+      "has_legacy_index": false,
+      "has_manifest": false,
+      "has_matrix_contract": false,
+      "matrix_contract": null,
+      "code_layout": "package-root",
+      "missing_directories": [
+        "docs",
+        "tests",
+        "config",
+        "schema"
+      ]
+    },
+    {
+      "name": "tools",
+      "path": "tools",
+      "has_legacy_index": true,
+      "has_manifest": false,
+      "has_matrix_contract": false,
+      "matrix_contract": null,
+      "code_layout": "package-root",
+      "missing_directories": [
+        "config",
+        "schema"
+      ]
+    },
+    {
+      "name": "trace",
+      "path": "trace",
+      "has_legacy_index": true,
+      "has_manifest": false,
+      "has_matrix_contract": false,
+      "matrix_contract": null,
+      "code_layout": "package-root",
+      "missing_directories": [
+        "docs",
+        "tests",
+        "config",
+        "schema"
+      ]
+    },
+    {
+      "name": "trace_logs",
+      "path": "trace_logs",
+      "has_legacy_index": false,
+      "has_manifest": false,
+      "has_matrix_contract": false,
+      "matrix_contract": null,
+      "code_layout": "package-root",
+      "missing_directories": [
+        "docs",
+        "tests",
+        "config",
+        "schema"
+      ]
+    },
+    {
+      "name": "transmission_bundle",
+      "path": "transmission_bundle",
+      "has_legacy_index": true,
+      "has_manifest": false,
+      "has_matrix_contract": false,
+      "matrix_contract": null,
+      "code_layout": "package-root",
+      "missing_directories": [
+        "docs",
+        "tests",
+        "config",
+        "schema"
+      ]
+    },
+    {
+      "name": "universal_language",
+      "path": "universal_language",
+      "has_legacy_index": true,
+      "has_manifest": false,
+      "has_matrix_contract": false,
+      "matrix_contract": null,
+      "code_layout": "package-root",
+      "missing_directories": [
+        "docs",
+        "tests",
+        "config",
+        "schema"
+      ]
+    },
+    {
+      "name": "utils",
+      "path": "utils",
+      "has_legacy_index": true,
+      "has_manifest": false,
+      "has_matrix_contract": false,
+      "matrix_contract": null,
+      "code_layout": "package-root",
+      "missing_directories": [
+        "docs",
+        "tests",
+        "config",
+        "schema"
+      ]
+    },
+    {
+      "name": "var",
+      "path": "var",
+      "has_legacy_index": false,
+      "has_manifest": false,
+      "has_matrix_contract": false,
+      "matrix_contract": null,
+      "code_layout": "package-root",
+      "missing_directories": [
+        "docs",
+        "tests",
+        "config",
+        "schema"
+      ]
+    },
+    {
+      "name": "vivox",
+      "path": "vivox",
+      "has_legacy_index": true,
+      "has_manifest": false,
+      "has_matrix_contract": false,
+      "matrix_contract": null,
+      "code_layout": "package-root",
+      "missing_directories": [
+        "tests",
+        "config",
+        "schema"
+      ]
+    },
+    {
+      "name": "vocabularies",
+      "path": "vocabularies",
+      "has_legacy_index": false,
+      "has_manifest": false,
+      "has_matrix_contract": false,
+      "matrix_contract": null,
+      "code_layout": "package-root",
+      "missing_directories": [
+        "docs",
+        "tests",
+        "config",
+        "schema"
+      ]
+    },
+    {
+      "name": "vocabulary_refresh_data",
+      "path": "vocabulary_refresh_data",
+      "has_legacy_index": false,
+      "has_manifest": false,
+      "has_matrix_contract": false,
+      "matrix_contract": null,
+      "code_layout": "package-root",
+      "missing_directories": [
+        "docs",
+        "tests",
+        "config",
+        "schema"
+      ]
+    },
+    {
+      "name": "website_v1",
+      "path": "website_v1",
+      "has_legacy_index": false,
+      "has_manifest": false,
+      "has_matrix_contract": false,
+      "matrix_contract": null,
+      "code_layout": "src-root",
+      "missing_directories": [
+        "docs",
+        "tests",
+        "config",
+        "schema"
+      ]
+    }
+  ]
+}

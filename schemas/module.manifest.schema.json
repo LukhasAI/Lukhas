@@ -8,13 +8,13 @@
   "properties": {
     "schema_version": {
       "type": "string",
-      "pattern": "^1\\.[0-9]+\\.[0-9]+$",
+      "pattern": "^[1-9]\\.[0-9]+\\.[0-9]+$",
       "description": "Schema version for this manifest format"
     },
     "module": {
       "type": "string",
-      "pattern": "^[a-z0-9_\\.]+$",
-      "description": "Module name (lowercase, alphanumeric, underscore, dot)"
+      "pattern": "^[a-zA-Z0-9_\\.\\-]+$",
+      "description": "Module name (alphanumeric, underscore, dot, hyphen)"
     },
     "description": {
       "type": "string",
@@ -209,6 +209,10 @@
       "type": "array",
       "items": { "type": "string" },
       "description": "Paths to contract files"
+    },
+    "x_legacy": {
+      "type": "object",
+      "description": "Legacy data preserved during migration (for rollback capability)"
     }
   }
 }
