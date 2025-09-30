@@ -35,6 +35,19 @@ repos:
         files: lukhas/.*/matrix_.*\.json
         pass_filenames: false
 
+      - id: reject-candidate-additions
+        name: Reject new files under candidate/
+        entry: tools/check_no_new_candidate.sh
+        language: script
+        pass_filenames: false
+        stages: [commit]
+
+      - id: opa-format
+        name: Format OPA policies
+        entry: opa fmt -w
+        language: system
+        files: \.rego$
+
       - id: matrix-identity-validation
         name: Matrix Identity Block Validation
         entry: python3 tools/matrix_gate.py --identity --pattern "lukhas/**/matrix_*.json"
