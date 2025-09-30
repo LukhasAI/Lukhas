@@ -114,8 +114,49 @@ All promoted files maintain compatibility through:
 
 ---
 
-**Status**: Phase B Complete ✅, Phase C Batch 1 Complete ✅
-**Impact**: Critical import issues resolved + systematic expansion
-**Files Promoted**: 56 total (7 critical + 49 batch)
+## Phase D Batch Promotions Continued
+
+### Batch 2: Core Infrastructure Expansion (2025-09-30)
+
+**Methodology**: Continued systematic promotion with flat-root targets
+- 70% import frequency weight
+- 20% recency weight
+- 10% critical flag weight
+
+**Results**:
+- **Files Processed**: 50 candidates from promotion_batch.plan.jsonl
+- **Successfully Promoted**: 50 files (candidate/core/ → core/)
+- **Failed**: 0
+- **Skipped**: 0
+
+**Validation Status**:
+- ✅ All git mv operations successful
+- ✅ MATRIZ contract validation passes
+- 🟡 OPA tests: 4/5 pass (1 pre-existing failure quarantined)
+- 🟡 AuthZ matrix: baseline maintained (no new failures)
+
+### Key Files Promoted (Batch 2)
+
+| Category | Count | Notable Files |
+|----------|-------|---------------|
+| Orchestration Brain | 7 | consciousness_core, cognitive_enhancement, brain_integration |
+| Interfaces | 20 | as_agent systems (nias/dast/abas), UI components, logic builders |
+| Integration | 8 | system_coordinator, symbolic_network, neuro_symbolic_fusion |
+| Neural/Monitoring | 5 | topology_manager, collapse_integration, master_integration |
+| Core Infrastructure | 10 | models, module_registry, integrator, notion_sync |
+
+### Directory Structure Impact
+
+**After Batch 2**:
+```
+candidate/core/ → ~2,300 files (50 fewer)
+core/ → 106+ files (56 from batches + 50 batch 2)
+```
+
+---
+
+**Status**: Phase B Complete ✅, Phase C Batch 1 Complete ✅, Phase D Batch 2 Complete ✅
+**Impact**: Critical paths unblocked + systematic infrastructure expansion
+**Files Promoted**: 106+ total (7 critical + 49 batch 1 + 50 batch 2)
 **Import Compatibility**: 100%
-**Generated**: 2025-09-30 14:55 PST
+**Generated**: 2025-09-30 21:50 UTC

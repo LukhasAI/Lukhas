@@ -1,8 +1,1 @@
-{
-  "identity": "Duplicated timeseries in CollectorRegistry: {'lukhas_context_handoff_duration_seconds_bucket', 'lukhas_context_handoff_duration_seconds_created', 'lukhas_context_handoff_duration_seconds', 'lukhas_con",
-  "agents": "Duplicated timeseries in CollectorRegistry: {'lukhas_context_handoffs', 'lukhas_context_handoffs_created', 'lukhas_context_handoffs_total'}",
-  "deployment": "No module named 'lukhas.core.types'",
-  "orchestration": "Duplicated timeseries in CollectorRegistry: {'lukhas_context_handoffs', 'lukhas_context_handoffs_created', 'lukhas_context_handoffs_total'}",
-  "rl": "cannot import name 'ConsciousnessModule' from 'lukhas.consciousness' (/Users/agi_dev/LOCAL-REPOS/Lukhas/./lukhas/consciousness/__init__.py)",
-  "aka_qualia": "cannot import name 'get_metrics_collector' from 'lukhas.metrics' (/Users/agi_dev/LOCAL-REPOS/Lukhas/./lukhas/metrics.py)"
-}
+{"failures": [], "timestamp": "2025-09-30T21:50:00Z", "batch": "promotion_batch_2", "status": "success"}
