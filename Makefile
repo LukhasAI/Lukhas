@@ -750,6 +750,26 @@ opa-validate:
 	@opa check policies/**/*.rego
 	@opa test policies/ -v || true
 
+.PHONY: validate-module-manifests
+validate-module-manifests:
+	@echo "🔍 Validating module manifests"
+	@python3 tools/module_manifest_upgrade.py --validate
+
+.PHONY: module-sitemap-dry
+module-sitemap-dry:
+	@echo "🔍 Module sitemap dry run"
+	@python3 tools/module_sitemap_sync.py --root Lukhas
+
+.PHONY: module-sitemap-fix
+module-sitemap-fix:
+	@echo "📦 Applying module sitemap fixes"
+	@python3 tools/module_sitemap_sync.py --write --root Lukhas
+
+.PHONY: module-sitemap-validate
+module-sitemap-validate:
+	@echo "🔍 Validating module sitemap"
+	@python3 tools/module_sitemap_sync.py --validate --root Lukhas
+
 # Matrix Identity: local validation pack
 validate-matrix-all: opa-validate
 	@echo "🎯 Matrix Identity: Full Validation Pipeline"

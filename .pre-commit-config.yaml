@@ -101,3 +101,17 @@ repos:
         language: system
         files: ^examples/matrix_tracks/.*\.sh$
         pass_filenames: true
+
+      - id: reject-legacy-directory-index
+        name: Reject legacy directory_index.json files
+        entry: python3 -c "import sys; files=[f for f in sys.argv[1:] if 'directory_index.json' in f]; sys.exit(1 if files else 0)"
+        language: system
+        files: .*directory_index\.json$
+        pass_filenames: true
+
+      - id: validate-module-manifests-changed
+        name: Validate changed module manifests
+        entry: python3 tools/module_manifest_upgrade.py --validate
+        language: system
+        files: ^.*module\.manifest\.json$
+        pass_filenames: false

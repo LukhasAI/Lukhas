@@ -77,6 +77,21 @@ jobs:
 
           echo "✅ MATRIZ validation passed"
 
+      - name: Validate module manifests
+        run: |
+          echo "🔍 Validating module manifests..."
+
+          # Install jsonschema for validation
+          pip install jsonschema
+
+          # Run module manifest validation
+          if ! make validate-module-manifests; then
+            echo "❌ Module manifest validation failed"
+            exit 1
+          fi
+
+          echo "✅ Module manifest validation passed"
+
       - name: Compare coverage
         run: |
           echo "🔍 Comparing coverage..."
