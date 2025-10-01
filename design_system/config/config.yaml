@@ -5,7 +5,7 @@
 # human_editable: false
 #
 module:
-  name: design-system
+  name: design_system
   version: 1.0.0
   description: LUKHAS design-system module implementing specialized design-system
     functionality with 0 components for integrated system operations.

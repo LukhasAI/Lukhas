@@ -5,7 +5,7 @@
 # human_editable: false
 #
 module:
-  name: CLAUDE_ARMY
+  name: claude_army
   version: 1.0.0
   description: LUKHAS CLAUDE_ARMY module implementing specialized CLAUDE_ARMY functionality
     with 1 components for integrated system operations.

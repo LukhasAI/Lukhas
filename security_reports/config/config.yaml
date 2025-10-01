@@ -5,9 +5,9 @@
 # human_editable: false
 #
 module:
-  name: security-reports
+  name: security_reports
   version: 1.0.0
-  description: LUKHAS security-reports module implementing specialized security-reports
+  description: LUKHAS security_reports module implementing specialized security_reports
     functionality with 0 components for integrated system operations.
 runtime:
   log_level: INFO

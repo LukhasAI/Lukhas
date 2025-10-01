@@ -5,9 +5,9 @@
 # human_editable: false
 #
 module:
-  name: Jules--branch
+  name: jules_branch
   version: 1.0.0
-  description: LUKHAS Jules--branch module implementing specialized Jules--branch
+  description: LUKHAS jules_branch module implementing specialized jules_branch
     functionality with 0 components for integrated system operations.
 runtime:
   log_level: INFO

@@ -5,9 +5,9 @@
 # human_editable: false
 #
 module:
-  name: SYSTEM_CLAUDE_AUDIT
+  name: system_claude_audit
   version: 1.0.0
-  description: LUKHAS SYSTEM_CLAUDE_AUDIT module implementing specialized SYSTEM_CLAUDE_AUDIT
+  description: LUKHAS system_claude_audit module implementing specialized system_claude_audit
     functionality with 0 components for integrated system operations.
 runtime:
   log_level: INFO

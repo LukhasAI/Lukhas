@@ -5,9 +5,9 @@
 # human_editable: false
 #
 module:
-  name: TODO
+  name: todo
   version: 1.0.0
-  description: LUKHAS TODO module implementing specialized TODO functionality with
+  description: LUKHAS todo module implementing specialized todo functionality with
     0 components for integrated system operations.
 runtime:
   log_level: INFO
