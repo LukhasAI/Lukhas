@@ -1,7 +1,7 @@
 {
   "schema_version": "3.0.0",
   "module": "modulation",
-  "description": "LUKHAS modulation module",
+  "description": "This system translates LUKHAS's endocrine signals (biological-inspired \"hormones\")",
   "ownership": {
     "team": "Core",
     "codeowners": [
@@ -20,7 +20,27 @@
   },
   "runtime": {
     "language": "python",
-    "entrypoints": []
+    "entrypoints": [
+      "modulation.EndocrineLLMOrchestrator",
+      "modulation.EndocrineSignalEmitter",
+      "modulation.ModulatedOpenAIClient",
+      "modulation.ModulationParams",
+      "modulation.Signal",
+      "modulation.SignalModulator",
+      "modulation.build_function_definitions",
+      "modulation.lukhas_integration.EndocrineLLMOrchestrator",
+      "modulation.lukhas_integration.EndocrineSignalEmitter",
+      "modulation.openai_integration.ModulatedOpenAIClient",
+      "modulation.openai_integration.build_function_definitions",
+      "modulation.openai_integration.create_completion",
+      "modulation.signals.ModulationParams",
+      "modulation.signals.Signal",
+      "modulation.signals.SignalModulator",
+      "modulation.signals.apply_bounds",
+      "modulation.signals.combine_signals",
+      "modulation.signals.decay",
+      "modulation.signals.is_expired"
+    ]
   },
   "matrix": {
     "contract": "",
@@ -37,16 +57,23 @@
     "docs": "./docs/README.md",
     "issues": "https://github.com/LukhasAI/Lukhas/issues"
   },
-  "tags": [],
+  "tags": [
+    "modulation",
+    "orchestration"
+  ],
   "observability": {
-    "required_spans": [],
+    "required_spans": [
+      "lukhas.modulation.operation"
+    ],
     "otel_semconv_version": "1.37.0"
   },
   "tokenization": {
     "enabled": false,
     "chain": "none"
   },
-  "dependencies": [],
+  "dependencies": [
+    "core"
+  ],
   "contracts": [],
   "x_legacy": {
     "directory_metadata": {

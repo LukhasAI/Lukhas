@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0.0",
   "module": "quarantine",
-  "description": "LUKHAS quarantine module",
+  "description": "LUKHAS quarantine module implementing specialized quarantine functionality with 0 components for integrated system operations.",
   "ownership": {
     "team": "Core",
     "codeowners": [
@@ -37,9 +37,13 @@
     "docs": "./docs/README.md",
     "issues": "https://github.com/LukhasAI/Lukhas/issues"
   },
-  "tags": [],
+  "tags": [
+    "quarantine"
+  ],
   "observability": {
-    "required_spans": [],
+    "required_spans": [
+      "lukhas.quarantine.operation"
+    ],
     "otel_semconv_version": "1.37.0"
   },
   "tokenization": {

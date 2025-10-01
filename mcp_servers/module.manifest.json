@@ -1,7 +1,7 @@
 {
   "schema_version": "3.0.0",
   "module": "mcp_servers",
-  "description": "LUKHAS mcp_servers module",
+  "description": "LUKHAS mcp_servers module implementing specialized mcp_servers functionality with 9 components for integrated system operations.",
   "ownership": {
     "team": "Core",
     "codeowners": [
@@ -20,7 +20,17 @@
   },
   "runtime": {
     "language": "python",
-    "entrypoints": []
+    "entrypoints": [
+      "mcp_servers.lukhas_mcp_server.LUKHASKnowledgeBase",
+      "mcp_servers.lukhas_mcp_server.LUKHASMCPServer",
+      "mcp_servers.lukhas_mcp_server.LUKHASPattern",
+      "mcp_servers.lukhas_mcp_server.Server",
+      "mcp_servers.lukhas_mcp_server.TextContent",
+      "mcp_servers.lukhas_mcp_server.Tool",
+      "mcp_servers.lukhas_mcp_server.call_tool",
+      "mcp_servers.lukhas_mcp_server.list_tools",
+      "mcp_servers.lukhas_mcp_server.types"
+    ]
   },
   "matrix": {
     "contract": "",
@@ -37,9 +47,13 @@
     "docs": "./docs/README.md",
     "issues": "https://github.com/LukhasAI/Lukhas/issues"
   },
-  "tags": [],
+  "tags": [
+    "mcp_servers"
+  ],
   "observability": {
-    "required_spans": [],
+    "required_spans": [
+      "lukhas.mcp_servers.operation"
+    ],
     "otel_semconv_version": "1.37.0"
   },
   "tokenization": {

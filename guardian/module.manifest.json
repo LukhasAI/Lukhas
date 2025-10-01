@@ -1,7 +1,7 @@
 {
   "schema_version": "3.0.0",
   "module": "guardian",
-  "description": "LUKHAS guardian module",
+  "description": "LUKHAS guardian module implementing specialized guardian functionality with 6 components for integrated system operations.",
   "ownership": {
     "team": "Core",
     "codeowners": [
@@ -20,7 +20,14 @@
   },
   "runtime": {
     "language": "python",
-    "entrypoints": []
+    "entrypoints": [
+      "guardian.emit.emit_confidence_metrics",
+      "guardian.emit.emit_exemption",
+      "guardian.emit.emit_guardian_action_with_exemplar",
+      "guardian.emit.emit_guardian_decision",
+      "guardian.emit.redact_pii_for_exemplars",
+      "guardian.emit.validate_dual_approval"
+    ]
   },
   "matrix": {
     "contract": "",
@@ -37,9 +44,13 @@
     "docs": "./docs/README.md",
     "issues": "https://github.com/LukhasAI/Lukhas/issues"
   },
-  "tags": [],
+  "tags": [
+    "guardian"
+  ],
   "observability": {
-    "required_spans": [],
+    "required_spans": [
+      "lukhas.guardian.operation"
+    ],
     "otel_semconv_version": "1.37.0"
   },
   "tokenization": {

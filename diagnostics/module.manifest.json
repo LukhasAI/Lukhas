@@ -1,7 +1,7 @@
 {
   "schema_version": "3.0.0",
   "module": "diagnostics",
-  "description": "LUKHAS diagnostics module",
+  "description": "LUKHAS diagnostics module implementing specialized diagnostics functionality with 4 components for integrated system operations.",
   "ownership": {
     "team": "Core",
     "codeowners": [
@@ -20,7 +20,12 @@
   },
   "runtime": {
     "language": "python",
-    "entrypoints": []
+    "entrypoints": [
+      "diagnostics.drift_diagnostics.calculate_drift_score",
+      "diagnostics.drift_diagnostics.detect_collapse_points",
+      "diagnostics.drift_diagnostics.generate_entropy_map_from_memory",
+      "diagnostics.drift_diagnostics.get_diagnostics_summary"
+    ]
   },
   "matrix": {
     "contract": "",
@@ -37,16 +42,25 @@
     "docs": "./docs/README.md",
     "issues": "https://github.com/LukhasAI/Lukhas/issues"
   },
-  "tags": [],
+  "tags": [
+    "diagnostics"
+  ],
   "observability": {
-    "required_spans": [],
+    "required_spans": [
+      "lukhas.diagnostics.fold",
+      "lukhas.diagnostics.operation",
+      "lukhas.diagnostics.retrieval"
+    ],
     "otel_semconv_version": "1.37.0"
   },
   "tokenization": {
     "enabled": false,
     "chain": "none"
   },
-  "dependencies": [],
+  "dependencies": [
+    "core",
+    "memory"
+  ],
   "contracts": [],
   "x_legacy": {
     "directory_metadata": {

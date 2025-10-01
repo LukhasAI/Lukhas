@@ -1,7 +1,7 @@
 {
   "schema_version": "3.0.0",
   "module": "scripts",
-  "description": "LUKHAS scripts module",
+  "description": "LUKHAS scripts module implementing specialized scripts functionality with 831 components for integrated system operations.",
   "ownership": {
     "team": "Core",
     "codeowners": [
@@ -20,7 +20,28 @@
   },
   "runtime": {
     "language": "python",
-    "entrypoints": []
+    "entrypoints": [
+      "scripts.ablation_test.QuarantineDisabledOrchestrator",
+      "scripts.abuse_tester.AttackResult",
+      "scripts.abuse_tester.LUKHASAbuseTestFramework",
+      "scripts.abuse_tester.RateLimitTest",
+      "scripts.abuse_tester.generate_abuse_test_report",
+      "scripts.abuse_tester.main",
+      "scripts.activate_consciousness.Colors",
+      "scripts.activate_consciousness.ConsciousnessActivationCLI",
+      "scripts.activate_consciousness.print_consciousness_banner",
+      "scripts.activate_consciousness.print_error_message",
+      "scripts.activate_consciousness.print_phase_header",
+      "scripts.activate_consciousness.print_progress_bar",
+      "scripts.activate_consciousness.print_success_message",
+      "scripts.activate_consciousness.print_warning_message",
+      "scripts.agi_core_demo.demonstrate_architecture",
+      "scripts.agi_core_demo.show_development_timeline",
+      "scripts.agi_core_demo.show_integration_with_lukhas",
+      "scripts.aioredis.MockRedis",
+      "scripts.aioredis.from_url",
+      "scripts.audit_baseline.AuditEnvironment"
+    ]
   },
   "matrix": {
     "contract": "",
@@ -37,16 +58,33 @@
     "docs": "./docs/README.md",
     "issues": "https://github.com/LukhasAI/Lukhas/issues"
   },
-  "tags": [],
+  "tags": [
+    "authentication",
+    "monitoring",
+    "orchestration",
+    "scripts"
+  ],
   "observability": {
-    "required_spans": [],
+    "required_spans": [
+      "lukhas.scripts.auth",
+      "lukhas.scripts.consciousness",
+      "lukhas.scripts.fold",
+      "lukhas.scripts.monitoring",
+      "lukhas.scripts.operation",
+      "lukhas.scripts.processing",
+      "lukhas.scripts.retrieval"
+    ],
     "otel_semconv_version": "1.37.0"
   },
   "tokenization": {
     "enabled": false,
     "chain": "none"
   },
-  "dependencies": [],
+  "dependencies": [
+    "core",
+    "identity",
+    "memory"
+  ],
   "contracts": [],
   "x_legacy": {
     "directory_metadata": {

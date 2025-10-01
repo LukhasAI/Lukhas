@@ -1,7 +1,7 @@
 {
   "schema_version": "3.0.0",
   "module": "monitoring",
-  "description": "LUKHAS monitoring module",
+  "description": "System monitoring, metrics collection, and health tracking",
   "ownership": {
     "team": "Core",
     "codeowners": [
@@ -20,7 +20,28 @@
   },
   "runtime": {
     "language": "python",
-    "entrypoints": []
+    "entrypoints": [
+      "monitoring.ConsciousnessMonitor",
+      "monitoring.MONITORING_DOMAINS",
+      "monitoring.SystemMetrics",
+      "monitoring.__author__",
+      "monitoring.__version__",
+      "monitoring.check_agent_system",
+      "monitoring.check_memory_system",
+      "monitoring.collect_system_metrics",
+      "monitoring.create_alert",
+      "monitoring.drift_manager.Counter",
+      "monitoring.drift_manager.DriftKind",
+      "monitoring.drift_manager.DriftManager",
+      "monitoring.drift_manager.DriftResult",
+      "monitoring.drift_manager.Histogram",
+      "monitoring.drift_manager.compute",
+      "monitoring.drift_manager.default_critical_threshold",
+      "monitoring.drift_manager.default_warning_threshold",
+      "monitoring.drift_manager.get_drift_history",
+      "monitoring.drift_manager.get_drift_manager",
+      "monitoring.drift_manager.inc"
+    ]
   },
   "matrix": {
     "contract": "",
@@ -37,16 +58,29 @@
     "docs": "./docs/README.md",
     "issues": "https://github.com/LukhasAI/Lukhas/issues"
   },
-  "tags": [],
+  "tags": [
+    "authentication",
+    "monitoring"
+  ],
   "observability": {
-    "required_spans": [],
+    "required_spans": [
+      "lukhas.monitoring.auth",
+      "lukhas.monitoring.consciousness",
+      "lukhas.monitoring.fold",
+      "lukhas.monitoring.monitoring",
+      "lukhas.monitoring.operation",
+      "lukhas.monitoring.retrieval"
+    ],
     "otel_semconv_version": "1.37.0"
   },
   "tokenization": {
     "enabled": false,
     "chain": "none"
   },
-  "dependencies": [],
+  "dependencies": [
+    "identity",
+    "memory"
+  ],
   "contracts": [],
   "x_legacy": {
     "directory_metadata": {

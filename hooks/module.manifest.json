@@ -1,7 +1,7 @@
 {
   "schema_version": "3.0.0",
   "module": "hooks",
-  "description": "LUKHAS hooks module",
+  "description": "LUKHAS hooks module implementing specialized hooks functionality with 10 components for integrated system operations.",
   "ownership": {
     "team": "Core",
     "codeowners": [
@@ -20,7 +20,18 @@
   },
   "runtime": {
     "language": "python",
-    "entrypoints": []
+    "entrypoints": [
+      "hooks.gpt_dream_reflection.GPTInteractionStyle",
+      "hooks.gpt_dream_reflection.GPTSymbolicBridge",
+      "hooks.gpt_dream_reflection.create_gpt_context",
+      "hooks.gpt_dream_reflection.create_gpt_prompt_context",
+      "hooks.gpt_dream_reflection.create_symbolic_dialogue",
+      "hooks.gpt_dream_reflection.drift_acknowledgment",
+      "hooks.gpt_dream_reflection.get_gpt_style",
+      "hooks.gpt_dream_reflection.get_gpt_style_for_glyph",
+      "hooks.gpt_dream_reflection.reflect_on_glyph",
+      "hooks.gpt_dream_reflection.suggest_gpt_parameters"
+    ]
   },
   "matrix": {
     "contract": "",
@@ -37,9 +48,13 @@
     "docs": "./docs/README.md",
     "issues": "https://github.com/LukhasAI/Lukhas/issues"
   },
-  "tags": [],
+  "tags": [
+    "hooks"
+  ],
   "observability": {
-    "required_spans": [],
+    "required_spans": [
+      "lukhas.hooks.operation"
+    ],
     "otel_semconv_version": "1.37.0"
   },
   "tokenization": {

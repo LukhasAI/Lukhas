@@ -1,7 +1,7 @@
 {
   "schema_version": "3.0.0",
   "module": "governance",
-  "description": "Governance framework implementing policy engines, ethical decision systems, Guardian System integration, and constitutional AI principles for autonomous governance operations.",
+  "description": "This module provides governance capabilities for the LUKHAS AI system.",
   "ownership": {
     "team": "Governance",
     "codeowners": [
@@ -22,19 +22,26 @@
   "runtime": {
     "language": "python",
     "entrypoints": [
-      "governance.colony_memory_validator:ValidationMode",
-      "governance.colony_memory_validator:ConsensusResult",
-      "governance.colony_memory_validator:ValidationRequest",
-      "governance.colony_memory_validator:ColonyValidationResponse",
-      "governance.colony_memory_validator:ConsensusOutcome",
-      "governance.colony_memory_validator:ColonyMemoryValidator",
-      "governance.colony_memory_validator:register_colony",
-      "governance.colony_memory_validator:unregister_colony",
-      "governance.colony_memory_validator:register_consensus_callback",
-      "governance.colony_memory_validator:get_colony_stats",
-      "governance.colony_memory_validator:get_metrics",
-      "governance.guardian_system:GuardianSystem",
-      "governance.guardian_system:validate_safety"
+      "governance.audit_trail.AuditChain",
+      "governance.audit_trail.AuditEvent",
+      "governance.audit_trail.AuditEventType",
+      "governance.audit_trail.AuditLevel",
+      "governance.audit_trail.AuditTrail",
+      "governance.audit_trail.ComplianceFramework",
+      "governance.audit_trail.ComplianceReport",
+      "governance.audit_trail.get_audit_stats",
+      "governance.colony_memory_validator.ColonyMemoryValidator",
+      "governance.colony_memory_validator.ColonyValidationResponse",
+      "governance.colony_memory_validator.ConsensusOutcome",
+      "governance.colony_memory_validator.ConsensusResult",
+      "governance.colony_memory_validator.ValidationMode",
+      "governance.colony_memory_validator.ValidationRequest",
+      "governance.colony_memory_validator.get_colony_stats",
+      "governance.colony_memory_validator.get_metrics",
+      "governance.colony_memory_validator.register_colony",
+      "governance.colony_memory_validator.register_consensus_callback",
+      "governance.colony_memory_validator.unregister_colony",
+      "governance.guardian_policies.ActionType"
     ]
   },
   "matrix": {
@@ -53,18 +60,18 @@
     "issues": "https://github.com/LukhasAI/Lukhas/issues"
   },
   "tags": [
-    "t4-experimental",
-    "watch-star-primary",
-    "governance",
-    "ethics",
+    "consciousness",
     "constitutional-ai",
+    "ethics",
+    "governance",
     "guardian",
     "policy"
   ],
   "observability": {
     "required_spans": [
-      "lukhas.governance.policy",
-      "lukhas.governance.ethics"
+      "lukhas.governance.fold",
+      "lukhas.governance.operation",
+      "lukhas.governance.retrieval"
     ],
     "otel_semconv_version": "1.37.0"
   },
@@ -73,8 +80,9 @@
     "chain": "none"
   },
   "dependencies": [
+    "core",
     "identity",
-    "core"
+    "memory"
   ],
   "contracts": [],
   "x_legacy": {

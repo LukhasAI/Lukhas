@@ -1,7 +1,7 @@
 {
   "schema_version": "3.0.0",
   "module": "ai_orchestration",
-  "description": "LUKHAS ai_orchestration module",
+  "description": "System orchestration and workflow coordination providing multi-service integration, pipeline management, and distributed system coordination with 42 orchestration functions.",
   "ownership": {
     "team": "Core",
     "codeowners": [
@@ -20,7 +20,28 @@
   },
   "runtime": {
     "language": "python",
-    "entrypoints": []
+    "entrypoints": [
+      "ai_orchestration.lukhas_ai_orchestrator.AIProvider",
+      "ai_orchestration.lukhas_ai_orchestrator.LUKHASAIOrchestrator",
+      "ai_orchestration.lukhas_ai_orchestrator.get_guardian_orchestrator_status",
+      "ai_orchestration.lukhas_ai_orchestrator.get_routing_info",
+      "ai_orchestration.lukhas_ai_orchestrator.reload_routing_config",
+      "ai_orchestration.lukhas_knowledge_server.LUKHASKnowledgeServer",
+      "ai_orchestration.lukhas_knowledge_server.LUKHASPattern",
+      "ai_orchestration.lukhas_knowledge_server.export_for_copilot_instructions",
+      "ai_orchestration.lukhas_mcp_server.LUKHASConsciousnessMCP",
+      "ai_orchestration.lukhas_mcp_server_simple.LUKHASMCPServer",
+      "ai_orchestration.mcp_operational_support.AnalysisResult",
+      "ai_orchestration.mcp_operational_support.LUKHASMCPOperationalSupport",
+      "ai_orchestration.mcp_operational_support.MCPServerContext",
+      "ai_orchestration.mcp_operational_support.OperationalMetrics",
+      "ai_orchestration.mcp_operational_support.SupportIncident",
+      "ai_orchestration.mcp_operational_support.WorkflowResult",
+      "ai_orchestration.mcp_operational_support.analyze_operational_patterns",
+      "ai_orchestration.mcp_operational_support.automate_support_workflows",
+      "ai_orchestration.mcp_operational_support.monitor_mcp_operations",
+      "ai_orchestration.routing.ABTestBucket"
+    ]
   },
   "matrix": {
     "contract": "",
@@ -37,16 +58,28 @@
     "docs": "./docs/README.md",
     "issues": "https://github.com/LukhasAI/Lukhas/issues"
   },
-  "tags": [],
+  "tags": [
+    "ai_orchestration",
+    "coordination",
+    "monitoring",
+    "orchestration",
+    "workflow"
+  ],
   "observability": {
-    "required_spans": [],
+    "required_spans": [
+      "lukhas.ai_orchestration.consciousness",
+      "lukhas.ai_orchestration.monitoring",
+      "lukhas.ai_orchestration.operation"
+    ],
     "otel_semconv_version": "1.37.0"
   },
   "tokenization": {
     "enabled": false,
     "chain": "none"
   },
-  "dependencies": [],
+  "dependencies": [
+    "core"
+  ],
   "contracts": [],
   "x_legacy": {
     "directory_metadata": {

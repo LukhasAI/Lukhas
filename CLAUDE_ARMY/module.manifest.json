@@ -1,7 +1,7 @@
 {
   "schema_version": "3.0.0",
   "module": "CLAUDE_ARMY",
-  "description": "LUKHAS CLAUDE_ARMY module",
+  "description": "LUKHAS CLAUDE_ARMY module implementing specialized CLAUDE_ARMY functionality with 1 components for integrated system operations.",
   "ownership": {
     "team": "Core",
     "codeowners": [
@@ -20,7 +20,9 @@
   },
   "runtime": {
     "language": "python",
-    "entrypoints": []
+    "entrypoints": [
+      "CLAUDE_ARMY.coordination_hub.ClaudeMaxCoordinator"
+    ]
   },
   "matrix": {
     "contract": "",
@@ -37,9 +39,13 @@
     "docs": "./docs/README.md",
     "issues": "https://github.com/LukhasAI/Lukhas/issues"
   },
-  "tags": [],
+  "tags": [
+    "CLAUDE_ARMY"
+  ],
   "observability": {
-    "required_spans": [],
+    "required_spans": [
+      "lukhas.CLAUDE_ARMY.operation"
+    ],
     "otel_semconv_version": "1.37.0"
   },
   "tokenization": {

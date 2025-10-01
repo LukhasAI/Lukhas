@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0.0",
   "module": "test_results",
-  "description": "LUKHAS test_results module",
+  "description": "LUKHAS test_results module implementing specialized test_results functionality with 0 components for integrated system operations.",
   "ownership": {
     "team": "Core",
     "codeowners": [
@@ -37,9 +37,13 @@
     "docs": "./docs/README.md",
     "issues": "https://github.com/LukhasAI/Lukhas/issues"
   },
-  "tags": [],
+  "tags": [
+    "test_results"
+  ],
   "observability": {
-    "required_spans": [],
+    "required_spans": [
+      "lukhas.test_results.operation"
+    ],
     "otel_semconv_version": "1.37.0"
   },
   "tokenization": {

@@ -1,7 +1,7 @@
 {
   "schema_version": "3.0.0",
   "module": "mcp-lukhas-sse",
-  "description": "LUKHAS mcp-lukhas-sse module",
+  "description": "LUKHAS mcp-lukhas-sse module implementing specialized mcp-lukhas-sse functionality with 40 components for integrated system operations.",
   "ownership": {
     "team": "Core",
     "codeowners": [
@@ -20,7 +20,28 @@
   },
   "runtime": {
     "language": "python",
-    "entrypoints": []
+    "entrypoints": [
+      "mcp-lukhas-sse.chatgpt_rest_wrapper.LukhasMCPRestWrapper",
+      "mcp-lukhas-sse.chatgpt_rest_wrapper.list_directory",
+      "mcp-lukhas-sse.chatgpt_rest_wrapper.read_file",
+      "mcp-lukhas-sse.chatgpt_server.FlexibleAuthMiddleware",
+      "mcp-lukhas-sse.chatgpt_server.list_directory_tool",
+      "mcp-lukhas-sse.chatgpt_server.read_file_tool",
+      "mcp-lukhas-sse.generate_test_jwt.create_test_jwks",
+      "mcp-lukhas-sse.generate_test_jwt.generate_test_jwt",
+      "mcp-lukhas-sse.lukhas_mcp_stdio_manual.LukhasMCPServer",
+      "mcp-lukhas-sse.mcp_official_server.MCPServer",
+      "mcp-lukhas-sse.mcp_official_server.generate_session_id",
+      "mcp-lukhas-sse.minimal_server.OAuth2Middleware",
+      "mcp-lukhas-sse.minimal_server.list_directory_tool",
+      "mcp-lukhas-sse.minimal_server.read_file_tool",
+      "mcp-lukhas-sse.pure_mcp_server.validate_path_security",
+      "mcp-lukhas-sse.server.JWKSResponse",
+      "mcp-lukhas-sse.server.OAuth2Middleware",
+      "mcp-lukhas-sse.server.OIDCConfiguration",
+      "mcp-lukhas-sse.server.is_path_allowed",
+      "mcp-lukhas-sse.server.list_dir"
+    ]
   },
   "matrix": {
     "contract": "",
@@ -37,16 +58,24 @@
     "docs": "./docs/README.md",
     "issues": "https://github.com/LukhasAI/Lukhas/issues"
   },
-  "tags": [],
+  "tags": [
+    "authentication",
+    "mcp-lukhas-sse"
+  ],
   "observability": {
-    "required_spans": [],
+    "required_spans": [
+      "lukhas.mcp-lukhas-sse.auth",
+      "lukhas.mcp-lukhas-sse.operation"
+    ],
     "otel_semconv_version": "1.37.0"
   },
   "tokenization": {
     "enabled": false,
     "chain": "none"
   },
-  "dependencies": [],
+  "dependencies": [
+    "identity"
+  ],
   "contracts": [],
   "x_legacy": {
     "directory_metadata": {

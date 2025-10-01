@@ -1,7 +1,7 @@
 {
   "schema_version": "3.0.0",
   "module": "agents_external",
-  "description": "LUKHAS agents_external module",
+  "description": "LUKHAS agents_external module implementing specialized agents_external functionality with 0 components for integrated system operations.",
   "ownership": {
     "team": "Core",
     "codeowners": [
@@ -37,9 +37,13 @@
     "docs": "./docs/README.md",
     "issues": "https://github.com/LukhasAI/Lukhas/issues"
   },
-  "tags": [],
+  "tags": [
+    "agents_external"
+  ],
   "observability": {
-    "required_spans": [],
+    "required_spans": [
+      "lukhas.agents_external.operation"
+    ],
     "otel_semconv_version": "1.37.0"
   },
   "tokenization": {

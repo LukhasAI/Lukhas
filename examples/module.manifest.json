@@ -1,7 +1,7 @@
 {
   "schema_version": "3.0.0",
   "module": "examples",
-  "description": "LUKHAS examples module",
+  "description": "LUKHAS examples module implementing specialized examples functionality with 18 components for integrated system operations.",
   "ownership": {
     "team": "Core",
     "codeowners": [
@@ -20,7 +20,26 @@
   },
   "runtime": {
     "language": "python",
-    "entrypoints": []
+    "entrypoints": [
+      "examples.enterprise_demo.EnterpriseDemo",
+      "examples.integrated_demo.IntegratedLukhasDemo",
+      "examples.integrated_demo.display_response",
+      "examples.modulation_example.demonstrate_signal_scenarios",
+      "examples.modulation_example.print_banner",
+      "examples.modulation_example.test_modulation_system",
+      "examples.modulation_example.test_openai_integration",
+      "examples.modulation_example.test_policy_loading",
+      "examples.modulation_example.test_signal_system",
+      "examples.module_interface_example.AnalysisRequest",
+      "examples.module_interface_example.AnalysisResult",
+      "examples.module_interface_example.DataAnalyzer",
+      "examples.natural_language_demo.InteractiveConsciousnessDemo",
+      "examples.natural_language_demo.show_conversation_stats",
+      "examples.natural_language_demo.show_help",
+      "examples.parallel_reality_demo.ParallelRealityDemo",
+      "examples.parallel_reality_safety_demo.SafetyDemo",
+      "examples.tag_registry_demo.demonstrate_tag_registry"
+    ]
   },
   "matrix": {
     "contract": "",
@@ -37,9 +56,14 @@
     "docs": "./docs/README.md",
     "issues": "https://github.com/LukhasAI/Lukhas/issues"
   },
-  "tags": [],
+  "tags": [
+    "examples"
+  ],
   "observability": {
-    "required_spans": [],
+    "required_spans": [
+      "lukhas.examples.consciousness",
+      "lukhas.examples.operation"
+    ],
     "otel_semconv_version": "1.37.0"
   },
   "tokenization": {

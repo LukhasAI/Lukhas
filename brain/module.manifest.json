@@ -1,9 +1,9 @@
 {
   "schema_version": "3.0.0",
   "module": "brain",
-  "description": "LUKHAS brain module",
+  "description": "High-level cognitive orchestration, intelligence monitoring, and unified",
   "ownership": {
-    "team": "Core",
+    "team": "Brain",
     "codeowners": [
       "@lukhas-core"
     ]
@@ -20,7 +20,28 @@
   },
   "runtime": {
     "language": "python",
-    "entrypoints": []
+    "entrypoints": [
+      "brain.AlertEvent",
+      "brain.AlertLevel",
+      "brain.BRAIN_ACTIVE",
+      "brain.BrandContext",
+      "brain.EventPriority",
+      "brain.KernelBus",
+      "brain.LukhasIntelligenceMonitor",
+      "brain.MetricType",
+      "brain.OrchestrationHub",
+      "brain.activate_brain_consciousness_bridge",
+      "brain.build_context",
+      "brain.create_orchestration_hub",
+      "brain.emit",
+      "brain.get_brain_status",
+      "brain.get_brand_voice",
+      "brain.get_constellation_context",
+      "brain.get_kernel_bus",
+      "brain.logger",
+      "brain.monitor_brain_health",
+      "brain.normalize_output_text"
+    ]
   },
   "matrix": {
     "contract": "",
@@ -37,16 +58,31 @@
     "docs": "./docs/README.md",
     "issues": "https://github.com/LukhasAI/Lukhas/issues"
   },
-  "tags": [],
+  "tags": [
+    "brain",
+    "cognitive",
+    "intelligence",
+    "monitoring",
+    "orchestration"
+  ],
   "observability": {
-    "required_spans": [],
+    "required_spans": [
+      "lukhas.brain.consciousness",
+      "lukhas.brain.monitoring",
+      "lukhas.brain.operation",
+      "lukhas.brain.processing"
+    ],
     "otel_semconv_version": "1.37.0"
   },
   "tokenization": {
     "enabled": false,
     "chain": "none"
   },
-  "dependencies": [],
+  "dependencies": [
+    "consciousness",
+    "core",
+    "orchestration"
+  ],
   "contracts": [],
   "x_legacy": {
     "directory_metadata": {

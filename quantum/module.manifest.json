@@ -1,7 +1,7 @@
 {
   "schema_version": "3.0.0",
   "module": "quantum",
-  "description": "LUKHAS quantum module implementing quantum_consciousness, superposition_processing with consciousness integration and MATRIZ pipeline compatibility.",
+  "description": "*This file provides domain-specific context for any AI development tool*",
   "ownership": {
     "team": "Quantum",
     "codeowners": [
@@ -39,12 +39,9 @@
     "issues": "https://github.com/LukhasAI/Lukhas/issues"
   },
   "tags": [
-    "quantum-computing",
+    "consciousness",
     "quantum",
-    "quantum-consciousness",
-    "t4-experimental",
-    "superposition-processing",
-    "bio-quantum",
+    "quantum-inspired",
     "superposition"
   ],
   "observability": {
@@ -57,10 +54,7 @@
     "enabled": false,
     "chain": "none"
   },
-  "dependencies": [
-    "consciousness",
-    "core"
-  ],
+  "dependencies": [],
   "contracts": [],
   "x_legacy": {
     "directory_metadata": {

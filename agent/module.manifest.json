@@ -1,7 +1,7 @@
 {
   "schema_version": "3.0.0",
   "module": "agent",
-  "description": "LUKHAS agent module",
+  "description": "Real LUKHAS agents for internal consciousness operations.",
   "ownership": {
     "team": "Core",
     "codeowners": [
@@ -20,7 +20,12 @@
   },
   "runtime": {
     "language": "python",
-    "entrypoints": []
+    "entrypoints": [
+      "agent.collaborative.is_available",
+      "agent.get_agent_system_status",
+      "agent.intelligence_bridge.is_available",
+      "agent.interfaces.is_available"
+    ]
   },
   "matrix": {
     "contract": "",
@@ -37,9 +42,14 @@
     "docs": "./docs/README.md",
     "issues": "https://github.com/LukhasAI/Lukhas/issues"
   },
-  "tags": [],
+  "tags": [
+    "agent",
+    "consciousness"
+  ],
   "observability": {
-    "required_spans": [],
+    "required_spans": [
+      "lukhas.agent.operation"
+    ],
     "otel_semconv_version": "1.37.0"
   },
   "tokenization": {

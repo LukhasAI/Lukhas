@@ -1,7 +1,7 @@
 {
   "schema_version": "3.0.0",
   "module": "consent",
-  "description": "LUKHAS consent module",
+  "description": "LUKHAS consent module implementing specialized consent functionality with 22 components for integrated system operations.",
   "ownership": {
     "team": "Core",
     "codeowners": [
@@ -20,7 +20,28 @@
   },
   "runtime": {
     "language": "python",
-    "entrypoints": []
+    "entrypoints": [
+      "consent.api.ConsentStatsResponse",
+      "consent.api.EscalateRequest",
+      "consent.api.EscalateResponse",
+      "consent.api.GrantConsentRequest",
+      "consent.api.GrantConsentResponse",
+      "consent.api.LedgerResponse",
+      "consent.api.RevokeConsentRequest",
+      "consent.api.RevokeConsentResponse",
+      "consent.api.VerifyTokenRequest",
+      "consent.api.VerifyTokenResponse",
+      "consent.api.get_client_context",
+      "consent.api.get_client_ip",
+      "consent.service.CapabilityToken",
+      "consent.service.ConsentGrantRequest",
+      "consent.service.ConsentLedgerEntry",
+      "consent.service.ConsentRevokeRequest",
+      "consent.service.ConsentService",
+      "consent.service.DataCategory",
+      "consent.service.EscalationLevel",
+      "consent.service.Purpose"
+    ]
   },
   "matrix": {
     "contract": "",
@@ -37,9 +58,13 @@
     "docs": "./docs/README.md",
     "issues": "https://github.com/LukhasAI/Lukhas/issues"
   },
-  "tags": [],
+  "tags": [
+    "consent"
+  ],
   "observability": {
-    "required_spans": [],
+    "required_spans": [
+      "lukhas.consent.operation"
+    ],
     "otel_semconv_version": "1.37.0"
   },
   "tokenization": {

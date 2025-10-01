@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0.0",
   "module": "dreamweaver_helpers_bundle",
-  "description": "LUKHAS dreamweaver_helpers_bundle module",
+  "description": "LUKHAS dreamweaver_helpers_bundle module implementing specialized dreamweaver_helpers_bundle functionality with 0 components for integrated system operations.",
   "ownership": {
     "team": "Core",
     "codeowners": [
@@ -37,9 +37,13 @@
     "docs": "./docs/README.md",
     "issues": "https://github.com/LukhasAI/Lukhas/issues"
   },
-  "tags": [],
+  "tags": [
+    "dreamweaver_helpers_bundle"
+  ],
   "observability": {
-    "required_spans": [],
+    "required_spans": [
+      "lukhas.dreamweaver_helpers_bundle.operation"
+    ],
     "otel_semconv_version": "1.37.0"
   },
   "tokenization": {

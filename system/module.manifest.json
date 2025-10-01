@@ -1,7 +1,7 @@
 {
   "schema_version": "3.0.0",
   "module": "system",
-  "description": "LUKHAS system module",
+  "description": "LUKHAS system module implementing specialized system functionality with 0 components for integrated system operations.",
   "ownership": {
     "team": "Core",
     "codeowners": [
@@ -37,9 +37,13 @@
     "docs": "./docs/README.md",
     "issues": "https://github.com/LukhasAI/Lukhas/issues"
   },
-  "tags": [],
+  "tags": [
+    "system"
+  ],
   "observability": {
-    "required_spans": [],
+    "required_spans": [
+      "lukhas.system.operation"
+    ],
     "otel_semconv_version": "1.37.0"
   },
   "tokenization": {

@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0.0",
   "module": "cognitive",
-  "description": "LUKHAS cognitive module",
+  "description": "This package provides compatibility imports during the transition period.",
   "ownership": {
     "team": "Core",
     "codeowners": [
@@ -37,9 +37,13 @@
     "docs": "./docs/README.md",
     "issues": "https://github.com/LukhasAI/Lukhas/issues"
   },
-  "tags": [],
+  "tags": [
+    "cognitive"
+  ],
   "observability": {
-    "required_spans": [],
+    "required_spans": [
+      "lukhas.cognitive.operation"
+    ],
     "otel_semconv_version": "1.37.0"
   },
   "tokenization": {

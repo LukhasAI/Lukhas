@@ -1,7 +1,7 @@
 {
   "schema_version": "3.0.0",
   "module": "orchestration",
-  "description": "Multi-AI orchestration platform coordinating GPT-4, Claude, Gemini consensus workflows with Context Bus implementation and sub-100ms API latency optimization.",
+  "description": "*This file provides domain-specific context for any AI development tool*",
   "ownership": {
     "team": "Orchestration",
     "codeowners": [
@@ -39,16 +39,14 @@
     "issues": "https://github.com/LukhasAI/Lukhas/issues"
   },
   "tags": [
-    "t4-experimental",
-    "multi-ai",
+    "consciousness",
+    "coordination",
     "orchestration",
-    "context-bus",
-    "consensus"
+    "workflow"
   ],
   "observability": {
     "required_spans": [
-      "lukhas.orchestration.multi_ai",
-      "lukhas.orchestration.consensus"
+      "lukhas.orchestration.operation"
     ],
     "otel_semconv_version": "1.37.0"
   },
@@ -56,10 +54,7 @@
     "enabled": false,
     "chain": "none"
   },
-  "dependencies": [
-    "core",
-    "api"
-  ],
+  "dependencies": [],
   "contracts": [],
   "x_legacy": {
     "directory_metadata": {

@@ -1,7 +1,7 @@
 {
   "schema_version": "3.0.0",
   "module": "analytics",
-  "description": "LUKHAS analytics module",
+  "description": "Analytics, metrics collection, and data visualization",
   "ownership": {
     "team": "Core",
     "codeowners": [
@@ -20,7 +20,20 @@
   },
   "runtime": {
     "language": "python",
-    "entrypoints": []
+    "entrypoints": [
+      "analytics.ANALYTICS_DOMAINS",
+      "analytics.METRICS_AVAILABLE",
+      "analytics.__author__",
+      "analytics.__version__",
+      "analytics.collect_consciousness_metrics",
+      "analytics.create_analytics_alert",
+      "analytics.generate_performance_report",
+      "analytics.get_analytics_dashboard",
+      "analytics.get_analytics_status",
+      "analytics.get_prometheus_metrics",
+      "analytics.record_consciousness_event",
+      "analytics.record_performance_metric"
+    ]
   },
   "matrix": {
     "contract": "",
@@ -37,16 +50,25 @@
     "docs": "./docs/README.md",
     "issues": "https://github.com/LukhasAI/Lukhas/issues"
   },
-  "tags": [],
+  "tags": [
+    "analytics",
+    "authentication"
+  ],
   "observability": {
-    "required_spans": [],
+    "required_spans": [
+      "lukhas.analytics.auth",
+      "lukhas.analytics.consciousness",
+      "lukhas.analytics.operation"
+    ],
     "otel_semconv_version": "1.37.0"
   },
   "tokenization": {
     "enabled": false,
     "chain": "none"
   },
-  "dependencies": [],
+  "dependencies": [
+    "identity"
+  ],
   "contracts": [],
   "x_legacy": {
     "directory_metadata": {

@@ -1,7 +1,7 @@
 {
   "schema_version": "3.0.0",
   "module": "transmission_bundle",
-  "description": "LUKHAS transmission_bundle module",
+  "description": "LUKHAS transmission_bundle module implementing specialized transmission_bundle functionality with 2 components for integrated system operations.",
   "ownership": {
     "team": "Core",
     "codeowners": [
@@ -20,7 +20,10 @@
   },
   "runtime": {
     "language": "python",
-    "entrypoints": []
+    "entrypoints": [
+      "transmission_bundle.launch_transmission.LUKHASTransmission",
+      "transmission_bundle.launch_transmission.can_start"
+    ]
   },
   "matrix": {
     "contract": "",
@@ -37,9 +40,13 @@
     "docs": "./docs/README.md",
     "issues": "https://github.com/LukhasAI/Lukhas/issues"
   },
-  "tags": [],
+  "tags": [
+    "transmission_bundle"
+  ],
   "observability": {
-    "required_spans": [],
+    "required_spans": [
+      "lukhas.transmission_bundle.operation"
+    ],
     "otel_semconv_version": "1.37.0"
   },
   "tokenization": {

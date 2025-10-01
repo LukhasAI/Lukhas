@@ -1,7 +1,7 @@
 {
   "schema_version": "3.0.0",
   "module": "serve",
-  "description": "LUKHAS serve module",
+  "description": "LUKHAS serve module implementing specialized serve functionality with 46 components for integrated system operations.",
   "ownership": {
     "team": "Core",
     "codeowners": [
@@ -20,7 +20,28 @@
   },
   "runtime": {
     "language": "python",
-    "entrypoints": []
+    "entrypoints": [
+      "serve.agi_enhanced_consciousness_api.ConsciousnessQueryRequest",
+      "serve.agi_enhanced_consciousness_api.ConsciousnessQueryResponse",
+      "serve.agi_enhanced_consciousness_api.DreamSessionRequest",
+      "serve.agi_enhanced_consciousness_api.DreamSessionResponse",
+      "serve.agi_enhanced_consciousness_api.LearningSessionRequest",
+      "serve.agi_enhanced_consciousness_api.LearningSessionResponse",
+      "serve.agi_enhanced_consciousness_api.MemoryQueryRequest",
+      "serve.agi_enhanced_consciousness_api.MemoryQueryResponse",
+      "serve.agi_orchestration_api.ConsensusRequest",
+      "serve.agi_orchestration_api.ConsensusResponse",
+      "serve.agi_orchestration_api.ModelCapabilitiesRequest",
+      "serve.agi_orchestration_api.ModelCapabilitiesResponse",
+      "serve.agi_orchestration_api.OrchestrationRequest",
+      "serve.agi_orchestration_api.OrchestrationResponse",
+      "serve.extreme_performance_main.ExtremePerformanceServer",
+      "serve.extreme_performance_main.env_get",
+      "serve.extreme_performance_main.healthz_fallback",
+      "serve.extreme_performance_main.require_api_key",
+      "serve.feedback_routes.FeedbackRequest",
+      "serve.feedback_routes.FeedbackResponse"
+    ]
   },
   "matrix": {
     "contract": "",
@@ -37,16 +58,30 @@
     "docs": "./docs/README.md",
     "issues": "https://github.com/LukhasAI/Lukhas/issues"
   },
-  "tags": [],
+  "tags": [
+    "authentication",
+    "orchestration",
+    "serve"
+  ],
   "observability": {
-    "required_spans": [],
+    "required_spans": [
+      "lukhas.serve.auth",
+      "lukhas.serve.consciousness",
+      "lukhas.serve.fold",
+      "lukhas.serve.operation",
+      "lukhas.serve.retrieval"
+    ],
     "otel_semconv_version": "1.37.0"
   },
   "tokenization": {
     "enabled": false,
     "chain": "none"
   },
-  "dependencies": [],
+  "dependencies": [
+    "core",
+    "identity",
+    "memory"
+  ],
   "contracts": [],
   "x_legacy": {
     "directory_metadata": {

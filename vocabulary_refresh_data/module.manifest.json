@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0.0",
   "module": "vocabulary_refresh_data",
-  "description": "LUKHAS vocabulary_refresh_data module",
+  "description": "LUKHAS vocabulary_refresh_data module implementing specialized vocabulary_refresh_data functionality with 0 components for integrated system operations.",
   "ownership": {
     "team": "Core",
     "codeowners": [
@@ -37,9 +37,13 @@
     "docs": "./docs/README.md",
     "issues": "https://github.com/LukhasAI/Lukhas/issues"
   },
-  "tags": [],
+  "tags": [
+    "vocabulary_refresh_data"
+  ],
   "observability": {
-    "required_spans": [],
+    "required_spans": [
+      "lukhas.vocabulary_refresh_data.operation"
+    ],
     "otel_semconv_version": "1.37.0"
   },
   "tokenization": {

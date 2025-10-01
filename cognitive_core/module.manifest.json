@@ -1,7 +1,7 @@
 {
   "schema_version": "3.0.0",
   "module": "cognitive_core",
-  "description": "LUKHAS cognitive_core module",
+  "description": "Advanced Cognitive capabilities that extend LUKHAS with state-of-the-art",
   "ownership": {
     "team": "Core",
     "codeowners": [
@@ -20,7 +20,10 @@
   },
   "runtime": {
     "language": "python",
-    "entrypoints": []
+    "entrypoints": [
+      "cognitive_core.get_cognitive_core_info",
+      "cognitive_core.get_constellation_integration"
+    ]
   },
   "matrix": {
     "contract": "",
@@ -37,16 +40,25 @@
     "docs": "./docs/README.md",
     "issues": "https://github.com/LukhasAI/Lukhas/issues"
   },
-  "tags": [],
+  "tags": [
+    "cognitive_core",
+    "coordination",
+    "core",
+    "infrastructure"
+  ],
   "observability": {
-    "required_spans": [],
+    "required_spans": [
+      "lukhas.cognitive_core.operation"
+    ],
     "otel_semconv_version": "1.37.0"
   },
   "tokenization": {
     "enabled": false,
     "chain": "none"
   },
-  "dependencies": [],
+  "dependencies": [
+    "core"
+  ],
   "contracts": [],
   "x_legacy": {
     "directory_metadata": {

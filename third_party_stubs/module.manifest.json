@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0.0",
   "module": "third_party_stubs",
-  "description": "LUKHAS third_party_stubs module",
+  "description": "LUKHAS third_party_stubs module implementing specialized third_party_stubs functionality with 0 components for integrated system operations.",
   "ownership": {
     "team": "Core",
     "codeowners": [
@@ -37,9 +37,13 @@
     "docs": "./docs/README.md",
     "issues": "https://github.com/LukhasAI/Lukhas/issues"
   },
-  "tags": [],
+  "tags": [
+    "third_party_stubs"
+  ],
   "observability": {
-    "required_spans": [],
+    "required_spans": [
+      "lukhas.third_party_stubs.operation"
+    ],
     "otel_semconv_version": "1.37.0"
   },
   "tokenization": {

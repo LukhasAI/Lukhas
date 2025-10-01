@@ -1,7 +1,7 @@
 {
   "schema_version": "3.0.0",
   "module": "qi",
-  "description": "LUKHAS qi module",
+  "description": "Bio-quantum consciousness integration and processing",
   "ownership": {
     "team": "Core",
     "codeowners": [
@@ -20,7 +20,28 @@
   },
   "runtime": {
     "language": "python",
-    "entrypoints": []
+    "entrypoints": [
+      "qi.QI_AVAILABLE",
+      "qi.QI_AWARENESS_AVAILABLE",
+      "qi.QI_BIO_AVAILABLE",
+      "qi.QI_COORDINATION_AVAILABLE",
+      "qi.QI_PROCESSING_AVAILABLE",
+      "qi.attention_economics.AttentionBid",
+      "qi.attention_economics.AttentionToken",
+      "qi.attention_economics.AttentionTokenType",
+      "qi.attention_economics.QIAttentionEconomics",
+      "qi.attention_economics.calculate_quantum_value",
+      "qi.attention_economics.get_quantum_attention_economics",
+      "qi.attention_economics.get_user_attention_balance",
+      "qi.bio_integration",
+      "qi.consensus_system.QIAnnealedEthicalConsensus",
+      "qi.consensus_system.evaluate",
+      "qi.consensus_system.get_status",
+      "qi.coordinator",
+      "qi.core_awareness",
+      "qi.distributed_qi_architecture.DistributedQuantumSafeOrchestrator",
+      "qi.distributed_qi_architecture.SecureProcessingNode"
+    ]
   },
   "matrix": {
     "contract": "",
@@ -37,16 +58,26 @@
     "docs": "./docs/README.md",
     "issues": "https://github.com/LukhasAI/Lukhas/issues"
   },
-  "tags": [],
+  "tags": [
+    "consciousness",
+    "orchestration",
+    "qi"
+  ],
   "observability": {
-    "required_spans": [],
+    "required_spans": [
+      "lukhas.qi.consciousness",
+      "lukhas.qi.operation",
+      "lukhas.qi.processing"
+    ],
     "otel_semconv_version": "1.37.0"
   },
   "tokenization": {
     "enabled": false,
     "chain": "none"
   },
-  "dependencies": [],
+  "dependencies": [
+    "core"
+  ],
   "contracts": [],
   "x_legacy": {
     "directory_metadata": {

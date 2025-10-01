@@ -1,7 +1,7 @@
 {
   "schema_version": "3.0.0",
   "module": "universal_language",
-  "description": "LUKHAS universal_language module",
+  "description": "LUKHAS universal_language module implementing specialized universal_language functionality with 11 components for integrated system operations.",
   "ownership": {
     "team": "Core",
     "codeowners": [
@@ -20,7 +20,19 @@
   },
   "runtime": {
     "language": "python",
-    "entrypoints": []
+    "entrypoints": [
+      "universal_language.compositional.SymbolComposer",
+      "universal_language.compositional.SymbolProgram",
+      "universal_language.compositional.SymbolProgramSynthesizer",
+      "universal_language.compositional.add_symbol",
+      "universal_language.compositional.compose",
+      "universal_language.compositional.execute",
+      "universal_language.compositional.synthesize",
+      "universal_language.multimodal.ModalityProcessor",
+      "universal_language.multimodal.ModalityType",
+      "universal_language.multimodal.get_processed_count",
+      "universal_language.multimodal.process"
+    ]
   },
   "matrix": {
     "contract": "",
@@ -37,9 +49,14 @@
     "docs": "./docs/README.md",
     "issues": "https://github.com/LukhasAI/Lukhas/issues"
   },
-  "tags": [],
+  "tags": [
+    "universal_language"
+  ],
   "observability": {
-    "required_spans": [],
+    "required_spans": [
+      "lukhas.universal_language.operation",
+      "lukhas.universal_language.processing"
+    ],
     "otel_semconv_version": "1.37.0"
   },
   "tokenization": {

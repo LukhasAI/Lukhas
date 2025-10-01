@@ -1,7 +1,7 @@
 {
   "schema_version": "3.0.0",
   "module": "emotion",
-  "description": "LUKHAS emotion module",
+  "description": "VAD affect processing, mood regulation, and emotional intelligence",
   "ownership": {
     "team": "Core",
     "codeowners": [
@@ -20,7 +20,20 @@
   },
   "runtime": {
     "language": "python",
-    "entrypoints": []
+    "entrypoints": [
+      "emotion.EMOTION_ACTIVE",
+      "emotion.EmotionWrapper",
+      "emotion.analyze_emotion_stream",
+      "emotion.create_emotion_session",
+      "emotion.emit",
+      "emotion.get_emotion_status",
+      "emotion.get_emotion_wrapper",
+      "emotion.instrument",
+      "emotion.logger",
+      "emotion.process_emotion",
+      "emotion.regulate_mood",
+      "emotion.track_valence"
+    ]
   },
   "matrix": {
     "contract": "",
@@ -37,9 +50,14 @@
     "docs": "./docs/README.md",
     "issues": "https://github.com/LukhasAI/Lukhas/issues"
   },
-  "tags": [],
+  "tags": [
+    "emotion"
+  ],
   "observability": {
-    "required_spans": [],
+    "required_spans": [
+      "lukhas.emotion.operation",
+      "lukhas.emotion.processing"
+    ],
     "otel_semconv_version": "1.37.0"
   },
   "tokenization": {

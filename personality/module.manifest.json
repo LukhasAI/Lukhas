@@ -1,7 +1,7 @@
 {
   "schema_version": "3.0.0",
   "module": "personality",
-  "description": "LUKHAS personality module",
+  "description": "LUKHAS personality module implementing specialized personality functionality with 0 components for integrated system operations.",
   "ownership": {
     "team": "Core",
     "codeowners": [
@@ -37,9 +37,13 @@
     "docs": "./docs/README.md",
     "issues": "https://github.com/LukhasAI/Lukhas/issues"
   },
-  "tags": [],
+  "tags": [
+    "personality"
+  ],
   "observability": {
-    "required_spans": [],
+    "required_spans": [
+      "lukhas.personality.operation"
+    ],
     "otel_semconv_version": "1.37.0"
   },
   "tokenization": {

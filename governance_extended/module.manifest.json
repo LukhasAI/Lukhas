@@ -1,7 +1,7 @@
 {
   "schema_version": "3.0.0",
   "module": "governance_extended",
-  "description": "LUKHAS governance_extended module",
+  "description": "Governance framework implementing policy engines, ethical decision systems, Guardian System integration, and constitutional AI principles for autonomous governance operations with 0 components.",
   "ownership": {
     "team": "Core",
     "codeowners": [
@@ -37,9 +37,18 @@
     "docs": "./docs/README.md",
     "issues": "https://github.com/LukhasAI/Lukhas/issues"
   },
-  "tags": [],
+  "tags": [
+    "constitutional-ai",
+    "ethics",
+    "governance",
+    "governance_extended",
+    "guardian",
+    "policy"
+  ],
   "observability": {
-    "required_spans": [],
+    "required_spans": [
+      "lukhas.governance_extended.operation"
+    ],
     "otel_semconv_version": "1.37.0"
   },
   "tokenization": {

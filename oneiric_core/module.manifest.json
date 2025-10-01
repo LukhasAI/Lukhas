@@ -1,7 +1,7 @@
 {
   "schema_version": "3.0.0",
   "module": "oneiric_core",
-  "description": "LUKHAS oneiric_core module",
+  "description": "Core orchestration and infrastructure layer providing system coordination, symbolic network integration, consciousness-core coupling, and fundamental LUKHAS primitives with 0 core functions.",
   "ownership": {
     "team": "Core",
     "codeowners": [
@@ -37,9 +37,16 @@
     "docs": "./docs/README.md",
     "issues": "https://github.com/LukhasAI/Lukhas/issues"
   },
-  "tags": [],
+  "tags": [
+    "coordination",
+    "core",
+    "infrastructure",
+    "oneiric_core"
+  ],
   "observability": {
-    "required_spans": [],
+    "required_spans": [
+      "lukhas.oneiric_core.operation"
+    ],
     "otel_semconv_version": "1.37.0"
   },
   "tokenization": {

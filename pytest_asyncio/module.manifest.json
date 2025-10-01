@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0.0",
   "module": "pytest_asyncio",
-  "description": "LUKHAS pytest_asyncio module",
+  "description": "Minimal pytest-asyncio stub to satisfy configuration in offline environments.",
   "ownership": {
     "team": "Core",
     "codeowners": [
@@ -20,7 +20,10 @@
   },
   "runtime": {
     "language": "python",
-    "entrypoints": []
+    "entrypoints": [
+      "pytest_asyncio.pytest_addoption",
+      "pytest_asyncio.pytest_configure"
+    ]
   },
   "matrix": {
     "contract": "",
@@ -37,9 +40,13 @@
     "docs": "./docs/README.md",
     "issues": "https://github.com/LukhasAI/Lukhas/issues"
   },
-  "tags": [],
+  "tags": [
+    "pytest_asyncio"
+  ],
   "observability": {
-    "required_spans": [],
+    "required_spans": [
+      "lukhas.pytest_asyncio.operation"
+    ],
     "otel_semconv_version": "1.37.0"
   },
   "tokenization": {

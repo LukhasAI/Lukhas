@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0.0",
   "module": "artifacts",
-  "description": "LUKHAS artifacts module",
+  "description": "LUKHAS artifacts module implementing specialized artifacts functionality with 0 components for integrated system operations.",
   "ownership": {
     "team": "Core",
     "codeowners": [
@@ -37,9 +37,13 @@
     "docs": "./docs/README.md",
     "issues": "https://github.com/LukhasAI/Lukhas/issues"
   },
-  "tags": [],
+  "tags": [
+    "artifacts"
+  ],
   "observability": {
-    "required_spans": [],
+    "required_spans": [
+      "lukhas.artifacts.operation"
+    ],
     "otel_semconv_version": "1.37.0"
   },
   "tokenization": {

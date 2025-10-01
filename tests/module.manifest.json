@@ -1,7 +1,7 @@
 {
   "schema_version": "3.0.0",
   "module": "tests",
-  "description": "LUKHAS tests module",
+  "description": "LUKHAS tests module implementing specialized tests functionality with 369 components for integrated system operations.",
   "ownership": {
     "team": "Core",
     "codeowners": [
@@ -20,7 +20,28 @@
   },
   "runtime": {
     "language": "python",
-    "entrypoints": []
+    "entrypoints": [
+      "tests.comprehensive_test_suite.ComprehensiveTestOrchestrator",
+      "tests.comprehensive_test_suite.TestComprehensiveValidation",
+      "tests.comprehensive_test_suite.TestSuiteResults",
+      "tests.comprehensive_test_suite.meets_standards",
+      "tests.comprehensive_test_suite.run_comprehensive_suite",
+      "tests.comprehensive_test_suite.run_comprehensive_tests",
+      "tests.comprehensive_test_suite.success_rate",
+      "tests.comprehensive_test_suite.test_coverage_requirements",
+      "tests.comprehensive_test_suite.test_guardian_system_comprehensive",
+      "tests.comprehensive_test_suite.test_memory_system_comprehensive",
+      "tests.comprehensive_test_suite.test_orchestrator_comprehensive",
+      "tests.comprehensive_test_suite.test_performance_budgets_comprehensive",
+      "tests.comprehensive_test_suite.test_security_comprehensive",
+      "tests.conftest.fixtures_dir",
+      "tests.conftest.lukhas_test_config",
+      "tests.conftest.module_path",
+      "tests.conftest.pytest_addoption",
+      "tests.conftest.pytest_collection_modifyitems",
+      "tests.conftest.pytest_configure",
+      "tests.conftest.pytest_ignore_collect"
+    ]
   },
   "matrix": {
     "contract": "",
@@ -37,16 +58,33 @@
     "docs": "./docs/README.md",
     "issues": "https://github.com/LukhasAI/Lukhas/issues"
   },
-  "tags": [],
+  "tags": [
+    "authentication",
+    "monitoring",
+    "orchestration",
+    "tests"
+  ],
   "observability": {
-    "required_spans": [],
+    "required_spans": [
+      "lukhas.tests.auth",
+      "lukhas.tests.consciousness",
+      "lukhas.tests.fold",
+      "lukhas.tests.monitoring",
+      "lukhas.tests.operation",
+      "lukhas.tests.processing",
+      "lukhas.tests.retrieval"
+    ],
     "otel_semconv_version": "1.37.0"
   },
   "tokenization": {
     "enabled": false,
     "chain": "none"
   },
-  "dependencies": [],
+  "dependencies": [
+    "core",
+    "identity",
+    "memory"
+  ],
   "contracts": [],
   "x_legacy": {
     "directory_metadata": {

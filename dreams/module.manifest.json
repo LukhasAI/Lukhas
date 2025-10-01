@@ -1,7 +1,7 @@
 {
   "schema_version": "3.0.0",
   "module": "dreams",
-  "description": "LUKHAS dreams module",
+  "description": "Dream state consciousness processing, sleep cycle simulation, and oneiric",
   "ownership": {
     "team": "Core",
     "codeowners": [
@@ -20,7 +20,19 @@
   },
   "runtime": {
     "language": "python",
-    "entrypoints": []
+    "entrypoints": [
+      "dreams.DREAMS_ACTIVE",
+      "dreams.DreamLoopGenerator",
+      "dreams.DreamMemoryManager",
+      "dreams.DreamStatistics",
+      "dreams.activate_consciousness_dream_bridge",
+      "dreams.analyze_dream_patterns",
+      "dreams.create_dream_session",
+      "dreams.dream_stats",
+      "dreams.get_dreams_status",
+      "dreams.logger",
+      "dreams.process_dream_cycle"
+    ]
   },
   "matrix": {
     "contract": "",
@@ -37,16 +49,27 @@
     "docs": "./docs/README.md",
     "issues": "https://github.com/LukhasAI/Lukhas/issues"
   },
-  "tags": [],
+  "tags": [
+    "consciousness",
+    "dreams"
+  ],
   "observability": {
-    "required_spans": [],
+    "required_spans": [
+      "lukhas.dreams.consciousness",
+      "lukhas.dreams.fold",
+      "lukhas.dreams.operation",
+      "lukhas.dreams.processing",
+      "lukhas.dreams.retrieval"
+    ],
     "otel_semconv_version": "1.37.0"
   },
   "tokenization": {
     "enabled": false,
     "chain": "none"
   },
-  "dependencies": [],
+  "dependencies": [
+    "memory"
+  ],
   "contracts": [],
   "x_legacy": {
     "directory_metadata": {

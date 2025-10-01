@@ -1,7 +1,7 @@
 {
   "schema_version": "3.0.0",
   "module": "performance",
-  "description": "LUKHAS performance module",
+  "description": "LUKHAS performance module implementing specialized performance functionality with 34 components for integrated system operations.",
   "ownership": {
     "team": "Core",
     "codeowners": [
@@ -20,7 +20,28 @@
   },
   "runtime": {
     "language": "python",
-    "entrypoints": []
+    "entrypoints": [
+      "performance.optimization_analysis.PerformanceAnalyzer",
+      "performance.optimization_analysis.generate_recommendations",
+      "performance.optimization_analysis.print_summary",
+      "performance.optimizations.AsyncBatcher",
+      "performance.optimizations.ConnectionPool",
+      "performance.optimizations.LRUCache",
+      "performance.optimizations.MemoryOptimizer",
+      "performance.optimizations.ObjectPool",
+      "performance.optimizations.PerformanceMonitor",
+      "performance.optimizations.TimingContext",
+      "performance.optimizations.acquire",
+      "performance.optimizations.async_cache_with_ttl",
+      "performance.optimizations.batch_async_operations",
+      "performance.optimizations.cache_with_ttl",
+      "performance.optimizations.clear",
+      "performance.optimizations.decorator",
+      "performance.optimizations.expensive_calculation",
+      "performance.optimizations.force_gc",
+      "performance.optimizations.get",
+      "performance.optimizations.get_optimization_stats"
+    ]
   },
   "matrix": {
     "contract": "",
@@ -37,16 +58,26 @@
     "docs": "./docs/README.md",
     "issues": "https://github.com/LukhasAI/Lukhas/issues"
   },
-  "tags": [],
+  "tags": [
+    "monitoring",
+    "performance"
+  ],
   "observability": {
-    "required_spans": [],
+    "required_spans": [
+      "lukhas.performance.fold",
+      "lukhas.performance.monitoring",
+      "lukhas.performance.operation",
+      "lukhas.performance.retrieval"
+    ],
     "otel_semconv_version": "1.37.0"
   },
   "tokenization": {
     "enabled": false,
     "chain": "none"
   },
-  "dependencies": [],
+  "dependencies": [
+    "memory"
+  ],
   "contracts": [],
   "x_legacy": {
     "directory_metadata": {

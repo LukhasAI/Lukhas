@@ -1,7 +1,7 @@
 {
   "schema_version": "3.0.0",
   "module": "dream",
-  "description": "LUKHAS dream module",
+  "description": "Core dream processing components for consciousness integration",
   "ownership": {
     "team": "Core",
     "codeowners": [
@@ -20,7 +20,22 @@
   },
   "runtime": {
     "language": "python",
-    "entrypoints": []
+    "entrypoints": [
+      "dream.DreamBridge",
+      "dream.DreamProcessor",
+      "dream.connect",
+      "dream.create_dream_bridge",
+      "dream.engine.DreamContext",
+      "dream.engine.DreamElement",
+      "dream.engine.DreamEngine",
+      "dream.engine.DreamSequence",
+      "dream.engine.DreamState",
+      "dream.engine.DreamType",
+      "dream.engine.get_active_dreams",
+      "dream.engine.get_dream_engine",
+      "dream.engine.get_dream_info",
+      "dream.process_dream"
+    ]
   },
   "matrix": {
     "contract": "",
@@ -37,9 +52,15 @@
     "docs": "./docs/README.md",
     "issues": "https://github.com/LukhasAI/Lukhas/issues"
   },
-  "tags": [],
+  "tags": [
+    "consciousness",
+    "dream"
+  ],
   "observability": {
-    "required_spans": [],
+    "required_spans": [
+      "lukhas.dream.operation",
+      "lukhas.dream.processing"
+    ],
     "otel_semconv_version": "1.37.0"
   },
   "tokenization": {

@@ -1,7 +1,7 @@
 {
   "schema_version": "3.0.0",
   "module": "identity",
-  "description": "Identity and authentication infrastructure providing \u03bbID Core Identity System, WebAuthn/FIDO2 integration, OAuth2/OIDC flows, and secure credential management with namespace isolation.",
+  "description": "Advanced identity management with dynamic tier systems, access control,",
   "ownership": {
     "team": "Identity",
     "codeowners": [
@@ -22,25 +22,26 @@
   "runtime": {
     "language": "python",
     "entrypoints": [
-      "identity",
-      "identity.tier_system:TierLevel",
-      "identity.tier_system:AccessType",
-      "identity.tier_system:PermissionScope",
-      "identity.tier_system:AccessContext",
-      "identity.tier_system:TierPermission",
-      "identity.tier_system:AccessDecision",
-      "identity.tier_system:DynamicTierSystem",
-      "identity.tier_system:lukhas_tier_required",
-      "identity.tier_system:create_tier_system",
-      "identity.tier_system:symbolic_access_test",
-      "identity.tier_system:check_access_level",
-      "identity.tier_system:check_access",
-      "identity.tier_system:elevate_session",
-      "identity.tier_system:decorator",
-      "identity.tier_system:wrapper",
-      "identity.identity_connector:IdentityConnector",
-      "identity.identity_connector:validate_identity",
-      "identity.identity_connector:get_user_permissions"
+      "identity.AccessContext",
+      "identity.AccessDecision",
+      "identity.AccessType",
+      "identity.DynamicTierSystem",
+      "identity.IDENTITY_ENHANCED_ACTIVE",
+      "identity.IdentityConnector",
+      "identity.PermissionScope",
+      "identity.TierLevel",
+      "identity.TierPermission",
+      "identity.create_tier_system",
+      "identity.get_identity_metrics",
+      "identity.get_identity_status",
+      "identity.identity_connector.IdentityConnector",
+      "identity.identity_connector.get_user_permissions",
+      "identity.identity_connector.validate_identity",
+      "identity.logger",
+      "identity.manage_permissions",
+      "identity.tier_system.AccessContext",
+      "identity.tier_system.AccessDecision",
+      "identity.tier_system.AccessType"
     ]
   },
   "matrix": {
@@ -59,19 +60,17 @@
     "issues": "https://github.com/LukhasAI/Lukhas/issues"
   },
   "tags": [
-    "t4-experimental",
-    "webauthn",
+    "authentication",
+    "consciousness",
     "identity",
     "oauth2",
+    "passkey",
     "security",
-    "authentication",
-    "anchor-star-primary"
+    "webauthn"
   ],
   "observability": {
     "required_spans": [
-      "lukhas.identity.auth",
-      "lukhas.identity.oauth",
-      "lukhas.identity.webauthn"
+      "lukhas.identity.operation"
     ],
     "otel_semconv_version": "1.37.0"
   },

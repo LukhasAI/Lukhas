@@ -1,7 +1,7 @@
 {
   "schema_version": "3.0.0",
   "module": "adapters",
-  "description": "LUKHAS adapters module",
+  "description": "Common interface for external service integrations with capability token validation.",
   "ownership": {
     "team": "Core",
     "codeowners": [
@@ -20,7 +20,20 @@
   },
   "runtime": {
     "language": "python",
-    "entrypoints": []
+    "entrypoints": [
+      "adapters.OperationResult",
+      "adapters.ResourceContent",
+      "adapters.ResourceMetadata",
+      "adapters.SearchQuery",
+      "adapters.ServiceAdapter",
+      "adapters.WatchRequest",
+      "adapters.cloud_consolidation.CloudConsolidationService",
+      "adapters.cloud_consolidation.ConsolidationPlan",
+      "adapters.cloud_consolidation.ConsolidationRequest",
+      "adapters.cloud_consolidation.ConsolidationResponse",
+      "adapters.cloud_consolidation.DuplicateGroup",
+      "adapters.cloud_consolidation.ExecutePlanRequest"
+    ]
   },
   "matrix": {
     "contract": "",
@@ -37,9 +50,13 @@
     "docs": "./docs/README.md",
     "issues": "https://github.com/LukhasAI/Lukhas/issues"
   },
-  "tags": [],
+  "tags": [
+    "adapters"
+  ],
   "observability": {
-    "required_spans": [],
+    "required_spans": [
+      "lukhas.adapters.operation"
+    ],
     "otel_semconv_version": "1.37.0"
   },
   "tokenization": {

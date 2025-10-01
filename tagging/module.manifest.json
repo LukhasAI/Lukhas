@@ -1,7 +1,7 @@
 {
   "schema_version": "3.0.0",
   "module": "tagging",
-  "description": "LUKHAS tagging module",
+  "description": "Symbolic tagging and resolution system for LUKHAS consciousness",
   "ownership": {
     "team": "Core",
     "codeowners": [
@@ -20,7 +20,25 @@
   },
   "runtime": {
     "language": "python",
-    "entrypoints": []
+    "entrypoints": [
+      "tagging.AdvancedTagResolver",
+      "tagging.SimpleTagResolver",
+      "tagging.SymbolicTag",
+      "tagging.TagPriority",
+      "tagging.TagScope",
+      "tagging.clear_cache",
+      "tagging.create_tag",
+      "tagging.get_tag_count",
+      "tagging.get_tag_metadata",
+      "tagging.quick_resolve",
+      "tagging.register_consciousness_tag",
+      "tagging.register_tag",
+      "tagging.resolve_consciousness_context",
+      "tagging.resolve_constellation_context",
+      "tagging.resolve_tag",
+      "tagging.resolve_tags_by_priority",
+      "tagging.resolve_tags_by_scope"
+    ]
   },
   "matrix": {
     "contract": "",
@@ -37,9 +55,15 @@
     "docs": "./docs/README.md",
     "issues": "https://github.com/LukhasAI/Lukhas/issues"
   },
-  "tags": [],
+  "tags": [
+    "consciousness",
+    "tagging"
+  ],
   "observability": {
-    "required_spans": [],
+    "required_spans": [
+      "lukhas.tagging.consciousness",
+      "lukhas.tagging.operation"
+    ],
     "otel_semconv_version": "1.37.0"
   },
   "tokenization": {

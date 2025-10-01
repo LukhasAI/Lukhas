@@ -1,7 +1,7 @@
 {
   "schema_version": "3.0.0",
   "module": "completion",
-  "description": "LUKHAS completion module",
+  "description": "LUKHAS completion module implementing specialized completion functionality with 2 components for integrated system operations.",
   "ownership": {
     "team": "Core",
     "codeowners": [
@@ -20,7 +20,10 @@
   },
   "runtime": {
     "language": "python",
-    "entrypoints": []
+    "entrypoints": [
+      "completion.generate_batch_codex_cleanup_006_report.TodoEntry",
+      "completion.generate_batch_codex_cleanup_006_report.main"
+    ]
   },
   "matrix": {
     "contract": "",
@@ -37,9 +40,13 @@
     "docs": "./docs/README.md",
     "issues": "https://github.com/LukhasAI/Lukhas/issues"
   },
-  "tags": [],
+  "tags": [
+    "completion"
+  ],
   "observability": {
-    "required_spans": [],
+    "required_spans": [
+      "lukhas.completion.operation"
+    ],
     "otel_semconv_version": "1.37.0"
   },
   "tokenization": {

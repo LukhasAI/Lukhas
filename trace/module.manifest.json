@@ -1,7 +1,7 @@
 {
   "schema_version": "3.0.0",
   "module": "trace",
-  "description": "LUKHAS trace module",
+  "description": "Drift monitoring and harmonization components for Trinity Framework compliance.",
   "ownership": {
     "team": "Core",
     "codeowners": [
@@ -20,7 +20,28 @@
   },
   "runtime": {
     "language": "python",
-    "entrypoints": []
+    "entrypoints": [
+      "trace.DriftAnalysis",
+      "trace.DriftHarmonizer",
+      "trace.DriftSeverity",
+      "trace.DriftTracker",
+      "trace.RealignmentStrategy",
+      "trace.drift_harmonizer.DriftAnalysis",
+      "trace.drift_harmonizer.DriftHarmonizer",
+      "trace.drift_harmonizer.DriftSeverity",
+      "trace.drift_harmonizer.RealignmentStrategy",
+      "trace.drift_harmonizer.analyze_drift",
+      "trace.drift_harmonizer.get_drift_summary",
+      "trace.drift_harmonizer.get_triad_balance",
+      "trace.drift_harmonizer.record_drift",
+      "trace.drift_harmonizer.reset_history",
+      "trace.drift_harmonizer.suggest_realignment",
+      "trace.drift_harmonizer.validate_triad_compliance",
+      "trace.drift_metrics.DriftTracker",
+      "trace.drift_metrics.get_average_drift",
+      "trace.drift_metrics.get_current_drift",
+      "trace.drift_metrics.get_drift_trend"
+    ]
   },
   "matrix": {
     "contract": "",
@@ -37,9 +58,13 @@
     "docs": "./docs/README.md",
     "issues": "https://github.com/LukhasAI/Lukhas/issues"
   },
-  "tags": [],
+  "tags": [
+    "trace"
+  ],
   "observability": {
-    "required_spans": [],
+    "required_spans": [
+      "lukhas.trace.operation"
+    ],
     "otel_semconv_version": "1.37.0"
   },
   "tokenization": {

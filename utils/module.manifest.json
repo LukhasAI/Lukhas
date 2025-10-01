@@ -1,7 +1,7 @@
 {
   "schema_version": "3.0.0",
   "module": "utils",
-  "description": "LUKHAS utils module",
+  "description": "LUKHAS utils module implementing specialized utils functionality with 1 components for integrated system operations.",
   "ownership": {
     "team": "Core",
     "codeowners": [
@@ -20,7 +20,9 @@
   },
   "runtime": {
     "language": "python",
-    "entrypoints": []
+    "entrypoints": [
+      "utils.time.utc_now"
+    ]
   },
   "matrix": {
     "contract": "",
@@ -37,9 +39,13 @@
     "docs": "./docs/README.md",
     "issues": "https://github.com/LukhasAI/Lukhas/issues"
   },
-  "tags": [],
+  "tags": [
+    "utils"
+  ],
   "observability": {
-    "required_spans": [],
+    "required_spans": [
+      "lukhas.utils.operation"
+    ],
     "otel_semconv_version": "1.37.0"
   },
   "tokenization": {

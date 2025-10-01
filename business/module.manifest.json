@@ -1,7 +1,7 @@
 {
   "schema_version": "3.0.0",
   "module": "business",
-  "description": "LUKHAS business module",
+  "description": "Business logic, strategies, and operational systems",
   "ownership": {
     "team": "Core",
     "codeowners": [
@@ -20,7 +20,17 @@
   },
   "runtime": {
     "language": "python",
-    "entrypoints": []
+    "entrypoints": [
+      "business.BUSINESS_DOMAINS",
+      "business.__author__",
+      "business.__version__",
+      "business.analyze_business_metrics",
+      "business.create_business_strategy",
+      "business.execute_marketing_campaign",
+      "business.get_business_status",
+      "business.get_compliance_status",
+      "business.manage_partnership"
+    ]
   },
   "matrix": {
     "contract": "",
@@ -37,16 +47,24 @@
     "docs": "./docs/README.md",
     "issues": "https://github.com/LukhasAI/Lukhas/issues"
   },
-  "tags": [],
+  "tags": [
+    "authentication",
+    "business"
+  ],
   "observability": {
-    "required_spans": [],
+    "required_spans": [
+      "lukhas.business.auth",
+      "lukhas.business.operation"
+    ],
     "otel_semconv_version": "1.37.0"
   },
   "tokenization": {
     "enabled": false,
     "chain": "none"
   },
-  "dependencies": [],
+  "dependencies": [
+    "identity"
+  ],
   "contracts": [],
   "x_legacy": {
     "directory_metadata": {

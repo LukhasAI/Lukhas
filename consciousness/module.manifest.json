@@ -1,7 +1,7 @@
 {
   "schema_version": "3.0.0",
   "module": "consciousness",
-  "description": "LUKHAS consciousness module implementing consciousness_processing, awareness_patterns with consciousness integration and MATRIZ pipeline compatibility.",
+  "description": "Core consciousness processing and awareness systems",
   "ownership": {
     "team": "Consciousness",
     "codeowners": [
@@ -22,12 +22,24 @@
   "runtime": {
     "language": "python",
     "entrypoints": [
-      "consciousness",
-      "consciousness.decision_engine:ConsciousnessDecisionEngine",
-      "consciousness.decision_engine:make_decision",
-      "consciousness.qi:QI",
-      "consciousness.qi:process",
-      "consciousness.qi:get_status"
+      "consciousness.CONSCIOUSNESS_AVAILABLE",
+      "consciousness.CONSCIOUSNESS_DOMAINS",
+      "consciousness.CONSCIOUSNESS_SOURCE",
+      "consciousness.ConsciousnessAPI",
+      "consciousness.ConsciousnessCore",
+      "consciousness.__author__",
+      "consciousness.__version__",
+      "consciousness.activate_consciousness_layer",
+      "consciousness.decision_engine.ConsciousnessDecisionEngine",
+      "consciousness.decision_engine.make_decision",
+      "consciousness.get_consciousness_dashboard",
+      "consciousness.get_consciousness_status",
+      "consciousness.initialize_consciousness",
+      "consciousness.process_consciousness_stream",
+      "consciousness.qi.QI",
+      "consciousness.qi.get_status",
+      "consciousness.qi.process",
+      "consciousness.reflect_on_experience"
     ]
   },
   "matrix": {
@@ -46,20 +58,20 @@
     "issues": "https://github.com/LukhasAI/Lukhas/issues"
   },
   "tags": [
-    "consciousness",
+    "authentication",
     "awareness",
     "cognition",
-    "t4-experimental",
-    "horizon-star-primary",
-    "consciousness-processing",
-    "matriz-processor",
-    "awareness-patterns",
-    "decision-engine"
+    "consciousness",
+    "fold-architecture",
+    "phenomenological",
+    "t4-experimental"
   ],
   "observability": {
     "required_spans": [
-      "lukhas.consciousness.decision",
-      "lukhas.consciousness.awareness"
+      "lukhas.consciousness.auth",
+      "lukhas.consciousness.consciousness",
+      "lukhas.consciousness.operation",
+      "lukhas.consciousness.processing"
     ],
     "otel_semconv_version": "1.37.0"
   },
@@ -68,8 +80,9 @@
     "chain": "none"
   },
   "dependencies": [
-    "memoria",
-    "core"
+    "core",
+    "identity",
+    "memory"
   ],
   "contracts": [],
   "x_legacy": {
@@ -80,7 +93,7 @@
       "last_updated": "2025-09-21",
       "constellation_framework_version": "2.0.0",
       "t4_compliance_level": "experimental",
-      "constellation_role": "horizon_star_primary",
+      "constellation_role": "🧠",
       "matriz_pipeline_integration": {
         "memory_stage": "active",
         "attention_stage": "active",

@@ -1,7 +1,7 @@
 {
   "schema_version": "3.0.0",
   "module": "ethics",
-  "description": "LUKHAS ethics module",
+  "description": "Provides ethical evaluation, safety monitoring, and constraint validation",
   "ownership": {
     "team": "Core",
     "codeowners": [
@@ -20,7 +20,28 @@
   },
   "runtime": {
     "language": "python",
-    "entrypoints": []
+    "entrypoints": [
+      "ethics.Decision",
+      "ethics.EthicsEngine",
+      "ethics.MEGPolicyBridge",
+      "ethics.MegBridge",
+      "ethics.PolicyEngines",
+      "ethics.RiskLevel",
+      "ethics.SafetyChecker",
+      "ethics.check",
+      "ethics.create_meg_bridge",
+      "ethics.ethics_engine",
+      "ethics.evaluate",
+      "ethics.evaluate_policy",
+      "ethics.list_policies",
+      "ethics.meg_bridge",
+      "ethics.policy_engines",
+      "ethics.process",
+      "ethics.safety_checks",
+      "ethics.stubs.Decision",
+      "ethics.stubs.EthicsEngine",
+      "ethics.stubs.MEGPolicyBridge"
+    ]
   },
   "matrix": {
     "contract": "",
@@ -37,9 +58,15 @@
     "docs": "./docs/README.md",
     "issues": "https://github.com/LukhasAI/Lukhas/issues"
   },
-  "tags": [],
+  "tags": [
+    "consciousness",
+    "ethics"
+  ],
   "observability": {
-    "required_spans": [],
+    "required_spans": [
+      "lukhas.ethics.operation",
+      "lukhas.ethics.processing"
+    ],
     "otel_semconv_version": "1.37.0"
   },
   "tokenization": {

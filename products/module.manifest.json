@@ -1,7 +1,7 @@
 {
   "schema_version": "3.0.0",
   "module": "products",
-  "description": "LUKHAS products module",
+  "description": "Consolidated products organized by functional domain:",
   "ownership": {
     "team": "Core",
     "codeowners": [
@@ -20,7 +20,28 @@
   },
   "runtime": {
     "language": "python",
-    "entrypoints": []
+    "entrypoints": [
+      "products.SMOKE_TEST.TestResult",
+      "products.SMOKE_TEST.main",
+      "products.SMOKE_TEST.print_results",
+      "products.SMOKE_TEST.run_all_tests",
+      "products.SMOKE_TEST.test_basic_imports",
+      "products.SMOKE_TEST.test_class_instantiation",
+      "products.SMOKE_TEST.test_deep_imports",
+      "products.SMOKE_TEST.test_experience_components",
+      "products.__author__",
+      "products.__version__",
+      "products.automation",
+      "products.communication",
+      "products.content",
+      "products.create_product_instance",
+      "products.enterprise",
+      "products.experience",
+      "products.get_product_health",
+      "products.get_products_catalog",
+      "products.infrastructure",
+      "products.intelligence"
+    ]
   },
   "matrix": {
     "contract": "",
@@ -37,16 +58,26 @@
     "docs": "./docs/README.md",
     "issues": "https://github.com/LukhasAI/Lukhas/issues"
   },
-  "tags": [],
+  "tags": [
+    "authentication",
+    "consciousness",
+    "products",
+    "t4-experimental"
+  ],
   "observability": {
-    "required_spans": [],
+    "required_spans": [
+      "lukhas.products.auth",
+      "lukhas.products.operation"
+    ],
     "otel_semconv_version": "1.37.0"
   },
   "tokenization": {
     "enabled": false,
     "chain": "none"
   },
-  "dependencies": [],
+  "dependencies": [
+    "identity"
+  ],
   "contracts": [],
   "x_legacy": {
     "directory_metadata": {

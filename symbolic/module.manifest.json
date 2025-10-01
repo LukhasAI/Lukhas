@@ -1,7 +1,7 @@
 {
   "schema_version": "3.0.0",
   "module": "symbolic",
-  "description": "LUKHAS symbolic module",
+  "description": "*This file provides domain-specific context for any AI development tool*",
   "ownership": {
     "team": "Core",
     "codeowners": [
@@ -20,7 +20,26 @@
   },
   "runtime": {
     "language": "python",
-    "entrypoints": []
+    "entrypoints": [
+      "symbolic.ExchangeProtocol",
+      "symbolic.GestureType",
+      "symbolic.PersonalSymbolDictionary",
+      "symbolic.UniversalSymbolExchange",
+      "symbolic.entropy_password_system.EntropySource",
+      "symbolic.entropy_password_system.MaximumEntropyPasswordGenerator",
+      "symbolic.entropy_password_system.QIResistantPassword",
+      "symbolic.entropy_password_system.calculate_entropy",
+      "symbolic.entropy_password_system.to_master_key",
+      "symbolic.entropy_password_system.verify",
+      "symbolic.multi_modal_language.HighEntropyPassword",
+      "symbolic.multi_modal_language.ModalityFeatures",
+      "symbolic.multi_modal_language.ModalityType",
+      "symbolic.multi_modal_language.MultiModalLanguageBuilder",
+      "symbolic.multi_modal_language.UniversalConcept",
+      "symbolic.multi_modal_language.export_language_model",
+      "symbolic.multi_modal_language.to_secure_string",
+      "symbolic.vocabularies"
+    ]
   },
   "matrix": {
     "contract": "",
@@ -37,9 +56,14 @@
     "docs": "./docs/README.md",
     "issues": "https://github.com/LukhasAI/Lukhas/issues"
   },
-  "tags": [],
+  "tags": [
+    "consciousness",
+    "symbolic"
+  ],
   "observability": {
-    "required_spans": [],
+    "required_spans": [
+      "lukhas.symbolic.operation"
+    ],
     "otel_semconv_version": "1.37.0"
   },
   "tokenization": {

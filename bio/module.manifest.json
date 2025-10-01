@@ -1,7 +1,7 @@
 {
   "schema_version": "3.0.0",
   "module": "bio",
-  "description": "LUKHAS bio module",
+  "description": "Provides backward compatibility for bio.bio_utilities imports",
   "ownership": {
     "team": "Core",
     "codeowners": [
@@ -20,7 +20,15 @@
   },
   "runtime": {
     "language": "python",
-    "entrypoints": []
+    "entrypoints": [
+      "bio.bio_utilities.BioUtilities",
+      "bio.bio_utilities.FatigueLevel",
+      "bio.bio_utilities.adapt_to_environment",
+      "bio.bio_utilities.bio_adapt",
+      "bio.bio_utilities.calculate_fatigue",
+      "bio.bio_utilities.fatigue_level",
+      "bio.bio_utilities.get_energy_status"
+    ]
   },
   "matrix": {
     "contract": "",
@@ -37,9 +45,14 @@
     "docs": "./docs/README.md",
     "issues": "https://github.com/LukhasAI/Lukhas/issues"
   },
-  "tags": [],
+  "tags": [
+    "bio",
+    "consciousness"
+  ],
   "observability": {
-    "required_spans": [],
+    "required_spans": [
+      "lukhas.bio.operation"
+    ],
     "otel_semconv_version": "1.37.0"
   },
   "tokenization": {

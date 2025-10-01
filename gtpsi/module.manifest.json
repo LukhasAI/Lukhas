@@ -1,7 +1,7 @@
 {
   "schema_version": "3.0.0",
   "module": "gtpsi",
-  "description": "LUKHAS gtpsi module",
+  "description": "Optional MFA/consent factor using gesture recognition for high-risk actions.",
   "ownership": {
     "team": "Core",
     "codeowners": [
@@ -20,7 +20,28 @@
   },
   "runtime": {
     "language": "python",
-    "entrypoints": []
+    "entrypoints": [
+      "gtpsi.EdgeGestureProcessor",
+      "gtpsi.GestureApproval",
+      "gtpsi.GestureChallenge",
+      "gtpsi.GestureFeatures",
+      "gtpsi.GestureRecognizer",
+      "gtpsi.GestureType",
+      "gtpsi.HIGH_RISK_ACTIONS",
+      "gtpsi.RiskLevel",
+      "gtpsi.calculate_quality_score",
+      "gtpsi.extract_features",
+      "gtpsi.get_action_risk_level",
+      "gtpsi.get_max_approval_time",
+      "gtpsi.hash_features",
+      "gtpsi.process_gesture",
+      "gtpsi.requires_gtpsi_approval",
+      "gtpsi.studio_hooks.ConsentUIRequest",
+      "gtpsi.studio_hooks.ConsentUIResponse",
+      "gtpsi.studio_hooks.GestureSubmissionRequest",
+      "gtpsi.studio_hooks.GestureSubmissionResponse",
+      "gtpsi.studio_hooks.StudioGTΨHooks"
+    ]
   },
   "matrix": {
     "contract": "",
@@ -37,16 +58,23 @@
     "docs": "./docs/README.md",
     "issues": "https://github.com/LukhasAI/Lukhas/issues"
   },
-  "tags": [],
+  "tags": [
+    "gtpsi"
+  ],
   "observability": {
-    "required_spans": [],
+    "required_spans": [
+      "lukhas.gtpsi.operation",
+      "lukhas.gtpsi.processing"
+    ],
     "otel_semconv_version": "1.37.0"
   },
   "tokenization": {
     "enabled": false,
     "chain": "none"
   },
-  "dependencies": [],
+  "dependencies": [
+    "core"
+  ],
   "contracts": [],
   "x_legacy": {
     "directory_metadata": {
@@ -70,7 +98,7 @@
             "ConsentUIResponse",
             "GestureSubmissionRequest",
             "GestureSubmissionResponse",
-            "StudioGT\u03a8Hooks",
+            "StudioGTΨHooks",
             "requires_consent"
           ]
         }

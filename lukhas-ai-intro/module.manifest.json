@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0.0",
   "module": "lukhas-ai-intro",
-  "description": "LUKHAS lukhas-ai-intro module",
+  "description": "LUKHAS lukhas-ai-intro module implementing specialized lukhas-ai-intro functionality with 0 components for integrated system operations.",
   "ownership": {
     "team": "Core",
     "codeowners": [
@@ -37,9 +37,13 @@
     "docs": "./docs/README.md",
     "issues": "https://github.com/LukhasAI/Lukhas/issues"
   },
-  "tags": [],
+  "tags": [
+    "lukhas-ai-intro"
+  ],
   "observability": {
-    "required_spans": [],
+    "required_spans": [
+      "lukhas.lukhas-ai-intro.operation"
+    ],
     "otel_semconv_version": "1.37.0"
   },
   "tokenization": {

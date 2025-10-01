@@ -1,7 +1,7 @@
 {
   "schema_version": "3.0.0",
   "module": "integrations",
-  "description": "LUKHAS integrations module",
+  "description": "LUKHAS integrations module implementing specialized integrations functionality with 1 components for integrated system operations.",
   "ownership": {
     "team": "Core",
     "codeowners": [
@@ -20,7 +20,9 @@
   },
   "runtime": {
     "language": "python",
-    "entrypoints": []
+    "entrypoints": [
+      "integrations.mongodb_consciousness_store.LUKHASConsciousnessStore"
+    ]
   },
   "matrix": {
     "contract": "",
@@ -37,9 +39,14 @@
     "docs": "./docs/README.md",
     "issues": "https://github.com/LukhasAI/Lukhas/issues"
   },
-  "tags": [],
+  "tags": [
+    "integrations"
+  ],
   "observability": {
-    "required_spans": [],
+    "required_spans": [
+      "lukhas.integrations.consciousness",
+      "lukhas.integrations.operation"
+    ],
     "otel_semconv_version": "1.37.0"
   },
   "tokenization": {

@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0.0",
   "module": "eval_runs",
-  "description": "LUKHAS eval_runs module",
+  "description": "LUKHAS eval_runs module implementing specialized eval_runs functionality with 0 components for integrated system operations.",
   "ownership": {
     "team": "Core",
     "codeowners": [
@@ -37,9 +37,13 @@
     "docs": "./docs/README.md",
     "issues": "https://github.com/LukhasAI/Lukhas/issues"
   },
-  "tags": [],
+  "tags": [
+    "eval_runs"
+  ],
   "observability": {
-    "required_spans": [],
+    "required_spans": [
+      "lukhas.eval_runs.operation"
+    ],
     "otel_semconv_version": "1.37.0"
   },
   "tokenization": {

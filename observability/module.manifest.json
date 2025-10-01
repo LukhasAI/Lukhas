@@ -1,7 +1,7 @@
 {
   "schema_version": "3.0.0",
   "module": "observability",
-  "description": "LUKHAS observability module",
+  "description": "Central imports for observability and monitoring functionality.",
   "ownership": {
     "team": "Core",
     "codeowners": [
@@ -20,7 +20,14 @@
   },
   "runtime": {
     "language": "python",
-    "entrypoints": []
+    "entrypoints": [
+      "observability.AkaqMetrics",
+      "observability.get_observability",
+      "observability.measure_scene_processing",
+      "observability.record_glyph_mapped",
+      "observability.record_scene_processed",
+      "observability.update_consciousness_metrics"
+    ]
   },
   "matrix": {
     "contract": "",
@@ -37,9 +44,15 @@
     "docs": "./docs/README.md",
     "issues": "https://github.com/LukhasAI/Lukhas/issues"
   },
-  "tags": [],
+  "tags": [
+    "observability"
+  ],
   "observability": {
-    "required_spans": [],
+    "required_spans": [
+      "lukhas.observability.consciousness",
+      "lukhas.observability.operation",
+      "lukhas.observability.processing"
+    ],
     "otel_semconv_version": "1.37.0"
   },
   "tokenization": {

@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0.0",
   "module": "assets",
-  "description": "LUKHAS assets module",
+  "description": "LUKHAS assets module implementing specialized assets functionality with 0 components for integrated system operations.",
   "ownership": {
     "team": "Core",
     "codeowners": [
@@ -37,9 +37,13 @@
     "docs": "./docs/README.md",
     "issues": "https://github.com/LukhasAI/Lukhas/issues"
   },
-  "tags": [],
+  "tags": [
+    "assets"
+  ],
   "observability": {
-    "required_spans": [],
+    "required_spans": [
+      "lukhas.assets.operation"
+    ],
     "otel_semconv_version": "1.37.0"
   },
   "tokenization": {

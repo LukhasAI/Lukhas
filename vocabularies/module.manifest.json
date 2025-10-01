@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0.0",
   "module": "vocabularies",
-  "description": "LUKHAS vocabularies module",
+  "description": "LUKHAS vocabularies module implementing specialized vocabularies functionality with 0 components for integrated system operations.",
   "ownership": {
     "team": "Core",
     "codeowners": [
@@ -37,9 +37,13 @@
     "docs": "./docs/README.md",
     "issues": "https://github.com/LukhasAI/Lukhas/issues"
   },
-  "tags": [],
+  "tags": [
+    "vocabularies"
+  ],
   "observability": {
-    "required_spans": [],
+    "required_spans": [
+      "lukhas.vocabularies.operation"
+    ],
     "otel_semconv_version": "1.37.0"
   },
   "tokenization": {

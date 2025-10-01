@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0.0",
   "module": "benchmarks",
-  "description": "LUKHAS benchmarks module",
+  "description": "LUKHAS benchmarks module implementing specialized benchmarks functionality with 19 components for integrated system operations.",
   "ownership": {
     "team": "Core",
     "codeowners": [
@@ -20,7 +20,27 @@
   },
   "runtime": {
     "language": "python",
-    "entrypoints": []
+    "entrypoints": [
+      "benchmarks.matriz_pipeline.MATRIZBenchmarks",
+      "benchmarks.memory_bench.BenchmarkResult",
+      "benchmarks.memory_bench.benchmark_adaptive_memory",
+      "benchmarks.memory_bench.benchmark_fold_manager",
+      "benchmarks.memory_bench.main",
+      "benchmarks.memory_bench.run_benchmarks",
+      "benchmarks.memory_bench.summary",
+      "benchmarks.memory_performance.MemoryBenchmarks",
+      "benchmarks.memory_performance.benchmark_cascade_prevention",
+      "benchmarks.memory_performance.benchmark_memory_consolidation",
+      "benchmarks.memory_performance.benchmark_memory_recall_latency",
+      "benchmarks.memory_performance.run_all_benchmarks",
+      "benchmarks.memory_performance.test_cascade_prevention_benchmark",
+      "benchmarks.memory_performance.test_memory_recall_benchmark",
+      "benchmarks.memory_system_benchmarks.MemoryItem",
+      "benchmarks.memory_system_benchmarks.MemorySystemBenchmarks",
+      "benchmarks.memory_system_benchmarks.MockMemorySystem",
+      "benchmarks.memory_system_benchmarks.generate_test_data",
+      "benchmarks.memory_system_benchmarks.get_cascade_prevention_rate"
+    ]
   },
   "matrix": {
     "contract": "",
@@ -37,15 +57,23 @@
     "docs": "./docs/README.md",
     "issues": "https://github.com/LukhasAI/Lukhas/issues"
   },
-  "tags": [],
+  "tags": [
+    "benchmarks"
+  ],
   "observability": {
-    "required_spans": [],
+    "required_spans": [
+      "lukhas.benchmarks.fold",
+      "lukhas.benchmarks.operation",
+      "lukhas.benchmarks.retrieval"
+    ],
     "otel_semconv_version": "1.37.0"
   },
   "tokenization": {
     "enabled": false,
     "chain": "none"
   },
-  "dependencies": [],
+  "dependencies": [
+    "memory"
+  ],
   "contracts": []
 }

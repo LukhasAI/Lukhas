@@ -1,7 +1,7 @@
 {
   "schema_version": "3.0.0",
   "module": "next_gen",
-  "description": "LUKHAS next_gen module",
+  "description": "LUKHAS next_gen module implementing specialized next_gen functionality with 0 components for integrated system operations.",
   "ownership": {
     "team": "Core",
     "codeowners": [
@@ -37,9 +37,13 @@
     "docs": "./docs/README.md",
     "issues": "https://github.com/LukhasAI/Lukhas/issues"
   },
-  "tags": [],
+  "tags": [
+    "next_gen"
+  ],
   "observability": {
-    "required_spans": [],
+    "required_spans": [
+      "lukhas.next_gen.operation"
+    ],
     "otel_semconv_version": "1.37.0"
   },
   "tokenization": {

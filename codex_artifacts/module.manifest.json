@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0.0",
   "module": "codex_artifacts",
-  "description": "LUKHAS codex_artifacts module",
+  "description": "LUKHAS codex_artifacts module implementing specialized codex_artifacts functionality with 0 components for integrated system operations.",
   "ownership": {
     "team": "Core",
     "codeowners": [
@@ -37,9 +37,13 @@
     "docs": "./docs/README.md",
     "issues": "https://github.com/LukhasAI/Lukhas/issues"
   },
-  "tags": [],
+  "tags": [
+    "codex_artifacts"
+  ],
   "observability": {
-    "required_spans": [],
+    "required_spans": [
+      "lukhas.codex_artifacts.operation"
+    ],
     "otel_semconv_version": "1.37.0"
   },
   "tokenization": {

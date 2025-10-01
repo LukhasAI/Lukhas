@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0.0",
   "module": "services",
-  "description": "LUKHAS services module",
+  "description": "LUKHAS services module implementing specialized services functionality with 0 components for integrated system operations.",
   "ownership": {
     "team": "Core",
     "codeowners": [
@@ -37,9 +37,13 @@
     "docs": "./docs/README.md",
     "issues": "https://github.com/LukhasAI/Lukhas/issues"
   },
-  "tags": [],
+  "tags": [
+    "services"
+  ],
   "observability": {
-    "required_spans": [],
+    "required_spans": [
+      "lukhas.services.operation"
+    ],
     "otel_semconv_version": "1.37.0"
   },
   "tokenization": {

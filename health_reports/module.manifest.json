@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0.0",
   "module": "health_reports",
-  "description": "LUKHAS health_reports module",
+  "description": "LUKHAS health_reports module implementing specialized health_reports functionality with 0 components for integrated system operations.",
   "ownership": {
     "team": "Core",
     "codeowners": [
@@ -37,9 +37,13 @@
     "docs": "./docs/README.md",
     "issues": "https://github.com/LukhasAI/Lukhas/issues"
   },
-  "tags": [],
+  "tags": [
+    "health_reports"
+  ],
   "observability": {
-    "required_spans": [],
+    "required_spans": [
+      "lukhas.health_reports.operation"
+    ],
     "otel_semconv_version": "1.37.0"
   },
   "tokenization": {

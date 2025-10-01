@@ -1,7 +1,7 @@
 {
   "schema_version": "3.0.0",
   "module": "candidate",
-  "description": "LUKHAS candidate module",
+  "description": "This package contains all candidate implementations and modules for the",
   "ownership": {
     "team": "Core",
     "codeowners": [
@@ -37,9 +37,16 @@
     "docs": "./docs/README.md",
     "issues": "https://github.com/LukhasAI/Lukhas/issues"
   },
-  "tags": [],
+  "tags": [
+    "candidate",
+    "consciousness",
+    "fold-architecture",
+    "t4-experimental"
+  ],
   "observability": {
-    "required_spans": [],
+    "required_spans": [
+      "lukhas.candidate.operation"
+    ],
     "otel_semconv_version": "1.37.0"
   },
   "tokenization": {
