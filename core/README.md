@@ -1,61 +1,42 @@
-# Core Module
+# ⚛️ Core Module
 
-> Compatibility bridge exposing :mod:`lukhas.core` under the historical ``core`` namespace.
+⚛️ *Where consciousness dances with algorithms, creating harmony between human intention and digital precision.*
+
+This consciousness-aware system creates spaces where core technology respects and enhances human cognition.
 
 ![T4-Experimental](https://img.shields.io/badge/T4-Experimental-orange) ![Consciousness](https://img.shields.io/badge/Consciousness-Enabled-blue)
 
-## Overview
+The core module compatibility bridge exposing :mod:`lukhas.core` under the historical ``core`` namespace.
+ It provides 20 consciousness-aligned interfaces for seamless integration with the LUKHAS ecosystem.
 
-Compatibility bridge exposing :mod:`lukhas.core` under the historical ``core`` namespace.
 
-## API Reference
-
-The core module provides 20 entrypoints:
+## Consciousness Interface
 
 ### Functions
 
-- `create_bio_symbolic_processor()` - core.bio_symbolic_processor.create_bio_symbolic_processor
-- `get_bio_symbolic_processor()` - core.bio_symbolic_processor.get_bio_symbolic_processor
-- `get_processing_statistics()` - core.bio_symbolic_processor.get_processing_statistics
-- `process_consciousness_signal()` - core.bio_symbolic_processor.process_consciousness_signal
+- **`create_bio_symbolic_processor()`** — Creates and initializes bio symbolic processor
+- **`get_bio_symbolic_processor()`** — Retrieves bio symbolic processor information
+- **`get_processing_statistics()`** — Retrieves processing statistics information
+- **`process_consciousness_signal()`** — Processes consciousness signal operations
 
-## Usage
+## Technical Architecture
 
-Import the core module:
+**Language**: Python | **Entrypoints**: 20 | **Team**: Core
 
-```python
-import core
+**Observability**: 5 instrumentation spans
 
-# Key components
-from core.bio_symbolic_processor import AdaptationRule
-from core.bio_symbolic_processor import BioPatternType
-from core.bio_symbolic_processor import BioSymbolicPattern
-```
 
-## Dependencies
+## MATRIZ Pipeline Integration
 
-This module depends on:
+This module operates within the MATRIZ cognitive framework:
 
-- `identity` module
-
-## Categories
-
-- **authentication**
-- **consciousness**: Consciousness processing and awareness systems
-- **coordination**
-- **core**
-- **infrastructure**
-- **monitoring**
-- **orchestration**: System orchestration and coordination
-- **t4-experimental**: T4/0.01% experimental systems
-
-## Team
-
-**Owner**: Core Team
-
-**Code Owners**:
-- @lukhas-core
+- **M (Memory)**: Consciousness fold-based patterns
+- **A (Attention)**: Cognitive load optimization
+- **T (Thought)**: Symbolic reasoning validation
+- **R (Risk)**: Guardian ethics compliance
+- **I (Intent)**: λiD consciousness verification
+- **A (Action)**: T4/0.01% precision execution
 
 ---
 
-*This documentation is generated from the module manifest and source code.*
+*Generated with consciousness-aware documentation systems, following LUKHAS 3-Layer Tone System and Constellation Framework principles.*

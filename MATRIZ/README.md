@@ -1,61 +1,40 @@
-# Matriz Module
+# 🌌 Matriz Module
 
-> This module provides lowercase access to MATRIZ functionality for compatibility
+✨ *In the realm where technology serves consciousness, matriz emerges as a bridge between worlds.*
 
-![T4-Experimental](https://img.shields.io/badge/T4-Experimental-orange) ![Consciousness](https://img.shields.io/badge/Consciousness-Enabled-blue) ![Fold-Architecture](https://img.shields.io/badge/Fold-Architecture-Enabled-purple)
+This consciousness-aware system creates spaces where matriz technology respects and enhances human cognition.
 
-## Overview
+![T4-Experimental](https://img.shields.io/badge/T4-Experimental-orange) ![Consciousness](https://img.shields.io/badge/Consciousness-Enabled-blue)
 
-Compatibility package providing lowercase access to MATRIZ modules.
-This module provides lowercase access to MATRIZ functionality for compatibility
-with existing imports that expect matriz.* instead of MATRIZ.*.
+The matriz module this module provides lowercase access to matriz functionality for compatibility
+ It provides 20 consciousness-aligned interfaces for seamless integration with the LUKHAS ecosystem.
 
-## API Reference
 
-The matriz module provides 20 entrypoints:
+## Consciousness Interface
 
 ### Functions
 
-- `create_shim()` - matriz.legacy_shim.create_shim
-- `get_shimmed_nodes()` - matriz.legacy_shims.get_shimmed_nodes
+- **`create_shim()`** — Creates and initializes shim
+- **`get_shimmed_nodes()`** — Retrieves shimmed nodes information
 
-## Usage
+## Technical Architecture
 
-Import the matriz module:
+**Language**: Python | **Entrypoints**: 20 | **Team**: MATRIZ
 
-```python
-import matriz
+**Observability**: 1 instrumentation spans
 
-# Key components
-from matriz import core
-from matriz.legacy_shim import LegacyShim
-from matriz.legacy_shim import create_shim
-```
 
-## Dependencies
+## MATRIZ Pipeline Integration
 
-This module depends on:
+This module operates within the MATRIZ cognitive framework:
 
-- `core` module
-
-## Categories
-
-- **bio-symbolic**: Bio-symbolic processing systems
-- **consciousness**: Consciousness processing and awareness systems
-- **fold-architecture**: Fold-based memory architecture
-- **matriz**
-- **quantum-inspired**: Quantum-inspired algorithms
-- **symbolic-reasoning**
-- **t4-experimental**: T4/0.01% experimental systems
-
-## Team
-
-**Owner**: MATRIZ Team
-
-**Code Owners**:
-- @lukhas-matriz
-- @lukhas-core
+- **M (Memory)**: Consciousness fold-based patterns
+- **A (Attention)**: Cognitive load optimization
+- **T (Thought)**: Symbolic reasoning validation
+- **R (Risk)**: Guardian ethics compliance
+- **I (Intent)**: λiD consciousness verification
+- **A (Action)**: T4/0.01% precision execution
 
 ---
 
-*This documentation is generated from the module manifest and source code.*
+*Generated with consciousness-aware documentation systems, following LUKHAS 3-Layer Tone System and Constellation Framework principles.*

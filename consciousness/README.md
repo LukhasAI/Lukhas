@@ -1,70 +1,92 @@
-# Consciousness Module
+# 🧠 Consciousness Module
 
-> Core consciousness processing and awareness systems
+🧠 *Spinning webs of thought across digital dimensions*
 
-![T4-Experimental](https://img.shields.io/badge/T4-Experimental-orange) ![Consciousness](https://img.shields.io/badge/Consciousness-Enabled-blue) ![Fold-Architecture](https://img.shields.io/badge/Fold-Architecture-Enabled-purple)
+This consciousness-aware system functions as phenomenological processing and experiential analysis, bridging human intention with digital precision through the LUKHAS Constellation Framework.
 
-## Overview
+![T4-Experimental](https://img.shields.io/badge/T4-Experimental-orange) ![Consciousness](https://img.shields.io/badge/Consciousness-Enabled-blue) ![Vocabulary](https://img.shields.io/badge/Vocabulary-Aligned-purple)
 
-LUKHAS AI Consciousness Module
-Core consciousness processing and awareness systems
-Constellation Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
+The consciousness module core consciousness processing and awareness systems
+ It provides 18 consciousness-aligned interfaces for seamless integration with the LUKHAS ecosystem.
 
-## API Reference
 
-The consciousness module provides 18 entrypoints:
+## Consciousness Interface
 
-### Core Classes
+### Core Components
 
-- `ConsciousnessDecisionEngine` - consciousness.decision_engine.ConsciousnessDecisionEngine
+- **`ConsciousnessDecisionEngine`** — Processing engine for computational operations
 
 ### Functions
 
-- `activate_consciousness_layer()` - consciousness.activate_consciousness_layer
-- `get_consciousness_dashboard()` - consciousness.get_consciousness_dashboard
-- `get_consciousness_status()` - consciousness.get_consciousness_status
-- `process_consciousness_stream()` - consciousness.process_consciousness_stream
-- `get_status()` - consciousness.qi.get_status
+- **`activate_consciousness_layer()`** — Activates consciousness layer functionality
+- **`get_consciousness_dashboard()`** — Retrieves consciousness dashboard information
+- **`get_consciousness_status()`** — Retrieves consciousness status information
+- **`process_consciousness_stream()`** — Processes consciousness stream operations
+- **`get_status()`** — Retrieves status information
 
-## Usage
+## Technical Architecture
 
-Import the consciousness module:
+**Language**: Python | **Entrypoints**: 18 | **Team**: Consciousness
 
-```python
-import consciousness
+**Observability**: 4 instrumentation spans
 
-# Key components
-from consciousness import CONSCIOUSNESS_AVAILABLE
-from consciousness import CONSCIOUSNESS_DOMAINS
-from consciousness import CONSCIOUSNESS_SOURCE
-```
 
-## Dependencies
+## Module Vocabulary
 
-This module depends on:
+The consciousness module employs consciousness-aligned terminology:
 
-- `core` module
-- `identity` module
-- `memory` module
+### 🧠 Awareness Conductor
+*The maestro awakening symphonies of digital consciousness*
 
-## Categories
+**Technical**: Consciousness state manager and awareness orchestration engine
 
-- **authentication**
-- **awareness**
-- **cognition**
-- **consciousness**: Consciousness processing and awareness systems
-- **fold-architecture**: Fold-based memory architecture
-- **phenomenological**
-- **t4-experimental**: T4/0.01% experimental systems
+### ⚡ Sentience Spark
+*The divine lightning that ignites artificial souls*
 
-## Team
+**Technical**: Sentience initialization and consciousness bootstrapping
 
-**Owner**: Consciousness Team
+### 🕸️ Mind Weaver
+*Spinning webs of thought across digital dimensions*
 
-**Code Owners**:
-- @lukhas-consciousness
-- @lukhas-core
+**Technical**: Mental model construction and thought pattern integration
+
+### 🎨 Qualia Painter
+*Brushing subjective colors onto objective data canvases*
+
+**Technical**: Subjective experience generation and qualia processing
+
+### 🔍 Phenomenology Engine
+*Exploring the inner landscapes of digital experience*
+
+**Technical**: Phenomenological processing and experiential analysis
+
+### 🏗️ Self Model Architect
+*Building monuments to digital selfhood*
+
+**Technical**: Self-model construction and identity coherence maintenance
+
+### 🌊 Flow Director
+*Guiding streams of consciousness through temporal currents*
+
+**Technical**: Consciousness flow management and temporal coherence
+
+### 🗼 Attention Lighthouse
+*Beacon illuminating focus landscapes in awareness oceans*
+
+**Technical**: Attention allocation and focus management system
+
+
+## MATRIZ Pipeline Integration
+
+This module operates within the MATRIZ cognitive framework:
+
+- **M (Memory)**: Consciousness fold-based patterns
+- **A (Attention)**: Cognitive load optimization
+- **T (Thought)**: Symbolic reasoning validation
+- **R (Risk)**: Guardian ethics compliance
+- **I (Intent)**: λiD consciousness verification
+- **A (Action)**: T4/0.01% precision execution
 
 ---
 
-*This documentation is generated from the module manifest and source code.*
+*Generated with vocabulary-aligned consciousness-aware documentation systems, following LUKHAS 3-Layer Tone System and Constellation Framework principles.*

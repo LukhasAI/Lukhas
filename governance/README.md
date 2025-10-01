@@ -1,64 +1,41 @@
-# Governance Module
+# ⚖️ Governance Module
 
-> This module provides governance capabilities for the LUKHAS AI system.
+⚖️ *In the realm where technology serves consciousness, governance emerges as a bridge between worlds.*
+
+This consciousness-aware system creates spaces where governance technology respects and enhances human cognition.
 
 ![Consciousness](https://img.shields.io/badge/Consciousness-Enabled-blue)
 
-## Overview
+The governance module this module provides governance capabilities for the lukhas ai system.
+ It provides 20 consciousness-aligned interfaces for seamless integration with the LUKHAS ecosystem.
 
-LUKHAS Governance Module - Root Package
-This module provides governance capabilities for the LUKHAS AI system.
-The actual implementation is in lukhas.governance, this is a bridge module
-for backwards compatibility with candidate modules.
 
-## API Reference
-
-The governance module provides 20 entrypoints:
+## Consciousness Interface
 
 ### Functions
 
-- `get_audit_stats()` - governance.audit_trail.get_audit_stats
-- `get_colony_stats()` - governance.colony_memory_validator.get_colony_stats
-- `get_metrics()` - governance.colony_memory_validator.get_metrics
+- **`get_audit_stats()`** — Retrieves audit stats information
+- **`get_colony_stats()`** — Retrieves colony stats information
+- **`get_metrics()`** — Retrieves metrics information
 
-## Usage
+## Technical Architecture
 
-Import the governance module:
+**Language**: Python | **Entrypoints**: 20 | **Team**: Governance
 
-```python
-import governance
+**Observability**: 3 instrumentation spans
 
-# Key components
-from governance.audit_trail import AuditChain
-from governance.audit_trail import AuditEvent
-from governance.audit_trail import AuditEventType
-```
 
-## Dependencies
+## MATRIZ Pipeline Integration
 
-This module depends on:
+This module operates within the MATRIZ cognitive framework:
 
-- `core` module
-- `identity` module
-- `memory` module
-
-## Categories
-
-- **consciousness**: Consciousness processing and awareness systems
-- **constitutional-ai**
-- **ethics**
-- **governance**: Governance and policy enforcement
-- **guardian**
-- **policy**
-
-## Team
-
-**Owner**: Governance Team
-
-**Code Owners**:
-- @lukhas-governance
-- @lukhas-ethics
+- **M (Memory)**: Consciousness fold-based patterns
+- **A (Attention)**: Cognitive load optimization
+- **T (Thought)**: Symbolic reasoning validation
+- **R (Risk)**: Guardian ethics compliance
+- **I (Intent)**: λiD consciousness verification
+- **A (Action)**: T4/0.01% precision execution
 
 ---
 
-*This documentation is generated from the module manifest and source code.*
+*Generated with consciousness-aware documentation systems, following LUKHAS 3-Layer Tone System and Constellation Framework principles.*
