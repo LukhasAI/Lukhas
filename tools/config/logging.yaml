@@ -1,0 +1,35 @@
+version: 1
+disable_existing_loggers: false
+formatters:
+  standard:
+    format: '%(asctime)s [%(levelname)s] %(name)s: %(message)s'
+  consciousness:
+    format: "%(asctime)s [%(levelname)s] \U0001F9E0 %(name)s: %(message)s"
+handlers:
+  console:
+    level: INFO
+    class: logging.StreamHandler
+    formatter: consciousness
+  file:
+    level: DEBUG
+    class: logging.FileHandler
+    filename: logs/tools.log
+    formatter: standard
+loggers:
+  tools:
+    handlers:
+    - console
+    - file
+    level: DEBUG
+    propagate: false
+observability:
+  spans:
+  - lukhas.tools.auth
+  - lukhas.tools.consciousness
+  - lukhas.tools.fold
+  - lukhas.tools.monitoring
+  - lukhas.tools.operation
+  - lukhas.tools.processing
+  - lukhas.tools.retrieval
+  metrics_enabled: true
+  tracing_enabled: true

@@ -1,0 +1,16 @@
+environments:
+  development:
+    debug: true
+    log_level: DEBUG
+    database_url: sqlite:///./tests_dev.db
+    cache_ttl: 300
+  testing:
+    debug: false
+    log_level: INFO
+    database_url: sqlite:///./tests_test.db
+    cache_ttl: 60
+  production:
+    debug: false
+    log_level: WARNING
+    database_url: ${DATABASE_URL}
+    cache_ttl: 3600

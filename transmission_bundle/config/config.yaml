@@ -1,0 +1,10 @@
+module:
+  name: transmission_bundle
+  version: 1.0.0
+  description: LUKHAS transmission_bundle module implementing specialized transmission_bundle
+    functionality with 2 components for integrated system operations.
+runtime:
+  log_level: INFO
+  debug_mode: false
+  performance_monitoring: true
+features: {}

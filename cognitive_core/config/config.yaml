@@ -1,0 +1,9 @@
+module:
+  name: cognitive_core
+  version: 1.0.0
+  description: Advanced Cognitive capabilities that extend LUKHAS with state-of-the-art
+runtime:
+  log_level: INFO
+  debug_mode: false
+  performance_monitoring: true
+features: {}

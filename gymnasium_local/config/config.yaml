@@ -1,0 +1,10 @@
+module:
+  name: gymnasium_local
+  version: 1.0.0
+  description: LUKHAS gymnasium_local module implementing specialized gymnasium_local
+    functionality with 0 components for integrated system operations.
+runtime:
+  log_level: INFO
+  debug_mode: false
+  performance_monitoring: true
+features: {}

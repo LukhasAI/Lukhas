@@ -1,0 +1,10 @@
+module:
+  name: diagnostics
+  version: 1.0.0
+  description: LUKHAS diagnostics module implementing specialized diagnostics functionality
+    with 4 components for integrated system operations.
+runtime:
+  log_level: INFO
+  debug_mode: false
+  performance_monitoring: true
+features: {}

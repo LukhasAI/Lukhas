@@ -1,0 +1,17 @@
+module:
+  name: serve
+  version: 1.0.0
+  description: LUKHAS serve module implementing specialized serve functionality with
+    46 components for integrated system operations.
+runtime:
+  log_level: INFO
+  debug_mode: false
+  performance_monitoring: true
+features:
+  webauthn_support: true
+  oauth2_integration: true
+  distributed_coordination: true
+  load_balancing: true
+security:
+  session_timeout: 3600
+  max_login_attempts: 5

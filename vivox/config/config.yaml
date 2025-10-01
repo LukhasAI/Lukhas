@@ -1,0 +1,9 @@
+module:
+  name: vivox
+  version: 1.0.0
+  description: 'DEPRECATED: This module will be removed on 2025-11-01'
+runtime:
+  log_level: INFO
+  debug_mode: false
+  performance_monitoring: true
+features: {}

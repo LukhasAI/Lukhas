@@ -1,0 +1,11 @@
+module:
+  name: governance
+  version: 1.0.0
+  description: This module provides governance capabilities for the LUKHAS AI system.
+runtime:
+  log_level: INFO
+  debug_mode: false
+  performance_monitoring: true
+features:
+  consciousness_integration: true
+  awareness_monitoring: true

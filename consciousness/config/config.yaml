@@ -1,0 +1,19 @@
+module:
+  name: consciousness
+  version: 1.0.0
+  description: Core consciousness processing and awareness systems
+runtime:
+  log_level: INFO
+  debug_mode: false
+  performance_monitoring: true
+  memory_limit_mb: 1024
+features:
+  consciousness_integration: true
+  awareness_monitoring: true
+  fold_architecture: true
+  cascade_prevention: true
+  webauthn_support: true
+  oauth2_integration: true
+security:
+  session_timeout: 3600
+  max_login_attempts: 5

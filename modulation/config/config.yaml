@@ -1,0 +1,12 @@
+module:
+  name: modulation
+  version: 1.0.0
+  description: This system translates LUKHAS's endocrine signals (biological-inspired
+    "hormones")
+runtime:
+  log_level: INFO
+  debug_mode: false
+  performance_monitoring: true
+features:
+  distributed_coordination: true
+  load_balancing: true

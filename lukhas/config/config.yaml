@@ -1,0 +1,10 @@
+module:
+  name: lukhas
+  version: 1.0.0
+  description: "Maps `lukhas.<module>` to flat-root modules (e.g., `qi`, `core`, \u2026\
+    ),"
+runtime:
+  log_level: INFO
+  debug_mode: false
+  performance_monitoring: true
+features: {}

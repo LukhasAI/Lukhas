@@ -1,0 +1,11 @@
+module:
+  name: oneiric_core
+  version: 1.0.0
+  description: Core orchestration and infrastructure layer providing system coordination,
+    symbolic network integration, consciousness-core coupling, and fundamental LUKHAS
+    primitives with 0 core functions.
+runtime:
+  log_level: INFO
+  debug_mode: false
+  performance_monitoring: true
+features: {}

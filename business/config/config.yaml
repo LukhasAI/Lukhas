@@ -1,0 +1,14 @@
+module:
+  name: business
+  version: 1.0.0
+  description: Business logic, strategies, and operational systems
+runtime:
+  log_level: INFO
+  debug_mode: false
+  performance_monitoring: true
+features:
+  webauthn_support: true
+  oauth2_integration: true
+security:
+  session_timeout: 3600
+  max_login_attempts: 5

@@ -1,0 +1,10 @@
+module:
+  name: examples
+  version: 1.0.0
+  description: LUKHAS examples module implementing specialized examples functionality
+    with 18 components for integrated system operations.
+runtime:
+  log_level: INFO
+  debug_mode: false
+  performance_monitoring: true
+features: {}

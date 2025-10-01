@@ -1,0 +1,11 @@
+module:
+  name: dream
+  version: 1.0.0
+  description: Core dream processing components for consciousness integration
+runtime:
+  log_level: INFO
+  debug_mode: false
+  performance_monitoring: true
+features:
+  consciousness_integration: true
+  awareness_monitoring: true

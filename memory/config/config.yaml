@@ -1,0 +1,17 @@
+module:
+  name: memory
+  version: 1.0.0
+  description: Advanced memory systems with hierarchical data storage, fold lineage
+    tracking,
+runtime:
+  log_level: INFO
+  debug_mode: false
+  performance_monitoring: true
+  memory_limit_mb: 1024
+features:
+  consciousness_integration: true
+  awareness_monitoring: true
+  fold_architecture: true
+  cascade_prevention: true
+  distributed_coordination: true
+  load_balancing: true

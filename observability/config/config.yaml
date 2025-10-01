@@ -1,0 +1,9 @@
+module:
+  name: observability
+  version: 1.0.0
+  description: Central imports for observability and monitoring functionality.
+runtime:
+  log_level: INFO
+  debug_mode: false
+  performance_monitoring: true
+features: {}

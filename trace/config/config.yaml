@@ -1,0 +1,10 @@
+module:
+  name: trace
+  version: 1.0.0
+  description: Drift monitoring and harmonization components for Trinity Framework
+    compliance.
+runtime:
+  log_level: INFO
+  debug_mode: false
+  performance_monitoring: true
+features: {}

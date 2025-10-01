@@ -1,0 +1,9 @@
+module:
+  name: pytest_asyncio
+  version: 1.0.0
+  description: Minimal pytest-asyncio stub to satisfy configuration in offline environments.
+runtime:
+  log_level: INFO
+  debug_mode: false
+  performance_monitoring: true
+features: {}

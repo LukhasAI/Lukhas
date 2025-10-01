@@ -1,0 +1,10 @@
+module:
+  name: utils
+  version: 1.0.0
+  description: LUKHAS utils module implementing specialized utils functionality with
+    1 components for integrated system operations.
+runtime:
+  log_level: INFO
+  debug_mode: false
+  performance_monitoring: true
+features: {}

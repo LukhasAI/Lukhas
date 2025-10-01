@@ -1,0 +1,10 @@
+module:
+  name: performance
+  version: 1.0.0
+  description: LUKHAS performance module implementing specialized performance functionality
+    with 34 components for integrated system operations.
+runtime:
+  log_level: INFO
+  debug_mode: false
+  performance_monitoring: true
+features: {}

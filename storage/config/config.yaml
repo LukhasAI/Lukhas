@@ -1,0 +1,10 @@
+module:
+  name: storage
+  version: 1.0.0
+  description: LUKHAS storage module implementing specialized storage functionality
+    with 17 components for integrated system operations.
+runtime:
+  log_level: INFO
+  debug_mode: false
+  performance_monitoring: true
+features: {}

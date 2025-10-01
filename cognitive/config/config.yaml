@@ -1,0 +1,9 @@
+module:
+  name: cognitive
+  version: 1.0.0
+  description: This package provides compatibility imports during the transition period.
+runtime:
+  log_level: INFO
+  debug_mode: false
+  performance_monitoring: true
+features: {}

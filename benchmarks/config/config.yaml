@@ -1,0 +1,10 @@
+module:
+  name: benchmarks
+  version: 1.0.0
+  description: LUKHAS benchmarks module implementing specialized benchmarks functionality
+    with 19 components for integrated system operations.
+runtime:
+  log_level: INFO
+  debug_mode: false
+  performance_monitoring: true
+features: {}

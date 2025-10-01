@@ -1,0 +1,14 @@
+module:
+  name: matriz
+  version: 1.0.0
+  description: This module provides lowercase access to MATRIZ functionality for compatibility
+runtime:
+  log_level: INFO
+  debug_mode: false
+  performance_monitoring: true
+  memory_limit_mb: 1024
+features:
+  consciousness_integration: true
+  awareness_monitoring: true
+  fold_architecture: true
+  cascade_prevention: true

@@ -1,0 +1,10 @@
+module:
+  name: codex_artifacts
+  version: 1.0.0
+  description: LUKHAS codex_artifacts module implementing specialized codex_artifacts
+    functionality with 0 components for integrated system operations.
+runtime:
+  log_level: INFO
+  debug_mode: false
+  performance_monitoring: true
+features: {}

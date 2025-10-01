@@ -1,0 +1,10 @@
+module:
+  name: delegation_reports
+  version: 1.0.0
+  description: LUKHAS delegation_reports module implementing specialized delegation_reports
+    functionality with 2 components for integrated system operations.
+runtime:
+  log_level: INFO
+  debug_mode: false
+  performance_monitoring: true
+features: {}

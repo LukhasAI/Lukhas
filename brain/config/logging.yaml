@@ -1,0 +1,32 @@
+version: 1
+disable_existing_loggers: false
+formatters:
+  standard:
+    format: '%(asctime)s [%(levelname)s] %(name)s: %(message)s'
+  consciousness:
+    format: "%(asctime)s [%(levelname)s] \U0001F9E0 %(name)s: %(message)s"
+handlers:
+  console:
+    level: INFO
+    class: logging.StreamHandler
+    formatter: standard
+  file:
+    level: DEBUG
+    class: logging.FileHandler
+    filename: logs/brain.log
+    formatter: standard
+loggers:
+  brain:
+    handlers:
+    - console
+    - file
+    level: DEBUG
+    propagate: false
+observability:
+  spans:
+  - lukhas.brain.consciousness
+  - lukhas.brain.monitoring
+  - lukhas.brain.operation
+  - lukhas.brain.processing
+  metrics_enabled: true
+  tracing_enabled: true

@@ -1,0 +1,29 @@
+version: 1
+disable_existing_loggers: false
+formatters:
+  standard:
+    format: '%(asctime)s [%(levelname)s] %(name)s: %(message)s'
+  consciousness:
+    format: "%(asctime)s [%(levelname)s] \U0001F9E0 %(name)s: %(message)s"
+handlers:
+  console:
+    level: INFO
+    class: logging.StreamHandler
+    formatter: standard
+  file:
+    level: DEBUG
+    class: logging.FileHandler
+    filename: logs/test_results.log
+    formatter: standard
+loggers:
+  test_results:
+    handlers:
+    - console
+    - file
+    level: DEBUG
+    propagate: false
+observability:
+  spans:
+  - lukhas.test_results.operation
+  metrics_enabled: true
+  tracing_enabled: true

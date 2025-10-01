@@ -1,0 +1,10 @@
+module:
+  name: hooks
+  version: 1.0.0
+  description: LUKHAS hooks module implementing specialized hooks functionality with
+    10 components for integrated system operations.
+runtime:
+  log_level: INFO
+  debug_mode: false
+  performance_monitoring: true
+features: {}

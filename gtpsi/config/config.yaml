@@ -1,0 +1,10 @@
+module:
+  name: gtpsi
+  version: 1.0.0
+  description: Optional MFA/consent factor using gesture recognition for high-risk
+    actions.
+runtime:
+  log_level: INFO
+  debug_mode: false
+  performance_monitoring: true
+features: {}

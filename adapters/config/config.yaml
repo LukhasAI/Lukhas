@@ -1,0 +1,10 @@
+module:
+  name: adapters
+  version: 1.0.0
+  description: Common interface for external service integrations with capability
+    token validation.
+runtime:
+  log_level: INFO
+  debug_mode: false
+  performance_monitoring: true
+features: {}

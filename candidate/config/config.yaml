@@ -1,0 +1,15 @@
+module:
+  name: candidate
+  version: 1.0.0
+  description: This package contains all candidate implementations and modules for
+    the
+runtime:
+  log_level: INFO
+  debug_mode: false
+  performance_monitoring: true
+  memory_limit_mb: 1024
+features:
+  consciousness_integration: true
+  awareness_monitoring: true
+  fold_architecture: true
+  cascade_prevention: true

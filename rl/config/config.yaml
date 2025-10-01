@@ -1,0 +1,12 @@
+module:
+  name: rl
+  version: 1.0.0
+  description: "M\u039BTRIZ-native RL implementation that creates rich consciousness\
+    \ components"
+runtime:
+  log_level: INFO
+  debug_mode: false
+  performance_monitoring: true
+features:
+  consciousness_integration: true
+  awareness_monitoring: true

@@ -1,0 +1,11 @@
+module:
+  name: tagging
+  version: 1.0.0
+  description: Symbolic tagging and resolution system for LUKHAS consciousness
+runtime:
+  log_level: INFO
+  debug_mode: false
+  performance_monitoring: true
+features:
+  consciousness_integration: true
+  awareness_monitoring: true

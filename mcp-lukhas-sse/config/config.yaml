@@ -1,0 +1,15 @@
+module:
+  name: mcp-lukhas-sse
+  version: 1.0.0
+  description: LUKHAS mcp-lukhas-sse module implementing specialized mcp-lukhas-sse
+    functionality with 40 components for integrated system operations.
+runtime:
+  log_level: INFO
+  debug_mode: false
+  performance_monitoring: true
+features:
+  webauthn_support: true
+  oauth2_integration: true
+security:
+  session_timeout: 3600
+  max_login_attempts: 5

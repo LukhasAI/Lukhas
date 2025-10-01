@@ -1,0 +1,12 @@
+module:
+  name: symbolic
+  version: 1.0.0
+  description: '*This file provides domain-specific context for any AI development
+    tool*'
+runtime:
+  log_level: INFO
+  debug_mode: false
+  performance_monitoring: true
+features:
+  consciousness_integration: true
+  awareness_monitoring: true

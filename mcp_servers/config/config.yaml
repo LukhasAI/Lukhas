@@ -1,0 +1,10 @@
+module:
+  name: mcp_servers
+  version: 1.0.0
+  description: LUKHAS mcp_servers module implementing specialized mcp_servers functionality
+    with 9 components for integrated system operations.
+runtime:
+  log_level: INFO
+  debug_mode: false
+  performance_monitoring: true
+features: {}

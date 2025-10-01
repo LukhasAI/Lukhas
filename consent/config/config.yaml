@@ -1,0 +1,10 @@
+module:
+  name: consent
+  version: 1.0.0
+  description: LUKHAS consent module implementing specialized consent functionality
+    with 22 components for integrated system operations.
+runtime:
+  log_level: INFO
+  debug_mode: false
+  performance_monitoring: true
+features: {}

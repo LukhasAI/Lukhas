@@ -1,0 +1,19 @@
+module:
+  name: core
+  version: 1.0.0
+  description: Compatibility bridge exposing :mod:`lukhas.core` under the historical
+    ``core`` namespace.
+runtime:
+  log_level: INFO
+  debug_mode: false
+  performance_monitoring: true
+features:
+  consciousness_integration: true
+  awareness_monitoring: true
+  webauthn_support: true
+  oauth2_integration: true
+  distributed_coordination: true
+  load_balancing: true
+security:
+  session_timeout: 3600
+  max_login_attempts: 5

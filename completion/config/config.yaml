@@ -1,0 +1,10 @@
+module:
+  name: completion
+  version: 1.0.0
+  description: LUKHAS completion module implementing specialized completion functionality
+    with 2 components for integrated system operations.
+runtime:
+  log_level: INFO
+  debug_mode: false
+  performance_monitoring: true
+features: {}

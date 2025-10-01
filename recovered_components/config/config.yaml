@@ -1,0 +1,10 @@
+module:
+  name: recovered_components
+  version: 1.0.0
+  description: LUKHAS recovered_components module implementing specialized recovered_components
+    functionality with 0 components for integrated system operations.
+runtime:
+  log_level: INFO
+  debug_mode: false
+  performance_monitoring: true
+features: {}

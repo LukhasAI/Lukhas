@@ -1,0 +1,10 @@
+module:
+  name: assets
+  version: 1.0.0
+  description: LUKHAS assets module implementing specialized assets functionality
+    with 0 components for integrated system operations.
+runtime:
+  log_level: INFO
+  debug_mode: false
+  performance_monitoring: true
+features: {}

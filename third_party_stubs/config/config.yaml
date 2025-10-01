@@ -1,0 +1,10 @@
+module:
+  name: third_party_stubs
+  version: 1.0.0
+  description: LUKHAS third_party_stubs module implementing specialized third_party_stubs
+    functionality with 0 components for integrated system operations.
+runtime:
+  log_level: INFO
+  debug_mode: false
+  performance_monitoring: true
+features: {}
