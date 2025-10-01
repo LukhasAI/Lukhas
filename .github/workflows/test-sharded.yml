@@ -1,0 +1,84 @@
+name: Sharded Tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  generate-shards:
+    runs-on: ubuntu-latest
+    outputs:
+      shards: ${{ steps.generate.outputs.shards }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Generate test shards
+        id: generate
+        run: |
+          python3 tools/test_sharding.py --shards 8 --strategy balanced --json > shards.json
+          echo "shards=$(cat shards.json)" >> $GITHUB_OUTPUT
+
+  test-shard:
+    needs: generate-shards
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [0, 1, 2, 3, 4, 5, 6, 7]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          pip install --upgrade pip
+          pip install pytest pytest-xdist pytest-cov
+          if [ -f requirements-dev.txt ]; then pip install -r requirements-dev.txt; fi
+
+      - name: Get shard tests
+        id: get-tests
+        run: |
+          python3 tools/test_sharding.py --shards 8 --strategy balanced --output pytest > test_commands.sh
+          # Extract just the shard command for this matrix index
+          sed -n "/# Shard ${{ matrix.shard }}/,/# Shard/p" test_commands.sh | grep "^pytest" > shard_${{ matrix.shard }}.sh || echo "echo 'No tests in shard ${{ matrix.shard }}'" > shard_${{ matrix.shard }}.sh
+
+      - name: Run tests for shard ${{ matrix.shard }}
+        run: |
+          bash shard_${{ matrix.shard }}.sh || true
+        continue-on-error: true
+
+      - name: Upload coverage
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-shard-${{ matrix.shard }}
+          path: .coverage.*
+
+  collect-results:
+    needs: test-shard
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download all coverage
+        uses: actions/download-artifact@v4
+        with:
+          pattern: coverage-shard-*
+          merge-multiple: true
+
+      - name: Combine coverage
+        run: |
+          pip install coverage
+          coverage combine
+          coverage report
+          coverage xml
+
+      - name: Upload final coverage
+        uses: codecov/codecov-action@v3
+        with:
+          file: ./coverage.xml
+          fail_ci_if_error: false

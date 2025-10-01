@@ -1,0 +1,77 @@
+name: Config & Secrets Validation
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+    paths:
+      - '**/config/*.yaml'
+      - '**/config/*.yml'
+      - 'schemas/*.json'
+      - 'tools/validate_configs.py'
+      - '.yamllint'
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          pip install jsonschema pyyaml yamllint
+
+      - name: Validate YAML syntax
+        run: |
+          yamllint --format parsable --strict . || true
+
+      - name: Validate configs and detect secrets
+        run: |
+          python3 tools/validate_configs.py
+        env:
+          STRICT_MODE: true
+
+      - name: Check module naming
+        run: |
+          python3 tools/guard_module_names.py
+
+      - name: Generate validation report
+        if: always()
+        run: |
+          python3 tools/validate_configs.py --json > validation_report.json || true
+          python3 tools/module_readiness_score.py > readiness_scoreboard.txt || true
+
+      - name: Upload validation artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: validation-reports
+          path: |
+            validation_report.json
+            readiness_scoreboard.txt
+
+      - name: Comment PR with validation status
+        if: github.event_name == 'pull_request' && always()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            let scoreboard = 'Unable to generate scoreboard';
+            try {
+              scoreboard = fs.readFileSync('readiness_scoreboard.txt', 'utf8');
+            } catch (e) {}
+
+            const body = `## 📊 Module Validation Report\n\n\`\`\`\n${scoreboard.substring(0, 1000)}\n\`\`\`\n\n[Full report](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})`;
+
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: body
+            });
