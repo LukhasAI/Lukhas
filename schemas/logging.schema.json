@@ -1,0 +1,150 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://lukhas.ai/schemas/logging.schema.json",
+  "title": "LUKHAS Module Logging Configuration Schema",
+  "description": "Schema for module logging.yaml files",
+  "type": "object",
+  "required": ["version", "formatters", "handlers"],
+  "properties": {
+    "version": {
+      "type": "number",
+      "const": 1,
+      "description": "Logging config version"
+    },
+    "disable_existing_loggers": {
+      "type": "boolean",
+      "default": false
+    },
+    "formatters": {
+      "type": "object",
+      "patternProperties": {
+        "^[a-z_]+$": {
+          "$ref": "#/$defs/formatter"
+        }
+      },
+      "additionalProperties": false
+    },
+    "handlers": {
+      "type": "object",
+      "required": ["console", "file"],
+      "properties": {
+        "console": {
+          "$ref": "#/$defs/handler"
+        },
+        "file": {
+          "$ref": "#/$defs/handler"
+        }
+      },
+      "additionalProperties": {
+        "$ref": "#/$defs/handler"
+      }
+    },
+    "loggers": {
+      "type": "object",
+      "patternProperties": {
+        "^[a-z0-9_\\.]+$": {
+          "$ref": "#/$defs/logger"
+        }
+      },
+      "additionalProperties": false
+    },
+    "observability": {
+      "type": "object",
+      "properties": {
+        "spans": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^lukhas\\.[a-z0-9_\\.]+$"
+          }
+        },
+        "metrics_enabled": {
+          "type": "boolean"
+        },
+        "tracing_enabled": {
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "$defs": {
+    "formatter": {
+      "type": "object",
+      "required": ["format"],
+      "properties": {
+        "format": {
+          "type": "string",
+          "minLength": 1
+        },
+        "datefmt": {
+          "type": "string"
+        },
+        "class": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "handler": {
+      "type": "object",
+      "required": ["class", "formatter"],
+      "properties": {
+        "class": {
+          "type": "string",
+          "enum": [
+            "logging.StreamHandler",
+            "logging.FileHandler",
+            "logging.handlers.RotatingFileHandler",
+            "logging.handlers.TimedRotatingFileHandler",
+            "logging.NullHandler"
+          ]
+        },
+        "level": {
+          "type": "string",
+          "enum": ["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"]
+        },
+        "formatter": {
+          "type": "string"
+        },
+        "filename": {
+          "type": "string"
+        },
+        "maxBytes": {
+          "type": "number",
+          "minimum": 1024
+        },
+        "backupCount": {
+          "type": "number",
+          "minimum": 1
+        },
+        "when": {
+          "type": "string",
+          "enum": ["S", "M", "H", "D", "W0", "W1", "W2", "W3", "W4", "W5", "W6", "midnight"]
+        }
+      },
+      "additionalProperties": false
+    },
+    "logger": {
+      "type": "object",
+      "properties": {
+        "level": {
+          "type": "string",
+          "enum": ["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"]
+        },
+        "handlers": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1
+        },
+        "propagate": {
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

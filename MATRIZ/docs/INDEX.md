@@ -1,3 +1,11 @@
+<!--
+@generated LUKHAS scaffold v1.0
+template_id: module.scaffold/v1
+template_commit: f95979630
+do_not_edit: true
+human_editable: false
+-->
+
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "lukhas://schemas/matriz_node_v1.json",

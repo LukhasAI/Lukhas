@@ -1,0 +1,29 @@
+extends: default
+
+rules:
+  # Allow longer lines for consciousness descriptions
+  line-length:
+    max: 120
+    level: warning
+
+  # Allow key repetition in environment configs
+  key-duplicates: disable
+
+  # Be flexible with indentation in complex structures
+  indentation:
+    spaces: 2
+    indent-sequences: true
+    check-multi-line-strings: false
+
+  # Allow comments in config files
+  comments:
+    min-spaces-from-content: 1
+
+  # LUKHAS-specific overrides
+  truthy:
+    allowed-values: ['true', 'false', 'yes', 'no']
+
+  # Allow empty values for placeholder configs
+  empty-values:
+    forbid-in-block-mappings: false
+    forbid-in-flow-mappings: false

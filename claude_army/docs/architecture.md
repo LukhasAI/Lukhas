@@ -1,0 +1,76 @@
+<!--
+@generated LUKHAS scaffold v1.0
+template_id: module.scaffold/v1
+template_commit: f95979630
+do_not_edit: false
+human_editable: true
+-->
+
+# Claude_Army Architecture
+
+## Overview
+
+The CLAUDE_ARMY module is designed following LUKHAS architectural principles with consciousness-first design patterns.
+
+## Architecture Patterns
+
+### Module Structure
+```
+CLAUDE_ARMY/
+├── __init__.py          # Main module interface
+├── config/              # Configuration management
+├── docs/                # Documentation
+├── tests/               # Test suite
+└── assets/              # Module assets
+```
+
+### Design Principles
+
+1. **Consciousness-First Design**
+   - All operations respect human cognitive patterns
+   - Transparent decision-making processes
+   - Ethical AI integration
+
+2. **T4/0.01% Compliance**
+   - Bulletproof error handling
+   - Reversible operations
+   - Comprehensive audit trails
+
+3. **MATRIZ Integration**
+   - Memory: Consciousness fold-based patterns
+   - Attention: Cognitive load optimization
+   - Thought: Symbolic reasoning validation
+   - Risk: Guardian ethics compliance
+   - Intent: λiD consciousness verification
+   - Action: Precision execution
+
+## Dependencies
+
+This module has no external dependencies.
+
+## Integration Points
+
+### LUKHAS Ecosystem
+- **Core**: Fundamental system coordination
+- **Identity**: Authentication and authorization
+- **Memory**: Persistent state management
+- **Consciousness**: Awareness and decision-making
+
+### External Systems
+- Standard Python libraries
+- LUKHAS-specific dependencies
+- Optional third-party integrations
+
+## Performance Characteristics
+
+- **Latency**: Sub-100ms for core operations
+- **Throughput**: Scales with system resources
+- **Memory**: Optimized for consciousness workloads
+- **Reliability**: 99.97% uptime target
+
+## Security Considerations
+
+- Input validation and sanitization
+- Secure credential management
+- Audit logging for all operations
+- Compliance with LUKHAS security standards

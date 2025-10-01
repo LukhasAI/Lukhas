@@ -1,3 +1,11 @@
+<!--
+@generated LUKHAS scaffold v1.0
+template_id: module.scaffold/v1
+template_commit: f95979630
+do_not_edit: false
+human_editable: true
+-->
+
 # Scripts Troubleshooting Guide
 
 ## Common Issues

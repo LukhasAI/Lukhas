@@ -1,3 +1,9 @@
+# @generated LUKHAS scaffold v1.0
+# template_id: module.scaffold/v1
+# template_commit: f95979630
+# do_not_edit: true
+# human_editable: false
+#
 #!/usr/bin/env python3
 """
 T4 Contract Check - Contract-First Validation

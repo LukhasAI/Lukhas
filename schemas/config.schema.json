@@ -1,0 +1,128 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://lukhas.ai/schemas/config.schema.json",
+  "title": "LUKHAS Module Configuration Schema",
+  "description": "Schema for module config.yaml files",
+  "type": "object",
+  "required": ["module", "runtime"],
+  "properties": {
+    "module": {
+      "type": "object",
+      "required": ["name", "version", "description"],
+      "properties": {
+        "name": {
+          "type": "string",
+          "pattern": "^[a-z0-9_]+$",
+          "description": "Module name in canonical snake_case"
+        },
+        "version": {
+          "type": "string",
+          "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$",
+          "description": "Semantic version"
+        },
+        "description": {
+          "type": "string",
+          "minLength": 10,
+          "description": "Module description"
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Module tags for categorization"
+        }
+      },
+      "additionalProperties": false
+    },
+    "runtime": {
+      "type": "object",
+      "required": ["log_level"],
+      "properties": {
+        "log_level": {
+          "type": "string",
+          "enum": ["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"]
+        },
+        "debug_mode": {
+          "type": "boolean",
+          "default": false
+        },
+        "performance_monitoring": {
+          "type": "boolean",
+          "default": true
+        },
+        "timeout_seconds": {
+          "type": "number",
+          "minimum": 1,
+          "maximum": 3600
+        }
+      },
+      "additionalProperties": false
+    },
+    "features": {
+      "type": "object",
+      "properties": {
+        "consciousness_integration": {
+          "type": "boolean"
+        },
+        "awareness_monitoring": {
+          "type": "boolean"
+        },
+        "webauthn_support": {
+          "type": "boolean"
+        },
+        "oauth2_integration": {
+          "type": "boolean"
+        },
+        "matriz_processing": {
+          "type": "boolean"
+        },
+        "dream_integration": {
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": true
+    },
+    "security": {
+      "type": "object",
+      "properties": {
+        "session_timeout": {
+          "type": "number",
+          "minimum": 300,
+          "maximum": 86400
+        },
+        "max_login_attempts": {
+          "type": "number",
+          "minimum": 3,
+          "maximum": 10
+        },
+        "require_https": {
+          "type": "boolean",
+          "default": true
+        }
+      },
+      "additionalProperties": false
+    },
+    "dependencies": {
+      "type": "object",
+      "properties": {
+        "required_modules": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z0-9_]+$"
+          }
+        },
+        "optional_modules": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z0-9_]+$"
+          }
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

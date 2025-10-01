@@ -10,6 +10,14 @@ repos:
     hooks:
       - id: ruff
         args: [--fix, --exit-non-zero-on-fix]
+
+  # YAML validation
+  - repo: https://github.com/adrienverge/yamllint.git
+    rev: v1.35.1
+    hooks:
+      - id: yamllint
+        args: [--format, parsable, --strict]
+        exclude: ^(candidate/|\.github/)
   # Matrix Tracks hygiene hooks
   - repo: https://github.com/shellcheck-py/shellcheck-py
     rev: v0.10.0.1
@@ -114,4 +122,36 @@ repos:
         entry: python3 tools/module_manifest_upgrade.py --validate
         language: system
         files: ^.*module\.manifest\.json$
+        pass_filenames: false
+
+      # T4/0.01% Safety Rails
+      - id: block-secrets-in-config
+        name: Block secrets in config/environment
+        entry: bash -c 'if git diff --cached --name-only | grep -E "/environment\.yaml$" | head -1; then echo "❌ Commit .env.example instead of environment.yaml with real values" >&2; exit 1; fi'
+        language: system
+        pass_filenames: false
+
+      - id: guard-module-names
+        name: Guard module names (enforce snake_case)
+        entry: python3 tools/guard_module_names.py
+        language: system
+        pass_filenames: false
+
+      - id: validate-configs-and-secrets
+        name: Validate configs and detect secrets
+        entry: python3 tools/validate_configs.py
+        language: system
+        files: ^.*/config/.*\.yaml$
+        pass_filenames: false
+
+      - id: enforce-provenance-headers
+        name: Ensure scaffold files have provenance headers
+        entry: bash -c 'if git diff --cached --name-only | grep -E "(config/.*\.yaml|docs/.*\.md|tests/.*\.py)$" | xargs grep -L "@generated LUKHAS scaffold" 2>/dev/null | head -1; then echo "❌ Generated files must have provenance headers. Run: python3 tools/add_provenance_headers.py" >&2; exit 1; fi'
+        language: system
+        pass_filenames: false
+
+      - id: prevent-large-commits
+        name: Prevent commits with >500 files
+        entry: bash -c 'file_count=$(git diff --cached --name-only | wc -l); if [ $file_count -gt 500 ]; then echo "❌ Commit too large ($file_count files). Split into smaller commits (<500 files each)" >&2; exit 1; fi'
+        language: system
         pass_filenames: false
