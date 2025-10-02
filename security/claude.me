@@ -1,0 +1,295 @@
+# Security Module - Claude AI Context
+
+**Module**: security
+**Purpose**: Specialized security functionality with 21 components for integrated system operations
+**Lane**: L2 (Integration)
+**Language**: Python
+**Last Updated**: 2025-10-02
+
+---
+
+## Module Overview
+
+The security module implements comprehensive security functionality for LUKHAS, including identity protection, threat detection, security scanning, incident response, and vault-based secret management.
+
+### Key Components
+- **Identity Guard**: Identity protection and authentication security
+- **Security Scheduler**: Automated security task scheduling and monitoring
+- **Security Scanning**: Consciousness-aware security rule scanning
+- **Incident Response**: Security incident handling and response procedures
+- **Vault**: Secure secret storage and management
+- **Threat Model**: System threat modeling and risk assessment
+
+### Constellation Framework Integration
+- **🛡️ Watch Star (Guardian)**: Primary security enforcement
+- **⚛️ Anchor Star (Identity)**: Identity protection and authentication
+- **✦ Trail Star (Memory)**: Security audit trail and logging
+
+---
+
+## Architecture
+
+### Core Security Components
+
+#### 1. Identity Guard
+**File**: `IDENTITY_GUARD.py`
+**Purpose**: Identity protection and authentication security
+**Entrypoints**:
+- `security.IDENTITY_GUARD.IdentityGuard`
+- `security.IDENTITY_GUARD.main`
+
+```python
+from security.IDENTITY_GUARD import IdentityGuard
+
+guard = IdentityGuard()
+guard.validate_identity(user_context)
+```
+
+#### 2. Security Scheduler
+**File**: `security_scheduler.py`
+**Purpose**: Automated security task scheduling
+**Features**:
+- Periodic security scans
+- Automated vulnerability checks
+- Compliance monitoring
+- Incident detection
+
+#### 3. Security Scanning
+**Directory**: `scanning/`
+**Files**:
+- `consciousness_security_rules.py` - Security rules for consciousness systems
+- `__init__.py` - Scanning framework initialization
+
+**Features**:
+- Consciousness-aware security scanning
+- Custom security rules for AI systems
+- Vulnerability detection
+- Code security analysis
+
+#### 4. Incident Response
+**Directory**: `incident-response/`
+**Purpose**: Security incident handling procedures
+**Features**:
+- Incident detection and classification
+- Response procedures and playbooks
+- Escalation workflows
+- Post-incident analysis
+
+#### 5. Vault
+**Directory**: `vault/`
+**Purpose**: Secure secret storage and management
+**Features**:
+- Encrypted secret storage
+- Access control and auditing
+- Secret rotation
+- Integration with ΛID system
+
+---
+
+## Security Features
+
+### Threat Modeling
+**File**: `THREAT_MODEL.md`
+**Purpose**: Comprehensive threat model for LUKHAS
+**Coverage**:
+- Attack surfaces
+- Threat actors
+- Mitigation strategies
+- Risk assessment
+
+### Security Policy
+**File**: `security_policy.yml`
+**Purpose**: Declarative security policy configuration
+**Defines**:
+- Access control policies
+- Security scanning rules
+- Incident response procedures
+- Compliance requirements
+
+### Observability
+**Instrumentation**: 1 required span
+- `lukhas.security.operation` - All security operations traced
+**Standards**: OpenTelemetry semantic conventions v1.37.0
+
+---
+
+## Module Structure
+
+```
+security/
+├── IDENTITY_GUARD.py              # Identity protection
+├── security_scheduler.py          # Automated security tasks
+├── THREAT_MODEL.md               # Threat model documentation
+├── README.md                     # Module overview
+├── security_policy.yml           # Security policy configuration
+├── scanning/                     # Security scanning
+│   ├── __init__.py
+│   └── consciousness_security_rules.py
+├── incident-response/            # Incident response procedures
+├── vault/                        # Secure secret management
+├── config/                       # Configuration
+│   ├── config.yaml
+│   ├── environment.yaml
+│   └── logging.yaml
+├── docs/                         # Documentation (15+ files)
+│   ├── README.md
+│   ├── GUARDIAN_CAPABILITIES_GUIDE.md
+│   ├── GUARDIAN_SECURITY_ARCHITECTURE.md
+│   ├── SECURITY_AUTOMATION_GUIDE.md
+│   ├── SECURITY_ENHANCEMENTS.md
+│   ├── incident_response.md
+│   ├── break-glass-procedure.md
+│   └── ... (10+ more)
+└── tests/                        # Test suites
+    ├── conftest.py
+    ├── test_security_unit.py
+    ├── test_security_integration.py
+    └── test_security_suite.py
+```
+
+---
+
+## Security Documentation
+
+The `docs/` directory contains comprehensive security documentation:
+
+### Guardian Integration
+- **GUARDIAN_CAPABILITIES_GUIDE.md**: Guardian system capabilities
+- **GUARDIAN_SECURITY_ARCHITECTURE.md**: Security architecture with Guardian
+- **OLLAMA_SECURITY_INTEGRATION.md**: Ollama integration security
+
+### Security Automation
+- **SECURITY_AUTOMATION_GUIDE.md**: Automated security procedures
+- **SECURITY_AUTOMATION_SUMMARY.md**: Automation summary and status
+- **SECURITY_ENHANCEMENTS.md**: Security enhancement documentation
+
+### Security Reports
+- **SECURITY_REMEDIATION_REPORT.md**: Vulnerability remediation tracking
+- **SECURITY_STATUS_POST_IMPLEMENTATION.md**: Post-implementation status
+- **SECURITY_VULNERABILITY_REPORT_20250816.md**: Vulnerability assessment
+
+### Incident Response
+- **incident_response.md**: Incident response procedures
+- **break-glass-procedure.md**: Emergency access procedures
+- **advanced_evasion_hardening.md**: Advanced threat protection
+
+### Compliance
+- **email-security-requirements.md**: Email security requirements
+- **phase1_authentication_implementation.md**: Authentication implementation
+
+### CVE Tracking
+- **CVE-2024-GUNICORN-EMERGENCY.md**: Critical CVE tracking and remediation
+
+---
+
+## Development Guidelines
+
+### 1. Security First
+- All new features must pass security review
+- Threat model must be updated for new attack surfaces
+- Security scanning required before production promotion
+
+### 2. Identity Protection
+- Use IdentityGuard for all authentication operations
+- Validate tokens and capabilities at every boundary
+- Log all identity-related operations
+
+### 3. Incident Response
+- Follow documented incident response procedures
+- Escalate security incidents immediately
+- Document all security events in audit trail
+
+### 4. Secret Management
+- Never hardcode secrets in code
+- Use vault/ for all secret storage
+- Rotate secrets regularly
+- Audit secret access
+
+### 5. Testing
+- **Unit Tests**: Test individual security components
+- **Integration Tests**: Test security across module boundaries
+- **Security Tests**: Penetration testing, fuzzing, vulnerability scanning
+
+---
+
+## MATRIZ Pipeline Integration
+
+This module operates within the MATRIZ cognitive framework:
+
+- **M (Memory)**: Security audit trail in memory folds
+- **A (Attention)**: Threat detection and pattern recognition
+- **T (Thought)**: Risk assessment and security analysis
+- **R (Risk)**: Core security validation and threat mitigation
+- **I (Intent)**: Identity verification with ΛID
+- **A (Action)**: Security policy enforcement
+
+---
+
+## Performance & Quality
+
+### Performance Targets
+- **Identity Validation**: <50ms p95
+- **Security Scanning**: <10s for full codebase scan
+- **Incident Detection**: <1s from event to alert
+- **Vault Operations**: <100ms p95
+
+### Quality Gates (L2 Lane)
+- ✅ All security tests passing
+- ✅ Threat model up to date
+- ✅ Security scanning complete
+- ✅ Incident response procedures documented
+- ✅ Secrets properly vaulted
+- ✅ Audit logging enabled
+
+### Observability
+- 1 instrumentation span: `lukhas.security.operation`
+- Complete audit trail for all security events
+- Security metrics and dashboards
+- Incident tracking and reporting
+
+---
+
+## Guardian Integration
+
+The security module works closely with the Guardian system (🛡️):
+
+### Guardian Capabilities
+- Constitutional AI enforcement
+- Ethical decision validation
+- Drift detection (0.15 threshold)
+- Compliance monitoring (GDPR/CCPA)
+
+### Security Architecture
+- Guardian validates all security-critical operations
+- Security policies enforced through Guardian
+- Audit trails reviewed by Guardian
+- Incident escalation to Guardian for ethics review
+
+---
+
+## Related Modules
+
+- **Governance** ([../governance/](../governance/)) - Guardian system and compliance
+- **Identity** ([../identity/](../identity/)) - ΛID authentication and authorization
+- **Adapters** ([../adapters/](../adapters/)) - Capability token validation
+- **Monitoring** ([../monitoring/](../monitoring/)) - Security metrics and alerts
+
+---
+
+## Documentation
+
+- **README**: [security/README.md](README.md) - Module overview
+- **Threat Model**: [security/THREAT_MODEL.md](THREAT_MODEL.md) - Comprehensive threat analysis
+- **Security Policy**: [security/security_policy.yml](security_policy.yml) - Policy configuration
+- **Docs**: [security/docs/](docs/) - 15+ security documentation files
+- **Tests**: [security/tests/](tests/) - Security test suites
+- **Module Index**: [../MODULE_INDEX.md](../MODULE_INDEX.md#security)
+
+---
+
+**Status**: Integration Lane (L2)
+**Manifest**: ✓ module.manifest.json (schema v3.0.0)
+**Team**: Core
+**Code Owners**: @lukhas-core
+**Components**: 21 security components
+**Last Updated**: 2025-10-02
