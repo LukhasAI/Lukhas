@@ -30,17 +30,11 @@
       "qi.attention_economics.AttentionToken",
       "qi.attention_economics.AttentionTokenType",
       "qi.attention_economics.QIAttentionEconomics",
-      "qi.attention_economics.calculate_quantum_value",
       "qi.attention_economics.get_quantum_attention_economics",
-      "qi.attention_economics.get_user_attention_balance",
       "qi.bio_integration",
       "qi.consensus_system.QIAnnealedEthicalConsensus",
-      "qi.consensus_system.evaluate",
-      "qi.consensus_system.get_status",
       "qi.coordinator",
-      "qi.core_awareness",
-      "qi.distributed_qi_architecture.DistributedQuantumSafeOrchestrator",
-      "qi.distributed_qi_architecture.SecureProcessingNode"
+      "qi.core_awareness"
     ]
   },
   "matrix": {

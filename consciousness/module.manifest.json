@@ -31,14 +31,10 @@
       "consciousness.__version__",
       "consciousness.activate_consciousness_layer",
       "consciousness.decision_engine.ConsciousnessDecisionEngine",
-      "consciousness.decision_engine.make_decision",
       "consciousness.get_consciousness_dashboard",
       "consciousness.get_consciousness_status",
       "consciousness.initialize_consciousness",
       "consciousness.process_consciousness_stream",
-      "consciousness.qi.QI",
-      "consciousness.qi.get_status",
-      "consciousness.qi.process",
       "consciousness.reflect_on_experience"
     ]
   },

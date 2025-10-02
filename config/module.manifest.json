@@ -24,23 +24,8 @@
       "config.audit_safety_defaults.AuditSafetyConfig",
       "config.audit_safety_defaults.SafetyDefaultsManager",
       "config.audit_safety_defaults.create_audit_safety_manager",
-      "config.audit_safety_defaults.export_audit_configuration",
-      "config.audit_safety_defaults.generate_audit_settings_json",
-      "config.audit_safety_defaults.generate_conftest_safety",
-      "config.audit_safety_defaults.generate_env_example",
-      "config.audit_safety_defaults.validate_safety_config",
       "config.env.EnvironmentConfig",
-      "config.env.LUKHASConfig",
-      "config.env.anthropic_api_key",
-      "config.env.api_rate_limit_per_minute",
-      "config.env.api_vault_path",
-      "config.env.consciousness_active",
-      "config.env.database_url",
-      "config.env.debug",
-      "config.env.emotion_active",
-      "config.env.encryption_key",
-      "config.env.environment",
-      "config.env.ethics_enforcement_level"
+      "config.env.LUKHASConfig"
     ]
   },
   "matrix": {

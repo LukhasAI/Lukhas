@@ -22,25 +22,7 @@
     "language": "python",
     "entrypoints": [
       "security.IDENTITY_GUARD.IdentityGuard",
-      "security.IDENTITY_GUARD.main",
-      "security.IDENTITY_GUARD.validate_changes",
-      "security.IDENTITY_GUARD.validate_file",
-      "security.security_scheduler.SecurityTaskScheduler",
-      "security.security_scheduler.cancel",
-      "security.security_scheduler.cancel_task",
-      "security.security_scheduler.cli",
-      "security.security_scheduler.execute_task",
-      "security.security_scheduler.list",
-      "security.security_scheduler.list_tasks",
-      "security.security_scheduler.load_schedule",
-      "security.security_scheduler.log",
-      "security.security_scheduler.run_pending",
-      "security.security_scheduler.run_pending_tasks",
-      "security.security_scheduler.save_schedule",
-      "security.security_scheduler.schedule",
-      "security.security_scheduler.schedule_task",
-      "security.security_scheduler.setup_cron",
-      "security.security_scheduler.setup_cron_job"
+      "security.IDENTITY_GUARD.main"
     ]
   },
   "matrix": {

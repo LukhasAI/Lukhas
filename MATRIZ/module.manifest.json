@@ -22,10 +22,8 @@
   "runtime": {
     "language": "python",
     "entrypoints": [
-      "matriz.core",
       "matriz.legacy_shim.LegacyShim",
       "matriz.legacy_shim.create_shim",
-      "matriz.legacy_shim.handle",
       "matriz.legacy_shim.is_legacy_available",
       "matriz.legacy_shim.migrate_legacy_nodes",
       "matriz.legacy_shims.bootstrap_router",
@@ -33,15 +31,13 @@
       "matriz.legacy_shims.register_legacy_node",
       "matriz.legacy_shims.register_many",
       "matriz.legacy_shims.shim_for",
-      "matriz.node_contract",
       "matriz.node_contract.GLYPH",
       "matriz.node_contract.MatrizMessage",
       "matriz.node_contract.MatrizNode",
       "matriz.node_contract.MatrizResult",
       "matriz.node_contract.Topic",
       "matriz.node_contract.canonical_json",
-      "matriz.node_contract.from_dict",
-      "matriz.node_contract.handle"
+      "matriz.node_contract.from_dict"
     ]
   },
   "matrix": {

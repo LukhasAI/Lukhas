@@ -20,15 +20,7 @@
   },
   "runtime": {
     "language": "python",
-    "entrypoints": [
-      "bio.bio_utilities.BioUtilities",
-      "bio.bio_utilities.FatigueLevel",
-      "bio.bio_utilities.adapt_to_environment",
-      "bio.bio_utilities.bio_adapt",
-      "bio.bio_utilities.calculate_fatigue",
-      "bio.bio_utilities.fatigue_level",
-      "bio.bio_utilities.get_energy_status"
-    ]
+    "entrypoints": []
   },
   "matrix": {
     "contract": "",

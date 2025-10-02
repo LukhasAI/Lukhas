@@ -23,25 +23,8 @@
     "language": "python",
     "entrypoints": [
       "api.API_REGISTRY",
-      "api.consciousness_chat_api.ChatRequest",
-      "api.consciousness_chat_api.ChatResponse",
-      "api.consciousness_chat_api.Config",
-      "api.consciousness_chat_api.SessionInfo",
-      "api.consciousness_chat_api.SystemStatus",
       "api.consciousness_chat_app",
-      "api.expansion.LUKHASAPIExpansion",
-      "api.expansion.create_guardian_integration_apis",
-      "api.expansion.design_consciousness_apis",
-      "api.expansion.implement_identity_management_apis",
-      "api.feedback_api.Config",
-      "api.feedback_api.ConsentRequest",
-      "api.feedback_api.EmojiFeedbackRequest",
-      "api.feedback_api.FeedbackEditRequest",
-      "api.feedback_api.FeedbackHistoryResponse",
-      "api.feedback_api.FeedbackRequest",
-      "api.feedback_api.FeedbackResponse",
-      "api.feedback_api.FeedbackSummaryResponse",
-      "api.feedback_api.QuickFeedbackRequest"
+      "api.expansion.LUKHASAPIExpansion"
     ]
   },
   "matrix": {

@@ -21,23 +21,12 @@
   "runtime": {
     "language": "python",
     "entrypoints": [
-      "ethics.Decision",
       "ethics.EthicsEngine",
-      "ethics.MEGPolicyBridge",
       "ethics.MegBridge",
       "ethics.PolicyEngines",
-      "ethics.RiskLevel",
       "ethics.SafetyChecker",
-      "ethics.check",
-      "ethics.create_meg_bridge",
-      "ethics.ethics_engine",
-      "ethics.evaluate",
-      "ethics.evaluate_policy",
-      "ethics.list_policies",
       "ethics.meg_bridge",
       "ethics.policy_engines",
-      "ethics.process",
-      "ethics.safety_checks",
       "ethics.stubs.Decision",
       "ethics.stubs.EthicsEngine",
       "ethics.stubs.MEGPolicyBridge"

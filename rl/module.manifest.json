@@ -20,23 +20,7 @@
   },
   "runtime": {
     "language": "python",
-    "entrypoints": [
-      "rl.ConsciousnessBuffer",
-      "rl.ConsciousnessEnvironment",
-      "rl.ConsciousnessMetaLearning",
-      "rl.ConsciousnessRewards",
-      "rl.ConsciousnessState",
-      "rl.MatrizNode",
-      "rl.MultiAgentCoordination",
-      "rl.PolicyNetwork",
-      "rl.ValueNetwork",
-      "rl.run_advanced_tests.check_dependencies",
-      "rl.run_advanced_tests.main",
-      "rl.run_advanced_tests.print_summary",
-      "rl.run_advanced_tests.run_available_tests",
-      "rl.run_advanced_tests.run_mutation_tests",
-      "rl.run_advanced_tests.run_performance_tests"
-    ]
+    "entrypoints": []
   },
   "matrix": {
     "contract": "",

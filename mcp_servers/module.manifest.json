@@ -25,10 +25,6 @@
       "mcp_servers.lukhas_mcp_server.LUKHASMCPServer",
       "mcp_servers.lukhas_mcp_server.LUKHASPattern",
       "mcp_servers.lukhas_mcp_server.Server",
-      "mcp_servers.lukhas_mcp_server.TextContent",
-      "mcp_servers.lukhas_mcp_server.Tool",
-      "mcp_servers.lukhas_mcp_server.call_tool",
-      "mcp_servers.lukhas_mcp_server.list_tools",
       "mcp_servers.lukhas_mcp_server.types"
     ]
   },

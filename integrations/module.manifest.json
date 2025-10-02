@@ -20,9 +20,7 @@
   },
   "runtime": {
     "language": "python",
-    "entrypoints": [
-      "integrations.mongodb_consciousness_store.LUKHASConsciousnessStore"
-    ]
+    "entrypoints": []
   },
   "matrix": {
     "contract": "",

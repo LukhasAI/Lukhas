@@ -26,18 +26,8 @@
       "tagging.SymbolicTag",
       "tagging.TagPriority",
       "tagging.TagScope",
-      "tagging.clear_cache",
       "tagging.create_tag",
-      "tagging.get_tag_count",
-      "tagging.get_tag_metadata",
-      "tagging.quick_resolve",
-      "tagging.register_consciousness_tag",
-      "tagging.register_tag",
-      "tagging.resolve_consciousness_context",
-      "tagging.resolve_constellation_context",
-      "tagging.resolve_tag",
-      "tagging.resolve_tags_by_priority",
-      "tagging.resolve_tags_by_scope"
+      "tagging.quick_resolve"
     ]
   },
   "matrix": {

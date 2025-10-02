@@ -24,14 +24,8 @@
       "universal_language.compositional.SymbolComposer",
       "universal_language.compositional.SymbolProgram",
       "universal_language.compositional.SymbolProgramSynthesizer",
-      "universal_language.compositional.add_symbol",
-      "universal_language.compositional.compose",
-      "universal_language.compositional.execute",
-      "universal_language.compositional.synthesize",
       "universal_language.multimodal.ModalityProcessor",
-      "universal_language.multimodal.ModalityType",
-      "universal_language.multimodal.get_processed_count",
-      "universal_language.multimodal.process"
+      "universal_language.multimodal.ModalityType"
     ]
   },
   "matrix": {

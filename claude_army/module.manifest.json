@@ -1,7 +1,7 @@
 {
   "schema_version": "3.0.0",
-  "module": "CLAUDE_ARMY",
-  "description": "LUKHAS CLAUDE_ARMY module implementing specialized CLAUDE_ARMY functionality with 1 components for integrated system operations.",
+  "module": "claude_army",
+  "description": "LUKHAS claude_army module implementing specialized coordination functionality with 1 components for integrated system operations.",
   "ownership": {
     "team": "Core",
     "codeowners": [
@@ -21,7 +21,7 @@
   "runtime": {
     "language": "python",
     "entrypoints": [
-      "CLAUDE_ARMY.coordination_hub.ClaudeMaxCoordinator"
+      "claude_army.coordination_hub.ClaudeMaxCoordinator"
     ]
   },
   "matrix": {
@@ -40,11 +40,11 @@
     "issues": "https://github.com/LukhasAI/Lukhas/issues"
   },
   "tags": [
-    "CLAUDE_ARMY"
+    "claude_army"
   ],
   "observability": {
     "required_spans": [
-      "lukhas.CLAUDE_ARMY.operation"
+      "lukhas.claude_army.operation"
     ],
     "otel_semconv_version": "1.37.0"
   },
@@ -56,7 +56,7 @@
   "contracts": [],
   "x_legacy": {
     "directory_metadata": {
-      "path": "CLAUDE_ARMY",
+      "path": "claude_army",
       "lane": "development",
       "purpose": "Directory containing 1 Python files and 3 subdirectories",
       "last_updated": "2025-09-21",

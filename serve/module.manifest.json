@@ -21,26 +21,12 @@
   "runtime": {
     "language": "python",
     "entrypoints": [
-      "serve.agi_enhanced_consciousness_api.ConsciousnessQueryRequest",
-      "serve.agi_enhanced_consciousness_api.ConsciousnessQueryResponse",
-      "serve.agi_enhanced_consciousness_api.DreamSessionRequest",
-      "serve.agi_enhanced_consciousness_api.DreamSessionResponse",
-      "serve.agi_enhanced_consciousness_api.LearningSessionRequest",
-      "serve.agi_enhanced_consciousness_api.LearningSessionResponse",
-      "serve.agi_enhanced_consciousness_api.MemoryQueryRequest",
-      "serve.agi_enhanced_consciousness_api.MemoryQueryResponse",
       "serve.agi_orchestration_api.ConsensusRequest",
       "serve.agi_orchestration_api.ConsensusResponse",
       "serve.agi_orchestration_api.ModelCapabilitiesRequest",
       "serve.agi_orchestration_api.ModelCapabilitiesResponse",
       "serve.agi_orchestration_api.OrchestrationRequest",
-      "serve.agi_orchestration_api.OrchestrationResponse",
-      "serve.extreme_performance_main.ExtremePerformanceServer",
-      "serve.extreme_performance_main.env_get",
-      "serve.extreme_performance_main.healthz_fallback",
-      "serve.extreme_performance_main.require_api_key",
-      "serve.feedback_routes.FeedbackRequest",
-      "serve.feedback_routes.FeedbackResponse"
+      "serve.agi_orchestration_api.OrchestrationResponse"
     ]
   },
   "matrix": {

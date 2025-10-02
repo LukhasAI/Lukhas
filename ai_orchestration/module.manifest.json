@@ -23,23 +23,14 @@
     "entrypoints": [
       "ai_orchestration.lukhas_ai_orchestrator.AIProvider",
       "ai_orchestration.lukhas_ai_orchestrator.LUKHASAIOrchestrator",
-      "ai_orchestration.lukhas_ai_orchestrator.get_guardian_orchestrator_status",
-      "ai_orchestration.lukhas_ai_orchestrator.get_routing_info",
-      "ai_orchestration.lukhas_ai_orchestrator.reload_routing_config",
       "ai_orchestration.lukhas_knowledge_server.LUKHASKnowledgeServer",
       "ai_orchestration.lukhas_knowledge_server.LUKHASPattern",
-      "ai_orchestration.lukhas_knowledge_server.export_for_copilot_instructions",
-      "ai_orchestration.lukhas_mcp_server.LUKHASConsciousnessMCP",
-      "ai_orchestration.lukhas_mcp_server_simple.LUKHASMCPServer",
       "ai_orchestration.mcp_operational_support.AnalysisResult",
       "ai_orchestration.mcp_operational_support.LUKHASMCPOperationalSupport",
       "ai_orchestration.mcp_operational_support.MCPServerContext",
       "ai_orchestration.mcp_operational_support.OperationalMetrics",
       "ai_orchestration.mcp_operational_support.SupportIncident",
       "ai_orchestration.mcp_operational_support.WorkflowResult",
-      "ai_orchestration.mcp_operational_support.analyze_operational_patterns",
-      "ai_orchestration.mcp_operational_support.automate_support_workflows",
-      "ai_orchestration.mcp_operational_support.monitor_mcp_operations",
       "ai_orchestration.routing.ABTestBucket"
     ]
   },

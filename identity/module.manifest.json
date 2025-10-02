@@ -35,8 +35,6 @@
       "identity.get_identity_metrics",
       "identity.get_identity_status",
       "identity.identity_connector.IdentityConnector",
-      "identity.identity_connector.get_user_permissions",
-      "identity.identity_connector.validate_identity",
       "identity.logger",
       "identity.manage_permissions",
       "identity.tier_system.AccessContext",

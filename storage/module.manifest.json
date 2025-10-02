@@ -23,21 +23,7 @@
     "entrypoints": [
       "storage.events.Event",
       "storage.events.EventStore",
-      "storage.events.append",
-      "storage.events.clear",
-      "storage.events.create",
-      "storage.events.from_dict",
-      "storage.events.get_event_store",
-      "storage.events.get_stats",
-      "storage.events.inc",
-      "storage.events.labels",
-      "storage.events.observe",
-      "storage.events.query_by_glyph",
-      "storage.events.query_recent",
-      "storage.events.query_sliding_window",
-      "storage.events.replay_sequence",
-      "storage.events.set",
-      "storage.events.to_dict"
+      "storage.events.get_event_store"
     ]
   },
   "matrix": {

@@ -21,8 +21,7 @@
   "runtime": {
     "language": "python",
     "entrypoints": [
-      "transmission_bundle.launch_transmission.LUKHASTransmission",
-      "transmission_bundle.launch_transmission.can_start"
+      "transmission_bundle.launch_transmission.LUKHASTransmission"
     ]
   },
   "matrix": {

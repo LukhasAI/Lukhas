@@ -27,20 +27,14 @@
       "core.bio_symbolic_processor.BioSymbolicProcessor",
       "core.bio_symbolic_processor.SymbolicRepresentationType",
       "core.bio_symbolic_processor.create_bio_symbolic_processor",
-      "core.bio_symbolic_processor.evolve_adaptation_rules",
       "core.bio_symbolic_processor.get_bio_symbolic_processor",
-      "core.bio_symbolic_processor.get_processing_statistics",
-      "core.bio_symbolic_processor.process_consciousness_signal",
       "core.consciousness_signal_router.CascadeDetector",
       "core.consciousness_signal_router.ConsciousnessSignalRouter",
       "core.consciousness_signal_router.NetworkMetrics",
       "core.consciousness_signal_router.NetworkNode",
       "core.consciousness_signal_router.RoutingRule",
       "core.consciousness_signal_router.RoutingStrategy",
-      "core.consciousness_signal_router.SignalFilter",
-      "core.consciousness_signal_router.awareness_filter",
-      "core.consciousness_signal_router.boot_sanity_check",
-      "core.consciousness_signal_router.check_signal"
+      "core.consciousness_signal_router.SignalFilter"
     ]
   },
   "matrix": {

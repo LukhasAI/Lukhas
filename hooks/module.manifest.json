@@ -24,13 +24,8 @@
       "hooks.gpt_dream_reflection.GPTInteractionStyle",
       "hooks.gpt_dream_reflection.GPTSymbolicBridge",
       "hooks.gpt_dream_reflection.create_gpt_context",
-      "hooks.gpt_dream_reflection.create_gpt_prompt_context",
-      "hooks.gpt_dream_reflection.create_symbolic_dialogue",
-      "hooks.gpt_dream_reflection.drift_acknowledgment",
-      "hooks.gpt_dream_reflection.get_gpt_style",
       "hooks.gpt_dream_reflection.get_gpt_style_for_glyph",
-      "hooks.gpt_dream_reflection.reflect_on_glyph",
-      "hooks.gpt_dream_reflection.suggest_gpt_parameters"
+      "hooks.gpt_dream_reflection.reflect_on_glyph"
     ]
   },
   "matrix": {

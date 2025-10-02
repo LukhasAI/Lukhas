@@ -21,9 +21,6 @@
   "runtime": {
     "language": "python",
     "entrypoints": [
-      "mcp-lukhas-sse.chatgpt_rest_wrapper.LukhasMCPRestWrapper",
-      "mcp-lukhas-sse.chatgpt_rest_wrapper.list_directory",
-      "mcp-lukhas-sse.chatgpt_rest_wrapper.read_file",
       "mcp-lukhas-sse.chatgpt_server.FlexibleAuthMiddleware",
       "mcp-lukhas-sse.chatgpt_server.list_directory_tool",
       "mcp-lukhas-sse.chatgpt_server.read_file_tool",
@@ -31,16 +28,10 @@
       "mcp-lukhas-sse.generate_test_jwt.generate_test_jwt",
       "mcp-lukhas-sse.lukhas_mcp_stdio_manual.LukhasMCPServer",
       "mcp-lukhas-sse.mcp_official_server.MCPServer",
-      "mcp-lukhas-sse.mcp_official_server.generate_session_id",
       "mcp-lukhas-sse.minimal_server.OAuth2Middleware",
       "mcp-lukhas-sse.minimal_server.list_directory_tool",
       "mcp-lukhas-sse.minimal_server.read_file_tool",
-      "mcp-lukhas-sse.pure_mcp_server.validate_path_security",
-      "mcp-lukhas-sse.server.JWKSResponse",
-      "mcp-lukhas-sse.server.OAuth2Middleware",
-      "mcp-lukhas-sse.server.OIDCConfiguration",
-      "mcp-lukhas-sse.server.is_path_allowed",
-      "mcp-lukhas-sse.server.list_dir"
+      "mcp-lukhas-sse.pure_mcp_server.validate_path_security"
     ]
   },
   "matrix": {

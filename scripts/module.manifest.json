@@ -21,11 +21,9 @@
   "runtime": {
     "language": "python",
     "entrypoints": [
-      "scripts.ablation_test.QuarantineDisabledOrchestrator",
       "scripts.abuse_tester.AttackResult",
       "scripts.abuse_tester.LUKHASAbuseTestFramework",
       "scripts.abuse_tester.RateLimitTest",
-      "scripts.abuse_tester.generate_abuse_test_report",
       "scripts.abuse_tester.main",
       "scripts.activate_consciousness.Colors",
       "scripts.activate_consciousness.ConsciousnessActivationCLI",

@@ -20,13 +20,7 @@
   },
   "runtime": {
     "language": "python",
-    "entrypoints": [
-      "enterprise.compliance",
-      "enterprise.core",
-      "enterprise.economic",
-      "enterprise.integration",
-      "enterprise.scale"
-    ]
+    "entrypoints": []
   },
   "matrix": {
     "contract": "",

@@ -30,17 +30,8 @@
       "trace.drift_harmonizer.DriftHarmonizer",
       "trace.drift_harmonizer.DriftSeverity",
       "trace.drift_harmonizer.RealignmentStrategy",
-      "trace.drift_harmonizer.analyze_drift",
-      "trace.drift_harmonizer.get_drift_summary",
-      "trace.drift_harmonizer.get_triad_balance",
-      "trace.drift_harmonizer.record_drift",
-      "trace.drift_harmonizer.reset_history",
-      "trace.drift_harmonizer.suggest_realignment",
       "trace.drift_harmonizer.validate_triad_compliance",
-      "trace.drift_metrics.DriftTracker",
-      "trace.drift_metrics.get_average_drift",
-      "trace.drift_metrics.get_current_drift",
-      "trace.drift_metrics.get_drift_trend"
+      "trace.drift_metrics.DriftTracker"
     ]
   },
   "matrix": {

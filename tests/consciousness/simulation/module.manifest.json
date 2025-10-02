@@ -18,9 +18,7 @@
   },
   "runtime": {
     "language": "python",
-    "entrypoints": [
-      "tests.consciousness.simulation.test_simulation_lane"
-    ]
+    "entrypoints": []
   },
   "matrix": {
     "contract": "",

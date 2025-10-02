@@ -23,7 +23,6 @@
     "entrypoints": [
       "dream.DreamBridge",
       "dream.DreamProcessor",
-      "dream.connect",
       "dream.create_dream_bridge",
       "dream.engine.DreamContext",
       "dream.engine.DreamElement",
@@ -31,10 +30,7 @@
       "dream.engine.DreamSequence",
       "dream.engine.DreamState",
       "dream.engine.DreamType",
-      "dream.engine.get_active_dreams",
-      "dream.engine.get_dream_engine",
-      "dream.engine.get_dream_info",
-      "dream.process_dream"
+      "dream.engine.get_dream_engine"
     ]
   },
   "matrix": {

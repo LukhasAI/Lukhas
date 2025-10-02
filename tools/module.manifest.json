@@ -22,25 +22,15 @@
     "language": "python",
     "entrypoints": [
       "tools.2030_full_consolidator.LUKHAS2030Consolidator",
-      "tools.2030_full_consolidator.analyze_full_consolidation",
       "tools.2030_full_consolidator.create_master_plan",
-      "tools.2030_full_consolidator.generate_consolidation_scripts",
       "tools.2030_full_consolidator.main",
       "tools.AiDocumentationGenerator.AIDocumentationGenerator",
       "tools.AiDocumentationGenerator.CodeAnalysis",
       "tools.AiDocumentationGenerator.DocumentationSection",
       "tools.AiDocumentationGenerator.load_env",
-      "tools.AiDocumentationGenerator.log_symbolic_memory",
-      "tools.AiDocumentationGenerator.run",
-      "tools.AiDocumentationGenerator.upload_to_lukhas_sync",
-      "tools.AiDocumentationGenerator.write_symbolic_trail",
       "tools.CoreAnalyzer.CoreAnalyzer",
-      "tools.CoreAnalyzer.analyze_lukhas_structure",
-      "tools.CoreAnalyzer.generate_analysis_report",
       "tools.CoreAnalyzer.main",
-      "tools.CriticalConnectivityAnalyzer.CriticalConnectivityAnalyzer",
-      "tools.CriticalConnectivityAnalyzer.analyze_broken_imports",
-      "tools.CriticalConnectivityAnalyzer.analyze_isolation_patterns"
+      "tools.CriticalConnectivityAnalyzer.CriticalConnectivityAnalyzer"
     ]
   },
   "matrix": {

@@ -29,18 +29,6 @@
       "governance.audit_trail.AuditTrail",
       "governance.audit_trail.ComplianceFramework",
       "governance.audit_trail.ComplianceReport",
-      "governance.audit_trail.get_audit_stats",
-      "governance.colony_memory_validator.ColonyMemoryValidator",
-      "governance.colony_memory_validator.ColonyValidationResponse",
-      "governance.colony_memory_validator.ConsensusOutcome",
-      "governance.colony_memory_validator.ConsensusResult",
-      "governance.colony_memory_validator.ValidationMode",
-      "governance.colony_memory_validator.ValidationRequest",
-      "governance.colony_memory_validator.get_colony_stats",
-      "governance.colony_memory_validator.get_metrics",
-      "governance.colony_memory_validator.register_colony",
-      "governance.colony_memory_validator.register_consensus_callback",
-      "governance.colony_memory_validator.unregister_colony",
       "governance.guardian_policies.ActionType"
     ]
   },

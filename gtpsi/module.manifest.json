@@ -29,18 +29,9 @@
       "gtpsi.GestureType",
       "gtpsi.HIGH_RISK_ACTIONS",
       "gtpsi.RiskLevel",
-      "gtpsi.calculate_quality_score",
-      "gtpsi.extract_features",
       "gtpsi.get_action_risk_level",
       "gtpsi.get_max_approval_time",
-      "gtpsi.hash_features",
-      "gtpsi.process_gesture",
-      "gtpsi.requires_gtpsi_approval",
-      "gtpsi.studio_hooks.ConsentUIRequest",
-      "gtpsi.studio_hooks.ConsentUIResponse",
-      "gtpsi.studio_hooks.GestureSubmissionRequest",
-      "gtpsi.studio_hooks.GestureSubmissionResponse",
-      "gtpsi.studio_hooks.StudioGTΨHooks"
+      "gtpsi.requires_gtpsi_approval"
     ]
   },
   "matrix": {

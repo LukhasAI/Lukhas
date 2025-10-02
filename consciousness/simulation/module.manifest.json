@@ -1,7 +1,7 @@
 {
   "schema_version": "3.0.0",
   "module": "consciousness.simulation",
-  "description": "Sandboxed simulation lane for LUKHΛS consciousness: safe dream execution with ethics gates, consent checks, and MATADA envelope",
+  "description": "Sandboxed simulation lane for LUKH\u039bS consciousness: safe dream execution with ethics gates, consent checks, and MATADA envelope",
   "ownership": {
     "team": "Consciousness",
     "codeowners": [
@@ -19,15 +19,7 @@
   },
   "runtime": {
     "language": "python",
-    "entrypoints": [
-      "consciousness.simulation.api.schedule",
-      "consciousness.simulation.api.status",
-      "consciousness.simulation.api.collect",
-      "consciousness.simulation.api.DreamSeed",
-      "consciousness.simulation.api.DreamResult",
-      "consciousness.simulation.api.SimulationDisabledError",
-      "consciousness.simulation.api.PolicyViolation"
-    ]
+    "entrypoints": []
   },
   "matrix": {
     "contract": "schemas/matriz_node_v1.json",
@@ -36,8 +28,14 @@
   },
   "identity": {
     "requires_auth": true,
-    "tiers": ["trusted", "inner_circle", "root_dev"],
-    "scopes": ["simulation.read_context"]
+    "tiers": [
+      "trusted",
+      "inner_circle",
+      "root_dev"
+    ],
+    "scopes": [
+      "simulation.read_context"
+    ]
   },
   "links": {
     "repo": "https://github.com/LukhasAI/Lukhas",

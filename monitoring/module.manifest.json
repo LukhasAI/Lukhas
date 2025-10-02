@@ -26,8 +26,6 @@
       "monitoring.SystemMetrics",
       "monitoring.__author__",
       "monitoring.__version__",
-      "monitoring.check_agent_system",
-      "monitoring.check_memory_system",
       "monitoring.collect_system_metrics",
       "monitoring.create_alert",
       "monitoring.drift_manager.Counter",
@@ -35,12 +33,7 @@
       "monitoring.drift_manager.DriftManager",
       "monitoring.drift_manager.DriftResult",
       "monitoring.drift_manager.Histogram",
-      "monitoring.drift_manager.compute",
-      "monitoring.drift_manager.default_critical_threshold",
-      "monitoring.drift_manager.default_warning_threshold",
-      "monitoring.drift_manager.get_drift_history",
-      "monitoring.drift_manager.get_drift_manager",
-      "monitoring.drift_manager.inc"
+      "monitoring.drift_manager.get_drift_manager"
     ]
   },
   "matrix": {

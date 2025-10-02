@@ -23,25 +23,8 @@
     "language": "python",
     "entrypoints": [
       "bridge.BRIDGE_BRANDING_AVAILABLE",
-      "bridge.BrandContext",
-      "bridge.colony_bridge.InterColonyBridge",
-      "bridge.colony_bridge.register_colony",
       "bridge.decoding.decode",
-      "bridge.decoding.detect_language",
-      "bridge.explainability_interface_layer.ExplainabilityInterfaceLayer",
-      "bridge.explainability_interface_layer.ExplanationAudience",
-      "bridge.explainability_interface_layer.ExplanationDepth",
-      "bridge.explainability_interface_layer.ExplanationGenerator",
-      "bridge.explainability_interface_layer.ExplanationOutput",
-      "bridge.explainability_interface_layer.ExplanationProof",
-      "bridge.explainability_interface_layer.ExplanationRequest",
-      "bridge.explainability_interface_layer.ExplanationType",
-      "bridge.explainability_interface_layer.FormalProofGenerator",
-      "bridge.explainability_interface_layer.ModalityContent",
-      "bridge.explainability_interface_layer.ModalityPreference",
-      "bridge.explainability_interface_layer.ModalityType",
-      "bridge.explainability_interface_layer.MultiModalExplanationGenerator",
-      "bridge.explainability_interface_layer.NaturalLanguageGenerator"
+      "bridge.decoding.detect_language"
     ]
   },
   "matrix": {

@@ -22,24 +22,13 @@
     "language": "python",
     "entrypoints": [
       "benchmarks.matriz_pipeline.MATRIZBenchmarks",
-      "benchmarks.memory_bench.BenchmarkResult",
-      "benchmarks.memory_bench.benchmark_adaptive_memory",
-      "benchmarks.memory_bench.benchmark_fold_manager",
-      "benchmarks.memory_bench.main",
-      "benchmarks.memory_bench.run_benchmarks",
-      "benchmarks.memory_bench.summary",
       "benchmarks.memory_performance.MemoryBenchmarks",
-      "benchmarks.memory_performance.benchmark_cascade_prevention",
-      "benchmarks.memory_performance.benchmark_memory_consolidation",
-      "benchmarks.memory_performance.benchmark_memory_recall_latency",
       "benchmarks.memory_performance.run_all_benchmarks",
       "benchmarks.memory_performance.test_cascade_prevention_benchmark",
       "benchmarks.memory_performance.test_memory_recall_benchmark",
       "benchmarks.memory_system_benchmarks.MemoryItem",
       "benchmarks.memory_system_benchmarks.MemorySystemBenchmarks",
-      "benchmarks.memory_system_benchmarks.MockMemorySystem",
-      "benchmarks.memory_system_benchmarks.generate_test_data",
-      "benchmarks.memory_system_benchmarks.get_cascade_prevention_rate"
+      "benchmarks.memory_system_benchmarks.MockMemorySystem"
     ]
   },
   "matrix": {

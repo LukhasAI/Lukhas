@@ -32,14 +32,9 @@
       "modulation.lukhas_integration.EndocrineSignalEmitter",
       "modulation.openai_integration.ModulatedOpenAIClient",
       "modulation.openai_integration.build_function_definitions",
-      "modulation.openai_integration.create_completion",
       "modulation.signals.ModulationParams",
       "modulation.signals.Signal",
-      "modulation.signals.SignalModulator",
-      "modulation.signals.apply_bounds",
-      "modulation.signals.combine_signals",
-      "modulation.signals.decay",
-      "modulation.signals.is_expired"
+      "modulation.signals.SignalModulator"
     ]
   },
   "matrix": {

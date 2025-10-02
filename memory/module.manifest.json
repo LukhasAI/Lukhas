@@ -22,12 +22,8 @@
   "runtime": {
     "language": "python",
     "entrypoints": [
-      "memory.FallbackFoldLineageTracker",
       "memory.FallbackFoldManager",
-      "memory.FallbackHierarchicalDataStore",
-      "memory.FallbackLineageChain",
       "memory.FallbackMemoryFold",
-      "memory.FallbackMemoryTier",
       "memory.FallbackMemoryWrapper",
       "memory.FoldLineageTracker",
       "memory.FoldManager",
