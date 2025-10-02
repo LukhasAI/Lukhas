@@ -1,0 +1,469 @@
+# Telemetry Module - LUKHAS Observability & Data Collection
+
+**Module**: telemetry
+**Lane**: L2 Integration
+**Team**: Core
+**Purpose**: Telemetry data collection, observability, and performance tracking for LUKHAS systems
+
+---
+
+## Overview
+
+The telemetry module provides comprehensive telemetry and observability capabilities for LUKHAS AI, collecting performance metrics, usage data, system health indicators, and operational telemetry across all components.
+
+**Key Features**:
+- OpenTelemetry integration (v1.37.0)
+- Distributed tracing support
+- Performance metrics collection
+- System health telemetry
+- Custom metric instrumentation
+- Export to monitoring backends
+
+---
+
+## Architecture
+
+### Module Structure
+
+```
+telemetry/
+├── README.md                    # Module overview
+├── module.manifest.json         # Module metadata
+├── docs/                        # Documentation
+├── tests/
+│   ├── conftest.py
+│   ├── test_telemetry_unit.py
+│   └── test_telemetry_integration.py
+└── config/                      # Configuration
+```
+
+---
+
+## Core Capabilities
+
+### 1. Distributed Tracing
+
+Telemetry enables distributed tracing across LUKHAS components using OpenTelemetry:
+
+```python
+from telemetry import create_tracer, trace_operation
+
+# Create tracer
+tracer = create_tracer("lukhas.consciousness")
+
+# Trace operation
+with trace_operation("awareness_update", tracer=tracer):
+    # Operation code
+    update_awareness(level=0.75)
+    # Automatically tracked: latency, success/failure, attributes
+```
+
+**Required Spans** (from module manifest):
+- `lukhas.telemetry.operation`
+
+**System-Wide Spans**:
+- `lukhas.consciousness.*`
+- `lukhas.memory.*`
+- `lukhas.identity.*`
+- `lukhas.guardian.*`
+- `lukhas.matriz.*`
+- `lukhas.brain.*`
+
+---
+
+### 2. Metrics Collection
+
+```python
+from telemetry import MetricsCollector, MetricType
+
+# Create metrics collector
+collector = MetricsCollector(
+    export_interval=60,  # seconds
+    backends=["prometheus", "otlp"],
+)
+
+# Record metrics
+collector.record(
+    metric_name="consciousness.awareness.level",
+    value=0.78,
+    metric_type=MetricType.GAUGE,
+    labels={"component": "consciousness", "instance": "primary"},
+)
+
+collector.record(
+    metric_name="memory.retrieval.latency",
+    value=45.2,  # ms
+    metric_type=MetricType.HISTOGRAM,
+    labels={"fold_count": 950},
+)
+```
+
+---
+
+### 3. Performance Tracking
+
+```python
+from telemetry import PerformanceTracker
+
+# Track performance
+tracker = PerformanceTracker()
+
+# Automatic performance tracking
+@tracker.track_performance("causal_reasoning")
+def perform_causal_reasoning(problem):
+    # Function automatically instrumented
+    return reasoning_result
+
+# Manual performance tracking
+with tracker.track("memory_fold_operation"):
+    create_memory_fold(data)
+    # Latency, throughput automatically recorded
+```
+
+---
+
+### 4. Health Telemetry
+
+```python
+from telemetry import HealthTelemetry
+
+# Report health status
+health = HealthTelemetry()
+
+health.report_component_health(
+    component="memory",
+    health_score=0.95,
+    metadata={
+        "fold_count": 850,
+        "cascade_prevention_active": True,
+        "retrieval_latency_p95": 42.5,
+    },
+)
+
+# Aggregate health
+overall_health = health.get_system_health()
+# Returns: aggregated health score across all components
+```
+
+---
+
+### 5. Custom Instrumentation
+
+```python
+from telemetry import instrument_function, instrument_class
+
+# Instrument individual function
+@instrument_function(
+    metric_name="custom.operation",
+    track_latency=True,
+    track_errors=True,
+)
+def custom_operation():
+    # Automatically instrumented
+    pass
+
+# Instrument entire class
+@instrument_class(metrics_prefix="reasoning")
+class ReasoningEngine:
+    # All methods automatically instrumented
+    def infer(self, premises):
+        return conclusions
+```
+
+---
+
+## Integration Points
+
+### OpenTelemetry Integration
+
+The telemetry module provides OpenTelemetry (OTel) integration for distributed observability:
+
+```python
+from telemetry import configure_opentelemetry
+
+# Configure OpenTelemetry
+configure_opentelemetry(
+    service_name="lukhas-ai",
+    service_version="2.0.0",
+    environment="production",
+    otlp_endpoint="http://collector:4317",
+    resource_attributes={
+        "deployment.environment": "production",
+        "service.namespace": "lukhas",
+        "constellation.framework.version": "2.0.0",
+    },
+)
+```
+
+**Semantic Conventions**: v1.37.0
+
+---
+
+### Prometheus Export
+
+```python
+from telemetry import PrometheusExporter
+
+# Create Prometheus exporter
+exporter = PrometheusExporter(
+    port=9090,
+    metrics_path="/metrics",
+)
+
+# Metrics automatically exported to Prometheus
+# Access at: http://localhost:9090/metrics
+```
+
+---
+
+### Monitoring Backend Integration
+
+```python
+from telemetry import configure_backends
+
+# Configure multiple backends
+configure_backends(
+    backends=[
+        {
+            "type": "prometheus",
+            "endpoint": "http://prometheus:9090",
+        },
+        {
+            "type": "grafana",
+            "endpoint": "http://grafana:3000",
+            "api_key": api_key,
+        },
+        {
+            "type": "otlp",
+            "endpoint": "http://collector:4317",
+        },
+    ],
+)
+```
+
+---
+
+## MATRIZ Pipeline Telemetry
+
+Telemetry tracks every MATRIZ pipeline stage:
+
+```python
+from telemetry import track_matriz_pipeline
+
+# Track MATRIZ execution
+with track_matriz_pipeline("user_request_123"):
+    # Memory stage
+    with track_stage("memory"):
+        memory_result = retrieve_memories()
+
+    # Attention stage
+    with track_stage("attention"):
+        attention_result = focus_attention()
+
+    # Thought stage
+    with track_stage("thought"):
+        thought_result = apply_reasoning()
+
+    # ... remaining stages
+```
+
+**Tracked Metrics**:
+- Stage latency (each MATRIZ stage)
+- Stage throughput
+- Stage error rates
+- End-to-end pipeline latency (<250ms target)
+
+---
+
+## Constellation Framework Telemetry
+
+```python
+from telemetry import track_constellation_star
+
+# Track constellation star operations
+for star in ["anchor", "trail", "horizon", "watch", "flow", "spark", "persona", "oracle"]:
+    with track_constellation_star(star):
+        execute_star_operation(star)
+```
+
+---
+
+## Configuration
+
+```yaml
+telemetry:
+  enabled: true
+
+  opentelemetry:
+    service_name: "lukhas-ai"
+    service_version: "2.0.0"
+    otel_semconv_version: "1.37.0"
+    traces:
+      enabled: true
+      sample_rate: 1.0          # 100% sampling (adjust for production)
+    metrics:
+      enabled: true
+      export_interval: 60        # seconds
+    logs:
+      enabled: true
+      level: "INFO"
+
+  backends:
+    prometheus:
+      enabled: true
+      port: 9090
+      metrics_path: "/metrics"
+
+    grafana:
+      enabled: true
+      endpoint: "http://grafana:3000"
+
+    otlp:
+      enabled: true
+      endpoint: "http://collector:4317"
+      protocol: "grpc"
+
+  performance_tracking:
+    enabled: true
+    auto_instrument: true
+    track_all_functions: false  # Manual instrumentation preferred
+
+  health_telemetry:
+    enabled: true
+    report_interval: 30          # seconds
+    aggregate_system_health: true
+```
+
+---
+
+## Performance Targets
+
+### Telemetry Operation Overhead
+- Metric recording: <1ms per metric
+- Span creation: <0.5ms per span
+- Tracing overhead: <5% of operation latency
+- Export batching: <10ms per batch
+
+### Data Collection Targets
+- Metric collection interval: 1-60 seconds (configurable)
+- Trace sampling: 100% in development, 10-50% in production
+- Health reporting: Every 30 seconds
+- Backend export: Every 60 seconds
+
+---
+
+## Observability
+
+**Required Spans**:
+- `lukhas.telemetry.operation`
+
+**Metrics Exported**:
+- Telemetry operation count
+- Export success/failure rate
+- Backend availability
+- Data collection latency
+
+---
+
+## Testing
+
+### Unit Tests (`test_telemetry_unit.py`)
+- Metric recording accuracy
+- Span creation and attributes
+- Performance tracker correctness
+- Health telemetry aggregation
+
+### Integration Tests (`test_telemetry_integration.py`)
+- OpenTelemetry integration
+- Prometheus export
+- Backend connectivity
+- End-to-end tracing
+
+---
+
+## Use Cases
+
+### 1. Performance Monitoring
+```python
+# Track operation performance
+with telemetry.track("consciousness.awareness.update"):
+    update_awareness(level=0.78)
+# Automatically exports latency, success metrics
+```
+
+### 2. Distributed Tracing
+```python
+# Trace request across components
+with tracer.start_as_current_span("process_request"):
+    consciousness_result = consciousness.process(input)  # Creates child span
+    memory_result = memory.retrieve(query)               # Creates child span
+    response = generate_response(consciousness, memory)  # Creates child span
+```
+
+### 3. Health Monitoring
+```python
+# Report and aggregate health
+health.report_component_health("memory", 0.95)
+health.report_component_health("consciousness", 0.88)
+overall = health.get_system_health()  # Returns: 0.915
+```
+
+### 4. Custom Metrics
+```python
+# Track custom business metrics
+telemetry.record(
+    "user.request.count",
+    value=1,
+    labels={"endpoint": "/api/consciousness", "method": "POST"},
+)
+```
+
+---
+
+## Development Guidelines
+
+### Adding Telemetry to New Components
+1. Import telemetry utilities
+2. Create tracer for component
+3. Instrument critical operations
+4. Add health reporting
+5. Export custom metrics as needed
+6. Test telemetry in integration tests
+
+### Best Practices
+- Use semantic naming for metrics and spans
+- Add relevant labels/attributes for filtering
+- Sample traces appropriately in production
+- Aggregate metrics before export
+- Monitor telemetry overhead
+
+---
+
+## Related Modules
+
+- **monitoring/**: Alert-based monitoring and dashboards
+- **brain/**: Intelligence monitoring integration
+- **analytics/**: Analytics data processing
+- **observability/**: Observability infrastructure
+
+---
+
+## Quick Reference
+
+| Feature | Purpose | Configuration |
+|---------|---------|---------------|
+| Distributed Tracing | Track requests across components | `traces.enabled`, `sample_rate` |
+| Metrics Collection | Performance and health metrics | `metrics.export_interval` |
+| Performance Tracking | Latency and throughput | `performance_tracking.enabled` |
+| Health Telemetry | Component health reporting | `health_telemetry.report_interval` |
+| Prometheus Export | Metrics export to Prometheus | `backends.prometheus.port` |
+| OTLP Export | OpenTelemetry Protocol export | `backends.otlp.endpoint` |
+
+---
+
+**Module Status**: L2 Integration
+**Schema Version**: 1.0.0
+**Complexity**: Low (infrastructure support)
+**MATRIZ Compatibility**: Standard
+**Last Updated**: 2025-10-02
+**Philosophy**: What gets measured gets improved—telemetry makes the invisible visible.

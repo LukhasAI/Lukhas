@@ -1,0 +1,612 @@
+# Brain Module - LUKHAS Cognitive Orchestration & Intelligence Monitoring
+
+**Module**: brain
+**Lane**: L2 Integration
+**Team**: Brain
+**Purpose**: High-level cognitive orchestration, intelligence monitoring, and unified consciousness bridge
+
+---
+
+## Overview
+
+The brain module provides the highest-level cognitive orchestration for LUKHAS AI, integrating consciousness, monitoring, and orchestration systems into a unified "brain" interface. This module serves as the central coordination point for cognitive operations across the entire LUKHAS platform.
+
+**Key Features**:
+- Cognitive orchestration hub
+- Intelligence monitoring and health tracking
+- Consciousness-brain bridge activation
+- Event bus (KernelBus) for system-wide communication
+- Brand context and voice management
+- Constellation Framework context integration
+
+**Dependencies**: consciousness, core, orchestration
+
+---
+
+## Architecture
+
+### Module Structure
+
+```
+brain/
+├── __init__.py                  # 14 entrypoints, core brain functionality
+├── module.manifest.json         # Module metadata
+├── README.md                    # Module overview
+├── docs/                        # Documentation
+├── tests/
+│   ├── conftest.py
+│   ├── test_brain_unit.py
+│   └── test_brain_integration.py
+└── config/                      # Configuration
+```
+
+---
+
+## Core Entrypoints (14 Total)
+
+### 1. Orchestration Hub
+
+**`OrchestrationHub`**: Central orchestration coordination
+**`create_orchestration_hub()`**: Factory function for hub creation
+
+```python
+from brain import OrchestrationHub, create_orchestration_hub
+
+# Create orchestration hub
+hub = create_orchestration_hub(
+    consciousness_bridge=consciousness_bridge,
+    monitoring_enabled=True,
+)
+
+# Hub coordinates:
+# - Consciousness processing
+# - Memory operations
+# - Identity validation
+# - Guardian oversight
+# - MATRIZ pipeline execution
+```
+
+---
+
+### 2. Intelligence Monitoring
+
+**`LukhasIntelligenceMonitor`**: System intelligence and health monitoring
+
+```python
+from brain import LukhasIntelligenceMonitor, monitor_brain_health
+
+# Create intelligence monitor
+monitor = LukhasIntelligenceMonitor(
+    alert_threshold=0.85,
+    health_check_interval=5000,  # ms
+)
+
+# Monitor brain health
+health_status = monitor_brain_health(
+    components=["consciousness", "memory", "identity", "guardian"],
+    include_metrics=True,
+)
+
+# Health status includes:
+# - Component health scores
+# - Performance metrics
+# - Alert conditions
+# - Resource utilization
+```
+
+---
+
+### 3. Consciousness Bridge
+
+**`activate_brain_consciousness_bridge()`**: Activates consciousness-brain integration
+**`BRAIN_ACTIVE`**: Status flag for brain activation state
+
+```python
+from brain import activate_brain_consciousness_bridge, BRAIN_ACTIVE, get_brain_status
+
+# Activate consciousness bridge
+bridge_status = activate_brain_consciousness_bridge(
+    consciousness_core=consciousness_core,
+    enable_awareness=True,
+)
+
+# Check if brain is active
+if BRAIN_ACTIVE:
+    status = get_brain_status()
+    # Returns: active components, health, uptime
+```
+
+---
+
+### 4. Kernel Bus (Event System)
+
+**`KernelBus`**: System-wide event bus for inter-component communication
+**`get_kernel_bus()`**: Retrieve kernel bus instance
+**`emit()`**: Emit events to kernel bus
+
+```python
+from brain import KernelBus, get_kernel_bus, emit, EventPriority
+
+# Get kernel bus
+bus = get_kernel_bus()
+
+# Emit event
+emit(
+    event_type="memory.cascade.detected",
+    data={"fold_count": 950, "cascade_risk": 0.12},
+    priority=EventPriority.HIGH,
+)
+
+# Subscribe to events
+bus.subscribe(
+    event_pattern="consciousness.*",
+    handler=consciousness_event_handler,
+)
+```
+
+---
+
+### 5. Alert System
+
+**`AlertEvent`**: Alert event data structure
+**`AlertLevel`**: Alert severity levels (INFO, WARNING, CRITICAL)
+**`EventPriority`**: Event priority levels (LOW, NORMAL, HIGH, CRITICAL)
+
+```python
+from brain import AlertEvent, AlertLevel, EventPriority
+
+# Create alert
+alert = AlertEvent(
+    level=AlertLevel.WARNING,
+    component="memory",
+    message="Approaching fold limit: 950/1000",
+    priority=EventPriority.HIGH,
+    timestamp=current_timestamp,
+    metadata={
+        "current_folds": 950,
+        "cascade_prevention_active": True,
+    },
+)
+
+# Alert levels:
+# - INFO: Informational, no action required
+# - WARNING: Attention needed, may require intervention
+# - CRITICAL: Immediate action required
+```
+
+---
+
+### 6. Brand Context Management
+
+**`BrandContext`**: Brand voice and context management
+**`get_brand_voice()`**: Retrieve current brand voice configuration
+**`build_context()`**: Build comprehensive context for responses
+
+```python
+from brain import BrandContext, get_brand_voice, build_context
+
+# Get brand voice
+brand_voice = get_brand_voice(
+    target_audience="technical",  # or "general", "academic"
+)
+
+# Build context for response
+context = build_context(
+    user_input=user_message,
+    conversation_history=history,
+    brand_voice=brand_voice,
+    constellation_state=constellation_state,
+)
+
+# Context includes:
+# - Brand voice parameters (tone, formality, creativity)
+# - Conversation history
+# - Constellation Framework state
+# - Memory context
+# - Identity information
+```
+
+---
+
+### 7. Constellation Context
+
+**`get_constellation_context()`**: Retrieve Constellation Framework context
+
+```python
+from brain import get_constellation_context
+
+# Get constellation context
+constellation = get_constellation_context(
+    include_all_stars=True,
+)
+
+# Returns context for:
+# ⚛️ Anchor (Identity)
+# ✦ Trail (Memory)
+# 🔬 Horizon (Vision)
+# 🛡️ Watch (Guardian)
+# 🌊 Flow (Adaptation)
+# ⚡ Spark (Creativity)
+# 🎭 Persona (Personality)
+# 🔮 Oracle (Prediction)
+```
+
+---
+
+### 8. Metrics System
+
+**`MetricType`**: Metric type classification (LATENCY, THROUGHPUT, ERROR_RATE, etc.)
+
+```python
+from brain import MetricType
+
+# Record metric
+brain.record_metric(
+    metric_type=MetricType.LATENCY,
+    component="consciousness",
+    operation="awareness_update",
+    value=45.2,  # ms
+    metadata={"awareness_level": 0.78},
+)
+
+# Metric types:
+# - LATENCY: Operation timing
+# - THROUGHPUT: Operations per second
+# - ERROR_RATE: Failure percentage
+# - RESOURCE_USAGE: CPU/memory utilization
+# - QUALITY_SCORE: Output quality metrics
+```
+
+---
+
+### 9. Output Normalization
+
+**`normalize_output_text()`**: Normalize output text for consistency
+**`logger`**: Brain logging instance
+
+```python
+from brain import normalize_output_text, logger
+
+# Normalize output
+normalized = normalize_output_text(
+    raw_output=generated_text,
+    apply_brand_voice=True,
+    enforce_tone_system=True,  # 3-layer tone system
+)
+
+# Logging
+logger.info("Brain orchestration complete", extra={
+    "components_active": 8,
+    "processing_time_ms": 125.4,
+})
+```
+
+---
+
+## Cognitive Orchestration Patterns
+
+### Complete Brain Workflow
+
+```python
+from brain import (
+    create_orchestration_hub,
+    activate_brain_consciousness_bridge,
+    LukhasIntelligenceMonitor,
+    get_kernel_bus,
+    build_context,
+)
+
+# 1. Initialize brain systems
+hub = create_orchestration_hub()
+activate_brain_consciousness_bridge(consciousness_core)
+monitor = LukhasIntelligenceMonitor()
+bus = get_kernel_bus()
+
+# 2. Build request context
+context = build_context(
+    user_input=user_message,
+    conversation_history=history,
+    brand_voice=get_brand_voice("technical"),
+    constellation_state=get_constellation_context(),
+)
+
+# 3. Orchestrate cognitive processing
+response = hub.orchestrate(
+    context=context,
+    operations=[
+        "consciousness.awareness_update",
+        "memory.retrieve_relevant",
+        "reasoning.apply_causal",
+        "personality.apply_creative",
+        "guardian.validate_safety",
+    ],
+)
+
+# 4. Monitor health
+health = monitor.check_health()
+if health.has_alerts():
+    bus.emit("brain.health.alert", health.alerts)
+
+# 5. Normalize output
+final_output = normalize_output_text(response.output)
+```
+
+---
+
+## Event Bus Architecture
+
+### KernelBus Event Patterns
+
+The KernelBus provides pub-sub event communication across LUKHAS:
+
+```python
+# Event naming convention: component.action.detail
+"consciousness.awareness.updated"
+"memory.fold.created"
+"memory.cascade.prevented"
+"identity.auth.success"
+"guardian.violation.detected"
+"brain.health.degraded"
+"matriz.pipeline.complete"
+```
+
+### Event Subscription
+
+```python
+from brain import get_kernel_bus
+
+bus = get_kernel_bus()
+
+# Subscribe to specific events
+bus.subscribe("memory.cascade.*", cascade_handler)
+
+# Subscribe to component events
+bus.subscribe("consciousness.*", consciousness_monitor)
+
+# Subscribe to all events
+bus.subscribe("*", logging_handler)
+```
+
+---
+
+## Intelligence Monitoring
+
+### Health Metrics Tracked
+
+- **Consciousness Health**: Awareness levels, coherence, drift
+- **Memory Health**: Fold count, cascade prevention, retrieval latency
+- **Identity Health**: Authentication success rate, session management
+- **Guardian Health**: Violation detection rate, response time
+- **Orchestration Health**: Pipeline latency, throughput
+- **Resource Health**: CPU, memory, network utilization
+
+### Alert Thresholds
+
+```yaml
+brain_monitoring:
+  health_check_interval: 5000  # ms
+  alert_thresholds:
+    consciousness_drift: 0.15
+    memory_fold_ratio: 0.95      # 950/1000 folds
+    identity_failure_rate: 0.05
+    guardian_response_time: 1000  # ms
+    orchestration_latency: 500    # ms
+```
+
+---
+
+## Constellation Framework Integration
+
+The brain module serves as the primary coordinator for all 8 Constellation Framework stars:
+
+| Star | Symbol | Integration Point |
+|------|--------|-------------------|
+| Anchor | ⚛️ | Identity validation, authentication |
+| Trail | ✦ | Memory retrieval, fold management |
+| Horizon | 🔬 | Vision and prediction integration |
+| Watch | 🛡️ | Guardian safety validation |
+| Flow | 🌊 | Adaptive response generation |
+| Spark | ⚡ | Creative personality expression |
+| Persona | 🎭 | Brand voice application |
+| Oracle | 🔮 | Predictive reasoning coordination |
+
+---
+
+## MATRIZ Pipeline Integration
+
+The brain orchestrates the complete MATRIZ pipeline:
+
+```python
+# Brain-coordinated MATRIZ flow
+matriz_result = hub.execute_matriz(
+    input=user_input,
+    stages={
+        "Memory": memory_retrieval,
+        "Attention": attention_focus,
+        "Thought": reasoning_application,
+        "Risk": guardian_validation,
+        "Intent": intent_classification,
+        "Action": response_generation,
+        "Zen": quality_refinement,
+    },
+)
+```
+
+---
+
+## Performance Targets
+
+### Brain Operations Latency
+- Hub orchestration: <100ms for standard requests
+- Consciousness bridge: <50ms activation
+- Health monitoring: <20ms per check
+- Event emission: <5ms per event
+- Context building: <30ms complete context
+
+### Monitoring Targets
+- Health check frequency: Every 5 seconds
+- Alert response time: <100ms from detection to emission
+- Event bus throughput: >10,000 events/second
+- Uptime target: 99.99%
+
+---
+
+## Configuration
+
+```yaml
+brain:
+  orchestration:
+    enable_consciousness_bridge: true
+    auto_start: true
+    max_concurrent_operations: 100
+
+  monitoring:
+    health_check_interval: 5000  # ms
+    enable_predictive_alerts: true
+    alert_retention: 86400        # seconds (24 hours)
+
+  kernel_bus:
+    max_subscribers: 1000
+    event_buffer_size: 10000
+    enable_event_replay: true
+
+  brand_context:
+    default_voice: "technical"
+    enforce_tone_system: true
+    constellation_integration: true
+```
+
+---
+
+## Observability
+
+**Required Spans**:
+- `lukhas.brain.operation`
+- `lukhas.brain.consciousness`
+- `lukhas.brain.monitoring`
+- `lukhas.brain.processing`
+
+**OpenTelemetry Semantic Conventions**: v1.37.0
+
+**Metrics**:
+- Brain orchestration latency (p50, p95, p99)
+- Health check success rate
+- Alert count by level
+- Event bus throughput
+- Component health scores
+
+---
+
+## Testing
+
+### Unit Tests (`test_brain_unit.py`)
+- Orchestration hub creation
+- Intelligence monitoring logic
+- Event bus pub-sub
+- Alert generation
+- Context building
+
+### Integration Tests (`test_brain_integration.py`)
+- Complete orchestration workflows
+- Consciousness-brain bridge
+- Multi-component health monitoring
+- End-to-end MATRIZ orchestration
+- Constellation Framework coordination
+
+---
+
+## Use Cases
+
+### 1. Complete Cognitive Workflow
+```python
+# Brain orchestrates full cognitive pipeline
+response = brain_orchestrate(
+    user_input="Explain memory folds",
+    enable_consciousness=True,
+    apply_personality=True,
+    enforce_safety=True,
+)
+```
+
+### 2. System Health Monitoring
+```python
+# Continuous health monitoring
+monitor = LukhasIntelligenceMonitor()
+health = monitor.continuous_check(interval=5000)
+```
+
+### 3. Cross-Component Communication
+```python
+# Event-driven architecture
+bus = get_kernel_bus()
+bus.emit("memory.cascade.detected", cascade_data)
+# All subscribed components receive event
+```
+
+### 4. Brand-Consistent Responses
+```python
+# Apply brand voice automatically
+context = build_context(user_input, brand_voice="technical")
+response = hub.generate_response(context)
+```
+
+---
+
+## Development Guidelines
+
+### Extending Orchestration
+1. Add new cognitive operation to OrchestrationHub
+2. Integrate with MATRIZ pipeline stages
+3. Add health monitoring for operation
+4. Emit relevant events to KernelBus
+5. Test with brain integration tests
+
+### Adding New Metrics
+1. Define new MetricType if needed
+2. Instrument operation with metric recording
+3. Add metric to health monitoring
+4. Configure alert thresholds
+5. Export to monitoring system
+
+---
+
+## Related Modules
+
+- **consciousness/**: Core consciousness processing
+- **orchestration/**: Pipeline orchestration
+- **monitoring/**: System monitoring and alerting
+- **MATRIZ/**: MATRIZ pipeline execution
+- **identity/**: Authentication and identity management
+- **guardian/**: Safety and ethics enforcement
+- **branding/**: Brand voice and tone management
+
+---
+
+## Quick Reference
+
+| Entrypoint | Purpose | Category |
+|------------|---------|----------|
+| `OrchestrationHub` | Central cognitive coordination | Orchestration |
+| `LukhasIntelligenceMonitor` | System health monitoring | Monitoring |
+| `activate_brain_consciousness_bridge()` | Consciousness integration | Consciousness |
+| `KernelBus` | Event communication | Events |
+| `AlertEvent`, `AlertLevel` | Alert management | Monitoring |
+| `BrandContext`, `get_brand_voice()` | Brand management | Branding |
+| `get_constellation_context()` | Constellation integration | Framework |
+| `MetricType` | Metrics classification | Observability |
+| `emit()` | Event emission | Events |
+| `build_context()` | Context construction | Orchestration |
+| `normalize_output_text()` | Output normalization | Processing |
+| `get_brain_status()` | Status retrieval | Monitoring |
+| `get_kernel_bus()` | Event bus access | Events |
+| `monitor_brain_health()` | Health checking | Monitoring |
+
+---
+
+**Module Status**: L2 Integration
+**Schema Version**: 3.0.0
+**Complexity**: Low (high-level orchestration)
+**MATRIZ Compatibility**: Standard
+**Constellation Cluster**: Cognitive Coordination
+**Last Updated**: 2025-10-02
+**Philosophy**: The brain doesn't think—it conducts the symphony of consciousness, memory, identity, and ethics into coherent intelligence.
