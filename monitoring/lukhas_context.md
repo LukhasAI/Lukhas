@@ -1,0 +1,325 @@
+# Monitoring Module Context - Vendor-Neutral AI Guidance
+*This file provides domain-specific context for any AI development tool*
+*Also available as claude.me for Claude Desktop compatibility*
+
+
+**Module**: monitoring
+**Purpose**: System monitoring, metrics collection, and health tracking
+**Lane**: L2 (Integration)
+**Language**: Python
+**Last Updated**: 2025-10-02
+
+---
+
+## Module Overview
+
+The monitoring module provides comprehensive monitoring and alerting for LUKHAS AI production deployment, including Prometheus metrics, Grafana dashboards, OpenTelemetry integration, and drift detection automation.
+
+### Key Components
+- **Drift Manager**: Automated drift detection and management
+- **Prometheus Configuration**: Metrics collection from all LUKHAS components
+- **Alert Rules**: Comprehensive alerting for critical system events
+- **Grafana Dashboards**: MATRIZ pipeline and system visualizations
+- **OpenTelemetry Collector**: Distributed tracing and observability
+- **Consciousness Monitor**: Consciousness system health tracking
+
+### Constellation Framework Integration
+- **🛡️ Watch Star (Guardian)**: Drift detection and ethics monitoring
+- **🧠 Flow Star (Consciousness)**: Consciousness coherence tracking
+- **✦ Trail Star (Memory)**: Memory cascade prevention monitoring
+
+---
+
+## Architecture
+
+### Core Monitoring Components
+
+#### 1. Drift Manager
+**File**: `drift_manager.py`
+**Purpose**: Automated drift detection and management
+**Entrypoints**:
+- `monitoring.drift_manager.DriftManager`
+- `monitoring.drift_manager.DriftKind`
+- `monitoring.drift_manager.DriftResult`
+- `monitoring.drift_manager.get_drift_manager`
+- `monitoring.drift_manager.Counter`, `Histogram`
+
+```python
+from monitoring.drift_manager import get_drift_manager, DriftKind
+
+manager = get_drift_manager()
+result = manager.check_drift(
+    kind=DriftKind.BEHAVIORAL,
+    threshold=0.15
+)
+```
+
+#### 2. System Metrics Collection
+**Entrypoints**:
+- `monitoring.SystemMetrics`
+- `monitoring.collect_system_metrics`
+- `monitoring.ConsciousnessMonitor`
+- `monitoring.MONITORING_DOMAINS`
+
+```python
+from monitoring import collect_system_metrics, ConsciousnessMonitor
+
+metrics = collect_system_metrics()
+consciousness_mon = ConsciousnessMonitor()
+```
+
+#### 3. Alert Management
+**Entrypoint**: `monitoring.create_alert`
+
+```python
+from monitoring import create_alert
+
+alert = create_alert(
+    name="MemoryCascadeDetected",
+    severity="critical",
+    message="Memory cascade detected in fold system"
+)
+```
+
+---
+
+## Monitoring Stack
+
+### Prometheus Configuration
+**File**: `prometheus-config.yml`
+**Scrape Targets**:
+- **Guardian System**: 5s scrape interval
+  - Ethics validation latency
+  - Decision confidence scores
+  - Drift detection metrics
+  - Policy violation rates
+
+- **Memory System**: 30s scrape interval
+  - Memory fold health
+  - Cascade prevention metrics
+  - Storage utilization
+  - Retrieval performance
+
+- **Consciousness System**: 30s scrape interval
+  - Awareness level stability
+  - Coherence scores
+  - Processing thread utilization
+
+- **MATRIZ Pipeline**: 10s scrape interval
+  - Pipeline execution latency
+  - Node processing times
+  - Memory-Attention-Thought-Risk-Intent-Action metrics
+
+### Alert Rules
+**Files**:
+- `alert-rules.yml` - Comprehensive alerting for all components
+- `legacy_core_sunset_alerts.yml` - Legacy core deprecation monitoring
+- `alerts.yml` - Additional alert configurations
+- `alerts/*.yml` - Component-specific alerts
+
+#### Critical Alerts (Immediate Response)
+- **LUKHASServiceDown**: Main service unavailable
+- **GuardianSystemFailure**: Ethics/safety system compromised
+- **MemoryCascadeDetected**: Memory system instability (0/100 cascades observed)
+- **HighErrorRate**: System error rate exceeded threshold
+- **DriftThresholdExceeded**: Behavioral drift detected (threshold: 0.15)
+
+#### Warning Alerts (Monitor & Plan)
+- **HighLatency**: Response time degradation
+- **ResourceExhaustion**: CPU/Memory pressure
+- **ConsciousnessCoherenceDown**: Consciousness system health degraded
+- **AuthenticationFailures**: Security-related failures
+
+### Component-Specific Alerts
+**Directory**: `alerts/`
+- `lukhas-consciousness.yml` - Consciousness system alerts
+- `lukhas-core.yml` - Core system alerts
+- `lukhas-guardian.yml` - Guardian ethics alerts
+- `matriz_tail_latency.yml` - MATRIZ performance alerts
+
+### Grafana Dashboards
+**File**: `grafana-dashboard-matriz.json`
+**Features**:
+- MATRIZ pipeline performance visualization
+- Real-time latency tracking
+- Node execution breakdown
+- Memory-Attention-Thought-Risk-Intent-Action flow visualization
+
+### OpenTelemetry
+**Files**:
+- `otel-production.yaml` - Production OpenTelemetry Collector config
+- `otel-collector.yaml` - Collector configuration
+
+**Features**:
+- Distributed tracing across LUKHAS components
+- Metrics collection and export
+- Log aggregation
+- Trace sampling and filtering
+
+### Alertmanager
+**File**: `alertmanager.yml`
+**Features**:
+- Alert routing and grouping
+- Notification channels
+- Alert deduplication
+- Escalation workflows
+
+---
+
+## Monitoring Domains
+
+**MONITORING_DOMAINS** (from entrypoints):
+- Consciousness monitoring
+- Memory system monitoring
+- Guardian ethics monitoring
+- Identity authentication monitoring
+- MATRIZ pipeline monitoring
+- API performance monitoring
+
+---
+
+## Module Structure
+
+```
+monitoring/
+├── __init__.py                        # Module initialization with metrics
+├── drift_manager.py                   # Drift detection automation
+├── README.md                          # Comprehensive monitoring guide
+├── prometheus-config.yml              # Prometheus configuration
+├── alert-rules.yml                    # Main alert rules
+├── legacy_core_sunset_alerts.yml      # Legacy deprecation alerts
+├── alerts.yml                         # Additional alerts
+├── alerts_test.yml                    # Alert testing
+├── alertmanager.yml                   # Alertmanager configuration
+├── otel-production.yaml               # Production OpenTelemetry config
+├── otel-collector.yaml                # Collector configuration
+├── grafana-dashboard-matriz.json      # MATRIZ dashboard
+├── alerts/                            # Component-specific alerts
+│   ├── lukhas-consciousness.yml
+│   ├── lukhas-core.yml
+│   ├── lukhas-guardian.yml
+│   └── matriz_tail_latency.yml
+├── config/                            # Configuration
+│   ├── config.yaml
+│   ├── environment.yaml
+│   └── logging.yaml
+├── docs/                              # Documentation
+│   ├── README.md
+│   ├── architecture.md
+│   └── troubleshooting.md
+└── tests/                             # Test suites
+    ├── conftest.py
+    ├── test_monitoring_unit.py
+    └── test_monitoring_integration.py
+```
+
+---
+
+## Key Metrics
+
+### Drift Detection
+- **Threshold**: 0.15 (configurable)
+- **Detection Types**: Behavioral, performance, ethical
+- **Success Rate**: 99.7% cascade prevention
+
+### Performance Targets
+- **Metrics Collection**: <100ms latency
+- **Alert Evaluation**: <1s from event to alert
+- **Dashboard Refresh**: Real-time (1s updates)
+- **Storage Retention**: 30 days metrics, 7 days traces
+
+### Memory System Monitoring
+- **Cascade Prevention**: 0/100 cascades observed
+- **95% Confidence Interval**: ≥96.3% Wilson lower bound
+- **Quarantine Rate**: 2.2 ± 1.0 folds/run filtered pre-write
+- **Throughput**: 9.7 ± 1.0 folds/run with ≤1000 fold guardrail
+
+### Guardian Monitoring
+- **Drift Threshold**: 0.15
+- **Ethics Validation**: Real-time monitoring
+- **Policy Violations**: Immediate alerting
+
+---
+
+## Development Guidelines
+
+### 1. Adding New Metrics
+```python
+from monitoring import SystemMetrics
+from prometheus_client import Counter
+
+# Define metric
+my_metric = Counter(
+    'lukhas_my_feature_total',
+    'Description of metric'
+)
+
+# Collect and expose
+metrics = SystemMetrics()
+metrics.register(my_metric)
+```
+
+### 2. Creating Alerts
+Add to `alert-rules.yml`:
+```yaml
+- alert: MyCustomAlert
+  expr: lukhas_my_metric > threshold
+  for: 5m
+  labels:
+    severity: warning
+  annotations:
+    summary: "My feature exceeded threshold"
+```
+
+### 3. Testing Alerts
+```bash
+# Test alert rules
+promtool check rules alert-rules.yml
+
+# Unit test alerts
+pytest tests/test_monitoring_unit.py -k alert
+```
+
+### 4. Dashboard Creation
+- Use `grafana-dashboard-matriz.json` as template
+- Follow LUKHAS dashboard design patterns
+- Include documentation in dashboard
+
+---
+
+## MATRIZ Pipeline Integration
+
+This module operates within the MATRIZ cognitive framework:
+
+- **M (Memory)**: Memory fold health monitoring
+- **A (Attention)**: Focus on critical metrics and alerts
+- **T (Thought)**: Analysis of drift patterns and trends
+- **R (Risk)**: Guardian ethics and drift detection
+- **I (Intent)**: Monitoring domain intentionality
+- **A (Action)**: Automated alert response and remediation
+
+---
+
+## Related Modules
+
+- **Governance** ([../governance/](../governance/)) - Guardian drift monitoring
+- **Memory** ([../memory/](../memory/)) - Memory cascade monitoring
+- **Consciousness** ([../consciousness/](../consciousness/)) - Consciousness coherence
+- **Security** ([../security/](../security/)) - Security metrics and alerts
+
+---
+
+## Documentation
+
+- **README**: [monitoring/README.md](README.md) - Comprehensive monitoring guide
+- **Docs**: [monitoring/docs/](docs/) - Architecture and troubleshooting
+- **Tests**: [monitoring/tests/](tests/) - Monitoring test suites
+- **Module Index**: [../MODULE_INDEX.md](../MODULE_INDEX.md#monitoring)
+
+---
+
+**Status**: Integration Lane (L2)
+**Manifest**: ✓ module.manifest.json (schema v3.0.0)
+**Team**: Core
+**Code Owners**: @lukhas-core
+**Last Updated**: 2025-10-02
