@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "lukhas:feedback_event_v1.json",
+  "title": "FeedbackEventV1",
+  "type": "object",
+  "required": ["node_id", "ts", "user_id", "rating"],
+  "properties": {
+    "node_id": { "type": "string" },
+    "ts": { "type": "number" },
+    "user_id": { "type": "string" },
+    "rating": { "type": "number", "minimum": 0, "maximum": 10 },
+    "free_text": { "type": "string" },
+    "labels": { "type": "array", "items": { "type": "string" } },
+    "followup_required": { "type": "boolean" },
+    "capability_change_request": { "type": "object", "additionalProperties": true }
+  },
+  "additionalProperties": false
+}

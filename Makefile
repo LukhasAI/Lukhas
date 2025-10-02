@@ -10,7 +10,7 @@
 .PHONY: validate-matrix-all authz-run coverage-report matrix-v3-upgrade matrix-v3-check matrix-tokenize matrix-provenance matrix-verify-provenance manifests-validate manifest-lock manifest-index manifest-diff conformance-generate conformance-test manifest-system
 .PHONY: matriz-audit matriz-where
 .PHONY: scaffold-dry scaffold-apply scaffold-apply-force scaffold-diff scaffold-diff-all validate-scaffold sync-module sync-module-force
-.PHONY: validate-configs validate-secrets validate-naming readiness-score readiness-detailed quality-report test-shards test-parallel t4-sim-lane imports-guard
+.PHONY: validate-configs validate-secrets validate-naming readiness-score readiness-detailed quality-report test-shards test-parallel t4-sim-lane imports-guard audit-validate-ledger
 .PHONY: emergency-bypass clean-artifacts dev-setup status ci-validate ci-artifacts help
 
 # Note: Additional PHONY targets are declared in mk/*.mk include files
@@ -1002,3 +1002,12 @@ imports-guard:
 	@echo "🛡️ Validating import isolation..."
 	@/Users/agi_dev/Library/Python/3.9/bin/lint-imports --config .import-linter-contracts.toml --cache-dir .importlinter_cache || (echo "❌ Import isolation FAILED" && exit 1)
 	@echo "✅ Import contracts validated"
+
+# ==============================================================================
+# T4 AUDIT LEDGER VALIDATION - Secure, Schema-Compliant Audit Trail
+# ==============================================================================
+
+.PHONY: audit-validate-ledger
+audit-validate-ledger:
+	@echo "🔍 Validating audit ledgers against schema..."
+	@python3 -c "import json, sys, glob; from jsonschema import validate; import pathlib; base = pathlib.Path('schemas'); schema = json.load(open(base/'audit_event_v1.json')); errors = 0; [validate(json.loads(line), schema) or True for p in glob.glob('audit_logs/ledger.jsonl') for line in open(p)]; print('✅ All ledger events conform to schema')"
