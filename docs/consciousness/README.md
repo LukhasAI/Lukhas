@@ -11,6 +11,65 @@ Welcome to the comprehensive documentation for LUKHAS AI's MΛTRIZ Consciousness
 - **[API Reference](API_REFERENCE.md)** - Complete API documentation and method references
 - **[Developer Guide](DEVELOPER_GUIDE.md)** - Practical development guide with examples and best practices
 
+## Simulation Lane (T4/0.01%)
+
+Sandboxed advisory "Dreams" execution with compound defenses.
+
+**Quickstart**
+
+```bash
+SIMULATION_ENABLED=true make t4-sim-lane
+```
+
+**Code**
+
+```python
+import time, inspect, asyncio
+from consciousness.simulation import api
+
+cap = {
+  "token_id": "dev",
+  "scopes": [
+    "consciousness.simulation.schedule",
+    "consciousness.simulation.collect",
+    "memory.inbox.dreams.write"
+  ],
+  "exp_ts": time.time() + 3600
+}
+
+seed = {
+  "goal": "Evaluate user onboarding",
+  "context": {"tenant": "demo"},
+  "constraints": {"budgets": {"tokens": 1500, "seconds": 1.0},
+                  "consent": {"scopes": ["simulation.read_context"]},
+                  "flags": {"duress_active": False}}
+}
+
+def _call(fn, *a, **kw):
+  return asyncio.run(fn(*a, **kw)) if inspect.iscoroutinefunction(fn) else fn(*a, **kw)
+
+resp   = _call(api.schedule, seed, cap_token=cap)
+result = _call(api.collect, resp["job_id"], cap_token=cap)
+print(result["trace_id"], len(result.get("shards", [])))
+```
+
+**Operator knobs**
+
+- `SIMULATION_ENABLED`: killswitch (default false in prod)
+- `DREAM_INBOX_DIR`: path for persisted shards
+- `DREAM_INBOX_REDACT=1`: mask emails/phones in stored artifacts
+
+**Dev commands**
+
+```bash
+bash .claude/commands/91_sim_lane_bootstrap.yaml
+bash .claude/commands/92_sim_lane_ci_env.yaml
+bash .claude/commands/93_sim_lane_refactor_callers.yaml   # dry-run legacy rewrites
+bash .claude/commands/94_sim_lane_validate.yaml
+bash .claude/commands/95_sim_lane_summary.yaml            # generate summary
+bash .claude/commands/96_sim_lane_summary_refresh.yaml    # refresh on changes
+```
+
 ### Quick Navigation
 - [🚀 Quick Start](#quick-start)
 - [🏗️ System Architecture](#system-architecture) 

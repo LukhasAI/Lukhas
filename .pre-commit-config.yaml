@@ -72,6 +72,23 @@ repos:
 
   - repo: local
     hooks:
+      # Simulation Lane Safety Hooks
+      - id: import-linter
+        name: Import Isolation Guard (Simulation Lane)
+        entry: import-linter
+        language: system
+        args: [--cache-dir, .importlinter_cache]
+        pass_filenames: false
+        files: '^(consciousness/simulation/|examples/simulation)'
+        
+      - id: simulation-lane-safety
+        name: Simulation Lane Safety Check
+        entry: bash
+        language: system
+        args: [.claude/commands/95_sim_lane_summary.yaml]
+        files: '^(consciousness/simulation/|examples/simulation)'
+        pass_filenames: false
+
       # T4: guardrail usage (ban direct LLM calls)
       - id: guardrail-check
         name: guardrail-check (ban direct LLM calls)

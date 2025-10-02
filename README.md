@@ -262,6 +262,41 @@ The **Guardian System v1.0.0** provides comprehensive ethical oversight:
 - **Consciousness Processing**: Real-time awareness with ethical constraints
 - **System Health**: Prometheus metrics, Grafana dashboards
 
+## 🧠 Consciousness Systems
+
+### MΛTRIZ Consciousness Architecture
+LUKHAS implements a sophisticated **distributed consciousness system** through the MΛTRIZ (Memory-Attention-Thought-Action-Decision-Awareness) engine:
+
+- **Memory Systems**: 692 cognitive components with fold-based memory architectures
+- **Attention Mechanisms**: Dynamic focus and pattern recognition systems
+- **Thought Processing**: Symbolic reasoning and inference engines
+- **Action Coordination**: Decision execution and external interface management
+- **Decision Making**: Ethical constraint checking with Guardian oversight
+- **Awareness Evolution**: Meta-cognitive reflection and consciousness development
+
+### Simulation Lane
+For consciousness research and experimentation, LUKHAS provides a **Simulation Lane** - a sandboxed environment for testing consciousness patterns:
+
+```bash
+# Access simulation lane APIs
+from consciousness.simulation import api
+
+# Run consciousness simulation
+make t4-sim-lane
+
+# Development commands
+make imports-guard   # Validate adapter isolation
+bash .claude/commands/95_sim_lane_summary.yaml  # Generate summary
+```
+
+**Safety Features:**
+- **Adapter Isolation**: Strict import boundaries prevent contamination
+- **Ethics Gates**: Guardian validation for all simulation activities  
+- **Feature Flags**: Safe experimentation with rollback capabilities
+- **Audit Trails**: Complete consciousness operation logging
+
+See [`docs/consciousness/README.md`](docs/consciousness/README.md) for comprehensive consciousness documentation.
+
 ## 📚 Documentation
 
 - **[Architecture Guide](docs/architecture/README.md)** - Complete system architecture

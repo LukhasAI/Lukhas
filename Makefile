@@ -10,7 +10,7 @@
 .PHONY: validate-matrix-all authz-run coverage-report matrix-v3-upgrade matrix-v3-check matrix-tokenize matrix-provenance matrix-verify-provenance manifests-validate manifest-lock manifest-index manifest-diff conformance-generate conformance-test manifest-system
 .PHONY: matriz-audit matriz-where
 .PHONY: scaffold-dry scaffold-apply scaffold-apply-force scaffold-diff scaffold-diff-all validate-scaffold sync-module sync-module-force
-.PHONY: validate-configs validate-secrets validate-naming readiness-score readiness-detailed quality-report test-shards test-parallel
+.PHONY: validate-configs validate-secrets validate-naming readiness-score readiness-detailed quality-report test-shards test-parallel t4-sim-lane imports-guard
 .PHONY: emergency-bypass clean-artifacts dev-setup status ci-validate ci-artifacts help
 
 # Note: Additional PHONY targets are declared in mk/*.mk include files
@@ -989,4 +989,14 @@ sync-module-force:
 	@echo "✅ Module $(MODULE) force synchronized."
 
 t4-sim-lane:
-	python3 -m pytest tests/consciousness/simulation/test_simulation_lane.py -q
+	@echo "🎭 T4/0.01% Simulation Lane Summary & Validation..."
+	bash .claude/commands/95_sim_lane_summary.yaml
+	@make imports-guard
+	@echo "✅ Simulation lane validation complete"
+
+imports-guard:
+	@echo "🛡️ T4 Import Contract Validation"
+	@python3 -m pip install import-linter --quiet || (echo "Installing import-linter..." && python3 -m pip install import-linter)
+	@echo "🛡️ Validating import isolation..."
+	@import-linter --config .import-linter-contracts.toml --cache-dir .importlinter_cache || (echo "❌ Import isolation FAILED" && exit 1)
+	@echo "✅ Import contracts validated"
