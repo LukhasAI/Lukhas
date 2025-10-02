@@ -1,0 +1,20 @@
+---
+name: 93_sim_lane_refactor_callers
+about: Dry-run rewrite of legacy dream callers to use consciousness.simulation.api
+usage: bash .claude/commands/93_sim_lane_refactor_callers.yaml [APPLY=1]
+run: |
+  bash << 'BASH'
+  set -euo pipefail
+  APPLY="${APPLY:-0}"
+  echo "Scanning for legacy dream callers…"
+  matches=$(git grep -nE "dream(_bridge|_adapter|s?)\.(schedule|run|collect)|from +.*dream.* import" || true)
+  echo "${matches:-No legacy callers found.}"
+  if [ "$APPLY" != "1" ]; then
+    echo "Dry-run only. Re-run with APPLY=1 to apply targeted rewrites."
+    exit 0
+  fi
+  # Example precise replace (customize patterns as your code reveals):
+  git grep -lz "from .*dream.* import schedule" | xargs -0 -I{} perl -pi -e 's/from .*dream.* import schedule/from consciousness.simulation.api import schedule/g' {}
+  git grep -lz "from .*dream.* import collect"  | xargs -0 -I{} perl -pi -e 's/from .*dream.* import collect/from consciousness.simulation.api import collect/g' {}
+  echo "✅ Applied targeted import rewrites. Review diffs before commit."
+  BASH

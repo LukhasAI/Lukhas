@@ -1,0 +1,60 @@
+{
+  "schema_version": "3.0.0",
+  "module": "tests.consciousness.simulation",
+  "description": "Canary tests for simulation lane: ethics gates, consent checks, feature flags, and adapter isolation",
+  "ownership": {
+    "team": "Consciousness",
+    "codeowners": [
+      "@lukhas-consciousness",
+      "@lukhas-core"
+    ]
+  },
+  "layout": {
+    "code_layout": "package-root",
+    "paths": {
+      "code": ".",
+      "tests": "."
+    }
+  },
+  "runtime": {
+    "language": "python",
+    "entrypoints": [
+      "tests.consciousness.simulation.test_simulation_lane"
+    ]
+  },
+  "matrix": {
+    "contract": "",
+    "lane": "L2",
+    "gates_profile": "strict"
+  },
+  "identity": {
+    "requires_auth": false,
+    "tiers": [],
+    "scopes": []
+  },
+  "links": {
+    "repo": "https://github.com/LukhasAI/Lukhas",
+    "docs": "",
+    "issues": "https://github.com/LukhasAI/Lukhas/issues"
+  },
+  "tags": [
+    "tests",
+    "simulation",
+    "canary",
+    "ethics",
+    "consent",
+    "t4-beta"
+  ],
+  "observability": {
+    "required_spans": [],
+    "otel_semconv_version": "1.37.0"
+  },
+  "tokenization": {
+    "enabled": false,
+    "chain": "none"
+  },
+  "dependencies": [
+    "consciousness.simulation"
+  ],
+  "contracts": []
+}

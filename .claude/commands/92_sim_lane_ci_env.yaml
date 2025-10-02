@@ -1,0 +1,33 @@
+---
+name: 92_sim_lane_ci_env
+about: Ensure tests see SIMULATION_ENABLED=true and jsonschema is available in CI
+usage: bash .claude/commands/92_sim_lane_ci_env.yaml
+run: |
+  bash << 'BASH'
+  set -euo pipefail
+
+  # Add test-time env in GitHub Actions (if Python workflow exists)
+  wf=".github/workflows/matrix-validation.yml"
+  if [ -f "$wf" ]; then
+    if ! grep -q "SIMULATION_ENABLED:" "$wf"; then
+      awk '1; /env:/{print "      SIMULATION_ENABLED: true"}' "$wf" > "$wf.tmp" && mv "$wf.tmp" "$wf"
+      echo "Patched SIMULATION_ENABLED: true into $wf"
+    else
+      echo "SIMULATION_ENABLED already present in $wf"
+    fi
+  else
+    echo "No $wf found; skip CI env patch."
+  fi
+
+  # Ensure jsonschema included in dev/ci deps if present
+  for req in "requirements-dev.txt" "requirements.txt" "pyproject.toml"; do
+    if [ -f "$req" ]; then
+      if ! grep -qi "jsonschema" "$req"; then
+        echo "jsonschema" >> "$req"
+        echo "Added jsonschema to $req"
+      fi
+    fi
+  done
+
+  echo "✅ CI/env guard applied."
+  BASH

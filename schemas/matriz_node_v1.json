@@ -1,0 +1,25 @@
+{
+  "$id": "lukhas://schemas/matriz_node_v1.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "MATRIZ Node v1",
+  "type": "object",
+  "required": ["id","type","lane","version","trace","metadata","payload","provenance"],
+  "properties": {
+    "id": {"type":"string"},
+    "type": {"type":"string"},
+    "lane": {"type":"string", "enum":["simulation","reflex","deliberation","adapter"]},
+    "version": {"type":"string"},
+    "trace": {
+      "type":"object",
+      "required":["trace_id","order"],
+      "properties":{
+        "trace_id":{"type":"string"},
+        "order":{"type":"integer","minimum":1}
+      }
+    },
+    "metadata": {"type":"object"},
+    "payload": {"type":"object"},
+    "provenance": {"type":"object"}
+  },
+  "additionalProperties": true
+}

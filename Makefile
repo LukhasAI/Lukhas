@@ -987,3 +987,6 @@ sync-module-force:
 	@read -p "Type 'YES_OVERWRITE' to continue: " confirm && [ "$$confirm" = "YES_OVERWRITE" ] || (echo "Cancelled." && exit 1)
 	@python3 tools/scaffold_sync.py --modules-root lukhas --only-module $(MODULE) --force
 	@echo "✅ Module $(MODULE) force synchronized."
+
+t4-sim-lane:
+	python3 -m pytest tests/consciousness/simulation/test_simulation_lane.py -q

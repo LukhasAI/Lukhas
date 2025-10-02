@@ -1,0 +1,19 @@
+---
+name: 94_sim_lane_validate
+about: Run simulation canaries and T4 validations (manifests, OPA, conformance)
+usage: bash .claude/commands/94_sim_lane_validate.yaml
+run: |
+  bash << 'BASH'
+  set -euo pipefail
+  make t4-sim-lane || (echo "Simulation canaries failed" && exit 1)
+  if make -n manifest-system >/dev/null 2>&1; then
+    make manifest-system
+  fi
+  if make -n opa-validate >/dev/null 2>&1; then
+    make opa-validate
+  fi
+  if make -n t4-validate >/dev/null 2>&1; then
+    make t4-validate
+  fi
+  echo "✅ All green."
+  BASH

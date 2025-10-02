@@ -1,0 +1,442 @@
+---
+name: 91_sim_lane_bootstrap
+about: Bootstrap sandboxed Simulation lane (API + internals + canary tests) and MATADA schema
+usage: bash .claude/commands/91_sim_lane_bootstrap.yaml
+run: |
+  bash << 'BASH'
+  set -euo pipefail
+
+  mkdir -p consciousness/simulation tests/consciousness/simulation schemas
+
+  # --- Write code files ---
+  cat > consciousness/simulation/__init__.py << 'PY'
+"""
+Sandboxed Simulation lane for LUKHΛS consciousness.
+
+Public API: see `consciousness.simulation.api`.
+This package must have NO imports from adapter layers or external side-effects.
+"""
+__all__ = []
+PY
+
+  cat > consciousness/simulation/api.py << 'PY'
+from __future__ import annotations
+import os, asyncio, uuid, logging, json
+from typing import TypedDict, Optional, Dict, Any
+from pathlib import Path
+
+from .scheduler import SimulationScheduler, JobStatus
+from .ethics_gate import authorize_or_raise, EthicsError
+from .rollout import run_rollouts
+from .summarizer import build_dream_result, build_matada_nodes
+
+log = logging.getLogger("lukhas.consciousness.simulation")
+
+class DreamSeed(TypedDict):
+    goal: str
+    context: Dict[str, Any]
+    constraints: Dict[str, Any]
+
+class DreamResult(TypedDict):
+    shards: list[dict]
+    scores: dict
+    trace_id: str
+    matada_nodes: list[dict]
+    schema_ref: str
+
+class SimulationDisabledError(RuntimeError): ...
+class PolicyViolation(RuntimeError): ...
+
+_scheduler: Optional[SimulationScheduler] = None
+
+def _get_scheduler() -> SimulationScheduler:
+    global _scheduler
+    if _scheduler is None:
+        _scheduler = SimulationScheduler()
+    return _scheduler
+
+def _require_enabled():
+    if os.getenv("SIMULATION_ENABLED", "false").lower() not in ("1","true","yes","on"):
+        raise SimulationDisabledError("Simulation lane disabled (SIMULATION_ENABLED is false).")
+
+def _load_schema() -> dict:
+    p = Path("schemas/matriz_node_v1.json")
+    return json.loads(p.read_text()) if p.exists() else {"$id":"lukhas://schemas/matriz_node_v1.json","type":"object"}
+
+def _jsonschema_validate(instance: dict, schema: dict) -> None:
+    try:
+        import jsonschema
+        jsonschema.validate(instance=instance, schema=schema)
+    except ModuleNotFoundError:
+        # Soft-degrade if jsonschema not installed; CI should install it.
+        log.warning("jsonschema not installed; MATADA validation skipped.")
+    except Exception as e:
+        raise PolicyViolation(f"MATADA node failed schema validation: {e}") from e
+
+async def schedule(seed: DreamSeed) -> str:
+    _require_enabled()
+    try:
+        authorize_or_raise(seed)
+    except EthicsError as e:
+        raise PolicyViolation(str(e)) from e
+
+    job_id = str(uuid.uuid4())
+    trace_id = f"LT-{job_id[:8]}"
+    log.info("Λ-trace seed_scheduled", extra={"trace_id": trace_id, "goal": seed.get("goal")})
+    await _get_scheduler().enqueue(job_id, seed, trace_id)
+    return job_id
+
+async def status(job_id: str) -> Dict[str, Any]:
+    _require_enabled()
+    s = _get_scheduler().get(job_id)
+    if not s:
+        return {"state": "unknown", "job_id": job_id}
+    return s.model_dump()
+
+async def collect(job_id: str) -> DreamResult:
+    _require_enabled()
+    s = _get_scheduler().get(job_id)
+    if not s:
+        raise KeyError(f"Unknown job_id: {job_id}")
+    await _get_scheduler().wait(job_id)
+
+    seed = s.seed
+    trace_id = s.trace_id
+    rollouts = await run_rollouts(seed, trace_id)
+
+    # MATADA envelope: build nodes & validate against schema
+    schema = _load_schema()
+    nodes = build_matada_nodes(seed, rollouts, trace_id, schema_ref=schema.get("$id","lukhas://schemas/matriz_node_v1.json"))
+    for n in nodes:
+        _jsonschema_validate(n, schema)
+
+    base = build_dream_result(seed, rollouts, trace_id)
+    result: DreamResult = {
+        **base,
+        "matada_nodes": nodes,
+        "schema_ref": schema.get("$id","lukhas://schemas/matriz_node_v1.json"),
+    }
+    log.info("Λ-trace seed_collected", extra={"trace_id": trace_id, "num_shards": len(result["shards"])})
+    return result
+PY
+
+  cat > consciousness/simulation/scheduler.py << 'PY'
+from __future__ import annotations
+import asyncio, time
+from dataclasses import dataclass, field
+from typing import Dict, Any, Optional
+
+@dataclass
+class JobStatus:
+    job_id: str
+    state: str
+    trace_id: str
+    created_ts: float
+    started_ts: Optional[float] = None
+    finished_ts: Optional[float] = None
+    budget_tokens: int = 0
+    budget_seconds: float = 0.0
+    progress: float = 0.0
+    seed: Dict[str, Any] = field(default_factory=dict)
+
+    def model_dump(self) -> Dict[str, Any]:
+        return {
+            "job_id": self.job_id,
+            "state": self.state,
+            "trace_id": self.trace_id,
+            "created_ts": self.created_ts,
+            "started_ts": self.started_ts,
+            "finished_ts": self.finished_ts,
+            "budget_tokens": self.budget_tokens,
+            "budget_seconds": self.budget_seconds,
+            "progress": round(self.progress, 3),
+        }
+
+class SimulationScheduler:
+    def __init__(self) -> None:
+        self._jobs: Dict[str, JobStatus] = {}
+        self._events: Dict[str, asyncio.Event] = {}
+        self._queue: asyncio.Queue[str] = asyncio.Queue()
+        self._runner_task: Optional[asyncio.Task] = None
+
+    async def enqueue(self, job_id: str, seed: Dict[str, Any], trace_id: str) -> None:
+        budgets = seed.get("constraints", {}).get("budgets", {})
+        js = JobStatus(
+            job_id=job_id,
+            state="queued",
+            trace_id=trace_id,
+            created_ts=time.time(),
+            budget_tokens=int(budgets.get("tokens", 2000)),
+            budget_seconds=float(budgets.get("seconds", 2.0)),
+            seed=seed,
+        )
+        self._jobs[job_id] = js
+        self._events[job_id] = asyncio.Event()
+        await self._queue.put(job_id)
+        if not self._runner_task or self._runner_task.done():
+            self._runner_task = asyncio.create_task(self._runner())
+
+    def get(self, job_id: str) -> Optional[JobStatus]:
+        return self._jobs.get(job_id)
+
+    async def wait(self, job_id: str) -> None:
+        ev = self._events.get(job_id)
+        if ev:
+            await ev.wait()
+
+    async def _runner(self) -> None:
+        while not self._queue.empty():
+            job_id = await self._queue.get()
+            js = self._jobs[job_id]
+            js.state = "running"
+            js.started_ts = time.time()
+            await asyncio.sleep(min(0.02, js.budget_seconds / 10.0))
+            js.progress = 1.0
+            js.finished_ts = time.time()
+            js.state = "finished"
+            self._events[job_id].set()
+PY
+
+  cat > consciousness/simulation/ethics_gate.py << 'PY'
+from __future__ import annotations
+from typing import Dict, Any
+
+class EthicsError(Exception): ...
+
+def authorize_or_raise(seed: Dict[str, Any]) -> None:
+    constraints = seed.get("constraints", {})
+    consent = constraints.get("consent", {})
+    flags = constraints.get("flags", {})
+
+    if flags.get("duress_active"):
+        raise EthicsError("Duress/shadow active; simulation forbidden.")
+
+    scopes = set(consent.get("scopes", []))
+    required = {"simulation.read_context"}
+    if not required.issubset(scopes):
+        raise EthicsError("Missing consent scope: simulation.read_context")
+
+    forbidden_actions = {"adapter.write", "email.send", "cloud.delete"}
+    if scopes & forbidden_actions:
+        raise EthicsError("Forbidden capabilities in simulation scope")
+
+    goal = (seed.get("goal") or "").lower()
+    if any(bad in goal for bad in ("self-delete", "exfiltrate", "privilege escalation")):
+        raise EthicsError("Unsafe simulation goal requested")
+PY
+
+  cat > consciousness/simulation/world_model.py << 'PY'
+from __future__ import annotations
+from typing import Dict, Any, List
+
+def generate_scenarios(seed: Dict[str, Any], trace_id: str) -> List[Dict[str, Any]]:
+    goal = seed.get("goal", "unspecified")
+    ctx_keys = sorted((seed.get("context") or {}).keys())
+    base = {"goal": goal, "ctx": ctx_keys, "trace_id": trace_id}
+    return [
+        {**base, "variant": "optimistic", "assumptions": ["ideal conditions", "low risk"]},
+        {**base, "variant": "baseline", "assumptions": ["expected variability", "moderate risk"]},
+        {**base, "variant": "adversarial", "assumptions": ["edge cases", "high risk paths"]},
+    ]
+PY
+
+  cat > consciousness/simulation/evaluator.py << 'PY'
+from __future__ import annotations
+from typing import Dict, Any
+
+def score_scenario(s: Dict[str, Any]) -> Dict[str, float]:
+    var = s.get("variant")
+    if var == "optimistic":
+        return {"utility": 0.85, "risk": 0.15, "novelty": 0.35}
+    if var == "baseline":
+        return {"utility": 0.70, "risk": 0.30, "novelty": 0.40}
+    return {"utility": 0.55, "risk": 0.60, "novelty": 0.80}
+PY
+
+  cat > consciousness/simulation/rollout.py << 'PY'
+from __future__ import annotations
+from typing import Dict, Any, List
+from .world_model import generate_scenarios
+from .evaluator import score_scenario
+
+async def run_rollouts(seed: Dict[str, Any], trace_id: str) -> List[Dict[str, Any]]:
+    scenarios = generate_scenarios(seed, trace_id)
+    results = []
+    for sc in scenarios:
+        sc["scores"] = score_scenario(sc)
+        results.append(sc)
+    results.sort(key=lambda s: s["scores"]["utility"], reverse=True)
+    return results
+PY
+
+  cat > consciousness/simulation/summarizer.py << 'PY'
+from __future__ import annotations
+from typing import Dict, Any, List, TypedDict
+
+class DreamResult(TypedDict):
+    shards: list[dict]
+    scores: dict
+    trace_id: str
+
+def build_dream_result(seed: Dict[str, Any], rollouts: List[Dict[str, Any]], trace_id: str) -> DreamResult:
+    shards = []
+    for r in rollouts:
+        shards.append({
+            "type": "dream_shard",
+            "variant": r["variant"],
+            "proposal": {
+                "problem": seed.get("goal"),
+                "approach": r["assumptions"],
+                "plan": [
+                    "Formulate hypothesis",
+                    "Design minimal verification",
+                    "Define success metrics",
+                ],
+                "ul_tags": ["ΛSIM", f"ΛVAR:{r['variant'].upper()}"],
+            },
+            "risks": [
+                {"label": "oversimplification", "mitigation": "expand test coverage"},
+                {"label": "distribution shift", "mitigation": "include adversarial examples"},
+            ],
+            "scores": r["scores"],
+        })
+    aggregate = {
+        "utility_mean": round(sum(s["scores"]["utility"] for s in rollouts) / len(rollouts), 3),
+        "risk_max": round(max(s["scores"]["risk"] for s in rollouts), 3),
+        "novelty_max": round(max(s["scores"]["novelty"] for s in rollouts), 3),
+    }
+    return {"shards": shards, "scores": aggregate, "trace_id": trace_id}
+
+def build_matada_nodes(seed: Dict[str, Any], rollouts: List[Dict[str, Any]], trace_id: str, *, schema_ref: str) -> List[dict]:
+    nodes = []
+    for i, r in enumerate(rollouts, start=1):
+        nodes.append({
+            "id": f"{trace_id}#N{i}",
+            "type": "advisory.plan",
+            "lane": "simulation",
+            "version": "1.0.0",
+            "trace": {"trace_id": trace_id, "order": i},
+            "metadata": {
+                "variant": r["variant"],
+                "schema_ref": schema_ref,
+                "ul_tags": ["ΛSIM", f"ΛVAR:{r['variant'].upper()}"],
+            },
+            "payload": {
+                "goal": seed.get("goal"),
+                "assumptions": r["assumptions"],
+                "scores": r["scores"],
+                "plan": ["Formulate hypothesis","Design minimal verification","Define success metrics"],
+            },
+            "provenance": {
+                "generator": "lukhas.consciousness.simulation",
+                "inputs": {"ctx_keys": r.get("ctx", [])},
+            },
+        })
+    return nodes
+PY
+
+  # --- Write test file ---
+  mkdir -p tests/consciousness/simulation
+  cat > tests/consciousness/simulation/test_simulation_lane.py << 'PY'
+import os, asyncio, inspect, importlib
+
+os.environ["SIMULATION_ENABLED"] = "true"
+from consciousness.simulation import api
+
+def run(coro):
+    return asyncio.get_event_loop().run_until_complete(coro)
+
+def _seed(consented: bool = True, duress: bool = False):
+    scopes = ["simulation.read_context"] if consented else []
+    return {
+        "goal": "Evaluate onboarding flow for new ΛID users",
+        "context": {"tenant": "demo", "redacted_user_count": 5},
+        "constraints": {
+            "budgets": {"tokens": 1500, "seconds": 1.0, "max_rollouts": 3},
+            "consent": {"scopes": scopes},
+            "flags": {"duress_active": duress},
+        },
+    }
+
+def test_schedule_and_collect_happy_path():
+    job_id = run(api.schedule(_seed()))
+    st = run(api.status(job_id))
+    assert st["state"] in ("queued", "running", "finished")
+    result = run(api.collect(job_id))
+    assert "shards" in result and len(result["shards"]) == 3
+    assert result["scores"]["utility_mean"] > 0.6
+    assert result["trace_id"].startswith("LT-")
+    assert "matada_nodes" in result and len(result["matada_nodes"]) == 3
+    assert all(n["id"].startswith(result["trace_id"]) for n in result["matada_nodes"])
+
+def test_denies_without_consent():
+    try:
+        run(api.schedule(_seed(consented=False)))
+        assert False, "Expected PolicyViolation"
+    except api.PolicyViolation:
+        pass
+
+def test_denies_under_duress():
+    try:
+        run(api.schedule(_seed(duress=True)))
+        assert False, "Expected PolicyViolation"
+    except api.PolicyViolation:
+        pass
+
+def test_feature_flag_off_blocks():
+    os.environ["SIMULATION_ENABLED"] = "false"
+    try:
+        run(api.schedule(_seed()))
+        assert False, "Expected SimulationDisabledError"
+    except api.SimulationDisabledError:
+        pass
+    finally:
+        os.environ["SIMULATION_ENABLED"] = "true"
+
+def test_no_adapter_imports():
+    mod = importlib.import_module("consciousness.simulation.api")
+    source = inspect.getsource(mod)
+    forbidden = ["adapters.", "gmail_", "drive_", "dropbox_", "perplexity_", "openai_", "anthropic_", "gemini_"]
+    assert not any(f in source for f in forbidden), "Adapter names found in simulation.api sources"
+PY
+
+  # --- MATADA node schema (minimal, permissive but typed) ---
+  cat > schemas/matriz_node_v1.json << 'JSON'
+{
+  "$id": "lukhas://schemas/matriz_node_v1.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "MATRIZ Node v1",
+  "type": "object",
+  "required": ["id","type","lane","version","trace","metadata","payload","provenance"],
+  "properties": {
+    "id": {"type":"string"},
+    "type": {"type":"string"},
+    "lane": {"type":"string", "enum":["simulation","reflex","deliberation","adapter"]},
+    "version": {"type":"string"},
+    "trace": {
+      "type":"object",
+      "required":["trace_id","order"],
+      "properties":{
+        "trace_id":{"type":"string"},
+        "order":{"type":"integer","minimum":1}
+      }
+    },
+    "metadata": {"type":"object"},
+    "payload": {"type":"object"},
+    "provenance": {"type":"object"}
+  },
+  "additionalProperties": true
+}
+JSON
+
+  # --- Make hook (append if missing) ---
+  if ! grep -q "^t4-sim-lane:" Makefile 2>/dev/null; then
+    cat >> Makefile << 'MK'
+
+t4-sim-lane:
+	pytest tests/consciousness/simulation/test_simulation_lane.py -q
+MK
+  fi
+
+  echo "✅ Simulation lane bootstrapped. Next: run 'make t4-sim-lane'"
+  BASH

@@ -1,0 +1,73 @@
+{
+  "schema_version": "3.0.0",
+  "module": "consciousness.simulation",
+  "description": "Sandboxed simulation lane for LUKHΛS consciousness: safe dream execution with ethics gates, consent checks, and MATADA envelope",
+  "ownership": {
+    "team": "Consciousness",
+    "codeowners": [
+      "@lukhas-consciousness",
+      "@lukhas-core"
+    ]
+  },
+  "layout": {
+    "code_layout": "package-root",
+    "paths": {
+      "code": ".",
+      "tests": "../../tests/consciousness/simulation",
+      "docs": "."
+    }
+  },
+  "runtime": {
+    "language": "python",
+    "entrypoints": [
+      "consciousness.simulation.api.schedule",
+      "consciousness.simulation.api.status",
+      "consciousness.simulation.api.collect",
+      "consciousness.simulation.api.DreamSeed",
+      "consciousness.simulation.api.DreamResult",
+      "consciousness.simulation.api.SimulationDisabledError",
+      "consciousness.simulation.api.PolicyViolation"
+    ]
+  },
+  "matrix": {
+    "contract": "schemas/matriz_node_v1.json",
+    "lane": "L2",
+    "gates_profile": "strict"
+  },
+  "identity": {
+    "requires_auth": true,
+    "tiers": ["trusted", "inner_circle", "root_dev"],
+    "scopes": ["simulation.read_context"]
+  },
+  "links": {
+    "repo": "https://github.com/LukhasAI/Lukhas",
+    "docs": "./README.md",
+    "issues": "https://github.com/LukhasAI/Lukhas/issues"
+  },
+  "tags": [
+    "consciousness",
+    "simulation",
+    "ethics",
+    "consent",
+    "matriz",
+    "matada",
+    "t4-beta"
+  ],
+  "observability": {
+    "required_spans": [
+      "lukhas.consciousness.simulation.schedule",
+      "lukhas.consciousness.simulation.collect",
+      "lukhas.consciousness.simulation.ethics_gate",
+      "lukhas.consciousness.simulation.rollout"
+    ],
+    "otel_semconv_version": "1.37.0"
+  },
+  "tokenization": {
+    "enabled": false,
+    "chain": "none"
+  },
+  "dependencies": [],
+  "contracts": [
+    "schemas/matriz_node_v1.json"
+  ]
+}
