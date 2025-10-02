@@ -1,0 +1,179 @@
+# Tone Module Context - Vendor-Neutral AI Guidance
+*This file provides domain-specific context for any AI development tool*
+*Also available as claude.me for Claude Desktop compatibility*
+
+
+**Module**: tone
+**Purpose**: Tone enforcement, modulation, and multi-layer voice systems
+**Lane**: L2 (Integration)
+**Language**: Python
+**Last Updated**: 2025-10-02
+
+---
+
+## Module Overview
+
+The tone module provides sophisticated tone management for LUKHAS AI communications, implementing a 3-layer tone system (Academic, Professional, Conversational) with automatic tone detection, enforcement, and modulation capabilities.
+
+### Key Components
+- **3-Layer Tone System**: Academic, Professional, Conversational
+- **Tone Detection**: Automatic tone layer identification
+- **Tone Enforcement**: Policy-based tone validation
+- **Tone Modulation**: Content transformation between layers
+- **Tone Analytics**: Tone usage metrics and insights
+
+### Constellation Framework Integration
+- **🎭 Persona Star**: Voice and personality expression
+- **🔮 Oracle Star**: Strategic tone selection
+- **⚡ Spark Star**: Creative tone variation
+
+---
+
+## Architecture
+
+### 3-Layer Tone System
+
+#### Layer 1: Academic
+**Characteristics**:
+- Technical precision
+- Research-oriented language
+- Formal structure
+- Citations and references
+- Hypothesis-driven
+
+**Use Cases**:
+- Research papers
+- Technical documentation
+- Academic publications
+- Scientific communications
+
+#### Layer 2: Professional
+**Characteristics**:
+- Business-appropriate
+- Solution-focused
+- Accessible terminology
+- Action-oriented
+- ROI-driven
+
+**Use Cases**:
+- Business communications
+- Product documentation
+- Client presentations
+- Professional marketing
+
+#### Layer 3: Conversational
+**Characteristics**:
+- Friendly and approachable
+- Everyday language
+- Relatable examples
+- Personal connection
+- Engaging style
+
+**Use Cases**:
+- Social media
+- Blog posts
+- Community communications
+- User onboarding
+
+---
+
+## Module Structure
+
+```
+tone/
+├── module.manifest.json         # Tone manifest (schema v1.0.0)
+├── README.md                    # Tone overview
+├── config/                      # Tone configuration
+├── docs/                        # Tone documentation
+├── schema/                      # Tone schemas
+└── tests/                       # Tone validation tests
+```
+
+---
+
+## Development Guidelines
+
+### 1. Tone Detection
+
+```python
+from tone import detect_tone, ToneLayer
+
+# Detect tone layer of content
+detected = detect_tone(
+    content="Your content here",
+    confidence_threshold=0.8
+)
+
+# Returns: (ToneLayer.PROFESSIONAL, confidence=0.92)
+```
+
+### 2. Tone Enforcement
+
+```python
+from tone import enforce_tone_policy
+
+# Enforce tone policy
+result = enforce_tone_policy(
+    content="Your content",
+    required_layer=ToneLayer.PROFESSIONAL,
+    strict=True
+)
+
+# Returns violations if any
+```
+
+### 3. Tone Modulation
+
+```python
+from tone import modulate_tone
+
+# Transform content between tone layers
+modulated = modulate_tone(
+    content="Technical academic content...",
+    source_layer=ToneLayer.ACADEMIC,
+    target_layer=ToneLayer.CONVERSATIONAL
+)
+```
+
+---
+
+## MATRIZ Pipeline Integration
+
+- **M (Memory)**: Tone history and patterns
+- **A (Attention)**: Focus on tone violations
+- **T (Thought)**: Strategic tone selection
+- **R (Risk)**: Tone risk assessment
+- **I (Intent)**: Tone intent understanding
+- **A (Action)**: Tone enforcement
+
+---
+
+## Observability
+
+```python
+REQUIRED_SPANS = [
+    "lukhas.tone.operation",     # Tone operations
+]
+```
+
+---
+
+## Performance Targets
+
+- **Tone Detection**: <50ms per document
+- **Tone Enforcement**: <100ms validation
+- **Tone Modulation**: <2s transformation
+- **Real-time Analysis**: <200ms
+
+---
+
+## Related Modules
+
+- **Branding** ([../branding/](../branding/)) - Parent branding system
+- **Feedback** ([../feedback/](../feedback/)) - Tone quality feedback
+
+---
+
+**Status**: Integration Lane (L2)
+**Team**: Core
+**Last Updated**: 2025-10-02
