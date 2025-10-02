@@ -361,10 +361,19 @@ See [`docs/consciousness/README.md`](docs/consciousness/README.md) for comprehen
 
 ## 📚 Documentation
 
-- **[Architecture Guide](docs/architecture/README.md)** - Complete system architecture
+### **Getting Started** 🚀
+- **[Quick Start Guide](docs/QUICK_START_GUIDE.md)** - 15-minute installation to first decision
+- **[Visual Architecture Guide](docs/VISUAL_ARCHITECTURE_GUIDE.md)** - ASCII & Mermaid diagrams
+- **[Core API Reference](docs/API_REFERENCE_CORE.md)** - Complete API documentation with examples
+
+### **Architecture & Design** 🏗️
+- **[Architecture Overview](docs/ARCHITECTURE_OVERVIEW.md)** - Complete system with 0.01% standard
+- **[Architecture Guide](docs/architecture/README.md)** - Deep dive into system design
+- **[MΛTRIZ Guide](docs/MATRIZ_GUIDE.md)** - Cognitive engine documentation
+
+### **Development & API** 🛠️
 - **[Developer Guide](docs/development/README.md)** - Development workflows and standards
-- **[MATRIZ Guide](docs/MATRIZ_GUIDE.md)** - Cognitive engine documentation
-- **[API Reference](docs/api/README.md)** - Complete API documentation
+- **[API Reference](docs/api/README.md)** - Comprehensive API documentation
 - **[Multi-Agent System](AGENTS.md)** - AI agent coordination platform
 
 ## 🚀 Enterprise Deployment
