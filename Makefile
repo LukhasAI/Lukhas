@@ -10,7 +10,7 @@
 .PHONY: validate-matrix-all authz-run coverage-report matrix-v3-upgrade matrix-v3-check matrix-tokenize matrix-provenance matrix-verify-provenance manifests-validate manifest-lock manifest-index manifest-diff conformance-generate conformance-test manifest-system
 .PHONY: matriz-audit matriz-where
 .PHONY: scaffold-dry scaffold-apply scaffold-apply-force scaffold-diff scaffold-diff-all validate-scaffold sync-module sync-module-force
-.PHONY: validate-configs validate-secrets validate-naming readiness-score readiness-detailed quality-report test-shards test-parallel t4-sim-lane imports-guard audit-validate-ledger
+.PHONY: validate-configs validate-secrets validate-naming readiness-score readiness-detailed quality-report test-shards test-parallel t4-sim-lane imports-guard audit-validate-ledger feedback-validate
 .PHONY: emergency-bypass clean-artifacts dev-setup status ci-validate ci-artifacts help
 
 # Note: Additional PHONY targets are declared in mk/*.mk include files
@@ -1011,3 +1011,8 @@ imports-guard:
 audit-validate-ledger:
 	@echo "🔍 Validating audit ledgers against schema..."
 	@python3 -c "import json, sys, glob; from jsonschema import validate; import pathlib; base = pathlib.Path('schemas'); schema = json.load(open(base/'audit_event_v1.json')); errors = 0; [validate(json.loads(line), schema) or True for p in glob.glob('audit_logs/ledger.jsonl') for line in open(p)]; print('✅ All ledger events conform to schema')"
+
+.PHONY: feedback-validate
+feedback-validate:
+	@echo "🔍 Validating feedback events against schema..."
+	@python3 -c "import json, sys, pathlib; from jsonschema import Draft202012Validator; schema = json.loads(pathlib.Path('schemas/feedback_event_v1.json').read_text()); validator = Draft202012Validator(schema); p = pathlib.Path('audit_logs/feedback.jsonl'); print('⚠️  No feedback file found') if not p.exists() else ([print(f'❌ Invalid event line {i}: {e.message}') for i, line in enumerate(p.read_text().splitlines(), 1) for e in validator.iter_errors(json.loads(line))]) or print('✅ All feedback events conform to schema')"

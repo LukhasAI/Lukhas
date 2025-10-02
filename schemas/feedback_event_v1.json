@@ -1,18 +1,32 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "lukhas:feedback_event_v1.json",
-  "title": "FeedbackEventV1",
+  "$id": "lukhas:feedback_event_v1",
+  "title": "LUKHAS Feedback Event v1",
   "type": "object",
-  "required": ["node_id", "ts", "user_id", "rating"],
+  "required": ["node_id", "rating", "created_at", "consent"],
+  "additionalProperties": false,
   "properties": {
-    "node_id": { "type": "string" },
-    "ts": { "type": "number" },
-    "user_id": { "type": "string" },
+    "node_id": { "type": "string", "description": "Audit node id this feedback refers to" },
+    "user_id": { "type": ["string", "null"] },
+    "session_id": { "type": ["string", "null"] },
     "rating": { "type": "number", "minimum": 0, "maximum": 10 },
-    "free_text": { "type": "string" },
-    "labels": { "type": "array", "items": { "type": "string" } },
-    "followup_required": { "type": "boolean" },
-    "capability_change_request": { "type": "object", "additionalProperties": true }
-  },
-  "additionalProperties": false
+    "comment": { "type": "string", "maxLength": 4000 },
+    "tags": { "type": "array", "items": { "type": "string", "maxLength": 64 }, "maxItems": 16 },
+    "action": { "type": "string", "enum": ["improve", "report_issue", "praise", "other"], "default": "improve" },
+    "consent": {
+      "type": "object",
+      "required": ["feedback.store"],
+      "properties": {
+        "feedback.store": { "type": "boolean" },
+        "pii.read": { "type": "boolean", "default": false }
+      },
+      "additionalProperties": false
+    },
+    "created_at": { "type": "string", "format": "date-time" },
+    "meta": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "optional client metadata (browser/version, lane, build)"
+    }
+  }
 }
