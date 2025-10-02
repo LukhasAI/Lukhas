@@ -143,6 +143,30 @@
 
     "contracts": { "type": "array", "items": { "$ref": "#/$defs/relpath" } },
 
+    "aliases": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Alternative import names for this module (e.g., legacy paths)",
+      "default": []
+    },
+
+    "deprecations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "old_name": { "type": "string" },
+          "until": { "type": "string", "format": "date" },
+          "replace_with": { "type": "string" },
+          "migration_guide": { "type": "string" }
+        },
+        "required": ["old_name", "until", "replace_with"]
+      },
+      "description": "Deprecated module names with migration timeline",
+      "default": []
+    },
+
     "metadata": {
       "type": "object",
       "additionalProperties": false,
