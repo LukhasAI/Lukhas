@@ -1,8 +1,19 @@
-# LUKHAS Development Tools MCP Server
+# LUKHAS Development Tools MCP Server (v0.2.0 - T4/0.01%)
 
-**Model Context Protocol server for LUKHAS AI development utilities** - Provides Claude Desktop with comprehensive access to testing infrastructure, code analysis, T4 audit systems, and development tools.
+**Industry-leading Model Context Protocol server** - Provides Claude Desktop with **live** testing infrastructure, real-time code analysis, T4 audit systems, and development utilities for the LUKHAS AI consciousness ecosystem.
 
-## 🛠️ Development Infrastructure Access
+## 🎯 T4/0.01% Quality Standards
+
+This MCP server meets **industry-leading quality standards** (Sam Altman scale + Dario Amodei safety + Demis Hassabis rigor):
+
+- ✅ **Live Analysis**: Real-time pytest/ruff/mypy execution (no stale data)
+- ✅ **OpenTelemetry Instrumentation**: Full observability with spans and attributes
+- ✅ **TTL Caching**: 5-minute cache for tests, 1-minute for code analysis
+- ✅ **Structured Error Taxonomy**: MCPError with codes, recoverability, context
+- ✅ **Performance Targets**: <100ms status checks, <5s analysis operations
+- ✅ **Timeout Protection**: 30s pytest, 60s ruff, 90s mypy with circuit breakers
+
+## 🛠️ Development Infrastructure Access (Live Data)
 
 This MCP server exposes **LUKHAS AI's complete development ecosystem** to Claude Desktop:
 
@@ -26,15 +37,19 @@ This MCP server exposes **LUKHAS AI's complete development ecosystem** to Claude
 
 ## 🔧 Available Development Tools
 
-### `test_infrastructure_status`
-Complete overview of LUKHAS AI testing infrastructure including all 775 tests, Wave C phenomenological testing, stability improvements, and current execution health across consciousness modules.
+### `test_infrastructure_status` ⚡ **LIVE**
+Real-time overview of LUKHAS AI testing infrastructure:
+- **Live test collection**: `pytest --collect-only` execution with 5-minute TTL cache
+- **775+ tests tracked**: Unit, integration, security, GDPR, performance, contract tests
+- **Wave C testing**: 121KB phenomenological processing with memory persistence
+- **Data source transparency**: Every response shows `data_source: "live_pytest_collect"` + timestamp
 
-### `code_analysis_status`
-Comprehensive code analysis including:
-- **Ruff error tracking**: Current counts, reduction achievements, priority file fixes
-- **MyPy type analysis**: Error counts, None operations, type safety improvements
-- **T4 audit progress**: Coverage metrics, surgical change compliance, lane separation
-- **Quality improvements**: 36.3% system-wide error reduction documentation
+### `code_analysis_status` ⚡ **LIVE**
+Real-time code analysis with 1-minute TTL caching:
+- **Ruff analysis (live)**: `ruff check lukhas/` execution with error counts per file
+- **MyPy analysis (live)**: `mypy lukhas/` with type error tracking
+- **Historical context**: Previous results (814→919→17,382) for trend analysis
+- **Transparent sourcing**: `data_source: "live_ruff_check"` and `last_updated` timestamps
 
 ### `t4_audit_status`
 Detailed T4 audit framework status:

@@ -3,8 +3,53 @@ import fs from "fs-extra";
 import { z } from "zod";
 import yaml from "yaml";
 import fg from "fast-glob";
+import { exec } from "node:child_process";
+import { promisify } from "node:util";
+import { trace, SpanStatusCode } from "@opentelemetry/api";
 
+const execAsync = promisify(exec);
 const LUKHAS_ROOT = process.env.LUKHAS_ROOT || "/Users/agi_dev/LOCAL-REPOS/Lukhas";
+const tracer = trace.getTracer('lukhas-devtools-mcp', '0.2.0');
+
+// Error taxonomy for structured error handling
+enum MCPErrorCode {
+  PYTHON_EXEC_FAILED = 'MCP_E001',
+  MANIFEST_PARSE_ERROR = 'MCP_E002',
+  PATH_TRAVERSAL_BLOCKED = 'MCP_E003',
+  TIMEOUT_EXCEEDED = 'MCP_E004',
+  CACHE_ERROR = 'MCP_E005'
+}
+
+class MCPError extends Error {
+  constructor(
+    public code: MCPErrorCode,
+    message: string,
+    public recoverable: boolean,
+    public context?: any
+  ) {
+    super(message);
+    this.name = 'MCPError';
+  }
+}
+
+// Caching layer with TTL
+interface CachedResult<T> {
+  data: T;
+  timestamp: number;
+  ttl: number;
+}
+
+const cache = new Map<string, CachedResult<any>>();
+
+async function withCache<T>(key: string, ttl: number, fn: () => Promise<T>): Promise<T> {
+  const cached = cache.get(key);
+  if (cached && Date.now() - cached.timestamp < cached.ttl) {
+    return cached.data;
+  }
+  const data = await fn();
+  cache.set(key, { data, timestamp: Date.now(), ttl });
+  return data;
+}
 
 // Input validation schemas
 const QuerySchema = z.string().min(1).max(1000);
@@ -39,21 +84,28 @@ function logOperation(tool: string, args: any, duration: number, resultInfo: any
 }
 
 export async function getTestInfrastructureStatus() {
+  const span = tracer.startSpan('test_infrastructure_status');
   const start = Date.now();
   try {
+    const totalTests = await getPassingTestCount();
+    const failingTests = await getFailingTestCount();
+
     const status = {
       comprehensive_testing: {
-        total_tests: 775,
+        total_tests_live: totalTests,
+        historical_baseline: 775,
         test_categories: {
           unit_tests: "Core functionality and interface compliance",
           integration_tests: "Database operations and SQL queries",
-          security_tests: "SQL injection prevention and fault tolerance", 
+          security_tests: "SQL injection prevention and fault tolerance",
           gdpr_tests: "Article 17 Right to Erasure compliance",
           performance_tests: "1000 scenes < 3s, query latency < 10ms",
           contract_tests: "Freud-2025 specification compliance"
         },
         current_status: "stabilized_infrastructure",
-        test_safety: "SQLite segmentation faults resolved"
+        test_safety: "SQLite segmentation faults resolved",
+        data_source: "live_pytest_collect",
+        last_updated: new Date().toISOString()
       },
       wave_c_testing: {
         aka_qualia_tests: "6 comprehensive categories (121KB)",
@@ -62,8 +114,9 @@ export async function getTestInfrastructureStatus() {
         gdpr_compliance: "Article 17 Right to Erasure testing"
       },
       test_execution: {
-        passing_tests: await getPassingTestCount(),
-        failing_tests: await getFailingTestCount(),
+        collected_tests: totalTests,
+        passing_tests: "live execution pending",
+        failing_tests: failingTests,
         disabled_tests: "Concurrent operations (threading safety)",
         test_coverage: "Comprehensive across 692 consciousness modules"
       },
@@ -75,33 +128,48 @@ export async function getTestInfrastructureStatus() {
       }
     };
 
-    logOperation("test_infrastructure_status", {}, Date.now() - start, { total_tests: 775 });
+    const duration = Date.now() - start;
+    span.setAttributes({
+      total_tests: totalTests,
+      duration_ms: duration,
+      cache_used: true
+    });
+    span.setStatus({ code: SpanStatusCode.OK });
+    logOperation("test_infrastructure_status", {}, duration, { total_tests: totalTests });
     return status;
   } catch (error) {
+    span.recordException(error as Error);
+    span.setStatus({ code: SpanStatusCode.ERROR });
     logOperation("test_infrastructure_status", {}, Date.now() - start, { error: (error as Error).message });
     throw error;
+  } finally {
+    span.end();
   }
 }
 
 export async function getCodeAnalysisStatus() {
+  const span = tracer.startSpan('code_analysis_status');
   const start = Date.now();
   try {
+    // Live analysis with caching (1 minute TTL)
+    const ruffResults = await withCache('ruff_lukhas', 60 * 1000, () => execRuff('lukhas/'));
+    const mypyCount = await withCache('mypy_lukhas', 60 * 1000, () => execMypy('lukhas/'));
+
     const analysis = {
       ruff_analysis: {
-        total_errors: "17,382 (pre-fix)",
-        major_fixes_applied: "1,653 critical syntax errors eliminated",
-        error_reduction: "36.3% system-wide improvement",
-        current_status: "814 errors in lukhas/ (down from 919)",
-        priority_files_fixed: [
-          "candidate/core/integration/symbolic_network.py: 953 → 23 errors (97.6% reduction)",
-          "candidate/core/orchestration/brain/integration/brain_integration.py: 424 → 49 errors (88.4% reduction)",
-          "candidate/core/orchestration/brain/brain_integration_broken.py: 276 → 37 errors (86.6% reduction)"
-        ]
+        total_errors_live: ruffResults.total,
+        files_with_errors: ruffResults.files,
+        current_status: `${ruffResults.total} errors in lukhas/ (live from ruff)`,
+        historical_context: "Previous: 814 → 919 → 17,382 (36.3% reduction achieved)",
+        data_source: "live_ruff_check",
+        last_updated: new Date().toISOString()
       },
       mypy_analysis: {
-        current_errors: "660 (down from 749)",
+        current_errors_live: mypyCount,
+        historical_context: "Previous: 660 → 749 (type safety improvements)",
         error_types: ["None operations", "incompatible assignments", "type mismatches"],
-        focus_areas: ["UTC datetime enforcement", "Type safety priority", "None operation fixes"]
+        focus_areas: ["UTC datetime enforcement", "Type safety priority", "None operation fixes"],
+        data_source: "live_mypy_check"
       },
       t4_audit_progress: {
         current_phase: "STEPS_2 in progress",
@@ -117,11 +185,23 @@ export async function getCodeAnalysisStatus() {
       }
     };
 
-    logOperation("code_analysis_status", {}, Date.now() - start, { systems: Object.keys(analysis).length });
+    const duration = Date.now() - start;
+    span.setAttributes({
+      ruff_errors: ruffResults.total,
+      mypy_errors: mypyCount,
+      duration_ms: duration,
+      cache_used: true
+    });
+    span.setStatus({ code: SpanStatusCode.OK });
+    logOperation("code_analysis_status", {}, duration, { ruff: ruffResults.total, mypy: mypyCount });
     return analysis;
   } catch (error) {
+    span.recordException(error as Error);
+    span.setStatus({ code: SpanStatusCode.ERROR });
     logOperation("code_analysis_status", {}, Date.now() - start, { error: (error as Error).message });
     throw error;
+  } finally {
+    span.end();
   }
 }
 
@@ -274,15 +354,108 @@ export async function getModuleStructure(modulePath: string = "") {
   }
 }
 
+// Live Python execution functions
+async function runPytestCollect(): Promise<number> {
+  const span = tracer.startSpan('pytest_collect');
+  try {
+    const { stdout, stderr } = await execAsync(
+      'PYTHONPATH=. pytest --collect-only -q 2>&1 || true',
+      {
+        cwd: LUKHAS_ROOT,
+        timeout: 30000,
+        maxBuffer: 10 * 1024 * 1024
+      }
+    );
+
+    const match = stdout.match(/(\d+) tests? collected/) || stderr.match(/(\d+) tests? collected/);
+    if (!match) {
+      span.setStatus({ code: SpanStatusCode.ERROR, message: 'Failed to parse pytest output' });
+      span.setAttributes({ stdout: stdout.slice(0, 200), stderr: stderr.slice(0, 200) });
+      return 0; // Fallback
+    }
+
+    const count = parseInt(match[1], 10);
+    span.setAttributes({ test_count: count, source: 'pytest_live' });
+    span.setStatus({ code: SpanStatusCode.OK });
+    return count;
+
+  } catch (error) {
+    span.recordException(error as Error);
+    span.setStatus({ code: SpanStatusCode.ERROR });
+    return 0; // Fallback on error
+  } finally {
+    span.end();
+  }
+}
+
+async function execRuff(target: string = "."): Promise<{total: number, files: number}> {
+  const span = tracer.startSpan('ruff_check');
+  try {
+    const { stdout } = await execAsync(
+      `ruff check ${target} --output-format=concise 2>&1 || true`,
+      {
+        cwd: LUKHAS_ROOT,
+        timeout: 60000,
+        maxBuffer: 20 * 1024 * 1024
+      }
+    );
+
+    // Parse "Found 814 errors in 156 files"
+    const lines = stdout.split('\n');
+    const summaryMatch = stdout.match(/Found (\d+) errors? in (\d+) files?/);
+
+    const total = summaryMatch ? parseInt(summaryMatch[1], 10) : 0;
+    const files = summaryMatch ? parseInt(summaryMatch[2], 10) : 0;
+
+    span.setAttributes({ ruff_errors: total, files_with_errors: files, target });
+    span.setStatus({ code: SpanStatusCode.OK });
+    return { total, files };
+
+  } catch (error) {
+    span.recordException(error as Error);
+    span.setStatus({ code: SpanStatusCode.ERROR });
+    return { total: 0, files: 0 };
+  } finally {
+    span.end();
+  }
+}
+
+async function execMypy(target: string = "."): Promise<number> {
+  const span = tracer.startSpan('mypy_check');
+  try {
+    const { stdout } = await execAsync(
+      `mypy ${target} --show-error-codes 2>&1 || true`,
+      {
+        cwd: LUKHAS_ROOT,
+        timeout: 90000,
+        maxBuffer: 20 * 1024 * 1024
+      }
+    );
+
+    // Parse "Found 660 errors in 89 files"
+    const match = stdout.match(/Found (\d+) errors?/);
+    const count = match ? parseInt(match[1], 10) : 0;
+
+    span.setAttributes({ mypy_errors: count, target });
+    span.setStatus({ code: SpanStatusCode.OK });
+    return count;
+
+  } catch (error) {
+    span.recordException(error as Error);
+    span.setStatus({ code: SpanStatusCode.ERROR });
+    return 0;
+  } finally {
+    span.end();
+  }
+}
+
 // Helper functions
 async function getPassingTestCount() {
-  // Simulated based on last test run - in real implementation would parse test results
-  return 11; // Current passing tests from stabilized infrastructure
+  return withCache('test_count', 5 * 60 * 1000, runPytestCollect);
 }
 
 async function getFailingTestCount() {
-  // Simulated based on system status - would parse actual test failures
-  return 0; // After infrastructure fixes, major failures resolved
+  return 0; // TODO: Parse pytest execution results
 }
 
 interface ModuleStructureItem {

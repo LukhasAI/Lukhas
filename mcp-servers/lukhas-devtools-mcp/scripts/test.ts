@@ -16,20 +16,20 @@ async function runDevToolsTests() {
     console.log("1. Testing infrastructure status...");
     const testStatus = await getTestInfrastructureStatus();
     console.log("✅ Testing infrastructure status retrieved");
-    console.log(`   - Total tests: ${testStatus.comprehensive_testing.total_tests}`);
+    console.log(`   - Total tests (live): ${(testStatus.comprehensive_testing as any).total_tests_live}`);
     console.log(`   - Test categories: ${Object.keys(testStatus.comprehensive_testing.test_categories).length}`);
     console.log(`   - Current status: ${testStatus.comprehensive_testing.current_status}`);
-    console.log(`   - Passing tests: ${testStatus.test_execution.passing_tests}`);
+    console.log(`   - Collected tests: ${(testStatus.test_execution as any).collected_tests}`);
     console.log(`   - Infrastructure health: ${testStatus.infrastructure_health.system_stability}`);
-    
+
     // Test code analysis status
     console.log("\n2. Testing code analysis status...");
     const codeAnalysis = await getCodeAnalysisStatus();
     console.log("✅ Code analysis status retrieved");
-    console.log(`   - Total errors (pre-fix): ${codeAnalysis.ruff_analysis.total_errors}`);
-    console.log(`   - Error reduction: ${codeAnalysis.ruff_analysis.error_reduction}`);
+    console.log(`   - Ruff errors (live): ${(codeAnalysis.ruff_analysis as any).total_errors_live}`);
+    console.log(`   - Files with errors: ${(codeAnalysis.ruff_analysis as any).files_with_errors}`);
     console.log(`   - Current Ruff errors: ${codeAnalysis.ruff_analysis.current_status}`);
-    console.log(`   - MyPy errors: ${codeAnalysis.mypy_analysis.current_errors}`);
+    console.log(`   - MyPy errors (live): ${(codeAnalysis.mypy_analysis as any).current_errors_live}`);
     console.log(`   - Lane guard: ${codeAnalysis.code_quality.lane_guard}`);
     
     // Test T4 audit status
