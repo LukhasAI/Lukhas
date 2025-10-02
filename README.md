@@ -6,7 +6,7 @@ LUKHAS AI is a sophisticated cognitive platform that implements consciousness-in
 
 ## 🧠 What is LUKHAS?
 
-LUKHAS (Layered Universal Knowledge Handling and Awareness System) is designed around the **Constellation Framework** - a dynamic cognitive architecture that coordinates:
+LUKHAS (Logic Unified Knowledge Hyper Adaptable System) is designed around the **Constellation Framework** - a dynamic cognitive architecture that coordinates:
 
 - **⚛️ Anchor Star (Identity)**: Authentication, ΛiD system, secure access
 - **✦ Trail Star (Memory)**: Experience patterns, fold-based memory systems
@@ -139,6 +139,24 @@ docs/                      # Documentation and guides
 ├── architecture/          # System architecture documentation
 └── ADR/                   # Architectural Decision Records
 ```
+
+## 📋 Manifests (T4/0.01%)
+
+The LUKHAS manifest system provides executable contracts for all modules:
+
+- **System overview:** [FINAL_SUMMARY](docs/manifests/FINAL_SUMMARY.md)
+- **Conformance report:** [MANIFEST_CONFORMANCE_REPORT](docs/MANIFEST_CONFORMANCE_REPORT.md)
+- **How it works:** [MANIFEST_SYSTEM](docs/MANIFEST_SYSTEM.md)
+
+**Run locally:**
+```bash
+make manifest-system     # validate → lock → index → diff → generate tests → run
+```
+
+**Key metrics:**
+- 147 modules indexed
+- 490/490 conformance tests passing
+- Schema v3.1.0 (aliases + deprecations)
 
 ## 💡 Key Concepts
 

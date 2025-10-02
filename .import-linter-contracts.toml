@@ -1,0 +1,57 @@
+# LUKHAS Import Linter Contracts
+# Enforces architectural boundaries and prevents unwanted dependencies
+
+[tool.importlinter]
+root_packages = ["consciousness", "adapters", "core", "memory", "identity", "api"]
+
+# Contract 1: Adapter Isolation
+# Simulation code MUST NOT import from adapters
+[[tool.importlinter.contracts]]
+name = "simulation-adapter-isolation"
+type = "forbidden"
+source_modules = ["consciousness.simulation"]
+forbidden_modules = ["adapters"]
+allow_indirect_imports = false
+
+# Contract 2: Core Dependencies
+# Consciousness module can only import from core, memory, identity
+[[tool.importlinter.contracts]]
+name = "consciousness-dependencies"
+type = "layers"
+layers = [
+    "consciousness",
+    "memory | identity | core"
+]
+
+# Contract 3: Memory System Isolation
+# Memory fold system must not leak into adapters
+[[tool.importlinter.contracts]]
+name = "memory-adapter-boundary"
+type = "forbidden"
+source_modules = ["adapters"]
+forbidden_modules = ["memory.fold_system"]
+allow_indirect_imports = false
+
+# Contract 4: Identity Core Protection
+# Only identity module can import identity.core
+[[tool.importlinter.contracts]]
+name = "identity-core-protection"
+type = "forbidden"
+source_modules = [
+    "api",
+    "analytics",
+    "ai_orchestration",
+    "adapters",
+    "consciousness"
+]
+forbidden_modules = ["identity.core"]
+allow_indirect_imports = false
+
+# Contract 5: T4 Lane Boundaries
+# Experimental modules cannot import from production lanes
+[[tool.importlinter.contracts]]
+name = "lane-boundaries"
+type = "forbidden"
+source_modules = ["consciousness.simulation"]
+forbidden_modules = ["api.production", "identity.production"]
+allow_indirect_imports = false

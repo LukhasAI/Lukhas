@@ -24,6 +24,26 @@ The consciousness module core consciousness processing and awareness systems
 - **`process_consciousness_stream()`** — Processes consciousness stream operations
 - **`get_status()`** — Retrieves status information
 
+### Simulation API
+
+**🎯 Capability-Gated Access**: All simulation operations require proper scoping through the `consciousness.simulation.*` namespace.
+
+#### Core Operations
+- **`consciousness.simulation.schedule`** — Schedule simulation experiments with ethics validation
+- **`consciousness.simulation.collect`** — Collect and analyze simulation results
+- **`consciousness.simulation.dream_inbox.write`** — Write simulation outputs to Dream Inbox (memory-gated)
+
+#### Safety Features
+- **Ethics Gate**: Automatically validates consent, duress/shadow patterns, unsafe goal keywords
+- **Feature Flag**: `SIMULATION_ENABLED` runtime toggle for all simulation capabilities
+- **Adapter Isolation**: Strict import boundaries prevent simulation code from accessing external adapters
+- **MATADA Validation**: All simulation nodes validate against `schemas/matriz_node_v1.json`
+
+#### Documentation
+- **Summary**: See `docs/consciousness/SIMULATION_SUMMARY.md` for complete capability overview
+- **Schemas**: MATADA node envelopes defined in `schemas/` directory
+- **Testing**: Canary tests available via `make t4-sim-lane`
+
 ## Technical Architecture
 
 **Language**: Python | **Entrypoints**: 18 | **Team**: Consciousness

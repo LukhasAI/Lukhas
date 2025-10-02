@@ -6,6 +6,14 @@ This directory contains all documentation for the MΛTRIZ distributed consciousn
 
 ### 🧠 **Consciousness Documentation**
 
+#### `/consciousness/` - Active Consciousness Systems
+**Production consciousness module documentation** including simulation capabilities, awareness engines, and cognitive processing systems.
+
+- **SIMULATION_SUMMARY.md** - T4/0.01% simulation lane capabilities and safety controls
+- **README.md** - Core consciousness interfaces and architecture overview
+- **Simulation API** - Capability-gated simulation scheduling and collection
+- **Ethics Gates** - Consent validation and safety enforcement
+
 #### `/consciousness_recovery/` - Legacy Architecture Recovery
 **Critical consciousness architecture documentation** recovered from legacy LUKHAS/Lucas AI archives. These files represent the foundational theoretical framework for the MΛTRIZ distributed consciousness system.
 
@@ -103,9 +111,10 @@ Utility scripts and automation tools documentation.
 ## 🚀 Quick Navigation
 
 ### For Developers
-- Start with `/consciousness_recovery/INDEX.md` for architecture overview
+- Start with `/consciousness/README.md` for active consciousness systems
+- Review `/consciousness/SIMULATION_SUMMARY.md` for T4 simulation capabilities
+- Check `/consciousness_recovery/INDEX.md` for architecture overview
 - Review `/audits/AUDIT_PLAN.md` for current quality standards
-- Check `/consciousness_research_complete/MASTER_INDEX.md` for research
 
 ### For Researchers
 - Explore `/consciousness_research_complete/` by platform or topic

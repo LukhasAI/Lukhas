@@ -36,3 +36,11 @@ jobs:
             artifacts/**
             **/module.manifest.lock.json
           retention-days: 7
+
+      - name: Upload manifest summary
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: manifest-summary
+          path: docs/manifests/FINAL_SUMMARY.md
+          retention-days: 30
