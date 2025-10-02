@@ -1,0 +1,79 @@
+# System Module - LUKHAS System Utilities & Common Components
+
+**Module**: system
+**Lane**: L2 Integration
+**Team**: Core
+**Purpose**: System-level utilities, common interfaces, and shared components for LUKHAS infrastructure
+
+---
+
+## Overview
+
+The system module provides foundational system utilities, common interfaces, and shared components used across LUKHAS AI. Contains 12 common utilities for logging, configuration, error handling, and system operations.
+
+**Key Features**:
+- Common interfaces for system components
+- Shared utility functions
+- System configuration management
+- Error handling infrastructure
+- Logging utilities
+
+---
+
+## Architecture
+
+```
+system/
+├── __init__.py
+├── module.manifest.json
+├── common/
+│   ├── interfaces.py        # Common interfaces
+│   ├── config.py           # Configuration utilities
+│   ├── logging.py          # Logging setup
+│   ├── errors.py           # Error classes
+│   └── utils.py            # Utility functions (12 total)
+├── docs/
+├── tests/
+└── config/
+```
+
+---
+
+## Core Components
+
+### Common Interfaces
+```python
+from system.common.interfaces import (
+    Component,
+    Service,
+    Plugin,
+)
+
+# Base interface for LUKHAS components
+class MyComponent(Component):
+    def initialize(self): pass
+    def start(self): pass
+    def stop(self): pass
+```
+
+### Configuration Management
+```python
+from system.common.config import load_config
+
+config = load_config("config.yaml")
+```
+
+### Error Handling
+```python
+from system.common.errors import (
+    LUKHASError,
+    ConfigurationError,
+    ValidationError,
+)
+```
+
+---
+
+**Module Status**: L2 Integration
+**Schema Version**: 3.0.0
+**Last Updated**: 2025-10-02

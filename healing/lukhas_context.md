@@ -1,0 +1,47 @@
+> **Note**: This is a vendor-neutral version of claude.me for compatibility with any AI tool or development environment.
+
+
+# Healing Module - LUKHAS Self-Healing & Recovery Systems
+
+**Module**: healing
+**Lane**: L2 Integration
+**Team**: Core
+**Purpose**: Self-healing, automatic recovery, and system resilience infrastructure
+
+---
+
+## Overview
+
+The healing module provides self-healing capabilities for LUKHAS AI systems, including automatic error recovery, health monitoring, and resilience patterns.
+
+**Key Features**:
+- Automatic error recovery
+- Health monitoring and diagnostics
+- Circuit breaker recovery
+- Graceful degradation
+- System resilience patterns
+
+---
+
+## Core Capabilities
+
+### Self-Healing
+```python
+from healing import AutoRecovery
+
+recovery = AutoRecovery()
+recovery.enable_auto_heal()
+```
+
+### Health Monitoring
+```python
+from healing import HealthMonitor
+
+monitor = HealthMonitor()
+health = monitor.check_system_health()
+```
+
+---
+
+**Module Status**: L2 Integration
+**Last Updated**: 2025-10-02

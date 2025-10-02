@@ -1,0 +1,37 @@
+> **Note**: This is a vendor-neutral version of claude.me for compatibility with any AI tool or development environment.
+
+
+# Packages Module - LUKHAS Package Management
+
+**Module**: packages
+**Lane**: L2 Integration
+**Team**: Core
+**Purpose**: Package management, dependency resolution, and distribution infrastructure
+
+---
+
+## Overview
+
+The packages module manages LUKHAS package distribution, dependency resolution, and package metadata.
+
+**Key Features**:
+- Package versioning
+- Dependency management
+- Distribution to PyPI/NPM
+- Package metadata
+
+---
+
+## Package Management
+
+```python
+from packages import PackageManager
+
+manager = PackageManager()
+manager.publish("lukhas-core", version="1.0.0")
+```
+
+---
+
+**Module Status**: L2 Integration
+**Last Updated**: 2025-10-02

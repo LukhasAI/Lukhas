@@ -1,0 +1,39 @@
+> **Note**: This is a vendor-neutral version of claude.me for compatibility with any AI tool or development environment.
+
+
+# Modules Module - LUKHAS Module Registry & Discovery
+
+**Module**: modules
+**Lane**: L2 Integration
+**Team**: Core
+**Purpose**: Module registry, discovery system, and module lifecycle management
+
+---
+
+## Overview
+
+The modules module provides module registry, discovery, and lifecycle management for LUKHAS AI components.
+
+**Key Features**:
+- Module registration
+- Dynamic module loading
+- Module discovery
+- Lifecycle management
+- Dependency injection
+
+---
+
+## Module Management
+
+```python
+from modules import ModuleRegistry
+
+registry = ModuleRegistry()
+registry.register_module("consciousness", consciousness_module)
+module = registry.get_module("consciousness")
+```
+
+---
+
+**Module Status**: L2 Integration
+**Last Updated**: 2025-10-02
