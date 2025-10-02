@@ -1,0 +1,645 @@
+> **Note**: This is a vendor-neutral version of claude.me for compatibility with any AI tool or development environment.
+
+
+# Reasoning Module - LUKHAS Symbolic & Causal Reasoning Engine
+
+**Module**: reasoning
+**Lane**: L2 Integration
+**Team**: Core
+**Purpose**: Symbolic reasoning, causal inference, and adaptive reasoning systems for cognitive processing
+
+---
+
+## Overview
+
+The reasoning module implements LUKHAS's advanced reasoning capabilities, including symbolic reasoning, causal inference, adaptive reasoning loops, and oracle-based prediction systems. This module provides the foundational thinking and inference capabilities across the LUKHAS AI platform.
+
+**Key Components** (12 reasoning systems):
+- Causal reasoning engines
+- Symbolic reasoning systems
+- Adaptive reasoning loops
+- Oracle predictors
+- Reasoning metrics and analytics
+
+**MATRIZ Integration**:
+- **Thought Stage**: Primary integration point
+- **Attention Stage**: Active reasoning focus
+
+**Cognitive Domains**: Symbolic reasoning, causal inference
+
+---
+
+## Architecture
+
+### Module Structure
+
+```
+reasoning/
+├── __init__.py                              # Module initialization
+├── module.manifest.json                     # Module metadata
+├── README.md                                # Module overview
+├── causal_reasoning/
+│   └── __init__.py                         # Basic causal reasoning
+├── causal_reasoning_module/
+│   └── __init__.py                         # Extended causal reasoning module
+├── causal_reasoning_engine/
+│   └── __init__.py                         # Core causal reasoning engine
+├── causal_program_inducer/
+│   └── __init__.py                         # Causal program induction
+├── symbolic_reasoning/
+│   └── __init__.py                         # Symbolic logic and inference
+├── collapse_reasoner/
+│   └── __init__.py                         # Quantum-inspired collapse reasoning
+├── adaptive_reasoning_loop/
+│   └── __init__.py                         # Self-adapting reasoning system
+├── reasoning_engine/
+│   └── __init__.py                         # General reasoning engine
+├── oracle_predictor/
+│   └── __init__.py                         # Oracle-based prediction system
+├── openai_oracle_adapter/
+│   └── __init__.py                         # OpenAI oracle integration
+├── trace_summary_builder/
+│   └── __init__.py                         # Reasoning trace summarization
+├── reasoning_metrics/
+│   └── __init__.py                         # Reasoning performance metrics
+├── docs/                                    # Documentation
+├── tests/
+│   ├── conftest.py
+│   ├── test_reasoning_unit.py
+│   └── test_reasoning_integration.py
+└── config/                                  # Configuration
+```
+
+---
+
+## Core Components
+
+### 1. Causal Reasoning Systems
+
+**Causal Reasoning Engine** (`causal_reasoning_engine/`)
+- Core causal inference engine
+- Causal graph construction and analysis
+- Intervention and counterfactual reasoning
+- Causal strength estimation
+
+**Causal Reasoning Module** (`causal_reasoning_module/`)
+- Extended causal reasoning capabilities
+- Multi-level causal analysis
+- Temporal causal patterns
+- Causal chain discovery
+
+**Causal Program Inducer** (`causal_program_inducer/`)
+- Induces causal programs from observations
+- Learns causal structures
+- Program synthesis for causal models
+- Automatic causal hypothesis generation
+
+**Usage Pattern**:
+```python
+from reasoning.causal_reasoning_engine import (
+    CausalEngine,
+    build_causal_graph,
+    infer_causality,
+    estimate_causal_effect,
+)
+
+# Build causal graph
+graph = build_causal_graph(
+    observations=observed_data,
+    prior_knowledge=domain_knowledge,
+)
+
+# Infer causal relationships
+causality = infer_causality(
+    cause="memory_fold_cascade",
+    effect="performance_degradation",
+    graph=graph,
+)
+
+# Estimate causal effect
+effect = estimate_causal_effect(
+    intervention="increase_fold_limit",
+    outcome="cascade_rate",
+    causal_model=model,
+)
+```
+
+---
+
+### 2. Symbolic Reasoning System
+
+**Symbolic Reasoning** (`symbolic_reasoning/`)
+- Formal logic inference
+- Rule-based reasoning
+- Symbolic pattern matching
+- Deductive and inductive reasoning
+
+**Usage Pattern**:
+```python
+from reasoning.symbolic_reasoning import (
+    SymbolicReasoner,
+    apply_rules,
+    infer_conclusions,
+    validate_logic,
+)
+
+# Create symbolic reasoner
+reasoner = SymbolicReasoner(
+    knowledge_base=kb,
+    inference_rules=rules,
+)
+
+# Apply reasoning rules
+conclusions = apply_rules(
+    premises=["All memory folds are persistent structures",
+              "Structure A is a memory fold"],
+    rules=reasoner.rules,
+)
+# Result: ["Structure A is persistent"]
+
+# Validate logical consistency
+is_valid = validate_logic(
+    statements=statements,
+    constraints=logical_constraints,
+)
+```
+
+---
+
+### 3. Adaptive Reasoning Loop
+
+**Adaptive Reasoning Loop** (`adaptive_reasoning_loop/`)
+- Self-improving reasoning system
+- Feedback-driven adaptation
+- Reasoning strategy optimization
+- Performance-based learning
+
+**Usage Pattern**:
+```python
+from reasoning.adaptive_reasoning_loop import (
+    AdaptiveReasoner,
+    run_reasoning_loop,
+    adapt_strategy,
+)
+
+# Create adaptive reasoner
+adaptive_reasoner = AdaptiveReasoner(
+    initial_strategy="deductive",
+    learning_rate=0.1,
+)
+
+# Run adaptive loop
+result = run_reasoning_loop(
+    problem=reasoning_problem,
+    reasoner=adaptive_reasoner,
+    max_iterations=100,
+)
+
+# Adapt strategy based on performance
+adapt_strategy(
+    reasoner=adaptive_reasoner,
+    performance_metrics=metrics,
+)
+```
+
+---
+
+### 4. Oracle Prediction System
+
+**Oracle Predictor** (`oracle_predictor/`)
+- Probabilistic prediction system
+- Uncertainty quantification
+- Future state forecasting
+- Confidence estimation
+
+**OpenAI Oracle Adapter** (`openai_oracle_adapter/`)
+- Integration with OpenAI models for oracle predictions
+- Multi-model consensus
+- Response validation
+
+**Usage Pattern**:
+```python
+from reasoning.oracle_predictor import (
+    OraclePredictor,
+    predict_outcome,
+    estimate_confidence,
+)
+
+from reasoning.openai_oracle_adapter import (
+    OpenAIOracleAdapter,
+    query_oracle,
+)
+
+# Create oracle predictor
+oracle = OraclePredictor(
+    model=prediction_model,
+    uncertainty_threshold=0.15,
+)
+
+# Predict outcome
+prediction = predict_outcome(
+    current_state=state,
+    time_horizon=10,  # steps ahead
+    oracle=oracle,
+)
+
+# Estimate confidence
+confidence = estimate_confidence(
+    prediction=prediction,
+    historical_accuracy=history,
+)
+
+# Use OpenAI oracle adapter
+ai_oracle = OpenAIOracleAdapter(api_key=api_key)
+ai_prediction = query_oracle(
+    query="What happens if memory cascade occurs?",
+    context=current_context,
+    adapter=ai_oracle,
+)
+```
+
+---
+
+### 5. Collapse Reasoner
+
+**Collapse Reasoner** (`collapse_reasoner/`)
+- Quantum-inspired collapse reasoning
+- Superposition state resolution
+- Probabilistic state collapse
+- Multi-possibility reasoning
+
+**Usage Pattern**:
+```python
+from reasoning.collapse_reasoner import (
+    CollapseReasoner,
+    resolve_superposition,
+    collapse_to_state,
+)
+
+# Create collapse reasoner
+collapse_reasoner = CollapseReasoner(
+    quantum_inspired=True,
+)
+
+# Resolve superposition of possibilities
+resolved_state = resolve_superposition(
+    superposition_states=[state1, state2, state3],
+    probabilities=[0.5, 0.3, 0.2],
+    reasoner=collapse_reasoner,
+)
+
+# Collapse to definite state
+definite_state = collapse_to_state(
+    possibilities=possibilities,
+    collapse_criteria=criteria,
+)
+```
+
+---
+
+### 6. Reasoning Engine
+
+**Reasoning Engine** (`reasoning_engine/`)
+- General-purpose reasoning system
+- Multi-strategy reasoning
+- Hybrid symbolic-neural reasoning
+- Reasoning pipeline orchestration
+
+**Usage Pattern**:
+```python
+from reasoning.reasoning_engine import (
+    ReasoningEngine,
+    apply_reasoning,
+    chain_reasoning,
+)
+
+# Create reasoning engine
+engine = ReasoningEngine(
+    strategies=["deductive", "abductive", "inductive"],
+    hybrid_mode=True,
+)
+
+# Apply reasoning
+result = apply_reasoning(
+    problem=problem,
+    strategy="deductive",
+    engine=engine,
+)
+
+# Chain multiple reasoning steps
+conclusion = chain_reasoning(
+    initial_state=state,
+    reasoning_steps=[step1, step2, step3],
+    engine=engine,
+)
+```
+
+---
+
+### 7. Trace Summary Builder
+
+**Trace Summary Builder** (`trace_summary_builder/`)
+- Reasoning trace summarization
+- Step-by-step reasoning documentation
+- Explanation generation
+- Interpretability support
+
+**Usage Pattern**:
+```python
+from reasoning.trace_summary_builder import (
+    TraceSummaryBuilder,
+    build_trace_summary,
+    explain_reasoning,
+)
+
+# Build reasoning trace summary
+summary = build_trace_summary(
+    reasoning_trace=trace,
+    detail_level="high",
+)
+
+# Generate explanation
+explanation = explain_reasoning(
+    trace=trace,
+    target_audience="technical",
+)
+```
+
+---
+
+### 8. Reasoning Metrics
+
+**Reasoning Metrics** (`reasoning_metrics/`)
+- Performance measurement
+- Accuracy tracking
+- Efficiency metrics
+- Quality scoring
+
+**Usage Pattern**:
+```python
+from reasoning.reasoning_metrics import (
+    track_reasoning_performance,
+    calculate_accuracy,
+    measure_efficiency,
+)
+
+# Track reasoning performance
+metrics = track_reasoning_performance(
+    reasoning_session=session,
+    ground_truth=expected_results,
+)
+
+# Calculate accuracy
+accuracy = calculate_accuracy(
+    predictions=predictions,
+    actual_outcomes=outcomes,
+)
+
+# Measure efficiency
+efficiency = measure_efficiency(
+    reasoning_time=time_taken,
+    problem_complexity=complexity,
+)
+```
+
+---
+
+## MATRIZ Pipeline Integration
+
+The reasoning module integrates deeply with the **MATRIZ (Memory-Attention-Thought-Risk-Intent-Action-Zen)** pipeline:
+
+### Thought Stage (Primary)
+```python
+# Reasoning in Thought stage
+thought_output = matriz_thought_stage(
+    memory=matriz_memory,
+    attention=matriz_attention,
+    reasoning_engine=reasoning_engine,
+)
+```
+
+### Attention Stage (Active)
+```python
+# Focus attention on relevant reasoning domains
+attention_focus = matriz_attention_stage(
+    input=input_data,
+    reasoning_contexts=reasoning_contexts,
+)
+```
+
+### Complete MATRIZ Flow with Reasoning
+```python
+from reasoning import integrate_reasoning_with_matriz
+
+# Full MATRIZ pipeline with reasoning
+result = integrate_reasoning_with_matriz(
+    memory=memory_state,
+    attention=attention_focus,
+    reasoning_strategy="causal",
+    risk_assessment=risk_level,
+    intent=intended_action,
+)
+```
+
+---
+
+## Constellation Framework Integration
+
+**Primary Constellation Points**:
+- 🔮 **Oracle**: Prediction and future state reasoning
+- 🔬 **Horizon**: Vision and long-term reasoning
+- ⚛️ **Anchor**: Identity and self-reasoning
+
+**Secondary Integration**:
+- 🧠 **Consciousness**: Awareness-driven reasoning
+- 🛡️ **Guardian**: Safety and ethical reasoning constraints
+- ✦ **Memory**: Historical pattern-based reasoning
+
+---
+
+## Performance Targets
+
+### Reasoning Operation Latency
+- **Symbolic reasoning**: <50ms for simple inferences
+- **Causal reasoning**: <200ms for causal graph operations
+- **Oracle prediction**: <500ms for complex predictions
+- **Adaptive loop**: <1s per adaptation cycle
+
+### Accuracy Targets
+- **Causal inference**: >85% accuracy on validated causal relationships
+- **Symbolic logic**: 100% logical consistency
+- **Oracle predictions**: >70% accuracy with confidence scoring
+
+---
+
+## Configuration
+
+### Reasoning Configuration
+```yaml
+reasoning:
+  causal_reasoning:
+    max_graph_depth: 5
+    min_causal_strength: 0.3
+    intervention_threshold: 0.5
+
+  symbolic_reasoning:
+    inference_engine: "forward_chaining"  # or "backward_chaining"
+    max_inference_steps: 100
+    enable_fuzzy_logic: false
+
+  adaptive_reasoning:
+    learning_rate: 0.1
+    adaptation_threshold: 0.2
+    max_strategies: 5
+
+  oracle_predictor:
+    confidence_threshold: 0.7
+    time_horizon: 10
+    use_ensemble: true
+
+  metrics:
+    track_performance: true
+    log_traces: true
+    export_metrics: true
+```
+
+---
+
+## Testing
+
+### Unit Tests (`test_reasoning_unit.py`)
+- Causal graph construction
+- Symbolic inference correctness
+- Oracle prediction accuracy
+- Reasoning metrics calculation
+
+### Integration Tests (`test_reasoning_integration.py`)
+- MATRIZ pipeline integration
+- Constellation Framework integration
+- Multi-strategy reasoning coordination
+- End-to-end reasoning workflows
+
+---
+
+## Use Cases
+
+### 1. Causal Debugging
+```python
+# Diagnose causal relationship in system failure
+causal_analysis = causal_reasoning_engine.analyze(
+    failure_event="memory_cascade",
+    potential_causes=["fold_limit_exceeded", "rapid_writes", "corruption"],
+)
+# Result: Identifies root cause with causal strength
+```
+
+### 2. Logical Validation
+```python
+# Validate logical consistency of configuration
+validation = symbolic_reasoner.validate(
+    config=system_config,
+    constraints=logical_constraints,
+)
+```
+
+### 3. Predictive Reasoning
+```python
+# Predict outcome of system change
+prediction = oracle_predictor.predict(
+    intervention="increase_memory_limit",
+    current_state=system_state,
+)
+```
+
+### 4. Adaptive Problem Solving
+```python
+# Solve problem with adaptive strategy
+solution = adaptive_reasoner.solve(
+    problem=complex_problem,
+    adapt_on_failure=True,
+)
+```
+
+---
+
+## Development Guidelines
+
+### Adding New Reasoning Strategy
+1. Create new subdirectory in `reasoning/`
+2. Implement reasoning logic in `__init__.py`
+3. Integrate with MATRIZ Thought stage
+4. Add configuration options
+5. Write unit and integration tests
+6. Document reasoning strategy and use cases
+
+### Extending Causal Reasoning
+1. Enhance causal graph algorithms
+2. Add new causal relationship types
+3. Improve causal strength estimation
+4. Integrate with domain-specific knowledge
+
+---
+
+## Observability
+
+**Required Spans**:
+- `lukhas.reasoning.operation`
+- `lukhas.reasoning.causal`
+- `lukhas.reasoning.symbolic`
+- `lukhas.reasoning.oracle`
+- `lukhas.reasoning.adaptive`
+
+**OpenTelemetry Semantic Conventions**: v1.37.0
+
+**Metrics**:
+- Reasoning latency (p50, p95, p99)
+- Accuracy rates by strategy
+- Reasoning trace depth
+- Adaptation frequency
+
+---
+
+## Future Enhancements
+
+- **Neural-Symbolic Integration**: Hybrid learning-based reasoning
+- **Multi-Agent Reasoning**: Collaborative reasoning across agents
+- **Explainable AI**: Enhanced interpretability and explanation generation
+- **Real-Time Reasoning**: Sub-millisecond inference for critical paths
+- **Domain-Specific Reasoning**: Specialized reasoning for consciousness, memory, identity domains
+
+---
+
+## Related Modules
+
+- **consciousness/**: Awareness-driven reasoning integration
+- **memory/**: Memory-based reasoning patterns
+- **MATRIZ/**: MATRIZ pipeline integration
+- **governance/**: Ethical reasoning constraints
+- **analytics/**: Reasoning performance analytics
+
+---
+
+## Quick Reference
+
+| Component | Purpose | Primary MATRIZ Stage |
+|-----------|---------|---------------------|
+| `causal_reasoning_engine/` | Causal inference | Thought |
+| `symbolic_reasoning/` | Logical inference | Thought |
+| `adaptive_reasoning_loop/` | Self-improving reasoning | Thought + Learning |
+| `oracle_predictor/` | Predictive reasoning | Oracle (Constellation) |
+| `collapse_reasoner/` | Quantum-inspired reasoning | Thought |
+| `reasoning_engine/` | General reasoning | Thought |
+| `trace_summary_builder/` | Explainability | Post-processing |
+| `reasoning_metrics/` | Performance tracking | Observability |
+
+**Cognitive Domains**: Symbolic reasoning, causal inference, adaptive learning, prediction
+
+---
+
+**Module Status**: L2 Integration
+**Schema Version**: 3.0.0
+**Complexity**: Low
+**MATRIZ Compatibility**: Native
+**Constellation Cluster**: Cognitive Processing
+**Last Updated**: 2025-10-02
+**Philosophy**: Reasoning transforms information into understanding, causality into insight, uncertainty into prediction.
