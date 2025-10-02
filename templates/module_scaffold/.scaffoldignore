@@ -1,0 +1,31 @@
+# Scaffold ignore patterns
+# Files matching these patterns will not be synced
+
+# Backup files
+*.bak
+*~
+.DS_Store
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+
+# Log files
+*.log
+
+# Human-owned files that should never be auto-generated
+CHANGELOG.md
+LICENSE
+AUTHORS
+CONTRIBUTORS.md
+
+# Module-specific overrides (uncomment as needed)
+# tests/conftest.py
+# docs/CUSTOM.md

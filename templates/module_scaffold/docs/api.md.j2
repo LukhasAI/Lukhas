@@ -1,0 +1,142 @@
+# {{ module | replace("_", " ") | title }} API Documentation
+
+## Overview
+
+API reference for the {{ module }} module within the LUKHAS consciousness framework.
+
+## Core Classes and Functions
+
+### Main Entrypoints
+
+{% if module_entrypoints %}
+{% for entrypoint in module_entrypoints %}
+#### `{{ entrypoint }}`
+
+**Import**: `from lukhas.{{ module }} import {{ entrypoint.split('.')[-1] }}`
+
+Core component for {{ module }} operations.
+{% endfor %}
+{% else %}
+#### `{{ module | replace("_", "") | title }}Core`
+
+**Import**: `from lukhas.{{ module }} import {{ module | replace("_", "") | title }}Core`
+
+Core component for {{ module }} operations.
+
+**Methods**:
+- `initialize()`: Initialize the {{ module }} component
+- `process()`: Process inputs through {{ module }} pipeline
+- `shutdown()`: Clean shutdown of {{ module }} resources
+{% endif %}
+
+### Configuration Classes
+
+#### `{{ module | replace("_", "") | title }}Config`
+
+**Import**: `from lukhas.{{ module }}.config import {{ module | replace("_", "") | title }}Config`
+
+Configuration container for {{ module }} settings.
+
+**Attributes**:
+- `debug_mode: bool`: Enable debug logging
+- `performance_monitoring: bool`: Enable performance metrics
+- `timeout_seconds: int`: Operation timeout
+
+## Error Handling
+
+All {{ module }} functions follow LUKHAS error handling patterns:
+
+```python
+from lukhas.core.exceptions import LUKHASException
+from lukhas.{{ module }} import {{ module | replace("_", "") | title }}Core
+
+try:
+    component = {{ module | replace("_", "") | title }}Core()
+    result = component.process(data)
+except LUKHASException as e:
+    # Handle LUKHAS-specific errors
+    logger.error(f"{{ module | title }} error: {e}")
+except Exception as e:
+    # Handle general errors
+    logger.error(f"Unexpected error in {{ module }}: {e}")
+```
+
+## Examples
+
+### Basic Usage
+
+```python
+from lukhas.{{ module }} import {{ module | replace("_", "") | title }}Core
+from lukhas.{{ module }}.config import {{ module | replace("_", "") | title }}Config
+
+# Initialize with configuration
+config = {{ module | replace("_", "") | title }}Config(
+    debug_mode=False,
+    performance_monitoring=True
+)
+
+# Create component
+component = {{ module | replace("_", "") | title }}Core(config)
+
+# Process data
+result = component.process(input_data)
+```
+
+### Advanced Integration
+
+```python
+from lukhas.consciousness import ConsciousnessCore
+from lukhas.{{ module }} import {{ module | replace("_", "") | title }}Core
+
+# Integrate with consciousness system
+consciousness = ConsciousnessCore()
+{{ module }}_component = {{ module | replace("_", "") | title }}Core()
+
+# Process with consciousness awareness
+with consciousness.awareness_context():
+    result = {{ module }}_component.process(data)
+```
+
+## API Reference
+
+### Core Methods
+
+All {{ module }} components implement the standard LUKHAS component interface:
+
+- `initialize()` → None: Set up component resources
+- `process(data: Any)` → Any: Main processing function
+- `validate(data: Any)` → bool: Input validation
+- `shutdown()` → None: Clean resource cleanup
+
+### Observability
+
+The {{ module }} module emits the following observability spans:
+
+- `lukhas.{{ module }}.initialize`: Component initialization
+- `lukhas.{{ module }}.process`: Main processing operations
+- `lukhas.{{ module }}.validate`: Input validation
+- `lukhas.{{ module }}.error`: Error conditions
+
+## Integration Points
+
+### MATRIZ Compatibility
+
+This module implements the LUKHAS MATRIZ contract for:
+- Memory integration
+- Attention mechanisms
+- Thought processing
+- Risk assessment
+- Intent analysis
+- Action execution
+
+### Consciousness Integration
+
+Seamless integration with the consciousness layer through:
+- Awareness state monitoring
+- Dream state compatibility
+- Memory fold integration
+- Emotional processing hooks
+
+---
+
+*For implementation examples, see the tests/ directory.*

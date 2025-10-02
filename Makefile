@@ -9,6 +9,9 @@
 .PHONY: test-tier1 test-all test-fast test-report test-clean spec-lint contract-check specs-sync test-goldens oneiric-drift-test collapse
 .PHONY: validate-matrix-all authz-run coverage-report matrix-v3-upgrade matrix-v3-check matrix-tokenize matrix-provenance matrix-verify-provenance
 .PHONY: matriz-audit matriz-where
+.PHONY: scaffold-dry scaffold-apply scaffold-apply-force scaffold-diff scaffold-diff-all validate-scaffold sync-module sync-module-force
+.PHONY: validate-configs validate-secrets validate-naming readiness-score readiness-detailed quality-report test-shards test-parallel
+.PHONY: emergency-bypass clean-artifacts dev-setup status ci-validate ci-artifacts help
 
 # Note: Additional PHONY targets are declared in mk/*.mk include files
 
@@ -860,3 +863,97 @@ matriz-audit:
 matriz-where:
 	@echo "📍 Generating module location reports"
 	@python3 tools/matriz_report_generator.py --verbose
+
+# ==============================================================================
+# T4 SCAFFOLD SYNC SYSTEM - Safe, Idempotent, Provenance-Aware Templates
+# ==============================================================================
+
+# Show what would be synced (dry run mode)
+scaffold-dry:
+	@echo "🔍 T4 Scaffold Sync - Dry Run Analysis"
+	@echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+	@python3 tools/scaffold_sync.py --modules-root lukhas --dry-run
+	@echo ""
+	@echo "✅ Dry run complete. Use 'make scaffold-apply' to execute."
+
+# Apply scaffold sync to all modules (safe mode - won't overwrite human edits)
+scaffold-apply:
+	@echo "🔄 T4 Scaffold Sync - Applying Templates"
+	@echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+	@python3 tools/scaffold_sync.py --modules-root lukhas
+	@echo ""
+	@echo "✅ Scaffold sync complete. Files updated with provenance tracking."
+
+# Force apply (will overwrite human edits - use with caution)
+scaffold-apply-force:
+	@echo "⚠️ T4 Scaffold Sync - FORCE MODE (overwrites human edits)"
+	@echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+	@echo "🚨 WARNING: This will overwrite human-edited files!"
+	@read -p "Type 'YES_OVERWRITE' to continue: " confirm && [ "$$confirm" = "YES_OVERWRITE" ] || (echo "Cancelled." && exit 1)
+	@python3 tools/scaffold_sync.py --modules-root lukhas --force
+	@echo "✅ Force sync complete."
+
+# Show human-friendly diffs between current files and templates
+scaffold-diff:
+	@echo "📊 T4 Scaffold Diff - Template Comparison"
+	@echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+	@if [ -n "$(MODULE)" ]; then \
+		python3 tools/scaffold_diff.py --modules-root lukhas --module $(MODULE) --context 5; \
+	else \
+		python3 tools/scaffold_diff.py --modules-root lukhas --all-modules --context 3; \
+	fi
+
+# Show diffs for all modules (comprehensive)
+scaffold-diff-all:
+	@echo "📊 T4 Scaffold Diff - All Modules Analysis"
+	@echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+	@python3 tools/scaffold_diff.py --modules-root lukhas --all-modules --show-unchanged --context 5
+
+# Validate scaffold system integrity
+validate-scaffold:
+	@echo "🔍 T4 Scaffold Validation - System Integrity Check"
+	@echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+	@echo "📋 Stage 1: Template Discovery"
+	@templates=$$(python3 -c "from tools.scaffold_sync import list_template_files; print(len(list_template_files()))"); \
+	echo "✅ Found $$templates templates in templates/module_scaffold/"
+	@echo ""
+	@echo "📋 Stage 2: Module Discovery"
+	@modules=$$(find lukhas -maxdepth 1 -type d ! -name ".*" | wc -l); \
+	echo "✅ Found $$modules modules in lukhas/"
+	@echo ""
+	@echo "📋 Stage 3: Jinja2 Template Syntax Check"
+	@python3 -c "from jinja2 import Environment, FileSystemLoader; from tools.scaffold_sync import TEMPLATES, list_template_files; env = Environment(loader=FileSystemLoader(str(TEMPLATES))); [env.get_template(t) for t in list_template_files()]" && echo "✅ All templates have valid Jinja2 syntax"
+	@echo ""
+	@echo "📋 Stage 4: Provenance Header Validation"
+	@python3 -c "from tools.scaffold_sync import PROV_PREFIX; assert PROV_PREFIX.strip() == '# @generated LUKHAS scaffold v1', 'Invalid provenance prefix'" && echo "✅ Provenance prefix is valid"
+	@echo ""
+	@echo "📋 Stage 5: Ignore Patterns Check"
+	@if [ -f "templates/module_scaffold/.scaffoldignore" ]; then \
+		echo "✅ .scaffoldignore present with $$(wc -l < templates/module_scaffold/.scaffoldignore) patterns"; \
+	else \
+		echo "⚠️ .scaffoldignore missing"; \
+	fi
+	@echo ""
+	@echo "✅ Scaffold system validation complete!"
+
+# Sync a specific module only
+sync-module:
+	@if [ -z "$(MODULE)" ]; then \
+		echo "❌ Usage: make sync-module MODULE=module_name"; \
+		exit 1; \
+	fi
+	@echo "🔄 T4 Scaffold Sync - Module: $(MODULE)"
+	@python3 tools/scaffold_sync.py --modules-root lukhas --only-module $(MODULE)
+	@echo "✅ Module $(MODULE) synchronized."
+
+# Force sync a specific module (overwrites human edits)
+sync-module-force:
+	@if [ -z "$(MODULE)" ]; then \
+		echo "❌ Usage: make sync-module-force MODULE=module_name"; \
+		exit 1; \
+	fi
+	@echo "⚠️ T4 Scaffold Sync - FORCE MODE - Module: $(MODULE)"
+	@echo "🚨 WARNING: This will overwrite human-edited files in $(MODULE)!"
+	@read -p "Type 'YES_OVERWRITE' to continue: " confirm && [ "$$confirm" = "YES_OVERWRITE" ] || (echo "Cancelled." && exit 1)
+	@python3 tools/scaffold_sync.py --modules-root lukhas --only-module $(MODULE) --force
+	@echo "✅ Module $(MODULE) force synchronized."

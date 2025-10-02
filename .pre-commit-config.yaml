@@ -144,9 +144,9 @@ repos:
         files: ^.*/config/.*\.yaml$
         pass_filenames: false
 
-      - id: enforce-provenance-headers
-        name: Ensure scaffold files have provenance headers
-        entry: bash -c 'if git diff --cached --name-only | grep -E "(config/.*\.yaml|docs/.*\.md|tests/.*\.py)$" | xargs grep -L "@generated LUKHAS scaffold" 2>/dev/null | head -1; then echo "❌ Generated files must have provenance headers. Run: python3 tools/add_provenance_headers.py" >&2; exit 1; fi'
+      - id: scaffold-guard
+        name: T4 Scaffold Guard - Protect auto-generated files
+        entry: python3 tools/scaffold_guard.py
         language: system
         pass_filenames: false
 
