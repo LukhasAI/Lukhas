@@ -155,3 +155,17 @@ repos:
         entry: bash -c 'file_count=$(git diff --cached --name-only | wc -l); if [ $file_count -gt 500 ]; then echo "❌ Commit too large ($file_count files). Split into smaller commits (<500 files each)" >&2; exit 1; fi'
         language: system
         pass_filenames: false
+
+      - id: manifest-validate
+        name: Manifest Validate
+        entry: python3 tools/manifest_validate.py
+        language: system
+        pass_filenames: false
+        files: 'module\.manifest\.json$'
+
+      - id: manifest-lock
+        name: Manifest Lock Hydrator
+        entry: python3 tools/manifest_lock_hydrator.py
+        language: system
+        pass_filenames: false
+        files: 'module\.manifest\.json$'

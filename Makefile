@@ -7,7 +7,7 @@
 .PHONY: check-scoped lint-scoped test-contract type-scoped doctor doctor-tools doctor-py doctor-ci doctor-lanes doctor-tests doctor-audit doctor-dup-targets doctor-phony doctor-summary doctor-strict doctor-dup-targets-strict doctor-json
 .PHONY: todo-unused todo-unused-check todo-unused-core todo-unused-candidate t4-annotate t4-check audit-f821 fix-f821-core annotate-f821-candidate types-audit types-enforce types-core types-trend types-audit-trend types-enforce-trend f401-audit f401-trend
 .PHONY: test-tier1 test-all test-fast test-report test-clean spec-lint contract-check specs-sync test-goldens oneiric-drift-test collapse
-.PHONY: validate-matrix-all authz-run coverage-report matrix-v3-upgrade matrix-v3-check matrix-tokenize matrix-provenance matrix-verify-provenance manifests-validate
+.PHONY: validate-matrix-all authz-run coverage-report matrix-v3-upgrade matrix-v3-check matrix-tokenize matrix-provenance matrix-verify-provenance manifests-validate manifest-lock manifest-index manifest-diff conformance-generate conformance-test manifest-system
 .PHONY: matriz-audit matriz-where
 .PHONY: scaffold-dry scaffold-apply scaffold-apply-force scaffold-diff scaffold-diff-all validate-scaffold sync-module sync-module-force
 .PHONY: validate-configs validate-secrets validate-naming readiness-score readiness-detailed quality-report test-shards test-parallel
@@ -778,6 +778,30 @@ manifests-validate:
 	@echo "🔍 T4 Module Manifest Validation"
 	@echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 	@python3 tools/manifest_validate.py --all
+
+# T4 Manifest System - Complete Pipeline
+manifest-lock:
+	@echo "🔒 T4 Manifest Lock Hydrator"
+	@python3 tools/manifest_lock_hydrator.py --all
+
+manifest-index:
+	@echo "📇 T4 Manifest Indexer"
+	@python3 tools/manifest_indexer.py
+
+manifest-diff:
+	@echo "🔍 T4 Manifest Registry Diff"
+	@python3 tools/registry_diff.py
+
+conformance-generate:
+	@echo "🧪 T4 Conformance Test Generator"
+	@python3 tools/generate_conformance_tests.py
+
+conformance-test:
+	@echo "🧪 T4 Conformance Tests"
+	@pytest -q tests/conformance
+
+manifest-system: manifests-validate manifest-lock manifest-index manifest-diff conformance-generate conformance-test
+	@echo "✅ manifest system pipeline complete"
 
 # Matrix Identity: local validation pack
 validate-matrix-all: opa-validate manifests-validate

@@ -1,0 +1,38 @@
+name: Manifest System
+on:
+  pull_request:
+    paths:
+      - '**/module.manifest.json'
+      - 'schemas/module.manifest.schema.json'
+      - 'tools/manifest_*'
+      - 'tools/generate_conformance_tests.py'
+      - 'tools/registry_diff.py'
+      - '.github/workflows/manifest-system.yml'
+
+jobs:
+  manifest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          pip install --upgrade pip
+          pip install jsonschema pytest
+
+      - name: Run manifest system pipeline
+        run: make manifest-system
+
+      - name: Upload artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: manifest-artifacts
+          path: |
+            artifacts/**
+            **/module.manifest.lock.json
+          retention-days: 7
