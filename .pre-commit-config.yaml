@@ -118,8 +118,8 @@ repos:
         pass_filenames: true
 
       - id: validate-module-manifests-changed
-        name: Validate changed module manifests
-        entry: python3 tools/module_manifest_upgrade.py --validate
+        name: T4 Module Manifest Validation
+        entry: python3 tools/manifest_validate.py --all
         language: system
         files: ^.*module\.manifest\.json$
         pass_filenames: false
