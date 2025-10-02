@@ -1,22 +1,22 @@
-import { 
-  getTrinityFrameworkStatus, 
+import {
+  getConstellationFrameworkStatus,
   getIdentityAnchorSystem,
   getConsciousnessProcessingSystem,
   getGuardianProtectionSystem,
   getConstellationFramework,
-  executeTrinityOperation
-} from "../src/trinity-tools.js";
+  executeConstellationOperation
+} from "../src/constellation-tools.js";
 
-async function runTrinityTests() {
-  console.log("🌟 LUKHAS Trinity Framework MCP Server Tests");
+async function runConstellationTests() {
+  console.log("🌟 LUKHAS Constellation Framework MCP Server Tests");
   console.log("=" .repeat(60));
 
   try {
-    // Test Trinity Framework status
-    console.log("1. Testing Trinity Framework status...");
-    const status = await getTrinityFrameworkStatus();
-    console.log("✅ Trinity Framework status retrieved");
-    console.log(`   - Trinity core stars: ${Object.keys(status.trinity_core).length}`);
+    // Test Constellation Framework status
+    console.log("1. Testing Constellation Framework status...");
+    const status = await getConstellationFrameworkStatus();
+    console.log("✅ Constellation Framework status retrieved");
+    console.log(`   - Constellation core stars: ${Object.keys(status.trinity_core).length}`);
     console.log(`   - Constellation stars: ${Object.keys(status.constellation_extended).length}`);
     console.log(`   - Integration score: ${status.framework_health.integration_score}`);
     console.log(`   - Consciousness modules: ${status.system_metrics.consciousness_modules}`);
@@ -54,63 +54,63 @@ async function runTrinityTests() {
     console.log("\n5. Testing 8-Star Constellation Framework...");
     const constellation = await getConstellationFramework();
     console.log("✅ Full Constellation Framework accessed");
-    console.log(`   - Trinity core stars: ${Object.keys(constellation.trinity_core).length}`);
+    console.log(`   - Constellation core stars: ${Object.keys(constellation.trinity_core).length}`);
     console.log(`   - Extended constellation: ${Object.keys(constellation.constellation_extended).length}`);
     console.log(`   - Total stars: ${Object.keys(constellation.trinity_core).length + Object.keys(constellation.constellation_extended).length}`);
     console.log(`   - Navigation principles: ${constellation.navigation_principles.length}`);
     
-    // Test Trinity operations
-    console.log("\n6. Testing Trinity operations...");
+    // Test Constellation operations
+    console.log("\n6. Testing Constellation operations...");
     
-    const integrationTest = await executeTrinityOperation("trinity_integration_test", {
+    const integrationTest = await executeConstellationOperation("trinity_integration_test", {
       operation_type: "integration_test"
-    });
-    console.log("✅ Trinity integration test executed");
+    }) as any;
+    console.log("✅ Constellation integration test executed");
     console.log(`   - Status: ${integrationTest.status}`);
     console.log(`   - Integration score: ${integrationTest.integration_score}`);
     console.log(`   - Identity anchor: ${integrationTest.identity_anchor}`);
     console.log(`   - Consciousness: ${integrationTest.consciousness_processing}`);
     console.log(`   - Guardian: ${integrationTest.guardian_protection}`);
-    
-    const constellationNav = await executeTrinityOperation("constellation_navigation", {
+
+    const constellationNav = await executeConstellationOperation("constellation_navigation", {
       star_focus: "consciousness",
       awareness_level: 0.8
-    });
+    }) as any;
     console.log("✅ Constellation navigation executed");
     console.log(`   - Status: ${constellationNav.status}`);
     console.log(`   - Current star: ${constellationNav.current_star}`);
     console.log(`   - Navigation paths: ${constellationNav.navigation_paths.length}`);
     console.log(`   - GLYPH communication: ${constellationNav.glyph_communication}`);
-    
-    const starAnalysis = await executeTrinityOperation("star_deep_analysis", {
+
+    const starAnalysis = await executeConstellationOperation("star_deep_analysis", {
       star_focus: "guardian",
       awareness_level: 0.9
-    });
+    }) as any;
     console.log("✅ Star deep analysis executed");
     console.log(`   - Target star: ${starAnalysis.target_star}`);
     console.log(`   - Analysis depth: ${starAnalysis.analysis_depth}`);
     console.log(`   - Module health: ${starAnalysis.module_health}`);
     console.log(`   - Integration points: ${starAnalysis.integration_points}`);
-    
-    const frameworkValidation = await executeTrinityOperation("framework_validation", {
+
+    const frameworkValidation = await executeConstellationOperation("framework_validation", {
       operation_type: "framework_validation"
-    });
+    }) as any;
     console.log("✅ Framework validation executed");
     console.log(`   - Status: ${frameworkValidation.status}`);
-    console.log(`   - Trinity core health: ${frameworkValidation.trinity_core_health}`);
+    console.log(`   - Constellation core health: ${frameworkValidation.trinity_core_health}`);
     console.log(`   - Constellation integrity: ${frameworkValidation.constellation_integrity}`);
     console.log(`   - Validation score: ${frameworkValidation.validation_score}`);
     
     console.log("\n" + "=" .repeat(60));
-    console.log("🎉 All Trinity Framework tests completed successfully!");
-    console.log("🌟 LUKHAS Trinity Framework MCP Server is ready for Claude Desktop");
-    console.log("✨ Features: Trinity Core + 8-Star Constellation + GLYPH Navigation");
+    console.log("🎉 All Constellation Framework tests completed successfully!");
+    console.log("🌟 LUKHAS Constellation Framework MCP Server is ready for Claude Desktop");
+    console.log("✨ Features: Constellation Core + 8-Star Constellation + GLYPH Navigation");
     
   } catch (error) {
-    console.error("❌ Trinity Framework test failed:", error);
+    console.error("❌ Constellation Framework test failed:", error);
     process.exit(1);
   }
 }
 
 // Run tests
-runTrinityTests();
+runConstellationTests();

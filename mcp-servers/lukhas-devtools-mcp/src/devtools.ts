@@ -285,21 +285,30 @@ async function getFailingTestCount() {
   return 0; // After infrastructure fixes, major failures resolved
 }
 
-async function buildModuleStructure(basePath: string, maxDepth: number = 2, currentDepth: number = 0) {
+interface ModuleStructureItem {
+  name: string;
+  type: "directory" | "file";
+  path: string;
+  children?: ModuleStructureItem[];
+  size?: number;
+  modified?: Date;
+}
+
+async function buildModuleStructure(basePath: string, maxDepth: number = 2, currentDepth: number = 0): Promise<ModuleStructureItem[]> {
   if (currentDepth >= maxDepth) return [];
-  
+
   try {
     const items = await fs.readdir(basePath);
-    const structure = [];
-    
+    const structure: ModuleStructureItem[] = [];
+
     for (const item of items.slice(0, 20)) { // Limit for performance
       try {
         const itemPath = path.join(basePath, item);
         const stat = await fs.stat(itemPath);
         const relativePath = path.relative(LUKHAS_ROOT, itemPath);
-        
+
         if (stat.isDirectory() && !item.startsWith('.') && item !== '__pycache__' && item !== 'node_modules') {
-          const children = currentDepth < maxDepth - 1 ? await buildModuleStructure(itemPath, maxDepth, currentDepth + 1) : [];
+          const children: ModuleStructureItem[] = currentDepth < maxDepth - 1 ? await buildModuleStructure(itemPath, maxDepth, currentDepth + 1) : [];
           structure.push({
             name: item,
             type: "directory",

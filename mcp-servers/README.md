@@ -20,12 +20,12 @@ Integration with memory systems, Wave C processing, and phenomenological analysi
 - **Memory Operations**: Scene storage, recall, pattern analysis, GDPR erasure
 - **Thread Safety**: SQLite segmentation fault fixes, concurrent operation safety
 
-### 🌟 **LUKHAS Trinity Framework MCP** (`lukhas-trinity-mcp/`)
-Deep access to Trinity Framework and complete 8-Star Constellation
-- **Identity Star**: ΛiD Core Identity System with namespace isolation
-- **Consciousness Star**: 692-module distributed consciousness network
-- **Guardian Star**: Guardian System v1.0.0 with 0.15 drift threshold
+### 🌟 **LUKHAS Constellation Framework MCP** (`lukhas-constellation-mcp/`)
+Complete 8-Star Constellation Framework with Trinity core and extended stars
+- **Trinity Core**: Identity (Anchor), Consciousness (Processing), Guardian (Protection)
 - **Extended Constellation**: Memory/Vision/Bio/Dream/Quantum stars
+- **Complete Navigation**: GLYPH-based inter-star communication
+- **System Integration**: 692-module consciousness network with drift monitoring
 
 ### 🛠️ **LUKHAS Development Tools MCP** (`lukhas-devtools-mcp/`)
 Complete development environment access and T4 audit systems
@@ -41,7 +41,7 @@ Complete development environment access and T4 audit systems
 cd /Users/agi_dev/LOCAL-REPOS/Lukhas/mcp-servers
 
 # Install all servers
-for server in lukhas-consciousness-mcp lukhas-memory-mcp lukhas-trinity-mcp lukhas-devtools-mcp; do
+for server in lukhas-consciousness-mcp lukhas-memory-mcp lukhas-constellation-mcp lukhas-devtools-mcp; do
   cd $server
   npm install
   npm run build
@@ -74,10 +74,10 @@ Add all servers to your Claude Desktop MCP configuration:
             "LUKHAS_ROOT": "/Users/agi_dev/LOCAL-REPOS/Lukhas"
           }
         },
-        "lukhas-trinity": {
+        "lukhas-constellation": {
           "command": "npm",
           "args": ["run", "start"],
-          "cwd": "/Users/agi_dev/LOCAL-REPOS/Lukhas/mcp-servers/lukhas-trinity-mcp",
+          "cwd": "/Users/agi_dev/LOCAL-REPOS/Lukhas/mcp-servers/lukhas-constellation-mcp",
           "env": {
             "LUKHAS_ROOT": "/Users/agi_dev/LOCAL-REPOS/Lukhas"
           }
@@ -101,7 +101,7 @@ Add all servers to your Claude Desktop MCP configuration:
 # Test each server individually
 cd lukhas-consciousness-mcp && npm test && cd ..
 cd lukhas-memory-mcp && npm test && cd ..
-cd lukhas-trinity-mcp && npm test && cd ..
+cd lukhas-constellation-mcp && npm test && cd ..
 cd lukhas-devtools-mcp && npm test && cd ..
 ```
 
@@ -112,8 +112,8 @@ Once all servers are connected to Claude Desktop, you'll have access to the comp
 ### **Consciousness System Exploration**
 ```
 Get the consciousness status using consciousness_status from lukhas-consciousness
-Explore the Trinity Framework using trinity_framework from lukhas-trinity
-Check the complete constellation framework using constellation_framework from lukhas-trinity
+Explore the Trinity Framework using trinity_framework from lukhas-constellation
+Check the complete constellation framework using constellation_framework from lukhas-constellation
 ```
 
 ### **Memory System Operations**
@@ -134,7 +134,7 @@ Monitor T4 audit status using t4_audit_status from lukhas-devtools
 ```
 Execute consciousness operations using consciousness_operation with operation "dream_processing" from lukhas-consciousness
 Execute memory operations using memory_operation with operation "store_scene" from lukhas-memory
-Execute Trinity operations using trinity_operation with operation "trinity_integration_test" from lukhas-trinity
+Execute Trinity operations using trinity_operation with operation "trinity_integration_test" from lukhas-constellation
 Execute development operations using devtools_operation with operation "infrastructure_check" from lukhas-devtools
 ```
 
@@ -152,7 +152,7 @@ mcp-servers/
 │   │   ├── server.ts           # MCP server implementation
 │   │   └── memory-tools.ts     # Memory system interfaces
 │   └── README.md               # Memory MCP documentation
-├── lukhas-trinity-mcp/         # Trinity Framework & Constellation
+├── lukhas-constellation-mcp/         # Trinity Framework & Constellation
 │   ├── src/
 │   │   ├── server.ts           # MCP server implementation
 │   │   └── trinity-tools.ts    # Trinity Framework interfaces

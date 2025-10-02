@@ -8,7 +8,7 @@ const LUKHAS_ROOT = process.env.LUKHAS_ROOT || "/Users/agi_dev/LOCAL-REPOS/Lukha
 // Input validation schemas
 const QuerySchema = z.string().min(1).max(1000);
 const PathSchema = z.string().min(1).max(500);
-const TrinityOperationSchema = z.object({
+const ConstellationOperationSchema = z.object({
   star_focus: z.enum(["identity", "consciousness", "guardian", "memory", "vision", "bio", "dream", "quantum"]).optional(),
   operation_type: z.enum(["status_check", "deep_analysis", "integration_test", "framework_validation"]).optional(),
   namespace: z.string().optional(),
@@ -36,21 +36,21 @@ function logOperation(tool: string, args: any, duration: number, resultInfo: any
   console.error(JSON.stringify(logEntry));
 }
 
-export async function getTrinityFrameworkStatus() {
+export async function getConstellationFrameworkStatus() {
   const start = Date.now();
   try {
     const status = {
       trinity_core: {
-        identity: await checkTrinityStar("identity"),
-        consciousness: await checkTrinityStar("consciousness"), 
-        guardian: await checkTrinityStar("guardian")
+        identity: await checkConstellationStar("identity"),
+        consciousness: await checkConstellationStar("consciousness"),
+        guardian: await checkConstellationStar("guardian")
       },
       constellation_extended: {
-        memory: await checkTrinityStar("memory"),
-        vision: await checkTrinityStar("vision"),
-        bio: await checkTrinityStar("bio"),
-        dream: await checkTrinityStar("dream"),
-        quantum: await checkTrinityStar("quantum")
+        memory: await checkConstellationStar("memory"),
+        vision: await checkConstellationStar("vision"),
+        bio: await checkConstellationStar("bio"),
+        dream: await checkConstellationStar("dream"),
+        quantum: await checkConstellationStar("quantum")
       },
       framework_health: {
         integration_score: 0.87, // Simulated based on system stability
@@ -301,11 +301,11 @@ export async function getConstellationFramework() {
   }
 }
 
-export async function executeTrinityOperation(operation: string, parameters: any) {
+export async function executeConstellationOperation(operation: string, parameters: any) {
   const start = Date.now();
   try {
-    const validatedParams = TrinityOperationSchema.parse(parameters);
-    
+    const validatedParams = ConstellationOperationSchema.parse(parameters);
+
     switch (operation) {
       case "trinity_integration_test":
         return await performTrinityIntegration(validatedParams);
@@ -316,16 +316,16 @@ export async function executeTrinityOperation(operation: string, parameters: any
       case "framework_validation":
         return await performFrameworkValidation(validatedParams);
       default:
-        throw new Error(`Unknown Trinity operation: ${operation}`);
+        throw new Error(`Unknown Constellation operation: ${operation}`);
     }
   } catch (error) {
-    logOperation("trinity_operation", { operation }, Date.now() - start, { error: (error as Error).message });
+    logOperation("constellation_operation", { operation }, Date.now() - start, { error: (error as Error).message });
     throw error;
   }
 }
 
 // Helper functions
-async function checkTrinityStar(starName: string) {
+async function checkConstellationStar(starName: string) {
   const starPaths = {
     identity: ["candidate/identity/", "lukhas/identity/"],
     consciousness: ["consciousness/", "candidate/core/integration/", "reasoning/"],

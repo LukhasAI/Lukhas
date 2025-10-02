@@ -1,9 +1,9 @@
 {
-  "name": "lukhas-trinity-mcp",
-  "version": "0.1.0",
+  "name": "lukhas-constellation-mcp",
+  "version": "0.2.0",
   "type": "module",
   "private": true,
-  "description": "LUKHAS AI Trinity Framework MCP Server for Claude Desktop - Access to Identity (Anchor), Consciousness (Processing), Guardian (Protection) systems and full 8-star Constellation Framework",
+  "description": "LUKHAS AI Constellation Framework MCP Server for Claude Desktop - Access to 8-Star Constellation including Identity (Anchor), Consciousness (Processing), Guardian (Protection), Memory, Vision, Bio, Dream, and Quantum systems",
   "scripts": {
     "build": "tsc -p .",
     "start": "node --loader ts-node/esm src/server.ts",

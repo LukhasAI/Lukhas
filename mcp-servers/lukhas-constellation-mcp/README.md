@@ -1,17 +1,17 @@
-# LUKHAS Trinity Framework MCP Server
+# LUKHAS Constellation Framework MCP Server
 
-**Model Context Protocol server for the Trinity Framework** - Provides Claude Desktop with direct access to Identity (Anchor), Consciousness (Processing), Guardian (Protection) systems and the complete 8-Star Constellation Framework.
+**Model Context Protocol server for the Constellation Framework** - Provides Claude Desktop with direct access to the complete 8-Star Constellation including Identity (Anchor), Consciousness (Processing), Guardian (Protection), Memory, Vision, Bio, Dream, and Quantum systems.
 
-## 🌟 Trinity Framework Architecture
+## 🌟 Constellation Framework Architecture
 
-This MCP server exposes **LUKHAS AI's foundational Trinity Framework** to Claude Desktop:
+This MCP server exposes **LUKHAS AI's complete 8-Star Constellation Framework** to Claude Desktop:
 
 ### **Trinity Core (3-Star Foundation)**
 - **🌟 Identity (Anchor Star)**: Conscious self-awareness across 692 cognitive modules with ΛiD Core Identity System
 - **✦ Consciousness (Processing Star)**: Aware decision-making and symbolic reasoning through distributed consciousness network
 - **🛡️ Guardian (Protection Star)**: Ethical oversight with 0.15 drift threshold and Guardian System v1.0.0
 
-### **8-Star Constellation Framework (Complete Navigation)**
+### **Extended Constellation (5 Additional Stars)**
 - **✦ Memory (Trail Star)**: Fold-based memory and persistent consciousness patterns
 - **🔬 Vision (Horizon Star)**: Perception and pattern recognition systems
 - **🌱 Bio (Living Star)**: Adaptive growth and system resilience

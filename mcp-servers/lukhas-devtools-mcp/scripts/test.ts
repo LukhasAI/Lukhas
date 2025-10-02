@@ -70,36 +70,36 @@ async function runDevToolsTests() {
     
     const testRun = await executeDevToolsOperation("run_tests", {
       test_category: "integration"
-    });
+    }) as any;
     console.log("✅ Test run operation executed");
     console.log(`   - Status: ${testRun.status}`);
     console.log(`   - Test category: ${testRun.test_category}`);
     console.log(`   - Total tests: ${testRun.total_tests}`);
     console.log(`   - Infrastructure: ${testRun.infrastructure_status}`);
-    
+
     const codeAnalysisOp = await executeDevToolsOperation("code_analysis", {
       analysis_type: "ruff"
-    });
+    }) as any;
     console.log("✅ Code analysis operation executed");
     console.log(`   - Analysis type: ${codeAnalysisOp.analysis_type}`);
     console.log(`   - Improvements: ${codeAnalysisOp.improvements}`);
     console.log(`   - Priority fixes: ${codeAnalysisOp.priority_fixes}`);
-    
+
     const auditCheck = await executeDevToolsOperation("audit_status", {
       audit_phase: "steps_2"
-    });
+    }) as any;
     console.log("✅ Audit status check executed");
     console.log(`   - Current phase: ${auditCheck.current_phase}`);
     console.log(`   - Audit phase: ${auditCheck.audit_phase}`);
     console.log(`   - Quality target: ${auditCheck.quality_target}`);
-    
-    const infraCheck = await executeDevToolsOperation("infrastructure_check", {});
+
+    const infraCheck = await executeDevToolsOperation("infrastructure_check", {}) as any;
     console.log("✅ Infrastructure check executed");
     console.log(`   - Status: ${infraCheck.status}`);
     console.log(`   - Critical fixes: ${infraCheck.critical_fixes.length}`);
     console.log(`   - MCP readiness: ${infraCheck.mcp_readiness}`);
-    
-    const devMetrics = await executeDevToolsOperation("development_metrics", {});
+
+    const devMetrics = await executeDevToolsOperation("development_metrics", {}) as any;
     console.log("✅ Development metrics gathered");
     console.log(`   - Total modules: ${devMetrics.metrics.total_modules}`);
     console.log(`   - Error reduction: ${devMetrics.metrics.error_reduction}`);

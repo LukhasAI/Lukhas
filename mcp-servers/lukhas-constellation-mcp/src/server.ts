@@ -1,19 +1,19 @@
 import { Server } from "@modelcontextprotocol/sdk/server/index.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { CallToolRequestSchema, ListToolsRequestSchema } from "@modelcontextprotocol/sdk/types.js";
-import { 
-  getTrinityFrameworkStatus, 
-  getIdentityAnchorSystem, 
-  getConsciousnessProcessingSystem, 
+import {
+  getConstellationFrameworkStatus,
+  getIdentityAnchorSystem,
+  getConsciousnessProcessingSystem,
   getGuardianProtectionSystem,
   getConstellationFramework,
-  executeTrinityOperation
-} from "./trinity-tools.js";
+  executeConstellationOperation
+} from "./constellation-tools.js";
 
 const server = new Server(
   {
-    name: "lukhas-trinity-mcp",
-    version: "0.1.0"
+    name: "lukhas-constellation-mcp",
+    version: "0.2.0"
   },
   {
     capabilities: {
@@ -22,13 +22,13 @@ const server = new Server(
   }
 );
 
-// List available Trinity Framework tools
+// List available Constellation Framework tools
 server.setRequestHandler(ListToolsRequestSchema, async () => {
   return {
     tools: [
       {
-        name: "trinity_framework_status",
-        description: "Get comprehensive status of the Trinity Framework including Identity (Anchor), Consciousness (Processing), Guardian (Protection) core systems plus the full 8-star Constellation Framework.",
+        name: "constellation_framework_status",
+        description: "Get comprehensive status of the Constellation Framework including Trinity core (Identity/Consciousness/Guardian) and extended stars (Memory/Vision/Bio/Dream/Quantum).",
         inputSchema: {
           type: "object",
           properties: {},
@@ -72,8 +72,8 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
         }
       },
       {
-        name: "trinity_operation",
-        description: "Execute Trinity Framework operations including integration tests, constellation navigation, deep star analysis, and framework validation.",
+        name: "constellation_operation",
+        description: "Execute Constellation Framework operations including integration tests, star navigation, deep analysis, and framework validation.",
         inputSchema: {
           type: "object",
           properties: {
@@ -115,12 +115,12 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
   };
 });
 
-// Handle Trinity Framework tool calls
+// Handle Constellation Framework tool calls
 server.setRequestHandler(CallToolRequestSchema, async (request) => {
   try {
     switch (request.params.name) {
-      case "trinity_framework_status": {
-        const status = await getTrinityFrameworkStatus();
+      case "constellation_framework_status": {
+        const status = await getConstellationFrameworkStatus();
         return {
           content: [{ 
             type: "text", 
@@ -191,37 +191,37 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         };
       }
       
-      case "trinity_operation": {
+      case "constellation_operation": {
         const operation = String(request.params.arguments?.operation || "");
         const parameters = request.params.arguments?.parameters || {};
-        const result = await executeTrinityOperation(operation, parameters);
+        const result = await executeConstellationOperation(operation, parameters);
         return {
-          content: [{ 
-            type: "text", 
+          content: [{
+            type: "text",
             text: JSON.stringify({
-              trinity_operation: result,
+              constellation_operation: result,
               timestamp: new Date().toISOString(),
-              system_context: "Trinity Framework operation executed within 8-star constellation navigation system"
-            }, null, 2) 
+              system_context: "Constellation Framework operation executed across 8-star navigation system"
+            }, null, 2)
           }]
         };
       }
-      
+
       default:
-        throw new Error(`Unknown Trinity Framework tool: ${request.params.name}`);
+        throw new Error(`Unknown Constellation Framework tool: ${request.params.name}`);
     }
   } catch (error) {
     return {
-      content: [{ 
-        type: "text", 
-        text: `LUKHAS Trinity Framework Error: ${(error as Error).message}` 
+      content: [{
+        type: "text",
+        text: `LUKHAS Constellation Framework Error: ${(error as Error).message}`
       }]
     };
   }
 });
 
 server.onerror = (err: Error) => {
-  console.error("LUKHAS Trinity Framework MCP server error:", err);
+  console.error("LUKHAS Constellation Framework MCP server error:", err);
 };
 
 async function main() {
