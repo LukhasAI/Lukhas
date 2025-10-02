@@ -1,0 +1,367 @@
+# Emotion Module Context - Vendor-Neutral AI Guidance
+*This file provides domain-specific context for any AI development tool*
+*Also available as claude.me for Claude Desktop compatibility*
+
+
+**Module**: emotion
+**Purpose**: VAD affect processing, mood regulation, and emotional intelligence
+**Lane**: L2 (Integration)
+**Language**: Python
+**Last Updated**: 2025-10-02
+
+---
+
+## Module Overview
+
+The emotion module provides comprehensive emotional intelligence capabilities for LUKHAS AI, implementing VAD (Valence-Arousal-Dominance) affect processing, mood regulation, and emotion stream analysis. It enables consciousness systems to understand, process, and regulate emotional states.
+
+### Key Components
+- **VAD Affect Processing**: Valence-Arousal-Dominance emotion modeling
+- **Emotion Stream Analysis**: Real-time emotion tracking and analysis
+- **Mood Regulation**: Automatic mood stabilization and regulation
+- **Emotion Wrapper**: Unified emotion processing interface
+- **Valence Tracking**: Continuous valence (positive/negative) monitoring
+
+### Constellation Framework Integration
+- **🎭 Persona Star**: Emotional tone and personality expression
+- **🧠 Flow Star (Consciousness)**: Emotion-consciousness coupling
+- **✦ Trail Star (Memory)**: Emotional memory and affect history
+- **🔮 Oracle Star (Prediction)**: Emotion pattern prediction
+
+---
+
+## Architecture
+
+### Core Emotion Components
+
+#### Entrypoints (from manifest)
+```python
+from emotion import (
+    EMOTION_ACTIVE,
+    EmotionWrapper,
+    analyze_emotion_stream,
+    create_emotion_session,
+    emit,
+    get_emotion_status,
+    get_emotion_wrapper,
+    instrument,
+    logger,
+    process_emotion,
+    regulate_mood,
+    track_valence,
+)
+```
+
+---
+
+## Emotion Processing Systems
+
+### 1. VAD Affect Processing
+
+**VAD Model**: Valence-Arousal-Dominance three-dimensional emotion space
+
+```python
+from emotion import process_emotion, track_valence
+
+# Process emotion with VAD coordinates
+emotion_state = process_emotion(
+    valence=0.7,    # Positive (0-1)
+    arousal=0.6,    # Medium arousal (0-1)
+    dominance=0.5   # Neutral control (0-1)
+)
+
+# Track valence over time
+valence_history = track_valence(
+    duration=300,  # 5 minutes
+    sampling_rate=1.0  # 1Hz
+)
+```
+
+**VAD Dimensions**:
+- **Valence**: Positive (pleasant) ↔ Negative (unpleasant)
+- **Arousal**: Calm (low energy) ↔ Excited (high energy)
+- **Dominance**: Submissive (low control) ↔ Dominant (high control)
+
+---
+
+### 2. Emotion Stream Analysis
+
+**Purpose**: Real-time emotion detection and analysis
+
+```python
+from emotion import analyze_emotion_stream
+
+# Analyze continuous emotion stream
+stream_analysis = analyze_emotion_stream(
+    stream_source="consciousness_output",
+    window_size=10,  # 10-second window
+    features=["valence", "arousal", "patterns"]
+)
+
+# Results include
+# - Dominant emotions
+# - Emotion transitions
+# - Intensity patterns
+# - Stability metrics
+```
+
+**Key Features**:
+- Real-time emotion detection
+- Pattern recognition
+- Transition analysis
+- Intensity tracking
+
+---
+
+### 3. Mood Regulation
+
+**Purpose**: Automatic mood stabilization and regulation
+
+```python
+from emotion import regulate_mood
+
+# Regulate mood to target state
+regulated_state = regulate_mood(
+    current_valence=0.3,  # Current: slightly negative
+    target_valence=0.6,   # Target: moderately positive
+    regulation_strategy="gradual",
+    time_horizon=60  # Regulate over 60 seconds
+)
+
+# Regulation strategies:
+# - "gradual": Smooth transition
+# - "immediate": Quick adjustment
+# - "oscillating": Periodic regulation
+```
+
+**Regulation Features**:
+- Mood stabilization
+- Target state achievement
+- Smooth transitions
+- Feedback control
+
+---
+
+### 4. Emotion Wrapper
+
+**Purpose**: Unified emotion processing interface
+
+```python
+from emotion import get_emotion_wrapper, EmotionWrapper
+
+# Get emotion wrapper
+wrapper: EmotionWrapper = get_emotion_wrapper()
+
+# Check if emotion system is active
+if wrapper.EMOTION_ACTIVE:
+    # Process emotion through wrapper
+    result = wrapper.process(
+        input_text="I feel great today!",
+        context="conversation"
+    )
+
+    # Get emotion metrics
+    metrics = wrapper.get_metrics()
+```
+
+---
+
+### 5. Emotion Session Management
+
+**Purpose**: Create and manage emotion processing sessions
+
+```python
+from emotion import create_emotion_session
+
+# Create emotion session
+session = create_emotion_session(
+    session_id="user_123",
+    baseline_valence=0.5,
+    tracking_enabled=True
+)
+
+# Session tracks:
+# - Emotion history
+# - Valence trends
+# - Mood stability
+# - Session statistics
+```
+
+---
+
+## Observability
+
+### Required Spans
+
+```python
+# Required spans from module.manifest.json
+REQUIRED_SPANS = [
+    "lukhas.emotion.operation",     # Emotion operations
+    "lukhas.emotion.processing",    # Emotion processing
+]
+```
+
+### Instrumentation
+
+```python
+from emotion import instrument, emit, logger
+
+# Instrument emotion processing
+instrument("emotion_analysis", metadata={"type": "vad"})
+
+# Emit emotion events
+emit(
+    event="emotion_detected",
+    valence=0.8,
+    arousal=0.6,
+    timestamp="2025-10-02T23:30:00Z"
+)
+
+# Log emotion activities
+logger.info("Emotion processing started")
+```
+
+---
+
+## Module Structure
+
+```
+emotion/
+├── module.manifest.json         # Emotion manifest (schema v3.0.0)
+├── module.manifest.lock.json    # Locked manifest
+├── README.md                    # Emotion overview
+├── __init__.py                  # Module exports (11 entrypoints)
+├── config/                      # Emotion configuration
+├── docs/                        # Emotion documentation
+└── tests/                       # Emotion test suites
+```
+
+---
+
+## Development Guidelines
+
+### 1. Processing Emotions
+
+```python
+from emotion import process_emotion, get_emotion_status
+
+# Process emotion data
+emotion = process_emotion(
+    valence=0.6,
+    arousal=0.7,
+    dominance=0.5
+)
+
+# Get emotion status
+status = get_emotion_status()
+# Returns: valence, arousal, dominant_emotion, stability
+```
+
+### 2. Tracking Emotional States
+
+```python
+from emotion import track_valence, analyze_emotion_stream
+
+# Track valence over time
+valence_trend = track_valence(
+    duration=600,
+    resolution="1s"
+)
+
+# Analyze for patterns
+patterns = analyze_emotion_stream(
+    valence_trend,
+    detect_patterns=True
+)
+```
+
+### 3. Mood Regulation
+
+```python
+from emotion import regulate_mood
+
+# Regulate to positive mood
+regulate_mood(
+    target_valence=0.7,
+    strategy="gradual",
+    duration=120
+)
+```
+
+---
+
+## MATRIZ Pipeline Integration
+
+This module operates within the MATRIZ cognitive framework:
+
+- **M (Memory)**: Emotional memory and affect history
+- **A (Attention)**: Focus on emotional salience
+- **T (Thought)**: Emotion-thought integration
+- **R (Risk)**: Emotional risk assessment
+- **I (Intent)**: Intent understanding through emotion
+- **A (Action)**: Emotion-driven action selection
+
+---
+
+## Emotion Categories
+
+### Primary Emotions (Ekman's 6)
+- **Joy**: High valence, medium-high arousal
+- **Sadness**: Low valence, low arousal
+- **Anger**: Low valence, high arousal
+- **Fear**: Low valence, high arousal
+- **Surprise**: Neutral valence, high arousal
+- **Disgust**: Low valence, medium arousal
+
+### Complex Emotions
+- **Anxiety**: Combination of fear + anticipation
+- **Hope**: Positive valence + future orientation
+- **Nostalgia**: Mixed valence + memory activation
+- **Pride**: High valence + high dominance
+
+---
+
+## Performance Targets
+
+- **Emotion Detection**: <50ms latency
+- **Stream Analysis**: Real-time (<100ms lag)
+- **Mood Regulation**: <2 seconds to initiate
+- **Valence Tracking**: 1Hz+ sampling rate
+- **Emotion Wrapper**: <10ms overhead
+
+---
+
+## Dependencies
+
+**Required Modules**: None (standalone module)
+
+**Optional Dependencies**:
+- `consciousness` - For emotion-consciousness integration
+- `memory` - For emotional memory storage
+
+---
+
+## Related Modules
+
+- **Consciousness** ([../consciousness/](../consciousness/)) - Emotion-consciousness coupling
+- **Memory** ([../memory/](../memory/)) - Emotional memory
+- **MATRIZ** ([../MATRIZ/](../MATRIZ/)) - MATRIZ pipeline integration
+
+---
+
+## Documentation
+
+- **README**: [emotion/README.md](README.md) - Emotion overview
+- **Docs**: [emotion/docs/](docs/) - Emotion processing guides
+- **Tests**: [emotion/tests/](tests/) - Emotion test suites
+- **Module Index**: [../MODULE_INDEX.md](../MODULE_INDEX.md#emotion)
+
+---
+
+**Status**: Integration Lane (L2)
+**Manifest**: ✓ module.manifest.json (schema v3.0.0)
+**Team**: Core
+**Code Owners**: @lukhas-core
+**Entrypoints**: 11 emotion processing functions
+**Test Coverage**: 85.0%
+**Last Updated**: 2025-10-02

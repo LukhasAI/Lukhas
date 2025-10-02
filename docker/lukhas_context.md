@@ -1,0 +1,394 @@
+# Docker Module Context - Vendor-Neutral AI Guidance
+*This file provides domain-specific context for any AI development tool*
+*Also available as claude.me for Claude Desktop compatibility*
+
+
+**Module**: docker
+**Purpose**: Container infrastructure and Docker orchestration
+**Lane**: L2 (Integration)
+**Language**: Python
+**Last Updated**: 2025-10-02
+
+---
+
+## Module Overview
+
+The docker module provides container infrastructure for LUKHAS AI, including Docker configurations, Dockerfiles, container orchestration, and deployment manifests. It enables containerized deployment of consciousness systems, memory services, and other LUKHAS components.
+
+### Key Components
+- **Dockerfiles**: Container definitions for LUKHAS services
+- **Docker Compose**: Multi-container orchestration
+- **Container Configuration**: Environment and runtime configuration
+- **Image Management**: Docker image building and versioning
+- **Container Orchestration**: Service deployment and scaling
+
+### Constellation Framework Integration
+- **⚛️ Anchor Star (Identity)**: Container identity and authentication
+- **🛡️ Watch Star (Guardian)**: Container security and isolation
+- **✦ Trail Star (Memory)**: Persistent volume management
+
+---
+
+## Architecture
+
+### Container Infrastructure
+
+#### Containerization Strategy
+
+**Multi-Service Architecture**:
+- Consciousness services in isolated containers
+- Memory services with persistent storage
+- Identity services with secure networking
+- Guardian services with security controls
+
+```bash
+# Example Docker structure
+docker/
+├── Dockerfile.consciousness    # Consciousness service container
+├── Dockerfile.memory           # Memory service container
+├── Dockerfile.identity         # Identity service container
+├── Dockerfile.guardian         # Guardian service container
+├── docker-compose.yml          # Multi-service orchestration
+├── .dockerignore               # Exclude patterns
+└── config/                     # Container configurations
+```
+
+---
+
+## Docker Compose Configuration
+
+### Multi-Service Deployment
+
+```yaml
+# docker-compose.yml example
+version: '3.8'
+
+services:
+  consciousness:
+    build:
+      context: .
+      dockerfile: Dockerfile.consciousness
+    environment:
+      - LUKHAS_MODE=production
+      - CONSCIOUSNESS_ENABLED=true
+    ports:
+      - "8000:8000"
+    volumes:
+      - consciousness_data:/data
+    depends_on:
+      - memory
+      - identity
+
+  memory:
+    build:
+      context: .
+      dockerfile: Dockerfile.memory
+    environment:
+      - FOLD_LIMIT=1000
+      - CASCADE_PREVENTION=true
+    volumes:
+      - memory_data:/data
+      - memory_cache:/cache
+
+  identity:
+    build:
+      context: .
+      dockerfile: Dockerfile.identity
+    environment:
+      - WEBAUTHN_ENABLED=true
+      - OAUTH2_ENABLED=true
+    ports:
+      - "8001:8001"
+
+  guardian:
+    build:
+      context: .
+      dockerfile: Dockerfile.guardian
+    environment:
+      - DRIFT_THRESHOLD=0.15
+      - ETHICS_VALIDATION=strict
+
+volumes:
+  consciousness_data:
+  memory_data:
+  memory_cache:
+```
+
+---
+
+## Dockerfile Examples
+
+### Consciousness Service Container
+
+```dockerfile
+# Dockerfile.consciousness
+FROM python:3.11-slim
+
+WORKDIR /app
+
+# Install dependencies
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy consciousness module
+COPY consciousness/ ./consciousness/
+COPY core/ ./core/
+COPY MATRIZ/ ./MATRIZ/
+
+# Environment configuration
+ENV PYTHONPATH=/app
+ENV LUKHAS_MODE=production
+ENV CONSCIOUSNESS_ENABLED=true
+
+# Expose ports
+EXPOSE 8000
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=10s --start-period=40s --retries=3 \
+  CMD python -c "import consciousness; print('healthy')"
+
+# Run consciousness service
+CMD ["python", "-m", "consciousness.server"]
+```
+
+### Memory Service Container
+
+```dockerfile
+# Dockerfile.memory
+FROM python:3.11-slim
+
+WORKDIR /app
+
+# Install dependencies
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy memory module
+COPY memory/ ./memory/
+COPY core/ ./core/
+
+# Create data directories
+RUN mkdir -p /data /cache
+
+# Environment configuration
+ENV PYTHONPATH=/app
+ENV FOLD_LIMIT=1000
+ENV CASCADE_PREVENTION=true
+
+# Volume mounts
+VOLUME ["/data", "/cache"]
+
+# Run memory service
+CMD ["python", "-m", "memory.server"]
+```
+
+---
+
+## Container Operations
+
+### Building Images
+
+```bash
+# Build specific service
+docker build -f Dockerfile.consciousness -t lukhas-consciousness:latest .
+
+# Build all services
+docker-compose build
+
+# Build with specific version
+docker build -f Dockerfile.memory -t lukhas-memory:2.0.0 .
+```
+
+### Running Containers
+
+```bash
+# Run single service
+docker run -d --name consciousness lukhas-consciousness:latest
+
+# Run all services
+docker-compose up -d
+
+# Run with specific configuration
+docker run -e LUKHAS_MODE=development lukhas-consciousness:latest
+```
+
+### Container Management
+
+```bash
+# View running containers
+docker-compose ps
+
+# View logs
+docker-compose logs consciousness
+
+# Scale services
+docker-compose up -d --scale consciousness=3
+
+# Stop services
+docker-compose down
+```
+
+---
+
+## Observability
+
+### Required Spans
+
+```python
+# Required span from module.manifest.json
+REQUIRED_SPANS = [
+    "lukhas.docker.operation",     # Docker operations
+]
+```
+
+### Container Monitoring
+
+```bash
+# Monitor container resources
+docker stats
+
+# Health checks
+docker inspect --format='{{.State.Health.Status}}' consciousness
+
+# View container metrics
+docker-compose top
+```
+
+---
+
+## Module Structure
+
+```
+docker/
+├── module.manifest.json         # Docker manifest (schema v1.0.0)
+├── module.manifest.lock.json    # Locked manifest
+├── README.md                    # Docker overview
+├── Dockerfile.consciousness     # Consciousness container
+├── Dockerfile.memory            # Memory container
+├── Dockerfile.identity          # Identity container
+├── Dockerfile.guardian          # Guardian container
+├── Dockerfile.api               # API container
+├── docker-compose.yml           # Multi-service orchestration
+├── docker-compose.dev.yml       # Development configuration
+├── docker-compose.prod.yml      # Production configuration
+├── .dockerignore                # Docker exclusions
+├── config/                      # Container configurations
+├── docs/                        # Docker documentation
+└── tests/                       # Docker test configurations
+```
+
+---
+
+## Development Guidelines
+
+### 1. Creating New Service Containers
+
+```dockerfile
+# Template for new service
+FROM python:3.11-slim
+WORKDIR /app
+
+# Dependencies
+COPY requirements.txt .
+RUN pip install -r requirements.txt
+
+# Copy service code
+COPY <service>/ ./<service>/
+
+# Configuration
+ENV PYTHONPATH=/app
+ENV <SERVICE>_ENABLED=true
+
+# Health check
+HEALTHCHECK CMD python -c "import <service>; print('healthy')"
+
+# Run service
+CMD ["python", "-m", "<service>.server"]
+```
+
+### 2. Multi-Stage Builds
+
+```dockerfile
+# Multi-stage build for smaller images
+FROM python:3.11 AS builder
+WORKDIR /app
+COPY requirements.txt .
+RUN pip install --user -r requirements.txt
+
+FROM python:3.11-slim
+WORKDIR /app
+COPY --from=builder /root/.local /root/.local
+COPY consciousness/ ./consciousness/
+ENV PATH=/root/.local/bin:$PATH
+CMD ["python", "-m", "consciousness.server"]
+```
+
+### 3. Environment-Specific Configurations
+
+```bash
+# Development
+docker-compose -f docker-compose.yml -f docker-compose.dev.yml up
+
+# Production
+docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d
+```
+
+---
+
+## MATRIZ Pipeline Integration
+
+This module operates within the MATRIZ cognitive framework:
+
+- **M (Memory)**: Persistent volume management
+- **A (Attention)**: Resource allocation and scaling
+- **T (Thought)**: Orchestration decision making
+- **R (Risk)**: Container security and isolation
+- **I (Intent)**: Deployment intent understanding
+- **A (Action)**: Container deployment and scaling
+
+---
+
+## Performance Targets
+
+- **Container Startup**: <30 seconds for service readiness
+- **Build Time**: <5 minutes for complete image build
+- **Health Check**: <10 seconds for health validation
+- **Resource Overhead**: <10% for containerization
+- **Network Latency**: <5ms inter-container communication
+
+---
+
+## Dependencies
+
+**Required Modules**: None (infrastructure module)
+
+**Docker Dependencies**:
+- Docker Engine 20.10+
+- Docker Compose 2.0+
+- Python 3.11+
+- Container runtime (containerd/runc)
+
+---
+
+## Related Modules
+
+- **Deployment** ([../deployment/](../deployment/)) - Deployment automation
+- **Ops** ([../ops/](../ops/)) - Operations management
+- **CI** ([../ci/](../ci/)) - Continuous integration
+
+---
+
+## Documentation
+
+- **README**: [docker/README.md](README.md) - Docker overview
+- **Docs**: [docker/docs/](docs/) - Docker guides and best practices
+- **Tests**: [docker/tests/](tests/) - Docker test configurations
+- **Module Index**: [../MODULE_INDEX.md](../MODULE_INDEX.md#docker)
+
+---
+
+**Status**: Integration Lane (L2)
+**Manifest**: ✓ module.manifest.json (schema v1.0.0)
+**Team**: Core
+**Code Owners**: @lukhas-core
+**Last Updated**: 2025-10-02
