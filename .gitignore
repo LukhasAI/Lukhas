@@ -336,4 +336,5 @@ reports/dashboard/*.json
 
 # Large export files (keep compressed versions)
 exports/LUKHAS_CONTEXT_PACK_FOR_CHATGPT.md
-lukhas_optimization_prompt.md
+lukhas_optimization_prompt.md# Generated lockfiles - regenerate with: make manifest-lock
+**/module.manifest.lock.json
