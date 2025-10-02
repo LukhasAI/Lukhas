@@ -250,6 +250,50 @@ LUKHAS includes a **multi-agent development system** with specialized AI agents:
 
 See [`AGENTS.md`](AGENTS.md) for the complete multi-agent development guide.
 
+## 🔌 Model Context Protocol (MCP) Servers
+
+LUKHAS provides **4 production-ready MCP servers** for Claude Desktop integration:
+
+### **lukhas-devtools** (TypeScript) - T4/0.01% Quality ⚡ **NEW**
+Industry-leading development tools with live analysis:
+- **Live pytest collection**: Real-time test counts (5-minute TTL cache)
+- **Live ruff/mypy analysis**: Current error counts (1-minute TTL cache)
+- **OpenTelemetry instrumentation**: Full observability with spans
+- **Structured error taxonomy**: MCPError codes with recovery strategies
+- **Performance**: <100ms status, <5s analysis, timeout protection
+
+**Tools:** `test_infrastructure_status`, `code_analysis_status`, `t4_audit_status`, `development_utilities`, `module_structure`, `devtools_operation`
+
+### **lukhas-main** (Python)
+Core LUKHAS AI functionality and system operations.
+
+### **lukhas-consciousness** (Python)
+Direct access to consciousness systems, Trinity Framework, and MΛTRIZ cognitive DNA.
+
+### **lukhas-identity** (Python)
+ΛiD Core Identity System with authentication and namespace management.
+
+### Claude Desktop Setup
+
+Add to `~/Library/Application Support/Claude/claude_desktop_config.json`:
+
+```json
+{
+  "mcpServers": {
+    "lukhas-devtools": {
+      "command": "npm",
+      "args": ["run", "start"],
+      "cwd": "/path/to/Lukhas/mcp-servers/lukhas-devtools-mcp",
+      "env": {
+        "LUKHAS_ROOT": "/path/to/Lukhas"
+      }
+    }
+  }
+}
+```
+
+**Documentation:** See [`mcp-servers/README.md`](mcp-servers/README.md) and [`mcp-servers/lukhas-devtools-mcp/CLAUDE_DESKTOP_SETUP.md`](mcp-servers/lukhas-devtools-mcp/CLAUDE_DESKTOP_SETUP.md) for complete setup instructions.
+
 ## 🛡️ Security & Governance
 
 ### Guardian System
