@@ -18,7 +18,7 @@ Legacy core alias: enabled (warn/disable via env) — use lukhas.core.*
 
 ## 🧠 System Overview
 
-LUKHAS is a comprehensive Cognitive AI architecture spanning **7,000+ Python files** across **133 root directories**, implementing the Constellation Framework with constitutional AI safeguards. The system progresses from research through integration to production-ready deployment.
+LUKHAS is a comprehensive Cognitive AI architecture spanning **43,500+ Python files** across **173 root directories**, implementing the Constellation Framework with constitutional AI safeguards. The system progresses from research through integration to production-ready deployment.
 
 ### **Scale & Complexity**
 - **CANDIDATE Domain**: 2,877 files (primary development workspace)
@@ -323,4 +323,4 @@ CANDIDATE Research → LUKHAS Integration → PRODUCTS Deployment
 ---
 
 **Architecture Status**: Constellation Framework Active | Constitutional AI Integrated | T4/0.01% Agent System Active
-**Last Updated**: 2025-09-21 | **Total Files**: 7,000+ | **Context Files**: 35+ | **Agent Tasks**: 62
+**Last Updated**: 2025-10-02 | **Total Python Files**: 43,503 | **Total Markdown**: 15,418 | **Modules**: 149 | **Context Files**: 43 | **Docs Dirs**: 229 | **Tests Dirs**: 522

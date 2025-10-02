@@ -3,12 +3,23 @@
   "directory_metadata": {
     "path": ".",
     "lane": "development",
-    "purpose": "Directory containing 4 Python files and 131 subdirectories with T4/0.01% agent delegation system",
-    "last_updated": "2025-09-21",
+    "purpose": "Root directory containing 4 Python files and 173 subdirectories with T4/0.01% agent delegation system",
+    "last_updated": "2025-10-02",
     "constellation_framework_version": "2.0.0",
     "t4_compliance_level": "active",
     "agent_system_version": "1.0.0",
-    "audit_tasks_count": 62
+    "audit_tasks_count": 62,
+    "statistics": {
+      "total_python_files": 43503,
+      "total_markdown_files": 15418,
+      "total_directories": 68640,
+      "manifest_files": 149,
+      "readme_files": 9266,
+      "lukhas_context_files": 43,
+      "claude_me_files": 42,
+      "docs_directories": 229,
+      "tests_directories": 522
+    }
   },
   "component_inventory": {
     "python_files": [
