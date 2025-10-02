@@ -25,11 +25,18 @@
       "symbolic.GestureType",
       "symbolic.PersonalSymbolDictionary",
       "symbolic.UniversalSymbolExchange",
+      "symbolic.entropy_password_system.EntropySource",
+      "symbolic.entropy_password_system.MaximumEntropyPasswordGenerator",
+      "symbolic.entropy_password_system.QIResistantPassword",
+      "symbolic.multi_modal_language.HighEntropyPassword",
+      "symbolic.multi_modal_language.ModalityFeatures",
+      "symbolic.multi_modal_language.ModalityType",
+      "symbolic.multi_modal_language.MultiModalLanguageBuilder",
+      "symbolic.multi_modal_language.UniversalConcept",
       "symbolic.vocabularies"
     ]
   },
   "matrix": {
-    "contract": "",
     "lane": "L2",
     "gates_profile": "standard"
   },
