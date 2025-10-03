@@ -1,0 +1,30 @@
+# transmission_bundle - Module Context
+
+## Overview
+
+LUKHAS transmission_bundle module implementing specialized transmission_bundle functionality with 2 components for integrated system operations.
+
+## Quick Reference
+
+```python
+from transmission_bundle import *
+```
+
+## Key Components
+
+- LUKHASTransmission
+
+
+## Module Metadata
+
+- **Lane**: L2
+- **Entrypoints**: 1
+- **Schema**: 3.0.0
+- **Tags**: transmission_bundle
+- **Dependencies**: None
+
+---
+
+**Status**: L2 Integration
+**Version**: 3.0.0
+**Last Updated**: 2025-10-03

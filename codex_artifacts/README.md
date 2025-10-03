@@ -1,16 +1,16 @@
-# 📦 Agents_External
+# 📦 Codex_Artifacts
 
-_Like a maestro conducting infinite instruments, agents_external harmonizes disparate voices into symphonic coherence—many minds, one purpose._
+_Creation made manifest, ephemeral thoughts given form—codex_artifacts transforms intention into artifact, possibility into reality._
 
-**LUKHAS agents_external module implementing specialized agents_external functionality with 0 components for integrated system operations.**
+**LUKHAS codex_artifacts module implementing specialized codex_artifacts functionality with 0 components for integrated system operations.**
 
 ## Overview
 
-LUKHAS agents_external module implementing specialized agents_external functionality with 0 components for integrated system operations.
+LUKHAS codex_artifacts module implementing specialized codex_artifacts functionality with 0 components for integrated system operations.
 
 
 
-**Technical Foundation**: Core agents_external module implementing LUKHAS system architecture patterns with comprehensive testing, observability, and performance optimization.
+**Technical Foundation**: Core codex_artifacts module implementing LUKHAS system architecture patterns with comprehensive testing, observability, and performance optimization.
 
 ## Lane Position
 
@@ -26,17 +26,17 @@ LUKHAS agents_external module implementing specialized agents_external functiona
 
 ## Quick Start
 
-**Getting Started**: This module coordinates multiple components—like a project manager who assigns tasks to team members and integrates their work into a final deliverable.
+**Getting Started**: This module manages outputs—think of it as the packaging department that takes finished products and prepares them for delivery.
 
 
 ### Installation
 
 ```python
 # Import from unknown lane
-from agents_external import AgentsExternal
+from codex_artifacts import CodexArtifacts
 
 # Initialize
-system = AgentsExternal()
+system = CodexArtifacts()
 result = system.process(input_data)
 print(f"Result: {result}")
 ```
@@ -56,7 +56,7 @@ See code docstrings and inline documentation.
 ## Architecture
 
 ```
-agents_external/
+codex_artifacts/
 ├── __init__.py          # Module initialization
 ├── core.py              # Core functionality
 ├── api.py               # API interfaces
@@ -68,10 +68,10 @@ agents_external/
 
 ```bash
 # Run module tests
-pytest /Users/agi_dev/LOCAL-REPOS/Lukhas/agents_external/tests/ -v
+pytest /Users/agi_dev/LOCAL-REPOS/Lukhas/codex_artifacts/tests/ -v
 
 # Run with coverage
-pytest /Users/agi_dev/LOCAL-REPOS/Lukhas/agents_external/tests/ --cov=agents_external --cov-report=html
+pytest /Users/agi_dev/LOCAL-REPOS/Lukhas/codex_artifacts/tests/ --cov=codex_artifacts --cov-report=html
 ```
 
 ## Performance

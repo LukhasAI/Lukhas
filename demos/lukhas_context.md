@@ -1,0 +1,30 @@
+# demos - Module Context
+
+## Overview
+
+LUKHAS demos module implementing specialized demos functionality with 0 components for integrated system operations.
+
+## Quick Reference
+
+```python
+from demos import *
+```
+
+## Key Components
+
+
+
+
+## Module Metadata
+
+- **Lane**: L2
+- **Entrypoints**: 0
+- **Schema**: 3.0.0
+- **Tags**: demos
+- **Dependencies**: None
+
+---
+
+**Status**: L2 Integration
+**Version**: 3.0.0
+**Last Updated**: 2025-10-03

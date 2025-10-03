@@ -1,16 +1,16 @@
-# 📦 Agents_External
+# 📦 Health_Reports
 
-_Like a maestro conducting infinite instruments, agents_external harmonizes disparate voices into symphonic coherence—many minds, one purpose._
+_Vital signs pulse through digital veins—health_reports measures the heartbeat of systems, diagnosing whispers before they become screams._
 
-**LUKHAS agents_external module implementing specialized agents_external functionality with 0 components for integrated system operations.**
+**LUKHAS health_reports module implementing specialized health_reports functionality with 0 components for integrated system operations.**
 
 ## Overview
 
-LUKHAS agents_external module implementing specialized agents_external functionality with 0 components for integrated system operations.
+LUKHAS health_reports module implementing specialized health_reports functionality with 0 components for integrated system operations.
 
 
 
-**Technical Foundation**: Core agents_external module implementing LUKHAS system architecture patterns with comprehensive testing, observability, and performance optimization.
+**Technical Foundation**: Core health_reports module implementing LUKHAS system architecture patterns with comprehensive testing, observability, and performance optimization.
 
 ## Lane Position
 
@@ -26,17 +26,17 @@ LUKHAS agents_external module implementing specialized agents_external functiona
 
 ## Quick Start
 
-**Getting Started**: This module coordinates multiple components—like a project manager who assigns tasks to team members and integrates their work into a final deliverable.
+**Getting Started**: This module monitors system health—like a doctor's check-up that measures vital signs and warns you of potential problems before they become serious.
 
 
 ### Installation
 
 ```python
 # Import from unknown lane
-from agents_external import AgentsExternal
+from health_reports import HealthReports
 
 # Initialize
-system = AgentsExternal()
+system = HealthReports()
 result = system.process(input_data)
 print(f"Result: {result}")
 ```
@@ -56,7 +56,7 @@ See code docstrings and inline documentation.
 ## Architecture
 
 ```
-agents_external/
+health_reports/
 ├── __init__.py          # Module initialization
 ├── core.py              # Core functionality
 ├── api.py               # API interfaces
@@ -68,10 +68,10 @@ agents_external/
 
 ```bash
 # Run module tests
-pytest /Users/agi_dev/LOCAL-REPOS/Lukhas/agents_external/tests/ -v
+pytest /Users/agi_dev/LOCAL-REPOS/Lukhas/health_reports/tests/ -v
 
 # Run with coverage
-pytest /Users/agi_dev/LOCAL-REPOS/Lukhas/agents_external/tests/ --cov=agents_external --cov-report=html
+pytest /Users/agi_dev/LOCAL-REPOS/Lukhas/health_reports/tests/ --cov=health_reports --cov-report=html
 ```
 
 ## Performance

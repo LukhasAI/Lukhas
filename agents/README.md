@@ -1,16 +1,16 @@
-# 📦 Agents_External
+# 📦 Agents
 
-_Like a maestro conducting infinite instruments, agents_external harmonizes disparate voices into symphonic coherence—many minds, one purpose._
+_Like a maestro conducting infinite instruments, agents harmonizes disparate voices into symphonic coherence—many minds, one purpose._
 
-**LUKHAS agents_external module implementing specialized agents_external functionality with 0 components for integrated system operations.**
+**LUKHAS agents module implementing specialized agents functionality with 0 components for integrated system operations.**
 
 ## Overview
 
-LUKHAS agents_external module implementing specialized agents_external functionality with 0 components for integrated system operations.
+LUKHAS agents module implementing specialized agents functionality with 0 components for integrated system operations.
 
 
 
-**Technical Foundation**: Core agents_external module implementing LUKHAS system architecture patterns with comprehensive testing, observability, and performance optimization.
+**Technical Foundation**: Core agents module implementing LUKHAS system architecture patterns with comprehensive testing, observability, and performance optimization.
 
 ## Lane Position
 
@@ -33,10 +33,10 @@ LUKHAS agents_external module implementing specialized agents_external functiona
 
 ```python
 # Import from unknown lane
-from agents_external import AgentsExternal
+from agents import Agents
 
 # Initialize
-system = AgentsExternal()
+system = Agents()
 result = system.process(input_data)
 print(f"Result: {result}")
 ```
@@ -56,7 +56,7 @@ See code docstrings and inline documentation.
 ## Architecture
 
 ```
-agents_external/
+agents/
 ├── __init__.py          # Module initialization
 ├── core.py              # Core functionality
 ├── api.py               # API interfaces
@@ -68,10 +68,10 @@ agents_external/
 
 ```bash
 # Run module tests
-pytest /Users/agi_dev/LOCAL-REPOS/Lukhas/agents_external/tests/ -v
+pytest /Users/agi_dev/LOCAL-REPOS/Lukhas/agents/tests/ -v
 
 # Run with coverage
-pytest /Users/agi_dev/LOCAL-REPOS/Lukhas/agents_external/tests/ --cov=agents_external --cov-report=html
+pytest /Users/agi_dev/LOCAL-REPOS/Lukhas/agents/tests/ --cov=agents --cov-report=html
 ```
 
 ## Performance

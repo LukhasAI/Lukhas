@@ -1,16 +1,16 @@
-# 📦 Agents_External
+# 📦 Governance_Extended
 
-_Like a maestro conducting infinite instruments, agents_external harmonizes disparate voices into symphonic coherence—many minds, one purpose._
+_Laws written not in stone but in elegant logic—governance_extended encodes principles into enforceable reality, ethics made executable._
 
-**LUKHAS agents_external module implementing specialized agents_external functionality with 0 components for integrated system operations.**
+**Governance framework implementing policy engines, ethical decision systems, Guardian System integration, and constitutional AI principles for autonomous governance operations with 0 components.**
 
 ## Overview
 
-LUKHAS agents_external module implementing specialized agents_external functionality with 0 components for integrated system operations.
+Governance framework implementing policy engines, ethical decision systems, Guardian System integration, and constitutional AI principles for autonomous governance operations with 0 components.
 
 
 
-**Technical Foundation**: Core agents_external module implementing LUKHAS system architecture patterns with comprehensive testing, observability, and performance optimization.
+**Technical Foundation**: Core governance_extended module implementing LUKHAS system architecture patterns with comprehensive testing, observability, and performance optimization.
 
 ## Lane Position
 
@@ -26,17 +26,17 @@ LUKHAS agents_external module implementing specialized agents_external functiona
 
 ## Quick Start
 
-**Getting Started**: This module coordinates multiple components—like a project manager who assigns tasks to team members and integrates their work into a final deliverable.
+**Getting Started**: This module enforces rules—like a compliance officer who ensures operations follow regulations and best practices automatically.
 
 
 ### Installation
 
 ```python
 # Import from unknown lane
-from agents_external import AgentsExternal
+from governance_extended import GovernanceExtended
 
 # Initialize
-system = AgentsExternal()
+system = GovernanceExtended()
 result = system.process(input_data)
 print(f"Result: {result}")
 ```
@@ -56,7 +56,7 @@ See code docstrings and inline documentation.
 ## Architecture
 
 ```
-agents_external/
+governance_extended/
 ├── __init__.py          # Module initialization
 ├── core.py              # Core functionality
 ├── api.py               # API interfaces
@@ -68,10 +68,10 @@ agents_external/
 
 ```bash
 # Run module tests
-pytest /Users/agi_dev/LOCAL-REPOS/Lukhas/agents_external/tests/ -v
+pytest /Users/agi_dev/LOCAL-REPOS/Lukhas/governance_extended/tests/ -v
 
 # Run with coverage
-pytest /Users/agi_dev/LOCAL-REPOS/Lukhas/agents_external/tests/ --cov=agents_external --cov-report=html
+pytest /Users/agi_dev/LOCAL-REPOS/Lukhas/governance_extended/tests/ --cov=governance_extended --cov-report=html
 ```
 
 ## Performance
