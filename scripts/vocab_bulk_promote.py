@@ -116,6 +116,16 @@ def main():
         action="store_true",
         help="Allow creation even if 'raw' is not in review_queue (use with care)"
     )
+    ap.add_argument(
+        "--report",
+        choices=["md"],
+        help="Generate report format (md for Markdown PR changelog)"
+    )
+    ap.add_argument(
+        "--validate-only",
+        action="store_true",
+        help="Validate mapping file without writing changes"
+    )
     args = ap.parse_args()
 
     # Load existing data
@@ -223,6 +233,24 @@ def main():
                 "error": str(e)
             })
 
+    # Validate-only mode - check and exit
+    if args.validate_only:
+        print("=== Validation Report ===\n")
+        print(f"Rows validated: {len(mapping)}")
+        print(f"Would create canonicals: {len(report['created'])}")
+        print(f"Would add synonyms: {len(report['synonym_added'])}")
+        print(f"Would skip: {len(report['skipped'])}")
+        print(f"Errors: {len(report['errors'])}")
+
+        if report["errors"]:
+            print("\n❌ Validation Errors:")
+            for err in report["errors"]:
+                print(f"  Row {err.get('row', '?')}: {err.get('error', 'unknown')}")
+            sys.exit(1)
+
+        print("\n✅ Mapping file is valid")
+        sys.exit(0)
+
     # Dry run - show report and exit
     if args.dry_run:
         print("=== Dry Run Report ===\n")
@@ -256,6 +284,58 @@ def main():
         for item in report["synonym_added"]:
             target = item.get("canonical") or item.get("to")
             print(f"  {target} <- {item['raw']}")
+
+    # Generate Markdown report if requested
+    if args.report == "md":
+        reports_dir = ROOT / "reports"
+        reports_dir.mkdir(parents=True, exist_ok=True)
+
+        md_lines = [
+            "# 📑 Vocabulary Promotion Report",
+            f"_Generated {datetime.now(timezone.utc).isoformat()}_",
+            "",
+            "## Summary",
+            f"- **Created canonicals**: {len(report['created'])}",
+            f"- **Synonyms added**: {len(report['synonym_added'])}",
+            f"- **Skipped**: {len(report['skipped'])}",
+            f"- **Errors**: {len(report['errors'])}",
+            ""
+        ]
+
+        if report["created"]:
+            md_lines.append("## New Canonical Features")
+            md_lines.append("")
+            for item in report["created"]:
+                md_lines.append(f"- **`{item['canonical']}`**")
+                md_lines.append(f"  - Synonym: \"{item['raw']}\"")
+
+        if report["synonym_added"]:
+            md_lines.append("")
+            md_lines.append("## Synonyms Added")
+            md_lines.append("")
+            for item in report["synonym_added"]:
+                target = item.get("canonical") or item.get("to")
+                md_lines.append(f"- \"{item['raw']}\" → `{target}`")
+
+        if report["errors"]:
+            md_lines.append("")
+            md_lines.append("## Errors")
+            md_lines.append("")
+            for err in report["errors"]:
+                md_lines.append(f"- Row {err.get('row', '?')}: {err.get('error', 'unknown')}")
+
+        # Queue status
+        remaining = len(queue.get("items", []))
+        md_lines.extend([
+            "",
+            "## Review Queue Status",
+            f"- **Remaining items**: {remaining}",
+            f"- **Last updated**: {queue.get('updated_at', 'unknown')}"
+        ])
+
+        report_path = reports_dir / "vocab_promotion_report.md"
+        report_path.write_text("\n".join(md_lines))
+        print(f"\n✅ Wrote {report_path}")
 
 
 if __name__ == "__main__":

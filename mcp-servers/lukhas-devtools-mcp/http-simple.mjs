@@ -65,16 +65,21 @@ const server = createServer(async (req, res) => {
   try {
     // Root endpoint - redirect to OpenAPI spec for ChatGPT discovery
     if (path === '/' && method === 'GET') {
+      // Detect if we're being accessed through a tunnel
+      const host = req.headers.host || `localhost:${PORT}`;
+      const protocol = req.headers['x-forwarded-proto'] || 'http';
+      const baseUrl = `${protocol}://${host}`;
+      
       sendJSON(res, {
         name: "LUKHAS DevTools MCP",
         version: "0.2.0",
         description: "LUKHAS development tools for ChatGPT integration",
-        mcp_endpoint: `http://localhost:${PORT}/mcp`,
-        openapi_spec: `http://localhost:${PORT}/openapi.json`,
+        mcp_endpoint: `${baseUrl}/mcp`,
+        openapi_spec: `${baseUrl}/openapi.json`,
         endpoints: {
-          mcp: `http://localhost:${PORT}/mcp`,
-          health: `http://localhost:${PORT}/healthz`,
-          openapi: `http://localhost:${PORT}/openapi.json`
+          mcp: `${baseUrl}/mcp`,
+          health: `${baseUrl}/healthz`,
+          openapi: `${baseUrl}/openapi.json`
         },
         methods: [
           "test_infrastructure_status",
@@ -95,6 +100,14 @@ const server = createServer(async (req, res) => {
         version: '0.2.0',
         features: ['chatgpt-ready', 't4-quality']
       });
+      return;
+    }
+
+    // Simple ping endpoint for ChatGPT connectivity testing
+    if (path === '/ping' && method === 'GET') {
+      setCORSHeaders(res);
+      res.writeHead(200, { 'Content-Type': 'text/plain' });
+      res.end('pong');
       return;
     }
 

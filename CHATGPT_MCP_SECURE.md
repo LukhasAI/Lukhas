@@ -17,7 +17,7 @@ LUKHAS development tools providing real-time infrastructure status, code analysi
 
 **MCP Server URL:** 
 ```
-https://37644823b35a.ngrok-free.app/mcp
+https://4468feb2fb85.ngrok-free.app/mcp
 ```
 
 **Authentication:** `None`
@@ -41,7 +41,7 @@ https://37644823b35a.ngrok-free.app/mcp
 
 ### Tunnel Details
 - **Local Server**: `http://localhost:8764` (your MCP server)
-- **Public URL**: `https://37644823b35a.ngrok-free.app`
+- **Public URL**: `https://4468feb2fb85.ngrok-free.app`
 - **Protocol**: HTTPS (secure)
 - **Status**: ✅ Active and tested
 
@@ -59,7 +59,7 @@ https://37644823b35a.ngrok-free.app/mcp
 1. Go to ChatGPT Settings → Features → Actions
 2. Create a new Action with these settings:
    - **Name**: `LUKHAS DevTools MCP`
-   - **Schema**: Import from `https://37644823b35a.ngrok-free.app/openapi.json`
+   - **Schema**: Import from `https://4468feb2fb85.ngrok-free.app/openapi.json`
    - **Authentication**: None
    - **Privacy Policy**: Not required for personal use
 
@@ -79,10 +79,10 @@ ChatGPT should now successfully connect to your LUKHAS MCP server via the secure
 ### Test Commands
 ```bash
 # Test tunnel health
-curl -H "ngrok-skip-browser-warning: true" https://37644823b35a.ngrok-free.app/mcp
+curl https://4468feb2fb85.ngrok-free.app/mcp
 
 # Test MCP method
-curl -X POST https://37644823b35a.ngrok-free.app/mcp \
+curl -X POST https://4468feb2fb85.ngrok-free.app/mcp \
   -H "Content-Type: application/json" \
   -H "ngrok-skip-browser-warning: true" \
   -d '{
@@ -126,7 +126,7 @@ curl -X POST https://37644823b35a.ngrok-free.app/mcp \
 
 ## 🚀 Next Steps
 
-1. **Add to ChatGPT**: Use the secure URL `https://37644823b35a.ngrok-free.app/mcp`
+1. **Add to ChatGPT**: Use the secure URL `https://4468feb2fb85.ngrok-free.app/mcp`
 2. **Test functionality**: Try asking ChatGPT about LUKHAS infrastructure status
 3. **Keep tunnel running**: Don't stop ngrok while using ChatGPT
 4. **Update URL if needed**: Restart ngrok and update ChatGPT if tunnel expires
@@ -139,13 +139,13 @@ curl -X POST https://37644823b35a.ngrok-free.app/mcp \
 
 **Root Endpoint Test:**
 ```bash
-curl https://37644823b35a.ngrok-free.app/
+curl https://4468feb2fb85.ngrok-free.app/
 # ✅ Returns: Server info and endpoint discovery
 ```
 
 **MCP Endpoint Test:**
 ```bash
-curl -X POST https://37644823b35a.ngrok-free.app/mcp \
+curl -X POST https://4468feb2fb85.ngrok-free.app/mcp \
   -H "Content-Type: application/json" \
   -d '{"jsonrpc": "2.0", "method": "test_infrastructure_status", "params": {}, "id": 1}'
 # ✅ Returns: Complete infrastructure status with 775+ tests
@@ -159,11 +159,11 @@ curl -X POST https://37644823b35a.ngrok-free.app/mcp \
 ---
 
 *Server Status: ✅ Running on http://localhost:8764*
-*Tunnel Status: ✅ Active at https://37644823b35a.ngrok-free.app*
+*Tunnel Status: ✅ Active at https://4468feb2fb85.ngrok-free.app*
 *Root Endpoint: ✅ Working (ChatGPT discovery fixed)*
 *MCP Endpoint: ✅ Working (All 4 methods operational)*
 *Authentication: ✅ None (Open Access)*
 *Security: ✅ HTTPS Tunnel (ChatGPT Safe)*
 *Quality Standard: ✅ T4/0.01% Excellence*
 
-**🚀 Ready to add to ChatGPT Actions with URL:** `https://37644823b35a.ngrok-free.app/mcp`
+**🚀 Ready to add to ChatGPT Actions with URL:** `https://4468feb2fb85.ngrok-free.app/mcp`

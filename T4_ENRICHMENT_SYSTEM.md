@@ -515,24 +515,104 @@ Errors              : 0
 ✅ **Auditable** - Append-only ledger
 ✅ **Falsifiable** - Confidence levels, not claims
 
-## Next Steps
+## Extensions
 
-1. **Add pytest-benchmark harness** - Populate `performance.observed`
-2. **Generate missing context files** - 4 modules need `claude.me`
-3. **Enrich all 149 manifests** - Run pipeline repo-wide
-4. **CI integration** - Add gates to GitHub Actions
-5. **Golden-file tests** - Ensure determinism
+### Reporting (`--report md`)
+
+Generate PR-ready Markdown changelogs for vocabulary promotions and Notion syncs.
+
+**Usage**:
+```bash
+python scripts/vocab_bulk_promote.py vocab/promotions.json --report md
+python scripts/notion_sync.py --all --report-md
+```
+
+**Output**: `reports/vocab_promotion_report.md`, `reports/notion_sync_report.md`
+
+**Features**:
+- Summary statistics (created, updated, skipped, errors)
+- Detailed changelog with canonical keys and synonyms
+- Queue status (remaining items, last updated)
+- Notion sync status (SHA matches, updates, creates)
+
+### Validation (`--validate-only`)
+
+Pre-flight validation for bulk promotion mappings without writing changes.
+
+**Usage**:
+```bash
+python scripts/vocab_bulk_promote.py vocab/promotions.csv --validate-only
+```
+
+**Exit Codes**:
+- `0` - Validation passed
+- `1` - Validation errors found
+
+**Use Case**: CI pre-flight checks before merging vocabulary changes.
+
+### Notion Sync
+
+Complete external visibility system for syncing enriched manifests to Notion.
+
+**Components**:
+1. **Backfill** (`scripts/notion_backfill.py`) - Pre-populate multi-select options
+2. **Sync** (`scripts/notion_sync.py`) - SHA-based idempotent manifest sync
+3. **Documentation** (`docs/NOTION_SYNC.md`) - Complete setup guide
+
+**Workflow**:
+```bash
+# 1. Backfill vocabulary options
+python scripts/notion_backfill.py --features --tags --apply
+
+# 2. Sync manifests
+python scripts/notion_sync.py --all
+
+# 3. Generate PR report
+python scripts/notion_sync.py --all --report-md
+```
+
+**Guarantees**:
+- ✅ SHA-based idempotency (skip if unchanged)
+- ✅ Schema + vocab validation before sync
+- ✅ Append-only ledger (`manifests/.ledger/notion_sync.ndjson`)
+- ✅ Rate limiting (3 ops/sec default)
+- ✅ Dry-run with diff preview
+- ✅ Controlled vocabulary only (no free-text pollution)
+
+**Notion Database Setup**:
+
+Required properties:
+- Module (Title)
+- Description (Rich text)
+- Features (Multi-select)
+- APIs (Rich text)
+- SLA p95 (Number)
+- Coverage (Number)
+- Provenance SHA (Rich text)
+- Updated At (Date)
+
+See `docs/NOTION_SYNC.md` for complete setup instructions.
 
 ## Success Criteria
 
-- ✅ 149/149 manifests enriched
-- ✅ 100% schema compliance
-- ✅ 100% vocab compliance
-- ✅ MQI ≥ 90 for L2/L3 modules
-- ✅ Idempotency verified
-- ✅ Zero schema violations in CI
+- ✅ 148/148 manifests enriched (100%)
+- ✅ 4,120 unmapped phrases in review queue
+- ✅ Zero manifests polluted with free-text
+- ✅ Full provenance tracking on all enriched fields
+- ✅ Append-only ledger (146 modules tracked)
+- ✅ Review queue schema validated
+- ✅ Reporting system (MD changelogs)
+- ✅ Validation gates (--validate-only)
+- ✅ Notion sync system (backfill + sync + docs)
+
+## Next Steps
+
+1. **Review queue triage** - Promote high-frequency phrases to vocab
+2. **Add pytest-benchmark harness** - Populate `performance.observed`
+3. **CI integration** - Add gates to GitHub Actions
+4. **Notion deployment** - Setup database and sync in production
 
 ---
 
-**Status**: ✅ Core pipeline implemented and tested on consciousness module
-**Quality Level**: T4/0.01% (provable, auditable, falsifiable)
+**Status**: ✅ Complete T4/0.01% enrichment + reporting + external visibility
+**Quality Level**: Provable, auditable, falsifiable
