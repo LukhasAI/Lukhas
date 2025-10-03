@@ -5,8 +5,12 @@ import { URL } from 'node:url';
 import path from 'path';
 import { evalOrchestrator } from './adapters/evalOrchestrator.js';
 import { modelRegistry } from './adapters/modelRegistry.js';
-import { sloMonitor } from './adapters/sloMonitor.js';
 import { createStores, openDB } from './persistence/sqlite.js';
+// Conditional import: use Prometheus adapter if PROM_URL is set, otherwise stub
+const useProm = process.env.PROM_URL;
+const { sloMonitor } = useProm
+    ? await import('./adapters/sloMonitor.prom.js')
+    : await import('./adapters/sloMonitor.js');
 
 const PORT = parseInt(process.env.PORT || "8766");
 
@@ -1520,6 +1524,8 @@ async function handleMCPMethod(method, params = {}) {
                         result_json: null
                     };
                     stores.job.upsert(entry);
+                    // Add narrative audit trail
+                    stores.job.insertNarrative('queued', jobId, `eval "${taskId}" → queued for processing`);
                     // after stores.job.upsert(entry);
                     ssePublish(`job/${jobId}`, 'queued', { jobId, taskId, configId, ts: nowIso() });
 
@@ -1528,6 +1534,7 @@ async function handleMCPMethod(method, params = {}) {
                         setTimeout(() => {
                             const j = stores.job.get(jobId); if (!j) return;
                             j.status = 'RUNNING'; j.updated_at = nowIso(); stores.job.upsert(j);
+                            stores.job.insertNarrative('running', jobId, `eval "${taskId}" → running`);
                             ssePublish(`job/${jobId}`, 'running', { jobId, ts: j.updated_at });
                         }, 250);
                         setTimeout(() => {
@@ -1540,6 +1547,7 @@ async function handleMCPMethod(method, params = {}) {
                                 artifacts: []
                             });
                             stores.job.upsert(j);
+                            stores.job.insertNarrative('completed', jobId, `eval "${taskId}" → completed successfully`);
                             ssePublish(`job/${jobId}`, 'completed', {
                                 jobId, ts: j.updated_at,
                                 result: JSON.parse(j.result_json)
@@ -1638,6 +1646,7 @@ async function handleMCPMethod(method, params = {}) {
                         created_at: now, updated_at: now, policy_json: JSON.stringify(policy)
                     };
                     stores.canary.upsert(entry);
+                    stores.canary.insertNarrative('started', canaryId, `canary ${modelId} → ${fromGate} to ${toGate} (SLO monitoring)`);
                     ssePublish(`canary/${canaryId}`, 'started', { canaryId, modelId, fromGate, toGate, ts: now });
 
                     if (!dryRun) {
@@ -1664,6 +1673,7 @@ async function handleMCPMethod(method, params = {}) {
                                 stores.model.upsert({ model_id: modelId, promoted: 1, promoted_at: now2 });
                                 stores.audit.write(now2, 'mcp', 'canary_promote', { modelId, fromGate, toGate, metrics: m });
                                 stores.canary.upsert({ ...entry, status: 'PROMOTED', updated_at: now2, policy_json: JSON.stringify(policy) });
+                                stores.canary.insertNarrative('promoted', canaryId, `promoted ${modelId} → ${toGate} (lat=${Math.round(latency_p95_ms)}ms, err=${(error_rate * 100).toFixed(1)}%)`);
                                 ssePublish(`canary/${canaryId}`, 'promoted', { canaryId, ts: now2, metrics: m });
                                 clearInterval(iv);
                                 return;
@@ -1673,6 +1683,7 @@ async function handleMCPMethod(method, params = {}) {
                                 const now2 = nowIso();
                                 stores.audit.write(now2, 'mcp', 'canary_rollback', { modelId, fromGate, toGate, metrics: m });
                                 stores.canary.upsert({ ...entry, status: 'ROLLED_BACK', updated_at: now2, policy_json: JSON.stringify(policy) });
+                                stores.canary.insertNarrative('rolled_back', canaryId, `rollback ${modelId} due to SLO breach (lat=${Math.round(latency_p95_ms)}ms, err=${(error_rate * 100).toFixed(1)}%)`);
                                 ssePublish(`canary/${canaryId}`, 'rolled_back', { canaryId, ts: now2, metrics: m });
                                 clearInterval(iv);
                                 return;
