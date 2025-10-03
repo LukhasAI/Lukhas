@@ -1,0 +1,30 @@
+# jules_branch - Module Context
+
+## Overview
+
+LUKHAS Jules--branch module implementing specialized Jules--branch functionality with 0 components for integrated system operations.
+
+## Quick Reference
+
+```python
+from jules_branch import *
+```
+
+## Key Components
+
+
+
+
+## Module Metadata
+
+- **Lane**: L2
+- **Entrypoints**: 0
+- **Schema**: 3.0.0
+- **Tags**: Jules--branch
+- **Dependencies**: None
+
+---
+
+**Status**: L2 Integration
+**Version**: 3.0.0
+**Last Updated**: 2025-10-03

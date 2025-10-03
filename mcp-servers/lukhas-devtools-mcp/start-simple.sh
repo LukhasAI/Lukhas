@@ -1,0 +1,30 @@
+#!/bin/bash
+
+# Start LUKHAS DevTools MCP Simple Server for ChatGPT
+# Simplified JavaScript version without TypeScript dependencies
+
+set -e
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+SERVER_DIR="$SCRIPT_DIR"
+
+echo "🚀 Starting LUKHAS DevTools MCP Simple Server..."
+
+cd "$SERVER_DIR"
+
+# Generate token if not provided
+if [[ -z "$MCP_HTTP_TOKEN" ]]; then
+    MCP_HTTP_TOKEN=$(openssl rand -hex 32)
+    echo "🔑 Generated token: $MCP_HTTP_TOKEN"
+fi
+
+# Set port
+PORT=${PORT:-8764}
+
+echo "📊 Configuration:"
+echo "   - Port: $PORT"
+echo "   - Token: ${MCP_HTTP_TOKEN:0:8}..."
+echo "   - Server: lukhas-devtools-mcp-simple"
+
+# Start the simple JavaScript server
+MCP_HTTP_TOKEN="$MCP_HTTP_TOKEN" PORT="$PORT" node http-simple.mjs

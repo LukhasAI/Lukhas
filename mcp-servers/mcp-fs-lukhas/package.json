@@ -6,7 +6,7 @@
   "scripts": {
     "build": "tsc -p .",
     "start": "ts-node src/server.ts",
-    "start:http": "ts-node src/http-main.ts",
+    "start:http": "node --loader ts-node/esm src/http-node.ts",
     "lint": "eslint . --ext .ts",
     "smoke": "ts-node scripts/smoke_stdio.ts",
     "smoke:stdio": "ts-node scripts/smoke_stdio.ts"
