@@ -1,55 +1,79 @@
 {
-  "schema_version": "1.0.0",
-  "module": "presentations",
+  "_provenance": {
+    "apis": {
+      "confidence": "low",
+      "extracted_at": "2025-10-03T01:02:53.701396+00:00",
+      "reasons": [
+        "no_apis"
+      ],
+      "sources": []
+    },
+    "features": {
+      "confidence": "low",
+      "extracted_at": "2025-10-03T01:02:53.701301+00:00",
+      "reasons": [
+        "weak_evidence"
+      ],
+      "sha": "f8cd565bc3d38b58a4e9c1f3c2a8320ebbaf3740e149d984dcf125534265230c",
+      "sources": [
+        "claude.me:bullets",
+        "claude.me:headers"
+      ]
+    }
+  },
+  "apis": {},
+  "contracts": [],
+  "dependencies": [],
   "description": "LUKHAS presentations module implementing specialized presentations functionality with 0 components for integrated system operations.",
-  "ownership": {
-    "team": "Core",
-    "codeowners": [
-      "@lukhas-core"
-    ]
+  "features": [],
+  "identity": {
+    "requires_auth": false,
+    "scopes": [],
+    "tiers": []
   },
   "layout": {
     "code_layout": "package-root",
     "paths": {
+      "assets": "assets",
       "code": ".",
       "config": "config",
-      "tests": "tests",
       "docs": "docs",
-      "assets": "assets"
+      "tests": "tests"
     }
   },
-  "runtime": {
-    "language": "python",
-    "entrypoints": []
+  "links": {
+    "docs": "./docs/README.md",
+    "issues": "https://github.com/LukhasAI/Lukhas/issues",
+    "repo": "https://github.com/LukhasAI/Lukhas"
   },
   "matrix": {
     "contract": "",
-    "lane": "L2",
-    "gates_profile": "standard"
+    "gates_profile": "standard",
+    "lane": "L2"
   },
-  "identity": {
-    "requires_auth": false,
-    "tiers": [],
-    "scopes": []
+  "module": "presentations",
+  "observability": {
+    "otel_semconv_version": "1.37.0",
+    "required_spans": [
+      "lukhas.presentations.operation"
+    ]
   },
-  "links": {
-    "repo": "https://github.com/LukhasAI/Lukhas",
-    "docs": "./docs/README.md",
-    "issues": "https://github.com/LukhasAI/Lukhas/issues"
+  "ownership": {
+    "codeowners": [
+      "@lukhas-core"
+    ],
+    "team": "Core"
   },
+  "runtime": {
+    "entrypoints": [],
+    "language": "python"
+  },
+  "schema_version": "1.0.0",
   "tags": [
     "presentations"
   ],
-  "observability": {
-    "required_spans": [
-      "lukhas.presentations.operation"
-    ],
-    "otel_semconv_version": "1.37.0"
-  },
   "tokenization": {
-    "enabled": false,
-    "chain": "none"
-  },
-  "dependencies": [],
-  "contracts": []
+    "chain": "none",
+    "enabled": false
+  }
 }

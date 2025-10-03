@@ -1,25 +1,112 @@
 {
-  "schema_version": "3.0.0",
-  "module": "symbolic",
+  "_provenance": {
+    "apis": {
+      "confidence": "medium",
+      "extracted_at": "2025-10-03T01:02:53.757362+00:00",
+      "reasons": [
+        "partial_verification:0/5"
+      ],
+      "sources": [
+        "importcheck:missing",
+        "importcheck:missing",
+        "importcheck:missing",
+        "importcheck:missing",
+        "importcheck:symbolic/vocabularies/__init__.py",
+        "ast:__init__.py"
+      ]
+    },
+    "features": {
+      "confidence": "low",
+      "extracted_at": "2025-10-03T01:02:53.755786+00:00",
+      "reasons": [
+        "weak_evidence"
+      ],
+      "sha": "53289e9cff86aef956c5f23bb3cdf4007a74331607a1e6ed1074e96af774768f",
+      "sources": [
+        "claude.me:bullets",
+        "claude.me:headers"
+      ]
+    }
+  },
+  "apis": {
+    "ExchangeProtocol": {
+      "capabilities": [],
+      "description": "Auto-detected API; fill in description \u2265 40 chars.",
+      "doc_ok": false,
+      "import_verified": false,
+      "module": "symbolic.ExchangeProtocol"
+    },
+    "GestureType": {
+      "capabilities": [],
+      "description": "Auto-detected API; fill in description \u2265 40 chars.",
+      "doc_ok": false,
+      "import_verified": false,
+      "module": "symbolic.GestureType"
+    },
+    "PersonalSymbolDictionary": {
+      "capabilities": [],
+      "description": "Auto-detected API; fill in description \u2265 40 chars.",
+      "doc_ok": false,
+      "import_verified": false,
+      "module": "symbolic.PersonalSymbolDictionary"
+    },
+    "UniversalSymbolExchange": {
+      "capabilities": [],
+      "description": "Auto-detected API; fill in description \u2265 40 chars.",
+      "doc_ok": false,
+      "import_verified": false,
+      "module": "symbolic.UniversalSymbolExchange"
+    },
+    "vocabularies": {
+      "capabilities": [],
+      "description": "Auto-detected API; fill in description \u2265 40 chars.",
+      "doc_ok": false,
+      "import_verified": false,
+      "module": "symbolic.vocabularies"
+    }
+  },
+  "contracts": [],
+  "dependencies": [],
   "description": "*This file provides domain-specific context for any AI development tool*",
-  "ownership": {
-    "team": "Core",
-    "codeowners": [
-      "@lukhas-core"
-    ]
+  "features": [],
+  "identity": {
+    "requires_auth": false,
+    "scopes": [],
+    "tiers": []
   },
   "layout": {
     "code_layout": "package-root",
     "paths": {
+      "assets": "assets",
       "code": ".",
       "config": "config",
-      "tests": "tests",
       "docs": "docs",
-      "assets": "assets"
+      "tests": "tests"
     }
   },
+  "links": {
+    "docs": "./docs/README.md",
+    "issues": "https://github.com/LukhasAI/Lukhas/issues",
+    "repo": "https://github.com/LukhasAI/Lukhas"
+  },
+  "matrix": {
+    "gates_profile": "standard",
+    "lane": "L2"
+  },
+  "module": "symbolic",
+  "observability": {
+    "otel_semconv_version": "1.37.0",
+    "required_spans": [
+      "lukhas.symbolic.operation"
+    ]
+  },
+  "ownership": {
+    "codeowners": [
+      "@lukhas-core"
+    ],
+    "team": "Core"
+  },
   "runtime": {
-    "language": "python",
     "entrypoints": [
       "symbolic.ExchangeProtocol",
       "symbolic.GestureType",
@@ -34,53 +121,43 @@
       "symbolic.multi_modal_language.MultiModalLanguageBuilder",
       "symbolic.multi_modal_language.UniversalConcept",
       "symbolic.vocabularies"
-    ]
+    ],
+    "language": "python"
   },
-  "matrix": {
-    "lane": "L2",
-    "gates_profile": "standard"
-  },
-  "identity": {
-    "requires_auth": false,
-    "tiers": [],
-    "scopes": []
-  },
-  "links": {
-    "repo": "https://github.com/LukhasAI/Lukhas",
-    "docs": "./docs/README.md",
-    "issues": "https://github.com/LukhasAI/Lukhas/issues"
-  },
+  "schema_version": "3.0.0",
   "tags": [
     "consciousness",
     "symbolic"
   ],
-  "observability": {
-    "required_spans": [
-      "lukhas.symbolic.operation"
-    ],
-    "otel_semconv_version": "1.37.0"
-  },
   "tokenization": {
-    "enabled": false,
-    "chain": "none"
+    "chain": "none",
+    "enabled": false
   },
-  "dependencies": [],
-  "contracts": [],
   "x_legacy": {
-    "directory_metadata": {
-      "path": "symbolic",
-      "lane": "development",
-      "purpose": "Directory containing 2 Python files and 3 subdirectories",
-      "last_updated": "2025-09-21",
-      "constellation_framework_version": "2.0.0",
-      "t4_compliance_level": "experimental"
+    "agent_guidance": {
+      "avoid_patterns": [
+        "Modifying contracts without validation",
+        "Breaking lane boundaries",
+        "Ignoring Constellation Framework integration",
+        "Breaking constructor-aware instantiation patterns",
+        "Bypassing T4/0.01% validation standards",
+        "Ignoring MATRIZ pipeline integration requirements"
+      ],
+      "common_tasks": [],
+      "key_files": [],
+      "prerequisites": [
+        "Understanding of LUKHAS lane system",
+        "Constellation Framework familiarity",
+        "MATRIZ pipeline architecture",
+        "T4/0.01% implementation standards"
+      ],
+      "recommended_approach": "Begin with documentation files, then explore core components"
     },
     "component_inventory": {
+      "documentation": [],
       "python_files": [
         {
-          "filename": "entropy_password_system.py",
           "component_type": "SYMBOLIC_PROCESSOR",
-          "has_contract": false,
           "contract_path": null,
           "dependencies": [
             "lukhas.security",
@@ -97,12 +174,12 @@
             "calculate_entropy",
             "to_master_key",
             "verify"
-          ]
+          ],
+          "filename": "entropy_password_system.py",
+          "has_contract": false
         },
         {
-          "filename": "multi_modal_language.py",
           "component_type": "SYMBOLIC_PROCESSOR",
-          "has_contract": false,
           "contract_path": null,
           "dependencies": [
             "lukhas.orchestration.signals.signal_bus"
@@ -115,30 +192,55 @@
             "MultiModalLanguageBuilder",
             "to_secure_string",
             "export_language_model"
-          ]
+          ],
+          "filename": "multi_modal_language.py",
+          "has_contract": false
         }
       ],
       "subdirectories": [
         {
+          "component_count": 9,
+          "has_index": false,
           "name": "vocabularies",
-          "has_index": false,
-          "purpose": "Subdirectory with 9 Python files",
-          "component_count": 9
+          "purpose": "Subdirectory with 9 Python files"
         },
         {
+          "component_count": 2,
+          "has_index": false,
           "name": "personal",
-          "has_index": false,
-          "purpose": "Subdirectory with 2 Python files",
-          "component_count": 2
+          "purpose": "Subdirectory with 2 Python files"
         },
         {
-          "name": "exchange",
+          "component_count": 2,
           "has_index": false,
-          "purpose": "Subdirectory with 2 Python files",
-          "component_count": 2
+          "name": "exchange",
+          "purpose": "Subdirectory with 2 Python files"
         }
-      ],
-      "documentation": []
+      ]
+    },
+    "directory_metadata": {
+      "constellation_framework_version": "2.0.0",
+      "lane": "development",
+      "last_updated": "2025-09-21",
+      "path": "symbolic",
+      "purpose": "Directory containing 2 Python files and 3 subdirectories",
+      "t4_compliance_level": "experimental"
+    },
+    "performance_metadata": {
+      "component_count": 2,
+      "consciousness_integration": "none",
+      "constructor_aware_instantiation": true,
+      "estimated_complexity": "low",
+      "matriz_compatibility": "standard",
+      "plugin_registry_compatible": true,
+      "t4_compliance_score": 0.65,
+      "test_coverage": 85.0
+    },
+    "relationships": {
+      "constellation_cluster": "unknown",
+      "dependency_weight": "moderate",
+      "parent_directory": null,
+      "related_directories": []
     },
     "schema_references": [
       {
@@ -146,41 +248,6 @@
         "schema_path": "schemas/directory_index.schema.json",
         "validation_status": "valid"
       }
-    ],
-    "agent_guidance": {
-      "recommended_approach": "Begin with documentation files, then explore core components",
-      "key_files": [],
-      "common_tasks": [],
-      "prerequisites": [
-        "Understanding of LUKHAS lane system",
-        "Constellation Framework familiarity",
-        "MATRIZ pipeline architecture",
-        "T4/0.01% implementation standards"
-      ],
-      "avoid_patterns": [
-        "Modifying contracts without validation",
-        "Breaking lane boundaries",
-        "Ignoring Constellation Framework integration",
-        "Breaking constructor-aware instantiation patterns",
-        "Bypassing T4/0.01% validation standards",
-        "Ignoring MATRIZ pipeline integration requirements"
-      ]
-    },
-    "performance_metadata": {
-      "component_count": 2,
-      "estimated_complexity": "low",
-      "consciousness_integration": "none",
-      "test_coverage": 85.0,
-      "t4_compliance_score": 0.65,
-      "matriz_compatibility": "standard",
-      "plugin_registry_compatible": true,
-      "constructor_aware_instantiation": true
-    },
-    "relationships": {
-      "parent_directory": null,
-      "related_directories": [],
-      "constellation_cluster": "unknown",
-      "dependency_weight": "moderate"
-    }
+    ]
   }
 }

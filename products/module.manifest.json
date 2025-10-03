@@ -1,25 +1,188 @@
 {
-  "schema_version": "3.0.0",
-  "module": "products",
+  "_provenance": {
+    "apis": {
+      "confidence": "medium",
+      "extracted_at": "2025-10-03T01:02:53.593212+00:00",
+      "reasons": [
+        "partial_verification:0/14"
+      ],
+      "sources": [
+        "importcheck:missing",
+        "importcheck:missing",
+        "importcheck:products/automation/__init__.py",
+        "importcheck:products/communication/__init__.py",
+        "importcheck:products/content/__init__.py",
+        "importcheck:missing",
+        "importcheck:products/enterprise/__init__.py",
+        "importcheck:products/experience/__init__.py",
+        "importcheck:missing",
+        "importcheck:missing",
+        "importcheck:products/infrastructure/__init__.py",
+        "importcheck:products/intelligence/__init__.py",
+        "importcheck:products/security/__init__.py",
+        "importcheck:products/shared/__init__.py",
+        "ast:__init__.py"
+      ]
+    },
+    "features": {
+      "confidence": "low",
+      "extracted_at": "2025-10-03T01:02:53.587194+00:00",
+      "reasons": [
+        "weak_evidence"
+      ],
+      "sha": "59083a78945ff84b3dcbfd63e9d9a56d48b7c6fbd7c415125cc232d581400c1c",
+      "sources": [
+        "claude.me:bullets",
+        "claude.me:headers"
+      ]
+    }
+  },
+  "apis": {
+    "__author__": {
+      "capabilities": [],
+      "description": "Auto-detected API; fill in description \u2265 40 chars.",
+      "doc_ok": false,
+      "import_verified": false,
+      "module": "products.__author__"
+    },
+    "__version__": {
+      "capabilities": [],
+      "description": "Auto-detected API; fill in description \u2265 40 chars.",
+      "doc_ok": false,
+      "import_verified": false,
+      "module": "products.__version__"
+    },
+    "automation": {
+      "capabilities": [],
+      "description": "Auto-detected API; fill in description \u2265 40 chars.",
+      "doc_ok": false,
+      "import_verified": false,
+      "module": "products.automation"
+    },
+    "communication": {
+      "capabilities": [],
+      "description": "Auto-detected API; fill in description \u2265 40 chars.",
+      "doc_ok": false,
+      "import_verified": false,
+      "module": "products.communication"
+    },
+    "content": {
+      "capabilities": [],
+      "description": "Auto-detected API; fill in description \u2265 40 chars.",
+      "doc_ok": false,
+      "import_verified": false,
+      "module": "products.content"
+    },
+    "create_product_instance": {
+      "capabilities": [],
+      "description": "Auto-detected API; fill in description \u2265 40 chars.",
+      "doc_ok": false,
+      "import_verified": false,
+      "module": "products.create_product_instance"
+    },
+    "enterprise": {
+      "capabilities": [],
+      "description": "Auto-detected API; fill in description \u2265 40 chars.",
+      "doc_ok": false,
+      "import_verified": false,
+      "module": "products.enterprise"
+    },
+    "experience": {
+      "capabilities": [],
+      "description": "Auto-detected API; fill in description \u2265 40 chars.",
+      "doc_ok": false,
+      "import_verified": false,
+      "module": "products.experience"
+    },
+    "get_product_health": {
+      "capabilities": [],
+      "description": "Auto-detected API; fill in description \u2265 40 chars.",
+      "doc_ok": false,
+      "import_verified": false,
+      "module": "products.get_product_health"
+    },
+    "get_products_catalog": {
+      "capabilities": [],
+      "description": "Auto-detected API; fill in description \u2265 40 chars.",
+      "doc_ok": false,
+      "import_verified": false,
+      "module": "products.get_products_catalog"
+    },
+    "infrastructure": {
+      "capabilities": [],
+      "description": "Auto-detected API; fill in description \u2265 40 chars.",
+      "doc_ok": false,
+      "import_verified": false,
+      "module": "products.infrastructure"
+    },
+    "intelligence": {
+      "capabilities": [],
+      "description": "Auto-detected API; fill in description \u2265 40 chars.",
+      "doc_ok": false,
+      "import_verified": false,
+      "module": "products.intelligence"
+    },
+    "security": {
+      "capabilities": [],
+      "description": "Auto-detected API; fill in description \u2265 40 chars.",
+      "doc_ok": false,
+      "import_verified": false,
+      "module": "products.security"
+    },
+    "shared": {
+      "capabilities": [],
+      "description": "Auto-detected API; fill in description \u2265 40 chars.",
+      "doc_ok": false,
+      "import_verified": false,
+      "module": "products.shared"
+    }
+  },
+  "contracts": [],
+  "dependencies": [
+    "identity"
+  ],
   "description": "Consolidated products organized by functional domain:",
-  "ownership": {
-    "team": "Core",
-    "codeowners": [
-      "@lukhas-core"
-    ]
+  "features": [],
+  "identity": {
+    "requires_auth": false,
+    "scopes": [],
+    "tiers": []
   },
   "layout": {
     "code_layout": "package-root",
     "paths": {
+      "assets": "assets",
       "code": ".",
       "config": "config",
-      "tests": "tests",
       "docs": "docs",
-      "assets": "assets"
+      "tests": "tests"
     }
   },
+  "links": {
+    "docs": "./docs/README.md",
+    "issues": "https://github.com/LukhasAI/Lukhas/issues",
+    "repo": "https://github.com/LukhasAI/Lukhas"
+  },
+  "matrix": {
+    "contract": "",
+    "gates_profile": "standard",
+    "lane": "L2"
+  },
+  "module": "products",
+  "observability": {
+    "otel_semconv_version": "1.37.0",
+    "required_spans": [
+      "lukhas.products.auth",
+      "lukhas.products.operation"
+    ]
+  },
+  "ownership": {
+    "codeowners": [
+      "@lukhas-core"
+    ],
+    "team": "Core"
+  },
   "runtime": {
-    "language": "python",
     "entrypoints": [
       "products.SMOKE_TEST.TestResult",
       "products.SMOKE_TEST.main",
@@ -41,59 +204,90 @@
       "products.get_products_catalog",
       "products.infrastructure",
       "products.intelligence"
-    ]
+    ],
+    "language": "python"
   },
-  "matrix": {
-    "contract": "",
-    "lane": "L2",
-    "gates_profile": "standard"
-  },
-  "identity": {
-    "requires_auth": false,
-    "tiers": [],
-    "scopes": []
-  },
-  "links": {
-    "repo": "https://github.com/LukhasAI/Lukhas",
-    "docs": "./docs/README.md",
-    "issues": "https://github.com/LukhasAI/Lukhas/issues"
-  },
+  "schema_version": "3.0.0",
   "tags": [
     "authentication",
     "consciousness",
     "products",
     "t4-experimental"
   ],
-  "observability": {
-    "required_spans": [
-      "lukhas.products.auth",
-      "lukhas.products.operation"
-    ],
-    "otel_semconv_version": "1.37.0"
-  },
   "tokenization": {
-    "enabled": false,
-    "chain": "none"
+    "chain": "none",
+    "enabled": false
   },
-  "dependencies": [
-    "identity"
-  ],
-  "contracts": [],
   "x_legacy": {
-    "directory_metadata": {
-      "path": "products",
-      "lane": "development",
-      "purpose": "Directory containing 1 Python files and 9 subdirectories",
-      "last_updated": "2025-09-21",
-      "constellation_framework_version": "2.0.0",
-      "t4_compliance_level": "experimental"
+    "agent_guidance": {
+      "avoid_patterns": [
+        "Modifying contracts without validation",
+        "Breaking lane boundaries",
+        "Ignoring Constellation Framework integration",
+        "Breaking constructor-aware instantiation patterns",
+        "Bypassing T4/0.01% validation standards",
+        "Ignoring MATRIZ pipeline integration requirements"
+      ],
+      "common_tasks": [],
+      "key_files": [
+        "README.md",
+        "lukhas_context.md",
+        "claude.me"
+      ],
+      "prerequisites": [
+        "Understanding of LUKHAS lane system",
+        "Constellation Framework familiarity",
+        "MATRIZ pipeline architecture",
+        "T4/0.01% implementation standards"
+      ],
+      "recommended_approach": "Begin with documentation files, then explore core components"
     },
     "component_inventory": {
+      "documentation": [
+        {
+          "filename": "INTEGRATION_ROADMAP.md",
+          "has_sync_header": false,
+          "type": "other"
+        },
+        {
+          "filename": "FOUNDATION_STATUS.md",
+          "has_sync_header": false,
+          "type": "other"
+        },
+        {
+          "filename": "CONTEXT_SAVE.md",
+          "has_sync_header": false,
+          "type": "other"
+        },
+        {
+          "filename": "README.md",
+          "has_sync_header": false,
+          "type": "README.md"
+        },
+        {
+          "filename": "MANIFEST.md",
+          "has_sync_header": false,
+          "type": "other"
+        },
+        {
+          "filename": "lukhas_context.md",
+          "has_sync_header": false,
+          "type": "lukhas_context.md"
+        },
+        {
+          "filename": "CHATGPT_INSIGHTS.md",
+          "has_sync_header": false,
+          "type": "other"
+        },
+        {
+          "filename": "claude.me",
+          "has_sync_header": false,
+          "type": "claude.me"
+        }
+      ],
       "python_files": [
         {
-          "filename": "SMOKE_TEST.py",
           "component_type": "TEST",
-          "has_contract": false,
           "contract_path": null,
           "dependencies": [],
           "exports": [
@@ -105,107 +299,91 @@
             "run_all_tests",
             "print_results",
             "main"
-          ]
+          ],
+          "filename": "SMOKE_TEST.py",
+          "has_contract": false
         }
       ],
       "subdirectories": [
         {
+          "component_count": 2,
+          "has_index": true,
           "name": "experience",
-          "has_index": true,
-          "purpose": "Subdirectory with 2 Python files",
-          "component_count": 2
+          "purpose": "Subdirectory with 2 Python files"
         },
         {
+          "component_count": 1,
+          "has_index": true,
           "name": "enterprise",
-          "has_index": true,
-          "purpose": "Subdirectory with 1 Python files",
-          "component_count": 1
+          "purpose": "Subdirectory with 1 Python files"
         },
         {
+          "component_count": 1,
+          "has_index": true,
           "name": "intelligence",
-          "has_index": true,
-          "purpose": "Subdirectory with 1 Python files",
-          "component_count": 1
+          "purpose": "Subdirectory with 1 Python files"
         },
         {
+          "component_count": 1,
+          "has_index": true,
           "name": "security",
-          "has_index": true,
-          "purpose": "Subdirectory with 1 Python files",
-          "component_count": 1
+          "purpose": "Subdirectory with 1 Python files"
         },
         {
+          "component_count": 1,
+          "has_index": true,
           "name": "content",
-          "has_index": true,
-          "purpose": "Subdirectory with 1 Python files",
-          "component_count": 1
+          "purpose": "Subdirectory with 1 Python files"
         },
         {
+          "component_count": 2,
+          "has_index": true,
           "name": "shared",
-          "has_index": true,
-          "purpose": "Subdirectory with 2 Python files",
-          "component_count": 2
+          "purpose": "Subdirectory with 2 Python files"
         },
         {
+          "component_count": 1,
+          "has_index": true,
           "name": "automation",
-          "has_index": true,
-          "purpose": "Subdirectory with 1 Python files",
-          "component_count": 1
+          "purpose": "Subdirectory with 1 Python files"
         },
         {
+          "component_count": 1,
+          "has_index": true,
           "name": "communication",
-          "has_index": true,
-          "purpose": "Subdirectory with 1 Python files",
-          "component_count": 1
+          "purpose": "Subdirectory with 1 Python files"
         },
         {
+          "component_count": 1,
+          "has_index": true,
           "name": "infrastructure",
-          "has_index": true,
-          "purpose": "Subdirectory with 1 Python files",
-          "component_count": 1
-        }
-      ],
-      "documentation": [
-        {
-          "filename": "INTEGRATION_ROADMAP.md",
-          "type": "other",
-          "has_sync_header": false
-        },
-        {
-          "filename": "FOUNDATION_STATUS.md",
-          "type": "other",
-          "has_sync_header": false
-        },
-        {
-          "filename": "CONTEXT_SAVE.md",
-          "type": "other",
-          "has_sync_header": false
-        },
-        {
-          "filename": "README.md",
-          "type": "README.md",
-          "has_sync_header": false
-        },
-        {
-          "filename": "MANIFEST.md",
-          "type": "other",
-          "has_sync_header": false
-        },
-        {
-          "filename": "lukhas_context.md",
-          "type": "lukhas_context.md",
-          "has_sync_header": false
-        },
-        {
-          "filename": "CHATGPT_INSIGHTS.md",
-          "type": "other",
-          "has_sync_header": false
-        },
-        {
-          "filename": "claude.me",
-          "type": "claude.me",
-          "has_sync_header": false
+          "purpose": "Subdirectory with 1 Python files"
         }
       ]
+    },
+    "directory_metadata": {
+      "constellation_framework_version": "2.0.0",
+      "lane": "development",
+      "last_updated": "2025-09-21",
+      "path": "products",
+      "purpose": "Directory containing 1 Python files and 9 subdirectories",
+      "t4_compliance_level": "experimental"
+    },
+    "performance_metadata": {
+      "component_count": 1,
+      "consciousness_integration": "none",
+      "constructor_aware_instantiation": true,
+      "estimated_complexity": "low",
+      "matriz_compatibility": "standard",
+      "plugin_registry_compatible": true,
+      "t4_compliance_score": 0.65,
+      "test_coverage": 85.0
+    },
+    "relationships": {
+      "constellation_cluster": "unknown",
+      "dependency_weight": "moderate",
+      "parent_directory": null,
+      "related_directories": []
     },
     "schema_references": [
       {
@@ -213,45 +391,6 @@
         "schema_path": "schemas/directory_index.schema.json",
         "validation_status": "valid"
       }
-    ],
-    "agent_guidance": {
-      "recommended_approach": "Begin with documentation files, then explore core components",
-      "key_files": [
-        "README.md",
-        "lukhas_context.md",
-        "claude.me"
-      ],
-      "common_tasks": [],
-      "prerequisites": [
-        "Understanding of LUKHAS lane system",
-        "Constellation Framework familiarity",
-        "MATRIZ pipeline architecture",
-        "T4/0.01% implementation standards"
-      ],
-      "avoid_patterns": [
-        "Modifying contracts without validation",
-        "Breaking lane boundaries",
-        "Ignoring Constellation Framework integration",
-        "Breaking constructor-aware instantiation patterns",
-        "Bypassing T4/0.01% validation standards",
-        "Ignoring MATRIZ pipeline integration requirements"
-      ]
-    },
-    "performance_metadata": {
-      "component_count": 1,
-      "estimated_complexity": "low",
-      "consciousness_integration": "none",
-      "test_coverage": 85.0,
-      "t4_compliance_score": 0.65,
-      "matriz_compatibility": "standard",
-      "plugin_registry_compatible": true,
-      "constructor_aware_instantiation": true
-    },
-    "relationships": {
-      "parent_directory": null,
-      "related_directories": [],
-      "constellation_cluster": "unknown",
-      "dependency_weight": "moderate"
-    }
+    ]
   }
 }

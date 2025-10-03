@@ -1,25 +1,167 @@
 {
-  "schema_version": "3.0.0",
-  "module": "dreams",
+  "_provenance": {
+    "apis": {
+      "confidence": "medium",
+      "extracted_at": "2025-10-03T01:02:53.761072+00:00",
+      "reasons": [
+        "partial_verification:0/11"
+      ],
+      "sources": [
+        "importcheck:missing",
+        "importcheck:missing",
+        "importcheck:missing",
+        "importcheck:missing",
+        "importcheck:missing",
+        "importcheck:missing",
+        "importcheck:missing",
+        "importcheck:missing",
+        "importcheck:missing",
+        "importcheck:missing",
+        "importcheck:missing",
+        "ast:__init__.py"
+      ]
+    },
+    "features": {
+      "confidence": "low",
+      "extracted_at": "2025-10-03T01:02:53.758538+00:00",
+      "reasons": [
+        "weak_evidence"
+      ],
+      "sha": "9f434b21e32e4c7a5df5e1de9e7090fcbcdac852e9f5bafb9e942875dd0e0471",
+      "sources": [
+        "claude.me:bullets",
+        "claude.me:headers"
+      ]
+    }
+  },
+  "apis": {
+    "DREAMS_ACTIVE": {
+      "capabilities": [],
+      "description": "Auto-detected API; fill in description \u2265 40 chars.",
+      "doc_ok": false,
+      "import_verified": false,
+      "module": "dreams.DREAMS_ACTIVE"
+    },
+    "DreamLoopGenerator": {
+      "capabilities": [],
+      "description": "Auto-detected API; fill in description \u2265 40 chars.",
+      "doc_ok": false,
+      "import_verified": false,
+      "module": "dreams.DreamLoopGenerator"
+    },
+    "DreamMemoryManager": {
+      "capabilities": [],
+      "description": "Auto-detected API; fill in description \u2265 40 chars.",
+      "doc_ok": false,
+      "import_verified": false,
+      "module": "dreams.DreamMemoryManager"
+    },
+    "DreamStatistics": {
+      "capabilities": [],
+      "description": "Auto-detected API; fill in description \u2265 40 chars.",
+      "doc_ok": false,
+      "import_verified": false,
+      "module": "dreams.DreamStatistics"
+    },
+    "activate_consciousness_dream_bridge": {
+      "capabilities": [],
+      "description": "Auto-detected API; fill in description \u2265 40 chars.",
+      "doc_ok": true,
+      "import_verified": false,
+      "module": "dreams.activate_consciousness_dream_bridge"
+    },
+    "analyze_dream_patterns": {
+      "capabilities": [],
+      "description": "Auto-detected API; fill in description \u2265 40 chars.",
+      "doc_ok": true,
+      "import_verified": false,
+      "module": "dreams.analyze_dream_patterns"
+    },
+    "create_dream_session": {
+      "capabilities": [],
+      "description": "Auto-detected API; fill in description \u2265 40 chars.",
+      "doc_ok": true,
+      "import_verified": false,
+      "module": "dreams.create_dream_session"
+    },
+    "dream_stats": {
+      "capabilities": [],
+      "description": "Auto-detected API; fill in description \u2265 40 chars.",
+      "doc_ok": false,
+      "import_verified": false,
+      "module": "dreams.dream_stats"
+    },
+    "get_dreams_status": {
+      "capabilities": [],
+      "description": "Auto-detected API; fill in description \u2265 40 chars.",
+      "doc_ok": true,
+      "import_verified": false,
+      "module": "dreams.get_dreams_status"
+    },
+    "logger": {
+      "capabilities": [],
+      "description": "Auto-detected API; fill in description \u2265 40 chars.",
+      "doc_ok": false,
+      "import_verified": false,
+      "module": "dreams.logger"
+    },
+    "process_dream_cycle": {
+      "capabilities": [],
+      "description": "Auto-detected API; fill in description \u2265 40 chars.",
+      "doc_ok": true,
+      "import_verified": false,
+      "module": "dreams.process_dream_cycle"
+    }
+  },
+  "contracts": [],
+  "dependencies": [
+    "memory"
+  ],
   "description": "Dream state consciousness processing, sleep cycle simulation, and oneiric",
-  "ownership": {
-    "team": "Core",
-    "codeowners": [
-      "@lukhas-core"
-    ]
+  "features": [],
+  "identity": {
+    "requires_auth": false,
+    "scopes": [],
+    "tiers": []
   },
   "layout": {
     "code_layout": "package-root",
     "paths": {
+      "assets": "assets",
       "code": ".",
       "config": "config",
-      "tests": "tests",
       "docs": "docs",
-      "assets": "assets"
+      "tests": "tests"
     }
   },
+  "links": {
+    "docs": "./docs/README.md",
+    "issues": "https://github.com/LukhasAI/Lukhas/issues",
+    "repo": "https://github.com/LukhasAI/Lukhas"
+  },
+  "matrix": {
+    "contract": "",
+    "gates_profile": "standard",
+    "lane": "L2"
+  },
+  "module": "dreams",
+  "observability": {
+    "otel_semconv_version": "1.37.0",
+    "required_spans": [
+      "lukhas.dreams.consciousness",
+      "lukhas.dreams.fold",
+      "lukhas.dreams.operation",
+      "lukhas.dreams.processing",
+      "lukhas.dreams.retrieval"
+    ]
+  },
+  "ownership": {
+    "codeowners": [
+      "@lukhas-core"
+    ],
+    "team": "Core"
+  },
   "runtime": {
-    "language": "python",
     "entrypoints": [
       "dreams.DREAMS_ACTIVE",
       "dreams.DreamLoopGenerator",
@@ -32,80 +174,20 @@
       "dreams.get_dreams_status",
       "dreams.logger",
       "dreams.process_dream_cycle"
-    ]
+    ],
+    "language": "python"
   },
-  "matrix": {
-    "contract": "",
-    "lane": "L2",
-    "gates_profile": "standard"
-  },
-  "identity": {
-    "requires_auth": false,
-    "tiers": [],
-    "scopes": []
-  },
-  "links": {
-    "repo": "https://github.com/LukhasAI/Lukhas",
-    "docs": "./docs/README.md",
-    "issues": "https://github.com/LukhasAI/Lukhas/issues"
-  },
+  "schema_version": "3.0.0",
   "tags": [
     "consciousness",
     "dreams"
   ],
-  "observability": {
-    "required_spans": [
-      "lukhas.dreams.consciousness",
-      "lukhas.dreams.fold",
-      "lukhas.dreams.operation",
-      "lukhas.dreams.processing",
-      "lukhas.dreams.retrieval"
-    ],
-    "otel_semconv_version": "1.37.0"
-  },
   "tokenization": {
-    "enabled": false,
-    "chain": "none"
+    "chain": "none",
+    "enabled": false
   },
-  "dependencies": [
-    "memory"
-  ],
-  "contracts": [],
   "x_legacy": {
-    "directory_metadata": {
-      "path": "dreams",
-      "lane": "development",
-      "purpose": "Directory containing 0 Python files and 0 subdirectories",
-      "last_updated": "2025-09-21",
-      "constellation_framework_version": "2.0.0",
-      "t4_compliance_level": "experimental",
-      "cognitive_domains": [
-        "dream_synthesis",
-        "creative_processing"
-      ]
-    },
-    "component_inventory": {
-      "python_files": [],
-      "subdirectories": [],
-      "documentation": []
-    },
-    "schema_references": [
-      {
-        "schema_name": "directory_index",
-        "schema_path": "schemas/directory_index.schema.json",
-        "validation_status": "valid"
-      }
-    ],
     "agent_guidance": {
-      "recommended_approach": "Begin with documentation files, then explore core components",
-      "key_files": [],
-      "common_tasks": [],
-      "prerequisites": [
-        "Understanding of LUKHAS lane system",
-        "Constellation Framework familiarity",
-        "MATRIZ pipeline architecture",
-        "T4/0.01% implementation standards"
-      ],
       "avoid_patterns": [
         "Modifying contracts without validation",
         "Breaking lane boundaries",
@@ -113,23 +195,56 @@
         "Breaking constructor-aware instantiation patterns",
         "Bypassing T4/0.01% validation standards",
         "Ignoring MATRIZ pipeline integration requirements"
-      ]
+      ],
+      "common_tasks": [],
+      "key_files": [],
+      "prerequisites": [
+        "Understanding of LUKHAS lane system",
+        "Constellation Framework familiarity",
+        "MATRIZ pipeline architecture",
+        "T4/0.01% implementation standards"
+      ],
+      "recommended_approach": "Begin with documentation files, then explore core components"
+    },
+    "component_inventory": {
+      "documentation": [],
+      "python_files": [],
+      "subdirectories": []
+    },
+    "directory_metadata": {
+      "cognitive_domains": [
+        "dream_synthesis",
+        "creative_processing"
+      ],
+      "constellation_framework_version": "2.0.0",
+      "lane": "development",
+      "last_updated": "2025-09-21",
+      "path": "dreams",
+      "purpose": "Directory containing 0 Python files and 0 subdirectories",
+      "t4_compliance_level": "experimental"
     },
     "performance_metadata": {
       "component_count": 0,
-      "estimated_complexity": "low",
       "consciousness_integration": "basic",
-      "test_coverage": 85.0,
-      "t4_compliance_score": 0.65,
+      "constructor_aware_instantiation": true,
+      "estimated_complexity": "low",
       "matriz_compatibility": "standard",
       "plugin_registry_compatible": true,
-      "constructor_aware_instantiation": true
+      "t4_compliance_score": 0.65,
+      "test_coverage": 85.0
     },
     "relationships": {
-      "parent_directory": null,
-      "related_directories": [],
       "constellation_cluster": "unknown",
-      "dependency_weight": "moderate"
-    }
+      "dependency_weight": "moderate",
+      "parent_directory": null,
+      "related_directories": []
+    },
+    "schema_references": [
+      {
+        "schema_name": "directory_index",
+        "schema_path": "schemas/directory_index.schema.json",
+        "validation_status": "valid"
+      }
+    ]
   }
 }

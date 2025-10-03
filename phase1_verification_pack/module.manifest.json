@@ -1,55 +1,79 @@
 {
-  "schema_version": "1.0.0",
-  "module": "phase1_verification_pack",
+  "_provenance": {
+    "apis": {
+      "confidence": "low",
+      "extracted_at": "2025-10-03T01:02:53.572347+00:00",
+      "reasons": [
+        "no_apis"
+      ],
+      "sources": []
+    },
+    "features": {
+      "confidence": "low",
+      "extracted_at": "2025-10-03T01:02:53.572200+00:00",
+      "reasons": [
+        "weak_evidence"
+      ],
+      "sha": "c8cf92f11c1d284a35973099ab6c8439b834cd3e44deb4cc4bf2ab4fc29e86c5",
+      "sources": [
+        "claude.me:bullets",
+        "claude.me:headers"
+      ]
+    }
+  },
+  "apis": {},
+  "contracts": [],
+  "dependencies": [],
   "description": "LUKHAS phase1_verification_pack module implementing specialized phase1_verification_pack functionality with 0 components for integrated system operations.",
-  "ownership": {
-    "team": "Core",
-    "codeowners": [
-      "@lukhas-core"
-    ]
+  "features": [],
+  "identity": {
+    "requires_auth": false,
+    "scopes": [],
+    "tiers": []
   },
   "layout": {
     "code_layout": "package-root",
     "paths": {
+      "assets": "assets",
       "code": ".",
       "config": "config",
-      "tests": "tests",
       "docs": "docs",
-      "assets": "assets"
+      "tests": "tests"
     }
   },
-  "runtime": {
-    "language": "python",
-    "entrypoints": []
+  "links": {
+    "docs": "./docs/README.md",
+    "issues": "https://github.com/LukhasAI/Lukhas/issues",
+    "repo": "https://github.com/LukhasAI/Lukhas"
   },
   "matrix": {
     "contract": "",
-    "lane": "L2",
-    "gates_profile": "standard"
+    "gates_profile": "standard",
+    "lane": "L2"
   },
-  "identity": {
-    "requires_auth": false,
-    "tiers": [],
-    "scopes": []
+  "module": "phase1_verification_pack",
+  "observability": {
+    "otel_semconv_version": "1.37.0",
+    "required_spans": [
+      "lukhas.phase1_verification_pack.operation"
+    ]
   },
-  "links": {
-    "repo": "https://github.com/LukhasAI/Lukhas",
-    "docs": "./docs/README.md",
-    "issues": "https://github.com/LukhasAI/Lukhas/issues"
+  "ownership": {
+    "codeowners": [
+      "@lukhas-core"
+    ],
+    "team": "Core"
   },
+  "runtime": {
+    "entrypoints": [],
+    "language": "python"
+  },
+  "schema_version": "1.0.0",
   "tags": [
     "phase1_verification_pack"
   ],
-  "observability": {
-    "required_spans": [
-      "lukhas.phase1_verification_pack.operation"
-    ],
-    "otel_semconv_version": "1.37.0"
-  },
   "tokenization": {
-    "enabled": false,
-    "chain": "none"
-  },
-  "dependencies": [],
-  "contracts": []
+    "chain": "none",
+    "enabled": false
+  }
 }

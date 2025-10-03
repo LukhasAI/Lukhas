@@ -1,25 +1,264 @@
 {
-  "schema_version": "3.0.0",
-  "module": "brain",
+  "_provenance": {
+    "apis": {
+      "confidence": "medium",
+      "extracted_at": "2025-10-03T01:02:53.746121+00:00",
+      "reasons": [
+        "partial_verification:0/23"
+      ],
+      "sources": [
+        "importcheck:missing",
+        "importcheck:missing",
+        "importcheck:missing",
+        "importcheck:missing",
+        "importcheck:missing",
+        "importcheck:missing",
+        "importcheck:missing",
+        "importcheck:missing",
+        "importcheck:missing",
+        "importcheck:missing",
+        "importcheck:missing",
+        "importcheck:missing",
+        "importcheck:missing",
+        "importcheck:missing",
+        "importcheck:missing",
+        "importcheck:missing",
+        "importcheck:missing",
+        "importcheck:missing",
+        "importcheck:missing",
+        "importcheck:missing",
+        "importcheck:missing",
+        "importcheck:missing",
+        "importcheck:missing",
+        "ast:__init__.py"
+      ]
+    },
+    "features": {
+      "confidence": "low",
+      "extracted_at": "2025-10-03T01:02:53.742171+00:00",
+      "reasons": [
+        "weak_evidence"
+      ],
+      "sha": "5e9599b32ba3c094b30681ac68e97c9432df2e492c301ca24ebe394b998a579f",
+      "sources": [
+        "claude.me:bullets",
+        "claude.me:headers"
+      ]
+    }
+  },
+  "apis": {
+    "AlertEvent": {
+      "capabilities": [],
+      "description": "Auto-detected API; fill in description \u2265 40 chars.",
+      "doc_ok": false,
+      "import_verified": false,
+      "module": "brain.AlertEvent"
+    },
+    "AlertLevel": {
+      "capabilities": [],
+      "description": "Auto-detected API; fill in description \u2265 40 chars.",
+      "doc_ok": false,
+      "import_verified": false,
+      "module": "brain.AlertLevel"
+    },
+    "BRAIN_ACTIVE": {
+      "capabilities": [],
+      "description": "Auto-detected API; fill in description \u2265 40 chars.",
+      "doc_ok": false,
+      "import_verified": false,
+      "module": "brain.BRAIN_ACTIVE"
+    },
+    "BrandContext": {
+      "capabilities": [],
+      "description": "Auto-detected API; fill in description \u2265 40 chars.",
+      "doc_ok": false,
+      "import_verified": false,
+      "module": "brain.BrandContext"
+    },
+    "EventPriority": {
+      "capabilities": [],
+      "description": "Auto-detected API; fill in description \u2265 40 chars.",
+      "doc_ok": false,
+      "import_verified": false,
+      "module": "brain.EventPriority"
+    },
+    "KernelBus": {
+      "capabilities": [],
+      "description": "Auto-detected API; fill in description \u2265 40 chars.",
+      "doc_ok": false,
+      "import_verified": false,
+      "module": "brain.KernelBus"
+    },
+    "LukhasIntelligenceMonitor": {
+      "capabilities": [],
+      "description": "Auto-detected API; fill in description \u2265 40 chars.",
+      "doc_ok": false,
+      "import_verified": false,
+      "module": "brain.LukhasIntelligenceMonitor"
+    },
+    "MetricType": {
+      "capabilities": [],
+      "description": "Auto-detected API; fill in description \u2265 40 chars.",
+      "doc_ok": false,
+      "import_verified": false,
+      "module": "brain.MetricType"
+    },
+    "OrchestrationHub": {
+      "capabilities": [],
+      "description": "Auto-detected API; fill in description \u2265 40 chars.",
+      "doc_ok": false,
+      "import_verified": false,
+      "module": "brain.OrchestrationHub"
+    },
+    "activate_brain_consciousness_bridge": {
+      "capabilities": [],
+      "description": "Auto-detected API; fill in description \u2265 40 chars.",
+      "doc_ok": true,
+      "import_verified": false,
+      "module": "brain.activate_brain_consciousness_bridge"
+    },
+    "build_context": {
+      "capabilities": [],
+      "description": "Auto-detected API; fill in description \u2265 40 chars.",
+      "doc_ok": false,
+      "import_verified": false,
+      "module": "brain.build_context"
+    },
+    "create_orchestration_hub": {
+      "capabilities": [],
+      "description": "Auto-detected API; fill in description \u2265 40 chars.",
+      "doc_ok": true,
+      "import_verified": false,
+      "module": "brain.create_orchestration_hub"
+    },
+    "emit": {
+      "capabilities": [],
+      "description": "Auto-detected API; fill in description \u2265 40 chars.",
+      "doc_ok": false,
+      "import_verified": false,
+      "module": "brain.emit"
+    },
+    "get_brain_status": {
+      "capabilities": [],
+      "description": "Auto-detected API; fill in description \u2265 40 chars.",
+      "doc_ok": true,
+      "import_verified": false,
+      "module": "brain.get_brain_status"
+    },
+    "get_brand_voice": {
+      "capabilities": [],
+      "description": "Auto-detected API; fill in description \u2265 40 chars.",
+      "doc_ok": false,
+      "import_verified": false,
+      "module": "brain.get_brand_voice"
+    },
+    "get_constellation_context": {
+      "capabilities": [],
+      "description": "Auto-detected API; fill in description \u2265 40 chars.",
+      "doc_ok": false,
+      "import_verified": false,
+      "module": "brain.get_constellation_context"
+    },
+    "get_kernel_bus": {
+      "capabilities": [],
+      "description": "Auto-detected API; fill in description \u2265 40 chars.",
+      "doc_ok": false,
+      "import_verified": false,
+      "module": "brain.get_kernel_bus"
+    },
+    "logger": {
+      "capabilities": [],
+      "description": "Auto-detected API; fill in description \u2265 40 chars.",
+      "doc_ok": false,
+      "import_verified": false,
+      "module": "brain.logger"
+    },
+    "monitor_brain_health": {
+      "capabilities": [],
+      "description": "Auto-detected API; fill in description \u2265 40 chars.",
+      "doc_ok": true,
+      "import_verified": false,
+      "module": "brain.monitor_brain_health"
+    },
+    "normalize_output_text": {
+      "capabilities": [],
+      "description": "Auto-detected API; fill in description \u2265 40 chars.",
+      "doc_ok": false,
+      "import_verified": false,
+      "module": "brain.normalize_output_text"
+    },
+    "process_cognitive_flow": {
+      "capabilities": [],
+      "description": "Auto-detected API; fill in description \u2265 40 chars.",
+      "doc_ok": true,
+      "import_verified": false,
+      "module": "brain.process_cognitive_flow"
+    },
+    "subscribe": {
+      "capabilities": [],
+      "description": "Auto-detected API; fill in description \u2265 40 chars.",
+      "doc_ok": false,
+      "import_verified": false,
+      "module": "brain.subscribe"
+    },
+    "validate_output": {
+      "capabilities": [],
+      "description": "Auto-detected API; fill in description \u2265 40 chars.",
+      "doc_ok": false,
+      "import_verified": false,
+      "module": "brain.validate_output"
+    }
+  },
+  "contracts": [],
+  "dependencies": [
+    "consciousness",
+    "core",
+    "orchestration"
+  ],
   "description": "High-level cognitive orchestration, intelligence monitoring, and unified",
-  "ownership": {
-    "team": "Brain",
-    "codeowners": [
-      "@lukhas-core"
-    ]
+  "features": [],
+  "identity": {
+    "requires_auth": false,
+    "scopes": [],
+    "tiers": []
   },
   "layout": {
     "code_layout": "package-root",
     "paths": {
+      "assets": "assets",
       "code": ".",
       "config": "config",
-      "tests": "tests",
       "docs": "docs",
-      "assets": "assets"
+      "tests": "tests"
     }
   },
+  "links": {
+    "docs": "./docs/README.md",
+    "issues": "https://github.com/LukhasAI/Lukhas/issues",
+    "repo": "https://github.com/LukhasAI/Lukhas"
+  },
+  "matrix": {
+    "contract": "",
+    "gates_profile": "standard",
+    "lane": "L2"
+  },
+  "module": "brain",
+  "observability": {
+    "otel_semconv_version": "1.37.0",
+    "required_spans": [
+      "lukhas.brain.consciousness",
+      "lukhas.brain.monitoring",
+      "lukhas.brain.operation",
+      "lukhas.brain.processing"
+    ]
+  },
+  "ownership": {
+    "codeowners": [
+      "@lukhas-core"
+    ],
+    "team": "Brain"
+  },
   "runtime": {
-    "language": "python",
     "entrypoints": [
       "brain.AlertEvent",
       "brain.AlertLevel",
@@ -41,23 +280,10 @@
       "brain.logger",
       "brain.monitor_brain_health",
       "brain.normalize_output_text"
-    ]
+    ],
+    "language": "python"
   },
-  "matrix": {
-    "contract": "",
-    "lane": "L2",
-    "gates_profile": "standard"
-  },
-  "identity": {
-    "requires_auth": false,
-    "tiers": [],
-    "scopes": []
-  },
-  "links": {
-    "repo": "https://github.com/LukhasAI/Lukhas",
-    "docs": "./docs/README.md",
-    "issues": "https://github.com/LukhasAI/Lukhas/issues"
-  },
+  "schema_version": "3.0.0",
   "tags": [
     "brain",
     "cognitive",
@@ -65,56 +291,12 @@
     "monitoring",
     "orchestration"
   ],
-  "observability": {
-    "required_spans": [
-      "lukhas.brain.consciousness",
-      "lukhas.brain.monitoring",
-      "lukhas.brain.operation",
-      "lukhas.brain.processing"
-    ],
-    "otel_semconv_version": "1.37.0"
-  },
   "tokenization": {
-    "enabled": false,
-    "chain": "none"
+    "chain": "none",
+    "enabled": false
   },
-  "dependencies": [
-    "consciousness",
-    "core",
-    "orchestration"
-  ],
-  "contracts": [],
   "x_legacy": {
-    "directory_metadata": {
-      "path": "brain",
-      "lane": "development",
-      "purpose": "Directory containing 0 Python files and 0 subdirectories",
-      "last_updated": "2025-09-21",
-      "constellation_framework_version": "2.0.0",
-      "t4_compliance_level": "experimental"
-    },
-    "component_inventory": {
-      "python_files": [],
-      "subdirectories": [],
-      "documentation": []
-    },
-    "schema_references": [
-      {
-        "schema_name": "directory_index",
-        "schema_path": "schemas/directory_index.schema.json",
-        "validation_status": "valid"
-      }
-    ],
     "agent_guidance": {
-      "recommended_approach": "Begin with documentation files, then explore core components",
-      "key_files": [],
-      "common_tasks": [],
-      "prerequisites": [
-        "Understanding of LUKHAS lane system",
-        "Constellation Framework familiarity",
-        "MATRIZ pipeline architecture",
-        "T4/0.01% implementation standards"
-      ],
       "avoid_patterns": [
         "Modifying contracts without validation",
         "Breaking lane boundaries",
@@ -122,23 +304,52 @@
         "Breaking constructor-aware instantiation patterns",
         "Bypassing T4/0.01% validation standards",
         "Ignoring MATRIZ pipeline integration requirements"
-      ]
+      ],
+      "common_tasks": [],
+      "key_files": [],
+      "prerequisites": [
+        "Understanding of LUKHAS lane system",
+        "Constellation Framework familiarity",
+        "MATRIZ pipeline architecture",
+        "T4/0.01% implementation standards"
+      ],
+      "recommended_approach": "Begin with documentation files, then explore core components"
+    },
+    "component_inventory": {
+      "documentation": [],
+      "python_files": [],
+      "subdirectories": []
+    },
+    "directory_metadata": {
+      "constellation_framework_version": "2.0.0",
+      "lane": "development",
+      "last_updated": "2025-09-21",
+      "path": "brain",
+      "purpose": "Directory containing 0 Python files and 0 subdirectories",
+      "t4_compliance_level": "experimental"
     },
     "performance_metadata": {
       "component_count": 0,
-      "estimated_complexity": "low",
       "consciousness_integration": "none",
-      "test_coverage": 85.0,
-      "t4_compliance_score": 0.65,
+      "constructor_aware_instantiation": true,
+      "estimated_complexity": "low",
       "matriz_compatibility": "standard",
       "plugin_registry_compatible": true,
-      "constructor_aware_instantiation": true
+      "t4_compliance_score": 0.65,
+      "test_coverage": 85.0
     },
     "relationships": {
-      "parent_directory": null,
-      "related_directories": [],
       "constellation_cluster": "unknown",
-      "dependency_weight": "moderate"
-    }
+      "dependency_weight": "moderate",
+      "parent_directory": null,
+      "related_directories": []
+    },
+    "schema_references": [
+      {
+        "schema_name": "directory_index",
+        "schema_path": "schemas/directory_index.schema.json",
+        "validation_status": "valid"
+      }
+    ]
   }
 }

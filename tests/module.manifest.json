@@ -1,25 +1,82 @@
 {
-  "schema_version": "3.0.0",
-  "module": "tests",
+  "_provenance": {
+    "apis": {
+      "confidence": "low",
+      "extracted_at": "2025-10-03T01:02:53.649593+00:00",
+      "reasons": [
+        "no_apis"
+      ],
+      "sources": [
+        "ast:__init__.py"
+      ]
+    },
+    "features": {
+      "confidence": "low",
+      "extracted_at": "2025-10-03T01:02:53.649437+00:00",
+      "reasons": [
+        "weak_evidence"
+      ],
+      "sha": "81f92c05f747211d49d169a9e19ad32ddd3545e23695a0d34666543697dbf3f5",
+      "sources": [
+        "claude.me:bullets",
+        "claude.me:headers"
+      ]
+    }
+  },
+  "apis": {},
+  "contracts": [],
+  "dependencies": [
+    "core",
+    "identity",
+    "memory"
+  ],
   "description": "LUKHAS tests module implementing specialized tests functionality with 369 components for integrated system operations.",
-  "ownership": {
-    "team": "Core",
-    "codeowners": [
-      "@lukhas-core"
-    ]
+  "features": [],
+  "identity": {
+    "requires_auth": false,
+    "scopes": [],
+    "tiers": []
   },
   "layout": {
     "code_layout": "package-root",
     "paths": {
+      "assets": "assets",
       "code": ".",
       "config": "config",
-      "tests": "tests",
       "docs": "docs",
-      "assets": "assets"
+      "tests": "tests"
     }
   },
+  "links": {
+    "docs": "./docs/README.md",
+    "issues": "https://github.com/LukhasAI/Lukhas/issues",
+    "repo": "https://github.com/LukhasAI/Lukhas"
+  },
+  "matrix": {
+    "contract": "",
+    "gates_profile": "standard",
+    "lane": "L2"
+  },
+  "module": "tests",
+  "observability": {
+    "otel_semconv_version": "1.37.0",
+    "required_spans": [
+      "lukhas.tests.auth",
+      "lukhas.tests.consciousness",
+      "lukhas.tests.fold",
+      "lukhas.tests.monitoring",
+      "lukhas.tests.operation",
+      "lukhas.tests.processing",
+      "lukhas.tests.retrieval"
+    ]
+  },
+  "ownership": {
+    "codeowners": [
+      "@lukhas-core"
+    ],
+    "team": "Core"
+  },
   "runtime": {
-    "language": "python",
     "entrypoints": [
       "tests.comprehensive_test_suite.ComprehensiveTestOrchestrator",
       "tests.comprehensive_test_suite.TestComprehensiveValidation",
@@ -32,66 +89,56 @@
       "tests.conftest.pytest_collection_modifyitems",
       "tests.conftest.pytest_configure",
       "tests.conftest.pytest_ignore_collect"
-    ]
+    ],
+    "language": "python"
   },
-  "matrix": {
-    "contract": "",
-    "lane": "L2",
-    "gates_profile": "standard"
-  },
-  "identity": {
-    "requires_auth": false,
-    "tiers": [],
-    "scopes": []
-  },
-  "links": {
-    "repo": "https://github.com/LukhasAI/Lukhas",
-    "docs": "./docs/README.md",
-    "issues": "https://github.com/LukhasAI/Lukhas/issues"
-  },
+  "schema_version": "3.0.0",
   "tags": [
     "authentication",
     "monitoring",
     "orchestration",
     "tests"
   ],
-  "observability": {
-    "required_spans": [
-      "lukhas.tests.auth",
-      "lukhas.tests.consciousness",
-      "lukhas.tests.fold",
-      "lukhas.tests.monitoring",
-      "lukhas.tests.operation",
-      "lukhas.tests.processing",
-      "lukhas.tests.retrieval"
-    ],
-    "otel_semconv_version": "1.37.0"
-  },
   "tokenization": {
-    "enabled": false,
-    "chain": "none"
+    "chain": "none",
+    "enabled": false
   },
-  "dependencies": [
-    "core",
-    "identity",
-    "memory"
-  ],
-  "contracts": [],
   "x_legacy": {
-    "directory_metadata": {
-      "path": "tests",
-      "lane": "development",
-      "purpose": "Directory containing 20 Python files and 30 subdirectories",
-      "last_updated": "2025-09-21",
-      "constellation_framework_version": "2.0.0",
-      "t4_compliance_level": "experimental"
+    "agent_guidance": {
+      "avoid_patterns": [
+        "Modifying contracts without validation",
+        "Breaking lane boundaries",
+        "Ignoring Constellation Framework integration",
+        "Breaking constructor-aware instantiation patterns",
+        "Bypassing T4/0.01% validation standards",
+        "Ignoring MATRIZ pipeline integration requirements"
+      ],
+      "common_tasks": [],
+      "key_files": [],
+      "prerequisites": [
+        "Understanding of LUKHAS lane system",
+        "Constellation Framework familiarity",
+        "MATRIZ pipeline architecture",
+        "T4/0.01% implementation standards"
+      ],
+      "recommended_approach": "Begin with documentation files, then explore core components"
     },
     "component_inventory": {
+      "documentation": [
+        {
+          "filename": "KNOWN_ISSUES.md",
+          "has_sync_header": false,
+          "type": "other"
+        },
+        {
+          "filename": "TEST_STATUS.md",
+          "has_sync_header": false,
+          "type": "other"
+        }
+      ],
       "python_files": [
         {
-          "filename": "test_contracts.py",
           "component_type": "TEST",
-          "has_contract": false,
           "contract_path": null,
           "dependencies": [],
           "exports": [
@@ -125,12 +172,12 @@
             "test_glyph_immutability",
             "test_message_immutability",
             "test_result_mutability"
-          ]
+          ],
+          "filename": "test_contracts.py",
+          "has_contract": false
         },
         {
-          "filename": "test_policy_guard.py",
           "component_type": "TEST",
-          "has_contract": false,
           "contract_path": null,
           "dependencies": [
             "lukhas.core.policy_guard"
@@ -157,12 +204,12 @@
             "test_prometheus_metrics_integration",
             "test_environment_variable_integration",
             "make_decisions"
-          ]
+          ],
+          "filename": "test_policy_guard.py",
+          "has_contract": false
         },
         {
-          "filename": "conftest.py",
           "component_type": "TEST",
-          "has_contract": false,
           "contract_path": null,
           "dependencies": [],
           "exports": [
@@ -178,12 +225,12 @@
             "pytest_runtest_makereport",
             "pytest_ignore_collect",
             "pytest_collection_modifyitems"
-          ]
+          ],
+          "filename": "conftest.py",
+          "has_contract": false
         },
         {
-          "filename": "test_router_logonly.py",
           "component_type": "TEST",
-          "has_contract": false,
           "contract_path": null,
           "dependencies": [],
           "exports": [
@@ -193,12 +240,12 @@
             "mock_logger",
             "mock_logger",
             "mock_logger"
-          ]
+          ],
+          "filename": "test_router_logonly.py",
+          "has_contract": false
         },
         {
-          "filename": "test_stream_continuity.py",
           "component_type": "TEST",
-          "has_contract": false,
           "contract_path": null,
           "dependencies": [
             "lukhas.core.consciousness_stream"
@@ -215,12 +262,12 @@
             "test_timing_coherence_and_drift_bounds",
             "test_comprehensive_stream_continuity_validation",
             "faulty_router_publish"
-          ]
+          ],
+          "filename": "test_stream_continuity.py",
+          "has_contract": false
         },
         {
-          "filename": "generate_test_report.py",
           "component_type": "TEST",
-          "has_contract": false,
           "contract_path": null,
           "dependencies": [],
           "exports": [
@@ -231,12 +278,12 @@
             "generate_known_issues",
             "generate_status_dashboard",
             "write_reports"
-          ]
+          ],
+          "filename": "generate_test_report.py",
+          "has_contract": false
         },
         {
-          "filename": "test_consciousness_tick.py",
           "component_type": "CONSCIOUSNESS_ENGINE",
-          "has_contract": false,
           "contract_path": null,
           "dependencies": [
             "lukhas.core.consciousness_ticker"
@@ -255,24 +302,24 @@
             "test_deterministic_frame_structure",
             "test_buffer_capacity_property",
             "test_concurrent_tick_simulation"
-          ]
+          ],
+          "filename": "test_consciousness_tick.py",
+          "has_contract": false
         },
         {
-          "filename": "test_creative_market_import.py",
           "component_type": "DREAM_PROCESSOR",
-          "has_contract": false,
           "contract_path": null,
           "dependencies": [
             "candidate.core.symbolic.creative_market"
           ],
           "exports": [
             "test_import_items_round_trip"
-          ]
+          ],
+          "filename": "test_creative_market_import.py",
+          "has_contract": false
         },
         {
-          "filename": "test_consciousness_stream.py",
           "component_type": "CONSCIOUSNESS_ENGINE",
-          "has_contract": false,
           "contract_path": null,
           "dependencies": [],
           "exports": [
@@ -301,22 +348,22 @@
             "teardown_method",
             "failing_publish",
             "delayed_tick"
-          ]
+          ],
+          "filename": "test_consciousness_stream.py",
+          "has_contract": false
         },
         {
-          "filename": "test_constellation_shims.py",
           "component_type": "TEST",
-          "has_contract": false,
           "contract_path": null,
           "dependencies": [],
           "exports": [
             "test_constellation_shims_imports"
-          ]
+          ],
+          "filename": "test_constellation_shims.py",
+          "has_contract": false
         },
         {
-          "filename": "test_breakthrough.py",
           "component_type": "TEST",
-          "has_contract": false,
           "contract_path": null,
           "dependencies": [],
           "exports": [
@@ -325,12 +372,12 @@
             "test_boundary_z_thresholds",
             "test_multiple_instances_independent_state",
             "test_step_throughput_benchmark"
-          ]
+          ],
+          "filename": "test_breakthrough.py",
+          "has_contract": false
         },
         {
-          "filename": "test_api_expansion.py",
           "component_type": "TEST",
-          "has_contract": false,
           "contract_path": null,
           "dependencies": [],
           "exports": [
@@ -352,12 +399,12 @@
             "test_get_ethics_monitor_data",
             "test_check_compliance",
             "test_get_audit_trail"
-          ]
+          ],
+          "filename": "test_api_expansion.py",
+          "has_contract": false
         },
         {
-          "filename": "test_folds.py",
           "component_type": "MEMORY_INTERFACE",
-          "has_contract": false,
           "contract_path": null,
           "dependencies": [],
           "exports": [
@@ -371,12 +418,12 @@
             "test_zero_limits",
             "test_properties_reflect_state",
             "test_prometheus_metric_increment"
-          ]
+          ],
+          "filename": "test_folds.py",
+          "has_contract": false
         },
         {
-          "filename": "test_memory_sync.py",
           "component_type": "MEMORY_INTERFACE",
-          "has_contract": false,
           "contract_path": null,
           "dependencies": [
             "lukhas.memory.sync"
@@ -408,12 +455,12 @@
             "test_prometheus_metrics_integration",
             "test_environment_variable_integration",
             "perform_sync"
-          ]
+          ],
+          "filename": "test_memory_sync.py",
+          "has_contract": false
         },
         {
-          "filename": "test_events.py",
           "component_type": "TEST",
-          "has_contract": false,
           "contract_path": null,
           "dependencies": [],
           "exports": [
@@ -440,12 +487,12 @@
             "test_global_event_store_singleton",
             "test_thread_safety_basic",
             "add_events"
-          ]
+          ],
+          "filename": "test_events.py",
+          "has_contract": false
         },
         {
-          "filename": "test_experience_replay.py",
           "component_type": "TEST",
-          "has_contract": false,
           "contract_path": null,
           "dependencies": [
             "lukhas.core.consciousness_stream"
@@ -460,12 +507,12 @@
             "test_sliding_window_replay_consistency",
             "test_memory_efficiency_under_load",
             "test_golden_fixture_completeness"
-          ]
+          ],
+          "filename": "test_experience_replay.py",
+          "has_contract": false
         },
         {
-          "filename": "test_clock.py",
           "component_type": "TEST",
-          "has_contract": false,
           "contract_path": null,
           "dependencies": [],
           "exports": [
@@ -493,12 +540,12 @@
             "consciousness_processor",
             "heavy_processor_1",
             "heavy_processor_2"
-          ]
+          ],
+          "filename": "test_clock.py",
+          "has_contract": false
         },
         {
-          "filename": "test_backpressure_ring.py",
           "component_type": "TEST",
-          "has_contract": false,
           "contract_path": null,
           "dependencies": [
             "lukhas.core.ring"
@@ -518,12 +565,12 @@
             "test_backpressure_reset_stats",
             "test_high_load_stress_test",
             "test_priority_based_handling"
-          ]
+          ],
+          "filename": "test_backpressure_ring.py",
+          "has_contract": false
         },
         {
-          "filename": "test_drift.py",
           "component_type": "TEST",
-          "has_contract": false,
           "contract_path": null,
           "dependencies": [
             "lukhas.core.drift"
@@ -543,12 +590,12 @@
             "test_lane_threshold_ordering",
             "test_cross_lane_threshold_ordering",
             "test_ema_progression_across_thresholds"
-          ]
+          ],
+          "filename": "test_drift.py",
+          "has_contract": false
         },
         {
-          "filename": "test_breakthrough_basic.py",
           "component_type": "TEST",
-          "has_contract": false,
           "contract_path": null,
           "dependencies": [],
           "exports": [
@@ -563,203 +610,217 @@
             "test_result_structure",
             "test_input_validation",
             "test_deterministic_behavior"
-          ]
+          ],
+          "filename": "test_breakthrough_basic.py",
+          "has_contract": false
         }
       ],
       "subdirectories": [
         {
+          "component_count": 12,
+          "has_index": false,
           "name": "smoke",
-          "has_index": false,
-          "purpose": "Subdirectory with 12 Python files",
-          "component_count": 12
+          "purpose": "Subdirectory with 12 Python files"
         },
         {
+          "component_count": 0,
+          "has_index": false,
           "name": "candidate",
-          "has_index": false,
-          "purpose": "Subdirectory with 0 Python files",
-          "component_count": 0
+          "purpose": "Subdirectory with 0 Python files"
         },
         {
+          "component_count": 0,
+          "has_index": false,
           "name": "quarantine",
-          "has_index": false,
-          "purpose": "Subdirectory with 0 Python files",
-          "component_count": 0
+          "purpose": "Subdirectory with 0 Python files"
         },
         {
+          "component_count": 18,
+          "has_index": false,
           "name": "unit",
-          "has_index": false,
-          "purpose": "Subdirectory with 18 Python files",
-          "component_count": 18
+          "purpose": "Subdirectory with 18 Python files"
         },
         {
+          "component_count": 1,
+          "has_index": false,
           "name": "contract",
-          "has_index": false,
-          "purpose": "Subdirectory with 1 Python files",
-          "component_count": 1
+          "purpose": "Subdirectory with 1 Python files"
         },
         {
+          "component_count": 2,
+          "has_index": false,
           "name": "tools",
-          "has_index": false,
-          "purpose": "Subdirectory with 2 Python files",
-          "component_count": 2
+          "purpose": "Subdirectory with 2 Python files"
         },
         {
+          "component_count": 4,
+          "has_index": false,
           "name": "products",
-          "has_index": false,
-          "purpose": "Subdirectory with 4 Python files",
-          "component_count": 4
+          "purpose": "Subdirectory with 4 Python files"
         },
         {
+          "component_count": 3,
+          "has_index": false,
           "name": "core",
-          "has_index": false,
-          "purpose": "Subdirectory with 3 Python files",
-          "component_count": 3
+          "purpose": "Subdirectory with 3 Python files"
         },
         {
+          "component_count": 5,
+          "has_index": false,
           "name": "capabilities",
-          "has_index": false,
-          "purpose": "Subdirectory with 5 Python files",
-          "component_count": 5
+          "purpose": "Subdirectory with 5 Python files"
         },
         {
+          "component_count": 2,
+          "has_index": false,
           "name": "util",
-          "has_index": false,
-          "purpose": "Subdirectory with 2 Python files",
-          "component_count": 2
+          "purpose": "Subdirectory with 2 Python files"
         },
         {
+          "component_count": 0,
+          "has_index": false,
           "name": "config",
-          "has_index": false,
-          "purpose": "Subdirectory with 0 Python files",
-          "component_count": 0
+          "purpose": "Subdirectory with 0 Python files"
         },
         {
+          "component_count": 0,
+          "has_index": false,
           "name": "specs",
-          "has_index": false,
-          "purpose": "Subdirectory with 0 Python files",
-          "component_count": 0
+          "purpose": "Subdirectory with 0 Python files"
         },
         {
+          "component_count": 2,
+          "has_index": false,
           "name": "bridge",
-          "has_index": false,
-          "purpose": "Subdirectory with 2 Python files",
-          "component_count": 2
+          "purpose": "Subdirectory with 2 Python files"
         },
         {
+          "component_count": 11,
+          "has_index": false,
           "name": "integration",
-          "has_index": false,
-          "purpose": "Subdirectory with 11 Python files",
-          "component_count": 11
+          "purpose": "Subdirectory with 11 Python files"
         },
         {
+          "component_count": 1,
+          "has_index": false,
           "name": "contracts",
-          "has_index": false,
-          "purpose": "Subdirectory with 1 Python files",
-          "component_count": 1
+          "purpose": "Subdirectory with 1 Python files"
         },
         {
+          "component_count": 0,
+          "has_index": false,
           "name": "golden",
-          "has_index": false,
-          "purpose": "Subdirectory with 0 Python files",
-          "component_count": 0
+          "purpose": "Subdirectory with 0 Python files"
         },
         {
+          "component_count": 3,
+          "has_index": false,
           "name": "matriz",
-          "has_index": false,
-          "purpose": "Subdirectory with 3 Python files",
-          "component_count": 3
+          "purpose": "Subdirectory with 3 Python files"
         },
         {
+          "component_count": 4,
+          "has_index": false,
           "name": "drift",
-          "has_index": false,
-          "purpose": "Subdirectory with 4 Python files",
-          "component_count": 4
+          "purpose": "Subdirectory with 4 Python files"
         },
         {
+          "component_count": 0,
+          "has_index": false,
           "name": "system",
-          "has_index": false,
-          "purpose": "Subdirectory with 0 Python files",
-          "component_count": 0
+          "purpose": "Subdirectory with 0 Python files"
         },
         {
+          "component_count": 3,
+          "has_index": false,
           "name": "ethics",
-          "has_index": false,
-          "purpose": "Subdirectory with 3 Python files",
-          "component_count": 3
+          "purpose": "Subdirectory with 3 Python files"
         },
         {
+          "component_count": 3,
+          "has_index": false,
           "name": "benchmarks",
-          "has_index": false,
-          "purpose": "Subdirectory with 3 Python files",
-          "component_count": 3
+          "purpose": "Subdirectory with 3 Python files"
         },
         {
+          "component_count": 1,
+          "has_index": false,
           "name": "scripts",
-          "has_index": false,
-          "purpose": "Subdirectory with 1 Python files",
-          "component_count": 1
+          "purpose": "Subdirectory with 1 Python files"
         },
         {
+          "component_count": 1,
+          "has_index": false,
           "name": "orchestration",
-          "has_index": false,
-          "purpose": "Subdirectory with 1 Python files",
-          "component_count": 1
+          "purpose": "Subdirectory with 1 Python files"
         },
         {
+          "component_count": 0,
+          "has_index": false,
           "name": "fixtures",
-          "has_index": false,
-          "purpose": "Subdirectory with 0 Python files",
-          "component_count": 0
+          "purpose": "Subdirectory with 0 Python files"
         },
         {
+          "component_count": 0,
+          "has_index": false,
           "name": "reality",
-          "has_index": false,
-          "purpose": "Subdirectory with 0 Python files",
-          "component_count": 0
+          "purpose": "Subdirectory with 0 Python files"
         },
         {
+          "component_count": 1,
+          "has_index": false,
           "name": "qualia",
-          "has_index": false,
-          "purpose": "Subdirectory with 1 Python files",
-          "component_count": 1
+          "purpose": "Subdirectory with 1 Python files"
         },
         {
+          "component_count": 3,
+          "has_index": false,
           "name": "performance",
-          "has_index": false,
-          "purpose": "Subdirectory with 3 Python files",
-          "component_count": 3
+          "purpose": "Subdirectory with 3 Python files"
         },
         {
+          "component_count": 20,
+          "has_index": false,
           "name": "e2e",
-          "has_index": false,
-          "purpose": "Subdirectory with 20 Python files",
-          "component_count": 20
+          "purpose": "Subdirectory with 20 Python files"
         },
         {
+          "component_count": 0,
+          "has_index": false,
           "name": "perf",
-          "has_index": false,
-          "purpose": "Subdirectory with 0 Python files",
-          "component_count": 0
+          "purpose": "Subdirectory with 0 Python files"
         },
         {
+          "component_count": 0,
+          "has_index": false,
           "name": "data",
-          "has_index": false,
-          "purpose": "Subdirectory with 0 Python files",
-          "component_count": 0
-        }
-      ],
-      "documentation": [
-        {
-          "filename": "KNOWN_ISSUES.md",
-          "type": "other",
-          "has_sync_header": false
-        },
-        {
-          "filename": "TEST_STATUS.md",
-          "type": "other",
-          "has_sync_header": false
+          "purpose": "Subdirectory with 0 Python files"
         }
       ]
+    },
+    "directory_metadata": {
+      "constellation_framework_version": "2.0.0",
+      "lane": "development",
+      "last_updated": "2025-09-21",
+      "path": "tests",
+      "purpose": "Directory containing 20 Python files and 30 subdirectories",
+      "t4_compliance_level": "experimental"
+    },
+    "performance_metadata": {
+      "component_count": 20,
+      "consciousness_integration": "none",
+      "constructor_aware_instantiation": true,
+      "estimated_complexity": "medium",
+      "matriz_compatibility": "standard",
+      "plugin_registry_compatible": true,
+      "t4_compliance_score": 0.65,
+      "test_coverage": 85.0
+    },
+    "relationships": {
+      "constellation_cluster": "unknown",
+      "dependency_weight": "moderate",
+      "parent_directory": null,
+      "related_directories": []
     },
     "schema_references": [
       {
@@ -767,41 +828,6 @@
         "schema_path": "schemas/directory_index.schema.json",
         "validation_status": "valid"
       }
-    ],
-    "agent_guidance": {
-      "recommended_approach": "Begin with documentation files, then explore core components",
-      "key_files": [],
-      "common_tasks": [],
-      "prerequisites": [
-        "Understanding of LUKHAS lane system",
-        "Constellation Framework familiarity",
-        "MATRIZ pipeline architecture",
-        "T4/0.01% implementation standards"
-      ],
-      "avoid_patterns": [
-        "Modifying contracts without validation",
-        "Breaking lane boundaries",
-        "Ignoring Constellation Framework integration",
-        "Breaking constructor-aware instantiation patterns",
-        "Bypassing T4/0.01% validation standards",
-        "Ignoring MATRIZ pipeline integration requirements"
-      ]
-    },
-    "performance_metadata": {
-      "component_count": 20,
-      "estimated_complexity": "medium",
-      "consciousness_integration": "none",
-      "test_coverage": 85.0,
-      "t4_compliance_score": 0.65,
-      "matriz_compatibility": "standard",
-      "plugin_registry_compatible": true,
-      "constructor_aware_instantiation": true
-    },
-    "relationships": {
-      "parent_directory": null,
-      "related_directories": [],
-      "constellation_cluster": "unknown",
-      "dependency_weight": "moderate"
-    }
+    ]
   }
 }

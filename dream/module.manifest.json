@@ -1,25 +1,112 @@
 {
-  "schema_version": "3.0.0",
-  "module": "dream",
-  "description": "Core dream processing components for consciousness integration",
-  "ownership": {
-    "team": "Core",
-    "codeowners": [
-      "@lukhas-core"
-    ]
+  "_provenance": {
+    "apis": {
+      "confidence": "medium",
+      "extracted_at": "2025-10-03T01:02:53.781228+00:00",
+      "reasons": [
+        "partial_verification:0/3"
+      ],
+      "sources": [
+        "importcheck:missing",
+        "importcheck:missing",
+        "importcheck:missing",
+        "ast:__init__.py"
+      ]
+    },
+    "description": {
+      "confidence": "high",
+      "extracted_at": "2025-10-03T01:02:53.780763+00:00",
+      "reasons": [
+        "length_ok",
+        "features_present",
+        "components:3"
+      ],
+      "sources": [
+        "claude.me:title+subtitle+para"
+      ]
+    },
+    "features": {
+      "confidence": "low",
+      "extracted_at": "2025-10-03T01:02:53.780562+00:00",
+      "reasons": [
+        "weak_evidence"
+      ],
+      "sha": "a826dc6a69e5713422170b892ab710936c6b7368495690696a4ff91c0f8cdc4f",
+      "sources": [
+        "claude.me:bullets",
+        "claude.me:headers"
+      ]
+    }
+  },
+  "apis": {
+    "DreamBridge": {
+      "capabilities": [],
+      "description": "Auto-detected API; fill in description \u2265 40 chars.",
+      "doc_ok": false,
+      "import_verified": false,
+      "module": "dream.DreamBridge"
+    },
+    "DreamProcessor": {
+      "capabilities": [],
+      "description": "Auto-detected API; fill in description \u2265 40 chars.",
+      "doc_ok": false,
+      "import_verified": false,
+      "module": "dream.DreamProcessor"
+    },
+    "create_dream_bridge": {
+      "capabilities": [],
+      "description": "Auto-detected API; fill in description \u2265 40 chars.",
+      "doc_ok": false,
+      "import_verified": false,
+      "module": "dream.create_dream_bridge"
+    }
+  },
+  "contracts": [],
+  "dependencies": [],
+  "description": "Dream Module - Claude AI Context **Module**: dream\n**Purpose**: Core dream processing components for consciousness integration\n**Lane**: L2 (Integration)\n**Language**: Python\n**Last Updated**: 2025-10-02. Implements temporal.coherence with 3 integrated components",
+  "features": [
+    "temporal.coherence"
+  ],
+  "identity": {
+    "requires_auth": false,
+    "scopes": [],
+    "tiers": []
   },
   "layout": {
     "code_layout": "package-root",
     "paths": {
+      "assets": "assets",
       "code": ".",
       "config": "config",
-      "tests": "tests",
       "docs": "docs",
-      "assets": "assets"
+      "tests": "tests"
     }
   },
+  "links": {
+    "docs": "./docs/README.md",
+    "issues": "https://github.com/LukhasAI/Lukhas/issues",
+    "repo": "https://github.com/LukhasAI/Lukhas"
+  },
+  "matrix": {
+    "contract": "",
+    "gates_profile": "standard",
+    "lane": "L2"
+  },
+  "module": "dream",
+  "observability": {
+    "otel_semconv_version": "1.37.0",
+    "required_spans": [
+      "lukhas.dream.operation",
+      "lukhas.dream.processing"
+    ]
+  },
+  "ownership": {
+    "codeowners": [
+      "@lukhas-core"
+    ],
+    "team": "Core"
+  },
   "runtime": {
-    "language": "python",
     "entrypoints": [
       "dream.DreamBridge",
       "dream.DreamProcessor",
@@ -31,59 +118,43 @@
       "dream.engine.DreamState",
       "dream.engine.DreamType",
       "dream.engine.get_dream_engine"
-    ]
+    ],
+    "language": "python"
   },
-  "matrix": {
-    "contract": "",
-    "lane": "L2",
-    "gates_profile": "standard"
-  },
-  "identity": {
-    "requires_auth": false,
-    "tiers": [],
-    "scopes": []
-  },
-  "links": {
-    "repo": "https://github.com/LukhasAI/Lukhas",
-    "docs": "./docs/README.md",
-    "issues": "https://github.com/LukhasAI/Lukhas/issues"
-  },
+  "schema_version": "3.0.0",
   "tags": [
     "consciousness",
     "dream"
   ],
-  "observability": {
-    "required_spans": [
-      "lukhas.dream.operation",
-      "lukhas.dream.processing"
-    ],
-    "otel_semconv_version": "1.37.0"
-  },
   "tokenization": {
-    "enabled": false,
-    "chain": "none"
+    "chain": "none",
+    "enabled": false
   },
-  "dependencies": [],
-  "contracts": [],
   "x_legacy": {
-    "directory_metadata": {
-      "path": "dream",
-      "lane": "development",
-      "purpose": "Directory containing 1 Python files and 0 subdirectories",
-      "last_updated": "2025-09-21",
-      "constellation_framework_version": "2.0.0",
-      "t4_compliance_level": "experimental",
-      "cognitive_domains": [
-        "dream_synthesis",
-        "creative_processing"
-      ]
+    "agent_guidance": {
+      "avoid_patterns": [
+        "Modifying contracts without validation",
+        "Breaking lane boundaries",
+        "Ignoring Constellation Framework integration",
+        "Breaking constructor-aware instantiation patterns",
+        "Bypassing T4/0.01% validation standards",
+        "Ignoring MATRIZ pipeline integration requirements"
+      ],
+      "common_tasks": [],
+      "key_files": [],
+      "prerequisites": [
+        "Understanding of LUKHAS lane system",
+        "Constellation Framework familiarity",
+        "MATRIZ pipeline architecture",
+        "T4/0.01% implementation standards"
+      ],
+      "recommended_approach": "Begin with documentation files, then explore core components"
     },
     "component_inventory": {
+      "documentation": [],
       "python_files": [
         {
-          "filename": "engine.py",
           "component_type": "MATRIZ_PROCESSOR",
-          "has_contract": true,
           "contract_path": "contracts/consciousness/engine.json",
           "dependencies": [],
           "exports": [
@@ -96,11 +167,40 @@
             "get_dream_engine",
             "get_active_dreams",
             "get_dream_info"
-          ]
+          ],
+          "filename": "engine.py",
+          "has_contract": true
         }
       ],
-      "subdirectories": [],
-      "documentation": []
+      "subdirectories": []
+    },
+    "directory_metadata": {
+      "cognitive_domains": [
+        "dream_synthesis",
+        "creative_processing"
+      ],
+      "constellation_framework_version": "2.0.0",
+      "lane": "development",
+      "last_updated": "2025-09-21",
+      "path": "dream",
+      "purpose": "Directory containing 1 Python files and 0 subdirectories",
+      "t4_compliance_level": "experimental"
+    },
+    "performance_metadata": {
+      "component_count": 1,
+      "consciousness_integration": "intermediate",
+      "constructor_aware_instantiation": true,
+      "estimated_complexity": "low",
+      "matriz_compatibility": "standard",
+      "plugin_registry_compatible": true,
+      "t4_compliance_score": 0.65,
+      "test_coverage": 85.0
+    },
+    "relationships": {
+      "constellation_cluster": "unknown",
+      "dependency_weight": "moderate",
+      "parent_directory": null,
+      "related_directories": []
     },
     "schema_references": [
       {
@@ -108,41 +208,6 @@
         "schema_path": "schemas/directory_index.schema.json",
         "validation_status": "valid"
       }
-    ],
-    "agent_guidance": {
-      "recommended_approach": "Begin with documentation files, then explore core components",
-      "key_files": [],
-      "common_tasks": [],
-      "prerequisites": [
-        "Understanding of LUKHAS lane system",
-        "Constellation Framework familiarity",
-        "MATRIZ pipeline architecture",
-        "T4/0.01% implementation standards"
-      ],
-      "avoid_patterns": [
-        "Modifying contracts without validation",
-        "Breaking lane boundaries",
-        "Ignoring Constellation Framework integration",
-        "Breaking constructor-aware instantiation patterns",
-        "Bypassing T4/0.01% validation standards",
-        "Ignoring MATRIZ pipeline integration requirements"
-      ]
-    },
-    "performance_metadata": {
-      "component_count": 1,
-      "estimated_complexity": "low",
-      "consciousness_integration": "intermediate",
-      "test_coverage": 85.0,
-      "t4_compliance_score": 0.65,
-      "matriz_compatibility": "standard",
-      "plugin_registry_compatible": true,
-      "constructor_aware_instantiation": true
-    },
-    "relationships": {
-      "parent_directory": null,
-      "related_directories": [],
-      "constellation_cluster": "unknown",
-      "dependency_weight": "moderate"
-    }
+    ]
   }
 }

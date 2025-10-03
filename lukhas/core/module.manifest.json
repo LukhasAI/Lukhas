@@ -1,51 +1,73 @@
 {
-  "schema_version": "1.0.0",
-  "module": "core",
+  "_provenance": {
+    "apis": {
+      "confidence": "low",
+      "extracted_at": "2025-10-03T01:02:53.784646+00:00",
+      "reasons": [
+        "no_apis"
+      ],
+      "sources": [
+        "ast:__init__.py"
+      ]
+    },
+    "features": {
+      "confidence": "low",
+      "extracted_at": "2025-10-03T01:02:53.784458+00:00",
+      "reasons": [
+        "file_not_found"
+      ],
+      "sources": []
+    }
+  },
+  "apis": {},
+  "contracts": [],
+  "dependencies": [],
   "description": "LUKHAS core module",
-  "ownership": {
-    "team": "Core",
-    "codeowners": [
-      "@lukhas-core"
-    ]
+  "features": [],
+  "identity": {
+    "requires_auth": false,
+    "scopes": [],
+    "tiers": []
   },
   "layout": {
     "code_layout": "package-root",
     "paths": {
+      "assets": "assets",
       "code": ".",
       "config": "config",
-      "tests": "tests",
       "docs": "docs",
-      "assets": "assets"
+      "tests": "tests"
     }
   },
-  "runtime": {
-    "language": "python",
-    "entrypoints": []
+  "links": {
+    "docs": "./docs/README.md",
+    "issues": "https://github.com/LukhasAI/Lukhas/issues",
+    "repo": "https://github.com/LukhasAI/Lukhas"
   },
   "matrix": {
     "contract": "",
-    "lane": "L2",
-    "gates_profile": "standard"
+    "gates_profile": "standard",
+    "lane": "L2"
   },
-  "identity": {
-    "requires_auth": false,
-    "tiers": [],
-    "scopes": []
-  },
-  "links": {
-    "repo": "https://github.com/LukhasAI/Lukhas",
-    "docs": "./docs/README.md",
-    "issues": "https://github.com/LukhasAI/Lukhas/issues"
-  },
-  "tags": [],
+  "module": "core",
   "observability": {
-    "required_spans": [],
-    "otel_semconv_version": "1.37.0"
+    "otel_semconv_version": "1.37.0",
+    "required_spans": []
   },
+  "ownership": {
+    "codeowners": [
+      "@lukhas-core"
+    ],
+    "team": "Core"
+  },
+  "runtime": {
+    "entrypoints": [],
+    "language": "python"
+  },
+  "schema_version": "1.0.0",
+  "tags": [],
   "tokenization": {
-    "enabled": false,
-    "chain": "none"
-  },
-  "dependencies": [],
-  "contracts": []
+    "chain": "none",
+    "enabled": false
+  }
 }

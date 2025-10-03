@@ -1,55 +1,79 @@
 {
-  "schema_version": "1.0.0",
-  "module": "SYSTEM_CLAUDE_AUDIT",
+  "_provenance": {
+    "apis": {
+      "confidence": "low",
+      "extracted_at": "2025-10-03T01:02:53.689096+00:00",
+      "reasons": [
+        "no_apis"
+      ],
+      "sources": []
+    },
+    "features": {
+      "confidence": "low",
+      "extracted_at": "2025-10-03T01:02:53.689006+00:00",
+      "reasons": [
+        "weak_evidence"
+      ],
+      "sha": "84c592f33682bff0d70e234775d7f11d4abc8d0e080fd5c1f131b26d5d55d3c2",
+      "sources": [
+        "claude.me:bullets",
+        "claude.me:headers"
+      ]
+    }
+  },
+  "apis": {},
+  "contracts": [],
+  "dependencies": [],
   "description": "LUKHAS SYSTEM_CLAUDE_AUDIT module implementing specialized SYSTEM_CLAUDE_AUDIT functionality with 0 components for integrated system operations.",
-  "ownership": {
-    "team": "Core",
-    "codeowners": [
-      "@lukhas-core"
-    ]
+  "features": [],
+  "identity": {
+    "requires_auth": false,
+    "scopes": [],
+    "tiers": []
   },
   "layout": {
     "code_layout": "package-root",
     "paths": {
+      "assets": "assets",
       "code": ".",
       "config": "config",
-      "tests": "tests",
       "docs": "docs",
-      "assets": "assets"
+      "tests": "tests"
     }
   },
-  "runtime": {
-    "language": "python",
-    "entrypoints": []
+  "links": {
+    "docs": "./docs/README.md",
+    "issues": "https://github.com/LukhasAI/Lukhas/issues",
+    "repo": "https://github.com/LukhasAI/Lukhas"
   },
   "matrix": {
     "contract": "",
-    "lane": "L2",
-    "gates_profile": "standard"
+    "gates_profile": "standard",
+    "lane": "L2"
   },
-  "identity": {
-    "requires_auth": false,
-    "tiers": [],
-    "scopes": []
+  "module": "SYSTEM_CLAUDE_AUDIT",
+  "observability": {
+    "otel_semconv_version": "1.37.0",
+    "required_spans": [
+      "lukhas.SYSTEM_CLAUDE_AUDIT.operation"
+    ]
   },
-  "links": {
-    "repo": "https://github.com/LukhasAI/Lukhas",
-    "docs": "./docs/README.md",
-    "issues": "https://github.com/LukhasAI/Lukhas/issues"
+  "ownership": {
+    "codeowners": [
+      "@lukhas-core"
+    ],
+    "team": "Core"
   },
+  "runtime": {
+    "entrypoints": [],
+    "language": "python"
+  },
+  "schema_version": "1.0.0",
   "tags": [
     "SYSTEM_CLAUDE_AUDIT"
   ],
-  "observability": {
-    "required_spans": [
-      "lukhas.SYSTEM_CLAUDE_AUDIT.operation"
-    ],
-    "otel_semconv_version": "1.37.0"
-  },
   "tokenization": {
-    "enabled": false,
-    "chain": "none"
-  },
-  "dependencies": [],
-  "contracts": []
+    "chain": "none",
+    "enabled": false
+  }
 }

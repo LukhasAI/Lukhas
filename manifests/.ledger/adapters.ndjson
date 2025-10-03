@@ -1,0 +1,2 @@
+{"module": "adapters", "timestamp": "2025-10-03T01:02:42.282710+00:00", "sha": "00f4d41ea9112c75f78a007fe8093763e1c70549", "diff_fields": ["_provenance", "apis", "features"]}
+{"module": "adapters", "timestamp": "2025-10-03T01:02:53.697985+00:00", "sha": "99bbf0f16f60d716f3a1eb9cc2e3bbd3d9d2333e", "diff_fields": ["_provenance"]}

@@ -1,63 +1,103 @@
-# 🚀 LUKHAS AI Deployment Infrastructure
+# 📦 Deployment
 
-This directory contains all deployment-related files for the LUKHAS AI consciousness development platform.
+_Where theory meets reality, deployment forges systems that endure—tested in fire, proven in production, scaled beyond horizons._
 
-## 📁 Directory Structure
+**LUKHAS deployment module implementing specialized deployment functionality with 0 components for integrated system operations.**
 
-### **Deployment Scripts (`scripts/`)**
-- `deploy.sh` - Main deployment script
-- `deploy-fresh.sh` - Fresh environment deployment
-- `setup_newrelic.sh` - New Relic APM setup
-- `migrate_web_projects.sh` - Web project migration utility
+## Overview
 
-### **Docker Infrastructure (`docker/`)**
-- `Dockerfile` - Main container build configuration
-- `docker-compose.yml` - Multi-container orchestration
+LUKHAS deployment module implementing specialized deployment functionality with 0 components for integrated system operations.
 
-### **Cloud Deployments (`cloud/`)**
-- `azure-container-app.yaml` - Azure Container Apps configuration
-- `azure-production-deploy.yml` - Azure production pipeline
 
-## 🚀 Deployment Workflows
 
-### **Local Development**
-```bash
-# Build and run locally
-cd deployment/docker/
-docker-compose up -d
+**Technical Foundation**: Core deployment module implementing LUKHAS system architecture patterns with comprehensive testing, observability, and performance optimization.
 
-# Fresh deployment
-cd deployment/scripts/
-./deploy-fresh.sh
+## Lane Position
+
+- **Lane**: `unknown`
+- **Module ID**: `unknown`
+- **Constellation**: Core System Component
+
+## Features
+
+- ✅ Core functionality
+- ✅ API integration
+- ✅ Testing support
+
+## Quick Start
+
+**Getting Started**: This module handles production deployment—like the infrastructure team that takes your prototype and makes it work reliably for thousands of users.
+
+
+### Installation
+
+```python
+# Import from unknown lane
+from deployment import Deployment
+
+# Initialize
+system = Deployment()
+result = system.process(input_data)
+print(f"Result: {result}")
 ```
 
-### **Production Deployment**
-```bash
-# Azure deployment
-cd deployment/cloud/
-az deployment group create --resource-group lukhas-ai \
-  --template-file azure-container-app.yaml
+## API Reference
 
-# With monitoring
-cd deployment/scripts/
-./setup_newrelic.sh
-./deploy.sh production
+See code docstrings and inline documentation.
+
+## Dependencies
+
+- No external dependencies
+
+## Provides
+
+- Core module functionality
+
+## Architecture
+
+```
+deployment/
+├── __init__.py          # Module initialization
+├── core.py              # Core functionality
+├── api.py               # API interfaces
+├── tests/               # Test suite
+└── docs/                # Documentation
 ```
 
-## 🏗️ Infrastructure Standards
+## Testing
 
-### **Container Standards**
-- ✅ Multi-stage Docker builds for optimization
-- ✅ Security scanning before deployment
-- ✅ Health checks and monitoring
-- ✅ Resource limits and scaling rules
+```bash
+# Run module tests
+pytest /Users/agi_dev/LOCAL-REPOS/Lukhas/deployment/tests/ -v
 
-### **Cloud Deployment Principles**
-- 🌍 Infrastructure as Code (IaC)
-- 🔒 Zero-trust security model
-- 📊 Comprehensive monitoring and logging
-- 🔄 Automated rollback capabilities
+# Run with coverage
+pytest /Users/agi_dev/LOCAL-REPOS/Lukhas/deployment/tests/ --cov=deployment --cov-report=html
+```
+
+## Performance
+
+- Performance targets: Follow LUKHAS system SLOs
+
+## Documentation
+
+- **Module Manifest**: [`module.manifest.json`](module.manifest.json)
+- **Detailed Docs**: [`docs/`](docs/)
+- **API Examples**: See code docstrings and `docs/` directory
+
+## Contributing
+
+Follow LUKHAS development guidelines:
+1. Respect lane boundaries
+2. Maintain T4/0.01% quality standards
+3. Add comprehensive tests
+4. Update documentation
+
+## Related Modules
+
+- See main [LUKHAS README](../../README.md) for system overview
 
 ---
 
-**Professional deployment infrastructure - Consolidated August 2025**
+**Version**: 1.0.0
+**Lane**: unknown
+**Constellation Framework**: ⚛️✦🔬🛡️

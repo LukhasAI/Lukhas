@@ -1,0 +1,296 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://lukhas.ai/schema/manifest.enriched.schema.json",
+  "title": "LUKHΛS Module Manifest (T4/0.01% Enriched)",
+  "description": "Enhanced manifest schema with provenance, performance targets vs observed, and controlled vocabularies",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["module", "description", "tags", "testing"],
+  "properties": {
+    "module": {
+      "type": "string",
+      "pattern": "^[a-zA-Z_][\\w./-]*$",
+      "description": "Module slug or dotted import path root"
+    },
+    "description": {
+      "type": "string",
+      "minLength": 120,
+      "maxLength": 360,
+      "description": "Rich, factual summary (no emojis). Must reference at least one canonical feature key and component count."
+    },
+    "tags": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z0-9-]+:[a-z0-9-]+$"
+      },
+      "description": "Canonical tags from vocab/tags.json - enforced in CI"
+    },
+    "features": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z0-9][a-z0-9._-]+$"
+      },
+      "description": "Canonical feature keys from vocab/features.json"
+    },
+    "apis": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "required": ["module"],
+        "additionalProperties": false,
+        "properties": {
+          "description": {
+            "type": "string",
+            "minLength": 40
+          },
+          "module": {
+            "type": "string",
+            "pattern": "^[a-zA-Z_][\\w.]+$"
+          },
+          "capabilities": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^[a-z0-9._-]+$"
+            },
+            "uniqueItems": true
+          },
+          "doc_ok": {
+            "type": "boolean",
+            "description": "Docstring ≥ 80 chars"
+          },
+          "import_verified": {
+            "type": "boolean",
+            "description": "Symbol verified in AST without execution"
+          },
+          "benchmark": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "callable": {
+                "type": "string",
+                "pattern": "^[a-zA-Z_][\\w.]*$"
+              },
+              "args": {
+                "type": "array"
+              },
+              "kwargs": {
+                "type": "object"
+              },
+              "warmup_iters": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 10000
+              },
+              "min_rounds": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 1000
+              }
+            }
+          }
+        }
+      }
+    },
+    "performance": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "sla_targets": {
+          "type": "object",
+          "description": "Policy-driven performance targets (intent, not measurement)",
+          "additionalProperties": false,
+          "properties": {
+            "latency_p95_ms": {
+              "type": "number",
+              "exclusiveMinimum": 0,
+              "maximum": 10000
+            },
+            "latency_p99_ms": {
+              "type": "number",
+              "exclusiveMinimum": 0,
+              "maximum": 20000
+            },
+            "availability": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 100
+            }
+          }
+        },
+        "observed": {
+          "type": "object",
+          "description": "Actually measured performance (from pytest-benchmark)",
+          "additionalProperties": false,
+          "properties": {
+            "latency_p50_ms": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 10000
+            },
+            "latency_p95_ms": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 10000
+            },
+            "latency_p99_ms": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 20000
+            },
+            "availability": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 100,
+              "description": "Test pass rate proxy until live SLOs available"
+            },
+            "env_fingerprint": {
+              "type": "string",
+              "description": "SHA256 hash of Python version, OS, CPU, etc."
+            },
+            "observed_at": {
+              "type": "string",
+              "format": "date-time",
+              "description": "ISO 8601 timestamp of measurement"
+            }
+          },
+          "required": ["observed_at"]
+        },
+        "metrics": {
+          "type": "object",
+          "description": "Custom performance metrics (cascade_prevention_rate, etc.)",
+          "additionalProperties": {
+            "type": ["number", "string", "boolean", "null"]
+          }
+        },
+        "derived_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "When sla_targets were last computed/updated"
+        }
+      }
+    },
+    "testing": {
+      "type": "object",
+      "required": ["coverage_target"],
+      "additionalProperties": false,
+      "properties": {
+        "coverage_target": {
+          "type": "integer",
+          "enum": [70, 80, 85, 90, 95],
+          "description": "Target coverage percentage (policy)"
+        },
+        "coverage_observed": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100,
+          "description": "Actually measured coverage (from pytest-cov)"
+        },
+        "observed_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "test_frameworks": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "uniqueItems": true
+        },
+        "test_types": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "uniqueItems": true
+        }
+      }
+    },
+    "_provenance": {
+      "type": "object",
+      "description": "Per-field provenance with confidence levels - T4/0.01% audit trail",
+      "additionalProperties": {
+        "type": "object",
+        "required": ["provenance", "confidence"],
+        "additionalProperties": false,
+        "properties": {
+          "provenance": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string"
+            },
+            "description": "Source chain: ['claude.me:§Features', 'git:HEAD@abc123']"
+          },
+          "confidence": {
+            "type": "string",
+            "enum": ["high", "medium", "low"],
+            "description": "Extraction confidence level"
+          },
+          "reasons": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Reason codes: ['pattern:H2+UL', 'min_evidence:5']"
+          },
+          "extracted_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "sha": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$",
+            "description": "SHA256 of source file when extracted"
+          }
+        }
+      }
+    },
+    "metadata": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": ["draft", "experimental", "stable", "deprecated"]
+        },
+        "version": {
+          "type": "string",
+          "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+        },
+        "created": {
+          "type": "string",
+          "format": "date"
+        },
+        "updated": {
+          "type": "string",
+          "format": "date"
+        }
+      }
+    },
+    "apis_pending": {
+      "type": "object",
+      "description": "APIs that failed verification checks - excluded from main apis object",
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "needs_docs": {
+            "type": "boolean"
+          },
+          "import_failed": {
+            "type": "boolean"
+          },
+          "error": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

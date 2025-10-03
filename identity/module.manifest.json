@@ -1,26 +1,194 @@
 {
-  "schema_version": "3.0.0",
-  "module": "identity",
+  "_provenance": {
+    "apis": {
+      "confidence": "medium",
+      "extracted_at": "2025-10-03T01:02:53.611385+00:00",
+      "reasons": [
+        "partial_verification:0/15"
+      ],
+      "sources": [
+        "importcheck:missing",
+        "importcheck:missing",
+        "importcheck:missing",
+        "importcheck:missing",
+        "importcheck:missing",
+        "importcheck:missing",
+        "importcheck:missing",
+        "importcheck:missing",
+        "importcheck:missing",
+        "importcheck:missing",
+        "importcheck:missing",
+        "importcheck:missing",
+        "importcheck:missing",
+        "importcheck:missing",
+        "importcheck:missing",
+        "ast:__init__.py"
+      ]
+    },
+    "features": {
+      "confidence": "low",
+      "extracted_at": "2025-10-03T01:02:53.608069+00:00",
+      "reasons": [
+        "weak_evidence"
+      ],
+      "sha": "bf7ba51a6b8f74ef47c79052e0a87fc722b03c912655b65471a69bc1451ba52f",
+      "sources": [
+        "claude.me:bullets",
+        "claude.me:headers"
+      ]
+    }
+  },
+  "apis": {
+    "AccessContext": {
+      "capabilities": [],
+      "description": "Auto-detected API; fill in description \u2265 40 chars.",
+      "doc_ok": false,
+      "import_verified": false,
+      "module": "identity.AccessContext"
+    },
+    "AccessDecision": {
+      "capabilities": [],
+      "description": "Auto-detected API; fill in description \u2265 40 chars.",
+      "doc_ok": false,
+      "import_verified": false,
+      "module": "identity.AccessDecision"
+    },
+    "AccessType": {
+      "capabilities": [],
+      "description": "Auto-detected API; fill in description \u2265 40 chars.",
+      "doc_ok": false,
+      "import_verified": false,
+      "module": "identity.AccessType"
+    },
+    "DynamicTierSystem": {
+      "capabilities": [],
+      "description": "Auto-detected API; fill in description \u2265 40 chars.",
+      "doc_ok": false,
+      "import_verified": false,
+      "module": "identity.DynamicTierSystem"
+    },
+    "IDENTITY_ENHANCED_ACTIVE": {
+      "capabilities": [],
+      "description": "Auto-detected API; fill in description \u2265 40 chars.",
+      "doc_ok": false,
+      "import_verified": false,
+      "module": "identity.IDENTITY_ENHANCED_ACTIVE"
+    },
+    "IdentityConnector": {
+      "capabilities": [],
+      "description": "Auto-detected API; fill in description \u2265 40 chars.",
+      "doc_ok": false,
+      "import_verified": false,
+      "module": "identity.IdentityConnector"
+    },
+    "PermissionScope": {
+      "capabilities": [],
+      "description": "Auto-detected API; fill in description \u2265 40 chars.",
+      "doc_ok": false,
+      "import_verified": false,
+      "module": "identity.PermissionScope"
+    },
+    "TierLevel": {
+      "capabilities": [],
+      "description": "Auto-detected API; fill in description \u2265 40 chars.",
+      "doc_ok": false,
+      "import_verified": false,
+      "module": "identity.TierLevel"
+    },
+    "TierPermission": {
+      "capabilities": [],
+      "description": "Auto-detected API; fill in description \u2265 40 chars.",
+      "doc_ok": false,
+      "import_verified": false,
+      "module": "identity.TierPermission"
+    },
+    "create_tier_system": {
+      "capabilities": [],
+      "description": "Auto-detected API; fill in description \u2265 40 chars.",
+      "doc_ok": true,
+      "import_verified": false,
+      "module": "identity.create_tier_system"
+    },
+    "get_identity_metrics": {
+      "capabilities": [],
+      "description": "Auto-detected API; fill in description \u2265 40 chars.",
+      "doc_ok": true,
+      "import_verified": false,
+      "module": "identity.get_identity_metrics"
+    },
+    "get_identity_status": {
+      "capabilities": [],
+      "description": "Auto-detected API; fill in description \u2265 40 chars.",
+      "doc_ok": true,
+      "import_verified": false,
+      "module": "identity.get_identity_status"
+    },
+    "logger": {
+      "capabilities": [],
+      "description": "Auto-detected API; fill in description \u2265 40 chars.",
+      "doc_ok": false,
+      "import_verified": false,
+      "module": "identity.logger"
+    },
+    "manage_permissions": {
+      "capabilities": [],
+      "description": "Auto-detected API; fill in description \u2265 40 chars.",
+      "doc_ok": true,
+      "import_verified": false,
+      "module": "identity.manage_permissions"
+    },
+    "validate_access": {
+      "capabilities": [],
+      "description": "Auto-detected API; fill in description \u2265 40 chars.",
+      "doc_ok": true,
+      "import_verified": false,
+      "module": "identity.validate_access"
+    }
+  },
+  "contracts": [],
+  "dependencies": [],
   "description": "Advanced identity management with dynamic tier systems, access control,",
-  "ownership": {
-    "team": "Identity",
-    "codeowners": [
-      "@lukhas-identity",
-      "@lukhas-security"
-    ]
+  "features": [],
+  "identity": {
+    "requires_auth": false,
+    "scopes": [],
+    "tiers": []
   },
   "layout": {
     "code_layout": "package-root",
     "paths": {
+      "assets": "assets",
       "code": ".",
       "config": "config",
-      "tests": "tests",
       "docs": "docs",
-      "assets": "assets"
+      "tests": "tests"
     }
   },
+  "links": {
+    "docs": "./docs/README.md",
+    "issues": "https://github.com/LukhasAI/Lukhas/issues",
+    "repo": "https://github.com/LukhasAI/Lukhas"
+  },
+  "matrix": {
+    "contract": "",
+    "gates_profile": "standard",
+    "lane": "L2"
+  },
+  "module": "identity",
+  "observability": {
+    "otel_semconv_version": "1.37.0",
+    "required_spans": [
+      "lukhas.identity.operation"
+    ]
+  },
+  "ownership": {
+    "codeowners": [
+      "@lukhas-identity",
+      "@lukhas-security"
+    ],
+    "team": "Identity"
+  },
   "runtime": {
-    "language": "python",
     "entrypoints": [
       "identity.AccessContext",
       "identity.AccessDecision",
@@ -40,23 +208,10 @@
       "identity.tier_system.AccessContext",
       "identity.tier_system.AccessDecision",
       "identity.tier_system.AccessType"
-    ]
+    ],
+    "language": "python"
   },
-  "matrix": {
-    "contract": "",
-    "lane": "L2",
-    "gates_profile": "standard"
-  },
-  "identity": {
-    "requires_auth": false,
-    "tiers": [],
-    "scopes": []
-  },
-  "links": {
-    "repo": "https://github.com/LukhasAI/Lukhas",
-    "docs": "./docs/README.md",
-    "issues": "https://github.com/LukhasAI/Lukhas/issues"
-  },
+  "schema_version": "3.0.0",
   "tags": [
     "authentication",
     "consciousness",
@@ -66,44 +221,50 @@
     "security",
     "webauthn"
   ],
-  "observability": {
-    "required_spans": [
-      "lukhas.identity.operation"
-    ],
-    "otel_semconv_version": "1.37.0"
-  },
   "tokenization": {
-    "enabled": false,
-    "chain": "none"
+    "chain": "none",
+    "enabled": false
   },
-  "dependencies": [],
-  "contracts": [],
   "x_legacy": {
-    "directory_metadata": {
-      "path": "identity",
-      "lane": "development",
-      "purpose": "Directory containing 2 Python files and 1 subdirectories",
-      "last_updated": "2025-09-21",
-      "constellation_framework_version": "2.0.0",
-      "t4_compliance_level": "experimental",
-      "constellation_role": "anchor_star_primary",
-      "matriz_pipeline_integration": {
-        "action_stage": "active",
-        "decision_stage": "active"
-      },
-      "identity_features": {
-        "webauthn_support": true,
-        "passkey_authentication": true,
-        "multi_tier_access": true,
-        "namespace_isolation": true
-      }
+    "agent_guidance": {
+      "avoid_patterns": [
+        "Modifying contracts without validation",
+        "Breaking lane boundaries",
+        "Ignoring Constellation Framework integration",
+        "Breaking constructor-aware instantiation patterns",
+        "Bypassing T4/0.01% validation standards",
+        "Ignoring MATRIZ pipeline integration requirements"
+      ],
+      "common_tasks": [],
+      "key_files": [
+        "lukhas_context.md",
+        "claude.me"
+      ],
+      "prerequisites": [
+        "Understanding of LUKHAS lane system",
+        "Constellation Framework familiarity",
+        "Authentication and identity management",
+        "MATRIZ pipeline architecture",
+        "T4/0.01% implementation standards"
+      ],
+      "recommended_approach": "Focus on authentication flows and Lambda ID integration patterns"
     },
     "component_inventory": {
+      "documentation": [
+        {
+          "filename": "lukhas_context.md",
+          "has_sync_header": false,
+          "type": "lukhas_context.md"
+        },
+        {
+          "filename": "claude.me",
+          "has_sync_header": false,
+          "type": "claude.me"
+        }
+      ],
       "python_files": [
         {
-          "filename": "tier_system.py",
           "component_type": "UTILITY",
-          "has_contract": false,
           "contract_path": null,
           "dependencies": [],
           "exports": [
@@ -122,41 +283,68 @@
             "elevate_session",
             "decorator",
             "wrapper"
-          ]
+          ],
+          "filename": "tier_system.py",
+          "has_contract": false
         },
         {
-          "filename": "identity_connector.py",
           "component_type": "IDENTITY_SERVICE",
-          "has_contract": false,
           "contract_path": null,
           "dependencies": [],
           "exports": [
             "IdentityConnector",
             "validate_identity",
             "get_user_permissions"
-          ]
+          ],
+          "filename": "identity_connector.py",
+          "has_contract": false
         }
       ],
       "subdirectories": [
         {
-          "name": "consent",
+          "component_count": 0,
           "has_index": false,
-          "purpose": "Subdirectory with 0 Python files",
-          "component_count": 0
-        }
-      ],
-      "documentation": [
-        {
-          "filename": "lukhas_context.md",
-          "type": "lukhas_context.md",
-          "has_sync_header": false
-        },
-        {
-          "filename": "claude.me",
-          "type": "claude.me",
-          "has_sync_header": false
+          "name": "consent",
+          "purpose": "Subdirectory with 0 Python files"
         }
       ]
+    },
+    "directory_metadata": {
+      "constellation_framework_version": "2.0.0",
+      "constellation_role": "anchor_star_primary",
+      "identity_features": {
+        "multi_tier_access": true,
+        "namespace_isolation": true,
+        "passkey_authentication": true,
+        "webauthn_support": true
+      },
+      "lane": "development",
+      "last_updated": "2025-09-21",
+      "matriz_pipeline_integration": {
+        "action_stage": "active",
+        "decision_stage": "active"
+      },
+      "path": "identity",
+      "purpose": "Directory containing 2 Python files and 1 subdirectories",
+      "t4_compliance_level": "experimental"
+    },
+    "performance_metadata": {
+      "authentication_tier_support": true,
+      "component_count": 2,
+      "consciousness_integration": "basic",
+      "constructor_aware_instantiation": true,
+      "estimated_complexity": "low",
+      "matriz_compatibility": "standard",
+      "plugin_registry_compatible": true,
+      "t4_compliance_score": 0.65,
+      "test_coverage": 85.0,
+      "webauthn_compatible": true
+    },
+    "relationships": {
+      "constellation_cluster": "anchor_star_identity",
+      "dependency_weight": "moderate",
+      "parent_directory": null,
+      "related_directories": []
     },
     "schema_references": [
       {
@@ -164,47 +352,6 @@
         "schema_path": "schemas/directory_index.schema.json",
         "validation_status": "valid"
       }
-    ],
-    "agent_guidance": {
-      "recommended_approach": "Focus on authentication flows and Lambda ID integration patterns",
-      "key_files": [
-        "lukhas_context.md",
-        "claude.me"
-      ],
-      "common_tasks": [],
-      "prerequisites": [
-        "Understanding of LUKHAS lane system",
-        "Constellation Framework familiarity",
-        "Authentication and identity management",
-        "MATRIZ pipeline architecture",
-        "T4/0.01% implementation standards"
-      ],
-      "avoid_patterns": [
-        "Modifying contracts without validation",
-        "Breaking lane boundaries",
-        "Ignoring Constellation Framework integration",
-        "Breaking constructor-aware instantiation patterns",
-        "Bypassing T4/0.01% validation standards",
-        "Ignoring MATRIZ pipeline integration requirements"
-      ]
-    },
-    "performance_metadata": {
-      "component_count": 2,
-      "estimated_complexity": "low",
-      "consciousness_integration": "basic",
-      "test_coverage": 85.0,
-      "t4_compliance_score": 0.65,
-      "matriz_compatibility": "standard",
-      "plugin_registry_compatible": true,
-      "constructor_aware_instantiation": true,
-      "authentication_tier_support": true,
-      "webauthn_compatible": true
-    },
-    "relationships": {
-      "parent_directory": null,
-      "related_directories": [],
-      "constellation_cluster": "anchor_star_identity",
-      "dependency_weight": "moderate"
-    }
+    ]
   }
 }

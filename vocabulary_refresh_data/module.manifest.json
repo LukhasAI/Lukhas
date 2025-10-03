@@ -1,55 +1,79 @@
 {
-  "schema_version": "1.0.0",
-  "module": "vocabulary_refresh_data",
+  "_provenance": {
+    "apis": {
+      "confidence": "low",
+      "extracted_at": "2025-10-03T01:02:53.622691+00:00",
+      "reasons": [
+        "no_apis"
+      ],
+      "sources": []
+    },
+    "features": {
+      "confidence": "low",
+      "extracted_at": "2025-10-03T01:02:53.622622+00:00",
+      "reasons": [
+        "weak_evidence"
+      ],
+      "sha": "1b15b11c4e3c927320460493512464d0972a6338e64b8a507106ff41432073fe",
+      "sources": [
+        "claude.me:bullets",
+        "claude.me:headers"
+      ]
+    }
+  },
+  "apis": {},
+  "contracts": [],
+  "dependencies": [],
   "description": "LUKHAS vocabulary_refresh_data module implementing specialized vocabulary_refresh_data functionality with 0 components for integrated system operations.",
-  "ownership": {
-    "team": "Core",
-    "codeowners": [
-      "@lukhas-core"
-    ]
+  "features": [],
+  "identity": {
+    "requires_auth": false,
+    "scopes": [],
+    "tiers": []
   },
   "layout": {
     "code_layout": "package-root",
     "paths": {
+      "assets": "assets",
       "code": ".",
       "config": "config",
-      "tests": "tests",
       "docs": "docs",
-      "assets": "assets"
+      "tests": "tests"
     }
   },
-  "runtime": {
-    "language": "python",
-    "entrypoints": []
+  "links": {
+    "docs": "./docs/README.md",
+    "issues": "https://github.com/LukhasAI/Lukhas/issues",
+    "repo": "https://github.com/LukhasAI/Lukhas"
   },
   "matrix": {
     "contract": "",
-    "lane": "L2",
-    "gates_profile": "standard"
+    "gates_profile": "standard",
+    "lane": "L2"
   },
-  "identity": {
-    "requires_auth": false,
-    "tiers": [],
-    "scopes": []
+  "module": "vocabulary_refresh_data",
+  "observability": {
+    "otel_semconv_version": "1.37.0",
+    "required_spans": [
+      "lukhas.vocabulary_refresh_data.operation"
+    ]
   },
-  "links": {
-    "repo": "https://github.com/LukhasAI/Lukhas",
-    "docs": "./docs/README.md",
-    "issues": "https://github.com/LukhasAI/Lukhas/issues"
+  "ownership": {
+    "codeowners": [
+      "@lukhas-core"
+    ],
+    "team": "Core"
   },
+  "runtime": {
+    "entrypoints": [],
+    "language": "python"
+  },
+  "schema_version": "1.0.0",
   "tags": [
     "vocabulary_refresh_data"
   ],
-  "observability": {
-    "required_spans": [
-      "lukhas.vocabulary_refresh_data.operation"
-    ],
-    "otel_semconv_version": "1.37.0"
-  },
   "tokenization": {
-    "enabled": false,
-    "chain": "none"
-  },
-  "dependencies": [],
-  "contracts": []
+    "chain": "none",
+    "enabled": false
+  }
 }

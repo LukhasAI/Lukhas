@@ -1,47 +1,128 @@
 {
-  "schema_version": "3.0.0",
-  "module": "bridge",
+  "_provenance": {
+    "apis": {
+      "confidence": "medium",
+      "extracted_at": "2025-10-03T01:02:53.626200+00:00",
+      "reasons": [
+        "partial_verification:0/5"
+      ],
+      "sources": [
+        "importcheck:missing",
+        "importcheck:missing",
+        "importcheck:missing",
+        "importcheck:missing",
+        "importcheck:missing",
+        "ast:__init__.py"
+      ]
+    },
+    "features": {
+      "confidence": "low",
+      "extracted_at": "2025-10-03T01:02:53.625511+00:00",
+      "reasons": [
+        "weak_evidence"
+      ],
+      "sha": "f061d76c2e6a143b6ab1fa04dff884dd74dab9b582f44fb460759eea5d17e251",
+      "sources": [
+        "claude.me:bullets",
+        "claude.me:headers"
+      ]
+    }
+  },
+  "apis": {
+    "BRIDGE_BRANDING_AVAILABLE": {
+      "capabilities": [],
+      "description": "Auto-detected API; fill in description \u2265 40 chars.",
+      "doc_ok": false,
+      "import_verified": false,
+      "module": "bridge.BRIDGE_BRANDING_AVAILABLE"
+    },
+    "BrandContext": {
+      "capabilities": [],
+      "description": "Auto-detected API; fill in description \u2265 40 chars.",
+      "doc_ok": false,
+      "import_verified": false,
+      "module": "bridge.BrandContext"
+    },
+    "get_brand_voice": {
+      "capabilities": [],
+      "description": "Auto-detected API; fill in description \u2265 40 chars.",
+      "doc_ok": false,
+      "import_verified": false,
+      "module": "bridge.get_brand_voice"
+    },
+    "normalize_output_text": {
+      "capabilities": [],
+      "description": "Auto-detected API; fill in description \u2265 40 chars.",
+      "doc_ok": false,
+      "import_verified": false,
+      "module": "bridge.normalize_output_text"
+    },
+    "validate_output": {
+      "capabilities": [],
+      "description": "Auto-detected API; fill in description \u2265 40 chars.",
+      "doc_ok": false,
+      "import_verified": false,
+      "module": "bridge.validate_output"
+    }
+  },
+  "contracts": [],
+  "dependencies": [
+    "api",
+    "core",
+    "memory"
+  ],
   "description": "Bridge system with integrated branding compliance for external",
-  "ownership": {
-    "team": "Integration",
-    "codeowners": [
-      "@lukhas-integration",
-      "@lukhas-adapters"
-    ]
+  "features": [],
+  "identity": {
+    "requires_auth": false,
+    "scopes": [],
+    "tiers": []
   },
   "layout": {
     "code_layout": "package-root",
     "paths": {
+      "assets": "assets",
       "code": ".",
       "config": "config",
-      "tests": "tests",
       "docs": "docs",
-      "assets": "assets"
+      "tests": "tests"
     }
   },
+  "links": {
+    "docs": "./docs/README.md",
+    "issues": "https://github.com/LukhasAI/Lukhas/issues",
+    "repo": "https://github.com/LukhasAI/Lukhas"
+  },
+  "matrix": {
+    "contract": "",
+    "gates_profile": "standard",
+    "lane": "L2"
+  },
+  "module": "bridge",
+  "observability": {
+    "otel_semconv_version": "1.37.0",
+    "required_spans": [
+      "lukhas.bridge.fold",
+      "lukhas.bridge.operation",
+      "lukhas.bridge.retrieval"
+    ]
+  },
+  "ownership": {
+    "codeowners": [
+      "@lukhas-integration",
+      "@lukhas-adapters"
+    ],
+    "team": "Integration"
+  },
   "runtime": {
-    "language": "python",
     "entrypoints": [
       "bridge.BRIDGE_BRANDING_AVAILABLE",
       "bridge.decoding.decode",
       "bridge.decoding.detect_language"
-    ]
+    ],
+    "language": "python"
   },
-  "matrix": {
-    "contract": "",
-    "lane": "L2",
-    "gates_profile": "standard"
-  },
-  "identity": {
-    "requires_auth": false,
-    "tiers": [],
-    "scopes": []
-  },
-  "links": {
-    "repo": "https://github.com/LukhasAI/Lukhas",
-    "docs": "./docs/README.md",
-    "issues": "https://github.com/LukhasAI/Lukhas/issues"
-  },
+  "schema_version": "3.0.0",
   "tags": [
     "adapters",
     "bridge",
@@ -51,67 +132,80 @@
     "oauth2",
     "orchestration"
   ],
-  "observability": {
-    "required_spans": [
-      "lukhas.bridge.fold",
-      "lukhas.bridge.operation",
-      "lukhas.bridge.retrieval"
-    ],
-    "otel_semconv_version": "1.37.0"
-  },
   "tokenization": {
-    "enabled": false,
-    "chain": "none"
+    "chain": "none",
+    "enabled": false
   },
-  "dependencies": [
-    "api",
-    "core",
-    "memory"
-  ],
-  "contracts": [],
   "x_legacy": {
-    "directory_metadata": {
-      "path": "candidate/bridge",
-      "lane": "development",
-      "purpose": "Directory containing 13 Python files and 12 subdirectories",
-      "last_updated": "2025-09-21",
-      "constellation_framework_version": "2.0.0",
-      "t4_compliance_level": "experimental",
-      "matriz_pipeline_integration": {
-        "memory_stage": "experimental",
-        "attention_stage": "experimental",
-        "thought_stage": "experimental",
-        "action_stage": "inactive",
-        "decision_stage": "inactive",
-        "awareness_stage": "experimental"
-      }
+    "agent_guidance": {
+      "avoid_patterns": [
+        "Modifying contracts without validation",
+        "Breaking lane boundaries",
+        "Ignoring Constellation Framework integration",
+        "Breaking constructor-aware instantiation patterns",
+        "Bypassing T4/0.01% validation standards",
+        "Ignoring MATRIZ pipeline integration requirements"
+      ],
+      "common_tasks": [],
+      "key_files": [
+        "README.md",
+        "lukhas_context.md",
+        "claude.me"
+      ],
+      "prerequisites": [
+        "Understanding of LUKHAS lane system",
+        "Constellation Framework familiarity",
+        "MATRIZ pipeline architecture",
+        "T4/0.01% implementation standards"
+      ],
+      "recommended_approach": "Begin with documentation files, then explore core components"
     },
     "component_inventory": {
+      "documentation": [
+        {
+          "filename": "README.md",
+          "has_sync_header": false,
+          "type": "README.md"
+        },
+        {
+          "filename": "lukhas_context.md",
+          "has_sync_header": false,
+          "type": "lukhas_context.md"
+        },
+        {
+          "filename": "personality_communication_engine.md",
+          "has_sync_header": false,
+          "type": "other"
+        },
+        {
+          "filename": "claude.me",
+          "has_sync_header": false,
+          "type": "claude.me"
+        }
+      ],
       "python_files": [
         {
-          "filename": "message_bus.py",
           "component_type": "CONSTELLATION_BRIDGE",
-          "has_contract": false,
           "contract_path": null,
           "dependencies": [],
           "exports": [
             "Placeholder"
-          ]
+          ],
+          "filename": "message_bus.py",
+          "has_contract": false
         },
         {
-          "filename": "adapter.py",
           "component_type": "CONSTELLATION_BRIDGE",
-          "has_contract": true,
           "contract_path": "contracts/consciousness/adapter.json",
           "dependencies": [
             "lukhas.accepted.adapters.base"
           ],
-          "exports": []
+          "exports": [],
+          "filename": "adapter.py",
+          "has_contract": true
         },
         {
-          "filename": "explainability_interface_layer.py",
           "component_type": "CONSTELLATION_BRIDGE",
-          "has_contract": false,
           "contract_path": null,
           "dependencies": [
             "lukhas.memory.emotional"
@@ -138,12 +232,12 @@
             "get_supported_modalities",
             "has_accessibility_support",
             "get_metrics"
-          ]
+          ],
+          "filename": "explainability_interface_layer.py",
+          "has_contract": false
         },
         {
-          "filename": "personality_communication_engine.py",
           "component_type": "MATRIZ_PROCESSOR",
-          "has_contract": false,
           "contract_path": null,
           "dependencies": [],
           "exports": [
@@ -163,12 +257,12 @@
             "adjust_greeting",
             "handle_complex_scenario",
             "update_personality"
-          ]
+          ],
+          "filename": "personality_communication_engine.py",
+          "has_contract": false
         },
         {
-          "filename": "colony_bridge.py",
           "component_type": "CONSTELLATION_BRIDGE",
-          "has_contract": false,
           "contract_path": null,
           "dependencies": [
             "candidate.bridge.message_bus",
@@ -177,12 +271,12 @@
           "exports": [
             "InterColonyBridge",
             "register_colony"
-          ]
+          ],
+          "filename": "colony_bridge.py",
+          "has_contract": false
         },
         {
-          "filename": "integration_bridge.py",
           "component_type": "CONSTELLATION_BRIDGE",
-          "has_contract": false,
           "contract_path": null,
           "dependencies": [
             "candidate.bridge.plugin_base",
@@ -208,12 +302,12 @@
             "CoreRegistryMock",
             "lukhas_tier_required",
             "decorator"
-          ]
+          ],
+          "filename": "integration_bridge.py",
+          "has_contract": false
         },
         {
-          "filename": "trace_logger.py",
           "component_type": "CONSTELLATION_BRIDGE",
-          "has_contract": false,
           "contract_path": null,
           "dependencies": [],
           "exports": [
@@ -231,33 +325,33 @@
             "compress_rotated_file",
             "compressed_rollover",
             "format"
-          ]
+          ],
+          "filename": "trace_logger.py",
+          "has_contract": false
         },
         {
-          "filename": "decoding.py",
           "component_type": "CONSTELLATION_BRIDGE",
-          "has_contract": false,
           "contract_path": null,
           "dependencies": [],
           "exports": [
             "decode",
             "detect_language"
-          ]
+          ],
+          "filename": "decoding.py",
+          "has_contract": false
         },
         {
-          "filename": "transcribe.py",
           "component_type": "CONSTELLATION_BRIDGE",
-          "has_contract": false,
           "contract_path": null,
           "dependencies": [],
           "exports": [
             "transcribe"
-          ]
+          ],
+          "filename": "transcribe.py",
+          "has_contract": false
         },
         {
-          "filename": "model_communication_engine.py",
           "component_type": "MATRIZ_PROCESSOR",
-          "has_contract": false,
           "contract_path": null,
           "dependencies": [],
           "exports": [
@@ -289,12 +383,12 @@
             "install_kv_cache_hooks",
             "save_to_cache",
             "install_hooks"
-          ]
+          ],
+          "filename": "model_communication_engine.py",
+          "has_contract": false
         },
         {
-          "filename": "neuroplastic_connector.py",
           "component_type": "CONSTELLATION_BRIDGE",
-          "has_contract": true,
           "contract_path": "contracts/consciousness/neuroplastic_connector.json",
           "dependencies": [
             "candidate.core.common"
@@ -304,12 +398,12 @@
             "connect_component",
             "emit_hormone",
             "get_stress_response"
-          ]
+          ],
+          "filename": "neuroplastic_connector.py",
+          "has_contract": true
         },
         {
-          "filename": "local_llm_fixer.py",
           "component_type": "CONSTELLATION_BRIDGE",
-          "has_contract": false,
           "contract_path": null,
           "dependencies": [],
           "exports": [
@@ -318,12 +412,12 @@
             "CodeFix",
             "LocalLLMFixer",
             "get_learning_stats"
-          ]
+          ],
+          "filename": "local_llm_fixer.py",
+          "has_contract": false
         },
         {
-          "filename": "matriz_adapter.py",
           "component_type": "CONSTELLATION_BRIDGE",
-          "has_contract": true,
           "contract_path": "contracts/consciousness/matriz_adapter.json",
           "dependencies": [],
           "exports": [
@@ -335,105 +429,117 @@
             "emit_consensus_event",
             "validate_node",
             "save_node"
-          ]
+          ],
+          "filename": "matriz_adapter.py",
+          "has_contract": true
         }
       ],
       "subdirectories": [
         {
+          "component_count": 2,
+          "has_index": false,
           "name": "connectors",
-          "has_index": false,
-          "purpose": "Subdirectory with 2 Python files",
-          "component_count": 2
+          "purpose": "Subdirectory with 2 Python files"
         },
         {
+          "component_count": 15,
+          "has_index": false,
           "name": "llm_wrappers",
-          "has_index": false,
-          "purpose": "Subdirectory with 15 Python files",
-          "component_count": 15
+          "purpose": "Subdirectory with 15 Python files"
         },
         {
+          "component_count": 5,
+          "has_index": false,
           "name": "api_gateway",
-          "has_index": false,
-          "purpose": "Subdirectory with 5 Python files",
-          "component_count": 5
+          "purpose": "Subdirectory with 5 Python files"
         },
         {
+          "component_count": 15,
+          "has_index": false,
           "name": "adapters",
-          "has_index": false,
-          "purpose": "Subdirectory with 15 Python files",
-          "component_count": 15
+          "purpose": "Subdirectory with 15 Python files"
         },
         {
+          "component_count": 4,
+          "has_index": false,
           "name": "external_adapters",
-          "has_index": false,
-          "purpose": "Subdirectory with 4 Python files",
-          "component_count": 4
+          "purpose": "Subdirectory with 4 Python files"
         },
         {
+          "component_count": 1,
+          "has_index": false,
           "name": "examples",
-          "has_index": false,
-          "purpose": "Subdirectory with 1 Python files",
-          "component_count": 1
+          "purpose": "Subdirectory with 1 Python files"
         },
         {
+          "component_count": 5,
+          "has_index": false,
           "name": "workflow",
-          "has_index": false,
-          "purpose": "Subdirectory with 5 Python files",
-          "component_count": 5
+          "purpose": "Subdirectory with 5 Python files"
         },
         {
+          "component_count": 1,
+          "has_index": false,
           "name": "api_legacy",
-          "has_index": false,
-          "purpose": "Subdirectory with 1 Python files",
-          "component_count": 1
+          "purpose": "Subdirectory with 1 Python files"
         },
         {
+          "component_count": 7,
+          "has_index": false,
           "name": "orchestration",
-          "has_index": false,
-          "purpose": "Subdirectory with 7 Python files",
-          "component_count": 7
+          "purpose": "Subdirectory with 7 Python files"
         },
         {
+          "component_count": 40,
+          "has_index": false,
           "name": "api",
-          "has_index": false,
-          "purpose": "Subdirectory with 40 Python files",
-          "component_count": 40
+          "purpose": "Subdirectory with 40 Python files"
         },
         {
+          "component_count": 2,
+          "has_index": false,
           "name": "external",
-          "has_index": false,
-          "purpose": "Subdirectory with 2 Python files",
-          "component_count": 2
+          "purpose": "Subdirectory with 2 Python files"
         },
         {
+          "component_count": 13,
+          "has_index": false,
           "name": "protocols",
-          "has_index": false,
-          "purpose": "Subdirectory with 13 Python files",
-          "component_count": 13
-        }
-      ],
-      "documentation": [
-        {
-          "filename": "README.md",
-          "type": "README.md",
-          "has_sync_header": false
-        },
-        {
-          "filename": "lukhas_context.md",
-          "type": "lukhas_context.md",
-          "has_sync_header": false
-        },
-        {
-          "filename": "personality_communication_engine.md",
-          "type": "other",
-          "has_sync_header": false
-        },
-        {
-          "filename": "claude.me",
-          "type": "claude.me",
-          "has_sync_header": false
+          "purpose": "Subdirectory with 13 Python files"
         }
       ]
+    },
+    "directory_metadata": {
+      "constellation_framework_version": "2.0.0",
+      "lane": "development",
+      "last_updated": "2025-09-21",
+      "matriz_pipeline_integration": {
+        "action_stage": "inactive",
+        "attention_stage": "experimental",
+        "awareness_stage": "experimental",
+        "decision_stage": "inactive",
+        "memory_stage": "experimental",
+        "thought_stage": "experimental"
+      },
+      "path": "candidate/bridge",
+      "purpose": "Directory containing 13 Python files and 12 subdirectories",
+      "t4_compliance_level": "experimental"
+    },
+    "performance_metadata": {
+      "component_count": 13,
+      "consciousness_integration": "none",
+      "constructor_aware_instantiation": true,
+      "estimated_complexity": "medium",
+      "matriz_compatibility": "experimental",
+      "plugin_registry_compatible": true,
+      "t4_compliance_score": 0.65,
+      "test_coverage": 85.0
+    },
+    "relationships": {
+      "constellation_cluster": "unknown",
+      "dependency_weight": "moderate",
+      "parent_directory": "candidate",
+      "related_directories": []
     },
     "schema_references": [
       {
@@ -441,45 +547,6 @@
         "schema_path": "schemas/directory_index.schema.json",
         "validation_status": "valid"
       }
-    ],
-    "agent_guidance": {
-      "recommended_approach": "Begin with documentation files, then explore core components",
-      "key_files": [
-        "README.md",
-        "lukhas_context.md",
-        "claude.me"
-      ],
-      "common_tasks": [],
-      "prerequisites": [
-        "Understanding of LUKHAS lane system",
-        "Constellation Framework familiarity",
-        "MATRIZ pipeline architecture",
-        "T4/0.01% implementation standards"
-      ],
-      "avoid_patterns": [
-        "Modifying contracts without validation",
-        "Breaking lane boundaries",
-        "Ignoring Constellation Framework integration",
-        "Breaking constructor-aware instantiation patterns",
-        "Bypassing T4/0.01% validation standards",
-        "Ignoring MATRIZ pipeline integration requirements"
-      ]
-    },
-    "performance_metadata": {
-      "component_count": 13,
-      "estimated_complexity": "medium",
-      "consciousness_integration": "none",
-      "test_coverage": 85.0,
-      "t4_compliance_score": 0.65,
-      "matriz_compatibility": "experimental",
-      "plugin_registry_compatible": true,
-      "constructor_aware_instantiation": true
-    },
-    "relationships": {
-      "parent_directory": "candidate",
-      "related_directories": [],
-      "constellation_cluster": "unknown",
-      "dependency_weight": "moderate"
-    }
+    ]
   }
 }

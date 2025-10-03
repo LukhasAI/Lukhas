@@ -1,55 +1,93 @@
 {
-  "schema_version": "1.0.0",
-  "module": "deployment",
-  "description": "LUKHAS deployment module implementing specialized deployment functionality with 0 components for integrated system operations.",
-  "ownership": {
-    "team": "Core",
-    "codeowners": [
-      "@lukhas-core"
-    ]
+  "_provenance": {
+    "apis": {
+      "confidence": "low",
+      "extracted_at": "2025-10-03T01:02:53.719991+00:00",
+      "reasons": [
+        "no_apis"
+      ],
+      "sources": []
+    },
+    "description": {
+      "confidence": "high",
+      "extracted_at": "2025-10-03T01:02:53.719963+00:00",
+      "reasons": [
+        "length_ok",
+        "features_present",
+        "components:2"
+      ],
+      "sources": [
+        "claude.me:title+subtitle+para"
+      ]
+    },
+    "features": {
+      "confidence": "low",
+      "extracted_at": "2025-10-03T01:02:53.719759+00:00",
+      "reasons": [
+        "weak_evidence"
+      ],
+      "sha": "5d9ddf284848376fc45087921a8b217917b59c3c2d3aeadfa4c1fa84919b42cd",
+      "sources": [
+        "claude.me:bullets",
+        "claude.me:headers"
+      ]
+    }
+  },
+  "apis": {},
+  "contracts": [],
+  "dependencies": [],
+  "description": "Deployment Module - Claude AI Context **Module**: deployment\n**Purpose**: Deployment automation and platform management\n**Lane**: L2 (Integration)\n**Language**: Python\n**Last Updated**: 2025-10-02. Implements memory.cascade-prevention with 2 integrated components",
+  "features": [
+    "memory.cascade-prevention"
+  ],
+  "identity": {
+    "requires_auth": false,
+    "scopes": [],
+    "tiers": []
   },
   "layout": {
     "code_layout": "package-root",
     "paths": {
+      "assets": "assets",
       "code": ".",
       "config": "config",
-      "tests": "tests",
       "docs": "docs",
-      "assets": "assets"
+      "tests": "tests"
     }
   },
-  "runtime": {
-    "language": "python",
-    "entrypoints": []
+  "links": {
+    "docs": "./docs/README.md",
+    "issues": "https://github.com/LukhasAI/Lukhas/issues",
+    "repo": "https://github.com/LukhasAI/Lukhas"
   },
   "matrix": {
     "contract": "",
-    "lane": "L2",
-    "gates_profile": "standard"
+    "gates_profile": "standard",
+    "lane": "L2"
   },
-  "identity": {
-    "requires_auth": false,
-    "tiers": [],
-    "scopes": []
+  "module": "deployment",
+  "observability": {
+    "otel_semconv_version": "1.37.0",
+    "required_spans": [
+      "lukhas.deployment.operation"
+    ]
   },
-  "links": {
-    "repo": "https://github.com/LukhasAI/Lukhas",
-    "docs": "./docs/README.md",
-    "issues": "https://github.com/LukhasAI/Lukhas/issues"
+  "ownership": {
+    "codeowners": [
+      "@lukhas-core"
+    ],
+    "team": "Core"
   },
+  "runtime": {
+    "entrypoints": [],
+    "language": "python"
+  },
+  "schema_version": "1.0.0",
   "tags": [
     "deployment"
   ],
-  "observability": {
-    "required_spans": [
-      "lukhas.deployment.operation"
-    ],
-    "otel_semconv_version": "1.37.0"
-  },
   "tokenization": {
-    "enabled": false,
-    "chain": "none"
-  },
-  "dependencies": [],
-  "contracts": []
+    "chain": "none",
+    "enabled": false
+  }
 }

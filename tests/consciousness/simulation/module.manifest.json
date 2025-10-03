@@ -1,13 +1,35 @@
 {
-  "schema_version": "3.0.0",
-  "module": "tests.consciousness.simulation",
+  "_provenance": {
+    "apis": {
+      "confidence": "low",
+      "extracted_at": "2025-10-03T01:02:53.651211+00:00",
+      "reasons": [
+        "no_apis"
+      ],
+      "sources": [
+        "ast:__init__.py"
+      ]
+    },
+    "features": {
+      "confidence": "low",
+      "extracted_at": "2025-10-03T01:02:53.650953+00:00",
+      "reasons": [
+        "file_not_found"
+      ],
+      "sources": []
+    }
+  },
+  "apis": {},
+  "contracts": [],
+  "dependencies": [
+    "consciousness.simulation"
+  ],
   "description": "Canary tests for simulation lane: ethics gates, consent checks, feature flags, and adapter isolation",
-  "ownership": {
-    "team": "Consciousness",
-    "codeowners": [
-      "@lukhas-consciousness",
-      "@lukhas-core"
-    ]
+  "features": [],
+  "identity": {
+    "requires_auth": false,
+    "scopes": [],
+    "tiers": []
   },
   "layout": {
     "code_layout": "package-root",
@@ -16,25 +38,33 @@
       "tests": "."
     }
   },
-  "runtime": {
-    "language": "python",
-    "entrypoints": []
+  "links": {
+    "docs": "",
+    "issues": "https://github.com/LukhasAI/Lukhas/issues",
+    "repo": "https://github.com/LukhasAI/Lukhas"
   },
   "matrix": {
     "contract": "",
-    "lane": "L2",
-    "gates_profile": "strict"
+    "gates_profile": "strict",
+    "lane": "L2"
   },
-  "identity": {
-    "requires_auth": false,
-    "tiers": [],
-    "scopes": []
+  "module": "tests.consciousness.simulation",
+  "observability": {
+    "otel_semconv_version": "1.37.0",
+    "required_spans": []
   },
-  "links": {
-    "repo": "https://github.com/LukhasAI/Lukhas",
-    "docs": "",
-    "issues": "https://github.com/LukhasAI/Lukhas/issues"
+  "ownership": {
+    "codeowners": [
+      "@lukhas-consciousness",
+      "@lukhas-core"
+    ],
+    "team": "Consciousness"
   },
+  "runtime": {
+    "entrypoints": [],
+    "language": "python"
+  },
+  "schema_version": "3.0.0",
   "tags": [
     "tests",
     "simulation",
@@ -43,16 +73,8 @@
     "consent",
     "t4-beta"
   ],
-  "observability": {
-    "required_spans": [],
-    "otel_semconv_version": "1.37.0"
-  },
   "tokenization": {
-    "enabled": false,
-    "chain": "none"
-  },
-  "dependencies": [
-    "consciousness.simulation"
-  ],
-  "contracts": []
+    "chain": "none",
+    "enabled": false
+  }
 }

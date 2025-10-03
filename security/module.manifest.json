@@ -1,78 +1,111 @@
 {
-  "schema_version": "3.0.0",
-  "module": "security",
+  "_provenance": {
+    "apis": {
+      "confidence": "low",
+      "extracted_at": "2025-10-03T01:02:53.620875+00:00",
+      "reasons": [
+        "no_apis"
+      ],
+      "sources": []
+    },
+    "features": {
+      "confidence": "low",
+      "extracted_at": "2025-10-03T01:02:53.620710+00:00",
+      "reasons": [
+        "weak_evidence"
+      ],
+      "sha": "557a4ac09ee1a4fe3a9023bd0257c5d4e7b6f21c019744bffa54b162cfff597b",
+      "sources": [
+        "claude.me:bullets",
+        "claude.me:headers"
+      ]
+    }
+  },
+  "apis": {},
+  "contracts": [],
+  "dependencies": [
+    "identity"
+  ],
   "description": "LUKHAS security module implementing specialized security functionality with 21 components for integrated system operations.",
-  "ownership": {
-    "team": "Core",
-    "codeowners": [
-      "@lukhas-core"
-    ]
+  "features": [],
+  "identity": {
+    "requires_auth": false,
+    "scopes": [],
+    "tiers": []
   },
   "layout": {
     "code_layout": "package-root",
     "paths": {
+      "assets": "assets",
       "code": ".",
       "config": "config",
-      "tests": "tests",
       "docs": "docs",
-      "assets": "assets"
+      "tests": "tests"
     }
   },
-  "runtime": {
-    "language": "python",
-    "entrypoints": [
-      "security.IDENTITY_GUARD.IdentityGuard",
-      "security.IDENTITY_GUARD.main"
-    ]
+  "links": {
+    "docs": "./docs/README.md",
+    "issues": "https://github.com/LukhasAI/Lukhas/issues",
+    "repo": "https://github.com/LukhasAI/Lukhas"
   },
   "matrix": {
     "contract": "",
-    "lane": "L2",
-    "gates_profile": "standard"
+    "gates_profile": "standard",
+    "lane": "L2"
   },
-  "identity": {
-    "requires_auth": false,
-    "tiers": [],
-    "scopes": []
+  "module": "security",
+  "observability": {
+    "otel_semconv_version": "1.37.0",
+    "required_spans": [
+      "lukhas.security.operation"
+    ]
   },
-  "links": {
-    "repo": "https://github.com/LukhasAI/Lukhas",
-    "docs": "./docs/README.md",
-    "issues": "https://github.com/LukhasAI/Lukhas/issues"
+  "ownership": {
+    "codeowners": [
+      "@lukhas-core"
+    ],
+    "team": "Core"
   },
+  "runtime": {
+    "entrypoints": [
+      "security.IDENTITY_GUARD.IdentityGuard",
+      "security.IDENTITY_GUARD.main"
+    ],
+    "language": "python"
+  },
+  "schema_version": "3.0.0",
   "tags": [
     "security"
   ],
-  "observability": {
-    "required_spans": [
-      "lukhas.security.operation"
-    ],
-    "otel_semconv_version": "1.37.0"
-  },
   "tokenization": {
-    "enabled": false,
-    "chain": "none"
+    "chain": "none",
+    "enabled": false
   },
-  "dependencies": [
-    "identity"
-  ],
-  "contracts": [],
   "x_legacy": {
-    "directory_metadata": {
-      "path": "security",
-      "lane": "development",
-      "purpose": "Directory containing 2 Python files and 3 subdirectories",
-      "last_updated": "2025-09-21",
-      "constellation_framework_version": "2.0.0",
-      "t4_compliance_level": "experimental",
-      "constellation_role": "watch_star_primary"
+    "agent_guidance": {
+      "avoid_patterns": [
+        "Modifying contracts without validation",
+        "Breaking lane boundaries",
+        "Ignoring Constellation Framework integration",
+        "Breaking constructor-aware instantiation patterns",
+        "Bypassing T4/0.01% validation standards",
+        "Ignoring MATRIZ pipeline integration requirements"
+      ],
+      "common_tasks": [],
+      "key_files": [],
+      "prerequisites": [
+        "Understanding of LUKHAS lane system",
+        "Constellation Framework familiarity",
+        "MATRIZ pipeline architecture",
+        "T4/0.01% implementation standards"
+      ],
+      "recommended_approach": "Begin with documentation files, then explore core components"
     },
     "component_inventory": {
+      "documentation": [],
       "python_files": [
         {
-          "filename": "security_scheduler.py",
           "component_type": "UTILITY",
-          "has_contract": false,
           "contract_path": null,
           "dependencies": [],
           "exports": [
@@ -93,12 +126,12 @@
             "execute_task",
             "cancel_task",
             "setup_cron_job"
-          ]
+          ],
+          "filename": "security_scheduler.py",
+          "has_contract": false
         },
         {
-          "filename": "IDENTITY_GUARD.py",
           "component_type": "IDENTITY_SERVICE",
-          "has_contract": false,
           "contract_path": null,
           "dependencies": [],
           "exports": [
@@ -106,30 +139,56 @@
             "main",
             "validate_file",
             "validate_changes"
-          ]
+          ],
+          "filename": "IDENTITY_GUARD.py",
+          "has_contract": false
         }
       ],
       "subdirectories": [
         {
+          "component_count": 0,
+          "has_index": false,
           "name": "incident-response",
-          "has_index": false,
-          "purpose": "Subdirectory with 0 Python files",
-          "component_count": 0
+          "purpose": "Subdirectory with 0 Python files"
         },
         {
+          "component_count": 3,
+          "has_index": false,
           "name": "scanning",
-          "has_index": false,
-          "purpose": "Subdirectory with 3 Python files",
-          "component_count": 3
+          "purpose": "Subdirectory with 3 Python files"
         },
         {
-          "name": "vault",
+          "component_count": 0,
           "has_index": false,
-          "purpose": "Subdirectory with 0 Python files",
-          "component_count": 0
+          "name": "vault",
+          "purpose": "Subdirectory with 0 Python files"
         }
-      ],
-      "documentation": []
+      ]
+    },
+    "directory_metadata": {
+      "constellation_framework_version": "2.0.0",
+      "constellation_role": "watch_star_primary",
+      "lane": "development",
+      "last_updated": "2025-09-21",
+      "path": "security",
+      "purpose": "Directory containing 2 Python files and 3 subdirectories",
+      "t4_compliance_level": "experimental"
+    },
+    "performance_metadata": {
+      "component_count": 2,
+      "consciousness_integration": "none",
+      "constructor_aware_instantiation": true,
+      "estimated_complexity": "low",
+      "matriz_compatibility": "standard",
+      "plugin_registry_compatible": true,
+      "t4_compliance_score": 0.65,
+      "test_coverage": 85.0
+    },
+    "relationships": {
+      "constellation_cluster": "watch_star_security",
+      "dependency_weight": "moderate",
+      "parent_directory": null,
+      "related_directories": []
     },
     "schema_references": [
       {
@@ -137,41 +196,6 @@
         "schema_path": "schemas/directory_index.schema.json",
         "validation_status": "valid"
       }
-    ],
-    "agent_guidance": {
-      "recommended_approach": "Begin with documentation files, then explore core components",
-      "key_files": [],
-      "common_tasks": [],
-      "prerequisites": [
-        "Understanding of LUKHAS lane system",
-        "Constellation Framework familiarity",
-        "MATRIZ pipeline architecture",
-        "T4/0.01% implementation standards"
-      ],
-      "avoid_patterns": [
-        "Modifying contracts without validation",
-        "Breaking lane boundaries",
-        "Ignoring Constellation Framework integration",
-        "Breaking constructor-aware instantiation patterns",
-        "Bypassing T4/0.01% validation standards",
-        "Ignoring MATRIZ pipeline integration requirements"
-      ]
-    },
-    "performance_metadata": {
-      "component_count": 2,
-      "estimated_complexity": "low",
-      "consciousness_integration": "none",
-      "test_coverage": 85.0,
-      "t4_compliance_score": 0.65,
-      "matriz_compatibility": "standard",
-      "plugin_registry_compatible": true,
-      "constructor_aware_instantiation": true
-    },
-    "relationships": {
-      "parent_directory": null,
-      "related_directories": [],
-      "constellation_cluster": "watch_star_security",
-      "dependency_weight": "moderate"
-    }
+    ]
   }
 }

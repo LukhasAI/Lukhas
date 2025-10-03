@@ -1,5 +1,5 @@
-import * as express from "express";
 import * as cors from "cors";
+import * as express from "express";
 
 const app = express();
 const PORT = parseInt(process.env.PORT || "8764");

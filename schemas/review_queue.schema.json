@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "LUKHΛS Review Queue",
+  "description": "Accumulator for unmapped feature phrases discovered during manifest enrichment. Items are promoted to vocab/features.json via CLI.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["items", "updated_at"],
+  "properties": {
+    "updated_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 timestamp of last queue update"
+    },
+    "items": {
+      "type": "array",
+      "uniqueItems": true,
+      "description": "Unmapped feature phrases awaiting promotion to controlled vocabulary",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["raw", "module", "source", "count"],
+        "properties": {
+          "raw": {
+            "type": "string",
+            "minLength": 2,
+            "description": "Raw phrase as extracted from source"
+          },
+          "module": {
+            "type": "string",
+            "description": "Module where phrase was first discovered"
+          },
+          "source": {
+            "type": "string",
+            "enum": ["claude.me:bullets", "claude.me:headers", "other"],
+            "description": "Extraction source pattern"
+          },
+          "count": {
+            "type": "integer",
+            "minimum": 1,
+            "description": "Number of times phrase has been encountered"
+          },
+          "first_seen": {
+            "type": "string",
+            "format": "date-time",
+            "description": "ISO 8601 timestamp of first encounter"
+          },
+          "last_seen": {
+            "type": "string",
+            "format": "date-time",
+            "description": "ISO 8601 timestamp of most recent encounter"
+          },
+          "notes": {
+            "type": "string",
+            "description": "Human notes or module hints for context"
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,25 +1,123 @@
 {
-  "schema_version": "3.0.0",
-  "module": "observability",
+  "_provenance": {
+    "apis": {
+      "confidence": "medium",
+      "extracted_at": "2025-10-03T01:02:53.672877+00:00",
+      "reasons": [
+        "partial_verification:0/6"
+      ],
+      "sources": [
+        "importcheck:missing",
+        "importcheck:missing",
+        "importcheck:missing",
+        "importcheck:missing",
+        "importcheck:missing",
+        "importcheck:missing",
+        "ast:__init__.py"
+      ]
+    },
+    "features": {
+      "confidence": "low",
+      "extracted_at": "2025-10-03T01:02:53.672262+00:00",
+      "reasons": [
+        "weak_evidence"
+      ],
+      "sha": "6975c481d4af268800fcb3e7cc4bfdcc81ad31f5974e9c41477fe1b768f360a6",
+      "sources": [
+        "claude.me:bullets",
+        "claude.me:headers"
+      ]
+    }
+  },
+  "apis": {
+    "AkaqMetrics": {
+      "capabilities": [],
+      "description": "Auto-detected API; fill in description \u2265 40 chars.",
+      "doc_ok": false,
+      "import_verified": false,
+      "module": "observability.AkaqMetrics"
+    },
+    "get_observability": {
+      "capabilities": [],
+      "description": "Auto-detected API; fill in description \u2265 40 chars.",
+      "doc_ok": false,
+      "import_verified": false,
+      "module": "observability.get_observability"
+    },
+    "measure_scene_processing": {
+      "capabilities": [],
+      "description": "Auto-detected API; fill in description \u2265 40 chars.",
+      "doc_ok": false,
+      "import_verified": false,
+      "module": "observability.measure_scene_processing"
+    },
+    "record_glyph_mapped": {
+      "capabilities": [],
+      "description": "Auto-detected API; fill in description \u2265 40 chars.",
+      "doc_ok": false,
+      "import_verified": false,
+      "module": "observability.record_glyph_mapped"
+    },
+    "record_scene_processed": {
+      "capabilities": [],
+      "description": "Auto-detected API; fill in description \u2265 40 chars.",
+      "doc_ok": false,
+      "import_verified": false,
+      "module": "observability.record_scene_processed"
+    },
+    "update_consciousness_metrics": {
+      "capabilities": [],
+      "description": "Auto-detected API; fill in description \u2265 40 chars.",
+      "doc_ok": false,
+      "import_verified": false,
+      "module": "observability.update_consciousness_metrics"
+    }
+  },
+  "contracts": [],
+  "dependencies": [],
   "description": "Central imports for observability and monitoring functionality.",
-  "ownership": {
-    "team": "Core",
-    "codeowners": [
-      "@lukhas-core"
-    ]
+  "features": [],
+  "identity": {
+    "requires_auth": false,
+    "scopes": [],
+    "tiers": []
   },
   "layout": {
     "code_layout": "package-root",
     "paths": {
+      "assets": "assets",
       "code": ".",
       "config": "config",
-      "tests": "tests",
       "docs": "docs",
-      "assets": "assets"
+      "tests": "tests"
     }
   },
+  "links": {
+    "docs": "./docs/README.md",
+    "issues": "https://github.com/LukhasAI/Lukhas/issues",
+    "repo": "https://github.com/LukhasAI/Lukhas"
+  },
+  "matrix": {
+    "contract": "",
+    "gates_profile": "standard",
+    "lane": "L2"
+  },
+  "module": "observability",
+  "observability": {
+    "otel_semconv_version": "1.37.0",
+    "required_spans": [
+      "lukhas.observability.consciousness",
+      "lukhas.observability.operation",
+      "lukhas.observability.processing"
+    ]
+  },
+  "ownership": {
+    "codeowners": [
+      "@lukhas-core"
+    ],
+    "team": "Core"
+  },
   "runtime": {
-    "language": "python",
     "entrypoints": [
       "observability.AkaqMetrics",
       "observability.get_observability",
@@ -27,71 +125,19 @@
       "observability.record_glyph_mapped",
       "observability.record_scene_processed",
       "observability.update_consciousness_metrics"
-    ]
+    ],
+    "language": "python"
   },
-  "matrix": {
-    "contract": "",
-    "lane": "L2",
-    "gates_profile": "standard"
-  },
-  "identity": {
-    "requires_auth": false,
-    "tiers": [],
-    "scopes": []
-  },
-  "links": {
-    "repo": "https://github.com/LukhasAI/Lukhas",
-    "docs": "./docs/README.md",
-    "issues": "https://github.com/LukhasAI/Lukhas/issues"
-  },
+  "schema_version": "3.0.0",
   "tags": [
     "observability"
   ],
-  "observability": {
-    "required_spans": [
-      "lukhas.observability.consciousness",
-      "lukhas.observability.operation",
-      "lukhas.observability.processing"
-    ],
-    "otel_semconv_version": "1.37.0"
-  },
   "tokenization": {
-    "enabled": false,
-    "chain": "none"
+    "chain": "none",
+    "enabled": false
   },
-  "dependencies": [],
-  "contracts": [],
   "x_legacy": {
-    "directory_metadata": {
-      "path": "observability",
-      "lane": "development",
-      "purpose": "Directory containing 0 Python files and 0 subdirectories",
-      "last_updated": "2025-09-21",
-      "constellation_framework_version": "2.0.0",
-      "t4_compliance_level": "experimental"
-    },
-    "component_inventory": {
-      "python_files": [],
-      "subdirectories": [],
-      "documentation": []
-    },
-    "schema_references": [
-      {
-        "schema_name": "directory_index",
-        "schema_path": "schemas/directory_index.schema.json",
-        "validation_status": "valid"
-      }
-    ],
     "agent_guidance": {
-      "recommended_approach": "Begin with documentation files, then explore core components",
-      "key_files": [],
-      "common_tasks": [],
-      "prerequisites": [
-        "Understanding of LUKHAS lane system",
-        "Constellation Framework familiarity",
-        "MATRIZ pipeline architecture",
-        "T4/0.01% implementation standards"
-      ],
       "avoid_patterns": [
         "Modifying contracts without validation",
         "Breaking lane boundaries",
@@ -99,23 +145,52 @@
         "Breaking constructor-aware instantiation patterns",
         "Bypassing T4/0.01% validation standards",
         "Ignoring MATRIZ pipeline integration requirements"
-      ]
+      ],
+      "common_tasks": [],
+      "key_files": [],
+      "prerequisites": [
+        "Understanding of LUKHAS lane system",
+        "Constellation Framework familiarity",
+        "MATRIZ pipeline architecture",
+        "T4/0.01% implementation standards"
+      ],
+      "recommended_approach": "Begin with documentation files, then explore core components"
+    },
+    "component_inventory": {
+      "documentation": [],
+      "python_files": [],
+      "subdirectories": []
+    },
+    "directory_metadata": {
+      "constellation_framework_version": "2.0.0",
+      "lane": "development",
+      "last_updated": "2025-09-21",
+      "path": "observability",
+      "purpose": "Directory containing 0 Python files and 0 subdirectories",
+      "t4_compliance_level": "experimental"
     },
     "performance_metadata": {
       "component_count": 0,
-      "estimated_complexity": "low",
       "consciousness_integration": "none",
-      "test_coverage": 85.0,
-      "t4_compliance_score": 0.65,
+      "constructor_aware_instantiation": true,
+      "estimated_complexity": "low",
       "matriz_compatibility": "standard",
       "plugin_registry_compatible": true,
-      "constructor_aware_instantiation": true
+      "t4_compliance_score": 0.65,
+      "test_coverage": 85.0
     },
     "relationships": {
-      "parent_directory": null,
-      "related_directories": [],
       "constellation_cluster": "unknown",
-      "dependency_weight": "moderate"
-    }
+      "dependency_weight": "moderate",
+      "parent_directory": null,
+      "related_directories": []
+    },
+    "schema_references": [
+      {
+        "schema_name": "directory_index",
+        "schema_path": "schemas/directory_index.schema.json",
+        "validation_status": "valid"
+      }
+    ]
   }
 }

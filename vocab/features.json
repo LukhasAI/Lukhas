@@ -1,0 +1,182 @@
+{
+  "phenomenology.pipeline": {
+    "title": "Phenomenology Pipeline",
+    "category": "consciousness",
+    "constellation": "consciousness-star",
+    "synonyms": [
+      "phenomenological processing",
+      "phenomenology processing pipeline",
+      "phenomenology engine",
+      "phenomenological awareness"
+    ]
+  },
+  "awareness.attribution": {
+    "title": "Awareness Attribution",
+    "category": "consciousness",
+    "matriz_stage": "awareness",
+    "synonyms": [
+      "awareness modeling",
+      "awareness assignment",
+      "conscious attribution",
+      "awareness attribution system"
+    ]
+  },
+  "temporal.coherence": {
+    "title": "Temporal Coherence Tracking",
+    "category": "memory",
+    "synonyms": [
+      "temporal coherence",
+      "time coherence tracking",
+      "temporal stability",
+      "coherence tracking"
+    ]
+  },
+  "state.fold-architecture": {
+    "title": "Fold-based State Management",
+    "category": "memory",
+    "constellation": "memory-star",
+    "synonyms": [
+      "fold-based state",
+      "fold architecture",
+      "fold state management",
+      "1000-fold architecture",
+      "memory folds"
+    ]
+  },
+  "memory.cascade-prevention": {
+    "title": "Memory Cascade Prevention",
+    "category": "memory",
+    "performance_related": true,
+    "synonyms": [
+      "cascade prevention",
+      "99.7% cascade",
+      "cascade protection",
+      "cascade prevention systems"
+    ]
+  },
+  "identity.authn-core": {
+    "title": "Identity Authentication Core",
+    "category": "identity",
+    "constellation": "identity-star",
+    "synonyms": [
+      "Lambda ID core",
+      "authentication core",
+      "auth foundation",
+      "ΛID Core",
+      "lambda authentication"
+    ]
+  },
+  "identity.webauthn": {
+    "title": "WebAuthn/FIDO2 Authentication",
+    "category": "identity",
+    "synonyms": [
+      "WebAuthn",
+      "FIDO2",
+      "passkey authentication",
+      "WebAuthn passkey support"
+    ]
+  },
+  "identity.oauth": {
+    "title": "OAuth2/OIDC Integration",
+    "category": "identity",
+    "synonyms": [
+      "OAuth2",
+      "OIDC",
+      "OAuth2/OIDC compliance",
+      "OIDC provider"
+    ]
+  },
+  "decision.engine": {
+    "title": "Decision Engine",
+    "category": "consciousness",
+    "matriz_stage": "decision",
+    "synonyms": [
+      "decision-making foundation",
+      "consciousness decision engine",
+      "decision theory",
+      "decision processing"
+    ]
+  },
+  "consciousness.theory": {
+    "title": "Consciousness Theory Research",
+    "category": "consciousness",
+    "synonyms": [
+      "consciousness theory",
+      "consciousness research",
+      "theory research",
+      "consciousness modeling"
+    ]
+  },
+  "memory.convergence": {
+    "title": "Memory Convergence",
+    "category": "memory",
+    "synonyms": [
+      "symbolic convergence",
+      "convergence score",
+      "memory convergence systems"
+    ]
+  },
+  "memory.driftscore": {
+    "title": "DriftScore Metric",
+    "category": "memory",
+    "performance_related": true,
+    "synonyms": [
+      "consciousness drift",
+      "drift score",
+      "emotional drift",
+      "drift detection"
+    ]
+  },
+  "matriz.pipeline": {
+    "title": "MΛTRIZ Cognitive Pipeline",
+    "category": "orchestration",
+    "synonyms": [
+      "MATRIZ pipeline",
+      "cognitive pipeline",
+      "MΛTRIZ processing",
+      "6-stage pipeline"
+    ]
+  },
+  "guardian.drift-detection": {
+    "title": "Guardian Drift Detection",
+    "category": "security",
+    "constellation": "guardian-star",
+    "performance_related": true,
+    "synonyms": [
+      "drift detection",
+      "guardian monitoring",
+      "drift threshold 0.15",
+      "constitutional AI drift"
+    ]
+  },
+  "orchestration.multi-ai": {
+    "title": "Multi-AI Orchestration",
+    "category": "orchestration",
+    "synonyms": [
+      "multi-AI coordination",
+      "consensus mechanisms",
+      "multi-model orchestration",
+      "AI orchestration"
+    ]
+  },
+  "bio.swarm-intelligence": {
+    "title": "Bio-inspired Swarm Intelligence",
+    "category": "bio",
+    "synonyms": [
+      "swarm intelligence",
+      "bio-inspired algorithms",
+      "PSO",
+      "ACO",
+      "genetic algorithms"
+    ]
+  },
+  "quantum.superposition": {
+    "title": "Quantum-inspired Superposition",
+    "category": "quantum",
+    "synonyms": [
+      "quantum superposition",
+      "superposition simulation",
+      "quantum-inspired algorithms"
+    ]
+  }
+}

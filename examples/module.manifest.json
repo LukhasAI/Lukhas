@@ -1,25 +1,73 @@
 {
-  "schema_version": "3.0.0",
-  "module": "examples",
+  "_provenance": {
+    "apis": {
+      "confidence": "low",
+      "extracted_at": "2025-10-03T01:02:53.722574+00:00",
+      "reasons": [
+        "no_apis"
+      ],
+      "sources": [
+        "ast:__init__.py"
+      ]
+    },
+    "features": {
+      "confidence": "low",
+      "extracted_at": "2025-10-03T01:02:53.722242+00:00",
+      "reasons": [
+        "weak_evidence"
+      ],
+      "sha": "172aeeffd1e2f19722958c91b8581d622b8f54ad685a60d92797a08e4831d534",
+      "sources": [
+        "claude.me:bullets",
+        "claude.me:headers"
+      ]
+    }
+  },
+  "apis": {},
+  "contracts": [],
+  "dependencies": [],
   "description": "LUKHAS examples module implementing specialized examples functionality with 18 components for integrated system operations.",
-  "ownership": {
-    "team": "Core",
-    "codeowners": [
-      "@lukhas-core"
-    ]
+  "features": [],
+  "identity": {
+    "requires_auth": false,
+    "scopes": [],
+    "tiers": []
   },
   "layout": {
     "code_layout": "package-root",
     "paths": {
+      "assets": "assets",
       "code": ".",
       "config": "config",
-      "tests": "tests",
       "docs": "docs",
-      "assets": "assets"
+      "tests": "tests"
     }
   },
+  "links": {
+    "docs": "./docs/README.md",
+    "issues": "https://github.com/LukhasAI/Lukhas/issues",
+    "repo": "https://github.com/LukhasAI/Lukhas"
+  },
+  "matrix": {
+    "contract": "",
+    "gates_profile": "standard",
+    "lane": "L2"
+  },
+  "module": "examples",
+  "observability": {
+    "otel_semconv_version": "1.37.0",
+    "required_spans": [
+      "lukhas.examples.consciousness",
+      "lukhas.examples.operation"
+    ]
+  },
+  "ownership": {
+    "codeowners": [
+      "@lukhas-core"
+    ],
+    "team": "Core"
+  },
   "runtime": {
-    "language": "python",
     "entrypoints": [
       "examples.modulation_example.demonstrate_signal_scenarios",
       "examples.modulation_example.print_banner",
@@ -27,54 +75,56 @@
       "examples.modulation_example.test_openai_integration",
       "examples.modulation_example.test_policy_loading",
       "examples.modulation_example.test_signal_system"
-    ]
+    ],
+    "language": "python"
   },
-  "matrix": {
-    "contract": "",
-    "lane": "L2",
-    "gates_profile": "standard"
-  },
-  "identity": {
-    "requires_auth": false,
-    "tiers": [],
-    "scopes": []
-  },
-  "links": {
-    "repo": "https://github.com/LukhasAI/Lukhas",
-    "docs": "./docs/README.md",
-    "issues": "https://github.com/LukhasAI/Lukhas/issues"
-  },
+  "schema_version": "3.0.0",
   "tags": [
     "examples"
   ],
-  "observability": {
-    "required_spans": [
-      "lukhas.examples.consciousness",
-      "lukhas.examples.operation"
-    ],
-    "otel_semconv_version": "1.37.0"
-  },
   "tokenization": {
-    "enabled": false,
-    "chain": "none"
+    "chain": "none",
+    "enabled": false
   },
-  "dependencies": [],
-  "contracts": [],
   "x_legacy": {
-    "directory_metadata": {
-      "path": "examples",
-      "lane": "development",
-      "purpose": "Directory containing 11 Python files and 2 subdirectories",
-      "last_updated": "2025-09-21",
-      "constellation_framework_version": "2.0.0",
-      "t4_compliance_level": "experimental"
+    "agent_guidance": {
+      "avoid_patterns": [
+        "Modifying contracts without validation",
+        "Breaking lane boundaries",
+        "Ignoring Constellation Framework integration",
+        "Breaking constructor-aware instantiation patterns",
+        "Bypassing T4/0.01% validation standards",
+        "Ignoring MATRIZ pipeline integration requirements"
+      ],
+      "common_tasks": [
+        {
+          "complexity": "medium",
+          "files_involved": [
+            "module_interface_example.py"
+          ],
+          "task": "API integration"
+        }
+      ],
+      "key_files": [],
+      "prerequisites": [
+        "Understanding of LUKHAS lane system",
+        "Constellation Framework familiarity",
+        "MATRIZ pipeline architecture",
+        "T4/0.01% implementation standards"
+      ],
+      "recommended_approach": "Begin with documentation files, then explore core components"
     },
     "component_inventory": {
+      "documentation": [
+        {
+          "filename": "AGENT_INITIATION_TASK_JULES01.md",
+          "has_sync_header": false,
+          "type": "other"
+        }
+      ],
       "python_files": [
         {
-          "filename": "natural_language_demo.py",
           "component_type": "UTILITY",
-          "has_contract": false,
           "contract_path": null,
           "dependencies": [
             "lukhas.consciousness.interfaces.natural_language_interface",
@@ -85,12 +135,12 @@
             "InteractiveConsciousnessDemo",
             "show_help",
             "show_conversation_stats"
-          ]
+          ],
+          "filename": "natural_language_demo.py",
+          "has_contract": false
         },
         {
-          "filename": "parallel_reality_safety_demo.py",
           "component_type": "UTILITY",
-          "has_contract": false,
           "contract_path": null,
           "dependencies": [
             "lukhas.consciousness.dream.parallel_reality_safety",
@@ -100,12 +150,12 @@
           ],
           "exports": [
             "SafetyDemo"
-          ]
+          ],
+          "filename": "parallel_reality_safety_demo.py",
+          "has_contract": false
         },
         {
-          "filename": "parallel_reality_demo.py",
           "component_type": "UTILITY",
-          "has_contract": false,
           "contract_path": null,
           "dependencies": [
             "lukhas.consciousness.dream.parallel_reality_simulator",
@@ -114,12 +164,12 @@
           ],
           "exports": [
             "ParallelRealityDemo"
-          ]
+          ],
+          "filename": "parallel_reality_demo.py",
+          "has_contract": false
         },
         {
-          "filename": "modulation_example.py",
           "component_type": "UTILITY",
-          "has_contract": false,
           "contract_path": null,
           "dependencies": [
             "modulation.lukhas_integration"
@@ -131,34 +181,34 @@
             "test_openai_integration",
             "test_policy_loading",
             "demonstrate_signal_scenarios"
-          ]
+          ],
+          "filename": "modulation_example.py",
+          "has_contract": false
         },
         {
-          "filename": "decision_explainer_demo.py",
           "component_type": "DECISION_MAKER",
-          "has_contract": false,
           "contract_path": null,
           "dependencies": [
             "lukhas.core.endocrine",
             "lukhas.core.explainability",
             "lukhas.core.tags"
           ],
-          "exports": []
+          "exports": [],
+          "filename": "decision_explainer_demo.py",
+          "has_contract": false
         },
         {
-          "filename": "endocrine_demo.py",
           "component_type": "UTILITY",
-          "has_contract": false,
           "contract_path": null,
           "dependencies": [
             "lukhas.core.endocrine"
           ],
-          "exports": []
+          "exports": [],
+          "filename": "endocrine_demo.py",
+          "has_contract": false
         },
         {
-          "filename": "tag_registry_demo.py",
           "component_type": "UTILITY",
-          "has_contract": false,
           "contract_path": null,
           "dependencies": [
             "lukhas.core.tags",
@@ -166,23 +216,23 @@
           ],
           "exports": [
             "demonstrate_tag_registry"
-          ]
+          ],
+          "filename": "tag_registry_demo.py",
+          "has_contract": false
         },
         {
-          "filename": "dna_helix_demo.py",
           "component_type": "UTILITY",
-          "has_contract": false,
           "contract_path": null,
           "dependencies": [
             "lukhas.memory.dna_helix",
             "lukhas.memory.dna_helix.helix_vault"
           ],
-          "exports": []
+          "exports": [],
+          "filename": "dna_helix_demo.py",
+          "has_contract": false
         },
         {
-          "filename": "integrated_demo.py",
           "component_type": "UTILITY",
-          "has_contract": false,
           "contract_path": null,
           "dependencies": [
             "lukhas.core.common"
@@ -190,24 +240,24 @@
           "exports": [
             "IntegratedLukhasDemo",
             "display_response"
-          ]
+          ],
+          "filename": "integrated_demo.py",
+          "has_contract": false
         },
         {
-          "filename": "enterprise_demo.py",
           "component_type": "UTILITY",
-          "has_contract": false,
           "contract_path": null,
           "dependencies": [
             "lukhas.core.common"
           ],
           "exports": [
             "EnterpriseDemo"
-          ]
+          ],
+          "filename": "enterprise_demo.py",
+          "has_contract": false
         },
         {
-          "filename": "module_interface_example.py",
           "component_type": "API_INTERFACE",
-          "has_contract": false,
           "contract_path": null,
           "dependencies": [
             "lukhas.core.common",
@@ -221,30 +271,49 @@
             "AnalysisRequest",
             "AnalysisResult",
             "DataAnalyzer"
-          ]
+          ],
+          "filename": "module_interface_example.py",
+          "has_contract": false
         }
       ],
       "subdirectories": [
         {
-          "name": "vivox",
+          "component_count": 2,
           "has_index": false,
-          "purpose": "Subdirectory with 2 Python files",
-          "component_count": 2
+          "name": "vivox",
+          "purpose": "Subdirectory with 2 Python files"
         },
         {
-          "name": "rl",
+          "component_count": 1,
           "has_index": false,
-          "purpose": "Subdirectory with 1 Python files",
-          "component_count": 1
-        }
-      ],
-      "documentation": [
-        {
-          "filename": "AGENT_INITIATION_TASK_JULES01.md",
-          "type": "other",
-          "has_sync_header": false
+          "name": "rl",
+          "purpose": "Subdirectory with 1 Python files"
         }
       ]
+    },
+    "directory_metadata": {
+      "constellation_framework_version": "2.0.0",
+      "lane": "development",
+      "last_updated": "2025-09-21",
+      "path": "examples",
+      "purpose": "Directory containing 11 Python files and 2 subdirectories",
+      "t4_compliance_level": "experimental"
+    },
+    "performance_metadata": {
+      "component_count": 11,
+      "consciousness_integration": "none",
+      "constructor_aware_instantiation": true,
+      "estimated_complexity": "medium",
+      "matriz_compatibility": "standard",
+      "plugin_registry_compatible": true,
+      "t4_compliance_score": 0.65,
+      "test_coverage": 85.0
+    },
+    "relationships": {
+      "constellation_cluster": "unknown",
+      "dependency_weight": "moderate",
+      "parent_directory": null,
+      "related_directories": []
     },
     "schema_references": [
       {
@@ -252,49 +321,6 @@
         "schema_path": "schemas/directory_index.schema.json",
         "validation_status": "valid"
       }
-    ],
-    "agent_guidance": {
-      "recommended_approach": "Begin with documentation files, then explore core components",
-      "key_files": [],
-      "common_tasks": [
-        {
-          "task": "API integration",
-          "files_involved": [
-            "module_interface_example.py"
-          ],
-          "complexity": "medium"
-        }
-      ],
-      "prerequisites": [
-        "Understanding of LUKHAS lane system",
-        "Constellation Framework familiarity",
-        "MATRIZ pipeline architecture",
-        "T4/0.01% implementation standards"
-      ],
-      "avoid_patterns": [
-        "Modifying contracts without validation",
-        "Breaking lane boundaries",
-        "Ignoring Constellation Framework integration",
-        "Breaking constructor-aware instantiation patterns",
-        "Bypassing T4/0.01% validation standards",
-        "Ignoring MATRIZ pipeline integration requirements"
-      ]
-    },
-    "performance_metadata": {
-      "component_count": 11,
-      "estimated_complexity": "medium",
-      "consciousness_integration": "none",
-      "test_coverage": 85.0,
-      "t4_compliance_score": 0.65,
-      "matriz_compatibility": "standard",
-      "plugin_registry_compatible": true,
-      "constructor_aware_instantiation": true
-    },
-    "relationships": {
-      "parent_directory": null,
-      "related_directories": [],
-      "constellation_cluster": "unknown",
-      "dependency_weight": "moderate"
-    }
+    ]
   }
 }

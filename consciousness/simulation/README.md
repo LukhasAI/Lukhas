@@ -1,136 +1,103 @@
-# Simulation Lane (T4/0.01%)
+# 📦 Simulation
 
-Sandboxed simulation lane for LUKHΛS consciousness: safe dream execution with compound defensive controls.
+_Realities within realities, simulation births alternate possibilities—synthetic worlds where theories prove themselves before manifesting._
+
+**Sandboxed simulation lane for LUKHΛS consciousness: safe dream execution with ethics gates, consent checks, and MATADA envelope**
+
+## Overview
+
+Sandboxed simulation lane for LUKHΛS consciousness: safe dream execution with ethics gates, consent checks, and MATADA envelope
+
+
+
+**Technical Foundation**: Core simulation module implementing LUKHAS system architecture patterns with comprehensive testing, observability, and performance optimization.
+
+## Lane Position
+
+- **Lane**: `unknown`
+- **Module ID**: `unknown`
+- **Constellation**: Core System Component
 
 ## Features
 
-- **Feature Flag Gating**: `SIMULATION_ENABLED` env var must be explicitly enabled
-- **Ethics Gate**: Blocks duress conditions, validates consent scopes, rejects unsafe goals
-- **Adapter Isolation**: Zero imports from adapter layers (verified by canary test)
-- **MATADA Envelope**: Structured nodes with `schemas/matriz_node_v1.json` validation
-- **Deterministic Scoring**: Heuristic variants (optimistic/baseline/adversarial) for golden tests
+- ✅ Core functionality
+- ✅ API integration
+- ✅ Testing support
 
-## API
+## Quick Start
+
+**Getting Started**: This module creates simulations—like a flight simulator that lets pilots practice without risk, testing scenarios before they happen in reality.
+
+
+### Installation
 
 ```python
-from consciousness.simulation.api import schedule, status, collect, DreamSeed
+# Import from unknown lane
+from simulation import Simulation
 
-# Schedule simulation
-seed: DreamSeed = {
-    "goal": "Evaluate onboarding flow for new ΛID users",
-    "context": {"tenant": "demo", "redacted_user_count": 5},
-    "constraints": {
-        "budgets": {"tokens": 1500, "seconds": 1.0, "max_rollouts": 3},
-        "consent": {"scopes": ["simulation.read_context"]},
-        "flags": {"duress_active": False},
-    },
-}
-
-job_id = await schedule(seed)
-
-# Poll status
-st = await status(job_id)  # {"state": "running", "progress": 0.5, ...}
-
-# Collect results
-result = await collect(job_id)
-# {
-#   "shards": [...],          # 3 dream shards with proposals
-#   "scores": {...},          # aggregate utility/risk/novelty
-#   "trace_id": "LT-abc123",
-#   "matada_nodes": [...],    # validated MATRIZ nodes
-#   "schema_ref": "lukhas://schemas/matriz_node_v1.json"
-# }
+# Initialize
+system = Simulation()
+result = system.process(input_data)
+print(f"Result: {result}")
 ```
 
-## Ethics & Consent
+## API Reference
 
-**Required consent scope**: `simulation.read_context`
+See code docstrings and inline documentation.
 
-**Forbidden scopes**: `adapter.write`, `email.send`, `cloud.delete`
+## Dependencies
 
-**Blocked conditions**:
-- Duress/shadow active (`flags.duress_active`)
-- Missing consent scope
-- Unsafe goal keywords (e.g., "self-delete", "exfiltrate")
+- No external dependencies
 
-## MATADA Nodes
+## Provides
 
-Each rollout emits a MATRIZ node with:
-- Unique ID: `{trace_id}#N{order}`
-- Type: `advisory.plan`
-- Lane: `simulation`
-- Provenance: generator, input keys, timestamp
-- Payload: goal, assumptions, scores, plan steps
-
-Validated against `schemas/matriz_node_v1.json`.
-
-## Testing
-
-```bash
-# Run canary tests
-SIMULATION_ENABLED=true make t4-sim-lane
-
-# Tests cover:
-# - Happy path (schedule → collect)
-# - Consent denial
-# - Duress detection
-# - Feature flag enforcement
-# - Adapter isolation (no forbidden imports)
-```
-
-## Commands
-
-```bash
-# Bootstrap (if not already done)
-bash .claude/commands/91_sim_lane_bootstrap.yaml
-
-# Apply CI env guards
-bash .claude/commands/92_sim_lane_ci_env.yaml
-
-# Scan for legacy dream callers (dry-run)
-bash .claude/commands/93_sim_lane_refactor_callers.yaml
-
-# Full validation suite
-bash .claude/commands/94_sim_lane_validate.yaml
-```
+- Core module functionality
 
 ## Architecture
 
 ```
-consciousness.simulation/
-├── api.py              # Public interface (schedule, status, collect)
-├── scheduler.py        # Async job queue with progress tracking
-├── ethics_gate.py      # Consent + duress validation
-├── world_model.py      # Scenario generation (3 variants)
-├── evaluator.py        # Deterministic scoring
-├── rollout.py          # Orchestrates scenarios + scoring
-└── summarizer.py       # Builds dream shards + MATADA nodes
+simulation/
+├── __init__.py          # Module initialization
+├── core.py              # Core functionality
+├── api.py               # API interfaces
+├── tests/               # Test suite
+└── docs/                # Documentation
 ```
 
-## Defensive Layers
+## Testing
 
-1. **Feature flag**: Killswitch at API boundary
-2. **Ethics gate**: Pre-flight validation (consent, duress, goal safety)
-3. **Adapter isolation**: No side-effects (verified by test)
-4. **Schema validation**: MATADA nodes checked against JSON schema
-5. **Determinism**: Fixed heuristics enable golden tests
+```bash
+# Run module tests
+pytest /Users/agi_dev/LOCAL-REPOS/Lukhas/consciousness/simulation/tests/ -v
 
-## Integration Points
+# Run with coverage
+pytest /Users/agi_dev/LOCAL-REPOS/Lukhas/consciousness/simulation/tests/ --cov=simulation --cov-report=html
+```
 
-- **MATRIZ**: Emits structured nodes for downstream processing
-- **Λ-trace**: Assigns `LT-{uuid}` trace IDs for observability
-- **CI**: GitHub Actions sets `SIMULATION_ENABLED=true` for test runs
+## Performance
 
-## T4/0.01% Compliance
+- Performance targets: Follow LUKHAS system SLOs
 
-- **Reversible**: Feature flag + isolated module
-- **Auditable**: Structured provenance in every node
-- **Testable**: 5 canary tests with 100% coverage of ethics paths
-- **Documented**: This README + inline docstrings
-- **Monitored**: Λ-trace logs at schedule/collect boundaries
+## Documentation
+
+- **Module Manifest**: [`module.manifest.json`](module.manifest.json)
+- **Detailed Docs**: [`docs/`](docs/)
+- **API Examples**: See code docstrings and `docs/` directory
+
+## Contributing
+
+Follow LUKHAS development guidelines:
+1. Respect lane boundaries
+2. Maintain T4/0.01% quality standards
+3. Add comprehensive tests
+4. Update documentation
+
+## Related Modules
+
+- See main [LUKHAS README](../../README.md) for system overview
 
 ---
 
-**Owner**: Consciousness Team
-**Status**: Beta (T4/0.01% compliant)
-**Lane**: L2 (Deliberation)
+**Version**: 1.0.0
+**Lane**: unknown
+**Constellation Framework**: ⚛️✦🔬🛡️

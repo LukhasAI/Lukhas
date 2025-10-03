@@ -1,7 +1,7 @@
-import { createServer } from 'node:http';
-import { URL } from 'node:url';
-import path from "node:path";
 import fs from "fs-extra";
+import { createServer } from 'node:http';
+import path from "node:path";
+import { URL } from 'node:url';
 
 const PORT = parseInt(process.env.PORT || "8765");
 const HTTP_TOKEN = process.env.MCP_HTTP_TOKEN || "";

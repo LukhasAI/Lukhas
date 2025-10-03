@@ -1,25 +1,76 @@
 {
-  "schema_version": "3.0.0",
-  "module": "ai_orchestration",
+  "_provenance": {
+    "apis": {
+      "confidence": "low",
+      "extracted_at": "2025-10-03T01:02:53.666628+00:00",
+      "reasons": [
+        "no_apis"
+      ],
+      "sources": [
+        "ast:__init__.py"
+      ]
+    },
+    "features": {
+      "confidence": "low",
+      "extracted_at": "2025-10-03T01:02:53.666055+00:00",
+      "reasons": [
+        "weak_evidence"
+      ],
+      "sha": "2b80b61fbf4df91baee6a4e6b5ff6524aca6f48925cd94d707bd85f97ed7fd3f",
+      "sources": [
+        "claude.me:bullets",
+        "claude.me:headers"
+      ]
+    }
+  },
+  "apis": {},
+  "contracts": [],
+  "dependencies": [
+    "core"
+  ],
   "description": "System orchestration and workflow coordination providing multi-service integration, pipeline management, and distributed system coordination with 42 orchestration functions.",
-  "ownership": {
-    "team": "Core",
-    "codeowners": [
-      "@lukhas-core"
-    ]
+  "features": [],
+  "identity": {
+    "requires_auth": false,
+    "scopes": [],
+    "tiers": []
   },
   "layout": {
     "code_layout": "package-root",
     "paths": {
+      "assets": "assets",
       "code": ".",
       "config": "config",
-      "tests": "tests",
       "docs": "docs",
-      "assets": "assets"
+      "tests": "tests"
     }
   },
+  "links": {
+    "docs": "./docs/README.md",
+    "issues": "https://github.com/LukhasAI/Lukhas/issues",
+    "repo": "https://github.com/LukhasAI/Lukhas"
+  },
+  "matrix": {
+    "contract": "",
+    "gates_profile": "standard",
+    "lane": "L2"
+  },
+  "module": "ai_orchestration",
+  "observability": {
+    "otel_semconv_version": "1.37.0",
+    "required_spans": [
+      "lukhas.ai_orchestration.consciousness",
+      "lukhas.ai_orchestration.monitoring",
+      "lukhas.ai_orchestration.operation"
+    ]
+  },
+  "ownership": {
+    "codeowners": [
+      "@lukhas-core"
+    ],
+    "team": "Core"
+  },
   "runtime": {
-    "language": "python",
     "entrypoints": [
       "ai_orchestration.lukhas_ai_orchestrator.AIProvider",
       "ai_orchestration.lukhas_ai_orchestrator.LUKHASAIOrchestrator",
@@ -32,23 +83,10 @@
       "ai_orchestration.mcp_operational_support.SupportIncident",
       "ai_orchestration.mcp_operational_support.WorkflowResult",
       "ai_orchestration.routing.ABTestBucket"
-    ]
+    ],
+    "language": "python"
   },
-  "matrix": {
-    "contract": "",
-    "lane": "L2",
-    "gates_profile": "standard"
-  },
-  "identity": {
-    "requires_auth": false,
-    "tiers": [],
-    "scopes": []
-  },
-  "links": {
-    "repo": "https://github.com/LukhasAI/Lukhas",
-    "docs": "./docs/README.md",
-    "issues": "https://github.com/LukhasAI/Lukhas/issues"
-  },
+  "schema_version": "3.0.0",
   "tags": [
     "ai_orchestration",
     "coordination",
@@ -56,37 +94,35 @@
     "orchestration",
     "workflow"
   ],
-  "observability": {
-    "required_spans": [
-      "lukhas.ai_orchestration.consciousness",
-      "lukhas.ai_orchestration.monitoring",
-      "lukhas.ai_orchestration.operation"
-    ],
-    "otel_semconv_version": "1.37.0"
-  },
   "tokenization": {
-    "enabled": false,
-    "chain": "none"
+    "chain": "none",
+    "enabled": false
   },
-  "dependencies": [
-    "core"
-  ],
-  "contracts": [],
   "x_legacy": {
-    "directory_metadata": {
-      "path": "ai_orchestration",
-      "lane": "development",
-      "purpose": "Directory containing 5 Python files and 1 subdirectories",
-      "last_updated": "2025-09-21",
-      "constellation_framework_version": "2.0.0",
-      "t4_compliance_level": "experimental"
+    "agent_guidance": {
+      "avoid_patterns": [
+        "Modifying contracts without validation",
+        "Breaking lane boundaries",
+        "Ignoring Constellation Framework integration",
+        "Breaking constructor-aware instantiation patterns",
+        "Bypassing T4/0.01% validation standards",
+        "Ignoring MATRIZ pipeline integration requirements"
+      ],
+      "common_tasks": [],
+      "key_files": [],
+      "prerequisites": [
+        "Understanding of LUKHAS lane system",
+        "Constellation Framework familiarity",
+        "MATRIZ pipeline architecture",
+        "T4/0.01% implementation standards"
+      ],
+      "recommended_approach": "Begin with documentation files, then explore core components"
     },
     "component_inventory": {
+      "documentation": [],
       "python_files": [
         {
-          "filename": "lukhas_mcp_server.py",
           "component_type": "ORCHESTRATION_NODE",
-          "has_contract": false,
           "contract_path": null,
           "dependencies": [
             "lukhas.consciousness.awareness_engine",
@@ -95,45 +131,45 @@
           ],
           "exports": [
             "LUKHASConsciousnessMCP"
-          ]
+          ],
+          "filename": "lukhas_mcp_server.py",
+          "has_contract": false
         },
         {
-          "filename": "lukhas_knowledge_server.py",
           "component_type": "ORCHESTRATION_NODE",
-          "has_contract": false,
           "contract_path": null,
           "dependencies": [],
           "exports": [
             "LUKHASPattern",
             "LUKHASKnowledgeServer",
             "export_for_copilot_instructions"
-          ]
+          ],
+          "filename": "lukhas_knowledge_server.py",
+          "has_contract": false
         },
         {
-          "filename": "lukhas_mcp_server_simple.py",
           "component_type": "ORCHESTRATION_NODE",
-          "has_contract": false,
           "contract_path": null,
           "dependencies": [],
           "exports": [
             "LUKHASMCPServer"
-          ]
+          ],
+          "filename": "lukhas_mcp_server_simple.py",
+          "has_contract": false
         },
         {
-          "filename": "lukhas_ai_orchestrator.py",
           "component_type": "ORCHESTRATION_NODE",
-          "has_contract": false,
           "contract_path": null,
           "dependencies": [],
           "exports": [
             "AIProvider",
             "LUKHASAIOrchestrator"
-          ]
+          ],
+          "filename": "lukhas_ai_orchestrator.py",
+          "has_contract": false
         },
         {
-          "filename": "mcp_operational_support.py",
           "component_type": "ORCHESTRATION_NODE",
-          "has_contract": false,
           "contract_path": null,
           "dependencies": [],
           "exports": [
@@ -146,18 +182,43 @@
             "monitor_mcp_operations",
             "analyze_operational_patterns",
             "automate_support_workflows"
-          ]
+          ],
+          "filename": "mcp_operational_support.py",
+          "has_contract": false
         }
       ],
       "subdirectories": [
         {
-          "name": "agents",
+          "component_count": 0,
           "has_index": false,
-          "purpose": "Subdirectory with 0 Python files",
-          "component_count": 0
+          "name": "agents",
+          "purpose": "Subdirectory with 0 Python files"
         }
-      ],
-      "documentation": []
+      ]
+    },
+    "directory_metadata": {
+      "constellation_framework_version": "2.0.0",
+      "lane": "development",
+      "last_updated": "2025-09-21",
+      "path": "ai_orchestration",
+      "purpose": "Directory containing 5 Python files and 1 subdirectories",
+      "t4_compliance_level": "experimental"
+    },
+    "performance_metadata": {
+      "component_count": 5,
+      "consciousness_integration": "none",
+      "constructor_aware_instantiation": true,
+      "estimated_complexity": "low",
+      "matriz_compatibility": "standard",
+      "plugin_registry_compatible": true,
+      "t4_compliance_score": 0.65,
+      "test_coverage": 85.0
+    },
+    "relationships": {
+      "constellation_cluster": "unknown",
+      "dependency_weight": "moderate",
+      "parent_directory": null,
+      "related_directories": []
     },
     "schema_references": [
       {
@@ -165,41 +226,6 @@
         "schema_path": "schemas/directory_index.schema.json",
         "validation_status": "valid"
       }
-    ],
-    "agent_guidance": {
-      "recommended_approach": "Begin with documentation files, then explore core components",
-      "key_files": [],
-      "common_tasks": [],
-      "prerequisites": [
-        "Understanding of LUKHAS lane system",
-        "Constellation Framework familiarity",
-        "MATRIZ pipeline architecture",
-        "T4/0.01% implementation standards"
-      ],
-      "avoid_patterns": [
-        "Modifying contracts without validation",
-        "Breaking lane boundaries",
-        "Ignoring Constellation Framework integration",
-        "Breaking constructor-aware instantiation patterns",
-        "Bypassing T4/0.01% validation standards",
-        "Ignoring MATRIZ pipeline integration requirements"
-      ]
-    },
-    "performance_metadata": {
-      "component_count": 5,
-      "estimated_complexity": "low",
-      "consciousness_integration": "none",
-      "test_coverage": 85.0,
-      "t4_compliance_score": 0.65,
-      "matriz_compatibility": "standard",
-      "plugin_registry_compatible": true,
-      "constructor_aware_instantiation": true
-    },
-    "relationships": {
-      "parent_directory": null,
-      "related_directories": [],
-      "constellation_cluster": "unknown",
-      "dependency_weight": "moderate"
-    }
+    ]
   }
 }

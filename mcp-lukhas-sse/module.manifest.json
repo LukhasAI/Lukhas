@@ -1,25 +1,73 @@
 {
-  "schema_version": "3.0.0",
-  "module": "mcp-lukhas-sse",
+  "_provenance": {
+    "apis": {
+      "confidence": "low",
+      "extracted_at": "2025-10-03T01:02:53.562909+00:00",
+      "reasons": [
+        "no_apis"
+      ],
+      "sources": []
+    },
+    "features": {
+      "confidence": "low",
+      "extracted_at": "2025-10-03T01:02:53.562757+00:00",
+      "reasons": [
+        "weak_evidence"
+      ],
+      "sha": "65ad9733cee0cd7986433849dc2db86aab09b00c8e7047e3fe8af1c517ea44bc",
+      "sources": [
+        "claude.me:bullets",
+        "claude.me:headers"
+      ]
+    }
+  },
+  "apis": {},
+  "contracts": [],
+  "dependencies": [
+    "identity"
+  ],
   "description": "LUKHAS mcp-lukhas-sse module implementing specialized mcp-lukhas-sse functionality with 40 components for integrated system operations.",
-  "ownership": {
-    "team": "Core",
-    "codeowners": [
-      "@lukhas-core"
-    ]
+  "features": [],
+  "identity": {
+    "requires_auth": false,
+    "scopes": [],
+    "tiers": []
   },
   "layout": {
     "code_layout": "package-root",
     "paths": {
+      "assets": "assets",
       "code": ".",
       "config": "config",
-      "tests": "tests",
       "docs": "docs",
-      "assets": "assets"
+      "tests": "tests"
     }
   },
+  "links": {
+    "docs": "./docs/README.md",
+    "issues": "https://github.com/LukhasAI/Lukhas/issues",
+    "repo": "https://github.com/LukhasAI/Lukhas"
+  },
+  "matrix": {
+    "contract": "",
+    "gates_profile": "standard",
+    "lane": "L2"
+  },
+  "module": "mcp-lukhas-sse",
+  "observability": {
+    "otel_semconv_version": "1.37.0",
+    "required_spans": [
+      "lukhas.mcp-lukhas-sse.auth",
+      "lukhas.mcp-lukhas-sse.operation"
+    ]
+  },
+  "ownership": {
+    "codeowners": [
+      "@lukhas-core"
+    ],
+    "team": "Core"
+  },
   "runtime": {
-    "language": "python",
     "entrypoints": [
       "mcp-lukhas-sse.chatgpt_server.FlexibleAuthMiddleware",
       "mcp-lukhas-sse.chatgpt_server.list_directory_tool",
@@ -32,377 +80,20 @@
       "mcp-lukhas-sse.minimal_server.list_directory_tool",
       "mcp-lukhas-sse.minimal_server.read_file_tool",
       "mcp-lukhas-sse.pure_mcp_server.validate_path_security"
-    ]
+    ],
+    "language": "python"
   },
-  "matrix": {
-    "contract": "",
-    "lane": "L2",
-    "gates_profile": "standard"
-  },
-  "identity": {
-    "requires_auth": false,
-    "tiers": [],
-    "scopes": []
-  },
-  "links": {
-    "repo": "https://github.com/LukhasAI/Lukhas",
-    "docs": "./docs/README.md",
-    "issues": "https://github.com/LukhasAI/Lukhas/issues"
-  },
+  "schema_version": "3.0.0",
   "tags": [
     "authentication",
     "mcp-lukhas-sse"
   ],
-  "observability": {
-    "required_spans": [
-      "lukhas.mcp-lukhas-sse.auth",
-      "lukhas.mcp-lukhas-sse.operation"
-    ],
-    "otel_semconv_version": "1.37.0"
-  },
   "tokenization": {
-    "enabled": false,
-    "chain": "none"
+    "chain": "none",
+    "enabled": false
   },
-  "dependencies": [
-    "identity"
-  ],
-  "contracts": [],
   "x_legacy": {
-    "directory_metadata": {
-      "path": "mcp-lukhas-sse",
-      "lane": "development",
-      "purpose": "Directory containing 17 Python files and 3 subdirectories",
-      "last_updated": "2025-09-21",
-      "constellation_framework_version": "2.0.0",
-      "t4_compliance_level": "experimental"
-    },
-    "component_inventory": {
-      "python_files": [
-        {
-          "filename": "lukhas_mcp_server.py",
-          "component_type": "UTILITY",
-          "has_contract": false,
-          "contract_path": null,
-          "dependencies": [
-            "lukhas_mcp_stdio_manual"
-          ],
-          "exports": []
-        },
-        {
-          "filename": "server.py",
-          "component_type": "UTILITY",
-          "has_contract": false,
-          "contract_path": null,
-          "dependencies": [],
-          "exports": [
-            "JWKSResponse",
-            "OIDCConfiguration",
-            "OAuth2Middleware",
-            "is_path_allowed",
-            "list_dir",
-            "read_text",
-            "search_glob",
-            "write_text"
-          ]
-        },
-        {
-          "filename": "working_server.py",
-          "component_type": "UTILITY",
-          "has_contract": false,
-          "contract_path": null,
-          "dependencies": [],
-          "exports": [
-            "verify_token",
-            "list_directory",
-            "read_file",
-            "server_info"
-          ]
-        },
-        {
-          "filename": "minimal_server.py",
-          "component_type": "UTILITY",
-          "has_contract": false,
-          "contract_path": null,
-          "dependencies": [],
-          "exports": [
-            "OAuth2Middleware",
-            "list_directory_tool",
-            "read_file_tool"
-          ]
-        },
-        {
-          "filename": "chatgpt_server.py",
-          "component_type": "UTILITY",
-          "has_contract": false,
-          "contract_path": null,
-          "dependencies": [],
-          "exports": [
-            "FlexibleAuthMiddleware",
-            "list_directory_tool",
-            "read_file_tool"
-          ]
-        },
-        {
-          "filename": "server_backup.py",
-          "component_type": "UTILITY",
-          "has_contract": false,
-          "contract_path": null,
-          "dependencies": [],
-          "exports": [
-            "JWKSResponse",
-            "OIDCConfiguration",
-            "OAuth2Middleware",
-            "is_path_allowed",
-            "list_dir",
-            "read_text",
-            "search_glob",
-            "write_text"
-          ]
-        },
-        {
-          "filename": "lukhas_mcp_stdio_manual.py",
-          "component_type": "UTILITY",
-          "has_contract": false,
-          "contract_path": null,
-          "dependencies": [],
-          "exports": [
-            "LukhasMCPServer"
-          ]
-        },
-        {
-          "filename": "chatgpt_rest_wrapper.py",
-          "component_type": "UTILITY",
-          "has_contract": false,
-          "contract_path": null,
-          "dependencies": [],
-          "exports": [
-            "LukhasMCPRestWrapper",
-            "list_directory",
-            "read_file"
-          ]
-        },
-        {
-          "filename": "verify_oauth.py",
-          "component_type": "IDENTITY_SERVICE",
-          "has_contract": false,
-          "contract_path": null,
-          "dependencies": [],
-          "exports": []
-        },
-        {
-          "filename": "test_oauth.py",
-          "component_type": "IDENTITY_SERVICE",
-          "has_contract": false,
-          "contract_path": null,
-          "dependencies": [],
-          "exports": [
-            "MockRequest"
-          ]
-        },
-        {
-          "filename": "setup_auth0.py",
-          "component_type": "IDENTITY_SERVICE",
-          "has_contract": false,
-          "contract_path": null,
-          "dependencies": [],
-          "exports": [
-            "setup_auth0_config"
-          ]
-        },
-        {
-          "filename": "simple_server.py",
-          "component_type": "UTILITY",
-          "has_contract": false,
-          "contract_path": null,
-          "dependencies": [],
-          "exports": [
-            "SimpleOAuthMiddleware",
-            "list_directory",
-            "read_file"
-          ]
-        },
-        {
-          "filename": "pure_mcp_server.py",
-          "component_type": "UTILITY",
-          "has_contract": false,
-          "contract_path": null,
-          "dependencies": [],
-          "exports": [
-            "validate_path_security"
-          ]
-        },
-        {
-          "filename": "test_jwks_server.py",
-          "component_type": "TEST",
-          "has_contract": false,
-          "contract_path": null,
-          "dependencies": [],
-          "exports": []
-        },
-        {
-          "filename": "lukhas_mcp_stdio.py",
-          "component_type": "UTILITY",
-          "has_contract": false,
-          "contract_path": null,
-          "dependencies": [],
-          "exports": []
-        },
-        {
-          "filename": "generate_test_jwt.py",
-          "component_type": "TEST",
-          "has_contract": false,
-          "contract_path": null,
-          "dependencies": [],
-          "exports": [
-            "generate_test_jwt",
-            "create_test_jwks"
-          ]
-        },
-        {
-          "filename": "mcp_official_server.py",
-          "component_type": "UTILITY",
-          "has_contract": false,
-          "contract_path": null,
-          "dependencies": [],
-          "exports": [
-            "MCPServer",
-            "generate_session_id"
-          ]
-        }
-      ],
-      "subdirectories": [
-        {
-          "name": "__pycache__",
-          "has_index": false,
-          "purpose": "Subdirectory with 0 Python files",
-          "component_count": 0
-        },
-        {
-          "name": "test_env",
-          "has_index": false,
-          "purpose": "Subdirectory with 0 Python files",
-          "component_count": 0
-        },
-        {
-          "name": "venv",
-          "has_index": false,
-          "purpose": "Subdirectory with 0 Python files",
-          "component_count": 0
-        }
-      ],
-      "documentation": [
-        {
-          "filename": "SUCCESS_CONNECTOR_READY.md",
-          "type": "other",
-          "has_sync_header": false
-        },
-        {
-          "filename": "YOUR_MCP_SERVER.md",
-          "type": "other",
-          "has_sync_header": false
-        },
-        {
-          "filename": "COMPLETION_SUMMARY.md",
-          "type": "other",
-          "has_sync_header": false
-        },
-        {
-          "filename": "CHATGPT_FIXED.md",
-          "type": "other",
-          "has_sync_header": false
-        },
-        {
-          "filename": "CHATGPT_CONNECTOR_READY.md",
-          "type": "other",
-          "has_sync_header": false
-        },
-        {
-          "filename": "CHATGPT_CONNECTOR_SETUP.md",
-          "type": "other",
-          "has_sync_header": false
-        },
-        {
-          "filename": "README_STDIO.md",
-          "type": "other",
-          "has_sync_header": false
-        },
-        {
-          "filename": "README_OFFICIAL.md",
-          "type": "other",
-          "has_sync_header": false
-        },
-        {
-          "filename": "README.md",
-          "type": "README.md",
-          "has_sync_header": false
-        },
-        {
-          "filename": "RAILWAY_SUCCESS.md",
-          "type": "other",
-          "has_sync_header": false
-        },
-        {
-          "filename": "FINAL_STATUS_REPORT.md",
-          "type": "other",
-          "has_sync_header": false
-        },
-        {
-          "filename": "AUTH0_SETUP_GUIDE.md",
-          "type": "other",
-          "has_sync_header": false
-        },
-        {
-          "filename": "RAILWAY_DEPLOY_GUIDE.md",
-          "type": "other",
-          "has_sync_header": false
-        },
-        {
-          "filename": "CHATGPT_READY.md",
-          "type": "other",
-          "has_sync_header": false
-        },
-        {
-          "filename": "OAUTH_FIXED_STATUS.md",
-          "type": "other",
-          "has_sync_header": false
-        },
-        {
-          "filename": "OAUTH_DIAGNOSIS.md",
-          "type": "other",
-          "has_sync_header": false
-        },
-        {
-          "filename": "CHATGPT_SETUP.md",
-          "type": "other",
-          "has_sync_header": false
-        },
-        {
-          "filename": "AUTH0_VALUES_CHECKLIST.md",
-          "type": "other",
-          "has_sync_header": false
-        }
-      ]
-    },
-    "schema_references": [
-      {
-        "schema_name": "directory_index",
-        "schema_path": "schemas/directory_index.schema.json",
-        "validation_status": "valid"
-      }
-    ],
     "agent_guidance": {
-      "recommended_approach": "Begin with documentation files, then explore core components",
-      "key_files": [
-        "README.md"
-      ],
-      "common_tasks": [],
-      "prerequisites": [
-        "Understanding of LUKHAS lane system",
-        "Constellation Framework familiarity",
-        "MATRIZ pipeline architecture",
-        "T4/0.01% implementation standards"
-      ],
       "avoid_patterns": [
         "Modifying contracts without validation",
         "Breaking lane boundaries",
@@ -410,23 +101,356 @@
         "Breaking constructor-aware instantiation patterns",
         "Bypassing T4/0.01% validation standards",
         "Ignoring MATRIZ pipeline integration requirements"
+      ],
+      "common_tasks": [],
+      "key_files": [
+        "README.md"
+      ],
+      "prerequisites": [
+        "Understanding of LUKHAS lane system",
+        "Constellation Framework familiarity",
+        "MATRIZ pipeline architecture",
+        "T4/0.01% implementation standards"
+      ],
+      "recommended_approach": "Begin with documentation files, then explore core components"
+    },
+    "component_inventory": {
+      "documentation": [
+        {
+          "filename": "SUCCESS_CONNECTOR_READY.md",
+          "has_sync_header": false,
+          "type": "other"
+        },
+        {
+          "filename": "YOUR_MCP_SERVER.md",
+          "has_sync_header": false,
+          "type": "other"
+        },
+        {
+          "filename": "COMPLETION_SUMMARY.md",
+          "has_sync_header": false,
+          "type": "other"
+        },
+        {
+          "filename": "CHATGPT_FIXED.md",
+          "has_sync_header": false,
+          "type": "other"
+        },
+        {
+          "filename": "CHATGPT_CONNECTOR_READY.md",
+          "has_sync_header": false,
+          "type": "other"
+        },
+        {
+          "filename": "CHATGPT_CONNECTOR_SETUP.md",
+          "has_sync_header": false,
+          "type": "other"
+        },
+        {
+          "filename": "README_STDIO.md",
+          "has_sync_header": false,
+          "type": "other"
+        },
+        {
+          "filename": "README_OFFICIAL.md",
+          "has_sync_header": false,
+          "type": "other"
+        },
+        {
+          "filename": "README.md",
+          "has_sync_header": false,
+          "type": "README.md"
+        },
+        {
+          "filename": "RAILWAY_SUCCESS.md",
+          "has_sync_header": false,
+          "type": "other"
+        },
+        {
+          "filename": "FINAL_STATUS_REPORT.md",
+          "has_sync_header": false,
+          "type": "other"
+        },
+        {
+          "filename": "AUTH0_SETUP_GUIDE.md",
+          "has_sync_header": false,
+          "type": "other"
+        },
+        {
+          "filename": "RAILWAY_DEPLOY_GUIDE.md",
+          "has_sync_header": false,
+          "type": "other"
+        },
+        {
+          "filename": "CHATGPT_READY.md",
+          "has_sync_header": false,
+          "type": "other"
+        },
+        {
+          "filename": "OAUTH_FIXED_STATUS.md",
+          "has_sync_header": false,
+          "type": "other"
+        },
+        {
+          "filename": "OAUTH_DIAGNOSIS.md",
+          "has_sync_header": false,
+          "type": "other"
+        },
+        {
+          "filename": "CHATGPT_SETUP.md",
+          "has_sync_header": false,
+          "type": "other"
+        },
+        {
+          "filename": "AUTH0_VALUES_CHECKLIST.md",
+          "has_sync_header": false,
+          "type": "other"
+        }
+      ],
+      "python_files": [
+        {
+          "component_type": "UTILITY",
+          "contract_path": null,
+          "dependencies": [
+            "lukhas_mcp_stdio_manual"
+          ],
+          "exports": [],
+          "filename": "lukhas_mcp_server.py",
+          "has_contract": false
+        },
+        {
+          "component_type": "UTILITY",
+          "contract_path": null,
+          "dependencies": [],
+          "exports": [
+            "JWKSResponse",
+            "OIDCConfiguration",
+            "OAuth2Middleware",
+            "is_path_allowed",
+            "list_dir",
+            "read_text",
+            "search_glob",
+            "write_text"
+          ],
+          "filename": "server.py",
+          "has_contract": false
+        },
+        {
+          "component_type": "UTILITY",
+          "contract_path": null,
+          "dependencies": [],
+          "exports": [
+            "verify_token",
+            "list_directory",
+            "read_file",
+            "server_info"
+          ],
+          "filename": "working_server.py",
+          "has_contract": false
+        },
+        {
+          "component_type": "UTILITY",
+          "contract_path": null,
+          "dependencies": [],
+          "exports": [
+            "OAuth2Middleware",
+            "list_directory_tool",
+            "read_file_tool"
+          ],
+          "filename": "minimal_server.py",
+          "has_contract": false
+        },
+        {
+          "component_type": "UTILITY",
+          "contract_path": null,
+          "dependencies": [],
+          "exports": [
+            "FlexibleAuthMiddleware",
+            "list_directory_tool",
+            "read_file_tool"
+          ],
+          "filename": "chatgpt_server.py",
+          "has_contract": false
+        },
+        {
+          "component_type": "UTILITY",
+          "contract_path": null,
+          "dependencies": [],
+          "exports": [
+            "JWKSResponse",
+            "OIDCConfiguration",
+            "OAuth2Middleware",
+            "is_path_allowed",
+            "list_dir",
+            "read_text",
+            "search_glob",
+            "write_text"
+          ],
+          "filename": "server_backup.py",
+          "has_contract": false
+        },
+        {
+          "component_type": "UTILITY",
+          "contract_path": null,
+          "dependencies": [],
+          "exports": [
+            "LukhasMCPServer"
+          ],
+          "filename": "lukhas_mcp_stdio_manual.py",
+          "has_contract": false
+        },
+        {
+          "component_type": "UTILITY",
+          "contract_path": null,
+          "dependencies": [],
+          "exports": [
+            "LukhasMCPRestWrapper",
+            "list_directory",
+            "read_file"
+          ],
+          "filename": "chatgpt_rest_wrapper.py",
+          "has_contract": false
+        },
+        {
+          "component_type": "IDENTITY_SERVICE",
+          "contract_path": null,
+          "dependencies": [],
+          "exports": [],
+          "filename": "verify_oauth.py",
+          "has_contract": false
+        },
+        {
+          "component_type": "IDENTITY_SERVICE",
+          "contract_path": null,
+          "dependencies": [],
+          "exports": [
+            "MockRequest"
+          ],
+          "filename": "test_oauth.py",
+          "has_contract": false
+        },
+        {
+          "component_type": "IDENTITY_SERVICE",
+          "contract_path": null,
+          "dependencies": [],
+          "exports": [
+            "setup_auth0_config"
+          ],
+          "filename": "setup_auth0.py",
+          "has_contract": false
+        },
+        {
+          "component_type": "UTILITY",
+          "contract_path": null,
+          "dependencies": [],
+          "exports": [
+            "SimpleOAuthMiddleware",
+            "list_directory",
+            "read_file"
+          ],
+          "filename": "simple_server.py",
+          "has_contract": false
+        },
+        {
+          "component_type": "UTILITY",
+          "contract_path": null,
+          "dependencies": [],
+          "exports": [
+            "validate_path_security"
+          ],
+          "filename": "pure_mcp_server.py",
+          "has_contract": false
+        },
+        {
+          "component_type": "TEST",
+          "contract_path": null,
+          "dependencies": [],
+          "exports": [],
+          "filename": "test_jwks_server.py",
+          "has_contract": false
+        },
+        {
+          "component_type": "UTILITY",
+          "contract_path": null,
+          "dependencies": [],
+          "exports": [],
+          "filename": "lukhas_mcp_stdio.py",
+          "has_contract": false
+        },
+        {
+          "component_type": "TEST",
+          "contract_path": null,
+          "dependencies": [],
+          "exports": [
+            "generate_test_jwt",
+            "create_test_jwks"
+          ],
+          "filename": "generate_test_jwt.py",
+          "has_contract": false
+        },
+        {
+          "component_type": "UTILITY",
+          "contract_path": null,
+          "dependencies": [],
+          "exports": [
+            "MCPServer",
+            "generate_session_id"
+          ],
+          "filename": "mcp_official_server.py",
+          "has_contract": false
+        }
+      ],
+      "subdirectories": [
+        {
+          "component_count": 0,
+          "has_index": false,
+          "name": "__pycache__",
+          "purpose": "Subdirectory with 0 Python files"
+        },
+        {
+          "component_count": 0,
+          "has_index": false,
+          "name": "test_env",
+          "purpose": "Subdirectory with 0 Python files"
+        },
+        {
+          "component_count": 0,
+          "has_index": false,
+          "name": "venv",
+          "purpose": "Subdirectory with 0 Python files"
+        }
       ]
+    },
+    "directory_metadata": {
+      "constellation_framework_version": "2.0.0",
+      "lane": "development",
+      "last_updated": "2025-09-21",
+      "path": "mcp-lukhas-sse",
+      "purpose": "Directory containing 17 Python files and 3 subdirectories",
+      "t4_compliance_level": "experimental"
     },
     "performance_metadata": {
       "component_count": 17,
-      "estimated_complexity": "medium",
       "consciousness_integration": "none",
-      "test_coverage": 85.0,
-      "t4_compliance_score": 0.65,
+      "constructor_aware_instantiation": true,
+      "estimated_complexity": "medium",
       "matriz_compatibility": "standard",
       "plugin_registry_compatible": true,
-      "constructor_aware_instantiation": true
+      "t4_compliance_score": 0.65,
+      "test_coverage": 85.0
     },
     "relationships": {
-      "parent_directory": null,
-      "related_directories": [],
       "constellation_cluster": "unknown",
-      "dependency_weight": "moderate"
-    }
+      "dependency_weight": "moderate",
+      "parent_directory": null,
+      "related_directories": []
+    },
+    "schema_references": [
+      {
+        "schema_name": "directory_index",
+        "schema_path": "schemas/directory_index.schema.json",
+        "validation_status": "valid"
+      }
+    ]
   }
 }

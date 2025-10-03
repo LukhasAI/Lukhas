@@ -1,504 +1,85 @@
 {
-  "schema_version": "3.0.0",
-  "module": "branding",
+  "_provenance": {
+    "apis": {
+      "confidence": "low",
+      "extracted_at": "2025-10-03T01:02:53.571047+00:00",
+      "reasons": [
+        "no_apis"
+      ],
+      "sources": [
+        "ast:__init__.py"
+      ]
+    },
+    "features": {
+      "confidence": "low",
+      "extracted_at": "2025-10-03T01:02:53.570652+00:00",
+      "reasons": [
+        "weak_evidence"
+      ],
+      "sha": "7aa432ec9bbae47760b20252ee0a2849755f9d192efe3c86cf756ea7c6f9e4c8",
+      "sources": [
+        "claude.me:bullets",
+        "claude.me:headers"
+      ]
+    }
+  },
+  "apis": {},
+  "contracts": [],
+  "dependencies": [],
   "description": "LUKHAS branding module implementing specialized branding functionality with 0 components for integrated system operations.",
-  "ownership": {
-    "team": "Core",
-    "codeowners": [
-      "@lukhas-core"
-    ]
+  "features": [],
+  "identity": {
+    "requires_auth": false,
+    "scopes": [],
+    "tiers": []
   },
   "layout": {
     "code_layout": "package-root",
     "paths": {
+      "assets": "assets",
       "code": ".",
       "config": "config",
-      "tests": "tests",
       "docs": "docs",
-      "assets": "assets"
+      "tests": "tests"
     }
   },
-  "runtime": {
-    "language": "python",
-    "entrypoints": []
+  "links": {
+    "docs": "./docs/README.md",
+    "issues": "https://github.com/LukhasAI/Lukhas/issues",
+    "repo": "https://github.com/LukhasAI/Lukhas"
   },
   "matrix": {
     "contract": "",
-    "lane": "L2",
-    "gates_profile": "standard"
+    "gates_profile": "standard",
+    "lane": "L2"
   },
-  "identity": {
-    "requires_auth": false,
-    "tiers": [],
-    "scopes": []
+  "module": "branding",
+  "observability": {
+    "otel_semconv_version": "1.37.0",
+    "required_spans": [
+      "lukhas.branding.operation"
+    ]
   },
-  "links": {
-    "repo": "https://github.com/LukhasAI/Lukhas",
-    "docs": "./docs/README.md",
-    "issues": "https://github.com/LukhasAI/Lukhas/issues"
+  "ownership": {
+    "codeowners": [
+      "@lukhas-core"
+    ],
+    "team": "Core"
   },
+  "runtime": {
+    "entrypoints": [],
+    "language": "python"
+  },
+  "schema_version": "3.0.0",
   "tags": [
     "branding"
   ],
-  "observability": {
-    "required_spans": [
-      "lukhas.branding.operation"
-    ],
-    "otel_semconv_version": "1.37.0"
-  },
   "tokenization": {
-    "enabled": false,
-    "chain": "none"
+    "chain": "none",
+    "enabled": false
   },
-  "dependencies": [],
-  "contracts": [],
   "x_legacy": {
-    "directory_metadata": {
-      "path": "branding",
-      "lane": "development",
-      "purpose": "Directory containing 0 Python files and 37 subdirectories",
-      "last_updated": "2025-09-21",
-      "constellation_framework_version": "2.0.0",
-      "t4_compliance_level": "experimental"
-    },
-    "component_inventory": {
-      "python_files": [],
-      "subdirectories": [
-        {
-          "name": "tone",
-          "has_index": false,
-          "purpose": "Subdirectory with 2 Python files",
-          "component_count": 2
-        },
-        {
-          "name": "vocabularies",
-          "has_index": false,
-          "purpose": "Subdirectory with 11 Python files",
-          "component_count": 11
-        },
-        {
-          "name": "design",
-          "has_index": false,
-          "purpose": "Subdirectory with 1 Python files",
-          "component_count": 1
-        },
-        {
-          "name": "tools",
-          "has_index": false,
-          "purpose": "Subdirectory with 2 Python files",
-          "component_count": 2
-        },
-        {
-          "name": "apis",
-          "has_index": false,
-          "purpose": "Subdirectory with 1 Python files",
-          "component_count": 1
-        },
-        {
-          "name": "products",
-          "has_index": false,
-          "purpose": "Subdirectory with 0 Python files",
-          "component_count": 0
-        },
-        {
-          "name": "constellation",
-          "has_index": false,
-          "purpose": "Subdirectory with 1 Python files",
-          "component_count": 1
-        },
-        {
-          "name": "analysis",
-          "has_index": false,
-          "purpose": "Subdirectory with 2 Python files",
-          "component_count": 2
-        },
-        {
-          "name": "quotes",
-          "has_index": false,
-          "purpose": "Subdirectory with 0 Python files",
-          "component_count": 0
-        },
-        {
-          "name": "intelligence",
-          "has_index": false,
-          "purpose": "Subdirectory with 3 Python files",
-          "component_count": 3
-        },
-        {
-          "name": "config",
-          "has_index": false,
-          "purpose": "Subdirectory with 0 Python files",
-          "component_count": 0
-        },
-        {
-          "name": "constellation",
-          "has_index": false,
-          "purpose": "Subdirectory with 0 Python files",
-          "component_count": 0
-        },
-        {
-          "name": "integration",
-          "has_index": false,
-          "purpose": "Subdirectory with 0 Python files",
-          "component_count": 0
-        },
-        {
-          "name": "social_media",
-          "has_index": false,
-          "purpose": "Subdirectory with 0 Python files",
-          "component_count": 0
-        },
-        {
-          "name": "optimization",
-          "has_index": false,
-          "purpose": "Subdirectory with 1 Python files",
-          "component_count": 1
-        },
-        {
-          "name": "content",
-          "has_index": false,
-          "purpose": "Subdirectory with 1 Python files",
-          "component_count": 1
-        },
-        {
-          "name": "decisions",
-          "has_index": false,
-          "purpose": "Subdirectory with 0 Python files",
-          "component_count": 0
-        },
-        {
-          "name": "schemas",
-          "has_index": false,
-          "purpose": "Subdirectory with 0 Python files",
-          "component_count": 0
-        },
-        {
-          "name": "personal_brand",
-          "has_index": false,
-          "purpose": "Subdirectory with 2 Python files",
-          "component_count": 2
-        },
-        {
-          "name": "integrations",
-          "has_index": false,
-          "purpose": "Subdirectory with 3 Python files",
-          "component_count": 3
-        },
-        {
-          "name": "adapters",
-          "has_index": false,
-          "purpose": "Subdirectory with 5 Python files",
-          "component_count": 5
-        },
-        {
-          "name": "poetry",
-          "has_index": false,
-          "purpose": "Subdirectory with 11 Python files",
-          "component_count": 11
-        },
-        {
-          "name": "logs",
-          "has_index": false,
-          "purpose": "Subdirectory with 0 Python files",
-          "component_count": 0
-        },
-        {
-          "name": "mobile",
-          "has_index": false,
-          "purpose": "Subdirectory with 0 Python files",
-          "component_count": 0
-        },
-        {
-          "name": "engines",
-          "has_index": false,
-          "purpose": "Subdirectory with 4 Python files",
-          "component_count": 4
-        },
-        {
-          "name": "philosophy",
-          "has_index": false,
-          "purpose": "Subdirectory with 0 Python files",
-          "component_count": 0
-        },
-        {
-          "name": "visual",
-          "has_index": false,
-          "purpose": "Subdirectory with 0 Python files",
-          "component_count": 0
-        },
-        {
-          "name": "storytelling",
-          "has_index": false,
-          "purpose": "Subdirectory with 1 Python files",
-          "component_count": 1
-        },
-        {
-          "name": "orchestration",
-          "has_index": false,
-          "purpose": "Subdirectory with 5 Python files",
-          "component_count": 5
-        },
-        {
-          "name": "automation",
-          "has_index": false,
-          "purpose": "Subdirectory with 10 Python files",
-          "component_count": 10
-        },
-        {
-          "name": "enforcement",
-          "has_index": false,
-          "purpose": "Subdirectory with 2 Python files",
-          "component_count": 2
-        },
-        {
-          "name": "profiles",
-          "has_index": false,
-          "purpose": "Subdirectory with 2 Python files",
-          "component_count": 2
-        },
-        {
-          "name": "ai_agents",
-          "has_index": false,
-          "purpose": "Subdirectory with 2 Python files",
-          "component_count": 2
-        },
-        {
-          "name": "reference",
-          "has_index": false,
-          "purpose": "Subdirectory with 0 Python files",
-          "component_count": 0
-        },
-        {
-          "name": "websites",
-          "has_index": false,
-          "purpose": "Subdirectory with 0 Python files",
-          "component_count": 0
-        },
-        {
-          "name": "policy",
-          "has_index": false,
-          "purpose": "Subdirectory with 2 Python files",
-          "component_count": 2
-        },
-        {
-          "name": "communications",
-          "has_index": false,
-          "purpose": "Subdirectory with 1 Python files",
-          "component_count": 1
-        }
-      ],
-      "documentation": [
-        {
-          "filename": "WALLET_QRG_DESIGN.md",
-          "type": "other",
-          "has_sync_header": false
-        },
-        {
-          "filename": "VOICE_COHERENCE_UPGRADE_REPORT.md",
-          "type": "other",
-          "has_sync_header": false
-        },
-        {
-          "filename": "LAMBDA_SYMBOL_GUIDELINES.md",
-          "type": "other",
-          "has_sync_header": false
-        },
-        {
-          "filename": "SYSTEM_INTEGRATION_REPORT.md",
-          "type": "other",
-          "has_sync_header": false
-        },
-        {
-          "filename": "CLEANUP_PLAN.md",
-          "type": "other",
-          "has_sync_header": false
-        },
-        {
-          "filename": "POLICY_NO_NAME_INSPIRATION.md",
-          "type": "other",
-          "has_sync_header": false
-        },
-        {
-          "filename": "COMPLETE_CONTENT_SYSTEMS_DISCOVERY.md",
-          "type": "other",
-          "has_sync_header": false
-        },
-        {
-          "filename": "TONE_GUIDE.md",
-          "type": "other",
-          "has_sync_header": false
-        },
-        {
-          "filename": "LUKHAS_BRANDING_CONSOLIDATED.md",
-          "type": "other",
-          "has_sync_header": false
-        },
-        {
-          "filename": "LUKHAS_TRINITY_FRAMEWORK.md",
-          "type": "other",
-          "has_sync_header": false
-        },
-        {
-          "filename": "KEATSIAN_INTEGRATION_COMPLETE.md",
-          "type": "other",
-          "has_sync_header": false
-        },
-        {
-          "filename": "vocabulary_preambles.md",
-          "type": "other",
-          "has_sync_header": false
-        },
-        {
-          "filename": "LUKHAS_BRANDING_GUIDE.md",
-          "type": "other",
-          "has_sync_header": false
-        },
-        {
-          "filename": "SYSTEM_CONSOLIDATION_REPORT.md",
-          "type": "other",
-          "has_sync_header": false
-        },
-        {
-          "filename": "README.md",
-          "type": "README.md",
-          "has_sync_header": false
-        },
-        {
-          "filename": "MATRIZ_BRAND_GUIDE.md",
-          "type": "other",
-          "has_sync_header": false
-        },
-        {
-          "filename": "CLEANUP_COMPLETE.md",
-          "type": "other",
-          "has_sync_header": false
-        },
-        {
-          "filename": "LUKHAS_BRAND_API_REFERENCE.md",
-          "type": "other",
-          "has_sync_header": false
-        },
-        {
-          "filename": "REBRAND_RUNBOOK.md",
-          "type": "other",
-          "has_sync_header": false
-        },
-        {
-          "filename": "LUKHAS_BRANDING_COMPLETE.md",
-          "type": "other",
-          "has_sync_header": false
-        },
-        {
-          "filename": "ELITE_CONTENT_TRANSFORMATION_COMPLETE.md",
-          "type": "other",
-          "has_sync_header": false
-        },
-        {
-          "filename": "NO_NAME_INSPIRATION_COMPLETE.md",
-          "type": "other",
-          "has_sync_header": false
-        },
-        {
-          "filename": "TRINITY_FRAMEWORK_DEPLOYMENT_REPORT.md",
-          "type": "other",
-          "has_sync_header": false
-        },
-        {
-          "filename": "LUKHAS_TONE_GUIDE.md",
-          "type": "other",
-          "has_sync_header": false
-        },
-        {
-          "filename": "public_safe_descriptions.md",
-          "type": "other",
-          "has_sync_header": false
-        },
-        {
-          "filename": "LUKHAS_LEXICON.md",
-          "type": "other",
-          "has_sync_header": false
-        },
-        {
-          "filename": "BRAND_POLICY.md",
-          "type": "other",
-          "has_sync_header": false
-        },
-        {
-          "filename": "ELITE_ORCHESTRATION_REPORT.md",
-          "type": "other",
-          "has_sync_header": false
-        },
-        {
-          "filename": "the_new_full_stroty.md",
-          "type": "other",
-          "has_sync_header": false
-        },
-        {
-          "filename": "LUKHAS_STRATEGIC_IMPROVEMENT_PLAN.md",
-          "type": "other",
-          "has_sync_header": false
-        },
-        {
-          "filename": "PRESS_KIT_README.md",
-          "type": "other",
-          "has_sync_header": false
-        },
-        {
-          "filename": "IDENTITY_SPEC.md",
-          "type": "other",
-          "has_sync_header": false
-        },
-        {
-          "filename": "BRANDING_STRUCTURE_REDESIGN_COMPLETE.md",
-          "type": "other",
-          "has_sync_header": false
-        },
-        {
-          "filename": "AUTHORATIVE_PROMOTION_PROCESS.md",
-          "type": "other",
-          "has_sync_header": false
-        },
-        {
-          "filename": "BRANDING_STRUCTURE_ANALYSIS.md",
-          "type": "other",
-          "has_sync_header": false
-        },
-        {
-          "filename": "SYSTEM_CONSOLIDATION_STRATEGY.md",
-          "type": "other",
-          "has_sync_header": false
-        },
-        {
-          "filename": "LUKHAS_LOCAL_LLM_SETUP.md",
-          "type": "other",
-          "has_sync_header": false
-        },
-        {
-          "filename": "KEATSIAN_CONSTELLATION_GUIDE.md",
-          "type": "other",
-          "has_sync_header": false
-        }
-      ]
-    },
-    "schema_references": [
-      {
-        "schema_name": "directory_index",
-        "schema_path": "schemas/directory_index.schema.json",
-        "validation_status": "valid"
-      }
-    ],
     "agent_guidance": {
-      "recommended_approach": "Begin with documentation files, then explore core components",
-      "key_files": [
-        "README.md"
-      ],
-      "common_tasks": [],
-      "prerequisites": [
-        "Understanding of LUKHAS lane system",
-        "Constellation Framework familiarity",
-        "MATRIZ pipeline architecture",
-        "T4/0.01% implementation standards"
-      ],
       "avoid_patterns": [
         "Modifying contracts without validation",
         "Breaking lane boundaries",
@@ -506,23 +87,468 @@
         "Breaking constructor-aware instantiation patterns",
         "Bypassing T4/0.01% validation standards",
         "Ignoring MATRIZ pipeline integration requirements"
+      ],
+      "common_tasks": [],
+      "key_files": [
+        "README.md"
+      ],
+      "prerequisites": [
+        "Understanding of LUKHAS lane system",
+        "Constellation Framework familiarity",
+        "MATRIZ pipeline architecture",
+        "T4/0.01% implementation standards"
+      ],
+      "recommended_approach": "Begin with documentation files, then explore core components"
+    },
+    "component_inventory": {
+      "documentation": [
+        {
+          "filename": "WALLET_QRG_DESIGN.md",
+          "has_sync_header": false,
+          "type": "other"
+        },
+        {
+          "filename": "VOICE_COHERENCE_UPGRADE_REPORT.md",
+          "has_sync_header": false,
+          "type": "other"
+        },
+        {
+          "filename": "LAMBDA_SYMBOL_GUIDELINES.md",
+          "has_sync_header": false,
+          "type": "other"
+        },
+        {
+          "filename": "SYSTEM_INTEGRATION_REPORT.md",
+          "has_sync_header": false,
+          "type": "other"
+        },
+        {
+          "filename": "CLEANUP_PLAN.md",
+          "has_sync_header": false,
+          "type": "other"
+        },
+        {
+          "filename": "POLICY_NO_NAME_INSPIRATION.md",
+          "has_sync_header": false,
+          "type": "other"
+        },
+        {
+          "filename": "COMPLETE_CONTENT_SYSTEMS_DISCOVERY.md",
+          "has_sync_header": false,
+          "type": "other"
+        },
+        {
+          "filename": "TONE_GUIDE.md",
+          "has_sync_header": false,
+          "type": "other"
+        },
+        {
+          "filename": "LUKHAS_BRANDING_CONSOLIDATED.md",
+          "has_sync_header": false,
+          "type": "other"
+        },
+        {
+          "filename": "LUKHAS_TRINITY_FRAMEWORK.md",
+          "has_sync_header": false,
+          "type": "other"
+        },
+        {
+          "filename": "KEATSIAN_INTEGRATION_COMPLETE.md",
+          "has_sync_header": false,
+          "type": "other"
+        },
+        {
+          "filename": "vocabulary_preambles.md",
+          "has_sync_header": false,
+          "type": "other"
+        },
+        {
+          "filename": "LUKHAS_BRANDING_GUIDE.md",
+          "has_sync_header": false,
+          "type": "other"
+        },
+        {
+          "filename": "SYSTEM_CONSOLIDATION_REPORT.md",
+          "has_sync_header": false,
+          "type": "other"
+        },
+        {
+          "filename": "README.md",
+          "has_sync_header": false,
+          "type": "README.md"
+        },
+        {
+          "filename": "MATRIZ_BRAND_GUIDE.md",
+          "has_sync_header": false,
+          "type": "other"
+        },
+        {
+          "filename": "CLEANUP_COMPLETE.md",
+          "has_sync_header": false,
+          "type": "other"
+        },
+        {
+          "filename": "LUKHAS_BRAND_API_REFERENCE.md",
+          "has_sync_header": false,
+          "type": "other"
+        },
+        {
+          "filename": "REBRAND_RUNBOOK.md",
+          "has_sync_header": false,
+          "type": "other"
+        },
+        {
+          "filename": "LUKHAS_BRANDING_COMPLETE.md",
+          "has_sync_header": false,
+          "type": "other"
+        },
+        {
+          "filename": "ELITE_CONTENT_TRANSFORMATION_COMPLETE.md",
+          "has_sync_header": false,
+          "type": "other"
+        },
+        {
+          "filename": "NO_NAME_INSPIRATION_COMPLETE.md",
+          "has_sync_header": false,
+          "type": "other"
+        },
+        {
+          "filename": "TRINITY_FRAMEWORK_DEPLOYMENT_REPORT.md",
+          "has_sync_header": false,
+          "type": "other"
+        },
+        {
+          "filename": "LUKHAS_TONE_GUIDE.md",
+          "has_sync_header": false,
+          "type": "other"
+        },
+        {
+          "filename": "public_safe_descriptions.md",
+          "has_sync_header": false,
+          "type": "other"
+        },
+        {
+          "filename": "LUKHAS_LEXICON.md",
+          "has_sync_header": false,
+          "type": "other"
+        },
+        {
+          "filename": "BRAND_POLICY.md",
+          "has_sync_header": false,
+          "type": "other"
+        },
+        {
+          "filename": "ELITE_ORCHESTRATION_REPORT.md",
+          "has_sync_header": false,
+          "type": "other"
+        },
+        {
+          "filename": "the_new_full_stroty.md",
+          "has_sync_header": false,
+          "type": "other"
+        },
+        {
+          "filename": "LUKHAS_STRATEGIC_IMPROVEMENT_PLAN.md",
+          "has_sync_header": false,
+          "type": "other"
+        },
+        {
+          "filename": "PRESS_KIT_README.md",
+          "has_sync_header": false,
+          "type": "other"
+        },
+        {
+          "filename": "IDENTITY_SPEC.md",
+          "has_sync_header": false,
+          "type": "other"
+        },
+        {
+          "filename": "BRANDING_STRUCTURE_REDESIGN_COMPLETE.md",
+          "has_sync_header": false,
+          "type": "other"
+        },
+        {
+          "filename": "AUTHORATIVE_PROMOTION_PROCESS.md",
+          "has_sync_header": false,
+          "type": "other"
+        },
+        {
+          "filename": "BRANDING_STRUCTURE_ANALYSIS.md",
+          "has_sync_header": false,
+          "type": "other"
+        },
+        {
+          "filename": "SYSTEM_CONSOLIDATION_STRATEGY.md",
+          "has_sync_header": false,
+          "type": "other"
+        },
+        {
+          "filename": "LUKHAS_LOCAL_LLM_SETUP.md",
+          "has_sync_header": false,
+          "type": "other"
+        },
+        {
+          "filename": "KEATSIAN_CONSTELLATION_GUIDE.md",
+          "has_sync_header": false,
+          "type": "other"
+        }
+      ],
+      "python_files": [],
+      "subdirectories": [
+        {
+          "component_count": 2,
+          "has_index": false,
+          "name": "tone",
+          "purpose": "Subdirectory with 2 Python files"
+        },
+        {
+          "component_count": 11,
+          "has_index": false,
+          "name": "vocabularies",
+          "purpose": "Subdirectory with 11 Python files"
+        },
+        {
+          "component_count": 1,
+          "has_index": false,
+          "name": "design",
+          "purpose": "Subdirectory with 1 Python files"
+        },
+        {
+          "component_count": 2,
+          "has_index": false,
+          "name": "tools",
+          "purpose": "Subdirectory with 2 Python files"
+        },
+        {
+          "component_count": 1,
+          "has_index": false,
+          "name": "apis",
+          "purpose": "Subdirectory with 1 Python files"
+        },
+        {
+          "component_count": 0,
+          "has_index": false,
+          "name": "products",
+          "purpose": "Subdirectory with 0 Python files"
+        },
+        {
+          "component_count": 1,
+          "has_index": false,
+          "name": "constellation",
+          "purpose": "Subdirectory with 1 Python files"
+        },
+        {
+          "component_count": 2,
+          "has_index": false,
+          "name": "analysis",
+          "purpose": "Subdirectory with 2 Python files"
+        },
+        {
+          "component_count": 0,
+          "has_index": false,
+          "name": "quotes",
+          "purpose": "Subdirectory with 0 Python files"
+        },
+        {
+          "component_count": 3,
+          "has_index": false,
+          "name": "intelligence",
+          "purpose": "Subdirectory with 3 Python files"
+        },
+        {
+          "component_count": 0,
+          "has_index": false,
+          "name": "config",
+          "purpose": "Subdirectory with 0 Python files"
+        },
+        {
+          "component_count": 0,
+          "has_index": false,
+          "name": "constellation",
+          "purpose": "Subdirectory with 0 Python files"
+        },
+        {
+          "component_count": 0,
+          "has_index": false,
+          "name": "integration",
+          "purpose": "Subdirectory with 0 Python files"
+        },
+        {
+          "component_count": 0,
+          "has_index": false,
+          "name": "social_media",
+          "purpose": "Subdirectory with 0 Python files"
+        },
+        {
+          "component_count": 1,
+          "has_index": false,
+          "name": "optimization",
+          "purpose": "Subdirectory with 1 Python files"
+        },
+        {
+          "component_count": 1,
+          "has_index": false,
+          "name": "content",
+          "purpose": "Subdirectory with 1 Python files"
+        },
+        {
+          "component_count": 0,
+          "has_index": false,
+          "name": "decisions",
+          "purpose": "Subdirectory with 0 Python files"
+        },
+        {
+          "component_count": 0,
+          "has_index": false,
+          "name": "schemas",
+          "purpose": "Subdirectory with 0 Python files"
+        },
+        {
+          "component_count": 2,
+          "has_index": false,
+          "name": "personal_brand",
+          "purpose": "Subdirectory with 2 Python files"
+        },
+        {
+          "component_count": 3,
+          "has_index": false,
+          "name": "integrations",
+          "purpose": "Subdirectory with 3 Python files"
+        },
+        {
+          "component_count": 5,
+          "has_index": false,
+          "name": "adapters",
+          "purpose": "Subdirectory with 5 Python files"
+        },
+        {
+          "component_count": 11,
+          "has_index": false,
+          "name": "poetry",
+          "purpose": "Subdirectory with 11 Python files"
+        },
+        {
+          "component_count": 0,
+          "has_index": false,
+          "name": "logs",
+          "purpose": "Subdirectory with 0 Python files"
+        },
+        {
+          "component_count": 0,
+          "has_index": false,
+          "name": "mobile",
+          "purpose": "Subdirectory with 0 Python files"
+        },
+        {
+          "component_count": 4,
+          "has_index": false,
+          "name": "engines",
+          "purpose": "Subdirectory with 4 Python files"
+        },
+        {
+          "component_count": 0,
+          "has_index": false,
+          "name": "philosophy",
+          "purpose": "Subdirectory with 0 Python files"
+        },
+        {
+          "component_count": 0,
+          "has_index": false,
+          "name": "visual",
+          "purpose": "Subdirectory with 0 Python files"
+        },
+        {
+          "component_count": 1,
+          "has_index": false,
+          "name": "storytelling",
+          "purpose": "Subdirectory with 1 Python files"
+        },
+        {
+          "component_count": 5,
+          "has_index": false,
+          "name": "orchestration",
+          "purpose": "Subdirectory with 5 Python files"
+        },
+        {
+          "component_count": 10,
+          "has_index": false,
+          "name": "automation",
+          "purpose": "Subdirectory with 10 Python files"
+        },
+        {
+          "component_count": 2,
+          "has_index": false,
+          "name": "enforcement",
+          "purpose": "Subdirectory with 2 Python files"
+        },
+        {
+          "component_count": 2,
+          "has_index": false,
+          "name": "profiles",
+          "purpose": "Subdirectory with 2 Python files"
+        },
+        {
+          "component_count": 2,
+          "has_index": false,
+          "name": "ai_agents",
+          "purpose": "Subdirectory with 2 Python files"
+        },
+        {
+          "component_count": 0,
+          "has_index": false,
+          "name": "reference",
+          "purpose": "Subdirectory with 0 Python files"
+        },
+        {
+          "component_count": 0,
+          "has_index": false,
+          "name": "websites",
+          "purpose": "Subdirectory with 0 Python files"
+        },
+        {
+          "component_count": 2,
+          "has_index": false,
+          "name": "policy",
+          "purpose": "Subdirectory with 2 Python files"
+        },
+        {
+          "component_count": 1,
+          "has_index": false,
+          "name": "communications",
+          "purpose": "Subdirectory with 1 Python files"
+        }
       ]
+    },
+    "directory_metadata": {
+      "constellation_framework_version": "2.0.0",
+      "lane": "development",
+      "last_updated": "2025-09-21",
+      "path": "branding",
+      "purpose": "Directory containing 0 Python files and 37 subdirectories",
+      "t4_compliance_level": "experimental"
     },
     "performance_metadata": {
       "component_count": 0,
-      "estimated_complexity": "low",
       "consciousness_integration": "none",
-      "test_coverage": 85.0,
-      "t4_compliance_score": 0.65,
+      "constructor_aware_instantiation": true,
+      "estimated_complexity": "low",
       "matriz_compatibility": "standard",
       "plugin_registry_compatible": true,
-      "constructor_aware_instantiation": true
+      "t4_compliance_score": 0.65,
+      "test_coverage": 85.0
     },
     "relationships": {
-      "parent_directory": null,
-      "related_directories": [],
       "constellation_cluster": "unknown",
-      "dependency_weight": "moderate"
-    }
+      "dependency_weight": "moderate",
+      "parent_directory": null,
+      "related_directories": []
+    },
+    "schema_references": [
+      {
+        "schema_name": "directory_index",
+        "schema_path": "schemas/directory_index.schema.json",
+        "validation_status": "valid"
+      }
+    ]
   }
 }

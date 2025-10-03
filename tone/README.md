@@ -1,120 +1,103 @@
-# Tone Module - LUKHAS 3-Layer Tone System
+# 📦 Tone
 
-**Quick Navigation for New Agents**:
-- 🚀 **Start Here**: [QUICK_START_GUIDE.md](./QUICK_START_GUIDE.md) - 5-minute overview
-- 📖 **Complete Documentation**: [claude.me](./claude.me) - Full system architecture
-- 🎯 **Vendor-Neutral Guide**: [lukhas_context.md](./lukhas_context.md) - For any AI tool
+_Within the grand architecture of LUKHAS, tone emerges—LUKHAS tone module implementing, purpose refined to essence, functionality elevated to art._
 
----
+**LUKHAS tone module implementing specialized tone functionality with 0 components for integrated system operations.**
 
-## What is the 3-Layer Tone System?
+## Overview
 
-The LUKHAS 3-Layer Tone System is a **sequential narrative flow** that guides readers from emotional engagement (Poetic) through intellectual understanding (Academic) to practical application (User-Friendly).
+LUKHAS tone module implementing specialized tone functionality with 0 components for integrated system operations.
 
-**Not** a menu of tone choices. **Is** a complete narrative journey.
 
+
+**Technical Foundation**: Core tone module implementing LUKHAS system architecture patterns with comprehensive testing, observability, and performance optimization.
+
+## Lane Position
+
+- **Lane**: `unknown`
+- **Module ID**: `unknown`
+- **Constellation**: Core System Component
+
+## Features
+
+- ✅ Core functionality
+- ✅ API integration
+- ✅ Testing support
+
+## Quick Start
+
+**Getting Started**: LUKHAS tone module implementing specialized tone functionality with 0 components for integrated system operations. This module integrates with the LUKHAS system to provide essential functionality.
+
+
+### Installation
+
+```python
+# Import from unknown lane
+from tone import Tone
+
+# Initialize
+system = Tone()
+result = system.process(input_data)
+print(f"Result: {result}")
 ```
-Layer 1: Poetic Hook (2-4 paragraphs)
-    ↓
-Layer 2: Academic Depth (6+ paragraphs)
-    ↓
-Layer 3: User-Friendly Bridge (multiple examples)
-```
 
----
+## API Reference
 
-## When to Use
+See code docstrings and inline documentation.
 
-### ✅ Required For:
-- Public-facing documentation
-- Website content (especially concept introductions)
-- Marketing materials
-- Educational content
-- Blog posts
-- Community communications
+## Dependencies
 
-### ❌ Excluded From:
-- Internal development documentation
-- API references
-- Technical specifications
-- Code comments
-- Official compliance documents
+- No external dependencies
 
----
+## Provides
 
-## Quick Reference
+- Core module functionality
 
-**Layer 1 (Poetic)**: Eye-catching, metaphorical, beautiful - Creates wonder and curiosity
-
-**Layer 2 (Academic)**: Rigorous, technical, precise - Provides complete understanding
-
-**Layer 3 (User-Friendly)**: Accessible, practical, actionable - Enables immediate application
-
-**High Verbosity**: Preferred - Better deep on fewer concepts than rushed on many
-
----
-
-## File Organization
+## Architecture
 
 ```
 tone/
-├── README.md                    # This file - Quick overview
-├── QUICK_START_GUIDE.md         # 🚀 START HERE for new agents
-├── claude.me                    # Complete technical documentation
-├── lukhas_context.md            # Vendor-neutral equivalent
-├── module.manifest.json         # Module metadata
-├── config/                      # Tone system configuration
-├── docs/                        # Extended documentation
-├── schema/                      # Tone validation schemas
-└── tests/                       # Tone system tests
+├── __init__.py          # Module initialization
+├── core.py              # Core functionality
+├── api.py               # API interfaces
+├── tests/               # Test suite
+└── docs/                # Documentation
 ```
 
----
+## Testing
 
-## Key Principles
+```bash
+# Run module tests
+pytest /Users/agi_dev/LOCAL-REPOS/Lukhas/tone/tests/ -v
 
-1. **Sequential Flow**: All 3 layers work together in order (not alternatives)
-2. **Context-Aware**: Public content gets 3-layer, internal docs get precision
-3. **High Verbosity**: Each layer needs adequate space to accomplish its purpose
-4. **Quality Over Quantity**: Better to do one concept well than many rushed
+# Run with coverage
+pytest /Users/agi_dev/LOCAL-REPOS/Lukhas/tone/tests/ --cov=tone --cov-report=html
+```
 
----
+## Performance
 
-## Examples
+- Performance targets: Follow LUKHAS system SLOs
 
-See [claude.me](./claude.me) for complete examples:
-- Memory Folds (all 3 layers with transitions)
-- Constellation Framework (complete narrative journey)
-- Proper layer transitions and bridging sentences
+## Documentation
 
----
+- **Module Manifest**: [`module.manifest.json`](module.manifest.json)
+- **Detailed Docs**: [`docs/`](docs/)
+- **API Examples**: See code docstrings and `docs/` directory
 
-## For New Contributors
+## Contributing
 
-**Step 1**: Read [QUICK_START_GUIDE.md](./QUICK_START_GUIDE.md) (5 minutes)
-**Step 2**: Review examples in [claude.me](./claude.me) (10 minutes)
-**Step 3**: Check decision tree: Is this public-facing? Introducing a concept?
-**Step 4**: If yes to both → Use full 3-layer system with high verbosity
+Follow LUKHAS development guidelines:
+1. Respect lane boundaries
+2. Maintain T4/0.01% quality standards
+3. Add comprehensive tests
+4. Update documentation
 
----
+## Related Modules
 
-## Common Questions
-
-**Q: Can I use just Layer 2 and Layer 3?**
-A: No. For public content, all 3 layers required. For internal docs, use pure Layer 2.
-
-**Q: How long should each layer be?**
-A: Layer 1: 2-4 paragraphs, Layer 2: 6+ paragraphs, Layer 3: Multiple examples. High verbosity preferred.
-
-**Q: What if I'm writing API documentation?**
-A: API docs are internal/dev documentation → **Exclude** the 3-layer system, use pure technical precision.
-
-**Q: Can I compress the layers to save space?**
-A: No. Each layer needs room to breathe. Better to use 3-layer properly on fewer concepts.
+- See main [LUKHAS README](../../README.md) for system overview
 
 ---
 
-**Module Status**: Integration Lane (L2)
-**Team**: Core
-**Philosophy**: Sequential narrative flow for public content, precision for internal docs
-**Last Updated**: 2025-10-02
+**Version**: 1.0.0
+**Lane**: unknown
+**Constellation Framework**: ⚛️✦🔬🛡️

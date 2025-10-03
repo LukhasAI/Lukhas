@@ -1,0 +1,2 @@
+{"module": "governance", "timestamp": "2025-10-03T01:02:42.316202+00:00", "sha": "63b446a5177902a0634b37070e7ddbb9d887de68", "diff_fields": ["_provenance", "apis", "features"]}
+{"module": "governance", "timestamp": "2025-10-03T01:02:53.735346+00:00", "sha": "463c99db1465e0637d2c07a3f4af3bce65016d6d", "diff_fields": ["_provenance"]}

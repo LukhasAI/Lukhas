@@ -13,7 +13,7 @@ function setCORSHeaders(res) {
 
 // Authentication check
 function isAuthenticated(req) {
-  if (!HTTP_TOKEN) return true; // Dev mode
+  if (!HTTP_TOKEN) return true; // No auth required if no token set
   
   const authHeader = req.headers.authorization;
   const bearerToken = authHeader?.replace('Bearer ', '');
@@ -63,6 +63,29 @@ const server = createServer(async (req, res) => {
   }
 
   try {
+    // Root endpoint - redirect to OpenAPI spec for ChatGPT discovery
+    if (path === '/' && method === 'GET') {
+      sendJSON(res, {
+        name: "LUKHAS DevTools MCP",
+        version: "0.2.0",
+        description: "LUKHAS development tools for ChatGPT integration",
+        mcp_endpoint: `http://localhost:${PORT}/mcp`,
+        openapi_spec: `http://localhost:${PORT}/openapi.json`,
+        endpoints: {
+          mcp: `http://localhost:${PORT}/mcp`,
+          health: `http://localhost:${PORT}/healthz`,
+          openapi: `http://localhost:${PORT}/openapi.json`
+        },
+        methods: [
+          "test_infrastructure_status",
+          "code_analysis_status", 
+          "development_utilities",
+          "module_structure"
+        ]
+      });
+      return;
+    }
+
     // Health check endpoint
     if (path === '/healthz' && method === 'GET') {
       sendJSON(res, {
@@ -94,61 +117,6 @@ const server = createServer(async (req, res) => {
       return;
     }
 
-    // OAuth configuration endpoint (for ChatGPT MCP integration)
-    if (path === '/.well-known/oauth-authorization-server' && method === 'GET') {
-      sendJSON(res, {
-        authorization_endpoint: `http://localhost:${PORT}/oauth/authorize`,
-        token_endpoint: `http://localhost:${PORT}/oauth/token`,
-        response_types_supported: ["code"],
-        grant_types_supported: ["authorization_code"],
-        code_challenge_methods_supported: ["S256"],
-        scopes_supported: ["mcp"]
-      });
-      return;
-    }
-
-    // OAuth authorize endpoint (simple flow)
-    if (path === '/oauth/authorize' && method === 'GET') {
-      const params = url.searchParams;
-      const clientId = params.get('client_id');
-      const redirectUri = params.get('redirect_uri');
-      const state = params.get('state');
-      const codeChallenge = params.get('code_challenge');
-      
-      // For simplicity, auto-approve and redirect back with code
-      const authCode = `lukhas_auth_${Date.now()}_${Math.random().toString(36).substring(7)}`;
-      const redirectUrl = new URL(redirectUri);
-      redirectUrl.searchParams.set('code', authCode);
-      redirectUrl.searchParams.set('state', state);
-      
-      setCORSHeaders(res);
-      res.writeHead(302, { 'Location': redirectUrl.toString() });
-      res.end();
-      return;
-    }
-
-    // OAuth token endpoint
-    if (path === '/oauth/token' && method === 'POST') {
-      const body = await parseBody(req);
-      const { grant_type, code, client_id, code_verifier } = body;
-      
-      if (grant_type === 'authorization_code' && code?.startsWith('lukhas_auth_')) {
-        sendJSON(res, {
-          access_token: HTTP_TOKEN || 'development_token',
-          token_type: 'Bearer',
-          expires_in: 3600,
-          scope: 'mcp'
-        });
-        return;
-      }
-      
-      sendJSON(res, {
-        error: 'invalid_grant',
-        error_description: 'Invalid authorization code'
-      }, 400);
-      return;
-    }
-
     // OpenAPI specification
     if (path === '/openapi.json' && method === 'GET') {
       sendJSON(res, {
@@ -156,14 +124,22 @@ const server = createServer(async (req, res) => {
         info: {
           title: "LUKHAS DevTools MCP",
           version: "0.2.0",
-          description: "LUKHAS development tools for ChatGPT integration with OAuth support"
+          description: "LUKHAS development tools for ChatGPT integration"
         },
         servers: [{ url: `http://localhost:${PORT}` }],
         paths: {
           "/mcp": {
+            get: {
+              summary: "MCP server info",
+              responses: {
+                "200": {
+                  description: "MCP server information"
+                }
+              }
+            },
             post: {
               summary: "Execute MCP methods",
-              security: [{ oauth2: ["mcp"] }],
+              security: HTTP_TOKEN ? [{ apiKeyAuth: [] }] : [],
               requestBody: {
                 required: true,
                 content: {
@@ -185,34 +161,18 @@ const server = createServer(async (req, res) => {
                 }
               }
             }
-          },
-          "/.well-known/oauth-authorization-server": {
-            get: {
-              summary: "OAuth server configuration",
-              responses: {
-                "200": {
-                  description: "OAuth configuration"
-                }
-              }
-            }
           }
         },
-        components: {
+        components: HTTP_TOKEN ? {
           securitySchemes: {
-            oauth2: {
-              type: "oauth2",
-              flows: {
-                authorizationCode: {
-                  authorizationUrl: `http://localhost:${PORT}/oauth/authorize`,
-                  tokenUrl: `http://localhost:${PORT}/oauth/token`,
-                  scopes: {
-                    mcp: "Access to MCP methods"
-                  }
-                }
-              }
+            apiKeyAuth: {
+              type: "apiKey",
+              in: "header",
+              name: "Authorization",
+              description: "Bearer token authentication"
             }
           }
-        }
+        } : {}
       });
       return;
     }
@@ -353,16 +313,15 @@ const server = createServer(async (req, res) => {
 
     // 404 for other paths
     sendJSON(res, {
-      jsonrpc: "2.0",
-      error: { 
-        code: -32700, 
-        message: "Endpoint not found",
-        data: { 
-          available_endpoints: ["/healthz", "/mcp", "/openapi.json"],
-          server: "lukhas-devtools-mcp-simple"
-        }
+      error: "Not Found",
+      message: "Endpoint not found",
+      available_endpoints: {
+        root: `http://localhost:${PORT}/`,
+        mcp: `http://localhost:${PORT}/mcp`,
+        health: `http://localhost:${PORT}/healthz`,
+        openapi: `http://localhost:${PORT}/openapi.json`
       },
-      id: null
+      server: "lukhas-devtools-mcp-simple"
     }, 404);
 
   } catch (error) {
@@ -382,27 +341,23 @@ const server = createServer(async (req, res) => {
 server.listen(PORT, () => {
   console.error(`🚀 LUKHAS DevTools MCP v0.2.0 running on port ${PORT}`);
   console.error(`📊 Environment: ${process.env.NODE_ENV || 'development'}`);
-  console.error(`🔐 Authentication: ${HTTP_TOKEN ? 'OAuth + Bearer Token' : 'OAuth Only (dev mode)'}`);
+  console.error(`🔐 Authentication: ${HTTP_TOKEN ? 'API Key' : 'None (open access)'}`);
   console.error(`🔗 Endpoints:`);
   console.error(`   - Health: http://localhost:${PORT}/healthz`);
   console.error(`   - MCP probe: http://localhost:${PORT}/mcp`);
   console.error(`   - JSON-RPC: POST http://localhost:${PORT}/mcp`);
   console.error(`   - OpenAPI: http://localhost:${PORT}/openapi.json`);
-  console.error(`   - OAuth Config: http://localhost:${PORT}/.well-known/oauth-authorization-server`);
-  console.error(`   - OAuth Authorize: http://localhost:${PORT}/oauth/authorize`);
-  console.error(`   - OAuth Token: http://localhost:${PORT}/oauth/token`);
   
   console.error(`🤖 ChatGPT Configuration:`);
   console.error(`   - MCP Server URL: http://localhost:${PORT}/mcp`);
-  console.error(`   - Authentication: OAuth 2.0`);
-  console.error(`   - Authorization URL: http://localhost:${PORT}/oauth/authorize`);
-  console.error(`   - Token URL: http://localhost:${PORT}/oauth/token`);
-  console.error(`   - Client ID: any (auto-approved for dev)`);
-  console.error(`   - Scope: mcp`);
+  console.error(`   - Authentication: ${HTTP_TOKEN ? 'API Key' : 'None'}`);
   
   if (HTTP_TOKEN) {
-    console.error(`🔑 Fallback Bearer Token: ${HTTP_TOKEN.slice(0, 8)}...`);
+    console.error(`   - Authorization Header: Bearer ${HTTP_TOKEN.slice(0, 8)}...`);
+    console.error(`   - Alternative: X-API-Key: ${HTTP_TOKEN.slice(0, 8)}...`);
+    console.error(`   - Query param: ?api_key=${HTTP_TOKEN.slice(0, 8)}...`);
   } else {
-    console.error(`⚠️  No MCP_HTTP_TOKEN set - OAuth only mode`);
+    console.error(`   - No authentication required`);
+    console.error(`   - Ready for direct ChatGPT integration`);
   }
 });

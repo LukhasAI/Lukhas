@@ -1,25 +1,76 @@
 {
-  "schema_version": "1.0.0",
-  "module": "benchmarks",
+  "_provenance": {
+    "apis": {
+      "confidence": "low",
+      "extracted_at": "2025-10-03T01:02:53.724480+00:00",
+      "reasons": [
+        "no_apis"
+      ],
+      "sources": [
+        "ast:__init__.py"
+      ]
+    },
+    "features": {
+      "confidence": "low",
+      "extracted_at": "2025-10-03T01:02:53.724081+00:00",
+      "reasons": [
+        "weak_evidence"
+      ],
+      "sha": "43e42cf54fa22bfcafd4e4311dc8bd282e5d25ca365d2d392aeda5857edc7a24",
+      "sources": [
+        "claude.me:bullets",
+        "claude.me:headers"
+      ]
+    }
+  },
+  "apis": {},
+  "contracts": [],
+  "dependencies": [
+    "memory"
+  ],
   "description": "LUKHAS benchmarks module implementing specialized benchmarks functionality with 19 components for integrated system operations.",
-  "ownership": {
-    "team": "Core",
-    "codeowners": [
-      "@lukhas-core"
-    ]
+  "features": [],
+  "identity": {
+    "requires_auth": false,
+    "scopes": [],
+    "tiers": []
   },
   "layout": {
     "code_layout": "package-root",
     "paths": {
+      "assets": "assets",
       "code": ".",
       "config": "config",
-      "tests": "tests",
       "docs": "docs",
-      "assets": "assets"
+      "tests": "tests"
     }
   },
+  "links": {
+    "docs": "./docs/README.md",
+    "issues": "https://github.com/LukhasAI/Lukhas/issues",
+    "repo": "https://github.com/LukhasAI/Lukhas"
+  },
+  "matrix": {
+    "contract": "",
+    "gates_profile": "standard",
+    "lane": "L2"
+  },
+  "module": "benchmarks",
+  "observability": {
+    "otel_semconv_version": "1.37.0",
+    "required_spans": [
+      "lukhas.benchmarks.fold",
+      "lukhas.benchmarks.operation",
+      "lukhas.benchmarks.retrieval"
+    ]
+  },
+  "ownership": {
+    "codeowners": [
+      "@lukhas-core"
+    ],
+    "team": "Core"
+  },
   "runtime": {
-    "language": "python",
     "entrypoints": [
       "benchmarks.matriz_pipeline.MATRIZBenchmarks",
       "benchmarks.memory_performance.MemoryBenchmarks",
@@ -29,40 +80,15 @@
       "benchmarks.memory_system_benchmarks.MemoryItem",
       "benchmarks.memory_system_benchmarks.MemorySystemBenchmarks",
       "benchmarks.memory_system_benchmarks.MockMemorySystem"
-    ]
+    ],
+    "language": "python"
   },
-  "matrix": {
-    "contract": "",
-    "lane": "L2",
-    "gates_profile": "standard"
-  },
-  "identity": {
-    "requires_auth": false,
-    "tiers": [],
-    "scopes": []
-  },
-  "links": {
-    "repo": "https://github.com/LukhasAI/Lukhas",
-    "docs": "./docs/README.md",
-    "issues": "https://github.com/LukhasAI/Lukhas/issues"
-  },
+  "schema_version": "1.0.0",
   "tags": [
     "benchmarks"
   ],
-  "observability": {
-    "required_spans": [
-      "lukhas.benchmarks.fold",
-      "lukhas.benchmarks.operation",
-      "lukhas.benchmarks.retrieval"
-    ],
-    "otel_semconv_version": "1.37.0"
-  },
   "tokenization": {
-    "enabled": false,
-    "chain": "none"
-  },
-  "dependencies": [
-    "memory"
-  ],
-  "contracts": []
+    "chain": "none",
+    "enabled": false
+  }
 }

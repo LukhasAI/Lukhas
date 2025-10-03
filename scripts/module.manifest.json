@@ -1,25 +1,82 @@
 {
-  "schema_version": "3.0.0",
-  "module": "scripts",
+  "_provenance": {
+    "apis": {
+      "confidence": "low",
+      "extracted_at": "2025-10-03T01:02:53.727222+00:00",
+      "reasons": [
+        "no_apis"
+      ],
+      "sources": [
+        "ast:__init__.py"
+      ]
+    },
+    "features": {
+      "confidence": "low",
+      "extracted_at": "2025-10-03T01:02:53.726885+00:00",
+      "reasons": [
+        "weak_evidence"
+      ],
+      "sha": "921b662e17fcc78b179a3253886cf39332fc9aed61e2ff0f8e6abe68df6aebf3",
+      "sources": [
+        "claude.me:bullets",
+        "claude.me:headers"
+      ]
+    }
+  },
+  "apis": {},
+  "contracts": [],
+  "dependencies": [
+    "core",
+    "identity",
+    "memory"
+  ],
   "description": "LUKHAS scripts module implementing specialized scripts functionality with 831 components for integrated system operations.",
-  "ownership": {
-    "team": "Core",
-    "codeowners": [
-      "@lukhas-core"
-    ]
+  "features": [],
+  "identity": {
+    "requires_auth": false,
+    "scopes": [],
+    "tiers": []
   },
   "layout": {
     "code_layout": "package-root",
     "paths": {
+      "assets": "assets",
       "code": ".",
       "config": "config",
-      "tests": "tests",
       "docs": "docs",
-      "assets": "assets"
+      "tests": "tests"
     }
   },
+  "links": {
+    "docs": "./docs/README.md",
+    "issues": "https://github.com/LukhasAI/Lukhas/issues",
+    "repo": "https://github.com/LukhasAI/Lukhas"
+  },
+  "matrix": {
+    "contract": "",
+    "gates_profile": "standard",
+    "lane": "L2"
+  },
+  "module": "scripts",
+  "observability": {
+    "otel_semconv_version": "1.37.0",
+    "required_spans": [
+      "lukhas.scripts.auth",
+      "lukhas.scripts.consciousness",
+      "lukhas.scripts.fold",
+      "lukhas.scripts.monitoring",
+      "lukhas.scripts.operation",
+      "lukhas.scripts.processing",
+      "lukhas.scripts.retrieval"
+    ]
+  },
+  "ownership": {
+    "codeowners": [
+      "@lukhas-core"
+    ],
+    "team": "Core"
+  },
   "runtime": {
-    "language": "python",
     "entrypoints": [
       "scripts.abuse_tester.AttackResult",
       "scripts.abuse_tester.LUKHASAbuseTestFramework",
@@ -39,66 +96,59 @@
       "scripts.aioredis.MockRedis",
       "scripts.aioredis.from_url",
       "scripts.audit_baseline.AuditEnvironment"
-    ]
+    ],
+    "language": "python"
   },
-  "matrix": {
-    "contract": "",
-    "lane": "L2",
-    "gates_profile": "standard"
-  },
-  "identity": {
-    "requires_auth": false,
-    "tiers": [],
-    "scopes": []
-  },
-  "links": {
-    "repo": "https://github.com/LukhasAI/Lukhas",
-    "docs": "./docs/README.md",
-    "issues": "https://github.com/LukhasAI/Lukhas/issues"
-  },
+  "schema_version": "3.0.0",
   "tags": [
     "authentication",
     "monitoring",
     "orchestration",
     "scripts"
   ],
-  "observability": {
-    "required_spans": [
-      "lukhas.scripts.auth",
-      "lukhas.scripts.consciousness",
-      "lukhas.scripts.fold",
-      "lukhas.scripts.monitoring",
-      "lukhas.scripts.operation",
-      "lukhas.scripts.processing",
-      "lukhas.scripts.retrieval"
-    ],
-    "otel_semconv_version": "1.37.0"
-  },
   "tokenization": {
-    "enabled": false,
-    "chain": "none"
+    "chain": "none",
+    "enabled": false
   },
-  "dependencies": [
-    "core",
-    "identity",
-    "memory"
-  ],
-  "contracts": [],
   "x_legacy": {
-    "directory_metadata": {
-      "path": "scripts",
-      "lane": "development",
-      "purpose": "Directory containing 66 Python files and 14 subdirectories",
-      "last_updated": "2025-09-21",
-      "constellation_framework_version": "2.0.0",
-      "t4_compliance_level": "experimental"
+    "agent_guidance": {
+      "avoid_patterns": [
+        "Modifying contracts without validation",
+        "Breaking lane boundaries",
+        "Ignoring Constellation Framework integration",
+        "Breaking constructor-aware instantiation patterns",
+        "Bypassing T4/0.01% validation standards",
+        "Ignoring MATRIZ pipeline integration requirements"
+      ],
+      "common_tasks": [
+        {
+          "complexity": "medium",
+          "files_involved": [
+            "public_api.py"
+          ],
+          "task": "API integration"
+        }
+      ],
+      "key_files": [],
+      "prerequisites": [
+        "Understanding of LUKHAS lane system",
+        "Constellation Framework familiarity",
+        "MATRIZ pipeline architecture",
+        "T4/0.01% implementation standards"
+      ],
+      "recommended_approach": "Begin with documentation files, then explore core components"
     },
     "component_inventory": {
+      "documentation": [
+        {
+          "filename": "quota_request.md",
+          "has_sync_header": false,
+          "type": "other"
+        }
+      ],
       "python_files": [
         {
-          "filename": "check_perf_budgets.py",
           "component_type": "UTILITY",
-          "has_contract": false,
           "contract_path": null,
           "dependencies": [],
           "exports": [
@@ -107,12 +157,12 @@
             "check_individual_test_budget",
             "extract_durations_from_json",
             "main"
-          ]
+          ],
+          "filename": "check_perf_budgets.py",
+          "has_contract": false
         },
         {
-          "filename": "security-autopilot.py",
           "component_type": "UTILITY",
-          "has_contract": false,
           "contract_path": null,
           "dependencies": [],
           "exports": [
@@ -129,20 +179,20 @@
             "create_commit",
             "send_notification",
             "status"
-          ]
+          ],
+          "filename": "security-autopilot.py",
+          "has_contract": false
         },
         {
-          "filename": "cleanup_security_backups.py",
           "component_type": "UTILITY",
-          "has_contract": false,
           "contract_path": null,
           "dependencies": [],
-          "exports": []
+          "exports": [],
+          "filename": "cleanup_security_backups.py",
+          "has_contract": false
         },
         {
-          "filename": "lukhas_mcp_server.py",
           "component_type": "UTILITY",
-          "has_contract": false,
           "contract_path": null,
           "dependencies": [
             "lukhas.consciousness.awareness_engine",
@@ -151,20 +201,20 @@
           ],
           "exports": [
             "LUKHASConsciousnessMCP"
-          ]
+          ],
+          "filename": "lukhas_mcp_server.py",
+          "has_contract": false
         },
         {
-          "filename": "public_api.py",
           "component_type": "API_INTERFACE",
-          "has_contract": false,
           "contract_path": null,
           "dependencies": [],
-          "exports": []
+          "exports": [],
+          "filename": "public_api.py",
+          "has_contract": false
         },
         {
-          "filename": "fix_security_vulnerabilities.py",
           "component_type": "UTILITY",
-          "has_contract": false,
           "contract_path": null,
           "dependencies": [],
           "exports": [
@@ -174,22 +224,22 @@
             "backup_requirements_files",
             "update_requirements_file",
             "test_imports"
-          ]
+          ],
+          "filename": "fix_security_vulnerabilities.py",
+          "has_contract": false
         },
         {
-          "filename": "final_syntax_verification.py",
           "component_type": "UTILITY",
-          "has_contract": false,
           "contract_path": null,
           "dependencies": [],
           "exports": [
             "scan_syntax_errors"
-          ]
+          ],
+          "filename": "final_syntax_verification.py",
+          "has_contract": false
         },
         {
-          "filename": "directory_index_generator.py",
           "component_type": "UTILITY",
-          "has_contract": false,
           "contract_path": null,
           "dependencies": [],
           "exports": [
@@ -205,33 +255,33 @@
             "generate_directory_index",
             "generate_indexes_recursively",
             "process_directory"
-          ]
+          ],
+          "filename": "directory_index_generator.py",
+          "has_contract": false
         },
         {
-          "filename": "verify_constellation_alias.py",
           "component_type": "UTILITY",
-          "has_contract": false,
           "contract_path": null,
           "dependencies": [
             "lukhas"
           ],
-          "exports": []
+          "exports": [],
+          "filename": "verify_constellation_alias.py",
+          "has_contract": false
         },
         {
-          "filename": "aioredis.py",
           "component_type": "UTILITY",
-          "has_contract": false,
           "contract_path": null,
           "dependencies": [],
           "exports": [
             "MockRedis",
             "from_url"
-          ]
+          ],
+          "filename": "aioredis.py",
+          "has_contract": false
         },
         {
-          "filename": "deep_architecture_analyzer.py",
           "component_type": "UTILITY",
-          "has_contract": false,
           "contract_path": null,
           "dependencies": [],
           "exports": [
@@ -244,12 +294,12 @@
             "calculate_debt_score",
             "generate_refactoring_recommendations",
             "analyze_recursively"
-          ]
+          ],
+          "filename": "deep_architecture_analyzer.py",
+          "has_contract": false
         },
         {
-          "filename": "schema_validator.py",
           "component_type": "GUARDIAN_VALIDATOR",
-          "has_contract": false,
           "contract_path": null,
           "dependencies": [],
           "exports": [
@@ -261,12 +311,12 @@
             "validate_all_schemas",
             "generate_recommendations",
             "generate_report"
-          ]
+          ],
+          "filename": "schema_validator.py",
+          "has_contract": false
         },
         {
-          "filename": "file-organizer.py",
           "component_type": "UTILITY",
-          "has_contract": false,
           "contract_path": null,
           "dependencies": [],
           "exports": [
@@ -284,40 +334,40 @@
             "suggest_new_rules",
             "watch_mode",
             "restore_file"
-          ]
+          ],
+          "filename": "file-organizer.py",
+          "has_contract": false
         },
         {
-          "filename": "check_budget.py",
           "component_type": "UTILITY",
-          "has_contract": false,
           "contract_path": null,
           "dependencies": [],
-          "exports": []
+          "exports": [],
+          "filename": "check_budget.py",
+          "has_contract": false
         },
         {
-          "filename": "audit_tests.py",
           "component_type": "TEST",
-          "has_contract": false,
           "contract_path": null,
           "dependencies": [],
           "exports": [
             "main"
-          ]
+          ],
+          "filename": "audit_tests.py",
+          "has_contract": false
         },
         {
-          "filename": "debug_compliance_reporting.py",
           "component_type": "UTILITY",
-          "has_contract": false,
           "contract_path": null,
           "dependencies": [
             "candidate.governance.security.audit_system"
           ],
-          "exports": []
+          "exports": [],
+          "filename": "debug_compliance_reporting.py",
+          "has_contract": false
         },
         {
-          "filename": "fix_syntax_errors.py",
           "component_type": "UTILITY",
-          "has_contract": false,
           "contract_path": null,
           "dependencies": [],
           "exports": [
@@ -325,22 +375,22 @@
             "fix_common_syntax_patterns",
             "process_file",
             "main"
-          ]
+          ],
+          "filename": "fix_syntax_errors.py",
+          "has_contract": false
         },
         {
-          "filename": "debug_audit_system.py",
           "component_type": "UTILITY",
-          "has_contract": false,
           "contract_path": null,
           "dependencies": [
             "candidate.governance.security.audit_system"
           ],
-          "exports": []
+          "exports": [],
+          "filename": "debug_audit_system.py",
+          "has_contract": false
         },
         {
-          "filename": "activate_consciousness.py",
           "component_type": "CONSCIOUSNESS_ENGINE",
-          "has_contract": false,
           "contract_path": null,
           "dependencies": [
             "lukhas.consciousness.activation_orchestrator",
@@ -355,43 +405,43 @@
             "print_success_message",
             "print_warning_message",
             "print_error_message"
-          ]
+          ],
+          "filename": "activate_consciousness.py",
+          "has_contract": false
         },
         {
-          "filename": "cognitive_core_demo.py",
           "component_type": "UTILITY",
-          "has_contract": false,
           "contract_path": null,
           "dependencies": [],
           "exports": [
             "demonstrate_architecture",
             "show_integration_with_lukhas",
             "show_development_timeline"
-          ]
+          ],
+          "filename": "cognitive_core_demo.py",
+          "has_contract": false
         },
         {
-          "filename": "consolidate_vocabularies_safely.py",
           "component_type": "UTILITY",
-          "has_contract": false,
           "contract_path": null,
           "dependencies": [],
           "exports": [
             "get_file_hash",
             "analyze_vocabularies"
-          ]
+          ],
+          "filename": "consolidate_vocabularies_safely.py",
+          "has_contract": false
         },
         {
-          "filename": "validate_context_sync.py",
           "component_type": "UTILITY",
-          "has_contract": false,
           "contract_path": null,
           "dependencies": [],
-          "exports": []
+          "exports": [],
+          "filename": "validate_context_sync.py",
+          "has_contract": false
         },
         {
-          "filename": "codemod_legacy_core.py",
           "component_type": "UTILITY",
-          "has_contract": false,
           "contract_path": null,
           "dependencies": [],
           "exports": [
@@ -400,12 +450,12 @@
             "main",
             "visit_Import",
             "visit_ImportFrom"
-          ]
+          ],
+          "filename": "codemod_legacy_core.py",
+          "has_contract": false
         },
         {
-          "filename": "transfer_candidate_scanner.py",
           "component_type": "UTILITY",
-          "has_contract": false,
           "contract_path": null,
           "dependencies": [],
           "exports": [
@@ -416,22 +466,22 @@
             "build_current_index",
             "scan_repo",
             "main"
-          ]
+          ],
+          "filename": "transfer_candidate_scanner.py",
+          "has_contract": false
         },
         {
-          "filename": "debug_kwargs.py",
           "component_type": "UTILITY",
-          "has_contract": false,
           "contract_path": null,
           "dependencies": [
             "candidate.governance.security.audit_system"
           ],
-          "exports": []
+          "exports": [],
+          "filename": "debug_kwargs.py",
+          "has_contract": false
         },
         {
-          "filename": "test_mcp_integration.py",
           "component_type": "TEST",
-          "has_contract": false,
           "contract_path": null,
           "dependencies": [],
           "exports": [
@@ -440,12 +490,12 @@
             "test_identity_server",
             "test_mcp_imports",
             "main"
-          ]
+          ],
+          "filename": "test_mcp_integration.py",
+          "has_contract": false
         },
         {
-          "filename": "generate_navigation.py",
           "component_type": "UTILITY",
-          "has_contract": false,
           "contract_path": null,
           "dependencies": [],
           "exports": [
@@ -453,40 +503,40 @@
             "generate_navigation",
             "update_mkdocs_config",
             "unknown_constructor"
-          ]
+          ],
+          "filename": "generate_navigation.py",
+          "has_contract": false
         },
         {
-          "filename": "check_reruns.py",
           "component_type": "UTILITY",
-          "has_contract": false,
           "contract_path": null,
           "dependencies": [],
-          "exports": []
+          "exports": [],
+          "filename": "check_reruns.py",
+          "has_contract": false
         },
         {
-          "filename": "lukhas.py",
           "component_type": "UTILITY",
-          "has_contract": false,
           "contract_path": null,
           "dependencies": [
             "lukhas"
           ],
-          "exports": []
+          "exports": [],
+          "filename": "lukhas.py",
+          "has_contract": false
         },
         {
-          "filename": "lukhas_mcp_server_simple.py",
           "component_type": "UTILITY",
-          "has_contract": false,
           "contract_path": null,
           "dependencies": [],
           "exports": [
             "LUKHASMCPServer"
-          ]
+          ],
+          "filename": "lukhas_mcp_server_simple.py",
+          "has_contract": false
         },
         {
-          "filename": "kpi_badge.py",
           "component_type": "UTILITY",
-          "has_contract": false,
           "contract_path": null,
           "dependencies": [],
           "exports": [
@@ -495,34 +545,34 @@
             "color_for",
             "render_svg",
             "main"
-          ]
+          ],
+          "filename": "kpi_badge.py",
+          "has_contract": false
         },
         {
-          "filename": "fix_imports.py",
           "component_type": "UTILITY",
-          "has_contract": false,
           "contract_path": null,
           "dependencies": [],
           "exports": [
             "fix_import_namespaces",
             "create_missing_bridge_files",
             "validate_imports"
-          ]
+          ],
+          "filename": "fix_imports.py",
+          "has_contract": false
         },
         {
-          "filename": "update_nav_simple.py",
           "component_type": "UTILITY",
-          "has_contract": false,
           "contract_path": null,
           "dependencies": [],
           "exports": [
             "update_mkdocs_navigation"
-          ]
+          ],
+          "filename": "update_nav_simple.py",
+          "has_contract": false
         },
         {
-          "filename": "validate_consciousness_contracts.py",
           "component_type": "CONSCIOUSNESS_ENGINE",
-          "has_contract": false,
           "contract_path": null,
           "dependencies": [],
           "exports": [
@@ -531,12 +581,12 @@
             "load_schema",
             "validate_contract",
             "validate_all_contracts"
-          ]
+          ],
+          "filename": "validate_consciousness_contracts.py",
+          "has_contract": false
         },
         {
-          "filename": "constellation_mapper.py",
           "component_type": "UTILITY",
-          "has_contract": false,
           "contract_path": null,
           "dependencies": [],
           "exports": [
@@ -549,38 +599,38 @@
             "identify_architectural_patterns",
             "generate_constellation_map",
             "export_graph_data"
-          ]
+          ],
+          "filename": "constellation_mapper.py",
+          "has_contract": false
         },
         {
+          "component_type": "UTILITY",
+          "contract_path": null,
+          "dependencies": [],
+          "exports": [],
           "filename": "consolidate_branding.py",
-          "component_type": "UTILITY",
-          "has_contract": false,
-          "contract_path": null,
-          "dependencies": [],
-          "exports": []
+          "has_contract": false
         },
         {
+          "component_type": "UTILITY",
+          "contract_path": null,
+          "dependencies": [],
+          "exports": [],
           "filename": "lukhas_pb2.py",
-          "component_type": "UTILITY",
-          "has_contract": false,
-          "contract_path": null,
-          "dependencies": [],
-          "exports": []
+          "has_contract": false
         },
         {
-          "filename": "consciousness_liberation_scanner.py",
           "component_type": "CONSCIOUSNESS_ENGINE",
-          "has_contract": false,
           "contract_path": null,
           "dependencies": [],
           "exports": [
             "scan_for_syntax_prisoners"
-          ]
+          ],
+          "filename": "consciousness_liberation_scanner.py",
+          "has_contract": false
         },
         {
-          "filename": "launch_llm_code_fixer.py",
           "component_type": "UTILITY",
-          "has_contract": false,
           "contract_path": null,
           "dependencies": [],
           "exports": [
@@ -589,12 +639,12 @@
             "check_prerequisites",
             "run_quick_analysis",
             "main"
-          ]
+          ],
+          "filename": "launch_llm_code_fixer.py",
+          "has_contract": false
         },
         {
-          "filename": "migrate_top3_to_production.py",
           "component_type": "UTILITY",
-          "has_contract": false,
           "contract_path": null,
           "dependencies": [],
           "exports": [
@@ -603,12 +653,12 @@
             "migrate_module",
             "create_migration_log",
             "main"
-          ]
+          ],
+          "filename": "migrate_top3_to_production.py",
+          "has_contract": false
         },
         {
-          "filename": "consciousness_wordsmith_fixed.py",
           "component_type": "CONSCIOUSNESS_ENGINE",
-          "has_contract": false,
           "contract_path": null,
           "dependencies": [],
           "exports": [
@@ -624,23 +674,23 @@
             "weave_triad_consciousness",
             "transmute_documentation_consciousness",
             "elevate_header"
-          ]
+          ],
+          "filename": "consciousness_wordsmith_fixed.py",
+          "has_contract": false
         },
         {
-          "filename": "orchestration.py",
           "component_type": "ORCHESTRATION_NODE",
-          "has_contract": false,
           "contract_path": null,
           "dependencies": [
             "lukhas.orchestration",
             "lukhas.orchestration.context_bus"
           ],
-          "exports": []
+          "exports": [],
+          "filename": "orchestration.py",
+          "has_contract": false
         },
         {
-          "filename": "migrate_memory_to_dna.py",
           "component_type": "MEMORY_INTERFACE",
-          "has_contract": false,
           "contract_path": null,
           "dependencies": [
             "lukhas.dna.memory_inmem",
@@ -650,12 +700,12 @@
             "load_ckpt",
             "save_ckpt",
             "main"
-          ]
+          ],
+          "filename": "migrate_memory_to_dna.py",
+          "has_contract": false
         },
         {
-          "filename": "rename_lambda_to_L.py",
           "component_type": "UTILITY",
-          "has_contract": false,
           "contract_path": null,
           "dependencies": [],
           "exports": [
@@ -666,12 +716,12 @@
             "apply_changes",
             "print_summary",
             "main"
-          ]
+          ],
+          "filename": "rename_lambda_to_L.py",
+          "has_contract": false
         },
         {
-          "filename": "context_priority_analyzer.py",
           "component_type": "UTILITY",
-          "has_contract": false,
           "contract_path": null,
           "dependencies": [],
           "exports": [
@@ -681,12 +731,12 @@
             "create_update_plan",
             "calculate_urgency",
             "create_update_sequence"
-          ]
+          ],
+          "filename": "context_priority_analyzer.py",
+          "has_contract": false
         },
         {
-          "filename": "run_phase2_validation.py",
           "component_type": "UTILITY",
-          "has_contract": false,
           "contract_path": null,
           "dependencies": [],
           "exports": [
@@ -694,12 +744,12 @@
             "setup_environment",
             "evaluate_quality_gates",
             "generate_summary_report"
-          ]
+          ],
+          "filename": "run_phase2_validation.py",
+          "has_contract": false
         },
         {
-          "filename": "consciousness_contract_generator.py",
           "component_type": "CONSCIOUSNESS_ENGINE",
-          "has_contract": false,
           "contract_path": null,
           "dependencies": [],
           "exports": [
@@ -710,12 +760,12 @@
             "determine_lane",
             "generate_component_contract",
             "scan_consciousness_components"
-          ]
+          ],
+          "filename": "consciousness_contract_generator.py",
+          "has_contract": false
         },
         {
-          "filename": "colony_dna_smoke.py",
           "component_type": "UTILITY",
-          "has_contract": false,
           "contract_path": null,
           "dependencies": [
             "lukhas.colony.adapters.consensus_to_dna",
@@ -724,12 +774,12 @@
           ],
           "exports": [
             "main"
-          ]
+          ],
+          "filename": "colony_dna_smoke.py",
+          "has_contract": false
         },
         {
-          "filename": "hybrid_memory_fold.py",
           "component_type": "MEMORY_INTERFACE",
-          "has_contract": false,
           "contract_path": null,
           "dependencies": [
             "candidate.memory.fold_system.hybrid_memory_fold"
@@ -741,24 +791,24 @@
             "store_memory",
             "retrieve_memory",
             "fold_memories"
-          ]
+          ],
+          "filename": "hybrid_memory_fold.py",
+          "has_contract": false
         },
         {
-          "filename": "consciousness_validation.py",
           "component_type": "CONSCIOUSNESS_ENGINE",
-          "has_contract": false,
           "contract_path": null,
           "dependencies": [
             "candidate.core.symbolic.context"
           ],
           "exports": [
             "validate_consciousness_system"
-          ]
+          ],
+          "filename": "consciousness_validation.py",
+          "has_contract": false
         },
         {
-          "filename": "context_updater.py",
           "component_type": "UTILITY",
-          "has_contract": false,
           "contract_path": null,
           "dependencies": [],
           "exports": [
@@ -768,23 +818,23 @@
             "generate_architecture_summary",
             "scan_all_files",
             "generate_update_report"
-          ]
+          ],
+          "filename": "context_updater.py",
+          "has_contract": false
         },
         {
-          "filename": "validate_t4_metrics.py",
           "component_type": "UTILITY",
-          "has_contract": false,
           "contract_path": null,
           "dependencies": [],
           "exports": [
             "extract_metric_from_logs",
             "validate_t4_metrics"
-          ]
+          ],
+          "filename": "validate_t4_metrics.py",
+          "has_contract": false
         },
         {
-          "filename": "fix_specific_syntax_errors.py",
           "component_type": "UTILITY",
-          "has_contract": false,
           "contract_path": null,
           "dependencies": [],
           "exports": [
@@ -794,12 +844,12 @@
             "fix_multiline_conditionals",
             "process_file",
             "main"
-          ]
+          ],
+          "filename": "fix_specific_syntax_errors.py",
+          "has_contract": false
         },
         {
-          "filename": "dependency_scanner.py",
           "component_type": "UTILITY",
-          "has_contract": false,
           "contract_path": null,
           "dependencies": [],
           "exports": [
@@ -808,12 +858,12 @@
             "scan_module",
             "scan_all_modules",
             "generate_matrix"
-          ]
+          ],
+          "filename": "dependency_scanner.py",
+          "has_contract": false
         },
         {
-          "filename": "automated_maintenance_pipeline.py",
           "component_type": "UTILITY",
-          "has_contract": false,
           "contract_path": null,
           "dependencies": [],
           "exports": [
@@ -828,12 +878,12 @@
             "check_file_integrity",
             "generate_maintenance_report",
             "run_full_maintenance"
-          ]
+          ],
+          "filename": "automated_maintenance_pipeline.py",
+          "has_contract": false
         },
         {
-          "filename": "security-update.py",
           "component_type": "UTILITY",
-          "has_contract": false,
           "contract_path": null,
           "dependencies": [],
           "exports": [
@@ -848,32 +898,32 @@
             "create_branch_and_commit",
             "generate_report",
             "run"
-          ]
+          ],
+          "filename": "security-update.py",
+          "has_contract": false
         },
         {
-          "filename": "debug_harmful_content.py",
           "component_type": "UTILITY",
-          "has_contract": false,
           "contract_path": null,
           "dependencies": [
             "candidate.governance.identity.core.sent.policy_engine"
           ],
-          "exports": []
+          "exports": [],
+          "filename": "debug_harmful_content.py",
+          "has_contract": false
         },
         {
-          "filename": "debug_hasattr.py",
           "component_type": "UTILITY",
-          "has_contract": false,
           "contract_path": null,
           "dependencies": [
             "candidate.governance.security.audit_system"
           ],
-          "exports": []
+          "exports": [],
+          "filename": "debug_hasattr.py",
+          "has_contract": false
         },
         {
-          "filename": "auto_improve.py",
           "component_type": "UTILITY",
-          "has_contract": false,
           "contract_path": null,
           "dependencies": [
             "lukhas.bridge.local_llm_fixer",
@@ -882,12 +932,12 @@
           ],
           "exports": [
             "AutoImprover"
-          ]
+          ],
+          "filename": "auto_improve.py",
+          "has_contract": false
         },
         {
-          "filename": "restore.py",
           "component_type": "UTILITY",
-          "has_contract": false,
           "contract_path": null,
           "dependencies": [],
           "exports": [
@@ -895,33 +945,33 @@
             "sha256_file",
             "main",
             "is_within"
-          ]
+          ],
+          "filename": "restore.py",
+          "has_contract": false
         },
         {
-          "filename": "validate_alerts.py",
           "component_type": "UTILITY",
-          "has_contract": false,
           "contract_path": null,
           "dependencies": [],
           "exports": [
             "validate_alert_json",
             "main"
-          ]
+          ],
+          "filename": "validate_alerts.py",
+          "has_contract": false
         },
         {
-          "filename": "qi_migration_report.py",
           "component_type": "UTILITY",
-          "has_contract": false,
           "contract_path": null,
           "dependencies": [],
           "exports": [
             "generate_qi_migration_report"
-          ]
+          ],
+          "filename": "qi_migration_report.py",
+          "has_contract": false
         },
         {
-          "filename": "backup_create.py",
           "component_type": "UTILITY",
-          "has_contract": false,
           "contract_path": null,
           "dependencies": [],
           "exports": [
@@ -929,12 +979,12 @@
             "match_any",
             "gather_files",
             "main"
-          ]
+          ],
+          "filename": "backup_create.py",
+          "has_contract": false
         },
         {
-          "filename": "brand_validator.py",
           "component_type": "GUARDIAN_VALIDATOR",
-          "has_contract": false,
           "contract_path": null,
           "dependencies": [],
           "exports": [
@@ -943,12 +993,12 @@
             "validate_file",
             "validate_directory",
             "print_report"
-          ]
+          ],
+          "filename": "brand_validator.py",
+          "has_contract": false
         },
         {
-          "filename": "production_main.py",
           "component_type": "UTILITY",
-          "has_contract": false,
           "contract_path": null,
           "dependencies": [
             "lukhas.branding_bridge"
@@ -957,114 +1007,133 @@
             "LUKHASProduction",
             "signal_handler",
             "get_system_status"
-          ]
+          ],
+          "filename": "production_main.py",
+          "has_contract": false
         },
         {
-          "filename": "activate_core_systems.py",
           "component_type": "UTILITY",
-          "has_contract": false,
           "contract_path": null,
           "dependencies": [
             "lukhas.core.endocrine.hormone_system",
             "lukhas.orchestration.signals.signal_bus",
             "lukhas.core.endocrine.hormone_system"
           ],
-          "exports": []
+          "exports": [],
+          "filename": "activate_core_systems.py",
+          "has_contract": false
         }
       ],
       "subdirectories": [
         {
+          "component_count": 36,
+          "has_index": false,
           "name": "fixes",
-          "has_index": false,
-          "purpose": "Subdirectory with 36 Python files",
-          "component_count": 36
+          "purpose": "Subdirectory with 36 Python files"
         },
         {
+          "component_count": 1,
+          "has_index": false,
           "name": "tools",
-          "has_index": false,
-          "purpose": "Subdirectory with 1 Python files",
-          "component_count": 1
+          "purpose": "Subdirectory with 1 Python files"
         },
         {
+          "component_count": 0,
+          "has_index": false,
           "name": "trinity",
-          "has_index": false,
-          "purpose": "Subdirectory with 0 Python files",
-          "component_count": 0
+          "purpose": "Subdirectory with 0 Python files"
         },
         {
+          "component_count": 14,
+          "has_index": false,
           "name": "analysis",
-          "has_index": false,
-          "purpose": "Subdirectory with 14 Python files",
-          "component_count": 14
+          "purpose": "Subdirectory with 14 Python files"
         },
         {
+          "component_count": 0,
+          "has_index": false,
           "name": "security",
-          "has_index": false,
-          "purpose": "Subdirectory with 0 Python files",
-          "component_count": 0
+          "purpose": "Subdirectory with 0 Python files"
         },
         {
+          "component_count": 3,
+          "has_index": false,
           "name": "integration",
-          "has_index": false,
-          "purpose": "Subdirectory with 3 Python files",
-          "component_count": 3
+          "purpose": "Subdirectory with 3 Python files"
         },
         {
+          "component_count": 0,
+          "has_index": false,
           "name": "agents",
-          "has_index": false,
-          "purpose": "Subdirectory with 0 Python files",
-          "component_count": 0
+          "purpose": "Subdirectory with 0 Python files"
         },
         {
+          "component_count": 3,
+          "has_index": false,
           "name": "utils",
-          "has_index": false,
-          "purpose": "Subdirectory with 3 Python files",
-          "component_count": 3
+          "purpose": "Subdirectory with 3 Python files"
         },
         {
+          "component_count": 3,
+          "has_index": false,
           "name": "phase_management",
-          "has_index": false,
-          "purpose": "Subdirectory with 3 Python files",
-          "component_count": 3
+          "purpose": "Subdirectory with 3 Python files"
         },
         {
+          "component_count": 2,
+          "has_index": false,
           "name": "utilities",
-          "has_index": false,
-          "purpose": "Subdirectory with 2 Python files",
-          "component_count": 2
+          "purpose": "Subdirectory with 2 Python files"
         },
         {
+          "component_count": 1,
+          "has_index": false,
           "name": "testing",
-          "has_index": false,
-          "purpose": "Subdirectory with 1 Python files",
-          "component_count": 1
+          "purpose": "Subdirectory with 1 Python files"
         },
         {
+          "component_count": 8,
+          "has_index": false,
           "name": "monitoring",
-          "has_index": false,
-          "purpose": "Subdirectory with 8 Python files",
-          "component_count": 8
+          "purpose": "Subdirectory with 8 Python files"
         },
         {
+          "component_count": 1,
+          "has_index": false,
           "name": "migration",
-          "has_index": false,
-          "purpose": "Subdirectory with 1 Python files",
-          "component_count": 1
+          "purpose": "Subdirectory with 1 Python files"
         },
         {
-          "name": "codemods",
+          "component_count": 3,
           "has_index": false,
-          "purpose": "Subdirectory with 3 Python files",
-          "component_count": 3
-        }
-      ],
-      "documentation": [
-        {
-          "filename": "quota_request.md",
-          "type": "other",
-          "has_sync_header": false
+          "name": "codemods",
+          "purpose": "Subdirectory with 3 Python files"
         }
       ]
+    },
+    "directory_metadata": {
+      "constellation_framework_version": "2.0.0",
+      "lane": "development",
+      "last_updated": "2025-09-21",
+      "path": "scripts",
+      "purpose": "Directory containing 66 Python files and 14 subdirectories",
+      "t4_compliance_level": "experimental"
+    },
+    "performance_metadata": {
+      "component_count": 66,
+      "consciousness_integration": "none",
+      "constructor_aware_instantiation": true,
+      "estimated_complexity": "high",
+      "matriz_compatibility": "standard",
+      "plugin_registry_compatible": true,
+      "t4_compliance_score": 0.65,
+      "test_coverage": 85.0
+    },
+    "relationships": {
+      "constellation_cluster": "unknown",
+      "dependency_weight": "moderate",
+      "parent_directory": null,
+      "related_directories": []
     },
     "schema_references": [
       {
@@ -1072,49 +1141,6 @@
         "schema_path": "schemas/directory_index.schema.json",
         "validation_status": "valid"
       }
-    ],
-    "agent_guidance": {
-      "recommended_approach": "Begin with documentation files, then explore core components",
-      "key_files": [],
-      "common_tasks": [
-        {
-          "task": "API integration",
-          "files_involved": [
-            "public_api.py"
-          ],
-          "complexity": "medium"
-        }
-      ],
-      "prerequisites": [
-        "Understanding of LUKHAS lane system",
-        "Constellation Framework familiarity",
-        "MATRIZ pipeline architecture",
-        "T4/0.01% implementation standards"
-      ],
-      "avoid_patterns": [
-        "Modifying contracts without validation",
-        "Breaking lane boundaries",
-        "Ignoring Constellation Framework integration",
-        "Breaking constructor-aware instantiation patterns",
-        "Bypassing T4/0.01% validation standards",
-        "Ignoring MATRIZ pipeline integration requirements"
-      ]
-    },
-    "performance_metadata": {
-      "component_count": 66,
-      "estimated_complexity": "high",
-      "consciousness_integration": "none",
-      "test_coverage": 85.0,
-      "t4_compliance_score": 0.65,
-      "matriz_compatibility": "standard",
-      "plugin_registry_compatible": true,
-      "constructor_aware_instantiation": true
-    },
-    "relationships": {
-      "parent_directory": null,
-      "related_directories": [],
-      "constellation_cluster": "unknown",
-      "dependency_weight": "moderate"
-    }
+    ]
   }
 }

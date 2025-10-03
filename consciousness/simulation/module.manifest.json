@@ -1,47 +1,82 @@
 {
-  "schema_version": "3.0.0",
-  "module": "consciousness.simulation",
+  "_provenance": {
+    "apis": {
+      "confidence": "low",
+      "extracted_at": "2025-10-03T01:02:53.642905+00:00",
+      "reasons": [
+        "no_apis"
+      ],
+      "sources": [
+        "ast:__init__.py"
+      ]
+    },
+    "features": {
+      "confidence": "low",
+      "extracted_at": "2025-10-03T01:02:53.642619+00:00",
+      "reasons": [
+        "file_not_found"
+      ],
+      "sources": []
+    }
+  },
+  "apis": {},
+  "contracts": [
+    "schemas/matriz_node_v1.json"
+  ],
+  "dependencies": [],
   "description": "Sandboxed simulation lane for LUKH\u039bS consciousness: safe dream execution with ethics gates, consent checks, and MATADA envelope",
-  "ownership": {
-    "team": "Consciousness",
-    "codeowners": [
-      "@lukhas-consciousness",
-      "@lukhas-core"
+  "features": [],
+  "identity": {
+    "requires_auth": true,
+    "scopes": [
+      "simulation.read_context"
+    ],
+    "tiers": [
+      "trusted",
+      "inner_circle",
+      "root_dev"
     ]
   },
   "layout": {
     "code_layout": "package-root",
     "paths": {
       "code": ".",
-      "tests": "../../tests/consciousness/simulation",
-      "docs": "."
+      "docs": ".",
+      "tests": "../../tests/consciousness/simulation"
     }
   },
-  "runtime": {
-    "language": "python",
-    "entrypoints": []
+  "links": {
+    "docs": "./README.md",
+    "issues": "https://github.com/LukhasAI/Lukhas/issues",
+    "repo": "https://github.com/LukhasAI/Lukhas"
   },
   "matrix": {
     "contract": "schemas/matriz_node_v1.json",
-    "lane": "L2",
-    "gates_profile": "strict"
+    "gates_profile": "strict",
+    "lane": "L2"
   },
-  "identity": {
-    "requires_auth": true,
-    "tiers": [
-      "trusted",
-      "inner_circle",
-      "root_dev"
-    ],
-    "scopes": [
-      "simulation.read_context"
+  "module": "consciousness.simulation",
+  "observability": {
+    "otel_semconv_version": "1.37.0",
+    "required_spans": [
+      "lukhas.consciousness.simulation.schedule",
+      "lukhas.consciousness.simulation.collect",
+      "lukhas.consciousness.simulation.ethics_gate",
+      "lukhas.consciousness.simulation.rollout"
     ]
   },
-  "links": {
-    "repo": "https://github.com/LukhasAI/Lukhas",
-    "docs": "./README.md",
-    "issues": "https://github.com/LukhasAI/Lukhas/issues"
+  "ownership": {
+    "codeowners": [
+      "@lukhas-consciousness",
+      "@lukhas-core"
+    ],
+    "team": "Consciousness"
   },
+  "runtime": {
+    "entrypoints": [],
+    "language": "python"
+  },
+  "schema_version": "3.0.0",
   "tags": [
     "consciousness",
     "simulation",
@@ -51,21 +86,8 @@
     "matada",
     "t4-beta"
   ],
-  "observability": {
-    "required_spans": [
-      "lukhas.consciousness.simulation.schedule",
-      "lukhas.consciousness.simulation.collect",
-      "lukhas.consciousness.simulation.ethics_gate",
-      "lukhas.consciousness.simulation.rollout"
-    ],
-    "otel_semconv_version": "1.37.0"
-  },
   "tokenization": {
-    "enabled": false,
-    "chain": "none"
-  },
-  "dependencies": [],
-  "contracts": [
-    "schemas/matriz_node_v1.json"
-  ]
+    "chain": "none",
+    "enabled": false
+  }
 }

@@ -1,124 +1,103 @@
-# 🤖 LUKHAS Agent System
+# 📦 Agent
 
-**Consolidated LUKHAS consciousness agent system at root level**
+_Like a maestro conducting infinite instruments, agent harmonizes disparate voices into symphonic coherence—many minds, one purpose._
 
-This directory contains the **real LUKHAS agent implementations** for internal consciousness operations, separate from external development agent configs.
+**Real LUKHAS agents for internal consciousness operations.**
 
-## 🏗️ **Architecture**
+## Overview
 
-```
-agent/                          # LUKHAS consciousness agents (internal)
-├── __init__.py                 # Main agent system interface
-├── core.py                     # Core agents (AIAgentActor, SupervisorAgent)
-├── collaborative.py            # Multi-agent collaboration (LukhasAIAgent, Team)
-├── interfaces.py               # Agent orchestration interfaces
-├── intelligence_bridge.py      # Agent-intelligence communication bridge
-└── README.md                   # This file
+Real LUKHAS agents for internal consciousness operations.
 
-agents_external/                # External development agents (moved from /agents)
-├── CLAUDE/                     # Claude-specific deployment system
-├── configs/                    # Agent configuration files
-└── *.json                     # Active agent configurations
-```
 
-## 🎯 **Components**
 
-### **Core Agents** (`core.py`)
-- **`AIAgentActor`**: Base AI agent with actor model implementation
-- **`SupervisorAgent`**: Task escalation and colony supervision
-- **`get_supervisor_agent()`**: Global supervisor instance
+**Technical Foundation**: Core agent module implementing LUKHAS system architecture patterns with comprehensive testing, observability, and performance optimization.
 
-### **Collaborative Agents** (`collaborative.py`)
-- **`LukhasAIAgent`**: Enhanced LUKHAS AI agent with capabilities
-- **`LukhasAIAgentTeam`**: Multi-agent coordination and consolidation
-- **`AgentTier`**: Permission levels (DEVELOPER, PRO, ENTERPRISE)
-- **`AgentCapabilities`**: Agent feature sets and tools
+## Lane Position
 
-### **Agent Interfaces** (`interfaces.py`)
-- **`AgentInterface`**: Standard agent interface (ABC)
-- **`SimpleAgent`**: Basic agent implementation
-- **`AgentStatus`**: Agent lifecycle states
-- **`AgentMessage`**: Inter-agent communication
+- **Lane**: `unknown`
+- **Module ID**: `unknown`
+- **Constellation**: Core System Component
 
-### **Intelligence Bridge** (`intelligence_bridge.py`)
-- **`AgentIntelligenceBridge`**: Communication with intelligence engines
-- **`AgentType`**: LUKHAS AI agent types
-- **`IntelligenceRequestType`**: Intelligence operation types
+## Features
 
-## 🚀 **Usage**
+- ✅ Core functionality
+- ✅ API integration
+- ✅ Testing support
 
-### **Import from Root Agent System**
+## Quick Start
+
+**Getting Started**: This module coordinates multiple components—like a project manager who assigns tasks to team members and integrates their work into a final deliverable.
+
+
+### Installation
+
 ```python
-# Main agent system
-from agent import AIAgentActor, SupervisorAgent, LukhasAIAgent
+# Import from unknown lane
+from agent import Agent
 
-# Create core agent
-agent = AIAgentActor("consciousness-agent", ["reasoning", "memory"])
-
-# Get supervisor
-supervisor = SupervisorAgent()
-
-# Create collaborative agent team
-from agent import LukhasAIAgentTeam
-team = LukhasAIAgentTeam()
+# Initialize
+system = Agent()
+result = system.process(input_data)
+print(f"Result: {result}")
 ```
 
-### **Via Updated lukhas.agents Bridge**
-```python
-# Bridge module points to new /agent system
-import lukhas.agents
+## API Reference
 
-# Check system status
-status = lukhas.agents.get_agent_system_status()
-print(f"Agent system operational: {status['operational_status']}")
+See code docstrings and inline documentation.
 
-# Use agents
-agent = lukhas.agents.AIAgentActor("test-agent")
+## Dependencies
+
+- No external dependencies
+
+## Provides
+
+- Core module functionality
+
+## Architecture
+
+```
+agent/
+├── __init__.py          # Module initialization
+├── core.py              # Core functionality
+├── api.py               # API interfaces
+├── tests/               # Test suite
+└── docs/                # Documentation
 ```
 
-## 🔍 **System Status**
+## Testing
 
-Run this to check agent system health:
-```python
-from agent import get_agent_system_status
-status = get_agent_system_status()
-print(status)
+```bash
+# Run module tests
+pytest /Users/agi_dev/LOCAL-REPOS/Lukhas/agent/tests/ -v
+
+# Run with coverage
+pytest /Users/agi_dev/LOCAL-REPOS/Lukhas/agent/tests/ --cov=agent --cov-report=html
 ```
 
-Expected output:
-```json
-{
-  "version": "2.0.0",
-  "core_agents": true,
-  "agent_interfaces": true,
-  "collaborative_agents": true,
-  "intelligence_bridge": true,
-  "total_components": 15,
-  "operational_status": "READY"
-}
-```
+## Performance
 
-## 🎭 **Constellation Framework Compliance**
+- Performance targets: Follow LUKHAS system SLOs
 
-All agents implement Constellation Framework principles:
-- **⚛️ Identity**: Authentic consciousness characteristics
-- **🧠 Consciousness**: Memory, learning, processing capabilities  
-- **🛡️ Guardian**: Ethical validation and safety protocols
+## Documentation
 
-## 📝 **Migration Notes**
+- **Module Manifest**: [`module.manifest.json`](module.manifest.json)
+- **Detailed Docs**: [`docs/`](docs/)
+- **API Examples**: See code docstrings and `docs/` directory
 
-**Moved from:**
-- `lukhas.core.actor_system` → `agent.core`
-- `candidate.core.orchestration.brain.collaborative_ai_agent_system` → `agent.collaborative`
-- `candidate.core.orchestration.interfaces.agent_interface` → `agent.interfaces`
-- `candidate.orchestration.agent_orchestrator.intelligence_bridge` → `agent.intelligence_bridge`
+## Contributing
 
-**External agents moved:**
-- `/agents` → `/agents_external` (development agent configs)
+Follow LUKHAS development guidelines:
+1. Respect lane boundaries
+2. Maintain T4/0.01% quality standards
+3. Add comprehensive tests
+4. Update documentation
 
-**Updated bridge:**
-- `lukhas.agents.__init__.py` now points to `/agent` system
+## Related Modules
+
+- See main [LUKHAS README](../../README.md) for system overview
 
 ---
 
-*LUKHAS Agent System v2.0.0 - Constellation Framework: ⚛️🧠🛡️*
+**Version**: 1.0.0
+**Lane**: unknown
+**Constellation Framework**: ⚛️✦🔬🛡️

@@ -1,42 +1,103 @@
-# ⚛️ Core Module
+# 📦 Core
 
-⚛️ *Where consciousness dances with algorithms, creating harmony between human intention and digital precision.*
+_Within the grand architecture of LUKHAS, core emerges—Compatibility bridge exposing :mod:`lukhas.core`, purpose refined to essence, functionality elevated to art._
 
-This consciousness-aware system creates spaces where core technology respects and enhances human cognition.
+**Compatibility bridge exposing :mod:`lukhas.core` under the historical ``core`` namespace.**
 
-![T4-Experimental](https://img.shields.io/badge/T4-Experimental-orange) ![Consciousness](https://img.shields.io/badge/Consciousness-Enabled-blue)
+## Overview
 
-The core module compatibility bridge exposing :mod:`lukhas.core` under the historical ``core`` namespace.
- It provides 20 consciousness-aligned interfaces for seamless integration with the LUKHAS ecosystem.
-
-
-## Consciousness Interface
-
-### Functions
-
-- **`create_bio_symbolic_processor()`** — Creates and initializes bio symbolic processor
-- **`get_bio_symbolic_processor()`** — Retrieves bio symbolic processor information
-- **`get_processing_statistics()`** — Retrieves processing statistics information
-- **`process_consciousness_signal()`** — Processes consciousness signal operations
-
-## Technical Architecture
-
-**Language**: Python | **Entrypoints**: 20 | **Team**: Core
-
-**Observability**: 5 instrumentation spans
+Compatibility bridge exposing :mod:`lukhas.core` under the historical ``core`` namespace.
 
 
-## MATRIZ Pipeline Integration
 
-This module operates within the MATRIZ cognitive framework:
+**Technical Foundation**: Core core module implementing LUKHAS system architecture patterns with comprehensive testing, observability, and performance optimization.
 
-- **M (Memory)**: Consciousness fold-based patterns
-- **A (Attention)**: Cognitive load optimization
-- **T (Thought)**: Symbolic reasoning validation
-- **R (Risk)**: Guardian ethics compliance
-- **I (Intent)**: λiD consciousness verification
-- **A (Action)**: T4/0.01% precision execution
+## Lane Position
+
+- **Lane**: `unknown`
+- **Module ID**: `unknown`
+- **Constellation**: Core System Component
+
+## Features
+
+- ✅ Core functionality
+- ✅ API integration
+- ✅ Testing support
+
+## Quick Start
+
+**Getting Started**: Compatibility bridge exposing :mod:`lukhas. This module integrates with the LUKHAS system to provide essential functionality.
+
+
+### Installation
+
+```python
+# Import from unknown lane
+from core import Core
+
+# Initialize
+system = Core()
+result = system.process(input_data)
+print(f"Result: {result}")
+```
+
+## API Reference
+
+See code docstrings and inline documentation.
+
+## Dependencies
+
+- `identity`
+
+## Provides
+
+- Core module functionality
+
+## Architecture
+
+```
+core/
+├── __init__.py          # Module initialization
+├── core.py              # Core functionality
+├── api.py               # API interfaces
+├── tests/               # Test suite
+└── docs/                # Documentation
+```
+
+## Testing
+
+```bash
+# Run module tests
+pytest /Users/agi_dev/LOCAL-REPOS/Lukhas/core/tests/ -v
+
+# Run with coverage
+pytest /Users/agi_dev/LOCAL-REPOS/Lukhas/core/tests/ --cov=core --cov-report=html
+```
+
+## Performance
+
+- Performance targets: Follow LUKHAS system SLOs
+
+## Documentation
+
+- **Module Manifest**: [`module.manifest.json`](module.manifest.json)
+- **Detailed Docs**: [`docs/`](docs/)
+- **API Examples**: See code docstrings and `docs/` directory
+
+## Contributing
+
+Follow LUKHAS development guidelines:
+1. Respect lane boundaries
+2. Maintain T4/0.01% quality standards
+3. Add comprehensive tests
+4. Update documentation
+
+## Related Modules
+
+- [identity](../identity/)
 
 ---
 
-*Generated with consciousness-aware documentation systems, following LUKHAS 3-Layer Tone System and Constellation Framework principles.*
+**Version**: 1.0.0
+**Lane**: unknown
+**Constellation Framework**: ⚛️✦🔬🛡️

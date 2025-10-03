@@ -1,0 +1,2 @@
+{"module": "telemetry", "timestamp": "2025-10-03T01:02:42.339705+00:00", "sha": "234264dc795c61965865cdae8e54c772182dc134", "diff_fields": ["_provenance", "apis", "features"]}
+{"module": "telemetry", "timestamp": "2025-10-03T01:02:53.755098+00:00", "sha": "08449b85dd08df56e5445d2a8a265940ccfe4783", "diff_fields": ["_provenance"]}

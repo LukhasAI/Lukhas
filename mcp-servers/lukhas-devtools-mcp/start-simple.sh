@@ -14,8 +14,10 @@ cd "$SERVER_DIR"
 
 # Generate token if not provided
 if [[ -z "$MCP_HTTP_TOKEN" ]]; then
-    MCP_HTTP_TOKEN=$(openssl rand -hex 32)
-    echo "🔑 Generated token: $MCP_HTTP_TOKEN"
+    echo "🔓 No MCP_HTTP_TOKEN set - running without authentication"
+    MCP_HTTP_TOKEN=""
+else
+    echo "🔑 Using provided token: ${MCP_HTTP_TOKEN:0:8}..."
 fi
 
 # Set port

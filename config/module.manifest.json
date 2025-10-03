@@ -1,91 +1,140 @@
 {
-  "schema_version": "3.0.0",
-  "module": "config",
+  "_provenance": {
+    "apis": {
+      "confidence": "low",
+      "extracted_at": "2025-10-03T01:02:53.617531+00:00",
+      "reasons": [
+        "no_apis"
+      ],
+      "sources": [
+        "ast:__init__.py"
+      ]
+    },
+    "features": {
+      "confidence": "low",
+      "extracted_at": "2025-10-03T01:02:53.617176+00:00",
+      "reasons": [
+        "weak_evidence"
+      ],
+      "sha": "3d9414aa1c5974bda7797cbc41f826e9ad2c4f7c35a56a4207fa94eddb69175c",
+      "sources": [
+        "claude.me:bullets",
+        "claude.me:headers"
+      ]
+    }
+  },
+  "apis": {},
+  "contracts": [],
+  "dependencies": [
+    "memory"
+  ],
   "description": "LUKHAS config module implementing specialized config functionality with 81 components for integrated system operations.",
-  "ownership": {
-    "team": "Core",
-    "codeowners": [
-      "@lukhas-core"
-    ]
+  "features": [],
+  "identity": {
+    "requires_auth": false,
+    "scopes": [],
+    "tiers": []
   },
   "layout": {
     "code_layout": "package-root",
     "paths": {
+      "assets": "assets",
       "code": ".",
       "config": "config",
-      "tests": "tests",
       "docs": "docs",
-      "assets": "assets"
+      "tests": "tests"
     }
   },
+  "links": {
+    "docs": "./docs/README.md",
+    "issues": "https://github.com/LukhasAI/Lukhas/issues",
+    "repo": "https://github.com/LukhasAI/Lukhas"
+  },
+  "matrix": {
+    "contract": "",
+    "gates_profile": "standard",
+    "lane": "L2"
+  },
+  "module": "config",
+  "observability": {
+    "otel_semconv_version": "1.37.0",
+    "required_spans": [
+      "lukhas.config.consciousness",
+      "lukhas.config.fold",
+      "lukhas.config.operation",
+      "lukhas.config.retrieval"
+    ]
+  },
+  "ownership": {
+    "codeowners": [
+      "@lukhas-core"
+    ],
+    "team": "Core"
+  },
   "runtime": {
-    "language": "python",
     "entrypoints": [
       "config.audit_safety_defaults.AuditSafetyConfig",
       "config.audit_safety_defaults.SafetyDefaultsManager",
       "config.audit_safety_defaults.create_audit_safety_manager",
       "config.env.EnvironmentConfig",
       "config.env.LUKHASConfig"
-    ]
+    ],
+    "language": "python"
   },
-  "matrix": {
-    "contract": "",
-    "lane": "L2",
-    "gates_profile": "standard"
-  },
-  "identity": {
-    "requires_auth": false,
-    "tiers": [],
-    "scopes": []
-  },
-  "links": {
-    "repo": "https://github.com/LukhasAI/Lukhas",
-    "docs": "./docs/README.md",
-    "issues": "https://github.com/LukhasAI/Lukhas/issues"
-  },
+  "schema_version": "3.0.0",
   "tags": [
     "config"
   ],
-  "observability": {
-    "required_spans": [
-      "lukhas.config.consciousness",
-      "lukhas.config.fold",
-      "lukhas.config.operation",
-      "lukhas.config.retrieval"
-    ],
-    "otel_semconv_version": "1.37.0"
-  },
   "tokenization": {
-    "enabled": false,
-    "chain": "none"
+    "chain": "none",
+    "enabled": false
   },
-  "dependencies": [
-    "memory"
-  ],
-  "contracts": [],
   "x_legacy": {
-    "directory_metadata": {
-      "path": "config",
-      "lane": "development",
-      "purpose": "Directory containing 9 Python files and 16 subdirectories",
-      "last_updated": "2025-09-21",
-      "constellation_framework_version": "2.0.0",
-      "t4_compliance_level": "experimental"
+    "agent_guidance": {
+      "avoid_patterns": [
+        "Modifying contracts without validation",
+        "Breaking lane boundaries",
+        "Ignoring Constellation Framework integration",
+        "Breaking constructor-aware instantiation patterns",
+        "Bypassing T4/0.01% validation standards",
+        "Ignoring MATRIZ pipeline integration requirements"
+      ],
+      "common_tasks": [],
+      "key_files": [
+        "README.md"
+      ],
+      "prerequisites": [
+        "Understanding of LUKHAS lane system",
+        "Constellation Framework familiarity",
+        "MATRIZ pipeline architecture",
+        "T4/0.01% implementation standards"
+      ],
+      "recommended_approach": "Begin with documentation files, then explore core components"
     },
     "component_inventory": {
-      "python_files": [
+      "documentation": [
         {
-          "filename": "config.py",
-          "component_type": "CONFIGURATION",
-          "has_contract": true,
-          "contract_path": "contracts/consciousness/config.json",
-          "dependencies": [],
-          "exports": []
+          "filename": "GITHUB_STUDENT_PACK_ACTIVATION.md",
+          "has_sync_header": false,
+          "type": "other"
         },
         {
-          "filename": "env.py",
+          "filename": "README.md",
+          "has_sync_header": false,
+          "type": "README.md"
+        }
+      ],
+      "python_files": [
+        {
           "component_type": "CONFIGURATION",
-          "has_contract": false,
+          "contract_path": "contracts/consciousness/config.json",
+          "dependencies": [],
+          "exports": [],
+          "filename": "config.py",
+          "has_contract": true
+        },
+        {
+          "component_type": "CONFIGURATION",
           "contract_path": null,
           "dependencies": [],
           "exports": [
@@ -130,12 +179,12 @@
             "api_vault_path",
             "github_token",
             "validate"
-          ]
+          ],
+          "filename": "env.py",
+          "has_contract": false
         },
         {
-          "filename": "fallback_settings.py",
           "component_type": "CONFIGURATION",
-          "has_contract": false,
           "contract_path": null,
           "dependencies": [],
           "exports": [
@@ -143,12 +192,12 @@
             "get_fallback_settings",
             "validate_fallback_config",
             "to_dict"
-          ]
+          ],
+          "filename": "fallback_settings.py",
+          "has_contract": false
         },
         {
-          "filename": "audit_safety_defaults.py",
           "component_type": "CONFIGURATION",
-          "has_contract": false,
           "contract_path": null,
           "dependencies": [],
           "exports": [
@@ -160,28 +209,28 @@
             "generate_audit_settings_json",
             "validate_safety_config",
             "export_audit_configuration"
-          ]
+          ],
+          "filename": "audit_safety_defaults.py",
+          "has_contract": false
         },
         {
+          "component_type": "CONFIGURATION",
+          "contract_path": null,
+          "dependencies": [],
+          "exports": [],
           "filename": "sitecustomize.py",
-          "component_type": "CONFIGURATION",
-          "has_contract": false,
-          "contract_path": null,
-          "dependencies": [],
-          "exports": []
+          "has_contract": false
         },
         {
+          "component_type": "CONFIGURATION",
+          "contract_path": null,
+          "dependencies": [],
+          "exports": [],
           "filename": "setup.py",
-          "component_type": "CONFIGURATION",
-          "has_contract": false,
-          "contract_path": null,
-          "dependencies": [],
-          "exports": []
+          "has_contract": false
         },
         {
-          "filename": "settings.py",
           "component_type": "CONFIGURATION",
-          "has_contract": false,
           "contract_path": null,
           "dependencies": [],
           "exports": [
@@ -199,12 +248,12 @@
             "settings",
             "reload",
             "get_setting"
-          ]
+          ],
+          "filename": "settings.py",
+          "has_contract": false
         },
         {
-          "filename": "gunicorn.conf.py",
           "component_type": "CONFIGURATION",
-          "has_contract": false,
           "contract_path": null,
           "dependencies": [
             "lukhas.main"
@@ -222,12 +271,12 @@
             "pre_request",
             "post_request",
             "application"
-          ]
+          ],
+          "filename": "gunicorn.conf.py",
+          "has_contract": false
         },
         {
-          "filename": "read_settings.py",
           "component_type": "CONFIGURATION",
-          "has_contract": false,
           "contract_path": null,
           "dependencies": [],
           "exports": [
@@ -235,119 +284,133 @@
             "preview_defaults",
             "validate_settings",
             "display_settings"
-          ]
+          ],
+          "filename": "read_settings.py",
+          "has_contract": false
         }
       ],
       "subdirectories": [
         {
+          "component_count": 0,
+          "has_index": false,
           "name": "linting",
-          "has_index": false,
-          "purpose": "Subdirectory with 0 Python files",
-          "component_count": 0
+          "purpose": "Subdirectory with 0 Python files"
         },
         {
+          "component_count": 0,
+          "has_index": false,
           "name": "tools",
-          "has_index": false,
-          "purpose": "Subdirectory with 0 Python files",
-          "component_count": 0
+          "purpose": "Subdirectory with 0 Python files"
         },
         {
+          "component_count": 0,
+          "has_index": false,
           "name": "core",
-          "has_index": false,
-          "purpose": "Subdirectory with 0 Python files",
-          "component_count": 0
+          "purpose": "Subdirectory with 0 Python files"
         },
         {
+          "component_count": 0,
+          "has_index": false,
           "name": "memory",
-          "has_index": false,
-          "purpose": "Subdirectory with 0 Python files",
-          "component_count": 0
+          "purpose": "Subdirectory with 0 Python files"
         },
         {
+          "component_count": 0,
+          "has_index": false,
           "name": "ci",
-          "has_index": false,
-          "purpose": "Subdirectory with 0 Python files",
-          "component_count": 0
+          "purpose": "Subdirectory with 0 Python files"
         },
         {
+          "component_count": 0,
+          "has_index": false,
           "name": "narrative",
-          "has_index": false,
-          "purpose": "Subdirectory with 0 Python files",
-          "component_count": 0
+          "purpose": "Subdirectory with 0 Python files"
         },
         {
+          "component_count": 0,
+          "has_index": false,
           "name": "requirements",
-          "has_index": false,
-          "purpose": "Subdirectory with 0 Python files",
-          "component_count": 0
+          "purpose": "Subdirectory with 0 Python files"
         },
         {
+          "component_count": 0,
+          "has_index": false,
           "name": "reasoning",
-          "has_index": false,
-          "purpose": "Subdirectory with 0 Python files",
-          "component_count": 0
+          "purpose": "Subdirectory with 0 Python files"
         },
         {
+          "component_count": 0,
+          "has_index": false,
           "name": "env",
-          "has_index": false,
-          "purpose": "Subdirectory with 0 Python files",
-          "component_count": 0
+          "purpose": "Subdirectory with 0 Python files"
         },
         {
+          "component_count": 0,
+          "has_index": false,
           "name": "project",
-          "has_index": false,
-          "purpose": "Subdirectory with 0 Python files",
-          "component_count": 0
+          "purpose": "Subdirectory with 0 Python files"
         },
         {
+          "component_count": 0,
+          "has_index": false,
           "name": "testing",
-          "has_index": false,
-          "purpose": "Subdirectory with 0 Python files",
-          "component_count": 0
+          "purpose": "Subdirectory with 0 Python files"
         },
         {
+          "component_count": 0,
+          "has_index": false,
           "name": "ethics",
-          "has_index": false,
-          "purpose": "Subdirectory with 0 Python files",
-          "component_count": 0
+          "purpose": "Subdirectory with 0 Python files"
         },
         {
+          "component_count": 0,
+          "has_index": false,
           "name": "knowledge",
-          "has_index": false,
-          "purpose": "Subdirectory with 0 Python files",
-          "component_count": 0
+          "purpose": "Subdirectory with 0 Python files"
         },
         {
+          "component_count": 0,
+          "has_index": false,
           "name": "deployment",
-          "has_index": false,
-          "purpose": "Subdirectory with 0 Python files",
-          "component_count": 0
+          "purpose": "Subdirectory with 0 Python files"
         },
         {
+          "component_count": 0,
+          "has_index": false,
           "name": "node",
-          "has_index": false,
-          "purpose": "Subdirectory with 0 Python files",
-          "component_count": 0
+          "purpose": "Subdirectory with 0 Python files"
         },
         {
+          "component_count": 0,
+          "has_index": false,
           "name": "quantum",
-          "has_index": false,
-          "purpose": "Subdirectory with 0 Python files",
-          "component_count": 0
-        }
-      ],
-      "documentation": [
-        {
-          "filename": "GITHUB_STUDENT_PACK_ACTIVATION.md",
-          "type": "other",
-          "has_sync_header": false
-        },
-        {
-          "filename": "README.md",
-          "type": "README.md",
-          "has_sync_header": false
+          "purpose": "Subdirectory with 0 Python files"
         }
       ]
+    },
+    "directory_metadata": {
+      "constellation_framework_version": "2.0.0",
+      "lane": "development",
+      "last_updated": "2025-09-21",
+      "path": "config",
+      "purpose": "Directory containing 9 Python files and 16 subdirectories",
+      "t4_compliance_level": "experimental"
+    },
+    "performance_metadata": {
+      "component_count": 9,
+      "consciousness_integration": "none",
+      "constructor_aware_instantiation": true,
+      "estimated_complexity": "medium",
+      "matriz_compatibility": "standard",
+      "plugin_registry_compatible": true,
+      "t4_compliance_score": 0.65,
+      "test_coverage": 85.0
+    },
+    "relationships": {
+      "constellation_cluster": "unknown",
+      "dependency_weight": "moderate",
+      "parent_directory": null,
+      "related_directories": []
     },
     "schema_references": [
       {
@@ -355,43 +418,6 @@
         "schema_path": "schemas/directory_index.schema.json",
         "validation_status": "valid"
       }
-    ],
-    "agent_guidance": {
-      "recommended_approach": "Begin with documentation files, then explore core components",
-      "key_files": [
-        "README.md"
-      ],
-      "common_tasks": [],
-      "prerequisites": [
-        "Understanding of LUKHAS lane system",
-        "Constellation Framework familiarity",
-        "MATRIZ pipeline architecture",
-        "T4/0.01% implementation standards"
-      ],
-      "avoid_patterns": [
-        "Modifying contracts without validation",
-        "Breaking lane boundaries",
-        "Ignoring Constellation Framework integration",
-        "Breaking constructor-aware instantiation patterns",
-        "Bypassing T4/0.01% validation standards",
-        "Ignoring MATRIZ pipeline integration requirements"
-      ]
-    },
-    "performance_metadata": {
-      "component_count": 9,
-      "estimated_complexity": "medium",
-      "consciousness_integration": "none",
-      "test_coverage": 85.0,
-      "t4_compliance_score": 0.65,
-      "matriz_compatibility": "standard",
-      "plugin_registry_compatible": true,
-      "constructor_aware_instantiation": true
-    },
-    "relationships": {
-      "parent_directory": null,
-      "related_directories": [],
-      "constellation_cluster": "unknown",
-      "dependency_weight": "moderate"
-    }
+    ]
   }
 }

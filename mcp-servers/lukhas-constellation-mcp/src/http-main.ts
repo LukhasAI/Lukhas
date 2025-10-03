@@ -1,12 +1,12 @@
-import express from "express";
 import cors from "cors";
+import express from "express";
 import {
-  getConstellationFrameworkStatus,
-  getIdentityAnchorSystem,
-  getConsciousnessProcessingSystem,
-  getGuardianProtectionSystem,
-  getConstellationFramework,
-  executeConstellationOperation
+    executeConstellationOperation,
+    getConsciousnessProcessingSystem,
+    getConstellationFramework,
+    getConstellationFrameworkStatus,
+    getGuardianProtectionSystem,
+    getIdentityAnchorSystem
 } from "./constellation-tools.js";
 
 const app = express();

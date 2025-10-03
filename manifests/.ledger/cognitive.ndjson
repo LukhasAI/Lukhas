@@ -1,0 +1,2 @@
+{"module": "cognitive", "timestamp": "2025-10-03T01:02:42.154144+00:00", "sha": "b54f03f1dd3932af8b2425f34d899874d01ff80e", "diff_fields": ["_provenance", "apis", "features"]}
+{"module": "cognitive", "timestamp": "2025-10-03T01:02:53.576186+00:00", "sha": "8b236e157e55fe4531cb22d7e40c3160adfc5261", "diff_fields": ["_provenance"]}

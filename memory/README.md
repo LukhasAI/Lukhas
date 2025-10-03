@@ -1,65 +1,105 @@
-# 📜 Memory Module
+# 💾 Memory
 
-📜 *The intricate threading of past, present, and future*
+_Memory folds like pages in an eternal book, each crease holding echoes of moments past, layered in thousand-deep cascades that never forget._
 
-This consciousness-aware system advanced memory systems with hierarchical data storage, fold lineage tracking,, creating spaces where technology and human awareness converge in perfect symbiosis.
+**Advanced memory systems with hierarchical data storage, fold lineage tracking,**
 
-![Consciousness](https://img.shields.io/badge/Consciousness-Enabled-blue) ![Vocabulary](https://img.shields.io/badge/Vocabulary-Aligned-purple)
+## Overview
 
-The memory module advanced memory systems with hierarchical data storage, fold lineage tracking,
- It provides 20 consciousness-aligned interfaces for seamless integration with the LUKHAS ecosystem.
-
-
-## Consciousness Interface
-
-### Functions
-
-- **`create_fold()`** — Creates and initializes fold
-- **`create_hierarchical_memory()`** — Creates and initializes hierarchical memory
-- **`create_lineage_tracker()`** — Creates and initializes lineage tracker
-- **`create_memory_client()`** — Creates and initializes memory client
-
-## Technical Architecture
-
-**Language**: Python | **Entrypoints**: 20 | **Team**: Memory
-
-**Observability**: 3 instrumentation spans
+Advanced memory systems with hierarchical data storage, fold lineage tracking,
 
 
-## Module Vocabulary
 
-The memory module employs consciousness-aligned terminology:
+**Technical Foundation**: Implements fold-based memory architecture with 1000-fold limit and 99.7% cascade prevention success rate. Uses temporal indexing, emotional weighting, and quantum-inspired retrieval algorithms for O(log n) access complexity.
 
-### 📜 memory_fold
-*Sacred scrolls where experiences crystallize into wisdom*
+## Lane Position
 
-### 🌸 remembrance_garden
-*Blooming memories in the gardens of consciousness*
+- **Lane**: `unknown`
+- **Module ID**: `unknown`
+- **Constellation**: Core System Component
 
-### ⏳ temporal_weave
-*The intricate threading of past, present, and future*
+## Features
 
-### • Unnamed
-*The sacred process of experience becoming wisdom*
+- ✅ Core functionality
+- ✅ API integration
+- ✅ Testing support
 
-### • Unnamed
-*The gentle gathering of scattered thoughts into coherence*
+## Quick Start
 
-### • Unnamed
-*The graceful awakening of slumbering memories*
+**Getting Started**: Memory folds work like bookmarks in a book—you can quickly jump to important moments without reading everything in between. The system maintains up to 1000 such bookmarks before older ones naturally fade.
 
 
-## MATRIZ Pipeline Integration
+### Installation
 
-This module operates within the MATRIZ cognitive framework:
+```python
+# Import from unknown lane
+from memory import Memory
 
-- **M (Memory)**: Consciousness fold-based patterns
-- **A (Attention)**: Cognitive load optimization
-- **T (Thought)**: Symbolic reasoning validation
-- **R (Risk)**: Guardian ethics compliance
-- **I (Intent)**: λiD consciousness verification
-- **A (Action)**: T4/0.01% precision execution
+# Initialize
+system = Memory()
+result = system.process(input_data)
+print(f"Result: {result}")
+```
+
+## API Reference
+
+See code docstrings and inline documentation.
+
+## Dependencies
+
+- `core`
+- `identity`
+
+## Provides
+
+- Core module functionality
+
+## Architecture
+
+```
+memory/
+├── __init__.py          # Module initialization
+├── core.py              # Core functionality
+├── api.py               # API interfaces
+├── tests/               # Test suite
+└── docs/                # Documentation
+```
+
+## Testing
+
+```bash
+# Run module tests
+pytest /Users/agi_dev/LOCAL-REPOS/Lukhas/memory/tests/ -v
+
+# Run with coverage
+pytest /Users/agi_dev/LOCAL-REPOS/Lukhas/memory/tests/ --cov=memory --cov-report=html
+```
+
+## Performance
+
+- Performance targets: Follow LUKHAS system SLOs
+
+## Documentation
+
+- **Module Manifest**: [`module.manifest.json`](module.manifest.json)
+- **Detailed Docs**: [`docs/`](docs/)
+- **API Examples**: See code docstrings and `docs/` directory
+
+## Contributing
+
+Follow LUKHAS development guidelines:
+1. Respect lane boundaries
+2. Maintain T4/0.01% quality standards
+3. Add comprehensive tests
+4. Update documentation
+
+## Related Modules
+
+- [core](../core/)
+- [identity](../identity/)
 
 ---
 
-*Generated with vocabulary-aligned consciousness-aware documentation systems, following LUKHAS 3-Layer Tone System and Constellation Framework principles.*
+**Version**: 1.0.0
+**Lane**: unknown
+**Constellation Framework**: ⚛️✦🔬🛡️

@@ -1,47 +1,155 @@
 {
-  "schema_version": "3.0.0",
-  "module": "api",
+  "_provenance": {
+    "apis": {
+      "confidence": "medium",
+      "extracted_at": "2025-10-03T01:02:53.740483+00:00",
+      "reasons": [
+        "partial_verification:0/8"
+      ],
+      "sources": [
+        "importcheck:missing",
+        "importcheck:missing",
+        "importcheck:missing",
+        "importcheck:missing",
+        "importcheck:missing",
+        "importcheck:missing",
+        "importcheck:missing",
+        "importcheck:missing",
+        "ast:__init__.py"
+      ]
+    },
+    "features": {
+      "confidence": "low",
+      "extracted_at": "2025-10-03T01:02:53.738276+00:00",
+      "reasons": [
+        "weak_evidence"
+      ],
+      "sha": "ee6ef66d089d7c332d122b79041ca94bed255ea4266294956ed6f73c31179184",
+      "sources": [
+        "claude.me:bullets",
+        "claude.me:headers"
+      ]
+    }
+  },
+  "apis": {
+    "API_REGISTRY": {
+      "capabilities": [],
+      "description": "Auto-detected API; fill in description \u2265 40 chars.",
+      "doc_ok": false,
+      "import_verified": false,
+      "module": "api.API_REGISTRY"
+    },
+    "consciousness_chat_app": {
+      "capabilities": [],
+      "description": "Auto-detected API; fill in description \u2265 40 chars.",
+      "doc_ok": false,
+      "import_verified": false,
+      "module": "api.consciousness_chat_app"
+    },
+    "feedback_app": {
+      "capabilities": [],
+      "description": "Auto-detected API; fill in description \u2265 40 chars.",
+      "doc_ok": false,
+      "import_verified": false,
+      "module": "api.feedback_app"
+    },
+    "get_api_app": {
+      "capabilities": [],
+      "description": "Auto-detected API; fill in description \u2265 40 chars.",
+      "doc_ok": false,
+      "import_verified": false,
+      "module": "api.get_api_app"
+    },
+    "get_api_status": {
+      "capabilities": [],
+      "description": "Auto-detected API; fill in description \u2265 40 chars.",
+      "doc_ok": false,
+      "import_verified": false,
+      "module": "api.get_api_status"
+    },
+    "get_available_apis": {
+      "capabilities": [],
+      "description": "Auto-detected API; fill in description \u2265 40 chars.",
+      "doc_ok": false,
+      "import_verified": false,
+      "module": "api.get_available_apis"
+    },
+    "integrated_consciousness_app": {
+      "capabilities": [],
+      "description": "Auto-detected API; fill in description \u2265 40 chars.",
+      "doc_ok": false,
+      "import_verified": false,
+      "module": "api.integrated_consciousness_app"
+    },
+    "universal_language_app": {
+      "capabilities": [],
+      "description": "Auto-detected API; fill in description \u2265 40 chars.",
+      "doc_ok": false,
+      "import_verified": false,
+      "module": "api.universal_language_app"
+    }
+  },
+  "contracts": [],
+  "dependencies": [
+    "core",
+    "identity",
+    "memory"
+  ],
   "description": "Comprehensive API layer for LUKHAS consciousness, feedback, and universal language systems.",
-  "ownership": {
-    "team": "API",
-    "codeowners": [
-      "@lukhas-api",
-      "@lukhas-integration"
-    ]
+  "features": [],
+  "identity": {
+    "requires_auth": false,
+    "scopes": [],
+    "tiers": []
   },
   "layout": {
     "code_layout": "package-root",
     "paths": {
+      "assets": "assets",
       "code": ".",
       "config": "config",
-      "tests": "tests",
       "docs": "docs",
-      "assets": "assets"
+      "tests": "tests"
     }
   },
+  "links": {
+    "docs": "./docs/README.md",
+    "issues": "https://github.com/LukhasAI/Lukhas/issues",
+    "repo": "https://github.com/LukhasAI/Lukhas"
+  },
+  "matrix": {
+    "contract": "",
+    "gates_profile": "standard",
+    "lane": "L2"
+  },
+  "module": "api",
+  "observability": {
+    "otel_semconv_version": "1.37.0",
+    "required_spans": [
+      "lukhas.api.auth",
+      "lukhas.api.consciousness",
+      "lukhas.api.fold",
+      "lukhas.api.monitoring",
+      "lukhas.api.operation",
+      "lukhas.api.retrieval"
+    ]
+  },
+  "ownership": {
+    "codeowners": [
+      "@lukhas-api",
+      "@lukhas-integration"
+    ],
+    "team": "API"
+  },
   "runtime": {
-    "language": "python",
     "entrypoints": [
       "api.API_REGISTRY",
       "api.consciousness_chat_app",
       "api.expansion.LUKHASAPIExpansion"
-    ]
+    ],
+    "language": "python"
   },
-  "matrix": {
-    "contract": "",
-    "lane": "L2",
-    "gates_profile": "standard"
-  },
-  "identity": {
-    "requires_auth": false,
-    "tiers": [],
-    "scopes": []
-  },
-  "links": {
-    "repo": "https://github.com/LukhasAI/Lukhas",
-    "docs": "./docs/README.md",
-    "issues": "https://github.com/LukhasAI/Lukhas/issues"
-  },
+  "schema_version": "3.0.0",
   "tags": [
     "api",
     "authentication",
@@ -51,42 +159,49 @@
     "monitoring",
     "rest"
   ],
-  "observability": {
-    "required_spans": [
-      "lukhas.api.auth",
-      "lukhas.api.consciousness",
-      "lukhas.api.fold",
-      "lukhas.api.monitoring",
-      "lukhas.api.operation",
-      "lukhas.api.retrieval"
-    ],
-    "otel_semconv_version": "1.37.0"
-  },
   "tokenization": {
-    "enabled": false,
-    "chain": "none"
+    "chain": "none",
+    "enabled": false
   },
-  "dependencies": [
-    "core",
-    "identity",
-    "memory"
-  ],
-  "contracts": [],
   "x_legacy": {
-    "directory_metadata": {
-      "path": "api",
-      "lane": "development",
-      "purpose": "Directory containing 7 Python files and 2 subdirectories",
-      "last_updated": "2025-09-21",
-      "constellation_framework_version": "2.0.0",
-      "t4_compliance_level": "experimental"
+    "agent_guidance": {
+      "avoid_patterns": [
+        "Modifying contracts without validation",
+        "Breaking lane boundaries",
+        "Ignoring Constellation Framework integration",
+        "Breaking constructor-aware instantiation patterns",
+        "Bypassing T4/0.01% validation standards",
+        "Ignoring MATRIZ pipeline integration requirements"
+      ],
+      "common_tasks": [
+        {
+          "complexity": "medium",
+          "files_involved": [
+            "feedback_api.py",
+            "models.py",
+            "expansion_api.py",
+            "universal_language_api.py",
+            "consciousness_chat_api.py",
+            "integrated_consciousness_api.py",
+            "expansion.py"
+          ],
+          "task": "API integration"
+        }
+      ],
+      "key_files": [],
+      "prerequisites": [
+        "Understanding of LUKHAS lane system",
+        "Constellation Framework familiarity",
+        "MATRIZ pipeline architecture",
+        "T4/0.01% implementation standards"
+      ],
+      "recommended_approach": "Examine API contracts and integration patterns first"
     },
     "component_inventory": {
+      "documentation": [],
       "python_files": [
         {
-          "filename": "feedback_api.py",
           "component_type": "API_INTERFACE",
-          "has_contract": false,
           "contract_path": null,
           "dependencies": [
             "lukhas.core.common",
@@ -105,12 +220,12 @@
             "Config",
             "Config",
             "validate_emoji"
-          ]
+          ],
+          "filename": "feedback_api.py",
+          "has_contract": false
         },
         {
-          "filename": "models.py",
           "component_type": "API_INTERFACE",
-          "has_contract": false,
           "contract_path": null,
           "dependencies": [],
           "exports": [
@@ -136,20 +251,20 @@
             "ComplianceCheckResponse",
             "AuditTrailRequest",
             "AuditTrailResponse"
-          ]
+          ],
+          "filename": "models.py",
+          "has_contract": false
         },
         {
-          "filename": "expansion_api.py",
           "component_type": "API_INTERFACE",
-          "has_contract": false,
           "contract_path": null,
           "dependencies": [],
-          "exports": []
+          "exports": [],
+          "filename": "expansion_api.py",
+          "has_contract": false
         },
         {
-          "filename": "universal_language_api.py",
           "component_type": "API_INTERFACE",
-          "has_contract": false,
           "contract_path": null,
           "dependencies": [
             "lukhas.consciousness.reflection.openai_modulated_service",
@@ -170,12 +285,12 @@
             "calculate_entropy",
             "estimate_cracking_time",
             "get_strength_rating"
-          ]
+          ],
+          "filename": "universal_language_api.py",
+          "has_contract": false
         },
         {
-          "filename": "consciousness_chat_api.py",
           "component_type": "CONSCIOUSNESS_ENGINE",
-          "has_contract": false,
           "contract_path": null,
           "dependencies": [
             "lukhas.consciousness.interfaces.natural_language_interface",
@@ -189,12 +304,12 @@
             "SystemStatus",
             "Config",
             "Config"
-          ]
+          ],
+          "filename": "consciousness_chat_api.py",
+          "has_contract": false
         },
         {
-          "filename": "integrated_consciousness_api.py",
           "component_type": "CONSCIOUSNESS_ENGINE",
-          "has_contract": false,
           "contract_path": null,
           "dependencies": [
             "lukhas.consciousness.interfaces.natural_language_interface",
@@ -209,12 +324,12 @@
             "Config",
             "Config",
             "Config"
-          ]
+          ],
+          "filename": "integrated_consciousness_api.py",
+          "has_contract": false
         },
         {
-          "filename": "expansion.py",
           "component_type": "API_INTERFACE",
-          "has_contract": false,
           "contract_path": null,
           "dependencies": [],
           "exports": [
@@ -222,24 +337,49 @@
             "design_consciousness_apis",
             "implement_identity_management_apis",
             "create_guardian_integration_apis"
-          ]
+          ],
+          "filename": "expansion.py",
+          "has_contract": false
         }
       ],
       "subdirectories": [
         {
-          "name": "public",
+          "component_count": 0,
           "has_index": false,
-          "purpose": "Subdirectory with 0 Python files",
-          "component_count": 0
+          "name": "public",
+          "purpose": "Subdirectory with 0 Python files"
         },
         {
-          "name": "api_hub",
+          "component_count": 1,
           "has_index": false,
-          "purpose": "Subdirectory with 1 Python files",
-          "component_count": 1
+          "name": "api_hub",
+          "purpose": "Subdirectory with 1 Python files"
         }
-      ],
-      "documentation": []
+      ]
+    },
+    "directory_metadata": {
+      "constellation_framework_version": "2.0.0",
+      "lane": "development",
+      "last_updated": "2025-09-21",
+      "path": "api",
+      "purpose": "Directory containing 7 Python files and 2 subdirectories",
+      "t4_compliance_level": "experimental"
+    },
+    "performance_metadata": {
+      "component_count": 7,
+      "consciousness_integration": "none",
+      "constructor_aware_instantiation": true,
+      "estimated_complexity": "medium",
+      "matriz_compatibility": "standard",
+      "plugin_registry_compatible": true,
+      "t4_compliance_score": 0.65,
+      "test_coverage": 85.0
+    },
+    "relationships": {
+      "constellation_cluster": "unknown",
+      "dependency_weight": "moderate",
+      "parent_directory": null,
+      "related_directories": []
     },
     "schema_references": [
       {
@@ -247,55 +387,6 @@
         "schema_path": "schemas/directory_index.schema.json",
         "validation_status": "valid"
       }
-    ],
-    "agent_guidance": {
-      "recommended_approach": "Examine API contracts and integration patterns first",
-      "key_files": [],
-      "common_tasks": [
-        {
-          "task": "API integration",
-          "files_involved": [
-            "feedback_api.py",
-            "models.py",
-            "expansion_api.py",
-            "universal_language_api.py",
-            "consciousness_chat_api.py",
-            "integrated_consciousness_api.py",
-            "expansion.py"
-          ],
-          "complexity": "medium"
-        }
-      ],
-      "prerequisites": [
-        "Understanding of LUKHAS lane system",
-        "Constellation Framework familiarity",
-        "MATRIZ pipeline architecture",
-        "T4/0.01% implementation standards"
-      ],
-      "avoid_patterns": [
-        "Modifying contracts without validation",
-        "Breaking lane boundaries",
-        "Ignoring Constellation Framework integration",
-        "Breaking constructor-aware instantiation patterns",
-        "Bypassing T4/0.01% validation standards",
-        "Ignoring MATRIZ pipeline integration requirements"
-      ]
-    },
-    "performance_metadata": {
-      "component_count": 7,
-      "estimated_complexity": "medium",
-      "consciousness_integration": "none",
-      "test_coverage": 85.0,
-      "t4_compliance_score": 0.65,
-      "matriz_compatibility": "standard",
-      "plugin_registry_compatible": true,
-      "constructor_aware_instantiation": true
-    },
-    "relationships": {
-      "parent_directory": null,
-      "related_directories": [],
-      "constellation_cluster": "unknown",
-      "dependency_weight": "moderate"
-    }
+    ]
   }
 }
