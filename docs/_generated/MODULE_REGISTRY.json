@@ -1,0 +1,3622 @@
+{
+  "generated_at": "2025-10-03T01:50:15.183724+00:00",
+  "module_count": 148,
+  "modules": [
+    {
+      "docs": [
+        "jules_branch/docs/README.md",
+        "jules_branch/docs/api.md",
+        "jules_branch/docs/architecture.md",
+        "jules_branch/docs/troubleshooting.md"
+      ],
+      "health": {
+        "mqi": 0
+      },
+      "manifest": "jules_branch/module.manifest.json",
+      "name": "Jules--branch",
+      "notion_page_id": null,
+      "path": "jules_branch",
+      "tags": [
+        "Jules--branch"
+      ],
+      "tests": [
+        "jules_branch/tests/conftest.py",
+        "jules_branch/tests/test_Jules--branch_integration.py",
+        "jules_branch/tests/test_Jules--branch_unit.py"
+      ]
+    },
+    {
+      "docs": [
+        "system_claude_audit/docs/README.md",
+        "system_claude_audit/docs/api.md",
+        "system_claude_audit/docs/architecture.md",
+        "system_claude_audit/docs/troubleshooting.md"
+      ],
+      "health": {
+        "mqi": 0
+      },
+      "manifest": "system_claude_audit/module.manifest.json",
+      "name": "SYSTEM_CLAUDE_AUDIT",
+      "notion_page_id": null,
+      "path": "system_claude_audit",
+      "tags": [
+        "SYSTEM_CLAUDE_AUDIT"
+      ],
+      "tests": [
+        "system_claude_audit/tests/conftest.py",
+        "system_claude_audit/tests/test_SYSTEM_CLAUDE_AUDIT_integration.py",
+        "system_claude_audit/tests/test_SYSTEM_CLAUDE_AUDIT_unit.py"
+      ]
+    },
+    {
+      "docs": [
+        "todo/docs/README.md",
+        "todo/docs/api.md",
+        "todo/docs/architecture.md",
+        "todo/docs/troubleshooting.md"
+      ],
+      "health": {
+        "mqi": 0
+      },
+      "manifest": "todo/module.manifest.json",
+      "name": "TODO",
+      "notion_page_id": null,
+      "path": "todo",
+      "tags": [
+        "TODO"
+      ],
+      "tests": [
+        "todo/tests/conftest.py",
+        "todo/tests/test_TODO_integration.py",
+        "todo/tests/test_TODO_unit.py"
+      ]
+    },
+    {
+      "docs": [
+        "adapters/docs/README.md",
+        "adapters/docs/api.md",
+        "adapters/docs/architecture.md",
+        "adapters/docs/troubleshooting.md"
+      ],
+      "health": {
+        "mqi": 0
+      },
+      "manifest": "adapters/module.manifest.json",
+      "name": "adapters",
+      "notion_page_id": null,
+      "path": "adapters",
+      "tags": [
+        "adapters"
+      ],
+      "tests": [
+        "adapters/tests/conftest.py",
+        "adapters/tests/test_adapters_integration.py",
+        "adapters/tests/test_adapters_unit.py"
+      ]
+    },
+    {
+      "docs": [
+        "agent/docs/README.md",
+        "agent/docs/api.md",
+        "agent/docs/architecture.md",
+        "agent/docs/troubleshooting.md"
+      ],
+      "health": {
+        "mqi": 0
+      },
+      "manifest": "agent/module.manifest.json",
+      "name": "agent",
+      "notion_page_id": null,
+      "path": "agent",
+      "tags": [
+        "agent",
+        "consciousness"
+      ],
+      "tests": [
+        "agent/tests/conftest.py",
+        "agent/tests/test_agent_integration.py",
+        "agent/tests/test_agent_unit.py"
+      ]
+    },
+    {
+      "docs": [
+        "agents/docs/README.md",
+        "agents/docs/api.md",
+        "agents/docs/architecture.md",
+        "agents/docs/troubleshooting.md"
+      ],
+      "health": {
+        "mqi": 0
+      },
+      "manifest": "agents/module.manifest.json",
+      "name": "agents",
+      "notion_page_id": null,
+      "path": "agents",
+      "tags": [
+        "agents"
+      ],
+      "tests": [
+        "agents/tests/conftest.py",
+        "agents/tests/test_agents_integration.py",
+        "agents/tests/test_agents_unit.py"
+      ]
+    },
+    {
+      "docs": [
+        "agents_external/docs/README.md",
+        "agents_external/docs/api.md",
+        "agents_external/docs/architecture.md",
+        "agents_external/docs/troubleshooting.md"
+      ],
+      "health": {
+        "mqi": 0
+      },
+      "manifest": "agents_external/module.manifest.json",
+      "name": "agents_external",
+      "notion_page_id": null,
+      "path": "agents_external",
+      "tags": [
+        "agents_external"
+      ],
+      "tests": [
+        "agents_external/tests/conftest.py",
+        "agents_external/tests/test_agents_external_integration.py",
+        "agents_external/tests/test_agents_external_unit.py"
+      ]
+    },
+    {
+      "docs": [
+        "ai_orchestration/docs/README.md",
+        "ai_orchestration/docs/api.md",
+        "ai_orchestration/docs/architecture.md",
+        "ai_orchestration/docs/troubleshooting.md"
+      ],
+      "health": {
+        "mqi": 0
+      },
+      "manifest": "ai_orchestration/module.manifest.json",
+      "name": "ai_orchestration",
+      "notion_page_id": null,
+      "path": "ai_orchestration",
+      "tags": [
+        "ai_orchestration",
+        "coordination",
+        "monitoring",
+        "orchestration",
+        "workflow"
+      ],
+      "tests": [
+        "ai_orchestration/tests/conftest.py",
+        "ai_orchestration/tests/test_ai_orchestration_integration.py",
+        "ai_orchestration/tests/test_ai_orchestration_unit.py"
+      ]
+    },
+    {
+      "docs": [
+        "alerts/docs/README.md",
+        "alerts/docs/api.md",
+        "alerts/docs/architecture.md",
+        "alerts/docs/troubleshooting.md"
+      ],
+      "health": {
+        "mqi": 0
+      },
+      "manifest": "alerts/module.manifest.json",
+      "name": "alerts",
+      "notion_page_id": null,
+      "path": "alerts",
+      "tags": [
+        "alerts"
+      ],
+      "tests": [
+        "alerts/tests/conftest.py",
+        "alerts/tests/test_alerts_integration.py",
+        "alerts/tests/test_alerts_unit.py"
+      ]
+    },
+    {
+      "docs": [
+        "analytics/docs/README.md",
+        "analytics/docs/api.md",
+        "analytics/docs/architecture.md",
+        "analytics/docs/troubleshooting.md"
+      ],
+      "health": {
+        "mqi": 0
+      },
+      "manifest": "analytics/module.manifest.json",
+      "name": "analytics",
+      "notion_page_id": null,
+      "path": "analytics",
+      "tags": [
+        "analytics",
+        "authentication"
+      ],
+      "tests": [
+        "analytics/tests/conftest.py",
+        "analytics/tests/test_analytics_integration.py",
+        "analytics/tests/test_analytics_unit.py"
+      ]
+    },
+    {
+      "docs": [
+        "api/docs/API_ENHANCEMENT_GUIDE.md",
+        "api/docs/API_INTEGRATION_SUMMARY.md",
+        "api/docs/API_REFERENCE.md",
+        "api/docs/API_REFERENCE_GPT5_FEATURES.md",
+        "api/docs/LUKHAS_API_ECOSYSTEM_PLAN.md",
+        "api/docs/NIAS_API_SPECIFICATION.md",
+        "api/docs/OPENAI_API_TEMPLATES.md",
+        "api/docs/OPENAI_ENDPOINTS.md",
+        "api/docs/OPENAPI.md",
+        "api/docs/PUBLIC_API.md",
+        "api/docs/QUANTUM_VS_CLASSICAL_APIS.md",
+        "api/docs/README.md",
+        "api/docs/api.md",
+        "api/docs/architecture.md",
+        "api/docs/consciousness_drift_api.md",
+        "api/docs/lambda-trace-protocol.md",
+        "api/docs/troubleshooting.md"
+      ],
+      "health": {
+        "mqi": 0
+      },
+      "manifest": "api/module.manifest.json",
+      "name": "api",
+      "notion_page_id": null,
+      "path": "api",
+      "tags": [
+        "api",
+        "authentication",
+        "consciousness",
+        "endpoints",
+        "graphql",
+        "monitoring",
+        "rest"
+      ],
+      "tests": [
+        "api/tests/conftest.py",
+        "api/tests/test_api_integration.py",
+        "api/tests/test_api_unit.py"
+      ]
+    },
+    {
+      "docs": [
+        "archive/docs/README.md",
+        "archive/docs/api.md",
+        "archive/docs/architecture.md",
+        "archive/docs/troubleshooting.md"
+      ],
+      "health": {
+        "mqi": 0
+      },
+      "manifest": "archive/module.manifest.json",
+      "name": "archive",
+      "notion_page_id": null,
+      "path": "archive",
+      "tags": [
+        "archive"
+      ],
+      "tests": [
+        "archive/tests/conftest.py",
+        "archive/tests/test_archive_integration.py",
+        "archive/tests/test_archive_unit.py"
+      ]
+    },
+    {
+      "docs": [
+        "artifacts/docs/README.md",
+        "artifacts/docs/api.md",
+        "artifacts/docs/architecture.md",
+        "artifacts/docs/troubleshooting.md"
+      ],
+      "health": {
+        "mqi": 0
+      },
+      "manifest": "artifacts/module.manifest.json",
+      "name": "artifacts",
+      "notion_page_id": null,
+      "path": "artifacts",
+      "tags": [
+        "artifacts"
+      ],
+      "tests": [
+        "artifacts/tests/conftest.py",
+        "artifacts/tests/test_artifacts_integration.py",
+        "artifacts/tests/test_artifacts_unit.py"
+      ]
+    },
+    {
+      "docs": [
+        "assets/docs/README.md",
+        "assets/docs/api.md",
+        "assets/docs/architecture.md",
+        "assets/docs/troubleshooting.md"
+      ],
+      "health": {
+        "mqi": 0
+      },
+      "manifest": "assets/module.manifest.json",
+      "name": "assets",
+      "notion_page_id": null,
+      "path": "assets",
+      "tags": [
+        "assets"
+      ],
+      "tests": [
+        "assets/tests/conftest.py",
+        "assets/tests/test_assets_integration.py",
+        "assets/tests/test_assets_unit.py"
+      ]
+    },
+    {
+      "docs": [
+        "audit/docs/README.md",
+        "audit/docs/api.md",
+        "audit/docs/architecture.md",
+        "audit/docs/troubleshooting.md"
+      ],
+      "health": {
+        "mqi": 0
+      },
+      "manifest": "audit/module.manifest.json",
+      "name": "audit",
+      "notion_page_id": null,
+      "path": "audit",
+      "tags": [
+        "audit"
+      ],
+      "tests": [
+        "audit/tests/conftest.py",
+        "audit/tests/test_audit_integration.py",
+        "audit/tests/test_audit_unit.py"
+      ]
+    },
+    {
+      "docs": [
+        "benchmarks/docs/README.md",
+        "benchmarks/docs/api.md",
+        "benchmarks/docs/architecture.md",
+        "benchmarks/docs/troubleshooting.md"
+      ],
+      "health": {
+        "mqi": 0
+      },
+      "manifest": "benchmarks/module.manifest.json",
+      "name": "benchmarks",
+      "notion_page_id": null,
+      "path": "benchmarks",
+      "tags": [
+        "benchmarks"
+      ],
+      "tests": [
+        "benchmarks/tests/conftest.py",
+        "benchmarks/tests/test_benchmarks_integration.py",
+        "benchmarks/tests/test_benchmarks_unit.py"
+      ]
+    },
+    {
+      "docs": [
+        "bio/docs/README.md",
+        "bio/docs/api.md",
+        "bio/docs/architecture.md",
+        "bio/docs/bio_systems_inspiration.md",
+        "bio/docs/ecosystem_documentation.md",
+        "bio/docs/troubleshooting.md"
+      ],
+      "health": {
+        "mqi": 0
+      },
+      "manifest": "bio/module.manifest.json",
+      "name": "bio",
+      "notion_page_id": null,
+      "path": "bio",
+      "tags": [
+        "bio",
+        "consciousness"
+      ],
+      "tests": [
+        "bio/tests/conftest.py",
+        "bio/tests/test_bio_integration.py",
+        "bio/tests/test_bio_unit.py"
+      ]
+    },
+    {
+      "docs": [
+        "brain/docs/README.md",
+        "brain/docs/api.md",
+        "brain/docs/architecture.md",
+        "brain/docs/troubleshooting.md"
+      ],
+      "health": {
+        "mqi": 0
+      },
+      "manifest": "brain/module.manifest.json",
+      "name": "brain",
+      "notion_page_id": null,
+      "path": "brain",
+      "tags": [
+        "brain",
+        "cognitive",
+        "intelligence",
+        "monitoring",
+        "orchestration"
+      ],
+      "tests": [
+        "brain/tests/conftest.py",
+        "brain/tests/test_brain_integration.py",
+        "brain/tests/test_brain_unit.py"
+      ]
+    },
+    {
+      "docs": [
+        "branding/docs/LUKHAS_TONE_ENFORCEMENT_SYSTEM.md",
+        "branding/docs/README.md",
+        "branding/docs/api.md",
+        "branding/docs/architecture.md",
+        "branding/docs/troubleshooting.md"
+      ],
+      "health": {
+        "mqi": 0
+      },
+      "manifest": "branding/module.manifest.json",
+      "name": "branding",
+      "notion_page_id": null,
+      "path": "branding",
+      "tags": [
+        "branding"
+      ],
+      "tests": [
+        "branding/tests/conftest.py",
+        "branding/tests/test_branding_integration.py",
+        "branding/tests/test_branding_unit.py"
+      ]
+    },
+    {
+      "docs": [
+        "bridge/docs/README.md",
+        "bridge/docs/api.md",
+        "bridge/docs/architecture.md",
+        "bridge/docs/troubleshooting.md"
+      ],
+      "health": {
+        "mqi": 0
+      },
+      "manifest": "bridge/module.manifest.json",
+      "name": "bridge",
+      "notion_page_id": null,
+      "path": "bridge",
+      "tags": [
+        "adapters",
+        "bridge",
+        "connectors",
+        "consciousness",
+        "integration",
+        "oauth2",
+        "orchestration"
+      ],
+      "tests": [
+        "bridge/tests/conftest.py",
+        "bridge/tests/test_bridge_integration.py",
+        "bridge/tests/test_bridge_unit.py"
+      ]
+    },
+    {
+      "docs": [
+        "business/docs/README.md",
+        "business/docs/api.md",
+        "business/docs/architecture.md",
+        "business/docs/troubleshooting.md"
+      ],
+      "health": {
+        "mqi": 0
+      },
+      "manifest": "business/module.manifest.json",
+      "name": "business",
+      "notion_page_id": null,
+      "path": "business",
+      "tags": [
+        "authentication",
+        "business"
+      ],
+      "tests": [
+        "business/tests/conftest.py",
+        "business/tests/test_business_integration.py",
+        "business/tests/test_business_unit.py"
+      ]
+    },
+    {
+      "docs": [
+        "candidate/docs/README.md",
+        "candidate/docs/api.md",
+        "candidate/docs/architecture.md",
+        "candidate/docs/troubleshooting.md"
+      ],
+      "health": {
+        "mqi": 0
+      },
+      "manifest": "candidate/module.manifest.json",
+      "name": "candidate",
+      "notion_page_id": null,
+      "path": "candidate",
+      "tags": [
+        "candidate",
+        "consciousness",
+        "fold-architecture",
+        "t4-experimental"
+      ],
+      "tests": [
+        "candidate/tests/conftest.py",
+        "candidate/tests/test_candidate_integration.py",
+        "candidate/tests/test_candidate_unit.py"
+      ]
+    },
+    {
+      "docs": [
+        "ci/docs/README.md",
+        "ci/docs/api.md",
+        "ci/docs/architecture.md",
+        "ci/docs/troubleshooting.md"
+      ],
+      "health": {
+        "mqi": 0
+      },
+      "manifest": "ci/module.manifest.json",
+      "name": "ci",
+      "notion_page_id": null,
+      "path": "ci",
+      "tags": [
+        "ci"
+      ],
+      "tests": [
+        "ci/tests/conftest.py",
+        "ci/tests/test_ci_integration.py",
+        "ci/tests/test_ci_unit.py"
+      ]
+    },
+    {
+      "docs": [
+        "claude_army/docs/README.md",
+        "claude_army/docs/api.md",
+        "claude_army/docs/architecture.md",
+        "claude_army/docs/troubleshooting.md"
+      ],
+      "health": {
+        "mqi": 0
+      },
+      "manifest": "claude_army/module.manifest.json",
+      "name": "claude_army",
+      "notion_page_id": null,
+      "path": "claude_army",
+      "tags": [
+        "claude_army"
+      ],
+      "tests": [
+        "claude_army/tests/conftest.py",
+        "claude_army/tests/test_CLAUDE_ARMY_integration.py",
+        "claude_army/tests/test_CLAUDE_ARMY_unit.py"
+      ]
+    },
+    {
+      "docs": [
+        "codex_artifacts/docs/README.md",
+        "codex_artifacts/docs/api.md",
+        "codex_artifacts/docs/architecture.md",
+        "codex_artifacts/docs/troubleshooting.md"
+      ],
+      "health": {
+        "mqi": 0
+      },
+      "manifest": "codex_artifacts/module.manifest.json",
+      "name": "codex_artifacts",
+      "notion_page_id": null,
+      "path": "codex_artifacts",
+      "tags": [
+        "codex_artifacts"
+      ],
+      "tests": [
+        "codex_artifacts/tests/conftest.py",
+        "codex_artifacts/tests/test_codex_artifacts_integration.py",
+        "codex_artifacts/tests/test_codex_artifacts_unit.py"
+      ]
+    },
+    {
+      "docs": [
+        "cognitive/docs/README.md",
+        "cognitive/docs/api.md",
+        "cognitive/docs/architecture.md",
+        "cognitive/docs/troubleshooting.md"
+      ],
+      "health": {
+        "mqi": 0
+      },
+      "manifest": "cognitive/module.manifest.json",
+      "name": "cognitive",
+      "notion_page_id": null,
+      "path": "cognitive",
+      "tags": [
+        "cognitive"
+      ],
+      "tests": [
+        "cognitive/tests/conftest.py",
+        "cognitive/tests/test_cognitive_integration.py",
+        "cognitive/tests/test_cognitive_unit.py"
+      ]
+    },
+    {
+      "docs": [
+        "cognitive_core/docs/README.md",
+        "cognitive_core/docs/api.md",
+        "cognitive_core/docs/architecture.md",
+        "cognitive_core/docs/troubleshooting.md"
+      ],
+      "health": {
+        "mqi": 0
+      },
+      "manifest": "cognitive_core/module.manifest.json",
+      "name": "cognitive_core",
+      "notion_page_id": null,
+      "path": "cognitive_core",
+      "tags": [
+        "cognitive_core",
+        "coordination",
+        "core",
+        "infrastructure"
+      ],
+      "tests": [
+        "cognitive_core/tests/__init__.py",
+        "cognitive_core/tests/agi_test_suite.py",
+        "cognitive_core/tests/conftest.py",
+        "cognitive_core/tests/integration_test_suite.py",
+        "cognitive_core/tests/test_cognitive_core_integration.py",
+        "cognitive_core/tests/test_cognitive_core_unit.py"
+      ]
+    },
+    {
+      "docs": [
+        "completion/docs/README.md",
+        "completion/docs/api.md",
+        "completion/docs/architecture.md",
+        "completion/docs/troubleshooting.md"
+      ],
+      "health": {
+        "mqi": 0
+      },
+      "manifest": "completion/module.manifest.json",
+      "name": "completion",
+      "notion_page_id": null,
+      "path": "completion",
+      "tags": [
+        "completion"
+      ],
+      "tests": [
+        "completion/tests/conftest.py",
+        "completion/tests/test_completion_integration.py",
+        "completion/tests/test_completion_unit.py"
+      ]
+    },
+    {
+      "docs": [
+        "config/docs/README.md",
+        "config/docs/api.md",
+        "config/docs/architecture.md",
+        "config/docs/troubleshooting.md"
+      ],
+      "health": {
+        "mqi": 0
+      },
+      "manifest": "config/module.manifest.json",
+      "name": "config",
+      "notion_page_id": null,
+      "path": "config",
+      "tags": [
+        "config"
+      ],
+      "tests": [
+        "config/tests/conftest.py",
+        "config/tests/test_config_integration.py",
+        "config/tests/test_config_unit.py"
+      ]
+    },
+    {
+      "docs": [
+        "consciousness/docs/24-MAR-2025_MATRIZ_PROOF_OF_CONCEPT.md",
+        "consciousness/docs/ALIGNMENT_AUDIT.md",
+        "consciousness/docs/API_REFERENCE.md",
+        "consciousness/docs/C4_MEMORY.md",
+        "consciousness/docs/C5_OBSERVABILITY.md",
+        "consciousness/docs/C6_ABLATION_ETHICS.md",
+        "consciousness/docs/C7_RELEASE.md",
+        "consciousness/docs/CONSCIOUSNESS_TECHNOLOGY_RESEARCH_COMPILATION.md",
+        "consciousness/docs/CONSTELLATION_FRAMEWORK_GUIDE.md",
+        "consciousness/docs/DEVELOPER_GUIDE.md",
+        "consciousness/docs/DREAM_SYSTEM_CONNECTIVITY.md",
+        "consciousness/docs/ETHICAL_ALIGNMENT_BREAKTHROUGH_ANALYSIS.md",
+        "consciousness/docs/LUKHAS_CONCEPT_PRESERVATION.md",
+        "consciousness/docs/LUKHAS_TRINITY_FRAMEWORK.md",
+        "consciousness/docs/MATRIZ_ARCHITECTURE_OVERVIEW.md",
+        "consciousness/docs/README.md",
+        "consciousness/docs/SIMULATION_LANE_IMPLEMENTATION.md",
+        "consciousness/docs/SIMULATION_SUMMARY.md",
+        "consciousness/docs/STARGATE_ENHANCEMENTS_SUMMARY.md",
+        "consciousness/docs/SYMBOLIC_API_COMPLETE.md",
+        "consciousness/docs/SYMBOLIC_CHAIN_COMPLETE.md",
+        "consciousness/docs/SYMBOLIC_HEALER_COMPLETE.md",
+        "consciousness/docs/TRINITY_FRAMEWORK_ACADEMIC_SPECIFICATION.md",
+        "consciousness/docs/VIVOX_1.md",
+        "consciousness/docs/VIVOX_2.md",
+        "consciousness/docs/VIVOX_ACTIVATION_GUIDE.md",
+        "consciousness/docs/VIVOX_IMPROVEMENTS_FINAL_REPORT.md",
+        "consciousness/docs/VIVOX_INTEGRATION_MASTER_PLAN.md",
+        "consciousness/docs/VIVOX_LUKHAS_COMPLETE_FEATURE_MATRIX.md",
+        "consciousness/docs/VIVOX_PACKAGE_INFO.md",
+        "consciousness/docs/VIVOX_TEST_RESULTS.md",
+        "consciousness/docs/VIVOX_Z_COLLAPSE_SUCCESS_REPORT.md",
+        "consciousness/docs/WAVE_C.md",
+        "consciousness/docs/api.md",
+        "consciousness/docs/architecture.md",
+        "consciousness/docs/bio-inspired-design.md",
+        "consciousness/docs/consciousness-patterns.md",
+        "consciousness/docs/consciousness_ticker_architecture.md",
+        "consciousness/docs/constellation-framework-guide.md",
+        "consciousness/docs/constellation_framework.md",
+        "consciousness/docs/drift_monitoring_system.md",
+        "consciousness/docs/guardian_integration.md",
+        "consciousness/docs/proto_qualia.md",
+        "consciousness/docs/ring_buffer_decimation.md",
+        "consciousness/docs/symbolic-vocabulary.md",
+        "consciousness/docs/symbolic_philosophy.md",
+        "consciousness/docs/troubleshooting.md",
+        "consciousness/docs/vivox_capabilities_report.md",
+        "consciousness/docs/vivox_evrn_implementation_report.md",
+        "consciousness/docs/vivox_improvements_summary.md",
+        "consciousness/docs/vivox_performance_analysis.md",
+        "consciousness/docs/vivox_stress_test_final_report.md",
+        "consciousness/docs/vivox_validation_analysis.md"
+      ],
+      "health": {
+        "mqi": 0
+      },
+      "manifest": "consciousness/module.manifest.json",
+      "name": "consciousness",
+      "notion_page_id": null,
+      "path": "consciousness",
+      "tags": [
+        "authentication",
+        "awareness",
+        "cognition",
+        "consciousness",
+        "fold-architecture",
+        "phenomenological",
+        "t4-experimental"
+      ],
+      "tests": [
+        "consciousness/tests/conftest.py",
+        "consciousness/tests/test_consciousness_integration.py",
+        "consciousness/tests/test_consciousness_unit.py"
+      ]
+    },
+    {
+      "docs": [],
+      "health": {
+        "mqi": 0
+      },
+      "manifest": "consciousness/simulation/module.manifest.json",
+      "name": "consciousness.simulation",
+      "notion_page_id": null,
+      "path": "consciousness/simulation",
+      "tags": [
+        "consciousness",
+        "simulation",
+        "ethics",
+        "consent",
+        "matriz",
+        "matada",
+        "t4-beta"
+      ],
+      "tests": []
+    },
+    {
+      "docs": [
+        "consent/docs/README.md",
+        "consent/docs/api.md",
+        "consent/docs/architecture.md",
+        "consent/docs/troubleshooting.md"
+      ],
+      "health": {
+        "mqi": 0
+      },
+      "manifest": "consent/module.manifest.json",
+      "name": "consent",
+      "notion_page_id": null,
+      "path": "consent",
+      "tags": [
+        "consent"
+      ],
+      "tests": [
+        "consent/tests/conftest.py",
+        "consent/tests/test_consent_integration.py",
+        "consent/tests/test_consent_unit.py"
+      ]
+    },
+    {
+      "docs": [
+        "contracts/docs/README.md",
+        "contracts/docs/api.md",
+        "contracts/docs/architecture.md",
+        "contracts/docs/troubleshooting.md"
+      ],
+      "health": {
+        "mqi": 0
+      },
+      "manifest": "contracts/module.manifest.json",
+      "name": "contracts",
+      "notion_page_id": null,
+      "path": "contracts",
+      "tags": [
+        "contracts"
+      ],
+      "tests": [
+        "contracts/tests/conftest.py",
+        "contracts/tests/test_contracts_integration.py",
+        "contracts/tests/test_contracts_unit.py"
+      ]
+    },
+    {
+      "docs": [
+        "core/docs/README.md",
+        "core/docs/api.md",
+        "core/docs/architecture.md",
+        "core/docs/troubleshooting.md"
+      ],
+      "health": {
+        "mqi": 0
+      },
+      "manifest": "core/module.manifest.json",
+      "name": "core",
+      "notion_page_id": null,
+      "path": "core",
+      "tags": [
+        "authentication",
+        "consciousness",
+        "coordination",
+        "core",
+        "infrastructure",
+        "monitoring",
+        "orchestration",
+        "t4-experimental"
+      ],
+      "tests": [
+        "core/tests/conftest.py",
+        "core/tests/test_core_integration.py",
+        "core/tests/test_core_unit.py"
+      ]
+    },
+    {
+      "docs": [
+        "lukhas/core/docs/README.md",
+        "lukhas/core/docs/api.md"
+      ],
+      "health": {
+        "mqi": 0
+      },
+      "manifest": "lukhas/core/module.manifest.json",
+      "name": "core",
+      "notion_page_id": null,
+      "path": "lukhas/core",
+      "tags": [],
+      "tests": [
+        "lukhas/core/tests/test_core_integration.py",
+        "lukhas/core/tests/test_core_unit.py"
+      ]
+    },
+    {
+      "docs": [
+        "dashboards/docs/README.md",
+        "dashboards/docs/api.md",
+        "dashboards/docs/architecture.md",
+        "dashboards/docs/troubleshooting.md"
+      ],
+      "health": {
+        "mqi": 0
+      },
+      "manifest": "dashboards/module.manifest.json",
+      "name": "dashboards",
+      "notion_page_id": null,
+      "path": "dashboards",
+      "tags": [
+        "dashboards"
+      ],
+      "tests": [
+        "dashboards/tests/conftest.py",
+        "dashboards/tests/test_dashboards_integration.py",
+        "dashboards/tests/test_dashboards_unit.py"
+      ]
+    },
+    {
+      "docs": [
+        "data/docs/README.md",
+        "data/docs/api.md",
+        "data/docs/architecture.md",
+        "data/docs/troubleshooting.md"
+      ],
+      "health": {
+        "mqi": 0
+      },
+      "manifest": "data/module.manifest.json",
+      "name": "data",
+      "notion_page_id": null,
+      "path": "data",
+      "tags": [
+        "data"
+      ],
+      "tests": [
+        "data/tests/conftest.py",
+        "data/tests/test_data_integration.py",
+        "data/tests/test_data_unit.py"
+      ]
+    },
+    {
+      "docs": [
+        "delegation_reports/docs/README.md",
+        "delegation_reports/docs/api.md",
+        "delegation_reports/docs/architecture.md",
+        "delegation_reports/docs/troubleshooting.md"
+      ],
+      "health": {
+        "mqi": 0
+      },
+      "manifest": "delegation_reports/module.manifest.json",
+      "name": "delegation_reports",
+      "notion_page_id": null,
+      "path": "delegation_reports",
+      "tags": [
+        "delegation_reports"
+      ],
+      "tests": [
+        "delegation_reports/tests/conftest.py",
+        "delegation_reports/tests/test_delegation_reports_integration.py",
+        "delegation_reports/tests/test_delegation_reports_unit.py"
+      ]
+    },
+    {
+      "docs": [
+        "demos/docs/README.md",
+        "demos/docs/api.md",
+        "demos/docs/architecture.md",
+        "demos/docs/troubleshooting.md"
+      ],
+      "health": {
+        "mqi": 0
+      },
+      "manifest": "demos/module.manifest.json",
+      "name": "demos",
+      "notion_page_id": null,
+      "path": "demos",
+      "tags": [
+        "demos"
+      ],
+      "tests": [
+        "demos/tests/conftest.py",
+        "demos/tests/test_demos_integration.py",
+        "demos/tests/test_demos_unit.py"
+      ]
+    },
+    {
+      "docs": [
+        "deployment/docs/README.md",
+        "deployment/docs/api.md",
+        "deployment/docs/architecture.md",
+        "deployment/docs/troubleshooting.md"
+      ],
+      "health": {
+        "mqi": 0
+      },
+      "manifest": "deployment/module.manifest.json",
+      "name": "deployment",
+      "notion_page_id": null,
+      "path": "deployment",
+      "tags": [
+        "deployment"
+      ],
+      "tests": [
+        "deployment/tests/conftest.py",
+        "deployment/tests/test_deployment_integration.py",
+        "deployment/tests/test_deployment_unit.py"
+      ]
+    },
+    {
+      "docs": [
+        "design_system/docs/README.md",
+        "design_system/docs/api.md",
+        "design_system/docs/architecture.md",
+        "design_system/docs/troubleshooting.md"
+      ],
+      "health": {
+        "mqi": 0
+      },
+      "manifest": "design_system/module.manifest.json",
+      "name": "design-system",
+      "notion_page_id": null,
+      "path": "design_system",
+      "tags": [
+        "design-system"
+      ],
+      "tests": [
+        "design_system/tests/conftest.py",
+        "design_system/tests/test_design-system_integration.py",
+        "design_system/tests/test_design-system_unit.py"
+      ]
+    },
+    {
+      "docs": [
+        "diagnostics/docs/README.md",
+        "diagnostics/docs/api.md",
+        "diagnostics/docs/architecture.md",
+        "diagnostics/docs/troubleshooting.md"
+      ],
+      "health": {
+        "mqi": 0
+      },
+      "manifest": "diagnostics/module.manifest.json",
+      "name": "diagnostics",
+      "notion_page_id": null,
+      "path": "diagnostics",
+      "tags": [
+        "diagnostics"
+      ],
+      "tests": [
+        "diagnostics/tests/conftest.py",
+        "diagnostics/tests/test_diagnostics_integration.py",
+        "diagnostics/tests/test_diagnostics_unit.py"
+      ]
+    },
+    {
+      "docs": [
+        "doc/docs/README.md",
+        "doc/docs/api.md",
+        "doc/docs/architecture.md",
+        "doc/docs/troubleshooting.md"
+      ],
+      "health": {
+        "mqi": 0
+      },
+      "manifest": "doc/module.manifest.json",
+      "name": "doc",
+      "notion_page_id": null,
+      "path": "doc",
+      "tags": [
+        "doc"
+      ],
+      "tests": [
+        "doc/tests/conftest.py",
+        "doc/tests/test_doc_integration.py",
+        "doc/tests/test_doc_unit.py"
+      ]
+    },
+    {
+      "docs": [
+        "docker/docs/README.md",
+        "docker/docs/api.md",
+        "docker/docs/architecture.md",
+        "docker/docs/troubleshooting.md"
+      ],
+      "health": {
+        "mqi": 0
+      },
+      "manifest": "docker/module.manifest.json",
+      "name": "docker",
+      "notion_page_id": null,
+      "path": "docker",
+      "tags": [
+        "docker"
+      ],
+      "tests": [
+        "docker/tests/conftest.py",
+        "docker/tests/test_docker_integration.py",
+        "docker/tests/test_docker_unit.py"
+      ]
+    },
+    {
+      "docs": [
+        "docs/docs/README.md",
+        "docs/docs/api.md",
+        "docs/docs/architecture.md",
+        "docs/docs/troubleshooting.md"
+      ],
+      "health": {
+        "mqi": 0
+      },
+      "manifest": "docs/module.manifest.json",
+      "name": "docs",
+      "notion_page_id": null,
+      "path": "docs",
+      "tags": [
+        "docs"
+      ],
+      "tests": [
+        "docs/tests/conftest.py",
+        "docs/tests/test_docs_integration.py",
+        "docs/tests/test_docs_unit.py"
+      ]
+    },
+    {
+      "docs": [
+        "dream/docs/README.md",
+        "dream/docs/api.md",
+        "dream/docs/architecture.md",
+        "dream/docs/troubleshooting.md"
+      ],
+      "health": {
+        "mqi": 0
+      },
+      "manifest": "dream/module.manifest.json",
+      "name": "dream",
+      "notion_page_id": null,
+      "path": "dream",
+      "tags": [
+        "consciousness",
+        "dream"
+      ],
+      "tests": [
+        "dream/tests/conftest.py",
+        "dream/tests/test_dream_integration.py",
+        "dream/tests/test_dream_unit.py"
+      ]
+    },
+    {
+      "docs": [
+        "dreams/docs/README.md",
+        "dreams/docs/api.md",
+        "dreams/docs/architecture.md",
+        "dreams/docs/troubleshooting.md"
+      ],
+      "health": {
+        "mqi": 0
+      },
+      "manifest": "dreams/module.manifest.json",
+      "name": "dreams",
+      "notion_page_id": null,
+      "path": "dreams",
+      "tags": [
+        "consciousness",
+        "dreams"
+      ],
+      "tests": [
+        "dreams/tests/conftest.py",
+        "dreams/tests/test_dreams_integration.py",
+        "dreams/tests/test_dreams_unit.py"
+      ]
+    },
+    {
+      "docs": [
+        "dreamweaver_helpers_bundle/docs/README.md",
+        "dreamweaver_helpers_bundle/docs/api.md",
+        "dreamweaver_helpers_bundle/docs/architecture.md",
+        "dreamweaver_helpers_bundle/docs/troubleshooting.md"
+      ],
+      "health": {
+        "mqi": 0
+      },
+      "manifest": "dreamweaver_helpers_bundle/module.manifest.json",
+      "name": "dreamweaver_helpers_bundle",
+      "notion_page_id": null,
+      "path": "dreamweaver_helpers_bundle",
+      "tags": [
+        "dreamweaver_helpers_bundle"
+      ],
+      "tests": [
+        "dreamweaver_helpers_bundle/tests/conftest.py",
+        "dreamweaver_helpers_bundle/tests/test_dreamweaver_helpers_bundle_integration.py",
+        "dreamweaver_helpers_bundle/tests/test_dreamweaver_helpers_bundle_unit.py"
+      ]
+    },
+    {
+      "docs": [
+        "emotion/docs/README.md",
+        "emotion/docs/api.md",
+        "emotion/docs/architecture.md",
+        "emotion/docs/troubleshooting.md"
+      ],
+      "health": {
+        "mqi": 0
+      },
+      "manifest": "emotion/module.manifest.json",
+      "name": "emotion",
+      "notion_page_id": null,
+      "path": "emotion",
+      "tags": [
+        "emotion"
+      ],
+      "tests": [
+        "emotion/tests/conftest.py",
+        "emotion/tests/test_emotion_integration.py",
+        "emotion/tests/test_emotion_unit.py"
+      ]
+    },
+    {
+      "docs": [
+        "enforcement/docs/README.md",
+        "enforcement/docs/api.md",
+        "enforcement/docs/architecture.md",
+        "enforcement/docs/troubleshooting.md"
+      ],
+      "health": {
+        "mqi": 0
+      },
+      "manifest": "enforcement/module.manifest.json",
+      "name": "enforcement",
+      "notion_page_id": null,
+      "path": "enforcement",
+      "tags": [
+        "enforcement"
+      ],
+      "tests": [
+        "enforcement/tests/conftest.py",
+        "enforcement/tests/test_enforcement_integration.py",
+        "enforcement/tests/test_enforcement_unit.py"
+      ]
+    },
+    {
+      "docs": [
+        "products/enterprise/docs/README.md",
+        "products/enterprise/docs/api.md",
+        "products/enterprise/docs/architecture.md",
+        "products/enterprise/docs/troubleshooting.md"
+      ],
+      "health": {
+        "mqi": 0
+      },
+      "manifest": "products/enterprise/module.manifest.json",
+      "name": "enterprise",
+      "notion_page_id": null,
+      "path": "products/enterprise",
+      "tags": [
+        "consciousness",
+        "enterprise",
+        "fold-architecture",
+        "oauth2"
+      ],
+      "tests": [
+        "products/enterprise/tests/conftest.py",
+        "products/enterprise/tests/test_enterprise_integration.py",
+        "products/enterprise/tests/test_enterprise_unit.py"
+      ]
+    },
+    {
+      "docs": [
+        "environments/docs/README.md",
+        "environments/docs/api.md",
+        "environments/docs/architecture.md",
+        "environments/docs/troubleshooting.md"
+      ],
+      "health": {
+        "mqi": 0
+      },
+      "manifest": "environments/module.manifest.json",
+      "name": "environments",
+      "notion_page_id": null,
+      "path": "environments",
+      "tags": [
+        "environments"
+      ],
+      "tests": [
+        "environments/tests/conftest.py",
+        "environments/tests/test_environments_integration.py",
+        "environments/tests/test_environments_unit.py"
+      ]
+    },
+    {
+      "docs": [
+        "ethics/docs/README.md",
+        "ethics/docs/api.md",
+        "ethics/docs/architecture.md",
+        "ethics/docs/troubleshooting.md"
+      ],
+      "health": {
+        "mqi": 0
+      },
+      "manifest": "ethics/module.manifest.json",
+      "name": "ethics",
+      "notion_page_id": null,
+      "path": "ethics",
+      "tags": [
+        "consciousness",
+        "ethics"
+      ],
+      "tests": [
+        "ethics/tests/conftest.py",
+        "ethics/tests/test_ethics_integration.py",
+        "ethics/tests/test_ethics_unit.py"
+      ]
+    },
+    {
+      "docs": [
+        "eval_runs/docs/README.md",
+        "eval_runs/docs/api.md",
+        "eval_runs/docs/architecture.md",
+        "eval_runs/docs/troubleshooting.md"
+      ],
+      "health": {
+        "mqi": 0
+      },
+      "manifest": "eval_runs/module.manifest.json",
+      "name": "eval_runs",
+      "notion_page_id": null,
+      "path": "eval_runs",
+      "tags": [
+        "eval_runs"
+      ],
+      "tests": [
+        "eval_runs/tests/conftest.py",
+        "eval_runs/tests/test_eval_runs_integration.py",
+        "eval_runs/tests/test_eval_runs_unit.py"
+      ]
+    },
+    {
+      "docs": [
+        "examples/docs/README.md",
+        "examples/docs/api.md",
+        "examples/docs/architecture.md",
+        "examples/docs/troubleshooting.md"
+      ],
+      "health": {
+        "mqi": 0
+      },
+      "manifest": "examples/module.manifest.json",
+      "name": "examples",
+      "notion_page_id": null,
+      "path": "examples",
+      "tags": [
+        "examples"
+      ],
+      "tests": [
+        "examples/tests/conftest.py",
+        "examples/tests/test_examples_integration.py",
+        "examples/tests/test_examples_unit.py"
+      ]
+    },
+    {
+      "docs": [
+        "exports/docs/README.md",
+        "exports/docs/api.md",
+        "exports/docs/architecture.md",
+        "exports/docs/troubleshooting.md"
+      ],
+      "health": {
+        "mqi": 0
+      },
+      "manifest": "exports/module.manifest.json",
+      "name": "exports",
+      "notion_page_id": null,
+      "path": "exports",
+      "tags": [
+        "exports"
+      ],
+      "tests": [
+        "exports/tests/conftest.py",
+        "exports/tests/test_exports_integration.py",
+        "exports/tests/test_exports_unit.py"
+      ]
+    },
+    {
+      "docs": [
+        "feedback/docs/README.md",
+        "feedback/docs/api.md",
+        "feedback/docs/architecture.md",
+        "feedback/docs/troubleshooting.md"
+      ],
+      "health": {
+        "mqi": 0
+      },
+      "manifest": "feedback/module.manifest.json",
+      "name": "feedback",
+      "notion_page_id": null,
+      "path": "feedback",
+      "tags": [
+        "feedback"
+      ],
+      "tests": [
+        "feedback/tests/conftest.py",
+        "feedback/tests/test_feedback_integration.py",
+        "feedback/tests/test_feedback_unit.py"
+      ]
+    },
+    {
+      "docs": [
+        "final_sweep/docs/README.md",
+        "final_sweep/docs/api.md",
+        "final_sweep/docs/architecture.md",
+        "final_sweep/docs/troubleshooting.md"
+      ],
+      "health": {
+        "mqi": 0
+      },
+      "manifest": "final_sweep/module.manifest.json",
+      "name": "final-sweep",
+      "notion_page_id": null,
+      "path": "final_sweep",
+      "tags": [
+        "final-sweep"
+      ],
+      "tests": [
+        "final_sweep/tests/conftest.py",
+        "final_sweep/tests/test_final-sweep_integration.py",
+        "final_sweep/tests/test_final-sweep_unit.py"
+      ]
+    },
+    {
+      "docs": [
+        "governance/docs/BRAND_POLICY_COMPLIANCE_REPORT.md",
+        "governance/docs/CHANGELOG.md",
+        "governance/docs/CODE_OF_CONDUCT.md",
+        "governance/docs/COMPLIANCE_AUDIT_REPORT.md",
+        "governance/docs/CONTRIBUTING.md",
+        "governance/docs/README.md",
+        "governance/docs/TRANSPARENCY.md",
+        "governance/docs/TRANSPARENCY_CARDS.md",
+        "governance/docs/TRANSPARENCY_INDEX.md",
+        "governance/docs/api.md",
+        "governance/docs/architecture.md",
+        "governance/docs/audit_compliance_framework.md",
+        "governance/docs/ethical_guidelines.md",
+        "governance/docs/troubleshooting.md"
+      ],
+      "health": {
+        "mqi": 0
+      },
+      "manifest": "governance/module.manifest.json",
+      "name": "governance",
+      "notion_page_id": null,
+      "path": "governance",
+      "tags": [
+        "consciousness",
+        "constitutional-ai",
+        "ethics",
+        "governance",
+        "guardian",
+        "policy"
+      ],
+      "tests": [
+        "governance/tests/conftest.py",
+        "governance/tests/test_governance_integration.py",
+        "governance/tests/test_governance_unit.py"
+      ]
+    },
+    {
+      "docs": [
+        "governance_extended/docs/README.md",
+        "governance_extended/docs/api.md",
+        "governance_extended/docs/architecture.md",
+        "governance_extended/docs/troubleshooting.md"
+      ],
+      "health": {
+        "mqi": 0
+      },
+      "manifest": "governance_extended/module.manifest.json",
+      "name": "governance_extended",
+      "notion_page_id": null,
+      "path": "governance_extended",
+      "tags": [
+        "constitutional-ai",
+        "ethics",
+        "governance",
+        "governance_extended",
+        "guardian",
+        "policy"
+      ],
+      "tests": [
+        "governance_extended/tests/conftest.py",
+        "governance_extended/tests/test_governance_extended_integration.py",
+        "governance_extended/tests/test_governance_extended_unit.py"
+      ]
+    },
+    {
+      "docs": [
+        "grafana/docs/README.md",
+        "grafana/docs/api.md",
+        "grafana/docs/architecture.md",
+        "grafana/docs/troubleshooting.md"
+      ],
+      "health": {
+        "mqi": 0
+      },
+      "manifest": "grafana/module.manifest.json",
+      "name": "grafana",
+      "notion_page_id": null,
+      "path": "grafana",
+      "tags": [
+        "grafana"
+      ],
+      "tests": [
+        "grafana/tests/conftest.py",
+        "grafana/tests/test_grafana_integration.py",
+        "grafana/tests/test_grafana_unit.py"
+      ]
+    },
+    {
+      "docs": [
+        "graphs/docs/README.md",
+        "graphs/docs/api.md",
+        "graphs/docs/architecture.md",
+        "graphs/docs/troubleshooting.md"
+      ],
+      "health": {
+        "mqi": 0
+      },
+      "manifest": "graphs/module.manifest.json",
+      "name": "graphs",
+      "notion_page_id": null,
+      "path": "graphs",
+      "tags": [
+        "graphs"
+      ],
+      "tests": [
+        "graphs/tests/conftest.py",
+        "graphs/tests/test_graphs_integration.py",
+        "graphs/tests/test_graphs_unit.py"
+      ]
+    },
+    {
+      "docs": [
+        "gtpsi/docs/README.md",
+        "gtpsi/docs/api.md",
+        "gtpsi/docs/architecture.md",
+        "gtpsi/docs/troubleshooting.md"
+      ],
+      "health": {
+        "mqi": 0
+      },
+      "manifest": "gtpsi/module.manifest.json",
+      "name": "gtpsi",
+      "notion_page_id": null,
+      "path": "gtpsi",
+      "tags": [
+        "gtpsi"
+      ],
+      "tests": [
+        "gtpsi/tests/conftest.py",
+        "gtpsi/tests/test_gtpsi_integration.py",
+        "gtpsi/tests/test_gtpsi_unit.py"
+      ]
+    },
+    {
+      "docs": [
+        "guardian/docs/README.md",
+        "guardian/docs/api.md",
+        "guardian/docs/architecture.md",
+        "guardian/docs/troubleshooting.md"
+      ],
+      "health": {
+        "mqi": 0
+      },
+      "manifest": "guardian/module.manifest.json",
+      "name": "guardian",
+      "notion_page_id": null,
+      "path": "guardian",
+      "tags": [
+        "guardian"
+      ],
+      "tests": [
+        "guardian/tests/conftest.py",
+        "guardian/tests/test_guardian_integration.py",
+        "guardian/tests/test_guardian_unit.py"
+      ]
+    },
+    {
+      "docs": [
+        "gymnasium_local/docs/README.md",
+        "gymnasium_local/docs/api.md",
+        "gymnasium_local/docs/architecture.md",
+        "gymnasium_local/docs/troubleshooting.md"
+      ],
+      "health": {
+        "mqi": 0
+      },
+      "manifest": "gymnasium_local/module.manifest.json",
+      "name": "gymnasium_local",
+      "notion_page_id": null,
+      "path": "gymnasium_local",
+      "tags": [
+        "gymnasium_local"
+      ],
+      "tests": [
+        "gymnasium_local/tests/conftest.py",
+        "gymnasium_local/tests/test_gymnasium_local_integration.py",
+        "gymnasium_local/tests/test_gymnasium_local_unit.py"
+      ]
+    },
+    {
+      "docs": [
+        "healing/docs/README.md",
+        "healing/docs/api.md",
+        "healing/docs/architecture.md",
+        "healing/docs/troubleshooting.md"
+      ],
+      "health": {
+        "mqi": 0
+      },
+      "manifest": "healing/module.manifest.json",
+      "name": "healing",
+      "notion_page_id": null,
+      "path": "healing",
+      "tags": [
+        "healing"
+      ],
+      "tests": [
+        "healing/tests/conftest.py",
+        "healing/tests/test_healing_integration.py",
+        "healing/tests/test_healing_unit.py"
+      ]
+    },
+    {
+      "docs": [
+        "health_reports/docs/README.md",
+        "health_reports/docs/api.md",
+        "health_reports/docs/architecture.md",
+        "health_reports/docs/troubleshooting.md"
+      ],
+      "health": {
+        "mqi": 0
+      },
+      "manifest": "health_reports/module.manifest.json",
+      "name": "health_reports",
+      "notion_page_id": null,
+      "path": "health_reports",
+      "tags": [
+        "health_reports"
+      ],
+      "tests": [
+        "health_reports/tests/conftest.py",
+        "health_reports/tests/test_health_reports_integration.py",
+        "health_reports/tests/test_health_reports_unit.py"
+      ]
+    },
+    {
+      "docs": [
+        "hooks/docs/README.md",
+        "hooks/docs/api.md",
+        "hooks/docs/architecture.md",
+        "hooks/docs/troubleshooting.md"
+      ],
+      "health": {
+        "mqi": 0
+      },
+      "manifest": "hooks/module.manifest.json",
+      "name": "hooks",
+      "notion_page_id": null,
+      "path": "hooks",
+      "tags": [
+        "hooks"
+      ],
+      "tests": [
+        "hooks/tests/conftest.py",
+        "hooks/tests/test_hooks_integration.py",
+        "hooks/tests/test_hooks_unit.py"
+      ]
+    },
+    {
+      "docs": [
+        "htmlcov/docs/README.md",
+        "htmlcov/docs/api.md",
+        "htmlcov/docs/architecture.md",
+        "htmlcov/docs/troubleshooting.md"
+      ],
+      "health": {
+        "mqi": 0
+      },
+      "manifest": "htmlcov/module.manifest.json",
+      "name": "htmlcov",
+      "notion_page_id": null,
+      "path": "htmlcov",
+      "tags": [
+        "htmlcov"
+      ],
+      "tests": [
+        "htmlcov/tests/conftest.py",
+        "htmlcov/tests/test_htmlcov_integration.py",
+        "htmlcov/tests/test_htmlcov_unit.py"
+      ]
+    },
+    {
+      "docs": [
+        "identity/docs/README.md",
+        "identity/docs/api.md",
+        "identity/docs/architecture.md",
+        "identity/docs/oidc_security_audit.md",
+        "identity/docs/troubleshooting.md"
+      ],
+      "health": {
+        "mqi": 0
+      },
+      "manifest": "identity/module.manifest.json",
+      "name": "identity",
+      "notion_page_id": null,
+      "path": "identity",
+      "tags": [
+        "authentication",
+        "consciousness",
+        "identity",
+        "oauth2",
+        "passkey",
+        "security",
+        "webauthn"
+      ],
+      "tests": [
+        "identity/tests/conftest.py",
+        "identity/tests/test_identity_integration.py",
+        "identity/tests/test_identity_unit.py"
+      ]
+    },
+    {
+      "docs": [
+        "integrations/docs/README.md",
+        "integrations/docs/api.md",
+        "integrations/docs/architecture.md",
+        "integrations/docs/troubleshooting.md"
+      ],
+      "health": {
+        "mqi": 0
+      },
+      "manifest": "integrations/module.manifest.json",
+      "name": "integrations",
+      "notion_page_id": null,
+      "path": "integrations",
+      "tags": [
+        "integrations"
+      ],
+      "tests": [
+        "integrations/tests/conftest.py",
+        "integrations/tests/test_integrations_integration.py",
+        "integrations/tests/test_integrations_unit.py"
+      ]
+    },
+    {
+      "docs": [
+        "logs/docs/README.md",
+        "logs/docs/api.md",
+        "logs/docs/architecture.md",
+        "logs/docs/troubleshooting.md"
+      ],
+      "health": {
+        "mqi": 0
+      },
+      "manifest": "logs/module.manifest.json",
+      "name": "logs",
+      "notion_page_id": null,
+      "path": "logs",
+      "tags": [
+        "logs"
+      ],
+      "tests": [
+        "logs/tests/conftest.py",
+        "logs/tests/test_logs_integration.py",
+        "logs/tests/test_logs_unit.py"
+      ]
+    },
+    {
+      "docs": [
+        "lukhas/docs/README.md",
+        "lukhas/docs/api.md",
+        "lukhas/docs/architecture.md",
+        "lukhas/docs/docs/README.md",
+        "lukhas/docs/docs/api.md",
+        "lukhas/docs/troubleshooting.md"
+      ],
+      "health": {
+        "mqi": 0
+      },
+      "manifest": "lukhas/module.manifest.json",
+      "name": "lukhas",
+      "notion_page_id": null,
+      "path": "lukhas",
+      "tags": [
+        "lukhas"
+      ],
+      "tests": [
+        "lukhas/tests/conftest.py",
+        "lukhas/tests/test_lukhas_integration.py",
+        "lukhas/tests/test_lukhas_unit.py",
+        "lukhas/tests/tests/test_tests_integration.py",
+        "lukhas/tests/tests/test_tests_unit.py"
+      ]
+    },
+    {
+      "docs": [
+        "lukhas_ai_intro/docs/README.md",
+        "lukhas_ai_intro/docs/api.md",
+        "lukhas_ai_intro/docs/architecture.md",
+        "lukhas_ai_intro/docs/troubleshooting.md"
+      ],
+      "health": {
+        "mqi": 0
+      },
+      "manifest": "lukhas_ai_intro/module.manifest.json",
+      "name": "lukhas-ai-intro",
+      "notion_page_id": null,
+      "path": "lukhas_ai_intro",
+      "tags": [
+        "lukhas-ai-intro"
+      ],
+      "tests": [
+        "lukhas_ai_intro/tests/conftest.py",
+        "lukhas_ai_intro/tests/test_lukhas-ai-intro_integration.py",
+        "lukhas_ai_intro/tests/test_lukhas-ai-intro_unit.py"
+      ]
+    },
+    {
+      "docs": [],
+      "health": {
+        "mqi": 0
+      },
+      "manifest": "lukhas_ai.egg-info/module.manifest.json",
+      "name": "lukhas_ai.egg-info",
+      "notion_page_id": null,
+      "path": "lukhas_ai.egg-info",
+      "tags": [
+        "lukhas_ai.egg-info"
+      ],
+      "tests": []
+    },
+    {
+      "docs": [
+        "lukhas_website/docs/api.md",
+        "lukhas_website/docs/architecture.md",
+        "lukhas_website/docs/stigg-integration.md",
+        "lukhas_website/docs/troubleshooting.md"
+      ],
+      "health": {
+        "mqi": 0
+      },
+      "manifest": "lukhas_website/module.manifest.json",
+      "name": "lukhas_website",
+      "notion_page_id": null,
+      "path": "lukhas_website",
+      "tags": [
+        "lukhas_website"
+      ],
+      "tests": [
+        "lukhas_website/tests/conftest.py",
+        "lukhas_website/tests/test_lukhas_website_integration.py",
+        "lukhas_website/tests/test_lukhas_website_unit.py"
+      ]
+    },
+    {
+      "docs": [
+        "matriz/docs/AGENTS.md",
+        "matriz/docs/DEPLOYMENT_CLEARANCE.md",
+        "matriz/docs/INDEX.md",
+        "matriz/docs/LAB_BRIEFING.md",
+        "matriz/docs/LANE_POLICY.md",
+        "matriz/docs/MODULE_READINESS.md",
+        "matriz/docs/QUICK_REFERENCE.md",
+        "matriz/docs/api.md",
+        "matriz/docs/architecture.md",
+        "matriz/docs/troubleshooting.md"
+      ],
+      "health": {
+        "mqi": 0
+      },
+      "manifest": "matriz/module.manifest.json",
+      "name": "matriz",
+      "notion_page_id": null,
+      "path": "matriz",
+      "tags": [
+        "bio-symbolic",
+        "consciousness",
+        "fold-architecture",
+        "matriz",
+        "quantum-inspired",
+        "symbolic-reasoning",
+        "t4-experimental"
+      ],
+      "tests": [
+        "matriz/tests/conftest.py",
+        "matriz/tests/test_matriz_integration.py",
+        "matriz/tests/test_matriz_unit.py"
+      ]
+    },
+    {
+      "docs": [
+        "mcp-lukhas-sse/docs/README.md",
+        "mcp-lukhas-sse/docs/api.md",
+        "mcp-lukhas-sse/docs/architecture.md",
+        "mcp-lukhas-sse/docs/troubleshooting.md"
+      ],
+      "health": {
+        "mqi": 0
+      },
+      "manifest": "mcp-lukhas-sse/module.manifest.json",
+      "name": "mcp-lukhas-sse",
+      "notion_page_id": null,
+      "path": "mcp-lukhas-sse",
+      "tags": [
+        "authentication",
+        "mcp-lukhas-sse"
+      ],
+      "tests": [
+        "mcp-lukhas-sse/tests/conftest.py",
+        "mcp-lukhas-sse/tests/test_mcp-lukhas-sse_integration.py",
+        "mcp-lukhas-sse/tests/test_mcp-lukhas-sse_unit.py"
+      ]
+    },
+    {
+      "docs": [
+        "mcp-server/docs/README.md",
+        "mcp-server/docs/api.md",
+        "mcp-server/docs/architecture.md",
+        "mcp-server/docs/troubleshooting.md"
+      ],
+      "health": {
+        "mqi": 0
+      },
+      "manifest": "mcp-server/module.manifest.json",
+      "name": "mcp-server",
+      "notion_page_id": null,
+      "path": "mcp-server",
+      "tags": [
+        "mcp-server"
+      ],
+      "tests": [
+        "mcp-server/tests/conftest.py",
+        "mcp-server/tests/test_mcp-server_integration.py",
+        "mcp-server/tests/test_mcp-server_unit.py"
+      ]
+    },
+    {
+      "docs": [
+        "mcp-servers/docs/README.md",
+        "mcp-servers/docs/api.md",
+        "mcp-servers/docs/architecture.md",
+        "mcp-servers/docs/troubleshooting.md"
+      ],
+      "health": {
+        "mqi": 0
+      },
+      "manifest": "mcp-servers/module.manifest.json",
+      "name": "mcp-servers",
+      "notion_page_id": null,
+      "path": "mcp-servers",
+      "tags": [
+        "mcp-servers"
+      ],
+      "tests": [
+        "mcp-servers/tests/conftest.py",
+        "mcp-servers/tests/test_mcp-servers_integration.py",
+        "mcp-servers/tests/test_mcp-servers_unit.py"
+      ]
+    },
+    {
+      "docs": [
+        "mcp_servers/docs/README.md",
+        "mcp_servers/docs/api.md",
+        "mcp_servers/docs/architecture.md",
+        "mcp_servers/docs/troubleshooting.md"
+      ],
+      "health": {
+        "mqi": 0
+      },
+      "manifest": "mcp_servers/module.manifest.json",
+      "name": "mcp_servers",
+      "notion_page_id": null,
+      "path": "mcp_servers",
+      "tags": [
+        "mcp_servers"
+      ],
+      "tests": [
+        "mcp_servers/tests/conftest.py",
+        "mcp_servers/tests/test_mcp_servers_integration.py",
+        "mcp_servers/tests/test_mcp_servers_unit.py"
+      ]
+    },
+    {
+      "docs": [
+        "memory/docs/README.md",
+        "memory/docs/api.md",
+        "memory/docs/architecture.md",
+        "memory/docs/troubleshooting.md"
+      ],
+      "health": {
+        "mqi": 0
+      },
+      "manifest": "memory/module.manifest.json",
+      "name": "memory",
+      "notion_page_id": null,
+      "path": "memory",
+      "tags": [
+        "consciousness",
+        "episodic",
+        "fold-architecture",
+        "memory",
+        "orchestration",
+        "semantic",
+        "temporal"
+      ],
+      "tests": [
+        "memory/tests/conftest.py",
+        "memory/tests/test_memory_integration.py",
+        "memory/tests/test_memory_unit.py"
+      ]
+    },
+    {
+      "docs": [
+        "mk/docs/README.md",
+        "mk/docs/api.md",
+        "mk/docs/architecture.md",
+        "mk/docs/troubleshooting.md"
+      ],
+      "health": {
+        "mqi": 0
+      },
+      "manifest": "mk/module.manifest.json",
+      "name": "mk",
+      "notion_page_id": null,
+      "path": "mk",
+      "tags": [
+        "mk"
+      ],
+      "tests": [
+        "mk/tests/conftest.py",
+        "mk/tests/test_mk_integration.py",
+        "mk/tests/test_mk_unit.py"
+      ]
+    },
+    {
+      "docs": [
+        "models/docs/README.md",
+        "models/docs/api.md",
+        "models/docs/architecture.md",
+        "models/docs/troubleshooting.md"
+      ],
+      "health": {
+        "mqi": 0
+      },
+      "manifest": "models/module.manifest.json",
+      "name": "models",
+      "notion_page_id": null,
+      "path": "models",
+      "tags": [
+        "models"
+      ],
+      "tests": [
+        "models/tests/conftest.py",
+        "models/tests/test_models_integration.py",
+        "models/tests/test_models_unit.py"
+      ]
+    },
+    {
+      "docs": [
+        "modulation/docs/README.md",
+        "modulation/docs/api.md",
+        "modulation/docs/architecture.md",
+        "modulation/docs/troubleshooting.md"
+      ],
+      "health": {
+        "mqi": 0
+      },
+      "manifest": "modulation/module.manifest.json",
+      "name": "modulation",
+      "notion_page_id": null,
+      "path": "modulation",
+      "tags": [
+        "modulation",
+        "orchestration"
+      ],
+      "tests": [
+        "modulation/tests/conftest.py",
+        "modulation/tests/test_modulation_integration.py",
+        "modulation/tests/test_modulation_unit.py"
+      ]
+    },
+    {
+      "docs": [
+        "modules/docs/README.md",
+        "modules/docs/api.md",
+        "modules/docs/architecture.md",
+        "modules/docs/troubleshooting.md"
+      ],
+      "health": {
+        "mqi": 0
+      },
+      "manifest": "modules/module.manifest.json",
+      "name": "modules",
+      "notion_page_id": null,
+      "path": "modules",
+      "tags": [
+        "modules"
+      ],
+      "tests": [
+        "modules/tests/conftest.py",
+        "modules/tests/test_modules_integration.py",
+        "modules/tests/test_modules_unit.py"
+      ]
+    },
+    {
+      "docs": [
+        "monitoring/docs/README.md",
+        "monitoring/docs/api.md",
+        "monitoring/docs/architecture.md",
+        "monitoring/docs/troubleshooting.md"
+      ],
+      "health": {
+        "mqi": 0
+      },
+      "manifest": "monitoring/module.manifest.json",
+      "name": "monitoring",
+      "notion_page_id": null,
+      "path": "monitoring",
+      "tags": [
+        "authentication",
+        "monitoring"
+      ],
+      "tests": [
+        "monitoring/tests/conftest.py",
+        "monitoring/tests/test_monitoring_integration.py",
+        "monitoring/tests/test_monitoring_unit.py"
+      ]
+    },
+    {
+      "docs": [
+        "next_gen/docs/README.md",
+        "next_gen/docs/api.md",
+        "next_gen/docs/architecture.md",
+        "next_gen/docs/troubleshooting.md"
+      ],
+      "health": {
+        "mqi": 0
+      },
+      "manifest": "next_gen/module.manifest.json",
+      "name": "next_gen",
+      "notion_page_id": null,
+      "path": "next_gen",
+      "tags": [
+        "next_gen"
+      ],
+      "tests": [
+        "next_gen/tests/conftest.py",
+        "next_gen/tests/test_next_gen_integration.py",
+        "next_gen/tests/test_next_gen_unit.py"
+      ]
+    },
+    {
+      "docs": [
+        "observability/docs/README.md",
+        "observability/docs/api.md",
+        "observability/docs/architecture.md",
+        "observability/docs/troubleshooting.md"
+      ],
+      "health": {
+        "mqi": 0
+      },
+      "manifest": "observability/module.manifest.json",
+      "name": "observability",
+      "notion_page_id": null,
+      "path": "observability",
+      "tags": [
+        "observability"
+      ],
+      "tests": [
+        "observability/tests/conftest.py",
+        "observability/tests/test_observability_integration.py",
+        "observability/tests/test_observability_unit.py"
+      ]
+    },
+    {
+      "docs": [
+        "oneiric_core/docs/README.md",
+        "oneiric_core/docs/api.md",
+        "oneiric_core/docs/architecture.md",
+        "oneiric_core/docs/troubleshooting.md"
+      ],
+      "health": {
+        "mqi": 0
+      },
+      "manifest": "oneiric_core/module.manifest.json",
+      "name": "oneiric_core",
+      "notion_page_id": null,
+      "path": "oneiric_core",
+      "tags": [
+        "coordination",
+        "core",
+        "infrastructure",
+        "oneiric_core"
+      ],
+      "tests": [
+        "oneiric_core/tests/conftest.py",
+        "oneiric_core/tests/test_oneiric_core_integration.py",
+        "oneiric_core/tests/test_oneiric_core_unit.py"
+      ]
+    },
+    {
+      "docs": [
+        "ops/docs/README.md",
+        "ops/docs/api.md",
+        "ops/docs/architecture.md",
+        "ops/docs/troubleshooting.md"
+      ],
+      "health": {
+        "mqi": 0
+      },
+      "manifest": "ops/module.manifest.json",
+      "name": "ops",
+      "notion_page_id": null,
+      "path": "ops",
+      "tags": [
+        "ops"
+      ],
+      "tests": [
+        "ops/tests/conftest.py",
+        "ops/tests/test_ops_integration.py",
+        "ops/tests/test_ops_unit.py"
+      ]
+    },
+    {
+      "docs": [
+        "orchestration/docs/PLAN_VERIFIER.md",
+        "orchestration/docs/README.md",
+        "orchestration/docs/api.md",
+        "orchestration/docs/architecture.md",
+        "orchestration/docs/troubleshooting.md"
+      ],
+      "health": {
+        "mqi": 0
+      },
+      "manifest": "orchestration/module.manifest.json",
+      "name": "orchestration",
+      "notion_page_id": null,
+      "path": "orchestration",
+      "tags": [
+        "consciousness",
+        "coordination",
+        "orchestration",
+        "workflow"
+      ],
+      "tests": [
+        "orchestration/tests/conftest.py",
+        "orchestration/tests/test_orchestration_integration.py",
+        "orchestration/tests/test_orchestration_unit.py"
+      ]
+    },
+    {
+      "docs": [
+        "out/docs/README.md",
+        "out/docs/api.md",
+        "out/docs/architecture.md",
+        "out/docs/troubleshooting.md"
+      ],
+      "health": {
+        "mqi": 0
+      },
+      "manifest": "out/module.manifest.json",
+      "name": "out",
+      "notion_page_id": null,
+      "path": "out",
+      "tags": [
+        "out"
+      ],
+      "tests": [
+        "out/tests/conftest.py",
+        "out/tests/test_out_integration.py",
+        "out/tests/test_out_unit.py"
+      ]
+    },
+    {
+      "docs": [
+        "packages/docs/README.md",
+        "packages/docs/api.md",
+        "packages/docs/architecture.md",
+        "packages/docs/troubleshooting.md"
+      ],
+      "health": {
+        "mqi": 0
+      },
+      "manifest": "packages/module.manifest.json",
+      "name": "packages",
+      "notion_page_id": null,
+      "path": "packages",
+      "tags": [
+        "packages"
+      ],
+      "tests": [
+        "packages/tests/conftest.py",
+        "packages/tests/test_packages_integration.py",
+        "packages/tests/test_packages_unit.py"
+      ]
+    },
+    {
+      "docs": [
+        "performance/docs/README.md",
+        "performance/docs/api.md",
+        "performance/docs/architecture.md",
+        "performance/docs/troubleshooting.md"
+      ],
+      "health": {
+        "mqi": 0
+      },
+      "manifest": "performance/module.manifest.json",
+      "name": "performance",
+      "notion_page_id": null,
+      "path": "performance",
+      "tags": [
+        "monitoring",
+        "performance"
+      ],
+      "tests": [
+        "performance/tests/conftest.py",
+        "performance/tests/test_performance_integration.py",
+        "performance/tests/test_performance_unit.py"
+      ]
+    },
+    {
+      "docs": [
+        "perp_runs/docs/README.md",
+        "perp_runs/docs/api.md",
+        "perp_runs/docs/architecture.md",
+        "perp_runs/docs/troubleshooting.md"
+      ],
+      "health": {
+        "mqi": 0
+      },
+      "manifest": "perp_runs/module.manifest.json",
+      "name": "perp_runs",
+      "notion_page_id": null,
+      "path": "perp_runs",
+      "tags": [
+        "perp_runs"
+      ],
+      "tests": [
+        "perp_runs/tests/conftest.py",
+        "perp_runs/tests/test_perp_runs_integration.py",
+        "perp_runs/tests/test_perp_runs_unit.py"
+      ]
+    },
+    {
+      "docs": [
+        "personality/docs/README.md",
+        "personality/docs/api.md",
+        "personality/docs/architecture.md",
+        "personality/docs/troubleshooting.md"
+      ],
+      "health": {
+        "mqi": 0
+      },
+      "manifest": "personality/module.manifest.json",
+      "name": "personality",
+      "notion_page_id": null,
+      "path": "personality",
+      "tags": [
+        "personality"
+      ],
+      "tests": [
+        "personality/tests/conftest.py",
+        "personality/tests/test_personality_integration.py",
+        "personality/tests/test_personality_unit.py"
+      ]
+    },
+    {
+      "docs": [
+        "phase1_verification_pack/docs/README.md",
+        "phase1_verification_pack/docs/api.md",
+        "phase1_verification_pack/docs/architecture.md",
+        "phase1_verification_pack/docs/troubleshooting.md"
+      ],
+      "health": {
+        "mqi": 0
+      },
+      "manifest": "phase1_verification_pack/module.manifest.json",
+      "name": "phase1_verification_pack",
+      "notion_page_id": null,
+      "path": "phase1_verification_pack",
+      "tags": [
+        "phase1_verification_pack"
+      ],
+      "tests": [
+        "phase1_verification_pack/tests/conftest.py",
+        "phase1_verification_pack/tests/test_phase1_verification_pack_integration.py",
+        "phase1_verification_pack/tests/test_phase1_verification_pack_unit.py"
+      ]
+    },
+    {
+      "docs": [
+        "policies/docs/README.md",
+        "policies/docs/api.md",
+        "policies/docs/architecture.md",
+        "policies/docs/troubleshooting.md"
+      ],
+      "health": {
+        "mqi": 0
+      },
+      "manifest": "policies/module.manifest.json",
+      "name": "policies",
+      "notion_page_id": null,
+      "path": "policies",
+      "tags": [
+        "policies"
+      ],
+      "tests": [
+        "policies/tests/conftest.py",
+        "policies/tests/test_policies_integration.py",
+        "policies/tests/test_policies_unit.py"
+      ]
+    },
+    {
+      "docs": [
+        "presentations/docs/README.md",
+        "presentations/docs/api.md",
+        "presentations/docs/architecture.md",
+        "presentations/docs/troubleshooting.md"
+      ],
+      "health": {
+        "mqi": 0
+      },
+      "manifest": "presentations/module.manifest.json",
+      "name": "presentations",
+      "notion_page_id": null,
+      "path": "presentations",
+      "tags": [
+        "presentations"
+      ],
+      "tests": [
+        "presentations/tests/conftest.py",
+        "presentations/tests/test_presentations_integration.py",
+        "presentations/tests/test_presentations_unit.py"
+      ]
+    },
+    {
+      "docs": [
+        "products/docs/README.md",
+        "products/docs/api.md",
+        "products/docs/architecture.md",
+        "products/docs/troubleshooting.md"
+      ],
+      "health": {
+        "mqi": 0
+      },
+      "manifest": "products/module.manifest.json",
+      "name": "products",
+      "notion_page_id": null,
+      "path": "products",
+      "tags": [
+        "authentication",
+        "consciousness",
+        "products",
+        "t4-experimental"
+      ],
+      "tests": [
+        "products/tests/conftest.py",
+        "products/tests/test_products_integration.py",
+        "products/tests/test_products_unit.py"
+      ]
+    },
+    {
+      "docs": [
+        "prometheus/docs/README.md",
+        "prometheus/docs/api.md",
+        "prometheus/docs/architecture.md",
+        "prometheus/docs/troubleshooting.md"
+      ],
+      "health": {
+        "mqi": 0
+      },
+      "manifest": "prometheus/module.manifest.json",
+      "name": "prometheus",
+      "notion_page_id": null,
+      "path": "prometheus",
+      "tags": [
+        "prometheus"
+      ],
+      "tests": [
+        "prometheus/tests/conftest.py",
+        "prometheus/tests/test_prometheus_integration.py",
+        "prometheus/tests/test_prometheus_unit.py"
+      ]
+    },
+    {
+      "docs": [
+        "pytest_asyncio/docs/README.md",
+        "pytest_asyncio/docs/api.md",
+        "pytest_asyncio/docs/architecture.md",
+        "pytest_asyncio/docs/troubleshooting.md"
+      ],
+      "health": {
+        "mqi": 0
+      },
+      "manifest": "pytest_asyncio/module.manifest.json",
+      "name": "pytest_asyncio",
+      "notion_page_id": null,
+      "path": "pytest_asyncio",
+      "tags": [
+        "pytest_asyncio"
+      ],
+      "tests": [
+        "pytest_asyncio/tests/conftest.py",
+        "pytest_asyncio/tests/test_pytest_asyncio_integration.py",
+        "pytest_asyncio/tests/test_pytest_asyncio_unit.py"
+      ]
+    },
+    {
+      "docs": [
+        "qi/docs/ARCHITECTURE.md",
+        "qi/docs/NAMING_RATIONALE.md",
+        "qi/docs/api.md",
+        "qi/docs/troubleshooting.md"
+      ],
+      "health": {
+        "mqi": 0
+      },
+      "manifest": "qi/module.manifest.json",
+      "name": "qi",
+      "notion_page_id": null,
+      "path": "qi",
+      "tags": [
+        "consciousness",
+        "orchestration",
+        "qi"
+      ],
+      "tests": [
+        "qi/tests/conftest.py",
+        "qi/tests/test_qi_integration.py",
+        "qi/tests/test_qi_unit.py"
+      ]
+    },
+    {
+      "docs": [
+        "quantum/docs/README.md",
+        "quantum/docs/api.md",
+        "quantum/docs/architecture.md",
+        "quantum/docs/troubleshooting.md"
+      ],
+      "health": {
+        "mqi": 0
+      },
+      "manifest": "quantum/module.manifest.json",
+      "name": "quantum",
+      "notion_page_id": null,
+      "path": "quantum",
+      "tags": [
+        "consciousness",
+        "quantum",
+        "quantum-inspired",
+        "superposition"
+      ],
+      "tests": [
+        "quantum/tests/conftest.py",
+        "quantum/tests/test_quantum_integration.py",
+        "quantum/tests/test_quantum_unit.py"
+      ]
+    },
+    {
+      "docs": [
+        "quarantine/docs/README.md",
+        "quarantine/docs/api.md",
+        "quarantine/docs/architecture.md",
+        "quarantine/docs/troubleshooting.md"
+      ],
+      "health": {
+        "mqi": 0
+      },
+      "manifest": "quarantine/module.manifest.json",
+      "name": "quarantine",
+      "notion_page_id": null,
+      "path": "quarantine",
+      "tags": [
+        "quarantine"
+      ],
+      "tests": [
+        "quarantine/tests/conftest.py",
+        "quarantine/tests/test_quarantine_integration.py",
+        "quarantine/tests/test_quarantine_unit.py"
+      ]
+    },
+    {
+      "docs": [
+        "rats/docs/README.md",
+        "rats/docs/api.md",
+        "rats/docs/architecture.md",
+        "rats/docs/troubleshooting.md"
+      ],
+      "health": {
+        "mqi": 0
+      },
+      "manifest": "rats/module.manifest.json",
+      "name": "rats",
+      "notion_page_id": null,
+      "path": "rats",
+      "tags": [
+        "rats"
+      ],
+      "tests": [
+        "rats/tests/conftest.py",
+        "rats/tests/test_rats_integration.py",
+        "rats/tests/test_rats_unit.py"
+      ]
+    },
+    {
+      "docs": [
+        "reasoning/docs/README.md",
+        "reasoning/docs/api.md",
+        "reasoning/docs/architecture.md",
+        "reasoning/docs/troubleshooting.md"
+      ],
+      "health": {
+        "mqi": 0
+      },
+      "manifest": "reasoning/module.manifest.json",
+      "name": "reasoning",
+      "notion_page_id": null,
+      "path": "reasoning",
+      "tags": [
+        "reasoning"
+      ],
+      "tests": [
+        "reasoning/tests/conftest.py",
+        "reasoning/tests/test_reasoning_integration.py",
+        "reasoning/tests/test_reasoning_unit.py"
+      ]
+    },
+    {
+      "docs": [
+        "recovered_components/docs/README.md",
+        "recovered_components/docs/api.md",
+        "recovered_components/docs/architecture.md",
+        "recovered_components/docs/troubleshooting.md"
+      ],
+      "health": {
+        "mqi": 0
+      },
+      "manifest": "recovered_components/module.manifest.json",
+      "name": "recovered_components",
+      "notion_page_id": null,
+      "path": "recovered_components",
+      "tags": [
+        "recovered_components"
+      ],
+      "tests": [
+        "recovered_components/tests/conftest.py",
+        "recovered_components/tests/test_recovered_components_integration.py",
+        "recovered_components/tests/test_recovered_components_unit.py"
+      ]
+    },
+    {
+      "docs": [
+        "reports/docs/README.md",
+        "reports/docs/api.md",
+        "reports/docs/architecture.md",
+        "reports/docs/troubleshooting.md"
+      ],
+      "health": {
+        "mqi": 0
+      },
+      "manifest": "reports/module.manifest.json",
+      "name": "reports",
+      "notion_page_id": null,
+      "path": "reports",
+      "tags": [
+        "reports"
+      ],
+      "tests": [
+        "reports/tests/conftest.py",
+        "reports/tests/test_reports_integration.py",
+        "reports/tests/test_reports_unit.py"
+      ]
+    },
+    {
+      "docs": [
+        "rl/docs/README.md",
+        "rl/docs/api.md",
+        "rl/docs/architecture.md",
+        "rl/docs/troubleshooting.md"
+      ],
+      "health": {
+        "mqi": 0
+      },
+      "manifest": "rl/module.manifest.json",
+      "name": "rl",
+      "notion_page_id": null,
+      "path": "rl",
+      "tags": [
+        "consciousness",
+        "rl"
+      ],
+      "tests": [
+        "rl/tests/conftest.py",
+        "rl/tests/test_chaos_consciousness.py",
+        "rl/tests/test_consciousness_properties.py",
+        "rl/tests/test_formal_verification.py",
+        "rl/tests/test_generative_oracles.py",
+        "rl/tests/test_metamorphic_consciousness.py",
+        "rl/tests/test_mutation_testing.py",
+        "rl/tests/test_performance_regression.py",
+        "rl/tests/test_rl_integration.py",
+        "rl/tests/test_rl_unit.py"
+      ]
+    },
+    {
+      "docs": [
+        "rules/docs/README.md",
+        "rules/docs/api.md",
+        "rules/docs/architecture.md",
+        "rules/docs/troubleshooting.md"
+      ],
+      "health": {
+        "mqi": 0
+      },
+      "manifest": "rules/module.manifest.json",
+      "name": "rules",
+      "notion_page_id": null,
+      "path": "rules",
+      "tags": [
+        "rules"
+      ],
+      "tests": [
+        "rules/tests/conftest.py",
+        "rules/tests/test_rules_integration.py",
+        "rules/tests/test_rules_unit.py"
+      ]
+    },
+    {
+      "docs": [
+        "samples/docs/README.md",
+        "samples/docs/api.md",
+        "samples/docs/architecture.md",
+        "samples/docs/troubleshooting.md"
+      ],
+      "health": {
+        "mqi": 0
+      },
+      "manifest": "samples/module.manifest.json",
+      "name": "samples",
+      "notion_page_id": null,
+      "path": "samples",
+      "tags": [
+        "samples"
+      ],
+      "tests": [
+        "samples/tests/conftest.py",
+        "samples/tests/test_samples_integration.py",
+        "samples/tests/test_samples_unit.py"
+      ]
+    },
+    {
+      "docs": [
+        "sbom/docs/README.md",
+        "sbom/docs/api.md",
+        "sbom/docs/architecture.md",
+        "sbom/docs/troubleshooting.md"
+      ],
+      "health": {
+        "mqi": 0
+      },
+      "manifest": "sbom/module.manifest.json",
+      "name": "sbom",
+      "notion_page_id": null,
+      "path": "sbom",
+      "tags": [
+        "sbom"
+      ],
+      "tests": [
+        "sbom/tests/conftest.py",
+        "sbom/tests/test_sbom_integration.py",
+        "sbom/tests/test_sbom_unit.py"
+      ]
+    },
+    {
+      "docs": [
+        "schemas/docs/README.md",
+        "schemas/docs/api.md",
+        "schemas/docs/architecture.md",
+        "schemas/docs/troubleshooting.md"
+      ],
+      "health": {
+        "mqi": 0
+      },
+      "manifest": "schemas/module.manifest.json",
+      "name": "schemas",
+      "notion_page_id": null,
+      "path": "schemas",
+      "tags": [
+        "schemas"
+      ],
+      "tests": [
+        "schemas/tests/conftest.py",
+        "schemas/tests/test_schemas_integration.py",
+        "schemas/tests/test_schemas_unit.py"
+      ]
+    },
+    {
+      "docs": [
+        "scripts/docs/README.md",
+        "scripts/docs/api.md",
+        "scripts/docs/architecture.md",
+        "scripts/docs/troubleshooting.md"
+      ],
+      "health": {
+        "mqi": 0
+      },
+      "manifest": "scripts/module.manifest.json",
+      "name": "scripts",
+      "notion_page_id": null,
+      "path": "scripts",
+      "tags": [
+        "authentication",
+        "monitoring",
+        "orchestration",
+        "scripts"
+      ],
+      "tests": [
+        "scripts/tests/conftest.py",
+        "scripts/tests/test_scripts_integration.py",
+        "scripts/tests/test_scripts_unit.py"
+      ]
+    },
+    {
+      "docs": [
+        "sdk/docs/README.md",
+        "sdk/docs/api.md",
+        "sdk/docs/architecture.md",
+        "sdk/docs/troubleshooting.md"
+      ],
+      "health": {
+        "mqi": 0
+      },
+      "manifest": "sdk/module.manifest.json",
+      "name": "sdk",
+      "notion_page_id": null,
+      "path": "sdk",
+      "tags": [
+        "sdk"
+      ],
+      "tests": [
+        "sdk/tests/conftest.py",
+        "sdk/tests/test_sdk_integration.py",
+        "sdk/tests/test_sdk_unit.py"
+      ]
+    },
+    {
+      "docs": [
+        "security/docs/CVE-2024-GUNICORN-EMERGENCY.md",
+        "security/docs/GUARDIAN_CAPABILITIES_GUIDE.md",
+        "security/docs/GUARDIAN_SECURITY_ARCHITECTURE.md",
+        "security/docs/OLLAMA_SECURITY_INTEGRATION.md",
+        "security/docs/README.md",
+        "security/docs/SECURITY_AUTOMATION_GUIDE.md",
+        "security/docs/SECURITY_AUTOMATION_SUMMARY.md",
+        "security/docs/SECURITY_ENHANCEMENTS.md",
+        "security/docs/SECURITY_REMEDIATION_REPORT.md",
+        "security/docs/SECURITY_STATUS_POST_IMPLEMENTATION.md",
+        "security/docs/SECURITY_VULNERABILITY_REPORT_20250816.md",
+        "security/docs/advanced_evasion_hardening.md",
+        "security/docs/api.md",
+        "security/docs/architecture.md",
+        "security/docs/break-glass-procedure.md",
+        "security/docs/email-security-requirements.md",
+        "security/docs/incident_response.md",
+        "security/docs/phase1_authentication_implementation.md",
+        "security/docs/troubleshooting.md"
+      ],
+      "health": {
+        "mqi": 0
+      },
+      "manifest": "security/module.manifest.json",
+      "name": "security",
+      "notion_page_id": null,
+      "path": "security",
+      "tags": [
+        "security"
+      ],
+      "tests": [
+        "security/tests/conftest.py",
+        "security/tests/test_security_integration.py",
+        "security/tests/test_security_suite.py",
+        "security/tests/test_security_unit.py"
+      ]
+    },
+    {
+      "docs": [
+        "security_reports/docs/README.md",
+        "security_reports/docs/api.md",
+        "security_reports/docs/architecture.md",
+        "security_reports/docs/troubleshooting.md"
+      ],
+      "health": {
+        "mqi": 0
+      },
+      "manifest": "security_reports/module.manifest.json",
+      "name": "security-reports",
+      "notion_page_id": null,
+      "path": "security_reports",
+      "tags": [
+        "security-reports"
+      ],
+      "tests": [
+        "security_reports/tests/conftest.py",
+        "security_reports/tests/test_security-reports_integration.py",
+        "security_reports/tests/test_security-reports_unit.py"
+      ]
+    },
+    {
+      "docs": [
+        "serve/docs/README.md",
+        "serve/docs/api.md",
+        "serve/docs/architecture.md",
+        "serve/docs/troubleshooting.md"
+      ],
+      "health": {
+        "mqi": 0
+      },
+      "manifest": "serve/module.manifest.json",
+      "name": "serve",
+      "notion_page_id": null,
+      "path": "serve",
+      "tags": [
+        "authentication",
+        "orchestration",
+        "serve"
+      ],
+      "tests": [
+        "serve/tests/conftest.py",
+        "serve/tests/test_serve_integration.py",
+        "serve/tests/test_serve_unit.py"
+      ]
+    },
+    {
+      "docs": [
+        "server/docs/README.md",
+        "server/docs/api.md",
+        "server/docs/architecture.md",
+        "server/docs/troubleshooting.md"
+      ],
+      "health": {
+        "mqi": 0
+      },
+      "manifest": "server/module.manifest.json",
+      "name": "server",
+      "notion_page_id": null,
+      "path": "server",
+      "tags": [
+        "server"
+      ],
+      "tests": [
+        "server/tests/conftest.py",
+        "server/tests/test_server_integration.py",
+        "server/tests/test_server_unit.py"
+      ]
+    },
+    {
+      "docs": [
+        "services/docs/README.md",
+        "services/docs/api.md",
+        "services/docs/architecture.md",
+        "services/docs/troubleshooting.md"
+      ],
+      "health": {
+        "mqi": 0
+      },
+      "manifest": "services/module.manifest.json",
+      "name": "services",
+      "notion_page_id": null,
+      "path": "services",
+      "tags": [
+        "services"
+      ],
+      "tests": [
+        "services/tests/conftest.py",
+        "services/tests/test_services_integration.py",
+        "services/tests/test_services_unit.py"
+      ]
+    },
+    {
+      "docs": [
+        "src/docs/README.md",
+        "src/docs/api.md",
+        "src/docs/architecture.md",
+        "src/docs/troubleshooting.md"
+      ],
+      "health": {
+        "mqi": 0
+      },
+      "manifest": "src/module.manifest.json",
+      "name": "src",
+      "notion_page_id": null,
+      "path": "src",
+      "tags": [
+        "src"
+      ],
+      "tests": [
+        "src/tests/conftest.py",
+        "src/tests/test_src_integration.py",
+        "src/tests/test_src_unit.py"
+      ]
+    },
+    {
+      "docs": [
+        "storage/docs/README.md",
+        "storage/docs/api.md",
+        "storage/docs/architecture.md",
+        "storage/docs/troubleshooting.md"
+      ],
+      "health": {
+        "mqi": 0
+      },
+      "manifest": "storage/module.manifest.json",
+      "name": "storage",
+      "notion_page_id": null,
+      "path": "storage",
+      "tags": [
+        "storage"
+      ],
+      "tests": [
+        "storage/tests/conftest.py",
+        "storage/tests/test_storage_integration.py",
+        "storage/tests/test_storage_unit.py"
+      ]
+    },
+    {
+      "docs": [
+        "symbolic/docs/README.md",
+        "symbolic/docs/api.md",
+        "symbolic/docs/architecture.md",
+        "symbolic/docs/troubleshooting.md"
+      ],
+      "health": {
+        "mqi": 0
+      },
+      "manifest": "symbolic/module.manifest.json",
+      "name": "symbolic",
+      "notion_page_id": null,
+      "path": "symbolic",
+      "tags": [
+        "consciousness",
+        "symbolic"
+      ],
+      "tests": [
+        "symbolic/tests/conftest.py",
+        "symbolic/tests/test_symbolic_integration.py",
+        "symbolic/tests/test_symbolic_unit.py"
+      ]
+    },
+    {
+      "docs": [
+        "system/docs/README.md",
+        "system/docs/api.md",
+        "system/docs/architecture.md",
+        "system/docs/troubleshooting.md"
+      ],
+      "health": {
+        "mqi": 0
+      },
+      "manifest": "system/module.manifest.json",
+      "name": "system",
+      "notion_page_id": null,
+      "path": "system",
+      "tags": [
+        "system"
+      ],
+      "tests": [
+        "system/tests/conftest.py",
+        "system/tests/test_system_integration.py",
+        "system/tests/test_system_unit.py"
+      ]
+    },
+    {
+      "docs": [
+        "tagging/docs/README.md",
+        "tagging/docs/api.md",
+        "tagging/docs/architecture.md",
+        "tagging/docs/troubleshooting.md"
+      ],
+      "health": {
+        "mqi": 0
+      },
+      "manifest": "tagging/module.manifest.json",
+      "name": "tagging",
+      "notion_page_id": null,
+      "path": "tagging",
+      "tags": [
+        "consciousness",
+        "tagging"
+      ],
+      "tests": [
+        "tagging/tests/conftest.py",
+        "tagging/tests/test_tagging_integration.py",
+        "tagging/tests/test_tagging_unit.py"
+      ]
+    },
+    {
+      "docs": [
+        "telemetry/docs/README.md",
+        "telemetry/docs/api.md",
+        "telemetry/docs/architecture.md",
+        "telemetry/docs/troubleshooting.md"
+      ],
+      "health": {
+        "mqi": 0
+      },
+      "manifest": "telemetry/module.manifest.json",
+      "name": "telemetry",
+      "notion_page_id": null,
+      "path": "telemetry",
+      "tags": [
+        "telemetry"
+      ],
+      "tests": [
+        "telemetry/tests/conftest.py",
+        "telemetry/tests/test_telemetry_integration.py",
+        "telemetry/tests/test_telemetry_unit.py"
+      ]
+    },
+    {
+      "docs": [
+        "temp/docs/README.md",
+        "temp/docs/api.md",
+        "temp/docs/architecture.md",
+        "temp/docs/troubleshooting.md"
+      ],
+      "health": {
+        "mqi": 0
+      },
+      "manifest": "temp/module.manifest.json",
+      "name": "temp",
+      "notion_page_id": null,
+      "path": "temp",
+      "tags": [
+        "temp"
+      ],
+      "tests": [
+        "temp/tests/conftest.py",
+        "temp/tests/test_temp_integration.py",
+        "temp/tests/test_temp_unit.py"
+      ]
+    },
+    {
+      "docs": [
+        "templates/docs/README.md",
+        "templates/docs/api.md",
+        "templates/docs/architecture.md",
+        "templates/docs/troubleshooting.md"
+      ],
+      "health": {
+        "mqi": 0
+      },
+      "manifest": "templates/module.manifest.json",
+      "name": "templates",
+      "notion_page_id": null,
+      "path": "templates",
+      "tags": [
+        "templates"
+      ],
+      "tests": [
+        "templates/tests/conftest.py",
+        "templates/tests/test_templates_integration.py",
+        "templates/tests/test_templates_unit.py"
+      ]
+    },
+    {
+      "docs": [
+        "test_data/docs/README.md",
+        "test_data/docs/api.md",
+        "test_data/docs/architecture.md",
+        "test_data/docs/troubleshooting.md"
+      ],
+      "health": {
+        "mqi": 0
+      },
+      "manifest": "test_data/module.manifest.json",
+      "name": "test_data",
+      "notion_page_id": null,
+      "path": "test_data",
+      "tags": [
+        "test_data"
+      ],
+      "tests": [
+        "test_data/tests/conftest.py",
+        "test_data/tests/test_test_data_integration.py",
+        "test_data/tests/test_test_data_unit.py"
+      ]
+    },
+    {
+      "docs": [
+        "test_results/docs/README.md",
+        "test_results/docs/api.md",
+        "test_results/docs/architecture.md",
+        "test_results/docs/troubleshooting.md"
+      ],
+      "health": {
+        "mqi": 0
+      },
+      "manifest": "test_results/module.manifest.json",
+      "name": "test_results",
+      "notion_page_id": null,
+      "path": "test_results",
+      "tags": [
+        "test_results"
+      ],
+      "tests": [
+        "test_results/tests/conftest.py",
+        "test_results/tests/test_test_results_integration.py",
+        "test_results/tests/test_test_results_unit.py"
+      ]
+    },
+    {
+      "docs": [
+        "tests/docs/README.md",
+        "tests/docs/api.md",
+        "tests/docs/architecture.md",
+        "tests/docs/troubleshooting.md"
+      ],
+      "health": {
+        "mqi": 0
+      },
+      "manifest": "tests/module.manifest.json",
+      "name": "tests",
+      "notion_page_id": null,
+      "path": "tests",
+      "tags": [
+        "authentication",
+        "monitoring",
+        "orchestration",
+        "tests"
+      ],
+      "tests": [
+        "tests/tests/conftest.py",
+        "tests/tests/test_tests_integration.py",
+        "tests/tests/test_tests_unit.py"
+      ]
+    },
+    {
+      "docs": [],
+      "health": {
+        "mqi": 0
+      },
+      "manifest": "tests/consciousness/simulation/module.manifest.json",
+      "name": "tests.consciousness.simulation",
+      "notion_page_id": null,
+      "path": "tests/consciousness/simulation",
+      "tags": [
+        "tests",
+        "simulation",
+        "canary",
+        "ethics",
+        "consent",
+        "t4-beta"
+      ],
+      "tests": []
+    },
+    {
+      "docs": [
+        "tests_new/docs/README.md",
+        "tests_new/docs/api.md",
+        "tests_new/docs/architecture.md",
+        "tests_new/docs/troubleshooting.md"
+      ],
+      "health": {
+        "mqi": 0
+      },
+      "manifest": "tests_new/module.manifest.json",
+      "name": "tests_new",
+      "notion_page_id": null,
+      "path": "tests_new",
+      "tags": [
+        "tests_new"
+      ],
+      "tests": [
+        "tests_new/tests/conftest.py",
+        "tests_new/tests/test_tests_new_integration.py",
+        "tests_new/tests/test_tests_new_unit.py"
+      ]
+    },
+    {
+      "docs": [
+        "third_party_stubs/docs/README.md",
+        "third_party_stubs/docs/api.md",
+        "third_party_stubs/docs/architecture.md",
+        "third_party_stubs/docs/troubleshooting.md"
+      ],
+      "health": {
+        "mqi": 0
+      },
+      "manifest": "third_party_stubs/module.manifest.json",
+      "name": "third_party_stubs",
+      "notion_page_id": null,
+      "path": "third_party_stubs",
+      "tags": [
+        "third_party_stubs"
+      ],
+      "tests": [
+        "third_party_stubs/tests/conftest.py",
+        "third_party_stubs/tests/test_third_party_stubs_integration.py",
+        "third_party_stubs/tests/test_third_party_stubs_unit.py"
+      ]
+    },
+    {
+      "docs": [
+        "tone/docs/README.md",
+        "tone/docs/api.md",
+        "tone/docs/architecture.md",
+        "tone/docs/troubleshooting.md"
+      ],
+      "health": {
+        "mqi": 0
+      },
+      "manifest": "tone/module.manifest.json",
+      "name": "tone",
+      "notion_page_id": null,
+      "path": "tone",
+      "tags": [
+        "tone"
+      ],
+      "tests": [
+        "tone/tests/conftest.py",
+        "tone/tests/test_tone_integration.py",
+        "tone/tests/test_tone_unit.py"
+      ]
+    },
+    {
+      "docs": [
+        "tools/docs/api.md",
+        "tools/docs/architecture.md",
+        "tools/docs/troubleshooting.md"
+      ],
+      "health": {
+        "mqi": 0
+      },
+      "manifest": "tools/module.manifest.json",
+      "name": "tools",
+      "notion_page_id": null,
+      "path": "tools",
+      "tags": [
+        "authentication",
+        "consciousness",
+        "fold-architecture",
+        "monitoring",
+        "orchestration",
+        "tools"
+      ],
+      "tests": [
+        "tools/tests/conftest.py",
+        "tools/tests/contract_check.py",
+        "tools/tests/coverage_gate.py",
+        "tools/tests/flake_sentinel.py",
+        "tools/tests/spec_lint.py",
+        "tools/tests/specs_sync.py",
+        "tools/tests/test_tools_integration.py",
+        "tools/tests/test_tools_unit.py",
+        "tools/tests/validate_golden.py",
+        "tools/tests/validators/cli_contract_validator.py",
+        "tools/tests/validators/legacy_wire_validator.py",
+        "tools/tests/validators/migration_idempotence_validator.py"
+      ]
+    },
+    {
+      "docs": [
+        "trace/docs/README.md",
+        "trace/docs/api.md",
+        "trace/docs/architecture.md",
+        "trace/docs/troubleshooting.md"
+      ],
+      "health": {
+        "mqi": 0
+      },
+      "manifest": "trace/module.manifest.json",
+      "name": "trace",
+      "notion_page_id": null,
+      "path": "trace",
+      "tags": [
+        "trace"
+      ],
+      "tests": [
+        "trace/tests/conftest.py",
+        "trace/tests/test_trace_integration.py",
+        "trace/tests/test_trace_unit.py"
+      ]
+    },
+    {
+      "docs": [
+        "trace_logs/docs/README.md",
+        "trace_logs/docs/api.md",
+        "trace_logs/docs/architecture.md",
+        "trace_logs/docs/troubleshooting.md"
+      ],
+      "health": {
+        "mqi": 0
+      },
+      "manifest": "trace_logs/module.manifest.json",
+      "name": "trace_logs",
+      "notion_page_id": null,
+      "path": "trace_logs",
+      "tags": [
+        "trace_logs"
+      ],
+      "tests": [
+        "trace_logs/tests/conftest.py",
+        "trace_logs/tests/test_trace_logs_integration.py",
+        "trace_logs/tests/test_trace_logs_unit.py"
+      ]
+    },
+    {
+      "docs": [
+        "transmission_bundle/docs/README.md",
+        "transmission_bundle/docs/api.md",
+        "transmission_bundle/docs/architecture.md",
+        "transmission_bundle/docs/troubleshooting.md"
+      ],
+      "health": {
+        "mqi": 0
+      },
+      "manifest": "transmission_bundle/module.manifest.json",
+      "name": "transmission_bundle",
+      "notion_page_id": null,
+      "path": "transmission_bundle",
+      "tags": [
+        "transmission_bundle"
+      ],
+      "tests": [
+        "transmission_bundle/tests/conftest.py",
+        "transmission_bundle/tests/test_transmission_bundle_integration.py",
+        "transmission_bundle/tests/test_transmission_bundle_unit.py"
+      ]
+    },
+    {
+      "docs": [
+        "universal_language/docs/README.md",
+        "universal_language/docs/api.md",
+        "universal_language/docs/architecture.md",
+        "universal_language/docs/troubleshooting.md"
+      ],
+      "health": {
+        "mqi": 0
+      },
+      "manifest": "universal_language/module.manifest.json",
+      "name": "universal_language",
+      "notion_page_id": null,
+      "path": "universal_language",
+      "tags": [
+        "universal_language"
+      ],
+      "tests": [
+        "universal_language/tests/conftest.py",
+        "universal_language/tests/test_universal_language_integration.py",
+        "universal_language/tests/test_universal_language_unit.py"
+      ]
+    },
+    {
+      "docs": [
+        "utils/docs/README.md",
+        "utils/docs/api.md",
+        "utils/docs/architecture.md",
+        "utils/docs/troubleshooting.md"
+      ],
+      "health": {
+        "mqi": 0
+      },
+      "manifest": "utils/module.manifest.json",
+      "name": "utils",
+      "notion_page_id": null,
+      "path": "utils",
+      "tags": [
+        "utils"
+      ],
+      "tests": [
+        "utils/tests/conftest.py",
+        "utils/tests/test_utils_integration.py",
+        "utils/tests/test_utils_unit.py"
+      ]
+    },
+    {
+      "docs": [
+        "var/docs/README.md",
+        "var/docs/api.md",
+        "var/docs/architecture.md",
+        "var/docs/troubleshooting.md"
+      ],
+      "health": {
+        "mqi": 0
+      },
+      "manifest": "var/module.manifest.json",
+      "name": "var",
+      "notion_page_id": null,
+      "path": "var",
+      "tags": [
+        "var"
+      ],
+      "tests": [
+        "var/tests/conftest.py",
+        "var/tests/test_var_integration.py",
+        "var/tests/test_var_unit.py"
+      ]
+    },
+    {
+      "docs": [
+        "vivox/docs/DEPLOYMENT_GUIDE.md",
+        "vivox/docs/VIVOX_IMPLEMENTATION_SUMMARY.md",
+        "vivox/docs/api.md",
+        "vivox/docs/architecture.md",
+        "vivox/docs/troubleshooting.md"
+      ],
+      "health": {
+        "mqi": 0
+      },
+      "manifest": "vivox/module.manifest.json",
+      "name": "vivox",
+      "notion_page_id": null,
+      "path": "vivox",
+      "tags": [
+        "vivox"
+      ],
+      "tests": [
+        "vivox/tests/conftest.py",
+        "vivox/tests/test_vivox_integration.py",
+        "vivox/tests/test_vivox_unit.py"
+      ]
+    },
+    {
+      "docs": [
+        "vocabularies/docs/README.md",
+        "vocabularies/docs/api.md",
+        "vocabularies/docs/architecture.md",
+        "vocabularies/docs/troubleshooting.md"
+      ],
+      "health": {
+        "mqi": 0
+      },
+      "manifest": "vocabularies/module.manifest.json",
+      "name": "vocabularies",
+      "notion_page_id": null,
+      "path": "vocabularies",
+      "tags": [
+        "vocabularies"
+      ],
+      "tests": [
+        "vocabularies/tests/conftest.py",
+        "vocabularies/tests/test_vocabularies_integration.py",
+        "vocabularies/tests/test_vocabularies_unit.py"
+      ]
+    },
+    {
+      "docs": [
+        "vocabulary_refresh_data/docs/README.md",
+        "vocabulary_refresh_data/docs/api.md",
+        "vocabulary_refresh_data/docs/architecture.md",
+        "vocabulary_refresh_data/docs/troubleshooting.md"
+      ],
+      "health": {
+        "mqi": 0
+      },
+      "manifest": "vocabulary_refresh_data/module.manifest.json",
+      "name": "vocabulary_refresh_data",
+      "notion_page_id": null,
+      "path": "vocabulary_refresh_data",
+      "tags": [
+        "vocabulary_refresh_data"
+      ],
+      "tests": [
+        "vocabulary_refresh_data/tests/conftest.py",
+        "vocabulary_refresh_data/tests/test_vocabulary_refresh_data_integration.py",
+        "vocabulary_refresh_data/tests/test_vocabulary_refresh_data_unit.py"
+      ]
+    },
+    {
+      "docs": [
+        "website_v1/docs/README.md",
+        "website_v1/docs/api.md",
+        "website_v1/docs/architecture.md",
+        "website_v1/docs/troubleshooting.md"
+      ],
+      "health": {
+        "mqi": 0
+      },
+      "manifest": "website_v1/module.manifest.json",
+      "name": "website_v1",
+      "notion_page_id": null,
+      "path": "website_v1",
+      "tags": [
+        "website_v1"
+      ],
+      "tests": [
+        "website_v1/tests/conftest.py",
+        "website_v1/tests/test_website_v1_integration.py",
+        "website_v1/tests/test_website_v1_unit.py"
+      ]
+    }
+  ]
+}

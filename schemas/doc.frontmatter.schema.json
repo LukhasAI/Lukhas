@@ -1,0 +1,72 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "LUKHΛS Documentation Frontmatter",
+  "description": "Contract schema for documentation frontmatter. Used by docs/tests migration agent to ensure consistent metadata.",
+  "type": "object",
+  "required": ["module", "type", "title", "status"],
+  "properties": {
+    "module": {
+      "type": "string",
+      "pattern": "^[a-zA-Z_][\\w.]+$",
+      "description": "Module name (matches manifest module field)"
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "api",
+        "architecture",
+        "examples",
+        "runbook",
+        "troubleshooting",
+        "migration",
+        "design_decision",
+        "conformance",
+        "benchmark",
+        "overview",
+        "guide"
+      ],
+      "description": "Document type for classification"
+    },
+    "title": {
+      "type": "string",
+      "minLength": 3,
+      "maxLength": 120,
+      "description": "Human-readable document title"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["draft", "wip", "stable", "deprecated"],
+      "description": "Document lifecycle status"
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z0-9_-]+$"
+      },
+      "description": "Classification tags (lowercase, hyphen-separated)"
+    },
+    "lane": {
+      "type": "string",
+      "pattern": "^L[0-3]$",
+      "description": "Optional lane indicator (L0-L3)"
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 timestamp of last update"
+    },
+    "author": {
+      "type": "string",
+      "description": "Primary author or team"
+    },
+    "related": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Related document paths or module names"
+    }
+  },
+  "additionalProperties": true
+}

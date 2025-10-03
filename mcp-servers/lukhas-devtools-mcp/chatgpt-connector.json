@@ -1,0 +1,81 @@
+{
+    "name": "LUKHAS DevTools",
+    "description": "T4/0.01% Excellence LUKHAS Development Tools - Infrastructure status, code analysis, architecture insights, and development utilities for the LUKHAS consciousness-aware AI platform.",
+    "version": "1.0.0",
+    "author": "LUKHAS Development Team",
+    "license": "proprietary",
+    "keywords": [
+        "lukhas",
+        "devtools",
+        "consciousness",
+        "architecture",
+        "development"
+    ],
+    "mcp": {
+        "transport": "streamable_http",
+        "url": "https://2627bdaf7068.ngrok-free.app/mcp",
+        "protocolVersion": "2024-11-05",
+        "capabilities": {
+            "tools": {}
+        }
+    },
+    "tools": [
+        {
+            "name": "search",
+            "description": "Full-text search over LUKHAS content, documentation, and codebase",
+            "category": "search",
+            "required_for_chatgpt": true
+        },
+        {
+            "name": "fetch",
+            "description": "Fetch specific documents or resources from LUKHAS sources",
+            "category": "fetch",
+            "required_for_chatgpt": true
+        },
+        {
+            "name": "get_infrastructure_status",
+            "description": "Get LUKHAS testing infrastructure status and metrics",
+            "category": "infrastructure"
+        },
+        {
+            "name": "get_code_analysis",
+            "description": "Get current codebase health metrics and analysis",
+            "category": "analysis"
+        },
+        {
+            "name": "get_development_utilities",
+            "description": "Get available LUKHAS development tools and utilities",
+            "category": "utilities"
+        },
+        {
+            "name": "get_module_structure",
+            "description": "Get LUKHAS architecture and module structure information",
+            "category": "architecture"
+        }
+    ],
+    "configuration": {
+        "timeout": 30000,
+        "retries": 3,
+        "headers": {
+            "User-Agent": "ChatGPT-MCP/1.0.0"
+        }
+    },
+    "security": {
+        "https_required": true,
+        "cors_enabled": true,
+        "authentication": "none"
+    },
+    "metadata": {
+        "created": "2025-10-03T01:44:00Z",
+        "updated": "2025-10-03T02:00:00Z",
+        "status": "active",
+        "testing": {
+            "self_check_passed": true,
+            "tunnel_test_passed": true,
+            "transport_verified": "streamable_http",
+            "search_tool_verified": true,
+            "fetch_tool_verified": true,
+            "chatgpt_compatible": true
+        }
+    }
+}

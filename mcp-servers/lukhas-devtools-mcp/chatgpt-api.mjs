@@ -53,7 +53,7 @@ const server = createServer(async (req, res) => {
       const host = req.headers.host || `localhost:${PORT}`;
       const protocol = req.headers['x-forwarded-proto'] || 'http';
       const baseUrl = `${protocol}://${host}`;
-      
+
       sendJSON(res, {
         name: "LUKHAS DevTools API",
         version: "1.0.0",
@@ -74,7 +74,7 @@ const server = createServer(async (req, res) => {
       const host = req.headers.host || `localhost:${PORT}`;
       const protocol = req.headers['x-forwarded-proto'] || 'http';
       const baseUrl = `${protocol}://${host}`;
-      
+
       sendJSON(res, {
         openapi: "3.0.0",
         info: {
@@ -308,7 +308,7 @@ const server = createServer(async (req, res) => {
       message: "Endpoint not found",
       available_endpoints: [
         "/infrastructure",
-        "/analysis", 
+        "/analysis",
         "/utilities",
         "/structure",
         "/health",
