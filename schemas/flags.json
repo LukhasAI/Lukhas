@@ -1,0 +1,10 @@
+{
+  "enforce_observed_freshness_days": 14,
+  "require_doc_ok_for_apis": false,
+  "require_import_verified_for_apis": false,
+  "min_mqi_for_l2_modules": 90,
+  "min_mqi_for_l3_modules": 95,
+  "auto_backfill_notion_options": false,
+  "notion_sync_batch_size": 50,
+  "notion_rate_limit_ops_per_sec": 3
+}
