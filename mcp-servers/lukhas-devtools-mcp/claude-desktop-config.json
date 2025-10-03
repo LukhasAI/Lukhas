@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "lukhas-devtools": {
+      "command": "/Users/agi_dev/LOCAL-REPOS/Lukhas/mcp-servers/lukhas-devtools-mcp/start-enhanced.sh",
+      "args": [],
+      "env": {
+        "NODE_ENV": "development"
+      }
+    }
+  }
+}

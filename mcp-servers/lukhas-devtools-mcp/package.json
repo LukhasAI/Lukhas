@@ -6,7 +6,8 @@
   "description": "LUKHAS AI Development Tools MCP Server - Live pytest/ruff/mypy analysis, OpenTelemetry instrumentation, TTL caching, structured error taxonomy. T4/0.01% industry-leading quality standards.",
   "scripts": {
     "build": "tsc -p .",
-    "start": "node --loader ts-node/esm src/server.ts",
+    "start": "node mcp-streamable.mjs",
+    "start:typescript": "node --loader ts-node/esm src/server.ts",
     "start:http": "node --loader ts-node/esm src/http-node.ts",
     "lint": "eslint . --ext .ts",
     "test": "node --loader ts-node/esm scripts/test.ts"
