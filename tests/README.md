@@ -1,16 +1,16 @@
-# 📦 Business
+# 📦 Tests
 
-_Silent chronicles flow like ink through time—business captures ephemeral moments, turning fleeting events into eternal records._
+_Precision measured in microseconds and certainties—tests stands as guardian of correctness, each assertion a promise kept._
 
-**Business logic, strategies, and operational systems**
+**LUKHAS tests module implementing specialized tests functionality with 369 components for integrated system operations.**
 
 ## Overview
 
-Business logic, strategies, and operational systems
+LUKHAS tests module implementing specialized tests functionality with 369 components for integrated system operations.
 
 
 
-**Technical Foundation**: Core business module implementing LUKHAS system architecture patterns with comprehensive testing, observability, and performance optimization.
+**Technical Foundation**: Core tests module implementing LUKHAS system architecture patterns with comprehensive testing, observability, and performance optimization.
 
 ## Lane Position
 
@@ -26,17 +26,17 @@ Business logic, strategies, and operational systems
 
 ## Quick Start
 
-**Getting Started**: This module tracks system activity—think of it as a flight data recorder that captures everything happening so you can understand, debug, and optimize performance.
+**Getting Started**: This module ensures quality—like a safety inspector who checks every component before it goes into production, catching issues before users see them.
 
 
 ### Installation
 
 ```python
 # Import from unknown lane
-from business import Business
+from tests import Tests
 
 # Initialize
-system = Business()
+system = Tests()
 result = system.process(input_data)
 print(f"Result: {result}")
 ```
@@ -47,7 +47,9 @@ See code docstrings and inline documentation.
 
 ## Dependencies
 
+- `core`
 - `identity`
+- `memory`
 
 ## Provides
 
@@ -56,7 +58,7 @@ See code docstrings and inline documentation.
 ## Architecture
 
 ```
-business/
+tests/
 ├── __init__.py          # Module initialization
 ├── core.py              # Core functionality
 ├── api.py               # API interfaces
@@ -68,10 +70,10 @@ business/
 
 ```bash
 # Run module tests
-pytest /Users/agi_dev/LOCAL-REPOS/Lukhas/business/tests/ -v
+pytest /Users/agi_dev/LOCAL-REPOS/Lukhas/tests/tests/ -v
 
 # Run with coverage
-pytest /Users/agi_dev/LOCAL-REPOS/Lukhas/business/tests/ --cov=business --cov-report=html
+pytest /Users/agi_dev/LOCAL-REPOS/Lukhas/tests/tests/ --cov=tests --cov-report=html
 ```
 
 ## Performance
@@ -94,7 +96,9 @@ Follow LUKHAS development guidelines:
 
 ## Related Modules
 
+- [core](../core/)
 - [identity](../identity/)
+- [memory](../memory/)
 
 ---
 

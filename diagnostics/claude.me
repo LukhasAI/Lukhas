@@ -1,0 +1,44 @@
+# diagnostics Module
+
+**LUKHAS diagnostics module implementing specialized diagnostics functionality with 4 components for integrated system operations.**
+
+**Lane**: L2
+**Schema**: 3.0.0
+**Entrypoints**: 4
+**Dependencies**: core, memory
+
+## Quick Reference
+
+```python
+# Import from diagnostics
+from diagnostics.drift_diagnostics import calculate_drift_score
+from diagnostics.drift_diagnostics import detect_collapse_points
+from diagnostics.drift_diagnostics import generate_entropy_map_from_memory
+from diagnostics.drift_diagnostics import get_diagnostics_summary
+```
+
+## Components (4 entrypoints)
+
+- `diagnostics.drift_diagnostics.calculate_drift_score`
+- `diagnostics.drift_diagnostics.detect_collapse_points`
+- `diagnostics.drift_diagnostics.generate_entropy_map_from_memory`
+- `diagnostics.drift_diagnostics.get_diagnostics_summary`
+
+## Module Metadata
+
+- **Lane**: L2
+- **Schema Version**: 3.0.0
+- **Tags**: diagnostics
+- **Dependencies**: core, memory
+- **OpenTelemetry**: 1.37.0
+
+## Related Systems
+
+- **core**: Dependency integration
+- **memory**: Dependency integration
+
+---
+
+**Documentation Status**: ✅ Complete
+**Last Updated**: 2025-10-03
+**Maintainer**: LUKHAS Core Team

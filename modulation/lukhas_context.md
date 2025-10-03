@@ -1,0 +1,28 @@
+# modulation - Bio-inspired endocrine signal modulation system
+
+## Overview
+
+14 entrypoints for LLM orchestration with biological hormones
+
+**Lane**: L2
+**Entrypoints**: 14
+
+## Key Components
+
+- EndocrineLLMOrchestrator
+- EndocrineSignalEmitter
+- ModulatedOpenAIClient
+- ModulationParams
+- Signal
+
+## Module Metadata
+
+- Lane: L2
+- Entrypoints: 14
+- Schema: 3.0.0
+
+---
+
+**Status**: L2 Integration
+**Version**: 3.0.0
+**Last Updated**: 2025-10-03

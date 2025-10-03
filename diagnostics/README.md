@@ -1,16 +1,16 @@
-# 📦 Business
+# 📦 Diagnostics
 
-_Silent chronicles flow like ink through time—business captures ephemeral moments, turning fleeting events into eternal records._
+_Vital signs pulse through digital veins—diagnostics measures the heartbeat of systems, diagnosing whispers before they become screams._
 
-**Business logic, strategies, and operational systems**
+**LUKHAS diagnostics module implementing specialized diagnostics functionality with 4 components for integrated system operations.**
 
 ## Overview
 
-Business logic, strategies, and operational systems
+LUKHAS diagnostics module implementing specialized diagnostics functionality with 4 components for integrated system operations.
 
 
 
-**Technical Foundation**: Core business module implementing LUKHAS system architecture patterns with comprehensive testing, observability, and performance optimization.
+**Technical Foundation**: Core diagnostics module implementing LUKHAS system architecture patterns with comprehensive testing, observability, and performance optimization.
 
 ## Lane Position
 
@@ -26,17 +26,17 @@ Business logic, strategies, and operational systems
 
 ## Quick Start
 
-**Getting Started**: This module tracks system activity—think of it as a flight data recorder that captures everything happening so you can understand, debug, and optimize performance.
+**Getting Started**: This module monitors system health—like a doctor's check-up that measures vital signs and warns you of potential problems before they become serious.
 
 
 ### Installation
 
 ```python
 # Import from unknown lane
-from business import Business
+from diagnostics import Diagnostics
 
 # Initialize
-system = Business()
+system = Diagnostics()
 result = system.process(input_data)
 print(f"Result: {result}")
 ```
@@ -47,7 +47,8 @@ See code docstrings and inline documentation.
 
 ## Dependencies
 
-- `identity`
+- `core`
+- `memory`
 
 ## Provides
 
@@ -56,7 +57,7 @@ See code docstrings and inline documentation.
 ## Architecture
 
 ```
-business/
+diagnostics/
 ├── __init__.py          # Module initialization
 ├── core.py              # Core functionality
 ├── api.py               # API interfaces
@@ -68,10 +69,10 @@ business/
 
 ```bash
 # Run module tests
-pytest /Users/agi_dev/LOCAL-REPOS/Lukhas/business/tests/ -v
+pytest /Users/agi_dev/LOCAL-REPOS/Lukhas/diagnostics/tests/ -v
 
 # Run with coverage
-pytest /Users/agi_dev/LOCAL-REPOS/Lukhas/business/tests/ --cov=business --cov-report=html
+pytest /Users/agi_dev/LOCAL-REPOS/Lukhas/diagnostics/tests/ --cov=diagnostics --cov-report=html
 ```
 
 ## Performance
@@ -94,7 +95,8 @@ Follow LUKHAS development guidelines:
 
 ## Related Modules
 
-- [identity](../identity/)
+- [core](../core/)
+- [memory](../memory/)
 
 ---
 

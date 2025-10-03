@@ -1,0 +1,48 @@
+# benchmarks Module
+
+**LUKHAS benchmarks module implementing specialized benchmarks functionality with 19 components for integrated system operations.**
+
+**Lane**: L2
+**Schema**: 1.0.0
+**Entrypoints**: 8
+**Dependencies**: memory
+
+## Quick Reference
+
+```python
+# Import from benchmarks
+from benchmarks.matriz_pipeline import MATRIZBenchmarks
+from benchmarks.memory_performance import MemoryBenchmarks
+from benchmarks.memory_performance import run_all_benchmarks
+from benchmarks.memory_performance import test_cascade_prevention_benchmark
+from benchmarks.memory_performance import test_memory_recall_benchmark
+```
+
+## Components (8 entrypoints)
+
+- `benchmarks.matriz_pipeline.MATRIZBenchmarks`
+- `benchmarks.memory_performance.MemoryBenchmarks`
+- `benchmarks.memory_performance.run_all_benchmarks`
+- `benchmarks.memory_performance.test_cascade_prevention_benchmark`
+- `benchmarks.memory_performance.test_memory_recall_benchmark`
+- `benchmarks.memory_system_benchmarks.MemoryItem`
+- `benchmarks.memory_system_benchmarks.MemorySystemBenchmarks`
+- `benchmarks.memory_system_benchmarks.MockMemorySystem`
+
+## Module Metadata
+
+- **Lane**: L2
+- **Schema Version**: 1.0.0
+- **Tags**: benchmarks
+- **Dependencies**: memory
+- **OpenTelemetry**: 1.37.0
+
+## Related Systems
+
+- **memory**: Dependency integration
+
+---
+
+**Documentation Status**: ✅ Complete
+**Last Updated**: 2025-10-03
+**Maintainer**: LUKHAS Core Team

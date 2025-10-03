@@ -1,16 +1,16 @@
-# 📦 Business
+# 📦 Hooks
 
-_Silent chronicles flow like ink through time—business captures ephemeral moments, turning fleeting events into eternal records._
+_Within the grand architecture of LUKHAS, hooks emerges—LUKHAS hooks module implementing, purpose refined to essence, functionality elevated to art._
 
-**Business logic, strategies, and operational systems**
+**LUKHAS hooks module implementing specialized hooks functionality with 10 components for integrated system operations.**
 
 ## Overview
 
-Business logic, strategies, and operational systems
+LUKHAS hooks module implementing specialized hooks functionality with 10 components for integrated system operations.
 
 
 
-**Technical Foundation**: Core business module implementing LUKHAS system architecture patterns with comprehensive testing, observability, and performance optimization.
+**Technical Foundation**: Core hooks module implementing LUKHAS system architecture patterns with comprehensive testing, observability, and performance optimization.
 
 ## Lane Position
 
@@ -26,17 +26,17 @@ Business logic, strategies, and operational systems
 
 ## Quick Start
 
-**Getting Started**: This module tracks system activity—think of it as a flight data recorder that captures everything happening so you can understand, debug, and optimize performance.
+**Getting Started**: LUKHAS hooks module implementing specialized hooks functionality with 10 components for integrated system operations. This module integrates with the LUKHAS system to provide essential functionality.
 
 
 ### Installation
 
 ```python
 # Import from unknown lane
-from business import Business
+from hooks import Hooks
 
 # Initialize
-system = Business()
+system = Hooks()
 result = system.process(input_data)
 print(f"Result: {result}")
 ```
@@ -47,7 +47,7 @@ See code docstrings and inline documentation.
 
 ## Dependencies
 
-- `identity`
+- No external dependencies
 
 ## Provides
 
@@ -56,7 +56,7 @@ See code docstrings and inline documentation.
 ## Architecture
 
 ```
-business/
+hooks/
 ├── __init__.py          # Module initialization
 ├── core.py              # Core functionality
 ├── api.py               # API interfaces
@@ -68,10 +68,10 @@ business/
 
 ```bash
 # Run module tests
-pytest /Users/agi_dev/LOCAL-REPOS/Lukhas/business/tests/ -v
+pytest /Users/agi_dev/LOCAL-REPOS/Lukhas/hooks/tests/ -v
 
 # Run with coverage
-pytest /Users/agi_dev/LOCAL-REPOS/Lukhas/business/tests/ --cov=business --cov-report=html
+pytest /Users/agi_dev/LOCAL-REPOS/Lukhas/hooks/tests/ --cov=hooks --cov-report=html
 ```
 
 ## Performance
@@ -94,7 +94,7 @@ Follow LUKHAS development guidelines:
 
 ## Related Modules
 
-- [identity](../identity/)
+- See main [LUKHAS README](../../README.md) for system overview
 
 ---
 

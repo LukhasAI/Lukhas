@@ -1,0 +1,31 @@
+# pytest_asyncio - Module Context
+
+## Overview
+
+Minimal pytest-asyncio stub to satisfy configuration in offline environments.
+
+## Quick Reference
+
+```python
+from pytest_asyncio import *
+```
+
+## Key Components
+
+- pytest_addoption
+- pytest_configure
+
+
+## Module Metadata
+
+- **Lane**: L2
+- **Entrypoints**: 2
+- **Schema**: 1.0.0
+- **Tags**: pytest_asyncio
+- **Dependencies**: None
+
+---
+
+**Status**: L2 Integration
+**Version**: 1.0.0
+**Last Updated**: 2025-10-03

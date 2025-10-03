@@ -1,0 +1,51 @@
+# mcp-lukhas-sse Module
+
+**LUKHAS mcp-lukhas-sse module implementing specialized mcp-lukhas-sse functionality with 40 components for integrated system operations.**
+
+**Lane**: L2
+**Schema**: 3.0.0
+**Entrypoints**: 11
+**Dependencies**: identity
+
+## Quick Reference
+
+```python
+# Import from mcp-lukhas-sse
+from mcp-lukhas-sse.chatgpt_server import FlexibleAuthMiddleware
+from mcp-lukhas-sse.chatgpt_server import list_directory_tool
+from mcp-lukhas-sse.chatgpt_server import read_file_tool
+from mcp-lukhas-sse.generate_test_jwt import create_test_jwks
+from mcp-lukhas-sse.generate_test_jwt import generate_test_jwt
+```
+
+## Components (11 entrypoints)
+
+- `mcp-lukhas-sse.chatgpt_server.FlexibleAuthMiddleware`
+- `mcp-lukhas-sse.chatgpt_server.list_directory_tool`
+- `mcp-lukhas-sse.chatgpt_server.read_file_tool`
+- `mcp-lukhas-sse.generate_test_jwt.create_test_jwks`
+- `mcp-lukhas-sse.generate_test_jwt.generate_test_jwt`
+- `mcp-lukhas-sse.lukhas_mcp_stdio_manual.LukhasMCPServer`
+- `mcp-lukhas-sse.mcp_official_server.MCPServer`
+- `mcp-lukhas-sse.minimal_server.OAuth2Middleware`
+- `mcp-lukhas-sse.minimal_server.list_directory_tool`
+- `mcp-lukhas-sse.minimal_server.read_file_tool`
+- `mcp-lukhas-sse.pure_mcp_server.validate_path_security`
+
+## Module Metadata
+
+- **Lane**: L2
+- **Schema Version**: 3.0.0
+- **Tags**: authentication, mcp-lukhas-sse
+- **Dependencies**: identity
+- **OpenTelemetry**: 1.37.0
+
+## Related Systems
+
+- **identity**: Dependency integration
+
+---
+
+**Documentation Status**: ✅ Complete
+**Last Updated**: 2025-10-03
+**Maintainer**: LUKHAS Core Team

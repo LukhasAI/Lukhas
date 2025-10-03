@@ -1,0 +1,32 @@
+# storage - Module Context
+
+## Overview
+
+LUKHAS storage module implementing specialized storage functionality with 17 components for integrated system operations.
+
+## Quick Reference
+
+```python
+from storage import *
+```
+
+## Key Components
+
+- Event
+- EventStore
+- get_event_store
+
+
+## Module Metadata
+
+- **Lane**: L2
+- **Entrypoints**: 3
+- **Schema**: 3.0.0
+- **Tags**: storage
+- **Dependencies**: None
+
+---
+
+**Status**: L2 Integration
+**Version**: 3.0.0
+**Last Updated**: 2025-10-03

@@ -1,0 +1,28 @@
+# dreams - Dream state consciousness processing
+
+## Overview
+
+11 entrypoints for creative/problem-solving/exploratory dreams
+
+**Lane**: L2
+**Entrypoints**: 11
+
+## Key Components
+
+- DREAMS_ACTIVE
+- DreamLoopGenerator
+- DreamMemoryManager
+- DreamStatistics
+- activate_consciousness_dream_bridge
+
+## Module Metadata
+
+- Lane: L2
+- Entrypoints: 11
+- Schema: 3.0.0
+
+---
+
+**Status**: L2 Integration
+**Version**: 3.0.0
+**Last Updated**: 2025-10-03

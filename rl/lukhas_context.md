@@ -1,0 +1,28 @@
+# rl - MATRIZ-native reinforcement learning
+
+## Overview
+
+15 entrypoints for RL integration
+
+**Lane**: L2
+**Entrypoints**: 15
+
+## Key Components
+
+- ConsciousnessBuffer
+- ConsciousnessEnvironment
+- ConsciousnessMetaLearning
+- ConsciousnessRewards
+- ConsciousnessState
+
+## Module Metadata
+
+- Lane: L2
+- Entrypoints: 15
+- Schema: 3.0.0
+
+---
+
+**Status**: L2 Integration
+**Version**: 3.0.0
+**Last Updated**: 2025-10-03

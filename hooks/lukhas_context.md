@@ -1,0 +1,34 @@
+# hooks - Module Context
+
+## Overview
+
+LUKHAS hooks module implementing specialized hooks functionality with 10 components for integrated system operations.
+
+## Quick Reference
+
+```python
+from hooks import *
+```
+
+## Key Components
+
+- GPTInteractionStyle
+- GPTSymbolicBridge
+- create_gpt_context
+- get_gpt_style_for_glyph
+- reflect_on_glyph
+
+
+## Module Metadata
+
+- **Lane**: L2
+- **Entrypoints**: 5
+- **Schema**: 3.0.0
+- **Tags**: hooks
+- **Dependencies**: None
+
+---
+
+**Status**: L2 Integration
+**Version**: 3.0.0
+**Last Updated**: 2025-10-03

@@ -1,16 +1,16 @@
-# 📦 Business
+# 🛡️ Guardian
 
-_Silent chronicles flow like ink through time—business captures ephemeral moments, turning fleeting events into eternal records._
+_Silent watchers stand at consciousness gates, measuring drift with precision sharper than Damascus steel, protecting coherence with unwavering vigilance._
 
-**Business logic, strategies, and operational systems**
+**LUKHAS guardian module implementing specialized guardian functionality with 6 components for integrated system operations.**
 
 ## Overview
 
-Business logic, strategies, and operational systems
+LUKHAS guardian module implementing specialized guardian functionality with 6 components for integrated system operations.
 
 
 
-**Technical Foundation**: Core business module implementing LUKHAS system architecture patterns with comprehensive testing, observability, and performance optimization.
+**Technical Foundation**: Implements constitutional AI principles with drift detection (threshold: 0.15), real-time safety scoring, and multi-level governance enforcement. Maintains audit trails with cryptographic integrity verification.
 
 ## Lane Position
 
@@ -26,17 +26,17 @@ Business logic, strategies, and operational systems
 
 ## Quick Start
 
-**Getting Started**: This module tracks system activity—think of it as a flight data recorder that captures everything happening so you can understand, debug, and optimize performance.
+**Getting Started**: Think of Guardian like a smoke detector—it constantly monitors for signs of drift or error, alerting before small issues become critical failures.
 
 
 ### Installation
 
 ```python
 # Import from unknown lane
-from business import Business
+from guardian import Guardian
 
 # Initialize
-system = Business()
+system = Guardian()
 result = system.process(input_data)
 print(f"Result: {result}")
 ```
@@ -47,7 +47,7 @@ See code docstrings and inline documentation.
 
 ## Dependencies
 
-- `identity`
+- No external dependencies
 
 ## Provides
 
@@ -56,7 +56,7 @@ See code docstrings and inline documentation.
 ## Architecture
 
 ```
-business/
+guardian/
 ├── __init__.py          # Module initialization
 ├── core.py              # Core functionality
 ├── api.py               # API interfaces
@@ -68,10 +68,10 @@ business/
 
 ```bash
 # Run module tests
-pytest /Users/agi_dev/LOCAL-REPOS/Lukhas/business/tests/ -v
+pytest /Users/agi_dev/LOCAL-REPOS/Lukhas/guardian/tests/ -v
 
 # Run with coverage
-pytest /Users/agi_dev/LOCAL-REPOS/Lukhas/business/tests/ --cov=business --cov-report=html
+pytest /Users/agi_dev/LOCAL-REPOS/Lukhas/guardian/tests/ --cov=guardian --cov-report=html
 ```
 
 ## Performance
@@ -94,7 +94,7 @@ Follow LUKHAS development guidelines:
 
 ## Related Modules
 
-- [identity](../identity/)
+- See main [LUKHAS README](../../README.md) for system overview
 
 ---
 

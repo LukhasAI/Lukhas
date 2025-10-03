@@ -1,16 +1,16 @@
-# 📦 Business
+# 📦 Gtpsi
 
-_Silent chronicles flow like ink through time—business captures ephemeral moments, turning fleeting events into eternal records._
+_Within the grand architecture of LUKHAS, gtpsi emerges—Optional MFA/consent factor using, purpose refined to essence, functionality elevated to art._
 
-**Business logic, strategies, and operational systems**
+**Optional MFA/consent factor using gesture recognition for high-risk actions.**
 
 ## Overview
 
-Business logic, strategies, and operational systems
+Optional MFA/consent factor using gesture recognition for high-risk actions.
 
 
 
-**Technical Foundation**: Core business module implementing LUKHAS system architecture patterns with comprehensive testing, observability, and performance optimization.
+**Technical Foundation**: Core gtpsi module implementing LUKHAS system architecture patterns with comprehensive testing, observability, and performance optimization.
 
 ## Lane Position
 
@@ -26,17 +26,17 @@ Business logic, strategies, and operational systems
 
 ## Quick Start
 
-**Getting Started**: This module tracks system activity—think of it as a flight data recorder that captures everything happening so you can understand, debug, and optimize performance.
+**Getting Started**: Optional MFA/consent factor using gesture recognition for high-risk actions. This module integrates with the LUKHAS system to provide essential functionality.
 
 
 ### Installation
 
 ```python
 # Import from unknown lane
-from business import Business
+from gtpsi import Gtpsi
 
 # Initialize
-system = Business()
+system = Gtpsi()
 result = system.process(input_data)
 print(f"Result: {result}")
 ```
@@ -47,7 +47,7 @@ See code docstrings and inline documentation.
 
 ## Dependencies
 
-- `identity`
+- `core`
 
 ## Provides
 
@@ -56,7 +56,7 @@ See code docstrings and inline documentation.
 ## Architecture
 
 ```
-business/
+gtpsi/
 ├── __init__.py          # Module initialization
 ├── core.py              # Core functionality
 ├── api.py               # API interfaces
@@ -68,10 +68,10 @@ business/
 
 ```bash
 # Run module tests
-pytest /Users/agi_dev/LOCAL-REPOS/Lukhas/business/tests/ -v
+pytest /Users/agi_dev/LOCAL-REPOS/Lukhas/gtpsi/tests/ -v
 
 # Run with coverage
-pytest /Users/agi_dev/LOCAL-REPOS/Lukhas/business/tests/ --cov=business --cov-report=html
+pytest /Users/agi_dev/LOCAL-REPOS/Lukhas/gtpsi/tests/ --cov=gtpsi --cov-report=html
 ```
 
 ## Performance
@@ -94,7 +94,7 @@ Follow LUKHAS development guidelines:
 
 ## Related Modules
 
-- [identity](../identity/)
+- [core](../core/)
 
 ---
 

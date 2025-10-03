@@ -1,16 +1,16 @@
-# 📦 Business
+# 📦 Universal_Language
 
-_Silent chronicles flow like ink through time—business captures ephemeral moments, turning fleeting events into eternal records._
+_Language shapes thought, concepts crystallize meaning—universal_language weaves semantic tapestries where words become understanding._
 
-**Business logic, strategies, and operational systems**
+**LUKHAS universal_language module implementing specialized universal_language functionality with 11 components for integrated system operations.**
 
 ## Overview
 
-Business logic, strategies, and operational systems
+LUKHAS universal_language module implementing specialized universal_language functionality with 11 components for integrated system operations.
 
 
 
-**Technical Foundation**: Core business module implementing LUKHAS system architecture patterns with comprehensive testing, observability, and performance optimization.
+**Technical Foundation**: Core universal_language module implementing LUKHAS system architecture patterns with comprehensive testing, observability, and performance optimization.
 
 ## Lane Position
 
@@ -26,17 +26,17 @@ Business logic, strategies, and operational systems
 
 ## Quick Start
 
-**Getting Started**: This module tracks system activity—think of it as a flight data recorder that captures everything happening so you can understand, debug, and optimize performance.
+**Getting Started**: This module handles language and meaning—like a dictionary that doesn't just define words but understands their relationships and context.
 
 
 ### Installation
 
 ```python
 # Import from unknown lane
-from business import Business
+from universal_language import UniversalLanguage
 
 # Initialize
-system = Business()
+system = UniversalLanguage()
 result = system.process(input_data)
 print(f"Result: {result}")
 ```
@@ -47,7 +47,7 @@ See code docstrings and inline documentation.
 
 ## Dependencies
 
-- `identity`
+- No external dependencies
 
 ## Provides
 
@@ -56,7 +56,7 @@ See code docstrings and inline documentation.
 ## Architecture
 
 ```
-business/
+universal_language/
 ├── __init__.py          # Module initialization
 ├── core.py              # Core functionality
 ├── api.py               # API interfaces
@@ -68,10 +68,10 @@ business/
 
 ```bash
 # Run module tests
-pytest /Users/agi_dev/LOCAL-REPOS/Lukhas/business/tests/ -v
+pytest /Users/agi_dev/LOCAL-REPOS/Lukhas/universal_language/tests/ -v
 
 # Run with coverage
-pytest /Users/agi_dev/LOCAL-REPOS/Lukhas/business/tests/ --cov=business --cov-report=html
+pytest /Users/agi_dev/LOCAL-REPOS/Lukhas/universal_language/tests/ --cov=universal_language --cov-report=html
 ```
 
 ## Performance
@@ -94,7 +94,7 @@ Follow LUKHAS development guidelines:
 
 ## Related Modules
 
-- [identity](../identity/)
+- See main [LUKHAS README](../../README.md) for system overview
 
 ---
 

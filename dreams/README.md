@@ -1,16 +1,16 @@
-# 📦 Business
+# 🌙 Dreams
 
-_Silent chronicles flow like ink through time—business captures ephemeral moments, turning fleeting events into eternal records._
+_Realities within realities, dreams births alternate possibilities—synthetic worlds where theories prove themselves before manifesting._
 
-**Business logic, strategies, and operational systems**
+**Dream state consciousness processing, sleep cycle simulation, and oneiric**
 
 ## Overview
 
-Business logic, strategies, and operational systems
+Dream state consciousness processing, sleep cycle simulation, and oneiric
 
 
 
-**Technical Foundation**: Core business module implementing LUKHAS system architecture patterns with comprehensive testing, observability, and performance optimization.
+**Technical Foundation**: Implements constraint-relaxed synthesis engine with creativity scoring, novelty detection, and coherence validation. Uses temperature-scaled sampling (T=0.7-1.2) for controlled exploration.
 
 ## Lane Position
 
@@ -26,17 +26,17 @@ Business logic, strategies, and operational systems
 
 ## Quick Start
 
-**Getting Started**: This module tracks system activity—think of it as a flight data recorder that captures everything happening so you can understand, debug, and optimize performance.
+**Getting Started**: This module creates simulations—like a flight simulator that lets pilots practice without risk, testing scenarios before they happen in reality.
 
 
 ### Installation
 
 ```python
 # Import from unknown lane
-from business import Business
+from dreams import Dreams
 
 # Initialize
-system = Business()
+system = Dreams()
 result = system.process(input_data)
 print(f"Result: {result}")
 ```
@@ -47,7 +47,7 @@ See code docstrings and inline documentation.
 
 ## Dependencies
 
-- `identity`
+- `memory`
 
 ## Provides
 
@@ -56,7 +56,7 @@ See code docstrings and inline documentation.
 ## Architecture
 
 ```
-business/
+dreams/
 ├── __init__.py          # Module initialization
 ├── core.py              # Core functionality
 ├── api.py               # API interfaces
@@ -68,10 +68,10 @@ business/
 
 ```bash
 # Run module tests
-pytest /Users/agi_dev/LOCAL-REPOS/Lukhas/business/tests/ -v
+pytest /Users/agi_dev/LOCAL-REPOS/Lukhas/dreams/tests/ -v
 
 # Run with coverage
-pytest /Users/agi_dev/LOCAL-REPOS/Lukhas/business/tests/ --cov=business --cov-report=html
+pytest /Users/agi_dev/LOCAL-REPOS/Lukhas/dreams/tests/ --cov=dreams --cov-report=html
 ```
 
 ## Performance
@@ -94,7 +94,7 @@ Follow LUKHAS development guidelines:
 
 ## Related Modules
 
-- [identity](../identity/)
+- [memory](../memory/)
 
 ---
 
