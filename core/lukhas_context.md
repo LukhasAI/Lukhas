@@ -1,207 +1,181 @@
-# Core Module Context - Vendor-Neutral AI Guidance
+# core - Compatibility Bridge Module
+
+## Overview
+
+The `core` module provides backward compatibility by exposing `lukhas.core` functionality under the historical `core` namespace. This enables smooth migration for legacy code while the system transitions to the unified namespace structure.
 
 **Module**: core
-**Purpose**: Core system coordination and lane management
-**Lane**: Production Integration
-**Schema**: v2.0.0
-**Last Updated**: 2025-10-02
+**Purpose**: Compatibility bridge for lukhas.core namespace
+**Lane**: L2 Integration
+**Schema**: v3.0.0
+**Last Updated**: 2025-10-03
 
----
+## Quick Reference
 
-## Context Sync Header
-
-```
-Lane: production_integration
-Module: core
-Canonical imports: lukhas.core.*
-Components: Registry, Bootstrap, Lane Management
-Integration: Constellation Framework foundation
-```
-
----
-
-## Module Purpose
-
-The core module provides foundational system coordination, implementing the registry-based plugin architecture that enables LUKHAS's dynamic component loading, lane boundary enforcement, and Constellation Framework integration.
-
-### Core Capabilities
-- **Registry System**: Dynamic component registration and lifecycle management
-- **Bootstrap**: System initialization and dependency resolution
-- **Lane Management**: Boundary enforcement and promotion gates
-- **Coordination**: Cross-module integration hub
-- **Health Monitoring**: System status and vital signs
-
----
-
-## Architecture Integration
-
-### Constellation Framework Foundation
-- **Central Hub**: Coordinates all constellation stars (⚛️✦🔬🛡️🌊⚡🎭🔮)
-- **Registry Pattern**: Enables dynamic star registration and discovery
-- **Lane Boundaries**: Enforces safe progression (candidate → integration → production)
-- **Performance**: <100ms initialization target
-
-### Lane Positioning
-- **Current Lane**: Production Integration
-- **Quality**: Battle-tested coordination layer
-- **Stability**: Foundation for all LUKHAS systems
-- **Role**: Bridge between development and production
-
----
-
-## Key Components
-
-### ComponentRegistry
-Dynamic component registration system:
-- Type-safe component retrieval
-- Lazy loading for performance
-- Lifecycle management (init/start/stop)
-- Plugin discovery and loading
-
-### Bootstrap System
-System initialization framework:
-- Dependency graph resolution
-- Configuration loading and validation
-- Health check coordination
-- Graceful startup and shutdown
-
-### LaneManager
-Lane boundary enforcement:
-- Import validation (prevent candidate → production)
-- Feature flag coordination
-- Promotion gate validation
-- Cross-lane compatibility checks
-
----
-
-## Usage Patterns
-
-### Component Registration
 ```python
-from lukhas.core.registry import ComponentRegistry
+# Legacy namespace (compatibility)
+from core.bio_symbolic_processor import BioSymbolicProcessor, create_bio_symbolic_processor
+from core.consciousness_signal_router import ConsciousnessSignalRouter, CascadeDetector
 
-registry = ComponentRegistry.get_instance()
-registry.register("consciousness", ConsciousnessEngine)
-registry.register("memory", MemorySystem)
-
-# Retrieve component
-engine = registry.get("consciousness")
+# Recommended namespace (migrate to this)
+from lukhas.core.bio_symbolic_processor import BioSymbolicProcessor
+from lukhas.core.consciousness_signal_router import ConsciousnessSignalRouter
 ```
 
-### System Bootstrap
+## Core Components
+
+### Bio-Symbolic Processor (6 entrypoints)
+- **BioSymbolicProcessor**: Main processor for bio-symbolic patterns
+- **BioSymbolicPattern**: Pattern definition with type and representation
+- **AdaptationRule**: Rules for bio-symbolic adaptation
+- **BioPatternType**: Enum for pattern types (neural oscillation, etc.)
+- **SymbolicRepresentationType**: Enum for representation types (graph, etc.)
+- **Factory functions**: `create_bio_symbolic_processor`, `get_bio_symbolic_processor`
+
+### Consciousness Signal Router (8 entrypoints)
+- **ConsciousnessSignalRouter**: Routes consciousness signals across system
+- **CascadeDetector**: Detects and prevents memory cascade risk
+- **NetworkMetrics**: Network monitoring and statistics
+- **NetworkNode**: Node representation in consciousness network
+- **RoutingRule**: Routing rule definition
+- **RoutingStrategy**: Strategy enum (priority-based, round-robin, etc.)
+- **SignalFilter**: Filters signals based on type and priority
+
+## Usage Examples
+
+### Bio-Symbolic Processing
 ```python
-from lukhas.core import initialize_system, get_bootstrap
+from core.bio_symbolic_processor import (
+    create_bio_symbolic_processor,
+    BioSymbolicPattern,
+    BioPatternType
+)
 
-# Initialize LUKHAS
-system = initialize_system()
-
-# Access bootstrap
-bootstrap = get_bootstrap()
-bootstrap.start_component("identity")
+processor = create_bio_symbolic_processor()
+pattern = BioSymbolicPattern(
+    pattern_type=BioPatternType.NEURAL_OSCILLATION,
+    parameters={"frequency": 40}
+)
+result = processor.process(pattern)
 ```
 
-### Lane Validation
+### Consciousness Signal Routing
 ```python
-from lukhas.core.lanes import validate_import
+from core.consciousness_signal_router import (
+    ConsciousnessSignalRouter,
+    RoutingRule,
+    RoutingStrategy
+)
 
-# Validate import is allowed
-validate_import(
-    source_lane="production",
-    target_module="candidate.experimental"
-)  # Raises error if invalid
+router = ConsciousnessSignalRouter()
+rule = RoutingRule(
+    source_pattern="consciousness.*",
+    destination="memory.episodic",
+    strategy=RoutingStrategy.PRIORITY_BASED
+)
+router.add_rule(rule)
+router.route_signal("consciousness.awareness.update", data)
 ```
 
----
+### Cascade Prevention
+```python
+from core.consciousness_signal_router import CascadeDetector
+
+detector = CascadeDetector(threshold=0.95)
+risk = detector.detect_cascade_risk(
+    fold_count=950,
+    fold_limit=1000
+)
+if risk > 0.95:
+    # Trigger prevention
+    router.trigger_cascade_prevention()
+```
 
 ## Performance Targets
 
-- **Initialization**: <100ms system startup
-- **Registry Lookup**: <1ms component retrieval
-- **Memory**: <50MB base system footprint
-- **Availability**: 99.99% uptime (core infrastructure)
+- Bio-symbolic processing: <100ms
+- Signal routing: <10ms
+- Cascade detection: <5ms
+- Network metrics: <20ms
+- Signal filtering: <1ms
 
----
+## OpenTelemetry
 
-## Integration Points
+**5 Required Spans**:
+- `lukhas.core.auth`: Authentication operations
+- `lukhas.core.consciousness`: Consciousness processing
+- `lukhas.core.monitoring`: System monitoring
+- `lukhas.core.operation`: General operations
+- `lukhas.core.processing`: Data processing
 
-### Constellation Framework
-- Provides foundation for all constellation stars
-- Coordinates Identity (⚛️), Memory (✦), Vision (🔬), Guardian (🛡️)
-- Enables dynamic star registration and expansion
+```python
+from telemetry import create_tracer
 
-### MATRIZ Integration
-- Registry pattern for MATRIZ nodes
-- Pipeline coordination infrastructure
-- Cognitive component lifecycle management
-
-### All Modules
-Core serves as the foundation:
-- Bootstrap and initialization
-- Component discovery
-- Configuration management
-- Health monitoring
-
----
-
-## Development Guidelines
-
-1. **Lane Boundaries**: Strictly enforce import rules
-2. **Registry Pattern**: All components must use registry
-3. **Performance**: <100ms initialization requirement
-4. **Stability**: Core must never crash (99.99% uptime)
-5. **Testing**: 80%+ coverage required (foundation code)
-6. **Documentation**: Every public API must have comprehensive docs
-
----
-
-## Documentation Structure
-
-```
-core/
-├── README.md              # Module overview
-├── CLAUDE.md             # AI development context
-├── lukhas_context.md     # This file (vendor-neutral)
-├── docs/
-│   ├── REGISTRY.md       # Registry pattern documentation
-│   ├── BOOTSTRAP.md      # Bootstrap system guide
-│   ├── LANES.md          # Lane management documentation
-│   └── ARCHITECTURE.md   # Core architecture
-└── tests/
-    ├── unit/             # Component tests
-    ├── integration/      # Cross-system tests
-    └── performance/      # Initialization benchmarks
+tracer = create_tracer("lukhas.core")
+with tracer.start_span("core.processing"):
+    result = processor.process(pattern)
 ```
 
----
+## Migration Path
 
-## Lane System
-
-### Lane Progression
-```
-candidate/ → lukhas/ → products/
-(experimental) → (integration) → (production)
+**Legacy Code**:
+```python
+from core.bio_symbolic_processor import BioSymbolicProcessor
 ```
 
-### Promotion Gates
-1. **E2E Performance**: All SLOs met
-2. **Schema Drift**: No breaking changes
-3. **Chaos Testing**: Fail-closed validation
-4. **Telemetry**: Complete observability
-5. **Import Hygiene**: Lane boundaries respected
+**Migrated Code** (recommended):
+```python
+from lukhas.core.bio_symbolic_processor import BioSymbolicProcessor
+```
+
+Both work during transition period. New code should use `lukhas.core`.
+
+## Module Metadata
+
+- **Lane**: L2 Integration
+- **Dependencies**: identity
+- **Entrypoints**: 14 (6 bio-symbolic + 8 routing)
+- **Schema Version**: 3.0.0
+- **Test Coverage**: 85%
+- **T4 Compliance**: 0.65 (experimental)
+- **OpenTelemetry**: 1.37.0
+
+## Constellation Integration
+
+**Tags**: authentication, consciousness, coordination, core, infrastructure, monitoring, orchestration
+
+**Stars**:
+- ⚛️ IDENTITY: Authentication integration
+- 🔬 VISION: Monitoring and metrics
+- 🛡️ GUARDIAN: Cascade prevention
+- ✦ MEMORY: Signal routing
+- 🌊 FLOW: Consciousness flow management
+
+## Related Systems
+
+- **lukhas.core**: Target namespace (migrate here)
+- **identity**: Authentication
+- **consciousness**: Consciousness processing
+- **memory**: Memory integration
+- **monitoring**: System monitoring
+
+## Key Features
+
+✅ Backward compatibility bridge
+✅ 14 entrypoints (bio-symbolic + routing)
+✅ Cascade detection (0.95 threshold)
+✅ Network metrics and monitoring
+✅ 5 OpenTelemetry spans
+✅ Sub-100ms processing targets
+
+## Important Notes
+
+⚠️ **Compatibility Layer**: Use `lukhas.core` for new code
+⚠️ **No Direct Implementation**: Delegates to `lukhas.core`
+⚠️ **Transition Period**: Plan migration timeline
 
 ---
 
-## Related Contexts
-
-- **Main System**: [../lukhas_context.md](../lukhas_context.md)
-- **Constellation Hub**: [../lukhas/lukhas_context.md](../lukhas/lukhas_context.md)
-- **Identity**: [../identity/lukhas_context.md](../identity/lukhas_context.md)
-- **Memory**: [../memory/lukhas_context.md](../memory/lukhas_context.md)
-- **Module Index**: [../MODULE_INDEX.md](../MODULE_INDEX.md#core-integration)
-
----
-
-**Status**: Production Integration
-**Manifest**: ✓ module.manifest.json
-**Team**: Core Infrastructure
-**Architecture**: Constellation Framework v2.0.0
+**Status**: Compatibility bridge (transitional)
+**Version**: Schema 3.0.0
+**Last Updated**: 2025-10-03
