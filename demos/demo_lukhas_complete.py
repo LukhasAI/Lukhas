@@ -15,13 +15,13 @@ from pathlib import Path
 # Add parent directory to path for imports
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from governance.lukhas_audit_system import (
+from observability.audit.system import (
     AuditTrail,
     DecisionType,
     BrainContext,
 )
-from governance.lukhas_confidence_calibration import AdaptiveConfidenceCalibrator
-from governance.lukhas_symphony_integration import (
+from governance.metrics.confidence_calibration import AdaptiveConfidenceCalibrator
+from consciousness.symphony.integration import (
     MultiBrainSymphony,
     ConsensusMethod,
 )
