@@ -6,11 +6,17 @@ import path from 'path';
 import { evalOrchestrator } from './adapters/evalOrchestrator.js';
 import { modelRegistry } from './adapters/modelRegistry.js';
 import { createStores, openDB } from './persistence/sqlite.js';
-// Conditional import: use Prometheus adapter if PROM_URL is set, otherwise stub
-const useProm = process.env.PROM_URL;
-const { sloMonitor } = useProm
-    ? await import('./adapters/sloMonitor.prom.js')
-    : await import('./adapters/sloMonitor.js');
+// Prefer Prometheus-backed monitor if PROM_URL is set; fallback to stub.
+let sloMonitor;
+try {
+    if (process.env.PROM_URL) {
+        ({ sloMonitor } = await import('./adapters/sloMonitor.prom.js'));
+    } else {
+        ({ sloMonitor } = await import('./adapters/sloMonitor.js'));
+    }
+} catch {
+    ({ sloMonitor } = await import('./adapters/sloMonitor.js'));
+}
 
 const PORT = parseInt(process.env.PORT || "8766");
 
@@ -102,6 +108,20 @@ const STATE_PATH = process.env.MCP_STATE_PATH || path.resolve(REPO_ROOT, '.mcp-s
 const DB_PATH = process.env.LUKHAS_MCP_DB || path.resolve(REPO_ROOT, '.mcp-state.db');
 const __db = openDB(DB_PATH, { wal: true });
 const stores = createStores(__db);
+
+// Narrative audit retrieval for WHY tool
+function auditNarrativeFor(idLike) {
+    // Simple narrative: concatenate relevant audit rows by payload content match
+    const rows = __db.prepare(
+        `SELECT ts, actor, action, payload_json FROM audits ORDER BY ts DESC LIMIT 200`
+    ).all();
+    const hits = rows.filter(r => JSON.stringify(r).includes(idLike));
+    if (hits.length === 0) return `No audit narrative found for: ${idLike}`;
+    return hits.reverse().map(r => {
+        const payload = (() => { try { return JSON.parse(r.payload_json || '{}'); } catch { return {}; } })();
+        return `[${r.ts}] actor=${r.actor || 'system'} action=${r.action} details=${JSON.stringify(payload)}`;
+    }).join('\n');
+}
 
 let _dirty = false;
 let _saving = false;
@@ -466,7 +486,8 @@ function parseBody(req) {
     });
 }
 
-// MCP Tools definitions - ChatGPT requires 'search' and 'fetch' tools
+// MCP Tools definitions - ChatGPT requires 'search' and 'fetch' tools FIRST.
+// DO NOT change the first two entries or remove required:["id"] from fetch.
 const MCP_TOOLS = [
     // Contract-compliant tools (snake_case)
     {
@@ -487,7 +508,7 @@ const MCP_TOOLS = [
         inputSchema: {
             type: "object",
             properties: {
-                id: { type: "string" },
+                id: { type: "string" }, // required by ChatGPT searchability checks
                 fields: {
                     type: "array",
                     items: { type: "string", enum: ["title", "url", "mimeType", "text", "metadata"] }
@@ -518,6 +539,15 @@ const MCP_TOOLS = [
                 jobId: { type: "string" }
             },
             required: ["jobId"]
+        }
+    },
+    {
+        name: "why",
+        description: "Explain WHY a job/model/canary decision happened (narrative audit).",
+        inputSchema: {
+            type: "object",
+            properties: { id: { type: "string", description: "jobId|modelId|canaryId" } },
+            required: ["id"]
         }
     },
     {
@@ -1592,6 +1622,18 @@ async function handleMCPMethod(method, params = {}) {
                     };
                 }
 
+                // ---------- why ----------
+                case 'why': {
+                    const { id } = args;
+                    const text = auditNarrativeFor(id);
+                    return {
+                        content: [{
+                            type: "text",
+                            text
+                        }]
+                    };
+                }
+
                 // ---------- promote_model ----------
                 case 'promote_model': {
                     const modelId = String(args?.modelId || "");
@@ -1956,6 +1998,23 @@ const server = createServer(async (req, res) => {
                 mcp_version: '2024-11-05'
             }));
             return;
+        }
+
+        // Serve cockpit.html directly for convenience
+        if (path === '/cockpit.html' && method === 'GET') {
+            try {
+                const cockpitPath = './cockpit.html';
+                const html = await fs.readFile(cockpitPath, 'utf-8');
+                setCORSHeaders(res);
+                res.writeHead(200, { 'Content-Type': 'text/html' });
+                res.end(html);
+                return;
+            } catch (err) {
+                console.error('Cockpit error:', err.message);
+                res.writeHead(404, { 'Content-Type': 'text/plain' });
+                res.end(`cockpit.html not found: ${err.message}`);
+                return;
+            }
         }
 
         // 404 for other paths

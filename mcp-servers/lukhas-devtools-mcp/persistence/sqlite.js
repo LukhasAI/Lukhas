@@ -48,7 +48,6 @@ export function openDB(dbPath, { wal = true } = {}) {
       updated_at TEXT NOT NULL,
       policy_json TEXT NOT NULL          -- {windowSeconds, targets:{latency_p95_ms, max_error_rate}}
     );
-    // Canary metrics: time-series data
     CREATE TABLE IF NOT EXISTS canary_metrics (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         canary_id TEXT NOT NULL,
@@ -57,11 +56,9 @@ export function openDB(dbPath, { wal = true } = {}) {
         error_rate REAL,
         gate TEXT,
         source TEXT DEFAULT 'sloMonitor',
-        raw_data TEXT,
-        FOREIGN KEY (canary_id) REFERENCES canaries(id)
+        raw_data TEXT
     );
 
-    // Narrative audit trails: human-readable operational story
     CREATE TABLE IF NOT EXISTS audits_narrative (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         created_at DATETIME DEFAULT CURRENT_TIMESTAMP,

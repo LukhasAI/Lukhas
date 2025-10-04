@@ -1,0 +1,67 @@
+name: MCP Contract
+
+on:
+  pull_request:
+  push:
+    branches: [ main ]
+
+jobs:
+  contract:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: '20' }
+
+      - name: Install deps
+        run: npm ci || true
+
+      - name: Start MCP server
+        working-directory: mcp-servers/lukhas-devtools-mcp
+        run: |
+          nohup node mcp-streamable.mjs > server.log 2>&1 &
+          sleep 2
+          curl -s -I http://localhost:8766/mcp || (echo "server not up" && exit 1)
+
+      - name: Golden curls (wire contract)
+        run: |
+          set -e
+          H=http://localhost:8766
+          # initialize
+          curl -s $H/mcp -H 'Content-Type: application/json' \
+            -d '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2025-06-18","clientInfo":{"name":"ci","version":"1.0"},"capabilities":{"tools":{}}}}' | jq -e '.result.serverInfo.name'
+          # tools/list includes search & fetch
+          curl -s $H/mcp -H 'Content-Type: application/json' \
+            -d '{"jsonrpc":"2.0","id":2,"method":"tools/list","params":{}}' | jq -e '.result.tools | map(.name) | index("search")'
+          curl -s $H/mcp -H 'Content-Type: application/json' \
+            -d '{"jsonrpc":"2.0","id":3,"method":"tools/list","params":{}}' | jq -e '.result.tools | map(.name) | index("fetch")'
+          # fetch requires id
+          curl -s $H/mcp -H 'Content-Type: application/json' \
+            -d '{"jsonrpc":"2.0","id":4,"method":"tools/list","params":{}}' | jq -e '.result.tools[] | select(.name=="fetch") | .inputSchema.required | index("id")'
+
+          # write a file (create or overwrite)
+          curl -s $H/mcp -H 'Content-Type: application/json' \
+            -d '{"jsonrpc":"2.0","id":10,"method":"tools/call","params":{"name":"write_file","arguments":{"path":"docs/ci/contract.md","contents":"# contract\nok\n","overwrite":true}}}' \
+            | jq -e '.result.content[0].text | fromjson | .path'
+
+          # search (should not error even if empty result)
+          curl -s $H/mcp -H 'Content-Type: application/json' \
+            -d '{"jsonrpc":"2.0","id":11,"method":"tools/call","params":{"name":"search","arguments":{"query":"contract","limit":5}}}' \
+            | jq -e '.result.content[0].text | fromjson | .ids'
+
+          # fetch that file by id
+          CURR_SHA=$(curl -s $H/mcp -H 'Content-Type: application/json' \
+            -d '{"jsonrpc":"2.0","id":12,"method":"tools/call","params":{"name":"fetch","arguments":{"id":"lukhas-path:ZG9jcy9jaS9jb250cmFjdC5tZA=="}}}' \
+            | jq -r '.result.content[0].text' | jq -r '.metadata.sha256')
+
+          # apply patch with precondition
+          DIFF=$'--- a\n+++ b\n@@ -1,1 +1,2 @@\n-# contract\n+# contract\nupdated\n'
+          curl -s $H/mcp -H 'Content-Type: application/json' \
+            -d "{\"jsonrpc\":\"2.0\",\"id\":13,\"method\":\"tools/call\",\"params\":{\"name\":\"apply_patch\",\"arguments\":{\"path\":\"docs/ci/contract.md\",\"patch\":${DIFF@Q},\"expectSha256\":\"$CURR_SHA\"}}}" \
+            | jq -e '.result.content[0].text | fromjson | .sha256'
+
+          # commit
+          curl -s $H/mcp -H 'Content-Type: application/json' \
+            -d '{"jsonrpc":"2.0","id":14,"method":"tools/call","params":{"name":"git_commit","arguments":{"message":"ci: contract proof","add":["docs/ci/contract.md"]}}}' \
+            | jq -e '.result.content[0].text | fromjson | .commit'
