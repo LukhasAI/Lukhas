@@ -1,0 +1,101 @@
+# GitHub Branch Protection Configuration for T4/0.01% Freeze
+#
+# This file documents the required branch protection settings for the main branch
+# after the v0.02-final freeze. Apply these settings via GitHub UI or API.
+#
+# To apply via GitHub CLI:
+#   gh api repos/:owner/:repo/branches/main/protection -X PUT --input .github/branch_protection.yml
+
+main:
+  # Require pull request reviews before merging
+  required_pull_request_reviews:
+    dismiss_stale_reviews: true
+    require_code_owner_reviews: true
+    required_approving_review_count: 2
+    require_last_push_approval: true
+
+  # Require status checks to pass before merging
+  required_status_checks:
+    strict: true  # Require branches to be up to date before merging
+    checks:
+      - context: "Freeze Verification"
+        app_id: -1  # GitHub Actions
+      - context: "T4 Validation Checkpoint"
+        app_id: -1  # GitHub Actions
+      - context: "Ledger Consistency"
+        app_id: -1  # GitHub Actions
+      - context: "tests"
+        app_id: -1  # GitHub Actions
+
+  # Enforce rules for administrators
+  enforce_admins: true
+
+  # Require signed commits
+  required_signatures: false  # Set to true if GPG signing is configured
+
+  # Require linear history (no merge commits)
+  required_linear_history: true
+
+  # Allow force pushes (disabled for freeze immutability)
+  allow_force_pushes:
+    enabled: false
+
+  # Allow deletions (disabled for freeze immutability)
+  allow_deletions:
+    enabled: false
+
+  # Require conversation resolution before merging
+  required_conversation_resolution:
+    enabled: true
+
+  # Lock branch (optional - for complete immutability)
+  lock_branch:
+    enabled: false  # Set to true for complete freeze (no PRs allowed)
+
+  # Restrict pushes (who can push to this branch)
+  restrictions:
+    users: []  # Empty = no direct pushes allowed (PRs only)
+    teams: []
+    apps: []
+
+---
+
+# Additional Configuration Notes
+
+# Post-Freeze Policy:
+# - main branch is IMMUTABLE after v0.02-final
+# - All new development work goes to develop/v0.03-prep
+# - PRs to main are blocked unless approved by 2+ reviewers
+# - Freeze Verification CI must pass
+# - No force pushes or deletions allowed
+
+# To completely freeze main (no PRs at all):
+# Set lock_branch.enabled = true
+
+# To allow emergency hotfixes:
+# 1. Create hotfix branch from v0.02-final
+# 2. Get 2+ approvals
+# 3. Ensure all CI checks pass
+# 4. Merge via PR (not direct push)
+# 5. Create new tag (e.g., v0.02.1-hotfix)
+
+# Applying Settings via GitHub CLI:
+# gh api repos/{owner}/{repo}/branches/main/protection \
+#   --method PUT \
+#   --field required_pull_request_reviews[required_approving_review_count]=2 \
+#   --field required_status_checks[strict]=true \
+#   --field required_status_checks[contexts][]=Freeze\ Verification \
+#   --field enforce_admins=true \
+#   --field allow_force_pushes=false \
+#   --field allow_deletions=false
+
+# Applying Settings via GitHub UI:
+# 1. Go to repository Settings > Branches
+# 2. Add rule for "main" branch
+# 3. Enable:
+#    - Require pull request reviews (2 approvals)
+#    - Require status checks (Freeze Verification, T4 Validation)
+#    - Enforce for administrators
+#    - Require linear history
+#    - Do NOT allow force pushes
+#    - Do NOT allow deletions
