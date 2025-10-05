@@ -58,7 +58,14 @@
       "Bash([ -f \"docs/releases/$f\" ])",
       "Bash([ -f \"docs/misc/$f\" ])",
       "Bash(then echo \"$f exists in docs/\")",
-      "Bash(git reset:*)"
+      "Bash(git reset:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(mkdir:*)",
+      "Bash(chmod:*)",
+      "Bash(python3 scripts/scaffold_module_docs.py:*)",
+      "Bash(python3:*)",
+      "Bash(cat:*)"
     ],
     "deny": [],
     "ask": []
