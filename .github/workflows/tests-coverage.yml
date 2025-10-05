@@ -1,0 +1,65 @@
+name: Coverage (touched modules)
+on:
+  pull_request:
+    paths:
+      - '**/*.py'
+      - '**/module.manifest.json'
+      - 'scripts/**'
+
+jobs:
+  coverage:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          pip install -U pip
+          pip install pytest pytest-cov
+
+      - name: Determine touched modules
+        id: mods
+        run: |
+          git fetch origin ${{ github.base_ref }} --depth=1
+          CHANGED=$(git diff --name-only origin/${{ github.base_ref }}... | grep -E '(^[^/]+/|module.manifest.json)' || true)
+          echo "changed<<EOF" >> $GITHUB_OUTPUT
+          echo "$CHANGED" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      - name: Run coverage for touched modules
+        env:
+          CHANGED: ${{ steps.mods.outputs.changed }}
+        run: |
+          python3 - <<'PY'
+          import os, subprocess, json, pathlib, sys
+
+          changed = os.environ.get('CHANGED','').splitlines()
+          roots = set()
+
+          for p in changed:
+              parts = p.split('/')
+              if len(parts) > 1:
+                  roots.add(parts[0])
+
+          for r in sorted(roots):
+              mf = pathlib.Path(r) / "module.manifest.json"
+              if mf.exists():
+                  print(f">> coverage {r}")
+                  try:
+                      subprocess.check_call([
+                          sys.executable,
+                          "scripts/coverage/collect_module_coverage.py",
+                          "--module", r
+                      ])
+                  except subprocess.CalledProcessError as e:
+                      print(f"⚠️  Coverage failed for {r}: {e}")
+          PY
+
+      - name: Coverage gate
+        run: python3 scripts/ci/coverage_gate.py

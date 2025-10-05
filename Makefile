@@ -1082,3 +1082,29 @@ tests-smoke: ## Run smoke tests only (fast import checks)
 
 tests-fast: ## Run all tests except integration (fast)
 	pytest -q -m "not integration"
+
+
+## Coverage + Benchmark Targets (T4/0.01%)
+.PHONY: cov cov-all bench bench-all cov-gate
+
+cov: ## Collect coverage for single module (usage: make cov module=consciousness)
+	python3 scripts/coverage/collect_module_coverage.py --module $(module)
+
+cov-all: ## Collect coverage for all modules with tests/
+	@for mf in $$(git ls-files "**/module.manifest.json"); do \
+		mod=$$(dirname $$mf); \
+		echo ">> $$mod"; \
+		python3 scripts/coverage/collect_module_coverage.py --module $$mod || true; \
+	done
+
+cov-gate: ## Enforce coverage targets (lane-aware)
+	python3 scripts/ci/coverage_gate.py
+
+bench: ## Run benchmarks for single module (usage: make bench module=consciousness)
+	python3 scripts/bench/update_observed_from_bench.py --module $(module)
+
+bench-all: ## Run benchmarks for all modules with tests/benchmarks/
+	@for mf in $$(git ls-files "**/module.manifest.json"); do \
+		mod=$$(dirname $$mf); \
+		python3 scripts/bench/update_observed_from_bench.py --module $$mod || true; \
+	done
