@@ -1,0 +1,32 @@
+{
+  "tag": "v0.02-prod",
+  "frozen_at": "2025-10-05T12:00:30.196099+00:00",
+  "commit": "c167e8d3c977553494936c0a2a2ab1b4f6d89d6f",
+  "modules": 149,
+  "coverage_summary": {
+    "total_modules": 149,
+    "with_coverage": 125,
+    "with_benchmarks": 0,
+    "meeting_coverage_target": 0,
+    "meeting_sla": 0,
+    "avg_health_score": 20.3
+  },
+  "avg_health_score": 20.3,
+  "validated": true,
+  "validation_checks_passed": 7,
+  "validation_checks_total": 7,
+  "provenance": [
+    "ledger",
+    "meta-registry",
+    "validate_t4_checkpoint"
+  ],
+  "critical_artifacts": [
+    "docs/_generated/FINAL_FREEZE.json",
+    "docs/_generated/PRODUCTION_FREEZE.json",
+    "docs/_generated/BASELINE_FREEZE.json",
+    "docs/_generated/META_REGISTRY.json",
+    "docs/_generated/MODULE_REGISTRY.json",
+    "manifests/.ledger/freeze.ndjson",
+    "manifests/.ledger/coverage.ndjson"
+  ]
+}
