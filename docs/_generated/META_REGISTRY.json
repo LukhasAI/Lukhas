@@ -1,0 +1,2103 @@
+{
+  "schema_version": "1.0.0",
+  "generated_at": "2025-10-05T10:30:38.854586+00:00",
+  "source_registry": "docs/_generated/MODULE_REGISTRY.json",
+  "module_count": 149,
+  "modules": [
+    {
+      "module": "Jules--branch",
+      "path": "jules_branch",
+      "lane": "L2",
+      "status": "unknown",
+      "docs_count": 8,
+      "tests_count": 3,
+      "api_count": 0,
+      "tags": [
+        "Jules--branch"
+      ],
+      "health_score": 20
+    },
+    {
+      "module": "SYSTEM_CLAUDE_AUDIT",
+      "path": "system_claude_audit",
+      "lane": "L2",
+      "status": "unknown",
+      "docs_count": 56,
+      "tests_count": 3,
+      "api_count": 0,
+      "tags": [
+        "SYSTEM_CLAUDE_AUDIT"
+      ],
+      "health_score": 20
+    },
+    {
+      "module": "TODO",
+      "path": "todo",
+      "lane": "L2",
+      "status": "unknown",
+      "docs_count": 13,
+      "tests_count": 3,
+      "api_count": 0,
+      "tags": [
+        "TODO"
+      ],
+      "health_score": 20
+    },
+    {
+      "module": "__pycache__",
+      "path": "__pycache__",
+      "lane": "L2",
+      "status": "unknown",
+      "docs_count": 1,
+      "tests_count": 0,
+      "api_count": 0,
+      "tags": [
+        "__pycache__"
+      ],
+      "health_score": 20
+    },
+    {
+      "module": "adapters",
+      "path": "adapters",
+      "lane": "L2",
+      "status": "unknown",
+      "docs_count": 8,
+      "tests_count": 3,
+      "api_count": 6,
+      "tags": [
+        "adapters"
+      ],
+      "health_score": 20
+    },
+    {
+      "module": "agent",
+      "path": "agent",
+      "lane": "L2",
+      "status": "unknown",
+      "docs_count": 8,
+      "tests_count": 3,
+      "api_count": 1,
+      "tags": [
+        "agent",
+        "consciousness"
+      ],
+      "health_score": 20
+    },
+    {
+      "module": "agents",
+      "path": "agents",
+      "lane": "L2",
+      "status": "unknown",
+      "docs_count": 8,
+      "tests_count": 3,
+      "api_count": 0,
+      "tags": [
+        "agents"
+      ],
+      "health_score": 20
+    },
+    {
+      "module": "agents_external",
+      "path": "agents_external",
+      "lane": "L2",
+      "status": "unknown",
+      "docs_count": 61,
+      "tests_count": 3,
+      "api_count": 0,
+      "tags": [
+        "agents_external"
+      ],
+      "health_score": 20
+    },
+    {
+      "module": "ai_orchestration",
+      "path": "ai_orchestration",
+      "lane": "L2",
+      "status": "unknown",
+      "docs_count": 9,
+      "tests_count": 3,
+      "api_count": 0,
+      "tags": [
+        "ai_orchestration",
+        "coordination",
+        "monitoring",
+        "orchestration",
+        "workflow"
+      ],
+      "health_score": 20
+    },
+    {
+      "module": "alerts",
+      "path": "alerts",
+      "lane": "L2",
+      "status": "unknown",
+      "docs_count": 8,
+      "tests_count": 3,
+      "api_count": 0,
+      "tags": [
+        "alerts"
+      ],
+      "health_score": 20
+    },
+    {
+      "module": "analytics",
+      "path": "analytics",
+      "lane": "L2",
+      "status": "unknown",
+      "docs_count": 8,
+      "tests_count": 3,
+      "api_count": 12,
+      "tags": [
+        "analytics",
+        "authentication"
+      ],
+      "health_score": 20
+    },
+    {
+      "module": "api",
+      "path": "api",
+      "lane": "L2",
+      "status": "unknown",
+      "docs_count": 22,
+      "tests_count": 3,
+      "api_count": 8,
+      "tags": [
+        "api",
+        "authentication",
+        "consciousness",
+        "endpoints",
+        "graphql",
+        "monitoring",
+        "rest"
+      ],
+      "health_score": 20
+    },
+    {
+      "module": "archive",
+      "path": "archive",
+      "lane": "L2",
+      "status": "unknown",
+      "docs_count": 29,
+      "tests_count": 3,
+      "api_count": 0,
+      "tags": [
+        "archive"
+      ],
+      "health_score": 20
+    },
+    {
+      "module": "artifacts",
+      "path": "artifacts",
+      "lane": "L2",
+      "status": "unknown",
+      "docs_count": 32,
+      "tests_count": 3,
+      "api_count": 0,
+      "tags": [
+        "artifacts"
+      ],
+      "health_score": 20
+    },
+    {
+      "module": "assets",
+      "path": "assets",
+      "lane": "L2",
+      "status": "unknown",
+      "docs_count": 8,
+      "tests_count": 3,
+      "api_count": 0,
+      "tags": [
+        "assets"
+      ],
+      "health_score": 20
+    },
+    {
+      "module": "audit",
+      "path": "audit",
+      "lane": "L2",
+      "status": "unknown",
+      "docs_count": 14,
+      "tests_count": 3,
+      "api_count": 0,
+      "tags": [
+        "audit"
+      ],
+      "health_score": 20
+    },
+    {
+      "module": "benchmarks",
+      "path": "benchmarks",
+      "lane": "L2",
+      "status": "unknown",
+      "docs_count": 10,
+      "tests_count": 3,
+      "api_count": 0,
+      "tags": [
+        "benchmarks"
+      ],
+      "health_score": 20
+    },
+    {
+      "module": "bio",
+      "path": "bio",
+      "lane": "L2",
+      "status": "unknown",
+      "docs_count": 10,
+      "tests_count": 3,
+      "api_count": 0,
+      "tags": [
+        "bio",
+        "consciousness"
+      ],
+      "health_score": 20
+    },
+    {
+      "module": "brain",
+      "path": "brain",
+      "lane": "L2",
+      "status": "unknown",
+      "docs_count": 8,
+      "tests_count": 3,
+      "api_count": 23,
+      "tags": [
+        "brain",
+        "cognitive",
+        "intelligence",
+        "monitoring",
+        "orchestration"
+      ],
+      "health_score": 20
+    },
+    {
+      "module": "branding",
+      "path": "branding",
+      "lane": "L2",
+      "status": "unknown",
+      "docs_count": 101,
+      "tests_count": 3,
+      "api_count": 0,
+      "tags": [
+        "branding"
+      ],
+      "health_score": 20
+    },
+    {
+      "module": "bridge",
+      "path": "bridge",
+      "lane": "L2",
+      "status": "unknown",
+      "docs_count": 12,
+      "tests_count": 3,
+      "api_count": 5,
+      "tags": [
+        "adapters",
+        "bridge",
+        "connectors",
+        "consciousness",
+        "integration",
+        "oauth2",
+        "orchestration"
+      ],
+      "health_score": 20
+    },
+    {
+      "module": "business",
+      "path": "business",
+      "lane": "L2",
+      "status": "unknown",
+      "docs_count": 11,
+      "tests_count": 3,
+      "api_count": 9,
+      "tags": [
+        "authentication",
+        "business"
+      ],
+      "health_score": 20
+    },
+    {
+      "module": "candidate",
+      "path": "candidate",
+      "lane": "L2",
+      "status": "unknown",
+      "docs_count": 964,
+      "tests_count": 3,
+      "api_count": 0,
+      "tags": [
+        "candidate",
+        "consciousness",
+        "fold-architecture",
+        "t4-experimental"
+      ],
+      "health_score": 20
+    },
+    {
+      "module": "ci",
+      "path": "ci",
+      "lane": "L2",
+      "status": "unknown",
+      "docs_count": 8,
+      "tests_count": 3,
+      "api_count": 0,
+      "tags": [
+        "ci"
+      ],
+      "health_score": 20
+    },
+    {
+      "module": "claude_army",
+      "path": "claude_army",
+      "lane": "L2",
+      "status": "unknown",
+      "docs_count": 9,
+      "tests_count": 3,
+      "api_count": 0,
+      "tags": [
+        "claude_army"
+      ],
+      "health_score": 20
+    },
+    {
+      "module": "codex_artifacts",
+      "path": "codex_artifacts",
+      "lane": "L2",
+      "status": "unknown",
+      "docs_count": 8,
+      "tests_count": 3,
+      "api_count": 0,
+      "tags": [
+        "codex_artifacts"
+      ],
+      "health_score": 20
+    },
+    {
+      "module": "cognitive",
+      "path": "cognitive",
+      "lane": "L2",
+      "status": "unknown",
+      "docs_count": 8,
+      "tests_count": 3,
+      "api_count": 0,
+      "tags": [
+        "cognitive"
+      ],
+      "health_score": 20
+    },
+    {
+      "module": "cognitive_core",
+      "path": "cognitive_core",
+      "lane": "L2",
+      "status": "unknown",
+      "docs_count": 8,
+      "tests_count": 6,
+      "api_count": 2,
+      "tags": [
+        "cognitive_core",
+        "coordination",
+        "core",
+        "infrastructure"
+      ],
+      "health_score": 20
+    },
+    {
+      "module": "completion",
+      "path": "completion",
+      "lane": "L2",
+      "status": "unknown",
+      "docs_count": 9,
+      "tests_count": 3,
+      "api_count": 0,
+      "tags": [
+        "completion"
+      ],
+      "health_score": 20
+    },
+    {
+      "module": "config",
+      "path": "config",
+      "lane": "L2",
+      "status": "unknown",
+      "docs_count": 10,
+      "tests_count": 3,
+      "api_count": 0,
+      "tags": [
+        "config"
+      ],
+      "health_score": 20
+    },
+    {
+      "module": "consciousness",
+      "path": "consciousness",
+      "lane": "L2",
+      "status": "unknown",
+      "docs_count": 60,
+      "tests_count": 5,
+      "api_count": 13,
+      "tags": [
+        "authentication",
+        "awareness",
+        "cognition",
+        "consciousness",
+        "fold-architecture",
+        "phenomenological",
+        "t4-experimental"
+      ],
+      "coverage": {
+        "observed": 4.12,
+        "target": null,
+        "delta": null,
+        "meets_target": null
+      },
+      "health_score": 22.1
+    },
+    {
+      "module": "consciousness.simulation",
+      "path": "consciousness/simulation",
+      "lane": "L2",
+      "status": "unknown",
+      "docs_count": 1,
+      "tests_count": 0,
+      "api_count": 0,
+      "tags": [
+        "consciousness",
+        "simulation",
+        "ethics",
+        "consent",
+        "matriz",
+        "matada",
+        "t4-beta"
+      ],
+      "health_score": 20
+    },
+    {
+      "module": "consent",
+      "path": "consent",
+      "lane": "L2",
+      "status": "unknown",
+      "docs_count": 8,
+      "tests_count": 3,
+      "api_count": 0,
+      "tags": [
+        "consent"
+      ],
+      "health_score": 20
+    },
+    {
+      "module": "contracts",
+      "path": "contracts",
+      "lane": "L2",
+      "status": "unknown",
+      "docs_count": 8,
+      "tests_count": 3,
+      "api_count": 0,
+      "tags": [
+        "contracts"
+      ],
+      "health_score": 20
+    },
+    {
+      "module": "core",
+      "path": "core",
+      "lane": "L2",
+      "status": "unknown",
+      "docs_count": 9,
+      "tests_count": 3,
+      "api_count": 0,
+      "tags": [
+        "authentication",
+        "consciousness",
+        "coordination",
+        "core",
+        "infrastructure",
+        "monitoring",
+        "orchestration",
+        "t4-experimental"
+      ],
+      "health_score": 20
+    },
+    {
+      "module": "core",
+      "path": "lukhas/core",
+      "lane": "L2",
+      "status": "unknown",
+      "docs_count": 5,
+      "tests_count": 2,
+      "api_count": 0,
+      "tags": [],
+      "health_score": 20
+    },
+    {
+      "module": "dashboards",
+      "path": "dashboards",
+      "lane": "L2",
+      "status": "unknown",
+      "docs_count": 8,
+      "tests_count": 3,
+      "api_count": 0,
+      "tags": [
+        "dashboards"
+      ],
+      "health_score": 20
+    },
+    {
+      "module": "data",
+      "path": "data",
+      "lane": "L2",
+      "status": "unknown",
+      "docs_count": 9,
+      "tests_count": 3,
+      "api_count": 0,
+      "tags": [
+        "data"
+      ],
+      "health_score": 20
+    },
+    {
+      "module": "delegation_reports",
+      "path": "delegation_reports",
+      "lane": "L2",
+      "status": "unknown",
+      "docs_count": 8,
+      "tests_count": 3,
+      "api_count": 0,
+      "tags": [
+        "delegation_reports"
+      ],
+      "health_score": 20
+    },
+    {
+      "module": "demos",
+      "path": "demos",
+      "lane": "L2",
+      "status": "unknown",
+      "docs_count": 11,
+      "tests_count": 3,
+      "api_count": 0,
+      "tags": [
+        "demos"
+      ],
+      "health_score": 20
+    },
+    {
+      "module": "deployment",
+      "path": "deployment",
+      "lane": "L2",
+      "status": "unknown",
+      "docs_count": 12,
+      "tests_count": 3,
+      "api_count": 0,
+      "tags": [
+        "deployment"
+      ],
+      "health_score": 20
+    },
+    {
+      "module": "design-system",
+      "path": "design_system",
+      "lane": "L2",
+      "status": "unknown",
+      "docs_count": 12,
+      "tests_count": 3,
+      "api_count": 0,
+      "tags": [
+        "design-system"
+      ],
+      "health_score": 20
+    },
+    {
+      "module": "diagnostics",
+      "path": "diagnostics",
+      "lane": "L2",
+      "status": "unknown",
+      "docs_count": 8,
+      "tests_count": 3,
+      "api_count": 0,
+      "tags": [
+        "diagnostics"
+      ],
+      "health_score": 20
+    },
+    {
+      "module": "doc",
+      "path": "doc",
+      "lane": "L2",
+      "status": "unknown",
+      "docs_count": 9,
+      "tests_count": 3,
+      "api_count": 0,
+      "tags": [
+        "doc"
+      ],
+      "health_score": 20
+    },
+    {
+      "module": "docker",
+      "path": "docker",
+      "lane": "L2",
+      "status": "unknown",
+      "docs_count": 8,
+      "tests_count": 3,
+      "api_count": 0,
+      "tags": [
+        "docker"
+      ],
+      "health_score": 20
+    },
+    {
+      "module": "docs",
+      "path": "docs",
+      "lane": "L2",
+      "status": "unknown",
+      "docs_count": 1214,
+      "tests_count": 3,
+      "api_count": 0,
+      "tags": [
+        "docs"
+      ],
+      "health_score": 20
+    },
+    {
+      "module": "dream",
+      "path": "dream",
+      "lane": "L2",
+      "status": "unknown",
+      "docs_count": 8,
+      "tests_count": 3,
+      "api_count": 3,
+      "tags": [
+        "consciousness",
+        "dream"
+      ],
+      "health_score": 20
+    },
+    {
+      "module": "dreams",
+      "path": "dreams",
+      "lane": "L2",
+      "status": "unknown",
+      "docs_count": 8,
+      "tests_count": 3,
+      "api_count": 11,
+      "tags": [
+        "consciousness",
+        "dreams"
+      ],
+      "health_score": 20
+    },
+    {
+      "module": "dreamweaver_helpers_bundle",
+      "path": "dreamweaver_helpers_bundle",
+      "lane": "L2",
+      "status": "unknown",
+      "docs_count": 10,
+      "tests_count": 3,
+      "api_count": 0,
+      "tags": [
+        "dreamweaver_helpers_bundle"
+      ],
+      "health_score": 20
+    },
+    {
+      "module": "emotion",
+      "path": "emotion",
+      "lane": "L2",
+      "status": "unknown",
+      "docs_count": 8,
+      "tests_count": 3,
+      "api_count": 12,
+      "tags": [
+        "emotion"
+      ],
+      "health_score": 20
+    },
+    {
+      "module": "enforcement",
+      "path": "enforcement",
+      "lane": "L2",
+      "status": "unknown",
+      "docs_count": 8,
+      "tests_count": 3,
+      "api_count": 0,
+      "tags": [
+        "enforcement"
+      ],
+      "health_score": 20
+    },
+    {
+      "module": "enterprise",
+      "path": "products/enterprise",
+      "lane": "L2",
+      "status": "unknown",
+      "docs_count": 20,
+      "tests_count": 3,
+      "api_count": 5,
+      "tags": [
+        "consciousness",
+        "enterprise",
+        "fold-architecture",
+        "oauth2"
+      ],
+      "health_score": 20
+    },
+    {
+      "module": "environments",
+      "path": "environments",
+      "lane": "L2",
+      "status": "unknown",
+      "docs_count": 8,
+      "tests_count": 3,
+      "api_count": 0,
+      "tags": [
+        "environments"
+      ],
+      "health_score": 20
+    },
+    {
+      "module": "ethics",
+      "path": "ethics",
+      "lane": "L2",
+      "status": "unknown",
+      "docs_count": 11,
+      "tests_count": 3,
+      "api_count": 12,
+      "tags": [
+        "consciousness",
+        "ethics"
+      ],
+      "health_score": 20
+    },
+    {
+      "module": "eval_runs",
+      "path": "eval_runs",
+      "lane": "L2",
+      "status": "unknown",
+      "docs_count": 8,
+      "tests_count": 3,
+      "api_count": 0,
+      "tags": [
+        "eval_runs"
+      ],
+      "health_score": 20
+    },
+    {
+      "module": "examples",
+      "path": "examples",
+      "lane": "L2",
+      "status": "unknown",
+      "docs_count": 10,
+      "tests_count": 3,
+      "api_count": 0,
+      "tags": [
+        "examples"
+      ],
+      "health_score": 20
+    },
+    {
+      "module": "exports",
+      "path": "exports",
+      "lane": "L2",
+      "status": "unknown",
+      "docs_count": 10,
+      "tests_count": 3,
+      "api_count": 0,
+      "tags": [
+        "exports"
+      ],
+      "health_score": 20
+    },
+    {
+      "module": "feedback",
+      "path": "feedback",
+      "lane": "L2",
+      "status": "unknown",
+      "docs_count": 8,
+      "tests_count": 3,
+      "api_count": 0,
+      "tags": [
+        "feedback"
+      ],
+      "health_score": 20
+    },
+    {
+      "module": "final-sweep",
+      "path": "final_sweep",
+      "lane": "L2",
+      "status": "unknown",
+      "docs_count": 9,
+      "tests_count": 3,
+      "api_count": 0,
+      "tags": [
+        "final-sweep"
+      ],
+      "health_score": 20
+    },
+    {
+      "module": "governance",
+      "path": "governance",
+      "lane": "L2",
+      "status": "unknown",
+      "docs_count": 20,
+      "tests_count": 5,
+      "api_count": 0,
+      "tags": [
+        "consciousness",
+        "constitutional-ai",
+        "ethics",
+        "governance",
+        "guardian",
+        "policy"
+      ],
+      "coverage": {
+        "observed": 0.23,
+        "target": null,
+        "delta": null,
+        "meets_target": null
+      },
+      "health_score": 20.1
+    },
+    {
+      "module": "governance_extended",
+      "path": "governance_extended",
+      "lane": "L2",
+      "status": "unknown",
+      "docs_count": 8,
+      "tests_count": 3,
+      "api_count": 0,
+      "tags": [
+        "constitutional-ai",
+        "ethics",
+        "governance",
+        "governance_extended",
+        "guardian",
+        "policy"
+      ],
+      "health_score": 20
+    },
+    {
+      "module": "grafana",
+      "path": "grafana",
+      "lane": "L2",
+      "status": "unknown",
+      "docs_count": 8,
+      "tests_count": 3,
+      "api_count": 0,
+      "tags": [
+        "grafana"
+      ],
+      "health_score": 20
+    },
+    {
+      "module": "graphs",
+      "path": "graphs",
+      "lane": "L2",
+      "status": "unknown",
+      "docs_count": 8,
+      "tests_count": 3,
+      "api_count": 0,
+      "tags": [
+        "graphs"
+      ],
+      "health_score": 20
+    },
+    {
+      "module": "gtpsi",
+      "path": "gtpsi",
+      "lane": "L2",
+      "status": "unknown",
+      "docs_count": 8,
+      "tests_count": 3,
+      "api_count": 11,
+      "tags": [
+        "gtpsi"
+      ],
+      "health_score": 20
+    },
+    {
+      "module": "guardian",
+      "path": "guardian",
+      "lane": "L2",
+      "status": "unknown",
+      "docs_count": 8,
+      "tests_count": 3,
+      "api_count": 0,
+      "tags": [
+        "guardian"
+      ],
+      "health_score": 20
+    },
+    {
+      "module": "gymnasium_local",
+      "path": "gymnasium_local",
+      "lane": "L2",
+      "status": "unknown",
+      "docs_count": 8,
+      "tests_count": 3,
+      "api_count": 0,
+      "tags": [
+        "gymnasium_local"
+      ],
+      "health_score": 20
+    },
+    {
+      "module": "healing",
+      "path": "healing",
+      "lane": "L2",
+      "status": "unknown",
+      "docs_count": 8,
+      "tests_count": 3,
+      "api_count": 0,
+      "tags": [
+        "healing"
+      ],
+      "health_score": 20
+    },
+    {
+      "module": "health_reports",
+      "path": "health_reports",
+      "lane": "L2",
+      "status": "unknown",
+      "docs_count": 13,
+      "tests_count": 3,
+      "api_count": 0,
+      "tags": [
+        "health_reports"
+      ],
+      "health_score": 20
+    },
+    {
+      "module": "hooks",
+      "path": "hooks",
+      "lane": "L2",
+      "status": "unknown",
+      "docs_count": 8,
+      "tests_count": 3,
+      "api_count": 0,
+      "tags": [
+        "hooks"
+      ],
+      "health_score": 20
+    },
+    {
+      "module": "htmlcov",
+      "path": "htmlcov",
+      "lane": "L2",
+      "status": "unknown",
+      "docs_count": 8,
+      "tests_count": 3,
+      "api_count": 0,
+      "tags": [
+        "htmlcov"
+      ],
+      "health_score": 20
+    },
+    {
+      "module": "identity",
+      "path": "identity",
+      "lane": "L2",
+      "status": "unknown",
+      "docs_count": 11,
+      "tests_count": 5,
+      "api_count": 15,
+      "tags": [
+        "authentication",
+        "consciousness",
+        "identity",
+        "oauth2",
+        "passkey",
+        "security",
+        "webauthn"
+      ],
+      "coverage": {
+        "observed": 36.5,
+        "target": null,
+        "delta": null,
+        "meets_target": null
+      },
+      "health_score": 38.2
+    },
+    {
+      "module": "integrations",
+      "path": "integrations",
+      "lane": "L2",
+      "status": "unknown",
+      "docs_count": 8,
+      "tests_count": 3,
+      "api_count": 0,
+      "tags": [
+        "integrations"
+      ],
+      "health_score": 20
+    },
+    {
+      "module": "logs",
+      "path": "logs",
+      "lane": "L2",
+      "status": "unknown",
+      "docs_count": 9,
+      "tests_count": 3,
+      "api_count": 0,
+      "tags": [
+        "logs"
+      ],
+      "health_score": 20
+    },
+    {
+      "module": "lukhas",
+      "path": "lukhas",
+      "lane": "L2",
+      "status": "unknown",
+      "docs_count": 21,
+      "tests_count": 5,
+      "api_count": 0,
+      "tags": [
+        "lukhas"
+      ],
+      "health_score": 20
+    },
+    {
+      "module": "lukhas-ai-intro",
+      "path": "lukhas_ai_intro",
+      "lane": "L2",
+      "status": "unknown",
+      "docs_count": 10,
+      "tests_count": 3,
+      "api_count": 0,
+      "tags": [
+        "lukhas-ai-intro"
+      ],
+      "health_score": 20
+    },
+    {
+      "module": "lukhas_ai.egg-info",
+      "path": "lukhas_ai.egg-info",
+      "lane": "L2",
+      "status": "unknown",
+      "docs_count": 2,
+      "tests_count": 0,
+      "api_count": 0,
+      "tags": [
+        "lukhas_ai.egg-info"
+      ],
+      "health_score": 20
+    },
+    {
+      "module": "lukhas_website",
+      "path": "lukhas_website",
+      "lane": "L2",
+      "status": "unknown",
+      "docs_count": 2969,
+      "tests_count": 3,
+      "api_count": 0,
+      "tags": [
+        "lukhas_website"
+      ],
+      "health_score": 20
+    },
+    {
+      "module": "matriz",
+      "path": "matriz",
+      "lane": "L2",
+      "status": "unknown",
+      "docs_count": 859,
+      "tests_count": 5,
+      "api_count": 2,
+      "tags": [
+        "bio-symbolic",
+        "consciousness",
+        "fold-architecture",
+        "matriz",
+        "quantum-inspired",
+        "symbolic-reasoning",
+        "t4-experimental"
+      ],
+      "coverage": {
+        "observed": 1.98,
+        "target": null,
+        "delta": null,
+        "meets_target": null
+      },
+      "health_score": 21.0
+    },
+    {
+      "module": "mcp-lukhas-sse",
+      "path": "mcp-lukhas-sse",
+      "lane": "L2",
+      "status": "unknown",
+      "docs_count": 60,
+      "tests_count": 3,
+      "api_count": 0,
+      "tags": [
+        "authentication",
+        "mcp-lukhas-sse"
+      ],
+      "health_score": 20
+    },
+    {
+      "module": "mcp-server",
+      "path": "mcp-server",
+      "lane": "L2",
+      "status": "unknown",
+      "docs_count": 11,
+      "tests_count": 3,
+      "api_count": 0,
+      "tags": [
+        "mcp-server"
+      ],
+      "health_score": 20
+    },
+    {
+      "module": "mcp-servers",
+      "path": "mcp-servers",
+      "lane": "L2",
+      "status": "unknown",
+      "docs_count": 2053,
+      "tests_count": 3,
+      "api_count": 0,
+      "tags": [
+        "mcp-servers"
+      ],
+      "health_score": 20
+    },
+    {
+      "module": "mcp_servers",
+      "path": "mcp_servers",
+      "lane": "L2",
+      "status": "unknown",
+      "docs_count": 8,
+      "tests_count": 3,
+      "api_count": 0,
+      "tags": [
+        "mcp_servers"
+      ],
+      "health_score": 20
+    },
+    {
+      "module": "memory",
+      "path": "memory",
+      "lane": "L2",
+      "status": "unknown",
+      "docs_count": 10,
+      "tests_count": 5,
+      "api_count": 17,
+      "tags": [
+        "consciousness",
+        "episodic",
+        "fold-architecture",
+        "memory",
+        "orchestration",
+        "semantic",
+        "temporal"
+      ],
+      "coverage": {
+        "observed": 18.53,
+        "target": null,
+        "delta": null,
+        "meets_target": null
+      },
+      "health_score": 29.3
+    },
+    {
+      "module": "mk",
+      "path": "mk",
+      "lane": "L2",
+      "status": "unknown",
+      "docs_count": 8,
+      "tests_count": 3,
+      "api_count": 0,
+      "tags": [
+        "mk"
+      ],
+      "health_score": 20
+    },
+    {
+      "module": "models",
+      "path": "models",
+      "lane": "L2",
+      "status": "unknown",
+      "docs_count": 8,
+      "tests_count": 3,
+      "api_count": 0,
+      "tags": [
+        "models"
+      ],
+      "health_score": 20
+    },
+    {
+      "module": "modulation",
+      "path": "modulation",
+      "lane": "L2",
+      "status": "unknown",
+      "docs_count": 8,
+      "tests_count": 3,
+      "api_count": 7,
+      "tags": [
+        "modulation",
+        "orchestration"
+      ],
+      "health_score": 20
+    },
+    {
+      "module": "modules",
+      "path": "modules",
+      "lane": "L2",
+      "status": "unknown",
+      "docs_count": 10,
+      "tests_count": 3,
+      "api_count": 0,
+      "tags": [
+        "modules"
+      ],
+      "health_score": 20
+    },
+    {
+      "module": "monitoring",
+      "path": "monitoring",
+      "lane": "L2",
+      "status": "unknown",
+      "docs_count": 8,
+      "tests_count": 3,
+      "api_count": 10,
+      "tags": [
+        "authentication",
+        "monitoring"
+      ],
+      "health_score": 20
+    },
+    {
+      "module": "next_gen",
+      "path": "next_gen",
+      "lane": "L2",
+      "status": "unknown",
+      "docs_count": 9,
+      "tests_count": 3,
+      "api_count": 0,
+      "tags": [
+        "next_gen"
+      ],
+      "health_score": 20
+    },
+    {
+      "module": "observability",
+      "path": "observability",
+      "lane": "L2",
+      "status": "unknown",
+      "docs_count": 8,
+      "tests_count": 3,
+      "api_count": 6,
+      "tags": [
+        "observability"
+      ],
+      "health_score": 20
+    },
+    {
+      "module": "oneiric_core",
+      "path": "oneiric_core",
+      "lane": "L2",
+      "status": "unknown",
+      "docs_count": 8,
+      "tests_count": 3,
+      "api_count": 0,
+      "tags": [
+        "coordination",
+        "core",
+        "infrastructure",
+        "oneiric_core"
+      ],
+      "health_score": 20
+    },
+    {
+      "module": "ops",
+      "path": "ops",
+      "lane": "L2",
+      "status": "unknown",
+      "docs_count": 10,
+      "tests_count": 3,
+      "api_count": 0,
+      "tags": [
+        "ops"
+      ],
+      "health_score": 20
+    },
+    {
+      "module": "orchestration",
+      "path": "orchestration",
+      "lane": "L2",
+      "status": "unknown",
+      "docs_count": 10,
+      "tests_count": 3,
+      "api_count": 0,
+      "tags": [
+        "consciousness",
+        "coordination",
+        "orchestration",
+        "workflow"
+      ],
+      "health_score": 20
+    },
+    {
+      "module": "out",
+      "path": "out",
+      "lane": "L2",
+      "status": "unknown",
+      "docs_count": 8,
+      "tests_count": 3,
+      "api_count": 0,
+      "tags": [
+        "out"
+      ],
+      "health_score": 20
+    },
+    {
+      "module": "packages",
+      "path": "packages",
+      "lane": "L2",
+      "status": "unknown",
+      "docs_count": 9,
+      "tests_count": 3,
+      "api_count": 0,
+      "tags": [
+        "packages"
+      ],
+      "health_score": 20
+    },
+    {
+      "module": "performance",
+      "path": "performance",
+      "lane": "L2",
+      "status": "unknown",
+      "docs_count": 8,
+      "tests_count": 3,
+      "api_count": 0,
+      "tags": [
+        "monitoring",
+        "performance"
+      ],
+      "health_score": 20
+    },
+    {
+      "module": "perp_runs",
+      "path": "perp_runs",
+      "lane": "L2",
+      "status": "unknown",
+      "docs_count": 8,
+      "tests_count": 3,
+      "api_count": 0,
+      "tags": [
+        "perp_runs"
+      ],
+      "health_score": 20
+    },
+    {
+      "module": "personality",
+      "path": "personality",
+      "lane": "L2",
+      "status": "unknown",
+      "docs_count": 8,
+      "tests_count": 3,
+      "api_count": 0,
+      "tags": [
+        "personality"
+      ],
+      "health_score": 20
+    },
+    {
+      "module": "phase1_verification_pack",
+      "path": "phase1_verification_pack",
+      "lane": "L2",
+      "status": "unknown",
+      "docs_count": 12,
+      "tests_count": 3,
+      "api_count": 0,
+      "tags": [
+        "phase1_verification_pack"
+      ],
+      "health_score": 20
+    },
+    {
+      "module": "policies",
+      "path": "policies",
+      "lane": "L2",
+      "status": "unknown",
+      "docs_count": 8,
+      "tests_count": 3,
+      "api_count": 0,
+      "tags": [
+        "policies"
+      ],
+      "health_score": 20
+    },
+    {
+      "module": "presentations",
+      "path": "presentations",
+      "lane": "L2",
+      "status": "unknown",
+      "docs_count": 8,
+      "tests_count": 3,
+      "api_count": 0,
+      "tags": [
+        "presentations"
+      ],
+      "health_score": 20
+    },
+    {
+      "module": "products",
+      "path": "products",
+      "lane": "L2",
+      "status": "unknown",
+      "docs_count": 151,
+      "tests_count": 3,
+      "api_count": 14,
+      "tags": [
+        "authentication",
+        "consciousness",
+        "products",
+        "t4-experimental"
+      ],
+      "health_score": 20
+    },
+    {
+      "module": "prometheus",
+      "path": "prometheus",
+      "lane": "L2",
+      "status": "unknown",
+      "docs_count": 8,
+      "tests_count": 3,
+      "api_count": 0,
+      "tags": [
+        "prometheus"
+      ],
+      "health_score": 20
+    },
+    {
+      "module": "pytest_asyncio",
+      "path": "pytest_asyncio",
+      "lane": "L2",
+      "status": "unknown",
+      "docs_count": 8,
+      "tests_count": 3,
+      "api_count": 2,
+      "tags": [
+        "pytest_asyncio"
+      ],
+      "health_score": 20
+    },
+    {
+      "module": "qi",
+      "path": "qi",
+      "lane": "L2",
+      "status": "unknown",
+      "docs_count": 13,
+      "tests_count": 3,
+      "api_count": 10,
+      "tags": [
+        "consciousness",
+        "orchestration",
+        "qi"
+      ],
+      "health_score": 20
+    },
+    {
+      "module": "quantum",
+      "path": "quantum",
+      "lane": "L2",
+      "status": "unknown",
+      "docs_count": 8,
+      "tests_count": 3,
+      "api_count": 0,
+      "tags": [
+        "consciousness",
+        "quantum",
+        "quantum-inspired",
+        "superposition"
+      ],
+      "health_score": 20
+    },
+    {
+      "module": "quarantine",
+      "path": "quarantine",
+      "lane": "L2",
+      "status": "unknown",
+      "docs_count": 10,
+      "tests_count": 3,
+      "api_count": 0,
+      "tags": [
+        "quarantine"
+      ],
+      "health_score": 20
+    },
+    {
+      "module": "rats",
+      "path": "rats",
+      "lane": "L2",
+      "status": "unknown",
+      "docs_count": 8,
+      "tests_count": 3,
+      "api_count": 0,
+      "tags": [
+        "rats"
+      ],
+      "health_score": 20
+    },
+    {
+      "module": "reasoning",
+      "path": "reasoning",
+      "lane": "L2",
+      "status": "unknown",
+      "docs_count": 8,
+      "tests_count": 3,
+      "api_count": 0,
+      "tags": [
+        "reasoning"
+      ],
+      "health_score": 20
+    },
+    {
+      "module": "recovered_components",
+      "path": "recovered_components",
+      "lane": "L2",
+      "status": "unknown",
+      "docs_count": 8,
+      "tests_count": 3,
+      "api_count": 0,
+      "tags": [
+        "recovered_components"
+      ],
+      "health_score": 20
+    },
+    {
+      "module": "reports",
+      "path": "reports",
+      "lane": "L2",
+      "status": "unknown",
+      "docs_count": 35,
+      "tests_count": 3,
+      "api_count": 0,
+      "tags": [
+        "reports"
+      ],
+      "health_score": 20
+    },
+    {
+      "module": "rl",
+      "path": "rl",
+      "lane": "L2",
+      "status": "unknown",
+      "docs_count": 14,
+      "tests_count": 10,
+      "api_count": 9,
+      "tags": [
+        "consciousness",
+        "rl"
+      ],
+      "health_score": 20
+    },
+    {
+      "module": "rules",
+      "path": "rules",
+      "lane": "L2",
+      "status": "unknown",
+      "docs_count": 8,
+      "tests_count": 3,
+      "api_count": 0,
+      "tags": [
+        "rules"
+      ],
+      "health_score": 20
+    },
+    {
+      "module": "samples",
+      "path": "samples",
+      "lane": "L2",
+      "status": "unknown",
+      "docs_count": 8,
+      "tests_count": 3,
+      "api_count": 0,
+      "tags": [
+        "samples"
+      ],
+      "health_score": 20
+    },
+    {
+      "module": "sbom",
+      "path": "sbom",
+      "lane": "L2",
+      "status": "unknown",
+      "docs_count": 8,
+      "tests_count": 3,
+      "api_count": 0,
+      "tags": [
+        "sbom"
+      ],
+      "health_score": 20
+    },
+    {
+      "module": "schemas",
+      "path": "schemas",
+      "lane": "L2",
+      "status": "unknown",
+      "docs_count": 11,
+      "tests_count": 3,
+      "api_count": 0,
+      "tags": [
+        "schemas"
+      ],
+      "health_score": 20
+    },
+    {
+      "module": "scripts",
+      "path": "scripts",
+      "lane": "L2",
+      "status": "unknown",
+      "docs_count": 11,
+      "tests_count": 3,
+      "api_count": 0,
+      "tags": [
+        "authentication",
+        "monitoring",
+        "orchestration",
+        "scripts"
+      ],
+      "health_score": 20
+    },
+    {
+      "module": "sdk",
+      "path": "sdk",
+      "lane": "L2",
+      "status": "unknown",
+      "docs_count": 10,
+      "tests_count": 3,
+      "api_count": 0,
+      "tags": [
+        "sdk"
+      ],
+      "health_score": 20
+    },
+    {
+      "module": "security",
+      "path": "security",
+      "lane": "L2",
+      "status": "unknown",
+      "docs_count": 26,
+      "tests_count": 4,
+      "api_count": 0,
+      "tags": [
+        "security"
+      ],
+      "health_score": 20
+    },
+    {
+      "module": "security-reports",
+      "path": "security_reports",
+      "lane": "L2",
+      "status": "unknown",
+      "docs_count": 8,
+      "tests_count": 3,
+      "api_count": 0,
+      "tags": [
+        "security-reports"
+      ],
+      "health_score": 20
+    },
+    {
+      "module": "serve",
+      "path": "serve",
+      "lane": "L2",
+      "status": "unknown",
+      "docs_count": 7,
+      "tests_count": 3,
+      "api_count": 0,
+      "tags": [
+        "authentication",
+        "orchestration",
+        "serve"
+      ],
+      "health_score": 20
+    },
+    {
+      "module": "server",
+      "path": "server",
+      "lane": "L2",
+      "status": "unknown",
+      "docs_count": 8,
+      "tests_count": 3,
+      "api_count": 0,
+      "tags": [
+        "server"
+      ],
+      "health_score": 20
+    },
+    {
+      "module": "services",
+      "path": "services",
+      "lane": "L2",
+      "status": "unknown",
+      "docs_count": 8,
+      "tests_count": 3,
+      "api_count": 0,
+      "tags": [
+        "services"
+      ],
+      "health_score": 20
+    },
+    {
+      "module": "src",
+      "path": "src",
+      "lane": "L2",
+      "status": "unknown",
+      "docs_count": 8,
+      "tests_count": 3,
+      "api_count": 0,
+      "tags": [
+        "src"
+      ],
+      "health_score": 20
+    },
+    {
+      "module": "storage",
+      "path": "storage",
+      "lane": "L2",
+      "status": "unknown",
+      "docs_count": 8,
+      "tests_count": 3,
+      "api_count": 0,
+      "tags": [
+        "storage"
+      ],
+      "health_score": 20
+    },
+    {
+      "module": "symbolic",
+      "path": "symbolic",
+      "lane": "L2",
+      "status": "unknown",
+      "docs_count": 8,
+      "tests_count": 3,
+      "api_count": 5,
+      "tags": [
+        "consciousness",
+        "symbolic"
+      ],
+      "health_score": 20
+    },
+    {
+      "module": "system",
+      "path": "system",
+      "lane": "L2",
+      "status": "unknown",
+      "docs_count": 8,
+      "tests_count": 3,
+      "api_count": 0,
+      "tags": [
+        "system"
+      ],
+      "health_score": 20
+    },
+    {
+      "module": "tagging",
+      "path": "tagging",
+      "lane": "L2",
+      "status": "unknown",
+      "docs_count": 8,
+      "tests_count": 3,
+      "api_count": 7,
+      "tags": [
+        "consciousness",
+        "tagging"
+      ],
+      "health_score": 20
+    },
+    {
+      "module": "telemetry",
+      "path": "telemetry",
+      "lane": "L2",
+      "status": "unknown",
+      "docs_count": 8,
+      "tests_count": 3,
+      "api_count": 0,
+      "tags": [
+        "telemetry"
+      ],
+      "health_score": 20
+    },
+    {
+      "module": "temp",
+      "path": "temp",
+      "lane": "L2",
+      "status": "unknown",
+      "docs_count": 5360,
+      "tests_count": 3,
+      "api_count": 0,
+      "tags": [
+        "temp"
+      ],
+      "health_score": 20
+    },
+    {
+      "module": "templates",
+      "path": "templates",
+      "lane": "L2",
+      "status": "unknown",
+      "docs_count": 15,
+      "tests_count": 6,
+      "api_count": 0,
+      "tags": [
+        "templates"
+      ],
+      "health_score": 20
+    },
+    {
+      "module": "test_data",
+      "path": "test_data",
+      "lane": "L2",
+      "status": "unknown",
+      "docs_count": 8,
+      "tests_count": 3,
+      "api_count": 0,
+      "tags": [
+        "test_data"
+      ],
+      "health_score": 20
+    },
+    {
+      "module": "test_results",
+      "path": "test_results",
+      "lane": "L2",
+      "status": "unknown",
+      "docs_count": 10,
+      "tests_count": 3,
+      "api_count": 0,
+      "tags": [
+        "test_results"
+      ],
+      "health_score": 20
+    },
+    {
+      "module": "tests",
+      "path": "tests",
+      "lane": "L2",
+      "status": "unknown",
+      "docs_count": 23,
+      "tests_count": 3,
+      "api_count": 0,
+      "tags": [
+        "authentication",
+        "monitoring",
+        "orchestration",
+        "tests"
+      ],
+      "health_score": 20
+    },
+    {
+      "module": "tests.consciousness.simulation",
+      "path": "tests/consciousness/simulation",
+      "lane": "L2",
+      "status": "unknown",
+      "docs_count": 1,
+      "tests_count": 0,
+      "api_count": 0,
+      "tags": [
+        "tests",
+        "simulation",
+        "canary",
+        "ethics",
+        "consent",
+        "t4-beta"
+      ],
+      "health_score": 20
+    },
+    {
+      "module": "tests_new",
+      "path": "tests_new",
+      "lane": "L2",
+      "status": "unknown",
+      "docs_count": 8,
+      "tests_count": 3,
+      "api_count": 0,
+      "tags": [
+        "tests_new"
+      ],
+      "health_score": 20
+    },
+    {
+      "module": "third_party_stubs",
+      "path": "third_party_stubs",
+      "lane": "L2",
+      "status": "unknown",
+      "docs_count": 8,
+      "tests_count": 3,
+      "api_count": 0,
+      "tags": [
+        "third_party_stubs"
+      ],
+      "health_score": 20
+    },
+    {
+      "module": "tone",
+      "path": "tone",
+      "lane": "L2",
+      "status": "unknown",
+      "docs_count": 10,
+      "tests_count": 3,
+      "api_count": 0,
+      "tags": [
+        "tone"
+      ],
+      "health_score": 20
+    },
+    {
+      "module": "tools",
+      "path": "tools",
+      "lane": "L2",
+      "status": "unknown",
+      "docs_count": 22,
+      "tests_count": 12,
+      "api_count": 0,
+      "tags": [
+        "authentication",
+        "consciousness",
+        "fold-architecture",
+        "monitoring",
+        "orchestration",
+        "tools"
+      ],
+      "health_score": 20
+    },
+    {
+      "module": "trace",
+      "path": "trace",
+      "lane": "L2",
+      "status": "unknown",
+      "docs_count": 8,
+      "tests_count": 3,
+      "api_count": 5,
+      "tags": [
+        "trace"
+      ],
+      "health_score": 20
+    },
+    {
+      "module": "trace_logs",
+      "path": "trace_logs",
+      "lane": "L2",
+      "status": "unknown",
+      "docs_count": 8,
+      "tests_count": 3,
+      "api_count": 0,
+      "tags": [
+        "trace_logs"
+      ],
+      "health_score": 20
+    },
+    {
+      "module": "transmission_bundle",
+      "path": "transmission_bundle",
+      "lane": "L2",
+      "status": "unknown",
+      "docs_count": 9,
+      "tests_count": 3,
+      "api_count": 0,
+      "tags": [
+        "transmission_bundle"
+      ],
+      "health_score": 20
+    },
+    {
+      "module": "universal_language",
+      "path": "universal_language",
+      "lane": "L2",
+      "status": "unknown",
+      "docs_count": 8,
+      "tests_count": 3,
+      "api_count": 0,
+      "tags": [
+        "universal_language"
+      ],
+      "health_score": 20
+    },
+    {
+      "module": "utils",
+      "path": "utils",
+      "lane": "L2",
+      "status": "unknown",
+      "docs_count": 8,
+      "tests_count": 3,
+      "api_count": 0,
+      "tags": [
+        "utils"
+      ],
+      "health_score": 20
+    },
+    {
+      "module": "var",
+      "path": "var",
+      "lane": "L2",
+      "status": "unknown",
+      "docs_count": 8,
+      "tests_count": 3,
+      "api_count": 0,
+      "tags": [
+        "var"
+      ],
+      "health_score": 20
+    },
+    {
+      "module": "vivox",
+      "path": "vivox",
+      "lane": "L2",
+      "status": "unknown",
+      "docs_count": 13,
+      "tests_count": 3,
+      "api_count": 0,
+      "tags": [
+        "vivox"
+      ],
+      "health_score": 20
+    },
+    {
+      "module": "vocabularies",
+      "path": "vocabularies",
+      "lane": "L2",
+      "status": "unknown",
+      "docs_count": 21,
+      "tests_count": 3,
+      "api_count": 0,
+      "tags": [
+        "vocabularies"
+      ],
+      "health_score": 20
+    },
+    {
+      "module": "vocabulary_refresh_data",
+      "path": "vocabulary_refresh_data",
+      "lane": "L2",
+      "status": "unknown",
+      "docs_count": 8,
+      "tests_count": 3,
+      "api_count": 0,
+      "tags": [
+        "vocabulary_refresh_data"
+      ],
+      "health_score": 20
+    },
+    {
+      "module": "website_v1",
+      "path": "website_v1",
+      "lane": "L2",
+      "status": "unknown",
+      "docs_count": 669,
+      "tests_count": 3,
+      "api_count": 0,
+      "tags": [
+        "website_v1"
+      ],
+      "health_score": 20
+    }
+  ],
+  "summary": {
+    "total_modules": 149,
+    "with_coverage": 5,
+    "with_benchmarks": 0,
+    "meeting_coverage_target": 0,
+    "meeting_sla": 0,
+    "avg_health_score": 20.2
+  }
+}

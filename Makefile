@@ -13,6 +13,7 @@
 .PHONY: validate-configs validate-secrets validate-naming readiness-score readiness-detailed quality-report test-shards test-parallel t4-sim-lane imports-guard audit-validate-ledger feedback-validate
 .PHONY: emergency-bypass clean-artifacts dev-setup status ci-validate ci-artifacts help
 .PHONY: mcp-bootstrap mcp-verify mcp-selftest mcp-ready mcp-contract mcp-smoke mcp-freeze mcp-docker-build mcp-docker-run mcp-validate-catalog mcp-health
+.PHONY: meta-registry ledger-check trends validate-t4 validate-t4-strict tag-prod
 
 # Note: Additional PHONY targets are declared in mk/*.mk include files
 
@@ -1108,3 +1109,31 @@ bench-all: ## Run benchmarks for all modules with tests/benchmarks/
 		mod=$$(dirname $$mf); \
 		python3 scripts/bench/update_observed_from_bench.py --module $$mod || true; \
 	done
+
+
+## T4/0.01% System Fusion Layer (Meta-Registry + Ledger Analytics)
+.PHONY: meta-registry ledger-check trends validate-t4 tag-prod
+
+meta-registry: ## Generate META_REGISTRY.json (fuses docs + coverage + benchmarks)
+	python3 scripts/generate_meta_registry.py
+
+ledger-check: ## Validate ledger consistency (manifest changes have ledger entries)
+	python3 scripts/ci/ledger_consistency.py
+
+trends: ## Generate coverage and benchmark trend analytics (CSV)
+	@echo "📈 Generating trend analytics..."
+	@python3 scripts/analytics/coverage_trend.py || echo "⚠️  No coverage data"
+	@python3 scripts/analytics/bench_trend.py || echo "⚠️  No benchmark data"
+	@echo "✅ Trend analytics generated in trends/"
+
+validate-t4: ## Run comprehensive T4/0.01% validation checkpoint
+	python3 scripts/validate_t4_checkpoint.py
+
+validate-t4-strict: ## Run T4 validation in strict mode (fail fast)
+	python3 scripts/validate_t4_checkpoint.py --strict
+
+tag-prod: ## Tag production release (v0.01-prod) after validation passes
+	@echo "🏷️  Tagging production release..."
+	@python3 scripts/validate_t4_checkpoint.py || (echo "❌ Validation failed, cannot tag" && exit 1)
+	@git tag -a v0.01-prod -m "T4/0.01% Production Release - All validation checks passed"
+	@echo "✅ Tagged v0.01-prod (push with: git push origin v0.01-prod)"

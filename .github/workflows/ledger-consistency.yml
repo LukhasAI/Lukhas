@@ -1,0 +1,48 @@
+name: Ledger Consistency Gate
+
+on:
+  pull_request:
+    paths:
+      - '**/module.manifest.json'
+      - 'manifests/.ledger/*.ndjson'
+  push:
+    branches:
+      - main
+    paths:
+      - '**/module.manifest.json'
+      - 'manifests/.ledger/*.ndjson'
+
+jobs:
+  ledger-consistency:
+    name: Validate Manifest Changes Have Ledger Entries
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2  # Need previous commit for diff
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Run ledger consistency check
+        run: |
+          python scripts/ci/ledger_consistency.py --commit-ref HEAD
+
+      - name: Show ledger summary on failure
+        if: failure()
+        run: |
+          echo "📊 Ledger Summary:"
+          echo ""
+          for ledger in manifests/.ledger/*.ndjson; do
+            if [ -f "$ledger" ]; then
+              count=$(wc -l < "$ledger" | tr -d ' ')
+              echo "  $(basename $ledger): $count entries"
+            fi
+          done
+          echo ""
+          echo "💡 Tip: Ensure manifests are updated via scaffolding scripts"
+          echo "   or manually add ledger entries to manifests/.ledger/"
