@@ -1169,3 +1169,16 @@ tests-all: ## Run all tests
 	python3 -m pytest -q || true
 
 dev-loop: imports-doctor imports-promote lint tests-smoke ## Full development loop: doctor → promote → lint → smoke
+
+imports-report: ## Generate migration scorecard from ledger
+	python3 tools/analyze_lukhas_ledger.py && \
+	cat artifacts/IMPORT_MIGRATION_REPORT.md | head -50
+
+codemod-dry: ## Dry-run codemod to show proposed import changes
+	python3 tools/codemod_lukhas_from_ledger.py --threshold 5
+
+codemod-apply: ## Apply codemod to migrate imports (creates .bak files)
+	python3 tools/codemod_lukhas_from_ledger.py --apply --threshold 5
+
+gate-legacy: ## CI gate to enforce import budget and prevent regressions
+	LUKHAS_IMPORT_BUDGET=1000 LUKHAS_IMPORT_MAX_DELTA=0 python3 scripts/ci/gate_legacy_imports.py
