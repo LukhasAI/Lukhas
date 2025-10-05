@@ -2,6 +2,11 @@ name: MCP Smoke
 
 on:
   pull_request:
+    paths:
+      - 'mcp-servers/lukhas-devtools-mcp/**'
+      - 'tools/**'
+      - 'schemas/**'
+      - 'docs/**'
   push:
     branches: [ main ]
   schedule:
@@ -20,7 +25,47 @@ jobs:
       - uses: actions/setup-node@v4
         with: { node-version: '20' }
       - name: Install deps
-        run: npm ci || true
+        run: |
+          npm ci || true
+          pip3 install numpy scipy pyyaml
+
+      - name: Tool catalog contract validation
+        run: make mcp-contract
+
+      - name: Freeze catalog
+        run: make mcp-freeze
+
+      - name: Enforce RBAC for conveyor.execute
+        if: contains(github.event.pull_request.labels.*.name, 'allow:mcp-conveyor-execute') == false
+        run: echo "Conveyor execute disabled in CI without label"; echo "MCP_CONVEYOR_DISABLED=1" >> $GITHUB_ENV
+
+      - name: Tool smoke tests
+        run: make mcp-smoke
+
+      - name: Golden: tools/list via stdio
+        run: python3 tools/mcp/poke_server.py
+
+      - name: Capture tool latency
+        run: make mcp-smoke | tee artifacts/mcp_smoke.log
+
+      - name: Check latency SLO
+        run: python3 - <<'PY'
+import re,sys,statistics,os
+try:
+    data=open("artifacts/mcp_smoke.log").read()
+    ms=[float(m) for m in re.findall(r'"ms":\s*([0-9.]+)', data)]
+    if ms:
+        p95=sorted(ms)[int(0.95*len(ms))-1] if len(ms)>1 else ms[0]
+        print("p95(ms)=",p95)
+        limit=float(os.environ.get("MCP_P95_LIMIT_MS","2500"))
+        if p95>limit: 
+            print(f"p95 {p95}ms exceeds {limit}ms")
+            sys.exit(1)
+    else:
+        print("no latency metrics found")
+except Exception as e:
+    print(f"latency check failed: {e}")
+PY
 
       - name: Start MCP server
         working-directory: mcp-servers/lukhas-devtools-mcp

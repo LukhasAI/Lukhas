@@ -124,11 +124,11 @@ function buildNarrativeFor(idLike) {
         if (!hits.length) return `No audit narrative found for: ${idLike}`;
         return hits.map(r => {
             let payload = {};
-            try { payload = JSON.parse(r.payload_json || "{}"); } catch {}
-            return `[${r.ts}] ${r.actor||"system"} ${r.action} ${Object.keys(payload).length? JSON.stringify(payload):""}`.trim();
+            try { payload = JSON.parse(r.payload_json || "{}"); } catch { }
+            return `[${r.ts}] ${r.actor || "system"} ${r.action} ${Object.keys(payload).length ? JSON.stringify(payload) : ""}`.trim();
         }).join("\n");
     } catch (e) {
-        return `Narrative unavailable: ${String(e?.message||e)}`;
+        return `Narrative unavailable: ${String(e?.message || e)}`;
     }
 }
 
@@ -152,7 +152,7 @@ function structuredWhy(id) {
             out.observed.error_rate = m.error_rate ?? null;
             out.observed.drift = m.drift_score ?? null;
         }
-    } catch {}
+    } catch { }
     try {
         const c = __db.prepare(
             `SELECT * FROM canaries WHERE canary_id = ? LIMIT 1`
@@ -163,10 +163,10 @@ function structuredWhy(id) {
                 out.thresholds.latency_p95_ms = pol?.targets?.latency_p95_ms ?? null;
                 out.thresholds.max_error_rate = pol?.targets?.max_error_rate ?? null;
                 out.thresholds.max_drift = pol?.targets?.max_drift ?? null;
-            } catch {}
+            } catch { }
             out.decision = c.status || "unknown";
         }
-    } catch {}
+    } catch { }
     try {
         const rows = __db.prepare(
             `SELECT ts, action, payload_json FROM audits WHERE payload_json LIKE ? ORDER BY ts ASC`
@@ -174,10 +174,10 @@ function structuredWhy(id) {
         if (rows.length >= 2) {
             const t0 = new Date(rows[0].ts).getTime();
             const te = new Date(rows[rows.length - 1].ts).getTime();
-            if (Number.isFinite(t0) && Number.isFinite(te)) out.time_to_action_sec = Math.max(0, Math.round((te - t0)/1000));
+            if (Number.isFinite(t0) && Number.isFinite(te)) out.time_to_action_sec = Math.max(0, Math.round((te - t0) / 1000));
         }
         out.evidence = rows.slice(-6); // last few events
-    } catch {}
+    } catch { }
     return out;
 }
 
@@ -2120,12 +2120,12 @@ const server = createServer(async (req, res) => {
                 });
                 res.end(zipBuf);
                 // best-effort cleanup
-                await fs.rm(tmp, { recursive: true, force: true }).catch(() => {});
+                await fs.rm(tmp, { recursive: true, force: true }).catch(() => { });
                 return;
             } catch (e) {
                 setCORSHeaders(res);
-                res.writeHead(500, {'Content-Type':'text/plain'}); 
-                res.end(`export failed: ${String(e?.message||e)}`);
+                res.writeHead(500, { 'Content-Type': 'text/plain' });
+                res.end(`export failed: ${String(e?.message || e)}`);
                 return;
             }
         }
@@ -2172,8 +2172,9 @@ server.listen(PORT, () => {
 async function writeEvidencePack(dir, from, to) {
     const fp = (name) => path.join(dir, name);
     await fs.mkdir(dir, { recursive: true });
-    const meta = { generated_at: new Date().toISOString(), from, to,
-        policy: safePolicySnapshot(), prom: { url: process.env.PROM_URL||null, q_lat: process.env.PROM_Q_LAT||null, q_err: process.env.PROM_Q_ERR||null }
+    const meta = {
+        generated_at: new Date().toISOString(), from, to,
+        policy: safePolicySnapshot(), prom: { url: process.env.PROM_URL || null, q_lat: process.env.PROM_Q_LAT || null, q_err: process.env.PROM_Q_ERR || null }
     };
     await fs.writeFile(fp('meta.json'), JSON.stringify(meta, null, 2));
     // audits
@@ -2181,24 +2182,24 @@ async function writeEvidencePack(dir, from, to) {
         const audits = __db.prepare(`SELECT * FROM audits WHERE ts BETWEEN ? AND ? ORDER BY ts ASC`).all(fromISO(from), toISO(to));
         await fs.writeFile(fp('audits.json'), JSON.stringify(audits, null, 2));
         await fs.writeFile(fp('audits.csv'), toCSV(audits));
-    } catch {}
+    } catch { }
     // narrative
     try {
         const narr = __db.prepare(`SELECT * FROM audits_narrative WHERE ts BETWEEN ? AND ? ORDER BY ts ASC`).all(fromISO(from), toISO(to));
-        const txt = narr.map(n => `[${n.ts}] ${n.type||'event'} ${n.message||''}`).join('\n');
+        const txt = narr.map(n => `[${n.ts}] ${n.type || 'event'} ${n.message || ''}`).join('\n');
         await fs.writeFile(fp('narrative.txt'), txt);
     } catch {
         await fs.writeFile(fp('narrative.txt'), 'No audits_narrative table; falling back to audits narrative synthesis.\n');
     }
     // quick hashes
-    function sha256(s){ return crypto.createHash('sha256').update(s).digest('hex'); }
+    function sha256(s) { return crypto.createHash('sha256').update(s).digest('hex'); }
     const h = [];
-    for (const name of ['meta.json','audits.json','audits.csv','narrative.txt']) {
+    for (const name of ['meta.json', 'audits.json', 'audits.csv', 'narrative.txt']) {
         const filePath = fp(name);
         try {
             const content = await fs.readFile(filePath);
             h.push(`${name}  ${sha256(content)}   sha256`);
-        } catch {}
+        } catch { }
     }
     await fs.writeFile(fp('hashes.txt'), h.join('\n'));
 }
@@ -2213,8 +2214,8 @@ function safePolicySnapshot() {
 function fromISO(rel) {
     // naive "30d" → now-30d; else assume ISO
     if (/^\d+d$/.test(rel)) {
-        const days = Number(rel.slice(0,-1));
-        return new Date(Date.now() - days*86400000).toISOString();
+        const days = Number(rel.slice(0, -1));
+        return new Date(Date.now() - days * 86400000).toISOString();
     }
     return rel;
 }
@@ -2224,7 +2225,7 @@ function toISO(s) { return /^\d{4}-/.test(s) ? s : new Date().toISOString(); }
 function toCSV(rows) {
     if (!rows?.length) return "";
     const cols = Object.keys(rows[0]);
-    const esc = (v)=> `"${String(v??'').replace(/"/g,'""')}"`;
+    const esc = (v) => `"${String(v ?? '').replace(/"/g, '""')}"`;
     return [cols.join(','), ...rows.map(r => cols.map(c => esc(r[c])).join(','))].join('\n');
 }
 
