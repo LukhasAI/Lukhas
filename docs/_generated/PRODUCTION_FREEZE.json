@@ -1,0 +1,7 @@
+{
+  "tag": "v0.02-prod",
+  "frozen_at": "2025-10-05T11:33:13Z",
+  "commit": "85f800ac8bd80bd1164c5e665c20a939665a5e84",
+  "meta_registry": "docs/_generated/META_REGISTRY.json",
+  "trends": ["trends/coverage_trend.csv","trends/bench_trend.csv"]
+}
