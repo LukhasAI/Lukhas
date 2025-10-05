@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2025-10-05T09:24:08.815336+00:00",
+  "generated_at": "2025-10-05T10:57:10.126755+00:00",
   "module_count": 149,
   "modules": [
     {
@@ -1990,7 +1990,9 @@
       "tests": [
         "consciousness/tests/conftest.py",
         "consciousness/tests/test_consciousness_integration.py",
-        "consciousness/tests/test_consciousness_unit.py"
+        "consciousness/tests/test_consciousness_unit.py",
+        "consciousness/tests/test_smoke.py",
+        "consciousness/tests/test_unit.py"
       ],
       "api_count": 13
     },
@@ -2416,12 +2418,18 @@
         "docs/ROADMAP.md",
         "docs/SCAFFOLD_REGIMENT.md",
         "docs/SYSTEM_STATUS.md",
+        "docs/T4_INFRASTRUCTURE_SUMMARY.md",
         "docs/T4_UNUSED_IMPORTS_GUIDE.md",
         "docs/TESTING_GUIDE.md",
         "docs/TODO_COMPLETIONS_2025_09_16.md",
         "docs/TODO_MASTER_2025_09_16.md",
         "docs/TODO_MASTER_ACCURATE_2025_09_16.md",
         "docs/VISUAL_ARCHITECTURE_GUIDE.md",
+        "docs/_generated/COVERAGE_BENCHMARK_COMPLETE.md",
+        "docs/_generated/DOCUMENTATION_MAP.md",
+        "docs/_generated/MODULE_INDEX.md",
+        "docs/_generated/PHASE1_PILOT_REPORT.md",
+        "docs/_generated/SESSION_SUMMARY.md",
         "docs/_generated/SLO_DASHBOARD.md",
         "docs/academic/CONSCIOUSNESS_ENGINE_REFERENCES.md",
         "docs/academic/IMPLEMENTATION_SUMMARY.md",
@@ -3939,7 +3947,9 @@
       "tests": [
         "governance/tests/conftest.py",
         "governance/tests/test_governance_integration.py",
-        "governance/tests/test_governance_unit.py"
+        "governance/tests/test_governance_unit.py",
+        "governance/tests/test_smoke.py",
+        "governance/tests/test_unit.py"
       ],
       "api_count": 0
     },
@@ -4244,7 +4254,9 @@
       "tests": [
         "identity/tests/conftest.py",
         "identity/tests/test_identity_integration.py",
-        "identity/tests/test_identity_unit.py"
+        "identity/tests/test_identity_unit.py",
+        "identity/tests/test_smoke.py",
+        "identity/tests/test_unit.py"
       ],
       "api_count": 15
     },
@@ -8298,7 +8310,9 @@
       "tests": [
         "matriz/tests/conftest.py",
         "matriz/tests/test_matriz_integration.py",
-        "matriz/tests/test_matriz_unit.py"
+        "matriz/tests/test_matriz_unit.py",
+        "matriz/tests/test_smoke.py",
+        "matriz/tests/test_unit.py"
       ],
       "api_count": 2
     },
@@ -10537,7 +10551,9 @@
       "tests": [
         "memory/tests/conftest.py",
         "memory/tests/test_memory_integration.py",
-        "memory/tests/test_memory_unit.py"
+        "memory/tests/test_memory_unit.py",
+        "memory/tests/test_smoke.py",
+        "memory/tests/test_unit.py"
       ],
       "api_count": 17
     },
@@ -17511,8 +17527,11 @@
       ],
       "tests": [
         "templates/tests/conftest.py",
+        "templates/tests/test_integration.py",
+        "templates/tests/test_smoke.py",
         "templates/tests/test_templates_integration.py",
-        "templates/tests/test_templates_unit.py"
+        "templates/tests/test_templates_unit.py",
+        "templates/tests/test_unit.py"
       ],
       "api_count": 0
     },

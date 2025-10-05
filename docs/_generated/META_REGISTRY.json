@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2025-10-05T10:30:38.854586+00:00",
+  "generated_at": "2025-10-05T10:57:10.176034+00:00",
   "source_registry": "docs/_generated/MODULE_REGISTRY.json",
   "module_count": 149,
   "modules": [
@@ -647,7 +647,7 @@
       "path": "docs",
       "lane": "L2",
       "status": "unknown",
-      "docs_count": 1214,
+      "docs_count": 1215,
       "tests_count": 3,
       "api_count": 0,
       "tags": [

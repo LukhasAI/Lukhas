@@ -1,7 +1,7 @@
 # Documentation Map
-_Generated 2025-10-05T09:24:08.893591+00:00_
+_Generated 2025-10-05T10:57:10.200217+00:00_
 
-**Modules**: 149 | **Total Docs**: 15929 | **Total Tests**: 456
+**Modules**: 149 | **Total Docs**: 15935 | **Total Tests**: 469
 
 | Module | Status | Docs | Tests | APIs | Path |
 |---|---|---:|---:|---:|---|
@@ -35,7 +35,7 @@ _Generated 2025-10-05T09:24:08.893591+00:00_
 | `cognitive_core` | unknown | 8 | 6 | 2 | `cognitive_core` |
 | `completion` | unknown | 9 | 3 | 0 | `completion` |
 | `config` | unknown | 10 | 3 | 0 | `config` |
-| `consciousness` | unknown | 60 | 3 | 13 | `consciousness` |
+| `consciousness` | unknown | 60 | 5 | 13 | `consciousness` |
 | `consciousness.simulation` | unknown | 1 | 0 | 0 | `consciousness/simulation` |
 | `consent` | unknown | 8 | 3 | 0 | `consent` |
 | `contracts` | unknown | 8 | 3 | 0 | `contracts` |
@@ -50,7 +50,7 @@ _Generated 2025-10-05T09:24:08.893591+00:00_
 | `diagnostics` | unknown | 8 | 3 | 0 | `diagnostics` |
 | `doc` | unknown | 9 | 3 | 0 | `doc` |
 | `docker` | unknown | 8 | 3 | 0 | `docker` |
-| `docs` | unknown | 1209 | 3 | 0 | `docs` |
+| `docs` | unknown | 1215 | 3 | 0 | `docs` |
 | `dream` | unknown | 8 | 3 | 3 | `dream` |
 | `dreams` | unknown | 8 | 3 | 11 | `dreams` |
 | `dreamweaver_helpers_bundle` | unknown | 10 | 3 | 0 | `dreamweaver_helpers_bundle` |
@@ -64,7 +64,7 @@ _Generated 2025-10-05T09:24:08.893591+00:00_
 | `exports` | unknown | 10 | 3 | 0 | `exports` |
 | `feedback` | unknown | 8 | 3 | 0 | `feedback` |
 | `final-sweep` | unknown | 9 | 3 | 0 | `final_sweep` |
-| `governance` | unknown | 20 | 3 | 0 | `governance` |
+| `governance` | unknown | 20 | 5 | 0 | `governance` |
 | `governance_extended` | unknown | 8 | 3 | 0 | `governance_extended` |
 | `grafana` | unknown | 8 | 3 | 0 | `grafana` |
 | `graphs` | unknown | 8 | 3 | 0 | `graphs` |
@@ -75,19 +75,19 @@ _Generated 2025-10-05T09:24:08.893591+00:00_
 | `health_reports` | unknown | 13 | 3 | 0 | `health_reports` |
 | `hooks` | unknown | 8 | 3 | 0 | `hooks` |
 | `htmlcov` | unknown | 8 | 3 | 0 | `htmlcov` |
-| `identity` | unknown | 11 | 3 | 15 | `identity` |
+| `identity` | unknown | 11 | 5 | 15 | `identity` |
 | `integrations` | unknown | 8 | 3 | 0 | `integrations` |
 | `logs` | unknown | 9 | 3 | 0 | `logs` |
 | `lukhas` | unknown | 21 | 5 | 0 | `lukhas` |
 | `lukhas-ai-intro` | unknown | 10 | 3 | 0 | `lukhas_ai_intro` |
 | `lukhas_ai.egg-info` | unknown | 2 | 0 | 0 | `lukhas_ai.egg-info` |
 | `lukhas_website` | unknown | 2969 | 3 | 0 | `lukhas_website` |
-| `matriz` | unknown | 859 | 3 | 2 | `matriz` |
+| `matriz` | unknown | 859 | 5 | 2 | `matriz` |
 | `mcp-lukhas-sse` | unknown | 60 | 3 | 0 | `mcp-lukhas-sse` |
 | `mcp-server` | unknown | 11 | 3 | 0 | `mcp-server` |
 | `mcp-servers` | unknown | 2053 | 3 | 0 | `mcp-servers` |
 | `mcp_servers` | unknown | 8 | 3 | 0 | `mcp_servers` |
-| `memory` | unknown | 10 | 3 | 17 | `memory` |
+| `memory` | unknown | 10 | 5 | 17 | `memory` |
 | `mk` | unknown | 8 | 3 | 0 | `mk` |
 | `models` | unknown | 8 | 3 | 0 | `models` |
 | `modulation` | unknown | 8 | 3 | 7 | `modulation` |
@@ -135,7 +135,7 @@ _Generated 2025-10-05T09:24:08.893591+00:00_
 | `tagging` | unknown | 8 | 3 | 7 | `tagging` |
 | `telemetry` | unknown | 8 | 3 | 0 | `telemetry` |
 | `temp` | unknown | 5360 | 3 | 0 | `temp` |
-| `templates` | unknown | 15 | 3 | 0 | `templates` |
+| `templates` | unknown | 15 | 6 | 0 | `templates` |
 | `test_data` | unknown | 8 | 3 | 0 | `test_data` |
 | `test_results` | unknown | 10 | 3 | 0 | `test_results` |
 | `tests` | unknown | 23 | 3 | 0 | `tests` |
