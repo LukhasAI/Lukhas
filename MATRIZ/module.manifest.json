@@ -422,5 +422,9 @@
         "validation_status": "valid"
       }
     ]
+  },
+  "testing": {
+    "coverage_observed": 1.98,
+    "observed_at": "2025-10-05T10:10:52.184854+00:00"
   }
 }

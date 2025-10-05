@@ -1,0 +1,5 @@
+{"ts": "2025-10-05T10:10:40.649802+00:00", "module": "consciousness", "coverage": 4.12, "xml": "/Users/agi_dev/LOCAL-REPOS/Lukhas/consciousness/coverage.xml"}
+{"ts": "2025-10-05T10:10:41.390279+00:00", "module": "memory", "coverage": 18.53, "xml": "/Users/agi_dev/LOCAL-REPOS/Lukhas/memory/coverage.xml"}
+{"ts": "2025-10-05T10:10:42.089407+00:00", "module": "identity", "coverage": 36.5, "xml": "/Users/agi_dev/LOCAL-REPOS/Lukhas/identity/coverage.xml"}
+{"ts": "2025-10-05T10:10:42.869831+00:00", "module": "governance", "coverage": 0.23, "xml": "/Users/agi_dev/LOCAL-REPOS/Lukhas/governance/coverage.xml"}
+{"ts": "2025-10-05T10:10:52.186554+00:00", "module": "matriz", "coverage": 1.98, "xml": "/Users/agi_dev/LOCAL-REPOS/Lukhas/matriz/coverage.xml"}

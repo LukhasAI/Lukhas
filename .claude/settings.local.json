@@ -67,7 +67,10 @@
       "Bash(python3:*)",
       "Bash(cat:*)",
       "Bash(find:*)",
-      "Bash(make:*)"
+      "Bash(make:*)",
+      "Bash(pip install:*)",
+      "Bash(source:*)",
+      "Bash(.venv/bin/python3:*)"
     ],
     "deny": [],
     "ask": []
