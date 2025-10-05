@@ -1,38 +1,81 @@
 {
-  "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "lukhas:mcp.catalog.schema.json",
-  "title": "LUKHAS MCP Catalog",
-  "type": "object",
-  "required": ["version", "namespace", "tools"],
-  "properties": {
-    "version": { "type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$" },
-    "namespace": { "type": "string", "pattern": "^lukhas(\\.[a-z0-9_-]+)*$" },
-    "tools": {
-      "type": "array",
-      "minItems": 1,
-      "items": {
-        "type": "object",
-        "required": ["name", "description", "command"],
-        "properties": {
-          "name": { "type": "string", "pattern": "^[a-z0-9_.-]+$" },
-          "description": { "type": "string", "minLength": 3 },
-          "command": {
-            "type": "object",
-            "required": ["exec"],
-            "properties": {
-              "exec": { "type": "string", "minLength": 1 },
-              "args": { "type": "array", "items": { "type": "string" } },
-              "env":  { "type": "object", "additionalProperties": { "type": "string" } }
-            },
-            "additionalProperties": false
-          },
-          "inputs": { "type": "object", "additionalProperties": true },
-          "outputs": { "type": "object", "additionalProperties": true },
-          "safe": { "type": "boolean" }
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "lukhas:mcp.catalog.schema.json",
+    "title": "LUKHAS MCP Catalog",
+    "type": "object",
+    "required": [
+        "version",
+        "namespace",
+        "tools"
+    ],
+    "properties": {
+        "version": {
+            "type": "string",
+            "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
         },
-        "additionalProperties": false
-      }
-    }
-  },
-  "additionalProperties": false
+        "namespace": {
+            "type": "string",
+            "pattern": "^lukhas(\\.[a-z0-9_-]+)*$"
+        },
+        "tools": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+                "type": "object",
+                "required": [
+                    "name",
+                    "description",
+                    "command"
+                ],
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "pattern": "^[a-z0-9_.-]+$"
+                    },
+                    "description": {
+                        "type": "string",
+                        "minLength": 3
+                    },
+                    "command": {
+                        "type": "object",
+                        "required": [
+                            "exec"
+                        ],
+                        "properties": {
+                            "exec": {
+                                "type": "string",
+                                "minLength": 1
+                            },
+                            "args": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                }
+                            },
+                            "env": {
+                                "type": "object",
+                                "additionalProperties": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "additionalProperties": false
+                    },
+                    "inputs": {
+                        "type": "object",
+                        "additionalProperties": true
+                    },
+                    "outputs": {
+                        "type": "object",
+                        "additionalProperties": true
+                    },
+                    "safe": {
+                        "type": "boolean"
+                    }
+                },
+                "additionalProperties": false
+            }
+        }
+    },
+    "additionalProperties": false
 }
