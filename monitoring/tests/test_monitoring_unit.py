@@ -8,15 +8,15 @@
 Unit tests for monitoring module.
 """
 
-import pytest
 import unittest
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module components
 try:
     import monitoring
 except ImportError:
-    pytest.skip(f"Module monitoring not available", allow_module_level=True)
+    pytest.skip("Module monitoring not available", allow_module_level=True)
 
 
 class TestMonitoringModule(unittest.TestCase):
@@ -81,7 +81,7 @@ class TestConsciousnessMonitor(unittest.TestCase):
             from monitoring import ConsciousnessMonitor
             self.assertIsNotNone(ConsciousnessMonitor)
         except ImportError:
-            pytest.skip(f"Component ConsciousnessMonitor not available")
+            pytest.skip("Component ConsciousnessMonitor not available")
 
     def test_consciousnessmonitor_instantiation(self):
         """Test ConsciousnessMonitor can be instantiated."""
@@ -98,7 +98,7 @@ class TestMONITORING_DOMAINS(unittest.TestCase):
             from monitoring import MONITORING_DOMAINS
             self.assertIsNotNone(MONITORING_DOMAINS)
         except ImportError:
-            pytest.skip(f"Component MONITORING_DOMAINS not available")
+            pytest.skip("Component MONITORING_DOMAINS not available")
 
     def test_monitoring_domains_instantiation(self):
         """Test MONITORING_DOMAINS can be instantiated."""
@@ -115,7 +115,7 @@ class TestSystemMetrics(unittest.TestCase):
             from monitoring import SystemMetrics
             self.assertIsNotNone(SystemMetrics)
         except ImportError:
-            pytest.skip(f"Component SystemMetrics not available")
+            pytest.skip("Component SystemMetrics not available")
 
     def test_systemmetrics_instantiation(self):
         """Test SystemMetrics can be instantiated."""

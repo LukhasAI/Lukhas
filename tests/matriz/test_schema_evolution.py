@@ -26,11 +26,12 @@ import copy
 import hashlib
 import json
 import logging
-import pytest
 import time
-from pathlib import Path
-from typing import Dict, Any, List, Set
 from dataclasses import dataclass
+from pathlib import Path
+from typing import Any, Dict, List, Set
+
+import pytest
 
 logger = logging.getLogger(__name__)
 
@@ -285,7 +286,7 @@ class TestSchemaEvolutionGuard:
 
         # Assert no breaking changes
         assert len(breaking_violations) == 0, (
-            f"Schema evolution violations detected:\n" +
+            "Schema evolution violations detected:\n" +
             "\n".join([f"  - {v.description}" for v in breaking_violations[:3]])
         )
 
@@ -393,7 +394,7 @@ class TestSchemaEvolutionGuard:
         # Should have no breaking violations
         breaking_violations = [v for v in violations if v.severity == 'breaking']
         assert len(breaking_violations) == 0, (
-            f"Allowed changes incorrectly flagged as breaking:\n" +
+            "Allowed changes incorrectly flagged as breaking:\n" +
             "\n".join([f"  - {v.description}" for v in breaking_violations])
         )
 
@@ -508,10 +509,10 @@ if __name__ == "__main__":
                 print(f"❌ BREAKING CHANGES DETECTED ({len(breaking_violations)}):")
                 for violation in breaking_violations:
                     print(f"   - {violation.description}")
-                print(f"\n💥 Schema evolution blocks deployment")
+                print("\n💥 Schema evolution blocks deployment")
                 return False
             else:
-                print(f"✅ No breaking changes detected")
+                print("✅ No breaking changes detected")
                 print(f"⚡ Validation completed in {detection_time:.2f}ms")
 
                 if violations:

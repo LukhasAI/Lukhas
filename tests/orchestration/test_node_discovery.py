@@ -1,7 +1,9 @@
 # tests/orchestration/test_node_discovery.py
 import importlib
 import sys
+
 import pytest
+
 
 @pytest.mark.skipif("candidate" not in sys.modules and not any(m.startswith("candidate") for m in sys.modules),
                     reason="candidate package not present in test env")

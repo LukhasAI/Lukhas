@@ -26,7 +26,7 @@ class BaseModel(PydanticBaseModel):
     - Identity integration hooks
     - Consciousness-aware serialization
     """
-    
+
     model_config = ConfigDict(
         # Enable validation on assignment
         validate_assignment=True,
@@ -37,26 +37,26 @@ class BaseModel(PydanticBaseModel):
         # Additional LUKHAS-specific config
         extra='forbid'
     )
-    
+
     # Optional LUKHAS-specific metadata
     lambda_id: Optional[str] = Field(None, description="Lambda ID for identity tracking")
     tier: Optional[int] = Field(None, ge=0, le=5, description="LUKHAS tier (0-5)")
     constellation_aspect: Optional[str] = Field(None, description="Constellation Framework aspect")
-    
+
     def to_lukhas_dict(self) -> dict[str, Any]:
         """Convert to dictionary with LUKHAS-specific formatting."""
         data = self.model_dump()
-        
+
         # Add LUKHAS metadata if available
         if hasattr(self, '_lukhas_metadata'):
             data['_lukhas'] = self._lukhas_metadata
-            
+
         return data
-    
+
     def __init_subclass__(cls, **kwargs):
         """Initialize subclasses with LUKHAS awareness."""
         super().__init_subclass__(**kwargs)
-        
+
         # Log model registration for Constellation Framework
         logger.debug(
             f"ΛTRACE: Registering LUKHAS model class: {cls.__name__}",

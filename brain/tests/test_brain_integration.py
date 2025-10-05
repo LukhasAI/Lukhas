@@ -8,16 +8,15 @@
 Integration tests for brain module.
 """
 
-import pytest
 import unittest
-import asyncio
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module for integration testing
 try:
     import brain
 except ImportError:
-    pytest.skip(f"Module brain not available", allow_module_level=True)
+    pytest.skip("Module brain not available", allow_module_level=True)
 
 
 class TestBrainIntegration(unittest.TestCase):

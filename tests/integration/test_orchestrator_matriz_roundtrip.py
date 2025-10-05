@@ -21,24 +21,22 @@ Constellation Framework: 🌊 Complete Stack Integration
 """
 
 import asyncio
-import time
 import logging
-from typing import Dict, Any, List
+import time
 from dataclasses import dataclass
+from typing import Any, Dict, List
 from unittest.mock import Mock, patch
+
 import pytest
 
-# Import LUKHAS components
-from lukhas.orchestration.multi_ai_router import (
-    RoutingRequest, ConsensusType
-)
-from lukhas.consciousness.matriz_thought_loop import (
-    MATRIZThoughtLoop, MATRIZProcessingContext
-)
+from lukhas.consciousness.matriz_thought_loop import MATRIZProcessingContext, MATRIZThoughtLoop
 from lukhas.consciousness.types import ConsciousnessState
 from lukhas.governance.guardian_serializer import GuardianEnvelopeSerializer
 from lukhas.identity.auth_service import LUKHASIdentityService
 from lukhas.identity.tiers import IdentityTier, TierValidator
+
+# Import LUKHAS components
+from lukhas.orchestration.multi_ai_router import ConsensusType, RoutingRequest
 
 logger = logging.getLogger(__name__)
 

@@ -28,8 +28,8 @@ from dataclasses import dataclass, field
 from enum import Enum
 from typing import Any, Dict, List, Optional
 
-import pytest
 import numpy as np
+import pytest
 
 # LUKHAS cognitive imports
 from lukhas.cognitive_core.reasoning.contradiction_integrator import ContradictionIntegrator
@@ -38,12 +38,8 @@ from lukhas.consciousness.enhanced_thought_engine import EnhancedThoughtEngine, 
 from lukhas.consciousness.meta_cognitive_assessor import MetaCognitiveAssessor
 
 # Test framework imports
-from tests.cognitive.property_based.test_reasoning_edge_cases import (
-    PropertyBasedTestFramework
-)
-from tests.cognitive.stress.test_cognitive_load_infrastructure import (
-    StressTestInfrastructure
-)
+from tests.cognitive.property_based.test_reasoning_edge_cases import PropertyBasedTestFramework
+from tests.cognitive.stress.test_cognitive_load_infrastructure import StressTestInfrastructure
 
 logger = logging.getLogger(__name__)
 
@@ -967,7 +963,7 @@ class ComprehensiveCoverageFramework:
                     'outcome': 'recovery_successful'
                 }
 
-        except Exception as e:
+        except Exception:
             # Exceptions are expected in error handling tests
             return {'success': True, 'outcome': 'error_handled_gracefully'}
 
@@ -1107,7 +1103,7 @@ class ComprehensiveCoverageFramework:
                     try:
                         result = await self.cognitive_components['inference_engine'].infer(malformed_input)
                         # Should handle gracefully without crashing
-                    except Exception as e:
+                    except Exception:
                         # Expected to handle exceptions gracefully
                         pass
 
@@ -1553,7 +1549,7 @@ class TestComprehensiveCoverage:
         assert rare_scenario_stats['total_rare_scenarios'] >= 3, "Insufficient rare edge case scenarios"
 
         # Log comprehensive results
-        logger.info(f"Comprehensive coverage completed:")
+        logger.info("Comprehensive coverage completed:")
         logger.info(f"  Overall coverage: {coverage_metrics.overall_coverage:.1%}")
         logger.info(f"  Success rate: {success_rate:.1%}")
         logger.info(f"  Component coverage: {component_coverage}")
@@ -1640,34 +1636,34 @@ if __name__ == "__main__":
         print(f"Overall Coverage: {coverage_metrics.overall_coverage:.1%}")
         print(f"Target 90% Achieved: {'✅ YES' if coverage_report['summary']['target_90_percent_achieved'] else '❌ NO'}")
 
-        print(f"\nComponent Coverage:")
+        print("\nComponent Coverage:")
         for component, coverage in coverage_metrics.component_coverage.items():
             status = "✅" if coverage >= 0.90 else "⚠️" if coverage >= 0.75 else "❌"
             print(f"  {status} {component}: {coverage:.1%}")
 
-        print(f"\nCritical Path Coverage:")
+        print("\nCritical Path Coverage:")
         critical_stats = coverage_report['critical_path_coverage']
         print(f"  Success Rate: {critical_stats['critical_path_success_rate']:.1%}")
         print(f"  Paths Tested: {critical_stats['total_critical_paths']}")
 
-        print(f"\nRare Edge Cases:")
+        print("\nRare Edge Cases:")
         rare_stats = coverage_report['rare_edge_cases']
         print(f"  Total Rare Scenarios: {rare_stats['total_rare_scenarios']}")
         print(f"  Success Rate: {rare_stats['rare_scenario_success_rate']:.1%}")
 
         if 'performance_analysis' in coverage_report:
             perf_stats = coverage_report['performance_analysis']
-            print(f"\nPerformance Analysis:")
+            print("\nPerformance Analysis:")
             print(f"  P95 Latency: {perf_stats.get('p95_latency_ms', 0):.1f}ms")
             print(f"  T4 Compliant: {'✅ YES' if perf_stats.get('p95_latency_ms', 0) < 250.0 else '❌ NO'}")
 
-        print(f"\nRecommendations:")
+        print("\nRecommendations:")
         for i, rec in enumerate(coverage_report['recommendations'], 1):
             print(f"  {i}. {rec}")
 
         # Final assessment
         if coverage_metrics.overall_coverage >= 0.90:
-            print(f"\n🎉 EXCELLENT: Achieved >90% comprehensive coverage target!")
+            print("\n🎉 EXCELLENT: Achieved >90% comprehensive coverage target!")
         elif coverage_metrics.overall_coverage >= 0.80:
             print(f"\n✅ GOOD: Achieved {coverage_metrics.overall_coverage:.1%} coverage (80%+ target)")
         else:

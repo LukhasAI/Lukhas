@@ -7,13 +7,13 @@ exponential backoff, and graceful degradation - the kind of subtle
 reliability that distinguishes top-tier systems.
 """
 
-import time
 import asyncio
 import statistics
-from enum import Enum
-from typing import Callable, Any, Optional, Dict, List
-from dataclasses import dataclass
+import time
 from collections import deque
+from dataclasses import dataclass
+from enum import Enum
+from typing import Any, Callable, Dict, List, Optional
 
 
 class CircuitState(Enum):

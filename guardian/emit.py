@@ -9,11 +9,12 @@ Provides dual-approval tracking for critical overrides.
 Part of Task 13: Safety Tags System
 """
 
-import json
 import hashlib
+import json
 import re
 from datetime import datetime, timezone
-from typing import Dict, Any, Optional, List, Union
+from typing import Any, Dict, List, Optional, Union
+
 
 def _normalize_consent_timestamp(value: Optional[Union[str, datetime]]) -> Optional[str]:
     """Normalize consent timestamps to ISO-8601 strings."""
@@ -291,7 +292,7 @@ def emit_confidence_metrics(
         lane: A/B test lane
     """
     try:
-        from lukhas.core.ethics.safety_tags import SAFETY_TAGS_CONFIDENCE, METRICS_AVAILABLE
+        from lukhas.core.ethics.safety_tags import METRICS_AVAILABLE, SAFETY_TAGS_CONFIDENCE
 
         if not METRICS_AVAILABLE:
             return

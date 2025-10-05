@@ -8,15 +8,15 @@
 Unit tests for eval_runs module.
 """
 
-import pytest
 import unittest
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module components
 try:
     import eval_runs
 except ImportError:
-    pytest.skip(f"Module eval_runs not available", allow_module_level=True)
+    pytest.skip("Module eval_runs not available", allow_module_level=True)
 
 
 class TestEvalRunsModule(unittest.TestCase):

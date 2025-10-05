@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
-import json, sys, pathlib
+import json
+import pathlib
+import sys
+
 from jsonschema import Draft202012Validator
 
 cat_path = pathlib.Path("mcp-servers/lukhas-devtools-mcp/tooling/catalog.json")

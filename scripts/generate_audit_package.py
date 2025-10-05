@@ -7,18 +7,18 @@ Includes all artifacts, checksums, digital signatures, and reproduction instruct
 """
 
 import argparse
+import hashlib
 import json
 import os
 import shutil
 import subprocess
 import tarfile
 import tempfile
-from dataclasses import dataclass, asdict
+import time
+from dataclasses import asdict, dataclass
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Dict, List, Any, Optional
-import hashlib
-import time
+from typing import Any, Dict, List, Optional
 
 
 @dataclass
@@ -604,7 +604,7 @@ psutil>=5.8.0
         # Cleanup temporary directory
         shutil.rmtree(package_dir)
 
-        print(f"✅ Audit evidence package created:")
+        print("✅ Audit evidence package created:")
         print(f"   Package ID: {self.package_id}")
         print(f"   Evidence Files: {evidence_manifest.total_files}")
         print(f"   Package Size: {output_file.stat().st_size / (1024*1024):.1f} MB")
@@ -638,7 +638,7 @@ def main():
         include_source_hash=args.include_source_hash
     )
 
-    print(f"\n🎯 T4/0.01% AUDIT EVIDENCE PACKAGE COMPLETE")
+    print("\n🎯 T4/0.01% AUDIT EVIDENCE PACKAGE COMPLETE")
     print(f"Package Hash: {package_hash}")
     print(f"Independent verification ready: {args.output}")
 

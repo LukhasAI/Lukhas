@@ -11,15 +11,15 @@ High-performance async orchestration engine for T4/0.01% targets:
 
 import asyncio
 import time
-from typing import Dict, List, Optional, Any
 from dataclasses import dataclass
+from typing import Any, Dict, List, Optional
+
+from lukhas.observability.opentelemetry_tracing import LUKHASTracer
+from lukhas.observability.prometheus_metrics import LUKHASMetrics
 
 # Python 3.9 compatibility for asyncio.timeout
 from .asyncio_compat import wait_for_with_timeout
-
 from .pipeline_stage import PipelineStage, StageResult
-from lukhas.observability.prometheus_metrics import LUKHASMetrics
-from lukhas.observability.opentelemetry_tracing import LUKHASTracer
 
 
 @dataclass

@@ -18,7 +18,7 @@ Gate merges at MQI ≥ 90 for lane:L2/L3 modules.
 import argparse
 import json
 import sys
-from datetime import datetime, timezone, timedelta
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 

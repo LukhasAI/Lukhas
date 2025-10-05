@@ -6,17 +6,17 @@ Enterprise-grade plugin discovery and management for T4/0.01% performance target
 Provides automatic plugin discovery, instantiation, and lifecycle management.
 """
 
-import os
 import importlib
 import importlib.util
 import inspect
+import os
 import time
-from typing import Dict, List, Optional, Type, Any, Protocol
-from dataclasses import dataclass
 from abc import ABC, abstractmethod
+from dataclasses import dataclass
+from typing import Any, Dict, List, Optional, Protocol, Type
 
-from lukhas.observability.prometheus_metrics import LUKHASMetrics
 from lukhas.observability.opentelemetry_tracing import LUKHASTracer
+from lukhas.observability.prometheus_metrics import LUKHASMetrics
 
 
 class LUKHASPlugin(Protocol):

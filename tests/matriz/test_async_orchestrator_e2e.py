@@ -8,9 +8,9 @@ import asyncio
 import pytest
 
 from lukhas.core.interfaces import CognitiveNodeBase
-from lukhas.core.registry import register
 from lukhas.core.orchestration.async_orchestrator import AsyncOrchestrator, CancellationToken
-from lukhas.nodes.example_nodes import IntentNode, ThoughtNode, DecisionNode, SlowNode, ErrorNode
+from lukhas.core.registry import register
+from lukhas.nodes.example_nodes import DecisionNode, ErrorNode, IntentNode, SlowNode, ThoughtNode
 
 
 class TransientFailureNode(CognitiveNodeBase):

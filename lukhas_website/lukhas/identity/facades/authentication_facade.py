@@ -8,9 +8,9 @@ through clean interfaces and dependency injection.
 import logging
 from dataclasses import dataclass
 from typing import Any, Optional, Protocol, runtime_checkable
-from lukhas.core.interfaces import CoreInterface
-from lukhas.core.registry import resolve, register
 
+from lukhas.core.interfaces import CoreInterface
+from lukhas.core.registry import register, resolve
 
 logger = logging.getLogger(__name__)
 

@@ -15,8 +15,8 @@ from enum import Enum
 from typing import Any, Dict, List, Optional, Set
 from urllib.parse import urlparse
 
-from pydantic import BaseModel, Field, validator, root_validator
-from pydantic.networks import HttpUrl, EmailStr
+from pydantic import BaseModel, Field, root_validator, validator
+from pydantic.networks import EmailStr, HttpUrl
 
 
 class GrantTypeEnum(str, Enum):

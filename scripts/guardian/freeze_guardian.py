@@ -26,13 +26,14 @@ Exit codes:
     1 - Drift detected (when running with --once)
 """
 from __future__ import annotations
+
 import argparse
+import hashlib
 import json
 import logging
+import subprocess
 import sys
 import time
-import hashlib
-import subprocess
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import NamedTuple
@@ -259,7 +260,7 @@ def run_once(config: FreezeConfig, alert_dir: Path) -> int:
 
 def run_daemon(config: FreezeConfig, alert_dir: Path, interval: int):
     """Run as continuous monitoring daemon"""
-    logger.info(f"🛡️  Freeze Guardian started")
+    logger.info("🛡️  Freeze Guardian started")
     logger.info(f"   Tag: {config.tag}")
     logger.info(f"   Monitoring: {len(config.critical_artifacts)} artifacts")
     logger.info(f"   Check interval: {interval}s")
@@ -293,7 +294,7 @@ def run_daemon(config: FreezeConfig, alert_dir: Path, interval: int):
             time.sleep(interval)
 
     except KeyboardInterrupt:
-        logger.info(f"\n🛑 Freeze Guardian stopped by user")
+        logger.info("\n🛑 Freeze Guardian stopped by user")
         logger.info(f"   Total checks: {check_count}")
         logger.info(f"   Violations detected: {violation_count}")
 

@@ -8,15 +8,15 @@
 Unit tests for brain module.
 """
 
-import pytest
 import unittest
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module components
 try:
     import brain
 except ImportError:
-    pytest.skip(f"Module brain not available", allow_module_level=True)
+    pytest.skip("Module brain not available", allow_module_level=True)
 
 
 class TestBrainModule(unittest.TestCase):
@@ -81,7 +81,7 @@ class TestAlertEvent(unittest.TestCase):
             from brain import AlertEvent
             self.assertIsNotNone(AlertEvent)
         except ImportError:
-            pytest.skip(f"Component AlertEvent not available")
+            pytest.skip("Component AlertEvent not available")
 
     def test_alertevent_instantiation(self):
         """Test AlertEvent can be instantiated."""
@@ -98,7 +98,7 @@ class TestAlertLevel(unittest.TestCase):
             from brain import AlertLevel
             self.assertIsNotNone(AlertLevel)
         except ImportError:
-            pytest.skip(f"Component AlertLevel not available")
+            pytest.skip("Component AlertLevel not available")
 
     def test_alertlevel_instantiation(self):
         """Test AlertLevel can be instantiated."""
@@ -115,7 +115,7 @@ class TestBRAIN_ACTIVE(unittest.TestCase):
             from brain import BRAIN_ACTIVE
             self.assertIsNotNone(BRAIN_ACTIVE)
         except ImportError:
-            pytest.skip(f"Component BRAIN_ACTIVE not available")
+            pytest.skip("Component BRAIN_ACTIVE not available")
 
     def test_brain_active_instantiation(self):
         """Test BRAIN_ACTIVE can be instantiated."""

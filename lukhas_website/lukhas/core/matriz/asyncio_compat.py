@@ -8,7 +8,6 @@ import sys
 from contextlib import asynccontextmanager
 from typing import Optional
 
-
 if sys.version_info >= (3, 11):
     # Use native asyncio.timeout
     from asyncio import timeout

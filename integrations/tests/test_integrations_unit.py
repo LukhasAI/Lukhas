@@ -8,15 +8,15 @@
 Unit tests for integrations module.
 """
 
-import pytest
 import unittest
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module components
 try:
     import integrations
 except ImportError:
-    pytest.skip(f"Module integrations not available", allow_module_level=True)
+    pytest.skip("Module integrations not available", allow_module_level=True)
 
 
 class TestIntegrationsModule(unittest.TestCase):
@@ -81,7 +81,7 @@ class TestLUKHASConsciousnessStore(unittest.TestCase):
             from integrations.mongodb_consciousness_store import LUKHASConsciousnessStore
             self.assertIsNotNone(LUKHASConsciousnessStore)
         except ImportError:
-            pytest.skip(f"Component LUKHASConsciousnessStore not available")
+            pytest.skip("Component LUKHASConsciousnessStore not available")
 
     def test_lukhasconsciousnessstore_instantiation(self):
         """Test LUKHASConsciousnessStore can be instantiated."""

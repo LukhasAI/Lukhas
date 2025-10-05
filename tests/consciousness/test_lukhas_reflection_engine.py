@@ -9,15 +9,17 @@ Follows T4/0.01% excellence standards with regulatory-grade validation.
 """
 
 import asyncio
-import time
 import statistics
+import time
 from unittest.mock import Mock, patch
+
 import pytest
-from hypothesis import given, strategies as st, settings, HealthCheck
+from hypothesis import HealthCheck, given, settings
+from hypothesis import strategies as st
 
 # Import LUKHAS consciousness components
-from lukhas.consciousness.reflection_engine import ReflectionEngine, ReflectionConfig
-from lukhas.consciousness.types import ConsciousnessState, AwarenessSnapshot, ReflectionReport
+from lukhas.consciousness.reflection_engine import ReflectionConfig, ReflectionEngine
+from lukhas.consciousness.types import AwarenessSnapshot, ConsciousnessState, ReflectionReport
 
 
 class TestReflectionEngineCore:
@@ -487,7 +489,7 @@ class TestReflectionEnginePerformance:
             mean_latency = statistics.mean(latencies)
             cv = statistics.stdev(latencies) / mean_latency if mean_latency > 0 else 0
 
-            print(f"\nPhase 3 Performance Results:")
+            print("\nPhase 3 Performance Results:")
             print(f"Total time: {total_time:.2f}s")
             print(f"Mean latency: {mean_latency:.3f}ms")
             print(f"P95 latency: {p95_latency:.3f}ms")
@@ -553,7 +555,7 @@ class TestReflectionEnginePerformance:
             p95_concurrent = statistics.quantiles(all_latencies, n=20)[18]
             mean_concurrent = statistics.mean(all_latencies)
 
-            print(f"\nConcurrent Performance Results:")
+            print("\nConcurrent Performance Results:")
             print(f"Total reflections: {len(all_latencies)}")
             print(f"Mean latency: {mean_concurrent:.3f}ms")
             print(f"P95 latency: {p95_concurrent:.3f}ms")

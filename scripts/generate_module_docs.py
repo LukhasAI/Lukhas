@@ -29,13 +29,11 @@ Tone System:
     practical guide (Layer 3).
 """
 
-import json
-import os
-import sys
-from pathlib import Path
-from typing import Dict, List, Optional
 import argparse
+import json
 from dataclasses import dataclass
+from pathlib import Path
+from typing import Dict, List
 
 
 @dataclass
@@ -544,7 +542,7 @@ print(f"Result: {{result}}")"""
         with_docs = sum(1 for m in self.modules if m.has_docs)
         with_examples = sum(1 for m in self.modules if m.has_examples)
 
-        print(f"\n📊 LUKHAS Documentation Statistics:")
+        print("\n📊 LUKHAS Documentation Statistics:")
         print(f"  Total modules: {total}")
         print(f"  With README: {with_readme} ({with_readme*100//total}%)")
         print(f"  With docs/: {with_docs} ({with_docs*100//total}%)")
@@ -574,12 +572,12 @@ def main():
         return
 
     if args.missing_only:
-        print(f"\n📝 Generating missing READMEs...")
+        print("\n📝 Generating missing READMEs...")
         count = generator.generate_all_missing()
         print(f"\n✅ Generated {count} README files")
 
     elif args.all:
-        print(f"\n📝 Generating READMEs for all modules...")
+        print("\n📝 Generating READMEs for all modules...")
         count = 0
         for module in generator.modules:
             if generator.generate_readme(module, force=args.force):

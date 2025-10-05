@@ -9,6 +9,7 @@ Test our T4/0.01% AI Provider Compatibility Framework
 import asyncio
 import time
 from unittest.mock import AsyncMock, MagicMock, patch
+
 from ai_orchestration.lukhas_ai_orchestrator import LUKHASAIOrchestrator
 
 
@@ -37,13 +38,13 @@ async def test_provider_health_validation():
         if result["healthy"] is True:
             print(f"  ✅ Claude health validation: healthy={result['healthy']}")
         else:
-            print(f"  ❌ Claude health validation failed")
+            print("  ❌ Claude health validation failed")
             return False
 
         if "latency" in result and "version" in result:
             print(f"  ✅ Claude response complete: latency={result['latency']:.3f}s")
         else:
-            print(f"  ❌ Claude response incomplete")
+            print("  ❌ Claude response incomplete")
             return False
 
     # Test 2: Provider health without API key
@@ -52,9 +53,9 @@ async def test_provider_health_validation():
     result = await orchestrator.validate_provider_health("claude")
 
     if result["healthy"] is False and "Missing Claude API key" in result["error"]:
-        print(f"  ✅ Missing API key handled correctly")
+        print("  ✅ Missing API key handled correctly")
     else:
-        print(f"  ❌ Missing API key not handled properly")
+        print("  ❌ Missing API key not handled properly")
         return False
 
     # Test 3: Unknown provider
@@ -62,9 +63,9 @@ async def test_provider_health_validation():
     result = await orchestrator.validate_provider_health("unknown_provider")
 
     if result["healthy"] is False and "not found" in result["error"]:
-        print(f"  ✅ Unknown provider handled correctly")
+        print("  ✅ Unknown provider handled correctly")
     else:
-        print(f"  ❌ Unknown provider not handled properly")
+        print("  ❌ Unknown provider not handled properly")
         return False
 
     return True
@@ -170,7 +171,7 @@ async def test_routing_configuration():
     try:
         # This should load the YAML configuration
         result = await orchestrator.route_request("architecture_design", "test content")
-        print(f"  ✅ Routing configuration loaded successfully")
+        print("  ✅ Routing configuration loaded successfully")
     except Exception as e:
         # Expected since we don't have real providers configured
         if "API key" in str(e) or "not configured" in str(e):
@@ -192,7 +193,7 @@ async def test_routing_configuration():
 
             # Architecture design should prefer Claude
             result = await orchestrator.route_request("architecture_design", "test content")
-            print(f"  ✅ Task-based routing functional")
+            print("  ✅ Task-based routing functional")
 
     return True
 

@@ -8,15 +8,15 @@
 Unit tests for grafana module.
 """
 
-import pytest
 import unittest
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module components
 try:
     import grafana
 except ImportError:
-    pytest.skip(f"Module grafana not available", allow_module_level=True)
+    pytest.skip("Module grafana not available", allow_module_level=True)
 
 
 class TestGrafanaModule(unittest.TestCase):

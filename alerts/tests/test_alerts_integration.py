@@ -8,16 +8,15 @@
 Integration tests for alerts module.
 """
 
-import pytest
 import unittest
-import asyncio
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module for integration testing
 try:
     import alerts
 except ImportError:
-    pytest.skip(f"Module alerts not available", allow_module_level=True)
+    pytest.skip("Module alerts not available", allow_module_level=True)
 
 
 class TestAlertsIntegration(unittest.TestCase):

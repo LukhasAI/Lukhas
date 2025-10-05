@@ -5,9 +5,15 @@ Validates archetypal classification and analysis.
 import pytest
 
 from benchmarks.dream.archetypes import (
-    classify_archetype, calculate_archetype_score, analyze_snapshot_archetypes,
-    suggest_archetypal_balance, create_archetypal_test_case, ARCHETYPES, CANONICAL_EMOTIONS
+    ARCHETYPES,
+    CANONICAL_EMOTIONS,
+    analyze_snapshot_archetypes,
+    calculate_archetype_score,
+    classify_archetype,
+    create_archetypal_test_case,
+    suggest_archetypal_balance,
 )
+
 
 class TestArchetypalClassification:
     """Test archetypal classification functionality."""

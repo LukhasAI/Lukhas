@@ -8,16 +8,15 @@
 Integration tests for oneiric_core module.
 """
 
-import pytest
 import unittest
-import asyncio
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module for integration testing
 try:
     import oneiric_core
 except ImportError:
-    pytest.skip(f"Module oneiric_core not available", allow_module_level=True)
+    pytest.skip("Module oneiric_core not available", allow_module_level=True)
 
 
 class TestOneiricCoreIntegration(unittest.TestCase):

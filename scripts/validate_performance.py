@@ -8,12 +8,12 @@ Fails CI pipeline if performance targets are not met.
 """
 
 import argparse
-import json
 import glob
+import json
 import os
 import sys
 from datetime import datetime, timezone
-from typing import Dict, Any, Optional
+from typing import Any, Dict, Optional
 
 
 class PerformanceValidator:
@@ -173,10 +173,10 @@ class PerformanceValidator:
             "=" * 80,
             "🚀 LUKHAS Performance Validation Report",
             "=" * 80,
-            f"",
+            "",
             f"Overall Status: {status_emoji} {status.upper()}",
             f"Validation Time: {validation_result.get('timestamp', 'unknown')}",
-            f"",
+            "",
         ]
 
         if summary:

@@ -15,20 +15,21 @@ Chaos Test Categories:
 - Recovery validation
 """
 
-import pytest
 import asyncio
-import time
-import random
-import logging
-from typing import Dict, Any
-from dataclasses import dataclass
 import gc
+import logging
+import random
+import time
+from dataclasses import dataclass
+from typing import Any, Dict
 
+import pytest
+
+from ..adapters.vector_store_base import VectorStoreConnectionError, VectorStoreError
 from ..api_read import MemoryReadService, SearchQuery, SearchType
 from ..api_write import MemoryWriteService
-from ..circuit_breaker import CircuitBreakerRegistry, CircuitBreakerFactory, CircuitBreakerError
 from ..backpressure import AdaptiveBackpressure, BackpressureFactory
-from ..adapters.vector_store_base import VectorStoreError, VectorStoreConnectionError
+from ..circuit_breaker import CircuitBreakerError, CircuitBreakerFactory, CircuitBreakerRegistry
 
 logger = logging.getLogger(__name__)
 
@@ -112,7 +113,7 @@ class ChaosVectorStore:
         await self._apply_chaos('search')
 
         # Return mock results if chaos doesn't trigger
-        from ..api_read import SearchResponse, SearchResult, MemoryFold
+        from ..api_read import MemoryFold, SearchResponse, SearchResult
         results = [
             SearchResult(
                 fold=MemoryFold(
@@ -640,9 +641,9 @@ async def test_comprehensive_chaos_validation():
 
     resilience_percentage = (resilience_score / total_scenarios) * 100
 
-    print(f"\n=== CHAOS ENGINEERING RESULTS ===")
+    print("\n=== CHAOS ENGINEERING RESULTS ===")
     print(f"Resilience Score: {resilience_score}/{total_scenarios} ({resilience_percentage:.1f}%)")
-    print(f"Minimum Required: 80%")
+    print("Minimum Required: 80%")
 
     # System should pass at least 80% of chaos scenarios
     assert resilience_percentage >= 80.0, f"Chaos resilience too low: {resilience_percentage:.1f}%"

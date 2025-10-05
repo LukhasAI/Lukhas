@@ -8,15 +8,15 @@
 Unit tests for rats module.
 """
 
-import pytest
 import unittest
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module components
 try:
     import rats
 except ImportError:
-    pytest.skip(f"Module rats not available", allow_module_level=True)
+    pytest.skip("Module rats not available", allow_module_level=True)
 
 
 class TestRatsModule(unittest.TestCase):

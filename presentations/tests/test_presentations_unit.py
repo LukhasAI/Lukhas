@@ -8,15 +8,15 @@
 Unit tests for presentations module.
 """
 
-import pytest
 import unittest
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module components
 try:
     import presentations
 except ImportError:
-    pytest.skip(f"Module presentations not available", allow_module_level=True)
+    pytest.skip("Module presentations not available", allow_module_level=True)
 
 
 class TestPresentationsModule(unittest.TestCase):

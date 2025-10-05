@@ -5,8 +5,8 @@ Tests for the robust legacy 'core' import alias system.
 Ensures all import styles work and resolve to lukhas.core correctly.
 """
 
-import os
 import importlib
+import os
 import sys
 import warnings
 

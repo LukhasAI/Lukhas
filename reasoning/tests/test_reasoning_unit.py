@@ -8,15 +8,15 @@
 Unit tests for reasoning module.
 """
 
-import pytest
 import unittest
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module components
 try:
     import reasoning
 except ImportError:
-    pytest.skip(f"Module reasoning not available", allow_module_level=True)
+    pytest.skip("Module reasoning not available", allow_module_level=True)
 
 
 class TestReasoningModule(unittest.TestCase):

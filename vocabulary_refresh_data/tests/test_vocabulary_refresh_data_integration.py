@@ -8,16 +8,15 @@
 Integration tests for vocabulary_refresh_data module.
 """
 
-import pytest
 import unittest
-import asyncio
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module for integration testing
 try:
     import vocabulary_refresh_data
 except ImportError:
-    pytest.skip(f"Module vocabulary_refresh_data not available", allow_module_level=True)
+    pytest.skip("Module vocabulary_refresh_data not available", allow_module_level=True)
 
 
 class TestVocabularyRefreshDataIntegration(unittest.TestCase):

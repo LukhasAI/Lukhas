@@ -4,21 +4,22 @@ Tests for scheduled memory folding system.
 Validates compression, LRU eviction, and background scheduling.
 """
 
+import sys
 import time
 from datetime import datetime, timedelta
-import pytest
-import sys
 from pathlib import Path
+
+import pytest
 
 # Add project root to path
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
 from lukhas.memory.adaptive_memory import MemoryFold, MemoryItem, MemoryType
 from lukhas.memory.scheduled_folding import (
-    ScheduledFoldingManager,
-    ScheduledFold,
-    FoldStatus,
     CompressionLevel,
+    FoldStatus,
+    ScheduledFold,
+    ScheduledFoldingManager,
     get_folding_manager,
 )
 

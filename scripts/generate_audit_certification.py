@@ -7,12 +7,13 @@ Creates regulatory-grade certification documents with cryptographic verification
 """
 
 import argparse
-import json
 import hashlib
-from pathlib import Path
-from typing import Dict, Any, List, Optional
+import json
 from dataclasses import dataclass
 from datetime import datetime, timezone
+from pathlib import Path
+from typing import Any, Dict, List, Optional
+
 
 @dataclass
 class CertificationEvidence:
@@ -542,7 +543,7 @@ def main():
 
     # Print summary
     print("")
-    print(f"🎯 T4/0.01% Excellence Certification Summary")
+    print("🎯 T4/0.01% Excellence Certification Summary")
     print(f"Certification ID: {certification.certification_id}")
     print(f"Status: {certification.overall_status}")
     print(f"Confidence: {certification.confidence_level:.1%}")

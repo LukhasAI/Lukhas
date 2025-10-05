@@ -8,16 +8,15 @@
 Integration tests for mcp_servers module.
 """
 
-import pytest
 import unittest
-import asyncio
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module for integration testing
 try:
     import mcp_servers
 except ImportError:
-    pytest.skip(f"Module mcp_servers not available", allow_module_level=True)
+    pytest.skip("Module mcp_servers not available", allow_module_level=True)
 
 
 class TestMcpServersIntegration(unittest.TestCase):

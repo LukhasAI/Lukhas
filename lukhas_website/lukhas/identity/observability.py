@@ -19,27 +19,28 @@ Features:
 from __future__ import annotations
 
 import time
+from contextlib import asynccontextmanager
 from datetime import datetime, timezone
 from typing import Any, Dict, List, Optional
-from contextlib import asynccontextmanager
+
 import structlog
 
 # OpenTelemetry imports
 try:
     from opentelemetry import trace
     from opentelemetry.exporter.otlp.proto.grpc.trace_exporter import OTLPSpanExporter
-    from opentelemetry.sdk.trace import TracerProvider
-    from opentelemetry.sdk.trace.export import BatchSpanProcessor
-    from opentelemetry.sdk.resources import Resource
     from opentelemetry.instrumentation.fastapi import FastAPIInstrumentor
     from opentelemetry.instrumentation.httpx import HTTPXClientInstrumentor
+    from opentelemetry.sdk.resources import Resource
+    from opentelemetry.sdk.trace import TracerProvider
+    from opentelemetry.sdk.trace.export import BatchSpanProcessor
     OTEL_AVAILABLE = True
 except ImportError:
     OTEL_AVAILABLE = False
 
 # Prometheus imports
 try:
-    from prometheus_client import Counter, Histogram, Gauge, Info, generate_latest, CollectorRegistry
+    from prometheus_client import CollectorRegistry, Counter, Gauge, Histogram, Info, generate_latest
     PROMETHEUS_AVAILABLE = True
 except ImportError:
     PROMETHEUS_AVAILABLE = False

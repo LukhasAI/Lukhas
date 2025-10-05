@@ -10,13 +10,14 @@ Calculates and reports Service Level Objectives for Matrix Tracks system:
 Generates weekly SLO reports and triggers alerts when SLOs are at risk.
 """
 
-import json
-import yaml
+import argparse
 import glob
+import json
 import pathlib
 from datetime import datetime, timedelta
-from typing import Dict, List, Optional, Any
-import argparse
+from typing import Any, Dict, List, Optional
+
+import yaml
 
 
 class SLOMonitor:
@@ -339,7 +340,7 @@ class SLOMonitor:
 
             content += "\n"
 
-        content += f"""---
+        content += """---
 
 ## 🎯 Recommendations
 
@@ -347,7 +348,7 @@ class SLOMonitor:
         for rec in report['recommendations']:
             content += f"- {rec}\n"
 
-        content += f"""
+        content += """
 ---
 
 ## 📈 Trend Analysis
@@ -372,7 +373,7 @@ class SLOMonitor:
 
         print(f"\n📄 SLO Report saved to: {report_path}")
         print(f"📊 Overall Status: {'✅ HEALTHY' if report['overall_status'] == 'passing' else '❌ NEEDS ATTENTION'}")
-        print(f"\nSummary:")
+        print("\nSummary:")
         print(report['summary'])
 
         return report_path

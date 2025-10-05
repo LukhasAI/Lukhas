@@ -75,7 +75,7 @@ def generate_all_allocations(manifest_path: str, output_dir: str):
     output_path = Path(output_dir)
     output_path.mkdir(parents=True, exist_ok=True)
 
-    print(f"Available TODOs:")
+    print("Available TODOs:")
     for priority, todos in todos_by_priority.items():
         print(f"  {priority}: {len(todos)}")
 

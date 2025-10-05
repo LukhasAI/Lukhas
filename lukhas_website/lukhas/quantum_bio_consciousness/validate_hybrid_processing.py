@@ -132,8 +132,8 @@ def validate_hybrid_quantum_bio_processing():
 
     try:
         # Initialize both quantum and bio systems
-        from lukhas.bio.oscillator import get_orchestrator
         from lukhas.bio.core.bio_symbolic import BioSymbolicOrchestrator
+        from lukhas.bio.oscillator import get_orchestrator
         from lukhas.qi.qi_wrapper import get_qi_wrapper
 
         qi_wrapper = get_qi_wrapper()

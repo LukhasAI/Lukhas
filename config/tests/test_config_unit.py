@@ -8,15 +8,15 @@
 Unit tests for config module.
 """
 
-import pytest
 import unittest
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module components
 try:
     import config
 except ImportError:
-    pytest.skip(f"Module config not available", allow_module_level=True)
+    pytest.skip("Module config not available", allow_module_level=True)
 
 
 class TestConfigModule(unittest.TestCase):
@@ -81,7 +81,7 @@ class TestAuditSafetyConfig(unittest.TestCase):
             from config.audit_safety_defaults import AuditSafetyConfig
             self.assertIsNotNone(AuditSafetyConfig)
         except ImportError:
-            pytest.skip(f"Component AuditSafetyConfig not available")
+            pytest.skip("Component AuditSafetyConfig not available")
 
     def test_auditsafetyconfig_instantiation(self):
         """Test AuditSafetyConfig can be instantiated."""
@@ -98,7 +98,7 @@ class TestSafetyDefaultsManager(unittest.TestCase):
             from config.audit_safety_defaults import SafetyDefaultsManager
             self.assertIsNotNone(SafetyDefaultsManager)
         except ImportError:
-            pytest.skip(f"Component SafetyDefaultsManager not available")
+            pytest.skip("Component SafetyDefaultsManager not available")
 
     def test_safetydefaultsmanager_instantiation(self):
         """Test SafetyDefaultsManager can be instantiated."""
@@ -115,7 +115,7 @@ class Testcreate_audit_safety_manager(unittest.TestCase):
             from config.audit_safety_defaults import create_audit_safety_manager
             self.assertIsNotNone(create_audit_safety_manager)
         except ImportError:
-            pytest.skip(f"Component create_audit_safety_manager not available")
+            pytest.skip("Component create_audit_safety_manager not available")
 
     def test_create_audit_safety_manager_instantiation(self):
         """Test create_audit_safety_manager can be instantiated."""

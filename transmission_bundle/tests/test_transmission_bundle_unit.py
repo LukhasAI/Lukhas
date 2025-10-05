@@ -8,15 +8,15 @@
 Unit tests for transmission_bundle module.
 """
 
-import pytest
 import unittest
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module components
 try:
     import transmission_bundle
 except ImportError:
-    pytest.skip(f"Module transmission_bundle not available", allow_module_level=True)
+    pytest.skip("Module transmission_bundle not available", allow_module_level=True)
 
 
 class TestTransmissionBundleModule(unittest.TestCase):
@@ -81,7 +81,7 @@ class TestLUKHASTransmission(unittest.TestCase):
             from transmission_bundle.launch_transmission import LUKHASTransmission
             self.assertIsNotNone(LUKHASTransmission)
         except ImportError:
-            pytest.skip(f"Component LUKHASTransmission not available")
+            pytest.skip("Component LUKHASTransmission not available")
 
     def test_lukhastransmission_instantiation(self):
         """Test LUKHASTransmission can be instantiated."""
@@ -98,7 +98,7 @@ class Testcan_start(unittest.TestCase):
             from transmission_bundle.launch_transmission import can_start
             self.assertIsNotNone(can_start)
         except ImportError:
-            pytest.skip(f"Component can_start not available")
+            pytest.skip("Component can_start not available")
 
     def test_can_start_instantiation(self):
         """Test can_start can be instantiated."""

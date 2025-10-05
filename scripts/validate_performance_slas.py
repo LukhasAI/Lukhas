@@ -162,7 +162,7 @@ class PerformanceSLAValidator:
         """Generate comprehensive validation report"""
         total_checks = len(self.passed_checks) + len(self.violations)
 
-        print(f"\n📊 T4/0.01% Excellence Performance Report")
+        print("\n📊 T4/0.01% Excellence Performance Report")
         print("=" * 60)
         print(f"Total Benchmarks: {total_checks}")
         print(f"✅ Passed: {len(self.passed_checks)}")
@@ -170,7 +170,7 @@ class PerformanceSLAValidator:
         print(f"Success Rate: {len(self.passed_checks)/total_checks*100:.1f}%")
 
         if self.passed_checks:
-            print(f"\n✅ PASSED SLA CHECKS:")
+            print("\n✅ PASSED SLA CHECKS:")
             print("-" * 40)
             for check in self.passed_checks:
                 margin_pct = (check['margin'] / check['threshold']) * 100
@@ -180,7 +180,7 @@ class PerformanceSLAValidator:
                       f"[+{margin_pct:.1f}% margin]")
 
         if self.violations:
-            print(f"\n❌ SLA VIOLATIONS:")
+            print("\n❌ SLA VIOLATIONS:")
             print("-" * 40)
             for violation in self.violations:
                 excess_pct = ((violation['actual'] - violation['threshold']) / violation['threshold']) * 100
@@ -190,7 +190,7 @@ class PerformanceSLAValidator:
                       f"[+{excess_pct:.1f}% over limit]")
 
         # Detailed SLA Summary
-        print(f"\n📋 T4/0.01% SLA Requirements:")
+        print("\n📋 T4/0.01% SLA Requirements:")
         print("-" * 40)
         for sla_name, config in self.SLA_THRESHOLDS.items():
             percentile = 'p99' if 'p99' in config else 'p95'

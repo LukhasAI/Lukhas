@@ -10,25 +10,24 @@ Integrates with existing LUKHAS authentication flows while enforcing Matrix
 contract-declared identity requirements.
 """
 
-import json
-import time
-import subprocess
 import asyncio
-from typing import Dict, Any, Optional, List, Tuple
-from pathlib import Path
-from dataclasses import dataclass
+import json
 import logging
+import subprocess
+import time
+from dataclasses import dataclass
+from pathlib import Path
+from typing import Any, Dict, List, Optional, Tuple
 
 # OpenTelemetry imports
 from opentelemetry import trace
 from opentelemetry.trace import Status, StatusCode
 
 # Prometheus metrics
-from prometheus_client import Counter, Histogram, Gauge
+from prometheus_client import Counter, Gauge, Histogram
 
 # Import our tools
 from tier_macaroon_issuer import TierMacaroonVerifier
-
 
 tracer = trace.get_tracer(__name__)
 logger = logging.getLogger(__name__)
@@ -107,7 +106,7 @@ class MatrixAuthzMiddleware:
         contract_paths = [
             Path(f"{module}/matrix_{module}.json"),
             Path(f"matrix_{module}.json"),
-            Path(f"memory/matrix_memoria.json") if module == "memoria" else None
+            Path("memory/matrix_memoria.json") if module == "memoria" else None
         ]
 
         for path in contract_paths:
@@ -355,7 +354,7 @@ class MatrixAuthzMiddleware:
             if not subject_allowed:
                 return {
                     "allow": False,
-                    "reason": f"Unknown service account"
+                    "reason": "Unknown service account"
                 }
 
         return {

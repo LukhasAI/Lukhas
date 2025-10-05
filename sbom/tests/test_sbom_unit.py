@@ -8,15 +8,15 @@
 Unit tests for sbom module.
 """
 
-import pytest
 import unittest
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module components
 try:
     import sbom
 except ImportError:
-    pytest.skip(f"Module sbom not available", allow_module_level=True)
+    pytest.skip("Module sbom not available", allow_module_level=True)
 
 
 class TestSbomModule(unittest.TestCase):

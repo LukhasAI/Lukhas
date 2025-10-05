@@ -8,16 +8,15 @@
 Integration tests for agent module.
 """
 
-import pytest
 import unittest
-import asyncio
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module for integration testing
 try:
     import agent
 except ImportError:
-    pytest.skip(f"Module agent not available", allow_module_level=True)
+    pytest.skip("Module agent not available", allow_module_level=True)
 
 
 class TestAgentIntegration(unittest.TestCase):

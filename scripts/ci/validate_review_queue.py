@@ -13,8 +13,8 @@ Usage:
 import json
 import sys
 from pathlib import Path
-from jsonschema import Draft202012Validator, ValidationError
 
+from jsonschema import Draft202012Validator, ValidationError
 
 root = Path(".")
 schema_path = root / "schemas" / "review_queue.schema.json"
@@ -50,7 +50,7 @@ def main():
     try:
         validator.validate(queue)
     except ValidationError as e:
-        print(f"❌ review_queue.json schema violation:")
+        print("❌ review_queue.json schema violation:")
         print(f"   {e.message}")
         print(f"   Path: {' -> '.join(str(p) for p in e.path)}")
         sys.exit(1)

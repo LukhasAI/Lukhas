@@ -8,16 +8,15 @@
 Integration tests for eval_runs module.
 """
 
-import pytest
 import unittest
-import asyncio
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module for integration testing
 try:
     import eval_runs
 except ImportError:
-    pytest.skip(f"Module eval_runs not available", allow_module_level=True)
+    pytest.skip("Module eval_runs not available", allow_module_level=True)
 
 
 class TestEvalRunsIntegration(unittest.TestCase):

@@ -8,9 +8,10 @@ meaningful content based on module type and functionality.
 """
 
 import json
-import yaml
 from pathlib import Path
-from typing import Dict, List, Optional, Any
+from typing import Dict, List
+
+import yaml
 
 
 class ModuleDirectoryPopulator:

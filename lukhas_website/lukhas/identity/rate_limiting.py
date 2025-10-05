@@ -7,13 +7,13 @@ Production-grade rate limiting for WebAuthn and identity endpoints.
 Implements sliding window rate limiting with Redis backend support.
 """
 
-import time
 import hashlib
 import logging
-from typing import Dict, Optional, Tuple, Any
+import time
 from collections import defaultdict, deque
 from dataclasses import dataclass
 from enum import Enum
+from typing import Any, Dict, Optional, Tuple
 
 logger = logging.getLogger(__name__)
 

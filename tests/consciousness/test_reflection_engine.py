@@ -15,20 +15,21 @@ import asyncio
 import os
 import statistics
 import time
+from typing import Any, Dict
 from unittest.mock import patch
-from typing import Dict, Any
 
 import pytest
-from hypothesis import given, strategies as st, settings, HealthCheck
+from hypothesis import HealthCheck, given, settings
+from hypothesis import strategies as st
 
 # Set up test environment
 os.environ["CONSC_REFLECTION_ENABLED"] = "1"
 os.environ["LUKHAS_LANE"] = "testing"
 
 from lukhas.consciousness.reflection.self_reflection_engine import (
-    SelfReflectionEngine,
-    ReflectionReport,
     REFLECTION_P95_TARGET_MS,
+    ReflectionReport,
+    SelfReflectionEngine,
 )
 from lukhas.consciousness.systems.state import ConsciousnessState
 
@@ -460,7 +461,7 @@ class TestReflectionEnginePerformance:
             mean_latency = statistics.mean(latencies)
             cv = statistics.stdev(latencies) / mean_latency
 
-            print(f"\nUnit Performance Results:")
+            print("\nUnit Performance Results:")
             print(f"Total time: {total_time:.2f}s")
             print(f"Mean latency: {mean_latency:.3f}ms")
             print(f"P95 latency: {p95_latency:.3f}ms")
@@ -521,7 +522,7 @@ class TestReflectionEnginePerformance:
             p95_latency = statistics.quantiles(latencies, n=20)[18]
             mean_latency = statistics.mean(latencies)
 
-            print(f"\nE2E Performance Results:")
+            print("\nE2E Performance Results:")
             print(f"Mean latency: {mean_latency:.3f}ms")
             print(f"P95 latency: {p95_latency:.3f}ms")
 
@@ -572,7 +573,7 @@ class TestReflectionEnginePerformance:
             p95_concurrent = statistics.quantiles(all_latencies, n=20)[18]
             mean_concurrent = statistics.mean(all_latencies)
 
-            print(f"\nConcurrent Performance Results:")
+            print("\nConcurrent Performance Results:")
             print(f"Total reflections: {len(all_latencies)}")
             print(f"Mean latency: {mean_concurrent:.3f}ms")
             print(f"P95 latency: {p95_concurrent:.3f}ms")

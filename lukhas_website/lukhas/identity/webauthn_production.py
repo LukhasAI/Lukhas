@@ -10,17 +10,19 @@ Constellation Framework: Identity ⚛️ pillar with T4-T5 authentication tiers
 """
 
 from __future__ import annotations
+
 import base64
 import json
+import logging
 import secrets
 import time
-from datetime import datetime, timedelta, timezone
 from dataclasses import dataclass, field
+from datetime import datetime, timedelta, timezone
 from enum import Enum
-from typing import Dict, Any, Optional, List, Tuple
+from typing import Any, Dict, List, Optional, Tuple
+
 from opentelemetry import trace
-from prometheus_client import Counter, Histogram, Gauge
-import logging
+from prometheus_client import Counter, Gauge, Histogram
 
 tracer = trace.get_tracer(__name__)
 logger = logging.getLogger(__name__)
@@ -52,23 +54,27 @@ webauthn_active_credentials = Gauge(
 )
 
 try:
-    from webauthn import generate_registration_options, verify_registration_response
-    from webauthn import generate_authentication_options, verify_authentication_response
+    from webauthn import (
+        generate_authentication_options,
+        generate_registration_options,
+        verify_authentication_response,
+        verify_registration_response,
+    )
+    from webauthn.helpers import parse_authentication_credential_json, parse_registration_credential_json
     from webauthn.helpers.structs import (
-        AuthenticatorSelectionCriteria,
-        UserVerificationRequirement,
+        AttestationConveyancePreference,
+        AuthenticationCredential,
         AuthenticatorAttachment,
-        ResidentKeyRequirement,
+        AuthenticatorSelectionCriteria,
+        PublicKeyCredentialCreationOptions,
+        PublicKeyCredentialParameters,
+        PublicKeyCredentialRequestOptions,
         PublicKeyCredentialRpEntity,
         PublicKeyCredentialUserEntity,
-        PublicKeyCredentialParameters,
-        PublicKeyCredentialCreationOptions,
-        PublicKeyCredentialRequestOptions,
-        AuthenticationCredential,
         RegistrationCredential,
-        AttestationConveyancePreference
+        ResidentKeyRequirement,
+        UserVerificationRequirement,
     )
-    from webauthn.helpers import parse_registration_credential_json, parse_authentication_credential_json
     WEBAUTHN_AVAILABLE = True
 except ImportError:
     logger.warning("WebAuthn library not available - using mock implementation")

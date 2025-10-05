@@ -36,7 +36,7 @@ try:
         BrainRegion,
         CognitiveState,
         MultiBrainSymphony,
-    )  # noqa: F401  # TODO: MultiBrainSymphony.BrainRegion...
+    )
 
     WORKSPACE_BRAIN_AVAILABLE = True
 except ImportError as e:

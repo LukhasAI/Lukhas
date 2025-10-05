@@ -5,19 +5,20 @@ Validates compression algorithms, adaptive selection, performance metrics,
 and benchmarking with T4/0.01% excellence standards.
 """
 
-import pytest
 import time
 from unittest.mock import Mock
+
 import numpy as np
+import pytest
 
 from lukhas.memory.compression import (
+    ZSTD_AVAILABLE,
+    AdaptiveCompressionManager,
+    Bz2Compressor,
     CompressionAlgorithm,
     CompressionResult,
-    AdaptiveCompressionManager,
-    GzipCompressor,
-    Bz2Compressor,
     CompressionStats,
-    ZSTD_AVAILABLE
+    GzipCompressor,
 )
 
 # Only test Zstd if available
@@ -491,8 +492,9 @@ class TestAdaptiveCompressionManager:
 @pytest.mark.asyncio
 async def test_integration_compression_with_vector_documents():
     """Integration test with vector document compression"""
-    from lukhas.memory.backends.base import VectorDocument
     import json
+
+    from lukhas.memory.backends.base import VectorDocument
 
     # Create a vector document
     doc = VectorDocument(

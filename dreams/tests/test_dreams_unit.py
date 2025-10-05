@@ -8,15 +8,15 @@
 Unit tests for dreams module.
 """
 
-import pytest
 import unittest
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module components
 try:
     import dreams
 except ImportError:
-    pytest.skip(f"Module dreams not available", allow_module_level=True)
+    pytest.skip("Module dreams not available", allow_module_level=True)
 
 
 class TestDreamsModule(unittest.TestCase):
@@ -81,7 +81,7 @@ class TestDREAMS_ACTIVE(unittest.TestCase):
             from dreams import DREAMS_ACTIVE
             self.assertIsNotNone(DREAMS_ACTIVE)
         except ImportError:
-            pytest.skip(f"Component DREAMS_ACTIVE not available")
+            pytest.skip("Component DREAMS_ACTIVE not available")
 
     def test_dreams_active_instantiation(self):
         """Test DREAMS_ACTIVE can be instantiated."""
@@ -98,7 +98,7 @@ class TestDreamLoopGenerator(unittest.TestCase):
             from dreams import DreamLoopGenerator
             self.assertIsNotNone(DreamLoopGenerator)
         except ImportError:
-            pytest.skip(f"Component DreamLoopGenerator not available")
+            pytest.skip("Component DreamLoopGenerator not available")
 
     def test_dreamloopgenerator_instantiation(self):
         """Test DreamLoopGenerator can be instantiated."""
@@ -115,7 +115,7 @@ class TestDreamMemoryManager(unittest.TestCase):
             from dreams import DreamMemoryManager
             self.assertIsNotNone(DreamMemoryManager)
         except ImportError:
-            pytest.skip(f"Component DreamMemoryManager not available")
+            pytest.skip("Component DreamMemoryManager not available")
 
     def test_dreammemorymanager_instantiation(self):
         """Test DreamMemoryManager can be instantiated."""

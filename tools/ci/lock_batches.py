@@ -65,7 +65,7 @@ class BatchLocker:
         total_locked = len(self.locked_tasks)
         total_conflicts = len(self.conflicts)
 
-        print(f"Locking complete:")
+        print("Locking complete:")
         print(f"  Locked tasks: {total_locked}")
         print(f"  Conflicts detected: {total_conflicts}")
 
@@ -102,7 +102,7 @@ class BatchLocker:
                     self.conflicts.append(
                         {
                             "task_id": task_id,
-                            "reason": f"Already assigned to another batch",
+                            "reason": "Already assigned to another batch",
                             "current_batch": batch_id,
                             "file": str(batch_file),
                         }

@@ -36,7 +36,8 @@ from typing import Any, Dict, List, Optional
 # Try to import observability dependencies with graceful degradation
 try:
     import prometheus_client
-    from prometheus_client import Counter, Histogram, Gauge, Enum as PrometheusEnum
+    from prometheus_client import Counter, Gauge, Histogram
+    from prometheus_client import Enum as PrometheusEnum
     PROMETHEUS_AVAILABLE = True
 except ImportError:
     PROMETHEUS_AVAILABLE = False
@@ -50,7 +51,7 @@ try:
 except ImportError:
     OPENTELEMETRY_AVAILABLE = False
 
-from .guardian_serializers import GuardianResult, GuardianOperation
+from .guardian_serializers import GuardianOperation, GuardianResult
 
 logger = logging.getLogger(__name__)
 

@@ -61,6 +61,7 @@ This script never mutates code. It only selects and writes a plan.
 """
 
 from __future__ import annotations
+
 import argparse
 import csv
 import dataclasses
@@ -71,7 +72,7 @@ import pathlib
 import re
 import sys
 import time
-from typing import Dict, List, Optional, Tuple, Iterable
+from typing import Dict, List, Optional
 
 ROOT = pathlib.Path(".")
 ART = ROOT / "artifacts"

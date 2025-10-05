@@ -7,16 +7,14 @@ Tests synchronization safety: fanout/depth/budget trips, idempotency.
 """
 import os
 import time
-import pytest
-from uuid import uuid4
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime
 from unittest.mock import patch
-from concurrent.futures import ThreadPoolExecutor, as_completed
+from uuid import uuid4
 
-from lukhas.memory.sync import (
-    MemorySynchronizer, SyncResult,
-    SyncBudgetConfig, create_memory_synchronizer
-)
+import pytest
+
+from lukhas.memory.sync import MemorySynchronizer, SyncBudgetConfig, SyncResult, create_memory_synchronizer
 
 
 class TestMemorySynchronizer:

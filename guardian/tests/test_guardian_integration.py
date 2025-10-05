@@ -8,16 +8,15 @@
 Integration tests for guardian module.
 """
 
-import pytest
 import unittest
-import asyncio
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module for integration testing
 try:
     import guardian
 except ImportError:
-    pytest.skip(f"Module guardian not available", allow_module_level=True)
+    pytest.skip("Module guardian not available", allow_module_level=True)
 
 
 class TestGuardianIntegration(unittest.TestCase):

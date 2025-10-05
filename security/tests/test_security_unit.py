@@ -8,15 +8,15 @@
 Unit tests for security module.
 """
 
-import pytest
 import unittest
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module components
 try:
     import security
 except ImportError:
-    pytest.skip(f"Module security not available", allow_module_level=True)
+    pytest.skip("Module security not available", allow_module_level=True)
 
 
 class TestSecurityModule(unittest.TestCase):
@@ -81,7 +81,7 @@ class TestIdentityGuard(unittest.TestCase):
             from security.IDENTITY_GUARD import IdentityGuard
             self.assertIsNotNone(IdentityGuard)
         except ImportError:
-            pytest.skip(f"Component IdentityGuard not available")
+            pytest.skip("Component IdentityGuard not available")
 
     def test_identityguard_instantiation(self):
         """Test IdentityGuard can be instantiated."""
@@ -98,7 +98,7 @@ class Testmain(unittest.TestCase):
             from security.IDENTITY_GUARD import main
             self.assertIsNotNone(main)
         except ImportError:
-            pytest.skip(f"Component main not available")
+            pytest.skip("Component main not available")
 
     def test_main_instantiation(self):
         """Test main can be instantiated."""
@@ -115,7 +115,7 @@ class Testvalidate_changes(unittest.TestCase):
             from security.IDENTITY_GUARD import validate_changes
             self.assertIsNotNone(validate_changes)
         except ImportError:
-            pytest.skip(f"Component validate_changes not available")
+            pytest.skip("Component validate_changes not available")
 
     def test_validate_changes_instantiation(self):
         """Test validate_changes can be instantiated."""

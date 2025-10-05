@@ -1,8 +1,10 @@
 from __future__ import annotations
+
 import json
-from typing import Dict, List, Any, Optional
 from dataclasses import dataclass
 from enum import Enum
+from typing import Any, Dict, List, Optional
+
 
 class ErrorType(Enum):
     """Classification of dream system errors."""
@@ -310,7 +312,7 @@ if __name__ == "__main__":
         analysis = load_and_analyze(results_path)
         generate_taxonomy_report(analysis, output_path)
 
-        print(f"Taxonomy analysis complete:")
+        print("Taxonomy analysis complete:")
         print(f"  Total results: {analysis['total_results']}")
         print(f"  Error rate: {analysis['error_rate']:.1%}")
         print(f"  Classification coverage: {analysis['classification_coverage']:.1%}")

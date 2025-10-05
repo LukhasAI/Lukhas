@@ -8,15 +8,15 @@
 Unit tests for codex_artifacts module.
 """
 
-import pytest
 import unittest
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module components
 try:
     import codex_artifacts
 except ImportError:
-    pytest.skip(f"Module codex_artifacts not available", allow_module_level=True)
+    pytest.skip("Module codex_artifacts not available", allow_module_level=True)
 
 
 class TestCodexArtifactsModule(unittest.TestCase):

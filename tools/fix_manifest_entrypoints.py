@@ -13,13 +13,13 @@ Usage:
     python3 tools/fix_manifest_entrypoints.py [--dry-run]
 """
 
-import json
-import sys
-import importlib
-import subprocess
-from pathlib import Path
-from typing import Dict, List, Set, Tuple
 import argparse
+import importlib
+import json
+import subprocess
+import sys
+from pathlib import Path
+from typing import Dict, List, Tuple
 
 
 def get_historical_entrypoints(repo_root: Path) -> Dict[str, List[str]]:

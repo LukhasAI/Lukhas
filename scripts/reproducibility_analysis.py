@@ -8,12 +8,14 @@ Calculates consistency metrics, variance analysis, and reproducibility scores.
 
 import argparse
 import json
-import numpy as np
-import matplotlib.pyplot as plt
-import seaborn as sns
-from pathlib import Path
-from typing import Dict, List, Any
 import warnings
+from pathlib import Path
+from typing import Any, Dict, List
+
+import matplotlib.pyplot as plt
+import numpy as np
+import seaborn as sns
+
 warnings.filterwarnings('ignore')
 
 class ReproducibilityAnalyzer:
@@ -571,7 +573,7 @@ def main():
     score = reproducibility_matrix["overall_reproducibility_score"]
     meets_target = reproducibility_matrix["meets_target"]
 
-    print(f"\n🎯 Reproducibility Analysis Complete")
+    print("\n🎯 Reproducibility Analysis Complete")
     print(f"Overall Score: {score:.3f}")
     print(f"Target: {args.target_reproducibility:.3f}")
 

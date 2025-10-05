@@ -15,10 +15,10 @@ Performance targets:
 - Bulk operations: <500ms p95 for 100 documents
 """
 
-from .pgvector_store import PgVectorStore
+from .base import AbstractVectorStore, SearchResult, StorageStats, VectorDocument
 from .faiss_store import FAISSStore
 from .memory_store import InMemoryVectorStore
-from .base import AbstractVectorStore, VectorDocument, SearchResult, StorageStats
+from .pgvector_store import PgVectorStore
 
 __all__ = [
     "AbstractVectorStore",

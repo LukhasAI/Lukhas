@@ -8,16 +8,15 @@
 Integration tests for codex_artifacts module.
 """
 
-import pytest
 import unittest
-import asyncio
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module for integration testing
 try:
     import codex_artifacts
 except ImportError:
-    pytest.skip(f"Module codex_artifacts not available", allow_module_level=True)
+    pytest.skip("Module codex_artifacts not available", allow_module_level=True)
 
 
 class TestCodexArtifactsIntegration(unittest.TestCase):

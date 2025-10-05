@@ -14,20 +14,26 @@ Test Coverage:
 - Lane isolation enforcement
 """
 
-import pytest
 import os
+import subprocess
 import sys
 import tempfile
-from unittest.mock import patch, Mock
-from pathlib import Path
-import subprocess
 import time
+from pathlib import Path
+from unittest.mock import Mock, patch
+
+import pytest
 
 # Import the registry module
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 from lukhas.core.registry import (
-    register, resolve, discover_entry_points, auto_discover, autoload,
-    _instantiate_plugin, _REG
+    _REG,
+    _instantiate_plugin,
+    auto_discover,
+    autoload,
+    discover_entry_points,
+    register,
+    resolve,
 )
 
 
@@ -416,8 +422,8 @@ except LookupError:
 
     def test_concurrent_discovery_safety(self):
         """Test that concurrent plugin discovery is thread-safe"""
-        import threading
         import queue
+        import threading
 
         results = queue.Queue()
         errors = queue.Queue()

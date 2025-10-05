@@ -5,7 +5,9 @@ Smoke test for simulation lane.
 Note: Current API doesn't use cap_token yet - that's a future enhancement.
 This script demonstrates the current schedule → collect flow.
 """
-import os, asyncio, json
+import asyncio
+import json
+import os
 
 # Ensure feature flag is set
 os.environ["SIMULATION_ENABLED"] = "true"

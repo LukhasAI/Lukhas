@@ -8,15 +8,15 @@
 Unit tests for guardian module.
 """
 
-import pytest
 import unittest
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module components
 try:
     import guardian
 except ImportError:
-    pytest.skip(f"Module guardian not available", allow_module_level=True)
+    pytest.skip("Module guardian not available", allow_module_level=True)
 
 
 class TestGuardianModule(unittest.TestCase):
@@ -81,7 +81,7 @@ class Testemit_confidence_metrics(unittest.TestCase):
             from guardian.emit import emit_confidence_metrics
             self.assertIsNotNone(emit_confidence_metrics)
         except ImportError:
-            pytest.skip(f"Component emit_confidence_metrics not available")
+            pytest.skip("Component emit_confidence_metrics not available")
 
     def test_emit_confidence_metrics_instantiation(self):
         """Test emit_confidence_metrics can be instantiated."""
@@ -98,7 +98,7 @@ class Testemit_exemption(unittest.TestCase):
             from guardian.emit import emit_exemption
             self.assertIsNotNone(emit_exemption)
         except ImportError:
-            pytest.skip(f"Component emit_exemption not available")
+            pytest.skip("Component emit_exemption not available")
 
     def test_emit_exemption_instantiation(self):
         """Test emit_exemption can be instantiated."""
@@ -115,7 +115,7 @@ class Testemit_guardian_action_with_exemplar(unittest.TestCase):
             from guardian.emit import emit_guardian_action_with_exemplar
             self.assertIsNotNone(emit_guardian_action_with_exemplar)
         except ImportError:
-            pytest.skip(f"Component emit_guardian_action_with_exemplar not available")
+            pytest.skip("Component emit_guardian_action_with_exemplar not available")
 
     def test_emit_guardian_action_with_exemplar_instantiation(self):
         """Test emit_guardian_action_with_exemplar can be instantiated."""

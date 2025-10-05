@@ -21,8 +21,9 @@ Test Coverage:
 """
 
 from unittest.mock import patch
-from lukhas.observability.service_metrics import ServiceMetricsCollector, ServiceType, MetricType
+
 from lukhas.governance.schema_registry import LUKHASLane
+from lukhas.observability.service_metrics import MetricType, ServiceMetricsCollector, ServiceType
 
 
 class TestMetricsLabelContracts:
@@ -240,8 +241,8 @@ class TestMemoryLifecycleLabelContracts:
                 )
 
                 # Verify required labels present
-                duration_key = f"memory_lukhas_memory_lifecycle_seconds"
-                operations_key = f"memory_lukhas_memory_lifecycle_operations_total"
+                duration_key = "memory_lukhas_memory_lifecycle_seconds"
+                operations_key = "memory_lukhas_memory_lifecycle_operations_total"
 
                 assert duration_key in self.metrics.metrics
                 assert operations_key in self.metrics.metrics
@@ -273,7 +274,7 @@ class TestMemoryLifecycleLabelContracts:
                 )
 
                 # Verify required labels present
-                error_key = f"memory_lukhas_memory_lifecycle_errors_total"
+                error_key = "memory_lukhas_memory_lifecycle_errors_total"
                 assert error_key in self.metrics.metrics
 
                 error_metric = self.metrics.metrics[error_key]
@@ -296,7 +297,7 @@ class TestMemoryLifecycleLabelContracts:
                 labels={"correlation_id": "should-not-appear"}  # This should be filtered out
             )
 
-            metric_key = f"memory_lukhas_memory_lifecycle_seconds"
+            metric_key = "memory_lukhas_memory_lifecycle_seconds"
             assert metric_key in self.metrics.metrics
 
             metric = self.metrics.metrics[metric_key]
@@ -319,7 +320,7 @@ class TestMemoryLifecycleLabelContracts:
                 lane="production"
             )
 
-            metric_key = f"memory_lukhas_memory_upsert_seconds"
+            metric_key = "memory_lukhas_memory_upsert_seconds"
             assert metric_key in self.metrics.metrics
 
             metric = self.metrics.metrics[metric_key]
@@ -343,7 +344,7 @@ class TestMemoryLifecycleLabelContracts:
                     lane=lane_value
                 )
 
-                metric_key = f"memory_lukhas_memory_lifecycle_operations_total"
+                metric_key = "memory_lukhas_memory_lifecycle_operations_total"
                 metric = self.metrics.metrics[metric_key]
 
                 # Lane value should match canonical taxonomy

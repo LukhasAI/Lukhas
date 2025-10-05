@@ -12,11 +12,10 @@ Usage:
 """
 from __future__ import annotations
 
-import os
 import math
+import os
 from time import perf_counter, sleep
 from typing import Callable, List
-
 
 # Optional Prometheus metrics (safe to import; no hard dependency in tests)
 try:
@@ -221,7 +220,7 @@ class Ticker:
         avg = (total_time / ticks) * 1000 if ticks > 0 else 0.0
         actual_fps = (self.tick_count / total_time) if total_time > 0 else 0.0
 
-        print(f"\n📊 Ticker Summary:")
+        print("\n📊 Ticker Summary:")
         print(f"   Target FPS: {self.fps} | Actual FPS (approx proc-only): {actual_fps:.1f}")
         print(f"   Ticks processed: {ticks}")
         print(f"   Ticks dropped:  {metrics['ticks_dropped']}")

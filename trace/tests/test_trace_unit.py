@@ -8,15 +8,15 @@
 Unit tests for trace module.
 """
 
-import pytest
 import unittest
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module components
 try:
     import trace
 except ImportError:
-    pytest.skip(f"Module trace not available", allow_module_level=True)
+    pytest.skip("Module trace not available", allow_module_level=True)
 
 
 class TestTraceModule(unittest.TestCase):
@@ -81,7 +81,7 @@ class TestDriftAnalysis(unittest.TestCase):
             from trace import DriftAnalysis
             self.assertIsNotNone(DriftAnalysis)
         except ImportError:
-            pytest.skip(f"Component DriftAnalysis not available")
+            pytest.skip("Component DriftAnalysis not available")
 
     def test_driftanalysis_instantiation(self):
         """Test DriftAnalysis can be instantiated."""
@@ -98,7 +98,7 @@ class TestDriftHarmonizer(unittest.TestCase):
             from trace import DriftHarmonizer
             self.assertIsNotNone(DriftHarmonizer)
         except ImportError:
-            pytest.skip(f"Component DriftHarmonizer not available")
+            pytest.skip("Component DriftHarmonizer not available")
 
     def test_driftharmonizer_instantiation(self):
         """Test DriftHarmonizer can be instantiated."""
@@ -115,7 +115,7 @@ class TestDriftSeverity(unittest.TestCase):
             from trace import DriftSeverity
             self.assertIsNotNone(DriftSeverity)
         except ImportError:
-            pytest.skip(f"Component DriftSeverity not available")
+            pytest.skip("Component DriftSeverity not available")
 
     def test_driftseverity_instantiation(self):
         """Test DriftSeverity can be instantiated."""

@@ -8,15 +8,15 @@
 Unit tests for enforcement module.
 """
 
-import pytest
 import unittest
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module components
 try:
     import enforcement
 except ImportError:
-    pytest.skip(f"Module enforcement not available", allow_module_level=True)
+    pytest.skip("Module enforcement not available", allow_module_level=True)
 
 
 class TestEnforcementModule(unittest.TestCase):

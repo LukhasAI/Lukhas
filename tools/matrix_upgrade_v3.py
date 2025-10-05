@@ -10,8 +10,7 @@ import argparse
 import json
 import sys
 from pathlib import Path
-from typing import Dict, Any, List
-
+from typing import Any, Dict, List
 
 # v3 Default values for new fields (safe defaults, disabled by default)
 V3_DEFAULTS = {

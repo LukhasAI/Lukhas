@@ -6,12 +6,12 @@ Validates that all Matrix contracts contain the required v3 placeholders
 with expected types and default values.
 """
 
-import json
-import pytest
 import glob
+import json
 from pathlib import Path
-from typing import Dict, Any, List
+from typing import Any, Dict, List
 
+import pytest
 
 # Expected v3 sections and their required properties
 V3_SECTIONS = {

@@ -8,15 +8,15 @@
 Unit tests for benchmarks module.
 """
 
-import pytest
 import unittest
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module components
 try:
     import benchmarks
 except ImportError:
-    pytest.skip(f"Module benchmarks not available", allow_module_level=True)
+    pytest.skip("Module benchmarks not available", allow_module_level=True)
 
 
 class TestBenchmarksModule(unittest.TestCase):
@@ -81,7 +81,7 @@ class TestMATRIZBenchmarks(unittest.TestCase):
             from benchmarks.matriz_pipeline import MATRIZBenchmarks
             self.assertIsNotNone(MATRIZBenchmarks)
         except ImportError:
-            pytest.skip(f"Component MATRIZBenchmarks not available")
+            pytest.skip("Component MATRIZBenchmarks not available")
 
     def test_matrizbenchmarks_instantiation(self):
         """Test MATRIZBenchmarks can be instantiated."""
@@ -98,7 +98,7 @@ class TestBenchmarkResult(unittest.TestCase):
             from benchmarks.memory_bench import BenchmarkResult
             self.assertIsNotNone(BenchmarkResult)
         except ImportError:
-            pytest.skip(f"Component BenchmarkResult not available")
+            pytest.skip("Component BenchmarkResult not available")
 
     def test_benchmarkresult_instantiation(self):
         """Test BenchmarkResult can be instantiated."""
@@ -115,7 +115,7 @@ class Testbenchmark_adaptive_memory(unittest.TestCase):
             from benchmarks.memory_bench import benchmark_adaptive_memory
             self.assertIsNotNone(benchmark_adaptive_memory)
         except ImportError:
-            pytest.skip(f"Component benchmark_adaptive_memory not available")
+            pytest.skip("Component benchmark_adaptive_memory not available")
 
     def test_benchmark_adaptive_memory_instantiation(self):
         """Test benchmark_adaptive_memory can be instantiated."""

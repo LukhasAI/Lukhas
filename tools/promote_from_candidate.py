@@ -4,11 +4,11 @@ Promotion Executor - Reads promotion plan and executes git mv operations
 """
 
 import json
-import os
 import pathlib
 import subprocess
 import sys
-from typing import Dict, List, Optional
+from typing import Dict, List
+
 
 def run_git_mv(source: str, target: str) -> bool:
     """Execute git mv command"""

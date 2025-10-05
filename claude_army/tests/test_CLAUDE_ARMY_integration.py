@@ -8,16 +8,15 @@
 Integration tests for CLAUDE_ARMY module.
 """
 
-import pytest
 import unittest
-import asyncio
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module for integration testing
 try:
     import CLAUDE_ARMY
 except ImportError:
-    pytest.skip(f"Module CLAUDE_ARMY not available", allow_module_level=True)
+    pytest.skip("Module CLAUDE_ARMY not available", allow_module_level=True)
 
 
 class TestClaudeArmyIntegration(unittest.TestCase):

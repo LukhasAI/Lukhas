@@ -8,15 +8,15 @@
 Unit tests for ai_orchestration module.
 """
 
-import pytest
 import unittest
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module components
 try:
     import ai_orchestration
 except ImportError:
-    pytest.skip(f"Module ai_orchestration not available", allow_module_level=True)
+    pytest.skip("Module ai_orchestration not available", allow_module_level=True)
 
 
 class TestAiOrchestrationModule(unittest.TestCase):
@@ -81,7 +81,7 @@ class TestAIProvider(unittest.TestCase):
             from ai_orchestration.lukhas_ai_orchestrator import AIProvider
             self.assertIsNotNone(AIProvider)
         except ImportError:
-            pytest.skip(f"Component AIProvider not available")
+            pytest.skip("Component AIProvider not available")
 
     def test_aiprovider_instantiation(self):
         """Test AIProvider can be instantiated."""
@@ -98,7 +98,7 @@ class TestLUKHASAIOrchestrator(unittest.TestCase):
             from ai_orchestration.lukhas_ai_orchestrator import LUKHASAIOrchestrator
             self.assertIsNotNone(LUKHASAIOrchestrator)
         except ImportError:
-            pytest.skip(f"Component LUKHASAIOrchestrator not available")
+            pytest.skip("Component LUKHASAIOrchestrator not available")
 
     def test_lukhasaiorchestrator_instantiation(self):
         """Test LUKHASAIOrchestrator can be instantiated."""
@@ -115,7 +115,7 @@ class Testget_guardian_orchestrator_status(unittest.TestCase):
             from ai_orchestration.lukhas_ai_orchestrator import get_guardian_orchestrator_status
             self.assertIsNotNone(get_guardian_orchestrator_status)
         except ImportError:
-            pytest.skip(f"Component get_guardian_orchestrator_status not available")
+            pytest.skip("Component get_guardian_orchestrator_status not available")
 
     def test_get_guardian_orchestrator_status_instantiation(self):
         """Test get_guardian_orchestrator_status can be instantiated."""

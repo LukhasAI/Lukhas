@@ -262,7 +262,7 @@ def main():
     print(f"Creating batch files in {args.out}...")
     summary = splitter.create_batch_files(batches, args.out, manifest["run_id"])
 
-    print(f"\nBatch allocation complete!")
+    print("\nBatch allocation complete!")
     print(f"Created {len(summary['batches'])} batches")
     for agent_id, info in summary["batches"].items():
         print(f"  {agent_id}: {info['tasks']} tasks ({info['batch_id']})")

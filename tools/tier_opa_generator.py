@@ -8,11 +8,11 @@ single source of truth. Never hand-maintain policy constants - always generate.
 This bridges the existing LUKHAS ΛiD tier system with Matrix Tracks authorization.
 """
 
-import json
 import hashlib
-from pathlib import Path
-from typing import Dict, Any
+import json
 from datetime import datetime, timezone
+from pathlib import Path
+from typing import Any, Dict
 
 
 def load_tier_permissions() -> Dict[str, Any]:
@@ -357,7 +357,7 @@ def main():
     checksum_file = policies_dir / "permissions.checksum"
     checksum_file.write_text(f"{checksum}\\n")
 
-    print(f"✅ Generated OPA bundle:")
+    print("✅ Generated OPA bundle:")
     print(f"   Policy: {policy_file}")
     print(f"   Tests: {test_file}")
     print(f"   Checksum: {checksum}")

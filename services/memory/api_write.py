@@ -21,17 +21,18 @@ import asyncio
 import logging
 import time
 import uuid
-from datetime import datetime, timezone, timedelta
-from typing import Dict, List, Optional, Any, Set
 from dataclasses import dataclass, field
+from datetime import datetime, timedelta, timezone
 from enum import Enum
+from typing import Any, Dict, List, Optional, Set
 
 from lukhas.memory.consciousness_memory_integration import ConsciousnessMemoryIntegrator, MemoryFoldType
 
+from .adapters.vector_store_base import VectorStoreAdapter
+from .backpressure import BackpressureManager
+
 # Import services components
 from .circuit_breaker import MemoryCircuitBreaker
-from .backpressure import BackpressureManager
-from .adapters.vector_store_base import VectorStoreAdapter
 from .metrics import MemoryMetrics
 
 logger = logging.getLogger(__name__)

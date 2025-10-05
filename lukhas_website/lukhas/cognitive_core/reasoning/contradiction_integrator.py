@@ -17,22 +17,28 @@ Features:
 Performance Target: <5ms per contradiction check
 """
 
-import time
 import logging
-import uuid
-from typing import Any, Dict, List, Optional
-from dataclasses import dataclass
-from enum import Enum
 
 # Import existing conflict resolver
 import sys
+import time
+import uuid
+from dataclasses import dataclass
+from enum import Enum
 from pathlib import Path
+from typing import Any, Dict, List, Optional
+
 sys.path.append(str(Path(__file__).parent.parent.parent / "candidate" / "consciousness" / "reasoning"))
 
 try:
     from conflict_resolver import (
-        SymbolicConflictResolver, SymbolicFragment, ContradictionReport,
-        ConflictType, ConflictSeverity, ResolutionMode, ConflictResolutionResult
+        ConflictResolutionResult,
+        ConflictSeverity,
+        ConflictType,
+        ContradictionReport,
+        ResolutionMode,
+        SymbolicConflictResolver,
+        SymbolicFragment,
     )
 except ImportError:
     # Fallback definitions if import fails

@@ -8,16 +8,15 @@
 Integration tests for delegation_reports module.
 """
 
-import pytest
 import unittest
-import asyncio
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module for integration testing
 try:
     import delegation_reports
 except ImportError:
-    pytest.skip(f"Module delegation_reports not available", allow_module_level=True)
+    pytest.skip("Module delegation_reports not available", allow_module_level=True)
 
 
 class TestDelegationReportsIntegration(unittest.TestCase):

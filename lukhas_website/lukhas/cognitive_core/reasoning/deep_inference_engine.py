@@ -16,13 +16,13 @@ Features:
 Performance Target: T4/0.01% compliance with P95 < 250ms
 """
 
+import logging
 import time
 import uuid
-import logging
+import weakref
 from dataclasses import dataclass, field
 from enum import Enum
 from typing import Any, Dict, List, Optional
-import weakref
 
 logger = logging.getLogger(__name__)
 

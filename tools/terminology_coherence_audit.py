@@ -10,9 +10,10 @@ Usage:
 """
 
 import re
-from pathlib import Path
-from typing import Dict, List, Set, Any
 from dataclasses import dataclass
+from pathlib import Path
+from typing import Any, Dict, List, Set
+
 
 @dataclass
 class TerminologyIssue:
@@ -233,11 +234,11 @@ def run_terminology_audit():
     # Generate report
     report = auditor.generate_report()
 
-    print(f"✅ Scan completed")
+    print("✅ Scan completed")
     print(f"   Files scanned: {report['scan_summary']['files_scanned']}")
     print(f"   Lines analyzed: {report['scan_summary']['total_lines']:,}")
 
-    print(f"\n📊 TERMINOLOGY COMPLIANCE RESULTS")
+    print("\n📊 TERMINOLOGY COMPLIANCE RESULTS")
     print("-" * 40)
 
     # Issue breakdown
@@ -265,7 +266,7 @@ def run_terminology_audit():
 
     # Show top issues if any
     if total_issues > 0:
-        print(f"\n🔧 TOP ISSUES TO FIX")
+        print("\n🔧 TOP ISSUES TO FIX")
         print("-" * 40)
         for i, issue in enumerate(report['top_issues'][:5], 1):
             severity_emoji = "🚨" if issue['severity'] == 'critical' else "⚠️"
@@ -275,7 +276,7 @@ def run_terminology_audit():
     # Overall assessment
     terminology_pass = compliance['score'] >= 85
 
-    print(f"\n🎯 OVERALL ASSESSMENT")
+    print("\n🎯 OVERALL ASSESSMENT")
     print("-" * 40)
     print(f"Terminology Coherence: {'✅ PASS' if terminology_pass else '❌ FAIL'}")
     print(f"Schema Migration: {'✅ COMPLETE' if schema_compliant else '🟡 IN PROGRESS'}")

@@ -8,15 +8,15 @@
 Unit tests for governance module.
 """
 
-import pytest
 import unittest
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module components
 try:
     import governance
 except ImportError:
-    pytest.skip(f"Module governance not available", allow_module_level=True)
+    pytest.skip("Module governance not available", allow_module_level=True)
 
 
 class TestGovernanceModule(unittest.TestCase):
@@ -81,7 +81,7 @@ class TestAuditChain(unittest.TestCase):
             from governance.audit_trail import AuditChain
             self.assertIsNotNone(AuditChain)
         except ImportError:
-            pytest.skip(f"Component AuditChain not available")
+            pytest.skip("Component AuditChain not available")
 
     def test_auditchain_instantiation(self):
         """Test AuditChain can be instantiated."""
@@ -98,7 +98,7 @@ class TestAuditEvent(unittest.TestCase):
             from governance.audit_trail import AuditEvent
             self.assertIsNotNone(AuditEvent)
         except ImportError:
-            pytest.skip(f"Component AuditEvent not available")
+            pytest.skip("Component AuditEvent not available")
 
     def test_auditevent_instantiation(self):
         """Test AuditEvent can be instantiated."""
@@ -115,7 +115,7 @@ class TestAuditEventType(unittest.TestCase):
             from governance.audit_trail import AuditEventType
             self.assertIsNotNone(AuditEventType)
         except ImportError:
-            pytest.skip(f"Component AuditEventType not available")
+            pytest.skip("Component AuditEventType not available")
 
     def test_auditeventtype_instantiation(self):
         """Test AuditEventType can be instantiated."""

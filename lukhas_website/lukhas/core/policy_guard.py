@@ -15,14 +15,14 @@ Usage:
 """
 from __future__ import annotations
 
-import os
 import logging
+import os
+from collections import defaultdict
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta
-from typing import Dict, List, Optional, Any, Set
-from uuid import UUID, uuid4
 from enum import Enum
-from collections import defaultdict
+from typing import Any, Dict, List, Optional, Set
+from uuid import UUID, uuid4
 
 # Optional Prometheus metrics
 try:

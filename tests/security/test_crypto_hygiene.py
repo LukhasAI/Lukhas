@@ -20,23 +20,23 @@ All tests must pass with 0% failure rate for T4/0.01% certification.
 
 import hashlib
 import hmac
-import jwt
 import os
 import secrets
 import time
 from unittest.mock import patch
 
+import jwt
 import pytest
+from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives import hashes, serialization
-from cryptography.hazmat.primitives.asymmetric import rsa, padding
+from cryptography.hazmat.primitives.asymmetric import padding, rsa
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
-from cryptography.hazmat.backends import default_backend
 
 # Import LUKHAS modules for testing
 try:
-    from lukhas.identity.security_hardening import SecurityHardeningManager
     from lukhas.identity.lambda_id import LambdaIDGenerator
+    from lukhas.identity.security_hardening import SecurityHardeningManager
     LUKHAS_MODULES_AVAILABLE = True
 except ImportError:
     LUKHAS_MODULES_AVAILABLE = False

@@ -8,15 +8,15 @@
 Unit tests for mcp_servers module.
 """
 
-import pytest
 import unittest
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module components
 try:
     import mcp_servers
 except ImportError:
-    pytest.skip(f"Module mcp_servers not available", allow_module_level=True)
+    pytest.skip("Module mcp_servers not available", allow_module_level=True)
 
 
 class TestMcpServersModule(unittest.TestCase):
@@ -81,7 +81,7 @@ class TestLUKHASKnowledgeBase(unittest.TestCase):
             from mcp_servers.lukhas_mcp_server import LUKHASKnowledgeBase
             self.assertIsNotNone(LUKHASKnowledgeBase)
         except ImportError:
-            pytest.skip(f"Component LUKHASKnowledgeBase not available")
+            pytest.skip("Component LUKHASKnowledgeBase not available")
 
     def test_lukhasknowledgebase_instantiation(self):
         """Test LUKHASKnowledgeBase can be instantiated."""
@@ -98,7 +98,7 @@ class TestLUKHASMCPServer(unittest.TestCase):
             from mcp_servers.lukhas_mcp_server import LUKHASMCPServer
             self.assertIsNotNone(LUKHASMCPServer)
         except ImportError:
-            pytest.skip(f"Component LUKHASMCPServer not available")
+            pytest.skip("Component LUKHASMCPServer not available")
 
     def test_lukhasmcpserver_instantiation(self):
         """Test LUKHASMCPServer can be instantiated."""
@@ -115,7 +115,7 @@ class TestLUKHASPattern(unittest.TestCase):
             from mcp_servers.lukhas_mcp_server import LUKHASPattern
             self.assertIsNotNone(LUKHASPattern)
         except ImportError:
-            pytest.skip(f"Component LUKHASPattern not available")
+            pytest.skip("Component LUKHASPattern not available")
 
     def test_lukhaspattern_instantiation(self):
         """Test LUKHASPattern can be instantiated."""

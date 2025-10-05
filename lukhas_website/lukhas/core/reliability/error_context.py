@@ -7,17 +7,17 @@ error classification - the kind of debugging visibility that transforms
 incident response from hours to minutes.
 """
 
-import traceback
 import time
+import traceback
 import uuid
-from typing import Dict, List, Optional, Any
-from dataclasses import dataclass, field
-from enum import Enum
 from contextlib import contextmanager
 from contextvars import ContextVar
+from dataclasses import dataclass, field
+from enum import Enum
+from typing import Any, Dict, List, Optional
 
-from lukhas.observability.prometheus_metrics import LUKHASMetrics
 from lukhas.observability.opentelemetry_tracing import LUKHASTracer
+from lukhas.observability.prometheus_metrics import LUKHASMetrics
 
 
 class ErrorCategory(Enum):
@@ -242,8 +242,9 @@ class ErrorContextManager:
     def _capture_system_state(self) -> Dict[str, Any]:
         """Capture relevant system state at error time."""
         try:
-            import psutil
             import os
+
+            import psutil
 
             return {
                 'cpu_percent': psutil.cpu_percent(),

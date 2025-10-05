@@ -106,62 +106,58 @@ except ImportError:
 # Phase 7 Guardian Serializers imports
 try:
     from .guardian_serializers import (
-        GuardianSerializer,
         GuardianOperation,
         GuardianResult,
+        GuardianSerializer,
         OperationType,
-        serialize_guardian,
         deserialize_guardian,
-        validate_guardian,
+        get_system_health,
         migrate_guardian,
-        get_system_health
+        serialize_guardian,
+        validate_guardian,
+    )
+    from .integrations import (
+        IntegrationOrchestrator,
+        IntegrationType,
+        get_integration_orchestrator,
+        process_guardian_with_integrations,
+    )
+    from .observability_integration import (
+        get_health_check,
+        get_metrics_collector,
+        get_tracer,
+        health_endpoint,
+        live_endpoint,
+        metrics_endpoint,
+        ready_endpoint,
+    )
+    from .performance_optimizer import OptimizationLevel, PerformanceOptimizer, get_performance_optimizer
+    from .schema_migration import (
+        CompatibilityType,
+        MigrationEngine,
+        check_schema_compatibility,
+        get_migration_engine,
+        migrate_guardian_data,
     )
     from .schema_registry import (
         SchemaRegistry,
         SchemaVersion,
         ValidationLevel,
         get_schema_registry,
-        validate_guardian_decision
+        validate_guardian_decision,
     )
     from .serialization_engine import (
+        CompressionType,
         SerializationEngine,
         SerializationFormat,
-        CompressionType,
-        get_serialization_engine
+        get_serialization_engine,
     )
     from .validation_framework import (
         ValidationFramework,
-        ValidationTier,
         ValidationSeverity,
+        ValidationTier,
         get_validation_framework,
-        validate_guardian_data
-    )
-    from .schema_migration import (
-        MigrationEngine,
-        CompatibilityType,
-        get_migration_engine,
-        migrate_guardian_data,
-        check_schema_compatibility
-    )
-    from .performance_optimizer import (
-        PerformanceOptimizer,
-        OptimizationLevel,
-        get_performance_optimizer
-    )
-    from .integrations import (
-        IntegrationOrchestrator,
-        IntegrationType,
-        get_integration_orchestrator,
-        process_guardian_with_integrations
-    )
-    from .observability_integration import (
-        get_metrics_collector,
-        get_tracer,
-        get_health_check,
-        health_endpoint,
-        ready_endpoint,
-        live_endpoint,
-        metrics_endpoint
+        validate_guardian_data,
     )
 
     GUARDIAN_SERIALIZERS_AVAILABLE = True
@@ -229,9 +225,9 @@ try:
         AuthCrossModuleIntegrator,
         AuthMessageType,
         AuthModuleMessage,
+        ConstellationFrameworkIntegration,
         ModuleAuthContext,
         ModuleType,
-        ConstellationFrameworkIntegration,
         auth_cross_module_integrator,
     )
     from .auth_glyph_registry import (

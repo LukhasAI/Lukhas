@@ -15,17 +15,23 @@ Constellation Framework: Spark Star (⚡), Oracle Star (🔮)
 """
 
 from __future__ import annotations
-import time
-import random
-from typing import Dict, Any, Optional, List, Callable
-from opentelemetry import trace
-from prometheus_client import Counter, Histogram, Gauge
+
 import logging
+import random
+import time
+from typing import Any, Callable, Dict, List, Optional
+
+from opentelemetry import trace
+from prometheus_client import Counter, Gauge, Histogram
 
 from .types import (
-    ConsciousnessState, CreativitySnapshot, CreativeTask,
-    CreativeProcessType, CreativeFlowState, ImaginationMode,
-    DEFAULT_CREATIVITY_CONFIG
+    DEFAULT_CREATIVITY_CONFIG,
+    ConsciousnessState,
+    CreativeFlowState,
+    CreativeProcessType,
+    CreativeTask,
+    CreativitySnapshot,
+    ImaginationMode,
 )
 
 tracer = trace.get_tracer(__name__)

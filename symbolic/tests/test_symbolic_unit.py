@@ -8,15 +8,15 @@
 Unit tests for symbolic module.
 """
 
-import pytest
 import unittest
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module components
 try:
     import symbolic
 except ImportError:
-    pytest.skip(f"Module symbolic not available", allow_module_level=True)
+    pytest.skip("Module symbolic not available", allow_module_level=True)
 
 
 class TestSymbolicModule(unittest.TestCase):
@@ -81,7 +81,7 @@ class TestExchangeProtocol(unittest.TestCase):
             from symbolic import ExchangeProtocol
             self.assertIsNotNone(ExchangeProtocol)
         except ImportError:
-            pytest.skip(f"Component ExchangeProtocol not available")
+            pytest.skip("Component ExchangeProtocol not available")
 
     def test_exchangeprotocol_instantiation(self):
         """Test ExchangeProtocol can be instantiated."""
@@ -98,7 +98,7 @@ class TestGestureType(unittest.TestCase):
             from symbolic import GestureType
             self.assertIsNotNone(GestureType)
         except ImportError:
-            pytest.skip(f"Component GestureType not available")
+            pytest.skip("Component GestureType not available")
 
     def test_gesturetype_instantiation(self):
         """Test GestureType can be instantiated."""
@@ -115,7 +115,7 @@ class TestPersonalSymbolDictionary(unittest.TestCase):
             from symbolic import PersonalSymbolDictionary
             self.assertIsNotNone(PersonalSymbolDictionary)
         except ImportError:
-            pytest.skip(f"Component PersonalSymbolDictionary not available")
+            pytest.skip("Component PersonalSymbolDictionary not available")
 
     def test_personalsymboldictionary_instantiation(self):
         """Test PersonalSymbolDictionary can be instantiated."""

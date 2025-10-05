@@ -3,6 +3,7 @@ Storage adapters for audit trails.
 Default: Append-only JSONL files with optional Postgres backend.
 """
 from __future__ import annotations
+
 import json
 from pathlib import Path
 from typing import Any, Dict, List, Optional

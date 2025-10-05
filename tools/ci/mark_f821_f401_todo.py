@@ -101,7 +101,7 @@ class F821F401Annotator:
                     logger.info(f"✅ {file_path}:{line_num} - {error_code}")
 
         # Summary
-        logger.info(f"\n📈 ANNOTATION SUMMARY:")
+        logger.info("\n📈 ANNOTATION SUMMARY:")
         logger.info(f"✅ Annotated: {self.annotated_count} errors")
         logger.info(f"⚪ Skipped (already annotated): {self.skipped_count}")
         logger.info(f"📊 Total errors found: {self.errors_found}")

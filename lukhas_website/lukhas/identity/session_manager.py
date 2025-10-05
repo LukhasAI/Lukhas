@@ -3,18 +3,18 @@ I.6 Session Management & Device Registry - Device binding and session lifecycle
 Comprehensive session management with device binding, lifecycle tracking, and security controls.
 """
 
-import uuid
-import time
+import asyncio
 import hashlib
 import logging
-from datetime import datetime, timedelta
-from typing import Dict, List, Optional, Set, Any
+import time
+import uuid
 from dataclasses import dataclass, field
+from datetime import datetime, timedelta
 from enum import Enum
-import asyncio
+from typing import Any, Dict, List, Optional, Set
 
-from lukhas.identity.token_generator import TokenGenerator
 from lukhas.identity.observability import IdentityObservability
+from lukhas.identity.token_generator import TokenGenerator
 
 logger = logging.getLogger(__name__)
 

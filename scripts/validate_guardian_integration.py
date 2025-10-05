@@ -220,7 +220,7 @@ class GuardianIntegrationValidator:
                     else:
                         operation_counts["blocked"] += 1
 
-                except Exception as e:
+                except Exception:
                     end_time = time.perf_counter_ns()
                     response_time_us = (end_time - start_time) / 1000
                     response_times.append(response_time_us)
@@ -439,7 +439,7 @@ class GuardianIntegrationValidator:
                     result = guardian.validate_safety({"test": "fail_safe_test"})
                     # In fail-safe mode, should return safe=True (fail open)
                     test_results.append(result.get("safe", False))
-                except Exception as e:
+                except Exception:
                     test_results.append(False)
 
             # Restore Guardian state
@@ -827,12 +827,12 @@ class GuardianIntegrationValidator:
         print(f"🏆 Overall Status: {report.overall_status}")
         print(f"🎯 Certification Level: {report.certification_level}")
 
-        print(f"\n📊 Performance SLA Compliance:")
+        print("\n📊 Performance SLA Compliance:")
         for component, passed in report.performance_sla.items():
             status = "✅ PASS" if passed else "❌ FAIL"
             print(f"    {component}: {status}")
 
-        print(f"\n🔗 Module Integration Results:")
+        print("\n🔗 Module Integration Results:")
         for module, metrics in report.module_metrics.items():
             if metrics:
                 sla_status = "✅" if metrics.sla_compliant else "❌"
@@ -841,19 +841,19 @@ class GuardianIntegrationValidator:
             else:
                 print(f"    {module}: ❌ FAILED")
 
-        print(f"\n🌪️  Chaos Resilience:")
+        print("\n🌪️  Chaos Resilience:")
         chaos_passed = sum(1 for test in report.chaos_resilience.values()
                           if test.get("passed", False))
         chaos_total = len(report.chaos_resilience)
         print(f"    Passed: {chaos_passed}/{chaos_total} tests")
 
-        print(f"\n🔒 Security Validation:")
+        print("\n🔒 Security Validation:")
         security_passed = sum(1 for test in report.security_validation.values()
                              if test.get("passed", False))
         security_total = len(report.security_validation)
         print(f"    Passed: {security_passed}/{security_total} tests")
 
-        print(f"\n🔗 Cryptographic Proof:")
+        print("\n🔗 Cryptographic Proof:")
         print(f"    Merkle Hash: {report.merkle_proof[:32]}...")
 
         print("\n" + "="*80)
@@ -881,7 +881,7 @@ async def main():
         preflight_passed = validator.run_all_validations()
 
         if not preflight_passed:
-            print(f"\n❌ Preflight validation failed")
+            print("\n❌ Preflight validation failed")
             return 3
 
         print("✅ Preflight validation passed")

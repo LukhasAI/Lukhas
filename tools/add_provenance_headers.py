@@ -4,10 +4,11 @@ Add provenance headers to generated scaffold files.
 Helps track template versions and edit policies.
 """
 
-import sys
 import pathlib
 import subprocess
-from typing import List, Dict, Optional
+import sys
+from typing import Dict
+
 
 class ProvenanceHeadersAdder:
     def __init__(self):
@@ -161,7 +162,7 @@ def main():
         elif results["skipped"] > 0:
             print(f"⏭️  {module_dir.name}: {results['skipped']} already have headers")
 
-    print(f"\n📊 Summary:")
+    print("\n📊 Summary:")
     print(f"   Headers added: {total_processed}")
     print(f"   Files skipped: {total_skipped}")
     print(f"   Total modules: {len(module_dirs)}")

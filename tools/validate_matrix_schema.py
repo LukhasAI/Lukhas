@@ -8,7 +8,8 @@ Validates all generated Matrix contracts against the authoritative schema templa
 import json
 import sys
 from pathlib import Path
-from typing import Dict, List, Any, Tuple
+from typing import Any, Dict, List, Tuple
+
 from jsonschema import Draft202012Validator
 
 # Repository structure
@@ -120,7 +121,7 @@ def main():
         # Create validation report
         report_path = ROOT / "tests" / "matrix_schema_validation_report.md"
         report = ["# Matrix Schema Validation Report\n\n"]
-        report.append(f"## Summary\n")
+        report.append("## Summary\n")
         report.append(f"- **Total Contracts**: {len(contracts)}\n")
         report.append(f"- **Valid**: {valid_count}\n")
         report.append(f"- **Invalid**: {len(invalid_contracts)}\n\n")

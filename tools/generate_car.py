@@ -10,9 +10,9 @@ Usage:
     python3 tools/generate_car.py --module identity --attestation evidence.jwt
 """
 
-import json
-import hashlib
 import argparse
+import hashlib
+import json
 import pathlib
 from datetime import datetime
 from typing import Dict, Optional
@@ -251,7 +251,7 @@ def main():
         prism_results=prism_results
     )
 
-    print(f"\n🎉 Provenance CAR generated successfully!")
+    print("\n🎉 Provenance CAR generated successfully!")
     print(f"Module: {args.module}")
     print(f"CID: {cid}")
     print("\nNext steps:")

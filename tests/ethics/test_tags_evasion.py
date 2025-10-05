@@ -14,6 +14,7 @@ Focus areas:
 
 import os
 import unicodedata
+
 import pytest
 
 RUN_EVASION = os.getenv("LUKHAS_EVASION_TESTS") == "1"
@@ -34,11 +35,13 @@ except Exception:
 
 try:
     from lukhas.core.ethics.logic.dsl_lite import (
-        has_tag,
-        has_category,
-        tag_confidence,
-        high_risk_tag_combination,
         and_op as dsl_and,
+    )
+    from lukhas.core.ethics.logic.dsl_lite import (
+        has_category,
+        has_tag,
+        high_risk_tag_combination,
+        tag_confidence,
     )
 except Exception:
     # Provide no-op placeholders so the file loads even if imports change.

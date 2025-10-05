@@ -4,18 +4,21 @@ Advanced bidirectional bridge between consciousness and memory systems with real
 """
 
 import asyncio
-import time
 import logging
-from datetime import datetime, timedelta
-from typing import Dict, List, Optional, Set, Any, Callable, Tuple
-from dataclasses import dataclass, asdict
-from enum import Enum
+import time
 import uuid
 from collections import defaultdict, deque
+from dataclasses import asdict, dataclass
+from datetime import datetime, timedelta
+from enum import Enum
+from typing import Any, Callable, Dict, List, Optional, Set, Tuple
 
-from lukhas.consciousness.types import ConsciousnessState, AwarenessSnapshot, ReflectionReport, DreamTrace
+from lukhas.consciousness.types import AwarenessSnapshot, ConsciousnessState, DreamTrace, ReflectionReport
 from lukhas.memory.consciousness_memory_integration import (
-    ConsciousnessMemoryIntegrator, MemoryFold, MemoryFoldType, EmotionalContext
+    ConsciousnessMemoryIntegrator,
+    EmotionalContext,
+    MemoryFold,
+    MemoryFoldType,
 )
 
 logger = logging.getLogger(__name__)

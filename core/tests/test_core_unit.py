@@ -8,15 +8,15 @@
 Unit tests for core module.
 """
 
-import pytest
 import unittest
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module components
 try:
     import core
 except ImportError:
-    pytest.skip(f"Module core not available", allow_module_level=True)
+    pytest.skip("Module core not available", allow_module_level=True)
 
 
 class TestCoreModule(unittest.TestCase):
@@ -81,7 +81,7 @@ class TestAdaptationRule(unittest.TestCase):
             from core.bio_symbolic_processor import AdaptationRule
             self.assertIsNotNone(AdaptationRule)
         except ImportError:
-            pytest.skip(f"Component AdaptationRule not available")
+            pytest.skip("Component AdaptationRule not available")
 
     def test_adaptationrule_instantiation(self):
         """Test AdaptationRule can be instantiated."""
@@ -98,7 +98,7 @@ class TestBioPatternType(unittest.TestCase):
             from core.bio_symbolic_processor import BioPatternType
             self.assertIsNotNone(BioPatternType)
         except ImportError:
-            pytest.skip(f"Component BioPatternType not available")
+            pytest.skip("Component BioPatternType not available")
 
     def test_biopatterntype_instantiation(self):
         """Test BioPatternType can be instantiated."""
@@ -115,7 +115,7 @@ class TestBioSymbolicPattern(unittest.TestCase):
             from core.bio_symbolic_processor import BioSymbolicPattern
             self.assertIsNotNone(BioSymbolicPattern)
         except ImportError:
-            pytest.skip(f"Component BioSymbolicPattern not available")
+            pytest.skip("Component BioSymbolicPattern not available")
 
     def test_biosymbolicpattern_instantiation(self):
         """Test BioSymbolicPattern can be instantiated."""

@@ -16,15 +16,15 @@ Key Features:
 Constellation Framework: 🛡️ Guardian Excellence - Input Security
 """
 
-import re
 import html
 import logging
+import re
 import time
-from typing import Any, Dict, List, Optional, Callable, TypeVar
-from dataclasses import dataclass, field
-from enum import Enum
 import unicodedata
+from dataclasses import dataclass, field
 from datetime import datetime, timezone
+from enum import Enum
+from typing import Any, Callable, Dict, List, Optional, TypeVar
 
 # AI-specific validation imports
 try:

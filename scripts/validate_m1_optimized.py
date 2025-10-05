@@ -8,23 +8,25 @@ for T4/0.01% excellence certification.
 """
 
 import asyncio
-import json
-import time
-import hashlib
-import statistics
-from datetime import datetime, timezone
-from pathlib import Path
-from typing import Dict, List, Any
 import gc
+import hashlib
+import json
 import os
+import statistics
 
 # Import M.1 components with path fix
 import sys
+import time
+from datetime import datetime, timezone
+from pathlib import Path
+from typing import Any, Dict, List
+
 sys.path.append('/Users/agi_dev/LOCAL-REPOS/Lukhas')
 
 from memory.backends.pgvector_store import PgVectorStore, VectorDoc
-from memory.indexer import Indexer, Embeddings
+from memory.indexer import Embeddings, Indexer
 from memory.memory_orchestrator import MemoryOrchestrator
+
 
 class OptimizedMockClient:
     """Optimized mock client with minimal, consistent latency."""
@@ -356,11 +358,11 @@ async def main():
 
         sla = metrics['sla_compliance']
         if sla['mean_under_target'] and sla['p95_under_target'] and sla['cv_under_10_percent']:
-            print(f"     ✅ T4/0.01% SLA: ACHIEVED")
+            print("     ✅ T4/0.01% SLA: ACHIEVED")
         else:
-            print(f"     ❌ T4/0.01% SLA: FAILED")
+            print("     ❌ T4/0.01% SLA: FAILED")
 
-    print(f"\n🔄 REPRODUCIBILITY ANALYSIS:")
+    print("\n🔄 REPRODUCIBILITY ANALYSIS:")
     print(f"   Add Event CV across runs: {repro['add_event_reproducibility']['cv_across_runs']:.3f} ({repro['add_event_reproducibility']['consistency_rating']})")
     print(f"   Query CV across runs:     {repro['query_reproducibility']['cv_across_runs']:.3f} ({repro['query_reproducibility']['consistency_rating']})")
     print(f"   Indexer CV across runs:   {repro['indexer_reproducibility']['cv_across_runs']:.3f} ({repro['indexer_reproducibility']['consistency_rating']})")
@@ -406,19 +408,19 @@ async def main():
         for analysis in repro.values()
     )
 
-    print(f"\n🏆 M.1 T4/0.01% EXCELLENCE VALIDATION")
-    print(f"=" * 40)
+    print("\n🏆 M.1 T4/0.01% EXCELLENCE VALIDATION")
+    print("=" * 40)
     print(f"Performance SLAs:     {'✅ ACHIEVED' if all_sla_met else '❌ FAILED'}")
     print(f"Reproducibility:      {'✅ EXCELLENT' if all_reproducible else '❌ INSUFFICIENT'}")
-    print(f"Statistical Rigor:    ✅ CI95%, CV<10%")
-    print(f"Evidence Integrity:   ✅ SHA256 VERIFIED")
-    print(f"")
+    print("Statistical Rigor:    ✅ CI95%, CV<10%")
+    print("Evidence Integrity:   ✅ SHA256 VERIFIED")
+    print("")
 
     if all_sla_met and all_reproducible:
-        print(f"🎉 VERDICT: M.1 T4/0.01% EXCELLENCE CERTIFICATION ACHIEVED")
-        print(f"🚀 READY FOR PRODUCTION DEPLOYMENT")
+        print("🎉 VERDICT: M.1 T4/0.01% EXCELLENCE CERTIFICATION ACHIEVED")
+        print("🚀 READY FOR PRODUCTION DEPLOYMENT")
     else:
-        print(f"🔧 VERDICT: M.1 REQUIRES ADDITIONAL OPTIMIZATION")
+        print("🔧 VERDICT: M.1 REQUIRES ADDITIONAL OPTIMIZATION")
 
     return comprehensive_report
 

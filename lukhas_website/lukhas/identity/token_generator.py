@@ -9,15 +9,17 @@ Constellation Framework: Identity ⚛️ pillar with cross-system coordination.
 """
 
 from __future__ import annotations
-import hmac
-import hashlib
+
 import base64
+import hashlib
+import hmac
 import json
-import time
 import os
+import time
 import zlib
-from typing import Dict, Any, Optional
-from dataclasses import dataclass, asdict
+from dataclasses import asdict, dataclass
+from typing import Any, Dict, Optional
+
 from opentelemetry import trace
 from prometheus_client import Counter, Histogram
 

@@ -9,11 +9,12 @@ Produces comprehensive validation results for CI/CD pipeline.
 import argparse
 import json
 import sys
-from pathlib import Path
-from typing import Dict, List, Any, Tuple
-from glob import glob
-from jsonschema import Draft202012Validator
 from datetime import datetime
+from glob import glob
+from pathlib import Path
+from typing import Any, Dict, List, Tuple
+
+from jsonschema import Draft202012Validator
 
 # Repository structure
 ROOT = Path(__file__).resolve().parents[1]

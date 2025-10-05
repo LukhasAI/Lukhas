@@ -8,10 +8,11 @@ Validates end-to-end Guardian decision flow with DSL enforcement.
 # ΛTAG: guardian_dsl_tests, safety_validation
 """
 
-import os
-import pytest
 import logging
+import os
 from unittest.mock import Mock, patch
+
+import pytest
 
 # Test environment setup
 os.environ["ENFORCE_ETHICS_DSL"] = "1"
@@ -19,13 +20,13 @@ os.environ["GUARDIAN_MODE"] = "ENFORCE"
 os.environ["LUKHAS_TESTING"] = "1"
 
 try:
-    from lukhas.core.ethics.guardian_drift_bands import (
-        GuardianDecisionEngine,
-        ActionBand,
-        GuardianResult,
-        SafetyCategory
-    )
     from lukhas.core.ethics.ethics_engine import EthicsAction, EthicsResult
+    from lukhas.core.ethics.guardian_drift_bands import (
+        ActionBand,
+        GuardianDecisionEngine,
+        GuardianResult,
+        SafetyCategory,
+    )
     from lukhas.governance.guardian_bridge import GuardianBridge
 except ImportError:
     # Fallback for testing without full Guardian system

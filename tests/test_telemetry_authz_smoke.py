@@ -6,13 +6,14 @@ Tests that authorization operations emit proper OpenTelemetry spans
 with required attributes for auditing and observability.
 """
 
-import pytest
+import hashlib
 import json
+from typing import Any, Dict, List
+
+import pytest
 from opentelemetry.sdk.trace import TracerProvider
 from opentelemetry.sdk.trace.export import SimpleSpanProcessor
 from opentelemetry.sdk.trace.export.in_memory_span_exporter import InMemorySpanExporter
-import hashlib
-from typing import Dict, Any, List
 
 # Test configuration
 TEST_SPANS: List[Any] = []

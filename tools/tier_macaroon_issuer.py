@@ -7,13 +7,13 @@ WebAuthn/JWT authentication. Bridges LUKHAS ΛiD tier system with Matrix
 authorization while preserving existing authentication flows.
 """
 
-import json
-import time
 import hashlib
 import hmac
-from typing import Dict, List, Optional, Any
+import json
+import time
 from dataclasses import dataclass
 from pathlib import Path
+from typing import Any, Dict, List, Optional
 
 
 @dataclass

@@ -4,14 +4,15 @@ tests/capabilities/test_observability_contracts.py
 Capability regression suite for observability exporters.
 Ensures exporters behave, never crash, and key metric families exist.
 """
-import socket
 import contextlib
-import time
-import logging
-import pytest
 import importlib
+import logging
+import socket
 import sys
+import time
 from http.client import HTTPConnection
+
+import pytest
 
 
 def _reset_exporters_module(monkeypatch):
@@ -48,8 +49,8 @@ def test_prometheus_exporter_starts_and_exposes_metrics(monkeypatch):
     # Import modules to register metrics first
     try:
         import lukhas.core.breakthrough  # Register breakthrough metrics
-        import storage.events  # Register event metrics
         import memory.folds  # Register memory metrics
+        import storage.events  # Register event metrics
     except ImportError:
         pytest.skip("Phase 3 modules not available")
 
@@ -84,7 +85,7 @@ def test_prometheus_exporter_starts_and_exposes_metrics(monkeypatch):
                 lukhas_metrics_found += 1
 
         # At least some LUKHAS metrics should be present
-        assert lukhas_metrics_found >= 1, f"No LUKHAS metrics found in /metrics output"
+        assert lukhas_metrics_found >= 1, "No LUKHAS metrics found in /metrics output"
 
     finally:
         conn.close()

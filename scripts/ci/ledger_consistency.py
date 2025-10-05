@@ -14,11 +14,12 @@ Exit codes:
     1 - One or more manifests lack ledger entries (CI should fail)
 """
 from __future__ import annotations
+
 import argparse
 import json
 import subprocess
 import sys
-from datetime import datetime, timedelta, timezone
+from datetime import datetime, timedelta
 from pathlib import Path
 from typing import NamedTuple
 
@@ -170,20 +171,20 @@ def main() -> int:
     # Check consistency
     valid, invalid = check_ledger_consistency(manifests, args.tolerance)
 
-    print(f"\n📊 Results:")
+    print("\n📊 Results:")
     print(f"   ✅ Valid: {len(valid)}")
     print(f"   ❌ Invalid: {len(invalid)}")
 
     if invalid:
-        print(f"\n❌ LEDGER CONSISTENCY CHECK FAILED", file=sys.stderr)
-        print(f"   The following manifests lack ledger entries:", file=sys.stderr)
+        print("\n❌ LEDGER CONSISTENCY CHECK FAILED", file=sys.stderr)
+        print("   The following manifests lack ledger entries:", file=sys.stderr)
         for module in invalid:
             print(f"   - {module}", file=sys.stderr)
-        print(f"\n   Fix: Ensure manifests are updated via scaffolding scripts", file=sys.stderr)
-        print(f"        or manually add ledger entries to manifests/.ledger/", file=sys.stderr)
+        print("\n   Fix: Ensure manifests are updated via scaffolding scripts", file=sys.stderr)
+        print("        or manually add ledger entries to manifests/.ledger/", file=sys.stderr)
         return 1
 
-    print(f"\n✅ LEDGER CONSISTENCY CHECK PASSED")
+    print("\n✅ LEDGER CONSISTENCY CHECK PASSED")
     return 0
 
 

@@ -5,8 +5,8 @@ Exposes the true module structure and duplications
 """
 
 import json
-from pathlib import Path
 from collections import defaultdict
+from pathlib import Path
 from typing import Dict, List
 
 
@@ -262,15 +262,15 @@ if __name__ == "__main__":
     for name, locations in report["duplications"].items():
         print(f"  {name}: {locations}")
 
-    print(f"\nCANDIDATE/CORE TOP SUBMODULES:")
+    print("\nCANDIDATE/CORE TOP SUBMODULES:")
     largest = report["candidate_core_explosion"].get("largest_submodules", [])[:10]
     for name, count in largest:
         print(f"  {name}: {count} files")
 
-    print(f"\nRECOMMENDATIONS:")
+    print("\nRECOMMENDATIONS:")
     for rec in report["recommendations"]:
         print(f"  - {rec}")
 
-    print(f"\nFull analysis saved to JSON...")
+    print("\nFull analysis saved to JSON...")
     with open("/Users/agi_dev/LOCAL-REPOS/Lukhas/temp_deep_analysis.json", "w") as f:
         json.dump(report, f, indent=2)

@@ -8,15 +8,15 @@
 Unit tests for lukhas module.
 """
 
-import pytest
 import unittest
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module components
 try:
     import lukhas
 except ImportError:
-    pytest.skip(f"Module lukhas not available", allow_module_level=True)
+    pytest.skip("Module lukhas not available", allow_module_level=True)
 
 
 class TestLukhasModule(unittest.TestCase):

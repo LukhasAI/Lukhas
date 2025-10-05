@@ -6,11 +6,11 @@ Scans the codebase to discover all modules and their locations.
 Produces a comprehensive inventory of modules, their paths, and contracts.
 """
 
+import argparse
 import json
 import pathlib
-from typing import List, Dict, Any
-import argparse
 import sys
+from typing import Any, Dict, List
 
 
 def find_matrix_contracts(root_path: pathlib.Path) -> List[pathlib.Path]:
@@ -191,7 +191,7 @@ def main():
         json.dump(output_data, f, indent=2)
 
     if args.verbose:
-        print(f"Discovery complete:")
+        print("Discovery complete:")
         print(f"  Total modules: {output_data['total_modules']}")
         print(f"  With contracts: {output_data['modules_with_contracts']}")
         print(f"  Without contracts: {output_data['modules_without_contracts']}")

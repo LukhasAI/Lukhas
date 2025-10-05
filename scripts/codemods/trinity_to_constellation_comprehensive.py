@@ -206,7 +206,7 @@ def main():
 
     dry_run = args.dry_run
 
-    print(f"🌌 Trinity → Constellation Framework Codemod")
+    print("🌌 Trinity → Constellation Framework Codemod")
     print(f"Mode: {'DRY-RUN' if dry_run else 'APPLY CHANGES'}")
     print(f"Repository: {ROOT}")
     print("=" * 60)
@@ -227,19 +227,19 @@ def main():
 
     # Summary
     print("=" * 60)
-    print(f"Summary:")
+    print("Summary:")
     print(f"Files scanned: {len(python_files)}")
     print(f"Files modified: {len(modified_files)}")
     print(f"Total changes: {total_changes}")
 
     if modified_files:
-        print(f"\nModified files:")
+        print("\nModified files:")
         for file_path, count in modified_files:
             rel_path = file_path.relative_to(ROOT)
             print(f"  {rel_path}: {count} changes")
 
     if dry_run and modified_files:
-        print(f"\n🚀 To apply changes, run:")
+        print("\n🚀 To apply changes, run:")
         print(f"python3 {__file__} --apply")
 
     return 0

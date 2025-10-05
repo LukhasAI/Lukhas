@@ -22,11 +22,12 @@ Constellation Framework: 🌊 Architectural Boundary Enforcement
 
 import ast
 import logging
+import subprocess
 import sys
 from pathlib import Path
-from typing import Dict, List, Set, Tuple, Optional
+from typing import Dict, List, Optional, Set, Tuple
+
 import pytest
-import subprocess
 
 logger = logging.getLogger(__name__)
 
@@ -271,7 +272,7 @@ class LaneImportLinter:
             for i, violation in enumerate(violations, 1):
                 report.append(f"  {i}. {violation}")
 
-        report.append(f"\n💡 Recommendations:")
+        report.append("\n💡 Recommendations:")
         report.append("  - Move cross-lane functionality to approved integration points")
         report.append("  - Use dependency injection instead of direct imports")
         report.append("  - Consider extracting shared utilities to common modules")

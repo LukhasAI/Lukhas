@@ -9,12 +9,12 @@ status file configuration.
 Creates visible social pressure for track adoption through gamification.
 """
 
-import json
+import argparse
 import glob
+import json
 import pathlib
 from datetime import datetime
-from typing import Dict, Any, Optional
-import argparse
+from typing import Any, Dict, Optional
 
 
 class AdoptionScoreboardGenerator:
@@ -201,7 +201,7 @@ class AdoptionScoreboardGenerator:
 
             content += f"\n| **{module}** | {verification} | {provenance} | {attestation} | {score_display} | {owner} |"
 
-        content += f"""
+        content += """
 
 ---
 
@@ -232,7 +232,7 @@ class AdoptionScoreboardGenerator:
 
 """
 
-        content += f"""---
+        content += """---
 
 ## 🏅 Leaderboard
 
@@ -248,7 +248,7 @@ class AdoptionScoreboardGenerator:
         else:
             content += "\n*No modules have enabled tracks yet - be the first!*"
 
-        content += f"""
+        content += """
 
 ### 🚀 Rising Stars (Pending Tracks)
 """
@@ -266,7 +266,7 @@ class AdoptionScoreboardGenerator:
         else:
             content += "\n*No pending tracks - time to plan some adoptions!*"
 
-        content += f"""
+        content += """
 
 ---
 

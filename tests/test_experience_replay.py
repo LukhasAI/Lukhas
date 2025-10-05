@@ -5,11 +5,12 @@ tests/test_experience_replay.py
 Experience Replay golden fixture tests for Phase 4.
 Tests deterministic replays under load using golden fixture validation.
 """
-import os
 import json
+import os
 import time
-import pytest
 from pathlib import Path
+
+import pytest
 
 from lukhas.core.consciousness_stream import ConsciousnessStream
 

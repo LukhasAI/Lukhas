@@ -1,13 +1,15 @@
 #!/usr/bin/env python3
 """Test MCP server minimal format compliance"""
 
-import requests
 import json
+
+import requests
+
 
 def test_mcp_server():
     url = "http://localhost:8766/mcp"
     headers = {"Content-Type": "application/json"}
-    
+
     # Test search tool
     search_payload = {
         "jsonrpc": "2.0",
@@ -18,12 +20,12 @@ def test_mcp_server():
             "arguments": {"query": "test"}
         }
     }
-    
+
     try:
         response = requests.post(url, headers=headers, json=search_payload, timeout=5)
         print(f"Status: {response.status_code}")
         print(f"Response: {json.dumps(response.json(), indent=2)}")
-        
+
         # Check if response has the minimal format
         result = response.json().get('result', {})
         content = result.get('content', [])
@@ -38,7 +40,7 @@ def test_mcp_server():
         else:
             print("❌ No text content found")
             return False
-            
+
     except Exception as e:
         print(f"❌ Error: {e}")
         return False

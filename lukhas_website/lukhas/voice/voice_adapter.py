@@ -6,9 +6,9 @@ Constellation Framework Integration
 """
 
 import logging
-from typing import Dict, List, Optional, Any, Union
 from dataclasses import dataclass
 from enum import Enum
+from typing import Any, Dict, List, Optional, Union
 
 logger = logging.getLogger(__name__)
 

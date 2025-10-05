@@ -14,36 +14,47 @@ Constellation Framework: 🛡️ Guardian-🧠 Consciousness Integration
 """
 
 from __future__ import annotations
-import time
-import logging
-import uuid
+
 import json
-from typing import Dict, Any, Optional, List, Callable, Awaitable
-from dataclasses import dataclass, field, asdict
+import logging
+import time
+import uuid
+from dataclasses import asdict, dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
+from typing import Any, Awaitable, Callable, Dict, List, Optional
 
 from opentelemetry import trace
 from prometheus_client import Counter, Histogram
 
 # Import consciousness types
-from .types import (
-    ConsciousnessState, AwarenessSnapshot, ReflectionReport,
-    CreativitySnapshot
-)
+from .types import AwarenessSnapshot, ConsciousnessState, CreativitySnapshot, ReflectionReport
 
 # Import Guardian components
 try:
-    from lukhas.governance.guardian_system import (
-        GuardianSystem, DecisionStatus, GuardianDecision, GuardianSubject,
-        GuardianContext, GuardianMetrics, GuardianEnforcement, GuardianAudit,
-        ActorType, RuntimeEnvironment, EnforcementMode, create_simple_decision
-    )
+    from lukhas.governance.ethics.ethics_engine import EthicalDecision, EthicsEngine
     from lukhas.governance.guardian.core import (
-        EthicalDecision, GovernanceAction, EthicalSeverity, DriftResult, SafetyResult
+        DriftResult,
+        EthicalDecision,
+        EthicalSeverity,
+        GovernanceAction,
+        SafetyResult,
     )
     from lukhas.governance.guardian.guardian_impl import GuardianSystemImpl
-    from lukhas.governance.ethics.ethics_engine import EthicsEngine, EthicalDecision
+    from lukhas.governance.guardian_system import (
+        ActorType,
+        DecisionStatus,
+        EnforcementMode,
+        GuardianAudit,
+        GuardianContext,
+        GuardianDecision,
+        GuardianEnforcement,
+        GuardianMetrics,
+        GuardianSubject,
+        GuardianSystem,
+        RuntimeEnvironment,
+        create_simple_decision,
+    )
     GUARDIAN_AVAILABLE = True
 except ImportError:
     GUARDIAN_AVAILABLE = False
@@ -750,7 +761,7 @@ class ConsciousnessGuardianIntegration:
             # Create Guardian decision components
             decision = GuardianDecision(
                 status=DecisionStatus.ALLOW,
-                policy=f"consciousness/guardian_integration/v1.0.0",
+                policy="consciousness/guardian_integration/v1.0.0",
                 timestamp=datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
                 confidence=result.confidence,
                 ttl_seconds=3600  # 1 hour validity

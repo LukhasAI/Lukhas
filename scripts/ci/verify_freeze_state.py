@@ -16,11 +16,12 @@ Exit codes:
     1 - Verification failed (drift or mismatch detected)
 """
 from __future__ import annotations
+
 import argparse
+import hashlib
 import json
 import subprocess
 import sys
-import hashlib
 from pathlib import Path
 
 ROOT = Path(".").resolve()
@@ -128,12 +129,12 @@ def main() -> int:
         return 1
 
     if freeze_commit != tag_sha:
-        print(f"   ❌ Commit mismatch:")
+        print("   ❌ Commit mismatch:")
         print(f"      Tag {args.tag} -> {tag_sha}")
         print(f"      FINAL_FREEZE.commit -> {freeze_commit}\n")
         return 1
 
-    print(f"   ✅ FINAL_FREEZE.json commit matches tag SHA\n")
+    print("   ✅ FINAL_FREEZE.json commit matches tag SHA\n")
 
     # 3) Verify no diffs since tag (immutability check)
     print("🔒 Step 3: Verifying immutability (no changes after freeze)...")
@@ -191,18 +192,18 @@ def main() -> int:
     print()
 
     if bad_artifacts:
-        print(f"❌ FREEZE VERIFICATION FAILED")
+        print("❌ FREEZE VERIFICATION FAILED")
         print(f"   {len(bad_artifacts)} artifact(s) failed integrity check\n")
         return 1
 
     # Success!
     print("=" * 80)
-    print(f"✅ FREEZE VERIFICATION PASSED")
+    print("✅ FREEZE VERIFICATION PASSED")
     print(f"   Tag: {args.tag}")
     print(f"   Commit: {tag_sha}")
     print(f"   Artifacts verified: {len(CRITICAL_ARTIFACTS)}")
     print(f"   Mode: {args.mode}")
-    print(f"   Status: IMMUTABLE AND VERIFIED")
+    print("   Status: IMMUTABLE AND VERIFIED")
     print("=" * 80)
 
     return 0

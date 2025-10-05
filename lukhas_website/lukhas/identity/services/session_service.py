@@ -5,13 +5,13 @@ Dedicated service for user session management with in-memory and persistent stor
 Implements SessionManagerInterface for T4 architecture compliance.
 """
 
+import asyncio
 import logging
 import time
-import asyncio
 import uuid
-from typing import Any, Optional, Dict
 from collections import defaultdict
-from dataclasses import dataclass, asdict
+from dataclasses import asdict, dataclass
+from typing import Any, Dict, Optional
 
 from ..facades.authentication_facade import SessionManagerInterface
 

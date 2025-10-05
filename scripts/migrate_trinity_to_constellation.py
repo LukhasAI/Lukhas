@@ -6,11 +6,11 @@ Systematically migrates 14k+ Trinity references to Constellation across the enti
 Handles imports, class names, function names, documentation, and configuration files.
 """
 
+import logging
 import os
 import re
 from pathlib import Path
 from typing import List, Tuple
-import logging
 
 # Setup logging
 logging.basicConfig(level=logging.INFO, format='%(levelname)s: %(message)s')

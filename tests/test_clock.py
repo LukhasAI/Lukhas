@@ -7,8 +7,9 @@ These tests verify that the central ticker maintains target FPS
 and meets T4 performance requirements.
 """
 import time
-import pytest
 from unittest.mock import Mock
+
+import pytest
 
 from core.clock import Ticker, create_consciousness_ticker
 

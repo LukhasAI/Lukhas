@@ -8,9 +8,9 @@
 Integration tests for config module.
 """
 
+from unittest.mock import Mock, patch
+
 import pytest
-import importlib
-from unittest.mock import patch, Mock
 
 pytestmark = pytest.mark.integration
 
@@ -109,9 +109,10 @@ class TestConfigScalabilityIntegration:
     def test_concurrent_processing(self):
         """Test concurrent processing capabilities."""
         try:
-            from lukhas.config import ConfigCore
             import concurrent.futures
             import threading
+
+            from lukhas.config import ConfigCore
 
             component = ConfigCore()
 

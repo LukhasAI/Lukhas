@@ -7,15 +7,16 @@ with security vulnerability mappings and license compliance validation.
 Part of T4/0.01% Excellence Security Framework
 """
 
+import argparse
+import datetime
+import hashlib
 import json
 import sys
-import hashlib
-import datetime
+from dataclasses import asdict, dataclass
 from pathlib import Path
-from typing import Dict, List, Any, Optional
+from typing import Any, Dict, List, Optional
+
 import pkg_resources
-import argparse
-from dataclasses import dataclass, asdict
 
 
 @dataclass

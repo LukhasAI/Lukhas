@@ -14,12 +14,12 @@ Features:
 """
 
 import argparse
+import hashlib
 import json
 import re
 import sys
-import hashlib
 from pathlib import Path
-from typing import Dict, List, Any, Tuple
+from typing import Any, Dict, List, Tuple
 
 # Repository structure
 ROOT = Path(__file__).resolve().parents[1]  # repo root
@@ -506,7 +506,7 @@ Examples:
             print(f"   Would write: {contract_path}")
 
     # Summary
-    print(f"\n📊 Summary:")
+    print("\n📊 Summary:")
     if args.write:
         print(f"   ✅ Contracts written: {written_count}")
         print(f"   ⏭️  Contracts skipped: {skipped_count}")
@@ -514,7 +514,7 @@ Examples:
     else:
         processed = len([m for m in modules if not requested or m[0] in requested])
         print(f"   📦 Modules discovered: {processed}")
-        print(f"   💡 Use --write to generate contracts")
+        print("   💡 Use --write to generate contracts")
 
     return 0
 

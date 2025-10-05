@@ -4,13 +4,14 @@ Module Readiness Scoring System for LUKHAS.
 Provides comprehensive quality metrics and readiness assessment.
 """
 
-import sys
-import pathlib
 import json
-import yaml
-from typing import Dict, Any, List, Optional, Tuple
+import pathlib
+import sys
 from dataclasses import dataclass
-import subprocess
+from typing import Any, Dict, List, Tuple
+
+import yaml
+
 
 @dataclass
 class ReadinessScore:
@@ -340,7 +341,7 @@ class ModuleReadinessScorer:
         good_modules = len([s for s in scores if s.status == "GOOD"])
         avg_score = sum(s.percentage for s in scores) / total_modules if scores else 0
 
-        lines.append(f"📊 Summary:")
+        lines.append("📊 Summary:")
         lines.append(f"   Total modules: {total_modules}")
         lines.append(f"   Ready modules: {ready_modules} ({ready_modules/total_modules*100:.1f}%)")
         lines.append(f"   Good+ modules: {ready_modules + good_modules} ({(ready_modules + good_modules)/total_modules*100:.1f}%)")

@@ -8,16 +8,15 @@
 Integration tests for config module.
 """
 
-import pytest
 import unittest
-import asyncio
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module for integration testing
 try:
     import config
 except ImportError:
-    pytest.skip(f"Module config not available", allow_module_level=True)
+    pytest.skip("Module config not available", allow_module_level=True)
 
 
 class TestConfigIntegration(unittest.TestCase):

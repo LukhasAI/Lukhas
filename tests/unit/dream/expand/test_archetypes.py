@@ -1,5 +1,6 @@
 from lukhas.consciousness.dream.expand import archetypes
 
+
 def test_tag_identifies_hero():
     snapshot = {"confidence": 0.8}
     result = archetypes.tag(snapshot)

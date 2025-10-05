@@ -9,10 +9,11 @@ Constellation Framework: Flow Star (🌊), Spark Star (⚡), Oracle Star (🔮)
 """
 
 from __future__ import annotations
-from dataclasses import dataclass, field
-from typing import Any, Dict, List, Literal, Optional, Union
+
 import time
 import uuid
+from dataclasses import dataclass, field
+from typing import Any, Dict, List, Literal, Optional, Union
 
 # Core state phases for consciousness lifecycle
 StatePhase = Literal["IDLE", "AWARE", "REFLECT", "CREATE", "DREAM", "DECIDE"]

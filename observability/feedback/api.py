@@ -2,9 +2,12 @@
 FastAPI endpoints for adaptive feedback collection and follow-ups.
 """
 from __future__ import annotations
+
+from typing import Any, Dict
+
 from fastapi import APIRouter
-from typing import Dict, Any
 from pydantic import BaseModel
+
 from ..audit.storage import write_json
 
 router = APIRouter(prefix="/feedback", tags=["feedback"])

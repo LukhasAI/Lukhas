@@ -6,13 +6,13 @@ Production Schema v1.0.0
 Anthropic Claude API client adapter with feature flag gating and production error handling.
 """
 
+import asyncio
+import logging
 import os
 import time
-import asyncio
 from typing import List, Optional
-import logging
 
-from .base_client import BaseAIClient, AIResponse, AIProvider
+from .base_client import AIProvider, AIResponse, BaseAIClient
 
 logger = logging.getLogger(__name__)
 

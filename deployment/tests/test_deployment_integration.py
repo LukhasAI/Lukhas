@@ -8,16 +8,15 @@
 Integration tests for deployment module.
 """
 
-import pytest
 import unittest
-import asyncio
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module for integration testing
 try:
     import deployment
 except ImportError:
-    pytest.skip(f"Module deployment not available", allow_module_level=True)
+    pytest.skip("Module deployment not available", allow_module_level=True)
 
 
 class TestDeploymentIntegration(unittest.TestCase):

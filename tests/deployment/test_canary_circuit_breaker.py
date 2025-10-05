@@ -19,12 +19,13 @@ Constellation Framework: 🔥 Canary Circuit Protection
 """
 
 import logging
-import pytest
-import time
 import statistics
+import time
 from dataclasses import dataclass
-from typing import Dict, Any, List, Optional, Tuple
 from enum import Enum
+from typing import Any, Dict, List, Optional, Tuple
+
+import pytest
 
 logger = logging.getLogger(__name__)
 
@@ -400,7 +401,7 @@ class TestMATRIZCanaryCircuitBreaker:
         assert results["rollback_trigger"] == RollbackTrigger.LATENCY_BREACH, "Should trigger due to latency"
         assert results["p95_eval_time_ms"] < 100.0, "Evaluation performance target not met"
 
-        logger.info(f"✅ Latency breach simulation passed")
+        logger.info("✅ Latency breach simulation passed")
 
     def test_throughput_drop_simulation(self):
         """Test throughput drop scenario triggers rollback."""
@@ -440,7 +441,7 @@ class TestMATRIZCanaryCircuitBreaker:
         assert results["rollback_triggered"], "Throughput drop should trigger rollback"
         assert results["rollback_trigger"] == RollbackTrigger.THROUGHPUT_DROP, "Should trigger due to throughput"
 
-        logger.info(f"✅ Throughput drop simulation passed")
+        logger.info("✅ Throughput drop simulation passed")
 
     def test_matriz_decision_failure_simulation(self):
         """Test MATRIZ decision failure triggers immediate fail-closed rollback."""
@@ -471,7 +472,7 @@ class TestMATRIZCanaryCircuitBreaker:
         evaluation = results["evaluation_decisions"][0]
         assert evaluation["evaluations"]["matriz"]["fail_closed_triggered"], "Fail-closed should be triggered"
 
-        logger.info(f"✅ MATRIZ fail-closed simulation passed")
+        logger.info("✅ MATRIZ fail-closed simulation passed")
 
     def test_no_false_positive_rollbacks(self):
         """Test that normal operations don't trigger false positive rollbacks."""
@@ -545,7 +546,7 @@ class TestMATRIZCanaryCircuitBreaker:
         assert p95_time < 100.0, f"P95 evaluation time {p95_time:.2f}ms exceeds 100ms target"
         assert p99_time < 150.0, f"P99 evaluation time {p99_time:.2f}ms exceeds 150ms target"
 
-        logger.info(f"✅ Performance targets met:")
+        logger.info("✅ Performance targets met:")
         logger.info(f"   Mean: {mean_time:.2f}ms")
         logger.info(f"   P95:  {p95_time:.2f}ms")
         logger.info(f"   P99:  {p99_time:.2f}ms")
@@ -778,10 +779,10 @@ if __name__ == "__main__":
                     print(f"   ❌ FAIL - Expected {expected_trigger.value}, got {results.get('rollback_trigger')}")
             else:
                 if not results["rollback_triggered"]:
-                    print(f"   ✅ PASS - Correctly did not trigger rollback")
+                    print("   ✅ PASS - Correctly did not trigger rollback")
                     passed_tests += 1
                 else:
-                    print(f"   ❌ FAIL - Unexpected rollback triggered")
+                    print("   ❌ FAIL - Unexpected rollback triggered")
 
         print(f"\n{'='*60}")
         if passed_tests == len(test_scenarios):

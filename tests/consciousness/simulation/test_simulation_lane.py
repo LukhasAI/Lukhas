@@ -1,7 +1,11 @@
-import os, asyncio, inspect, importlib
+import asyncio
+import importlib
+import inspect
+import os
 
 os.environ["SIMULATION_ENABLED"] = "true"
 from consciousness.simulation import api
+
 
 def run(coro):
     return asyncio.get_event_loop().run_until_complete(coro)

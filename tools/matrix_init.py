@@ -10,10 +10,10 @@ Usage:
     python3 tools/matrix_init.py --module identity --output identity/
 """
 
-import json
 import argparse
+import json
 import pathlib
-from typing import Dict, Any
+from typing import Any, Dict
 
 
 def load_template_contract() -> Dict[str, Any]:
@@ -101,7 +101,7 @@ def customize_contract_for_module(template: Dict[str, Any], module: str) -> Dict
     else:
         # Generic module configuration
         contract["interface"]["public_api"] = [
-            {"fn": f"process(input: Any) -> Any", "stability": "experimental", "doc": f"Process input through {module}"}
+            {"fn": "process(input: Any) -> Any", "stability": "experimental", "doc": f"Process input through {module}"}
         ]
         contract["interface"]["contracts"] = [
             {"name": f"{module}_consistency", "type": "invariant", "desc": f"{module} maintains internal consistency"}

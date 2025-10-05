@@ -8,15 +8,15 @@
 Unit tests for alerts module.
 """
 
-import pytest
 import unittest
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module components
 try:
     import alerts
 except ImportError:
-    pytest.skip(f"Module alerts not available", allow_module_level=True)
+    pytest.skip("Module alerts not available", allow_module_level=True)
 
 
 class TestAlertsModule(unittest.TestCase):

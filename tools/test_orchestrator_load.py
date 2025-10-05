@@ -10,9 +10,10 @@ Usage:
 """
 
 import asyncio
-import time
 import statistics
+import time
 from dataclasses import dataclass
+
 
 @dataclass
 class LoadTestResult:
@@ -130,7 +131,7 @@ async def run_orchestrator_load_test():
 
     orchestrator = MockMATRIZOrchestrator(max_concurrent=max_concurrent)
 
-    print(f"📊 Test Configuration:")
+    print("📊 Test Configuration:")
     print(f"   Total Queries: {total_queries}")
     print(f"   Max Concurrent: {max_concurrent}")
     print(f"   Timeout: {timeout_ms}ms")
@@ -139,7 +140,7 @@ async def run_orchestrator_load_test():
     # Generate test queries
     queries = [f"Test query {i} - load testing orchestrator" for i in range(total_queries)]
 
-    print(f"\n🏁 Starting load test...")
+    print("\n🏁 Starting load test...")
     start_time = time.perf_counter()
 
     # Execute all queries concurrently
@@ -176,14 +177,14 @@ async def run_orchestrator_load_test():
         status = result.status
         failure_modes[status] = failure_modes.get(status, 0) + 1
 
-    print(f"\n📊 LOAD TEST RESULTS")
+    print("\n📊 LOAD TEST RESULTS")
     print("-" * 40)
     print(f"Total Queries: {total_queries}")
     print(f"Successful: {len(successful_results)} ({len(successful_results)/total_queries*100:.1f}%)")
     print(f"Failed: {len(failed_results)} ({len(failed_results)/total_queries*100:.1f}%)")
     print(f"Exceptions: {len(exception_results)}")
 
-    print(f"\n⏱️ PERFORMANCE METRICS")
+    print("\n⏱️ PERFORMANCE METRICS")
     print("-" * 40)
     print(f"Mean Duration: {mean_duration:.2f}ms")
     print(f"P50 Duration: {p50:.2f}ms")
@@ -191,14 +192,14 @@ async def run_orchestrator_load_test():
     print(f"P99 Duration: {p99:.2f}ms")
     print(f"Total Test Time: {total_duration:.2f}ms")
 
-    print(f"\n🚧 BACKPRESSURE & TIMEOUTS")
+    print("\n🚧 BACKPRESSURE & TIMEOUTS")
     print("-" * 40)
     print(f"Backpressure Events: {orchestrator.backpressure_count}")
     print(f"Timeout Events: {orchestrator.timeout_count}")
     print(f"Max Concurrent Enforced: {'✅ Yes' if orchestrator.backpressure_count > 0 else '❌ No'}")
 
     if failure_modes:
-        print(f"\n❌ FAILURE BREAKDOWN")
+        print("\n❌ FAILURE BREAKDOWN")
         print("-" * 40)
         for mode, count in failure_modes.items():
             print(f"{mode}: {count} ({count/total_queries*100:.1f}%)")
@@ -213,7 +214,7 @@ async def run_orchestrator_load_test():
         "concurrent_limit_enforced": orchestrator.backpressure_count > 0 or max_concurrent >= total_queries
     }
 
-    print(f"\n🎯 ACCEPTANCE CRITERIA")
+    print("\n🎯 ACCEPTANCE CRITERIA")
     print("-" * 40)
     for criterion, passed in acceptance_criteria.items():
         status = "✅ PASS" if passed else "❌ FAIL"

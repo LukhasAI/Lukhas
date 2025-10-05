@@ -24,6 +24,9 @@ import pytest
 
 # Test imports with fallback handling
 try:
+    from lukhas.bridge.anthropic_bridge import AnthropicBridge
+    from lukhas.bridge.google_bridge import GoogleBridge
+    from lukhas.bridge.openai_bridge import OpenAIBridge
     from lukhas.governance.guardian_system import GuardianSystem
     from lukhas.orchestration.high_performance_context_bus import (
         ContextMessage,
@@ -36,9 +39,6 @@ try:
         MultiModelOrchestrator,
         WorkflowExecution,
     )
-    from lukhas.bridge.anthropic_bridge import AnthropicBridge
-    from lukhas.bridge.google_bridge import GoogleBridge
-    from lukhas.bridge.openai_bridge import OpenAIBridge
 except ImportError as e:
     pytest.skip(f"Phase 2 modules not available: {e}", allow_module_level=True)
 

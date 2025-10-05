@@ -9,17 +9,16 @@ import hashlib
 import logging
 import secrets
 import uuid
-from datetime import datetime, timedelta
-from typing import Dict, List, Optional, Set, Any
 from dataclasses import dataclass, field
+from datetime import datetime, timedelta
 from enum import Enum
+from typing import Any, Dict, List, Optional, Set
 from urllib.parse import urlencode
 
-
 from lukhas.identity.jwt_utils import JWTManager
+from lukhas.identity.observability import IdentityObservability
 from lukhas.identity.session_manager import SessionManager
 from lukhas.identity.tiers import TierSystem
-from lukhas.identity.observability import IdentityObservability
 
 logger = logging.getLogger(__name__)
 

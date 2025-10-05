@@ -8,15 +8,15 @@
 Unit tests for delegation_reports module.
 """
 
-import pytest
 import unittest
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module components
 try:
     import delegation_reports
 except ImportError:
-    pytest.skip(f"Module delegation_reports not available", allow_module_level=True)
+    pytest.skip("Module delegation_reports not available", allow_module_level=True)
 
 
 class TestDelegationReportsModule(unittest.TestCase):
@@ -81,7 +81,7 @@ class Testmain(unittest.TestCase):
             from delegation_reports.generate_ruff_delegation_reports import main
             self.assertIsNotNone(main)
         except ImportError:
-            pytest.skip(f"Component main not available")
+            pytest.skip("Component main not available")
 
     def test_main_instantiation(self):
         """Test main can be instantiated."""
@@ -98,7 +98,7 @@ class Testshort_suggestion(unittest.TestCase):
             from delegation_reports.generate_ruff_delegation_reports import short_suggestion
             self.assertIsNotNone(short_suggestion)
         except ImportError:
-            pytest.skip(f"Component short_suggestion not available")
+            pytest.skip("Component short_suggestion not available")
 
     def test_short_suggestion_instantiation(self):
         """Test short_suggestion can be instantiated."""

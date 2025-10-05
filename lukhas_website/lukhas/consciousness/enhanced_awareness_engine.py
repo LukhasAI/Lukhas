@@ -17,18 +17,21 @@ Features:
 Constellation Framework: 🌊 Flow Star Integration
 """
 
-import time
 import logging
-from typing import Any, Dict, List, Optional
+import time
 from dataclasses import dataclass, field
+from typing import Any, Dict, List, Optional
 
+from ..cognitive_core.reasoning.deep_inference_engine import InferenceResult
 from .awareness_engine import AwarenessEngine
 from .meta_cognitive_assessor import (
-    MetaCognitiveAssessor, MetaCognitiveContext, MetaCognitiveAssessment,
-    CognitiveLoadLevel, MetaCognitiveInsight
+    CognitiveLoadLevel,
+    MetaCognitiveAssessment,
+    MetaCognitiveAssessor,
+    MetaCognitiveContext,
+    MetaCognitiveInsight,
 )
-from .types import ConsciousnessState, AwarenessSnapshot
-from ..cognitive_core.reasoning.deep_inference_engine import InferenceResult
+from .types import AwarenessSnapshot, ConsciousnessState
 
 logger = logging.getLogger(__name__)
 

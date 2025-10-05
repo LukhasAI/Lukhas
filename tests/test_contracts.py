@@ -6,19 +6,20 @@ T4-Approved: Contract compliance and validation tests
 These tests ensure all MATRIZ nodes comply with the frozen v1.0.0 contract
 and that the contract itself is properly validated.
 """
-import pytest
 from uuid import uuid4
 
+import pytest
+
 from matriz.node_contract import (
+    CONTRACT_VERSION,
     GLYPH,
     MatrizMessage,
-    MatrizResult,
     MatrizNode,
+    MatrizResult,
+    Topic,
     validate_glyph,
     validate_message,
     validate_result,
-    Topic,
-    CONTRACT_VERSION,
 )
 from tests.util.mk_msg import mk_msg_from_json, mk_test_message
 

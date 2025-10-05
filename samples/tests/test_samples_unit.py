@@ -8,15 +8,15 @@
 Unit tests for samples module.
 """
 
-import pytest
 import unittest
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module components
 try:
     import samples
 except ImportError:
-    pytest.skip(f"Module samples not available", allow_module_level=True)
+    pytest.skip("Module samples not available", allow_module_level=True)
 
 
 class TestSamplesModule(unittest.TestCase):

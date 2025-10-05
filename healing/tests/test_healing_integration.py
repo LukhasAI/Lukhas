@@ -8,16 +8,15 @@
 Integration tests for healing module.
 """
 
-import pytest
 import unittest
-import asyncio
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module for integration testing
 try:
     import healing
 except ImportError:
-    pytest.skip(f"Module healing not available", allow_module_level=True)
+    pytest.skip("Module healing not available", allow_module_level=True)
 
 
 class TestHealingIntegration(unittest.TestCase):

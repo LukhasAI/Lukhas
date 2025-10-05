@@ -15,12 +15,12 @@ Features:
 """
 
 import asyncio
-import time
 import logging
-from typing import Dict, Any, Optional
+import time
+from collections import deque
 from dataclasses import dataclass
 from enum import Enum
-from collections import deque
+from typing import Any, Dict, Optional
 
 logger = logging.getLogger(__name__)
 

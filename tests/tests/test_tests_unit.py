@@ -8,15 +8,15 @@
 Unit tests for tests module.
 """
 
-import pytest
 import unittest
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module components
 try:
     import tests
 except ImportError:
-    pytest.skip(f"Module tests not available", allow_module_level=True)
+    pytest.skip("Module tests not available", allow_module_level=True)
 
 
 class TestTestsModule(unittest.TestCase):
@@ -81,7 +81,7 @@ class TestComprehensiveTestOrchestrator(unittest.TestCase):
             from tests.comprehensive_test_suite import ComprehensiveTestOrchestrator
             self.assertIsNotNone(ComprehensiveTestOrchestrator)
         except ImportError:
-            pytest.skip(f"Component ComprehensiveTestOrchestrator not available")
+            pytest.skip("Component ComprehensiveTestOrchestrator not available")
 
     def test_comprehensivetestorchestrator_instantiation(self):
         """Test ComprehensiveTestOrchestrator can be instantiated."""
@@ -98,7 +98,7 @@ class TestTestComprehensiveValidation(unittest.TestCase):
             from tests.comprehensive_test_suite import TestComprehensiveValidation
             self.assertIsNotNone(TestComprehensiveValidation)
         except ImportError:
-            pytest.skip(f"Component TestComprehensiveValidation not available")
+            pytest.skip("Component TestComprehensiveValidation not available")
 
     def test_testcomprehensivevalidation_instantiation(self):
         """Test TestComprehensiveValidation can be instantiated."""
@@ -115,7 +115,7 @@ class TestTestSuiteResults(unittest.TestCase):
             from tests.comprehensive_test_suite import TestSuiteResults
             self.assertIsNotNone(TestSuiteResults)
         except ImportError:
-            pytest.skip(f"Component TestSuiteResults not available")
+            pytest.skip("Component TestSuiteResults not available")
 
     def test_testsuiteresults_instantiation(self):
         """Test TestSuiteResults can be instantiated."""

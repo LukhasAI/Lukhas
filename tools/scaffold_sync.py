@@ -7,10 +7,9 @@ Safely syncs templates to modules with provenance tracking.
 import argparse
 import hashlib
 import json
-import os
 import pathlib
 import sys
-from typing import Dict, List, Any
+from typing import Any, Dict, List
 
 try:
     from jinja2 import Environment, FileSystemLoader
@@ -335,7 +334,7 @@ def main():
         }
         print(json.dumps(output, indent=2))
     else:
-        print(f"📋 Scaffold Sync Results")
+        print("📋 Scaffold Sync Results")
         print(f"   Templates: {len(templates)}")
         print(f"   Modules: {len(modules)}")
         print(f"   Created: {total_created}")
@@ -344,14 +343,14 @@ def main():
         print(f"   Errors: {total_errors}")
 
         if total_errors > 0:
-            print(f"\n❌ Errors occurred:")
+            print("\n❌ Errors occurred:")
             for result in all_results:
                 for action in result["actions"]:
                     if action["action"] == "error":
                         print(f"   {result['module']}: {action['error']}")
 
         if not args.dry_run and (total_created > 0 or total_updated > 0):
-            print(f"\n✅ Scaffold sync completed successfully")
+            print("\n✅ Scaffold sync completed successfully")
 
     return 0 if total_errors == 0 else 1
 

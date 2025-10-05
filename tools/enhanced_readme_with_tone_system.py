@@ -8,11 +8,10 @@ vocabulary rotation, and MATRIZ pipeline integration for T4/0.01% documentation.
 """
 
 import json
-import ast
 import random
-from pathlib import Path
-from typing import Dict, List, Optional, Tuple
 from datetime import datetime
+from pathlib import Path
+from typing import Dict, List
 
 
 class VocabularyEngine:

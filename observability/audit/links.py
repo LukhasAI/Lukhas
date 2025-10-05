@@ -3,8 +3,8 @@ Signed permalink generation and verification for audit trails.
 Provides short-lived HMAC tokens tied to viewer identity.
 """
 import hmac
-import time
 import os
+import time
 from hashlib import sha256
 from typing import Dict, Tuple
 

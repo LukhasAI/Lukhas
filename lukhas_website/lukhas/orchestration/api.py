@@ -10,20 +10,20 @@ Constellation Framework: Flow Star (🌊) API layer
 """
 
 from __future__ import annotations
-from typing import Dict, Any, List
-from fastapi import APIRouter, HTTPException, Depends, status
-from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
-from pydantic import BaseModel, Field
+
+import logging
+from typing import Any, Dict, List
+
+from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from opentelemetry import trace
 from prometheus_client import Counter, Histogram
-import logging
+from pydantic import BaseModel, Field
 
-from .multi_ai_router import (
-    RoutingRequest, ConsensusType,
-    get_multi_ai_router, AIProvider
-)
-from lukhas.identity.auth_service import verify_token
 from lukhas.governance.guardian import get_guardian
+from lukhas.identity.auth_service import verify_token
+
+from .multi_ai_router import AIProvider, ConsensusType, RoutingRequest, get_multi_ai_router
 
 tracer = trace.get_tracer(__name__)
 logger = logging.getLogger(__name__)
@@ -85,7 +85,7 @@ async def get_current_user(credentials: HTTPAuthorizationCredentials = Depends(s
         token = credentials.credentials
         payload = await verify_token(token)
         return payload
-    except Exception as e:
+    except Exception:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Invalid authentication credentials"

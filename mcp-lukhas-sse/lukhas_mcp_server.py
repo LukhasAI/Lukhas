@@ -12,8 +12,9 @@ current_dir = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, current_dir)
 
 # Import and run our server
-from lukhas_mcp_stdio_manual import main
 import asyncio
+
+from lukhas_mcp_stdio_manual import main
 
 if __name__ == "__main__":
     asyncio.run(main())

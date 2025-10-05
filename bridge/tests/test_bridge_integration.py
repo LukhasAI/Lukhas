@@ -8,16 +8,15 @@
 Integration tests for bridge module.
 """
 
-import pytest
 import unittest
-import asyncio
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module for integration testing
 try:
     import bridge
 except ImportError:
-    pytest.skip(f"Module bridge not available", allow_module_level=True)
+    pytest.skip("Module bridge not available", allow_module_level=True)
 
 
 class TestBridgeIntegration(unittest.TestCase):

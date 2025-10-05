@@ -8,15 +8,15 @@
 Unit tests for agent module.
 """
 
-import pytest
 import unittest
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module components
 try:
     import agent
 except ImportError:
-    pytest.skip(f"Module agent not available", allow_module_level=True)
+    pytest.skip("Module agent not available", allow_module_level=True)
 
 
 class TestAgentModule(unittest.TestCase):
@@ -81,7 +81,7 @@ class Testis_available(unittest.TestCase):
             from agent.collaborative import is_available
             self.assertIsNotNone(is_available)
         except ImportError:
-            pytest.skip(f"Component is_available not available")
+            pytest.skip("Component is_available not available")
 
     def test_is_available_instantiation(self):
         """Test is_available can be instantiated."""
@@ -98,7 +98,7 @@ class Testget_agent_system_status(unittest.TestCase):
             from agent import get_agent_system_status
             self.assertIsNotNone(get_agent_system_status)
         except ImportError:
-            pytest.skip(f"Component get_agent_system_status not available")
+            pytest.skip("Component get_agent_system_status not available")
 
     def test_get_agent_system_status_instantiation(self):
         """Test get_agent_system_status can be instantiated."""
@@ -115,7 +115,7 @@ class Testis_available(unittest.TestCase):
             from agent.intelligence_bridge import is_available
             self.assertIsNotNone(is_available)
         except ImportError:
-            pytest.skip(f"Component is_available not available")
+            pytest.skip("Component is_available not available")
 
     def test_is_available_instantiation(self):
         """Test is_available can be instantiated."""

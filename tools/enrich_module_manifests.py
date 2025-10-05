@@ -6,12 +6,11 @@ Promotes high-value legacy data from x_legacy into main manifest fields
 with domain-specific intelligence and LUKHAS-aware context.
 """
 
-import json
-import sys
 import argparse
+import json
 from pathlib import Path
-from typing import Dict, Any, List
-import os
+from typing import Any, Dict, List
+
 
 def load_json(path: Path) -> Dict[str, Any]:
     """Load JSON file safely"""

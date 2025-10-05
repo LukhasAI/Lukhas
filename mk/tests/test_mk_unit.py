@@ -8,15 +8,15 @@
 Unit tests for mk module.
 """
 
-import pytest
 import unittest
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module components
 try:
     import mk
 except ImportError:
-    pytest.skip(f"Module mk not available", allow_module_level=True)
+    pytest.skip("Module mk not available", allow_module_level=True)
 
 
 class TestMkModule(unittest.TestCase):

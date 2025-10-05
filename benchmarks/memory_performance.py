@@ -12,9 +12,10 @@ Usage:
     python -m pytest benchmarks/memory_performance.py --benchmark
 """
 
-import time
 import statistics
+import time
 import uuid
+
 import pytest
 
 try:
@@ -84,7 +85,7 @@ class MemoryBenchmarks:
             }
         }
 
-        print(f"📊 Memory Recall Results:")
+        print("📊 Memory Recall Results:")
         print(f"   P50: {p50:.1f}ms, P95: {p95:.1f}ms, P99: {p99:.1f}ms")
         print(f"   SLO Compliance: {'✅ PASS' if p95 < 100 else '❌ FAIL'} (P95 < 100ms)")
 
@@ -139,7 +140,7 @@ class MemoryBenchmarks:
             }
         }
 
-        print(f"📊 Cascade Prevention Results:")
+        print("📊 Cascade Prevention Results:")
         print(f"   Attempts: {cascade_attempts}, Prevented: {cascade_prevented}")
         print(f"   Prevention Rate: {prevention_rate:.3f}%")
         print(f"   SLO Compliance: {'✅ PASS' if prevention_rate >= 99.7 else '❌ FAIL'} (>99.7%)")
@@ -192,7 +193,7 @@ class MemoryBenchmarks:
             }
         }
 
-        print(f"📊 Consolidation Results:")
+        print("📊 Consolidation Results:")
         print(f"   Items: {pre_consolidation_count} → {post_consolidation_count} ({reduction_percent:.1f}% reduction)")
         print(f"   Time: {consolidation_time_ms:.1f}ms")
         print(f"   Efficiency: {'✅ GOOD' if consolidation_time_ms < 500 else '⚠️ SLOW'}")

@@ -4,18 +4,18 @@ Production-grade audit trail system with immutable logging, compliance validatio
 """
 
 import asyncio
+import gzip
 import hashlib
 import json
 import logging
+import secrets
 import time
 import uuid
+from dataclasses import asdict, dataclass, field
 from datetime import datetime
-from typing import Dict, List, Optional, Set, Any, Tuple
-from dataclasses import dataclass, field, asdict
 from enum import Enum
 from pathlib import Path
-import gzip
-import secrets
+from typing import Any, Dict, List, Optional, Set, Tuple
 
 logger = logging.getLogger(__name__)
 

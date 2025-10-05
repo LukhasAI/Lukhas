@@ -1,6 +1,6 @@
-import pytest
-
 from datetime import datetime, timezone
+
+import pytest
 
 from guardian.emit import emit_guardian_decision
 

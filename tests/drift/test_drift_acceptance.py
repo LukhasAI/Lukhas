@@ -13,8 +13,8 @@ Verifies that implementation meets the acceptance criteria:
 #TAG:acceptance
 """
 import os
-import time
 import statistics
+import time
 
 # Set feature flags
 os.environ['LUKHAS_EXPERIMENTAL'] = '1'
@@ -93,7 +93,7 @@ def test_p95_latency_overhead():
     print(f"Baseline p95: {baseline_p95*1000:.3f}ms")
     print(f"With drift p95: {drift_p95*1000:.3f}ms")
     print(f"Absolute overhead: {overhead_ms:.3f}ms")
-    print(f"Target: < 1ms absolute overhead")
+    print("Target: < 1ms absolute overhead")
 
     # Use absolute threshold since baseline is very small
     # Drift calculation should add < 1ms at p95

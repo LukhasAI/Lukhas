@@ -7,9 +7,10 @@ and intelligent failover capabilities.
 """
 
 import asyncio
-import pytest
 import time
 from unittest.mock import AsyncMock, MagicMock, patch
+
+import pytest
 
 from ai_orchestration.lukhas_ai_orchestrator import LUKHASAIOrchestrator
 

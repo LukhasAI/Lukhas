@@ -16,10 +16,10 @@ from types import ModuleType
 from typing import Any, Callable, Optional
 
 from .plugin_registry import (
-    PluginRegistry,
+    LUKHASPlugin,
     PluginBase,
     PluginInfo,
-    LUKHASPlugin,
+    PluginRegistry,
     get_plugin_registry,
     register_plugin,
 )

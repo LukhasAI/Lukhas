@@ -8,16 +8,15 @@
 Integration tests for telemetry module.
 """
 
-import pytest
 import unittest
-import asyncio
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module for integration testing
 try:
     import telemetry
 except ImportError:
-    pytest.skip(f"Module telemetry not available", allow_module_level=True)
+    pytest.skip("Module telemetry not available", allow_module_level=True)
 
 
 class TestTelemetryIntegration(unittest.TestCase):

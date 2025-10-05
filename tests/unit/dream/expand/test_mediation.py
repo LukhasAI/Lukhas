@@ -1,5 +1,6 @@
 from lukhas.consciousness.dream.expand import mediation
 
+
 def test_mediate_creates_compromise():
     a = {"confidence": 0.8, "joy": 0.6}
     b = {"confidence": 0.2, "joy": 0.4}

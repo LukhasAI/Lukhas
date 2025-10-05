@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
-import ast, pathlib, sys, argparse
+import argparse
+import ast
+import pathlib
+import sys
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 SKIP_DIRS = {"tests", ".venv", "venv", "build", "dist", "__pycache__", "quarantine", "mcp-lukhas-sse", "site-packages", "vendor", ".git", "temp", "node_modules", "backups"}

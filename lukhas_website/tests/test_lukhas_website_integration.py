@@ -8,16 +8,15 @@
 Integration tests for lukhas_website module.
 """
 
-import pytest
 import unittest
-import asyncio
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module for integration testing
 try:
     import lukhas_website
 except ImportError:
-    pytest.skip(f"Module lukhas_website not available", allow_module_level=True)
+    pytest.skip("Module lukhas_website not available", allow_module_level=True)
 
 
 class TestLukhasWebsiteIntegration(unittest.TestCase):

@@ -8,15 +8,15 @@ Tests end-to-end functionality, security hardening, and performance.
 """
 
 import asyncio
-import pytest
 import time
 
+import pytest
 
 # Import components to test
 from lukhas.identity.jwks_cache import JWKSCache
+from lukhas.identity.metrics_collector import ServiceMetricsCollector
 from lukhas.identity.rate_limiting import RateLimiter, RateLimitType
 from lukhas.identity.security_hardening import SecurityHardeningManager, ThreatLevel
-from lukhas.identity.metrics_collector import ServiceMetricsCollector
 
 
 @pytest.fixture
@@ -492,7 +492,7 @@ class TestPerformanceBenchmarks:
             p99 = times[990]
             mean = sum(times) / len(times)
 
-            print(f"Performance metrics:")
+            print("Performance metrics:")
             print(f"  Mean: {mean:.2f}ms")
             print(f"  P50:  {p50:.2f}ms")
             print(f"  P95:  {p95:.2f}ms")

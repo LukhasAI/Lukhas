@@ -8,15 +8,15 @@
 Unit tests for branding module.
 """
 
-import pytest
 import unittest
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module components
 try:
     import branding
 except ImportError:
-    pytest.skip(f"Module branding not available", allow_module_level=True)
+    pytest.skip("Module branding not available", allow_module_level=True)
 
 
 class TestBrandingModule(unittest.TestCase):

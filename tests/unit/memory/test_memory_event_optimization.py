@@ -7,17 +7,18 @@ including unit tests, property tests, load tests, and memory leak detection.
 """
 
 import gc
-import psutil
-import pytest
+import os
 import sys
 import time
 from collections import deque
 from concurrent.futures import ThreadPoolExecutor
 
-import os
+import psutil
+import pytest
+
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '../../..'))
 
-from memory.memory_event import MemoryEventFactory, MemoryEvent
+from memory.memory_event import MemoryEvent, MemoryEventFactory
 
 
 class TestMemoryEventOptimization:
@@ -159,7 +160,8 @@ class TestMemoryEventOptimization:
     @pytest.mark.property
     def test_deque_invariants(self):
         """Property-based tests for deque behavior invariants"""
-        from hypothesis import given, strategies as st
+        from hypothesis import given
+        from hypothesis import strategies as st
 
         @given(st.lists(st.floats(min_value=-1.0, max_value=1.0, allow_nan=False), min_size=0, max_size=200))
         def check_deque_invariants(drift_values):

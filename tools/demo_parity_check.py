@@ -11,12 +11,12 @@ Validates:
 - Demo data structures match production schemas
 """
 
-import subprocess
-import json
-import sys
-import pathlib
-from typing import Dict, List, Optional, Any
 import argparse
+import json
+import pathlib
+import subprocess
+import sys
+from typing import Any, Dict, List, Optional
 
 
 class DemoParityChecker:
@@ -93,7 +93,7 @@ class DemoParityChecker:
 
             # Verify demo calls production tool with correct arguments
             if f"python3 {production_tool.relative_to('.')}" not in demo_content and \
-               f"python3 ../../../tools/generate_car.py" not in demo_content:
+               "python3 ../../../tools/generate_car.py" not in demo_content:
                 issues.append("Demo script doesn't call production generate_car.py tool")
 
             # Check production tool CLI interface

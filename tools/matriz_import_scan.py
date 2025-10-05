@@ -6,13 +6,13 @@ Analyzes Python import patterns to detect problematic imports and circular depen
 Focuses on detecting bad root patterns and module boundary violations.
 """
 
+import argparse
 import ast
 import json
 import pathlib
-from typing import List, Dict, Any, Set
-import argparse
 import sys
 from collections import defaultdict
+from typing import Any, Dict, List, Set
 
 
 class ImportVisitor(ast.NodeVisitor):
@@ -55,7 +55,7 @@ def extract_imports_from_file(file_path: pathlib.Path) -> List[Dict[str, Any]]:
         visitor.visit(tree)
         return visitor.imports
 
-    except (SyntaxError, UnicodeDecodeError, FileNotFoundError) as e:
+    except (SyntaxError, UnicodeDecodeError, FileNotFoundError):
         return []
 
 
@@ -235,7 +235,7 @@ def main():
         json.dump(results, f, indent=2)
 
     if args.verbose:
-        print(f"Import analysis complete:")
+        print("Import analysis complete:")
         print(f"  Python files scanned: {results['summary']['total_python_files']}")
         print(f"  Bad import patterns: {results['summary']['total_bad_imports']}")
         print(f"  Files with issues: {results['summary']['files_with_bad_imports']}")

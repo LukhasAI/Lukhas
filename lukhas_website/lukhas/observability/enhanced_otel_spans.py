@@ -14,28 +14,28 @@ Features:
 - Distributed tracing correlation
 """
 
-import time
-import functools
 import asyncio
+import functools
+import inspect
 import logging
-from typing import Dict, Any, Optional, Callable, Union
+import time
+from contextvars import ContextVar
 from dataclasses import dataclass, field
 from enum import Enum
-from contextvars import ContextVar
-import inspect
+from typing import Any, Callable, Dict, Optional, Union
 
 # Try to import OpenTelemetry components
 try:
-    from opentelemetry import trace, context, baggage
-    from opentelemetry.trace import Status, StatusCode, Span, Tracer
-    from opentelemetry.trace.propagation.tracecontext import TraceContextTextMapPropagator
+    from opentelemetry import baggage, context, trace
     from opentelemetry.baggage.propagation import W3CBaggagePropagator
+    from opentelemetry.exporter.jaeger.thrift import JaegerExporter
+    from opentelemetry.instrumentation.auto_instrumentation import sitecustomize
     from opentelemetry.propagators.composite import CompositePropagator
     from opentelemetry.sdk.trace import TracerProvider
     from opentelemetry.sdk.trace.export import BatchSpanProcessor, ConsoleSpanExporter
-    from opentelemetry.exporter.jaeger.thrift import JaegerExporter
-    from opentelemetry.instrumentation.auto_instrumentation import sitecustomize
     from opentelemetry.semconv.trace import SpanAttributes
+    from opentelemetry.trace import Span, Status, StatusCode, Tracer
+    from opentelemetry.trace.propagation.tracecontext import TraceContextTextMapPropagator
     OTEL_AVAILABLE = True
 except ImportError:
     OTEL_AVAILABLE = False

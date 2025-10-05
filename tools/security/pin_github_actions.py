@@ -9,8 +9,8 @@ Usage:
     python tools/security/pin_github_actions.py --update
 """
 
-import re
 import argparse
+import re
 from pathlib import Path
 from typing import Dict, List, Tuple
 
@@ -153,7 +153,7 @@ def main():
     if args.check:
         issues = check_workflows()
         if issues:
-            print(f"\n💡 Run with --update to pin known actions to SHA references")
+            print("\n💡 Run with --update to pin known actions to SHA references")
             exit(1)
         else:
             print("✅ All actions are properly pinned!")

@@ -8,8 +8,8 @@ work correctly with Guardian integration.
 """
 
 import asyncio
-import time
 import sys
+import time
 from pathlib import Path
 
 # Add the project root to Python path
@@ -18,9 +18,10 @@ sys.path.insert(0, str(project_root))
 
 from memory.backends.pgvector_store import PgVectorStore, VectorDoc
 from memory.indexer import Indexer
-from memory.memory_orchestrator import MemoryOrchestrator
 from memory.lifecycle import Lifecycle, RetentionPolicy
+from memory.memory_orchestrator import MemoryOrchestrator
 from memory.observability import MemoryTracer
+
 
 class TestPgClient:
     """Test database client."""
@@ -100,7 +101,7 @@ async def test_memory_orchestrator_integration():
     # Test legacy compatibility
     legacy_result = orchestrator.orchestrate_memory("test_op", {"data": "test"})
     assert legacy_result["status"] == "success"
-    print(f"   ✅ legacy compatibility maintained")
+    print("   ✅ legacy compatibility maintained")
 
     # Test storage stats
     stats = store.stats()
@@ -259,13 +260,13 @@ async def main():
             results["performance"]["sla_met"]
         )
 
-        print(f"\n🏆 INTEGRATION VALIDATION SUMMARY")
-        print(f"=" * 35)
+        print("\n🏆 INTEGRATION VALIDATION SUMMARY")
+        print("=" * 35)
         print(f"Component Contracts: {'✅ PASS' if results['contracts']['contract_validation_success'] else '❌ FAIL'}")
         print(f"Orchestrator Integration: {'✅ PASS' if results['orchestrator']['integration_success'] else '❌ FAIL'}")
         print(f"Guardian Integration: {'✅ PASS' if results['guardian']['guardian_integration_success'] else '❌ FAIL'}")
         print(f"Performance SLA: {'✅ PASS' if results['performance']['sla_met'] else '❌ FAIL'}")
-        print(f"")
+        print("")
         print(f"Overall M.1 Status: {'🎉 SUCCESS - READY FOR DEPLOYMENT' if all_success else '🔧 NEEDS WORK'}")
 
         return results

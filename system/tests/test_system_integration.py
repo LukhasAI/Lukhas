@@ -8,16 +8,15 @@
 Integration tests for system module.
 """
 
-import pytest
 import unittest
-import asyncio
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module for integration testing
 try:
     import system
 except ImportError:
-    pytest.skip(f"Module system not available", allow_module_level=True)
+    pytest.skip("Module system not available", allow_module_level=True)
 
 
 class TestSystemIntegration(unittest.TestCase):

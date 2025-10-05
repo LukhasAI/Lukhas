@@ -8,15 +8,15 @@
 Unit tests for diagnostics module.
 """
 
-import pytest
 import unittest
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module components
 try:
     import diagnostics
 except ImportError:
-    pytest.skip(f"Module diagnostics not available", allow_module_level=True)
+    pytest.skip("Module diagnostics not available", allow_module_level=True)
 
 
 class TestDiagnosticsModule(unittest.TestCase):
@@ -81,7 +81,7 @@ class Testcalculate_drift_score(unittest.TestCase):
             from diagnostics.drift_diagnostics import calculate_drift_score
             self.assertIsNotNone(calculate_drift_score)
         except ImportError:
-            pytest.skip(f"Component calculate_drift_score not available")
+            pytest.skip("Component calculate_drift_score not available")
 
     def test_calculate_drift_score_instantiation(self):
         """Test calculate_drift_score can be instantiated."""
@@ -98,7 +98,7 @@ class Testdetect_collapse_points(unittest.TestCase):
             from diagnostics.drift_diagnostics import detect_collapse_points
             self.assertIsNotNone(detect_collapse_points)
         except ImportError:
-            pytest.skip(f"Component detect_collapse_points not available")
+            pytest.skip("Component detect_collapse_points not available")
 
     def test_detect_collapse_points_instantiation(self):
         """Test detect_collapse_points can be instantiated."""
@@ -115,7 +115,7 @@ class Testgenerate_entropy_map_from_memory(unittest.TestCase):
             from diagnostics.drift_diagnostics import generate_entropy_map_from_memory
             self.assertIsNotNone(generate_entropy_map_from_memory)
         except ImportError:
-            pytest.skip(f"Component generate_entropy_map_from_memory not available")
+            pytest.skip("Component generate_entropy_map_from_memory not available")
 
     def test_generate_entropy_map_from_memory_instantiation(self):
         """Test generate_entropy_map_from_memory can be instantiated."""

@@ -6,10 +6,11 @@ Uses Hypothesis to generate random memory operations and verify
 that the 99.7% cascade prevention rate is maintained.
 """
 
-import pytest
-import time
 import asyncio
-from typing import Dict, Any
+import time
+from typing import Any, Dict
+
+import pytest
 
 
 # Simple memory simulator for testing cascade prevention

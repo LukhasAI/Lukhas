@@ -14,10 +14,10 @@ def test_core_api_imports():
     try:
         from lukhas.core import (
             TRINITY_SYMBOLS,
+            CoreWrapper,
             GLYPHSymbol,
             GLYPHToken,
             create_glyph,
-            CoreWrapper,
         )
 
         # Verify trinity symbols exist
@@ -123,9 +123,9 @@ def test_memory_api_imports():
 def test_basic_types_and_constants():
     """Test basic types and constants are well-formed."""
     # Test that basic Python imports work
+    import datetime
     import json
     import uuid
-    import datetime
 
     # Verify we can create basic data structures
     test_data = {

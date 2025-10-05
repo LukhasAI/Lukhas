@@ -7,14 +7,15 @@ Validates that authorization policy intent matches expected behavior across
 different tier/scope/action combinations.
 """
 
+import argparse
 import json
-import yaml
-import sys
 import subprocess
+import sys
 import tempfile
 from pathlib import Path
-from typing import Dict, Any, Tuple
-import argparse
+from typing import Any, Dict, Tuple
+
+import yaml
 
 
 class AuthzTestRunner:
@@ -49,7 +50,7 @@ class AuthzTestRunner:
         contract_paths = [
             Path(f"{module}/matrix_{module}.json"),
             Path(f"matrix_{module}.json"),
-            Path(f"memory/matrix_memoria.json") if module == "memoria" else None
+            Path("memory/matrix_memoria.json") if module == "memoria" else None
         ]
 
         for path in contract_paths:

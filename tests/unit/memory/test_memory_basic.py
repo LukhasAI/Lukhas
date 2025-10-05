@@ -1,7 +1,8 @@
 """Test memory module basic functionality."""
 
-import pytest
 from unittest.mock import patch
+
+import pytest
 
 
 def test_memory_wrapper_import():

@@ -8,15 +8,15 @@
 Unit tests for tagging module.
 """
 
-import pytest
 import unittest
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module components
 try:
     import tagging
 except ImportError:
-    pytest.skip(f"Module tagging not available", allow_module_level=True)
+    pytest.skip("Module tagging not available", allow_module_level=True)
 
 
 class TestTaggingModule(unittest.TestCase):
@@ -81,7 +81,7 @@ class TestAdvancedTagResolver(unittest.TestCase):
             from tagging import AdvancedTagResolver
             self.assertIsNotNone(AdvancedTagResolver)
         except ImportError:
-            pytest.skip(f"Component AdvancedTagResolver not available")
+            pytest.skip("Component AdvancedTagResolver not available")
 
     def test_advancedtagresolver_instantiation(self):
         """Test AdvancedTagResolver can be instantiated."""
@@ -98,7 +98,7 @@ class TestSimpleTagResolver(unittest.TestCase):
             from tagging import SimpleTagResolver
             self.assertIsNotNone(SimpleTagResolver)
         except ImportError:
-            pytest.skip(f"Component SimpleTagResolver not available")
+            pytest.skip("Component SimpleTagResolver not available")
 
     def test_simpletagresolver_instantiation(self):
         """Test SimpleTagResolver can be instantiated."""
@@ -115,7 +115,7 @@ class TestSymbolicTag(unittest.TestCase):
             from tagging import SymbolicTag
             self.assertIsNotNone(SymbolicTag)
         except ImportError:
-            pytest.skip(f"Component SymbolicTag not available")
+            pytest.skip("Component SymbolicTag not available")
 
     def test_symbolictag_instantiation(self):
         """Test SymbolicTag can be instantiated."""

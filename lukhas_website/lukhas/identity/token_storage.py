@@ -9,14 +9,16 @@ Constellation Framework: Identity ⚛️ pillar with cross-system coordination.
 """
 
 from __future__ import annotations
-import time
+
 import json
 import os
-from typing import Dict, Any, Optional, List, Set
-from dataclasses import dataclass, asdict
+import time
+from dataclasses import asdict, dataclass
 from enum import Enum
+from typing import Any, Dict, List, Optional, Set
+
 from opentelemetry import trace
-from prometheus_client import Counter, Histogram, Gauge
+from prometheus_client import Counter, Gauge, Histogram
 
 tracer = trace.get_tracer(__name__)
 
@@ -567,7 +569,7 @@ class TokenStorage:
                 rotation = KeyRotationRecord(**rotation_data)
                 self._key_rotation_history.append(rotation)
 
-        except Exception as e:
+        except Exception:
             # Log error but don't fail startup
             pass
 
@@ -586,7 +588,7 @@ class TokenStorage:
             os.makedirs(os.path.dirname(self.storage_path), exist_ok=True)
             with open(self.storage_path, 'w') as f:
                 json.dump(data, f, indent=2)
-        except Exception as e:
+        except Exception:
             # Log error but don't fail operation
             pass
 

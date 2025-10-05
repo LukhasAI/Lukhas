@@ -5,9 +5,12 @@ Ensures strategies handle direct emotional clashes properly.
 import pytest
 
 from benchmarks.dream.conflict import (
-    get_conflict_corpus, get_conflict_case, validate_conflict_case,
-    run_conflict_validation
+    get_conflict_case,
+    get_conflict_corpus,
+    run_conflict_validation,
+    validate_conflict_case,
 )
+
 
 class TestConflictCorpus:
     """Test conflict scenario corpus functionality."""

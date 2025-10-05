@@ -20,21 +20,21 @@ Implementation: T4/0.01% excellence targeting production-grade OIDC provider
 
 import asyncio
 import base64
-import json
 import hashlib
+import json
 import secrets
 import time
-import pytest
 from datetime import datetime, timedelta, timezone
 from urllib.parse import parse_qs, urlparse
 
 import jwt
+import pytest
 from cryptography.hazmat.primitives import serialization
 from cryptography.hazmat.primitives.asymmetric import rsa
 
-from lukhas.identity.oidc.provider import OIDCProvider
-from lukhas.identity.oidc.discovery import DiscoveryProvider
 from lukhas.identity.oidc.client_registry import OIDCClient
+from lukhas.identity.oidc.discovery import DiscoveryProvider
+from lukhas.identity.oidc.provider import OIDCProvider
 from lukhas.identity.security_hardening import SecurityHardening
 from lukhas.identity.webauthn_security_hardening import WebAuthnSecurityHardening
 
@@ -739,8 +739,8 @@ class TestOIDCMetricsIntegration(OIDCConformanceTestSuite):
         }
 
         # Write conformance report for CI artifacts
-        import pathlib
         import json
+        import pathlib
         artifacts_dir = pathlib.Path("artifacts")
         artifacts_dir.mkdir(exist_ok=True)
         report_path = artifacts_dir / f"oidc_validation_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"

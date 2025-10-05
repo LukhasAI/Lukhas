@@ -27,14 +27,15 @@ Constellation Framework: ⚡ Chaos Engineering & Resilience
 """
 
 import logging
-import pytest
-import time
-import threading
-from dataclasses import dataclass
-from typing import Dict, Any, List, Optional, Tuple, Callable
-from enum import Enum
-from concurrent.futures import ThreadPoolExecutor
 import random
+import threading
+import time
+from concurrent.futures import ThreadPoolExecutor
+from dataclasses import dataclass
+from enum import Enum
+from typing import Any, Callable, Dict, List, Optional, Tuple
+
+import pytest
 
 logger = logging.getLogger(__name__)
 
@@ -529,7 +530,7 @@ class TestMATRIZGuardianResilience:
         assert result.fail_closed_time_ms < 250.0, "Fail-closed should activate quickly"
         assert not result.data_corruption_detected, "No data corruption during partition"
 
-        logger.info(f"✅ Network partition resilience test passed")
+        logger.info("✅ Network partition resilience test passed")
 
     def test_guardian_memory_corruption_detection(self):
         """Test detection and handling of Guardian memory corruption."""
@@ -559,7 +560,7 @@ class TestMATRIZGuardianResilience:
         )
         assert corrupted_committed == 0, "No corrupted decisions should be committed"
 
-        logger.info(f"✅ Memory corruption detection test passed")
+        logger.info("✅ Memory corruption detection test passed")
 
     def test_guardian_timeout_fail_closed(self):
         """Test fail-closed behavior on Guardian timeout."""
@@ -791,7 +792,7 @@ class TestMATRIZGuardianResilience:
         max_fail_closed_time = max(r.fail_closed_time_ms for r in comprehensive_results)
         mean_fail_closed_time = sum(r.fail_closed_time_ms for r in comprehensive_results) / total_scenarios
 
-        logger.info(f"✅ Comprehensive chaos scenarios passed:")
+        logger.info("✅ Comprehensive chaos scenarios passed:")
         logger.info(f"   Scenarios: {successful_scenarios}/{total_scenarios}")
         logger.info(f"   Success rate: {success_rate:.1f}%")
         logger.info(f"   Max fail-closed time: {max_fail_closed_time:.1f}ms")
@@ -859,7 +860,7 @@ if __name__ == "__main__":
             time.sleep(0.1)
 
         # High load test
-        print(f"\nTesting: High Load Resilience")
+        print("\nTesting: High Load Resilience")
         with ThreadPoolExecutor(max_workers=10) as executor:
             futures = []
             for i in range(20):
@@ -882,10 +883,10 @@ if __name__ == "__main__":
                     results.append(None)
 
         if chaos_controller.system_state == SystemState.FAIL_CLOSED:
-            print(f"   ✅ PASS - High load resilience maintained")
+            print("   ✅ PASS - High load resilience maintained")
             passed_tests += 1
         else:
-            print(f"   ❌ FAIL - High load resilience failed")
+            print("   ❌ FAIL - High load resilience failed")
 
         print(f"\n{'='*60}")
         if passed_tests == len(test_scenarios) + 1:  # +1 for high load test

@@ -8,9 +8,9 @@
 Integration tests for docs module.
 """
 
+from unittest.mock import Mock, patch
+
 import pytest
-import importlib
-from unittest.mock import patch, Mock
 
 pytestmark = pytest.mark.integration
 
@@ -42,8 +42,8 @@ class TestDocsEndToEnd:
     def test_consciousness_system_integration(self):
         """Test integration with full consciousness system."""
         try:
-            from lukhas.docs import DocsCore
             from lukhas.consciousness import ConsciousnessCore
+            from lukhas.docs import DocsCore
             from lukhas.memory import MemoryCore
 
             # Initialize full system stack
@@ -109,9 +109,10 @@ class TestDocsScalabilityIntegration:
     def test_concurrent_processing(self):
         """Test concurrent processing capabilities."""
         try:
-            from lukhas.docs import DocsCore
             import concurrent.futures
             import threading
+
+            from lukhas.docs import DocsCore
 
             component = DocsCore()
 

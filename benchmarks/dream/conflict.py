@@ -2,7 +2,7 @@
 Conflict corpus for stress-testing strategies.
 Tests direct emotional conflicts and edge cases.
 """
-from typing import Dict, List, Any
+from typing import Any, Dict, List
 
 CONFLICT_CASES = [
     {
@@ -214,6 +214,6 @@ if __name__ == "__main__":
     else:
         print("\n✓ All conflict cases valid")
 
-    print(f"\nConflict cases available:")
+    print("\nConflict cases available:")
     for case in CONFLICT_CASES:
         print(f"  - {case['id']}: {case['description']}")

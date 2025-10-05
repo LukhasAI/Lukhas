@@ -39,17 +39,17 @@ try:
         activate_lukhas_consciousness,
         get_activation_orchestrator,
     )
+    from lukhas.consciousness.constellation_integration import (
+        ConstellationFrameworkIntegrator,
+        TrinityFramework,
+        get_constellation_integrator,
+        initialize_constellation_consciousness,
+    )
     from lukhas.consciousness.registry import (
         ComponentStatus,
         ComponentType,
         ConsciousnessComponentRegistry,
         get_consciousness_registry,
-    )
-    from lukhas.consciousness.constellation_integration import (
-        TrinityFramework,
-        ConstellationFrameworkIntegrator,
-        get_constellation_integrator,
-        initialize_constellation_consciousness,
     )
     from lukhas.memory.consciousness_memory_integration import (
         ConsciousnessMemoryIntegrator,

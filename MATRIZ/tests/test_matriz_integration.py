@@ -8,16 +8,15 @@
 Integration tests for matriz module.
 """
 
-import pytest
 import unittest
-import asyncio
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module for integration testing
 try:
     import matriz
 except ImportError:
-    pytest.skip(f"Module matriz not available", allow_module_level=True)
+    pytest.skip("Module matriz not available", allow_module_level=True)
 
 
 class TestMatrizIntegration(unittest.TestCase):

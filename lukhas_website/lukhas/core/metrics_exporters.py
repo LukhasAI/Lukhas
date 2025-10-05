@@ -9,8 +9,9 @@ Usage:
   enable_runtime_exporters()  # Call once at app boot
 """
 from __future__ import annotations
-import os
+
 import logging
+import os
 
 logger = logging.getLogger(__name__)
 
@@ -51,10 +52,10 @@ def init_opentelemetry() -> None:
         return
     try:
         # Minimal, metrics only (safe defaults). Traces can be added later.
-        from opentelemetry.sdk.resources import Resource
-        from opentelemetry.sdk.metrics import MeterProvider
         from opentelemetry.exporter.otlp.proto.http.metric_exporter import OTLPMetricExporter
+        from opentelemetry.sdk.metrics import MeterProvider
         from opentelemetry.sdk.metrics.export import PeriodicExportingMetricReader
+        from opentelemetry.sdk.resources import Resource
 
         # Configure
         res = Resource.create({"service.name": os.getenv("LUKHAS_SERVICE", "lukhas-core")})

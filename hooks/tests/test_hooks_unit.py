@@ -8,15 +8,15 @@
 Unit tests for hooks module.
 """
 
-import pytest
 import unittest
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module components
 try:
     import hooks
 except ImportError:
-    pytest.skip(f"Module hooks not available", allow_module_level=True)
+    pytest.skip("Module hooks not available", allow_module_level=True)
 
 
 class TestHooksModule(unittest.TestCase):
@@ -81,7 +81,7 @@ class TestGPTInteractionStyle(unittest.TestCase):
             from hooks.gpt_dream_reflection import GPTInteractionStyle
             self.assertIsNotNone(GPTInteractionStyle)
         except ImportError:
-            pytest.skip(f"Component GPTInteractionStyle not available")
+            pytest.skip("Component GPTInteractionStyle not available")
 
     def test_gptinteractionstyle_instantiation(self):
         """Test GPTInteractionStyle can be instantiated."""
@@ -98,7 +98,7 @@ class TestGPTSymbolicBridge(unittest.TestCase):
             from hooks.gpt_dream_reflection import GPTSymbolicBridge
             self.assertIsNotNone(GPTSymbolicBridge)
         except ImportError:
-            pytest.skip(f"Component GPTSymbolicBridge not available")
+            pytest.skip("Component GPTSymbolicBridge not available")
 
     def test_gptsymbolicbridge_instantiation(self):
         """Test GPTSymbolicBridge can be instantiated."""
@@ -115,7 +115,7 @@ class Testcreate_gpt_context(unittest.TestCase):
             from hooks.gpt_dream_reflection import create_gpt_context
             self.assertIsNotNone(create_gpt_context)
         except ImportError:
-            pytest.skip(f"Component create_gpt_context not available")
+            pytest.skip("Component create_gpt_context not available")
 
     def test_create_gpt_context_instantiation(self):
         """Test create_gpt_context can be instantiated."""

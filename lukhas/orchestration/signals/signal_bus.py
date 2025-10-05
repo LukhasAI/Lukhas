@@ -8,8 +8,8 @@ try:
     from candidate.orchestration.signals.signal_bus import *
 except ImportError:
     # Provide minimal fallback types if candidate module not available
-    from enum import Enum
     from dataclasses import dataclass
+    from enum import Enum
     from typing import Any, Callable, Dict, List, Optional
 
     class SignalType(Enum):

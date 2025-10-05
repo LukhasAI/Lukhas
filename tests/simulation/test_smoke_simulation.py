@@ -10,18 +10,14 @@ Usage:
     make t4-sim-lane
 """
 
-import pytest
-from unittest.mock import Mock, patch
 import os
-from typing import Dict, Any
+from unittest.mock import patch
+
+import pytest
 
 # Simulation module imports (capability-gated)
 try:
-    from consciousness.simulation import (
-        schedule_simulation,
-        collect_simulation_results,
-        validate_ethics_gate
-    )
+    from consciousness.simulation import collect_simulation_results, schedule_simulation, validate_ethics_gate
     SIMULATION_AVAILABLE = True
 except ImportError:
     SIMULATION_AVAILABLE = False
@@ -146,10 +142,10 @@ class TestSimulationSmoke:
 
         try:
             # This should fail if simulation imports from adapters
-            from consciousness.simulation import core
-
             # Check that adapters modules are not in simulation dependencies
             import sys
+
+            from consciousness.simulation import core
             simulation_modules = [name for name in sys.modules.keys()
                                 if name.startswith('consciousness.simulation')]
 

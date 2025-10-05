@@ -8,15 +8,15 @@
 Unit tests for performance module.
 """
 
-import pytest
 import unittest
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module components
 try:
     import performance
 except ImportError:
-    pytest.skip(f"Module performance not available", allow_module_level=True)
+    pytest.skip("Module performance not available", allow_module_level=True)
 
 
 class TestPerformanceModule(unittest.TestCase):
@@ -81,7 +81,7 @@ class TestPerformanceAnalyzer(unittest.TestCase):
             from performance.optimization_analysis import PerformanceAnalyzer
             self.assertIsNotNone(PerformanceAnalyzer)
         except ImportError:
-            pytest.skip(f"Component PerformanceAnalyzer not available")
+            pytest.skip("Component PerformanceAnalyzer not available")
 
     def test_performanceanalyzer_instantiation(self):
         """Test PerformanceAnalyzer can be instantiated."""
@@ -98,7 +98,7 @@ class Testgenerate_recommendations(unittest.TestCase):
             from performance.optimization_analysis import generate_recommendations
             self.assertIsNotNone(generate_recommendations)
         except ImportError:
-            pytest.skip(f"Component generate_recommendations not available")
+            pytest.skip("Component generate_recommendations not available")
 
     def test_generate_recommendations_instantiation(self):
         """Test generate_recommendations can be instantiated."""
@@ -115,7 +115,7 @@ class Testprint_summary(unittest.TestCase):
             from performance.optimization_analysis import print_summary
             self.assertIsNotNone(print_summary)
         except ImportError:
-            pytest.skip(f"Component print_summary not available")
+            pytest.skip("Component print_summary not available")
 
     def test_print_summary_instantiation(self):
         """Test print_summary can be instantiated."""

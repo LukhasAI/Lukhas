@@ -8,16 +8,15 @@
 Integration tests for cognitive_core module.
 """
 
-import pytest
 import unittest
-import asyncio
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module for integration testing
 try:
     import cognitive_core
 except ImportError:
-    pytest.skip(f"Module cognitive_core not available", allow_module_level=True)
+    pytest.skip("Module cognitive_core not available", allow_module_level=True)
 
 
 class TestCognitiveCoreIntegration(unittest.TestCase):

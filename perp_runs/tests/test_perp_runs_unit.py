@@ -8,15 +8,15 @@
 Unit tests for perp_runs module.
 """
 
-import pytest
 import unittest
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module components
 try:
     import perp_runs
 except ImportError:
-    pytest.skip(f"Module perp_runs not available", allow_module_level=True)
+    pytest.skip("Module perp_runs not available", allow_module_level=True)
 
 
 class TestPerpRunsModule(unittest.TestCase):

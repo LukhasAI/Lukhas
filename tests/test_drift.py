@@ -5,9 +5,10 @@ Unit tests for DriftScore v2 - windowed cosine similarity with EMA.
 Covers thresholds, EMA smoothing, and zero-vector safety.
 """
 import os
+
 import pytest
 
-from lukhas.core.drift import DriftMonitor, _cosine, LANE_CFG
+from lukhas.core.drift import LANE_CFG, DriftMonitor, _cosine
 
 
 def test_cosine_similarity():

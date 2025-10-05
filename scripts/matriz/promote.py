@@ -17,13 +17,13 @@ Usage:
 """
 
 import argparse
+import hashlib
 import json
 import logging
 import sys
 import time
-import hashlib
 from pathlib import Path
-from typing import Dict, Optional, Any
+from typing import Any, Dict, Optional
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)

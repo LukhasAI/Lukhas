@@ -6,11 +6,11 @@ Prometheus metrics collection for memory service operations.
 Tracks T4/0.01% excellence SLOs with comprehensive observability.
 """
 
-import time
 import logging
-from typing import Dict, Any, Optional, List
-from dataclasses import dataclass, field
+import time
 from collections import defaultdict, deque
+from dataclasses import dataclass, field
+from typing import Any, Dict, List, Optional
 
 logger = logging.getLogger(__name__)
 

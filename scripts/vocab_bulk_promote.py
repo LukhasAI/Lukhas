@@ -41,14 +41,15 @@ phenomenal pipeline,,phenomenology.pipeline,consciousness,,thought
 """
 
 from __future__ import annotations
+
 import argparse
 import csv
 import json
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
-from jsonschema import Draft202012Validator
 
+from jsonschema import Draft202012Validator
 
 ROOT = Path(__file__).resolve().parents[1]
 FEATURES = ROOT / "vocab" / "features.json"

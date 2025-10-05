@@ -8,15 +8,15 @@
 Unit tests for universal_language module.
 """
 
-import pytest
 import unittest
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module components
 try:
     import universal_language
 except ImportError:
-    pytest.skip(f"Module universal_language not available", allow_module_level=True)
+    pytest.skip("Module universal_language not available", allow_module_level=True)
 
 
 class TestUniversalLanguageModule(unittest.TestCase):
@@ -81,7 +81,7 @@ class TestSymbolComposer(unittest.TestCase):
             from universal_language.compositional import SymbolComposer
             self.assertIsNotNone(SymbolComposer)
         except ImportError:
-            pytest.skip(f"Component SymbolComposer not available")
+            pytest.skip("Component SymbolComposer not available")
 
     def test_symbolcomposer_instantiation(self):
         """Test SymbolComposer can be instantiated."""
@@ -98,7 +98,7 @@ class TestSymbolProgram(unittest.TestCase):
             from universal_language.compositional import SymbolProgram
             self.assertIsNotNone(SymbolProgram)
         except ImportError:
-            pytest.skip(f"Component SymbolProgram not available")
+            pytest.skip("Component SymbolProgram not available")
 
     def test_symbolprogram_instantiation(self):
         """Test SymbolProgram can be instantiated."""
@@ -115,7 +115,7 @@ class TestSymbolProgramSynthesizer(unittest.TestCase):
             from universal_language.compositional import SymbolProgramSynthesizer
             self.assertIsNotNone(SymbolProgramSynthesizer)
         except ImportError:
-            pytest.skip(f"Component SymbolProgramSynthesizer not available")
+            pytest.skip("Component SymbolProgramSynthesizer not available")
 
     def test_symbolprogramsynthesizer_instantiation(self):
         """Test SymbolProgramSynthesizer can be instantiated."""

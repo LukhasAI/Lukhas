@@ -7,17 +7,18 @@ Rigorous, statistically sound performance measurement with
 tamper-evident proof generation.
 """
 
-import json
-import time
-import statistics
-import platform
-import psutil
 import hashlib
+import json
 import os
+import platform
+import statistics
 import sys
-from dataclasses import dataclass, asdict
-from typing import List, Dict, Any, Tuple
+import time
+from dataclasses import asdict, dataclass
+from typing import Any, Dict, List, Tuple
+
 import numpy as np
+import psutil
 
 
 @dataclass

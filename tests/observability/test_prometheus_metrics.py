@@ -5,23 +5,24 @@ Validates metrics collection with and without Prometheus client available.
 """
 
 import os
-import time
-import threading
-from unittest.mock import patch
-import pytest
 import sys
+import threading
+import time
 from pathlib import Path
+from unittest.mock import patch
+
+import pytest
 
 # Add project root to path
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
 from lukhas.observability.prometheus_metrics import (
+    PROMETHEUS_AVAILABLE,
     LUKHASMetrics,
     MetricsConfig,
-    initialize_metrics,
     get_lukhas_metrics,
+    initialize_metrics,
     shutdown_metrics,
-    PROMETHEUS_AVAILABLE,
 )
 
 

@@ -7,8 +7,9 @@ Tests the core Ticker → Router → EventStore flow.
 """
 import os
 import time
+from uuid import UUID, uuid4
+
 import pytest
-from uuid import uuid4, UUID
 
 from core.consciousness_stream import ConsciousnessStream, create_consciousness_stream
 

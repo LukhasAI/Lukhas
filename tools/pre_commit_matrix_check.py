@@ -7,9 +7,9 @@ Provides fast feedback on contract compliance without running full CI.
 """
 
 import json
+import pathlib
 import sys
 from typing import List
-import pathlib
 
 try:
     from jsonschema import Draft202012Validator, ValidationError
@@ -86,7 +86,7 @@ def main():
         print("Fix these errors before committing to ensure contract compliance")
         sys.exit(1)
     else:
-        print(f"\n✅ All matrix contracts valid")
+        print("\n✅ All matrix contracts valid")
 
 
 if __name__ == "__main__":

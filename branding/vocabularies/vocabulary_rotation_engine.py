@@ -22,7 +22,7 @@ import json
 import random
 import time
 from pathlib import Path
-from typing import Dict, Tuple, Optional
+from typing import Dict, Optional, Tuple
 
 
 class VocabularyRotationEngine:
@@ -515,7 +515,7 @@ def main():
 
     # Show final statistics
     stats = engine.get_usage_stats()
-    print(f"\nFinal Statistics:")
+    print("\nFinal Statistics:")
     print(f"Diversity Score: {stats['diversity_score']:.2f}")
     print(f"Total Generations: {stats['total_generations']}")
     print(f"Usage Distribution: {stats['usage_counts']}")

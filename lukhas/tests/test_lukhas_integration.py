@@ -8,16 +8,15 @@
 Integration tests for lukhas module.
 """
 
-import pytest
 import unittest
-import asyncio
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module for integration testing
 try:
     import lukhas
 except ImportError:
-    pytest.skip(f"Module lukhas not available", allow_module_level=True)
+    pytest.skip("Module lukhas not available", allow_module_level=True)
 
 
 class TestLukhasIntegration(unittest.TestCase):

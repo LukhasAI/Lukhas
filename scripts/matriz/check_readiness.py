@@ -1,6 +1,10 @@
 #!/usr/bin/env python3
 from __future__ import annotations
-import argparse, json, re, time
+
+import argparse
+import json
+import re
+import time
 from pathlib import Path
 
 REQUIRED_ARTIFACT_SUFFIXES = [

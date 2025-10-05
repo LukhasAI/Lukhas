@@ -8,17 +8,18 @@ Validates Guardian safety mechanisms, authentication, and vulnerability detectio
 # ΛTAG: security_testing, vulnerability_detection, penetration_testing
 """
 
-import pytest
 import json
-from pathlib import Path
-from typing import Dict, Any
-from unittest.mock import Mock
 from datetime import datetime
+from pathlib import Path
+from typing import Any, Dict
+from unittest.mock import Mock
+
+import pytest
 
 try:
+    from lukhas.core.bridge.llm_guardrail import call_llm, get_guardrail_metrics
     from lukhas.governance.guardian_bridge import GuardianBridge
     from lukhas.identity.auth import AuthenticationService
-    from lukhas.core.bridge.llm_guardrail import call_llm, get_guardrail_metrics
     from lukhas.observability.prometheus_metrics import LUKHASMetrics
     SECURITY_MODULES_AVAILABLE = True
 except ImportError:
@@ -522,7 +523,7 @@ class TestStaticAnalysisSecurityTests:
                                 location=str(file_path)
                             )
 
-            except Exception as e:
+            except Exception:
                 # File reading errors
                 continue
 
@@ -553,7 +554,7 @@ class TestStaticAnalysisSecurityTests:
                                 location=str(file_path)
                             )
 
-            except Exception as e:
+            except Exception:
                 continue
 
 
@@ -688,7 +689,7 @@ def test_comprehensive_security_assessment(security_framework):
     # Generate final security report
     report = security_framework.get_vulnerability_report()
 
-    print(f"\n=== LUKHAS Security Assessment Report ===")
+    print("\n=== LUKHAS Security Assessment Report ===")
     print(f"Total Tests Executed: {total_tests}")
     print(f"Total Vulnerabilities Found: {report['total_vulnerabilities']}")
     print(f"Severity Breakdown: {report['severity_breakdown']}")

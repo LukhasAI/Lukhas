@@ -8,16 +8,15 @@
 Integration tests for examples module.
 """
 
-import pytest
 import unittest
-import asyncio
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module for integration testing
 try:
     import examples
 except ImportError:
-    pytest.skip(f"Module examples not available", allow_module_level=True)
+    pytest.skip("Module examples not available", allow_module_level=True)
 
 
 class TestExamplesIntegration(unittest.TestCase):

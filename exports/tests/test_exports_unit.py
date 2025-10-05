@@ -8,15 +8,15 @@
 Unit tests for exports module.
 """
 
-import pytest
 import unittest
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module components
 try:
     import exports
 except ImportError:
-    pytest.skip(f"Module exports not available", allow_module_level=True)
+    pytest.skip("Module exports not available", allow_module_level=True)
 
 
 class TestExportsModule(unittest.TestCase):

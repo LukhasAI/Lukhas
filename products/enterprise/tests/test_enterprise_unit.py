@@ -8,15 +8,15 @@
 Unit tests for enterprise module.
 """
 
-import pytest
 import unittest
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module components
 try:
     import enterprise
 except ImportError:
-    pytest.skip(f"Module enterprise not available", allow_module_level=True)
+    pytest.skip("Module enterprise not available", allow_module_level=True)
 
 
 class TestEnterpriseModule(unittest.TestCase):
@@ -81,7 +81,7 @@ class Testcompliance(unittest.TestCase):
             from enterprise import compliance
             self.assertIsNotNone(compliance)
         except ImportError:
-            pytest.skip(f"Component compliance not available")
+            pytest.skip("Component compliance not available")
 
     def test_compliance_instantiation(self):
         """Test compliance can be instantiated."""
@@ -98,7 +98,7 @@ class Testcore(unittest.TestCase):
             from enterprise import core
             self.assertIsNotNone(core)
         except ImportError:
-            pytest.skip(f"Component core not available")
+            pytest.skip("Component core not available")
 
     def test_core_instantiation(self):
         """Test core can be instantiated."""
@@ -115,7 +115,7 @@ class Testeconomic(unittest.TestCase):
             from enterprise import economic
             self.assertIsNotNone(economic)
         except ImportError:
-            pytest.skip(f"Component economic not available")
+            pytest.skip("Component economic not available")
 
     def test_economic_instantiation(self):
         """Test economic can be instantiated."""

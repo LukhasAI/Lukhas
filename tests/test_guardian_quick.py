@@ -9,6 +9,7 @@ Test our T4/0.01% Guardian response schema standardization
 import os
 import time
 from pathlib import Path
+
 from governance.guardian_system import GuardianSystem
 
 
@@ -34,7 +35,7 @@ def test_guardian_schema_standardization():
         print(f"  ❌ Missing fields: {missing_fields}")
         return False
     else:
-        print(f"  ✅ All required fields present")
+        print("  ✅ All required fields present")
 
     # Test 2: Schema version
     print("\n✅ Test 2: Schema Version")
@@ -89,7 +90,7 @@ def test_guardian_schema_standardization():
         print(f"  ❌ Enforcement enabled mismatch: {enforcement_enabled} vs {expected_enforcement}")
         return False
 
-    print(f"\n🎉 All Guardian schema tests passed!")
+    print("\n🎉 All Guardian schema tests passed!")
     print(f"📊 Full response: {response}")
 
     return True

@@ -5,22 +5,23 @@ Validates retention policies, GDPR compliance, archival operations,
 and lifecycle automation with T4/0.01% excellence standards.
 """
 
-import pytest
 import asyncio
-from datetime import datetime, timezone, timedelta
+from datetime import datetime, timedelta, timezone
 from unittest.mock import patch
 
+import numpy as np
+import pytest
+
+from lukhas.memory.backends.base import AbstractVectorStore, VectorDocument
 from lukhas.memory.lifecycle import (
-    MemoryLifecycleManager,
-    RetentionRule,
-    RetentionPolicy,
+    AbstractArchivalBackend,
+    AbstractTombstoneStore,
     ArchivalTier,
     GDPRTombstone,
-    AbstractArchivalBackend,
-    AbstractTombstoneStore
+    MemoryLifecycleManager,
+    RetentionPolicy,
+    RetentionRule,
 )
-from lukhas.memory.backends.base import VectorDocument, AbstractVectorStore
-import numpy as np
 
 
 class MockVectorStore(AbstractVectorStore):

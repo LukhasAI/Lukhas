@@ -8,15 +8,15 @@
 Unit tests for bio module.
 """
 
-import pytest
 import unittest
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module components
 try:
     import bio
 except ImportError:
-    pytest.skip(f"Module bio not available", allow_module_level=True)
+    pytest.skip("Module bio not available", allow_module_level=True)
 
 
 class TestBioModule(unittest.TestCase):
@@ -81,7 +81,7 @@ class TestBioUtilities(unittest.TestCase):
             from bio.bio_utilities import BioUtilities
             self.assertIsNotNone(BioUtilities)
         except ImportError:
-            pytest.skip(f"Component BioUtilities not available")
+            pytest.skip("Component BioUtilities not available")
 
     def test_bioutilities_instantiation(self):
         """Test BioUtilities can be instantiated."""
@@ -98,7 +98,7 @@ class TestFatigueLevel(unittest.TestCase):
             from bio.bio_utilities import FatigueLevel
             self.assertIsNotNone(FatigueLevel)
         except ImportError:
-            pytest.skip(f"Component FatigueLevel not available")
+            pytest.skip("Component FatigueLevel not available")
 
     def test_fatiguelevel_instantiation(self):
         """Test FatigueLevel can be instantiated."""
@@ -115,7 +115,7 @@ class Testadapt_to_environment(unittest.TestCase):
             from bio.bio_utilities import adapt_to_environment
             self.assertIsNotNone(adapt_to_environment)
         except ImportError:
-            pytest.skip(f"Component adapt_to_environment not available")
+            pytest.skip("Component adapt_to_environment not available")
 
     def test_adapt_to_environment_instantiation(self):
         """Test adapt_to_environment can be instantiated."""

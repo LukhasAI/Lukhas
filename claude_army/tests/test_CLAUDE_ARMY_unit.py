@@ -8,15 +8,15 @@
 Unit tests for CLAUDE_ARMY module.
 """
 
-import pytest
 import unittest
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module components
 try:
     import CLAUDE_ARMY
 except ImportError:
-    pytest.skip(f"Module CLAUDE_ARMY not available", allow_module_level=True)
+    pytest.skip("Module CLAUDE_ARMY not available", allow_module_level=True)
 
 
 class TestClaudeArmyModule(unittest.TestCase):
@@ -81,7 +81,7 @@ class TestClaudeMaxCoordinator(unittest.TestCase):
             from CLAUDE_ARMY.coordination_hub import ClaudeMaxCoordinator
             self.assertIsNotNone(ClaudeMaxCoordinator)
         except ImportError:
-            pytest.skip(f"Component ClaudeMaxCoordinator not available")
+            pytest.skip("Component ClaudeMaxCoordinator not available")
 
     def test_claudemaxcoordinator_instantiation(self):
         """Test ClaudeMaxCoordinator can be instantiated."""

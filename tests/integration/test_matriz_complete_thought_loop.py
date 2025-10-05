@@ -19,18 +19,15 @@ Constellation Framework: 🌊 Flow Star Integration Testing
 """
 
 import asyncio
-import time
-import pytest
 import logging
+import time
 from unittest.mock import patch
 
+import pytest
+
 from lukhas.consciousness.matriz_thought_loop import MATRIZThoughtLoop
-from lukhas.consciousness.types import (
-    ConsciousnessState, ThoughtLoopContext, ThoughtLoopResult
-)
-from lukhas.consciousness.meta_cognitive_assessor import (
-    MetaCognitiveAssessment, CognitiveLoadLevel
-)
+from lukhas.consciousness.meta_cognitive_assessor import CognitiveLoadLevel, MetaCognitiveAssessment
+from lukhas.consciousness.types import ConsciousnessState, ThoughtLoopContext, ThoughtLoopResult
 
 # Test configuration
 pytestmark = pytest.mark.asyncio
@@ -540,7 +537,8 @@ class TestMATRIZCompleteThoughtLoop:
 
 # Property-based testing for edge cases
 try:
-    from hypothesis import given, strategies as st
+    from hypothesis import given
+    from hypothesis import strategies as st
 
     class TestThoughtLoopPropertyBased:
         """Property-based tests for thought loop edge cases."""

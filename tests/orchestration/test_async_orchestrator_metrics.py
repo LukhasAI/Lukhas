@@ -12,8 +12,8 @@ import pytest
 from prometheus_client import REGISTRY
 
 from lukhas.core.interfaces import CognitiveNodeBase
-from lukhas.core.registry import register, _REG
 from lukhas.core.orchestration.async_orchestrator import AsyncOrchestrator
+from lukhas.core.registry import _REG, register
 
 
 def _collect_metric_value(metric_name: str, labels: Mapping[str, str], sample_suffix: str | None = "total") -> float:

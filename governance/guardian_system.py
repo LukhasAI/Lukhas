@@ -17,8 +17,10 @@ from typing import Any, Dict, Optional
 
 try:
     from lukhas.core.reliability.circuit_breaker import (
-        circuit_breaker, get_circuit_health,
-        CircuitBreakerOpenError, _circuit_registry
+        CircuitBreakerOpenError,
+        _circuit_registry,
+        circuit_breaker,
+        get_circuit_health,
     )
     CIRCUIT_BREAKER_AVAILABLE = True
 except ImportError:
@@ -26,17 +28,14 @@ except ImportError:
     logging.warning("Circuit breaker module not available, using basic error handling")
 
 try:
-    from .guardian_reflector import GuardianReflector, DriftSeverity
+    from .guardian_reflector import DriftSeverity, GuardianReflector
     GUARDIAN_REFLECTOR_AVAILABLE = True
 except ImportError:
     GUARDIAN_REFLECTOR_AVAILABLE = False
     logging.warning("GuardianReflector not available, using basic drift detection")
 
 try:
-    from .guardian_policies import (
-        GuardianPoliciesEngine, PolicyContext, DecisionType,
-        get_guardian_policies_engine
-    )
+    from .guardian_policies import DecisionType, GuardianPoliciesEngine, PolicyContext, get_guardian_policies_engine
     GUARDIAN_POLICIES_AVAILABLE = True
 except ImportError:
     GUARDIAN_POLICIES_AVAILABLE = False

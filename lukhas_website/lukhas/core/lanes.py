@@ -8,9 +8,9 @@ Usage:
   @lane_guard(("candidate", "prod"))
   def external_action(): ...
 """
-import os
 import functools
-from typing import Tuple, Callable, Any
+import os
+from typing import Any, Callable, Tuple
 
 LANE = os.getenv("LUKHAS_LANE", "experimental")
 

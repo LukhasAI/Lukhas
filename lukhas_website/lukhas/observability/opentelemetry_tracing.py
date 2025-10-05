@@ -18,16 +18,16 @@ from contextlib import contextmanager
 from typing import Any, Dict, Optional
 
 try:
-    from opentelemetry import trace, metrics
+    from opentelemetry import metrics, trace
     from opentelemetry.exporter.jaeger.thrift import JaegerExporter
+    from opentelemetry.exporter.otlp.proto.grpc.metric_exporter import OTLPMetricExporter
     from opentelemetry.exporter.otlp.proto.grpc.trace_exporter import OTLPSpanExporter
     from opentelemetry.instrumentation.requests import RequestsInstrumentor
     from opentelemetry.instrumentation.sqlalchemy import SQLAlchemyInstrumentor
-    from opentelemetry.sdk.trace import TracerProvider
-    from opentelemetry.sdk.trace.export import BatchSpanProcessor
     from opentelemetry.sdk.metrics import MeterProvider
     from opentelemetry.sdk.metrics.export import PeriodicExportingMetricReader
-    from opentelemetry.exporter.otlp.proto.grpc.metric_exporter import OTLPMetricExporter
+    from opentelemetry.sdk.trace import TracerProvider
+    from opentelemetry.sdk.trace.export import BatchSpanProcessor
     from opentelemetry.semconv.trace import SpanAttributes
     from opentelemetry.trace.status import Status, StatusCode
 
@@ -575,7 +575,7 @@ def trace_memory_recall(item_count: int):
         latency_ms = (time.perf_counter() - start_time) * 1000
         tracer.trace_memory_operation("recall", item_count, latency_ms, True)
 
-    except Exception as e:
+    except Exception:
         # Record failed operation
         latency_ms = (time.perf_counter() - start_time) * 1000
         tracer.trace_memory_operation("recall", item_count, latency_ms, False)
@@ -601,7 +601,7 @@ def trace_matriz_execution():
             duration_ms < 250,  # Within T4/0.01% budget
         )
 
-    except Exception as e:
+    except Exception:
         # Record failed pipeline
         duration_ms = (time.perf_counter() - start_time) * 1000
         tracer.trace_matriz_pipeline(

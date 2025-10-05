@@ -20,20 +20,18 @@ import asyncio
 import base64
 import json
 import time
-import pytest
 from datetime import datetime, timedelta, timezone
 from unittest.mock import AsyncMock, patch
 
+import pytest
+
 from lukhas.identity.oidc_security_hardening import (
-    OIDCSecurityHardening,
     OIDCSecurityEventType,
+    OIDCSecurityHardening,
+    SecurityResponse,
     SecurityThreatLevel,
-    SecurityResponse
 )
-from lukhas.identity.webauthn_oidc_integration import (
-    WebAuthnOIDCIntegration,
-    IntegrationSecurityLevel
-)
+from lukhas.identity.webauthn_oidc_integration import IntegrationSecurityLevel, WebAuthnOIDCIntegration
 
 
 class TestOIDCSecurityHardening:

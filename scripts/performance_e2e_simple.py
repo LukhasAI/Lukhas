@@ -6,12 +6,13 @@ This version avoids complex imports to test the CI workflow structure.
 """
 
 import json
-import time
 import statistics
-from datetime import datetime, timezone
-from pathlib import Path
 import subprocess
 import sys
+import time
+from datetime import datetime, timezone
+from pathlib import Path
+
 
 # Simplified version for testing CI workflow
 class SimpleE2ETester:

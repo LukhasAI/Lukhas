@@ -11,8 +11,9 @@ for noisy in [
 ]:
     logging.getLogger(noisy).setLevel(logging.ERROR)
 
-from lukhas.memory.consolidation import ConsolidationOrchestrator, ConsolidationMode, InMemoryStore
+from lukhas.memory.consolidation import ConsolidationMode, ConsolidationOrchestrator, InMemoryStore
 from lukhas.memory.structural_conscience import StructuralConscience
+
 
 async def run_single_test(seed: int) -> dict:
     """Run single consolidation test with given seed."""
@@ -68,7 +69,7 @@ async def main():
     print(f"FOLDS_PER_RUN: {statistics.mean(folds):.1f} ± {statistics.stdev(folds):.1f}")
     print(f"QUARANTINE_RATE: {statistics.mean(quarantined):.1f} ± {statistics.stdev(quarantined):.1f}")
     print(f"RUNTIME_MS: {statistics.mean(runtimes)*1000:.1f} ± {statistics.stdev(runtimes)*1000:.1f}")
-    print(f"GUARDRAIL: ≤1000 folds/run enforced")
+    print("GUARDRAIL: ≤1000 folds/run enforced")
     print(f"SAMPLES: {len(results)}")
 
 if __name__ == "__main__":

@@ -16,11 +16,12 @@ Usage:
 Output: Versioned JSON files in ./perp_runs/ with full audit trail
 """
 
-import os
 import json
-import time
+import os
 import pathlib
+import time
 import uuid
+
 import requests
 from dotenv import load_dotenv
 

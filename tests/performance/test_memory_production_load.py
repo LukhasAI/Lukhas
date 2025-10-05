@@ -15,16 +15,17 @@ Usage:
 
 import asyncio
 import os
-import time
-import pytest
-import psutil
 import statistics
-from typing import Dict, Any
+import time
+from typing import Any, Dict
+
+import psutil
+import pytest
 
 # Import memory system components
 try:
-    from lukhas.core.memory.recall_system import RecallSystem
     from lukhas.core.memory.fold_system import FoldSystem
+    from lukhas.core.memory.recall_system import RecallSystem
     from lukhas.observability.prometheus_metrics import LUKHASMetrics
     MEMORY_SYSTEMS_AVAILABLE = True
 except ImportError:
@@ -173,7 +174,7 @@ Error Count: {len(self.results['error_details'])}
 """
 
         if self.results['error_details']:
-            report += f"\nError Details:\n"
+            report += "\nError Details:\n"
             for error in set(self.results['error_details'][:5]):  # Show unique errors
                 report += f"  - {error}\n"
 

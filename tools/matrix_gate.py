@@ -14,17 +14,17 @@ Standards:
 - LUKHAS ΛiD Identity System: Tier-based authorization
 """
 
-import json
-import sys
+import argparse
 import glob
+import json
 import pathlib
 import subprocess
+import sys
 import traceback
-from typing import Dict, List, Tuple, Optional, Any
-import argparse
+from typing import Any, Dict, List, Optional, Tuple
 
 try:
-    from jsonschema import validate, Draft202012Validator, ValidationError
+    from jsonschema import Draft202012Validator, ValidationError, validate
 except ImportError:
     print("Error: jsonschema not installed. Run: pip install jsonschema", file=sys.stderr)
     sys.exit(1)
@@ -45,7 +45,7 @@ def try_osv_scan(sbom_path: str, output_json_path: str) -> Optional[Dict]:
         print(f"[WARN] OSV scanner failed (non-zero exit): {e}", file=sys.stderr)
         print(f"[WARN] stderr: {e.stderr}", file=sys.stderr)
     except FileNotFoundError:
-        print(f"[WARN] osv-scanner not found in PATH", file=sys.stderr)
+        print("[WARN] osv-scanner not found in PATH", file=sys.stderr)
     except Exception as e:
         print(f"[WARN] OSV scanner error: {e}", file=sys.stderr)
         traceback.print_exc()

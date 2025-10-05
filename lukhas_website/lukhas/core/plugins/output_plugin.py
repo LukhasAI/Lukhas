@@ -6,7 +6,7 @@ Provides output formatting capabilities for LUKHAS pipelines.
 """
 
 import time
-from typing import Dict, Any
+from typing import Any, Dict
 
 from lukhas.core.registry.plugin_registry import PluginBase, PluginInfo
 

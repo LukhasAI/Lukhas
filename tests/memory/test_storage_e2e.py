@@ -1,8 +1,11 @@
 import time
+
 import pytest
-from memory.memory_orchestrator import MemoryOrchestrator
-from memory.indexer import Indexer
+
 from memory.backends.pgvector_store import PgVectorStore
+from memory.indexer import Indexer
+from memory.memory_orchestrator import MemoryOrchestrator
+
 
 class DummyConn: ...  # TODO: mock/fixture
 

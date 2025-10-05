@@ -24,6 +24,7 @@ import re
 import sys
 from pathlib import Path
 from typing import Dict, List, Tuple
+
 import requests
 
 logging.basicConfig(level=logging.INFO)

@@ -19,7 +19,7 @@ import pytest
 # Add tools directory to path for importing authorization middleware
 sys.path.insert(0, str(Path(__file__).parent.parent.parent / "tools"))
 
-from matrix_authz_middleware import MatrixAuthzMiddleware, AuthzRequest
+from matrix_authz_middleware import AuthzRequest, MatrixAuthzMiddleware
 
 
 @pytest.mark.telemetry
@@ -340,7 +340,7 @@ async def test_authz_span_error_handling(telemetry_capture, test_subjects):
 @pytest.mark.telemetry
 def test_authz_span_compatibility_with_existing_tests(telemetry_capture):
     """Test that new telemetry captures are compatible with existing telemetry test format."""
-    from .conftest import temp_span_dump, CapturedSpan
+    from .conftest import CapturedSpan, temp_span_dump
 
     # Create a sample span like those expected by existing tests
     sample_span = CapturedSpan(

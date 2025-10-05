@@ -7,17 +7,17 @@ automatic lane switching and Constellation Framework coordination.
 """
 
 import asyncio
-import time
-from enum import Enum
-from typing import Dict, Optional, Any, Tuple
-from dataclasses import dataclass, asdict
-from contextlib import asynccontextmanager
 import logging
+import time
+from contextlib import asynccontextmanager
+from dataclasses import asdict, dataclass
 from datetime import datetime
+from enum import Enum
+from typing import Any, Dict, Optional, Tuple
 
 from ..constellation_framework import ConstellationFramework
-from ..observability.metrics import MetricsCollector
 from ..governance.guardian_integration import GuardianValidator
+from ..observability.metrics import MetricsCollector
 
 
 class Lane(Enum):

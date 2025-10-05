@@ -11,6 +11,7 @@ processing loop and can detect drift and trigger autonomous repair.
 """
 import os
 import time
+
 import pytest
 
 # Set experimental flags before imports (deterministic test env)
@@ -215,6 +216,7 @@ def test_microcheck_telemetry():
 def test_threshold_consistency():
     """Test that all components use the same critical threshold from env."""
     import os
+
     from lukhas.aka_qualia.core import AkaQualia
     from monitoring.drift_manager import DriftManager
 
@@ -253,6 +255,7 @@ def test_threshold_consistency():
 def test_dwell_after_successful_repair():
     """Test that micro-check implements dwell period after successful repair."""
     import os
+
     from lukhas.aka_qualia.core import AkaQualia
     from monitoring.drift_manager import DriftManager
 

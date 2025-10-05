@@ -5,17 +5,18 @@ Comprehensive API security testing with attack simulation for T4/0.01% excellenc
 Tests for injection attacks, authentication bypass, rate limiting, and DoS resistance.
 """
 
+import argparse
+import asyncio
+import datetime
 import json
 import sys
-import asyncio
-import aiohttp
 import time
-import datetime
+from dataclasses import asdict, dataclass
 from pathlib import Path
-from typing import Dict, List, Any, Tuple
-import argparse
-from dataclasses import dataclass, asdict
+from typing import Any, Dict, List, Tuple
 from urllib.parse import urljoin
+
+import aiohttp
 
 
 @dataclass
@@ -725,7 +726,7 @@ class LUKHASAbuseTestFramework:
         with open(report_file, 'w') as f:
             json.dump(report, f, indent=2)
 
-        print(f"\n📊 Abuse Test Results:")
+        print("\n📊 Abuse Test Results:")
         print(f"   Total Attacks: {len(self.attack_results)}")
         print(f"   Successful Attacks: {sum(1 for a in self.attack_results if a.success)}")
         print(f"   Critical Vulnerabilities: {sum(1 for a in self.attack_results if a.success and a.attack_type in ['sql_injection', 'authentication_bypass'])}")

@@ -8,15 +8,15 @@
 Unit tests for oneiric_core module.
 """
 
-import pytest
 import unittest
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module components
 try:
     import oneiric_core
 except ImportError:
-    pytest.skip(f"Module oneiric_core not available", allow_module_level=True)
+    pytest.skip("Module oneiric_core not available", allow_module_level=True)
 
 
 class TestOneiricCoreModule(unittest.TestCase):

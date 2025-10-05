@@ -14,8 +14,9 @@ for noisy in [
 ]:
     logging.getLogger(noisy).setLevel(logging.ERROR)
 
-from lukhas.memory.consolidation import ConsolidationOrchestrator, ConsolidationMode, InMemoryStore
+from lukhas.memory.consolidation import ConsolidationMode, ConsolidationOrchestrator, InMemoryStore
 from lukhas.memory.structural_conscience import StructuralConscience
+
 
 async def run_mode_comparison(seed: int = 2025):
     """Compare all three consolidation modes."""
@@ -73,7 +74,7 @@ async def run_mode_comparison(seed: int = 2025):
     print(f"• INTENSIVE mode: {intensive['folds']/std['folds']:.1f}x more folds, {intensive['quarantined']/max(1,std['quarantined']):.1f}x quarantine rate")
     print(f"• MAINTENANCE mode: {maintenance['folds']/std['folds']:.1f}x folds, {maintenance['quarantined']/max(1,std['quarantined']):.1f}x quarantine rate")
     print(f"• All modes maintain ≥{min(r['structural_ok'] for r in results.values()):.0%} structural integrity")
-    print(f"• Control dial: adjust mode based on workload vs safety requirements")
+    print("• Control dial: adjust mode based on workload vs safety requirements")
 
 if __name__ == "__main__":
     asyncio.run(run_mode_comparison())

@@ -10,23 +10,23 @@ Validates that the optimized MATRIZ pipeline meets:
 - Circuit breaker functionality
 """
 
+import argparse
 import asyncio
 import json
 import statistics
-import time
 import sys
-from pathlib import Path
-from typing import Dict, List, Any
+import time
 from dataclasses import dataclass
-import argparse
+from pathlib import Path
+from typing import Any, Dict, List
 
 # Add LUKHAS to path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from matriz.core.async_orchestrator import AsyncCognitiveOrchestrator
 from lukhas.core.matriz.optimized_orchestrator import OptimizedAsyncOrchestrator
-from matriz.nodes.math_node import MathNode
+from matriz.core.async_orchestrator import AsyncCognitiveOrchestrator
 from matriz.nodes.fact_node import FactNode
+from matriz.nodes.math_node import MathNode
 
 
 @dataclass
@@ -352,7 +352,7 @@ class MATRIZBenchmark:
             print(f"Error Rate:        {(result.error_rate * 100):.3f}%")
             print(f"Within Budget:     {(result.within_budget_rate * 100):.1f}%")
 
-            print(f"\n⏱️  Latency Statistics:")
+            print("\n⏱️  Latency Statistics:")
             print(f"  P50 (median):    {result.p50_ms:.1f} ms")
             print(f"  P95:             {result.p95_ms:.1f} ms")
             print(f"  P99:             {result.p99_ms:.1f} ms")

@@ -11,16 +11,16 @@ This script performs full system integration testing for E2E performance validat
 Generates detailed E2E performance artifacts with statistical analysis and regression detection.
 """
 
-import json
-import time
-import statistics
 import asyncio
+import json
 import logging
-from datetime import datetime, timezone
-from pathlib import Path
-from typing import Dict, Any, Optional
+import statistics
 import subprocess
 import sys
+import time
+from datetime import datetime, timezone
+from pathlib import Path
+from typing import Any, Dict, Optional
 
 # Add project root to Python path
 sys.path.insert(0, str(Path(__file__).parent.parent))
@@ -28,10 +28,10 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 try:
     # LUKHAS core imports for E2E testing
     from lukhas.identity.oidc import OIDCProvider
-    from lukhas.memory.lifecycle import MemoryLifecycleManager
-    from lukhas.orchestration.core import OrchestrationEngine
     from lukhas.matriz.pipeline import MATRIZPipeline
+    from lukhas.memory.lifecycle import MemoryLifecycleManager
     from lukhas.observability.tracing import get_tracer
+    from lukhas.orchestration.core import OrchestrationEngine
 except ImportError as e:
     logging.warning(f"Some LUKHAS modules not available: {e}")
 
@@ -552,19 +552,19 @@ class PerformanceE2ETester:
         print(f"Overall SLO Compliance: {compliance['operations_compliant']}/{compliance['operations_tested']} ({compliance['slo_compliance_rate']*100:.1f}%)")
         print(f"All Targets Met: {'✅' if compliance['all_targets_met'] else '❌'}")
 
-        print(f"\nRegression Analysis:")
+        print("\nRegression Analysis:")
         regression = results["regression_analysis"]
         print(f"  Baseline SHA: {regression['baseline_sha'] or 'N/A'}")
         print(f"  Performance Delta: {regression['performance_delta_pct']:+.2f}%")
         print(f"  Regression Detected: {'❌ YES' if regression['regression_detected'] else '✅ NO'}")
 
         if "critical_flows_impact" in regression:
-            print(f"\nCritical Flow Analysis:")
+            print("\nCritical Flow Analysis:")
             for flow_name, impact in regression["critical_flows_impact"].items():
                 status = "❌ DEGRADED" if impact["degraded"] else "✅ STABLE"
                 print(f"  {status} {flow_name}: {impact['delta_pct']:+.2f}% ({impact['current_p95_ms']:.1f}ms)")
 
-        print(f"\nE2E Performance Metrics by Flow:")
+        print("\nE2E Performance Metrics by Flow:")
         for service_name, service_metrics in results["performance_metrics"].items():
             print(f"\n📦 {service_name.replace('_', ' ').title()}:")
             for operation, metrics in service_metrics.items():

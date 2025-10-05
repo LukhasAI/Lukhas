@@ -9,11 +9,12 @@ Telemetry: print()-based by default (replace with logging/metrics if needed).
 """
 
 from __future__ import annotations
-import os
-import sys
+
 import importlib
 import inspect
+import os
 import pkgutil
+import sys
 from typing import Any, Dict
 
 # Try to import entry points (available in Python 3.10+ or importlib_metadata for 3.9)
@@ -53,11 +54,11 @@ def _instantiate_plugin(ep_name: str, plugin_class):
                 try:
                     # Try with name parameter first
                     return factory_method(name=ep_name)
-                except (TypeError, ValueError) as e:
+                except (TypeError, ValueError):
                     # If name parameter fails, try without parameters
                     try:
                         return factory_method()
-                    except Exception as inner_e:
+                    except Exception:
                         # Log factory method failure for debugging
                         # print(f"[registry] factory {plugin_name}.{factory} failed: {inner_e}")
                         continue
@@ -142,7 +143,7 @@ def _instantiate_plugin(ep_name: str, plugin_class):
         if all_have_defaults:
             return plugin_class()
 
-    except Exception as e:
+    except Exception:
         # Enhanced error logging for debugging
         # print(f"[registry] signature analysis failed for {plugin_name}: {e}")
         pass

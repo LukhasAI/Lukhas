@@ -14,108 +14,100 @@ Phase 5 Implementation Features:
 """
 
 # Core observability (Phase 0-4)
-from .opentelemetry_tracing import (
-    LUKHASTracer,
-    initialize_tracing,
-    get_lukhas_tracer,
-    shutdown_tracing,
-    trace_function,
-    trace_memory_recall,
-    trace_matriz_execution,
-    OTEL_AVAILABLE,
+from .advanced_metrics import (
+    AdvancedMetricsSystem,
+    AnomalyType,
+    MetricAnomaly,
+    MetricSeverity,
+    get_advanced_metrics,
+    initialize_advanced_metrics,
+    record_metric,
+    record_operation_performance,
 )
-
-from .prometheus_metrics import (
-    LUKHASMetrics,
-    MetricsConfig,
-    initialize_metrics,
-    get_lukhas_metrics,
-    shutdown_metrics,
-    PROMETHEUS_AVAILABLE,
+from .compliance_dashboard import (
+    AuditReport,
+    ComplianceDashboard,
+    ComplianceStatus,
+    get_compliance_dashboard,
+    initialize_compliance_dashboard,
+)
+from .enhanced_distributed_tracing import (
+    EnhancedLUKHASTracer,
+    LUKHASSemanticConventions,
+    TraceConfig,
+    create_correlation_id,
+    extract_trace_context,
+    get_enhanced_tracer,
+    initialize_enhanced_tracing,
+    propagate_trace_context,
+    trace_evidence_collection,
+    trace_lukhas_operation,
+    trace_performance_check,
+)
+from .evidence_archival import (
+    CloudProvider,
+    EvidenceArchivalSystem,
+    RetentionPolicy,
+    StorageTier,
+    get_archival_system,
+    initialize_archival_system,
+    schedule_archival,
 )
 
 # Phase 5 Enhanced Observability
 from .evidence_collection import (
+    ComplianceRegime,
     EvidenceCollectionEngine,
     EvidenceRecord,
     EvidenceType,
-    ComplianceRegime,
-    initialize_evidence_collection,
-    get_evidence_engine,
     collect_evidence,
+    get_evidence_engine,
+    initialize_evidence_collection,
 )
-
-from .advanced_metrics import (
-    AdvancedMetricsSystem,
-    MetricAnomaly,
-    AnomalyType,
-    MetricSeverity,
-    initialize_advanced_metrics,
-    get_advanced_metrics,
-    record_metric,
-    record_operation_performance,
-)
-
 from .intelligent_alerting import (
-    IntelligentAlertingSystem,
     AlertState,
-    NotificationChannel,
     EscalationLevel,
-    initialize_alerting,
+    IntelligentAlertingSystem,
+    NotificationChannel,
     get_alerting_system,
+    initialize_alerting,
     trigger_alert,
 )
-
-from .compliance_dashboard import (
-    ComplianceDashboard,
-    ComplianceStatus,
-    AuditReport,
-    initialize_compliance_dashboard,
-    get_compliance_dashboard,
+from .opentelemetry_tracing import (
+    OTEL_AVAILABLE,
+    LUKHASTracer,
+    get_lukhas_tracer,
+    initialize_tracing,
+    shutdown_tracing,
+    trace_function,
+    trace_matriz_execution,
+    trace_memory_recall,
 )
-
 from .performance_regression import (
-    PerformanceRegressionDetector,
+    DetectionMethod,
     PerformanceBaseline,
     PerformanceRegression,
+    PerformanceRegressionDetector,
     RegressionSeverity,
-    DetectionMethod,
-    initialize_regression_detector,
     get_regression_detector,
+    initialize_regression_detector,
     record_performance_data,
 )
-
-from .evidence_archival import (
-    EvidenceArchivalSystem,
-    StorageTier,
-    CloudProvider,
-    RetentionPolicy,
-    initialize_archival_system,
-    get_archival_system,
-    schedule_archival,
+from .prometheus_metrics import (
+    PROMETHEUS_AVAILABLE,
+    LUKHASMetrics,
+    MetricsConfig,
+    get_lukhas_metrics,
+    initialize_metrics,
+    shutdown_metrics,
 )
-
-from .enhanced_distributed_tracing import (
-    EnhancedLUKHASTracer,
-    TraceConfig,
-    LUKHASSemanticConventions,
-    initialize_enhanced_tracing,
-    get_enhanced_tracer,
-    trace_lukhas_operation,
-    trace_evidence_collection,
-    trace_performance_check,
-    create_correlation_id,
-    propagate_trace_context,
-    extract_trace_context,
-)
-
 from .security_hardening import (
     ObservabilitySecurityHardening,
+    SecurityEvent,
     SecurityLevel,
     ThreatType,
-    SecurityEvent,
-    initialize_security_hardening,
     get_security_hardening,
+    initialize_security_hardening,
     secure_evidence_operation,
 )
 
@@ -284,9 +276,16 @@ async def shutdown_phase5_observability():
 
     try:
         # Shutdown all global instances
-        from . import evidence_collection, advanced_metrics, intelligent_alerting
-        from . import compliance_dashboard, performance_regression, evidence_archival
-        from . import enhanced_distributed_tracing, security_hardening
+        from . import (
+            advanced_metrics,
+            compliance_dashboard,
+            enhanced_distributed_tracing,
+            evidence_archival,
+            evidence_collection,
+            intelligent_alerting,
+            performance_regression,
+            security_hardening,
+        )
 
         shutdown_tasks.extend([
             evidence_collection.shutdown_evidence_collection(),

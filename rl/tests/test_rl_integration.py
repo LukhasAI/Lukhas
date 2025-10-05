@@ -8,16 +8,15 @@
 Integration tests for rl module.
 """
 
-import pytest
 import unittest
-import asyncio
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module for integration testing
 try:
     import rl
 except ImportError:
-    pytest.skip(f"Module rl not available", allow_module_level=True)
+    pytest.skip("Module rl not available", allow_module_level=True)
 
 
 class TestRlIntegration(unittest.TestCase):

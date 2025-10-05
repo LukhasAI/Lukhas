@@ -6,13 +6,14 @@ Provides T4 architecture compliant service discovery and initialization.
 """
 
 import logging
-from typing import Any, Optional, Dict
+from typing import Any, Dict, Optional
+
 from lukhas.core.registry import register, resolve
 
 from .facades.authentication_facade import AuthenticationFacade
-from .services.token_service import TokenService
+from .services.authenticator_service import ApiKeyAuthenticator, PasswordAuthenticator
 from .services.session_service import SessionService
-from .services.authenticator_service import PasswordAuthenticator, ApiKeyAuthenticator
+from .services.token_service import TokenService
 
 logger = logging.getLogger(__name__)
 
@@ -189,6 +190,7 @@ async def _auto_initialize():
 
 # Schedule auto-initialization
 import asyncio
+
 if not _identity_registry:
     # Only auto-initialize in async context
     try:

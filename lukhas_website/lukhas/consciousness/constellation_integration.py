@@ -42,7 +42,9 @@ try:
     from lukhas.consciousness.registry import (
         ComponentType,
         get_consciousness_registry,
-    )  # MATRIZ Integration: Consciousness component registry for Constellation Framework consciousness evolution and component coordination
+    )
+
+    # MATRIZ Integration: Consciousness component registry for Constellation Framework consciousness evolution and component coordination
     from lukhas.core.common.config import get_config
 except ImportError:
     # Graceful fallback for development

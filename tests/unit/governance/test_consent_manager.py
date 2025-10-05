@@ -3,7 +3,7 @@ from pathlib import Path
 
 import pytest
 
-from lukhas.governance.consent.consent_manager import (
+from candidate.governance.consent.consent_manager import (
     AdvancedConsentManager,
     ConsentMethod,
 )

@@ -1,7 +1,12 @@
 from __future__ import annotations
-import json, subprocess, sys, os
-from typing import Dict, Any
+
+import json
+import os
+import subprocess
+import sys
 import time
+from typing import Any, Dict
+
 
 class CIRunner:
     """CI integration for Dream Phase NEXT testing."""

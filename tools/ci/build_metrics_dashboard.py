@@ -376,7 +376,7 @@ class BuildMetricsCollector:
         for rec in recommendations:
             report += f"- {rec}\n"
 
-        report += f"""
+        report += """
 
 ---
 

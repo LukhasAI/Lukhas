@@ -9,11 +9,12 @@ Constellation Framework: Identity ⚛️ pillar with cross-system coordination.
 """
 
 from __future__ import annotations
+
+import re
 import uuid
 import zlib
-import re
-from typing import Tuple, Optional
 from dataclasses import dataclass
+from typing import Optional, Tuple
 
 
 @dataclass

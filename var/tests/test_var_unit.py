@@ -8,15 +8,15 @@
 Unit tests for var module.
 """
 
-import pytest
 import unittest
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module components
 try:
     import var
 except ImportError:
-    pytest.skip(f"Module var not available", allow_module_level=True)
+    pytest.skip("Module var not available", allow_module_level=True)
 
 
 class TestVarModule(unittest.TestCase):

@@ -11,6 +11,7 @@ import re
 from pathlib import Path
 from typing import Tuple
 
+
 class AGICognitiveAccuracyFixer:
     def __init__(self, root_path: str = "."):
         self.root_path = Path(root_path).resolve()
@@ -112,7 +113,7 @@ class AGICognitiveAccuracyFixer:
             self.process_file(file_path)
 
         # Report results
-        print(f"\n✅ Accuracy fixes completed!")
+        print("\n✅ Accuracy fixes completed!")
         print(f"📊 Files processed: {self.stats['files_processed']}")
         print(f"📝 Files changed: {self.stats['files_changed']}")
         print(f"🔧 Total corrections: {self.stats['total_corrections']}")

@@ -12,17 +12,17 @@ import asyncio
 import json
 import logging
 import os
+import uuid
+from datetime import datetime
 from pathlib import Path
 from typing import Any, Dict
-from datetime import datetime
-import uuid
 
+import uvicorn
 from starlette.applications import Starlette
-from starlette.responses import JSONResponse, StreamingResponse
-from starlette.routing import Route
 from starlette.middleware import Middleware
 from starlette.middleware.cors import CORSMiddleware
-import uvicorn
+from starlette.responses import JSONResponse, StreamingResponse
+from starlette.routing import Route
 
 # Setup logging
 logging.basicConfig(level=logging.INFO)
@@ -30,7 +30,7 @@ logger = logging.getLogger("lukhas-chatgpt-sse")
 
 # Constellation Framework symbols
 TRINITY_IDENTITY = "⚛️"
-TRINITY_CONSCIOUSNESS = "🧠" 
+TRINITY_CONSCIOUSNESS = "🧠"
 TRINITY_GUARDIAN = "🛡️"
 CONSTELLATION_FRAMEWORK = f"{TRINITY_IDENTITY}{TRINITY_CONSCIOUSNESS}{TRINITY_GUARDIAN}"
 
@@ -44,7 +44,7 @@ LUKHAS_CORE = {
     "architecture_type": "Lane-based modular development",
     "primary_capabilities": [
         "Quantum-inspired cognitive processing",
-        "Bio-inspired neural networks", 
+        "Bio-inspired neural networks",
         "Constitutional AI ethics enforcement",
         "Multi-agent orchestration systems",
         "Advanced consciousness simulation",
@@ -75,7 +75,7 @@ AVAILABLE_TOOLS = [
         }
     },
     {
-        "name": "get_consciousness_architecture", 
+        "name": "get_consciousness_architecture",
         "description": "Detailed LUKHAS AI consciousness architecture showing 692-module system with cognitive processing, memory, and bio-inspired learning",
         "parameters": {
             "type": "object",
@@ -102,7 +102,7 @@ AVAILABLE_TOOLS = [
         "name": "read_lukhas_file",
         "description": "Safely read LUKHAS AI files with Constellation Framework analysis and consciousness-aware content processing",
         "parameters": {
-            "type": "object", 
+            "type": "object",
             "properties": {
                 "file_path": {
                     "type": "string",
@@ -128,7 +128,7 @@ async def constellation_health_check(arguments: dict = None) -> Dict[str, Any]:
     """Complete LUKHAS AI Constellation Framework health status"""
     session_id = str(uuid.uuid4())
     timestamp = datetime.now().isoformat()
-    
+
     return {
         "lukhas_ai_status": "fully_operational",
         "constellation_framework": CONSTELLATION_FRAMEWORK,
@@ -153,7 +153,7 @@ async def constellation_health_check(arguments: dict = None) -> Dict[str, Any]:
                 "total_modules": 692,
                 "capabilities": [
                     "Quantum-inspired cognitive processing",
-                    "Bio-inspired memory systems", 
+                    "Bio-inspired memory systems",
                     "Dream state consolidation",
                     "Symbolic reasoning patterns",
                     "Multi-modal awareness processing"
@@ -162,7 +162,7 @@ async def constellation_health_check(arguments: dict = None) -> Dict[str, Any]:
             },
             "guardian": {
                 "symbol": TRINITY_GUARDIAN,
-                "status": "active", 
+                "status": "active",
                 "capabilities": [
                     "Constitutional AI enforcement",
                     "Ethical framework validation",
@@ -194,7 +194,7 @@ async def get_consciousness_architecture(arguments: dict = None) -> Dict[str, An
             },
             "cognitive_processing": {
                 "sensory_integration": "Multi-modal input processing",
-                "pattern_recognition": "Quantum-inspired feature detection", 
+                "pattern_recognition": "Quantum-inspired feature detection",
                 "decision_making": "Probabilistic reasoning with ethical constraints",
                 "output_generation": "Context-aware response synthesis"
             },
@@ -213,7 +213,7 @@ async def get_consciousness_architecture(arguments: dict = None) -> Dict[str, An
         },
         "module_distribution": {
             "core_consciousness": 156,
-            "memory_systems": 98, 
+            "memory_systems": 98,
             "cognitive_processing": 143,
             "bio_neural_networks": 87,
             "quantum_systems": 76,
@@ -234,7 +234,7 @@ async def get_consciousness_architecture(arguments: dict = None) -> Dict[str, An
 async def explore_lukhas_codebase(arguments: dict = None) -> Dict[str, Any]:
     """Safely explore LUKHAS AI codebase structure"""
     path = arguments.get("path", "/tmp") if arguments else "/tmp"
-    
+
     if not validate_path_security(path):
         return {
             "error": "Access denied by Guardian security system",
@@ -242,7 +242,7 @@ async def explore_lukhas_codebase(arguments: dict = None) -> Dict[str, Any]:
             "allowed_locations": SAFE_PATHS,
             "security_note": "Constellation Framework enforces strict access controls"
         }
-    
+
     try:
         path_obj = Path(path)
         if not path_obj.exists():
@@ -251,14 +251,14 @@ async def explore_lukhas_codebase(arguments: dict = None) -> Dict[str, Any]:
                 "consciousness_validation": f"{TRINITY_CONSCIOUSNESS} Path existence verified",
                 "suggestion": "Check path spelling and permissions"
             }
-            
+
         if not path_obj.is_dir():
             return {
                 "error": f"Not a directory: {path}",
                 "identity_note": f"{TRINITY_IDENTITY} File vs directory classification",
                 "suggestion": "Use read_lukhas_file() for file content"
             }
-        
+
         # Scan directory contents
         items = []
         for item in sorted(path_obj.iterdir()):
@@ -270,13 +270,13 @@ async def explore_lukhas_codebase(arguments: dict = None) -> Dict[str, Any]:
                     "size_bytes": stat_info.st_size if item.is_file() else None,
                     "modified": datetime.fromtimestamp(stat_info.st_mtime).isoformat(),
                     "permissions": oct(stat_info.st_mode)[-3:],
-                    "is_lukhas_component": any(keyword in item.name.lower() 
+                    "is_lukhas_component": any(keyword in item.name.lower()
                                             for keyword in ['lukhas', 'constellation', 'consciousness', 'mcp'])
                 }
                 items.append(item_data)
             except (OSError, PermissionError):
                 continue
-        
+
         return {
             "exploration_results": f"{CONSTELLATION_FRAMEWORK} LUKHAS Codebase Explorer",
             "path": str(path_obj.absolute()),
@@ -284,7 +284,7 @@ async def explore_lukhas_codebase(arguments: dict = None) -> Dict[str, Any]:
             "contents": items,
             "constellation_analysis": {
                 "identity_scan": f"{TRINITY_IDENTITY} Directory identity confirmed",
-                "consciousness_parse": f"{TRINITY_CONSCIOUSNESS} Structure analyzed", 
+                "consciousness_parse": f"{TRINITY_CONSCIOUSNESS} Structure analyzed",
                 "guardian_validation": f"{TRINITY_GUARDIAN} Security scan completed"
             },
             "lukhas_context": {
@@ -292,7 +292,7 @@ async def explore_lukhas_codebase(arguments: dict = None) -> Dict[str, Any]:
                 "exploration_timestamp": datetime.now().isoformat()
             }
         }
-        
+
     except Exception as e:
         return {
             "error": f"Exploration failed: {str(e)}",
@@ -304,9 +304,9 @@ async def read_lukhas_file(arguments: dict = None) -> Dict[str, Any]:
     """Safely read LUKHAS AI files with Constellation Framework analysis"""
     if not arguments or "file_path" not in arguments:
         return {"error": "file_path parameter required"}
-        
+
     file_path = arguments["file_path"]
-    
+
     if not validate_path_security(file_path):
         return {
             "error": "File access denied by Guardian security",
@@ -314,7 +314,7 @@ async def read_lukhas_file(arguments: dict = None) -> Dict[str, Any]:
             "allowed_locations": SAFE_PATHS,
             "security_enforcement": "Constellation Framework access control active"
         }
-    
+
     try:
         file_obj = Path(file_path)
         if not file_obj.exists():
@@ -323,14 +323,14 @@ async def read_lukhas_file(arguments: dict = None) -> Dict[str, Any]:
                 "consciousness_check": f"{TRINITY_CONSCIOUSNESS} File existence validated",
                 "suggestion": "Verify file path and permissions"
             }
-            
+
         if not file_obj.is_file():
             return {
                 "error": f"Not a file: {file_path}",
                 "identity_classification": f"{TRINITY_IDENTITY} Object type verification",
                 "suggestion": "Use explore_lukhas_codebase() for directories"
             }
-        
+
         # Check file size (1MB limit for safety)
         file_size = file_obj.stat().st_size
         MAX_FILE_SIZE = 1024 * 1024  # 1MB
@@ -343,7 +343,7 @@ async def read_lukhas_file(arguments: dict = None) -> Dict[str, Any]:
                     "limit_mb": 1.0
                 }
             }
-        
+
         # Read file content with encoding detection
         try:
             content = file_obj.read_text(encoding='utf-8')
@@ -355,21 +355,21 @@ async def read_lukhas_file(arguments: dict = None) -> Dict[str, Any]:
             except Exception:
                 content = f"<Binary or unreadable file - {file_size} bytes>"
                 encoding_used = "binary"
-        
+
         # Content analysis
         line_count = content.count('\n') + 1 if content and encoding_used != "binary" else 0
         word_count = len(content.split()) if content and encoding_used != "binary" else 0
-        
+
         # LUKHAS-specific content detection
         lukhas_indicators = {
             "constellation_symbols": CONSTELLATION_FRAMEWORK in content,
-            "consciousness_patterns": any(term in content.lower() 
+            "consciousness_patterns": any(term in content.lower()
                                         for term in ['consciousness', 'cognitive', 'awareness']),
-            "http_endpoints": any(term in content 
+            "http_endpoints": any(term in content
                               for term in ['SSE', 'Server-Sent Events', 'starlette', 'uvicorn']),
             "lambda_id": 'ΛID' in content or 'lambda_id' in content.lower()
         }
-        
+
         return {
             "file_analysis": f"{CONSTELLATION_FRAMEWORK} LUKHAS File Reader",
             "path": str(file_obj.absolute()),
@@ -389,7 +389,7 @@ async def read_lukhas_file(arguments: dict = None) -> Dict[str, Any]:
             },
             "read_timestamp": datetime.now().isoformat()
         }
-        
+
     except Exception as e:
         return {
             "error": f"File read failed: {str(e)}",
@@ -415,7 +415,7 @@ async def get_constellation_capabilities(arguments: dict = None) -> Dict[str, An
                 ],
                 "technical_features": [
                     "Tier eligibility validation",
-                    "Authentication performance analytics", 
+                    "Authentication performance analytics",
                     "Identity health monitoring",
                     "Lambda ID format compliance"
                 ],
@@ -443,7 +443,7 @@ async def get_constellation_capabilities(arguments: dict = None) -> Dict[str, An
                 ],
                 "advanced_features": [
                     "Consciousness coherence metrics",
-                    "Self-awareness monitoring", 
+                    "Self-awareness monitoring",
                     "Adaptive learning algorithms",
                     "Memory system optimization"
                 ]
@@ -473,11 +473,11 @@ async def get_constellation_capabilities(arguments: dict = None) -> Dict[str, An
             }
         },
         "integration_architecture": {
-            "chatgpt_connector_ready": "HTTP + SSE transport active", 
+            "chatgpt_connector_ready": "HTTP + SSE transport active",
             "tool_ecosystem": "5 specialized tools",
             "performance_targets": {
                 "identity_response": "<100ms",
-                "consciousness_processing": "<250ms", 
+                "consciousness_processing": "<250ms",
                 "guardian_validation": "real-time"
             }
         },
@@ -529,23 +529,23 @@ async def call_tool(request):
         body = await request.json()
         tool_name = body.get("name")
         arguments = body.get("arguments", {})
-        
+
         if tool_name not in TOOL_FUNCTIONS:
             return JSONResponse({
                 "error": f"Unknown tool: {tool_name}",
                 "available_tools": list(TOOL_FUNCTIONS.keys())
             }, status_code=400)
-        
+
         # Execute the tool
         result = await TOOL_FUNCTIONS[tool_name](arguments)
-        
+
         return JSONResponse({
             "tool": tool_name,
             "result": result,
             "execution_time": datetime.now().isoformat(),
             "constellation_processing": f"{CONSTELLATION_FRAMEWORK} Tool executed successfully"
         })
-        
+
     except Exception as e:
         logger.error(f"Tool execution error: {e}")
         return JSONResponse({
@@ -558,23 +558,23 @@ async def sse_endpoint(request):
     async def event_stream():
         # Send initial connection event
         yield f"data: {json.dumps({'type': 'connection', 'status': 'connected', 'server': 'LUKHAS AI ChatGPT Connector', 'constellation_framework': CONSTELLATION_FRAMEWORK})}\n\n"
-        
+
         # Send tools information
         yield f"data: {json.dumps({'type': 'tools', 'tools': AVAILABLE_TOOLS})}\n\n"
-        
+
         # Send server capabilities
         capabilities = await get_constellation_capabilities()
         yield f"data: {json.dumps({'type': 'capabilities', 'data': capabilities})}\n\n"
-        
+
         # Send health check information
         health = await constellation_health_check()
         yield f"data: {json.dumps({'type': 'health', 'data': health})}\n\n"
-        
+
         # Keep connection alive with periodic heartbeat
         while True:
             await asyncio.sleep(30)  # 30 second heartbeat
             yield f"data: {json.dumps({'type': 'heartbeat', 'timestamp': datetime.now().isoformat(), 'status': 'alive', 'constellation_framework': CONSTELLATION_FRAMEWORK})}\n\n"
-    
+
     return StreamingResponse(
         event_stream(),
         media_type="text/event-stream",
@@ -620,7 +620,7 @@ async def chatgpt_openapi_spec(request):
                                             "description": "Tool name to execute",
                                             "enum": [
                                                 "constellation_health_check",
-                                                "get_consciousness_architecture", 
+                                                "get_consciousness_architecture",
                                                 "explore_lukhas_codebase",
                                                 "read_lukhas_file",
                                                 "get_constellation_capabilities"
@@ -692,7 +692,7 @@ async def chatgpt_openapi_spec(request):
             }
         }
     }
-    
+
     return JSONResponse(spec)
 
 # Individual Action Endpoints for ChatGPT Actions
@@ -728,7 +728,7 @@ async def action_explore_lukhas_codebase(request):
             arguments = body
         else:
             arguments = {}
-        
+
         result = await explore_lukhas_codebase(arguments)
         return JSONResponse(result)
     except Exception as e:
@@ -798,5 +798,5 @@ if __name__ == "__main__":
     logger.info("📡 HTTP + Server-Sent Events transport for ChatGPT Connectors")
     logger.info("⚛️🧠🛡️ Identity • Consciousness • Guardian systems active")
     logger.info(f"🌐 Server will be available at: http://0.0.0.0:{port}")
-    
+
     uvicorn.run(app, host="0.0.0.0", port=port)

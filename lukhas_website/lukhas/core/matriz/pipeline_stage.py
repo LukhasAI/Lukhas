@@ -6,8 +6,8 @@ Individual processing stages for the async orchestration pipeline.
 Supports critical/non-critical execution modes for fail-soft behavior.
 """
 
-from typing import Dict, Any, Optional, Protocol
 from dataclasses import dataclass
+from typing import Any, Dict, Optional, Protocol
 
 
 class StagePlugin(Protocol):

@@ -27,12 +27,12 @@ from dataclasses import dataclass, field
 from enum import Enum
 from pathlib import Path
 from typing import Any, Dict, List, Optional
-from watchdog.observers import Observer
-from watchdog.events import FileSystemEventHandler
 
 import yaml
 from opentelemetry import trace
 from prometheus_client import Counter, Histogram
+from watchdog.events import FileSystemEventHandler
+from watchdog.observers import Observer
 
 tracer = trace.get_tracer(__name__)
 logger = logging.getLogger(__name__)
@@ -178,7 +178,7 @@ class RoutingConfigurationManager:
                 await self.load_configuration()
                 self.start_file_watcher()
                 span.set_attribute("config_version", self.config_version)
-                logger.info(f"✅ Routing configuration initialized successfully")
+                logger.info("✅ Routing configuration initialized successfully")
             except Exception as e:
                 span.record_exception(e)
                 span.set_status(trace.Status(trace.StatusCode.ERROR, str(e)))

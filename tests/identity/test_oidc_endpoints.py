@@ -8,17 +8,15 @@ Tests security, performance, validation, and compliance.
 """
 
 import asyncio
-import pytest
 import time
 from unittest.mock import Mock, patch
 
+import pytest
 from fastapi import FastAPI
 from fastapi.testclient import TestClient
 
 # Import modules to test
-from lukhas.api.oidc import (
-    router, get_correlation_id, security_check_dependency
-)
+from lukhas.api.oidc import get_correlation_id, router, security_check_dependency
 from lukhas.identity.security_hardening import SecurityAction
 
 
@@ -370,8 +368,9 @@ class TestSecurityFeatures:
 
     def test_correlation_id_generation(self):
         """Test correlation ID generation"""
-        from fastapi import Request
         from unittest.mock import Mock
+
+        from fastapi import Request
 
         # Test with provided correlation ID
         request = Mock(spec=Request)
@@ -392,8 +391,9 @@ class TestSecurityFeatures:
     @patch('lukhas.api.oidc.security_manager')
     def test_security_check_dependency_block(self, mock_security_manager):
         """Test security check that blocks request"""
-        from fastapi import Request, HTTPException
         from unittest.mock import Mock
+
+        from fastapi import HTTPException, Request
 
         mock_security_manager.comprehensive_security_check.return_value = (
             SecurityAction.BLOCK,
@@ -419,8 +419,9 @@ class TestSecurityFeatures:
 
     def test_cors_headers_production_domain(self):
         """Test CORS headers for production domains"""
-        from fastapi import Request
         from unittest.mock import Mock
+
+        from fastapi import Request
 
         request = Mock(spec=Request)
         request.headers = {"Origin": "https://app.lukhas.ai"}
@@ -435,8 +436,9 @@ class TestSecurityFeatures:
 
     def test_cors_headers_invalid_domain(self):
         """Test CORS headers for invalid domains"""
-        from fastapi import Request
         from unittest.mock import Mock
+
+        from fastapi import Request
 
         request = Mock(spec=Request)
         request.headers = {"Origin": "https://evil.example.com"}

@@ -8,16 +8,15 @@
 Integration tests for api module.
 """
 
-import pytest
 import unittest
-import asyncio
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module for integration testing
 try:
     import api
 except ImportError:
-    pytest.skip(f"Module api not available", allow_module_level=True)
+    pytest.skip("Module api not available", allow_module_level=True)
 
 
 class TestApiIntegration(unittest.TestCase):

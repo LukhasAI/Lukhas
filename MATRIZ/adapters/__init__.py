@@ -4,16 +4,16 @@ MATRIZ Adapters - Node Contract Implementations
 All adapters implement MatrizNode.handle(MatrizMessage) -> MatrizResult
 """
 from .bio_adapter import BioAdapter
-from .memory_adapter import MemoryAdapter
-from .consciousness_adapter import ConsciousnessAdapter
 from .bridge_adapter import BridgeAdapter
-from .governance_adapter import GovernanceAdapter
-from .emotion_adapter import EmotionAdapter
-from .orchestration_adapter import OrchestrationAdapter
 from .compliance_adapter import ComplianceAdapter
-from .identity_adapter import IdentityAdapter
+from .consciousness_adapter import ConsciousnessAdapter
 from .contradiction_adapter import ContradictionAdapter
 from .creative_adapter import CreativeAdapter
+from .emotion_adapter import EmotionAdapter
+from .governance_adapter import GovernanceAdapter
+from .identity_adapter import IdentityAdapter
+from .memory_adapter import MemoryAdapter
+from .orchestration_adapter import OrchestrationAdapter
 
 __all__ = [
     "BioAdapter",

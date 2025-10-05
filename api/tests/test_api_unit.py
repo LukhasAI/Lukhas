@@ -8,15 +8,15 @@
 Unit tests for api module.
 """
 
-import pytest
 import unittest
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module components
 try:
     import api
 except ImportError:
-    pytest.skip(f"Module api not available", allow_module_level=True)
+    pytest.skip("Module api not available", allow_module_level=True)
 
 
 class TestApiModule(unittest.TestCase):
@@ -81,7 +81,7 @@ class TestAPI_REGISTRY(unittest.TestCase):
             from api import API_REGISTRY
             self.assertIsNotNone(API_REGISTRY)
         except ImportError:
-            pytest.skip(f"Component API_REGISTRY not available")
+            pytest.skip("Component API_REGISTRY not available")
 
     def test_api_registry_instantiation(self):
         """Test API_REGISTRY can be instantiated."""
@@ -98,7 +98,7 @@ class TestChatRequest(unittest.TestCase):
             from api.consciousness_chat_api import ChatRequest
             self.assertIsNotNone(ChatRequest)
         except ImportError:
-            pytest.skip(f"Component ChatRequest not available")
+            pytest.skip("Component ChatRequest not available")
 
     def test_chatrequest_instantiation(self):
         """Test ChatRequest can be instantiated."""
@@ -115,7 +115,7 @@ class TestChatResponse(unittest.TestCase):
             from api.consciousness_chat_api import ChatResponse
             self.assertIsNotNone(ChatResponse)
         except ImportError:
-            pytest.skip(f"Component ChatResponse not available")
+            pytest.skip("Component ChatResponse not available")
 
     def test_chatresponse_instantiation(self):
         """Test ChatResponse can be instantiated."""

@@ -33,6 +33,7 @@ Exit codes:
     1 - Sync failed (missing config or API error)
 """
 from __future__ import annotations
+
 import argparse
 import json
 import os

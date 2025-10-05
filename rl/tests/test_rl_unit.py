@@ -8,15 +8,15 @@
 Unit tests for rl module.
 """
 
-import pytest
 import unittest
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module components
 try:
     import rl
 except ImportError:
-    pytest.skip(f"Module rl not available", allow_module_level=True)
+    pytest.skip("Module rl not available", allow_module_level=True)
 
 
 class TestRlModule(unittest.TestCase):
@@ -81,7 +81,7 @@ class TestConsciousnessBuffer(unittest.TestCase):
             from rl import ConsciousnessBuffer
             self.assertIsNotNone(ConsciousnessBuffer)
         except ImportError:
-            pytest.skip(f"Component ConsciousnessBuffer not available")
+            pytest.skip("Component ConsciousnessBuffer not available")
 
     def test_consciousnessbuffer_instantiation(self):
         """Test ConsciousnessBuffer can be instantiated."""
@@ -98,7 +98,7 @@ class TestConsciousnessEnvironment(unittest.TestCase):
             from rl import ConsciousnessEnvironment
             self.assertIsNotNone(ConsciousnessEnvironment)
         except ImportError:
-            pytest.skip(f"Component ConsciousnessEnvironment not available")
+            pytest.skip("Component ConsciousnessEnvironment not available")
 
     def test_consciousnessenvironment_instantiation(self):
         """Test ConsciousnessEnvironment can be instantiated."""
@@ -115,7 +115,7 @@ class TestConsciousnessMetaLearning(unittest.TestCase):
             from rl import ConsciousnessMetaLearning
             self.assertIsNotNone(ConsciousnessMetaLearning)
         except ImportError:
-            pytest.skip(f"Component ConsciousnessMetaLearning not available")
+            pytest.skip("Component ConsciousnessMetaLearning not available")
 
     def test_consciousnessmetalearning_instantiation(self):
         """Test ConsciousnessMetaLearning can be instantiated."""

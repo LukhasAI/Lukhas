@@ -8,15 +8,15 @@
 Unit tests for templates module.
 """
 
-import pytest
 import unittest
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module components
 try:
     import templates
 except ImportError:
-    pytest.skip(f"Module templates not available", allow_module_level=True)
+    pytest.skip("Module templates not available", allow_module_level=True)
 
 
 class TestTemplatesModule(unittest.TestCase):

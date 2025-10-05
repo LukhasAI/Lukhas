@@ -1,13 +1,15 @@
 #!/usr/bin/env python3
 """Test MCP server fetch tool minimal format compliance"""
 
-import requests
 import json
+
+import requests
+
 
 def test_fetch_tool():
     url = "http://localhost:8766/mcp"
     headers = {"Content-Type": "application/json"}
-    
+
     # Test fetch tool
     fetch_payload = {
         "jsonrpc": "2.0",
@@ -18,13 +20,13 @@ def test_fetch_tool():
             "arguments": {"url": "https://lukhas.ai/docs/test"}
         }
     }
-    
+
     try:
         response = requests.post(url, headers=headers, json=fetch_payload, timeout=5)
         print(f"Status: {response.status_code}")
         result_json = response.json()
         print(f"Response: {json.dumps(result_json, indent=2)}")
-        
+
         # Check if response has the minimal format
         result = result_json.get('result', {})
         content = result.get('content', [])
@@ -41,7 +43,7 @@ def test_fetch_tool():
         else:
             print("❌ No text content found")
             return False
-            
+
     except Exception as e:
         print(f"❌ Error: {e}")
         return False

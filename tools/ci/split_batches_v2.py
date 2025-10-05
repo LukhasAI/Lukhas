@@ -283,7 +283,7 @@ def main():
     splitter.create_batch_files(batches, args.out)
 
     # Summary
-    print(f"\nBatch allocation complete!")
+    print("\nBatch allocation complete!")
     print(f"Created {len(batches)} batches")
     for agent_id, tasks in batches.items():
         batch_id = splitter.agents[agent_id]["batch_id"]

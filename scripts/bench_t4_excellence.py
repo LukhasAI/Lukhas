@@ -13,7 +13,6 @@ import logging
 import os
 import pickle
 import platform
-import psutil
 import signal
 import statistics
 import subprocess
@@ -22,9 +21,11 @@ import tempfile
 import threading
 import time
 from contextlib import contextmanager
-from dataclasses import dataclass, asdict, field
+from dataclasses import asdict, dataclass, field
 from pathlib import Path
-from typing import Dict, List, Tuple, Any
+from typing import Any, Dict, List, Tuple
+
+import psutil
 
 # Suppress verbose logging
 logging.getLogger().setLevel(logging.CRITICAL)
@@ -281,16 +282,16 @@ class E2EPromotionGate:
         total_checked = len(sla_compliance)
         passed_sla = sum(sla_compliance.values())
 
-        print(f"\n📊 E2E Promotion Gate Summary:")
+        print("\n📊 E2E Promotion Gate Summary:")
         print(f"  • Metrics evaluated: {len(results)}")
         print(f"  • E2E eligible: {total_eligible}")
         print(f"  • SLA thresholds defined: {total_checked}")
         print(f"  • SLA compliance passed: {passed_sla}/{total_checked}")
 
         if len(self.violations) == 0 and passed_sla == total_checked and total_checked > 0:
-            print(f"  🎉 All E2E promotion gates passed!")
+            print("  🎉 All E2E promotion gates passed!")
         else:
-            print(f"  ❌ Promotion gate failures detected")
+            print("  ❌ Promotion gate failures detected")
 
         return sla_compliance
 
@@ -540,9 +541,9 @@ class PowerThermalTelemetry:
             self.stop_monitoring()
 
             if self.throttling_detected:
-                print(f"  ⚠️  Performance may be affected by power/thermal constraints")
+                print("  ⚠️  Performance may be affected by power/thermal constraints")
             else:
-                print(f"  ✅ No significant power/thermal issues detected")
+                print("  ✅ No significant power/thermal issues detected")
 
 
 class SLOBurnRateDrill:
@@ -557,7 +558,7 @@ class SLOBurnRateDrill:
                                  duration_seconds: int = 30,
                                  requests_per_second: int = 100) -> Dict[str, Any]:
         """Generate synthetic traffic to test SLO burn-rate monitoring"""
-        print(f"🚀 Starting SLO burn-rate drill...")
+        print("🚀 Starting SLO burn-rate drill...")
         print(f"  📊 Target: {requests_per_second} RPS for {duration_seconds}s")
         print(f"  🎯 Baseline latency: {baseline_latency:.2f}μs")
 
@@ -1045,7 +1046,7 @@ class T4ExcellenceValidator:
 
         # Check for telemetry warnings
         if self.telemetry.throttling_detected:
-            print(f"    ⚠️  Power/thermal constraints detected - results may be affected")
+            print("    ⚠️  Power/thermal constraints detected - results may be affected")
 
         self.results[name] = dist
         return dist
@@ -1111,7 +1112,7 @@ class T4ExcellenceValidator:
             }
         }
 
-        print(f"    📈 Results:")
+        print("    📈 Results:")
         print(f"      Baseline p95: {baseline_p95:.2f}μs")
         print(f"      Chaos p95: {chaos_p95:.2f}μs")
         print(f"      Degradation: {degradation:.1f}%")
@@ -1245,7 +1246,7 @@ class T4ExcellenceValidator:
                 "evidence_hash": result.evidence_hash
             }, f, indent=2)
 
-        print(f"\n📁 Artifacts saved:")
+        print("\n📁 Artifacts saved:")
         print(f"  • Report: {report_path}")
         print(f"  • Distributions: {dist_path}")
         print(f"  • Merkle chain: {merkle_path}")

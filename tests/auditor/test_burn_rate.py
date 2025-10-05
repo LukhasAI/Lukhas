@@ -5,11 +5,12 @@ Validates burn rate calculations for T4 excellence SLOs with 4 errors/1h and 2 e
 Production-ready monitoring for Guardian (<100ms), Memory (<1ms), Orchestrator (<250ms) components.
 """
 
-import pytest
 import time
+from dataclasses import dataclass
 from datetime import datetime, timedelta, timezone
 from typing import Dict, List, Tuple
-from dataclasses import dataclass
+
+import pytest
 
 
 @dataclass

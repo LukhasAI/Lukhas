@@ -13,33 +13,29 @@ Usage:
     python scripts/validate_matriz_observability.py [--verbose] [--performance-test]
 """
 
-import asyncio
 import argparse
+import asyncio
 import logging
 import os
 import statistics
 import sys
 import time
-from typing import List, Dict, Any
+from typing import Any, Dict, List
 
 # Add project root to path
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 
 from lukhas.observability.matriz_instrumentation import (
+    cognitive_pipeline_span,
+    get_cognitive_instrumentation_status,
     initialize_cognitive_instrumentation,
     instrument_cognitive_stage,
-    cognitive_pipeline_span,
+    record_decision_confidence,
     record_focus_drift,
     record_memory_cascade_risk,
     record_thought_complexity,
-    record_decision_confidence,
-    get_cognitive_instrumentation_status
 )
-
-from lukhas.observability.otel_instrumentation import (
-    initialize_otel_instrumentation,
-    instrument_cognitive_event
-)
+from lukhas.observability.otel_instrumentation import initialize_otel_instrumentation, instrument_cognitive_event
 
 # Configure logging
 logging.basicConfig(

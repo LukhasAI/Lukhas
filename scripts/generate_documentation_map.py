@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 """Generate DOCUMENTATION_MAP.md and MODULE_INDEX.md from registry."""
 from __future__ import annotations
+
 import json
-from pathlib import Path
 from datetime import datetime, timezone
+from pathlib import Path
 
 REG = Path("docs/_generated/MODULE_REGISTRY.json")
 OUT_MAP = Path("docs/_generated/DOCUMENTATION_MAP.md")
@@ -93,9 +94,9 @@ def main():
 
     OUT_IDX.write_text("\n".join(md_idx) + "\n", encoding="utf-8")
 
-    print(f"✅ Generated DOCUMENTATION_MAP.md")
+    print("✅ Generated DOCUMENTATION_MAP.md")
     print(f"   Location: {OUT_MAP}")
-    print(f"✅ Generated MODULE_INDEX.md")
+    print("✅ Generated MODULE_INDEX.md")
     print(f"   Location: {OUT_IDX}")
     return 0
 

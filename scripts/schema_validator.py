@@ -5,10 +5,11 @@ Validates all LUKHAS schemas and generates comprehensive reports
 """
 
 import json
-import jsonschema
+from datetime import datetime
 from pathlib import Path
 from typing import Dict, List, Tuple
-from datetime import datetime
+
+import jsonschema
 
 
 class LUKHASSchemaValidator:

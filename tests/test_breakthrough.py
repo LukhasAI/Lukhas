@@ -8,10 +8,10 @@ independent instance behavior, and (optional) micro-benchmarks.
 import math
 import os
 import random
+
 import pytest
 
 from core.breakthrough import BreakthroughDetector
-
 
 # ---- Helpers ---------------------------------------------------------------
 

@@ -14,11 +14,12 @@ This script ensures all directory indexes accurately represent the current
 architectural state with proper metadata for the enhanced plugin registry.
 """
 
-import json
-from pathlib import Path
-from typing import Dict, Any, List, Optional
-from dataclasses import dataclass
 import datetime
+import json
+from dataclasses import dataclass
+from pathlib import Path
+from typing import Any, Dict, List, Optional
+
 
 @dataclass
 class ConstellationMetadata:
@@ -504,7 +505,7 @@ def main():
         for error in results['errors']:
             print(f"  - {error}")
 
-    print(f"\nSummary:")
+    print("\nSummary:")
     for key, value in results['summary'].items():
         print(f"  - {key}: {value}")
 

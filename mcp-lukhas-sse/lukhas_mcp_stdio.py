@@ -8,6 +8,7 @@ import json
 import logging
 import os
 import sys
+
 from mcp.server.fastmcp import FastMCP
 
 # Configure logging to stderr (NEVER use stdout in STDIO servers)
@@ -32,22 +33,22 @@ async def list_directory(path: str) -> str:
         # Security: Only allow paths under allowed roots
         allowed_roots = os.getenv("ALLOWED_ROOTS", "/tmp,/var/tmp").split(",")
         abs_path = os.path.abspath(path)
-        
+
         if not any(abs_path.startswith(os.path.abspath(root.strip())) for root in allowed_roots):
             return f"Error: Path '{path}' not allowed. Allowed roots: {', '.join(allowed_roots)}"
-        
+
         if not os.path.exists(path):
             return f"Error: Path '{path}' does not exist"
-        
+
         if not os.path.isdir(path):
             return f"Error: Path '{path}' is not a directory"
-        
+
         items = []
         for item in sorted(os.listdir(path)):
             full_path = os.path.join(path, item)
             item_type = "directory" if os.path.isdir(full_path) else "file"
             size = os.path.getsize(full_path) if os.path.isfile(full_path) else None
-            
+
             item_info = {
                 "name": item,
                 "type": item_type,
@@ -55,17 +56,17 @@ async def list_directory(path: str) -> str:
             }
             if size is not None:
                 item_info["size"] = size
-            
+
             items.append(item_info)
-        
+
         result = {
             "path": path,
             "items": items,
             "total_items": len(items)
         }
-        
+
         return json.dumps(result, indent=2)
-        
+
     except Exception as e:
         logger.error(f"Error listing directory {path}: {e}")
         return f"Error listing directory: {str(e)}"
@@ -82,24 +83,24 @@ async def read_file(path: str, max_lines: int = 100) -> str:
         # Security: Only allow paths under allowed roots
         allowed_roots = os.getenv("ALLOWED_ROOTS", "/tmp,/var/tmp").split(",")
         abs_path = os.path.abspath(path)
-        
+
         if not any(abs_path.startswith(os.path.abspath(root.strip())) for root in allowed_roots):
             return f"Error: Path '{path}' not allowed. Allowed roots: {', '.join(allowed_roots)}"
-        
+
         if not os.path.exists(path):
             return f"Error: File '{path}' does not exist"
-        
+
         if not os.path.isfile(path):
             return f"Error: Path '{path}' is not a regular file"
-        
+
         # Check file size (limit to 1MB)
         file_size = os.path.getsize(path)
         if file_size > 1024 * 1024:  # 1MB
             return f"Error: File '{path}' is too large ({file_size} bytes). Maximum allowed: 1MB"
-        
+
         with open(path, 'r', encoding='utf-8', errors='replace') as f:
             lines = f.readlines()
-        
+
         # Limit the number of lines
         if len(lines) > max_lines:
             content_lines = lines[:max_lines]
@@ -107,9 +108,9 @@ async def read_file(path: str, max_lines: int = 100) -> str:
         else:
             content_lines = lines
             truncated = False
-        
+
         content = ''.join(content_lines)
-        
+
         result = {
             "path": path,
             "content": content,
@@ -118,9 +119,9 @@ async def read_file(path: str, max_lines: int = 100) -> str:
             "truncated": truncated,
             "file_size": file_size
         }
-        
+
         return json.dumps(result, indent=2)
-        
+
     except UnicodeDecodeError:
         return f"Error: File '{path}' appears to be a binary file or uses unsupported encoding"
     except Exception as e:
@@ -138,20 +139,20 @@ async def search_files(directory: str, pattern: str, max_results: int = 20) -> s
     """
     try:
         import fnmatch
-        
+
         # Security: Only allow paths under allowed roots
         allowed_roots = os.getenv("ALLOWED_ROOTS", "/tmp,/var/tmp").split(",")
         abs_directory = os.path.abspath(directory)
-        
+
         if not any(abs_directory.startswith(os.path.abspath(root.strip())) for root in allowed_roots):
             return f"Error: Directory '{directory}' not allowed. Allowed roots: {', '.join(allowed_roots)}"
-        
+
         if not os.path.exists(directory):
             return f"Error: Directory '{directory}' does not exist"
-        
+
         if not os.path.isdir(directory):
             return f"Error: Path '{directory}' is not a directory"
-        
+
         matches = []
         for root, dirs, files in os.walk(directory):
             # Only search up to 3 levels deep to prevent excessive traversal
@@ -159,7 +160,7 @@ async def search_files(directory: str, pattern: str, max_results: int = 20) -> s
             if level >= 3:
                 dirs[:] = []  # Don't descend further
                 continue
-            
+
             for file in files:
                 if fnmatch.fnmatch(file, pattern):
                     full_path = os.path.join(root, file)
@@ -170,13 +171,13 @@ async def search_files(directory: str, pattern: str, max_results: int = 20) -> s
                         "size": os.path.getsize(full_path)
                     }
                     matches.append(file_info)
-                    
+
                     if len(matches) >= max_results:
                         break
-            
+
             if len(matches) >= max_results:
                 break
-        
+
         result = {
             "directory": directory,
             "pattern": pattern,
@@ -184,9 +185,9 @@ async def search_files(directory: str, pattern: str, max_results: int = 20) -> s
             "total_found": len(matches),
             "truncated": len(matches) >= max_results
         }
-        
+
         return json.dumps(result, indent=2)
-        
+
     except Exception as e:
         logger.error(f"Error searching files in {directory}: {e}")
         return f"Error searching files: {str(e)}"
@@ -196,8 +197,9 @@ async def get_system_info() -> str:
     """Get basic system information about the LUKHAS AI environment."""
     try:
         import platform
+
         import psutil
-        
+
         info = {
             "lukhas_ai": {
                 "server_name": "LUKHAS AI MCP Server",
@@ -225,9 +227,9 @@ async def get_system_info() -> str:
                 "user": os.getenv("USER", "unknown")
             }
         }
-        
+
         return json.dumps(info, indent=2)
-        
+
     except Exception as e:
         logger.error(f"Error getting system info: {e}")
         return f"Error getting system info: {str(e)}"
@@ -236,12 +238,12 @@ if __name__ == "__main__":
     # Set environment variables for security
     if not os.getenv("ALLOWED_ROOTS"):
         os.environ["ALLOWED_ROOTS"] = "/tmp,/var/tmp,/Users/cognitive_dev/LOCAL-REPOS/Lukhas/test_data"
-    
+
     logger.info("🚀 Starting LUKHAS AI MCP STDIO Server")
     logger.info("⚛️🧠🛡️ Constellation Framework: Identity, Consciousness, Guardian")
     logger.info(f"📁 Allowed roots: {os.getenv('ALLOWED_ROOTS')}")
     logger.info("📋 Protocol: MCP v2025-06-18 with STDIO transport")
     logger.info("🔗 Ready for ChatGPT integration")
-    
+
     # Run the server with STDIO transport (required for ChatGPT)
     mcp.run(transport='stdio')

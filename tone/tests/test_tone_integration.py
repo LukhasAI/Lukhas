@@ -8,16 +8,15 @@
 Integration tests for tone module.
 """
 
-import pytest
 import unittest
-import asyncio
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module for integration testing
 try:
     import tone
 except ImportError:
-    pytest.skip(f"Module tone not available", allow_module_level=True)
+    pytest.skip("Module tone not available", allow_module_level=True)
 
 
 class TestToneIntegration(unittest.TestCase):

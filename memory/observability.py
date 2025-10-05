@@ -1,10 +1,13 @@
 """Memory observability with OpenTelemetry and Prometheus."""
 
 from __future__ import annotations
+
 import time
 from typing import Optional
+
 from opentelemetry import trace
 from opentelemetry.trace import Status, StatusCode
+
 
 # Placeholder for actual Prometheus client
 class PrometheusMetrics:

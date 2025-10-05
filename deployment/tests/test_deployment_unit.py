@@ -8,15 +8,15 @@
 Unit tests for deployment module.
 """
 
-import pytest
 import unittest
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module components
 try:
     import deployment
 except ImportError:
-    pytest.skip(f"Module deployment not available", allow_module_level=True)
+    pytest.skip("Module deployment not available", allow_module_level=True)
 
 
 class TestDeploymentModule(unittest.TestCase):

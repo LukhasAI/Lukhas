@@ -21,7 +21,7 @@ ConsciousnessAPI = None
 
 # Use the proper import router system for cross-lane resolution
 try:
-    from lukhas.core.import_router import import_with_fallback, import_class
+    from lukhas.core.import_router import import_class, import_with_fallback
 
     # Use registry-based import with proper fallback chain
     consciousness_module = import_with_fallback(

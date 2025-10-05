@@ -6,11 +6,11 @@ Validates demo scripts are executable and syntactically correct.
 Provides fast feedback on demo script quality before commit.
 """
 
-import sys
+import pathlib
 import stat
 import subprocess
+import sys
 from typing import List
-import pathlib
 
 
 def validate_demo_script(script_path: str) -> List[str]:
@@ -141,7 +141,7 @@ def main():
         print(f"\n⚠️ Found {total_warnings} warning(s) in demo scripts")
         print("Consider addressing these warnings to improve demo experience")
     else:
-        print(f"\n✅ All demo scripts look good")
+        print("\n✅ All demo scripts look good")
 
 
 if __name__ == "__main__":

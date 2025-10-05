@@ -8,15 +8,15 @@
 Unit tests for dream module.
 """
 
-import pytest
 import unittest
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module components
 try:
     import dream
 except ImportError:
-    pytest.skip(f"Module dream not available", allow_module_level=True)
+    pytest.skip("Module dream not available", allow_module_level=True)
 
 
 class TestDreamModule(unittest.TestCase):
@@ -81,7 +81,7 @@ class TestDreamBridge(unittest.TestCase):
             from dream import DreamBridge
             self.assertIsNotNone(DreamBridge)
         except ImportError:
-            pytest.skip(f"Component DreamBridge not available")
+            pytest.skip("Component DreamBridge not available")
 
     def test_dreambridge_instantiation(self):
         """Test DreamBridge can be instantiated."""
@@ -98,7 +98,7 @@ class TestDreamProcessor(unittest.TestCase):
             from dream import DreamProcessor
             self.assertIsNotNone(DreamProcessor)
         except ImportError:
-            pytest.skip(f"Component DreamProcessor not available")
+            pytest.skip("Component DreamProcessor not available")
 
     def test_dreamprocessor_instantiation(self):
         """Test DreamProcessor can be instantiated."""
@@ -115,7 +115,7 @@ class Testconnect(unittest.TestCase):
             from dream import connect
             self.assertIsNotNone(connect)
         except ImportError:
-            pytest.skip(f"Component connect not available")
+            pytest.skip("Component connect not available")
 
     def test_connect_instantiation(self):
         """Test connect can be instantiated."""

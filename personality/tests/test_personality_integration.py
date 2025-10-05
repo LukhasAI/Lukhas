@@ -8,16 +8,15 @@
 Integration tests for personality module.
 """
 
-import pytest
 import unittest
-import asyncio
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module for integration testing
 try:
     import personality
 except ImportError:
-    pytest.skip(f"Module personality not available", allow_module_level=True)
+    pytest.skip("Module personality not available", allow_module_level=True)
 
 
 class TestPersonalityIntegration(unittest.TestCase):

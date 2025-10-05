@@ -18,16 +18,18 @@ T4/0.01% Excellence: Production-ready discovery with zero security bypasses
 """
 
 from __future__ import annotations
+
 import hashlib
 import json
 import os
 import time
-from datetime import datetime, timedelta, timezone
-from typing import Dict, Any, List, Optional
 from dataclasses import dataclass, field
+from datetime import datetime, timedelta, timezone
+from typing import Any, Dict, List, Optional
 from urllib.parse import urlparse
-from opentelemetry import trace
+
 import structlog
+from opentelemetry import trace
 
 tracer = trace.get_tracer(__name__)
 logger = structlog.get_logger(__name__)

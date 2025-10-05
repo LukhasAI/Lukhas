@@ -8,10 +8,12 @@ LUKHΛS Feedback API (v1)
 """
 
 from __future__ import annotations
+
 import json
-import time
 import pathlib
-from typing import Dict, Any, Optional
+import time
+from typing import Any, Dict
+
 from jsonschema import Draft202012Validator
 
 SCHEMAS_DIR = pathlib.Path("schemas")

@@ -8,15 +8,15 @@
 Unit tests for storage module.
 """
 
-import pytest
 import unittest
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module components
 try:
     import storage
 except ImportError:
-    pytest.skip(f"Module storage not available", allow_module_level=True)
+    pytest.skip("Module storage not available", allow_module_level=True)
 
 
 class TestStorageModule(unittest.TestCase):
@@ -81,7 +81,7 @@ class TestEvent(unittest.TestCase):
             from storage.events import Event
             self.assertIsNotNone(Event)
         except ImportError:
-            pytest.skip(f"Component Event not available")
+            pytest.skip("Component Event not available")
 
     def test_event_instantiation(self):
         """Test Event can be instantiated."""
@@ -98,7 +98,7 @@ class TestEventStore(unittest.TestCase):
             from storage.events import EventStore
             self.assertIsNotNone(EventStore)
         except ImportError:
-            pytest.skip(f"Component EventStore not available")
+            pytest.skip("Component EventStore not available")
 
     def test_eventstore_instantiation(self):
         """Test EventStore can be instantiated."""
@@ -115,7 +115,7 @@ class Testappend(unittest.TestCase):
             from storage.events import append
             self.assertIsNotNone(append)
         except ImportError:
-            pytest.skip(f"Component append not available")
+            pytest.skip("Component append not available")
 
     def test_append_instantiation(self):
         """Test append can be instantiated."""

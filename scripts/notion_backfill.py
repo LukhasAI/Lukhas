@@ -25,15 +25,16 @@ Usage:
 """
 
 from __future__ import annotations
+
+import argparse
+import hashlib
+import json
 import os
 import sys
 import time
-import json
-import hashlib
-import argparse
-from pathlib import Path
 from datetime import datetime, timezone
-from typing import Dict, Any, List
+from pathlib import Path
+from typing import Any, Dict, List
 
 try:
     import requests

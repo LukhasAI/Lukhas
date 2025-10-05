@@ -37,10 +37,10 @@ import structlog
 try:
     from . import ΛTOKEN_SYSTEM_AVAILABLE
     if ΛTOKEN_SYSTEM_AVAILABLE:
-        from .token_generator import TokenGenerator, EnvironmentSecretProvider
-        from .token_validator import TokenValidator, ValidationContext
         from .alias_format import make_alias, verify_crc
+        from .token_generator import EnvironmentSecretProvider, TokenGenerator
         from .token_storage import TokenStorage
+        from .token_validator import TokenValidator, ValidationContext
         ΛID_INTEGRATION = True
         print("✅ I.1 ΛiD Token System integration enabled")
     else:

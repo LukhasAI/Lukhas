@@ -16,7 +16,8 @@ Validates system ready for 85-90 audit score and canary rollout.
 
 import json
 from pathlib import Path
-from typing import Dict, Any
+from typing import Any, Dict
+
 
 def validate_ci_workflows_enabled() -> Dict[str, Any]:
     """Validate CI workflows moved from disabled to active"""
@@ -367,7 +368,7 @@ def run_comprehensive_gap_validation():
     # Calculate audit score improvement
     score_analysis = calculate_audit_score_improvement()
 
-    print(f"\n📈 AUDIT SCORE ANALYSIS")
+    print("\n📈 AUDIT SCORE ANALYSIS")
     print("-" * 30)
     print(f"Original Score: {score_analysis['base_audit_score']}/100")
     print(f"Improvement: +{score_analysis['improvement_points']} points")
@@ -377,7 +378,7 @@ def run_comprehensive_gap_validation():
     print(f"Implementation Rate: {score_analysis['implementation_rate']}%")
 
     # Readiness assessment
-    print(f"\n🚀 PRODUCTION READINESS ASSESSMENT")
+    print("\n🚀 PRODUCTION READINESS ASSESSMENT")
     print("-" * 40)
 
     if score_analysis['new_estimated_score'] >= 90:

@@ -12,24 +12,25 @@ Bullet-proof Guardian decision serialization with:
 Constellation Framework: 🛡️ Guardian Excellence
 """
 
-import json
 import hashlib
+import json
+import logging
 import os
 import uuid
-from datetime import datetime, timezone
-from typing import Dict, Any, List, Optional
 from dataclasses import dataclass
+from datetime import datetime, timezone
 from enum import Enum
-import logging
+from typing import Any, Dict, List, Optional
 
 logger = logging.getLogger(__name__)
 
 # Optional cryptographic signing
 try:
-    from cryptography.hazmat.primitives import serialization, hashes
-    from cryptography.hazmat.primitives.asymmetric import ed25519
-    from cryptography.exceptions import InvalidSignature
     import base64
+
+    from cryptography.exceptions import InvalidSignature
+    from cryptography.hazmat.primitives import hashes, serialization
+    from cryptography.hazmat.primitives.asymmetric import ed25519
     CRYPTO_AVAILABLE = True
 except ImportError:
     CRYPTO_AVAILABLE = False

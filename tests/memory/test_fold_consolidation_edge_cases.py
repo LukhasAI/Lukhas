@@ -8,19 +8,15 @@ Validates that consolidated items remain searchable and no data is lost.
 # ΛTAG: memory_fold_tests, consolidation_edge_cases
 """
 
-import pytest
-import tempfile
 import json
+import tempfile
 from datetime import datetime, timedelta
 from pathlib import Path
 
+import pytest
+
 try:
-    from lukhas.memory.adaptive_memory import (
-        AdaptiveMemorySystem,
-        MemoryItem,
-        MemoryFold,
-        MemoryType
-    )
+    from lukhas.memory.adaptive_memory import AdaptiveMemorySystem, MemoryFold, MemoryItem, MemoryType
     MEMORY_AVAILABLE = True
 except ImportError:
     # Fallback for testing without full memory system

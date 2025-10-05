@@ -180,12 +180,12 @@ class TargetedSyntaxFixer:
             if self.fix_syntax_errors_in_file(file_path):
                 fixed_count += 1
 
-        print(f"\n📈 TARGETED FIXING SUMMARY:")
+        print("\n📈 TARGETED FIXING SUMMARY:")
         print(f"✅ Files processed: {len(syntax_files)}")
         print(f"🔧 Files actually fixed: {fixed_count}")
-        print(f"🧠 Conservative approach completed")
-        print(f"🛡️ Guardian validation: Minimal risk changes only")
-        print(f"\n💡 Re-run ruff to verify conservative fixes")
+        print("🧠 Conservative approach completed")
+        print("🛡️ Guardian validation: Minimal risk changes only")
+        print("\n💡 Re-run ruff to verify conservative fixes")
 
 
 if __name__ == "__main__":

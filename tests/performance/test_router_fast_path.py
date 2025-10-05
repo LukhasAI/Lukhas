@@ -13,9 +13,10 @@ Usage:
 """
 
 import asyncio
-import time
 import statistics
+import time
 from typing import Dict, List
+
 import pytest
 
 try:
@@ -157,7 +158,7 @@ class RouterFastPathLoadTest:
             "node_usage": self._analyze_node_usage()
         }
 
-        print(f"📊 Fast-Path Selection Results:")
+        print("📊 Fast-Path Selection Results:")
         print(f"   Fast-Path Rate: {fast_path_rate:.1f}% (target: ≥80%)")
         print(f"   Success Rate: {len(successful_results)}/{num_requests}")
         print(f"   Throughput: {results['throughput_rps']} req/sec")
@@ -213,7 +214,7 @@ class RouterFastPathLoadTest:
             }
         }
 
-        print(f"📊 Adaptive Routing Results:")
+        print("📊 Adaptive Routing Results:")
         print(f"   Normal Fast-Path: {normal_fast_rate:.1f}%")
         print(f"   Degraded Fast-Path: {degraded_fast_rate:.1f}%")
         print(f"   Adaptation: {routing_adaptation:.1f}% reduction")

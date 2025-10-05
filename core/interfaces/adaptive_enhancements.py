@@ -13,9 +13,10 @@ from typing import Any, Optional
 
 from cognition.symbolic_feedback_loop import SymbolicState
 
+from identity.identity_core import AccessTier
+
 # Import existing LUKHΛS components
 from lukhas.orchestration.symbolic_kernel_bus import emit, kernel_bus
-from identity.identity_core import AccessTier
 
 # We'll only take what enhances our system
 

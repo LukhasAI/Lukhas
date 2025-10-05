@@ -23,13 +23,14 @@ T4/0.01% Excellence: 100% tombstone respect rate, 0 privacy violations
 Constellation Framework: 🏛️ GDPR Memory Compliance
 """
 
-import logging
-import pytest
-import time
 import hashlib
+import logging
+import time
 from dataclasses import dataclass
-from typing import Dict, Any, List, Optional, Set, Tuple
 from enum import Enum
+from typing import Any, Dict, List, Optional, Set, Tuple
+
+import pytest
 
 logger = logging.getLogger(__name__)
 
@@ -545,7 +546,7 @@ class TestMATRIZGDPRBridge:
         expected_violations = 500  # 5 users * 100 memories each
         assert violation_count == expected_violations, f"Expected {expected_violations} violations, got {violation_count}"
 
-        logger.info(f"✅ Real-time performance test passed:")
+        logger.info("✅ Real-time performance test passed:")
         logger.info(f"   Mean: {mean_access_time:.2f}ms")
         logger.info(f"   P95:  {p95_access_time:.2f}ms")
         logger.info(f"   Max:  {max_access_time:.2f}ms")
@@ -618,7 +619,7 @@ class TestMATRIZGDPRBridge:
         assert audit_result["compliance_metrics"]["violation_detections"] == 2, "Should track violation detections"
         assert audit_result["compliance_metrics"]["trace_purges"] == 1, "Should track trace purges"
 
-        logger.info(f"✅ Comprehensive GDPR audit passed:")
+        logger.info("✅ Comprehensive GDPR audit passed:")
         logger.info(f"   Total fragments: {audit_result['total_memory_fragments']}")
         logger.info(f"   Violations: {audit_result['total_violations']}")
         logger.info(f"   Sanitized traces: {audit_result['sanitized_traces']}")

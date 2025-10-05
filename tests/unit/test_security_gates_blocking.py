@@ -6,9 +6,10 @@ Validates that security gates (pip-audit, SBOM) are properly configured
 to block CI when vulnerabilities or compliance issues are detected.
 """
 
-import yaml
 import subprocess
 from pathlib import Path
+
+import yaml
 
 
 def test_security_audit_workflow_blocking():

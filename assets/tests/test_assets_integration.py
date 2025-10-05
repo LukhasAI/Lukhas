@@ -8,16 +8,15 @@
 Integration tests for assets module.
 """
 
-import pytest
 import unittest
-import asyncio
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module for integration testing
 try:
     import assets
 except ImportError:
-    pytest.skip(f"Module assets not available", allow_module_level=True)
+    pytest.skip("Module assets not available", allow_module_level=True)
 
 
 class TestAssetsIntegration(unittest.TestCase):

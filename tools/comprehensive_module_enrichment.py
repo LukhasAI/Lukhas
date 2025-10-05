@@ -9,10 +9,9 @@ and generating rich metadata from real implementations.
 
 import ast
 import json
-import os
 import re
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Set, Tuple
+from typing import Any, Dict, List, Optional
 
 
 class ModuleContentMiner:
@@ -400,7 +399,7 @@ def main():
                 total_entrypoints += result.get("entrypoints", 0)
                 total_tags += result.get("tags", 0)
 
-    print(f"\n🎯 T4/0.01% enrichment complete:")
+    print("\n🎯 T4/0.01% enrichment complete:")
     print(f"   📦 Modules enriched: {enriched_count}")
     print(f"   🔌 Total entrypoints: {total_entrypoints}")
     print(f"   🏷️  Total tags: {total_tags}")

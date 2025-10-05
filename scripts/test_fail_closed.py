@@ -11,23 +11,24 @@ import asyncio
 import json
 import multiprocessing
 import os
-import psutil
 import random
 import sys
 import threading
 import time
-from dataclasses import dataclass, asdict
-from pathlib import Path
-from typing import Dict, List, Any, Optional
 import traceback
+from dataclasses import asdict, dataclass
+from pathlib import Path
+from typing import Any, Dict, List, Optional
+
+import psutil
 
 # Add project root to path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 try:
+    from governance.guardian_system import GuardianSystem
     from lukhas.consciousness import ConsciousnessStream, CreativityEngine
     from lukhas.consciousness.types import ConsciousnessState, CreativeTask
-    from governance.guardian_system import GuardianSystem
 except ImportError:
     print("Warning: LUKHAS modules not available, using simulation mode")
     GuardianSystem = None
@@ -619,7 +620,7 @@ def main():
             json.dump(asdict(results), f, indent=2, sort_keys=True)
 
         # Print summary
-        print(f"\n🎯 Chaos Test Results:")
+        print("\n🎯 Chaos Test Results:")
         print(f"Component: {results.component}")
         print(f"Stress Level: {results.stress_level}")
         print(f"Total Tests: {results.total_tests}")

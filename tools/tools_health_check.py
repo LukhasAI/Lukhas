@@ -356,7 +356,7 @@ Category Breakdown:
             for fix in self.fixes_applied:
                 report += f"  • {fix}\n"
 
-        report += f"\nRecommendations:\n"
+        report += "\nRecommendations:\n"
 
         if success_rate < 100:
             report += "  • Review and resolve failing checks above\n"

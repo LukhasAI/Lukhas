@@ -1,6 +1,12 @@
 # tests/ethics/test_tags_preprocess.py
-import os, time, math, pytest
-from hypothesis import given, strategies as st
+import math
+import os
+import time
+
+import pytest
+from hypothesis import given
+from hypothesis import strategies as st
+
 from lukhas.core.ethics.safety_tags import preprocess_text
 
 ZERO_WIDTH = ("\u200b", "\u200c", "\u200d", "\u2060", "\ufeff")

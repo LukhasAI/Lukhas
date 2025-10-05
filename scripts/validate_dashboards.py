@@ -13,9 +13,10 @@ Validates Grafana dashboards for T4/0.01% excellence monitoring:
 import json
 import os
 import sys
-import requests
 from pathlib import Path
 from typing import Dict, List
+
+import requests
 
 
 class DashboardValidator:
@@ -206,9 +207,9 @@ class DashboardValidator:
 
             if not self.validate_dashboard_structure(dashboard_file):
                 all_valid = False
-                print(f"    ❌ Validation failed")
+                print("    ❌ Validation failed")
             else:
-                print(f"    ✅ Validation passed")
+                print("    ✅ Validation passed")
 
         # Check for missing required dashboards
         missing_dashboards = set(self.REQUIRED_DASHBOARDS) - found_dashboards
@@ -263,19 +264,19 @@ class DashboardValidator:
         total_errors = len(self.validation_errors)
         total_warnings = len(self.validation_warnings)
 
-        print(f"\n📊 T4/0.01% Dashboard Validation Report")
+        print("\n📊 T4/0.01% Dashboard Validation Report")
         print("=" * 60)
         print(f"Errors: {total_errors}")
         print(f"Warnings: {total_warnings}")
 
         if self.validation_errors:
-            print(f"\n❌ ERRORS:")
+            print("\n❌ ERRORS:")
             print("-" * 40)
             for error in self.validation_errors:
                 print(f"  • {error}")
 
         if self.validation_warnings:
-            print(f"\n⚠️  WARNINGS:")
+            print("\n⚠️  WARNINGS:")
             print("-" * 40)
             for warning in self.validation_warnings:
                 print(f"  • {warning}")
@@ -284,7 +285,7 @@ class DashboardValidator:
             print("\n✅ All validations passed!")
 
         # Test live connectivity
-        print(f"\n🔗 Connectivity Tests:")
+        print("\n🔗 Connectivity Tests:")
         print("-" * 40)
 
         grafana_ok = self.test_grafana_connectivity()

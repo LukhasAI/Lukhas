@@ -4,8 +4,9 @@ Tests critical performance requirements for LUKHAS MATRIZ cognitive architecture
 """
 
 import asyncio
-import time
 import statistics
+import time
+
 import pytest
 
 # Performance thresholds from architectural audit
@@ -167,8 +168,9 @@ class TestMATRIZPerformance:
 
     def test_matriz_memory_efficiency(self):
         """Test MATRIZ memory usage under processing load"""
-        import psutil
         import os
+
+        import psutil
 
         process = psutil.Process(os.getpid())
 

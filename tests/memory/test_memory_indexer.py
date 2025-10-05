@@ -5,15 +5,16 @@ Validates embedding generation, content extraction, deduplication,
 and batch processing with T4/0.01% excellence standards.
 """
 
-import pytest
 import asyncio
+
 import numpy as np
+import pytest
 
 from lukhas.memory.indexer import (
+    ContentExtractor,
     DocumentIndexer,
     OpenAIEmbeddingProvider,
     SentenceTransformersProvider,
-    ContentExtractor
 )
 
 

@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 """Test Perplexity API with minimal request."""
 
-import os
-import requests
 import json
+import os
+
+import requests
 from dotenv import load_dotenv
 
 load_dotenv()

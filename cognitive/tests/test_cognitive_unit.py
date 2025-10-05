@@ -8,15 +8,15 @@
 Unit tests for cognitive module.
 """
 
-import pytest
 import unittest
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module components
 try:
     import cognitive
 except ImportError:
-    pytest.skip(f"Module cognitive not available", allow_module_level=True)
+    pytest.skip("Module cognitive not available", allow_module_level=True)
 
 
 class TestCognitiveModule(unittest.TestCase):

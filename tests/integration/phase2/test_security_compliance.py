@@ -32,13 +32,13 @@ PLACEHOLDER_PASSWORD_2 = "SecurePassword123!"  # nosec
 try:
     from lukhas.compliance.ai_compliance import ComplianceEngine
     from lukhas.governance.guardian_system import GuardianSystem
+    from lukhas.identity.core import IdentitySystem
     from lukhas.security.authentication import (
         generate_api_key,
         generate_jwt_token,
         validate_api_key,
         validate_jwt_token,
     )
-    from lukhas.identity.core import IdentitySystem
 except ImportError as e:
     pytest.skip(f"Security modules not available: {e}", allow_module_level=True)
 

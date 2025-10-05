@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
-import json, pathlib, sys
+import json
+import pathlib
+import sys
+
 required = {
  "lukhas.manifests.validate","lukhas.manifests.lock","lukhas.registry.build","lukhas.registry.diff",
  "lukhas.docs.registry.refresh","lukhas.docs.frontmatter.guard",

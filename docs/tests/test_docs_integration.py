@@ -8,16 +8,15 @@
 Integration tests for docs module.
 """
 
-import pytest
 import unittest
-import asyncio
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module for integration testing
 try:
     import docs
 except ImportError:
-    pytest.skip(f"Module docs not available", allow_module_level=True)
+    pytest.skip("Module docs not available", allow_module_level=True)
 
 
 class TestDocsIntegration(unittest.TestCase):

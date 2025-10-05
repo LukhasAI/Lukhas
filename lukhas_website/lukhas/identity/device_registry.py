@@ -3,18 +3,18 @@ I.6 Device Registry - Advanced device fingerprinting and trust management
 Enhanced device registry with ML-based fingerprinting and behavioral analysis.
 """
 
+import asyncio
 import hashlib
 import json
-import time
 import logging
-from datetime import datetime, timedelta
-from typing import Dict, List, Optional, Set, Tuple, Any
+import time
 from dataclasses import dataclass, field
+from datetime import datetime, timedelta
 from enum import Enum
-import asyncio
+from typing import Any, Dict, List, Optional, Set, Tuple
 
-from lukhas.identity.session_manager import DeviceInfo, DeviceType
 from lukhas.identity.observability import IdentityObservability
+from lukhas.identity.session_manager import DeviceInfo, DeviceType
 
 logger = logging.getLogger(__name__)
 

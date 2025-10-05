@@ -12,13 +12,13 @@ Performance targets:
 """
 
 import asyncio
-import time
 import hashlib
+import io
+import time
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Dict, List, Optional, Any, Union, Tuple
-import io
+from typing import Any, Dict, List, Optional, Tuple, Union
 
 try:
     import zstandard as zstd
@@ -26,10 +26,11 @@ try:
 except ImportError:
     ZSTD_AVAILABLE = False
 
-import gzip
 import bz2
-from lukhas.observability.metrics import get_metrics_collector
+import gzip
+
 from lukhas.core.logging import get_logger
+from lukhas.observability.metrics import get_metrics_collector
 
 logger = get_logger(__name__)
 metrics = get_metrics_collector()

@@ -8,15 +8,15 @@
 Unit tests for quantum module.
 """
 
-import pytest
 import unittest
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module components
 try:
     import quantum
 except ImportError:
-    pytest.skip(f"Module quantum not available", allow_module_level=True)
+    pytest.skip("Module quantum not available", allow_module_level=True)
 
 
 class TestQuantumModule(unittest.TestCase):

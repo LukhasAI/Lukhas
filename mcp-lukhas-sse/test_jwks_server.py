@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """Local test JWKS server for development."""
 
+import uvicorn
 from fastapi import FastAPI
 from fastapi.responses import JSONResponse
-import uvicorn
 
 app = FastAPI(title="Test JWKS Server")
 
@@ -13,7 +13,7 @@ TEST_JWKS = {
         {
             "kty": "oct",
             "use": "sig",
-            "kid": "test-key-1", 
+            "kid": "test-key-1",
             "k": "dGVzdC1zZWNyZXQta2V5LWZvci1sb2NhbC1kZXZlbG9wbWVudC1vbmx5LWRvLW5vdC11c2UtaW4tcHJvZHVjdGlvbg"
         }
     ]
@@ -48,5 +48,5 @@ if __name__ == "__main__":
     print("🧪 Starting Test JWKS Server on port 8081")
     print("📍 JWKS URL: http://localhost:8081/.well-known/jwks.json")
     print("📍 OpenID Config: http://localhost:8081/.well-known/openid-configuration")
-    
+
     uvicorn.run(app, host="0.0.0.0", port=8081)

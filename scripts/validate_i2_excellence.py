@@ -18,27 +18,27 @@ Usage:
     python scripts/validate_i2_excellence.py [--runs=1000] [--output=validation_results.json]
 """
 
+import argparse
 import asyncio
+import hashlib
 import json
 import statistics
 import time
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Dict, List, Any
-import argparse
-import hashlib
+from typing import Any, Dict, List
 
 # Import validation components
 try:
-    import sys
     import os
+    import sys
     sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-    from lukhas.identity.tiers import create_tiered_authenticator, AuthContext, SecurityPolicy
-    from lukhas.identity.webauthn_enhanced import create_enhanced_webauthn_service
-    from lukhas.identity.biometrics import create_mock_biometric_provider, BiometricModality
-    from lukhas.identity.security_hardening import create_security_hardening_manager
     from governance.guardian_system import GuardianSystem
+    from lukhas.identity.biometrics import BiometricModality, create_mock_biometric_provider
+    from lukhas.identity.security_hardening import create_security_hardening_manager
+    from lukhas.identity.tiers import AuthContext, SecurityPolicy, create_tiered_authenticator
+    from lukhas.identity.webauthn_enhanced import create_enhanced_webauthn_service
     COMPONENTS_AVAILABLE = True
     print("✅ All I.2 components imported successfully for validation")
 except ImportError as e:
@@ -90,7 +90,7 @@ class T4ExcellenceValidator:
 
     async def run_comprehensive_validation(self) -> Dict[str, Any]:
         """Run comprehensive T4/0.01% excellence validation."""
-        print(f"🚀 Starting I.2 T4/0.01% Excellence Validation")
+        print("🚀 Starting I.2 T4/0.01% Excellence Validation")
         print(f"📊 Validation ID: {self.validation_id}")
         print(f"🔢 Test runs: {self.runs}")
         print("=" * 60)

@@ -21,7 +21,7 @@ logger = logging.getLogger(__name__)
 
 class LukhasMCPServer:
     """LUKHAS AI MCP STDIO Server - Manual implementation for Python 3.9+"""
-    
+
     def __init__(self):
         self.server_info = {
             "name": "lukhas-ai-mcp-server",
@@ -36,18 +36,18 @@ class LukhasMCPServer:
                 "listChanged": False
             }
         }
-        
+
     async def handle_initialize(self, request: Dict[str, Any]) -> Dict[str, Any]:
         """Handle MCP initialization request."""
         logger.info("Handling MCP initialization request")
-        
+
         params = request.get("params", {})
         client_info = params.get("clientInfo", {})
         protocol_version = params.get("protocolVersion", "2025-06-18")
-        
+
         logger.info(f"Client: {client_info.get('name', 'unknown')} v{client_info.get('version', 'unknown')}")
         logger.info(f"Protocol version: {protocol_version}")
-        
+
         return {
             "jsonrpc": "2.0",
             "id": request.get("id"),
@@ -57,11 +57,11 @@ class LukhasMCPServer:
                 "serverInfo": self.server_info
             }
         }
-    
+
     async def handle_tools_list(self, request: Dict[str, Any]) -> Dict[str, Any]:
         """Handle tools/list request."""
         logger.info("Handling tools/list request")
-        
+
         tools = [
             {
                 "name": "list_directory",
@@ -129,7 +129,7 @@ class LukhasMCPServer:
                 }
             }
         ]
-        
+
         return {
             "jsonrpc": "2.0",
             "id": request.get("id"),
@@ -137,32 +137,32 @@ class LukhasMCPServer:
                 "tools": tools
             }
         }
-    
+
     async def list_directory_tool(self, path: str) -> str:
         """List files and directories in the given path."""
         try:
             # Security: Only allow paths under allowed roots
             allowed_roots = os.getenv("ALLOWED_ROOTS", "/tmp,/var/tmp,/Users/cognitive_dev/LOCAL-REPOS/Lukhas/test_data").split(",")
             abs_path = os.path.abspath(path)
-            
+
             if not any(abs_path.startswith(os.path.abspath(root.strip())) for root in allowed_roots):
                 return json.dumps({
                     "error": f"Path '{path}' not allowed",
                     "allowed_roots": allowed_roots
                 }, indent=2)
-            
+
             if not os.path.exists(path):
                 return json.dumps({"error": f"Path '{path}' does not exist"}, indent=2)
-            
+
             if not os.path.isdir(path):
                 return json.dumps({"error": f"Path '{path}' is not a directory"}, indent=2)
-            
+
             items = []
             for item in sorted(os.listdir(path)):
                 full_path = os.path.join(path, item)
                 item_type = "directory" if os.path.isdir(full_path) else "file"
                 size = os.path.getsize(full_path) if os.path.isfile(full_path) else None
-                
+
                 item_info = {
                     "name": item,
                     "type": item_type,
@@ -170,51 +170,51 @@ class LukhasMCPServer:
                 }
                 if size is not None:
                     item_info["size_bytes"] = size
-                
+
                 items.append(item_info)
-            
+
             result = {
                 "path": path,
                 "items": items,
                 "total_items": len(items),
                 "lukhas_ai": "⚛️🧠🛡️ LUKHAS AI Constellation Framework"
             }
-            
+
             return json.dumps(result, indent=2)
-            
+
         except Exception as e:
             logger.error(f"Error listing directory {path}: {e}")
             return json.dumps({"error": f"Error listing directory: {str(e)}"}, indent=2)
-    
+
     async def read_file_tool(self, path: str, max_lines: int = 100) -> str:
         """Read the contents of a text file."""
         try:
             # Security: Only allow paths under allowed roots
             allowed_roots = os.getenv("ALLOWED_ROOTS", "/tmp,/var/tmp,/Users/cognitive_dev/LOCAL-REPOS/Lukhas/test_data").split(",")
             abs_path = os.path.abspath(path)
-            
+
             if not any(abs_path.startswith(os.path.abspath(root.strip())) for root in allowed_roots):
                 return json.dumps({
                     "error": f"Path '{path}' not allowed",
                     "allowed_roots": allowed_roots
                 }, indent=2)
-            
+
             if not os.path.exists(path):
                 return json.dumps({"error": f"File '{path}' does not exist"}, indent=2)
-            
+
             if not os.path.isfile(path):
                 return json.dumps({"error": f"Path '{path}' is not a regular file"}, indent=2)
-            
+
             # Check file size (limit to 1MB)
             file_size = os.path.getsize(path)
             if file_size > 1024 * 1024:  # 1MB
                 return json.dumps({
                     "error": f"File '{path}' is too large ({file_size} bytes). Maximum allowed: 1MB"
                 }, indent=2)
-            
+
             with open(path, 'r', encoding='utf-8', errors='replace') as f:
                 lines = f.readlines()
-            
+
             # Limit the number of lines
             if len(lines) > max_lines:
                 content_lines = lines[:max_lines]
@@ -222,9 +222,9 @@ class LukhasMCPServer:
             else:
                 content_lines = lines
                 truncated = False
-            
+
             content = ''.join(content_lines)
-            
+
             result = {
                 "path": path,
                 "content": content,
@@ -234,9 +234,9 @@ class LukhasMCPServer:
                 "file_size_bytes": file_size,
                 "lukhas_ai": "⚛️🧠🛡️ LUKHAS AI Constellation Framework"
             }
-            
+
             return json.dumps(result, indent=2)
-            
+
         except UnicodeDecodeError:
             return json.dumps({
                 "error": f"File '{path}' appears to be a binary file or uses unsupported encoding"
@@ -244,28 +244,28 @@ class LukhasMCPServer:
         except Exception as e:
             logger.error(f"Error reading file {path}: {e}")
             return json.dumps({"error": f"Error reading file: {str(e)}"}, indent=2)
-    
+
     async def search_files_tool(self, directory: str, pattern: str, max_results: int = 20) -> str:
         """Search for files matching a pattern in a directory."""
         try:
             import fnmatch
-            
+
             # Security: Only allow paths under allowed roots
             allowed_roots = os.getenv("ALLOWED_ROOTS", "/tmp,/var/tmp,/Users/cognitive_dev/LOCAL-REPOS/Lukhas/test_data").split(",")
             abs_directory = os.path.abspath(directory)
-            
+
             if not any(abs_directory.startswith(os.path.abspath(root.strip())) for root in allowed_roots):
                 return json.dumps({
                     "error": f"Directory '{directory}' not allowed",
                     "allowed_roots": allowed_roots
                 }, indent=2)
-            
+
             if not os.path.exists(directory):
                 return json.dumps({"error": f"Directory '{directory}' does not exist"}, indent=2)
-            
+
             if not os.path.isdir(directory):
                 return json.dumps({"error": f"Path '{directory}' is not a directory"}, indent=2)
-            
+
             matches = []
             for root, dirs, files in os.walk(directory):
                 # Only search up to 3 levels deep to prevent excessive traversal
@@ -273,7 +273,7 @@ class LukhasMCPServer:
                 if level >= 3:
                     dirs[:] = []  # Don't descend further
                     continue
-                
+
                 for file in files:
                     if fnmatch.fnmatch(file, pattern):
                         full_path = os.path.join(root, file)
@@ -284,13 +284,13 @@ class LukhasMCPServer:
                             "size_bytes": os.path.getsize(full_path)
                         }
                         matches.append(file_info)
-                        
+
                         if len(matches) >= max_results:
                             break
-                
+
                 if len(matches) >= max_results:
                     break
-            
+
             result = {
                 "directory": directory,
                 "pattern": pattern,
@@ -299,18 +299,18 @@ class LukhasMCPServer:
                 "truncated": len(matches) >= max_results,
                 "lukhas_ai": "⚛️🧠🛡️ LUKHAS AI Constellation Framework"
             }
-            
+
             return json.dumps(result, indent=2)
-            
+
         except Exception as e:
             logger.error(f"Error searching files in {directory}: {e}")
             return json.dumps({"error": f"Error searching files: {str(e)}"}, indent=2)
-    
+
     async def get_lukhas_info_tool(self) -> str:
         """Get information about the LUKHAS AI system and Constellation Framework."""
         try:
             import platform
-            
+
             info = {
                 "lukhas_ai": {
                     "name": "LUKHAS AI Platform",
@@ -348,21 +348,21 @@ class LukhasMCPServer:
                     "working_directory": os.getcwd()
                 }
             }
-            
+
             return json.dumps(info, indent=2)
-            
+
         except Exception as e:
             logger.error(f"Error getting LUKHAS info: {e}")
             return json.dumps({"error": f"Error getting system info: {str(e)}"}, indent=2)
-    
+
     async def handle_tools_call(self, request: Dict[str, Any]) -> Dict[str, Any]:
         """Handle tools/call request."""
         logger.info("Handling tools/call request")
-        
+
         params = request.get("params", {})
         tool_name = params.get("name")
         arguments = params.get("arguments", {})
-        
+
         try:
             if tool_name == "list_directory":
                 result = await self.list_directory_tool(arguments.get("path", "/tmp"))
@@ -388,7 +388,7 @@ class LukhasMCPServer:
                         "message": f"Unknown tool: {tool_name}"
                     }
                 }
-            
+
             return {
                 "jsonrpc": "2.0",
                 "id": request.get("id"),
@@ -401,7 +401,7 @@ class LukhasMCPServer:
                     ]
                 }
             }
-            
+
         except Exception as e:
             logger.error(f"Error executing tool {tool_name}: {e}")
             return {
@@ -412,11 +412,11 @@ class LukhasMCPServer:
                     "message": f"Internal error executing tool: {str(e)}"
                 }
             }
-    
+
     async def handle_request(self, request: Dict[str, Any]) -> Optional[Dict[str, Any]]:
         """Handle JSON-RPC requests according to MCP specification."""
         method = request.get("method")
-        
+
         if method == "initialize":
             return await self.handle_initialize(request)
         elif method == "tools/list":
@@ -436,11 +436,11 @@ class LukhasMCPServer:
                     "message": f"Method not found: {method}"
                 }
             }
-    
+
     async def run_stdio(self):
         """Run the MCP server with STDIO transport."""
         logger.info("Starting STDIO message loop")
-        
+
         while True:
             try:
                 # Read a line from stdin
@@ -448,26 +448,26 @@ class LukhasMCPServer:
                 if not line:
                     # EOF reached
                     break
-                
+
                 line = line.strip()
                 if not line:
                     continue
-                
+
                 # Parse JSON-RPC request
                 try:
                     request = json.loads(line)
                 except json.JSONDecodeError as e:
                     logger.error(f"Invalid JSON received: {e}")
                     continue
-                
+
                 # Handle the request
                 response = await self.handle_request(request)
-                
+
                 # Send response if needed
                 if response is not None:
                     response_json = json.dumps(response)
                     print(response_json, flush=True)
-                    
+
             except KeyboardInterrupt:
                 logger.info("Received keyboard interrupt, shutting down")
                 break
@@ -486,13 +486,13 @@ async def main():
         if os.path.exists(test_data_path):
             default_roots.append(test_data_path)
         os.environ["ALLOWED_ROOTS"] = ",".join(default_roots)
-    
+
     logger.info("🚀 Starting LUKHAS AI MCP STDIO Server")
     logger.info("⚛️🧠🛡️ Constellation Framework: Identity, Consciousness, Guardian")
     logger.info(f"📁 Allowed roots: {os.getenv('ALLOWED_ROOTS')}")
     logger.info("📋 Protocol: MCP v2025-06-18 with STDIO transport")
     logger.info("🔗 Ready for ChatGPT integration")
-    
+
     # Create and run the server
     server = LukhasMCPServer()
     await server.run_stdio()

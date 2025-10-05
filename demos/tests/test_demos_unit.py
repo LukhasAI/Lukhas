@@ -8,15 +8,15 @@
 Unit tests for demos module.
 """
 
-import pytest
 import unittest
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module components
 try:
     import demos
 except ImportError:
-    pytest.skip(f"Module demos not available", allow_module_level=True)
+    pytest.skip("Module demos not available", allow_module_level=True)
 
 
 class TestDemosModule(unittest.TestCase):

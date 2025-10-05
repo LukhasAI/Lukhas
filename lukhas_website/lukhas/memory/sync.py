@@ -15,19 +15,19 @@ Usage:
 """
 from __future__ import annotations
 
-import os
 import logging
+import os
 import threading
+from collections import defaultdict, deque
 from dataclasses import dataclass
 from datetime import datetime, timedelta
-from typing import Dict, List, Optional, Any, Set
-from uuid import UUID, uuid4
 from enum import Enum
-from collections import defaultdict, deque
+from typing import Any, Dict, List, Optional, Set
+from uuid import UUID, uuid4
 
 # Optional Prometheus metrics
 try:
-    from prometheus_client import Counter, Histogram, Gauge
+    from prometheus_client import Counter, Gauge, Histogram
     MEMORY_SYNC_OPS_TOTAL = Counter("lukhas_memory_sync_ops_total", "Memory sync operations", ["source_lane", "target_lane", "result"])
     MEMORY_SYNC_DURATION = Histogram("lukhas_memory_sync_duration_seconds", "Memory sync duration", ["operation"])
     MEMORY_FANOUT_GAUGE = Gauge("lukhas_memory_fanout_current", "Current memory fanout", ["lane"])

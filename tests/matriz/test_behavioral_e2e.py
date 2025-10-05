@@ -7,11 +7,12 @@ with real cognitive processing and validation of outputs.
 """
 
 import asyncio
+
 import pytest
 
-from lukhas.core.registry import register
 from lukhas.core.orchestration.async_orchestrator import AsyncOrchestrator
-from lukhas.nodes.example_nodes import IntentNode, ThoughtNode, ActionNode, VisionNode, DecisionNode
+from lukhas.core.registry import register
+from lukhas.nodes.example_nodes import ActionNode, DecisionNode, IntentNode, ThoughtNode, VisionNode
 
 
 @pytest.fixture

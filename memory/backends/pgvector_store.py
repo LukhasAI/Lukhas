@@ -1,7 +1,9 @@
 # SPDX-License-Identifier: Apache-2.0
 from __future__ import annotations
+
 from dataclasses import dataclass
 from typing import Any, Dict, Iterable, List, Optional, Tuple
+
 
 # TODO: replace with real DB client (psycopg or sqlalchemy)
 class _PgClient: ...

@@ -30,13 +30,13 @@ import logging
 import random
 import statistics
 import time
-from dataclasses import dataclass, asdict
-from datetime import datetime, timezone
-from pathlib import Path
-from typing import Dict, Any, List, Optional
-from collections import deque
-from enum import Enum
 import uuid
+from collections import deque
+from dataclasses import asdict, dataclass
+from datetime import datetime, timezone
+from enum import Enum
+from pathlib import Path
+from typing import Any, Dict, List, Optional
 
 logger = logging.getLogger(__name__)
 
@@ -612,25 +612,25 @@ async def main():
         print(f"Duration: {report['canary_deployment_report']['deployment_duration_seconds']:.1f}s")
         print(f"Traffic Percentage: {report['canary_deployment_report']['traffic_percentage']}%")
 
-        print(f"\n📊 PERFORMANCE METRICS:")
+        print("\n📊 PERFORMANCE METRICS:")
         print(f"  Total Requests: {report['performance']['total_requests_processed']}")
         print(f"  Shadow Requests: {report['performance']['shadow_requests_processed']}")
         print(f"  Success Rate: {report['performance']['success_rate']:.1f}%")
         print(f"  Decision Match Rate: {report['performance']['decision_match_rate']:.1f}%")
         print(f"  Avg Processing Delta: {report['performance']['average_processing_delta_ms']:.1f}ms")
 
-        print(f"\n🔥 BURN RATE ANALYSIS:")
+        print("\n🔥 BURN RATE ANALYSIS:")
         print(f"  Error Rate (1h): {report['burn_rate_analysis']['error_rate_1h']:.2f}%")
         print(f"  Error Rate (6h): {report['burn_rate_analysis']['error_rate_6h']:.2f}%")
         print(f"  Burn Rate (1h): {report['burn_rate_analysis']['burn_rate_1h']:.2f}x")
         print(f"  Burn Rate (6h): {report['burn_rate_analysis']['burn_rate_6h']:.2f}x")
 
-        print(f"\n🛡️ SAFETY STATUS:")
+        print("\n🛡️ SAFETY STATUS:")
         print(f"  Circuit Breaker: {'🔴 TRIGGERED' if report['safety_status']['circuit_breaker_triggered'] else '🟢 OK'}")
         print(f"  Deployment Safe: {'✅ SAFE' if report['safety_status']['deployment_safe'] else '❌ UNSAFE'}")
         print(f"  Total Alerts: {report['safety_status']['total_alerts_sent']}")
 
-        print(f"\n💡 RECOMMENDATIONS:")
+        print("\n💡 RECOMMENDATIONS:")
         for rec in report['recommendations']:
             print(f"  {rec}")
 

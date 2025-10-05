@@ -8,9 +8,9 @@
 Integration tests for tests module.
 """
 
+from unittest.mock import Mock, patch
+
 import pytest
-import importlib
-from unittest.mock import patch, Mock
 
 pytestmark = pytest.mark.integration
 
@@ -42,9 +42,9 @@ class TestTestsEndToEnd:
     def test_consciousness_system_integration(self):
         """Test integration with full consciousness system."""
         try:
-            from lukhas.tests import TestsCore
             from lukhas.consciousness import ConsciousnessCore
             from lukhas.memory import MemoryCore
+            from lukhas.tests import TestsCore
 
             # Initialize full system stack
             consciousness = ConsciousnessCore()
@@ -109,9 +109,10 @@ class TestTestsScalabilityIntegration:
     def test_concurrent_processing(self):
         """Test concurrent processing capabilities."""
         try:
-            from lukhas.tests import TestsCore
             import concurrent.futures
             import threading
+
+            from lukhas.tests import TestsCore
 
             component = TestsCore()
 

@@ -8,16 +8,15 @@
 Integration tests for transmission_bundle module.
 """
 
-import pytest
 import unittest
-import asyncio
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module for integration testing
 try:
     import transmission_bundle
 except ImportError:
-    pytest.skip(f"Module transmission_bundle not available", allow_module_level=True)
+    pytest.skip("Module transmission_bundle not available", allow_module_level=True)
 
 
 class TestTransmissionBundleIntegration(unittest.TestCase):

@@ -26,20 +26,17 @@ import logging
 import statistics
 import time
 from dataclasses import dataclass
-from typing import Dict, List, Any, Optional
+from typing import Any, Dict, List, Optional
 from unittest.mock import patch
+
 import pytest
 
-# Import Guardian components
-from lukhas.governance.guardian_serializers import (
-    GuardianEnvelopeSerializer
-)
-
 # Import MATRIZ components
-from lukhas.consciousness.matriz_thought_loop import (
-    MATRIZThoughtLoop, MATRIZProcessingContext
-)
+from lukhas.consciousness.matriz_thought_loop import MATRIZProcessingContext, MATRIZThoughtLoop
 from lukhas.consciousness.types import ConsciousnessState
+
+# Import Guardian components
+from lukhas.governance.guardian_serializers import GuardianEnvelopeSerializer
 
 logger = logging.getLogger(__name__)
 
@@ -112,7 +109,7 @@ class GuardianMATRIZSoakTester:
             "schema_version": "2.1.0",
             "decision": {
                 "status": "allow",
-                "policy": f"soak_test/v1.0.0",
+                "policy": "soak_test/v1.0.0",
                 "severity": "low",
                 "confidence": 0.95,
                 "timestamp": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
@@ -524,7 +521,7 @@ class TestGuardianMATRIZThroughput:
             concurrent_workers=12   # Higher concurrency for latency stress
         )
 
-        logger.info(f"Guardian Latency Stability Test:")
+        logger.info("Guardian Latency Stability Test:")
         logger.info(f"  Mean Latency: {result.guardian_mean_latency_ms:.2f}ms")
         logger.info(f"  P95 Latency: {result.guardian_p95_latency_ms:.2f}ms")
         logger.info(f"  Throughput: {result.guardian_throughput_ops_per_sec:.1f} ops/s")
@@ -547,7 +544,7 @@ class TestGuardianMATRIZThroughput:
 
         memory_growth_pct = result.detailed_metrics["memory_growth_pct"]
 
-        logger.info(f"Memory Stability Test:")
+        logger.info("Memory Stability Test:")
         logger.info(f"  Initial Memory: {result.detailed_metrics['initial_memory_mb']:.1f}MB")
         logger.info(f"  Final Memory: {result.detailed_metrics['final_memory_mb']:.1f}MB")
         logger.info(f"  Memory Growth: {memory_growth_pct:.1f}%")
@@ -574,7 +571,7 @@ if __name__ == "__main__":
         print(f"Total Operations: {result.total_operations}")
         print(f"Success Rate: {result.success_rate:.1f}%")
 
-        print(f"\nGuardian Performance:")
+        print("\nGuardian Performance:")
         print(f"  Throughput: {result.guardian_throughput_ops_per_sec:.1f} ops/s ({'✓' if result.guardian_throughput_ops_per_sec >= PERFORMANCE_TARGETS['guardian_throughput_ops_per_sec'] else '✗'})")
         print(f"  Mean Latency: {result.guardian_mean_latency_ms:.2f}ms ({'✓' if result.guardian_mean_latency_ms <= PERFORMANCE_TARGETS['guardian_mean_latency_ms'] else '✗'})")
         print(f"  P95 Latency: {result.guardian_p95_latency_ms:.2f}ms ({'✓' if result.guardian_p95_latency_ms <= PERFORMANCE_TARGETS['guardian_p95_latency_ms'] else '✗'})")

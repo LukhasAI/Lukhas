@@ -8,11 +8,12 @@ and assign modules to appropriate development lanes for T4/0.01% targets.
 
 import ast
 import json
-from typing import Dict, List
-from pathlib import Path
-from dataclasses import dataclass, asdict
 from collections import defaultdict
+from dataclasses import asdict, dataclass
 from datetime import datetime
+from pathlib import Path
+from typing import Dict, List
+
 
 @dataclass
 class ModuleMetrics:
@@ -534,19 +535,19 @@ def main():
 
     # Print summary
     summary = results["summary"]
-    print(f"\n🎯 T4/0.01% Lane Assignment Audit Summary")
-    print(f"=" * 50)
+    print("\n🎯 T4/0.01% Lane Assignment Audit Summary")
+    print("=" * 50)
     print(f"📊 Total modules analyzed: {summary['total_modules']}")
     print(f"📈 Average readiness score: {summary['average_readiness_score']:.1%}")
     print(f"🏆 Enterprise-ready modules: {summary['enterprise_ready']}")
     print(f"📋 Promotion candidates: {summary['promotion_candidates']}")
-    print(f"\n📍 Lane Distribution:")
+    print("\n📍 Lane Distribution:")
     for lane, count in summary['lane_distribution'].items():
         print(f"  {lane}: {count} modules")
 
     # Print recommendations
     recs = results["recommendations"]
-    print(f"\n🎯 Key Recommendations:")
+    print("\n🎯 Key Recommendations:")
     if recs["quick_wins"]:
         print(f"  ⚡ Quick wins: {len(recs['quick_wins'])} modules")
     if recs["high_priority"]:
@@ -555,8 +556,8 @@ def main():
     # Save detailed report
     auditor.save_audit_report(results)
 
-    print(f"\n✅ Lane assignment audit completed!")
-    print(f"📋 Detailed report saved to lane_assignment_audit.json")
+    print("\n✅ Lane assignment audit completed!")
+    print("📋 Detailed report saved to lane_assignment_audit.json")
 
 if __name__ == "__main__":
     main()

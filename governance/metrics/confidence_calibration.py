@@ -8,10 +8,11 @@ Provides:
 - Continuous learning and parameter fitting
 """
 
-import numpy as np
 from collections import deque
-from typing import List, Tuple, Optional, Dict
-from dataclasses import dataclass, field
+from dataclasses import dataclass
+from typing import Dict
+
+import numpy as np
 
 
 @dataclass

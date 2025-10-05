@@ -2,15 +2,17 @@
 """Verification script for OAuth 2.1 MCP Server endpoints."""
 
 import asyncio
+
 import httpx
+
 
 async def test_endpoints():
     """Test all OAuth 2.1 MCP server endpoints."""
     base_url = "http://localhost:8080"
-    
+
     print("🔍 OAuth 2.1 MCP Server Endpoint Verification")
     print("=" * 50)
-    
+
     async with httpx.AsyncClient() as client:
         try:
             # Test 1: Health check (no auth required)
@@ -22,7 +24,7 @@ async def test_endpoints():
                 print(f"   ❌ /healthz - Status: {response.status_code}")
         except Exception as e:
             print(f"   ❌ /healthz - Error: {e}")
-        
+
         try:
             # Test 2: Protected Resource Metadata (no auth required)
             print("2. Testing Protected Resource Metadata endpoint...")
@@ -36,7 +38,7 @@ async def test_endpoints():
                 print(f"   ❌ /.well-known/oauth-protected-resource - Status: {response.status_code}")
         except Exception as e:
             print(f"   ❌ /.well-known/oauth-protected-resource - Error: {e}")
-        
+
         try:
             # Test 3: SSE endpoint without auth (should reject)
             print("3. Testing SSE endpoint without authorization...")
@@ -47,7 +49,7 @@ async def test_endpoints():
                 print(f"   ❌ /sse/ - Unexpected status: {response.status_code}")
         except Exception as e:
             print(f"   ❌ /sse/ - Error: {e}")
-        
+
         try:
             # Test 4: SSE endpoint with invalid token (should reject)
             print("4. Testing SSE endpoint with invalid token...")
@@ -59,23 +61,23 @@ async def test_endpoints():
                 print(f"   ❌ /sse/ - Unexpected status: {response.status_code}")
         except Exception as e:
             print(f"   ❌ /sse/ - Error: {e}")
-    
+
     print("\n🎯 Summary:")
     print("✅ OAuth 2.1 MCP Server successfully integrated!")
     print("✅ Health check endpoint accessible")
     print("✅ Protected Resource Metadata endpoint working")
     print("✅ OAuth middleware protecting SSE endpoint")
     print("✅ JWT token validation implemented")
-    
+
     print("\n📋 Production Setup Instructions:")
     print("1. Replace test OAuth configuration in .env with real values:")
     print("   OAUTH_ISSUER=https://your-provider/.well-known/openid-configuration")
     print("   OAUTH_AUDIENCE=your-api-audience")
     print("   PUBLIC_BASE_URL=https://your-server.com")
-    
+
     print("\n2. Test with real JWT tokens:")
     print("   curl -H 'Authorization: Bearer <your-jwt>' http://localhost:8080/sse/")
-    
+
     print("\n3. MCP Client Configuration:")
     print("   - Use SSE transport: ws://localhost:8080/sse/")
     print("   - Include 'Authorization: Bearer <jwt>' header")
@@ -85,7 +87,7 @@ if __name__ == "__main__":
     print("ℹ️  Note: This requires the server to be running on localhost:8080")
     print("   Start with: python server.py")
     print("   Then run this verification in another terminal.\n")
-    
+
     try:
         asyncio.run(test_endpoints())
     except KeyboardInterrupt:

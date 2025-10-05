@@ -5,10 +5,11 @@ Validates directory indexes and integrates with context sync system
 """
 
 import json
-import jsonschema
+from datetime import datetime
 from pathlib import Path
 from typing import Dict, List, Tuple
-from datetime import datetime
+
+import jsonschema
 
 
 class DirectoryIndexValidator:
@@ -269,7 +270,7 @@ def main():
                 print(f"    - {issue}")
 
     if results["recommendations"]:
-        print(f"\nRecommendations:")
+        print("\nRecommendations:")
         for rec in results["recommendations"]:
             print(f"  - {rec}")
 
@@ -277,7 +278,7 @@ def main():
     with open("temp_directory_index_validation_report.json", "w") as f:
         json.dump(results, f, indent=2)
 
-    print(f"\nFull validation report saved to: temp_directory_index_validation_report.json")
+    print("\nFull validation report saved to: temp_directory_index_validation_report.json")
 
 
 if __name__ == "__main__":

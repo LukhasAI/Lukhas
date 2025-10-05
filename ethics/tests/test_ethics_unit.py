@@ -8,15 +8,15 @@
 Unit tests for ethics module.
 """
 
-import pytest
 import unittest
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module components
 try:
     import ethics
 except ImportError:
-    pytest.skip(f"Module ethics not available", allow_module_level=True)
+    pytest.skip("Module ethics not available", allow_module_level=True)
 
 
 class TestEthicsModule(unittest.TestCase):
@@ -81,7 +81,7 @@ class TestDecision(unittest.TestCase):
             from ethics import Decision
             self.assertIsNotNone(Decision)
         except ImportError:
-            pytest.skip(f"Component Decision not available")
+            pytest.skip("Component Decision not available")
 
     def test_decision_instantiation(self):
         """Test Decision can be instantiated."""
@@ -98,7 +98,7 @@ class TestEthicsEngine(unittest.TestCase):
             from ethics import EthicsEngine
             self.assertIsNotNone(EthicsEngine)
         except ImportError:
-            pytest.skip(f"Component EthicsEngine not available")
+            pytest.skip("Component EthicsEngine not available")
 
     def test_ethicsengine_instantiation(self):
         """Test EthicsEngine can be instantiated."""
@@ -115,7 +115,7 @@ class TestMEGPolicyBridge(unittest.TestCase):
             from ethics import MEGPolicyBridge
             self.assertIsNotNone(MEGPolicyBridge)
         except ImportError:
-            pytest.skip(f"Component MEGPolicyBridge not available")
+            pytest.skip("Component MEGPolicyBridge not available")
 
     def test_megpolicybridge_instantiation(self):
         """Test MEGPolicyBridge can be instantiated."""

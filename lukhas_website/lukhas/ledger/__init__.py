@@ -6,16 +6,16 @@ Event-sourced architecture for GDPR/CCPA compliant consent tracking
 with immutable audit trails and T4/0.01% excellence performance.
 """
 
+from .consent_handlers import HandlerState, IdempotentConsentHandler
+from .event_bus import AsyncEventBus, EventOffset, ReplayIterator
 from .events import (
+    ConsentCheckedEvent,
     ConsentEvent,
     ConsentGrantedEvent,
     ConsentRevokedEvent,
-    ConsentCheckedEvent,
-    TraceCreatedEvent,
     DuressDetectedEvent,
+    TraceCreatedEvent,
 )
-from .event_bus import AsyncEventBus, EventOffset, ReplayIterator
-from .consent_handlers import IdempotentConsentHandler, HandlerState
 
 __all__ = [
     "ConsentEvent",

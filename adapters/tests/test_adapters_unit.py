@@ -8,15 +8,15 @@
 Unit tests for adapters module.
 """
 
-import pytest
 import unittest
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module components
 try:
     import adapters
 except ImportError:
-    pytest.skip(f"Module adapters not available", allow_module_level=True)
+    pytest.skip("Module adapters not available", allow_module_level=True)
 
 
 class TestAdaptersModule(unittest.TestCase):
@@ -81,7 +81,7 @@ class TestOperationResult(unittest.TestCase):
             from adapters import OperationResult
             self.assertIsNotNone(OperationResult)
         except ImportError:
-            pytest.skip(f"Component OperationResult not available")
+            pytest.skip("Component OperationResult not available")
 
     def test_operationresult_instantiation(self):
         """Test OperationResult can be instantiated."""
@@ -98,7 +98,7 @@ class TestResourceContent(unittest.TestCase):
             from adapters import ResourceContent
             self.assertIsNotNone(ResourceContent)
         except ImportError:
-            pytest.skip(f"Component ResourceContent not available")
+            pytest.skip("Component ResourceContent not available")
 
     def test_resourcecontent_instantiation(self):
         """Test ResourceContent can be instantiated."""
@@ -115,7 +115,7 @@ class TestResourceMetadata(unittest.TestCase):
             from adapters import ResourceMetadata
             self.assertIsNotNone(ResourceMetadata)
         except ImportError:
-            pytest.skip(f"Component ResourceMetadata not available")
+            pytest.skip("Component ResourceMetadata not available")
 
     def test_resourcemetadata_instantiation(self):
         """Test ResourceMetadata can be instantiated."""

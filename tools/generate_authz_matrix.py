@@ -9,13 +9,14 @@ For every interface.public_api.fn, creates test cases with different
 Ensures authorization policy intent is executable and testable.
 """
 
+import argparse
 import json
 import sys
-import yaml
-from pathlib import Path
-from typing import Dict, List, Any
 from dataclasses import dataclass
-import argparse
+from pathlib import Path
+from typing import Any, Dict, List
+
+import yaml
 
 
 @dataclass
@@ -67,7 +68,7 @@ class AuthzMatrixGenerator:
             alt_paths = [
                 Path(f"matrix_{module_name}.json"),
                 Path(f"{module_name}/matrix_{module_name}.json"),
-                Path(f"memory/matrix_memoria.json") if module_name == "memoria" else None
+                Path("memory/matrix_memoria.json") if module_name == "memoria" else None
             ]
             for path in alt_paths:
                 if path and path.exists():

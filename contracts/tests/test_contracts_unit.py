@@ -8,15 +8,15 @@
 Unit tests for contracts module.
 """
 
-import pytest
 import unittest
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module components
 try:
     import contracts
 except ImportError:
-    pytest.skip(f"Module contracts not available", allow_module_level=True)
+    pytest.skip("Module contracts not available", allow_module_level=True)
 
 
 class TestContractsModule(unittest.TestCase):

@@ -8,16 +8,15 @@
 Integration tests for TODO module.
 """
 
-import pytest
 import unittest
-import asyncio
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module for integration testing
 try:
     import TODO
 except ImportError:
-    pytest.skip(f"Module TODO not available", allow_module_level=True)
+    pytest.skip("Module TODO not available", allow_module_level=True)
 
 
 class TestTodoIntegration(unittest.TestCase):

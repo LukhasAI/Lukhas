@@ -55,7 +55,12 @@ except ImportError:
 
 # Import core components with fallbacks
 try:
-    from lukhas.orchestration.brain.spine.fold_engine import AGIMemory, MemoryFold, MemoryPriority, MemoryType  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for multi-AI agent coordination
+    from lukhas.orchestration.brain.spine.fold_engine import (  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for multi-AI agent coordination
+        AGIMemory,
+        MemoryFold,
+        MemoryPriority,
+        MemoryType,
+    )
 except ImportError:
     logger.warning("Core memory components not available - using fallbacks")
     AGIMemory = None

@@ -1,6 +1,6 @@
 import pytest
 
-from lukhas.bridge.api_gateway.route_handlers import RouteHandlers
+from bridge.api_gateway.route_handlers import RouteHandlers
 
 
 @pytest.mark.asyncio

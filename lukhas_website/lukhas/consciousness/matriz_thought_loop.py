@@ -18,14 +18,14 @@ Features:
 Constellation Framework: 🌊 Flow Star Complete Integration
 """
 
-import time
 import logging
-from typing import Any, Dict, List, Optional
+import time
 from dataclasses import dataclass, field
 from enum import Enum
+from typing import Any, Dict, List, Optional
 
-from .enhanced_thought_node import EnhancedThoughtNode
 from .enhanced_awareness_engine import EnhancedAwarenessEngine, EnhancedAwarenessSnapshot
+from .enhanced_thought_node import EnhancedThoughtNode
 from .memory_contradiction_bridge import MemoryContradictionBridge, MemoryValidationContext
 from .types import ConsciousnessState
 

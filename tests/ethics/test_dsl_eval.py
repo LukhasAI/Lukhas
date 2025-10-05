@@ -12,19 +12,34 @@ Test coverage:
 - Performance benchmarks (<1ms p95)
 - Deterministic behavior validation
 """
-import pytest
 import time
 
+import pytest
+
 from lukhas.core.ethics.logic.dsl_lite import (
-    compile_rule, hash_rule, DSLError,
-    contains, equals, greater_than, less_than, matches, is_empty, is_present,
-    not_has_consent, domain_is, domain_etld1, param_bytes_lte, param_seconds_lte,
-    canonical_domain, parse_bytes, parse_seconds,
-    and_op, or_op, not_op
+    DSLError,
+    and_op,
+    canonical_domain,
+    compile_rule,
+    contains,
+    domain_etld1,
+    domain_is,
+    equals,
+    greater_than,
+    hash_rule,
+    is_empty,
+    is_present,
+    less_than,
+    matches,
+    not_has_consent,
+    not_op,
+    or_op,
+    param_bytes_lte,
+    param_seconds_lte,
+    parse_bytes,
+    parse_seconds,
 )
-from lukhas.core.ethics.logic.ethics_engine import (
-    EthicsEngine, RuleSet, EthicsRule, EthicsAction, Priority
-)
+from lukhas.core.ethics.logic.ethics_engine import EthicsAction, EthicsEngine, EthicsRule, Priority, RuleSet
 
 
 class TestDSLPredicates:

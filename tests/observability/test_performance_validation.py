@@ -6,21 +6,21 @@ Validates that observability operations meet <10ms overhead requirements.
 
 import asyncio
 import statistics
-import time
-import pytest
-import tempfile
-from datetime import datetime, timezone
-from pathlib import Path
-from unittest.mock import patch, MagicMock
 
 # Test imports
 import sys
+import tempfile
+import time
+from datetime import datetime, timezone
+from pathlib import Path
+from unittest.mock import MagicMock, patch
+
+import pytest
+
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
-from lukhas.observability.evidence_collection import (
-    EvidenceCollectionEngine, EvidenceType, ComplianceRegime
-)
 from lukhas.observability.advanced_metrics import AdvancedMetricsSystem
+from lukhas.observability.evidence_collection import ComplianceRegime, EvidenceCollectionEngine, EvidenceType
 from lukhas.observability.performance_regression import PerformanceRegressionDetector
 from lukhas.observability.security_hardening import ObservabilitySecurityHardening
 
@@ -135,7 +135,7 @@ class TestPerformanceValidation:
         p99_duration = sorted(durations)[int(len(durations) * 0.99)]
         max_duration = max(durations)
 
-        print(f"Evidence Collection Performance Results:")
+        print("Evidence Collection Performance Results:")
         print(f"  Iterations: {test_iterations}")
         print(f"  Mean: {mean_duration:.3f}ms")
         print(f"  Median: {median_duration:.3f}ms")
@@ -184,7 +184,7 @@ class TestPerformanceValidation:
         p95_duration = sorted(durations)[int(len(durations) * 0.95)]
         max_duration = max(durations)
 
-        print(f"Advanced Metrics Performance Results:")
+        print("Advanced Metrics Performance Results:")
         print(f"  Iterations: {test_iterations}")
         print(f"  Mean: {mean_duration:.3f}ms")
         print(f"  P95: {p95_duration:.3f}ms")
@@ -232,7 +232,7 @@ class TestPerformanceValidation:
         p95_duration = sorted(durations)[int(len(durations) * 0.95)]
         max_duration = max(durations)
 
-        print(f"Performance Regression Recording Results:")
+        print("Performance Regression Recording Results:")
         print(f"  Iterations: {test_iterations}")
         print(f"  Mean: {mean_duration:.3f}ms")
         print(f"  P95: {p95_duration:.3f}ms")
@@ -278,7 +278,7 @@ class TestPerformanceValidation:
         p95_duration = sorted(durations)[int(len(durations) * 0.95)]
         max_duration = max(durations)
 
-        print(f"Security Hardening Performance Results:")
+        print("Security Hardening Performance Results:")
         print(f"  Iterations: {test_iterations}")
         print(f"  Mean: {mean_duration:.3f}ms")
         print(f"  P95: {p95_duration:.3f}ms")
@@ -345,7 +345,7 @@ class TestPerformanceValidation:
         p95_duration = sorted(all_durations)[int(len(all_durations) * 0.95)]
         throughput = len(all_durations) / total_duration
 
-        print(f"Concurrent Evidence Collection Results:")
+        print("Concurrent Evidence Collection Results:")
         print(f"  Total records: {len(all_durations)}")
         print(f"  Concurrent batches: {concurrent_batches}")
         print(f"  Total time: {total_duration:.3f}s")
@@ -357,7 +357,7 @@ class TestPerformanceValidation:
         assert mean_duration < 15.0, f"Mean concurrent duration {mean_duration:.3f}ms exceeds 15ms"
         assert throughput > 100, f"Throughput {throughput:.1f} records/second should be >100"
 
-        print(f"✓ Concurrent evidence collection meets requirements")
+        print("✓ Concurrent evidence collection meets requirements")
 
     @pytest.mark.asyncio
     async def test_mixed_operations_performance(self, evidence_engine, advanced_metrics_system):
@@ -424,7 +424,7 @@ class TestPerformanceValidation:
         p95_duration = sorted(all_durations)[int(len(all_durations) * 0.95)]
         throughput = len(all_durations) / total_duration
 
-        print(f"Mixed Operations Performance Results:")
+        print("Mixed Operations Performance Results:")
         print(f"  Total operations: {len(all_durations)}")
         print(f"  Total time: {total_duration:.3f}s")
         print(f"  Throughput: {throughput:.1f} operations/second")
@@ -435,14 +435,15 @@ class TestPerformanceValidation:
         assert mean_duration < 20.0, f"Mean mixed operations duration {mean_duration:.3f}ms exceeds 20ms"
         assert throughput > 50, f"Mixed operations throughput {throughput:.1f} ops/second should be >50"
 
-        print(f"✓ Mixed operations meet performance requirements")
+        print("✓ Mixed operations meet performance requirements")
 
     def test_memory_usage_bounds(self, evidence_engine, advanced_metrics_system):
         """Test that memory usage stays within reasonable bounds"""
         print("\n=== Memory Usage Validation ===")
 
-        import psutil
         import os
+
+        import psutil
 
         process = psutil.Process(os.getpid())
         initial_memory = process.memory_info().rss / 1024 / 1024  # MB
@@ -460,7 +461,7 @@ class TestPerformanceValidation:
         final_memory = process.memory_info().rss / 1024 / 1024  # MB
         memory_increase = final_memory - initial_memory
 
-        print(f"Memory Usage Results:")
+        print("Memory Usage Results:")
         print(f"  Initial memory: {initial_memory:.1f} MB")
         print(f"  Final memory: {final_memory:.1f} MB")
         print(f"  Memory increase: {memory_increase:.1f} MB")
@@ -496,7 +497,7 @@ class TestPerformanceValidation:
         total_duration = end_time - start_time
         throughput = iterations / total_duration
 
-        print(f"High Frequency Operations Results:")
+        print("High Frequency Operations Results:")
         print(f"  Total operations: {iterations}")
         print(f"  Total time: {total_duration:.3f}s")
         print(f"  Throughput: {throughput:.1f} operations/second")
@@ -562,7 +563,7 @@ class TestScalabilityValidation:
             finally:
                 await engine.shutdown()
 
-        print(f"Load Scaling Results:")
+        print("Load Scaling Results:")
         for load_level, result in results.items():
             print(f"  Load {load_level}: {result['throughput']:.1f} ops/sec, {result['avg_latency_ms']:.3f}ms avg")
 
@@ -573,7 +574,7 @@ class TestScalabilityValidation:
         assert max_load_result['avg_latency_ms'] < 50.0, f"High load latency {max_load_result['avg_latency_ms']:.3f}ms too high"
         assert max_load_result['throughput'] > 100.0, f"High load throughput {max_load_result['throughput']:.1f} too low"
 
-        print(f"✓ Load scaling characteristics acceptable")
+        print("✓ Load scaling characteristics acceptable")
 
 
 class TestRealWorldScenarios:
@@ -640,7 +641,7 @@ class TestRealWorldScenarios:
                             evidence_type=EvidenceType.PERFORMANCE_METRIC,
                             source_component="monitoring",
                             operation="metric_collection",
-                            payload={"metric": f"cpu_usage", "value": 50 + (i % 50)},
+                            payload={"metric": "cpu_usage", "value": 50 + (i % 50)},
                         )
                         total_operations += 1
 
@@ -669,7 +670,7 @@ class TestRealWorldScenarios:
                     total_duration = end_time - start_time
                     overall_throughput = total_operations / total_duration
 
-                    print(f"Production Workload Results:")
+                    print("Production Workload Results:")
                     print(f"  Total operations: {total_operations}")
                     print(f"  Total duration: {total_duration:.3f}s")
                     print(f"  Overall throughput: {overall_throughput:.1f} ops/sec")
@@ -679,7 +680,7 @@ class TestRealWorldScenarios:
                     assert overall_throughput > 200, f"Production throughput {overall_throughput:.1f} should be >200 ops/sec"
                     assert total_duration < 10.0, f"Production workload took {total_duration:.3f}s, should be <10s"
 
-                    print(f"✓ Production workload performance acceptable")
+                    print("✓ Production workload performance acceptable")
 
                 finally:
                     await evidence_engine.shutdown()

@@ -22,7 +22,6 @@ T4/0.01% Compliance:
 import asyncio
 import gc
 import logging
-import psutil
 import random
 import statistics
 import threading
@@ -31,8 +30,9 @@ from dataclasses import dataclass, field
 from enum import Enum
 from typing import Any, Dict, List
 
-import pytest
 import numpy as np
+import psutil
+import pytest
 
 # LUKHAS cognitive imports
 from lukhas.cognitive_core.reasoning.contradiction_integrator import ContradictionIntegrator
@@ -1238,7 +1238,7 @@ if __name__ == "__main__":
         print(f"Total Tests: {final_report['summary']['total_tests']}")
         print(f"Overall Compliance: {final_report['summary']['overall_compliance']}")
         print(f"Compliance Rate: {final_report['summary']['compliance_rate']:.1%}")
-        print(f"\nRecommendations:")
+        print("\nRecommendations:")
         for rec in final_report['recommendations']:
             print(f"  • {rec}")
 

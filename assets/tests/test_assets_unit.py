@@ -8,15 +8,15 @@
 Unit tests for assets module.
 """
 
-import pytest
 import unittest
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module components
 try:
     import assets
 except ImportError:
-    pytest.skip(f"Module assets not available", allow_module_level=True)
+    pytest.skip("Module assets not available", allow_module_level=True)
 
 
 class TestAssetsModule(unittest.TestCase):

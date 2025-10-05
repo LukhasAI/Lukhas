@@ -10,9 +10,10 @@ Usage:
 """
 
 import json
-from datetime import datetime
-from typing import Dict, Any
 from dataclasses import dataclass
+from datetime import datetime
+from typing import Any, Dict
+
 
 @dataclass
 class LaneMetric:
@@ -83,7 +84,7 @@ def generate_ab_lane_report() -> Dict[str, Any]:
 
     print(f"🕐 Report Generated: {report_time.strftime('%Y-%m-%d %H:%M:%S')} UTC")
     print(f"⏱️ Observation Period: {report_period}")
-    print(f"🎯 Policy Band: ±10% (acceptable variance)")
+    print("🎯 Policy Band: ±10% (acceptable variance)")
 
     # Calculate deltas
     metrics_comparison = {
@@ -124,7 +125,7 @@ def generate_ab_lane_report() -> Dict[str, Any]:
         }
     }
 
-    print(f"\n📈 METRIC COMPARISON")
+    print("\n📈 METRIC COMPARISON")
     print("-" * 40)
 
     for metric_name, data in metrics_comparison.items():
@@ -153,7 +154,7 @@ def generate_ab_lane_report() -> Dict[str, Any]:
     improvements_count = sum(1 for data in metrics_comparison.values() if data["better"])
     total_metrics = len(metrics_comparison)
 
-    print(f"\n🎯 OVERALL ASSESSMENT")
+    print("\n🎯 OVERALL ASSESSMENT")
     print("-" * 40)
     print(f"All Metrics Within Policy Band: {'✅ YES' if all_within_policy else '❌ NO'}")
     print(f"Improvements: {improvements_count}/{total_metrics} metrics")
@@ -198,7 +199,7 @@ def generate_ab_lane_report() -> Dict[str, Any]:
         }
     }
 
-    print(f"\n📋 REPORT SUMMARY")
+    print("\n📋 REPORT SUMMARY")
     print("-" * 40)
     print(f"Status: {'✅ READY FOR DEPLOYMENT' if recommendation == 'PROCEED' else '⚠️ REQUIRES REVIEW'}")
     print(f"Policy Compliance: {'✅ COMPLIANT' if all_within_policy else '❌ NON-COMPLIANT'}")

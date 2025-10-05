@@ -12,7 +12,9 @@ Validates compliance with:
 """
 
 import json
+
 import pytest
+
 
 def load_telemetry_dump(path):
     """Load the exported spans/metrics JSON from a telemetry dump."""

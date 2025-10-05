@@ -6,10 +6,11 @@ Maps relationships and dependencies between consciousness components
 
 import ast
 import json
-import networkx as nx
+from datetime import datetime
 from pathlib import Path
 from typing import Dict, Set
-from datetime import datetime
+
+import networkx as nx
 
 
 class ConstellationMapper:
@@ -317,18 +318,18 @@ def main():
         print(f"Error: {results['error']}")
         return
 
-    print(f"System Overview:")
+    print("System Overview:")
     print(f"  Total consciousness files: {results['system_overview']['total_consciousness_files']}")
     print(f"  Components with dependencies: {results['system_overview']['components_with_dependencies']}")
     print(f"  Average dependencies per component: {results['system_overview']['average_dependencies_per_component']:.1f}")
 
-    print(f"\nGraph Statistics:")
+    print("\nGraph Statistics:")
     print(f"  Nodes: {results['graph_statistics']['total_nodes']}")
     print(f"  Edges: {results['graph_statistics']['total_edges']}")
     print(f"  Density: {results['graph_statistics']['density']:.3f}")
     print(f"  Connected: {results['graph_statistics']['is_connected']}")
 
-    print(f"\nConstellation Clusters:")
+    print("\nConstellation Clusters:")
     if results['constellation_clusters'].get('clusters'):
         print(f"  Total clusters: {results['constellation_clusters']['total_clusters']}")
         print(f"  Largest cluster: {results['constellation_clusters']['largest_cluster_size']} components")
@@ -337,7 +338,7 @@ def main():
         for i, cluster in enumerate(top_clusters, 1):
             print(f"    Cluster {i}: {cluster['size']} components")
 
-    print(f"\nArchitectural Patterns:")
+    print("\nArchitectural Patterns:")
     patterns = results['architectural_patterns']
     for pattern_name, count in patterns.items():
         if pattern_name.endswith('_count'):
@@ -345,12 +346,12 @@ def main():
             print(f"  {clean_name}: {count}")
 
     if results["recommendations"]:
-        print(f"\nRecommendations:")
+        print("\nRecommendations:")
         for rec in results["recommendations"]:
             print(f"  - {rec}")
 
     # Export graph data
-    print(f"\nExporting graph data...")
+    print("\nExporting graph data...")
     export_results = mapper.export_graph_data("docs/constellation/")
     print(f"  GraphML: {export_results['graphml_exported']}")
     print(f"  JSON: {export_results['json_exported']}")
@@ -359,7 +360,7 @@ def main():
     with open("temp_constellation_mapping_report.json", "w") as f:
         json.dump(results, f, indent=2)
 
-    print(f"\nFull constellation mapping report saved to: temp_constellation_mapping_report.json")
+    print("\nFull constellation mapping report saved to: temp_constellation_mapping_report.json")
 
 
 if __name__ == "__main__":

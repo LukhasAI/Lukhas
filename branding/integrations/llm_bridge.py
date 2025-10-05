@@ -17,8 +17,9 @@ from dotenv import load_dotenv
 load_dotenv()
 
 # Import LLM wrappers via registry system (T4 architecture compliance)
-from lukhas.core.registry import resolve, discover_entry_points
-from typing import Type, Protocol, runtime_checkable
+from typing import Protocol, Type, runtime_checkable
+
+from lukhas.core.registry import discover_entry_points, resolve
 
 
 @runtime_checkable

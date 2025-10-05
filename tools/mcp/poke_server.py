@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
-import json, subprocess, sys, os, tempfile, pathlib
+import json
+import subprocess
+
 srv = ["python3","mcp-servers/lukhas-devtools-mcp/server.py"]
 p = subprocess.Popen(srv, stdin=subprocess.PIPE, stdout=subprocess.PIPE, text=True)
 def rpc(method, params=None, id=1):

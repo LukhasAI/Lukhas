@@ -27,15 +27,15 @@ logger = logging.getLogger(__name__)
 # Agent-integrated implementation resolver with intelligent fallback
 class LukhosAuthPerformanceResolver:
     """Intelligent performance optimization resolver for LUKHAS authentication"""
-    
+
     def __init__(self):
         self.implementation_source = None
         self.capabilities = {}
         self.performance_tier = "unknown"
-        
+
     def resolve_implementation(self):
         """Dynamically resolve the best available implementation"""
-        
+
         # Attempt 1: Enterprise Core (Full-featured, production-grade)
         try:
             from enterprise.core.performance import extreme_auth_optimization as core_impl
@@ -52,7 +52,7 @@ class LukhosAuthPerformanceResolver:
             return core_impl
         except ImportError as e:
             logger.debug(f"Enterprise core implementation not available: {e}")
-        
+
         # Attempt 2: Products Enterprise (Production fallback)
         try:
             from products.enterprise.core.performance import extreme_auth_optimization as prod_impl
@@ -69,11 +69,11 @@ class LukhosAuthPerformanceResolver:
             return prod_impl
         except ImportError as e:
             logger.debug(f"Products enterprise implementation not available: {e}")
-        
+
         # Emergency fallback: Minimal compatibility implementation
         logger.warning("Using minimal compatibility implementation - performance degraded")
         return self._create_minimal_implementation()
-    
+
     def _create_minimal_implementation(self):
         """Create a minimal compatibility implementation"""
         self.implementation_source = "minimal_fallback"
@@ -85,22 +85,22 @@ class LukhosAuthPerformanceResolver:
             "sub_25ms_target": False,
             "production_ready": False
         }
-        
+
         # Return a minimal implementation object
         class MinimalAuthOptimization:
             def __init__(self):
                 self.version = "minimal-fallback"
-                
+
             def optimize_auth_flow(self, *args, **kwargs):
                 """Basic pass-through implementation"""
                 return args[0] if args else None
-                
+
         logger.info("⚠️ Agent Integration: Using minimal fallback implementation")
         return MinimalAuthOptimization()
-    
+
     def _create_compatibility_stub(self):
         """Create minimal compatibility stub when real implementations unavailable"""
-        
+
         # Basic compatibility classes for graceful degradation
         class AuthPerformanceMetrics:
             def __init__(self):
@@ -108,7 +108,7 @@ class LukhosAuthPerformanceResolver:
                 self.latency_ms = 95.0  # Realistic fallback latency
                 self.implementation_tier = "compatibility_stub"
                 self.warnings = ["Real implementation not available"]
-        
+
         class ExtremeAuthOptimizer:
             def __init__(self):
                 self.metrics = AuthPerformanceMetrics()
@@ -119,12 +119,12 @@ class LukhosAuthPerformanceResolver:
                     "sub_25ms_target": False,
                     "production_ready": False
                 }
-            
+
             def optimize_auth_flow(self, user_id: str) -> bool:
                 """Basic authentication flow without optimizations"""
                 self.metrics.latency_ms = 95.0  # Unoptimized baseline
                 return True
-            
+
             def get_performance_report(self) -> dict[str, Any]:
                 """Report performance capabilities and limitations"""
                 return {
@@ -136,11 +136,11 @@ class LukhosAuthPerformanceResolver:
                         "Expected latency: ~95ms (vs <25ms target)"
                     ]
                 }
-        
+
         # Make classes available in global namespace for compatibility
         globals()["AuthPerformanceMetrics"] = AuthPerformanceMetrics
         globals()["ExtremeAuthOptimizer"] = ExtremeAuthOptimizer
-        
+
         self.implementation_source = "compatibility_stub"
         self.performance_tier = "degraded"
         self.capabilities = {
@@ -150,7 +150,7 @@ class LukhosAuthPerformanceResolver:
             "sub_25ms_target": False,
             "production_ready": False
         }
-    
+
     def get_integration_status(self) -> dict[str, Any]:
         """Get current agent integration status and capabilities"""
         return {
@@ -160,7 +160,7 @@ class LukhosAuthPerformanceResolver:
             "agent_integration_complete": self.implementation_source != "compatibility_stub",
             "recommended_actions": self._get_recommendations()
         }
-    
+
     def _get_recommendations(self) -> list[str]:
         """Get recommendations based on current implementation"""
         if self.implementation_source == "compatibility_stub":
@@ -192,12 +192,12 @@ __all__ = ["get_auth_performance_integration_status", "_resolver"]
 # Agent integration verification
 if __name__ == "__main__":
     status = get_auth_performance_integration_status()
-    print(f"🤖 LUKHAS Agent Integration Status:")
+    print("🤖 LUKHAS Agent Integration Status:")
     print(f"   Implementation: {status['implementation_source']}")
     print(f"   Performance Tier: {status['performance_tier']}")
     print(f"   Integration Complete: {status['agent_integration_complete']}")
-    
+
     if status['recommended_actions']:
-        print(f"   Recommendations:")
+        print("   Recommendations:")
         for action in status['recommended_actions']:
             print(f"     - {action}")

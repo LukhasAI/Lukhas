@@ -8,16 +8,15 @@
 Integration tests for trace module.
 """
 
-import pytest
 import unittest
-import asyncio
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module for integration testing
 try:
     import trace
 except ImportError:
-    pytest.skip(f"Module trace not available", allow_module_level=True)
+    pytest.skip("Module trace not available", allow_module_level=True)
 
 
 class TestTraceIntegration(unittest.TestCase):

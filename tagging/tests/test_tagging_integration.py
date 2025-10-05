@@ -8,16 +8,15 @@
 Integration tests for tagging module.
 """
 
-import pytest
 import unittest
-import asyncio
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module for integration testing
 try:
     import tagging
 except ImportError:
-    pytest.skip(f"Module tagging not available", allow_module_level=True)
+    pytest.skip("Module tagging not available", allow_module_level=True)
 
 
 class TestTaggingIntegration(unittest.TestCase):

@@ -20,17 +20,17 @@ import time
 from unittest.mock import patch
 
 import pytest
-from fastapi.testclient import TestClient
 from fastapi import FastAPI
+from fastapi.testclient import TestClient
 
 # Import the API components
 try:
     from lukhas.api.identity import router as identity_router
-    from lukhas.identity.tiers import create_tiered_authenticator, SecurityPolicy
-    from lukhas.identity.webauthn_enhanced import create_enhanced_webauthn_service
+    from lukhas.governance.guardian_system import GuardianSystem
     from lukhas.identity.biometrics import create_mock_biometric_provider
     from lukhas.identity.security_hardening import create_security_hardening_manager
-    from lukhas.governance.guardian_system import GuardianSystem
+    from lukhas.identity.tiers import SecurityPolicy, create_tiered_authenticator
+    from lukhas.identity.webauthn_enhanced import create_enhanced_webauthn_service
     API_AVAILABLE = True
 except ImportError:
     API_AVAILABLE = False
@@ -447,8 +447,8 @@ class TestPerformanceRequirements:
 
     def test_concurrent_request_handling(self, client):
         """Test handling of concurrent requests."""
-        import threading
         import queue
+        import threading
 
         results = queue.Queue()
 

@@ -9,8 +9,9 @@ import time
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
-from typing import Dict, List, Optional, Any
 from enum import Enum
+from typing import Any, Dict, List, Optional
+
 import numpy as np
 
 from lukhas.governance.schema_registry import get_lane_enum
@@ -475,7 +476,7 @@ class AbstractVectorStore(ABC):
                 duration_ms = (time.perf_counter() - start_time) * 1000
                 self._record_latency(func.__name__, duration_ms, success=True)
                 return result
-            except Exception as e:
+            except Exception:
                 duration_ms = (time.perf_counter() - start_time) * 1000
                 self._record_latency(func.__name__, duration_ms, success=False)
                 raise

@@ -10,16 +10,17 @@ Usage:
     python3 tools/collect_attestation.py --module identity --tee amd-sev-snp
 """
 
-import json
-import hashlib
 import argparse
-import platform
+import hashlib
+import json
 import pathlib
+import platform
 from datetime import datetime
-from typing import Dict, Any, Optional
+from typing import Any, Dict, Optional
+
 import jwt
-from cryptography.hazmat.primitives.asymmetric import rsa
 from cryptography.hazmat.primitives import serialization
+from cryptography.hazmat.primitives.asymmetric import rsa
 
 
 class MockTEE:
@@ -279,10 +280,10 @@ def main():
             f.write(evidence_jwt)
         print(f"✅ Evidence saved to: {args.output}")
     else:
-        print(f"\n🎫 Evidence JWT (first 100 chars):")
+        print("\n🎫 Evidence JWT (first 100 chars):")
         print(f"{evidence_jwt[:100]}...")
 
-    print(f"\n📊 Evidence summary:")
+    print("\n📊 Evidence summary:")
     print(f"   Module: {evidence['lukhas']['module']}")
     print(f"   TEE: {evidence['tee_evidence']['type']}")
     print(f"   Issued: {datetime.fromtimestamp(evidence['iat'])}")

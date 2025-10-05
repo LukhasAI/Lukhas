@@ -8,15 +8,15 @@
 Unit tests for governance_extended module.
 """
 
-import pytest
 import unittest
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module components
 try:
     import governance_extended
 except ImportError:
-    pytest.skip(f"Module governance_extended not available", allow_module_level=True)
+    pytest.skip("Module governance_extended not available", allow_module_level=True)
 
 
 class TestGovernanceExtendedModule(unittest.TestCase):

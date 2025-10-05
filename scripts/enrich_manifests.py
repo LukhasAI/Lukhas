@@ -21,6 +21,7 @@ Usage:
 """
 
 from __future__ import annotations
+
 import argparse
 import json
 import sys
@@ -29,12 +30,7 @@ from pathlib import Path
 # Add scripts/enrich to path
 sys.path.insert(0, str(Path(__file__).parent))
 
-from enrich.collectors import (
-    Vocab,
-    ClaudeExtractor,
-    InitExtractor,
-    ImportVerifier
-)
+from enrich.collectors import ClaudeExtractor, ImportVerifier, InitExtractor, Vocab
 from enrich.compose import Composer
 from enrich.writer import atomic_write, ledger_append
 
@@ -255,9 +251,9 @@ def main():
     # Summary
     print()
     if args.dry_run:
-        print(f"DRY RUN complete:")
+        print("DRY RUN complete:")
     else:
-        print(f"Enrichment complete:")
+        print("Enrichment complete:")
 
     print(f"  ✅ Updated: {changed_count}")
     print(f"  ⏭️  Unchanged: {skipped_count}")
@@ -272,7 +268,7 @@ def main():
         queue = json.loads(queue_path.read_text())
         if queue.get("items"):
             print(f"\n📋 Review queue has {len(queue['items'])} unmapped phrases")
-            print(f"   Run: python scripts/vocab_promote.py list")
+            print("   Run: python scripts/vocab_promote.py list")
 
     sys.exit(0)
 

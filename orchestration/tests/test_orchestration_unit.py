@@ -8,15 +8,15 @@
 Unit tests for orchestration module.
 """
 
-import pytest
 import unittest
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module components
 try:
     import orchestration
 except ImportError:
-    pytest.skip(f"Module orchestration not available", allow_module_level=True)
+    pytest.skip("Module orchestration not available", allow_module_level=True)
 
 
 class TestOrchestrationModule(unittest.TestCase):

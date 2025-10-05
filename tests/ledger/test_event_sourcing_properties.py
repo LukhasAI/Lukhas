@@ -14,31 +14,33 @@ T4/0.01% excellence compliance testing.
 import asyncio
 import json
 import os
-import tempfile
-import time
-from pathlib import Path
-import pytest
-import hypothesis.strategies as st
-from hypothesis import given, assume, settings, note
-from hypothesis.stateful import RuleBasedStateMachine, Bundle, rule, invariant, initialize
 
 # Import our ledger components
 import sys
+import tempfile
+import time
+from pathlib import Path
+
+import hypothesis.strategies as st
+import pytest
+from hypothesis import assume, given, note, settings
+from hypothesis.stateful import Bundle, RuleBasedStateMachine, initialize, invariant, rule
+
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
+from lukhas.ledger.consent_handlers import IdempotentConsentHandler, IdempotentTraceHandler
+from lukhas.ledger.event_bus import AsyncEventBus
 from lukhas.ledger.events import (
     ConsentGrantedEvent,
     ConsentRevokedEvent,
-    TraceCreatedEvent,
     ConsentType,
     DataSubjectRights,
     PolicyVerdict,
-    validate_event_schema,
+    TraceCreatedEvent,
     compute_event_chain_hash,
     create_event_from_dict,
+    validate_event_schema,
 )
-from lukhas.ledger.event_bus import AsyncEventBus
-from lukhas.ledger.consent_handlers import IdempotentConsentHandler, IdempotentTraceHandler
 
 
 # Hypothesis strategies for generating test data

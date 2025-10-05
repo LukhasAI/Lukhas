@@ -1,5 +1,7 @@
 from __future__ import annotations
-from typing import Dict, Any, List
+
+from typing import Any, Dict, List
+
 
 def generate_scenarios(seed: Dict[str, Any], trace_id: str) -> List[Dict[str, Any]]:
     goal = seed.get("goal", "unspecified")

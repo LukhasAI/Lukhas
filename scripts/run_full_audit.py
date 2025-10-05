@@ -7,10 +7,11 @@ Provides end-to-end validation of LUKHAS AI system performance and compliance.
 """
 
 import argparse
-import subprocess
 import json
-from pathlib import Path
+import subprocess
 from datetime import datetime
+from pathlib import Path
+
 
 def run_command(cmd, description="", check=True, capture_output=True):
     """Run a command with error handling."""
@@ -206,7 +207,7 @@ def main():
         report_files = len(list(output_dir.glob("*.md")))
         total_size = sum(f.stat().st_size for f in output_dir.iterdir() if f.is_file())
 
-        print(f"📊 Generated Files:")
+        print("📊 Generated Files:")
         print(f"   JSON Evidence: {json_files}")
         print(f"   Reports: {report_files}")
         print(f"   Total Size: {total_size // 1024:.1f} KB")
@@ -239,7 +240,7 @@ def main():
                 status = cert_data.get("certification", {}).get("status", "UNKNOWN")
                 confidence = cert_data.get("certification", {}).get("confidence_level", 0.0)
 
-                print(f"🎯 FINAL AUDIT VERDICT:")
+                print("🎯 FINAL AUDIT VERDICT:")
                 print(f"   Status: {status}")
                 print(f"   Confidence: {confidence:.1%}")
 

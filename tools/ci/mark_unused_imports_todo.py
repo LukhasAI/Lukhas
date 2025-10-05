@@ -297,17 +297,17 @@ Examples:
     LOG.write_text(existing_log, encoding="utf-8")
 
     # Summary
-    print(f"\n📈 PRODUCTION LANE SUMMARY:")
+    print("\n📈 PRODUCTION LANE SUMMARY:")
     print(f"✅ Annotated: {edits} unused imports")
     print(f"⚪ Skipped (waived): {skipped_waived}")
     print(f"⚪ Skipped (already annotated): {skipped_annotated}")
 
     if edits > 0:
         print(f"📝 Log: {LOG}")
-        print(f"\n🎯 Next steps:")
-        print(f"1. Review annotated imports and update reasons as needed")
-        print(f"2. Implement or remove imports when their purpose is fulfilled")
-        print(f"3. Run 'make todo-unused-check' to validate annotations")
+        print("\n🎯 Next steps:")
+        print("1. Review annotated imports and update reasons as needed")
+        print("2. Implement or remove imports when their purpose is fulfilled")
+        print("3. Run 'make todo-unused-check' to validate annotations")
 
 
 if __name__ == "__main__":

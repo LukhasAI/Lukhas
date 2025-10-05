@@ -4,9 +4,10 @@ Guard script to enforce canonical module naming conventions.
 Ensures all module directories follow ^[a-z0-9_]+$ pattern.
 """
 
-import sys
 import pathlib
 import re
+import sys
+
 
 def main():
     """Check all directories for naming violations."""

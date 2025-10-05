@@ -8,15 +8,17 @@
 Unit tests for docs module.
 """
 
-import pytest
 import importlib
-from unittest.mock import Mock, patch
+from unittest.mock import patch
+
+import pytest
+
 
 # Test imports
 def test_module_imports():
     """Test that the docs module can be imported."""
     try:
-        module = importlib.import_module(f"lukhas.docs")
+        module = importlib.import_module("lukhas.docs")
         assert module is not None
     except ImportError as e:
         pytest.skip(f"Module lukhas.docs not available: {e}")
@@ -24,11 +26,11 @@ def test_module_imports():
 def test_module_has_init():
     """Test that the docs module has proper __init__.py."""
     try:
-        module = importlib.import_module(f"lukhas.docs")
+        module = importlib.import_module("lukhas.docs")
         # Check for common attributes
         assert hasattr(module, '__file__')
     except ImportError:
-        pytest.skip(f"Module lukhas.docs not available")
+        pytest.skip("Module lukhas.docs not available")
 
 class TestDocsCore:
     """Unit tests for docs core functionality."""
@@ -61,8 +63,8 @@ class TestDocsCore:
     def test_error_handling(self):
         """Test proper error handling patterns."""
         try:
-            from lukhas.docs import DocsCore
             from lukhas.core.exceptions import LUKHASException
+            from lukhas.docs import DocsCore
 
             component = DocsCore()
 
@@ -79,8 +81,8 @@ class TestDocsIntegration:
     def test_consciousness_integration(self):
         """Test integration with consciousness system."""
         try:
-            from lukhas.docs import DocsCore
             from lukhas.consciousness import ConsciousnessCore
+            from lukhas.docs import DocsCore
 
             consciousness = ConsciousnessCore()
             component = DocsCore()
@@ -150,8 +152,9 @@ class TestDocsPerformance:
     def test_processing_performance(self):
         """Test that processing completes within acceptable time."""
         try:
-            from lukhas.docs import DocsCore
             import time
+
+            from lukhas.docs import DocsCore
 
             component = DocsCore()
 
@@ -168,9 +171,11 @@ class TestDocsPerformance:
     def test_memory_efficiency(self):
         """Test memory usage stays within bounds."""
         try:
-            from lukhas.docs import DocsCore
-            import psutil
             import os
+
+            import psutil
+
+            from lukhas.docs import DocsCore
 
             component = DocsCore()
 

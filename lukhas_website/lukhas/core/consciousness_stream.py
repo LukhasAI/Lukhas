@@ -13,13 +13,13 @@ Usage:
 """
 from __future__ import annotations
 
-import os
 import logging
-from datetime import datetime, timedelta
-from uuid import uuid4, UUID
-from typing import Dict, Any, Optional, List
-from collections import deque
+import os
 import statistics
+from collections import deque
+from datetime import datetime, timedelta
+from typing import Any, Dict, List, Optional
+from uuid import UUID, uuid4
 
 # Guardian system integration
 try:
@@ -31,13 +31,13 @@ except ImportError:
 
 from lukhas.core.clock import Ticker
 from lukhas.core.ring import DecimatingRing
+from matriz.node_contract import GLYPH, MatrizMessage
 from matriz.router import SymbolicMeshRouter
-from matriz.node_contract import MatrizMessage, GLYPH
 from storage.events import Event, EventStore
 
 # Optional metrics
 try:
-    from prometheus_client import Counter, Histogram, Gauge
+    from prometheus_client import Counter, Gauge, Histogram
     STREAM_EVENTS_TOTAL = Counter("lukhas_stream_events_total", "Events processed by stream", ["kind", "lane"])
     STREAM_PROCESSING_DURATION = Histogram("lukhas_stream_processing_seconds", "Stream processing time", ["lane"])
     STREAM_BREAKTHROUGHS_PER_MIN = Gauge("lukhas_stream_breakthroughs_per_min", "Breakthroughs per minute", ["lane"])
@@ -766,7 +766,7 @@ if __name__ == "__main__":
         stream.start(duration_seconds=duration)
     finally:
         metrics = stream.get_stream_metrics()
-        print(f"\n📊 Stream completed:")
+        print("\n📊 Stream completed:")
         print(f"   Ticks processed: {metrics['tick_count']}")
         print(f"   Events in store: {metrics['store_size']}")
         print(f"   Router logs: {metrics['router_logs']}")

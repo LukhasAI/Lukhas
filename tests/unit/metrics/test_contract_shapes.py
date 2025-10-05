@@ -7,14 +7,14 @@ between test expectations and actual runtime metric shapes.
 import pytest
 
 from lukhas.core.metrics_contract import (
+    BioProcessorStats,
+    NetworkMetrics,
+    RouterStats,
+    assert_bio_processor_contract,
+    assert_router_contract,
     normalize_metrics,
     validate_bio_processor_stats,
     validate_router_stats,
-    assert_bio_processor_contract,
-    assert_router_contract,
-    BioProcessorStats,
-    RouterStats,
-    NetworkMetrics
 )
 
 

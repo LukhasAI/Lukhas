@@ -8,15 +8,15 @@
 Unit tests for serve module.
 """
 
-import pytest
 import unittest
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module components
 try:
     import serve
 except ImportError:
-    pytest.skip(f"Module serve not available", allow_module_level=True)
+    pytest.skip("Module serve not available", allow_module_level=True)
 
 
 class TestServeModule(unittest.TestCase):
@@ -81,7 +81,7 @@ class TestConsciousnessQueryRequest(unittest.TestCase):
             from serve.agi_enhanced_consciousness_api import ConsciousnessQueryRequest
             self.assertIsNotNone(ConsciousnessQueryRequest)
         except ImportError:
-            pytest.skip(f"Component ConsciousnessQueryRequest not available")
+            pytest.skip("Component ConsciousnessQueryRequest not available")
 
     def test_consciousnessqueryrequest_instantiation(self):
         """Test ConsciousnessQueryRequest can be instantiated."""
@@ -98,7 +98,7 @@ class TestConsciousnessQueryResponse(unittest.TestCase):
             from serve.agi_enhanced_consciousness_api import ConsciousnessQueryResponse
             self.assertIsNotNone(ConsciousnessQueryResponse)
         except ImportError:
-            pytest.skip(f"Component ConsciousnessQueryResponse not available")
+            pytest.skip("Component ConsciousnessQueryResponse not available")
 
     def test_consciousnessqueryresponse_instantiation(self):
         """Test ConsciousnessQueryResponse can be instantiated."""
@@ -115,7 +115,7 @@ class TestDreamSessionRequest(unittest.TestCase):
             from serve.agi_enhanced_consciousness_api import DreamSessionRequest
             self.assertIsNotNone(DreamSessionRequest)
         except ImportError:
-            pytest.skip(f"Component DreamSessionRequest not available")
+            pytest.skip("Component DreamSessionRequest not available")
 
     def test_dreamsessionrequest_instantiation(self):
         """Test DreamSessionRequest can be instantiated."""

@@ -11,13 +11,13 @@ Usage:
     python scripts/generate_i2_excellence_evidence.py [--output=artifacts/]
 """
 
-import json
+import argparse
 import hashlib
+import json
 import time
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Dict, Any
-import argparse
+from typing import Any, Dict
 
 
 def generate_evidence_bundle() -> Dict[str, Any]:
@@ -534,8 +534,8 @@ The I.2 Tiered Authentication System has successfully achieved T4/0.01% Excellen
     print()
     print(f"🔒 Evidence Hash: {evidence_hash[:32]}...")
     print(f"📊 Overall Score: {evidence_bundle['excellence_assessment']['overall_score']}/100")
-    print(f"✅ Status: T4/0.01% EXCELLENCE ACHIEVED")
-    print(f"🚀 Production: AUTHORIZED FOR DEPLOYMENT")
+    print("✅ Status: T4/0.01% EXCELLENCE ACHIEVED")
+    print("🚀 Production: AUTHORIZED FOR DEPLOYMENT")
     print("=" * 60)
 
     return 0

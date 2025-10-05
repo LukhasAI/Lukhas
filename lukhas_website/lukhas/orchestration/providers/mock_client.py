@@ -7,10 +7,11 @@ Mock AI client for testing and development with realistic response patterns.
 """
 
 import asyncio
-import time
 import hashlib
+import time
 from typing import List, Optional
-from .base_client import BaseAIClient, AIResponse, AIProvider
+
+from .base_client import AIProvider, AIResponse, BaseAIClient
 
 
 class MockAIClient(BaseAIClient):

@@ -22,25 +22,29 @@ import time
 from datetime import datetime, timezone
 from typing import Any, Dict, Optional
 
+import structlog
 from fastapi import APIRouter, Depends, HTTPException, Request, status
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from pydantic import BaseModel, Field
-import structlog
 
 # Import LUKHAS tiered authentication components
 try:
-    from ..identity.tiers import (
-        TieredAuthenticator, AuthContext, AuthResult, SecurityPolicy,
-        Tier, create_tiered_authenticator
-    )
-    from ..identity.webauthn_enhanced import (
-        EnhancedWebAuthnService, create_enhanced_webauthn_service
-    )
-    from ..identity.biometrics import (
-        MockBiometricProvider, BiometricModality, BiometricAttestation,
-        create_mock_biometric_provider
-    )
     from ..governance.guardian_system import GuardianSystem
+    from ..identity.biometrics import (
+        BiometricAttestation,
+        BiometricModality,
+        MockBiometricProvider,
+        create_mock_biometric_provider,
+    )
+    from ..identity.tiers import (
+        AuthContext,
+        AuthResult,
+        SecurityPolicy,
+        Tier,
+        TieredAuthenticator,
+        create_tiered_authenticator,
+    )
+    from ..identity.webauthn_enhanced import EnhancedWebAuthnService, create_enhanced_webauthn_service
     IDENTITY_SYSTEM_AVAILABLE = True
 except ImportError:
     IDENTITY_SYSTEM_AVAILABLE = False

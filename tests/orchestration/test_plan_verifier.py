@@ -13,16 +13,13 @@ Task 5: Comprehensive testing of plan verification with focus on:
 #TAG:task5
 #TAG:orchestration
 """
-import pytest
 import random
 import time
 from unittest.mock import patch
 
-from lukhas.core.orchestration.plan_verifier import (
-    PlanVerifier,
-    VerificationContext,
-    get_plan_verifier
-)
+import pytest
+
+from lukhas.core.orchestration.plan_verifier import PlanVerifier, VerificationContext, get_plan_verifier
 
 
 class TestPlanVerifierDeterminism:

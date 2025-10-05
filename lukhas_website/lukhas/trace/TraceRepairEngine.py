@@ -19,8 +19,8 @@ Features:
 """
 import logging
 import time
-from typing import Any, Dict, List, Optional
 from enum import Enum
+from typing import Any, Dict, List, Optional
 
 logger = logging.getLogger(__name__)
 
@@ -32,7 +32,8 @@ def _lazy_hash(obj, fast_tag=None):
     if fast_tag is not None:
         return fast_tag
     try:
-        import hashlib, json
+        import hashlib
+        import json
         return hashlib.sha256(json.dumps(obj, sort_keys=True, default=str).encode("utf-8")).hexdigest()[:16]
     except Exception:
         return "hash-na"

@@ -8,15 +8,15 @@
 Unit tests for utils module.
 """
 
-import pytest
 import unittest
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module components
 try:
     import utils
 except ImportError:
-    pytest.skip(f"Module utils not available", allow_module_level=True)
+    pytest.skip("Module utils not available", allow_module_level=True)
 
 
 class TestUtilsModule(unittest.TestCase):
@@ -81,7 +81,7 @@ class Testutc_now(unittest.TestCase):
             from utils.time import utc_now
             self.assertIsNotNone(utc_now)
         except ImportError:
-            pytest.skip(f"Component utc_now not available")
+            pytest.skip("Component utc_now not available")
 
     def test_utc_now_instantiation(self):
         """Test utc_now can be instantiated."""

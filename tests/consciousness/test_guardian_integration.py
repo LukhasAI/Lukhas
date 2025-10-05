@@ -13,25 +13,24 @@ Comprehensive test suite for Guardian-consciousness integration covering:
 Constellation Framework: 🛡️ Guardian-🧠 Consciousness Testing
 """
 
-import pytest
 import time
 from unittest.mock import Mock, patch
 
-# Import consciousness components
-from lukhas.consciousness.types import (
-    ConsciousnessState
-)
+import pytest
 
 # Import Guardian integration components
 from lukhas.consciousness.guardian_integration import (
     ConsciousnessGuardianIntegration,
-    GuardianValidationConfig,
     ConsciousnessValidationContext,
+    GuardianValidationConfig,
     GuardianValidationResult,
     GuardianValidationType,
     ValidationResult,
-    create_validation_context
+    create_validation_context,
 )
+
+# Import consciousness components
+from lukhas.consciousness.types import ConsciousnessState
 
 
 class TestGuardianValidationConfig:

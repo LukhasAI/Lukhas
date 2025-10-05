@@ -8,16 +8,15 @@
 Integration tests for sdk module.
 """
 
-import pytest
 import unittest
-import asyncio
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module for integration testing
 try:
     import sdk
 except ImportError:
-    pytest.skip(f"Module sdk not available", allow_module_level=True)
+    pytest.skip("Module sdk not available", allow_module_level=True)
 
 
 class TestSdkIntegration(unittest.TestCase):

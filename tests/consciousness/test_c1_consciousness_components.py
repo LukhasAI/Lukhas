@@ -11,25 +11,27 @@ Comprehensive testing for the complete C.1 consciousness implementation:
 T4/0.01% excellence standards with property-based testing.
 """
 
-import pytest
 import time
-from hypothesis import given, strategies as st
+
+import pytest
+from hypothesis import given
+from hypothesis import strategies as st
 
 # Configure asyncio testing
 pytestmark = pytest.mark.asyncio
 
 # Import consciousness components
 from lukhas.consciousness import (
-    ConsciousnessStream,
-    AwarenessEngine,
-    DreamEngine,
     AutoConsciousness,
-    ConsciousnessState,
+    AwarenessEngine,
     AwarenessSnapshot,
-    ReflectionReport,
-    DreamTrace,
+    ConsciousnessState,
+    ConsciousnessStream,
     DecisionContext,
-    GuardianResponse
+    DreamEngine,
+    DreamTrace,
+    GuardianResponse,
+    ReflectionReport,
 )
 
 

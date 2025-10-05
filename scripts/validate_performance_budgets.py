@@ -20,10 +20,11 @@ Constellation Framework: ⚡ Performance Contract Guardian
 import json
 import logging
 import sys
-import yaml
 from datetime import datetime
 from pathlib import Path
 from typing import Dict, Optional
+
+import yaml
 
 logger = logging.getLogger(__name__)
 

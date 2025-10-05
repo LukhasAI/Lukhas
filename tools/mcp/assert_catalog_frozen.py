@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
-import hashlib, json, pathlib, sys, os
+import hashlib
+import os
+import pathlib
+import sys
+
 cat = pathlib.Path("mcp-servers/lukhas-devtools-mcp/tooling/catalog.json").read_bytes()
 sha = hashlib.sha256(cat).hexdigest()[:12]
 freeze = pathlib.Path("artifacts/mcp.catalog.sha")

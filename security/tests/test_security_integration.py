@@ -8,16 +8,15 @@
 Integration tests for security module.
 """
 
-import pytest
 import unittest
-import asyncio
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module for integration testing
 try:
     import security
 except ImportError:
-    pytest.skip(f"Module security not available", allow_module_level=True)
+    pytest.skip("Module security not available", allow_module_level=True)
 
 
 class TestSecurityIntegration(unittest.TestCase):

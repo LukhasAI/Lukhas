@@ -12,34 +12,45 @@ Constellation Framework: Flow Star (🌊), Spark Star (⚡), Oracle Star (🔮)
 """
 
 from __future__ import annotations
-import asyncio
-import time
-import logging
-from typing import Dict, Any, Optional, List
-from dataclasses import asdict
-from opentelemetry import trace
-from prometheus_client import Counter, Histogram, Gauge
 
-# Import consciousness components
-from .types import (
-    ConsciousnessState, AwarenessSnapshot, ReflectionReport,
-    DreamTrace, DecisionContext, ConsciousnessMetrics,
-    CreativitySnapshot, CreativeTask, StatePhase
-)
-from .awareness_engine import AwarenessEngine
-from .dream_engine import DreamEngine
+import asyncio
+import logging
+import time
+from dataclasses import asdict
+from typing import Any, Dict, List, Optional
+
+from opentelemetry import trace
+from prometheus_client import Counter, Gauge, Histogram
+
 from .auto_consciousness import AutoConsciousness
+from .awareness_engine import AwarenessEngine
 from .creativity_engine import CreativityEngine
+from .dream_engine import DreamEngine
 
 # Import LUKHAS reflection engine
 from .reflection_engine import ReflectionEngine
 
+# Import consciousness components
+from .types import (
+    AwarenessSnapshot,
+    ConsciousnessMetrics,
+    ConsciousnessState,
+    CreativeTask,
+    CreativitySnapshot,
+    DecisionContext,
+    DreamTrace,
+    ReflectionReport,
+    StatePhase,
+)
+
 # Import Guardian integration
 try:
     from .guardian_integration import (
-        ConsciousnessGuardianIntegration, GuardianValidationConfig,
-        ConsciousnessValidationContext, GuardianValidationType,
-        create_validation_context
+        ConsciousnessGuardianIntegration,
+        ConsciousnessValidationContext,
+        GuardianValidationConfig,
+        GuardianValidationType,
+        create_validation_context,
     )
     GUARDIAN_INTEGRATION_AVAILABLE = True
 except ImportError:

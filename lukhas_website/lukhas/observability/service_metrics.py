@@ -14,13 +14,13 @@ Features:
 - Real-time alerting integration
 """
 
-import time
+import logging
 import threading
-from typing import Dict, Any, Optional, List
+import time
+from collections import defaultdict, deque
 from dataclasses import dataclass, field
 from enum import Enum
-from collections import defaultdict, deque
-import logging
+from typing import Any, Dict, List, Optional
 
 logger = logging.getLogger(__name__)
 

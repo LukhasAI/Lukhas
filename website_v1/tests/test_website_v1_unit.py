@@ -8,15 +8,15 @@
 Unit tests for website_v1 module.
 """
 
-import pytest
 import unittest
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module components
 try:
     import website_v1
 except ImportError:
-    pytest.skip(f"Module website_v1 not available", allow_module_level=True)
+    pytest.skip("Module website_v1 not available", allow_module_level=True)
 
 
 class TestWebsiteV1Module(unittest.TestCase):

@@ -8,16 +8,15 @@
 Integration tests for src module.
 """
 
-import pytest
 import unittest
-import asyncio
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module for integration testing
 try:
     import src
 except ImportError:
-    pytest.skip(f"Module src not available", allow_module_level=True)
+    pytest.skip("Module src not available", allow_module_level=True)
 
 
 class TestSrcIntegration(unittest.TestCase):

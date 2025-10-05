@@ -8,15 +8,15 @@
 Unit tests for matriz module.
 """
 
-import pytest
 import unittest
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module components
 try:
     import matriz
 except ImportError:
-    pytest.skip(f"Module matriz not available", allow_module_level=True)
+    pytest.skip("Module matriz not available", allow_module_level=True)
 
 
 class TestMatrizModule(unittest.TestCase):
@@ -81,7 +81,7 @@ class Testcore(unittest.TestCase):
             from matriz import core
             self.assertIsNotNone(core)
         except ImportError:
-            pytest.skip(f"Component core not available")
+            pytest.skip("Component core not available")
 
     def test_core_instantiation(self):
         """Test core can be instantiated."""
@@ -98,7 +98,7 @@ class TestLegacyShim(unittest.TestCase):
             from matriz.legacy_shim import LegacyShim
             self.assertIsNotNone(LegacyShim)
         except ImportError:
-            pytest.skip(f"Component LegacyShim not available")
+            pytest.skip("Component LegacyShim not available")
 
     def test_legacyshim_instantiation(self):
         """Test LegacyShim can be instantiated."""
@@ -115,7 +115,7 @@ class Testcreate_shim(unittest.TestCase):
             from matriz.legacy_shim import create_shim
             self.assertIsNotNone(create_shim)
         except ImportError:
-            pytest.skip(f"Component create_shim not available")
+            pytest.skip("Component create_shim not available")
 
     def test_create_shim_instantiation(self):
         """Test create_shim can be instantiated."""

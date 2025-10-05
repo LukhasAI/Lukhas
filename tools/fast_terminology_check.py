@@ -8,6 +8,7 @@ Quick validation of terminology migration and schema compliance.
 import subprocess
 from pathlib import Path
 
+
 def run_fast_terminology_check():
     """Run fast terminology coherence validation"""
     print("📝 FAST TERMINOLOGY COHERENCE CHECK")
@@ -96,7 +97,7 @@ def run_fast_terminology_check():
     passed_checks = sum(1 for v in results.values() if v)
     compliance_rate = (passed_checks / total_checks) * 100
 
-    print(f"\n📊 TERMINOLOGY COMPLIANCE RESULTS")
+    print("\n📊 TERMINOLOGY COMPLIANCE RESULTS")
     print("-" * 40)
 
     for check, passed in results.items():

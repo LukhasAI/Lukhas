@@ -5,16 +5,18 @@ Tests the async orchestrator's new parallel execution capabilities.
 """
 
 import asyncio
-import pytest
-import time
 
 # Add project root to path for imports
 import sys
+import time
 from pathlib import Path
+
+import pytest
+
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
-from lukhas.core.orchestration.async_orchestrator import AsyncOrchestrator
 from lukhas.core.interfaces import CognitiveNodeBase
+from lukhas.core.orchestration.async_orchestrator import AsyncOrchestrator
 
 
 class MockCognitiveNode(CognitiveNodeBase):

@@ -34,7 +34,7 @@ def validate_imports():
 
     try:
         # Test telemetry fixtures
-        from conftest import TelemetryCapture, CapturedSpan, InMemorySpanExporter
+        from conftest import CapturedSpan, InMemorySpanExporter, TelemetryCapture
         print("  ✅ Telemetry fixtures import successful")
     except ImportError as e:
         print(f"  ❌ Telemetry fixtures import failed: {e}")
@@ -43,7 +43,7 @@ def validate_imports():
     try:
         # Test authorization middleware
         sys.path.insert(0, str(REPO_ROOT / "tools"))
-        from matrix_authz_middleware import MatrixAuthzMiddleware, AuthzRequest
+        from matrix_authz_middleware import AuthzRequest, MatrixAuthzMiddleware
         print("  ✅ Authorization middleware import successful")
     except ImportError as e:
         print(f"  ❌ Authorization middleware import failed: {e}")
@@ -56,7 +56,7 @@ def validate_fixtures():
     print("\n🔍 Validating telemetry fixtures...")
 
     try:
-        from conftest import TelemetryCapture, CapturedSpan
+        from conftest import CapturedSpan, TelemetryCapture
 
         # Test basic fixture functionality
         capture = TelemetryCapture()
@@ -99,7 +99,7 @@ def validate_authorization_middleware():
 
     try:
         sys.path.insert(0, str(REPO_ROOT / "tools"))
-        from matrix_authz_middleware import MatrixAuthzMiddleware, AuthzRequest
+        from matrix_authz_middleware import AuthzRequest, MatrixAuthzMiddleware
 
         # Test middleware instantiation
         middleware = MatrixAuthzMiddleware(shadow_mode=True)

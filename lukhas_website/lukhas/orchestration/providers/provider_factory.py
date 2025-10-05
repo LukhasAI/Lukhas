@@ -6,15 +6,15 @@ Production Schema v1.0.0
 Factory for creating AI provider clients with feature flag gating and environment configuration.
 """
 
-import os
 import logging
-from typing import Dict, Any, Optional
+import os
+from typing import Any, Dict, Optional
 
-from .base_client import BaseAIClient, AIProvider
+from .anthropic_client import AnthropicClient
+from .base_client import AIProvider, BaseAIClient
+from .google_client import GoogleClient
 from .mock_client import MockAIClient
 from .openai_client import OpenAIClient
-from .anthropic_client import AnthropicClient
-from .google_client import GoogleClient
 
 logger = logging.getLogger(__name__)
 

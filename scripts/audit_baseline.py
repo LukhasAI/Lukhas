@@ -8,31 +8,35 @@ Implements comprehensive benchmarking with statistical rigor and tamper-evident 
 
 import argparse
 import asyncio
+import hashlib
 import json
 import os
 import platform
-import psutil
 import statistics
+import subprocess
 import sys
 import time
 import uuid
 from dataclasses import asdict, dataclass
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Dict, List, Any, Optional
-import hashlib
-import subprocess
+from typing import Any, Dict, List, Optional
+
+import psutil
 
 # Add project root to path for imports
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 try:
+    from governance.guardian_system import GuardianSystem
     from lukhas.consciousness import (
-        ConsciousnessStream, CreativityEngine, AwarenessEngine,
-        ConsciousnessState, CreativeTask
+        AwarenessEngine,
+        ConsciousnessState,
+        ConsciousnessStream,
+        CreativeTask,
+        CreativityEngine,
     )
     from lukhas.consciousness.types import DEFAULT_CREATIVITY_CONFIG
-    from governance.guardian_system import GuardianSystem
 except ImportError as e:
     print(f"Warning: Could not import LUKHAS modules: {e}")
     print("Running in simulation mode for audit validation")
@@ -598,7 +602,7 @@ def main():
         with open(output_path, 'w') as f:
             f.write(output_data)
 
-        print(f"\n🎯 Audit Results Summary:")
+        print("\n🎯 Audit Results Summary:")
         print(f"Guardian E2E: {results.guardian_stats['p95']:.1f}μs p95")
         print(f"Memory E2E: {results.memory_stats['p95']:.1f}μs p95")
         print(f"Orchestrator E2E: {results.orchestrator_stats['p95']:.0f}μs p95")

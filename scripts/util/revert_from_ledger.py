@@ -22,12 +22,12 @@ Features:
 - Verification: Validates manifests after revert
 """
 
+import hashlib
 import json
 import sys
+from datetime import datetime
 from pathlib import Path
 from typing import Dict, List, Optional
-from datetime import datetime
-import hashlib
 
 
 def load_ledger(ledger_path: Path) -> List[Dict]:
@@ -191,7 +191,7 @@ def main():
         else:
             fail_count += 1
 
-    print(f"\n📊 Revert Summary:")
+    print("\n📊 Revert Summary:")
     print(f"   ✅ Success: {success_count}")
     print(f"   ❌ Failed: {fail_count}")
     print(f"   ⏭️  Skipped: {skip_count}")

@@ -11,12 +11,12 @@ Usage:
     python3 tools/generate_telemetry_fixtures.py --module identity --output telemetry/
 """
 
-import json
 import argparse
+import json
 import pathlib
-import uuid
 import time
-from typing import Dict, Any
+import uuid
+from typing import Any, Dict
 
 
 def generate_trace_id() -> str:

@@ -24,7 +24,7 @@ def load_and_allocate_all_todos(manifest_path: str, output_dir: str):
     low_todos = [t for t in open_todos if t.get("priority") == "low"]
     unknown_todos = [t for t in open_todos if t.get("priority") == "unknown"]
 
-    print(f"Available TODOs:")
+    print("Available TODOs:")
     print(f"  Critical: {len(critical_todos)}")
     print(f"  High: {len(high_todos)}")
     print(f"  Med: {len(med_todos)}")

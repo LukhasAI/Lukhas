@@ -9,15 +9,17 @@ T4/0.01% Excellence: High-performance policy engine with Guardian integration.
 """
 
 from __future__ import annotations
+
+import os
 import time
 import uuid
-import os
-from typing import Dict, List, Any, Optional
 from dataclasses import dataclass, field
 from enum import Enum
 from pathlib import Path
+from typing import Any, Dict, List, Optional
+
 from opentelemetry import trace
-from prometheus_client import Counter, Histogram, Gauge
+from prometheus_client import Counter, Gauge, Histogram
 
 tracer = trace.get_tracer(__name__)
 

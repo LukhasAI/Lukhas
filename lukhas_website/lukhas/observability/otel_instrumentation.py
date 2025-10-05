@@ -24,21 +24,21 @@ Usage:
 """
 
 import functools
+import logging
 import os
 import time
-from typing import Any, Callable, Dict, Optional
 from contextlib import contextmanager
-import logging
+from typing import Any, Callable, Dict, Optional
 
 # Optional OpenTelemetry imports
 try:
-    from opentelemetry import trace, metrics
-    from opentelemetry.trace import Status, StatusCode
-    from opentelemetry.metrics import get_meter
-    from opentelemetry.sdk.trace import TracerProvider
-    from opentelemetry.sdk.metrics import MeterProvider
+    from opentelemetry import metrics, trace
     from opentelemetry.exporter.prometheus import PrometheusMetricReader
     from opentelemetry.instrumentation.logging import LoggingInstrumentor
+    from opentelemetry.metrics import get_meter
+    from opentelemetry.sdk.metrics import MeterProvider
+    from opentelemetry.sdk.trace import TracerProvider
+    from opentelemetry.trace import Status, StatusCode
     OTEL_AVAILABLE = True
 except ImportError:
     OTEL_AVAILABLE = False

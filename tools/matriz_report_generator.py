@@ -7,12 +7,12 @@ Generates human-readable reports from audit data, including:
 - Module location mapping (Markdown table and CSV)
 """
 
-import json
-import csv
-import pathlib
-from typing import Dict, Any
 import argparse
+import csv
+import json
+import pathlib
 import sys
+from typing import Any, Dict
 
 
 def generate_audit_report(audit_data: Dict[str, Any], output_path: pathlib.Path):
@@ -250,7 +250,7 @@ def main():
     generate_location_reports(audit_data, location_md_path, location_csv_path)
 
     if args.verbose:
-        print(f"Reports generated:")
+        print("Reports generated:")
         print(f"  Audit report: {audit_report_path}")
         print(f"  Location table (MD): {location_md_path}")
         print(f"  Location table (CSV): {location_csv_path}")

@@ -8,7 +8,10 @@ Rewrite artifacts/promotion_batch.plan.jsonl targets to flat layout:
 - Idempotent: running again yields same output
 """
 
-import json, pathlib, re, sys
+import json
+import pathlib
+import re
+import sys
 
 PLAN_PATH = pathlib.Path("artifacts/promotion_batch.plan.jsonl")
 

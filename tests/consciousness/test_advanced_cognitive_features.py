@@ -20,20 +20,20 @@ Constellation Framework: 🌊 Flow Star Testing Excellence
 """
 
 import asyncio
-import time
-import pytest
 import logging
-import numpy as np
+import time
 
+import numpy as np
+import pytest
+
+from lukhas.cognitive_core.reasoning.contradiction_integrator import ContradictionIntegrator
 from lukhas.cognitive_core.reasoning.deep_inference_engine import (
-    DeepInferenceEngine, InferenceRequest, InferenceResult, InferenceType
+    DeepInferenceEngine,
+    InferenceRequest,
+    InferenceResult,
+    InferenceType,
 )
-from lukhas.cognitive_core.reasoning.contradiction_integrator import (
-    ContradictionIntegrator
-)
-from lukhas.consciousness.meta_cognitive_assessor import (
-    MetaCognitiveAssessor, MetaCognitiveContext, CognitiveLoadLevel
-)
+from lukhas.consciousness.meta_cognitive_assessor import CognitiveLoadLevel, MetaCognitiveAssessor, MetaCognitiveContext
 from lukhas.consciousness.types import ConsciousnessState
 
 # Test configuration
@@ -617,7 +617,8 @@ class TestMetaCognitiveAssessmentReliability:
 
 # Property-based testing for advanced cognitive features
 try:
-    from hypothesis import given, strategies as st, settings
+    from hypothesis import given, settings
+    from hypothesis import strategies as st
 
     class TestCognitivePropertyBased:
         """Property-based tests for cognitive feature edge cases."""

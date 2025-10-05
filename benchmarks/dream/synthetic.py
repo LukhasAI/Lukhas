@@ -1,7 +1,9 @@
 from __future__ import annotations
-import random, json
-from typing import Dict, List, Any, Optional
+
+import json
+import random
 from dataclasses import dataclass
+from typing import Any, Dict, List, Optional
 
 # Canonical emotion keys for consistency
 CANON_EMOTIONS = ["confidence", "curiosity", "joy", "fear", "anger", "sadness", "surprise", "trust"]

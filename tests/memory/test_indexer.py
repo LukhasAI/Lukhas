@@ -1,9 +1,12 @@
 """Unit tests for memory Indexer."""
 
-import pytest
 from unittest.mock import Mock
-from memory.indexer import Indexer, Embeddings, _fingerprint
+
+import pytest
+
 from memory.backends.pgvector_store import VectorDoc
+from memory.indexer import Embeddings, Indexer, _fingerprint
+
 
 def test_fingerprint():
     text1 = "hello world"

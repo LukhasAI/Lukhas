@@ -7,6 +7,7 @@ Integrates with existing ΛiD authentication system.
 """
 
 import sys
+
 from tier_macaroon_issuer import TierMacaroonVerifier
 
 

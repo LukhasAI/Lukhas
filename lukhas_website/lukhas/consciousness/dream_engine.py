@@ -9,18 +9,17 @@ Constellation Framework: Flow Star (🌊)
 """
 
 from __future__ import annotations
-import time
+
 import asyncio
 import random
-from typing import Dict, Any, Optional, List, Set
-from opentelemetry import trace
-from prometheus_client import Counter, Histogram, Gauge, Enum
+import time
 from enum import Enum as PyEnum
+from typing import Any, Dict, List, Optional, Set
 
-from .types import (
-    ConsciousnessState, DreamTrace, DreamPhase,
-    DEFAULT_DREAM_CONFIG
-)
+from opentelemetry import trace
+from prometheus_client import Counter, Enum, Gauge, Histogram
+
+from .types import DEFAULT_DREAM_CONFIG, ConsciousnessState, DreamPhase, DreamTrace
 
 tracer = trace.get_tracer(__name__)
 

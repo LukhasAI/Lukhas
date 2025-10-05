@@ -10,25 +10,26 @@ CI/CD gate for T4/0.01% excellence compliance:
 - Fails CI if requirements not met
 """
 
+import argparse
 import asyncio
 import json
+import logging
+import statistics
 import sys
+import tempfile
 import time
 from pathlib import Path
-from typing import Dict, Any, List, Optional
-import argparse
-import logging
-import tempfile
-import statistics
+from typing import Any, Dict, List, Optional
 
 # Add the project root to Python path
 project_root = Path(__file__).parent.parent
 sys.path.insert(0, str(project_root))
 
-from lukhas.ledger.events import ConsentGrantedEvent, ConsentType, validate_event_schema
-from lukhas.ledger.event_bus import AsyncEventBus
-from lukhas.ledger.metrics import get_metrics, reset_metrics
 import jsonschema
+
+from lukhas.ledger.event_bus import AsyncEventBus
+from lukhas.ledger.events import ConsentGrantedEvent, ConsentType, validate_event_schema
+from lukhas.ledger.metrics import get_metrics, reset_metrics
 
 # Configure logging
 logging.basicConfig(

@@ -8,9 +8,9 @@
 Integration tests for schema module.
 """
 
+from unittest.mock import Mock, patch
+
 import pytest
-import importlib
-from unittest.mock import patch, Mock
 
 pytestmark = pytest.mark.integration
 
@@ -42,9 +42,9 @@ class TestSchemaEndToEnd:
     def test_consciousness_system_integration(self):
         """Test integration with full consciousness system."""
         try:
-            from lukhas.schema import SchemaCore
             from lukhas.consciousness import ConsciousnessCore
             from lukhas.memory import MemoryCore
+            from lukhas.schema import SchemaCore
 
             # Initialize full system stack
             consciousness = ConsciousnessCore()
@@ -109,9 +109,10 @@ class TestSchemaScalabilityIntegration:
     def test_concurrent_processing(self):
         """Test concurrent processing capabilities."""
         try:
-            from lukhas.schema import SchemaCore
             import concurrent.futures
             import threading
+
+            from lukhas.schema import SchemaCore
 
             component = SchemaCore()
 

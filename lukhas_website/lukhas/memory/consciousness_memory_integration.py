@@ -39,8 +39,8 @@ from typing import Any, Optional
 
 try:
     from lukhas.async_manager import TaskPriority, get_consciousness_manager
-    from lukhas.consciousness.registry import ComponentType, get_consciousness_registry
     from lukhas.consciousness.constellation_integration import get_constellation_integrator
+    from lukhas.consciousness.registry import ComponentType, get_consciousness_registry
     from lukhas.core.common.config import get_config
 except ImportError:
     # Graceful fallback for development

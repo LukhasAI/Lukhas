@@ -7,20 +7,16 @@ during authorization operations in test environments.
 
 import json
 import tempfile
-from pathlib import Path
-from typing import Dict, List, Any, Optional
-from dataclasses import dataclass, field
 from contextlib import contextmanager
+from dataclasses import dataclass, field
+from pathlib import Path
+from typing import Any, Dict, List, Optional
 
 import pytest
 from opentelemetry import trace
-from opentelemetry.sdk.trace import TracerProvider
-from opentelemetry.sdk.trace.export import (
-    SimpleSpanProcessor,
-    SpanExporter,
-    SpanExportResult
-)
 from opentelemetry.sdk.resources import Resource
+from opentelemetry.sdk.trace import TracerProvider
+from opentelemetry.sdk.trace.export import SimpleSpanProcessor, SpanExporter, SpanExportResult
 from opentelemetry.trace import Span, StatusCode
 
 
@@ -313,7 +309,7 @@ def matrix_contract_loader():
         contract_paths = [
             Path(f"/Users/agi_dev/LOCAL-REPOS/Lukhas/{module}/matrix_{module}.json"),
             Path(f"/Users/agi_dev/LOCAL-REPOS/Lukhas/matrix_{module}.json"),
-            Path(f"/Users/agi_dev/LOCAL-REPOS/Lukhas/memory/matrix_memoria.json") if module == "memoria" else None
+            Path("/Users/agi_dev/LOCAL-REPOS/Lukhas/memory/matrix_memoria.json") if module == "memoria" else None
         ]
 
         for path in contract_paths:

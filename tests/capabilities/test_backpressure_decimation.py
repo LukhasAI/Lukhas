@@ -5,6 +5,7 @@ This test ensures the system can handle burst signal emissions without
 deadlocking and that proper decimation/backpressure occurs under load.
 """
 import asyncio
+
 import pytest
 
 from lukhas.core.matriz_consciousness_integration import create_matriz_consciousness_system

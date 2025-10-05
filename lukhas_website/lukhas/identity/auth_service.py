@@ -27,9 +27,9 @@ except ImportError:
 
 # Import LUKHAS identity token components
 try:
-    from .token_generator import TokenGenerator, EnvironmentSecretProvider
-    from .token_validator import TokenValidator, ValidationContext, ValidationResult
     from .alias_format import make_alias, parse_alias
+    from .token_generator import EnvironmentSecretProvider, TokenGenerator
+    from .token_validator import TokenValidator, ValidationContext, ValidationResult
     TOKEN_SYSTEM_AVAILABLE = True
 except ImportError:
     TOKEN_SYSTEM_AVAILABLE = False
@@ -1279,8 +1279,8 @@ async def verify_token(token: str,
     Raises:
         ValueError: If token is invalid, expired, or fails security checks
     """
-    import time
     import hashlib
+    import time
 
     # OWASP ASVS 3.2.1: Token validation with proper error handling
     if not token or len(token.strip()) == 0:
@@ -1386,7 +1386,7 @@ async def verify_token(token: str,
         token_ua = claims.get('ua')
         request_ua = request_context.get('user_agent')
         if token_ua and request_ua and token_ua != request_ua:
-            logger.warning(f"User-Agent mismatch detected")
+            logger.warning("User-Agent mismatch detected")
 
     # OWASP ASVS 2.1.1: Account enumeration protection
     # Don't reveal whether user exists in error messages

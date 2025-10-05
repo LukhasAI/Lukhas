@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 """Context Sync Validator - ensures lane-aware documentation consistency"""
 
-import sys, re, pathlib
+import pathlib
+import re
+import sys
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 

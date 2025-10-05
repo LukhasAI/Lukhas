@@ -1,4 +1,7 @@
-import json, pkgutil, sys
+import json
+import pkgutil
+import sys
+
 failed = {}
 # Probe all `lukhas.<module>` and a few known submodules from artifacts
 candidates = set()

@@ -7,16 +7,22 @@ Comprehensive test suite for WebAuthn/FIDO2 operations,
 biometric authentication, and performance validation.
 """
 
-import pytest
-import time
-import json
 import base64
-from datetime import datetime, timezone, timedelta
+import json
+import time
+from datetime import datetime, timedelta, timezone
+
+import pytest
 
 from lukhas.identity.webauthn_production import (
-    WebAuthnManager, WebAuthnCredential, WebAuthnChallenge,
-    WebAuthnCredentialStore, AuthenticatorType, AuthenticatorTier,
-    CredentialStatus, get_webauthn_manager
+    AuthenticatorTier,
+    AuthenticatorType,
+    CredentialStatus,
+    WebAuthnChallenge,
+    WebAuthnCredential,
+    WebAuthnCredentialStore,
+    WebAuthnManager,
+    get_webauthn_manager,
 )
 
 

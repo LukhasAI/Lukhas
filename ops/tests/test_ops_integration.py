@@ -8,16 +8,15 @@
 Integration tests for ops module.
 """
 
-import pytest
 import unittest
-import asyncio
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module for integration testing
 try:
     import ops
 except ImportError:
-    pytest.skip(f"Module ops not available", allow_module_level=True)
+    pytest.skip("Module ops not available", allow_module_level=True)
 
 
 class TestOpsIntegration(unittest.TestCase):

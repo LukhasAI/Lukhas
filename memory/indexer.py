@@ -1,7 +1,10 @@
 from __future__ import annotations
+
 import hashlib
 from typing import Any, Dict, List, Optional
+
 from .backends.pgvector_store import PgVectorStore, VectorDoc
+
 
 # TODO: plug in actual embedding providers
 class Embeddings:

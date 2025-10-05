@@ -8,16 +8,15 @@
 Integration tests for consent module.
 """
 
-import pytest
 import unittest
-import asyncio
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module for integration testing
 try:
     import consent
 except ImportError:
-    pytest.skip(f"Module consent not available", allow_module_level=True)
+    pytest.skip("Module consent not available", allow_module_level=True)
 
 
 class TestConsentIntegration(unittest.TestCase):

@@ -14,23 +14,25 @@ Target SLAs:
 """
 
 import asyncio
-import json
-import time
 import hashlib
+import json
 import statistics
-from datetime import datetime, timezone
-from pathlib import Path
-from typing import Dict, List, Any
 
 # Import M.1 components
 import sys
+import time
+from datetime import datetime, timezone
+from pathlib import Path
+from typing import Any, Dict, List
+
 sys.path.append('/Users/agi_dev/LOCAL-REPOS/Lukhas')
 
 from memory.backends.pgvector_store import PgVectorStore, VectorDoc
-from memory.indexer import Indexer, Embeddings
-from memory.memory_orchestrator import MemoryOrchestrator
+from memory.indexer import Embeddings, Indexer
 from memory.lifecycle import Lifecycle, RetentionPolicy
+from memory.memory_orchestrator import MemoryOrchestrator
 from memory.observability import MemoryTracer
+
 
 class MockPgClient:
     """Mock database client for validation testing."""
@@ -397,9 +399,9 @@ async def main():
 
         sla = metrics['sla_compliance']
         if sla['mean_under_target'] and sla['p95_under_target'] and sla['cv_under_10_percent']:
-            print(f"   ✅ SLA COMPLIANCE: ACHIEVED")
+            print("   ✅ SLA COMPLIANCE: ACHIEVED")
         else:
-            print(f"   ❌ SLA COMPLIANCE: FAILED")
+            print("   ❌ SLA COMPLIANCE: FAILED")
             print(f"      Mean OK: {sla['mean_under_target']}")
             print(f"      P95 OK: {sla['p95_under_target']}")
             print(f"      CV OK: {sla['cv_under_10_percent']}")
@@ -441,16 +443,16 @@ async def main():
         for metrics in perf_results["performance_metrics"].values()
     )
 
-    print(f"\n🏆 M.1 VALIDATION VERDICT")
-    print(f"=" * 25)
+    print("\n🏆 M.1 VALIDATION VERDICT")
+    print("=" * 25)
     print(f"Contract Validation: {'✅ PASS' if contract_results['all_contracts_valid'] else '❌ FAIL'}")
     print(f"Performance SLAs: {'✅ PASS' if all_sla_met else '❌ FAIL'}")
-    print(f"Statistical Rigor: ✅ PASS (CV <10%, CI95%)")
-    print(f"")
+    print("Statistical Rigor: ✅ PASS (CV <10%, CI95%)")
+    print("")
     if contract_results['all_contracts_valid'] and all_sla_met:
-        print(f"🎉 OVERALL: M.1 T4/0.01% EXCELLENCE ACHIEVED")
+        print("🎉 OVERALL: M.1 T4/0.01% EXCELLENCE ACHIEVED")
     else:
-        print(f"🔧 OVERALL: M.1 REQUIRES OPTIMIZATION")
+        print("🔧 OVERALL: M.1 REQUIRES OPTIMIZATION")
 
     return validation_report
 

@@ -20,10 +20,11 @@ Constellation Framework: 🌊 Schema Evolution Guard
 import hashlib
 import json
 import logging
-import pytest
-from pathlib import Path
-from typing import Dict, Any, List, Set, Optional
 from dataclasses import dataclass
+from pathlib import Path
+from typing import Any, Dict, List, Optional, Set
+
+import pytest
 from jsonschema.validators import Draft202012Validator
 
 logger = logging.getLogger(__name__)
@@ -357,7 +358,7 @@ class TestMATRIZSchemaDrift:
 
         # Assert hash matches (allows non-breaking evolution)
         if not result.hash_matches:
-            logger.warning(f"Schema hash changed - review changes and update snapshot if safe")
+            logger.warning("Schema hash changed - review changes and update snapshot if safe")
             logger.warning(f"Recommendations: {result.recommendations}")
 
     def test_required_fields_validation(self):

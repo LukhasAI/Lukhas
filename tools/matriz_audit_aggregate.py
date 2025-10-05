@@ -6,12 +6,12 @@ Merges all audit data sources (inventory, validation, imports, lanes) into
 comprehensive audit reports and generates suggested move operations.
 """
 
+import argparse
 import json
 import pathlib
-from typing import List, Dict, Any
-import argparse
 import sys
 from datetime import datetime
+from typing import Any, Dict, List
 
 
 def load_artifact(file_path: pathlib.Path, description: str) -> Dict[str, Any]:
@@ -252,7 +252,7 @@ def main():
             f.write(json.dumps(suggestion) + '\n')
 
     if args.verbose:
-        print(f"Aggregation complete:")
+        print("Aggregation complete:")
         print(f"  Total modules: {summary_stats['total_modules']}")
         print(f"  With contracts: {summary_stats['contracts']['with_contracts']} ({summary_stats['contracts']['percentage_with_contracts']}%)")
         print(f"  Schema validation: {summary_stats['validation']['schema_ok']} OK")

@@ -20,19 +20,20 @@ import asyncio
 import hashlib
 import logging
 import time
-from datetime import datetime, timezone
-from typing import Dict, List, Optional, Any, Tuple, Set
-from dataclasses import dataclass, field
-from enum import Enum
 import uuid
+from dataclasses import dataclass, field
+from datetime import datetime, timezone
+from enum import Enum
+from typing import Any, Dict, List, Optional, Set, Tuple
 
-from lukhas.memory.fold_system import MemoryFold
 from lukhas.memory.consciousness_memory_integration import ConsciousnessMemoryIntegrator, MemoryFoldType
+from lukhas.memory.fold_system import MemoryFold
+
+from .adapters.vector_store_base import VectorStoreAdapter
+from .backpressure import BackpressureManager
 
 # Import services components
 from .circuit_breaker import MemoryCircuitBreaker
-from .backpressure import BackpressureManager
-from .adapters.vector_store_base import VectorStoreAdapter
 from .metrics import MemoryMetrics
 
 logger = logging.getLogger(__name__)

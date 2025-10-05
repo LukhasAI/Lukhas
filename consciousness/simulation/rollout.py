@@ -1,7 +1,10 @@
 from __future__ import annotations
-from typing import Dict, Any, List
-from .world_model import generate_scenarios
+
+from typing import Any, Dict, List
+
 from .evaluator import score_scenario
+from .world_model import generate_scenarios
+
 
 async def run_rollouts(seed: Dict[str, Any], trace_id: str) -> List[Dict[str, Any]]:
     scenarios = generate_scenarios(seed, trace_id)

@@ -15,15 +15,15 @@ import logging
 import time
 
 from lukhas.orchestration import (
-    # Phase 4 Externalized Orchestration
-    get_externalized_orchestrator,
+    ContextType,
     OrchestrationRequest,
     RequestType,
-    get_routing_config_manager,
-    get_health_monitor,
     # Context Preservation
     get_context_preservation_engine,
-    ContextType
+    # Phase 4 Externalized Orchestration
+    get_externalized_orchestrator,
+    get_health_monitor,
+    get_routing_config_manager,
 )
 
 # Configure logging
@@ -137,7 +137,7 @@ async def demonstrate_context_preservation():
 
     # Get preservation stats
     stats = await context_engine.get_preservation_stats()
-    print(f"📈 Preservation stats:")
+    print("📈 Preservation stats:")
     print(f"  Memory store size: {stats['memory_store_size']}")
     print(f"  Cache usage: {stats['cache_stats']['usage_ratio']:.1%}")
 
@@ -268,7 +268,7 @@ async def demonstrate_performance_monitoring():
     total_time = time.time() - start_time
     avg_time = (total_time / iterations) * 1000
 
-    print(f"\n📈 Performance Results:")
+    print("\n📈 Performance Results:")
     print(f"  Total time: {total_time:.2f}s")
     print(f"  Average per request: {avg_time:.1f}ms")
     print(f"  Target compliance: {'✅ PASS' if avg_time < 500 else '⚠️ REVIEW'}")  # Generous for demo

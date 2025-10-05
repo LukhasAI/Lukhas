@@ -8,22 +8,18 @@ Tests race conditions, concurrent access, and system-wide memory behavior.
 # ΛTAG: memory_integration_tests, race_condition_detection
 """
 
-import pytest
 import asyncio
 import tempfile
 import time
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime, timedelta
-from typing import List, Dict
 from pathlib import Path
+from typing import Dict, List
+
+import pytest
 
 try:
-    from lukhas.memory.adaptive_memory import (
-        AdaptiveMemorySystem,
-        MemoryItem,
-        MemoryFold,
-        MemoryType
-    )
+    from lukhas.memory.adaptive_memory import AdaptiveMemorySystem, MemoryFold, MemoryItem, MemoryType
     from lukhas.memory.consolidation import MemoryConsolidator
     from lukhas.memory.recall import MemoryRecallEngine
     from lukhas.observability.prometheus_metrics import LUKHASMetrics
@@ -358,7 +354,7 @@ class TestMemorySystemIntegration:
         avg_retrieve_time = sum(operations["retrieve"]) / len(operations["retrieve"])
         avg_search_time = sum(operations["search"]) / len(operations["search"])
 
-        print(f"Performance Results:")
+        print("Performance Results:")
         print(f"  Average store time: {avg_store_time:.2f}ms")
         print(f"  Average retrieve time: {avg_retrieve_time:.2f}ms")
         print(f"  Average search time: {avg_search_time:.2f}ms")

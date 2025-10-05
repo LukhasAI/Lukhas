@@ -8,15 +8,15 @@
 Unit tests for gtpsi module.
 """
 
-import pytest
 import unittest
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module components
 try:
     import gtpsi
 except ImportError:
-    pytest.skip(f"Module gtpsi not available", allow_module_level=True)
+    pytest.skip("Module gtpsi not available", allow_module_level=True)
 
 
 class TestGtpsiModule(unittest.TestCase):
@@ -81,7 +81,7 @@ class TestEdgeGestureProcessor(unittest.TestCase):
             from gtpsi import EdgeGestureProcessor
             self.assertIsNotNone(EdgeGestureProcessor)
         except ImportError:
-            pytest.skip(f"Component EdgeGestureProcessor not available")
+            pytest.skip("Component EdgeGestureProcessor not available")
 
     def test_edgegestureprocessor_instantiation(self):
         """Test EdgeGestureProcessor can be instantiated."""
@@ -98,7 +98,7 @@ class TestGestureApproval(unittest.TestCase):
             from gtpsi import GestureApproval
             self.assertIsNotNone(GestureApproval)
         except ImportError:
-            pytest.skip(f"Component GestureApproval not available")
+            pytest.skip("Component GestureApproval not available")
 
     def test_gestureapproval_instantiation(self):
         """Test GestureApproval can be instantiated."""
@@ -115,7 +115,7 @@ class TestGestureChallenge(unittest.TestCase):
             from gtpsi import GestureChallenge
             self.assertIsNotNone(GestureChallenge)
         except ImportError:
-            pytest.skip(f"Component GestureChallenge not available")
+            pytest.skip("Component GestureChallenge not available")
 
     def test_gesturechallenge_instantiation(self):
         """Test GestureChallenge can be instantiated."""

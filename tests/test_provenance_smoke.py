@@ -8,10 +8,11 @@ root CIDs are present in provenance reports.
 """
 
 import json
-import pytest
 import subprocess
 import tempfile
 from pathlib import Path
+
+import pytest
 
 
 class TestProvenanceSmoke:

@@ -16,7 +16,7 @@ from typing import Any, Callable, Optional
 
 from .bio_symbolic_processor import get_bio_symbolic_processor
 from .matriz_consciousness_signals import ConsciousnessSignal, ConsciousnessSignalType
-from .metrics import router_no_rule_total, router_signal_processing_time, router_cascade_preventions_total
+from .metrics import router_cascade_preventions_total, router_no_rule_total
 
 logger = logging.getLogger(__name__)
 

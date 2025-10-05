@@ -5,12 +5,12 @@ Collection of authenticator implementations for different authentication methods
 Implements AuthenticatorInterface for T4 architecture compliance.
 """
 
-import logging
 import hashlib
 import hmac
+import logging
 import os
-from typing import Any, Optional, Dict
 from dataclasses import dataclass
+from typing import Any, Dict, Optional
 
 from ..facades.authentication_facade import AuthenticatorInterface, AuthResult
 
@@ -95,7 +95,7 @@ class PasswordAuthenticator(AuthenticatorInterface):
             if self._is_locked_out(username):
                 return AuthResult(
                     success=False,
-                    error=f"Account locked due to too many failed attempts"
+                    error="Account locked due to too many failed attempts"
                 )
 
             # Get user credentials

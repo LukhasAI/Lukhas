@@ -7,6 +7,7 @@ Reads all module.manifest.lock.json files and generates:
 Exits with code 1 if duplicates found.
 """
 from __future__ import annotations
+
 import argparse
 import json
 import sys

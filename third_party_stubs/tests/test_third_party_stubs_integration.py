@@ -8,16 +8,15 @@
 Integration tests for third_party_stubs module.
 """
 
-import pytest
 import unittest
-import asyncio
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module for integration testing
 try:
     import third_party_stubs
 except ImportError:
-    pytest.skip(f"Module third_party_stubs not available", allow_module_level=True)
+    pytest.skip("Module third_party_stubs not available", allow_module_level=True)
 
 
 class TestThirdPartyStubsIntegration(unittest.TestCase):

@@ -19,17 +19,17 @@ Key Features:
 Constellation Framework: 🛡️ Guardian Excellence - Incident Response
 """
 
-import os
-import time
-import logging
 import hashlib
+import logging
+import os
 import threading
-from typing import Dict, List, Set, Optional, Any, Callable
-from dataclasses import dataclass, field
-from enum import Enum
-from datetime import datetime, timezone
-from collections import deque
+import time
 import uuid
+from collections import deque
+from dataclasses import dataclass, field
+from datetime import datetime, timezone
+from enum import Enum
+from typing import Any, Callable, Dict, List, Optional, Set
 
 logger = logging.getLogger(__name__)
 
@@ -1048,7 +1048,7 @@ if __name__ == "__main__":
 
     # Check statistics
     stats = irs.get_statistics()
-    print(f"\nStatistics:")
+    print("\nStatistics:")
     print(f"  Total incidents: {stats['total_incidents']}")
     print(f"  Active incidents: {stats['active_incidents']}")
     print(f"  Avg response time: {stats['avg_response_time_ms']:.2f}ms")

@@ -8,16 +8,15 @@
 Integration tests for hooks module.
 """
 
-import pytest
 import unittest
-import asyncio
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module for integration testing
 try:
     import hooks
 except ImportError:
-    pytest.skip(f"Module hooks not available", allow_module_level=True)
+    pytest.skip("Module hooks not available", allow_module_level=True)
 
 
 class TestHooksIntegration(unittest.TestCase):

@@ -9,8 +9,8 @@ Usage (CI):
   pytest -m "not prod_only" --maxfail=1 -q --junitxml=reports/junit-unit.xml
   python tools/verify_perf.py
 """
-import sys
 import json
+import sys
 import xml.etree.ElementTree as ET
 from pathlib import Path
 

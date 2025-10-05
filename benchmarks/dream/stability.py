@@ -1,6 +1,12 @@
 from __future__ import annotations
-import os, json, subprocess, sys, statistics, pathlib
-from typing import List, Dict, Any
+
+import json
+import os
+import pathlib
+import statistics
+import subprocess
+import sys
+from typing import Any, Dict, List
 
 SEEDS = [1, 7, 13, 42, 123, 999]
 

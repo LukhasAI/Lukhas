@@ -9,14 +9,15 @@ import os
 import time
 import uuid
 from typing import Any, Dict
+
 import uvicorn
-from starlette.applications import Starlette
-from starlette.responses import JSONResponse
-from starlette.routing import Route
-from starlette.middleware.cors import CORSMiddleware
 
 # MCP imports for SSE transport
 from mcp.server.fastmcp import FastMCP
+from starlette.applications import Starlette
+from starlette.middleware.cors import CORSMiddleware
+from starlette.responses import JSONResponse
+from starlette.routing import Route
 
 # Setup logging
 logging.basicConfig(level=logging.INFO)
@@ -24,7 +25,7 @@ logger = logging.getLogger(__name__)
 
 class LukhasMCPRestWrapper:
     """REST API wrapper for LUKHAS MCP server functionality."""
-    
+
     def __init__(self):
         self.session_id = str(uuid.uuid4())
         self.initialized = True
@@ -32,32 +33,32 @@ class LukhasMCPRestWrapper:
             "name": "lukhas-ai-rest-wrapper",
             "version": "1.0.0"
         }
-    
+
     async def list_directory_impl(self, path: str) -> Dict[str, Any]:
         """Internal implementation of list_directory."""
         try:
             # Security: Only allow paths under allowed roots
             allowed_roots = os.getenv("ALLOWED_ROOTS", "/tmp,/var/tmp").split(",")
             abs_path = os.path.abspath(path)
-            
+
             if not any(abs_path.startswith(os.path.abspath(root.strip())) for root in allowed_roots):
                 return {
                     "error": f"Path '{path}' not allowed",
                     "allowed_roots": allowed_roots
                 }
-            
+
             if not os.path.exists(path):
                 return {"error": f"Path '{path}' does not exist"}
-            
+
             if not os.path.isdir(path):
                 return {"error": f"Path '{path}' is not a directory"}
-            
+
             items = []
             for item in sorted(os.listdir(path)):
                 full_path = os.path.join(path, item)
                 item_type = "directory" if os.path.isdir(full_path) else "file"
                 size = os.path.getsize(full_path) if os.path.isfile(full_path) else None
-                
+
                 item_info = {
                     "name": item,
                     "type": item_type,
@@ -65,9 +66,9 @@ class LukhasMCPRestWrapper:
                 }
                 if size is not None:
                     item_info["size_bytes"] = size
-                
+
                 items.append(item_info)
-            
+
             return {
                 "success": True,
                 "path": path,
@@ -75,40 +76,40 @@ class LukhasMCPRestWrapper:
                 "total_items": len(items),
                 "lukhas_ai": "⚛️🧠🛡️ LUKHAS AI Constellation Framework"
             }
-            
+
         except Exception as e:
             logger.error(f"Error listing directory {path}: {e}")
             return {"error": f"Error listing directory: {str(e)}"}
-    
+
     async def read_file_impl(self, path: str, max_lines: int = 100) -> Dict[str, Any]:
         """Internal implementation of read_file."""
         try:
             # Security: Only allow paths under allowed roots
             allowed_roots = os.getenv("ALLOWED_ROOTS", "/tmp,/var/tmp").split(",")
             abs_path = os.path.abspath(path)
-            
+
             if not any(abs_path.startswith(os.path.abspath(root.strip())) for root in allowed_roots):
                 return {
                     "error": f"Path '{path}' not allowed",
                     "allowed_roots": allowed_roots
                 }
-            
+
             if not os.path.exists(path):
                 return {"error": f"File '{path}' does not exist"}
-            
+
             if not os.path.isfile(path):
                 return {"error": f"Path '{path}' is not a regular file"}
-            
+
             # Check file size (limit to 1MB)
             file_size = os.path.getsize(path)
             if file_size > 1024 * 1024:  # 1MB
                 return {
                     "error": f"File '{path}' is too large ({file_size} bytes). Maximum allowed: 1MB"
                 }
-            
+
             with open(path, 'r', encoding='utf-8', errors='replace') as f:
                 lines = f.readlines()
-            
+
             # Limit the number of lines
             if len(lines) > max_lines:
                 content_lines = lines[:max_lines]
@@ -116,9 +117,9 @@ class LukhasMCPRestWrapper:
             else:
                 content_lines = lines
                 truncated = False
-            
+
             content = ''.join(content_lines)
-            
+
             return {
                 "success": True,
                 "path": path,
@@ -129,7 +130,7 @@ class LukhasMCPRestWrapper:
                 "file_size_bytes": file_size,
                 "lukhas_ai": "⚛️🧠🛡️ LUKHAS AI Constellation Framework"
             }
-            
+
         except UnicodeDecodeError:
             return {
                 "error": f"File '{path}' appears to be a binary file or uses unsupported encoding"
@@ -150,26 +151,26 @@ def list_directory(path: str) -> dict:
     # Security: Only allow paths under allowed roots
     allowed_roots = os.getenv("ALLOWED_ROOTS", "/tmp,/var/tmp").split(",")
     abs_path = os.path.abspath(path)
-    
+
     if not any(abs_path.startswith(os.path.abspath(root.strip())) for root in allowed_roots):
         return {
             "error": f"Path '{path}' not allowed",
             "allowed_roots": allowed_roots
         }
-    
+
     if not os.path.exists(path):
         return {"error": f"Path '{path}' does not exist"}
-    
+
     if not os.path.isdir(path):
         return {"error": f"Path '{path}' is not a directory"}
-    
+
     try:
         items = []
         for item in sorted(os.listdir(path)):
             full_path = os.path.join(path, item)
             item_type = "directory" if os.path.isdir(full_path) else "file"
             size = os.path.getsize(full_path) if os.path.isfile(full_path) else None
-            
+
             item_info = {
                 "name": item,
                 "type": item_type,
@@ -177,9 +178,9 @@ def list_directory(path: str) -> dict:
             }
             if size is not None:
                 item_info["size_bytes"] = size
-            
+
             items.append(item_info)
-        
+
         return {
             "success": True,
             "path": path,
@@ -196,19 +197,19 @@ def read_file(path: str, max_lines: int = 100) -> dict:
     # Security: Only allow paths under allowed roots
     allowed_roots = os.getenv("ALLOWED_ROOTS", "/tmp,/var/tmp").split(",")
     abs_path = os.path.abspath(path)
-    
+
     if not any(abs_path.startswith(os.path.abspath(root.strip())) for root in allowed_roots):
         return {
             "error": f"Path '{path}' not allowed",
             "allowed_roots": allowed_roots
         }
-    
+
     if not os.path.exists(path):
         return {"error": f"File '{path}' does not exist"}
-    
+
     if not os.path.isfile(path):
         return {"error": f"Path '{path}' is not a regular file"}
-    
+
     try:
         # Check file size (limit to 1MB)
         file_size = os.path.getsize(path)
@@ -216,10 +217,10 @@ def read_file(path: str, max_lines: int = 100) -> dict:
             return {
                 "error": f"File '{path}' is too large ({file_size} bytes). Maximum allowed: 1MB"
             }
-        
+
         with open(path, 'r', encoding='utf-8', errors='replace') as f:
             lines = f.readlines()
-        
+
         # Limit the number of lines
         if len(lines) > max_lines:
             content_lines = lines[:max_lines]
@@ -227,9 +228,9 @@ def read_file(path: str, max_lines: int = 100) -> dict:
         else:
             content_lines = lines
             truncated = False
-        
+
         content = ''.join(content_lines)
-        
+
         return {
             "success": True,
             "path": path,
@@ -295,7 +296,7 @@ async def get_server_info(request):
             }
         }
     }
-    
+
     return JSONResponse(info)
 
 async def list_directory_rest(request):
@@ -303,10 +304,10 @@ async def list_directory_rest(request):
     try:
         # Get path from query parameter
         path = request.query_params.get("path", "/tmp")
-        
+
         result = await mcp_wrapper.list_directory_impl(path)
         return JSONResponse(result)
-        
+
     except Exception as e:
         logger.error(f"Error in list_directory endpoint: {e}")
         return JSONResponse({"error": f"Internal server error: {str(e)}"}, status_code=500)
@@ -318,12 +319,12 @@ async def read_file_rest(request):
         path = request.query_params.get("path")
         if not path:
             return JSONResponse({"error": "Missing required parameter: path"}, status_code=400)
-        
+
         max_lines = int(request.query_params.get("max_lines", 100))
-        
+
         result = await mcp_wrapper.read_file_impl(path, max_lines)
         return JSONResponse(result)
-        
+
     except ValueError:
         return JSONResponse({"error": "Invalid max_lines parameter"}, status_code=400)
     except Exception as e:
@@ -335,10 +336,10 @@ async def list_directory_post(request):
     try:
         data = await request.json()
         path = data.get("path", "/tmp")
-        
+
         result = await mcp_wrapper.list_directory_impl(path)
         return JSONResponse(result)
-        
+
     except Exception as e:
         logger.error(f"Error in list_directory POST endpoint: {e}")
         return JSONResponse({"error": f"Internal server error: {str(e)}"}, status_code=500)
@@ -350,12 +351,12 @@ async def read_file_post(request):
         path = data.get("path")
         if not path:
             return JSONResponse({"error": "Missing required parameter: path"}, status_code=400)
-        
+
         max_lines = data.get("max_lines", 100)
-        
+
         result = await mcp_wrapper.read_file_impl(path, max_lines)
         return JSONResponse(result)
-        
+
     except Exception as e:
         logger.error(f"Error in read_file POST endpoint: {e}")
         return JSONResponse({"error": f"Internal server error: {str(e)}"}, status_code=500)
@@ -516,21 +517,21 @@ async def get_openapi_spec(request):
             }
         ]
     }
-    
+
     return JSONResponse(openapi_spec)
 
 async def oauth_prm(request):
     """OAuth Protected Resource Metadata (RFC 9728) endpoint."""
     if not (OIDC_DISCOVERY and OAUTH_AUDIENCE and PUBLIC_BASE_URL):
         return JSONResponse({"status": "disabled", "note": "OAuth not configured"}, status_code=404)
-    
+
     # Minimal RFC 9728 PRM
     prm_data = {
         "resource": PUBLIC_BASE_URL,
         "authorization_servers": [OIDC_DISCOVERY],  # issuer
         "bearer_methods_supported": ["header"]
     }
-    
+
     return JSONResponse(prm_data)
 
 # Define routes
@@ -563,13 +564,13 @@ app.mount("/sse", mcp.sse_app())
 if __name__ == "__main__":
     port = int(os.getenv("PORT", 8080))
     host = os.getenv("HOST", "0.0.0.0")
-    
+
     # Set default allowed roots for security
     if not os.getenv("ALLOWED_ROOTS"):
         os.environ["ALLOWED_ROOTS"] = "/tmp,/var/tmp"
-    
-    logger.info(f"🚀 Starting LUKHAS MCP REST Wrapper + SSE for ChatGPT")
-    logger.info(f"⚛️🧠🛡️ Constellation Framework: Identity, Consciousness, Guardian")
+
+    logger.info("🚀 Starting LUKHAS MCP REST Wrapper + SSE for ChatGPT")
+    logger.info("⚛️🧠🛡️ Constellation Framework: Identity, Consciousness, Guardian")
     logger.info(f"🔗 Listening on {host}:{port}")
     logger.info(f"🔗 Health check: http://{host}:{port}/health")
     logger.info(f"🔗 Server info: http://{host}:{port}/info")
@@ -578,6 +579,6 @@ if __name__ == "__main__":
     logger.info(f"� MCP SSE: http://{host}:{port}/sse/ (ChatGPT Connectors)")
     logger.info(f"🔗 OAuth PRM: http://{host}:{port}/.well-known/oauth-protected-resource")
     logger.info(f"�📁 Allowed roots: {os.getenv('ALLOWED_ROOTS')}")
-    logger.info(f"🎯 Ready for ChatGPT Custom GPT Actions (REST) and Connectors (MCP SSE)")
-    
+    logger.info("🎯 Ready for ChatGPT Custom GPT Actions (REST) and Connectors (MCP SSE)")
+
     uvicorn.run(app, host=host, port=port)

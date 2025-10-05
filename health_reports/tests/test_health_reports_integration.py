@@ -8,16 +8,15 @@
 Integration tests for health_reports module.
 """
 
-import pytest
 import unittest
-import asyncio
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module for integration testing
 try:
     import health_reports
 except ImportError:
-    pytest.skip(f"Module health_reports not available", allow_module_level=True)
+    pytest.skip("Module health_reports not available", allow_module_level=True)
 
 
 class TestHealthReportsIntegration(unittest.TestCase):

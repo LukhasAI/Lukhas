@@ -22,20 +22,18 @@ Constellation Framework: 🌊 E2E Performance Validation
 
 import asyncio
 import json
-import time
-import numpy as np
-from pathlib import Path
-from typing import Dict, List, Any
-from dataclasses import dataclass, asdict
-import pytest
 import logging
+import time
+from dataclasses import asdict, dataclass
+from pathlib import Path
+from typing import Any, Dict, List
 from unittest.mock import Mock, patch
 
+import numpy as np
+import pytest
+
 # Import MATRIZ components
-from lukhas.consciousness.matriz_thought_loop import (
-    MATRIZThoughtLoop,
-    MATRIZProcessingContext
-)
+from lukhas.consciousness.matriz_thought_loop import MATRIZProcessingContext, MATRIZThoughtLoop
 from lukhas.consciousness.types import ConsciousnessState
 
 logger = logging.getLogger(__name__)

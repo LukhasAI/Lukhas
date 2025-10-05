@@ -8,15 +8,15 @@
 Unit tests for pytest_asyncio module.
 """
 
-import pytest
 import unittest
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module components
 try:
     import pytest_asyncio
 except ImportError:
-    pytest.skip(f"Module pytest_asyncio not available", allow_module_level=True)
+    pytest.skip("Module pytest_asyncio not available", allow_module_level=True)
 
 
 class TestPytestAsyncioModule(unittest.TestCase):
@@ -81,7 +81,7 @@ class Testpytest_addoption(unittest.TestCase):
             from pytest_asyncio import pytest_addoption
             self.assertIsNotNone(pytest_addoption)
         except ImportError:
-            pytest.skip(f"Component pytest_addoption not available")
+            pytest.skip("Component pytest_addoption not available")
 
     def test_pytest_addoption_instantiation(self):
         """Test pytest_addoption can be instantiated."""
@@ -98,7 +98,7 @@ class Testpytest_configure(unittest.TestCase):
             from pytest_asyncio import pytest_configure
             self.assertIsNotNone(pytest_configure)
         except ImportError:
-            pytest.skip(f"Component pytest_configure not available")
+            pytest.skip("Component pytest_configure not available")
 
     def test_pytest_configure_instantiation(self):
         """Test pytest_configure can be instantiated."""

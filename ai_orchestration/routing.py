@@ -9,15 +9,17 @@ T4/0.01% Excellence: Production-ready routing with comprehensive monitoring.
 """
 
 from __future__ import annotations
+
 import hashlib
 import time
-import yaml
-from typing import Dict, List, Any, Optional, Union
 from dataclasses import dataclass
 from enum import Enum
 from pathlib import Path
+from typing import Any, Dict, List, Optional, Union
+
+import yaml
 from opentelemetry import trace
-from prometheus_client import Counter, Histogram, Gauge
+from prometheus_client import Counter, Gauge, Histogram
 
 tracer = trace.get_tracer(__name__)
 

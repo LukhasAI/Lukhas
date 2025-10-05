@@ -4,12 +4,13 @@ Batch Cockpit - One-command promotion conveyor execution
 Orchestrates: plan generation → move execution → validation → artifact updates → PR creation
 """
 
+import argparse
 import json
 import subprocess
 import sys
-import argparse
 from datetime import datetime, timezone
 from pathlib import Path
+
 
 def run_cmd(cmd: str, check: bool = True) -> subprocess.CompletedProcess:
     """Run shell command with status reporting"""
@@ -220,7 +221,7 @@ Co-Authored-By: Claude <noreply@anthropic.com>"""
 
         # Add dashboard comment
         if pr_number and pr_number.isdigit():
-            print(f"\n📊 STEP 7: Adding Dashboard Comment")
+            print("\n📊 STEP 7: Adding Dashboard Comment")
             run_cmd(f"python3 tools/dashboard_bot.py --mode pr-comment --pr-number {pr_number}", check=False)
 
     print("\n🎉 BATCH COCKPIT COMPLETE")

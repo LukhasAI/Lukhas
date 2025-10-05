@@ -17,25 +17,24 @@ Constellation Framework: Oracle Star (🔮) - Deep introspection and analysis
 """
 
 from __future__ import annotations
-import time
+
 import logging
 import statistics
-from typing import Dict, Any, Optional, List
-from dataclasses import dataclass, asdict
+import time
 import uuid
+from dataclasses import asdict, dataclass
+from typing import Any, Dict, List, Optional
 
 from opentelemetry import trace
-from prometheus_client import Counter, Histogram, Gauge
+from prometheus_client import Counter, Gauge, Histogram
 
 # Import LUKHAS types
-from .types import (
-    ConsciousnessState, ReflectionReport, AwarenessSnapshot
-)
+from .types import AwarenessSnapshot, ConsciousnessState, ReflectionReport
 
 # Import memory and observability systems
 try:
-    from lukhas.memory.fold_system import MemoryFoldSystem
     from lukhas.memory.backends.base import MemoryBackend
+    from lukhas.memory.fold_system import MemoryFoldSystem
     MEMORY_AVAILABLE = True
 except ImportError:
     MEMORY_AVAILABLE = False
@@ -52,9 +51,11 @@ except ImportError:
 # Import Guardian integration
 try:
     from .guardian_integration import (
-        ConsciousnessGuardianIntegration, GuardianValidationConfig,
-        ConsciousnessValidationContext, GuardianValidationType,
-        create_validation_context
+        ConsciousnessGuardianIntegration,
+        ConsciousnessValidationContext,
+        GuardianValidationConfig,
+        GuardianValidationType,
+        create_validation_context,
     )
     GUARDIAN_INTEGRATION_AVAILABLE = True
 except ImportError:

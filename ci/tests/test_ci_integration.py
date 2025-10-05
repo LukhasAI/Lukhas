@@ -8,16 +8,15 @@
 Integration tests for ci module.
 """
 
-import pytest
 import unittest
-import asyncio
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module for integration testing
 try:
     import ci
 except ImportError:
-    pytest.skip(f"Module ci not available", allow_module_level=True)
+    pytest.skip("Module ci not available", allow_module_level=True)
 
 
 class TestCiIntegration(unittest.TestCase):

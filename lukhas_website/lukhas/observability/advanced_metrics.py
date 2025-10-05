@@ -28,8 +28,8 @@ try:
 except ImportError:
     NUMPY_AVAILABLE = False
 
-from .prometheus_metrics import get_lukhas_metrics
 from .evidence_collection import EvidenceType, collect_evidence
+from .prometheus_metrics import get_lukhas_metrics
 
 
 class MetricSeverity(Enum):

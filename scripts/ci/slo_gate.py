@@ -22,13 +22,13 @@ Usage:
 """
 
 from __future__ import annotations
+
 import argparse
 import json
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import List, Dict
-
+from typing import Dict, List
 
 ROOT = Path(__file__).resolve().parents[2]
 REGISTRY = ROOT / "docs" / "_generated" / "MODULE_REGISTRY.json"

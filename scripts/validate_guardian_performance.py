@@ -16,28 +16,28 @@ Usage:
 Constellation Framework: 🛡️ Guardian Performance Validation
 """
 
+import argparse
 import asyncio
-import time
 import json
 import statistics
-import argparse
 import sys
-from pathlib import Path
-from typing import Dict, Any, List
+import time
 from datetime import datetime, timezone
+from pathlib import Path
+from typing import Any, Dict, List
 
 # Add LUKHAS to path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 # Import LUKHAS components
-from lukhas.consciousness.types import ConsciousnessState
 from lukhas.consciousness.guardian_integration import (
     ConsciousnessGuardianIntegration,
     GuardianValidationConfig,
     GuardianValidationType,
+    ValidationResult,
     create_validation_context,
-    ValidationResult
 )
+from lukhas.consciousness.types import ConsciousnessState
 
 
 class GuardianPerformanceValidator:
@@ -123,7 +123,7 @@ class GuardianPerformanceValidator:
                         violations.append(f"Detected unsafe pattern: {pattern}")
                         safe = False
 
-                from lukhas.governance.guardian.core import SafetyResult, EthicalSeverity
+                from lukhas.governance.guardian.core import EthicalSeverity, SafetyResult
                 return SafetyResult(
                     safe=safe,
                     risk_level=EthicalSeverity.HIGH if not safe else EthicalSeverity.LOW,
@@ -164,7 +164,7 @@ class GuardianPerformanceValidator:
         Returns:
             Comprehensive performance validation report
         """
-        print(f"🛡️ Starting Guardian Performance Validation")
+        print("🛡️ Starting Guardian Performance Validation")
         print(f"Iterations: {self.iterations}")
         print(f"Performance Targets: p95 < {self.p95_target_ms}ms, p99 < {self.p99_target_ms}ms")
         print(f"Drift Threshold: {self.drift_threshold}")

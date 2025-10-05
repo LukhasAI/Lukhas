@@ -18,27 +18,28 @@ Key Features:
 Constellation Framework: 🛡️ Guardian Excellence - Cryptographic Security
 """
 
-import os
-import time
-import secrets
-import logging
-from typing import Dict, Optional, Union, Any
-from dataclasses import dataclass, field
-from datetime import datetime, timezone, timedelta
-from enum import Enum
 import base64
+import logging
+import os
+import secrets
+import time
+from dataclasses import dataclass, field
+from datetime import datetime, timedelta, timezone
+from enum import Enum
+from typing import Any, Dict, Optional, Union
 
 # Cryptographic imports
 try:
+    import cryptography
+    from cryptography import x509
+    from cryptography.hazmat.backends import default_backend
+    from cryptography.hazmat.primitives import hashes, padding, serialization
+    from cryptography.hazmat.primitives.asymmetric import ec, ed25519, rsa
+    from cryptography.hazmat.primitives.asymmetric import padding as asym_padding
     from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
-    from cryptography.hazmat.primitives import hashes, serialization, padding
     from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
     from cryptography.hazmat.primitives.kdf.scrypt import Scrypt
-    from cryptography.hazmat.primitives.asymmetric import rsa, ec, ed25519, padding as asym_padding
-    from cryptography.hazmat.backends import default_backend
-    from cryptography import x509
     from cryptography.x509.oid import NameOID
-    import cryptography
     CRYPTOGRAPHY_AVAILABLE = True
 except ImportError:
     CRYPTOGRAPHY_AVAILABLE = False
@@ -46,7 +47,7 @@ except ImportError:
 # Argon2 support for password hashing
 try:
     from argon2 import PasswordHasher
-    from argon2.exceptions import VerifyMismatchError, HashingError
+    from argon2.exceptions import HashingError, VerifyMismatchError
     ARGON2_AVAILABLE = True
 except ImportError:
     ARGON2_AVAILABLE = False
@@ -863,7 +864,7 @@ if __name__ == "__main__":
         aes_result = em.encrypt(test_data, aes_key)
         aes_decrypted = em.decrypt(aes_result)
 
-        print(f"AES-256-GCM test:")
+        print("AES-256-GCM test:")
         print(f"  Original: {test_data}")
         print(f"  Decrypted: {aes_decrypted.decrypted_data.decode('utf-8')}")
         print(f"  Match: {test_data == aes_decrypted.decrypted_data.decode('utf-8')}")
@@ -872,7 +873,7 @@ if __name__ == "__main__":
         rsa_result = em.encrypt(test_data, rsa_key)
         rsa_decrypted = em.decrypt(rsa_result)
 
-        print(f"\nRSA-OAEP test:")
+        print("\nRSA-OAEP test:")
         print(f"  Original: {test_data}")
         print(f"  Decrypted: {rsa_decrypted.decrypted_data.decode('utf-8')}")
         print(f"  Match: {test_data == rsa_decrypted.decrypted_data.decode('utf-8')}")
@@ -883,7 +884,7 @@ if __name__ == "__main__":
         hashed = em.hash_password(password)
         verified = em.verify_password(password, hashed)
 
-        print(f"\nPassword hashing test:")
+        print("\nPassword hashing test:")
         print(f"  Password verified: {verified}")
 
         # Performance stats

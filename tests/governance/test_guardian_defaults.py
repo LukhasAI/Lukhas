@@ -8,9 +8,10 @@ Critical for T4/0.01% operational excellence.
 """
 
 import os
-import pytest
-from unittest.mock import patch
 from pathlib import Path
+from unittest.mock import patch
+
+import pytest
 
 from governance.guardian_system import GuardianSystem
 

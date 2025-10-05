@@ -6,18 +6,23 @@ breakthrough generation without human intervention.
 
 Integration with LUKHAS Constellation Framework (⚛️🧠🛡️)
 """
-from consciousness.qi import qi  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for Constellation Framework consciousness evolution
-from typing import List  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for core infrastructure (review and implement)
-import streamlit as st  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for core infrastructure (review and implement)
-
 import asyncio
 import logging
 import time
 import uuid
 from dataclasses import dataclass
 from datetime import datetime, timezone
-from typing import Any, Optional
+from typing import (
+    Any,
+    List,  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for core infrastructure (review and implement)
+    Optional,
+)
 
+import streamlit as st  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for core infrastructure (review and implement)
+
+from consciousness.qi import (
+    qi,  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for Constellation Framework consciousness evolution
+)
 from lukhas.core.container.service_container import ServiceContainer
 from lukhas.core.interfaces import CoreInterface
 from lukhas.core.symbolic_engine import SymbolicEffect, SymbolicEvent

@@ -8,16 +8,15 @@
 Integration tests for phase1_verification_pack module.
 """
 
-import pytest
 import unittest
-import asyncio
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module for integration testing
 try:
     import phase1_verification_pack
 except ImportError:
-    pytest.skip(f"Module phase1_verification_pack not available", allow_module_level=True)
+    pytest.skip("Module phase1_verification_pack not available", allow_module_level=True)
 
 
 class TestPhase1VerificationPackIntegration(unittest.TestCase):

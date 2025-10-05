@@ -7,10 +7,12 @@ Test our T4/0.01% Memory Event optimization implementation
 """
 
 import gc
-import psutil
 import time
 from collections import deque
-from memory.memory_event import MemoryEventFactory, MemoryEvent
+
+import psutil
+
+from memory.memory_event import MemoryEvent, MemoryEventFactory
 
 
 def test_memory_event_bounded_optimization():
@@ -49,7 +51,7 @@ def test_memory_event_bounded_optimization():
     expected_values = list(range(50, 150))
     actual_values = list(factory._drift_history)
     if actual_values == expected_values:
-        print(f"  ✅ Contains correct recent values")
+        print("  ✅ Contains correct recent values")
     else:
         print(f"  ❌ Wrong values: expected {expected_values[:5]}..., got {actual_values[:5]}...")
         return False
@@ -65,9 +67,9 @@ def test_memory_event_bounded_optimization():
     )
 
     if "driftTrend" in event.metadata["metrics"]:
-        print(f"  ✅ Empty deque handled gracefully")
+        print("  ✅ Empty deque handled gracefully")
     else:
-        print(f"  ❌ Empty deque not handled")
+        print("  ❌ Empty deque not handled")
         return False
 
     # Test 4: Event creation
@@ -84,9 +86,9 @@ def test_memory_event_bounded_optimization():
         return False
 
     if hasattr(event, 'data') and hasattr(event, 'metadata'):
-        print(f"  ✅ Event has required attributes")
+        print("  ✅ Event has required attributes")
     else:
-        print(f"  ❌ Event missing attributes")
+        print("  ❌ Event missing attributes")
         return False
 
     return True
@@ -220,10 +222,10 @@ def test_drift_trend_accuracy():
     print(f"  Difference: {abs(actual_trend - expected_trend):.6f}")
 
     if abs(actual_trend - expected_trend) < 0.001:
-        print(f"  ✅ Drift trend calculation accurate")
+        print("  ✅ Drift trend calculation accurate")
         return True
     else:
-        print(f"  ❌ Drift trend calculation inaccurate")
+        print("  ❌ Drift trend calculation inaccurate")
         return False
 
 

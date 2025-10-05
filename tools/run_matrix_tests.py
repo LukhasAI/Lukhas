@@ -6,15 +6,16 @@ Executes authorization test matrices against OPA policies and generates
 comprehensive results for CI/CD validation.
 """
 
-import yaml
-import json
-import sys
 import argparse
-from pathlib import Path
-from typing import Dict, List, Any
-import logging
 import glob
+import json
+import logging
+import sys
 from datetime import datetime
+from pathlib import Path
+from typing import Any, Dict, List
+
+import yaml
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -42,7 +43,7 @@ class MatrixTestRunner:
             'start_time': datetime.utcnow().isoformat() + 'Z'
         }
 
-        logger.info(f"Initialized MatrixTestRunner:")
+        logger.info("Initialized MatrixTestRunner:")
         logger.info(f"  Fixtures directory: {self.fixtures_dir}")
         logger.info(f"  Matrix directory: {self.matrix_dir}")
         logger.info(f"  Contracts directory: {self.contracts_dir}")
@@ -301,7 +302,7 @@ class MatrixTestRunner:
 
         # Print summary
         summary = results['summary']
-        logger.info(f"Authorization Matrix Test Results:")
+        logger.info("Authorization Matrix Test Results:")
         logger.info(f"  Total matrices: {summary['total_matrices']}")
         logger.info(f"  Total tests: {summary['total_tests']}")
         logger.info(f"  Passed: {summary['passed']}")

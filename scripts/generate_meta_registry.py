@@ -3,9 +3,10 @@
 Fuses MODULE_REGISTRY + coverage + benchmarks into single analytics source.
 """
 from __future__ import annotations
+
 import json
-from pathlib import Path
 from datetime import datetime, timezone
+from pathlib import Path
 
 
 def utc() -> str:
@@ -139,7 +140,7 @@ def main():
     output_path.parent.mkdir(parents=True, exist_ok=True)
     output_path.write_text(json.dumps(meta_registry, indent=2) + "\n", encoding="utf-8")
 
-    print(f"✅ Generated META_REGISTRY.json")
+    print("✅ Generated META_REGISTRY.json")
     print(f"   Location: {output_path}")
     print(f"   Modules: {meta_registry['module_count']}")
     print(f"   With coverage: {meta_registry['summary']['with_coverage']}")

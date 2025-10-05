@@ -16,14 +16,16 @@ Constellation Framework: Identity ⚛️ + Guardian 🛡️ + Memory 🗃️ coo
 """
 
 from __future__ import annotations
-import hashlib
+
 import base64
+import hashlib
 import json
 import logging
-from typing import Dict, Any, Optional, List, Set, Callable
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
+from typing import Any, Callable, Dict, List, Optional, Set
+
 from cryptography.fernet import Fernet
 from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC

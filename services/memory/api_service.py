@@ -16,27 +16,24 @@ Features:
 - Rate limiting and abuse protection
 """
 
-import time
 import logging
-from typing import Dict, Any, List, Optional
+import time
 from contextlib import asynccontextmanager
+from typing import Any, Dict, List, Optional
 
-from fastapi import FastAPI, HTTPException, Request, Depends, status
+import uvicorn
+from fastapi import Depends, FastAPI, HTTPException, Request, status
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.middleware.gzip import GZipMiddleware
 from fastapi.responses import JSONResponse, PlainTextResponse
 from pydantic import BaseModel, Field
-import uvicorn
 
-from .api_read import MemoryReadService, SearchQuery, SearchType, SearchResponse
-from .api_write import MemoryWriteService, WriteOperation, BatchWriteOperation, WriteResult
-from .circuit_breaker import CircuitBreakerRegistry, CircuitBreakerFactory, CircuitBreakerError
-from .backpressure import AdaptiveBackpressure, BackpressureFactory, BackpressureMode
-from .metrics import (
-    time_async_operation, get_t4_compliance_report,
-    export_prometheus_metrics
-)
 from .adapters.vector_store_base import VectorStoreFactory, VectorStoreType
+from .api_read import MemoryReadService, SearchQuery, SearchResponse, SearchType
+from .api_write import BatchWriteOperation, MemoryWriteService, WriteOperation, WriteResult
+from .backpressure import AdaptiveBackpressure, BackpressureFactory, BackpressureMode
+from .circuit_breaker import CircuitBreakerError, CircuitBreakerFactory, CircuitBreakerRegistry
+from .metrics import export_prometheus_metrics, get_t4_compliance_report, time_async_operation
 
 logger = logging.getLogger(__name__)
 

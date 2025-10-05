@@ -10,10 +10,10 @@ import argparse
 import hashlib
 import json
 import time
-from dataclasses import dataclass, asdict
-from pathlib import Path
-from typing import List, Dict, Any, Optional
 import uuid
+from dataclasses import asdict, dataclass
+from pathlib import Path
+from typing import Any, Dict, List, Optional
 
 
 @dataclass
@@ -504,7 +504,7 @@ def main():
             chain, verification_results, args.output
         )
 
-        print(f"✅ Merkle chain created")
+        print("✅ Merkle chain created")
         print(f"Root hash: {chain.current_root}")
         print(f"Tree size: {chain.tree_size}")
         print(f"Package hash: {package_hash}")

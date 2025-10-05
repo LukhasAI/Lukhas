@@ -8,16 +8,15 @@
 Integration tests for memory module.
 """
 
-import pytest
 import unittest
-import asyncio
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module for integration testing
 try:
     import memory
 except ImportError:
-    pytest.skip(f"Module memory not available", allow_module_level=True)
+    pytest.skip("Module memory not available", allow_module_level=True)
 
 
 class TestMemoryIntegration(unittest.TestCase):

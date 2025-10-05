@@ -27,16 +27,17 @@ import time
 import uuid
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Dict, List, Optional, Any
+from typing import Any, Dict, List, Optional
 
 from opentelemetry import trace
-from prometheus_client import Counter, Histogram, Gauge
+from prometheus_client import Counter, Gauge, Histogram
 
-from .routing_config import get_routing_config_manager
-from .routing_strategies import get_routing_engine, RoutingContext, RoutingResult
+from .context_preservation import ContextType, get_context_preservation_engine
 from .health_monitor import get_health_monitor
-from .context_preservation import get_context_preservation_engine, ContextType
-from .kernel_bus import get_kernel_bus, emit as bus_emit
+from .kernel_bus import emit as bus_emit
+from .kernel_bus import get_kernel_bus
+from .routing_config import get_routing_config_manager
+from .routing_strategies import RoutingContext, RoutingResult, get_routing_engine
 
 tracer = trace.get_tracer(__name__)
 logger = logging.getLogger(__name__)
@@ -358,7 +359,7 @@ class ExternalizedOrchestrator:
 
             try:
                 # Get provider client
-                from .providers import create_provider_client, AIProvider
+                from .providers import AIProvider, create_provider_client
 
                 provider_enum = AIProvider(provider)
                 client = create_provider_client(provider_enum)

@@ -7,17 +7,17 @@ behavior and current load - the kind of intelligent resilience that prevents
 cascading failures and maintains system stability under stress.
 """
 
-import time
 import asyncio
 import random
 import statistics
-from typing import Dict, Optional, Callable, Any
-from dataclasses import dataclass
+import time
 from collections import deque
+from dataclasses import dataclass
 from enum import Enum
+from typing import Any, Callable, Dict, Optional
 
-from lukhas.observability.prometheus_metrics import LUKHASMetrics
 from lukhas.observability.opentelemetry_tracing import LUKHASTracer
+from lukhas.observability.prometheus_metrics import LUKHASMetrics
 
 
 class BackoffStrategy(Enum):
@@ -159,12 +159,12 @@ class AdaptiveTimeoutManager:
                 result = await asyncio.wait_for(coro_func(*args, **kwargs), timeout / 1000.0)
                 return result
 
-            except asyncio.TimeoutError as e:
+            except asyncio.TimeoutError:
                 success = False
                 self.metrics.record_timeout(operation, timeout)
                 raise
 
-            except Exception as e:
+            except Exception:
                 success = False
                 raise
 

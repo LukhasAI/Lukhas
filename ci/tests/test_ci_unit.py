@@ -8,15 +8,15 @@
 Unit tests for ci module.
 """
 
-import pytest
 import unittest
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module components
 try:
     import ci
 except ImportError:
-    pytest.skip(f"Module ci not available", allow_module_level=True)
+    pytest.skip("Module ci not available", allow_module_level=True)
 
 
 class TestCiModule(unittest.TestCase):

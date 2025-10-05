@@ -4,9 +4,9 @@ LUKHAS Context File Updater
 Updates claude.me and lukhas_context.md files with current architecture reality
 """
 
-from pathlib import Path
-from typing import List, Dict, Tuple
 from datetime import datetime
+from pathlib import Path
+from typing import Dict, List, Tuple
 
 
 class ContextUpdater:

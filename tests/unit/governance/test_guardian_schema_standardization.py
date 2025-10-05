@@ -8,13 +8,14 @@ including unit tests, property tests, and contract validation.
 
 import json
 import os
-import pytest
+import sys
 import time
 import uuid
 from pathlib import Path
 from unittest.mock import patch
 
-import sys
+import pytest
+
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '../../..'))
 
 from governance.guardian_system import GuardianSystem
@@ -171,7 +172,8 @@ class TestGuardianResponseSchema:
     @pytest.mark.property
     def test_schema_invariants(self):
         """Property-based tests for schema invariants"""
-        from hypothesis import given, strategies as st
+        from hypothesis import given
+        from hypothesis import strategies as st
 
         @given(st.dictionaries(st.text(), st.text()))
         def check_schema_invariants(operation_data):

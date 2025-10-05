@@ -14,12 +14,14 @@ Usage:
 """
 
 import asyncio
-import time
-import statistics
 import random
-from typing import List, Dict, Any
+import statistics
+import time
 from dataclasses import dataclass
+from typing import Any, Dict, List
+
 import pytest
+
 
 @dataclass
 class MemoryItem:
@@ -200,7 +202,7 @@ class MemorySystemBenchmarks:
             "performance_grade": "excellent" if p95 < 50 else "good" if p95 < 100 else "needs_improvement"
         }
 
-        print(f"📊 Recall Latency Results:")
+        print("📊 Recall Latency Results:")
         print(f"   Mean: {mean_latency:.1f}ms, P50: {p50:.1f}ms, P95: {p95:.1f}ms")
         print(f"   SLO Compliance: {'✅ PASS' if p95 < 100 else '❌ FAIL'} (P95 < 100ms)")
 
@@ -258,7 +260,7 @@ class MemorySystemBenchmarks:
             }
         }
 
-        print(f"📊 Cascade Prevention Results:")
+        print("📊 Cascade Prevention Results:")
         print(f"   Prevention Rate: {prevention_rate:.3f}% (target: >99.7%)")
         print(f"   Success Rate: {operation_success_rate:.1f}%")
         print(f"   SLO Compliance: {'✅ PASS' if prevention_rate >= 99.7 else '❌ FAIL'}")
@@ -313,7 +315,7 @@ class MemorySystemBenchmarks:
             }
         }
 
-        print(f"📊 Consolidation Schedule Results:")
+        print("📊 Consolidation Schedule Results:")
         for name, data in schedule_results.items():
             print(f"   {name}: {data['consolidation_time_ms']:.1f}ms, "
                   f"{data['items_processed']} items, "
@@ -403,7 +405,7 @@ class MemorySystemBenchmarks:
             }
         }
 
-        print(f"📊 Stress Test Results:")
+        print("📊 Stress Test Results:")
         print(f"   Loaded: {loaded_items} items in {load_time:.1f}ms ({load_throughput:.1f} items/sec)")
         print(f"   Queries: {stress_queries} in {query_time:.1f}ms (avg: {avg_query_latency:.1f}ms)")
         print(f"   System Health: {results['system_health']['capacity_utilization']}% capacity used")

@@ -5,13 +5,14 @@ Performance benchmarks for async orchestrator (env-gated).
 
 import asyncio
 import os
-import time
 import statistics as stats
+import time
+
 import pytest
 
-from lukhas.core.registry import register
 from lukhas.core.orchestration.async_orchestrator import AsyncOrchestrator
-from lukhas.nodes.example_nodes import IntentNode, ThoughtNode, DecisionNode
+from lukhas.core.registry import register
+from lukhas.nodes.example_nodes import DecisionNode, IntentNode, ThoughtNode
 
 
 @pytest.fixture
@@ -72,7 +73,7 @@ async def test_pipeline_p95_under_budget(fast_orchestrator, register_fast_nodes)
     p99 = latencies[int(0.99 * len(latencies))]
     mean = stats.mean(latencies)
 
-    print(f"\nPerformance Results:")
+    print("\nPerformance Results:")
     print(f"  Mean: {mean:.2f}ms")
     print(f"  P50:  {p50:.2f}ms")
     print(f"  P95:  {p95:.2f}ms")
@@ -115,7 +116,7 @@ async def test_throughput_benchmark(fast_orchestrator, register_fast_nodes):
 
     throughput_rps = concurrent_requests / total_time
 
-    print(f"\nThroughput Results:")
+    print("\nThroughput Results:")
     print(f"  Concurrent requests: {concurrent_requests}")
     print(f"  Total time: {total_time:.3f}s")
     print(f"  Success rate: {success_rate:.2%}")
@@ -158,7 +159,7 @@ async def test_memory_efficiency(fast_orchestrator, register_fast_nodes):
     total_diff = sum(stat.size_diff for stat in top_stats)
     total_diff_mb = total_diff / 1024 / 1024
 
-    print(f"\nMemory Results:")
+    print("\nMemory Results:")
     print(f"  Memory difference: {total_diff_mb:.2f} MB")
 
     # Memory should not grow excessively
@@ -187,7 +188,7 @@ def test_cold_start_performance():
     end_time = time.perf_counter()
     init_time_ms = (end_time - start_time) * 1000
 
-    print(f"\nCold Start Results:")
+    print("\nCold Start Results:")
     print(f"  Initialization time: {init_time_ms:.2f}ms")
 
     # Initialization should be fast

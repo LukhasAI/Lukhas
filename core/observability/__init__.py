@@ -168,13 +168,13 @@ try:
     from .constellation_framework_monitor import (
         APIPerformanceMetric,
         AuthenticationEvent,
-        InteractionType,
-        PerformanceMetric,
         ConstellationComponent,
         ConstellationFrameworkMonitor,
         ConstellationHealthStatus,
         ConstellationInteraction,
         ConstellationReport,
+        InteractionType,
+        PerformanceMetric,
     )
 
     TRINITY_MONITORING_AVAILABLE = True

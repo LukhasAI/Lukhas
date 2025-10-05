@@ -16,13 +16,13 @@ Features:
 """
 
 import asyncio
-import time
 import logging
-from typing import Dict, Any, Optional, Callable, Awaitable
+import statistics
+import time
+from collections import deque
 from dataclasses import dataclass
 from enum import Enum
-import statistics
-from collections import deque
+from typing import Any, Awaitable, Callable, Dict, Optional
 
 logger = logging.getLogger(__name__)
 

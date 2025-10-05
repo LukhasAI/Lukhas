@@ -33,18 +33,18 @@ from abc import ABC, abstractmethod
 from collections import defaultdict
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Dict, List, Optional, Any
+from typing import Any, Dict, List, Optional
 
 from opentelemetry import trace
 from prometheus_client import Counter, Gauge
 
 from .routing_config import (
-    RoutingStrategy,
-    RoutingRule,
-    ProviderHealth,
     HealthStatus,
+    ProviderHealth,
+    RoutingRule,
+    RoutingStrategy,
     routing_decisions_total,
-    routing_latency_seconds
+    routing_latency_seconds,
 )
 
 tracer = trace.get_tracer(__name__)
@@ -545,7 +545,7 @@ class HybridStrategy(BaseRoutingStrategy):
                 result = await strategy.select_provider(rule, context, provider_health, circuit_breakers)
                 if result:
                     results[strategy_name] = result
-            except Exception as e:
+            except Exception:
                 continue
 
         if not results:

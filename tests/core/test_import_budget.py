@@ -1,4 +1,6 @@
-import time, importlib
+import importlib
+import time
+
 
 def test_core_import_under_250ms():
     """Keep alias import cost reasonable for large codebase."""

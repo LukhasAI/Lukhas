@@ -17,15 +17,13 @@ Features:
 Constellation Framework: 🌊 Flow Star Integration
 """
 
-import time
 import logging
-from typing import Any, Dict, List, Optional
+import time
 from dataclasses import dataclass
 from enum import Enum
+from typing import Any, Dict, List, Optional
 
-from ..cognitive_core.reasoning.deep_inference_engine import (
-    DeepInferenceEngine, InferenceResult
-)
+from ..cognitive_core.reasoning.deep_inference_engine import DeepInferenceEngine, InferenceResult
 from .types import ConsciousnessState
 
 logger = logging.getLogger(__name__)

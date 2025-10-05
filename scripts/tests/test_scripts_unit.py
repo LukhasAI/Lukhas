@@ -8,15 +8,15 @@
 Unit tests for scripts module.
 """
 
-import pytest
 import unittest
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module components
 try:
     import scripts
 except ImportError:
-    pytest.skip(f"Module scripts not available", allow_module_level=True)
+    pytest.skip("Module scripts not available", allow_module_level=True)
 
 
 class TestScriptsModule(unittest.TestCase):
@@ -81,7 +81,7 @@ class TestQuarantineDisabledOrchestrator(unittest.TestCase):
             from scripts.ablation_test import QuarantineDisabledOrchestrator
             self.assertIsNotNone(QuarantineDisabledOrchestrator)
         except ImportError:
-            pytest.skip(f"Component QuarantineDisabledOrchestrator not available")
+            pytest.skip("Component QuarantineDisabledOrchestrator not available")
 
     def test_quarantinedisabledorchestrator_instantiation(self):
         """Test QuarantineDisabledOrchestrator can be instantiated."""
@@ -98,7 +98,7 @@ class TestAttackResult(unittest.TestCase):
             from scripts.abuse_tester import AttackResult
             self.assertIsNotNone(AttackResult)
         except ImportError:
-            pytest.skip(f"Component AttackResult not available")
+            pytest.skip("Component AttackResult not available")
 
     def test_attackresult_instantiation(self):
         """Test AttackResult can be instantiated."""
@@ -115,7 +115,7 @@ class TestLUKHASAbuseTestFramework(unittest.TestCase):
             from scripts.abuse_tester import LUKHASAbuseTestFramework
             self.assertIsNotNone(LUKHASAbuseTestFramework)
         except ImportError:
-            pytest.skip(f"Component LUKHASAbuseTestFramework not available")
+            pytest.skip("Component LUKHASAbuseTestFramework not available")
 
     def test_lukhasabusetestframework_instantiation(self):
         """Test LUKHASAbuseTestFramework can be instantiated."""

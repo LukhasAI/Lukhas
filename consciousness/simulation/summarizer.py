@@ -1,5 +1,7 @@
 from __future__ import annotations
-from typing import Dict, Any, List, TypedDict
+
+from typing import Any, Dict, List, TypedDict
+
 
 class DreamResult(TypedDict):
     shards: list[dict]

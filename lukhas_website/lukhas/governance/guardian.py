@@ -7,13 +7,13 @@ Guardian system with environment-based implementation selection.
 Production environments use full validation, dev/staging use mock.
 """
 
-from typing import Dict, Any, Optional, List, Union
 import asyncio
 import logging
 import os
 import time
 from datetime import datetime, timedelta, timezone
 from enum import Enum
+from typing import Any, Dict, List, Optional, Union
 
 logger = logging.getLogger(__name__)
 

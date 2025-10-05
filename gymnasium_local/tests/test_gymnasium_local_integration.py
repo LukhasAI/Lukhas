@@ -8,16 +8,15 @@
 Integration tests for gymnasium_local module.
 """
 
-import pytest
 import unittest
-import asyncio
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module for integration testing
 try:
     import gymnasium_local
 except ImportError:
-    pytest.skip(f"Module gymnasium_local not available", allow_module_level=True)
+    pytest.skip("Module gymnasium_local not available", allow_module_level=True)
 
 
 class TestGymnasiumLocalIntegration(unittest.TestCase):

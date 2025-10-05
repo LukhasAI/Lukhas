@@ -8,15 +8,15 @@
 Unit tests for memory module.
 """
 
-import pytest
 import unittest
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module components
 try:
     import memory
 except ImportError:
-    pytest.skip(f"Module memory not available", allow_module_level=True)
+    pytest.skip("Module memory not available", allow_module_level=True)
 
 
 class TestMemoryModule(unittest.TestCase):
@@ -81,7 +81,7 @@ class TestFallbackFoldLineageTracker(unittest.TestCase):
             from memory import FallbackFoldLineageTracker
             self.assertIsNotNone(FallbackFoldLineageTracker)
         except ImportError:
-            pytest.skip(f"Component FallbackFoldLineageTracker not available")
+            pytest.skip("Component FallbackFoldLineageTracker not available")
 
     def test_fallbackfoldlineagetracker_instantiation(self):
         """Test FallbackFoldLineageTracker can be instantiated."""
@@ -98,7 +98,7 @@ class TestFallbackFoldManager(unittest.TestCase):
             from memory import FallbackFoldManager
             self.assertIsNotNone(FallbackFoldManager)
         except ImportError:
-            pytest.skip(f"Component FallbackFoldManager not available")
+            pytest.skip("Component FallbackFoldManager not available")
 
     def test_fallbackfoldmanager_instantiation(self):
         """Test FallbackFoldManager can be instantiated."""
@@ -115,7 +115,7 @@ class TestFallbackHierarchicalDataStore(unittest.TestCase):
             from memory import FallbackHierarchicalDataStore
             self.assertIsNotNone(FallbackHierarchicalDataStore)
         except ImportError:
-            pytest.skip(f"Component FallbackHierarchicalDataStore not available")
+            pytest.skip("Component FallbackHierarchicalDataStore not available")
 
     def test_fallbackhierarchicaldatastore_instantiation(self):
         """Test FallbackHierarchicalDataStore can be instantiated."""

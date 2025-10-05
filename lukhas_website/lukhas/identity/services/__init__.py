@@ -4,15 +4,15 @@ LUKHAS Identity Services
 Individual service implementations for T4 architecture
 """
 
-from .token_service import TokenService
-from .session_service import SessionService, Session
 from .authenticator_service import (
-    PasswordAuthenticator,
     ApiKeyAuthenticator,
+    PasswordAuthenticator,
     UserCredentials,
+    create_api_key_authenticator,
     create_password_authenticator,
-    create_api_key_authenticator
 )
+from .session_service import Session, SessionService
+from .token_service import TokenService
 
 __all__ = [
     "TokenService",

@@ -4,13 +4,14 @@ Burst Cockpit - Weekend/Sprint mode for accelerated candidate/ drain
 Orchestrates: multi-batch sequences with validation checkpoints and rollback safety
 """
 
+import argparse
 import json
 import subprocess
 import sys
-import argparse
+import time
 from datetime import datetime, timezone
 from pathlib import Path
-import time
+
 
 def run_cmd(cmd: str, check: bool = True) -> subprocess.CompletedProcess:
     """Run shell command with status reporting"""
@@ -165,22 +166,22 @@ def main():
         args.target = args.max_batches * args.batch_size
         print(f"🎯 Adjusted target to {args.target} files")
 
-    print(f"\n🎯 BURST PLAN:")
+    print("\n🎯 BURST PLAN:")
     print(f"   Target files: {args.target}")
     print(f"   Batch size: {args.batch_size}")
     print(f"   Estimated batches: {(args.target + args.batch_size - 1) // args.batch_size}")
-    print(f"   Validation checkpoints: Every 2 batches")
+    print("   Validation checkpoints: Every 2 batches")
 
     if args.dry_run:
         print("🏁 Dry run complete - burst plan ready")
         return
 
     # Execute burst sequence
-    print(f"\n⚡ INITIATING BURST SEQUENCE")
+    print("\n⚡ INITIATING BURST SEQUENCE")
     result = execute_batch_sequence(args.target, args.batch_size)
 
     # Final validation
-    print(f"\n🔍 FINAL VALIDATION")
+    print("\n🔍 FINAL VALIDATION")
     final_validation = validate_checkpoint()
 
     # Create burst checkpoint
@@ -191,7 +192,7 @@ def main():
     )
 
     # Burst summary
-    print(f"\n💥 BURST COMPLETE")
+    print("\n💥 BURST COMPLETE")
     print("=" * 60)
     print(f"✅ Batches executed: {len(result['batches_executed'])}")
     print(f"📦 Files promoted: {result['total_promoted']}")
@@ -201,7 +202,7 @@ def main():
 
     # Create summary PR if successful
     if result["total_promoted"] > 0 and final_validation["matriz"] and final_validation["imports"]:
-        print(f"\n🚀 Creating burst summary PR...")
+        print("\n🚀 Creating burst summary PR...")
 
         pr_title = f"feat(ops): burst promotion session - {result['total_promoted']} files promoted"
         pr_body = f"""## Burst Session Summary
@@ -247,7 +248,7 @@ def main():
             print(f"📊 Adding dashboard comment to PR #{pr_number}")
             run_cmd(f"python3 tools/dashboard_bot.py --mode pr-comment --pr-number {pr_number}", check=False)
 
-    print(f"📋 Checkpoint saved: artifacts/burst_checkpoint.json")
+    print("📋 Checkpoint saved: artifacts/burst_checkpoint.json")
 
 if __name__ == "__main__":
     main()

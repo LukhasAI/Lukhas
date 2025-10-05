@@ -11,6 +11,7 @@ Usage:
       # proceed with memory operation
 """
 from __future__ import annotations
+
 from dataclasses import dataclass
 
 try:

@@ -875,7 +875,7 @@ def main():
         include_complexity=not args.no_complexity
     )
 
-    print(f"✅ Analysis complete!")
+    print("✅ Analysis complete!")
     print(f"Overall coverage: {metrics.coverage_overall:.2f}%")
     print(f"Total tests: {metrics.total_tests}")
     print(f"Execution time: {metrics.execution_time:.2f}s")

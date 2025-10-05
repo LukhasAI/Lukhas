@@ -8,12 +8,10 @@ import asyncio
 import json
 import logging
 
-from .multi_tenant import (
-    TenantManager, TenantType
-)
-from .token_generator import TokenGenerator, EnvironmentSecretProvider
-from .token_validator import TokenValidator
+from .multi_tenant import TenantManager, TenantType
 from .tier_system import TierLevel
+from .token_generator import EnvironmentSecretProvider, TokenGenerator
+from .token_validator import TokenValidator
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -251,10 +249,10 @@ async def test_multi_tenant_integration():
     logger.info("✅ Guardian integration active")
     logger.info("✅ Hierarchical tenant organization supported")
 
-    logger.info(f"\n📊 Final Statistics:")
-    logger.info(f"  - Tenants created: 2")
-    logger.info(f"  - Users added: 2")
-    logger.info(f"  - Tokens generated: 12")
+    logger.info("\n📊 Final Statistics:")
+    logger.info("  - Tenants created: 2")
+    logger.info("  - Users added: 2")
+    logger.info("  - Tokens generated: 12")
     logger.info(f"  - Guardian validations: {guardian.validation_calls}")
     logger.info(f"  - Guardian monitoring: {guardian.monitor_calls}")
 

@@ -104,8 +104,8 @@ class BridgeTraceLogger:
 
     def _setup_file_logging(self):
         """Setup file-based trace logging"""
-        import logging.handlers
         import json
+        import logging.handlers
         from pathlib import Path
 
         # Create logs directory

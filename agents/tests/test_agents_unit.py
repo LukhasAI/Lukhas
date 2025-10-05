@@ -8,15 +8,15 @@
 Unit tests for agents module.
 """
 
-import pytest
 import unittest
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module components
 try:
     import agents
 except ImportError:
-    pytest.skip(f"Module agents not available", allow_module_level=True)
+    pytest.skip("Module agents not available", allow_module_level=True)
 
 
 class TestAgentsModule(unittest.TestCase):

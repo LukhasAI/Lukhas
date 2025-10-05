@@ -5,7 +5,7 @@ Centralized metrics collection for Prometheus/Grafana monitoring
 """
 
 try:
-    from prometheus_client import Counter, Histogram, Gauge
+    from prometheus_client import Counter, Gauge, Histogram
     PROMETHEUS_AVAILABLE = True
 except ImportError:
     # Fallback stubs for environments without prometheus_client

@@ -8,16 +8,15 @@
 Integration tests for perp_runs module.
 """
 
-import pytest
 import unittest
-import asyncio
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module for integration testing
 try:
     import perp_runs
 except ImportError:
-    pytest.skip(f"Module perp_runs not available", allow_module_level=True)
+    pytest.skip("Module perp_runs not available", allow_module_level=True)
 
 
 class TestPerpRunsIntegration(unittest.TestCase):

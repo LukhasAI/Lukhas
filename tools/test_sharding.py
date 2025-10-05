@@ -4,12 +4,12 @@ Test sharding tool for LUKHAS CI performance optimization.
 Distributes tests across parallel workers for faster execution.
 """
 
-import sys
-import pathlib
-import hashlib
-import json
-from typing import List, Dict, Any, Set
 import argparse
+import json
+import pathlib
+import sys
+from typing import Any, Dict, List
+
 
 class TestSharding:
     def __init__(self):

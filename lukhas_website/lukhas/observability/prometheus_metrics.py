@@ -13,17 +13,24 @@ Features:
 """
 
 import os
-import time
 import threading
+import time
 from collections import defaultdict, deque
 from dataclasses import dataclass
 from typing import Any, Dict, Optional
 
 try:
     from prometheus_client import (
-        Counter, Histogram, Gauge, Summary, Info,
-        CollectorRegistry, generate_latest, CONTENT_TYPE_LATEST,
-        start_http_server, push_to_gateway
+        CONTENT_TYPE_LATEST,
+        CollectorRegistry,
+        Counter,
+        Gauge,
+        Histogram,
+        Info,
+        Summary,
+        generate_latest,
+        push_to_gateway,
+        start_http_server,
     )
     PROMETHEUS_AVAILABLE = True
 except ImportError:

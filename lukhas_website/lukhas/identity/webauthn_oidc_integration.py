@@ -32,9 +32,9 @@ import jwt
 import structlog
 from cryptography.hazmat.primitives.asymmetric import rsa
 
-from .webauthn_security_hardening import WebAuthnSecurityHardening
-from .oidc_security_hardening import OIDCSecurityHardening
 from .oidc.discovery import DiscoveryProvider
+from .oidc_security_hardening import OIDCSecurityHardening
+from .webauthn_security_hardening import WebAuthnSecurityHardening
 
 logger = structlog.get_logger(__name__)
 

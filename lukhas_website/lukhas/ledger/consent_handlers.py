@@ -11,23 +11,23 @@ import asyncio
 import json
 import logging
 import sqlite3
+import threading
 import time
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Dict, List, Optional
-import threading
 
+from .event_bus import AsyncEventBus, EventOffset, EventSubscriber
 from .events import (
+    ConsentCheckedEvent,
     ConsentEvent,
     ConsentGrantedEvent,
     ConsentRevokedEvent,
-    ConsentCheckedEvent,
-    TraceCreatedEvent,
     EventType,
+    TraceCreatedEvent,
 )
-from .event_bus import AsyncEventBus, EventOffset, EventSubscriber
 
 logger = logging.getLogger(__name__)
 

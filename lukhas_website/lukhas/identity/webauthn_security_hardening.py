@@ -16,17 +16,17 @@ Features:
 """
 
 import hashlib
-import time
-import logging
-from typing import Dict, Any, Optional, List, Tuple, Set
-from dataclasses import dataclass, field
-from enum import Enum
-from datetime import datetime, timedelta, timezone
-from collections import defaultdict, deque
 import json
+import logging
 import secrets
+import time
+from collections import defaultdict, deque
+from dataclasses import dataclass, field
+from datetime import datetime, timedelta, timezone
+from enum import Enum
+from typing import Any, Dict, List, Optional, Set, Tuple
 
-from .webauthn_production import WebAuthnCredential, CredentialStatus
+from .webauthn_production import CredentialStatus, WebAuthnCredential
 
 logger = logging.getLogger(__name__)
 

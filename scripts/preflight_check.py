@@ -19,9 +19,10 @@ import platform
 import subprocess
 import sys
 import time
-import psutil
 from pathlib import Path
 from typing import List, Tuple
+
+import psutil
 
 
 class PreflightValidator:
@@ -216,7 +217,7 @@ class PreflightValidator:
 
             if ret != 0:
                 self.add_check("tools", tool, "FAIL",
-                              f"Tool not found or not executable")
+                              "Tool not found or not executable")
                 continue
 
             # Extract version (simplified)
@@ -292,7 +293,7 @@ class PreflightValidator:
             if disk_io:
                 # Check if there's significant disk activity (heuristic)
                 self.add_check("noise", "disk_io", "PASS",
-                              f"Disk I/O monitoring available")
+                              "Disk I/O monitoring available")
             else:
                 self.add_check("noise", "disk_io", "SKIP",
                               "Disk I/O stats not available", False)

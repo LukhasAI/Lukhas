@@ -8,18 +8,19 @@ Validates P95 latency stays within SLO (<250ms) under stress conditions.
 # ΛTAG: orchestrator_stress_tests, performance_validation
 """
 
-import pytest
 import asyncio
-import time
 import statistics
+import time
 from datetime import datetime
-from typing import Dict, Any, Tuple
+from typing import Any, Dict, Tuple
+
+import pytest
 
 try:
-    from lukhas.core.matriz.async_orchestrator import AsyncOrchestrator
     from lukhas.core.interfaces import ICognitiveNode
-    from lukhas.observability.prometheus_metrics import LUKHASMetrics
+    from lukhas.core.matriz.async_orchestrator import AsyncOrchestrator
     from lukhas.core.registry import get_plugin_registry
+    from lukhas.observability.prometheus_metrics import LUKHASMetrics
     ORCHESTRATOR_AVAILABLE = True
 except ImportError:
     # Fallback for testing without full orchestrator
@@ -194,7 +195,7 @@ class TestOrchestratorStressTesting:
         success_rate = len(successful_requests) / total_requests
         failure_rate = len(failed_requests) / total_requests
 
-        print(f"\nStress Test Results:")
+        print("\nStress Test Results:")
         print(f"  Total requests: {total_requests}")
         print(f"  Successful requests: {len(successful_requests)}")
         print(f"  Failed requests: {len(failed_requests)}")
@@ -211,7 +212,7 @@ class TestOrchestratorStressTesting:
 
         # Print first few failures for debugging
         if failed_requests:
-            print(f"\nFirst 5 failures:")
+            print("\nFirst 5 failures:")
             for failure in failed_requests[:5]:
                 print(f"  {failure}")
 
@@ -292,7 +293,7 @@ class TestOrchestratorStressTesting:
         max_batch_duration = max(batch_durations)
         success_rate = total_successful / total_requests if total_requests > 0 else 0
 
-        print(f"\nSustained Load Test Results:")
+        print("\nSustained Load Test Results:")
         print(f"  Duration: {test_duration}s")
         print(f"  Target RPS: {rps}")
         print(f"  Total batches: {total_batches}")
@@ -362,7 +363,7 @@ class TestOrchestratorStressTesting:
             if "circuit" in r.get("error", "").lower()
         )
 
-        print(f"\nCircuit Breaker Test Results:")
+        print("\nCircuit Breaker Test Results:")
         print(f"  Total requests: {len(cb_results)}")
         print(f"  Successful requests: {len(successful_requests)}")
         print(f"  Failed requests: {len(failed_requests)}")
@@ -436,7 +437,7 @@ class TestOrchestratorStressTesting:
         timeout_count = sum(1 for r in timeout_results if r.get("timeout", False))
         success_count = sum(1 for r in timeout_results if r.get("success", False))
 
-        print(f"\nTimeout Test Results:")
+        print("\nTimeout Test Results:")
         print(f"  Total requests: {len(timeout_results)}")
         print(f"  Timeouts detected: {timeout_count}")
         print(f"  Successful completions: {success_count}")
@@ -448,8 +449,9 @@ class TestOrchestratorStressTesting:
     def test_orchestrator_memory_usage_under_stress(self, orchestrator):
         """Test memory usage doesn't grow excessively under stress."""
 
-        import psutil
         import os
+
+        import psutil
 
         process = psutil.Process(os.getpid())
         initial_memory = process.memory_info().rss / 1024 / 1024  # MB
@@ -500,7 +502,7 @@ class TestOrchestratorStressTesting:
         final_memory = process.memory_info().rss / 1024 / 1024
         total_memory_growth = final_memory - initial_memory
 
-        print(f"\nMemory Usage Test Results:")
+        print("\nMemory Usage Test Results:")
         print(f"  Initial memory: {initial_memory:.1f}MB")
         print(f"  Final memory: {final_memory:.1f}MB")
         print(f"  Memory growth: {total_memory_growth:.1f}MB")

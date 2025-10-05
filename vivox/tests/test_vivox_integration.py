@@ -8,16 +8,15 @@
 Integration tests for vivox module.
 """
 
-import pytest
 import unittest
-import asyncio
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module for integration testing
 try:
     import vivox
 except ImportError:
-    pytest.skip(f"Module vivox not available", allow_module_level=True)
+    pytest.skip("Module vivox not available", allow_module_level=True)
 
 
 class TestVivoxIntegration(unittest.TestCase):

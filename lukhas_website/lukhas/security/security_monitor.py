@@ -19,19 +19,19 @@ Key Features:
 Constellation Framework: 🛡️ Guardian Excellence - Security Monitoring
 """
 
-import json
-import time
-import logging
 import hashlib
-import threading
+import json
+import logging
 import queue
-import statistics
-from typing import Dict, List, Set, Optional, Any, Callable
-from dataclasses import dataclass, field, asdict
-from enum import Enum
-from datetime import datetime, timezone, timedelta
-from collections import defaultdict, deque
 import re
+import statistics
+import threading
+import time
+from collections import defaultdict, deque
+from dataclasses import asdict, dataclass, field
+from datetime import datetime, timedelta, timezone
+from enum import Enum
+from typing import Any, Callable, Dict, List, Optional, Set
 
 logger = logging.getLogger(__name__)
 
@@ -806,7 +806,7 @@ if __name__ == "__main__":
             print(f"  - {threat.name}: {threat.threat_level.value} "
                   f"(confidence: {threat.confidence_score:.2f})")
 
-        print(f"\nMetrics:")
+        print("\nMetrics:")
         print(f"  Total Events: {metrics.total_events}")
         print(f"  Threats Detected: {metrics.threats_detected}")
         print(f"  Avg Processing Time: {metrics.avg_processing_time_ms:.2f}ms")

@@ -42,7 +42,11 @@ try:
     from fastapi.middleware.cors import CORSMiddleware
     from fastapi.responses import StreamingResponse
     from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
-    from pydantic import BaseModel, Field, ValidationError  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for API expansion (document or implement)
+    from pydantic import (  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for API expansion (document or implement)
+        BaseModel,
+        Field,
+        ValidationError,
+    )
 
     # LUKHAS imports
     from lukhas.bridge.api.orchestration_api_bridge import (

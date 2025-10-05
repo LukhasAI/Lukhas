@@ -15,8 +15,8 @@ import logging
 import os
 import time
 from dataclasses import asdict, dataclass, field
-from typing import Any, Dict, List, Optional
 from enum import Enum
+from typing import Any, Dict, List, Optional
 
 try:
     from prometheus_client import Counter, Histogram
@@ -36,9 +36,9 @@ except Exception:  # pragma: no cover - metrics optional in tests
 # OpenTelemetry instrumentation
 try:
     from lukhas.observability.otel_instrumentation import (
-        matriz_pipeline_span,
+        initialize_otel_instrumentation,
         instrument_matriz_stage,
-        initialize_otel_instrumentation
+        matriz_pipeline_span,
     )
     OTEL_AVAILABLE = True
 except ImportError:
@@ -138,7 +138,6 @@ def _record_pipeline_metrics(duration_ms: float, status: str, within_budget: Opt
     ).inc()
 
 from .node_interface import CognitiveNode
-
 
 logger = logging.getLogger(__name__)
 

@@ -9,15 +9,14 @@ Constellation Framework: Flow Star (🌊)
 """
 
 from __future__ import annotations
-import time
-from typing import Dict, Any, Optional, List, Callable
-from opentelemetry import trace
-from prometheus_client import Counter, Histogram, Gauge
 
-from .types import (
-    ConsciousnessState, AwarenessSnapshot, ReflectionReport,
-    DreamTrace, DecisionContext
-)
+import time
+from typing import Any, Callable, Dict, List, Optional
+
+from opentelemetry import trace
+from prometheus_client import Counter, Gauge, Histogram
+
+from .types import AwarenessSnapshot, ConsciousnessState, DecisionContext, DreamTrace, ReflectionReport
 
 tracer = trace.get_tracer(__name__)
 
@@ -472,7 +471,7 @@ class AutoConsciousness:
                         action_type=action_type,
                         status="success"
                     ).inc()
-                except Exception as e:
+                except Exception:
                     autonomous_actions_total.labels(
                         component=self._component_id,
                         action_type=action_type,

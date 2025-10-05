@@ -1,7 +1,9 @@
 """Unit tests for memory observability."""
 
 from unittest.mock import Mock, patch
-from memory.observability import MemoryTracer, MemorySpan, PrometheusMetrics
+
+from memory.observability import MemorySpan, MemoryTracer, PrometheusMetrics
+
 
 def test_prometheus_metrics_initialization():
     metrics = PrometheusMetrics()

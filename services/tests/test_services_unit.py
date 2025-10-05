@@ -8,15 +8,15 @@
 Unit tests for services module.
 """
 
-import pytest
 import unittest
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module components
 try:
     import services
 except ImportError:
-    pytest.skip(f"Module services not available", allow_module_level=True)
+    pytest.skip("Module services not available", allow_module_level=True)
 
 
 class TestServicesModule(unittest.TestCase):

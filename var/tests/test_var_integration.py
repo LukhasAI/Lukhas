@@ -8,16 +8,15 @@
 Integration tests for var module.
 """
 
-import pytest
 import unittest
-import asyncio
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module for integration testing
 try:
     import var
 except ImportError:
-    pytest.skip(f"Module var not available", allow_module_level=True)
+    pytest.skip("Module var not available", allow_module_level=True)
 
 
 class TestVarIntegration(unittest.TestCase):

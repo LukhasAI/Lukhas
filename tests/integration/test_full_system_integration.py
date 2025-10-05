@@ -4,27 +4,27 @@ Comprehensive end-to-end testing of all integrated components.
 """
 
 import asyncio
-import pytest
 import time
 from datetime import datetime, timedelta
-from unittest.mock import Mock, AsyncMock
+from unittest.mock import AsyncMock, Mock
+
+import pytest
+
+from governance.audit_trail import AuditEventType, AuditLevel, AuditTrail, ComplianceFramework
+from lukhas.consciousness.consciousness_stream import ConsciousnessStream
+from lukhas.consciousness.memory_bridge import MemoryConsciousnessBridge
+from lukhas.identity.device_registry import DeviceRegistry
+from lukhas.identity.jwt_utils import JWTManager
 
 # Import all major components
 from lukhas.identity.lambda_id import LambdaIDSystem
-from lukhas.identity.tiers import TierSystem
-from lukhas.identity.session_manager import SessionManager
-from lukhas.identity.device_registry import DeviceRegistry
-from lukhas.identity.oidc_provider import OIDCProvider
-from lukhas.identity.jwt_utils import JWTManager
 from lukhas.identity.observability import IdentityObservability
-
-from lukhas.consciousness.consciousness_stream import ConsciousnessStream
-from lukhas.consciousness.memory_bridge import MemoryConsciousnessBridge
+from lukhas.identity.oidc_provider import OIDCProvider
+from lukhas.identity.session_manager import SessionManager
+from lukhas.identity.tiers import TierSystem
 from lukhas.memory.consciousness_memory_integration import ConsciousnessMemoryIntegrator
 from lukhas.memory.distributed_memory import DistributedMemoryOrchestrator
 from lukhas.memory.federation_coordinator import FederationCoordinator
-
-from governance.audit_trail import AuditTrail, AuditEventType, AuditLevel, ComplianceFramework
 
 
 class IntegrationTestHarness:
@@ -274,7 +274,7 @@ class TestMemoryConsciousnessIntegration:
         })
 
         assert metrics.tick_rate_hz >= 0
-        print(f"✅ Memory-consciousness bridge functional")
+        print("✅ Memory-consciousness bridge functional")
 
     async def test_distributed_memory_operations(self, integration_harness):
         """Test distributed memory operations"""
@@ -283,7 +283,7 @@ class TestMemoryConsciousnessIntegration:
         memory_integrator = integration_harness.components['memory_integrator']
 
         # Create test memory fold
-        from lukhas.memory.consciousness_memory_integration import MemoryFoldType, EmotionalContext
+        from lukhas.memory.consciousness_memory_integration import EmotionalContext, MemoryFoldType
 
         test_content = {
             "test_data": "integration_test",
@@ -318,7 +318,7 @@ class TestMemoryConsciousnessIntegration:
         assert len(recalled_memories) > 0
         assert any(rm[0] == fold_id for rm in recalled_memories)
 
-        print(f"✅ Distributed memory operations functional")
+        print("✅ Distributed memory operations functional")
 
 
 class TestGovernanceIntegration:
@@ -490,7 +490,7 @@ class TestPerformanceIntegration:
         start_time = time.time()
         fold_ids = []
 
-        from lukhas.memory.consciousness_memory_integration import MemoryFoldType, EmotionalContext
+        from lukhas.memory.consciousness_memory_integration import EmotionalContext, MemoryFoldType
 
         for i in range(100):
             fold_id = await memory_integrator.create_consciousness_memory_fold(

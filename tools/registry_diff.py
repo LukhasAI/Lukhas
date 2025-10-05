@@ -10,6 +10,7 @@ Fails (exit 1) if modules removed without proper deprecation workflow.
 Can bypass with --allow-removals flag or LUKHAS_ALLOW_MODULE_REMOVALS env var.
 """
 from __future__ import annotations
+
 import argparse
 import json
 import os
@@ -105,7 +106,7 @@ def main():
 
     if not baseline_path.exists():
         print(f"⚠️  Baseline registry not found: {baseline_path}")
-        print(f"   Creating baseline from current registry...")
+        print("   Creating baseline from current registry...")
         ARTIFACTS_DIR.mkdir(exist_ok=True)
         with current_path.open() as f_in, baseline_path.open("w") as f_out:
             f_out.write(f_in.read())
@@ -151,7 +152,7 @@ def main():
             module_path = current_map[name].get("module_path", "unknown")
             print(f"   + {name} ({module_path})")
     else:
-        print(f"\n✨ Added: 0")
+        print("\n✨ Added: 0")
 
     # Report modifications
     if modified:
@@ -159,7 +160,7 @@ def main():
         for name in sorted(modified):
             print(f"   ~ {name}")
     else:
-        print(f"\n🔄 Modified: 0")
+        print("\n🔄 Modified: 0")
 
     # Report removals and check for violations
     violations = []
@@ -173,7 +174,7 @@ def main():
                 print(f"   - {name} ❌ (no deprecation/alias entry)")
                 violations.append(name)
     else:
-        print(f"\n🗑️  Removed: 0")
+        print("\n🗑️  Removed: 0")
 
     # Check for bypass
     allow_removals = args.allow_removals or os.getenv("LUKHAS_ALLOW_MODULE_REMOVALS") == "1"

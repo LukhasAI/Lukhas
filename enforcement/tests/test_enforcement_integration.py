@@ -8,16 +8,15 @@
 Integration tests for enforcement module.
 """
 
-import pytest
 import unittest
-import asyncio
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module for integration testing
 try:
     import enforcement
 except ImportError:
-    pytest.skip(f"Module enforcement not available", allow_module_level=True)
+    pytest.skip("Module enforcement not available", allow_module_level=True)
 
 
 class TestEnforcementIntegration(unittest.TestCase):

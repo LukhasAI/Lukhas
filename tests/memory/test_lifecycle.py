@@ -9,31 +9,31 @@ Comprehensive test suite for memory lifecycle management including:
 - Performance target validation (<100ms p95 for tombstones)
 """
 
-import json
 import gzip
-import tempfile
+import json
 import shutil
-from datetime import datetime, timezone, timedelta
+import tempfile
+from dataclasses import dataclass, field
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
-from typing import Dict, Any
-
-import pytest
-import numpy as np
-
-from lukhas.memory.lifecycle import (
-    MemoryLifecycleManager,
-    RetentionRule,
-    RetentionPolicy,
-    ArchivalTier,
-    GDPRTombstone,
-    FileArchivalBackend,
-    FileTombstoneStore,
-    LifecycleStats
-)
 
 # Import VectorDocument directly without importing from backends package
-from typing import List, Optional
-from dataclasses import dataclass, field
+from typing import Any, Dict, List, Optional
+
+import numpy as np
+import pytest
+
+from lukhas.memory.lifecycle import (
+    ArchivalTier,
+    FileArchivalBackend,
+    FileTombstoneStore,
+    GDPRTombstone,
+    LifecycleStats,
+    MemoryLifecycleManager,
+    RetentionPolicy,
+    RetentionRule,
+)
+
 
 # Define a minimal VectorDocument class for testing
 @dataclass

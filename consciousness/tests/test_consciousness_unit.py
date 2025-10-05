@@ -8,15 +8,15 @@
 Unit tests for consciousness module.
 """
 
-import pytest
 import unittest
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module components
 try:
     import consciousness
 except ImportError:
-    pytest.skip(f"Module consciousness not available", allow_module_level=True)
+    pytest.skip("Module consciousness not available", allow_module_level=True)
 
 
 class TestConsciousnessModule(unittest.TestCase):
@@ -81,7 +81,7 @@ class TestCONSCIOUSNESS_AVAILABLE(unittest.TestCase):
             from consciousness import CONSCIOUSNESS_AVAILABLE
             self.assertIsNotNone(CONSCIOUSNESS_AVAILABLE)
         except ImportError:
-            pytest.skip(f"Component CONSCIOUSNESS_AVAILABLE not available")
+            pytest.skip("Component CONSCIOUSNESS_AVAILABLE not available")
 
     def test_consciousness_available_instantiation(self):
         """Test CONSCIOUSNESS_AVAILABLE can be instantiated."""
@@ -98,7 +98,7 @@ class TestCONSCIOUSNESS_DOMAINS(unittest.TestCase):
             from consciousness import CONSCIOUSNESS_DOMAINS
             self.assertIsNotNone(CONSCIOUSNESS_DOMAINS)
         except ImportError:
-            pytest.skip(f"Component CONSCIOUSNESS_DOMAINS not available")
+            pytest.skip("Component CONSCIOUSNESS_DOMAINS not available")
 
     def test_consciousness_domains_instantiation(self):
         """Test CONSCIOUSNESS_DOMAINS can be instantiated."""
@@ -115,7 +115,7 @@ class TestCONSCIOUSNESS_SOURCE(unittest.TestCase):
             from consciousness import CONSCIOUSNESS_SOURCE
             self.assertIsNotNone(CONSCIOUSNESS_SOURCE)
         except ImportError:
-            pytest.skip(f"Component CONSCIOUSNESS_SOURCE not available")
+            pytest.skip("Component CONSCIOUSNESS_SOURCE not available")
 
     def test_consciousness_source_instantiation(self):
         """Test CONSCIOUSNESS_SOURCE can be instantiated."""

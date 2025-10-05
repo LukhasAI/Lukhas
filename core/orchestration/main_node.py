@@ -81,13 +81,13 @@ class AdaptiveAGISystem:
             from lukhas.core.orchestration.brain.neuro_symbolic.neuro_symbolic_engine import (
                 NeuroSymbolicEngine,
             )
-            from lukhas.orchestration.brain.privacy_manager import PrivacyManager
             from lukhas.governance.identity.core.id_service.identity_manager import (
                 IdentityManager,
             )
 
             # Backend components
             from lukhas.memory.node import Node
+            from lukhas.orchestration.brain.privacy_manager import PrivacyManager
 
             self.SpeechProcessor = SpeechProcessor
             self.AdaptiveImageGenerator = AdaptiveImageGenerator

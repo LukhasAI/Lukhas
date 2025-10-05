@@ -7,7 +7,12 @@ This avoids rewriting thousands of imports during consolidation.
 Remove once all modules are fully promoted and imports are updated.
 """
 from __future__ import annotations
-import importlib, sys, pkgutil, types, pathlib
+
+import importlib
+import pathlib
+import pkgutil
+import sys
+import types
 
 # Discover top-level modules that sit at repo root
 ROOT = pathlib.Path(__file__).resolve().parents[1]  # points to repo root/Lukhas

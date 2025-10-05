@@ -4,24 +4,25 @@ Tests for LUKHAS OpenTelemetry tracing integration.
 Validates tracing functionality with and without OpenTelemetry available.
 """
 
-import time
-import pytest
-from unittest.mock import patch
 import sys
+import time
 from pathlib import Path
+from unittest.mock import patch
+
+import pytest
 
 # Add project root to path
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
 from lukhas.observability.opentelemetry_tracing import (
+    OTEL_AVAILABLE,
     LUKHASTracer,
-    initialize_tracing,
     get_lukhas_tracer,
+    initialize_tracing,
     shutdown_tracing,
     trace_function,
-    trace_memory_recall,
     trace_matriz_execution,
-    OTEL_AVAILABLE,
+    trace_memory_recall,
 )
 
 

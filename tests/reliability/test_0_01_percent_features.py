@@ -6,23 +6,24 @@ Validates the subtle but critical reliability patterns that distinguish
 top-tier systems from merely good ones.
 """
 
-import pytest
 import asyncio
 import time
 from unittest.mock import Mock, patch
 
+import pytest
+
 from lukhas.core.reliability import (
     AdaptiveCircuitBreaker,
-    CircuitBreakerOpenError,
-    PerformanceRegressionDetector,
-    ErrorContextManager,
-    ErrorCategory,
-    ErrorSeverity,
     AdaptiveTimeoutManager,
-    IntelligentBackoff,
-    TimeoutConfig,
     BackoffConfig,
-    BackoffStrategy
+    BackoffStrategy,
+    CircuitBreakerOpenError,
+    ErrorCategory,
+    ErrorContextManager,
+    ErrorSeverity,
+    IntelligentBackoff,
+    PerformanceRegressionDetector,
+    TimeoutConfig,
 )
 
 
@@ -323,9 +324,9 @@ class TestIntegration:
         """Test that all reliability components work together."""
         from lukhas.core.reliability import (
             circuit_breaker,
-            performance_monitor,
             enhanced_error_handler,
-            resilient_operation
+            performance_monitor,
+            resilient_operation,
         )
 
         # Test operation with full reliability stack

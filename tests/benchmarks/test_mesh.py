@@ -6,9 +6,13 @@ import os
 from unittest.mock import patch
 
 from lukhas.consciousness.dream.expand.mesh import (
-    mesh_align, mesh_consensus, analyze_mesh_diversity,
-    validate_mesh_output, get_mesh_config
+    analyze_mesh_diversity,
+    get_mesh_config,
+    mesh_align,
+    mesh_consensus,
+    validate_mesh_output,
 )
+
 
 class TestMeshAlignment:
     """Test multi-agent dream mesh functionality."""

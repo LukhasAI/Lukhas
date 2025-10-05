@@ -39,9 +39,9 @@ try:
 except ImportError:
     SKLEARN_AVAILABLE = False
 
-from .advanced_metrics import get_advanced_metrics, MetricSeverity
-from .intelligent_alerting import get_alerting_system
+from .advanced_metrics import MetricSeverity, get_advanced_metrics
 from .evidence_collection import EvidenceType, collect_evidence
+from .intelligent_alerting import get_alerting_system
 
 
 class RegressionSeverity(Enum):

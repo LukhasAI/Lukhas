@@ -16,20 +16,22 @@ Constellation Framework: Identity ⚛️ + Guardian 🛡️ + Memory 🗃️ coo
 """
 
 from __future__ import annotations
-import hmac
+
 import hashlib
+import hmac
 import json
-import time
 import logging
-from typing import Dict, Any, Optional, Callable, List, Tuple
+import time
 from dataclasses import dataclass
 from datetime import datetime, timezone
-from opentelemetry import trace
-from prometheus_client import Counter, Histogram, Gauge
+from typing import Any, Callable, Dict, List, Optional, Tuple
 
-from .alias_format import parse_alias, ΛiDAlias, validate_alias_format
-from .token_generator import SecretProvider, _b64url_decode
+from opentelemetry import trace
+from prometheus_client import Counter, Gauge, Histogram
+
+from .alias_format import ΛiDAlias, parse_alias, validate_alias_format
 from .tier_system import TierLevel, normalize_tier
+from .token_generator import SecretProvider, _b64url_decode
 
 tracer = trace.get_tracer(__name__)
 

@@ -8,16 +8,15 @@
 Integration tests for benchmarks module.
 """
 
-import pytest
 import unittest
-import asyncio
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module for integration testing
 try:
     import benchmarks
 except ImportError:
-    pytest.skip(f"Module benchmarks not available", allow_module_level=True)
+    pytest.skip("Module benchmarks not available", allow_module_level=True)
 
 
 class TestBenchmarksIntegration(unittest.TestCase):

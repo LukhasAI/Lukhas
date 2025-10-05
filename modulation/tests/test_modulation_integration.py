@@ -8,16 +8,15 @@
 Integration tests for modulation module.
 """
 
-import pytest
 import unittest
-import asyncio
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module for integration testing
 try:
     import modulation
 except ImportError:
-    pytest.skip(f"Module modulation not available", allow_module_level=True)
+    pytest.skip("Module modulation not available", allow_module_level=True)
 
 
 class TestModulationIntegration(unittest.TestCase):

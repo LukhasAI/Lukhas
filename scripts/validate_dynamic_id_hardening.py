@@ -14,18 +14,18 @@ T4/0.01% Excellence: 100% detection accuracy for dynamic ID patterns
 Constellation Framework: 🛡️ Telemetry Hardening
 """
 
+import logging
 import sys
 import time
-import logging
-from typing import Dict, Any, Tuple
 from pathlib import Path
+from typing import Any, Dict, Tuple
 
 # Add project root to path
 project_root = Path(__file__).parent.parent
 sys.path.insert(0, str(project_root))
 
+from lukhas.observability.service_metrics import MetricType, ServiceType
 from tests.observability.test_matriz_metrics_contract import MATRIZMetricsContractValidator
-from lukhas.observability.service_metrics import ServiceType, MetricType
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)

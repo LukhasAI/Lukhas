@@ -2,8 +2,8 @@
 Archetypal Taxonomy for Dream System Analysis.
 Classifies emotional patterns using Jungian archetypal categories.
 """
-from typing import Dict, List, Any, Tuple
 import statistics
+from typing import Any, Dict, List, Tuple
 
 # Archetypal emotion mappings based on Jungian psychology
 ARCHETYPES = {
@@ -368,12 +368,12 @@ if __name__ == "__main__":
     }
 
     classifications = classify_archetype(test_emotion)
-    print(f"Test emotion vector classifications:")
+    print("Test emotion vector classifications:")
     for archetype, score in classifications:
         print(f"  {archetype}: {score:.3f}")
 
     # Generate test cases for all archetypes
-    print(f"\nGenerated archetypal test cases:")
+    print("\nGenerated archetypal test cases:")
     for archetype_name in ARCHETYPES.keys():
         test_case = create_archetypal_test_case(archetype_name)
         classifications = classify_archetype(test_case["emotional_context"])

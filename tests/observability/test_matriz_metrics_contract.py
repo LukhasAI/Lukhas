@@ -17,15 +17,15 @@ Constellation Framework: 🌊 Metrics Contract Compliance
 """
 
 import logging
-import pytest
 import re
-from typing import Dict, Any, List
+from typing import Any, Dict, List
+
+import pytest
+
+from lukhas.governance.schema_registry import LUKHASLane
 
 # Import observability components
-from lukhas.observability.service_metrics import (
-    ServiceMetricsCollector, ServiceType, MetricType
-)
-from lukhas.governance.schema_registry import LUKHASLane
+from lukhas.observability.service_metrics import MetricType, ServiceMetricsCollector, ServiceType
 
 logger = logging.getLogger(__name__)
 
@@ -803,7 +803,7 @@ if __name__ == "__main__":
 
         # Summary
         total_violations = len(validator.contract_violations)
-        print(f"\n=== Contract Validation Summary ===")
+        print("\n=== Contract Validation Summary ===")
         print(f"Total contract violations detected: {total_violations}")
         print(f"Contract enforcement: {'✅ WORKING' if total_violations >= 3 else '❌ INSUFFICIENT'}")
 

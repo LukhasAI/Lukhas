@@ -8,15 +8,15 @@
 Unit tests for qi module.
 """
 
-import pytest
 import unittest
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module components
 try:
     import qi
 except ImportError:
-    pytest.skip(f"Module qi not available", allow_module_level=True)
+    pytest.skip("Module qi not available", allow_module_level=True)
 
 
 class TestQiModule(unittest.TestCase):
@@ -81,7 +81,7 @@ class TestQI_AVAILABLE(unittest.TestCase):
             from qi import QI_AVAILABLE
             self.assertIsNotNone(QI_AVAILABLE)
         except ImportError:
-            pytest.skip(f"Component QI_AVAILABLE not available")
+            pytest.skip("Component QI_AVAILABLE not available")
 
     def test_qi_available_instantiation(self):
         """Test QI_AVAILABLE can be instantiated."""
@@ -98,7 +98,7 @@ class TestQI_AWARENESS_AVAILABLE(unittest.TestCase):
             from qi import QI_AWARENESS_AVAILABLE
             self.assertIsNotNone(QI_AWARENESS_AVAILABLE)
         except ImportError:
-            pytest.skip(f"Component QI_AWARENESS_AVAILABLE not available")
+            pytest.skip("Component QI_AWARENESS_AVAILABLE not available")
 
     def test_qi_awareness_available_instantiation(self):
         """Test QI_AWARENESS_AVAILABLE can be instantiated."""
@@ -115,7 +115,7 @@ class TestQI_BIO_AVAILABLE(unittest.TestCase):
             from qi import QI_BIO_AVAILABLE
             self.assertIsNotNone(QI_BIO_AVAILABLE)
         except ImportError:
-            pytest.skip(f"Component QI_BIO_AVAILABLE not available")
+            pytest.skip("Component QI_BIO_AVAILABLE not available")
 
     def test_qi_bio_available_instantiation(self):
         """Test QI_BIO_AVAILABLE can be instantiated."""

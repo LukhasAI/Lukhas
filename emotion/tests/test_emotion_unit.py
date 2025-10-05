@@ -8,15 +8,15 @@
 Unit tests for emotion module.
 """
 
-import pytest
 import unittest
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module components
 try:
     import emotion
 except ImportError:
-    pytest.skip(f"Module emotion not available", allow_module_level=True)
+    pytest.skip("Module emotion not available", allow_module_level=True)
 
 
 class TestEmotionModule(unittest.TestCase):
@@ -81,7 +81,7 @@ class TestEMOTION_ACTIVE(unittest.TestCase):
             from emotion import EMOTION_ACTIVE
             self.assertIsNotNone(EMOTION_ACTIVE)
         except ImportError:
-            pytest.skip(f"Component EMOTION_ACTIVE not available")
+            pytest.skip("Component EMOTION_ACTIVE not available")
 
     def test_emotion_active_instantiation(self):
         """Test EMOTION_ACTIVE can be instantiated."""
@@ -98,7 +98,7 @@ class TestEmotionWrapper(unittest.TestCase):
             from emotion import EmotionWrapper
             self.assertIsNotNone(EmotionWrapper)
         except ImportError:
-            pytest.skip(f"Component EmotionWrapper not available")
+            pytest.skip("Component EmotionWrapper not available")
 
     def test_emotionwrapper_instantiation(self):
         """Test EmotionWrapper can be instantiated."""
@@ -115,7 +115,7 @@ class Testanalyze_emotion_stream(unittest.TestCase):
             from emotion import analyze_emotion_stream
             self.assertIsNotNone(analyze_emotion_stream)
         except ImportError:
-            pytest.skip(f"Component analyze_emotion_stream not available")
+            pytest.skip("Component analyze_emotion_stream not available")
 
     def test_analyze_emotion_stream_instantiation(self):
         """Test analyze_emotion_stream can be instantiated."""

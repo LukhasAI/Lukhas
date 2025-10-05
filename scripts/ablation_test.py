@@ -14,8 +14,9 @@ for noisy in [
 ]:
     logging.getLogger(noisy).setLevel(logging.ERROR)
 
-from lukhas.memory.consolidation import ConsolidationOrchestrator, ConsolidationMode, InMemoryStore
+from lukhas.memory.consolidation import ConsolidationMode, ConsolidationOrchestrator, InMemoryStore
 from lukhas.memory.structural_conscience import StructuralConscience
+
 
 class QuarantineDisabledOrchestrator(ConsolidationOrchestrator):
     """Orchestrator with structural validation disabled for ablation."""
@@ -93,7 +94,7 @@ async def run_ablation_comparison(seed: int = 1337):
 
     # Show failing fold details
     if ok_unsafe < len(reports_unsafe):
-        print(f"\nStructural failures without quarantine:")
+        print("\nStructural failures without quarantine:")
         for i, r in enumerate(reports_unsafe):
             if not r.ok:
                 print(f"   Fold {i}: {r.issues} (coherence={r.coherence_score}, risk={r.cascade_risk})")

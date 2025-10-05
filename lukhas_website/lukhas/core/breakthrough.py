@@ -12,9 +12,10 @@ Usage:
       print(f"Breakthrough detected: score={result['score']:.3f}")
 """
 from __future__ import annotations
-import os
-from typing import Dict, Any
+
 import math
+import os
+from typing import Any, Dict
 
 try:
     from prometheus_client import Counter, Gauge

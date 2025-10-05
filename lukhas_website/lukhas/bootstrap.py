@@ -5,14 +5,14 @@ LUKHAS Application Bootstrap
 Initializes core services including OTEL tracing, metrics, and Guardian system.
 """
 
-import os
 import logging
-from typing import Dict, Any
+import os
+from typing import Any, Dict
 
 # Early OTel initialization
 from opentelemetry import trace
-from opentelemetry.sdk.trace import TracerProvider
 from opentelemetry.sdk.resources import Resource
+from opentelemetry.sdk.trace import TracerProvider
 from opentelemetry.sdk.trace.export import BatchSpanProcessor, ConsoleSpanExporter
 
 try:
@@ -65,8 +65,8 @@ def initialize_lukhas_services() -> Dict[str, Any]:
     # 1. Initialize OpenTelemetry
     try:
         from lukhas.observability.otel_instrumentation import (
+            get_instrumentation_status,
             initialize_otel_instrumentation,
-            get_instrumentation_status
         )
 
         service_name = f"lukhas-{initialization_results['lane']}"
@@ -141,12 +141,10 @@ def validate_per_stage_spans() -> Dict[str, Any]:
     logger.info("🔍 Validating per-stage OTEL spans...")
 
     try:
-        from lukhas.observability.otel_instrumentation import (
-            instrument_matriz_stage,
-            matriz_pipeline_span
-        )
         import asyncio
         import time
+
+        from lukhas.observability.otel_instrumentation import instrument_matriz_stage, matriz_pipeline_span
 
         # Test each stage type
         @instrument_matriz_stage("intent_processing", "intent", slo_target_ms=50.0)

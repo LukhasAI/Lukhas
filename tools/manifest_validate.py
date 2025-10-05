@@ -6,12 +6,15 @@ LUKHAS Manifest Validator (minimal / fast)
 - Adds a few pragmatic semantic checks (paths exist, module name matches dir)
 """
 from __future__ import annotations
-import argparse, json, sys
+
+import argparse
+import json
+import sys
 from pathlib import Path
 
 try:
     import jsonschema
-except Exception as e:
+except Exception:
     print("❌ Missing dependency: jsonschema\n   pip install jsonschema", file=sys.stderr)
     sys.exit(2)
 

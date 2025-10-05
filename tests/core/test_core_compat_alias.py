@@ -1,5 +1,7 @@
 # 25 LOC — asserts all legacy import styles resolve to lukhas.core
-import importlib, types
+import importlib
+import types
+
 
 def _mod(name): return importlib.import_module(name)
 

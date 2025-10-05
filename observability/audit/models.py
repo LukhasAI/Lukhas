@@ -3,7 +3,9 @@ Audit trail data models for LUKHAS decision traces.
 All models are Pydantic for validation and JSON serialization.
 """
 from __future__ import annotations
-from typing import Optional, Dict, Any, List
+
+from typing import Any, Dict, List, Optional
+
 from pydantic import BaseModel, Field
 
 

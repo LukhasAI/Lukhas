@@ -6,11 +6,12 @@ Env:
 """
 
 from __future__ import annotations
+
 import os
 from contextlib import contextmanager
 
 try:
-    from prometheus_client import Counter, Histogram, Gauge, start_http_server  # type: ignore
+    from prometheus_client import Counter, Gauge, Histogram, start_http_server  # type: ignore
 except Exception:  # pragma: no cover
     Counter = Histogram = Gauge = None
     start_http_server = None

@@ -466,7 +466,7 @@ class SecurityAuditor:
                 self.report.findings.append(finding)
                 self.report.failures += 1
 
-        print(f"   ✅ Configuration audit complete")
+        print("   ✅ Configuration audit complete")
 
     async def _check_environment_variables(self) -> None:
         """Check for secure environment variable configuration."""
@@ -870,7 +870,7 @@ async def main():
 
         # Determine exit code
         if not report.t4_compliance:
-            print(f"\n❌ AUDIT FAILED: T4/0.01% excellence not achieved")
+            print("\n❌ AUDIT FAILED: T4/0.01% excellence not achieved")
             print(f"   Excellence Score: {report.excellence_score:.4f}%")
             print(f"   Critical Failures: {report.critical_failures}")
             print(f"   Regular Failures: {report.failures}")
@@ -879,7 +879,7 @@ async def main():
             print(f"\n⚠️  STRICT MODE FAILURE: {report.warnings} warnings found")
             return 1
         else:
-            print(f"\n✅ AUDIT PASSED: T4/0.01% excellence achieved!")
+            print("\n✅ AUDIT PASSED: T4/0.01% excellence achieved!")
             print(f"   Excellence Score: {report.excellence_score:.4f}%")
             return 0
 

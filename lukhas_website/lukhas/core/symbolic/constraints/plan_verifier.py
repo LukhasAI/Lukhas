@@ -7,7 +7,8 @@ Rule examples:
 """
 
 from __future__ import annotations
-from typing import Mapping, Tuple, List
+
+from typing import List, Mapping, Tuple
 
 
 def verify(plan: Mapping) -> Tuple[bool, List[str]]:

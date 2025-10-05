@@ -3,11 +3,12 @@
 Coverage Comparison Tool - Compare baseline vs current coverage
 """
 
+import argparse
 import json
 import sys
-import argparse
 from pathlib import Path
-from typing import Dict, Any
+from typing import Any, Dict
+
 
 def load_coverage(path: str) -> Dict[str, Any]:
     """Load coverage data from JSON file"""

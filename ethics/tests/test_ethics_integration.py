@@ -8,16 +8,15 @@
 Integration tests for ethics module.
 """
 
-import pytest
 import unittest
-import asyncio
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module for integration testing
 try:
     import ethics
 except ImportError:
-    pytest.skip(f"Module ethics not available", allow_module_level=True)
+    pytest.skip("Module ethics not available", allow_module_level=True)
 
 
 class TestEthicsIntegration(unittest.TestCase):

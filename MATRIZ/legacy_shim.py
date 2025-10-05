@@ -19,14 +19,17 @@ from __future__ import annotations
 import logging
 from datetime import datetime
 from typing import Any, Dict
+
 from matriz.node_contract import (
     CONTRACT_VERSION,
+    MatrizMessage,
+    MatrizNode,
+    MatrizResult,
+    message_digest,
+    mk_guardian_token,
     validate_message,
     validate_result,
-    mk_guardian_token,
-    message_digest,
 )
-from matriz.node_contract import MatrizMessage, MatrizNode, MatrizResult
 
 # Import the existing complex interface
 try:

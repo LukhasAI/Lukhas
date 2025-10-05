@@ -3,14 +3,16 @@ FastAPI endpoints for audit trail submission and retrieval.
 Includes signed permalink generation and consent-aware redaction.
 """
 from __future__ import annotations
-from fastapi import APIRouter, HTTPException, Request
-from typing import Dict, Any, List
-import os
 
-from .models import DecisionTrace, TraceSpan, EvidenceLink, GovernanceEvent
-from .storage import write_json, fetch_decision_trace, fetch_jsons_by_trace
+import os
+from typing import Any, Dict, List
+
+from fastapi import APIRouter, HTTPException, Request
+
 from .links import mint_signed_query, verify_signed_query
+from .models import DecisionTrace, EvidenceLink, GovernanceEvent, TraceSpan
 from .redaction import mask_pii, viewer_allows_scope
+from .storage import fetch_decision_trace, fetch_jsons_by_trace, write_json
 
 REQUIRE_SIGNED = os.getenv("AUDIT_REQUIRE_SIGNED", "false").lower() in {"1", "true", "yes"}
 DEFAULT_SCOPE = os.getenv("AUDIT_DEFAULT_SCOPE", "default")

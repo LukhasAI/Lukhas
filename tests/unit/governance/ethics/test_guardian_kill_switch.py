@@ -3,10 +3,10 @@
 import pytest
 
 from lukhas.governance.ethics.ethics_engine import (
+    GUARDIAN_EMERGENCY_DISABLE_FILE,
     ConstitutionalFramework,
     EthicsEngine,
     SafetyMonitor,
-    GUARDIAN_EMERGENCY_DISABLE_FILE,
 )
 
 

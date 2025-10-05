@@ -8,16 +8,15 @@
 Integration tests for emotion module.
 """
 
-import pytest
 import unittest
-import asyncio
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module for integration testing
 try:
     import emotion
 except ImportError:
-    pytest.skip(f"Module emotion not available", allow_module_level=True)
+    pytest.skip("Module emotion not available", allow_module_level=True)
 
 
 class TestEmotionIntegration(unittest.TestCase):

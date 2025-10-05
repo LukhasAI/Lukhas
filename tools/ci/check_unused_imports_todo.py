@@ -200,19 +200,19 @@ Examples:
     if args.json_only:
         print(json.dumps(result, indent=2))
     else:
-        print(f"\n📈 PRODUCTION LANE VALIDATION:")
+        print("\n📈 PRODUCTION LANE VALIDATION:")
         print(f"✅ Properly annotated: {annotated_count}")
         print(f"❌ Missing annotations: {missing}")
 
         if unannotated:
-            print(f"\n🚨 UNANNOTATED IMPORTS (Production Lane Policy Violation):")
+            print("\n🚨 UNANNOTATED IMPORTS (Production Lane Policy Violation):")
             for item in unannotated:
                 print(f"  - {item['file']}:{item['line']} - {item['message']}")
-            print(f"\n💡 Fix with: python3 tools/ci/mark_unused_imports_todo.py")
+            print("\n💡 Fix with: python3 tools/ci/mark_unused_imports_todo.py")
         else:
-            print(f"\n🎯 All production lane imports properly documented!")
+            print("\n🎯 All production lane imports properly documented!")
 
-        print(f"\n📝 JSON Report:")
+        print("\n📝 JSON Report:")
         print(json.dumps(result, indent=2))
 
     # Exit with appropriate code

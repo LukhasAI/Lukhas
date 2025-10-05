@@ -8,16 +8,15 @@
 Integration tests for symbolic module.
 """
 
-import pytest
 import unittest
-import asyncio
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module for integration testing
 try:
     import symbolic
 except ImportError:
-    pytest.skip(f"Module symbolic not available", allow_module_level=True)
+    pytest.skip("Module symbolic not available", allow_module_level=True)
 
 
 class TestSymbolicIntegration(unittest.TestCase):

@@ -15,9 +15,9 @@ Features:
 import argparse
 import json
 import sys
-from pathlib import Path
-from typing import Dict, List, Any
 from dataclasses import dataclass
+from pathlib import Path
+from typing import Any, Dict, List
 
 # Repository structure
 ROOT = Path(__file__).resolve().parents[1]

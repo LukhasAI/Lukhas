@@ -8,15 +8,15 @@
 Unit tests for observability module.
 """
 
-import pytest
 import unittest
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module components
 try:
     import observability
 except ImportError:
-    pytest.skip(f"Module observability not available", allow_module_level=True)
+    pytest.skip("Module observability not available", allow_module_level=True)
 
 
 class TestObservabilityModule(unittest.TestCase):
@@ -81,7 +81,7 @@ class TestAkaqMetrics(unittest.TestCase):
             from observability import AkaqMetrics
             self.assertIsNotNone(AkaqMetrics)
         except ImportError:
-            pytest.skip(f"Component AkaqMetrics not available")
+            pytest.skip("Component AkaqMetrics not available")
 
     def test_akaqmetrics_instantiation(self):
         """Test AkaqMetrics can be instantiated."""
@@ -98,7 +98,7 @@ class Testget_observability(unittest.TestCase):
             from observability import get_observability
             self.assertIsNotNone(get_observability)
         except ImportError:
-            pytest.skip(f"Component get_observability not available")
+            pytest.skip("Component get_observability not available")
 
     def test_get_observability_instantiation(self):
         """Test get_observability can be instantiated."""
@@ -115,7 +115,7 @@ class Testmeasure_scene_processing(unittest.TestCase):
             from observability import measure_scene_processing
             self.assertIsNotNone(measure_scene_processing)
         except ImportError:
-            pytest.skip(f"Component measure_scene_processing not available")
+            pytest.skip("Component measure_scene_processing not available")
 
     def test_measure_scene_processing_instantiation(self):
         """Test measure_scene_processing can be instantiated."""

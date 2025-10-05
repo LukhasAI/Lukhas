@@ -8,16 +8,15 @@
 Integration tests for contracts module.
 """
 
-import pytest
 import unittest
-import asyncio
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module for integration testing
 try:
     import contracts
 except ImportError:
-    pytest.skip(f"Module contracts not available", allow_module_level=True)
+    pytest.skip("Module contracts not available", allow_module_level=True)
 
 
 class TestContractsIntegration(unittest.TestCase):

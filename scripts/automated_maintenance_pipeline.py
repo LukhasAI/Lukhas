@@ -4,13 +4,13 @@ LUKHAS Automated Schema Maintenance Pipeline
 Provides automated validation, monitoring, and maintenance for LUKHAS architecture
 """
 
+import argparse
 import json
 import subprocess
 import sys
+from datetime import datetime
 from pathlib import Path
 from typing import Dict, Tuple
-from datetime import datetime
-import argparse
 
 
 class LUKHASMaintenancePipeline:
@@ -43,7 +43,7 @@ class LUKHASMaintenancePipeline:
             ], capture_output=True, text=True, timeout=300)
 
             if result.returncode == 0:
-                self.log_action(description, "SUCCESS", f"Script completed successfully")
+                self.log_action(description, "SUCCESS", "Script completed successfully")
                 return True, result.stdout
             else:
                 self.log_action(description, "FAILED", f"Script failed: {result.stderr}")
@@ -326,7 +326,7 @@ def main():
 
     # Print summary
     if not args.quiet:
-        print(f"\nMaintenance Summary:")
+        print("\nMaintenance Summary:")
         print(f"Overall Health Score: {report['overall_health_score']:.1%}")
         critical_passed = sum([
             report['validation_results']['context_sync']['validation_passed'],
@@ -336,7 +336,7 @@ def main():
         print(f"Critical Validations: {critical_passed}/3 passed")
 
         if report["recommendations"]:
-            print(f"\nRecommendations:")
+            print("\nRecommendations:")
             for rec in report["recommendations"]:
                 print(f"  - {rec}")
 

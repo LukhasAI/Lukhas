@@ -8,16 +8,15 @@
 Integration tests for rules module.
 """
 
-import pytest
 import unittest
-import asyncio
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module for integration testing
 try:
     import rules
 except ImportError:
-    pytest.skip(f"Module rules not available", allow_module_level=True)
+    pytest.skip("Module rules not available", allow_module_level=True)
 
 
 class TestRulesIntegration(unittest.TestCase):

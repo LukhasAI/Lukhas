@@ -27,7 +27,7 @@ from typing import Any, Optional
 
 # Use stable module interfaces instead of candidate/ imports
 from lukhas.core.interfaces import CoreInterface
-from lukhas.core.registry import resolve, register
+from lukhas.core.registry import register, resolve
 
 
 class LukhasError(Exception):

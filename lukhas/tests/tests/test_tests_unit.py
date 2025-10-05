@@ -8,15 +8,17 @@
 Unit tests for tests module.
 """
 
-import pytest
 import importlib
-from unittest.mock import Mock, patch
+from unittest.mock import patch
+
+import pytest
+
 
 # Test imports
 def test_module_imports():
     """Test that the tests module can be imported."""
     try:
-        module = importlib.import_module(f"lukhas.tests")
+        module = importlib.import_module("lukhas.tests")
         assert module is not None
     except ImportError as e:
         pytest.skip(f"Module lukhas.tests not available: {e}")
@@ -24,11 +26,11 @@ def test_module_imports():
 def test_module_has_init():
     """Test that the tests module has proper __init__.py."""
     try:
-        module = importlib.import_module(f"lukhas.tests")
+        module = importlib.import_module("lukhas.tests")
         # Check for common attributes
         assert hasattr(module, '__file__')
     except ImportError:
-        pytest.skip(f"Module lukhas.tests not available")
+        pytest.skip("Module lukhas.tests not available")
 
 class TestTestsCore:
     """Unit tests for tests core functionality."""
@@ -61,8 +63,8 @@ class TestTestsCore:
     def test_error_handling(self):
         """Test proper error handling patterns."""
         try:
-            from lukhas.tests import TestsCore
             from lukhas.core.exceptions import LUKHASException
+            from lukhas.tests import TestsCore
 
             component = TestsCore()
 
@@ -79,8 +81,8 @@ class TestTestsIntegration:
     def test_consciousness_integration(self):
         """Test integration with consciousness system."""
         try:
-            from lukhas.tests import TestsCore
             from lukhas.consciousness import ConsciousnessCore
+            from lukhas.tests import TestsCore
 
             consciousness = ConsciousnessCore()
             component = TestsCore()
@@ -150,8 +152,9 @@ class TestTestsPerformance:
     def test_processing_performance(self):
         """Test that processing completes within acceptable time."""
         try:
-            from lukhas.tests import TestsCore
             import time
+
+            from lukhas.tests import TestsCore
 
             component = TestsCore()
 
@@ -168,9 +171,11 @@ class TestTestsPerformance:
     def test_memory_efficiency(self):
         """Test memory usage stays within bounds."""
         try:
-            from lukhas.tests import TestsCore
-            import psutil
             import os
+
+            import psutil
+
+            from lukhas.tests import TestsCore
 
             component = TestsCore()
 

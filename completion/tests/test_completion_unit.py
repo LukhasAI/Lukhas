@@ -8,15 +8,15 @@
 Unit tests for completion module.
 """
 
-import pytest
 import unittest
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module components
 try:
     import completion
 except ImportError:
-    pytest.skip(f"Module completion not available", allow_module_level=True)
+    pytest.skip("Module completion not available", allow_module_level=True)
 
 
 class TestCompletionModule(unittest.TestCase):
@@ -81,7 +81,7 @@ class TestTodoEntry(unittest.TestCase):
             from completion.generate_batch_codex_cleanup_006_report import TodoEntry
             self.assertIsNotNone(TodoEntry)
         except ImportError:
-            pytest.skip(f"Component TodoEntry not available")
+            pytest.skip("Component TodoEntry not available")
 
     def test_todoentry_instantiation(self):
         """Test TodoEntry can be instantiated."""
@@ -98,7 +98,7 @@ class Testmain(unittest.TestCase):
             from completion.generate_batch_codex_cleanup_006_report import main
             self.assertIsNotNone(main)
         except ImportError:
-            pytest.skip(f"Component main not available")
+            pytest.skip("Component main not available")
 
     def test_main_instantiation(self):
         """Test main can be instantiated."""

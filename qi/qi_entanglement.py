@@ -193,4 +193,3 @@ def seed_random_state(seed: int, *, prefix: str = "QS") -> QuantumState:
         "seed_random_state: seed=%d amplitude=%.6f phase=%.6f id=%s",
         seed, amplitude, phase, state.id
     )
-    

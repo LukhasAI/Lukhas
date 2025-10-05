@@ -7,10 +7,10 @@ Integrates with I.1 ΛiD Token System and I.2 Tiered Authentication.
 Constellation Framework: Identity ⚛️ pillar - OAuth2/OIDC compliance layer.
 """
 
-from .provider import OIDCProvider
 from .client_registry import ClientRegistry
-from .tokens import OIDCTokenManager
 from .discovery import DiscoveryDocument
+from .provider import OIDCProvider
+from .tokens import OIDCTokenManager
 
 __all__ = [
     "OIDCProvider",

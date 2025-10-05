@@ -8,16 +8,15 @@
 Integration tests for test_data module.
 """
 
-import pytest
 import unittest
-import asyncio
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module for integration testing
 try:
     import test_data
 except ImportError:
-    pytest.skip(f"Module test_data not available", allow_module_level=True)
+    pytest.skip("Module test_data not available", allow_module_level=True)
 
 
 class TestTestDataIntegration(unittest.TestCase):

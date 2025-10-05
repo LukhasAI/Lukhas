@@ -8,15 +8,15 @@
 Unit tests for modulation module.
 """
 
-import pytest
 import unittest
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module components
 try:
     import modulation
 except ImportError:
-    pytest.skip(f"Module modulation not available", allow_module_level=True)
+    pytest.skip("Module modulation not available", allow_module_level=True)
 
 
 class TestModulationModule(unittest.TestCase):
@@ -81,7 +81,7 @@ class TestEndocrineLLMOrchestrator(unittest.TestCase):
             from modulation import EndocrineLLMOrchestrator
             self.assertIsNotNone(EndocrineLLMOrchestrator)
         except ImportError:
-            pytest.skip(f"Component EndocrineLLMOrchestrator not available")
+            pytest.skip("Component EndocrineLLMOrchestrator not available")
 
     def test_endocrinellmorchestrator_instantiation(self):
         """Test EndocrineLLMOrchestrator can be instantiated."""
@@ -98,7 +98,7 @@ class TestEndocrineSignalEmitter(unittest.TestCase):
             from modulation import EndocrineSignalEmitter
             self.assertIsNotNone(EndocrineSignalEmitter)
         except ImportError:
-            pytest.skip(f"Component EndocrineSignalEmitter not available")
+            pytest.skip("Component EndocrineSignalEmitter not available")
 
     def test_endocrinesignalemitter_instantiation(self):
         """Test EndocrineSignalEmitter can be instantiated."""
@@ -115,7 +115,7 @@ class TestModulatedOpenAIClient(unittest.TestCase):
             from modulation import ModulatedOpenAIClient
             self.assertIsNotNone(ModulatedOpenAIClient)
         except ImportError:
-            pytest.skip(f"Component ModulatedOpenAIClient not available")
+            pytest.skip("Component ModulatedOpenAIClient not available")
 
     def test_modulatedopenaiclient_instantiation(self):
         """Test ModulatedOpenAIClient can be instantiated."""

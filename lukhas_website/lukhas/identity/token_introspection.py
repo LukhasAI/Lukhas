@@ -16,16 +16,18 @@ Constellation Framework: Identity ⚛️ + Guardian 🛡️ coordination.
 """
 
 from __future__ import annotations
-import time
+
 import hashlib
 import logging
-from typing import Dict, Any, Optional, List
+import time
 from dataclasses import dataclass
-from opentelemetry import trace
-from prometheus_client import Counter, Histogram, Gauge
+from typing import Any, Dict, List, Optional
 
-from .token_validator import ValidationContext, ValidationResult
+from opentelemetry import trace
+from prometheus_client import Counter, Gauge, Histogram
+
 from .auth_service import AuthenticationService, get_auth_service
+from .token_validator import ValidationContext, ValidationResult
 
 tracer = trace.get_tracer(__name__)
 

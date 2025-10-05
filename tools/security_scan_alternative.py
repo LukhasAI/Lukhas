@@ -12,8 +12,9 @@ Usage:
 import json
 import subprocess
 import sys
-from typing import Dict, Any
 from pathlib import Path
+from typing import Any, Dict
+
 
 def check_pinned_github_actions() -> Dict[str, Any]:
     """Check that GitHub Actions are pinned to SHA"""
@@ -226,7 +227,7 @@ def run_comprehensive_security_scan():
     results["sbom"] = generate_sbom()
 
     # Summary
-    print(f"\n📊 SECURITY SCAN RESULTS")
+    print("\n📊 SECURITY SCAN RESULTS")
     print("-" * 30)
 
     total_checks = len(results)
@@ -251,7 +252,7 @@ def run_comprehensive_security_scan():
 
     compliance_rate = (passed_checks / total_checks) * 100
 
-    print(f"\n🎯 OVERALL SECURITY COMPLIANCE")
+    print("\n🎯 OVERALL SECURITY COMPLIANCE")
     print("-" * 30)
     print(f"Checks Passed: {passed_checks}/{total_checks}")
     print(f"Compliance Rate: {compliance_rate:.1f}%")

@@ -12,8 +12,8 @@ Verifies all acceptance criteria for Task 15:
 #TAG:acceptance
 """
 import os
-import time
 import statistics
+import time
 
 # Set feature flags
 os.environ['LUKHAS_EXPERIMENTAL'] = '1'

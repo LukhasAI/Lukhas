@@ -10,8 +10,8 @@ registry represents executable truth, not just documentation.
 """
 
 import importlib
-import pytest
 
+import pytest
 
 # Test cases: (module_path, attribute_name, source_manifest)
 TEST_CASES = [

@@ -8,15 +8,15 @@
 Unit tests for identity module.
 """
 
-import pytest
 import unittest
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module components
 try:
     import identity
 except ImportError:
-    pytest.skip(f"Module identity not available", allow_module_level=True)
+    pytest.skip("Module identity not available", allow_module_level=True)
 
 
 class TestIdentityModule(unittest.TestCase):
@@ -81,7 +81,7 @@ class TestAccessContext(unittest.TestCase):
             from identity import AccessContext
             self.assertIsNotNone(AccessContext)
         except ImportError:
-            pytest.skip(f"Component AccessContext not available")
+            pytest.skip("Component AccessContext not available")
 
     def test_accesscontext_instantiation(self):
         """Test AccessContext can be instantiated."""
@@ -98,7 +98,7 @@ class TestAccessDecision(unittest.TestCase):
             from identity import AccessDecision
             self.assertIsNotNone(AccessDecision)
         except ImportError:
-            pytest.skip(f"Component AccessDecision not available")
+            pytest.skip("Component AccessDecision not available")
 
     def test_accessdecision_instantiation(self):
         """Test AccessDecision can be instantiated."""
@@ -115,7 +115,7 @@ class TestAccessType(unittest.TestCase):
             from identity import AccessType
             self.assertIsNotNone(AccessType)
         except ImportError:
-            pytest.skip(f"Component AccessType not available")
+            pytest.skip("Component AccessType not available")
 
     def test_accesstype_instantiation(self):
         """Test AccessType can be instantiated."""

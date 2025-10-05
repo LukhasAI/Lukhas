@@ -9,16 +9,13 @@ and I.4 WebAuthn/Passkeys working together with full authentication flow.
 Constellation Framework: ⚛️🧠🛡️ integrated validation
 """
 
-import pytest
 import time
 from unittest.mock import Mock
 
-from lukhas.orchestration.multi_ai_router import (
-    get_multi_ai_router, RoutingRequest, ConsensusType, AIProvider
-)
-from lukhas.identity.webauthn_production import (
-    get_webauthn_manager, AuthenticatorTier
-)
+import pytest
+
+from lukhas.identity.webauthn_production import AuthenticatorTier, get_webauthn_manager
+from lukhas.orchestration.multi_ai_router import AIProvider, ConsensusType, RoutingRequest, get_multi_ai_router
 
 
 @pytest.mark.integration
@@ -129,7 +126,7 @@ class TestOrchestrationWebAuthnIntegration:
         assert orchestration_result.confidence > 0
         assert orchestration_result.agreement_ratio >= 0
 
-        print(f"Integration test completed successfully:")
+        print("Integration test completed successfully:")
         print(f"- WebAuthn credential registered and authenticated for user: {user_id}")
         print(f"- Multi-AI orchestration consensus: {orchestration_result.consensus_type.value}")
         print(f"- Participating models: {len(orchestration_result.participating_models)}")

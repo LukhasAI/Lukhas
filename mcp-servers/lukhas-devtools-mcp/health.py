@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
-import json, hashlib, os, pathlib, time
+import hashlib
+import json
+import os
+import pathlib
+import time
 
 # Get absolute path to catalog relative to this script
 script_dir = pathlib.Path(__file__).parent

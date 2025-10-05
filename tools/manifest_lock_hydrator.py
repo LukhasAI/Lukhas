@@ -9,6 +9,7 @@ Generates module.manifest.lock.json for each manifest with:
 - Normalized entrypoints, lanes, status, owner, SLOs
 """
 from __future__ import annotations
+
 import argparse
 import hashlib
 import json

@@ -13,9 +13,9 @@ Usage:
   dr = DecimatingRing(capacity=1000, pressure_threshold=0.8, decimation_factor=2)
   dr.push(data)  # Automatically decimates when under pressure
 """
+import logging
 from collections import deque
 from typing import Any, Optional
-import logging
 
 logger = logging.getLogger(__name__)
 

@@ -8,16 +8,15 @@
 Integration tests for docker module.
 """
 
-import pytest
 import unittest
-import asyncio
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module for integration testing
 try:
     import docker
 except ImportError:
-    pytest.skip(f"Module docker not available", allow_module_level=True)
+    pytest.skip("Module docker not available", allow_module_level=True)
 
 
 class TestDockerIntegration(unittest.TestCase):

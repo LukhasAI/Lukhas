@@ -8,16 +8,15 @@
 Integration tests for recovered_components module.
 """
 
-import pytest
 import unittest
-import asyncio
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module for integration testing
 try:
     import recovered_components
 except ImportError:
-    pytest.skip(f"Module recovered_components not available", allow_module_level=True)
+    pytest.skip("Module recovered_components not available", allow_module_level=True)
 
 
 class TestRecoveredComponentsIntegration(unittest.TestCase):

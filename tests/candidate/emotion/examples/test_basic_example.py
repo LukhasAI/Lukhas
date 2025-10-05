@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import pytest
 
-from lukhas.emotion.examples.basic import example
+from candidate.emotion.examples.basic import example
 
 
 def test_compute_affect_delta() -> None:

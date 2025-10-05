@@ -24,7 +24,7 @@ from typing import Any, Dict, List, Optional
 from uuid import uuid4
 
 try:
-    from opentelemetry import baggage, trace, context, propagate
+    from opentelemetry import baggage, context, propagate, trace
     from opentelemetry.exporter.jaeger.thrift import JaegerExporter
     from opentelemetry.exporter.otlp.proto.grpc.trace_exporter import OTLPSpanExporter
     from opentelemetry.instrumentation.aiohttp_client import AioHttpClientInstrumentor
@@ -33,12 +33,12 @@ try:
     from opentelemetry.instrumentation.sqlalchemy import SQLAlchemyInstrumentor
     from opentelemetry.propagators.b3 import B3MultiFormat, B3SingleFormat
     from opentelemetry.propagators.jaeger import JaegerPropagator
-    from opentelemetry.sdk.trace import TracerProvider, Span
+    from opentelemetry.sdk.trace import Span, TracerProvider
     from opentelemetry.sdk.trace.export import BatchSpanProcessor, SpanExporter
-    from opentelemetry.sdk.trace.sampling import TraceIdRatioBased, ParentBased
+    from opentelemetry.sdk.trace.sampling import ParentBased, TraceIdRatioBased
     from opentelemetry.semconv.trace import SpanAttributes
-    from opentelemetry.trace.status import Status, StatusCode
     from opentelemetry.trace.propagation.tracecontext import TraceContextTextMapPropagator
+    from opentelemetry.trace.status import Status, StatusCode
     from opentelemetry.util.http import get_excluded_urls
 
     OTEL_AVAILABLE = True

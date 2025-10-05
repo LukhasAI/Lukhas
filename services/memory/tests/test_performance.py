@@ -13,21 +13,22 @@ Test Requirements:
 - 99.9% availability SLO
 """
 
-import pytest
 import asyncio
-import time
-import statistics
 import random
+import statistics
 import string
-from typing import List, Dict, Any
+import time
 from dataclasses import dataclass
+from typing import Any, Dict, List
 
-from ..api_read import MemoryReadService, SearchQuery, SearchType
-from ..api_write import MemoryWriteService, WriteOperation, BatchWriteOperation
-from ..circuit_breaker import CircuitBreakerRegistry, CircuitBreakerFactory
-from ..backpressure import AdaptiveBackpressure, BackpressureFactory
-from ..metrics import get_metrics_collector, get_t4_compliance_report
+import pytest
+
 from ..adapters.vector_store_base import VectorDocument
+from ..api_read import MemoryReadService, SearchQuery, SearchType
+from ..api_write import BatchWriteOperation, MemoryWriteService, WriteOperation
+from ..backpressure import AdaptiveBackpressure, BackpressureFactory
+from ..circuit_breaker import CircuitBreakerFactory, CircuitBreakerRegistry
+from ..metrics import get_metrics_collector, get_t4_compliance_report
 
 
 @dataclass
@@ -83,7 +84,7 @@ class MockVectorStore:
             raise Exception("Simulated search failure")
 
         # Return mock results
-        from ..api_read import SearchResponse, SearchResult, MemoryFold
+        from ..api_read import MemoryFold, SearchResponse, SearchResult
         results = [
             SearchResult(
                 fold=MemoryFold(
@@ -191,7 +192,7 @@ class TestMemoryServicePerformance:
                     await operation_func()
                     op_duration = (time.perf_counter() - op_start) * 1000
                     latencies.append(op_duration)
-                except Exception as e:
+                except Exception:
                     nonlocal errors
                     errors += 1
                     # Still record the time for failed operations

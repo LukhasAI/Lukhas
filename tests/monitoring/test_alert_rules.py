@@ -10,9 +10,10 @@ Critical for T4/0.01% operational excellence.
 import os
 import subprocess
 import tempfile
-import yaml
-import pytest
 from pathlib import Path
+
+import pytest
+import yaml
 
 
 class TestPromQLAlertRules:

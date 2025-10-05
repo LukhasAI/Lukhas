@@ -8,15 +8,15 @@
 Unit tests for out module.
 """
 
-import pytest
 import unittest
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module components
 try:
     import out
 except ImportError:
-    pytest.skip(f"Module out not available", allow_module_level=True)
+    pytest.skip("Module out not available", allow_module_level=True)
 
 
 class TestOutModule(unittest.TestCase):

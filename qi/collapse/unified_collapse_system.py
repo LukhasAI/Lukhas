@@ -16,6 +16,8 @@ import asyncio
 from datetime import datetime, timezone
 from typing import Any, Optional
 
+from lukhas.consciousness.awareness.symbolic_trace_logger import SymbolicTraceLogger
+from lukhas.memory.systems.memory_collapse_verifier import MemoryCollapseVerifier
 from lukhas.orchestration.brain.collapse_chain_integrity import (
     CollapseChainIntegrity,
 )
@@ -25,8 +27,6 @@ from lukhas.orchestration.brain.unified_collapse_system import (
     BrainCollapseManager,
     CollapseBridge,
 )
-from lukhas.consciousness.awareness.symbolic_trace_logger import SymbolicTraceLogger
-from lukhas.memory.systems.memory_collapse_verifier import MemoryCollapseVerifier
 
 
 def collapse_handler(collapse_manager: BrainCollapseManager) -> None:

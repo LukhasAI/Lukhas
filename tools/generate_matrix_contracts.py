@@ -9,7 +9,7 @@ with comprehensive identity blocks, tokenization placeholders, and tier mappings
 import json
 import sys
 from pathlib import Path
-from typing import Dict, List, Any, Tuple
+from typing import Any, Dict, List, Tuple
 
 # Repository structure
 ROOT = Path(__file__).resolve().parents[1]
@@ -390,8 +390,8 @@ def main():
     report_content.append(f"Generated {len(generated)} Matrix contracts with full identity integration.\n")
     report_content.append("\n## Summary Statistics\n")
     report_content.append(f"- **Total Contracts**: {len(generated)}\n")
-    report_content.append(f"- **Schema Version**: 1.0.0\n")
-    report_content.append(f"- **Tokenization**: Solana (disabled by default)\n")
+    report_content.append("- **Schema Version**: 1.0.0\n")
+    report_content.append("- **Tokenization**: Solana (disabled by default)\n")
 
     # Count WebAuthn usage
     webauthn_count = sum(1 for g in generated if g["webauthn"])
@@ -451,7 +451,7 @@ def main():
         contract_path = ROOT / g['file']
         if contract_path.exists():
             contract = json.loads(contract_path.read_text())
-            print(f"   Identity Block:")
+            print("   Identity Block:")
             print(f"     - Scopes: {', '.join(contract['identity']['scopes'][:3])}...")
             print(f"     - Subjects: {', '.join(contract['identity']['accepted_subjects'])}")
 

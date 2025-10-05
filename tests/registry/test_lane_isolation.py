@@ -15,20 +15,19 @@ Test Coverage:
 - Resource isolation between lanes
 """
 
-import pytest
 import os
 import sys
-from typing import Dict, List, Any
-from unittest.mock import patch, Mock
-from pathlib import Path
-from dataclasses import dataclass
 import threading
+from dataclasses import dataclass
+from pathlib import Path
+from typing import Any, Dict, List
+from unittest.mock import Mock, patch
+
+import pytest
 
 # Import registry components
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
-from lukhas.core.registry import (
-    register, resolve, _REG, discover_entry_points
-)
+from lukhas.core.registry import _REG, discover_entry_points, register, resolve
 
 
 @dataclass

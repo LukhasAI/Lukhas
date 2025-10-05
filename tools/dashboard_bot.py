@@ -4,13 +4,14 @@ Dashboard Bot - Real-time promotion metrics and burn-down tracking
 Generates: progress.json + PR comments + executive dashboard
 """
 
+import argparse
 import json
 import subprocess
 import sys
-import argparse
-from datetime import datetime, timezone, timedelta
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
-from typing import Dict, Any
+from typing import Any, Dict
+
 
 def run_cmd(cmd: str, check: bool = False) -> subprocess.CompletedProcess:
     """Run shell command quietly"""

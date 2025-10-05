@@ -8,15 +8,15 @@
 Unit tests for healing module.
 """
 
-import pytest
 import unittest
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module components
 try:
     import healing
 except ImportError:
-    pytest.skip(f"Module healing not available", allow_module_level=True)
+    pytest.skip("Module healing not available", allow_module_level=True)
 
 
 class TestHealingModule(unittest.TestCase):

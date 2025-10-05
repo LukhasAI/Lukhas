@@ -13,20 +13,16 @@ Tests integration across:
 """
 import os
 import time
+
 import pytest
 
-from lukhas.core.policy_guard import (
-    PolicyGuard, PolicyResult
-)
-from lukhas.memory.sync import (
-    MemorySynchronizer, SyncResult,
-    SyncBudgetConfig
-)
+from lukhas.core.policy_guard import PolicyGuard, PolicyResult
+from lukhas.memory.sync import MemorySynchronizer, SyncBudgetConfig, SyncResult
 
 # Skip these tests if required dependencies are missing
 try:
-    from storage.events import Event, EventStore
     from lukhas.core.consciousness_stream import ConsciousnessStream
+    from storage.events import Event, EventStore
     DEPS_AVAILABLE = True
 except ImportError:
     DEPS_AVAILABLE = False

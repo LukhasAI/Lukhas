@@ -3,6 +3,7 @@
 Enforces per-module coverage targets with lane-based defaults.
 """
 from __future__ import annotations
+
 import json
 import sys
 from pathlib import Path

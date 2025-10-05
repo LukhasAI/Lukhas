@@ -17,8 +17,29 @@ Phase 4 Implementation v2.0.0
 
 import streamlit as st
 
+from .api import router as orchestration_router
+
 # Import context bus components
 from .context_bus import build_context
+from .context_preservation import (
+    CompressionLevel,
+    ContextType,
+    get_context_preservation_engine,
+)
+from .externalized_orchestrator import (
+    ExternalizedOrchestrator,
+    OrchestrationRequest,
+    OrchestrationResponse,
+    RequestType,
+    get_externalized_orchestrator,
+    orchestrate_request,
+)
+from .health_monitor import (
+    HealthMonitor,
+    ProviderHealth,
+    get_health_monitor,
+    get_provider_health_status,
+)
 from .kernel_bus import (
     CONTEXT_BUS_ACTIVE,
     EventPriority,
@@ -30,11 +51,11 @@ from .kernel_bus import (
 
 # Import O.2 Orchestration Core components
 from .multi_ai_router import (
-    AIProvider,
     AIModel,
+    AIProvider,
     AIResponse,
-    ConsensusType,
     ConsensusResult,
+    ConsensusType,
     MultiAIRouter,
     RoutingRequest,
     get_multi_ai_router,
@@ -43,43 +64,18 @@ from .multi_ai_router import (
 
 # Import Phase 4 Externalized Orchestration components
 from .routing_config import (
-    RoutingStrategy,
+    HealthStatus,
     RoutingConfiguration,
     RoutingRule,
-    HealthStatus,
+    RoutingStrategy,
     get_routing_config_manager,
     get_routing_configuration,
 )
-
 from .routing_strategies import (
     RoutingContext,
     RoutingResult,
     get_routing_engine,
 )
-
-from .health_monitor import (
-    HealthMonitor,
-    ProviderHealth,
-    get_health_monitor,
-    get_provider_health_status,
-)
-
-from .context_preservation import (
-    ContextType,
-    CompressionLevel,
-    get_context_preservation_engine,
-)
-
-from .externalized_orchestrator import (
-    ExternalizedOrchestrator,
-    OrchestrationRequest,
-    OrchestrationResponse,
-    RequestType,
-    get_externalized_orchestrator,
-    orchestrate_request,
-)
-
-from .api import router as orchestration_router
 
 _orchestration_branding_available = False
 try:

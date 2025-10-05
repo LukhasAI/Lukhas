@@ -1,5 +1,6 @@
-from matriz.node_contract import MatrizNode, MatrizMessage, MatrizResult
 from lukhas.core.trace import mk_crumb
+from matriz.node_contract import MatrizMessage, MatrizNode, MatrizResult
+
 
 class BioAdapter(MatrizNode):
     name = "bio-adapter"

@@ -22,6 +22,7 @@ logging.getLogger().setLevel(logging.CRITICAL)
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 
 from bench_core import PerformanceBenchmark
+
 from governance.guardian_system import GuardianSystem
 from memory.memory_event import MemoryEventFactory
 
@@ -326,8 +327,8 @@ def run_validated_benchmarks():
     with open("artifacts/evidence_bundle.json", 'w') as f:
         json.dump(evidence, f, indent=2)
 
-    print(f"✅ Evidence bundle saved to: artifacts/evidence_bundle.json")
-    print(f"✅ Detailed results saved to: artifacts/bench_validated.json")
+    print("✅ Evidence bundle saved to: artifacts/evidence_bundle.json")
+    print("✅ Detailed results saved to: artifacts/bench_validated.json")
     print(f"🔒 Report SHA256: {report.get('report_sha256', 'N/A')[:16]}...")
 
     # Final verdict

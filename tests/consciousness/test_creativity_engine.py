@@ -6,15 +6,13 @@ Comprehensive test suite for creativity engine with T4/0.01% excellence validati
 Tests creative processes, Guardian integration, performance targets, and observability.
 """
 
-import pytest
 import time
 from unittest.mock import AsyncMock
 
+import pytest
+
 from lukhas.consciousness.creativity_engine import CreativityEngine
-from lukhas.consciousness.types import (
-    ConsciousnessState, CreativitySnapshot, CreativeTask,
-    DEFAULT_CREATIVITY_CONFIG
-)
+from lukhas.consciousness.types import DEFAULT_CREATIVITY_CONFIG, ConsciousnessState, CreativeTask, CreativitySnapshot
 
 
 class TestCreativityEngine:

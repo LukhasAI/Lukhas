@@ -1,6 +1,11 @@
 from __future__ import annotations
-import os, json, subprocess, sys, pathlib
-from typing import List, Dict, Any
+
+import json
+import os
+import pathlib
+import subprocess
+import sys
+from typing import Any, Dict, List
 
 # Threshold sweep ranges
 ALIGNMENT_THRESHOLDS = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9]
@@ -169,13 +174,13 @@ def print_calibration_summary(report_path: str) -> None:
     print("\n=== CALIBRATION SUMMARY ===")
 
     prod_rec = report["production_recommended"]
-    print(f"\nProduction Recommended:")
+    print("\nProduction Recommended:")
     print(f"  Alignment: {prod_rec['alignment_threshold']}")
     print(f"  Drift: {prod_rec['drift_threshold']}")
     print(f"  Confidence: {prod_rec['confidence_threshold']}")
     print(f"  Rationale: {prod_rec['rationale']}")
 
-    print(f"\nOptimal by Metric:")
+    print("\nOptimal by Metric:")
     for metric, config in report["optimal_by_metric"].items():
         if config["best_config"]:
             best = config["best_config"]

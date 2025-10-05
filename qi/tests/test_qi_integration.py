@@ -8,16 +8,15 @@
 Integration tests for qi module.
 """
 
-import pytest
 import unittest
-import asyncio
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module for integration testing
 try:
     import qi
 except ImportError:
-    pytest.skip(f"Module qi not available", allow_module_level=True)
+    pytest.skip("Module qi not available", allow_module_level=True)
 
 
 class TestQiIntegration(unittest.TestCase):

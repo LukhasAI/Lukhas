@@ -50,14 +50,14 @@ from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, Callable, Optional
 
+# Dashboard system imports
+from dashboard.core.dashboard_colony_agent import DashboardAgentRole, DashboardColonyAgent
+
 from bio.core.symbolic_adaptive_threshold_colony import AdaptiveThresholdColony
 
 # Import existing LUKHAS adaptive systems
 from bio.core.symbolic_fallback_systems import BioSymbolicFallbackManager
 from lukhas.core.event_bus import EventBus
-
-# Dashboard system imports
-from dashboard.core.dashboard_colony_agent import DashboardAgentRole, DashboardColonyAgent
 from lukhas.core.monitoring.drift_monitor import UnifiedDriftMonitor
 from lukhas.memory.systems.healix_memory_core import HealixMemoryCore
 

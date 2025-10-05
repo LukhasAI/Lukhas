@@ -10,21 +10,20 @@ Constellation Framework: Identity ⚛️ API layer
 """
 
 from __future__ import annotations
+
+import logging
 import time
-from typing import Dict, Any, List, Optional
-from fastapi import APIRouter, HTTPException, Depends, status, Request
-from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
-from pydantic import BaseModel, Field
+from typing import Any, Dict, List, Optional
+
+from fastapi import APIRouter, Depends, HTTPException, Request, status
+from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from opentelemetry import trace
 from prometheus_client import Counter, Histogram
-import logging
+from pydantic import BaseModel, Field
 
-from .webauthn_production import (
-    AuthenticatorTier, AuthenticatorType,
-    get_webauthn_manager
-)
 from .auth_service import verify_token
-from .rate_limiting import get_rate_limiter, RateLimitType
+from .rate_limiting import RateLimitType, get_rate_limiter
+from .webauthn_production import AuthenticatorTier, AuthenticatorType, get_webauthn_manager
 
 tracer = trace.get_tracer(__name__)
 logger = logging.getLogger(__name__)
@@ -104,7 +103,7 @@ async def get_current_user(credentials: HTTPAuthorizationCredentials = Depends(s
         token = credentials.credentials
         payload = await verify_token(token)
         return payload
-    except Exception as e:
+    except Exception:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Invalid authentication credentials"

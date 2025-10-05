@@ -8,16 +8,15 @@
 Integration tests for quantum module.
 """
 
-import pytest
 import unittest
-import asyncio
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module for integration testing
 try:
     import quantum
 except ImportError:
-    pytest.skip(f"Module quantum not available", allow_module_level=True)
+    pytest.skip("Module quantum not available", allow_module_level=True)
 
 
 class TestQuantumIntegration(unittest.TestCase):

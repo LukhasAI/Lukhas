@@ -3,7 +3,7 @@ from __future__ import annotations
 import logging
 from collections.abc import Callable, Mapping, Sequence
 from dataclasses import dataclass, field
-from typing import Any, Union, Optional, Tuple
+from typing import Any, Optional, Tuple, Union
 
 logger = logging.getLogger(__name__)
 

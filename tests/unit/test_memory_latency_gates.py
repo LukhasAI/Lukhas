@@ -6,9 +6,10 @@ Validates that memory and latency gates are properly configured to block CI
 when performance budgets are exceeded.
 """
 
-import yaml
 import time
 from pathlib import Path
+
+import yaml
 
 
 def test_memory_latency_gates_workflow_exists():

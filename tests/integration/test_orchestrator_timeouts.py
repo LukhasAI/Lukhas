@@ -5,19 +5,20 @@ Tests T4/0.01% performance requirements and fail-soft behavior.
 """
 
 import asyncio
-import time
-import pytest
 import sys
+import time
 from pathlib import Path
+
+import pytest
 
 # Add project root to path
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
 from matriz.core.async_orchestrator import (
     AsyncCognitiveOrchestrator,
+    StageResult,
     StageType,
     run_with_timeout,
-    StageResult,
 )
 from matriz.core.node_interface import CognitiveNode
 

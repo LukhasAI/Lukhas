@@ -8,16 +8,15 @@
 Integration tests for templates module.
 """
 
-import pytest
 import unittest
-import asyncio
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module for integration testing
 try:
     import templates
 except ImportError:
-    pytest.skip(f"Module templates not available", allow_module_level=True)
+    pytest.skip("Module templates not available", allow_module_level=True)
 
 
 class TestTemplatesIntegration(unittest.TestCase):

@@ -31,7 +31,9 @@ try:
     from fastapi.middleware.cors import CORSMiddleware
     from fastapi.middleware.gzip import GZipMiddleware
     from fastapi.responses import JSONResponse, RedirectResponse
-    from fastapi.staticfiles import StaticFiles  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for API expansion (document or implement)
+    from fastapi.staticfiles import (
+        StaticFiles,  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for API expansion (document or implement)
+    )
 
     FASTAPI_AVAILABLE = True
 except ImportError:
@@ -358,7 +360,7 @@ if FASTAPI_AVAILABLE:
     async def get_system_plugins():
         """Get current plugin registry status for operational monitoring"""
         try:
-            from lukhas.core.registry import _REG, _DISCOVERY_FLAG
+            from lukhas.core.registry import _DISCOVERY_FLAG, _REG
 
             # Count plugins by category
             plugin_counts = {}

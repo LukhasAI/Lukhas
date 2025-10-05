@@ -16,10 +16,10 @@ This test validates the entire Constellation Framework integration:
 Production Excellence: T4/0.01% standards with comprehensive observability.
 """
 
-import time
 import logging
-from typing import Dict, Any, List, Optional
+import time
 from dataclasses import dataclass
+from typing import Any, Dict, List, Optional
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -28,11 +28,11 @@ logger = logging.getLogger(__name__)
 # Import LUKHAS identity components
 try:
     from .alias_format import make_alias, parse_alias, validate_alias_format
-    from .token_generator import TokenGenerator, EnvironmentSecretProvider, TokenClaims
-    from .token_validator import TokenValidator, ValidationContext, ValidationResult
     from .auth_service import AuthenticationService, AuthResult
-    from .token_introspection import TokenIntrospectionService, IntrospectionRequest, IntrospectionResponse
     from .tier_system import TierLevel, normalize_tier
+    from .token_generator import EnvironmentSecretProvider, TokenClaims, TokenGenerator
+    from .token_introspection import IntrospectionRequest, IntrospectionResponse, TokenIntrospectionService
+    from .token_validator import TokenValidator, ValidationContext, ValidationResult
 
     COMPONENTS_AVAILABLE = True
 except ImportError as e:
@@ -252,7 +252,7 @@ class LiDTokenSystemTest:
                 logger.error(f"❌ Token validation failed: {validation_result.error_message}")
                 return False
 
-            logger.info(f"✅ Token validation successful:")
+            logger.info("✅ Token validation successful:")
             logger.info(f"  - Alias: {validation_result.alias}")
             logger.info(f"  - Tier Level: {validation_result.tier_level}")
             logger.info(f"  - Namespace: {validation_result.namespace}")
@@ -318,7 +318,7 @@ class LiDTokenSystemTest:
                 logger.error(f"❌ ΛiD token authentication failed: {auth_result.error}")
                 return False
 
-            logger.info(f"✅ ΛiD token authentication successful:")
+            logger.info("✅ ΛiD token authentication successful:")
             logger.info(f"  - User ID: {auth_result.user_id}")
             logger.info(f"  - Auth Method: {auth_result.auth_method}")
             logger.info(f"  - Permissions: {auth_result.permissions}")
@@ -404,7 +404,7 @@ class LiDTokenSystemTest:
                 logger.error(f"❌ Token introspection failed: {introspection_response.error}")
                 return False
 
-            logger.info(f"✅ Token introspection successful:")
+            logger.info("✅ Token introspection successful:")
             logger.info(f"  - Active: {introspection_response.active}")
             logger.info(f"  - LID Alias: {introspection_response.lid_alias}")
             logger.info(f"  - Realm: {introspection_response.realm}")
@@ -508,7 +508,7 @@ class LiDTokenSystemTest:
             p99 = workflow_times[int(len(workflow_times) * 0.99)]
             avg = sum(workflow_times) / len(workflow_times)
 
-            logger.info(f"✅ Performance Benchmark Results:")
+            logger.info("✅ Performance Benchmark Results:")
             logger.info(f"  - Iterations: {iterations}")
             logger.info(f"  - Average: {avg:.2f}ms")
             logger.info(f"  - P50: {p50:.2f}ms")

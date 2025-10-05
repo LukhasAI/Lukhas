@@ -8,16 +8,15 @@
 Integration tests for bio module.
 """
 
-import pytest
 import unittest
-import asyncio
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module for integration testing
 try:
     import bio
 except ImportError:
-    pytest.skip(f"Module bio not available", allow_module_level=True)
+    pytest.skip("Module bio not available", allow_module_level=True)
 
 
 class TestBioIntegration(unittest.TestCase):

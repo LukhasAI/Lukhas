@@ -1,5 +1,6 @@
-from matriz.node_contract import MatrizNode, MatrizMessage, MatrizResult
 from core.trace import mk_crumb
+from matriz.node_contract import MatrizMessage, MatrizNode, MatrizResult
+
 
 class ConsciousnessAdapter(MatrizNode):
     name = "consciousness-adapter"

@@ -8,15 +8,17 @@
 Unit tests for config module.
 """
 
-import pytest
 import importlib
-from unittest.mock import Mock, patch
+from unittest.mock import patch
+
+import pytest
+
 
 # Test imports
 def test_module_imports():
     """Test that the config module can be imported."""
     try:
-        module = importlib.import_module(f"lukhas.config")
+        module = importlib.import_module("lukhas.config")
         assert module is not None
     except ImportError as e:
         pytest.skip(f"Module lukhas.config not available: {e}")
@@ -24,11 +26,11 @@ def test_module_imports():
 def test_module_has_init():
     """Test that the config module has proper __init__.py."""
     try:
-        module = importlib.import_module(f"lukhas.config")
+        module = importlib.import_module("lukhas.config")
         # Check for common attributes
         assert hasattr(module, '__file__')
     except ImportError:
-        pytest.skip(f"Module lukhas.config not available")
+        pytest.skip("Module lukhas.config not available")
 
 class TestConfigCore:
     """Unit tests for config core functionality."""
@@ -150,8 +152,9 @@ class TestConfigPerformance:
     def test_processing_performance(self):
         """Test that processing completes within acceptable time."""
         try:
-            from lukhas.config import ConfigCore
             import time
+
+            from lukhas.config import ConfigCore
 
             component = ConfigCore()
 
@@ -168,9 +171,11 @@ class TestConfigPerformance:
     def test_memory_efficiency(self):
         """Test memory usage stays within bounds."""
         try:
-            from lukhas.config import ConfigCore
-            import psutil
             import os
+
+            import psutil
+
+            from lukhas.config import ConfigCore
 
             component = ConfigCore()
 

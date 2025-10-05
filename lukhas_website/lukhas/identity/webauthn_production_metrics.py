@@ -16,23 +16,18 @@ Metrics Categories:
 - Error rates and failure modes
 """
 
-import time
 import asyncio
-from typing import Dict, Optional, Any
+import time
+from dataclasses import dataclass
 from datetime import datetime
 from enum import Enum
-from prometheus_client import (
-    Counter, Histogram, Gauge, CollectorRegistry, generate_latest
-)
-from dataclasses import dataclass
-import structlog
+from typing import Any, Dict, Optional
 
-from lukhas.identity.webauthn_security_hardening import (
-    SecurityEvent
-)
-from lukhas.identity.webauthn_production import (
-    WebAuthnCredential
-)
+import structlog
+from prometheus_client import CollectorRegistry, Counter, Gauge, Histogram, generate_latest
+
+from lukhas.identity.webauthn_production import WebAuthnCredential
+from lukhas.identity.webauthn_security_hardening import SecurityEvent
 
 logger = structlog.get_logger(__name__)
 

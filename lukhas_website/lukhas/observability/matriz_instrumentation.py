@@ -28,21 +28,19 @@ Usage:
 """
 
 import functools
+import logging
 import time
-from typing import Any, Callable, Dict, List, Optional, Union
 from contextlib import contextmanager
 from dataclasses import dataclass
 from enum import Enum
-import logging
+from typing import Any, Callable, Dict, List, Optional, Union
 
 # Import existing OTel infrastructure
-from lukhas.observability.otel_instrumentation import (
-    OTEL_AVAILABLE, _tracer, _metrics_initialized
-)
+from lukhas.observability.otel_instrumentation import OTEL_AVAILABLE, _metrics_initialized, _tracer
 
 if OTEL_AVAILABLE:
-    from opentelemetry.trace import Status, StatusCode
     from opentelemetry.metrics import get_meter
+    from opentelemetry.trace import Status, StatusCode
 
 logger = logging.getLogger(__name__)
 
@@ -498,7 +496,7 @@ def record_memory_cascade_risk(fold_count: int, retrieval_depth: int, cascade_de
 
     # Check for anomaly (approaching cascade conditions)
     if fold_count > 900 or cascade_detected:  # 90% of limit or detected cascade
-        _record_cognitive_anomaly("memory_cascade_risk", f"fold_system", {
+        _record_cognitive_anomaly("memory_cascade_risk", "fold_system", {
             "fold_count": fold_count,
             "risk_score": risk_score,
             "cascade_detected": cascade_detected

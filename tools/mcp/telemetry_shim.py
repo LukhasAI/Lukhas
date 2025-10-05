@@ -1,4 +1,7 @@
-import json, os, re, time, sys
+import json
+import re
+import sys
+import time
 
 REDACT = [("api_key", r"(?i)(api[_-]?key|token)\s*[:=]\s*\S+"),
           ("secret",  r"(?i)(secret|password)\s*[:=]\s*\S+")]

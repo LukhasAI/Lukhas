@@ -6,10 +6,11 @@ Production Schema v1.0.0
 Tests API wiring, endpoint discovery, and integration between components.
 """
 
-import pytest
-from fastapi.testclient import TestClient
 import os
 from unittest.mock import patch
+
+import pytest
+from fastapi.testclient import TestClient
 
 from lukhas.main import app
 

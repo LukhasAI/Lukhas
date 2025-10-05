@@ -13,9 +13,9 @@ These tests validate:
 5. Performance characteristics under realistic load
 """
 
-import sys
 import asyncio
 import json
+import sys
 from pathlib import Path
 from unittest.mock import patch
 
@@ -24,7 +24,7 @@ import pytest
 # Add tools directory to path for importing authorization components
 sys.path.insert(0, str(Path(__file__).parent.parent.parent / "tools"))
 
-from matrix_authz_middleware import MatrixAuthzMiddleware, AuthzRequest
+from matrix_authz_middleware import AuthzRequest, MatrixAuthzMiddleware
 from run_authz_tests import AuthzTestRunner
 
 

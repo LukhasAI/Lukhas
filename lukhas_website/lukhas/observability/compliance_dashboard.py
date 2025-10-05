@@ -37,10 +37,8 @@ try:
 except ImportError:
     PLOTTING_AVAILABLE = False
 
-from .evidence_collection import (
-    EvidenceType, ComplianceRegime, get_evidence_engine
-)
 from .advanced_metrics import get_advanced_metrics
+from .evidence_collection import ComplianceRegime, EvidenceType, get_evidence_engine
 from .intelligent_alerting import get_alerting_system
 
 

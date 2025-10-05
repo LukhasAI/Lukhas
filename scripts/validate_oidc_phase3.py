@@ -20,6 +20,7 @@ import time
 from datetime import datetime, timezone
 from typing import Dict
 
+
 def validate_file_structure():
     """Validate that all required files are present"""
     print("=== File Structure Validation ===")
@@ -254,7 +255,7 @@ def validate_test_coverage():
     total_tests = sum(result.get("total_tests", 0) for result in test_results.values())
     total_async = sum(result.get("async_tests", 0) for result in test_results.values())
 
-    print(f"\nOverall test statistics:")
+    print("\nOverall test statistics:")
     print(f"   Total test methods: {total_tests}")
     print(f"   Async test methods: {total_async}")
 
@@ -334,7 +335,7 @@ def performance_benchmark():
         total_time = (time.perf_counter() - start_time) * 1000
         avg_time = total_time / iterations
 
-        print(f"   Performance simulation:")
+        print("   Performance simulation:")
         print(f"   Total time: {total_time:.2f}ms")
         print(f"   Average per operation: {avg_time:.2f}ms")
 
@@ -345,7 +346,7 @@ def performance_benchmark():
             "authentication_flow": 250    # <250ms
         }
 
-        print(f"\n   Performance targets:")
+        print("\n   Performance targets:")
         for target_name, target_ms in targets.items():
             status_icon = "✅" if avg_time < target_ms else "⚠️"
             print(f"   {status_icon} {target_name.replace('_', ' ').title()}: <{target_ms}ms")
@@ -446,7 +447,7 @@ def generate_validation_report(results: Dict[str, bool]):
         print(f"✅ Validation report generated: {report_path}")
 
         # Print summary
-        print(f"\n=== VALIDATION SUMMARY ===")
+        print("\n=== VALIDATION SUMMARY ===")
         print(f"Total checks: {total_checks}")
         print(f"Passed checks: {passed_checks}")
         print(f"Compliance: {compliance_percentage:.1f}%")

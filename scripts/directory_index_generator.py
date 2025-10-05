@@ -6,9 +6,9 @@ Creates machine-readable JSON indexes for AI agent discovery and coordination
 
 import ast
 import json
+from datetime import datetime
 from pathlib import Path
 from typing import Dict, List, Optional
-from datetime import datetime
 
 
 class DirectoryIndexGenerator:
@@ -57,7 +57,7 @@ class DirectoryIndexGenerator:
                 "exports": classes + [f for f in functions if not f.startswith('_')]
             }
 
-        except Exception as e:
+        except Exception:
             return {
                 "filename": file_path.name,
                 "component_type": "UTILITY",
@@ -417,13 +417,13 @@ def main():
             total_results["indexes_created"] += results["indexes_created"]
             total_results["errors"].extend(results["errors"])
 
-    print(f"\nSummary:")
+    print("\nSummary:")
     print(f"Total directories processed: {total_results['total_directories']}")
     print(f"Indexes created: {total_results['indexes_created']}")
     print(f"Errors: {len(total_results['errors'])}")
 
     if total_results["errors"]:
-        print(f"\nErrors:")
+        print("\nErrors:")
         for error in total_results["errors"][:5]:
             print(f"  - {error}")
 
@@ -431,7 +431,7 @@ def main():
     with open("temp_directory_indexing_report.json", "w") as f:
         json.dump(total_results, f, indent=2)
 
-    print(f"\nFull report saved to: temp_directory_indexing_report.json")
+    print("\nFull report saved to: temp_directory_indexing_report.json")
 
 
 if __name__ == "__main__":

@@ -1,9 +1,12 @@
 """Unit tests for MemoryOrchestrator."""
 
+from unittest.mock import AsyncMock, Mock, patch
+
 import pytest
-from unittest.mock import Mock, AsyncMock, patch
-from memory.memory_orchestrator import MemoryOrchestrator
+
 from memory.indexer import Indexer
+from memory.memory_orchestrator import MemoryOrchestrator
+
 
 @pytest.fixture
 def mock_indexer():

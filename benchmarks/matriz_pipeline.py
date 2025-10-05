@@ -13,8 +13,9 @@ Usage:
 """
 
 import asyncio
-import time
 import statistics
+import time
+
 import pytest
 
 try:
@@ -86,7 +87,7 @@ class MATRIZBenchmarks:
             }
         }
 
-        print(f"📊 MATRIZ Pipeline Results:")
+        print("📊 MATRIZ Pipeline Results:")
         print(f"   P50: {p50:.1f}ms, P95: {p95:.1f}ms, P99: {p99:.1f}ms")
         print(f"   Success Rate: {len([l for l in latencies if l < 500])}/{num_requests}")
         print(f"   SLO Compliance: {'✅ PASS' if p95 < 250 else '❌ FAIL'} (P95 < 250ms)")
@@ -155,7 +156,7 @@ class MATRIZBenchmarks:
             }
         }
 
-        print(f"📊 Concurrent Load Results:")
+        print("📊 Concurrent Load Results:")
         print(f"   Success: {len(successful)}/{concurrent_requests} ({results['success_rate_percent']}%)")
         print(f"   Throughput: {throughput:.1f} req/sec")
         print(f"   Avg Latency: {avg_latency:.1f}ms, Max: {max_latency:.1f}ms")
@@ -234,7 +235,7 @@ class MATRIZBenchmarks:
             "test_results": results_data
         }
 
-        print(f"📊 Timeout Handling Results:")
+        print("📊 Timeout Handling Results:")
         print(f"   Timeouts Handled: {timeouts_handled}")
         print(f"   Errors Handled: {errors_handled}")
         print(f"   Graceful Degradation: {'✅ YES' if timeouts_handled > 0 else '⚠️ UNTESTED'}")

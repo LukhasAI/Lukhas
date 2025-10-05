@@ -4,7 +4,10 @@ E2E self-test: prove MCP can invoke each tool OR that direct tool fallback match
 This doesn't require an MCP client; it verifies that tool commands work and produce
 expected artifacts. (Your MCP host should execute the same commands.)
 """
-import subprocess, json, pathlib, sys, os
+import pathlib
+import subprocess
+import sys
+
 
 def run(cmd, stdin=None, check=True):
     res = subprocess.run(cmd, input=stdin, text=True, capture_output=True)
@@ -80,7 +83,7 @@ print(out)
     if skipped:
         for tool in skipped:
             print(f"  ⚠️  {tool}")
-    
+
     print(f"Failed tools: {len(failures)}")
     if failures:
         for name, err in failures:

@@ -6,10 +6,10 @@ Shows human-friendly diffs between current files and templates.
 
 import argparse
 import difflib
+import json
 import pathlib
 import sys
-import json
-from typing import List, Dict, Any
+from typing import Any, Dict, List
 
 try:
     from jinja2 import Environment, FileSystemLoader
@@ -20,8 +20,12 @@ except ImportError:
 # Import from scaffold_sync
 try:
     from scaffold_sync import (
-        ROOT, TEMPLATES, list_template_files,
-        load_module_manifest, get_template_context, render_template
+        ROOT,
+        TEMPLATES,
+        get_template_context,
+        list_template_files,
+        load_module_manifest,
+        render_template,
     )
 except ImportError:
     # Fallback definitions if import fails
@@ -267,7 +271,7 @@ def main():
         total_added = sum(r["stats"]["lines_added"] for r in all_results)
         total_removed = sum(r["stats"]["lines_removed"] for r in all_results)
 
-        print(f"📊 Scaffold Diff Summary")
+        print("📊 Scaffold Diff Summary")
         print(f"   Modules: {len(all_results)}")
         print(f"   Files compared: {total_compared}")
         print(f"   Files different: {total_different}")

@@ -1,6 +1,6 @@
 # criticality: P1
 
-from lukhas.governance.ethics.guardian_reflector import (
+from candidate.governance.ethics.guardian_reflector import (
     EthicsEngine,
     MemoryManager,
 )

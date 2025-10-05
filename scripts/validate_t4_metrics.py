@@ -2,8 +2,8 @@
 """
 T4 Stability Sentinel: Validates core metrics remain stable across test runs
 """
-import sys
 import re
+import sys
 from pathlib import Path
 
 

@@ -8,15 +8,17 @@
 Unit tests for schema module.
 """
 
-import pytest
 import importlib
-from unittest.mock import Mock, patch
+from unittest.mock import patch
+
+import pytest
+
 
 # Test imports
 def test_module_imports():
     """Test that the schema module can be imported."""
     try:
-        module = importlib.import_module(f"lukhas.schema")
+        module = importlib.import_module("lukhas.schema")
         assert module is not None
     except ImportError as e:
         pytest.skip(f"Module lukhas.schema not available: {e}")
@@ -24,11 +26,11 @@ def test_module_imports():
 def test_module_has_init():
     """Test that the schema module has proper __init__.py."""
     try:
-        module = importlib.import_module(f"lukhas.schema")
+        module = importlib.import_module("lukhas.schema")
         # Check for common attributes
         assert hasattr(module, '__file__')
     except ImportError:
-        pytest.skip(f"Module lukhas.schema not available")
+        pytest.skip("Module lukhas.schema not available")
 
 class TestSchemaCore:
     """Unit tests for schema core functionality."""
@@ -61,8 +63,8 @@ class TestSchemaCore:
     def test_error_handling(self):
         """Test proper error handling patterns."""
         try:
-            from lukhas.schema import SchemaCore
             from lukhas.core.exceptions import LUKHASException
+            from lukhas.schema import SchemaCore
 
             component = SchemaCore()
 
@@ -79,8 +81,8 @@ class TestSchemaIntegration:
     def test_consciousness_integration(self):
         """Test integration with consciousness system."""
         try:
-            from lukhas.schema import SchemaCore
             from lukhas.consciousness import ConsciousnessCore
+            from lukhas.schema import SchemaCore
 
             consciousness = ConsciousnessCore()
             component = SchemaCore()
@@ -150,8 +152,9 @@ class TestSchemaPerformance:
     def test_processing_performance(self):
         """Test that processing completes within acceptable time."""
         try:
-            from lukhas.schema import SchemaCore
             import time
+
+            from lukhas.schema import SchemaCore
 
             component = SchemaCore()
 
@@ -168,9 +171,11 @@ class TestSchemaPerformance:
     def test_memory_efficiency(self):
         """Test memory usage stays within bounds."""
         try:
-            from lukhas.schema import SchemaCore
-            import psutil
             import os
+
+            import psutil
+
+            from lukhas.schema import SchemaCore
 
             component = SchemaCore()
 

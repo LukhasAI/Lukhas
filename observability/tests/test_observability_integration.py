@@ -8,16 +8,15 @@
 Integration tests for observability module.
 """
 
-import pytest
 import unittest
-import asyncio
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module for integration testing
 try:
     import observability
 except ImportError:
-    pytest.skip(f"Module observability not available", allow_module_level=True)
+    pytest.skip("Module observability not available", allow_module_level=True)
 
 
 class TestObservabilityIntegration(unittest.TestCase):

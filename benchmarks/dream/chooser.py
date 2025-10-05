@@ -1,8 +1,10 @@
 from __future__ import annotations
+
 import json
-from typing import Dict, List, Any, Tuple
 from dataclasses import dataclass
 from enum import Enum
+from typing import Any, Dict, List, Tuple
+
 
 class Environment(Enum):
     """Deployment environment types."""
@@ -369,19 +371,19 @@ if __name__ == "__main__":
             print(f"Error: {recommendation['error']}")
             sys.exit(1)
 
-        print(f"\n=== CONFIGURATION RECOMMENDATION ===")
+        print("\n=== CONFIGURATION RECOMMENDATION ===")
         print(f"Environment: {recommendation['environment']}")
         print(f"Priority: {recommendation['priority']}")
         print(f"Recommended: {recommendation['recommended_config']} ({recommendation['recommended_profile']})")
         print(f"Confidence: {recommendation['confidence_score']:.1%}")
         print(f"Rationale: {recommendation['rationale']}")
 
-        print(f"\nConfiguration:")
+        print("\nConfiguration:")
         for key, value in recommendation['config_details'].items():
             print(f"  {key}: {value}")
 
         if recommendation['alternatives']:
-            print(f"\nAlternatives:")
+            print("\nAlternatives:")
             for alt in recommendation['alternatives']:
                 print(f"  {alt['config']} ({alt['profile']}) - score: {alt['score']:.3f}")
 

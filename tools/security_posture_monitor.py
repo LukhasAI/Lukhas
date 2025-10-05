@@ -7,13 +7,13 @@ security posture reporting and alerting. Tracks vulnerability exposure,
 attestation health, and supply chain integrity.
 """
 
+import datetime
+import glob
 import json
 import sys
-import glob
-import datetime
-from pathlib import Path
-from typing import Dict, List, Any
 from dataclasses import dataclass
+from pathlib import Path
+from typing import Any, Dict, List
 
 
 @dataclass
@@ -426,7 +426,7 @@ class SecurityPostureMonitor:
         score = self.metrics['overall_posture_score']
         grade = self._calculate_posture_grade(score)
 
-        print(f"\n🛡️ Security Posture Summary")
+        print("\n🛡️ Security Posture Summary")
         print(f"   Overall Score: {score:.1f}/100 (Grade: {grade})")
         print(f"   Vulnerability Exposure: {self.metrics['vulnerability_exposure']:.1f}%")
         print(f"   Attestation Coverage: {self.metrics['attestation_coverage']:.1f}%")
@@ -442,7 +442,7 @@ class SecurityPostureMonitor:
         if high_count > 0:
             print(f"   ⚠️ {high_count} HIGH alert(s)")
         if len(self.alerts) == 0:
-            print(f"   ✅ No security alerts")
+            print("   ✅ No security alerts")
 
 
 def main():
@@ -476,7 +476,7 @@ def main():
             print(f"\n❌ Exiting with error due to {critical_count} critical security alert(s)")
             sys.exit(1)
 
-    print(f"\n✅ Security posture analysis complete")
+    print("\n✅ Security posture analysis complete")
 
 
 if __name__ == "__main__":

@@ -10,12 +10,12 @@ Generates green-light status badges for module READMEs based on:
 Updates module README.md files with current track status tables.
 """
 
-import json
 import glob
+import json
 import pathlib
 import re
 from datetime import datetime
-from typing import Dict, List, Any
+from typing import Any, Dict, List
 
 
 class TrackBadgeGenerator:
@@ -242,7 +242,7 @@ Current gate configuration from [`matrix_{analysis['module']}.json`](matrix_{ana
         if not analyses:
             return "No matrix contracts found."
 
-        summary = f"# Matrix Tracks Status Report\n\n"
+        summary = "# Matrix Tracks Status Report\n\n"
         summary += f"Generated: {self.timestamp}\n"
         summary += f"Contracts analyzed: {len(analyses)}\n\n"
 
@@ -261,7 +261,7 @@ Current gate configuration from [`matrix_{analysis['module']}.json`](matrix_{ana
         pending = sum(1 for a in analyses for t in a['tracks'].values() if t['status'] == 'pending')
         not_configured = sum(1 for a in analyses for t in a['tracks'].values() if t['status'] == 'not_configured')
 
-        summary += f"## Summary Statistics\n"
+        summary += "## Summary Statistics\n"
         summary += f"- **Total Tracks**: {total_tracks}\n"
         summary += f"- **Passing**: {passing} ({passing/total_tracks*100:.1f}%)\n"
         summary += f"- **Pending**: {pending} ({pending/total_tracks*100:.1f}%)\n"
@@ -295,7 +295,7 @@ Current gate configuration from [`matrix_{analysis['module']}.json`](matrix_{ana
                         print(f"❌ Failed to update README for {analysis['module']} module")
 
         # Generate summary report
-        print(f"\n📊 Generating summary report...")
+        print("\n📊 Generating summary report...")
         summary = self.generate_summary_report(analyses)
 
         # Write summary to artifacts
@@ -305,7 +305,7 @@ Current gate configuration from [`matrix_{analysis['module']}.json`](matrix_{ana
             f.write(summary)
 
         print(f"📄 Summary report written to: {summary_path}")
-        print(f"\n✅ Badge generation complete!")
+        print("\n✅ Badge generation complete!")
 
 
 def main():

@@ -34,14 +34,14 @@ Comprehensive deployment pipeline with lane management and progressive rollout c
 - Guardian safety validation
 """
 
-from .lane_manager import LaneManager
 from .canary_controller import CanaryController
-from .traffic_router import TrafficRouter
-from .health_monitor import HealthMonitor
-from .deployment_pipeline import DeploymentPipeline
 from .config_manager import ConfigurationManager
-from .rollback_system import RollbackSystem
 from .deployment_coordinator import DeploymentCoordinator
+from .deployment_pipeline import DeploymentPipeline
+from .health_monitor import HealthMonitor
+from .lane_manager import LaneManager
+from .rollback_system import RollbackSystem
+from .traffic_router import TrafficRouter
 
 __all__ = [
     'LaneManager',

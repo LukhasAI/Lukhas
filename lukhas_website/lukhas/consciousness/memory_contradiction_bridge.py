@@ -16,15 +16,18 @@ Features:
 Performance Target: <10ms memory validation cycles
 """
 
-import time
 import logging
-from typing import Any, Dict, List, Optional, Tuple
+import time
 from dataclasses import dataclass, field
 from enum import Enum
+from typing import Any, Dict, List, Optional, Tuple
 
 from ..cognitive_core.reasoning.contradiction_integrator import (
-    ContradictionIntegrator, ContradictionContext, ContradictionScope
+    ContradictionContext,
+    ContradictionIntegrator,
+    ContradictionScope,
 )
+
 try:
     from ..memory.memory_bridge import MemoryBridge
 except ImportError:

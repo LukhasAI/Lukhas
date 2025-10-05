@@ -43,6 +43,7 @@ from lukhas.aka_qualia.util import compute_drift_phi, extract_affect_energy
 from lukhas.aka_qualia.vivox_integration import VivoxAkaQualiaIntegration
 from lukhas.metrics import get_metrics_collector
 
+
 # Task 7: Integrity micro-check integration
 def _make_integrity_probe():
     """Factory for IntegrityProbe - runtime env check for better test determinism."""

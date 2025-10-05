@@ -8,16 +8,15 @@
 Integration tests for dreamweaver_helpers_bundle module.
 """
 
-import pytest
 import unittest
-import asyncio
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module for integration testing
 try:
     import dreamweaver_helpers_bundle
 except ImportError:
-    pytest.skip(f"Module dreamweaver_helpers_bundle not available", allow_module_level=True)
+    pytest.skip("Module dreamweaver_helpers_bundle not available", allow_module_level=True)
 
 
 class TestDreamweaverHelpersBundleIntegration(unittest.TestCase):

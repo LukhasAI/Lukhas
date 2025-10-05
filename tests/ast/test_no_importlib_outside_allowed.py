@@ -79,7 +79,7 @@ def scan_file_for_importlib(file_path: Path) -> Tuple[List[Tuple[int, str]], Lis
 
         return detector.importlib_imports, detector.importlib_calls
 
-    except (SyntaxError, UnicodeDecodeError, OSError, ValueError) as e:
+    except (SyntaxError, UnicodeDecodeError, OSError, ValueError):
         # Skip files that can't be parsed or read
         return [], []
 
@@ -192,13 +192,13 @@ class TestNoImportlibOutsideAllowed:
                     })
 
         # Report findings
-        print(f"\n=== IMPORTLIB USAGE REPORT ===")
+        print("\n=== IMPORTLIB USAGE REPORT ===")
         print(f"Scanned {len(python_files)} Python files")
         print(f"Found {len(allowed_usage)} files with allowed usage")
         print(f"Found {len(violations)} files with violations")
 
         if allowed_usage:
-            print(f"\n--- ALLOWED USAGE ---")
+            print("\n--- ALLOWED USAGE ---")
             for usage in allowed_usage:
                 print(f"✅ {usage['file']}")
                 for line, code in usage['imports']:
@@ -207,7 +207,7 @@ class TestNoImportlibOutsideAllowed:
                     print(f"   Line {line}: {code}")
 
         if violations:
-            print(f"\n--- VIOLATIONS FOUND ---")
+            print("\n--- VIOLATIONS FOUND ---")
             for violation in violations:
                 print(f"❌ {violation['file']}")
                 for line, code in violation['imports']:
@@ -215,7 +215,7 @@ class TestNoImportlibOutsideAllowed:
                 for line, code in violation['calls']:
                     print(f"   Line {line}: {code}")
 
-            print(f"\n=== REMEDIATION REQUIRED ===")
+            print("\n=== REMEDIATION REQUIRED ===")
             print("The following files need to be updated to use registry.resolve() instead:")
             for violation in violations:
                 print(f"- {violation['file']}")
@@ -245,7 +245,7 @@ class TestNoImportlibOutsideAllowed:
             "Registry file should contain importlib usage for plugin discovery"
         )
 
-        print(f"\n=== REGISTRY IMPORTLIB USAGE ===")
+        print("\n=== REGISTRY IMPORTLIB USAGE ===")
         print(f"File: {registry_path}")
         print("Imports:")
         for line, code in imports:
@@ -261,7 +261,7 @@ class TestNoImportlibOutsideAllowed:
         This ensures our registry-based approach actually works.
         """
         try:
-            from lukhas.core.registry import auto_discover, _REG
+            from lukhas.core.registry import _REG, auto_discover
 
             # Clear registry for clean test
             _REG.clear()
@@ -270,7 +270,7 @@ class TestNoImportlibOutsideAllowed:
             auto_discover()
 
             # Should have some plugins registered (even if just test ones)
-            print(f"\n=== PLUGIN DISCOVERY SMOKE TEST ===")
+            print("\n=== PLUGIN DISCOVERY SMOKE TEST ===")
             print(f"Discovered {len(_REG)} plugins")
 
             for kind, plugin in _REG.items():

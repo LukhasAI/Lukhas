@@ -17,18 +17,19 @@ Constellation Framework: 🌊 Distributed Tracing Excellence
 """
 
 import logging
-import pytest
 import time
 import uuid
-from typing import Dict, Any, List, Optional
-from unittest.mock import Mock
 from dataclasses import dataclass
+from typing import Any, Dict, List, Optional
+from unittest.mock import Mock
+
+import pytest
 
 # Mock OpenTelemetry imports
 try:
     from opentelemetry import trace
-    from opentelemetry.trace import Status, StatusCode
     from opentelemetry.baggage import get_baggage, set_baggage
+    from opentelemetry.trace import Status, StatusCode
     OTEL_AVAILABLE = True
 except ImportError:
     # Mock classes for testing without OpenTelemetry
@@ -353,7 +354,7 @@ class TestMATRIZTracing:
         # Simulate complete trace flow
         trace_results = validator.simulate_matriz_guardian_trace_flow(correlation_id)
 
-        logger.info(f"Trace flow simulation:")
+        logger.info("Trace flow simulation:")
         logger.info(f"  Correlation ID: {trace_results['correlation_id']}")
         logger.info(f"  Spans created: {trace_results['spans_created']}")
         logger.info(f"  Trace complete: {trace_results.get('trace_complete', False)}")
@@ -384,7 +385,7 @@ class TestMATRIZTracing:
         # Test baggage propagation
         baggage_valid = validator.validate_baggage_propagation(correlation_id)
 
-        logger.info(f"Baggage propagation test:")
+        logger.info("Baggage propagation test:")
         logger.info(f"  Correlation ID: {correlation_id}")
         logger.info(f"  Baggage propagation: {'✓ WORKING' if baggage_valid else '✗ FAILED'}")
 
@@ -409,7 +410,7 @@ class TestMATRIZTracing:
         # Validate span compliance
         result = validator.validate_span_contract_compliance(span)
 
-        logger.info(f"High-cardinality attribute test:")
+        logger.info("High-cardinality attribute test:")
         logger.info(f"  Span valid: {'✓' if result.valid else '✗'}")
         logger.info(f"  Violations: {result.violations}")
 
@@ -532,7 +533,7 @@ if __name__ == "__main__":
         all_tests_pass = (result.has_correlation_id and naming_valid and
                          trace_complete and baggage_valid)
 
-        print(f"\n=== Tracing Contract Validation Summary ===")
+        print("\n=== Tracing Contract Validation Summary ===")
         print(f"All contract requirements: {'✅ SATISFIED' if all_tests_pass else '❌ VIOLATED'}")
 
         return all_tests_pass

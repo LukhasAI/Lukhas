@@ -26,7 +26,6 @@ from typing import Dict, List
 from dotenv import load_dotenv
 
 # Load T4 research pipeline
-
 # Load vocabulary rotation engine
 from branding.vocabularies.vocabulary_rotation_engine import VocabularyRotationEngine
 
@@ -84,7 +83,7 @@ class MonthlyVocabularyRefresh:
 
         self._log_cycle(cycle_report)
 
-        print(f"\n🎉 Monthly Vocabulary Refresh Cycle Complete!")
+        print("\n🎉 Monthly Vocabulary Refresh Cycle Complete!")
         print(f"📊 Vocabulary Freshness: {deployment_results.get('freshness_score', 0):.3f}")
         print(f"🧠 Consciousness Alignment: {deployment_results.get('consciousness_score', 0):.3f}")
 

@@ -394,7 +394,7 @@ echo "✅ Test execution completed successfully!"
 
         test_runner.chmod(0o755)
 
-        print(f"✅ Created CI helper scripts:")
+        print("✅ Created CI helper scripts:")
         print(f"   - {setup_script}")
         print(f"   - {test_runner}")
 
@@ -463,7 +463,7 @@ echo "✅ Test execution completed successfully!"
         for step in next_steps:
             print(f"  {step}")
 
-        print(f"\n🎉 The 0.001% engineering approach is now ready for production scale!")
+        print("\n🎉 The 0.001% engineering approach is now ready for production scale!")
 
 
 def main():

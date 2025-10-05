@@ -9,18 +9,19 @@ Comprehensive metrics collection for T4/0.01% excellence monitoring:
 - Performance alerts: consumer lag >1000, append p95 >50ms
 """
 
+import logging
+import threading
 import time
-from typing import Dict, Any, Optional
+from typing import Any, Dict, Optional
+
 from prometheus_client import (
-    Counter,
-    Histogram,
-    Gauge,
     CollectorRegistry,
+    Counter,
+    Gauge,
+    Histogram,
     generate_latest,
     start_http_server,
 )
-import threading
-import logging
 
 logger = logging.getLogger(__name__)
 

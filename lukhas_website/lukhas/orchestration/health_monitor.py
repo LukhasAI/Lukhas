@@ -29,15 +29,15 @@ from __future__ import annotations
 import asyncio
 import logging
 import time
-from collections import deque, defaultdict
+from collections import defaultdict, deque
 from dataclasses import dataclass, field
-from typing import Dict, List, Optional, Callable, Any
+from typing import Any, Callable, Dict, List, Optional
 
 from opentelemetry import trace
-from prometheus_client import Counter, Histogram, Gauge
+from prometheus_client import Counter, Gauge, Histogram
 
-from .routing_config import ProviderHealth, HealthStatus
-from .providers import create_provider_client, AIProvider
+from .providers import AIProvider, create_provider_client
+from .routing_config import HealthStatus, ProviderHealth
 
 tracer = trace.get_tracer(__name__)
 logger = logging.getLogger(__name__)

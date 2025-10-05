@@ -16,22 +16,23 @@ Security Coverage: 100% threat model validation
 """
 
 import asyncio
-import pytest
-import time
-from unittest.mock import Mock, AsyncMock, patch
-from datetime import datetime, timedelta
-import json
 import hashlib
+import json
 import secrets
+import time
+from datetime import datetime, timedelta
+from unittest.mock import AsyncMock, Mock, patch
 
+import pytest
+
+from lukhas.identity.webauthn_production import WebAuthnManager
 from lukhas.identity.webauthn_security_hardening import (
-    WebAuthnSecurityHardening,
-    ThreatLevel,
     DeviceFingerprint,
     GeographicContext,
-    SecurityMetrics
+    SecurityMetrics,
+    ThreatLevel,
+    WebAuthnSecurityHardening,
 )
-from lukhas.identity.webauthn_production import WebAuthnManager
 
 
 class TestWebAuthnAbuseProtection:

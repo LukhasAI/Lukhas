@@ -13,6 +13,7 @@ Returns:
 import subprocess
 import sys
 
+
 def main():
     """Audit test collection - exit code based validation only"""
     print("🔍 Auditing test collection...")

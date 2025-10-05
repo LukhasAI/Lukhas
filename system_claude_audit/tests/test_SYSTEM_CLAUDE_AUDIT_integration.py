@@ -8,16 +8,15 @@
 Integration tests for SYSTEM_CLAUDE_AUDIT module.
 """
 
-import pytest
 import unittest
-import asyncio
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module for integration testing
 try:
     import SYSTEM_CLAUDE_AUDIT
 except ImportError:
-    pytest.skip(f"Module SYSTEM_CLAUDE_AUDIT not available", allow_module_level=True)
+    pytest.skip("Module SYSTEM_CLAUDE_AUDIT not available", allow_module_level=True)
 
 
 class TestSystemClaudeAuditIntegration(unittest.TestCase):

@@ -695,12 +695,12 @@ if __name__ == "__main__":
 
 
 # Tier Conversion Utilities (Constellation Framework Unification)
-# These functions provide seamless conversion between LAMBDA_TIER_X strings 
+# These functions provide seamless conversion between LAMBDA_TIER_X strings
 # and the unified 0-5 integer tier system used throughout LUKHAS
 
 LAMBDA_TIER_MAP = {
     "LAMBDA_TIER_0": TierLevel.PUBLIC,
-    "LAMBDA_TIER_1": TierLevel.AUTHENTICATED, 
+    "LAMBDA_TIER_1": TierLevel.AUTHENTICATED,
     "LAMBDA_TIER_2": TierLevel.ELEVATED,
     "LAMBDA_TIER_3": TierLevel.PRIVILEGED,
     "LAMBDA_TIER_4": TierLevel.ADMIN,

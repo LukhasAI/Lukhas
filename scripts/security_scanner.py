@@ -5,15 +5,15 @@ Comprehensive security scanning with Semgrep, Bandit, dependency vulnerability s
 and secrets detection for T4/0.01% excellence standards.
 """
 
-import json
-import sys
-import subprocess
-import datetime
-import re
-from pathlib import Path
-from typing import Dict, List, Any, Optional
 import argparse
-from dataclasses import dataclass, asdict
+import datetime
+import json
+import re
+import subprocess
+import sys
+from dataclasses import asdict, dataclass
+from pathlib import Path
+from typing import Any, Dict, List, Optional
 
 
 @dataclass
@@ -572,7 +572,7 @@ class LUKHASSecurityScanner:
         with open(report_file, 'w') as f:
             json.dump(report, f, indent=2)
 
-        print(f"\n📊 Security Scan Results:")
+        print("\n📊 Security Scan Results:")
         print(f"   Static Analysis Findings: {len(self.static_findings)}")
         print(f"   Vulnerability Findings: {len(self.vulnerability_findings)}")
         print(f"   Secret Findings: {len(self.secret_findings)}")

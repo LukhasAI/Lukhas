@@ -8,15 +8,15 @@
 Unit tests for SYSTEM_CLAUDE_AUDIT module.
 """
 
-import pytest
 import unittest
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module components
 try:
     import SYSTEM_CLAUDE_AUDIT
 except ImportError:
-    pytest.skip(f"Module SYSTEM_CLAUDE_AUDIT not available", allow_module_level=True)
+    pytest.skip("Module SYSTEM_CLAUDE_AUDIT not available", allow_module_level=True)
 
 
 class TestSystemClaudeAuditModule(unittest.TestCase):

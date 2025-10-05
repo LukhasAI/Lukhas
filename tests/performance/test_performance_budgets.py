@@ -11,15 +11,16 @@ Enforces T4/0.01% performance budgets across all LUKHAS systems:
 """
 
 import asyncio
-import pytest
-import time
-import psutil
 import gc
-from dataclasses import dataclass
+import time
 from contextlib import asynccontextmanager
+from dataclasses import dataclass
 
-from lukhas.observability.prometheus_metrics import LUKHASMetrics
+import psutil
+import pytest
+
 from lukhas.observability.opentelemetry_tracing import LUKHASTracer
+from lukhas.observability.prometheus_metrics import LUKHASMetrics
 
 
 @dataclass
@@ -199,8 +200,8 @@ class TestMATRIZPerformanceBudgets:
     @pytest.mark.asyncio
     async def test_stage_latency_budget(self, monitor):
         """Test individual stage latency budgets."""
-        from tests.e2e.test_matriz_orchestration import MockPlugin
         from lukhas.core.matriz.pipeline_stage import PipelineStage
+        from tests.e2e.test_matriz_orchestration import MockPlugin
 
         async with monitor.monitor_performance("stage_latency") as metrics:
             # Test various stage configurations
@@ -229,9 +230,9 @@ class TestMATRIZPerformanceBudgets:
     @pytest.mark.asyncio
     async def test_pipeline_throughput_budget(self, monitor):
         """Test pipeline throughput meets budget requirements."""
-        from tests.e2e.test_matriz_orchestration import MockPlugin
         from lukhas.core.matriz.async_orchestrator import AsyncOrchestrator
         from lukhas.core.matriz.pipeline_stage import PipelineStage
+        from tests.e2e.test_matriz_orchestration import MockPlugin
 
         async with monitor.monitor_performance("pipeline_throughput") as metrics:
             # Create lightweight orchestrator

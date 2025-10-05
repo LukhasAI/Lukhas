@@ -7,13 +7,14 @@ Validates Prometheus alerting rules for correctness and coverage of new metrics.
 Tests PromQL queries for syntax and logic errors with T4/0.01% compliance.
 """
 
-import yaml
 import json
-import sys
-import re
 import logging
+import re
+import sys
 from pathlib import Path
 from typing import Set
+
+import yaml
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')

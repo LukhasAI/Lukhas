@@ -8,16 +8,15 @@
 Integration tests for vocabularies module.
 """
 
-import pytest
 import unittest
-import asyncio
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module for integration testing
 try:
     import vocabularies
 except ImportError:
-    pytest.skip(f"Module vocabularies not available", allow_module_level=True)
+    pytest.skip("Module vocabularies not available", allow_module_level=True)
 
 
 class TestVocabulariesIntegration(unittest.TestCase):

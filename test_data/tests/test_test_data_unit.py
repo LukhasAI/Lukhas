@@ -8,15 +8,15 @@
 Unit tests for test_data module.
 """
 
-import pytest
 import unittest
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module components
 try:
     import test_data
 except ImportError:
-    pytest.skip(f"Module test_data not available", allow_module_level=True)
+    pytest.skip("Module test_data not available", allow_module_level=True)
 
 
 class TestTestDataModule(unittest.TestCase):

@@ -9,10 +9,11 @@ Usage:
   result = monitor.update(intent=[1.0, 0.0], action=[0.9, 0.1])
 """
 from __future__ import annotations
-from dataclasses import dataclass
-from typing import Dict, List, Optional
+
 import math
 import os
+from dataclasses import dataclass
+from typing import Dict, List, Optional
 
 # Optional metrics
 try:

@@ -6,15 +6,15 @@ Constellation Framework: Identity-Consciousness-Guardian
 """
 
 import logging
-from typing import Dict, List, Optional, Any
+from typing import Any, Dict, List, Optional
 
 logger = logging.getLogger(__name__)
 
 # Import core voice components with fallbacks
 try:
-    from .voice_engine import VoiceEngine
     from .consciousness_voice import ConsciousnessVoice
     from .voice_adapter import VoiceAdapter
+    from .voice_engine import VoiceEngine
     VOICE_SYSTEMS_AVAILABLE = True
     logger.info("✅ Core voice systems loaded successfully")
 except ImportError as e:

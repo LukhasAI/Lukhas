@@ -7,11 +7,11 @@ Handles class names, function names, documentation, and configuration files whil
 preserving technical accuracy and semantic meaning.
 """
 
+import logging
 import os
 import re
 from pathlib import Path
 from typing import List, Tuple
-import logging
 
 # Setup logging
 logging.basicConfig(level=logging.INFO, format='%(levelname)s: %(message)s')

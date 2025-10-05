@@ -8,15 +8,15 @@
 Unit tests for products module.
 """
 
-import pytest
 import unittest
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module components
 try:
     import products
 except ImportError:
-    pytest.skip(f"Module products not available", allow_module_level=True)
+    pytest.skip("Module products not available", allow_module_level=True)
 
 
 class TestProductsModule(unittest.TestCase):
@@ -81,7 +81,7 @@ class TestTestResult(unittest.TestCase):
             from products.SMOKE_TEST import TestResult
             self.assertIsNotNone(TestResult)
         except ImportError:
-            pytest.skip(f"Component TestResult not available")
+            pytest.skip("Component TestResult not available")
 
     def test_testresult_instantiation(self):
         """Test TestResult can be instantiated."""
@@ -98,7 +98,7 @@ class Testmain(unittest.TestCase):
             from products.SMOKE_TEST import main
             self.assertIsNotNone(main)
         except ImportError:
-            pytest.skip(f"Component main not available")
+            pytest.skip("Component main not available")
 
     def test_main_instantiation(self):
         """Test main can be instantiated."""
@@ -115,7 +115,7 @@ class Testprint_results(unittest.TestCase):
             from products.SMOKE_TEST import print_results
             self.assertIsNotNone(print_results)
         except ImportError:
-            pytest.skip(f"Component print_results not available")
+            pytest.skip("Component print_results not available")
 
     def test_print_results_instantiation(self):
         """Test print_results can be instantiated."""

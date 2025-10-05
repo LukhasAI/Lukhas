@@ -8,16 +8,15 @@
 Integration tests for ai_orchestration module.
 """
 
-import pytest
 import unittest
-import asyncio
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module for integration testing
 try:
     import ai_orchestration
 except ImportError:
-    pytest.skip(f"Module ai_orchestration not available", allow_module_level=True)
+    pytest.skip("Module ai_orchestration not available", allow_module_level=True)
 
 
 class TestAiOrchestrationIntegration(unittest.TestCase):

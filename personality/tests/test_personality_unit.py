@@ -8,15 +8,15 @@
 Unit tests for personality module.
 """
 
-import pytest
 import unittest
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module components
 try:
     import personality
 except ImportError:
-    pytest.skip(f"Module personality not available", allow_module_level=True)
+    pytest.skip("Module personality not available", allow_module_level=True)
 
 
 class TestPersonalityModule(unittest.TestCase):

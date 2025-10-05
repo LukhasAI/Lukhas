@@ -8,16 +8,15 @@
 Integration tests for storage module.
 """
 
-import pytest
 import unittest
-import asyncio
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module for integration testing
 try:
     import storage
 except ImportError:
-    pytest.skip(f"Module storage not available", allow_module_level=True)
+    pytest.skip("Module storage not available", allow_module_level=True)
 
 
 class TestStorageIntegration(unittest.TestCase):

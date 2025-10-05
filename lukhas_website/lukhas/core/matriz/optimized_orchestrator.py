@@ -19,13 +19,16 @@ from dataclasses import dataclass
 from enum import Enum
 from typing import Any, Dict, List, Optional
 
-from matriz.core.async_orchestrator import AsyncCognitiveOrchestrator, StageType, StageResult
-from matriz.core.node_interface import CognitiveNode
 from lukhas.observability.matriz_instrumentation import (
-    instrument_cognitive_stage, cognitive_pipeline_span,
-    record_focus_drift, record_thought_complexity,
-    record_decision_confidence, initialize_cognitive_instrumentation
+    cognitive_pipeline_span,
+    initialize_cognitive_instrumentation,
+    instrument_cognitive_stage,
+    record_decision_confidence,
+    record_focus_drift,
+    record_thought_complexity,
 )
+from matriz.core.async_orchestrator import AsyncCognitiveOrchestrator, StageResult, StageType
+from matriz.core.node_interface import CognitiveNode
 
 
 class CacheType(Enum):
@@ -589,7 +592,7 @@ class OptimizedAsyncOrchestrator(AsyncCognitiveOrchestrator):
                     node = next(iter(self.available_nodes.values()))
                     selected_node_name = next(iter(self.available_nodes.keys()))
                 else:
-                    raise Exception(f"No nodes available")
+                    raise Exception("No nodes available")
 
             # Execute with timeout (use asyncio.wait_for directly for efficiency)
             processing_timeout = self.stage_timeouts[StageType.PROCESSING]

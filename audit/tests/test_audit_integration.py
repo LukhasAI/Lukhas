@@ -8,16 +8,15 @@
 Integration tests for audit module.
 """
 
-import pytest
 import unittest
-import asyncio
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module for integration testing
 try:
     import audit
 except ImportError:
-    pytest.skip(f"Module audit not available", allow_module_level=True)
+    pytest.skip("Module audit not available", allow_module_level=True)
 
 
 class TestAuditIntegration(unittest.TestCase):

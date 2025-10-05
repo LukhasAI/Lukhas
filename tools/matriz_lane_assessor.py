@@ -6,11 +6,11 @@ Performs dry-run lane assessment to compute provisional L0-L5 lane assignments
 for modules based on their characteristics, dependencies, and maturity.
 """
 
+import argparse
 import json
 import pathlib
-from typing import List, Dict, Any
-import argparse
 import sys
+from typing import Any, Dict, List
 
 
 class LaneAssessor:
@@ -319,9 +319,9 @@ def main():
         json.dump(results, f, indent=2)
 
     if args.verbose:
-        print(f"Lane assessment complete:")
+        print("Lane assessment complete:")
         print(f"  Total modules assessed: {results['total_modules']}")
-        print(f"  Lane distribution:")
+        print("  Lane distribution:")
         for lane, count in sorted(results['lane_distribution'].items()):
             lane_name = results['lane_criteria'][lane]['name']
             print(f"    {lane} ({lane_name}): {count}")

@@ -6,6 +6,7 @@ All extractors return Signal objects with full provenance chains.
 """
 
 from __future__ import annotations
+
 import ast
 import hashlib
 import json

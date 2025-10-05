@@ -7,10 +7,10 @@ Generate comprehensive README.md files for modules using enriched manifest data
 and actual module content for T4/0.01% documentation standards.
 """
 
-import json
 import ast
+import json
 from pathlib import Path
-from typing import Dict, List, Optional
+from typing import Optional
 
 
 def extract_module_docstring(module_path: Path) -> Optional[str]:

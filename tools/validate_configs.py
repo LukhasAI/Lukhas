@@ -4,12 +4,13 @@ Configuration validation tool for LUKHAS modules.
 Validates YAML configs against schemas and detects potential secrets.
 """
 
-import sys
-import pathlib
-import yaml
 import json
+import pathlib
 import re
-from typing import List, Dict, Any, Tuple
+import sys
+from typing import Any, Dict, List
+
+import yaml
 
 try:
     import jsonschema
@@ -195,7 +196,7 @@ def main():
         for secret in results["secrets_found"]:
             print(f"   🔐 {secret}")
 
-    print(f"\n📊 Summary:")
+    print("\n📊 Summary:")
     print(f"   Modules validated: {total_modules}")
     print(f"   Valid modules: {valid_modules}")
     print(f"   Invalid modules: {total_modules - valid_modules}")

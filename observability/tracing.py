@@ -4,8 +4,9 @@ Use spanify() to wrap each stage with automatic exception recording.
 """
 from contextlib import contextmanager
 from typing import Any, Optional
+
 from opentelemetry import trace
-from opentelemetry.trace import Status, StatusCode, Span
+from opentelemetry.trace import Status, StatusCode
 
 tracer = trace.get_tracer("lukhas.matriz")
 

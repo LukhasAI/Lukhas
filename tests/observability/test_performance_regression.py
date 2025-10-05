@@ -5,22 +5,24 @@ Comprehensive tests for ML-based anomaly detection and performance monitoring.
 """
 
 import asyncio
-import pytest
 import statistics
-from datetime import datetime, timedelta, timezone
-from pathlib import Path
-from unittest.mock import patch, MagicMock, AsyncMock
 
 # Test imports
 import sys
+from datetime import datetime, timedelta, timezone
+from pathlib import Path
+from unittest.mock import AsyncMock, MagicMock, patch
+
+import pytest
+
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
 from lukhas.observability.performance_regression import (
-    PerformanceRegressionDetector,
+    DetectionMethod,
     PerformanceBaseline,
     PerformanceRegression,
+    PerformanceRegressionDetector,
     RegressionSeverity,
-    DetectionMethod,
     initialize_regression_detector,
     record_performance_data,
 )

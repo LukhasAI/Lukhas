@@ -4,8 +4,8 @@ T4 Scaffold Guard - Protect auto-generated scaffold files from manual edits.
 Prevents commits that modify scaffold-generated files without proper provenance.
 """
 
-import sys
 import subprocess
+import sys
 from pathlib import Path
 
 PROV_PREFIX = "# @generated LUKHAS scaffold v1"

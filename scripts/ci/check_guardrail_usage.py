@@ -40,7 +40,8 @@ def main() -> int:
     if not files:
         # Conservative fallback: only scan tracked Python files
         try:
-            import subprocess, shlex
+            import shlex
+            import subprocess
             out = subprocess.check_output(shlex.split("git ls-files '*.py'")).decode().splitlines()
             files = [Path(x) for x in out]
         except Exception:

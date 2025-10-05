@@ -58,14 +58,14 @@ Exit codes:
 """
 
 from __future__ import annotations
+
 import argparse
+import hashlib
 import json
-import os
 import sys
 import time
-import hashlib
 from pathlib import Path
-from typing import Dict, Any, List, Tuple, Optional
+from typing import Any, Dict, List, Optional, Tuple
 
 # ---------- Defaults / Constants ----------
 
@@ -88,7 +88,7 @@ def _guess_matriz_contract(mod_dir: Path) -> Optional[str]:
     cand = mod_dir / mname
     if cand.exists():
         return mname
-    cand2 = mod_dir / f"matrix.json"
+    cand2 = mod_dir / "matrix.json"
     if cand2.exists():
         return "matrix.json"
     # Fallback: any matrix_*.json

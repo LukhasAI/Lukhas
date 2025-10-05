@@ -8,16 +8,15 @@
 Integration tests for mk module.
 """
 
-import pytest
 import unittest
-import asyncio
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module for integration testing
 try:
     import mk
 except ImportError:
-    pytest.skip(f"Module mk not available", allow_module_level=True)
+    pytest.skip("Module mk not available", allow_module_level=True)
 
 
 class TestMkIntegration(unittest.TestCase):

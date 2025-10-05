@@ -8,15 +8,15 @@
 Unit tests for analytics module.
 """
 
-import pytest
 import unittest
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module components
 try:
     import analytics
 except ImportError:
-    pytest.skip(f"Module analytics not available", allow_module_level=True)
+    pytest.skip("Module analytics not available", allow_module_level=True)
 
 
 class TestAnalyticsModule(unittest.TestCase):
@@ -81,7 +81,7 @@ class TestANALYTICS_DOMAINS(unittest.TestCase):
             from analytics import ANALYTICS_DOMAINS
             self.assertIsNotNone(ANALYTICS_DOMAINS)
         except ImportError:
-            pytest.skip(f"Component ANALYTICS_DOMAINS not available")
+            pytest.skip("Component ANALYTICS_DOMAINS not available")
 
     def test_analytics_domains_instantiation(self):
         """Test ANALYTICS_DOMAINS can be instantiated."""
@@ -98,7 +98,7 @@ class TestMETRICS_AVAILABLE(unittest.TestCase):
             from analytics import METRICS_AVAILABLE
             self.assertIsNotNone(METRICS_AVAILABLE)
         except ImportError:
-            pytest.skip(f"Component METRICS_AVAILABLE not available")
+            pytest.skip("Component METRICS_AVAILABLE not available")
 
     def test_metrics_available_instantiation(self):
         """Test METRICS_AVAILABLE can be instantiated."""
@@ -115,7 +115,7 @@ class Test__author__(unittest.TestCase):
             from analytics import __author__
             self.assertIsNotNone(__author__)
         except ImportError:
-            pytest.skip(f"Component __author__ not available")
+            pytest.skip("Component __author__ not available")
 
     def test___author___instantiation(self):
         """Test __author__ can be instantiated."""

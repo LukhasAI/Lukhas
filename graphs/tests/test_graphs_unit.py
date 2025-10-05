@@ -8,15 +8,15 @@
 Unit tests for graphs module.
 """
 
-import pytest
 import unittest
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module components
 try:
     import graphs
 except ImportError:
-    pytest.skip(f"Module graphs not available", allow_module_level=True)
+    pytest.skip("Module graphs not available", allow_module_level=True)
 
 
 class TestGraphsModule(unittest.TestCase):

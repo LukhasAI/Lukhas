@@ -3,14 +3,15 @@
 Runs pytest-benchmark, updates manifest with p50/p95/p99, ledgers results.
 """
 from __future__ import annotations
+
 import argparse
+import hashlib
 import json
+import platform
 import subprocess
 import sys
-import hashlib
-import platform
-from pathlib import Path
 from datetime import datetime, timezone
+from pathlib import Path
 
 try:
     import numpy as np

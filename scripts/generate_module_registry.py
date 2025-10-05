@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 """Generate MODULE_REGISTRY.json from all module.manifest.json files."""
 from __future__ import annotations
+
 import json
-from pathlib import Path
 from datetime import datetime, timezone
+from pathlib import Path
 
 ROOT = Path(".")
 OUT = ROOT / "docs/_generated/MODULE_REGISTRY.json"

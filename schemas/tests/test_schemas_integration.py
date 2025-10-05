@@ -8,16 +8,15 @@
 Integration tests for schemas module.
 """
 
-import pytest
 import unittest
-import asyncio
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module for integration testing
 try:
     import schemas
 except ImportError:
-    pytest.skip(f"Module schemas not available", allow_module_level=True)
+    pytest.skip("Module schemas not available", allow_module_level=True)
 
 
 class TestSchemasIntegration(unittest.TestCase):

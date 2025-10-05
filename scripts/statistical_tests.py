@@ -12,11 +12,13 @@ Implements rigorous statistical analysis for performance validation including:
 
 import argparse
 import json
+import warnings
+from pathlib import Path
+from typing import Any, Dict, List
+
 import numpy as np
 import scipy.stats as stats
-from pathlib import Path
-from typing import Dict, List, Any
-import warnings
+
 warnings.filterwarnings('ignore')
 
 class StatisticalAnalyzer:
@@ -485,7 +487,7 @@ def main():
         with open(report_path, 'w') as f:
             f.write(report)
 
-        print(f"📊 Statistical analysis complete")
+        print("📊 Statistical analysis complete")
         print(f"Results: {args.output}")
         print(f"Report: {args.report}")
     else:

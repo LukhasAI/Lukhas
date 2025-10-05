@@ -12,16 +12,17 @@ Usage:
   recent = store.query_recent(limit=100)
 """
 from __future__ import annotations
-from dataclasses import dataclass
-from datetime import datetime, timedelta
-from typing import Dict, List, Optional, Any, Iterator
-from uuid import UUID, uuid4
+
 import os
 import threading
 from collections import deque
+from dataclasses import dataclass
+from datetime import datetime, timedelta
+from typing import Any, Dict, Iterator, List, Optional
+from uuid import UUID, uuid4
 
 try:
-    from prometheus_client import Counter, Histogram, Gauge
+    from prometheus_client import Counter, Gauge, Histogram
     try:
         EVENTS_APPENDED = Counter("lukhas_events_appended_total", "Events appended to store", ["kind", "lane"])
         EVENTS_QUERIED = Counter("lukhas_events_queried_total", "Event queries executed", ["query_type"])
@@ -296,8 +297,8 @@ def get_event_store() -> EventStore:
 
 # CLI for testing
 if __name__ == "__main__":
-    import sys
     import json
+    import sys
 
     store = get_event_store()
     print(f"EventStore CLI (capacity={store.max_capacity})")

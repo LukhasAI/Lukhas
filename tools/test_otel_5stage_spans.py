@@ -15,16 +15,16 @@ Usage:
 
 import asyncio
 import time
-from typing import Dict, Any
 from dataclasses import dataclass
+from typing import Any, Dict
 
 # Import OTEL instrumentation
 try:
     from lukhas.observability.otel_instrumentation import (
+        get_instrumentation_status,
+        initialize_otel_instrumentation,
         instrument_matriz_stage,
         matriz_pipeline_span,
-        initialize_otel_instrumentation,
-        get_instrumentation_status
     )
     OTEL_AVAILABLE = True
 except ImportError:
@@ -241,14 +241,14 @@ async def run_otel_5stage_validation():
         end_time = time.perf_counter()
         total_duration = (end_time - start_time) * 1000  # Convert to ms
 
-        print(f"\n📊 PIPELINE EXECUTION RESULTS")
+        print("\n📊 PIPELINE EXECUTION RESULTS")
         print("-" * 30)
         print(f"✅ Pipeline Status: {result['pipeline_status']}")
         print(f"📈 Total Duration: {total_duration:.2f}ms")
         print(f"🎯 Stages Executed: {result['stages_executed']}/5")
         print(f"📡 All Spans Created: {result['all_spans_created']}")
 
-        print(f"\n📋 STAGE-BY-STAGE RESULTS")
+        print("\n📋 STAGE-BY-STAGE RESULTS")
         print("-" * 30)
         for stage_result in processor.stage_results:
             status = "✅ PASS" if stage_result.success else "❌ FAIL"
@@ -264,7 +264,7 @@ async def run_otel_5stage_validation():
             "otel_available": OTEL_AVAILABLE
         }
 
-        print(f"\n🎯 VALIDATION RESULTS")
+        print("\n🎯 VALIDATION RESULTS")
         print("-" * 30)
         for requirement, met in requirements_met.items():
             status = "✅ PASS" if met else "❌ FAIL"

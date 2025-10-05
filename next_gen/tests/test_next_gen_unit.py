@@ -8,15 +8,15 @@
 Unit tests for next_gen module.
 """
 
-import pytest
 import unittest
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module components
 try:
     import next_gen
 except ImportError:
-    pytest.skip(f"Module next_gen not available", allow_module_level=True)
+    pytest.skip("Module next_gen not available", allow_module_level=True)
 
 
 class TestNextGenModule(unittest.TestCase):

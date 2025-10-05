@@ -216,7 +216,7 @@ class ComprehensiveSyntaxFixer:
                 logger.info(f"✅ Fixed syntax errors in {file_path}")
 
         # Summary
-        logger.info(f"\n📈 SYNTAX FIXING SUMMARY:")
+        logger.info("\n📈 SYNTAX FIXING SUMMARY:")
         logger.info(f"✅ Files processed: {len(self.files_processed)}")
         logger.info(f"🔧 Total fixes applied: {self.fixed_count}")
 

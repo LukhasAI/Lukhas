@@ -18,18 +18,18 @@ Features:
 """
 
 import asyncio
-import time
 import logging
+import time
 from typing import Any, Dict, List, Optional
 
-from ..cognitive_core.reasoning.deep_inference_engine import DeepInferenceEngine, InferenceResult
 from ..cognitive_core.reasoning.contradiction_integrator import (
-    ContradictionIntegrator, ContradictionContext, ContradictionScope
+    ContradictionContext,
+    ContradictionIntegrator,
+    ContradictionScope,
 )
-from .enhanced_thought_engine import (
-    EnhancedThoughtEngine, ThoughtContext, ThoughtComplexity, ThoughtResult
-)
+from ..cognitive_core.reasoning.deep_inference_engine import DeepInferenceEngine, InferenceResult
 from .enhanced_awareness_engine import EnhancedAwarenessEngine
+from .enhanced_thought_engine import EnhancedThoughtEngine, ThoughtComplexity, ThoughtContext, ThoughtResult
 
 # Import MATRIZ base classes
 try:

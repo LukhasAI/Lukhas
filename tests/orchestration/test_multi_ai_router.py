@@ -7,14 +7,21 @@ Comprehensive test suite for multi-AI routing, consensus mechanisms,
 and performance validation.
 """
 
-import pytest
 import time
 from unittest.mock import Mock
 
+import pytest
+
 from lukhas.orchestration.multi_ai_router import (
-    MultiAIRouter, ModelSelector, ConsensusEngine,
-    AIProvider, AIModel, AIResponse, ConsensusType,
-    RoutingRequest, get_multi_ai_router
+    AIModel,
+    AIProvider,
+    AIResponse,
+    ConsensusEngine,
+    ConsensusType,
+    ModelSelector,
+    MultiAIRouter,
+    RoutingRequest,
+    get_multi_ai_router,
 )
 
 

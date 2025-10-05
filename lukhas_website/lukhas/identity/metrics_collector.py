@@ -9,20 +9,20 @@ Provides comprehensive performance, security, and operational monitoring.
 
 from __future__ import annotations
 
+import logging
+import threading
 import time
 from contextlib import contextmanager
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, Dict, List, Optional
-import threading
-import logging
 
 logger = logging.getLogger(__name__)
 
 # Prometheus metrics (with fallback stubs)
 try:
-    from prometheus_client import Counter, Histogram, Gauge, Info
+    from prometheus_client import Counter, Gauge, Histogram, Info
     PROMETHEUS_AVAILABLE = True
 except ImportError:
     PROMETHEUS_AVAILABLE = False

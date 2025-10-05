@@ -8,15 +8,15 @@
 Unit tests for business module.
 """
 
-import pytest
 import unittest
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module components
 try:
     import business
 except ImportError:
-    pytest.skip(f"Module business not available", allow_module_level=True)
+    pytest.skip("Module business not available", allow_module_level=True)
 
 
 class TestBusinessModule(unittest.TestCase):
@@ -81,7 +81,7 @@ class TestBUSINESS_DOMAINS(unittest.TestCase):
             from business import BUSINESS_DOMAINS
             self.assertIsNotNone(BUSINESS_DOMAINS)
         except ImportError:
-            pytest.skip(f"Component BUSINESS_DOMAINS not available")
+            pytest.skip("Component BUSINESS_DOMAINS not available")
 
     def test_business_domains_instantiation(self):
         """Test BUSINESS_DOMAINS can be instantiated."""
@@ -98,7 +98,7 @@ class Test__author__(unittest.TestCase):
             from business import __author__
             self.assertIsNotNone(__author__)
         except ImportError:
-            pytest.skip(f"Component __author__ not available")
+            pytest.skip("Component __author__ not available")
 
     def test___author___instantiation(self):
         """Test __author__ can be instantiated."""
@@ -115,7 +115,7 @@ class Test__version__(unittest.TestCase):
             from business import __version__
             self.assertIsNotNone(__version__)
         except ImportError:
-            pytest.skip(f"Component __version__ not available")
+            pytest.skip("Component __version__ not available")
 
     def test___version___instantiation(self):
         """Test __version__ can be instantiated."""

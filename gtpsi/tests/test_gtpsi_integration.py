@@ -8,16 +8,15 @@
 Integration tests for gtpsi module.
 """
 
-import pytest
 import unittest
-import asyncio
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module for integration testing
 try:
     import gtpsi
 except ImportError:
-    pytest.skip(f"Module gtpsi not available", allow_module_level=True)
+    pytest.skip("Module gtpsi not available", allow_module_level=True)
 
 
 class TestGtpsiIntegration(unittest.TestCase):

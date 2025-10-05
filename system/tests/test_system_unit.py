@@ -8,15 +8,15 @@
 Unit tests for system module.
 """
 
-import pytest
 import unittest
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module components
 try:
     import system
 except ImportError:
-    pytest.skip(f"Module system not available", allow_module_level=True)
+    pytest.skip("Module system not available", allow_module_level=True)
 
 
 class TestSystemModule(unittest.TestCase):

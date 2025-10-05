@@ -26,7 +26,7 @@ import logging
 import os
 import subprocess
 import time
-from dataclasses import dataclass, asdict
+from dataclasses import asdict, dataclass
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Dict, List, Optional
@@ -607,7 +607,7 @@ class MATRIZEvidenceGenerator:
 
         report_lines.extend([
             "",
-            f"=== Bundle Signature ===",
+            "=== Bundle Signature ===",
             f"Signature: {bundle.bundle_signature}",
             "",
             "=== Deployment Readiness ===",

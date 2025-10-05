@@ -8,15 +8,15 @@
 Unit tests for server module.
 """
 
-import pytest
 import unittest
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module components
 try:
     import server
 except ImportError:
-    pytest.skip(f"Module server not available", allow_module_level=True)
+    pytest.skip("Module server not available", allow_module_level=True)
 
 
 class TestServerModule(unittest.TestCase):

@@ -10,11 +10,12 @@ Output:
     CSV with columns: date, module, p50_ms, p95_ms, p99_ms, delta_p95, env_fingerprint
 """
 from __future__ import annotations
+
 import argparse
 import json
 import sys
 from collections import defaultdict
-from datetime import datetime, timezone
+from datetime import datetime
 from pathlib import Path
 from typing import NamedTuple
 
@@ -125,7 +126,7 @@ def main() -> int:
 
     print(f"   Found {len(entries)} entries")
 
-    print(f"📈 Calculating trends...")
+    print("📈 Calculating trends...")
     trends = calculate_trends(entries)
 
     print(f"💾 Writing CSV: {args.output}")

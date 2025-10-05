@@ -9,16 +9,18 @@ T4/0.01% Excellence: Production-ready OIDC provider with comprehensive validatio
 """
 
 from __future__ import annotations
+
 import urllib.parse
-from typing import Dict, Optional, List, Any
 from dataclasses import dataclass
+from typing import Any, Dict, List, Optional
+
 from opentelemetry import trace
 from prometheus_client import Counter, Histogram
 
-from .discovery import DiscoveryProvider
-from .client_registry import ClientRegistry, OIDCClient
-from .tokens import OIDCTokenManager
 from ..jwt_utils import get_jwt_manager
+from .client_registry import ClientRegistry, OIDCClient
+from .discovery import DiscoveryProvider
+from .tokens import OIDCTokenManager
 
 tracer = trace.get_tracer(__name__)
 

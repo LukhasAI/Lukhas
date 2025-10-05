@@ -8,16 +8,15 @@
 Integration tests for governance_extended module.
 """
 
-import pytest
 import unittest
-import asyncio
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module for integration testing
 try:
     import governance_extended
 except ImportError:
-    pytest.skip(f"Module governance_extended not available", allow_module_level=True)
+    pytest.skip("Module governance_extended not available", allow_module_level=True)
 
 
 class TestGovernanceExtendedIntegration(unittest.TestCase):

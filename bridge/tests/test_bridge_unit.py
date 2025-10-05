@@ -8,15 +8,15 @@
 Unit tests for bridge module.
 """
 
-import pytest
 import unittest
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module components
 try:
     import bridge
 except ImportError:
-    pytest.skip(f"Module bridge not available", allow_module_level=True)
+    pytest.skip("Module bridge not available", allow_module_level=True)
 
 
 class TestBridgeModule(unittest.TestCase):
@@ -81,7 +81,7 @@ class TestBRIDGE_BRANDING_AVAILABLE(unittest.TestCase):
             from bridge import BRIDGE_BRANDING_AVAILABLE
             self.assertIsNotNone(BRIDGE_BRANDING_AVAILABLE)
         except ImportError:
-            pytest.skip(f"Component BRIDGE_BRANDING_AVAILABLE not available")
+            pytest.skip("Component BRIDGE_BRANDING_AVAILABLE not available")
 
     def test_bridge_branding_available_instantiation(self):
         """Test BRIDGE_BRANDING_AVAILABLE can be instantiated."""
@@ -98,7 +98,7 @@ class TestBrandContext(unittest.TestCase):
             from bridge import BrandContext
             self.assertIsNotNone(BrandContext)
         except ImportError:
-            pytest.skip(f"Component BrandContext not available")
+            pytest.skip("Component BrandContext not available")
 
     def test_brandcontext_instantiation(self):
         """Test BrandContext can be instantiated."""
@@ -115,7 +115,7 @@ class TestInterColonyBridge(unittest.TestCase):
             from bridge.colony_bridge import InterColonyBridge
             self.assertIsNotNone(InterColonyBridge)
         except ImportError:
-            pytest.skip(f"Component InterColonyBridge not available")
+            pytest.skip("Component InterColonyBridge not available")
 
     def test_intercolonybridge_instantiation(self):
         """Test InterColonyBridge can be instantiated."""

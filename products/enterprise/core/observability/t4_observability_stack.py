@@ -35,8 +35,8 @@ if TYPE_CHECKING:
     from opentelemetry.sdk.trace.export import BatchSpanProcessor
 
     from lukhas.consciousness import ConsciousnessCore
-    from lukhas.memory import MemoryFoldSystem
     from lukhas.guardian import GuardianSystem
+    from lukhas.memory import MemoryFoldSystem
 
 
 datadog_module = _load_optional("datadog")

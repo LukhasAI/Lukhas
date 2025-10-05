@@ -27,7 +27,12 @@ from typing import Any, Optional
 try:
     # Cognitive Components
     # Integration Services
-    from cognitive_core.integration import cognitive_service_bridge, log_agi_operation, register_agi_service, vocabulary_service
+    from cognitive_core.integration import (
+        cognitive_service_bridge,
+        log_agi_operation,
+        register_agi_service,
+        vocabulary_service,
+    )
     from cognitive_core.learning import DreamGuidedLearner
     from cognitive_core.memory import DreamMemory, EpisodicMemory, MemoryConsolidator, SemanticMemory, VectorMemory
     from cognitive_core.orchestration import CapabilityMatrix, ConsensusEngine, CostOptimizer, ModelRouter

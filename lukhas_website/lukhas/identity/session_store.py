@@ -25,9 +25,8 @@ from uuid import uuid4
 import aioredis
 from cryptography.fernet import Fernet
 
-from lukhas.observability.metrics import get_metrics_collector
 from lukhas.core.logging import get_logger
-
+from lukhas.observability.metrics import get_metrics_collector
 
 logger = get_logger(__name__)
 metrics = get_metrics_collector()

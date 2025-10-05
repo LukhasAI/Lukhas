@@ -10,8 +10,9 @@ for noisy in [
 ]:
     logging.getLogger(noisy).setLevel(logging.ERROR)
 
-from lukhas.memory.consolidation import ConsolidationOrchestrator, ConsolidationMode, InMemoryStore
+from lukhas.memory.consolidation import ConsolidationMode, ConsolidationOrchestrator, InMemoryStore
 from lukhas.memory.structural_conscience import StructuralConscience
+
 
 async def main():
     store = InMemoryStore.seed_demo(64)

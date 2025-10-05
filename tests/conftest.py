@@ -143,6 +143,7 @@ def pytest_collection_modifyitems(config, items):
 # Silence only noisy SSL warnings in tests (runtime remains strict)
 # ---------------------------------------------------------------------------
 import warnings
+
 try:
     import urllib3  # type: ignore
     from urllib3.exceptions import InsecureRequestWarning  # type: ignore

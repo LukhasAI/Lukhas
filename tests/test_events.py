@@ -4,10 +4,11 @@ tests/test_events.py
 Unit tests for event-sourced storage system - Event schema and EventStore functionality.
 Covers event creation, storage operations, queries, and replay functionality.
 """
-import pytest
 from datetime import datetime, timedelta
-from uuid import uuid4, UUID
 from unittest.mock import patch
+from uuid import UUID, uuid4
+
+import pytest
 
 from storage.events import Event, EventStore, get_event_store
 

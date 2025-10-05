@@ -8,16 +8,15 @@
 Integration tests for dreams module.
 """
 
-import pytest
 import unittest
-import asyncio
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module for integration testing
 try:
     import dreams
 except ImportError:
-    pytest.skip(f"Module dreams not available", allow_module_level=True)
+    pytest.skip("Module dreams not available", allow_module_level=True)
 
 
 class TestDreamsIntegration(unittest.TestCase):

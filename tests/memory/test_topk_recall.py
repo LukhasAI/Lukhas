@@ -4,22 +4,23 @@ Tests for Top-K adaptive memory recall.
 Validates <100ms performance for 10k items and consolidation behavior.
 """
 
-import time
 import random
 import string
-from datetime import datetime, timedelta
-import pytest
 import sys
+import time
+from datetime import datetime, timedelta
 from pathlib import Path
+
+import pytest
 
 # Add project root to path
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
 from lukhas.memory.adaptive_memory import (
     AdaptiveMemorySystem,
-    MemoryType,
-    MemoryItem,
     MemoryFold,
+    MemoryItem,
+    MemoryType,
 )
 
 
@@ -95,7 +96,7 @@ class TestTopKRecall:
             memory.store(
                 content=f"Item {i}",
                 memory_type=MemoryType.EPISODIC if i % 2 else MemoryType.SEMANTIC,
-                tags=[f"even" if i % 2 == 0 else "odd", f"group{i // 10}"],
+                tags=["even" if i % 2 == 0 else "odd", f"group{i // 10}"],
             )
 
         # Test type filter

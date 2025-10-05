@@ -8,15 +8,17 @@
 Unit tests for core module.
 """
 
-import pytest
 import importlib
-from unittest.mock import Mock, patch
+from unittest.mock import patch
+
+import pytest
+
 
 # Test imports
 def test_module_imports():
     """Test that the core module can be imported."""
     try:
-        module = importlib.import_module(f"lukhas.core")
+        module = importlib.import_module("lukhas.core")
         assert module is not None
     except ImportError as e:
         pytest.skip(f"Module lukhas.core not available: {e}")
@@ -24,11 +26,11 @@ def test_module_imports():
 def test_module_has_init():
     """Test that the core module has proper __init__.py."""
     try:
-        module = importlib.import_module(f"lukhas.core")
+        module = importlib.import_module("lukhas.core")
         # Check for common attributes
         assert hasattr(module, '__file__')
     except ImportError:
-        pytest.skip(f"Module lukhas.core not available")
+        pytest.skip("Module lukhas.core not available")
 
 class TestCoreCore:
     """Unit tests for core core functionality."""
@@ -79,8 +81,8 @@ class TestCoreIntegration:
     def test_consciousness_integration(self):
         """Test integration with consciousness system."""
         try:
-            from lukhas.core import CoreCore
             from lukhas.consciousness import ConsciousnessCore
+            from lukhas.core import CoreCore
 
             consciousness = ConsciousnessCore()
             component = CoreCore()
@@ -150,8 +152,9 @@ class TestCorePerformance:
     def test_processing_performance(self):
         """Test that processing completes within acceptable time."""
         try:
-            from lukhas.core import CoreCore
             import time
+
+            from lukhas.core import CoreCore
 
             component = CoreCore()
 
@@ -168,9 +171,11 @@ class TestCorePerformance:
     def test_memory_efficiency(self):
         """Test memory usage stays within bounds."""
         try:
-            from lukhas.core import CoreCore
-            import psutil
             import os
+
+            import psutil
+
+            from lukhas.core import CoreCore
 
             component = CoreCore()
 

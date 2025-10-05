@@ -8,16 +8,15 @@
 Integration tests for policies module.
 """
 
-import pytest
 import unittest
-import asyncio
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module for integration testing
 try:
     import policies
 except ImportError:
-    pytest.skip(f"Module policies not available", allow_module_level=True)
+    pytest.skip("Module policies not available", allow_module_level=True)
 
 
 class TestPoliciesIntegration(unittest.TestCase):

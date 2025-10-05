@@ -5,27 +5,22 @@ Comprehensive test suite for session store, token rotation, and CRC32 validation
 Tests both Redis and SQLite backends with performance benchmarks and chaos scenarios.
 """
 
-import pytest
 import tempfile
 import time
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Dict, Optional
 
+import pytest
+
 from lukhas.identity.session_store import (
+    RedisSessionStore,
     SessionData,
     SessionManager,
-    RedisSessionStore,
+    SessionNotFoundError,
     SQLiteSessionStore,
-    SessionNotFoundError
 )
-
-from lukhas.identity.token_generator import (
-    TokenGenerator,
-    TokenResponse,
-    _calculate_crc32,
-    _verify_crc32
-)
+from lukhas.identity.token_generator import TokenGenerator, TokenResponse, _calculate_crc32, _verify_crc32
 
 
 class MockSecretProvider:
@@ -569,8 +564,8 @@ class TestTokenGeneratorCRC32:
         assert len(parts) == 3
 
         # Should be valid JWT
-        import json
         import base64
+        import json
 
         # Decode header to verify structure
         header_b64 = parts[0]

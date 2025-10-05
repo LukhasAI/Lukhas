@@ -8,12 +8,13 @@ Usage:
   ct = ConsciousnessTicker(fps=30, cap=120)
   ct.start()
 """
-from lukhas.core.clock import Ticker
-from lukhas.core.ring import Ring
 from time import perf_counter
 
+from lukhas.core.clock import Ticker
+from lukhas.core.ring import Ring
+
 try:
-    from prometheus_client import Histogram, Counter
+    from prometheus_client import Counter, Histogram
     TICK = Histogram("lukhas_tick_duration_seconds","Tick time",["lane"])
     TICKS_DROPPED = Counter("lukhas_ticks_dropped_total","Dropped ticks",["lane"])
     SUB_EXC = Counter("lukhas_subscriber_exceptions_total","Subscriber exceptions",["lane"])
@@ -26,6 +27,7 @@ except Exception:
     TICK=_N(); TICKS_DROPPED=_N(); SUB_EXC=_N(); PROM=False
 
 import os
+
 LANE = os.getenv("LUKHAS_LANE","experimental")
 
 class ConsciousnessTicker:

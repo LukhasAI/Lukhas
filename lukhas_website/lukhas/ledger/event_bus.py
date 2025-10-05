@@ -20,13 +20,13 @@ import hashlib
 import json
 import logging
 import sqlite3
+import threading
 import time
 from dataclasses import asdict, dataclass
 from datetime import datetime, timezone
+from enum import Enum
 from pathlib import Path
 from typing import Any, AsyncIterator, Callable, Dict, List, Optional, Protocol
-import threading
-from enum import Enum
 
 from .events import ConsentEvent, create_event_from_dict, validate_event_schema
 
@@ -346,7 +346,7 @@ class AsyncEventBus:
 
                         return event_offset
 
-                    except Exception as e:
+                    except Exception:
                         conn.rollback()
                         raise
                     finally:

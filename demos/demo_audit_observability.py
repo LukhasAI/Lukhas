@@ -8,22 +8,21 @@ Demonstrates:
 - Feedback collection and follow-ups
 """
 
+import hashlib
 import sys
 import time
 import uuid
-import hashlib
 from pathlib import Path
 
 # Add parent directory to path for imports
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from observability.tracing import spanify, matriz_stage, set_trace_metadata
-from observability.audit.models import DecisionTrace, TraceSpan, EvidenceLink, GovernanceEvent
-from observability.audit.storage import write_json
-from observability.audit.links import mint_signed_query, verify_signed_query
-from observability.audit.redaction import mask_pii, viewer_allows_scope
 from governance.metrics.confidence_calibration import AdaptiveConfidenceCalibrator
-from consciousness.symphony.integration import MultiBrainSymphony
+from observability.audit.links import mint_signed_query, verify_signed_query
+from observability.audit.models import DecisionTrace, EvidenceLink, GovernanceEvent, TraceSpan
+from observability.audit.redaction import mask_pii, viewer_allows_scope
+from observability.audit.storage import write_json
+from observability.tracing import matriz_stage
 
 
 async def simulate_matriz_pipeline(user_input: str, trace_id: str) -> dict:
@@ -215,7 +214,7 @@ async def demo_complete_observability():
     viewer_id = "viewer@example.com"
     signed_query = mint_signed_query(trace_id, viewer_id, ttl_seconds=300)
 
-    print(f"✅ Generated signed link (5min TTL)")
+    print("✅ Generated signed link (5min TTL)")
     print(f"   Viewer: {viewer_id}")
     print(f"   URL: /audit/trace/{trace_id}?{signed_query[:50]}...")
     print()
@@ -273,17 +272,17 @@ async def demo_complete_observability():
     print()
     print("Summary:")
     print(f"  - Traced {len(pipeline_result['spans'])} MATRIZ stages with OpenTelemetry")
-    print(f"  - Stored decision trace with calibrated confidence")
-    print(f"  - Generated signed permalink (HMAC-SHA256)")
-    print(f"  - Demonstrated PII redaction and scope-based access")
-    print(f"  - Collected user feedback linked to trace")
+    print("  - Stored decision trace with calibrated confidence")
+    print("  - Generated signed permalink (HMAC-SHA256)")
+    print("  - Demonstrated PII redaction and scope-based access")
+    print("  - Collected user feedback linked to trace")
     print()
     print("Files Created:")
-    print(f"  - audit_logs/decision_trace.jsonl")
-    print(f"  - audit_logs/trace_span.jsonl")
-    print(f"  - audit_logs/evidence_link.jsonl")
-    print(f"  - audit_logs/governance_event.jsonl")
-    print(f"  - audit_logs/feedback_event.jsonl")
+    print("  - audit_logs/decision_trace.jsonl")
+    print("  - audit_logs/trace_span.jsonl")
+    print("  - audit_logs/evidence_link.jsonl")
+    print("  - audit_logs/governance_event.jsonl")
+    print("  - audit_logs/feedback_event.jsonl")
     print()
     print("Next Steps:")
     print("  1. Run: make audit-validate-ledger")

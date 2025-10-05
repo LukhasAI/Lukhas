@@ -4,11 +4,11 @@ LUKHAS Consciousness Component Contract Generator
 Analyzes consciousness components and generates contracts
 """
 
-import json
 import ast
+import json
+from datetime import datetime
 from pathlib import Path
 from typing import Dict, List
-from datetime import datetime
 
 
 class ConsciousnessContractGenerator:
@@ -276,7 +276,7 @@ def main():
         for error in results["errors"][:5]:  # Show first 5 errors
             print(f"  - {error}")
 
-    print(f"\nComponent type distribution:")
+    print("\nComponent type distribution:")
     for comp_type, count in results["summary"]["component_types"].items():
         print(f"  {comp_type}: {count}")
 
@@ -284,7 +284,7 @@ def main():
     with open("temp_consciousness_contracts_report.json", "w") as f:
         json.dump(results, f, indent=2)
 
-    print(f"\nFull results saved to: temp_consciousness_contracts_report.json")
+    print("\nFull results saved to: temp_consciousness_contracts_report.json")
 
 
 if __name__ == "__main__":

@@ -200,7 +200,7 @@ class SpecializedBatchCreator:
             if batch:
                 created_batches.append(batch)
 
-        print(f"\n🎯 Specialized batch creation complete!")
+        print("\n🎯 Specialized batch creation complete!")
         print(f"   Created {len(created_batches)} specialized agent batches")
         print(f"   Total tasks allocated: {sum(batch['summary']['total_tasks'] for batch in created_batches)}")
 

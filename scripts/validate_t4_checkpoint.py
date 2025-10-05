@@ -17,6 +17,7 @@ Exit codes:
     1 - One or more checks failed
 """
 from __future__ import annotations
+
 import argparse
 import subprocess
 import sys
@@ -46,15 +47,15 @@ def run_check(name: str, cmd: list[str], cwd: Path | None = None) -> CheckResult
         )
 
         if result.returncode == 0:
-            print(f"   ✅ PASSED")
+            print("   ✅ PASSED")
             return CheckResult(name, True, result.stdout)
         else:
-            print(f"   ❌ FAILED")
+            print("   ❌ FAILED")
             print(f"   Error: {result.stderr}")
             return CheckResult(name, False, result.stderr)
 
     except Exception as e:
-        print(f"   ❌ FAILED (exception)")
+        print("   ❌ FAILED (exception)")
         print(f"   Error: {e}")
         return CheckResult(name, False, str(e))
 
@@ -153,7 +154,7 @@ def main() -> int:
                 True,
                 f"Valid JSON with {module_count} modules"
             ))
-            print(f"\n🔍 MODULE_REGISTRY.json Validation")
+            print("\n🔍 MODULE_REGISTRY.json Validation")
             print(f"   ✅ PASSED ({module_count} modules)")
         except Exception as e:
             checks.append(CheckResult(
@@ -161,7 +162,7 @@ def main() -> int:
                 False,
                 str(e)
             ))
-            print(f"\n🔍 MODULE_REGISTRY.json Validation")
+            print("\n🔍 MODULE_REGISTRY.json Validation")
             print(f"   ❌ FAILED: {e}")
             if args.strict:
                 return 1
@@ -171,8 +172,8 @@ def main() -> int:
             False,
             "Registry file not found"
         ))
-        print(f"\n🔍 MODULE_REGISTRY.json Validation")
-        print(f"   ❌ FAILED: Registry file not found")
+        print("\n🔍 MODULE_REGISTRY.json Validation")
+        print("   ❌ FAILED: Registry file not found")
         if args.strict:
             return 1
 
@@ -189,7 +190,7 @@ def main() -> int:
                 True,
                 f"Valid JSON with {module_count} modules, avg health {avg_health}/100"
             ))
-            print(f"\n🔍 META_REGISTRY.json Validation")
+            print("\n🔍 META_REGISTRY.json Validation")
             print(f"   ✅ PASSED ({module_count} modules, avg health {avg_health}/100)")
         except Exception as e:
             checks.append(CheckResult(
@@ -197,7 +198,7 @@ def main() -> int:
                 False,
                 str(e)
             ))
-            print(f"\n🔍 META_REGISTRY.json Validation")
+            print("\n🔍 META_REGISTRY.json Validation")
             print(f"   ❌ FAILED: {e}")
             if args.strict:
                 return 1
@@ -207,8 +208,8 @@ def main() -> int:
             False,
             "Meta-registry file not found"
         ))
-        print(f"\n🔍 META_REGISTRY.json Validation")
-        print(f"   ❌ FAILED: Meta-registry file not found")
+        print("\n🔍 META_REGISTRY.json Validation")
+        print("   ❌ FAILED: Meta-registry file not found")
         if args.strict:
             return 1
 

@@ -20,34 +20,24 @@ import json
 import logging
 import time
 import uuid
-from typing import Dict, Any, Optional
+from typing import Any, Dict, Optional
 from urllib.parse import urlencode
 
-from fastapi import (
-    APIRouter, Request, Form, Header, HTTPException, Depends,
-    BackgroundTasks, status
-)
+from fastapi import APIRouter, BackgroundTasks, Depends, Form, Header, HTTPException, Request, status
 from fastapi.responses import JSONResponse, RedirectResponse
-from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
-from pydantic import ValidationError
+from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from opentelemetry import trace
+from pydantic import ValidationError
+
+from ..identity.jwks_cache import get_jwks_cache
+from ..identity.metrics_collector import OperationType, get_metrics_collector, record_endpoint_metrics
+from ..identity.metrics_collector import ThreatLevel as MetricThreatLevel
 
 # Import LUKHAS identity components
 from ..identity.oidc_provider import OIDCProvider
-from ..identity.validation_schemas import (
-    AuthorizationRequest, ErrorResponse,
-    sanitize_correlation_id
-)
 from ..identity.rate_limiting import RateLimitType, get_rate_limiter
-from ..identity.security_hardening import (
-    SecurityAction,
-    create_security_hardening_manager
-)
-from ..identity.metrics_collector import (
-    get_metrics_collector, OperationType, ThreatLevel as MetricThreatLevel,
-    record_endpoint_metrics
-)
-from ..identity.jwks_cache import get_jwks_cache
+from ..identity.security_hardening import SecurityAction, create_security_hardening_manager
+from ..identity.validation_schemas import AuthorizationRequest, ErrorResponse, sanitize_correlation_id
 
 # Initialize components
 logger = logging.getLogger(__name__)

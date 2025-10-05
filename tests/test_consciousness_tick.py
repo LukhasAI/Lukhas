@@ -4,8 +4,10 @@ tests/test_consciousness_tick.py
 Unit tests for ConsciousnessTicker - tick routing with ring buffer and backpressure.
 Validates tick handling, decimation, buffer management, and Prometheus metrics.
 """
-import pytest
 from unittest.mock import Mock, patch
+
+import pytest
+
 from lukhas.core.consciousness_ticker import ConsciousnessTicker
 
 

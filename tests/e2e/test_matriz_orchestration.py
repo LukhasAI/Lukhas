@@ -10,14 +10,15 @@ Tests the complete MATRIZ pipeline for T4/0.01% performance targets:
 """
 
 import asyncio
-import pytest
 import time
 from typing import Dict
 
+import pytest
+
 from lukhas.core.matriz.async_orchestrator import AsyncOrchestrator
 from lukhas.core.matriz.pipeline_stage import PipelineStage
-from lukhas.observability.prometheus_metrics import LUKHASMetrics
 from lukhas.observability.opentelemetry_tracing import LUKHASTracer
+from lukhas.observability.prometheus_metrics import LUKHASMetrics
 
 
 class MockPlugin:
@@ -314,8 +315,9 @@ class TestMATRIZPerformanceBudgets:
     @pytest.mark.asyncio
     async def test_memory_budget_compliance(self, orchestrator):
         """Test that MATRIZ operations stay within memory budgets."""
-        import psutil
         import gc
+
+        import psutil
 
         process = psutil.Process()
 

@@ -7,15 +7,15 @@ degrades beyond acceptable thresholds - the kind of proactive monitoring
 that prevents incidents before they impact users.
 """
 
-import time
 import statistics
-from typing import Dict, List, Optional, Any
-from dataclasses import dataclass
+import time
 from collections import defaultdict, deque
+from dataclasses import dataclass
 from enum import Enum
+from typing import Any, Dict, List, Optional
 
-from lukhas.observability.prometheus_metrics import LUKHASMetrics
 from lukhas.observability.opentelemetry_tracing import LUKHASTracer
+from lukhas.observability.prometheus_metrics import LUKHASMetrics
 
 
 class AlertSeverity(Enum):
@@ -444,7 +444,7 @@ def performance_monitor(operation_name: str):
             try:
                 result = await func(*args, **kwargs)
                 return result
-            except Exception as e:
+            except Exception:
                 success = False
                 raise
             finally:
@@ -458,7 +458,7 @@ def performance_monitor(operation_name: str):
             try:
                 result = func(*args, **kwargs)
                 return result
-            except Exception as e:
+            except Exception:
                 success = False
                 raise
             finally:

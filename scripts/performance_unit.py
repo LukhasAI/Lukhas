@@ -12,24 +12,24 @@ Generates detailed performance artifacts with statistical analysis and regressio
 """
 
 import json
-import time
-import statistics
 import logging
-from datetime import datetime, timezone
-from pathlib import Path
-from typing import Dict, Any, Optional
+import statistics
 import subprocess
 import sys
+import time
+from datetime import datetime, timezone
+from pathlib import Path
+from typing import Any, Dict, Optional
 
 # Add project root to Python path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 try:
     # LUKHAS core imports for performance testing
-    from lukhas.memory.core import MemorySystem
+    from lukhas.consciousness.core import ConsciousnessSystem
     from lukhas.guardian.core import GuardianSystem
     from lukhas.identity.core import IdentitySystem
-    from lukhas.consciousness.core import ConsciousnessSystem
+    from lukhas.memory.core import MemorySystem
     from lukhas.observability.metrics import get_metrics_registry
 except ImportError as e:
     logging.warning(f"Some LUKHAS modules not available: {e}")
@@ -410,13 +410,13 @@ class PerformanceUnitTester:
         print(f"Overall SLO Compliance: {compliance['operations_compliant']}/{compliance['operations_tested']} ({compliance['slo_compliance_rate']*100:.1f}%)")
         print(f"All Targets Met: {'✅' if compliance['all_targets_met'] else '❌'}")
 
-        print(f"\nRegression Analysis:")
+        print("\nRegression Analysis:")
         regression = results["regression_analysis"]
         print(f"  Baseline SHA: {regression['baseline_sha'] or 'N/A'}")
         print(f"  Performance Delta: {regression['performance_delta_pct']:+.2f}%")
         print(f"  Regression Detected: {'❌ YES' if regression['regression_detected'] else '✅ NO'}")
 
-        print(f"\nPerformance Metrics by Service:")
+        print("\nPerformance Metrics by Service:")
         for service_name, service_metrics in results["performance_metrics"].items():
             print(f"\n📦 {service_name.replace('_', ' ').title()}:")
             for operation, metrics in service_metrics.items():

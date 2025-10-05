@@ -16,21 +16,19 @@ Test Coverage:
 - Emergency shutdown procedures
 """
 
-import pytest
+import gc
 import os
 import sys
 import threading
 import time
-from unittest.mock import patch, Mock
 from pathlib import Path
-import gc
+from unittest.mock import Mock, patch
+
+import pytest
 
 # Import registry components
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
-from lukhas.core.registry import (
-    register, resolve, _REG, discover_entry_points,
-    auto_discover, _instantiate_plugin
-)
+from lukhas.core.registry import _REG, _instantiate_plugin, auto_discover, discover_entry_points, register, resolve
 
 
 class FailureSimulator:
@@ -363,8 +361,8 @@ class TestFailClosedSafetyMechanisms:
     def test_concurrent_failure_handling(self):
         """Test handling of failures in concurrent scenarios"""
 
-        import threading
         import queue
+        import threading
 
         results = queue.Queue()
         errors = queue.Queue()

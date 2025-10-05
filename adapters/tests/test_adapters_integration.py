@@ -8,16 +8,15 @@
 Integration tests for adapters module.
 """
 
-import pytest
 import unittest
-import asyncio
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module for integration testing
 try:
     import adapters
 except ImportError:
-    pytest.skip(f"Module adapters not available", allow_module_level=True)
+    pytest.skip("Module adapters not available", allow_module_level=True)
 
 
 class TestAdaptersIntegration(unittest.TestCase):

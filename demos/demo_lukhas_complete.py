@@ -15,15 +15,14 @@ from pathlib import Path
 # Add parent directory to path for imports
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
+from consciousness.symphony.integration import (
+    ConsensusMethod,
+    MultiBrainSymphony,
+)
+from governance.metrics.confidence_calibration import AdaptiveConfidenceCalibrator
 from observability.audit.system import (
     AuditTrail,
     DecisionType,
-    BrainContext,
-)
-from governance.metrics.confidence_calibration import AdaptiveConfidenceCalibrator
-from consciousness.symphony.integration import (
-    MultiBrainSymphony,
-    ConsensusMethod,
 )
 
 
@@ -247,7 +246,7 @@ def demo_complete_workflow():
         memory_used_mb=0.5  # Simulated
     )
 
-    print(f"✅ Decision finalized and appended to ledger")
+    print("✅ Decision finalized and appended to ledger")
     print(f"   Node ID: {node_id}")
     print(f"   Decision: {result['decision']}")
     print(f"   Confidence: {calibrated_confidence:.3f}")
@@ -278,11 +277,11 @@ def demo_complete_workflow():
     print("=" * 80)
     print()
     print("Summary:")
-    print(f"  - Created secure audit trail with PII redaction")
+    print("  - Created secure audit trail with PII redaction")
     print(f"  - Orchestrated {result['participating_brains']}-brain consensus")
-    print(f"  - Applied adaptive confidence calibration")
-    print(f"  - Recorded complete decision provenance")
-    print(f"  - Generated append-only ledger with signatures")
+    print("  - Applied adaptive confidence calibration")
+    print("  - Recorded complete decision provenance")
+    print("  - Generated append-only ledger with signatures")
     print()
     print("Next Steps:")
     print("  1. Run: make audit-validate-ledger")

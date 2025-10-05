@@ -17,15 +17,13 @@ Golden Fixture Binding (T4):
 """
 from __future__ import annotations
 
+import hashlib
+import json
 from dataclasses import dataclass, field
 from datetime import datetime
-from typing import Any, Dict, List
-from uuid import UUID
 from enum import Enum
-
-import json
-import hashlib
-from typing import Literal, Tuple
+from typing import Any, Dict, List, Literal, Tuple
+from uuid import UUID
 
 CONTRACT_VERSION = "1.0.0"
 

@@ -8,7 +8,7 @@ from typing import Any, Dict, List, Optional
 import httpx
 import uvicorn
 from fastmcp import FastMCP
-from jose import jwt, JWTError
+from jose import JWTError, jwt
 from pydantic import BaseModel
 from starlette.applications import Starlette
 from starlette.requests import Request
@@ -66,22 +66,22 @@ async def fetch_jwks(jwks_uri: str) -> JWKSResponse:
 async def get_jwks_keys() -> List[Dict[str, Any]]:
     """Get JWKS keys with caching."""
     import time
-    
+
     current_time = time.time()
-    
+
     # Check if cache is still valid (5 minutes)
     if jwks_cache["expires_at"] > current_time:
         return jwks_cache["keys"]
-    
+
     try:
         # Fetch fresh OIDC configuration and JWKS
         oidc_config = await fetch_oidc_configuration()
         jwks_response = await fetch_jwks(oidc_config.jwks_uri)
-        
+
         # Update cache
         jwks_cache["keys"] = jwks_response.keys
         jwks_cache["expires_at"] = current_time + 300  # 5 minutes
-        
+
         return jwks_cache["keys"]
     except Exception as e:
         logger.error(f"Failed to fetch JWKS: {e}")
@@ -94,11 +94,11 @@ async def verify_jwt_token(token: str) -> Optional[Dict[str, Any]]:
     try:
         # Get JWKS keys
         keys = await get_jwks_keys()
-        
+
         if not keys:
             logger.error("No JWKS keys available")
             return None
-        
+
         # Try to verify with each key
         for key in keys:
             try:
@@ -112,10 +112,10 @@ async def verify_jwt_token(token: str) -> Optional[Dict[str, Any]]:
                 return payload
             except JWTError:
                 continue
-        
+
         logger.warning("Token verification failed with all available keys")
         return None
-        
+
     except Exception as e:
         logger.error(f"JWT verification error: {e}")
         return None
@@ -125,7 +125,7 @@ def is_path_allowed(path: Path) -> bool:
     """Check if path is within allowed roots and safe."""
     try:
         resolved = path.resolve()
-        
+
         # Check against allowed roots
         for root in allowed_roots:
             root_path = Path(root).resolve()
@@ -134,7 +134,7 @@ def is_path_allowed(path: Path) -> bool:
                 return True
             except ValueError:
                 continue
-        
+
         return False
     except (OSError, ValueError):
         return False
@@ -142,23 +142,23 @@ def is_path_allowed(path: Path) -> bool:
 
 class OAuth2Middleware:
     """OAuth 2.1 JWT validation middleware."""
-    
+
     def __init__(self, app):
         self.app = app
-    
+
     async def __call__(self, scope, receive, send):
         if scope["type"] == "http":
             request = Request(scope, receive)
-            
+
             # Skip auth for health check and PRM endpoint
             if request.url.path in ["/healthz", "/.well-known/oauth-protected-resource"]:
                 await self.app(scope, receive, send)
                 return
-            
+
             # For SSE endpoint, check authorization
             if request.url.path.startswith("/sse"):
                 auth_header = request.headers.get("Authorization", "")
-                
+
                 if not auth_header.startswith("Bearer "):
                     response = JSONResponse(
                         content={"error": "Missing or invalid Authorization header"},
@@ -167,9 +167,9 @@ class OAuth2Middleware:
                     )
                     await response(scope, receive, send)
                     return
-                
+
                 token = auth_header[7:]  # Remove "Bearer " prefix
-                
+
                 # Verify token
                 payload = await verify_jwt_token(token)
                 if not payload:
@@ -180,7 +180,7 @@ class OAuth2Middleware:
                     )
                     await response(scope, receive, send)
                     return
-        
+
         await self.app(scope, receive, send)
 
 
@@ -192,16 +192,16 @@ mcp = FastMCP("LUKHAS MCP Server")
 def list_dir(path: str) -> List[str]:
     """List contents of a directory."""
     target_path = Path(path)
-    
+
     if not is_path_allowed(target_path):
         raise ValueError(f"Access denied: {path}")
-    
+
     if not target_path.exists():
         raise FileNotFoundError(f"Directory not found: {path}")
-    
+
     if not target_path.is_dir():
         raise ValueError(f"Not a directory: {path}")
-    
+
     try:
         contents = []
         for item in target_path.iterdir():
@@ -218,16 +218,16 @@ def list_dir(path: str) -> List[str]:
 def read_text(path: str) -> str:
     """Read text content from a file."""
     target_path = Path(path)
-    
+
     if not is_path_allowed(target_path):
         raise ValueError(f"Access denied: {path}")
-    
+
     if not target_path.exists():
         raise FileNotFoundError(f"File not found: {path}")
-    
+
     if not target_path.is_file():
         raise ValueError(f"Not a file: {path}")
-    
+
     try:
         return target_path.read_text(encoding='utf-8')
     except UnicodeDecodeError:
@@ -246,13 +246,13 @@ def search_glob(pattern: str, root_path: str = "") -> List[str]:
         if not allowed_roots:
             raise ValueError("No allowed roots configured")
         search_root = Path(allowed_roots[0])
-    
+
     if not is_path_allowed(search_root):
         raise ValueError(f"Access denied: {search_root}")
-    
+
     if not search_root.exists() or not search_root.is_dir():
         raise ValueError(f"Invalid search root: {search_root}")
-    
+
     try:
         matches = []
         for match in search_root.glob(pattern):
@@ -268,12 +268,12 @@ def write_text(path: str, content: str) -> str:
     """Write text content to a file (if write operations are enabled)."""
     if not write_enabled:
         raise PermissionError("Write operations are disabled")
-    
+
     target_path = Path(path)
-    
+
     if not is_path_allowed(target_path):
         raise ValueError(f"Access denied: {path}")
-    
+
     try:
         # Create parent directories if they don't exist
         target_path.parent.mkdir(parents=True, exist_ok=True)

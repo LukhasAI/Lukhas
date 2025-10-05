@@ -6,8 +6,13 @@ import os
 from unittest.mock import patch
 
 from lukhas.consciousness.dream.expand.evolution import (
-    StrategyGenome, EvolutionEngine, save_strategy, load_strategy, get_evolution_config
+    EvolutionEngine,
+    StrategyGenome,
+    get_evolution_config,
+    load_strategy,
+    save_strategy,
 )
+
 
 class TestStrategyGenome:
     """Test strategy genome functionality."""

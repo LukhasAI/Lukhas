@@ -6,8 +6,12 @@ import os
 from unittest.mock import patch
 
 from lukhas.consciousness.dream.expand.resonance import (
-    ResonanceField, create_resonance_field, get_resonance_config, simulate_resonance_decay
+    ResonanceField,
+    create_resonance_field,
+    get_resonance_config,
+    simulate_resonance_decay,
 )
+
 
 class TestResonanceField:
     """Test resonance field functionality."""

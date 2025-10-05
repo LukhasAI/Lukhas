@@ -8,15 +8,15 @@
 Unit tests for vocabularies module.
 """
 
-import pytest
 import unittest
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module components
 try:
     import vocabularies
 except ImportError:
-    pytest.skip(f"Module vocabularies not available", allow_module_level=True)
+    pytest.skip("Module vocabularies not available", allow_module_level=True)
 
 
 class TestVocabulariesModule(unittest.TestCase):

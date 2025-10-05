@@ -25,13 +25,13 @@ Usage:
 """
 
 from __future__ import annotations
+
 import argparse
 import json
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Dict, List, Tuple, Any
-
+from typing import Dict, List, Tuple
 
 ROOT = Path(__file__).resolve().parents[1]
 REGISTRY = ROOT / "docs" / "_generated" / "MODULE_REGISTRY.json"
@@ -216,7 +216,7 @@ def main():
         OUTPUT.parent.mkdir(parents=True, exist_ok=True)
         OUTPUT.write_text(dashboard)
 
-        print(f"✅ SLO_DASHBOARD.md")
+        print("✅ SLO_DASHBOARD.md")
         print(f"   Location: {OUTPUT.relative_to(ROOT)}")
 
         sys.exit(0)

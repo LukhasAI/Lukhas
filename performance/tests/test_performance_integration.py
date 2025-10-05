@@ -8,16 +8,15 @@
 Integration tests for performance module.
 """
 
-import pytest
 import unittest
-import asyncio
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module for integration testing
 try:
     import performance
 except ImportError:
-    pytest.skip(f"Module performance not available", allow_module_level=True)
+    pytest.skip("Module performance not available", allow_module_level=True)
 
 
 class TestPerformanceIntegration(unittest.TestCase):

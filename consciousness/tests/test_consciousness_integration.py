@@ -8,16 +8,15 @@
 Integration tests for consciousness module.
 """
 
-import pytest
 import unittest
-import asyncio
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module for integration testing
 try:
     import consciousness
 except ImportError:
-    pytest.skip(f"Module consciousness not available", allow_module_level=True)
+    pytest.skip("Module consciousness not available", allow_module_level=True)
 
 
 class TestConsciousnessIntegration(unittest.TestCase):

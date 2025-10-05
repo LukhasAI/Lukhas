@@ -8,15 +8,15 @@
 Unit tests for docker module.
 """
 
-import pytest
 import unittest
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module components
 try:
     import docker
 except ImportError:
-    pytest.skip(f"Module docker not available", allow_module_level=True)
+    pytest.skip("Module docker not available", allow_module_level=True)
 
 
 class TestDockerModule(unittest.TestCase):

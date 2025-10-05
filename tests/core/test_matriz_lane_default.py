@@ -7,8 +7,9 @@ Simple test ensuring MATRIZ defaults to 'canary' lane for T4/0.01% excellence.
 """
 
 import os
-import pytest
 from unittest.mock import patch
+
+import pytest
 
 
 def test_matriz_lane_defaults_to_canary():

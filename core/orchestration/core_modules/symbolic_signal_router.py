@@ -10,9 +10,9 @@ with sub-100ms routing latency and transparent logging.
 import asyncio
 import logging
 import time
-from typing import Dict, Any
+from typing import Any, Dict
 
-from lukhas.orchestration.signals import DiagnosticSignalType, SymbolicSignal, SignalType
+from lukhas.orchestration.signals import DiagnosticSignalType, SignalType, SymbolicSignal
 
 logger = logging.getLogger(__name__)
 

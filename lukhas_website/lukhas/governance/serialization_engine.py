@@ -30,15 +30,16 @@ Phase: 7 - Guardian Schema Serializers
 import gzip
 import json
 import logging
-import lz4.frame
-import msgpack
 import threading
 import time
-import zstandard as zstd
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from enum import Enum
 from typing import Any, BinaryIO, Dict, List, Optional
+
+import lz4.frame
+import msgpack
+import zstandard as zstd
 
 # Try to import protobuf - graceful degradation if not available
 try:

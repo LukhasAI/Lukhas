@@ -8,16 +8,15 @@
 Integration tests for enterprise module.
 """
 
-import pytest
 import unittest
-import asyncio
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module for integration testing
 try:
     import enterprise
 except ImportError:
-    pytest.skip(f"Module enterprise not available", allow_module_level=True)
+    pytest.skip("Module enterprise not available", allow_module_level=True)
 
 
 class TestEnterpriseIntegration(unittest.TestCase):

@@ -8,16 +8,15 @@
 Integration tests for reasoning module.
 """
 
-import pytest
 import unittest
-import asyncio
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module for integration testing
 try:
     import reasoning
 except ImportError:
-    pytest.skip(f"Module reasoning not available", allow_module_level=True)
+    pytest.skip("Module reasoning not available", allow_module_level=True)
 
 
 class TestReasoningIntegration(unittest.TestCase):

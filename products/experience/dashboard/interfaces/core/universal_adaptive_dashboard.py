@@ -55,8 +55,9 @@ from bio.core.symbolic_adaptive_threshold_colony import AdaptiveThresholdColony
 
 # Import existing LUKHAS adaptive systems
 from bio.core.symbolic_fallback_systems import BioSymbolicFallbackManager
+
 # Use stable imports adapter instead of direct candidate/ imports
-from ...stable_imports_adapter import get_service, AdaptiveDashboardInterface
+from ...stable_imports_adapter import AdaptiveDashboardInterface, get_service
 
 
 def get_adaptive_dashboard() -> AdaptiveDashboardInterface:

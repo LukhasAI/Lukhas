@@ -18,8 +18,8 @@ import zlib
 from collections import OrderedDict
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta
-from typing import Any, Dict, List, Optional, Set
 from enum import Enum
+from typing import Any, Dict, List, Optional, Set
 
 from .adaptive_memory import MemoryFold, MemoryItem, MemoryType
 

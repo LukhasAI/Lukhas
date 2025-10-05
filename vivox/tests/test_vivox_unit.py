@@ -8,15 +8,15 @@
 Unit tests for vivox module.
 """
 
-import pytest
 import unittest
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module components
 try:
     import vivox
 except ImportError:
-    pytest.skip(f"Module vivox not available", allow_module_level=True)
+    pytest.skip("Module vivox not available", allow_module_level=True)
 
 
 class TestVivoxModule(unittest.TestCase):

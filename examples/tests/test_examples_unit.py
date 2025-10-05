@@ -8,15 +8,15 @@
 Unit tests for examples module.
 """
 
-import pytest
 import unittest
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module components
 try:
     import examples
 except ImportError:
-    pytest.skip(f"Module examples not available", allow_module_level=True)
+    pytest.skip("Module examples not available", allow_module_level=True)
 
 
 class TestExamplesModule(unittest.TestCase):
@@ -81,7 +81,7 @@ class TestEnterpriseDemo(unittest.TestCase):
             from examples.enterprise_demo import EnterpriseDemo
             self.assertIsNotNone(EnterpriseDemo)
         except ImportError:
-            pytest.skip(f"Component EnterpriseDemo not available")
+            pytest.skip("Component EnterpriseDemo not available")
 
     def test_enterprisedemo_instantiation(self):
         """Test EnterpriseDemo can be instantiated."""
@@ -98,7 +98,7 @@ class TestIntegratedLukhasDemo(unittest.TestCase):
             from examples.integrated_demo import IntegratedLukhasDemo
             self.assertIsNotNone(IntegratedLukhasDemo)
         except ImportError:
-            pytest.skip(f"Component IntegratedLukhasDemo not available")
+            pytest.skip("Component IntegratedLukhasDemo not available")
 
     def test_integratedlukhasdemo_instantiation(self):
         """Test IntegratedLukhasDemo can be instantiated."""
@@ -115,7 +115,7 @@ class Testdisplay_response(unittest.TestCase):
             from examples.integrated_demo import display_response
             self.assertIsNotNone(display_response)
         except ImportError:
-            pytest.skip(f"Component display_response not available")
+            pytest.skip("Component display_response not available")
 
     def test_display_response_instantiation(self):
         """Test display_response can be instantiated."""

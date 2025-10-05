@@ -93,7 +93,7 @@ def main():
         print("Fix these errors before committing to maintain OpenTelemetry semconv compliance")
         sys.exit(1)
     else:
-        print(f"\n✅ All telemetry fixtures comply with semconv requirements")
+        print("\n✅ All telemetry fixtures comply with semconv requirements")
 
 
 if __name__ == "__main__":

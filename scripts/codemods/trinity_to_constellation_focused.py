@@ -9,6 +9,7 @@ import shutil
 import sys
 from pathlib import Path
 
+
 def get_trinity_python_files():
     """Get Python files that still contain Trinity references"""
     trinity_files = []

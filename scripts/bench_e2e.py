@@ -19,9 +19,10 @@ from pathlib import Path
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 
 from bench_core import PerformanceBenchmark
+
+from ai_orchestration.lukhas_ai_orchestrator import LUKHASAIOrchestrator
 from governance.guardian_system import GuardianSystem
 from memory.memory_event import MemoryEventFactory
-from ai_orchestration.lukhas_ai_orchestrator import LUKHASAIOrchestrator
 
 
 class E2EPerformanceSuite:
@@ -319,8 +320,8 @@ async def run_full_suite():
     # Create artifacts directory
     Path("artifacts").mkdir(exist_ok=True)
 
-    print(f"\n📁 Artifacts generated in: artifacts/")
-    print(f"  • bench_e2e.json - Complete benchmark results")
+    print("\n📁 Artifacts generated in: artifacts/")
+    print("  • bench_e2e.json - Complete benchmark results")
 
     return 0 if passed else 1
 

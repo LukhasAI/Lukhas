@@ -8,15 +8,15 @@
 Unit tests for ops module.
 """
 
-import pytest
 import unittest
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module components
 try:
     import ops
 except ImportError:
-    pytest.skip(f"Module ops not available", allow_module_level=True)
+    pytest.skip("Module ops not available", allow_module_level=True)
 
 
 class TestOpsModule(unittest.TestCase):

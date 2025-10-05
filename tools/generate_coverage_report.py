@@ -6,9 +6,9 @@ Creates a comprehensive coverage report for all Matrix contracts
 including validation status, AuthZ pass rates, and compliance metrics.
 """
 
-import json
-import glob
 import datetime
+import glob
+import json
 from pathlib import Path
 
 

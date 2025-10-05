@@ -194,7 +194,7 @@ Skipped:         {skipped}  {'█' * int(skipped*20/max(total,1))}{'░' * (20-i
         if failures:
             issues_content = self.generate_known_issues(failures)
             with open(self.test_dir / "KNOWN_ISSUES_AUTO.md", "w") as f:
-                f.write(f"# Auto-Generated Known Issues\n\n")
+                f.write("# Auto-Generated Known Issues\n\n")
                 f.write(f"> Generated: {datetime.now().strftime('%Y-%m-%d %H:%M')}\n\n")
                 f.write(issues_content)
             print(f"✅ Generated KNOWN_ISSUES_AUTO.md with {len(failures)} issues")
@@ -206,7 +206,7 @@ Skipped:         {skipped}  {'█' * int(skipped*20/max(total,1))}{'░' * (20-i
 
         # Summary
         summary = results.get("summary", {})
-        print(f"\n📈 Test Summary:")
+        print("\n📈 Test Summary:")
         print(f"   Total: {summary.get('total', 0)}")
         print(f"   Passed: {summary.get('passed', 0)}")
         print(f"   Failed: {summary.get('failed', 0)}")

@@ -8,11 +8,11 @@ vocabularies, 3-Layer Tone System, and MATRIZ pipeline integration.
 """
 
 import json
-import yaml
-import ast
 import random
 from pathlib import Path
-from typing import Dict, List, Optional, Any
+from typing import Dict, List, Optional
+
+import yaml
 
 
 class ModuleVocabularyLoader:

@@ -32,7 +32,7 @@ try:
         Resource,
         TextContent,
         Tool,
-    )  # noqa: F401  # TODO: mcp.types implementation
+    )
 except ImportError:
     print("MCP SDK not installed. Install with: pip install mcp", file=sys.stderr)
     sys.exit(1)

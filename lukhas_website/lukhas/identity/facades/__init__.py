@@ -6,15 +6,15 @@ T4 Architecture compliant facades for identity services
 
 from .authentication_facade import (
     AuthenticationFacade,
-    AuthResult,
-    UserProfile,
     AuthenticatorInterface,
-    TokenManagerInterface,
+    AuthResult,
     SessionManagerInterface,
-    get_authentication_facade,
-    authenticate_user,
+    TokenManagerInterface,
+    UserProfile,
+    authenticate_api_key,
     authenticate_token,
-    authenticate_api_key
+    authenticate_user,
+    get_authentication_facade,
 )
 
 __all__ = [

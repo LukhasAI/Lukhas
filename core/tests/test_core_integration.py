@@ -8,16 +8,15 @@
 Integration tests for core module.
 """
 
-import pytest
 import unittest
-import asyncio
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module for integration testing
 try:
     import core
 except ImportError:
-    pytest.skip(f"Module core not available", allow_module_level=True)
+    pytest.skip("Module core not available", allow_module_level=True)
 
 
 class TestCoreIntegration(unittest.TestCase):

@@ -8,15 +8,15 @@
 Unit tests for telemetry module.
 """
 
-import pytest
 import unittest
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module components
 try:
     import telemetry
 except ImportError:
-    pytest.skip(f"Module telemetry not available", allow_module_level=True)
+    pytest.skip("Module telemetry not available", allow_module_level=True)
 
 
 class TestTelemetryModule(unittest.TestCase):

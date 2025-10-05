@@ -9,17 +9,19 @@ T4/0.01% Excellence: High-performance token operations with Guardian integration
 """
 
 from __future__ import annotations
-import secrets
-import hashlib
+
 import base64
+import hashlib
+import secrets
 import time
-from typing import Dict, Optional, Set, Any, Tuple
 from dataclasses import dataclass, field
 from enum import Enum
-from opentelemetry import trace
-from prometheus_client import Counter, Histogram, Gauge
+from typing import Any, Dict, Optional, Set, Tuple
 
-from ..jwt_utils import get_jwt_manager, JWTManager
+from opentelemetry import trace
+from prometheus_client import Counter, Gauge, Histogram
+
+from ..jwt_utils import JWTManager, get_jwt_manager
 
 tracer = trace.get_tracer(__name__)
 

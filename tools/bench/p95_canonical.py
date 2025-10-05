@@ -1,16 +1,18 @@
 #!/usr/bin/env python3
 """Canonical p95 overhead benchmark - apples to apples measurement."""
-import time
-import statistics
-import random
-import sys
 import os
+import random
+import statistics
+import sys
+import time
+
 sys.path.append('.')
 
 os.environ['LUKHAS_EXPERIMENTAL'] = '1'
 os.environ['LUKHAS_LANE'] = 'candidate'
 
 from monitoring.drift_manager import DriftManager
+
 
 def p95(samples):
     return statistics.quantiles(samples, n=100)[94]
@@ -58,7 +60,7 @@ def main():
     abs_overhead_ms = repair_p95 - baseline_p95
     pct_overhead = (abs_overhead_ms / baseline_p95) * 100 if baseline_p95 > 0 else 0
 
-    print(f"\n=== RESULTS ===")
+    print("\n=== RESULTS ===")
     print(f"Baseline p95:     {baseline_p95:.4f}ms (avg: {baseline_avg:.4f}ms)")
     print(f"With repair p95:  {repair_p95:.4f}ms (avg: {repair_avg:.4f}ms)")
     print(f"Absolute Δ:       {abs_overhead_ms:+.4f}ms")
@@ -68,13 +70,13 @@ def main():
     passes_pct = abs(pct_overhead) <= 5.0
     passes_abs = abs(abs_overhead_ms) <= 10.0
 
-    print(f"\n=== GATE ASSESSMENT ===")
+    print("\n=== GATE ASSESSMENT ===")
     print(f"≤5% target:       {'✅ PASS' if passes_pct else '❌ FAIL'} ({pct_overhead:+.1f}%)")
     print(f"≤10ms absolute:   {'✅ PASS' if passes_abs else '❌ FAIL'} ({abs_overhead_ms:+.4f}ms)")
     print(f"Overall:          {'✅ PASS' if (passes_pct or passes_abs) else '❌ FAIL'}")
 
     # PR-ready output
-    print(f"\n=== PR METRICS ===")
+    print("\n=== PR METRICS ===")
     print(f"BASELINE_P95_MS={baseline_p95:.4f}")
     print(f"REPAIR_P95_MS={repair_p95:.4f}")
     print(f"OVERHEAD_ABS_MS={abs_overhead_ms:+.4f}")

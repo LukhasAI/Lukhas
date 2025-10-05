@@ -8,16 +8,15 @@
 Integration tests for grafana module.
 """
 
-import pytest
 import unittest
-import asyncio
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module for integration testing
 try:
     import grafana
 except ImportError:
-    pytest.skip(f"Module grafana not available", allow_module_level=True)
+    pytest.skip("Module grafana not available", allow_module_level=True)
 
 
 class TestGrafanaIntegration(unittest.TestCase):

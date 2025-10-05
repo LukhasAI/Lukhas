@@ -8,10 +8,10 @@ Provides automated verification with tolerance checking and detailed reporting.
 
 import argparse
 import json
-from pathlib import Path
-from typing import Dict, Any, List, Optional
-from dataclasses import dataclass
 import re
+from dataclasses import dataclass
+from pathlib import Path
+from typing import Any, Dict, List, Optional
 
 
 @dataclass
@@ -454,7 +454,7 @@ def main():
     failed_claims = sum(1 for r in verification_results if r.status == "FAIL")
     missing_claims = sum(1 for r in verification_results if r.status == "MISSING")
 
-    print(f"\n🎯 Claims Verification Summary:")
+    print("\n🎯 Claims Verification Summary:")
     print(f"Total Claims: {total_claims}")
     print(f"Passed: {passed_claims}")
     print(f"Failed: {failed_claims}")

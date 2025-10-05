@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 import json
-import sys
 import pathlib
+import sys
 
 paths = [
     pathlib.Path("reports/unit.json"),

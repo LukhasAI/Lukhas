@@ -5,10 +5,11 @@ Validates consciousness component contracts against schema
 """
 
 import json
-import jsonschema
+from datetime import datetime
 from pathlib import Path
 from typing import Dict, List, Tuple
-from datetime import datetime
+
+import jsonschema
 
 
 class ConsciousnessContractValidator:
@@ -155,20 +156,20 @@ def main():
             for error in errors:
                 print(f"    - {error}")
 
-    print(f"\nComponent Type Distribution:")
+    print("\nComponent Type Distribution:")
     for comp_type, count in results["summary"]["component_types"].items():
         print(f"  {comp_type}: {count}")
 
-    print(f"\nTrinity Integration:")
+    print("\nTrinity Integration:")
     print(f"  Identity-coupled: {results['summary']['constellation_integration']['identity']}")
     print(f"  Guardian-validated: {results['summary']['constellation_integration']['guardian']}")
 
-    print(f"\nGovernance Statistics:")
+    print("\nGovernance Statistics:")
     print(f"  Ethics validation required: {results['summary']['governance_stats']['ethics_required']}")
     print(f"  Consent required: {results['summary']['governance_stats']['consent_required']}")
 
     if results["recommendations"]:
-        print(f"\nRecommendations:")
+        print("\nRecommendations:")
         for rec in results["recommendations"]:
             print(f"  - {rec}")
 
@@ -176,7 +177,7 @@ def main():
     with open("temp_consciousness_validation_report.json", "w") as f:
         json.dump(results, f, indent=2)
 
-    print(f"\nFull validation report saved to: temp_consciousness_validation_report.json")
+    print("\nFull validation report saved to: temp_consciousness_validation_report.json")
 
 
 if __name__ == "__main__":

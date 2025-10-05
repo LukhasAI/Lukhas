@@ -1,6 +1,6 @@
 import pytest
 
-from lukhas.governance.ethics.constitutional_ai import (
+from candidate.governance.ethics.constitutional_ai import (
     ConstitutionalFramework,
     ConstitutionalPrinciple,
     SafetyLevel,

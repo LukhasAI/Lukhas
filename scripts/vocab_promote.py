@@ -21,13 +21,14 @@ Usage:
 """
 
 from __future__ import annotations
+
 import argparse
 import json
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
-from jsonschema import Draft202012Validator
 
+from jsonschema import Draft202012Validator
 
 ROOT = Path(__file__).resolve().parents[1]
 FEATURES = ROOT / "vocab" / "features.json"
@@ -60,7 +61,7 @@ def add_synonym(features: dict, canonical: str, synonym: str):
 
     syns = features[canonical].setdefault("synonyms", [])
     if synonym in syns:
-        print(f"↔️ synonym already present")
+        print("↔️ synonym already present")
     else:
         syns.append(synonym)
 

@@ -33,9 +33,6 @@
 ║ ΛTAG: ΛIDENTITY, ΛQUANTUM, ΛAGI, ΛSECURITY, ΛTIER
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
-from consciousness.qi import qi  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for Constellation Framework consciousness evolution
-import streamlit as st  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept pending MATRIZ wiring (document or remove)
-
 import hashlib
 import logging
 import time
@@ -44,6 +41,12 @@ from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, Optional
+
+import streamlit as st  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept pending MATRIZ wiring (document or remove)
+
+from consciousness.qi import (
+    qi,  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for Constellation Framework consciousness evolution
+)
 
 # Import post-quantum cryptography components
 try:
@@ -60,8 +63,8 @@ except ImportError:
 
 # Import identity infrastructure
 try:
-    from lukhas.core.identity_integration import get_identity_client
     from identity.interface import IdentityClient
+    from lukhas.core.identity_integration import get_identity_client
 
     IDENTITY_AVAILABLE = True
 except ImportError:

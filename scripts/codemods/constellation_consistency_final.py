@@ -223,7 +223,7 @@ def main():
 
     dry_run = args.dry_run
 
-    print(f"🌌 Final Constellation Consistency Codemod")
+    print("🌌 Final Constellation Consistency Codemod")
     print(f"Mode: {'DRY-RUN' if dry_run else 'APPLY CHANGES'}")
     if args.trinity_only:
         print("Scope: Trinity references only")
@@ -253,19 +253,19 @@ def main():
 
     # Summary
     print("=" * 70)
-    print(f"Summary:")
+    print("Summary:")
     print(f"Files scanned: {len(files_to_process)}")
     print(f"Files modified: {len(modified_files)}")
     print(f"Total changes: {total_changes}")
 
     if modified_files and not dry_run:
-        print(f"\nTop 10 most changed files:")
+        print("\nTop 10 most changed files:")
         for file_path, count in sorted(modified_files, key=lambda x: x[1], reverse=True)[:10]:
             rel_path = file_path.relative_to(ROOT)
             print(f"  {rel_path}: {count} changes")
 
     if dry_run and modified_files:
-        print(f"\n🚀 To apply changes, run:")
+        print("\n🚀 To apply changes, run:")
         print(f"python3 {__file__} --apply")
         if args.trinity_only:
             print(f"python3 {__file__} --apply --trinity-only")

@@ -17,10 +17,11 @@ Usage:
 import argparse
 import json
 import re
+from dataclasses import asdict, dataclass
+from datetime import datetime
 from pathlib import Path
 from typing import Dict, List
-from dataclasses import dataclass, asdict
-from datetime import datetime
+
 
 @dataclass
 class TerminologyRule:
@@ -454,7 +455,7 @@ def main():
         issues = sweeper.scan_codebase()
 
         if issues:
-            print(f"\n📊 Vocabulary Issues Summary:")
+            print("\n📊 Vocabulary Issues Summary:")
             print(f"   Total Issues: {len(issues)}")
 
             categories = sweeper._group_issues_by_category()
@@ -470,7 +471,7 @@ def main():
         report = sweeper.generate_report(output_file)
 
         if issues:
-            print(f"\n💡 Run with --fix to apply corrections")
+            print("\n💡 Run with --fix to apply corrections")
             return 1
         else:
             print("✅ No vocabulary issues found!")

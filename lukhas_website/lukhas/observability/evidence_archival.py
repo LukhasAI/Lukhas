@@ -21,13 +21,14 @@ import json
 import os
 import zlib
 from collections import defaultdict
-from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
 from enum import Enum
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Union
 from uuid import uuid4
+
+from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 
 try:
     import boto3
@@ -48,10 +49,7 @@ try:
 except ImportError:
     GCS_AVAILABLE = False
 
-from .evidence_collection import (
-    ComplianceRegime,
-    get_evidence_engine
-)
+from .evidence_collection import ComplianceRegime, get_evidence_engine
 
 
 class StorageTier(Enum):

@@ -8,15 +8,15 @@
 Unit tests for cognitive_core module.
 """
 
-import pytest
 import unittest
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module components
 try:
     import cognitive_core
 except ImportError:
-    pytest.skip(f"Module cognitive_core not available", allow_module_level=True)
+    pytest.skip("Module cognitive_core not available", allow_module_level=True)
 
 
 class TestCognitiveCoreModule(unittest.TestCase):
@@ -81,7 +81,7 @@ class Testget_cognitive_core_info(unittest.TestCase):
             from cognitive_core import get_cognitive_core_info
             self.assertIsNotNone(get_cognitive_core_info)
         except ImportError:
-            pytest.skip(f"Component get_cognitive_core_info not available")
+            pytest.skip("Component get_cognitive_core_info not available")
 
     def test_get_cognitive_core_info_instantiation(self):
         """Test get_cognitive_core_info can be instantiated."""
@@ -98,7 +98,7 @@ class Testget_constellation_integration(unittest.TestCase):
             from cognitive_core import get_constellation_integration
             self.assertIsNotNone(get_constellation_integration)
         except ImportError:
-            pytest.skip(f"Component get_constellation_integration not available")
+            pytest.skip("Component get_constellation_integration not available")
 
     def test_get_constellation_integration_instantiation(self):
         """Test get_constellation_integration can be instantiated."""

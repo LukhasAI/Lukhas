@@ -3,12 +3,12 @@
 Deterministic, idempotent, append-only ledger, dry-run by default.
 """
 from __future__ import annotations
+
 import argparse
 import json
-import os
 import re
-from pathlib import Path
 from datetime import datetime, timezone
+from pathlib import Path
 
 ROOT = Path(".")
 LEDGER = ROOT / "manifests/.ledger/scaffold.ndjson"

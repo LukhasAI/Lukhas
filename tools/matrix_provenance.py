@@ -9,13 +9,13 @@ for future IPFS integration.
 
 import argparse
 import base64
+import glob
 import hashlib
 import json
 import struct
 import sys
-import glob
 from pathlib import Path
-from typing import Dict, Any, List, Tuple
+from typing import Any, Dict, List, Tuple
 
 
 class MockIPLDNode:

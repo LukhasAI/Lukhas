@@ -8,15 +8,15 @@
 Unit tests for consent module.
 """
 
-import pytest
 import unittest
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module components
 try:
     import consent
 except ImportError:
-    pytest.skip(f"Module consent not available", allow_module_level=True)
+    pytest.skip("Module consent not available", allow_module_level=True)
 
 
 class TestConsentModule(unittest.TestCase):
@@ -81,7 +81,7 @@ class TestConsentStatsResponse(unittest.TestCase):
             from consent.api import ConsentStatsResponse
             self.assertIsNotNone(ConsentStatsResponse)
         except ImportError:
-            pytest.skip(f"Component ConsentStatsResponse not available")
+            pytest.skip("Component ConsentStatsResponse not available")
 
     def test_consentstatsresponse_instantiation(self):
         """Test ConsentStatsResponse can be instantiated."""
@@ -98,7 +98,7 @@ class TestEscalateRequest(unittest.TestCase):
             from consent.api import EscalateRequest
             self.assertIsNotNone(EscalateRequest)
         except ImportError:
-            pytest.skip(f"Component EscalateRequest not available")
+            pytest.skip("Component EscalateRequest not available")
 
     def test_escalaterequest_instantiation(self):
         """Test EscalateRequest can be instantiated."""
@@ -115,7 +115,7 @@ class TestEscalateResponse(unittest.TestCase):
             from consent.api import EscalateResponse
             self.assertIsNotNone(EscalateResponse)
         except ImportError:
-            pytest.skip(f"Component EscalateResponse not available")
+            pytest.skip("Component EscalateResponse not available")
 
     def test_escalateresponse_instantiation(self):
         """Test EscalateResponse can be instantiated."""

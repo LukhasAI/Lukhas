@@ -8,10 +8,11 @@
 Test configuration for governance_extended module.
 """
 
-import pytest
-import tempfile
 import os
+import tempfile
 from pathlib import Path
+
+import pytest
 
 
 @pytest.fixture(scope="session")

@@ -4,13 +4,14 @@ Matrix Test Generator for LUKHAS
 Generates comprehensive test matrices for all 65 modules based on their identity configurations.
 """
 
+import glob
 import json
-import yaml
+import logging
 import sys
 from pathlib import Path
-from typing import Dict, List, Tuple, Any, Optional
-import glob
-import logging
+from typing import Any, Dict, List, Optional, Tuple
+
+import yaml
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -40,7 +41,7 @@ class MatrixTestGenerator:
         # Ensure output directory exists
         self.output_dir.mkdir(parents=True, exist_ok=True)
 
-        logger.info(f"Initialized MatrixTestGenerator:")
+        logger.info("Initialized MatrixTestGenerator:")
         logger.info(f"  Lukhas root: {self.lukhas_root}")
         logger.info(f"  Output dir: {self.output_dir}")
 
@@ -123,9 +124,9 @@ class MatrixTestGenerator:
         # If no functions found, add default module operations
         if not functions:
             functions = [
-                f"read(id: str) -> dict",
-                f"write(data: dict) -> str",
-                f"process() -> bool"
+                "read(id: str) -> dict",
+                "write(data: dict) -> str",
+                "process() -> bool"
             ]
 
         return functions
@@ -396,7 +397,7 @@ def main():
 
     generated_count, skipped_count = generator.generate_all_matrices()
 
-    logger.info(f"Generation complete:")
+    logger.info("Generation complete:")
     logger.info(f"  Generated: {generated_count} matrices")
     logger.info(f"  Skipped: {skipped_count} matrices")
 

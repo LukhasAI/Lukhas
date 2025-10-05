@@ -5,15 +5,15 @@ Demonstrates the performance improvements from parallel execution.
 """
 
 import asyncio
-import time
 import sys
+import time
 from pathlib import Path
 
 # Add project root to path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from lukhas.core.orchestration.async_orchestrator import AsyncOrchestrator
 from lukhas.core.interfaces import CognitiveNodeBase
+from lukhas.core.orchestration.async_orchestrator import AsyncOrchestrator
 
 
 class DemoCognitiveNode(CognitiveNodeBase):
@@ -123,7 +123,7 @@ async def demo_sequential_vs_parallel():
             speedup = seq_duration / par_duration
             improvement = ((seq_duration - par_duration) / seq_duration) * 100
 
-            print(f"\n🚀 Performance Improvement:")
+            print("\n🚀 Performance Improvement:")
             print(f"   📈 Speedup Ratio: {speedup:.2f}x")
             print(f"   ⚡ Time Saved: {improvement:.1f}%")
             print(f"   🕐 Absolute Savings: {(seq_duration - par_duration):.3f}s")

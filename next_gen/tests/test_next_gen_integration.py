@@ -8,16 +8,15 @@
 Integration tests for next_gen module.
 """
 
-import pytest
 import unittest
-import asyncio
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module for integration testing
 try:
     import next_gen
 except ImportError:
-    pytest.skip(f"Module next_gen not available", allow_module_level=True)
+    pytest.skip("Module next_gen not available", allow_module_level=True)
 
 
 class TestNextGenIntegration(unittest.TestCase):

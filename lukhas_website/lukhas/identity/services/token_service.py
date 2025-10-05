@@ -5,13 +5,13 @@ Dedicated service for JWT token generation, validation, and management.
 Implements TokenManagerInterface for T4 architecture compliance.
 """
 
-import logging
-import time
-import json
 import hashlib
+import json
+import logging
 import secrets
-from typing import Any, Optional, Dict
-from dataclasses import dataclass, asdict
+import time
+from dataclasses import asdict, dataclass
+from typing import Any, Dict, Optional
 
 # Conditional JWT import with fallback
 try:
