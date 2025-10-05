@@ -1,0 +1,177 @@
+{
+    "created": "2025-10-05T13:02:54.664344+00:00",
+    "modified": "2025-10-05T13:02:55.278555+00:00",
+    "id": 344725,
+    "conceptrecid": "344724",
+    "doi": "10.5072/zenodo.344725",
+    "conceptdoi": "10.5072/zenodo.344724",
+    "doi_url": "https://doi.org/10.5072/zenodo.344725",
+    "metadata": {
+        "title": "LUKH\u039bS AI \u2014 T4/0.01% Infrastructure (v0.02-final)",
+        "doi": "10.5072/zenodo.344725",
+        "publication_date": "2025-10-05",
+        "description": "<p>Institutional-grade, cryptographically verifiable infrastructure for LUKH\u039bS AI. This release bundles deterministic automation, CI gates, append-only ledgers, SHA256-verified freeze artifacts, and a complete operational playbook. External collaborators can verify integrity via checksums and run the validation checkpoint to reproduce results.</p><p><strong>Included:</strong> RELEASE_MANIFEST.json, T4_FINAL_SIGNATURE.sha256, T4_CLOSURE_BRIEF.md, FINAL_FREEZE.json, META_REGISTRY.json summary references, and full verification protocol.</p><p><strong>Verification:</strong> <code>sha256sum -c T4_FINAL_SIGNATURE.sha256</code> then <code>make validate-t4-strict</code> at tag <code>v0.02-final</code>.</p>",
+        "access_right": "open",
+        "creators": [
+            {
+                "name": "Dominguez, Gonzalo",
+                "affiliation": "LUKH\u039bS AI"
+            }
+        ],
+        "contributors": [
+            {
+                "name": "LUKH\u039bS AI Engineering Team",
+                "affiliation": "LUKH\u039bS AI",
+                "type": "ResearchGroup"
+            }
+        ],
+        "keywords": [
+            "LUKHAS",
+            "symbolic AI",
+            "infrastructure",
+            "provenance",
+            "reproducibility",
+            "CI/CD",
+            "benchmarks",
+            "coverage",
+            "manifests",
+            "ledgers",
+            "T4/0.01%"
+        ],
+        "subjects": [
+            {
+                "term": "Artificial Intelligence"
+            },
+            {
+                "term": "Software Engineering"
+            },
+            {
+                "term": "Reproducible Research"
+            }
+        ],
+        "related_identifiers": [
+            {
+                "identifier": "https://github.com/LukhasAI/Lukhas/tree/v0.02-final",
+                "relation": "isSupplementTo",
+                "resource_type": "software",
+                "scheme": "url"
+            },
+            {
+                "identifier": "https://github.com/LukhasAI/Lukhas/releases/tag/v0.02-final",
+                "relation": "isReferencedBy",
+                "resource_type": "software",
+                "scheme": "url"
+            },
+            {
+                "identifier": "https://github.com/LukhasAI/Lukhas",
+                "relation": "isPartOf",
+                "resource_type": "dataset",
+                "scheme": "url"
+            }
+        ],
+        "version": "v0.02-final",
+        "references": [
+            "docs/releases/v0.02-final-RELEASE_NOTES.md",
+            "docs/T4_CLOSURE_BRIEF.md",
+            "docs/T4_INFRASTRUCTURE_SUMMARY.md",
+            "docs/POST_FREEZE_MAINTENANCE.md"
+        ],
+        "language": "eng",
+        "license": "mit-license",
+        "imprint_publisher": "Zenodo",
+        "notes": "Health score algorithm: min(50, coverage/2) + 30(SLA) + 20(docs). Coverage baselines for 125/149 modules (83.9%). Eight validation checks green. Freeze tags: v0.01-baseline \u2192 v0.02-prod \u2192 v0.02-final. Post-freeze policy: immutable main; development continues on develop/v0.03-prep.",
+        "method": "Deterministic scripts, append-only ledgers, CI validation, cryptographic artifact verification.",
+        "upload_type": "software",
+        "prereserve_doi": {
+            "doi": "10.5281/zenodo.344725",
+            "recid": 344725
+        }
+    },
+    "title": "LUKH\u039bS AI \u2014 T4/0.01% Infrastructure (v0.02-final)",
+    "links": {
+        "self": "https://sandbox.zenodo.org/api/records/344725",
+        "html": "https://sandbox.zenodo.org/records/344725",
+        "doi": "https://doi.org/10.5072/zenodo.344725",
+        "parent_doi": "https://doi.org/10.5072/zenodo.344724",
+        "badge": "https://sandbox.zenodo.org/badge/doi/10.5072%2Fzenodo.344725.svg",
+        "conceptbadge": "https://sandbox.zenodo.org/badge/doi/10.5072%2Fzenodo.344724.svg",
+        "files": "https://sandbox.zenodo.org/api/records/344725/files",
+        "bucket": "https://sandbox.zenodo.org/api/files/aae52783-917a-4a42-aed3-90cb2f5752f1",
+        "latest_draft": "https://sandbox.zenodo.org/api/deposit/depositions/344725",
+        "latest_draft_html": "https://sandbox.zenodo.org/deposit/344725",
+        "publish": "https://sandbox.zenodo.org/api/deposit/depositions/344725/actions/publish",
+        "edit": "https://sandbox.zenodo.org/api/deposit/depositions/344725/actions/edit",
+        "discard": "https://sandbox.zenodo.org/api/deposit/depositions/344725/actions/discard",
+        "newversion": "https://sandbox.zenodo.org/api/deposit/depositions/344725/actions/newversion",
+        "record": "https://sandbox.zenodo.org/api/records/344725",
+        "record_html": "https://sandbox.zenodo.org/record/344725",
+        "latest": "https://sandbox.zenodo.org/api/records/344725/versions/latest",
+        "latest_html": "https://sandbox.zenodo.org/records/344725/latest"
+    },
+    "record_id": 344725,
+    "owner": 49178,
+    "files": [
+        {
+            "id": "a7ffb4b7-60ea-4993-ab73-6165e423c585",
+            "filename": "T4_INFRASTRUCTURE_SUMMARY.md",
+            "filesize": 15275,
+            "checksum": "1d3ebbaca7f7d951b8616ede7ec60310",
+            "links": {
+                "self": "https://sandbox.zenodo.org/api/records/344725/files/a7ffb4b7-60ea-4993-ab73-6165e423c585",
+                "download": "https://sandbox.zenodo.org/api/records/344725/draft/files/T4_INFRASTRUCTURE_SUMMARY.md/content"
+            }
+        },
+        {
+            "id": "820bba31-b29f-412c-94ed-e3c46e4f92db",
+            "filename": "META_REGISTRY.json",
+            "filesize": 57842,
+            "checksum": "d45dac79bb81006b98507572405f64da",
+            "links": {
+                "self": "https://sandbox.zenodo.org/api/records/344725/files/820bba31-b29f-412c-94ed-e3c46e4f92db",
+                "download": "https://sandbox.zenodo.org/api/records/344725/draft/files/META_REGISTRY.json/content"
+            }
+        },
+        {
+            "id": "d2a43626-61cb-4f77-837f-6ae00c8b1dfe",
+            "filename": "RELEASE_MANIFEST.json",
+            "filesize": 18704,
+            "checksum": "56b985a878892b9dd20d0028c309e012",
+            "links": {
+                "self": "https://sandbox.zenodo.org/api/records/344725/files/d2a43626-61cb-4f77-837f-6ae00c8b1dfe",
+                "download": "https://sandbox.zenodo.org/api/records/344725/draft/files/RELEASE_MANIFEST.json/content"
+            }
+        },
+        {
+            "id": "612b7847-92d5-4df5-9a71-5ff45554d8bf",
+            "filename": "T4_FINAL_SIGNATURE.sha256",
+            "filesize": 7752,
+            "checksum": "5225e9a86ff3019edbd022c8d9f81c3b",
+            "links": {
+                "self": "https://sandbox.zenodo.org/api/records/344725/files/612b7847-92d5-4df5-9a71-5ff45554d8bf",
+                "download": "https://sandbox.zenodo.org/api/records/344725/draft/files/T4_FINAL_SIGNATURE.sha256/content"
+            }
+        },
+        {
+            "id": "1d8787d0-1ad2-4759-8bcc-3949bffabafb",
+            "filename": "T4_CLOSURE_BRIEF.md",
+            "filesize": 8911,
+            "checksum": "639cdc6bdcf7f6e7c71c973feaf9d75b",
+            "links": {
+                "self": "https://sandbox.zenodo.org/api/records/344725/files/1d8787d0-1ad2-4759-8bcc-3949bffabafb",
+                "download": "https://sandbox.zenodo.org/api/records/344725/draft/files/T4_CLOSURE_BRIEF.md/content"
+            }
+        },
+        {
+            "id": "ac4e047a-9478-4b19-bcc5-e8b65bbc0358",
+            "filename": "v0.02-final-RELEASE_NOTES.md",
+            "filesize": 9497,
+            "checksum": "e37be70bba792a0c08dd0e5de379d955",
+            "links": {
+                "self": "https://sandbox.zenodo.org/api/records/344725/files/ac4e047a-9478-4b19-bcc5-e8b65bbc0358",
+                "download": "https://sandbox.zenodo.org/api/records/344725/draft/files/v0.02-final-RELEASE_NOTES.md/content"
+            }
+        }
+    ],
+    "state": "done",
+    "submitted": true
+}
