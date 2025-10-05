@@ -1,0 +1,30 @@
+name: "MCP Regression"
+description: Contract, latency, or RBAC regression in MCP
+labels: ["mcp", "regression", "triage-needed"]
+body:
+  - type: dropdown
+    id: kind
+    attributes:
+      label: What failed?
+      options: ["contract", "latency_p95", "rbac", "catalog_drift", "other"]
+  - type: input
+    id: sha
+    attributes:
+      label: Commit SHA
+  - type: textarea
+    id: signal
+    attributes:
+      label: Failure signal / Logs
+      description: Paste error lines or attach artifact links
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+  - type: textarea
+    id: repro
+    attributes:
+      label: Repro steps
+      value: |
+        make mcp-validate-catalog
+        make mcp-smoke
+        make mcp-health

@@ -29,6 +29,9 @@ jobs:
           npm ci || true
           pip3 install numpy scipy pyyaml
 
+      - name: Validate catalog against schema
+        run: make mcp-validate-catalog
+
       - name: Tool catalog contract validation
         run: make mcp-contract
 
@@ -178,6 +181,15 @@ PY
           curl -s $H/mcp -H 'Content-Type: application/json' \\
             -d '{"jsonrpc":"2.0","id":23,"method":"tools/call","params":{"name":"promote_model","arguments":{"modelId":"matriz-v0","gate":"stage"}}}' \\
             | jq -e '.result.content[0].text | fromjson | .currentGates | index("stage")'
+
+      - name: MCP health info
+        run: make mcp-health > artifacts/mcp_health.json
+
+      - name: Upload MCP health artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: mcp_health
+          path: artifacts/mcp_health.json
 
       - name: SSE Quick Probe
         if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'

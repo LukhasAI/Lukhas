@@ -1,14 +1,23 @@
 #!/usr/bin/env python3
 import json, os, subprocess, sys, pathlib, time
 from typing import Dict, Any, List, Optional, Union
+
+# Import telemetry shim
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "..", "tools", "mcp"))
+from telemetry_shim import wrap_result
+
 CATALOG = json.loads(pathlib.Path(__file__).parent.joinpath("tooling/catalog.json").read_text())
 
 def timed_run_tool(tool: Dict[str, Any], stdin: Optional[str] = None) -> Dict[str, Any]:
+    # Safe by default: Block unsafe tools unless explicitly enabled
+    if tool.get("safe") is False and os.environ.get("ALLOW_UNSAFE_TOOLS") != "1":
+        return wrap_result(tool["name"], 2, "", "blocked: unsafe tool (set ALLOW_UNSAFE_TOOLS=1)")
+    
     # RBAC: Block conveyor.execute if disabled
     if tool["name"] == "conveyor.execute" and os.environ.get("MCP_CONVEYOR_DISABLED") == "1":
-        return {"code": 2, "stdout": "", "stderr": "blocked by CI policy"}
+        return wrap_result(tool["name"], 2, "", "blocked by CI policy")
     
-    cmd = tool["entry"].split() + tool.get("args", [])
+    cmd = tool["command"]["exec"].split() + tool["command"].get("args", [])
     t0 = time.time()
     proc = subprocess.run(cmd, input=stdin, text=True, capture_output=True)
     dt = (time.time() - t0) * 1000
@@ -16,13 +25,13 @@ def timed_run_tool(tool: Dict[str, Any], stdin: Optional[str] = None) -> Dict[st
     # Emit latency metrics to stderr
     print(json.dumps({"event":"mcp.tool","name":tool["name"],"ms":dt}), file=sys.stderr)
     
-    return {"code": proc.returncode, "stdout": proc.stdout, "stderr": proc.stderr}
+    return wrap_result(tool["name"], proc.returncode, proc.stdout, proc.stderr)
 
 def list_tools() -> List[Dict[str, Any]]:
     ns = CATALOG["namespace"]
     out = []
     for t in CATALOG["tools"]:
-        out.append({"name": f"{ns}.{t['name']}", "args": t.get("args", [])})
+        out.append({"name": f"{ns}.{t['name']}", "args": t.get("command", {}).get("args", [])})
     return out
 
 # Minimal MCP-like stdio handling (simplified): supports list/run
@@ -42,6 +51,15 @@ def main():
             sys.stdout.write(json.dumps({"id": req["id"], "result": res}) + "\n"); sys.stdout.flush()
         elif req.get("method") == "health/ping":
             sys.stdout.write(json.dumps({"id": req["id"], "result": {"ok": True}}) + "\n"); sys.stdout.flush()
+        elif req.get("method") == "health/info":
+            import subprocess
+            try:
+                # Use relative path from server directory
+                out = subprocess.check_output(["python3", "health.py"], cwd=os.path.dirname(__file__))
+                health_data = json.loads(out.decode())
+                sys.stdout.write(json.dumps({"id": req["id"], "result": health_data}) + "\n"); sys.stdout.flush()
+            except Exception as e:
+                sys.stdout.write(json.dumps({"id": req["id"], "error": {"message": f"health check failed: {e}"}}) + "\n"); sys.stdout.flush()
 
 if __name__ == "__main__":
     main()

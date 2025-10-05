@@ -57,6 +57,13 @@ The **MATRIZ** (Memory-Attention-Thought-Action-Decision-Awareness) engine imple
 4) Telemetry contracts (promtool + label policy)
 5) Import hygiene (lane boundaries)
 
+### MCP Status
+`mcp-servers/lukhas-devtools-mcp` • **11 tools** • catalog SHA: ![catalog-sha](https://img.shields.io/badge/sha-dynamic-blue?logo=json)
+
+- 📚 [MCP Readiness Pack](artifacts/MCP_EVERYWHERE_PACK_DELIVERY.md)
+- 🧪 `make mcp-contract && make mcp-smoke`
+- 🩺 `make mcp-health` → emits version, tool_count, catalog_sha, last p95
+
 ## 🚀 Quick Start
 
 ### Prerequisites

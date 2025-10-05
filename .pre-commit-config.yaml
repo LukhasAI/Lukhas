@@ -198,3 +198,9 @@ repos:
         entry: python3 tools/mcp/self_contract_test.py
         language: system
         files: ^mcp-servers/lukhas-devtools-mcp/tooling/catalog\.json$
+
+      - id: mcp-validate-catalog
+        name: MCP catalog schema validation
+        entry: make mcp-validate-catalog
+        language: system
+        files: ^mcp-servers/lukhas-devtools-mcp/tooling/catalog\.json$

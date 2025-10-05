@@ -12,7 +12,7 @@
 .PHONY: scaffold-dry scaffold-apply scaffold-apply-force scaffold-diff scaffold-diff-all validate-scaffold sync-module sync-module-force
 .PHONY: validate-configs validate-secrets validate-naming readiness-score readiness-detailed quality-report test-shards test-parallel t4-sim-lane imports-guard audit-validate-ledger feedback-validate
 .PHONY: emergency-bypass clean-artifacts dev-setup status ci-validate ci-artifacts help
-.PHONY: mcp-bootstrap mcp-verify mcp-selftest mcp-ready mcp-contract mcp-smoke mcp-freeze mcp-docker-build mcp-docker-run
+.PHONY: mcp-bootstrap mcp-verify mcp-selftest mcp-ready mcp-contract mcp-smoke mcp-freeze mcp-docker-build mcp-docker-run mcp-validate-catalog mcp-health
 
 # Note: Additional PHONY targets are declared in mk/*.mk include files
 
@@ -1040,6 +1040,13 @@ mcp-smoke:
 
 mcp-freeze:
 	@python3 tools/mcp/assert_catalog_frozen.py
+
+mcp-validate-catalog:
+	@python3 -m pip -q install jsonschema >/dev/null || true
+	@python3 tools/mcp/validate_catalog.py
+
+mcp-health:
+	@python3 mcp-servers/lukhas-devtools-mcp/health.py
 
 mcp-docker-build:
 	docker build -t lukhas/mcp:dev mcp-servers/lukhas-devtools-mcp
