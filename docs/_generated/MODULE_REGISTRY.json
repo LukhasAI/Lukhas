@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2025-10-05T11:32:35.652980+00:00",
+  "generated_at": "2025-10-05T11:49:30.488041+00:00",
   "module_count": 149,
   "modules": [
     {
@@ -2433,6 +2433,7 @@
         "docs/SCAFFOLD_REGIMENT.md",
         "docs/SYSTEM_STATUS.md",
         "docs/T4_INFRASTRUCTURE_SUMMARY.md",
+        "docs/T4_RUNBOOK_EXECUTION_REPORT.md",
         "docs/T4_UNUSED_IMPORTS_GUIDE.md",
         "docs/TESTING_GUIDE.md",
         "docs/TODO_COMPLETIONS_2025_09_16.md",

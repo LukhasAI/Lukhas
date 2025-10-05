@@ -1,7 +1,7 @@
 # Documentation Map
-_Generated 2025-10-05T11:32:35.725533+00:00_
+_Generated 2025-10-05T11:49:30.573163+00:00_
 
-**Modules**: 149 | **Total Docs**: 15945 | **Total Tests**: 472
+**Modules**: 149 | **Total Docs**: 15946 | **Total Tests**: 472
 
 | Module | Status | Docs | Tests | APIs | Path |
 |---|---|---:|---:|---:|---|
@@ -50,7 +50,7 @@ _Generated 2025-10-05T11:32:35.725533+00:00_
 | `diagnostics` | unknown | 8 | 3 | 0 | `diagnostics` |
 | `doc` | unknown | 9 | 3 | 0 | `doc` |
 | `docker` | unknown | 8 | 3 | 0 | `docker` |
-| `docs` | unknown | 1215 | 3 | 0 | `docs` |
+| `docs` | unknown | 1216 | 3 | 0 | `docs` |
 | `dream` | unknown | 8 | 3 | 3 | `dream` |
 | `dreams` | unknown | 8 | 3 | 11 | `dreams` |
 | `dreamweaver_helpers_bundle` | unknown | 10 | 3 | 0 | `dreamweaver_helpers_bundle` |
