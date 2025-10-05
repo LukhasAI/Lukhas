@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2025-10-05T10:57:10.126755+00:00",
+  "generated_at": "2025-10-05T11:25:31.648606+00:00",
   "module_count": 149,
   "modules": [
     {
@@ -1984,7 +1984,12 @@
         "consciousness/docs/vivox_stress_test_final_report.md",
         "consciousness/docs/vivox_validation_analysis.md",
         "consciousness/lukhas_context.md",
+        "consciousness/simulation/CHANGELOG.md",
         "consciousness/simulation/README.md",
+        "consciousness/simulation/docs/API.md",
+        "consciousness/simulation/docs/ARCHITECTURE.md",
+        "consciousness/simulation/docs/GUIDES.md",
+        "consciousness/simulation/lukhas_context.md",
         "consciousness/tests/README.md"
       ],
       "tests": [
@@ -2012,9 +2017,18 @@
         "t4-beta"
       ],
       "docs": [
-        "consciousness/simulation/README.md"
+        "consciousness/simulation/CHANGELOG.md",
+        "consciousness/simulation/README.md",
+        "consciousness/simulation/docs/API.md",
+        "consciousness/simulation/docs/ARCHITECTURE.md",
+        "consciousness/simulation/docs/GUIDES.md",
+        "consciousness/simulation/lukhas_context.md"
       ],
-      "tests": [],
+      "tests": [
+        "consciousness/simulation/tests/conftest.py",
+        "consciousness/simulation/tests/test_smoke.py",
+        "consciousness/simulation/tests/test_unit.py"
+      ],
       "api_count": 0
     },
     {

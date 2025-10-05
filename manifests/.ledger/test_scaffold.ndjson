@@ -3,3 +3,4 @@
 {"ts": "2025-10-05T09:52:57.681610+00:00", "module": "identity", "created": ["tests/test_smoke.py", "tests/test_unit.py"]}
 {"ts": "2025-10-05T09:52:57.681910+00:00", "module": "matriz", "created": ["tests/test_smoke.py", "tests/test_unit.py"]}
 {"ts": "2025-10-05T09:52:57.682233+00:00", "module": "memory", "created": ["tests/test_smoke.py", "tests/test_unit.py"]}
+{"ts": "2025-10-05T11:25:13.405379+00:00", "module": "consciousness.simulation", "created": ["tests/conftest.py", "tests/test_smoke.py", "tests/test_unit.py"]}

@@ -1,7 +1,7 @@
 # Documentation Map
-_Generated 2025-10-05T10:57:10.200217+00:00_
+_Generated 2025-10-05T11:25:31.695779+00:00_
 
-**Modules**: 149 | **Total Docs**: 15935 | **Total Tests**: 469
+**Modules**: 149 | **Total Docs**: 15945 | **Total Tests**: 472
 
 | Module | Status | Docs | Tests | APIs | Path |
 |---|---|---:|---:|---:|---|
@@ -35,8 +35,8 @@ _Generated 2025-10-05T10:57:10.200217+00:00_
 | `cognitive_core` | unknown | 8 | 6 | 2 | `cognitive_core` |
 | `completion` | unknown | 9 | 3 | 0 | `completion` |
 | `config` | unknown | 10 | 3 | 0 | `config` |
-| `consciousness` | unknown | 60 | 5 | 13 | `consciousness` |
-| `consciousness.simulation` | unknown | 1 | 0 | 0 | `consciousness/simulation` |
+| `consciousness` | unknown | 65 | 5 | 13 | `consciousness` |
+| `consciousness.simulation` | unknown | 6 | 3 | 0 | `consciousness/simulation` |
 | `consent` | unknown | 8 | 3 | 0 | `consent` |
 | `contracts` | unknown | 8 | 3 | 0 | `contracts` |
 | `core` | unknown | 9 | 3 | 0 | `core` |
