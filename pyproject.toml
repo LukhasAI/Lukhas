@@ -292,6 +292,10 @@ max-returns = 3
 "tests/core/test_matriz_consciousness_integration.py" = ["W291", "W292", "W293"]
 "serve/cognitive_enhanced_consciousness_api.py" = ["PLW0603", "W293"]
 "MATRIZ/**" = ["UP007"]  # Keep Python 3.9 compatible union syntax
+# Compatibility shims - allow star imports and unused imports
+"lukhas/**/*.py" = ["F401", "F403"]
+# Test files - allow unused imports for fixtures and helper imports
+"tests/**/*.py" = ["F401", "F403"]
 
 [tool.mypy]
 python_version = "3.11"

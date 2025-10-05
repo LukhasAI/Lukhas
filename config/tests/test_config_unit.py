@@ -42,8 +42,8 @@ class TestConfigModule(unittest.TestCase):
         """Test module has version information."""
         import config
         # Most modules should have version info
-        self.assertTrue(hasattr(config, '__version__') or
-                       hasattr(config, 'VERSION'))
+        self.assertTrue(hasattr(config, "__version__") or
+                       hasattr(config, "VERSION"))
 
     def test_module_initialization(self):
         """Test module can be initialized."""
