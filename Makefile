@@ -12,6 +12,7 @@
 .PHONY: scaffold-dry scaffold-apply scaffold-apply-force scaffold-diff scaffold-diff-all validate-scaffold sync-module sync-module-force
 .PHONY: validate-configs validate-secrets validate-naming readiness-score readiness-detailed quality-report test-shards test-parallel t4-sim-lane imports-guard audit-validate-ledger feedback-validate
 .PHONY: emergency-bypass clean-artifacts dev-setup status ci-validate ci-artifacts help
+.PHONY: mcp-bootstrap mcp-verify mcp-selftest mcp-ready mcp-contract mcp-smoke mcp-freeze mcp-docker-build mcp-docker-run
 
 # Note: Additional PHONY targets are declared in mk/*.mk include files
 
@@ -1016,3 +1017,36 @@ audit-validate-ledger:
 feedback-validate:
 	@echo "🔍 Validating feedback events against schema..."
 	@python3 -c "import json, sys, pathlib; from jsonschema import Draft202012Validator; schema = json.loads(pathlib.Path('schemas/feedback_event_v1.json').read_text()); validator = Draft202012Validator(schema); p = pathlib.Path('audit_logs/feedback.jsonl'); print('⚠️  No feedback file found') if not p.exists() else ([print(f'❌ Invalid event line {i}: {e.message}') for i, line in enumerate(p.read_text().splitlines(), 1) for e in validator.iter_errors(json.loads(line))]) or print('✅ All feedback events conform to schema')"
+
+# ==============================================================================
+# MCP LIFECYCLE - T4 Production-Grade Tool Integration
+# ==============================================================================
+
+## ── MCP lifecycle ───────────────────────────────────────────────────────
+mcp-bootstrap:
+	@bash tools/mcp/bootstrap.sh
+
+mcp-verify:
+	@python3 tools/mcp/verify_config.py
+
+mcp-selftest:
+	@python3 tools/mcp/self_test.py
+
+mcp-contract: 
+	@python3 tools/mcp/self_contract_test.py
+
+mcp-smoke:
+	@bash tools/mcp/self_smoke.sh
+
+mcp-freeze:
+	@python3 tools/mcp/assert_catalog_frozen.py
+
+mcp-docker-build:
+	docker build -t lukhas/mcp:dev mcp-servers/lukhas-devtools-mcp
+
+mcp-docker-run:
+	docker run --rm -it -e PYTHONUNBUFFERED=1 lukhas/mcp:dev
+
+## Convenience: full readiness
+mcp-ready: mcp-bootstrap mcp-verify mcp-selftest mcp-contract mcp-smoke mcp-freeze
+	@echo "✅ LUKHAS-MCP ready"

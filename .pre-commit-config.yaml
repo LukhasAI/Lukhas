@@ -186,3 +186,15 @@ repos:
         language: system
         pass_filenames: false
         files: 'module\.manifest\.json$'
+
+      - id: mcp-config-verify
+        name: Guard: MCP config verify
+        entry: python3 tools/mcp/verify_config.py
+        language: system
+        files: ^lukhas-mcp/config\.yaml$
+
+      - id: mcp-contract
+        name: Guard: MCP tool contract
+        entry: python3 tools/mcp/self_contract_test.py
+        language: system
+        files: ^mcp-servers/lukhas-devtools-mcp/tooling/catalog\.json$

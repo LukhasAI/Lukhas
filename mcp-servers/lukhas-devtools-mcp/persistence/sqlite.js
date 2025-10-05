@@ -49,12 +49,25 @@ export function openDB(dbPath, { wal = true } = {}) {
       policy_json TEXT NOT NULL          -- {windowSeconds, targets:{latency_p95_ms, max_error_rate}}
     );
     CREATE TABLE IF NOT EXISTS canary_metrics (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      canary_id TEXT NOT NULL,
-      ts TEXT NOT NULL,
-      latency_p95_ms REAL NOT NULL,
-      error_rate REAL NOT NULL,
-      FOREIGN KEY(canary_id) REFERENCES canaries(canary_id) ON DELETE CASCADE
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        canary_id TEXT NOT NULL,
+        created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+        latency_p95_ms REAL,
+        error_rate REAL,
+        gate TEXT,
+        source TEXT DEFAULT 'sloMonitor',
+        raw_data TEXT
+    );
+
+    CREATE TABLE IF NOT EXISTS audits_narrative (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+        event_type TEXT NOT NULL,
+        entity_id TEXT,
+        entity_type TEXT,
+        message TEXT NOT NULL,
+        operator TEXT,
+        context TEXT
     );
   `);
 
@@ -90,6 +103,10 @@ export function createStores(db) {
     const insertAudit = db.prepare(`
     INSERT INTO audits(ts, actor, action, payload_json) VALUES(?, ?, ?, ?)
   `);
+    const insertNarrative = db.prepare(`
+    INSERT INTO audits_narrative(event_type, entity_id, entity_type, message, operator, context)
+    VALUES (?, ?, ?, ?, ?, ?)
+  `);
 
     // CANARIES
     const upsertCanary = db.prepare(`
@@ -102,14 +119,18 @@ export function createStores(db) {
   `);
     const getCanary = db.prepare(`SELECT * FROM canaries WHERE canary_id = ?`);
     const addMetric = db.prepare(`
-    INSERT INTO canary_metrics(canary_id, ts, latency_p95_ms, error_rate) VALUES (?,?,?,?)
+    INSERT INTO canary_metrics(canary_id, created_at, latency_p95_ms, error_rate, gate, source, raw_data) 
+    VALUES (?, CURRENT_TIMESTAMP, ?, ?, ?, ?, ?)
   `);
 
     return {
         job: {
             upsert: (j) => upsertJob.run(j),
             get: (id) => getJob.get(id),
-            sweepOlderThanUnix: (unix) => sweepJobs.run(unix).changes
+            sweepOlderThanUnix: (unix) => sweepJobs.run(unix).changes,
+            insertNarrative: (eventType, entityId, message, operator = 'system', context = null) => {
+                return insertNarrative.run(eventType, entityId, 'job', message, operator, context ? JSON.stringify(context) : null);
+            }
         },
         model: {
             upsert: (m) => upsertModel.run(m),
@@ -118,12 +139,27 @@ export function createStores(db) {
             get: (id) => getModel.get(id)
         },
         audit: {
-            write: (ts, actor, action, payload) => insertAudit.run(ts, actor, action, JSON.stringify(payload ?? {}))
+            write: (ts, actor, action, payload) => insertAudit.run(ts, actor, action, JSON.stringify(payload ?? {})),
+            narrative: (eventType, entityId, entityType, message, operator = 'system', context = null) => {
+                return insertNarrative.run(eventType, entityId, entityType, message, operator, context ? JSON.stringify(context) : null);
+            }
         },
         canary: {
             upsert: (c) => upsertCanary.run(c),
             get: (id) => getCanary.get(id),
-            addMetric: (id, ts, latP95, err) => addMetric.run(id, ts, latP95, err)
+            addMetric: (canaryId, metrics) => {
+                return addMetric.run(
+                    canaryId,
+                    metrics.latency_p95_ms,
+                    metrics.error_rate,
+                    metrics.gate || 'unknown',
+                    metrics.source || 'sloMonitor',
+                    JSON.stringify(metrics)
+                );
+            },
+            insertNarrative: (eventType, entityId, message, operator = 'system', context = null) => {
+                return insertNarrative.run(eventType, entityId, 'canary', message, operator, context ? JSON.stringify(context) : null);
+            }
         }
     };
 }

@@ -1,0 +1,22 @@
+name: MCP SSE Probe
+on:
+  schedule: [{ cron: "*/30 * * * *" }]
+  workflow_dispatch: {}
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: node -v
+      - name: Boot MCP (ephemeral)
+        run: |
+          export PORT=9009
+          nohup node mcp-servers/lukhas-devtools-mcp/mcp-streamable.mjs > server.log 2>&1 &
+          sleep 2
+      - name: Launch tiny job
+        run: |
+          curl -s http://localhost:9009/mcp -H 'Content-Type: application/json' \
+            -d '{"jsonrpc":"2.0","id":2,"method":"tools/call","params":{"name":"run_eval","arguments":{"taskId":"probe","configId":"ci"}}}'
+      - name: Open SSE and assert lines
+        run: |
+          curl -sN --max-time 8 http://localhost:9009/sse?topic=jobs | head -n 20

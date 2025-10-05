@@ -1,0 +1,86 @@
+# LUKHAS-MCP canonical tool map
+# Point your MCP server to this file (or merge these blocks into your existing config).
+# Env-driven endpoints for portability.
+
+version: 1
+server:
+  # Choose one:
+  # mode: stdio
+  # mode: websocket
+  mode: ${LUKHAS_MCP_MODE:="stdio"}
+  command: ${LUKHAS_MCP_CMD:="python3 -m lukhas_mcp_server"}   # if stdio
+  endpoint: ${LUKHAS_MCP_ENDPOINT:=""}                         # if websocket
+
+tools:
+  # ── Manifests / Registry ────────────────────────────────────────────────
+  - name: lukhas.manifests.validate
+    entry: python3 tools/manifest_validate.py
+    args: []
+  - name: lukhas.manifests.lock
+    entry: python3 tools/manifest_lock_hydrator.py
+    args: []
+  - name: lukhas.registry.build
+    entry: python3 tools/manifest_indexer.py
+    args: []
+  - name: lukhas.registry.diff
+    entry: python3 tools/registry_diff.py
+    args: ["--baseline", "artifacts/module.registry.json.baseline"]
+
+  # ── Docs Registry ───────────────────────────────────────────────────────
+  - name: lukhas.docs.registry.refresh
+    entry: python3 tools/doc_registry_builder.py
+    args: ["--refresh", "--emit-badges", "--fail-on-missing"]
+  - name: lukhas.docs.frontmatter.guard
+    entry: python3 tools/docs_frontmatter_guard.py
+    args: ["--require", "module,kind,owner,version"]
+
+  # ── Conveyor / Promotions ───────────────────────────────────────────────
+  - name: lukhas.conveyor.plan
+    entry: python3 tools/promotion_selector.py
+    args:
+      - "--top"
+      - "50"  # default
+      - "--modules"
+      - "core,identity,api"  # example
+      - "--layout"
+      - "flat"
+      - "--target-root"
+      - "Lukhas"
+  - name: lukhas.conveyor.execute
+    entry: python3 tools/promote_from_candidate.py
+    args:
+      - "--plan"
+      - "artifacts/promotion_batch.plan.jsonl"  # default
+
+  # ── Simulation Lane ─────────────────────────────────────────────────────
+  - name: lukhas.sim.schedule
+    entry: python3 -c
+    args:
+      - |
+        import asyncio,json,sys
+        from consciousness.simulation.api import schedule
+        seed=json.load(sys.stdin)
+        print(asyncio.run(schedule(seed)))
+  - name: lukhas.sim.collect
+    entry: python3 -c
+    args:
+      - |
+        import asyncio,sys
+        from consciousness.simulation.api import collect
+        print(asyncio.run(collect(sys.stdin.read().strip())))
+
+  # ── Audit / Trace (MATRIZ-adjacent) ─────────────────────────────────────
+  - name: lukhas.audit.export
+    entry: python3 -c
+    args:
+      - |
+        import sys,json
+        from lukhas_audit_system import AuditTrail
+        out=sys.argv[1] if len(sys.argv)>1 else "artifacts/audit_export.json"
+        a=AuditTrail("./audit_logs"); a.export_audit_log(out); print(out)
+
+# Optional: policy constraints the MCP server should enforce before executing tools
+policy:
+  deny_if_large_md_without_frontmatter: true
+  require_clean_git_worktree: false
+  max_exec_ms: 120000

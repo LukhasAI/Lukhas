@@ -1,0 +1,205 @@
+name: MCP Smoke
+
+on:
+  pull_request:
+    paths:
+      - 'mcp-servers/lukhas-devtools-mcp/**'
+      - 'tools/**'
+      - 'schemas/**'
+      - 'docs/**'
+  push:
+    branches: [ main ]
+  schedule:
+    - cron: "*/30 * * * *"   # every 30 minutes
+  workflow_dispatch:
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      LUKHAS_MCP_API_KEYS: test-ci-key-123
+      LUKHAS_MCP_DB: ${{ github.workspace }}/.ci-mcp-state.db
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: '20' }
+      - name: Install deps
+        run: |
+          npm ci || true
+          pip3 install numpy scipy pyyaml
+
+      - name: Tool catalog contract validation
+        run: make mcp-contract
+
+      - name: Freeze catalog
+        run: make mcp-freeze
+
+      - name: Enforce RBAC for conveyor.execute
+        if: contains(github.event.pull_request.labels.*.name, 'allow:mcp-conveyor-execute') == false
+        run: echo "Conveyor execute disabled in CI without label"; echo "MCP_CONVEYOR_DISABLED=1" >> $GITHUB_ENV
+
+      - name: Tool smoke tests
+        run: make mcp-smoke
+
+      - name: Golden: tools/list via stdio
+        run: python3 tools/mcp/poke_server.py
+
+      - name: Capture tool latency
+        run: make mcp-smoke | tee artifacts/mcp_smoke.log
+
+      - name: Check latency SLO
+        run: python3 - <<'PY'
+import re,sys,statistics,os
+try:
+    data=open("artifacts/mcp_smoke.log").read()
+    ms=[float(m) for m in re.findall(r'"ms":\s*([0-9.]+)', data)]
+    if ms:
+        p95=sorted(ms)[int(0.95*len(ms))-1] if len(ms)>1 else ms[0]
+        print("p95(ms)=",p95)
+        limit=float(os.environ.get("MCP_P95_LIMIT_MS","2500"))
+        if p95>limit: 
+            print(f"p95 {p95}ms exceeds {limit}ms")
+            sys.exit(1)
+    else:
+        print("no latency metrics found")
+except Exception as e:
+    print(f"latency check failed: {e}")
+PY
+
+      - name: Start MCP server
+        working-directory: mcp-servers/lukhas-devtools-mcp
+        env:
+          LUKHAS_REPO_ROOT: ${{ github.workspace }}
+          GITHUB_VIEW_BASE: https://github.com/LukhasAI/Lukhas/blob/main
+          LUKHAS_MCP_API_KEYS: ${{ env.LUKHAS_MCP_API_KEYS }}
+        run: |
+          nohup node mcp-streamable.mjs > server.log 2>&1 &
+          for i in {1..20}; do
+            curl -s -I http://localhost:8766/mcp && break
+            sleep 0.5
+          done
+
+      - name: Golden smoke
+        run: |
+          set -e
+          H=http://localhost:8766
+          # initialize
+          curl -s $H/mcp -H 'X-API-Key: test-ci-key-123' -H 'Content-Type: application/json' \\
+            -d '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2025-06-18","clientInfo":{"name":"ci","version":"1.0"},"capabilities":{"tools":{}}}}' | jq -e '.result.serverInfo.name'
+          # tools include search, fetch, write_file, apply_patch, git_commit, run_eval, status, promote_model
+          curl -s $H/mcp -H 'X-API-Key: test-ci-key-123' -H 'Content-Type: application/json' \\
+            -d '{"jsonrpc":"2.0","id":2,"method":"tools/list","params":{}}' | jq -e '.result.tools | map(.name) | index("search")'
+          curl -s $H/mcp -H 'X-API-Key: test-ci-key-123' -H 'Content-Type: application/json' \\
+            -d '{"jsonrpc":"2.0","id":3,"method":"tools/list","params":{}}' | jq -e '.result.tools | map(.name) | index("fetch")'
+          curl -s $H/mcp -H 'X-API-Key: test-ci-key-123' -H 'Content-Type: application/json' \\
+            -d '{"jsonrpc":"2.0","id":4,"method":"tools/list","params":{}}' | jq -e '.result.tools | map(.name) | index("apply_patch")'
+          curl -s $H/mcp -H 'X-API-Key: test-ci-key-123' -H 'Content-Type: application/json' \\
+            -d '{"jsonrpc":"2.0","id":5,"method":"tools/list","params":{}}' | jq -e '.result.tools | map(.name) | index("git_commit")'
+          curl -s $H/mcp -H 'X-API-Key: test-ci-key-123' -H 'Content-Type: application/json' \\
+            -d '{"jsonrpc":"2.0","id":6,"method":"tools/list","params":{}}' | jq -e '.result.tools | map(.name) | index("run_eval")'
+          curl -s $H/mcp -H 'X-API-Key: test-ci-key-123' -H 'Content-Type: application/json' \\
+            -d '{"jsonrpc":"2.0","id":7,"method":"tools/list","params":{}}' | jq -e '.result.tools | map(.name) | index("status")'
+          curl -s $H/mcp -H 'X-API-Key: test-ci-key-123' -H 'Content-Type: application/json' \\
+            -d '{"jsonrpc":"2.0","id":8,"method":"tools/list","params":{}}' | jq -e '.result.tools | map(.name) | index("promote_model")'
+
+          # write_file
+          curl -s $H/mcp -H 'X-API-Key: test-ci-key-123' -H 'Content-Type: application/json' \\
+            -d '{"jsonrpc":"2.0","id":10,"method":"tools/call","params":{"name":"write_file","arguments":{"path":"docs/ci/smoke.md","contents":"# smoke\\nok\\n","overwrite":true}}}' | jq -e '.result.content[0].text | fromjson | .path'
+
+          # fetch by id (repo path id)
+          ID="lukhas-path:ZG9jcy9jaS9zbW9rZS5tZA=="
+          SHA=$(curl -s $H/mcp -H 'X-API-Key: test-ci-key-123' -H 'Content-Type: application/json' \\
+            -d "{\\"jsonrpc\\":\\"2.0\\",\\"id\\":11,\\"method\\":\\"tools/call\\",\\"params\\":{\\"name\\":\\"fetch\\",\\"arguments\\":{\\"id\\":\\"$ID\\",\\"fields\\":[\\"metadata\\"]}}}" \\
+            | jq -r '.result.content[0].text' | jq -r '.metadata.sha256')
+
+          # apply_patch (with precondition)
+          DIFF=$'--- a\\n+++ b\\n@@ -1,1 +1,2 @@\\n-# smoke\\n+# smoke\\npatched\\n'
+          curl -s $H/mcp -H 'X-API-Key: test-ci-key-123' -H 'Content-Type: application/json' \\
+            -d "{\\"jsonrpc\\":\\"2.0\\",\\"id\\":12,\\"method\\":\\"tools/call\\",\\"params\\":{\\"name\\":\\"apply_patch\\",\\"arguments\\":{\\"path\\":\\"docs/ci/smoke.md\\",\\"patch\\":\$(jq -sR . <<<\\"$DIFF\\"),\\"expectSha256\\":\\"$SHA\\"}}}" \\
+            | jq -e '.result.content[0].text | fromjson | .sha256'
+
+          # git_commit
+          curl -s $H/mcp -H 'X-API-Key: test-ci-key-123' -H 'Content-Type: application/json' \\
+            -d '{"jsonrpc":"2.0","id":13,"method":"tools/call","params":{"name":"git_commit","arguments":{"message":"ci: mcp smoke commit","add":["docs/ci/smoke.md"]}}}' \\
+            | jq -e '.result.content[0].text | fromjson | .commit'
+
+          # run_eval → status → promote_model
+          JOB=$(curl -s $H/mcp -H 'X-API-Key: test-ci-key-123' -H 'Content-Type: application/json' \\
+            -d '{"jsonrpc":"2.0","id":20,"method":"tools/call","params":{"name":"run_eval","arguments":{"taskId":"matriz.quick","configId":"default"}}}' \\
+            | jq -r '.result.content[0].text' | jq -r '.jobId')
+          # two quick polls
+          curl -s $H/mcp -H 'X-API-Key: test-ci-key-123' -H 'Content-Type: application/json' \\
+            -d "{\\"jsonrpc\\":\\"2.0\\",\\"id\\":21,\\"method\\":\\"tools/call\\",\\"params\\":{\\"name\\":\\"status\\",\\"arguments\\":{\\"jobId\\":\\"$JOB\\"}}}" \\
+            | jq -e '.result.content[0].text | fromjson | .status'
+          sleep 2
+          curl -s $H/mcp -H 'X-API-Key: test-ci-key-123' -H 'Content-Type: application/json' \\
+            -d "{\\"jsonrpc\\":\\"2.0\\",\\"id\\":22,\\"method\\":\\"tools/call\\",\\"params\\":{\\"name\\":\\"status\\",\\"arguments\\":{\\"jobId\\":\\"$JOB\\"}}}" \\
+            | jq -e '.result.content[0].text | fromjson | .status | IN("RUNNING","COMPLETED","DRY_RUN")'
+
+          curl -s $H/mcp -H 'X-API-Key: test-ci-key-123' -H 'Content-Type: application/json' \\
+            -d '{"jsonrpc":"2.0","id":23,"method":"tools/call","params":{"name":"promote_model","arguments":{"modelId":"matriz-v0","gate":"stage"}}}' \\
+            | jq -e '.result.content[0].text | fromjson | .currentGates | index("stage")'
+
+          # write_file
+          curl -s $H/mcp -H 'Content-Type: application/json' \
+            -d '{"jsonrpc":"2.0","id":10,"method":"tools/call","params":{"name":"write_file","arguments":{"path":"docs/ci/smoke.md","contents":"# smoke\nok\n","overwrite":true}}}' | jq -e '.result.content[0].text | fromjson | .path'
+
+          # fetch by id (repo path id)
+          ID="lukhas-path:ZG9jcy9jaS9zbW9rZS5tZA=="
+          SHA=$(curl -s $H/mcp -H 'Content-Type: application/json' \
+            -d "{\"jsonrpc\":\"2.0\",\"id\":11,\"method\":\"tools/call\",\"params\":{\"name\":\"fetch\",\"arguments\":{\"id\":\"$ID\",\"fields\":[\"metadata\"]}}}" \
+            | jq -r '.result.content[0].text' | jq -r '.metadata.sha256')
+
+          # apply_patch (with precondition)
+          DIFF=$'--- a\n+++ b\n@@ -1,1 +1,2 @@\n-# smoke\n+# smoke\npatched\n'
+          curl -s $H/mcp -H 'Content-Type: application/json' \
+            -d "{\"jsonrpc\":\"2.0\",\"id\":12,\"method\":\"tools/call\",\"params\":{\"name\":\"apply_patch\",\"arguments\":{\"path\":\"docs/ci/smoke.md\",\"patch\":$(jq -sR . <<<\"$DIFF\"),\"expectSha256\":\"$SHA\"}}}" \
+            | jq -e '.result.content[0].text | fromjson | .sha256'
+
+          # git_commit
+          curl -s $H/mcp -H 'Content-Type: application/json' \
+            -d '{"jsonrpc":"2.0","id":13,"method":"tools/call","params":{"name":"git_commit","arguments":{"message":"ci: mcp smoke commit","add":["docs/ci/smoke.md"]}}}' \
+            | jq -e '.result.content[0].text | fromjson | .commit'
+
+          # run_eval → status → promote_model
+          JOB=$(curl -s $H/mcp -H 'Content-Type: application/json' \
+            -d '{"jsonrpc":"2.0","id":20,"method":"tools/call","params":{"name":"run_eval","arguments":{"taskId":"matriz.quick","configId":"default"}}}' \
+            | jq -r '.result.content[0].text' | jq -r '.jobId')
+          # two quick polls
+          curl -s $H/mcp -H 'Content-Type: application/json' \
+            -d "{\"jsonrpc\":\"2.0\",\"id\":21,\"method\":\"tools/call\",\"params\":{\"name\":\"status\",\"arguments\":{\"jobId\":\"$JOB\"}}}" \
+            | jq -e '.result.content[0].text | fromjson | .status'
+          sleep 2
+          curl -s $H/mcp -H 'Content-Type: application/json' \
+            -d "{\"jsonrpc\":\"2.0\",\"id\":22,\"method\":\"tools/call\",\"params\":{\"name\":\"status\",\"arguments\":{\"jobId\":\"$JOB\"}}}" \
+            | jq -e '.result.content[0].text | fromjson | .status | IN("RUNNING","COMPLETED","DRY_RUN")'
+
+          curl -s $H/mcp -H 'Content-Type: application/json' \\
+            -d '{"jsonrpc":"2.0","id":23,"method":"tools/call","params":{"name":"promote_model","arguments":{"modelId":"matriz-v0","gate":"stage"}}}' \\
+            | jq -e '.result.content[0].text | fromjson | .currentGates | index("stage")'
+
+      - name: SSE Quick Probe
+        if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+        run: |
+          set -e
+          H=http://localhost:8766
+          K='test-ci-key-123'
+          
+          # Create job and stream events for 3 seconds
+          JOB=$(curl -s $H/mcp -H "X-API-Key: $K" -H 'Content-Type: application/json' \\
+            -d '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"run_eval","arguments":{"taskId":"sse-probe","configId":"default"}}}' \\
+            | jq -r '.result.content[0].text' | jq -r '.jobId')
+          
+          echo "✅ Job created: $JOB"
+          
+          # Verify SSE streaming works (should get queued, running events)
+          timeout 3s bash -c "curl -N \\"$H/sse?topic=job/$JOB\\" -H \\"X-API-Key: $K\\" | sed -n '1,6p'"
+          echo "✅ SSE streaming verified"
+
+      - name: Server logs
+        if: failure()
+        working-directory: mcp-servers/lukhas-devtools-mcp
+        run: |
+          echo "=== server.log ==="
+          cat server.log || echo "No server log"

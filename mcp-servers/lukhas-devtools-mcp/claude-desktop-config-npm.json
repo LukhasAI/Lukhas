@@ -1,12 +1,14 @@
 {
-  "mcpServers": {
-    "lukhas-devtools": {
-      "command": "npm",
-      "args": ["start"],
-      "cwd": "/Users/agi_dev/LOCAL-REPOS/Lukhas/mcp-servers/lukhas-devtools-mcp",
-      "env": {
-        "NODE_ENV": "development"
-      }
+    "mcpServers": {
+        "lukhas-devtools": {
+            "command": "npm",
+            "args": [
+                "start"
+            ],
+            "cwd": "/Users/agi_dev/LOCAL-REPOS/Lukhas/mcp-servers/lukhas-devtools-mcp",
+            "env": {
+                "NODE_ENV": "development"
+            }
+        }
     }
-  }
 }

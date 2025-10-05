@@ -5,8 +5,18 @@ import { URL } from 'node:url';
 import path from 'path';
 import { evalOrchestrator } from './adapters/evalOrchestrator.js';
 import { modelRegistry } from './adapters/modelRegistry.js';
-import { sloMonitor } from './adapters/sloMonitor.js';
 import { createStores, openDB } from './persistence/sqlite.js';
+// Prefer Prometheus-backed monitor if PROM_URL is set; fallback to stub.
+let sloMonitor;
+try {
+    if (process.env.PROM_URL) {
+        ({ sloMonitor } = await import('./adapters/sloMonitor.prom.js'));
+    } else {
+        ({ sloMonitor } = await import('./adapters/sloMonitor.js'));
+    }
+} catch {
+    ({ sloMonitor } = await import('./adapters/sloMonitor.js'));
+}
 
 const PORT = parseInt(process.env.PORT || "8766");
 
@@ -98,6 +108,78 @@ const STATE_PATH = process.env.MCP_STATE_PATH || path.resolve(REPO_ROOT, '.mcp-s
 const DB_PATH = process.env.LUKHAS_MCP_DB || path.resolve(REPO_ROOT, '.mcp-state.db');
 const __db = openDB(DB_PATH, { wal: true });
 const stores = createStores(__db);
+
+// Enhanced narrative audit retrieval
+function auditNarrativeFor(idLike) {
+    return buildNarrativeFor(idLike);
+}
+
+function buildNarrativeFor(idLike) {
+    // Fall back to audits-only narrative if no rich canary rows present.
+    try {
+        const rows = __db.prepare(
+            `SELECT ts, actor, action, payload_json FROM audits ORDER BY ts ASC`
+        ).all();
+        const hits = rows.filter(r => JSON.stringify(r).includes(idLike));
+        if (!hits.length) return `No audit narrative found for: ${idLike}`;
+        return hits.map(r => {
+            let payload = {};
+            try { payload = JSON.parse(r.payload_json || "{}"); } catch { }
+            return `[${r.ts}] ${r.actor || "system"} ${r.action} ${Object.keys(payload).length ? JSON.stringify(payload) : ""}`.trim();
+        }).join("\n");
+    } catch (e) {
+        return `Narrative unavailable: ${String(e?.message || e)}`;
+    }
+}
+
+function structuredWhy(id) {
+    // Prefer canary view (thresholds + observed); otherwise synthesize from audits.
+    const out = {
+        id,
+        decision: "unknown",
+        thresholds: { latency_p95_ms: null, max_error_rate: null, max_drift: null },
+        observed: { latency_p95_ms: null, error_rate: null, drift: null },
+        time_to_action_sec: null,
+        evidence: []
+    };
+    try {
+        // Pull last metrics for the ID if available
+        const m = __db.prepare(
+            `SELECT * FROM canary_metrics WHERE canary_id = ? ORDER BY created_at DESC LIMIT 1`
+        ).get(id);
+        if (m) {
+            out.observed.latency_p95_ms = m.latency_p95_ms ?? null;
+            out.observed.error_rate = m.error_rate ?? null;
+            out.observed.drift = m.drift_score ?? null;
+        }
+    } catch { }
+    try {
+        const c = __db.prepare(
+            `SELECT * FROM canaries WHERE canary_id = ? LIMIT 1`
+        ).get(id);
+        if (c) {
+            try {
+                const pol = JSON.parse(c.policy_json || "{}");
+                out.thresholds.latency_p95_ms = pol?.targets?.latency_p95_ms ?? null;
+                out.thresholds.max_error_rate = pol?.targets?.max_error_rate ?? null;
+                out.thresholds.max_drift = pol?.targets?.max_drift ?? null;
+            } catch { }
+            out.decision = c.status || "unknown";
+        }
+    } catch { }
+    try {
+        const rows = __db.prepare(
+            `SELECT ts, action, payload_json FROM audits WHERE payload_json LIKE ? ORDER BY ts ASC`
+        ).all(`%${id}%`);
+        if (rows.length >= 2) {
+            const t0 = new Date(rows[0].ts).getTime();
+            const te = new Date(rows[rows.length - 1].ts).getTime();
+            if (Number.isFinite(t0) && Number.isFinite(te)) out.time_to_action_sec = Math.max(0, Math.round((te - t0) / 1000));
+        }
+        out.evidence = rows.slice(-6); // last few events
+    } catch { }
+    return out;
+}
 
 let _dirty = false;
 let _saving = false;
@@ -462,7 +544,8 @@ function parseBody(req) {
     });
 }
 
-// MCP Tools definitions - ChatGPT requires 'search' and 'fetch' tools
+// MCP Tools definitions - ChatGPT requires 'search' and 'fetch' tools FIRST.
+// DO NOT change the first two entries or remove required:["id"] from fetch.
 const MCP_TOOLS = [
     // Contract-compliant tools (snake_case)
     {
@@ -483,7 +566,7 @@ const MCP_TOOLS = [
         inputSchema: {
             type: "object",
             properties: {
-                id: { type: "string" },
+                id: { type: "string" }, // required by ChatGPT searchability checks
                 fields: {
                     type: "array",
                     items: { type: "string", enum: ["title", "url", "mimeType", "text", "metadata"] }
@@ -514,6 +597,24 @@ const MCP_TOOLS = [
                 jobId: { type: "string" }
             },
             required: ["jobId"]
+        }
+    },
+    {
+        name: "why",
+        description: "Explain WHY a job/model/canary decision happened (narrative audit).",
+        inputSchema: {
+            type: "object",
+            properties: { id: { type: "string", description: "jobId|modelId|canaryId" } },
+            required: ["id"]
+        }
+    },
+    {
+        name: "why_math",
+        description: "Structured WHY: SLO thresholds, observed metrics, decision & time-to-action.",
+        inputSchema: {
+            type: "object",
+            properties: { id: { type: "string", description: "canaryId or jobId" } },
+            required: ["id"]
         }
     },
     {
@@ -1520,6 +1621,8 @@ async function handleMCPMethod(method, params = {}) {
                         result_json: null
                     };
                     stores.job.upsert(entry);
+                    // Add narrative audit trail
+                    stores.job.insertNarrative('queued', jobId, `eval "${taskId}" → queued for processing`);
                     // after stores.job.upsert(entry);
                     ssePublish(`job/${jobId}`, 'queued', { jobId, taskId, configId, ts: nowIso() });
 
@@ -1528,6 +1631,7 @@ async function handleMCPMethod(method, params = {}) {
                         setTimeout(() => {
                             const j = stores.job.get(jobId); if (!j) return;
                             j.status = 'RUNNING'; j.updated_at = nowIso(); stores.job.upsert(j);
+                            stores.job.insertNarrative('running', jobId, `eval "${taskId}" → running`);
                             ssePublish(`job/${jobId}`, 'running', { jobId, ts: j.updated_at });
                         }, 250);
                         setTimeout(() => {
@@ -1540,6 +1644,7 @@ async function handleMCPMethod(method, params = {}) {
                                 artifacts: []
                             });
                             stores.job.upsert(j);
+                            stores.job.insertNarrative('completed', jobId, `eval "${taskId}" → completed successfully`);
                             ssePublish(`job/${jobId}`, 'completed', {
                                 jobId, ts: j.updated_at,
                                 result: JSON.parse(j.result_json)
@@ -1580,6 +1685,30 @@ async function handleMCPMethod(method, params = {}) {
                         content: [{
                             type: "text",
                             text: JSON.stringify(payload)
+                        }]
+                    };
+                }
+
+                // ---------- why ----------
+                case 'why': {
+                    const { id } = args;
+                    const text = auditNarrativeFor(id);
+                    return {
+                        content: [{
+                            type: "text",
+                            text
+                        }]
+                    };
+                }
+
+                // ---------- why_math ----------
+                case 'why_math': {
+                    const { id } = args;
+                    const data = structuredWhy(id);
+                    return {
+                        content: [{
+                            type: "text",
+                            text: JSON.stringify(data)
                         }]
                     };
                 }
@@ -1638,6 +1767,7 @@ async function handleMCPMethod(method, params = {}) {
                         created_at: now, updated_at: now, policy_json: JSON.stringify(policy)
                     };
                     stores.canary.upsert(entry);
+                    stores.canary.insertNarrative('started', canaryId, `canary ${modelId} → ${fromGate} to ${toGate} (SLO monitoring)`);
                     ssePublish(`canary/${canaryId}`, 'started', { canaryId, modelId, fromGate, toGate, ts: now });
 
                     if (!dryRun) {
@@ -1664,6 +1794,7 @@ async function handleMCPMethod(method, params = {}) {
                                 stores.model.upsert({ model_id: modelId, promoted: 1, promoted_at: now2 });
                                 stores.audit.write(now2, 'mcp', 'canary_promote', { modelId, fromGate, toGate, metrics: m });
                                 stores.canary.upsert({ ...entry, status: 'PROMOTED', updated_at: now2, policy_json: JSON.stringify(policy) });
+                                stores.canary.insertNarrative('promoted', canaryId, `promoted ${modelId} → ${toGate} (lat=${Math.round(latency_p95_ms)}ms, err=${(error_rate * 100).toFixed(1)}%)`);
                                 ssePublish(`canary/${canaryId}`, 'promoted', { canaryId, ts: now2, metrics: m });
                                 clearInterval(iv);
                                 return;
@@ -1673,6 +1804,7 @@ async function handleMCPMethod(method, params = {}) {
                                 const now2 = nowIso();
                                 stores.audit.write(now2, 'mcp', 'canary_rollback', { modelId, fromGate, toGate, metrics: m });
                                 stores.canary.upsert({ ...entry, status: 'ROLLED_BACK', updated_at: now2, policy_json: JSON.stringify(policy) });
+                                stores.canary.insertNarrative('rolled_back', canaryId, `rollback ${modelId} due to SLO breach (lat=${Math.round(latency_p95_ms)}ms, err=${(error_rate * 100).toFixed(1)}%)`);
                                 ssePublish(`canary/${canaryId}`, 'rolled_back', { canaryId, ts: now2, metrics: m });
                                 clearInterval(iv);
                                 return;
@@ -1751,7 +1883,7 @@ async function handleMCPMethod(method, params = {}) {
 
 const server = createServer(async (req, res) => {
     const url = new URL(req.url, `http://localhost:${PORT}`);
-    const path = url.pathname;
+    const pathname = url.pathname;
     const method = req.method;
 
     console.log(`${new Date().toISOString()} ${method} ${path} - Accept: ${req.headers.accept}`);
@@ -1766,7 +1898,7 @@ const server = createServer(async (req, res) => {
 
     try {
         // STREAMABLE HTTP: Single /mcp endpoint for both SSE and JSON-RPC
-        if (path === '/mcp') {
+        if (pathname === '/mcp') {
             // Auth and rate limiting check
             const ip = getClientIp(req);
             const k = extractApiKey(req) || ip;
@@ -1866,7 +1998,7 @@ const server = createServer(async (req, res) => {
         }
 
         // Health check endpoint
-        if (path === '/healthz' && method === 'HEAD') {
+        if (pathname === '/healthz' && method === 'HEAD') {
             res.writeHead(200);
             res.end();
             logReq(req, 200, { healthz: true });
@@ -1874,7 +2006,7 @@ const server = createServer(async (req, res) => {
         }
 
         // Readiness endpoint
-        if (path === '/readyz' && method === 'HEAD') {
+        if (pathname === '/readyz' && method === 'HEAD') {
             const ready = true; // extend if you need index warmup checks
             res.writeHead(ready ? 200 : 503);
             res.end();
@@ -1910,7 +2042,7 @@ const server = createServer(async (req, res) => {
         }
 
         // Root endpoint - Server information (not MCP, just for debugging)
-        if (path === '/' && method === 'GET') {
+        if (pathname === '/' && method === 'GET') {
             const host = req.headers.host || `localhost:${PORT}`;
             const protocol = req.headers['x-forwarded-proto'] || 'http';
             const baseUrl = `${protocol}://${host}`;
@@ -1933,7 +2065,7 @@ const server = createServer(async (req, res) => {
         }
 
         // Health check for debugging
-        if (path === '/health' && method === 'GET') {
+        if (pathname === '/health' && method === 'GET') {
             setCORSHeaders(res);
             res.writeHead(200, { 'Content-Type': 'application/json' });
             res.end(JSON.stringify({
@@ -1945,6 +2077,57 @@ const server = createServer(async (req, res) => {
                 mcp_version: '2024-11-05'
             }));
             return;
+        }
+
+        // Serve cockpit.html directly for convenience
+        if (pathname === '/cockpit.html' && method === 'GET') {
+            try {
+                const cockpitPath = './cockpit.html';
+                const html = await fs.readFile(cockpitPath, 'utf-8');
+                setCORSHeaders(res);
+                res.writeHead(200, { 'Content-Type': 'text/html' });
+                res.end(html);
+                return;
+            } catch (err) {
+                console.error('Cockpit error:', err.message);
+                res.writeHead(404, { 'Content-Type': 'text/plain' });
+                res.end(`cockpit.html not found: ${err.message}`);
+                return;
+            }
+        }
+
+        // Evidence export: GET /evidence/export?from=30d&to=now  -> streams a .zip
+        if (pathname.startsWith('/evidence/export') && method === 'GET') {
+            const from = url.searchParams.get('from') || '30d';
+            const to = url.searchParams.get('to') || new Date().toISOString();
+            try {
+                const { mkdtemp } = await import('fs/promises');
+                const { join } = await import('path');
+                const tmp = await mkdtemp(join(process.cwd(), '.evidence-'));
+                const outDir = tmp;
+                const pack = join(tmp, 'ops-evidence.zip');
+                // Write minimal evidence set from SQLite
+                await writeEvidencePack(outDir, from, to);
+                // Shell out to zip for simplicity (CI images have zip)
+                const { execSync } = await import('child_process');
+                execSync(`cd "${outDir}" && zip -qr "${pack}" .`);
+                const zipBuf = await fs.readFile(pack);
+                setCORSHeaders(res);
+                res.writeHead(200, {
+                    'Content-Type': 'application/zip',
+                    'Content-Disposition': `attachment; filename="ops-evidence-${Date.now()}.zip"`,
+                    'Content-Length': zipBuf.length
+                });
+                res.end(zipBuf);
+                // best-effort cleanup
+                await fs.rm(tmp, { recursive: true, force: true }).catch(() => { });
+                return;
+            } catch (e) {
+                setCORSHeaders(res);
+                res.writeHead(500, { 'Content-Type': 'text/plain' });
+                res.end(`export failed: ${String(e?.message || e)}`);
+                return;
+            }
         }
 
         // 404 for other paths
@@ -1984,6 +2167,67 @@ server.listen(PORT, () => {
     console.log(`   SSE: curl -v -N -H "Accept: text/event-stream" http://localhost:${PORT}/mcp`);
     console.log(`   Tools: curl -s http://localhost:${PORT}/mcp -H 'Content-Type: application/json' -d '{"jsonrpc":"2.0","id":1,"method":"tools/list","params":{}}'`);
 });
+
+// Evidence pack helper functions
+async function writeEvidencePack(dir, from, to) {
+    const fp = (name) => path.join(dir, name);
+    await fs.mkdir(dir, { recursive: true });
+    const meta = {
+        generated_at: new Date().toISOString(), from, to,
+        policy: safePolicySnapshot(), prom: { url: process.env.PROM_URL || null, q_lat: process.env.PROM_Q_LAT || null, q_err: process.env.PROM_Q_ERR || null }
+    };
+    await fs.writeFile(fp('meta.json'), JSON.stringify(meta, null, 2));
+    // audits
+    try {
+        const audits = __db.prepare(`SELECT * FROM audits WHERE ts BETWEEN ? AND ? ORDER BY ts ASC`).all(fromISO(from), toISO(to));
+        await fs.writeFile(fp('audits.json'), JSON.stringify(audits, null, 2));
+        await fs.writeFile(fp('audits.csv'), toCSV(audits));
+    } catch { }
+    // narrative
+    try {
+        const narr = __db.prepare(`SELECT * FROM audits_narrative WHERE ts BETWEEN ? AND ? ORDER BY ts ASC`).all(fromISO(from), toISO(to));
+        const txt = narr.map(n => `[${n.ts}] ${n.type || 'event'} ${n.message || ''}`).join('\n');
+        await fs.writeFile(fp('narrative.txt'), txt);
+    } catch {
+        await fs.writeFile(fp('narrative.txt'), 'No audits_narrative table; falling back to audits narrative synthesis.\n');
+    }
+    // quick hashes
+    function sha256(s) { return crypto.createHash('sha256').update(s).digest('hex'); }
+    const h = [];
+    for (const name of ['meta.json', 'audits.json', 'audits.csv', 'narrative.txt']) {
+        const filePath = fp(name);
+        try {
+            const content = await fs.readFile(filePath);
+            h.push(`${name}  ${sha256(content)}   sha256`);
+        } catch { }
+    }
+    await fs.writeFile(fp('hashes.txt'), h.join('\n'));
+}
+
+function safePolicySnapshot() {
+    try {
+        const c = __db.prepare(`SELECT policy_json FROM canaries ORDER BY created_at DESC LIMIT 1`).get();
+        return c?.policy_json ? JSON.parse(c.policy_json) : null;
+    } catch { return null; }
+}
+
+function fromISO(rel) {
+    // naive "30d" → now-30d; else assume ISO
+    if (/^\d+d$/.test(rel)) {
+        const days = Number(rel.slice(0, -1));
+        return new Date(Date.now() - days * 86400000).toISOString();
+    }
+    return rel;
+}
+
+function toISO(s) { return /^\d{4}-/.test(s) ? s : new Date().toISOString(); }
+
+function toCSV(rows) {
+    if (!rows?.length) return "";
+    const cols = Object.keys(rows[0]);
+    const esc = (v) => `"${String(v ?? '').replace(/"/g, '""')}"`;
+    return [cols.join(','), ...rows.map(r => cols.map(c => esc(r[c])).join(','))].join('\n');
+}
 
 server.on('error', (err) => {
     console.error('Server error:', err);

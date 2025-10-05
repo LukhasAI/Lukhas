@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "namespace": "lukhas",
+  "tools": [
+    {"name": "manifests.validate", "entry": "python3 tools/manifest_validate.py", "args": []},
+    {"name": "manifests.lock",     "entry": "python3 tools/manifest_lock_hydrator.py", "args": []},
+    {"name": "registry.build",      "entry": "python3 tools/manifest_indexer.py", "args": []},
+    {"name": "registry.diff",       "entry": "python3 tools/registry_diff.py", "args": ["--baseline", "artifacts/module.registry.json.baseline"]},
+    {"name": "docs.registry.refresh","entry": "python3 tools/doc_registry_builder.py", "args": ["--refresh","--emit-badges","--fail-on-missing"]},
+    {"name": "docs.frontmatter.guard","entry": "python3 tools/docs_frontmatter_guard.py", "args": ["--require","module,kind,owner,version"]},
+    {"name": "conveyor.plan",       "entry": "python3 tools/promotion_selector.py", "args": ["--top","50","--modules","core,identity,api","--layout","flat","--target-root","Lukhas"]},
+    {"name": "conveyor.execute",    "entry": "python3 tools/promote_from_candidate.py", "args": ["--plan","artifacts/promotion_batch.plan.jsonl"]},
+    {"name": "sim.schedule",        "entry": "python3 -c", "args": ["import asyncio,json,sys;from consciousness.simulation.api import schedule;print(asyncio.run(schedule(json.load(sys.stdin))))"]},
+    {"name": "sim.collect",         "entry": "python3 -c", "args": ["import asyncio,sys;from consciousness.simulation.api import collect;print(asyncio.run(collect(sys.stdin.read().strip())))"]},
+    {"name": "audit.export",        "entry": "python3 -c", "args": ["from lukhas_audit_system import AuditTrail; a=AuditTrail('./audit_logs'); a.export_audit_log('artifacts/audit_export.json'); print('artifacts/audit_export.json')"]}
+  ]
+}
