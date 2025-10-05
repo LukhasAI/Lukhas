@@ -7,6 +7,65 @@ from pathlib import Path
 
 import pytest
 
+# -- Lukhas dynamic aliasing for nested submodule imports ----------------------
+import importlib
+import importlib.util
+import importlib.machinery
+
+CANONICAL_PREFIXES = [
+    "",                # root package (e.g. "consciousness.dream")
+    "candidate",       # candidate.<...>
+]
+
+class _LukhasAliasFinder(importlib.abc.MetaPathFinder):
+    def find_spec(self, fullname, path, target=None):
+        # Only intercept lukhas.* (not third-party / stdlib)
+        if not fullname.startswith("lukhas."):
+            return None
+
+        # Map "lukhas.X.Y" -> try "<prefix>.X.Y" for prefixes in order
+        tail = fullname[len("lukhas."):]  # "consciousness.dream", "governance.identity.core", ...
+
+        for prefix in CANONICAL_PREFIXES:
+            candidate_name = f"{prefix}.{tail}" if prefix else tail
+            spec = importlib.util.find_spec(candidate_name)
+            if spec is not None:
+                # Build a wrapper module that imports the real one under lukhas.*
+                return importlib.util.spec_from_loader(
+                    fullname,
+                    _LukhasAliasLoader(real_name=candidate_name),
+                    origin=f"alias:{candidate_name}"
+                )
+
+        # Fall back: if someone imports top-level "lukhas" itself, synthesize package
+        if fullname == "lukhas":
+            return importlib.machinery.ModuleSpec(
+                name="lukhas", loader=None, is_package=True
+            )
+
+        return None
+
+class _LukhasAliasLoader(importlib.abc.Loader):
+    def __init__(self, real_name: str):
+        self.real_name = real_name
+
+    def create_module(self, spec):
+        # Let Python create the module object
+        return None
+
+    def exec_module(self, module):
+        real_mod = importlib.import_module(self.real_name)
+        # Re-export attributes so: import lukhas.X; lukhas.X.<attr> works.
+        module.__dict__.update(real_mod.__dict__)
+        module.__dict__.setdefault("__path__", getattr(real_mod, "__path__", []))
+        module.__dict__["__loader__"] = self
+        module.__dict__["__package__"] = module.__name__
+
+# Install the finder once
+if not any(isinstance(f, _LukhasAliasFinder) for f in sys.meta_path):
+    sys.meta_path.insert(0, _LukhasAliasFinder())
+# -------------------------------------------------------------------------------
+
 # Seed determinism for reproducible tests
 PYTHONHASHSEED = os.environ.get("PYTHONHASHSEED")
 if PYTHONHASHSEED is None:
