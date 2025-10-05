@@ -1,5 +1,7 @@
 # LUKHAS AI Platform
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.17272572.svg)](https://doi.org/10.5281/zenodo.17272572)
+
 **A consciousness-aware AI development platform with distributed cognitive architecture.**
 
 LUKHAS AI is a sophisticated cognitive platform that implements consciousness-inspired patterns for advanced AI applications. Built with a modular lane-based architecture, the platform enables safe development and deployment of consciousness-aware AI systems through strict boundaries and comprehensive governance.
