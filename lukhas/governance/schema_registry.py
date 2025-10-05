@@ -1,8 +1,5 @@
-"""Shim: lukhas.governance.schema_registry → governance.schema_registry."""
+# auto-generated lukhas compat shim
 try:
-    from governance.schema_registry import *  # noqa: F401, F403
-except ImportError:
-    try:
-        from candidate.governance.schema_registry import *  # noqa: F401, F403
-    except ImportError:
-        pass
+    from governance.schema_registry import *
+except Exception:
+    from candidate.governance.schema_registry import *

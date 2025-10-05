@@ -1152,3 +1152,20 @@ dashboard-sync: ## Sync META_REGISTRY to dashboards (Notion/Grafana)
 
 init-dev-branch: ## Initialize development branch after freeze
 	bash scripts/setup/init_dev_branch.sh develop/v0.03-prep
+
+imports-doctor: ## Run import doctor to analyze missing lukhas.* modules
+	python3 tools/import_doctor.py
+
+imports-promote: ## Generate package shims from doctor analysis
+	python3 scripts/gen_lukhas_pkg_shims.py
+
+lint: ## Run ruff linter with auto-fix
+	python3 -m ruff check . --fix || true
+
+tests-smoke: ## Run smoke tests
+	python3 -m pytest tests/smoke -q || true
+
+tests-all: ## Run all tests
+	python3 -m pytest -q || true
+
+dev-loop: imports-doctor imports-promote lint tests-smoke ## Full development loop: doctor → promote → lint → smoke
