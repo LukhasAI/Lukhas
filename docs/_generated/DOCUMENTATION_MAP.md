@@ -1,5 +1,5 @@
 # Documentation Map
-_Generated 2025-10-05T11:25:31.695779+00:00_
+_Generated 2025-10-05T11:32:35.725533+00:00_
 
 **Modules**: 149 | **Total Docs**: 15945 | **Total Tests**: 472
 
