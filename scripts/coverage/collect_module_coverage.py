@@ -20,7 +20,10 @@ def utc() -> str:
 def run_pytest_cov(module_dir: Path, package: str) -> Path:
     """Run pytest with coverage and return XML path."""
     xml = module_dir / "coverage.xml"
+    # Use sys.executable to ensure we use the same Python environment
     cmd = [
+        sys.executable,
+        "-m",
         "pytest",
         str(module_dir / "tests"),
         f"--cov={package}",
