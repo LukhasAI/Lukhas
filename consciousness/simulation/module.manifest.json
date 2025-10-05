@@ -89,5 +89,9 @@
   "tokenization": {
     "chain": "none",
     "enabled": false
+  },
+  "testing": {
+    "coverage_observed": 0.53,
+    "observed_at": "2025-10-05T11:30:03.201945+00:00"
   }
 }
