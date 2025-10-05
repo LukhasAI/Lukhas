@@ -71,8 +71,7 @@ quality: validate-schema validate-vocab validate-queue validate-registry validat
 # Incident response
 revert-last:
 	@echo "⚠️  Reverting last manifest changes from ledger..."
-	@echo "❌ Not yet implemented - manually restore from git or ledger"
-	@echo "   See manifests/.ledger/*.ndjson for change history"
+	@python3 scripts/util/revert_from_ledger.py --last
 
 # Help
 t4-help:
