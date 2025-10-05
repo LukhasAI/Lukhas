@@ -65,7 +65,8 @@
       "Bash(chmod:*)",
       "Bash(python3 scripts/scaffold_module_docs.py:*)",
       "Bash(python3:*)",
-      "Bash(cat:*)"
+      "Bash(cat:*)",
+      "Bash(find:*)"
     ],
     "deny": [],
     "ask": []

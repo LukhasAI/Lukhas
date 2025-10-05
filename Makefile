@@ -1057,3 +1057,28 @@ mcp-docker-run:
 ## Convenience: full readiness
 mcp-ready: mcp-bootstrap mcp-verify mcp-selftest mcp-contract mcp-smoke mcp-freeze
 	@echo "✅ LUKHAS-MCP ready"
+
+
+## Test Scaffolding Targets (T4/0.01%)
+.PHONY: tests-scaffold-dry tests-scaffold-apply tests-scaffold-core tests-smoke tests-fast
+
+tests-scaffold-dry: ## Dry-run test scaffold for all modules
+	python3 scripts/scaffold_module_tests.py
+
+tests-scaffold-apply: ## Apply test scaffold to all modules
+	python3 scripts/scaffold_module_tests.py --apply
+
+tests-scaffold-core: ## Apply test scaffold to 5 core modules
+	python3 scripts/scaffold_module_tests.py \
+		--module consciousness \
+		--module memory \
+		--module identity \
+		--module governance \
+		--module matriz \
+		--apply
+
+tests-smoke: ## Run smoke tests only (fast import checks)
+	pytest -q -k smoke --tb=short
+
+tests-fast: ## Run all tests except integration (fast)
+	pytest -q -m "not integration"
