@@ -1,0 +1,79 @@
+{
+  "metadata": {
+    "upload_type": "software",
+    "publication_type": "softwaredocumentation",
+    "title": "LUKHΛS AI — T4/0.01% Infrastructure (v0.02-final)",
+    "version": "v0.02-final",
+    "publication_date": "2025-10-05",
+    "creators": [
+      {
+        "name": "Dominguez, Gonzalo",
+        "affiliation": "LUKHΛS AI",
+        "orcid": "0000-0000-0000-0000"
+      }
+    ],
+    "contributors": [
+      {
+        "name": "LUKHΛS AI Engineering Team",
+        "type": "ResearchGroup",
+        "affiliation": "LUKHΛS AI"
+      }
+    ],
+    "description": "<p>Institutional-grade, cryptographically verifiable infrastructure for LUKHΛS AI. This release bundles deterministic automation, CI gates, append-only ledgers, SHA256-verified freeze artifacts, and a complete operational playbook. External collaborators can verify integrity via checksums and run the validation checkpoint to reproduce results.</p><p><strong>Included:</strong> RELEASE_MANIFEST.json, T4_FINAL_SIGNATURE.sha256, T4_CLOSURE_BRIEF.md, FINAL_FREEZE.json, META_REGISTRY.json summary references, and full verification protocol.</p><p><strong>Verification:</strong> <code>sha256sum -c T4_FINAL_SIGNATURE.sha256</code> then <code>make validate-t4-strict</code> at tag <code>v0.02-final</code>.</p>",
+    "language": "eng",
+    "license": "MIT",
+    "keywords": [
+      "LUKHAS",
+      "symbolic AI",
+      "infrastructure",
+      "provenance",
+      "reproducibility",
+      "CI/CD",
+      "benchmarks",
+      "coverage",
+      "manifests",
+      "ledgers",
+      "T4/0.01%"
+    ],
+    "notes": "Health score algorithm: min(50, coverage/2) + 30(SLA) + 20(docs). Coverage baselines for 125/149 modules (83.9%). Eight validation checks green. Freeze tags: v0.01-baseline → v0.02-prod → v0.02-final. Post-freeze policy: immutable main; development continues on develop/v0.03-prep.",
+    "related_identifiers": [
+      {
+        "identifier": "https://github.com/LukhasAI/Lukhas/tree/v0.02-final",
+        "relation": "isSupplementTo",
+        "scheme": "url",
+        "resource_type": "software"
+      },
+      {
+        "identifier": "https://github.com/LukhasAI/Lukhas/releases/tag/v0.02-final",
+        "relation": "isReferencedBy",
+        "scheme": "url",
+        "resource_type": "software"
+      },
+      {
+        "identifier": "https://github.com/LukhasAI/Lukhas",
+        "relation": "isPartOf",
+        "scheme": "url",
+        "resource_type": "dataset"
+      }
+    ],
+    "references": [
+      "docs/releases/v0.02-final-RELEASE_NOTES.md",
+      "docs/T4_CLOSURE_BRIEF.md",
+      "docs/T4_INFRASTRUCTURE_SUMMARY.md",
+      "docs/POST_FREEZE_MAINTENANCE.md"
+    ],
+    "communities": [
+      { "identifier": "zenodo" }
+    ],
+    "access_right": "open",
+    "embargo_date": null,
+    "grants": [],
+    "subjects": [
+      { "term": "Artificial Intelligence" },
+      { "term": "Software Engineering" },
+      { "term": "Reproducible Research" }
+    ],
+    "method": "Deterministic scripts, append-only ledgers, CI validation, cryptographic artifact verification.",
+    "notes_type": "technicalinfo"
+  }
+}
