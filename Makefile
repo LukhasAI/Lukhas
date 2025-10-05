@@ -13,7 +13,7 @@
 .PHONY: validate-configs validate-secrets validate-naming readiness-score readiness-detailed quality-report test-shards test-parallel t4-sim-lane imports-guard audit-validate-ledger feedback-validate
 .PHONY: emergency-bypass clean-artifacts dev-setup status ci-validate ci-artifacts help
 .PHONY: mcp-bootstrap mcp-verify mcp-selftest mcp-ready mcp-contract mcp-smoke mcp-freeze mcp-docker-build mcp-docker-run mcp-validate-catalog mcp-health
-.PHONY: meta-registry ledger-check trends validate-t4 validate-t4-strict tag-prod freeze-verify
+.PHONY: meta-registry ledger-check trends validate-t4 validate-t4-strict tag-prod freeze-verify freeze-guardian freeze-guardian-once dashboard-sync init-dev-branch
 
 # Note: Additional PHONY targets are declared in mk/*.mk include files
 
@@ -1140,3 +1140,15 @@ tag-prod: ## Tag production release (v0.01-prod) after validation passes
 
 freeze-verify: ## Verify freeze immutability and integrity (default: v0.02-final)
 	python3 scripts/ci/verify_freeze_state.py --tag v0.02-final --mode strict
+
+freeze-guardian: ## Run Freeze Guardian daemon (real-time monitoring)
+	python3 scripts/guardian/freeze_guardian.py --interval 60
+
+freeze-guardian-once: ## Run Freeze Guardian once and exit
+	python3 scripts/guardian/freeze_guardian.py --once
+
+dashboard-sync: ## Sync META_REGISTRY to dashboards (Notion/Grafana)
+	python3 scripts/integrations/notion_sync.py --source docs/_generated/META_REGISTRY.json
+
+init-dev-branch: ## Initialize development branch after freeze
+	bash scripts/setup/init_dev_branch.sh develop/v0.03-prep
