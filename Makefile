@@ -13,7 +13,7 @@
 .PHONY: validate-configs validate-secrets validate-naming readiness-score readiness-detailed quality-report test-shards test-parallel t4-sim-lane imports-guard audit-validate-ledger feedback-validate
 .PHONY: emergency-bypass clean-artifacts dev-setup status ci-validate ci-artifacts help
 .PHONY: mcp-bootstrap mcp-verify mcp-selftest mcp-ready mcp-contract mcp-smoke mcp-freeze mcp-docker-build mcp-docker-run mcp-validate-catalog mcp-health
-.PHONY: meta-registry ledger-check trends validate-t4 validate-t4-strict tag-prod
+.PHONY: meta-registry ledger-check trends validate-t4 validate-t4-strict tag-prod freeze-verify
 
 # Note: Additional PHONY targets are declared in mk/*.mk include files
 
@@ -1112,7 +1112,7 @@ bench-all: ## Run benchmarks for all modules with tests/benchmarks/
 
 
 ## T4/0.01% System Fusion Layer (Meta-Registry + Ledger Analytics)
-.PHONY: meta-registry ledger-check trends validate-t4 tag-prod
+.PHONY: meta-registry ledger-check trends validate-t4 tag-prod freeze-verify
 
 meta-registry: ## Generate META_REGISTRY.json (fuses docs + coverage + benchmarks)
 	python3 scripts/generate_meta_registry.py
@@ -1137,3 +1137,6 @@ tag-prod: ## Tag production release (v0.01-prod) after validation passes
 	@python3 scripts/validate_t4_checkpoint.py || (echo "❌ Validation failed, cannot tag" && exit 1)
 	@git tag -a v0.01-prod -m "T4/0.01% Production Release - All validation checks passed"
 	@echo "✅ Tagged v0.01-prod (push with: git push origin v0.01-prod)"
+
+freeze-verify: ## Verify freeze immutability and integrity (default: v0.02-final)
+	python3 scripts/ci/verify_freeze_state.py --tag v0.02-final --mode strict
