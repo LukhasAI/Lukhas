@@ -1,7 +1,7 @@
 {
-  "tag": "v0.02-prod",
-  "frozen_at": "2025-10-05T12:00:30.196099+00:00",
-  "commit": "c167e8d3c977553494936c0a2a2ab1b4f6d89d6f",
+  "tag": "v0.02-final",
+  "frozen_at": "2025-10-05T12:04:47.120119+00:00",
+  "commit": "4d8c563121dc3d27394fcfe37149709e9969b7e6",
   "modules": 149,
   "coverage_summary": {
     "total_modules": 149,
@@ -15,10 +15,12 @@
   "validated": true,
   "validation_checks_passed": 7,
   "validation_checks_total": 7,
+  "freeze_verification_enabled": true,
   "provenance": [
     "ledger",
     "meta-registry",
-    "validate_t4_checkpoint"
+    "validate_t4_checkpoint",
+    "freeze_verification"
   ],
   "critical_artifacts": [
     "docs/_generated/FINAL_FREEZE.json",
@@ -26,7 +28,16 @@
     "docs/_generated/BASELINE_FREEZE.json",
     "docs/_generated/META_REGISTRY.json",
     "docs/_generated/MODULE_REGISTRY.json",
+    "docs/_generated/DOCUMENTATION_MAP.md",
     "manifests/.ledger/freeze.ndjson",
-    "manifests/.ledger/coverage.ndjson"
-  ]
+    "manifests/.ledger/coverage.ndjson",
+    "manifests/.ledger/scaffold.ndjson",
+    "manifests/.ledger/test_scaffold.ndjson"
+  ],
+  "post_freeze_policy": {
+    "immutable": true,
+    "no_commits_after_tag": true,
+    "new_work_branch": "develop/v0.03-prep",
+    "dashboard_metrics": "read-only"
+  }
 }
