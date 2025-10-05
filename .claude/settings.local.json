@@ -66,7 +66,8 @@
       "Bash(python3 scripts/scaffold_module_docs.py:*)",
       "Bash(python3:*)",
       "Bash(cat:*)",
-      "Bash(find:*)"
+      "Bash(find:*)",
+      "Bash(make:*)"
     ],
     "deny": [],
     "ask": []
