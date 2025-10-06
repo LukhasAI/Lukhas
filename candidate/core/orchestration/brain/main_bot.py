@@ -33,7 +33,7 @@ from .reasoning.causal_reasoning import CausalReasoningModule
 from .reasoning.symbolic_reasoning import SymbolicEngine
 
 # Configure logging
-logger = logging.getLogger("EnhancedAGI", timezone)
+logger = logging.getLogger("EnhancedAGI")
 
 
 class EnhancedAGIBot:

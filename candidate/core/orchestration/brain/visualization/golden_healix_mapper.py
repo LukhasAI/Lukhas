@@ -21,7 +21,7 @@ from datetime import datetime, timedelta
 from enum import Enum
 from typing import Any, Optional
 
-logger = logging.getLogger("healix", timezone)
+logger = logging.getLogger("healix")
 
 
 class MemoryStrand(Enum):

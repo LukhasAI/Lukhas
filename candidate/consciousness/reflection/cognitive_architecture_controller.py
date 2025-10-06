@@ -73,7 +73,7 @@ import numpy as np
 # from prometheus_client import Counter, Histogram, Gauge
 
 # Configure module logger
-logger = logging.getLogger("ΛTRACE.consciousness.cognitive_architecture_controller", timezone)
+logger = logging.getLogger("ΛTRACE.consciousness.cognitive_architecture_controller")
 
 # Module constants
 MODULE_VERSION = "2.0.0"

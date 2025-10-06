@@ -18,7 +18,7 @@ import time
 from datetime import datetime, timezone
 from typing import Any
 
-logger = logging.getLogger("MultiBrainSymphony", timezone)
+logger = logging.getLogger("MultiBrainSymphony")
 
 
 class SpecializedBrainCore:

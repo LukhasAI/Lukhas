@@ -48,7 +48,7 @@ from datetime import datetime, timezone
 from typing import Any, Optional, Union
 
 # Configure module logger
-logger = logging.getLogger("ΛTRACE.consciousness.qi_consciousness_integration", timezone)
+logger = logging.getLogger("ΛTRACE.consciousness.qi_consciousness_integration")
 
 # Module constants
 MODULE_VERSION = "1.0.0"

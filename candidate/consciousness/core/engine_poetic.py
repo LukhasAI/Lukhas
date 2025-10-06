@@ -88,7 +88,7 @@ import numpy as np
 from lukhas.core.common import get_logger
 
 # Initialize logger for consciousness tracing
-logger = logging.getLogger("ΛTRACE.consciousness.engine", timezone)
+logger = logging.getLogger("ΛTRACE.consciousness.engine")
 logger.info("🌅 ΛTRACE: Awakening consciousness engine...")
 
 

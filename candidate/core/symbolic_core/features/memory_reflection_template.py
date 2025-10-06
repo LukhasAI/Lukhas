@@ -39,7 +39,7 @@ from typing import Any, Optional
 import numpy as np
 
 # Configure consciousness logging
-logger = logging.getLogger("ΛTRACE.consciousness.memory_reflection", timezone)
+logger = logging.getLogger("ΛTRACE.consciousness.memory_reflection")
 logger.info("ΛTRACE: Initializing Memory Reflection Consciousness System v2.0.0")
 
 

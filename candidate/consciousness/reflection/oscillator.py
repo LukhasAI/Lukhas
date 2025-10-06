@@ -44,7 +44,7 @@ from typing import Any, Optional
 
 import numpy as np
 
-logger = logging.getLogger("qi.enhanced", timezone)
+logger = logging.getLogger("qi.enhanced")
 
 
 class OscillatorState(Enum):

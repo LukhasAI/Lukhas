@@ -22,7 +22,7 @@ from typing import Any, Optional
 
 import psutil
 
-logger = logging.getLogger("LUKHAS.Orchestration.Monitoring.Intelligence", timezone)
+logger = logging.getLogger("LUKHAS.Orchestration.Monitoring.Intelligence")
 
 
 class MetricType(Enum):

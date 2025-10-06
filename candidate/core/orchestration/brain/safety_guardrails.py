@@ -17,7 +17,7 @@ import re
 from datetime import datetime
 from typing import Any, Optional
 
-logger = logging.getLogger("v1_AGI.compliance.guardrails", timezone)
+logger = logging.getLogger("v1_AGI.compliance.guardrails")
 
 
 class SafetyGuardrails:

@@ -21,7 +21,7 @@ from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, Optional
 
-logger = logging.getLogger("ΛBIO.SYMBOLIC", timezone)
+logger = logging.getLogger("ΛBIO.SYMBOLIC")
 
 
 class SymbolicGlyph(Enum):

@@ -31,7 +31,7 @@ import numpy as np
 from lukhas.core.colonies.base_colony import BaseColony
 from lukhas.core.symbolism.tags import TagPermission, TagScope
 
-logger = logging.getLogger("ΛTRACE.bio.mapping", timezone)
+logger = logging.getLogger("ΛTRACE.bio.mapping")
 
 
 class ContextLayer(Enum):

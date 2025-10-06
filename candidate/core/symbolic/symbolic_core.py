@@ -17,7 +17,7 @@ import logging
 from datetime import datetime
 from typing import Any, Optional, Union
 
-logger = logging.getLogger("lukhas_agi.symbolic", timezone)
+logger = logging.getLogger("lukhas_agi.symbolic")
 
 
 class SymbolicWorld:

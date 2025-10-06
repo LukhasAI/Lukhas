@@ -28,7 +28,7 @@ from typing import Any
 
 import numpy as np
 
-logger = logging.getLogger("MetaLearningAdapter", timezone)
+logger = logging.getLogger("MetaLearningAdapter")
 
 
 class LearningPhase(Enum):

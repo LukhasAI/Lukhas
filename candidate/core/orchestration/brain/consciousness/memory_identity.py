@@ -25,7 +25,7 @@ from cryptography.fernet import Fernet
 from .lukhas_lambda_id import AccessTier, IDRegistry
 from .Λ_lambda_id import AccessTier, IDRegistry
 
-logger = logging.getLogger("v1_AGI.identity.memory", timezone)
+logger = logging.getLogger("v1_AGI.identity.memory")
 
 
 class MemoryAccessPolicy(Enum):

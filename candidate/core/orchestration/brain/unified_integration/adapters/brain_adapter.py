@@ -13,7 +13,7 @@ from typing import Any, Optional
 
 from ..unified_integration import MessageType, UnifiedIntegration
 
-logger = logging.getLogger("brain_adapter", timezone)
+logger = logging.getLogger("brain_adapter")
 
 
 class BrainAdapter:

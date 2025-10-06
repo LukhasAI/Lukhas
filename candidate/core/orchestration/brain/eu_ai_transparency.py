@@ -23,7 +23,7 @@ from enum import Enum
 from typing import Any, Optional
 
 # Configure transparency logging
-transparency_logger = logging.getLogger("EU.AI.Transparency", timezone)
+transparency_logger = logging.getLogger("EU.AI.Transparency")
 transparency_handler = logging.FileHandler("ai_decisions_trace.log")
 transparency_formatter = logging.Formatter("%(asctime)s [TRANSPARENCY] %(message)s")
 transparency_handler.setFormatter(transparency_formatter)

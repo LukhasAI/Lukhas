@@ -54,7 +54,7 @@ from typing import Any, Optional
 
 import numpy as np
 
-logger = logging.getLogger("QIHealix", timezone)
+logger = logging.getLogger("QIHealix")
 
 
 class MemoryStrand(Enum):

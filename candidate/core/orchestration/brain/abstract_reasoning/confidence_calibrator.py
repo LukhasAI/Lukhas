@@ -15,7 +15,7 @@ from typing import Any, Optional
 
 import numpy as np
 
-logger = logging.getLogger("ConfidenceCalibration", timezone)
+logger = logging.getLogger("ConfidenceCalibration")
 
 
 class UncertaintyType(Enum):

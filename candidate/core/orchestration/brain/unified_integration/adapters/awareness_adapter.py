@@ -13,7 +13,7 @@ from typing import Any, Optional
 
 from ..unified_integration import MessageType, UnifiedIntegration
 
-logger = logging.getLogger("awareness_adapter", timezone)
+logger = logging.getLogger("awareness_adapter")
 
 
 class AwarenessAdapter:

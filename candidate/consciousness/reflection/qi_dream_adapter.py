@@ -32,7 +32,7 @@ from typing import Any, Optional
 from ..oscillator.orchestrator import BioOrchestrator
 from ..oscillator.quantum_inspired_layer import QuantumBioOscillator
 
-logger = logging.getLogger("quantum_dream", timezone)
+logger = logging.getLogger("quantum_dream")
 
 
 @dataclass

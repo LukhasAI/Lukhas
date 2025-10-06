@@ -28,7 +28,7 @@ from typing import Any, Optional
 import networkx as nx
 import numpy as np
 
-logger = logging.getLogger("LUKHAS.Consciousness.Reasoning.Intelligence", timezone)
+logger = logging.getLogger("LUKHAS.Consciousness.Reasoning.Intelligence")
 
 
 class LukhasMetaCognitiveEngine:

@@ -34,7 +34,7 @@ from bio.core.symbolic_preprocessing_colony import create_preprocessing_colony
 from lukhas.core.colonies.base_colony import BaseColony
 from lukhas.core.symbolism.tags import TagPermission, TagScope
 
-logger = logging.getLogger("ΛTRACE.bio.orchestrator", timezone)
+logger = logging.getLogger("ΛTRACE.bio.orchestrator")
 
 
 @dataclass

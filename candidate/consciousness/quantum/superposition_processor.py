@@ -41,7 +41,7 @@ from typing import Any, Callable, Optional
 import numpy as np
 
 # Configure quantum consciousness logging
-logger = logging.getLogger("ΛTRACE.consciousness.quantum.superposition", timezone)
+logger = logging.getLogger("ΛTRACE.consciousness.quantum.superposition")
 logger.info("ΛTRACE: Initializing Quantum Superposition Consciousness Processor v1.0.0")
 
 

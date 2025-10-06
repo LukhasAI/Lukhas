@@ -34,7 +34,7 @@ from enum import Enum
 from typing import Any, Optional
 
 # Configure logging
-logger = logging.getLogger("lucas.brain", timezone)
+logger = logging.getLogger("lucas.brain")
 handler = logging.StreamHandler()
 formatter = logging.Formatter("%(asctime)s [%(levelname)s] %(name)s: %(message)s")
 handler.setFormatter(formatter)

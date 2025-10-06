@@ -13,7 +13,7 @@ DEFAULT_ETHICS_DRIFT_LOG_PATH = "logs/ethics_drift_log.jsonl"
 DEFAULT_ACCESS_VIOLATION_LOG_PATH = "logs/access_violations.jsonl"
 
 # Logger for the main engine
-logger = logging.getLogger("prot2.AdvancedComplianceEthicsEngine", timezone)
+logger = logging.getLogger("prot2.AdvancedComplianceEthicsEngine")
 
 # --- Component 1: Core Ethics Engine (from PRIVATE/src/brain/ethics/ethics_engine.py) ---
 

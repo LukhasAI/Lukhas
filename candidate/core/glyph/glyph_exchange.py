@@ -24,7 +24,7 @@ from pydantic import BaseModel, Field
 from lukhas.core.glyph.glyph_memory_integration import get_glyph_memory_system
 from symbolic.features.glyphs import GLYPH_MAP
 
-logger = logging.getLogger("api.glyph_exchange", timezone)
+logger = logging.getLogger("api.glyph_exchange")
 
 router = APIRouter(prefix="/glyph", tags=["glyph"])
 
