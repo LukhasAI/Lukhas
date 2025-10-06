@@ -1,12 +1,10 @@
-"""Bridge: aka_qualia.core -> canonical implementations."""
+"""Bridge: core.consciousness_ticker -> canonical implementations."""
 from __future__ import annotations
-
 from lukhas._bridgeutils import bridge_from_candidates
 
 _CANDIDATES = (
-    "lukhas_website.lukhas.aka_qualia.core",
-    "candidate.consciousness.aka_qualia.core",
-    "consciousness.aka_qualia.core",
+    "lukhas_website.lukhas.core.consciousness_ticker",
+    "candidate.core.consciousness_ticker",
 )
 
 __all__, _exports = bridge_from_candidates(*_CANDIDATES)

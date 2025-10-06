@@ -1,13 +1,11 @@
-"""Guardian system package bridge."""
+"""Bridge: governance.guardian_system -> canonical implementations."""
 from __future__ import annotations
+from lukhas._bridgeutils import bridge_from_candidates
 
-# Import from parent package
-try:
-    from governance.guardian_system import *  # noqa: F401, F403
-    __all__ = [n for n in dir() if not n.startswith("_")]
-except ImportError:
-    try:
-        from candidate.governance.guardian_system import *  # noqa: F401, F403
-        __all__ = [n for n in dir() if not n.startswith("_")]
-    except ImportError:
-        __all__ = []
+_CANDIDATES = (
+    "lukhas_website.lukhas.governance.guardian_system",
+    "candidate.governance.guardian_system",
+)
+
+__all__, _exports = bridge_from_candidates(*_CANDIDATES)
+globals().update(_exports)

@@ -1,12 +1,11 @@
-"""
-STUB MODULE: lukhas.async_manager
+"""Bridge: lukhas.async_manager -> canonical implementations (TaskManager)."""
+from __future__ import annotations
+from lukhas._bridgeutils import bridge_from_candidates
 
-Auto-generated stub to fix test collection (v0.03-prep baseline).
-Original module missing or never implemented.
+_CANDIDATES = (
+    "lukhas_website.lukhas.async_manager",
+    "candidate.async_manager",
+)
 
-Status: STUB - Needs actual implementation or dead import removal
-Created: 2025-10-06
-Tracking: docs/v0.03/KNOWN_ISSUES.md#missing-modules
-"""
-
-# TODO: Implement or remove dead imports referencing this module
+__all__, _exports = bridge_from_candidates(*_CANDIDATES)
+globals().update(_exports)
