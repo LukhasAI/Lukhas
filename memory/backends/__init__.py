@@ -1,27 +1,37 @@
-"""Bridge: memory.backends (vector stores)."""
+"""Bridge: memory.backends — unify backends under one surface."""
 from __future__ import annotations
+from lukhas._bridgeutils import bridge_from_candidates, export_from, safe_guard
 
-# Direct exports from local implementation (lukhas_website has import errors)
-from memory.backends.pgvector_store import PgVectorStore, VectorDoc
+__all__, _exp = bridge_from_candidates(
+    "lukhas_website.lukhas.memory.backends",
+    "candidate.memory.backends",
+    # DON'T import "memory.backends" - that's us! (circular)
+)
+globals().update(_exp)
 
-__all__ = ["PgVectorStore", "VectorDoc"]
+# Promote frequent backends if they exist
+possible = [
+    "InMemoryBackend",
+    "SQLiteBackend",
+    "PostgresBackend",
+    "VectorBackend",
+    "S3Backend",
+    "NullBackend",
+]
+for mod_name in (
+    "candidate.memory.backends",
+    "candidate.memory",
+    "memory",  # single-file fallbacks
+):
+    try:
+        mod = __import__(mod_name, fromlist=["*"])
+        e = export_from(mod)
+        for sym in possible:
+            if sym in e and sym not in globals():
+                globals()[sym] = e[sym]
+                if "__all__" in globals():
+                    __all__.append(sym)
+    except Exception:
+        continue
 
-# Try to import additional components if available
-try:
-    from lukhas_website.lukhas.memory.backends import (
-        AbstractVectorStore,
-        SearchResult,
-        StorageStats,
-        FAISSStore,
-        InMemoryVectorStore,
-    )
-    __all__.extend([
-        "AbstractVectorStore",
-        "SearchResult",
-        "StorageStats",
-        "FAISSStore",
-        "InMemoryVectorStore",
-    ])
-except (ImportError, ModuleNotFoundError):
-    # Fallback: these aren't critical for basic functionality
-    pass
+safe_guard(__name__, __all__)
