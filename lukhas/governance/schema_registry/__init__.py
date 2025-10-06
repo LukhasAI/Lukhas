@@ -10,6 +10,7 @@ from importlib import import_module
 __all__ = []
 
 for path in [
+    "lukhas_website.lukhas.governance.schema_registry",
     "governance.schema_registry",
     "candidate.core.ethics.schema_registry",
     "candidate.governance.schema_registry",

@@ -9,7 +9,9 @@ from importlib import import_module
 
 _backend_paths = [
     "candidate.bio.utils",
+    "lukhas.accepted.bio.utils",
     "bio.utils",
+    "bio.bio_utilities",
 ]
 
 for p in _backend_paths:

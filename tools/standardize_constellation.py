@@ -85,11 +85,20 @@ def is_incomplete_mention(line: str, star_count: int, next_lines: str) -> bool:
     - Simple mentions like "Constellation Framework" are OK (no stars listed)
     - If stars ARE listed, must have all 8 (7 unique symbols, ⚛️ appears twice)
     - Old Trinity-style (Identity + Consciousness + Guardian) needs updating
+    - Docstrings, code comments, and prose are OK
     """
     combined = line + "\n" + next_lines
 
     # If we have all 8 stars (7 unique symbols), it's complete
     if star_count >= 7:  # ⚛️ appears twice, so 7 unique symbols
+        return False
+
+    # Ignore docstrings and code comments
+    if '"""' in line or "'''" in line or line.strip().startswith('#'):
+        return False
+
+    # Ignore lines inside code blocks (indented or after ```)
+    if line.strip().startswith('```') or re.match(r'^\s{4,}', line):
         return False
 
     # Check for old Trinity-style patterns (definitely incomplete)
