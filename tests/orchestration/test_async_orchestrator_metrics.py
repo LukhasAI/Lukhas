@@ -12,7 +12,7 @@ import pytest
 from prometheus_client import REGISTRY
 
 from lukhas.core.interfaces import CognitiveNodeBase
-from lukhas.core.orchestration.async_orchestrator import AsyncOrchestrator
+from candidate.core.orchestration.async_orchestrator import AsyncOrchestrator
 from lukhas.core.registry import _REG, register
 
 

@@ -10,7 +10,7 @@ import asyncio
 
 import pytest
 
-from lukhas.core.orchestration.async_orchestrator import AsyncOrchestrator
+from candidate.core.orchestration.async_orchestrator import AsyncOrchestrator
 from lukhas.core.registry import register
 from lukhas.nodes.example_nodes import ActionNode, DecisionNode, IntentNode, ThoughtNode, VisionNode
 

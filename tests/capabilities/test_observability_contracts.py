@@ -150,7 +150,7 @@ def test_metrics_families_present_in_output():
     """Test that all expected metric families are defined (even if zero)."""
     # Import modules that define metrics
     try:
-        from lukhas.core import breakthrough
+        from core import breakthrough
         from storage import events
     except ImportError:
         pytest.skip("Phase 3 modules not available")

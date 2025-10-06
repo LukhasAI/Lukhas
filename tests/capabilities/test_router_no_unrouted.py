@@ -6,7 +6,7 @@ preventing silent routing failures that could degrade system performance.
 """
 import pytest
 
-from lukhas.core.matriz_consciousness_integration import create_matriz_consciousness_system
+from core.matriz_consciousness_integration import create_matriz_consciousness_system
 from lukhas.core.metrics import router_no_rule_total
 
 

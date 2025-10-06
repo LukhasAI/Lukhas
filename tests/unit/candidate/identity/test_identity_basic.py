@@ -6,7 +6,7 @@ import pytest
 def test_auth_service_import():
     """Test AuthenticationService imports and basic init."""
     try:
-        from lukhas.identity import AuthenticationService
+        from identity import AuthenticationService
 
         # Test creation
         service = AuthenticationService()
@@ -32,7 +32,7 @@ def test_lambda_id_import():
 def test_identity_exports():
     """Test identity module exports."""
     try:
-        import lukhas.identity as identity
+        import identity as identity
 
         # Check key exports
         assert hasattr(identity, "AuthenticationService")

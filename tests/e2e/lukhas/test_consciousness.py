@@ -17,7 +17,7 @@ from unittest.mock import patch
 import pytest
 
 try:
-    from lukhas.governance.identity.connector import SecurityError
+    from candidate.governance.identity.connector import SecurityError
 except ImportError:
 
     class SecurityError(Exception):
@@ -364,7 +364,7 @@ class TestConsciousnessIntegration:
     @pytest.mark.integration
     async def test_memory_system_integration(self):
         """Test integration with memory system."""
-        from lukhas.memory import dump_state
+        from memory import dump_state
 
         consciousness = ConsciousnessWrapper()
         await consciousness.activate()

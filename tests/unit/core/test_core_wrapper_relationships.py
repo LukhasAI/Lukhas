@@ -1,6 +1,6 @@
 from datetime import datetime, timezone
 
-from lukhas.core import core_wrapper
+from core import core_wrapper
 
 
 class StubSymbol:

@@ -39,7 +39,7 @@ def auth_components():
     sys.modules.setdefault("interfaces.api.v1.rest.routers", routers_module)
 
     import candidate  # ensure base package is registered
-    import lukhas.core
+    import core
     import lukhas.core.interfaces
     import lukhas.core.interfaces.api
     import lukhas.core.interfaces.api.v1

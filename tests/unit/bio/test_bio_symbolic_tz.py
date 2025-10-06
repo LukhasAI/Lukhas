@@ -19,7 +19,7 @@ def test_bio_symbolic_initialization():
 def test_bio_utilities():
     """Test bio utilities functions."""
     try:
-        from lukhas.bio import utilities
+        from bio import utilities
 
         # Module should be importable
         assert utilities is not None
@@ -32,7 +32,7 @@ def test_bio_utilities():
 def test_bio_init_imports():
     """Test bio module __init__ exports."""
     try:
-        import lukhas.bio as bio
+        import bio as bio
 
         # Check __all__ is sorted (RUF022 compliance)
         if hasattr(bio, "__all__"):

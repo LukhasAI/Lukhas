@@ -13,7 +13,7 @@ import pytest
 
 # Test imports with graceful fallback
 try:
-    from lukhas.core.matriz_consciousness_integration import (
+    from core.matriz_consciousness_integration import (
         create_matriz_consciousness_system,
         run_matriz_system_demo,
     )

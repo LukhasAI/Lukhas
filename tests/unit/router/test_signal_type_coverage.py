@@ -6,7 +6,7 @@ but no routing rules are created for them.
 """
 import pytest
 
-from lukhas.core.consciousness_signal_router import ConsciousnessSignalRouter
+from core.consciousness_signal_router import ConsciousnessSignalRouter
 from lukhas.core.matriz_consciousness_signals import ConsciousnessSignal, ConsciousnessSignalType
 
 

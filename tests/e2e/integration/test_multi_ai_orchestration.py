@@ -16,8 +16,8 @@ import pytest
 
 # Test imports
 try:
-    from lukhas.bridge.api_gateway import UnifiedAPIGateway
-    from lukhas.bridge.orchestration import (
+    from bridge.api_gateway import UnifiedAPIGateway
+    from bridge.orchestration import (
         AIProvider,
         ConsensusResult,
         MultiAIOrchestrator,

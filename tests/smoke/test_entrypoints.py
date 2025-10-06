@@ -13,7 +13,7 @@ import pytest
 def test_core_api_imports():
     """Test that core LUKHAS APIs can be imported and have expected signatures."""
     try:
-        from lukhas.core import (
+        from core import (
             TRINITY_SYMBOLS,
             CoreWrapper,
             GLYPHSymbol,
@@ -72,7 +72,7 @@ def test_identity_api_imports():
         candidate_identity_spec = importlib.util.find_spec("candidate.governance.identity")
         if candidate_identity_spec is not None:
             # Just verify it can be imported
-            import lukhas.governance.identity
+            import governance.identity
 
     except ImportError as e:
         pytest.fail(f"Identity API import failed: {e}")
@@ -89,7 +89,7 @@ def test_guardian_api_imports():
         ethics_spec = importlib.util.find_spec("candidate.core.ethics")
         if ethics_spec is not None:
             # Just verify it can be imported without error
-            import lukhas.core.ethics
+            import core.ethics
 
         # Look for governance modules
         governance_spec = importlib.util.find_spec("candidate.core.governance")
@@ -110,12 +110,12 @@ def test_memory_api_imports():
         memory_spec = importlib.util.find_spec("candidate.memory")
         if memory_spec is not None:
             # Verify basic import
-            import lukhas.memory
+            import memory
 
         # Check for lukhas memory if it exists
         lukhas_memory_spec = importlib.util.find_spec("lukhas.memory")
         if lukhas_memory_spec is not None:
-            import lukhas.memory
+            import memory
 
     except ImportError as e:
         pytest.fail(f"Memory API import failed: {e}")

@@ -16,7 +16,7 @@ import pytest
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
 from lukhas.core.interfaces import CognitiveNodeBase
-from lukhas.core.orchestration.async_orchestrator import AsyncOrchestrator
+from candidate.core.orchestration.async_orchestrator import AsyncOrchestrator
 
 
 class MockCognitiveNode(CognitiveNodeBase):
