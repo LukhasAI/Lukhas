@@ -1,20 +1,8 @@
-"""Bridge: lukhas.observability.advanced_metrics -> candidate implementations."""
+"""Bridge: advanced_metrics -> lukhas_website implementation."""
 from __future__ import annotations
 
-from importlib import import_module
-
-for path in [
-    "candidate.observability.advanced_metrics",
-    "candidate.observability",
-]:
-    try:
-        _m = import_module(path)
-        names = getattr(_m, "__all__", [n for n in dir(_m) if not n.startswith("_")])
-        globals().update({n: getattr(_m, n) for n in names})
-        __all__ = names
-        break
-    except Exception:
-        continue
-
-if "__all__" not in globals():
+try:
+    from lukhas_website.lukhas.observability.advanced_metrics import *  # noqa: F401, F403
+    __all__ = [n for n in dir() if not n.startswith("_")]
+except ImportError:
     __all__ = []
