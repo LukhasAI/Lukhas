@@ -15,4 +15,25 @@ except Exception:
 
     _REG = {}
 
-__all__ = ["register", "_REG"]
+# Add missing functions expected by tests
+def resolve(key: str):
+    """Resolve a registered component by key."""
+    return _REG.get(key)
+
+def auto_discover():
+    """Auto-discover plugins (placeholder)."""
+    return []
+
+def autoload():
+    """Autoload discovered plugins (placeholder)."""
+    pass
+
+def discover_entry_points(group: str = None):
+    """Discover entry points (placeholder)."""
+    return []
+
+def _instantiate_plugin(entry_point):
+    """Instantiate a plugin from entry point (placeholder)."""
+    return None
+
+__all__ = ["register", "_REG", "resolve", "auto_discover", "autoload", "discover_entry_points", "_instantiate_plugin"]
