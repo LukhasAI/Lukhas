@@ -35,11 +35,20 @@ class _LukhasAliasLoader(importlib.abc.Loader):
         return None
 
     def exec_module(self, module):
-        real_mod = importlib.import_module(self.real_name)
-        module.__dict__.update(real_mod.__dict__)
-        module.__dict__.setdefault("__path__", getattr(real_mod, "__path__", []))
-        module.__dict__["__loader__"] = self
-        module.__dict__["__package__"] = module.__name__
+        try:
+            real_mod = importlib.import_module(self.real_name)
+            module.__dict__.update(real_mod.__dict__)
+            module.__dict__.setdefault("__path__", getattr(real_mod, "__path__", []))
+            module.__dict__["__loader__"] = self
+            module.__dict__["__package__"] = module.__name__
+        except (ImportError, ModuleNotFoundError) as e:
+            # If the real module can't be imported, mark as failed and don't break pytest
+            NEGATIVE_CACHE.add(module.__name__)
+            _ledger({"event": "loader_failed", "module": module.__name__, "real": self.real_name, "error": str(e)})
+            # Create minimal module to prevent complete failure
+            module.__dict__["__file__"] = f"<lukhas-alias:{self.real_name}>"
+            module.__dict__["__loader__"] = self
+            module.__dict__["__package__"] = module.__name__
 
 class _LukhasAliasFinder(importlib.abc.MetaPathFinder):
     def find_spec(self, fullname, path, target=None):

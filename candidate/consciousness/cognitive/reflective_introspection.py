@@ -53,7 +53,7 @@ from datetime import datetime, timedelta, timezone
 from typing import Any, Optional  # Added Any, Optional
 
 # Initialize logger for ΛTRACE
-logger = logging.getLogger("ΛTRACE.consciousness.cognitive.reflective_introspection", timezone)
+logger = logging.getLogger("ΛTRACE.consciousness.cognitive.reflective_introspection")
 logger.info("ΛTRACE: Initializing reflective_introspection module.")
 
 

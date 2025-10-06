@@ -7,7 +7,21 @@
       "Bash(python3:*)",
       "Bash(git add:*)",
       "Bash(make test:*)",
-      "Bash(awk:*)"
+      "Bash(awk:*)",
+      "Bash(git commit:*)",
+      "Bash(make docs-lint:*)",
+      "Bash(find:*)",
+      "Read(//private/tmp/**)",
+      "Bash(for path in \"governance/guardian_system\" \"lukhas/consciousness/matriz_thought_loop\" \"memory/backends\" \"lukhas/consciousness/enhanced_thought_engine\" \"lukhas/observability/advanced_metrics\")",
+      "Bash(do)",
+      "Bash(if [ -f \"$path.py\" ])",
+      "Bash(then)",
+      "Bash(echo:*)",
+      "Bash(elif [ -d \"$path\" ])",
+      "Bash(else)",
+      "Bash(echo \"➕ Will create: $path/\")",
+      "Bash(fi)",
+      "Bash(done)"
     ],
     "deny": [],
     "ask": []
