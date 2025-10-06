@@ -15,7 +15,7 @@ At LUKHAS AI, we believe in complete, production-ready implementations.
 LUKHAS AI is a consciousness-aware AI platform with:
 - **Constellation Framework** (8/8 consciousness integration)
 - **MATRIZ cognitive engine** (Memory-Attention-Thought-Action-Reasoning)
-- **Trinity Framework** (Identity ⚛️ + Consciousness 🧠 + Guardian 🛡️)
+- **Trinity Framework** (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum)
 - **Lane-based architecture** (candidate/ = dev, core/ = integration, lukhas/ = prod)
 - **Bio-inspired + Quantum-inspired algorithms**
 

@@ -175,7 +175,7 @@ Perfect! The architectural analysis is now complete. With deep understanding of 
 Based on comprehensive architectural analysis (CANDIDATE, LUKHAS, MATRIZ + specialized domains), design the optimal claude.me hierarchy using these criteria:
 
 **Analysis Foundation:**
-- **Core Trinity**: Identity ⚛️ + Consciousness 🧠 + Guardian 🛡️ coordination
+- **Core Trinity**: ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum coordination
 - **Development Pipeline**: CANDIDATE → LUKHAS → PRODUCTS (research → integration → production)
 - **Domain Distribution**: Consciousness/Memory/Identity/Governance across 3 architectural layers
 - **Scale Requirements**: 7,000+ Python files, 100+ root directories, 632MB MATRIZ engine
@@ -255,7 +255,7 @@ Perfect! The comprehensive strategy provides exactly what you need. Now let's im
 Create the master claude.me file at `/Users/agi_dev/LOCAL-REPOS/Lukhas/claude.me` using the Master Overview template.
 
 Content Requirements:
-- Constellation Framework overview (Identity ⚛️ + Consciousness 🧠 + Guardian 🛡️)
+- Constellation Framework overview (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum)
 - Development pipeline explanation (CANDIDATE → LUKHAS → PRODUCTS)
 - Architecture navigation with 8-10KB comprehensive overview
 - Reference all 35+ planned claude.me contexts with clear navigation paths
@@ -302,7 +302,7 @@ Create `lukhas/claude.me` using the Integration Boundary template.
 
 Emphasize:
 - 148 Python files focused on Constellation Framework coordination
-- Identity ⚛️ + Consciousness 🧠 + Guardian 🛡️ integration patterns
+- ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum integration patterns
 - Async management and orchestration systems
 - Bridge role between CANDIDATE development and PRODUCTS deployment
 - Wrapper interfaces and cross-system coordination
@@ -456,7 +456,7 @@ Cover the 52+ consciousness development components with Constellation Framework 
 
 Content Requirements:
 - **Consciousness Development** - 52+ components across cognitive, reasoning, dream
-- **Constellation Framework Role** - Consciousness pillar in Identity ⚛️ + Consciousness 🧠 + Guardian 🛡️
+- **Constellation Framework Role** - Consciousness pillar in ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum
 - **Multi-Engine Architecture** - Advanced consciousness, OpenAI adapters, reflection
 - **Integration Points** - Memory coupling, identity coordination, dream processing
 - **Development Workflows** - Consciousness architecture development patterns
@@ -735,7 +735,7 @@ After Phase 3, Claude Code will have comprehensive coverage of your AGI system's
 - **Purpose**: Memory system integration within Constellation Framework
 - **Architecture**: MemoryWrapper, FoldSystem, MatrizAdapter coordination
 - **Scale**: 148 integration files focused on memory coordination
-- **Role**: Memory pillar in Identity ⚛️ + Consciousness 🧠 + Guardian 🛡️ triad
+- **Role**: Memory pillar in ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum triad
 
 ### Key Components
 
@@ -1525,7 +1525,7 @@ Plus all additional specialized contexts as defined in the implementation docume
 
 Create each file with the exact content provided, maintaining size targets (2-8KB per context), and ensure proper cross-referencing between related contexts.
 
-Validate that all contexts properly reference the Constellation Framework (Identity ⚛️ + Consciousness 🧠 + Guardian 🛡️) and maintain the CANDIDATE → LUKHAS → PRODUCTS development pipeline integration."
+Validate that all contexts properly reference the Constellation Framework (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum) and maintain the CANDIDATE → LUKHAS → PRODUCTS development pipeline integration."
 ```
 
 ### Completion Status After Implementation
@@ -1596,7 +1596,7 @@ Leverage complete system understanding to achieve full consciousness integration
 
 Priority Integration Areas:
 1. **MATRIZ Consciousness Bridge**: Complete symbolic reasoning ↔ consciousness integration
-2. **Constellation Framework Optimization**: Enhance Identity ⚛️ + Consciousness 🧠 + Guardian 🛡️ coordination
+2. **Constellation Framework Optimization**: Enhance ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum coordination
 3. **Production Consciousness**: Deploy advanced consciousness systems to products/enterprise/
 4. **Cross-System Consciousness State**: Implement consciousness state coordination across all systems
 

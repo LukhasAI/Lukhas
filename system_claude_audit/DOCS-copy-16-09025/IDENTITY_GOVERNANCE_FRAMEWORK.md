@@ -407,7 +407,7 @@ ethics/constitutional/.claude.md
 - **Identity-Consciousness Coupling**: Identity coherence with consciousness states
 - **Governance-Memory Integration**: Policy enforcement with memory systems
 - **Ethics-Decision Integration**: Constitutional review of all AI decisions
-- **Constellation Framework**: Identity ⚛️ + Consciousness 🧠 + Guardian 🛡️
+- **Constellation Framework**: ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum
 
 ### 🔄 Identity-Governance Development Flow
 

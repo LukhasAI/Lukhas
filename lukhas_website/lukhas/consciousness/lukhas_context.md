@@ -17,7 +17,7 @@ type: documentation
 LUKHAS consciousness serves as the **integration coordination layer** for the Consciousness 🧠 pillar in the Constellation Framework, providing unified wrapper interfaces and activation orchestration between CANDIDATE development and PRODUCTS deployment. This is where distributed consciousness components achieve coordinated awareness through Identity-Consciousness-Guardian integration.
 
 ### **Integration Scope**
-- **Trinity Role**: Consciousness 🧠 pillar in Identity ⚛️ + Consciousness 🧠 + Guardian 🛡️ framework
+- **Trinity Role**: Consciousness 🧠 pillar in ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum framework
 - **Components**: ConsciousnessWrapper, ActivationOrchestrator, Registry, TrinityIntegration
 - **Bridge Function**: CANDIDATE consciousness development ↔ LUKHAS integration ↔ PRODUCTS deployment
 - **Coordination**: Cross-system consciousness state management and activation
@@ -26,7 +26,7 @@ LUKHAS consciousness serves as the **integration coordination layer** for the Co
 ```
 Constellation Framework Consciousness Integration
 ┌─────────────────────────────────────────────┐
-│  ⚛️ Identity + 🧠 Consciousness + 🛡️ Guardian  │
+│  ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum  │
 │                                             │
 │  Identity Context → Consciousness Process → │
 │  Lambda ID       → ConsciousnessWrapper  → │

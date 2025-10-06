@@ -10,7 +10,7 @@ type: documentation
 
 
 # LUKHAS Constellation Framework Hub
-*Identity ⚛️ + Consciousness 🧠 + Guardian 🛡️ Integration Coordination*
+*⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum Integration Coordination*
 
 ## Constellation Framework Integration
 
@@ -26,7 +26,7 @@ LUKHAS serves as the **integration coordination layer** between CANDIDATE develo
 ```
 Constellation Coordination Hub
 ┌─────────────────────────────────────────────┐
-│  ⚛️ Identity + 🧠 Consciousness + 🛡️ Guardian  │
+│  ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum  │
 │                                             │
 │  Identity Context → Consciousness Process → │
 │  Authentication  → Decision Making       → │
@@ -258,7 +258,7 @@ Compliance Audit → Action Authorization → Immutable Logging
 
 ---
 
-**Integration Hub**: 148 files | **Constellation Framework**: Identity ⚛️ + Consciousness 🧠 + Guardian 🛡️
+**Integration Hub**: 148 files | **Constellation Framework**: ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum
 **Performance**: <100ms auth, <250ms context | **Status**: Integration Active (71.4% → 100%)
 
 *Navigate to specific integration contexts for detailed coordination patterns*

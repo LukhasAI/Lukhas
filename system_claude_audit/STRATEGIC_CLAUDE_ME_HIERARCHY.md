@@ -141,7 +141,7 @@ Based on comprehensive architectural analysis of 7,000+ Python files across 133 
 - **Excludes**: Deep implementation details (delegated to subdirectory contexts)
 
 **`lukhas/claude.me` - Constellation Framework Hub**
-- **Purpose**: Constellation Framework coordination (Identity ⚛️ + Consciousness 🧠 + Guardian 🛡️)
+- **Purpose**: Constellation Framework coordination (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum)
 - **Scope**: 148 integration files, async management, orchestration patterns
 - **Content**: Integration patterns, wrapper interfaces, cross-system coordination
 - **Excludes**: Development details (in candidate/), production details (in products/)
@@ -418,4 +418,4 @@ Based on comprehensive architectural analysis of 7,000+ Python files across 133 
 *Implementation Date: 2025-09-12*  
 *Total claude.me Files: 35+ strategic placements*  
 *Coverage: 7,000+ Python files across 133 directories*  
-*Framework: Constellation Framework (Identity ⚛️ + Consciousness 🧠 + Guardian 🛡️)*
+*Framework: Constellation Framework (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum)*

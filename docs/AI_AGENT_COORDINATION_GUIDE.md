@@ -124,7 +124,7 @@ Legacy core alias: enabled (warn/disable via env) — use lukhas.core.*
 ### **Key Documents**
 - **AGENTS.md**: Multi-agent development platform guide
 - **AUTOMATED_MAINTENANCE_GUIDE.md**: Maintenance and validation procedures
-- **Constellation Framework Documentation**: Identity ⚛️ + Consciousness 🧠 + Guardian 🛡️
+- **Constellation Framework Documentation**: ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum
 
 **Agent Benefits**:
 - Development workflow understanding

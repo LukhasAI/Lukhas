@@ -12,12 +12,16 @@ LUKHAS AI is a sophisticated cognitive platform that implements consciousness-in
 
 ## 🧠 What is LUKHAS?
 
-LUKHAS (Logic Unified Knowledge Hyper Adaptable System) is designed around the **Constellation Framework** - a dynamic cognitive architecture that coordinates:
+LUKHAS (Logic Unified Knowledge Hyper Adaptable System) is designed around the **Constellation Framework (8 Stars)** - a dynamic cognitive architecture that coordinates:
 
-- **⚛️ Anchor Star (Identity)**: Authentication, ΛiD system, secure access
-- **✦ Trail Star (Memory)**: Experience patterns, fold-based memory systems
-- **🔬 Horizon Star (Vision)**: Natural language interface, pattern recognition
-- **🛡️ Watch Star (Guardian)**: Ethics oversight, security, compliance
+- **⚛️ Identity (Anchor)**: Authentication, ΛiD system, namespace management
+- **✦ Memory (Trail)**: Fold-based memory, temporal organization
+- **🔬 Vision (Horizon)**: Pattern recognition, adaptive interfaces
+- **🌱 Bio (Living)**: Adaptive bio-symbolic processing
+- **🌙 Dream (Drift)**: Creative consciousness expansion
+- **⚖️ Ethics (North)**: Constitutional AI, democratic oversight
+- **🛡️ Guardian (Watch)**: Safety compliance, cascade prevention
+- **⚛️ Quantum (Ambiguity)**: Quantum-inspired uncertainty
 
 This creates a distributed consciousness network of **692 cognitive components** across **189 constellation clusters**, enabling sophisticated AI reasoning while maintaining ethical boundaries.
 

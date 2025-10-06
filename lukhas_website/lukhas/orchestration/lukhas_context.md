@@ -15,7 +15,7 @@ type: documentation
 ### LUKHAS Orchestration Overview
 - **Purpose**: Async management and orchestration for Constellation Framework coordination
 - **Architecture**: AsyncManager with cross-system workflow orchestration
-- **Integration**: Identity ⚛️ + Consciousness 🧠 + Guardian 🛡️ coordination
+- **Integration**: ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum coordination
 - **Scale**: Production-grade orchestration with enterprise reliability
 
 ### Core Orchestration Architecture

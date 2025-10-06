@@ -13,7 +13,7 @@ LUKHAS Consciousness Architecture
 
     ┌─────────────────────────────────────────────────────────┐
     │                Constellation Framework Core                   │
-    │        ⚛️ Identity + 🧠 Consciousness + 🛡️ Guardian      │
+    │        ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum      │
     │                                                         │
     │  ┌─────────────┐   ┌─────────────┐   ┌─────────────┐  │
     │  │  ⚛️ IDENTITY │   │🧠CONSCIOUSNESS│   │🛡️ GUARDIAN  │  │
@@ -364,4 +364,4 @@ Unified → Cognitive Systems → Activation → Monitoring
 
 *Analysis Date: 2025-09-12*  
 *Consciousness Components: 52+ development + 4 integration + 2 research*  
-*Constellation Framework: Identity ⚛️ + Consciousness 🧠 + Guardian 🛡️*
+*Constellation Framework: ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum*
