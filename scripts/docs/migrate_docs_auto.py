@@ -9,14 +9,55 @@ Injects frontmatter if missing.
 Only migrates files with confidence ≥0.80 from mapping.
 """
 import json
+import os
 import subprocess
 import sys
+from datetime import datetime
 from pathlib import Path
 from typing import Dict
 
 ART = Path("artifacts")
 MAPPING_FILE = ART / "docs_mapping.json"
 MIN_CONFIDENCE = 0.80
+
+PROTECTED_ROOTS = {
+    "docs/_generated",
+    "docs/ADR",
+    "docs/architecture",
+    "docs/research",
+    "docs/domain_strategy",
+    "docs/collaboration",
+    "docs/roadmap",
+    "docs/releases",
+    "docs/mcp",
+    "docs/observability",
+}
+
+
+def posix_relpath(dst: Path, src_dir: Path) -> str:
+    """Return a POSIX-style relative path from src_dir → dst."""
+    rel = os.path.relpath(dst.as_posix(), start=src_dir.as_posix())
+    return rel.replace("\\", "/")
+
+
+def should_skip_root_doc(file_path: Path) -> bool:
+    """Check if file is in a protected root doc directory."""
+    path_str = str(file_path)
+    return any(path_str.startswith(prefix) for prefix in PROTECTED_ROOTS)
+
+
+def already_in_correct_location(file_path: Path, module_path: str) -> bool:
+    """Check if file is already in the correct module/docs/ location."""
+    try:
+        parts = file_path.parts
+        if "docs" in parts:
+            docs_idx = parts.index("docs")
+            if docs_idx > 0:
+                current_module = str(Path(*parts[:docs_idx]))
+                return current_module == module_path
+        return False
+    except Exception:
+        return False
 
 
 def load_mapping() -> Dict[str, Dict]:
@@ -57,16 +98,29 @@ title: {title}
 
 def create_redirect_stub(old_path: Path, new_path: Path):
     """Create a redirect stub at the old path."""
-    stub_content = f"""# Moved to {new_path}
+    # Only create stubs for items originally under root docs/
+    if not old_path.as_posix().startswith("docs/"):
+        return
+    # Skip protected roots
+    if should_skip_root_doc(old_path):
+        return
 
-This file has been moved to a module-local docs directory.
+    src_dir = old_path.parent
+    rel = posix_relpath(new_path, src_dir)
+    ts = datetime.now().isoformat(timespec="seconds")
 
-**New location**: [{new_path}]({new_path.relative_to(old_path.parent)})
+    stub_content = f"""---
+redirect: true
+moved_to: "{rel}"
+moved_at: "{ts}"
+---
 
-This redirect stub will be removed in a future release.
+> This document was moved to `{rel}` to colocate module docs.
+> Redirect created by T4/0.01% migration toolchain.
 """
 
-    old_path.write_text(stub_content)
+    old_path.parent.mkdir(parents=True, exist_ok=True)
+    old_path.write_text(stub_content, encoding="utf-8")
     print(f"  📍 Created redirect stub: {old_path}")
 
 
@@ -108,27 +162,35 @@ def migrate_docs(mapping: Dict[str, Dict], dry_run: bool = False):
 
         # Skip root module (stays in docs/)
         if module == "root":
+            skipped_count += 1
             continue
 
-        # Skip if already in module directory
-        if "docs" in file_path.parts and file_path.parts[file_path.parts.index("docs") - 1] == module:
+        # Normalize module path (convert dots to slashes)
+        module_path = module.replace(".", "/")
+
+        # Skip protected root docs
+        if should_skip_root_doc(file_path):
+            skipped_count += 1
+            if dry_run:
+                print(f"⏭️  SKIP (protected): {file_path}")
             continue
 
-        # Determine target path
-        # If in docs/<module>/, move to <module>/docs/
-        if "docs" in file_path.parts:
-            docs_idx = file_path.parts.index("docs")
-            if docs_idx + 1 < len(file_path.parts) and file_path.parts[docs_idx + 1] == module:
-                # Already correctly structured as docs/<module>/...
-                # Move to <module>/docs/...
-                relative_parts = file_path.parts[docs_idx + 2:]  # Skip docs/<module>/
-                new_path = Path(module) / "docs" / Path(*relative_parts) if relative_parts else Path(module) / "docs" / file_path.name
-            else:
-                # docs/ with no module subdirectory
-                new_path = Path(module) / "docs" / file_path.name
-        else:
-            # Not in docs/ directory, just move to module/docs/
-            new_path = Path(module) / "docs" / file_path.name
+        # Skip if already in correct location
+        if already_in_correct_location(file_path, module_path):
+            skipped_count += 1
+            if dry_run:
+                print(f"✓  OK (already correct): {file_path}")
+            continue
+
+        # Compute target: <module_path>/docs/<filename>
+        new_path = Path(module_path) / "docs" / file_path.name
+
+        # Skip if target already exists (duplicate)
+        if new_path.exists():
+            skipped_count += 1
+            if dry_run:
+                print(f"⚠️  SKIP (duplicate exists): {file_path} (target: {new_path})")
+            continue
 
         if dry_run:
             print(f"📋 Would move: {file_path} → {new_path} (confidence: {info['confidence']}, strategy: {info['strategy']})")

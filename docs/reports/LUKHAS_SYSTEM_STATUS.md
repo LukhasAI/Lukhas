@@ -1,8 +1,8 @@
-# LUKHAS System Status — Reality (SHA: 18250070)
-Generated: Sun Sep  7 21:45:05 UTC 2025
-Artifacts: verification_artifacts/18250070/
+---
+redirect: true
+moved_to: "../../reports/docs/LUKHAS_SYSTEM_STATUS.md"
+moved_at: "2025-10-06T13:03:41"
+---
 
-## Recent Changes
-- ✅ Refine BudgetConfig defaults and extend Budgeter tests
-
-## System Status: OPERATIONAL
+> This document was moved to `../../reports/docs/LUKHAS_SYSTEM_STATUS.md` to colocate module docs.
+> Redirect created by T4/0.01% migration toolchain.
