@@ -1,0 +1,39 @@
+name: Bridge Quality
+
+on:
+  pull_request:
+    paths:
+      - 'branding/**'
+      - 'consciousness/**'
+      - 'core/**'
+      - 'governance/**'
+      - 'lukhas/**'
+  push:
+    branches: [ main ]
+
+jobs:
+  lint-bridges:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install ruff
+        run: pip install ruff>=0.1.0
+
+      - name: Ruff check
+        uses: astral-sh/ruff-action@v2
+        with:
+          args: "check ."
+
+      - name: Ban import-star outside tests
+        run: |
+          if git ls-files '*.py' | grep -v '^tests/' | xargs grep -nE 'from\s+\S+\s+import\s+\*' ; then
+            echo "::error ::import * detected outside tests"
+            exit 1
+          fi
+          echo "✅ No import * found outside tests"

@@ -244,8 +244,10 @@ select = [
     "F7",   # syntax errors in docstrings (blocking)
     "F82",  # undefined name in __all__/future (blocking)
     "F401", # unused imports (T4 system)
+    "F403", # import * (banned outside tests via per-file-ignores)
     "F811", # redefined names (surgical repair completed)
     "F821", # undefined names (blocking)
+    "TID",  # flake8-tidy-imports (ban relative imports)
 ]
 
 # Additional linting rules to ignore globally
@@ -281,6 +283,9 @@ inline-quotes = "double"
 [tool.ruff.lint.pylint]
 max-args = 8
 max-returns = 3
+
+[tool.ruff.lint.flake8-tidy-imports]
+ban-relative-imports = "all"
 
 # T4 Per-file ignores for package exports and production lane policy
 [tool.ruff.lint.per-file-ignores]
