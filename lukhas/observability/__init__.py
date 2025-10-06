@@ -1,17 +1,9 @@
-"""Bridge: lukhas.observability -> candidate implementations."""
+"""Bridge: lukhas.observability -> canonical implementations."""
 from __future__ import annotations
-
-from importlib import import_module
-
-for path in ["candidate.observability", "observability"]:
-    try:
-        _m = import_module(path)
-        names = getattr(_m, "__all__", [n for n in dir(_m) if not n.startswith("_")])
-        globals().update({n: getattr(_m, n) for n in names})
-        __all__ = names
-        break
-    except Exception:
-        continue
-
-if "__all__" not in globals():
-    __all__ = []
+from lukhas._bridgeutils import bridge_from_candidates
+_CANDIDATES = (
+    "lukhas_website.lukhas.observability",
+    "candidate.observability",
+    "observability",
+)
+__all__, _exports = bridge_from_candidates(*_CANDIDATES); globals().update(_exports)

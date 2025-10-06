@@ -1,8 +1,9 @@
-"""Bridge: advanced_metrics -> lukhas_website implementation."""
+"""Bridge: lukhas.observability.advanced_metrics."""
 from __future__ import annotations
-
-try:
-    from lukhas_website.lukhas.observability.advanced_metrics import *  # noqa: F401, F403
-    __all__ = [n for n in dir() if not n.startswith("_")]
-except ImportError:
-    __all__ = []
+from lukhas._bridgeutils import bridge_from_candidates
+_CANDIDATES = (
+    "lukhas_website.lukhas.observability.advanced_metrics",
+    "candidate.observability.advanced_metrics",
+    "observability.advanced_metrics",
+)
+__all__, _exports = bridge_from_candidates(*_CANDIDATES); globals().update(_exports)

@@ -1,15 +1,11 @@
-"""Bridge to canonical API analysis implementation."""
+"""Bridge: bridge.api.analysis (drift_score, analytics)."""
 from __future__ import annotations
+from lukhas._bridgeutils import bridge_from_candidates
 
-import warnings
-
-# Module path for legacy imports - minimal stub to unblock collection
-warnings.warn(
-    "Importing from 'bridge.api.analysis' is deprecated; "
-    "prefer direct imports from actual implementation modules.",
-    DeprecationWarning,
-    stacklevel=2,
+# Top-level package bridge
+_PKG = (
+    "lukhas_website.lukhas.bridge.api.analysis",
+    "candidate.bridge.api.analysis",
+    "bridge.api.analysis",
 )
-
-# Minimal stub to unblock collection
-__all__ = []
+__all__, _exports = bridge_from_candidates(*_PKG); globals().update(_exports)

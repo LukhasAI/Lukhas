@@ -1,8 +1,9 @@
-"""Memory sync bridge -> lukhas_website implementation."""
+"""Bridge: lukhas.memory.sync -> memory.sync variants."""
 from __future__ import annotations
-
-try:
-    from lukhas_website.lukhas.memory.sync import *  # noqa: F401, F403
-    __all__ = [n for n in dir() if not n.startswith("_")]
-except ImportError:
-    __all__ = []
+from lukhas._bridgeutils import bridge_from_candidates
+_CANDIDATES = (
+    "lukhas_website.lukhas.memory.sync",
+    "candidate.memory.sync",
+    "memory.sync",
+)
+__all__, _exports = bridge_from_candidates(*_CANDIDATES); globals().update(_exports)
