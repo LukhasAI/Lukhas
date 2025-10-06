@@ -12,7 +12,6 @@ Environment variables:
 """
 import os
 import json
-import sys
 from pathlib import Path
 
 LEDGER = Path("artifacts/lukhas_import_ledger.ndjson")

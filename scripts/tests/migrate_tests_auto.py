@@ -6,7 +6,6 @@ Uses git mv for history preservation.
 Adds conftest.py if missing.
 Updates pytest collection paths.
 """
-import json
 import subprocess
 import sys
 from pathlib import Path
