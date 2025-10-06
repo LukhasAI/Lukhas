@@ -1,9 +1,9 @@
-"""Bridge: memory.fakes (test utilities)."""
+"""Bridge: core.business (products/experience integration points)."""
 from __future__ import annotations
 from lukhas._bridgeutils import bridge_from_candidates
 _CANDIDATES = (
-  "lukhas_website.lukhas.memory.fakes",
-  "candidate.memory.fakes",
-  "memory.fakes",
+  "lukhas_website.lukhas.core.business",
+  "candidate.core.business",
+  "core.business",
 )
 __all__, _exports = bridge_from_candidates(*_CANDIDATES); globals().update(_exports)
