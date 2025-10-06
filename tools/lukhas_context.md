@@ -15,7 +15,7 @@ type: documentation
 ### Development Tools Overview
 - **Purpose**: Comprehensive development toolkit for LUKHAS Cognitive system development
 - **Architecture**: Integrated development environment with specialized AGI tools
-- **Integration**: Trinity Framework development support and consciousness debugging
+- **Integration**: Constellation Framework (8 Stars) development support and consciousness debugging
 - **Scale**: Enterprise development toolkit with cross-system debugging capabilities
 
 ### Core Development Architecture
@@ -26,9 +26,9 @@ type: documentation
 - Memory system debugging with fold architecture visualization
 - Identity system development with Lambda ID testing and validation
 
-#### **Trinity Framework SDK** - Development Framework
+#### **Constellation Framework (8 Stars) SDK** - Development Framework
 - Software development kit for consciousness-memory-identity coordination
-- API libraries and integration frameworks for Trinity Framework
+- API libraries and integration frameworks for Constellation Framework (8 Stars)
 - Development templates and boilerplate code generation
 - Cross-system integration testing and validation tools
 
@@ -40,13 +40,13 @@ type: documentation
 
 #### **Testing Framework** - Comprehensive AGI Testing
 - Unit testing frameworks for consciousness components
-- Integration testing for Trinity Framework coordination
+- Integration testing for Constellation Framework (8 Stars) coordination
 - End-to-end testing for complete AGI workflows
 - Performance testing and benchmarking utilities
 
 ### Development Integration Patterns
 
-#### **Trinity Framework Development Support**
+#### **Constellation Framework (8 Stars) Development Support**
 ```
 Development IDE ⟷ Consciousness 🧠 ⟷ Memory 💾 ⟷ Identity ⚛️
        │               │              │              │
@@ -67,7 +67,7 @@ CANDIDATE Development → LUKHAS Integration → PRODUCTS Deployment
    Local Debug ← Cross-System ← Enterprise
          │         Testing        Monitoring
          │                     │                      │
-   Component ← Trinity Framework ← System
+   Component ← Constellation Framework (8 Stars) ← System
    Development     Coordination     Integration
 ```
 
@@ -92,7 +92,7 @@ CANDIDATE Development → LUKHAS Integration → PRODUCTS Deployment
 - Authentication flow debugging and security testing
 
 #### **Integration Testing Tools** - Cross-System Testing Framework
-- Trinity Framework integration testing and validation
+- Constellation Framework (8 Stars) integration testing and validation
 - Cross-system communication testing and debugging
 - API integration testing and contract validation
 - End-to-end workflow testing and system validation
@@ -100,7 +100,7 @@ CANDIDATE Development → LUKHAS Integration → PRODUCTS Deployment
 ### Development Tool Features
 
 #### **Code Generation** - Automated Development Support
-- Trinity Framework component code generation
+- Constellation Framework (8 Stars) component code generation
 - API client and server code generation
 - Test case generation and validation framework creation
 - Documentation generation and API specification tools
@@ -127,7 +127,7 @@ CANDIDATE Development → LUKHAS Integration → PRODUCTS Deployment
 
 #### **Continuous Integration** - Automated Development Pipeline
 - Automated testing and validation in development pipeline
-- Continuous integration with Trinity Framework testing
+- Continuous integration with Constellation Framework (8 Stars) testing
 - Automated deployment and production promotion
 - Quality gates and automated quality assurance
 
@@ -167,7 +167,7 @@ CANDIDATE Development → LUKHAS Integration → PRODUCTS Deployment
 
 #### **System Integration**
 - Integration with ../candidate/claude.me for development workspace support
-- Integration with ../lukhas/claude.me for Trinity Framework development
+- Integration with ../lukhas/claude.me for Constellation Framework (8 Stars) development
 - Integration with ../products/claude.me for production deployment support
 - Cross-system development tool coordination and integration
 
@@ -193,14 +193,14 @@ CANDIDATE Development → LUKHAS Integration → PRODUCTS Deployment
 
 ### Related Contexts
 - `../candidate/claude.me` - Development workspace and research environment
-- `../lukhas/claude.me` - Trinity Framework integration and coordination
+- `../lukhas/claude.me` - Constellation Framework (8 Stars) integration and coordination
 - `../products/claude.me` - Production deployment and enterprise systems
 - `../ethics/claude.me` - Ethics framework and compliance development
 - `../governance/claude.me` - Governance and policy development support
 
 ### Development Toolkit Capabilities
 - Specialized AI development environment with consciousness debugging
-- Trinity Framework SDK with comprehensive development support
+- Constellation Framework (8 Stars) SDK with comprehensive development support
 - Advanced testing framework for consciousness, memory, and identity systems
 - Cross-system integration testing and validation tools
 - AI-powered development assistance and intelligent code generation

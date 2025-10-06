@@ -29,7 +29,7 @@ Enhances files with consciousness-aware terminology and LUKHAS AI branding guide
 - Adds consciousness headers to files
 - Replaces technical terms with consciousness-aware language
 - Integrates symbolic glyphs (⚛️🧠🛡️)
-- Validates Trinity Framework compliance
+- Validates Constellation Framework (8 Stars) compliance
 
 ### 🔍 Code Quality Hook
 Improves code quality, documentation, and best practices.

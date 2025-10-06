@@ -15,7 +15,7 @@ type: documentation
 ### DAST System Overview
 - **Purpose**: Dynamic Analysis and Symbol Tracking for production intelligence
 - **Architecture**: Real-time analysis with symbol tracking and pattern recognition
-- **Integration**: Trinity Framework intelligence coordination and analysis
+- **Integration**: Constellation Framework (8 Stars) intelligence coordination and analysis
 - **Scale**: Production-grade dynamic analysis with real-time processing
 
 ### Core DAST Architecture
@@ -46,7 +46,7 @@ type: documentation
 
 ### DAST Integration Patterns
 
-#### **Trinity Framework DAST Integration**
+#### **Constellation Framework (8 Stars) DAST Integration**
 ```
 DAST Intelligence ←→ Consciousness 🧠 ←→ Memory 💾 ←→ Identity ⚛️
         │                  │              │              │
@@ -193,7 +193,7 @@ Analysis Design → Symbol Tracking → Pattern Recognition
 - `../lens/claude.me` - Data visualization and analytics
 - `../../experience/dashboard/claude.me` - User dashboard integration
 - `../../enterprise/claude.me` - Enterprise systems coordination
-- `../../../lukhas/claude.me` - Trinity Framework integration
+- `../../../lukhas/claude.me` - Constellation Framework (8 Stars) integration
 
 ### DAST Intelligence Capabilities
 - Real-time dynamic analysis and system behavior intelligence

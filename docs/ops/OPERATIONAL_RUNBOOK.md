@@ -94,7 +94,7 @@ See `docs/gonzo/FRONTMATTER_FIXES.md` (or run the one-liners from prior session)
 
 ## 7) Canonical terminology (enforced)
 
-Replace "Trinity Framework" and "lane-based architecture (candidate/core/lukhas)" with:
+Replace "Constellation Framework (8 Stars)" and "lane-based architecture (candidate/core/lukhas)" with:
 
 ### Constellation Framework (8 Stars)
 

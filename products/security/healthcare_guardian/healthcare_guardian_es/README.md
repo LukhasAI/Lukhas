@@ -46,10 +46,10 @@ A revolutionary voice-first healthcare companion for elderly Andalusian users, p
 
 ## 🏗️ Architecture
 
-Built as a plugin for LUKHAS AI, leveraging the Trinity Framework:
+Built as a plugin for LUKHAS AI, leveraging the Constellation Framework (8 Stars):
 
 ```
-LUKHAS AI Core (Trinity Framework)
+LUKHAS AI Core (Constellation Framework (8 Stars))
 ├── ⚛️ Identity Layer (Authentication & User Management)
 ├── 🧠 Consciousness Layer (Understanding & Empathy)
 └── 🛡️ Guardian Layer (Safety & Ethics)
@@ -320,5 +320,5 @@ This project is licensed under the MIT License - see [LICENSE](LICENSE) file for
 ---
 
 *Developed with ❤️ for the elderly community of Andalusia*
-*Part of the LUKHAS AI Trinity Framework ecosystem*
+*Part of the LUKHAS AI Constellation Framework (8 Stars) ecosystem*
 *⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian*

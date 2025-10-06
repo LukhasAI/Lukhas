@@ -15,7 +15,7 @@ type: documentation
 ### Lens System Overview
 - **Purpose**: Advanced data visualization and analytics for AGI intelligence
 - **Architecture**: Interactive visualization with real-time analytics processing
-- **Integration**: Trinity Framework data visualization and insight generation
+- **Integration**: Constellation Framework (8 Stars) data visualization and insight generation
 - **Scale**: Enterprise-grade analytics with interactive dashboard systems
 
 ### Core Lens Architecture
@@ -46,7 +46,7 @@ type: documentation
 
 ### Lens Integration Patterns
 
-#### **Trinity Framework Lens Integration**
+#### **Constellation Framework (8 Stars) Lens Integration**
 ```
 Lens Analytics ←→ Consciousness 🧠 ←→ Memory 💾 ←→ Identity ⚛️
        │                  │               │              │
@@ -155,7 +155,7 @@ Data Source Analysis → Visualization Design → Analytics Implementation
 - Cross-system analytics and visualization coordination
 
 #### **Data Source Integration**
-- Integration with Trinity Framework data sources and systems
+- Integration with Constellation Framework (8 Stars) data sources and systems
 - Consciousness analytics and decision-making pattern visualization
 - Memory system analytics and pattern recognition visualization
 - Identity system analytics and security intelligence visualization
@@ -193,7 +193,7 @@ Data Source Analysis → Visualization Design → Analytics Implementation
 - `../dast/claude.me` - Dynamic analysis and symbol tracking
 - `../../experience/dashboard/claude.me` - User dashboard systems
 - `../../enterprise/claude.me` - Enterprise systems integration
-- `../../../lukhas/claude.me` - Trinity Framework coordination
+- `../../../lukhas/claude.me` - Constellation Framework (8 Stars) coordination
 
 ### Lens Analytics Capabilities
 - Advanced data visualization with interactive exploration

@@ -126,7 +126,7 @@ LEGΛDO/
 
 ## 🔗 **Integration Points**
 
-### **Trinity Framework Integration**
+### **Constellation Framework (8 Stars) Integration**
 
 - **⚛️ Identity**: Legacy system identity preservation and mapping
 - **🧠 Consciousness**: Intelligent modernization decision making

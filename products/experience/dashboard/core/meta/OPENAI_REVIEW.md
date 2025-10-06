@@ -24,7 +24,7 @@ Tier: T5 (Guardian - Full Access)
 ## 🎯 Key Dashboard Routes
 
 ### 1. **Overview Dashboard** (`/meta/overview`)
-- System health metrics with Trinity Framework scores
+- System health metrics with Constellation Framework (8 Stars) scores
 - Real-time drift monitoring
 - Symbolic glyph activity display
 - Guardian intervention status
@@ -37,7 +37,7 @@ Tier: T5 (Guardian - Full Access)
 
 ### 3. **System Logs** (`/api/meta/log`)
 - Consent log entries with symbolic tracking
-- Trinity Framework alignment scores
+- Constellation Framework (8 Stars) alignment scores
 - Risk indicators (🟢 Low, 🟡 Medium, 🔴 High)
 - Glyph sequence interpretation
 
@@ -47,7 +47,7 @@ Tier: T5 (Guardian - Full Access)
 - Ethical decision trails
 - Symbolic healing sequences
 
-## 🔮 Trinity Framework Guide
+## 🔮 Constellation Framework (8 Stars) Guide
 
 The LUKHΛS system operates on three core principles:
 
@@ -116,7 +116,7 @@ The LUKHΛS system operates on three core principles:
 - Guardian intervention logs
 - Drift detection sensitivity
 - Ethical alignment scoring
-- Trinity Framework coherence
+- Constellation Framework (8 Stars) coherence
 
 ### 4. **API Integration**
 - Protected route access
@@ -182,6 +182,6 @@ For technical questions about the LUKHΛS system:
 
 **Thank you for reviewing LUKHΛS!**
 
-The system represents a unique approach to AGI development through symbolic cognition, ethical oversight, and consciousness modeling. Your feedback on the Trinity Framework implementation is valuable.
+The system represents a unique approach to AGI development through symbolic cognition, ethical oversight, and consciousness modeling. Your feedback on the Constellation Framework (8 Stars) implementation is valuable.
 
 🛡️⚛️🧠 *Protecting Intelligence, Preserving Humanity*

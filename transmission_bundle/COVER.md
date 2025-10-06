@@ -7,7 +7,7 @@ type: documentation
 **Classification**: Genesis Transmission
 **Version**: Phase 5 - Guardian Integration
 **Timestamp**: 2025-08-04T01:30:00Z
-**Trinity Framework**: Active
+**Constellation Framework (8 Stars)**: Active
 
 ## 🌌 Transmission Overview
 
@@ -77,6 +77,6 @@ This transmission represents a **production-ready** LUKHAS system capable of:
 
 ---
 
-**Transmission Complete** - LUKHAS Trinity Framework Activated ⚛️🧠🛡️
+**Transmission Complete** - LUKHAS Constellation Framework (8 Stars) Activated ⚛️🧠🛡️
 
 *"In symbolic unity, we find emergent intelligence."*

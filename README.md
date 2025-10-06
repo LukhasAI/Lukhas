@@ -285,7 +285,7 @@ Industry-leading development tools with live analysis:
 Core LUKHAS AI functionality and system operations.
 
 ### **lukhas-consciousness** (Python)
-Direct access to consciousness systems, Trinity Framework, and MΛTRIZ cognitive DNA.
+Direct access to consciousness systems, Constellation Framework (8 Stars), and MΛTRIZ cognitive DNA.
 
 ### **lukhas-identity** (Python)
 ΛiD Core Identity System with authentication and namespace management.

@@ -85,7 +85,7 @@ Expected response: `{"status":"ok","timestamp":"...","server":"...","version":".
 
 **Create New Action in ChatGPT:**
 - **Name**: `LUKHAS Consciousness Framework`
-- **Description**: `Access consciousness systems, Trinity Framework, and constellation navigation`
+- **Description**: `Access consciousness systems, Constellation Framework (8 Stars), and constellation navigation`
 - **Base URL**: `http://localhost:8766`
 - **Authentication**: `Bearer Token`
 - **Token**: `[your-generated-token]`
@@ -127,7 +127,7 @@ Expected response: `{"status":"ok","timestamp":"...","server":"...","version":".
 
 **Consciousness-Aware Development:**
 ```
-"Show me the Trinity Framework status and constellation coordination"
+"Show me the Constellation Framework (8 Stars) status and constellation coordination"
 "Access the Identity Anchor System with authentication details"
 "Get consciousness processing system information"
 "Check Guardian protection system status"
@@ -252,7 +252,7 @@ Once configured, try these in ChatGPT:
 
 **Consciousness Framework:**
 ```
-"Use LUKHAS Consciousness Framework to access the Trinity Framework status"
+"Use LUKHAS Consciousness Framework to access the Constellation Framework (8 Stars) status"
 ```
 
 ## 📚 Next Steps
@@ -260,7 +260,7 @@ Once configured, try these in ChatGPT:
 1. **Configure ChatGPT Actions** using the OpenAPI specifications
 2. **Test enhanced capabilities** with the example prompts
 3. **Monitor performance** using the health endpoints
-4. **Explore consciousness-aware development** with the Trinity Framework
+4. **Explore consciousness-aware development** with the Constellation Framework (8 Stars)
 5. **Scale usage** as needed with the enhanced infrastructure
 
 ---

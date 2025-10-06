@@ -12,7 +12,7 @@ type: documentation
 
 ## 🏥 Overview
 
-**ΛHealthcare Guardian** is an enterprise-grade healthcare AI system specialized for elderly care with full Spanish healthcare integration. Built on the LUKHAS AI Trinity Framework, it provides comprehensive medical assistance with Lambda-enhanced security and ethics.
+**ΛHealthcare Guardian** is an enterprise-grade healthcare AI system specialized for elderly care with full Spanish healthcare integration. Built on the LUKHAS AI Constellation Framework (8 Stars), it provides comprehensive medical assistance with Lambda-enhanced security and ethics.
 
 ### Key Features
 
@@ -205,7 +205,7 @@ appointment = await guardian.book_sas_appointment(
 
 ```yaml
 lambda_healthcare:
-  # Trinity Framework
+  # Constellation Framework (8 Stars)
   trinity:
     identity_enabled: true
     consciousness_active: true
@@ -371,7 +371,7 @@ This system is designed to assist, not replace, professional medical care. Alway
 
 - **SAS** - Servicio Andaluz de Salud collaboration
 - **OpenAI** - GPT-5 healthcare capabilities
-- **LUKHAS Team** - Trinity Framework foundation
+- **LUKHAS Team** - Constellation Framework (8 Stars) foundation
 - **Beta Testers** - Elderly users in Andalusia
 
 ---

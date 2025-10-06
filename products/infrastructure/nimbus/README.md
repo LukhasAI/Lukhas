@@ -138,7 +138,7 @@ type: documentation
 
 ## 🔗 **Integration Points**
 
-### **Trinity Framework Integration**
+### **Constellation Framework (8 Stars) Integration**
 - **⚛️ Identity**: ΛiD-powered unified cloud identity
 - **🧠 Consciousness**: Intelligent cloud resource optimization
 - **🛡️ Guardian**: Security and compliance across all clouds

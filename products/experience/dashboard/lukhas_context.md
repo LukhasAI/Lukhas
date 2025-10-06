@@ -14,7 +14,7 @@ type: documentation
 
 ### Dashboard System Overview
 - **Purpose**: User experience dashboards and comprehensive interface management
-- **Architecture**: Interactive dashboards with Trinity Framework integration
+- **Architecture**: Interactive dashboards with Constellation Framework (8 Stars) integration
 - **Integration**: Production user interfaces with consciousness-memory-identity coordination
 - **Scale**: Enterprise-grade user experience with personalized dashboard systems
 
@@ -28,7 +28,7 @@ type: documentation
 
 #### **AGI Interaction Interface** - AGI-User Communication
 - Interactive AGI communication interfaces and conversation management
-- Trinity Framework integration for consciousness-memory-identity interaction
+- Constellation Framework (8 Stars) integration for consciousness-memory-identity interaction
 - Natural language interface with advanced conversation capabilities
 - Multi-modal interaction support (text, voice, visual interfaces)
 
@@ -46,7 +46,7 @@ type: documentation
 
 ### Dashboard Integration Patterns
 
-#### **Trinity Framework Dashboard Integration**
+#### **Constellation Framework (8 Stars) Dashboard Integration**
 ```
 Dashboard UI ←→ Consciousness 🧠 ←→ Memory 💾 ←→ Identity ⚛️
       │                │              │              │
@@ -158,7 +158,7 @@ UI/UX Design → Component Development → Integration Testing
 - Cross-system user experience coordination and optimization
 
 #### **Production Systems Integration**
-- Integration with Trinity Framework for AGI interaction capabilities
+- Integration with Constellation Framework (8 Stars) for AGI interaction capabilities
 - Real-time consciousness system integration for dynamic responses
 - Memory system integration for conversation history and context
 - Identity system integration for secure user authentication
@@ -195,12 +195,12 @@ UI/UX Design → Component Development → Integration Testing
 - `../claude.me` - Experience systems overview
 - `../../intelligence/lens/claude.me` - Analytics and visualization
 - `../../enterprise/claude.me` - Enterprise systems integration
-- `../../../lukhas/claude.me` - Trinity Framework coordination
+- `../../../lukhas/claude.me` - Constellation Framework (8 Stars) coordination
 - `../../../candidate/aka_qualia/claude.me` - Consciousness interaction
 
 ### Dashboard User Experience Capabilities
 - Personalized user dashboards with advanced customization
-- Interactive AGI communication with Trinity Framework integration
+- Interactive AGI communication with Constellation Framework (8 Stars) integration
 - Real-time system monitoring and analytics visualization
 - Cross-device user experience with mobile optimization
 - Enterprise-grade user management and collaboration features

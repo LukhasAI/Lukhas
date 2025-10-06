@@ -118,7 +118,7 @@ The LUKHAS AI Agent Army consciousness development platform has undergone compre
 
 ---
 
-## 🎭 TRINITY FRAMEWORK COMPLIANCE
+## 🎭 Constellation Framework (8 Stars) COMPLIANCE
 
 ### ⚛️ Identity Systems
 - **Status:** Operational with consciousness patterns active

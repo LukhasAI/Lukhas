@@ -42,7 +42,7 @@ This guide sets up **4 enhanced LUKHAS MCP servers** for ChatGPT integration usi
 
 **Capabilities:**
 - 🧠 **Consciousness Tools**: Direct access to LUKHAS consciousness systems
-- ⚛️🌈🎓 **Trinity Framework**: Anchor/Trail/Horizon/Watch star coordination
+- ⚛️🌈🎓 **Constellation Framework (8 Stars)**: Anchor/Trail/Horizon/Watch star coordination
 - 🎭 **MΛTRIZ Integration**: Cognitive DNA and symbolic processing
 - 🛡️ **Guardian Integration**: Ethical oversight and compliance checking
 
@@ -195,8 +195,8 @@ Token: your-secure-token-here
 
 #### Action 3: LUKHAS Consciousness Framework
 ```yaml
-Name: LUKHAS Consciousness & Trinity Framework
-Description: Access consciousness systems, MΛTRIZ cognitive DNA, and Trinity Framework tools
+Name: LUKHAS Consciousness & Constellation Framework (8 Stars)
+Description: Access consciousness systems, MΛTRIZ cognitive DNA, and Constellation Framework (8 Stars) tools
 Base URL: http://localhost:8766
 Authentication: Bearer Token
 Token: your-secure-token-here
@@ -233,7 +233,7 @@ Once configured, you can use these prompts in ChatGPT:
 
 ### Consciousness Framework
 ```
-"Access the Trinity Framework status and show constellation coordination"
+"Access the Constellation Framework (8 Stars) status and show constellation coordination"
 "Execute MΛTRIZ cognitive DNA processing for symbolic analysis"
 "Check Guardian system integration and ethical compliance"
 "Analyze consciousness module dependencies and integration points"
@@ -287,7 +287,7 @@ curl http://localhost:8767/healthz  # Memory
 ### Performance Metrics (Enhanced v0.2.0)
 - **DevTools MCP**: <100ms status, <5s live analysis, OpenTelemetry spans
 - **File System**: <50ms file operations, intelligent caching
-- **Consciousness**: <250ms Trinity Framework operations
+- **Consciousness**: <250ms Constellation Framework (8 Stars) operations
 - **Memory**: <100ms memory retrieval, 96.3%+ cascade prevention
 
 ## 🚨 Troubleshooting

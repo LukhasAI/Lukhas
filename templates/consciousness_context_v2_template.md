@@ -16,7 +16,7 @@ type: documentation
 ### **Consciousness Architecture Reality**
 - **Distributed System**: **692 cognitive components** across distributed consciousness network
 - **Lane-Based Evolution**: Development (candidate) → Integration (candidate/core) → Production (lukhas)
-- **Trinity Framework**: ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum coordination
+- **Constellation Framework (8 Stars)**: ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum coordination
 - **Multi-Engine Processing**: Poetic, Complete, Codex, Alternative consciousness engines
 
 ### **Lane Position: {LANE_TYPE}**
@@ -44,7 +44,7 @@ type: documentation
 {DOMAIN_ARCHITECTURE_DIAGRAM}
 ```
 
-## ⚛️🧠🛡️ Trinity Framework Integration
+## ⚛️🧠🛡️ Constellation Framework (8 Stars) Integration
 
 ### **Identity ⚛️ Integration**
 {IDENTITY_INTEGRATION_DETAILS}

@@ -15,7 +15,7 @@ type: documentation
 ### Enterprise Compliance Overview
 - **Purpose**: Enterprise-grade regulatory compliance for production AGI systems
 - **Architecture**: Scalable compliance with multi-jurisdiction support
-- **Integration**: Production Trinity Framework compliance coordination
+- **Integration**: Production Constellation Framework (8 Stars) compliance coordination
 - **Scale**: Enterprise compliance with 99.9% regulatory adherence targets
 
 ### Enterprise Compliance Architecture
@@ -46,7 +46,7 @@ type: documentation
 
 ### Enterprise Integration Patterns
 
-#### **Trinity Framework Enterprise Compliance**
+#### **Constellation Framework (8 Stars) Enterprise Compliance**
 ```
 Enterprise Identity ←→ Enterprise Guardian ←→ Enterprise Memory
          │                    │                    │

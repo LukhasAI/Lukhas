@@ -27,7 +27,7 @@ Based on directory analysis, Python package indicators, import patterns, file co
 
 ### 5. **Consciousness/Memory/Identity** (Constellation Framework)
 - **Combined footprint**: Multiple directories across candidate/, lukhas/, and root
-- **Rationale**: Distributed across multiple locations indicating architectural importance; forms the consciousness trinity framework
+- **Rationale**: Distributed across multiple locations indicating architectural importance; forms the consciousness Constellation Framework (8 Stars)
 
 ## Hierarchical Architecture Mapping
 

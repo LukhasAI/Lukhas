@@ -274,7 +274,7 @@ async def integrate_candidate_memory_foundation(self, candidate_context):
 - **LUKHAS Memory Foundation Architecture**: Foundation architecture enabling LUKHAS memory integration
 - **LUKHAS Sanctum Vault Integration**: Sanctum Vault foundation integration with LUKHAS systems
 - **LUKHAS Memory Protection Foundation**: Memory protection foundation for LUKHAS integration
-- **LUKHAS Foundation Coordination**: Foundation coordination with LUKHAS Trinity Framework systems
+- **LUKHAS Foundation Coordination**: Foundation coordination with LUKHAS Constellation Framework (8 Stars) systems
 
 ## 📊 Foundation Systems Status
 

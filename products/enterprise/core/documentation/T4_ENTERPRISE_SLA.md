@@ -24,7 +24,7 @@ This Service Level Agreement (SLA) defines the performance, availability, and su
 
 ### 1.1 LUKHAS AI T4 Enterprise Premium
 A comprehensive AI system providing:
-- Trinity Framework (⚛️🧠🛡️) consciousness architecture
+- Constellation Framework (8 Stars) (⚛️🧠🛡️) consciousness architecture
 - Constitutional AI with enterprise safety guarantees
 - Multi-region deployment with global availability
 - Real-time monitoring and alerting

@@ -5822,7 +5822,7 @@ root@9e9a2392e1d0:/workspace/Lukhas# sed -n '260,320p' branding/poetry/vocabular
             "endocrine cascade simulation",
             "liminal consciousness states",
             "oneiric engine activation",
-            "trinity framework harmonics",
+            "Constellation Framework (8 Stars) harmonics",
             "guardian drift detection",
             "lambda mirror recursion",
             "memory protein synthesis",
@@ -5868,7 +5868,7 @@ root@9e9a2392e1d0:/workspace/Lukhas# python - <<'PY'
 ",\n            "emotional topology mapping",\n            "consciousness eigenstate collapse",\n            "dream-state authen
 tication",\n            "neuroplastic evolution",\n            "hippocampal replay cycles",\n            "synaptic plasticity wa
 ves",\n            "endocrine cascade simulation",\n            "liminal consciousness states",\n            "oneiric engine act
-ivation",\n            "trinity framework harmonics",\n            "guardian drift detection",\n            "lambda mirror recur
+ivation",\n            "Constellation Framework (8 Stars) harmonics",\n            "guardian drift detection",\n            "lambda mirror recur
 sion",\n            "memory protein synthesis",\n            "quantum coherence maintenance",\n            "emotional resonance
 patterns",\n        ]\n\n    def amplify_phrase(self, original: str) -> str:\n'
 > if marker not in text:
@@ -5878,7 +5878,7 @@ ld",\n            "quantum-inspired consciousness",\n            "bio-inspired a
 ing",\n            "emotional topology mapping",\n            "consciousness eigenstate collapse",\n            "dream-state aut
 hentication",\n            "neuroplastic evolution",\n            "hippocampal replay cycles",\n            "synaptic plasticity
  waves",\n            "endocrine cascade simulation",\n            "liminal consciousness states",\n            "oneiric engine
-activation",\n            "trinity framework harmonics",\n            "guardian drift detection",\n            "lambda mirror re
+activation",\n            "Constellation Framework (8 Stars) harmonics",\n            "guardian drift detection",\n            "lambda mirror re
 cursion",\n            "memory protein synthesis",\n            "quantum coherence maintenance",\n            "emotional resonan
 ce patterns",\n        ]\n\n        if self.lexicon:\n            self._enrich_vocabulary_from_expanded_lexicon()\n        if se
 lf.poetic_techniques:\n            self._register_poetic_devices()\n\n    def amplify_phrase(self, original: str) -> str:\n'

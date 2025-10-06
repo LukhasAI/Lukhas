@@ -8,7 +8,7 @@ type: documentation
 
 
 **Module**: trace
-**Purpose**: Drift monitoring, harmonization, and Trinity Framework compliance
+**Purpose**: Drift monitoring, harmonization, and Constellation Framework (8 Stars) compliance
 **Lane**: L2 (Integration)
 **Language**: Python
 **Last Updated**: 2025-10-02
@@ -17,7 +17,7 @@ type: documentation
 
 ## Module Overview
 
-The trace module provides drift monitoring and harmonization for LUKHAS AI systems, ensuring Trinity Framework compliance through continuous drift tracking, analysis, and automated realignment strategies.
+The trace module provides drift monitoring and harmonization for LUKHAS AI systems, ensuring Constellation Framework (8 Stars) compliance through continuous drift tracking, analysis, and automated realignment strategies.
 
 ### Key Components
 - **Drift Tracker**: Real-time drift monitoring (DriftTracker)
@@ -157,7 +157,7 @@ RealignmentStrategy.ADAPTIVE      # Context-aware correction
 
 ---
 
-### 5. Trinity Framework Compliance
+### 5. Constellation Framework (8 Stars) Compliance
 
 ```python
 from trace.drift_harmonizer import validate_triad_compliance

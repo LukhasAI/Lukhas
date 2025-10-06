@@ -43,7 +43,16 @@
       "Bash(mkdir:*)",
       "Bash(git add:*)",
       "Bash(xargs -I {} bash -c 'count=$(rg -c \"\"\"\"⚛️|✦|🔬|🌱|🌙|⚖️|🛡️\"\"\"\" {} 2>/dev/null || echo 0); if [ \"\"\"\"$count\"\"\"\" -lt 7 ]; then echo \"\"\"\"{}:$count stars\"\"\"\"; fi')",
-      "Bash(git commit:*)"
+      "Bash(git commit:*)",
+      "Bash(git -C /Users/agi_dev/LOCAL-REPOS/Lukhas add branding/__init__.py core/metrics/__init__.py consciousness/awareness/ consciousness/dream/ consciousness/reflection/ core/ethics/ core/identity/ core/policy_guard/)",
+      "Bash(git -C /Users/agi_dev/LOCAL-REPOS/Lukhas diff --cached --stat)",
+      "Bash(git -C /Users/agi_dev/LOCAL-REPOS/Lukhas commit -m \"$(cat <<''EOF''\nfeat(imports): Phase A - create explicit bridge modules to unblock test collection\n\nProblem:\n- 173 test collection errors from missing imports (branding, metrics, consciousness, core)\n- Tests importing from wrong paths (e.g., branding.APPROVED_TERMS not exported)\n- ModuleNotFoundError for consciousness.dream, consciousness.awareness, etc.\n- ImportError for core.metrics counters, core.identity, core.policy_guard\n\nSolution (GPT-5 Plan - Phase A):\n- Created explicit bridge modules with __all__ exports (no import *)\n- Branding bridge: Re-exports 13 symbols from candidate.branding\n  - APPROVED_TERMS, COLORS, SYSTEM_NAME, CONSTELLATION_FRAMEWORK, etc.\n- Core metrics bridge: Re-exports 8 Prometheus metrics from core.metrics\n  - router_cascade_preventions_total, network_coherence_score, etc.\n- Consciousness bridges (3 modules):\n  - dream: Package-level re-export from candidate.consciousness.dream\n  - awareness: Package-level re-export from candidate.consciousness.awareness\n  - reflection: Explicit 7-symbol export (AlignmentScore, LambdaMirror, etc.)\n- Core bridges (3 modules):\n  - identity: Exports IdentityManager from candidate.core.identity\n  - ethics: Package-level re-export from candidate.core.ethics\n  - policy_guard: Exports PolicyGuard, PolicyResult, ReplayDecision from lukhas_website\n\nImpact:\n- Test collection errors reduced from 173 to 162 (11 fewer, 6.4% reduction)\n- Smoke tests: 7 tests collected successfully (was failing)\n- Single source of truth maintained (candidate/* as canonical)\n- All bridges use explicit __all__ (no import * pollution)\n- Ready for Phase B: Safety + Hygiene (ruff, mypy, CI checks)\n\nTechnical Details:\n- Bridges follow pattern: from canonical.location import symbols; __all__ = [...]\n- Package-level bridges use: from candidate.X import submodule; __all__ = [\"submodule\"]\n- No deprecation warnings yet (Phase B task)\n- governance.guardian_system already exists (no bridge needed)\n\nFiles Created (8):\n- branding/__init__.py: +37 lines (13 symbol exports)\n- core/metrics/__init__.py: +26 lines (8 metric exports)\n- consciousness/dream/__init__.py: +12 lines (package bridge)\n- consciousness/awareness/__init__.py: +11 lines (package bridge)\n- consciousness/reflection/__init__.py: +26 lines (7 symbol exports)\n- core/identity/__init__.py: +10 lines (IdentityManager export)\n- core/ethics/__init__.py: +11 lines (package bridge)\n- core/policy_guard/__init__.py: +10 lines (3 symbol exports)\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>\nEOF\n)\")",
+      "Bash(xargs:*)",
+      "Bash(for:*)",
+      "Bash(do)",
+      "Bash(echo \"Fixing: $file\")",
+      "Bash(perl:*)",
+      "Bash(done)"
     ],
     "deny": [],
     "ask": []

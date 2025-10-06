@@ -6,9 +6,9 @@ type: documentation
 
 [![License](https://img.shields.io/badge/license-LUKHAS--Proprietary-blue.svg)](LICENSE)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.1+-blue.svg)](https://www.typescriptlang.org/)
-[![Trinity Framework](https://img.shields.io/badge/Trinity-⚛️🧠🛡️-purple.svg)](https://lukhas.ai)
+[![Constellation Framework (8 Stars)](https://img.shields.io/badge/Trinity-⚛️🧠🛡️-purple.svg)](https://lukhas.ai)
 
-Enterprise-grade authentication system for LUKHAS AI, implementing the complete ΛiD (Lambda Identity) specification with tier-based access control, advanced security features, and Trinity Framework integration.
+Enterprise-grade authentication system for LUKHAS AI, implementing the complete ΛiD (Lambda Identity) specification with tier-based access control, advanced security features, and Constellation Framework (8 Stars) integration.
 
 ## 🌟 Features
 
@@ -25,7 +25,7 @@ Enterprise-grade authentication system for LUKHAS AI, implementing the complete 
 ### 🚀 Upcoming Phases
 
 - **Phase 2**: Advanced MFA, biometric integration, OAuth2/OIDC provider
-- **Phase 3**: Consciousness-aware authentication, Trinity Framework deep integration
+- **Phase 3**: Consciousness-aware authentication, Constellation Framework (8 Stars) deep integration
 - **Phase 4**: Zero-knowledge proofs, quantum-resistant cryptography
 
 ## 🚀 Quick Start
@@ -406,7 +406,7 @@ Handle account lockout with exponential backoff.
 
 This is a proprietary system for LUKHAS AI. For internal development:
 
-1. Follow the Trinity Framework principles (⚛️🧠🛡️)
+1. Follow the Constellation Framework (8 Stars) principles (⚛️🧠🛡️)
 2. Maintain deny-by-default security
 3. Ensure comprehensive test coverage
 4. Document all security-related changes
@@ -426,6 +426,6 @@ LUKHAS Proprietary License - Internal use only.
 
 **LUKHAS Authentication System** - *Consciousness-Aware Security for the Future*
 
-*"Authentication that evolves with human consciousness and respects the Trinity Framework."*
+*"Authentication that evolves with human consciousness and respects the Constellation Framework (8 Stars)."*
 
-⚛️🧠🛡️ **Trinity Framework Integration** - Identity, Consciousness, Guardian
+⚛️🧠🛡️ **Constellation Framework (8 Stars) Integration** - Identity, Consciousness, Guardian

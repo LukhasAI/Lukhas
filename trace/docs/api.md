@@ -14,7 +14,7 @@ human_editable: true
 
 ## Overview
 
-Drift monitoring and harmonization components for Trinity Framework compliance.
+Drift monitoring and harmonization components for Constellation Framework (8 Stars) compliance.
 
 ## Entrypoints
 

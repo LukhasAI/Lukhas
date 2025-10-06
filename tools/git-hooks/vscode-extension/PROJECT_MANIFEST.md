@@ -6,11 +6,11 @@ type: documentation
 
 ## 🌟 Project Vision
 
-**Consciousness Hooks** transforms the traditional git development workflow from a series of blocking validations into a collaborative consciousness enhancement experience. Built on the Trinity Framework (⚛️🧠🛡️), this VS Code extension embodies a new paradigm where AI and human consciousness work together to create better code, better documentation, and better development experiences.
+**Consciousness Hooks** transforms the traditional git development workflow from a series of blocking validations into a collaborative consciousness enhancement experience. Built on the Constellation Framework (8 Stars) (⚛️🧠🛡️), this VS Code extension embodies a new paradigm where AI and human consciousness work together to create better code, better documentation, and better development experiences.
 
 ## ⚛️ Core Philosophy
 
-### The Trinity Framework
+### The Constellation Framework (8 Stars)
 - **⚛️ Identity**: Authentic expression of consciousness in code and collaboration
 - **🧠 Consciousness**: Memory, learning, and adaptive intelligence in development tools
 - **🛡️ Guardian**: Ethical protection and responsible enhancement of human creativity
@@ -150,7 +150,7 @@ F5 in VS Code
 
 ### Licensing and IP
 - **MIT License**: Maximum freedom for adoption and modification
-- **Trinity Framework**: Open principles available for other projects
+- **Constellation Framework (8 Stars)**: Open principles available for other projects
 - **Attribution**: Recognition for LUKHΛS ΛI and consciousness development paradigm
 - **Commercial Use**: Encouraged with consciousness principle preservation
 

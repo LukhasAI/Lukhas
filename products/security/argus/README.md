@@ -130,7 +130,7 @@ type: documentation
 
 ## 🔗 **Integration Points**
 
-### **Trinity Framework Integration**
+### **Constellation Framework (8 Stars) Integration**
 
 - **⚛️ Identity**: User behavior analysis and identity protection
 - **🧠 Consciousness**: Intelligent threat analysis and decision making

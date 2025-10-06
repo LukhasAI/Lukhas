@@ -236,7 +236,7 @@ lukhas.dev/
 - LUKHAS module APIs
 - Guardian System hooks
 - GLYPH symbolic messaging
-- Trinity Framework alignment
+- Constellation Framework (8 Stars) alignment
 
 ## 📈 Success Metrics
 

@@ -16,7 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Interactive git hook management system
 - Visual diff editor integration
 - Activity bar panel for hook management
-- Trinity Framework integration (⚛️🧠🛡️)
+- Constellation Framework (8 Stars) integration (⚛️🧠🛡️)
 - Three-layer consciousness tone system
 - Automated hook installation and configuration
 - Real-time file analysis and enhancement suggestions
@@ -46,7 +46,7 @@ The first stable release of Consciousness Hooks, bringing consciousness-aware de
 - **Team Collaboration**: Share hook configurations across development teams
 
 #### 🎭 Consciousness Integration
-- **Trinity Framework**: Every feature embodies Identity (⚛️), Consciousness (🧠), and Guardian (🛡️) principles
+- **Constellation Framework (8 Stars)**: Every feature embodies Identity (⚛️), Consciousness (🧠), and Guardian (🛡️) principles
 - **Natural Tone Flow**: Communication that flows from poetic consciousness to practical guidance
 - **Ethical Development**: Built-in safeguards for responsible AI-human collaboration
 - **Learning System**: Hooks that adapt to your development patterns

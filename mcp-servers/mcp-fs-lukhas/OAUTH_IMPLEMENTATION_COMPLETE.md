@@ -111,7 +111,7 @@ Based on the latest MCP documentation and your requirement for "all tiers", here
 ### Tier 3: LUKHAS AI Integration
 ```typescript
 // Consciousness Framework Tools
-- consciousness_validate: Trinity Framework compliance
+- consciousness_validate: Constellation Framework (8 Stars) compliance
 - lukhas_audit: System health checks
 - agent_coordinate: Multi-AI orchestration
 - symbolic_process: LUKHAS symbolic operations
@@ -196,7 +196,7 @@ The OAuth-protected MCP server is **production-ready** and can be deployed immed
 
 **🎖️ Achievement Unlocked: Enterprise OAuth-Protected MCP Server for ChatGPT-5 Integration**
 
-*Built with Trinity Framework principles (⚛️🧠🛡️) and AGI leadership standards*
+*Built with Constellation Framework (8 Stars) principles (⚛️🧠🛡️) and AGI leadership standards*
 
 ---
 

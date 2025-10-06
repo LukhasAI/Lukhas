@@ -68,7 +68,7 @@ curl .../search?query=lukhas
     {
       "id": "constellation-fw-002",
       "title": "Constellation Framework...",
-      "snippet": "Trinity Framework implementation..."
+      "snippet": "Constellation Framework (8 Stars) implementation..."
     }
   ]
 }
@@ -86,7 +86,7 @@ curl .../fetch?id=lukhas-arch-001
   "title": "LUKHAS Architecture Overview", 
   "url": "https://lukhas.ai/docs/architecture",
   "mimeType": "text/markdown",
-  "text": "# LUKHAS Architecture Overview\n\n## Trinity Framework...",
+  "text": "# LUKHAS Architecture Overview\n\n## Constellation Framework (8 Stars)...",
   "metadata": {
     "type": "documentation",
     "category": "architecture"

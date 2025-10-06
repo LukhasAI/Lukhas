@@ -580,5 +580,5 @@ If something seems wrong, it stops and asks for help. It learns from mistakes. I
 
 **Clinical Governance Guide** — Ethical AI Healthcare Oversight
 *Part of ΛHealthcare Guardian System*
-*Powered by LUKHAS AI Trinity Framework ⚛️🧠🛡️*
+*Powered by LUKHAS AI Constellation Framework (8 Stars) ⚛️🧠🛡️*
 *Where Consciousness Guides Clinical Care*

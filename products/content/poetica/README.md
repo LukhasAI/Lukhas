@@ -126,7 +126,7 @@ POETICΛ/
 
 ## 🔗 **Integration Points**
 
-### **Trinity Framework Integration**
+### **Constellation Framework (8 Stars) Integration**
 
 - **⚛️ Identity**: Personal poetic style and emotional preferences
 - **🧠 Consciousness**: Deep understanding of human emotion and creativity

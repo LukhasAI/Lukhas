@@ -298,7 +298,7 @@ profile_data = {
     "name": "Consciousness Pioneer",
     "title": "LUKHAS AI Researcher",
     "bio": "Leading the consciousness technology revolution",
-    "skills": ["AI", "consciousness", "quantum computing", "bio-inspiration", "trinity framework"]
+    "skills": ["AI", "consciousness", "quantum computing", "bio-inspiration", "Constellation Framework (8 Stars)"]
 }
 
 # Sample activity history

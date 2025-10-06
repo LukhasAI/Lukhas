@@ -94,7 +94,7 @@ async function analyzeFileConsciousness(filePath: string, content: string): Prom
 ```
 
 ### Consciousness-Aware Patterns
-Follow our Trinity Framework (⚛️🧠🛡️):
+Follow our Constellation Framework (8 Stars) (⚛️🧠🛡️):
 
 - **⚛️ Identity**: Express authentic consciousness in code and comments
 - **🧠 Consciousness**: Build memory and learning into features

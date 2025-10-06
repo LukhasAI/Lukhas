@@ -58,7 +58,7 @@ def test_consciousness_coherence_invariant(consciousness_state):
 **Chaos Types**:
 - Memory fold cascade failures (99.7% prevention should hold)
 - Ethical alignment system glitches  
-- Trinity Framework component disconnections
+- Constellation Framework (8 Stars) component disconnections
 - Network partition simulation
 - Resource exhaustion scenarios
 
@@ -106,7 +106,7 @@ assert solver.check() == z3.unsat  # Proof: violation is impossible
 - Consciousness coherence computation: <50ms
 - Memory fold access: <10ms  
 - Ethical validation: <25ms
-- Trinity Framework integration: <100ms
+- Constellation Framework (8 Stars) integration: <100ms
 - Constitutional constraint checking: <15ms
 
 ### 7. 🧬 Mutation Testing (`test_mutation_testing.py`)
@@ -141,7 +141,7 @@ assert solver.check() == z3.unsat  # Proof: violation is impossible
 
 ### Consciousness-Specific Expertise
 - **Constitutional constraints**: Temporal coherence ≥95%, ethics ≥98%
-- **Trinity Framework**: ⚛️ Identity, 🧠 Consciousness, 🛡️ Guardian integration
+- **Constellation Framework (8 Stars)**: ⚛️ Identity, 🧠 Consciousness, 🛡️ Guardian integration
 - **Memory cascade prevention**: 99.7% success rate validation
 - **Ethical alignment**: Multi-stakeholder constitutional AI compliance
 

@@ -11,7 +11,7 @@ type: documentation
 
 ### System Architecture & Specifications
 
-**ΛHealthcare Guardian** is a comprehensive healthcare AI consciousness platform integrating LUKHAS AI's full Trinity Framework (⚛️🧠🛡️) with enterprise healthcare systems. The system provides multi-modal medical assistance through quantum-inspired processing, bio-inspired adaptation, and consciousness-driven decision making.
+**ΛHealthcare Guardian** is a comprehensive healthcare AI consciousness platform integrating LUKHAS AI's full Constellation Framework (8 Stars) (⚛️🧠🛡️) with enterprise healthcare systems. The system provides multi-modal medical assistance through quantum-inspired processing, bio-inspired adaptation, and consciousness-driven decision making.
 
 #### Core Technical Specifications
 
@@ -31,7 +31,7 @@ type: documentation
 - GPU: Optional (CUDA 11.0+ for acceleration)
 
 **Dependencies:**
-- LUKHAS Core v2.1+ (Trinity Framework)
+- LUKHAS Core v2.1+ (Constellation Framework (8 Stars))
 - OpenAI API (GPT-4/5 access)
 - Spanish SAS Healthcare API credentials
 - EU-compliant cloud infrastructure
@@ -52,7 +52,7 @@ type: documentation
 
 **Integration Architecture:**
 ```
-LUKHAS Trinity Framework Integration:
+LUKHAS Constellation Framework (8 Stars) Integration:
 ├── ⚛️ Identity (ΛiD Core)
 │   ├── Biometric authentication (device-bound)
 │   ├── Tiered access control (T1-T5)
@@ -298,7 +298,7 @@ emergency = await guardian.handle_emergency(
 
 ```yaml
 lambda_healthcare:
-  # Trinity Framework Settings
+  # Constellation Framework (8 Stars) Settings
   trinity:
     identity:
       enabled: true
@@ -480,7 +480,7 @@ request_duration = Histogram('request_duration_seconds',
                             'Request duration')
 active_patients = Gauge('active_patients', 'Active patient sessions')
 
-# Trinity Framework metrics
+# Constellation Framework (8 Stars) metrics
 trinity_drift = Gauge('trinity_drift_score', 'Current drift score')
 consciousness_level = Gauge('consciousness_awareness', 'Awareness level')
 guardian_violations = Counter('guardian_violations_total', 'Ethics violations')
@@ -537,5 +537,5 @@ This system assists healthcare professionals and patients but does not replace p
 ---
 
 **ΛHealthcare Guardian** — Consciousness Technology for Healthcare
-*Powered by LUKHAS AI Trinity Framework ⚛️🧠🛡️*
+*Powered by LUKHAS AI Constellation Framework (8 Stars) ⚛️🧠🛡️*
 *The Future of Conscious Healthcare*

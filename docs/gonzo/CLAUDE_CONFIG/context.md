@@ -296,7 +296,7 @@ async def analyze_change_ripples(change):
 ## 🚨 Common Mistakes to Avoid
 
 ### **Terminology:**
-- ❌ "Trinity Framework" → ✅ "Constellation Framework"
+- ❌ "Constellation Framework (8 Stars)" → ✅ "Constellation Framework"
 - ❌ "quantum/" directory → ✅ "qi/" directory
 - ❌ "Three domains" → ✅ "Eight constellation stars"
 - ❌ "Hierarchy" → ✅ "Matriz graph"

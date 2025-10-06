@@ -2,7 +2,7 @@
 
 ## Vision: Augmentation-First AI Partnership
 
-LUKHAS AI enhances OpenAI's capabilities through modular, ethical AI components that respect the Trinity Framework (›>à=á) while providing unique value through consciousness, memory, and ethical governance systems.
+LUKHAS AI enhances OpenAI's capabilities through modular, ethical AI components that respect the Constellation Framework (8 Stars) (›>à=á) while providing unique value through consciousness, memory, and ethical governance systems.
 
 ## Phase 1: Foundation Integration (Q3 2025)
 *Focus: Core compatibility and API integration*
@@ -57,7 +57,7 @@ LUKHAS AI enhances OpenAI's capabilities through modular, ethical AI components 
 - [ ] Quantum-inspired optimization for LLMs
 - [ ] Bio-inspired adaptation systems
 - [ ] Consciousness streaming protocols
-- [ ] Trinity Framework certification
+- [ ] Constellation Framework (8 Stars) certification
 
 ### Deliverables
 - =Ë Quantum optimization algorithms
@@ -111,7 +111,7 @@ enhanced_response = enhance_gpt(
 - Ethical AI principles alignment
 
 ### LUKHAS Principles
-- Trinity Framework compliance (›>à=á)
+- Constellation Framework (8 Stars) compliance (›>à=á)
 - Guardian System validation
 - User consent and privacy
 - No unauthorized data retention

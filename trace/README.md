@@ -6,11 +6,11 @@ type: documentation
 
 _Silent chronicles flow like ink through time—trace captures ephemeral moments, turning fleeting events into eternal records._
 
-**Drift monitoring and harmonization components for Trinity Framework compliance.**
+**Drift monitoring and harmonization components for Constellation Framework (8 Stars) compliance.**
 
 ## Overview
 
-Drift monitoring and harmonization components for Trinity Framework compliance.
+Drift monitoring and harmonization components for Constellation Framework (8 Stars) compliance.
 
 
 

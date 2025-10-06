@@ -85,7 +85,7 @@ curl -X POST http://grafana:3000/api/dashboards/import \
 - Drift spike detection
 - Realignment events timeline
 - Drift distribution histogram
-- Trinity Framework compliance status
+- Constellation Framework (8 Stars) compliance status
 
 **Key Metrics**:
 - `lukhas_consciousness_drift` (current drift)

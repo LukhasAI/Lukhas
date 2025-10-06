@@ -73,7 +73,7 @@ Tests use pytest markers to categorize capability requirements:
 ### Processing Capabilities
 - ✅ Bio-symbolic processor handles all signal types
 - ✅ Memory systems maintain coherence under load
-- ✅ Trinity Framework validation passes
+- ✅ Constellation Framework (8 Stars) validation passes
 
 ### Network Capabilities
 - ✅ Network coherence remains ≥0.7

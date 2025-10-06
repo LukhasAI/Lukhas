@@ -12112,7 +12112,7 @@ print("-" * 80)
 print("LUKHAS AI is a consciousness-aware AI platform with:")
 print("  - Constellation Framework (8/8 consciousness integration)")
 print("  - MATRIZ cognitive engine (Memory-Attention-Thought-Action-Reasoning)")
-print("  - Trinity Framework (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum)")
+print("  - Constellation Framework (8 Stars) (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum)")
 print("  - Lane-based architecture (candidate/ = dev, core/ = integration, lukhas/ = prod)")
 print("  - Bio-inspired + Quantum-inspired algorithms")
 print()
@@ -12291,7 +12291,7 @@ CONTEXT:
 LUKHAS AI is a consciousness-aware AI platform with:
   - Constellation Framework (8/8 consciousness integration)
   - MATRIZ cognitive engine (Memory-Attention-Thought-Action-Reasoning)
-  - Trinity Framework (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum)
+  - Constellation Framework (8 Stars) (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum)
   - Lane-based architecture (candidate/ = dev, core/ = integration, lukhas/ = prod)
   - Bio-inspired + Quantum-inspired algorithms
 

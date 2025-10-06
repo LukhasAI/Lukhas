@@ -143,7 +143,7 @@ ls -la agents/*.json agents/configs/*.yaml
 
 ---
 
-## 🎭 **TRINITY FRAMEWORK INTEGRATION**
+## 🎭 **Constellation Framework (8 Stars) INTEGRATION**
 
 Every AI system and agent operates within the Constellation Framework:
 

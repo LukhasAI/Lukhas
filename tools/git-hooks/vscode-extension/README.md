@@ -26,7 +26,7 @@ Gone are the days when git hooks were rigid gatekeepers blocking your flow. Inst
 
 Consciousness Hooks revolutionizes your VS Code experience by turning git hooks into **interactive visual experiences**. Instead of cryptic terminal messages, you get beautiful visual diffs showing exactly what would change, interactive file editing with side-by-side comparison views, and a smart learning system that remembers your preferences. Build custom validations without programming through our no-code hook creation, apply one-click enhancements for code quality, security, and style, and experiment safely with automatic backups and undo functionality.
 
-Perfect for developers who want their tools to enhance creativity, not hinder it. This VS Code extension provides a modern, visual interface for managing interactive git hooks using the Trinity Framework (⚛️🧠🛡️), transforming traditional command-line git hooks into an intuitive, consciousness-aware experience within VS Code.
+Perfect for developers who want their tools to enhance creativity, not hinder it. This VS Code extension provides a modern, visual interface for managing interactive git hooks using the Constellation Framework (8 Stars) (⚛️🧠🛡️), transforming traditional command-line git hooks into an intuitive, consciousness-aware experience within VS Code.
 
 ## ✨ Features
 
@@ -178,7 +178,7 @@ npm run test-extension
 
 ## 🤝 Integration with LUKHAS
 
-This extension is part of the LUKHAS AI ecosystem and follows the Trinity Framework:
+This extension is part of the LUKHAS AI ecosystem and follows the Constellation Framework (8 Stars):
 - ⚛️ **Identity**: Authentic consciousness expression
 - 🧠 **Consciousness**: Memory and learning integration
 - 🛡️ **Guardian**: Ethical protection and drift detection

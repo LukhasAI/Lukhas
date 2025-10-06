@@ -143,7 +143,7 @@ Current Issues → ChatGPT Solutions → Implementation Path
 
 ### 2. Consciousness Components
 - **VIVOX System**: ME, MAE, CIL, SRM from conversations
-- **Trinity Framework**: Identity, Consciousness, Guardian alignment
+- **Constellation Framework (8 Stars)**: Identity, Consciousness, Guardian alignment
 - **Constellation**: 8-star navigation from symbolic discussions
 
 ### 3. Universal Language Integration
