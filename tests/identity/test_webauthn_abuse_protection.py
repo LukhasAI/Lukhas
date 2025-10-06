@@ -25,8 +25,8 @@ from unittest.mock import AsyncMock, Mock, patch
 
 import pytest
 
-from lukhas.identity.webauthn_production import WebAuthnManager
-from lukhas.identity.webauthn_security_hardening import (
+from identity.webauthn_production import WebAuthnManager
+from identity.webauthn_security_hardening import (
     DeviceFingerprint,
     GeographicContext,
     SecurityMetrics,

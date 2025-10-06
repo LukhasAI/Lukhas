@@ -11,7 +11,7 @@ import pytest
 # Mark all tests in this file as asyncio
 pytestmark = pytest.mark.asyncio
 
-from lukhas.tools.performance_monitor import (
+from candidate.tools.performance_monitor import (
     PerformanceAnalyzer,
     PerformanceMonitor,
     PerformanceOptimizer,
@@ -133,7 +133,7 @@ class TestPerformanceAnalyzer:
 
     def test_analyze_metrics_and_generate_alerts(self):
         """Tests that alerts are generated when metrics exceed thresholds."""
-        from lukhas.tools.performance_monitor import PerformanceMetric
+        from candidate.tools.performance_monitor import PerformanceMetric
         analyzer = PerformanceAnalyzer()
 
         # Create metrics that should trigger alerts
@@ -164,7 +164,7 @@ class TestPerformanceOptimizer:
 
     def test_generate_recommendations(self):
         """Tests that correct recommendations are generated from metrics."""
-        from lukhas.tools.performance_monitor import PerformanceMetric
+        from candidate.tools.performance_monitor import PerformanceMetric
         optimizer = PerformanceOptimizer()
 
         metrics = [

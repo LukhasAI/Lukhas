@@ -1,6 +1,6 @@
 import pytest
 
-from lukhas.qi.bio.bio_coordinator import QIBioCoordinator
+from qi.bio.bio_coordinator import QIBioCoordinator
 
 pytestmark = pytest.mark.asyncio
 

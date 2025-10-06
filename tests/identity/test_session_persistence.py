@@ -13,14 +13,14 @@ from typing import Dict, Optional
 
 import pytest
 
-from lukhas.identity.session_store import (
+from identity.session_store import (
     RedisSessionStore,
     SessionData,
     SessionManager,
     SessionNotFoundError,
     SQLiteSessionStore,
 )
-from lukhas.identity.token_generator import TokenGenerator, TokenResponse, _calculate_crc32, _verify_crc32
+from identity.token_generator import TokenGenerator, TokenResponse, _calculate_crc32, _verify_crc32
 
 
 class MockSecretProvider:

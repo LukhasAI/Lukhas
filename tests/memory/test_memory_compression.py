@@ -11,7 +11,7 @@ from unittest.mock import Mock
 import numpy as np
 import pytest
 
-from lukhas.memory.compression import (
+from candidate.memory.compression import (
     ZSTD_AVAILABLE,
     AdaptiveCompressionManager,
     Bz2Compressor,
@@ -23,7 +23,7 @@ from lukhas.memory.compression import (
 
 # Only test Zstd if available
 if ZSTD_AVAILABLE:
-    from lukhas.memory.compression import ZstdCompressor
+    from candidate.memory.compression import ZstdCompressor
 
 
 class TestCompressionResult:

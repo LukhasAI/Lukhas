@@ -17,9 +17,9 @@ from typing import Any, Dict, Tuple
 import pytest
 
 try:
-    from lukhas.core.interfaces import ICognitiveNode
+    from core.interfaces import ICognitiveNode
     from lukhas.core.matriz.async_orchestrator import AsyncOrchestrator
-    from lukhas.core.registry import get_plugin_registry
+    from core.registry import get_plugin_registry
     from lukhas.observability.prometheus_metrics import LUKHASMetrics
     ORCHESTRATOR_AVAILABLE = True
 except ImportError:

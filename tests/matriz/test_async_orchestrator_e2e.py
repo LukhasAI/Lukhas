@@ -7,9 +7,9 @@ import asyncio
 
 import pytest
 
-from lukhas.core.interfaces import CognitiveNodeBase
+from core.interfaces import CognitiveNodeBase
 from candidate.core.orchestration.async_orchestrator import AsyncOrchestrator, CancellationToken
-from lukhas.core.registry import register
+from core.registry import register
 from lukhas.nodes.example_nodes import DecisionNode, ErrorNode, IntentNode, SlowNode, ThoughtNode
 
 
@@ -146,7 +146,7 @@ async def test_ethics_gating(orchestrator, register_test_nodes):
 @pytest.mark.asyncio
 async def test_oscillation_detection():
     """Test meta-controller oscillation detection."""
-    from lukhas.core.orchestration.meta_controller import MetaController
+    from candidate.core.orchestration.meta_controller import MetaController
 
     controller = MetaController()
 

@@ -13,7 +13,7 @@ import pytest
 
 # Test imports with graceful fallback
 try:
-    from lukhas.core.bio_symbolic_processor import get_bio_symbolic_processor
+    from core.bio_symbolic_processor import get_bio_symbolic_processor
     from core.consciousness_signal_router import get_consciousness_router
     from lukhas.core.constellation_alignment_system import get_constellation_validator
     from core.matriz_consciousness_integration import create_matriz_consciousness_system

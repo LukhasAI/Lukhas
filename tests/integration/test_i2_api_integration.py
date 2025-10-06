@@ -26,11 +26,11 @@ from fastapi.testclient import TestClient
 # Import the API components
 try:
     from lukhas.api.identity import router as identity_router
-    from lukhas.governance.guardian_system import GuardianSystem
-    from lukhas.identity.biometrics import create_mock_biometric_provider
-    from lukhas.identity.security_hardening import create_security_hardening_manager
-    from lukhas.identity.tiers import SecurityPolicy, create_tiered_authenticator
-    from lukhas.identity.webauthn_enhanced import create_enhanced_webauthn_service
+    from governance.guardian_system import GuardianSystem
+    from identity.biometrics import create_mock_biometric_provider
+    from identity.security_hardening import create_security_hardening_manager
+    from identity.tiers import SecurityPolicy, create_tiered_authenticator
+    from identity.webauthn_enhanced import create_enhanced_webauthn_service
     API_AVAILABLE = True
 except ImportError:
     API_AVAILABLE = False

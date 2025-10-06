@@ -14,7 +14,7 @@ def test_memory_wrapper_initializes():
 
 @pytest.mark.no_mock
 def test_logger_emits():
-    from lukhas.core.common import get_logger
+    from core.common import get_logger
 
     log = get_logger("t4")
     log.info("t4 smoke")

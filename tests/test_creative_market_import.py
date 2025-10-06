@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from lukhas.core.symbolic.creative_market import CreativeMarket
+from candidate.core.symbolic.creative_market import CreativeMarket
 
 
 def test_import_items_round_trip(tmp_path: Path) -> None:

@@ -10,7 +10,7 @@ import asyncio
 import numpy as np
 import pytest
 
-from lukhas.memory.indexer import (
+from memory.indexer import (
     ContentExtractor,
     DocumentIndexer,
     OpenAIEmbeddingProvider,

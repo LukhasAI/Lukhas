@@ -13,7 +13,7 @@ import numpy as np
 import pytest
 
 from lukhas.memory.backends.base import AbstractVectorStore, VectorDocument
-from lukhas.memory.lifecycle import (
+from memory.lifecycle import (
     AbstractArchivalBackend,
     AbstractTombstoneStore,
     ArchivalTier,

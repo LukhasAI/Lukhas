@@ -1,7 +1,7 @@
 import pytest
 
-from lukhas.memory.consolidation import ConsolidationMode, ConsolidationOrchestrator, InMemoryStore
-from lukhas.memory.structural_conscience import StructuralConscience
+from candidate.memory.consolidation import ConsolidationMode, ConsolidationOrchestrator, InMemoryStore
+from candidate.memory.structural_conscience import StructuralConscience
 
 
 @pytest.mark.asyncio

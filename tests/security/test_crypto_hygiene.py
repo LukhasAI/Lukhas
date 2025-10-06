@@ -36,7 +36,7 @@ from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
 # Import LUKHAS modules for testing
 try:
     from lukhas.identity.lambda_id import LambdaIDGenerator
-    from lukhas.identity.security_hardening import SecurityHardeningManager
+    from identity.security_hardening import SecurityHardeningManager
     LUKHAS_MODULES_AVAILABLE = True
 except ImportError:
     LUKHAS_MODULES_AVAILABLE = False

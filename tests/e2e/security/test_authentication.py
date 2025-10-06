@@ -22,7 +22,7 @@ import bcrypt
 import jwt
 from flask import Flask
 
-from lukhas.bridge.api.flows import (
+from bridge.api.flows import (
     JWT_ALGORITHM,
     JWT_SECRET_KEY,
     _generate_access_token,

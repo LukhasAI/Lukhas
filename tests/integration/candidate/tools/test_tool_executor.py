@@ -3,7 +3,7 @@ from unittest.mock import AsyncMock, MagicMock, patch
 import pytest
 
 import docker
-from lukhas.tools.tool_executor import ToolExecutor
+from candidate.tools.tool_executor import ToolExecutor
 
 
 @pytest.fixture

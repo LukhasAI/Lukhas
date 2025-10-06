@@ -94,7 +94,7 @@ def test_guardian_api_imports():
         # Look for governance modules
         governance_spec = importlib.util.find_spec("candidate.core.governance")
         if governance_spec is not None:
-            import lukhas.core.governance
+            import core.governance
 
     except ImportError as e:
         pytest.fail(f"Guardian API import failed: {e}")

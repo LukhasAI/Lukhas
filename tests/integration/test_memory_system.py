@@ -19,8 +19,8 @@ from typing import Dict, List
 import pytest
 
 try:
-    from lukhas.memory.adaptive_memory import AdaptiveMemorySystem, MemoryFold, MemoryItem, MemoryType
-    from lukhas.memory.consolidation import MemoryConsolidator
+    from memory.adaptive_memory import AdaptiveMemorySystem, MemoryFold, MemoryItem, MemoryType
+    from candidate.memory.consolidation import MemoryConsolidator
     from lukhas.memory.recall import MemoryRecallEngine
     from lukhas.observability.prometheus_metrics import LUKHASMetrics
     MEMORY_AVAILABLE = True

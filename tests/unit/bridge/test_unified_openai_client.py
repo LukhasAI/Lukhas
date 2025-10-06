@@ -1,4 +1,4 @@
-from lukhas.bridge.llm_wrappers import unified_openai_client as client_module
+from bridge.llm_wrappers import unified_openai_client as client_module
 
 
 class DummyClient:

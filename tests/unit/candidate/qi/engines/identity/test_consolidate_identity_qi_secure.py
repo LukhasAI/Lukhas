@@ -1,5 +1,5 @@
 import unittest
-from lukhas.qi.engines.identity.consolidate_identity_qi_secure import consolidate_identities
+from qi.engines.identity.consolidate_identity_qi_secure import consolidate_identities
 
 class TestConsolidateIdentities(unittest.TestCase):
 

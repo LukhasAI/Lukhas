@@ -21,7 +21,7 @@ from lukhas.identity.lambda_id import LambdaIDSystem
 from lukhas.identity.observability import IdentityObservability
 from lukhas.identity.oidc_provider import OIDCProvider
 from lukhas.identity.session_manager import SessionManager
-from lukhas.identity.tiers import TierSystem
+from identity.tiers import TierSystem
 from lukhas.memory.consciousness_memory_integration import ConsciousnessMemoryIntegrator
 from lukhas.memory.distributed_memory import DistributedMemoryOrchestrator
 from lukhas.memory.federation_coordinator import FederationCoordinator

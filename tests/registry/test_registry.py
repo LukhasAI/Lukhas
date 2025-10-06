@@ -1,5 +1,5 @@
 # tests/registry/test_registry.py
-from lukhas.core.registry import register, resolve
+from core.registry import register, resolve
 
 
 def test_registry_roundtrip():

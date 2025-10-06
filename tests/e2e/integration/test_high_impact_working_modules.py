@@ -162,7 +162,7 @@ def test_observability_comprehensive():
 def test_qi_module_init_comprehensive():
     """Test comprehensive coverage for QI module initialization."""
     try:
-        from lukhas.qi import QI_AVAILABLE, get_qi_status, initialize_qi_system
+        from qi import QI_AVAILABLE, get_qi_status, initialize_qi_system
 
         # Test QI system status
         try:
@@ -198,7 +198,7 @@ def test_core_symbolism_comprehensive():
     """Test comprehensive coverage for core symbolism modules."""
     try:
         from lukhas.core.symbolism.methylation_model import MethylationModel
-        from lukhas.core.symbolism.tags import SymbolicTag, TagProcessor
+        from candidate.core.symbolism.tags import SymbolicTag, TagProcessor
 
         # Test tag processing
         tag_scenarios = [
@@ -340,7 +340,7 @@ def test_core_wrapper_comprehensive():
 def test_efficient_communication_comprehensive():
     """Test comprehensive coverage for efficient communication."""
     try:
-        from lukhas.core.efficient_communication import (
+        from candidate.core.efficient_communication import (
             CommunicationMode,
             EfficientCommunicationFabric,
             Message,

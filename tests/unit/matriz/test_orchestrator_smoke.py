@@ -43,7 +43,7 @@ def test_orchestrator_instantiation():
 def test_matriz_module_structure():
     """Test basic MATRIZ module structure exists."""
     try:
-        import lukhas.orchestration
+        import orchestration
 
         assert lukhas.orchestration is not None
 

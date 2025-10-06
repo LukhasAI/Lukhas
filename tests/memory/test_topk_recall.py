@@ -16,7 +16,7 @@ import pytest
 # Add project root to path
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
-from lukhas.memory.adaptive_memory import (
+from memory.adaptive_memory import (
     AdaptiveMemorySystem,
     MemoryFold,
     MemoryItem,

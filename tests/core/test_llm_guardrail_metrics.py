@@ -5,7 +5,7 @@ import pytest
 # ΛTAG: observability_metrics_test
 prom = pytest.importorskip("prometheus_client")
 
-from lukhas.core.bridge import llm_guardrail
+from core.bridge import llm_guardrail
 
 
 def test_llm_guardrail_metrics_are_real() -> None:

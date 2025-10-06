@@ -26,7 +26,7 @@ import pytest
 
 # Import the registry module
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
-from lukhas.core.registry import (
+from core.registry import (
     _REG,
     _instantiate_plugin,
     auto_discover,
@@ -63,7 +63,7 @@ class TestPluginDiscoverySecurityHardening:
                 del os.environ['LUKHAS_PLUGIN_DISCOVERY']
 
             # Discovery should be off by default
-            from lukhas.core.registry import _DISCOVERY_FLAG
+            from core.registry import _DISCOVERY_FLAG
             assert _DISCOVERY_FLAG == 'off', "Discovery should be disabled by default (fail-closed)"
 
             # Importing registry module with discovery off should not auto-discover
@@ -392,7 +392,7 @@ class TestPluginDiscoverySecurityHardening:
         subprocess_code = '''
 import sys
 sys.path.insert(0, "/Users/agi_dev/LOCAL-REPOS/Lukhas")
-from lukhas.core.registry import resolve
+from core.registry import resolve
 try:
     result = resolve("test:isolation")
     print(f"ERROR: Found value in subprocess: {result}")

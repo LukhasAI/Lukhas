@@ -29,10 +29,10 @@ from hypothesis.strategies import text
 
 # Import the components under test
 try:
-    from lukhas.governance.guardian_system import GuardianSystem
-    from lukhas.identity.biometrics import BiometricAttestation, BiometricModality, MockBiometricProvider
-    from lukhas.identity.security_hardening import SecurityHardeningManager
-    from lukhas.identity.tiers import (
+    from governance.guardian_system import GuardianSystem
+    from identity.biometrics import BiometricAttestation, BiometricModality, MockBiometricProvider
+    from identity.security_hardening import SecurityHardeningManager
+    from identity.tiers import (
         AuthContext,
         AuthResult,
         SecurityPolicy,
@@ -40,7 +40,7 @@ try:
         TieredAuthenticator,
         create_tiered_authenticator,
     )
-    from lukhas.identity.webauthn_enhanced import EnhancedWebAuthnService, WebAuthnChallenge, WebAuthnCredentialMetadata
+    from identity.webauthn_enhanced import EnhancedWebAuthnService, WebAuthnChallenge, WebAuthnCredentialMetadata
     COMPONENTS_AVAILABLE = True
 except ImportError:
     COMPONENTS_AVAILABLE = False

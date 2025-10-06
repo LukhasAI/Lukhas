@@ -6,7 +6,7 @@ between test expectations and actual runtime metric shapes.
 """
 import pytest
 
-from lukhas.core.metrics_contract import (
+from candidate.core.metrics_contract import (
     BioProcessorStats,
     NetworkMetrics,
     RouterStats,

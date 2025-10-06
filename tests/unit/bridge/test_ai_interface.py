@@ -1,4 +1,4 @@
-import lukhas.bridge.api.ai_interface as ai_interface
+import bridge.api.ai_interface as ai_interface
 
 
 def test_ai_interface_structured_success(monkeypatch):

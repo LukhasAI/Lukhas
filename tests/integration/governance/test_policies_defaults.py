@@ -6,7 +6,7 @@ import pytest
 def test_policy_engine_initialization():
     """Test policy engine initializes with defaults."""
     try:
-        from lukhas.governance.auth_governance_policies import AuthGovernancePolicyEngine
+        from candidate.governance.auth_governance_policies import AuthGovernancePolicyEngine
 
         engine = AuthGovernancePolicyEngine()
         assert engine is not None
@@ -22,7 +22,7 @@ def test_policy_assessment():
     try:
         from datetime import datetime, timezone
 
-        from lukhas.governance.auth_governance_policies import PolicyAssessment
+        from candidate.governance.auth_governance_policies import PolicyAssessment
 
         # Using all required parameter names from the dataclass
         assessment = PolicyAssessment(

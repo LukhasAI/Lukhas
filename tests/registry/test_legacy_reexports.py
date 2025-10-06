@@ -9,7 +9,7 @@ import pytest
 
 def test_package_exports_legacy_helpers(monkeypatch):
     """`from lukhas.core.registry import register` should expose legacy helpers."""
-    import lukhas.core.registry as pkg
+    import core.registry as pkg
 
     # Snapshot registry state for clean-up
     original_reg = dict(pkg._REG)  # type: ignore[attr-defined]

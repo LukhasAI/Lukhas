@@ -5,7 +5,7 @@
 
 import pytest
 
-from lukhas.bridge.api.validation import SecurityValidator, ValidationErrorType
+from bridge.api.validation import SecurityValidator, ValidationErrorType
 
 
 @pytest.mark.tier3

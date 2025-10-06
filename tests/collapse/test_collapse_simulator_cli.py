@@ -6,7 +6,7 @@ import pathlib
 
 import pytest
 
-from lukhas.tools import collapse_simulator_main
+from tools import collapse_simulator_main
 from lukhas.tools.collapse_simulator import (
     DEFAULT_OUTPUT_PATH,
     SimulationContext,

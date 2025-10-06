@@ -17,7 +17,7 @@ from fastapi.testclient import TestClient
 
 # Import modules to test
 from lukhas.api.oidc import get_correlation_id, router, security_check_dependency
-from lukhas.identity.security_hardening import SecurityAction
+from identity.security_hardening import SecurityAction
 
 
 @pytest.fixture

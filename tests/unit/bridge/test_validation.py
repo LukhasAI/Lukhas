@@ -1,4 +1,4 @@
-from lukhas.bridge.api.validation import ValidationErrorType, ValidationResult, ValidationSeverity
+from bridge.api.validation import ValidationErrorType, ValidationResult, ValidationSeverity
 
 
 def test_validation_result_summary_counts():

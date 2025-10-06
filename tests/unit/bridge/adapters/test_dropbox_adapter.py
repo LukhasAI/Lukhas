@@ -7,8 +7,8 @@ from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
 
-from lukhas.bridge.adapters.service_adapter_base import CapabilityToken
-from lukhas.bridge.external_adapters.dropbox_adapter import DropboxAdapter, DropboxContextIntegration
+from bridge.adapters.service_adapter_base import CapabilityToken
+from bridge.external_adapters.dropbox_adapter import DropboxAdapter, DropboxContextIntegration
 
 
 @pytest.mark.tier3

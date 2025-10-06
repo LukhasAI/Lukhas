@@ -21,7 +21,7 @@ from hypothesis import strategies as st
 pytestmark = pytest.mark.asyncio
 
 # Import consciousness components
-from lukhas.consciousness import (
+from consciousness import (
     AutoConsciousness,
     AwarenessEngine,
     AwarenessSnapshot,

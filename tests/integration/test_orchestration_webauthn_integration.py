@@ -14,7 +14,7 @@ from unittest.mock import Mock
 
 import pytest
 
-from lukhas.identity.webauthn_production import AuthenticatorTier, get_webauthn_manager
+from identity.webauthn_production import AuthenticatorTier, get_webauthn_manager
 from lukhas.orchestration.multi_ai_router import AIProvider, ConsensusType, RoutingRequest, get_multi_ai_router
 
 

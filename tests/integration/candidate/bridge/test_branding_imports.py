@@ -19,7 +19,7 @@ def test_branding_bridge_imports():
 def test_bridge_wrapper_imports():
     """Test bridge wrapper functionality."""
     try:
-        from lukhas.bridge import BridgeWrapper, get_bridge_wrapper
+        from bridge import BridgeWrapper, get_bridge_wrapper
 
         # Test wrapper creation
         wrapper = get_bridge_wrapper()
@@ -33,7 +33,7 @@ def test_bridge_wrapper_imports():
 def test_llm_wrappers_imports():
     """Test LLM wrappers import correctly."""
     try:
-        from lukhas.bridge import llm_wrappers
+        from bridge import llm_wrappers
 
         # These should exist even if None
         assert hasattr(llm_wrappers, "UnifiedOpenAIClient")

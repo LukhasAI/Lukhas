@@ -2,7 +2,7 @@ from unittest.mock import AsyncMock, patch
 
 import pytest
 
-from lukhas.bridge.llm_wrappers.base import LLMProvider, LLMWrapper
+from bridge.llm_wrappers.base import LLMProvider, LLMWrapper
 from lukhas.bridge.orchestration.multi_ai_orchestrator import ModelOrchestrator
 
 

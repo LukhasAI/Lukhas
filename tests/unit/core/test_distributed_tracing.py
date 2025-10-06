@@ -9,7 +9,7 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
-from lukhas.core.distributed_tracing import (
+from candidate.core.distributed_tracing import (
     AIAgentTracer,
     DistributedTracer,
     EventReplayer,

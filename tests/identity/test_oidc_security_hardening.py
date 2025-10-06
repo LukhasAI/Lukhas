@@ -25,13 +25,13 @@ from unittest.mock import AsyncMock, patch
 
 import pytest
 
-from lukhas.identity.oidc_security_hardening import (
+from identity.oidc_security_hardening import (
     OIDCSecurityEventType,
     OIDCSecurityHardening,
     SecurityResponse,
     SecurityThreatLevel,
 )
-from lukhas.identity.webauthn_oidc_integration import IntegrationSecurityLevel, WebAuthnOIDCIntegration
+from identity.webauthn_oidc_integration import IntegrationSecurityLevel, WebAuthnOIDCIntegration
 
 
 class TestOIDCSecurityHardening:

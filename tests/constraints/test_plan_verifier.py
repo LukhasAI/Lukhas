@@ -1,5 +1,5 @@
 # tests/constraints/test_plan_verifier.py
-from lukhas.core.symbolic.constraints.plan_verifier import verify
+from core.symbolic.constraints.plan_verifier import verify
 
 
 def test_blocks_pii_external_post():

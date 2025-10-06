@@ -5,7 +5,7 @@
 
 import pytest
 
-from lukhas.bridge.external_adapters.oauth_manager import OAuthManager, OAuthProvider
+from bridge.external_adapters.oauth_manager import OAuthManager, OAuthProvider
 
 
 @pytest.mark.tier3

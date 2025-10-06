@@ -1,7 +1,7 @@
 import sys
 from pathlib import Path
 
-from lukhas.bridge.api.direct_ai_router import DirectAIRouter
+from bridge.api.direct_ai_router import DirectAIRouter
 
 
 def _write_dummy_router(tmp_path: Path, returns_dict: bool = True):

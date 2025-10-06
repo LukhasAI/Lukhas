@@ -27,7 +27,7 @@ import pytest
 
 # Import registry components
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
-from lukhas.core.registry import _REG, discover_entry_points, register, resolve
+from core.registry import _REG, discover_entry_points, register, resolve
 
 
 @dataclass

@@ -176,7 +176,7 @@ class TestMemoryFoldSystem:
     def test_fold_creation_and_compression(self) -> bool:
         """Test memory fold creation with different data types"""
         try:
-            from lukhas.memory.fold_system import FoldManager
+            from candidate.memory.fold_system import FoldManager
 
             print("    💾 Testing fold creation and compression...")
 
@@ -234,7 +234,7 @@ class TestMemoryFoldSystem:
             print("    🛡️ Testing cascade prevention...")
 
             if not self.fold_manager:
-                from lukhas.memory.fold_system import FoldManager
+                from candidate.memory.fold_system import FoldManager
 
                 self.fold_manager = FoldManager()
 
@@ -272,7 +272,7 @@ class TestMemoryFoldSystem:
             print("    🔄 Testing memory consolidation...")
 
             if not self.fold_manager:
-                from lukhas.memory.fold_system import FoldManager
+                from candidate.memory.fold_system import FoldManager
 
                 self.fold_manager = FoldManager()
 
@@ -306,7 +306,7 @@ class TestMemoryFoldSystem:
             print("    📊 Testing performance metrics...")
 
             if not self.fold_manager:
-                from lukhas.memory.fold_system import FoldManager
+                from candidate.memory.fold_system import FoldManager
 
                 self.fold_manager = FoldManager()
 

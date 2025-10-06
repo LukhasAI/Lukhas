@@ -1,4 +1,4 @@
-from lukhas.governance.auth_governance_policies import PolicySeverity, PolicyViolation
+from candidate.governance.auth_governance_policies import PolicySeverity, PolicyViolation
 
 
 def test_policy_violation_defaults_list_not_none():

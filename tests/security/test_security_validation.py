@@ -17,7 +17,7 @@ from unittest.mock import Mock
 import pytest
 
 try:
-    from lukhas.core.bridge.llm_guardrail import call_llm, get_guardrail_metrics
+    from core.bridge.llm_guardrail import call_llm, get_guardrail_metrics
     from lukhas.governance.guardian_bridge import GuardianBridge
     from lukhas.identity.auth import AuthenticationService
     from lukhas.observability.prometheus_metrics import LUKHASMetrics

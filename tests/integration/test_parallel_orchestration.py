@@ -15,7 +15,7 @@ import pytest
 
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
-from lukhas.core.interfaces import CognitiveNodeBase
+from core.interfaces import CognitiveNodeBase
 from candidate.core.orchestration.async_orchestrator import AsyncOrchestrator
 
 
@@ -86,7 +86,7 @@ def test_stages():
 @pytest.fixture
 def mock_registry(monkeypatch):
     """Mock the registry resolver."""
-    from lukhas.core.orchestration import async_orchestrator
+    from core.orchestration import async_orchestrator
     monkeypatch.setattr(async_orchestrator, "resolve", mock_resolve)
 
 

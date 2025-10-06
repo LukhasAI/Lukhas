@@ -6,7 +6,7 @@ import pytest
 def test_qi_wrapper_import():
     """Test QIWrapper imports and basic init."""
     try:
-        from lukhas.qi import QIWrapper
+        from qi import QIWrapper
 
         # Test creation
         wrapper = QIWrapper()
@@ -21,7 +21,7 @@ def test_qi_wrapper_import():
 def test_qi_exports():
     """Test QI module exports."""
     try:
-        import lukhas.qi as qi
+        import qi as qi
 
         # Check key exports
         assert hasattr(qi, "QIWrapper")

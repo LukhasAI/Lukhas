@@ -6,7 +6,7 @@ import pytest
 def test_orchestration_imports():
     """Test orchestration module imports."""
     try:
-        import lukhas.orchestration as orchestration
+        import orchestration as orchestration
 
         assert orchestration is not None
 
@@ -39,7 +39,7 @@ def test_kernel_bus_import():
 def test_context_bus_import():
     """Test context bus imports."""
     try:
-        from lukhas.orchestration.context_bus import ContextBus
+        from candidate.orchestration.context_bus import ContextBus
 
         # Test basic instantiation
         bus = ContextBus()

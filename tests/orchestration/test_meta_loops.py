@@ -1,5 +1,5 @@
 # tests/orchestration/test_meta_loops.py
-from lukhas.core.orchestration.meta_controller import MetaController
+from candidate.core.orchestration.meta_controller import MetaController
 
 
 def test_detects_two_cycle():

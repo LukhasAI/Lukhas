@@ -28,7 +28,7 @@ import pytest
 
 # Import registry components
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
-from lukhas.core.registry import _REG, _instantiate_plugin, auto_discover, discover_entry_points, register, resolve
+from core.registry import _REG, _instantiate_plugin, auto_discover, discover_entry_points, register, resolve
 
 
 class FailureSimulator:
@@ -192,7 +192,7 @@ class TestFailClosedSafetyMechanisms:
                 del os.environ['LUKHAS_PLUGIN_DISCOVERY']
 
             # Import discovery flag (should be 'off' by default)
-            from lukhas.core.registry import _DISCOVERY_FLAG
+            from core.registry import _DISCOVERY_FLAG
             assert _DISCOVERY_FLAG == 'off', "Discovery should be disabled by default (fail-closed)"
 
             # Registry should start empty

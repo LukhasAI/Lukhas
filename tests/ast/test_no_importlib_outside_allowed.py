@@ -261,7 +261,7 @@ class TestNoImportlibOutsideAllowed:
         This ensures our registry-based approach actually works.
         """
         try:
-            from lukhas.core.registry import _REG, auto_discover
+            from core.registry import _REG, auto_discover
 
             # Clear registry for clean test
             _REG.clear()

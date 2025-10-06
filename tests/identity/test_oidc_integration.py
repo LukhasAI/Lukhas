@@ -13,10 +13,10 @@ import time
 import pytest
 
 # Import components to test
-from lukhas.identity.jwks_cache import JWKSCache
-from lukhas.identity.metrics_collector import ServiceMetricsCollector
-from lukhas.identity.rate_limiting import RateLimiter, RateLimitType
-from lukhas.identity.security_hardening import SecurityHardeningManager, ThreatLevel
+from identity.jwks_cache import JWKSCache
+from identity.metrics_collector import ServiceMetricsCollector
+from identity.rate_limiting import RateLimiter, RateLimitType
+from identity.security_hardening import SecurityHardeningManager, ThreatLevel
 
 
 @pytest.fixture
@@ -295,7 +295,7 @@ class TestMetricsCollectorIntegration:
 
     def test_security_event_metrics(self, metrics_collector):
         """Test security event metrics collection"""
-        from lukhas.identity.metrics_collector import ThreatLevel
+        from identity.metrics_collector import ThreatLevel
 
         # Record security events
         metrics_collector.record_security_event(

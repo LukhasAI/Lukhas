@@ -26,7 +26,7 @@ except ImportError:
         # ΛTAG: security_fallback
         pass
 
-from lukhas.consciousness import (
+from consciousness import (
     AwarenessLevel,
     ConsciousnessConfig,
     ConsciousnessKernel,  # Alias
@@ -347,7 +347,7 @@ class TestConsciousnessIntegration:
     @pytest.mark.integration
     async def test_guardian_system_integration(self):
         """Test integration with Guardian System."""
-        from lukhas.governance.guardian import GuardianSystem
+        from candidate.governance.guardian import GuardianSystem
 
         GuardianSystem()
         consciousness = ConsciousnessWrapper()

@@ -14,7 +14,7 @@ from datetime import datetime, timedelta, timezone
 
 import pytest
 
-from lukhas.identity.webauthn_production import (
+from identity.webauthn_production import (
     AuthenticatorTier,
     AuthenticatorType,
     CredentialStatus,

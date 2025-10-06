@@ -40,7 +40,7 @@ def auth_components():
 
     import candidate  # ensure base package is registered
     import core
-    import lukhas.core.interfaces
+    import core.interfaces
     import lukhas.core.interfaces.api
     import lukhas.core.interfaces.api.v1
 

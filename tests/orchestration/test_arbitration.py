@@ -1,5 +1,5 @@
 # tests/orchestration/test_arbitration.py
-from lukhas.core.orchestration.consensus_arbitrator import Proposal, choose
+from candidate.core.orchestration.consensus_arbitrator import Proposal, choose
 
 
 def test_arbitration_ethics_gate():

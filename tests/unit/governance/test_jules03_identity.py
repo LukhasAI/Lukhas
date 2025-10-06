@@ -51,7 +51,7 @@ qr_animator_stub.QRCodeAnimator = type(
 )
 sys.modules["identity.mobile.qr_code_animator"] = qr_animator_stub
 
-from lukhas.governance.guardian_sentinel import GuardianSentinel
+from candidate.governance.guardian_sentinel import GuardianSentinel
 from lukhas.governance.healthcare.decision_support import ClinicalDecisionSupport
 from lukhas.governance.identity.auth_integrations.qrg_bridge import (
     AuthQRGBridge,

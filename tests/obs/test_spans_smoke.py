@@ -1,7 +1,7 @@
 # tests/obs/test_spans_smoke.py
 import contextlib
 
-from lukhas.core.orchestration.otel import stage_span
+from candidate.core.orchestration.otel import stage_span
 
 
 def test_span_noop_ok():

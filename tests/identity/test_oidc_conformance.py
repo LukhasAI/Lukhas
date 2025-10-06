@@ -32,11 +32,11 @@ import pytest
 from cryptography.hazmat.primitives import serialization
 from cryptography.hazmat.primitives.asymmetric import rsa
 
-from lukhas.identity.oidc.client_registry import OIDCClient
-from lukhas.identity.oidc.discovery import DiscoveryProvider
-from lukhas.identity.oidc.provider import OIDCProvider
-from lukhas.identity.security_hardening import SecurityHardening
-from lukhas.identity.webauthn_security_hardening import WebAuthnSecurityHardening
+from identity.oidc.client_registry import OIDCClient
+from identity.oidc.discovery import DiscoveryProvider
+from identity.oidc.provider import OIDCProvider
+from identity.security_hardening import SecurityHardening
+from identity.webauthn_security_hardening import WebAuthnSecurityHardening
 
 
 class OIDCConformanceTestSuite:

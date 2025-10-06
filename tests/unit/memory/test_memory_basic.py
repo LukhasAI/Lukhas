@@ -50,7 +50,7 @@ def test_memory_config():
 def test_fold_manager_metrics_hooks():
     """Ensure FoldManager emits Prometheus hooks for key operations."""
     try:
-        from lukhas.memory.fold_system import FoldManager
+        from candidate.memory.fold_system import FoldManager
     except ImportError:
         pytest.skip("Fold system not available")
 
