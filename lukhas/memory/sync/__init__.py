@@ -1,12 +1,8 @@
-"""
-STUB MODULE: lukhas.memory.sync
+"""Memory sync bridge -> lukhas_website implementation."""
+from __future__ import annotations
 
-Auto-generated stub to fix test collection (v0.03-prep baseline).
-Original module missing or never implemented.
-
-Status: STUB - Needs actual implementation or dead import removal
-Created: 2025-10-06
-Tracking: docs/v0.03/KNOWN_ISSUES.md#missing-modules
-"""
-
-# TODO: Implement or remove dead imports referencing this module
+try:
+    from lukhas_website.lukhas.memory.sync import *  # noqa: F401, F403
+    __all__ = [n for n in dir() if not n.startswith("_")]
+except ImportError:
+    __all__ = []

@@ -1,20 +1,13 @@
-"""Bridge: governance.guardian_system -> candidate implementations."""
+"""Guardian system package bridge."""
 from __future__ import annotations
 
-from importlib import import_module
-
-__all__ = []
-
-for path in [
-    "candidate.governance.guardian_system",
-    "candidate.governance.guardian",
-    "governance.guardian",
-]:
+# Import from parent package
+try:
+    from governance.guardian_system import *  # noqa: F401, F403
+    __all__ = [n for n in dir() if not n.startswith("_")]
+except ImportError:
     try:
-        _m = import_module(path)
-        names = getattr(_m, "__all__", [n for n in dir(_m) if not n.startswith("_")])
-        globals().update({n: getattr(_m, n) for n in names})
-        __all__ = names
-        break
-    except Exception:
-        continue
+        from candidate.governance.guardian_system import *  # noqa: F401, F403
+        __all__ = [n for n in dir() if not n.startswith("_")]
+    except ImportError:
+        __all__ = []
