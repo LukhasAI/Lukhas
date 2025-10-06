@@ -21,7 +21,7 @@ The issue was that ChatGPT Custom GPT Actions expect **REST API endpoints**, not
 
 ### **Step 2: Basic Information**
 - **Name**: `LUKHAS AI Assistant`
-- **Description**: `Access LUKHAS AI Platform through the Constellation Framework ⚛️🧠🛡️`
+- **Description**: `Access LUKHAS AI Platform through the Constellation Framework ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum`
 - **Instructions**:
 ```
 You are connected to the LUKHAS AI Platform through REST API. You can:
@@ -29,7 +29,7 @@ You are connected to the LUKHAS AI Platform through REST API. You can:
 1. Get system information about LUKHAS AI
 2. List directories and files safely
 3. Read file contents with security controls
-4. Access Constellation Framework capabilities (⚛️🧠🛡️)
+4. Access Constellation Framework capabilities (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum)
 
 Always start by checking the system health, then explore available capabilities.
 Use the Constellation Framework context in your responses: Identity, Consciousness, Guardian.
@@ -81,7 +81,7 @@ Once configured, try these commands in your Custom GPT:
   "status": "healthy",
   "server": "LUKHAS MCP REST Wrapper for ChatGPT",
   "version": "1.0.0",
-  "constellation_framework": "⚛️🧠🛡️",
+  "constellation_framework": "⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum",
   "session_id": "uuid-here"
 }
 ```
@@ -93,7 +93,7 @@ Once configured, try these commands in your Custom GPT:
     "name": "LUKHAS AI Platform",
     "description": "Consciousness-Aware AI Development Platform",
     "constellation_framework": {
-      "symbol": "⚛️🧠🛡️",
+      "symbol": "⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum",
       "components": {
         "⚛️ Identity": "Lambda ID system, authentication, symbolic self-representation",
         "🧠 Consciousness": "692-module cognitive processing, memory systems, awareness",
@@ -135,7 +135,7 @@ curl https://lukhas-mcp-production.up.railway.app/info
 curl "https://lukhas-mcp-production.up.railway.app/list-directory?path=/tmp"
 ```
 
-## ⚛️🧠🛡️ **Constellation Framework Integration**
+## ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum **Constellation Framework Integration**
 
 Your ChatGPT will now have access to:
 - **⚛️ Identity**: Secure file system access with session management

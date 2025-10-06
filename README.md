@@ -233,7 +233,7 @@ make serve-docs        # Serve docs locally
 
 1. **Respect Lane Boundaries**: Never import from `candidate/` in `lukhas/` code
 2. **Use Registry Pattern**: Register implementations dynamically, don't hardcode imports
-3. **Follow Constellation Framework**: Align all code with ⚛️✦🔬🛡️ principles
+3. **Follow Constellation Framework**: Align all code with ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum principles
 4. **Test Thoroughly**: Ensure 75%+ coverage before promoting to production lane
 5. **Document Clearly**: Add docstrings and maintain architecture documentation
 
@@ -443,4 +443,4 @@ MIT License - see [LICENSE](LICENSE) file for details.
 
 ---
 
-*Built with consciousness, guided by ethics, powered by the Constellation Framework.* ⚛️✦🔬🛡️
+*Built with consciousness, guided by ethics, powered by the Constellation Framework.* ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum

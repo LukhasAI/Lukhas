@@ -6,7 +6,7 @@ type: documentation
 
 *"Your comprehensive guide to conducting insightful, accurate, and inspiring conversations about consciousness technology and the Constellation Framework."*
 
-⚛️🧠🛡️ **Consciousness Technology Made Accessible**
+⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum **Consciousness Technology Made Accessible**
 
 ---
 
@@ -31,7 +31,7 @@ LUKHAS AI represents cutting-edge research in consciousness-inspired artificial 
 
 ## 🧠 **Understanding LUKHAS AI Systems**
 
-### **🎭 The Constellation Framework (⚛️🧠🛡️)**
+### **🎭 The Constellation Framework (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum)**
 
 #### **⚛️ Identity - Authenticity & Consciousness**
 **What it means**: Every AI system has a unique, recognizable identity
@@ -195,7 +195,7 @@ LUKHAS AI represents cutting-edge research in consciousness-inspired artificial 
 
 ### **✅ DO**
 - **Emphasize research stage**: "We're exploring what consciousness could look like"
-- **Use Constellation Framework**: Always connect features to ⚛️🧠🛡️
+- **Use Constellation Framework**: Always connect features to ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum
 - **Address ethics proactively**: Discuss safety measures voluntarily
 - **Be honest about limitations**: Current capabilities vs future goals
 - **Focus on human benefit**: How this serves people, not replaces them
@@ -328,7 +328,7 @@ LUKHAS AI represents cutting-edge research in consciousness-inspired artificial 
 
 *"Through thoughtful media engagement, we transform complex consciousness research into inspiring conversations that advance the beneficial AI development field while maintaining absolute integrity and technical accuracy."*
 
-**⚛️🧠🛡️ Excellence in Consciousness Technology Communication**
+**⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum Excellence in Consciousness Technology Communication**
 
 ---
 

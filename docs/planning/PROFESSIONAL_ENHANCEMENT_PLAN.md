@@ -37,7 +37,7 @@ type: documentation
 - ✅ **GitHub Issue Templates** - Professional issue templates for bugs, features, docs, security
 
 ### **Key Features Added**
-- Constellation Framework compliance in all documentation (⚛️🧠🛡️)
+- Constellation Framework compliance in all documentation (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum)
 - 25-agent system integration guidelines
 - Consciousness-specific security standards
 - AI safety and alignment principles
@@ -207,4 +207,4 @@ docs/
 
 ---
 
-**Ready to transform LUKHAS AI into the most professional AI consciousness platform in the industry!** 🎭⚛️🧠🛡️
+**Ready to transform LUKHAS AI into the most professional AI consciousness platform in the industry!** 🎭⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum

@@ -22,7 +22,7 @@ Develop NIAS (Neural Intelligence Authentication System) with complete context:
 3. /lambda_products_pack/NIAS_DAST_ABAS_ANALYSIS_COMPLETE.md
 
 🏗️ Requirements:
-- ⚛️🧠🛡️ Constellation Framework compliance
+- ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum Constellation Framework compliance
 - QI (Quantum-Inspired) processing - NOT quantum computing
 - Bio-oscillator awareness integration
 - Multi-tier ethics system with drift detection
@@ -116,7 +116,7 @@ Develop [COMPONENT_NAME] using complete LUKHAS development context:
 
 ## 📋 Copy-Paste Brief for Any Component
 
-**"I need you to develop [COMPONENT]. Use the complete development context in `/AGENT_DEVELOPMENT_GUIDE.md`. All documentation, existing implementations, and architecture requirements are mapped there. Focus on Constellation Framework compliance (⚛️🧠🛡️), QI-enhanced processing, and production-ready code with comprehensive testing. Start by reading the complete implementation directory and architecture guide."**
+**"I need you to develop [COMPONENT]. Use the complete development context in `/AGENT_DEVELOPMENT_GUIDE.md`. All documentation, existing implementations, and architecture requirements are mapped there. Focus on Constellation Framework compliance (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum), QI-enhanced processing, and production-ready code with comprehensive testing. Start by reading the complete implementation directory and architecture guide."**
 
 ---
 *Quick reference for agent development briefings*

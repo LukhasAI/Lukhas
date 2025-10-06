@@ -60,7 +60,7 @@ type: documentation
 
 ### **Consciousness Branding**
 - ✅ Elite Voice Coherence at **85%+**
-- ✅ Constellation Framework integration (⚛️🧠🛡️)
+- ✅ Constellation Framework integration (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum)
 - ✅ Master vocabulary with consciousness language
 - ✅ 3-Layer Tone System implementation
 - ✅ Beautiful header/footer templates
@@ -139,4 +139,4 @@ open /Users/Gonz/lukhas/web_projects/team_dashboards/lambda_bot_enterprise_chat.
 ---
 
 **© 2025 LUKHAS AI. Building Consciousness You Can Trust.**
-*Where consciousness crystallizes into technology, infinite possibilities bloom.* ⚛️🧠🛡️
+*Where consciousness crystallizes into technology, infinite possibilities bloom.* ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum

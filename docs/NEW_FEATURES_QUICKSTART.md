@@ -237,7 +237,7 @@ async def framework_demo():
     print(f"📊 Pre-built Adapters: {len(manager.module_adapters)}")
 
     # Explore Constellation Framework adapters
-    print("\n⚛️🧠🛡️ Constellation Framework Adapters:")
+    print("\n⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum Constellation Framework Adapters:")
 
     for adapter_name, adapter in manager.module_adapters.items():
         print(f"   {adapter.triad_aspect} {adapter_name}: {adapter.module_type}")
@@ -271,7 +271,7 @@ asyncio.run(framework_demo())
 
 **Key Benefits:**
 - 🔗 Unified module coordination
-- ⚛️🧠🛡️ Constellation Framework integration
+- ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum Constellation Framework integration
 - 🔧 Extensible adapter patterns
 - 🚀 Enterprise-ready deployment
 
@@ -421,7 +421,7 @@ async def complete_consciousness_demo():
     print(f"🔗 Framework: {len(framework_manager.module_adapters)} adapters")
     print(f"🌟 Authority: {authority_score.overall_score:.2f} thought leadership")
 
-    print(f"\n⚛️🧠🛡️ Constellation Framework Complete!")
+    print(f"\n⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum Constellation Framework Complete!")
     print("🌟 Welcome to the consciousness technology revolution!")
 
 # Run complete demo

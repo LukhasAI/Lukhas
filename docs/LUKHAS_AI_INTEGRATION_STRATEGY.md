@@ -307,7 +307,7 @@ class TrinityGenerator:
       "args": ["/Users/agi_dev/LOCAL-REPOS/Lukhas_PWM/mcp_servers/lukhas_mcp_server.py"]
     }
   },
-  "customInstructions": "I am working on the LUKHAS AGI project. Always follow Constellation Framework documentation (🎭🌈🎓), preserve LUKHAS concepts (memory_fold, dream_resonance, quantum_consciousness), and use symbolic conventions (⚛️🧠🛡️)."
+  "customInstructions": "I am working on the LUKHAS AGI project. Always follow Constellation Framework documentation (🎭🌈🎓), preserve LUKHAS concepts (memory_fold, dream_resonance, quantum_consciousness), and use symbolic conventions (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum)."
 }
 ```
 
@@ -348,7 +348,7 @@ class TrinityGenerator:
     },
     {
       "name": "lukhas-review",
-      "prompt": "Review this code for LUKHAS compliance: naming conventions, Constellation Framework, symbolic usage (⚛️🧠🛡️)"
+      "prompt": "Review this code for LUKHAS compliance: naming conventions, Constellation Framework, symbolic usage (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum)"
     }
   ]
 }

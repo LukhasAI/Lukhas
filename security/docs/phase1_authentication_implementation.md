@@ -118,7 +118,7 @@ Successfully implemented robust authentication solutions for the three critical 
 
 ## Integration with LUKHAS Architecture
 
-### Constellation Framework (⚛️🧠🛡️) Integration:
+### Constellation Framework (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum) Integration:
 - **⚛️ Identity**: ΛiD generation and namespace management
 - **🧠 Consciousness**: Session awareness and user context
 - **🛡️ Guardian**: Ethics validation and drift detection integration

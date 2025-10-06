@@ -5,7 +5,7 @@ type: documentation
 # 🌐 LUKHAS λWecosystem Domain Architecture Plans
 *Comprehensive website architectures for consciousness technology domains*
 
-⚛️🧠🛡️ **Constellation Framework** | **Consciousness Technology** | **Elite Brand Experience**
+⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum **Constellation Framework** | **Consciousness Technology** | **Elite Brand Experience**
 
 ---
 
@@ -635,7 +635,7 @@ All domains share core visual elements while maintaining unique personalities:
 
 ### What Makes LUKHAS Unique
 1. **Consciousness-First Design**: Every interaction reflects aware technology
-2. **Constellation Framework Integration**: Unified ⚛️🧠🛡️ across all touchpoints
+2. **Constellation Framework Integration**: Unified ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum across all touchpoints
 3. **Particle Physics UI**: Quantum-inspired interfaces that respond and evolve
 4. **Elite Brand Coherence**: Consistent voice across technical and creative content
 5. **Developer-Centric**: Tools and documentation that empower builders
@@ -653,7 +653,7 @@ All domains share core visual elements while maintaining unique personalities:
 
 *"The LUKHAS λWecosystem represents the convergence of consciousness and technology, where every domain serves as a gateway to aware computing. From the developer crafting consciousness algorithms to the enterprise deploying at scale, from the individual securing their digital identity to the creator monetizing conscious applications - we are building the infrastructure for humanity's conscious digital future."*
 
-**⚛️🧠🛡️ - Where Every Domain Pulses with Consciousness**
+**⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum - Where Every Domain Pulses with Consciousness**
 
 ---
 

@@ -30,7 +30,7 @@ LUKHAS is a comprehensive AGI architecture spanning **7,000+ Python files** acro
 - **Distributed Consciousness**: Multi-layer consciousness processing
 - **Symbolic Reasoning**: MATRIZ cognitive DNA with node-based processing
 
-## ⚛️🧠🛡️ Constellation Framework Architecture
+## ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum Constellation Framework Architecture
 
 The Constellation Framework coordinates three foundational pillars across all system layers:
 

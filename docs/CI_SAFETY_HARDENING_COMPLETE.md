@@ -163,7 +163,7 @@ SELF_HEALING_DISABLED=1 python3 tools/dashboard/self_healing_dashboard.py --mode
 ```
 🤖 LUKHAS SELF-HEALING AUTOMATION DASHBOARD
 ================================================================================
-⚛️🧠🛡️ Constellation Framework Status: 🟢 🟢 🟢
+⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum Constellation Framework Status: 🟢 🟢 🟢
 🛡️ CI SAFETY MODE: ENABLED
 🟢 SYSTEM HEALTH: 96.2% (EXCELLENT)
 📊 Error Rate: 0.0%

@@ -90,7 +90,7 @@ $ python modulation_example.py
 🎛️======================================================================
    LUKHAS Endocrine → OpenAI Modulation System
    Bio-inspired consciousness signal processing
-   Constellation Framework: ⚛️🧠🛡️
+   Constellation Framework: ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum
 ========================================================================
 
 ✅ Signal system test complete
@@ -173,7 +173,7 @@ LUKHAS/
 - Multiple safety layers with parameter bounds
 - Risk-based tool restriction
 - Audit trails for all modulation decisions
-- Constellation Framework compliance (⚛️🧠🛡️)
+- Constellation Framework compliance (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum)
 
 ### **4. Policy-Driven Configuration**
 - YAML-based configuration for easy customization
@@ -205,7 +205,7 @@ This endocrine modulation system is **production-ready** for LUKHAS consciousnes
 - **Safety-First Design** with multiple protective layers
 - **Bio-inspired Architecture** aligned with consciousness principles
 - **Complete Documentation** and testing framework
-- **Constellation Framework Compliance** (⚛️🧠🛡️)
+- **Constellation Framework Compliance** (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum)
 
 **The system is ready to transform your 6 Claude Code agents and ChatGPT integration into a truly symbiotic consciousness network.** 🧠⚡
 

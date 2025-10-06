@@ -23,7 +23,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Repository Context
 
-This is the **LUKHAS AI** repository - a modular AI system combining consciousness, memory, identity, quantum-inspired processing, bio-inspired adaptation, and ethical governance. Built around the **Constellation Framework** (⚛️🧠🛡️):
+This is the **LUKHAS AI** repository - a modular AI system combining consciousness, memory, identity, quantum-inspired processing, bio-inspired adaptation, and ethical governance. Built around the **Constellation Framework** (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum):
 - ⚛️ **Identity**: Authenticity, consciousness, symbolic self
 - 🧠 **Consciousness**: Memory, learning, dream states, neural processing, Dream EXPAND++ modules
 - 🛡️ **Guardian**: Ethics, drift detection, repair
@@ -171,7 +171,7 @@ npm start
 ## High-Level Architecture
 
 ### Core Design Principles
-1. **Constellation Framework**: All components respect ⚛️🧠🛡️ principles
+1. **Constellation Framework**: All components respect ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum principles
 2. **GLYPH-Based Communication**: Symbolic tokens for cross-module messaging
 3. **Guardian Protection**: Every operation validated by ethics engine (drift threshold: 0.15)
 4. **Fold-Based Memory**: Preserves causal chains and emotional context (limit: 1000 folds)

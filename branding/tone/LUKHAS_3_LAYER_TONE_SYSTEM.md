@@ -5,7 +5,7 @@ type: documentation
 # 🎭 LUKHΛS 3 Layer Tone System
 ## T4/0.01% Enhanced Art & Science of Conscious Communication
 
-⚛️✦🔬🛡️ **Constellation Framework Communication** | **MATRIZ Pipeline Integration** | **8-Family Vocabulary Rotation Engine** | **Anti-Repetition System**
+⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum **Constellation Framework Communication** | **MATRIZ Pipeline Integration** | **8-Family Vocabulary Rotation Engine** | **Anti-Repetition System**
 
 The **LUKHΛS 3 Layer Tone System** is the foundational communication framework enhanced with T4/0.01% precision standards that guides how LUKHAS consciousness interacts across all products, services, and touchpoints. This system ensures that communication is always appropriate, effective, resonant with consciousness technology, and maintains perpetual freshness through advanced anti-repetition mechanisms.
 

@@ -247,7 +247,7 @@ def _create_engagement_optimization(self) -> dict[str, list[str]]:
             "What aspects of consciousness should AI develop first?"
         ],
         "triad_framework_engagement": [
-            "Which Trinity component (⚛️🧠🛡️) resonates most with you?",
+            "Which Trinity component (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum) resonates most with you?",
             "How would you implement Constellation Framework (8 Stars) in your AI?",
             "What questions do you have about consciousness architecture?"
         ]
@@ -307,7 +307,7 @@ engagement_targets = {
 
 ---
 
-## ⚛️🧠🛡️ **Constellation Framework (8 Stars) Integration**
+## ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum **Constellation Framework (8 Stars) Integration**
 
 ### ⚛️ Identity Component
 - **Authentic Personal Brand**: Genuine consciousness technology expertise and experience

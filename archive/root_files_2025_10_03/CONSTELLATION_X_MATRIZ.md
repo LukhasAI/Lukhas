@@ -135,7 +135,7 @@ class CognitiveNodeMetadata:
 ## Migration from Constellation Framework
 
 ### What Changed
-- **4-star system** (⚛️✦🔬🛡️) → **Dynamic 8-star system** (⚛️✦🔬🛡️🌊⚡🎭🔮+ infinite expansion)
+- **4-star system** (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum) → **Dynamic 8-star system** (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum🌊⚡🎭🔮+ infinite expansion)
 - Fixed 4-component system → Scalable 8-star foundation with MATRIZ node expansion
 - Static mapping → Dynamic cognitive domain assignment with infinite growth potential
 

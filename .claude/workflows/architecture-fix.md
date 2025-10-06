@@ -16,7 +16,7 @@ class ServiceAdapter:
 # AFTER (Claude Code auto-fix):
 class ConstellationAwareServiceAdapter:
     """
-    ⚛️✦🔬🛡️ Constellation Framework service adaptation with MATRIZ pipeline integration
+    ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum Constellation Framework service adaptation with MATRIZ pipeline integration
     🧠 Memory-Attention-Thought-Risk-Intent-Action processing
     🎓 Technical: T4/0.01% implementation with registry-based plugins
     """
@@ -58,7 +58,7 @@ class ConstellationAwareServiceAdapter:
 
     @registry_based_plugin
     async def communicate_with_constellation_agent(self, target_agent: str, message: ConstellationMessage):
-        """⚛️✦🔬🛡️ Constellation-aware inter-agent communication with registry-based routing"""
+        """⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum Constellation-aware inter-agent communication with registry-based routing"""
 
         # Dynamic plugin registration for target agent
         agent_plugin = await self.registry_manager.get_agent_plugin(target_agent)

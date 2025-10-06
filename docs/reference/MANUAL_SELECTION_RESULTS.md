@@ -4,7 +4,7 @@ type: documentation
 ---
 # Manual Module Selection Results
 ## High-Value Modules for OpenAI Analysis
-### Constellation Framework: ⚛️🧠🛡️
+### Constellation Framework: ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum
 
 Generated: 2025-08-13
 
@@ -16,7 +16,7 @@ Generated: 2025-08-13
 
 #### 1. **ai_orchestration/lukhas_ai_orchestrator.py**
 - **Lines**: 363
-- **Trinity**: ✅ Has all three markers (⚛️🧠🛡️)
+- **Trinity**: ✅ Has all three markers (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum)
 - **Score**: 55/70
 - **Why**: Multi-AI orchestration, Trinity preservation, complete implementation
 - **API Priority**: HIGH

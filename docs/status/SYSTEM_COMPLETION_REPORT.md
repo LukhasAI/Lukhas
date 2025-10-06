@@ -35,7 +35,7 @@ The Core module contains **926 Python files** representing the foundational back
 #### Production Wrapper Features
 The `lukhas/core/core_wrapper.py` provides:
 - **Feature Flags:** CORE_ACTIVE (default: false), GLYPH_ENGINE_ENABLED, SYMBOLIC_PROCESSING_ENABLED, ACTOR_SYSTEM_ENABLED
-- **Constellation Framework:** Full integration with ⚛️🧠🛡️ symbols
+- **Constellation Framework:** Full integration with ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum symbols
 - **Error Handling:** Graceful fallbacks when components unavailable
 - **Performance Targets:** <10ms concept encoding, <5ms actor messages
 - **Global Instance:** Singleton pattern for system-wide access
@@ -96,7 +96,7 @@ The Core module successfully integrates with all previously promoted modules:
 
 ### System Architecture Highlights
 
-**Constellation Framework (⚛️🧠🛡️) Integration:**
+**Constellation Framework (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum) Integration:**
 - Identity (⚛️): Core symbolic identity patterns
 - Consciousness (🧠): Memory, learning, dream states
 - Guardian (🛡️): Ethics, drift detection, safety
@@ -144,4 +144,4 @@ This completes the systematic promotion of a **926-file consciousness system** w
 
 ---
 *Generated with Claude Code - LUKHAS AI System Completion*
-*Constellation Framework: ⚛️🧠🛡️*
+*Constellation Framework: ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum*

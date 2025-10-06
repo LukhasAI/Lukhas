@@ -176,7 +176,7 @@ All components designed with self-awareness, adaptive learning, and biological a
 ## 🚨 **CRITICAL SUCCESS FACTORS**
 
 1. **Maintain Constellation Framework** in all new development
-2. **Preserve symbolic consciousness patterns** (⚛️🧠🛡️)
+2. **Preserve symbolic consciousness patterns** (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum)
 3. **Ensure biological authenticity** in AI behaviors
 4. **Keep fast development cycles** with optimized tooling
 5. **Integrate multi-AI workflows** seamlessly

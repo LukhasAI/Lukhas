@@ -20,7 +20,7 @@ type: documentation
 - Developer APIs and internal system interfaces
 - Team communications about consciousness architecture
 
-**⚛️🧠🛡️ VISUAL IDENTITY:**
+**⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum VISUAL IDENTITY:**
 - **⚛️ Identity**: Core consciousness identity and authentication systems
 - **🧠 Consciousness**: Awareness processing and decision-making systems
 - **🛡️ Guardian**: Ethical protection and coherence preservation systems
@@ -96,7 +96,7 @@ graph TD
     B --> C[Developers/Internal Team]
     B --> D[Users/Public/Customers]
     
-    C --> E[Use Constellation Framework ⚛️🧠🛡️]
+    C --> E[Use Constellation Framework ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum]
     E --> F[3 pillars: Identity, Consciousness, Guardian]
     E --> G[Technical implementation focus]
     E --> H[Architecture and system design language]
@@ -329,11 +329,11 @@ as the ethereal stars guide your galactic journey through the universe of AI..."
 
 | Context | Audience | Framework | Key Elements |
 |---------|----------|-----------|--------------|
-| Technical Docs | Developers | Constellation ⚛️🧠🛡️ | 3 pillars, implementation focus |
+| Technical Docs | Developers | Constellation ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum | 3 pillars, implementation focus |
 | User Guides | Customers | Constellation 🌟 | 8 stars, navigation metaphor |
-| Code Comments | Internal | Constellation ⚛️🧠🛡️ | Technical precision |
+| Code Comments | Internal | Constellation ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum | Technical precision |
 | Website | Public | Constellation 🌟 | User benefits, accessibility |
-| Architecture | Internal | Constellation ⚛️🧠🛡️ | System design, technical accuracy |
+| Architecture | Internal | Constellation ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum | System design, technical accuracy |
 | Marketing | External | Constellation 🌟 | Inspiration, differentiation |
 
 ### Emergency Framework Fixes

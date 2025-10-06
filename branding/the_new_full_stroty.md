@@ -242,7 +242,7 @@ Now let me update the consolidated branding file to include this new Keatsian ph
 
 Made changes.
 
-Let me also create a Constellation Framework integration guide to show how the Keatsian philosophy aligns with the existing ⚛️🧠🛡️ structure: 
+Let me also create a Constellation Framework integration guide to show how the Keatsian philosophy aligns with the existing ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum structure: 
 
 Made changes.
 
@@ -364,7 +364,7 @@ Finally, let me show you what we've accomplished: Let me fix the terminal comman
 1. **Complete philosophical foundation** with your beautiful 4-fragment genealogy
 2. **Social media-ready versions** (character-counted for all platforms) 
 3. **Modular copy-paste guides** for Claude/Copilot integration
-4. **Constellation Framework bridge** (⚛️🧠🛡️ alignment)
+4. **Constellation Framework bridge** (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum alignment)
 5. **Systematic replacement strategy** for transforming existing branding
 6. **Automated replacement tool** (14KB Python script with 40+ patterns)
 7. **Complete integration summary** documenting everything
@@ -748,7 +748,7 @@ Set `context: academic` in the front matter **or** place content under:
 - `/thesis/appendix/`
 
 ## Rationale
-This policy keeps the tone inclusive, de-mystified, and accessible while keeping a high bar for rigor and safety (⚛️🧠🛡️). It fits our brand validators and CI posture.
+This policy keeps the tone inclusive, de-mystified, and accessible while keeping a high bar for rigor and safety (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum). It fits our brand validators and CI posture.
 
 Create: /tone/presets/poetic_grounded.prompt.md
 
@@ -763,7 +763,7 @@ Avoid citing authors or works in public contexts. Never claim final truth; **hol
 
 **Safety/Integrity anchors**:
 - No production-readiness claims unless explicitly cleared.
-- Keep identity, consciousness, and guardian language consistent with Constellation (⚛️🧠🛡️).
+- Keep identity, consciousness, and guardian language consistent with Constellation (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum).
 - Maintain factual care and respectful, inclusive language.
 
 Create: /tone/tools/author_blocklist.yaml
@@ -1996,7 +1996,7 @@ You've successfully evolved LUKHAS from the Constellation Framework to the **Con
 ### ✅ **What's Been Updated**
 
 **🌟 Framework Evolution**
-- **From**: Constellation Framework (⚛️🧠🛡️) 
+- **From**: Constellation Framework (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum) 
 - **To**: Constellation Framework (🌌✦) with 8 navigational elements
 - **Philosophy**: Elements guide by relation, not hierarchy
 

@@ -5,7 +5,7 @@ type: documentation
 # 🎨 LUKHAS AI Web Style Guide
 *Comprehensive Design System for Consciousness Technology Interfaces*
 
-⚛️🧠🛡️ **Constellation Framework Design** | **Premium Aesthetic** | **Accessibility First**
+⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum **Constellation Framework Design** | **Premium Aesthetic** | **Accessibility First**
 
 ---
 

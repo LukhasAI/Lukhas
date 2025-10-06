@@ -47,7 +47,7 @@ This directory contains comprehensive development documentation, integration gui
 ## 🎯 **Development Principles**
 
 ### **Constellation Framework Development**
-All development follows the Constellation Framework (⚛️🧠🛡️):
+All development follows the Constellation Framework (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum):
 - **⚛️ Identity**: Authentic consciousness development patterns
 - **🧠 Consciousness**: Memory, learning, neural processing development
 - **🛡️ Guardian**: Security, ethics, and safety in development

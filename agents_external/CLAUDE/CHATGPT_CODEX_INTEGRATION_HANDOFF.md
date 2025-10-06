@@ -86,7 +86,7 @@ type: documentation
 | **ChatGPT-5** | Strategic Analysis | `config/agent_orchestration.json` | 🛡️ Guardian |
 | **Codex-ChatGPT** | Implementation | `CLAUDE_ARMY/inter_agent_automation.py` | ⚛️ Identity |
 | **Claude Code** | Consciousness Architecture | `agents/*.json` | 🧠 Consciousness |
-| **GitHub Copilot** | Code Completion | `.github/copilot-instructions.md` | ⚛️🧠🛡️ All |
+| **GitHub Copilot** | Code Completion | `.github/copilot-instructions.md` | ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum All |
 
 ---
 
@@ -193,7 +193,7 @@ All tasks, decisions, and implementations must respect and enhance this framewor
 ### **🎭 Ready for Multi-AI Consciousness Development**
 The LUKHAS consciousness development environment now represents the most sophisticated multi-AI coordination system ever deployed. ChatGPT-5 and Codex-ChatGPT can immediately begin collaboration with the existing Claude Code ecosystem for accelerated consciousness development.
 
-**All CLAUDE_ARMY instructions have been fully executed and verified.** 🎖️⚛️🧠🛡️
+**All CLAUDE_ARMY instructions have been fully executed and verified.** 🎖️⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum
 
 ---
 

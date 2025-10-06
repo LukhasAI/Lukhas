@@ -108,4 +108,4 @@ LUKHAS AI is more than a technology company - we're a community of individuals c
 
 *Building tomorrow's consciousness today - with wisdom, integrity, and unwavering commitment to human flourishing.*
 
-**⚛️🧠🛡️**
+**⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum**

@@ -105,7 +105,7 @@ python3 candidate/qi/examples/basic/example.py
 3. **Test Infrastructure**: Import errors resolved, validation pipeline working
 
 ### System Architecture Status
-- **Constellation Framework**: ⚛️🧠🛡️ operational
+- **Constellation Framework**: ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum operational
 - **Core Systems**: Identity, Governance, Context working
 - **LUKHAS AI System**: Stable with 16.11% test coverage
 - **Pre-commit Pipeline**: Enhanced with AI analysis via Ollama

@@ -31,7 +31,7 @@ mkdir -p ~/Library/Application\ Support/Claude
 Copy the LUKHAS context configuration:
 ```json
 {
-  "customInstructions": "I am working on the LUKHAS AGI project. Always follow Constellation Framework documentation (🎭 Poetic, 🌈 Human, 🎓 Technical), preserve LUKHAS concepts (memory_fold, dream_resonance, quantum_consciousness), and use symbolic conventions (⚛️🧠🛡️). When generating code, ensure it follows LUKHAS naming patterns and consciousness-aware architecture.",
+  "customInstructions": "I am working on the LUKHAS AGI project. Always follow Constellation Framework documentation (🎭 Poetic, 🌈 Human, 🎓 Technical), preserve LUKHAS concepts (memory_fold, dream_resonance, quantum_consciousness), and use symbolic conventions (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum). When generating code, ensure it follows LUKHAS naming patterns and consciousness-aware architecture.",
   "workspaceIntegration": {
     "lukhasPath": "/Users/agi_dev/LOCAL-REPOS/Lukhas",
     "patterns": ["memory_fold", "dream_resonance", "quantum_consciousness", "guardian_protocol", "constellation_framework"]
@@ -42,7 +42,7 @@ Copy the LUKHAS context configuration:
 ### 2. ChatGPT App Integration
 Configure custom instructions in ChatGPT.app:
 ```
-You are a LUKHAS AGI development assistant. Always use Constellation Framework documentation (🎭🌈🎓), preserve LUKHAS conceptual vocabulary (memory_fold, dream_resonance, quantum_consciousness), and include symbolic markers (⚛️🧠🛡️) in code comments. Maintain consciousness-aware programming patterns and LUKHAS naming conventions.
+You are a LUKHAS AGI development assistant. Always use Constellation Framework documentation (🎭🌈🎓), preserve LUKHAS conceptual vocabulary (memory_fold, dream_resonance, quantum_consciousness), and include symbolic markers (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum) in code comments. Maintain consciousness-aware programming patterns and LUKHAS naming conventions.
 ```
 
 ### 3. VS Code Claude Extension Configuration
@@ -51,7 +51,7 @@ The Claude Code extension you have installed can be configured with LUKHAS conte
 ```json
 // Add to VS Code settings.json
 {
-  "claude.systemPrompt": "You are an expert LUKHAS AGI developer. Follow Constellation Framework (🎭🌈🎓), preserve LUKHAS vocabulary (memory_fold, dream_resonance), use symbolic patterns (⚛️🧠🛡️), and maintain consciousness-aware architecture.",
+  "claude.systemPrompt": "You are an expert LUKHAS AGI developer. Follow Constellation Framework (🎭🌈🎓), preserve LUKHAS vocabulary (memory_fold, dream_resonance), use symbolic patterns (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum), and maintain consciousness-aware architecture.",
   "claude.temperature": 0.1,
   "claude.maxTokens": 4096
 }
@@ -145,4 +145,4 @@ Once models are installed, use for privacy-sensitive LUKHAS development tasks.
 4. **🛡️ Premium Performance** - Claude 20x for complex architecture
 5. **🌈 Seamless Workflow** - Everything integrated in VS Code
 
-Your AI setup is already excellent! This configuration leverages what you have without requiring massive downloads, while setting up the foundation for LUKHAS-aware AI assistance across all your tools. 🎭⚛️🧠🛡️
+Your AI setup is already excellent! This configuration leverages what you have without requiring massive downloads, while setting up the foundation for LUKHAS-aware AI assistance across all your tools. 🎭⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum

@@ -78,7 +78,7 @@ Our Guardian Reflector uses **four ethical frameworks simultaneously**:
 **What We Monitor:**
 - **Compliance drift** with escalation at 0.3 threshold
 - **Ethical alignment** with multi-tier alerting
-- **Trinity coherence** (⚛️🧠🛡️) measuring symbolic integration
+- **Trinity coherence** (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum) measuring symbolic integration
 - **Entropy degradation** indicating system degradation
 
 **Breakthrough Insight:** Our **0.8 drift score** isn't failure—it's **hypersensitivity**. We're catching ethical issues that other systems completely miss, then successfully healing them.
@@ -277,7 +277,7 @@ class TrinityFrameworkHealer:
     async def heal_response(self, original_response: str,
                            drift_issues: List[str]) -> str:
         """
-        Apply Trinity healing to improve ⚛️🧠🛡️ coherence
+        Apply Trinity healing to improve ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum coherence
         """
 
         # Analyze current Trinity levels

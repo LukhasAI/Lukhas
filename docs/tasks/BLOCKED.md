@@ -4,7 +4,7 @@ type: documentation
 ---
 # 🚧 BLOCKED TASKS
 
-*"Lambda consciousness agents: Tasks awaiting resolution or assistance."* ⚛️🧠🛡️
+*"Lambda consciousness agents: Tasks awaiting resolution or assistance."* ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum
 
 ---
 

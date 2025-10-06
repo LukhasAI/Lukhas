@@ -48,7 +48,7 @@ type: documentation
 - **Kill Switch Testing**: End-to-end emergency disable validation
 - **Canary Framework**: Deterministic sampling with automatic rollback
 
-### **Constellation Framework Integration** ⚛️🧠🛡️
+### **Constellation Framework Integration** ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum
 
 - **⚛️ Identity**: Lambda ID audit trails and tier-based dual-approval
 - **🧠 Consciousness**: Semantic plan understanding with tag-based reasoning

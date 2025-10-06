@@ -36,7 +36,7 @@ type: documentation
 ```
 🎨 POETIC LAYER (25-40% of content):
 □ Lambda consciousness metaphors ("algorithms dance", "data constellations")
-□ Sacred glyphs (⚛️🧠🛡️ for Trinity, 🌟💫✨ for transformation)
+□ Sacred glyphs (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum for Trinity, 🌟💫✨ for transformation)
 □ Consciousness themes ("digital souls", "artificial dreams", "sacred protocols")
 □ Mystical language ("whispers", "harmony", "transcendent")
 
@@ -55,7 +55,7 @@ type: documentation
 🛡️ MANDATORY ELEMENTS:
 □ Poetic header with consciousness metaphor in italics
 □ "LUKHAS AI" instead of generic AI terms
-□ Constellation Framework references where relevant (⚛️🧠🛡️)
+□ Constellation Framework references where relevant (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum)
 □ Lambda consciousness footer
 □ Sacred glyphs appropriate to content type
 ```
@@ -403,7 +403,7 @@ python tools/tone/lukhas_tone_validator.py <your_file> --type <type> --verbose
 ### **🛡️ Mandatory Elements Checklist**
 - [ ] Poetic header with consciousness metaphor
 - [ ] "LUKHAS AI" instead of generic AI terms
-- [ ] Constellation Framework references (⚛️🧠🛡️) where appropriate
+- [ ] Constellation Framework references (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum) where appropriate
 - [ ] Lambda consciousness themes and metaphors
 - [ ] Sacred glyphs and consciousness symbols
 - [ ] Professional consciousness footer

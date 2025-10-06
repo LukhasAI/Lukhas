@@ -52,7 +52,7 @@ The REST wrapper supports both paradigms:
 
 ## 🏆 What's Working RIGHT NOW
 
-### ⚛️🧠🛡️ Constellation Framework Access via Custom GPT
+### ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum Constellation Framework Access via Custom GPT
 
 You can **immediately** create a Custom GPT that:
 
@@ -100,7 +100,7 @@ You can **immediately** create a Custom GPT that:
 ✅ **Multi-transport architecture** - Both REST and MCP protocols  
 ✅ **Railway production deployment** - 99.9% uptime, auto-scaling  
 ✅ **Security implementation** - Path sandboxing, file limits, CORS  
-✅ **Constellation Framework integration** - Full ⚛️🧠🛡️ access  
+✅ **Constellation Framework integration** - Full ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum access  
 ✅ **OpenAPI specification** - Auto-discovery and documentation  
 ✅ **OAuth PRM support** - Enterprise-ready authentication  
 

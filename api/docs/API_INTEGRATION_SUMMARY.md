@@ -5,7 +5,7 @@ type: documentation
 # 🎉 LUKHΛS API Integration - Summary
 
 **Status**: ✅ **COMPLETE & TESTED**
-**Constellation Framework**: ⚛️🧠🛡️
+**Constellation Framework**: ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum
 
 ---
 

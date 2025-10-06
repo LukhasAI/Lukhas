@@ -4,7 +4,7 @@ type: documentation
 ---
 # Social Automation
 
-⚛️🧠🛡️ LUKHAS AI Constellation Framework
+⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum LUKHAS AI Constellation Framework
 
 ## Overview
 

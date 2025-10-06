@@ -202,7 +202,7 @@ curl -X POST http://localhost:3000/mcp \
 - `install_dependencies(packageManager?)` - Package installation
 
 ### **TIER 4: LUKHAS-Specific**
-- `validate_trinity_compliance(files?)` - ⚛️🧠🛡️ framework validation
+- `validate_trinity_compliance(files?)` - ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum framework validation
 - `update_consciousness_docs()` - Auto-update docs
 - `sync_agent_configs()` - Agent synchronization
 - `audit_symbolic_vocabulary()` - Symbolic consistency

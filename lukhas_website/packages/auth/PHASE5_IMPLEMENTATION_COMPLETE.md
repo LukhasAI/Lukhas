@@ -251,4 +251,4 @@ The authentication system now provides a delightful, accessible, and trustworthy
 
 *Implementation Date: August 20, 2025*
 *LUKHAS AI Authentication System v2.5.0*
-*Constellation Framework: ⚛️🧠🛡️*
+*Constellation Framework: ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum*

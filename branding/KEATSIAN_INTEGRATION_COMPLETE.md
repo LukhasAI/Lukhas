@@ -26,7 +26,7 @@ type: documentation
 ### 📈 Integration Status
 - **Files Created**: 7 new Keatsian philosophy and tooling files
 - **Replacement Tool**: Ready to transform existing branding with 40+ replacement patterns
-- **Constellation Integration**: ⚛️🧠🛡️ framework aligned with Keatsian philosophy
+- **Constellation Integration**: ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum framework aligned with Keatsian philosophy
 - **Social Ready**: Character-counted versions for all major platforms
 
 ---
@@ -123,7 +123,7 @@ branding/
 ├── reference/
 │   └── keatsian_copy_paste_guide.md       (modular integration guide)
 ├── integration/
-│   ├── keatsian_trinity_bridge.md         (⚛️🧠🛡️ framework alignment)
+│   ├── keatsian_trinity_bridge.md         (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum framework alignment)
 │   └── keatsian_replacement_strategy.md   (systematic transformation plan)
 └── tools/
     └── keatsian_replacer.py               (automated replacement script)

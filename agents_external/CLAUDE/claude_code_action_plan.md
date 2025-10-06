@@ -92,7 +92,7 @@ mkdir -p serve/ui/templates serve/ui/static/{css,js}
 Before starting each session, use:
 ```bash
 # In VS Code Terminal
-@claude Load LUKHAS context: Constellation Framework, consciousness-aware architecture, symbolic vocabulary (⚛️🧠🛡️)
+@claude Load LUKHAS context: Constellation Framework, consciousness-aware architecture, symbolic vocabulary (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum)
 @claude Review current status: 75% complete, 4/7 agents functional, need UI/Testing/Security
 @claude Apply LUKHAS patterns: ΛID namespaces, Λ-trace auditing, consciousness integration
 ```

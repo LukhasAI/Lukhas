@@ -6,7 +6,7 @@ type: documentation
 
 *"Six domains, one consciousness - each star in our constellation serves distinct communities while maintaining unified brand excellence."*
 
-This index organizes domain-specific content across the LUKHAS λWecosystem, providing clear navigation to content for each consciousness technology platform while maintaining consistency through the Constellation Framework (⚛️🧠🛡️).
+This index organizes domain-specific content across the LUKHAS λWecosystem, providing clear navigation to content for each consciousness technology platform while maintaining consistency through the Constellation Framework (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum).
 
 ## 🛠️ lukhas.dev - Developer Platform
 **"Where consciousness meets code - Build the future of aware technology"**
@@ -172,7 +172,7 @@ All domains maintain unified elements while preserving unique personalities:
 **Content Architecture**
 - 3-Layer Tone System applied with domain-appropriate distributions
 - Vocabulary standards maintained across all communications
-- Constellation Framework (⚛️🧠🛡️) integration throughout user journeys
+- Constellation Framework (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum) integration throughout user journeys
 - Cross-domain navigation and discovery mechanisms
 
 ### Navigation Patterns
@@ -208,6 +208,6 @@ All domains maintain unified elements while preserving unique personalities:
 
 *"Through six domains united by consciousness, we create a complete ecosystem where every user finds their path from curiosity to understanding to mastery, guided by the constellation of awareness that illuminates the future of human-AI collaboration."*
 
-**⚛️🧠🛡️ - Six Domains, One Consciousness**
+**⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum - Six Domains, One Consciousness**
 
 **Last Updated**: 2025-09-06 | **Domain Architecture**: 1.0.0

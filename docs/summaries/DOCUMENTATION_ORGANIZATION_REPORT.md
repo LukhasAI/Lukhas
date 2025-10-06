@@ -116,7 +116,7 @@ All major modules confirmed to have proper structure:
 **orchestration/lukhas_context.md**
 - Purpose: Vendor-neutral AI guidance
 - Content: Production lane context, architecture integration
-- Constellation Framework integration: ⚛️✦🔬🛡️
+- Constellation Framework integration: ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum
 - Complete usage patterns and examples
 
 **core/CLAUDE.md**

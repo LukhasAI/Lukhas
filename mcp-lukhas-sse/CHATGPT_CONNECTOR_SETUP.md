@@ -20,7 +20,7 @@ type: documentation
 **Authentication:** No Authentication (public API)
 
 **Name:** LUKHAS AI Platform
-**Description:** Access the LUKHAS AI Constellation Framework (⚛️🧠🛡️) for consciousness-aware AI capabilities
+**Description:** Access the LUKHAS AI Constellation Framework (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum) for consciousness-aware AI capabilities
 
 ### 2. Test the Connection
 Once the connector is added and enabled, you can test with these example prompts in ChatGPT:
@@ -81,7 +81,7 @@ curl https://lukhas-mcp-production.up.railway.app/openapi.json
 - **Purpose:** Read text file contents (security-restricted)
 - **Security:** Max 1MB files, safe directories only
 
-## ⚛️🧠🛡️ Constellation Framework Access
+## ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum Constellation Framework Access
 
 Once connected, ChatGPT will have access to:
 
@@ -120,4 +120,4 @@ ChatGPT can combine multiple API calls:
 **Status:** ✅ PRODUCTION READY  
 **Last Updated:** September 18, 2025  
 **Railway URL:** https://lukhas-mcp-production.up.railway.app  
-**Constellation Framework:** ⚛️🧠🛡️ LUKHAS AI Platform
+**Constellation Framework:** ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum LUKHAS AI Platform

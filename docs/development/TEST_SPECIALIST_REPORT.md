@@ -3,7 +3,7 @@ status: wip
 type: documentation
 ---
 # Test Specialist Report: LUKHAS AI Testing Status
-## Constellation Framework: ⚛️🧠🛡️
+## Constellation Framework: ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum
 ### Generated: 2025-08-13
 
 ---

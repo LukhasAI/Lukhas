@@ -52,7 +52,7 @@ The system is built on three fundamental pillars:
 - **Plugin Registry**: Dynamic registration with constructor-aware instantiation
 - **T4/0.01% Compliance**: Performance standards and audit validation
 - **Test Coverage**: 85%+ across core modules with constitutional AI validation
-- **Constellation Framework**: ⚛️🧠🛡️ fully integrated
+- **Constellation Framework**: ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum fully integrated
 - **Performance**: Sub-100ms response time for critical paths
 - **Uptime**: Designed for 99.99% availability
 
@@ -75,7 +75,7 @@ The system is built on three fundamental pillars:
 Core:
   Language: Python 3.9+
   Framework: AsyncIO for concurrency
-  Architecture: Constellation Framework (⚛️🧠🛡️)
+  Architecture: Constellation Framework (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum)
   Pipeline: MATRIZ (Memory-Attention-Thought-Risk-Intent-Action)
   Messaging: GLYPH symbolic tokens
   Storage: JSON, PostgreSQL, Redis

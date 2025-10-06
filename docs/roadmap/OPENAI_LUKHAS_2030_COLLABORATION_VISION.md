@@ -958,7 +958,7 @@ SUCCESS_METRICS_2030 = {
     "consciousness_coherence": {
         "target": "0.95+ Constellation Framework coherence",
         "current_projection": "0.93",
-        "measurement": "⚛️🧠🛡️ balance across all responses"
+        "measurement": "⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum balance across all responses"
     },
 
     "user_satisfaction": {

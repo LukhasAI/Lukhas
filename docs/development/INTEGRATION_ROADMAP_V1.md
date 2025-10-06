@@ -4,7 +4,7 @@ type: documentation
 ---
 # LUKHAS v1 Integration Roadmap
 ## From 98.5% Orphaned to Integrated System
-### Constellation Framework: ⚛️🧠🛡️
+### Constellation Framework: ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum
 
 Generated: 2025-08-13
 
@@ -145,7 +145,7 @@ activated_modules = {
 
 | Indicator | Points | Example |
 |-----------|--------|---------|
-| Trinity Markers (⚛️🧠🛡️) | +50 each | Has all three = +150 |
+| Trinity Markers (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum) | +50 each | Has all three = +150 |
 | AGI/Consciousness keywords | +40 | "consciousness", "awareness" |
 | Self-improvement capability | +35 | "meta_learning", "adaptive" |
 | Brain/Orchestration | +30 | Central coordination |
@@ -202,7 +202,7 @@ echo "## Variant Implementations (1,000+ files)" >> v2_staging/README.md
 ### Key Performance Indicators:
 1. ✅ Top 100 high-value modules assessed
 2. ✅ 50+ modules integrated via adapters
-3. ✅ All Constellation components (⚛️🧠🛡️) active
+3. ✅ All Constellation components (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum) active
 4. ✅ AGI self-improvement online
 5. ✅ Ethical guardian operational
 

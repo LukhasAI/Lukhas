@@ -84,7 +84,7 @@ LUKHAS PWM has successfully completed all production deployment preparations. Al
 ## Architecture Validation
 
 ### System Architecture: ✅ VALIDATED
-- **Constellation Framework**: ⚛️🧠🛡️ (Quantum, Consciousness, Guardian)
+- **Constellation Framework**: ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum (Quantum, Consciousness, Guardian)
 - **41 Root Systems**: Organized and functional
 - **GLYPH Engine**: Symbolic communication layer
 - **Guardian System**: Ethical oversight and compliance

@@ -5,7 +5,7 @@ type: documentation
 # ΛHealthcare Guardian - Enterprise Healthcare AI System
 
 [![Lambda Enhanced](https://img.shields.io/badge/Lambda-Enhanced-blue.svg)](Λ)
-[![LUKHAS Trinity](https://img.shields.io/badge/Trinity-⚛️🧠🛡️-green.svg)](https://lukhas.ai)
+[![LUKHAS Trinity](https://img.shields.io/badge/Trinity-⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum-green.svg)](https://lukhas.ai)
 [![EU Compliant](https://img.shields.io/badge/EU-GDPR_Compliant-blue.svg)](https://gdpr.eu)
 [![HIPAA Ready](https://img.shields.io/badge/HIPAA-Compliant-green.svg)](https://www.hhs.gov/hipaa)
 [![Status: Production](https://img.shields.io/badge/Status-Production_Ready-green.svg)](https://github.com)

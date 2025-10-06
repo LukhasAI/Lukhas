@@ -11,7 +11,7 @@ LUKHAS AI is a sophisticated cognitive architecture implementing consciousness-i
 
 ## 🧠 Architecture Overview
 
-LUKHAS implements a **Trinity Framework** (⚛️🧠🛡️) across ~7,000 Python files in a modular lane-based architecture:
+LUKHAS implements a **Trinity Framework** (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum) across ~7,000 Python files in a modular lane-based architecture:
 
 - **⚛️ Identity**: Lambda ID system, authentication, symbolic self-representation
 - **🧠 Consciousness**: 692-module cognitive processing, memory systems, awareness
@@ -137,7 +137,7 @@ Every major directory contains both `claude.me` and `lukhas_context.md` files wi
 
 **Trinity Tone & Messaging:**
 
-- All Copilot-generated code, comments, and documentation must reflect the Trinity Framework (⚛️🧠🛡️):
+- All Copilot-generated code, comments, and documentation must reflect the Trinity Framework (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum):
   - ⚛️ Identity (authenticity, consciousness, symbolic self)
   - 🧠 Consciousness (memory, learning, dream states, neural processing)
   - 🛡️ Guardian (ethics, drift detection, repair)

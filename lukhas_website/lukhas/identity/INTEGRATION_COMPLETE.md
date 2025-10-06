@@ -11,7 +11,7 @@ We have successfully created a unified, consciousness-aware authentication ecosy
 ### ✅ Core Components Integrated
 
 #### 1. **Production Nucleus** (`/lukhas/lukhas/identity/`)
-- **auth/**: Core authentication system with Constellation Framework (⚛️🧠🛡️)
+- **auth/**: Core authentication system with Constellation Framework (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum)
 - **wallet/**: WALLET integration bridge
 - **qrg/**: QRG integration bridge
 - **auth_integration.py**: Unified integration coordinator
@@ -39,7 +39,7 @@ We have successfully created a unified, consciousness-aware authentication ecosy
 
 ## 🧠 Consciousness-Aware Features
 
-### Constellation Framework Compliance (⚛️🧠🛡️)
+### Constellation Framework Compliance (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum)
 - **⚛️ Identity**: Authentic consciousness characteristics validation
 - **🧠 Consciousness**: QI consciousness visualization and synchronization
 - **🛡️ Guardian**: Constitutional AI ethical oversight and cultural safety

@@ -109,7 +109,7 @@ enterprise_config = TrinityIntegrationConfig(
 
 ## 🧠 **Understanding the Framework**
 
-### Constellation Framework Architecture (⚛️🧠🛡️)
+### Constellation Framework Architecture (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum)
 
 The Framework Integration Manager operates through three core principles:
 
@@ -217,7 +217,7 @@ class BasicIntegrationExample:
     async def demonstrate_pre_built_adapters(self):
         """Explore the pre-built Constellation Framework adapters."""
 
-        print("\n⚛️🧠🛡️ Pre-built Trinity Adapters:")
+        print("\n⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum Pre-built Trinity Adapters:")
 
         # Identity adapter (⚛️)
         identity_adapter = self.manager.get_module_adapter("identity")
@@ -263,7 +263,7 @@ class BasicIntegrationExample:
 
             if success:
                 print("✅ Constellation Framework Integration Complete!")
-                print("⚛️🧠🛡️ All modules coordinated through Trinity principles")
+                print("⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum All modules coordinated through Trinity principles")
             else:
                 print("❌ Integration initialization failed")
                 return False
@@ -329,7 +329,7 @@ class CustomModuleIntegration:
                     scope for scope in auth_context.get("scopes", [])
                     if scope.startswith("analytics:")
                 ],
-                "trinity_insights": "⚛️🧠🛡️",
+                "trinity_insights": "⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum",
                 "privacy_level": auth_context.get("tier_level", "T1")
             }
 
@@ -433,7 +433,7 @@ class DynamicModuleDiscovery:
                 "consciousness",
                 "FrameworkIntegrationManager",
                 "ModuleAdapter",
-                "⚛️🧠🛡️"
+                "⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum"
             ]
 
             compatibility_score = sum(
@@ -748,7 +748,7 @@ class ProductionFrameworkManager:
 
         if success:
             print("✅ Production deployment successful")
-            print("⚛️🧠🛡️ Constellation Framework active in production")
+            print("⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum Constellation Framework active in production")
 
             # Start monitoring
             await self.start_production_monitoring()

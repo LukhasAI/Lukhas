@@ -11,7 +11,7 @@ LUKHAS AI is a sophisticated cognitive architecture implementing consciousness-i
 
 ## 🧠 Architecture Overview
 
-LUKHAS implements a **Trinity Framework** (⚛️🧠🛡️) across ~7,000 Python files in a modular lane-based architecture:
+LUKHAS implements a **Trinity Framework** (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum) across ~7,000 Python files in a modular lane-based architecture:
 
 - **⚛️ Identity**: Lambda ID system, authentication, symbolic self-representation
 - **🧠 Consciousness**: 692-module cognitive processing, memory systems, awareness
@@ -95,7 +95,7 @@ make lane-guard        # Validate import boundaries
 
 **Trinity Tone & Messaging:**
 
-- All Copilot-generated code, comments, and documentation must reflect the Trinity Framework (⚛️🧠🛡️):
+- All Copilot-generated code, comments, and documentation must reflect the Trinity Framework (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum):
   - ⚛️ Identity (authenticity, consciousness, symbolic self)
   - 🧠 Consciousness (memory, learning, dream states, neural processing)
   - 🛡️ Guardian (ethics, drift detection, repair)
@@ -335,7 +335,7 @@ Welcome, Copilot Agent! This file contains your core integration instructions an
 
 ## ⚛️ Project Purpose
 
-LUKHΛS is a modular, symbolic AGI framework built around consciousness, memory, ethical reasoning, and quantum-inspired cognition. All components orbit around a **Trinity Framework** (⚛️🧠🛡️):
+LUKHΛS is a modular, symbolic AGI framework built around consciousness, memory, ethical reasoning, and quantum-inspired cognition. All components orbit around a **Trinity Framework** (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum):
 
 - ⚛️ Identity (consciousness, symbolic identity, authentic self-expression)
 - 🧠 Consciousness (memory, cognition, dream states, neural processing)
@@ -387,7 +387,7 @@ python test_major_languages.py
 
 ### Always Do:
 
-- Respect the Trinity Framework (⚛️🧠🛡️) in all new logic, comments, and documentation.
+- Respect the Trinity Framework (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum) in all new logic, comments, and documentation.
 - Use only approved branding, glyphs, and terminology from `branding/` and `README_NEXT_GEN.md`.
 - Use symbolic glyphs where possible (see `meta_dashboard/templates/symbolic_map.html`).
 - Check `integration_config.yaml` for global thresholds.

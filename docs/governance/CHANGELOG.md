@@ -32,7 +32,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - Initial LUKHAS AI consciousness platform release
-- Constellation Framework implementation (⚛️🧠🛡️)
+- Constellation Framework implementation (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum)
 - 25-agent AI coordination system (18 Supreme Army + 6 Claude Desktop + 1 Workflow)
 - 200+ consciousness and intelligence modules
 - Advanced consciousness processing with VIVOX system
@@ -77,7 +77,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## Release Notes Format
 
 Each release includes:
-- **Trinity Impact**: Changes affecting ⚛️🧠🛡️ framework
+- **Trinity Impact**: Changes affecting ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum framework
 - **Agent Updates**: Multi-AI coordination enhancements
 - **Performance**: Benchmark improvements and optimizations
 - **Security**: Security enhancements and vulnerability fixes

@@ -38,7 +38,7 @@ REASONING_ACTIVE = False      # Reasoning subsystem
 3. **Performance Boundaries**: <100ms response targets
 4. **Memory Protection**: 1000-fold limit with cascade prevention
 
-## Constellation Framework Integration ⚛️🧠🛡️
+## Constellation Framework Integration ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum
 
 - **⚛️ Identity**: Consciousness identity patterns and symbolic self-awareness
 - **🧠 Consciousness**: Primary consciousness processing (main focus area)

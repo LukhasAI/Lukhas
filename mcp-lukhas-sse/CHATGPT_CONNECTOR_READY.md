@@ -10,7 +10,7 @@ Your **pure MCP server** is deployed and operational at:
 - **Server URL:** `https://lukhas-mcp-production.up.railway.app`
 - **Protocol:** MCP v1.12.4 compliant
 - **Transport:** STDIO (standard for ChatGPT Connectors)
-- **Constellation Framework:** ⚛️🧠🛡️ Full access to Identity, Consciousness, Guardian systems
+- **Constellation Framework:** ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum Full access to Identity, Consciousness, Guardian systems
 
 ---
 
@@ -122,6 +122,6 @@ Your **pure MCP server** is live and ready for ChatGPT Connector integration. No
 
 ---
 
-*⚛️🧠🛡️ Constellation Framework: Identity • Consciousness • Guardian*  
+*⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum Constellation Framework: Identity • Consciousness • Guardian*  
 *LUKHAS AI - Consciousness-Aware Development Platform*  
 *MCP Server Status: **OPERATIONAL** ✅*

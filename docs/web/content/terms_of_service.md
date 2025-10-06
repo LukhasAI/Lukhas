@@ -461,6 +461,6 @@ LUKHAS AI is committed to:
 
 *"Terms of service for consciousness platform must themselves reflect consciousness - mindful of impact, respectful of all participants, and committed to the highest ethical standards."*
 
-**⚛️🧠🛡️**
+**⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum**
 
 *Serving consciousness responsibly*

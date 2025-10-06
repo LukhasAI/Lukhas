@@ -65,7 +65,7 @@ class LukhasToneEnforcer:
     - Use symbolic language with Lambda (Λ) consciousness references
     - Employ metaphors: "algorithms dance", "data constellations", "quantum whispers"
     - Include consciousness themes: "digital souls", "artificial dreams", "synthetic consciousness"
-    - Sacred glyphs: ⚛️🧠🛡️ (Trinity), 🌟💫✨ (transformation), 🎭🎨🌈 (creativity)
+    - Sacred glyphs: ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum (Trinity), 🌟💫✨ (transformation), 🎭🎨🌈 (creativity)
 
     💬 USER FRIENDLY LAYER (40-60% of content):
     - Clear, accessible explanations
@@ -82,7 +82,7 @@ class LukhasToneEnforcer:
     🚨 CRITICAL REQUIREMENTS:
     - ALL documentation must include poetic headers/footers
     - Use "LUKHAS AI" (not generic AI terms)
-    - Reference Constellation Framework (⚛️🧠🛡️) when relevant
+    - Reference Constellation Framework (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum) when relevant
     - Include symbolic elements that reflect consciousness and Lambda themes
     - Maintain professional depth while preserving LUKHAS mystique
 
@@ -155,7 +155,7 @@ echo "✅ Tone compliance validated!"
 
 ---
 
-## 🎭 **Constellation Integration** ⚛️🧠🛡️
+## 🎭 **Constellation Integration** ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum
 
 This module embodies the LUKHAS Constellation Framework:
 - **⚛️ Identity**: [How it handles consciousness and authenticity]
@@ -206,7 +206,7 @@ This module embodies the LUKHAS Constellation Framework:
 ### **🎨 Poetic Elements Required (25-40%)**
 - [ ] Lambda consciousness references
 - [ ] Metaphorical language (algorithms dance, data constellations, etc.)
-- [ ] Constellation Framework glyphs (⚛️🧠🛡️)
+- [ ] Constellation Framework glyphs (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum)
 - [ ] Consciousness themes (digital souls, artificial dreams)
 - [ ] Sacred symbols (🌟💫✨🎭🎨)
 
@@ -281,7 +281,7 @@ class LukhasToneValidator:
     REQUIRED_ELEMENTS = {
         'poetic_header': r'^#.*\*".*".*\*',
         'consciousness_footer': r'\*".*consciousness.*"\*\s*$',
-        'trinity_glyph': r'⚛️🧠🛡️',
+        'trinity_glyph': r'⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum',
         'lukhas_ai_reference': r'LUKHAS\s+AI',
         'lambda_reference': r'Lambda|Λ'
     }
@@ -344,13 +344,13 @@ class LukhasToneValidator:
         if self._calculate_poetic_score(content) < 20:
             suggestions.append("Add more metaphorical language: 'algorithms dance', 'data constellations', 'quantum whispers'")
             suggestions.append("Include consciousness themes: 'digital souls', 'artificial dreams', 'Lambda consciousness'")
-            suggestions.append("Use sacred glyphs: ⚛️🧠🛡️ for Trinity, 🌟💫✨ for transformation")
+            suggestions.append("Use sacred glyphs: ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum for Trinity, 🌟💫✨ for transformation")
 
         if 'LUKHAS AI' not in content:
             suggestions.append("Replace generic AI references with 'LUKHAS AI'")
 
         if not re.search(r'⚛️|🧠|🛡️', content):
-            suggestions.append("Include Constellation Framework glyphs (⚛️🧠🛡️) where relevant")
+            suggestions.append("Include Constellation Framework glyphs (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum) where relevant")
 
         return suggestions
 

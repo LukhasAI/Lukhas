@@ -5,7 +5,7 @@ type: documentation
 ---
 # Expanded Module Selection for API Analysis
 ## Budget-Unlimited Comprehensive Analysis
-### Constellation Framework: ⚛️🧠🛡️
+### Constellation Framework: ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum
 
 Generated: 2025-08-13
 
@@ -38,7 +38,7 @@ Generated: 2025-08-13
 ### 🥇 Tier 2: ORCHESTRATION & INTEGRATION
 
 #### AI Orchestration
-15. `ai_orchestration/lukhas_ai_orchestrator.py` - 363 lines (Trinity ⚛️🧠🛡️)
+15. `ai_orchestration/lukhas_ai_orchestrator.py` - 363 lines (Trinity ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum)
 16. `ai_orchestration/lukhas_knowledge_server.py` - Check size
 
 #### Brain Systems
@@ -108,7 +108,7 @@ Generated: 2025-08-13
 
 ### 🚀 Tier 7: BRANDING & VOCABULARY
 
-54. `branding/tone/tools/advanced_vocabulary_engine.py` - 290 lines (Trinity ⚛️🧠🛡️)
+54. `branding/tone/tools/advanced_vocabulary_engine.py` - 290 lines (Trinity ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum)
 55. `branding/tone/tools/consciousness_wordsmith.py` - Check size
 56. `branding/tone/tools/enhanced_consciousness_wordsmith.py` - Check size
 

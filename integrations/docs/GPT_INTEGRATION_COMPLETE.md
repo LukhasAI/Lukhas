@@ -5,7 +5,7 @@ type: documentation
 ---
 # 🤖 LUKHΛS GPT Integration Layer - Complete
 
-**Constellation Framework**: ⚛️🧠🛡️
+**Constellation Framework**: ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum
 **Status**: ✅ **FULLY IMPLEMENTED**
 **Generated**: 2025-08-04
 
@@ -320,7 +320,7 @@ CMD ["python", "test_gpt_integration_api.py"]
 
 ---
 
-**Constellation Framework**: ⚛️🧠🛡️
+**Constellation Framework**: ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum
 **GPT Integration**: 🟢 **OPERATIONAL**
 **Drift Detection**: ✅ **ACTIVE**
 

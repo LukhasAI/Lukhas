@@ -28,7 +28,7 @@ Enhances files with consciousness-aware terminology and LUKHAS AI branding guide
 **Features:**
 - Adds consciousness headers to files
 - Replaces technical terms with consciousness-aware language
-- Integrates symbolic glyphs (⚛️🧠🛡️)
+- Integrates symbolic glyphs (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum)
 - Validates Constellation Framework (8 Stars) compliance
 
 ### 🔍 Code Quality Hook

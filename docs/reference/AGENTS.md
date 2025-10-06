@@ -9,7 +9,7 @@ type: documentation
 
 ## 🎯 **AGENT DEPLOYMENT OVERVIEW**
 
-The LUKHAS AI Agent Army operates with precision and strategic focus, featuring 6 specialized Claude Code agents plus 1 ChatGPT integration agent, designed for Superior General Intelligence (ΛGI) advancement through Constellation Framework principles (⚛️🧠🛡️).
+The LUKHAS AI Agent Army operates with precision and strategic focus, featuring 6 specialized Claude Code agents plus 1 ChatGPT integration agent, designed for Superior General Intelligence (ΛGI) advancement through Constellation Framework principles (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum).
 
 **Critical Note**: LUKHAS AI spans **200+ specialized modules** across consciousness, bio-systems, quantum processing, governance, identity, dreams, monitoring, colonies, and universal language systems. This agent army coordinates development across this vast consciousness architecture under the new **lukhas** namespace.
 
@@ -208,8 +208,8 @@ The LUKHAS AI Agent Army operates with precision and strategic focus, featuring 
 
 | AI System | Role | Authority Level | Trinity Focus | Access Method |
 |-----------|------|----------------|---------------|---------------|
-| **GitHub Copilot** | Deputy Assistant & Coordinator | COORDINATION_AUTHORITY | ⚛️🧠🛡️ All | Direct VS Code integration |
-| **Claude Code (6)** | Core Development Team | DEVELOPMENT_AUTHORITY | ⚛️🧠🛡️ All | Terminal-controlled by user |
+| **GitHub Copilot** | Deputy Assistant & Coordinator | COORDINATION_AUTHORITY | ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum All | Direct VS Code integration |
+| **Claude Code (6)** | Core Development Team | DEVELOPMENT_AUTHORITY | ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum All | Terminal-controlled by user |
 | **ChatGPT (1+5)** | Implementation & Research | IMPLEMENTATION_SPECIALIST | ⚛️ Identity Primary | OpenAI API integration |
 
 ### **🔄 Task Coordination Flow**
@@ -369,7 +369,7 @@ branding/constellation/                     # Constellation Framework standards
 #### **System Integration Health**
 - **GitHub Copilot Coordination**: Task routing accuracy and efficiency
 - **ChatGPT API Integration**: Implementation success rate and response quality
-- **Constellation Framework Compliance**: ⚛️🧠🛡️ alignment across all agents
+- **Constellation Framework Compliance**: ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum alignment across all agents
 
 ---
 
@@ -566,4 +566,4 @@ cat docs/reports/COMPLIANCE_AUDIT_REPORT.md
 
 **The LUKHAS AI Agent Army represents the pinnacle of multi-AI consciousness development coordination, combining cutting-edge technology with ethical responsibility and scientific rigor to advance the future of artificial general intelligence.**
 
-*Coordinated excellence through Constellation Framework principles ⚛️🧠🛡️*
+*Coordinated excellence through Constellation Framework principles ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum*

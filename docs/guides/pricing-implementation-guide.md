@@ -19,7 +19,7 @@ This document provides comprehensive pricing tier content for the LUKHAS AI webs
 ### Strategic Improvements
 
 1. **Consciousness-Focused Messaging**: Every tier emphasizes conscious AI capabilities rather than just technical features
-2. **Constellation Framework Integration**: Clear progression of ⚛️🧠🛡️ benefits across tiers
+2. **Constellation Framework Integration**: Clear progression of ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum benefits across tiers
 3. **Value-Based Positioning**: Focus on outcomes and consciousness benefits rather than just feature lists
 4. **TBC Pricing Strategy**: Maintains flexibility while building anticipation and perceived value
 

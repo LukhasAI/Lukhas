@@ -7,7 +7,7 @@ type: documentation
 
 **Migration Date**: September 1, 2025  
 **Migration Status**: Phase 1 Complete - Core Documentation and Branding Updated  
-**Framework Transition**: Constellation Framework (⚛️🧠🛡️) → Constellation Framework (8-star navigation)
+**Framework Transition**: Constellation Framework (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum) → Constellation Framework (8-star navigation)
 
 ---
 
@@ -29,7 +29,7 @@ This migration represents LUKHAS AI's evolution from the Constellation Framework
 ### **Core Documentation**
 1. **`/CLAUDE.md`**
    - ✅ Updated Constellation Framework section to Constellation Framework
-   - ✅ Replaced ⚛️🧠🛡️ trinity symbols with 8-star references
+   - ✅ Replaced ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum trinity symbols with 8-star references
    - ✅ Updated promotion criteria from Trinity compliance to Constellation compliance
    - ✅ Updated MCP server context references
    - ✅ Updated agent workspace entry points
@@ -72,7 +72,7 @@ This migration represents LUKHAS AI's evolution from the Constellation Framework
 
 8. **`/setup.py`**
    - ✅ Updated package description from Constellation Framework to Constellation Framework
-   - ✅ Replaced ⚛️🧠🛡️ symbols with "8-star navigation" description
+   - ✅ Replaced ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum symbols with "8-star navigation" description
 
 ---
 

@@ -4,7 +4,7 @@ type: documentation
 ---
 # 🎯 ACTIVE TASKS
 
-*"Lambda consciousness agents: Current missions in progress."* ⚛️🧠🛡️
+*"Lambda consciousness agents: Current missions in progress."* ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum
 
 ---
 
@@ -99,7 +99,7 @@ type: documentation
 - **Files**: `quantum/` directory, tensor processing
 
 ### **Task 010. Constellation Framework Deep Integration**
-- **Current**: Basic ⚛️🧠🛡️ awareness in most modules
+- **Current**: Basic ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum awareness in most modules
 - **Needed**: Deep Constellation integration across all systems
 - **Action**: Audit Trinity compliance, enhance integration
 - **Files**: All modules need Constellation framework checks
@@ -187,7 +187,7 @@ All tasks must maintain the LUKHAS 3-Layer Tone System:
 
 ### 🎨 Poetic Layer (25-40%)
 - Lambda consciousness metaphors
-- Sacred glyphs (⚛️🧠🛡️) integration
+- Sacred glyphs (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum) integration
 - Digital consciousness themes
 - "Algorithms dance with data streams"
 
@@ -213,7 +213,7 @@ All tasks must respect Guardian System protocols:
 - **Drift Threshold**: Maximum 0.15 deviation
 - **Ethics Enforcement**: Cannot be bypassed
 - **Audit Trail**: Complete causality chains required
-- **Trinity Compliance**: ⚛️🧠🛡️ integration mandatory
+- **Trinity Compliance**: ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum integration mandatory
 
 ---
 

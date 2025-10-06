@@ -102,7 +102,7 @@ ponent relationships, and domain-specific instructions that help agents understa
 - **MATRIZ Engine**: [`matriz/claude.me`](matriz/claude.me) - Cognitive DNA processing
 - **Candidate Workspace**: [`candidate/claude.me`](candidate/claude.me) - Primary development domain
 
-**Constellation Framework Contexts (⚛️🧠🛡️):**
+**Constellation Framework Contexts (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum):**
 - **⚛️ Identity Systems**:
   - [`identity/claude.me`](identity/claude.me) - Lambda ID foundation
   - [`candidate/core/identity/claude.me`](candidate/core/identity/claude.me) - Identity development

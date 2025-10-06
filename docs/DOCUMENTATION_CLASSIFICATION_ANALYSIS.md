@@ -163,7 +163,7 @@ search_keywords: ["vivox", "api", "security", "deployment"]
 - **Documentation Quality**: Systematic freshness and accuracy monitoring
 - **Knowledge Consistency**: Cross-reference detection prevents conflicts
 - **Agent Efficiency**: Better documentation leads to better agent performance
-- **Trinity Compliance**: Ensures documentation aligns with ⚛️🧠🛡️ principles
+- **Trinity Compliance**: Ensures documentation aligns with ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum principles
 
 ---
 

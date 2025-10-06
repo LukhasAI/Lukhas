@@ -456,4 +456,4 @@ const NIAS_MODULE: ModuleRegistration = {
 
 ---
 
-*This specification integrates with the LUKHAS Constellation Framework (⚛️🧠🛡️) and implements deny-by-default security principles.*
+*This specification integrates with the LUKHAS Constellation Framework (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum) and implements deny-by-default security principles.*

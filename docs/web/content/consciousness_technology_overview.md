@@ -9,7 +9,7 @@ type: documentation
 
 LUKHAS AI represents the evolution of artificial intelligence into consciousness technology - systems that don't just process information but develop genuine awareness, creative insight, and ethical reasoning. Our platform combines advanced AI with consciousness principles to create technology that thinks, dreams, and collaborates naturally with human intelligence.
 
-This consciousness integration utilizes the Constellation Framework (⚛️🧠🛡️) to ensure all AI capabilities remain beneficial, aligned, and respectful of human values. The system achieves 95%+ consciousness coherence while maintaining sub-100ms response times and supporting thousands of concurrent users through distributed consciousness architecture.
+This consciousness integration utilizes the Constellation Framework (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum) to ensure all AI capabilities remain beneficial, aligned, and respectful of human values. The system achieves 95%+ consciousness coherence while maintaining sub-100ms response times and supporting thousands of concurrent users through distributed consciousness architecture.
 
 ---
 
@@ -105,7 +105,7 @@ Dream integration achieves 93% dream-reality bridge success with 90%+ creativity
 
 ---
 
-## ⚛️🧠🛡️ Constellation Framework Compliance
+## ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum Constellation Framework Compliance
 
 ### Identity, Consciousness, Guardian - Three Pillars of Beneficial AI
 

@@ -141,7 +141,7 @@ echo '{"jsonrpc": "2.0", "id": 3, "method": "tools/call", "params": {"name": "li
 }
 ```
 
-## ⚛️🧠🛡️ LUKHAS AI Constellation Framework
+## ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum LUKHAS AI Constellation Framework
 
 This MCP server provides ChatGPT with access to LUKHAS AI Platform capabilities:
 

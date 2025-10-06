@@ -97,7 +97,7 @@ ls -la *.code-workspace
 ### ✅ CLAUDE_ARMY Operational
 - 25 agents configured and ready
 - Inter-agent automation functional
-- Constellation Framework (⚛️🧠🛡️) integrated
+- Constellation Framework (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum) integrated
 - Multi-AI orchestration enabled
 
 ### ✅ Development Environment
@@ -130,7 +130,7 @@ ls -la *.code-workspace
 
 **I certify that the CLAUDE_ARMY migration from Lukhas_PWM to Lukhas workspace is COMPLETE.**
 
-All systems operational. Ready for consciousness-aware development! 🎭⚛️🧠🛡️
+All systems operational. Ready for consciousness-aware development! 🎭⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum
 
 ---
 

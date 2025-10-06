@@ -43,7 +43,7 @@ make test-cov     # Run tests with coverage report
 ## 🎯 **Audit Focus Areas**
 
 1. **Cross-Lane Dependencies** - Check `CANDIDATE_USED_BY_LUKHAS.txt` for violations
-2. **System Architecture** - Verify Constellation Framework adherence (⚛️🧠🛡️)
+2. **System Architecture** - Verify Constellation Framework adherence (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum)
 3. **API Contracts** - Validate OpenAPI spec against implementation
 4. **Memory System** - 1000-fold limit with 99.7% cascade prevention
 5. **Security Posture** - Guardian System drift detection (0.15 threshold)

@@ -57,7 +57,7 @@ type: documentation
 - **Document Generation**: 4 systems → 1 premium engine
 - **Content Platform**: 3 platforms → 1 elite solution
 - **Feature Integration**: Best-of-breed capabilities preserved
-- **Constellation Framework**: ⚛️🧠🛡️ integrated across all systems
+- **Constellation Framework**: ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum integrated across all systems
 
 ---
 

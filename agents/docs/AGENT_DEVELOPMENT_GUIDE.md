@@ -198,7 +198,7 @@ Development Focus:
 4. `/lambda_products_pack/lambda_core/[COMPONENT]/complete_implementation/` (existing code)
 
 **Architecture Requirements**:
-- ⚛️🧠🛡️ Constellation Framework compliance (Identity, Consciousness, Guardian)
+- ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum Constellation Framework compliance (Identity, Consciousness, Guardian)
 - QI (Quantum-Inspired) processing - NOT actual quantum computing
 - Bio-oscillator awareness integration
 - Multi-tier ethics system with drift detection
@@ -245,7 +245,7 @@ Development Focus:
    ```
 
 2. **Architecture Review** (10 minutes):
-   - Constellation Framework requirements (⚛️🧠🛡️)
+   - Constellation Framework requirements (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum)
    - QI processing capabilities
    - Bio-oscillator integration points
    - Ethical framework integration
@@ -293,7 +293,7 @@ Development Focus:
 ## 🎯 Success Criteria
 
 ### **Any component development should achieve:**
-- ✅ Constellation Framework compliance (⚛️🧠🛡️)
+- ✅ Constellation Framework compliance (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum)
 - ✅ QI processing integration (not quantum computing)
 - ✅ Bio-oscillator awareness
 - ✅ Multi-tier ethics validation

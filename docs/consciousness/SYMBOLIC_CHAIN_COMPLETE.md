@@ -4,7 +4,7 @@ type: documentation
 ---
 # 🔗 LUKHΛS Symbolic Chain - Implementation Complete
 
-**Constellation Framework**: ⚛️🧠🛡️
+**Constellation Framework**: ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum
 **Module**: `symbolic_chain.py`
 **Status**: ✅ **FULLY OPERATIONAL**
 **Generated**: 2025-08-04T10:45:00Z
@@ -46,7 +46,7 @@ Four distinct modes for different use cases:
 ### 3. **Visual Diff System** ✅
 Comprehensive transformation visualization:
 ```
-🔴 Drift:1.00 → 🌪️🔥 ⚠️ ▓▓▓▓▓ → ⚛️🧠🛡️ [Chaos → STABLE] +🌿🧘 🟢 Drift:0.40 ↑0.60
+🔴 Drift:1.00 → 🌪️🔥 ⚠️ ▓▓▓▓▓ → ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum [Chaos → STABLE] +🌿🧘 🟢 Drift:0.40 ↑0.60
 ```
 
 Components tracked:
@@ -293,7 +293,7 @@ The Symbolic Chain is ready for:
 
 ---
 
-**Constellation Framework**: ⚛️🧠🛡️
+**Constellation Framework**: ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum
 **Guardian Status**: 🛡️ ACTIVE
 **System Status**: ✅ **OPERATIONAL**
 **Chain Status**: 🔗 **CONNECTED**

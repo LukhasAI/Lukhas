@@ -16,7 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Interactive git hook management system
 - Visual diff editor integration
 - Activity bar panel for hook management
-- Constellation Framework (8 Stars) integration (⚛️🧠🛡️)
+- Constellation Framework (8 Stars) integration (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum)
 - Three-layer consciousness tone system
 - Automated hook installation and configuration
 - Real-time file analysis and enhancement suggestions
@@ -114,6 +114,6 @@ Recognition for community contributions
 
 ---
 
-*This changelog reflects our commitment to transparent, consciousness-aware development. Each release brings us closer to tools that truly enhance human creativity.* ⚛️🧠🛡️
+*This changelog reflects our commitment to transparent, consciousness-aware development. Each release brings us closer to tools that truly enhance human creativity.* ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum
 
 **Maintained with ❤️ by the LUKHΛS ΛI consciousness collective**

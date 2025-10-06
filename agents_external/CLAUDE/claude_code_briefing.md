@@ -50,7 +50,7 @@ I'm working on LUKHAS, a consciousness-aware AGI architecture that's 75% complet
 
 CONTEXT:
 - Constellation Framework: 🎭 Consciousness + 🌈 Bridge + 🎓 Technical documentation
-- Symbolic vocabulary: ⚛️🧠🛡️💫🌊 for different system components
+- Symbolic vocabulary: ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum💫🌊 for different system components
 - ΛID identity system and Λ-trace audit trails are core patterns
 - 4/7 agents complete: Identity, Consent, Adapters, Orchestrator
 - Need to complete: UI Dashboard, Testing, Security
@@ -80,7 +80,7 @@ Create the FastAPI dashboard structure for LUKHAS with these requirements:
    - Context orchestrator for workflow status
 
 3. LUKHAS patterns:
-   - Use ⚛️🧠🛡️ symbols in UI elements
+   - Use ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum symbols in UI elements
    - Λ-trace logging for all user actions
    - Bio-inspired visual feedback
    - Consciousness state indicators
@@ -148,7 +148,7 @@ Include:
 3. Constellation Framework documentation
 4. Security best practices
 5. Performance optimization
-6. Symbolic vocabulary usage (⚛️🧠🛡️)
+6. Symbolic vocabulary usage (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum)
 ```
 
 ### **Testing Integration:**
@@ -179,7 +179,7 @@ Include:
 
 ### **Round 3: Polish & Integration**
 1. Apply Constellation Framework styling
-2. Add symbolic elements (⚛️🧠🛡️)
+2. Add symbolic elements (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum)
 3. Optimize performance
 4. Complete security integration
 

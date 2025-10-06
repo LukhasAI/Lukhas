@@ -4,7 +4,7 @@ type: documentation
 ---
 # 🎯 LUKHΛS Ethical Co-Pilot Integration Module - COMPLETE
 
-**Constellation Framework**: ⚛️🧠🛡️
+**Constellation Framework**: ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum
 **Module**: `lukhas_embedding.py`
 **Status**: ✅ **FULLY OPERATIONAL**
 **Generated**: 2025-08-03T19:00:00Z
@@ -36,7 +36,7 @@ Calculates comprehensive assessment including:
 - Suggests symbolic substitutions to reduce drift
 - Adds Constellation Framework glyphs if missing
 - Replaces blocked glyphs with positive alternatives
-- Ensures glyph consistency with ⚛️🧠🛡️
+- Ensures glyph consistency with ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum
 
 #### 4. **Method: log_reflection()** ✅
 - Saves evaluations to `logs/lukhas_reflection_log.json`
@@ -193,6 +193,6 @@ The LUKHΛS Ethical Co-Pilot is now ready to:
 
 ---
 
-**Constellation Framework**: ⚛️🧠🛡️
+**Constellation Framework**: ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum
 **Guardian Status**: 🛡️ ACTIVE
 **System Status**: ✅ **OPERATIONAL**

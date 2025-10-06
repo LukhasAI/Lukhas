@@ -7,7 +7,7 @@ type: documentation
 Claude Code should automatically detect and flag these issues with T4/0.01% implementation standards:
 
 ## Constellation Framework Integration Issues
-- Missing Constellation Framework star coordination (⚛️✦🔬🛡️)
+- Missing Constellation Framework star coordination (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum)
 - Incomplete MATRIZ pipeline integration (Memory-Attention-Thought-Risk-Intent-Action)
 - Missing registry-based plugin architecture
 - Absent constructor-aware instantiation patterns

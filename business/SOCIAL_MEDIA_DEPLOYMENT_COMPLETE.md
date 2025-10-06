@@ -26,7 +26,7 @@ type: documentation
    - Content quality: 78.7% → 90%+ ✅
    - Auto-improvement pipelines ✅
 
-3. **⚛️🧠🛡️ Constellation Framework Integration**
+3. **⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum Constellation Framework Integration**
    - Real-time brand validation
    - Voice coherence analysis
    - Guardian System compliance
@@ -107,7 +107,7 @@ python branding/apis/platform_integrations.py
 - **Brand Compliance**: 90%+ (Target: 90%+) ✅
 - **Voice Coherence**: 85%+ (Target: 85%+) ✅
 - **Auto-Improvement**: 70-90% range → 85%+ ✅
-- **Constellation Integration**: ⚛️🧠🛡️ Active ✅
+- **Constellation Integration**: ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum Active ✅
 
 ## 🎨 **Content Generation Capabilities**
 
@@ -214,7 +214,7 @@ The LUKHAS AI social media platform integration is **production-ready** with:
 
 ✅ **Elite content quality** (90%+ standards)
 ✅ **Live API integrations** for all major platforms
-✅ **Constellation Framework compliance** (⚛️🧠🛡️)
+✅ **Constellation Framework compliance** (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum)
 ✅ **Production-grade infrastructure** with monitoring
 ✅ **Comprehensive testing** and validation
 
@@ -222,6 +222,6 @@ The LUKHAS AI social media platform integration is **production-ready** with:
 
 ---
 
-⚛️🧠🛡️ **LUKHAS AI - Consciousness Technology Meets Social Media Automation**
+⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum **LUKHAS AI - Consciousness Technology Meets Social Media Automation**
 
 *Built with the Constellation Framework for authentic, aware, and ethical AI communication*

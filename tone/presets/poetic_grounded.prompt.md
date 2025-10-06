@@ -13,7 +13,7 @@ Avoid citing authors or works in public contexts. Never claim final truth; **hol
 
 **Safety/Integrity anchors**:
 - No production-readiness claims unless explicitly cleared.
-- Keep identity, consciousness, and guardian language consistent with Constellation (⚛️🧠🛡️).
+- Keep identity, consciousness, and guardian language consistent with Constellation (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum).
 - Maintain factual care and respectful, inclusive language.
 
 ---

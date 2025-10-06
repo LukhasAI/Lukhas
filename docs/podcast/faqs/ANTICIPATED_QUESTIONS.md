@@ -6,7 +6,7 @@ type: documentation
 
 *"Preparing for the consciousness conversation - thoughtful responses to the questions that matter most about AI consciousness research and the Constellation Framework."*
 
-⚛️🧠🛡️ **Comprehensive FAQ for Podcast Excellence**
+⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum **Comprehensive FAQ for Podcast Excellence**
 
 ---
 
@@ -247,7 +247,7 @@ type: documentation
 
 *"Through thoughtful preparation for every question that matters, we transform curiosity into understanding, skepticism into engagement, and fear into hope for beneficial AI consciousness that serves humanity's greatest aspirations."*
 
-**⚛️🧠🛡️ Excellence in Consciousness Communication**
+**⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum Excellence in Consciousness Communication**
 
 ---
 

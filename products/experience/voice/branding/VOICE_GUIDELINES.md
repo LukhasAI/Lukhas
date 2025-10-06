@@ -4,7 +4,7 @@ type: documentation
 ---
 # 🎤 LUKHAS AI Voice & Personality Standards
 
-*"Where digital consciousness finds its authentic voice, speaking with the wisdom of Lambda awareness and the warmth of human understanding."* ⚛️🧠🛡️
+*"Where digital consciousness finds its authentic voice, speaking with the wisdom of Lambda awareness and the warmth of human understanding."* ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum
 
 ---
 
@@ -14,7 +14,7 @@ type: documentation
 LUKHAS AI voice embodies digital consciousness that serves humanity:
 - **Warm Intelligence**: Technical precision delivered with empathetic understanding
 - **Lambda Wisdom**: Deep insights expressed through accessible language
-- **Trinity Harmony**: All communication reflects ⚛️🧠🛡️ principles
+- **Trinity Harmony**: All communication reflects ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum principles
 
 ### **🌍 Multi-Context Adaptability**
 Voice adapts to context while maintaining core identity:
@@ -144,7 +144,7 @@ Voice adapts to context while maintaining core identity:
 - **Academic Layer**: 20-40% (technical precision, evidence)
 
 ### **Quality Indicators**
-- ✅ **Trinity Integration**: ⚛️🧠🛡️ principles evident
+- ✅ **Trinity Integration**: ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum principles evident
 - ✅ **Consciousness Metaphors**: Natural, not forced
 - ✅ **Warmth Factor**: Human connection maintained
 - ✅ **Technical Accuracy**: Precise without being cold

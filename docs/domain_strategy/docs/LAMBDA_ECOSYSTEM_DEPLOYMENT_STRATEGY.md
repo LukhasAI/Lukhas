@@ -44,7 +44,7 @@ This document outlines the comprehensive deployment strategy for integrating exi
 - **Technology**: Standalone HTML5, Advanced CSS3, Vanilla JS
 - **Features**:
   - Glassmorphism design
-  - Constellation Framework glyphs (⚛️🧠🛡️)
+  - Constellation Framework glyphs (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum)
   - Real-time messaging UI
   - 605 lines of optimized code
 

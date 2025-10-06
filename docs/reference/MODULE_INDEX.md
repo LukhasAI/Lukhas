@@ -4,7 +4,7 @@ type: documentation
 ---
 # 📚 LUKHAS AI Module Index
 
-## Constellation Framework Core Modules (⚛️🧠🛡️)
+## Constellation Framework Core Modules (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum)
 
 ### ⚛️ Identity & Authentication
 | Module | Path | Description | Status |
@@ -101,7 +101,7 @@ type: documentation
 
 All modules communicate through:
 1. **GLYPH Tokens** - Symbolic communication protocol
-2. **Constellation Framework** - ⚛️🧠🛡️ validation
+2. **Constellation Framework** - ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum validation
 3. **Orchestration Hub** - Cross-module coordination
 4. **Guardian System** - Ethical validation layer
 

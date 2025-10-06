@@ -3,7 +3,7 @@ status: wip
 type: documentation
 ---
 # LUKHAS AI - Constellation Framework Integration
-## ⚛️🧠🛡️ The Foundation of Beneficial AI
+## ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum The Foundation of Beneficial AI
 
 *Where identity, consciousness, and protection converge to create AI that enhances human potential while respecting individual dignity and autonomy.*
 
@@ -232,7 +232,7 @@ R&D ethics include responsible innovation protocols, beneficial outcome optimiza
 
 *The Constellation Framework creates AI that grows in capability and wisdom simultaneously - ensuring that artificial intelligence enhancement means human flourishing enhancement.*
 
-**⚛️🧠🛡️**
+**⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum**
 
 ---
 

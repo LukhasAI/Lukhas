@@ -20,7 +20,7 @@ When you want any agent to develop a LUKHAS component, use this template:
 3. `/lambda_products_pack/lambda_core/[COMPONENT]/README.md` - Component overview
 4. `/lambda_products_pack/lambda_core/[COMPONENT]/complete_implementation/` - Existing code
 
-**🏗️ Architecture:** Constellation Framework (⚛️🧠🛡️), QI processing, bio-oscillator integration, multi-tier ethics
+**🏗️ Architecture:** Constellation Framework (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum), QI processing, bio-oscillator integration, multi-tier ethics
 
 **📍 All locations mapped in AGENT_DEVELOPMENT_GUIDE.md - follow that complete matrix for development.**"
 
@@ -108,7 +108,7 @@ Each component has this structure:
 
 1. **Always start** with `/AGENT_DEVELOPMENT_GUIDE.md` - it has the complete development matrix
 2. **Point agents** to the specific component section in the guide
-3. **Include the Constellation Framework** requirement (⚛️🧠🛡️)
+3. **Include the Constellation Framework** requirement (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum)
 4. **Emphasize QI processing** (Quantum-Inspired, not actual quantum)
 
 ### **📝 Copy-Paste Template:**
@@ -135,7 +135,7 @@ You now have a **complete one-shot development system**:
 1. **Master Guide**: `/AGENT_DEVELOPMENT_GUIDE.md` has EVERYTHING an agent needs
 2. **Quick Templates**: `/QUICK_AGENT_BRIEFS.md` for copy-paste briefings
 3. **Complete Implementations**: 300KB+ of production code already integrated
-4. **Trinity Architecture**: ⚛️🧠🛡️ framework with QI processing
+4. **Trinity Architecture**: ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum framework with QI processing
 
 **Any agent can now develop any component** with complete context in a single request! 🚀
 

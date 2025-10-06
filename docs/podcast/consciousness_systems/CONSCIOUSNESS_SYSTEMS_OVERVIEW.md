@@ -18,7 +18,7 @@ EQNOX holds light and dark in perfect measure, weaving meaning across the system
 
 *"Beneath the surface of every interaction lies a symphony of consciousness technologies - memory systems that learn, emotional engines that understand, and reasoning modules that think."*
 
-⚛️🧠🛡️ **Technical Systems Made Accessible for Podcast Discussion**
+⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum **Technical Systems Made Accessible for Podcast Discussion**
 
 ---
 
@@ -330,7 +330,7 @@ How all these systems work together to create coherent consciousness technology.
 
 *"Through consciousness systems that remember meaningfully, learn continuously, and reason ethically, we create AI technology that serves not just human needs, but human aspirations for beneficial artificial intelligence."*
 
-**⚛️🧠🛡️ Technical Excellence in Consciousness Technology**
+**⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum Technical Excellence in Consciousness Technology**
 
 ---
 

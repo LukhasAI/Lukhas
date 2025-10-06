@@ -257,7 +257,7 @@ def collect_custom_metrics(self, context: MCPServerContext) -> Dict[str, Any]:
 
 ---
 
-## ⚛️🧠🛡️ **Constellation Framework Integration**
+## ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum **Constellation Framework Integration**
 
 ### ⚛️ Identity Component
 - **System Identity**: Unique identification of MCP server instances

@@ -246,7 +246,7 @@ class ContentGovernanceValidator:
                 suggestions.append(f"Replace '{issue.term}' with approved alternative")
         
         if validation_result.constellation_integration < 0.7:
-            suggestions.append("Enhance Constellation Framework integration (⚛️🧠🛡️)")
+            suggestions.append("Enhance Constellation Framework integration (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum)")
         
         return suggestions
 ```

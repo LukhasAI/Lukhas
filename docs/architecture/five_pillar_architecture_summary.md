@@ -109,7 +109,7 @@ Both DAST and NIAS exchange a common **Opportunity object** that includes:
 
 ### ⚛️ **Consciousness Integration**
 - All pillars integrate with MΛTRIZ consciousness
-- Constellation Framework alignment (⚛️🧠🛡️)
+- Constellation Framework alignment (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum)
 - Quantum-inspired processing capabilities
 
 ### 🔒 **Regulatory Future-Proof**

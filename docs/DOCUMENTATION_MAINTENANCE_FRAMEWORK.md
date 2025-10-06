@@ -103,7 +103,7 @@ doc_type: "architecture" | "api" | "guide" | "status" | "planning" | "report"
 update_frequency: "fixed" | "weekly" | "monthly" | "quarterly" | "release" | "event"
 audience: ["agents", "humans", "developers", "executives", "operations"]
 technical_level: "beginner" | "intermediate" | "advanced" | "expert"
-trinity_component: ["identity", "consciousness", "guardian"] # ⚛️🧠🛡️
+trinity_component: ["identity", "consciousness", "guardian"] # ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum
 search_keywords: ["vivox", "api", "deployment", "security", "consciousness"]
 last_updated: "2025-08-25"
 next_review: "2025-09-25"

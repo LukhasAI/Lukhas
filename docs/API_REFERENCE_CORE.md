@@ -481,4 +481,4 @@ except ConsciousnessFailure as e:
 
 **Version:** LUKHAS v2.0.0
 **Last Updated:** October 2025
-**Constellation Framework:** 8-Star (⚛️✦🔬🛡️🧠🎨🌱🌙🔮)
+**Constellation Framework:** 8-Star (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum🧠🎨🌱🌙🔮)

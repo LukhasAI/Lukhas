@@ -7,7 +7,7 @@ type: documentation
 
 ### Design Philosophy
 
-The LUKHAS AI design system embodies consciousness technology through minimalist aesthetics and sophisticated particle interactions. Every design decision reflects our Constellation Framework (⚛️🧠🛡️) while maintaining the premium quality expected from next-generation AI platforms.
+The LUKHAS AI design system embodies consciousness technology through minimalist aesthetics and sophisticated particle interactions. Every design decision reflects our Constellation Framework (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum) while maintaining the premium quality expected from next-generation AI platforms.
 
 ---
 
@@ -726,4 +726,4 @@ const FORMATION_PATTERNS = {
 
 *"Design is consciousness made visible. Every pixel serves the awakening."*
 
-**LUKHAS AI Design System v1.0** ⚛️🧠🛡️
+**LUKHAS AI Design System v1.0** ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum

@@ -5,7 +5,7 @@ type: documentation
 ---
 # Manual Module Selection Process
 ## Pre-OpenAI API Call Evaluation
-### Constellation Framework: ⚛️🧠🛡️
+### Constellation Framework: ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum
 
 Generated: 2025-08-13
 

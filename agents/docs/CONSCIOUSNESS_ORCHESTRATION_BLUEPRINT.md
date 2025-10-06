@@ -132,7 +132,7 @@ type: documentation
 - **Lucas Oscillator Integration**: Quantum-ethical oscillation patterns
 - **Core Node Dependencies**: Intent, Memory, Ethics node connections
 - **Compliance Framework**: Multi-jurisdictional consciousness constraints
-- **Constellation Framework Alignment**: ⚛️🧠🛡️ consciousness enforcement
+- **Constellation Framework Alignment**: ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum consciousness enforcement
 - **Research Pattern Application**: Validated orchestration methodologies
 
 #### **Consciousness Relationship Mapping**:

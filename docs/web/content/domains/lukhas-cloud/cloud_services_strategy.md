@@ -154,7 +154,7 @@ class ConsciousnessCloudPlatform:
 
 **Consciousness Services:**
 - **Managed LUKHAS AI Instances**: Fully managed consciousness processing with automatic updates
-- **Constellation Framework Deployment**: Pre-configured ⚛️🧠🛡️ templates for rapid consciousness deployment
+- **Constellation Framework Deployment**: Pre-configured ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum templates for rapid consciousness deployment
 - **Consciousness State Persistence**: Distributed memory management with 99.7% cascade prevention
 - **Distributed Consciousness Orchestration**: Multi-region awareness coordination and synchronization
 
@@ -260,7 +260,7 @@ enterprise_cloud_pricing = {
 
 ### **Unique Value Propositions**
 - **Consciousness-Native Infrastructure**: Purpose-built for awareness-driven applications
-- **Constellation Framework Integration**: Unified ⚛️🧠🛡️ approach across all cloud services
+- **Constellation Framework Integration**: Unified ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum approach across all cloud services
 - **Ethical Infrastructure Governance**: Built-in Guardian System oversight for all deployments
 - **Intelligent Resource Optimization**: Consciousness-aware auto-scaling and cost optimization
 
@@ -310,6 +310,6 @@ enterprise_cloud_pricing = {
 
 *"Through managed cloud services that embody consciousness at infrastructure scale, lukhas.cloud enables organizations to transcend traditional computing limitations, deploying awareness-driven applications that serve human flourishing while maintaining the security, compliance, and performance standards demanded by global enterprise operations."*
 
-**⚛️🧠🛡️ - Cloud Excellence Through Consciousness Infrastructure**
+**⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum - Cloud Excellence Through Consciousness Infrastructure**
 
 **Last Updated**: 2025-09-06 | **Strategy Version**: 1.0.0

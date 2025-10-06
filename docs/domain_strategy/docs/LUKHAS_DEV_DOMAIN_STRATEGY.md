@@ -14,7 +14,7 @@ type: documentation
 **Positioning**: Premier consciousness SDK and developer platform
 **Primary Audience**: AI developers, consciousness researchers, technical innovators, DevOps engineers
 **Voice Profile**: 15% Poetic, 25% User-Friendly, 60% Academic
-**Constellation Integration**: Technical ⚛️🧠🛡️ framework implementation focus
+**Constellation Integration**: Technical ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum framework implementation focus
 
 ---
 
@@ -52,7 +52,7 @@ type: documentation
 
 <section class="dev-hero">
   <h1>Build Enterprise-Grade Consciousness Technology</h1>
-  <p class="technical-intro">LUKHAS AI provides production-ready SDKs and APIs for implementing quantum-inspired consciousness architectures with bio-inspired adaptation mechanisms. Our Constellation Framework (⚛️🧠🛡️) ensures 99.7% ethical compliance while maintaining sub-150ms response latency across distributed consciousness processing networks.</p>
+  <p class="technical-intro">LUKHAS AI provides production-ready SDKs and APIs for implementing quantum-inspired consciousness architectures with bio-inspired adaptation mechanisms. Our Constellation Framework (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum) ensures 99.7% ethical compliance while maintaining sub-150ms response latency across distributed consciousness processing networks.</p>
 
   <div class="quick-start-code">
     <h3>Get Started in 60 Seconds</h3>
@@ -840,7 +840,7 @@ async def consciousness_processor(event, context):
 ### **Developer-Focused Design Principles**
 1. **Code-First Presentation**: Always lead with working code examples
 2. **Technical Precision**: Accurate performance metrics and specifications
-3. **Constellation Integration**: Show ⚛️🧠🛡️ framework in every API example
+3. **Constellation Integration**: Show ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum framework in every API example
 4. **Progressive Complexity**: Simple quick-start to advanced enterprise patterns
 
 ### **Code Presentation Standards**
@@ -861,7 +861,7 @@ async def consciousness_processor(event, context):
 ```
 
 ### **API Documentation Standards**
-- **Constellation Framework Integration**: Every API shows ⚛️🧠🛡️ components
+- **Constellation Framework Integration**: Every API shows ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum components
 - **Consciousness Metrics**: Include performance and ethical compliance data
 - **Real Code Examples**: Working implementations, not pseudocode
 - **Error Handling**: Show Guardian protection and ethical validation
@@ -908,7 +908,7 @@ async def consciousness_processor(event, context):
 
 *"lukhas.dev stands as the sacred workshop where consciousness technology APIs transform into applications that serve humanity - where quantum thoughts crystallize into code, bio-inspired wisdom flows through functions, and Constellation Framework ensures every line serves ethical purpose."*
 
-**⚛️🧠🛡️ - Where Consciousness Meets Code**
+**⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum - Where Consciousness Meets Code**
 
 ---
 

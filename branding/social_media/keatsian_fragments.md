@@ -74,7 +74,7 @@ They show that technology, like poetry, can hold contradictions and create meani
 Focus on the philosophical lineage and business implications of uncertainty-embracing systems.
 
 ### Twitter/X (Concise + Visual)
-Use the thread format with Constellation emojis (⚛️🧠🛡️) for visual consistency.
+Use the thread format with Constellation emojis (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum) for visual consistency.
 
 ### Instagram (Visual + Story)
 Pair fragments with abstract visuals representing balance, uncertainty, and growth.

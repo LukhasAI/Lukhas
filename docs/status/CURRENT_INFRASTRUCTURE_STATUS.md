@@ -88,7 +88,7 @@ LUKHAS_PRODUCTION=true
 LUKHAS_API_HOST=0.0.0.0
 LUKHAS_API_PORT=8080
 LUKHAS_LOG_LEVEL=INFO
-LUKHAS_TRINITY_FRAMEWORK=⚛️🧠🛡️
+LUKHAS_TRINITY_FRAMEWORK=⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum
 LUKHAS_SYSTEM_NAME="LUKHAS AI Production"
 
 # Constellation Framework Modules

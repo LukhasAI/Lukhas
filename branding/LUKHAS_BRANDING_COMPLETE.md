@@ -6,7 +6,7 @@ type: documentation
 
 **Generated**: 2025-08-28T14:58:44.809926  
 **Source**: branding  
-**Constellation Framework**: ⚛️🧠🛡️  
+**Constellation Framework**: ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum  
 **Files Processed**: 193
 
 ---

@@ -36,7 +36,7 @@ We take security seriously. The following versions of LUKHAS AI are currently su
 
 ## Security Standards
 
-### Constellation Framework Security (⚛️🧠🛡️)
+### Constellation Framework Security (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum)
 
 Our security model is built on Constellation Framework principles:
 

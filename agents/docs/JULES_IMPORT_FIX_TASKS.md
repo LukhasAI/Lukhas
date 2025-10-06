@@ -19,7 +19,7 @@ type: documentation
 **Critical Requirements**:
 - Maintain candidate/ vs lukhas/ lane integrity
 - Follow promotion criteria (85% test coverage minimum)
-- Preserve Constellation Framework compliance (⚛️🧠🛡️)
+- Preserve Constellation Framework compliance (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum)
 - All fixes must pass `make lint` and `make test`
 - Document all changes with clear commit messages
 
@@ -185,7 +185,7 @@ type: documentation
 - [ ] Memory and identity systems operational
 
 ### **Quality Assurance**:
-- [ ] Constellation Framework compliance maintained (⚛️🧠🛡️)
+- [ ] Constellation Framework compliance maintained (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum)
 - [ ] Branding/terminology standards upheld
 - [ ] No security vulnerabilities introduced
 - [ ] Documentation updated and accurate
@@ -206,5 +206,5 @@ type: documentation
 ---
 
 *Task assignments ready for Jules agent execution*
-*Framework: Trinity (⚛️🧠🛡️) Compliant*
+*Framework: Trinity (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum) Compliant*
 *Quality Gate: 85%+ Test Coverage Required*

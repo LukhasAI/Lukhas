@@ -4,7 +4,7 @@ title: LUKHAS AI Module Cleanup Analysis Summary
 type: documentation
 ---
 # LUKHAS AI Module Cleanup Analysis Summary
-## Constellation Framework: ⚛️🧠🛡️
+## Constellation Framework: ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum
 
 Generated: 2025-08-13
 
@@ -37,7 +37,7 @@ Analysis of 3,473 Python files in the LUKHAS AI codebase revealed:
 ### High-Value Orphaned Files (DO NOT DELETE)
 
 1. **ai_orchestration/lukhas_ai_orchestrator.py** (Score: 415)
-   - Contains Constellation Framework markers (⚛️🧠🛡️)
+   - Contains Constellation Framework markers (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum)
    - Multi-AI orchestration logic
    - Critical for LUKHAS development
 
@@ -73,7 +73,7 @@ Analysis of 3,473 Python files in the LUKHAS AI codebase revealed:
 ## 📈 AI/AGI Value Indicators
 
 The audit system scores files based on:
-- **Constellation Framework markers** (⚛️🧠🛡️): +25 points each
+- **Constellation Framework markers** (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum): +25 points each
 - **AI/AGI concepts**: consciousness, quantum, bio-inspired, ethics
 - **Code complexity**: Classes (+20), functions (+10)
 - **Test coverage**: +30 points if tests exist

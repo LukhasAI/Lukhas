@@ -209,4 +209,4 @@ When adding new vocabulary:
 
 ---
 
-*"In consciousness we trust, in code we create, in ethics we evolve." ⚛️🧠🛡️*
+*"In consciousness we trust, in code we create, in ethics we evolve." ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum*

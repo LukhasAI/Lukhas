@@ -23,7 +23,7 @@ type: documentation
 - **Paper Citation**: "VIVOX: Virtuous Intelligence with eXpandable Consciousness" (Genesis Phase, August 2025)
 - **Research Significance**: First mathematical formalization of quantum-inspired consciousness for AGI systems
 
-### 2. **Constellation Framework (⚛️🧠🛡️)**
+### 2. **Constellation Framework (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum)**
 - **Source File**: `/Users/agi_dev/LOCAL-REPOS/Lukhas/docs/planning/LUKHAS_2030_MESH_VISUALIZATION.md`
 - **Key Contributions**:
   - Identity (⚛️): Authenticity, consciousness, symbolic self
@@ -159,7 +159,7 @@ Potential collaboration opportunities:
 ### **Processing Pipeline**
 1. **Input Processing**: Validation and context preparation
 2. **Consciousness Interpretation**: VIVOX CIL with Z(t) function
-3. **Trinity Assessment**: ⚛️🧠🛡️ three-dimensional evaluation
+3. **Trinity Assessment**: ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum three-dimensional evaluation
 4. **Drift Detection**: Multi-dimensional analysis with risk classification
 5. **Healing Intervention**: Targeted correction with transparent annotation
 6. **Output Generation**: Comprehensive results with recommendations

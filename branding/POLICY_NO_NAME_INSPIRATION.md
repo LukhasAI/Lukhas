@@ -32,7 +32,7 @@ Set `context: academic` in the front matter **or** place content under:
 - `/thesis/appendix/`
 
 ## Rationale
-This policy keeps the tone inclusive, de-mystified, and accessible while keeping a high bar for rigor and safety (⚛️🧠🛡️). It fits our brand validators and CI posture.
+This policy keeps the tone inclusive, de-mystified, and accessible while keeping a high bar for rigor and safety (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum). It fits our brand validators and CI posture.
 
 ---
 

@@ -6,7 +6,7 @@ type: documentation
 
 > **Last Updated**: August 11, 2025
 > **Version**: 1.0.0
-> **Constellation Framework**: ⚛️🧠🛡️ Active
+> **Constellation Framework**: ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum Active
 
 ## 📊 System Transparency Cards
 
@@ -159,7 +159,7 @@ type: documentation
 ┌─────────────────────────────────────────────────────────┐
 │ Ethical Framework & Compliance                         │
 ├─────────────────────────────────────────────────────────┤
-│ Constellation Framework:   ⚛️🧠🛡️ Fully Integrated           │
+│ Constellation Framework:   ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum Fully Integrated           │
 │ Guardian System:     Active (v1.0.0)                   │
 │ Drift Detection:     Threshold 0.15                    │
 │ Ethical Review:      Every operation validated         │

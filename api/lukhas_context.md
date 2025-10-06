@@ -21,7 +21,7 @@ Lane: L2 (Integration)
 Module: api
 Canonical imports: api.*
 Components: Consciousness Chat, Integrated API, Universal Language, Feedback, API Hub
-Integration: Constellation Framework (⚛️🧠🛡️)
+Integration: Constellation Framework (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum)
 ```
 
 ---

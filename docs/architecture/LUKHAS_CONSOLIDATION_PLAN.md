@@ -4,7 +4,7 @@ type: documentation
 ---
 # LUKHAS Consolidation Plan
 ## Moving Everything to /lukhas/
-### Constellation Framework: ⚛️🧠🛡️
+### Constellation Framework: ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum
 
 Generated: 2025-08-13
 
@@ -180,7 +180,7 @@ fi
 cat > lukhas/__init__.py << 'EOF'
 """
 LUKHAS AI - Logical Unified Knowledge Hyper-Adaptable System
-Constellation Framework: ⚛️🧠🛡️
+Constellation Framework: ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum
 
 All modules consolidated under lukhas/ for clean architecture.
 """

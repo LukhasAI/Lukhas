@@ -70,7 +70,7 @@ Successfully created comprehensive future-proof tests for the LUKHAS AI MΛTRIZ 
 - **Scalable Framework**: Easy to add new consciousness capabilities
 
 ### **Safety & Compliance**
-- **Constellation Framework**: Full ⚛️🧠🛡️ integration testing
+- **Constellation Framework**: Full ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum integration testing
 - **Guardian System**: Ethical oversight validation
 - **Drift Detection**: 0.15 threshold compliance testing
 - **Memory Limits**: 1000-fold memory system testing

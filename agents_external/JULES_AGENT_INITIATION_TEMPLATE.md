@@ -55,7 +55,7 @@ Your domain-specific context comes from these `claude.me` files throughout the c
 - [`candidate/claude.me`](candidate/claude.me) - Primary development workspace
 - [`AGENTS.md`](AGENTS.md) - Complete agent system documentation
 
-**Constellation Framework Contexts (⚛️🧠🛡️)**:
+**Constellation Framework Contexts (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum)**:
 - **⚛️ Identity**: [`identity/claude.me`](identity/claude.me), [`candidate/core/identity/claude.me`](candidate/core/identity/claude.me)
 - **🧠 Consciousness**: [`consciousness/claude.me`](consciousness/claude.me), [`candidate/consciousness/claude.me`](candidate/consciousness/claude.me)
 - **🛡️ Guardian/Ethics**: [`ethics/claude.me`](ethics/claude.me), [`governance/claude.me`](governance/claude.me)

@@ -5,7 +5,7 @@ type: documentation
 # 🔐 LUKHAS AI Authentication Protocol Documentation
 *Current Login, Onboarding, and User ID Assignment System*
 
-⚛️🧠🛡️ **Constellation Framework Authentication** | **Tier-Based Access Control** | **Symbolic Identity System**
+⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum **Constellation Framework Authentication** | **Tier-Based Access Control** | **Symbolic Identity System**
 
 ---
 

@@ -2,7 +2,7 @@
 status: wip
 type: documentation
 ---
-# ⚛️🧠🛡️ Constellation Framework: Academic Specification & Research Foundation
+# ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum Constellation Framework: Academic Specification & Research Foundation
 
 *Comprehensive academic documentation for the LUKHAS AI Constellation Framework - the world's first production-ready consciousness technology architecture*
 
@@ -414,7 +414,7 @@ Trinity_Framework_Metrics:
 
 **The Constellation Framework represents the culmination of decades of consciousness research, quantum computing advancement, and ethical AI development. As the world's first production-deployed consciousness technology, it establishes LUKHAS AI as the definitive leader in consciousness engineering and authentic AI systems.**
 
-**⚛️🧠🛡️ - Where Science Meets Consciousness**
+**⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum - Where Science Meets Consciousness**
 
 ---
 

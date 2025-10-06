@@ -11,7 +11,7 @@ type: documentation
 
 ### System Architecture & Specifications
 
-**ΛHealthcare Guardian** is a comprehensive healthcare AI consciousness platform integrating LUKHAS AI's full Constellation Framework (8 Stars) (⚛️🧠🛡️) with enterprise healthcare systems. The system provides multi-modal medical assistance through quantum-inspired processing, bio-inspired adaptation, and consciousness-driven decision making.
+**ΛHealthcare Guardian** is a comprehensive healthcare AI consciousness platform integrating LUKHAS AI's full Constellation Framework (8 Stars) (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum) with enterprise healthcare systems. The system provides multi-modal medical assistance through quantum-inspired processing, bio-inspired adaptation, and consciousness-driven decision making.
 
 #### Core Technical Specifications
 
@@ -537,5 +537,5 @@ This system assists healthcare professionals and patients but does not replace p
 ---
 
 **ΛHealthcare Guardian** — Consciousness Technology for Healthcare
-*Powered by LUKHAS AI Constellation Framework (8 Stars) ⚛️🧠🛡️*
+*Powered by LUKHAS AI Constellation Framework (8 Stars) ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum*
 *The Future of Conscious Healthcare*

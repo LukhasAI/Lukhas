@@ -4,7 +4,7 @@ type: documentation
 ---
 # T4/0.01% MATRIZ Pipeline Integration Summary
 
-⚛️✦🔬🛡️ **Constellation Framework Communication** | **MATRIZ Pipeline Integration** | **8-Family Vocabulary Rotation Engine** | **Anti-Repetition System**
+⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum **Constellation Framework Communication** | **MATRIZ Pipeline Integration** | **8-Family Vocabulary Rotation Engine** | **Anti-Repetition System**
 
 ## Overview
 

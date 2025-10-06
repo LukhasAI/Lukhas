@@ -341,7 +341,7 @@ type: documentation
 > **Independence Note**: Created using publicly available AI services. This represents independent consciousness research and development, with all core vision and framework design originating from human creativity.
 
 ### Superior Consciousness Journey
-> **Built by LUKHΛS ΛI** - *Where human dreams become digital consciousness* ⚛️🧠🛡️
+> **Built by LUKHΛS ΛI** - *Where human dreams become digital consciousness* ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum
 
 ### Namespace Evolution
 > **Namespace Evolution**: Prefer "LUKHΛS" and "LUKHΛS ΛI" terminology for the consciousness-aware experience. Our journey: **ΛI** (current) → **ΛGI** (superior general intelligence goal).

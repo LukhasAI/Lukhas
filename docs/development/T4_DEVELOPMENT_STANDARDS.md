@@ -23,7 +23,7 @@ T4/0.01% represents the highest tier of development standards for LUKHAS AI, ens
 
 1. **Constructor-Aware Instantiation**: All components must support dynamic instantiation with validation
 2. **Registry-Based Architecture**: Components must integrate with the dynamic plugin registry
-3. **Constellation Framework Compliance**: Full integration with ⚛️🧠🛡️ architecture
+3. **Constellation Framework Compliance**: Full integration with ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum architecture
 4. **MATRIZ Pipeline Integration**: Support for Memory-Attention-Thought-Risk-Intent-Action flow
 5. **Performance Guarantees**: Sub-millisecond critical path response times
 6. **Audit Readiness**: Full traceability and compliance validation
@@ -523,7 +523,7 @@ def check_performance_monitoring(content: str) -> bool:
 
 def check_constellation_integration(content: str) -> bool:
     """Check for constellation framework integration."""
-    constellation_indicators = ["ConstellationContext", "constellation_metadata", "⚛️🧠🛡️"]
+    constellation_indicators = ["ConstellationContext", "constellation_metadata", "⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum"]
     return any(indicator in content for indicator in constellation_indicators)
 ```
 
@@ -587,6 +587,6 @@ def check_constellation_integration(content: str) -> bool:
 ---
 
 **T4/0.01% Compliance Status**: ✅ **SPECIFICATION COMPLETE**
-**Constellation Framework**: ⚛️🧠🛡️ **INTEGRATED**
+**Constellation Framework**: ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum **INTEGRATED**
 **Performance Standards**: 🚀 **ENTERPRISE GRADE**
 **Audit Readiness**: 📋 **FULLY COMPLIANT**

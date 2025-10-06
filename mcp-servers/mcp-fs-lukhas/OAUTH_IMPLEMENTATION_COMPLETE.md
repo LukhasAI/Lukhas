@@ -196,7 +196,7 @@ The OAuth-protected MCP server is **production-ready** and can be deployed immed
 
 **🎖️ Achievement Unlocked: Enterprise OAuth-Protected MCP Server for ChatGPT-5 Integration**
 
-*Built with Constellation Framework (8 Stars) principles (⚛️🧠🛡️) and AGI leadership standards*
+*Built with Constellation Framework (8 Stars) principles (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum) and AGI leadership standards*
 
 ---
 

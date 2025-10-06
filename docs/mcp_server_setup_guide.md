@@ -15,7 +15,7 @@ You have an extensive MCP ecosystem already built:
 **Primary LUKHAS MCP Server:**
 - `/Users/agi_dev/LOCAL-REPOS/Lukhas/mcp_servers/lukhas_mcp_server.py` (400+ lines)
 - Full LUKHAS knowledge base integration
-- Constellation Framework patterns (⚛️🧠🛡️)
+- Constellation Framework patterns (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum)
 - 5 specialized tools: code review, documentation, naming, concepts, patterns
 
 **Specialized MCP Servers:**

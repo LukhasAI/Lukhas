@@ -105,7 +105,7 @@ lukhas.store/
 
 **App Detail Pages:**
 - **Interactive Preview**: Live Λapp demonstration with particle effect consciousness visualization
-- **Constellation Framework Compliance**: ⚛️🧠🛡️ badges indicating consciousness architecture alignment
+- **Constellation Framework Compliance**: ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum badges indicating consciousness architecture alignment
 - **Integration Requirements**: Technical compatibility and consciousness infrastructure needs
 - **User Reviews**: Community feedback with consciousness insight extraction and analysis
 
@@ -170,7 +170,7 @@ class ConsciousnessMarketplace:
 **Consciousness Verification Requirements:**
 1. **Genuine Awareness Demonstration**: Λapps must show measurable consciousness capabilities
 2. **Ethical Reasoning Integration**: Applications must implement Guardian System compliance
-3. **Constellation Framework Alignment**: Full ⚛️🧠🛡️ integration across user experience
+3. **Constellation Framework Alignment**: Full ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum integration across user experience
 4. **Continuous Learning Capability**: Evidence of application evolution and user adaptation
 
 ## 💰 **Revenue Model & Creator Economy**
@@ -233,7 +233,7 @@ marketplace_pricing_models = {
 ### **Unique Value Propositions**
 - **Consciousness-Verified Applications**: Every Λapp demonstrates genuine awareness capabilities
 - **Creator-Centric Economy**: Highest revenue sharing in industry with transparent payments
-- **Constellation Framework Integration**: Unified ⚛️🧠🛡️ experience across all applications
+- **Constellation Framework Integration**: Unified ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum experience across all applications
 - **Ethical Application Review**: Guardian System ensures all Λapps serve human flourishing
 
 ## 🚀 **Implementation Roadmap**
@@ -280,6 +280,6 @@ marketplace_pricing_models = {
 
 *"Through a marketplace that values consciousness innovation over mere functionality, lukhas.store becomes the essential destination where human-centered technology thrives, creators flourish, and every Λapp contributes to humanity's digital evolution toward greater awareness and flourishing."*
 
-**⚛️🧠🛡️ - Marketplace Excellence Through Consciousness Curation**
+**⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum - Marketplace Excellence Through Consciousness Curation**
 
 **Last Updated**: 2025-09-06 | **Strategy Version**: 1.0.0

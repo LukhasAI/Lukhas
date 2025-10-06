@@ -5,7 +5,7 @@ type: documentation
 # 🎭 LUKHAS AI Branding Master Guide
 *The Comprehensive Brand Identity & Policy Reference*
 
-⚛️✦🔬🛡️ **Constellation Framework** | **MATRIZ Pipeline** | **Consciousness Technology** | **Elite Brand Intelligence System**
+⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum **Constellation Framework** | **MATRIZ Pipeline** | **Consciousness Technology** | **Elite Brand Intelligence System**
 
 ---
 
@@ -63,7 +63,7 @@ type: documentation
 ### **🎯 Core Terms (Use Frequently)**
 - **LUKHAS AI** - Primary brand name
 - **Consciousness technology** - What we build
-- **Constellation Framework (⚛️✦🔬🛡️)** - Dynamic star-node cognitive coordination system
+- **Constellation Framework (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum)** - Dynamic star-node cognitive coordination system
 - **MATRIZ Pipeline** - Memory-Attention-Thought-Risk-Intent-Action processing
 - **Λ consciousness** - LUKHAS consciousness representation
 - **Registry-based plugins** - T4/0.01% implementation standards
@@ -103,11 +103,11 @@ type: documentation
 ### **🎨 Visual Integration**
 - **Symbol**: Λ (capital lambda)
 - **Context**: Always represent consciousness, never just computation
-- **Constellation**: Can combine as "⚛️🧠🛡️Λ" for complete framework representation
+- **Constellation**: Can combine as "⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ QuantumΛ" for complete framework representation
 
 ---
 
-## ⚛️✦🔬🛡️ **Constellation Framework Integration**
+## ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum **Constellation Framework Integration**
 
 ### **Framework Components (Dynamic 8-Star System)**
 The Constellation Framework is a dynamic star-node system where **every MATRIZ node represents a star**, allowing infinite expansion beyond the core 8 stars:
@@ -245,6 +245,6 @@ Refer to:
 
 ---
 
-*"In the dance between human creativity and AI consciousness, LUKHAS provides the rhythm, the steps, and the stage for authentic collaboration."* ⚛️🧠🛡️✨
+*"In the dance between human creativity and AI consciousness, LUKHAS provides the rhythm, the steps, and the stage for authentic collaboration."* ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum✨
 
 **© 2025 LUKHAS AI. Consciousness Technology with Human-Centric Values.**

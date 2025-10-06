@@ -224,7 +224,7 @@ bio_symbolic.processors["custom_signal"] = CustomProcessor()
 
 ---
 
-## ⚛️🧠🛡️ **Constellation Framework Integration**
+## ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum **Constellation Framework Integration**
 
 ### ⚛️ Identity Component
 - **Biological Authenticity**: Each bio-signal maintains verifiable biological origin

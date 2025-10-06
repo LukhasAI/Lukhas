@@ -5,7 +5,7 @@ type: documentation
 # 🚀 LUKHAS Demo Suite
 
 **Complete end-to-end demonstration of LUKHAS Next Generation Phase 5**
-**Constellation Framework**: ⚛️🧠🛡️
+**Constellation Framework**: ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum
 **Version**: 1.0.0
 
 ## 🎯 Overview
@@ -127,7 +127,7 @@ docker run --rm -it lukhas-demo:latest /bin/bash
 ```
 🚀 LUKHAS Next Generation - Phase 5 Demo Suite
 Version: 1.0.0
-Constellation Framework: ⚛️🧠🛡️ Active
+Constellation Framework: ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum Active
 
 ✅ Phase 1: System Validation - PASSED
 ✅ Phase 2: Guardian System Demo - COMPLETED
@@ -137,7 +137,7 @@ Constellation Framework: ⚛️🧠🛡️ Active
 ✅ Phase 6: Integration Tests - PASSED
 
 🎉 Demo Status: SUCCESSFUL
-Constellation Framework: ⚛️🧠🛡️ OPERATIONAL
+Constellation Framework: ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum OPERATIONAL
 ```
 
 ## 🔧 Configuration

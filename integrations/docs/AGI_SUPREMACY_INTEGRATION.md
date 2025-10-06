@@ -115,7 +115,7 @@ await initialize_agi_supremacy_modules()
 
 ### LUKHAS Constellation Framework Integration
 
-All modules integrate with the Constellation Framework (⚛️🧠🛡️):
+All modules integrate with the Constellation Framework (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum):
 - **⚛️ Identity**: Service registration and authentication
 - **🧠 Consciousness**: Direct integration with consciousness systems
 - **🛡️ Guardian**: All actions validated by Guardian System

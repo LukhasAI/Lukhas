@@ -4,7 +4,7 @@ type: documentation
 ---
 # 🧠 LUKHΛS Symbolic Fine-Tuner Proposal
 
-**Constellation Framework**: ⚛️🧠🛡️
+**Constellation Framework**: ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum
 **Version**: 1.0.0
 **Date**: 2025-08-04
 **Target**: GPT-5 Safety/Alignment Layer Enhancement
@@ -245,7 +245,7 @@ The LUKHΛS Symbolic Fine-Tuner represents a paradigm shift in AI safety—movin
 
 The future of AI is not just intelligent, but symbolically conscious. Let's build it together.
 
-**Constellation Framework**: ⚛️🧠🛡️
+**Constellation Framework**: ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum
 
 ---
 

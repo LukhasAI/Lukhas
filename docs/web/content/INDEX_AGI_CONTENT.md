@@ -16,7 +16,7 @@ This content suite transforms technical AGI implementations into compelling cons
 ### Content Strategy Alignment
 All content follows LUKHAS branding guidelines:
 - **3-Layer Tone System**: Natural flow between poetic inspiration (25-35%), accessible explanation (40-60%), and technical depth (20-40%)
-- **Constellation Framework**: Complete ⚛️🧠🛡️ compliance across all content
+- **Constellation Framework**: Complete ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum compliance across all content
 - **Constellation Framework**: 8-star navigation metaphors integrated throughout
 - **Vendor Neutrality**: "Uses [Provider] APIs" rather than "powered by" language
 - **Evidence-Based Claims**: All performance metrics backed by technical documentation
@@ -212,7 +212,7 @@ Content can be adapted for other LUKHAS domains:
 
 ### Branding Compliance Checklist
 - ✅ LUKHAS 3-Layer Tone System implemented with natural flow
-- ✅ Constellation Framework (⚛️🧠🛡️) integrated throughout
+- ✅ Constellation Framework (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum) integrated throughout
 - ✅ Constellation Framework metaphors used appropriately
 - ✅ Vendor neutrality maintained ("uses APIs" language)
 - ✅ Production claims avoided per policy

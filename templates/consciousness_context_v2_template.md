@@ -44,7 +44,7 @@ type: documentation
 {DOMAIN_ARCHITECTURE_DIAGRAM}
 ```
 
-## ⚛️🧠🛡️ Constellation Framework (8 Stars) Integration
+## ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum Constellation Framework (8 Stars) Integration
 
 ### **Identity ⚛️ Integration**
 {IDENTITY_INTEGRATION_DETAILS}

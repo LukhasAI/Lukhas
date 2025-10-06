@@ -4,7 +4,7 @@ type: documentation
 ---
 # 🌱 LUKHΛS Growth Roadmap - Advanced Integration Plan
 
-**Constellation Framework**: ⚛️🧠🛡️
+**Constellation Framework**: ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum
 **Status**: 📋 **STRATEGIC PLANNING**
 **Generated**: 2025-08-04T11:00:00Z
 
@@ -385,7 +385,7 @@ def get_gpt_healing_suggestion(self, response: str, context: Dict) -> Dict:
     """
     prompt = f"""
     Given this response: "{response}"
-    And LUKHΛS Constellation Framework (⚛️🧠🛡️)
+    And LUKHΛS Constellation Framework (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum)
 
     Suggest a healing approach:
     1. Primary persona alignment
@@ -1055,7 +1055,7 @@ regex==2023.10.3
 
 ---
 
-**Constellation Framework**: ⚛️🧠🛡️
+**Constellation Framework**: ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum
 **Growth Status**: 🌱 **PLANNED**
 **Estimated Timeline**: 8 weeks
 **Priority**: HIGH

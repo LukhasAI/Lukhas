@@ -46,7 +46,7 @@ This directory contains strategic planning documents, roadmaps, and project plan
 ## 🎯 **Planning Framework**
 
 ### **Constellation Framework Integration**
-All planning documents align with the Constellation Framework (⚛️🧠🛡️):
+All planning documents align with the Constellation Framework (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum):
 - **⚛️ Identity**: Authentic development pathway planning
 - **🧠 Consciousness**: Cognitive development roadmaps
 - **🛡️ Guardian**: Ethical development and safety planning

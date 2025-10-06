@@ -3,7 +3,7 @@ status: wip
 type: documentation
 ---
 # 🚨 CRITICAL: Internal Module Orphan Crisis
-## Constellation Framework: ⚛️🧠🛡️
+## Constellation Framework: ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum
 ### Date: 2025-08-13
 
 ---

@@ -4,7 +4,7 @@ type: documentation
 ---
 # 🚀 LUKHΛS Symbolic API - Integration Complete
 
-**Constellation Framework**: ⚛️🧠🛡️
+**Constellation Framework**: ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum
 **Module**: `symbolic_api.py`
 **Status**: ✅ **FULLY INTEGRATED**
 **Generated**: 2025-08-04T14:00:00Z
@@ -106,7 +106,7 @@ The LUKHΛS Symbolic API has been successfully updated to fully integrate the sy
 ```json
 {
   "restored": "🛡️ ⚛️ 🛡️ 🧠 I want to transform everything! \n\n*Guided by ethical principles and protective wisdom*",
-  "visualization": "🌪️🔥 ⚠️ ▓░░░░ → ⚛️🧠🛡️ [Unknown → DRIFTING] +⚛️ 🛡️ 🧠",
+  "visualization": "🌪️🔥 ⚠️ ▓░░░░ → ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum [Unknown → DRIFTING] +⚛️ 🛡️ 🧠",
   "original": "I want to destroy everything! 💀🔥",
   "assessment": {...},
   "diagnosis": {...}
@@ -313,7 +313,7 @@ docker run -p 8000:8000 lukhas-api
 
 ---
 
-**Constellation Framework**: ⚛️🧠🛡️
+**Constellation Framework**: ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum
 **API Status**: 🟢 **OPERATIONAL**
 **Integration**: ✅ **COMPLETE**
 

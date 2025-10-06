@@ -6,7 +6,7 @@ type: documentation
 
 [![License](https://img.shields.io/badge/license-LUKHAS--Proprietary-blue.svg)](LICENSE)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.1+-blue.svg)](https://www.typescriptlang.org/)
-[![Constellation Framework (8 Stars)](https://img.shields.io/badge/Trinity-⚛️🧠🛡️-purple.svg)](https://lukhas.ai)
+[![Constellation Framework (8 Stars)](https://img.shields.io/badge/Trinity-⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum-purple.svg)](https://lukhas.ai)
 
 Enterprise-grade authentication system for LUKHAS AI, implementing the complete ΛiD (Lambda Identity) specification with tier-based access control, advanced security features, and Constellation Framework (8 Stars) integration.
 
@@ -406,7 +406,7 @@ Handle account lockout with exponential backoff.
 
 This is a proprietary system for LUKHAS AI. For internal development:
 
-1. Follow the Constellation Framework (8 Stars) principles (⚛️🧠🛡️)
+1. Follow the Constellation Framework (8 Stars) principles (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum)
 2. Maintain deny-by-default security
 3. Ensure comprehensive test coverage
 4. Document all security-related changes
@@ -428,4 +428,4 @@ LUKHAS Proprietary License - Internal use only.
 
 *"Authentication that evolves with human consciousness and respects the Constellation Framework (8 Stars)."*
 
-⚛️🧠🛡️ **Constellation Framework (8 Stars) Integration** - Identity, Consciousness, Guardian
+⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum **Constellation Framework (8 Stars) Integration** - Identity, Consciousness, Guardian

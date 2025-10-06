@@ -6,7 +6,7 @@ type: documentation
 
 ## Overview
 
-The LUKHAS account recovery system provides secure, user-controlled recovery mechanisms through a distributed Guardian system. This policy defines thresholds, cool-off periods, and recovery procedures aligned with the Constellation Framework (⚛️🧠🛡️).
+The LUKHAS account recovery system provides secure, user-controlled recovery mechanisms through a distributed Guardian system. This policy defines thresholds, cool-off periods, and recovery procedures aligned with the Constellation Framework (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum).
 
 ## Guardian System Architecture
 

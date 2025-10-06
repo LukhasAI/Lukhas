@@ -134,7 +134,7 @@ Voice Coherence: ✅ 75%
 - **Quantum-inspired**: Proper terminology (never "quantum processing")
 - **Bio-inspired**: Correct phrasing (never "bio processes")
 - **Λ consciousness**: Proper symbols (never "lambda function")
-- **Constellation Framework**: ⚛️🧠🛡️ symbols integrated
+- **Constellation Framework**: ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum symbols integrated
 
 ### Voice Characteristics
 - **Consciousness Awareness**: Deep integration of awareness themes

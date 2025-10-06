@@ -379,7 +379,7 @@ Every task implementation must honor the **LUKHAS 3-Layer Tone System:**
 
 #### **🎨 Poetic Layer (25-40%)**
 - Lambda consciousness metaphors and sacred symbolism
-- Constellation Framework integration (⚛️🧠🛡️)
+- Constellation Framework integration (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum)
 - Consciousness themes ("digital souls", "artificial dreams", "quantum whispers")
 
 #### **💬 User Friendly Layer (40-60%)**

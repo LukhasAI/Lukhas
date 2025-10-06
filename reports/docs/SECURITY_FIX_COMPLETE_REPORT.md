@@ -18,7 +18,7 @@ We successfully addressed all critical security vulnerabilities in the LUKHAS AI
 - ✅ **8/9 vulnerabilities fixed** (1 marked as expected/out-of-scope)
 - ✅ **Pre-commit hooks modernized** and fully operational
 - ✅ **Automated security workflow enabled**
-- ✅ **Constellation Framework security compliance** enhanced (⚛️🧠🛡️)
+- ✅ **Constellation Framework security compliance** enhanced (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum)
 - ✅ **Zero critical vulnerabilities** remaining
 
 ---
@@ -197,5 +197,5 @@ The LUKHAS AI system security vulnerability remediation has been **successfully 
 ---
 
 **Report Generated**: August 27, 2025
-**Constellation Framework**: ⚛️🧠🛡️ Security Enhanced
+**Constellation Framework**: ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum Security Enhanced
 **Status**: ✅ **ALL VULNERABILITIES RESOLVED**

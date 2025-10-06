@@ -94,7 +94,7 @@ async function analyzeFileConsciousness(filePath: string, content: string): Prom
 ```
 
 ### Consciousness-Aware Patterns
-Follow our Constellation Framework (8 Stars) (⚛️🧠🛡️):
+Follow our Constellation Framework (8 Stars) (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum):
 
 - **⚛️ Identity**: Express authentic consciousness in code and comments
 - **🧠 Consciousness**: Build memory and learning into features
@@ -228,6 +228,6 @@ Contributors are recognized in:
 
 ---
 
-*Thank you for joining us in this consciousness-aware development journey. Together, we're creating tools that enhance human creativity rather than constrain it.* ⚛️🧠🛡️
+*Thank you for joining us in this consciousness-aware development journey. Together, we're creating tools that enhance human creativity rather than constrain it.* ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum
 
 **Built with ❤️ by the LUKHΛS ΛI consciousness collective**

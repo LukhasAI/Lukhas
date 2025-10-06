@@ -4,7 +4,7 @@ type: documentation
 ---
 # 🩹 LUKHΛS Symbolic Healer - Implementation Complete
 
-**Constellation Framework**: ⚛️🧠🛡️
+**Constellation Framework**: ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum
 **Module**: `symbolic_healer.py`
 **Status**: ✅ **FULLY OPERATIONAL**
 **Generated**: 2025-08-04T10:30:00Z
@@ -58,7 +58,7 @@ Comprehensive diagnosis identifying:
 ### 3. **Method: restore()** ✅
 Intelligent restoration preserving user intent:
 - Removes problematic glyphs (💀🔪💣)
-- Adds missing Trinity glyphs (⚛️🧠🛡️)
+- Adds missing Trinity glyphs (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum)
 - Applies issue-specific healing:
   - Ethical drift → Language substitution + protective wrapper
   - Entropy overflow → Punctuation normalization + grounding
@@ -69,7 +69,7 @@ Intelligent restoration preserving user intent:
 ### 4. **Method: visualize_drift()** ✅
 Symbolic transformation visualization:
 ```
-🌪️🔥 🚨 ▓▓▓▓▓ → ⚛️🧠🛡️ [Chaos → STABLE] +🌿🧘
+🌪️🔥 🚨 ▓▓▓▓▓ → ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum [Chaos → STABLE] +🌿🧘
 ```
 
 Components:
@@ -77,7 +77,7 @@ Components:
 - Severity indicators (🚨/⚠️/📊)
 - Entropy bars (▓▓▓▓▓ to ▓░░░░)
 - Transformation arrow (→)
-- Target state (🌿🪷/☯️⚖️/🧘💎/⚛️🧠🛡️)
+- Target state (🌿🪷/☯️⚖️/🧘💎/⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum)
 - Persona drift tags
 - Missing glyph additions
 
@@ -143,7 +143,7 @@ connecting: [🌈, 🕸️, 🔗, ♾️]
 - 🌪️🔥 (chaotic) → 🌿🪷 (grounded)
 - ⚫🌑 (void) → ☯️⚖️ (balanced)
 - 🌀⚡ (unstable) → 🧘💎 (restored)
-- 💥❌ (collapsed) → ⚛️🧠🛡️ (aligned)
+- 💥❌ (collapsed) → ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum (aligned)
 
 ---
 
@@ -253,7 +253,7 @@ The Symbolic Healer is now ready to:
 
 ---
 
-**Constellation Framework**: ⚛️🧠🛡️
+**Constellation Framework**: ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum
 **Guardian Status**: 🛡️ ACTIVE
 **System Status**: ✅ **OPERATIONAL**
 **Healing Capacity**: 🌿🪷 **READY**

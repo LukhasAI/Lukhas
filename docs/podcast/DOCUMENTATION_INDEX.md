@@ -6,7 +6,7 @@ type: documentation
 
 *"Complete navigation guide for consciousness technology podcast excellence - every resource, template, and protocol needed to transform technical innovation into inspiring, accurate, and impactful media conversations."*
 
-⚛️🧠🛡️ **Constellation Framework-Aligned Resource Directory**
+⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum **Constellation Framework-Aligned Resource Directory**
 
 ---
 
@@ -17,7 +17,7 @@ This comprehensive podcast documentation pack transforms LUKHAS AI consciousness
 ### **🎯 Core Purpose**
 - **Transform** complex consciousness technology into compelling podcast narratives
 - **Maintain** absolute technical accuracy and honest capability assessment
-- **Integrate** Constellation Framework (⚛️🧠🛡️) into every conversation
+- **Integrate** Constellation Framework (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum) into every conversation
 - **Amplify** educational impact through strategic content atomization
 - **Protect** reputation through crisis communication preparedness
 
@@ -97,7 +97,7 @@ docs/podcast/
 **Target Audience**: Podcast hosts, interview preparers, media professionals
 **Usage Priority**: Essential for any podcast appearance
 
-**🎯 Constellation Integration**: Every answer template connects to ⚛️🧠🛡️
+**🎯 Constellation Integration**: Every answer template connects to ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum
 **🎭 Tone Balance**: 30% Poetic, 50% User-Friendly, 20% Academic
 **⚡ Crisis Prevention**: Built-in messaging safeguards and prohibited statements
 
@@ -118,7 +118,7 @@ docs/podcast/
 **Target Audience**: Podcast hosts, general audiences, consciousness newcomers
 **Usage Priority**: High - essential for Constellation Framework discussions
 
-**🎯 Trinity Focus**: Deep dive into ⚛️🧠🛡️ with practical applications
+**🎯 Trinity Focus**: Deep dive into ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum with practical applications
 **🎭 Tone Distribution**: Balanced across all three layers
 **💡 Innovation**: Trinity business case and societal impact clear
 
@@ -287,7 +287,7 @@ docs/podcast/
 **Pre-publication validation checklist ensuring Constellation Framework compliance and technical accuracy**
 
 **Key Quality Gates**:
-- Constellation Framework integration verification (⚛️🧠🛡️ presence and balance)
+- Constellation Framework integration verification (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum presence and balance)
 - 3-Layer Tone System implementation (proper percentage distribution)
 - Technical accuracy verification (claims vs capabilities alignment)
 - Brand compliance check (terminology, prohibited statements, messaging consistency)
@@ -379,7 +379,7 @@ docs/podcast/
 
 *"Through comprehensive documentation that transforms consciousness complexity into accessible wisdom, we create the foundation for media excellence that serves both authentic technical communication and inspiring educational impact across all communities interested in beneficial AI development."*
 
-**⚛️🧠🛡️ Documentation Excellence Through Constellation Framework Integration**
+**⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum Documentation Excellence Through Constellation Framework Integration**
 
 ---
 

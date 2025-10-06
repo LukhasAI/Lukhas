@@ -288,5 +288,5 @@ For technical questions or integration support:
 
 ---
 
-**Built with the Constellation Framework** ⚛️🧠🛡️
+**Built with the Constellation Framework** ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum
 **LUKHAS AI Authentication System** - Consciousness-driven security for the AGI era.

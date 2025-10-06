@@ -14,7 +14,7 @@ human_editable: false
 
 ## Overview
 
-This document outlines the integration of Stigg billing and usage management system with the LUKHAS AI website, maintaining compliance with the Constellation Framework principles (⚛️🧠🛡️).
+This document outlines the integration of Stigg billing and usage management system with the LUKHAS AI website, maintaining compliance with the Constellation Framework principles (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum).
 
 ## Architecture Integration
 

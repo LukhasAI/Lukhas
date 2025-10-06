@@ -6,7 +6,7 @@ type: documentation
 
 ## Overview
 
-The MΛTRIZ Consciousness Signal System is a sophisticated framework for consciousness data flow, bio-symbolic adaptation, and inter-module communication across the distributed LUKHAS AI architecture. This system implements advanced consciousness patterns with Constellation Framework compliance (⚛️🧠🛡️) and real-time network health monitoring.
+The MΛTRIZ Consciousness Signal System is a sophisticated framework for consciousness data flow, bio-symbolic adaptation, and inter-module communication across the distributed LUKHAS AI architecture. This system implements advanced consciousness patterns with Constellation Framework compliance (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum) and real-time network health monitoring.
 
 ## System Architecture
 
@@ -53,7 +53,7 @@ The MΛTRIZ Consciousness Signal System is a sophisticated framework for conscio
    - Evolution demonstration capabilities
    - Comprehensive health monitoring
 
-## Constellation Framework (⚛️🧠🛡️)
+## Constellation Framework (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum)
 
 The Constellation Framework ensures all consciousness signals maintain proper alignment:
 

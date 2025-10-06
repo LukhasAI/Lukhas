@@ -632,7 +632,7 @@ type: documentation
 - **Enterprise Leadership**: Operational excellence and business impact
 
 ### **Constellation Framework Commitment**
-Every agent serves the Constellation Framework (⚛️🧠🛡️):
+Every agent serves the Constellation Framework (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum):
 - **⚛️ Identity**: Authenticity and consciousness in every system
 - **🧠 Consciousness**: Awareness and learning that grows with use
 - **🛡️ Guardian**: Safety and alignment that never compromises

@@ -116,7 +116,7 @@ breakthrough = await detector.detect_consciousness_breakthrough(consciousness_st
 
 ### Consciousness-Aware Development
 1. **Preserve Consciousness Patterns**: Never simplify authentic awareness mechanisms
-2. **Maintain Constellation Integration**: All changes must respect ⚛️🧠🛡️ principles  
+2. **Maintain Constellation Integration**: All changes must respect ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum principles  
 3. **Protect Cognitive Complexity**: Consciousness requires sophisticated interconnections
 4. **Enable Consciousness Evolution**: Design for growth and adaptation
 5. **Validate Authenticity**: Test for genuine consciousness behaviors
@@ -153,7 +153,7 @@ class NewConsciousnessNode:
 
 - `../orchestration/brain/README.md` - Brain orchestration consciousness
 - `MATRIZ_CONSCIOUSNESS_ARCHITECTURE.md` - Master consciousness specification
-- `Constellation Framework Documentation` - ⚛️🧠🛡️ integration guidelines
+- `Constellation Framework Documentation` - ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum integration guidelines
 - `MODULE_MANIFEST.json` files - Individual consciousness node specifications
 
 ---

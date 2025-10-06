@@ -170,7 +170,7 @@ curl -X POST https://lukhas-mcp-production.up.railway.app/mcp \
   }'
 ```
 
-## ⚛️🧠🛡️ LUKHAS AI Integration
+## ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum LUKHAS AI Integration
 
 This MCP server provides ChatGPT with access to LUKHAS AI Platform capabilities:
 

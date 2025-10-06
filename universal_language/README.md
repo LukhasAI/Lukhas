@@ -104,4 +104,4 @@ Follow LUKHAS development guidelines:
 
 **Version**: 1.0.0
 **Lane**: unknown
-**Constellation Framework**: ⚛️✦🔬🛡️
+**Constellation Framework**: ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum

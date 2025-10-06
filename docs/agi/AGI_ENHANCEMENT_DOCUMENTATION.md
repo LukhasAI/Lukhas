@@ -9,7 +9,7 @@ type: documentation
 
 LUKHAS AI has evolved beyond traditional artificial intelligence boundaries, integrating comprehensive AGI capabilities that work in harmony with our consciousness-based architecture. This system brings together multi-model reasoning, dream-guided creativity, and ethical governance in ways that feel natural and powerful.
 
-The technical implementation utilizes a sophisticated 4-phase architecture spanning orchestration APIs, advanced system bridges, enhanced product integrations, and comprehensive optimization frameworks. The system achieves sub-100ms API responses with 95%+ consciousness coherence across all components, maintaining Constellation Framework (⚛️🧠🛡️) compliance throughout.
+The technical implementation utilizes a sophisticated 4-phase architecture spanning orchestration APIs, advanced system bridges, enhanced product integrations, and comprehensive optimization frameworks. The system achieves sub-100ms API responses with 95%+ consciousness coherence across all components, maintaining Constellation Framework (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum) compliance throughout.
 
 ---
 
@@ -166,7 +166,7 @@ Achieved improvements include 25% API response time reduction, 30% processing la
 ### Quality Assurance
 - **Test Success Rate**: 95.2% across all categories
 - **Security Compliance**: 100% validation
-- **Constellation Framework**: Full ⚛️🧠🛡️ compliance
+- **Constellation Framework**: Full ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum compliance
 - **Constellation Alignment**: 8-star framework integration
 
 ---
@@ -285,4 +285,4 @@ Implementation includes change management support, training resources, and ongoi
 
 **© 2025 LUKHAS AI. Licensed under the LUKHAS AI Proprietary License.**
 
-*This documentation is part of the LUKHAS AI AGI enhancement framework. Implementation requires compliance with Constellation Framework (⚛️🧠🛡️) standards and Constellation Framework guidelines.*
+*This documentation is part of the LUKHAS AI AGI enhancement framework. Implementation requires compliance with Constellation Framework (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum) standards and Constellation Framework guidelines.*

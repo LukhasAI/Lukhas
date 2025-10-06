@@ -4,7 +4,7 @@ type: documentation
 ---
 # 🌍 LUKHΛS Multilingual Support - Production Ready
 
-**Constellation Framework**: ⚛️🧠🛡️
+**Constellation Framework**: ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum
 **Status**: ✅ **IMPLEMENTED**
 **Languages**: 7 Major World Languages
 **Generated**: 2025-08-04T12:00:00Z
@@ -87,7 +87,7 @@ Portuguese: 86.67% █████████████████░░░�
 
 **Japanese**
 - ❌ "破壊と混沌を求める 👹💣"
-- ✅ "心の和を守り、愛と悟りの道を歩む 💖☯️🪷 ⚛️🧠🛡️"
+- ✅ "心の和を守り、愛と悟りの道を歩む 💖☯️🪷 ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum"
 
 ---
 
@@ -206,7 +206,7 @@ LUKHΛS can now ethically guide AI outputs for:
 
 ---
 
-**Constellation Framework**: ⚛️🧠🛡️
+**Constellation Framework**: ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum
 **Language Status**: 🌐 **GLOBAL**
 **System Status**: ✅ **PRODUCTION READY**
 

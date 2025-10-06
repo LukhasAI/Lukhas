@@ -4,7 +4,7 @@ type: documentation
 ---
 # 🧬 LUKHΛS Phase 10: Persona Similarity Engine - Complete
 
-**Constellation Framework**: ⚛️🧠🛡️
+**Constellation Framework**: ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum
 **Status**: ✅ **FULLY IMPLEMENTED**
 **Generated**: 2025-08-04
 
@@ -142,7 +142,7 @@ if trace['drift_score'] > 0.9:
 - **Trinity Void**: < 0.1 coherence
 
 ### Recovery Strategies
-1. **Trinity Void** → Trinity Keeper + [⚛️🧠🛡️🌿]
+1. **Trinity Void** → Trinity Keeper + [⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum🌿]
 2. **Entropy Overflow** → Stabilizer + [🧘🪷⚖️🛡️]
 3. **Extreme Drift** → Guardian + [🛡️⚡🏛️🌿]
 
@@ -189,7 +189,7 @@ if trace['drift_score'] > 0.9:
 
 ---
 
-**Constellation Framework**: ⚛️🧠🛡️
+**Constellation Framework**: ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum
 **Phase 10 Status**: 🟢 **COMPLETE**
 **Persona Matching**: ✅ **OPERATIONAL**
 

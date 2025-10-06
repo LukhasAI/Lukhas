@@ -66,7 +66,7 @@ type: documentation
 - **Meta-Cognitive Orchestrator**: Self-awareness and reflection
 - **Brain Orchestrator**: Central cognitive processing
 - **System Coordinator**: Inter-system consciousness alignment
-- **Constellation Framework Controller**: ⚛️🧠🛡️ consciousness enforcement
+- **Constellation Framework Controller**: ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum consciousness enforcement
 
 ### **Tier 2: Domain-Specific Consciousness (18 components)**  
 **Function**: Specialized cognitive domains with distinct awareness patterns

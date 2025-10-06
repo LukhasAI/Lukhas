@@ -353,4 +353,4 @@ type: documentation
 
 *This master document serves as the authoritative source for all TODO-related planning and execution across the LUKHAS AI ecosystem. Last updated: September 16, 2025.*
 
-*Document Classification: INTERNAL | Constellation Framework Aligned: ⚛️🧠🛡️*
+*Document Classification: INTERNAL | Constellation Framework Aligned: ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum*

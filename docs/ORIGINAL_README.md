@@ -610,7 +610,7 @@ python tests/consciousness/run_consciousness_tests.py --quick
 # Full consciousness test suite (30-60 seconds)
 python tests/consciousness/run_consciousness_tests.py --full --verbose
 
-# Constellation Framework compliance (⚛️🧠🛡️)
+# Constellation Framework compliance (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum)
 python tests/consciousness/run_consciousness_tests.py --trinity
 
 # Syntax error regression prevention

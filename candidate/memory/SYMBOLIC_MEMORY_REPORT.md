@@ -7,7 +7,7 @@ type: documentation
 # 🧠 SYMBOLIC MEMORY SYSTEM REPORT
 
 ## Constellation Framework Integration
-The memory system fully integrates with the LUKHΛS Constellation Framework (⚛️🧠🛡️), ensuring symbolic coherence across identity, consciousness, and protection layers.
+The memory system fully integrates with the LUKHΛS Constellation Framework (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum), ensuring symbolic coherence across identity, consciousness, and protection layers.
 
 ---
 

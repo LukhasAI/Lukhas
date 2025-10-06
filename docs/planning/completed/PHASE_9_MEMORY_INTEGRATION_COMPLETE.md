@@ -4,7 +4,7 @@ type: documentation
 ---
 # 🧠 LUKHΛS Phase 9: Memory Integration - Complete
 
-**Constellation Framework**: ⚛️🧠🛡️
+**Constellation Framework**: ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum
 **Status**: ✅ **FULLY INTEGRATED**
 **Generated**: 2025-08-04
 
@@ -256,7 +256,7 @@ curl http://localhost:8000/memory/trajectory?window_size=20
 
 ---
 
-**Constellation Framework**: ⚛️🧠🛡️
+**Constellation Framework**: ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum
 **Phase 9 Status**: 🟢 **COMPLETE**
 **Memory System**: ✅ **OPERATIONAL**
 

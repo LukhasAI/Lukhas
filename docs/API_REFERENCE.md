@@ -20,7 +20,7 @@ type: documentation
 
 ## Overview
 
-The LUKHAS AI API provides RESTful endpoints for interacting with the AGI system through the **Constellation Framework** (⚛️🧠🛡️) and **MATRIZ Pipeline** (Memory-Attention-Thought-Risk-Intent-Action). All communication uses JSON format and follows OpenAPI 3.0 specifications with T4/0.01% performance standards.
+The LUKHAS AI API provides RESTful endpoints for interacting with the AGI system through the **Constellation Framework** (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum) and **MATRIZ Pipeline** (Memory-Attention-Thought-Risk-Intent-Action). All communication uses JSON format and follows OpenAPI 3.0 specifications with T4/0.01% performance standards.
 
 ### Base URLs
 
@@ -455,7 +455,7 @@ Response:
   },
   "session_metadata": {
     "expires_in": 3600,
-    "constellation_context": "⚛️🧠🛡️",
+    "constellation_context": "⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum",
     "t4_compliance_verified": true
   }
 }
@@ -474,7 +474,7 @@ Response:
     "current_mode": "MATRIZ_PROCESSING",
     "awareness_level": 0.78,
     "active_pipeline_stage": "thought",
-    "constellation_alignment": "⚛️🧠🛡️"
+    "constellation_alignment": "⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum"
   },
   "matriz_context": {
     "memory_active": true,

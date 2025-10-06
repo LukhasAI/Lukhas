@@ -107,4 +107,4 @@ LUKHAS_MCP_API_KEYS="new-key" # deploy
 
 ---
 
-**🏰 You've got a fortress with a velvet rope** - enterprise-grade security, reliability, and operational readiness while maintaining the elegant developer experience. Matriz can run with complete confidence! ⚛️🧠🛡️
+**🏰 You've got a fortress with a velvet rope** - enterprise-grade security, reliability, and operational readiness while maintaining the elegant developer experience. Matriz can run with complete confidence! ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum

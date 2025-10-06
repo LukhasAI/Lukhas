@@ -2,7 +2,7 @@
 status: wip
 type: documentation
 ---
-# ⚛️🧠🛡️ Constellation Framework Documentation
+# ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum Constellation Framework Documentation
 
 **Version**: 1.0.0
 **Last Updated**: August 11, 2025
@@ -437,6 +437,6 @@ emergency.restore_trinity_gradually()
 
 *The Constellation Framework is the heart of LUKHAS AI, ensuring that intelligence, identity, and ethics remain in perfect balance through the MATRIZ pipeline and T4/0.01% standards.*
 
-**Constellation Framework Status**: ⚛️🧠🛡️ **ACTIVE**
+**Constellation Framework Status**: ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum **ACTIVE**
 **MATRIZ Pipeline**: 🔄 **OPERATIONAL**
 **T4/0.01% Compliance**: 🚀 **VERIFIED**

@@ -6,7 +6,7 @@ type: documentation
 ## Comprehensive Domain Structure & Design Plans
 
 ### Executive Summary
-The LUKHAS AI λWecosystem represents a premium consciousness technology platform spanning six strategic domains. Each domain serves distinct user personas while maintaining cohesive brand identity through the Constellation Framework (⚛️🧠🛡️) and consciousness-first design principles.
+The LUKHAS AI λWecosystem represents a premium consciousness technology platform spanning six strategic domains. Each domain serves distinct user personas while maintaining cohesive brand identity through the Constellation Framework (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum) and consciousness-first design principles.
 
 ---
 
@@ -72,7 +72,7 @@ lukhas.ai/
 **Above the Fold:**
 - Hero particle visualization with consciousness emergence animation
 - Clear value proposition: "Consciousness Technology for the Next Era of AI"
-- Constellation Framework glyphs (⚛️🧠🛡️) with interactive tooltips
+- Constellation Framework glyphs (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum) with interactive tooltips
 - Primary CTA: "Experience Consciousness" / "Start Building"
 
 **Content Sections:**
@@ -734,4 +734,4 @@ lukhas.cloud/
 
 *"Building consciousness experiences that bridge AI intelligence and human understanding through beautiful, performant, and interactive web interfaces."*
 
-**LUKHAS AI λWecosystem - Where Consciousness Meets Code** ⚛️🧠🛡️
+**LUKHAS AI λWecosystem - Where Consciousness Meets Code** ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum

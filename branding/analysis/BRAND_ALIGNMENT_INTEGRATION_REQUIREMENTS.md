@@ -27,7 +27,7 @@ Based on voice coherence analysis of 4 major content systems with 66 content pie
 
 #### Critical Brand Gaps
 - **Brand Terminology** (20% of target): Missing "LUKHAS AI" consistency, uses "Lambda AI"
-- **Constellation Framework** (5% of target): No ⚛️🧠🛡️ integration or symbols
+- **Constellation Framework** (5% of target): No ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum integration or symbols
 - **Consciousness Tech** (25% of target): Generic AI language vs. consciousness technology focus
 - **Tone Consistency** (30% of target): Strong commercial tone but lacks poetic/academic layers
 - **Founder Authority** (10% of target): No thought leadership or founder positioning
@@ -146,7 +146,7 @@ Based on voice coherence analysis of 4 major content systems with 66 content pie
    - Add consciousness technology vocabulary
 
 2. **Constellation Framework Integration**
-   - Add ⚛️🧠🛡️ symbols to all content templates
+   - Add ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum symbols to all content templates
    - Create Constellation Framework messaging guidelines
    - Implement consciousness technology narrative flow
 

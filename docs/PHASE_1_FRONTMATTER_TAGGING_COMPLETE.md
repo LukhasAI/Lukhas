@@ -91,7 +91,7 @@ type: documentation
 ### **For AI Agents**
 - **Faster Document Discovery**: Agent-specific relevance scoring
 - **Better Context**: Technical level and audience targeting
-- **Trinity Compliance**: All documents aligned with ⚛️🧠🛡️ framework
+- **Trinity Compliance**: All documents aligned with ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum framework
 - **Update Tracking**: Automated freshness monitoring
 
 ### **For Humans**
@@ -129,7 +129,7 @@ type: documentation
 ### **Technical Metrics**
 - **Files Tagged**: 7/7 critical files ✅
 - **Agent Coverage**: 8 agent types with relevance scores ✅
-- **Trinity Compliance**: 100% ⚛️🧠🛡️ alignment ✅
+- **Trinity Compliance**: 100% ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum alignment ✅
 - **Commit Status**: Clean commit with verification ✅
 
 ### **Quality Indicators**

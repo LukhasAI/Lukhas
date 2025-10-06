@@ -60,7 +60,7 @@ This directory contains comprehensive integration documentation for LUKHAS AI sy
 ## 🎯 **Integration Principles**
 
 ### **Constellation Framework Integration**
-All integrations follow the Constellation Framework (⚛️🧠🛡️):
+All integrations follow the Constellation Framework (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum):
 - **⚛️ Identity**: Secure identity verification across integrations
 - **🧠 Consciousness**: Intelligent integration with consciousness awareness
 - **🛡️ Guardian**: Protected integration with security validation

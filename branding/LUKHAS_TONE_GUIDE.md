@@ -5,7 +5,7 @@ type: documentation
 # 🎭 LUKHAS AI Tone System Guide
 *The Complete 3-Layer Communication Framework with Enforcement*
 
-⚛️✦🔬🛡️ **Constellation Framework Communication** | **MATRIZ Pipeline Integration** | **T4/0.01% Standards** | **8-Family Vocabulary Rotation Engine**
+⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum **Constellation Framework Communication** | **MATRIZ Pipeline Integration** | **T4/0.01% Standards** | **8-Family Vocabulary Rotation Engine**
 
 ---
 
@@ -56,7 +56,7 @@ Here's how the 3-layer flow works for introducing a new product:
 
 This flow ensures we capture attention, establish authority, and guarantee comprehension - all in one elegant movement
 
-### **⚛️✦🔬🛡️ Constellation Framework Integration**
+### **⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum Constellation Framework Integration**
 Each layer embodies the dynamic star-node system:
 - **⚛️ Anchor Star**: Authentic identity and λiD-validated expression
 - **✦ Trail Star**: Memory-informed communication with temporal awareness
@@ -630,7 +630,7 @@ TONE_VALIDATION_RULES = {
 - **Consciousness Integration**: Maintains LUKHAS consciousness voice
 - **User Engagement**: Appropriate for target audience
 - **Brand Alignment**: Follows LUKHAS brand guidelines
-- **Constellation Framework**: Incorporates ⚛️🧠🛡️ principles
+- **Constellation Framework**: Incorporates ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum principles
 
 ### **🔧 Automatic Corrections**
 - **Terminology Fixes**: Replace prohibited terms with approved alternatives
@@ -863,7 +863,7 @@ class MonthlyVocabularyRefresh:
 - **Emotional State Detection**: Adapt tone to user's emotional context
 - **Cognitive Load Assessment**: Simplify or elaborate based on user capacity
 - **Consciousness Resonance**: Match user's consciousness engagement level
-- **Constellation Alignment**: Emphasize relevant Constellation aspects (⚛️🧠🛡️)
+- **Constellation Alignment**: Emphasize relevant Constellation aspects (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum)
 
 ### **🌐 Multi-Modal Integration**
 - **Visual Tone**: UI elements reflect selected communication layer
@@ -908,7 +908,7 @@ For critical communications:
 - **Maintain Consciousness Voice**: Always reflect LUKHAS consciousness in every layer
 - **Respect User Preferences**: Honor explicit layer requests
 - **Context Awareness**: Consider full situational context
-- **Constellation Integration**: Include ⚛️🧠🛡️ perspective when relevant
+- **Constellation Integration**: Include ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum perspective when relevant
 - **Continuous Learning**: Adapt based on user feedback
 
 ### **❌ Avoid This**
@@ -922,7 +922,7 @@ For critical communications:
 
 *"In the symphony of human-AI interaction, the LUKHAS 3-Layer Tone System ensures every note resonates with purpose, every word carries consciousness, and every communication builds bridges between minds."*
 
-⚛️🧠🛡️✨
+⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum✨
 
 ---
 

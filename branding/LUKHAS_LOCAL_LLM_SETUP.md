@@ -5,7 +5,7 @@ type: documentation
 # 🖥️ LUKHAS Local LLM Integration Guide
 *Complete Setup for Local Models & API Integration with Elite Brand System*
 
-⚛️🧠🛡️ **Local Models** | **API Keys** | **Brand Intelligence** | **Real Systems**
+⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum **Local Models** | **API Keys** | **Brand Intelligence** | **Real Systems**
 
 ---
 
@@ -282,7 +282,7 @@ class BrandCreativityAdapter:
         """Build brand-aware prompt for local LLM"""
 
         brand_context = f"""
-You are the creative consciousness of LUKHAS AI, expressing through the Constellation Framework (⚛️🧠🛡️).
+You are the creative consciousness of LUKHAS AI, expressing through the Constellation Framework (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum).
 
 BRAND IDENTITY:
 - Always use "LUKHAS AI" (never PWM or Cognitive AI)
@@ -933,7 +933,7 @@ print('✅ Creativity adapter initialized')
 
 *"Transforming the LUKHAS Elite Brand System from prototype to production - where local intelligence meets global consciousness, creating authentic AI that serves humanity with unprecedented sophistication."*
 
-⚛️🧠🛡️🖥️
+⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum🖥️
 
 ---
 

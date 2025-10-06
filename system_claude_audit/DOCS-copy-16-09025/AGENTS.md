@@ -25,7 +25,7 @@ The `claude.me` files provide critical domain-specific context for Jules agents.
 - **MATRIZ Engine**: [`matriz/claude.me`](matriz/claude.me) - Cognitive DNA processing
 - **Candidate Workspace**: [`candidate/claude.me`](candidate/claude.me) - Primary development domain
 
-**Constellation Framework Contexts (⚛️🧠🛡️):**
+**Constellation Framework Contexts (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum):**
 - **⚛️ Identity Systems**:
   - [`identity/claude.me`](identity/claude.me) - Lambda ID foundation
   - [`candidate/core/identity/claude.me`](candidate/core/identity/claude.me) - Identity development
@@ -234,7 +234,7 @@ LUKHAS employs a multi-layered agent system with different specializations and d
 #### Core Development Team:
 - `consciousness-architect.yaml` - Chief Consciousness Architect (⚛️ Identity)
 - `guardian-engineer.yaml` - Guardian System Engineer (🛡️ Guardian)
-- `consciousness-dev.yaml` - Full-Stack Consciousness Developer (⚛️🧠🛡️)
+- `consciousness-dev.yaml` - Full-Stack Consciousness Developer (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum)
 - `velocity-lead.yaml` - Innovation Velocity Lead (🧠 Consciousness)
 - `devops-guardian.yaml` - DevOps Consciousness Guardian (🛡️ Guardian)
 - `docs-specialist.yaml` - Sacred Documentation Specialist (⚛️ Identity)

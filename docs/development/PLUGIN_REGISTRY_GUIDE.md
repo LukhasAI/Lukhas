@@ -17,7 +17,7 @@ type: documentation
 
 ## Overview
 
-The LUKHAS AI Plugin Registry implements a dynamic star-node system that enables runtime component registration, discovery, and instantiation following the Constellation Framework architecture. This guide covers the complete lifecycle of plugin development, registration, and cognitive alignment within the ⚛️🧠🛡️ ecosystem.
+The LUKHAS AI Plugin Registry implements a dynamic star-node system that enables runtime component registration, discovery, and instantiation following the Constellation Framework architecture. This guide covers the complete lifecycle of plugin development, registration, and cognitive alignment within the ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum ecosystem.
 
 ## Constellation Framework Integration
 
@@ -928,4 +928,4 @@ class TestPluginRegistry(PluginTestSuite, CognitiveTestMixin):
 **Plugin Registry Status**: ✅ **SPECIFICATION COMPLETE**
 **Cognitive Alignment**: 🧠 **OPTIMIZED**
 **T4/0.01% Compliance**: 🚀 **VERIFIED**
-**Constellation Integration**: ⚛️🧠🛡️ **ACTIVE**
+**Constellation Integration**: ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum **ACTIVE**

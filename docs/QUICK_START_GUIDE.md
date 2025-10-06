@@ -117,7 +117,7 @@ print(f"Audit Node ID: {decision.audit_node_id}")
 
 ## 🎯 Key Concepts to Understand
 
-### 1. **Constellation Framework** ⚛️✦🔬🛡️
+### 1. **Constellation Framework** ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum
 
 LUKHAS organizes 692 cognitive modules into 8 constellation stars:
 

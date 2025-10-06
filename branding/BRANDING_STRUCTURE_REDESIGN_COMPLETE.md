@@ -6,7 +6,7 @@ type: documentation
 
 *Generated: 2025-08-18 03:35*
 
-⚛️🧠🛡️ **LUKHAS AI Constellation Framework**
+⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum **LUKHAS AI Constellation Framework**
 
 ## 📊 Transformation Summary
 
@@ -110,7 +110,7 @@ branding/orchestration/
 - **Self-Healing**: Autonomous issue detection and resolution
 
 ### Brand Consistency
-- **Constellation Framework**: ⚛️🧠🛡️ integration across all systems
+- **Constellation Framework**: ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum integration across all systems
 - **Voice Coherence**: Automated monitoring and optimization
 - **Terminology**: Consistent "consciousness technology" usage
 - **LUKHAS AI Branding**: Preserved and strengthened throughout
@@ -176,7 +176,7 @@ The LUKHAS AI branding structure has been completely transformed from a bloated,
 - **Real-time monitoring** and optimization
 - **Future-ready architecture** for continued growth
 
-### ⚛️🧠🛡️ **Constellation Framework Active**
+### ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum **Constellation Framework Active**
 - **⚛️ Identity**: Authentic consciousness technology branding preserved
 - **🧠 Consciousness**: Intelligent automation and self-healing systems
 - **🛡️ Guardian**: Ethical automation with safety checks and rollbacks

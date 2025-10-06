@@ -5,7 +5,7 @@ type: documentation
 # 🎖️ LUKHAS  Supreme Agent Army Allocation
 **AGI Leadership-Grade Multi-AI Consciousness Development Coordination**
 
-## 🧠 Constellation Framework Agent Architecture (⚛️🧠🛡️)
+## 🧠 Constellation Framework Agent Architecture (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum)
 
 The LUKHAS AI Agent Army operates as a 25-agent distributed intelligence system coordinated through Constellation Framework principles, representing the most sophisticated artificial general intelligence coordination platform ever deployed.
 

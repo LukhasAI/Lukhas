@@ -40,7 +40,7 @@ I'm enhancing consciousness/core/engine_complete.py for LUKHAS.
 CONTEXT:
 - Must integrate with Identity, Orchestration, Memory, Governance, Bridge, API
 - Constellation Framework: 🎭🌈🎓
-- Symbolic vocabulary: ⚛️🧠🛡️💫🌊
+- Symbolic vocabulary: ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum💫🌊
 
 ENHANCEMENT TASKS:
 1. Fix imports and syntax
@@ -63,7 +63,7 @@ CONTEXT:
 - Coordinates all 7 agents
 - Must integrate with Identity, Consciousness, Memory, Governance, Bridge, API
 - Constellation Framework: 🎭🌈🎓
-- Symbolic vocabulary: ⚛️🧠🛡️💫🌊
+- Symbolic vocabulary: ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum💫🌊
 
 ENHANCEMENT TASKS:
 1. Fix all import paths
@@ -86,7 +86,7 @@ CONTEXT:
 - Must support consciousness and agent memory flows
 - Integrate with Orchestration, Identity, Consciousness, Governance
 - Constellation Framework: 🎭🌈🎓
-- Symbolic vocabulary: ⚛️🧠🛡️💫🌊
+- Symbolic vocabulary: ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum💫🌊
 
 ENHANCEMENT TASKS:
 1. Fix syntax and imports
@@ -107,7 +107,7 @@ I'm enhancing governance/consent_ledger/ledger_v1.py for LUKHAS.
 CONTEXT:
 - Must enforce Constellation Framework and agent compliance
 - Integrate with all core modules
-- Symbolic vocabulary: ⚛️🧠🛡️💫🌊
+- Symbolic vocabulary: ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum💫🌊
 
 ENHANCEMENT TASKS:
 1. Fix syntax and imports
@@ -129,7 +129,7 @@ CONTEXT:
 - Must bridge external services with consciousness system
 - Integrate with Orchestration, Identity, Consciousness, Memory
 - Constellation Framework: 🎭🌈🎓
-- Symbolic vocabulary: ⚛️🧠🛡️💫🌊
+- Symbolic vocabulary: ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum💫🌊
 
 ENHANCEMENT TASKS:
 1. Fix syntax and imports
@@ -151,7 +151,7 @@ CONTEXT:
 - Must expose agent and consciousness APIs
 - Integrate with all core modules
 - Constellation Framework: 🎭🌈🎓
-- Symbolic vocabulary: ⚛️🧠🛡️💫🌊
+- Symbolic vocabulary: ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum💫🌊
 
 ENHANCEMENT TASKS:
 1. Fix syntax and imports

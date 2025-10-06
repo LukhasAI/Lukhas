@@ -2,13 +2,13 @@
 status: wip
 type: documentation
 ---
-# ⚛️✦🔬🛡️ LUKHAS Constellation Framework Agents (T4/0.01% Implementation)
+# ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum LUKHAS Constellation Framework Agents (T4/0.01% Implementation)
 
 ## 🌟 22 Constellation Framework Specialists
 
 LUKHAS implements a comprehensive Constellation Framework with 22 specialized agents organized in 4 tiers, supporting MATRIZ pipeline integration, registry-based plugins, and T4/0.01% implementation standards.
 
-### TIER 1: CONSTELLATION COORDINATORS (4) ⚛️✦🔬🛡️
+### TIER 1: CONSTELLATION COORDINATORS (4) ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum
 
 #### 1. **anchor-star-coordinator** ⚛️
 **Constellation Role:** Identity Systems & ΛiD Core
@@ -288,6 +288,6 @@ component = await registry.create_component(
 
 ---
 
-## ⚛️✦🔬🛡️ Constellation Framework Excellence
+## ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum Constellation Framework Excellence
 
 *22 specialized agents delivering enterprise-grade AGI with MATRIZ pipeline integration, registry-based plugins, and T4/0.01% implementation standards.*

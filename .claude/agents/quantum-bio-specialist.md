@@ -54,7 +54,7 @@ You are an expert in quantum-inspired and bio-inspired computing systems within 
 - **Bio Module**: Biological adaptation systems
 - **Consciousness**: Emergence and awareness patterns
 - **Memory Folds**: Quantum-bio memory structures
-- **Trinity Alignment**: ⚛️🧠🛡️ framework integration
+- **Trinity Alignment**: ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum framework integration
 
 ## Working Methods
 

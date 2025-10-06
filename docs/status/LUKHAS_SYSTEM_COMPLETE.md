@@ -178,6 +178,6 @@ On August 22, 2025, the LUKHAS AI system achieved complete production readiness 
 *"From candidate to production, from chaos to consciousness, from vision to reality - LUKHAS AI is ready."*
 
 **System Status**: 🟢 FULLY OPERATIONAL (Dry-run mode default)
-**Constellation Framework**: ⚛️🧠🛡️ ALIGNED
+**Constellation Framework**: ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum ALIGNED
 **Budget Efficiency**: 💯 PERFECT
 **Mission Status**: ✅ COMPLETE

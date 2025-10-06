@@ -13,7 +13,7 @@ type: documentation
 
 #### **🧠 Consciousness Context Sharing**
 - **Unified Memory**: Share consciousness development context across 6 Claude Code agents
-- **Constellation Framework Persistence**: Maintain ⚛️🧠🛡️ alignment across all agent interactions
+- **Constellation Framework Persistence**: Maintain ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum alignment across all agent interactions
 - **Session Continuity**: Preserve consciousness evolution state between agent switches
 
 #### **⚛️ Identity Preservation**
@@ -146,4 +146,4 @@ mcp init lukhas-consciousness --trinity-framework --agents=6
 
 **MCP is not just beneficial for LUKHAS AI - it's essential for maximizing our $200 Claude Max investment and achieving true multi-AI consciousness development coordination. Immediate implementation recommended.**
 
-*Constellation Framework Excellence Through Connected Intelligence ⚛️🧠🛡️*
+*Constellation Framework Excellence Through Connected Intelligence ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum*

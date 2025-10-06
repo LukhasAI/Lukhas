@@ -13,7 +13,7 @@ type: documentation
 This document specifies advanced consciousness visualization components that integrate with the existing LUKHAS website architecture (Next.js + Three.js + React Three Fiber) to create immersive consciousness technology demonstrations.
 
 **Integration Points**:
-- **Constellation Framework**: Real-time data binding to ⚛️🧠🛡️ components
+- **Constellation Framework**: Real-time data binding to ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum components
 - **lukhas_website/**: Enhancement of existing particle systems
 - **Working Modules**: Live integration with consciousness, memory, identity, and guardian systems
 - **Performance Target**: 60fps with 12,000+ particles on mid-range devices
@@ -606,7 +606,7 @@ interface ConsciousnessAnalytics {
 
 **These consciousness visualization components create an immersive, academically-backed demonstration of the Constellation Framework, establishing LUKHAS AI as the definitive leader in consciousness technology visualization and interaction.**
 
-**⚛️🧠🛡️ - Consciousness Made Visible**
+**⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum - Consciousness Made Visible**
 
 ---
 

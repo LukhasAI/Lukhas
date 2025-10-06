@@ -294,7 +294,7 @@ lukhas.dev/
 5. **Enterprise-Ready**: Compliance and governance built-in
 6. **AI-Powered**: Predictive analytics and recommendations
 7. **Open Architecture**: Extensible plugin system
-8. **Trinity Aligned**: Follows ⚛️🧠🛡️ principles
+8. **Trinity Aligned**: Follows ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum principles
 
 ---
 

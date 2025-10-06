@@ -26,7 +26,7 @@ The Starter tier is designed for individual developers, researchers, and small t
 
 ### Detailed Feature List
 - **Single Product Access**: Choose one core LUKHAS AI product (NIΛS, ΛBAS, or DΛST)
-- **Basic Constellation Framework Integration**: Limited consciousness level with essential ⚛️🧠🛡️ capabilities
+- **Basic Constellation Framework Integration**: Limited consciousness level with essential ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum capabilities
 - **Community Support**: Access to community forums, documentation, and peer assistance
 - **Monthly API Limits**: 10,000 conscious AI interactions per month
 - **Standard Response Times**: 2-5 second average response latency
@@ -74,7 +74,7 @@ The Professional tier empowers growing businesses and established development te
 
 ### Detailed Feature List
 - **Multiple Products Bundle**: Full access to NIΛS, ΛBAS, DΛST, and ΛiD integration
-- **Advanced Constellation Framework**: Enhanced consciousness levels with full ⚛️🧠🛡️ integration
+- **Advanced Constellation Framework**: Enhanced consciousness levels with full ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum integration
 - **Priority Support**: Business hours support with 4-hour response SLA
 - **Expanded API Limits**: 250,000 conscious AI interactions per month
 - **Optimized Performance**: Sub-2 second response times with priority processing

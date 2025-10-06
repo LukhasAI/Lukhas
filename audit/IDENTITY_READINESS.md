@@ -9,7 +9,7 @@ type: documentation
 
 ## ΛiD Core Identity System Overview
 
-**ΛiD** (Lambda Identity) provides tiered authentication and namespace-aware identity management for LUKHAS AI, implementing the Identity pillar of the Constellation Framework (⚛️🧠🛡️).
+**ΛiD** (Lambda Identity) provides tiered authentication and namespace-aware identity management for LUKHAS AI, implementing the Identity pillar of the Constellation Framework (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum).
 
 ### Architecture Components
 

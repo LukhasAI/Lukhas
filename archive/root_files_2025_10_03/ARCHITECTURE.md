@@ -461,4 +461,4 @@ Specialized AI agents coordinate development and operations:
 
 *This architecture enables LUKHAS to safely develop and deploy consciousness-aware AI systems while maintaining ethical boundaries, performance guarantees, and enterprise-grade reliability.*
 
-**⚛️✦🔬🛡️ Powered by the Constellation Framework**
+**⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum Powered by the Constellation Framework**

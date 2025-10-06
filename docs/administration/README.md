@@ -48,7 +48,7 @@ This directory contains comprehensive system administration, monitoring, and sec
 ## 🎯 **Administration Principles**
 
 ### **Constellation Framework Administration**
-All administration follows the Constellation Framework (⚛️🧠🛡️):
+All administration follows the Constellation Framework (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum):
 - **⚛️ Identity**: Secure identity management and authentication
 - **🧠 Consciousness**: Intelligent monitoring and adaptive responses
 - **🛡️ Guardian**: Protective security measures and ethical compliance

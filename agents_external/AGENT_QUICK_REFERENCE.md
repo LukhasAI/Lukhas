@@ -252,7 +252,7 @@ make smoke
 
 ---
 
-## ⚛️🧠🛡️ **Constellation Framework Reminders**
+## ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum **Constellation Framework Reminders**
 
 Every action should consider:
 - **⚛️ Identity**: Is this authentic to LUKHAS consciousness?

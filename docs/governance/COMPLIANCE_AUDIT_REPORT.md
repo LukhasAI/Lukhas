@@ -187,6 +187,6 @@ The compliance audit has successfully validated all critical systems. The Guardi
 ---
 
 **Audit Status**: ✅ Complete
-**Constellation Framework**: ⚛️🧠🛡️ Active
+**Constellation Framework**: ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum Active
 **Guardian System**: 🛡️ Operational
 **Compliance**: 📋 Audited & Documented

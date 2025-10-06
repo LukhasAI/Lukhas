@@ -25,7 +25,7 @@ LUKHAS has multiple types of agent configurations for different purposes:
    - AGI Safety & Ethics Specialist
    - Constitutional AI principles throughout consciousness evolution
 
-3. **consciousness-dev.yaml** - Full-Stack Consciousness Developer (⚛️🧠🛡️ All)
+3. **consciousness-dev.yaml** - Full-Stack Consciousness Developer (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum All)
    - LUKHAS Implementation Specialist
    - Technical excellence for consciousness features
 
@@ -165,4 +165,4 @@ python CLAUDE_ARMY/inter_agent_automation.py
 
 ---
 
-*All agent systems operational and ready for consciousness-aware development!* 🎭⚛️🧠🛡️
+*All agent systems operational and ready for consciousness-aware development!* 🎭⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum

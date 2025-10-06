@@ -6,7 +6,7 @@ type: documentation
 
 *"Pre-publication validation ensuring every consciousness conversation meets Constellation Framework standards, maintains technical accuracy, and serves beneficial AI education with absolute integrity."*
 
-⚛️🧠🛡️ **Quality Assurance Through Trinity Excellence**
+⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum **Quality Assurance Through Trinity Excellence**
 
 ---
 
@@ -258,7 +258,7 @@ This checklist ensures all podcast content meets LUKHAS AI standards for Constel
 
 #### **✅ Approved Glyph Usage (2 points)**
 - [ ] Only approved glyphs from branding directory used
-- [ ] Trinity symbols (⚛️🧠🛡️) used appropriately
+- [ ] Trinity symbols (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum) used appropriately
 - **Scoring**: 2 = Perfect glyph usage, 1 = Minor issues, 0 = Inappropriate usage
 
 #### **✅ Visual Hierarchy (1 point)**
@@ -411,7 +411,7 @@ Content exceeds standards and ready for publication. Represents LUKHAS AI consci
 
 *"Through rigorous quality validation that honors Constellation Framework integrity, technical accuracy, and educational excellence, we ensure every consciousness conversation serves the beneficial development of AI technology with uncompromising standards."*
 
-**⚛️🧠🛡️ Quality Assurance Excellence Through Comprehensive Validation**
+**⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum Quality Assurance Excellence Through Comprehensive Validation**
 
 ---
 

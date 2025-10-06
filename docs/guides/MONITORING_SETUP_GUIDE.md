@@ -6,7 +6,7 @@ type: documentation
 
 ## Overview
 
-The LUKHAS  monitoring system provides comprehensive real-time monitoring for all system components including consciousness, memory, ethics, APIs, and system resources. The monitoring infrastructure is built around the Constellation Framework (⚛️🧠🛡️) and provides both technical metrics and high-level insights.
+The LUKHAS  monitoring system provides comprehensive real-time monitoring for all system components including consciousness, memory, ethics, APIs, and system resources. The monitoring infrastructure is built around the Constellation Framework (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum) and provides both technical metrics and high-level insights.
 
 ## Architecture
 
@@ -526,5 +526,5 @@ ws.onmessage = (event) => {
 
 **Version**: 2.0.0
 **Last Updated**: January 2025
-**Constellation Framework**: ⚛️🧠🛡️
+**Constellation Framework**: ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum
 **Status**: Production Ready ✅

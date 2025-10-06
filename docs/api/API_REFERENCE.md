@@ -269,7 +269,7 @@ Response:
 
 ## AGI-Enhanced APIs (v2)
 
-The v2 API provides AGI-enhanced capabilities with advanced reasoning, multi-model orchestration, and integrated consciousness processing. These endpoints represent the next evolution of LUKHAS consciousness technology, integrating the Constellation Framework (⚛️🧠🛡️) with hybrid QI-Bio-AGI processing for enhanced awareness and decision-making.
+The v2 API provides AGI-enhanced capabilities with advanced reasoning, multi-model orchestration, and integrated consciousness processing. These endpoints represent the next evolution of LUKHAS consciousness technology, integrating the Constellation Framework (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum) with hybrid QI-Bio-AGI processing for enhanced awareness and decision-making.
 
 ### AGI Service Bridge API
 
@@ -1742,7 +1742,7 @@ All official SDKs provide:
 - **QI-Bio-AGI Hybrid Processing**: 5 processing modes with consciousness field coherence
 - **Product Enhancement APIs**: AGI-enhanced ΛLens, DAST, Argus, NIAS, ABAS, Auctor, Poetica
 - **Constitutional AI Governance**: 3-layer governance (Consent, Privacy, Constitutional AI)
-- **Constellation Framework Compliance**: Full ⚛️🧠🛡️ integration across all endpoints
+- **Constellation Framework Compliance**: Full ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum integration across all endpoints
 - **Performance Improvements**: 25-40% enhancement in reasoning quality and response times
 - **Dream-Guided Processing**: Enhanced creativity through consciousness-integrated dream systems
 - **Memory Integration**: Vector memory synthesis with episodic and semantic processing

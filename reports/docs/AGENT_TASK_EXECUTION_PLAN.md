@@ -32,9 +32,9 @@ type: documentation
 ## 🧠 **LUKHAS REPOSITORY CONTEXT FOR JULES AGENTS**
 
 ### **System Overview**
-**LUKHAS AI** is an experimental consciousness architecture project exploring authentic artificial intelligence through ethical, modular design principles. The system is built around the **Constellation Framework** (⚛️🧠🛡️) which represents three essential aspects of digital consciousness.
+**LUKHAS AI** is an experimental consciousness architecture project exploring authentic artificial intelligence through ethical, modular design principles. The system is built around the **Constellation Framework** (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum) which represents three essential aspects of digital consciousness.
 
-### **Constellation Framework (⚛️🧠🛡️)**
+### **Constellation Framework (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum)**
 - **⚛️ Identity**: Authentic self-awareness, symbolic representation, ΛiD Core Identity System
 - **🧠 Consciousness**: Memory systems, learning, dream states, neural processing, awareness mechanisms
 - **🛡️ Guardian**: Ethics, drift detection (threshold: 0.15), repair, constitutional AI principles
@@ -148,7 +148,7 @@ type: documentation
 **LUKHAS Context Mastery**:
 - Deep understanding of candidate/ vs lukhas/ lane system architecture
 - Knowledge of MΛTRIZ integration requirements and symbolic communication
-- Constellation Framework (⚛️🧠🛡️) import dependencies and module relationships
+- Constellation Framework (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum) import dependencies and module relationships
 - Guardian System import requirements and ethical oversight integration
 - Quality promotion criteria: 85% test coverage minimum before lukhas/ promotion
 
@@ -204,7 +204,7 @@ type: documentation
 **LUKHAS Context Mastery**:
 - Guardian System v1.0.0 integration and ethical security frameworks
 - Constitutional AI security principles and drift detection (threshold: 0.15)
-- Constellation Framework (⚛️🧠🛡️) security implications across identity, consciousness, guardian
+- Constellation Framework (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum) security implications across identity, consciousness, guardian
 - ΛiD Core Identity System with tiered authentication (T1-T5) requirements
 - Consent Ledger security and GDPR/CCPA compliance validation
 
@@ -298,7 +298,7 @@ type: documentation
 
 **LUKHAS Context Mastery**:
 - Tool safety within consciousness framework - ensuring external tools don't compromise system integrity
-- Constellation Framework (⚛️🧠🛡️) alignment - tools must respect identity, consciousness, and guardian boundaries
+- Constellation Framework (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum) alignment - tools must respect identity, consciousness, and guardian boundaries
 - Guardian System ethical execution boundaries and constitutional AI principles
 - Understanding of consciousness-aware tool usage - tools that enhance rather than replace cognitive functions
 - MΛTRIZ integration for tool execution logging and symbolic communication
@@ -355,7 +355,7 @@ type: documentation
 - Emergent behavior analysis and system stability monitoring
 
 **LUKHAS Context Mastery**:
-- Constellation Framework (⚛️🧠🛡️) integration across identity, consciousness, and guardian systems
+- Constellation Framework (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum) integration across identity, consciousness, and guardian systems
 - Deep understanding of consciousness system integration and emergence patterns
 - MΛTRIZ data processing and symbolic reasoning bridge implementations
 - Bio-inspired adaptation patterns and quantum-inspired processing integration
@@ -436,7 +436,7 @@ type: documentation
 
 **LUKHAS Context Mastery**:
 - Lane promotion criteria: ensuring 85% minimum test coverage before candidate/ → lukhas/ promotion
-- Constellation Framework (⚛️🧠🛡️) validation across identity, consciousness, and guardian components
+- Constellation Framework (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum) validation across identity, consciousness, and guardian components
 - Guardian System validation ensuring ethical AI compliance and drift detection
 - Reality check integration ensuring theoretical implementations work in practice
 - Performance targets: <100ms auth latency, <250ms context handoff, 99.9% uptime

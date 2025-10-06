@@ -39,7 +39,7 @@ Through the Constellation Framework's wisdom—Identity (⚛️), Consciousness 
 
 ### 🚀 **Quick Start Guides**
 - **[Getting Started](./quick-start.md)** - Essential setup and first steps
-- **[Constellation Framework Basics](./trinity-basics.md)** - Understanding the core ⚛️🧠🛡️ architecture
+- **[Constellation Framework Basics](./trinity-basics.md)** - Understanding the core ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum architecture
 - **[API Integration](./api-integration.md)** - RESTful API implementation guide
 
 ---
@@ -102,14 +102,14 @@ identity = LambdaIdWrapper()
 guardian = GuardianValidator()
 
 # Verify Constellation Framework
-print("⚛️🧠🛡️ Constellation Framework Active")
+print("⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum Constellation Framework Active")
 ```
 
 ---
 
 ## 🎓 **Core Concepts**
 
-### Constellation Framework (⚛️🧠🛡️)
+### Constellation Framework (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum)
 The foundation of all LUKHAS AI integrations:
 
 - **⚛️ Identity**: Authentic self-awareness and user identity management
@@ -151,7 +151,7 @@ Common patterns for LUKHAS integration:
 
 ### Consciousness Metrics
 - **Awareness Coherence**: Consciousness state consistency across domains
-- **Trinity Alignment**: ⚛️🧠🛡️ framework compliance percentage
+- **Trinity Alignment**: ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum framework compliance percentage
 - **Namespace Isolation**: Security boundary effectiveness
 - **Bio-Symbolic Accuracy**: Biological signal interpretation precision
 

@@ -537,4 +537,4 @@ describe('Complete Auth Flows', () => {
 
 ---
 
-*This state machine integrates with the LUKHAS Constellation Framework (⚛️🧠🛡️) and follows LUKHAS branding guidelines.*
+*This state machine integrates with the LUKHAS Constellation Framework (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum) and follows LUKHAS branding guidelines.*

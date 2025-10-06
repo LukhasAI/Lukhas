@@ -27,7 +27,7 @@ type: documentation
 
 LUKHAS uses **two distinct frameworks** depending on audience and context:
 
-**Constellation Framework (⚛️🧠🛡️) - INTERNAL/TECHNICAL USE**:
+**Constellation Framework (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum) - INTERNAL/TECHNICAL USE**:
 - **When**: Internal documentation, technical specs, code comments, architecture discussions
 - **Audience**: Developers, architects, internal team members
 - **Elements**: 3 pillars - ⚛️ Identity, 🧠 Consciousness, 🛡️ Guardian

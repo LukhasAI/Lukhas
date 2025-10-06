@@ -87,7 +87,7 @@ All agent configurations are located in:
 ```bash
 # Copy configurations from agents/ to Claude Desktop
 # Each agent has individual JSON configuration file
-# Deploy according to Constellation Framework principles (⚛️🧠🛡️)
+# Deploy according to Constellation Framework principles (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum)
 ```
 
 ### **2. Agent Activation**

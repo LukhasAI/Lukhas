@@ -60,7 +60,7 @@ This project represents a unique **Human-AI Co-Creation** model where:
 ## 📋 Contribution Guidelines
 
 ### For Human Contributors
-- All contributions must align with LUKHAS Constellation Framework principles (⚛️🧠🛡️)
+- All contributions must align with LUKHAS Constellation Framework principles (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum)
 - Maintain symbolic consistency in glyph usage and communication
 - Follow Guardian System ethical oversight requirements
 - Preserve audit trail and causality chains in all modifications
@@ -150,6 +150,6 @@ GitHub Repository: https://github.com/agi_dev/Lukhas
 
 **Last Updated**: August 2025
 **Document Version**: 1.0.0
-**Constellation Framework**: ⚛️🧠🛡️ **ACTIVE**
+**Constellation Framework**: ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum **ACTIVE**
 
 *"In collaborative intelligence, we find emergent possibilities."*

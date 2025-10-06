@@ -54,7 +54,7 @@ This directory contains comprehensive technical references, module specification
 ## 🎯 **Reference Standards**
 
 ### **Constellation Framework References**
-All references align with the Constellation Framework (⚛️🧠🛡️):
+All references align with the Constellation Framework (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum):
 - **⚛️ Identity**: Technical identity system specifications
 - **🧠 Consciousness**: Consciousness module technical details
 - **🛡️ Guardian**: Security and protection system references

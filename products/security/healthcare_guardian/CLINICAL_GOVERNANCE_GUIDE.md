@@ -128,7 +128,7 @@ timeline = await case_manager.get_case_timeline(case_id)
 
 **Purpose:** Real-time visualization of clinical governance metrics
 **Refresh Rate:** <250ms for critical alerts
-**Trinity Integration:** Full ⚛️🧠🛡️ status monitoring
+**Trinity Integration:** Full ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum status monitoring
 
 ```python
 from governance.monitoring.guardian_dashboard import GuardianDashboard
@@ -580,5 +580,5 @@ If something seems wrong, it stops and asks for help. It learns from mistakes. I
 
 **Clinical Governance Guide** — Ethical AI Healthcare Oversight
 *Part of ΛHealthcare Guardian System*
-*Powered by LUKHAS AI Constellation Framework (8 Stars) ⚛️🧠🛡️*
+*Powered by LUKHAS AI Constellation Framework (8 Stars) ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum*
 *Where Consciousness Guides Clinical Care*

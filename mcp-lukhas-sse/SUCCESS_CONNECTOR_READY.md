@@ -34,7 +34,7 @@ Your LUKHAS AI REST API is now **fully deployed** and **ChatGPT Connector ready*
 **Health Check:**
 ```bash
 curl https://lukhas-mcp-production.up.railway.app/health
-# ✅ {"status":"healthy","constellation_framework":"⚛️🧠🛡️",...}
+# ✅ {"status":"healthy","constellation_framework":"⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum",...}
 ```
 
 **Constellation Framework Info:**
@@ -53,7 +53,7 @@ curl https://lukhas-mcp-production.up.railway.app/openapi.json | jq .info.title
 
 Once connected, ChatGPT can:
 - ✅ Check LUKHAS AI system health
-- ✅ Get Constellation Framework information (⚛️🧠🛡️)
+- ✅ Get Constellation Framework information (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum)
 - ✅ Browse safe directories (`/tmp`, `/var/tmp`)
 - ✅ Read text files securely (max 1MB)
 - ✅ Access full platform architecture details
@@ -78,7 +78,7 @@ Once connected, ChatGPT can:
 
 - **Deployment Platform:** Railway (99.9% uptime)
 - **Server Status:** ✅ HEALTHY
-- **Constellation Framework:** ⚛️🧠🛡️ ACTIVE
+- **Constellation Framework:** ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum ACTIVE
 - **Security:** ✅ ENABLED
 - **CORS:** ✅ CONFIGURED
 - **OpenAPI:** ✅ AVAILABLE

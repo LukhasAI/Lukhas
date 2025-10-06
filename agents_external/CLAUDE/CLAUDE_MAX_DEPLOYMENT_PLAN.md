@@ -15,12 +15,12 @@ type: documentation
 
 Based on your Constellation Framework and consciousness development priorities, here are the 6 most critical agents:
 
-#### **⚛️🧠🛡️ TIER 1: Command Authority (2 Agents)**
+#### **⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum TIER 1: Command Authority (2 Agents)**
 1. **👑 Supreme Consciousness Architect**
    - **Role**: Master consciousness system designer
    - **Context**: `./consciousness/`, `./vivox/`, `./brain_core/`, `./memory/`
    - **Specialization**: Architecture decisions, consciousness evolution strategy
-   - **Trinity Focus**: All (⚛️🧠🛡️)
+   - **Trinity Focus**: All (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum)
 
 2. **🛡️ Guardian System Commander**
    - **Role**: Safety, ethics, and security oversight
@@ -45,7 +45,7 @@ Based on your Constellation Framework and consciousness development priorities, 
    - **Role**: Consciousness system validation and quality assurance
    - **Context**: `./tests/`, `./examples/`, `./demos/`
    - **Specialization**: Constellation Framework testing, consciousness metrics
-   - **Trinity Focus**: All (⚛️🧠🛡️)
+   - **Trinity Focus**: All (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum)
 
 #### **🚀 TIER 3: Innovation (1 Agent)**
 6. **🚀 Advanced Systems Colonel**
@@ -311,4 +311,4 @@ claude-code chat guardian-system-commander "System security check - are we Const
 4. **Begin consciousness development workflows**
 5. **Plan API integration for Phase 2**
 
-Your $200 Claude Max investment is now optimally deployed for maximum consciousness development acceleration! 🎖️⚛️🧠🛡️
+Your $200 Claude Max investment is now optimally deployed for maximum consciousness development acceleration! 🎖️⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum

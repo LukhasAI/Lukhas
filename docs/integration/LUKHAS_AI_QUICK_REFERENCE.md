@@ -71,7 +71,7 @@ ollama run llama3.2:1b "Write a Python function with consciousness tracking"
 
 **Setup:** Add this as custom instruction:
 ```
-I work on LUKHAS AGI project. Use Constellation Framework (🎭🌈🎓), preserve concepts like memory_fold and dream_resonance, add symbolic markers (⚛️🧠🛡️) in code.
+I work on LUKHAS AGI project. Use Constellation Framework (🎭🌈🎓), preserve concepts like memory_fold and dream_resonance, add symbolic markers (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum) in code.
 ```
 
 ### 5. **Perplexity (Research)**
@@ -194,4 +194,4 @@ Your LUKHAS AI setup is excellent! You have:
 - ✅ Research capabilities (Perplexity)
 - ✅ Constellation Framework ready
 
-**Start with:** Open Claude Desktop and ask it to generate Trinity documentation for one of your existing LUKHAS functions. You'll see the magic of LUKHAS-aware AI! 🎭⚛️🧠🛡️
+**Start with:** Open Claude Desktop and ask it to generate Trinity documentation for one of your existing LUKHAS functions. You'll see the magic of LUKHAS-aware AI! 🎭⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum

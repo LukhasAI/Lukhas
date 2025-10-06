@@ -458,7 +458,7 @@ git status  # Should show clean organization
 
 ---
 
-*Task assignments follow LUKHAS AI's Constellation Framework (⚛️🧠🛡️) with evidence-based success criteria and transparent validation protocols.*
+*Task assignments follow LUKHAS AI's Constellation Framework (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum) with evidence-based success criteria and transparent validation protocols.*
 
 ---
 

@@ -43,7 +43,7 @@ This document outlines the recovery procedures for LUKHAS AI system components i
 - [ ] Verify git repository integrity
 - [ ] Check backup systems
 - [ ] Validate core consciousness modules
-- [ ] Test Constellation Framework components (⚛️🧠🛡️)
+- [ ] Test Constellation Framework components (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum)
 - [ ] Restore agent configurations
 - [ ] Validate API endpoints
 - [ ] Run comprehensive test suite
@@ -58,4 +58,4 @@ This document outlines the recovery procedures for LUKHAS AI system components i
 
 ---
 
-**🎖️ Constellation Framework Compliance**: All recovery procedures align with ⚛️🧠🛡️ principles
+**🎖️ Constellation Framework Compliance**: All recovery procedures align with ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum principles

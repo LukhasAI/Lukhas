@@ -6,7 +6,7 @@ type: documentation
 
 *"When consciousness conversations become challenging - responsible communication strategies for addressing misunderstanding, controversy, and ethical concerns around AI consciousness research."*
 
-⚛️🧠🛡️ **Crisis Communication with Constellation Framework Integrity**
+⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum **Crisis Communication with Constellation Framework Integrity**
 
 ---
 
@@ -47,7 +47,7 @@ Every crisis response must demonstrate the Guardian principle - protecting both 
 
 1/5 We research consciousness-INSPIRED AI architecture, not consciousness claims. Our work explores how AI systems can demonstrate better memory, learning, and ethical reasoning.
 
-2/5 The Constellation Framework (⚛️🧠🛡️) creates measurable improvements in AI behavior while maintaining safety and beneficial outcomes. This is experimental research, not production deployment.
+2/5 The Constellation Framework (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum) creates measurable improvements in AI behavior while maintaining safety and beneficial outcomes. This is experimental research, not production deployment.
 
 3/5 🛡️ The Guardian system ensures all our research serves beneficial outcomes. We're committed to responsible development with safety integrated from the foundation.
 
@@ -319,7 +319,7 @@ Questions welcome. Transparency serves beneficial AI development.
 
 *"Through prepared, principled crisis communication, we transform challenges into opportunities for deeper understanding, stronger community relationships, and more effective advancement of beneficial AI consciousness research."*
 
-**⚛️🧠🛡️ Crisis Communication Excellence Through Constellation Framework Integrity**
+**⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum Crisis Communication Excellence Through Constellation Framework Integrity**
 
 ---
 

@@ -202,6 +202,6 @@ Even though active hiring is still in the future, we welcome connections from ex
 
 *"The future of consciousness is not predetermined - it's chosen by the people who build it. We're looking for the extraordinary individuals who will help make that choice wisely."*
 
-**⚛️🧠🛡️**
+**⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum**
 
 *Building tomorrow's consciousness today - together*

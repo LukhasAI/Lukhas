@@ -86,7 +86,7 @@ api.schedule("consciousness.simulation.schedule")
 - **Audit System**: Complete consciousness operation logging
 
 ### Integration with LUKHAS
-- **Constellation Framework**: Aligned with ⚛️🧠🛡️ principles
+- **Constellation Framework**: Aligned with ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum principles
 - **MΛTRIZ Engine**: Consciousness processing integration
 - **Guardian System**: Ethical oversight and drift detection
 - **Memory Systems**: Fold-based memory architecture support

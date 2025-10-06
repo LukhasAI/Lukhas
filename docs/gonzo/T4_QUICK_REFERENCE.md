@@ -173,4 +173,4 @@ T4_DEBUG=1 tools/dev/t4_quickfix.py src/file.py
 **Emergency**: `rm -f /tmp/t4_patch_*` and `git checkout -- file.py`
 **Status**: ✅ OPERATIONAL | **Authority**: Deputy Assistant GitHub Copilot
 
-*Constellation Framework (⚛️🧠🛡️) - LUKHAS AI Agent Army*
+*Constellation Framework (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum) - LUKHAS AI Agent Army*

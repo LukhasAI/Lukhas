@@ -22,7 +22,7 @@ This directory contains comprehensive documentation of LUKHAS AI's original rese
   - Research impact and future development
 
 #### 🧠 **Consciousness Innovations** *(Planned)*
-- **CONSCIOUSNESS_ARCHITECTURE.md** - Constellation Framework (⚛️🧠🛡️)
+- **CONSCIOUSNESS_ARCHITECTURE.md** - Constellation Framework (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum)
 - **VIVOX_SYSTEM_INNOVATION.md** - VIVOX consciousness system design
 - **MEMORY_FOLD_DISCOVERY.md** - Memory folding architecture
 - **ETHICAL_AI_BREAKTHROUGH.md** - Mathematical ethics implementation

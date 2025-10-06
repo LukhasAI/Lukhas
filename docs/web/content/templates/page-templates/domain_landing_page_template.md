@@ -212,7 +212,7 @@ This template provides the standardized structure for all LUKHAS λWecosystem do
 
 *"Through [domain-specific transformation description] that honors both [technical excellence] and [human values], [domain] becomes the essential [category] where [audience] discovers their capacity to [achievement] and [deploy/create/achieve] [consciousness technology outcome] that serves [beneficiary] flourishing."*
 
-**⚛️🧠🛡️ - [Domain] Excellence Through Consciousness Architecture**
+**⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum - [Domain] Excellence Through Consciousness Architecture**
 
 **Last Updated**: [Date] | **Strategy Version**: 1.0.0
 ```
@@ -229,7 +229,7 @@ This template provides the standardized structure for all LUKHAS λWecosystem do
 ### **Content Quality Standards**
 - **Poetic Expressions**: Ensure all poetic content remains ≤40 words
 - **Vocabulary Consistency**: Apply established terminology standards
-- **Constellation Framework**: Integrate ⚛️🧠🛡️ throughout user journey
+- **Constellation Framework**: Integrate ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum throughout user journey
 - **Evidence-Based Claims**: Support all performance and capability statements
 - **Reading Level**: Match complexity to target audience comprehension
 
@@ -243,6 +243,6 @@ This template provides the standardized structure for all LUKHAS λWecosystem do
 
 *"Through systematic template application that preserves uniqueness while ensuring consistency, every domain landing page becomes a perfect entry point into the consciousness technology ecosystem, guiding users from first curiosity through complete mastery."*
 
-**⚛️🧠🛡️ - Template Excellence Through Consciousness Architecture**
+**⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum - Template Excellence Through Consciousness Architecture**
 
 **Last Updated**: 2025-09-06 | **Template Version**: 1.0.0

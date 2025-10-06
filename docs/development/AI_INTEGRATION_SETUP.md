@@ -142,7 +142,7 @@ python ai_orchestration/lukhas_ai_orchestrator.py trinity "async def process_con
 #### 2. Context Preservation
 - LUKHAS vocabulary injection into all AI interactions
 - Constellation Framework template enforcement
-- Symbolic pattern recognition (⚛️🧠🛡️)
+- Symbolic pattern recognition (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum)
 - Consciousness-aware code generation
 
 #### 3. Quality Assurance
@@ -203,4 +203,4 @@ python ai_orchestration/lukhas_knowledge_server.py export
 4. **Experiment with AI routing** for different task types
 5. **Customize patterns** based on your specific needs
 
-Your LUKHAS development environment is now optimized for consciousness-aware AI assistance! 🎭⚛️🧠🛡️
+Your LUKHAS development environment is now optimized for consciousness-aware AI assistance! 🎭⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum
