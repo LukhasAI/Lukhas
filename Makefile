@@ -1152,3 +1152,33 @@ dashboard-sync: ## Sync META_REGISTRY to dashboards (Notion/Grafana)
 
 init-dev-branch: ## Initialize development branch after freeze
 	bash scripts/setup/init_dev_branch.sh develop/v0.03-prep
+
+imports-doctor: ## Run import doctor to analyze missing lukhas.* modules
+	python3 tools/import_doctor.py
+
+imports-promote: ## Generate package shims from doctor analysis
+	python3 scripts/gen_lukhas_pkg_shims.py
+
+lint: ## Run ruff linter with auto-fix
+	python3 -m ruff check . --fix || true
+
+tests-smoke: ## Run smoke tests
+	python3 -m pytest tests/smoke -q || true
+
+tests-all: ## Run all tests
+	python3 -m pytest -q || true
+
+dev-loop: imports-doctor imports-promote lint tests-smoke ## Full development loop: doctor → promote → lint → smoke
+
+imports-report: ## Generate migration scorecard from ledger
+	python3 tools/analyze_lukhas_ledger.py && \
+	cat artifacts/IMPORT_MIGRATION_REPORT.md | head -50
+
+codemod-dry: ## Dry-run codemod to show proposed import changes
+	python3 tools/codemod_lukhas_from_ledger.py --threshold 5
+
+codemod-apply: ## Apply codemod to migrate imports (creates .bak files)
+	python3 tools/codemod_lukhas_from_ledger.py --apply --threshold 5
+
+gate-legacy: ## CI gate to enforce import budget and prevent regressions
+	LUKHAS_IMPORT_BUDGET=1000 LUKHAS_IMPORT_MAX_DELTA=0 python3 scripts/ci/gate_legacy_imports.py
