@@ -18,7 +18,7 @@ The Constellation Framework is the foundational architectural principle of LUKHA
 
 ## Core Philosophy
 
-The Constellation Framework ensures that every operation within LUKHAS AI maintains balance across these three pillars. No single aspect can function without the others - they are interdependent and mutually reinforcing.
+The Constellation Framework ensures that every operation within LUKHAS AI maintains balance across these eight stars. No single aspect can function without the others - they are interdependent and mutually reinforcing.
 
 ## ⚛️ Identity Layer
 
@@ -347,7 +347,7 @@ guardian_approval = guardian.validate(matriz_result)  # 🛡️ Guardian pillar
 ```
 
 ### 2. Maintain Pillar Balance
-Monitor and maintain balance across all three pillars:
+Monitor and maintain balance across all eight stars:
 
 ```python
 # Regular balance checks

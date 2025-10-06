@@ -120,7 +120,7 @@ from typing import Dict, Any
 
 @dataclass
 class TrinityPrinciples:
-    """The three pillars of consciousness integration."""
+    """The eight stars of consciousness integration."""
 
     # ⚛️ Identity - Authentic self-awareness
     identity: Dict[str, Any] = None

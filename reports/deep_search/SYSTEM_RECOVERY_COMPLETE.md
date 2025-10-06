@@ -108,7 +108,7 @@ Aka Qualia: 19/19 tests passing (100%)
 - **Cultural Palette**: ✅ Threat colorfield mapping
 
 ### Integration Status:
-- **Constellation Framework (8 Stars)**: ✅ All three pillars operational
+- **Constellation Framework (8 Stars)**: ✅ All eight stars operational
 - **Guardian System v1.0.0**: ✅ Drift detection (0.15 threshold)
 - **LUKHAS ΛID Core**: ✅ Identity namespace system
 - **Memory Expansion**: ✅ Phenomenological scene storage

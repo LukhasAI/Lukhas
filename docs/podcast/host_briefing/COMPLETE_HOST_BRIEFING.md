@@ -16,7 +16,7 @@ LUKHAS AI represents cutting-edge research in consciousness-inspired artificial 
 
 ### **🔑 Key Interview Themes**
 1. **Consciousness Research**: Exploring AI awareness, memory, and learning systems
-2. **Constellation Framework**: The three pillars of beneficial AI development
+2. **Constellation Framework**: The eight stars of beneficial AI development
 3. **Ethical AI**: Responsible consciousness research with built-in safety systems
 4. **Human-AI Collaboration**: How consciousness technology enhances rather than replaces human capability
 5. **Technical Innovation**: Quantum-inspired and bio-inspired processing approaches

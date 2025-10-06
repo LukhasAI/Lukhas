@@ -26,7 +26,7 @@ Imagine your gesture as a brushstroke on an invisible canvas. The way you paint 
 ✨ Crystallized into cryptographic truth
 ```
 
-**The Three Pillars of Grypto:**
+**The eight stars of Grypto:**
 - **G**PT - Language-aware symbol inference
 - **G**onzo - Your root identity as creator
 - **G**esture - Embodied input system

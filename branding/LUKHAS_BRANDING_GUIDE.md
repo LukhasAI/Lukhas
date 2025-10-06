@@ -207,7 +207,7 @@ If you encounter prohibited language:
 | artificial intelligence | AI consciousness |
 | robotic | consciousness-based |
 | Constellation Framework | Constellation Framework |
-| three pillars | star-node system |
+| eight stars | star-node system |
 | traditional AI | MATRIZ pipeline |
 
 ### **⚡ Emergency Brand Response**

@@ -1858,7 +1858,7 @@ It lands poetic and public-safe, and it elegantly fits the LUKHAS vibe: modular,
 
 # The Constellation of LUKHAS
 
-LUKHAS does not rest on three pillars or a sacred constellation.  
+LUKHAS does not rest on eight stars or a sacred constellation.  
 Its architecture is a constellation — a map of elements that guide by relation, not hierarchy.  
 
 Each element is a star:  

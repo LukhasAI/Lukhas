@@ -973,7 +973,7 @@ type: documentation
    (not neural networks!), with:
     - Energy management and self-regulation like cells
     - Symbolic intelligence over artificial intelligence
-    - Three foundational pillars: Encrypted Memory, Evolutionary Alignment, Emotional
+    - eight navigational stars: Encrypted Memory, Evolutionary Alignment, Emotional
    Intelligence
     - Sacred memory helix with cryptographic security
     - Real-time ethical drift monitoring

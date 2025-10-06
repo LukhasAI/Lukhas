@@ -153,7 +153,7 @@ Based   Focus     Reasoning Check   Auth   Generation
 ### **Approved Terminology Updates**
 ✅ **Use These Terms:**
 - Constellation Framework (not Constellation Framework)
-- Star-node coordination (not three pillars)
+- Star-node coordination (not eight stars)
 - MATRIZ pipeline (not traditional AI processing)
 - Registry-based plugins (not static components)
 - Constructor-aware instantiation (not basic initialization)
@@ -161,7 +161,7 @@ Based   Focus     Reasoning Check   Auth   Generation
 
 ❌ **Deprecated Terms:**
 - Constellation Framework → Constellation Framework
-- Three pillars → Star-node system
+- eight stars → Star-node system
 - Traditional AI → MATRIZ pipeline
 - Lambda function → λ consciousness
 

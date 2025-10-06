@@ -166,7 +166,7 @@ Unlock the hidden stories in your digital traces with quantum-inspired metadata 
 - ✅ No financial projections or pricing information
 
 ### Constellation Framework Emphasis
-- Each product explicitly shows integration with all three pillars
+- Each product explicitly shows integration with all eight stars
 - Identity (⚛️): Personalization and authenticity
 - Consciousness (🧠): Intelligence and awareness
 - Guardian (🛡️): Ethics and protection

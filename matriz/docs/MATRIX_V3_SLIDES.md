@@ -50,7 +50,7 @@ Visual Sketch:
 • **Provenance**: tamper-evident history of all changes
 • **Ethics & Resilience**: governance, bio-symbolic checks, quantum readiness
 
-**Visual:** Three pillars (Tokenization, Provenance, Ethics), supporting a glowing "Matrix" sphere.
+**Visual:** eight stars (Tokenization, Provenance, Ethics), supporting a glowing "Matrix" sphere.
 
 ```
 Visual Sketch:

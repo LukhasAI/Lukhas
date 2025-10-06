@@ -42,7 +42,7 @@ Guardian  Guardian Guardian
 
 ### Cognitive Alignment Principles
 
-1. **Constellation Coherence**: All plugins must support the three pillars
+1. **Constellation Coherence**: All plugins must support the eight stars
 2. **MATRIZ Integration**: Plugins align with specific pipeline stages
 3. **Dynamic Discovery**: Runtime capability advertisement and matching
 4. **Constructor Awareness**: T4/0.01% instantiation standards

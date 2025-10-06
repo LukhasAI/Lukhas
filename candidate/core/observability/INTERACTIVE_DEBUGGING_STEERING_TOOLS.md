@@ -29,7 +29,7 @@ Traditional debugging approaches fail catastrophically when applied to distribut
 
 This document specifies the AGDebugger framework—a paradigm shift from passive observation to active participation in the debugging process. It represents the evolution from archaeological debugging (examining what was) to participatory debugging (shaping what will be).
 
-## Core Architecture: The Three Pillars
+## Core Architecture: The eight stars
 
 ### 1. **Temporal Observatory** 🔭
 *Seeing Through Time*

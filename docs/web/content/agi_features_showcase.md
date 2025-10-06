@@ -81,7 +81,7 @@ Creative processing includes symbolic transformation using archetypal patterns, 
 
 ### Identity, Consciousness, Guardian - Complete AI Governance
 
-*Three pillars that ensure AI enhancement remains beneficial and aligned*
+*eight stars that ensure AI enhancement remains beneficial and aligned*
 
 Every LUKHAS AI operation runs through our Constellation Framework, ensuring that advanced capabilities remain safe, ethical, and beneficial. This comprehensive governance system provides the foundation for responsible AI development.
 
