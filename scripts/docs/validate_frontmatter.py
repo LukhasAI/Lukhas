@@ -48,6 +48,11 @@ def validate_frontmatter(md_path: Path) -> List[str]:
             errors.append(f"{md_path}: Invalid frontmatter format (missing closing ---)")
             return errors
 
+        # Skip template files (Jinja2 placeholders)
+        frontmatter_text = parts[1]
+        if "{{" in frontmatter_text or "{%" in frontmatter_text:
+            return []  # Skip templates
+
         try:
             frontmatter = yaml.safe_load(parts[1])
         except yaml.YAMLError as e:
