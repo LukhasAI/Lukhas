@@ -32,9 +32,23 @@ def export_from(mod: ModuleType, names: Iterable[str] | None = None) -> dict:
     return {n: getattr(mod, n) for n in names}
 
 
-def deprecate(msg: str) -> None:
-    """Emit deprecation warning with proper stacklevel."""
-    warnings.warn(msg, DeprecationWarning, stacklevel=3)
+def deprecate(name_or_msg: str, msg: str | None = None) -> None:
+    """Emit deprecation warning with proper stacklevel.
+
+    Can be called as:
+        deprecate("message")  # old style
+        deprecate(__name__, "message")  # new style with module name
+    """
+    if msg is None:
+        warnings.warn(name_or_msg, DeprecationWarning, stacklevel=3)
+    else:
+        warnings.warn(f"{name_or_msg}: {msg}", DeprecationWarning, stacklevel=3)
+
+
+def safe_guard(name: str, exports: list[str]) -> None:
+    """Guard against empty exports (no-op, for compatibility)."""
+    if not exports:
+        warnings.warn(f"{name}: No exports found in backend", UserWarning, stacklevel=2)
 
 
 def bridge(

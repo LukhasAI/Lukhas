@@ -1,9 +1,9 @@
-"""Bridge: memory.folds (fold engines, ops, etc.)."""
+"""Bridge: memory.folds (namespace for fold engines)."""
 from __future__ import annotations
 from lukhas._bridgeutils import bridge_from_candidates
-_CANDIDATES = (
+__all__, _exp = bridge_from_candidates(
     "lukhas_website.lukhas.memory.folds",
     "candidate.memory.folds",
     "memory.folds",
 )
-__all__, _exports = bridge_from_candidates(*_CANDIDATES); globals().update(_exports)
+globals().update(_exp)

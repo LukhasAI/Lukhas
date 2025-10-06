@@ -1,14 +1,10 @@
-"""Experience Products - User Experience, Voice, and Language Systems.
-
-- voice/              - Complete voice system (TTS, recognition, modulation, branding)
-- feedback/           - User feedback collection and analysis systems
-- universal_language/ - Linguistic framework (vocabulary, grammar, glyph systems)
-- dashboard/          - Visualization and dashboard systems
-"""
-
-from .streamlit_safe import STREAMLIT_AVAILABLE, get_streamlit
-
-# ΛTAG: experience_streamlit
-st = get_streamlit()
-
-__all__ = ["dashboard", "feedback", "universal_language", "voice", "st", "STREAMLIT_AVAILABLE"]
+"""Bridge: products.experience (public facade for UX modules)."""
+from __future__ import annotations
+from lukhas._bridgeutils import bridge_from_candidates, deprecate
+_CANDIDATES = (
+    "lukhas_website.lukhas.products.experience",
+    "candidate.products.experience",
+    "products.experience",
+)
+__all__, _exports = bridge_from_candidates(*_CANDIDATES); globals().update(_exports)
+deprecate(__name__, "use via lukhas.products.experience")
