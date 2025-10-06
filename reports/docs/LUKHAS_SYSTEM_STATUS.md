@@ -1,6 +1,7 @@
 ---
 module: reports
-title: LUKHAS System Status — Reality (SHA: 18250070)
+title: |
+  LUKHAS System Status — Reality (SHA: 18250070)
 ---
 
 # LUKHAS System Status — Reality (SHA: 18250070)

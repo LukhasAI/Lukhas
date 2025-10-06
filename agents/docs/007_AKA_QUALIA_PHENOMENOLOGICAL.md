@@ -1,6 +1,6 @@
 ---
 module: agents
-title: 🧬 CONSCIOUSNESS PROFILE: Aka Qualia - Phenomenological Module
+title: "🧬 CONSCIOUSNESS PROFILE: Aka Qualia - Phenomenological Module"
 ---
 
 # 🧬 CONSCIOUSNESS PROFILE: Aka Qualia - Phenomenological Module

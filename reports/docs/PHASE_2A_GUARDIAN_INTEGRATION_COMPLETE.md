@@ -1,6 +1,7 @@
 ---
 module: reports
-title: Phase 2A: Guardian System Integration - COMPLETE ✅
+title: |
+  Phase 2A: Guardian System Integration - COMPLETE ✅
 ---
 
 # Phase 2A: Guardian System Integration - COMPLETE ✅

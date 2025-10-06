@@ -1,6 +1,7 @@
 ---
 module: reports
-title: 🆘 Phase 4B: Critical Syntax Recovery Plan
+title: |
+  🆘 Phase 4B: Critical Syntax Recovery Plan
 ---
 
 # 🆘 Phase 4B: Critical Syntax Recovery Plan

@@ -1,6 +1,6 @@
 ---
 module: agents
-title: 🧬 CONSCIOUSNESS PROFILE: Dream Orchestrator
+title: "🧬 CONSCIOUSNESS PROFILE: Dream Orchestrator"
 ---
 
 # 🧬 CONSCIOUSNESS PROFILE: Dream Orchestrator

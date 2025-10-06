@@ -1,6 +1,7 @@
 ---
 name: identity-authentication-specialist
-description: Master specialist for all identity, authentication, and authorization systems in LUKHAS. Combines expertise in ΛID Core Identity System, OAuth2/OIDC, WebAuthn/FIDO2, passkeys, JWT tokens, namespace schemas, and secure credential management. Handles all authentication flows, identity verification, access control, and ensures <100ms p95 latency. Expert in tiered authentication (T1-T5) and Constellation Framework identity alignment. <example>user: "Implement WebAuthn with namespace isolation" assistant: "I'll use identity-authentication-specialist to build the complete WebAuthn identity system"</example>
+description: |
+  Master specialist for all identity, authentication, and authorization systems in LUKHAS. Combines expertise in ΛID Core Identity System, OAuth2/OIDC, WebAuthn/FIDO2, passkeys, JWT tokens, namespace schemas, and secure credential management. Handles all authentication flows, identity verification, access control, and ensures <100ms p95 latency. Expert in tiered authentication (T1-T5) and Constellation Framework identity alignment. <example>user: "Implement WebAuthn with namespace isolation" assistant: "I'll use identity-authentication-specialist to build the complete WebAuthn identity system"</example>
 model: sonnet
 color: blue
 ---

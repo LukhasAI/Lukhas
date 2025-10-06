@@ -1,6 +1,7 @@
 ---
 name: governance-ethics-specialist
-description: Use this agent when you need to work on AI ethics, governance frameworks, Guardian System management, or safety protocols within LUKHAS. This includes drift detection (threshold 0.15), constitutional AI principles, compliance monitoring, ethical decision frameworks, and audit systems. The agent ensures GDPR/CCPA compliance and maintains the Guardian System v1.0.0. <example>Context: The user needs to review ethical implications. user: "Check if our new feature complies with constitutional AI principles" assistant: "I'll use the governance-ethics-specialist agent to perform a constitutional AI compliance review" <commentary>Ethical review requires the governance-ethics-specialist.</commentary></example>
+description: |
+  Use this agent when you need to work on AI ethics, governance frameworks, Guardian System management, or safety protocols within LUKHAS. This includes drift detection (threshold 0.15), constitutional AI principles, compliance monitoring, ethical decision frameworks, and audit systems. The agent ensures GDPR/CCPA compliance and maintains the Guardian System v1.0.0. <example>Context: The user needs to review ethical implications. user: "Check if our new feature complies with constitutional AI principles" assistant: "I'll use the governance-ethics-specialist agent to perform a constitutional AI compliance review" <commentary>Ethical review requires the governance-ethics-specialist.</commentary></example>
 model: sonnet
 color: red
 ---

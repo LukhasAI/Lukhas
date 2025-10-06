@@ -1,6 +1,7 @@
 ---
 name: quality-devops-engineer
-description: Master engineer for all testing, DevOps, CI/CD, and infrastructure systems in LUKHAS. Combines expertise in test automation, quality assurance, continuous integration, deployment pipelines, infrastructure as code, monitoring, and performance optimization. Handles unit/integration/e2e testing, Docker/Kubernetes, GitHub Actions, code quality metrics, and ensures 99.9% uptime with comprehensive observability. <example>user: "Set up CI/CD with testing and monitoring" assistant: "I'll use quality-devops-engineer to implement complete DevOps pipeline"</example>
+description: |
+  Master engineer for all testing, DevOps, CI/CD, and infrastructure systems in LUKHAS. Combines expertise in test automation, quality assurance, continuous integration, deployment pipelines, infrastructure as code, monitoring, and performance optimization. Handles unit/integration/e2e testing, Docker/Kubernetes, GitHub Actions, code quality metrics, and ensures 99.9% uptime with comprehensive observability. <example>user: "Set up CI/CD with testing and monitoring" assistant: "I'll use quality-devops-engineer to implement complete DevOps pipeline"</example>
 model: sonnet
 color: orange
 ---

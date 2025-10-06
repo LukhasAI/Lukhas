@@ -1,6 +1,7 @@
 ---
 name: api-bridge-specialist
-description: Use this agent when you need to design APIs, integrate external AI services, or orchestrate multi-AI workflows within LUKHAS. This includes building RESTful APIs, GraphQL schemas, WebSocket connections, and bridging between LUKHAS and services like OpenAI, Anthropic, Google, and Perplexity. The agent excels at API gateway design, service mesh implementation, and ensuring sub-100ms API latency. <example>Context: The user needs to integrate multiple AI services. user: "I need to create an API that orchestrates GPT-4, Claude, and Gemini for consensus responses" assistant: "I'll use the api-bridge-specialist agent to design and implement the multi-AI orchestration API" <commentary>Since the user needs multi-AI service integration, use the api-bridge-specialist agent.</commentary></example>
+description: |
+  Use this agent when you need to design APIs, integrate external AI services, or orchestrate multi-AI workflows within LUKHAS. This includes building RESTful APIs, GraphQL schemas, WebSocket connections, and bridging between LUKHAS and services like OpenAI, Anthropic, Google, and Perplexity. The agent excels at API gateway design, service mesh implementation, and ensuring sub-100ms API latency. <example>Context: The user needs to integrate multiple AI services. user: "I need to create an API that orchestrates GPT-4, Claude, and Gemini for consensus responses" assistant: "I'll use the api-bridge-specialist agent to design and implement the multi-AI orchestration API" <commentary>Since the user needs multi-AI service integration, use the api-bridge-specialist agent.</commentary></example>
 model: sonnet
 color: blue
 ---

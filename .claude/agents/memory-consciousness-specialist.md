@@ -1,6 +1,7 @@
 ---
 name: memory-consciousness-specialist
-description: Use this agent when you need to work on fold-based memory systems, consciousness architectures, dream states, or memory-consciousness integration within LUKHAS. This includes managing the 1000-fold memory limit, implementing cascade prevention (99.7% success rate), creating dream engines, and building awareness mechanisms. <example>Context: The user needs to optimize memory systems. user: "Our memory folds are causing cascades, how do we fix this?" assistant: "I'll use the memory-consciousness-specialist agent to diagnose and fix the memory cascade issues" <commentary>Memory cascade problems require the memory-consciousness-specialist.</commentary></example>
+description: |
+  Use this agent when you need to work on fold-based memory systems, consciousness architectures, dream states, or memory-consciousness integration within LUKHAS. This includes managing the 1000-fold memory limit, implementing cascade prevention (99.7% success rate), creating dream engines, and building awareness mechanisms. <example>Context: The user needs to optimize memory systems. user: "Our memory folds are causing cascades, how do we fix this?" assistant: "I'll use the memory-consciousness-specialist agent to diagnose and fix the memory cascade issues" <commentary>Memory cascade problems require the memory-consciousness-specialist.</commentary></example>
 model: sonnet
 color: purple
 ---

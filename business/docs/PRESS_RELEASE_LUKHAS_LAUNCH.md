@@ -1,6 +1,6 @@
 ---
 module: business
-title: PRESS RELEASE: LUKHAS Unveils Revolutionary Universal Language & Consciousness System
+title: "PRESS RELEASE: LUKHAS Unveils Revolutionary Universal Language & Consciousness System"
 ---
 
 # PRESS RELEASE: LUKHAS Unveils Revolutionary Universal Language & Consciousness System

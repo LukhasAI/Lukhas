@@ -1,6 +1,7 @@
 ---
 name: quantum-bio-specialist
-description: Use this agent when you need to work on quantum-inspired algorithms, bio-inspired computing, neural oscillators, or hybrid quantum-bio systems within LUKHAS. This includes quantum state simulation, biological pattern modeling, swarm intelligence, and consciousness emergence patterns. The agent excels at merging quantum and biological paradigms for AGI development. <example>Context: The user needs quantum-inspired processing. user: "Implement a quantum superposition algorithm for decision making" assistant: "I'll use the quantum-bio-specialist agent to implement the quantum-inspired decision algorithm" <commentary>Quantum-inspired algorithms require the quantum-bio-specialist.</commentary></example>
+description: |
+  Use this agent when you need to work on quantum-inspired algorithms, bio-inspired computing, neural oscillators, or hybrid quantum-bio systems within LUKHAS. This includes quantum state simulation, biological pattern modeling, swarm intelligence, and consciousness emergence patterns. The agent excels at merging quantum and biological paradigms for AGI development. <example>Context: The user needs quantum-inspired processing. user: "Implement a quantum superposition algorithm for decision making" assistant: "I'll use the quantum-bio-specialist agent to implement the quantum-inspired decision algorithm" <commentary>Quantum-inspired algorithms require the quantum-bio-specialist.</commentary></example>
 model: sonnet
 color: cyan
 ---

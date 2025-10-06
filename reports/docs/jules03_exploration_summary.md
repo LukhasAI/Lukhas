@@ -1,6 +1,7 @@
 ---
 module: reports
-title: Jules-03: SSO & Biometrics Specialist - Exploration Summary
+title: |
+  Jules-03: SSO & Biometrics Specialist - Exploration Summary
 ---
 
 # Jules-03: SSO & Biometrics Specialist - Exploration Summary

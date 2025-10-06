@@ -1,13 +1,14 @@
 ---
-# Content Classification
-doc_type## Quick Start
+doc_type: documentation
+title: "Original README: Audit Navigation Guide"
+---
+
+## Quick Start
 
 - Prepare artifacts (already run in this branch):
   - `make audit-nav` – summary: commit, start time, indexed files, sample list
   - `make audit-scan` – list deep search report files
 - Key entry point: `AUDIT/INDEX.md`
-
----
 
 ## 🎖️ **AGENT ARMY COORDINATION HUB**
 

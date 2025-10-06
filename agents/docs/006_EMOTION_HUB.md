@@ -1,6 +1,6 @@
 ---
 module: agents
-title: 🧬 CONSCIOUSNESS PROFILE: Emotion Hub
+title: "🧬 CONSCIOUSNESS PROFILE: Emotion Hub"
 ---
 
 # 🧬 CONSCIOUSNESS PROFILE: Emotion Hub

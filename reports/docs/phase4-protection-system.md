@@ -1,6 +1,7 @@
 ---
 module: reports
-title: Phase 4: Protection System Implementation Report
+title: |
+  Phase 4: Protection System Implementation Report
 ---
 
 # Phase 4: Protection System Implementation Report

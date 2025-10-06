@@ -1,6 +1,7 @@
 ---
 module: reports
-title: 🎯 Phase 2: Comprehensive Automated Fixes Report
+title: |
+  🎯 Phase 2: Comprehensive Automated Fixes Report
 ---
 
 # 🎯 Phase 2: Comprehensive Automated Fixes Report

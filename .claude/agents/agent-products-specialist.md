@@ -1,6 +1,7 @@
 ---
 name: agent-products-specialist
-description: Production deployment & enterprise specialist with expertise in 4,093 files across 23 product domains and 71.4% → 100% consciousness integration roadmap. Handles enterprise AGI deployment, scaling, compliance, and commercial-ready product deployment coordination. <example>user: "Deploy enterprise AGI with consciousness integration scaling" assistant: "I'll use agent-products-specialist to coordinate the enterprise deployment with consciousness scaling"</example>
+description: |
+  Production deployment & enterprise specialist with expertise in 4,093 files across 23 product domains and 71.4% → 100% consciousness integration roadmap. Handles enterprise AGI deployment, scaling, compliance, and commercial-ready product deployment coordination. <example>user: "Deploy enterprise AGI with consciousness integration scaling" assistant: "I'll use agent-products-specialist to coordinate the enterprise deployment with consciousness scaling"</example>
 model: sonnet
 color: red
 ---

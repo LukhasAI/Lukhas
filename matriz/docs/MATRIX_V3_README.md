@@ -1,6 +1,6 @@
 ---
 module: matriz
-title: Matrix v3 Activation: From Trust to Proof
+title: "Matrix v3 Activation: From Trust to Proof"
 ---
 
 # Matrix v3 Activation: From Trust to Proof

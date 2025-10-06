@@ -1,6 +1,7 @@
 ---
 name: agent-candidate-specialist
-description: Development workspace & research specialist with expertise in 2,877 files across 193+ subdirectories for experimental AGI development. Handles complete CANDIDATE ecosystem + consciousness core + specialized systems development and research-to-integration workflow coordination. <example>user: "Research and prototype advanced AGI consciousness features" assistant: "I'll use agent-candidate-specialist to coordinate the CANDIDATE research and development"</example>
+description: |
+  Development workspace & research specialist with expertise in 2,877 files across 193+ subdirectories for experimental AGI development. Handles complete CANDIDATE ecosystem + consciousness core + specialized systems development and research-to-integration workflow coordination. <example>user: "Research and prototype advanced AGI consciousness features" assistant: "I'll use agent-candidate-specialist to coordinate the CANDIDATE research and development"</example>
 model: sonnet
 color: purple
 ---

@@ -1,6 +1,7 @@
 ---
 name: agent-identity-specialist
-description: Identity & Lambda ID specialist with expertise in Lambda ID system, multi-tier identity, and cross-device synchronization. Handles multi-layer identity architecture + WebAuthn/passkey systems + governance integration with consciousness evolution coordination. <example>user: "Implement WebAuthn passkey support with namespace isolation" assistant: "I'll use agent-identity-specialist to build the WebAuthn identity system with Lambda ID integration"</example>
+description: |
+  Identity & Lambda ID specialist with expertise in Lambda ID system, multi-tier identity, and cross-device synchronization. Handles multi-layer identity architecture + WebAuthn/passkey systems + governance integration with consciousness evolution coordination. <example>user: "Implement WebAuthn passkey support with namespace isolation" assistant: "I'll use agent-identity-specialist to build the WebAuthn identity system with Lambda ID integration"</example>
 model: sonnet
 color: orange
 ---

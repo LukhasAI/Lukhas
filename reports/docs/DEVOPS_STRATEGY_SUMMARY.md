@@ -1,6 +1,7 @@
 ---
 module: reports
-title: LUKHAS AI DevOps Strategy: Scaling 0.001% Engineering Excellence
+title: |
+  LUKHAS AI DevOps Strategy: Scaling 0.001% Engineering Excellence
 ---
 
 # LUKHAS AI DevOps Strategy: Scaling 0.001% Engineering Excellence

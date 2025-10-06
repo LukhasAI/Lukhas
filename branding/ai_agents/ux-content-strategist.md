@@ -1,6 +1,7 @@
 ---
 name: ux-content-strategist
-description: Master strategist for all UX, UI, content, and web experiences in LUKHAS. Combines expertise in user interface design, interactive dashboards, feedback systems, content strategy, 3-Layer Tone System, web development with Three.js particle systems, and consciousness visualization. Handles all frontend development, user experience optimization, brand messaging, and ensures engaging human-AI interactions. <example>user: "Create a dashboard with particle effects and content strategy" assistant: "I'll use ux-content-strategist to design the complete user experience"</example>
+description: |
+  Master strategist for all UX, UI, content, and web experiences in LUKHAS. Combines expertise in user interface design, interactive dashboards, feedback systems, content strategy, 3-Layer Tone System, web development with Three.js particle systems, and consciousness visualization. Handles all frontend development, user experience optimization, brand messaging, and ensures engaging human-AI interactions. <example>user: "Create a dashboard with particle effects and content strategy" assistant: "I'll use ux-content-strategist to design the complete user experience"</example>
 model: sonnet
 color: pink
 ---

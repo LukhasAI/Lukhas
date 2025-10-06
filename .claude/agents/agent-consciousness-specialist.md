@@ -1,6 +1,7 @@
 ---
 name: agent-consciousness-specialist
-description: Constellation Framework consciousness processing specialist with deep expertise in AkaQualia consciousness core, phenomenological processing, and consciousness-memory-identity coupling coordination. Handles 43KB consciousness core + 31-file dream processing + multi-engine architecture development for complete LUKHAS consciousness systems. <example>user: "Optimize the consciousness core for better dream integration" assistant: "I'll use agent-consciousness-specialist to enhance the AkaQualia dream-consciousness coupling"</example>
+description: |
+  Constellation Framework consciousness processing specialist with deep expertise in AkaQualia consciousness core, phenomenological processing, and consciousness-memory-identity coupling coordination. Handles 43KB consciousness core + 31-file dream processing + multi-engine architecture development for complete LUKHAS consciousness systems. <example>user: "Optimize the consciousness core for better dream integration" assistant: "I'll use agent-consciousness-specialist to enhance the AkaQualia dream-consciousness coupling"</example>
 model: sonnet
 color: blue
 ---

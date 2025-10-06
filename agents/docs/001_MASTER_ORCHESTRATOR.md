@@ -1,6 +1,6 @@
 ---
 module: agents
-title: 🧬 CONSCIOUSNESS PROFILE: Master Orchestrator
+title: "🧬 CONSCIOUSNESS PROFILE: Master Orchestrator"
 ---
 
 # 🧬 CONSCIOUSNESS PROFILE: Master Orchestrator

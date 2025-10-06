@@ -1,6 +1,7 @@
 ---
 module: reports
-title: 🎯 Phase 2 Complete: Next Phase Strategy
+title: |
+  🎯 Phase 2 Complete: Next Phase Strategy
 ---
 
 # 🎯 Phase 2 Complete: Next Phase Strategy

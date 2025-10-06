@@ -1,4 +1,8 @@
 ---
+title: "Symbolic Molecular Entities"
+module: governance.identity
+type: documentation
+---
 
 ## 🧬 SYMBOLIC MOLECULAR ENTITIES
 

@@ -1,6 +1,7 @@
 ---
 module: reports
-title: 🎯 ZERO ERRORS STRATEGY: PHASE 2 COMPLETE
+title: |
+  🎯 ZERO ERRORS STRATEGY: PHASE 2 COMPLETE
 ---
 
 # 🎯 ZERO ERRORS STRATEGY: PHASE 2 COMPLETE

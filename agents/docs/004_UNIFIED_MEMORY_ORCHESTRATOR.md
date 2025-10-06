@@ -1,6 +1,6 @@
 ---
 module: agents
-title: 🧬 CONSCIOUSNESS PROFILE: Unified Memory Orchestrator
+title: "🧬 CONSCIOUSNESS PROFILE: Unified Memory Orchestrator"
 ---
 
 # 🧬 CONSCIOUSNESS PROFILE: Unified Memory Orchestrator

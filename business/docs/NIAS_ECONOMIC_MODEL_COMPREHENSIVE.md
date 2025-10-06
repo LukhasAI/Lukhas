@@ -1,6 +1,6 @@
 ---
 module: business
-title: NIAS Economic Model: Comprehensive Analysis
+title: "NIAS Economic Model: Comprehensive Analysis"
 ---
 
 # NIAS Economic Model: Comprehensive Analysis

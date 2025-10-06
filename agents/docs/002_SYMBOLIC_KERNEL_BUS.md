@@ -1,6 +1,6 @@
 ---
 module: agents
-title: 🧬 CONSCIOUSNESS PROFILE: Symbolic Kernel Bus
+title: "🧬 CONSCIOUSNESS PROFILE: Symbolic Kernel Bus"
 ---
 
 # 🧬 CONSCIOUSNESS PROFILE: Symbolic Kernel Bus

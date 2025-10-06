@@ -1,6 +1,6 @@
 ---
 module: templates
-title: Canary Decision Report: Safety Tags v1
+title: "Canary Decision Report: Safety Tags v1"
 ---
 
 # Canary Decision Report: Safety Tags v1

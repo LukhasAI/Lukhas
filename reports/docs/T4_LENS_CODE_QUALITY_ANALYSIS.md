@@ -1,6 +1,7 @@
 ---
 module: reports
-title: 🎯 T4 LENS ANALYSIS: Code Quality Resolution Strategy
+title: |
+  🎯 T4 LENS ANALYSIS: Code Quality Resolution Strategy
 ---
 
 # 🎯 T4 LENS ANALYSIS: Code Quality Resolution Strategy

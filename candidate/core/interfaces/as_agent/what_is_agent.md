@@ -1,4 +1,9 @@
 ---
+title: "LUKHAS Agent: Independent App Login & Distribution"
+module: core.interfaces
+type: documentation
+---
+
 ## 🔐 Independent App Login & Distribution
 
 The LUKHAS Agent is being designed as a standalone app and will support its own symbolic login protocol powered by LucasID. It can be:

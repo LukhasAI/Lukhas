@@ -1,6 +1,6 @@
 ---
 module: governance
-title: RFC: Context Policy Amendments (Draft)
+title: "RFC: Context Policy Amendments (Draft)"
 ---
 
 # RFC: Context Policy Amendments (Draft)

@@ -1,6 +1,7 @@
 ---
 module: reports
-title: 🚀 Phase 2: Automated Syntax Improvements
+title: |
+  🚀 Phase 2: Automated Syntax Improvements
 ---
 
 # 🚀 Phase 2: Automated Syntax Improvements

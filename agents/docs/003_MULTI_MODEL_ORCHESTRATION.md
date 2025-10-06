@@ -1,6 +1,6 @@
 ---
 module: agents
-title: 🧬 CONSCIOUSNESS PROFILE: Multi-Model Orchestration
+title: "🧬 CONSCIOUSNESS PROFILE: Multi-Model Orchestration"
 ---
 
 # 🧬 CONSCIOUSNESS PROFILE: Multi-Model Orchestration

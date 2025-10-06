@@ -1,6 +1,7 @@
 ---
 module: reports
-title: Phase 2: Mass Emergency Quarantine Report
+title: |
+  Phase 2: Mass Emergency Quarantine Report
 ---
 
 # Phase 2: Mass Emergency Quarantine Report

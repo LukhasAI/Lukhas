@@ -1,6 +1,6 @@
 ---
 name: matrix-validate
-goal: Run full MATRIZ pack: presence, schema, identity, OPA, telemetry
+goal: "Run full MATRIZ pack: presence, schema, identity, OPA, telemetry"
 danger_level: low
 ---
 

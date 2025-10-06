@@ -1,4 +1,8 @@
 ---
+title: "Ficha de Ingeniería Interna: GABA"
+module: governance.identity
+type: documentation
+---
 
 ## 🧪 🛰️ Ficha de Ingeniería Interna (FII): GABA
 
