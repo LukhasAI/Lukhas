@@ -19,7 +19,7 @@ LUKHAS ethics represents the **comprehensive ethical governance system** with **
 ### **Ethics System Scope**
 - **Components**: 33+ ethics modules spanning safety, governance, compliance, and constitutional AI
 - **Architecture**: Multi-layer ethical enforcement with Guardian systems and Constitutional AI
-- **Integration**: Cross-system ethics validation across Constellation Framework and all LUKHAS systems
+- **Integration**: Cross-system ethics validation across Constellation Framework (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum) and all LUKHAS systems
 - **Compliance**: GDPR, CCPA, regulatory frameworks with automated compliance validation
 
 ### **Constitutional AI Architecture**
@@ -91,7 +91,7 @@ Ethics System Organization (33+ Components)
 - **Real-Time Safety**: Continuous safety monitoring and enforcement across all LUKHAS systems
 - **Ethical Decision Validation**: Pre and post-processing ethical decision validation
 - **Constitutional Compliance**: Automated constitutional AI principle enforcement
-- **Cross-System Coordination**: Safety enforcement across Constellation Framework and all components
+- **Cross-System Coordination**: Safety enforcement across Constellation Framework (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum) and all components
 
 #### **Guardian Processing Pipeline**
 ```

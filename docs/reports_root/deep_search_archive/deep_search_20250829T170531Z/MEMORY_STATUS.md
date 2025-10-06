@@ -90,7 +90,7 @@ state = wrapper.get_memory_state()
 
 ## Memory System Architecture
 
-### **Constellation Framework Memory Integration**
+### **Constellation Framework (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum) Memory Integration**
 
 #### 🧠 **Consciousness Memory Components**:
 - **Fold System**: Manages 1000-fold memory limit (99.7% cascade prevention)

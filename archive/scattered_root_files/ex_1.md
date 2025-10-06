@@ -31,7 +31,7 @@ If these are not issues and there is no clear logical error or edge case identif
 [pre-commit] ⚠️  AI analysis found issues (non-blocking - see output above)
 [pre-commit] 🧪 Quick smoke tests...
  LUKHAS AI Governance Module loaded: Phase 7 - Registry Updates and Policy Integration
-< Constellation Framework: Identity-Consciousness-Guardian
+< Constellation Framework (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum)
  Phase 7 ID Integration: Available
 {"$kind": "MATRIZ_NODE", "version": 1, "schema_ref": "lukhas://schemas/matriz_node_v1.json", "id": "LT-66a6f7f2-92e4-4b24-911c-621976c925af", "type": "CONSENT", "state": {"confidence": 0.8, "salience": 0.6, "urgency": 0.2}, "timestamps": {"created_ts": 1756216532011}, "provenance": {"producer": "lukhas.governance.consent_ledger.api.record_consent", "capabilities": ["core:op"], "tenant": "default", "trace_id": "LT-local", "consent_scopes": ["system:internal"]}, "labels": ["governance:record"]}
 ✅ Core modules import and basic functionality works

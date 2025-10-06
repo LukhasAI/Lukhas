@@ -9,7 +9,7 @@ type: documentation
 ---
 
 
-# LUKHAS Constellation Identity Integration
+# LUKHAS Constellation Framework (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum) Identity Integration
 *Identity ⚛️ Pillar - Lambda ID Core & Cross-System Authentication*
 
 ## Identity Integration Overview

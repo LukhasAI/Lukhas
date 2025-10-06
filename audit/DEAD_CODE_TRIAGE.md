@@ -8,7 +8,7 @@ type: documentation
 **Generated**: 2025-08-27 16:30:00
 **Analysis Scope**: Complete codebase inventory - 3,769 Python files analyzed
 **Data Sources**: PY_INDEX.txt, comprehensive orphan reports, module usage analysis
-**Constellation Framework Focus**: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
+**Constellation Framework Focus**: ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum
 **Approach**: **NON-DESTRUCTIVE** - Documentation only, no file removals
 
 ---

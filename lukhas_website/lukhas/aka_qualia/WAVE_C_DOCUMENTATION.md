@@ -45,7 +45,7 @@ Wave C represents the complete implementation of LUKHAS AI's phenomenological pr
 
 ## 🏗️ Architecture Overview
 
-### Constellation Framework Principles
+### Constellation Framework (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum) Principles
 
 Wave C implements the evolved **Constellation Framework** (successor to Constellation):
 
