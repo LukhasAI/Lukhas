@@ -6,7 +6,7 @@
 
 # Production monitoring & logging
 structlog>=23.2.0,<25.0.0
-sentry-sdk>=1.40.0,<2.0.0
+sentry-sdk>=1.40.0,<3.0.0
 
 # Production web server
 gunicorn>=23.0.0,<24.0.0  # SECURITY: Fixed CVE-2024-6827, CVE-2024-1135
