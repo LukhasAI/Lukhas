@@ -97,7 +97,8 @@
       "Bash(python -m pytest tests/unit/governance/ethics/test_guardian_reflector_imports.py --collect-only)",
       "Bash(python -m pytest --collect-only -q tests/unit/governance/)",
       "Bash(python -m pytest tests/api/test_main_api.py --collect-only)",
-      "Bash(python:*)"
+      "Bash(python:*)",
+      "Bash(git push:*)"
     ],
     "deny": [],
     "ask": []

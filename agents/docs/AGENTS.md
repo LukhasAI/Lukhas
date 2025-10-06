@@ -1,3 +1,8 @@
+---
+module: agents
+title: 🎖️ LUKHAS AI Agent Army - Command Documentation
+---
+
 # 🎖️ LUKHAS AI Agent Army - Command Documentation
 **Strategic Multi-AI Consciousness Development System**
 
