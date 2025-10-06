@@ -1,0 +1,68 @@
+name: Module Structure Validation
+
+on:
+  pull_request:
+    paths:
+      - '**.md'
+      - '**/module.manifest.json'
+      - '**/tests/**'
+      - '**/docs/**'
+      - 'scripts/docs/**'
+      - 'scripts/tests/**'
+
+jobs:
+  validate-structure:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          pip install -U pip
+          pip install jsonschema pyyaml
+
+      - name: Validate frontmatter
+        run: |
+          python3 scripts/docs/validate_frontmatter.py
+
+      - name: Check broken links
+        run: |
+          python3 scripts/docs/check_broken_links.py
+
+      - name: Generate module health report
+        run: |
+          python3 scripts/docs/generate_module_health.py
+
+      - name: Upload health report
+        uses: actions/upload-artifact@v3
+        with:
+          name: module-structure-report
+          path: |
+            artifacts/module_structure_report.json
+            docs/_generated/MODULE_INDEX.md
+
+      - name: Check module health threshold
+        run: |
+          python3 - <<'EOF'
+          import sys
+          import json
+          from pathlib import Path
+
+          report = json.loads(Path('artifacts/module_structure_report.json').read_text())
+          avg_health = report['summary']['avg_health']
+
+          print(f"📊 Average module health: {avg_health:.1f}/100")
+
+          # Warn if below 60, fail if below 40
+          if avg_health < 40:
+              print("❌ Module health critically low (<40)")
+              sys.exit(1)
+          elif avg_health < 60:
+              print("⚠️  Warning: Module health below 60")
+          else:
+              print("✅ Module health acceptable")
+          EOF

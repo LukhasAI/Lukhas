@@ -21,7 +21,10 @@ try:
     sys.modules[__name__ + ".core"] = core_module
     sys.modules[__name__ + ".node_contract"] = node_contract_module
 
-    __all__ = ["core", "node_contract"]
+    # Uppercase alias for legacy compatibility (tests expect MATRIZ)
+    MATRIZ = _upper
+
+    __all__ = ["core", "node_contract", "MATRIZ"]
 
 except ImportError as e:
     # Fallback if MATRIZ package is not available

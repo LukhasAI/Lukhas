@@ -14,6 +14,7 @@
 .PHONY: emergency-bypass clean-artifacts dev-setup status ci-validate ci-artifacts help
 .PHONY: mcp-bootstrap mcp-verify mcp-selftest mcp-ready mcp-contract mcp-smoke mcp-freeze mcp-docker-build mcp-docker-run mcp-validate-catalog mcp-health
 .PHONY: meta-registry ledger-check trends validate-t4 validate-t4-strict tag-prod freeze-verify freeze-guardian freeze-guardian-once dashboard-sync init-dev-branch
+.PHONY: docs-map docs-migrate-auto docs-migrate-dry docs-lint validate-structure module-health
 
 # Note: Additional PHONY targets are declared in mk/*.mk include files
 
@@ -1182,3 +1183,38 @@ codemod-apply: ## Apply codemod to migrate imports (creates .bak files)
 
 gate-legacy: ## CI gate to enforce import budget and prevent regressions
 	LUKHAS_IMPORT_BUDGET=1000 LUKHAS_IMPORT_MAX_DELTA=0 python3 scripts/ci/gate_legacy_imports.py
+
+# ==============================================================================
+# T4 DOCUMENTATION & TESTS MIGRATION - Module Colocation with Confidence Scoring
+# ==============================================================================
+
+.PHONY: docs-map docs-migrate-auto docs-migrate-dry docs-lint validate-structure module-health
+
+docs-map: ## Build documentation mapping with confidence scoring
+	@echo "🔍 Building documentation mapping..."
+	python3 scripts/docs/build_docs_map.py
+	@echo "✅ Review: artifacts/docs_mapping_review.md"
+
+docs-migrate-dry: ## Dry-run docs/tests migration (show what would be done)
+	@echo "🔍 DRY RUN: Documentation migration preview"
+	python3 scripts/docs/migrate_docs_auto.py --dry-run
+	python3 scripts/tests/migrate_tests_auto.py --dry-run
+
+docs-migrate-auto: ## Migrate docs/tests to module-local directories (git mv, history-preserving)
+	@echo "📦 Migrating documentation and tests to module-local directories..."
+	python3 scripts/docs/migrate_docs_auto.py
+	python3 scripts/tests/migrate_tests_auto.py
+	@echo "✅ Migration complete! Run 'make docs-lint' to validate"
+
+docs-lint: ## Validate frontmatter and check for broken links
+	@echo "🔍 Validating documentation quality..."
+	python3 scripts/docs/validate_frontmatter.py
+	python3 scripts/docs/check_broken_links.py
+
+validate-structure: ## Generate module structure health report (JSON)
+	@echo "🏥 Generating module structure health report..."
+	python3 scripts/docs/generate_module_health.py
+	@echo "✅ Reports generated: artifacts/module_structure_report.json, docs/_generated/MODULE_INDEX.md"
+
+module-health: validate-structure ## View human-readable module health summary
+	@cat docs/_generated/MODULE_INDEX.md | head -50
