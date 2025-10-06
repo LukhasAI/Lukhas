@@ -46,7 +46,7 @@ type: documentation
 
 ### Guardian Integration Patterns
 
-#### **Constellation Framework Guardian Coordination**
+#### **Constellation Framework (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum) Guardian Coordination**
 ```
 Guardian 🛡️ ←→ Identity ⚛️ ←→ Consciousness 🧠 ←→ Memory 💾
      │              │              │              │

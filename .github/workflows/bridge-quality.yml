@@ -37,3 +37,22 @@ jobs:
             exit 1
           fi
           echo "✅ No import * found outside tests"
+
+      - name: Check for module–package collisions
+        run: |
+          python3 - << 'PY'
+          from pathlib import Path
+          bad = []
+          for p in Path(".").rglob("*.py"):
+              if any(skip in str(p) for skip in [".git", "__pycache__", ".pytest_cache", "node_modules", ".venv", "htmlcov", "dist", "build"]):
+                  continue
+              pkg = p.with_suffix("")
+              if pkg.is_dir() and (pkg/"__init__.py").exists():
+                  bad.append((str(p), str(pkg)))
+          if bad:
+              print("❌ Module–package name collisions found:")
+              for m, d in bad:
+                  print(f"  - {m}  <->  {d}/")
+              raise SystemExit(1)
+          print("✅ No module–package collisions")
+          PY

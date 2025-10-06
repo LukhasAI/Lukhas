@@ -15,7 +15,7 @@ type: documentation
 ### Quantum Consciousness Overview
 - **Purpose**: Quantum-inspired algorithms for consciousness and decision-making systems
 - **Architecture**: Quantum state simulation with quantum superposition and entanglement
-- **Integration**: Constellation Framework quantum-consciousness coordination and hybrid systems
+- **Integration**: Constellation Framework (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum) quantum-consciousness coordination and hybrid systems
 - **Scale**: Quantum-inspired processing with consciousness emergence patterns
 
 ### Core Quantum Architecture
@@ -161,7 +161,7 @@ Quantum Analysis → Algorithm Design → Simulation Implementation
 - Quantum consciousness integration with identity systems
 - Quantum memory systems with quantum information storage
 - Quantum ethics and guardian systems for quantum decision making
-- Constellation Framework quantum coordination and hybrid processing
+- Constellation Framework (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum) quantum coordination and hybrid processing
 
 ### Development Tools & Testing
 
@@ -202,5 +202,5 @@ Quantum Analysis → Algorithm Design → Simulation Implementation
 - Quantum-inspired decision-making with superposition exploration
 - Quantum state simulation for consciousness emergence modeling
 - Quantum-bio hybrid systems for biological consciousness enhancement
-- Constellation Framework quantum integration for comprehensive quantum-consciousness systems
+- Constellation Framework (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum) quantum integration for comprehensive quantum-consciousness systems
 - Advanced quantum algorithms for optimization and machine learning applications

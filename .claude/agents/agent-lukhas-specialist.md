@@ -1,7 +1,7 @@
 ---
 name: agent-lukhas-specialist
 description: |
-  Integration & Constellation Framework specialist with expertise in 148 files Constellation Framework coordination and cross-system integration. Handles Constellation Framework hub + 150+ API integration layer + governance coordination for development-to-production bridge coordination. <example>user: "Coordinate Constellation Framework integration across consciousness-memory-identity" assistant: "I'll use agent-lukhas-specialist to orchestrate the Constellation Framework coordination"</example>
+  Integration & Constellation Framework (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum) specialist with expertise in 148 files Constellation Framework coordination and cross-system integration. Handles Constellation Framework hub + 150+ API integration layer + governance coordination for development-to-production bridge coordination. <example>user: "Coordinate Constellation Framework integration across consciousness-memory-identity" assistant: "I'll use agent-lukhas-specialist to orchestrate the Constellation Framework coordination"</example>
 model: sonnet
 color: cyan
 ---

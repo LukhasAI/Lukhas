@@ -6,7 +6,10 @@
       "Bash(git -C /Users/agi_dev/LOCAL-REPOS/Lukhas status consciousness/matriz_thought_loop.py consciousness/consciousness_stream.py)",
       "Bash(git -C /Users/agi_dev/LOCAL-REPOS/Lukhas status lukhas/governance/schema_registry.py)",
       "Bash(do echo \"=== $file ===\" rg \"Constellation Framework\" \"/Users/agi_dev/LOCAL-REPOS/Lukhas/$file\" -A 2 -B 1)",
-      "Bash(1)"
+      "Bash(1)",
+      "Bash(git -C /Users/agi_dev/LOCAL-REPOS/Lukhas commit -m \"chore(imports): remove module–package collisions (bio.py, governance/schema_registry.py, utils.py)\n\n- Deleted lukhas/bio.py (shadowing lukhas/bio/ package)\n- Deleted lukhas/governance/schema_registry.py (shadowing schema_registry/ package)\n- Deleted lukhas/bio/utils.py (shadowing bio/utils/ package)\n\nImpact: Resolves pytest import confusion where Python picked .py file over package directory.\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>\")",
+      "Bash(PYTHONPATH=. python3 -m pytest --collect-only -q)",
+      "Bash(timeout 30 python3 -m pytest:*)"
     ],
     "deny": [],
     "ask": []

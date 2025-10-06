@@ -5,7 +5,7 @@ type: documentation
 # 🌌 COMPREHENSIVE LUKHAS UNIVERSE PLAN
 **Complete Website Architecture & Narratives for All 13 Domains**
 
-*Where the Constellation Framework meets conscious digital presence across the infinite expanse of human-AI collaboration*
+*Where the Constellation Framework (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum) meets conscious digital presence across the infinite expanse of human-AI collaboration*
 
 ---
 

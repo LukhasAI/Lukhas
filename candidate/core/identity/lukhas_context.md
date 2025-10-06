@@ -15,7 +15,7 @@ type: documentation
 ### Component Overview
 - **Purpose**: Identity system component development and Lambda ID implementation
 - **Architecture**: Multi-tier identity, authentication services, credential management
-- **Integration**: Constellation Framework identity pillar ⚛️ coordination
+- **Integration**: Constellation Framework (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum) identity pillar coordination
 - **Scale**: Identity components across development ecosystem
 
 ### Core Identity Architecture

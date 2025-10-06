@@ -10,7 +10,7 @@ type: documentation
 
 
 # CANDIDATE Memory Systems Development
-*Fold-Based Architecture - Emotional Integration - Constellation Framework Memory Pillar*
+*Fold-Based Architecture - Emotional Integration - Constellation Framework (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum) Memory Pillar*
 
 ## Memory Development Overview
 
