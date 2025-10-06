@@ -17,7 +17,7 @@ type: documentation
 LUKHAS memory serves as the **persistent state pillar** for the Memory component in the Constellation Framework, providing unified fold system coordination and cross-system memory integration between CANDIDATE development and PRODUCTS deployment. This is where distributed memory components achieve coordinated persistence through Identity-Memory-Consciousness integration.
 
 ### **Integration Scope**
-- **Trinity Role**: Memory 🗃️ pillar in Identity ⚛️ + Memory 🗃️ + Consciousness 🧠 framework
+- **Trinity Role**: Memory 🗃️ pillar in ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum framework
 - **Components**: MemoryWrapper, FoldSystemManager, MatrizAdapter, EmotionalMemory
 - **Bridge Function**: CANDIDATE memory development ↔ LUKHAS integration ↔ PRODUCTS deployment
 - **Coordination**: Cross-system memory state management and fold organization
@@ -26,7 +26,7 @@ LUKHAS memory serves as the **persistent state pillar** for the Memory component
 ```
 Constellation Framework Memory Integration
 ┌─────────────────────────────────────────────┐
-│  ⚛️ Identity + 🗃️ Memory + 🧠 Consciousness  │
+│  ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum  │
 │                                             │
 │  Identity Context → Memory Storage → Consciousness │
 │  Lambda ID       → Fold Organization → Memory-Informed │

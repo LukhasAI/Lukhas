@@ -87,4 +87,4 @@ Once connected, ChatGPT can:
 
 **🎉 You're all set! ChatGPT can now connect to your LUKHAS AI platform!**
 
-*Constellation Framework: ⚛️ Identity • 🧠 Consciousness • 🛡️ Guardian*
+*Constellation Framework: ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum*

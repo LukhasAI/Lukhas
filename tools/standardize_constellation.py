@@ -97,19 +97,29 @@ def is_incomplete_mention(line: str, star_count: int, next_lines: str) -> bool:
         if re.search(pattern, combined, re.IGNORECASE):
             return True
 
-    # Check if ANY stars are being listed (bullet points or listed items)
-    # Patterns that indicate a star list is being presented:
-    has_star_list = (
-        re.search(r'[•\-\*]\s*[⚛️✦🔬🌱🌙⚖️🛡️]', combined) or  # Bullet + star
-        re.search(r'[⚛️✦🔬🌱🌙⚖️🛡️]\s+\w+\s+\(', combined) or  # Star + Name + (
-        re.search(r':\s*\n\s*[•\-\*]\s*[⚛️✦🔬🌱🌙⚖️🛡️]', combined)  # Colon + newline + bullet + star
-    )
+    # Check if this is an actual bullet list trying to enumerate stars
+    # (vs just mentioning constellation with a star or two in the text)
+    has_multiline_star_list = bool(re.search(
+        r':\s*\n\s*[-•\*]\s*[⚛️✦🔬🌱🌙⚖️🛡️].*\n\s*[-•\*]\s*[⚛️✦🔬🌱🌙⚖️🛡️]',
+        combined,
+        re.MULTILINE
+    ))
 
-    # If stars are being listed but we don't have all 8, it's incomplete
-    if has_star_list and star_count < 7:
+    # If there's a multiline bullet list with stars but not all 8, it's incomplete
+    if has_multiline_star_list and star_count < 7:
         return True
 
-    # Simple mention without listing stars is OK
+    # Check for inline star lists with multiple stars using separators
+    has_inline_star_list = bool(re.search(
+        r'[⚛️✦🔬🌱🌙⚖️🛡️🧠]\s*[·•\-+]\s*[⚛️✦🔬🌱🌙⚖️🛡️🧠]',
+        combined
+    ))
+
+    # If there's an inline list with separators but not all 8, it's incomplete
+    if has_inline_star_list and star_count < 7:
+        return True
+
+    # Simple mentions (0-2 stars) without lists are OK
     return False
 
 

@@ -110,4 +110,4 @@ You can **immediately** create a Custom GPT that:
 
 *Status: Custom GPT Actions READY • Connectors integration in progress*  
 *Last Updated: September 18, 2025*  
-*Constellation Framework: ⚛️ Identity • 🧠 Consciousness • 🛡️ Guardian*
+*Constellation Framework: ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum*
