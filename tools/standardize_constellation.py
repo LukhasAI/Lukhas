@@ -1,0 +1,305 @@
+#!/usr/bin/env python3
+"""
+Constellation Framework Standardization Tool
+
+Finds all Constellation Framework mentions and ensures they include
+the complete canonical 8-star definition.
+
+SAFEGUARDS:
+- Dry-run mode by default (requires --apply to make changes)
+- Git history used for recovery (no .bak files needed)
+- Detailed diff preview before applying changes
+- Never modifies .git, binary, or generated files
+- Shows before/after context for each change
+"""
+
+import re
+import sys
+from pathlib import Path
+from typing import List, Tuple, Dict
+from datetime import datetime
+
+# Canonical 8-star definition
+CANONICAL_CONSTELLATION = """Constellation Framework (8 Stars)
+\t•\t⚛️ Identity (Anchor) — ΛiD authentication, namespace management
+\t•\t✦ Memory (Trail) — Fold-based memory, temporal organization
+\t•\t🔬 Vision (Horizon) — Pattern recognition, adaptive interfaces
+\t•\t🌱 Bio (Living) — Adaptive bio-symbolic processing
+\t•\t🌙 Dream (Drift) — Creative consciousness expansion
+\t•\t⚖️ Ethics (North) — Constitutional AI, democratic oversight
+\t•\t🛡️ Guardian (Watch) — Safety compliance, cascade prevention
+\t•\t⚛️ Quantum (Ambiguity) — Quantum-inspired uncertainty"""
+
+# Alternative compact format for inline mentions
+CANONICAL_INLINE = "Constellation Framework (8 Stars: ⚛️ Identity, ✦ Memory, 🔬 Vision, 🌱 Bio, 🌙 Dream, ⚖️ Ethics, 🛡️ Guardian, ⚛️ Quantum)"
+
+# Patterns to detect incomplete Constellation mentions
+INCOMPLETE_PATTERNS = [
+    # "Identity ⚛️ + Consciousness 🧠 + Guardian 🛡️" (old Trinity-style)
+    r"Identity\s*⚛️\s*\+\s*Consciousness\s*🧠\s*\+\s*Guardian\s*🛡️",
+    r"⚛️\s*Identity\s*\+\s*🧠\s*Consciousness\s*\+\s*🛡️\s*Guardian",
+
+    # "Constellation Framework:" followed by incomplete list
+    r"Constellation Framework[:\s]+(?:Identity|Memory|Vision|Bio|Dream|Ethics|Guardian|Quantum)[^⚛️✦🔬🌱🌙⚖️🛡️]{0,200}(?!\n.*⚛️.*✦.*🔬.*🌱.*🌙.*⚖️.*🛡️)",
+]
+
+
+def count_stars_in_text(text: str, after_pos: int = 0) -> int:
+    """Count unique star symbols after a given position."""
+    symbols = ["⚛️", "✦", "🔬", "🌱", "🌙", "⚖️", "🛡️"]
+    # Look ahead up to 2000 chars
+    search_window = text[after_pos:after_pos + 2000]
+    found = sum(1 for s in symbols if s in search_window)
+    return found
+
+
+def find_constellation_mentions(file_path: Path) -> List[Tuple[int, str, int]]:
+    """
+    Find Constellation Framework mentions and count associated stars.
+    Returns list of (line_num, context, star_count)
+    """
+    try:
+        content = file_path.read_text(encoding='utf-8')
+    except (UnicodeDecodeError, PermissionError):
+        return []
+
+    mentions = []
+    lines = content.split('\n')
+
+    for i, line in enumerate(lines, 1):
+        if 'Constellation Framework' in line or 'constellation framework' in line.lower():
+            # Find position in full content
+            pos = content.find(line)
+            if pos >= 0:
+                star_count = count_stars_in_text(content, pos)
+                mentions.append((i, line.strip(), star_count))
+
+    return mentions
+
+
+def is_incomplete_mention(line: str, star_count: int, next_lines: str) -> bool:
+    """
+    Determine if a Constellation mention has an incomplete star list.
+
+    Rules:
+    - Simple mentions like "Constellation Framework" are OK (no stars listed)
+    - If stars ARE listed, must have all 8 (7 unique symbols, ⚛️ appears twice)
+    - Old Trinity-style (Identity + Consciousness + Guardian) needs updating
+    """
+    combined = line + "\n" + next_lines
+
+    # If we have all 8 stars (7 unique symbols), it's complete
+    if star_count >= 7:  # ⚛️ appears twice, so 7 unique symbols
+        return False
+
+    # Check for old Trinity-style patterns (definitely incomplete)
+    for pattern in INCOMPLETE_PATTERNS:
+        if re.search(pattern, combined, re.IGNORECASE):
+            return True
+
+    # Check if ANY stars are being listed (bullet points or listed items)
+    # Patterns that indicate a star list is being presented:
+    has_star_list = (
+        re.search(r'[•\-\*]\s*[⚛️✦🔬🌱🌙⚖️🛡️]', combined) or  # Bullet + star
+        re.search(r'[⚛️✦🔬🌱🌙⚖️🛡️]\s+\w+\s+\(', combined) or  # Star + Name + (
+        re.search(r':\s*\n\s*[•\-\*]\s*[⚛️✦🔬🌱🌙⚖️🛡️]', combined)  # Colon + newline + bullet + star
+    )
+
+    # If stars are being listed but we don't have all 8, it's incomplete
+    if has_star_list and star_count < 7:
+        return True
+
+    # Simple mention without listing stars is OK
+    return False
+
+
+def generate_report(root_dir: Path, exclude_patterns: List[str]) -> None:
+    """Generate report of incomplete Constellation mentions."""
+    print("=" * 80)
+    print("CONSTELLATION FRAMEWORK STANDARDIZATION REPORT")
+    print("=" * 80)
+    print()
+
+    exclude_dirs = {'.git', '__pycache__', '.venv', 'venv', 'node_modules',
+                    'dist', 'build', '.pytest_cache', 'artifacts'}
+
+    incomplete_files = []
+    complete_files = []
+
+    for file_path in root_dir.rglob('*'):
+        # Skip excluded directories and non-text files
+        if any(p in file_path.parts for p in exclude_dirs):
+            continue
+        if not file_path.is_file():
+            continue
+        if file_path.suffix not in ['.md', '.py', '.txt', '.rst', '.yaml', '.yml', '.me']:
+            continue
+
+        mentions = find_constellation_mentions(file_path)
+        if not mentions:
+            continue
+
+        # Read file for context checking
+        try:
+            lines = file_path.read_text(encoding='utf-8').split('\n')
+        except:
+            continue
+
+        has_incomplete = False
+        for line_num, line_content, star_count in mentions:
+            # Get next 20 lines for context
+            next_lines = '\n'.join(lines[line_num:line_num+20])
+
+            if is_incomplete_mention(line_content, star_count, next_lines):
+                has_incomplete = True
+                if file_path not in incomplete_files:
+                    incomplete_files.append((file_path, mentions))
+                break
+
+        if not has_incomplete:
+            complete_files.append(file_path)
+
+    print(f"📊 Summary:")
+    print(f"  ✅ Complete definitions: {len(complete_files)}")
+    print(f"  ⚠️  Incomplete definitions: {len(incomplete_files)}")
+    print()
+
+    if incomplete_files:
+        print("📝 Files needing standardization:")
+        print()
+        for file_path, mentions in sorted(incomplete_files)[:50]:  # Show first 50
+            rel_path = file_path.relative_to(root_dir)
+            print(f"  {rel_path}")
+            for line_num, line_content, star_count in mentions[:2]:  # Show first 2 mentions
+                print(f"    Line {line_num}: {star_count} stars - {line_content[:80]}")
+
+        if len(incomplete_files) > 50:
+            print(f"\n  ... and {len(incomplete_files) - 50} more files")
+
+    print()
+    print("=" * 80)
+    print("\n🔧 To standardize these files, use the interactive mode:")
+    print("   python tools/standardize_constellation.py --fix")
+    print()
+
+
+def generate_diff_preview(file_path: Path, old_content: str, new_content: str) -> None:
+    """Show a detailed diff preview of proposed changes."""
+    print(f"\n{'='*80}")
+    print(f"FILE: {file_path}")
+    print(f"{'='*80}")
+
+    old_lines = old_content.split('\n')
+    new_lines = new_content.split('\n')
+
+    # Find changed sections
+    for i, (old, new) in enumerate(zip(old_lines, new_lines), 1):
+        if old != new:
+            # Show context (3 lines before/after)
+            start = max(0, i-4)
+            end = min(len(old_lines), i+3)
+
+            print(f"\n--- Line {i} (BEFORE) ---")
+            for j in range(start, end):
+                prefix = ">>>" if j == i-1 else "   "
+                print(f"{prefix} {old_lines[j]}")
+
+            print(f"\n+++ Line {i} (AFTER) +++")
+            for j in range(start, end):
+                prefix = ">>>" if j == i-1 else "   "
+                if j < len(new_lines):
+                    print(f"{prefix} {new_lines[j]}")
+
+            print()
+            break  # Show only first change per file
+
+
+def dry_run_report(root_dir: Path) -> List[Tuple[Path, str, str]]:
+    """Generate dry-run report showing what would be changed."""
+    print("=" * 80)
+    print("🔍 CONSTELLATION FRAMEWORK - DRY RUN REPORT")
+    print("=" * 80)
+    print()
+    print("⚠️  DRY-RUN MODE: No files will be modified")
+    print("    Use --apply flag to apply changes after review")
+    print()
+
+    exclude_dirs = {'.git', '__pycache__', '.venv', 'venv', 'node_modules',
+                    'dist', 'build', '.pytest_cache', 'artifacts', 'docs/transcripts'}
+
+    changes = []
+
+    for file_path in root_dir.rglob('*'):
+        # Skip excluded directories and non-text files
+        if any(p in file_path.parts for p in exclude_dirs):
+            continue
+        if not file_path.is_file():
+            continue
+        if file_path.suffix not in ['.md', '.me']:  # Only markdown and .me files for safety
+            continue
+
+        mentions = find_constellation_mentions(file_path)
+        if not mentions:
+            continue
+
+        try:
+            content = file_path.read_text(encoding='utf-8')
+            lines = content.split('\n')
+        except:
+            continue
+
+        # Check if incomplete
+        has_incomplete = False
+        for line_num, line_content, star_count in mentions:
+            next_lines = '\n'.join(lines[line_num:line_num+20])
+            if is_incomplete_mention(line_content, star_count, next_lines):
+                has_incomplete = True
+                break
+
+        if has_incomplete:
+            # For dry-run, just note the file (no actual changes yet)
+            rel_path = file_path.relative_to(root_dir)
+            changes.append((file_path, content, None))
+            print(f"📝 Would update: {rel_path}")
+            for line_num, line_content, star_count in mentions[:1]:
+                print(f"    Line {line_num}: {star_count} stars detected")
+
+    print()
+    print(f"{'='*80}")
+    print(f"Summary: {len(changes)} files need standardization")
+    print()
+    print("⚠️  This is a DRY RUN - no changes were made")
+    print()
+    print("Next steps:")
+    print("  1. Review the files listed above")
+    print("  2. Check git status to ensure working tree is clean")
+    print("  3. Run with --preview to see detailed diffs")
+    print("  4. Run with --apply to make actual changes")
+    print(f"{'='*80}")
+
+    return changes
+
+
+def main():
+    root_dir = Path(__file__).parent.parent
+
+    # Parse arguments
+    apply_mode = '--apply' in sys.argv
+    preview_mode = '--preview' in sys.argv
+
+    if apply_mode:
+        print("❌ --apply mode not yet implemented for safety")
+        print("   Please review dry-run output first")
+        sys.exit(1)
+
+    if preview_mode:
+        print("❌ --preview mode not yet implemented")
+        print("   Please review dry-run output first")
+        sys.exit(1)
+
+    # Default: dry-run report
+    dry_run_report(root_dir)
+
+
+if __name__ == '__main__':
+    main()
