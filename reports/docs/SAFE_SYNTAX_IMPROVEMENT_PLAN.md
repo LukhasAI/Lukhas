@@ -1,8 +1,8 @@
 ---
 module: reports
-title: 🛡️ Safe Syntax Improvement Plan
+title: "\U0001F6E1\uFE0F Safe Syntax Improvement Plan"
+type: documentation
 ---
-
 # 🛡️ Safe Syntax Improvement Plan
 
 **Strategy**: Incremental Automated Fixes from Clean Baseline  

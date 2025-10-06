@@ -1,9 +1,8 @@
 ---
 module: reports
-title: 🔍 LUKHAS Corruption Analysis Report
+title: "\U0001F50D LUKHAS Corruption Analysis Report"
+type: documentation
 ---
-
-
 # 🔍 LUKHAS Corruption Analysis Report
 
 **Generated**: Fri Sep 12 01:07:59 BST 2025

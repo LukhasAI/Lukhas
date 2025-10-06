@@ -1,8 +1,8 @@
 ---
 module: reports
-title: 📋 Repository Audit - Ready for Lint-Fix Workflows
+title: "\U0001F4CB Repository Audit - Ready for Lint-Fix Workflows"
+type: documentation
 ---
-
 # 📋 Repository Audit - Ready for Lint-Fix Workflows
 
 **Status**: ✅ Baseline established, monitoring system ready  

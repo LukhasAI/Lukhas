@@ -1,8 +1,8 @@
 ---
 module: agents
-title: 🔄 LUKHAS Agent Workflows
+title: "\U0001F504 LUKHAS Agent Workflows"
+type: documentation
 ---
-
 # 🔄 LUKHAS Agent Workflows
 
 **Multi-AI Coordination and Task Management Workflows**

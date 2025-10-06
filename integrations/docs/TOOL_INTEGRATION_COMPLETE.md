@@ -1,8 +1,8 @@
 ---
 module: integrations
-title: 🎯 Tool Integration Complete - OpenAI Loop Closed!
+title: "\U0001F3AF Tool Integration Complete - OpenAI Loop Closed!"
+type: documentation
 ---
-
 # 🎯 Tool Integration Complete - OpenAI Loop Closed!
 
 ## Executive Summary

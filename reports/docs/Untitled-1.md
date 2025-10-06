@@ -1,8 +1,8 @@
 ---
 module: reports
 title: Untitled 1
+type: documentation
 ---
-
  Neutral Baseline Deep Search (separate Pro chat)
 
 ChatGPT Pro (paste as first message)

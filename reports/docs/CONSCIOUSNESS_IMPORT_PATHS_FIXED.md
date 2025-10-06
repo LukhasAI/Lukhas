@@ -1,8 +1,8 @@
 ---
 module: reports
 title: Consciousness Import Paths Fixed
+type: documentation
 ---
-
 🔧 LUKHAS Consciousness Components - Corrected Import Paths
 ===========================================================
 

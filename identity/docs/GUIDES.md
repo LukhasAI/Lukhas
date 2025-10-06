@@ -1,10 +1,9 @@
 ---
 module: identity
-type: examples
-title: Identity Guides
 status: stable
+title: Identity Guides
+type: examples
 ---
-
 ## Quickstart
 1. …
 

@@ -1,9 +1,10 @@
 ---
-name: contracts-colocate
-goal: Ensure each module has `matrix_<module>.json` beside it, schema-safe
 danger_level: low
+goal: Ensure each module has `matrix_<module>.json` beside it, schema-safe
+module: unknown
+name: contracts-colocate
+type: documentation
 ---
-
 ## Prompt
 For each directory `Lukhas/<module>/`, ensure presence of `matrix_<module>.json`. If absent, create a minimal, schema-valid v3 stub with:
 - `"module": "<module>"`

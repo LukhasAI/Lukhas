@@ -1,8 +1,8 @@
 ---
 module: guardian
 title: Guardian Integration Certification Report
+type: documentation
 ---
-
 # Guardian Integration Certification Report
 ## LUKHAS AI Guardian System Integration - T4/0.01% Excellence Framework
 

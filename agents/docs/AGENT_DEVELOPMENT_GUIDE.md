@@ -1,8 +1,8 @@
 ---
 module: agents
-title: 🤖 LUKHAS AI Agent Development Guide
+title: "\U0001F916 LUKHAS AI Agent Development Guide"
+type: documentation
 ---
-
 # 🤖 LUKHAS AI Agent Development Guide
 **Complete Development Context for Any LUKHAS Component**
 

@@ -1,8 +1,8 @@
 ---
 module: modules
 title: LUKHAS AI Module Cleanup Analysis Summary
+type: documentation
 ---
-
 # LUKHAS AI Module Cleanup Analysis Summary
 ## Constellation Framework: ⚛️🧠🛡️
 

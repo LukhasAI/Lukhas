@@ -1,8 +1,8 @@
 ---
 module: agents
-title: 🏆 STAGE 2 DOMAIN CONSCIOUSNESS REPORT
+title: "\U0001F3C6 STAGE 2 DOMAIN CONSCIOUSNESS REPORT"
+type: documentation
 ---
-
 # 🏆 STAGE 2 DOMAIN CONSCIOUSNESS REPORT
 ## Specialized Cognitive Domains Analysis Complete
 ### Date: 2025-08-31 | Phase 2, Stage 2 Progress

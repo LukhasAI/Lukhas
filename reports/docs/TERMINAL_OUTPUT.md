@@ -1,8 +1,8 @@
 ---
 module: reports
 title: Terminal Output
+type: documentation
 ---
-
 lukhas -> /Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/__init__.py
 matriz -> /Users/agi_dev/LOCAL-REPOS/Lukhas/matriz/__init__.py
 agi_dev@g Lukhas % PYTHONPATH=. .venv/bin/lint-imports -v

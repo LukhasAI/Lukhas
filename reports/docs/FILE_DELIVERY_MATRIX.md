@@ -1,8 +1,8 @@
 ---
 module: reports
-title: 📁 LUKHAS AI File Delivery Matrix
+title: "\U0001F4C1 LUKHAS AI File Delivery Matrix"
+type: documentation
 ---
-
 # 📁 LUKHAS AI File Delivery Matrix
 
 **For Agents, Developers, and Automated Systems**

@@ -1,8 +1,8 @@
 ---
 module: bridge
 title: LLM Guardrail Wrapper
+type: documentation
 ---
-
 # LLM Guardrail Wrapper
 
 The `core.bridge.llm_guardrail` module wraps outbound language-model calls with JSON Schema enforcement.

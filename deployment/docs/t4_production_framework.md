@@ -1,8 +1,8 @@
 ---
 module: deployment
 title: T4 Production Deployment Framework
+type: documentation
 ---
-
 # T4 Production Deployment Framework
 
 Bullet-proof production rollout with 72-hour monitoring cadence and executive decision gates.

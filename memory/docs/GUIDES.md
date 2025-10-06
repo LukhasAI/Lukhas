@@ -1,10 +1,9 @@
 ---
 module: memory
-type: examples
-title: Memory Guides
 status: stable
+title: Memory Guides
+type: examples
 ---
-
 ## Quickstart
 1. …
 

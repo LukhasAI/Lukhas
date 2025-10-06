@@ -1,8 +1,8 @@
 ---
 module: reports
-title: 📋 LUKHAS Development Organization Summary
+title: "\U0001F4CB LUKHAS Development Organization Summary"
+type: documentation
 ---
-
 # 📋 LUKHAS Development Organization Summary
 
 ## 🎯 **The ONE-SHOT Agent Brief Formula**

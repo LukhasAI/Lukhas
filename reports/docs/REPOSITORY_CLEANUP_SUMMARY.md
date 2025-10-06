@@ -1,8 +1,8 @@
 ---
 module: reports
 title: Repository Cleanup Summary Report
+type: documentation
 ---
-
 # Repository Cleanup Summary Report
 
 **Date**: August 27, 2025  

@@ -1,8 +1,8 @@
 ---
 module: guardian
 title: Guardian Safety Tags v1.0.0 Architecture
+type: documentation
 ---
-
 # Guardian Safety Tags v1.0.0 Architecture
 
 Semantic plan enrichment system with advanced evasion hardening and ethics DSL integration.

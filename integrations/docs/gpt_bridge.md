@@ -1,8 +1,8 @@
 ---
 module: integrations
-title: LUKHΛS GPT Bridge – Post-Processor Architecture Plan
+title: "LUKH\u039BS GPT Bridge \u2013 Post-Processor Architecture Plan"
+type: documentation
 ---
-
 # LUKHΛS GPT Bridge – Post-Processor Architecture Plan
 
 ## Overview

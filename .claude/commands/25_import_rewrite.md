@@ -1,9 +1,10 @@
 ---
-name: import-rewrite
-goal: Normalize imports to `lukhas.<module>`; remove lane prefixes
 danger_level: medium
+goal: Normalize imports to `lukhas.<module>`; remove lane prefixes
+module: unknown
+name: import-rewrite
+type: documentation
 ---
-
 ## Prompt
 Rewrite repo-wide (excluding `artifacts/`, `.git/`):
 - `from lukhas.lukhas.` → `from lukhas.`

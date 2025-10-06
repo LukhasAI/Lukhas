@@ -1,8 +1,8 @@
 ---
 module: integrations
-title: 🔗 MCP (Model Context Protocol) Integration Analysis
+title: "\U0001F517 MCP (Model Context Protocol) Integration Analysis"
+type: documentation
 ---
-
 # 🔗 MCP (Model Context Protocol) Integration Analysis
 **Strategic Assessment for LUKHAS AI Agent Army**
 

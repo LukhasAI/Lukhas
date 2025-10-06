@@ -1,8 +1,8 @@
 ---
 module: reports
 title: T4 Testing Framework Achievement Report
+type: documentation
 ---
-
 # T4 Testing Framework Achievement Report
 **LUKHAS AI - Agent #3 Testing & DevOps Specialist (Demis Hassabis Standard)**
 

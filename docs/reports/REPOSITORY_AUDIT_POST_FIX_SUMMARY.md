@@ -1,8 +1,9 @@
 ---
+module: unknown
+moved_at: '2025-10-06T13:03:41'
+moved_to: ../../reports/docs/REPOSITORY_AUDIT_POST_FIX_SUMMARY.md
 redirect: true
-moved_to: "../../reports/docs/REPOSITORY_AUDIT_POST_FIX_SUMMARY.md"
-moved_at: "2025-10-06T13:03:41"
+type: documentation
 ---
-
 > This document was moved to `../../reports/docs/REPOSITORY_AUDIT_POST_FIX_SUMMARY.md` to colocate module docs.
 > Redirect created by T4/0.01% migration toolchain.

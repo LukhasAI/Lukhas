@@ -1,12 +1,16 @@
 ---
-module: docs.collaboration.runbooks
-type: runbook
-title: Documentation Migration Runbook
-status: stable
-tags: [t4, governance, docs, migration, runbook]
 lane: L2
+module: docs.collaboration.runbooks
+status: stable
+tags:
+- t4
+- governance
+- docs
+- migration
+- runbook
+title: Documentation Migration Runbook
+type: runbook
 ---
-
 # Documentation Migration Runbook
 
 **Purpose**: Procedures for migrating documentation from scattered locations to standardized module `docs/` directories with validated frontmatter.

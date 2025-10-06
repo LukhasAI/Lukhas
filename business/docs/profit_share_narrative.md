@@ -1,8 +1,8 @@
 ---
 module: business
-title: 💰 LUKHAS Fair Attention Economy
+title: "\U0001F4B0 LUKHAS Fair Attention Economy"
+type: documentation
 ---
-
 # 💰 LUKHAS Fair Attention Economy
 
 ## The New Economic Model

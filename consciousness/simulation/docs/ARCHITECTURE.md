@@ -1,10 +1,9 @@
 ---
 module: consciousness.simulation
-type: architecture
-title: Consciousness Simulation Architecture
 status: stable
+title: Consciousness Simulation Architecture
+type: architecture
 ---
-
 ## Overview
 What the module does, constraints, and placement in the constellation.
 

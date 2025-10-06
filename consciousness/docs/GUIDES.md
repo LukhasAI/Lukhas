@@ -1,10 +1,9 @@
 ---
 module: consciousness
-type: examples
-title: Consciousness Guides
 status: stable
+title: Consciousness Guides
+type: examples
 ---
-
 ## Quickstart
 1. …
 

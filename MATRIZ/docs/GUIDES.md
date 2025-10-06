@@ -1,10 +1,9 @@
 ---
 module: matriz
-type: examples
-title: Matriz Guides
 status: stable
+title: Matriz Guides
+type: examples
 ---
-
 ## Quickstart
 1. …
 

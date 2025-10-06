@@ -1,10 +1,7 @@
 ---
-## 🧪 SYMBOLIC PAYLOAD TESTING — NIAS
-
-LUCΛS supports emotionally intelligent, consent-aware message validation and symbolic delivery simulation via the NIAS module.
-
+module: unknown
+type: documentation
 ---
-
 ### 🔍 Validate Message Schema
 
 To test if a symbolic message is valid against the schema:

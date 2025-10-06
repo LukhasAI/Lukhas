@@ -1,8 +1,8 @@
 ---
 module: agents
-title: 🔧 JULES AGENT IMPORT FIX TASK ASSIGNMENTS
+title: "\U0001F527 JULES AGENT IMPORT FIX TASK ASSIGNMENTS"
+type: documentation
 ---
-
 # 🔧 JULES AGENT IMPORT FIX TASK ASSIGNMENTS
 **Specific Task Distribution for Import Path Resolution**
 

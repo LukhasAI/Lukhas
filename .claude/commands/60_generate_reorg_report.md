@@ -1,9 +1,10 @@
 ---
-name: reorg-report
-goal: Emit artifacts/reorg_report.md and .csv following the 0.01% template
 danger_level: low
+goal: Emit artifacts/reorg_report.md and .csv following the 0.01% template
+module: unknown
+name: reorg-report
+type: documentation
 ---
-
 ## Prompt
 Generate `artifacts/reorg_report.md` and `.csv` using the provided template (counts, per-module before→after, import rewrites, legacy lanes, validation, idempotency checksums).
 

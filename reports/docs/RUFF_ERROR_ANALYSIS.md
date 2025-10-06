@@ -1,8 +1,8 @@
 ---
 module: reports
 title: LUKHAS Codebase Ruff Error Analysis
+type: documentation
 ---
-
 # LUKHAS Codebase Ruff Error Analysis
 
 ## 🎯 **PHASE 1 COMPLETE - CORE SYSTEM COMPILATION ACHIEVED** ✅

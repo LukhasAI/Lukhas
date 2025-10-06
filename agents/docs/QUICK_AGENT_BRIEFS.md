@@ -1,8 +1,8 @@
 ---
 module: agents
-title: 🚀 Quick Agent Brief Templates
+title: "\U0001F680 Quick Agent Brief Templates"
+type: documentation
 ---
-
 # 🚀 Quick Agent Brief Templates
 
 ## For NIAS Development

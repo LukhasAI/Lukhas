@@ -1,8 +1,8 @@
 ---
 module: reports
 title: RegulationPolicyEngine Integration Summary
+type: documentation
 ---
-
 # RegulationPolicyEngine Integration Summary
 
 **Wave B-B3: "Build regulation policy v1 with logging"** - COMPLETED ✅

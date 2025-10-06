@@ -1,8 +1,8 @@
 ---
 module: ci
 title: Status Checks Hygiene
+type: documentation
 ---
-
 # Status Checks Hygiene
 
 This repo keeps PR CI fast and truthful by running only four gates on pull requests while moving heavy suites to nightly, main, or the merge queue.

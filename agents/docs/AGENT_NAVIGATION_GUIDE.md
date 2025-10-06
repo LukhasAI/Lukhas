@@ -1,8 +1,8 @@
 ---
 module: agents
 title: LUKHAS AI - Agent Navigation Guide
+type: documentation
 ---
-
 # LUKHAS AI - Agent Navigation Guide
 
 **Comprehensive Directory Structure & Component Location Guide for AI Agents**

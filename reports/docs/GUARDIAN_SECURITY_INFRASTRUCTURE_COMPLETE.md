@@ -1,8 +1,8 @@
 ---
 module: reports
-title: 🛡️ Guardian Security Infrastructure - COMPLETE
+title: "\U0001F6E1\uFE0F Guardian Security Infrastructure - COMPLETE"
+type: documentation
 ---
-
 # 🛡️ Guardian Security Infrastructure - COMPLETE
 
 **Guardian Security Doctrine v1.0.0 - Full Implementation**

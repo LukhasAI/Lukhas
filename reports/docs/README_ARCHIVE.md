@@ -1,8 +1,8 @@
 ---
 module: reports
 title: LUKHAS AI - Google Drive Archive Guide
+type: documentation
 ---
-
 # LUKHAS AI - Google Drive Archive Guide
 
 ## 📦 Archive Scripts Created

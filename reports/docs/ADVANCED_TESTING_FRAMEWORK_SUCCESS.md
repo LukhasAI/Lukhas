@@ -1,8 +1,8 @@
 ---
 module: reports
-title: 🏆 LUKHAS AI - Advanced Testing Framework Implementation Success Report
+title: "\U0001F3C6 LUKHAS AI - Advanced Testing Framework Implementation Success Report"
+type: documentation
 ---
-
 # 🏆 LUKHAS AI - Advanced Testing Framework Implementation Success Report
 
 **Date**: September 14, 2025

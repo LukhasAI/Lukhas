@@ -1,8 +1,8 @@
 ---
 module: reports
 title: Syntax Merge Resolution Report
+type: documentation
 ---
-
 🎯 LUKHAS Repository Syntax & Merge Conflict Resolution Report
 ==============================================================
 

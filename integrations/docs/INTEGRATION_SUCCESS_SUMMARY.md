@@ -1,8 +1,8 @@
 ---
 module: integrations
 title: Integration Fixes - Complete Success Summary
+type: documentation
 ---
-
 # Integration Fixes - Complete Success Summary
 
 ## 🎯 Mission Accomplished

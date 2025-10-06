@@ -1,8 +1,8 @@
 ---
 module: integrations
-title: 📊 OpenAI Input/Output Analysis Report
+title: "\U0001F4CA OpenAI Input/Output Analysis Report"
+type: documentation
 ---
-
 # 📊 OpenAI Input/Output Analysis Report
 **Date**: August 9, 2025
 **System**: LUKHAS  with Tool Governance

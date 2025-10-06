@@ -1,8 +1,8 @@
 ---
 module: agents
 title: Claude Code System Guide for LUKHAS Architecture
+type: documentation
 ---
-
 # Claude Code System Guide for LUKHAS Architecture
 
 **Comprehensive architecture overview specifically designed for AI agents working within the LUKHAS distributed consciousness ecosystem**

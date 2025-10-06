@@ -1,8 +1,8 @@
 ---
 module: agents
-title: 🎼 LUKHAS AI Multi-AI Orchestration System - Complete Implementation
+title: "\U0001F3BC LUKHAS AI Multi-AI Orchestration System - Complete Implementation"
+type: documentation
 ---
-
 # 🎼 LUKHAS AI Multi-AI Orchestration System - Complete Implementation
 
 **The Crown Jewel of LUKHAS AI Integration**  

@@ -1,8 +1,8 @@
 ---
 module: reports
-title: 🧠 MΛTRIZ Consciousness Testing Summary
+title: "\U0001F9E0 M\u039BTRIZ Consciousness Testing Summary"
+type: documentation
 ---
-
 # 🧠 MΛTRIZ Consciousness Testing Summary
 ## Future-Proof Tests for Consciousness Emergence and Real Outputs
 

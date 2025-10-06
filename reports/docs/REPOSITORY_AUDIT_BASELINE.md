@@ -1,8 +1,8 @@
 ---
 module: reports
-title: 🔍 LUKHAS Repository Audit - Baseline Report
+title: "\U0001F50D LUKHAS Repository Audit - Baseline Report"
+type: documentation
 ---
-
 # 🔍 LUKHAS Repository Audit - Baseline Report
 
 **Date**: August 29, 2025  

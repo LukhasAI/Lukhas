@@ -1,8 +1,8 @@
 ---
 module: reports
-title: 🌌 Trinity to Constellation Framework Migration Report
+title: "\U0001F30C Trinity to Constellation Framework Migration Report"
+type: documentation
 ---
-
 # 🌌 Trinity to Constellation Framework Migration Report
 
 **Migration Date**: September 1, 2025  

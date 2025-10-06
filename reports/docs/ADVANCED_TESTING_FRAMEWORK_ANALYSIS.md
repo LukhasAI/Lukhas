@@ -1,8 +1,8 @@
 ---
 module: reports
 title: LUKHAS AI Advanced Testing Framework Analysis
+type: documentation
 ---
-
 # LUKHAS AI Advanced Testing Framework Analysis
 
 ## Executive Summary

@@ -1,8 +1,8 @@
 ---
 module: agents
 title: Claude Code Enhancement Prompts for LUKHAS
+type: documentation
 ---
-
 # Claude Code Enhancement Prompts for LUKHAS
 
 Use these prompts with Claude Code for systematic, module-by-module enhancement of your consciousness-aware AGI system.

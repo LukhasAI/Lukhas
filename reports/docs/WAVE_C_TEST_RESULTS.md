@@ -1,8 +1,8 @@
 ---
 module: reports
 title: Wave C Implementation Test Results
+type: documentation
 ---
-
 # Wave C Implementation Test Results
 
 ## Test Summary

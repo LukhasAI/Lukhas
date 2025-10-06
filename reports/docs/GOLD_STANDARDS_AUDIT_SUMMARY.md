@@ -1,8 +1,8 @@
 ---
 module: reports
-title: 🏆 GOLD Standards Audit Summary
+title: "\U0001F3C6 GOLD Standards Audit Summary"
+type: documentation
 ---
-
 # 🏆 GOLD Standards Audit Summary
 
 **Date:** August 14, 2025

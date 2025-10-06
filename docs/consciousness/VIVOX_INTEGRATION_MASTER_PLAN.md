@@ -1,34 +1,36 @@
 ---
-# Content Classification
-doc_type: "architecture"
-update_frequency: "monthly"
-last_updated: "2025-08-25"
-next_review: "2025-09-25"
-
-# Audience Targeting
-audience: ["agents", "developers"]
-technical_level: "expert"
-
-# Agent Routing
 agent_relevance:
-  supreme_consciousness_architect: 1.0
   consciousness_architect: 1.0
   consciousness_developer: 0.9
+  devops_guardian: 0.7
+  documentation_specialist: 0.7
   github_copilot: 0.8
   guardian_engineer: 0.8
-  documentation_specialist: 0.7
-  devops_guardian: 0.7
+  supreme_consciousness_architect: 1.0
   velocity_lead: 0.6
-
-# Constellation Framework
-trinity_component: ["consciousness", "guardian", "identity"]
-search_keywords: ["vivox", "integration", "consciousness", "memory expansion", "ethical agi"]
-
-# Priority Classification
-priority: "high"
-category: "consciousness"
+audience:
+- agents
+- developers
+category: consciousness
+doc_type: architecture
+last_updated: '2025-08-25'
+module: unknown
+next_review: '2025-09-25'
+priority: high
+search_keywords:
+- vivox
+- integration
+- consciousness
+- memory expansion
+- ethical agi
+technical_level: expert
+trinity_component:
+- consciousness
+- guardian
+- identity
+type: documentation
+update_frequency: monthly
 ---
-
 # VIVOX Integration Master Plan
 ## Complete Architecture Implementation for LUKHAS PWM
 

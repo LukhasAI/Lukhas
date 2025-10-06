@@ -1,8 +1,8 @@
 ---
 module: reports
 title: Trace API Enhancement Implementation Summary
+type: documentation
 ---
-
 # Trace API Enhancement Implementation Summary
 
 ## Overview

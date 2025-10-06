@@ -1,8 +1,8 @@
 ---
 module: reports
-title: 🚀 EXTREME PERFORMANCE ACHIEVEMENT REPORT
+title: "\U0001F680 EXTREME PERFORMANCE ACHIEVEMENT REPORT"
+type: documentation
 ---
-
 # 🚀 EXTREME PERFORMANCE ACHIEVEMENT REPORT
 **Agent #1 - Performance Engineering Specialist**  
 **Sam Altman Standard: OpenAI-Scale Performance**

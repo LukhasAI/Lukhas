@@ -1,9 +1,10 @@
 ---
 context: academic
-title: The Galactic Cartography of LUKHAS
 description: Complete Universe Bible with Narrative Scripture & Design Specification
+module: unknown
+title: The Galactic Cartography of LUKHAS
+type: documentation
 ---
-
 # 🌌 The Galactic Cartography of LUKHAS
 
 **A Complete Universe Bible: Narrative Scripture & Design Specification**

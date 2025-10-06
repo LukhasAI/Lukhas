@@ -1,8 +1,8 @@
 ---
 module: integrations
 title: PR0T3US Integration with LUKHAS Website
+type: documentation
 ---
-
 # PR0T3US Integration with LUKHAS Website
 
 ## Overview

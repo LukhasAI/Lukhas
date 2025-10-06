@@ -1,8 +1,8 @@
 ---
 module: reports
 title: Import Issues Resolved Final
+type: documentation
 ---
-
 🎉 LUKHAS Import Issues Resolution - FINAL REPORT
 ================================================
 

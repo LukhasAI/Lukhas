@@ -1,9 +1,8 @@
 ---
 module: reports
 title: Autonomous Ruff Status Report
+type: documentation
 ---
-
-
 =================================================================
 🎯 AUTONOMOUS RUFF FIXES - COMPREHENSIVE STATUS REPORT  
 =================================================================

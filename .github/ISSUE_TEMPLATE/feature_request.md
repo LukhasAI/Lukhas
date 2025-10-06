@@ -1,12 +1,12 @@
 ---
-name: Feature Request
 about: Suggest an idea for LUKHAS AI consciousness platform
-title: '[FEATURE] '
-labels: 'enhancement, needs-triage'
 assignees: ''
-
+labels: enhancement, needs-triage
+module: unknown
+name: Feature Request
+title: '[FEATURE] '
+type: documentation
 ---
-
 ## 🚀 **Feature Summary**
 A clear and concise description of the feature you'd like to see.
 

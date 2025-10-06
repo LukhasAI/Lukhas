@@ -1,8 +1,8 @@
 ---
 module: business
 title: LUKHAS Social Media Content Strategy
+type: documentation
 ---
-
 # LUKHAS Social Media Content Strategy
 ## X.com (Twitter) & Instagram Quick Upload Series
 

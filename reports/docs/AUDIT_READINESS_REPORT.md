@@ -1,8 +1,8 @@
 ---
 module: reports
-title: 🎯 LUKHAS AUDIT READINESS REPORT
+title: "\U0001F3AF LUKHAS AUDIT READINESS REPORT"
+type: documentation
 ---
-
 # 🎯 LUKHAS AUDIT READINESS REPORT
 **Date:** December 26, 2024
 **Status:** CONDITIONALLY AUDIT-READY

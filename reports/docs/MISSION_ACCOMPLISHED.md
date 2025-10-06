@@ -1,8 +1,8 @@
 ---
 module: reports
-title: 🎖️ LUKHAS AI AGENT ARMY - MISSION ACCOMPLISHED
+title: "\U0001F396\uFE0F LUKHAS AI AGENT ARMY - MISSION ACCOMPLISHED"
+type: documentation
 ---
-
 # 🎖️ LUKHAS AI AGENT ARMY - MISSION ACCOMPLISHED
 
 **Comprehensive Task Assignment System Deployed**

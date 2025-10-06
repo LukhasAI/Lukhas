@@ -1,8 +1,8 @@
 ---
 module: reports
 title: Test Transparency Card
+type: documentation
 ---
-
 # Test Transparency Card
 
 This document outlines the use of test doubles (mocks, stubs, fakes, etc.) in the LUKHAS AI test suite. The project's testing philosophy emphasizes "reality testing," which minimizes the use of mocks to ensure tests are exercising the system with the highest possible fidelity.

@@ -1,8 +1,8 @@
 ---
 module: ethics
 title: Safety Tags Cookbook (Task 13)
+type: documentation
 ---
-
 # Safety Tags Cookbook (Task 13)
 
 > Goal: keep rules **clean, explainable, and fast** by building on semantic tags.

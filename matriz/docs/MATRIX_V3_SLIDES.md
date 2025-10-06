@@ -1,8 +1,8 @@
 ---
 module: matriz
 title: Matrix v3 Activation - Slide Deck
+type: documentation
 ---
-
 # Matrix v3 Activation - Slide Deck
 *Designed for investors, partners, or advisors who don't need deep technical detail, just the strategic why.*
 

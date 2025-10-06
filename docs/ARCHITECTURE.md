@@ -1,11 +1,16 @@
 ---
-title: LUKHAS Architecture Documentation
-status: stable
-owner: consciousness-architect
 last_review: 2025-09-20
-tags: [architecture, constellation-framework, matriz-pipeline, technical]
+module: unknown
+owner: consciousness-architect
+status: stable
+tags:
+- architecture
+- constellation-framework
+- matriz-pipeline
+- technical
+title: LUKHAS Architecture Documentation
+type: documentation
 ---
-
 # LUKHAS Architecture Documentation
 
 *Constellation Framework Architecture with MATRIZ Pipeline Integration*

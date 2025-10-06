@@ -1,8 +1,8 @@
 ---
 module: reports
 title: Transfer/Prune Scan Summary (2025-08-09)
+type: documentation
 ---
-
 # Transfer/Prune Scan Summary (2025-08-09)
 
 This report summarizes candidates found across sibling repos in /Users/agi_dev/LOCAL-REPOS for transfer into Lukhas_PWM and for pruning in their source repos.

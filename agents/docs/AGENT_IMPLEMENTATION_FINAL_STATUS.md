@@ -1,8 +1,8 @@
 ---
 module: agents
-title: 🎯 LUKHAS 7-Agent Implementation Final Status
+title: "\U0001F3AF LUKHAS 7-Agent Implementation Final Status"
+type: documentation
 ---
-
 # 🎯 LUKHAS 7-Agent Implementation Final Status
 
 ## ✅ COMPLETED IMPLEMENTATIONS (In Actual LUKHAS Directories)

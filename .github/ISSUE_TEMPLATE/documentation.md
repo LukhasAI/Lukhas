@@ -1,12 +1,12 @@
 ---
-name: Documentation Issue
 about: Report issues with documentation or suggest improvements
-title: '[DOCS] '
-labels: 'documentation, needs-triage'
 assignees: ''
-
+labels: documentation, needs-triage
+module: unknown
+name: Documentation Issue
+title: '[DOCS] '
+type: documentation
 ---
-
 ## 📚 **Documentation Issue**
 
 ### **Issue Type**

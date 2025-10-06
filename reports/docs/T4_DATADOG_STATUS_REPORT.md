@@ -1,8 +1,8 @@
 ---
 module: reports
 title: T4 Enterprise Datadog Integration Status Report
+type: documentation
 ---
-
 # T4 Enterprise Datadog Integration Status Report
 
 **Date**: August 25, 2025

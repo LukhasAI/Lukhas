@@ -1,8 +1,8 @@
 ---
 module: agents
-title: 🎯 Legal Compliance & Organization Task Assignments
+title: "\U0001F3AF Legal Compliance & Organization Task Assignments"
+type: documentation
 ---
-
 # 🎯 Legal Compliance & Organization Task Assignments
 
 **Date:** August 11, 2025

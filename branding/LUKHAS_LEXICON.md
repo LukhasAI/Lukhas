@@ -1,9 +1,10 @@
 ---
 context: academic
-title: The LUKHAS Lexicon
 description: A Dual Stream Reference with Academic Sources and Public Safety
+module: unknown
+title: The LUKHAS Lexicon
+type: documentation
 ---
-
 # The LUKHAS Lexicon
 
 **A Dual Stream Reference: Academic (with sources) and Public (stance-based, no names)**

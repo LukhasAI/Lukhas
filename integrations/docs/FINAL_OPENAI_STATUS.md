@@ -1,8 +1,8 @@
 ---
 module: integrations
-title: 🎯 LUKHAS  OpenAI Integration - Final Status Report
+title: "\U0001F3AF LUKHAS  OpenAI Integration - Final Status Report"
+type: documentation
 ---
-
 # 🎯 LUKHAS  OpenAI Integration - Final Status Report
 
 ## ✅ What's Working

@@ -1,9 +1,10 @@
 ---
-name: discovery
-goal: Enumerate modules, lanes, contracts; build dry-run inputs
 danger_level: low
+goal: Enumerate modules, lanes, contracts; build dry-run inputs
+module: unknown
+name: discovery
+type: documentation
 ---
-
 ## Prompt (to Claude)
 Scan the repo to discover all modules under:
 - Lukhas/**

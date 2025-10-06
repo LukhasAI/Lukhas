@@ -1,8 +1,8 @@
 ---
 module: templates
-title: Canary Decision Report — Safety Tags v1
+title: "Canary Decision Report \u2014 Safety Tags v1"
+type: documentation
 ---
-
 # Canary Decision Report — Safety Tags v1
 
 ## Deployment Metadata

@@ -1,8 +1,8 @@
 ---
 module: agents
-title: 🧬 MΛTRIZ CONSCIOUSNESS ORCHESTRATION BLUEPRINT
+title: "\U0001F9EC M\u039BTRIZ CONSCIOUSNESS ORCHESTRATION BLUEPRINT"
+type: documentation
 ---
-
 # 🧬 MΛTRIZ CONSCIOUSNESS ORCHESTRATION BLUEPRINT
 ## Master Implementation Plan for 121 Distributed Cognitive Components
 ### Last Updated: 2025-08-31 - Ready for Phase 2 Implementation

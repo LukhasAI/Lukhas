@@ -1,10 +1,16 @@
 ---
+lane: L2
 module: consciousness.simulation
 status: stable
-lane: L2
-tags: [consciousness,simulation,ethics,consent,matriz,matada]
+tags:
+- consciousness
+- simulation
+- ethics
+- consent
+- matriz
+- matada
+type: documentation
 ---
-
 ## Context
 Short, factual context for fast readers.
 

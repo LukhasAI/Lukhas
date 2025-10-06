@@ -1,8 +1,8 @@
 ---
 module: modules
 title: Expanded Module Selection for API Analysis
+type: documentation
 ---
-
 # Expanded Module Selection for API Analysis
 ## Budget-Unlimited Comprehensive Analysis
 ### Constellation Framework: ⚛️🧠🛡️

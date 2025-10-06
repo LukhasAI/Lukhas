@@ -1,8 +1,8 @@
 ---
 module: agents
-title: 🤖 Claude Agent Task Assignments - August 11, 2025
+title: "\U0001F916 Claude Agent Task Assignments - August 11, 2025"
+type: documentation
 ---
-
 # 🤖 Claude Agent Task Assignments - August 11, 2025
 
 **Based on:** Performance, Ethics, Compliance & Test Results Analysis

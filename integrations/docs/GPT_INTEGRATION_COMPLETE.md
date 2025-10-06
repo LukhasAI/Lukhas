@@ -1,8 +1,8 @@
 ---
 module: integrations
-title: 🤖 LUKHΛS GPT Integration Layer - Complete
+title: "\U0001F916 LUKH\u039BS GPT Integration Layer - Complete"
+type: documentation
 ---
-
 # 🤖 LUKHΛS GPT Integration Layer - Complete
 
 **Constellation Framework**: ⚛️🧠🛡️

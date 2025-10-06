@@ -1,11 +1,15 @@
 ---
-name: Legacy Core Import Exception
 about: Request exception for legacy 'core' import usage during sunset
-title: "[LEGACY-CORE] Exception request: "
-labels: ["legacy-core", "sunset-exception", "platform"]
 assignees: []
+labels:
+- legacy-core
+- sunset-exception
+- platform
+module: unknown
+name: Legacy Core Import Exception
+title: '[LEGACY-CORE] Exception request: '
+type: documentation
 ---
-
 ## Exception Request Details
 
 **Service/Component**:

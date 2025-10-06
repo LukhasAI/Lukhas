@@ -1,9 +1,10 @@
 ---
-name: flat-root-execute
-goal: Move code+contracts into Lukhas/<module>/ preserving git history
 danger_level: medium
+goal: Move code+contracts into Lukhas/<module>/ preserving git history
+module: unknown
+name: flat-root-execute
+type: documentation
 ---
-
 ## Prompt
 Apply `artifacts/lukhas_flat.plan.jsonl`:
 - For each row, `git mv` primary path to `Lukhas/<module>/` (create if missing)

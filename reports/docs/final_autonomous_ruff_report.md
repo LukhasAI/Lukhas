@@ -1,9 +1,8 @@
 ---
 module: reports
 title: Final Autonomous Ruff Report
+type: documentation
 ---
-
-
 =================================================================
 🏆 FINAL AUTONOMOUS RUFF FIXES REPORT - ITERATION COMPLETE
 =================================================================

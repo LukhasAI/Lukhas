@@ -1,8 +1,9 @@
 ---
+module: unknown
+moved_at: '2025-10-06T13:03:40'
+moved_to: ../../integrations/docs/TOOL_EXECUTOR_IMPLEMENTATION.md
 redirect: true
-moved_to: "../../integrations/docs/TOOL_EXECUTOR_IMPLEMENTATION.md"
-moved_at: "2025-10-06T13:03:40"
+type: documentation
 ---
-
 > This document was moved to `../../integrations/docs/TOOL_EXECUTOR_IMPLEMENTATION.md` to colocate module docs.
 > Redirect created by T4/0.01% migration toolchain.

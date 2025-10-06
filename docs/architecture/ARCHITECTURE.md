@@ -1,34 +1,36 @@
 ---
-# Content Classification
-doc_type: "architecture"
-update_frequency: "quarterly"
-last_updated: "2025-08-25"
-next_review: "2025-11-25"
-
-# Audience Targeting
-audience: ["agents", "developers"]
-technical_level: "expert"
-
-# Agent Routing
 agent_relevance:
-  supreme_consciousness_architect: 1.0
   consciousness_architect: 1.0
-  github_copilot: 0.9
   consciousness_developer: 0.8
   devops_guardian: 0.8
-  guardian_engineer: 0.7
   documentation_specialist: 0.8
+  github_copilot: 0.9
+  guardian_engineer: 0.7
+  supreme_consciousness_architect: 1.0
   velocity_lead: 0.6
-
-# Constellation Framework
-trinity_component: ["identity", "consciousness", "guardian"]
-search_keywords: ["architecture", "system design", "modules", "connectivity", "neuroplastic"]
-
-# Priority Classification
-priority: "critical"
-category: "architecture"
+audience:
+- agents
+- developers
+category: architecture
+doc_type: architecture
+last_updated: '2025-08-25'
+module: unknown
+next_review: '2025-11-25'
+priority: critical
+search_keywords:
+- architecture
+- system design
+- modules
+- connectivity
+- neuroplastic
+technical_level: expert
+trinity_component:
+- identity
+- consciousness
+- guardian
+type: documentation
+update_frequency: quarterly
 ---
-
 # LUKHAS  Architecture Documentation
 
 ## Table of Contents

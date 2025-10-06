@@ -1,8 +1,8 @@
 ---
 module: integrations
 title: Claude Context
+type: documentation
 ---
-
          DECISION -->|Dream Analysis| DREAM[💭 Dream Engine]
          DECISION -->|Emotion Check| EMOTION[❤️ Emotion System]
 

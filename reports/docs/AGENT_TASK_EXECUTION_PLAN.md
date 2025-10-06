@@ -1,8 +1,8 @@
 ---
 module: reports
-title: 🎯 AGENT TASK EXECUTION PLAN
+title: "\U0001F3AF AGENT TASK EXECUTION PLAN"
+type: documentation
 ---
-
 # 🎯 AGENT TASK EXECUTION PLAN
 **LUKHAS AI - Comprehensive Task Distribution & Execution Strategy**
 

@@ -1,8 +1,8 @@
 ---
 module: agents
-title: 🎖️ Jules PR Integration Strategy
+title: "\U0001F396\uFE0F Jules PR Integration Strategy"
+type: documentation
 ---
-
 # 🎖️ Jules PR Integration Strategy
 
 ## 📋 Available Jules PRs Analysis

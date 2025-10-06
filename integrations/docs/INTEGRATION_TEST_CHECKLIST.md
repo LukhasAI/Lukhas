@@ -1,8 +1,8 @@
 ---
 module: integrations
-title: 🎯 LUKHAS OpenAI Integration Test Checklist
+title: "\U0001F3AF LUKHAS OpenAI Integration Test Checklist"
+type: documentation
 ---
-
 # 🎯 LUKHAS OpenAI Integration Test Checklist
 
 ## ✅ Implementation Complete

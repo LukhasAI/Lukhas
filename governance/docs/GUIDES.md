@@ -1,10 +1,9 @@
 ---
 module: governance
-type: examples
-title: Governance Guides
 status: stable
+title: Governance Guides
+type: examples
 ---
-
 ## Quickstart
 1. …
 

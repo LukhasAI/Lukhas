@@ -1,8 +1,8 @@
 ---
 module: deployment
 title: LUKHAS AI Production Deployment Runbook
+type: documentation
 ---
-
 # LUKHAS AI Production Deployment Runbook
 
 ## Overview

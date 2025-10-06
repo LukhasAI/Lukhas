@@ -1,8 +1,8 @@
 ---
 module: reports
 title: LUKHAS Audit Summary (Lite)
+type: documentation
 ---
-
 # LUKHAS Audit Summary (Lite)
 
 Generated: Thu Aug 14 07:34:13 BST 2025

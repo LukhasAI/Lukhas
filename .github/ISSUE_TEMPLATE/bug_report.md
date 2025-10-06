@@ -1,12 +1,12 @@
 ---
-name: Bug Report
 about: Create a report to help us improve LUKHAS AI
-title: '[BUG] '
-labels: 'bug, needs-triage'
 assignees: ''
-
+labels: bug, needs-triage
+module: unknown
+name: Bug Report
+title: '[BUG] '
+type: documentation
 ---
-
 ## 🐛 **Bug Description**
 A clear and concise description of what the bug is.
 

@@ -1,8 +1,8 @@
 ---
 module: reports
-title: 🔧 SURGICAL Corruption Fix Strategy
+title: "\U0001F527 SURGICAL Corruption Fix Strategy"
+type: documentation
 ---
-
 # 🔧 SURGICAL Corruption Fix Strategy
 
 **Mission**: Preserve logic, state & organization while eliminating corruption

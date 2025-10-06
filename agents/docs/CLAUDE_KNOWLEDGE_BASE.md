@@ -1,8 +1,8 @@
 ---
 module: agents
-title: 🧠 CLAUDE KNOWLEDGE BASE
+title: "\U0001F9E0 CLAUDE KNOWLEDGE BASE"
+type: documentation
 ---
-
 # 🧠 CLAUDE KNOWLEDGE BASE
 ## Critical Learnings About LUKHAS AI Architecture
 ### Last Updated: 2025-08-31 (Phase 1-2 Complete)

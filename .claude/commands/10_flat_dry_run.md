@@ -1,9 +1,10 @@
 ---
-name: flat-root-dry-run
-goal: Produce a dry-run plan to flatten under Lukhas/<module> without moving files
 danger_level: low
+goal: Produce a dry-run plan to flatten under Lukhas/<module> without moving files
+module: unknown
+name: flat-root-dry-run
+type: documentation
 ---
-
 ## Prompt
 Using **artifacts/flat_inventory.json** (or matriz_* equivalents if present), build a plan that moves each module to:
 - `Lukhas/<module>/`

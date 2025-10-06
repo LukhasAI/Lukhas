@@ -1,8 +1,8 @@
 ---
 module: modules
 title: Manual Module Selection Process
+type: documentation
 ---
-
 # Manual Module Selection Process
 ## Pre-OpenAI API Call Evaluation
 ### Constellation Framework: ⚛️🧠🛡️

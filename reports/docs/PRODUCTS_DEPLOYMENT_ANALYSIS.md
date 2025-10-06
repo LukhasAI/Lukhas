@@ -1,8 +1,8 @@
 ---
 module: reports
 title: PRODUCTS Deployment Analysis
+type: documentation
 ---
-
 # PRODUCTS Deployment Analysis
 ## Production Scale Architecture (193MB, 4,093 Python files)
 

@@ -1,8 +1,8 @@
 ---
 module: consciousness
 title: Feedback + Audit Integration
+type: documentation
 ---
-
 # Feedback + Audit Integration
 
 - **Why**: Hyper-adaptability needs tight, per-decision feedback.

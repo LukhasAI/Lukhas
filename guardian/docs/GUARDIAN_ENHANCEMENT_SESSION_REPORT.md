@@ -1,8 +1,8 @@
 ---
 module: guardian
 title: Guardian Integration Enhancement Session Report
+type: documentation
 ---
-
 # Guardian Integration Enhancement Session Report
 ## 2025-09-23 Session: Validation, Testing, and Documentation
 

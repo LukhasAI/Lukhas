@@ -1,8 +1,8 @@
 ---
 module: integrations
-title: 🏢 LUKHAS  Production Test Report
+title: "\U0001F3E2 LUKHAS  Production Test Report"
+type: documentation
 ---
-
 # 🏢 LUKHAS  Production Test Report
 **Date**: August 9, 2025
 **Suite ID**: suite_0dfe3b66

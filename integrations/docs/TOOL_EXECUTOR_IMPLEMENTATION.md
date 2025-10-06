@@ -1,8 +1,8 @@
 ---
 module: integrations
-title: 🔧 Tool Executor Implementation Complete
+title: "\U0001F527 Tool Executor Implementation Complete"
+type: documentation
 ---
-
 # 🔧 Tool Executor Implementation Complete
 
 ## Overview

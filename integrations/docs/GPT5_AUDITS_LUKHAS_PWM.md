@@ -1,9 +1,8 @@
 ---
 module: integrations
 title: Gpt5 Audits Lukhas Pwm
+type: documentation
 ---
-
-
 Lukhas AI System Audit and Consolidation Strategy
 📊 LUKHAS AI System Audit and Integration Plan
 📦 Architectural Overview (How It’s Built)

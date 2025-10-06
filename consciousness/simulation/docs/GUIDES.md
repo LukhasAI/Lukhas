@@ -1,10 +1,9 @@
 ---
 module: consciousness.simulation
-type: examples
-title: Consciousness Simulation Guides
 status: stable
+title: Consciousness Simulation Guides
+type: examples
 ---
-
 ## Quickstart
 1. …
 

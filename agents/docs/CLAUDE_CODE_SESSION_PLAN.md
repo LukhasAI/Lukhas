@@ -1,8 +1,8 @@
 ---
 module: agents
 title: Claude Code Enhancement Session Plan
+type: documentation
 ---
-
 # Claude Code Enhancement Session Plan
 
 ## Modules to Enhance (In Order):

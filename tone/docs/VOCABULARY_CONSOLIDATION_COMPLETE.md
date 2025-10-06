@@ -1,8 +1,8 @@
 ---
 module: tone
-title: 🎭 LUKHAS AI - Vocabulary System Consolidation Complete
+title: "\U0001F3AD LUKHAS AI - Vocabulary System Consolidation Complete"
+type: documentation
 ---
-
 # 🎭 LUKHAS AI - Vocabulary System Consolidation Complete
 
 ═══════════════════════════════════════════════════════════════════════════════════

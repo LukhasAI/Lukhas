@@ -1,8 +1,8 @@
 ---
 module: reports
 title: LUKHAS AI Phase 2 Comprehensive Testing & Validation Report
+type: documentation
 ---
-
 # LUKHAS AI Phase 2 Comprehensive Testing & Validation Report
 
 **Generated:** 2025-08-27

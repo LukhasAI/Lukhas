@@ -1,12 +1,12 @@
 ---
-name: Security Issue
 about: Report a security vulnerability (Use this for NON-CRITICAL issues only)
-title: '[SECURITY] '
-labels: 'security, needs-triage'
 assignees: ''
-
+labels: security, needs-triage
+module: unknown
+name: Security Issue
+title: '[SECURITY] '
+type: documentation
 ---
-
 ## ⚠️ **SECURITY NOTICE**
 
 **FOR CRITICAL SECURITY VULNERABILITIES**:

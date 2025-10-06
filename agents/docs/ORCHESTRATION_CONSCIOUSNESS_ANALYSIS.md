@@ -1,8 +1,8 @@
 ---
 module: agents
-title: 🧬 MΛTRIZ ORCHESTRATION CONSCIOUSNESS ANALYSIS
+title: "\U0001F9EC M\u039BTRIZ ORCHESTRATION CONSCIOUSNESS ANALYSIS"
+type: documentation
 ---
-
 # 🧬 MΛTRIZ ORCHESTRATION CONSCIOUSNESS ANALYSIS
 ## Distributed Cognitive Components - Individual Analysis Framework
 ### Last Updated: 2025-08-31 - Phase 2 Implementation

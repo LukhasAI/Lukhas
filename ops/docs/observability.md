@@ -1,8 +1,8 @@
 ---
 module: ops
 title: Governance Observability Panels
+type: documentation
 ---
-
 # Governance Observability Panels
 
 The **LUKHAS Operations** Grafana dashboard now includes a dedicated governance row that surfaces real-time policy health. Import the `dashboards/lukhas_ops.json` file into Grafana (v9+) to provision the updated layout.

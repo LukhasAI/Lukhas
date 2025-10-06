@@ -1,8 +1,8 @@
 ---
 module: reports
 title: T4 Enterprise Premium Assessment
+type: documentation
 ---
-
 # T4 Enterprise Premium Assessment
 ## What the T4 Team Would Do Differently
 

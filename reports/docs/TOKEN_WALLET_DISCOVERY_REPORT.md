@@ -1,8 +1,8 @@
 ---
 module: reports
-title: 🔍 LUKHAS Token & Wallet Discovery Report
+title: "\U0001F50D LUKHAS Token & Wallet Discovery Report"
+type: documentation
 ---
-
 # 🔍 LUKHAS Token & Wallet Discovery Report
 
 ## Overview

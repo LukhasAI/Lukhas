@@ -1,8 +1,8 @@
 ---
 module: reports
 title: LUKHAS Guardian System v1.0.0 Implementation Report
+type: documentation
 ---
-
 # LUKHAS Guardian System v1.0.0 Implementation Report
 
 ## Executive Summary 🛡️⚛️🧠

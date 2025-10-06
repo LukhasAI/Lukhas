@@ -1,8 +1,8 @@
 ---
 module: reports
 title: Memory Ecosystem Analysis
+type: documentation
 ---
-
 # Memory Ecosystem Analysis
 ## Fold-Based Memory with Consciousness Integration
 

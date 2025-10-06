@@ -1,8 +1,8 @@
 ---
 module: reports
 title: LUKHAS AI - Security Remediation Complete Report
+type: documentation
 ---
-
 # LUKHAS AI - Security Remediation Complete Report
 ## Enterprise-Grade Security Implementation
 

@@ -1,9 +1,8 @@
 ---
 module: reports
 title: Continued Autonomous Ruff Progress
+type: documentation
 ---
-
-
 =================================================================
 🎯 AUTONOMOUS RUFF FIXES - CONTINUED ITERATION PROGRESS
 =================================================================

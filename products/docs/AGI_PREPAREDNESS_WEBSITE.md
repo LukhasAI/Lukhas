@@ -1,8 +1,8 @@
 ---
 module: products
-title: 🚀 Advanced AI Preparedness Framework - Website Documentation
+title: "\U0001F680 Advanced AI Preparedness Framework - Website Documentation"
+type: documentation
 ---
-
 # 🚀 Advanced AI Preparedness Framework - Website Documentation
 
 *Comprehensive safety and governance for advanced AI systems*

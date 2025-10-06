@@ -1,9 +1,8 @@
 ---
 module: reports
-title: 🔧 Surgical Corruption Repair Report
+title: "\U0001F527 Surgical Corruption Repair Report"
+type: documentation
 ---
-
-
 # 🔧 Surgical Corruption Repair Report
 
 ## ✅ Successfully Repaired Files: 6

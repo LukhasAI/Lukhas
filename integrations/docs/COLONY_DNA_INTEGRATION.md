@@ -1,8 +1,8 @@
 ---
 module: integrations
-title: Colony ↔ DNA Helix Integration (Test Harness)
+title: "Colony \u2194 DNA Helix Integration (Test Harness)"
+type: documentation
 ---
-
 # Colony ↔ DNA Helix Integration (Test Harness)
 
 - Goal: Prove consensus decisions persist correctly to DNA memory with strength,

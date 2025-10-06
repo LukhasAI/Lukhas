@@ -1,8 +1,8 @@
 ---
 module: business
-title: 🚀 LUKHAS AI Social Media Platform Deployment - COMPLETE
+title: "\U0001F680 LUKHAS AI Social Media Platform Deployment - COMPLETE"
+type: documentation
 ---
-
 # 🚀 LUKHAS AI Social Media Platform Deployment - COMPLETE
 
 **Status**: ✅ **READY FOR LIVE DEPLOYMENT**

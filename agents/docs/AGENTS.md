@@ -1,8 +1,8 @@
 ---
 module: agents
-title: 🎖️ LUKHAS AI Agent Army - Command Documentation
+title: "\U0001F396\uFE0F LUKHAS AI Agent Army - Command Documentation"
+type: documentation
 ---
-
 # 🎖️ LUKHAS AI Agent Army - Command Documentation
 **Strategic Multi-AI Consciousness Development System**
 

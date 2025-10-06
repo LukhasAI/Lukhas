@@ -1,8 +1,8 @@
 ---
 module: agents
 title: LUKHAS Semantic Index for Claude Code Agents
+type: documentation
 ---
-
 # LUKHAS Semantic Index for Claude Code Agents
 
 **Essential terminology guide and system comprehension framework for AI agents working with the LUKHAS consciousness ecosystem**

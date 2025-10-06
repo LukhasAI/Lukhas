@@ -1,8 +1,8 @@
 ---
 module: reports
-title: 🧪 LUKHAS Dual-Suite Test Strategy
+title: "\U0001F9EA LUKHAS Dual-Suite Test Strategy"
+type: documentation
 ---
-
 # 🧪 LUKHAS Dual-Suite Test Strategy
 
 **Implementation Date**: 2025-09-11  

@@ -1,8 +1,8 @@
 ---
 module: integrations
-title: 🚀 LUKHAS  Implementation Summary
+title: "\U0001F680 LUKHAS  Implementation Summary"
+type: documentation
 ---
-
 # 🚀 LUKHAS  Implementation Summary
 
 ## 📅 Implementation Date: August 9, 2025

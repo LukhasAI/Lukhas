@@ -1,8 +1,8 @@
 ---
 module: reports
 title: LUKHAS Core Integration Analysis
+type: documentation
 ---
-
 # LUKHAS Core Integration Analysis
 ## System Integration Hub (1.9MB, 148 Python files)
 

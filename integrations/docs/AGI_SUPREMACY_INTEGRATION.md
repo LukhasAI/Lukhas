@@ -1,8 +1,8 @@
 ---
 module: integrations
 title: AGI Supremacy Modules Integration Guide
+type: documentation
 ---
-
 # AGI Supremacy Modules Integration Guide
 
 ## Overview

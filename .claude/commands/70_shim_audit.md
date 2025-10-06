@@ -1,9 +1,10 @@
 ---
-name: shim-audit
-goal: Track and timebox legacy lane shims; fail if new code appears there
 danger_level: low
+goal: Track and timebox legacy lane shims; fail if new code appears there
+module: unknown
+name: shim-audit
+type: documentation
 ---
-
 ## Prompt
 Scan legacy paths for non-shim files. If found, list them and exit nonzero. Otherwise, print OK.
 

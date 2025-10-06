@@ -1,9 +1,10 @@
 ---
-name: coverage-report
-goal: Rebuild human-readable coverage & where-is-which deltas
 danger_level: low
+goal: Rebuild human-readable coverage & where-is-which deltas
+module: unknown
+name: coverage-report
+type: documentation
 ---
-
 ## Prompt
 Recalculate coverage and refresh human mapping (md+csv). Include "Delta" between pre/post move if available.
 

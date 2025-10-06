@@ -1,8 +1,8 @@
 ---
 module: reports
-title: LUKHAS AI Final Phase Integration Complete 🎉
+title: "LUKHAS AI Final Phase Integration Complete \U0001F389"
+type: documentation
 ---
-
 # LUKHAS AI Final Phase Integration Complete 🎉
 
 **Date**: August 27, 2025

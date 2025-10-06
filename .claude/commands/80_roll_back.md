@@ -1,9 +1,10 @@
 ---
-name: roll-back-last-stage
-goal: Quickly revert the last consolidation stage commit
 danger_level: medium
+goal: Quickly revert the last consolidation stage commit
+module: unknown
+name: roll-back-last-stage
+type: documentation
 ---
-
 ## Prompt
 Revert the last commit created by a consolidation command (identified by conventional commit prefix).
 

@@ -1,34 +1,36 @@
 ---
-# Content Classification
-doc_type: "guide"
-update_frequency: "monthly"
-last_updated: "2025-08-25"
-next_review: "2025-09-25"
-
-# Audience Targeting
-audience: ["agents", "developers"]
-technical_level: "advanced"
-
-# Agent Routing
 agent_relevance:
-  supreme_consciousness_architect: 1.0
-  github_copilot: 1.0
   consciousness_architect: 0.9
-  devops_guardian: 0.9
   consciousness_developer: 0.8
-  guardian_engineer: 0.8
+  devops_guardian: 0.9
   documentation_specialist: 0.9
+  github_copilot: 1.0
+  guardian_engineer: 0.8
+  supreme_consciousness_architect: 1.0
   velocity_lead: 0.7
-
-# Constellation Framework
-trinity_component: ["identity", "consciousness", "guardian"]
-search_keywords: ["agent army", "setup", "configuration", "multi-ai", "coordination"]
-
-# Priority Classification
-priority: "critical"
-category: "setup"
+audience:
+- agents
+- developers
+category: setup
+doc_type: guide
+last_updated: '2025-08-25'
+module: unknown
+next_review: '2025-09-25'
+priority: critical
+search_keywords:
+- agent army
+- setup
+- configuration
+- multi-ai
+- coordination
+technical_level: advanced
+trinity_component:
+- identity
+- consciousness
+- guardian
+type: documentation
+update_frequency: monthly
 ---
-
 # 🎖️ LUKHAS Agent Army Setup Guide
 
 **Complete Configuration Guide for Multi-AI Coordination**

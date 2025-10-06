@@ -1,8 +1,8 @@
 ---
 module: reports
-title: 🚨 DEVELOPMENT SYSTEM WARNING
+title: "\U0001F6A8 DEVELOPMENT SYSTEM WARNING"
+type: documentation
 ---
-
 # 🚨 DEVELOPMENT SYSTEM WARNING
 ## ⚠️ CRITICAL: This is NOT Traditional Software!
 

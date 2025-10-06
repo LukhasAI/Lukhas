@@ -1,8 +1,8 @@
 ---
 module: reports
-title: 🛡️ LUKHAS Security Vulnerability Resolution - Complete Report
+title: "\U0001F6E1\uFE0F LUKHAS Security Vulnerability Resolution - Complete Report"
+type: documentation
 ---
-
 # 🛡️ LUKHAS Security Vulnerability Resolution - Complete Report
 
 ## 📅 **Audit Date**: August 27, 2025

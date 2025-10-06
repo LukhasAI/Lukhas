@@ -1,8 +1,8 @@
 ---
 module: reports
-title: 🏆 LUKHAS AI - Final GOLD Standards Audit Report
+title: "\U0001F3C6 LUKHAS AI - Final GOLD Standards Audit Report"
+type: documentation
 ---
-
 # 🏆 LUKHAS AI - Final GOLD Standards Audit Report
 
 **Date:** August 14, 2025

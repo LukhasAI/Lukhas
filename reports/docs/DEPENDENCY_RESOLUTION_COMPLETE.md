@@ -1,8 +1,8 @@
 ---
 module: reports
 title: Dependency Resolution Complete
+type: documentation
 ---
-
 🎉 LUKHAS Consciousness Components - DEPENDENCY ISSUES RESOLVED
 ================================================================
 

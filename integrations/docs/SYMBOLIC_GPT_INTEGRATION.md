@@ -1,8 +1,8 @@
 ---
 module: integrations
-title: LUKHΛS Symbolic GPT Integration Layer
+title: "LUKH\u039BS Symbolic GPT Integration Layer"
+type: documentation
 ---
-
 # LUKHΛS Symbolic GPT Integration Layer
 ### Constellation Framework: ⚛️🧠🛡️
 

@@ -1,8 +1,8 @@
 ---
 module: reports
 title: IMPORT SYSTEM FIXES REPORT
+type: documentation
 ---
-
 # IMPORT SYSTEM FIXES REPORT
 
 ## Executive Summary

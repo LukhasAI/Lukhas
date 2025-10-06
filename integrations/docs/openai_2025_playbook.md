@@ -1,8 +1,8 @@
 ---
 module: integrations
 title: OpenAI Integration Playbook 2025
+type: documentation
 ---
-
 # OpenAI Integration Playbook 2025
 
 ## Overview
