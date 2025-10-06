@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 ## Summary
 Promote `core/<MODULE>` from candidate → lukhas. One module only.
 

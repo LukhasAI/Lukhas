@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 📦 Samples
 
 _Within the grand architecture of LUKHAS, samples emerges—LUKHAS samples module implementing, purpose refined to essence, functionality elevated to art._

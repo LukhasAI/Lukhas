@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Reasoning Configuration
 
 This directory contains configuration files for the reasoning module.

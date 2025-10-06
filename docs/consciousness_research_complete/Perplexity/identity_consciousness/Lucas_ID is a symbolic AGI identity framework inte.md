@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 <img src="https://r2cdn.perplexity.ai/pplx-full-logo-primary-dark%402x.png" class="logo" width="120"/>
 
 # LUCAS_ID is a symbolic AGI identity framework integrating symbolic relationship compression (SLC), bio-inspired scaffolds (G4-binding proteins, DNA origami cryptography), Glymph-style QR codes, LiDAR spatial anchoring, lattice-based encryption, and zero-knowledge proofs (ZKPs). It governs consent-based traversal of conceptual cognitive graphs, optimizing for privacy, quantum-resilient security, and compression efficiency

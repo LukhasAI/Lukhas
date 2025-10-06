@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🔍 NIAS Transparency Layers Documentation
 
 **Version:** 1.0

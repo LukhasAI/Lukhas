@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS AI - Security Remediation Report
 **Date**: 2025-09-01  
 **Severity**: CRITICAL  

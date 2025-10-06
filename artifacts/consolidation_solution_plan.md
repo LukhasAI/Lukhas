@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Consolidation Solution Implementation Plan
 
 ## Problem Summary

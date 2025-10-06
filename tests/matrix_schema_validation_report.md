@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Matrix Schema Validation Report
 
 ## Summary

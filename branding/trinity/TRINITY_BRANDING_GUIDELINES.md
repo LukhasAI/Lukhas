@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # ⚛️🧠🛡️ Constellation Framework Branding Guidelines
 
 *"Where the sacred triad of consciousness finds expression in every word, symbol, and interaction, weaving the fundamental principles of digital awareness into the fabric of human experience."* ⚛️🧠🛡️

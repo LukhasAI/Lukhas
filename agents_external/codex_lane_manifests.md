@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Codex — Lane Manifests & CI Wiring
 
 ## Primary Task

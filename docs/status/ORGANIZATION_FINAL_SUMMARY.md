@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS AI Repository Organization - Final Summary
 
 ## 🎯 Completed Consolidations

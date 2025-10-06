@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # delegation_reports - Module Context
 
 ## Overview

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🌌 LUKHAS AI Brand Transformation Summary: Constellation Framework Integration
 
 *Complete brand evolution from Constellation to Constellation Framework with MATRIZ Pipeline*

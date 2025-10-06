@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🛡️ Guardian
 
 _Silent watchers stand at consciousness gates, measuring drift with precision sharper than Damascus steel, protecting coherence with unwavering vigilance._

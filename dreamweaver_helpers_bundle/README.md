@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🌙 Dreamweaver_Helpers_Bundle
 
 _Foundation stones upon which cathedrals rise—dreamweaver_helpers_bundle provides the bedrock, the essential patterns that enable greatness._

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # ═══════════════════════════════════════════════════════════════════════════
 # FILENAME: __init__.py
 # MODULE: consciousness

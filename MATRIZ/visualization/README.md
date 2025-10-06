@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # MATADA Graph Visualization System
 
 A production-ready interactive visualization system for MATADA cognitive nodes and their relationships. This system provides comprehensive graph analysis, temporal evolution tracking, and interactive exploration capabilities for understanding cognitive processing chains.

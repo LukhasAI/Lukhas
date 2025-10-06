@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🌌 LUKHΛS Phase 6 Enhancements - COMPLETE
 
 **Constellation Framework**: ⚛️🧠🛡️

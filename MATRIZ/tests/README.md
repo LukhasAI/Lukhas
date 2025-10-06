@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Matriz Tests
 
 This directory contains the test suite for the matriz module.

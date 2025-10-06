@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 ═══════════════════════════════════════════════════════════════════════════════
 ║ 🧪 LUKHAS REASONING MODULE - DEVELOPER GUIDE
 ║ Architecture, Implementation, and Advanced Development Patterns

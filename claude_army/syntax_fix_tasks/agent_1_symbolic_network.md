@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Agent-1: Fix symbolic_network.py (493 errors)
 
 ## Target File

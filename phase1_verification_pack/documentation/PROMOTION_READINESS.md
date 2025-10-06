@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Promotion Readiness Assessment
 
 ## Current State: Ready for Phase 3 Promotions

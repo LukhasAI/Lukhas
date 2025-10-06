@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 <img src="https://r2cdn.perplexity.ai/pplx-full-logo-primary-dark%402x.png" class="logo" width="120"/>
 
 # Evaluate the feasibility of implementing a Symbolic Link Compression (SLC) system within modular AGI architectures inspired by AlphaFold2/coiled-coil structures. Should SLC leverage hierarchical graph-based folding (e.g., Evoformer-like architectures), or is a novel symbolic coding system required for maximum data reduction and conceptual linking

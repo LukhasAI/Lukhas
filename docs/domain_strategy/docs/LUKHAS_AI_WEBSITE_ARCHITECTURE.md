@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS AI λWecosystem Website Architecture
 ## Comprehensive Domain Structure & Design Plans
 

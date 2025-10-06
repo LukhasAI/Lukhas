@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # DNA Migration Flags
 
 - FLAG_DNA_DUAL_WRITE (default: false)

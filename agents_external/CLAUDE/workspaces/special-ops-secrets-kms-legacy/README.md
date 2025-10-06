@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🔐 Special Ops: Secrets, KMS & Legacy Recon Specialist
 
 ## Agent: special-ops-secrets-kms-legacy

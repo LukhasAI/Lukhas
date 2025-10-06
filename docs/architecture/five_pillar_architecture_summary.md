@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🏛️ LUKHAS Five-Pillar Architecture
 
 ## System Overview

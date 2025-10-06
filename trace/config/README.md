@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Trace Configuration
 
 This directory contains configuration files for the trace module.

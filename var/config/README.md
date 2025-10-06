@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Var Configuration
 
 This directory contains configuration files for the var module.

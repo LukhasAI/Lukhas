@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Ops Configuration
 
 This directory contains configuration files for the ops module.

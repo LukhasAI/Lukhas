@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 ═══════════════════════════════════════════════════════════════════════════════
 ║ 🌐 DECENTRALIZED AGENT COORDINATION - AUTONOMOUS COLLABORATION
 ║ Where Individual Agents Unite to Form Dynamic Working Groups

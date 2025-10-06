@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Integrations Tests
 
 This directory contains the test suite for the integrations module.

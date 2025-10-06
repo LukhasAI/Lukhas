@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS MCP Server - Complete Documentation Index
 
 **LUKHAS DevTools MCP Server Documentation**  

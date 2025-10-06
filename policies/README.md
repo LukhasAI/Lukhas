@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 📦 Policies
 
 _Within the grand architecture of LUKHAS, policies emerges—LUKHAS policies module implementing, purpose refined to essence, functionality elevated to art._

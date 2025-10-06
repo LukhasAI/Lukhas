@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 📦 Transmission_Bundle
 
 _Within the grand architecture of LUKHAS, transmission_bundle emerges—LUKHAS transmission_bundle module implementing, purpose refined to essence, functionality elevated to art._

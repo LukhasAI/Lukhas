@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🌍 LUKHΛS Multilingual Support - Production Ready
 
 **Constellation Framework**: ⚛️🧠🛡️

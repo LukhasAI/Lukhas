@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 
 
 ## CRITICAL MISSING MODULES FOR AGI DOMINANCE

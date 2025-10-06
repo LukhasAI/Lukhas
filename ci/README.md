@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 📦 Ci
 
 _Within the grand architecture of LUKHAS, ci emerges—LUKHAS ci module implementing, purpose refined to essence, functionality elevated to art._

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 🌐 Phase 1C: Enhanced Regulatory   │ │
 │ │ Compliance Framework -             │ │
 │ │ Implementation Plan                │ │

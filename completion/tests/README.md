@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Completion Tests
 
 This directory contains the test suite for the completion module.

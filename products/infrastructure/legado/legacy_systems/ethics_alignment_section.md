@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Ethics Alignment and Responsible AI Development Section
 
 ## Ethical Framework for Multi-Agent AI Systems

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🌌 Lucas_AGI_3 Symbolic Philosophy
 
 A map of intention for what Lucas_AGI_3 represents — and what it strives to become.

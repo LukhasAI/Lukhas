@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Oneiric_Core Tests
 
 This directory contains the test suite for the oneiric_core module.

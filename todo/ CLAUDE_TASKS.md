@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 
 
 # CLAUDE_TASKS.md — T4 Delta Plan (Authoritative)

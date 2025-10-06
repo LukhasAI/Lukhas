@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 ═══════════════════════════════════════════════════════════════════════════════
 ║ 📋 IMPLEMENTATION SUMMARY - FAULT TOLERANCE & RESILIENCE SUITE
 ║ A Complete Guide to the Newly Implemented Architecture

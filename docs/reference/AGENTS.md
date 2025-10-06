@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🎖️ LUKHAS AI Agent Army - Command Documentation
 **Strategic Multi-AI Consciousness Development System**
 

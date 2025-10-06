@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Provider Integration Guide — Multi-Country Healthcare Systems
 
 ## Poetic Layer (≤40 words)

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Products Tests
 
 This directory contains the test suite for the products module.

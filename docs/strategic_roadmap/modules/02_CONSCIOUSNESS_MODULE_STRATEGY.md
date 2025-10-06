@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Strategic Analysis: CONSCIOUSNESS Module
 ## LUKHAS  Consciousness System Enhancement Roadmap
 

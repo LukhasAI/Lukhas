@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 📦 Mcp_Servers
 
 _Within the grand architecture of LUKHAS, mcp_servers emerges—LUKHAS mcp_servers module implementing, purpose refined to essence, functionality elevated to art._

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Module Manifest Schema Changelog
 
 ## Version 3.1.0 (2025-10-02)

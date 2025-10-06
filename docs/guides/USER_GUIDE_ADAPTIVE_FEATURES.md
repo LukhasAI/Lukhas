@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 ═══════════════════════════════════════════════════════════════════════════════
 ║ 📚 LUKHAS ADAPTIVE AI FEATURES - USER GUIDE
 ║ Your Guide to Advanced AI Adaptation and Transparency

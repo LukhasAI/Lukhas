@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Core Directory Symbolic Trace Summary (Ongoing)
 
 This document provides a summary of the symbolic roles of Python files within the `core/` directory of the LUKHAS Cognitive system. This is part of Task 158 assigned to Jules-01.

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # System Configuration
 
 This directory contains configuration files for the system module.

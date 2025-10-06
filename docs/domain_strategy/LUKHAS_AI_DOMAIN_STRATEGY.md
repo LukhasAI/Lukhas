@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🌟 lukhas.ai - Consciousness Platform Hub Strategy
 
 *Complete content strategy for the premier consciousness technology platform and community nexus*

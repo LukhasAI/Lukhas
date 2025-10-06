@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # /anti-fake-tests
 1) pre-commit run --all-files
 2) pytest tests/test_imports.py tests/test_integration.py -q

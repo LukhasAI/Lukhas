@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Consolidation Success Report
 
 ## Executive Summary

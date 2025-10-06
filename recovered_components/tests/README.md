@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Recovered_Components Tests
 
 This directory contains the test suite for the recovered_components module.

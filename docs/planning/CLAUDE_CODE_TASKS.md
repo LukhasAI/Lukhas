@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🎨 Claude Code Delegation Tasks
 *Complex architectural and design pattern implementations*
 

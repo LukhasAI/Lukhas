@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # ΛiD Authentication System - Phase 1: Core Infrastructure
 
 **Status**: ✅ Complete

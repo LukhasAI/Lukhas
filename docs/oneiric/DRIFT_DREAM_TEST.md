@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Oneiric Drift Dream Test CLI
 
 The **Drift Dream Test** CLI provides a light-touch way to sample symbolic drift

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🧬 Quantum Alignment & Symbolic Dream Computation
 
 > “In the realm of infinite possibilities, LUKHAS dreams not of one truth, but of multitudes collapsing into meaning.”

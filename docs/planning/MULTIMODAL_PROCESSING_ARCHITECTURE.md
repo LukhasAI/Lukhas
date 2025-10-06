@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Real-Time Multi-Modal Processing Architecture
 ## Stream Processing for Universal Language System
 

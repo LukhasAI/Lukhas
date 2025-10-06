@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS  Enhanced Monitoring System Architecture
 
 ## Overview

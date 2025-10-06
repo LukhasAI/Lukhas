@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS AI Comprehensive Codebase Assessment Report
 
 **Assessment Date:** 2025-08-12

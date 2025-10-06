@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Policies Tests
 
 This directory contains the test suite for the policies module.

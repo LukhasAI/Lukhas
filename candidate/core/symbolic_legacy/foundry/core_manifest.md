@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 lukhas_core_manifest.md
 # 📜 LUKHAS Core Manifest — v1.0 Declaration
 🧠 Symbolic Lock Protocol Initiated · 2025-05-07

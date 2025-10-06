@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Governance_Extended Tests
 
 This directory contains the test suite for the governance_extended module.

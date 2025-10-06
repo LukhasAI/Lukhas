@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # QI-Bio-AGI Integration System
 
 ## Overview

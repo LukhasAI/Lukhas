@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🎯 LUKHAS AI Clean Baseline Status
 
 **Baseline Tag**: `pre-matriz-freeze-20250911T044009Z`  

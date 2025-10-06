@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 📦 Vocabularies
 
 _Within the grand architecture of LUKHAS, vocabularies emerges—LUKHAS vocabularies module implementing, purpose refined to essence, functionality elevated to art._

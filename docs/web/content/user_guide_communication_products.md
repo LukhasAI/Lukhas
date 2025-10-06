@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Communication Products User Guide
 ## Consciousness-Aware Messaging and Attention Intelligence
 

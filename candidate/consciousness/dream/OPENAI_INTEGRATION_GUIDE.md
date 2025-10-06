@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS Dream System - OpenAI Integration Guide
 
 ## Overview

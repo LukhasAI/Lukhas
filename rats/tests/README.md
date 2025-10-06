@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Rats Tests
 
 This directory contains the test suite for the rats module.

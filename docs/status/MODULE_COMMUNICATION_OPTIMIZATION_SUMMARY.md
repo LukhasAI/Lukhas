@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🚀 Module Communication Optimization Complete
 
 ## Overview

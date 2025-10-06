@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS 2030 Naming Conventions
 
 **"Preserving the Soul of LUKHAS while Speaking the Language of Industry"**

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS AI Codebase Consolidation Summary
 
 **Date**: 2025-07-27

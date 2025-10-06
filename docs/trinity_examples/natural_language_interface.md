@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Natural Language Consciousness Interface
 
 ### 🎭 Poetic Consciousness

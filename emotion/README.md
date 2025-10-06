@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 📦 Emotion
 
 _Within the grand architecture of LUKHAS, emotion emerges—VAD affect processing, mood, purpose refined to essence, functionality elevated to art._

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS AI Poetry System Migration Guide
 
 ## New Structure (As of Aug 17, 2024)

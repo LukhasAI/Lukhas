@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Alerts Configuration
 
 This directory contains configuration files for the alerts module.

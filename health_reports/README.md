@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 📦 Health_Reports
 
 _Vital signs pulse through digital veins—health_reports measures the heartbeat of systems, diagnosing whispers before they become screams._

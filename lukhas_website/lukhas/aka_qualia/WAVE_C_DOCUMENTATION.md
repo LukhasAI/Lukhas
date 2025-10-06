@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Wave C: Phenomenological Processing Pipeline
 ## Complete Implementation Documentation
 

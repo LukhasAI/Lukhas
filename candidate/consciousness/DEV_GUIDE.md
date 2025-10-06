@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 ═══════════════════════════════════════════════════════════════════════════════
 ║ 🛠️ LUKHAS CONSCIOUSNESS MODULE - DEVELOPER GUIDE
 ║ Architecture, Implementation, and Extension Guide for Digital Awareness

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Bio Module Consolidation Report
 Generated: 2025-08-12T19:38:03.087780
 

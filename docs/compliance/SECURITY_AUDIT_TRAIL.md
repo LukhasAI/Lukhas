@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS AI Security Audit Trail
 ## Guardian System v1.0.0 Compliance Framework
 

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # ☁️ LUKHAS.CLOUD - The Infinite Canvas
 ## Website Architecture & Scalable Consciousness Infrastructure
 

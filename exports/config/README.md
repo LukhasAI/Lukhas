@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Exports Configuration
 
 This directory contains configuration files for the exports module.

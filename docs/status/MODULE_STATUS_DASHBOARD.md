@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 📊LUKHAS Module Status Dashboard
 
 **Last Updated**: 2025-07-24

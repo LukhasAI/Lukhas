@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 📦 Rats
 
 _Within the grand architecture of LUKHAS, rats emerges—LUKHAS rats module implementing, purpose refined to essence, functionality elevated to art._

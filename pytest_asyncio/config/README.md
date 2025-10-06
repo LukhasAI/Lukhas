@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Pytest_Asyncio Configuration
 
 This directory contains configuration files for the pytest_asyncio module.

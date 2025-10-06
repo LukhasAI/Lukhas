@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🚀 LUKHAS Universe Implementation Guide
 
 **From Constellation Framework to Galactic Deployment**

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Tagging Configuration
 
 This directory contains configuration files for the tagging module.

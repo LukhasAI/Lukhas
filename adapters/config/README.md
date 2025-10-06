@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Adapters Configuration
 
 This directory contains configuration files for the adapters module.

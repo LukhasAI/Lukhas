@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS Security Hardening - T4/0.01% Excellence Achievement
 
 ## Overview

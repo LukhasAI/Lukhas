@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Archive Configuration
 
 This directory contains configuration files for the archive module.

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Demos Configuration
 
 This directory contains configuration files for the demos module.

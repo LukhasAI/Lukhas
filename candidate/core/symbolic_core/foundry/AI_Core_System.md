@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # v1_AGI Core System
 
 This directory contains the core components of the v1_AGI system, serving as the central integration point for all subsystems.

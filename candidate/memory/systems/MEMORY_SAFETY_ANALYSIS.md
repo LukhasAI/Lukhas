@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS Memory System - Safety, Verification & Integration Analysis
 
 ## 🛡️ Fallback Mechanisms

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Transmission_Bundle Configuration
 
 This directory contains configuration files for the transmission_bundle module.

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🧬 LUKHAS Identity System - Critical Paths & Dependencies Analysis
 
 **Date**: August 3, 2025

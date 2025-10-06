@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Vision Vocabulary Headers
 
 ## Markdown variant

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Brand Policy — Lukhas / MATRIZ
 
 ## Names

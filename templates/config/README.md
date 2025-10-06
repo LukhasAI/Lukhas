@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Templates Configuration
 
 This directory contains configuration files for the templates module.

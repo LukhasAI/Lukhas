@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🚀 LUKHAS T4/0.01% Execution Prompts
 
 ### T4/0.01% Guidance Add-ons

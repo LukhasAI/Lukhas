@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # /deep-search-prepare
 You are operating in ~/Lukhas. Prepare the repo so an external GitHub-connected auditor (ChatGPT Pro) can run a one-shot deep search efficiently and produce high-signal artifacts. Do NOT perform risky refactors.
 

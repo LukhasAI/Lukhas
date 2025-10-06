@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Orchestration Module - Claude AI Context
 
 **Module**: orchestration

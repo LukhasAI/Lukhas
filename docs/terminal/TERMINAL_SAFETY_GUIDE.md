@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🛡️ LUKHAS Terminal Safety Guide
 
 ## Problem Solved

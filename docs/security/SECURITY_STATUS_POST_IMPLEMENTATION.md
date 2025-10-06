@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🛡️ LUKHAS Security Status Update - POST IMPLEMENTATION
 
 **Date**: August 16, 2025

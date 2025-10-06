@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🎯 LUKHAS Repository Audit - Post-Fix Summary
 
 **Date**: August 29, 2025  

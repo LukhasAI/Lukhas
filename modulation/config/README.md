@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Modulation Configuration
 
 This directory contains configuration files for the modulation module.

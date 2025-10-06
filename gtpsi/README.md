@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 📦 Gtpsi
 
 _Within the grand architecture of LUKHAS, gtpsi emerges—Optional MFA/consent factor using, purpose refined to essence, functionality elevated to art._

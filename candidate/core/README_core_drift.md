@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Core Directory Drift and Duplicate Analysis (Ongoing)
 
 This document tracks findings related to code drift (deviations from intended or documented purpose) and duplicate code within the `core/` directory of the LUKHAS Cognitive system. This analysis is part of Task 154 assigned to Jules-01.

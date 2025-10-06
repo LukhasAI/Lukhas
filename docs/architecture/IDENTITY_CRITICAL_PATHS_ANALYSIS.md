@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🔐 Identity Critical Paths Analysis
 
 **LUKHAS AI Identity System - Critical Path Assessment**

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 📚 Two-Stream Vocabulary System Complete
 
 **Date**: August 28, 2025  

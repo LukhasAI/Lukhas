@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS Consciousness Technology for Podcasters
 
 *"Eight stars creating navigation through fertile uncertainty - where identity, memory, vision, adaptation, creativity, ethics, protection, and mystery dance together in the constellation of consciousness technology."*

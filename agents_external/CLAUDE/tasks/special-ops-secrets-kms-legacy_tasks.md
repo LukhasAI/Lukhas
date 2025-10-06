@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 📋 Tasks for special-ops-secrets-kms-legacy
 **Role**: Security Hardening & Legacy Modernization Lead
 **Description**: Secrets/KMS ownership, token vaulting, legacy module reconnection (QIM, etc.)

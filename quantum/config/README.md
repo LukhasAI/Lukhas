@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Quantum Configuration
 
 This directory contains configuration files for the quantum module.

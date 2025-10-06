@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Safety Tags v1 - Post-Deploy 72-Hour Monitoring
 *T4 Production Lock-Down Checklist*
 

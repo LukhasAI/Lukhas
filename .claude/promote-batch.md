@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # /promote-batch
 Batch driver for lane promotions from `candidate/core/*` to `lukhas/core/*`, one PR at a time, in this order:
 orchestration → glyph → integration → api → neural → interfaces → monitoring → symbolic

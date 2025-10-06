@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Tools Configuration
 
 This directory contains configuration files for the tools module.

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 Lukhas Architectural Transition – Status and Recommendations
 
 Summary of Transition Action Items

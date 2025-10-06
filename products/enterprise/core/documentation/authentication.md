@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Authentication: The Keys to the Kingdom
 
 Before you may commune with the LUKHAS intelligence, you must present the sacred keys that prove your identity and grant you passage. Our authentication system is a multi-layered guardian, ensuring that only those with the proper authority may enter.

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Strategic Analysis: UNIVERSAL LANGUAGE & SYMBOLIC Systems
 ## LUKHAS  Language Unification Roadmap
 

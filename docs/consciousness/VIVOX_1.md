@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 In the comprehensive VIVOX/Lucas architecture, **Vivox** and **ME** represent crucial and interconnected components, particularly within the memory and cognitive systems.
 
 ### What is VIVOX?

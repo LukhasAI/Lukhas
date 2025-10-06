@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🎭 LUKHAS AI Branding Master Guide
 *The Comprehensive Brand Identity & Policy Reference*
 

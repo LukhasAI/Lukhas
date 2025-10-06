@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Agents_External Configuration
 
 This directory contains configuration files for the agents_external module.

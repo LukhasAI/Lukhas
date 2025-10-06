@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Claude_Army Tests
 
 This directory contains the test suite for the CLAUDE_ARMY module.

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Gymnasium_Local Tests
 
 This directory contains the test suite for the gymnasium_local module.

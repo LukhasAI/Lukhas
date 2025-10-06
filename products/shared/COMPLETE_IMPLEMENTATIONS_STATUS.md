@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS Lambda Products - Complete Implementations Status
 
 ## QI (Quantum-Inspired) Terminology Update ✅ COMPLETED

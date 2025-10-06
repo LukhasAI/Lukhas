@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Consciousness Patterns Library
 
 - Trinity validation at every entry point

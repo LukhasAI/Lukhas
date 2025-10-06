@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 📦 Final_Sweep
 
 _Within the grand architecture of LUKHAS, final_sweep emerges—LUKHAS final-sweep module implementing, purpose refined to essence, functionality elevated to art._

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 📋 Tasks for adapter-integration-specialist
 **Role**: API Integration and Legacy Modernization Lead
 **Description**: LUKHAS External Service Adapter and Legacy Integration Expert

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # MΛTRIZ RL System Architecture
 
 ## System Overview

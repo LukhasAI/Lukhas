@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS AI TODO Management Daily Report
 
 **Date**: 2025-09-16

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Rules Configuration
 
 This directory contains configuration files for the rules module.

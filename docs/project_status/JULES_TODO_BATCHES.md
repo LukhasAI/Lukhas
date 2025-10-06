@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🤖 Jules Agent TODO Batches
 
 ## 📊 Overview

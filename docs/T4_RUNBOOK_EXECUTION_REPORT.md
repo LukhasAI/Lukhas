@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # T4/0.01% End-to-End Runbook Execution Report
 
 **Execution Date**: 2025-10-05

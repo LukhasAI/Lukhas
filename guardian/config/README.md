@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Guardian Configuration
 
 This directory contains configuration files for the guardian module.

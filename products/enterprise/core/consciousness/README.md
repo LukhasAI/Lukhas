@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Enterprise Consciousness Features
 
 This directory contains modules related to enterprise-grade features for the LUKHAS Consciousness and Memory systems. These features are designed for environments requiring high levels of security, auditability, and role-based access control.

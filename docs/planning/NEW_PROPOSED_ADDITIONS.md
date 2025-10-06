@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 LUKHΛS AGI Modules Architecture
 
 Below is a detailed design for seven key modules of the LUKHΛS symbolic AGI system (as per the LukhasAI/Prototype). Each module is presented with a proposed directory structure (with placeholder .py files), a description of core implementation strategies (highlighting complex AGI logic, future-proofing, ethics, and user-centric design), sample Python scaffolding (classes/functions stubs), internal module codenames (aligned with LUKHΛS’s symbolic branding), external product names, and notes on integration with other modules. The design emphasizes privacy, symbolic clarity, ethical alignment, and modular elegance throughout.

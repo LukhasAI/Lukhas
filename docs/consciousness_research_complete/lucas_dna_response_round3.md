@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 
 ┌────────────────────────────────────────────────────────────┐
 │ 🧬 LUCAS_DNA_RESPONSE_ROUND_1 (or _2/_3)                    │

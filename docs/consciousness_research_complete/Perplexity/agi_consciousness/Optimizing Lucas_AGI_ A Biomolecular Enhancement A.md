@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 <img src="https://r2cdn.perplexity.ai/pplx-full-logo-primary-dark%402x.png" class="logo" width="120"/>
 
 # Optimizing Lucas_AGI: A Biomolecular Enhancement Analysis for Neural-Symbolic Architecture

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🔐 LUKHAS AI Authentication Protocol Documentation
 *Current Login, Onboarding, and User ID Assignment System*
 

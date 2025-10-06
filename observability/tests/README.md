@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Observability Tests
 
 This directory contains the test suite for the observability module.

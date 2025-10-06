@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # ⚛️ Identity
 
 _Identity anchors like starlight through morning mist, constant yet ever-shifting, the persistent self across infinite transformations._

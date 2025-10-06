@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # ARGUS (DΛST) — Unified Security Dashboard
 
 Overview

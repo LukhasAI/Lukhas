@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Simple Group Allocations
 
 **Direct allocation from master TODO list (.lukhas_runs/2025-09-15/manifest_clean.json)**

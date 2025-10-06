@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🧠 Perplexity API Validation: LUKHAS AI Consciousness Architecture 2025
 
 ## Executive Summary

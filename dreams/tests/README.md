@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Dreams Tests
 
 This directory contains the test suite for the dreams module.

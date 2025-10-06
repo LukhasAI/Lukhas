@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🧠 LUKHΛS Symbolic Fine-Tuner Proposal
 
 **Constellation Framework**: ⚛️🧠🛡️

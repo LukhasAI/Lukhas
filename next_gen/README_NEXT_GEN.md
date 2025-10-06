@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHΛS Next Generation - Phase 3: Symbolic Cognition & Ethical Lineage
 
 ## 🌿 Overview

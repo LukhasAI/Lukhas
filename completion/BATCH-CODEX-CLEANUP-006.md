@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # BATCH-CODEX-CLEANUP-006 TODO Verification Report
 
 ## Category Summary

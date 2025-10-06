@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # MATRIZ Orchestrator Canary Deployment
 
 Production-ready canary deployment configuration for LUKHAS MATRIZ Orchestrator with automated traffic splitting, health validation, and rollback capabilities.

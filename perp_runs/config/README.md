@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Perp_Runs Configuration
 
 This directory contains configuration files for the perp_runs module.

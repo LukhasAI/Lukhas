@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🎯 Elite Developer Playbook - Lambda Products
 
 ## What Elite Developers Do Next

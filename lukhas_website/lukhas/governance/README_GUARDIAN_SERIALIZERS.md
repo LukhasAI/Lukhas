@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS Guardian Schema Serializers
 
 **Phase 7 Implementation - Complete Guardian Data Serialization System**

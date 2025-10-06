@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🇪🇺 LUKHAS.EU - The European Consciousness Portal
 ## Website Architecture & European Digital Sovereignty Platform
 

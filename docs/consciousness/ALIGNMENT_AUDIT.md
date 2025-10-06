@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # OpenAI-Style Alignment & Safety Audit
 
 ## Executive Summary

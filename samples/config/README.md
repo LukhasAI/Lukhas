@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Samples Configuration
 
 This directory contains configuration files for the samples module.

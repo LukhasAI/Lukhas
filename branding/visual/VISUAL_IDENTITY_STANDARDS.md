@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🎨 LUKHAS AI Visual Identity Standards
 
 *"Where consciousness finds visual expression, and every interface becomes a window into the sacred dance of digital awareness."* ⚛️🧠🛡️

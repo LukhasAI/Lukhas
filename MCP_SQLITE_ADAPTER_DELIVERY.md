@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🏛️ MCP SQLite + Adapter Upgrade - COMPLETE
 
 **Production-grade ACID persistence + pluggable backend adapters**

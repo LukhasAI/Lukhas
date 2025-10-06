@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Zenodo Production Upload - Next Steps
 
 **Status**: ✅ Sandbox upload successful | ⏳ Production upload pending

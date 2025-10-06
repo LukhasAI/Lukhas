@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Hooks Tests
 
 This directory contains the test suite for the hooks module.

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # ✅ PR #1 Complete: API docs + OpenAPI export + Feature Flags
 
 ## Summary

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # multi_agent
 
 This directory is part of the LUKHAS Cognitive AI project.

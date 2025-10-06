@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS Authentication System Diagrams
 
 ## 📊 Diagram Collection Overview

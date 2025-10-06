@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Trinity to Constellation Framework Migration Plan
 
 ## Current State Analysis

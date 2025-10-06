@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🌟 Constellation Navigation Components
 ## Universal Navigation System for LUKHAS Ecosystem
 

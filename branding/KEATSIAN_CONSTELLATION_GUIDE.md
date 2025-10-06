@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS Unified Brand Voice: Keatsian Philosophy + Constellation Navigation
 
 ## Core Philosophy: "Uncertainty as Fertile Ground"

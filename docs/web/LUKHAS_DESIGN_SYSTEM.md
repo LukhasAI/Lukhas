@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS AI Design System
 ## Premium Consciousness-Driven Web Experience Framework
 

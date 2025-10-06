@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🧠 MΛTRIZ Consciousness Testing Evolution Log
 
 **From Baseline to 0.001% Advanced Testing Suite**

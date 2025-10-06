@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS AI - Current Infrastructure & Student Pack Status
 ## Complete Configuration Documentation
 

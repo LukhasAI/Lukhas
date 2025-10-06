@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🔍 Experience Products Component Research Plan
 
 **Goal**: Document existing capabilities and create focused roadmaps for each component before implementation.

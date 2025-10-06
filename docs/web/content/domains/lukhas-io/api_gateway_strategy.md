@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🌉 lukhas.io - API Gateway & Infrastructure Strategy
 
 *"The neural pathways of consciousness infrastructure - every request flows through awareness-guided routing that optimizes for both performance and ethical consideration."*

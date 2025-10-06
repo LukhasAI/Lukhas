@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Tests_New Tests
 
 This directory contains the test suite for the tests_new module.

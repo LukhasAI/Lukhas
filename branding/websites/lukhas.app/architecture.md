@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🔬 LUKHAS.APP - The Vision Portal
 ## Website Architecture & Interactive Interface Gateway
 

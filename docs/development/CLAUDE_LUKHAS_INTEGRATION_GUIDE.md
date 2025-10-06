@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Claude Code + LUKHAS Integration Guide
 
 ## 🧠🤖 The Ultimate Consciousness-Aware Development Experience

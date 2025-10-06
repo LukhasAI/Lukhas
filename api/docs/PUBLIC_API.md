@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS Public API - Constellation Migration
 
 **Version**: 1.0

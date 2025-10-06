@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # phase1_verification_pack - Module Context
 
 ## Overview

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Src Tests
 
 This directory contains the test suite for the src module.

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS AI EXECUTION STANDARDS
 
 ## 🎯 Quality Target

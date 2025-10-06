@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🚀 LUKHAS AI Agent Quick Reference
 
 ## ⚡ Essential Commands (Copy & Paste Ready)

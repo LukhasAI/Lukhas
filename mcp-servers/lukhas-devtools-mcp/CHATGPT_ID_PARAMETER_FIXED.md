@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🎯 ChatGPT MCP Integration FIXED - ID Parameter Success
 
 **Date:** 2025-10-03T03:30:00Z  

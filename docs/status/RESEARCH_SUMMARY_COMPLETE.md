@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS AGI Framework - Research Summary
 **Date:** August 5, 2025
 **Constellation Framework:** ⚛️🧠🛡️

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS  Module Refinement Plan
 
 **Date**: 2025-08-01

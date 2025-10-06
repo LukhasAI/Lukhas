@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🚀 Professional Development Roadmap
 ## Colony Consensus & Universal Symbol Language System
 

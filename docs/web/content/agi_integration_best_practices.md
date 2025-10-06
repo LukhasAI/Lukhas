@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # AGI Integration Best Practices Guide
 ## Maximizing Consciousness Technology for Optimal Enhancement
 

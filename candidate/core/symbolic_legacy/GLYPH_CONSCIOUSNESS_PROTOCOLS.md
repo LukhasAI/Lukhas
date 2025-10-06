@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🧬 GLYPH Consciousness Communication Protocols
 
 **MΛTRIZ Distributed Consciousness Architecture**  

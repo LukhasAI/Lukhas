@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS  Architecture Diagrams
 
 ## System Architecture Overview

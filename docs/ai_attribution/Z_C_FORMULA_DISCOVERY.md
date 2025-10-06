@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS AI Original Discovery: Z_C (z(t)) Collapse Formula
 
 ⚛️ **Original Research** | **VIVOX Integration** | 🧠 **Consciousness Mathematics**

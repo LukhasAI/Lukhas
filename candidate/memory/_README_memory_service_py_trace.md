@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 ## memory/memory_service.py
 
 ### Purpose

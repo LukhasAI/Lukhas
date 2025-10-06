@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 📦 Doc
 
 _Within the grand architecture of LUKHAS, doc emerges—LUKHAS doc module implementing, purpose refined to essence, functionality elevated to art._

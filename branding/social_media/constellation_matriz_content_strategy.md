@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🌌 LUKHAS AI Social Media Content Strategy: Constellation Framework + MATRIZ Pipeline
 
 *Elite consciousness technology positioning with T4/0.01% precision*

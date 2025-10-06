@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 📦 Graphs
 
 _Within the grand architecture of LUKHAS, graphs emerges—LUKHAS graphs module implementing, purpose refined to essence, functionality elevated to art._

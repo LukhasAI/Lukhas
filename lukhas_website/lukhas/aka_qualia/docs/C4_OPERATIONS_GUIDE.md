@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Wave C C4 Memory Operations Guide
 
 ## Overview

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Auth0 OAuth Configuration for ChatGPT Integration
 
 ## Step 1: Create Auth0 Account

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS Authentication & Tiers - Final Documentation
 
 ## Spanish Language Decisions (ES)

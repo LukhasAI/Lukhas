@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Code Quality Automation Guide
 
 ## Overview

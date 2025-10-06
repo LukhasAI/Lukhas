@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 
 ***I have been reading about the main issue right now, predicting AGI to use up to 95% electricity supply so I have reserarched a bit and thought some of this changes will help us increase efficiency*** **Gonzo**
 

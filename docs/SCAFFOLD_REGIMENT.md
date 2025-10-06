@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS Scaffold Regiment
 
 ## TL;DR for Developers

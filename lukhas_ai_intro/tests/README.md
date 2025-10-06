@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Lukhas-Ai-Intro Tests
 
 This directory contains the test suite for the lukhas-ai-intro module.

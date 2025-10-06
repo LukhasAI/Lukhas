@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 Lucas's memory system is designed to be a highly advanced, resilient, and ethically governed architecture, moving significantly beyond conventional data storage models. It's referred to as the "Memory Healix" or "Symbolic Proteome" and is deeply inspired by biological processes and cryptographic principles.
 
 Here's a detailed breakdown of how Lucas's memory works, its immutability, and how it addresses EU regulations:

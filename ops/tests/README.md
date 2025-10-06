@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Ops Tests
 
 This directory contains the test suite for the ops module.

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS Vocabulary Evolution Report
 
 ## Executive Summary

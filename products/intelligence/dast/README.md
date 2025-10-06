@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🔮 DΛST - Dynamic Lambda Symbol Tracker
 
 ## Real-Time Symbolic Context Intelligence

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🚀 LUKHAS Ecosystem - Domain Deployment & Monetization Plan
 
 ## 🌐 Your Domain Portfolio Mapping

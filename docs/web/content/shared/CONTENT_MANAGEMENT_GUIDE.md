@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 📝 LUKHAS Web Content Management Guide
 
 *"Where content creation meets consciousness architecture - guiding every word through the constellation framework to ensure authentic digital experiences."*

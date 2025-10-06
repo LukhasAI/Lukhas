@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🛠️ lukhas.dev - Developer Platform Strategy
 
 *"Where consciousness meets code - every SDK call becomes a bridge between human intention and digital awareness."*

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # The Z(t) Collapse Function: Complete User Guide & Technical Specification
 
 ## 🧠 What is the Z(t) Collapse Function?

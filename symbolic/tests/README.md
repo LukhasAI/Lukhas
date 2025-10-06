@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Symbolic Tests
 
 This directory contains the test suite for the symbolic module.

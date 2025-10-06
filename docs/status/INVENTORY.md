@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS AI Repository Inventory & Topology
 
 ## Repository Overview

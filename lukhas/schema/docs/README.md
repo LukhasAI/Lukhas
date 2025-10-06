@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # @generated LUKHAS scaffold v1
 # template: module_scaffold/docs/README.md.j2
 # template_sha256: e781d8da6b79c5e8c43ab488a6260b8ca5e8ec003f1d3e774cf047477215a5f3

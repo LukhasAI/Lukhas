@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Import Path Fix Summary
 ## Constellation Framework: ⚛️🧠🛡️
 ### Date: 2025-08-13

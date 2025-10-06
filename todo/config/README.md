@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Todo Configuration
 
 This directory contains configuration files for the TODO module.

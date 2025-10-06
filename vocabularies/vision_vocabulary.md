@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Vision Vocabulary
 
 Vision is not spectacle; it is orientation. It tells us where to look and how to look.

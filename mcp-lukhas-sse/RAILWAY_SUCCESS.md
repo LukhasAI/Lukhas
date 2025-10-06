@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🎉 LUKHAS MCP Server - Successfully Deployed to Railway!
 
 ## ✅ Deployment Complete

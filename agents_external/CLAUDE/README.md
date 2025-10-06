@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # CLAUDE_ARMY
 
 Clean workspace for Claude Code assistance.

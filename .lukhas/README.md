@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS System Directories
 
 ## .lukhas/

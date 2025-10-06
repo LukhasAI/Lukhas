@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # TODO Completions Log - September 16, 2025
 
 ## ✅ Recently Completed TODOs

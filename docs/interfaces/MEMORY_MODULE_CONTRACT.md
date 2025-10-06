@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🧠 Memory Module Contract
 
 ## Overview

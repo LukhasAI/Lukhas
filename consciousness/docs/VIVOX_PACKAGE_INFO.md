@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # VIVOX Research Package - Complete Summary
 
 ## 📦 Package Contents

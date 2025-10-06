@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🧪 LUKHAS.LAB - The Research Consciousness Laboratory
 ## Website Architecture & Academic-Industrial Consciousness Research Hub
 

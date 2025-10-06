@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS DevTools MCP - Claude Desktop Setup Complete ✅
 
 ## 🎯 Configuration Added

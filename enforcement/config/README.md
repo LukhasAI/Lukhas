@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Enforcement Configuration
 
 This directory contains configuration files for the enforcement module.

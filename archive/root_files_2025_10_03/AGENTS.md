@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # AGENTS.md — LUKHΛS T4/0.01% Task Delegation Matrix
 
 **Mission:** Enterprise AGI system with surgical precision. Execute 62 audit-derived tasks through specialized agent delegation with explicit proofs, performance budgets, and zero-regression guarantees.

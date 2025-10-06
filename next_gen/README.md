@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 📦 Next_Gen
 
 _Within the grand architecture of LUKHAS, next_gen emerges—LUKHAS next_gen module implementing, purpose refined to essence, functionality elevated to art._

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 1. Neuro-Symbolic Component Reweighting System
 
 ## Mathematical Foundation

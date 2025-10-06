@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Wave C Production Promotion Package
 ## Executive Summary & Deployment Guide
 

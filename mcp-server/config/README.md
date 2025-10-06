@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Mcp-Server Configuration
 
 This directory contains configuration files for the mcp-server module.

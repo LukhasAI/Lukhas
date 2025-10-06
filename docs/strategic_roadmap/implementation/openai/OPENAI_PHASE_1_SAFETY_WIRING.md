@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # OpenAI Phase 1: Safety & Modulation Wiring
 ## Days 0-30 Implementation Plan
 

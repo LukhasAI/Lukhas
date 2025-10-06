@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # RFC Template: Matrix Tracks Gate Proposal
 
 **RFC Number:** GATE-YYYY-NNN

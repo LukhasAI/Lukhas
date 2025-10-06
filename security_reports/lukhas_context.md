@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # security_reports - Module Context
 
 ## Overview

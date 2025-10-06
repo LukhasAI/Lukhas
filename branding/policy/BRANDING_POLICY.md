@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS AI Branding and Messaging Policy
 
 ## 🚫 Prohibited Statements

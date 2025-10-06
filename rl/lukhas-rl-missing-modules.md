@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Missing LUKHAS Modules for Top-Notch Reinforcement Learning
 
 Based on analysis of your current LUKHAS architecture, here are the critical missing components needed to achieve state-of-the-art RL capabilities in a consciousness-aware system:

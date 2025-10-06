@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS Reasoning Module: Symbolic Trace & Cognitive Flow
 
 Version: 0.1 (Draft)

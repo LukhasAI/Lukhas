@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 - created Lukhas/modulation/matrix_modulation.json
 - created Lukhas/cognitive_core/matrix_cognitive_core.json
 - created Lukhas/quantum_bio_consciousness/matrix_quantum_bio_consciousness.json

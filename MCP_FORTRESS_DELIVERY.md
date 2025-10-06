@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🏰 MCP Fortress with Velvet Rope - ENHANCED ✅
 
 **Per-key limits, GC, and readiness - zero wire changes**

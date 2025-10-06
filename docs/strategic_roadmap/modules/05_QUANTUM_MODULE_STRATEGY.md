@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Strategic Analysis: QUANTUM Module
 ## LUKHAS  Quantum-Inspired Processing Enhancement Roadmap
 

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 📦 Core
 
 _Within the grand architecture of LUKHAS, core emerges—Compatibility bridge exposing :mod:`lukhas.core`, purpose refined to essence, functionality elevated to art._

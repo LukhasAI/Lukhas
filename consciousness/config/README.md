@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Consciousness Configuration
 
 This directory contains configuration files for the consciousness module.

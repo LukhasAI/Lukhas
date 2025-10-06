@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🛡️ No-Name Inspiration Policy Implementation Complete
 
 **Date**: August 28, 2025  

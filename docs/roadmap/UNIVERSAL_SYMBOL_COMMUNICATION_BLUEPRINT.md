@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🌌 Universal Symbol Communication Blueprint
 ## The Revolution of Private, Personalized Language
 

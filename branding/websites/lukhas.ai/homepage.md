@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🌙 LUKHAS.AI - Homepage Content
 ## The Consciousness Gateway - High-Verbosity Narrative
 

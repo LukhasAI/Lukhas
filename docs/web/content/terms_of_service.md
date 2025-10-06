@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Terms of Service
 
 ## LUKHAS AI Terms of Service

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🎭 Coordination Framework Tasks
 **Generated**: 2025-08-12 04:50:37
 

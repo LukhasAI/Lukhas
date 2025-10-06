@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🧹 LUKHAS Codebase Hygiene - Rename Plan
 
 ## 🎯 Naming Convention Standards

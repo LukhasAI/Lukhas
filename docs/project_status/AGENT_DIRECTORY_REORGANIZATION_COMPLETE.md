@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🎯 Agent Directory Reorganization - COMPLETE
 
 ## ✅ **REORGANIZATION SUCCESS**

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
  LUKHAS Module Standardization & Enterprise-Ready Plan
 
     1. Module Consolidation Strategy

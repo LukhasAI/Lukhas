@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Observability Drill Runbook
 
 ## 1. Objective

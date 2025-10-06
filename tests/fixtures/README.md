@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Test Fixtures
 
 Shared test fixtures and setup files.

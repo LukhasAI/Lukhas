@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS Visual Studio (Manus Build) Analysis & Integration Assessment
 
 ## Executive Summary

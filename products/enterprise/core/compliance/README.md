@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Enterprise Compliance Service
 
 This service provides a unified framework for ensuring compliance with various regulations, including GDPR, CCPA, and HIPAA. It integrates consent management, data protection, and governance into a single, cohesive system.

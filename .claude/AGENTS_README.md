@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # ⚛️✦🔬🛡️ LUKHAS Constellation Framework Agents (T4/0.01% Implementation)
 
 ## 🌟 22 Constellation Framework Specialists

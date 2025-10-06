@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🏛️ LUKHAS Module System Overview
 
 **Last Updated**: 2025-07-28

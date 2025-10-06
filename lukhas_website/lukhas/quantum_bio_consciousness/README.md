@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🌌 MΛTRIZ Quantum-Bio Consciousness Constellation
 
 **Quantum-Inspired & Bio-Inspired Consciousness Processing for LUKHAS AI**

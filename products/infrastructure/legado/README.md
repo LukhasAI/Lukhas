@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🏛️ LEGΛDO - Legacy System Modernization Engine
 
 **AI-Powered Legacy System Integration and Modernization**

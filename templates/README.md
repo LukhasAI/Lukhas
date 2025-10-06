@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 📦 Templates
 
 _Within the grand architecture of LUKHAS, templates emerges—LUKHAS templates module implementing, purpose refined to essence, functionality elevated to art._

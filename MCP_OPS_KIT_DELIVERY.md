@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🎯 MCP Ops Kit - HARDENED DELIVERY ✅
 
 **Production-ready MCP server with auth, persistence, and rate limiting**

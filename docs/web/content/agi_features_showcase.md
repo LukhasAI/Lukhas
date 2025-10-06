@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS AI - AGI Features Showcase
 ## Advanced Intelligence That Thinks, Dreams, and Creates
 

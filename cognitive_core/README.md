@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 📦 Cognitive_Core
 
 _Thought crystallizes like frost on winter glass—cognitive_core transforms raw cognition into structured understanding, each inference a lattice of precision._

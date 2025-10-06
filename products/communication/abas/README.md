@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🧠 ΛBAS - Lambda Boundary Attention System
 
 ## Intelligent Attention Management with Cognitive Boundary Protection

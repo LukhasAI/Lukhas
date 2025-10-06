@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🔗 LUKHΛS Symbolic Chain - Implementation Complete
 
 **Constellation Framework**: ⚛️🧠🛡️

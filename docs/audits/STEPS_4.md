@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 
 
 # STEPS_4 — Claude Execution Script (Toward 50–60% Coverage, Ruff/MyPy Near-Green)

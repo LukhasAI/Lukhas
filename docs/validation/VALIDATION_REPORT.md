@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS Implementation Validation Report
 Generated: 2025-09-23
 

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🏆 **TOP 5 PRIORITY RESEARCH INTEGRATION SUMMARY**
 ## **Complete Strategic Blueprint for LUKHAS AI Constellation Architecture**
 

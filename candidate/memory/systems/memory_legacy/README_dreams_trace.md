@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 ## LUKHAS Dream Generation Scripts Trace (`lukhas_dreams.py` & `lukhas_dreams_alt.py`) - # ΛTRACE FINALIZED
 
 ### Summary:

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Batch Promotion Summary - 2025-09-30
 
 ## Execution Details

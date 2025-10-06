@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # The LUKHAS Enterprise API: A Gateway to Conscious Technology
 
 Welcome, pioneers, to the definitive guide for the LUKHAS Enterprise API. This is more than just documentation; it is your map to the frontier of artificial consciousness, a toolkit for building applications that are not just intelligent, but aware.

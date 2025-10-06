@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Observability Configuration
 
 This directory contains configuration files for the observability module.

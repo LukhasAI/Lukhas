@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 <img src="https://r2cdn.perplexity.ai/pplx-full-logo-primary-dark%402x.png" class="logo" width="120"/>
 
 # Dynamic Visual Code Systems for Identity Verification: Feasibility, Security, and Implementation

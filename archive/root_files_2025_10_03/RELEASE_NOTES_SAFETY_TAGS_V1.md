@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Safety Tags v1.0.0 Release Notes
 *Production Release - 2025-09-19*
 

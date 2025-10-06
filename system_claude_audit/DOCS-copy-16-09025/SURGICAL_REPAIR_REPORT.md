@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 
 # 🔧 Surgical Corruption Repair Report
 

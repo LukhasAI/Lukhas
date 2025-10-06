@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS AGI Project Architecture Analysis
 
 ## 5 Most Critical Architectural Domains

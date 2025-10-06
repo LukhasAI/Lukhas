@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🎭 Interactive Git Hooks - No-Code Hook Creation
 
 > **Transform git hooks from barriers into opportunities** - Built for developers AND non-coders alike

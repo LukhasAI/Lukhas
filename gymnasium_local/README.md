@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 📦 Gymnasium_Local
 
 _Within the grand architecture of LUKHAS, gymnasium_local emerges—LUKHAS gymnasium_local module implementing, purpose refined to essence, functionality elevated to art._

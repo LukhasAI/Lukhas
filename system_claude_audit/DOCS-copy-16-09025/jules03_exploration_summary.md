@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Jules-03: SSO & Biometrics Specialist - Exploration Summary
 
 ## Objective

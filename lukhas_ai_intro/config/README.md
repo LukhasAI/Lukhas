@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Lukhas-Ai-Intro Configuration
 
 This directory contains configuration files for the lukhas-ai-intro module.

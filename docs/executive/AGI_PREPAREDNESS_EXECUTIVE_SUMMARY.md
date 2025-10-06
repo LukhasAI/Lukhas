@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🚀 Advanced AI Preparedness Framework - Executive Summary
 
 **LUKHAS AI Strategic Initiative - Phase 1D Complete**

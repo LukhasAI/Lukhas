@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # ⚖️ LUKHAS Tutorial: Ethical Drift
 
 ## Topic: Understanding and Calculating Ethical Drift Scores

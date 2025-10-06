@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # NIAS Modular Plugin System: Strategic Plan & Architecture
 
 ## Lucas-Enhanced Modular Plugin Ecosystem

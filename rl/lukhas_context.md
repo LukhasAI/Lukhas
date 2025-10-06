@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # rl - MATRIZ-native reinforcement learning
 
 ## Overview

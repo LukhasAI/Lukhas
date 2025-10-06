@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 ## ChatGPT Memory Integrator Cleanup Trace - # ΛTRACE FINALIZED
 
 ### Summary:

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Test_Results Tests
 
 This directory contains the test suite for the test_results module.

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS PWM Operational Capabilities Report
 
 **Analysis Date:** 2025-08-03

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS MCP — Operations Demo (T4)
 
 ## Seven-minute WOW

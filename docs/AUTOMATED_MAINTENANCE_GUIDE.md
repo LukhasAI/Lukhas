@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS Automated Maintenance Guide
 
 ## Overview

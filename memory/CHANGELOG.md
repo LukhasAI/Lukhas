@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Changelog — Memory
 All notable changes are logged via commit history + this file (human summary only).
 

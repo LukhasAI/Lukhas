@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # AI SELF-INNOVATION WITHOUT HUMAN INTERVENTION
 
 ### **Primary Location: `core/consciousness/dream_engine/`**

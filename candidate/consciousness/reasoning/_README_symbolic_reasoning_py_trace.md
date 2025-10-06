@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 ## reasoning/symbolic_reasoning.py
 
 ### Purpose

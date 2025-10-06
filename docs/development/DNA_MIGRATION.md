@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # DNA Migration Plan (Phased)
 
 ## Phases

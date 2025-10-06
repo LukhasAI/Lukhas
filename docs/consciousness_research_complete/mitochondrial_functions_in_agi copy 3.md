@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 <!--
 📄 MODULE: mitochondrial_functions_in_agi.md
 🧠 DESCRIPTION: Mitochondrial functions translated into symbolic AGI modules

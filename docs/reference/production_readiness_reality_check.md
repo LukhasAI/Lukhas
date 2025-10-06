@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS PWM Production Readiness Reality Check
 
 ## Date: August 10, 2025

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # dreams - Dream state consciousness processing
 
 ## Overview

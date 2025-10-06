@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # ADR-0001: Code Maturity Lanes Architecture
 Date: 2025-08-12
 Status: Accepted

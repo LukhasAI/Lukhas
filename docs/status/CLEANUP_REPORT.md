@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Workspace Cleanup Report
 
 **Date:** 2025-08-07T01:18:14.501523

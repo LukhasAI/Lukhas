@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Gtpsi Tests
 
 This directory contains the test suite for the gtpsi module.

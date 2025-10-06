@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Third_Party_Stubs Tests
 
 This directory contains the test suite for the third_party_stubs module.

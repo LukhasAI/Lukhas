@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Advanced Consciousness Engine - Academic References & Implementation Sources
 
 **Document Version**: 1.0  

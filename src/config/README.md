@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Src Configuration
 
 This directory contains configuration files for the src module.

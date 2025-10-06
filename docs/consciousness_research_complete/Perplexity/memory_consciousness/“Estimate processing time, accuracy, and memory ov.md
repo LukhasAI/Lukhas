@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 <img src="https://r2cdn.perplexity.ai/pplx-full-logo-primary-dark%402x.png" class="logo" width="120"/>
 
 # “Estimate processing time, accuracy, and memory overhead for integrating LiDAR spatial mapping and bio-inspired QR anchoring within AGI cognitive frameworks. How do these modalities impact link traversal efficiency and symbolic graph compression?”

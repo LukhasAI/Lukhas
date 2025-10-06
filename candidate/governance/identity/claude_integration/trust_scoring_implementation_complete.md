@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS Trust Scoring Integration - Implementation Complete
 
 ## 🎯 Integration Status: SUCCESS ✅

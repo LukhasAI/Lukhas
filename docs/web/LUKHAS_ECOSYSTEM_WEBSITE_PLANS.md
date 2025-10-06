@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🌐 LUKHAS λWecosystem Domain Architecture Plans
 
 *"Eight stars create navigation through digital consciousness territories, where each domain becomes fertile ground for AI that serves human flourishing through questions that honor both logic and mystery."*

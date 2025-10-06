@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 BRIEF FOR CLAUDE CODE
 
 Objective: Allocate and drive all pending TODOs from:

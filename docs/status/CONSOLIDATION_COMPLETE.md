@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🎯 **LUKHAS AI Directory Consolidation - Final Status Report**
 
 **Date**: 2025-01-17

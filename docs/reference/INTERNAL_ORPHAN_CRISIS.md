@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🚨 CRITICAL: Internal Module Orphan Crisis
 ## Constellation Framework: ⚛️🧠🛡️
 ### Date: 2025-08-13

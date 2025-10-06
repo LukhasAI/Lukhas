@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Identity Tests
 
 This directory contains the test suite for the identity module.

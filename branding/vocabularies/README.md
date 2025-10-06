@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS AI Vocabulary System
 
 A structured vocabulary management system for LUKHAS AI brand content, implementing the 3-Layer Tone System for consistent, evidence-based messaging across all communications.

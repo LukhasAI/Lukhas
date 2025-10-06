@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🚀 LUKHAS 6-Agent Quick Start Guide
 
 ## Agent Assignments

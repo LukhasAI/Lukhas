@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Codex_Artifacts Configuration
 
 This directory contains configuration files for the codex_artifacts module.

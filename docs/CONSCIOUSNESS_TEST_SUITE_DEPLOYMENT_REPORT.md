@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🧠 Consciousness Test Suite Implementation Report
 
 **Date**: September 9, 2025  

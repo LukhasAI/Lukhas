@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # GitHub Release Creation - v0.02-final
 
 **DOI**: 10.5281/zenodo.17272572

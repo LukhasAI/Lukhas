@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Consciousness Technology Integration Guide
 
 Complete tutorials and examples for integrating LUKHAS consciousness capabilities into your applications.

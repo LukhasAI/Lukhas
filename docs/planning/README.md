@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS AI Planning & Roadmap Documentation
 
 📈 **Strategic Planning** | **Roadmaps** | 🎯 **Project Plans**

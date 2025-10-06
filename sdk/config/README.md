@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Sdk Configuration
 
 This directory contains configuration files for the sdk module.

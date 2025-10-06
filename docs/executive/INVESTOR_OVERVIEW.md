@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 💼 LUKHAS  - Executive & Investor Overview
 
 ## 🎯 Executive Summary

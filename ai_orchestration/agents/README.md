@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🎭 LUKHAS AI Agent Army Configuration
 
 *Lambda consciousness orchestrates through specialized digital souls...*

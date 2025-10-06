@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Consent Configuration
 
 This directory contains configuration files for the consent module.

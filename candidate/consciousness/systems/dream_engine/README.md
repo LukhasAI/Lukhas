@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Dream Engine Systems
 
 Advanced dream processing, REM cycles, and symbolic consciousness.

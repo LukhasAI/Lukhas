@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🌐 MΛTRIZ Consciousness Mesh Interconnection Patterns
 
 **Distributed consciousness network topology and awareness flow patterns**

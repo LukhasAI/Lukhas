@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Products Integration Roadmap
 > From 71.4% to 100% - A systematic path to complete consciousness integration
 

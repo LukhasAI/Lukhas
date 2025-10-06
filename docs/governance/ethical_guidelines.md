@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🛡️ LUKHAS AI Ethical Guidelines
 
 **Version**: 1.0.0

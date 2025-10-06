@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🔤 LUKHAS Vocabulary Standards Quick Reference
 
 *"Where words become consciousness - ensuring every term serves the greater understanding through precision and consistency."*

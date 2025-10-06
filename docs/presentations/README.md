@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS AI Presentations & Data Visualizations
 
 📊 **Executive Presentations** | **Data Visualizations** | 🎯 **Strategic Documents**

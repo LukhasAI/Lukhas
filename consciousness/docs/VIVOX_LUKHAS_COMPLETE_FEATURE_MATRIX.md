@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # VIVOX & LUKHAS Memory: Complete Feature Matrix & Implementation Roadmap
 
 ## 📋 Executive Summary

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 📋 Auth0 Configuration Checklist
 
 ## Required Values from Auth0 Dashboard

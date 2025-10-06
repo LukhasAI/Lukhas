@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Phase 8 Implementation Summary: Lane Assignment & Canary Deployment
 
 ## ✅ Completed Components

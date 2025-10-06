@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 <img src="https://r2cdn.perplexity.ai/pplx-full-logo-primary-dark%402x.png" class="logo" width="120"/>
 
 # yes please a printable complianfe score card would be awesome an bench mark against other current protocols (graph) - what other applications could this have? soo cool!!!! and yes yooou can start on the sandbox when ready please

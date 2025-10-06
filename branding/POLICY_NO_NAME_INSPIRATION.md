@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🛡️ No-Name Inspiration Policy
 
 ---

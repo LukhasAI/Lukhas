@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # MATRIZ Trace API Test Results
 
 This directory contains comprehensive test results and documentation for the MATRIZ Trace API implementation.

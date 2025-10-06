@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Vivox Tests
 
 This directory contains the test suite for the vivox module.

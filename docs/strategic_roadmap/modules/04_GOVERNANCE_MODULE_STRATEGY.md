@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Strategic Analysis: GOVERNANCE Module
 ## LUKHAS  Guardian System Enhancement Roadmap
 

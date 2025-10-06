@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Services Configuration
 
 This directory contains configuration files for the services module.

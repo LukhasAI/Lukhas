@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 losophy: fail‑closed, observable, reversible, and minimal blast radius.
 
 ---

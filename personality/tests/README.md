@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Personality Tests
 
 This directory contains the test suite for the personality module.

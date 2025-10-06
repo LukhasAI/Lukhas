@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🛡️ Replay Protection System
 ## Quantum-Secured Time-Bound Authentication
 

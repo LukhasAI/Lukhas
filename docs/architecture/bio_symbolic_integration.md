@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Bio-Symbolic Architecture and Integration
 
 ## 1. Overview

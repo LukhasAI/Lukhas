@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🎖️ CLAUDE_ARMY Complete Deployment Documentation
 **Generated:** August 11, 2025
 **Status:** FULLY DEPLOYED - Ready for ChatGPT-5 & Codex Integration

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🎭 Consciousness Hooks - Interactive Git Enhancement
 
 [![Version](https://img.shields.io/vscode-marketplace/v/LukhasAI.consciousness-hooks?style=for-the-badge&logo=visual-studio-code&logoColor=white)](https://marketplace.visualstudio.com/items?itemName=LukhasAI.consciousness-hooks)

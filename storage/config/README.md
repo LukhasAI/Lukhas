@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Storage Configuration
 
 This directory contains configuration files for the storage module.

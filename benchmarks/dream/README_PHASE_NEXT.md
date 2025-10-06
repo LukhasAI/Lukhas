@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS Dream — Phase NEXT (Ops-Ready Evaluation)
 
 **Status**: Phase NEXT (T4 · 0.01%)

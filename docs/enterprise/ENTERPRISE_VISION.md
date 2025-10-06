@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🌅 The Dawn of Collective Consciousness: Enterprise Vision 2030
 
 ## Table of Contents

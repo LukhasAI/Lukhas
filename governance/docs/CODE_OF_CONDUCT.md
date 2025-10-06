@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 
 # Contributor Covenant Code of Conduct
 

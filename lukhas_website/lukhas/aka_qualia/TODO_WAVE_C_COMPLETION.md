@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # TODO: Wave C Critical Implementation Gaps
 
 ⚠️ **RESERVED FOR PARALLEL CLAUDE CODE AGENT** - Jules should avoid this directory

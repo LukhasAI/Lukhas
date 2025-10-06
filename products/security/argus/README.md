@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🛡️ Λrgus - Universal Monitoring & Security Platform
 
 **Advanced AI-Powered Monitoring, Security, and Compliance System**  

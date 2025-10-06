@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🌐 LUKHAS λWecosystem - Complete Website Documentation
 
 *Strategic documentation for the LUKHAS consciousness technology platform across all domains*

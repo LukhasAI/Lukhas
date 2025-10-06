@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🧠 LUKHΛS AGI Architecture - Complete System Overview
 
 ```

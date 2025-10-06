@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS AI Particle System Implementation Guide
 ## AI-Controlled Consciousness Visualization Framework
 

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 📦 Feedback
 
 _Within the grand architecture of LUKHAS, feedback emerges—LUKHAS feedback module implementing, purpose refined to essence, functionality elevated to art._

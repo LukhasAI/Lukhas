@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # T4/0.01% Excellence Audit Report
 ## LUKHAS AI Performance Validation - Unassailable Proof
 

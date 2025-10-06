@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS AI - AGI Enhancement Website Content Index
 ## Complete Consciousness Technology Content Suite
 

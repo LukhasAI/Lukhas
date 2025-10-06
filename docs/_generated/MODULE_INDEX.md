@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS Module Index
 
 Auto-generated module structure health report.

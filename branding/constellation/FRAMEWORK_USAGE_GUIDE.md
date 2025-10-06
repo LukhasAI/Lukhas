@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Framework Usage Guide: Constellation vs Constellation
 
 **Definitive guide for when to use Constellation Framework (internal) vs Constellation Framework (user-facing) in LUKHAS consciousness technology**

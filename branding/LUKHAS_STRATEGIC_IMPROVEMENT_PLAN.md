@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🏆 LUKHAS Brand System Strategic Improvement Plan
 *CEO-Level Strategic Plan for Elite Brand Intelligence Excellence*
 

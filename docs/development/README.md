@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS AI Development Documentation
 
 👨‍💻 **Development Guides** | **Integration** | 🔧 **Development Tools**

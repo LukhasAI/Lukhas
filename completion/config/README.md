@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Completion Configuration
 
 This directory contains configuration files for the completion module.

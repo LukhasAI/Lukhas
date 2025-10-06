@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Matrix Tracks Examples
 
 This directory contains **copy-pasteable, runnable demos** for each Matrix Tracks verification path. Teams can run these locally to understand concepts before integrating with production contracts.

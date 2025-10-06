@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS  - AGI Safety Analysis & Industry Standards Roadmap
 
 ## Executive Summary

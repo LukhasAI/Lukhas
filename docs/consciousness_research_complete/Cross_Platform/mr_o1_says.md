@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 
 
 # **Lucas AGI: Resonance-Based Memory and Emotional Linkage** 

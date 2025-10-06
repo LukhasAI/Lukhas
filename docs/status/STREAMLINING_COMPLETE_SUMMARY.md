@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🎯 LUKHAS PWM Streamlining Complete Summary
 
 ## Overview

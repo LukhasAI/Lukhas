@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Website_V1 Configuration
 
 This directory contains configuration files for the website_v1 module.

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Flow Star (🌊) - Real-time Consciousness Processing
 
 ## Overview

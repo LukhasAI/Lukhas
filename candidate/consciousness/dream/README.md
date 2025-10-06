@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 ```
 ═══════════════════════════════════════════════════════════════════════════════════
 🌙 DREAM SYSTEMS - ENTERPRISE HYPERSPACE SIMULATION & CAUSALITY TRACKING

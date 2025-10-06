@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Unallocated TODO Groups Analysis
 **Date:** 2025-09-15
 **Total Unallocated:** 612 TODOs (out of 1,129 total)

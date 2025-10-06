@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Biological Integration Strategy
 ## Bio-Symbolic Coherence & Adaptive Systems
 

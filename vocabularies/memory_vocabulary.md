@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Memory Vocabulary
 
 Memory is not a vault but a field. It stores, but it also reshapes.

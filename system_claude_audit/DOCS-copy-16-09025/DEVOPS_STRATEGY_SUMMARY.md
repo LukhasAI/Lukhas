@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS AI DevOps Strategy: Scaling 0.001% Engineering Excellence
 
 ## Executive Summary

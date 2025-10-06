@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🛡️ LUKHΛS System Review Guide
 
 Welcome to the LUKHΛS AGI System demonstration. This guide provides instructions for accessing and reviewing the symbolic dashboard and identity system.

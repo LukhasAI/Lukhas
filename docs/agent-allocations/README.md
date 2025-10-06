@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS TODO Agent Allocations
 
 **Complete allocation of all 1,118 TODOs across 31 agent batches**

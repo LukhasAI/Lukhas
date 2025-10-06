@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS Reinforcement Learning & Decision Sequence Architecture
 ## From the Perspective of Leading AI Researchers
 

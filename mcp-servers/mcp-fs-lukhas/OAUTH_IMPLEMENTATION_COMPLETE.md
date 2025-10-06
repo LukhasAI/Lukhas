@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🎖️ OAuth-Protected MCP Server Implementation Complete
 
 ## 🚀 Achievement Summary

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Adaptive Cognitive AI Interface
 
 ## Vision: The Intelligence Multiplier

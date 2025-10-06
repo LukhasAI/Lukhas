@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Agents Configuration
 
 This directory contains configuration files for the agents module.

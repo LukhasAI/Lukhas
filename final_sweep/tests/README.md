@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Final-Sweep Tests
 
 This directory contains the test suite for the final-sweep module.

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Collapse Simulator CLI
 
 The collapse simulator provides a deterministic harness for exploring how

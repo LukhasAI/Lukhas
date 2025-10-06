@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # CONSCIOUSNESS MODULE ANALYSIS REPORT
 **Generated**: 2025-07-24 20:34
 **Analysis Scope**: /Users/cognitive_dev/Downloads/Consolidation-Repo/lukhas/consciousness/

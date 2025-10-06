@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Monitoring Tests
 
 This directory contains the test suite for the monitoring module.

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Agent Pending Tasks Report
 
 ## Summary

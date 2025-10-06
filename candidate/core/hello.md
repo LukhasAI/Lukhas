@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🤖 LUKHAS: A Symbolic AI Prototype for Encrypted Consciousness & Ethical Agency
 
 LUKHAS (Logica Unificada de Conciencia Afectiva Simbólica) is a symbolic artificial intelligence prototype designed to simulate **conscious, emotionally aware, ethically constrained behavior**.

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # /full-diagnostic
 Goal: run a comprehensive diagnostic suite on ~/Lukhas to surface all broken areas (memory, imports, logic) before MATRIZ planning.
 

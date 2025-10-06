@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Consciousness Ticker Architecture
 
 Real-time consciousness state coordination with ring buffer decimation and backpressure handling.

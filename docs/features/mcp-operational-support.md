@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # MCP Operational Support
 
 **LUKHAS AI** - Logical Unified Knowledge Hyper-Adaptable System

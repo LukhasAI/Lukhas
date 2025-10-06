@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # AGI Safety Module Strategy
 ## Constitutional AI & Advanced Safety Mechanisms
 

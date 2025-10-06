@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # OpenAI Phase 3: Multimodal & Personal Symbols
 ## Days 61-90 Implementation Plan
 

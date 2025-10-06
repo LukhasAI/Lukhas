@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🚀 MATRIZ Canary Deployment Clearance Report
 
 **Commit:** `a0122f4c9` - `feat(matriz): complete MATRIZ Final Sweep with T4/0.01% excellence hardening`

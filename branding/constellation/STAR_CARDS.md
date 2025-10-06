@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # ✦ The Constellation of LUKHAS - Star Cards
 
 **Eight navigational stars with poetic one-liners and academic expansions**

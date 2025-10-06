@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # System_Claude_Audit Configuration
 
 This directory contains configuration files for the SYSTEM_CLAUDE_AUDIT module.

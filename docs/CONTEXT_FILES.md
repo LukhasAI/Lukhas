@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS Context Files System
 
 **Dual-format AI guidance with vendor neutrality and Claude Desktop compatibility**

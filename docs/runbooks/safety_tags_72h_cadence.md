@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Safety Tags v1 - 72-Hour Deployment Cadence
 *Tight, Boring, Effective Production Rollout*
 

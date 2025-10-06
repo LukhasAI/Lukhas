@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Workflow Secret Management
 
 This directory contains GitHub Actions workflows that may require access to API keys and tokens.

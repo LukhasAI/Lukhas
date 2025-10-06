@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS Dream System Connectivity Analysis
 *Generated: 2025-08-02*
 

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Business Configuration
 
 This directory contains configuration files for the business module.

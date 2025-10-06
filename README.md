@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS AI Platform
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.17272572.svg)](https://doi.org/10.5281/zenodo.17272572)

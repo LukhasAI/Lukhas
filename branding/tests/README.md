@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Branding Tests
 
 This directory contains the test suite for the branding module.

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS AI Memory Module
 
 Production-safe fold-based memory system with cascade prevention and emotional valence tracking.

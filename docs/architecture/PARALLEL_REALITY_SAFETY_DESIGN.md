@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🛡️ Parallel Reality Safety Design Document
 
 ## Executive Summary

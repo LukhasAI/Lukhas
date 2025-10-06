@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Trace_Logs Configuration
 
 This directory contains configuration files for the trace_logs module.

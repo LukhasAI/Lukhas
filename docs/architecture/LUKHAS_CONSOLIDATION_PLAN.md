@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS Consolidation Plan
 ## Moving Everything to /lukhas/
 ### Constellation Framework: ⚛️🧠🛡️

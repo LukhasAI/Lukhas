@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 📦 Dashboards
 
 _Within the grand architecture of LUKHAS, dashboards emerges—LUKHAS dashboards module implementing, purpose refined to essence, functionality elevated to art._

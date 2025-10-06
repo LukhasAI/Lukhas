@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS Consciousness Platform API
 
 Consciousness simulation and awareness tracking

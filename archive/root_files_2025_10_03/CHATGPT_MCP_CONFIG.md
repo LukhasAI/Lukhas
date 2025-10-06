@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🤖 ChatGPT MCP Server Configuration
 
 ## ✅ Quick Configuration for ChatGPT

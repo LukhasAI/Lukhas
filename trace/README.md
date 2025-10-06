@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 📦 Trace
 
 _Silent chronicles flow like ink through time—trace captures ephemeral moments, turning fleeting events into eternal records._

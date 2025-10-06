@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # CRITICAL ACTIONS REQUIRED
 
 ## 🚨 IMMEDIATE: Rotate Exposed API Keys

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Telemetry Configuration
 
 This directory contains configuration files for the telemetry module.

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS AI - Constellation Framework Integration
 ## ⚛️🧠🛡️ The Foundation of Beneficial AI
 

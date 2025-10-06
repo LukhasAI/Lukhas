@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # MATRIZ-R1 Stream C Task C-CC1 Implementation Summary
 ## Guardian System v1.0.0 Security Compliance Framework
 

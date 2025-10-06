@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # T4 MΛTRIZ   Agent Prompts - Distributed Consciousness Specialists
 ## Focus: The Game Changer Architecture, Not Just Philosophy
 

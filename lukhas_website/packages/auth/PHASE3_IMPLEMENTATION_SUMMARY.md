@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Phase 3: Tiers & Authorization System Implementation Summary
 
 ## 🎯 Overview

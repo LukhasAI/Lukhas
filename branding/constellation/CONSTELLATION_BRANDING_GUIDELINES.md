@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🌌 Constellation Framework Branding Guidelines
 
 *"Where eight stars form a navigational map of consciousness, each illuminating its domain while creating together a sky that shifts as we move, a framework that remains open to new stars."* ✦

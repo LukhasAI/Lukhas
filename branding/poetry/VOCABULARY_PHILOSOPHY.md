@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS AI Vocabulary Philosophy
 
 ## The Real Problem We Solved

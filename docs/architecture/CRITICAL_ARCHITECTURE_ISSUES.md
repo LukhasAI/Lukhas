@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # CRITICAL ARCHITECTURE ISSUES - LUKHAS AI
 
 ## 🚨 CRITICAL ISSUE #1: Quantum Naming Disaster

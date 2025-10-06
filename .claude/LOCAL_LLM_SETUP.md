@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🤖 Local LLM Setup Guide for Claude Code
 
 **Date**: August 22, 2025

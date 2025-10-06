@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Constitutional AI Constraint System: Formal Verification Framework
 ## Mathematical Guarantees for Ethical AI Behavior
 

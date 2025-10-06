@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🛡️ Lucas_AGI_3 Compliance Registry
 
 This document tracks regulatory, ethical, and governance alignments across the Lucas_AGI_3 system.

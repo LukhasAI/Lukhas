@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS Integration Roadmap: Manus Build → LUKHAS_AUTH_SYSTEM
 
 ## Immediate Actions (Next 1-2 Days)

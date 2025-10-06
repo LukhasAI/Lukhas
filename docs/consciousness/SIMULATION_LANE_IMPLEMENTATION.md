@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Simulation Lane Infrastructure - Implementation Report
 
 ## ✅ Complete Implementation Status

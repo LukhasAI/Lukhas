@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 
 1. FUNCTION FORMULATION
 We want:

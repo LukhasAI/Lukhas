@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # M.1 Memory Storage/Retrieval T4/0.01% Excellence Certification
 
 **Audit ID:** `m1_audit_20250923_140652`

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # System_Claude_Audit Tests
 
 This directory contains the test suite for the SYSTEM_CLAUDE_AUDIT module.

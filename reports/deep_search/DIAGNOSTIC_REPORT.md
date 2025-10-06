@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS System Diagnostic Report
 Generated: 2025-09-09 (Updated with Latest Pytest Output)
 

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # AGENTS — MATRIZ Constellation Ops (T4 / 0.01%)
 
 ## Roles

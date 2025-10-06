@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS Concept Preservation Guidelines
 
 ## Critical Concepts to Preserve

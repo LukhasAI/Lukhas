@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Rats Configuration
 
 This directory contains configuration files for the rats module.

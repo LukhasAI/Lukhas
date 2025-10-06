@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # ✅ Phase 1 Documentation Frontmatter Tagging Complete
 
 **Completion Date**: August 25, 2025

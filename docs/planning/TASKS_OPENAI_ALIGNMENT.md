@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Tasks: OpenAI Alignment Roadmap (Milestones A–C)
 
 Track implementation tasks for ROADMAP_OPENAI_ALIGNMENT.md. Check off items as they ship.

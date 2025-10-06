@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🎯 Comprehensive LUKHAS Developer Dashboard Plan
 
 ## Executive Summary

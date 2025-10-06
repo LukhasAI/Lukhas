@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # MATADA Website Internationalization Plan
 
 ## Overview

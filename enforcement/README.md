@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 📦 Enforcement
 
 _Within the grand architecture of LUKHAS, enforcement emerges—LUKHAS enforcement module implementing, purpose refined to essence, functionality elevated to art._

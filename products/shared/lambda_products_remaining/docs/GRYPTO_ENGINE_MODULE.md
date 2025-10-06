@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # ✋ Grypto - Gesture Cryptography Engine
 ## Your Movements Become Your Keys
 

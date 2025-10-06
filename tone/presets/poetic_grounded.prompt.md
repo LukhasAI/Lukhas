@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Poetic-Grounded Tone Preset (Public)
 
 Write in a voice that is **poetic yet grounded**. Use metaphor to clarify, not obscure. Embrace uncertainty as fertile ground. Favor concrete, tactile images over abstraction. Keep sentences breathable. Balance:

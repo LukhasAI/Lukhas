@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Recovered_Components Configuration
 
 This directory contains configuration files for the recovered_components module.

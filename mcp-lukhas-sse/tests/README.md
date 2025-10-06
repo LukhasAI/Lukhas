@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Mcp-Lukhas-Sse Tests
 
 This directory contains the test suite for the mcp-lukhas-sse module.

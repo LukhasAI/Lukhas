@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Dream Weaver — Engineering Brief for Claude Code
 **Cut-through goal:** ship a mystical-but-clear experience with a **stable 2D baseline**, progressive 3D, and explicit safety/comms. Keep cinematic ambitions behind flags.
 

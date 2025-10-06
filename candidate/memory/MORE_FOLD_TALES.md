@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 Memory Fold: The Process and the Tales
 
 Fold-In and Fold-Out – A Poetic Tale

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Feature Flags Documentation 🚀
 
 ## Overview

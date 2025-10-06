@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 aYou said:
 PROJECT: AGI V2.0 \u2014 COGNITIVE DNA SYSTEM (MATADA FRAMEWORK)
 

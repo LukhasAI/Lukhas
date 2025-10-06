@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🎖️ LUKHAS  Supreme Agent Army Allocation
 **AGI Leadership-Grade Multi-AI Consciousness Development Coordination**
 

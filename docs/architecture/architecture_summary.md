@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS Architecture Analysis Report
 
 Generated: 2025-09-10 12:44:35

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 📋 Tasks for testing-devops-specialist
 **Role**: Quality Engineering and Infrastructure Lead
 **Description**: LUKHAS Quality Assurance and DevOps Integration Expert

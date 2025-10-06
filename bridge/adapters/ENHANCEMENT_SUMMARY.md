@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # ⚛️🧠🛡️ Service Adapter Base Enhancement Summary
 
 ## Critical Fix Implemented ✅

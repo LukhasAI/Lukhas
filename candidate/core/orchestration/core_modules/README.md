@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Orchestration Directory — LUKHAS_AGI_2
 
 This directory contains advanced orchestration modules for compliance, ethics, emotional modulation, and secure symbolic flows in the LUKHAS_AGI_2 system. Each file plays a unique role in the Cognitive AI's safe, explainable, and auditable operation.

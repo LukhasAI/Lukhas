@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Memory Module Consolidation Report
 Generated: 2025-08-12T19:53:58.143380
 

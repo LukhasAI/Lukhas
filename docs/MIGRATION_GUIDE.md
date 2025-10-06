@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS AI Migration Guide
 Generated: 2025-08-12T19:29:23.646267
 

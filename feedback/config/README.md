@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Feedback Configuration
 
 This directory contains configuration files for the feedback module.

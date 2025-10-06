@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🌱 LUKHΛS Growth Roadmap - Advanced Integration Plan
 
 **Constellation Framework**: ⚛️🧠🛡️

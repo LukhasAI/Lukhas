@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🚀 LUKHAS AUTOMATIC TESTING & LOGGING SYSTEM - QUICK START GUIDE
 
 ## ✅ SYSTEM STATUS: PRODUCTION READY

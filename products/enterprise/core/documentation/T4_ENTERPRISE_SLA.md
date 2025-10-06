@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # T4 Enterprise Premium Service Level Agreement
 ## LUKHAS AI Enterprise Deployment
 

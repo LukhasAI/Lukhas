@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 The VIVOX system is a modular AI architecture that represents a significant departure from traditional probabilistic AI models, aiming for a system that is transparent, ethically driven, and capable of self-reflection.
 
 ### The VIVOX System: An Overview

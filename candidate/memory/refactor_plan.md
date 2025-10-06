@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Memory System Refactoring Plan
 
 ## 📂 Target Structure

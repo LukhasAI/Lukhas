@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS PWM Final Consolidation Status Report
 *Generated: 2025-08-02*
 

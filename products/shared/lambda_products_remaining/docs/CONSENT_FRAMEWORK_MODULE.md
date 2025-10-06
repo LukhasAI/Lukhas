@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🤝 GDPR Consent Framework
 ## Your Data, Your Choice, Your Control
 

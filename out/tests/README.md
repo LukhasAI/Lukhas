@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Out Tests
 
 This directory contains the test suite for the out module.

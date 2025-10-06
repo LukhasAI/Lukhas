@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 📋 Tasks for consent-compliance-specialist
 **Role**: Privacy, Security, and Ethical Governance Lead
 **Description**: LUKHAS Consent Ledger and Compliance Framework Expert

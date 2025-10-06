@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 📋 LUKHAS Web Strategic Planning Index
 
 *"Where vision becomes implementation - transforming consciousness technology dreams into systematic digital reality through strategic excellence."*

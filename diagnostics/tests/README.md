@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Diagnostics Tests
 
 This directory contains the test suite for the diagnostics module.

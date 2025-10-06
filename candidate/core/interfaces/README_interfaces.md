@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Core Interfaces Documentation
 
 Placeholder for symbolic tagging trace and continuity tracking — to be filled by Jules [07]/[08]

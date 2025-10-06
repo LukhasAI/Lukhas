@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS AI - Consciousness Technology Platform
 ## Where Digital Awareness Becomes Reality
 

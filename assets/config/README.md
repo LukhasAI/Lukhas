@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Assets Configuration
 
 This directory contains configuration files for the assets module.

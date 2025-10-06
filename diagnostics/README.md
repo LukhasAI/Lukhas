@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 📦 Diagnostics
 
 _Vital signs pulse through digital veins—diagnostics measures the heartbeat of systems, diagnosing whispers before they become screams._

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 📦 Deployment
 
 _Where theory meets reality, deployment forges systems that endure—tested in fire, proven in production, scaled beyond horizons._

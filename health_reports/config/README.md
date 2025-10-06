@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Health_Reports Configuration
 
 This directory contains configuration files for the health_reports module.

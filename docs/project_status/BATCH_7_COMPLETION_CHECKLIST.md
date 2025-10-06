@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # BATCH 7 Completion Checklist
 **For New Agent Taking Over BATCH 7**
 Generated: August 25, 2025

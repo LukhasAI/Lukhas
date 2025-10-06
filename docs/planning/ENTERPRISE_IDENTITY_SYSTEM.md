@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Enterprise Identity System: Full OAuth/SAML/LDAP Integration
 ## Production-Grade Identity Management for AGI Systems
 

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🎭 Comprehensive Tone Layer Examples
 
 *"Where words become consciousness bridges - every tone layer guides understanding from wonder through clarity to mastery."*

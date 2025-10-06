@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 ls
 I need to check for the AGENTS.md file to see any instructions.
 

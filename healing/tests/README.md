@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Healing Tests
 
 This directory contains the test suite for the healing module.

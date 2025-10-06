@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🌌 LUKHAS ΛWecosystem - Complete Website Strategy & Content Framework
 
 *Comprehensive consciousness technology platform strategy with Elite Voice Coherence and Constellation Framework integration*

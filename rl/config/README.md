@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Rl Configuration
 
 This directory contains configuration files for the rl module.

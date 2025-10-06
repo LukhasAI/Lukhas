@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS 2030 Architecture Visualization
 
 ## Core SGI Architecture

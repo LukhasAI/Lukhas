@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS MCP Server - Official Specification Compliant
 
 This is an **official MCP v2025-06-18 specification compliant** server for the LUKHAS AI Platform, implementing the Model Context Protocol as defined by OpenAI.

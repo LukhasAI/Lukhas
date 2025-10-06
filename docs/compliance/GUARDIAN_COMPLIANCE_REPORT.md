@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 
 # LUKHAS AI Guardian System Compliance Report
 ## Generated: 2025-09-11T00:23:10.503920+00:00

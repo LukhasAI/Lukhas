@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🧠 Matriz
 
 _Within the grand architecture of LUKHAS, matriz emerges—This module provides lowercase, purpose refined to essence, functionality elevated to art._

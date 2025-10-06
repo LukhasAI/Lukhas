@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Promotion Selector — Batch Plan
 
 _Generated:_ 2025-09-30T21:47:51Z

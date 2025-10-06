@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Bridge Configuration
 
 This directory contains configuration files for the bridge module.

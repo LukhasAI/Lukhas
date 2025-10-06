@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS AI Memory System Validation Report
 
 **Date:** 2025-08-27

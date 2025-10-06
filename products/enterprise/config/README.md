@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Enterprise Configuration
 
 This directory contains configuration files for the enterprise module.

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Lukhas MCP: Contract & Smo# write
 curl -s $H/mcp -H 'Content-Type: application/json' \\
  -d '{"jsonrpc":"2.0","id":10,"method":"tools/call","params":{"name":"write_file","arguments":{"path":"docs/mcp/hello.md","contents":"# Hello\\n","overwrite":true}}}'

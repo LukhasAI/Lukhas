@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🎉 LUKHAS PHASE_MATRIX Implementation Complete!
 
 ## Executive Summary

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Gesture Recognition System: Deep Implementation Plan
 ## Computer Vision Pipeline for Universal Language
 

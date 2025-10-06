@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 
 # Kernel Bus Migration Report
 Generated: 2025-08-07T02:21:07.086446

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS Voice System Analysis Report
 
 **Date:** 2025-07-24

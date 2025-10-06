@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 🌌 ASCII Star Chart — The Constellation of LUKHAS
 
                               ✦ Quantum (∿)

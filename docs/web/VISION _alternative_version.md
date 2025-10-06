@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS Vision: The Path to AGI Through Modular AI
 
 ## Our Core Belief

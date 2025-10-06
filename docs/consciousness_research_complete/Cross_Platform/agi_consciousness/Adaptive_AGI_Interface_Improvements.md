@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 `Adaptive_AGI_Interface.md` lays out a truly ambitious vision, and the initial code for `adaptive_agi_demo.py`, `adaptive_interface_generator.py`, and `compliance_engine.py` provides a practical starting point.
 
 Let's infuse these with the "Sam Altman & Steve Jobs" philosophies to elevate them to the next level, focusing on how the code would begin to reflect this grander vision.

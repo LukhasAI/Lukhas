@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 You are in the Lukhas repo. Execute the following plan idempotently (re-run safe), making small atomic commits per concern. Do NOT touch runtime code under lukhas/ or candidate/.
 
 GOALS

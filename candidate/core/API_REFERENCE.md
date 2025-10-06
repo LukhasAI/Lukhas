@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 ═══════════════════════════════════════════════════════════════════════════════
 ║ 📖 API REFERENCE - FAULT TOLERANCE & RESILIENCE MODULES
 ║ Complete API Documentation for Supervision, Observability, Events & Circuits

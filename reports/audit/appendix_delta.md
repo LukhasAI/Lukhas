@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Appendix — Delta between `audit-freeze-20250910T122620Z` and `audit-freeze-20250910T143306Z`
 
 ## Summary

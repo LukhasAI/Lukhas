@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # @lukhas/ — TypeScript SDK
 
 ## Install (local)

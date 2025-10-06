@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Cryptography Research for LUKHAS Authentication System
 
 ## 🔐 Executive Summary

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS AI Reference Documentation
 
 📚 **Technical References** | **Specifications** | 🔍 **Module Documentation**

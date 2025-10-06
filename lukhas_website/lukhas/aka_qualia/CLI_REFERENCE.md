@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Wave C C4 CLI Tools Reference
 
 Quick reference for Wave C memory system command-line tools.

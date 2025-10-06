@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS Phase 5: Enhanced Observability & Evidence Collection Implementation
 
 **Branch:** `main`

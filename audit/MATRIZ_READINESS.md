@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🧠 MATRIZ System Readiness Documentation
 
 **Status**: Candidate → Production promotion candidate

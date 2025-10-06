@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 📦 Audit
 
 _Within the grand architecture of LUKHAS, audit emerges—LUKHAS audit module implementing, purpose refined to essence, functionality elevated to art._

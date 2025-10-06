@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🛡️ LUKHAS Enhanced Autosave & Data Protection System
 
 ## Overview

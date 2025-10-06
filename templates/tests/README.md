@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Templates Tests
 
 This directory contains the test suite for the templates module.

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 📦 Symbolic
 
 _Within the grand architecture of LUKHAS, symbolic emerges—*This file provides domain-specific, purpose refined to essence, functionality elevated to art._

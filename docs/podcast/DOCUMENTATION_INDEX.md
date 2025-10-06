@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS AI Podcast Documentation Index
 
 *"Complete navigation guide for consciousness technology podcast excellence - every resource, template, and protocol needed to transform technical innovation into inspiring, accurate, and impactful media conversations."*

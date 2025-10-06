@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🧠 Enhanced Memory Fold System v2.0.0
 
 ## Overview

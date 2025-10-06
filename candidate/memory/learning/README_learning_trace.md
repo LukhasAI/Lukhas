@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS `learning/` Directory Trace Summary - Jules-[04]
 
 **ΛORIGIN_AGENT:** Jules-04

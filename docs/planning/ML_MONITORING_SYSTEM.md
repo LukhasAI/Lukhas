@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # ML-Powered Monitoring & Anomaly Detection System
 ## Intelligent Observability for AGI Production Systems
 

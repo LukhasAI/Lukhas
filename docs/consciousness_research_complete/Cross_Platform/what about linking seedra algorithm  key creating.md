@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 <img src="https://r2cdn.perplexity.ai/pplx-full-logo-primary-dark%402x.png" class="logo" width="120"/>
 
 # what about linking seedra algorithm  key creating to news, weather, stock market and the key generation would depend on the value of such, and then transaction are made it will be as a set baseline... would this make seedra more secure?

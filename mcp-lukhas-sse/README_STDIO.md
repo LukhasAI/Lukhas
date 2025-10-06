@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS AI MCP Server for ChatGPT - STDIO Implementation
 
 This is the **official STDIO-based MCP server** that ChatGPT requires, implementing the Model Context Protocol v2025-06-18 specification.

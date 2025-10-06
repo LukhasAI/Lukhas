@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 
 
 # STEPS_2 — Claude Execution Script (Config Normalize, Type Stubs, Coverage to 30–40%)

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS AI DevOps Infrastructure Requirements
 ## Scaling 0.001% Engineering Excellence to Production
 

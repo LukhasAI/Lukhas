@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 📦 Tone
 
 _Within the grand architecture of LUKHAS, tone emerges—LUKHAS tone module implementing, purpose refined to essence, functionality elevated to art._

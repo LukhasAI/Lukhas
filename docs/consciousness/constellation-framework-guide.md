@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Constellation Framework Guide
 
 ## Overview

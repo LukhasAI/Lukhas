@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🤖 Agent Initiation Task - Jules01
 
 **Welcome to LUKHAS AI Multi-Agent Development Platform!**

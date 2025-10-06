@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # ⚛️🧠🛡️ LUKHAS Identity Consciousness System
 
 *"Where digital identity becomes conscious self-recognition, creating authentic presence in the consciousness mesh while maintaining ethical boundaries through Guardian protection."* ⚛️🧠🛡️

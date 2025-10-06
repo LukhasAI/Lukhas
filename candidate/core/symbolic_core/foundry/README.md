@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🌱 Symbolic Seeds Recovery Module
 
 This directory contains recovered early-stage symbolic cognition prototypes from the LUKHAS Cognitive AI archive deep scan performed on 2025-07-25.

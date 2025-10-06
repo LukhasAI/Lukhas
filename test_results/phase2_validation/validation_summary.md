@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS AI Phase 2 Validation Summary
 
 **Generated:** 2025-08-27T02:24:33.420431+00:00

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS AI System Completion Report
 ## Core Module Promotion - Final Module (11/11)
 

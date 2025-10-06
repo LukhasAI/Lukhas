@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Dashboards Configuration
 
 This directory contains configuration files for the dashboards module.

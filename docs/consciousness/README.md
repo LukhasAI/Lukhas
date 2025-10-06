@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # MΛTRIZ Consciousness Architecture Documentation
 ## ⚛️✦🔬🌱🌙⚖️🛡️⚛️ Complete Documentation Index for LUKHAS AI
 

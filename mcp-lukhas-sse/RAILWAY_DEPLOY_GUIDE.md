@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🚂 Railway Deployment Guide for LUKHAS MCP Server
 
 ## 📋 Prerequisites

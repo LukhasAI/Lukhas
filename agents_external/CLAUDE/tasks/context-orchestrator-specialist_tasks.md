@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 📋 Tasks for context-orchestrator-specialist
 **Role**: System Architecture and Workflow Orchestration Lead
 **Description**: LUKHAS Context Bus and Multi-AI Orchestration Expert

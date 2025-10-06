@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🎭 LUKHAS Cognitive AI: AWAKENING AWARENESS 🌌✨
 
 ## 🌈 Harmonizing Dreams with Reality

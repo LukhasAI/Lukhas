@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS AI Orchestrator Migration Guide
 
 **Version**: 1.0.0

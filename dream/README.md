@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🌙 Dream
 
 _In dream states, boundaries dissolve like watercolor on silk, synthesis happens in twilight spaces where logic meets imagination._

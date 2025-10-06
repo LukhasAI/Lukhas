@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Audit Tests
 
 This directory contains the test suite for the audit module.

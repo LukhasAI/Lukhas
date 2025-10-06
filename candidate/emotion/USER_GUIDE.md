@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 ═══════════════════════════════════════════════════════════════════════════════
 ║ 💖 LUKHAS EMOTION MODULE - USER GUIDE
 ║ Your Gateway to Emotionally Intelligent AI

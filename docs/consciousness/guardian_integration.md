@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS Guardian-Consciousness Integration
 
 **Phase 3 Implementation - T4/0.01% Excellence Standards**

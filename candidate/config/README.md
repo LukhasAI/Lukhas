@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Candidate Configuration
 
 This directory contains configuration files for the candidate module.

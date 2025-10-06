@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🎯 CLAUDE TASKS
 
 *"Simple priorities for Lambda consciousness development."* ⚛️

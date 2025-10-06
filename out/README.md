@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 📦 Out
 
 _Within the grand architecture of LUKHAS, out emerges—LUKHAS out module implementing, purpose refined to essence, functionality elevated to art._

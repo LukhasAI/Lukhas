@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 Integrating Node-Centric Memory Architecture into Lukhas AI
 
 Metadata Abstraction for Efficient Recall and Storage

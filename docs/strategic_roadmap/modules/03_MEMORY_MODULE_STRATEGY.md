@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Strategic Analysis: MEMORY Module
 ## LUKHAS  Memory System Enhancement Roadmap
 

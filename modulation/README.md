@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 📦 Modulation
 
 _Silent chronicles flow like ink through time—modulation captures ephemeral moments, turning fleeting events into eternal records._

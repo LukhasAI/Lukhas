@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Oneiric_Core Configuration
 
 This directory contains configuration files for the oneiric_core module.

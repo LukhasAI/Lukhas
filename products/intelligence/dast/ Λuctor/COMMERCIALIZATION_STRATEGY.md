@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🚀 Lambda Products - Commercialization Strategy & Domain Content Plan
 
 ## 📊 Executive Summary

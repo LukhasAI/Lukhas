@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS Core Modules
 
 Production-ready consciousness infrastructure with advanced monitoring and safety systems.

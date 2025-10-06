@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🤖 ChatGPT MCP Server Setup
 
 ## 🚨 **IMPORTANT: ChatGPT Can't Access Localhost**

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 📚 LUKHAS AI Module Index
 
 ## Constellation Framework Core Modules (⚛️🧠🛡️)

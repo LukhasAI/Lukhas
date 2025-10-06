@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🗺️ Sky Map Design Specification
 
 **Interactive Constellation Navigation System**

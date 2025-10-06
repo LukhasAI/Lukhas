@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 memory_fold enhancements:
 
 1. Tighten the data model

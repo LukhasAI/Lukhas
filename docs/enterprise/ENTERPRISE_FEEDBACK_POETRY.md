@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🌟 The Symphony of Collective Consciousness: Enterprise Feedback System
 
 ## Table of Contents

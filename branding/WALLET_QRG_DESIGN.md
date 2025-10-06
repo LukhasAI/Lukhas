@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # WΛLLET & QRG — One-Pager (Design Tenets)
 
 ## Overview

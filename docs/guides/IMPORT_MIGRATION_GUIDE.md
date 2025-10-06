@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Import Migration Guide
 
 After the directory reorganization, update imports as follows:

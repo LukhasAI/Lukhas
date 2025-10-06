@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Next_Gen Configuration
 
 This directory contains configuration files for the next_gen module.

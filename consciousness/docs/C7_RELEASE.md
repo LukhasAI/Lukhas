@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # C7_RELEASE.md - Wave C Production Promotion & Release
 **Freud-2025 Specification: Production Release and Promotion Plan**
 

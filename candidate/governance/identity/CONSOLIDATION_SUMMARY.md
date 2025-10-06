@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS Authentication Systems Consolidation Summary
 
 ## ✅ Step 2 Complete: Structural Issues Addressed

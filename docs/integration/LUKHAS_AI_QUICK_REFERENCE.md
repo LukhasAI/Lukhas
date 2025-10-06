@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🎭 LUKHAS AI Quick Reference Guide
 
 ## ✅ **Your AI Setup Status: 4/5 READY!**

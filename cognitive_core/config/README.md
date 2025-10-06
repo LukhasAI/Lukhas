@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Cognitive_Core Configuration
 
 This directory contains configuration files for the cognitive_core module.

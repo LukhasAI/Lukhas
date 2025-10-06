@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🧹 LUKHAS AI Branding Directory Cleanup Plan
 
 ## 🎯 Goal

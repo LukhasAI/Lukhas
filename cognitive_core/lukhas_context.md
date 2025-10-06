@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # cognitive_core - Advanced Cognitive Infrastructure
 
 ## Overview

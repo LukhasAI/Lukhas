@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS Core Integration Analysis
 ## System Integration Hub (1.9MB, 148 Python files)
 

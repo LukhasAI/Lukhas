@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Server Tests
 
 This directory contains the test suite for the server module.

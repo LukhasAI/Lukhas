@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🌟 LUKHAS Dream API - Universal AI Enhancement Layer
 ## Empowering All AI Models Through Dream Simulation & Self-Tuning
 

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🪐 Domain Implementation Guide
 
 **Complete Domain Strategy with Constellation Mapping**

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 👨‍💻 lukhas.dev - Developer Consciousness Platform Strategy
 
 *Complete strategy for the premier consciousness technology developer platform and SDK ecosystem*

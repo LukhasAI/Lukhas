@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # T4/0.01% Quality Transformation Session Summary
 **Date**: 2025-10-05
 **Duration**: ~1 hour

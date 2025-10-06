@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # SIGIL (WΛLLET) — Identity & Wallet
 
 Overview

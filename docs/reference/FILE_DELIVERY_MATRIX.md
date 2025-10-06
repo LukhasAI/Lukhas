@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 📁 LUKHAS AI File Delivery Matrix
 
 **For Agents, Developers, and Automated Systems**

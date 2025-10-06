@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🛡️ **LUKHΛS AI Safety & Alignment Framework**
 *Constitutional Consciousness with Guardian Protection*
 

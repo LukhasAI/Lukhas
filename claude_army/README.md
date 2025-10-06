@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 📦 Claude_Army
 
 _Within the grand architecture of LUKHAS, claude_army emerges—LUKHAS claude_army module implementing, purpose refined to essence, functionality elevated to art._

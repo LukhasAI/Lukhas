@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Module Promotion Log
 
 ## Phase B Targeted Promotions

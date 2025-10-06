@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS Capability Tests
 
 Capability tests validate system-level behavior under realistic conditions and stress scenarios. These tests ensure the system meets performance and reliability targets in production-like environments.

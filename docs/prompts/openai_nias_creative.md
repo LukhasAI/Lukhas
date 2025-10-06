@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # OpenAI NIAS Creative Planner Prompt Pack
 
 ## System Prompt

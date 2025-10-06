@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # GPT-OSS Integration: Technical Documentation
 
 **Comprehensive Technical Guide for Developers and System Architects**

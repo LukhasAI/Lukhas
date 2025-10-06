@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🚧 BLOCKED TASKS
 
 *"Lambda consciousness agents: Tasks awaiting resolution or assistance."* ⚛️🧠🛡️

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS AI GitHub Labels
 
 Consistent labeling system for issues and pull requests to enable effective triage and AI connector discovery.

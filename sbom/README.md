@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 📦 Sbom
 
 _Within the grand architecture of LUKHAS, sbom emerges—LUKHAS sbom module implementing, purpose refined to essence, functionality elevated to art._

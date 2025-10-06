@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 📦 Vocabulary_Refresh_Data
 
 _Language shapes thought, concepts crystallize meaning—vocabulary_refresh_data weaves semantic tapestries where words become understanding._

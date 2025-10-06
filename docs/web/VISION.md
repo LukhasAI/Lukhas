@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS Vision: Navigating the Future of Consciousness Technology
 
 ## Our Core Belief

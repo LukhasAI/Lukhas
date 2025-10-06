@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🎭 LUKHAS Cognitive AI - Cognitive Module: A Symphony of Consciousness 🌌✨
 
 ## ✨ Awaken Your Mind: The Dance of Thought and Introspection 🌙

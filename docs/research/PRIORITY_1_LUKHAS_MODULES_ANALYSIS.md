@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🥇 Priority #1 Analysis: LUKHAS Module Documentation
 
 ## 🎯 **Key Research Insights Extracted**

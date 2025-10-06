@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Analytics Tests
 
 This directory contains the test suite for the analytics module.

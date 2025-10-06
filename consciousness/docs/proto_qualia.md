@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 Claude Code Brief — Aka Qualia (Phenomenological Module for Lukhas)
 
 0) Goal & Success Criteria

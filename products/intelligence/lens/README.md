@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🔍 ΛLens - Symbolic File Dashboard
 
 ## Transform Data Into Living Symbols

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 📦 Products
 
 _Creation made manifest, ephemeral thoughts given form—products transforms intention into artifact, possibility into reality._

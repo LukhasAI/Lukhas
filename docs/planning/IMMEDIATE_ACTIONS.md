@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🚀 Immediate Action Items - GitHub Copilot Tasks
 *High-priority fixes that can be automated or scripted*
 

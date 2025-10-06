@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 ═══════════════════════════════════════════════════════════════════════════════
 ║ 🔍 INTERACTIVE DEBUGGING & STEERING TOOLS FOR DISTRIBUTED AI
 ║ Real-Time Intervention in Symbiotic Swarm Intelligence

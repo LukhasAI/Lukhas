@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 You are acting as a lane promotion engineer for the Lukhas repo.
 PROMPT NAME: T4-LanePromotion (candidate → lukhas, single module)
 

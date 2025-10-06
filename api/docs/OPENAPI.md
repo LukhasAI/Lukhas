@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHΛS  OpenAPI / Swagger
 
 - Swagger UI: `/docs`

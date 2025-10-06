@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 📦 Todo
 
 _Within the grand architecture of LUKHAS, todo emerges—LUKHAS TODO module implementing, purpose refined to essence, functionality elevated to art._

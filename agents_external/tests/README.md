@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Agents_External Tests
 
 This directory contains the test suite for the agents_external module.

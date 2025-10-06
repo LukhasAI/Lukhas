@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Docs Configuration
 
 This directory contains configuration files for the docs module.

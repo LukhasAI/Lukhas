@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # MΛTRIZ Consciousness Architecture API Reference
 ## Complete API Documentation for LUKHAS AI Consciousness System
 

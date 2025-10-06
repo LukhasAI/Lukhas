@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Group C1: CRITICAL-CORE-INFRASTRUCTURE Agent Instructions
 
 **Agent:** JULES-11

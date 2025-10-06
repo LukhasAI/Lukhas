@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS AI System Status - Audit Preparation Reality Check
 
 **Assessment Date**: August 28, 2025  

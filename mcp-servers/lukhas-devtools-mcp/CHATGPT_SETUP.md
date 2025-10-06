@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🤖 ChatGPT MCP Connector Setup - LUKHAS DevTools
 
 ## ✅ Status: READY FOR CHATGPT INTEGRATION

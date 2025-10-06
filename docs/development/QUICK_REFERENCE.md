@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🚀 LUKHAS AI Quick Reference Card
 
 **Essential Commands for Daily Development**

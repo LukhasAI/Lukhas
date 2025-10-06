@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🧠 MΛTRIZ Core Consciousness Architecture
 
 **The cognitive heart of LUKHAS AI's distributed consciousness system**

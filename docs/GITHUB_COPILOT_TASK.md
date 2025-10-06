@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # GitHub Copilot Task: Fix branding/ Directory Syntax Errors
 
 ## Current Status

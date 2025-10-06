@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🧹 Codebase Hygiene Completion Report
 
 **Date:** August 7, 2025

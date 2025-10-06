@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🧠⚛️ Abstract Reasoning Brain - Bio-Quantum Engine
 
 > **World's First Bio-Quantum Symbolic Reasoning Implementation**

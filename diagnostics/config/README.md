@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Diagnostics Configuration
 
 This directory contains configuration files for the diagnostics module.

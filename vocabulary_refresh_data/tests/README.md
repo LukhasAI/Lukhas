@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Vocabulary_Refresh_Data Tests
 
 This directory contains the test suite for the vocabulary_refresh_data module.

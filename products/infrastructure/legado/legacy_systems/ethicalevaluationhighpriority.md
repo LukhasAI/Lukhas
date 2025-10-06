@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # ETHICAL EVALUATION: HIGH PRIORITY DOCUMENTATION
 
 ## 1. Overview

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Trace Tests
 
 This directory contains the test suite for the trace module.

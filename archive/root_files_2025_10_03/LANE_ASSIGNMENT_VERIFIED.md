@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # T4/0.01% Lane Assignment - Verified Against Actual Repo State
 
 **Date**: 2025-09-22

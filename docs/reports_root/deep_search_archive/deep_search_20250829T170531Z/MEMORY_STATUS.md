@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Memory Module Status Report
 
 **Generated**: 2025-08-26 02:15:24

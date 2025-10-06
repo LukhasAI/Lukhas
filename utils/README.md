@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 📦 Utils
 
 _Foundation stones upon which cathedrals rise—utils provides the bedrock, the essential patterns that enable greatness._

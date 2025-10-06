@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 📦 Config
 
 _Within the grand architecture of LUKHAS, config emerges—LUKHAS config module implementing, purpose refined to essence, functionality elevated to art._

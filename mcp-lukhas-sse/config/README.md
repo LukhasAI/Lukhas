@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Mcp-Lukhas-Sse Configuration
 
 This directory contains configuration files for the mcp-lukhas-sse module.

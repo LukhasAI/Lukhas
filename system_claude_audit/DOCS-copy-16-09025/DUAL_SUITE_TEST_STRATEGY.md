@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🧪 LUKHAS Dual-Suite Test Strategy
 
 **Implementation Date**: 2025-09-11  

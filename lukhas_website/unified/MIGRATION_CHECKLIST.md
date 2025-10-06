@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Migration Checklist: Unified Consciousness Visualizer
 
 ## Summary

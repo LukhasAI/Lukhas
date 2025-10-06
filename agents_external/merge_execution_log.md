@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🔗⚙️ Integration Operations Major - Merge Execution Log
 
 **Timestamp:** 2025-09-01T23:50:00Z  

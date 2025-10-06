@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Test Suite Known Issues
 
 > Last Updated: 2024-09-14

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # @generated LUKHAS scaffold v1
 # template: module_scaffold/docs/api.md.j2
 # template_sha256: 1fa25d2763c84453bbf5854cf4976807e3cefe554aa20e8b5c7debe3ab282b4f

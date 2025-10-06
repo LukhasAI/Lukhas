@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Identity System Integration Summary
 
 ## Overview

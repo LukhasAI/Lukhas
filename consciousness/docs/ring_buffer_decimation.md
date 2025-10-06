@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Ring Buffer Decimation & Backpressure Management
 
 Advanced memory management with adaptive decimation strategies for consciousness data streams.

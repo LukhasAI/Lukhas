@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Consciousness & Drift Management API
 
 Production-ready interfaces for consciousness coordination, drift detection, and safety validation.

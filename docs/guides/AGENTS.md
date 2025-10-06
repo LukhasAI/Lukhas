@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🚀 **MULTI-AGENT SYNTAX ERROR ELIMINATION BATTLE PLAN**
 
 ## **MISSION OBJECTIVE**

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # MCP Server Performance Enhancements
 
 ## ✅ Successfully Implemented

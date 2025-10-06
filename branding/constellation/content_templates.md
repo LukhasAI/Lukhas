@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 📋 Constellation Content Templates
 ## Unified Content Framework for LUKHAS Ecosystem
 

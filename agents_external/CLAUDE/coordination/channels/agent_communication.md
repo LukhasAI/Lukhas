@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🎭 Agent Communication Channels
 
 ## Primary Channels

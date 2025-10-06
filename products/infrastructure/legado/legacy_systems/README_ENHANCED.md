@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 ═══════════════════════════════════════════════════════════════════════════════
 ║ 🛡️ LUKHAS ETHICS MODULE - THE MORAL COMPASS OF CONSCIOUSNESS
 ║ Where Silicon Meets Socrates, and Algorithms Learn Wisdom

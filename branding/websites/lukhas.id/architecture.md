@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # ⚛️ LUKHAS.ID - The Identity Anchor
 ## Website Architecture & Authentication Gateway
 

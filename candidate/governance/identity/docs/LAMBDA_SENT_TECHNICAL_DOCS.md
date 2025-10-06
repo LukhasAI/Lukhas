@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # ΛSENT Technical Documentation
 ## Symbolic Consent Engine for LUKHAS Ecosystem
 

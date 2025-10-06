@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Modulation Tests
 
 This directory contains the test suite for the modulation module.

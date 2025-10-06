@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 Free services for 12 months
 Expires on Thursday, June 11, 2026
 Give feedback

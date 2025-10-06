@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🏛️ SYSTEMATIC RESEARCH INVENTORY - Treasure Trove #1
 
 ## 📊 **Research Volume Analysis**

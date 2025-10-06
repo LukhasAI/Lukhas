@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Dashboards Tests
 
 This directory contains the test suite for the dashboards module.

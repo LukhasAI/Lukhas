@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🥉 Priority #5 Analysis: Bio-Symbolic Architecture Research
 
 ## 🎯 **Key Research Insights Extracted**

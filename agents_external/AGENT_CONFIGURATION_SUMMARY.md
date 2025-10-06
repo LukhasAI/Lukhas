@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🤖 LUKHAS Agent Configuration Summary
 
 ## Overview

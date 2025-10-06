@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🚀 **MISSING FEATURES IMPLEMENTATION COMPLETE**
 **User-Centric Features Now Available**
 

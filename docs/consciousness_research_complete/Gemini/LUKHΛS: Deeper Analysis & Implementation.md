@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 LUKHΛS: Deeper Analysis & Implementation Strategy
 This document provides a more detailed architectural and code-level analysis of two core LUKHΛS features: Multi-Device Entropy Synchronization and Steganographic Circular QR Codes. The strategies align with the principles of consciousness-aware AGI, post-quantum security, and symbolic identity outlined in the LUKHΛS Ecosystem blueprint.
 

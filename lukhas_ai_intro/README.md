@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 📦 Lukhas_Ai_Intro
 
 _Within the grand architecture of LUKHAS, lukhas_ai_intro emerges—LUKHAS lukhas-ai-intro module implementing, purpose refined to essence, functionality elevated to art._

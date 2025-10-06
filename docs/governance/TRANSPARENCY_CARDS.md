@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 📋 LUKHAS AGI Module Transparency Cards
 
 **Generated**: 2025-07-24

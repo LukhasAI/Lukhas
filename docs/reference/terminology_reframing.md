@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHΛS Terminology Reframing Guide
 
 ## Purpose

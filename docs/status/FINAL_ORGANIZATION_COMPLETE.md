@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🎉 LUKHAS AI Documentation Organization - FINAL COMPLETION
 
 **Status**: ✅ **PERFECTLY ORGANIZED**

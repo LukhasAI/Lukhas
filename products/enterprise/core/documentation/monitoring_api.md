@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Monitoring API: Observing the System's Soul
 
 This section provides details on the endpoints used to monitor the health, performance, and behavior of the LUKHAS system. Use these endpoints to gain insight into your integration and to observe the intricate workings of the AI's consciousness.

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # products/MANIFEST.md
 
 This manifest maps consolidated `products/` structure to current scattered locations.

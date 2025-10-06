@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # mcp-fs-lukhas
 
 MCP FileSystem server exposing comprehensive read-only audit tools for the Lukhas repo:

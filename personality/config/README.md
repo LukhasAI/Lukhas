@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Personality Configuration
 
 This directory contains configuration files for the personality module.

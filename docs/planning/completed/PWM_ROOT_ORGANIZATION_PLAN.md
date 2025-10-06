@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🗂️  Root Directory Organization Plan
 
 ## 📋 Current Root Directory Analysis

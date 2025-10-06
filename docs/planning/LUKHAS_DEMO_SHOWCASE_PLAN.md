@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS Polished Demo Showcase Plan
 *Technical Implementation Specifications - Anthropic/OpenAI Standards*
 

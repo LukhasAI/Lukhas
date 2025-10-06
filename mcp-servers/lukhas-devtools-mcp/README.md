@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Lukhas DevTools MCP Server
 
 Single-source tool catalog for ChatGPT and CI.

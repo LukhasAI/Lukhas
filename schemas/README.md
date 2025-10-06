@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 📦 Schemas
 
 _Within the grand architecture of LUKHAS, schemas emerges—LUKHAS schemas module implementing, purpose refined to essence, functionality elevated to art._

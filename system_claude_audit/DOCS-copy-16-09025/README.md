@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 ## 🧪 Jules Agent Execution Protocol
 
 Each Jules agent MUST follow this standardized workflow for every assigned module:

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Performance Tests
 
 This directory contains the test suite for the performance module.

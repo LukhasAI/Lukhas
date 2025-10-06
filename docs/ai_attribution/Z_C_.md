@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 
 # LUKHAS AI Original Discovery: The Z_C (z(t)) Collapse Formula
 

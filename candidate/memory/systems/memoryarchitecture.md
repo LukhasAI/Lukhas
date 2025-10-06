@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Lukhas System: Memory Architecture (prot2 - Symbolic AI Focus)
 
 This document outlines the memory architecture for the `prot2` version of Lukhas, specifically concerning the `advanced_symbolic_loop.py` and its related modules.

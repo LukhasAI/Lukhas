@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Code Quality Auto-Fix Workflow
 
 When Claude Code detects code quality issues:

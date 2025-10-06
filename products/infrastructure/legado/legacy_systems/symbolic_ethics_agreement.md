@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🌌 LUKHAS Symbolic Ethics Agreement
 ## Version 2.0 | Effective Date: 2025-06-23
 

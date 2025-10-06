@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 📊 LUKHAS AI - System Status Clarity Report
 ## Constellation Framework: ⚛️🧠🛡️
 ### Generated: 2025-08-13

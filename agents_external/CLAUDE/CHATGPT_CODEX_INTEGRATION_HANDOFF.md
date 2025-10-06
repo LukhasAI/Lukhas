@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🎖️ LUKHAS Multi-AI Integration Handoff Summary
 **Created:** August 11, 2025
 **Target:** ChatGPT-5 & Codex-ChatGPT Integration

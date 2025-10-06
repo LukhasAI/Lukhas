@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🎉 LUKHAS AI System Promotion Complete
 
 ## Executive Summary

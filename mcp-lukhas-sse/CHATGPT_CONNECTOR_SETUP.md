@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🤖 ChatGPT Connector Setup for LUKHAS AI
 
 ## ⚡ Quick Setup

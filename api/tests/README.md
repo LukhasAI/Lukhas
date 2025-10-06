@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Api Tests
 
 This directory contains the test suite for the api module.

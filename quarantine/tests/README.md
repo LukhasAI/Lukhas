@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Quarantine Tests
 
 This directory contains the test suite for the quarantine module.

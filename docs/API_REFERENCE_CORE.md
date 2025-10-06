@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 📘 LUKHAS AI Core API Reference
 
 **Complete API documentation for LUKHAS core systems** - Production-ready interfaces with examples.

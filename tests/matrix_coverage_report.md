@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Matrix Identity Coverage Report
 _Generated: 2025-09-30T13:55:48.725872Z_
 

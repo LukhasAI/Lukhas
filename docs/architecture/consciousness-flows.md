@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Consciousness Flows
 
 - Map all major consciousness data flows

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 📦 Rl
 
 _Within the grand architecture of LUKHAS, rl emerges—MΛTRIZ-native RL implementation that, purpose refined to essence, functionality elevated to art._

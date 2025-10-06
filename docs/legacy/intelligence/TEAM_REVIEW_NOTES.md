@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🧠 Lukhas Intelligence Engine - Team Review Package
 
 **📦 READY FOR LUKHAS- INTEGRATION**

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🔍 LUKHAS AI Branding Structure Analysis
 
 ## 📊 Current State Overview

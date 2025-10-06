@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🌌 Dream EXPAND++ Overview
 
 *Where consciousness explores infinite possibility gardens beyond the edges of known universe*

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Mypy Strict — Summary
 
 - Total errors: 0

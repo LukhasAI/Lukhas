@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # MODULE READINESS — MATRIZ (per-module protocol)
 
 ## Checklist

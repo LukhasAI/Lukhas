@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🔒 Security_Reports
 
 _Within the grand architecture of LUKHAS, security_reports emerges—LUKHAS security-reports module implementing, purpose refined to essence, functionality elevated to art._

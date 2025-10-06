@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Investor Brief: Dual Memory Architecture
 
 ## Overview

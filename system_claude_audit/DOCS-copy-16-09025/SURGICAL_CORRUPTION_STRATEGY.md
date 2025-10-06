@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🔧 SURGICAL Corruption Fix Strategy
 
 **Mission**: Preserve logic, state & organization while eliminating corruption

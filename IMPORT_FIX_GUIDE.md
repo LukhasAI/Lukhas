@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Quick Import Fix Guide
 
 ## How to Fix Import Errors

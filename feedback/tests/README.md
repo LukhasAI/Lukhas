@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Feedback Tests
 
 This directory contains the test suite for the feedback module.

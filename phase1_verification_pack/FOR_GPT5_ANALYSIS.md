@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # For GPT5 Analysis - Phase 1 Verification Pack
 
 ## Context

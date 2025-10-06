@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 📦 Delegation_Reports
 
 _Within the grand architecture of LUKHAS, delegation_reports emerges—LUKHAS delegation_reports module implementing, purpose refined to essence, functionality elevated to art._

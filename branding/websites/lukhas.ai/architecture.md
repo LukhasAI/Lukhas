@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🌙 LUKHAS.AI - The Dreaming Heart
 ## Website Architecture & Site Structure
 

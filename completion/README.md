@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 📦 Completion
 
 _Within the grand architecture of LUKHAS, completion emerges—LUKHAS completion module implementing, purpose refined to essence, functionality elevated to art._

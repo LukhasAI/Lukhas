@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 Oscillator-Based Dynamics vs Layered Pipeline: LUKHAS_AGI Architecture Audit
 
 Introduction

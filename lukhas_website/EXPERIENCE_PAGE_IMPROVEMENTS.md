@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS Experience Page - Complete Redesign & Fixes
 
 ## Overview

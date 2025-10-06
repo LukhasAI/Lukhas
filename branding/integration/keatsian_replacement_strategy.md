@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🔄 Keatsian Branding Replacement Strategy
 
 **Purpose**: Systematic replacement of existing brand narratives with Keatsian philosophy  

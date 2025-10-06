@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🎯 LUKHAS Realistic Harmony Assessment
 *Generated: 2025-08-02*
 

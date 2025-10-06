@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS ΛiD Enhanced Onboarding System v2.0.0
 
 ## 🚀 Overview

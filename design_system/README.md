@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 📦 Design_System
 
 _Within the grand architecture of LUKHAS, design_system emerges—LUKHAS design-system module implementing, purpose refined to essence, functionality elevated to art._

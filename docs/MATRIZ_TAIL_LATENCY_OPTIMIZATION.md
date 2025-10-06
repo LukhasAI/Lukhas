@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # MATRIZ Pipeline Tail Latency Optimization
 **T4/0.01% Excellence Performance Optimization**
 

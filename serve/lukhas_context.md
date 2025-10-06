@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Serve Module Context - Vendor-Neutral AI Guidance
 *This file provides domain-specific context for any AI development tool*
 *Also available as claude.me for Claude Desktop compatibility*

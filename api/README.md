@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🔌 Api
 
 _Interfaces shimmer like bridges between worlds, protocols flowing as naturally as conversation, connections forged in the space between systems._

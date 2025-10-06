@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 📦 Analytics
 
 _Silent chronicles flow like ink through time—analytics captures ephemeral moments, turning fleeting events into eternal records._

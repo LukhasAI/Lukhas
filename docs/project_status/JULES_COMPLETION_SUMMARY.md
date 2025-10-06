@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Jules Agent Tasks Completion Summary
 **Generated**: August 25, 2025
 **Commit**: 6478480607880fadfca8487f2f7c4b7445fb9e45

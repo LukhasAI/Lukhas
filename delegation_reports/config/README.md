@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Delegation_Reports Configuration
 
 This directory contains configuration files for the delegation_reports module.

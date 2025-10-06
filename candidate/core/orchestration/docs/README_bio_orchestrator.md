@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS BIO-ORCHESTRATOR MODULE
 
 This module defines the symbolic scaffold for orchestrating biological and emotional state transitions

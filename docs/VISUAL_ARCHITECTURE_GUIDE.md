@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🎨 LUKHAS Visual Architecture Guide
 
 **ASCII and Mermaid diagrams for understanding LUKHAS AI architecture** - Copy-paste ready visualizations.

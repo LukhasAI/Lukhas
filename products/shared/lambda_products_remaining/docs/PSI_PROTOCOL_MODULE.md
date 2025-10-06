@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🧠 GTΨ - Consciousness Authentication Protocol
 ## Where Mind Meets Machine in Perfect Harmony
 

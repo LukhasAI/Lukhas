@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # OIDC Security Audit Documentation - T4/0.01% Excellence
 
 ## Executive Summary

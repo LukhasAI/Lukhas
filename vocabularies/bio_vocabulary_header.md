@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Bio Vocabulary Headers
 
 ## Markdown variant

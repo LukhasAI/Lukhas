@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Detailed File Breakdown - LUKHAS AI Codebase
 ## Constellation Framework: ⚛️🧠🛡️
 

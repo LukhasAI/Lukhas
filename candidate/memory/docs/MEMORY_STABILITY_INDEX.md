@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Memory Stability Index
 
 This document defines how symbolic folding, driftScore, entropy deltas, and recall success rate contribute to overall memory stability.

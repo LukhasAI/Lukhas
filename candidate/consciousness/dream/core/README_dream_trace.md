@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Dream Trace README
 
 This document provides a detailed explanation of the recursive dream loops within the LUKHAS system, based on the audit performed by Jules-05.

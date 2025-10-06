@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Presentations Configuration
 
 This directory contains configuration files for the presentations module.

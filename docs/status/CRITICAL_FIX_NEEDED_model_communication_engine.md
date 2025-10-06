@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 """
 🚨 URGENT STRUCTURAL FIX NEEDED
 ════════════════════════════════

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Ci Tests
 
 This directory contains the test suite for the ci module.

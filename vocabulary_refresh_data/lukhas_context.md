@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # vocabulary_refresh_data - Module Context
 
 ## Overview

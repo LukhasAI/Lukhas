@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # VIVOX.QREADY Implementation Report
 
 ## Executive Summary

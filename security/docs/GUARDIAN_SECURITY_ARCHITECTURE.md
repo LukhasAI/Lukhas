@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🛡️ Guardian Security Architecture - Complete Integration Guide
 
 **LUKHAS AI Guardian Security Framework v1.0.0**

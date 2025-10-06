@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 
 # PHASE\_MATRIX.md — MATRIZ Readiness Plan (T4 / 0.01%)
 

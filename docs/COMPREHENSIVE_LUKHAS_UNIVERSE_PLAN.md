@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🌌 COMPREHENSIVE LUKHAS UNIVERSE PLAN
 **Complete Website Architecture & Narratives for All 13 Domains**
 

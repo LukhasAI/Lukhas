@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # GPT5 Audit Implementation Summary
 
 ## Overview

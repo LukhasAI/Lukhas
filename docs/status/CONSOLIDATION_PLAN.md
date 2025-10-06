@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS AI Repository Consolidation Plan
 
 ## 🎯 Areas for Organization and Consolidation

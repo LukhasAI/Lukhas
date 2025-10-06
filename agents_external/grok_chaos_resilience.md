@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Grok — Chaos Engineering & Resilience Matrix
 
 ## Primary Task

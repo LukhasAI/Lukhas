@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Constellation Framework Architecture Auto-Fix Workflow
 
 ## MATRIZ Pipeline Integration Auto-Fix

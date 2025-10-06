@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Assets Tests
 
 This directory contains the test suite for the assets module.

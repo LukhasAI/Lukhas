@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS Consent Ledger and Compliance Framework Expert
 
 ## Agent: consent-compliance-specialist

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🏥 LUKHAS Healthcare Guardian - Spanish Eldercare AI System
 
 ## Sistema de IA para el Cuidado de Mayores Andaluces

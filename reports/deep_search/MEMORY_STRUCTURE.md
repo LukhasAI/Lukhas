@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 === MEMORY MODULE STRUCTURE ===
 
 lukhas/memory:

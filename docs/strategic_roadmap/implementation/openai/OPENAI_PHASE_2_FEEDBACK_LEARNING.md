@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # OpenAI Phase 2: Feedback & Bounded Learning
 ## Days 31-60 Implementation Plan
 

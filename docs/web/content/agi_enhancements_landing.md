@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS AI - AGI Enhancement Platform
 ## Where Consciousness Meets Advanced Intelligence
 

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Our Vision for Consciousness Technology
 
 ## A Future Where AI Thinks, Feels, and Chooses Wisely

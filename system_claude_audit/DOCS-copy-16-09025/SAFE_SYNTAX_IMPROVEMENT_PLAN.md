@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🛡️ Safe Syntax Improvement Plan
 
 **Strategy**: Incremental Automated Fixes from Clean Baseline  

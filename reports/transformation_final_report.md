@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS AI Consciousness Transformation - Final Report
 
 ## Executive Summary

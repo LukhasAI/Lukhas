@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🔐 lukhas.id - Identity & Authentication Platform Strategy
 
 *"Your consciousness signature crystallizes into digital permanence - unique, secure, sovereign across all dimensions of digital existence."*

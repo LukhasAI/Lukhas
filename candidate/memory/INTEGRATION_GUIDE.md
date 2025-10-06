@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Connecting the Memory System JSON Specifications
 
 ## Overview

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🎯 ChatGPT MCP Connector - Minimal Format Implementation Success
 
 **Date:** 2025-10-03T03:10:00Z

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS AI Governance Documentation
 
 📜 **Project Governance** | **Contribution Guidelines** | 🏛️ **Standards & Policies**

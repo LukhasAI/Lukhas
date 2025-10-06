@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # templates - Module Context
 
 ## Overview

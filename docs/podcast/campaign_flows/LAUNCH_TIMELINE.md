@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Podcast Campaign Launch Timeline
 
 *"From preparation to amplification - a comprehensive timeline for transforming consciousness conversations into sustainable educational ecosystems that serve the beneficial AI development community."*

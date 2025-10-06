@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🎯 LUKHAS 7-Agent Implementation Final Status
 
 ## ✅ COMPLETED IMPLEMENTATIONS (In Actual LUKHAS Directories)

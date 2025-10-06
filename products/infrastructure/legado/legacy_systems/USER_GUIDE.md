@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 ═══════════════════════════════════════════════════════════════════════════════
 ║ 📚 LUKHAS ETHICS MODULE - USER GUIDE
 ║ Your Guide to Ethical AI Integration and Value Alignment

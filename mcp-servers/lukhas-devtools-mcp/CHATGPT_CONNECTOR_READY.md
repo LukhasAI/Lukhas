@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🎉 ChatGPT MCP Connector - READY FOR INTEGRATION
 
 ## ✅ **PROBLEM SOLVED**: "search action not found" Fixed!

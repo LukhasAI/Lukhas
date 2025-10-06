@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Safety Tags Go-Live Drill
 *30-Minute Production Deployment Checklist*
 

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS Cognitive AI Automatic Testing & Logging System - PRODUCTION READY ✅
 
 ## 🚀 CURRENT STATUS: FULLY OPERATIONAL

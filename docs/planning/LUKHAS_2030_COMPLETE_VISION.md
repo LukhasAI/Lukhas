@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS 2030: The Complete Vision
 
 ## Beyond Traditional AI - A Living Digital Organism

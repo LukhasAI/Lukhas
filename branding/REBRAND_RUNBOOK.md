@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # MATRIZ Rebrand Runbook
 
 ## Phase 1: Redirects & URL Management

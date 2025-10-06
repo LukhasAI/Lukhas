@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # ⚛️ Identity & Authentication Readiness Documentation
 
 **Status**: Production-ready ΛiD Core Identity System

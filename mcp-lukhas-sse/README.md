@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 📦 Mcp-Lukhas-Sse
 
 _Within the grand architecture of LUKHAS, mcp-lukhas-sse emerges—LUKHAS mcp-lukhas-sse module implementing, purpose refined to essence, functionality elevated to art._

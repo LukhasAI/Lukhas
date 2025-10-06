@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🧬 Lucas Bio-Symbolic Architecture
 
 ## Overview

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS TODO Completion Initiative - Final Verification Report
 
 **Report Date:** 2025-09-16

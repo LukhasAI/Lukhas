@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Social Automation
 
 ⚛️🧠🛡️ LUKHAS AI Constellation Framework

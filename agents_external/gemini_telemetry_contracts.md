@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Gemini — Telemetry Contracts & Observability
 
 ## Primary Task

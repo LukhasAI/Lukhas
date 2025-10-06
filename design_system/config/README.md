@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Design-System Configuration
 
 This directory contains configuration files for the design-system module.

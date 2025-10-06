@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Session Summary - August 13, 2025
 
 ## Work Completed

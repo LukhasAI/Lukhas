@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Vivox Configuration
 
 This directory contains configuration files for the vivox module.

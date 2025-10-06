@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🌌 LUKHAS Constellation Branding System
 
 **Complete brand architecture: Framework → Vocabulary → Domains → Navigation**

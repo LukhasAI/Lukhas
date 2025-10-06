@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # ΛGuardian System
 **Comprehensive AI Safety, Security, and Assistance Framework**
 

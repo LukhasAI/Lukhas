@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHΛS Stargate Gateway Enhancements Summary
 
 ## 🛡️ 1. Red Team Glyph Map (`glyph_timeline_generator.py`)

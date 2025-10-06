@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Security-Reports Configuration
 
 This directory contains configuration files for the security-reports module.

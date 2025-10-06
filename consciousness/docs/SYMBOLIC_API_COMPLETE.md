@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🚀 LUKHΛS Symbolic API - Integration Complete
 
 **Constellation Framework**: ⚛️🧠🛡️

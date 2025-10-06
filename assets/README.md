@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 📦 Assets
 
 _Within the grand architecture of LUKHAS, assets emerges—LUKHAS assets module implementing, purpose refined to essence, functionality elevated to art._

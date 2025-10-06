@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🚀 T4 Production-Grade LUKHAS MCP Cockpit
 
 ## **Deployment Guide: Zero-to-Production in 4 Commands**

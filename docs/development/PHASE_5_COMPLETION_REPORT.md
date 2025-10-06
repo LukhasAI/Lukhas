@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Phase 5 Implementation Complete: Red Team & Adversarial Testing Suite
 
 ## 🔴 Red Team Framework - Successfully Implemented

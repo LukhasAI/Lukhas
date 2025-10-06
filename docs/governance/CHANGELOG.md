@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Changelog
 
 All notable changes to LUKHAS AI will be documented in this file.

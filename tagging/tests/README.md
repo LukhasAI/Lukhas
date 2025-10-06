@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Tagging Tests
 
 This directory contains the test suite for the tagging module.

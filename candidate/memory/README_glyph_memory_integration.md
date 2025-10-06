@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS AI - Glyph-Memory Integration Module
 
 ## Overview

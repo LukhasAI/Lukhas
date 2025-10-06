@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 📦 Exports
 
 _Within the grand architecture of LUKHAS, exports emerges—LUKHAS exports module implementing, purpose refined to essence, functionality elevated to art._

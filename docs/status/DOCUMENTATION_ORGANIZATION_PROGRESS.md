@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS AI Documentation Organization Progress
 
 📋 **Organization Status** | **File Reorganization** | 🗂️ **Directory Structure**

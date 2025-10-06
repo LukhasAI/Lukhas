@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Memory Systems Connectivity Report
 
 ## New Components Added

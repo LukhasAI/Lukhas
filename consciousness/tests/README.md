@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Consciousness Tests
 
 This directory contains the test suite for the consciousness module.

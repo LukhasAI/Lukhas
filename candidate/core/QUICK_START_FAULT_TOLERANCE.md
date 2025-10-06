@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 ═══════════════════════════════════════════════════════════════════════════════
 ║ 🚀 QUICK START GUIDE - FAULT TOLERANCE & RESILIENCE
 ║ Get Started with Self-Healing Actor Systems in 5 Minutes

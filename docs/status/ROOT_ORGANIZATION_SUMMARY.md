@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Root Directory Organization Summary
 
 ## ✅ Organization Complete!

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🚨 CRITICAL SYSTEM DIAGNOSIS
 ## Why "Production Ready" But 98% Orphaned?
 ### Constellation Framework: ⚛️🧠🛡️

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Brain/ Module Directory Glossary
 
 ## Placeholder for Jules-08 brain module documentation

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 📚 LUKHAS Documentation Organization Summary
 
 **Completion Date**: 2025-01-27

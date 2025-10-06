@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Qi Tests
 
 This directory contains the test suite for the qi module.

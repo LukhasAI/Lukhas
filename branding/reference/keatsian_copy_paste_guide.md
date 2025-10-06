@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS Keatsian Copy-Paste Reference
 *Modular fragments for Claude, Copilot, and direct integration*
 

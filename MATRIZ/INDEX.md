@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # MATADA Implementation Plan (v1.1) — Safety Substrate, Modular Routing, Governance by Design
 
 > **North Star:** “No node → no go.” Every advisory artifact must project to a valid **MATADA node**. Safety, scale, governance, and innovation flow from this substrate.

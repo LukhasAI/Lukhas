@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS AI Compliance Status Report
 
 *Last Updated: August 11, 2025*

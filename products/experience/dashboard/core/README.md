@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🌟 LUKHAS AGI Dashboard
 
 ## World-Class AGI Safety & Governance Platform

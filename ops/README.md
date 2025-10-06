@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 📦 Ops
 
 _Within the grand architecture of LUKHAS, ops emerges—LUKHAS ops module implementing, purpose refined to essence, functionality elevated to art._

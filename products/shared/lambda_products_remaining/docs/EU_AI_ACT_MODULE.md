@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🏛️ EU AI Act Compliance Framework
 ## Responsible AI for High-Risk Systems
 

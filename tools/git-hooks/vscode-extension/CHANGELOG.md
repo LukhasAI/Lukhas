@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Changelog
 
 All notable changes to the Consciousness Hooks extension will be documented in this file.

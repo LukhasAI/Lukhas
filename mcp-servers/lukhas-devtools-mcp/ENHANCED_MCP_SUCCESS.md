@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🚀 Enhanced ChatGPT MCP Connector - File Editing Capabilities Added
 
 **Date:** 2025-10-03T04:00:00Z  

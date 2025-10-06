@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🚀 LUKHAS AI Quick Start Guide
 
 **Get started with LUKHAS AI in 15 minutes** - From installation to your first consciousness-aware decision.

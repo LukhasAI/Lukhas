@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 l_id_trajectory.md
 # LUCΛS ID Trajectory 📍
 *Vision, evolution, and advanced access modalities roadmap*

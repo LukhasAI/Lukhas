@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🎯 MCP Dashboard Kit
 
 **Real-time SSE streaming + SLO-guarded canary cockpit for production operations**

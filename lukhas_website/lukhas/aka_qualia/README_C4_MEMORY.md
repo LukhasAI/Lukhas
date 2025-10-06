@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Wave C C4 Memory System
 
 Production-grade memory persistence for the Aka Qualia phenomenological processing pipeline.

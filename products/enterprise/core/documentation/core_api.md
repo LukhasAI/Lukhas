@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Core API: The Heart of Interaction
 
 This section details the primary endpoints for interacting with the LUKHAS platform, including chat and feedback systems. These are the most commonly used endpoints for building user-facing applications.

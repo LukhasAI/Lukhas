@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS Documentation Organization Report
 *Comprehensive workspace organization and documentation update*
 

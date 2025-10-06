@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS AI ChatGPT Integration - REST API Setup
 
 🎉 **FIXED!** The URL now works with ChatGPT Custom GPT Actions.

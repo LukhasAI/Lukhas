@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Lukhas Cognitive AI System Tools
 
 This directory contains various tools and utilities for the Lukhas Cognitive system, organized by function.

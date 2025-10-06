@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 📦 Recovered_Components
 
 _Within the grand architecture of LUKHAS, recovered_components emerges—LUKHAS recovered_components module implementing, purpose refined to essence, functionality elevated to art._

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # modulation - Bio-inspired endocrine signal modulation system
 
 ## Overview

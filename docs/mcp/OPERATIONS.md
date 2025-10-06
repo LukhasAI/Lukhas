@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS MCP Operations (T4/0.01%)
 
 ## Fast checks

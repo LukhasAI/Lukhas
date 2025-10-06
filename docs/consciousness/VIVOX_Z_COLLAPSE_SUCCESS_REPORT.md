@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # VIVOX z(t) Collapse Engine - Integration Complete! ✅
 
 ## 🎉 Success Summary (August 3, 2025)

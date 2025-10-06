@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LAB BRIEFING — MATRIZ Rollout
 
 **Objective:** Assign lanes module-by-module; nightly soak + chaos; safe canary.

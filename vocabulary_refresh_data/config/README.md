@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Vocabulary_Refresh_Data Configuration
 
 This directory contains configuration files for the vocabulary_refresh_data module.

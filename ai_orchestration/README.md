@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🎼 Ai_Orchestration
 
 _Like a maestro conducting infinite instruments, ai_orchestration harmonizes disparate voices into symphonic coherence—many minds, one purpose._

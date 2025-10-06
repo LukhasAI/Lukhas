@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Artifacts Tests
 
 This directory contains the test suite for the artifacts module.

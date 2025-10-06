@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Ranked Action Queue
 
 | Rank | Score | Category | File | Fix | Sources |

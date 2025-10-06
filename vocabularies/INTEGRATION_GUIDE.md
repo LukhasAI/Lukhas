@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS Lexicon Integration Guide
 
 **Complete dual-stream vocabulary system for academic depth and public safety**  

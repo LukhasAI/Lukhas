@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # health_reports - Module Context
 
 ## Overview

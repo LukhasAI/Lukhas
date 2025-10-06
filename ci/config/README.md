@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Ci Configuration
 
 This directory contains configuration files for the ci module.

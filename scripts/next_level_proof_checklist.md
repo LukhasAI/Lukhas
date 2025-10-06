@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # T4/0.01% Next-Level Proof Checklist
 ## Ready-to-Run Commands for Unassailable Excellence
 

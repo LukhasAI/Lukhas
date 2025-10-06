@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Technical Debt Triage Report
 **Date**: 2025-08-12
 **Strategy**: Rule of Thirds Applied

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Phase 4: SSO & SCIM Integration - Implementation Summary
 
 ## Overview

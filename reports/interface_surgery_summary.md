@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Interface Surgery Phase - LUKHAS Consciousness Architecture
 
 ## Executive Summary

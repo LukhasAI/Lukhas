@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 📊 Module Connection Status Report
 ## Constellation Framework: ⚛️🧠🛡️
 ### Date: 2025-08-13

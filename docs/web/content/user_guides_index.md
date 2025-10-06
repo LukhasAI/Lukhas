@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS AI User Guides Index
 ## Complete Guide to Consciousness Technology Enhancement
 

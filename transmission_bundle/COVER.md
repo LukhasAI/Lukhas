@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS Next Generation - Transmission Bundle 📡
 
 **Classification**: Genesis Transmission

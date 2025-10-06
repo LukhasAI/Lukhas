@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Features Directory Consolidation - Complete
 
 ## Summary

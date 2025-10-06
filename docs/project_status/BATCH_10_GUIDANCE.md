@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # BATCH 10: Examples & Tests Creation Guide
 
 ## ✅ Completed So Far

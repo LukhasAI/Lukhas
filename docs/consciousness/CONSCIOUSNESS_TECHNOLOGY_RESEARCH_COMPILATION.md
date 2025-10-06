@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 📚 Consciousness Technology Research Compilation
 
 *Comprehensive academic foundation and research backing for LUKHAS AI Constellation Framework and consciousness technology ecosystem*

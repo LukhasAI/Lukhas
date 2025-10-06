@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # ΛHealthcare Guardian — Comprehensive System Guide
 
 ## Poetic Layer (≤40 words)

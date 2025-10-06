@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🔗 LUKHAS Module Dependency Graph
 
 ## Core Dependencies

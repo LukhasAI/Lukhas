@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # README for Jules-08 Brain Orchestration Module
 
 ## Placeholder for Jules-08 brain orchestration documentation

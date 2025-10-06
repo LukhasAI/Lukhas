@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🔗 LUKHAS AI System Integration Report
 
 *Generated: 2025-08-18 02:50:27*

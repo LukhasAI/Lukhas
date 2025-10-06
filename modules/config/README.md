@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Modules Configuration
 
 This directory contains configuration files for the modules module.

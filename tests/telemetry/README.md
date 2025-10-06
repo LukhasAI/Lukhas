@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Authorization Telemetry Smoke Tests
 
 This directory contains comprehensive smoke tests that validate authorization operations properly emit OpenTelemetry spans with the required observability data as specified in Matrix contracts.

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS Authentication System Architecture
 
 ## Executive Summary

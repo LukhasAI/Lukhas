@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🚀 BATCH COCKPIT BRIEF - Claude Code Command Pack
 
 ## TL;DR - One Command Conveyor

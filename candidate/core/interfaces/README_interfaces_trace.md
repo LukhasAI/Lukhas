@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # ΛTRACE (Jules-[01])
 
 This file tracks the processing of Python files within the `core/interfaces/` directory by Jules-[01].

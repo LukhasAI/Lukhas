@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS Public Vocabulary
 
 **Stance-based language for all public-facing use**

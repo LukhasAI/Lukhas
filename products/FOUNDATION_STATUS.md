@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🏗️ Products Foundation Status Report
 
 **Date**: 2025-09-02 (Updated)  

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🤖 LUKHAS AI Integration Strategy
 ## Professional Multi-Modal AI Workflow
 

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 
 What we’ll add
 	•	A tiny tool that:

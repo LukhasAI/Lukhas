@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Api Configuration
 
 This directory contains configuration files for the api module.

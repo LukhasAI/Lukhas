@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🚀 LUKHAS Demo Suite
 
 **Complete end-to-end demonstration of LUKHAS Next Generation Phase 5**

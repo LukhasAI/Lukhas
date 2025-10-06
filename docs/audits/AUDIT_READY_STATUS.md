@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 📋 Repository Audit - Ready for Lint-Fix Workflows
 
 **Status**: ✅ Baseline established, monitoring system ready  

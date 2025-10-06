@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS Module Ownership Assignment Report
 
 ## Suggested Ownership Assignments

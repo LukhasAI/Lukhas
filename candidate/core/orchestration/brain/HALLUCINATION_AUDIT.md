@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Brain/ Hallucination Heuristics Audit
 
 ## Placeholder for Jules-08 hallucination analysis

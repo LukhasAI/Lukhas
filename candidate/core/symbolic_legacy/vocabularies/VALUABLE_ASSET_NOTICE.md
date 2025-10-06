@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # ⚠️ VALUABLE ASSET NOTICE ⚠️
 
 ## 🌟 CRITICAL SYSTEM COMPONENT - DO NOT DELETE 🌟

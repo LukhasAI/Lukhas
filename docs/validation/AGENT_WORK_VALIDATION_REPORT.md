@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 📊 Agent 1 & 2 Work Validation Report
 
 **Date:** August 11, 2025

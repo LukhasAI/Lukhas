@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS Enterprise Tools Suite
 
 Production-grade tools for operating LUKHAS AI at scale, with security, observability, and compliance built-in.

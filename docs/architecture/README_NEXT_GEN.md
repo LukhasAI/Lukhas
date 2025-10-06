@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHΛS NEXT GEN – Symbolic Cognition & Ethical Drift
 
 This phase transitions LUKHΛS from a sealed identity system into a symbolic cognition engine — one that can perceive, adapt, and ethically reflect across time and context.

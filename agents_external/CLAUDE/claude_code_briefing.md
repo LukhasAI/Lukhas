@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🎯 CLAUDE CODE SESSION BRIEFING - LUKHAS
 
 ## 📍 **CURRENT PROJECT STATUS**

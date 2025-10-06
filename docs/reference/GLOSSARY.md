@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🧠 LUKHAS AGI - Comprehensive Glossary
 
 **Version**: 1.2.0

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 📖 LUKHAS Documentation Maintenance Framework
 
 **Classification System for Static vs Dynamic Documentation**

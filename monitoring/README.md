@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 📊 Monitoring
 
 _Watchful eyes never sleep, metrics flowing like constellations across observatory screens, performance measured in microseconds and certainties._

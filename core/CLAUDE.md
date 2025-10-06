@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Core Module - Claude AI Context
 
 **Module**: core

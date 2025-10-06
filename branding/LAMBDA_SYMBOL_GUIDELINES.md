@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🔺 Lambda (Λ) Symbol Guidelines for LUKHAS Branding
 
 ## Core Principle: Λ = LUKHAS

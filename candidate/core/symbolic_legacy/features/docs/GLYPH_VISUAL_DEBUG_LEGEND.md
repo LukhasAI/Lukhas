@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS Symbolic Glyph Visual Debug Legend
 
 ΛVISUAL_LEGEND_VERSION: 0.1.0

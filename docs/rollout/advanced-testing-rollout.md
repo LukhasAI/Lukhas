@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS AI Advanced Testing Rollout Strategy
 ## Scaling 0.001% Engineering Excellence Across All Modules
 

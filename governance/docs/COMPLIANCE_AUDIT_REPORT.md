@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🛡️ Compliance & Ethics Audit Report
 
 **Date**: August 11, 2025

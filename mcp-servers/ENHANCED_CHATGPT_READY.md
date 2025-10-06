@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🚀 LUKHAS Enhanced MCP Servers - Ready for ChatGPT Integration
 
 ## ✅ What's New & Enhanced

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # NIΛS v1 - Non-Intrusive Lambda Symbolic System
 
 ## 🎯 Overview

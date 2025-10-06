@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 Here’s a curated list of **non-mitochondrial biological systems** with high potential to inspire symbolic AGI architectures like **LUKHAS_AGI/Lucas_ID**, organized by functional parallels:
 
 ---

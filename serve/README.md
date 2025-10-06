@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 📦 Serve
 
 _Within the grand architecture of LUKHAS, serve emerges—LUKHAS serve module implementing, purpose refined to essence, functionality elevated to art._

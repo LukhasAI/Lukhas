@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🧠 MΛTRIZ Brain Orchestration Consciousness
 
 > **Distributed cognitive coordination for consciousness mesh formation**

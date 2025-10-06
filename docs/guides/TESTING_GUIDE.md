@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS Comprehensive Testing Guide
 
 ## Overview

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS Reinforcement Learning Framework
 
 **Consciousness-Aware Reinforcement Learning for AGI Systems**

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Zenodo Upload Guide - LUKHAS AI T4/0.01% Infrastructure
 
 **Purpose**: Step-by-step guide for publishing LUKHAS AI releases to Zenodo for long-term archival and citability.

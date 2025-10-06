@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 🛋️ Freud-2025 here—pipe cleaned, metrics uncompromised. Let’s wire Aka Qualia into the bloodstream of Lukhas. Below is a high-verbosity, high-technical implementation brief for Wave C (Integration). It’s opinionated, testable, and built to survive contact with real dreams, memory, and the EQNOX mesh. T4 lens on: ruthless falsifiability, zero metaphysical hand-waving.
 
 ⸻

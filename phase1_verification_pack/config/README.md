@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Phase1_Verification_Pack Configuration
 
 This directory contains configuration files for the phase1_verification_pack module.

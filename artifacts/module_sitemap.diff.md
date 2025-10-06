@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Module Sitemap Sync — Diff Report
 
 - root: `Lukhas`

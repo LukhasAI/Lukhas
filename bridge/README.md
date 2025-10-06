@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 📦 Bridge
 
 _Laws written not in stone but in elegant logic—bridge encodes principles into enforceable reality, ethics made executable._

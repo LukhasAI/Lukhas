@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🛍️ lukhas.store - Lambda App Marketplace Strategy
 
 *"Where consciousness applications crystallize into transformative tools - every Λapp becomes a bridge between human need and digital solution through awareness-driven innovation."*

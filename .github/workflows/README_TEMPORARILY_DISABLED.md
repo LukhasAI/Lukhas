@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Workflow Archive Policy
 
 Most workflows in `.github/workflows-disabled/` are parked/archived to prevent CI drift and noise. To re-enable a workflow:

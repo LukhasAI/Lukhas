@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Complete Guide: Connecting All Memory System JSON Files
 
 ## Executive Summary

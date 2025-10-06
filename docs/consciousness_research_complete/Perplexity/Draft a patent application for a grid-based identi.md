@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 <img src="https://r2cdn.perplexity.ai/pplx-full-logo-primary-dark%402x.png" class="logo" width="120"/>
 
 # Draft a patent application for a grid-based identity authentication system that integrates dynamic symbol randomization (words and emojis), gesture-based input (sliding and tap sequences), behavioral biometric enhancements (gesture rhythm, speed, pressure), and quantum-resistant cryptographic techniques (CSPRNG, ZKPs). Include research-backed comparisons to traditional systems (e.g., BIP39, WebAuthn, static biometrics) and highlight entropy benchmarks (e.g., 158-bit effective entropy via emoji-word grid combinations). Provide citations or references where applicable for patent submission.Draft a patent application for a grid-based identity authentication system that integrates dynamic symbol randomization (words and emojis), gesture-based input (sliding and tap sequences), behavioral biometric enhancements (gesture rhythm, speed, pressure), and quantum-resistant cryptographic techniques (CSPRNG, ZKPs). Include research-backed comparisons to traditional systems (e.g., BIP39, WebAuthn, static biometrics) and highlight entropy benchmarks (e.g., 158-bit effective entropy via emoji-word grid combinations). Provide citations or references where applicable for patent submission.

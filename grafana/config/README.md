@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Grafana Configuration
 
 This directory contains configuration files for the grafana module.

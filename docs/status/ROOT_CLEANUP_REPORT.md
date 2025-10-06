@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 
 # Root Directory Cleanup Report
 Generated: 2025-08-02 20:36:23

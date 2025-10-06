@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🧬 LUKHΛS Phase 10: Persona Similarity Engine - Complete
 
 **Constellation Framework**: ⚛️🧠🛡️

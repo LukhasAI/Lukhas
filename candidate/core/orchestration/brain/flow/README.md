@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # flow
 
 This directory is part of the LUKHAS Cognitive AI project.

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Software Bill of Materials (SBOM) & Vulnerability Summary
 
 ## Executive Summary

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🔬 LUKHAS.XYZ - The Experimental Frontier
 ## Website Architecture & Consciousness Technology Research Laboratory
 

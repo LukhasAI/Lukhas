@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🎬 LUKHAS AI - MVP Demo Scenario
 
 ## Demo Title: "Intelligent Travel Document Analysis"

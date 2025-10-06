@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 📜 LUCAS AGI Compliance Overview – Pre_Final_1 (2025-05-13)
 
 This document outlines the compliance posture of this prototype system of Lucas AGI, focusing on key legal, ethical, and data governance requirements relevant to academic research, prototype deployment, and early-stage partnerships.

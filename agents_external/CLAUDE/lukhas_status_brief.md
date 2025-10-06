@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🎯 LUKHAS STATUS BRIEF FOR CLAUDE CODE
 
 ## 🚀 **CURRENT STATUS: PRODUCTION READY & OPERATIONAL**

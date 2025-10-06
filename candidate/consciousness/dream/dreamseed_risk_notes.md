@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # ⚠️ DREAMSEED Protocol - Risk Assessment & Mitigation
 
 ## Critical Risk Analysis

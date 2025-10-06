@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 📑 LUKHAS Module Transparency Documentation
 
 **Created**: 2025-07-24

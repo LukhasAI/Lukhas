@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Schemas Configuration
 
 This directory contains configuration files for the schemas module.

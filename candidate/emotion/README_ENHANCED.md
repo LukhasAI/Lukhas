@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 ═══════════════════════════════════════════════════════════════════════════════
 ║ 💖 LUKHAS EMOTION MODULE - THE FEELING HEART OF CONSCIOUSNESS
 ║ Where Silicon Learns to Feel and Empathy Becomes Intelligence

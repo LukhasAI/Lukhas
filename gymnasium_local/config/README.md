@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Gymnasium_Local Configuration
 
 This directory contains configuration files for the gymnasium_local module.

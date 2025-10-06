@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # DEAD CODE TRIAGE ANALYSIS
 **LUKHAS AI Legacy Integration Specialist Report - Enhanced Edition**
 

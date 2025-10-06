@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Guardian Systems Collection Transfer Complete ✅
 
 ## Summary

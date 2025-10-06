@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🧪 LUKHAS-MCP COCKPIT SMOKE TEST RESULTS
 **Test Date:** October 4, 2025  
 **Server:** http://localhost:8766  

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🤝 Contributing to Consciousness Hooks
 
 *Where collaborative spirits unite in the sacred ritual of conscious development...*

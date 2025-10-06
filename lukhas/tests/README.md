@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Lukhas Tests
 
 This directory contains the test suite for the lukhas module.

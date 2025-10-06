@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS AI User Guides & Documentation
 
 📚 **User Guides** | **Quick Start** | 🛠️ **Implementation Guides**

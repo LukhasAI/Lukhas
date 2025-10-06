@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🚀 LUKHAS PWM + Lambda Products - Final Workspace Report
 
 **Date:** August 7, 2025

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🌟 OpenAI ↔ LUKHAS 2030: The Complete Collaboration Vision
 ## Augmenting Human Intelligence Through AI Synergy
 

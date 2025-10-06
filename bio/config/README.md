@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Bio Configuration
 
 This directory contains configuration files for the bio module.

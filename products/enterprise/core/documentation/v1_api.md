@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # V1 Endpoints: Identity, Consciousness, and Guardian
 
 This document outlines the v1 API endpoints for core LUKHAS functionalities. These endpoints are designed for high-performance, system-level integrations and may be served by a different application than the core chat and feedback APIs.

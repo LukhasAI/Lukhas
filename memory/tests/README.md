@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Memory Tests
 
 This directory contains the test suite for the memory module.

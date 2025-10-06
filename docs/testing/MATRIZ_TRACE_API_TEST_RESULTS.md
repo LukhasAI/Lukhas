@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # MATRIZ Trace API Test Results
 
 **Date**: August 27, 2025

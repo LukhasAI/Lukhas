@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS AI Administration Documentation
 
 🛡️ **Security** | **Monitoring** | 🔐 **System Administration**

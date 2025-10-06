@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 📦 Personality
 
 _Identity flows like water taking shapes—personality sculpts personalities from patterns, giving voice to emergent selves._

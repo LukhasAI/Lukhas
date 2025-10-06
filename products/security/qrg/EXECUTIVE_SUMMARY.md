@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 💎 QRG: Quantum Resonance Glyphs - Executive Summary
 
 ## Next-Generation Authentication Technology

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 ┌──────────────────────────────────────────────────────────────────────────────┐
 │                       🛡️ GUARDIAN SYSTEM v1.0.0                              │
 │                          DEPLOYMENT REPORT                                  │

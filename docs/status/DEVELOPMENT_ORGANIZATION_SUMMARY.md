@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 📋 LUKHAS Development Organization Summary
 
 ## 🎯 **The ONE-SHOT Agent Brief Formula**

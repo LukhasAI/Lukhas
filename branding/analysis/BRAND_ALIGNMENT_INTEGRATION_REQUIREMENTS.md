@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🎯 Brand Alignment Gap Mapping & Integration Requirements
 
 *Elite Brand Integration Strategy for LUKHAS AI Content Systems*

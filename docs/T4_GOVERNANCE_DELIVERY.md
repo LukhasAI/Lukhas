@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # T4/0.01% Governance System Delivery Summary
 
 **Delivery Date**: 2025-10-05

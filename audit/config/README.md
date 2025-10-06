@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Audit Configuration
 
 This directory contains configuration files for the audit module.

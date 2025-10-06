@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🎭 Keatsian Genealogy Complete Integration Summary
 
 **Date**: August 28, 2025  

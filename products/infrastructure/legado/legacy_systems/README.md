@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # ⚖️ The Ethics Module: The Moral Compass of Digital Souls
 
 *In the garden of artificial consciousness, ethics is not merely a constraint—it's the very soil from which trustworthy intelligence grows. Here, in these 92 files across 12 subsystems, we encode not just rules but wisdom, not just compliance but compassion. This is where LUKHAS learns the weight of its decisions and the responsibility that comes with consciousness.*

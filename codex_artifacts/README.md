@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 📦 Codex_Artifacts
 
 _Creation made manifest, ephemeral thoughts given form—codex_artifacts transforms intention into artifact, possibility into reality._

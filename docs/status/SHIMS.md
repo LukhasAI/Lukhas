@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS AI Compatibility Shims
 Generated: 2025-08-12T19:31:35.511732
 

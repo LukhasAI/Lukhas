@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 <img src="https://r2cdn.perplexity.ai/pplx-full-logo-primary-dark%402x.png" class="logo" width="120"/>
 
 # Evaluate the security, usability, spoofing resistance, and quantum-resilience scores of LUCAS_ID, a biometric-tied, grid-based identity system using dynamic symbol randomization (emojis + words), gesture-based inputs, behavioral biometrics, and quantum-resistant cryptography (CSPRNG, ZKP). Assess the impact of Eulerian consent cycles—where phase shifts (based on e^(ix) oscillations) regulate transaction approvals and consent-tiers.

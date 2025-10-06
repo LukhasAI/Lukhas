@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🌙 Dream Interpreter - Enhanced Edition
 
 A sophisticated dream interpretation application with voice input, multimedia processing, and AI-powered dream generation capabilities.

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Cognitive Systems
 
 Advanced cognitive processing, creativity, and consciousness monitoring.

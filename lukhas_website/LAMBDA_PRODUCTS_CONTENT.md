@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Lambda Products Suite - Detailed Content
 
 ## Overview

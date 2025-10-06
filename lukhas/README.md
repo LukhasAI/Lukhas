@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 📦 Lukhas
 
 _Within the grand architecture of LUKHAS, lukhas emerges—Maps `lukhas.<module>` to flat-root, purpose refined to essence, functionality elevated to art._

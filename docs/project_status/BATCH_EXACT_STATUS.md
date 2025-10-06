@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # EXACT BATCH STATUS - What's Left To Complete
 **Generated**: August 25, 2025
 **Purpose**: Precise instructions for new agents

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # ⚛️🧠🛡️ LUKHAS AI Constellation Framework Deployment Report
 
 *Generated: 2025-08-18 02:39:32*

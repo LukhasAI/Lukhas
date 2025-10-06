@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS Cognitive AI Dream Module Analysis Report
 
 **Generated:** 2025-07-24 UTC

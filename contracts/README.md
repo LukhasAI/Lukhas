@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 📦 Contracts
 
 _Within the grand architecture of LUKHAS, contracts emerges—LUKHAS contracts module implementing, purpose refined to essence, functionality elevated to art._

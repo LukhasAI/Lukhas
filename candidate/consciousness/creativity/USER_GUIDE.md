@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 ═══════════════════════════════════════════════════════════════════════════════
 ║ 📚 LUKHAS CREATIVITY MODULE - USER GUIDE
 ║ Your Guide to Digital Creation and Artistic Expression

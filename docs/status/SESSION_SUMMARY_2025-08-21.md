@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS Repository Normalization Session Summary
 **Date**: 2025-08-21
 **Session Focus**: Repository normalization, MATRIZ v1.1 validation, and lane structure setup

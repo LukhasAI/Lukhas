@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 ═══════════════════════════════════════════════════════════════════════════════
 ║ 📚 LUKHAS MEMORY MODULE - USER GUIDE
 ║ Your Guide to Digital Remembrance and Wisdom

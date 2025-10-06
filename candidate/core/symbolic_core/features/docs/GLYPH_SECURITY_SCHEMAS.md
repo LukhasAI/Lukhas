@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS Symbolic Glyph Security Schemas & Access Policy
 
 ΛSECURITY_SCHEMAS_VERSION: 0.1.0

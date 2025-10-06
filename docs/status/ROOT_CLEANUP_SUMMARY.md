@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Root Directory Cleanup Summary
 
 ## Date: 2025-08-10

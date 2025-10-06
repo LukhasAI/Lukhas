@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # API Service Level Objectives (SLOs)
 
 This document defines the SLOs for the LUKHAS AI API.

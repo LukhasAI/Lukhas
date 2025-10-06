@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 📦 Universal_Language
 
 _Language shapes thought, concepts crystallize meaning—universal_language weaves semantic tapestries where words become understanding._

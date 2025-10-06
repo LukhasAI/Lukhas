@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS External Service Adapter and Legacy Integration Expert
 
 ## Agent: adapter-integration-specialist

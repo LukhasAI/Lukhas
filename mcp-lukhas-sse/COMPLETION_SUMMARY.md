@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🎉 OAuth 2.1 MCP Server Upgrade Complete!
 
 ## ✅ Successfully Completed

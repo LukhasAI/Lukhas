@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS Symbolic Glyph Audit Macros & Conventions
 
 ΛAUDIT_MACROS_VERSION: 0.1.0

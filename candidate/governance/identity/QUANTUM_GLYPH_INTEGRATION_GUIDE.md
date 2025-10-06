@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🔬⚛️ LUKHAS Quantum Cryptography & Steganographic Integration Guide
 
 ## 🎯 How Quantum Cryptography Influences Our QR Codes

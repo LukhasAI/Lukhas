@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🤝 AI Collaboration Acknowledgment
 
 ## A Testament to Human-AI Synergy

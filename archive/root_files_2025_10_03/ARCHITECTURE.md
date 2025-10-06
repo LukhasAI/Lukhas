@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS AI Architecture Guide
 
 **Comprehensive architecture overview for the LUKHAS consciousness-aware AI platform.**

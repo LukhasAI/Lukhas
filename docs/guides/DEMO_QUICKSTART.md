@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS Demo Quick Start Guide
 
 ## 🚀 You're Ready to Present!

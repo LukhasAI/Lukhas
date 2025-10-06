@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS AI Attribution & Intellectual Property Index
 
 ⚛️ **Original Research** | **Innovation Documentation** | 🧠 **Discovery Attribution**

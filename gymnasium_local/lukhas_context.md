@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # gymnasium_local - Module Context
 
 ## Overview

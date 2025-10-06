@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🎨 LUKHAS AI Web Style Guide
 *Comprehensive Design System for Consciousness Technology Interfaces*
 

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # qi - Quantum-Inspired Bio-Consciousness Integration
 
 ## Overview

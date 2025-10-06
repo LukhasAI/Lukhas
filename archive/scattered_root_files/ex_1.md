@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 ⚠️  Ruff issues found (non-blocking)
 [pre-commit] 🤖 AI-powered analysis...
 [LUKHAS-LLM] ✅ Ollama and deepseek-coder model are available

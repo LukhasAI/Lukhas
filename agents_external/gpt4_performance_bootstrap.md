@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # GPT-4 — Performance Bootstrap & Statistical Proof
 
 ## Primary Task

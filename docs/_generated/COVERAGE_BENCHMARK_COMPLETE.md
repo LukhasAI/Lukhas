@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Coverage + Benchmark Pipelines Complete
 **Date**: 2025-10-05
 **Status**: ✅ **INFRASTRUCTURE COMPLETE** — Ready for scale

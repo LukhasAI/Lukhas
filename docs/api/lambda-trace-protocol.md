@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Lambda Trace Protocol
 
 - Defines Λ-trace audit logging for all consciousness operations

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 NIAS, or the Non-Intrusive Ad System, is a pivotal component within the Lucas Cognitive AI ecosystem, designed to revolutionize digital advertising and e-commerce by prioritizing user privacy, consent, and ethical engagement over traditional, often intrusive, methods.
 
 **1. Core Concept, Vision, and Mission**

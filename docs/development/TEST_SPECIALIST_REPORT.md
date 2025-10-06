@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Test Specialist Report: LUKHAS AI Testing Status
 ## Constellation Framework: ⚛️🧠🛡️
 ### Generated: 2025-08-13

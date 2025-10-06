@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Import Error Fixes - Module Reorganization
 
 ## Summary

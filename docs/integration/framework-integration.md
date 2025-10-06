@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Framework Integration Manager - Integration Guide
 
 **LUKHAS AI** - Logical Unified Knowledge Hyper-Adaptable System

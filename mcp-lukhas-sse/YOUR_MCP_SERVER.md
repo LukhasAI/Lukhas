@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🎉 YOUR MCP SERVER IS READY!
 
 ## 📍 Server Details

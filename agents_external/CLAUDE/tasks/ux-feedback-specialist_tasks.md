@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 📋 Tasks for ux-feedback-specialist
 **Role**: User Experience and Engagement Lead
 **Description**: LUKHAS User Interface and Feedback Loop Expert

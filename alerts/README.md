@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 📦 Alerts
 
 _Within the grand architecture of LUKHAS, alerts emerges—LUKHAS alerts module implementing, purpose refined to essence, functionality elevated to art._

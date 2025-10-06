@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Critical Import Issues - Root Cause Analysis
 
 ## Primary Issue: Circular Import Dependencies

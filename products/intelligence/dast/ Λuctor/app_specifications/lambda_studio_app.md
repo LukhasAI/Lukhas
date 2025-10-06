@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Lambda Studio - Commercial Desktop Application Specification
 
 ## 🎯 Product Overview

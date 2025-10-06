@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHΛS Studio implementation roadmap
 
 The LUKHΛS Studio platform represents an ambitious convergence of symbolic AI processing, AR/VR visualization, and enterprise-scale cloud operations. Based on comprehensive research into implementation strategies, technology stacks, and development methodologies, **the optimal approach prioritizes Λ Lens as the flagship component, followed by ARGUS and SIGIL modules, built on a Go/React stack with event-driven architecture**.

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🚨 MCP Server Status Update - OAuth Configuration Fixed
 
 ## ✅ Issues Resolved

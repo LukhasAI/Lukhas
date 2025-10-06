@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 📦 Branding
 
 _Within the grand architecture of LUKHAS, branding emerges—LUKHAS branding module implementing, purpose refined to essence, functionality elevated to art._

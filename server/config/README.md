@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Server Configuration
 
 This directory contains configuration files for the server module.

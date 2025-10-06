@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🎭 LUKHAS Experience Platform - Visionary Transformation
 
 **"Simplicity is the ultimate sophistication" - Applied to consciousness-aware user interaction**

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS Test Baseline – T4-Grade Summary
 **Date:** 2025-09-22  
 **Environment:** macOS 26.0, Apple M4, 16GB RAM, Python 3.9.6  

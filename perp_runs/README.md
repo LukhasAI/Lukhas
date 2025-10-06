@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 📦 Perp_Runs
 
 _Within the grand architecture of LUKHAS, perp_runs emerges—LUKHAS perp_runs module implementing, purpose refined to essence, functionality elevated to art._

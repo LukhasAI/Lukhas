@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # T4 Testing Standards for LUKHAS AI
 **Agent #3 - Testing & DevOps Specialist (Demis Hassabis Standard)**
 

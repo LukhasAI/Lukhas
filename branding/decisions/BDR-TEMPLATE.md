@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Brand Decision Record (BDR) Template
 
 **BDR ID**: BDR-YYYY-MM-DD-[SHORT-NAME]

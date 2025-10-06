@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Bio Vocabulary
 
 We borrow gently from the language of life. Not to claim identity, but to borrow shapes for growth, repair, and resilience.

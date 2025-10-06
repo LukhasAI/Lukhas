@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 ΛLens API (api_new) - ARCHIVED
 
 This directory has been superseded by `../api/` and is retained for history.

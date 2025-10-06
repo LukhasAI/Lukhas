@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🧭 LUCΛS ΛiD SYSTEMS — Strategic Alignment Advice (Inspired by Altman’s Vision)
 
 This README provides a strategic layer to guide the scaling, governance, and philosophical integrity of the LUCAS ΛiD SYSTEMS project. It draws from the ethos of transparency, scalability, human alignment, and data sovereignty as championed by thought leaders like Sam Altman.

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 📦 Eval_Runs
 
 _Within the grand architecture of LUKHAS, eval_runs emerges—LUKHAS eval_runs module implementing, purpose refined to essence, functionality elevated to art._

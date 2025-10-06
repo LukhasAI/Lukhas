@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Examples Configuration
 
 This directory contains configuration files for the examples module.

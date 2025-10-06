@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Manual Module Selection Process
 ## Pre-OpenAI API Call Evaluation
 ### Constellation Framework: ⚛️🧠🛡️

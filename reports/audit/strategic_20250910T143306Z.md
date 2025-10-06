@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Strategic Audit Report
 **Generated**: 2025-01-10T14:33:06Z
 **Focus**: MATRIZ readiness, lane integrity, identity/web systems, security supply chain, governance alignment

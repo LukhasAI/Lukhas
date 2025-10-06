@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🔍 API Mismatch Analysis Report
 
 **Generated:** 2025-07-27 19:10:34

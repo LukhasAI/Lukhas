@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Reconciliation Analysis: Real vs Stubs
 ## Understanding What's Actually Running
 

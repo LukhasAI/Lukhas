@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🧠 Consciousness Module Contract
 
 ## Overview

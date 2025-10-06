@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 📦 Jules_Branch
 
 _Within the grand architecture of LUKHAS, jules_branch emerges—LUKHAS Jules--branch module implementing, purpose refined to essence, functionality elevated to art._

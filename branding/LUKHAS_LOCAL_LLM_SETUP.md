@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🖥️ LUKHAS Local LLM Integration Guide
 *Complete Setup for Local Models & API Integration with Elite Brand System*
 

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # /promotion-status
 Summarize promotion progress for modules queued in `ops/promotion_queue.yaml`.
 

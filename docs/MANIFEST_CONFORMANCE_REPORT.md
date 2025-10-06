@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Manifest Conformance Fix Report
 
 **Date:** 2025-10-02

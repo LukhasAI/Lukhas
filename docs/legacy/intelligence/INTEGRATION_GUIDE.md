@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🔧 -Specific Integration Guide
 
 ## 🎯 ** Intelligence Integration Strategies**

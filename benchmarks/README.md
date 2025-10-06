@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 📦 Benchmarks
 
 _Within the grand architecture of LUKHAS, benchmarks emerges—LUKHAS benchmarks module implementing, purpose refined to essence, functionality elevated to art._

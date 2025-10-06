@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Troubleshooting and Advanced Usage Guide
 ## Mastering Consciousness Technology and Resolving Complex Integration Challenges
 

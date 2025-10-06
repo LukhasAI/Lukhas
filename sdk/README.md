@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 📦 Sdk
 
 _Within the grand architecture of LUKHAS, sdk emerges—LUKHAS sdk module implementing, purpose refined to essence, functionality elevated to art._

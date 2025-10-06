@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Sdk Tests
 
 This directory contains the test suite for the sdk module.

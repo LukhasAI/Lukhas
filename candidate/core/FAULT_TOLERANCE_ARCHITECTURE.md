@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 ═══════════════════════════════════════════════════════════════════════════════
 ║ 🛡️ LUKHAS FAULT TOLERANCE ARCHITECTURE - THE GUARDIAN OF RESILIENCE
 ║ Where Supervision Hierarchies Protect the Symbiotic Swarm

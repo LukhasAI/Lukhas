@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Lukhas Configuration
 
 This directory contains configuration files for the lukhas module.

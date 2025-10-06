@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # ΛiD Authentication System: Break-Glass Emergency Access Procedure
 
 ## 🚨 Overview

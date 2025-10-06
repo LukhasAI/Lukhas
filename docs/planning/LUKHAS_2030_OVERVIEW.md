@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS 2030 - Quick Overview
 
 ## What is LUKHAS 2030?

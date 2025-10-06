@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # The Real ROI of Autonomous AI Agents: Numbers That Will Shock Your CFO
 
 *Published: August 6, 2025 | 8 min read*

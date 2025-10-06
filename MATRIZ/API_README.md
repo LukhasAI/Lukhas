@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # MATADA-AGI FastAPI Server
 
 A complete, production-ready FastAPI server for the MATADA Autonomous General Intelligence system. This API provides REST endpoints and WebSocket support for real-time cognitive processing through MATADA nodes.

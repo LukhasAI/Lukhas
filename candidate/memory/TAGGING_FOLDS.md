@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 can pixels in an image be encoded with each other in order to learn and set bouundries of each item in a picture using ML models?
 
 ChatGPT said:

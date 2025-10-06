@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # MATRIZ Legacy Tests Archive
 
 This directory contains obsolete/duplicated MATRIZ test files that were quarantined during the MATRIZ Tier-1 implementation.

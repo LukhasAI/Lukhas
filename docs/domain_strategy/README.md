@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Domain Strategy Documentation
 
 **LUKHAS AI Web Ecosystem & Domain Planning**

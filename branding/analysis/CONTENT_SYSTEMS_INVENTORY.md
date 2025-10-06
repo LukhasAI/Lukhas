@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🤖 LUKHAS AI Content Creation Systems Inventory
 
 *Comprehensive audit of existing content generation, social media, and automation systems for elite brand integration*

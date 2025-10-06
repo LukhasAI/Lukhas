@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS AI Connector Access Guide
 
 Guide for AI assistants and automated systems accessing the LUKHAS repository.

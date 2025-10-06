@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Delegation_Reports Tests
 
 This directory contains the test suite for the delegation_reports module.

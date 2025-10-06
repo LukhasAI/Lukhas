@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Strategic Deep Search Analysis - MATRIZ Integration Readiness
 
 **ANCHOR TAG**: `pre-matriz-freeze-20250911T044009Z`  

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🔍 Documentation Classification Analysis
 
 **Analysis Date**: August 25, 2025

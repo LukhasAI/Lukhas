@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🎯 LUKHAS Action Plans - Post GPT-5 Audit
 *Generated from comprehensive GPT-5 audit analysis*
 

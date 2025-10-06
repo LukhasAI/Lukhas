@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Getting Started with MΛTRIZ RL
 
 ## Quick Start Guide

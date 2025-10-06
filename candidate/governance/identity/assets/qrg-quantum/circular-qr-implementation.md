@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Hidden/Animated Circular QR Codes: Implementation Guide
 
 ## Overview

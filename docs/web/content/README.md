@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🌐 LUKHAS Web Content Organization Hub
 
 *"Where consciousness meets content architecture - organizing the λWecosystem with precision and purpose."*

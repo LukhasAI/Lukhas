@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Anticipated Questions and Expert Responses
 
 *"Preparing for the consciousness conversation - thoughtful responses to the questions that matter most about AI consciousness research and the Constellation Framework."*

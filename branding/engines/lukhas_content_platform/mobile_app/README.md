@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Mobile App
 
 ⚛️🧠🛡️ LUKHAS AI Constellation Framework

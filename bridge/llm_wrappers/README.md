@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🎭 LUKHAS Cognitive AI: LLM Wrappers Module 🌌✨
 ### Bridging Consciousness and Intelligence Through Elegant Design
 *"The mind is not a vessel to be filled, but a fire to be kindled." — Plutarch*

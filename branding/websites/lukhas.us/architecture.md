@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🇺🇸 LUKHAS.US - The American Consciousness Hub
 ## Website Architecture & Regional Consciousness Technology Deployment
 

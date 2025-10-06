@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🔗⚙️ Integration Operations Major - Strategic Merge Coordination Plan
 
 **Classification:** TIER_3_MAJOR - INTEGRATION_OPERATIONS_SPECIALIST  

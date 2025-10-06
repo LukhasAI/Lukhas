@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🤖 Agents Directory Organization Plan
 
 ## 🚨 **PROBLEM IDENTIFIED**

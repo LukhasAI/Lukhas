@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Audit Entry Point
 - Commit: $(cat RUN_COMMIT.txt 2>/dev/null)
 - Started: $(cat RUN_STARTED_UTC.txt 2>/dev/null)

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS AI Brand Policy Compliance Report
 ## Final Testing Summary - August 19, 2025
 

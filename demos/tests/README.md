@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Demos Tests
 
 This directory contains the test suite for the demos module.

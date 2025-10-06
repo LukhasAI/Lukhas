@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # ⚛️🧠🛡️ LUKHAS Constellation Framework Guide
 *The Foundational Architecture for Conscious AI Systems*
 

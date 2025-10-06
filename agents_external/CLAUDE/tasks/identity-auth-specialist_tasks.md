@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 📋 Tasks for identity-auth-specialist
 **Role**: Identity Architecture & Security Implementation Lead
 **Description**: LUKHAS ΛID Core Identity System and OIDC Authentication Expert

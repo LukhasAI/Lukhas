@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🚀 LUKHAS Hidden Power Activation Plan
 ## Transforming Existing Tools into Revolutionary Capabilities
 

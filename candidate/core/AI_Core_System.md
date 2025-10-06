@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS Core System
 
 This directory contains the core components of the LUKHAS symbolic cognition prototype, serving as the central integration point for all subsystems.

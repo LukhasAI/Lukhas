@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS Test Suite Status Dashboard
 
 > Auto-generated: 2024-09-14 | Next Review: 2024-09-21

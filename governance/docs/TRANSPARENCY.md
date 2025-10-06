@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🔍 LUKHAS AI Transparency Report
 
 > **Last Updated**: August 11, 2025

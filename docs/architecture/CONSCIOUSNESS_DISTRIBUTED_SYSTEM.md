@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Consciousness Distributed System Analysis
 ## Constellation Framework: Identity-Consciousness-Guardian Network
 

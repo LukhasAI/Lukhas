@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 ═══════════════════════════════════════════════════════════════════════════════
 ║ 🛠️ LUKHAS ETHICS MODULE - DEVELOPER GUIDE
 ║ Engineering Conscience into Consciousness

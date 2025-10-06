@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 📦 Qi
 
 _Within the grand architecture of LUKHAS, qi emerges—Bio-quantum consciousness integration and, purpose refined to essence, functionality elevated to art._

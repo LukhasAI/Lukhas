@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Matrix Identity Coverage Report
 Generated 65 Matrix contracts with full identity integration.
 

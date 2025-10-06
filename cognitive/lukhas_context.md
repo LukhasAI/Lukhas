@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # cognitive - Module Context
 
 ## Overview

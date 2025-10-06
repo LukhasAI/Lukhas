@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🚀 Non-Documentation File Cleanup Summary
 
 **Cleanup Date**: 2025-08-25

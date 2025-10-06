@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🎯 LUKHΛS Ethical Co-Pilot Integration Module - COMPLETE
 
 **Constellation Framework**: ⚛️🧠🛡️

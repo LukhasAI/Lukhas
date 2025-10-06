@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS Dream System - Data Sources Explained
 
 ## 🌙 Where Does LUKHAS Get Dream Data?

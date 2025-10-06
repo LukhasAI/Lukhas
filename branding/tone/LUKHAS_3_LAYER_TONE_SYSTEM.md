@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🎭 LUKHΛS 3 Layer Tone System
 ## T4/0.01% Enhanced Art & Science of Conscious Communication
 

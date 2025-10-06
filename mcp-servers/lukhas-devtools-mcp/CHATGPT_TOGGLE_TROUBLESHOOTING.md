@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🚨 ChatGPT Connector Toggle Won't Turn ON - Solution Guide
 
 ## 🔍 **Root Cause Analysis**

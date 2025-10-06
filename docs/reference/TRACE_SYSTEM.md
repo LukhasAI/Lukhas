@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS AI Trace & Audit System
 
 Complete cryptographic audit trail system for the LUKHAS AI platform with visual exploration capabilities.

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 📦 LUKHAS Lambda Products - Complete Package Manifest
 
 ## ✅ Package Contents (Everything Included)

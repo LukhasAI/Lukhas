@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # T4 Diagnostic Baseline Report
 
 **Generated**: 2025-08-26 02:10:19

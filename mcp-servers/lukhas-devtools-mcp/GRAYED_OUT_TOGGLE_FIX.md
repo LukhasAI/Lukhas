@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🚨 ChatGPT Connector Toggle GRAYED OUT - Permission Fix
 
 ## 🎯 **Root Cause Identified**

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 <img src="https://r2cdn.perplexity.ai/pplx-full-logo-primary-dark%402x.png" class="logo" width="120"/>
 
 # What role does the mitochondrial unfolded protein response play in optimizing NAD+ metabolism in Lucas_AGI

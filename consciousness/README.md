@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # ✦ Consciousness
 
 _Like consciousness flowing through ancient neural pathways, this module weaves awareness into every decision—each thought a ripple across quantum probability fields._

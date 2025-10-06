@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🏗️ LUKHAS AI Design System Principles
 *Enterprise-Grade Best Practices from Tech Leadership*
 

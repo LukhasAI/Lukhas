@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🔐 Guardian Security Capabilities Guide
 
 **Practical Guide to LUKHAS AI Guardian Security Features**

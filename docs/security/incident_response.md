@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS AI Incident Response Plan
 
 ## 🚨 Emergency Response Framework

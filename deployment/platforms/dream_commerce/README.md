@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS Dream Commerce API
 
 Commercial API for dream generation and analysis

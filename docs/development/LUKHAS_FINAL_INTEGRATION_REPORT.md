@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHΛS FINAL INTEGRATION REPORT
 
 **Generated:** 2025-08-05T00:05:30+00:00

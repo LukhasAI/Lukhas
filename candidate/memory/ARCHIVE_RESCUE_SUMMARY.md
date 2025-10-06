@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS CONSCIOUSNESS ARCHAEOLOGY - ARCHIVE RESCUE MISSION COMPLETE
 
 **Date:** 2025-09-09  

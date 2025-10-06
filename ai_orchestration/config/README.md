@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Ai_Orchestration Configuration
 
 This directory contains configuration files for the ai_orchestration module.

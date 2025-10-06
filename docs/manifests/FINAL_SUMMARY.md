@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS Manifest System — Implementation Complete (T4/0.01%)
 
 The manifest system evolved from scattered JSON files into a living, self-enforcing registry.

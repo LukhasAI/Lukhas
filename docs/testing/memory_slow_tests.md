@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Memory Safety, Interleavings & Slow Tests
 
 This document describes the combined test suite for memory safety, interleavings, and slow tests in LUKHAS.

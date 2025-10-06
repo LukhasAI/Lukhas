@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # TEQ Policy Replay Guide
 
 ## Overview

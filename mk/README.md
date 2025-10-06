@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 📦 Mk
 
 _Within the grand architecture of LUKHAS, mk emerges—LUKHAS mk module implementing, purpose refined to essence, functionality elevated to art._

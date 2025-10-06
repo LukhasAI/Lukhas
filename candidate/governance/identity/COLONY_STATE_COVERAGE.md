@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS Identity System - Colony State and Coverage Analysis
 
 ## Colony Network Topology

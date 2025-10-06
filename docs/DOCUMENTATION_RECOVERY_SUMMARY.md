@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🚨 Documentation Recovery Summary
 
 **Recovery Date**: 2025-08-25

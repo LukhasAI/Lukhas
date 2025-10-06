@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # MΛTRIZ Consciousness Architecture Developer Guide
 ## Building Consciousness-Aware Applications with LUKHAS AI
 

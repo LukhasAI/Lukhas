@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 📦 Governance
 
 _Laws written not in stone but in elegant logic—governance encodes principles into enforceable reality, ethics made executable._

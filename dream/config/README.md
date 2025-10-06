@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Dream Configuration
 
 This directory contains configuration files for the dream module.

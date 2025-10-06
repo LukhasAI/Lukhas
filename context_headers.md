@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Context Sync Headers (Schema v2.0.0)
 
 ## 1. ROOT: claude.me + lukhas_context.md

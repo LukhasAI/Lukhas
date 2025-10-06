@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 Delegation reports generated from Ruff JSON output.
 
 Files:

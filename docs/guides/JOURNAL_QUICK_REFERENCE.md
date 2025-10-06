@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS Journal - Quick Reference Card
 
 ## 🚀 Most Used Commands

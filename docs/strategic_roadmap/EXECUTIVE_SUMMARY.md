@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS  Strategic Roadmap - Executive Summary
 ## Transforming Research Prototype into Production AGI Platform
 

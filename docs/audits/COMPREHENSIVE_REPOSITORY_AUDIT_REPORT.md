@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS AI Repository Comprehensive Audit Report
 
 **Date**: August 27, 2025  

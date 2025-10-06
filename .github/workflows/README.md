@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🎯 LUKHAS T4/0.01% Excellence CI/CD Pipeline
 
 This directory contains the production-grade CI/CD workflows for LUKHAS AI, implementing T4/0.01% excellence standards.

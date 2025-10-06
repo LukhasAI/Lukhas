@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🧬 How AI Core Systems Benefit from Lambda Products Integration
 
 ## Executive Summary

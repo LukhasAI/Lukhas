@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # ✅ ChatGPT Connector - READY FOR USE!
 
 ## 🎉 Status: OPERATIONAL

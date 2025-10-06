@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🌟 LUKHAS Trinity Communication Framework
 
 ## The Three-Layer Approach to AI Communication

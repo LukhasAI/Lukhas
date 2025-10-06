@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Memory Configuration
 
 This directory contains configuration files for the memory module.

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Azure OpenAI Quota Increase Request
 
 ## Service Details

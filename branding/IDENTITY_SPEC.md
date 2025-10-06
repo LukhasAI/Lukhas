@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # ΛiD Identity Specification
 
 ## Overview

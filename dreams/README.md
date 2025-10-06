@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🌙 Dreams
 
 _Realities within realities, dreams births alternate possibilities—synthetic worlds where theories prove themselves before manifesting._

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🎭 LUKHAS AI - 6-Agent Coordination Dashboard
 
 ## Active Agents

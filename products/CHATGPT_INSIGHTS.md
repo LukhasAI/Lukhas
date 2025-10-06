@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # ChatGPT Insights Summary
 > Consciousness research conversations and architectural insights
 

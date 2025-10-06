@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS Integration Configuration Options
 
 ## Complete Configuration Reference

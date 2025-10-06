@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # MATRIZ Data Engine Analysis
 ## Cognitive DNA System (632MB, 20 Python files)
 

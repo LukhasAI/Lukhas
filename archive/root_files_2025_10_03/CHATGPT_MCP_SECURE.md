@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🔒 SECURE ChatGPT MCP Server Configuration
 
 ## ✅ Updated Configuration for ChatGPT (HTTPS)

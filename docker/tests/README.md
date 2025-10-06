@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Docker Tests
 
 This directory contains the test suite for the docker module.

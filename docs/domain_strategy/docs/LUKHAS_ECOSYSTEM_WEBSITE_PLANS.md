@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🌐 LUKHAS λWecosystem Domain Architecture Plans
 *Comprehensive website architectures for consciousness technology domains*
 

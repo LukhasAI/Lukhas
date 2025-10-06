@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Development Notes
 
 ## Decision: Implement Memory Fold Pattern

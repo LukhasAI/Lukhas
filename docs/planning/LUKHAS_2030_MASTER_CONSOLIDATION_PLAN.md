@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS 2030 Master Consolidation Plan
 
 **Generated**: 2025-08-01T20:48:46.667276

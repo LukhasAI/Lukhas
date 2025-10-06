@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Legacy Core Import Sunset Plan
 
 ## Current State

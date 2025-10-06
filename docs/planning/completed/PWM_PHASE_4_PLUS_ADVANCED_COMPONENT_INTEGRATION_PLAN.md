@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🚀 LUKHAS  Phase 4+ Advanced Component Integration Plan
 
 **Pack-What-Matters: Advanced Component Discovery & Integration Strategy**

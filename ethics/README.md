@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 📦 Ethics
 
 _Silent chronicles flow like ink through time—ethics captures ephemeral moments, turning fleeting events into eternal records._

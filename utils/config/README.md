@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Utils Configuration
 
 This directory contains configuration files for the utils module.

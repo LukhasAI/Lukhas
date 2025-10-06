@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS Neuroplastic Architecture & Hybrid Component Map
 
 Generated: 2025-08-02

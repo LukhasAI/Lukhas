@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Observability Module
 
 Complete observability stack for LUKHAS with OpenTelemetry tracing, audit trails, and adaptive feedback.

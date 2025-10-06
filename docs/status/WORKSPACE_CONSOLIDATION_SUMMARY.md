@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS Workspace Consolidation Summary
 
 **Final Cleanup and Organization - August 2024**

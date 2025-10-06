@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🎨 Stance-Based Vocabulary Preambles & Brand Headers
 
 **Purpose**: Pre-written text snippets that encode the Keatsian stance without author attribution  

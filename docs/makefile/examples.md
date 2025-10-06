@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS Makefile Examples & Best Practices
 
 ## Fragment Development Examples

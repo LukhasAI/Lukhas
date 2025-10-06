@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🚀 LUKHAS Brand System API Reference
 *Complete Technical Documentation for Elite Brand Intelligence System*
 

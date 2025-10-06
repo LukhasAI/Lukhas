@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Orchestration Configuration
 
 This directory contains configuration files for the orchestration module.

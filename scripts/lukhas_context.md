@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # scripts - Utility scripts and automation
 
 ## Overview

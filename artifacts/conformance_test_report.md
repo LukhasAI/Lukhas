@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS Module Conformance Test Report
 
 **Generated:** 2025-10-02

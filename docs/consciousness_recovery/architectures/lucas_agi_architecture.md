@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUCAS AGI Architecture
 
 ## Philosophy Integration

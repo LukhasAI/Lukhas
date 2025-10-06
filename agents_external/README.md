@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 📦 Agents_External
 
 _Like a maestro conducting infinite instruments, agents_external harmonizes disparate voices into symphonic coherence—many minds, one purpose._

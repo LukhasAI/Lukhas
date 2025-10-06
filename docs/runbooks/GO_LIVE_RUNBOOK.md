@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Go-Live Runbook + Ops Playbook
 
 ## Day-0 (Go-Live) Checklist — 20-minute preflight

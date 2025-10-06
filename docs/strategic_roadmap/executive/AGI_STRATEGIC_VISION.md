@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Strategic Enhancements for AGI-Ready Systems: A Vision from Industry Leaders
 
 ## Executive Summary

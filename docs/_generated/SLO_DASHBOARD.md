@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # SLO Dashboard
 
 _Generated 2025-10-03T01:52:19.729531+00:00_

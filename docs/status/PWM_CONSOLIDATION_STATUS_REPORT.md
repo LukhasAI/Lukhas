@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # PWM Code Consolidation Status Report
 
 ## Overview

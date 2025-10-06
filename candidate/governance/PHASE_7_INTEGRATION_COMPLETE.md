@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🛡️ LUKHAS AI Phase 7: ΛiD Authentication Governance Integration
 
 ## Phase 7 Complete: Registry Updates and Policy Integration

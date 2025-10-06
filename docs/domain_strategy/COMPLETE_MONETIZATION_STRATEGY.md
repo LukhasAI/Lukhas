@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 💰 LUKHAS AI Complete Monetization Strategy
 
 *Comprehensive commercialization plan integrating ΛUCTOR framework, Constellation Framework technology, and academic-backed consciousness technology for $10M ARR target*

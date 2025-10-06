@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🚀 LUKHAS Ecosystem Deployment Status
 
 ## ✅ Completed Assets (Ready for Deployment)

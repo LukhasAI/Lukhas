@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🚀 MCP FileSystem Server Ultimate - OAuth Protected
 
 **Comprehensive AI Development Toolkit for ChatGPT-5** with enterprise-grade OAuth authentication.

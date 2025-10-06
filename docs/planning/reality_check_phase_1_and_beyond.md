@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 Below is everything for Claude Code needs—ready to copy-paste—to begin Phase 1 immediately, then proceed to Phases 2–3.
 
 ⸻

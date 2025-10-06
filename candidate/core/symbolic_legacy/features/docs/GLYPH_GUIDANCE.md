@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS Symbolic Glyph Guidance Handbook
 
 ΛGUIDANCE_VERSION: 1.0.0

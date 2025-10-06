@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS Context Bus and Multi-AI Orchestration Expert
 
 ## Agent: context-orchestrator-specialist

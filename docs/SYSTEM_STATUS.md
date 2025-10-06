@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🎯 LUKHAS MODULE SCHEMA SYSTEM - OPERATIONAL STATUS
 
 ## 🟢 SYSTEM STATUS: FULLY OPERATIONAL

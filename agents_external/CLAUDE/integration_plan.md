@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🔗 LUKHAS Integration Plan - Connecting Agent Code to Main System
 
 ## Current Status

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🚨 LUKHAS Recovery Plan
 
 **Emergency Response and System Recovery Procedures**

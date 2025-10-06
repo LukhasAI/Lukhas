@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🛡️ LUKHAS Guardian System Integration Report
 ## Remediator Agent v1.0.0 - Symbolic Immune System Deployment
 

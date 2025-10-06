@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # What is LUKHAS? — Complete Website Content Structure
 
 ## Hero Section

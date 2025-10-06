@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Tests_New Configuration
 
 This directory contains configuration files for the tests_new module.

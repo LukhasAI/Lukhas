@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # mcp-server - Module Context
 
 ## Overview

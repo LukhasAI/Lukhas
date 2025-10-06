@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # MΛTRIZ Examples
 
 This directory contains example MΛTRIZ node configurations for validation testing.

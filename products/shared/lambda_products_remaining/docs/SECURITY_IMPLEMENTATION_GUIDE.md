@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🔐 Lambda Products Security Implementation Guide
 ## Complete Security, Compliance & Performance Documentation
 

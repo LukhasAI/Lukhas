@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Lukhas Cognitive Core System - INTERNAL README
 
 ## Overview

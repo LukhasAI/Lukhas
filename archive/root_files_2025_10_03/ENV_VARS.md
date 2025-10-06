@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS Environment Variables
 
 Comprehensive catalog of all environment variables used throughout the LUKHAS AI system.

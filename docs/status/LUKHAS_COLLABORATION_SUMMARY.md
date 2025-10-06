@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS Collaboration Package Summary
 
 ## What We've Created

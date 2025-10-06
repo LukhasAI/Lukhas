@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Memory Ecosystem Analysis
 ## Fold-Based Memory with Consciousness Integration
 

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🩹 LUKHΛS Symbolic Healer - Implementation Complete
 
 **Constellation Framework**: ⚛️🧠🛡️

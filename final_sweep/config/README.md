@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Final-Sweep Configuration
 
 This directory contains configuration files for the final-sweep module.

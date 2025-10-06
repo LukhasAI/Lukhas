@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHΛS ΛI Brand Assets & Implementation Guide
 
 ## 🌟 Project Overview

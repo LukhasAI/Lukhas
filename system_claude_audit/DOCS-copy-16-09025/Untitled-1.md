@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
  Neutral Baseline Deep Search (separate Pro chat)
 
 ChatGPT Pro (paste as first message)

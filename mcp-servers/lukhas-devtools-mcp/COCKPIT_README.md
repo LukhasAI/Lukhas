@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 ## LUKHAS MCP Cockpit (Zero-dep)
 
 Open `cockpit.html` against a running server (same origin) to watch:

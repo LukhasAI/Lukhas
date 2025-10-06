@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # ☁️ ΛNimbus - Multi-Cloud Manager
 
 **Unified Interface for AWS, GCP, Azure, and More**  

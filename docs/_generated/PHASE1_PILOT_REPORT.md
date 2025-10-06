@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Phase 1 Pilot Complete: T4/0.01% Module Documentation Standardization
 
 **Execution Date**: 2025-10-05

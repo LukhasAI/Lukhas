@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Dreamweaver_Helpers_Bundle Configuration
 
 This directory contains configuration files for the dreamweaver_helpers_bundle module.

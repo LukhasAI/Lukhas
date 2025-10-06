@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Syntax Recovery Runbook - Mass Breakage Recovery Procedures
 
 ## Overview

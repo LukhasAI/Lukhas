@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Brain Module Trace
 
 This document provides a symbolic narrative and drift map of the `brain` module.

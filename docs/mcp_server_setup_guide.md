@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🤖 LUKHAS MCP Server Configuration Guide
 
 ## 🎯 MCP Server Reconfiguration for Claude Desktop Integration

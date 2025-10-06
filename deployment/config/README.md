@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Deployment Configuration
 
 This directory contains configuration files for the deployment module.

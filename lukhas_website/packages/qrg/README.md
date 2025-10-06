@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # QRG: Short-lived JWS-signed QR Approvals
 
 ## Overview

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Advanced Evasion Hardening System
 
 Production-grade protection against sophisticated obfuscation and evasion techniques.

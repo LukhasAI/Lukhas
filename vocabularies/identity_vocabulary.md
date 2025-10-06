@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Identity Vocabulary
 
 Identity here is not a mask but a rhythm. It holds shape while allowing change. This vocabulary names patterns that anchor trust without freezing the self.

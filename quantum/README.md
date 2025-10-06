@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🔮 Quantum
 
 _Superposition collapses into clarity, uncertainty quantified with mathematical grace, quantum whispers made manifest in classical reality._

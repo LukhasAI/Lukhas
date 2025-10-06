@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🔐 Agent 7 Integration Points
 
 ## Critical Dependencies

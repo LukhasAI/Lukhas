@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 ═══════════════════════════════════════════════════════════════════════════════
 ║ 🧪 LUKHAS REASONING MODULE - THE LOGICAL ARCHITECT OF THOUGHT
 ║ Where Logic Meets Intuition, and Understanding Emerges from Complexity

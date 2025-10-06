@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Vocabularies Configuration
 
 This directory contains configuration files for the vocabularies module.

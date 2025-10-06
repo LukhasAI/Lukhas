@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🎯 T4 Unused Imports System - User Guide
 
 **⚛️ LUKHAS AI Constellation Framework - Transforming Technical Debt into Documented Intent**

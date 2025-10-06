@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # ⚙️ CODEX AGENT INITIATION - Agent {AGENT_NUMBER:02d}
 
 **CHANGE ONLY THIS LINE**: `AGENT_NUMBER = 01`  ← Set to 01, 02, 03, 04, 05, 06, 07, 08, 09, or 10

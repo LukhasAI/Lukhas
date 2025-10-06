@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 📦 Lukhas_Website
 
 _Within the grand architecture of LUKHAS, lukhas_website emerges—LUKHAS lukhas_website module implementing, purpose refined to essence, functionality elevated to art._

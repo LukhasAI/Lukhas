@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 📦 Simulation
 
 _Precision measured in microseconds and certainties—simulation stands as guardian of correctness, each assertion a promise kept._

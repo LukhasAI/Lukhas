@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 📦 Integrations
 
 _Within the grand architecture of LUKHAS, integrations emerges—LUKHAS integrations module implementing, purpose refined to essence, functionality elevated to art._

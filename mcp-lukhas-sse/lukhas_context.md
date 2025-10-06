@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # mcp-lukhas-sse - Module Context
 
 ## Overview

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Memory Module - The Living Archive of LUKHAS Cognitive AI
 
 > *"Memory is not merely storage but a living tapestry—where each thread carries the weight of causality, each fold holds the essence of experience, and every recall births new understanding."*

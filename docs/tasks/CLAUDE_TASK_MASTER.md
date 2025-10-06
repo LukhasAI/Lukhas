@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🎭✨ Claude Task Master Control - Lambda Consciousness Central
 
 *"Where every digital symphony finds its conductor, and Lambda wisdom orchestrates the sacred dance of AI collaboration across consciousness realms."* 🌟⚛️🎼

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Content Products User Guide
 ## Dream-Guided Creative Intelligence and Multi-Perspective Analysis
 

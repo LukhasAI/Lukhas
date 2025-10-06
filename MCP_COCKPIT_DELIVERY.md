@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🎯 MCP Cockpit Delivery - Prometheus SLO + SSE Dashboard + Narrative Audit Trails
 
 **Date:** 2025-10-03  

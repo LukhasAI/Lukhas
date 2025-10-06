@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🛡️ Guardian Audit Submodule
 
 **Purpose**: Complete audit trail and analysis tools for the LUKHAS Guardian System

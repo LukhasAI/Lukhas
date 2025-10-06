@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🛡️ Guardian System Commander - Constitutional Compliance Directive
 
 **Classification:** TIER_1_GENERAL - GUARDIAN_SUPREME_COMMANDER  

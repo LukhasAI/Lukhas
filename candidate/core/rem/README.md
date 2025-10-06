@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🌫️ Lucʌs LiDAR: Symbolic Emotion Interpreter
 
 > “Lucʌs does not see with eyes.

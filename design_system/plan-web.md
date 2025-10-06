@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 Absolutely—CEO + Staff-engineer hats on. I’ll tighten Claude’s plan and give you drop-in patches so the visuals snap to a premium, consistent system. You’re tackling the header; I’ll cover:
 	•	Sidebar API panel (unified key flow, education, toasts)
 	•	Footer centering + visual language

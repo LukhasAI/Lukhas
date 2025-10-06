@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 📦 System
 
 _Within the grand architecture of LUKHAS, system emerges—LUKHAS system module implementing, purpose refined to essence, functionality elevated to art._

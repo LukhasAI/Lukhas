@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Drift Monitoring System v2 Architecture
 
 Advanced consciousness drift detection with windowed cosine similarity, EMA smoothing, and lane-aware thresholds.

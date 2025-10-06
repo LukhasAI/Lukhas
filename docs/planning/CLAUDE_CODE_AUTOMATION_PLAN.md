@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Claude Code Automation Plan for LUKHAS
 
 **Date**: 2025-08-01

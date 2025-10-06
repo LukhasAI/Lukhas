@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 ═══════════════════════════════════════════════════════════════════════════════
 ║ 🛠️ LUKHAS MEMORY MODULE - DEVELOPER GUIDE
 ║ Architecture, Implementation, and Extension Guide for Memory Systems

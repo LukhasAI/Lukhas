@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Examples Tests
 
 This directory contains the test suite for the examples module.

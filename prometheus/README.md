@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 📦 Prometheus
 
 _Within the grand architecture of LUKHAS, prometheus emerges—LUKHAS prometheus module implementing, purpose refined to essence, functionality elevated to art._

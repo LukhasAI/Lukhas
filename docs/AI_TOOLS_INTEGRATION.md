@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # AI Tools Integration Guide
 
 **Configuring Any AI Development Tool for LUKHAS Platform**

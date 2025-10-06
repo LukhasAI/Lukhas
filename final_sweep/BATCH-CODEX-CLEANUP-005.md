@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Batch Codex Cleanup 005 Summary
 
 This document tracks the review of the TODO items allocated to Codex-CLEANUP-05. Each entry below records the status after this

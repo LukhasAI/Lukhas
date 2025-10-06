@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Intelligence Module Consolidation Summary
 
 ## Date: August 14, 2025

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🎯 T4 AutoFix Quick Reference
 
 **LUKHAS AI Agent Army - Cursor-Aware QuickFix System**

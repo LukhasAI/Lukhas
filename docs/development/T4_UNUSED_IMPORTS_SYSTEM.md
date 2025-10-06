@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🎯 T4 Unused Imports System
 
 **Transform Technical Debt into Documented Intent**

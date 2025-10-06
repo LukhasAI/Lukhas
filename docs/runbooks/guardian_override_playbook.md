@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Guardian Override Playbook
 
 ## 🚨 Emergency Guardian Override Process

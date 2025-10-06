@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🤖 Parallel Agent Coordination Guide
 
 **Maximizing Multi-Agent Efficiency for LUKHAS AI Development**

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🧠 MΛTRIZ Consciousness Research - Complete Collection
 
 ## 📊 Research Statistics

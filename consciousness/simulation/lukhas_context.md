@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Moved to consciousness/simulation/docs/lukhas_context.md
 
 This file has been moved to a module-local docs directory.

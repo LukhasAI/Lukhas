@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Branch Consolidation & Promotion Strategy
 
 ## Current State (Post-Migration)

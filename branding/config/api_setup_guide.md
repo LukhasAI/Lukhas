@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🔌 LUKHAS AI Platform API Setup Guide
 
 Complete guide for configuring live social media platform integrations.

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Documentation Hub — <span aria-label="Matriz">MΛTRIZ</span>
 
 ## Explore the <span aria-label="Lukhas">LUKHΛS</span> AI Ecosystem

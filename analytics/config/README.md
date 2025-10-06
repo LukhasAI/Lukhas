@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Analytics Configuration
 
 This directory contains configuration files for the analytics module.

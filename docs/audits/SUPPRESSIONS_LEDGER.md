@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 <!-- Auditable ledger for temporary lint/test waivers. Each entry must include: file, rule, justification, approver, date, and duration. -->
 # SUPPRESSIONS LEDGER
 

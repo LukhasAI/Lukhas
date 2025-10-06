@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS  Diagnostic Issues Resolution Guide
 
 ## Problem Summary

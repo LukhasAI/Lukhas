@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Ollama Security Integration for LUKHAS AI
 
 ## Overview

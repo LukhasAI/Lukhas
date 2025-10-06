@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🔍 ChatGPT MCP Diagnostic Report - "search action not found"
 
 ## ✅ **All 5 Critical Tests PASSING**

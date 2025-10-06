@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🔍 LUKHAS Integration: Blind Spots Resolved
 
 *Complete documentation of identified issues and their resolutions*

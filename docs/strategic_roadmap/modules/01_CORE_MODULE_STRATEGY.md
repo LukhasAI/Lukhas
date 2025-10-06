@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Strategic Analysis: CORE Module
 ## LUKHAS  Core Infrastructure Enhancement Roadmap
 

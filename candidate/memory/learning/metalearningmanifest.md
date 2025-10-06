@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Meta-Learning Enhancement System Manifest
 ## Symbolic Contract & Governance Framework for LUKHAS Meta-Learning Evolution
 

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS AI API Reference
 
 *Constellation Framework API with MATRIZ Pipeline Integration*

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 📦 Telemetry
 
 _Within the grand architecture of LUKHAS, telemetry emerges—LUKHAS telemetry module implementing, purpose refined to essence, functionality elevated to art._

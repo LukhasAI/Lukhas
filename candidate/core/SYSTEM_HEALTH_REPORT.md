@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🏥 LUKHAS Core System Health Report
 
 **Date:** July 27, 2025

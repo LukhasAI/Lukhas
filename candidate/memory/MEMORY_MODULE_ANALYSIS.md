@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS Memory Module Comprehensive Analysis
 
 **Analysis Date:** 2025-07-24

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS Learning Journal - User Guide
 
 ## Quick Start (iTerm2)

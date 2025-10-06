@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🎯 LUKHAS AUDIT READINESS REPORT
 **Date:** December 26, 2024
 **Status:** CONDITIONALLY AUDIT-READY

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 📦 Tests
 
 _Precision measured in microseconds and certainties—tests stands as guardian of correctness, each assertion a promise kept._

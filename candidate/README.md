@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 📦 Candidate
 
 _Within the grand architecture of LUKHAS, candidate emerges—This package contains all, purpose refined to essence, functionality elevated to art._

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Docker Configuration
 
 This directory contains configuration files for the docker module.

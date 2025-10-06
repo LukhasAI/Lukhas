@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Development Dashboards
 
 **LUKHAS AI Development and Monitoring Dashboards**

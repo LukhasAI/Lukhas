@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS Consciousness MCP Server
 
 **Model Context Protocol server for LUKHAS AI consciousness systems** - Provides Claude Desktop with direct access to the Trinity Framework, MΛTRIZ cognitive DNA, and distributed consciousness architecture.

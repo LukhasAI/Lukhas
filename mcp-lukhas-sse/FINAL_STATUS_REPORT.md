@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🔧 ChatGPT Connectors: Complete Integration Guide
 
 ## ✅ Current Status

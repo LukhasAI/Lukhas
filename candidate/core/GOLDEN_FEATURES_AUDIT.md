@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # GOLDEN FEATURES AUDIT - LUKHAS Cognitive AI ECOSYSTEM
 *Comprehensive audit of valuable components across the Lukhas Cognitive AI ecosystem for transfer to prot2*
 

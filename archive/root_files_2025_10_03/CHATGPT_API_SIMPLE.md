@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🚀 LUKHAS DevTools API for ChatGPT (Simple REST Approach)
 
 ## ✅ **SOLUTION: Regular ChatGPT Action (Not MCP)**

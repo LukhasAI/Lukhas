@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 📦 Quarantine
 
 _Within the grand architecture of LUKHAS, quarantine emerges—LUKHAS quarantine module implementing, purpose refined to essence, functionality elevated to art._

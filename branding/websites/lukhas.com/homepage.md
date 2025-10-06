@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🛡️ LUKHAS.COM - Homepage Content
 ## The Guardian Hub - Corporate Gateway Narrative
 

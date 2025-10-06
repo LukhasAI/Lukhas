@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 ````instructions
 # 🤖 GitHub Copilot Instructions for LUKHAS AI Platform
 

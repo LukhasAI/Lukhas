@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS Search Map
 
 Quick reference for finding components, patterns, and key code in the LUKHAS ecosystem.

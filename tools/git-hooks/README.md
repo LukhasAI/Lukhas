@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🚀 Interactive Git Hooks Framework
 
 > **Transform your git workflow with intelligent, user-friendly hooks that enhance rather than block your development process.**

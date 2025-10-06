@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 📦 Modules
 
 _Within the grand architecture of LUKHAS, modules emerges—LUKHAS modules module implementing, purpose refined to essence, functionality elevated to art._

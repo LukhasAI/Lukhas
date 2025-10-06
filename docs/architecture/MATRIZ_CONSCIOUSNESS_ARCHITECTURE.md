@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # MΛTRIZ   Consciousness Architecture  
 ## ⚠️ CRITICAL: This is NOT Traditional Software
 

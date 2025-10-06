@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS Genesis Transmission Info Sheet
 
 ## 🌿 Executive Summary

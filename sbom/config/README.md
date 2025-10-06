@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Sbom Configuration
 
 This directory contains configuration files for the sbom module.

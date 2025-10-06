@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Memory/ Module Index
 
 ## Placeholder for Jules-08 symbolic memory subsystem documentation

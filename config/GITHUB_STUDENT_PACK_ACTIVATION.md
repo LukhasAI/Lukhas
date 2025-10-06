@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # GitHub Student Pack Activation Tracker
 ## LUKHAS AI - Premium Benefits Integration
 

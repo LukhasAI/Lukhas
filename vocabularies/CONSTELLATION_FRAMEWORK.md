@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🌌 The Constellation Framework
 
 **LUKHAS AI Architecture Evolution: From Constellation to Constellation**

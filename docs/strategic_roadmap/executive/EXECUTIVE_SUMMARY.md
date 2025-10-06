@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS  Executive Summary
 ## Dual-Track AGI Development & OpenAI Alignment Strategy
 

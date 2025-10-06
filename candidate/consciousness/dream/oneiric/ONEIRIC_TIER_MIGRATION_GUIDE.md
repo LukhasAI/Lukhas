@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Oneiric Dream Engine - Unified Tier Migration Guide
 
 ## Overview

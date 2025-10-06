@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Component Migration Log
 
 ## Component: memory-system

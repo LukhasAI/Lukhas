@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # DRIFT_LOG
 
 This file logs drift events detected in the LUKHAS brain.

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # OpenAI Phase 6 Review Checklist
 
 **Project**: LUKHΛS Phase 6 - Quantum Consciousness

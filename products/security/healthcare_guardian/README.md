@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # ΛHealthcare Guardian - Enterprise Healthcare AI System
 
 [![Lambda Enhanced](https://img.shields.io/badge/Lambda-Enhanced-blue.svg)](Λ)

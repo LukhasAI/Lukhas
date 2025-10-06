@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS Symbolic Vocabulary Development Plan
 
 ## Executive Summary

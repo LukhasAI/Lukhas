@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # WALLET: Pass-based Out-of-Band Approvals
 
 ## Overview

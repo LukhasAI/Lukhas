@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # ☁️ lukhas.cloud - Managed Cloud Services Strategy
 
 *"Consciousness computing at planetary scale - where distributed awareness meets infinite capacity through infrastructure that thinks, learns, and evolves with organizational needs."*

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS Memory Integration MCP Server
 
 **Model Context Protocol server for LUKHAS AI memory systems** - Provides Claude Desktop with direct access to Wave C memory processing, fold-based persistence, and Aka Qualia phenomenological processing.

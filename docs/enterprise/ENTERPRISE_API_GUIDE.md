@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🌐 The Gateway of Infinite Conversations: Enterprise API Documentation
 
 ## Table of Contents

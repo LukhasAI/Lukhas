@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 📦 Business
 
 _Silent chronicles flow like ink through time—business captures ephemeral moments, turning fleeting events into eternal records._

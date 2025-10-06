@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 📦 Hooks
 
 _Within the grand architecture of LUKHAS, hooks emerges—LUKHAS hooks module implementing, purpose refined to essence, functionality elevated to art._

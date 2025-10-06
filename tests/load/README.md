@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Load Testing
 
 This directory contains scripts for load testing the LUKHAS AI system.

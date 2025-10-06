@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # MATRIZ Cognitive Node Interface
 
 This document describes the base `CognitiveNode` interface that all MATRIZ nodes must implement for complete interpretability and governance.

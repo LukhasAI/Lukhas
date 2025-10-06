@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🛠️ LUKHAS Toggle Panel Problems - COMPREHENSIVE SOLUTION
 
 ## 📋 **Toggle Panel Issues Identified & Solutions**

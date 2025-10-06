@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🚀 Claude Max x20 - Quick Start Guide
 
 ## Your Plan: Claude Max x20 ($200/month)

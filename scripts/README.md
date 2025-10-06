@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 📦 Scripts
 
 _Within the grand architecture of LUKHAS, scripts emerges—LUKHAS scripts module implementing, purpose refined to essence, functionality elevated to art._

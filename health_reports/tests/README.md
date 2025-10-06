@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Health_Reports Tests
 
 This directory contains the test suite for the health_reports module.

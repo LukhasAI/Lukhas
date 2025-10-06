@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 📚 LUKHAS Documentation Hub
 
 This directory contains all documentation for the MΛTRIZ distributed consciousness system, including architecture specifications, research collections, audit reports, and development guides.

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🔗 Orphaned Module Connection Plan
 ## Constellation Framework: ⚛️🧠🛡️
 ### Date: 2025-08-13

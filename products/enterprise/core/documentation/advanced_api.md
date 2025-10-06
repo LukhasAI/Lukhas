@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Advanced API: The MΛTRIZ and Beyond
 
 This section is for developers looking to harness the full power of the LUKHAS platform. It covers the advanced, esoteric endpoints for dream generation, symbolic exchange, and direct interaction with the MΛTRIZ cognitive architecture.

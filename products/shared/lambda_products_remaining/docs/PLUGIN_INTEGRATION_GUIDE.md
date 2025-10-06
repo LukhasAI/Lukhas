@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🌌 LUKHAS Plugin Integration Guide
 
 *A complete guide to the modular AI ecosystem using the LUKHAS 3-Layer Tone System*

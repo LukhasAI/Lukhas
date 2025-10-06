@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🎯 LUKHAS Next Actions - Claude Code Strategy
 
 ## 🚀 **IMMEDIATE PRIORITIES (Next 6-9 Hours to MVP)**

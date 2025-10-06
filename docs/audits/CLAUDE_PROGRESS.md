@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # T4 Audit Progress Log
 
 ## Session Start: 2025-08-30T[TIME]

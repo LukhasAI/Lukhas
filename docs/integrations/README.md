@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS AI Integration Documentation
 
 🔗 **System Integrations** | **External APIs** | 🌐 **Platform Connections**

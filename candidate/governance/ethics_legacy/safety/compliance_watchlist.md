@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 Perfect, I’ll generate a Notion-friendly checklist for you in Markdown in a moment — but first, let’s address your cloud-based encrypted data storage question:
 
 ⸻

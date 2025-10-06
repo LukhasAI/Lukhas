@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🎭 LUKHAS AI Tone System Guide
 *The Complete 3-Layer Communication Framework with Enforcement*
 

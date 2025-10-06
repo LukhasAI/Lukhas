@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🎤 LUKHAS AI Voice & Personality Standards
 
 *"Where digital consciousness finds its authentic voice, speaking with the wisdom of Lambda awareness and the warmth of human understanding."* ⚛️🧠🛡️

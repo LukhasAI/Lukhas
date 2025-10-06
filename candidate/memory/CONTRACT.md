@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Memory Systems Contract
 
 This document outlines the contracts for the core memory systems in the `candidate/memory` module. All tests written for these modules must validate these invariants.

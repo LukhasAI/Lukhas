@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Ai_Orchestration Tests
 
 This directory contains the test suite for the ai_orchestration module.

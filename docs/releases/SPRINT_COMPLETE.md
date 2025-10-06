@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🚀 LUKHAS  Sprint Complete
 
 ## Sprint Summary (August 10, 2025)

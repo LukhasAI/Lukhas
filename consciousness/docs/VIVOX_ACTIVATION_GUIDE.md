@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # VIVOX Module Activation Guide
 
 ## Status: ✅ Successfully Promoted to Production

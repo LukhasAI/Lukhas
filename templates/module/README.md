@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # {{module_title}}
 
 > Status: {{status}} · Constellation: {{constellation}} · Lane: {{lane}}

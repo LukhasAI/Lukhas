@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Documentation Map
 _Generated 2025-10-05T11:49:30.573163+00:00_
 

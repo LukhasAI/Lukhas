@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 
 
 # DNA-Inspired Cryptographic Architectures for Symbolic AGI Systems

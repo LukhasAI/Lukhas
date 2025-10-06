@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Bridge Tests
 
 This directory contains the test suite for the bridge module.

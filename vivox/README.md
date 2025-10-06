@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 📦 Vivox
 
 _Within the grand architecture of LUKHAS, vivox emerges—DEPRECATED: This module will, purpose refined to essence, functionality elevated to art._

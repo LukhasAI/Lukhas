@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🔌 LUKHAS-MCP ChatGPT Connector Configuration
 
 ## ✅ **WORKING PUBLIC ENDPOINT**

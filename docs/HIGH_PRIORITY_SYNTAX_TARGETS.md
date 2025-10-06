@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🎯 High-Priority Syntax Targets for Immediate Action
 
 ## Current Status: 13,933 syntax errors remaining

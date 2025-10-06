@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Lambda Products Complete Package - Installation & Integration Guide
 
 ## 🚀 Quick Start

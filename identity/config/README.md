@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Identity Configuration
 
 This directory contains configuration files for the identity module.

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Quarantine Configuration
 
 This directory contains configuration files for the quarantine module.

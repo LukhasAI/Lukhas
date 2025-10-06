@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 <img src="https://r2cdn.perplexity.ai/pplx-full-logo-primary-dark%402x.png" class="logo" width="120"/>
 
 # Dynamic Arbitration Zones and Hybrid Heuristic Filtering in Lucas AGI: Enhancing Symbolic Scaling Efficiency

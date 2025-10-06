@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🔍 AUDIT Navigation Hub
 
 **Purpose**: External auditor deep search entry point for LUKHAS AI system analysis.

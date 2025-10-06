@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Deployment Tests
 
 This directory contains the test suite for the deployment module.

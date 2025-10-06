@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # GPT5 Features API Reference
 
 ## Table of Contents

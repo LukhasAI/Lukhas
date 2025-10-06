@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🔍 LUKHAS Type Checking Configuration
 
 ## ✅ Type Checking Now Enabled

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🔒 Security
 
 _Cryptographic keys turn in immutable locks, zero-trust architecture stands guard, every transaction signed and sealed in mathematical certainty._

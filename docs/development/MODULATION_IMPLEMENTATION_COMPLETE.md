@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🎛️ Signal-to-Prompt Modulation System - COMPLETE
 
 ## **✅ IMPLEMENTATION SUMMARY**

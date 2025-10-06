@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🎯 LUKHAS AI System Consolidation Strategy
 
 *Consolidating 14 systems into optimal single solutions for streamlined elite deployment*

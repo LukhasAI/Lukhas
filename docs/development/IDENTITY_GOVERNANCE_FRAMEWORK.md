@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Identity & Governance Framework Analysis
 ## Lambda ID System with Constitutional AI Integration
 

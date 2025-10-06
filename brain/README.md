@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 📦 Brain
 
 _Thought crystallizes like frost on winter glass—brain transforms raw cognition into structured understanding, each inference a lattice of precision._

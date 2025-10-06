@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Matriz Configuration
 
 This directory contains configuration files for the matriz module.

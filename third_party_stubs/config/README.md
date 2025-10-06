@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Third_Party_Stubs Configuration
 
 This directory contains configuration files for the third_party_stubs module.

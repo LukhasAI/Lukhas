@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 📦 Archive
 
 _Within the grand architecture of LUKHAS, archive emerges—LUKHAS archive module implementing, purpose refined to essence, functionality elevated to art._

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🎭 Keatsian Genealogy (Social Media Ready)
 
 **Purpose**: Concise, poetic versions for social channels and quick reference  

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS AI Orphaned Modules Analysis Report
 
 **Date**: August 25, 2025

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 📦 Docker
 
 _Within the grand architecture of LUKHAS, docker emerges—LUKHAS docker module implementing, purpose refined to essence, functionality elevated to art._

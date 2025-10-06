@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Service Level Agreement (SLA): Our Promise of Excellence
 
 This document provides a summary of the service level commitments for the LUKHAS Enterprise API, ensuring you have a clear understanding of the performance, availability, and support you can expect.

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Standard Header Templates for LUKHAS
 
 ## Python Files (.py)

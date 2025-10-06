@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🎭 LUKHAS AI Branding System - Complete Consolidation
 
 **Generated**: 2025-08-28T14:58:44.809926  

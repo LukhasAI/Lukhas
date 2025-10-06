@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🖥️ Terminal Freezing Resolution
 
 **LUKHAS AI Development Environment - Terminal Issue Resolution**

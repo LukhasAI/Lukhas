@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS ΛID Core Identity System and OIDC Authentication Expert
 
 ## Agent: identity-auth-specialist

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS Constellation Framework MCP Server
 
 **Model Context Protocol server for the Constellation Framework** - Provides Claude Desktop with direct access to the complete 8-Star Constellation including Identity (Anchor), Consciousness (Processing), Guardian (Protection), Memory, Vision, Bio, Dream, and Quantum systems.

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Simulation Lane PR
 
 > Purpose: changes to `consciousness/simulation/*`, related tests, schemas, or Dream Inbox.

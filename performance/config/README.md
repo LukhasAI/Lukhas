@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Performance Configuration
 
 This directory contains configuration files for the performance module.

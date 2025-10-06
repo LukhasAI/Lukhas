@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Copilot — Glue Code, Typing & Edge Case Testing
 
 ## Primary Task

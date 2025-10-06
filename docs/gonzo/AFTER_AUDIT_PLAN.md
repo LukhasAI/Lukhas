@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 Absolutely—here’s a tight,audits land” plan that turns results into shipped fixes without chaos.
 
 1) Ingest → Merge → Plan (same day)

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🛡️ LUKHAS Guardian System
 
 ## Remediator Agent v2.0.0 + Enhanced Reflection Layer v2.0.0

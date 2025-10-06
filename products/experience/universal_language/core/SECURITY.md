@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Universal Language Security & Privacy Documentation
 
 ## 🔒 Privacy-First Architecture

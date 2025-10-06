@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🔍 File Deletion Safety Verification Report
 
 **Date:** August 11, 2025

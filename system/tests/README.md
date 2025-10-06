@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # System Tests
 
 This directory contains the test suite for the system module.

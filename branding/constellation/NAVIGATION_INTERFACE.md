@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🌌 Constellation Navigation Interface
 
 **Interactive Star Map Implementation Guide**

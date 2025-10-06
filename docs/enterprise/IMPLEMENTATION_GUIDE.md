@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🚀 The Architect's Blueprint: Enterprise Implementation Guide
 
 ## Table of Contents

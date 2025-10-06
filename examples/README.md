@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 📦 Examples
 
 _Within the grand architecture of LUKHAS, examples emerges—LUKHAS examples module implementing, purpose refined to essence, functionality elevated to art._

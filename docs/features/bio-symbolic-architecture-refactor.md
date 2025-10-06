@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Bio-Symbolic Architecture Refactor
 
 **LUKHAS AI** - Logical Unified Knowledge Hyper-Adaptable System

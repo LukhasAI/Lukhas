@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # observability - Module Context
 
 ## Overview

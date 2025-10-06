@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Keatsian Genealogy — Social Media Fragments
 
 *Poetic, condensed versions for public channels*

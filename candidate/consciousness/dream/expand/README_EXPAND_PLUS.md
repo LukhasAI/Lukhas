@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Dream EXPAND++ Modules
 
 ![Dream EXPAND++](https://github.com/USER/REPO/actions/workflows/dream-expand-ci.yml/badge.svg)

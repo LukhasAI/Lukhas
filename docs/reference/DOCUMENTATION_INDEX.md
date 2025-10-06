@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS  Documentation Index
 
 Welcome to the LUKHAS  documentation. This index provides quick access to all major documentation resources.

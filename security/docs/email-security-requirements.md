@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Email Security Requirements for ΛiD Authentication System
 
 ## 📧 Overview

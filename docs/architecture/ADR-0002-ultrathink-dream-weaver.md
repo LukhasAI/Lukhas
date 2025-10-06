@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # ADR-0002: "Ultrathink" Dream Weaver Architecture
 
 **Status**: Proposed

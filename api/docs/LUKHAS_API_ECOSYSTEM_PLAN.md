@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS API Ecosystem - Bridging Innovation with Industry
 
 ## Vision

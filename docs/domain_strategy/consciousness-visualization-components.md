@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🌌 Consciousness Visualization Components - Technical Specification
 
 *Advanced web components for LUKHAS Constellation Framework consciousness visualization*

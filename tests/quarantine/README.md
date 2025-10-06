@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 This directory is reserved for known flaky tests.
 
 Policy:

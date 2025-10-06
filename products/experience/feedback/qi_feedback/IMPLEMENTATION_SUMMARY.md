@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS Feedback System Implementation Summary
 
 ## ✅ Implementation Complete

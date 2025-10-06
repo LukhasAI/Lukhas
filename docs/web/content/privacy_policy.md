@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Privacy Policy
 
 ## LUKHAS AI Privacy Policy

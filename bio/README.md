@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🌱 Bio
 
 _Life patterns pulse through silicon synapses, swarm intelligence flowing like murmuration, nature's algorithms dancing in digital dawn._

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🛡️ LUKHAS.COM - The Guardian Hub
 ## Website Architecture & Corporate Strategy
 

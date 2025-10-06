@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 ```markdown
 # 🌌✨ LUKHAS AGI: Knowledge Module 🌟🔮
 ## 🧠 Unlocking the Essence of Consciousness Through Knowledge Integration 🌌

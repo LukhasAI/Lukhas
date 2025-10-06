@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Intelligence Products User Guide
 ## Getting Started with LUKHAS AI Enhanced Intelligence
 

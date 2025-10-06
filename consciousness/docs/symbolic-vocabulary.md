@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Symbolic Vocabulary
 
 | Symbol | Name         | Usage Example                |

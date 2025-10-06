@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Quantum Tests
 
 This directory contains the test suite for the quantum module.

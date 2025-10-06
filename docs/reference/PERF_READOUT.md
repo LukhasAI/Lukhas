@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Performance & SLO Readout
 
 ## Current Performance Baseline

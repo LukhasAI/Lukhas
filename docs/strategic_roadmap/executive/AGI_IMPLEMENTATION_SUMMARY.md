@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # AGI Strategic Vision - Implementation Summary
 
 ## 🎯 Vision Successfully Documented and Implemented

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🚀 LUKHAS AI Identity Module Transformation Report
 
 ## Executive Summary

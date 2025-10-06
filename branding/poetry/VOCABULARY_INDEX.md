@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS AI Unified Poetry & Vocabulary System
 
 ## Directory Structure

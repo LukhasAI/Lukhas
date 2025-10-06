@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🚀 Cognitive Enhancement Project - COMPLETE
 
 **Project Status**: ✅ **COMPLETED**  

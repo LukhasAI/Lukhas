@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # system_claude_audit - Module Context
 
 ## Overview

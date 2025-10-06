@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🔒 LUKHAS AI Security Automation Guide
 
 ## Overview

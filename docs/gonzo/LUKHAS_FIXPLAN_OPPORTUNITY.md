@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS FIXPLAN OPPORTUNITY
 
 Phase 0 — Build the map before the fix

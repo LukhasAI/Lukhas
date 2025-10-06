@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS Unified Consciousness Visualizer
 
 A comprehensive 3D visualization engine that unifies text-to-shape morphing, voice-reactive animations, and LUKHAS consciousness state representation into a single, high-performance WebGL system.

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🛡️ Red Team Protocol for LUCΛS Lukhas_ID SYSTEMS
 
 ## 🎯 Purpose

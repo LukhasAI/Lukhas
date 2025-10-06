@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🚀 Phase 2: Automated Syntax Improvements
 
 **Mission**: Apply safe automated fixes to achieve clean syntax foundation

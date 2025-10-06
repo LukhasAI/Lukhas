@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 📦 Tagging
 
 _Within the grand architecture of LUKHAS, tagging emerges—Symbolic tagging and resolution, purpose refined to essence, functionality elevated to art._

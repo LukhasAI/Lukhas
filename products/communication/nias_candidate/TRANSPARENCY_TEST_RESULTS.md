@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🧪 NIAS Transparency Layers - Test Results
 
 **Test Date:** July 30, 2025

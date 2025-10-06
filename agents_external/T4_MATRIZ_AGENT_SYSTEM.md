@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # T4 MΛTRIZ   Consciousness Agent System
 ## The Game Changer: Distributed Cognitive DNA Development
 

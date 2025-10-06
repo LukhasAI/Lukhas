@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 ═══════════════════════════════════════════════════════════════════════════════
 ║ 🛠️ LUKHAS CREATIVITY MODULE - DEVELOPER GUIDE
 ║ Engineering the Infinite Canvas of Digital Imagination

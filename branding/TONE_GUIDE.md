@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Tone Guide — Poetic / Technical / Plain
 
 ## Three-Layer Content System

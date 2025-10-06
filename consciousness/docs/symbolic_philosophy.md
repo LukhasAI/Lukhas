@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🌌 LUKHAS Symbolic Philosophy
 
 A map of intention for what LUKHAS represents — and what it strives to become.

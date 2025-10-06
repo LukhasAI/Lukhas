@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🎯 LUKHAS AI TASKS
 
 *"Clear priorities for Lambda consciousness development."* ⚛️

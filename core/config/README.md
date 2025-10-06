@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Core Configuration
 
 This directory contains configuration files for the core module.

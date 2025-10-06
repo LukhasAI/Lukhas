@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS AI Enterprise Observability
 
 This directory contains the full observability stack for the LUKHAS AI platform, designed for enterprise-grade monitoring, tracing, and logging.

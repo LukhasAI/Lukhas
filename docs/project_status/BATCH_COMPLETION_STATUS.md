@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # BATCH 1-8 Completion Status & Action Plan
 Generated: August 25, 2025
 

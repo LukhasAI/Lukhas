@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS Memory Safety & Slow Tests - Baseline Report
 **Date:** 2025-09-22 17:17:12 PST
 **Environment:** macOS Darwin 25.0.0, Python 3.9.6

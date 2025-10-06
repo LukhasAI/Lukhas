@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # T4/0.01% Excellence Audit Framework
 
 Complete audit and certification framework for LUKHAS AI T4/0.01% excellence validation.

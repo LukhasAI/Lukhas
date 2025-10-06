@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Test_Results Configuration
 
 This directory contains configuration files for the test_results module.

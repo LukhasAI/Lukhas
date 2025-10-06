@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS Constellation Framework Issue Detection & T4/0.01% Compliance
 
 Claude Code should automatically detect and flag these issues with T4/0.01% implementation standards:

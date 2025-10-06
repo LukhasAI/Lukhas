@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🌀 DREAMSEED Protocol - Proposed Implementation Structure
 
 ## Executive Summary

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHΛS Hybrid Session Key Implementation Report
 
 ## 🔐 Overview

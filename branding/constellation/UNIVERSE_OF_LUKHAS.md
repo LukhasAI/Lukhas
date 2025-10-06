@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🌌 The Expanded Universe of LUKHAS
 
 **Complete Branded Cosmos: Constellation → Universe → Sky Map**

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Reasoning Tests
 
 This directory contains the test suite for the reasoning module.

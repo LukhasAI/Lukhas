@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🔒 LUKHAS AI Secrets Rotation Guide
 
 **Purpose**: Step-by-step procedures for rotating all secrets and API keys in LUKHAS AI systems.

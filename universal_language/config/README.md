@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Universal_Language Configuration
 
 This directory contains configuration files for the universal_language module.

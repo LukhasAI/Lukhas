@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Claude_Army Configuration
 
 This directory contains configuration files for the CLAUDE_ARMY module.

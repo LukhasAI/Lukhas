@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # DocuTutor Plugin for Lukhas AGI
 
 ## Overview

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🔄 Symbolic System Migration Guide
 
 **Date: 2025-07-27**

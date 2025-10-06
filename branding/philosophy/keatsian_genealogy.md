@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Keatsian Genealogy Appendix 2.0
 
 *Clear, poetic, reflective — grounding in culture and science*

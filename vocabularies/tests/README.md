@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Vocabularies Tests
 
 This directory contains the test suite for the vocabularies module.

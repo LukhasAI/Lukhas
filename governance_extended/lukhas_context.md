@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # governance_extended - Module Context
 
 ## Overview

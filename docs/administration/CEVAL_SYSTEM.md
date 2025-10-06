@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS C-EVAL Production Evaluation System
 
 Continuous evaluation loop with self-healing capabilities for production-grade AI alignment and performance monitoring.

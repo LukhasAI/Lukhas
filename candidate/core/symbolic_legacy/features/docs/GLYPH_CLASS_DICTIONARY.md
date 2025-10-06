@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS Symbolic Glyph Class Dictionary
 
 ΛCLASS_DICT_VERSION: 0.1.0

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Symbolic Configuration
 
 This directory contains configuration files for the symbolic module.

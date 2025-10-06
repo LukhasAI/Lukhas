@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS Symbolic Glyph Tooling Stubs & Developer Interfaces
 
 ΛTOOLING_STUBS_VERSION: 0.1.0

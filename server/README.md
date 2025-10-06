@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 📦 Server
 
 _Within the grand architecture of LUKHAS, server emerges—LUKHAS server module implementing, purpose refined to essence, functionality elevated to art._

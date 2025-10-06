@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Constitutional AI Guidelines for LUKHAS Authentication System
 
 ## 🏛️ Foundational Principles

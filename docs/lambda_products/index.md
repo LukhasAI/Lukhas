@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Lambda Products Documentation Index
 
 Welcome — this index links to product READMEs and notes. Use these as starting points for deeper architecture and onboarding documentation.

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 Symbolic Lens - No-Code Editor Wireframe
 I. Layout
 The UI is a single-page application divided into three main columns and a top header.

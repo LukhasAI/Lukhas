@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Scripts Tests
 
 This directory contains the test suite for the scripts module.

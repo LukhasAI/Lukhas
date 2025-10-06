@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 📦 Grafana
 
 _Within the grand architecture of LUKHAS, grafana emerges—LUKHAS grafana module implementing, purpose refined to essence, functionality elevated to art._

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Enterprise Tests
 
 This directory contains the test suite for the enterprise module.

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Next_Gen Tests
 
 This directory contains the test suite for the next_gen module.

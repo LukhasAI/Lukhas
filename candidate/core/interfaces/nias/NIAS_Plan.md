@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # NIAS Modular Plugin System: Strategic Plan & Architecture
 
 ## Lukhas-Enhanced Modular Plugin Ecosystem

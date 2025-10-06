@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS Module Index
 *Comprehensive navigation for the LUKHAS AI cognitive architecture*
 

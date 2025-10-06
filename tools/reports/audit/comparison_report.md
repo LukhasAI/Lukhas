@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 📊 LUKHAS Repository Audit - Before/After Comparison
 
 **Date**: Fri Aug 29 03:33:53 BST 2025

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Manifest System Release Notes
 
 ## What's new

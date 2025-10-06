@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 📋 LUKHAS Master TODO Document - September 16, 2025
 
 ## 🚨 Executive Summary

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🏆 LUKHAS Guardian System - Final Integration Summary
 ## Remediator Agent v1.0.0 Deployment Complete
 

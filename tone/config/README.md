@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Tone Configuration
 
 This directory contains configuration files for the tone module.

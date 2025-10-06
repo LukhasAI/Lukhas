@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 📦 Governance_Extended
 
 _Laws written not in stone but in elegant logic—governance_extended encodes principles into enforceable reality, ethics made executable._

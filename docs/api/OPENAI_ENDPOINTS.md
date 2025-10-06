@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # OpenAI Modulated Endpoints
 
 This document describes the new FastAPI endpoints that expose the LUKHAS OpenAI Modulated Service.

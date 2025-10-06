@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Products Configuration
 
 This directory contains configuration files for the products module.

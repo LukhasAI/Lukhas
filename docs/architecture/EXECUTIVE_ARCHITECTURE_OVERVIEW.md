@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🏗️ **LUKHΛS AI: Executive Architecture Overview**
 *Consciousness-Scale Engineering for Global Intelligence*
 

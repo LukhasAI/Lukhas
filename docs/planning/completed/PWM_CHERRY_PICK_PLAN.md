@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 #  Cherry-Pick Plan: Ethics, Compliance & Governance Enhancement
 
 ## 🎯 Objective

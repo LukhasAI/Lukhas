@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # T4 Multi-Agent Personal Prompts
 ## Visionary AI Development at T4 Leadership Standards
 

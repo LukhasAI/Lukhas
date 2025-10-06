@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 Baseline Deep Search Audit (Evidence-First)
 
 Clinical Summary

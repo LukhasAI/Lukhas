@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # agents - Module Context
 
 ## Overview

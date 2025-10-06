@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # oneiric_core - Dream Infrastructure Module
 
 ## Overview

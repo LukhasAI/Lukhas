@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🗺️ LUKHAS AI System Architecture Map
 
 ## High-Level Architecture

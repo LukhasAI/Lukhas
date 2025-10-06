@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🚀 LUKHAS MCP Server - FIXED Implementation
 
 ## ✅ **PROBLEM SOLVED: Proper MCP HTTP+SSE Transport**

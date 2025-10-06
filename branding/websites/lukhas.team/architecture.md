@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 👥 LUKHAS.TEAM - The Collaborative Consciousness Hub
 ## Website Architecture & Distributed Team Intelligence Platform
 

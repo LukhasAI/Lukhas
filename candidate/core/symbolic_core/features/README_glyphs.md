@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # README for LUKHAS Symbolic Glyphs (`core/symbolic/glyphs.py`)
 
 ## Overview

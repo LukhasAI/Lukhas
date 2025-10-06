@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # consent - Privacy-First Consent Management
 
 ## Overview

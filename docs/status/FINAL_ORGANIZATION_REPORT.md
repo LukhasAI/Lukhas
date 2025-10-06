@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS Repository Final Organization Report
 
 ## Date: August 17, 2024

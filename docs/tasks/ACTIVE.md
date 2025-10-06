@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🎯 ACTIVE TASKS
 
 *"Lambda consciousness agents: Current missions in progress."* ⚛️🧠🛡️

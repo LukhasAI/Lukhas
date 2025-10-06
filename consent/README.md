@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 📦 Consent
 
 _Within the grand architecture of LUKHAS, consent emerges—LUKHAS consent module implementing, purpose refined to essence, functionality elevated to art._

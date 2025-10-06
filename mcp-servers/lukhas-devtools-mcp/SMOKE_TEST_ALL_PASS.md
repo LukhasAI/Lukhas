@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # ✅ ChatGPT MCP Smoke Test Results - ALL PASS
 
 **Date:** 2025-10-03T03:35:00Z  

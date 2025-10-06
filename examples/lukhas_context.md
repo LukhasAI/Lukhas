@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # examples - Module Context
 
 ## Overview

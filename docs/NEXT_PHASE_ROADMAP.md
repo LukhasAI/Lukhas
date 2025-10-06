@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🚀 LUKHAS Module Schema System - Phase 2 Roadmap
 
 ## Current Foundation Analysis

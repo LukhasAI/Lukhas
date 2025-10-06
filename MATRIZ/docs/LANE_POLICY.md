@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # MATRIZ Lane Policy — Production Safety Framework
 
 ## Lane Hierarchy & Governance

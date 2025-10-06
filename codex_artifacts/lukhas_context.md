@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # codex_artifacts - Module Context
 
 ## Overview

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Claude Command Pack — Lukhas Flat Root + MATRIZ
 
 Use these in Claude Code (repo-integrated). Each command is a single task with guardrails.

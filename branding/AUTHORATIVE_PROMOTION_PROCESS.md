@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 Authoritative promotion process you can hand to lock in quality control and align with the MATRIZ/T4 rules we have been building.
 
 ⸻

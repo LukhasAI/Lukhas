@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Oneiric Integration Notes
 
 ## Integration Status

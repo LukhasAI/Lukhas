@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # GPT-OSS Integration: New Capabilities Documentation
 
 **Comprehensive Guide to Enhanced Abilities Across the LUKHAS Ecosystem**

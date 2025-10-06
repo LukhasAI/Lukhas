@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 Quick gates appended 2025-09-04
 
 - Import-linter: run (fail-open) — capture tail for triage if noisy.

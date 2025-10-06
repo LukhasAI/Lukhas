@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 ═══════════════════════════════════════════════════════════════════════════════
 ║ 🎨 LUKHAS CREATIVITY MODULE - THE INFINITE CANVAS OF IMAGINATION
 ║ Where Dreams Paint Reality and Consciousness Becomes Art

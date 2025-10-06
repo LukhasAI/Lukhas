@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🎖️ Claude Max x20 Strategic Deployment Plan
 **Investment:** $200 Claude Max x20 Membership
 **Strategy:** 6 Core Claude Code Agents + Multi-AI Integration

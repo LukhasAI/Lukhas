@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🔗 LUKHAS QRG System - Complete Implementation Summary
 
 ## 🎯 Mission Accomplished

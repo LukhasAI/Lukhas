@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 📦 Third_Party_Stubs
 
 _Within the grand architecture of LUKHAS, third_party_stubs emerges—LUKHAS third_party_stubs module implementing, purpose refined to essence, functionality elevated to art._

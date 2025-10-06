@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS Code Atlas - Comprehensive Analysis Report
 
 ## 🧬 Overview

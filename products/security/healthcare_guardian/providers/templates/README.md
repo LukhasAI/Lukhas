@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Healthcare Provider Templates
 
 This directory contains comprehensive templates for integrating with healthcare providers across multiple countries and regions. Each template provides a standardized interface while accommodating region-specific requirements and compliance frameworks.

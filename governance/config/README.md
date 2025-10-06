@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Governance Configuration
 
 This directory contains configuration files for the governance module.

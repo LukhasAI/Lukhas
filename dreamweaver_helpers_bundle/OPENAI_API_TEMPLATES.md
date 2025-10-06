@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # OpenAI API Templates (v0.2 usage)
 > Phrase in UI: **Built using OpenAI APIs**. No endorsement/partnership language.
 

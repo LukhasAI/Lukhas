@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS Manifest System Tools
 
 Production-grade Python tools for validating, hydrating, indexing, and diffing LUKHAS module manifests.

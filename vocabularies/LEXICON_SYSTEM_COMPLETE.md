@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🏆 LUKHAS Lexicon System Complete
 
 **Achievement Date**: August 28, 2025  

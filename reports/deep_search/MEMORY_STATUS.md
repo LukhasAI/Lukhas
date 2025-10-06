@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Memory System Diagnostic Report
 Generated: 2025-09-10T12:15:00+01:00
 

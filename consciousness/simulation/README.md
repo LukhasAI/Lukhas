@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 📦 Simulation
 
 _Realities within realities, simulation births alternate possibilities—synthetic worlds where theories prove themselves before manifesting._

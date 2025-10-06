@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Brain Tests
 
 This directory contains the test suite for the brain module.

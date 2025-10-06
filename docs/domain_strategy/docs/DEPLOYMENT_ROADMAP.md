@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🚀 λWecosystem Deployment Roadmap
 
 ## Quick Start Actions

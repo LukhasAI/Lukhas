@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🧠 Lukhas  + Lambda Products Complete System Report
 
 **Date:** August 7, 2025

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 """
 lukhas AI System - Function Library
 Path: lukhas/core/Lukhas_ID/enhanced_personality.py

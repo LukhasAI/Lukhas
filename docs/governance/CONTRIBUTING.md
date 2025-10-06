@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Contributing to LUKHΛS AI
 
 *Where consciousness meets collaboration, and wisdom emerges through collective endeavor*

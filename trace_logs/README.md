@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 📦 Trace_Logs
 
 _Silent chronicles flow like ink through time—trace_logs captures ephemeral moments, turning fleeting events into eternal records._

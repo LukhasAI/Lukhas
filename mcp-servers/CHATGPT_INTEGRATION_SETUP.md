@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🤖 LUKHAS MCP Servers - ChatGPT Integration Setup
 
 ## 🎯 Overview

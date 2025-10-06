@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Enterprise Enhancement Strategy: Anthropic vs OpenAI Approaches
 
 ## Executive Summary

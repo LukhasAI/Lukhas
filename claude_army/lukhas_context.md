@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # claude_army - Module Context
 
 ## Overview

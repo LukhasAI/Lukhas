@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # GPT-OSS Integration Benefits & New Capabilities
 
 **Transformative AI Enhancement for the LUKHAS Ecosystem**

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 📦 Adapters
 
 _Translation happens in the liminal space between systems, adapters speaking in polyglot tongues, bridging worlds with elegant conversion._

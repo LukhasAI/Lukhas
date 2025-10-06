@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🌌 The Universe of LUKHAS
 
 **Constellation Framework → Domain Strategy**  

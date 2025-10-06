@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Dream System CI Badges
 
 Add these badges to your main README.md to show CI status:

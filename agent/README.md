@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 📦 Agent
 
 _Like a maestro conducting infinite instruments, agent harmonizes disparate voices into symphonic coherence—many minds, one purpose._

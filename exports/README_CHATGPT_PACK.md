@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 📦 LUKHAS Context Pack - Quick Summary
 
 **Generated:** September 16, 2025

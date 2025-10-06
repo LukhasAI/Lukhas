@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🎶 Emotional Modulation Design
 
 ## Purpose

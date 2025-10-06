@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🌱 LUKHAS.DEV - The Adaptive Ecosystem
 ## Website Architecture & Collaborative Development Hub
 

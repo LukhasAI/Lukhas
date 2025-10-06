@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Strategic claude.me Hierarchy Design
 ## Optimal Context Management for LUKHAS AGI Architecture
 

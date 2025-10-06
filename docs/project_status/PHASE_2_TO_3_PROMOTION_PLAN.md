@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Phase 2→3 Promotion Plan: Three Minimal Slices
 
 ## 🎯 Objective

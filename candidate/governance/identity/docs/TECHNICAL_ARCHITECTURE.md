@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS ΛiD Technical Architecture Guide
 
 **Version:** 2.0.0

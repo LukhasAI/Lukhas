@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS GLYPH Cryptographic Seal Implementation
 
 ## ✅ Implementation Status

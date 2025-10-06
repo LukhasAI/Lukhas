@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS AI Documentation Branding Compliance Report
 
 **LUKHAS AI** - Logical Unified Knowledge Hyper-Adaptable System

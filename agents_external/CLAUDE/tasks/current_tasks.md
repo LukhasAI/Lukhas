@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Current Tasks
 
 ## Priority 1: Fix Syntax Errors

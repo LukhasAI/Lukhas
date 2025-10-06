@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Mk Configuration
 
 This directory contains configuration files for the mk module.

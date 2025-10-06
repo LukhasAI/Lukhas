@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Bio-Inspired Design
 
 - Use feedback loops and adaptive patterns

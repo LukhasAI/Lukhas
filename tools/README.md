@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 📦 Tools
 
 _Within the grand architecture of LUKHAS, tools emerges—*This file provides domain-specific, purpose refined to essence, functionality elevated to art._

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Config Configuration
 
 This directory contains configuration files for the config module.

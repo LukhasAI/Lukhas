@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Oneiric Core - Symbolic Dream Analysis System
 
 A comprehensive symbolic dream analysis platform featuring identity management, multimodal dream generation, and real-time drift tracking.

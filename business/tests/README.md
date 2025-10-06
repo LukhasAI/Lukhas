@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Business Tests
 
 This directory contains the test suite for the business module.

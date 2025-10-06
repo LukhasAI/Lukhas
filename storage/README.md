@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 📦 Storage
 
 _Within the grand architecture of LUKHAS, storage emerges—LUKHAS storage module implementing, purpose refined to essence, functionality elevated to art._

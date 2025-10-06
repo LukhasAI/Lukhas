@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Sbom Tests
 
 This directory contains the test suite for the sbom module.

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS Memory System Implementation Analysis
 
 ## 📋 Executive Summary

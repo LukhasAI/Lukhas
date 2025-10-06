@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS 3-Layer Tone System - Quick Start Guide
 
 **For New Agents & Contributors**: Start here to understand LUKHAS's distinctive content approach

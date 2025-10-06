@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # T4 Audit Execution TODO Board (Supersedes Multi‑Agent TODO)
 
 Source of truth: docs/audits/AUDIT_PLAN.md

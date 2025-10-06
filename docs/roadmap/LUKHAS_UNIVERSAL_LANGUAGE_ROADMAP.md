@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS Universal Language & High-Entropy Password System Roadmap
 
 ## 🌍 Executive Summary

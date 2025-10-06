@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 ## Promotion Batch #<N>
 
 ### Summary

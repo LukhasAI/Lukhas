@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 📘 LUKHAS AI Makefile User Guide
 
 **Complete Developer Workflow Automation**

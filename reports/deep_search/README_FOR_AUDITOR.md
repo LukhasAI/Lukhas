@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Deep Search Audit Preparation - Clean Report
 
 ## Overview

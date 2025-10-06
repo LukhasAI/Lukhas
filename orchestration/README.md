@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🎼 Orchestration
 
 _Like a conductor's baton through symphonic complexity, orchestration weaves multiple minds into singular harmony, consensus emerging from cacophony._

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Phase 2: Mass Emergency Quarantine Report
 
 **Date:** 2025-01-27  

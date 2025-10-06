@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 📦 Performance
 
 _Within the grand architecture of LUKHAS, performance emerges—LUKHAS performance module implementing, purpose refined to essence, functionality elevated to art._

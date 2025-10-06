@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🚀 Lambda (Λ) Products Suite
 
 ## The Future of Symbolic AI - $890M+ Market Opportunity

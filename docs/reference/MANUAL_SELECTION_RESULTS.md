@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Manual Module Selection Results
 ## High-Value Modules for OpenAI Analysis
 ### Constellation Framework: ⚛️🧠🛡️

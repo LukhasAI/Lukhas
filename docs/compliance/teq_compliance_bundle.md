@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # TEQ Compliance Bundle - GDPR/AI Act/CCPA Ready
 
 ## Overview: Transparency, Ethics, Governance Framework

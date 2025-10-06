@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Plan Verifier - Task 5 Implementation
 
 **Status**: ✅ **Complete** - Deterministic fail-closed constraints for orchestration safety

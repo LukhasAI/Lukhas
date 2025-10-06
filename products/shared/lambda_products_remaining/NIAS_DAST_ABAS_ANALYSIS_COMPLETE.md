@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🧠⚛️🛡️ NIAS/DAST/ABAS Implementation Analysis
 **Complete Analysis of Vision vs Reality**
 

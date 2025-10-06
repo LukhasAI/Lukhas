@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 
 # 📊 LUKHAS Revenue Dashboard
 Generated: 2025-08-06 23:20

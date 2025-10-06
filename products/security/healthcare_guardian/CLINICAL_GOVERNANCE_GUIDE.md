@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Clinical Governance Guide — AI-Enhanced Healthcare Decision Support
 
 ## Poetic Layer (≤40 words)

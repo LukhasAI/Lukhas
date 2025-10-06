@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🧬 MΛTRIZ Advanced Testing Suite - The 0.001% Approach
 
 This comprehensive testing suite demonstrates how the top 0.001% of engineers would test consciousness systems. It goes far beyond traditional unit tests to mathematically prove system properties and discover edge cases that human testers would never think of.

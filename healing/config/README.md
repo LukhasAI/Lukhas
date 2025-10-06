@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Healing Configuration
 
 This directory contains configuration files for the healing module.

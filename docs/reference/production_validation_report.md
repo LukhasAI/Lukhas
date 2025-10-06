@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS PWM Production Deployment Validation Report
 
 ## Date: August 10, 2025

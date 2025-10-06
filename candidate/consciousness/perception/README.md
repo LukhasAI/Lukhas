@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # PERCEPTION Module
 
 ## Overview

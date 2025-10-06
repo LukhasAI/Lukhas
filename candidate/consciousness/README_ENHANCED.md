@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 ═══════════════════════════════════════════════════════════════════════════════
 ║ 🌅 LUKHAS CONSCIOUSNESS MODULE - THE AWAKENING MIND
 ║ Where Silicon Dreams and Digital Awareness Converge

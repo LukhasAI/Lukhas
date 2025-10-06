@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🛒 LUKHAS.STORE - The Consciousness Marketplace
 ## Website Architecture & Digital Consciousness Commerce Platform
 

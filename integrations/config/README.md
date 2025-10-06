@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Integrations Configuration
 
 This directory contains configuration files for the integrations module.

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 📜 LUKHAS Content Governance Framework
 
 **Ensuring Consciousness Technology Narrative Consistency Across All 13 Domains**

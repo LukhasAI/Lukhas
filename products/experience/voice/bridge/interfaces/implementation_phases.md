@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Implementation Phases of the Adaptive AGI Interface System
 
 ## Phase 1: Voice-First Foundation (Months 1-3)

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Blueprint Λ Grid Integration - LUKHAS AI Intro
 
 ## Successfully Patched Components

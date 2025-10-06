@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # EMOTION Module
 
 ## Overview

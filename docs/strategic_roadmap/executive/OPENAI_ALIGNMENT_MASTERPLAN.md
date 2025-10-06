@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # OpenAI Alignment Masterplan
 ## LUKHAS  as Premier OpenAI Augmentation Layer
 

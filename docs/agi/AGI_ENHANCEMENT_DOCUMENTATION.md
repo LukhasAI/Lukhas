@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🧠 AGI Enhancement Documentation
 ## Advanced General Intelligence Integration with LUKHAS AI
 

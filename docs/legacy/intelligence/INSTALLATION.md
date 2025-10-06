@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🚀  Intelligence Engine Installation
 
 ## Quick Start

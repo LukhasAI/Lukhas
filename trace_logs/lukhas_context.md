@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # trace_logs - Module Context
 
 ## Overview

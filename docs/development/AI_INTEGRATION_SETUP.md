@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🎭 LUKHAS AI Integration Setup Guide
 
 ## 🚀 Professional Developer Workflow Setup

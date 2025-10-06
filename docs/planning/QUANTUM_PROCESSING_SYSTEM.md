@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Quantum Processing System: Real Quantum Algorithm Implementation
 ## Hybrid Quantum-Classical Computing for AGI Systems
 

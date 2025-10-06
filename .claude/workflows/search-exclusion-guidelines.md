@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🧹 Agent Search Exclusion Guidelines
 
 ## **MANDATORY: Virtual Environment Exclusion**

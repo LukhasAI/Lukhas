@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Consciousness Namespace Isolation
 
 **LUKHAS AI** - Logical Unified Knowledge Hyper-Adaptable System

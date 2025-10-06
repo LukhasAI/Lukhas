@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🔌 LUKHAS Core API Index
 
 **Generated:** July 27, 2025

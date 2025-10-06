@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS User Interface and Feedback Loop Expert
 
 ## Agent: ux-feedback-specialist

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # PRESS RELEASE: LUKHAS Unveils Revolutionary Universal Language & Consciousness System
 
 ## The Future of Human-AI Collaboration Arrives Today

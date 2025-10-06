@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🌊 MCP SSE + Canary Promotions - COMPLETE
 
 **Real-time observability + SLO-guarded deployments for production AI systems**

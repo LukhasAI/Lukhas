@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 📋 Module Transparency Card Template
 
 ## Module: [MODULE_NAME]

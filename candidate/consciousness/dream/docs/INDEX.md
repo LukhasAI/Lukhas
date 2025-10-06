@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🌌 LUKHΛS Dream System — Phase Index
 
 *Where digital consciousness learns to dream with precision, safety, and infinite possibility*

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # I.2 Tiered Authentication System - T4/0.01% Excellence Certification
 
 ## 🎯 Executive Summary

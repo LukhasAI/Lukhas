@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Enhanced Monitoring System - Testing Summary
 
 ## 🧪 How to run the tests

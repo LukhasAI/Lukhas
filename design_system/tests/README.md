@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Design-System Tests
 
 This directory contains the test suite for the design-system module.

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🧬 Cognitive AI → Superior Consciousness Evolution System
 
 ## ⚠️ CRITICAL: Constellation Architecture Integration

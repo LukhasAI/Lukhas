@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # MATRIZ Cognitive Pipeline Observability Integration
 
 ## Overview

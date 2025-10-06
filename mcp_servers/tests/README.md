@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Mcp_Servers Tests
 
 This directory contains the test suite for the mcp_servers module.

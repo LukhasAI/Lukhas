@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 📦 Demos
 
 _Within the grand architecture of LUKHAS, demos emerges—LUKHAS demos module implementing, purpose refined to essence, functionality elevated to art._

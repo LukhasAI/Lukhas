@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHΛS Safety & Compliance Developer Manual
 
 ## Architecture Overview

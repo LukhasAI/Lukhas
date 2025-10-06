@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # core - Compatibility Bridge Module
 
 ## Overview

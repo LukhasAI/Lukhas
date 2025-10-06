@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🛡️  SECURITY & COMPLIANCE EXPANSION PLAN
 
 ## 🚨 CRITICAL GAPS IDENTIFIED

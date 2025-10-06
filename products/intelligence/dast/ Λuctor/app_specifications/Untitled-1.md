@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
  ✻ Welcome to Claude Code!
 
    /help for help, /status for your current setup

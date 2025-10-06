@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # ✅ PR #2 Complete: CI/CD Pipeline Upgrades
 
 ## Summary

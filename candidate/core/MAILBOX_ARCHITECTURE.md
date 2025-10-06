@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 ═══════════════════════════════════════════════════════════════════════════════
 ║ 📬 ENHANCED MAILBOX ARCHITECTURE - SEQUENTIAL GUARANTEES & BEYOND
 ║ Where Messages Queue with Purpose and Order Prevails Over Chaos

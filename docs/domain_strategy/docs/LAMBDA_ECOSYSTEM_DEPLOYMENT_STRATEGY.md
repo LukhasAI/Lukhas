@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🌐 λWecosystem Unified Deployment Strategy
 
 ## Executive Summary

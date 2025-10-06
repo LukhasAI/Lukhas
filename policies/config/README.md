@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Policies Configuration
 
 This directory contains configuration files for the policies module.

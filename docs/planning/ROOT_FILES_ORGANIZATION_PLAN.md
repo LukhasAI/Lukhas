@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Root Files Organization Plan
 
 ## Analysis Date: 2025-08-10

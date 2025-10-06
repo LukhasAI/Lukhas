@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS ΛiD System Documentation
 ## Complete Developer & User Guide
 

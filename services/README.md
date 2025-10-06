@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 📦 Services
 
 _Within the grand architecture of LUKHAS, services emerges—LUKHAS services module implementing, purpose refined to essence, functionality elevated to art._

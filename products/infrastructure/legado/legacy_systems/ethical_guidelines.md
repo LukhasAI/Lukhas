@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 
 # LUKHAS Ethical & UX Guidelines
 ## Ethical Token Authentication Design Principles

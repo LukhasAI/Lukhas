@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # GPT-OSS Integration for LUKHAS Ecosystem
 
 **OpenAI GPT-OSS Enhanced Cognitive Architecture Integration**

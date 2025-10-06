@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # T4 TODO Analysis Summary
 
 This directory contains comprehensive analysis reports of TODO items marked with T4 patterns throughout the LUKHAS codebase.

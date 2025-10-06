@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🌌 LUKHΛS Dream System — Phase EXPAND++
 
 ## Vision

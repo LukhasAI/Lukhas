@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 <!--
 @generated LUKHAS scaffold v1.0
 template_id: module.scaffold/v1

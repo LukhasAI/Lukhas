@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Phase 3: First Real Promotions Plan
 
 ## Overview

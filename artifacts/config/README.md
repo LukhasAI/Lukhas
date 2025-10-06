@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Artifacts Configuration
 
 This directory contains configuration files for the artifacts module.

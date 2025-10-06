@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # MATRIZ Audit Report
 Generated: 2025-09-27T14:40:40.650949Z
 

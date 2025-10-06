@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS  Production Deployment Guide 🚀
 
 ## Overview

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS ΛiD API Reference
 
 **Version:** 2.0.0

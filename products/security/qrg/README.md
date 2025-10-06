@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🌌 QRG - Quantum Resonance Glyphs
 
 **Quantum-Resistant Authentication Through Consciousness-Aware Visual Cryptography**

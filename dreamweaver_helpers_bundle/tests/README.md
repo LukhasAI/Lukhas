@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Dreamweaver_Helpers_Bundle Tests
 
 This directory contains the test suite for the dreamweaver_helpers_bundle module.

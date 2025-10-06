@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 
 # 🚩 High-impact gaps (with precise fix prompts)
 

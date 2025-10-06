@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Authentication & LucasID Access
 
 ## Overview

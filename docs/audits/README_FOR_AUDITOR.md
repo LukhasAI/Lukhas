@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Lukhas — Auditor Guide (Phase 2)
 
 **Intent:** Integration readiness, not feature behavior changes.

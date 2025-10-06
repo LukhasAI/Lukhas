@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # /promote-module
 Promote a single module from candidate → lukhas using the lane process.
 USAGE: `/promote-module module=orchestration owner=Jules01`

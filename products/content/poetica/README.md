@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🎭 POETICΛ - Poetic AI Persona
 
 **Emotional AI with Poetic Expression for Creative Industries**  

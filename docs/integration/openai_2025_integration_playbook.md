@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # OpenAI Integration Playbook - 2025 Edition
 
 ## Overview: Modern OpenAI Integration for LUKHAS AI

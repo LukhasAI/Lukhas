@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🛡️ LUKHAS_AGI_3.8 Compliance Guide
 
 This guide provides detailed documentation of **compliance frameworks**, **monitoring mechanisms**, and **regulatory alignment** for LUKHAS_AGI_3.8.

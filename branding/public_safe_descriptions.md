@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🎭 Public-Safe System Descriptions
 
 **Purpose**: Author-free versions of LUKHAS, MΛTRIZ, EQNOX descriptions  

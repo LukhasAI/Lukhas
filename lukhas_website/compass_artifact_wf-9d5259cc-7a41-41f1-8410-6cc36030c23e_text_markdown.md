@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Lukhas website layout inheritance diagnostic report
 
 Your Next.js application is experiencing **critical layout inheritance failures** affecting all pages after recent commits, with symptoms including misaligned sidebars, cut-off dialogs, and improperly positioned content areas. Based on comprehensive analysis of Next.js App Router patterns and common breaking changes, here's a targeted diagnostic report with immediate fixes and architectural improvements.

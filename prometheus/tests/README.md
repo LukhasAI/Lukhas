@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Prometheus Tests
 
 This directory contains the test suite for the prometheus module.

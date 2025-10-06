@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS AI Integration Guides
 
 **LUKHAS AI** - Logical Unified Knowledge Hyper-Adaptable System

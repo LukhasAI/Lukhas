@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 
 
 .venv/bin/ruff rule E402

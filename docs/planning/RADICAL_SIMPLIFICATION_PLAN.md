@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS Radical Simplification Plan
 
 ## Current State (The Problem)

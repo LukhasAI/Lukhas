@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # agents_external - Module Context
 
 ## Overview

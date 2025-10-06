@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🏗️ LUKHAS AI Submodular Architecture Deep Dive
 ## Constellation Framework: ⚛️🧠🛡️
 ### Date: 2025-08-13

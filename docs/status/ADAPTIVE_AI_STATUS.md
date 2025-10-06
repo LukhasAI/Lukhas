@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS Adaptive AI Features - Implementation Status
 
 ## Overview

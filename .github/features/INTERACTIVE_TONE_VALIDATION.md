@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🎭✨ GitHub Interactive Commit Enhancement Feature
 
 ## Overview

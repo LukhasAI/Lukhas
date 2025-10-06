@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Complete LUKHAS AI Host Briefing
 
 *"Your comprehensive guide to conducting insightful, accurate, and inspiring conversations about consciousness technology and the Constellation Framework."*

@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # T4/0.01% Excellence Auditor Checklist
 ## Independent Verification Runbook for Regulatory-Grade Validation
 

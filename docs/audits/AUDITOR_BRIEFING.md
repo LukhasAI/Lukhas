@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 
 
 ## 🎯 **Quick Start - Primary Entry Point**

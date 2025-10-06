@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # T4/0.01% Excellence Certification
 ## LUKHAS AI Performance Validation - Regulatory-Grade Audit
 

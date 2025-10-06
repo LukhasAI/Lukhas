@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS Symbolic Glyph Conflict Policy
 
 **Version**: 0.1.0 (Draft by Jules-06)

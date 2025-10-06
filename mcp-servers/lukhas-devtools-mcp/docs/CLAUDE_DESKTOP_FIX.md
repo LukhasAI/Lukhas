@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Claude Desktop Configuration Fix
 
 **Issue Resolved:** npm error ENOENT - Could not read package.json

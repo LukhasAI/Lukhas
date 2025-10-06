@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 📦 Oneiric_Core
 
 _Like a maestro conducting infinite instruments, oneiric_core harmonizes disparate voices into symphonic coherence—many minds, one purpose._

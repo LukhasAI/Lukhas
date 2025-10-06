@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Symbolic Security Utilities
 
 This folder contains utilities related to glyph redaction and security filtering.

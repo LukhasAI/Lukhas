@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🔍 **SMALL IDEAS & USER DETAILS AUDIT**
 **Missing Features from Original NIAS/DAST/ABAS Vision**
 

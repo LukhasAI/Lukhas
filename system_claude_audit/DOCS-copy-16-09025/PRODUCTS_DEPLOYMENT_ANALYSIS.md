@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # PRODUCTS Deployment Analysis
 ## Production Scale Architecture (193MB, 4,093 Python files)
 

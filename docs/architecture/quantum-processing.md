@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # Quantum Processing
 
 - Document quantum-inspired modules and their integration

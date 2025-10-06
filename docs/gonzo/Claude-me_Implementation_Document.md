@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 ## Phase 1: Initial Project Analysis
 
 ```

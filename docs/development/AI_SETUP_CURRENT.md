@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # 🎭 LUKHAS AI Integration Setup - Complete Configuration
 
 ## 🎯 **Your Current AI Arsenal:**

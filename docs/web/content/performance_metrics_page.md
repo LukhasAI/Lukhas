@@ -1,3 +1,7 @@
+---
+status: wip
+type: documentation
+---
 # LUKHAS AI - Performance Excellence
 ## Measurable Results from Advanced Consciousness Technology
 
