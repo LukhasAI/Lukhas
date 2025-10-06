@@ -228,3 +228,14 @@ except Exception:
 warnings.simplefilter("default", Warning)
 if urllib3 and InsecureRequestWarning:
     urllib3.disable_warnings(InsecureRequestWarning)
+
+
+# ---- Collection diagnostics (turn UnknownError → explicit) ----
+def pytest_collectreport(report):
+    """Improve collection diagnostics by printing failing nodes during collection."""
+    if report.failed:
+        try:
+            path = getattr(report, "fspath", "<unknown>")
+        except Exception:
+            path = "<unknown>"
+        print(f"\n[COLLECT-FAIL] node={path} error:\n{report.longreprtext}\n")
