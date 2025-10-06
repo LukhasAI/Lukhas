@@ -1,159 +1,168 @@
-# Module Index
-_Generated 2025-10-05T11:49:30.573667+00:00_
+# LUKHAS Module Index
 
-Navigate to module documentation:
+Auto-generated module structure health report.
 
-## Other Modules
+## Summary
 
-- [Jules--branch](jules_branch/README.md) — LUKHAS Jules--branch module implementing specialized Jules--branch functionality
-- [SYSTEM_CLAUDE_AUDIT](system_claude_audit/DOCS-copy-16-09025/README.md) — LUKHAS SYSTEM_CLAUDE_AUDIT module implementing specialized SYSTEM_CLAUDE_AUDIT f
-- [TODO](todo/README.md) — LUKHAS TODO module implementing specialized TODO functionality with 0 components
-- [__pycache__](__pycache__/README.md) — LUKHAS __pycache__ module implementing specialized __pycache__ functionality wit
-- [adapters](adapters/README.md) — Common interface for external service integrations with capability token validat
-- [agent](agent/README.md) — Real LUKHAS agents for internal consciousness operations.
-- [agents](agents/README.md) — LUKHAS agents module implementing specialized agents functionality with 0 compon
-- [agents_external](agents_external/CLAUDE/GPT5_README.md) — LUKHAS agents_external module implementing specialized agents_external functiona
-- [ai_orchestration](ai_orchestration/README.md) — System orchestration and workflow coordination providing multi-service integrati
-- [alerts](alerts/README.md) — LUKHAS alerts module implementing specialized alerts functionality with 0 compon
-- [analytics](analytics/README.md) — Analytics, metrics collection, and data visualization
-- [api](api/README.md) — Comprehensive API layer for LUKHAS consciousness, feedback, and universal langua
-- [archive](archive/README.md) — LUKHAS archive module implementing specialized archive functionality with 0 comp
-- [artifacts](artifacts/README.md) — LUKHAS artifacts module implementing specialized artifacts functionality with 0 
-- [assets](assets/README.md) — LUKHAS assets module implementing specialized assets functionality with 0 compon
-- [audit](audit/README.md) — LUKHAS audit module implementing specialized audit functionality with 0 componen
-- [benchmarks](benchmarks/README.md) — LUKHAS benchmarks module implementing specialized benchmarks functionality with 
-- [bio](bio/README.md) — Provides backward compatibility for bio.bio_utilities imports
-- [brain](brain/README.md) — High-level cognitive orchestration, intelligence monitoring, and unified
-- [branding](branding/PRESS_KIT_README.md) — LUKHAS branding module implementing specialized branding functionality with 0 co
-- [bridge](bridge/README.md) — Bridge system with integrated branding compliance for external
-- [business](business/README.md) — Business logic, strategies, and operational systems
-- [candidate](candidate/README.md) — This package contains all candidate implementations and modules for the
-- [ci](ci/README.md) — LUKHAS ci module implementing specialized ci functionality with 0 components for
-- [claude_army](claude_army/README.md) — LUKHAS claude_army module implementing specialized coordination functionality wi
-- [codex_artifacts](codex_artifacts/README.md) — LUKHAS codex_artifacts module implementing specialized codex_artifacts functiona
-- [cognitive](cognitive/README.md) — This package provides compatibility imports during the transition period.
-- [cognitive_core](cognitive_core/README.md) — Advanced Cognitive capabilities that extend LUKHAS with state-of-the-art
-- [completion](completion/README.md) — LUKHAS completion module implementing specialized completion functionality with 
-- [config](config/README.md) — LUKHAS config module implementing specialized config functionality with 81 compo
-- [consciousness](consciousness/README.md) — Consciousness Research Foundation Base Consciousness Architecture - Decision Eng
-- [consciousness.simulation](consciousness/simulation/README.md) — Sandboxed simulation lane for LUKHΛS consciousness: safe dream execution with et
-- [consent](consent/README.md) — LUKHAS consent module implementing specialized consent functionality with 22 com
-- [contracts](contracts/README.md) — LUKHAS contracts module implementing specialized contracts functionality with 0 
-- [core](core/README.md) — Compatibility bridge exposing :mod:`lukhas.core` under the historical ``core`` n
-- [core](lukhas/core/README.md) — LUKHAS core module
-- [dashboards](dashboards/README.md) — LUKHAS dashboards module implementing specialized dashboards functionality with 
-- [data](data/README.md) — LUKHAS data module implementing specialized data functionality with 0 components
-- [delegation_reports](delegation_reports/README.md) — LUKHAS delegation_reports module implementing specialized delegation_reports fun
-- [demos](demos/README.md) — LUKHAS demos module implementing specialized demos functionality with 0 componen
-- [deployment](deployment/README.md) — Deployment Module - Claude AI Context **Module**: deployment
-**Purpose**: Deploy
-- [design-system](design_system/README.md) — LUKHAS design-system module implementing specialized design-system functionality
-- [diagnostics](diagnostics/README.md) — LUKHAS diagnostics module implementing specialized diagnostics functionality wit
-- [doc](doc/README.md) — LUKHAS doc module implementing specialized doc functionality with 0 components f
-- [docker](docker/README.md) — LUKHAS docker module implementing specialized docker functionality with 0 compon
-- [docs](docs/ORIGINAL_README.md) — LUKHAS docs module implementing specialized docs functionality with 0 components
-- [dream](dream/README.md) — Dream Module - Claude AI Context **Module**: dream
-**Purpose**: Core dream proce
-- [dreams](dreams/README.md) — Dream state consciousness processing, sleep cycle simulation, and oneiric
-- [dreamweaver_helpers_bundle](dreamweaver_helpers_bundle/README.md) — LUKHAS dreamweaver_helpers_bundle module implementing specialized dreamweaver_he
-- [emotion](emotion/README.md) — VAD affect processing, mood regulation, and emotional intelligence
-- [enforcement](enforcement/README.md) — LUKHAS enforcement module implementing specialized enforcement functionality wit
-- [enterprise](products/enterprise/README.md) — - core/        - Enterprise infrastructure and validation systems
-- [environments](environments/README.md) — LUKHAS environments module implementing specialized environments functionality w
-- [ethics](ethics/README.md) — Provides ethical evaluation, safety monitoring, and constraint validation
-- [eval_runs](eval_runs/README.md) — LUKHAS eval_runs module implementing specialized eval_runs functionality with 0 
-- [examples](examples/README.md) — LUKHAS examples module implementing specialized examples functionality with 18 c
-- [exports](exports/README.md) — LUKHAS exports module implementing specialized exports functionality with 0 comp
-- [feedback](feedback/README.md) — LUKHAS feedback module implementing specialized feedback functionality with 0 co
-- [final-sweep](final_sweep/README.md) — LUKHAS final-sweep module implementing specialized final-sweep functionality wit
-- [governance](governance/README.md) — This module provides governance capabilities for the LUKHAS AI system.
-- [governance_extended](governance_extended/README.md) — Governance framework implementing policy engines, ethical decision systems, Guar
-- [grafana](grafana/README.md) — LUKHAS grafana module implementing specialized grafana functionality with 0 comp
-- [graphs](graphs/README.md) — LUKHAS graphs module implementing specialized graphs functionality with 0 compon
-- [gtpsi](gtpsi/README.md) — Optional MFA/consent factor using gesture recognition for high-risk actions.
-- [guardian](guardian/README.md) — LUKHAS guardian module implementing specialized guardian functionality with 6 co
-- [gymnasium_local](gymnasium_local/README.md) — LUKHAS gymnasium_local module implementing specialized gymnasium_local functiona
-- [healing](healing/README.md) — LUKHAS healing module implementing specialized healing functionality with 0 comp
-- [health_reports](health_reports/README.md) — LUKHAS health_reports module implementing specialized health_reports functionali
-- [hooks](hooks/README.md) — LUKHAS hooks module implementing specialized hooks functionality with 10 compone
-- [htmlcov](htmlcov/README.md) — LUKHAS htmlcov module implementing specialized htmlcov functionality with 0 comp
-- [identity](identity/README.md) — Advanced identity management with dynamic tier systems, access control,
-- [integrations](integrations/README.md) — LUKHAS integrations module implementing specialized integrations functionality w
-- [logs](logs/README.md) — LUKHAS logs module implementing specialized logs functionality with 0 components
-- [lukhas](lukhas/README.md) — Maps `lukhas.<module>` to flat-root modules (e.g., `qi`, `core`, …),
-- [lukhas-ai-intro](lukhas_ai_intro/README.md) — LUKHAS lukhas-ai-intro module implementing specialized lukhas-ai-intro functiona
-- [lukhas_ai.egg-info](lukhas_ai.egg-info/README.md) — LUKHAS lukhas_ai.egg-info module implementing specialized lukhas_ai.egg-info fun
-- [lukhas_website](lukhas_website/README.md) — LUKHAS lukhas_website module implementing specialized lukhas_website functionali
-- [matriz](matriz/API_README.md) — This module provides lowercase access to MATRIZ functionality for compatibility
-- [mcp-lukhas-sse](mcp-lukhas-sse/.venv/lib/python3.11/site-packages/fastmcp/contrib/README.md) — LUKHAS mcp-lukhas-sse module implementing specialized mcp-lukhas-sse functionali
-- [mcp-server](mcp-server/README.md) — LUKHAS mcp-server module implementing specialized mcp-server functionality with 
-- [mcp-servers](mcp-servers/README.md) — LUKHAS mcp-servers module implementing specialized mcp-servers functionality wit
-- [mcp_servers](mcp_servers/README.md) — LUKHAS mcp_servers module implementing specialized mcp_servers functionality wit
-- [memory](memory/README.md) — Advanced memory systems with hierarchical data storage, fold lineage tracking,
-- [mk](mk/README.md) — LUKHAS mk module implementing specialized mk functionality with 0 components for
-- [models](models/README.md) — LUKHAS models module implementing specialized models functionality with 0 compon
-- [modulation](modulation/README.md) — This system translates LUKHAS's endocrine signals (biological-inspired "hormones
-- [modules](modules/README.md) — LUKHAS modules module implementing specialized modules functionality with 0 comp
-- [monitoring](monitoring/README.md) — Monitoring Module - Claude AI Context **Module**: monitoring
-**Purpose**: System
-- [next_gen](next_gen/README.md) — LUKHAS next_gen module implementing specialized next_gen functionality with 0 co
-- [observability](observability/README.md) — Central imports for observability and monitoring functionality.
-- [oneiric_core](oneiric_core/README.md) — Core orchestration and infrastructure layer providing system coordination, symbo
-- [ops](ops/README.md) — LUKHAS ops module implementing specialized ops functionality with 0 components f
-- [orchestration](orchestration/README.md) — *This file provides domain-specific context for any AI development tool*
-- [out](out/README.md) — LUKHAS out module implementing specialized out functionality with 0 components f
-- [packages](packages/README.md) — LUKHAS packages module implementing specialized packages functionality with 0 co
-- [performance](performance/README.md) — LUKHAS performance module implementing specialized performance functionality wit
-- [perp_runs](perp_runs/README.md) — LUKHAS perp_runs module implementing specialized perp_runs functionality with 0 
-- [personality](personality/README.md) — LUKHAS personality module implementing specialized personality functionality wit
-- [phase1_verification_pack](phase1_verification_pack/README.md) — LUKHAS phase1_verification_pack module implementing specialized phase1_verificat
-- [policies](policies/README.md) — LUKHAS policies module implementing specialized policies functionality with 0 co
-- [presentations](presentations/README.md) — LUKHAS presentations module implementing specialized presentations functionality
-- [products](products/README.md) — Consolidated products organized by functional domain:
-- [prometheus](prometheus/README.md) — LUKHAS prometheus module implementing specialized prometheus functionality with 
-- [pytest_asyncio](pytest_asyncio/README.md) — Minimal pytest-asyncio stub to satisfy configuration in offline environments.
-- [qi](qi/README.md) — Bio-quantum consciousness integration and processing
-- [quantum](quantum/README.md) — *This file provides domain-specific context for any AI development tool*
-- [quarantine](quarantine/README.md) — LUKHAS quarantine module implementing specialized quarantine functionality with 
-- [rats](rats/README.md) — LUKHAS rats module implementing specialized rats functionality with 0 components
-- [reasoning](reasoning/README.md) — LUKHAS reasoning module implementing specialized reasoning functionality with 0 
-- [recovered_components](recovered_components/README.md) — LUKHAS recovered_components module implementing specialized recovered_components
-- [reports](reports/README.md) — LUKHAS reports module implementing specialized reports functionality with 0 comp
-- [rl](rl/README.md) — MΛTRIZ-native RL implementation that creates rich consciousness components
-- [rules](rules/README.md) — LUKHAS rules module implementing specialized rules functionality with 0 componen
-- [samples](samples/README.md) — LUKHAS samples module implementing specialized samples functionality with 0 comp
-- [sbom](sbom/README.md) — LUKHAS sbom module implementing specialized sbom functionality with 0 components
-- [schemas](schemas/README.md) — LUKHAS schemas module implementing specialized schemas functionality with 0 comp
-- [scripts](scripts/README.md) — LUKHAS scripts module implementing specialized scripts functionality with 831 co
-- [sdk](sdk/README.md) — LUKHAS sdk module implementing specialized sdk functionality with 0 components f
-- [security](security/README.md) — LUKHAS security module implementing specialized security functionality with 21 c
-- [security-reports](security_reports/README.md) — LUKHAS security-reports module implementing specialized security-reports functio
-- [serve](serve/README.md) — LUKHAS serve module implementing specialized serve functionality with 46 compone
-- [server](server/README.md) — LUKHAS server module implementing specialized server functionality with 0 compon
-- [services](services/README.md) — LUKHAS services module implementing specialized services functionality with 0 co
-- [src](src/README.md) — LUKHAS src module implementing specialized src functionality with 0 components f
-- [storage](storage/README.md) — LUKHAS storage module implementing specialized storage functionality with 17 com
-- [symbolic](symbolic/README.md) — *This file provides domain-specific context for any AI development tool*
-- [system](system/README.md) — LUKHAS system module implementing specialized system functionality with 0 compon
-- [tagging](tagging/README.md) — Symbolic tagging and resolution system for LUKHAS consciousness
-- [telemetry](telemetry/README.md) — LUKHAS telemetry module implementing specialized telemetry functionality with 0 
-- [temp](temp/README.md) — LUKHAS temp module implementing specialized temp functionality with 0 components
-- [templates](templates/README.md) — LUKHAS templates module implementing specialized templates functionality with 0 
-- [test_data](test_data/README.md) — LUKHAS test_data module implementing specialized test_data functionality with 0 
-- [test_results](test_results/README.md) — LUKHAS test_results module implementing specialized test_results functionality w
-- [tests](tests/README.md) — LUKHAS tests module implementing specialized tests functionality with 369 compon
-- [tests.consciousness.simulation](tests/consciousness/simulation/README.md) — Canary tests for simulation lane: ethics gates, consent checks, feature flags, a
-- [tests_new](tests_new/README.md) — LUKHAS tests_new module implementing specialized tests_new functionality with 0 
-- [third_party_stubs](third_party_stubs/README.md) — LUKHAS third_party_stubs module implementing specialized third_party_stubs funct
-- [tone](tone/README.md) — LUKHAS tone module implementing specialized tone functionality with 0 components
-- [tools](tools/README.md) — *This file provides domain-specific context for any AI development tool*
-- [trace](trace/README.md) — Drift monitoring and harmonization components for Trinity Framework compliance.
-- [trace_logs](trace_logs/README.md) — LUKHAS trace_logs module implementing specialized trace_logs functionality with 
-- [transmission_bundle](transmission_bundle/README.md) — LUKHAS transmission_bundle module implementing specialized transmission_bundle f
-- [universal_language](universal_language/README.md) — LUKHAS universal_language module implementing specialized universal_language fun
-- [utils](utils/README.md) — LUKHAS utils module implementing specialized utils functionality with 1 componen
-- [var](var/README.md) — LUKHAS var module implementing specialized var functionality with 0 components f
-- [vivox](vivox/README.md) — DEPRECATED: This module will be removed on 2025-11-01
-- [vocabularies](vocabularies/README.md) — LUKHAS vocabularies module implementing specialized vocabularies functionality w
-- [vocabulary_refresh_data](vocabulary_refresh_data/README.md) — LUKHAS vocabulary_refresh_data module implementing specialized vocabulary_refres
-- [website_v1](website_v1/README.md) — LUKHAS website_v1 module implementing specialized website_v1 functionality with 
+- Total modules: 148
+- With documentation: 146 (98.6%)
+- With tests: 146 (98.6%)
+- Average health score: 98.9/100
+
+## Modules
+
+| Module | Health | Docs | Tests | Conftest | Path |
+|--------|--------|------|-------|----------|------|
+| adapters | 🟢 100/100 | ✅ 4 | ✅ 2 | ✅ | `adapters` |
+| agent | 🟢 100/100 | ✅ 4 | ✅ 2 | ✅ | `agent` |
+| agents | 🟢 100/100 | ✅ 5 | ✅ 2 | ✅ | `agents` |
+| agents_external | 🟢 100/100 | ✅ 4 | ✅ 2 | ✅ | `agents_external` |
+| ai_orchestration | 🟢 100/100 | ✅ 4 | ✅ 2 | ✅ | `ai_orchestration` |
+| alerts | 🟢 100/100 | ✅ 4 | ✅ 2 | ✅ | `alerts` |
+| analytics | 🟢 100/100 | ✅ 4 | ✅ 2 | ✅ | `analytics` |
+| api | 🟢 100/100 | ✅ 17 | ✅ 2 | ✅ | `api` |
+| archive | 🟢 100/100 | ✅ 4 | ✅ 2 | ✅ | `archive` |
+| artifacts | 🟢 100/100 | ✅ 4 | ✅ 2 | ✅ | `artifacts` |
+| assets | 🟢 100/100 | ✅ 4 | ✅ 2 | ✅ | `assets` |
+| audit | 🟢 100/100 | ✅ 4 | ✅ 2 | ✅ | `audit` |
+| benchmarks | 🟢 100/100 | ✅ 4 | ✅ 2 | ✅ | `benchmarks` |
+| bio | 🟢 100/100 | ✅ 6 | ✅ 2 | ✅ | `bio` |
+| brain | 🟢 100/100 | ✅ 4 | ✅ 2 | ✅ | `brain` |
+| branding | 🟢 100/100 | ✅ 5 | ✅ 2 | ✅ | `branding` |
+| bridge | 🟢 100/100 | ✅ 4 | ✅ 2 | ✅ | `bridge` |
+| business | 🟢 100/100 | ✅ 4 | ✅ 2 | ✅ | `business` |
+| candidate | 🟢 100/100 | ✅ 4 | ✅ 2 | ✅ | `candidate` |
+| ci | 🟢 100/100 | ✅ 4 | ✅ 2 | ✅ | `ci` |
+| claude_army | 🟢 100/100 | ✅ 4 | ✅ 2 | ✅ | `claude_army` |
+| codex_artifacts | 🟢 100/100 | ✅ 4 | ✅ 2 | ✅ | `codex_artifacts` |
+| cognitive | 🟢 100/100 | ✅ 4 | ✅ 2 | ✅ | `cognitive` |
+| cognitive_core | 🟢 100/100 | ✅ 4 | ✅ 2 | ✅ | `cognitive_core` |
+| completion | 🟢 100/100 | ✅ 4 | ✅ 2 | ✅ | `completion` |
+| config | 🟢 100/100 | ✅ 4 | ✅ 2 | ✅ | `config` |
+| consciousness | 🟢 100/100 | ✅ 54 | ✅ 4 | ✅ | `consciousness` |
+| consent | 🟢 100/100 | ✅ 4 | ✅ 2 | ✅ | `consent` |
+| contracts | 🟢 100/100 | ✅ 4 | ✅ 2 | ✅ | `contracts` |
+| core | 🟢 100/100 | ✅ 4 | ✅ 2 | ✅ | `core` |
+| dashboards | 🟢 100/100 | ✅ 4 | ✅ 2 | ✅ | `dashboards` |
+| data | 🟢 100/100 | ✅ 4 | ✅ 2 | ✅ | `data` |
+| delegation_reports | 🟢 100/100 | ✅ 4 | ✅ 2 | ✅ | `delegation_reports` |
+| demos | 🟢 100/100 | ✅ 4 | ✅ 2 | ✅ | `demos` |
+| deployment | 🟢 100/100 | ✅ 4 | ✅ 2 | ✅ | `deployment` |
+| design_system | 🟢 100/100 | ✅ 4 | ✅ 2 | ✅ | `design_system` |
+| diagnostics | 🟢 100/100 | ✅ 4 | ✅ 2 | ✅ | `diagnostics` |
+| doc | 🟢 100/100 | ✅ 4 | ✅ 2 | ✅ | `doc` |
+| docker | 🟢 100/100 | ✅ 4 | ✅ 2 | ✅ | `docker` |
+| docs | 🟢 100/100 | ✅ 4 | ✅ 2 | ✅ | `docs` |
+| dream | 🟢 100/100 | ✅ 4 | ✅ 2 | ✅ | `dream` |
+| dreams | 🟢 100/100 | ✅ 4 | ✅ 2 | ✅ | `dreams` |
+| dreamweaver_helpers_bundle | 🟢 100/100 | ✅ 4 | ✅ 2 | ✅ | `dreamweaver_helpers_bundle` |
+| emotion | 🟢 100/100 | ✅ 4 | ✅ 2 | ✅ | `emotion` |
+| enforcement | 🟢 100/100 | ✅ 4 | ✅ 2 | ✅ | `enforcement` |
+| enterprise | 🟢 100/100 | ✅ 4 | ✅ 2 | ✅ | `products/enterprise` |
+| environments | 🟢 100/100 | ✅ 4 | ✅ 2 | ✅ | `environments` |
+| ethics | 🟢 100/100 | ✅ 4 | ✅ 2 | ✅ | `ethics` |
+| eval_runs | 🟢 100/100 | ✅ 4 | ✅ 2 | ✅ | `eval_runs` |
+| examples | 🟢 100/100 | ✅ 4 | ✅ 2 | ✅ | `examples` |
+| exports | 🟢 100/100 | ✅ 4 | ✅ 2 | ✅ | `exports` |
+| feedback | 🟢 100/100 | ✅ 4 | ✅ 2 | ✅ | `feedback` |
+| final_sweep | 🟢 100/100 | ✅ 4 | ✅ 2 | ✅ | `final_sweep` |
+| governance | 🟢 100/100 | ✅ 15 | ✅ 4 | ✅ | `governance` |
+| governance_extended | 🟢 100/100 | ✅ 4 | ✅ 2 | ✅ | `governance_extended` |
+| grafana | 🟢 100/100 | ✅ 4 | ✅ 2 | ✅ | `grafana` |
+| graphs | 🟢 100/100 | ✅ 4 | ✅ 2 | ✅ | `graphs` |
+| gtpsi | 🟢 100/100 | ✅ 4 | ✅ 2 | ✅ | `gtpsi` |
+| guardian | 🟢 100/100 | ✅ 4 | ✅ 2 | ✅ | `guardian` |
+| gymnasium_local | 🟢 100/100 | ✅ 4 | ✅ 2 | ✅ | `gymnasium_local` |
+| healing | 🟢 100/100 | ✅ 4 | ✅ 2 | ✅ | `healing` |
+| health_reports | 🟢 100/100 | ✅ 4 | ✅ 2 | ✅ | `health_reports` |
+| hooks | 🟢 100/100 | ✅ 4 | ✅ 2 | ✅ | `hooks` |
+| htmlcov | 🟢 100/100 | ✅ 4 | ✅ 2 | ✅ | `htmlcov` |
+| identity | 🟢 100/100 | ✅ 6 | ✅ 4 | ✅ | `identity` |
+| integrations | 🟢 100/100 | ✅ 4 | ✅ 2 | ✅ | `integrations` |
+| jules_branch | 🟢 100/100 | ✅ 4 | ✅ 2 | ✅ | `jules_branch` |
+| logs | 🟢 100/100 | ✅ 4 | ✅ 2 | ✅ | `logs` |
+| lukhas | 🟢 100/100 | ✅ 6 | ✅ 4 | ✅ | `lukhas` |
+| lukhas_ai_intro | 🟢 100/100 | ✅ 4 | ✅ 2 | ✅ | `lukhas_ai_intro` |
+| lukhas_website | 🟢 100/100 | ✅ 4 | ✅ 2 | ✅ | `lukhas_website` |
+| matriz | 🟢 100/100 | ✅ 11 | ✅ 4 | ✅ | `matriz` |
+| mcp-lukhas-sse | 🟢 100/100 | ✅ 4 | ✅ 2 | ✅ | `mcp-lukhas-sse` |
+| mcp-server | 🟢 100/100 | ✅ 4 | ✅ 2 | ✅ | `mcp-server` |
+| mcp-servers | 🟢 100/100 | ✅ 4 | ✅ 2 | ✅ | `mcp-servers` |
+| mcp_servers | 🟢 100/100 | ✅ 4 | ✅ 2 | ✅ | `mcp_servers` |
+| memory | 🟢 100/100 | ✅ 5 | ✅ 4 | ✅ | `memory` |
+| mk | 🟢 100/100 | ✅ 4 | ✅ 2 | ✅ | `mk` |
+| models | 🟢 100/100 | ✅ 4 | ✅ 2 | ✅ | `models` |
+| modulation | 🟢 100/100 | ✅ 4 | ✅ 2 | ✅ | `modulation` |
+| modules | 🟢 100/100 | ✅ 4 | ✅ 2 | ✅ | `modules` |
+| monitoring | 🟢 100/100 | ✅ 4 | ✅ 2 | ✅ | `monitoring` |
+| next_gen | 🟢 100/100 | ✅ 4 | ✅ 2 | ✅ | `next_gen` |
+| observability | 🟢 100/100 | ✅ 4 | ✅ 2 | ✅ | `observability` |
+| oneiric_core | 🟢 100/100 | ✅ 4 | ✅ 2 | ✅ | `oneiric_core` |
+| ops | 🟢 100/100 | ✅ 4 | ✅ 2 | ✅ | `ops` |
+| orchestration | 🟢 100/100 | ✅ 5 | ✅ 2 | ✅ | `orchestration` |
+| out | 🟢 100/100 | ✅ 4 | ✅ 2 | ✅ | `out` |
+| packages | 🟢 100/100 | ✅ 4 | ✅ 2 | ✅ | `packages` |
+| performance | 🟢 100/100 | ✅ 4 | ✅ 2 | ✅ | `performance` |
+| perp_runs | 🟢 100/100 | ✅ 4 | ✅ 2 | ✅ | `perp_runs` |
+| personality | 🟢 100/100 | ✅ 4 | ✅ 2 | ✅ | `personality` |
+| phase1_verification_pack | 🟢 100/100 | ✅ 4 | ✅ 2 | ✅ | `phase1_verification_pack` |
+| policies | 🟢 100/100 | ✅ 4 | ✅ 2 | ✅ | `policies` |
+| presentations | 🟢 100/100 | ✅ 4 | ✅ 2 | ✅ | `presentations` |
+| products | 🟢 100/100 | ✅ 4 | ✅ 2 | ✅ | `products` |
+| prometheus | 🟢 100/100 | ✅ 4 | ✅ 2 | ✅ | `prometheus` |
+| pytest_asyncio | 🟢 100/100 | ✅ 4 | ✅ 2 | ✅ | `pytest_asyncio` |
+| qi | 🟢 100/100 | ✅ 4 | ✅ 2 | ✅ | `qi` |
+| quantum | 🟢 100/100 | ✅ 4 | ✅ 2 | ✅ | `quantum` |
+| quarantine | 🟢 100/100 | ✅ 4 | ✅ 2 | ✅ | `quarantine` |
+| rats | 🟢 100/100 | ✅ 4 | ✅ 2 | ✅ | `rats` |
+| reasoning | 🟢 100/100 | ✅ 4 | ✅ 2 | ✅ | `reasoning` |
+| recovered_components | 🟢 100/100 | ✅ 4 | ✅ 2 | ✅ | `recovered_components` |
+| reports | 🟢 100/100 | ✅ 4 | ✅ 2 | ✅ | `reports` |
+| rl | 🟢 100/100 | ✅ 4 | ✅ 9 | ✅ | `rl` |
+| rules | 🟢 100/100 | ✅ 4 | ✅ 2 | ✅ | `rules` |
+| samples | 🟢 100/100 | ✅ 4 | ✅ 2 | ✅ | `samples` |
+| sbom | 🟢 100/100 | ✅ 4 | ✅ 2 | ✅ | `sbom` |
+| schemas | 🟢 100/100 | ✅ 4 | ✅ 2 | ✅ | `schemas` |
+| scripts | 🟢 100/100 | ✅ 4 | ✅ 2 | ✅ | `scripts` |
+| sdk | 🟢 100/100 | ✅ 4 | ✅ 2 | ✅ | `sdk` |
+| security | 🟢 100/100 | ✅ 19 | ✅ 3 | ✅ | `security` |
+| security_reports | 🟢 100/100 | ✅ 4 | ✅ 2 | ✅ | `security_reports` |
+| serve | 🟢 100/100 | ✅ 4 | ✅ 2 | ✅ | `serve` |
+| server | 🟢 100/100 | ✅ 4 | ✅ 2 | ✅ | `server` |
+| services | 🟢 100/100 | ✅ 4 | ✅ 2 | ✅ | `services` |
+| simulation | 🟢 100/100 | ✅ 4 | ✅ 2 | ✅ | `consciousness/simulation` |
+| src | 🟢 100/100 | ✅ 4 | ✅ 2 | ✅ | `src` |
+| storage | 🟢 100/100 | ✅ 4 | ✅ 2 | ✅ | `storage` |
+| symbolic | 🟢 100/100 | ✅ 4 | ✅ 2 | ✅ | `symbolic` |
+| system | 🟢 100/100 | ✅ 4 | ✅ 2 | ✅ | `system` |
+| system_claude_audit | 🟢 100/100 | ✅ 4 | ✅ 2 | ✅ | `system_claude_audit` |
+| tagging | 🟢 100/100 | ✅ 4 | ✅ 2 | ✅ | `tagging` |
+| telemetry | 🟢 100/100 | ✅ 4 | ✅ 2 | ✅ | `telemetry` |
+| temp | 🟢 100/100 | ✅ 4 | ✅ 2 | ✅ | `temp` |
+| templates | 🟢 100/100 | ✅ 4 | ✅ 5 | ✅ | `templates` |
+| test_data | 🟢 100/100 | ✅ 4 | ✅ 2 | ✅ | `test_data` |
+| test_results | 🟢 100/100 | ✅ 4 | ✅ 2 | ✅ | `test_results` |
+| tests | 🟢 100/100 | ✅ 4 | ✅ 2 | ✅ | `tests` |
+| tests_new | 🟢 100/100 | ✅ 4 | ✅ 2 | ✅ | `tests_new` |
+| third_party_stubs | 🟢 100/100 | ✅ 4 | ✅ 2 | ✅ | `third_party_stubs` |
+| todo | 🟢 100/100 | ✅ 4 | ✅ 2 | ✅ | `todo` |
+| tone | 🟢 100/100 | ✅ 4 | ✅ 2 | ✅ | `tone` |
+| tools | 🟢 100/100 | ✅ 3 | ✅ 2 | ✅ | `tools` |
+| trace | 🟢 100/100 | ✅ 4 | ✅ 2 | ✅ | `trace` |
+| trace_logs | 🟢 100/100 | ✅ 4 | ✅ 2 | ✅ | `trace_logs` |
+| transmission_bundle | 🟢 100/100 | ✅ 4 | ✅ 2 | ✅ | `transmission_bundle` |
+| universal_language | 🟢 100/100 | ✅ 4 | ✅ 2 | ✅ | `universal_language` |
+| utils | 🟢 100/100 | ✅ 4 | ✅ 2 | ✅ | `utils` |
+| var | 🟢 100/100 | ✅ 4 | ✅ 2 | ✅ | `var` |
+| vivox | 🟢 100/100 | ✅ 5 | ✅ 2 | ✅ | `vivox` |
+| vocabularies | 🟢 100/100 | ✅ 4 | ✅ 2 | ✅ | `vocabularies` |
+| vocabulary_refresh_data | 🟢 100/100 | ✅ 4 | ✅ 2 | ✅ | `vocabulary_refresh_data` |
+| website_v1 | 🟢 100/100 | ✅ 4 | ✅ 2 | ✅ | `website_v1` |
+| core | 🟢 80/100 | ✅ 2 | ✅ 2 | ❌ | `lukhas/core` |
+| lukhas_ai.egg-info | 🔴 30/100 | ❌ 0 | ❌ 0 | ❌ | `lukhas_ai.egg-info` |
+| simulation | 🔴 20/100 | ❌ 0 | ❌ 0 | ❌ | `tests/consciousness/simulation` |
+
+## Legend
+
+- 🟢 Healthy (≥80), 🟡 Moderate (50-79), 🔴 Needs Attention (<50)
+- Health score = Manifest (20) + Docs (30) + Tests (30) + Conftest (10) + Context (10)

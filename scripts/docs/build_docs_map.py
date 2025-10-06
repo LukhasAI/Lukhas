@@ -118,7 +118,7 @@ def build_mapping() -> Dict[str, Dict]:
 
         # Strategy 1: Explicit frontmatter (highest confidence)
         frontmatter = extract_frontmatter(md_path)
-        if frontmatter and "module" in frontmatter and frontmatter["module"]:
+        if frontmatter and isinstance(frontmatter, dict) and "module" in frontmatter and frontmatter["module"]:
             module = frontmatter["module"]
             confidence = 1.0
             strategy = "frontmatter"
