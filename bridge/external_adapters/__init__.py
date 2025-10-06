@@ -1,35 +1,16 @@
-"""
-LUKHAS AI - External Service Adapters
-====================================
+"""Bridge: bridge.external_adapters -> candidate implementations."""
+from __future__ import annotations
 
-Comprehensive adapters for external services including Gmail, Dropbox,
-and OAuth authentication flows with enterprise-grade security.
+from importlib import import_module
 
-Copyright (c) 2025 LUKHAS AI. All rights reserved.
-"""
+__all__ = []
 
-from .oauth_manager import OAuthManager
-
-# Optional imports (may have missing dependencies)
-try:
-    from .dropbox_adapter import DropboxAdapter
-    DROPBOX_AVAILABLE = True
-except ImportError:
-    DropboxAdapter = None
-    DROPBOX_AVAILABLE = False
-
-try:
-    from .gmail_adapter import GmailAdapter
-    GMAIL_AVAILABLE = True
-except ImportError:
-    GmailAdapter = None
-    GMAIL_AVAILABLE = False
-
-# TODO: ExternalServiceRouter not yet implemented
-# from .external_service_router import ExternalServiceRouter
-
-__all__ = ["OAuthManager"]
-if DROPBOX_AVAILABLE:
-    __all__.append("DropboxAdapter")
-if GMAIL_AVAILABLE:
-    __all__.append("GmailAdapter")
+for path in ["candidate.bridge.external_adapters", "external_adapters"]:
+    try:
+        _m = import_module(path)
+        names = getattr(_m, "__all__", [n for n in dir(_m) if not n.startswith("_")])
+        globals().update({n: getattr(_m, n) for n in names})
+        __all__ = names
+        break
+    except Exception:
+        continue

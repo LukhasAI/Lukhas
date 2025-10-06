@@ -1,4 +1,4 @@
-"""Bridge: bridge.api -> candidate implementations."""
+"""Bridge: governance.guardian_system -> candidate implementations."""
 from __future__ import annotations
 
 from importlib import import_module
@@ -6,8 +6,9 @@ from importlib import import_module
 __all__ = []
 
 for path in [
-    "candidate.bridge.api",
-    "candidate.bridge.analysis",
+    "candidate.governance.guardian_system",
+    "candidate.governance.guardian",
+    "governance.guardian",
 ]:
     try:
         _m = import_module(path)

@@ -28,8 +28,12 @@ except ModuleNotFoundError as exc:  # pragma: no cover - defensive fallback
     _logger.error("ΛTRACE: Failed to import lukhas.core: %s", exc)
     __all__ = []
 else:
-    globals().update({name: getattr(_lukhas_core, name) for name in getattr(_lukhas_core, "__all__", [])})
-    __all__ = getattr(_lukhas_core, "__all__", [])
+    # Use __dict__ to avoid triggering lukhas.core's __getattr__
+    _lukhas_all = _lukhas_core.__dict__.get("__all__", [])
+    # Only update globals if __all__ is valid and non-empty
+    if _lukhas_all and isinstance(_lukhas_all, (list, tuple)):
+        globals().update({name: getattr(_lukhas_core, name) for name in _lukhas_all if not name.startswith("_")})
+    __all__ = list(_lukhas_all) if isinstance(_lukhas_all, (list, tuple)) else []
 
 
 def __getattr__(item: str) -> Any:
