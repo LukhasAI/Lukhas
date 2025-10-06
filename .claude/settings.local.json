@@ -3,7 +3,10 @@
     "allow": [
       "Bash(while read line)",
       "Bash(do echo \"$line\")",
-      "Bash(git -C /Users/agi_dev/LOCAL-REPOS/Lukhas status consciousness/matriz_thought_loop.py consciousness/consciousness_stream.py)"
+      "Bash(git -C /Users/agi_dev/LOCAL-REPOS/Lukhas status consciousness/matriz_thought_loop.py consciousness/consciousness_stream.py)",
+      "Bash(git -C /Users/agi_dev/LOCAL-REPOS/Lukhas status lukhas/governance/schema_registry.py)",
+      "Bash(do echo \"=== $file ===\" rg \"Constellation Framework\" \"/Users/agi_dev/LOCAL-REPOS/Lukhas/$file\" -A 2 -B 1)",
+      "Bash(1)"
     ],
     "deny": [],
     "ask": []
