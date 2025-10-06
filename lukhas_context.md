@@ -144,7 +144,7 @@ Research & Development → Integration & Testing → Production Deployment
     - [`candidate/governance/privacy/claude.me`](./candidate/governance/privacy/claude.me) - Privacy protection & anonymization
 
 #### **LUKHAS - Constellation Framework Integration**
-- [`lukhas/claude.me`](./lukhas/claude.me) - Constellation Framework hub (Identity ⚛️ + Consciousness 🧠 + Guardian 🛡️)
+- [`lukhas/claude.me`](./lukhas/claude.me) - Constellation Framework hub (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum)
   - [`lukhas/consciousness/claude.me`](./lukhas/consciousness/claude.me) - Constellation consciousness integration
   - [`lukhas/memory/claude.me`](./lukhas/memory/claude.me) - Memory integration & fold systems
   - [`lukhas/identity/claude.me`](./lukhas/identity/claude.me) - Identity integration & auth services

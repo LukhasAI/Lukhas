@@ -280,6 +280,121 @@ def dry_run_report(root_dir: Path) -> List[Tuple[Path, str, str]]:
     return changes
 
 
+def replace_incomplete_constellation(content: str, file_path: Path) -> str:
+    """
+    Replace incomplete Constellation Framework mentions with canonical 8-star version.
+
+    Strategy:
+    1. Find old Trinity-style patterns and replace with canonical format
+    2. Find incomplete bullet lists and replace with canonical format
+    3. Preserve surrounding context and formatting
+    """
+    lines = content.split('\n')
+    result_lines = []
+    i = 0
+
+    while i < len(lines):
+        line = lines[i]
+
+        # Check if this line mentions Constellation Framework
+        if 'Constellation Framework' in line or 'constellation framework' in line.lower():
+            # Get next 20 lines for context
+            context_end = min(len(lines), i + 20)
+            next_lines = '\n'.join(lines[i:context_end])
+
+            # Count stars in context
+            star_count = count_stars_in_text(next_lines, 0)
+
+            # Check if this needs replacement
+            if is_incomplete_mention(line, star_count, next_lines):
+                # Detect if it's a bullet list format
+                has_bullets = any('•' in lines[j] or re.match(r'^\s*[-*]\s+', lines[j])
+                                 for j in range(i, min(len(lines), i + 10)))
+
+                # Detect indentation level
+                indent_match = re.match(r'^(\s*)', line)
+                indent = indent_match.group(1) if indent_match else ''
+
+                # Replace the line
+                result_lines.append(f"{indent}**Constellation Framework (8 Stars)**")
+                result_lines.append(f"{indent}")
+                result_lines.append(f"{indent}- **⚛️ Identity (Anchor)** — ΛiD authentication, namespace management")
+                result_lines.append(f"{indent}- **✦ Memory (Trail)** — Fold-based memory, temporal organization")
+                result_lines.append(f"{indent}- **🔬 Vision (Horizon)** — Pattern recognition, adaptive interfaces")
+                result_lines.append(f"{indent}- **🌱 Bio (Living)** — Adaptive bio-symbolic processing")
+                result_lines.append(f"{indent}- **🌙 Dream (Drift)** — Creative consciousness expansion")
+                result_lines.append(f"{indent}- **⚖️ Ethics (North)** — Constitutional AI, democratic oversight")
+                result_lines.append(f"{indent}- **🛡️ Guardian (Watch)** — Safety compliance, cascade prevention")
+                result_lines.append(f"{indent}- **⚛️ Quantum (Ambiguity)** — Quantum-inspired uncertainty")
+
+                # Skip old incomplete content (find end of the incomplete list)
+                j = i + 1
+                while j < len(lines) and j < i + 15:
+                    # Stop if we hit a blank line or new section
+                    if not lines[j].strip() or lines[j].startswith('#'):
+                        break
+                    # Stop if line has star symbols (part of incomplete list)
+                    if any(s in lines[j] for s in ['⚛️', '✦', '🔬', '🌱', '🌙', '⚖️', '🛡️', '🧠']):
+                        j += 1
+                        continue
+                    # Stop if it's a bullet point continuation
+                    if re.match(r'^\s*[-*•]\s+', lines[j]):
+                        j += 1
+                        continue
+                    break
+
+                i = j
+                continue
+
+        result_lines.append(line)
+        i += 1
+
+    return '\n'.join(result_lines)
+
+
+def apply_standardization(root_dir: Path, changes: List[Tuple[Path, str, str]]) -> None:
+    """Apply constellation standardization changes to files."""
+    print("=" * 80)
+    print("🔧 APPLYING CONSTELLATION FRAMEWORK STANDARDIZATION")
+    print("=" * 80)
+    print()
+    print(f"Processing {len(changes)} files...")
+    print()
+
+    updated_count = 0
+    skipped_count = 0
+
+    for file_path, old_content, _ in changes:
+        try:
+            # Generate new content
+            new_content = replace_incomplete_constellation(old_content, file_path)
+
+            # Only write if content actually changed
+            if new_content != old_content:
+                file_path.write_text(new_content, encoding='utf-8')
+                rel_path = file_path.relative_to(root_dir)
+                print(f"✅ Updated: {rel_path}")
+                updated_count += 1
+            else:
+                skipped_count += 1
+        except Exception as e:
+            rel_path = file_path.relative_to(root_dir)
+            print(f"❌ Error updating {rel_path}: {e}")
+            skipped_count += 1
+
+    print()
+    print("=" * 80)
+    print(f"📊 Summary:")
+    print(f"  ✅ Updated: {updated_count} files")
+    print(f"  ⏭️  Skipped: {skipped_count} files")
+    print()
+    print("Next steps:")
+    print("  1. Review changes: git diff")
+    print("  2. Test: make smoke")
+    print("  3. Commit: git add -A && git commit")
+    print("=" * 80)
+
+
 def main():
     root_dir = Path(__file__).parent.parent
 
@@ -287,18 +402,26 @@ def main():
     apply_mode = '--apply' in sys.argv
     preview_mode = '--preview' in sys.argv
 
-    if apply_mode:
-        print("❌ --apply mode not yet implemented for safety")
-        print("   Please review dry-run output first")
-        sys.exit(1)
-
     if preview_mode:
         print("❌ --preview mode not yet implemented")
-        print("   Please review dry-run output first")
+        print("   Use default dry-run mode first")
         sys.exit(1)
 
-    # Default: dry-run report
-    dry_run_report(root_dir)
+    if apply_mode:
+        print("⚠️  APPLY MODE - Files will be modified")
+        print()
+        input("Press ENTER to continue or Ctrl+C to cancel...")
+        print()
+
+        # Run detection again to get file list
+        changes = dry_run_report(root_dir)
+        print()
+
+        # Apply changes
+        apply_standardization(root_dir, changes)
+    else:
+        # Default: dry-run report
+        dry_run_report(root_dir)
 
 
 if __name__ == '__main__':
