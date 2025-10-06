@@ -173,3 +173,27 @@ Utility scripts and automation tools documentation.
 **Last Updated**: 2025-08-30
 **Status**: ✅ Active documentation hub with comprehensive consciousness research
 **Next Steps**: Integrate Google Drive research when available
+---
+
+## Documentation Metrics
+
+**Total Documents:** 1233
+**Last Updated:** 2025-10-06T21:30:04.253611
+
+**By Type:**
+
+- documentation: 1211
+- misc: 13
+- runbook: 3
+- index: 1
+- redirect: 1
+- operations: 1
+- transcript: 1
+- health-report: 1
+- sprint-plan: 1
+
+**Key Resources:**
+
+- [Complete Documentation Index](reference/DOCUMENTATION_INDEX.md)
+- [Site Map](_generated/SITE_MAP.md)
+- [Redirects](_generated/REDIRECTS.md)

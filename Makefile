@@ -1208,8 +1208,7 @@ docs-migrate-auto: ## Migrate docs/tests to module-local directories (git mv, hi
 
 docs-lint: ## Validate frontmatter and check for broken links
 	@echo "🔍 Validating documentation quality..."
-	python3 scripts/docs/validate_frontmatter.py
-	python3 scripts/docs/check_broken_links.py
+	python3 scripts/docs_lint.py
 
 validate-structure: ## Generate module structure health report (JSON)
 	@echo "🏥 Generating module structure health report..."

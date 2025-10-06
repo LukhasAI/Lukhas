@@ -148,3 +148,9 @@ To contribute to documentation:
 ---
 
 *LUKHAS  - Pack What Matters*
+
+---
+
+## Auto-Generated Index
+
+*The following sections are automatically generated.*

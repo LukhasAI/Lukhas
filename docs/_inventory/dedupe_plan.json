@@ -1,0 +1,1074 @@
+{
+  "exact_duplicates": [
+    {
+      "canonical": "docs/DEPLOYMENT_GUIDE.md",
+      "duplicates": [
+        "docs/guides/DEPLOYMENT_GUIDE.md"
+      ],
+      "hash": "6bbcca433e1a20a9198b88bdca551a86504e6e86e4089f8f28c49fe71571b36c"
+    },
+    {
+      "canonical": "docs/MIGRATION_GUIDE.md",
+      "duplicates": [
+        "docs/guides/MIGRATION_GUIDE.md"
+      ],
+      "hash": "a76828f207785d0f8185ea00a2cbfb66e366e9ecd190b78ef6e8655dcd716408"
+    },
+    {
+      "canonical": "docs/ORGANIZATION_COMPLETE_FINAL_REPORT.md",
+      "duplicates": [
+        "docs/status/ORGANIZATION_COMPLETE_FINAL_REPORT.md"
+      ],
+      "hash": "542b18943b4c70a644e03b8695bee5136fc694dce75e5684c89926b815340646"
+    },
+    {
+      "canonical": "docs/ROADMAP.md",
+      "duplicates": [
+        "docs/planning/ROADMAP.md"
+      ],
+      "hash": "da67af0f1894d7a61550371fb5a9287f5b8cb48653379762309576f45d75ca5e"
+    },
+    {
+      "canonical": "docs/TESTING_GUIDE.md",
+      "duplicates": [
+        "docs/guides/TESTING_GUIDE.md"
+      ],
+      "hash": "03e0b012b8669dac7780ae5bd1fe5c315dc8263f8619f0c4fca359ac1486ff29"
+    },
+    {
+      "canonical": "docs/architecture/COMPREHENSIVE_CODEBASE_ASSESSMENT.md",
+      "duplicates": [
+        "docs/reference/COMPREHENSIVE_CODEBASE_ASSESSMENT.md"
+      ],
+      "hash": "ba2f066b118ce871539136c3caf0f08fe7c705667b1c3892748d890bda3f2595"
+    },
+    {
+      "canonical": "docs/architecture/LUKHAS_CONSOLIDATION_PLAN.md",
+      "duplicates": [
+        "docs/planning/LUKHAS_CONSOLIDATION_PLAN.md"
+      ],
+      "hash": "e18d4df9d2b812855734b890a12baccaaa60d99bda1376a7734dd17a08614b00"
+    },
+    {
+      "canonical": "docs/audits/PULPO_PROJECT.md",
+      "duplicates": [
+        "docs/audits/STEPS_6..md",
+        "docs/compliance/compliance_overview_guide.md",
+        "docs/planning/.copilot_tasks.md",
+        "docs/project_status/CONSOLIDATION_COMPLETE.md",
+        "docs/project_status/EXECUTIVE_DOCUMENTATION_STRATEGY.md",
+        "docs/project_status/FILE_DELIVERY_MATRIX.md",
+        "docs/project_status/PROFESSIONAL_ENHANCEMENT_PLAN.md",
+        "docs/reports_root/LUKHAS_LOG_LOCATIONS_AND_ISSUES_GUIDE.md",
+        "docs/roadmap/.!18233!ROADMAP_OPENAI_ALIGNMENT.md",
+        "docs/roadmap/.!18239!TASKS_OPENAI_ALIGNMENT.md",
+        "docs/roadmap/.!19495!ROADMAP_OPENAI_ALIGNMENT.md",
+        "docs/roadmap/.!19503!TASKS_OPENAI_ALIGNMENT.md",
+        "docs/status/CRITICAL_GAPS_IMPROVEMENT_PLAN.md",
+        "docs/status/VALIDATION_REPORT.md",
+        "docs/tasks/CLAUDE_AGENT_ENHANCED_TASKS.md"
+      ],
+      "hash": "acd71f93ce458d3934fc0cba56ffdb3bd976b062520c3029bf0458506453f831"
+    },
+    {
+      "canonical": "docs/compliance/COMPLIANCE_VALIDATION_AND_TASKS.md",
+      "duplicates": [
+        "docs/validation/COMPLIANCE_VALIDATION_AND_TASKS.md"
+      ],
+      "hash": "56c7748aef7bced04f9ea9c1a65b70991969794a1ad5f57bdec7107b6a2db630"
+    },
+    {
+      "canonical": "docs/consciousness_recovery/architectures/core_architecture.md",
+      "duplicates": [
+        "docs/consciousness_recovery/architectures/lucas_agi_architecture.md"
+      ],
+      "hash": "eabcfbd33827c68e79a20297565082c2a343db2702c3761e64473ff0a4ba496a"
+    },
+    {
+      "canonical": "docs/consciousness_research_complete/Cross_Platform/__index.md",
+      "duplicates": [
+        "docs/consciousness_research_complete/lucas_dna_response_round1.md"
+      ],
+      "hash": "35aa2c0d63844785934103c777d96fe01a6004ca566e4187cec299cbcab0d376"
+    },
+    {
+      "canonical": "docs/consciousness_research_complete/Cross_Platform/__lucas_agi_framework_overview.md",
+      "duplicates": [
+        "docs/consciousness_research_complete/Cross_Platform/agi_consciousness/🧠 Lucas AGI Framework Overview__Lucas is a neuro-s.md",
+        "docs/consciousness_research_complete/Cross_Platform/examp.md"
+      ],
+      "hash": "e93964f0c4c53287fc58bfd85a90cfb8c1fe5aed036218add3bbd11070fb0ee5"
+    },
+    {
+      "canonical": "docs/consciousness_research_complete/Cross_Platform/_comprehensive_analysis_of_advanced_agi_architectur.md",
+      "duplicates": [
+        "docs/consciousness_research_complete/Cross_Platform/agi_consciousness/_comprehensive_analysis_of_advanced_agi_architectur.md",
+        "docs/consciousness_research_complete/Perplexity/agi_consciousness/Comprehensive Analysis of Advanced AGI ArchitecturE.md"
+      ],
+      "hash": "3db7df309743b3ce8f759ea47929cd0081c2465978dd2b445e3948cadc45c99a"
+    },
+    {
+      "canonical": "docs/consciousness_research_complete/Cross_Platform/_dynamic_visual_code_systems_for_identity_verificat.md",
+      "duplicates": [
+        "docs/consciousness_research_complete/Perplexity/identity_consciousness/Dynamic Visual Code Systems for Identity Verificat.md"
+      ],
+      "hash": "d125ba72c493a32181e87c7c6f2f07a3b84e893aa836bdddfb0f5e082a56cd95"
+    },
+    {
+      "canonical": "docs/consciousness_research_complete/Cross_Platform/identity_consciousness/00005_lucas_dna_response_round2.md",
+      "duplicates": [
+        "docs/consciousness_research_complete/Cross_Platform/lucas_dna_res.md",
+        "docs/consciousness_research_complete/lucas_dna_response_round2.md"
+      ],
+      "hash": "65f1a790486c266f4bc57a9f2956d8a99aa7cc3bfbcf1f00a8873731584046f1"
+    },
+    {
+      "canonical": "docs/consciousness_research_complete/Cross_Platform/mitochondrial_ai.md",
+      "duplicates": [
+        "docs/consciousness_research_complete/Cross_Platform/quantum_consciousness/mitochondrial_ai.md",
+        "docs/consciousness_research_complete/mitochondrial_functions_in_agi copy 3.md"
+      ],
+      "hash": "4b437ad47c8f717ba9c724ca4527d5df8fd5a835e276d71d245e40b0cd386b15"
+    },
+    {
+      "canonical": "docs/consciousness_research_complete/Perplexity/guardian_consciousness/Biomechanical Regulation of Bio-Symbolic Alignment.md",
+      "duplicates": [
+        "docs/consciousness_research_complete/Perplexity/quantum_consciousness/Biomechanical Regulation of Bio-Symbolic Alignment.md"
+      ],
+      "hash": "70374969f59e41ed5b61720bcddd3ba89f36a0a6f47d0a23b4434888916601a6"
+    },
+    {
+      "canonical": "docs/development/IMPLEMENTATION_STATUS.md",
+      "duplicates": [
+        "docs/status/IMPLEMENTATION_STATUS.md"
+      ],
+      "hash": "9b390bf5e3b26c9e35c146662db14a2f35028e859e6511ab797604de58dd730e"
+    },
+    {
+      "canonical": "docs/development/MCP_INTEGRATION_ANALYSIS.md",
+      "duplicates": [
+        "docs/mcp/MCP_INTEGRATION_ANALYSIS.md"
+      ],
+      "hash": "7e0c2679aaba884712f50a2a7097a14e2ef73f2f26abe04aeeee08f43dd7d7ec"
+    },
+    {
+      "canonical": "docs/development/MODULATION_IMPLEMENTATION_COMPLETE.md",
+      "duplicates": [
+        "docs/mcp/MODULATION_IMPLEMENTATION_COMPLETE.md"
+      ],
+      "hash": "53294454ecd6709a9c0ab00baa6c4b5e69d64edc4911b7900f4fe0671923ba82"
+    },
+    {
+      "canonical": "docs/development/SYSTEM_STATUS_CLARITY.md",
+      "duplicates": [
+        "docs/status/SYSTEM_STATUS_CLARITY.md"
+      ],
+      "hash": "1fb201f8e3ca35797ad9d849c4986579d1f0a26ac0800d68cad2e8f05de4642f"
+    },
+    {
+      "canonical": "docs/development/TYPE_CHECKING_SETUP.md",
+      "duplicates": [
+        "docs/guides/TYPE_CHECKING_SETUP.md"
+      ],
+      "hash": "ddac51a172c1c62141bea93d7d1cfdfa87c745a971b6324fc695199cd7c0d60b"
+    },
+    {
+      "canonical": "docs/domain_strategy/LUKHAS_DEV_DOMAIN_STRATEGY.md",
+      "duplicates": [
+        "docs/domain_strategy/docs/LUKHAS_DEV_DOMAIN_STRATEGY.md"
+      ],
+      "hash": "ee3447a812cfd35232d29e5ebd351add2e2525578b5f7dfe0f1714b56c6b6af1"
+    },
+    {
+      "canonical": "docs/domain_strategy/LUKHAS_WECOSYSTEM_FINAL_STRATEGY.md",
+      "duplicates": [
+        "docs/domain_strategy/docs/LUKHAS_WECOSYSTEM_FINAL_STRATEGY.md"
+      ],
+      "hash": "9294653370cbff3d9269ddde87943548ceb48a51b87c2168be729fb90358fb20"
+    },
+    {
+      "canonical": "docs/domain_strategy/docs/LUKHAS_DESIGN_SYSTEM.md",
+      "duplicates": [
+        "docs/web/LUKHAS_DESIGN_SYSTEM.md"
+      ],
+      "hash": "387cd97a1449603a2a9a39690e53f7dbc6d328d26dadb69b59ce6e69e8a7ca3b"
+    },
+    {
+      "canonical": "docs/domain_strategy/docs/LUKHAS_PARTICLE_IMPLEMENTATION.md",
+      "duplicates": [
+        "docs/web/LUKHAS_PARTICLE_IMPLEMENTATION.md"
+      ],
+      "hash": "96c35b0e9d8797a922d88957e8b57d0fa43724549b8c02dd30b1f6e2f429cb37"
+    },
+    {
+      "canonical": "docs/guides/mcp_server_setup_guide.md",
+      "duplicates": [
+        "docs/mcp_server_setup_guide.md"
+      ],
+      "hash": "efd6ae7b840756930c6ac90087f5f10a302889834e18ade6363d4ec12e9191cb"
+    },
+    {
+      "canonical": "docs/reference/RECONCILIATION_ANALYSIS.md",
+      "duplicates": [
+        "docs/status/RECONCILIATION_ANALYSIS.md"
+      ],
+      "hash": "3ca291e758aa56dc90783ad4bc4a681882c7ac2231e5d0588071bb1295e43f8b"
+    },
+    {
+      "canonical": "docs/reference/Tiers-Final-Clean.md",
+      "duplicates": [
+        "docs/reference/Tiers-Final.md"
+      ],
+      "hash": "dd271ca56e3f2ed4505b0d687800da3af7e6cf906c529d1dae278d38a77aaf67"
+    },
+    {
+      "canonical": "docs/roadmap/.!38404!TASKS_OPENAI_ALIGNMENT.md",
+      "duplicates": [
+        "docs/roadmap/.!38410!ROADMAP_OPENAI_ALIGNMENT.md"
+      ],
+      "hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "canonical": "docs/web/LUKHAS_AI_WEBSITE_ARCHITECTURE.md",
+      "duplicates": [
+        "docs/web/content/domains/lukhas-ai-main/technical_architecture.md"
+      ],
+      "hash": "c9e93a1505fc50b4cdce0157333d59081f496c5c1f9d4fc45c2af35424877dab"
+    },
+    {
+      "canonical": "docs/web/LUKHAS_ECOSYSTEM_WEBSITE_PLANS.md",
+      "duplicates": [
+        "docs/web/content/plans/ecosystem-strategy/lambda_ecosystem_architecture.md"
+      ],
+      "hash": "f75ed53368f44f39460e18038c06744404820146c2936457836351f607d02669"
+    }
+  ],
+  "near_duplicates": [
+    {
+      "canonical": "docs/ARCHITECTURE.md",
+      "duplicates": [
+        "docs/architecture/ARCHITECTURE.md"
+      ]
+    },
+    {
+      "canonical": "docs/BRANDING_COMPLIANCE_REPORT.md",
+      "duplicates": [
+        "docs/status/DOCS_TODO.md"
+      ]
+    },
+    {
+      "canonical": "docs/status/DOCUMENTATION_ORGANIZATION_PROGRESS.md",
+      "duplicates": [
+        "docs/status/FINAL_ORGANIZATION_COMPLETE.md"
+      ]
+    },
+    {
+      "canonical": "docs/DOCUMENTATION_ORGANIZATION_SUMMARY.md",
+      "duplicates": [
+        "docs/summaries/DOCUMENTATION_ORGANIZATION_REPORT.md"
+      ]
+    },
+    {
+      "canonical": "docs/development/AI_INTEGRATION_SETUP.md",
+      "duplicates": [
+        "docs/development/AI_SETUP_CURRENT.md"
+      ]
+    },
+    {
+      "canonical": "docs/LUKHAS_SYSTEM_STATUS.md",
+      "duplicates": [
+        "docs/status/LUKHAS_SYSTEM_STATUS.md"
+      ]
+    },
+    {
+      "canonical": "docs/QUICK_START.md",
+      "duplicates": [
+        "docs/guides/QUICK_START.md"
+      ]
+    },
+    {
+      "canonical": "docs/QUICK_START_GUIDE.md",
+      "duplicates": [
+        "docs/integration/quick-start.md"
+      ]
+    },
+    {
+      "canonical": "docs/T4_UNUSED_IMPORTS_GUIDE.md",
+      "duplicates": [
+        "docs/development/T4_UNUSED_IMPORTS_SYSTEM.md"
+      ]
+    },
+    {
+      "canonical": "docs/agents/CLAUDE.md",
+      "duplicates": [
+        "docs/integrations/CLAUDE.md"
+      ]
+    },
+    {
+      "canonical": "docs/ai_attribution/Z_C_.md",
+      "duplicates": [
+        "docs/ai_attribution/Z_C_FORMULA_DISCOVERY.md"
+      ]
+    },
+    {
+      "canonical": "docs/architecture/LUKHAS_NEUROPLASTIC_ARCHITECTURE.md",
+      "duplicates": [
+        "docs/architecture/NEUROPLASTIC_ARCHITECTURE.md"
+      ]
+    },
+    {
+      "canonical": "docs/consciousness/README.md",
+      "duplicates": [
+        "docs/consciousness_recovery/INDEX.md",
+        "docs/architecture/MATRIZ_CONSCIOUSNESS_ARCHITECTURE.md",
+        "docs/consciousness/API_REFERENCE.md",
+        "docs/consciousness/DEVELOPER_GUIDE.md",
+        "docs/consciousness/MATRIZ_ARCHITECTURE_OVERVIEW.md"
+      ]
+    },
+    {
+      "canonical": "docs/audits/AUDIT_PLAN.md",
+      "duplicates": [
+        "docs/audits/STEPS.md"
+      ]
+    },
+    {
+      "canonical": "docs/consciousness/CONSTELLATION_FRAMEWORK_GUIDE.md",
+      "duplicates": [
+        "docs/consciousness/constellation-framework-guide.md"
+      ]
+    },
+    {
+      "canonical": "docs/consciousness/LUKHAS_CONCEPT_PRESERVATION.md",
+      "duplicates": [
+        "docs/guides/LUKHAS_CONCEPT_PRESERVATION_GUIDE.md"
+      ]
+    },
+    {
+      "canonical": "docs/consciousness/TRINITY_FRAMEWORK_ACADEMIC_SPECIFICATION.md",
+      "duplicates": [
+        "docs/consciousness/constellation_framework.md"
+      ]
+    },
+    {
+      "canonical": "docs/consciousness_research_complete/Cross_Platform/Heros.md",
+      "duplicates": [
+        "docs/consciousness_research_complete/Cross_Platform/_mitochondria_the_unsung_heros_catalyst.md"
+      ]
+    },
+    {
+      "canonical": "docs/consciousness_research_complete/Cross_Platform/_dna-inspired_cryptographic_architectures_for_symbo.md",
+      "duplicates": [
+        "docs/consciousness_research_complete/Cross_Platform/identity_consciousness/DNA-Inspired Cryptographic Architectures for Symbo.md"
+      ]
+    },
+    {
+      "canonical": "docs/consciousness_research_complete/Cross_Platform/_lucasid_is_a_symbolic_agi_identity_framework_integ.md",
+      "duplicates": [
+        "docs/consciousness_research_complete/Perplexity/identity_consciousness/Lucas_ID is a symbolic AGI identity framework inte.md"
+      ]
+    },
+    {
+      "canonical": "docs/consciousness_research_complete/Cross_Platform/agi_consciousness/Modular AIG Brain Blueprint for LUCAS.md",
+      "duplicates": [
+        "docs/consciousness_research_complete/Perplexity/agi_consciousness/Modular AIG Brain Blueprint for LUCAS.md"
+      ]
+    },
+    {
+      "canonical": "docs/consciousness_research_complete/Cross_Platform/reasoning_consciousness/Theoretical and Computational Models of Frequency-.md",
+      "duplicates": [
+        "docs/consciousness_research_complete/Cross_Platform/theoretical_computational_frequency_models.md"
+      ]
+    },
+    {
+      "canonical": "docs/consciousness_research_complete/Perplexity/agi_consciousness/Background__Lucas_AGI is a hybrid neuro-symbolic c.md",
+      "duplicates": [
+        "docs/consciousness_research_complete/Perplexity/agi_consciousness/Background___Lucas_AGI is a hybrid neuro-symbolic.md",
+        "docs/consciousness_research_complete/Perplexity/identity_consciousness/Background__Lucas_ID is a symbolic AGI identity fr.md",
+        "docs/consciousness_research_complete/Perplexity/identity_consciousness/Background___Lucas_ID is a symbolic AGI identity f.md"
+      ]
+    },
+    {
+      "canonical": "docs/consciousness_research_complete/Perplexity/agi_consciousness/Evaluating Symbolic Link Compression for Modular A.md",
+      "duplicates": [
+        "docs/consciousness_research_complete/Perplexity/glyph_consciousness/Evaluating Symbolic Link Compression Systems for M.md"
+      ]
+    },
+    {
+      "canonical": "docs/consciousness_research_complete/Perplexity/agi_consciousness/Lucas_AGI Stress-Test & Evolutionary Roadmap.md",
+      "duplicates": [
+        "docs/consciousness_research_complete/Perplexity/agi_consciousness/Lucas_AGI_ Stress-Test & Evolutionary Roadmap.md"
+      ]
+    },
+    {
+      "canonical": "docs/consciousness_research_complete/Perplexity/oracle_consciousness/Bioengineered Molecule Set Validation and Optimiza.md",
+      "duplicates": [
+        "docs/consciousness_research_complete/Perplexity/oracle_consciousness/Bioengineered Molecule Set Validation for Lucas_AG.md"
+      ]
+    },
+    {
+      "canonical": "docs/development/AGENTS.md",
+      "duplicates": [
+        "docs/gonzo/FAILED_SESSION.md"
+      ]
+    },
+    {
+      "canonical": "docs/development/QUICK_REFERENCE.md",
+      "duplicates": [
+        "docs/integration/LUKHAS_AI_QUICK_REFERENCE.md"
+      ]
+    },
+    {
+      "canonical": "docs/domain_strategy/LUKHAS_AI_DOMAIN_STRATEGY.md",
+      "duplicates": [
+        "docs/domain_strategy/docs/LUKHAS_AI_DOMAIN_STRATEGY.md",
+        "docs/web/content/consciousness_technology_overview.md"
+      ]
+    },
+    {
+      "canonical": "docs/domain_strategy/docs/LUKHAS_LAMBDA_WECOSYSTEM_STRATEGY.md",
+      "duplicates": [
+        "docs/planning/LUKHAS_LAMBDA_WECOSYSTEM_STRATEGY.md"
+      ]
+    },
+    {
+      "canonical": "docs/executive/CEO_EXECUTIVE_REVIEW_AUGUST_2025.md",
+      "duplicates": [
+        "docs/status/CEO_EXECUTIVE_REVIEW_AUGUST_2025.md"
+      ]
+    },
+    {
+      "canonical": "docs/features/framework-integration-manager.md",
+      "duplicates": [
+        "docs/integration/framework-integration.md"
+      ]
+    },
+    {
+      "canonical": "docs/gonzo/CLAUDE_CONFIG/INSTALLATION.md",
+      "duplicates": [
+        "docs/gonzo/CLAUDE_CONFIG/PACKAGE_SUMMARY.md",
+        "docs/gonzo/CLAUDE_CONFIG/README.md"
+      ]
+    },
+    {
+      "canonical": "docs/gonzo/COMPLETE_PHASE_SUMMARY.md",
+      "duplicates": [
+        "docs/gonzo/IMPLEMENTATION_COMPLETE.md"
+      ]
+    },
+    {
+      "canonical": "docs/gonzo/LUKHAS_Test_Suite—Add_ons.md",
+      "duplicates": [
+        "docs/gonzo/LUKHAS_Test_Suite—T4_Upgrade.md"
+      ]
+    },
+    {
+      "canonical": "docs/guides/DEV_GUIDE_ADAPTIVE_FEATURES.md",
+      "duplicates": [
+        "docs/guides/USER_GUIDE_ADAPTIVE_FEATURES.md"
+      ]
+    },
+    {
+      "canonical": "docs/reference/MANUAL_MODULE_SELECTION.md",
+      "duplicates": [
+        "docs/reference/MANUAL_SELECTION_RESULTS.md",
+        "docs/modules/MANUAL_MODULE_SELECTION.md"
+      ]
+    },
+    {
+      "canonical": "docs/planning/FEATURES_CONSOLIDATION_PLAN.md",
+      "duplicates": [
+        "docs/status/FEATURES_CONSOLIDATION_COMPLETE.md"
+      ]
+    },
+    {
+      "canonical": "docs/planning/completed/PWM_ROOT_ORGANIZATION_PLAN.md",
+      "duplicates": [
+        "docs/status/ROOT_ORGANIZATION_COMPLETE.md",
+        "docs/status/ROOT_ORGANIZATION_SUMMARY.md"
+      ]
+    },
+    {
+      "canonical": "docs/podcast/DOCUMENTATION_INDEX.md",
+      "duplicates": [
+        "docs/podcast/README.md"
+      ]
+    },
+    {
+      "canonical": "docs/project_status/ROOT_DIRECTORY_CLEANUP_SUMMARY.md",
+      "duplicates": [
+        "docs/status/ROOT_CLEANUP_REPORT.md",
+        "docs/status/ROOT_CLEANUP_SUMMARY.md"
+      ]
+    },
+    {
+      "canonical": "docs/reports/analysis/ADVANCED_TESTING_FRAMEWORK_ANALYSIS.md",
+      "duplicates": [
+        "docs/reports/testing/ADVANCED_TESTING_FRAMEWORK_SUCCESS.md"
+      ]
+    },
+    {
+      "canonical": "docs/roadmap/UNIVERSAL_SYMBOL_COMMUNICATION_BLUEPRINT.md",
+      "duplicates": [
+        "docs/roadmap/UNIVERSAL_SYMBOL_TRINITY_BLUEPRINT.md"
+      ]
+    },
+    {
+      "canonical": "docs/t4/T4_EXCELLENCE_AUDIT_REPORT.md",
+      "duplicates": [
+        "docs/validation/README_AUDIT.md"
+      ]
+    },
+    {
+      "canonical": "docs/testing/MATRIZ_TRACE_API_TEST_RESULTS.md",
+      "duplicates": [
+        "docs/testing/matriz_trace_api_results/README.md"
+      ]
+    },
+    {
+      "canonical": "docs/web/content/ORGANIZATION_COMPLETE_SUMMARY.md",
+      "duplicates": [
+        "docs/web/content/README.md"
+      ]
+    }
+  ],
+  "redirects": [
+    {
+      "from": "docs/guides/DEPLOYMENT_GUIDE.md",
+      "to": "docs/DEPLOYMENT_GUIDE.md",
+      "reason": "exact_duplicate"
+    },
+    {
+      "from": "docs/guides/MIGRATION_GUIDE.md",
+      "to": "docs/MIGRATION_GUIDE.md",
+      "reason": "exact_duplicate"
+    },
+    {
+      "from": "docs/status/ORGANIZATION_COMPLETE_FINAL_REPORT.md",
+      "to": "docs/ORGANIZATION_COMPLETE_FINAL_REPORT.md",
+      "reason": "exact_duplicate"
+    },
+    {
+      "from": "docs/planning/ROADMAP.md",
+      "to": "docs/ROADMAP.md",
+      "reason": "exact_duplicate"
+    },
+    {
+      "from": "docs/guides/TESTING_GUIDE.md",
+      "to": "docs/TESTING_GUIDE.md",
+      "reason": "exact_duplicate"
+    },
+    {
+      "from": "docs/reference/COMPREHENSIVE_CODEBASE_ASSESSMENT.md",
+      "to": "docs/architecture/COMPREHENSIVE_CODEBASE_ASSESSMENT.md",
+      "reason": "exact_duplicate"
+    },
+    {
+      "from": "docs/planning/LUKHAS_CONSOLIDATION_PLAN.md",
+      "to": "docs/architecture/LUKHAS_CONSOLIDATION_PLAN.md",
+      "reason": "exact_duplicate"
+    },
+    {
+      "from": "docs/audits/STEPS_6..md",
+      "to": "docs/audits/PULPO_PROJECT.md",
+      "reason": "exact_duplicate"
+    },
+    {
+      "from": "docs/compliance/compliance_overview_guide.md",
+      "to": "docs/audits/PULPO_PROJECT.md",
+      "reason": "exact_duplicate"
+    },
+    {
+      "from": "docs/planning/.copilot_tasks.md",
+      "to": "docs/audits/PULPO_PROJECT.md",
+      "reason": "exact_duplicate"
+    },
+    {
+      "from": "docs/project_status/CONSOLIDATION_COMPLETE.md",
+      "to": "docs/audits/PULPO_PROJECT.md",
+      "reason": "exact_duplicate"
+    },
+    {
+      "from": "docs/project_status/EXECUTIVE_DOCUMENTATION_STRATEGY.md",
+      "to": "docs/audits/PULPO_PROJECT.md",
+      "reason": "exact_duplicate"
+    },
+    {
+      "from": "docs/project_status/FILE_DELIVERY_MATRIX.md",
+      "to": "docs/audits/PULPO_PROJECT.md",
+      "reason": "exact_duplicate"
+    },
+    {
+      "from": "docs/project_status/PROFESSIONAL_ENHANCEMENT_PLAN.md",
+      "to": "docs/audits/PULPO_PROJECT.md",
+      "reason": "exact_duplicate"
+    },
+    {
+      "from": "docs/reports_root/LUKHAS_LOG_LOCATIONS_AND_ISSUES_GUIDE.md",
+      "to": "docs/audits/PULPO_PROJECT.md",
+      "reason": "exact_duplicate"
+    },
+    {
+      "from": "docs/roadmap/.!18233!ROADMAP_OPENAI_ALIGNMENT.md",
+      "to": "docs/audits/PULPO_PROJECT.md",
+      "reason": "exact_duplicate"
+    },
+    {
+      "from": "docs/roadmap/.!18239!TASKS_OPENAI_ALIGNMENT.md",
+      "to": "docs/audits/PULPO_PROJECT.md",
+      "reason": "exact_duplicate"
+    },
+    {
+      "from": "docs/roadmap/.!19495!ROADMAP_OPENAI_ALIGNMENT.md",
+      "to": "docs/audits/PULPO_PROJECT.md",
+      "reason": "exact_duplicate"
+    },
+    {
+      "from": "docs/roadmap/.!19503!TASKS_OPENAI_ALIGNMENT.md",
+      "to": "docs/audits/PULPO_PROJECT.md",
+      "reason": "exact_duplicate"
+    },
+    {
+      "from": "docs/status/CRITICAL_GAPS_IMPROVEMENT_PLAN.md",
+      "to": "docs/audits/PULPO_PROJECT.md",
+      "reason": "exact_duplicate"
+    },
+    {
+      "from": "docs/status/VALIDATION_REPORT.md",
+      "to": "docs/audits/PULPO_PROJECT.md",
+      "reason": "exact_duplicate"
+    },
+    {
+      "from": "docs/tasks/CLAUDE_AGENT_ENHANCED_TASKS.md",
+      "to": "docs/audits/PULPO_PROJECT.md",
+      "reason": "exact_duplicate"
+    },
+    {
+      "from": "docs/validation/COMPLIANCE_VALIDATION_AND_TASKS.md",
+      "to": "docs/compliance/COMPLIANCE_VALIDATION_AND_TASKS.md",
+      "reason": "exact_duplicate"
+    },
+    {
+      "from": "docs/consciousness_recovery/architectures/lucas_agi_architecture.md",
+      "to": "docs/consciousness_recovery/architectures/core_architecture.md",
+      "reason": "exact_duplicate"
+    },
+    {
+      "from": "docs/consciousness_research_complete/lucas_dna_response_round1.md",
+      "to": "docs/consciousness_research_complete/Cross_Platform/__index.md",
+      "reason": "exact_duplicate"
+    },
+    {
+      "from": "docs/consciousness_research_complete/Cross_Platform/agi_consciousness/🧠 Lucas AGI Framework Overview__Lucas is a neuro-s.md",
+      "to": "docs/consciousness_research_complete/Cross_Platform/__lucas_agi_framework_overview.md",
+      "reason": "exact_duplicate"
+    },
+    {
+      "from": "docs/consciousness_research_complete/Cross_Platform/examp.md",
+      "to": "docs/consciousness_research_complete/Cross_Platform/__lucas_agi_framework_overview.md",
+      "reason": "exact_duplicate"
+    },
+    {
+      "from": "docs/consciousness_research_complete/Cross_Platform/agi_consciousness/_comprehensive_analysis_of_advanced_agi_architectur.md",
+      "to": "docs/consciousness_research_complete/Cross_Platform/_comprehensive_analysis_of_advanced_agi_architectur.md",
+      "reason": "exact_duplicate"
+    },
+    {
+      "from": "docs/consciousness_research_complete/Perplexity/agi_consciousness/Comprehensive Analysis of Advanced AGI ArchitecturE.md",
+      "to": "docs/consciousness_research_complete/Cross_Platform/_comprehensive_analysis_of_advanced_agi_architectur.md",
+      "reason": "exact_duplicate"
+    },
+    {
+      "from": "docs/consciousness_research_complete/Perplexity/identity_consciousness/Dynamic Visual Code Systems for Identity Verificat.md",
+      "to": "docs/consciousness_research_complete/Cross_Platform/_dynamic_visual_code_systems_for_identity_verificat.md",
+      "reason": "exact_duplicate"
+    },
+    {
+      "from": "docs/consciousness_research_complete/Cross_Platform/lucas_dna_res.md",
+      "to": "docs/consciousness_research_complete/Cross_Platform/identity_consciousness/00005_lucas_dna_response_round2.md",
+      "reason": "exact_duplicate"
+    },
+    {
+      "from": "docs/consciousness_research_complete/lucas_dna_response_round2.md",
+      "to": "docs/consciousness_research_complete/Cross_Platform/identity_consciousness/00005_lucas_dna_response_round2.md",
+      "reason": "exact_duplicate"
+    },
+    {
+      "from": "docs/consciousness_research_complete/Cross_Platform/quantum_consciousness/mitochondrial_ai.md",
+      "to": "docs/consciousness_research_complete/Cross_Platform/mitochondrial_ai.md",
+      "reason": "exact_duplicate"
+    },
+    {
+      "from": "docs/consciousness_research_complete/mitochondrial_functions_in_agi copy 3.md",
+      "to": "docs/consciousness_research_complete/Cross_Platform/mitochondrial_ai.md",
+      "reason": "exact_duplicate"
+    },
+    {
+      "from": "docs/consciousness_research_complete/Perplexity/quantum_consciousness/Biomechanical Regulation of Bio-Symbolic Alignment.md",
+      "to": "docs/consciousness_research_complete/Perplexity/guardian_consciousness/Biomechanical Regulation of Bio-Symbolic Alignment.md",
+      "reason": "exact_duplicate"
+    },
+    {
+      "from": "docs/status/IMPLEMENTATION_STATUS.md",
+      "to": "docs/development/IMPLEMENTATION_STATUS.md",
+      "reason": "exact_duplicate"
+    },
+    {
+      "from": "docs/mcp/MCP_INTEGRATION_ANALYSIS.md",
+      "to": "docs/development/MCP_INTEGRATION_ANALYSIS.md",
+      "reason": "exact_duplicate"
+    },
+    {
+      "from": "docs/mcp/MODULATION_IMPLEMENTATION_COMPLETE.md",
+      "to": "docs/development/MODULATION_IMPLEMENTATION_COMPLETE.md",
+      "reason": "exact_duplicate"
+    },
+    {
+      "from": "docs/status/SYSTEM_STATUS_CLARITY.md",
+      "to": "docs/development/SYSTEM_STATUS_CLARITY.md",
+      "reason": "exact_duplicate"
+    },
+    {
+      "from": "docs/guides/TYPE_CHECKING_SETUP.md",
+      "to": "docs/development/TYPE_CHECKING_SETUP.md",
+      "reason": "exact_duplicate"
+    },
+    {
+      "from": "docs/domain_strategy/docs/LUKHAS_DEV_DOMAIN_STRATEGY.md",
+      "to": "docs/domain_strategy/LUKHAS_DEV_DOMAIN_STRATEGY.md",
+      "reason": "exact_duplicate"
+    },
+    {
+      "from": "docs/domain_strategy/docs/LUKHAS_WECOSYSTEM_FINAL_STRATEGY.md",
+      "to": "docs/domain_strategy/LUKHAS_WECOSYSTEM_FINAL_STRATEGY.md",
+      "reason": "exact_duplicate"
+    },
+    {
+      "from": "docs/web/LUKHAS_DESIGN_SYSTEM.md",
+      "to": "docs/domain_strategy/docs/LUKHAS_DESIGN_SYSTEM.md",
+      "reason": "exact_duplicate"
+    },
+    {
+      "from": "docs/web/LUKHAS_PARTICLE_IMPLEMENTATION.md",
+      "to": "docs/domain_strategy/docs/LUKHAS_PARTICLE_IMPLEMENTATION.md",
+      "reason": "exact_duplicate"
+    },
+    {
+      "from": "docs/mcp_server_setup_guide.md",
+      "to": "docs/guides/mcp_server_setup_guide.md",
+      "reason": "exact_duplicate"
+    },
+    {
+      "from": "docs/status/RECONCILIATION_ANALYSIS.md",
+      "to": "docs/reference/RECONCILIATION_ANALYSIS.md",
+      "reason": "exact_duplicate"
+    },
+    {
+      "from": "docs/reference/Tiers-Final.md",
+      "to": "docs/reference/Tiers-Final-Clean.md",
+      "reason": "exact_duplicate"
+    },
+    {
+      "from": "docs/roadmap/.!38410!ROADMAP_OPENAI_ALIGNMENT.md",
+      "to": "docs/roadmap/.!38404!TASKS_OPENAI_ALIGNMENT.md",
+      "reason": "exact_duplicate"
+    },
+    {
+      "from": "docs/web/content/domains/lukhas-ai-main/technical_architecture.md",
+      "to": "docs/web/LUKHAS_AI_WEBSITE_ARCHITECTURE.md",
+      "reason": "exact_duplicate"
+    },
+    {
+      "from": "docs/web/content/plans/ecosystem-strategy/lambda_ecosystem_architecture.md",
+      "to": "docs/web/LUKHAS_ECOSYSTEM_WEBSITE_PLANS.md",
+      "reason": "exact_duplicate"
+    }
+  ],
+  "moves_to_archive": [
+    {
+      "from": "docs/architecture/ARCHITECTURE.md",
+      "reason": "near_duplicate",
+      "canonical_alternative": "docs/ARCHITECTURE.md"
+    },
+    {
+      "from": "docs/status/DOCS_TODO.md",
+      "reason": "near_duplicate",
+      "canonical_alternative": "docs/BRANDING_COMPLIANCE_REPORT.md"
+    },
+    {
+      "from": "docs/status/FINAL_ORGANIZATION_COMPLETE.md",
+      "reason": "near_duplicate",
+      "canonical_alternative": "docs/status/DOCUMENTATION_ORGANIZATION_PROGRESS.md"
+    },
+    {
+      "from": "docs/summaries/DOCUMENTATION_ORGANIZATION_REPORT.md",
+      "reason": "near_duplicate",
+      "canonical_alternative": "docs/DOCUMENTATION_ORGANIZATION_SUMMARY.md"
+    },
+    {
+      "from": "docs/development/AI_SETUP_CURRENT.md",
+      "reason": "near_duplicate",
+      "canonical_alternative": "docs/development/AI_INTEGRATION_SETUP.md"
+    },
+    {
+      "from": "docs/status/LUKHAS_SYSTEM_STATUS.md",
+      "reason": "near_duplicate",
+      "canonical_alternative": "docs/LUKHAS_SYSTEM_STATUS.md"
+    },
+    {
+      "from": "docs/guides/QUICK_START.md",
+      "reason": "near_duplicate",
+      "canonical_alternative": "docs/QUICK_START.md"
+    },
+    {
+      "from": "docs/integration/quick-start.md",
+      "reason": "near_duplicate",
+      "canonical_alternative": "docs/QUICK_START_GUIDE.md"
+    },
+    {
+      "from": "docs/development/T4_UNUSED_IMPORTS_SYSTEM.md",
+      "reason": "near_duplicate",
+      "canonical_alternative": "docs/T4_UNUSED_IMPORTS_GUIDE.md"
+    },
+    {
+      "from": "docs/integrations/CLAUDE.md",
+      "reason": "near_duplicate",
+      "canonical_alternative": "docs/agents/CLAUDE.md"
+    },
+    {
+      "from": "docs/ai_attribution/Z_C_FORMULA_DISCOVERY.md",
+      "reason": "near_duplicate",
+      "canonical_alternative": "docs/ai_attribution/Z_C_.md"
+    },
+    {
+      "from": "docs/architecture/NEUROPLASTIC_ARCHITECTURE.md",
+      "reason": "near_duplicate",
+      "canonical_alternative": "docs/architecture/LUKHAS_NEUROPLASTIC_ARCHITECTURE.md"
+    },
+    {
+      "from": "docs/consciousness_recovery/INDEX.md",
+      "reason": "near_duplicate",
+      "canonical_alternative": "docs/consciousness/README.md"
+    },
+    {
+      "from": "docs/architecture/MATRIZ_CONSCIOUSNESS_ARCHITECTURE.md",
+      "reason": "near_duplicate",
+      "canonical_alternative": "docs/consciousness/README.md"
+    },
+    {
+      "from": "docs/consciousness/API_REFERENCE.md",
+      "reason": "near_duplicate",
+      "canonical_alternative": "docs/consciousness/README.md"
+    },
+    {
+      "from": "docs/consciousness/DEVELOPER_GUIDE.md",
+      "reason": "near_duplicate",
+      "canonical_alternative": "docs/consciousness/README.md"
+    },
+    {
+      "from": "docs/consciousness/MATRIZ_ARCHITECTURE_OVERVIEW.md",
+      "reason": "near_duplicate",
+      "canonical_alternative": "docs/consciousness/README.md"
+    },
+    {
+      "from": "docs/audits/STEPS.md",
+      "reason": "near_duplicate",
+      "canonical_alternative": "docs/audits/AUDIT_PLAN.md"
+    },
+    {
+      "from": "docs/consciousness/constellation-framework-guide.md",
+      "reason": "near_duplicate",
+      "canonical_alternative": "docs/consciousness/CONSTELLATION_FRAMEWORK_GUIDE.md"
+    },
+    {
+      "from": "docs/guides/LUKHAS_CONCEPT_PRESERVATION_GUIDE.md",
+      "reason": "near_duplicate",
+      "canonical_alternative": "docs/consciousness/LUKHAS_CONCEPT_PRESERVATION.md"
+    },
+    {
+      "from": "docs/consciousness/constellation_framework.md",
+      "reason": "near_duplicate",
+      "canonical_alternative": "docs/consciousness/TRINITY_FRAMEWORK_ACADEMIC_SPECIFICATION.md"
+    },
+    {
+      "from": "docs/consciousness_research_complete/Cross_Platform/_mitochondria_the_unsung_heros_catalyst.md",
+      "reason": "near_duplicate",
+      "canonical_alternative": "docs/consciousness_research_complete/Cross_Platform/Heros.md"
+    },
+    {
+      "from": "docs/consciousness_research_complete/Cross_Platform/identity_consciousness/DNA-Inspired Cryptographic Architectures for Symbo.md",
+      "reason": "near_duplicate",
+      "canonical_alternative": "docs/consciousness_research_complete/Cross_Platform/_dna-inspired_cryptographic_architectures_for_symbo.md"
+    },
+    {
+      "from": "docs/consciousness_research_complete/Perplexity/identity_consciousness/Lucas_ID is a symbolic AGI identity framework inte.md",
+      "reason": "near_duplicate",
+      "canonical_alternative": "docs/consciousness_research_complete/Cross_Platform/_lucasid_is_a_symbolic_agi_identity_framework_integ.md"
+    },
+    {
+      "from": "docs/consciousness_research_complete/Perplexity/agi_consciousness/Modular AIG Brain Blueprint for LUCAS.md",
+      "reason": "near_duplicate",
+      "canonical_alternative": "docs/consciousness_research_complete/Cross_Platform/agi_consciousness/Modular AIG Brain Blueprint for LUCAS.md"
+    },
+    {
+      "from": "docs/consciousness_research_complete/Cross_Platform/theoretical_computational_frequency_models.md",
+      "reason": "near_duplicate",
+      "canonical_alternative": "docs/consciousness_research_complete/Cross_Platform/reasoning_consciousness/Theoretical and Computational Models of Frequency-.md"
+    },
+    {
+      "from": "docs/consciousness_research_complete/Perplexity/agi_consciousness/Background___Lucas_AGI is a hybrid neuro-symbolic.md",
+      "reason": "near_duplicate",
+      "canonical_alternative": "docs/consciousness_research_complete/Perplexity/agi_consciousness/Background__Lucas_AGI is a hybrid neuro-symbolic c.md"
+    },
+    {
+      "from": "docs/consciousness_research_complete/Perplexity/identity_consciousness/Background__Lucas_ID is a symbolic AGI identity fr.md",
+      "reason": "near_duplicate",
+      "canonical_alternative": "docs/consciousness_research_complete/Perplexity/agi_consciousness/Background__Lucas_AGI is a hybrid neuro-symbolic c.md"
+    },
+    {
+      "from": "docs/consciousness_research_complete/Perplexity/identity_consciousness/Background___Lucas_ID is a symbolic AGI identity f.md",
+      "reason": "near_duplicate",
+      "canonical_alternative": "docs/consciousness_research_complete/Perplexity/agi_consciousness/Background__Lucas_AGI is a hybrid neuro-symbolic c.md"
+    },
+    {
+      "from": "docs/consciousness_research_complete/Perplexity/glyph_consciousness/Evaluating Symbolic Link Compression Systems for M.md",
+      "reason": "near_duplicate",
+      "canonical_alternative": "docs/consciousness_research_complete/Perplexity/agi_consciousness/Evaluating Symbolic Link Compression for Modular A.md"
+    },
+    {
+      "from": "docs/consciousness_research_complete/Perplexity/agi_consciousness/Lucas_AGI_ Stress-Test & Evolutionary Roadmap.md",
+      "reason": "near_duplicate",
+      "canonical_alternative": "docs/consciousness_research_complete/Perplexity/agi_consciousness/Lucas_AGI Stress-Test & Evolutionary Roadmap.md"
+    },
+    {
+      "from": "docs/consciousness_research_complete/Perplexity/oracle_consciousness/Bioengineered Molecule Set Validation for Lucas_AG.md",
+      "reason": "near_duplicate",
+      "canonical_alternative": "docs/consciousness_research_complete/Perplexity/oracle_consciousness/Bioengineered Molecule Set Validation and Optimiza.md"
+    },
+    {
+      "from": "docs/gonzo/FAILED_SESSION.md",
+      "reason": "near_duplicate",
+      "canonical_alternative": "docs/development/AGENTS.md"
+    },
+    {
+      "from": "docs/integration/LUKHAS_AI_QUICK_REFERENCE.md",
+      "reason": "near_duplicate",
+      "canonical_alternative": "docs/development/QUICK_REFERENCE.md"
+    },
+    {
+      "from": "docs/domain_strategy/docs/LUKHAS_AI_DOMAIN_STRATEGY.md",
+      "reason": "near_duplicate",
+      "canonical_alternative": "docs/domain_strategy/LUKHAS_AI_DOMAIN_STRATEGY.md"
+    },
+    {
+      "from": "docs/web/content/consciousness_technology_overview.md",
+      "reason": "near_duplicate",
+      "canonical_alternative": "docs/domain_strategy/LUKHAS_AI_DOMAIN_STRATEGY.md"
+    },
+    {
+      "from": "docs/planning/LUKHAS_LAMBDA_WECOSYSTEM_STRATEGY.md",
+      "reason": "near_duplicate",
+      "canonical_alternative": "docs/domain_strategy/docs/LUKHAS_LAMBDA_WECOSYSTEM_STRATEGY.md"
+    },
+    {
+      "from": "docs/status/CEO_EXECUTIVE_REVIEW_AUGUST_2025.md",
+      "reason": "near_duplicate",
+      "canonical_alternative": "docs/executive/CEO_EXECUTIVE_REVIEW_AUGUST_2025.md"
+    },
+    {
+      "from": "docs/integration/framework-integration.md",
+      "reason": "near_duplicate",
+      "canonical_alternative": "docs/features/framework-integration-manager.md"
+    },
+    {
+      "from": "docs/gonzo/CLAUDE_CONFIG/PACKAGE_SUMMARY.md",
+      "reason": "near_duplicate",
+      "canonical_alternative": "docs/gonzo/CLAUDE_CONFIG/INSTALLATION.md"
+    },
+    {
+      "from": "docs/gonzo/CLAUDE_CONFIG/README.md",
+      "reason": "near_duplicate",
+      "canonical_alternative": "docs/gonzo/CLAUDE_CONFIG/INSTALLATION.md"
+    },
+    {
+      "from": "docs/gonzo/IMPLEMENTATION_COMPLETE.md",
+      "reason": "near_duplicate",
+      "canonical_alternative": "docs/gonzo/COMPLETE_PHASE_SUMMARY.md"
+    },
+    {
+      "from": "docs/gonzo/LUKHAS_Test_Suite—T4_Upgrade.md",
+      "reason": "near_duplicate",
+      "canonical_alternative": "docs/gonzo/LUKHAS_Test_Suite—Add_ons.md"
+    },
+    {
+      "from": "docs/guides/USER_GUIDE_ADAPTIVE_FEATURES.md",
+      "reason": "near_duplicate",
+      "canonical_alternative": "docs/guides/DEV_GUIDE_ADAPTIVE_FEATURES.md"
+    },
+    {
+      "from": "docs/reference/MANUAL_SELECTION_RESULTS.md",
+      "reason": "near_duplicate",
+      "canonical_alternative": "docs/reference/MANUAL_MODULE_SELECTION.md"
+    },
+    {
+      "from": "docs/modules/MANUAL_MODULE_SELECTION.md",
+      "reason": "near_duplicate",
+      "canonical_alternative": "docs/reference/MANUAL_MODULE_SELECTION.md"
+    },
+    {
+      "from": "docs/status/FEATURES_CONSOLIDATION_COMPLETE.md",
+      "reason": "near_duplicate",
+      "canonical_alternative": "docs/planning/FEATURES_CONSOLIDATION_PLAN.md"
+    },
+    {
+      "from": "docs/status/ROOT_ORGANIZATION_COMPLETE.md",
+      "reason": "near_duplicate",
+      "canonical_alternative": "docs/planning/completed/PWM_ROOT_ORGANIZATION_PLAN.md"
+    },
+    {
+      "from": "docs/status/ROOT_ORGANIZATION_SUMMARY.md",
+      "reason": "near_duplicate",
+      "canonical_alternative": "docs/planning/completed/PWM_ROOT_ORGANIZATION_PLAN.md"
+    },
+    {
+      "from": "docs/podcast/README.md",
+      "reason": "near_duplicate",
+      "canonical_alternative": "docs/podcast/DOCUMENTATION_INDEX.md"
+    },
+    {
+      "from": "docs/status/ROOT_CLEANUP_REPORT.md",
+      "reason": "near_duplicate",
+      "canonical_alternative": "docs/project_status/ROOT_DIRECTORY_CLEANUP_SUMMARY.md"
+    },
+    {
+      "from": "docs/status/ROOT_CLEANUP_SUMMARY.md",
+      "reason": "near_duplicate",
+      "canonical_alternative": "docs/project_status/ROOT_DIRECTORY_CLEANUP_SUMMARY.md"
+    },
+    {
+      "from": "docs/reports/testing/ADVANCED_TESTING_FRAMEWORK_SUCCESS.md",
+      "reason": "near_duplicate",
+      "canonical_alternative": "docs/reports/analysis/ADVANCED_TESTING_FRAMEWORK_ANALYSIS.md"
+    },
+    {
+      "from": "docs/roadmap/UNIVERSAL_SYMBOL_TRINITY_BLUEPRINT.md",
+      "reason": "near_duplicate",
+      "canonical_alternative": "docs/roadmap/UNIVERSAL_SYMBOL_COMMUNICATION_BLUEPRINT.md"
+    },
+    {
+      "from": "docs/validation/README_AUDIT.md",
+      "reason": "near_duplicate",
+      "canonical_alternative": "docs/t4/T4_EXCELLENCE_AUDIT_REPORT.md"
+    },
+    {
+      "from": "docs/testing/matriz_trace_api_results/README.md",
+      "reason": "near_duplicate",
+      "canonical_alternative": "docs/testing/MATRIZ_TRACE_API_TEST_RESULTS.md"
+    },
+    {
+      "from": "docs/web/content/README.md",
+      "reason": "near_duplicate",
+      "canonical_alternative": "docs/web/content/ORGANIZATION_COMPLETE_SUMMARY.md"
+    }
+  ]
+}
