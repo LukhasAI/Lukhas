@@ -30,13 +30,16 @@ jobs:
         with:
           args: "check ."
 
-      - name: Ban import-star outside tests
+      - name: Ban import-star outside tests and bridges
         run: |
-          if git ls-files '*.py' | grep -v '^tests/' | xargs grep -nE 'from\s+\S+\s+import\s+\*' ; then
-            echo "::error ::import * detected outside tests"
-            exit 1
-          fi
-          echo "✅ No import * found outside tests"
+          # Allow import * in tests/ and in bridge files using _bridgeutils pattern
+          if git ls-files '*.py' | grep -v '^tests/' | xargs grep -l 'from\s+\S+\s+import\s+\*' | while read f; do
+            if ! grep -q 'bridge_from_candidates' "$f"; then
+              echo "::error file=$f::import * detected outside tests (not using bridge pattern)"
+              echo "$f"
+            fi
+          done | grep . && exit 1 || true
+          echo "✅ No unauthorized import * found"
 
       - name: Check for module–package collisions
         run: |

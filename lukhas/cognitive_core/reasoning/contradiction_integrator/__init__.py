@@ -1,12 +1,13 @@
-"""Bridge: contradiction_integrator -> real implementation."""
+"""Bridge: contradiction_integrator -> canonical implementations."""
 from __future__ import annotations
 
-try:
-    from lukhas_website.lukhas.cognitive_core.reasoning.contradiction_integrator import *  # noqa: F401, F403
-    __all__ = [n for n in dir() if not n.startswith("_")]
-except ImportError:
-    try:
-        from consciousness.cognitive.reasoning.contradiction_integrator import *  # noqa: F401, F403
-        __all__ = [n for n in dir() if not n.startswith("_")]
-    except ImportError:
-        __all__ = []
+from lukhas._bridgeutils import bridge_from_candidates
+
+_CANDIDATES = (
+    "lukhas_website.lukhas.cognitive_core.reasoning.contradiction_integrator",
+    "candidate.cognitive_core.reasoning.contradiction_integrator",
+    "consciousness.cognitive.reasoning.contradiction_integrator",
+)
+
+__all__, _exports = bridge_from_candidates(*_CANDIDATES)
+globals().update(_exports)

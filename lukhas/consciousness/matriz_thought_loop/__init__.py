@@ -1,8 +1,13 @@
-"""Bridge: matriz_thought_loop -> lukhas_website implementation."""
+"""Bridge: matriz_thought_loop -> canonical implementations."""
 from __future__ import annotations
 
-try:
-    from lukhas_website.lukhas.consciousness.matriz_thought_loop import *  # noqa: F401, F403
-    __all__ = [n for n in dir() if not n.startswith("_")]
-except ImportError:
-    __all__ = []
+from lukhas._bridgeutils import bridge_from_candidates
+
+_CANDIDATES = (
+    "lukhas_website.lukhas.consciousness.matriz_thought_loop",
+    "candidate.consciousness.matriz_thought_loop",
+    "consciousness.matriz_thought_loop",
+)
+
+__all__, _exports = bridge_from_candidates(*_CANDIDATES)
+globals().update(_exports)

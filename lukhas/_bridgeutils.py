@@ -63,3 +63,51 @@ def bridge(
         post(mod)
     exports = export_from(mod, names)
     return mod, exports, list(exports.keys())
+
+
+def bridge_from_candidates(
+    *candidates: str,
+    deprecated: bool = False,
+    stacklevel: int = 3,
+) -> tuple[list[str], dict[str, object]]:
+    """Import from first available candidate module (ChatGPT explicit-API pattern).
+
+    Uses __import__() with explicit fromlist=["*"] for proper submodule loading.
+
+    Args:
+        *candidates: Module paths to try in order (e.g., "candidate.X", "lukhas_website.lukhas.X")
+        deprecated: Emit DeprecationWarning if True
+        stacklevel: Stack level for warnings (default 3 for caller's caller)
+
+    Returns:
+        (__all__, globals_dict) tuple for use in bridge __init__.py
+
+    Example:
+        # In lukhas/foo/__init__.py
+        from lukhas._bridgeutils import bridge_from_candidates
+        _CANDIDATES = ("candidate.foo", "lukhas_website.lukhas.foo")
+        __all__, _exports = bridge_from_candidates(*_CANDIDATES)
+        globals().update(_exports)
+    """
+    backend = None
+    for path in candidates:
+        try:
+            backend = __import__(path, fromlist=["*"])
+            break
+        except (ImportError, ModuleNotFoundError):
+            continue
+
+    if backend is None:
+        return ([], {})
+
+    if deprecated:
+        warnings.warn(
+            f"Importing from this location is deprecated. Use the canonical path instead.",
+            DeprecationWarning,
+            stacklevel=stacklevel,
+        )
+
+    __all__ = getattr(backend, "__all__", [n for n in dir(backend) if not n.startswith("_")])
+    globals_dict = {name: getattr(backend, name) for name in __all__}
+
+    return (list(__all__), globals_dict)
