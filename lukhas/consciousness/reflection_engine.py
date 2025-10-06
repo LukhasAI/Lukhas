@@ -1,4 +1,4 @@
-"""Bridge: reflection_engine -> lukhas_website implementation."""
+"""Bridge: lukhas.consciousness.reflection_engine -> lukhas_website."""
 from __future__ import annotations
 
 try:
