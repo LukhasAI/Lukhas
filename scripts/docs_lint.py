@@ -150,6 +150,31 @@ def check_sitemap_fresh(manifest: Dict) -> bool:
     return True
 
 
+def check_encoding(manifest: Dict) -> List[Dict]:
+    """Check that all markdown files are UTF-8 encoded."""
+    errors = []
+
+    for doc in manifest['documents']:
+        if doc.get('redirect'):
+            continue
+
+        file_path = Path(doc['path'])
+        if not file_path.exists():
+            continue
+
+        try:
+            with open(file_path, 'r', encoding='utf-8') as f:
+                f.read()
+        except UnicodeDecodeError as e:
+            errors.append({
+                "file": doc['path'],
+                "error": "non_utf8_encoding",
+                "message": f"File is not UTF-8 encoded: {e}",
+            })
+
+    return errors
+
+
 def check_internal_links(manifest: Dict) -> List[Dict]:
     """
     Quick internal link validation.
@@ -245,8 +270,23 @@ def main():
         print(f"      Grace period until 2025-10-13")
     print()
 
-    # 2. Check manifest completeness
-    print("2️⃣  Checking manifest completeness...")
+    # 2. Check UTF-8 encoding
+    print("2️⃣  Checking UTF-8 encoding...")
+    encoding_errors = check_encoding(manifest)
+    if encoding_errors:
+        print(f"   ❌ {len(encoding_errors)} file(s) with non-UTF-8 encoding")
+        for error in encoding_errors[:5]:
+            print(f"      - {error['file']}")
+        if len(encoding_errors) > 5:
+            print(f"      ... and {len(encoding_errors) - 5} more")
+        print(f"      Run: python3 scripts/encoding_guard.py --apply")
+        exit_code = 1
+    else:
+        print(f"   ✅ All files UTF-8 encoded")
+    print()
+
+    # 3. Check manifest completeness
+    print("3️⃣  Checking manifest completeness...")
     manifest_errors = check_manifest_completeness(manifest)
     if manifest_errors:
         print(f"   ⚠️  {len(manifest_errors)} orphan file(s) not in manifest")
@@ -257,8 +297,8 @@ def main():
         print(f"   ✅ All markdown files in manifest")
     print()
 
-    # 3. Check site map freshness
-    print("3️⃣  Checking site map freshness...")
+    # 4. Check site map freshness
+    print("4️⃣  Checking site map freshness...")
     if check_sitemap_fresh(manifest):
         print(f"   ✅ Site map is up to date")
     else:
@@ -267,8 +307,8 @@ def main():
         exit_code = 1
     print()
 
-    # 4. Check internal links (sample)
-    print("4️⃣  Checking internal links (sample)...")
+    # 5. Check internal links (sample)
+    print("5️⃣  Checking internal links (sample)...")
     link_errors = check_internal_links(manifest)
     if link_errors:
         print(f"   ⚠️  {len(link_errors)} broken link(s) found in sample")
@@ -296,6 +336,7 @@ def main():
     print("LINT SUMMARY")
     print("=" * 80)
     print(f"Front-matter errors: {len(fm_errors)}")
+    print(f"Encoding errors: {len(encoding_errors)}")
     print(f"Owner warnings: {len(fm_warnings)} (grace period until 2025-10-13)")
     print(f"Orphan files: {len(manifest_errors)}")
     print(f"Broken links (sample): {len(link_errors)}")
