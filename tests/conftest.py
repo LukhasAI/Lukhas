@@ -3,9 +3,37 @@ import pathlib
 import random
 import sqlite3
 import sys
+import traceback
 from pathlib import Path
 
 import pytest
+
+# -- Import failure telemetry (catch UnknownError root causes) ----------------
+_ART_DIR = Path("artifacts")
+_ART_DIR.mkdir(exist_ok=True, parents=True)
+_FAIL_LOG = _ART_DIR / "import_failures.ndjson"
+
+class _TraceFinder:
+    """Meta path finder that logs import failures with full tracebacks."""
+    def find_spec(self, fullname, path=None, target=None):
+        try:
+            return None
+        except Exception as e:
+            _FAIL_LOG.touch(exist_ok=True)
+            with _FAIL_LOG.open("a") as f:
+                import json, time
+                f.write(json.dumps({
+                    "ts": time.time(),
+                    "stage": "find_spec",
+                    "fullname": fullname,
+                    "error": repr(e),
+                    "trace": traceback.format_exc()
+                })+"\n")
+            raise
+
+# Install trace finder (append to avoid interference)
+if not any(type(f).__name__ == "_TraceFinder" for f in sys.meta_path):
+    sys.meta_path.append(_TraceFinder())
 
 # -- Lukhas dynamic aliasing for nested submodule imports (V2) -----------------
 import importlib
@@ -239,3 +267,33 @@ def pytest_collectreport(report):
         except Exception:
             path = "<unknown>"
         print(f"\n[COLLECT-FAIL] node={path} error:\n{report.longreprtext}\n")
+
+        # Write detailed failure log to artifacts
+        _ART_DIR.mkdir(exist_ok=True, parents=True)
+        collect_log = _ART_DIR / "collect_failures.log"
+        try:
+            existing = collect_log.read_text() if collect_log.exists() else ""
+            with collect_log.open("w") as f:
+                f.write(existing + f"\n\n=== {report.nodeid} ===\n{report.longreprtext}\n")
+        except Exception:
+            pass
+
+
+def pytest_sessionstart(session):
+    """Initialize session - reset Prometheus registry to avoid duplicates."""
+    # Fresh Prometheus registry per session (kills "Duplicated timeseries")
+    try:
+        from prometheus_client import REGISTRY, CollectorRegistry
+        # Clear existing collectors
+        collectors = list(REGISTRY._collector_to_names.keys())
+        for collector in collectors:
+            try:
+                REGISTRY.unregister(collector)
+            except Exception:
+                pass
+    except Exception:
+        pass
+
+    # Set environment variables for legacy compatibility
+    os.environ.setdefault("SETUPTOOLS_USE_DISTUTILS", "stdlib")
+    os.environ.setdefault("PYTHONWARNINGS", "ignore::DeprecationWarning")

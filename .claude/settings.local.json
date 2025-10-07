@@ -35,7 +35,20 @@
       "Bash(for dir in lukhas-devtools-mcp lukhas-memory-mcp lukhas-constellation-mcp)",
       "Bash(if [ -d \"node_modules\" ])",
       "Bash(ls:*)",
-      "Bash(tail:*)"
+      "Bash(tail:*)",
+      "Bash(claude --dangerously-skip-permissions)",
+      "Bash(claude config set dangerouslySkipPermissions true)",
+      "Read(//Users/agi_dev/.config/claude-code/**)",
+      "Bash(rm:*)",
+      "Bash(source:*)",
+      "Bash(pip install:*)",
+      "Bash(PIP_NO_REQUIRE_HASHES=1 pip install -r requirements.txt)",
+      "Bash(PYTHONPATH=. python -m pytest --collect-only -q --tb=long)",
+      "Bash(tee:*)",
+      "Bash(if [ -f artifacts/collect_failures.log ])",
+      "Bash(then head -200 artifacts/collect_failures.log)",
+      "Bash(else echo \"No collect_failures.log found\")",
+      "Bash(for path in \"governance/guardian_system\" \"memory/backends\" \"memory/indexer\" \"core/breakthrough\" \"lukhas/async_utils\")"
     ],
     "deny": [],
     "ask": []
