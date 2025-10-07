@@ -14,7 +14,7 @@
 .PHONY: emergency-bypass clean-artifacts dev-setup status ci-validate ci-artifacts help
 .PHONY: mcp-bootstrap mcp-verify mcp-selftest mcp-ready mcp-contract mcp-smoke mcp-freeze mcp-docker-build mcp-docker-run mcp-validate-catalog mcp-health
 .PHONY: meta-registry ledger-check trends validate-t4 validate-t4-strict tag-prod freeze-verify freeze-guardian freeze-guardian-once dashboard-sync init-dev-branch
-.PHONY: docs-map docs-migrate-auto docs-migrate-dry docs-lint validate-structure module-health
+.PHONY: docs-map docs-migrate-auto docs-migrate-dry docs-lint validate-structure module-health vault-audit vault-audit-vault
 
 # Note: Additional PHONY targets are declared in mk/*.mk include files
 
@@ -1217,3 +1217,17 @@ validate-structure: ## Generate module structure health report (JSON)
 
 module-health: validate-structure ## View human-readable module health summary
 	@cat docs/_generated/MODULE_INDEX.md | head -50
+
+# THE_VAULT Inventory and Audit
+vault-audit: ## Generate inventory for THE_VAULT repository (use VAULT_ROOT=/path/to/vault)
+	@echo "📂 Generating THE_VAULT inventory..."
+	@if [ -z "$(VAULT_ROOT)" ]; then \
+		echo "⚠️  VAULT_ROOT not set, using docs/ as example"; \
+		python3 scripts/vault_inventory.py --root docs; \
+	else \
+		python3 scripts/vault_inventory.py --root $(VAULT_ROOT); \
+	fi
+	@echo "✅ Vault inventory complete!"
+
+vault-audit-vault: ## Audit THE_VAULT directory (shortcut for VAULT_ROOT=../THE_VAULT)
+	@VAULT_ROOT=../THE_VAULT make vault-audit
