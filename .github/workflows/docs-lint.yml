@@ -14,8 +14,8 @@ on:
       - 'scripts/docs_*.py'
 
 jobs:
-  lint:
-    name: Lint Documentation
+  docs-governance-gate:
+    name: Documentation Governance Gate (T4/0.01%)
     runs-on: ubuntu-latest
 
     steps:
@@ -30,9 +30,11 @@ jobs:
           python-version: '3.11'
 
       - name: Run documentation linter
+        id: lint
         run: |
           echo "Running LUKHAS documentation linter..."
-          python3 scripts/docs_lint.py
+          python3 scripts/docs_lint.py | tee lint_output.txt
+          echo "lint_exit_code=$?" >> $GITHUB_OUTPUT
 
       - name: Check for stale generated files
         run: |
@@ -44,3 +46,24 @@ jobs:
             exit 1
           fi
           echo "✅ Generated files are up to date"
+
+      - name: Generate triage summary
+        if: always()
+        run: |
+          echo "## 📊 Documentation Governance Triage" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+
+          # Extract metrics from lint output
+          OWNER_WARNINGS=$(grep -oP 'Owner warnings: \K\d+' lint_output.txt || echo "0")
+          ENCODING_ERRORS=$(grep -oP 'Encoding errors: \K\d+' lint_output.txt || echo "0")
+          BROKEN_LINKS=$(grep -oP 'Broken links \(sample\): \K\d+' lint_output.txt || echo "0")
+
+          echo "| Metric | Count | Action |" >> $GITHUB_STEP_SUMMARY
+          echo "|--------|-------|--------|" >> $GITHUB_STEP_SUMMARY
+          echo "| Owner Warnings | $OWNER_WARNINGS | See OWNERS_BACKLOG.md |" >> $GITHUB_STEP_SUMMARY
+          echo "| Encoding Errors | $ENCODING_ERRORS | Run encoding_guard.py --apply |" >> $GITHUB_STEP_SUMMARY
+          echo "| Broken Links (sample) | $BROKEN_LINKS | See link_triage/ reports |" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Grace Period**: Until 2025-10-13 (owner warnings don't block)" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Merge-Block Status**: ⚠️ SCHEDULED (activates 2025-10-13)" >> $GITHUB_STEP_SUMMARY
