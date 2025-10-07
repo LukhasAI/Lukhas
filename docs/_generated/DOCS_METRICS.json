@@ -1,0 +1,95 @@
+{
+  "last_updated": "2025-10-07T03:03:27.555576",
+  "current": {
+    "timestamp": "2025-10-07T03:03:27.555576",
+    "total_docs": 1075,
+    "owner_coverage": {
+      "with_owners": 8,
+      "without_owners": 1067,
+      "percentage": 0.7
+    },
+    "badge_coverage": {
+      "with_badges": 0,
+      "percentage": 0.0
+    },
+    "front_matter": {
+      "complete": 1075,
+      "incomplete": 0,
+      "percentage": 100.0
+    },
+    "encoding": {
+      "utf8": 1075,
+      "non_utf8": 0,
+      "percentage": 100.0
+    },
+    "broken_links": 395,
+    "by_status": {
+      "wip": 968,
+      "stable": 101,
+      "converted": 1,
+      "moved": 1,
+      "archived": 1,
+      "tracked": 1,
+      "baseline-freeze": 1,
+      "draft": 1
+    },
+    "by_owner": {
+      "unknown": 1067,
+      "docs-team": 1,
+      "consciousness-architect": 1,
+      "core-team": 1,
+      "docs-maintainer": 1,
+      "constellation-architect": 1,
+      "development-team": 1,
+      "engineering": 1,
+      "@agi_dev": 1
+    }
+  },
+  "history": [
+    {
+      "timestamp": "2025-10-07T03:03:27.555576",
+      "total_docs": 1075,
+      "owner_coverage": {
+        "with_owners": 8,
+        "without_owners": 1067,
+        "percentage": 0.7
+      },
+      "badge_coverage": {
+        "with_badges": 0,
+        "percentage": 0.0
+      },
+      "front_matter": {
+        "complete": 1075,
+        "incomplete": 0,
+        "percentage": 100.0
+      },
+      "encoding": {
+        "utf8": 1075,
+        "non_utf8": 0,
+        "percentage": 100.0
+      },
+      "broken_links": 395,
+      "by_status": {
+        "wip": 968,
+        "stable": 101,
+        "converted": 1,
+        "moved": 1,
+        "archived": 1,
+        "tracked": 1,
+        "baseline-freeze": 1,
+        "draft": 1
+      },
+      "by_owner": {
+        "unknown": 1067,
+        "docs-team": 1,
+        "consciousness-architect": 1,
+        "core-team": 1,
+        "docs-maintainer": 1,
+        "constellation-architect": 1,
+        "development-team": 1,
+        "engineering": 1,
+        "@agi_dev": 1
+      }
+    }
+  ]
+}
