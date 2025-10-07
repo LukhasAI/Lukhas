@@ -204,3 +204,19 @@ repos:
         entry: make mcp-validate-catalog
         language: system
         files: ^mcp-servers/lukhas-devtools-mcp/tooling/catalog\.json$
+
+      # T4/0.01% Documentation Governance Hooks
+      - id: check-markdown-encoding
+        name: Check Markdown UTF-8 Encoding
+        entry: python3 scripts/hooks/check_encoding.py
+        language: system
+        files: '^docs/.*\.md$'
+        pass_filenames: true
+
+      - id: validate-docs-frontmatter
+        name: Validate Documentation Front-Matter
+        entry: python3 scripts/docs_lint.py
+        language: system
+        files: '^docs/.*\.md$'
+        pass_filenames: false
+        stages: [commit]
