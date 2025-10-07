@@ -1,23 +1,33 @@
-"""Bridge: lukhas.consciousness.enhanced_thought_engine."""
+"""Bridge: Enhanced Thought Engine."""
 from __future__ import annotations
-from lukhas._bridgeutils import bridge_from_candidates, export_from, safe_guard
+from lukhas._bridgeutils import resolve_first, export_from, safe_guard
 
-__all__, _exp = bridge_from_candidates(
+_candidates = (
     "lukhas_website.lukhas.consciousness.enhanced_thought_engine",
     "candidate.consciousness.enhanced_thought_engine",
-    "consciousness.enhanced_thought_engine",
+    "consciousness.enhanced_thought_engine_impl",
 )
-globals().update(_exp)
 
-# Promote conventional symbols if present
 try:
-    mod = __import__("candidate.consciousness.enhanced_thought_engine", fromlist=["*"])
-    e = export_from(mod)
-    for sym in ("EnhancedThoughtEngine", "EnhancedContext", "EnhancedConfig"):
-        if sym in e and sym not in globals():
-            globals()[sym] = e[sym]
-            __all__.append(sym)
-except Exception:
-    pass
+    _mod = resolve_first(_candidates)
+    _exports = export_from(_mod, names=("EnhancedThoughtEngine", "EnhancedThoughtConfig", "EnhancedContext"))
+    globals().update(_exports)
+    __all__ = list(_exports.keys())
+except ModuleNotFoundError:
+    # No backend exists - provide stubs
+    class _NotImplementedMixin:
+        def __init__(self, *a, **k):
+            raise NotImplementedError("Enhanced Thought Engine not wired yet")
+
+    class EnhancedThoughtEngine(_NotImplementedMixin):
+        pass
+
+    class EnhancedThoughtConfig:
+        pass
+
+    class EnhancedContext:
+        pass
+
+    __all__ = ["EnhancedThoughtEngine", "EnhancedThoughtConfig", "EnhancedContext"]
 
 safe_guard(__name__, __all__)

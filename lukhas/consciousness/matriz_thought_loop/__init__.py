@@ -1,31 +1,31 @@
-"""Bridge: lukhas.consciousness.matriz_thought_loop."""
+"""Bridge: MATRIZ Thought Loop."""
 from __future__ import annotations
-from lukhas._bridgeutils import bridge_from_candidates, export_from, safe_guard, deprecate
+from lukhas._bridgeutils import resolve_first, export_from, safe_guard
 
-__all__, _exp = bridge_from_candidates(
+# Prefer website → candidate → legacy
+_candidates = (
     "lukhas_website.lukhas.consciousness.matriz_thought_loop",
     "candidate.consciousness.matriz_thought_loop",
-    "consciousness.matriz_thought_loop",
+    "consciousness.matriz_thought_loop_impl",
 )
-globals().update(_exp)
 
-# Ensure the two most-expected symbols exist (tests referenced these)
-wanted = ("MATRIZThoughtLoop", "MATRIZProcessingContext")
-for mod_name in (
-    "candidate.consciousness.matriz_thought_loop",
-    "consciousness.matriz_thought_loop",
-    "consciousness.matriz.core",  # known alt
-):
-    try:
-        mod = __import__(mod_name, fromlist=["*"])
-        e = export_from(mod)
-        for w in wanted:
-            if w in e and w not in globals():
-                globals()[w] = e[w]
-                if "__all__" in globals():
-                    __all__.append(w)
-    except Exception:
+try:
+    _mod = resolve_first(_candidates)
+    _exports = export_from(_mod, names=("MATRIZProcessingContext", "MATRIZThoughtLoop"))
+    globals().update(_exports)
+    __all__ = list(_exports.keys())
+except ModuleNotFoundError:
+    # No backend exists - provide stubs so imports succeed
+    class _NotImplementedMixin:
+        def __init__(self, *a, **k):
+            raise NotImplementedError("MATRIZ Thought Loop not wired yet")
+
+    class MATRIZProcessingContext(_NotImplementedMixin):
         pass
 
+    class MATRIZThoughtLoop(_NotImplementedMixin):
+        pass
+
+    __all__ = ["MATRIZProcessingContext", "MATRIZThoughtLoop"]
+
 safe_guard(__name__, __all__)
-deprecate(__name__, "prefer `candidate.consciousness.matriz_thought_loop` directly")

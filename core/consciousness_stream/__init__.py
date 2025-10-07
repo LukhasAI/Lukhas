@@ -9,3 +9,16 @@ _CANDIDATES = (
 
 __all__, _exports = bridge_from_candidates(*_CANDIDATES)
 globals().update(_exports)
+
+# Add stubs if no backend found
+if not __all__:
+    class ConsciousnessStream:
+        """Stub for ConsciousnessStream."""
+        def __init__(self, *a, **k):
+            raise NotImplementedError("ConsciousnessStream not implemented")
+
+    class StreamEvent:
+        """Stub for StreamEvent."""
+        pass
+
+    __all__ = ["ConsciousnessStream", "StreamEvent"]

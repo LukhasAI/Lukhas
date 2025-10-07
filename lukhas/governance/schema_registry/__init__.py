@@ -26,8 +26,20 @@ for path in [
 
 if not __all__:
     # Minimal façade to satisfy imports; flesh out later
+    from enum import Enum
+
+    class LUKHASLane(Enum):
+        """Lane enumeration stub."""
+        EXPERIMENTAL = "experimental"
+        CANDIDATE = "candidate"
+        PRODUCTION = "production"
+
     class SchemaRegistry:
         """Schema registry placeholder."""
         pass
 
-    __all__ = ["SchemaRegistry"]
+    def get_lane_enum():
+        """Return lane enumeration."""
+        return LUKHASLane
+
+    __all__ = ["SchemaRegistry", "LUKHASLane", "get_lane_enum"]

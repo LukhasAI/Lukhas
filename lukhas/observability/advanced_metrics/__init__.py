@@ -19,4 +19,25 @@ try:
 except Exception:
     pass
 
+# Add stubs for commonly expected classes
+if not __all__ or "AdvancedMetricsSystem" not in globals():
+    class AdvancedMetricsSystem:
+        """Stub for Advanced Metrics System."""
+        def __init__(self, *a, **k):
+            raise NotImplementedError("AdvancedMetricsSystem not wired")
+
+    class LatencyHistogram:
+        """Stub for Latency Histogram."""
+        pass
+
+    class TraceExporter:
+        """Stub for Trace Exporter."""
+        pass
+
+    if not __all__:
+        __all__ = []
+    for name in ("AdvancedMetricsSystem", "LatencyHistogram", "TraceExporter"):
+        if name not in globals():
+            __all__.append(name)
+
 safe_guard(__name__, __all__)
