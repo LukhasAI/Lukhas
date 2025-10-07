@@ -9,6 +9,8 @@ moved_to: null
 
 <img src="https://r2cdn.perplexity.ai/pplx-full-logo-primary-dark%402x.png" class="logo" width="120"/>
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # Benefits of Integrating Ginkgo Circulatory Networks into Lucas_AGI
 
 Integrating Ginkgo biloba-inspired circulatory networks into Lucas_AGI enhances energy efficiency, scalability, and system resilience by leveraging biological principles of optimized resource distribution and adaptive signaling. Below is a structured analysis of the benefits, supported by technical benchmarks and biological parallels.

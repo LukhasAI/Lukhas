@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # Tasks: OpenAI Alignment Roadmap (Milestones A–C)
 
 Track implementation tasks for ROADMAP_OPENAI_ALIGNMENT.md. Check off items as they ship.

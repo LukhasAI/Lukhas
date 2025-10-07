@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # LAB BRIEFING — MATRIZ Rollout
 
 **Objective:** Assign lanes module-by-module; nightly soak + chaos; safe canary.

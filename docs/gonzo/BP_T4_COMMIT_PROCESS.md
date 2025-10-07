@@ -16,6 +16,8 @@ Totally get it—let’s remove ambiguity and give Copilot zero wiggle room. Bel
 #!/usr/bin/env bash
 set -euo pipefail
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # Nightly repo-wide pass:
 # - ruff JSON + SARIF
 # - safe CST fixes per .t4autofix.toml

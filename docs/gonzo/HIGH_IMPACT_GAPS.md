@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # 🚩 High-impact gaps (with precise fix prompts)
 
 ### 1) Memory lifecycle is only partially wired

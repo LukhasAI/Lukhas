@@ -16,6 +16,8 @@ E402 — import not at top of file
 Why: Imports below code can change runtime behavior and break tooling.
 Safe fix: Move imports to the top unless a late import is intentional (heavy/optional deps). If intentional, document and suppress.
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # ✅ Preferred
 import os
 def main(): ...

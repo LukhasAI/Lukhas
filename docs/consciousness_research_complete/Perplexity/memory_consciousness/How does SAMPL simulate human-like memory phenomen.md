@@ -9,6 +9,8 @@ moved_to: null
 
 <img src="https://r2cdn.perplexity.ai/pplx-full-logo-primary-dark%402x.png" class="logo" width="120"/>
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # How does SAMPL simulate human-like memory phenomena like retrieval-induced forgetting
 
 The Spreading Activation and Memory Plasticity Model (SAMPL) simulates human-like memory phenomena, including retrieval-induced forgetting, by leveraging two key mechanisms: **spreading activation** and **non-monotonic plasticity**. These mechanisms allow SAMPL to dynamically adjust memory associations during retrieval, mirroring how human memory can enhance some items while weakening others.

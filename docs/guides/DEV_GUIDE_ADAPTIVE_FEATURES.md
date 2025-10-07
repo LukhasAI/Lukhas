@@ -17,6 +17,8 @@ moved_to: null
 ║ For: Software Engineers, AI Developers, and System Architects
 ╚═══════════════════════════════════════════════════════════════════════════════
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # LUKHAS Adaptive AI Features Developer Guide
 
 > *"Build AI systems that adapt, learn, and explain—with the power of biological inspiration and quantum efficiency."*

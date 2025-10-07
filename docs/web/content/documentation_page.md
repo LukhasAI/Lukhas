@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # Documentation Hub — <span aria-label="Matriz">MΛTRIZ</span>
 
 ## Explore the <span aria-label="Lukhas">LUKHΛS</span> AI Ecosystem

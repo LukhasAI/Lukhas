@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: Moved](https://img.shields.io/badge/status-moved-blue)
+
 # This page moved
 
 See [docs/ops/OPERATIONAL_RUNBOOK.md](../ops/OPERATIONAL_RUNBOOK.md) for the curated, current guide.

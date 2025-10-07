@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # NIΛS Dream Commerce API Specification v1.0
 
 ## Base URL

@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # 📝 LUKHAS Web Content Management Guide
 
 *"Where content creation meets consciousness architecture - guiding every word through the constellation framework to ensure authentic digital experiences."*

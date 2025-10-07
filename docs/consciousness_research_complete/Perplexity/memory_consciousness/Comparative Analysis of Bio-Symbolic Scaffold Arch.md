@@ -9,6 +9,8 @@ moved_to: null
 
 <img src="https://r2cdn.perplexity.ai/pplx-full-logo-primary-dark%402x.png" class="logo" width="120"/>
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # Comparative Analysis of Bio-Symbolic Scaffold Architectures for AGI Systems
 
 The integration of bio-symbolic scaffolds into AGI systems demands careful evaluation of structural resilience, dynamic adaptability, and alignment stability. This report compares molecularly imprinted polymers (MIPs), traditional synthetic scaffolds, plant-based scaffolds, and stimuli-responsive hydrogels with molecular memory, assessing their suitability for AGI applications.

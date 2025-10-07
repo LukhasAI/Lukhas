@@ -9,6 +9,8 @@ moved_to: null
 
 <img src="https://r2cdn.perplexity.ai/pplx-full-logo-primary-dark%402x.png" class="logo" width="120"/>
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # How does Lucas_AGI's embedded arbitration compare to OpenAI's RLHF in terms of safety
 
 Lucas_AGI's embedded arbitration architecture demonstrates fundamental safety advantages over OpenAI's RLHF framework through three critical innovations:

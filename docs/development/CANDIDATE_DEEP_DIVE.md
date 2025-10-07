@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # CANDIDATE Domain Deep Dive Analysis
 ## Primary AGI Development Hub (467MB, 2,877 Python files)
 

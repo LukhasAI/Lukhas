@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # Admin Dashboard Documentation
 
 The LUKHAS  Admin Dashboard provides real-time monitoring, performance tracking, and incident management capabilities.

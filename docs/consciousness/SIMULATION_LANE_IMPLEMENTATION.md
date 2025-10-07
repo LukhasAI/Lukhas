@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # Simulation Lane Infrastructure - Implementation Report
 
 ## ✅ Complete Implementation Status

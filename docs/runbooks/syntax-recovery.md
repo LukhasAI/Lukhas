@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # Syntax Recovery Runbook - Mass Breakage Recovery Procedures
 
 ## Overview

@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # 🔍 **SMALL IDEAS & USER DETAILS AUDIT**
 **Missing Features from Original NIAS/DAST/ABAS Vision**
 

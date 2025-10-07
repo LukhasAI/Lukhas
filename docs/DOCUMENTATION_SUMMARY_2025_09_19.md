@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # LUKHAS Documentation Summary - September 19, 2025
 
 Comprehensive documentation created for all new consciousness technology features and systems added in the last 24 hours.

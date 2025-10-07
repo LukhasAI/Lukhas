@@ -9,6 +9,8 @@ moved_to: null
 
 <img src="https://r2cdn.perplexity.ai/pplx-full-logo-primary-dark%402x.png" class="logo" width="120"/>
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # How can Lucas_AGI's ethical arbitration circuits be improved to better align with human values
 
 Here’s how Lucas_AGI’s ethical arbitration circuits can be enhanced to better align with human values, drawing from alignment research and bio-symbolic innovation:

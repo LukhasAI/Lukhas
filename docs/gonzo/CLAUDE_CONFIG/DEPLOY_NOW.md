@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: Stable](https://img.shields.io/badge/status-stable-green)
+
 # 🎁 LUKHAS Elite Configuration - Complete Package Ready!
 
 ## ✨ What Just Happened

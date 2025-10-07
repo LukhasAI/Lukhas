@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # ☁️ lukhas.cloud - Managed Cloud Services Strategy
 
 *"Consciousness computing at planetary scale - where distributed awareness meets infinite capacity through infrastructure that thinks, learns, and evolves with organizational needs."*

@@ -9,6 +9,8 @@ moved_to: null
 
 <img src="https://r2cdn.perplexity.ai/pplx-full-logo-primary-dark%402x.png" class="logo" width="120"/>
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # Integrating Bio-Inspired Security and Neural-Symbolic Computing in Identity Systems
 
 The intersection of bio-inspired security mechanisms, advanced cryptographic techniques, and neural-symbolic computing presents intriguing possibilities for enhancing identity management systems. This report explores how these diverse approaches might be integrated to create more secure, efficient, and flexible identity frameworks, with particular attention to conceptual relationships within such systems.

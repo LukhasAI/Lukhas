@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: Draft](https://img.shields.io/badge/status-draft-orange)
+
 # v0.04 Sprint Plan: Test Infrastructure & Code Quality
 
 **Sprint Goal:** Enable full CI/CD pipeline with green test suite

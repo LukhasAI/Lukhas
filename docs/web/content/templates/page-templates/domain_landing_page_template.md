@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # 🌐 Domain Landing Page Template
 
 *"Where [domain purpose] meets consciousness architecture - every interaction guided by the Constellation Framework toward meaningful transformation."*

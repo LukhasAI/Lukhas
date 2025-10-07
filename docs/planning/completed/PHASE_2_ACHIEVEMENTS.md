@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # 🚀 PHASE 2 FINE-TUNING ACHIEVEMENTS
 
 ## 📊 EXECUTIVE SUMMARY

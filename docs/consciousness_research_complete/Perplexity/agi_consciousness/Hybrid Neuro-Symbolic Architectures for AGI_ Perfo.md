@@ -9,6 +9,8 @@ moved_to: null
 
 <img src="https://r2cdn.perplexity.ai/pplx-full-logo-primary-dark%402x.png" class="logo" width="120"/>
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # Hybrid Neuro-Symbolic Architectures for AGI: Performance Metrics and Comparative Analysis
 
 Hybrid neuro-symbolic architectures that combine graph neural networks (GNNs) with symbolic folding mechanisms and tensor networks represent a promising approach to developing more efficient and interpretable AGI systems. This report evaluates their performance across multiple dimensions and compares them with pure neural architectures like GPT-4 and AlphaFold2.

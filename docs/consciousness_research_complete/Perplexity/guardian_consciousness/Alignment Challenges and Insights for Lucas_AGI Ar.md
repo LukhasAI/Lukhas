@@ -9,6 +9,8 @@ moved_to: null
 
 <img src="https://r2cdn.perplexity.ai/pplx-full-logo-primary-dark%402x.png" class="logo" width="120"/>
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # Alignment Challenges and Insights for Lucas_AGI Architecture
 
 Before diving into the specific alignment questions, it's worth noting that Lucas_AGI represents an ambitious integration of biological-inspired computational efficiency with advanced AI safety mechanisms. The following analysis explores key challenges and opportunities within this architecture.

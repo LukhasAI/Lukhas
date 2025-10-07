@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # LUKHAS AI User Guides Index
 ## Complete Guide to Consciousness Technology Enhancement
 

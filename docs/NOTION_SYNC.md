@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # Notion Sync - T4/0.01% External Visibility
 
 Complete system for syncing LUKHAS enriched manifests to Notion with full provenance tracking and controlled vocabulary.

@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # LUKHAS Test Suite — T4 Upgrade (Execution Plan for Claude)
 
 **Tone:** tight, surgical, fearless. This is the **single source of truth** for tests. Use it to drive automated changes and PRs. For complete copy‑paste file bodies, see **`docs/gonzo/LUKHAS_Test_Suite—Add_ons.md`**.

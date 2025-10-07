@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # MATRIX v2 Rollout Playbook 🚀
 
 This playbook defines the **operational steps** for rolling out Matrix Contracts v2 across all LUKHAS modules.

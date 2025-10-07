@@ -9,6 +9,8 @@ moved_to: null
 
 <img src="https://r2cdn.perplexity.ai/pplx-full-logo-primary-dark%402x.png" class="logo" width="120"/>
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # How does the unique structure of Ginkgo seed shells influence signal routing in Lucas_AGI
 
 The unique hierarchical structure of Ginkgo seed shells enhances signal routing in Lucas_AGI through three bioinspired mechanisms derived from their helicoidal architecture and pit-guided resilience:

@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # Claude Code:
 
 Context: You have write access to the repo. Please implement the following exactly. All scripts must be idempotent and safe by default (dry-run where applicable), with clear stdout logs. Put generated artifacts under artifacts/refactor/ (git-ignored). Avoid modifying non-Python files except where explicitly called out.

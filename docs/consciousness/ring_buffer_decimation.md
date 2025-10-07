@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # Ring Buffer Decimation & Backpressure Management
 
 Advanced memory management with adaptive decimation strategies for consciousness data streams.

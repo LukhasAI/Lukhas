@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # Lambda Products — Overview
 
 This directory contains short docs and READMEs for each Lambda product in the LUKHΛS suite. The authoritative product content and visionary documents are archived in the repository root and the website markdown (see `LAMBDA_PRODUCTS_CONTENT.md` and `ARCHIVED_VISIONARY_INTEGRATION_COMPLETE.md`).

@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # 🚀 Immediate Action Items - GitHub Copilot Tasks
 *High-priority fixes that can be automated or scripted*
 

@@ -9,6 +9,8 @@ moved_to: null
 
 <img src="https://r2cdn.perplexity.ai/pplx-full-logo-primary-dark%402x.png" class="logo" width="120"/>
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # Comparative Analysis: ATP Cycle vs. Spirulina-Inspired Energy Models
 
 This analysis evaluates the efficiency of ATP-based cellular energy transfers against Spirulina-inspired biohybrid systems, focusing on energy conversion rates, scalability, and practical applications.

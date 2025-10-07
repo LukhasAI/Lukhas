@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # BATCH 7 Agent Handoff Instructions
 **Agent Assignment**: Configuration & Logging Systems
 **Priority**: 🟠 MEDIUM - Infrastructure

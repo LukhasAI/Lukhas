@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # ΛiD Authentication System: Break-Glass Emergency Access Procedure
 
 ## 🚨 Overview

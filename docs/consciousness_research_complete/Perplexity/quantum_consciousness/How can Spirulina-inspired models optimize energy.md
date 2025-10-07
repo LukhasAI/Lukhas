@@ -9,6 +9,8 @@ moved_to: null
 
 <img src="https://r2cdn.perplexity.ai/pplx-full-logo-primary-dark%402x.png" class="logo" width="120"/>
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # How can Spirulina-inspired models optimize energy harvesting in Lucas_AGI
 
 **Spirulina-Inspired Energy Harvesting Optimization in Lucas_AGI**

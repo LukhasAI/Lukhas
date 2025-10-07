@@ -14,6 +14,9 @@ Absolutely—here’s a tight,audits land” plan that turns results into shippe
 A. Drop the two audit outputs into the repo
 
 mkdir -p reports/audit
+
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # Save the auditors’ markdown as:
 # reports/audit/strategic_findings.md
 # reports/audit/neutral_findings.md

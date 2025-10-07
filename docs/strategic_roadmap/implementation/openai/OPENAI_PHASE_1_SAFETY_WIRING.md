@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # OpenAI Phase 1: Safety & Modulation Wiring
 ## Days 0-30 Implementation Plan
 

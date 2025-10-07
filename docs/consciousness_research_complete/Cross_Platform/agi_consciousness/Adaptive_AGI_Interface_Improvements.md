@@ -36,6 +36,9 @@ We can't build the full AGI here, but we can refactor and design the provided co
 The current `ComplianceEngine` is a good reactive system. Let's make it more proactive and integrated with the AGI's reasoning.
 
 ```python
+
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # compliance_engine_v2.py (Conceptual Evolution)
 import time
 import uuid

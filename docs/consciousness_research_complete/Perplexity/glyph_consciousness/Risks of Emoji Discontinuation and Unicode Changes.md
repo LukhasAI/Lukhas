@@ -9,6 +9,8 @@ moved_to: null
 
 <img src="https://r2cdn.perplexity.ai/pplx-full-logo-primary-dark%402x.png" class="logo" width="120"/>
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # Risks of Emoji Discontinuation and Unicode Changes for Authentication Systems
 
 The use of emojis in authentication systems (e.g., passwords, verification codes, or security interfaces) introduces unique risks tied to their dependence on **Unicode standards**, which govern emoji design, availability, and cross-platform consistency. Below is an analysis of stability concerns and evolving risks:

@@ -9,6 +9,8 @@ moved_to: null
 
 <img src="https://r2cdn.perplexity.ai/pplx-full-logo-primary-dark%402x.png" class="logo" width="120"/>
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # How does emotional tagging influence the retrieval of symbolic memories
 
 Emotional tagging significantly influences the retrieval of symbolic memories by prioritizing emotionally salient experiences during recall. This mechanism mirrors human memory systems, where emotionally charged events are more vivid and readily accessible. Below is a detailed explanation of how emotional tagging impacts memory retrieval in LUCAS's architecture.

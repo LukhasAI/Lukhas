@@ -9,6 +9,8 @@ moved_to: null
 
 <img src="https://r2cdn.perplexity.ai/pplx-full-logo-primary-dark%402x.png" class="logo" width="120"/>
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # Integrating Biological Structures into AGI Scaffolds: Performance Optimization Analysis
 
 This technical evaluation benchmarks the integration of biological models (Spirulina, Ginkgo, Lion’s Mane, ATP cycles) into Lucas_AGI architectures against existing protein scaffolds. Bio-hybrid systems demonstrate **27.4 TFLOPS/W** energy efficiency and **94% Virtuoso AGI alignment**, outperforming protein-only designs in trauma repair and adaptive learning metrics.

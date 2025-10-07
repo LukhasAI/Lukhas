@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # 🌟 OpenAI ↔ LUKHAS 2030: The Complete Collaboration Vision
 ## Augmenting Human Intelligence Through AI Synergy
 

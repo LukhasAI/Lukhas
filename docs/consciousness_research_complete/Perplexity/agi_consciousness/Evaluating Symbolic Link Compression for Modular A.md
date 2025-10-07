@@ -9,6 +9,8 @@ moved_to: null
 
 <img src="https://r2cdn.perplexity.ai/pplx-full-logo-primary-dark%402x.png" class="logo" width="120"/>
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # Evaluating Symbolic Link Compression for Modular AGI Architectures: Graph-Based vs. Symbolic Approaches
 
 Recent advances in protein structure prediction and artificial general intelligence (AGI) research suggest intriguing parallels between information compression mechanisms and intelligent behavior. This report evaluates the feasibility of implementing a Symbolic Link Compression (SLC) system within modular AGI architectures, specifically examining whether hierarchical graph-based folding or novel symbolic coding systems would better serve the goals of maximum data reduction and conceptual linking.

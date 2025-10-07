@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # 🚀 Advanced AI Preparedness Framework - Executive Summary
 
 **LUKHAS AI Strategic Initiative - Phase 1D Complete**

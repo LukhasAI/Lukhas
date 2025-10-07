@@ -7,6 +7,9 @@ redirect: false
 moved_to: null
 ---
 
+![Status: Stable](https://img.shields.io/badge/status-stable-green)
+![Owner: consciousness-architect](https://img.shields.io/badge/owner-consciousness-architect-lightblue)
+
 # LUKHAS Architecture Documentation
 
 *Constellation Framework Architecture with MATRIZ Pipeline Integration*

@@ -9,6 +9,8 @@ moved_to: null
 
 <img src="https://r2cdn.perplexity.ai/pplx-full-logo-primary-dark%402x.png" class="logo" width="120"/>
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # How does the Fibonacci spiral growth framework enhance scalability in Lucas_AGI
 
 The Fibonacci spiral growth framework enhances scalability in Lucas_AGI through biomimetic principles derived from logarithmic growth patterns in nature. This approach enables hierarchical, energy-efficient scaling while maintaining structural coherence across expanding computational demands.

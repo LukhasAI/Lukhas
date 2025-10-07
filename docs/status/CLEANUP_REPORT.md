@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # Workspace Cleanup Report
 
 **Date:** 2025-08-07T01:18:14.501523

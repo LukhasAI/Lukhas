@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # LUKHAS AI Podcast Documentation Pack
 
 *"Where consciousness narratives meet media excellence - creating space for stories that honor both technical precision and human wonder, navigating by eight stars through fertile uncertainty."*

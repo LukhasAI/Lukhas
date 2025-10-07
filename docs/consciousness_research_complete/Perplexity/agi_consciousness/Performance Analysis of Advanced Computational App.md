@@ -9,6 +9,8 @@ moved_to: null
 
 <img src="https://r2cdn.perplexity.ai/pplx-full-logo-primary-dark%402x.png" class="logo" width="120"/>
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # Performance Analysis of Advanced Computational Approaches in AGI Identity Frameworks
 
 The integration of lattice-based cryptography, Zero-Knowledge Proofs (ZKPs), and hyperdimensional computing in AGI identity frameworks presents both opportunities and challenges in terms of performance metrics. This report analyzes these technologies' performance characteristics and their potential integration in advanced identity systems.

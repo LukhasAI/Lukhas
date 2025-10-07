@@ -7,6 +7,9 @@ redirect: false
 moved_to: null
 ---
 
+![Status: Stable](https://img.shields.io/badge/status-stable-green)
+![Owner: docs-maintainer](https://img.shields.io/badge/owner-docs-maintainer-lightblue)
+
 # 🚀 LUKHAS Quick Start Guide
 
 Welcome to LUKHAS  - Pack What Matters! This guide will get you up and running quickly.

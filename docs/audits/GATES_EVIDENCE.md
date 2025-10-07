@@ -18,6 +18,8 @@ moved_to: null
 
 Generated on: automated run
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # Gates Evidence
 
 This file captures the tails of the focused gate runs for the T4 hardening step.

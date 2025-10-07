@@ -9,6 +9,8 @@ moved_to: null
 
 <img src="https://r2cdn.perplexity.ai/pplx-full-logo-primary-dark%402x.png" class="logo" width="120"/>
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # How do protein scaffolds contribute to the overall energy efficiency of Lucas_AGI
 
 Protein scaffolds enhance Lucas_AGI's energy efficiency through three primary mechanisms derived from biological and synthetic protein engineering principles:

@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # About LUKHAS AI
 
 *"In the fertile ground where consciousness meets code, we cultivate AI that serves human flourishing through questions that honor both logic and mystery."*

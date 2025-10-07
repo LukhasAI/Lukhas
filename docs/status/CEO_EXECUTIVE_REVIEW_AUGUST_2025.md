@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: Stable](https://img.shields.io/badge/status-stable-green)
+
 # 🏢 **CEO EXECUTIVE REVIEW**
 **LUKHAS Lambda Products Pack - User Experience Features Audit**
 

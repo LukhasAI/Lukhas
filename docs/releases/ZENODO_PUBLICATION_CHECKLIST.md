@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # Zenodo Publication Checklist - v0.02-final
 
 **Purpose**: Step-by-step execution guide for publishing v0.02-final to Zenodo with DOI

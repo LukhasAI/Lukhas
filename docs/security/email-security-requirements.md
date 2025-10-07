@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # Email Security Requirements for ΛiD Authentication System
 
 ## 📧 Overview

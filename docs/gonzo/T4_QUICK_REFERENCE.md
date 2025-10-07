@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # 🎯 T4 AutoFix Quick Reference
 
 **LUKHAS AI Agent Army - Cursor-Aware QuickFix System**

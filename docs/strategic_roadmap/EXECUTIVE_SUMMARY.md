@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # LUKHAS  Strategic Roadmap - Executive Summary
 ## Transforming Research Prototype into Production AGI Platform
 

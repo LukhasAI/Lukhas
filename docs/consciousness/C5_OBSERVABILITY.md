@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # C5_OBSERVABILITY.md - Wave C Observability Integration
 **Freud-2025 Specification: Observability Infrastructure for Aka Qualia**
 

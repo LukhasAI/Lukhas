@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # T4/0.01% Governance System Delivery Summary
 
 **Delivery Date**: 2025-10-05

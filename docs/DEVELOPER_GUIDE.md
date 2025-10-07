@@ -7,6 +7,9 @@ redirect: false
 moved_to: null
 ---
 
+![Status: Stable](https://img.shields.io/badge/status-stable-green)
+![Owner: core-team](https://img.shields.io/badge/owner-core-team-lightblue)
+
 # LUKHAS Developer Guide
 
 Welcome to the LUKHAS development guide. This document provides essential information for developers working with the LUKHAS AI platform.

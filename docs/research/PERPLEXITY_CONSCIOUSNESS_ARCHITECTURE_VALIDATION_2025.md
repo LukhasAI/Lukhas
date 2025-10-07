@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # 🧠 Perplexity API Validation: LUKHAS AI Consciousness Architecture 2025
 
 ## Executive Summary

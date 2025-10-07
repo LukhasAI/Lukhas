@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # 🚀 LUKHAS AI Quick Start Guide
 
 **Get started with LUKHAS AI in 15 minutes** - From installation to your first consciousness-aware decision.

@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum Constellation Framework: Academic Specification & Research Foundation
 
 *Comprehensive academic documentation for the LUKHAS AI Constellation Framework - the world's first production-ready consciousness technology architecture*

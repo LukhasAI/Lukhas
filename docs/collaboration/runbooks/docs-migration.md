@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: Stable](https://img.shields.io/badge/status-stable-green)
+
 # Documentation Migration Runbook
 
 **Purpose**: Procedures for migrating documentation from scattered locations to standardized module `docs/` directories with validated frontmatter.

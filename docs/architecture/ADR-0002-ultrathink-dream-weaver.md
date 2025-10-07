@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # ADR-0002: "Ultrathink" Dream Weaver Architecture
 
 **Status**: Proposed

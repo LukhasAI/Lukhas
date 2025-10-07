@@ -15,6 +15,8 @@ do_not_edit: false
 human_editable: true
 -->
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # Docs API Documentation
 
 ## Overview

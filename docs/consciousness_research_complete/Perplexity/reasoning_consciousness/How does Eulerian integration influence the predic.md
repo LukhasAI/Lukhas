@@ -9,6 +9,8 @@ moved_to: null
 
 <img src="https://r2cdn.perplexity.ai/pplx-full-logo-primary-dark%402x.png" class="logo" width="120"/>
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # How does Eulerian integration influence the predictive capabilities of Lucas AGI
 
 Eulerian integration significantly enhances the **predictive capabilities** of Lucas AGI through its impact on phase alignment, entropy control, and computational efficiency, while introducing specific tradeoffs. Below is a structured analysis:

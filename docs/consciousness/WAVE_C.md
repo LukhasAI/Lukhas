@@ -395,6 +395,8 @@ hints = aq.oneiric_hook.apply_policy(scene=scene, policy=policy)
 
 12) Shell / Exec Tips
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # dev install
 pip install -e .
 

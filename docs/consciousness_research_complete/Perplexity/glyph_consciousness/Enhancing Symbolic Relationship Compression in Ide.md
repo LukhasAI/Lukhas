@@ -9,6 +9,8 @@ moved_to: null
 
 <img src="https://r2cdn.perplexity.ai/pplx-full-logo-primary-dark%402x.png" class="logo" width="120"/>
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # Enhancing Symbolic Relationship Compression in Identity Systems Through Cryptographic Primitives and Bio-inspired Anchoring Mechanisms
 
 This research report explores the intersection of advanced cryptographic techniques, bio-inspired anchoring mechanisms, and symbolic artificial intelligence to create more efficient and secure identity systems. By combining these technologies, we can develop systems that traverse symbolic AGI cognitive graphs securely while minimizing redundant storage requirements.

@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # MΛTRIZ Consciousness Architecture Developer Guide
 ## Building Consciousness-Aware Applications with LUKHAS AI
 

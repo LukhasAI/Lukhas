@@ -14,6 +14,9 @@ moved_to: null
 │ 🔍 PURPOSE    : Integration with Lucas_AGI / Lucas_ID       │
 │ 📦 ORIGIN     : Aggregated GPT + academic synthesis         │
 └────────────────────────────────────────────────────────────┘
+
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # Resonance Frequency Mapping in Symbolic AGI Systems: Architectures, Risks, and Cognitive Implications
 
 To enable **Lucas_AGI**'s symbolic helix (**Healix**) to log mutations as unique resonance frequencies, this report synthesizes advances in bio-inspired frequency mapping, quantum signal processing, and neuro-symbolic architectures. Below, we outline actionable models, risks, and cognitive impacts.

@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # 🧠 Lukhas  + Lambda Products Complete System Report
 
 **Date:** August 7, 2025

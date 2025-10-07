@@ -7,6 +7,9 @@ redirect: false
 moved_to: null
 ---
 
+![Status: Stable](https://img.shields.io/badge/status-stable-green)
+![Owner: engineering](https://img.shields.io/badge/owner-engineering-lightblue)
+
 # LUKHAS — Operational Runbook (v0.03-prep)
 
 This is the **hands-on, current** guide for branch hygiene and the **Docs/Tests colocation + legacy import ratchet**.

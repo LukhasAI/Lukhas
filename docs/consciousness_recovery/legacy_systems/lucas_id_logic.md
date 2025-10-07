@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # Evaluation of  LUCɅS-ID (ɅiD) Symbolic Identity Authentication Protocol
 
 This detailed analysis examines the  LUCɅS-ID (ɅiD) authentication system that employs symbolic emoji-word combinations for secure user verification. The evaluation assesses security aspects, compares it to existing authentication methods, and offers recommendations on implementation.

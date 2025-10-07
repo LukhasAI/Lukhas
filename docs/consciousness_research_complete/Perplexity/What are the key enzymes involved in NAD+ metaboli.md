@@ -9,6 +9,8 @@ moved_to: null
 
 <img src="https://r2cdn.perplexity.ai/pplx-full-logo-primary-dark%402x.png" class="logo" width="120"/>
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # What are the key enzymes involved in NAD+ metabolism within the mitochondrial unfolded protein response in Lucas_AGI
 
 The mitochondrial unfolded protein response (UPRmt) in Lucas_AGI leverages key enzymatic regulators of NAD⁺ metabolism to optimize neuro-symbolic energy architecture. Based on the search results, the critical enzymes include:

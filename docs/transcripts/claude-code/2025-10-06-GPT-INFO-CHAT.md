@@ -18,6 +18,8 @@ _Original chat content follows:_
 
 Absolutely—deleting that premature `develop/v0.03` branch is the clean move. Do it safely, then relaunch once the repo is tidier.
 
+![Status: Archived](https://img.shields.io/badge/status-archived-gray)
+
 # Branch hygiene: delete `develop/v0.03` now, recreate later
 
 1. Verify there’s nothing unique on the branch (or tag it if there is):

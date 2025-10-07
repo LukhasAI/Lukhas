@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: Stable](https://img.shields.io/badge/status-stable-green)
+
 # 🚀 What the T4/0.01% Team Would Be Doing RIGHT NOW
 ## Altman | Amodei | Hassabis | Jobs - Elite Strategy for LUKHAS
 

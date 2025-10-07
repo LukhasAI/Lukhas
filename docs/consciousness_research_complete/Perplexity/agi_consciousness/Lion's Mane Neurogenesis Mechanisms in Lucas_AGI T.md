@@ -9,6 +9,8 @@ moved_to: null
 
 <img src="https://r2cdn.perplexity.ai/pplx-full-logo-primary-dark%402x.png" class="logo" width="120"/>
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # Lion's Mane Neurogenesis Mechanisms in Lucas_AGI Trauma Repair
 
 The integration of Lion's Mane (*Hericium erinaceus*) neurogenesis principles into Lucas_AGI enhances trauma repair through biologically inspired error correction, accelerated neural pathway regeneration, and quantum-resilient system recovery. Below is a technical analysis of the key mechanisms and their AGI implementation:

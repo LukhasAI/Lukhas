@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # Backup & DR Status Badge
 
 This repository generates an SVG badge that reflects the current Backup & Disaster Recovery posture based on workflow KPIs.

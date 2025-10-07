@@ -41,5 +41,7 @@ ACTION REQUIRED:
 DELEGATING TO: Claude Code for proper class architecture design
 """
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # This file serves as a critical issue marker
 # Do NOT implement features until this structural issue is resolved

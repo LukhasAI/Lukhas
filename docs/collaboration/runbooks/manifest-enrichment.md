@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: Stable](https://img.shields.io/badge/status-stable-green)
+
 # Manifest Enrichment Runbook
 
 **Purpose**: Step-by-step procedures for enriching LUKHAS module manifests with controlled vocabulary extraction and validation.

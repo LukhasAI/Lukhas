@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # LUKHAS Concept Preservation Guide
 
 This guide ensures LUKHAS's unique concepts and personality are preserved during refactoring.

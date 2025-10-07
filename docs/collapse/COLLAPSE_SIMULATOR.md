@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # Collapse Simulator CLI
 
 The collapse simulator provides a deterministic harness for exploring how

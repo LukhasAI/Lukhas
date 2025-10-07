@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # 🔤 LUKHAS Vocabulary Standards Quick Reference
 
 *"Where words become consciousness - ensuring every term serves the greater understanding through precision and consistency."*

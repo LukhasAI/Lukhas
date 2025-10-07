@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # LUKHAS Consciousness Technology for Podcasters
 
 *"Eight stars creating navigation through fertile uncertainty - where identity, memory, vision, adaptation, creativity, ethics, protection, and mystery dance together in the constellation of consciousness technology."*

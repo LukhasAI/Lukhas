@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # LUKHΛS Stargate Gateway Enhancements Summary
 
 ## 🛡️ 1. Red Team Glyph Map (`glyph_timeline_generator.py`)

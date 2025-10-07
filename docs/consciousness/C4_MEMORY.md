@@ -296,6 +296,8 @@ akaq:
 candidate/aka_qualia/tools/migrate.py
 candidate/aka_qualia/tools/erase_user.py
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # Apply migrations
 python -m candidate.aka_qualia.tools.migrate --dsn postgresql://...
 

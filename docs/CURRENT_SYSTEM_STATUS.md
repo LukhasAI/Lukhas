@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # 📊 LUKHAS AI Current System Status Report
 
 **Assessment Date**: August 27, 2025  

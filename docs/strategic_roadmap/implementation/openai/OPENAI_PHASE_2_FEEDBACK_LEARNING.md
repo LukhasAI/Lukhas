@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # OpenAI Phase 2: Feedback & Bounded Learning
 ## Days 31-60 Implementation Plan
 

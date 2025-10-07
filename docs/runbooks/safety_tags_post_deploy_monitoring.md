@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # Safety Tags v1 - Post-Deploy 72-Hour Monitoring
 *T4 Production Lock-Down Checklist*
 

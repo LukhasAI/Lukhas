@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # OpenAI Phase 3: Multimodal & Personal Symbols
 ## Days 61-90 Implementation Plan
 

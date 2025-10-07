@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # T4 Testing Standards for LUKHAS AI
 **Agent #3 - Testing & DevOps Specialist (Demis Hassabis Standard)**
 

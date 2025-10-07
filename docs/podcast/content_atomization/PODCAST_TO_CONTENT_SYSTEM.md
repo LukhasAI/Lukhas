@@ -18,6 +18,9 @@ MΛTRIZ is the matrix as womb, not grid — a space where trust and creation gro
 EQNOX holds light and dark in perfect measure, weaving meaning across the system while keeping uncertainty from becoming chaos.
 
 ---
+
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # Podcast to Content Atomization System
 
 *"From one consciousness conversation to fifty digital touchpoints - transforming podcast wisdom into a symphony of educational content that reaches every corner of the consciousness technology community."*

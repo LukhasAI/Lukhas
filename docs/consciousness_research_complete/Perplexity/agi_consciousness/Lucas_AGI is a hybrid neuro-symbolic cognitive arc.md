@@ -9,6 +9,8 @@ moved_to: null
 
 <img src="https://r2cdn.perplexity.ai/pplx-full-logo-primary-dark%402x.png" class="logo" width="120"/>
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # Lucas_AGI is a hybrid neuro-symbolic cognitive architecture that combines symbolic reasoning, protein-inspired memory folding (G4-binding), tensor network compression, and hyperdimensional computing. It integrates multi-modal anchoring (object-level QR + environmental LiDAR) with quantum-resilient cryptographic safeguards. Lucas_AGI prioritizes interpretability, energy efficiency, compression, and ethical alignment—designed for modular reasoning, trauma-resilient memory, and symbolic traceability, outperforming conventional AI models like GPT and AlphaFold2 in memory compression, consent-driven access, and ethical reasoning.
 
 Compare the AGI readiness metrics of Lucas_AGI (a neuro-symbolic architecture integrating symbolic folding, tensor network compression, G4-binding scaffolds, and quantum-resilient crypto) against conventional AI models like GPT-4 and AlphaFold2. Evaluate conceptual reasoning depth, symbolic traceability, compression efficiency, energy consumption, and multimodal adaptability (e.g., spatial anchoring via LiDAR, QR object anchoring)

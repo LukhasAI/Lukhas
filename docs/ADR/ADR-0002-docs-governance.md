@@ -7,6 +7,9 @@ redirect: false
 moved_to: null
 ---
 
+![Status: Stable](https://img.shields.io/badge/status-stable-green)
+![Owner: docs-team](https://img.shields.io/badge/owner-docs-team-lightblue)
+
 # ADR-0002: Documentation Governance Framework
 
 **Date**: 2025-10-06

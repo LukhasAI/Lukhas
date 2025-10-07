@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # Podcast Campaign Launch Timeline
 
 *"From preparation to amplification - a comprehensive timeline for transforming consciousness conversations into sustainable educational ecosystems that serve the beneficial AI development community."*

@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # 🎯 T4 Unused Imports System - User Guide
 
 **⚛️ LUKHAS AI Constellation Framework - Transforming Technical Debt into Documented Intent**

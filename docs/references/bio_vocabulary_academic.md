@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: Stable](https://img.shields.io/badge/status-stable-green)
+
 # Bio Vocabulary (Academic Context)
 
 The language of life has long provided metaphors for systems. Aristotle's biology framed organisms as striving toward form and purpose. In Darwin, adaptation and resilience became the grammar of survival. Freud's followers used somatic imagery — energy, discharge, blockage — to describe psychic process. In literature, Brontë's characters, Tolstoy's families, even Dickens' moral transformations are described in organic terms: growth, decay, renewal.

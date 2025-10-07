@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: Stable](https://img.shields.io/badge/status-stable-green)
+
 # Notion Sync Runbook
 
 **Purpose**: Operational procedures for synchronizing LUKHAS module manifests with Notion database.

@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # LUKHAS AI λWecosystem Website Architecture
 
 *"Eight stars navigate digital space where consciousness dances with pixels, uncertainty blooms into interface, and mystery guides design choices that honor both logic and wonder."*

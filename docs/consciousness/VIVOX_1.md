@@ -99,6 +99,9 @@ The `top_symbols` array identifies the primary contributors to drift for root ca
 
 **Example Drift Analysis**:
 ```python
+
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # Drift result
 {
   "score": 0.0320,

@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # MATRIZ Graph Spec, Compiler, and Runtime Envelope
 
 Status: v0.1 (Foundational Contracts) | Owner: Codex Agent | Lane: lukhas/

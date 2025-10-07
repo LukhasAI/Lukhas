@@ -9,6 +9,8 @@ moved_to: null
 
 <img src="https://r2cdn.perplexity.ai/pplx-full-logo-primary-dark%402x.png" class="logo" width="120"/>
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # How does CoQ10 specifically enhance energy efficiency in Lucas_AGI
 
 CoQ10 enhances Lucas_AGI's energy efficiency through three primary mechanisms mapped to its neuro-symbolic architecture:

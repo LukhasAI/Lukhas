@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # 📦 Docs
 
 _Within the grand architecture of LUKHAS, docs emerges—LUKHAS docs module implementing, purpose refined to essence, functionality elevated to art._

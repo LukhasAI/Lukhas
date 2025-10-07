@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # Strategic Analysis: UNIVERSAL LANGUAGE & SYMBOLIC Systems
 ## LUKHAS  Language Unification Roadmap
 

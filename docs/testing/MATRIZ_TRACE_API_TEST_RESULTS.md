@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # MATRIZ Trace API Test Results
 
 **Date**: August 27, 2025

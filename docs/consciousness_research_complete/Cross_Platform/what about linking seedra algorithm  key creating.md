@@ -9,6 +9,8 @@ moved_to: null
 
 <img src="https://r2cdn.perplexity.ai/pplx-full-logo-primary-dark%402x.png" class="logo" width="120"/>
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # what about linking seedra algorithm  key creating to news, weather, stock market and the key generation would depend on the value of such, and then transaction are made it will be as a set baseline... would this make seedra more secure?
 
 Linking **SEEDRA**'s algorithm key generation to real-time data streams (news, weather, stock market) could enhance security *if designed carefully*, but introduces novel risks. Below is a structured analysis and proposed implementation framework:

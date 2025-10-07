@@ -9,6 +9,8 @@ moved_to: null
 
 <img src="https://r2cdn.perplexity.ai/pplx-full-logo-primary-dark%402x.png" class="logo" width="120"/>
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # What are the potential ethical implications of combining Eulerian integration with other methods in Lucas AGI
 
 The integration of Eulerian methods with other computational techniques in Lucas AGI introduces several **ethical implications**, balancing enhanced performance with risks tied to transparency, autonomy, and societal impact. Below is a structured analysis:

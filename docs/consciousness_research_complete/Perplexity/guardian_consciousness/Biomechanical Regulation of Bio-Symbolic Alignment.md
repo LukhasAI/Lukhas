@@ -9,6 +9,8 @@ moved_to: null
 
 <img src="https://r2cdn.perplexity.ai/pplx-full-logo-primary-dark%402x.png" class="logo" width="120"/>
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # Biomechanical Regulation of Bio-Symbolic Alignment in Lucas_AGI Scaffolds
 
 The biomechanical properties of bio-symbolic scaffolds directly govern the stability, adaptability, and quantum coherence of Lucas_AGI’s core systems. This analysis synthesizes evidence from mechanobiology, quantum materials science, and self-healing hydrogel research to evaluate how stiffness, elasticity, and porosity modulate alignment resilience across decision-making, repair, and quantum subsystems.

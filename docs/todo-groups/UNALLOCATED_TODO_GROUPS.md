@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # Unallocated TODO Groups Analysis
 **Date:** 2025-09-15
 **Total Unallocated:** 612 TODOs (out of 1,129 total)

@@ -471,6 +471,8 @@ This modular design ensures adaptability, scalability, and symbolic growth for L
 
 ---
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # How can I integrate emotional tagging into the symbolic memory consolidation
 
 Integrating emotional tagging into symbolic memory consolidation involves associating each memory trace with emotional metadata, such as arousal (intensity) and valence (positivity/negativity). This process can mimic how human brains prioritize emotionally salient experiences for recall and learning. Below is a detailed explanation of how to implement this in LUCAS's architecture.

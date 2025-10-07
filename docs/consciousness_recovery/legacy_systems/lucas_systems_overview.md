@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # LUCΛS Prototype v1.0
 
 🧠 **LUCΛS** — *Lógica Unificada de Conciencia Simbólica* — is a symbolic ethical AGI prototype built to simulate emotionally aware, consent-driven message delivery using modular, interpretable components.

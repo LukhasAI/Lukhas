@@ -80,6 +80,9 @@ root@9e9a2392e1d0:/workspace/Lukhas# ls
 I'll check the root for any AGENTS.md instructions.
 
 root@9e9a2392e1d0:/workspace/Lukhas# cat AGENTS.md
+
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # 🤖 LUKHAS AI Agent System
 
 **Multi-Agent Development Platform for MATRIZ-R1 Execution**

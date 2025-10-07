@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # LUKHAS Repository Normalization Session Summary
 **Date**: 2025-08-21
 **Session Focus**: Repository normalization, MATRIZ v1.1 validation, and lane structure setup

@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # LUKHAS Roadmap: From Modular AI to AGI
 
 ## Current State: Foundation Phase (Q3 2025)

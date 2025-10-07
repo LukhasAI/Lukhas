@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # 🌌 Constellation Navigation System - Technical Implementation Specification
 
 **Interactive Star Map Navigation Across All LUKHAS Domains**

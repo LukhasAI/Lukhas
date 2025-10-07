@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # Bio Module Consolidation Report
 Generated: 2025-08-12T19:38:03.087780
 

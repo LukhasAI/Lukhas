@@ -9,6 +9,8 @@ moved_to: null
 
 <img src="https://r2cdn.perplexity.ai/pplx-full-logo-primary-dark%402x.png" class="logo" width="120"/>
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # Compressing Conceptual Relationships in AGI Cognitive Graphs: Neural, Symbolic, and Hybrid Approaches
 
 Efficient compression of conceptual relationships in cognitive graphs represents a critical challenge for advancing artificial general intelligence (AGI). This report examines both graph neural network folding methods and symbolic coding systems, comparing their effectiveness for link efficiency, storage optimization, and reasoning performance. Research indicates that hybrid approaches combining these methods may offer superior performance while preserving semantic integrity and enabling sophisticated reasoning capabilities.

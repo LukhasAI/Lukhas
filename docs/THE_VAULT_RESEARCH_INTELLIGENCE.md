@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: Stable](https://img.shields.io/badge/status-stable-green)
+
 # THE_VAULT Research Intelligence System
 
 **Location**: `/Users/agi_dev/LOCAL-REPOS/THE_VAULT/00_ORGANIZATION_PROJECT/`

@@ -9,6 +9,8 @@ moved_to: null
 
 <img src="https://r2cdn.perplexity.ai/pplx-full-logo-primary-dark%402x.png" class="logo" width="120"/>
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # DNA-Inspired Cryptographic Architectures for Symbolic AGI Systems
 
 The integration of DNA-inspired mechanisms into cryptographic and data storage systems has opened revolutionary pathways for secure, adaptive architectures. This report synthesizes advances in DNA-based cryptography, mutation-aware data validation, resonant access control, and blockchain integration, with direct implications for symbolic AGI systems like **Lucas_AGI** and its **Healix memory core**.

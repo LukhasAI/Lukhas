@@ -20,6 +20,9 @@ moved_to: null
 - `override_logic.py` → **`ethical_reflex_engine.py`**
 
 ```python
+
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # Now handles consent-aware overrides and symbolic protests
 def ethical_override(request):
     if not Consent.check(request, tier=3):

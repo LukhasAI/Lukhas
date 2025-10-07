@@ -155,7 +155,10 @@ class MemorySegment:
 
 **Code Snippet**:
 
-```python  
+```python
+
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # healix_mapper.py  
 from mcland import Model  
 

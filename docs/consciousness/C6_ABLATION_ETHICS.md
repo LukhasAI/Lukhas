@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # C6_ABLATION_ETHICS.md - Wave C Testing & Ethics Suite  
 **Freud-2025 Specification: Ablation Testing and Ethical Validation**
 

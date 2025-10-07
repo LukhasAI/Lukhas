@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # Advanced Evasion Hardening System
 
 Production-grade protection against sophisticated obfuscation and evasion techniques.

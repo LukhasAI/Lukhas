@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # 🎯 LUKHAS 7-Agent Implementation Final Status
 
 ## ✅ COMPLETED IMPLEMENTATIONS (In Actual LUKHAS Directories)

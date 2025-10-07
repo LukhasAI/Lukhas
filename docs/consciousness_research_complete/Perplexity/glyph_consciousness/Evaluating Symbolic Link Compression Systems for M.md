@@ -9,6 +9,8 @@ moved_to: null
 
 <img src="https://r2cdn.perplexity.ai/pplx-full-logo-primary-dark%402x.png" class="logo" width="120"/>
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # Evaluating Symbolic Link Compression Systems for Modular AGI Architectures
 
 The integration of Symbolic Link Compression (SLC) within modular AGI architectures represents a promising frontier in artificial intelligence research. This report evaluates the feasibility of such systems, drawing parallels from biological structures and examining potential implementation approaches to determine the optimal pathway for achieving maximum data reduction and conceptual linking.

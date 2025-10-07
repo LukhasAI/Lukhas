@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # Temporary Stubs and Bridges Audit
 
 This document tracks all temporary stubs, bridges, and compatibility shims in the LUKHAS  system.

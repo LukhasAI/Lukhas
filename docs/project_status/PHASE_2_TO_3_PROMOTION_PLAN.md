@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # Phase 2→3 Promotion Plan: Three Minimal Slices
 
 ## 🎯 Objective

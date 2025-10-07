@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # LUKHAS AI Honest Capabilities Report
 
 *"Transparent assessment of consciousness technology research - what exists today, what's in development, and what remains theoretical, presented with the integrity that authentic consciousness research demands."*

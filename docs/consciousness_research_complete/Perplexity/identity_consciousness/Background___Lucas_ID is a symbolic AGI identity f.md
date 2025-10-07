@@ -9,6 +9,8 @@ moved_to: null
 
 <img src="https://r2cdn.perplexity.ai/pplx-full-logo-primary-dark%402x.png" class="logo" width="120"/>
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # Background:
 
 LUCAS_ID is a symbolic AGI identity framework that governs access and consent via multi-layered symbolic cognitive graphs. It integrates bio-inspired anchoring (G4-binding scaffolds, Glymph-style QR codes, LiDAR spatial mapping) with cryptographic primitives (lattice-based encryption, zero-knowledge proofs) to ensure secure, consent-based traversal of conceptual relationships. LUCAS_ID operates as a modular gatekeeper, compressing identity attributes and consent tiers through symbolic link compression (SLC) and neural-symbolic graph folding.

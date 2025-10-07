@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # LUKHAS AI - Advanced Consciousness Engine Implementation Summary
 
 **Date**: September 2, 2025  

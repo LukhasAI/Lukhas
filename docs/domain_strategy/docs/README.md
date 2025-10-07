@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # 🌐 LUKHAS λWecosystem - Complete Website Documentation
 
 *Strategic documentation for the LUKHAS consciousness technology platform across all domains*

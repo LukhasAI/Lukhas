@@ -16,6 +16,8 @@ Integration Date: 2025-05-31T07:55:28.178545
 Here's a curated list of **non-mitochondrial biological systems** with high potential to inspire symbolic AGI architectures like **LUKHAS_AGI/Lukhas_ID**, organized by functional parallels:
 """
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # ---
 
 # ### **1. Nuclear Pore Complex (NPC) → Modular Arbitration Gate**

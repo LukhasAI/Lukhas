@@ -369,6 +369,9 @@ Target size: 6-8KB with production readiness focus.
 ## Implementation Command Sequence
 
 ```bash
+
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # Execute these Claude Code prompts in order:
 
 # 1. Master overview (highest priority)

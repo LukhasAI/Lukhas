@@ -9,6 +9,8 @@ moved_to: null
 
 <img src="https://r2cdn.perplexity.ai/pplx-full-logo-primary-dark%402x.png" class="logo" width="120"/>
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # What mechanisms can be implemented to guarantee transparency in Lucas's decision-making process
 
 To ensure transparency in LUCAS's decision-making process, the following mechanisms can be implemented, drawing from AI transparency best practices and ethical frameworks:

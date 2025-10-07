@@ -47,6 +47,8 @@ Success (must pass):
 
 3) Public Interfaces (Python)
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # package: lukhas/aka_qualia/
 
 class AkaQualia:

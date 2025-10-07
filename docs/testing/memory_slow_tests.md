@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # Memory Safety, Interleavings & Slow Tests
 
 This document describes the combined test suite for memory safety, interleavings, and slow tests in LUKHAS.

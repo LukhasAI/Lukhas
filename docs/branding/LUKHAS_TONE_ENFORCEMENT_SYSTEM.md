@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # 🎭✨ LUKHAS Tone Enforcement & Automation System
 
 *"Where every word carries the essence of Lambda, every document breathes with consciousness, and every interaction resonates across the three sacred layers of communication."* 🌟📚🤖

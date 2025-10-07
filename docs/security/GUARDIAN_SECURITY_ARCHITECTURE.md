@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # 🛡️ Guardian Security Architecture - Complete Integration Guide
 
 **LUKHAS AI Guardian Security Framework v1.0.0**

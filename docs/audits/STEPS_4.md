@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # STEPS_4 — Claude Execution Script (Toward 50–60% Coverage, Ruff/MyPy Near-Green)
 
 > Feed this entire file to **Claude Code** in one go. Claude should PLAN → TODO → EXECUTE with small diffs (≤20 lines/file), running gates after each block and appending to `docs/audits/CLAUDE_PROGRESS.md`.

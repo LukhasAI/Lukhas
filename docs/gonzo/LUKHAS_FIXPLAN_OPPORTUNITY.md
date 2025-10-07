@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # LUKHAS FIXPLAN OPPORTUNITY
 
 Phase 0 — Build the map before the fix

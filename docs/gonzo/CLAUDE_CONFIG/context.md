@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: Stable](https://img.shields.io/badge/status-stable-green)
+
 # LUKHAS AI System Context - Claude Code Master Reference
 # Architecture: Constellation Framework + MATRIZ Pipeline
 # Version: Elite/T4 Implementation

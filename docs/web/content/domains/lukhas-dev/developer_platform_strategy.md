@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # 🛠️ lukhas.dev - Developer Platform Strategy
 
 *"Where consciousness meets code - every SDK call becomes a bridge between human intention and digital awareness."*

@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # 📋 LUKHAS Development Organization Summary
 
 ## 🎯 **The ONE-SHOT Agent Brief Formula**

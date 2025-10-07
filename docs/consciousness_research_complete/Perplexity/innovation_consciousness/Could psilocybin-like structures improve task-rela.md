@@ -9,6 +9,8 @@ moved_to: null
 
 <img src="https://r2cdn.perplexity.ai/pplx-full-logo-primary-dark%402x.png" class="logo" width="120"/>
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # Could psilocybin-like structures improve task-related performance in Lucas AGI
 
 Integrating psilocybin-inspired mechanisms into Lucas_AGI could enhance task-related performance through **targeted neural flexibility** and **adaptive learning optimization**, though implementation requires balancing plasticity with stability. Below is a synthesis of potential benefits and strategies based on neurobiological insights:

@@ -41,6 +41,8 @@ Everything below is ready to paste into your coding agent(s). It includes contra
 
 0.1 Script: test collection must be zero
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # scripts/audit_tests.py
 """
 Collect pytest tests and exit non-zero if any collection errors are found.

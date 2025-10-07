@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # 🚀 LUKHAS PWM + Lambda Products - Final Workspace Report
 
 **Date:** August 7, 2025

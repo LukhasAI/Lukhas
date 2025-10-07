@@ -15,6 +15,9 @@ moved_to: null
 **1. On-Device AI Optimization (L-Mul Algorithm)**  
 Implement BitEnergy AI's L-Mul algorithm ([15]) to reduce tensor operation energy by 95%:
 ```python
+
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # Replace float32 with 8-bit integers for matrix ops
 from lmul import LinearComplexityMultiplier
 

@@ -9,6 +9,8 @@ moved_to: null
 
 <img src="https://r2cdn.perplexity.ai/pplx-full-logo-primary-dark%402x.png" class="logo" width="120"/>
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # Enhancing Identity Systems through Cryptographic Primitives and Bio-inspired Anchoring Mechanisms
 
 Recent advances in cryptography, bio-inspired systems, and symbolic representation offer promising pathways for creating more secure and efficient identity systems. This research explores how zero-knowledge proofs (ZKPs), lattice-based cryptography, and bio-inspired anchoring mechanisms can enhance symbolic relationship compression in identity systems like Lucas ID, while ensuring secure traversal of cognitive graphs without redundant storage.

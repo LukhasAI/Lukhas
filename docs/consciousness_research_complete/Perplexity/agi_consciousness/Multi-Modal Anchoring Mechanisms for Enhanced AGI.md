@@ -9,6 +9,8 @@ moved_to: null
 
 <img src="https://r2cdn.perplexity.ai/pplx-full-logo-primary-dark%402x.png" class="logo" width="120"/>
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # Multi-Modal Anchoring Mechanisms for Enhanced AGI Cognitive Graphs: Integration with Neuro-Symbolic Architectures and Cryptographic Safeguards
 
 The integration of multi-modal anchoring mechanisms with symbolic AGI cognitive frameworks represents a cutting-edge approach to enhance both conceptual relationship compression and secure traversal in intelligent systems. This report explores how bio-inspired QR codes with fluid-like dynamics and spatial mapping via LiDAR can be integrated with hybrid neuro-symbolic architectures and cryptographic safeguards to create more robust, secure, and contextually aware identity systems like LUCAS_ID.

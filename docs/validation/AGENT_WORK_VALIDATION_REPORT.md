@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # 📊 Agent 1 & 2 Work Validation Report
 
 **Date:** August 11, 2025

@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # GitHub Release Creation - v0.02-final
 
 **DOI**: 10.5281/zenodo.17272572

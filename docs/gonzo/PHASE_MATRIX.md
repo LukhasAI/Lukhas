@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # PHASE\_MATRIX.md — MATRIZ Readiness Plan (T4 / 0.01%)
 
 **Branch:** `main`

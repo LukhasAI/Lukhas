@@ -9,6 +9,8 @@ moved_to: null
 
 <img src="https://r2cdn.perplexity.ai/pplx-full-logo-primary-dark%402x.png" class="logo" width="120"/>
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # How does adaptive forgetting improve the lifelong learning capabilities of LLMs
 
 Adaptive forgetting is a crucial mechanism for improving the lifelong learning capabilities of large language models (LLMs). It allows these models to dynamically manage their memory and knowledge base, ensuring they remain flexible, efficient, and capable of handling evolving tasks and data distributions without suffering from catastrophic forgetting or memory saturation. Below are the key ways adaptive forgetting enhances lifelong learning in LLMs:

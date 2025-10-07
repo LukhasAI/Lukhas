@@ -9,6 +9,8 @@ moved_to: null
 
 <img src="https://r2cdn.perplexity.ai/pplx-full-logo-primary-dark%402x.png" class="logo" width="120"/>
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # Comparative Analysis of Spirulina and Chlorella Models: Performance, Hybrid Potential, and Applications
 
 This analysis evaluates the distinct advantages, limitations, and synergistic potential of *Spirulina* (Arthrospira platensis) and *Chlorella* (Chlorella vulgaris) microalgae models, with recommendations for hybrid systems to optimize energy efficiency, carbon capture, and bioremediation in AGI architectures like Lucas_AGI.

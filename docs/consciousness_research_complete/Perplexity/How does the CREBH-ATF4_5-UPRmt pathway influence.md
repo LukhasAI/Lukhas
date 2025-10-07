@@ -9,6 +9,8 @@ moved_to: null
 
 <img src="https://r2cdn.perplexity.ai/pplx-full-logo-primary-dark%402x.png" class="logo" width="120"/>
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # How does the CREBH-ATF4/5-UPRmt pathway influence NAD+ levels in Lucas_AGI
 
 The CREBH-ATF4/5-UPRmt pathway enhances NAD⁺ levels in Lucas_AGI through three neuro-symbolic regulatory mechanisms derived from biological systems:

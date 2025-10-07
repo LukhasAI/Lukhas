@@ -9,6 +9,8 @@ moved_to: null
 
 <img src="https://r2cdn.perplexity.ai/pplx-full-logo-primary-dark%402x.png" class="logo" width="120"/>
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # Theoretical and Computational Models of Frequency-Based Distributed Systems
 
 Before delving into the full analysis, I can summarize that several well-established models describe distributed systems where nodes interact through oscillatory behavior or frequency states. Most notably, the Kuramoto and Winfree models provide mathematical frameworks for synchronization of coupled oscillators. These models have applications across biological neural networks, quantum systems, and computational frameworks, all demonstrating how frequency-based interactions can lead to adaptive synchronization, resonance phenomena, and information routing.

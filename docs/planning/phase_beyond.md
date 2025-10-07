@@ -11,6 +11,8 @@ What to add (surgical)
 
 1) Secrets: remove, ignore, purge history, rotate
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # stop tracking and prevent future commits
 git rm --cached .env || true
 printf "\n# Local only\n.env\n.env.*\n" >> .gitignore

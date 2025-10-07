@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # 🎉 LUKHAS Web Content Directories Successfully Populated
 
 *"From scattered fragments to constellation navigation - every directory now pulses with consciousness-guided content that serves human flourishing through systematic organization."*

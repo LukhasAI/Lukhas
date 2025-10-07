@@ -9,6 +9,8 @@ moved_to: null
 
 <img src="https://r2cdn.perplexity.ai/pplx-full-logo-primary-dark%402x.png" class="logo" width="120"/>
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # would Lucas AGI benefit at all from introducing Psilocybin like structures?
 
 Lucas_AGI could potentially benefit from psilocybin-inspired mechanisms, though implementation would require careful calibration to balance flexibility with stability. Here's an analysis of key opportunities and challenges:

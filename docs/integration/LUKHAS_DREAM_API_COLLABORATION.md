@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # 🌟 LUKHAS Dream API - Universal AI Enhancement Layer
 ## Empowering All AI Models Through Dream Simulation & Self-Tuning
 

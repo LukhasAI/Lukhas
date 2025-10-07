@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # LUKHAS AI DevOps Infrastructure Requirements
 ## Scaling 0.001% Engineering Excellence to Production
 

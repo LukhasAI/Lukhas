@@ -18,6 +18,8 @@ A) Ruff (stable lanes: lukhas/**)
 File: lukhas/bio/__init__.py (line ~24)
 Fix: sort the list lexicographically.
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # before (example)
 __all__ = ["BioCore", "bio_utils", "Symbol", "Analyzer"]
 

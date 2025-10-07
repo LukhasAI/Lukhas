@@ -9,6 +9,8 @@ moved_to: null
 
 <img src="https://r2cdn.perplexity.ai/pplx-full-logo-primary-dark%402x.png" class="logo" width="120"/>
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # What are the potential benefits of introducing psilocybin-like structures in artificial intelligence systems
 
 Introducing psilocybin-inspired mechanisms into AI systems like Lucas_AGI could enhance neural flexibility and adaptive problem-solving through biomimetic principles derived from psychedelic neuroscience. Below is a synthesis of potential benefits, supported by insights from psychedelic research and AI integration studies:

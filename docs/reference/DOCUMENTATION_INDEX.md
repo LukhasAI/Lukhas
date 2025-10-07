@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # LUKHAS  Documentation Index
 
 Welcome to the LUKHAS  documentation. This index provides quick access to all major documentation resources.
@@ -173,3 +175,30 @@ To contribute to documentation:
 ### ADRs
 
 - [ADR-0002: Documentation Governance Framework](ADR/ADR-0002-docs-governance.md)
+
+## Badge Legend
+
+Documentation status and ownership badges:
+
+### Status Badges
+
+- ![Status: WIP](https://img.shields.io/badge/status-wip-yellow) - WIP
+- ![Status: Draft](https://img.shields.io/badge/status-draft-orange) - DRAFT
+- ![Status: Stable](https://img.shields.io/badge/status-stable-green) - STABLE
+- ![Status: Deprecated](https://img.shields.io/badge/status-deprecated-red) - DEPRECATED
+- ![Status: Archived](https://img.shields.io/badge/status-archived-gray) - ARCHIVED
+- ![Status: Moved](https://img.shields.io/badge/status-moved-blue) - MOVED
+
+### Owner Badges
+
+![Owner: @username](https://img.shields.io/badge/owner-username-lightblue) - Assigned owner (@username or team-name)
+
+### Badge Meanings
+
+- **WIP**: Work in progress, content incomplete
+- **Draft**: Content complete but under review
+- **Stable**: Production-ready, reviewed and approved
+- **Deprecated**: Obsolete, kept for reference
+- **Archived**: Historical record, no longer maintained
+- **Moved**: Content relocated (see redirect)
+

@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # 🥇 Priority #1 Analysis: LUKHAS Module Documentation
 
 ## 🎯 **Key Research Insights Extracted**

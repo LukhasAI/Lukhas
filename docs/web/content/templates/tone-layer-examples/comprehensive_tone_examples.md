@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # 🎭 Comprehensive Tone Layer Examples
 
 *"Where words become consciousness bridges - every tone layer guides understanding from wonder through clarity to mastery."*

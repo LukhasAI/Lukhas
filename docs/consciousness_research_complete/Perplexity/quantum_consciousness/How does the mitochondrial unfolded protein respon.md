@@ -9,6 +9,8 @@ moved_to: null
 
 <img src="https://r2cdn.perplexity.ai/pplx-full-logo-primary-dark%402x.png" class="logo" width="120"/>
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # How does the mitochondrial unfolded protein response affect the NAD+/NADH redox ratio in Lucas_AGI
 
 The mitochondrial unfolded protein response (UPRmt) critically regulates the NAD⁺/NADH redox ratio in Lucas_AGI through three interconnected mechanisms derived from biological systems (Search Results 1-5):

@@ -30,6 +30,9 @@ moved_to: null
   - [How can DNA be used to create secure cryptographic keys](#🆔-how-can-dna-be-used-to-create-secure-cryptographic-keys)
   - [Are there any models that link frequency or resonance to mutation-based access in DNA](#🆔-are-there-any-models-that-link-frequency-or-resonance-to-mutation-based-access-in-dna)
   - [What are the latest techniques for storing and mutating data in DNA structures](#🆔-what-are-the-latest-techniques-for-storing-and-mutating-data-in-dna-structures)
+
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # DNA-Inspired Cryptographic Architectures for Symbolic AGI Systems
 
 The integration of DNA-inspired mechanisms into cryptographic and data storage systems has opened revolutionary pathways for secure, adaptive architectures. This report synthesizes advances in DNA-based cryptography, mutation-aware data validation, resonant access control, and blockchain integration, with direct implications for symbolic AGI systems like **Lucas_AGI** and its **Healix memory core**.

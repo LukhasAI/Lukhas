@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # ADR-0001: Code Maturity Lanes Architecture
 Date: 2025-08-12
 Status: Accepted

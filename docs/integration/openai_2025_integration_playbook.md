@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # OpenAI Integration Playbook - 2025 Edition
 
 ## Overview: Modern OpenAI Integration for LUKHAS AI

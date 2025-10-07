@@ -17,6 +17,8 @@ moved_to: null
 ║ For: AI Practitioners, Researchers, and System Administrators
 ╚═══════════════════════════════════════════════════════════════════════════════
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # LUKHAS Adaptive AI Features User Guide
 
 > *"True intelligence adapts, learns, and explains itself. LUKHAS does all three."*

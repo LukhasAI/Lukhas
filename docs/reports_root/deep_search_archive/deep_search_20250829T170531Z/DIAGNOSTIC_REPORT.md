@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # T4 Diagnostic Baseline Report
 
 **Generated**: 2025-08-26 02:10:19

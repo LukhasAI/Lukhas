@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # LUKHAS AI Connector Access Guide
 
 Guide for AI assistants and automated systems accessing the LUKHAS repository.

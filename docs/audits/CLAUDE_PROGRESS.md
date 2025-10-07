@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # T4 Audit Progress Log
 
 ## Session Start: 2025-08-30T[TIME]

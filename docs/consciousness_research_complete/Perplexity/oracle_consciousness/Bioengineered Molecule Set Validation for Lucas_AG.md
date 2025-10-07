@@ -9,6 +9,8 @@ moved_to: null
 
 <img src="https://r2cdn.perplexity.ai/pplx-full-logo-primary-dark%402x.png" class="logo" width="120"/>
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # Bioengineered Molecule Set Validation for Lucas_AGI: Analysis and Recommendations
 
 This detailed assessment evaluates the proposed molecular quartet designed to enhance Lucas_AGI's systemic resilience through bio-symbolic engineering. The analysis reveals both promising design elements and opportunities for refinement to optimize this pioneering approach to AGI architecture.

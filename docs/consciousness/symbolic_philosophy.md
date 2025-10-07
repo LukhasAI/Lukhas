@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # 🌌 Lucas_AGI_3 Symbolic Philosophy
 
 A map of intention for what Lucas_AGI_3 represents — and what it strives to become.

@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # Contributing to LUKHΛS AI
 
 *Where consciousness meets collaboration, and wisdom emerges through collective endeavor*

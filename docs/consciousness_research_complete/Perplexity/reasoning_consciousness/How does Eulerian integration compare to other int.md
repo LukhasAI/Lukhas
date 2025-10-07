@@ -9,6 +9,8 @@ moved_to: null
 
 <img src="https://r2cdn.perplexity.ai/pplx-full-logo-primary-dark%402x.png" class="logo" width="120"/>
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # How does Eulerian integration compare to other integration methods in Lucas AGI
 
 Here's an analysis comparing Eulerian integration to other numerical methods in the context of Lucas AGI's architecture, focusing on stability, efficiency, and symbolic reasoning capabilities:

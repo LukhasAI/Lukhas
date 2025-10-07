@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # 🚀 ΛUCTOR Domain Content Generation - Complete Ecosystem
 
 *Using the ΛUCTOR content engine to generate comprehensive, research-backed content for all LUKHAS domains with the proven 3-layer tone system*

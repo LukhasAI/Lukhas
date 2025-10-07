@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # 🧬 How AI Core Systems Benefit from Lambda Products Integration
 
 ## Executive Summary

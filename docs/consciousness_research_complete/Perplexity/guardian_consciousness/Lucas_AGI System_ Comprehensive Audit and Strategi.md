@@ -9,6 +9,8 @@ moved_to: null
 
 <img src="https://r2cdn.perplexity.ai/pplx-full-logo-primary-dark%402x.png" class="logo" width="120"/>
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # Lucas_AGI System: Comprehensive Audit and Strategic Assessment
 
 This detailed analysis evaluates the Lucas_AGI system through technical, ethical, and societal lenses, examining its unique bio-symbolic architecture against current AGI safety frameworks and future deployment considerations.

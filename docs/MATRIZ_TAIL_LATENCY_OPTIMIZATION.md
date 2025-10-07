@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # MATRIZ Pipeline Tail Latency Optimization
 **T4/0.01% Excellence Performance Optimization**
 

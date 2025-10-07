@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # LUKHAS AI Podcast Documentation Index
 
 *"Complete navigation guide for consciousness technology podcast excellence - every resource, template, and protocol needed to transform technical innovation into inspiring, accurate, and impactful media conversations."*

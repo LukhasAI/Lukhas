@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # 🧬 LUKHAS Identity System - Critical Paths & Dependencies Analysis
 
 **Date**: August 3, 2025

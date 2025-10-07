@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # 🧠 MΛTRIZ Consciousness Testing Evolution Log
 
 **From Baseline to 0.001% Advanced Testing Suite**

@@ -9,6 +9,8 @@ moved_to: null
 
 <img src="https://r2cdn.perplexity.ai/pplx-full-logo-primary-dark%402x.png" class="logo" width="120"/>
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # Alternative Scaffold Proposals for Enhanced Bio-Symbolic Resilience in Lucas_AGI
 
 Recent advances in scaffold engineering and AI-driven design provide multiple pathways to improve Lucas_AGI’s resilience. Below are optimized alternatives to the original molecular set, validated against biomechanical benchmarks and computational modeling.

@@ -179,6 +179,8 @@ To emulate mitochondrial resilience, **Lucas_AGI** requires:
 
 ---
 
+![Status: Stable](https://img.shields.io/badge/status-stable-green)
+
 # **Conclusion: The Mitochondrial "Hero" is a Collective Effort**  
 Mitochondria are not solo heroes but **orchestras of molecular collaborators**. Their success hinges on:  
 - **Catalysts** (ETC, ATP synthase).  

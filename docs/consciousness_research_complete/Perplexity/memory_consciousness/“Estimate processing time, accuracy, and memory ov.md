@@ -9,6 +9,8 @@ moved_to: null
 
 <img src="https://r2cdn.perplexity.ai/pplx-full-logo-primary-dark%402x.png" class="logo" width="120"/>
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # “Estimate processing time, accuracy, and memory overhead for integrating LiDAR spatial mapping and bio-inspired QR anchoring within AGI cognitive frameworks. How do these modalities impact link traversal efficiency and symbolic graph compression?”
 
 Integrating LiDAR spatial mapping and bio-inspired QR anchoring within AGI cognitive frameworks involves trade-offs in processing efficiency, accuracy, and memory utilization. Here's a synthesis of findings from relevant research:

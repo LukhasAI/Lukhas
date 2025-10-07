@@ -9,6 +9,8 @@ moved_to: null
 
 <img src="https://r2cdn.perplexity.ai/pplx-full-logo-primary-dark%402x.png" class="logo" width="120"/>
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # Optimizing Conceptual Relationship Compression in AGI Cognitive Graphs: Neural and Symbolic Approaches
 
 Before diving into the technical details, it's important to note that effective compression of conceptual relationships in AGI systems represents one of the core challenges in developing truly general artificial intelligence. The ability to efficiently store, retrieve, and reason with vast knowledge graphs will likely be central to any AGI architecture capable of human-like reasoning and learning.

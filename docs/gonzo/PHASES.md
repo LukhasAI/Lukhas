@@ -204,6 +204,8 @@ Prompt: “Wire Quality Gates & Evidence”
 
 Ready-to-Run Test Commands (copy/paste)
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # Reflection
 pytest -q tests/consciousness/test_reflection_engine.py -m "unit_perf or e2e_perf"
 promtool test rules monitoring/rules/reflection.yml

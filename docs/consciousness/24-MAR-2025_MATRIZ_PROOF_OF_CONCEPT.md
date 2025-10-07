@@ -927,6 +927,8 @@ graph.add_link(child_node.node_id, dog_node.node_id, link_type="semantic", weigh
 
 Evolve or reflect:
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # Suppose child becomes more curious:
 new_child_node = MatadaNode(node_type="SENSORY_IMG", valence=0.4, arousal=0.5)
 graph.evolve_node(child_node.node_id, new_child_node)

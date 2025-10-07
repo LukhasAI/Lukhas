@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # Advanced Consciousness Testing — <span aria-label="Matriz">MΛTRIZ</span>
 
 ## The Evolution from Traditional to 0.001% Testing

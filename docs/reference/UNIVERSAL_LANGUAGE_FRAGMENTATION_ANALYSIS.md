@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # Universal Language / Symbolic System Fragmentation Analysis
 ## LUKHAS PWM Language Implementation Status Report
 

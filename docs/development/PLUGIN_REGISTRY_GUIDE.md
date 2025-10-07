@@ -7,6 +7,9 @@ redirect: false
 moved_to: null
 ---
 
+![Status: Stable](https://img.shields.io/badge/status-stable-green)
+![Owner: constellation-architect](https://img.shields.io/badge/owner-constellation-architect-lightblue)
+
 # Plugin Registry and Cognitive Alignment Guide
 
 *Dynamic Star-Node System with Constructor-Aware Instantiation*

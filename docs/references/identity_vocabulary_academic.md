@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: Stable](https://img.shields.io/badge/status-stable-green)
+
 # Identity Vocabulary (Academic Context)
 
 Identity is one of the oldest obsessions of philosophy, literature, and psychoanalysis. Freud and his publisher Franz Deuticke formalized the idea of the unconscious identity that is partly hidden, partly revealed. Dostoevsky dramatized the split of self and conscience through his tormented protagonists. In Homer, the masks of heroes and gods were always shifting, identities borrowed and returned.

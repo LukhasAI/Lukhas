@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # Complete LUKHAS AI Host Briefing
 
 *"Your comprehensive guide to conducting insightful, accurate, and inspiring conversations about consciousness technology and the Constellation Framework."*

@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # LUKHΛS NEXT GEN – Symbolic Cognition & Ethical Drift
 
 This phase transitions LUKHΛS from a sealed identity system into a symbolic cognition engine — one that can perceive, adapt, and ethically reflect across time and context.

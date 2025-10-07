@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # OIDC Security Audit Documentation - T4/0.01% Excellence
 
 ## Executive Summary

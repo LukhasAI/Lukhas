@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # Advanced Consciousness Engine - Academic References & Implementation Sources
 
 **Document Version**: 1.0  

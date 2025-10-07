@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # 👨‍💻 lukhas.dev - Developer Consciousness Platform Strategy
 
 *Complete strategy for the premier consciousness technology developer platform and SDK ecosystem*

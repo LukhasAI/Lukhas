@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # 🔐 lukhas.id - Identity & Authentication Platform Strategy
 
 *"Your consciousness signature crystallizes into digital permanence - unique, secure, sovereign across all dimensions of digital existence."*

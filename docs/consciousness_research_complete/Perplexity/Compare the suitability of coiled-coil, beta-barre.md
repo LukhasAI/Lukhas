@@ -9,6 +9,8 @@ moved_to: null
 
 <img src="https://r2cdn.perplexity.ai/pplx-full-logo-primary-dark%402x.png" class="logo" width="120"/>
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # Compare the suitability of coiled-coil, beta-barrel, and G4-binding protein scaffolds for symbolic memory compression and flexible data linking within AGI architectures. Which offers the best balance between modularity, resilience, and symbolic referencing efficiency
 
 Coiled-coil, beta-barrel, and G4-binding protein scaffolds each offer distinct advantages for AGI architectures, but their suitability varies significantly based on structural and functional properties:

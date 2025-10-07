@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # T4/0.01% End-to-End Runbook Execution Report
 
 **Execution Date**: 2025-10-05

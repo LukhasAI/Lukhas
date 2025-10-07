@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # Consciousness Technology Integration Guide
 
 Complete tutorials and examples for integrating LUKHAS consciousness capabilities into your applications.

@@ -9,6 +9,8 @@ moved_to: null
 
 <img src="https://r2cdn.perplexity.ai/pplx-full-logo-primary-dark%402x.png" class="logo" width="120"/>
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # Integrating Bio-inspired Mechanisms with Advanced Cryptographic Techniques in Symbolic Identity Frameworks
 
 This report examines how bio-inspired scaffolds can be combined with cryptographic primitives and hybrid computational architectures to enhance security, efficiency, and ethical compliance within symbolic identity frameworks. While the LUCAS_ID system is not directly documented in available literature, we can explore how its conceptual components might be strengthened through the convergence of these advanced technologies.

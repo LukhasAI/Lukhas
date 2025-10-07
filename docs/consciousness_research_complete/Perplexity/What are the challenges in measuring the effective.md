@@ -9,6 +9,8 @@ moved_to: null
 
 <img src="https://r2cdn.perplexity.ai/pplx-full-logo-primary-dark%402x.png" class="logo" width="120"/>
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # What are the challenges in measuring the effectiveness of emotional tagging
 
 Measuring the effectiveness of emotional tagging presents several challenges, as emotions are inherently complex, subjective, and influenced by context. Below are the key challenges based on the search results and broader considerations:

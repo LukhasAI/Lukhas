@@ -9,6 +9,8 @@ moved_to: null
 
 <img src="https://r2cdn.perplexity.ai/pplx-full-logo-primary-dark%402x.png" class="logo" width="120"/>
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # Evaluating Symbolic Link Compression in Modular AGI Architectures: Biological Inspiration vs. Novel Coding Systems
 
 The integration of symbolic link compression (SLC) within modular AGI frameworks presents a compelling opportunity to enhance information processing efficiency while preserving conceptual relationships. This report evaluates whether biologically-inspired hierarchical folding mechanisms (similar to AlphaFold2's Evoformer) or entirely novel symbolic coding systems would better serve the goals of data reduction and conceptual linking in AGI systems.

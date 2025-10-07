@@ -39,6 +39,8 @@ REPORTS.mkdir(parents=True, exist_ok=True)
 LOG = REPORTS / "unused_imports.jsonl"
 WAIVERS = REPO / "AUDIT" / "waivers" / "unused_imports.yaml"
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # files/dirs to ignore by policy
 SKIP_DIRS = {".git", ".venv", "node_modules", "archive", "quarantine"}
 SKIP_PREFIXES = tuple(str(REPO / d) + os.sep for d in SKIP_DIRS)

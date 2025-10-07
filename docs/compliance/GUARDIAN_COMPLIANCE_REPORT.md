@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # LUKHAS AI Guardian System Compliance Report
 ## Generated: 2025-09-11T00:23:10.503920+00:00
 ## Validation Duration: 0.00 seconds

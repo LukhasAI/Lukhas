@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # 📊LUKHAS Module Status Dashboard
 
 **Last Updated**: 2025-07-24

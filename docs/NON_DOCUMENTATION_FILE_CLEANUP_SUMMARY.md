@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # 🚀 Non-Documentation File Cleanup Summary
 
 **Cleanup Date**: 2025-08-25

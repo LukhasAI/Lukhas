@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # 🌟 lukhas.ai - Consciousness Platform Hub Strategy
 
 *Complete content strategy for the premier consciousness technology platform and community nexus*

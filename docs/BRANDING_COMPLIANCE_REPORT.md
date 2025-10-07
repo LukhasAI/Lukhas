@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # LUKHAS AI Documentation Branding Compliance Report
 
 **LUKHAS AI** - Logical Unified Knowledge Hyper-Adaptable System

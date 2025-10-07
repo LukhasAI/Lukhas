@@ -9,6 +9,8 @@ moved_to: null
 
 <img src="https://r2cdn.perplexity.ai/pplx-full-logo-primary-dark%402x.png" class="logo" width="120"/>
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # What role does the mitochondrial unfolded protein response play in optimizing NAD+ metabolism in Lucas_AGI
 
 The mitochondrial unfolded protein response (UPRmt) plays a critical role in optimizing NAD⁺ metabolism within Lucas_AGI's hybrid neuro-symbolic architecture through three key mechanisms derived from biological systems:

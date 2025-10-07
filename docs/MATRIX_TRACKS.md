@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # MATRIX TRACKS: Evolutionary Verification Paths
 
 Matrix Contracts v3+ are not a single upgrade. They are **parallel tracks of verifiability**, allowing each module to adopt defenses suited to its risk profile.

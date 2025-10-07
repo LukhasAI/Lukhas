@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # CRITICAL ARCHITECTURE ISSUES - LUKHAS AI
 
 ## 🚨 CRITICAL ISSUE #1: Quantum Naming Disaster

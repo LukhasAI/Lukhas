@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # MATRIZ Trace API Test Results
 
 This directory contains comprehensive test results and documentation for the MATRIZ Trace API implementation.

@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # 🤖 Agent Initiation Task - [Agent Name]
 
 **Welcome to LUKHAS AI Multi-Agent Development Platform!**

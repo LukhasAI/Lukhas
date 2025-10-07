@@ -9,6 +9,8 @@ moved_to: null
 
 <img src="https://r2cdn.perplexity.ai/pplx-full-logo-primary-dark%402x.png" class="logo" width="120"/>
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # 🧠 Lucas AGI Framework Overview
 
 Lucas is a neuro-symbolic AGI system emphasizing deterministic ethics, memory integrity, emotional intelligence, and modular adaptability. Its architecture comprises several core components:

@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # T4/0.01% Excellence Audit Framework
 
 Complete audit and certification framework for LUKHAS AI T4/0.01% excellence validation.

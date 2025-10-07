@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # 🚀 LUKHAS MATRIZ-R1 Parallel Stream Execution Plan
 
 **🤖 Agent System**: [`../../AGENTS.md`](../../AGENTS.md) - Complete guide to the multi-agent platform

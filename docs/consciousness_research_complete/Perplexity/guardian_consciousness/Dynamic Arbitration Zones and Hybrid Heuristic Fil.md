@@ -9,6 +9,8 @@ moved_to: null
 
 <img src="https://r2cdn.perplexity.ai/pplx-full-logo-primary-dark%402x.png" class="logo" width="120"/>
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # Dynamic Arbitration Zones and Hybrid Heuristic Filtering in Lucas AGI: Enhancing Symbolic Scaling Efficiency
 
 Lucas AGI's symbolic scaling efficiency can be significantly enhanced through the implementation of **dynamic arbitration zones** and **hybrid heuristic filtering**. These strategies leverage Eulerian oscillations to optimize resource allocation and reduce computational overhead.

@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # STEPS_1 — Claude Execution Script (Long-Context Plan)
 
 > Purpose: This file is fed **directly to Claude** (Codex has a smaller context). It contains the full next-phase plan with precise edits, runbooks, and acceptance gates. Keep changes **surgical** and diffs ≤20 lines per file.

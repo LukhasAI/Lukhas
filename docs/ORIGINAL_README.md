@@ -63,6 +63,8 @@ update_frequency: "monthly"
 last_updated: "2025-08-25"
 next_review: "2025-09-25"
 
+![Status: Stable](https://img.shields.io/badge/status-stable-green)
+
 # Audience Targeting
 audience: ["humans", "developers", "agents"]
 technical_level: "beginner"

@@ -8,6 +8,9 @@ moved_to: null
 ---
 
 <!-- Auditable ledger for temporary lint/test waivers. Each entry must include: file, rule, justification, approver, date, and duration. -->
+
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # SUPPRESSIONS LEDGER
 
 This file records short, auditable waivers for linter/test rules that are temporarily suppressed

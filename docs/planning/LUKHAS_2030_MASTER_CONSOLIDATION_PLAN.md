@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # LUKHAS 2030 Master Consolidation Plan
 
 **Generated**: 2025-08-01T20:48:46.667276

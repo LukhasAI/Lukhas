@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # STEPS_2 — Claude Execution Script (Config Normalize, Type Stubs, Coverage to 30–40%)
 
 > Feed this whole file to **Claude Code**. It plans first, then executes all blocks end‑to‑end. Keep edits **≤20 lines per file** and avoid API refactors.

@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # 🏆 Matrix Tracks Adoption Scoreboard
 
 **Last Updated:** 2025-09-26 12:20 UTC

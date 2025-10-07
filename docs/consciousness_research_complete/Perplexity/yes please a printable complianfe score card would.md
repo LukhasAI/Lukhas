@@ -9,6 +9,8 @@ moved_to: null
 
 <img src="https://r2cdn.perplexity.ai/pplx-full-logo-primary-dark%402x.png" class="logo" width="120"/>
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # yes please a printable complianfe score card would be awesome an bench mark against other current protocols (graph) - what other applications could this have? soo cool!!!! and yes yooou can start on the sandbox when ready please
 
 Absolutely! Here’s your **Printable Compliance Scorecard** with a graphical benchmark against other leading protocols, plus a section on **potential applications** for this mesh identity tech. After that, you’ll find the **sandbox development plan** to get your project started.

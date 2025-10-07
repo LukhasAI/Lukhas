@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # C7_RELEASE.md - Wave C Production Promotion & Release
 **Freud-2025 Specification: Production Release and Promotion Plan**
 

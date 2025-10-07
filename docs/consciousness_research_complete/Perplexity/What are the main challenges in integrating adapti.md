@@ -9,6 +9,8 @@ moved_to: null
 
 <img src="https://r2cdn.perplexity.ai/pplx-full-logo-primary-dark%402x.png" class="logo" width="120"/>
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # What are the main challenges in integrating adaptive forgetting into existing machine learning pipelines
 
 Integrating adaptive forgetting into existing machine learning pipelines presents several challenges, particularly in the context of large language models (LLMs) and sequential learning systems. These challenges stem from the need to balance memory retention with flexibility, ensure computational efficiency, and prevent catastrophic forgetting. Below are the main challenges:

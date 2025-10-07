@@ -9,6 +9,8 @@ moved_to: null
 
 <img src="https://r2cdn.perplexity.ai/pplx-full-logo-primary-dark%402x.png" class="logo" width="120"/>
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # Integrating DNA Origami Cryptography with Symbolic Compression for Advanced AGI Identity Systems
 
 Integrating DNA origami cryptography (DOC) with symbolic relationship compression (SLC) presents a promising frontier for advancing AGI identity systems with unprecedented data density, security, and processing efficiency. This report examines the potential synergies between these technologies, their integration with neural-symbolic architectures, and the application of consent-based governance frameworks.

@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # Enterprise-Grade Refinement Additions
 
 ## What Anthropic/OpenAI Developers Would Add

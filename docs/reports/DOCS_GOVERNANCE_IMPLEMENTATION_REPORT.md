@@ -7,6 +7,9 @@ redirect: false
 moved_to: null
 ---
 
+![Status: Stable](https://img.shields.io/badge/status-stable-green)
+![Owner: @agi_dev](https://img.shields.io/badge/owner-agi_dev-lightblue)
+
 # Documentation Governance Implementation Report
 
 **Date**: 2025-10-06

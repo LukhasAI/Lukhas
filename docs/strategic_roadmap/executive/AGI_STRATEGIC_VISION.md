@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # Strategic Enhancements for AGI-Ready Systems: A Vision from Industry Leaders
 
 ## Executive Summary

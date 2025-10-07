@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # 🌌 Consciousness Visualization Components - Technical Specification
 
 *Advanced web components for LUKHAS Constellation Framework consciousness visualization*

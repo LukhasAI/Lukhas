@@ -7,6 +7,9 @@ redirect: false
 moved_to: null
 ---
 
+![Status: Stable](https://img.shields.io/badge/status-stable-green)
+![Owner: development-team](https://img.shields.io/badge/owner-development-team-lightblue)
+
 # T4/0.01% Development Standards
 
 *Performance Standards and Audit Compliance for Constellation Framework Development*

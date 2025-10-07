@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # 🎨 LUKHAS Visual Architecture Guide
 
 **ASCII and Mermaid diagrams for understanding LUKHAS AI architecture** - Copy-paste ready visualizations.

@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # T4 TODO Analysis Summary
 
 This directory contains comprehensive analysis reports of TODO items marked with T4 patterns throughout the LUKHAS codebase.

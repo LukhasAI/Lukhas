@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # Consciousness & Drift Management API
 
 Production-ready interfaces for consciousness coordination, drift detection, and safety validation.

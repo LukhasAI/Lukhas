@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # 🔗 MCP (Model Context Protocol) Integration Analysis
 **Strategic Assessment for LUKHAS AI Agent Army**
 

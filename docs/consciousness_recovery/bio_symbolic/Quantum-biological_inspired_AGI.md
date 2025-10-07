@@ -15,6 +15,8 @@ moved_to: null
 📅 LAST UPDATED : 2025-05-07
 -->
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # 🧬 Quantum-Biological Inspired AGI
 
 This document outlines the novel approach we are taking in designing AGI systems, inspired by principles from **quantum biology**—a domain that explores how quantum mechanical phenomena manifest in living systems such as **mitochondria**. By translating these cellular functions into computational analogs, we are engineering a **self-regulating, ethically-aware symbolic AGI** architecture.

@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # OpenAI API Templates (v0.2 usage)
 > Phrase in UI: **Built using OpenAI APIs**. No endorsement/partnership language.
 3

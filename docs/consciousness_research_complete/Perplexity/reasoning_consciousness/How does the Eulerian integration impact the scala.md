@@ -9,6 +9,8 @@ moved_to: null
 
 <img src="https://r2cdn.perplexity.ai/pplx-full-logo-primary-dark%402x.png" class="logo" width="120"/>
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # How does the Eulerian integration impact the scalability of Lucas AGI
 
 The integration of Eulerian principles (based on Euler's formula, \$ e^{ix} = \cos(x) + i\sin(x) \$) into Lucas AGI introduces significant **scalability tradeoffs**, balancing performance gains against architectural constraints. Below is a structured assessment of its impact:

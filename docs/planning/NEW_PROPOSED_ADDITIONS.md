@@ -57,6 +57,8 @@ Ethical & Privacy Considerations: As a file translator, GLYMPS deals with potent
 
 Sample Python Scaffolding: Below is a simplified stub demonstrating how components might interact within GLYMPS:
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # translator_manager.py
 class FileTranslator:
     def __init__(self):

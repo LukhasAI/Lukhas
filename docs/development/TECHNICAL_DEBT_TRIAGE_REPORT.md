@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # Technical Debt Triage Report
 **Date**: 2025-08-12
 **Strategy**: Rule of Thirds Applied

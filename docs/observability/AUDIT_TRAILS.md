@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # LUKHAS Audit Trails & Observability
 
 Complete observability stack for MATRIZ pipeline with OpenTelemetry tracing, audit trails, and adaptive feedback.

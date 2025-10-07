@@ -233,6 +233,8 @@ Body: context, approach, tests added/updated, risk notes.
 
 11) Minimal Command Playbook (for Claude to run)
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # enumerate
 rg -n "TODO|FIXME|HACK" -g '!node_modules' > .lukhas_runs/2025-09-15/grep.txt
 python tools/ci/build_manifest.py \

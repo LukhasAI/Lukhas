@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # Oneiric Drift Dream Test CLI
 
 The **Drift Dream Test** CLI provides a light-touch way to sample symbolic drift

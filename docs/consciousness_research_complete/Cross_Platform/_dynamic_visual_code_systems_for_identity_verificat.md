@@ -9,6 +9,8 @@ moved_to: null
 
 <img src="https://r2cdn.perplexity.ai/pplx-full-logo-primary-dark%402x.png" class="logo" width="120"/>
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # Dynamic Visual Code Systems for Identity Verification: Feasibility, Security, and Implementation
 
 This comprehensive analysis examines the feasibility of implementing dynamic visual code systems (Glymphs) for identity verification and transaction approvals, exploring technical requirements, security considerations, and practical limitations.

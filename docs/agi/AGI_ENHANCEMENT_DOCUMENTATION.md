@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # 🧠 AGI Enhancement Documentation
 ## Advanced General Intelligence Integration with LUKHAS AI
 

@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # 🚀 BATCH COCKPIT BRIEF - Claude Code Command Pack
 
 ## TL;DR - One Command Conveyor

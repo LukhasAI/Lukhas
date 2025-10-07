@@ -235,6 +235,9 @@ L-U-C-A-S-AGI: now lets write this all down in this .md
 GitHub Copilot: I'll create a comprehensive markdown document summarizing the mitochondrial-inspired enhancements for Lucas_AGI:
 
 ```markdown
+
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # Mitochondrial-Inspired Enhancements for Lucas_AGI
 
 ## Introduction

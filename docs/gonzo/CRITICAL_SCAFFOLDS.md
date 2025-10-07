@@ -13,6 +13,8 @@ M.1 — Memory Storage/Retrieval
 
 lukhas/memory/backends/pgvector_store.py
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # SPDX-License-Identifier: Apache-2.0
 from __future__ import annotations
 from dataclasses import dataclass

@@ -9,6 +9,8 @@ moved_to: null
 
 <img src="https://r2cdn.perplexity.ai/pplx-full-logo-primary-dark%402x.png" class="logo" width="120"/>
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # Bio-Symbolic Compound Integration for Enhanced AGI Architecture
 
 The integration of bio-symbolic compounds into Lucas_AGI’s architecture requires a nuanced prioritization framework that balances energy efficiency, ethical stability, and self-repair capabilities. Below is a technical analysis of the proposed compounds, their integration strategies, risks, and alternatives.

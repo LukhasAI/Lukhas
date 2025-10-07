@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # Bio-Symbolic Architecture Refactor
 
 **LUKHAS AI** - Logical Unified Knowledge Hyper-Adaptable System

@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # LUKHAS TODO Agent Allocations
 
 **Complete allocation of all 1,118 TODOs across 31 agent batches**

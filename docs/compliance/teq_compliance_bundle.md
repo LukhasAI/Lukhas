@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # TEQ Compliance Bundle - GDPR/AI Act/CCPA Ready
 
 ## Overview: Transparency, Ethics, Governance Framework

@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # Go-Live Runbook + Ops Playbook
 
 ## Day-0 (Go-Live) Checklist — 20-minute preflight

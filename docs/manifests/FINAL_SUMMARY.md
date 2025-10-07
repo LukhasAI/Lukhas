@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # LUKHAS Manifest System — Implementation Complete (T4/0.01%)
 
 The manifest system evolved from scattered JSON files into a living, self-enforcing registry.

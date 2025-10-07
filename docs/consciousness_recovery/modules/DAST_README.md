@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # 🔗 DAST · Dynamic Alignment & Symbolic Tasking
 
 DAST is the modular alignment interface within LUCΛS that enables task docking, partner compatibility scoring, and symbolic routing of real-time or dream-deferred message streams.

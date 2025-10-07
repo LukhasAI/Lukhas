@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # AI SELF-INNOVATION WITHOUT HUMAN INTERVENTION
 
 ### **Primary Location: `core/consciousness/dream_engine/`**

@@ -17,6 +17,8 @@ Below is everything for Claude Code needs—ready to copy-paste—to begin Phase
 
 Catches (a) any import of candidate|quarantine|archive from accepted, and (b) “wrapper-only façades” that just import and re-export from candidate.
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # tools/acceptance_gate.py
 from __future__ import annotations
 import ast, pathlib, sys

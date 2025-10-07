@@ -28,6 +28,8 @@ from typing import List, Dict
 import hashlib
 import os
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # Import core system safety module
 from governance.safety.constitutional_agi_safety import ConstitutionalAGISafety
 

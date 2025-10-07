@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # 🚀 **MISSING FEATURES IMPLEMENTATION COMPLETE**
 **User-Centric Features Now Available**
 

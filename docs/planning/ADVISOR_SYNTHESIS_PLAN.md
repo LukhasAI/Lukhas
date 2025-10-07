@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # LUKHAS Refinement: Advisor Synthesis Plan
 
 *Combining insights from Dario Amodei, Sam Altman, and Steve Jobs*

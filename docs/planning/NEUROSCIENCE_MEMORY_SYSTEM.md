@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # Neuroscience Memory System: Biologically Accurate Implementation
 ## Neurologically Faithful Memory Architecture for AGI Systems
 

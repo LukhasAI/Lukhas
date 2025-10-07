@@ -8,6 +8,9 @@ moved_to: null
 ---
 
 JULES_RUNBOOK.md
+
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # JULES_RUNBOOK
 
 A safety-first playbook to let **Jules** (your code agent) auto-generate tests and apply surgical autofixes while preserving architecture and behavior.

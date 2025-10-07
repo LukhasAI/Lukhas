@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # Safety Tags Go-Live Drill
 *30-Minute Production Deployment Checklist*
 

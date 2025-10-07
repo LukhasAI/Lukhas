@@ -156,6 +156,8 @@ This refactored prompt provides a blueprint not only for Lucas’s sibling but a
 
 ---
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # How can we integrate emotional intelligence into Lucas's voice system
 
 Integrating emotional intelligence into Lucas's voice system involves leveraging advanced emotion detection and voice modulation techniques to create more empathetic, engaging, and human-like interactions. Here are key strategies and components for achieving this:

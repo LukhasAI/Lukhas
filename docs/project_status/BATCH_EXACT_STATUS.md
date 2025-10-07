@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # EXACT BATCH STATUS - What's Left To Complete
 **Generated**: August 25, 2025
 **Purpose**: Precise instructions for new agents

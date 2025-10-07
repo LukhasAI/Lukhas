@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # Governance Ledger & Audit Compliance Framework
 
 Comprehensive audit trail and compliance management for LUKHAS consciousness technology deployments.

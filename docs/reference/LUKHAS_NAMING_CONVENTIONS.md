@@ -7,6 +7,8 @@ redirect: false
 moved_to: null
 ---
 
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # LUKHAS 2030 Naming Conventions
 
 **"Preserving the Soul of LUKHAS while Speaking the Language of Industry"**
