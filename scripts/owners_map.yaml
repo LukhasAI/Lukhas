@@ -1,0 +1,38 @@
+# Module → Owner Mapping
+# Used by owners_queue.py to suggest owners based on module/path
+
+# Core modules
+consciousness: "@consciousness-team"
+identity: "@identity-team"
+governance: "@governance-team"
+matriz: "@matriz-team"
+memory: "@memory-team"
+api: "@api-team"
+architecture: "@architecture-team"
+
+# Domain-specific
+web: "@web-team"
+mcp: "@mcp-team"
+testing: "@testing-team"
+deployment: "@ops-team"
+security: "@security-team"
+
+# Research & analysis
+consciousness_research_complete: "@research-team"
+research: "@research-team"
+analysis: "@research-team"
+
+# Documentation types
+guides: "@docs-team"
+reports: "@docs-team"
+reference: "@docs-team"
+adr: "@architecture-team"
+
+# Status & planning
+status: "@project-management"
+planning: "@project-management"
+roadmap: "@project-management"
+
+# Default fallback
+root: "@lukhas-core"
+unknown: "@lukhas-core"

@@ -45,9 +45,10 @@ def load_manifest() -> Dict:
         return json.load(f)
 
 
-def check_front_matter(manifest: Dict) -> List[Dict]:
-    """Validate front-matter on all documents."""
+def check_front_matter(manifest: Dict) -> tuple[List[Dict], List[Dict]]:
+    """Validate front-matter on all documents. Returns (errors, warnings)."""
     errors = []
+    warnings = []
 
     for doc in manifest['documents']:
         if doc.get('redirect'):
@@ -64,14 +65,24 @@ def check_front_matter(manifest: Dict) -> List[Dict]:
             })
             continue
 
-        # Check required keys
+        # Check required keys (except owner - warn separately)
         for key in REQUIRED_KEYS:
+            if key == 'owner':
+                continue  # Handle owner separately below
             if key not in doc or doc[key] == 'unknown':
                 errors.append({
                     "file": doc_path,
                     "error": f"missing_key_{key}",
                     "message": f"Front-matter missing required key: {key}",
                 })
+
+        # Warn on owner: unknown (don't fail CI yet - grace period until 2025-10-13)
+        if doc.get('owner') in ['unknown', '', None]:
+            warnings.append({
+                "file": doc_path,
+                "warning": "owner_unknown",
+                "message": "Owner is 'unknown' - assignment recommended (see OWNERS_BACKLOG.md)",
+            })
 
         # Validate status value
         if doc.get('status') and doc['status'] not in VALID_STATUSES:
@@ -89,7 +100,7 @@ def check_front_matter(manifest: Dict) -> List[Dict]:
                 "message": f"Invalid type: {doc['type']} (must be one of {VALID_TYPES})",
             })
 
-    return errors
+    return errors, warnings
 
 
 def check_manifest_completeness(manifest: Dict) -> List[Dict]:
@@ -217,7 +228,7 @@ def main():
 
     # 1. Check front-matter
     print("1️⃣  Checking front-matter...")
-    fm_errors = check_front_matter(manifest)
+    fm_errors, fm_warnings = check_front_matter(manifest)
     if fm_errors:
         print(f"   ❌ {len(fm_errors)} front-matter error(s)")
         for error in fm_errors[:10]:  # Show first 10
@@ -227,6 +238,11 @@ def main():
         exit_code = 1
     else:
         print(f"   ✅ All documents have valid front-matter")
+
+    if fm_warnings:
+        print(f"   ⚠️  {len(fm_warnings)} warning(s) (owner: unknown)")
+        print(f"      See: docs/_generated/OWNERS_BACKLOG.md")
+        print(f"      Grace period until 2025-10-13")
     print()
 
     # 2. Check manifest completeness
@@ -280,6 +296,7 @@ def main():
     print("LINT SUMMARY")
     print("=" * 80)
     print(f"Front-matter errors: {len(fm_errors)}")
+    print(f"Owner warnings: {len(fm_warnings)} (grace period until 2025-10-13)")
     print(f"Orphan files: {len(manifest_errors)}")
     print(f"Broken links (sample): {len(link_errors)}")
     print()
