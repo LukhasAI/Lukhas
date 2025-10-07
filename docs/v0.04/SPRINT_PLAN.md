@@ -1,8 +1,10 @@
 ---
-title: "v0.04 Sprint Plan"
-date: "2025-10-06"
-type: sprint-plan
 status: draft
+type: sprint-plan
+owner: unknown
+module: v0.04
+redirect: false
+moved_to: null
 ---
 
 # v0.04 Sprint Plan: Test Infrastructure & Code Quality

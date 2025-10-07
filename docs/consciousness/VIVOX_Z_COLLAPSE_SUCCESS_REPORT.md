@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: consciousness
+redirect: false
+moved_to: null
 ---
+
 # VIVOX z(t) Collapse Engine - Integration Complete! ✅
 
 ## 🎉 Success Summary (August 3, 2025)

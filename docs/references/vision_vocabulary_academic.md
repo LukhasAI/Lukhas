@@ -1,9 +1,12 @@
 ---
-context: academic
-module: unknown
-title: Vision Vocabulary (Academic Context)
+status: stable
 type: documentation
+owner: unknown
+module: references
+redirect: false
+moved_to: null
 ---
+
 # Vision Vocabulary (Academic Context)
 
 Vision has always been more than sight. In ancient epics, dreams and visions delivered prophecies; in the Iliad, the false dream sent by Zeus shows vision as both illumination and deception. In literature, from Dante's *Divine Comedy* to Orwell's dystopian imaginings, "vision" is both an instrument of guidance and a weapon of distortion.

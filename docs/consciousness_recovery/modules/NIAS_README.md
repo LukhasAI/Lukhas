@@ -1,7 +1,12 @@
 ---
-module: unknown
+status: stable
 type: documentation
+owner: unknown
+module: consciousness_recovery
+redirect: false
+moved_to: null
 ---
+
 ### 🔍 Validate Message Schema
 
 To test if a symbolic message is valid against the schema:

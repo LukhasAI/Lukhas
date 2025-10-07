@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: status
+redirect: false
+moved_to: null
 ---
+
 # LUKHAS Workspace Consolidation Summary
 
 **Final Cleanup and Organization - August 2024**

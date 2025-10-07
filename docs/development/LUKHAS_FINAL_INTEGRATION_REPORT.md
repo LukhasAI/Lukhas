@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: development
+redirect: false
+moved_to: null
 ---
+
 # LUKHΛS FINAL INTEGRATION REPORT
 
 **Generated:** 2025-08-05T00:05:30+00:00

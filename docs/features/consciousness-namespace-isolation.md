@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: features
+redirect: false
+moved_to: null
 ---
+
 # Consciousness Namespace Isolation
 
 **LUKHAS AI** - Logical Unified Knowledge Hyper-Adaptable System

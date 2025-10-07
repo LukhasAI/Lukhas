@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: audits
+redirect: false
+moved_to: null
 ---
+
 JULES_RUNBOOK.md
 # JULES_RUNBOOK
 

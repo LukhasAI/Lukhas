@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: planning
+redirect: false
+moved_to: null
 ---
+
 # 🗂️  Root Directory Organization Plan
 
 ## 📋 Current Root Directory Analysis

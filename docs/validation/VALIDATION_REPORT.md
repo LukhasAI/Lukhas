@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: validation
+redirect: false
+moved_to: null
 ---
+
 # LUKHAS Implementation Validation Report
 Generated: 2025-09-23
 

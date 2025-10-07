@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: guides
+redirect: false
+moved_to: null
 ---
+
 # LUKHAS Learning Journal - User Guide
 
 ## Quick Start (iTerm2)

@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: consciousness_recovery
+redirect: false
+moved_to: null
 ---
+
 <!--
 📄 MODULE       : Quantum-biological_inspired_AGI.md
 🧠 DESCRIPTION  : This document introduces a novel design paradigm for AGI systems by leveraging quantum biological mechanisms—particularly those found in mitochondria—as metaphors and functional templates for symbolic computation, ethical arbitration, and dynamic memory.

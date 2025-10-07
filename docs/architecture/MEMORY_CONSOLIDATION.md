@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: architecture
+redirect: false
+moved_to: null
 ---
+
 # Memory Module Consolidation Report
 Generated: 2025-08-12T19:53:58.143380
 

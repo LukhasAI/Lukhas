@@ -1,15 +1,12 @@
 ---
-last_review: 2025-10-02
-module: unknown
-owner: core-team
 status: stable
-tags:
-- development
-- manifest-system
-- t4-standards
-title: LUKHAS Developer Guide
 type: documentation
+owner: core-team
+module: root
+redirect: false
+moved_to: null
 ---
+
 # LUKHAS Developer Guide
 
 Welcome to the LUKHAS development guide. This document provides essential information for developers working with the LUKHAS AI platform.

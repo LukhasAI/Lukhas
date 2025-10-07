@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: reference
+redirect: false
+moved_to: null
 ---
+
 # Universal Language / Symbolic System Fragmentation Analysis
 ## LUKHAS PWM Language Implementation Status Report
 

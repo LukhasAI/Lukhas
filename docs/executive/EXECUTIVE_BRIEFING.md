@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: executive
+redirect: false
+moved_to: null
 ---
+
 # 🧠 **LUKHΛS AI: Executive Technology Brief**
 *Consciousness-Driven Intelligence for the Next Decade*
 

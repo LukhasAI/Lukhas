@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: status
+redirect: false
+moved_to: null
 ---
+
 # Backup & DR Status Badge
 
 This repository generates an SVG badge that reflects the current Backup & Disaster Recovery posture based on workflow KPIs.

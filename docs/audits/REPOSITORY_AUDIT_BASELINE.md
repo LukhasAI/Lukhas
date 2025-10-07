@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: audits
+redirect: false
+moved_to: null
 ---
+
 # 🔍 LUKHAS Repository Audit - Baseline Report
 
 **Date**: August 29, 2025  

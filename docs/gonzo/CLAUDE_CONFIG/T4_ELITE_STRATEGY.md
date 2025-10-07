@@ -1,3 +1,12 @@
+---
+status: stable
+type: misc
+owner: unknown
+module: gonzo
+redirect: false
+moved_to: null
+---
+
 # 🚀 What the T4/0.01% Team Would Be Doing RIGHT NOW
 ## Altman | Amodei | Hassabis | Jobs - Elite Strategy for LUKHAS
 

@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: project_status
+redirect: false
+moved_to: null
 ---
+
 # BATCH 10: Examples & Tests Creation Guide
 
 ## ✅ Completed So Far

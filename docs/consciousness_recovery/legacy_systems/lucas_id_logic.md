@@ -1,6 +1,10 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: consciousness_recovery
+redirect: false
+moved_to: null
 ---
 
 # Evaluation of  LUCɅS-ID (ɅiD) Symbolic Identity Authentication Protocol

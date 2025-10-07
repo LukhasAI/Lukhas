@@ -1,6 +1,10 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: consciousness_research_complete
+redirect: false
+moved_to: null
 ---
 
 ┌────────────────────────────────────────────────────────────┐

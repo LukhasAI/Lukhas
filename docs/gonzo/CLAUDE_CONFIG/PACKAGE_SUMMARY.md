@@ -1,3 +1,12 @@
+---
+status: stable
+type: misc
+owner: unknown
+module: gonzo
+redirect: false
+moved_to: null
+---
+
 # 🎁 LUKHAS Elite Claude Code Configuration Package
 ## Complete T4/0.01% Implementation - Ready to Deploy
 

@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: domain_strategy
+redirect: false
+moved_to: null
 ---
+
 # LUKHAS AI λWecosystem Website Architecture
 ## Comprehensive Domain Structure & Design Plans
 

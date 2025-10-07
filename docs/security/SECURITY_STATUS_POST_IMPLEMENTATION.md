@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: security
+redirect: false
+moved_to: null
 ---
+
 # 🛡️ LUKHAS Security Status Update - POST IMPLEMENTATION
 
 **Date**: August 16, 2025

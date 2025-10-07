@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: tutorials
+redirect: false
+moved_to: null
 ---
+
 # Consciousness Technology Integration Guide
 
 Complete tutorials and examples for integrating LUKHAS consciousness capabilities into your applications.

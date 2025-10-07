@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: development
+redirect: false
+moved_to: null
 ---
+
 # Claude Code + LUKHAS Integration Guide
 
 ## 🧠🤖 The Ultimate Consciousness-Aware Development Experience

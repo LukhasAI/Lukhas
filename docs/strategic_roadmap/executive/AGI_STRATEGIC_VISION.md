@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: strategic_roadmap
+redirect: false
+moved_to: null
 ---
+
 # Strategic Enhancements for AGI-Ready Systems: A Vision from Industry Leaders
 
 ## Executive Summary

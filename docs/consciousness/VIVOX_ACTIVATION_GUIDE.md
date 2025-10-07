@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: consciousness
+redirect: false
+moved_to: null
 ---
+
 # VIVOX Module Activation Guide
 
 ## Status: ✅ Successfully Promoted to Production

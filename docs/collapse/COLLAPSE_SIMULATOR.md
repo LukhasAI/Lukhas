@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: collapse
+redirect: false
+moved_to: null
 ---
+
 # Collapse Simulator CLI
 
 The collapse simulator provides a deterministic harness for exploring how

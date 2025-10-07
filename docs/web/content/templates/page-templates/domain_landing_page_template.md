@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: web
+redirect: false
+moved_to: null
 ---
+
 # 🌐 Domain Landing Page Template
 
 *"Where [domain purpose] meets consciousness architecture - every interaction guided by the Constellation Framework toward meaningful transformation."*

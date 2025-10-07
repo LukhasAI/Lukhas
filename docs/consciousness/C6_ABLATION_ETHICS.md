@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: consciousness
+redirect: false
+moved_to: null
 ---
+
 # C6_ABLATION_ETHICS.md - Wave C Testing & Ethics Suite  
 **Freud-2025 Specification: Ablation Testing and Ethical Validation**
 

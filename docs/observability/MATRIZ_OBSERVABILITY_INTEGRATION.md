@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: observability
+redirect: false
+moved_to: null
 ---
+
 # MATRIZ Cognitive Pipeline Observability Integration
 
 ## Overview

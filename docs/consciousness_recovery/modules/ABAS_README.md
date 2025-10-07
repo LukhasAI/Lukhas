@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: consciousness_recovery
+redirect: false
+moved_to: null
 ---
+
 # 🧠 ABAS · Adaptive Behavioral Arbitration System
 
 ABAS is the emotional guardian module of LUCΛS. It evaluates system readiness, cognitive load, and stress thresholds before allowing message delivery or symbolic interaction.

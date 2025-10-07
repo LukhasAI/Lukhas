@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: gonzo
+redirect: false
+moved_to: null
 ---
+
 # 🎯 T4 AutoFix System - User Manual
 
 **LUKHAS AI Agent Army - T4 Cursor-Aware QuickFix System**

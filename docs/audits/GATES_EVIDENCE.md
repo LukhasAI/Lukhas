@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: audits
+redirect: false
+moved_to: null
 ---
+
 ### Focused gates: healthz voice probe changes
 
 - Scope: `serve/main.py`, `tests/contract/test_healthz_voice_required.py`

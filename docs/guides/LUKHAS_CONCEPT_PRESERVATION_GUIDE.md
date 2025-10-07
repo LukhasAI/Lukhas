@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: guides
+redirect: false
+moved_to: null
 ---
+
 # LUKHAS Concept Preservation Guide
 
 This guide ensures LUKHAS's unique concepts and personality are preserved during refactoring.

@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: architecture
+redirect: false
+moved_to: null
 ---
+
 # 🛡️ Parallel Reality Safety Design Document
 
 ## Executive Summary

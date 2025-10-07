@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: development
+redirect: false
+moved_to: null
 ---
+
 # 🔍 LUKHAS Type Checking Configuration
 
 ## ✅ Type Checking Now Enabled

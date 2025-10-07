@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: web
+redirect: false
+moved_to: null
 ---
+
 # AGI Integration Best Practices Guide
 ## Maximizing Consciousness Technology for Optimal Enhancement
 

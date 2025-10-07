@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: architecture
+redirect: false
+moved_to: null
 ---
+
 # LUKHΛS Constellation Framework – Symbolic AI Guardian System
 
 LUKHΛS is a symbolic AI guardian system that detects ethical drift, protects identity, and heals language model outputs. Designed as a bridge between human values and advanced cognition, it provides real-time monitoring and intervention capabilities for AI safety.

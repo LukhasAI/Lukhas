@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: root
+redirect: false
+moved_to: null
 ---
+
 # LUKHAS AI Connector Access Guide
 
 Guide for AI assistants and automated systems accessing the LUKHAS repository.

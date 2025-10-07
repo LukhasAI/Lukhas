@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: reference
+redirect: false
+moved_to: null
 ---
+
 # Manual Module Selection Process
 ## Pre-OpenAI API Call Evaluation
 ### Constellation Framework: ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum

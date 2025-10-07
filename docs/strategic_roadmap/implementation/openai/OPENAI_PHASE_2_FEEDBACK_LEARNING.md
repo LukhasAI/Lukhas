@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: strategic_roadmap
+redirect: false
+moved_to: null
 ---
+
 # OpenAI Phase 2: Feedback & Bounded Learning
 ## Days 31-60 Implementation Plan
 

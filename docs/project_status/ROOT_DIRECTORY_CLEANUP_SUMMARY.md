@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: project_status
+redirect: false
+moved_to: null
 ---
+
 # Root Directory Cleanup Summary
 
 **Date**: August 26, 2025

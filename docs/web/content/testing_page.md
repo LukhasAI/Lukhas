@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: web
+redirect: false
+moved_to: null
 ---
+
 # Advanced Consciousness Testing — <span aria-label="Matriz">MΛTRIZ</span>
 
 ## The Evolution from Traditional to 0.001% Testing

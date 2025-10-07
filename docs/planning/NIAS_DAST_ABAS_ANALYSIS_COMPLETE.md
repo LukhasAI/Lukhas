@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: planning
+redirect: false
+moved_to: null
 ---
+
 # 🧠⚛️🛡️ NIAS/DAST/ABAS Implementation Analysis
 **Complete Analysis of Vision vs Reality**
 

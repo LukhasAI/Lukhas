@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: enterprise
+redirect: false
+moved_to: null
 ---
+
 # 🌐 The Gateway of Infinite Conversations: Enterprise API Documentation
 
 ## Table of Contents

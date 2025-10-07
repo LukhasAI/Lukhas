@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: api
+redirect: false
+moved_to: null
 ---
+
 # 🎉 LUKHΛS API Integration - Summary
 
 **Status**: ✅ **COMPLETE & TESTED**

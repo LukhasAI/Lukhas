@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: reference
+redirect: false
+moved_to: null
 ---
+
 # LUKHAS AI Code Index Map
 Generated: 2025-08-12T19:29:23.644012
 

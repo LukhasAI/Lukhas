@@ -1,6 +1,10 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: gonzo
+redirect: false
+moved_to: null
 ---
 
 # PHASE\_MATRIX.md — MATRIZ Readiness Plan (T4 / 0.01%)

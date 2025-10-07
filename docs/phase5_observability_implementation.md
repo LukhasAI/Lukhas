@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: root
+redirect: false
+moved_to: null
 ---
+
 # LUKHAS Phase 5: Enhanced Observability & Evidence Collection Implementation
 
 **Branch:** `main`

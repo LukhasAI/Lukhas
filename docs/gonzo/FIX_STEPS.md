@@ -1,8 +1,11 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: gonzo
+redirect: false
+moved_to: null
 ---
-
 
 .venv/bin/ruff rule E402
 

@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: runbooks
+redirect: false
+moved_to: null
 ---
+
 # Safety Tags Go-Live Drill
 *30-Minute Production Deployment Checklist*
 

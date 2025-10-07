@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: root
+redirect: false
+moved_to: null
 ---
+
 # Jules-04 Failure Snapshot — September 16, 2025
 
 During the Jules-04 execution cycle the agent exhausted the allocated command budget while attempting to complete documentation TODOs. The final transcript is preserved for forensic analysis and tooling improvements.

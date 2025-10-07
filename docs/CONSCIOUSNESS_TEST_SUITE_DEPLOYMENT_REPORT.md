@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: root
+redirect: false
+moved_to: null
 ---
+
 # 🧠 Consciousness Test Suite Implementation Report
 
 **Date**: September 9, 2025  

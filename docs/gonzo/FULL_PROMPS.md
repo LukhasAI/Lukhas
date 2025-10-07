@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: gonzo
+redirect: false
+moved_to: null
 ---
+
 # 🚀 LUKHAS T4/0.01% Execution Prompts
 
 ### T4/0.01% Guidance Add-ons

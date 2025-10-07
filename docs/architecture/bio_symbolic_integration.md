@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: architecture
+redirect: false
+moved_to: null
 ---
+
 # Bio-Symbolic Architecture and Integration
 
 ## 1. Overview

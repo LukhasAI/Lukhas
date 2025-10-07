@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: consciousness
+redirect: false
+moved_to: null
 ---
+
 # Simulation Lane Infrastructure - Implementation Report
 
 ## ✅ Complete Implementation Status

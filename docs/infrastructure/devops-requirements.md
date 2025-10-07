@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: infrastructure
+redirect: false
+moved_to: null
 ---
+
 # LUKHAS AI DevOps Infrastructure Requirements
 ## Scaling 0.001% Engineering Excellence to Production
 

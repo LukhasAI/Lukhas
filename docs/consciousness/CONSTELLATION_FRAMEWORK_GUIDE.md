@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: consciousness
+redirect: false
+moved_to: null
 ---
+
 # Constellation Framework Guide
 ## ⚛️✦🔬🌱🌙⚖️🛡️⚛️ Eight-Star Navigation System for LUKHAS AI
 

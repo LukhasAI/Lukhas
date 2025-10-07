@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: project
+redirect: false
+moved_to: null
 ---
+
 # 🚀 LUKHAS MATRIZ-R1 Parallel Stream Execution Plan
 
 **🤖 Agent System**: [`../../AGENTS.md`](../../AGENTS.md) - Complete guide to the multi-agent platform

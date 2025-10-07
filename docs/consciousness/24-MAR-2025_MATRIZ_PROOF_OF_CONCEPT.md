@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: consciousness
+redirect: false
+moved_to: null
 ---
+
 aYou said:
 PROJECT: AGI V2.0 \u2014 COGNITIVE DNA SYSTEM (MATADA FRAMEWORK)
 

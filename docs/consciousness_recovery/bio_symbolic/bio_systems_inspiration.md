@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: consciousness_recovery
+redirect: false
+moved_to: null
 ---
+
 Here’s a curated list of **non-mitochondrial biological systems** with high potential to inspire symbolic AGI architectures like **LUKHAS_AGI/Lucas_ID**, organized by functional parallels:
 
 ---

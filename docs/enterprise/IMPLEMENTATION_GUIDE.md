@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: enterprise
+redirect: false
+moved_to: null
 ---
+
 # 🚀 The Architect's Blueprint: Enterprise Implementation Guide
 
 ## Table of Contents

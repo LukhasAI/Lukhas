@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: consciousness
+redirect: false
+moved_to: null
 ---
+
 # LUKHAS Concept Preservation Guidelines
 
 ## Critical Concepts to Preserve

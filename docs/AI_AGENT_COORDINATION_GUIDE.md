@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: root
+redirect: false
+moved_to: null
 ---
+
 # LUKHAS AI Agent Coordination System
 ## Complete Guide to Machine-Readable Agent Discovery & Context Sync
 

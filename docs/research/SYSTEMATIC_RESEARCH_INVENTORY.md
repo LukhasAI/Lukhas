@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: research
+redirect: false
+moved_to: null
 ---
+
 # 🏛️ SYSTEMATIC RESEARCH INVENTORY - Treasure Trove #1
 
 ## 📊 **Research Volume Analysis**

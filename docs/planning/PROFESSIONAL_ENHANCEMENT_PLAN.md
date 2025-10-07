@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: planning
+redirect: false
+moved_to: null
 ---
+
 # 🚀 **LUKHAS AI Professional Enhancement Plan**
 
 **Date**: 2025-01-17

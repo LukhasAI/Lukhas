@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: academic
+redirect: false
+moved_to: null
 ---
+
 # Advanced Consciousness Engine - Academic References & Implementation Sources
 
 **Document Version**: 1.0  

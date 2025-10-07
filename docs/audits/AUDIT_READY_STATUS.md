@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: audits
+redirect: false
+moved_to: null
 ---
+
 # 📋 Repository Audit - Ready for Lint-Fix Workflows
 
 **Status**: ✅ Baseline established, monitoring system ready  

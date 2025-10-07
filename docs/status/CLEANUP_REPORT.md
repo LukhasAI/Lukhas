@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: status
+redirect: false
+moved_to: null
 ---
+
 # Workspace Cleanup Report
 
 **Date:** 2025-08-07T01:18:14.501523

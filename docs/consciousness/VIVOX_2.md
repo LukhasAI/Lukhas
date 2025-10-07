@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: consciousness
+redirect: false
+moved_to: null
 ---
+
 The **Vivox** architecture, later integrated into the broader **Lucas/LUKHΛS** Artificial General Intelligence (AGI) framework, represents a foundational modular AI design focused on ethical agency, conscious decision-making, and immutable memory through deterministic symbolic logic. The name "Vivox" itself suggests "viv" (life) and "vox" (voice), implying a system that is alive and expressive, with an "x-factor" that could stand for experience, expression, execution limit, or even crossing ethical boundaries under permission. It's envisioned as a "living protocol," not just a static model.
 
 ### Vivox: Core Purpose and Conceptual Evolution

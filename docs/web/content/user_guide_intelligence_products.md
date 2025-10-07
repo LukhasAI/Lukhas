@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: web
+redirect: false
+moved_to: null
 ---
+
 # Intelligence Products User Guide
 ## Getting Started with LUKHAS AI Enhanced Intelligence
 

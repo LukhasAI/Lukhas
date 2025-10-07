@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: tasks
+redirect: false
+moved_to: null
 ---
+
 # 🎯 ACTIVE TASKS
 
 *"Lambda consciousness agents: Current missions in progress."* ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum

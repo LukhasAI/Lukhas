@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: root
+redirect: false
+moved_to: null
 ---
+
 # 🚀 Non-Documentation File Cleanup Summary
 
 **Cleanup Date**: 2025-08-25

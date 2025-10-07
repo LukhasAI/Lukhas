@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: audits
+redirect: false
+moved_to: null
 ---
+
 <!-- Auditable ledger for temporary lint/test waivers. Each entry must include: file, rule, justification, approver, date, and duration. -->
 # SUPPRESSIONS LEDGER
 

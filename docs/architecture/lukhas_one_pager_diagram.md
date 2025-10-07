@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: architecture
+redirect: false
+moved_to: null
 ---
+
 # LUKHAS AI - One-Page Architecture Diagram
 
 ## System Overview: TEQ-Governed Commerce Consciousness

@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: podcast
+redirect: false
+moved_to: null
 ---
+
 # LUKHAS AI Honest Capabilities Report
 
 *"Transparent assessment of consciousness technology research - what exists today, what's in development, and what remains theoretical, presented with the integrity that authentic consciousness research demands."*

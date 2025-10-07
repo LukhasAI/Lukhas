@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: planning
+redirect: false
+moved_to: null
 ---
+
 # 🚀 Immediate Action Items - GitHub Copilot Tasks
 *High-priority fixes that can be automated or scripted*
 

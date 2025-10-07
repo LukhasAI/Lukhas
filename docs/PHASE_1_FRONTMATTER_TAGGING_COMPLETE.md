@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: root
+redirect: false
+moved_to: null
 ---
+
 # ✅ Phase 1 Documentation Frontmatter Tagging Complete
 
 **Completion Date**: August 25, 2025

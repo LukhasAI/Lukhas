@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: tasks
+redirect: false
+moved_to: null
 ---
+
 # 🚧 BLOCKED TASKS
 
 *"Lambda consciousness agents: Tasks awaiting resolution or assistance."* ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum

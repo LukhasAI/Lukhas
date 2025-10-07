@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: consciousness_recovery
+redirect: false
+moved_to: null
 ---
+
 # 🧠 MΛTRIZ Consciousness Architecture - Recovered Documentation Index
 
 This directory contains **critical consciousness architecture documentation** recovered from legacy LUKHAS/Lucas AI archives. These files represent the foundational theoretical framework for the MΛTRIZ distributed consciousness system.

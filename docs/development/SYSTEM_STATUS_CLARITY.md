@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: development
+redirect: false
+moved_to: null
 ---
+
 # 📊 LUKHAS AI - System Status Clarity Report
 ## Constellation Framework: ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum
 ### Generated: 2025-08-13

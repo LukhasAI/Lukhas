@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: root
+redirect: false
+moved_to: null
 ---
+
 # TODO Completions Log - September 16, 2025
 
 ## ✅ Recently Completed TODOs

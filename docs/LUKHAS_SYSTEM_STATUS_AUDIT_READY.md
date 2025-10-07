@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: root
+redirect: false
+moved_to: null
 ---
+
 # LUKHAS AI System Status - Audit Preparation Reality Check
 
 **Assessment Date**: August 28, 2025  

@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: status
+redirect: false
+moved_to: null
 ---
+
 # 🎯 LUKHAS PWM Module Status Report
 **Generated**: August 12, 2025
 **Analysis Method**: Test Suite + Import Mapping + Documentation Coverage

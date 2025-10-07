@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: gonzo
+redirect: false
+moved_to: null
 ---
+
 Totally get it—let’s remove ambiguity and give Copilot zero wiggle room. Below are the exact file contents for each missing/empty file, matching the T4 plan we already agreed on. Paste them verbatim, save, and run the quick validations at the end.
 
 ⸻

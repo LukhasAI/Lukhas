@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: architecture
+redirect: false
+moved_to: null
 ---
+
 # LUKHAS AI Architecture Documentation
 
 ⚛️ **System Architecture** | **Design Patterns** | 🧠 **Consciousness Architecture**

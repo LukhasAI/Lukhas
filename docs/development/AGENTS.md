@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: development
+redirect: false
+moved_to: null
 ---
+
 # 🤖 LUKHAS AI Agent System
 
 **Multi-Agent Development Platform for MATRIZ-R1 Execution**

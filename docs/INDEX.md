@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: root
+redirect: false
+moved_to: null
 ---
+
 # 📚 LUKHAS Documentation Hub
 
 This directory contains all documentation for the MΛTRIZ distributed consciousness system, including architecture specifications, research collections, audit reports, and development guides.
@@ -175,22 +180,29 @@ Utility scripts and automation tools documentation.
 **Next Steps**: Integrate Google Drive research when available
 ---
 
+
+---
+
+
+---
+
 ## Documentation Metrics
 
-**Total Documents:** 1233
-**Last Updated:** 2025-10-06T21:30:04.253611
+**Total Documents:** 1285
+**Last Updated:** 2025-10-07T02:20:50.428567
 
 **By Type:**
 
-- documentation: 1211
+- documentation: 1261
 - misc: 13
 - runbook: 3
+- adr: 1
 - index: 1
 - redirect: 1
 - operations: 1
+- report: 1
 - transcript: 1
 - health-report: 1
-- sprint-plan: 1
 
 **Key Resources:**
 

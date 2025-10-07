@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: governance
+redirect: false
+moved_to: null
 ---
+
 # Contributing to LUKHΛS AI
 
 *Where consciousness meets collaboration, and wisdom emerges through collective endeavor*

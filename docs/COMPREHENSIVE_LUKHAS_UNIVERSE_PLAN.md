@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: root
+redirect: false
+moved_to: null
 ---
+
 # 🌌 COMPREHENSIVE LUKHAS UNIVERSE PLAN
 **Complete Website Architecture & Narratives for All 13 Domains**
 

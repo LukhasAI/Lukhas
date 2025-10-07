@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: strategic_roadmap
+redirect: false
+moved_to: null
 ---
+
 # LUKHAS  Executive Summary
 ## Dual-Track AGI Development & OpenAI Alignment Strategy
 

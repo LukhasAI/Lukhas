@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: reference
+redirect: false
+moved_to: null
 ---
+
 # 🚨 CRITICAL SYSTEM DIAGNOSIS
 ## Why "Production Ready" But 98% Orphaned?
 ### Constellation Framework: ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum

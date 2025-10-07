@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: guides
+redirect: false
+moved_to: null
 ---
+
 # The Z(t) Collapse Function: Complete User Guide & Technical Specification
 
 ## 🧠 What is the Z(t) Collapse Function?

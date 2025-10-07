@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: planning
+redirect: false
+moved_to: null
 ---
+
 # 🎯 LUKHAS Action Plans - Post GPT-5 Audit
 *Generated from comprehensive GPT-5 audit analysis*
 

@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: architecture
+redirect: false
+moved_to: null
 ---
+
 # LUKHAS PWM Identity Module Analysis
 **Complete Integration Audit & Implementation Status**
 

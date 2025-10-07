@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: root
+redirect: false
+moved_to: null
 ---
+
 # T4/0.01% Post-Freeze Maintenance Guide
 
 **Status**: ACTIVE

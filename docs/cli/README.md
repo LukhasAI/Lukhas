@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: cli
+redirect: false
+moved_to: null
 ---
+
 # LUKHAS CLI Tools Documentation
 
 Consciousness-enhanced command line utilities for drift analysis, collapse simulation, and production monitoring.

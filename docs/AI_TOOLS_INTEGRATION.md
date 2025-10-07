@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: root
+redirect: false
+moved_to: null
 ---
+
 # AI Tools Integration Guide
 
 **Configuring Any AI Development Tool for LUKHAS Platform**

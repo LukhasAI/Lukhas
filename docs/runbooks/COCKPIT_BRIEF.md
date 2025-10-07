@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: runbooks
+redirect: false
+moved_to: null
 ---
+
 # 🚀 BATCH COCKPIT BRIEF - Claude Code Command Pack
 
 ## TL;DR - One Command Conveyor

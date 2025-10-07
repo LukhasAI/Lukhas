@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: development
+redirect: false
+moved_to: null
 ---
+
 # 🚀 LUKHAS AI Quick Reference Card
 
 **Essential Commands for Daily Development**

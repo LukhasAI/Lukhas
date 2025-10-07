@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: root
+redirect: false
+moved_to: null
 ---
+
 # LUKHAS AI Documentation Branding Compliance Report
 
 **LUKHAS AI** - Logical Unified Knowledge Hyper-Adaptable System

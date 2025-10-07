@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: mcp
+redirect: false
+moved_to: null
 ---
+
 # LUKHAS MCP Operations (T4/0.01%)
 
 ## Fast checks

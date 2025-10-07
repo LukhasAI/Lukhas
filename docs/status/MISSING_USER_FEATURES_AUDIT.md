@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: status
+redirect: false
+moved_to: null
 ---
+
 # 🔍 **SMALL IDEAS & USER DETAILS AUDIT**
 **Missing Features from Original NIAS/DAST/ABAS Vision**
 

@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: guides
+redirect: false
+moved_to: null
 ---
+
 ═══════════════════════════════════════════════════════════════════════════════
 ║ 📚 LUKHAS ADAPTIVE AI FEATURES - USER GUIDE
 ║ Your Guide to Advanced AI Adaptation and Transparency

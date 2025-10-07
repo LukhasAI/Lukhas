@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: gonzo
+redirect: false
+moved_to: null
 ---
+
 Absolutely—here’s a tight,audits land” plan that turns results into shipped fixes without chaos.
 
 1) Ingest → Merge → Plan (same day)

@@ -1,3 +1,12 @@
+---
+status: stable
+type: misc
+owner: unknown
+module: v0.03
+redirect: false
+moved_to: null
+---
+
 # Import Path Corrections - Actual Module Locations
 
 ## Summary

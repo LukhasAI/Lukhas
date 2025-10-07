@@ -1,9 +1,11 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: gonzo
+redirect: false
+moved_to: null
 ---
-
-
 
 The T4 delta plan (critical path, not wish list)
 

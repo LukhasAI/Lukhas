@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: development
+redirect: false
+moved_to: null
 ---
+
 # Temporary Stubs and Bridges Audit
 
 This document tracks all temporary stubs, bridges, and compatibility shims in the LUKHAS  system.

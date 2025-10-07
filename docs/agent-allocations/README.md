@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: agent-allocations
+redirect: false
+moved_to: null
 ---
+
 # LUKHAS TODO Agent Allocations
 
 **Complete allocation of all 1,118 TODOs across 31 agent batches**

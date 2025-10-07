@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: prompts
+redirect: false
+moved_to: null
 ---
+
 # OpenAI NIAS Creative Planner Prompt Pack
 
 ## System Prompt

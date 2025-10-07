@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: planning
+redirect: false
+moved_to: null
 ---
+
 # 🧹 LUKHAS Codebase Hygiene - Rename Plan
 
 ## 🎯 Naming Convention Standards

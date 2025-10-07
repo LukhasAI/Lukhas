@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: status
+redirect: false
+moved_to: null
 ---
+
 # LUKHAS AI Codebase Consolidation Summary
 
 **Date**: 2025-07-27

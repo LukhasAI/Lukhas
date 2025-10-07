@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: terminal
+redirect: false
+moved_to: null
 ---
+
 # 🛡️ LUKHAS Terminal Safety Guide
 
 ## Problem Solved

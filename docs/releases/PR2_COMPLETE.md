@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: releases
+redirect: false
+moved_to: null
 ---
+
 # ✅ PR #2 Complete: CI/CD Pipeline Upgrades
 
 ## Summary

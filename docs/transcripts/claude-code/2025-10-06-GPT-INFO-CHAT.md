@@ -1,10 +1,10 @@
 ---
-type: transcript
-source: Claude Code chat
-title: "GPT-INFO Chat Transcript"
 status: archived
-canonical_successor: ../../ops/OPERATIONAL_RUNBOOK.md
-tags: ["provenance","transcript","claude-code"]
+type: transcript
+owner: unknown
+module: transcripts
+redirect: false
+moved_to: null
 ---
 
 > This file is an **archived conversation transcript** preserved for provenance.

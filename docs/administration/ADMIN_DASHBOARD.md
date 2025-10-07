@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: administration
+redirect: false
+moved_to: null
 ---
+
 # Admin Dashboard Documentation
 
 The LUKHAS  Admin Dashboard provides real-time monitoring, performance tracking, and incident management capabilities.

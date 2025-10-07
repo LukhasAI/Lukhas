@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: consciousness_recovery
+redirect: false
+moved_to: null
 ---
+
 # 🔗 DAST · Dynamic Alignment & Symbolic Tasking
 
 DAST is the modular alignment interface within LUCΛS that enables task docking, partner compatibility scoring, and symbolic routing of real-time or dream-deferred message streams.

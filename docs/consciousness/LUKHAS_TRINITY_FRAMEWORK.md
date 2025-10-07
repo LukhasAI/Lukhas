@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: consciousness
+redirect: false
+moved_to: null
 ---
+
 # 🌟 LUKHAS Trinity Communication Framework
 
 ## The Three-Layer Approach to AI Communication

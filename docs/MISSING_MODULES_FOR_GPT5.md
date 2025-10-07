@@ -1,3 +1,12 @@
+---
+status: stable
+type: misc
+owner: unknown
+module: root
+redirect: false
+moved_to: null
+---
+
 # Missing Modules Analysis for LUKHAS AI Test Suite
 
 **Date**: 2025-10-06 (Updated: 2025-10-06 Evening)

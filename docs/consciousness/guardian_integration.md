@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: consciousness
+redirect: false
+moved_to: null
 ---
+
 # LUKHAS Guardian-Consciousness Integration
 
 **Phase 3 Implementation - T4/0.01% Excellence Standards**

@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: interfaces
+redirect: false
+moved_to: null
 ---
+
 # 🚀 LUKHAS  Module Interface Quick Reference
 
 ## Common Imports

@@ -1,15 +1,12 @@
 ---
-lane: L2
-module: docs.collaboration.runbooks
 status: stable
-tags:
-- t4
-- governance
-- enrichment
-- runbook
-title: Manifest Enrichment Runbook
 type: runbook
+owner: unknown
+module: docs.collaboration.runbooks
+redirect: false
+moved_to: null
 ---
+
 # Manifest Enrichment Runbook
 
 **Purpose**: Step-by-step procedures for enriching LUKHAS module manifests with controlled vocabulary extraction and validation.

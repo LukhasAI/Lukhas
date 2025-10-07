@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: status
+redirect: false
+moved_to: null
 ---
+
 # LUKHΛS Hybrid Session Key Implementation Report
 
 ## 🔐 Overview

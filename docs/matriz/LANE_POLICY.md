@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: matriz
+redirect: false
+moved_to: null
 ---
+
 # MATRIZ Lane Policy — Production Safety Framework
 
 ## Lane Hierarchy & Governance

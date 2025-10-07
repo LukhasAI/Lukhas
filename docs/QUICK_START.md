@@ -1,16 +1,12 @@
 ---
-last_review: 2025-09-09
-module: unknown
-owner: docs-maintainer
 status: stable
-tags:
-- quickstart
-- setup
-- installation
-- howto
-title: LUKHAS Quick Start Guide
 type: documentation
+owner: docs-maintainer
+module: root
+redirect: false
+moved_to: null
 ---
+
 # 🚀 LUKHAS Quick Start Guide
 
 Welcome to LUKHAS  - Pack What Matters! This guide will get you up and running quickly.

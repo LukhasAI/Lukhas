@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: root
+redirect: false
+moved_to: null
 ---
+
 # LUKHAS Context Files System
 
 **Dual-format AI guidance with vendor neutrality and Claude Desktop compatibility**

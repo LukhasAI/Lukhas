@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: security
+redirect: false
+moved_to: null
 ---
+
 # LUKHAS AI - Security Remediation Report
 **Date**: 2025-09-01  
 **Severity**: CRITICAL  

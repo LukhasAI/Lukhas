@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: consciousness
+redirect: false
+moved_to: null
 ---
+
 # Ring Buffer Decimation & Backpressure Management
 
 Advanced memory management with adaptive decimation strategies for consciousness data streams.

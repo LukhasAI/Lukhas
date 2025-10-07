@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: audits
+redirect: false
+moved_to: null
 ---
+
 # STEPS_4b — Claude Execution Script (Coverage 60%+, Ruff/MyPy Green, Security Sweep)
 
 > Feed this file to **Claude Code** in one go. Claude should PLAN → TODO → EXECUTE with small diffs (≤20 lines/file), run gates after each block, and append results to `docs/audits/CLAUDE_PROGRESS.md`.

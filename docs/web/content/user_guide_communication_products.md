@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: web
+redirect: false
+moved_to: null
 ---
+
 # Communication Products User Guide
 ## Consciousness-Aware Messaging and Attention Intelligence
 

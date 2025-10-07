@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: orchestration
+redirect: false
+moved_to: null
 ---
+
 # Plan Verifier - Task 5 Implementation
 
 **Status**: ✅ **Complete** - Deterministic fail-closed constraints for orchestration safety

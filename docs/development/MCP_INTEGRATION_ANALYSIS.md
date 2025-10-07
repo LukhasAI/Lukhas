@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: development
+redirect: false
+moved_to: null
 ---
+
 # 🔗 MCP (Model Context Protocol) Integration Analysis
 **Strategic Assessment for LUKHAS AI Agent Army**
 

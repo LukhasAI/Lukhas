@@ -1,8 +1,11 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: audits
+redirect: false
+moved_to: null
 ---
-
 
 # STEPS_4 — Claude Execution Script (Toward 50–60% Coverage, Ruff/MyPy Near-Green)
 

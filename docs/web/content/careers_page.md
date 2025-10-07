@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: web
+redirect: false
+moved_to: null
 ---
+
 # Careers at LUKHAS AI
 
 ## Join the Consciousness Revolution

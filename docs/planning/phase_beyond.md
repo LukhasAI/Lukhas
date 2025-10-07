@@ -1,6 +1,10 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: planning
+redirect: false
+moved_to: null
 ---
 
 What to add (surgical)

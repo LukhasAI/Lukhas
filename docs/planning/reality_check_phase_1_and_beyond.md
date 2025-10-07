@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: planning
+redirect: false
+moved_to: null
 ---
+
 Below is everything for Claude Code needs—ready to copy-paste—to begin Phase 1 immediately, then proceed to Phases 2–3.
 
 ⸻

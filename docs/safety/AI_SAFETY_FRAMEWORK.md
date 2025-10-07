@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: safety
+redirect: false
+moved_to: null
 ---
+
 # 🛡️ **LUKHΛS AI Safety & Alignment Framework**
 *Constitutional Consciousness with Guardian Protection*
 

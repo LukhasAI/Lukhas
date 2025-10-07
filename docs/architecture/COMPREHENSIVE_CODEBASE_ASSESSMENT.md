@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: architecture
+redirect: false
+moved_to: null
 ---
+
 # LUKHAS AI Comprehensive Codebase Assessment Report
 
 **Assessment Date:** 2025-08-12

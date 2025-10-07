@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: root
+redirect: false
+moved_to: null
 ---
+
 # 🎯 High-Priority Syntax Targets for Immediate Action
 
 ## Current Status: 13,933 syntax errors remaining

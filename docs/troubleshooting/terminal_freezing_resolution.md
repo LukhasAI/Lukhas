@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: troubleshooting
+redirect: false
+moved_to: null
 ---
+
 # 🖥️ Terminal Freezing Resolution
 
 **LUKHAS AI Development Environment - Terminal Issue Resolution**

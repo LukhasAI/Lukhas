@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: runbooks
+redirect: false
+moved_to: null
 ---
+
 # Safety Tags v1 - Post-Deploy 72-Hour Monitoring
 *T4 Production Lock-Down Checklist*
 

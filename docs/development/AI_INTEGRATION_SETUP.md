@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: development
+redirect: false
+moved_to: null
 ---
+
 # 🎭 LUKHAS AI Integration Setup Guide
 
 ## 🚀 Professional Developer Workflow Setup

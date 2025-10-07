@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: legacy
+redirect: false
+moved_to: null
 ---
+
 # 🧠 Lukhas Intelligence Engine - Team Review Package
 
 **📦 READY FOR LUKHAS- INTEGRATION**

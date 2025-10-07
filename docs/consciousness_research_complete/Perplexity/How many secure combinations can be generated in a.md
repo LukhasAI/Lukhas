@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: consciousness_research_complete
+redirect: false
+moved_to: null
 ---
+
 <img src="https://r2cdn.perplexity.ai/pplx-full-logo-primary-dark%402x.png" class="logo" width="120"/>
 
 # How many secure combinations can be generated in an emoji grid-based authentication system (5x6 or 6x8 grid)? What is the minimum number of selections (6, 9, 12) for high entropy?

@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: audits
+redirect: false
+moved_to: null
 ---
+
 # 🎯 LUKHAS AUDIT READINESS REPORT
 **Date:** December 26, 2024
 **Status:** CONDITIONALLY AUDIT-READY

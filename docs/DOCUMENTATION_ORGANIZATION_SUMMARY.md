@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: root
+redirect: false
+moved_to: null
 ---
+
 # 📚 LUKHAS Documentation Organization Summary
 
 **Completion Date**: 2025-01-27

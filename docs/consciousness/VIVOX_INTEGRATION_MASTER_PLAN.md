@@ -1,36 +1,12 @@
 ---
-agent_relevance:
-  consciousness_architect: 1.0
-  consciousness_developer: 0.9
-  devops_guardian: 0.7
-  documentation_specialist: 0.7
-  github_copilot: 0.8
-  guardian_engineer: 0.8
-  supreme_consciousness_architect: 1.0
-  velocity_lead: 0.6
-audience:
-- agents
-- developers
-category: consciousness
-doc_type: architecture
-last_updated: '2025-08-25'
-module: unknown
-next_review: '2025-09-25'
-priority: high
-search_keywords:
-- vivox
-- integration
-- consciousness
-- memory expansion
-- ethical agi
-technical_level: expert
-trinity_component:
-- consciousness
-- guardian
-- identity
+status: stable
 type: documentation
-update_frequency: monthly
+owner: unknown
+module: consciousness
+redirect: false
+moved_to: null
 ---
+
 # VIVOX Integration Master Plan
 ## Complete Architecture Implementation for LUKHAS PWM
 

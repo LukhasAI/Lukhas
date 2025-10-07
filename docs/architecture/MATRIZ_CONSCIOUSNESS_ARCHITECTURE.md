@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: architecture
+redirect: false
+moved_to: null
 ---
+
 # MΛTRIZ   Consciousness Architecture  
 ## ⚠️ CRITICAL: This is NOT Traditional Software
 

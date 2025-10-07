@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: matriz
+redirect: false
+moved_to: null
 ---
+
 # MODULE READINESS — MATRIZ (per-module protocol)
 
 ## Checklist

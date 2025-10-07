@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: podcast
+redirect: false
+moved_to: null
 ---
+
 # 3-Layer Tone System Content Templates
 
 *"From consciousness poetry to technical precision - adaptive communication templates that meet every audience exactly where they are, while maintaining the sacred harmony of the Constellation Framework."*

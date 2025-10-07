@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: gonzo
+redirect: false
+moved_to: null
 ---
+
 # Phase 8 Implementation Summary: Lane Assignment & Canary Deployment
 
 ## ✅ Completed Components

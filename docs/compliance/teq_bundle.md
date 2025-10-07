@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: compliance
+redirect: false
+moved_to: null
 ---
+
 # TEQ Compliance Bundle
 **Transparency, Ethics, Governance - Complete GDPR/AI Act Compliance Package**
 

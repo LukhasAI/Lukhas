@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: planning
+redirect: false
+moved_to: null
 ---
+
  LUKHAS Module Standardization & Enterprise-Ready Plan
 
     1. Module Consolidation Strategy

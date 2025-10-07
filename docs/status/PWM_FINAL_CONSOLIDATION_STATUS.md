@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: status
+redirect: false
+moved_to: null
 ---
+
 # LUKHAS PWM Final Consolidation Status Report
 *Generated: 2025-08-02*
 

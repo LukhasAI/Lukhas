@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: validation
+redirect: false
+moved_to: null
 ---
+
 # 🔍 File Deletion Safety Verification Report
 
 **Date:** August 11, 2025

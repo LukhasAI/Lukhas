@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: architecture
+redirect: false
+moved_to: null
 ---
+
 # 🧬 How AI Core Systems Benefit from Lambda Products Integration
 
 ## Executive Summary

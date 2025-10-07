@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: web
+redirect: false
+moved_to: null
 ---
+
 # LUKHAS AI User Guides Index
 ## Complete Guide to Consciousness Technology Enhancement
 

@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: errors
+redirect: false
+moved_to: null
 ---
+
 -------------------------------------
 Translated Report (Full Report Below)
 -------------------------------------

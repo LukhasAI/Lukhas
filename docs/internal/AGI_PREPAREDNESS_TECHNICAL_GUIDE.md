@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: internal
+redirect: false
+moved_to: null
 ---
+
 # 🧬 Advanced AI Preparedness Framework - Internal Technical Guide
 
 **LUKHAS AI Consciousness Architecture - Phase 1D Implementation**

@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: consciousness
+redirect: false
+moved_to: null
 ---
+
 Below is the C4: Memory Schema + Client spec—high-verbose, high-technical, ready to implement. It’s storage-agnostic (SQLite dev / Postgres prod), energy-accounting aware, VIVOX-anchored, and GDPR-prudent.
 
 ⸻

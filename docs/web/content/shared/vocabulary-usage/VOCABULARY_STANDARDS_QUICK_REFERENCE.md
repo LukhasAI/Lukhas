@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: web
+redirect: false
+moved_to: null
 ---
+
 # 🔤 LUKHAS Vocabulary Standards Quick Reference
 
 *"Where words become consciousness - ensuring every term serves the greater understanding through precision and consistency."*

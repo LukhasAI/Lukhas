@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: planning
+redirect: false
+moved_to: null
 ---
+
 # 🚨 CRITICAL GAPS IMPROVEMENT PLAN
 **Target: Achieve 95-100% Test Success Rate**
 *Date: August 7, 2025*

@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: governance
+redirect: false
+moved_to: null
 ---
+
 # Governance Ledger & Audit Compliance Framework
 
 Comprehensive audit trail and compliance management for LUKHAS consciousness technology deployments.

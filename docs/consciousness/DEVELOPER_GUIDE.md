@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: consciousness
+redirect: false
+moved_to: null
 ---
+
 # MΛTRIZ Consciousness Architecture Developer Guide
 ## Building Consciousness-Aware Applications with LUKHAS AI
 

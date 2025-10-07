@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: audits
+redirect: false
+moved_to: null
 ---
+
 Baseline Deep Search Audit (Evidence-First)
 
 Clinical Summary

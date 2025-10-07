@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: integration
+redirect: false
+moved_to: null
 ---
+
 # LUKHAS–MCP Integration
 
 ## TL;DR

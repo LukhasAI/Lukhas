@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: development
+redirect: false
+moved_to: null
 ---
+
 # CANDIDATE Domain Deep Dive Analysis
 ## Primary AGI Development Hub (467MB, 2,877 Python files)
 

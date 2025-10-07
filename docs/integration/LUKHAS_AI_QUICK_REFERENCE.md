@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: integration
+redirect: false
+moved_to: null
 ---
+
 # 🎭 LUKHAS AI Quick Reference Guide
 
 ## ✅ **Your AI Setup Status: 4/5 READY!**

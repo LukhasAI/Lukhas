@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: executive
+redirect: false
+moved_to: null
 ---
+
 # 🚀 Advanced AI Preparedness Framework - Executive Summary
 
 **LUKHAS AI Strategic Initiative - Phase 1D Complete**

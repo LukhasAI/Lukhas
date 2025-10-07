@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: gonzo
+redirect: false
+moved_to: null
 ---
+
 # LUKHAS Test Suite — T4 Upgrade (Execution Plan for Claude)
 
 **Tone:** tight, surgical, fearless. This is the **single source of truth** for tests. Use it to drive automated changes and PRs. For complete copy‑paste file bodies, see **`docs/gonzo/LUKHAS_Test_Suite—Add_ons.md`**.

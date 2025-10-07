@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: makefile
+redirect: false
+moved_to: null
 ---
+
 # LUKHAS Modular Makefile System
 
 ## Overview

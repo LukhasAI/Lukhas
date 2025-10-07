@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: root
+redirect: false
+moved_to: null
 ---
+
 # RFC Template: Matrix Tracks Gate Proposal
 
 **RFC Number:** GATE-YYYY-NNN

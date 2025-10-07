@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: domain_strategy
+redirect: false
+moved_to: null
 ---
+
 # 🚀 ΛUCTOR Domain Content Generation - Complete Ecosystem
 
 *Using the ΛUCTOR content engine to generate comprehensive, research-backed content for all LUKHAS domains with the proven 3-layer tone system*

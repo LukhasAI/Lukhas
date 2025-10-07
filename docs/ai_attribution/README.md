@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: ai_attribution
+redirect: false
+moved_to: null
 ---
+
 # LUKHAS AI Attribution & Intellectual Property Index
 
 ⚛️ **Original Research** | **Innovation Documentation** | 🧠 **Discovery Attribution**

@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: root
+redirect: false
+moved_to: null
 ---
+
 # MATRIX TRACKS: Evolutionary Verification Paths
 
 Matrix Contracts v3+ are not a single upgrade. They are **parallel tracks of verifiability**, allowing each module to adopt defenses suited to its risk profile.

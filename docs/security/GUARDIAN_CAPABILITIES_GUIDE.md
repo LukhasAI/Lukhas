@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: security
+redirect: false
+moved_to: null
 ---
+
 # 🔐 Guardian Security Capabilities Guide
 
 **Practical Guide to LUKHAS AI Guardian Security Features**

@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: reference
+redirect: false
+moved_to: null
 ---
+
 # LUKHAS Module Standardization Quick Start
 
 ## 🚀 Tools Ready for You!

@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: development
+redirect: false
+moved_to: null
 ---
+
 # 🎛️ Signal-to-Prompt Modulation System - COMPLETE
 
 ## **✅ IMPLEMENTATION SUMMARY**

@@ -1,3 +1,12 @@
+---
+status: stable
+type: misc
+owner: unknown
+module: v0.03
+redirect: false
+moved_to: null
+---
+
 ================================================================================
 LUKHAS AI - MISSING MODULES IMPLEMENTATION REQUEST FOR GPT-5
 ================================================================================

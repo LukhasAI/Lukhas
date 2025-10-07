@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: web
+redirect: false
+moved_to: null
 ---
+
 # LUKHAS Vision: The Path to AGI Through Modular AI
 
 ## Our Core Belief

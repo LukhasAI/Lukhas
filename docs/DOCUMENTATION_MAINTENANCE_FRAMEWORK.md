@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: root
+redirect: false
+moved_to: null
 ---
+
 # 📖 LUKHAS Documentation Maintenance Framework
 
 **Classification System for Static vs Dynamic Documentation**

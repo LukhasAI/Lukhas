@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: development
+redirect: false
+moved_to: null
 ---
+
 # LUKHAS AI Development Documentation
 
 👨‍💻 **Development Guides** | **Integration** | 🔧 **Development Tools**

@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: consciousness
+redirect: false
+moved_to: null
 ---
+
 # C5_OBSERVABILITY.md - Wave C Observability Integration
 **Freud-2025 Specification: Observability Infrastructure for Aka Qualia**
 

@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: planning
+redirect: false
+moved_to: null
 ---
+
 # Enterprise Identity System: Full OAuth/SAML/LDAP Integration
 ## Production-Grade Identity Management for AGI Systems
 

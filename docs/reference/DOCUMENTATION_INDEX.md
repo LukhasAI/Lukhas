@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: reference
+redirect: false
+moved_to: null
 ---
+
 # LUKHAS  Documentation Index
 
 Welcome to the LUKHAS  documentation. This index provides quick access to all major documentation resources.
@@ -151,6 +156,20 @@ To contribute to documentation:
 
 ---
 
+
+---
+
+
+---
+
 ## Auto-Generated Index
 
 *The following sections are automatically generated.*
+
+### Reports
+
+- [Documentation Governance Implementation Report](reports/DOCS_GOVERNANCE_IMPLEMENTATION_REPORT.md)
+
+### ADRs
+
+- [ADR-0002: Documentation Governance Framework](ADR/ADR-0002-docs-governance.md)

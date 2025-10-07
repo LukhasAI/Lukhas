@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: diagrams
+redirect: false
+moved_to: null
 ---
+
 # LUKHAS  Architecture Diagrams
 
 ## System Architecture Overview

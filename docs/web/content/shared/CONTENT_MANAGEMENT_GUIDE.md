@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: web
+redirect: false
+moved_to: null
 ---
+
 # 📝 LUKHAS Web Content Management Guide
 
 *"Where content creation meets consciousness architecture - guiding every word through the constellation framework to ensure authentic digital experiences."*

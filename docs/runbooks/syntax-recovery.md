@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: runbooks
+redirect: false
+moved_to: null
 ---
+
 # Syntax Recovery Runbook - Mass Breakage Recovery Procedures
 
 ## Overview

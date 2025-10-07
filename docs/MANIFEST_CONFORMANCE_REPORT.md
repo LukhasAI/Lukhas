@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: root
+redirect: false
+moved_to: null
 ---
+
 # Manifest Conformance Fix Report
 
 **Date:** 2025-10-02

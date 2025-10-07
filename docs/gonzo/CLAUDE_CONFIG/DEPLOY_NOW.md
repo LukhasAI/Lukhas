@@ -1,3 +1,12 @@
+---
+status: stable
+type: misc
+owner: unknown
+module: gonzo
+redirect: false
+moved_to: null
+---
+
 # 🎁 LUKHAS Elite Configuration - Complete Package Ready!
 
 ## ✨ What Just Happened

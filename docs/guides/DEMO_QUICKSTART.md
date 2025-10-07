@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: guides
+redirect: false
+moved_to: null
 ---
+
 # LUKHAS Demo Quick Start Guide
 
 ## 🚀 You're Ready to Present!

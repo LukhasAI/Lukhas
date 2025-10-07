@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: development
+redirect: false
+moved_to: null
 ---
+
 # 🤖 Agent Initiation Task - [Agent Name]
 
 **Welcome to LUKHAS AI Multi-Agent Development Platform!**

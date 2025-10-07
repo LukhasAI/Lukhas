@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: reference
+redirect: false
+moved_to: null
 ---
+
 # Authors & Contributors
 
 This document acknowledges all contributors to the LUKHAS Next Generation project and provides transparency about the collaborative development process.

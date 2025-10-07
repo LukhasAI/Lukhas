@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: reports_root
+redirect: false
+moved_to: null
 ---
+
 # T4 Diagnostic Baseline Report
 
 **Generated**: 2025-08-26 02:10:19

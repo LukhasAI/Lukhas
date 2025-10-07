@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: planning
+redirect: false
+moved_to: null
 ---
+
 # Gesture Recognition System: Deep Implementation Plan
 ## Computer Vision Pipeline for Universal Language
 

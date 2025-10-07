@@ -1,6 +1,10 @@
 ---
-doc_type: documentation
-title: "Original README: Audit Navigation Guide"
+status: stable
+type: misc
+owner: unknown
+module: root
+redirect: false
+moved_to: null
 ---
 
 ## Quick Start

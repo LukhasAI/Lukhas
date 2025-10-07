@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: planning
+redirect: false
+moved_to: null
 ---
+
 # 🎯 **Executive-Grade Documentation Strategy**
 *Consciousness-Driven Intelligence for Visionary Leadership*
 

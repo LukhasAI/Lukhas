@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: runbooks
+redirect: false
+moved_to: null
 ---
+
 # Safety Tags v1 - 72-Hour Deployment Cadence
 *Tight, Boring, Effective Production Rollout*
 

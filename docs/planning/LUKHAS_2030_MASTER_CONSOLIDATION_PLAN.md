@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: planning
+redirect: false
+moved_to: null
 ---
+
 # LUKHAS 2030 Master Consolidation Plan
 
 **Generated**: 2025-08-01T20:48:46.667276

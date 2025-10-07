@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: guides
+redirect: false
+moved_to: null
 ---
+
 # LUKHAS AI User Guides & Documentation
 
 📚 **User Guides** | **Quick Start** | 🛠️ **Implementation Guides**

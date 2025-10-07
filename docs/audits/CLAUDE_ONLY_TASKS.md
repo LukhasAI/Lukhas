@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: audits
+redirect: false
+moved_to: null
 ---
+
 You are Claude Code operating on the LUKHAS repo. Execute the full next-phase plan in a single session.
 Style: plan → TODO checklist → execute in small diffs (≤20 lines/file) → run gates after each block → append to progress log.
 Do NOT refactor APIs; only minimal, surgical changes.

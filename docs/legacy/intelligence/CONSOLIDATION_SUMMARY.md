@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: legacy
+redirect: false
+moved_to: null
 ---
+
 # Intelligence Module Consolidation Summary
 
 ## Date: August 14, 2025

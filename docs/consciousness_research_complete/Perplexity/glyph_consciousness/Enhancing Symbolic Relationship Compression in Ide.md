@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: consciousness_research_complete
+redirect: false
+moved_to: null
 ---
+
 <img src="https://r2cdn.perplexity.ai/pplx-full-logo-primary-dark%402x.png" class="logo" width="120"/>
 
 # Enhancing Symbolic Relationship Compression in Identity Systems Through Cryptographic Primitives and Bio-inspired Anchoring Mechanisms

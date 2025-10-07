@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: status
+redirect: false
+moved_to: null
 ---
+
 # Software Bill of Materials (SBOM) & Vulnerability Summary
 
 ## Executive Summary

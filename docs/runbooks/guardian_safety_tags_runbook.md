@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: runbooks
+redirect: false
+moved_to: null
 ---
+
 # Guardian Safety Tags Runbook
 *Task 13: Production Operations Guide*
 

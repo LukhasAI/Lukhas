@@ -1,16 +1,12 @@
 ---
-lane: L2
-module: docs.collaboration.runbooks
 status: stable
-tags:
-- t4
-- governance
-- docs
-- migration
-- runbook
-title: Documentation Migration Runbook
 type: runbook
+owner: unknown
+module: docs.collaboration.runbooks
+redirect: false
+moved_to: null
 ---
+
 # Documentation Migration Runbook
 
 **Purpose**: Procedures for migrating documentation from scattered locations to standardized module `docs/` directories with validated frontmatter.

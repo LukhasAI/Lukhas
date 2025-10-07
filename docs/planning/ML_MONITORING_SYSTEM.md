@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: planning
+redirect: false
+moved_to: null
 ---
+
 # ML-Powered Monitoring & Anomaly Detection System
 ## Intelligent Observability for AGI Production Systems
 

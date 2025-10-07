@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: audits
+redirect: false
+moved_to: null
 ---
+
 # LUKHAS AI Repository Comprehensive Audit Report
 
 **Date**: August 27, 2025  

@@ -21,7 +21,14 @@
       "Bash(else)",
       "Bash(echo \"➕ Will create: $path/\")",
       "Bash(fi)",
-      "Bash(done)"
+      "Bash(done)",
+      "Bash(for dir in )",
+      "Bash(\"/Users/agi_dev/LOCAL-REPOS/Lukhas/mcp-servers/lukhas-devtools-mcp\" )",
+      "Bash(\"/Users/agi_dev/LOCAL-REPOS/Lukhas/mcp-servers/lukhas-memory-mcp\" )",
+      "Bash(\"/Users/agi_dev/LOCAL-REPOS/Lukhas/mcp-servers/lukhas-constellation-mcp\")",
+      "Bash(if [ -d \"$dir\" ])",
+      "Bash([ -f \"$dir/package.json\" ])",
+      "Bash(elif [ -d \"$dir\" ])"
     ],
     "deny": [],
     "ask": []

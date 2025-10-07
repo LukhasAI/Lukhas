@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: root
+redirect: false
+moved_to: null
 ---
+
 # LUKHAS AI New Features Quick Start Guide
 
 **LUKHAS AI** - Logical Unified Knowledge Hyper-Adaptable System

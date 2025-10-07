@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: root
+redirect: false
+moved_to: null
 ---
+
 # MATRIZ Pipeline Tail Latency Optimization
 **T4/0.01% Excellence Performance Optimization**
 

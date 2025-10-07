@@ -1,8 +1,10 @@
 ---
-title: "v0.03-prep Known Issues"
-module: root
-type: documentation
 status: tracked
+type: documentation
+owner: unknown
+module: root
+redirect: false
+moved_to: null
 ---
 
 # v0.03-prep Known Issues & Technical Debt

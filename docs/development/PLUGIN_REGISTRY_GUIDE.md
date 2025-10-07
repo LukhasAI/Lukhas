@@ -1,16 +1,12 @@
 ---
-last_review: 2025-09-20
-module: unknown
-owner: constellation-architect
 status: stable
-tags:
-- plugin-registry
-- cognitive-alignment
-- constellation-framework
-- dynamic-nodes
-title: Plugin Registry and Cognitive Alignment Guide
 type: documentation
+owner: constellation-architect
+module: development
+redirect: false
+moved_to: null
 ---
+
 # Plugin Registry and Cognitive Alignment Guide
 
 *Dynamic Star-Node System with Constructor-Aware Instantiation*

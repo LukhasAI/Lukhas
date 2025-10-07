@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: integration
+redirect: false
+moved_to: null
 ---
+
 # LUKHAS AI Integration Guides
 
 **LUKHAS AI** - Logical Unified Knowledge Hyper-Adaptable System

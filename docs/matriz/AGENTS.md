@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: matriz
+redirect: false
+moved_to: null
 ---
+
 # AGENTS — MATRIZ Constellation Ops (T4 / 0.01%)
 
 ## Roles

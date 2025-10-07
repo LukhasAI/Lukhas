@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: architecture
+redirect: false
+moved_to: null
 ---
+
 # LUKHAS Architecture Analysis Report
 
 Generated: 2025-09-10 12:44:35

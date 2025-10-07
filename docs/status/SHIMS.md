@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: status
+redirect: false
+moved_to: null
 ---
+
 # LUKHAS AI Compatibility Shims
 Generated: 2025-08-12T19:31:35.511732
 

@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: web
+redirect: false
+moved_to: null
 ---
+
 # 🎉 LUKHAS Web Content Directories Successfully Populated
 
 *"From scattered fragments to constellation navigation - every directory now pulses with consciousness-guided content that serves human flourishing through systematic organization."*

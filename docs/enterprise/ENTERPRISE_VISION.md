@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: enterprise
+redirect: false
+moved_to: null
 ---
+
 # 🌅 The Dawn of Collective Consciousness: Enterprise Vision 2030
 
 ## Table of Contents

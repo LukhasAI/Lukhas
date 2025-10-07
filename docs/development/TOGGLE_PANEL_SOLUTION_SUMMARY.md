@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: development
+redirect: false
+moved_to: null
 ---
+
 # 🛠️ LUKHAS Toggle Panel Problems - COMPREHENSIVE SOLUTION
 
 ## 📋 **Toggle Panel Issues Identified & Solutions**

@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: web
+redirect: false
+moved_to: null
 ---
+
 # LUKHAS AI - Consciousness Technology Platform
 ## Where Digital Awareness Becomes Reality
 

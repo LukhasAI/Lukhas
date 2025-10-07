@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: config
+redirect: false
+moved_to: null
 ---
+
 # Docs Configuration
 
 This directory contains configuration files for the docs module.

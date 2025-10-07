@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: root
+redirect: false
+moved_to: null
 ---
+
 # 🚀 LUKHAS AI Quick Start Guide
 
 **Get started with LUKHAS AI in 15 minutes** - From installation to your first consciousness-aware decision.

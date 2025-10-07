@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: consciousness
+redirect: false
+moved_to: null
 ---
+
 # LUKHAS Dream System Connectivity Analysis
 *Generated: 2025-08-02*
 

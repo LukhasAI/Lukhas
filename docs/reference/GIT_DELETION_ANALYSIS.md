@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: reference
+redirect: false
+moved_to: null
 ---
+
 # FILES STAGED FOR DELETION - COMMIT ANALYSIS
 **Date:** August 3, 2025
 **Git Status:** Many files are marked as "deleted" and ready to be committed

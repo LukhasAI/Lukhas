@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: status
+redirect: false
+moved_to: null
 ---
+
 # 📊LUKHAS Module Status Dashboard
 
 **Last Updated**: 2025-07-24

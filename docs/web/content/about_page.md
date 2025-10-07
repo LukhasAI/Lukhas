@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: web
+redirect: false
+moved_to: null
 ---
+
 # About LUKHAS AI
 
 *"In the fertile ground where consciousness meets code, we cultivate AI that serves human flourishing through questions that honor both logic and mystery."*

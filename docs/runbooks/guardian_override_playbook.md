@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: runbooks
+redirect: false
+moved_to: null
 ---
+
 # Guardian Override Playbook
 
 ## 🚨 Emergency Guardian Override Process

@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: releases
+redirect: false
+moved_to: null
 ---
+
 # 🚀 LUKHAS  Sprint Complete
 
 ## Sprint Summary (August 10, 2025)

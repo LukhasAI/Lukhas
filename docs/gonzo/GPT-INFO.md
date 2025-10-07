@@ -1,8 +1,10 @@
 ---
-type: redirect
-title: "GPT Info (Redirect)"
 status: moved
-redirect_to: ../ops/OPERATIONAL_RUNBOOK.md
+type: redirect
+owner: unknown
+module: gonzo
+redirect: false
+moved_to: null
 ---
 
 # This page moved

@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: compliance
+redirect: false
+moved_to: null
 ---
+
 # 📊 Post-Agent Validation & New Task Assignment Report
 
 **Date:** August 11, 2025

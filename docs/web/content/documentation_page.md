@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: web
+redirect: false
+moved_to: null
 ---
+
 # Documentation Hub — <span aria-label="Matriz">MΛTRIZ</span>
 
 ## Explore the <span aria-label="Lukhas">LUKHΛS</span> AI Ecosystem

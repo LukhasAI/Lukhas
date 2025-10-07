@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: development
+redirect: false
+moved_to: null
 ---
+
 # Technical Debt Triage Report
 **Date**: 2025-08-12
 **Strategy**: Rule of Thirds Applied

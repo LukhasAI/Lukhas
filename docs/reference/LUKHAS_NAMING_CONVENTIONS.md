@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: reference
+redirect: false
+moved_to: null
 ---
+
 # LUKHAS 2030 Naming Conventions
 
 **"Preserving the Soul of LUKHAS while Speaking the Language of Industry"**

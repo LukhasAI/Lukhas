@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: development
+redirect: false
+moved_to: null
 ---
+
 # DNA Migration Flags
 
 - FLAG_DNA_DUAL_WRITE (default: false)

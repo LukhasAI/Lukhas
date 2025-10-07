@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: strategic_roadmap
+redirect: false
+moved_to: null
 ---
+
 # Strategic Analysis: MEMORY Module
 ## LUKHAS  Memory System Enhancement Roadmap
 

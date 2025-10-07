@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: web
+redirect: false
+moved_to: null
 ---
+
 # 🎉 LUKHAS Web Content Organization Complete
 
 *"Where scattered fragments become constellation navigation - transforming dispersed documentation into a unified consciousness architecture that serves every user's journey from curiosity to mastery."*

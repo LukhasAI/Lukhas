@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: misc
+redirect: false
+moved_to: null
 ---
+
 # 🚀 LUKHAS MCP Server - FIXED Implementation
 
 ## ✅ **PROBLEM SOLVED: Proper MCP HTTP+SSE Transport**

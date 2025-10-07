@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: root
+redirect: false
+moved_to: null
 ---
+
 # 🔍 Documentation Classification Analysis
 
 **Analysis Date**: August 25, 2025

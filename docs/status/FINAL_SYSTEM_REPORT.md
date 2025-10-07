@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: status
+redirect: false
+moved_to: null
 ---
+
 # 🧠 Lukhas  + Lambda Products Complete System Report
 
 **Date:** August 7, 2025

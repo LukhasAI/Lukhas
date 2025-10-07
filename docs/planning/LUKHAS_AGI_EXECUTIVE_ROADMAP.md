@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: planning
+redirect: false
+moved_to: null
 ---
+
 # LUKHAS : The Architecture for Aligned Artificial General Intelligence
 ## Executive Roadmap for AGI Leadership
 

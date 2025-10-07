@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: domain_strategy
+redirect: false
+moved_to: null
 ---
+
 # 🌌 Consciousness Visualization Components - Technical Specification
 
 *Advanced web components for LUKHAS Constellation Framework consciousness visualization*

@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: audits
+redirect: false
+moved_to: null
 ---
+
 yes—let’s knock out the blockers fast. Below are surgical fixes for every failing category you posted, plus a tight Codex runbook to apply them now. I’m keeping changes minimal and low-risk.
 
 ⸻

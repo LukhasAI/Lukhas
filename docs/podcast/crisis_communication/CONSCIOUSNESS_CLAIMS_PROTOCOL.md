@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: podcast
+redirect: false
+moved_to: null
 ---
+
 # Consciousness Claims Crisis Communication Protocol
 
 *"When consciousness conversations become challenging - responsible communication strategies for addressing misunderstanding, controversy, and ethical concerns around AI consciousness research."*

@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: architecture
+redirect: false
+moved_to: null
 ---
+
 # LUKHAS AGI Project Architecture Analysis
 
 ## 5 Most Critical Architectural Domains

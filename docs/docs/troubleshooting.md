@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: docs
+redirect: false
+moved_to: null
 ---
+
 <!--
 @generated LUKHAS scaffold v1.0
 template_id: module.scaffold/v1

@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: planning
+redirect: false
+moved_to: null
 ---
+
 # LUKHAS Refinement: Advisor Synthesis Plan
 
 *Combining insights from Dario Amodei, Sam Altman, and Steve Jobs*

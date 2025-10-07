@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: web
+redirect: false
+moved_to: null
 ---
+
 # Troubleshooting and Advanced Usage Guide
 ## Mastering Consciousness Technology and Resolving Complex Integration Challenges
 

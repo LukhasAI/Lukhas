@@ -1,12 +1,12 @@
 ---
-conversion_date: 2025-05-18 23:02:08
-module: unknown
-original_format: md
-path: research/main/LUCAS_v2.2_Research_Enhanced/Theoretical and Computational Models
-  of Frequency-.md
-title: Theoretical and Computational Models of Frequency-
+status: stable
 type: documentation
+owner: unknown
+module: consciousness_research_complete
+redirect: false
+moved_to: null
 ---
+
 <img src="https://r2cdn.perplexity.ai/pplx-full-logo-primary-dark%402x.png" class="logo" width="120"/>
 
 # Theoretical and Computational Models of Frequency-Based Distributed Systems

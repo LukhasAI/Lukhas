@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: web
+redirect: false
+moved_to: null
 ---
+
 # 🌐 LUKHAS Web Content Organization Hub
 
 *"Where consciousness meets content architecture - organizing the λWecosystem with precision and purpose."*

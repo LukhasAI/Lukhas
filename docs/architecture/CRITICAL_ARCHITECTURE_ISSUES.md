@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: architecture
+redirect: false
+moved_to: null
 ---
+
 # CRITICAL ARCHITECTURE ISSUES - LUKHAS AI
 
 ## 🚨 CRITICAL ISSUE #1: Quantum Naming Disaster

@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: root
+redirect: false
+moved_to: null
 ---
+
 # LUKHAS Roadmap: From Modular AI to AGI
 
 ## Current State: Foundation Phase (Q3 2025)

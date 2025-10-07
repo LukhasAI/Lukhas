@@ -338,11 +338,129 @@ def main():
     print("To apply this plan, use: python3 scripts/docs_dedupe.py --apply")
 
 
+def apply_dedupe_plan():
+    """
+    Apply the deduplication plan (T4/0.01% edition).
+
+    Operations:
+    1. Move duplicate files to docs/archive/
+    2. Create redirect stubs at original paths
+    3. Update REDIRECTS.md
+    """
+    import shutil
+
+    print("=" * 80)
+    print("LUKHAS Documentation Deduplication - APPLY MODE")
+    print("=" * 80)
+    print()
+
+    # Load plan
+    if not DEDUPE_PLAN_PATH.exists():
+        print(f"❌ No dedupe plan found at {DEDUPE_PLAN_PATH}")
+        print("   Run: python3 scripts/docs_dedupe.py")
+        return False
+
+    with open(DEDUPE_PLAN_PATH, 'r', encoding='utf-8') as f:
+        plan = json.load(f)
+
+    redirects = plan.get('redirects', [])
+
+    if not redirects:
+        print("ℹ️  No redirects to apply")
+        return True
+
+    # Archive directory
+    archive_dir = DOCS_ROOT / "archive"
+    archive_dir.mkdir(parents=True, exist_ok=True)
+
+    print(f"📂 Archive directory: {archive_dir}")
+    print(f"📋 Processing {len(redirects)} redirects...")
+    print()
+
+    moved = 0
+    redirects_created = 0
+    errors = []
+
+    for redirect in redirects:
+        from_path = Path(redirect['from'])
+        to_path = Path(redirect['to'])
+        reason = redirect['reason']
+
+        if not from_path.exists():
+            errors.append(f"Source not found: {from_path}")
+            continue
+
+        if not to_path.exists():
+            errors.append(f"Target not found: {to_path}")
+            continue
+
+        # Move to archive
+        archive_path = archive_dir / from_path.name
+        try:
+            shutil.move(str(from_path), str(archive_path))
+            moved += 1
+            print(f"📦 Archived: {from_path} → {archive_path}")
+        except Exception as e:
+            errors.append(f"Failed to archive {from_path}: {e}")
+            continue
+
+        # Create redirect stub
+        redirect_content = f"""---
+redirect: true
+moved_to: {str(to_path).replace('docs/', '')}
+type: documentation
+---
+
+# Document Moved
+
+This document has been moved to [{to_path.name}]({str(to_path).replace('docs/', '')}).
+
+**Reason**: {reason}
+
+Please update your bookmarks.
+"""
+
+        try:
+            with open(from_path, 'w', encoding='utf-8') as f:
+                f.write(redirect_content)
+            redirects_created += 1
+            print(f"🔀 Redirect created: {from_path} → {to_path}")
+        except Exception as e:
+            errors.append(f"Failed to create redirect at {from_path}: {e}")
+            # Try to restore from archive
+            try:
+                shutil.move(str(archive_path), str(from_path))
+            except Exception:
+                pass
+            continue
+
+    print()
+    print("=" * 80)
+    print("DEDUPLICATION SUMMARY")
+    print("=" * 80)
+    print(f"Files archived: {moved}")
+    print(f"Redirects created: {redirects_created}")
+    print(f"Errors: {len(errors)}")
+
+    if errors:
+        print()
+        print("Errors encountered:")
+        for error in errors[:10]:
+            print(f"  ❌ {error}")
+        if len(errors) > 10:
+            print(f"  ... and {len(errors) - 10} more")
+
+    print()
+    print("=" * 80)
+
+    return len(errors) == 0
+
+
 if __name__ == "__main__":
     import sys
 
     if '--apply' in sys.argv:
-        print("❌ Apply mode not yet implemented - manual review required first")
-        sys.exit(1)
+        success = apply_dedupe_plan()
+        sys.exit(0 if success else 1)
     else:
         main()

@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: t4
+redirect: false
+moved_to: null
 ---
+
 # T4/0.01% Manifest Enrichment System
 
 ## Overview

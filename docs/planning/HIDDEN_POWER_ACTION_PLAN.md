@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: planning
+redirect: false
+moved_to: null
 ---
+
 # 🚀 LUKHAS Hidden Power Activation Plan
 ## Transforming Existing Tools into Revolutionary Capabilities
 

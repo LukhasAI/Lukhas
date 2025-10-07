@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: administration
+redirect: false
+moved_to: null
 ---
+
 # LUKHAS AI Administration Documentation
 
 🛡️ **Security** | **Monitoring** | 🔐 **System Administration**

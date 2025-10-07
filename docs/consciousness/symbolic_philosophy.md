@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: consciousness
+redirect: false
+moved_to: null
 ---
+
 # 🌌 Lucas_AGI_3 Symbolic Philosophy
 
 A map of intention for what Lucas_AGI_3 represents — and what it strives to become.

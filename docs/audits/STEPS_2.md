@@ -1,8 +1,11 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: audits
+redirect: false
+moved_to: null
 ---
-
 
 # STEPS_2 — Claude Execution Script (Config Normalize, Type Stubs, Coverage to 30–40%)
 

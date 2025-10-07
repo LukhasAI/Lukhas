@@ -1,16 +1,12 @@
 ---
-last_review: 2025-09-20
-module: unknown
-owner: development-team
 status: stable
-tags:
-- development
-- t4-standards
-- constellation-framework
-- matriz-pipeline
-title: T4/0.01% Development Standards
 type: documentation
+owner: development-team
+module: development
+redirect: false
+moved_to: null
 ---
+
 # T4/0.01% Development Standards
 
 *Performance Standards and Audit Compliance for Constellation Framework Development*

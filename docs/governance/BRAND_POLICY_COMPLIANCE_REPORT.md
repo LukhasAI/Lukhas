@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: governance
+redirect: false
+moved_to: null
 ---
+
 # LUKHAS AI Brand Policy Compliance Report
 ## Final Testing Summary - August 19, 2025
 

@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: reference
+redirect: false
+moved_to: null
 ---
+
 # Reconciliation Analysis: Real vs Stubs
 ## Understanding What's Actually Running
 

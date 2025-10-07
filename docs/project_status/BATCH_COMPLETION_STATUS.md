@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: project_status
+redirect: false
+moved_to: null
 ---
+
 # BATCH 1-8 Completion Status & Action Plan
 Generated: August 25, 2025
 

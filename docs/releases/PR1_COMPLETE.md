@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: releases
+redirect: false
+moved_to: null
 ---
+
 # ✅ PR #1 Complete: API docs + OpenAPI export + Feature Flags
 
 ## Summary

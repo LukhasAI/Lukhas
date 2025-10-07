@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: domain_strategy
+redirect: false
+moved_to: null
 ---
+
 # Domain Strategy Documentation
 
 **LUKHAS AI Web Ecosystem & Domain Planning**

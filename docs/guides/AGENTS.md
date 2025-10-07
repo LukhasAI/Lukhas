@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: guides
+redirect: false
+moved_to: null
 ---
+
 # 🚀 **MULTI-AGENT SYNTAX ERROR ELIMINATION BATTLE PLAN**
 
 ## **MISSION OBJECTIVE**

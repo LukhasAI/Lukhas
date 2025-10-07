@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: gonzo
+redirect: false
+moved_to: null
 ---
+
 # 🎉 LUKHAS PHASE_MATRIX Implementation Complete!
 
 ## Executive Summary

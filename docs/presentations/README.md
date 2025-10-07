@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: presentations
+redirect: false
+moved_to: null
 ---
+
 # LUKHAS AI Presentations & Data Visualizations
 
 📊 **Executive Presentations** | **Data Visualizations** | 🎯 **Strategic Documents**

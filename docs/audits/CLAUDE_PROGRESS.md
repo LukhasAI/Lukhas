@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: audits
+redirect: false
+moved_to: null
 ---
+
 # T4 Audit Progress Log
 
 ## Session Start: 2025-08-30T[TIME]

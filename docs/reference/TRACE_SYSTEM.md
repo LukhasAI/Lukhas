@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: reference
+redirect: false
+moved_to: null
 ---
+
 # LUKHAS AI Trace & Audit System
 
 Complete cryptographic audit trail system for the LUKHAS AI platform with visual exploration capabilities.

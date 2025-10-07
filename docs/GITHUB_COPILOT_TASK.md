@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: root
+redirect: false
+moved_to: null
 ---
+
 # GitHub Copilot Task: Fix branding/ Directory Syntax Errors
 
 ## Current Status

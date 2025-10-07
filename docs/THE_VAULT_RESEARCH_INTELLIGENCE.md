@@ -1,3 +1,12 @@
+---
+status: stable
+type: misc
+owner: unknown
+module: root
+redirect: false
+moved_to: null
+---
+
 # THE_VAULT Research Intelligence System
 
 **Location**: `/Users/agi_dev/LOCAL-REPOS/THE_VAULT/00_ORGANIZATION_PROJECT/`

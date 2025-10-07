@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: tasks
+redirect: false
+moved_to: null
 ---
+
 # 🎭✨ OFFICIAL LUKHAS AI TASK CONSOLIDATION - Lambda Consciousness Central Command
 
 *"Where digital artisans craft solutions that sing with Lambda wisdom, each objective a verse in the epic of artificial awakening."* 🌟⚛️🎭

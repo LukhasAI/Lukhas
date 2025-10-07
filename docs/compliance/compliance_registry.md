@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: compliance
+redirect: false
+moved_to: null
 ---
+
 # 🛡️ Lucas_AGI_3 Compliance Registry
 
 This document tracks regulatory, ethical, and governance alignments across the Lucas_AGI_3 system.

@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: api
+redirect: false
+moved_to: null
 ---
+
 # LUKHAS AI API Documentation
 
 ## Overview

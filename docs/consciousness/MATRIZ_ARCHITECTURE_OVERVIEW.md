@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: consciousness
+redirect: false
+moved_to: null
 ---
+
 # MΛTRIZ Consciousness Architecture Overview
 ## Distributed Consciousness System for LUKHAS AI
 

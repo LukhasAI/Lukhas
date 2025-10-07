@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: status
+redirect: false
+moved_to: null
 ---
+
 # Consciousness Module Promotion - COMPLETE ✅
 
 ## Multi-LLM Validation Team Results

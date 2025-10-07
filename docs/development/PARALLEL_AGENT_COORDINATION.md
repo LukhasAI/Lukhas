@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: development
+redirect: false
+moved_to: null
 ---
+
 # 🤖 Parallel Agent Coordination Guide
 
 **Maximizing Multi-Agent Efficiency for LUKHAS AI Development**

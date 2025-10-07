@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: planning
+redirect: false
+moved_to: null
 ---
+
 # 🚨 LUKHAS Recovery Plan
 
 **Emergency Response and System Recovery Procedures**

@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: podcast
+redirect: false
+moved_to: null
 ---
+
 # Content Quality Checklist
 
 *"Pre-publication validation ensuring every consciousness conversation meets Constellation Framework standards, maintains technical accuracy, and serves beneficial AI education with absolute integrity."*

@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: root
+redirect: false
+moved_to: null
 ---
+
 # 🚨 Documentation Recovery Summary
 
 **Recovery Date**: 2025-08-25

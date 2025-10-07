@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: domain_strategy
+redirect: false
+moved_to: null
 ---
+
 # 🌟 lukhas.ai - Consciousness Platform Hub Strategy
 
 *Complete content strategy for the premier consciousness technology platform and community nexus*

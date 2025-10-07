@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: planning
+redirect: false
+moved_to: null
 ---
+
 # LUKHAS Module Migration Plan - MATRIZ v1.1 Process
 
 ## Migration Strategy

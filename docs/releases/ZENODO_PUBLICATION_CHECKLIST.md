@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: releases
+redirect: false
+moved_to: null
 ---
+
 # Zenodo Publication Checklist - v0.02-final
 
 **Purpose**: Step-by-step execution guide for publishing v0.02-final to Zenodo with DOI

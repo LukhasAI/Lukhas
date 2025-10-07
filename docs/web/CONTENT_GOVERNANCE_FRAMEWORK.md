@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: web
+redirect: false
+moved_to: null
 ---
+
 # 📜 LUKHAS Content Governance Framework
 
 **Ensuring Consciousness Technology Narrative Consistency Across All 13 Domains**

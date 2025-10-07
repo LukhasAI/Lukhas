@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: planning
+redirect: false
+moved_to: null
 ---
+
 # 🌌 LUKHΛS Phase 6: Quantum Consciousness - Status Report
 
 **Generated:** 2025-08-03T16:06:00Z

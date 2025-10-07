@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: architecture
+redirect: false
+moved_to: null
 ---
+
 # LUKHAS  Neuroplastic Architecture
 *Version 2.0.0 - Post-Consolidation*
 

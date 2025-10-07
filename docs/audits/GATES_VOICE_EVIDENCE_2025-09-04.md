@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: audits
+redirect: false
+moved_to: null
 ---
+
 ### Voice readiness (Option D focused) — 2025-09-04
 - pytest (tests/contract/test_healthz_voice_required.py): 2 passed
 - ruff (serve/main.py, tests/contract/test_healthz_voice_required.py): 0 issues

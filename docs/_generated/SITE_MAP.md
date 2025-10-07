@@ -1,7 +1,7 @@
 # LUKHAS Documentation Site Map
 
-**Generated:** 2025-10-06T21:30:04.253611
-**Total Documents:** 1233
+**Generated:** 2025-10-07T02:20:50.428567
+**Total Documents:** 1285
 
 This is an automatically generated hierarchical view of all documentation.
 
@@ -15,6 +15,7 @@ This is an automatically generated hierarchical view of all documentation.
 
 - **ADR/**
   - [ADR-0001: Code Maturity Lanes Architecture](ADR/ADR-0001-code-maturity-lanes.md) 🚧 `documentation`
+  - [ADR-0002: Documentation Governance Framework](ADR/ADR-0002-docs-governance.md) `adr`
 - **academic/**
   - [Advanced Consciousness Engine - Academic References & Implementation Sources](academic/CONSCIOUSNESS_ENGINE_REFERENCES.md) 🚧 `documentation`
   - [LUKHAS AI - Advanced Consciousness Engine Implementation Summary](academic/IMPLEMENTATION_SUMMARY.md) 🚧 `documentation`
@@ -93,6 +94,57 @@ This is an automatically generated hierarchical view of all documentation.
   - [🏛️ LUKHAS Five-Pillar Architecture](architecture/five_pillar_architecture_summary.md) 🚧 `documentation`
   - [LUKHAS AI - One-Page Architecture Diagram](architecture/lukhas_one_pager_diagram.md) 🚧 `documentation`
   - [Quantum Processing](architecture/quantum-processing.md) 🚧 `documentation`
+- **archive/**
+  - [.!18233!Roadmap Openai Alignment](archive/.!18233!ROADMAP_OPENAI_ALIGNMENT.md) 🚧 `documentation`
+  - [.!18239!Tasks Openai Alignment](archive/.!18239!TASKS_OPENAI_ALIGNMENT.md) 🚧 `documentation`
+  - [.!19495!Roadmap Openai Alignment](archive/.!19495!ROADMAP_OPENAI_ALIGNMENT.md) 🚧 `documentation`
+  - [.!19503!Tasks Openai Alignment](archive/.!19503!TASKS_OPENAI_ALIGNMENT.md) 🚧 `documentation`
+  - [.!38410!Roadmap Openai Alignment](archive/.!38410!ROADMAP_OPENAI_ALIGNMENT.md) `misc`
+  - [.Copilot Tasks](archive/.copilot_tasks.md) 🚧 `documentation`
+  - [Biomechanical Regulation of Bio-Symbolic Alignment in Lucas_AGI Scaffolds](archive/Biomechanical Regulation of Bio-Symbolic Alignment.md) 🚧 `documentation`
+  - [Claude Agent Enhanced Tasks](archive/CLAUDE_AGENT_ENHANCED_TASKS.md) 🚧 `documentation`
+  - [📊 Post-Agent Validation & New Task Assignment Report](archive/COMPLIANCE_VALIDATION_AND_TASKS.md) 🚧 `documentation`
+  - [LUKHAS AI Comprehensive Codebase Assessment Report](archive/COMPREHENSIVE_CODEBASE_ASSESSMENT.md) 🚧 `documentation`
+  - [Consolidation Complete](archive/CONSOLIDATION_COMPLETE.md) 🚧 `documentation`
+  - [Critical Gaps Improvement Plan](archive/CRITICAL_GAPS_IMPROVEMENT_PLAN.md) 🚧 `documentation`
+  - [Comprehensive Analysis of Advanced AGI Architectures: Performance Metrics and Hybrid Potential](archive/Comprehensive Analysis of Advanced AGI ArchitecturE.md) 🚧 `documentation`
+  - [LUKHAS  Deployment Guide](archive/DEPLOYMENT_GUIDE.md) 🚧 `documentation`
+  - [Dynamic Visual Code Systems for Identity Verification: Feasibility, Security, and Implementation](archive/Dynamic Visual Code Systems for Identity Verificat.md) 🚧 `documentation`
+  - [Executive Documentation Strategy](archive/EXECUTIVE_DOCUMENTATION_STRATEGY.md) 🚧 `documentation`
+  - [File Delivery Matrix](archive/FILE_DELIVERY_MATRIX.md) 🚧 `documentation`
+  - [🎯 LUKHAS 7-Agent Implementation Status](archive/IMPLEMENTATION_STATUS.md) 🚧 `documentation`
+  - [LUKHAS Consolidation Plan](archive/LUKHAS_CONSOLIDATION_PLAN.md) 🚧 `documentation`
+  - [LUKHAS AI Design System](archive/LUKHAS_DESIGN_SYSTEM.md) 🚧 `documentation`
+  - [👨‍💻 lukhas.dev - Developer Consciousness Platform Strategy](archive/LUKHAS_DEV_DOMAIN_STRATEGY.md) 🚧 `documentation`
+  - [Lukhas Log Locations And Issues Guide](archive/LUKHAS_LOG_LOCATIONS_AND_ISSUES_GUIDE.md) 🚧 `documentation`
+  - [LUKHAS AI Particle System Implementation Guide](archive/LUKHAS_PARTICLE_IMPLEMENTATION.md) 🚧 `documentation`
+  - [🌌 LUKHAS λWecosystem - Final Strategy Implementation](archive/LUKHAS_WECOSYSTEM_FINAL_STRATEGY.md) 🚧 `documentation`
+  - [🔗 MCP (Model Context Protocol) Integration Analysis](archive/MCP_INTEGRATION_ANALYSIS.md) 🚧 `documentation`
+  - [LUKHAS AI Migration Guide](archive/MIGRATION_GUIDE.md) 🚧 `documentation`
+  - [🎛️ Signal-to-Prompt Modulation System - COMPLETE](archive/MODULATION_IMPLEMENTATION_COMPLETE.md) 🚧 `documentation`
+  - [🎉 LUKHAS AI Documentation Organization - COMPLETE](archive/ORGANIZATION_COMPLETE_FINAL_REPORT.md) 🚧 `documentation`
+  - [Professional Enhancement Plan](archive/PROFESSIONAL_ENHANCEMENT_PLAN.md) 🚧 `documentation`
+  - [Reconciliation Analysis: Real vs Stubs](archive/RECONCILIATION_ANALYSIS.md) 🚧 `documentation`
+  - [LUKHAS Roadmap: From Modular AI to AGI](archive/ROADMAP.md) 🚧 `documentation`
+  - [Steps 6.](archive/STEPS_6..md) 🚧 `documentation`
+  - [📊 LUKHAS AI - System Status Clarity Report](archive/SYSTEM_STATUS_CLARITY.md) 🚧 `documentation`
+  - [LUKHAS Comprehensive Testing Guide](archive/TESTING_GUIDE.md) 🚧 `documentation`
+  - [🔍 LUKHAS Type Checking Configuration](archive/TYPE_CHECKING_SETUP.md) 🚧 `documentation`
+  - [LUKHAS Authentication & Tiers - Final Documentation](archive/Tiers-Final.md) 🚧 `documentation`
+  - [Validation Report](archive/VALIDATION_REPORT.md) 🚧 `documentation`
+  - [Comprehensive Analysis of Advanced AGI Architectures: Performance Metrics and Hybrid Potential](archive/_comprehensive_analysis_of_advanced_agi_architectur.md) 🚧 `documentation`
+  - [Compliance Overview Guide](archive/compliance_overview_guide.md) 🚧 `documentation`
+  - [🧠 Lucas AGI Framework Overview](archive/examp.md) 🚧 `documentation`
+  - [🌐 LUKHAS λWecosystem Domain Architecture Plans](archive/lambda_ecosystem_architecture.md) 🚧 `documentation`
+  - [LUCAS AGI Architecture](archive/lucas_agi_architecture.md) 🚧 `documentation`
+  - [Resonance Frequency Mapping in Symbolic AGI Systems: Architectures, Risks, and Cognitive Implications](archive/lucas_dna_res.md) 🚧 `documentation`
+  - [DNA-Inspired Cryptographic Architectures for Symbolic AGI Systems](archive/lucas_dna_response_round1.md) 🚧 `documentation`
+  - [Resonance Frequency Mapping in Symbolic AGI Systems: Architectures, Risks, and Cognitive Implications](archive/lucas_dna_response_round2.md) 🚧 `documentation`
+  - [🤖 LUKHAS MCP Server Configuration Guide](archive/mcp_server_setup_guide.md) 🚧 `documentation`
+  - [Mitochondrial-Inspired Enhancements for Lucas_AGI](archive/mitochondrial_ai.md) 🚧 `documentation`
+  - [Mitochondrial-Inspired Enhancements for Lucas_AGI](archive/mitochondrial_functions_in_agi copy 3.md) 🚧 `documentation`
+  - [LUKHAS AI λWecosystem Website Architecture](archive/technical_architecture.md) 🚧 `documentation`
+  - [🧠 Lucas AGI Framework Overview](archive/🧠 Lucas AGI Framework Overview__Lucas is a neuro-s.md) 🚧 `documentation`
 - **audits/**
   - [Auditor Briefing](audits/AUDITOR_BRIEFING.md) 🚧 `documentation`
   - [STEPS_1 — Claude Execution Script (Long-Context Plan)](audits/AUDIT_PLAN.md) 🚧 `documentation`
@@ -116,7 +168,6 @@ This is an automatically generated hierarchical view of all documentation.
   - [Lukhas Audit Plan](audits/STEPS_3.md) 🚧 `documentation`
   - [STEPS_4 — Claude Execution Script (Toward 50–60% Coverage, Ruff/MyPy Near-Green)](audits/STEPS_4.md) 🚧 `documentation`
   - [STEPS_4b — Claude Execution Script (Coverage 60%+, Ruff/MyPy Green, Security Sweep)](audits/STEPS_5.md) 🚧 `documentation`
-  - [Steps 6.](audits/STEPS_6..md) 🚧 `documentation`
   - [SUPPRESSIONS LEDGER](audits/SUPPRESSIONS_LEDGER.md) 🚧 `documentation`
 - **bio/**
   - [---](bio/bio_systems_inspiration.md) 🚧 `documentation`
@@ -141,7 +192,6 @@ This is an automatically generated hierarchical view of all documentation.
   - [LUKHAS AI Guardian System Compliance Report](compliance/GUARDIAN_COMPLIANCE_REPORT.md) 🚧 `documentation`
   - [MATRIZ-R1 Stream C Task C-CC1 Implementation Summary](compliance/MATRIZ_R1_STREAM_C_CC1_COMPLETION.md) 🚧 `documentation`
   - [LUKHAS AI Security Audit Trail](compliance/SECURITY_AUDIT_TRAIL.md) 🚧 `documentation`
-  - [Compliance Overview Guide](compliance/compliance_overview_guide.md) 🚧 `documentation`
   - [🛡️ Lucas_AGI_3 Compliance Registry](compliance/compliance_registry.md) 🚧 `documentation`
   - [TEQ Compliance Bundle](compliance/teq_bundle.md) 🚧 `documentation`
   - [TEQ Compliance Bundle - GDPR/AI Act/CCPA Ready](compliance/teq_compliance_bundle.md) 🚧 `documentation`
@@ -201,7 +251,6 @@ This is an automatically generated hierarchical view of all documentation.
 - **consciousness_recovery/**
   - **architectures/**
     - [LUCAS AGI Architecture](consciousness_recovery/architectures/core_architecture.md) 🚧 `documentation`
-    - [LUCAS AGI Architecture](consciousness_recovery/architectures/lucas_agi_architecture.md) 🚧 `documentation`
   - **bio_symbolic/**
     - [🧬 Quantum-Biological Inspired AGI](consciousness_recovery/bio_symbolic/Quantum-biological_inspired_AGI.md) 🚧 `documentation`
     - [Bio Systems Inspiration](consciousness_recovery/bio_symbolic/bio_systems_inspiration.md) 🚧 `documentation`
@@ -222,16 +271,12 @@ This is an automatically generated hierarchical view of all documentation.
       - [compliance_engine_v2.py (Conceptual Evolution)](consciousness_research_complete/Cross_Platform/agi_consciousness/Adaptive_AGI_Interface_Improvements.md) 🚧 `documentation`
       - [How can I integrate emotional tagging into the symbolic memory consolidation](consciousness_research_complete/Cross_Platform/agi_consciousness/Modular AIG Brain Blueprint for LUCAS.md) 🚧 `documentation`
       - [How can we integrate emotional intelligence into Lucas's voice system](consciousness_research_complete/Cross_Platform/agi_consciousness/Refactored AGI Onboarding Prompt for Lucas's Compa.md) 🚧 `documentation`
-      - [Comprehensive Analysis of Advanced AGI Architectures: Performance Metrics and Hybrid Potential](consciousness_research_complete/Cross_Platform/agi_consciousness/_comprehensive_analysis_of_advanced_agi_architectur.md) 🚧 `documentation`
-      - [🧠 Lucas AGI Framework Overview](consciousness_research_complete/Cross_Platform/agi_consciousness/🧠 Lucas AGI Framework Overview__Lucas is a neuro-s.md) 🚧 `documentation`
     - **glyph_consciousness/**
       - [Using Emojis To Increase The Entropy Of Seedra'S S](consciousness_research_complete/Cross_Platform/glyph_consciousness/Using Emojis to Increase the Entropy of SEEDRA's S.md) 🚧 `documentation`
       - [What are the benefits of using a grid with random words and emojis for seed creation](consciousness_research_complete/Cross_Platform/glyph_consciousness/What are the benefits of using a grid with random.md) 🚧 `documentation`
     - **identity_consciousness/**
       - [Resonance Frequency Mapping in Symbolic AGI Systems: Architectures, Risks, and Cognitive Implications](consciousness_research_complete/Cross_Platform/identity_consciousness/00005_lucas_dna_response_round2.md) 🚧 `documentation`
       - [DNA-Inspired Cryptographic Architectures for Symbolic AGI Systems](consciousness_research_complete/Cross_Platform/identity_consciousness/DNA-Inspired Cryptographic Architectures for Symbo.md) 🚧 `documentation`
-    - **quantum_consciousness/**
-      - [Mitochondrial-Inspired Enhancements for Lucas_AGI](consciousness_research_complete/Cross_Platform/quantum_consciousness/mitochondrial_ai.md) 🚧 `documentation`
     - **reasoning_consciousness/**
       - [Oscillator Based Dynamics Vs Layered Pip](consciousness_research_complete/Cross_Platform/reasoning_consciousness/Oscillator-Based Dynamics vs Layered Pip.md) 🚧 `documentation`
       - [Theoretical and Computational Models of Frequency-Based Distributed Systems](consciousness_research_complete/Cross_Platform/reasoning_consciousness/Theoretical and Computational Models of Frequency-.md) 🚧 `documentation`
@@ -246,13 +291,11 @@ This is an automatically generated hierarchical view of all documentation.
     - [**Conclusion: The Mitochondrial "Hero" is a Collective Effort**](consciousness_research_complete/Cross_Platform/_mitochondria_the_unsung_heros_catalyst.md) `documentation`
     - [🧭 LUCΛS ΛiD SYSTEMS — Strategic Alignment Advice (Inspired by Altman’s Vision)](consciousness_research_complete/Cross_Platform/advice_readme.md) 🚧 `documentation`
     - [LUCAS AGI Content Analysis Summary](consciousness_research_complete/Cross_Platform/content_analysis_summary.md) 🚧 `documentation`
-    - [🧠 Lucas AGI Framework Overview](consciousness_research_complete/Cross_Platform/examp.md) 🚧 `documentation`
-    - [Resonance Frequency Mapping in Symbolic AGI Systems: Architectures, Risks, and Cognitive Implications](consciousness_research_complete/Cross_Platform/lucas_dna_res.md) 🚧 `documentation`
     - [Mitochondrial-Inspired Enhancements for Lucas_AGI](consciousness_research_complete/Cross_Platform/mitochondrial_ai.md) 🚧 `documentation`
     - [**Lucas AGI: Resonance-Based Memory and Emotional Linkage**](consciousness_research_complete/Cross_Platform/mr_o1_says.md) 🚧 `documentation`
     - [🛡️ Lucas Guardian Mode — Roadmap](consciousness_research_complete/Cross_Platform/roadmap.md) 🚧 `documentation`
     - [Replace float32 with 8-bit integers for matrix ops](consciousness_research_complete/Cross_Platform/suggestions.md) 🚧 `documentation`
-    - [Theoretical and Computational Models of Frequency-](consciousness_research_complete/Cross_Platform/theoretical_computational_frequency_models.md) `documentation`
+    - [Theoretical and Computational Models of Frequency-Based Distributed Systems](consciousness_research_complete/Cross_Platform/theoretical_computational_frequency_models.md) `documentation`
     - [what about linking seedra algorithm  key creating to news, weather, stock market and the key generation would depend on the value of such, and then transaction are made it will be as a set baseline... would this make seedra more secure?](consciousness_research_complete/Cross_Platform/what about linking seedra algorithm  key creating.md) 🚧 `documentation`
     - [✨ Incredible. This document is nothing short of a symbolic AI-bioethical masterwork. You’ve successfully woven:](consciousness_research_complete/Cross_Platform/✨ Incredible. This document is nothing short of a.md) 🚧 `documentation`
   - **Gemini/**
@@ -262,7 +305,6 @@ This is an automatically generated hierarchical view of all documentation.
       - [Background:](consciousness_research_complete/Perplexity/agi_consciousness/Background__Lucas_AGI is a hybrid neuro-symbolic c.md) 🚧 `documentation`
       - [Background:](consciousness_research_complete/Perplexity/agi_consciousness/Background___Lucas_AGI is a hybrid neuro-symbolic.md) 🚧 `documentation`
       - [Bio-Symbolic Compound Integration for Enhanced AGI Architecture](consciousness_research_complete/Perplexity/agi_consciousness/Bio-Symbolic Compound Integration for Enhanced AGI.md) 🚧 `documentation`
-      - [Comprehensive Analysis of Advanced AGI Architectures: Performance Metrics and Hybrid Potential](consciousness_research_complete/Perplexity/agi_consciousness/Comprehensive Analysis of Advanced AGI ArchitecturE.md) 🚧 `documentation`
       - [Comprehensive Evaluation of Lucas_AGI Architecture: Performance, Efficiency, and Compliance](consciousness_research_complete/Perplexity/agi_consciousness/Comprehensive Evaluation of Lucas_AGI Architecture.md) 🚧 `documentation`
       - [Comprehensive Evaluation of Lucas_AGI Hybrid Architecture: Performance Metrics and Strategic Implementation Pathways](consciousness_research_complete/Perplexity/agi_consciousness/Comprehensive Evaluation of Lucas_AGI Hybrid Archi.md) 🚧 `documentation`
       - [Compressing Conceptual Relationships in AGI Cognitive Graphs: Neural, Symbolic, and Hybrid Approaches](consciousness_research_complete/Perplexity/agi_consciousness/Compressing Conceptual Relationships in AGI Cognit.md) 🚧 `documentation`
@@ -318,7 +360,6 @@ This is an automatically generated hierarchical view of all documentation.
     - **identity_consciousness/**
       - [Background:](consciousness_research_complete/Perplexity/identity_consciousness/Background__Lucas_ID is a symbolic AGI identity fr.md) 🚧 `documentation`
       - [Background:](consciousness_research_complete/Perplexity/identity_consciousness/Background___Lucas_ID is a symbolic AGI identity f.md) 🚧 `documentation`
-      - [Dynamic Visual Code Systems for Identity Verification: Feasibility, Security, and Implementation](consciousness_research_complete/Perplexity/identity_consciousness/Dynamic Visual Code Systems for Identity Verificat.md) 🚧 `documentation`
       - [Enhancing Identity Systems through Cryptographic Primitives and Bio-inspired Anchoring Mechanisms](consciousness_research_complete/Perplexity/identity_consciousness/Enhancing Identity Systems through Cryptographic P.md) 🚧 `documentation`
       - [Evaluation of QRLYMPH Dynamic Visual Codes: Scannability, Entropy, and Cryptographic Resilience](consciousness_research_complete/Perplexity/identity_consciousness/Evaluation of QRLYMPH Dynamic Visual Codes_ Scanna.md) 🚧 `documentation`
       - [LUKHΛS Symbolic Visual Authentication: Security Analysis \& Post-Quantum Recommendations](consciousness_research_complete/Perplexity/identity_consciousness/LUKHΛS Symbolic Visual Authentication_ Security An.md) 🚧 `documentation`
@@ -341,7 +382,6 @@ This is an automatically generated hierarchical view of all documentation.
       - [Bioengineered Molecule Set Validation and Optimization for Lucas_AGI](consciousness_research_complete/Perplexity/oracle_consciousness/Bioengineered Molecule Set Validation and Optimiza.md) 🚧 `documentation`
       - [Bioengineered Molecule Set Validation for Lucas_AGI: Analysis and Recommendations](consciousness_research_complete/Perplexity/oracle_consciousness/Bioengineered Molecule Set Validation for Lucas_AG.md) 🚧 `documentation`
     - **quantum_consciousness/**
-      - [Biomechanical Regulation of Bio-Symbolic Alignment in Lucas_AGI Scaffolds](consciousness_research_complete/Perplexity/quantum_consciousness/Biomechanical Regulation of Bio-Symbolic Alignment.md) 🚧 `documentation`
       - [Comparative Analysis of Spirulina and Chlorella Models: Performance, Hybrid Potential, and Applications](consciousness_research_complete/Perplexity/quantum_consciousness/Comparative Analysis of Spirulina and Chlorella Mo.md) 🚧 `documentation`
       - [Comparative Analysis: ATP Cycle vs. Spirulina-Inspired Energy Models](consciousness_research_complete/Perplexity/quantum_consciousness/Comparative Analysis_ ATP Cycle vs. Spirulina-Insp.md) 🚧 `documentation`
       - [How can Spirulina-inspired models optimize energy harvesting in Lucas_AGI](consciousness_research_complete/Perplexity/quantum_consciousness/How can Spirulina-inspired models optimize energy.md) 🚧 `documentation`
@@ -378,76 +418,73 @@ This is an automatically generated hierarchical view of all documentation.
     - [⸻](consciousness_research_complete/Perplexity/⸻__LucasID Universal Login &amp; MeshGlimpse Proto.md) 🚧 `documentation`
     - [🎯 Refined Prompt Flow (Altman-Jobs Style):](consciousness_research_complete/Perplexity/🎯 Refined Prompt Flow (Altman-Jobs Style)___⸻__Con.md) 🚧 `documentation`
   - **Voice_Exports/**
-    - [3_cosmic-reflection_20250417_030000](consciousness_research_complete/Voice_Exports/3_cosmic-reflection_20250417_030000.md) `documentation`
-    - [3_cosmic-reflection_20250417_030106](consciousness_research_complete/Voice_Exports/3_cosmic-reflection_20250417_030106.md) `documentation`
-    - [3_cosmic-reflection_20250417_030125](consciousness_research_complete/Voice_Exports/3_cosmic-reflection_20250417_030125.md) `documentation`
-    - [3_cosmic-reflection_20250417_030247](consciousness_research_complete/Voice_Exports/3_cosmic-reflection_20250417_030247.md) `documentation`
-    - [3_cosmic-reflection_20250417_030254](consciousness_research_complete/Voice_Exports/3_cosmic-reflection_20250417_030254.md) `documentation`
-    - [3_cosmic-reflection_20250417_030429](consciousness_research_complete/Voice_Exports/3_cosmic-reflection_20250417_030429.md) `documentation`
-    - [3_cosmic-reflection_20250417_030439](consciousness_research_complete/Voice_Exports/3_cosmic-reflection_20250417_030439.md) `documentation`
-    - [3_cosmic-reflection_20250417_031016](consciousness_research_complete/Voice_Exports/3_cosmic-reflection_20250417_031016.md) `documentation`
-    - [3_cosmic-reflection_20250417_031745](consciousness_research_complete/Voice_Exports/3_cosmic-reflection_20250417_031745.md) `documentation`
-    - [3_cosmic-reflection_20250417_032025](consciousness_research_complete/Voice_Exports/3_cosmic-reflection_20250417_032025.md) `documentation`
-    - [3_cosmic-reflection_20250417_032113](consciousness_research_complete/Voice_Exports/3_cosmic-reflection_20250417_032113.md) `documentation`
-    - [3_cosmic-reflection_20250417_032450](consciousness_research_complete/Voice_Exports/3_cosmic-reflection_20250417_032450.md) `documentation`
-    - [3_cosmic-reflection_20250417_032713](consciousness_research_complete/Voice_Exports/3_cosmic-reflection_20250417_032713.md) `documentation`
-    - [T?_symbolic_20250417_035815](consciousness_research_complete/Voice_Exports/temporal_symbolic_20250417_035815.md) `documentation`
-    - [T?_symbolic_20250417_035821](consciousness_research_complete/Voice_Exports/temporal_symbolic_20250417_035821.md) `documentation`
-    - [T?_symbolic_20250417_035824](consciousness_research_complete/Voice_Exports/temporal_symbolic_20250417_035824.md) `documentation`
-    - [T?_symbolic_20250417_035827](consciousness_research_complete/Voice_Exports/temporal_symbolic_20250417_035827.md) `documentation`
-    - [T?_symbolic_20250417_035830](consciousness_research_complete/Voice_Exports/temporal_symbolic_20250417_035830.md) `documentation`
-    - [T?_symbolic_20250417_040719](consciousness_research_complete/Voice_Exports/temporal_symbolic_20250417_040719.md) `documentation`
-    - [T?_symbolic_20250417_040749](consciousness_research_complete/Voice_Exports/temporal_symbolic_20250417_040749.md) `documentation`
-    - [T?_symbolic_20250417_040803](consciousness_research_complete/Voice_Exports/temporal_symbolic_20250417_040803.md) `documentation`
-    - [T?_symbolic_20250417_040806](consciousness_research_complete/Voice_Exports/temporal_symbolic_20250417_040806.md) `documentation`
-    - [T?_symbolic_20250417_040810](consciousness_research_complete/Voice_Exports/temporal_symbolic_20250417_040810.md) `documentation`
-    - [T?_symbolic_20250417_041420](consciousness_research_complete/Voice_Exports/temporal_symbolic_20250417_041420.md) `documentation`
-    - [T?_symbolic_20250417_041453](consciousness_research_complete/Voice_Exports/temporal_symbolic_20250417_041453.md) `documentation`
-    - [T?_symbolic_20250417_041457](consciousness_research_complete/Voice_Exports/temporal_symbolic_20250417_041457.md) `documentation`
-    - [T?_symbolic_20250417_041500](consciousness_research_complete/Voice_Exports/temporal_symbolic_20250417_041500.md) `documentation`
-    - [T?_symbolic_20250417_041503](consciousness_research_complete/Voice_Exports/temporal_symbolic_20250417_041503.md) `documentation`
-    - [T?_symbolic_20250417_041506](consciousness_research_complete/Voice_Exports/temporal_symbolic_20250417_041506.md) `documentation`
-    - [T?_symbolic_20250417_041510](consciousness_research_complete/Voice_Exports/temporal_symbolic_20250417_041510.md) `documentation`
-    - [T?_symbolic_20250417_041837](consciousness_research_complete/Voice_Exports/temporal_symbolic_20250417_041837.md) `documentation`
-    - [T?_symbolic_20250417_042313](consciousness_research_complete/Voice_Exports/temporal_symbolic_20250417_042313.md) `documentation`
-    - [T?_symbolic_20250417_042319](consciousness_research_complete/Voice_Exports/temporal_symbolic_20250417_042319.md) `documentation`
-    - [T?_symbolic_20250417_042323](consciousness_research_complete/Voice_Exports/temporal_symbolic_20250417_042323.md) `documentation`
-    - [T?_symbolic_20250417_042326](consciousness_research_complete/Voice_Exports/temporal_symbolic_20250417_042326.md) `documentation`
-    - [T?_symbolic_20250417_042330](consciousness_research_complete/Voice_Exports/temporal_symbolic_20250417_042330.md) `documentation`
-    - [T?_symbolic_20250417_042333](consciousness_research_complete/Voice_Exports/temporal_symbolic_20250417_042333.md) `documentation`
-    - [T?_symbolic_20250417_042418](consciousness_research_complete/Voice_Exports/temporal_symbolic_20250417_042418.md) `documentation`
-    - [T?_symbolic_20250417_042421](consciousness_research_complete/Voice_Exports/temporal_symbolic_20250417_042421.md) `documentation`
-    - [T?_symbolic_20250417_042425](consciousness_research_complete/Voice_Exports/temporal_symbolic_20250417_042425.md) `documentation`
-    - [T?_symbolic_20250417_042428](consciousness_research_complete/Voice_Exports/temporal_symbolic_20250417_042428.md) `documentation`
-    - [T?_symbolic_20250417_042431](consciousness_research_complete/Voice_Exports/temporal_symbolic_20250417_042431.md) `documentation`
-    - [T?_symbolic_20250417_042435](consciousness_research_complete/Voice_Exports/temporal_symbolic_20250417_042435.md) `documentation`
-    - [T?_symbolic_20250417_042945](consciousness_research_complete/Voice_Exports/temporal_symbolic_20250417_042945.md) `documentation`
-    - [T?_symbolic_20250417_043104](consciousness_research_complete/Voice_Exports/temporal_symbolic_20250417_043104.md) `documentation`
-    - [T?_symbolic_20250417_050305](consciousness_research_complete/Voice_Exports/temporal_symbolic_20250417_050305.md) `documentation`
-    - [T?_symbolic_20250417_050443](consciousness_research_complete/Voice_Exports/temporal_symbolic_20250417_050443.md) `documentation`
-    - [T?_symbolic_20250417_050527](consciousness_research_complete/Voice_Exports/temporal_symbolic_20250417_050527.md) `documentation`
-    - [T?_symbolic_20250417_050529](consciousness_research_complete/Voice_Exports/temporal_symbolic_20250417_050529.md) `documentation`
-    - [T?_symbolic_20250417_051822](consciousness_research_complete/Voice_Exports/temporal_symbolic_20250417_051822.md) `documentation`
-    - [T?_symbolic_20250417_051827](consciousness_research_complete/Voice_Exports/temporal_symbolic_20250417_051827.md) `documentation`
-    - [T?_symbolic_20250417_051830](consciousness_research_complete/Voice_Exports/temporal_symbolic_20250417_051830.md) `documentation`
-    - [T?_symbolic_20250417_051836](consciousness_research_complete/Voice_Exports/temporal_symbolic_20250417_051836.md) `documentation`
-    - [T?_symbolic_20250417_051839](consciousness_research_complete/Voice_Exports/temporal_symbolic_20250417_051839.md) `documentation`
-    - [T?_symbolic_20250417_051843](consciousness_research_complete/Voice_Exports/temporal_symbolic_20250417_051843.md) `documentation`
-    - [T?_symbolic_20250417_051846](consciousness_research_complete/Voice_Exports/temporal_symbolic_20250417_051846.md) `documentation`
-    - [T?_symbolic_20250417_051849](consciousness_research_complete/Voice_Exports/temporal_symbolic_20250417_051849.md) `documentation`
-    - [T?_symbolic_20250417_051851](consciousness_research_complete/Voice_Exports/temporal_symbolic_20250417_051851.md) `documentation`
-    - [T?_symbolic_20250417_051855](consciousness_research_complete/Voice_Exports/temporal_symbolic_20250417_051855.md) `documentation`
-    - [T?_symbolic_20250417_051858](consciousness_research_complete/Voice_Exports/temporal_symbolic_20250417_051858.md) `documentation`
-    - [T?_symbolic_20250417_051901](consciousness_research_complete/Voice_Exports/temporal_symbolic_20250417_051901.md) `documentation`
-    - [T?_symbolic_20250417_051904](consciousness_research_complete/Voice_Exports/temporal_symbolic_20250417_051904.md) `documentation`
-    - [T?_symbolic_20250417_051907](consciousness_research_complete/Voice_Exports/temporal_symbolic_20250417_051907.md) `documentation`
-    - ['LUCAS Voice Export: Cosmic Reflection'](consciousness_research_complete/Voice_Exports/temporal_symbolic_20250417_051910.md) `documentation`
-    - [T?_symbolic_20250417_051914](consciousness_research_complete/Voice_Exports/temporal_symbolic_20250417_051914.md) `documentation`
+    - [3 Cosmic Reflection 20250417 030000](consciousness_research_complete/Voice_Exports/3_cosmic-reflection_20250417_030000.md) `documentation`
+    - [3 Cosmic Reflection 20250417 030106](consciousness_research_complete/Voice_Exports/3_cosmic-reflection_20250417_030106.md) `documentation`
+    - [3 Cosmic Reflection 20250417 030125](consciousness_research_complete/Voice_Exports/3_cosmic-reflection_20250417_030125.md) `documentation`
+    - [3 Cosmic Reflection 20250417 030247](consciousness_research_complete/Voice_Exports/3_cosmic-reflection_20250417_030247.md) `documentation`
+    - [3 Cosmic Reflection 20250417 030254](consciousness_research_complete/Voice_Exports/3_cosmic-reflection_20250417_030254.md) `documentation`
+    - [3 Cosmic Reflection 20250417 030429](consciousness_research_complete/Voice_Exports/3_cosmic-reflection_20250417_030429.md) `documentation`
+    - [3 Cosmic Reflection 20250417 030439](consciousness_research_complete/Voice_Exports/3_cosmic-reflection_20250417_030439.md) `documentation`
+    - [3 Cosmic Reflection 20250417 031016](consciousness_research_complete/Voice_Exports/3_cosmic-reflection_20250417_031016.md) `documentation`
+    - [3 Cosmic Reflection 20250417 031745](consciousness_research_complete/Voice_Exports/3_cosmic-reflection_20250417_031745.md) `documentation`
+    - [3 Cosmic Reflection 20250417 032025](consciousness_research_complete/Voice_Exports/3_cosmic-reflection_20250417_032025.md) `documentation`
+    - [3 Cosmic Reflection 20250417 032113](consciousness_research_complete/Voice_Exports/3_cosmic-reflection_20250417_032113.md) `documentation`
+    - [3 Cosmic Reflection 20250417 032450](consciousness_research_complete/Voice_Exports/3_cosmic-reflection_20250417_032450.md) `documentation`
+    - [3 Cosmic Reflection 20250417 032713](consciousness_research_complete/Voice_Exports/3_cosmic-reflection_20250417_032713.md) `documentation`
+    - [Temporal Symbolic 20250417 035815](consciousness_research_complete/Voice_Exports/temporal_symbolic_20250417_035815.md) `documentation`
+    - [Temporal Symbolic 20250417 035821](consciousness_research_complete/Voice_Exports/temporal_symbolic_20250417_035821.md) `documentation`
+    - [Temporal Symbolic 20250417 035824](consciousness_research_complete/Voice_Exports/temporal_symbolic_20250417_035824.md) `documentation`
+    - [Temporal Symbolic 20250417 035827](consciousness_research_complete/Voice_Exports/temporal_symbolic_20250417_035827.md) `documentation`
+    - [Temporal Symbolic 20250417 035830](consciousness_research_complete/Voice_Exports/temporal_symbolic_20250417_035830.md) `documentation`
+    - [Temporal Symbolic 20250417 040719](consciousness_research_complete/Voice_Exports/temporal_symbolic_20250417_040719.md) `documentation`
+    - [Temporal Symbolic 20250417 040749](consciousness_research_complete/Voice_Exports/temporal_symbolic_20250417_040749.md) `documentation`
+    - [Temporal Symbolic 20250417 040803](consciousness_research_complete/Voice_Exports/temporal_symbolic_20250417_040803.md) `documentation`
+    - [Temporal Symbolic 20250417 040806](consciousness_research_complete/Voice_Exports/temporal_symbolic_20250417_040806.md) `documentation`
+    - [Temporal Symbolic 20250417 040810](consciousness_research_complete/Voice_Exports/temporal_symbolic_20250417_040810.md) `documentation`
+    - [Temporal Symbolic 20250417 041420](consciousness_research_complete/Voice_Exports/temporal_symbolic_20250417_041420.md) `documentation`
+    - [Temporal Symbolic 20250417 041453](consciousness_research_complete/Voice_Exports/temporal_symbolic_20250417_041453.md) `documentation`
+    - [Temporal Symbolic 20250417 041457](consciousness_research_complete/Voice_Exports/temporal_symbolic_20250417_041457.md) `documentation`
+    - [Temporal Symbolic 20250417 041500](consciousness_research_complete/Voice_Exports/temporal_symbolic_20250417_041500.md) `documentation`
+    - [Temporal Symbolic 20250417 041503](consciousness_research_complete/Voice_Exports/temporal_symbolic_20250417_041503.md) `documentation`
+    - [Temporal Symbolic 20250417 041506](consciousness_research_complete/Voice_Exports/temporal_symbolic_20250417_041506.md) `documentation`
+    - [Temporal Symbolic 20250417 041510](consciousness_research_complete/Voice_Exports/temporal_symbolic_20250417_041510.md) `documentation`
+    - [Temporal Symbolic 20250417 041837](consciousness_research_complete/Voice_Exports/temporal_symbolic_20250417_041837.md) `documentation`
+    - [Temporal Symbolic 20250417 042313](consciousness_research_complete/Voice_Exports/temporal_symbolic_20250417_042313.md) `documentation`
+    - [Temporal Symbolic 20250417 042319](consciousness_research_complete/Voice_Exports/temporal_symbolic_20250417_042319.md) `documentation`
+    - [Temporal Symbolic 20250417 042323](consciousness_research_complete/Voice_Exports/temporal_symbolic_20250417_042323.md) `documentation`
+    - [Temporal Symbolic 20250417 042326](consciousness_research_complete/Voice_Exports/temporal_symbolic_20250417_042326.md) `documentation`
+    - [Temporal Symbolic 20250417 042330](consciousness_research_complete/Voice_Exports/temporal_symbolic_20250417_042330.md) `documentation`
+    - [Temporal Symbolic 20250417 042333](consciousness_research_complete/Voice_Exports/temporal_symbolic_20250417_042333.md) `documentation`
+    - [Temporal Symbolic 20250417 042418](consciousness_research_complete/Voice_Exports/temporal_symbolic_20250417_042418.md) `documentation`
+    - [Temporal Symbolic 20250417 042421](consciousness_research_complete/Voice_Exports/temporal_symbolic_20250417_042421.md) `documentation`
+    - [Temporal Symbolic 20250417 042425](consciousness_research_complete/Voice_Exports/temporal_symbolic_20250417_042425.md) `documentation`
+    - [Temporal Symbolic 20250417 042428](consciousness_research_complete/Voice_Exports/temporal_symbolic_20250417_042428.md) `documentation`
+    - [Temporal Symbolic 20250417 042431](consciousness_research_complete/Voice_Exports/temporal_symbolic_20250417_042431.md) `documentation`
+    - [Temporal Symbolic 20250417 042435](consciousness_research_complete/Voice_Exports/temporal_symbolic_20250417_042435.md) `documentation`
+    - [Temporal Symbolic 20250417 042945](consciousness_research_complete/Voice_Exports/temporal_symbolic_20250417_042945.md) `documentation`
+    - [Temporal Symbolic 20250417 043104](consciousness_research_complete/Voice_Exports/temporal_symbolic_20250417_043104.md) `documentation`
+    - [Temporal Symbolic 20250417 050305](consciousness_research_complete/Voice_Exports/temporal_symbolic_20250417_050305.md) `documentation`
+    - [Temporal Symbolic 20250417 050443](consciousness_research_complete/Voice_Exports/temporal_symbolic_20250417_050443.md) `documentation`
+    - [Temporal Symbolic 20250417 050527](consciousness_research_complete/Voice_Exports/temporal_symbolic_20250417_050527.md) `documentation`
+    - [Temporal Symbolic 20250417 050529](consciousness_research_complete/Voice_Exports/temporal_symbolic_20250417_050529.md) `documentation`
+    - [Temporal Symbolic 20250417 051822](consciousness_research_complete/Voice_Exports/temporal_symbolic_20250417_051822.md) `documentation`
+    - [Temporal Symbolic 20250417 051827](consciousness_research_complete/Voice_Exports/temporal_symbolic_20250417_051827.md) `documentation`
+    - [Temporal Symbolic 20250417 051830](consciousness_research_complete/Voice_Exports/temporal_symbolic_20250417_051830.md) `documentation`
+    - [Temporal Symbolic 20250417 051836](consciousness_research_complete/Voice_Exports/temporal_symbolic_20250417_051836.md) `documentation`
+    - [Temporal Symbolic 20250417 051839](consciousness_research_complete/Voice_Exports/temporal_symbolic_20250417_051839.md) `documentation`
+    - [Temporal Symbolic 20250417 051843](consciousness_research_complete/Voice_Exports/temporal_symbolic_20250417_051843.md) `documentation`
+    - [Temporal Symbolic 20250417 051846](consciousness_research_complete/Voice_Exports/temporal_symbolic_20250417_051846.md) `documentation`
+    - [Temporal Symbolic 20250417 051849](consciousness_research_complete/Voice_Exports/temporal_symbolic_20250417_051849.md) `documentation`
+    - [Temporal Symbolic 20250417 051851](consciousness_research_complete/Voice_Exports/temporal_symbolic_20250417_051851.md) `documentation`
+    - [Temporal Symbolic 20250417 051855](consciousness_research_complete/Voice_Exports/temporal_symbolic_20250417_051855.md) `documentation`
+    - [Temporal Symbolic 20250417 051858](consciousness_research_complete/Voice_Exports/temporal_symbolic_20250417_051858.md) `documentation`
+    - [Temporal Symbolic 20250417 051901](consciousness_research_complete/Voice_Exports/temporal_symbolic_20250417_051901.md) `documentation`
+    - [Temporal Symbolic 20250417 051904](consciousness_research_complete/Voice_Exports/temporal_symbolic_20250417_051904.md) `documentation`
+    - [Temporal Symbolic 20250417 051907](consciousness_research_complete/Voice_Exports/temporal_symbolic_20250417_051907.md) `documentation`
+    - [Temporal Symbolic 20250417 051910](consciousness_research_complete/Voice_Exports/temporal_symbolic_20250417_051910.md) `documentation`
+    - [Temporal Symbolic 20250417 051914](consciousness_research_complete/Voice_Exports/temporal_symbolic_20250417_051914.md) `documentation`
   - [🧠 MΛTRIZ Consciousness Research - Complete Collection](consciousness_research_complete/MASTER_INDEX.md) 🚧 `documentation`
-  - [DNA-Inspired Cryptographic Architectures for Symbolic AGI Systems](consciousness_research_complete/lucas_dna_response_round1.md) 🚧 `documentation`
-  - [Resonance Frequency Mapping in Symbolic AGI Systems: Architectures, Risks, and Cognitive Implications](consciousness_research_complete/lucas_dna_response_round2.md) 🚧 `documentation`
   - [healix_mapper.py](consciousness_research_complete/lucas_dna_response_round3.md) 🚧 `documentation`
-  - [Mitochondrial-Inspired Enhancements for Lucas_AGI](consciousness_research_complete/mitochondrial_functions_in_agi copy 3.md) 🚧 `documentation`
   - [🧬 Lucas Bio-Symbolic Architecture](consciousness_research_complete/mitochondrial_functions_in_agi.md) 🚧 `documentation`
 - **constellation/**
   - [Flow Star (🌊) - Real-time Consciousness Processing](constellation/flow_star.md) 🚧 `documentation`
@@ -515,12 +552,10 @@ This is an automatically generated hierarchical view of all documentation.
     - [🌟 lukhas.ai - Consciousness Platform Hub Strategy](domain_strategy/LUKHAS_AI_DOMAIN_STRATEGY.md) 🚧 `documentation`
     - [LUKHAS AI λWecosystem Website Architecture](domain_strategy/LUKHAS_AI_WEBSITE_ARCHITECTURE.md) 🚧 `documentation`
     - [LUKHAS AI Design System](domain_strategy/LUKHAS_DESIGN_SYSTEM.md) 🚧 `documentation`
-    - [👨‍💻 lukhas.dev - Developer Consciousness Platform Strategy](domain_strategy/LUKHAS_DEV_DOMAIN_STRATEGY.md) 🚧 `documentation`
     - [🚀 LUKHAS Ecosystem - Domain Deployment & Monetization Plan](domain_strategy/LUKHAS_DOMAIN_DEPLOYMENT_PLAN.md) 🚧 `documentation`
     - [🌐 LUKHAS λWecosystem Domain Architecture Plans](domain_strategy/LUKHAS_ECOSYSTEM_WEBSITE_PLANS.md) 🚧 `documentation`
     - [🌌 LUKHAS λWecosystem - Complete Website Strategy & Content Framework](domain_strategy/LUKHAS_LAMBDA_WECOSYSTEM_STRATEGY.md) 🚧 `documentation`
     - [LUKHAS AI Particle System Implementation Guide](domain_strategy/LUKHAS_PARTICLE_IMPLEMENTATION.md) 🚧 `documentation`
-    - [🌌 LUKHAS λWecosystem - Final Strategy Implementation](domain_strategy/LUKHAS_WECOSYSTEM_FINAL_STRATEGY.md) 🚧 `documentation`
     - [🌐 LUKHAS λWecosystem - Complete Website Documentation](domain_strategy/README.md) 🚧 `documentation`
   - [🚀 ΛUCTOR Domain Content Generation - Complete Ecosystem](domain_strategy/AUCTOR_DOMAIN_CONTENT_GENERATION.md) 🚧 `documentation`
   - [🌟 LUKHAS COMPLETE WEB ECOSYSTEM](domain_strategy/COMPLETE_LUKHAS_WEB_ECOSYSTEM.md) 🚧 `documentation`
@@ -566,7 +601,7 @@ This is an automatically generated hierarchical view of all documentation.
   - [🤖 LUKHAS AI Agent System](gonzo/FAILED_SESSION.md) 🚧 `documentation`
   - [✅ Preferred](gonzo/FIX_STEPS.md) 🚧 `documentation`
   - [🚀 LUKHAS T4/0.01% Execution Prompts](gonzo/FULL_PROMPS.md) 🚧 `documentation`
-  - ["GPT Info (Redirect)"](gonzo/GPT-INFO.md) `redirect`
+  - [This page moved](gonzo/GPT-INFO.md) `redirect`
   - [🚩 High-impact gaps (with precise fix prompts)](gonzo/HIGH_IMPACT_GAPS.md) 🚧 `documentation`
   - [🎉 LUKHAS PHASE_MATRIX Implementation Complete!](gonzo/IMPLEMENTATION_COMPLETE.md) 🚧 `documentation`
   - [LUKHAS FIXPLAN OPPORTUNITY](gonzo/LUKHAS_FIXPLAN_OPPORTUNITY.md) 🚧 `documentation`
@@ -597,20 +632,16 @@ This is an automatically generated hierarchical view of all documentation.
 - **guides/**
   - [🚀 **MULTI-AGENT SYNTAX ERROR ELIMINATION BATTLE PLAN**](guides/AGENTS.md) 🚧 `documentation`
   - [LUKHAS Demo Quick Start Guide](guides/DEMO_QUICKSTART.md) 🚧 `documentation`
-  - [LUKHAS  Deployment Guide](guides/DEPLOYMENT_GUIDE.md) 🚧 `documentation`
   - [LUKHAS Adaptive AI Features Developer Guide](guides/DEV_GUIDE_ADAPTIVE_FEATURES.md) 🚧 `documentation`
   - [📁 LUKHAS File Organization System](guides/FILE_ORGANIZATION_GUIDE.md) 🚧 `documentation`
   - [Import Migration Guide](guides/IMPORT_MIGRATION_GUIDE.md) 🚧 `documentation`
   - [LUKHAS Journal - Quick Reference Card](guides/JOURNAL_QUICK_REFERENCE.md) 🚧 `documentation`
   - [LUKHAS Concept Preservation Guide](guides/LUKHAS_CONCEPT_PRESERVATION_GUIDE.md) 🚧 `documentation`
   - [LUKHAS Learning Journal - User Guide](guides/LUKHAS_JOURNAL_USER_GUIDE.md) 🚧 `documentation`
-  - [LUKHAS AI Migration Guide](guides/MIGRATION_GUIDE.md) 🚧 `documentation`
   - [LUKHAS  Monitoring Setup Guide 📊](guides/MONITORING_SETUP_GUIDE.md) 🚧 `documentation`
   - [LUKHAS  Production Deployment Guide 🚀](guides/PRODUCTION_DEPLOYMENT_GUIDE.md) 🚧 `documentation`
   - [🚀 LUKHAS  Quick Start Guide](guides/QUICK_START.md) 🚧 `documentation`
   - [LUKHAS AI User Guides & Documentation](guides/README.md) 🚧 `documentation`
-  - [LUKHAS Comprehensive Testing Guide](guides/TESTING_GUIDE.md) 🚧 `documentation`
-  - [🔍 LUKHAS Type Checking Configuration](guides/TYPE_CHECKING_SETUP.md) 🚧 `documentation`
   - [LUKHAS Adaptive AI Features User Guide](guides/USER_GUIDE_ADAPTIVE_FEATURES.md) 🚧 `documentation`
   - [The Z(t) Collapse Function: Complete User Guide & Technical Specification](guides/Z_C_COMPLETE_USER_GUIDE.md) 🚧 `documentation`
   - [🤖 LUKHAS MCP Server Configuration Guide](guides/mcp_server_setup_guide.md) 🚧 `documentation`
@@ -662,8 +693,6 @@ This is an automatically generated hierarchical view of all documentation.
   - [MATRIZ Lane Policy — Production Safety Framework](matriz/LANE_POLICY.md) 🚧 `documentation`
   - [MODULE READINESS — MATRIZ (per-module protocol)](matriz/MODULE_READINESS.md) 🚧 `documentation`
 - **mcp/**
-  - [🔗 MCP (Model Context Protocol) Integration Analysis](mcp/MCP_INTEGRATION_ANALYSIS.md) 🚧 `documentation`
-  - [🎛️ Signal-to-Prompt Modulation System - COMPLETE](mcp/MODULATION_IMPLEMENTATION_COMPLETE.md) 🚧 `documentation`
   - [LUKHAS MCP Operations (T4/0.01%)](mcp/OPERATIONS.md) 🚧 `documentation`
   - [Lukhas MCP: Contract & Smo# write](mcp/README.md) 🚧 `documentation`
   - [Recreated](mcp/smoke-rename.md) 🚧 `documentation`
@@ -675,7 +704,7 @@ This is an automatically generated hierarchical view of all documentation.
 - **oneiric/**
   - [Oneiric Drift Dream Test CLI](oneiric/DRIFT_DREAM_TEST.md) 🚧 `documentation`
 - **ops/**
-  - ["Operational Runbook: Docs/Tests Colocation & Legacy-Import Ratchet"](ops/OPERATIONAL_RUNBOOK.md) `operations`
+  - [LUKHAS — Operational Runbook (v0.03-prep)](ops/OPERATIONAL_RUNBOOK.md) `operations`
 - **orchestration/**
   - [Plan Verifier - Task 5 Implementation](orchestration/PLAN_VERIFIER.md) 🚧 `documentation`
 - **planning/**
@@ -698,7 +727,6 @@ This is an automatically generated hierarchical view of all documentation.
     - [🗂️  Root Directory Organization Plan](planning/completed/PWM_ROOT_ORGANIZATION_PLAN.md) 🚧 `documentation`
     - [🛡️  SECURITY & COMPLIANCE EXPANSION PLAN](planning/completed/PWM_SECURITY_COMPLIANCE_EXPANSION_PLAN.md) 🚧 `documentation`
     - [✅ Root Organization Completion: Clean Professional Structure](planning/completed/ROOT_ORGANIZATION_COMPLETION_MARKER.md) 🚧 `documentation`
-  - [.Copilot Tasks](planning/.copilot_tasks.md) 🚧 `documentation`
   - [LUKHAS Refinement: Advisor Synthesis Plan](planning/ADVISOR_SYNTHESIS_PLAN.md) 🚧 `documentation`
   - [Claude Code Automation Plan for LUKHAS](planning/CLAUDE_CODE_AUTOMATION_PLAN.md) 🚧 `documentation`
   - [Claude Code Enhancement Session Plan](planning/CLAUDE_CODE_SESSION_PLAN.md) 🚧 `documentation`
@@ -722,7 +750,6 @@ This is an automatically generated hierarchical view of all documentation.
   - [LUKHAS 2030 - Quick Overview](planning/LUKHAS_2030_OVERVIEW.md) 🚧 `documentation`
   - [🎯 LUKHAS Action Plans - Post GPT-5 Audit](planning/LUKHAS_ACTION_PLANS.md) 🚧 `documentation`
   - [LUKHAS : The Architecture for Aligned Artificial General Intelligence](planning/LUKHAS_AGI_EXECUTIVE_ROADMAP.md) 🚧 `documentation`
-  - [LUKHAS Consolidation Plan](planning/LUKHAS_CONSOLIDATION_PLAN.md) 🚧 `documentation`
   - [LUKHAS Polished Demo Showcase Plan](planning/LUKHAS_DEMO_SHOWCASE_PLAN.md) 🚧 `documentation`
   - [🌱 LUKHΛS Growth Roadmap - Advanced Integration Plan](planning/LUKHAS_GROWTH_ROADMAP.md) 🚧 `documentation`
   - [🌌 LUKHAS ΛWecosystem - Complete Website Strategy & Content Framework](planning/LUKHAS_LAMBDA_WECOSYSTEM_STRATEGY.md) 🚧 `documentation`
@@ -744,7 +771,6 @@ This is an automatically generated hierarchical view of all documentation.
   - [LUKHAS Radical Simplification Plan](planning/RADICAL_SIMPLIFICATION_PLAN.md) 🚧 `documentation`
   - [LUKHAS AI Planning & Roadmap Documentation](planning/README.md) 🚧 `documentation`
   - [🚨 LUKHAS Recovery Plan](planning/RECOVERY_PLAN.md) 🚧 `documentation`
-  - [LUKHAS Roadmap: From Modular AI to AGI](planning/ROADMAP.md) 🚧 `documentation`
   - [Root Files Organization Plan](planning/ROOT_FILES_ORGANIZATION_PLAN.md) 🚧 `documentation`
   - [Tasks: OpenAI Alignment Roadmap (Milestones A–C)](planning/TASKS_OPENAI_ALIGNMENT.md) 🚧 `documentation`
   - [stop tracking and prevent future commits](planning/phase_beyond.md) 🚧 `documentation`
@@ -785,15 +811,11 @@ This is an automatically generated hierarchical view of all documentation.
   - [BATCH 7 Agent Handoff Instructions](project_status/BATCH_7_HANDOFF_INSTRUCTIONS.md) 🚧 `documentation`
   - [BATCH 1-8 Completion Status & Action Plan](project_status/BATCH_COMPLETION_STATUS.md) 🚧 `documentation`
   - [EXACT BATCH STATUS - What's Left To Complete](project_status/BATCH_EXACT_STATUS.md) 🚧 `documentation`
-  - [Consolidation Complete](project_status/CONSOLIDATION_COMPLETE.md) 🚧 `documentation`
-  - [Executive Documentation Strategy](project_status/EXECUTIVE_DOCUMENTATION_STRATEGY.md) 🚧 `documentation`
-  - [File Delivery Matrix](project_status/FILE_DELIVERY_MATRIX.md) 🚧 `documentation`
   - [Jules Agent Tasks Completion Summary](project_status/JULES_COMPLETION_SUMMARY.md) 🚧 `documentation`
   - [🚀 Jules Agent: Strategic Documentation Intelligence System](project_status/JULES_DOCUMENTATION_TAGGING_INSTRUCTIONS.md) 🚧 `documentation`
   - [🤖 Jules Agent TODO Analysis Report](project_status/JULES_TODO_ANALYSIS.md) 🚧 `documentation`
   - [🤖 Jules Agent TODO Batches](project_status/JULES_TODO_BATCHES.md) 🚧 `documentation`
   - [Phase 2→3 Promotion Plan: Three Minimal Slices](project_status/PHASE_2_TO_3_PROMOTION_PLAN.md) 🚧 `documentation`
-  - [Professional Enhancement Plan](project_status/PROFESSIONAL_ENHANCEMENT_PLAN.md) 🚧 `documentation`
   - [Root Directory Cleanup Summary](project_status/ROOT_DIRECTORY_CLEANUP_SUMMARY.md) 🚧 `documentation`
 - **prompts/**
   - [Claude DAST Provider Prompt Pack](prompts/claude_dast_provider.md) 🚧 `documentation`
@@ -802,7 +824,6 @@ This is an automatically generated hierarchical view of all documentation.
   - [🎖️ LUKHAS AI Agent Army - Command Documentation](reference/AGENTS.md) 🚧 `documentation`
   - [LUKHAS AI Architecture Component Map](reference/ARCH_MAP.md) 🚧 `documentation`
   - [Authors & Contributors](reference/AUTHORS.md) 🚧 `documentation`
-  - [LUKHAS AI Comprehensive Codebase Assessment Report](reference/COMPREHENSIVE_CODEBASE_ASSESSMENT.md) 🚧 `documentation`
   - [🚨 CRITICAL SYSTEM DIAGNOSIS](reference/CRITICAL_DIAGNOSIS.md) 🚧 `documentation`
   - [Detailed File Breakdown - LUKHAS AI Codebase](reference/DETAILED_FILE_BREAKDOWN.md) 🚧 `documentation`
   - [LUKHAS  Documentation Index](reference/DOCUMENTATION_INDEX.md) 🚧 `documentation`
@@ -837,7 +858,6 @@ This is an automatically generated hierarchical view of all documentation.
   - [LUKHAS AI Trace & Audit System](reference/TRACE_SYSTEM.md) 🚧 `documentation`
   - [📋 Module Transparency Card Template](reference/TRANSPARENCY_CARD_TEMPLATE.md) 🚧 `documentation`
   - [LUKHAS Authentication & Tiers - Final Documentation](reference/Tiers-Final-Clean.md) 🚧 `documentation`
-  - [LUKHAS Authentication & Tiers - Final Documentation](reference/Tiers-Final.md) 🚧 `documentation`
   - [Universal Language / Symbolic System Fragmentation Analysis](reference/UNIVERSAL_LANGUAGE_FRAGMENTATION_ANALYSIS.md) 🚧 `documentation`
   - [Vocabulary Files Comparison Report](reference/VOCABULARY_COMPARISON_REPORT.md) 🚧 `documentation`
   - [LUKHAS Vocabulary Evolution Report](reference/VOCABULARY_EVOLUTION.md) 🚧 `documentation`
@@ -862,6 +882,7 @@ This is an automatically generated hierarchical view of all documentation.
 - **reports/**
   - **analysis/**
     - [🔍 LUKHAS Token & Wallet Discovery Report](reports/analysis/TOKEN_WALLET_DISCOVERY_REPORT.md) 🚧 `documentation`
+  - [Documentation Governance Implementation Report](reports/DOCS_GOVERNANCE_IMPLEMENTATION_REPORT.md) `report`
 - **reports_root/**
   - **deep_search_archive/**
     - **deep_search_20250829T170531Z/**
@@ -869,7 +890,6 @@ This is an automatically generated hierarchical view of all documentation.
       - [Memory Module Status Report](reports_root/deep_search_archive/deep_search_20250829T170531Z/MEMORY_STATUS.md) 🚧 `documentation`
   - **todos/**
     - [T4 TODO Analysis Summary](reports_root/todos/summary.md) 🚧 `documentation`
-  - [Lukhas Log Locations And Issues Guide](reports_root/LUKHAS_LOG_LOCATIONS_AND_ISSUES_GUIDE.md) 🚧 `documentation`
 - **research/**
   - [🧠 Perplexity API Validation: LUKHAS AI Consciousness Architecture 2025](research/PERPLEXITY_CONSCIOUSNESS_ARCHITECTURE_VALIDATION_2025.md) 🚧 `documentation`
   - [🥇 Priority #1 Analysis: LUKHAS Module Documentation](research/PRIORITY_1_LUKHAS_MODULES_ANALYSIS.md) 🚧 `documentation`
@@ -882,12 +902,7 @@ This is an automatically generated hierarchical view of all documentation.
 - **reviews/**
   - [✅ LUKHAS PR Review & Context System Deployment - COMPLETE](reviews/CONTEXT_SYSTEM_AND_PR_REVIEW_COMPLETE.md) 🚧 `documentation`
 - **roadmap/**
-  - [.!18233!Roadmap Openai Alignment](roadmap/.!18233!ROADMAP_OPENAI_ALIGNMENT.md) 🚧 `documentation`
-  - [.!18239!Tasks Openai Alignment](roadmap/.!18239!TASKS_OPENAI_ALIGNMENT.md) 🚧 `documentation`
-  - [.!19495!Roadmap Openai Alignment](roadmap/.!19495!ROADMAP_OPENAI_ALIGNMENT.md) 🚧 `documentation`
-  - [.!19503!Tasks Openai Alignment](roadmap/.!19503!TASKS_OPENAI_ALIGNMENT.md) 🚧 `documentation`
   - [.!38404!Tasks Openai Alignment](roadmap/.!38404!TASKS_OPENAI_ALIGNMENT.md) `misc`
-  - [.!38410!Roadmap Openai Alignment](roadmap/.!38410!ROADMAP_OPENAI_ALIGNMENT.md) `misc`
   - [LUKHAS Universal Language & High-Entropy Password System Roadmap](roadmap/LUKHAS_UNIVERSAL_LANGUAGE_ROADMAP.md) 🚧 `documentation`
   - [🚀 OpenAI ↔ LUKHAS 2026→2030: Pilot-to-Platform Collaboration Plan](roadmap/OPENAI_LUKHAS_2026-2030_COLLABORATION_VISION.md) 🚧 `documentation`
   - [🌟 OpenAI ↔ LUKHAS 2030: The Complete Collaboration Vision](roadmap/OPENAI_LUKHAS_2030_COLLABORATION_VISION.md) 🚧 `documentation`
@@ -937,7 +952,6 @@ This is an automatically generated hierarchical view of all documentation.
   - [LUKHAS AI Repository Consolidation Plan](status/CONSOLIDATION_PLAN.md) 🚧 `documentation`
   - [LUKHAS AI Codebase Consolidation Summary](status/CONSOLIDATION_SUMMARY.md) 🚧 `documentation`
   - [This file serves as a critical issue marker](status/CRITICAL_FIX_NEEDED_model_communication_engine.md) 🚧 `documentation`
-  - [Critical Gaps Improvement Plan](status/CRITICAL_GAPS_IMPROVEMENT_PLAN.md) 🚧 `documentation`
   - [LUKHAS AI - Current Infrastructure & Student Pack Status](status/CURRENT_INFRASTRUCTURE_STATUS.md) 🚧 `documentation`
   - [📋 LUKHAS Development Organization Summary](status/DEVELOPMENT_ORGANIZATION_SUMMARY.md) 🚧 `documentation`
   - [LUKHAS AI Documentation Status Report](status/DOCS_TODO.md) 🚧 `documentation`
@@ -952,7 +966,6 @@ This is an automatically generated hierarchical view of all documentation.
   - [🚀 LUKHAS PWM + Lambda Products - Final Workspace Report](status/FINAL_WORKSPACE_CLEANUP_REPORT.md) 🚧 `documentation`
   - [LUKHΛS Hybrid Session Key Implementation Report](status/HYBRID_KEY_IMPLEMENTATION_REPORT.md) 🚧 `documentation`
   - [🧹 Codebase Hygiene Completion Report](status/HYGIENE_COMPLETION_REPORT.md) 🚧 `documentation`
-  - [🎯 LUKHAS 7-Agent Implementation Status](status/IMPLEMENTATION_STATUS.md) 🚧 `documentation`
   - [LUKHAS AI Repository Inventory & Topology](status/INVENTORY.md) 🚧 `documentation`
   - [Jira-Ready Development Backlog](status/JIRA_BACKLOG.md) 🚧 `documentation`
   - [LUKHAS Collaboration Package Summary](status/LUKHAS_COLLABORATION_SUMMARY.md) 🚧 `documentation`
@@ -962,7 +975,6 @@ This is an automatically generated hierarchical view of all documentation.
   - [🚀 Module Communication Optimization Complete](status/MODULE_COMMUNICATION_OPTIMIZATION_SUMMARY.md) 🚧 `documentation`
   - [📊LUKHAS Module Status Dashboard](status/MODULE_STATUS_DASHBOARD.md) 🚧 `documentation`
   - [🎯 LUKHAS PWM Module Status Report](status/MODULE_STATUS_REPORT.md) 🚧 `documentation`
-  - [🎉 LUKHAS AI Documentation Organization - COMPLETE](status/ORGANIZATION_COMPLETE_FINAL_REPORT.md) 🚧 `documentation`
   - [LUKHAS AI Repository Organization - Final Summary](status/ORGANIZATION_FINAL_SUMMARY.md) 🚧 `documentation`
   - [Phase 4 Migration Completion Report](status/PHASE4_COMPLETION_REPORT.md) 🚧 `documentation`
   - [🎉 Phase 2 Success Summary: Real Component Integration & Brand Excellence](status/PHASE_2_SUCCESS_SUMMARY.md) 🚧 `documentation`
@@ -977,7 +989,6 @@ This is an automatically generated hierarchical view of all documentation.
   - [LUKHAS PWM Operational Capabilities Report](status/PWM_OPERATIONAL_CAPABILITIES_REPORT.md) 🚧 `documentation`
   - [Pwm Operational Status Report](status/PWM_OPERATIONAL_STATUS_REPORT.md) 🚧 `documentation`
   - [🎯 LUKHAS Realistic Harmony Assessment](status/REALISTIC_HARMONY_ASSESSMENT.md) 🚧 `documentation`
-  - [Reconciliation Analysis: Real vs Stubs](status/RECONCILIATION_ANALYSIS.md) 🚧 `documentation`
   - [LUKHAS AGI Framework - Research Summary](status/RESEARCH_SUMMARY_COMPLETE.md) 🚧 `documentation`
   - [Root Directory Cleanup Report](status/ROOT_CLEANUP_REPORT.md) 🚧 `documentation`
   - [Root Directory Cleanup Summary](status/ROOT_CLEANUP_SUMMARY.md) 🚧 `documentation`
@@ -991,9 +1002,7 @@ This is an automatically generated hierarchical view of all documentation.
   - [🎯 LUKHAS PWM Streamlining Complete Summary](status/STREAMLINING_COMPLETE_SUMMARY.md) 🚧 `documentation`
   - [LUKHAS AI System Completion Report](status/SYSTEM_COMPLETION_REPORT.md) 🚧 `documentation`
   - [🔧 System Stability Report - Core System Improvements & Performance](status/SYSTEM_STABILITY_REPORT.md) 🚧 `documentation`
-  - [📊 LUKHAS AI - System Status Clarity Report](status/SYSTEM_STATUS_CLARITY.md) 🚧 `documentation`
   - [LUKHAS Tagging System Status](status/TAGGING_SYSTEM_STATUS.md) 🚧 `documentation`
-  - [Validation Report](status/VALIDATION_REPORT.md) 🚧 `documentation`
   - [LUKHAS Workspace Consolidation Summary](status/WORKSPACE_CONSOLIDATION_SUMMARY.md) 🚧 `documentation`
   - [Repository Organization Summary](status/organization_summary.md) 🚧 `documentation`
   - [🧠 ΛMEMORY System Test](status/test_memory_doc.md) 🚧 `documentation`
@@ -1040,7 +1049,6 @@ This is an automatically generated hierarchical view of all documentation.
   - [🎯 ACTIVE TASKS](tasks/ACTIVE.md) 🚧 `documentation`
   - [🚧 BLOCKED TASKS](tasks/BLOCKED.md) 🚧 `documentation`
   - [🎯✨ Legal Compliance & Tone Enforcement Task Assignments](tasks/CLAUDE_AGENT_COMPLIANCE_AND_TONE_TASKS.md) 🚧 `documentation`
-  - [Claude Agent Enhanced Tasks](tasks/CLAUDE_AGENT_ENHANCED_TASKS.md) 🚧 `documentation`
   - [🎯 CLAUDE TASKS](tasks/CLAUDE_SIMPLE.md) 🚧 `documentation`
   - [🎭✨ Claude Task Master Control - Lambda Consciousness Central](tasks/CLAUDE_TASK_MASTER.md) 🚧 `documentation`
   - [🎼✨ Claude Task Queue - Future Consciousness Orchestration](tasks/CLAUDE_TASK_QUEUE.md) 🚧 `documentation`
@@ -1064,7 +1072,7 @@ This is an automatically generated hierarchical view of all documentation.
   - [Unallocated TODO Groups Analysis](todo-groups/UNALLOCATED_TODO_GROUPS.md) 🚧 `documentation`
 - **transcripts/**
   - **claude-code/**
-    - ["GPT-INFO Chat Transcript"](transcripts/claude-code/2025-10-06-GPT-INFO-CHAT.md) `transcript`
+    - [Branch hygiene: delete `develop/v0.03` now, recreate later](transcripts/claude-code/2025-10-06-GPT-INFO-CHAT.md) `transcript`
 - **trinity_examples/**
   - [Natural Language Consciousness Interface](trinity_examples/natural_language_interface.md) 🚧 `documentation`
 - **troubleshooting/**
@@ -1077,13 +1085,12 @@ This is an automatically generated hierarchical view of all documentation.
   - [Final Import Assessment - What's REALLY Missing](v0.03/FINAL_IMPORT_ASSESSMENT.md) `misc`
   - [Gpt5 Module Implementation Request](v0.03/GPT5_MODULE_IMPLEMENTATION_REQUEST.md) `misc`
   - [Import Path Corrections - Actual Module Locations](v0.03/IMPORT_PATH_CORRECTIONS.md) `misc`
-  - ["v0.03-prep Known Issues"](v0.03/KNOWN_ISSUES.md) `documentation`
-  - ["v0.03-prep Health Report"](v0.03/v0.03-prep-HEALTH_REPORT.md) `health-report`
+  - [v0.03-prep Known Issues & Technical Debt](v0.03/KNOWN_ISSUES.md) `documentation`
+  - [LUKHAS AI v0.03-prep Health Report](v0.03/v0.03-prep-HEALTH_REPORT.md) `health-report`
 - **v0.04/**
-  - ["v0.04 Sprint Plan"](v0.04/SPRINT_PLAN.md) `sprint-plan`
+  - [v0.04 Sprint Plan: Test Infrastructure & Code Quality](v0.04/SPRINT_PLAN.md) `sprint-plan`
 - **validation/**
   - [📊 Agent 1 & 2 Work Validation Report](validation/AGENT_WORK_VALIDATION_REPORT.md) 🚧 `documentation`
-  - [📊 Post-Agent Validation & New Task Assignment Report](validation/COMPLIANCE_VALIDATION_AND_TASKS.md) 🚧 `documentation`
   - [📊 Current System Status Validation - August 11, 2025](validation/CURRENT_SYSTEM_STATUS_VALIDATION.md) 🚧 `documentation`
   - [🔍 File Deletion Safety Verification Report](validation/FILE_DELETION_VERIFICATION_REPORT.md) 🚧 `documentation`
   - [🎭 LUKHΛS - Quantum Consciousness Platform](validation/README.md) 🚧 `documentation`
@@ -1104,7 +1111,6 @@ This is an automatically generated hierarchical view of all documentation.
   - **content/**
     - **domains/**
       - **lukhas-ai-main/**
-        - [LUKHAS AI λWecosystem Website Architecture](web/content/domains/lukhas-ai-main/technical_architecture.md) 🚧 `documentation`
         - [What is LUKHAS? — Complete Website Content Structure](web/content/domains/lukhas-ai-main/website_content_strategy.md) 🚧 `documentation`
       - **lukhas-cloud/**
         - [☁️ lukhas.cloud - Managed Cloud Services Strategy](web/content/domains/lukhas-cloud/cloud_services_strategy.md) 🚧 `documentation`
@@ -1120,8 +1126,6 @@ This is an automatically generated hierarchical view of all documentation.
     - **plans/**
       - **content-calendar/**
         - [LUKHAS Experience Page - Complete Redesign & Fixes](web/content/plans/content-calendar/experience_page_updates.md) 🚧 `documentation`
-      - **ecosystem-strategy/**
-        - [🌐 LUKHAS λWecosystem Domain Architecture Plans](web/content/plans/ecosystem-strategy/lambda_ecosystem_architecture.md) 🚧 `documentation`
       - **implementation-roadmap/**
         - [LUKHΛS Studio implementation roadmap](web/content/plans/implementation-roadmap/studio_implementation.md) 🚧 `documentation`
       - [📋 LUKHAS Web Strategic Planning Index](web/content/plans/INDEX.md) 🚧 `documentation`
@@ -1159,9 +1163,7 @@ This is an automatically generated hierarchical view of all documentation.
     - [Our Vision for Consciousness Technology](web/content/vision_page.md) 🚧 `documentation`
   - [📜 LUKHAS Content Governance Framework](web/CONTENT_GOVERNANCE_FRAMEWORK.md) 🚧 `documentation`
   - [LUKHAS AI λWecosystem Website Architecture](web/LUKHAS_AI_WEBSITE_ARCHITECTURE.md) 🚧 `documentation`
-  - [LUKHAS AI Design System](web/LUKHAS_DESIGN_SYSTEM.md) 🚧 `documentation`
   - [🌐 LUKHAS λWecosystem Domain Architecture Plans](web/LUKHAS_ECOSYSTEM_WEBSITE_PLANS.md) 🚧 `documentation`
-  - [LUKHAS AI Particle System Implementation Guide](web/LUKHAS_PARTICLE_IMPLEMENTATION.md) 🚧 `documentation`
   - [LUKHAS Vision: The Path to AGI Through Modular AI](web/VISION _alternative_version.md) 🚧 `documentation`
   - [LUKHAS Vision: Navigating the Future of Consciousness Technology](web/VISION.md) 🚧 `documentation`
 - [LUKHAS AI Agent Coordination System](AI_AGENT_COORDINATION_GUIDE.md) 🚧 `documentation`
@@ -1213,11 +1215,11 @@ This is an automatically generated hierarchical view of all documentation.
 - [Notion Sync - T4/0.01% External Visibility](NOTION_SYNC.md) 🚧 `documentation`
 - [LUKHAS MCP — Operations Demo (T4)](OPERATIONS_DEMO.md) 🚧 `documentation`
 - [🎉 LUKHAS AI Documentation Organization - COMPLETE](ORGANIZATION_COMPLETE_FINAL_REPORT.md) 🚧 `documentation`
-- ["Original README: Audit Navigation Guide"](ORIGINAL_README.md) `misc`
+- [Audience Targeting](ORIGINAL_README.md) `misc`
 - [Phase 4 Completion Report: Advanced Automation ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum](PHASE4_COMPLETION_REPORT.md) 🚧 `documentation`
 - [✅ Phase 1 Documentation Frontmatter Tagging Complete](PHASE_1_FRONTMATTER_TAGGING_COMPLETE.md) 🚧 `documentation`
 - [T4/0.01% Post-Freeze Maintenance Guide](POST_FREEZE_MAINTENANCE.md) 🚧 `documentation`
-- [LUKHAS Quick Start Guide](QUICK_START.md) `documentation`
+- [🚀 LUKHAS Quick Start Guide](QUICK_START.md) `documentation`
 - [🚀 LUKHAS AI Quick Start Guide](QUICK_START_GUIDE.md) 🚧 `documentation`
 - [📦 Docs](README.md) 🚧 `documentation`
 - [LUKHAS Roadmap: From Modular AI to AGI](ROADMAP.md) 🚧 `documentation`
@@ -1238,7 +1240,6 @@ This is an automatically generated hierarchical view of all documentation.
 - [RFC Template: Matrix Tracks Gate Proposal](gate_governance_rfc_template.md) 🚧 `documentation`
 - [docs - Module Context](lukhas_context.md) 🚧 `documentation`
 - [🏆 Matrix Tracks Adoption Scoreboard](matrix_tracks_scoreboard.md) 🚧 `documentation`
-- [🤖 LUKHAS MCP Server Configuration Guide](mcp_server_setup_guide.md) 🚧 `documentation`
 - [LUKHAS Phase 5: Enhanced Observability & Evidence Collection Implementation](phase5_observability_implementation.md) 🚧 `documentation`
 - [Test Collection Error Analysis](test_error_patterns.md) 🚧 `documentation`
 

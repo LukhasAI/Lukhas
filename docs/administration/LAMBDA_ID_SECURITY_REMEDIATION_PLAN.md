@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: administration
+redirect: false
+moved_to: null
 ---
+
 # 🔐 ΛiD Identity System Security Remediation Plan
 
 ## Executive Summary

@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: governance
+redirect: false
+moved_to: null
 ---
+
 # 📑 LUKHAS Module Transparency Documentation
 
 **Created**: 2025-07-24

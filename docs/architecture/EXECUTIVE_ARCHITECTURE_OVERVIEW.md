@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: architecture
+redirect: false
+moved_to: null
 ---
+
 # 🏗️ **LUKHΛS AI: Executive Architecture Overview**
 *Consciousness-Scale Engineering for Global Intelligence*
 

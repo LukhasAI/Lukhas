@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: planning
+redirect: false
+moved_to: null
 ---
+
 # ✅ Phase 1 Completion: Security & Compliance Integration
 
 **Phase**: Phase 1 - Security & Compliance Integration

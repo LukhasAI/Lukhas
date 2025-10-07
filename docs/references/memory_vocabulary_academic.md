@@ -1,9 +1,12 @@
 ---
-context: academic
-module: unknown
-title: Memory Vocabulary (Academic Context)
+status: stable
 type: documentation
+owner: unknown
+module: references
+redirect: false
+moved_to: null
 ---
+
 # Memory Vocabulary (Academic Context)
 
 Memory has been cast as archive, as dream, as wound. Freud described it as a palimpsest where every layer leaves its trace, never fully erased. Proust made of memory a cathedral of sensation, where a taste or a sound could resurrect entire worlds. Orwell's dystopia warned of memory as something malleable, subject to control and erasure by power.

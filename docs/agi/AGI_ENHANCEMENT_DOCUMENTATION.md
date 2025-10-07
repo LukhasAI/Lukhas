@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: agi
+redirect: false
+moved_to: null
 ---
+
 # 🧠 AGI Enhancement Documentation
 ## Advanced General Intelligence Integration with LUKHAS AI
 

@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: releases
+redirect: false
+moved_to: null
 ---
+
 # Zenodo Production Upload - Next Steps
 
 **Status**: ✅ Sandbox upload successful | ⏳ Production upload pending

@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: lambda_products
+redirect: false
+moved_to: null
 ---
+
 # ARGUS (DΛST) — Unified Security Dashboard
 
 Overview

@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: validation
+redirect: false
+moved_to: null
 ---
+
 # T4/0.01% Excellence Audit Framework
 
 Complete audit and certification framework for LUKHAS AI T4/0.01% excellence validation.

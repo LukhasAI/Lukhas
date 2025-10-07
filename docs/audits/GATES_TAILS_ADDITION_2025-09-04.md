@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: audits
+redirect: false
+moved_to: null
 ---
+
 Quick gates appended 2025-09-04
 
 - Import-linter: run (fail-open) — capture tail for triage if noisy.

@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: audits
+redirect: false
+moved_to: null
 ---
+
 # Lukhas — Auditor Guide (Phase 2)
 
 **Intent:** Integration readiness, not feature behavior changes.

@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: t4
+redirect: false
+moved_to: null
 ---
+
 # LUKHAS Security Hardening - T4/0.01% Excellence Achievement
 
 ## Overview

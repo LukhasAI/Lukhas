@@ -1,3 +1,12 @@
+---
+status: stable
+type: misc
+owner: unknown
+module: gonzo
+redirect: false
+moved_to: null
+---
+
 # LUKHAS AI System Context - Claude Code Master Reference
 # Architecture: Constellation Framework + MATRIZ Pipeline
 # Version: Elite/T4 Implementation

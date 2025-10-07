@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: roadmap
+redirect: false
+moved_to: null
 ---
+
 # 🚀 OpenAI ↔ LUKHAS 2026→2030: Pilot-to-Platform Collaboration Plan
 *Last updated: August 9, 2025 — Draft for joint review*
 

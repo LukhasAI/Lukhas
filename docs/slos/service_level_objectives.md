@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: slos
+redirect: false
+moved_to: null
 ---
+
 # LUKHAS AI Service Level Objectives (SLOs)
 
 ## Overview

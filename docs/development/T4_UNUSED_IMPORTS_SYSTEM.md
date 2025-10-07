@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: development
+redirect: false
+moved_to: null
 ---
+
 # 🎯 T4 Unused Imports System
 
 **Transform Technical Debt into Documented Intent**

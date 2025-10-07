@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: planning
+redirect: false
+moved_to: null
 ---
+
 # LUKHAS 2030: The Complete Vision
 
 ## Beyond Traditional AI - A Living Digital Organism

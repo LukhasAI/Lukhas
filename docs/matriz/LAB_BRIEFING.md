@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: matriz
+redirect: false
+moved_to: null
 ---
+
 # LAB BRIEFING — MATRIZ Rollout
 
 **Objective:** Assign lanes module-by-module; nightly soak + chaos; safe canary.

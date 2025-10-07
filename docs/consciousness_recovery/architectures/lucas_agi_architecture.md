@@ -1,35 +1,13 @@
 ---
-status: wip
+redirect: true
+moved_to: consciousness_recovery/architectures/core_architecture.md
 type: documentation
 ---
-# LUCAS AGI Architecture
 
-## Philosophy Integration
+# Document Moved
 
-### Jobs-Inspired Elements
-- Seamless Experience Layer
-  - Zero Configuration
-  - Intelligent Defaults
-  - Progressive Disclosure
+This document has been moved to [core_architecture.md](consciousness_recovery/architectures/core_architecture.md).
 
-### Altman-Inspired Elements
-- Self-Improving Core
-  - Safe Evolution
-  - Capability Growth
-  - Ethics Preservation
+**Reason**: exact_duplicate
 
-## Core Components
-1. Seamless Layer (Jobs)
-   - Experience Orchestration
-   - Interface Minimalism
-   - Predictive Assistance
-
-2. Evolution Layer (Altman)
-   - Meta-Learning
-   - Safe Improvement
-   - Capability Expansion
-
-3. Integration Points
-   - Ethics-First Evolution
-   - User-Centric Growth
-   - Transparent Progress
+Please update your bookmarks.

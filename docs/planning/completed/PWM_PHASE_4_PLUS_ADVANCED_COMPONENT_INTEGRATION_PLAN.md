@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: planning
+redirect: false
+moved_to: null
 ---
+
 # 🚀 LUKHAS  Phase 4+ Advanced Component Integration Plan
 
 **Pack-What-Matters: Advanced Component Discovery & Integration Strategy**

@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: root
+redirect: false
+moved_to: null
 ---
+
 # 🎯 LUKHAS MODULE SCHEMA SYSTEM - OPERATIONAL STATUS
 
 ## 🟢 SYSTEM STATUS: FULLY OPERATIONAL

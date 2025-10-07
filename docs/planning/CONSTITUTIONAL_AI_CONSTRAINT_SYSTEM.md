@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: planning
+redirect: false
+moved_to: null
 ---
+
 # Constitutional AI Constraint System: Formal Verification Framework
 ## Mathematical Guarantees for Ethical AI Behavior
 

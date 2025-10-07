@@ -1,6 +1,10 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: governance
+redirect: false
+moved_to: null
 ---
 
 # Contributor Covenant Code of Conduct

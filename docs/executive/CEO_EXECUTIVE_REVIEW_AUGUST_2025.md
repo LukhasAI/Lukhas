@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: executive
+redirect: false
+moved_to: null
 ---
+
 # 🏢 **CEO EXECUTIVE REVIEW**
 **LUKHAS Lambda Products Pack - User Experience Features Audit**
 

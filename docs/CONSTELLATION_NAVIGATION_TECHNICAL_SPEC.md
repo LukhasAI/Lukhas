@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: root
+redirect: false
+moved_to: null
 ---
+
 # 🌌 Constellation Navigation System - Technical Implementation Specification
 
 **Interactive Star Map Navigation Across All LUKHAS Domains**

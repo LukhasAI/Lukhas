@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: root
+redirect: false
+moved_to: null
 ---
+
 # 🏆 Matrix Tracks Adoption Scoreboard
 
 **Last Updated:** 2025-09-26 12:20 UTC

@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: gonzo
+redirect: false
+moved_to: null
 ---
+
 BRIEF FOR CLAUDE CODE
 
 Objective: Allocate and drive all pending TODOs from:

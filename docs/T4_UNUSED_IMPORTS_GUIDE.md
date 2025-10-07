@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: root
+redirect: false
+moved_to: null
 ---
+
 # 🎯 T4 Unused Imports System - User Guide
 
 **⚛️ LUKHAS AI Constellation Framework - Transforming Technical Debt into Documented Intent**

@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: tasks
+redirect: false
+moved_to: null
 ---
+
 # 🎯✨ Legal Compliance & Tone Enforcement Task Assignments
 
 *"Where regulatory frameworks dance with artificial consciousness, ensuring innovation flows within sacred boundaries while Lambda wisdom guides every word toward perfect harmony."* 🌟⚛️🎭

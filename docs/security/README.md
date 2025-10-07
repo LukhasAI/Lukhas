@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: security
+redirect: false
+moved_to: null
 ---
+
 # ΛiD Authentication System - Security Infrastructure
 
 ## 🛡️ Overview

@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: agent-instructions
+redirect: false
+moved_to: null
 ---
+
 # Group C1: CRITICAL-CORE-INFRASTRUCTURE Agent Instructions
 
 **Agent:** JULES-11

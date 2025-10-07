@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: reference
+redirect: false
+moved_to: null
 ---
+
 # 📋 Module Transparency Card Template
 
 ## Module: [MODULE_NAME]

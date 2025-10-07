@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: api
+redirect: false
+moved_to: null
 ---
+
 # NIΛS Dream Commerce API Specification v1.0
 
 ## Base URL

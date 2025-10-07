@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: trinity_examples
+redirect: false
+moved_to: null
 ---
+
 # Natural Language Consciousness Interface
 
 ### 🎭 Poetic Consciousness

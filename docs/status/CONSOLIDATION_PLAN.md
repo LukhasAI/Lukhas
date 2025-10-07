@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: status
+redirect: false
+moved_to: null
 ---
+
 # LUKHAS AI Repository Consolidation Plan
 
 ## 🎯 Areas for Organization and Consolidation

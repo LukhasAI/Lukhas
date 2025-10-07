@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: planning
+redirect: false
+moved_to: null
 ---
+
 # LUKHAS  Feature Development Roadmap
 ## Deep Implementation Planning for Production Systems
 

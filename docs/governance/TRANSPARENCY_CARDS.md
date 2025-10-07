@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: governance
+redirect: false
+moved_to: null
 ---
+
 # 📋 LUKHAS AGI Module Transparency Cards
 
 **Generated**: 2025-07-24

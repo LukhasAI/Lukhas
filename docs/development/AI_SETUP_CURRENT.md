@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: development
+redirect: false
+moved_to: null
 ---
+
 # 🎭 LUKHAS AI Integration Setup - Complete Configuration
 
 ## 🎯 **Your Current AI Arsenal:**

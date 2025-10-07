@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: integration
+redirect: false
+moved_to: null
 ---
+
 # OpenAI Integration Playbook - 2025 Edition
 
 ## Overview: Modern OpenAI Integration for LUKHAS AI

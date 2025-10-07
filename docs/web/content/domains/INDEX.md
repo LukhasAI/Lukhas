@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: web
+redirect: false
+moved_to: null
 ---
+
 # 🌐 LUKHAS λWecosystem Domain Index
 
 *"Six domains, one consciousness - each star in our constellation serves distinct communities while maintaining unified brand excellence."*

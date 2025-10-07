@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: summaries
+redirect: false
+moved_to: null
 ---
+
 # LUKHAS Documentation Organization Report
 *Comprehensive workspace organization and documentation update*
 

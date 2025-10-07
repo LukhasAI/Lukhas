@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: root
+redirect: false
+moved_to: null
 ---
+
 # 🤖 LUKHAS AI Integration Strategy
 ## Professional Multi-Modal AI Workflow
 

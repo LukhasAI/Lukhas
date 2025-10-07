@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: roadmap
+redirect: false
+moved_to: null
 ---
+
 # 🌟 Universal Symbol Communication - Constellation Framework Blueprint
 
 ---

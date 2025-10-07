@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: observability
+redirect: false
+moved_to: null
 ---
+
 # LUKHAS Audit Trails & Observability
 
 Complete observability stack for MATRIZ pipeline with OpenTelemetry tracing, audit trails, and adaptive feedback.

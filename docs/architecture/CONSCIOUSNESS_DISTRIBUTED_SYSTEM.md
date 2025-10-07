@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: architecture
+redirect: false
+moved_to: null
 ---
+
 # Consciousness Distributed System Analysis
 ## Constellation Framework: Identity-Consciousness-Guardian Network
 

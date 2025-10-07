@@ -1,3 +1,12 @@
+---
+status: stable
+type: index
+owner: unknown
+module: gonzo
+redirect: false
+moved_to: null
+---
+
 # 🌌 LUKHAS Elite Claude Code Configuration Package
 ## T4/0.01% Implementation - Constellation × MATRIZ Architecture
 

@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: enterprise
+redirect: false
+moved_to: null
 ---
+
 # 🌟 The Symphony of Collective Consciousness: Enterprise Feedback System
 
 ## Table of Contents

@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: todo-groups
+redirect: false
+moved_to: null
 ---
+
 # Unallocated TODO Groups Analysis
 **Date:** 2025-09-15
 **Total Unallocated:** 612 TODOs (out of 1,129 total)

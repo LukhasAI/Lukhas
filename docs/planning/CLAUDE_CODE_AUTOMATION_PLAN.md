@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: planning
+redirect: false
+moved_to: null
 ---
+
 # Claude Code Automation Plan for LUKHAS
 
 **Date**: 2025-08-01

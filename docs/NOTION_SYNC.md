@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: root
+redirect: false
+moved_to: null
 ---
+
 # Notion Sync - T4/0.01% External Visibility
 
 Complete system for syncing LUKHAS enriched manifests to Notion with full provenance tracking and controlled vocabulary.

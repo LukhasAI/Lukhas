@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: consciousness_recovery
+redirect: false
+moved_to: null
 ---
+
 # LUCΛS Prototype v1.0
 
 🧠 **LUCΛS** — *Lógica Unificada de Conciencia Simbólica* — is a symbolic ethical AGI prototype built to simulate emotionally aware, consent-driven message delivery using modular, interpretable components.

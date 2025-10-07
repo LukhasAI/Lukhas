@@ -1,8 +1,11 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: visionary
+redirect: false
+moved_to: null
 ---
-
 
 ## CRITICAL MISSING MODULES FOR AGI DOMINANCE
 

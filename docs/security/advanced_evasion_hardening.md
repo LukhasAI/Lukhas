@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: security
+redirect: false
+moved_to: null
 ---
+
 # Advanced Evasion Hardening System
 
 Production-grade protection against sophisticated obfuscation and evasion techniques.

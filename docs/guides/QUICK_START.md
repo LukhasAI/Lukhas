@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: guides
+redirect: false
+moved_to: null
 ---
+
 # 🚀 LUKHAS  Quick Start Guide
 
 Welcome to LUKHAS  - Pack What Matters! This guide will get you up and running quickly.

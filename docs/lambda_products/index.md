@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: lambda_products
+redirect: false
+moved_to: null
 ---
+
 # Lambda Products Documentation Index
 
 Welcome — this index links to product READMEs and notes. Use these as starting points for deeper architecture and onboarding documentation.

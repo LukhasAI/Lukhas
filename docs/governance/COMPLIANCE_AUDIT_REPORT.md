@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: governance
+redirect: false
+moved_to: null
 ---
+
 # 🛡️ Compliance & Ethics Audit Report
 
 **Date**: August 11, 2025

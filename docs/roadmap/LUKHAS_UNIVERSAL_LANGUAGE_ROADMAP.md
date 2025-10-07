@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: roadmap
+redirect: false
+moved_to: null
 ---
+
 # LUKHAS Universal Language & High-Entropy Password System Roadmap
 
 ## 🌍 Executive Summary

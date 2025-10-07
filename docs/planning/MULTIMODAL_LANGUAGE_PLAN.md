@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: planning
+redirect: false
+moved_to: null
 ---
+
 # Multimodal Language Plan (Words · Emojis · Images · Sounds · Gestures)
 
 Objective: Bridge diverse modalities into a universal meaning space, enhancing OpenAI outputs without competing—use LUKHAS symbolic layers to enrich prompts and post-interpretation.

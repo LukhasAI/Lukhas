@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: security
+redirect: false
+moved_to: null
 ---
+
 # 🛡️ Guardian Security Architecture - Complete Integration Guide
 
 **LUKHAS AI Guardian Security Framework v1.0.0**

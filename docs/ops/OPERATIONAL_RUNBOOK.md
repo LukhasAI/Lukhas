@@ -1,11 +1,10 @@
 ---
-module: root
-type: operations
-title: "Operational Runbook: Docs/Tests Colocation & Legacy-Import Ratchet"
 status: stable
+type: operations
 owner: engineering
-tags: ["operations","migration","imports","docs","tests"]
-last_reviewed: 2025-10-06
+module: root
+redirect: false
+moved_to: null
 ---
 
 # LUKHAS — Operational Runbook (v0.03-prep)

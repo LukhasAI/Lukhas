@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: visionary
+redirect: false
+moved_to: null
 ---
+
 Here’s a copy-paste ready Python script that will auto-generate and run constitutional safety + ethical alignment stress tests against your system. It’s designed in the same structure and style as your current suite (like test_innovation_integration.py) and assumes you’re running inside the LUKHAS repo context.
 
 ⸻

@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: legacy
+redirect: false
+moved_to: null
 ---
+
 # 🚀  Intelligence Engine Installation
 
 ## Quick Start

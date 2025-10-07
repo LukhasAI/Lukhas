@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: architecture
+redirect: false
+moved_to: null
 ---
+
 # MATRIZ Graph Spec, Compiler, and Runtime Envelope
 
 Status: v0.1 (Foundational Contracts) | Owner: Codex Agent | Lane: lukhas/

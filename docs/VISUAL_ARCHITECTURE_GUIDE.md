@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: root
+redirect: false
+moved_to: null
 ---
+
 # 🎨 LUKHAS Visual Architecture Guide
 
 **ASCII and Mermaid diagrams for understanding LUKHAS AI architecture** - Copy-paste ready visualizations.

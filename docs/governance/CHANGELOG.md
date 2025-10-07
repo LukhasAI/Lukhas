@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: governance
+redirect: false
+moved_to: null
 ---
+
 # Changelog
 
 All notable changes to LUKHAS AI will be documented in this file.

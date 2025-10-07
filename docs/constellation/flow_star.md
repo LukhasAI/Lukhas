@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: constellation
+redirect: false
+moved_to: null
 ---
+
 # Flow Star (🌊) - Real-time Consciousness Processing
 
 ## Overview

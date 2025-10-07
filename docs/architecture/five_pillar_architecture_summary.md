@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: architecture
+redirect: false
+moved_to: null
 ---
+
 # 🏛️ LUKHAS Five-Pillar Architecture
 
 ## System Overview

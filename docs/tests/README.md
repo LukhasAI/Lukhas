@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: tests
+redirect: false
+moved_to: null
 ---
+
 # Docs Tests
 
 This directory contains the test suite for the docs module.

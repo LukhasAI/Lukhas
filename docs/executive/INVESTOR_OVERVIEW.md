@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: executive
+redirect: false
+moved_to: null
 ---
+
 # 💼 LUKHAS  - Executive & Investor Overview
 
 ## 🎯 Executive Summary

@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: governance
+redirect: false
+moved_to: null
 ---
+
 # 🔍 LUKHAS AI Transparency Report
 
 > **Last Updated**: August 11, 2025

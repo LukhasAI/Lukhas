@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: web
+redirect: false
+moved_to: null
 ---
+
 # Content Products User Guide
 ## Dream-Guided Creative Intelligence and Multi-Perspective Analysis
 

@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: compliance
+redirect: false
+moved_to: null
 ---
+
 # LUKHAS AI Compliance Status Report
 
 *Last Updated: August 11, 2025*

@@ -1,16 +1,12 @@
 ---
-lane: L2
-module: docs.collaboration.runbooks
 status: stable
-tags:
-- t4
-- governance
-- notion
-- sync
-- runbook
-title: Notion Sync Runbook
 type: runbook
+owner: unknown
+module: docs.collaboration.runbooks
+redirect: false
+moved_to: null
 ---
+
 # Notion Sync Runbook
 
 **Purpose**: Operational procedures for synchronizing LUKHAS module manifests with Notion database.

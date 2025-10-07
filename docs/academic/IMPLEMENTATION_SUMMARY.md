@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: academic
+redirect: false
+moved_to: null
 ---
+
 # LUKHAS AI - Advanced Consciousness Engine Implementation Summary
 
 **Date**: September 2, 2025  

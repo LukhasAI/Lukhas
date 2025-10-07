@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: domain_strategy
+redirect: false
+moved_to: null
 ---
+
 # 🌌 LUKHAS λWecosystem - Complete Website Strategy & Content Framework
 
 *Comprehensive consciousness technology platform strategy with Elite Voice Coherence and Constellation Framework integration*

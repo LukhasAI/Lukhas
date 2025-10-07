@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: runbooks
+redirect: false
+moved_to: null
 ---
+
 # Go-Live Runbook + Ops Playbook
 
 ## Day-0 (Go-Live) Checklist — 20-minute preflight

@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: root
+redirect: false
+moved_to: null
 ---
+
 # LUKHAS Documentation Summary - September 19, 2025
 
 Comprehensive documentation created for all new consciousness technology features and systems added in the last 24 hours.

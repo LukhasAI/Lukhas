@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: planning
+redirect: false
+moved_to: null
 ---
+
 # Neuroscience Memory System: Biologically Accurate Implementation
 ## Neurologically Faithful Memory Architecture for AGI Systems
 

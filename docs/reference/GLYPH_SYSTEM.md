@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: reference
+redirect: false
+moved_to: null
 ---
+
 # LUKHAS AI GLYPH Cryptographic Seal System
 
 Portable, quantum-resistant cryptographic attestations for AI artifacts with verifiable offline and online validation.

@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: api
+redirect: false
+moved_to: null
 ---
+
 # LUKHAS API Ecosystem - Bridging Innovation with Industry
 
 ## Vision

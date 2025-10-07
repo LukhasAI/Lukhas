@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: ui
+redirect: false
+moved_to: null
 ---
+
 # LUKHΛS Feedback Cards (v1)
 
 The chat UI shows a small "brain" icon next to each output. Clicking it opens a **Feedback Card** bound to the exact `audit node_id`.

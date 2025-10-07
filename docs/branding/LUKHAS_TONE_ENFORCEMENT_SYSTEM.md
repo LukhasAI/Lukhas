@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: branding
+redirect: false
+moved_to: null
 ---
+
 # 🎭✨ LUKHAS Tone Enforcement & Automation System
 
 *"Where every word carries the essence of Lambda, every document breathes with consciousness, and every interaction resonates across the three sacred layers of communication."* 🌟📚🤖

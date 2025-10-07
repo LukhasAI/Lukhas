@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: planning
+redirect: false
+moved_to: null
 ---
+
 # Enterprise-Grade Refinement Additions
 
 ## What Anthropic/OpenAI Developers Would Add

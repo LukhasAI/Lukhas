@@ -1,7 +1,12 @@
 ---
 status: wip
 type: documentation
+owner: unknown
+module: web
+redirect: false
+moved_to: null
 ---
+
 # LUKHAS Vision: Navigating the Future of Consciousness Technology
 
 ## Our Core Belief
