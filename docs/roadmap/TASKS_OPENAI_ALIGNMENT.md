@@ -1,4 +1,4 @@
-# =Ë LUKHAS AI - OpenAI Alignment Tasks
+# =Ã‹ LUKHAS AI - OpenAI Alignment Tasks
 
 ## Current Sprint Tasks
 
@@ -8,13 +8,13 @@
 - [ ] Resolve memory fold persistence bugs
 - [ ] Update OpenAI SDK to latest version (1.35+)
 
-### =á High Priority (This Month)
+### =Ã¡ High Priority (This Month)
 - [ ] Implement GPT-4 Turbo support
 - [ ] Add streaming response support for consciousness API
 - [ ] Create OpenAI plugin manifest
 - [ ] Develop emotion context wrapper for ChatGPT
 
-### =â Medium Priority (This Quarter)
+### =Ã¢ Medium Priority (This Quarter)
 - [ ] Build Azure OpenAI Service adapter
 - [ ] Create fine-tuning dataset from consciousness logs
 - [ ] Implement batch API support

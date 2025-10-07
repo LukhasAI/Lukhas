@@ -1,8 +1,8 @@
-# <¯ LUKHAS AI - OpenAI Alignment Roadmap
+# <Â¯ LUKHAS AI - OpenAI Alignment Roadmap
 
 ## Vision: Augmentation-First AI Partnership
 
-LUKHAS AI enhances OpenAI's capabilities through modular, ethical AI components that respect the Constellation Framework (8 Stars) (›>à=á) while providing unique value through consciousness, memory, and ethical governance systems.
+LUKHAS AI enhances OpenAI's capabilities through modular, ethical AI components that respect the Constellation Framework (8 Stars) (Â›>Ã =Ã¡) while providing unique value through consciousness, memory, and ethical governance systems.
 
 ## Phase 1: Foundation Integration (Q3 2025)
 *Focus: Core compatibility and API integration*
@@ -30,10 +30,10 @@ LUKHAS AI enhances OpenAI's capabilities through modular, ethical AI components 
 - [ ] GLYPH symbolic reasoning enhancement
 
 ### Deliverables
-- =Ë EmotionGPT wrapper module
-- =Ë Memory-enhanced conversation API
-- =Ë Ethical validation middleware
-- =Ë Symbolic reasoning plugin
+- =Ã‹ EmotionGPT wrapper module
+- =Ã‹ Memory-enhanced conversation API
+- =Ã‹ Ethical validation middleware
+- =Ã‹ Symbolic reasoning plugin
 
 ## Phase 3: Enterprise Integration (Q1 2026)
 *Focus: Enterprise-ready solutions*
@@ -45,10 +45,10 @@ LUKHAS AI enhances OpenAI's capabilities through modular, ethical AI components 
 - [ ] Multi-tenant architecture support
 
 ### Deliverables
-- =Ë Azure deployment templates
-- =Ë Enterprise authentication bridge
-- =Ë SOC2/HIPAA compliance modules
-- =Ë Multi-tenant orchestration
+- =Ã‹ Azure deployment templates
+- =Ã‹ Enterprise authentication bridge
+- =Ã‹ SOC2/HIPAA compliance modules
+- =Ã‹ Multi-tenant orchestration
 
 ## Phase 4: Advanced Synergy (Q2 2026)
 *Focus: Deep integration and innovation*
@@ -60,10 +60,10 @@ LUKHAS AI enhances OpenAI's capabilities through modular, ethical AI components 
 - [ ] Constellation Framework (8 Stars) certification
 
 ### Deliverables
-- =Ë Quantum optimization algorithms
-- =Ë Adaptive learning systems
-- =Ë Real-time consciousness APIs
-- =Ë Trinity compliance tools
+- =Ã‹ Quantum optimization algorithms
+- =Ã‹ Adaptive learning systems
+- =Ã‹ Real-time consciousness APIs
+- =Ã‹ Trinity compliance tools
 
 ## Technical Integration Points
 
@@ -111,7 +111,7 @@ enhanced_response = enhance_gpt(
 - Ethical AI principles alignment
 
 ### LUKHAS Principles
-- Constellation Framework (8 Stars) compliance (›>à=á)
+- Constellation Framework (8 Stars) compliance (Â›>Ã =Ã¡)
 - Guardian System validation
 - User consent and privacy
 - No unauthorized data retention
