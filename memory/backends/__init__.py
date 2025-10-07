@@ -1,37 +1,14 @@
 """Bridge: memory.backends — unify backends under one surface."""
 from __future__ import annotations
-from lukhas._bridgeutils import bridge_from_candidates, export_from, safe_guard
+from importlib import import_module
 
-__all__, _exp = bridge_from_candidates(
-    "lukhas_website.lukhas.memory.backends",
-    "candidate.memory.backends",
-    # DON'T import "memory.backends" - that's us! (circular)
-)
-globals().update(_exp)
+__all__ = []
 
-# Promote frequent backends if they exist
-possible = [
-    "InMemoryBackend",
-    "SQLiteBackend",
-    "PostgresBackend",
-    "VectorBackend",
-    "S3Backend",
-    "NullBackend",
-]
-for mod_name in (
-    "candidate.memory.backends",
-    "candidate.memory",
-    "memory",  # single-file fallbacks
-):
+# Make "import memory.backends" not explode even if specific backends are missing
+for name in ("sqlite", "redis", "inmemory", "postgres", "filesystem", "s3"):
     try:
-        mod = __import__(mod_name, fromlist=["*"])
-        e = export_from(mod)
-        for sym in possible:
-            if sym in e and sym not in globals():
-                globals()[sym] = e[sym]
-                if "__all__" in globals():
-                    __all__.append(sym)
+        m = import_module(f"memory.backends.{name}")
+        globals()[name] = m
+        __all__.append(name)
     except Exception:
-        continue
-
-safe_guard(__name__, __all__)
+        pass

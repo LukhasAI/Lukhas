@@ -9,20 +9,15 @@ __all__, _exp = bridge_from_candidates(
 )
 globals().update(_exp)
 
-# Common test surface
-for mod_name in (
-    "candidate.consciousness.enhanced_thought_engine",
-    "consciousness.enhanced_thought_engine",
-):
-    try:
-        mod = __import__(mod_name, fromlist=["*"])
-        e = export_from(mod)
-        for sym in ("EnhancedThoughtEngine", "EnhancedThoughtConfig"):
-            if sym in e and sym not in globals():
-                globals()[sym] = e[sym]
-                if "__all__" in globals():
-                    __all__.append(sym)
-    except Exception:
-        pass
+# Promote conventional symbols if present
+try:
+    mod = __import__("candidate.consciousness.enhanced_thought_engine", fromlist=["*"])
+    e = export_from(mod)
+    for sym in ("EnhancedThoughtEngine", "EnhancedContext", "EnhancedConfig"):
+        if sym in e and sym not in globals():
+            globals()[sym] = e[sym]
+            __all__.append(sym)
+except Exception:
+    pass
 
 safe_guard(__name__, __all__)

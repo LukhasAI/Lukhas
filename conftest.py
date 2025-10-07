@@ -70,13 +70,19 @@ def _map_lukhas(fullname: str) -> Optional[str]:
         "lukhas.consciousness.enhanced_thought_engine": "consciousness.enhanced_thought_engine",
         "lukhas.consciousness.types": "consciousness.types",
         "lukhas.memory.backends": "memory.backends",
+        "lukhas.aka_qualia": "aka_qualia",
+        "lukhas.aka_qualia.core": "aka_qualia.core",
     }
     return table.get(fullname)
 
 
 # Ensure our finder is last (don't shadow normal importers like _SixMetaPathImporter)
-if not any(isinstance(f, _LukhasAliasFinder) for f in sys.meta_path):
-    sys.meta_path.append(_LukhasAliasFinder())
+# Dedupe and append (not prepend) to avoid conflicts
+for i, f in enumerate(list(sys.meta_path)):
+    if isinstance(f, _LukhasAliasFinder):
+        sys.meta_path.pop(i)
+        break
+sys.meta_path.append(_LukhasAliasFinder())
 
 
 # ---- Prometheus duplicate timeseries guard (test-only) ----

@@ -2,25 +2,22 @@
 from __future__ import annotations
 from lukhas._bridgeutils import bridge_from_candidates, export_from, safe_guard
 
-# Primary: website → candidate → legacy integration
+# Primary: website → candidate → ab_safety_guard (where Guardian often lives)
 __all__, _exp = bridge_from_candidates(
     "lukhas_website.lukhas.governance.guardian_system",
-    "candidate.governance.guardian_system",
+    "candidate.core.ethics.ab_safety_guard",
     "governance.guardian_system",
-    "lukhas.governance.guardian_system_integration",
 )
 globals().update(_exp)
 
-# Commonly expected symbols in tests
-# Try to promote Guardian/SafetyGuard from ethics if present.
+# Canonical surface - promote from ab_safety_guard
 try:
-    import core.ethics as _ethics
-    e = export_from(_ethics)
-    for sym in ("Guardian", "SafetyGuard", "PolicyGuard", "PolicyResult"):
+    mod = __import__("candidate.core.ethics.ab_safety_guard", fromlist=["*"])
+    e = export_from(mod)
+    for sym in ("SafetyGuard", "GuardConfig", "start"):
         if sym in e and sym not in globals():
             globals()[sym] = e[sym]
-            if "__all__" in globals():
-                __all__.append(sym)
+            __all__.append(sym)
 except Exception:
     pass
 
