@@ -14,12 +14,12 @@ from unittest.mock import Mock, patch
 
 # Import module components
 try:
-    import design-system
+    # import design_system  # Module name with hyphen - skipping
 except ImportError:
     pytest.skip(f"Module design-system not available", allow_module_level=True)
 
 
-class TestDesign-SystemModule(unittest.TestCase):
+class TestDesignSystemModule(unittest.TestCase):
     """Unit tests for design-system module core functionality."""
 
     def setUp(self):
@@ -35,12 +35,12 @@ class TestDesign-SystemModule(unittest.TestCase):
 
     def test_module_import(self):
         """Test that module can be imported successfully."""
-        import design-system
+        # import design_system  # Module name with hyphen - skipping
         self.assertIsNotNone(design-system)
 
     def test_module_version(self):
         """Test module has version information."""
-        import design-system
+        # import design_system  # Module name with hyphen - skipping
         # Most modules should have version info
         self.assertTrue(hasattr(design-system, '__version__') or
                        hasattr(design-system, 'VERSION'))

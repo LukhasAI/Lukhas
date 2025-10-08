@@ -49,7 +49,7 @@ def clean_environment():
 
 
 @pytest.fixture
-def mock_mcp-lukhas-sse_config():
+def mock_mcp_lukhas_sse_config():
     """Mock configuration for mcp-lukhas-sse module."""
     return {
         "module": {

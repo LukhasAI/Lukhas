@@ -49,7 +49,7 @@ def clean_environment():
 
 
 @pytest.fixture
-def mock_security-reports_config():
+def mock_security_reports_config():
     """Mock configuration for security-reports module."""
     return {
         "module": {

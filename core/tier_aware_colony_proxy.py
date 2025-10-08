@@ -118,7 +118,7 @@ class TierAwareColonyProxy:
         self._analyze_target_colony()
         self._setup_method_interception()
 
-        self.logger.info(f"Tier-aware proxy initialized for {type(target_colony)}.__name__}")
+        self.logger.info(f"Tier-aware proxy initialized for {type(target_colony).__name__}")
 
     def _initialize_proxy_configuration(self):
         """Initialize proxy configuration and access rules."""
@@ -492,13 +492,13 @@ class TierAwareColonyProxy:
                 # Return non-callable attributes directly
                 return attr
 
-        raise AttributeError(f"'{type(self)}.__name__}' object has no attribute '{name}'")
+        raise AttributeError(f"'{type(self).__name__}' object has no attribute '{name}'")
 
     def __str__(self) -> str:
-        return f"TierAwareColonyProxy({self.proxy_id}, wrapping {type(self.target_colony)}.__name__})"
+        return f"TierAwareColonyProxy({self.proxy_id}, wrapping {type(self.target_colony).__name__})"
 
     def __repr__(self) -> str:
-        return f"TierAwareColonyProxy(proxy_id='{self.proxy_id}', target={type(self.target_colony)}.__name__})"
+        return f"TierAwareColonyProxy(proxy_id='{self.proxy_id}', target={type(self.target_colony).__name__})"
 
 
 class ColonyProxyManager:
@@ -535,7 +535,7 @@ class ColonyProxyManager:
         proxy = TierAwareColonyProxy(colony, proxy_id, self.identity_manager)
         self.proxies[proxy_id] = proxy
 
-        self.logger.info(f"Created proxy '{proxy_id}' for {type(colony)}.__name__}")
+        self.logger.info(f"Created proxy '{proxy_id}' for {type(colony).__name__}")
         return proxy
 
     def get_proxy(self, proxy_id: str) -> Optional[TierAwareColonyProxy]:

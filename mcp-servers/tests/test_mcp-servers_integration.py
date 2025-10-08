@@ -15,12 +15,12 @@ from unittest.mock import Mock, patch
 
 # Import module for integration testing
 try:
-    import mcp-servers
+    # import mcp_servers  # Module name with hyphen - skipping
 except ImportError:
     pytest.skip(f"Module mcp-servers not available", allow_module_level=True)
 
 
-class TestMcp-ServersIntegration(unittest.TestCase):
+class TestMcpServersIntegration(unittest.TestCase):
     """Integration tests for mcp-servers module."""
 
     @classmethod

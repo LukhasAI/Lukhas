@@ -49,7 +49,7 @@ def clean_environment():
 
 
 @pytest.fixture
-def mock_lukhas-ai-intro_config():
+def mock_lukhas_ai_intro_config():
     """Mock configuration for lukhas-ai-intro module."""
     return {
         "module": {

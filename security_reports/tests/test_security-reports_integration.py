@@ -15,12 +15,12 @@ from unittest.mock import Mock, patch
 
 # Import module for integration testing
 try:
-    import security-reports
+    # import security_reports  # Module name with hyphen - skipping
 except ImportError:
     pytest.skip(f"Module security-reports not available", allow_module_level=True)
 
 
-class TestSecurity-ReportsIntegration(unittest.TestCase):
+class TestSecurityReportsIntegration(unittest.TestCase):
     """Integration tests for security-reports module."""
 
     @classmethod

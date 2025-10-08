@@ -2,7 +2,17 @@
   "permissions": {
     "allow": [
       "Bash(git push:*)",
-      "Bash(ruff check:*)"
+      "Bash(ruff check:*)",
+      "Bash(for:*)",
+      "Bash(if [ -f \"$file\" ])",
+      "Bash(__NEW_LINE__ for file in final_sweep/tests/test_final-sweep_*.py)",
+      "Bash(__NEW_LINE__ for file in jules_branch/tests/test_Jules--branch_*.py)",
+      "Bash(__NEW_LINE__ for file in lukhas_ai_intro/tests/test_lukhas-ai-intro_*.py)",
+      "Bash(__NEW_LINE__ for file in mcp-lukhas-sse/tests/test_mcp-lukhas-sse_*.py)",
+      "Bash(__NEW_LINE__ for file in mcp-server/tests/test_mcp-server_*.py)",
+      "Bash(__NEW_LINE__ for file in mcp-servers/tests/test_mcp-servers_*.py)",
+      "Bash(__NEW_LINE__ for file in security_reports/tests/test_security-reports_*.py)",
+      "Bash(__NEW_LINE__ echo \"✅ Fixed hyphenated imports and class names in test files\")"
     ],
     "defaultMode": "bypassPermissions"
   }

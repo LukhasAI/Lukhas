@@ -49,7 +49,7 @@ def clean_environment():
 
 
 @pytest.fixture
-def mock_final-sweep_config():
+def mock_final_sweep_config():
     """Mock configuration for final-sweep module."""
     return {
         "module": {

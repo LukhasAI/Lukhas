@@ -39,7 +39,7 @@ _REGISTRY: dict[str, dict[str, Any]] = {
             "description": "Open a URL in a sandboxed browser and return text.",
             "parameters": {
                 "type": "object",
-                "properties": {"url": {"type": "string", "description": "URL to open"},
+                "properties": {"url": {"type": "string", "description": "URL to open"}},
                 "required": ["url"],
             },
         },

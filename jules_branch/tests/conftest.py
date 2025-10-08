@@ -49,7 +49,7 @@ def clean_environment():
 
 
 @pytest.fixture
-def mock_Jules--branch_config():
+def mock_jules_branch_config():
     """Mock configuration for Jules--branch module."""
     return {
         "module": {

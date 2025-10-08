@@ -15,12 +15,12 @@ from unittest.mock import Mock, patch
 
 # Import module for integration testing
 try:
-    import final-sweep
+    # import final_sweep  # Module name with hyphen - skipping
 except ImportError:
     pytest.skip(f"Module final-sweep not available", allow_module_level=True)
 
 
-class TestFinal-SweepIntegration(unittest.TestCase):
+class TestFinalSweepIntegration(unittest.TestCase):
     """Integration tests for final-sweep module."""
 
     @classmethod

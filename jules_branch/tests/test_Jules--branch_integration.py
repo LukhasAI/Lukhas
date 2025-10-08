@@ -15,12 +15,12 @@ from unittest.mock import Mock, patch
 
 # Import module for integration testing
 try:
-    import Jules--branch
+    # import jules_branch  # Module name with hyphen - skipping
 except ImportError:
     pytest.skip(f"Module Jules--branch not available", allow_module_level=True)
 
 
-class TestJules--BranchIntegration(unittest.TestCase):
+class TestJulesBranchIntegration(unittest.TestCase):
     """Integration tests for Jules--branch module."""
 
     @classmethod

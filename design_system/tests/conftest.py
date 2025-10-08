@@ -49,7 +49,7 @@ def clean_environment():
 
 
 @pytest.fixture
-def mock_design-system_config():
+def mock_design_system_config():
     """Mock configuration for design-system module."""
     return {
         "module": {

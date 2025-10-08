@@ -49,7 +49,7 @@ def clean_environment():
 
 
 @pytest.fixture
-def mock_mcp-servers_config():
+def mock_mcp_servers_config():
     """Mock configuration for mcp-servers module."""
     return {
         "module": {

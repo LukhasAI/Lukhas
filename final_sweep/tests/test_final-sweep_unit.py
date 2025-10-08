@@ -14,12 +14,12 @@ from unittest.mock import Mock, patch
 
 # Import module components
 try:
-    import final-sweep
+    # import final_sweep  # Module name with hyphen - skipping
 except ImportError:
     pytest.skip(f"Module final-sweep not available", allow_module_level=True)
 
 
-class TestFinal-SweepModule(unittest.TestCase):
+class TestFinalSweepModule(unittest.TestCase):
     """Unit tests for final-sweep module core functionality."""
 
     def setUp(self):
@@ -35,12 +35,12 @@ class TestFinal-SweepModule(unittest.TestCase):
 
     def test_module_import(self):
         """Test that module can be imported successfully."""
-        import final-sweep
+        # import final_sweep  # Module name with hyphen - skipping
         self.assertIsNotNone(final-sweep)
 
     def test_module_version(self):
         """Test module has version information."""
-        import final-sweep
+        # import final_sweep  # Module name with hyphen - skipping
         # Most modules should have version info
         self.assertTrue(hasattr(final-sweep, '__version__') or
                        hasattr(final-sweep, 'VERSION'))

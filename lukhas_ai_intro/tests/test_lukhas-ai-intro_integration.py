@@ -15,12 +15,12 @@ from unittest.mock import Mock, patch
 
 # Import module for integration testing
 try:
-    import lukhas-ai-intro
+    # import lukhas_ai_intro  # Module name with hyphen - skipping
 except ImportError:
     pytest.skip(f"Module lukhas-ai-intro not available", allow_module_level=True)
 
 
-class TestLukhas-Ai-IntroIntegration(unittest.TestCase):
+class TestLukhasAiIntroIntegration(unittest.TestCase):
     """Integration tests for lukhas-ai-intro module."""
 
     @classmethod

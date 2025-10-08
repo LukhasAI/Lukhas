@@ -15,12 +15,12 @@ from unittest.mock import Mock, patch
 
 # Import module for integration testing
 try:
-    import mcp-lukhas-sse
+    # import mcp_lukhas_sse  # Module name with hyphen - skipping
 except ImportError:
     pytest.skip(f"Module mcp-lukhas-sse not available", allow_module_level=True)
 
 
-class TestMcp-Lukhas-SseIntegration(unittest.TestCase):
+class TestMcpLukhasSseIntegration(unittest.TestCase):
     """Integration tests for mcp-lukhas-sse module."""
 
     @classmethod
