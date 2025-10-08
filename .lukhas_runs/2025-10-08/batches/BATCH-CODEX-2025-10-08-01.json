@@ -1,0 +1,637 @@
+{
+  "batch_id": "BATCH-CODEX-2025-10-08-01",
+  "agent": "codex",
+  "created_at": "2025-10-08T00:00:00Z",
+  "expires_at": "2025-10-11T00:00:00Z",
+  "branch_name": "fix/codex/voice-hygiene-batch01",
+  "status": "ready",
+  "dependencies": [],
+  "checks": ["ruff", "pytest"],
+  "tasks": [
+    {
+      "task_id": "TODO-HIGH-BIO-QI-q1w2e3r4",
+      "priority": "high",
+      "title": "Import timezone for UTC enforcement",
+      "file": "candidate/bio/qi.py",
+      "line_hint": 88,
+      "module": "candidate/bio",
+      "trinity": "null",
+      "status": "open",
+      "source": "grep",
+      "evidence": {
+        "grep": "./candidate/bio/qi.py:88:    from datetime import (  # TODO[QUANTUM-BIO:specialist] - Import timezone for UTC enforcement",
+        "last_commit": "f203cbd"
+      },
+      "acceptance": [
+        "timezone imported from datetime",
+        "UTC enforcement applied to relevant timestamps",
+        "ruff check passes"
+      ],
+      "risk": "low",
+      "est": {
+        "type": "mechanical",
+        "size": "XS"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CORE-SYMBOLIC-t5y6u7i8",
+      "priority": "high",
+      "title": "Implement import logic for market replay",
+      "file": "candidate/core/symbolic/creative_market.py",
+      "line_hint": 120,
+      "module": "candidate/core",
+      "trinity": "null",
+      "status": "open",
+      "source": "grep",
+      "evidence": {
+        "grep": "./candidate/core/symbolic/creative_market.py:120:    # ✅ TODO: implement import logic for market replay",
+        "last_commit": "f5dfd9e"
+      },
+      "acceptance": [
+        "Import statement added for market replay module",
+        "No circular import detected",
+        "Tests verify import functionality"
+      ],
+      "risk": "low",
+      "est": {
+        "type": "mechanical",
+        "size": "XS"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-CORE-NIAS-o9p0a1s2",
+      "priority": "high",
+      "title": "Import and call push_symbolic_message, log each decision",
+      "file": "candidate/core/interfaces/as_agent/sys/nias/delivery_loop.py",
+      "line_hint": 44,
+      "module": "candidate/core",
+      "trinity": "null",
+      "status": "open",
+      "source": "grep",
+      "evidence": {
+        "grep": "./candidate/core/interfaces/as_agent/sys/nias/delivery_loop.py:44:        # TODO: Import and call push_symbolic_message, log each decision",
+        "last_commit": null
+      },
+      "acceptance": [
+        "push_symbolic_message imported and called",
+        "Decision logging implemented",
+        "Integration test verifies message flow"
+      ],
+      "risk": "low",
+      "est": {
+        "type": "mechanical",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-STREAMLIT-d3f4g5h6",
+      "priority": "high",
+      "title": "Install or implement streamlit for compliance dashboard",
+      "file": "products/infrastructure/legado/legacy_systems/safety/compliance_dashboard_visual.py",
+      "line_hint": 17,
+      "module": "products/infrastructure",
+      "trinity": "Guardian",
+      "status": "open",
+      "source": "grep",
+      "evidence": {
+        "grep": "# import streamlit as st  # TODO: Install or implement streamlit",
+        "last_commit": null
+      },
+      "acceptance": [
+        "streamlit added to requirements.txt",
+        "Import uncommented and working",
+        "Dashboard renders without errors"
+      ],
+      "risk": "low",
+      "est": {
+        "type": "mechanical",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-STREAMLIT-j7k8l9z0",
+      "priority": "high",
+      "title": "Replace F821 'st' calls with guarded streamlit usage (set_page_config)",
+      "file": "products/infrastructure/legado/legacy_systems/safety/compliance_dashboard_visual.py",
+      "line_hint": 21,
+      "module": "products/infrastructure",
+      "trinity": "Guardian",
+      "status": "open",
+      "source": "grep",
+      "evidence": {
+        "grep": "st.set_page_config(... )  # noqa: F821  # TODO: st",
+        "last_commit": null
+      },
+      "acceptance": [
+        "F821 noqa removed after streamlit properly imported",
+        "set_page_config call verified",
+        "ruff check passes"
+      ],
+      "risk": "low",
+      "est": {
+        "type": "mechanical",
+        "size": "XS"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-STREAMLIT-x1c2v3b4",
+      "priority": "high",
+      "title": "Replace F821 'st' calls with guarded streamlit usage (title)",
+      "file": "products/infrastructure/legado/legacy_systems/safety/compliance_dashboard_visual.py",
+      "line_hint": 22,
+      "module": "products/infrastructure",
+      "trinity": "Guardian",
+      "status": "open",
+      "source": "grep",
+      "evidence": {
+        "grep": "st.title(... )  # noqa: F821  # TODO: st",
+        "last_commit": null
+      },
+      "acceptance": [
+        "F821 noqa removed",
+        "Title rendering verified",
+        "ruff check passes"
+      ],
+      "risk": "low",
+      "est": {
+        "type": "mechanical",
+        "size": "XS"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-PRODUCTS-STREAMLIT-n5m6b7v8",
+      "priority": "high",
+      "title": "Replace F821 'st' calls with guarded streamlit usage (markdown)",
+      "file": "products/infrastructure/legado/legacy_systems/safety/compliance_dashboard_visual.py",
+      "line_hint": 23,
+      "module": "products/infrastructure",
+      "trinity": "Guardian",
+      "status": "open",
+      "source": "grep",
+      "evidence": {
+        "grep": "st.markdown(... )  # noqa: F821  # TODO: st",
+        "last_commit": null
+      },
+      "acceptance": [
+        "F821 noqa removed",
+        "Markdown rendering verified",
+        "ruff check passes"
+      ],
+      "risk": "low",
+      "est": {
+        "type": "mechanical",
+        "size": "XS"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-SYSTEM-CONSTELLATION-c9x0z1a2",
+      "priority": "high",
+      "title": "Annotate TrinityContent properly (remove noqa: F821)",
+      "file": "system/common/constellation_generator.py",
+      "line_hint": 170,
+      "module": "system/common",
+      "trinity": "Identity",
+      "status": "open",
+      "source": "grep",
+      "evidence": {
+        "grep": "def generate_api_documentation(...):  # noqa: F821  # TODO: TrinityContent",
+        "last_commit": null
+      },
+      "acceptance": [
+        "TrinityContent type properly imported/defined",
+        "F821 noqa removed",
+        "Type hints validate correctly"
+      ],
+      "risk": "low",
+      "est": {
+        "type": "mechanical",
+        "size": "XS"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-EMOTION-INIT-s3d4f5g6",
+      "priority": "high",
+      "title": "Fix exception variable typing (remove noqa: F821) - emotion_unavailable",
+      "file": "emotion/__init__.py",
+      "line_hint": 66,
+      "module": "emotion",
+      "trinity": "Consciousness",
+      "status": "open",
+      "source": "grep",
+      "evidence": {
+        "grep": "return {...}  # noqa: F821  # TODO: e",
+        "last_commit": null
+      },
+      "acceptance": [
+        "Exception variable 'e' properly typed",
+        "F821 noqa removed",
+        "Error handling tested"
+      ],
+      "risk": "low",
+      "est": {
+        "type": "mechanical",
+        "size": "XS"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-EMOTION-INIT-h7j8k9l0",
+      "priority": "high",
+      "title": "Fix exception variable typing (remove noqa: F821) - mood_regulation_unavailable",
+      "file": "emotion/__init__.py",
+      "line_hint": 70,
+      "module": "emotion",
+      "trinity": "Consciousness",
+      "status": "open",
+      "source": "grep",
+      "evidence": {
+        "grep": "return {...}  # noqa: F821  # TODO: e",
+        "last_commit": null
+      },
+      "acceptance": [
+        "Exception variable 'e' properly typed",
+        "F821 noqa removed",
+        "Error handling tested"
+      ],
+      "risk": "low",
+      "est": {
+        "type": "mechanical",
+        "size": "XS"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-EMOTION-INIT-z1x2c3v4",
+      "priority": "high",
+      "title": "Fix exception variable typing (remove noqa: F821) - valence_tracking_unavailable",
+      "file": "emotion/__init__.py",
+      "line_hint": 74,
+      "module": "emotion",
+      "trinity": "Consciousness",
+      "status": "open",
+      "source": "grep",
+      "evidence": {
+        "grep": "return {...}  # noqa: F821  # TODO: e",
+        "last_commit": null
+      },
+      "acceptance": [
+        "Exception variable 'e' properly typed",
+        "F821 noqa removed",
+        "Error handling tested"
+      ],
+      "risk": "low",
+      "est": {
+        "type": "mechanical",
+        "size": "XS"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-TOOLS-PREVENTION-b5n6m7a8",
+      "priority": "high",
+      "title": "Ensure import path correctness for lukhas.governance.identity",
+      "file": "tools/validation/prevention_suite.py",
+      "line_hint": 268,
+      "module": "tools/validation",
+      "trinity": "Identity",
+      "status": "open",
+      "source": "grep",
+      "evidence": {
+        "grep": "from lukhas.governance.identity import auth_integration  # noqa: F401  # TODO: lukhas.governance.identity.auth...",
+        "last_commit": null
+      },
+      "acceptance": [
+        "Import path verified against actual module structure",
+        "F401 noqa removed if import used, or import removed",
+        "make lane-guard passes"
+      ],
+      "risk": "low",
+      "est": {
+        "type": "mechanical",
+        "size": "XS"
+      }
+    },
+    {
+      "task_id": "TODO-MED-VOICE-TTS-s9a0s1d2",
+      "priority": "med",
+      "title": "Install/implement edge_tts integration for voice synthesis",
+      "file": "candidate/voice/voice_system_enhanced.py",
+      "line_hint": 34,
+      "module": "candidate/voice",
+      "trinity": "Consciousness",
+      "status": "open",
+      "source": "docs/project_status/JULES_TODO_BATCHES.md:Batch 6",
+      "evidence": {
+        "grep": null,
+        "last_commit": null
+      },
+      "acceptance": [
+        "edge_tts added to requirements.txt",
+        "TTS integration skeleton implemented",
+        "Basic synthesis test passes"
+      ],
+      "risk": "low",
+      "est": {
+        "type": "mechanical",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-MED-VOICE-AUDIO-f3g4h5j6",
+      "priority": "med",
+      "title": "Add audio signal processing skeleton",
+      "file": "candidate/voice/audio_processing.py",
+      "line_hint": 12,
+      "module": "candidate/voice",
+      "trinity": "Consciousness",
+      "status": "open",
+      "source": "docs/project_status/JULES_TODO_BATCHES.md:Batch 6",
+      "evidence": {
+        "grep": null,
+        "last_commit": null
+      },
+      "acceptance": [
+        "Basic audio processing pipeline defined",
+        "Placeholder functions implemented",
+        "Module imports without errors"
+      ],
+      "risk": "low",
+      "est": {
+        "type": "mechanical",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-MED-VOICE-TTS-INT-k7l8z9x0",
+      "priority": "med",
+      "title": "Finalize TTS service integration skeleton",
+      "file": "candidate/voice/tts_integration.py",
+      "line_hint": 23,
+      "module": "candidate/voice",
+      "trinity": "Consciousness",
+      "status": "open",
+      "source": "docs/project_status/JULES_TODO_BATCHES.md:Batch 6",
+      "evidence": {
+        "grep": null,
+        "last_commit": null
+      },
+      "acceptance": [
+        "TTS service interface defined",
+        "Adapter pattern for multiple TTS backends",
+        "Smoke test verifies interface"
+      ],
+      "risk": "low",
+      "est": {
+        "type": "mechanical",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-MED-VOICE-MOD-c1v2b3n4",
+      "priority": "med",
+      "title": "Implement voice modulation effect stubs",
+      "file": "candidate/voice/voice_modulation.py",
+      "line_hint": 45,
+      "module": "candidate/voice",
+      "trinity": "Consciousness",
+      "status": "open",
+      "source": "docs/project_status/JULES_TODO_BATCHES.md:Batch 6",
+      "evidence": {
+        "grep": null,
+        "last_commit": null
+      },
+      "acceptance": [
+        "Modulation effects enumerated",
+        "Stub implementations for pitch/tempo/timbre",
+        "Unit tests for effect application"
+      ],
+      "risk": "low",
+      "est": {
+        "type": "mechanical",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-MED-VOICE-PIPELINE-m5n6b7v8",
+      "priority": "med",
+      "title": "Build audio processing pipeline skeleton",
+      "file": "candidate/voice/audio_pipeline.py",
+      "line_hint": 67,
+      "module": "candidate/voice",
+      "trinity": "Consciousness",
+      "status": "open",
+      "source": "docs/project_status/JULES_TODO_BATCHES.md:Batch 6",
+      "evidence": {
+        "grep": null,
+        "last_commit": null
+      },
+      "acceptance": [
+        "Pipeline stages defined (input, process, output)",
+        "Async processing support",
+        "Pipeline configuration via YAML/JSON"
+      ],
+      "risk": "low",
+      "est": {
+        "type": "mechanical",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-MED-VOICE-SPEECH-a9s0d1f2",
+      "priority": "med",
+      "title": "Integrate speech recognition (placeholder)",
+      "file": "candidate/voice/speech_recognition.py",
+      "line_hint": 89,
+      "module": "candidate/voice",
+      "trinity": "Consciousness",
+      "status": "open",
+      "source": "docs/project_status/JULES_TODO_BATCHES.md:Batch 6",
+      "evidence": {
+        "grep": null,
+        "last_commit": null
+      },
+      "acceptance": [
+        "Speech recognition interface defined",
+        "Placeholder returns mock transcriptions",
+        "Ready for real ASR integration"
+      ],
+      "risk": "low",
+      "est": {
+        "type": "mechanical",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-MED-VOICE-ANALYTICS-g3h4j5k6",
+      "priority": "med",
+      "title": "Add voice quality analytics stubs",
+      "file": "candidate/voice/voice_analytics.py",
+      "line_hint": 34,
+      "module": "candidate/voice",
+      "trinity": "Consciousness",
+      "status": "open",
+      "source": "docs/project_status/JULES_TODO_BATCHES.md:Batch 6",
+      "evidence": {
+        "grep": null,
+        "last_commit": null
+      },
+      "acceptance": [
+        "Quality metrics enumerated (clarity, noise, etc.)",
+        "Stub functions return placeholder scores",
+        "Unit tests verify interface"
+      ],
+      "risk": "low",
+      "est": {
+        "type": "mechanical",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-MED-VOICE-FILTERS-l7z8x9c0",
+      "priority": "med",
+      "title": "Implement audio filtering placeholders",
+      "file": "candidate/voice/audio_filters.py",
+      "line_hint": 56,
+      "module": "candidate/voice",
+      "trinity": "Consciousness",
+      "status": "open",
+      "source": "docs/project_status/JULES_TODO_BATCHES.md:Batch 6",
+      "evidence": {
+        "grep": null,
+        "last_commit": null
+      },
+      "acceptance": [
+        "Common filters defined (bandpass, lowpass, highpass)",
+        "Filter interface established",
+        "Ready for signal processing library integration"
+      ],
+      "risk": "low",
+      "est": {
+        "type": "mechanical",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-MED-VOICE-SYNTH-v1b2n3m4",
+      "priority": "med",
+      "title": "Provide advanced synthesis module skeleton",
+      "file": "candidate/voice/voice_synthesis_advanced.py",
+      "line_hint": 78,
+      "module": "candidate/voice",
+      "trinity": "Consciousness",
+      "status": "open",
+      "source": "docs/project_status/JULES_TODO_BATCHES.md:Batch 6",
+      "evidence": {
+        "grep": null,
+        "last_commit": null
+      },
+      "acceptance": [
+        "Advanced synthesis techniques documented",
+        "Stubs for neural TTS, concatenative synthesis",
+        "Module structure ready for implementation"
+      ],
+      "risk": "low",
+      "est": {
+        "type": "mechanical",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-MED-VOICE-CODEC-a5s6d7f8",
+      "priority": "med",
+      "title": "Implement audio codec interface skeleton",
+      "file": "candidate/voice/audio_codec.py",
+      "line_hint": 23,
+      "module": "candidate/voice",
+      "trinity": "Consciousness",
+      "status": "open",
+      "source": "docs/project_status/JULES_TODO_BATCHES.md:Batch 6",
+      "evidence": {
+        "grep": null,
+        "last_commit": null
+      },
+      "acceptance": [
+        "Codec interface for encode/decode",
+        "Support for common formats (WAV, MP3, FLAC)",
+        "Placeholder implementations"
+      ],
+      "risk": "low",
+      "est": {
+        "type": "mechanical",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-MED-VOICE-TRAINING-g9h0j1k2",
+      "priority": "med",
+      "title": "Create basic voice model training script placeholder",
+      "file": "candidate/voice/voice_training.py",
+      "line_hint": 12,
+      "module": "candidate/voice",
+      "trinity": "Consciousness",
+      "status": "open",
+      "source": "docs/project_status/JULES_TODO_BATCHES.md:Batch 6",
+      "evidence": {
+        "grep": null,
+        "last_commit": null
+      },
+      "acceptance": [
+        "Training script structure defined",
+        "Placeholder for data loading, model training",
+        "Ready for ML framework integration"
+      ],
+      "risk": "low",
+      "est": {
+        "type": "mechanical",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-MED-VOICE-STREAMING-l3z4x5c6",
+      "priority": "med",
+      "title": "Add real-time audio streaming scaffolding",
+      "file": "candidate/voice/audio_streaming.py",
+      "line_hint": 45,
+      "module": "candidate/voice",
+      "trinity": "Consciousness",
+      "status": "open",
+      "source": "docs/project_status/JULES_TODO_BATCHES.md:Batch 6",
+      "evidence": {
+        "grep": null,
+        "last_commit": null
+      },
+      "acceptance": [
+        "Streaming interface defined",
+        "Buffer management placeholder",
+        "WebSocket or WebRTC integration points identified"
+      ],
+      "risk": "low",
+      "est": {
+        "type": "mechanical",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-MED-VOICE-EFFECTS-v7b8n9m0",
+      "priority": "med",
+      "title": "Add voice effect processing scaffolding",
+      "file": "candidate/voice/voice_effects.py",
+      "line_hint": 34,
+      "module": "candidate/voice",
+      "trinity": "Consciousness",
+      "status": "open",
+      "source": "docs/project_status/JULES_TODO_BATCHES.md:Batch 6",
+      "evidence": {
+        "grep": null,
+        "last_commit": null
+      },
+      "acceptance": [
+        "Effect types enumerated (reverb, echo, distortion)",
+        "Effect application pipeline defined",
+        "Unit tests for effect chaining"
+      ],
+      "risk": "low",
+      "est": {
+        "type": "mechanical",
+        "size": "S"
+      }
+    }
+  ]
+}

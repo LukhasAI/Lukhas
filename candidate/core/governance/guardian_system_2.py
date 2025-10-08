@@ -124,6 +124,7 @@ class ConstitutionalPrinciple(Enum):
 
     HELPFUL = "helpful"
     HARMLESS = "harmless"
+    NO_HARM = "no_harm"
     HONEST = "honest"
     TRANSPARENCY = "transparency"
     PRIVACY = "privacy"

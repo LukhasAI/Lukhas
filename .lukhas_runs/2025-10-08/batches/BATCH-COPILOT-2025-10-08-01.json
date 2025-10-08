@@ -1,0 +1,662 @@
+{
+  "batch_id": "BATCH-COPILOT-2025-10-08-01",
+  "agent": "copilot",
+  "created_at": "2025-10-08T00:00:00Z",
+  "expires_at": "2025-10-11T00:00:00Z",
+  "branch_name": "assist/copilot/tests-docs-batch01",
+  "status": "ready",
+  "dependencies": ["BATCH-JULES-2025-10-08-01"],
+  "checks": ["pytest", "ruff"],
+  "tasks": [
+    {
+      "task_id": "ASSIST-HIGH-TEST-ONBOARDING-a1b2c3d4",
+      "priority": "high",
+      "title": "Add unit test stubs for onboarding flows",
+      "file": "tests/bridge/test_onboarding.py",
+      "line_hint": null,
+      "module": "tests/bridge",
+      "trinity": "Identity",
+      "status": "open",
+      "source": "docs/gonzo/PLANNING_TODO.md",
+      "evidence": {
+        "grep": null,
+        "last_commit": null
+      },
+      "acceptance": [
+        "Test file created with boilerplate",
+        "Happy path and error cases outlined",
+        "Fixtures for test data defined",
+        "Tests can be executed (may be pending)"
+      ],
+      "risk": "low",
+      "est": {
+        "type": "assist",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "ASSIST-HIGH-TEST-QRS-e5f6g7h8",
+      "priority": "high",
+      "title": "Add unit test stubs for QRS manager",
+      "file": "tests/bridge/test_api_qrs_manager.py",
+      "line_hint": null,
+      "module": "tests/bridge",
+      "trinity": "Consciousness",
+      "status": "open",
+      "source": "docs/gonzo/PLANNING_TODO.md",
+      "evidence": {
+        "grep": null,
+        "last_commit": null
+      },
+      "acceptance": [
+        "Test file created",
+        "QRS creation/verification test stubs",
+        "Mock crypto functions defined",
+        "Test structure ready for implementation"
+      ],
+      "risk": "low",
+      "est": {
+        "type": "assist",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "ASSIST-HIGH-TEST-EXPLAIN-i9j0k1l2",
+      "priority": "high",
+      "title": "Create test fixtures for explainability interface",
+      "file": "tests/bridge/test_explainability_fixtures.py",
+      "line_hint": null,
+      "module": "tests/bridge",
+      "trinity": "Consciousness",
+      "status": "open",
+      "source": "docs/gonzo/PLANNING_TODO.md",
+      "evidence": {
+        "grep": null,
+        "last_commit": null
+      },
+      "acceptance": [
+        "Fixture file created",
+        "Sample explanation templates defined",
+        "Mock MEG/symbolic engine responses",
+        "Fixtures reusable across test modules"
+      ],
+      "risk": "low",
+      "est": {
+        "type": "assist",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "ASSIST-HIGH-TEST-JWT-m3n4o5p6",
+      "priority": "high",
+      "title": "Add tests for JWT verification adapter",
+      "file": "tests/bridge/test_api_framework_jwt.py",
+      "line_hint": null,
+      "module": "tests/bridge",
+      "trinity": "Identity",
+      "status": "open",
+      "source": "docs/gonzo/PLANNING_TODO.md",
+      "evidence": {
+        "grep": null,
+        "last_commit": null
+      },
+      "acceptance": [
+        "Test file created",
+        "Valid/invalid token test cases",
+        "Expiration test cases",
+        "Tampered token test cases"
+      ],
+      "risk": "low",
+      "est": {
+        "type": "assist",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "ASSIST-HIGH-TEST-VECTOR-q7r8s9t0",
+      "priority": "high",
+      "title": "Add tests for vector store integration wrapper",
+      "file": "tests/bridge/test_openai_modulated_service.py",
+      "line_hint": null,
+      "module": "tests/bridge",
+      "trinity": "Consciousness",
+      "status": "open",
+      "source": "docs/gonzo/PLANNING_TODO.md",
+      "evidence": {
+        "grep": null,
+        "last_commit": null
+      },
+      "acceptance": [
+        "Test file created",
+        "Mock vector store responses",
+        "Embedding pipeline tests",
+        "RAG retrieval tests"
+      ],
+      "risk": "low",
+      "est": {
+        "type": "assist",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "ASSIST-MED-DOCS-CONSENT-u1v2w3x4",
+      "priority": "med",
+      "title": "Type hints & docstrings: consent manager",
+      "file": "candidate/governance/consent/consent_manager.py",
+      "line_hint": null,
+      "module": "governance/consent",
+      "trinity": "Guardian",
+      "status": "open",
+      "source": "docs/gonzo/PLANNING_TODO.md",
+      "evidence": {
+        "grep": null,
+        "last_commit": null
+      },
+      "acceptance": [
+        "All public methods have type hints",
+        "Docstrings follow Google/NumPy style",
+        "Parameter descriptions clear",
+        "Return types documented"
+      ],
+      "risk": "low",
+      "est": {
+        "type": "assist",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "ASSIST-MED-DOCS-POLICY-y5z6a7b8",
+      "priority": "med",
+      "title": "Type hints & docstrings: policy engine",
+      "file": "candidate/governance/policy/policy_engine.py",
+      "line_hint": null,
+      "module": "governance/policy",
+      "trinity": "Guardian",
+      "status": "open",
+      "source": "docs/gonzo/PLANNING_TODO.md",
+      "evidence": {
+        "grep": null,
+        "last_commit": null
+      },
+      "acceptance": [
+        "Type hints added to all methods",
+        "Docstrings comprehensive",
+        "Examples included in docstrings",
+        "mypy passes without errors"
+      ],
+      "risk": "low",
+      "est": {
+        "type": "assist",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "ASSIST-MED-DOCS-RULE-c9d0e1f2",
+      "priority": "med",
+      "title": "Type hints & docstrings: rule validator",
+      "file": "candidate/governance/policy/rule_validator.py",
+      "line_hint": null,
+      "module": "governance/policy",
+      "trinity": "Guardian",
+      "status": "open",
+      "source": "docs/gonzo/PLANNING_TODO.md",
+      "evidence": {
+        "grep": null,
+        "last_commit": null
+      },
+      "acceptance": [
+        "Type hints complete",
+        "Validation error types documented",
+        "Usage examples in docstrings",
+        "ruff check passes"
+      ],
+      "risk": "low",
+      "est": {
+        "type": "assist",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "ASSIST-MED-DOCS-ACCESS-g3h4i5j6",
+      "priority": "med",
+      "title": "Type hints & docstrings: access control",
+      "file": "candidate/governance/security/access_control.py",
+      "line_hint": null,
+      "module": "governance/security",
+      "trinity": "Guardian",
+      "status": "open",
+      "source": "docs/gonzo/PLANNING_TODO.md",
+      "evidence": {
+        "grep": null,
+        "last_commit": null
+      },
+      "acceptance": [
+        "Type hints for RBAC methods",
+        "Permission model documented",
+        "Security considerations in docstrings",
+        "Type checking passes"
+      ],
+      "risk": "low",
+      "est": {
+        "type": "assist",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "ASSIST-MED-DOCS-AUDIT-k7l8m9n0",
+      "priority": "med",
+      "title": "Type hints & docstrings: audit system",
+      "file": "candidate/governance/security/audit_system.py",
+      "line_hint": null,
+      "module": "governance/security",
+      "trinity": "Guardian",
+      "status": "open",
+      "source": "docs/gonzo/PLANNING_TODO.md",
+      "evidence": {
+        "grep": null,
+        "last_commit": null
+      },
+      "acceptance": [
+        "Type hints complete",
+        "ΛTRACE integration documented",
+        "Query interface clearly described",
+        "Docstrings include examples"
+      ],
+      "risk": "low",
+      "est": {
+        "type": "assist",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "ASSIST-MED-DOCS-THREAT-o1p2q3r4",
+      "priority": "med",
+      "title": "Type hints & docstrings: threat detection",
+      "file": "candidate/governance/security/threat_detection.py",
+      "line_hint": null,
+      "module": "governance/security",
+      "trinity": "Guardian",
+      "status": "open",
+      "source": "docs/gonzo/PLANNING_TODO.md",
+      "evidence": {
+        "grep": null,
+        "last_commit": null
+      },
+      "acceptance": [
+        "Type hints for detection algorithms",
+        "Threshold parameters documented",
+        "Alert format described",
+        "Performance characteristics noted"
+      ],
+      "risk": "low",
+      "est": {
+        "type": "assist",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "ASSIST-MED-HOOK-PRECOMMIT-s5t6u7v8",
+      "priority": "med",
+      "title": "Pre-commit hook to run ruff & pytest",
+      "file": ".pre-commit-config.yaml",
+      "line_hint": null,
+      "module": "root",
+      "trinity": "Guardian",
+      "status": "open",
+      "source": "docs/gonzo/PLANNING_TODO.md",
+      "evidence": {
+        "grep": null,
+        "last_commit": null
+      },
+      "acceptance": [
+        "Pre-commit config created/updated",
+        "Ruff linting hook configured",
+        "Pytest smoke tests hook configured",
+        "Hook installation documented in README"
+      ],
+      "risk": "low",
+      "est": {
+        "type": "assist",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "ASSIST-LOW-README-EXPLAIN-w9x0y1z2",
+      "priority": "low",
+      "title": "Add README usage examples for explainability layer",
+      "file": "docs/examples/explainability_usage.md",
+      "line_hint": null,
+      "module": "docs/examples",
+      "trinity": "Consciousness",
+      "status": "open",
+      "source": "docs/gonzo/PLANNING_TODO.md",
+      "evidence": {
+        "grep": null,
+        "last_commit": null
+      },
+      "acceptance": [
+        "Example file created",
+        "Basic usage example included",
+        "Multi-modal explanation example",
+        "Code snippets tested"
+      ],
+      "risk": "low",
+      "est": {
+        "type": "assist",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "ASSIST-LOW-README-ONBOARD-a3b4c5d6",
+      "priority": "low",
+      "title": "Add README for onboarding API",
+      "file": "docs/examples/onboarding_api.md",
+      "line_hint": null,
+      "module": "docs/examples",
+      "trinity": "Identity",
+      "status": "open",
+      "source": "docs/gonzo/PLANNING_TODO.md",
+      "evidence": {
+        "grep": null,
+        "last_commit": null
+      },
+      "acceptance": [
+        "Example file created",
+        "Step-by-step onboarding flow documented",
+        "API endpoints listed with examples",
+        "Error handling examples included"
+      ],
+      "risk": "low",
+      "est": {
+        "type": "assist",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "ASSIST-MED-REFACTOR-EXPLAIN-e7f8g9h0",
+      "priority": "med",
+      "title": "Refactor small functions for clarity in explainability_interface_layer.py",
+      "file": "candidate/bridge/explainability_interface_layer.py",
+      "line_hint": null,
+      "module": "bridge",
+      "trinity": "Consciousness",
+      "status": "open",
+      "source": "docs/gonzo/PLANNING_TODO.md",
+      "evidence": {
+        "grep": null,
+        "last_commit": null
+      },
+      "acceptance": [
+        "Long functions split into smaller units",
+        "Function names clarify intent",
+        "Cyclomatic complexity reduced",
+        "Tests still pass after refactoring"
+      ],
+      "risk": "low",
+      "est": {
+        "type": "assist",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "ASSIST-MED-CONSTANTS-PROOF-i1j2k3l4",
+      "priority": "med",
+      "title": "Add constants and enums for proof types",
+      "file": "candidate/bridge/explainability_interface_layer.py",
+      "line_hint": null,
+      "module": "bridge",
+      "trinity": "Consciousness",
+      "status": "open",
+      "source": "docs/gonzo/PLANNING_TODO.md",
+      "evidence": {
+        "grep": null,
+        "last_commit": null
+      },
+      "acceptance": [
+        "Enum for proof types defined",
+        "Constants replace magic strings/numbers",
+        "Type safety improved",
+        "Ruff check passes"
+      ],
+      "risk": "low",
+      "est": {
+        "type": "assist",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "ASSIST-MED-CACHE-HELPER-m5n6o7p8",
+      "priority": "med",
+      "title": "Introduce simple LRU cache helper",
+      "file": "candidate/bridge/cache/simple_lru.py",
+      "line_hint": null,
+      "module": "bridge/cache",
+      "trinity": "Consciousness",
+      "status": "open",
+      "source": "docs/gonzo/PLANNING_TODO.md",
+      "evidence": {
+        "grep": null,
+        "last_commit": null
+      },
+      "acceptance": [
+        "LRU cache class implemented",
+        "Get/set/evict methods",
+        "Configurable size limit",
+        "Unit tests for cache behavior"
+      ],
+      "risk": "low",
+      "est": {
+        "type": "assist",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "ASSIST-LOW-EXAMPLES-JWT-q9r0s1t2",
+      "priority": "low",
+      "title": "Add example configs for JWT verification",
+      "file": "docs/examples/jwt_examples.md",
+      "line_hint": null,
+      "module": "docs/examples",
+      "trinity": "Identity",
+      "status": "open",
+      "source": "docs/gonzo/PLANNING_TODO.md",
+      "evidence": {
+        "grep": null,
+        "last_commit": null
+      },
+      "acceptance": [
+        "Example file created",
+        "JWT config examples (dev, prod)",
+        "Public key management examples",
+        "Token validation code snippets"
+      ],
+      "risk": "low",
+      "est": {
+        "type": "assist",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "ASSIST-LOW-EXAMPLES-VECTOR-u3v4w5x6",
+      "priority": "low",
+      "title": "Add example configs for vector store settings",
+      "file": "docs/examples/vector_store_examples.md",
+      "line_hint": null,
+      "module": "docs/examples",
+      "trinity": "Consciousness",
+      "status": "open",
+      "source": "docs/gonzo/PLANNING_TODO.md",
+      "evidence": {
+        "grep": null,
+        "last_commit": null
+      },
+      "acceptance": [
+        "Example file created",
+        "Pinecone/Weaviate config examples",
+        "Embedding pipeline configuration",
+        "Connection examples with error handling"
+      ],
+      "risk": "low",
+      "est": {
+        "type": "assist",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "ASSIST-MED-TEST-ONBOARD-ERR-y7z8a9b0",
+      "priority": "med",
+      "title": "Add test coverage for error paths in onboarding",
+      "file": "tests/bridge/test_onboarding_errors.py",
+      "line_hint": null,
+      "module": "tests/bridge",
+      "trinity": "Identity",
+      "status": "open",
+      "source": "docs/gonzo/PLANNING_TODO.md",
+      "evidence": {
+        "grep": null,
+        "last_commit": null
+      },
+      "acceptance": [
+        "Test file created",
+        "Invalid input test cases",
+        "Timeout/network error simulations",
+        "Error recovery flows tested"
+      ],
+      "risk": "low",
+      "est": {
+        "type": "assist",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "ASSIST-MED-TEST-CONSENT-c1d2e3f4",
+      "priority": "med",
+      "title": "Add test coverage for consent pathways",
+      "file": "tests/governance/test_consent_manager.py",
+      "line_hint": null,
+      "module": "tests/governance",
+      "trinity": "Guardian",
+      "status": "open",
+      "source": "docs/gonzo/PLANNING_TODO.md",
+      "evidence": {
+        "grep": null,
+        "last_commit": null
+      },
+      "acceptance": [
+        "Test file created",
+        "Grant/revoke test cases",
+        "ΛTRACE integration tests",
+        "GDPR deletion tests"
+      ],
+      "risk": "low",
+      "est": {
+        "type": "assist",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "ASSIST-MED-TEST-POLICY-g5h6i7j8",
+      "priority": "med",
+      "title": "Add test coverage for policy engine enforcement",
+      "file": "tests/governance/test_policy_engine.py",
+      "line_hint": null,
+      "module": "tests/governance",
+      "trinity": "Guardian",
+      "status": "open",
+      "source": "docs/gonzo/PLANNING_TODO.md",
+      "evidence": {
+        "grep": null,
+        "last_commit": null
+      },
+      "acceptance": [
+        "Test file created",
+        "Policy evaluation test cases",
+        "Conflict resolution tests",
+        "Performance benchmarks"
+      ],
+      "risk": "low",
+      "est": {
+        "type": "assist",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "ASSIST-MED-TEST-ACCESS-k9l0m1n2",
+      "priority": "med",
+      "title": "Add test coverage for access control decisions",
+      "file": "tests/governance/test_access_control.py",
+      "line_hint": null,
+      "module": "tests/governance",
+      "trinity": "Guardian",
+      "status": "open",
+      "source": "docs/gonzo/PLANNING_TODO.md",
+      "evidence": {
+        "grep": null,
+        "last_commit": null
+      },
+      "acceptance": [
+        "Test file created",
+        "RBAC authorization tests",
+        "Negative access tests (unauthorized)",
+        "Tier-based permission tests"
+      ],
+      "risk": "low",
+      "est": {
+        "type": "assist",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "ASSIST-MED-TEST-AUDIT-o3p4q5r6",
+      "priority": "med",
+      "title": "Add test coverage for audit trail writing",
+      "file": "tests/governance/test_audit_system.py",
+      "line_hint": null,
+      "module": "tests/governance",
+      "trinity": "Guardian",
+      "status": "open",
+      "source": "docs/gonzo/PLANNING_TODO.md",
+      "evidence": {
+        "grep": null,
+        "last_commit": null
+      },
+      "acceptance": [
+        "Test file created",
+        "Audit log persistence tests",
+        "Hash chain integrity tests",
+        "Query interface tests"
+      ],
+      "risk": "low",
+      "est": {
+        "type": "assist",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "ASSIST-MED-TEST-THREAT-s7t8u9v0",
+      "priority": "med",
+      "title": "Add test coverage for threat detection alerts",
+      "file": "tests/governance/test_threat_detection.py",
+      "line_hint": null,
+      "module": "tests/governance",
+      "trinity": "Guardian",
+      "status": "open",
+      "source": "docs/gonzo/PLANNING_TODO.md",
+      "evidence": {
+        "grep": null,
+        "last_commit": null
+      },
+      "acceptance": [
+        "Test file created",
+        "Anomaly detection tests",
+        "Alert trigger tests",
+        "False positive rate measured"
+      ],
+      "risk": "low",
+      "est": {
+        "type": "assist",
+        "size": "S"
+      }
+    }
+  ]
+}

@@ -1,4 +1,4 @@
-"""Bridge for lukhas.governance.guardian_serializers."""
+"""Bridge for candidate.core.consciousness_stream."""
 
 from __future__ import annotations
 
@@ -8,9 +8,9 @@ from typing import List
 __all__: List[str] = []
 
 for _candidate in (
-    "lukhas_website.lukhas.governance.guardian_serializers",
-    "governance.guardian_serializers",
-    "candidate.governance.guardian_serializers",
+    "candidate.candidate.core.consciousness_stream",
+    "core.consciousness_stream",
+    "lukhas_website.lukhas.core.consciousness_stream",
 ):
     try:
         _mod = import_module(_candidate)

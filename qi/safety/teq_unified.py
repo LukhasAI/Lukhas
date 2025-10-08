@@ -67,7 +67,7 @@ class PolicyPack:
     def __init__(self, root: str):
         self.root = root
         self.policy = self._load_yaml(os.path.join(root, "policy.yaml"))
-        self.mappings = self._load_yaml(os.path.join(root, "mappings.yaml"), default={"tasks": {})
+        self.mappings = self._load_yaml(os.path.join(root, "mappings.yaml"), default={"tasks": {}})
         self.tests = self._load_tests(os.path.join(root, "tests"))
 
     def _load_yaml(self, p: str, default=None):
