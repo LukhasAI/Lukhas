@@ -10,7 +10,7 @@ __all__, _exp = bridge_from_candidates(
 globals().update(_exp)
 
 # Additional metric exports for test compatibility
-from lukhas.observability import histogram
+from lukhas.observability import histogram, counter
 
 stage_latency = histogram(
     "lukhas_stage_latency_seconds",
@@ -54,5 +54,17 @@ constellation_star_activations = histogram(
     labelnames=("star_id", "activation_level"),
 )
 
-__all__.extend(["stage_latency", "stage_timeouts", "guardian_band", "reasoning_chain_length", "ethics_risk_distribution", "node_confidence_scores", "constellation_star_activations"])
+arbitration_decisions_total = counter(
+    "lukhas_arbitration_decisions_total",
+    "Total arbitration decisions",
+    labelnames=("decision_type", "outcome"),
+)
+
+oscillation_detections_total = counter(
+    "lukhas_oscillation_detections_total",
+    "Total oscillation detections",
+    labelnames=("pattern", "severity"),
+)
+
+__all__.extend(["stage_latency", "stage_timeouts", "guardian_band", "reasoning_chain_length", "ethics_risk_distribution", "node_confidence_scores", "constellation_star_activations", "arbitration_decisions_total", "oscillation_detections_total"])
 
