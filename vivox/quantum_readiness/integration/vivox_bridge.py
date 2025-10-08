@@ -192,7 +192,7 @@ class VIVOXQIBridge:
         memory_vector = self._memory_to_quantum_vector(memory_trace)
 
         memory_state = QIState(
-            state_id=f"memory_{memory_trace.get('id', datetime.now(timezone.utc).timestamp()}",
+            state_id=f"memory_{memory_trace.get('id', datetime.now(timezone.utc).timestamp())}",
             state_vector=memory_vector,
             state_type=QIStateType.SUPERPOSITION,
             fidelity=1.0,

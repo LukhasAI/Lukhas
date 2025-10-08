@@ -1,13 +1,12 @@
-"""Bridge for lukhas.orchestration.kernel_bus."""
+"""Bridge for lukhas.governance.identity.auth_backend."""
 
 from __future__ import annotations
 
 from importlib import import_module
 
 for _candidate in (
-    "lukhas_website.lukhas.orchestration.kernel_bus",
-    "orchestration.kernel_bus",
-    "candidate.orchestration.kernel_bus",
+    "lukhas_website.lukhas.governance.identity.auth_backend",
+    "governance.identity.auth_backend",
 ):
     try:
         _mod = import_module(_candidate)
@@ -15,8 +14,3 @@ for _candidate in (
         continue
     globals().update({k: getattr(_mod, k) for k in dir(_mod) if not k.startswith("_")})
     break
-
-
-class KernelBus:  # type: ignore[misc]
-    def publish(self, event):
-        return True

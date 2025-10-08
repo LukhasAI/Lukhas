@@ -28,17 +28,9 @@ import numpy as np
 import pytest
 
 try:
-    pass  #     from rl import (
-        ConsciousnessBuffer,
-        ConsciousnessEnvironment,
-        ConsciousnessMetaLearning,
-        ConsciousnessRewards,
-        MatrizNode,
-        MultiAgentCoordination,
-        PolicyNetwork,
-        ValueNetwork,
-    )
-
+    pass  # from rl import ...
+    #
+    RL_AVAILABLE = True
     RL_AVAILABLE = True
 except ImportError:
     RL_AVAILABLE = False

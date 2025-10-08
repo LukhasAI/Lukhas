@@ -23,3 +23,16 @@ for _candidate in (
         if _attr not in __all__:
             __all__.append(_attr)
     break
+
+
+if "ConsciousnessStream" not in globals():
+
+    class ConsciousnessStream:
+        def __init__(self, *args, **kwargs):
+            self.args = args
+            self.kwargs = kwargs
+
+        def snapshot(self):
+            return {"state": "idle"}
+
+    __all__.append("ConsciousnessStream")

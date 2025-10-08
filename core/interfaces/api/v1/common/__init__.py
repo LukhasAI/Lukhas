@@ -1,4 +1,4 @@
-"""Bridge for candidate.consciousness.reflection_engine."""
+"""Bridge for core.interfaces.api.v1.common."""
 
 from __future__ import annotations
 
@@ -8,9 +8,8 @@ from typing import List
 __all__: List[str] = []
 
 for _candidate in (
-    "candidate.candidate.consciousness.reflection_engine",
-    "lukhas_website.lukhas.consciousness.reflection_engine",
-    "consciousness.reflection_engine",
+    "lukhas_website.lukhas.core.interfaces.api.v1.common",
+    "candidate.core.interfaces.api.v1.common",
 ):
     try:
         _mod = import_module(_candidate)
@@ -23,12 +22,3 @@ for _candidate in (
         if _attr not in __all__:
             __all__.append(_attr)
     break
-
-
-if "ReflectionConfig" not in globals():
-
-    class ReflectionConfig:
-        def __init__(self, **kwargs):
-            self.options = kwargs
-
-    __all__.append("ReflectionConfig")

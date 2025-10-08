@@ -137,7 +137,7 @@ class {submodule.title()}Colony:
             'dopamine': 0.5,
             'serotonin': 0.5,
             'oxytocin': 0.3
-        }
+        }}
 
     def propagate(self, signal: Dict[str, Any]) -> Dict[str, Any]:
         """Propagate signal through colony"""

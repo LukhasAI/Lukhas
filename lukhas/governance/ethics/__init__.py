@@ -3,11 +3,12 @@
 from __future__ import annotations
 
 import importlib
+import os
 from types import ModuleType
 from typing import List
 
 __all__: List[str] = []
-__path__: List[str] = []  # type: ignore[assignment]
+__path__: List[str] = [os.path.dirname(__file__)]  # type: ignore[assignment]
 
 _BACKEND: ModuleType | None = None
 _CANDIDATES = [
