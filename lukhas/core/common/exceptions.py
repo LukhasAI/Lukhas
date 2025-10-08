@@ -31,3 +31,10 @@ except Exception:
     class ConfigurationError(LukhasError): ...
     class DependencyMissing(LukhasError): ...
     __all__ = ["LukhasError", "ConfigurationError", "DependencyMissing"]
+
+# Additional exception types for test compatibility
+if "GLYPHTokenError" not in globals():
+    class GLYPHTokenError(LukhasError):
+        """Error in GLYPH token processing."""
+        pass
+    __all__.append("GLYPHTokenError")

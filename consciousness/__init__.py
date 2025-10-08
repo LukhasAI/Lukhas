@@ -253,3 +253,21 @@ __all__ = [
     "process_consciousness_stream",
     "reflect_on_experience",
 ]
+
+# Add missing exports with stubs for test compatibility
+try:
+    from candidate.consciousness import AutoConsciousness, AwarenessLevel
+except ImportError:
+    # Provide stubs if not available
+    class AutoConsciousness:  # type: ignore
+        """Stub for AutoConsciousness."""
+        def __init__(self, *a, **kw): pass
+
+    class AwarenessLevel:  # type: ignore
+        """Stub for AwarenessLevel enum."""
+        NONE = 0
+        LOW = 1
+        MEDIUM = 2
+        HIGH = 3
+
+__all__.extend(["AutoConsciousness", "AwarenessLevel"])

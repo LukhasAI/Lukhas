@@ -1,22 +1,28 @@
 """Bridge shim for `lukhas.governance.guardian_system` with safe fallbacks."""
 from __future__ import annotations
 
-from lukhas._bridgeutils import bridge
+from importlib import import_module
 
 _mod: object | None = None
 _exports: dict[str, object] = {}
+__all__ = []
 
-try:
-    _mod, _exports, __all__ = bridge(
-        candidates=(
-            "lukhas_website.lukhas.governance.guardian_system",
-            "candidate.governance.guardian_system",
-        ),
-        names=("Guardian", "PolicyGuard", "PolicyResult", "ReplayDecision"),
-    )
-    globals().update(_exports)
-except ModuleNotFoundError:
-    __all__ = []
+# Try backends with graceful AttributeError handling
+for _candidate in (
+    "lukhas_website.lukhas.governance.guardian_system",
+    "candidate.governance.guardian_system",
+):
+    try:
+        _mod = import_module(_candidate)
+        # Extract available symbols (don't fail if missing)
+        for _name in ("Guardian", "GuardianSystem", "PolicyGuard", "PolicyResult", "ReplayDecision"):
+            if hasattr(_mod, _name):
+                globals()[_name] = getattr(_mod, _name)
+                __all__.append(_name)
+        if __all__:  # If we got anything, stop searching
+            break
+    except (ModuleNotFoundError, ImportError, AttributeError):
+        continue
 
 if not isinstance(__all__, list):
     __all__ = list(__all__)

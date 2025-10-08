@@ -3,6 +3,8 @@ import pathlib
 import random
 import sqlite3
 import sys
+import importlib
+import types
 import traceback
 from pathlib import Path
 
@@ -34,6 +36,23 @@ class _TraceFinder:
 # Install trace finder (append to avoid interference)
 if not any(type(f).__name__ == "_TraceFinder" for f in sys.meta_path):
     sys.meta_path.append(_TraceFinder())
+
+# ---------------------------------------------------------------------------
+# six._SixMetaPathImporter compatibility shim (prevents "UnknownError" floods)
+# Older six meta-importers lack `find_spec` on Python 3.9+; pytest collection
+# calls it and then the importer raises confusing, empty errors.
+# We patch in a delegating `find_spec` that just defers to PathFinder.
+# This avoids touching pinned requirements/hashes.
+try:  # pragma: no cover
+    import six  # noqa: F401
+    for _imp in list(getattr(sys, "meta_path", [])):
+        if _imp.__class__.__name__ == "_SixMetaPathImporter" and not hasattr(_imp, "find_spec"):
+            def _find_spec(self, fullname, path=None, target=None):
+                return importlib.machinery.PathFinder.find_spec(fullname, path)
+            _imp.find_spec = types.MethodType(_find_spec, _imp)  # type: ignore[attr-defined]
+except Exception:
+    # If six isn't present or anything goes wrong, continue silently.
+    pass
 
 # -- Lukhas dynamic aliasing for nested submodule imports (V2) -----------------
 import importlib
@@ -111,6 +130,24 @@ class _LukhasAliasFinder(importlib.abc.MetaPathFinder):
 if not any(isinstance(f, _LukhasAliasFinder) for f in sys.meta_path):
     sys.meta_path.insert(0, _LukhasAliasFinder())
 # ------------------------------------------------------------------------------
+
+# ---------------------------------------------------------------------------
+# six._SixMetaPathImporter compatibility shim (prevents "UnknownError" floods)
+# Older six meta-importers lack `find_spec` on Python 3.9+; pytest collection
+# calls it and then the importer raises confusing, empty errors.
+# We patch in a delegating `find_spec` that just defers to PathFinder.
+# This avoids touching pinned requirements/hashes.
+try:  # pragma: no cover
+    import six  # noqa: F401
+    for _imp in list(getattr(sys, "meta_path", [])):
+        if _imp.__class__.__name__ == "_SixMetaPathImporter" and not hasattr(_imp, "find_spec"):
+            def _find_spec(self, fullname, path=None, target=None):
+                return importlib.machinery.PathFinder.find_spec(fullname, path)
+            _imp.find_spec = types.MethodType(_find_spec, _imp)  # type: ignore[attr-defined]
+except Exception:
+    # If six isn't present or anything goes wrong, continue silently.
+    pass
+# ---------------------------------------------------------------------------
 
 # Seed determinism for reproducible tests
 PYTHONHASHSEED = os.environ.get("PYTHONHASHSEED")

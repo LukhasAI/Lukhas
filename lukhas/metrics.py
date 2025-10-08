@@ -8,3 +8,14 @@ __all__, _exp = bridge_from_candidates(
     "core.metrics",
 )
 globals().update(_exp)
+
+# Additional metric exports for test compatibility
+from lukhas.observability import histogram
+
+stage_latency = histogram(
+    "lukhas_stage_latency_seconds",
+    "Processing latency by stage",
+    labelnames=("stage", "status"),
+)
+
+__all__.append("stage_latency")
