@@ -1,0 +1,188 @@
+================================================================================
+PYTEST COLLECTION ERROR ANALYSIS
+================================================================================
+Log file: artifacts/pytest_collect_round3.txt
+Total unique error patterns: 116
+Total error occurrences: 250
+
+TOP 15 ERROR PATTERNS (by frequency):
+--------------------------------------------------------------------------------
+
+1. [CannotImport] ethics_risk_distribution from lukhas.metrics
+   Occurrences: 10
+   Suggested fix:
+   # Fix: Add ethics_risk_distribution export to lukhas.metrics
+   cat >> lukhas/metrics/__init__.py <<'EXPORT'
+   
+   # Add ethics_risk_distribution for test compatibility
+   try:
+       from candidate.lukhas.metrics import ethics_risk_distribution
+   except ImportError:
+       # Stub fallback
+   ...
+
+2. [ImportError] cannot import name 'ethics_risk_distribution' from 'lukhas.metrics' (/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/metrics.py)
+   Occurrences: 10
+
+3. [ModuleNotFound] memory.backends.base
+   Occurrences: 4
+   Suggested fix:
+   # Fix: Create bridge for memory.backends.base
+   mkdir -p memory/backends/base
+   cat > memory/backends/base/__init__.py <<'BRIDGE'
+   """Bridge for memory.backends.base."""
+   from importlib import import_module
+   __all__ = []
+   
+   def _try(n: str):
+   ...
+
+4. [CannotImport] ComplianceRegime from lukhas.observability.evidence_collection
+   Occurrences: 4
+   Suggested fix:
+   # Fix: Add ComplianceRegime export to lukhas.observability.evidence_collection
+   cat >> lukhas/observability/evidence_collection/__init__.py <<'EXPORT'
+   
+   # Add ComplianceRegime for test compatibility
+   try:
+       from candidate.lukhas.observability.evidence_collection import ComplianceRegime
+   except ImportError:
+       # Stub fallback
+   ...
+
+5. [TypeError] unsupported operand type(s) for |: 'type' and 'NoneType'
+   Occurrences: 4
+
+6. [ImportError] cannot import name 'ComplianceRegime' from 'lukhas.observability.evidence_collection' (/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/observability/evidence_collection.py)
+   Occurrences: 4
+
+7. [ModuleNotFound] trace.TraceRepairEngine
+   Occurrences: 2
+   Suggested fix:
+   # Fix: Create bridge for trace.TraceRepairEngine
+   mkdir -p trace/TraceRepairEngine
+   cat > trace/TraceRepairEngine/__init__.py <<'BRIDGE'
+   """Bridge for trace.TraceRepairEngine."""
+   from importlib import import_module
+   __all__ = []
+   
+   def _try(n: str):
+   ...
+
+8. [ModuleNotFound] rl.coordination.multi_agent_trainer
+   Occurrences: 2
+   Suggested fix:
+   # Fix: Create bridge for rl.coordination.multi_agent_trainer
+   mkdir -p rl/coordination/multi_agent_trainer
+   cat > rl/coordination/multi_agent_trainer/__init__.py <<'BRIDGE'
+   """Bridge for rl.coordination.multi_agent_trainer."""
+   from importlib import import_module
+   __all__ = []
+   
+   def _try(n: str):
+   ...
+
+9. [ModuleNotFound] bio.core.architecture_analyzer
+   Occurrences: 2
+   Suggested fix:
+   # Fix: Create bridge for bio.core.architecture_analyzer
+   mkdir -p bio/core/architecture_analyzer
+   cat > bio/core/architecture_analyzer/__init__.py <<'BRIDGE'
+   """Bridge for bio.core.architecture_analyzer."""
+   from importlib import import_module
+   __all__ = []
+   
+   def _try(n: str):
+   ...
+
+10. [ModuleNotFound] core.collective.swarm
+   Occurrences: 2
+   Suggested fix:
+   # Fix: Create bridge for core.collective.swarm
+   mkdir -p core/collective/swarm
+   cat > core/collective/swarm/__init__.py <<'BRIDGE'
+   """Bridge for core.collective.swarm."""
+   from importlib import import_module
+   __all__ = []
+   
+   def _try(n: str):
+   ...
+
+11. [ModuleNotFound] aka_qualia.models
+   Occurrences: 2
+   Suggested fix:
+   # Fix: Create bridge for aka_qualia.models
+   mkdir -p aka_qualia/models
+   cat > aka_qualia/models/__init__.py <<'BRIDGE'
+   """Bridge for aka_qualia.models."""
+   from importlib import import_module
+   __all__ = []
+   
+   def _try(n: str):
+   ...
+
+12. [ModuleNotFound] candidate.branding_bridge
+   Occurrences: 2
+   Suggested fix:
+   # Fix: Create bridge for candidate.branding_bridge
+   mkdir -p candidate/branding_bridge
+   cat > candidate/branding_bridge/__init__.py <<'BRIDGE'
+   """Bridge for candidate.branding_bridge."""
+   from importlib import import_module
+   __all__ = []
+   
+   def _try(n: str):
+   ...
+
+13. [ModuleNotFound] candidate.ledger
+   Occurrences: 2
+   Suggested fix:
+   # Fix: Create bridge for candidate.ledger
+   mkdir -p candidate/ledger
+   cat > candidate/ledger/__init__.py <<'BRIDGE'
+   """Bridge for candidate.ledger."""
+   from importlib import import_module
+   __all__ = []
+   
+   def _try(n: str):
+   ...
+
+14. [ModuleNotFound] lukhas.matriz.runtime
+   Occurrences: 2
+   Suggested fix:
+   # Fix: Create bridge for lukhas.matriz.runtime
+   mkdir -p lukhas/matriz/runtime
+   cat > lukhas/matriz/runtime/__init__.py <<'BRIDGE'
+   """Bridge for lukhas.matriz.runtime."""
+   from importlib import import_module
+   __all__ = []
+   
+   def _try(n: str):
+   ...
+
+15. [ModuleNotFound] memory.scheduled_folding
+   Occurrences: 2
+   Suggested fix:
+   # Fix: Create bridge for memory.scheduled_folding
+   mkdir -p memory/scheduled_folding
+   cat > memory/scheduled_folding/__init__.py <<'BRIDGE'
+   """Bridge for memory.scheduled_folding."""
+   from importlib import import_module
+   __all__ = []
+   
+   def _try(n: str):
+   ...
+
+================================================================================
+PRIORITY FIX RECOMMENDATIONS:
+================================================================================
+1. Fix ImportError errors: 90 total occurrences
+2. Fix CannotImport errors: 88 total occurrences
+3. Fix ModuleNotFound errors: 54 total occurrences
+4. Fix TypeError errors: 6 total occurrences
+5. Fix AttributeError errors: 5 total occurrences
+6. Fix FailedAssertion errors: 3 total occurrences
+7. Fix NoAttribute errors: 2 total occurrences
+8. Fix NotPackage errors: 2 total occurrences
+
+Detailed analysis exported to: artifacts/pytest_collect_round3_analysis.json
