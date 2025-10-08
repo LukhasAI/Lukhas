@@ -66,5 +66,11 @@ oscillation_detections_total = counter(
     labelnames=("pattern", "severity"),
 )
 
-__all__.extend(["stage_latency", "stage_timeouts", "guardian_band", "reasoning_chain_length", "ethics_risk_distribution", "node_confidence_scores", "constellation_star_activations", "arbitration_decisions_total", "oscillation_detections_total"])
+parallel_batch_duration = histogram(
+    "lukhas_parallel_batch_duration_seconds",
+    "Duration of parallel batch operations",
+    labelnames=("batch_type", "size_bucket"),
+)
+
+__all__.extend(["stage_latency", "stage_timeouts", "guardian_band", "reasoning_chain_length", "ethics_risk_distribution", "node_confidence_scores", "constellation_star_activations", "arbitration_decisions_total", "oscillation_detections_total", "parallel_batch_duration"])
 
