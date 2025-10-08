@@ -1,9 +1,9 @@
-"""Bridge for `lukhas.bio.core.architecture_analyzer`.
+"""Bridge for `candidate.core.reliability`.
 
 Auto-generated bridge following canonical pattern:
-  1) lukhas_website.lukhas.lukhas.bio.core.architecture_analyzer
-  2) candidate.lukhas.bio.core.architecture_analyzer
-  3) bio.core.architecture_analyzer
+  1) lukhas_website.lukhas.candidate.core.reliability
+  2) candidate.candidate.core.reliability
+  3) core.reliability
 
 Graceful fallback to stubs if no backend available.
 """
@@ -21,9 +21,9 @@ def _try(n: str):
 
 # Try backends in order
 _CANDIDATES = (
-    "lukhas_website.lukhas.lukhas.bio.core.architecture_analyzer",
-    "candidate.lukhas.bio.core.architecture_analyzer",
-    "bio.core.architecture_analyzer",
+    "lukhas_website.lukhas.candidate.core.reliability",
+    "candidate.candidate.core.reliability",
+    "core.reliability",
 )
 
 _SRC = None

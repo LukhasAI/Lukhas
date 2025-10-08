@@ -18,4 +18,10 @@ stage_latency = histogram(
     labelnames=("stage", "status"),
 )
 
-__all__.append("stage_latency")
+stage_timeouts = histogram(
+    "lukhas_stage_timeouts_total",
+    "Timeout occurrences by stage",
+    labelnames=("stage", "reason"),
+)
+
+__all__.extend(["stage_latency", "stage_timeouts"])

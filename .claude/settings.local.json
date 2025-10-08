@@ -86,7 +86,10 @@
       "Bash(\"lukhas/bridge/adapters/service_adapter_base\" )",
       "Bash(\"core/collective/clusters\" )",
       "Bash(\"core/consciousness\" )",
-      "Bash(\"bio/energy\")"
+      "Bash(\"bio/energy\")",
+      "Read(//tmp/test_bridges/lukhas/governance/identity/core/**)",
+      "Bash(cat:*)",
+      "Bash(PYTHONPATH=. python3 -m pytest --collect-only -q)"
     ],
     "deny": [],
     "ask": []

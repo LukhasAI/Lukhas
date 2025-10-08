@@ -1,9 +1,9 @@
-"""Bridge for `lukhas.bio.core.architecture_analyzer`.
+"""Bridge for `cognitive_core.reasoning.deep_inference_engine`.
 
 Auto-generated bridge following canonical pattern:
-  1) lukhas_website.lukhas.lukhas.bio.core.architecture_analyzer
-  2) candidate.lukhas.bio.core.architecture_analyzer
-  3) bio.core.architecture_analyzer
+  1) lukhas_website.lukhas.cognitive_core.reasoning.deep_inference_engine
+  2) candidate.cognitive_core.reasoning.deep_inference_engine
+  3) cognitive_core.reasoning.deep_inference_engine
 
 Graceful fallback to stubs if no backend available.
 """
@@ -21,9 +21,9 @@ def _try(n: str):
 
 # Try backends in order
 _CANDIDATES = (
-    "lukhas_website.lukhas.lukhas.bio.core.architecture_analyzer",
-    "candidate.lukhas.bio.core.architecture_analyzer",
-    "bio.core.architecture_analyzer",
+    "lukhas_website.lukhas.cognitive_core.reasoning.deep_inference_engine",
+    "candidate.cognitive_core.reasoning.deep_inference_engine",
+    "cognitive_core.reasoning.deep_inference_engine",
 )
 
 _SRC = None

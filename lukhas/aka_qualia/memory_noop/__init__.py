@@ -1,9 +1,9 @@
-"""Bridge for `lukhas.bio.core.architecture_analyzer`.
+"""Bridge for `lukhas.aka_qualia.memory_noop`.
 
 Auto-generated bridge following canonical pattern:
-  1) lukhas_website.lukhas.lukhas.bio.core.architecture_analyzer
-  2) candidate.lukhas.bio.core.architecture_analyzer
-  3) bio.core.architecture_analyzer
+  1) lukhas_website.lukhas.lukhas.aka_qualia.memory_noop
+  2) candidate.lukhas.aka_qualia.memory_noop
+  3) aka_qualia.memory_noop
 
 Graceful fallback to stubs if no backend available.
 """
@@ -21,9 +21,9 @@ def _try(n: str):
 
 # Try backends in order
 _CANDIDATES = (
-    "lukhas_website.lukhas.lukhas.bio.core.architecture_analyzer",
-    "candidate.lukhas.bio.core.architecture_analyzer",
-    "bio.core.architecture_analyzer",
+    "lukhas_website.lukhas.lukhas.aka_qualia.memory_noop",
+    "candidate.lukhas.aka_qualia.memory_noop",
+    "aka_qualia.memory_noop",
 )
 
 _SRC = None
