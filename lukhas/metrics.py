@@ -24,4 +24,17 @@ stage_timeouts = histogram(
     labelnames=("stage", "reason"),
 )
 
-__all__.extend(["stage_latency", "stage_timeouts"])
+guardian_band = histogram(
+    "lukhas_guardian_band_decisions",
+    "Guardian decision outcomes by band",
+    labelnames=("band", "outcome"),
+)
+
+reasoning_chain_length = histogram(
+    "lukhas_reasoning_chain_length",
+    "Length of reasoning chains",
+    labelnames=("chain_type", "outcome"),
+)
+
+__all__.extend(["stage_latency", "stage_timeouts", "guardian_band", "reasoning_chain_length"])
+

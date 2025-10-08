@@ -40,6 +40,30 @@ queue_depth = gauge(
     labelnames=("name",),
 )
 
+# Advanced metrics system class
+class AdvancedMetricsSystem:
+    """Centralized advanced metrics system for LUKHAS observability."""
+
+    def __init__(self):
+        self.router_cascade_preventions_total = router_cascade_preventions_total
+        self.network_coherence_score = network_coherence_score
+        self.signal_processing_time_seconds = signal_processing_time_seconds
+        self.cache_hits_total = cache_hits_total
+        self.cache_misses_total = cache_misses_total
+        self.queue_depth = queue_depth
+
+    def record_cache_hit(self, cache: str):
+        """Record cache hit."""
+        self.cache_hits_total.labels(cache=cache).inc()
+
+    def record_cache_miss(self, cache: str):
+        """Record cache miss."""
+        self.cache_misses_total.labels(cache=cache).inc()
+
+    def set_queue_depth(self, name: str, depth: int):
+        """Set queue depth gauge."""
+        self.queue_depth.labels(name=name).set(depth)
+
 __all__ = [
     "router_cascade_preventions_total",
     "network_coherence_score",
@@ -47,4 +71,5 @@ __all__ = [
     "cache_hits_total",
     "cache_misses_total",
     "queue_depth",
+    "AdvancedMetricsSystem",
 ]
