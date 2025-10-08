@@ -97,3 +97,13 @@ if "initialize_regression_detector" not in globals():
         return PerformanceRegressionDetector(*args, **kwargs)
 
     __all__.append("initialize_regression_detector")
+
+
+if "record_performance_data" not in globals():
+
+    def record_performance_data(detector: PerformanceRegressionDetector, **metrics):  # type: ignore[arg-type]
+        """Record performance data using fallback detector."""
+
+        return detector.evaluate(metrics)
+
+    __all__.append("record_performance_data")

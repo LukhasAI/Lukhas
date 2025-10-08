@@ -220,6 +220,17 @@ class ConfigLoader:
             "cache_ttl": int(os.getenv("GUARDIAN_CACHE_TTL", "60")),
         }
 
+    @property
+    def ai_router_path(self) -> str:
+        """Expose AI router path with safe default."""
+
+        orchestration = self.configs.get("orchestration")
+        if orchestration:
+            path = orchestration.settings.get("ai_router_path")
+            if isinstance(path, str) and path:
+                return path
+        return "lukhas.orchestration.multi_ai_router"
+
 
 # Global instance
 _config_loader: Optional[ConfigLoader] = None

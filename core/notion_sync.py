@@ -142,7 +142,7 @@ def make_toggle_block(module_name, header_text, usage_text):
         "object": "block",
         "type": "toggle",
         "toggle": {
-            "rich_text": [{"type": "text", "text": {"content": f"📦 {module_name}.py"}],
+            "rich_text": [{"type": "text", "text": {"content": f"📦 {module_name}.py"}}],
             "children": [
                 make_code_block(header_text, lang="text"),
                 make_code_block(usage_text, lang="python"),
@@ -154,7 +154,7 @@ def make_toggle_block(module_name, header_text, usage_text):
                             {
                                 "type": "text",
                                 "text": {
-                                    "content": f"🕒 Synced on {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S'}"
+                                    "content": f"🕒 Synced on {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S')}"
                                 },
                             }
                         ]
@@ -162,7 +162,7 @@ def make_toggle_block(module_name, header_text, usage_text):
                 },
             ],
         },
-    )}
+    }
 
 
 def make_flat_block(module_name, header_text, usage_text):
@@ -189,11 +189,11 @@ def make_flat_block(module_name, header_text, usage_text):
                 "rich_text": [
                     {
                         "type": "text",
-                        "text": {"content": f"🕒 Synced on {datetime.datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S'}"},
+                        "text": {"content": f"🕒 Synced on {datetime.datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S')}"},
                     }
                 ]
             },
-        )},
+        },
     ]
 
 
@@ -203,7 +203,7 @@ def make_minimal_block(module_name, usage_text):
         {
             "object": "block",
             "type": "heading_3",
-            "heading_3": {"rich_text": [{"type": "text", "text": {"content": f"{module_name}.py"}]},
+            "heading_3": {"rich_text": [{"type": "text", "text": {"content": f"{module_name}.py"}}]},
         },
         make_code_block(usage_text, lang="python"),
     ]
@@ -805,7 +805,7 @@ Examples:
                 streamlit_cmd = [
                     sys.executable,
                     "-c",
-                    f"import sys; sys.path.insert(0, '{Path(__file__}.parent)}'); "
+                    f"import sys; sys.path.insert(0, '{Path(__file__).parent}'); "
                     "from notion_sync import run_legacy_streamlit_mode; "
                     "import streamlit as st; run_legacy_streamlit_mode()",
                 ]

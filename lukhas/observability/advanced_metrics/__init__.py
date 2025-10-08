@@ -165,3 +165,13 @@ if "record_metric" not in globals():
             queue_depth.labels(**labels).set(value)
 
     __all__.append("record_metric")
+
+
+if "record_operation_performance" not in globals():
+
+    def record_operation_performance(operation: str, duration: float, **labels):
+        """Record operation performance metrics in fallback mode."""
+
+        record_metric("signal_processing_time_seconds", duration, operation=operation, **labels)
+
+    __all__.append("record_operation_performance")

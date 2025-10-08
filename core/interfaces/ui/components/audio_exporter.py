@@ -112,14 +112,13 @@ def export_as_text_narration():
             out.write("🎙 LUCΛS VOICE EXPORT\n")
             out.write(f"Text: {entry['text']}\n")
             out.write(f"Tier: {entry.get('tier', '-')}\n")
-            out.write(f"Emotion Vector: {entry.get('emotion_vector', {)})}\n")
+            out.write(f"Emotion Vector: {entry.get('emotion_vector', {})}\n")
             out.write(f"Narrated At: {entry.get('narrated_at', '')}\n")
 
         if elevenlabs_enabled:
             try:
                 print(
-                    f"🧪 Attempting to generate audio for: {entry.get('message_id',")}
-                                                                     'unknown_dream')}"
+                    f"🧪 Attempting to generate audio for: {entry.get('message_id', 'unknown_dream')}"
                 )
                 client = ElevenLabs(api_key=ELEVENLABS_API_KEY)
                 audio_stream = client.text_to_speech.convert(

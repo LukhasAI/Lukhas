@@ -12,6 +12,7 @@ __all__ = [
     "Bz2Compressor",
     "CompressionResult",
     "CompressionStats",
+    "GzipCompressor",
 ]
 
 try:
@@ -65,3 +66,13 @@ class CompressionResult(dict):
 
 class CompressionStats(dict):
     """Fallback compression statistics container."""
+
+
+class GzipCompressor:
+    """Fallback Gzip compressor."""
+
+    def compress(self, data: bytes) -> bytes:
+        return data
+
+    def decompress(self, data: bytes) -> bytes:
+        return data

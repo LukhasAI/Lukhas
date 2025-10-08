@@ -100,3 +100,16 @@ if "CircuitBreakerOpenError" not in globals():
     globals()["CircuitBreakerOpenError"] = CircuitBreakerOpenError
     if "CircuitBreakerOpenError" not in __all__:
         __all__.append("CircuitBreakerOpenError")
+
+
+if "ErrorCategory" not in globals():
+    from enum import Enum
+
+    class ErrorCategory(Enum):
+        TRANSIENT = "transient"
+        PERMANENT = "permanent"
+        UNKNOWN = "unknown"
+
+    globals()["ErrorCategory"] = ErrorCategory
+    if "ErrorCategory" not in __all__:
+        __all__.append("ErrorCategory")

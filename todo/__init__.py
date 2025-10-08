@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import sys
+
 try:
     from lukhas.tools.todo import *  # type: ignore # noqa: F401,F403
 except Exception:
@@ -20,3 +22,5 @@ except Exception:
 
         def add(self, text: str):
             self.items.append(TodoItem(text))
+
+sys.modules.setdefault("todo", sys.modules[__name__])

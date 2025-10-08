@@ -500,7 +500,7 @@ def main():
         print(f"  - {action}")
 
     if len(integrator.integration_log) > 5:
-        print(f"  ... and {len(integrator.integration_log)} - 5} more actions")
+        print(f"  ... and {len(integrator.integration_log) - 5} more actions")
 
 
 if __name__ == "__main__":

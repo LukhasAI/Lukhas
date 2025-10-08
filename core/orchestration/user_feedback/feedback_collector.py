@@ -60,4 +60,4 @@ if __name__ == "__main__":
     store_feedback(example)
     print("✅ Feedback stored!")
     print(f"Feedback log path: {FEEDBACK_LOG_PATH}")
-    print(f"Current feedback count: {len(json.load(open(FEEDBACK_LOG_PATH)}")
+    print(f"Current feedback count: {len(json.load(open(FEEDBACK_LOG_PATH)))}")

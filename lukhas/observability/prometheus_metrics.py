@@ -75,3 +75,13 @@ if "initialize_metrics" not in globals():
         }
 
     __all__.append("initialize_metrics")
+
+
+if "shutdown_metrics" not in globals():
+
+    def shutdown_metrics(*args, **kwargs):
+        """Fallback shutdown hook."""
+
+        return True
+
+    __all__.append("shutdown_metrics")

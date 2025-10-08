@@ -175,7 +175,7 @@ class NIASHub:
 
     async def health_check(self) -> dict[str, Any]:
         """Health check for all registered NIAS services"""
-        health = {"status": "healthy", "services": {}
+        health = {"status": "healthy", "services": {}}
 
         for name, service in self.services.items():
             try:

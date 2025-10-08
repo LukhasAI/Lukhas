@@ -1632,7 +1632,7 @@ class HumanInTheLoopOrchestrator:
             )
 
             # Return basic signature to maintain workflow continuity
-            return f"SRD_SIGNATURE_ERROR_{hash(f'{response.response_id)}_{response.reviewer_id}_{start_time}')}"
+            return f"SRD_SIGNATURE_ERROR_{hash(f'{response.response_id}_{response.reviewer_id}_{start_time}')}"
 
     async def _monitor_decisions(self):
         """Background task to monitor decision progress."""

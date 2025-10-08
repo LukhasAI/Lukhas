@@ -15,6 +15,17 @@ import pkgutil
 import sys
 import types
 
+# Provide lightweight pandas shim if missing or incomplete
+try:
+    import pandas  # type: ignore
+
+    if not hasattr(pandas, "_pandas_datetime_CAPI"):
+        pandas._pandas_datetime_CAPI = None  # type: ignore[attr-defined]
+except ImportError:
+    pandas_stub = types.ModuleType("pandas")
+    pandas_stub._pandas_datetime_CAPI = None  # type: ignore[attr-defined]
+    sys.modules.setdefault("pandas", pandas_stub)
+
 # Discover top-level modules that sit at repo root
 ROOT = pathlib.Path(__file__).resolve().parents[1]  # points to repo root/Lukhas
 CANDIDATE = ROOT / "candidate"

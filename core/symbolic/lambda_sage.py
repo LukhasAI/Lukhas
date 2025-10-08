@@ -1148,7 +1148,7 @@ class ΛSage:
         self.symbolic_elements = elements[:limit]
 
         self.logger.info(
-            f"Loaded {len(self.symbolic_elements)} symbolic elements from {len({e.system_origin for e in self.symbolic_elements)})} systems"
+            f"Loaded {len(self.symbolic_elements)} symbolic elements from {len({e.system_origin for e in self.symbolic_elements})} systems"
         )
 
         return self.symbolic_elements
@@ -2266,7 +2266,7 @@ class ΛSage:
         else:
             output_path = Path(output_path)
 
-        self.logger.info(f"Exporting {len(mappings} mappings to CSV: {output_path)}")
+        self.logger.info(f"Exporting {len(mappings)} mappings to CSV: {output_path}")
 
         with open(output_path, "w", newline="", encoding="utf-8") as csvfile:
             fieldnames = [
