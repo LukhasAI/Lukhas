@@ -1,0 +1,197 @@
+================================================================================
+PYTEST COLLECTION ERROR ANALYSIS
+================================================================================
+Log file: artifacts/pytest_collect_round13.txt
+Total unique error patterns: 110
+Total error occurrences: 232
+
+TOP 15 ERROR PATTERNS (by frequency):
+--------------------------------------------------------------------------------
+
+1. [CannotImport] mtrx_orch_timeout_total from lukhas.metrics
+   Occurrences: 10
+   Suggested fix:
+   # Fix: Add mtrx_orch_timeout_total export to lukhas.metrics
+   cat >> lukhas/metrics/__init__.py <<'EXPORT'
+   
+   # Add mtrx_orch_timeout_total for test compatibility
+   try:
+       from candidate.lukhas.metrics import mtrx_orch_timeout_total
+   except ImportError:
+       # Stub fallback
+   ...
+
+2. [ImportError] cannot import name 'mtrx_orch_timeout_total' from 'lukhas.metrics' (/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/metrics.py)
+   Occurrences: 10
+
+3. [TypeError] unsupported operand type(s) for |: 'type' and 'NoneType'
+   Occurrences: 4
+
+4. [ModuleNotFound] observability.intelligent_alerting
+   Occurrences: 2
+   Suggested fix:
+   # Fix: Create bridge for observability.intelligent_alerting
+   mkdir -p observability/intelligent_alerting
+   cat > observability/intelligent_alerting/__init__.py <<'BRIDGE'
+   """Bridge for observability.intelligent_alerting."""
+   from importlib import import_module
+   __all__ = []
+   
+   def _try(n: str):
+   ...
+
+5. [ModuleNotFound] google_auth_oauthlib
+   Occurrences: 2
+   Suggested fix:
+   # Fix: Create bridge for google_auth_oauthlib
+   mkdir -p google_auth_oauthlib
+   cat > google_auth_oauthlib/__init__.py <<'BRIDGE'
+   """Bridge for google_auth_oauthlib."""
+   from importlib import import_module
+   __all__ = []
+   
+   def _try(n: str):
+   ...
+
+6. [ModuleNotFound] TODO
+   Occurrences: 2
+   Suggested fix:
+   # Fix: Create bridge for TODO
+   mkdir -p TODO
+   cat > TODO/__init__.py <<'BRIDGE'
+   """Bridge for TODO."""
+   from importlib import import_module
+   __all__ = []
+   
+   def _try(n: str):
+   ...
+
+7. [CannotImport] InferenceRequest from lukhas.cognitive_core.reasoning.deep_inference_engine
+   Occurrences: 2
+   Suggested fix:
+   # Fix: Add InferenceRequest export to lukhas.cognitive_core.reasoning.deep_inference_engine
+   cat >> lukhas/cognitive_core/reasoning/deep_inference_engine/__init__.py <<'EXPORT'
+   
+   # Add InferenceRequest for test compatibility
+   try:
+       from candidate.lukhas.cognitive_core.reasoning.deep_inference_engine import InferenceRequest
+   except ImportError:
+       # Stub fallback
+   ...
+
+8. [CannotImport] AwarenessEngine from consciousness
+   Occurrences: 2
+   Suggested fix:
+   # Fix: Add AwarenessEngine export to consciousness
+   cat >> consciousness/__init__.py <<'EXPORT'
+   
+   # Add AwarenessEngine for test compatibility
+   try:
+       from candidate.consciousness import AwarenessEngine
+   except ImportError:
+       # Stub fallback
+   ...
+
+9. [CannotImport] ConsciousnessConfig from consciousness
+   Occurrences: 2
+   Suggested fix:
+   # Fix: Add ConsciousnessConfig export to consciousness
+   cat >> consciousness/__init__.py <<'EXPORT'
+   
+   # Add ConsciousnessConfig for test compatibility
+   try:
+       from candidate.consciousness import ConsciousnessConfig
+   except ImportError:
+       # Stub fallback
+   ...
+
+10. [CannotImport] run_guardian_task from lukhas.async_utils
+   Occurrences: 2
+   Suggested fix:
+   # Fix: Add run_guardian_task export to lukhas.async_utils
+   cat >> lukhas/async_utils/__init__.py <<'EXPORT'
+   
+   # Add run_guardian_task for test compatibility
+   try:
+       from candidate.lukhas.async_utils import run_guardian_task
+   except ImportError:
+       # Stub fallback
+   ...
+
+11. [CannotImport] run_with_retry from lukhas.async_utils
+   Occurrences: 2
+   Suggested fix:
+   # Fix: Add run_with_retry export to lukhas.async_utils
+   cat >> lukhas/async_utils/__init__.py <<'EXPORT'
+   
+   # Add run_with_retry for test compatibility
+   try:
+       from candidate.lukhas.async_utils import run_with_retry
+   except ImportError:
+       # Stub fallback
+   ...
+
+12. [CannotImport] CognitiveLoadLevel from lukhas.consciousness.meta_cognitive_assessor
+   Occurrences: 2
+   Suggested fix:
+   # Fix: Add CognitiveLoadLevel export to lukhas.consciousness.meta_cognitive_assessor
+   cat >> lukhas/consciousness/meta_cognitive_assessor/__init__.py <<'EXPORT'
+   
+   # Add CognitiveLoadLevel for test compatibility
+   try:
+       from candidate.lukhas.consciousness.meta_cognitive_assessor import CognitiveLoadLevel
+   except ImportError:
+       # Stub fallback
+   ...
+
+13. [CannotImport] AIProvider from lukhas.orchestration.multi_ai_router
+   Occurrences: 2
+   Suggested fix:
+   # Fix: Add AIProvider export to lukhas.orchestration.multi_ai_router
+   cat >> lukhas/orchestration/multi_ai_router/__init__.py <<'EXPORT'
+   
+   # Add AIProvider for test compatibility
+   try:
+       from candidate.lukhas.orchestration.multi_ai_router import AIProvider
+   except ImportError:
+       # Stub fallback
+   ...
+
+14. [CannotImport] get_constellation_context from lukhas.branding_bridge
+   Occurrences: 2
+   Suggested fix:
+   # Fix: Add get_constellation_context export to lukhas.branding_bridge
+   cat >> lukhas/branding_bridge/__init__.py <<'EXPORT'
+   
+   # Add get_constellation_context for test compatibility
+   try:
+       from candidate.lukhas.branding_bridge import get_constellation_context
+   except ImportError:
+       # Stub fallback
+   ...
+
+15. [CannotImport] ArchivalTier from memory.lifecycle
+   Occurrences: 2
+   Suggested fix:
+   # Fix: Add ArchivalTier export to memory.lifecycle
+   cat >> memory/lifecycle/__init__.py <<'EXPORT'
+   
+   # Add ArchivalTier for test compatibility
+   try:
+       from candidate.memory.lifecycle import ArchivalTier
+   except ImportError:
+       # Stub fallback
+   ...
+
+================================================================================
+PRIORITY FIX RECOMMENDATIONS:
+================================================================================
+1. Fix ImportError errors: 106 total occurrences
+2. Fix CannotImport errors: 104 total occurrences
+3. Fix ModuleNotFound errors: 6 total occurrences
+4. Fix TypeError errors: 6 total occurrences
+5. Fix AttributeError errors: 5 total occurrences
+6. Fix FailedAssertion errors: 3 total occurrences
+7. Fix NoAttribute errors: 2 total occurrences
+
+Detailed analysis exported to: artifacts/pytest_collect_round13_analysis.json
