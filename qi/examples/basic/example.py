@@ -198,7 +198,7 @@ def main():
         # Run the demonstration
         processor = demonstrate_qi_processing()
 
-        print(f"\n📊 Total decisions processed: {len(processor.get_decision_history()}")
+        print(f"\n📊 Total decisions processed: {len(processor.get_decision_history())}")
         print("🚀 QI Example completed successfully!")
 
     except Exception as e:

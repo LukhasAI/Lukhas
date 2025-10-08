@@ -108,7 +108,7 @@ class QISecurityIntegration:
             await self.initialize()
 
         # Check cache first
-        cache_key = f"{target}:{hash(code)} if code else 'system'}"
+        cache_key = f"{target}:{hash(code) if code else 'system'}"
         if cache_key in self.assessment_cache:
             cached = self.assessment_cache[cache_key]
             if (datetime.now(timezone.utc) - cached["timestamp"]).seconds < 300:  # 5 min cache
@@ -220,7 +220,7 @@ class QISecurityIntegration:
     async def update_security_policies(self, policies: dict[str, Any]):
         """Update security policies"""
         self.security_policies.update(policies)
-        logger.info(f"Security policies updated: {list(policies.keys()}")
+        logger.info(f"Security policies updated: {list(policies.keys())}")
 
     async def get_security_status(self) -> dict[str, Any]:
         """Get current security system status"""

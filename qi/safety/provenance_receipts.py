@@ -42,7 +42,7 @@ def write_receipt(
             "purpose": purpose,
         },
         {"phase": "link", "url": url, "client_ip": client_ip, "user_agent": user_agent},
-        {"phase": "outcome", "event": event, "extras": extras or {},
+        {"phase": "outcome", "event": event, "extras": extras or {}},
     ]
     chain = merkle_chain(steps)
     att = attest(chain, tag=tag)  # writes *.jsonl + *.att.json
