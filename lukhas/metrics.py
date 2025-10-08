@@ -72,5 +72,11 @@ parallel_batch_duration = histogram(
     labelnames=("batch_type", "size_bucket"),
 )
 
-__all__.extend(["stage_latency", "stage_timeouts", "guardian_band", "reasoning_chain_length", "ethics_risk_distribution", "node_confidence_scores", "constellation_star_activations", "arbitration_decisions_total", "oscillation_detections_total", "parallel_batch_duration"])
+parallel_execution_mode_total = counter(
+    "lukhas_parallel_execution_mode_total",
+    "Execution mode for parallel operations",
+    labelnames=("mode", "worker_count"),
+)
+
+__all__.extend(["stage_latency", "stage_timeouts", "guardian_band", "reasoning_chain_length", "ethics_risk_distribution", "node_confidence_scores", "constellation_star_activations", "arbitration_decisions_total", "oscillation_detections_total", "parallel_batch_duration", "parallel_execution_mode_total"])
 
