@@ -29,3 +29,23 @@ except ImportError:
         except asyncio.TimeoutError:
             return None
     __all__.append("await_with_timeout")
+
+# Add gather_with_error_handling for test compatibility
+try:
+    from candidate.async_utils import gather_with_error_handling
+    __all__.append("gather_with_error_handling")
+except ImportError:
+    async def gather_with_error_handling(*coros, return_exceptions=True):
+        """Stub gather with error handling."""
+        return await asyncio.gather(*coros, return_exceptions=return_exceptions)
+    __all__.append("gather_with_error_handling")
+
+# Add consciousness_task for test compatibility
+try:
+    from candidate.async_utils import consciousness_task
+    __all__.append("consciousness_task")
+except ImportError:
+    def consciousness_task(func):
+        """Stub consciousness task decorator."""
+        return func
+    __all__.append("consciousness_task")

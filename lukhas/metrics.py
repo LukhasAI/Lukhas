@@ -84,5 +84,11 @@ retry_attempts_total = counter(
     labelnames=("operation", "outcome"),
 )
 
-__all__.extend(["stage_latency", "stage_timeouts", "guardian_band", "reasoning_chain_length", "ethics_risk_distribution", "node_confidence_scores", "constellation_star_activations", "arbitration_decisions_total", "oscillation_detections_total", "parallel_batch_duration", "parallel_execution_mode_total", "retry_attempts_total"])
+mtrx_stage_duration_seconds = histogram(
+    "lukhas_mtrx_stage_duration_seconds",
+    "MATRIZ stage execution duration",
+    labelnames=("stage", "outcome"),
+)
+
+__all__.extend(["stage_latency", "stage_timeouts", "guardian_band", "reasoning_chain_length", "ethics_risk_distribution", "node_confidence_scores", "constellation_star_activations", "arbitration_decisions_total", "oscillation_detections_total", "parallel_batch_duration", "parallel_execution_mode_total", "retry_attempts_total", "mtrx_stage_duration_seconds"])
 
