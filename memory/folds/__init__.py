@@ -1,9 +1,50 @@
-"""Bridge: memory.folds (namespace for fold engines)."""
+"""Memory fold exports that gracefully bridge legacy implementations."""
 from __future__ import annotations
-from lukhas._bridgeutils import bridge_from_candidates
-__all__, _exp = bridge_from_candidates(
-    "lukhas_website.lukhas.memory.folds",
+
+from importlib import import_module
+from typing import Any
+
+__all__: list[str] = []
+
+_CANDIDATES = (
     "candidate.memory.folds",
-    "memory.folds",
+    "memory.folds_impl",
 )
-globals().update(_exp)
+
+
+def _export(name: str, value: Any) -> None:
+    globals()[name] = value
+    if name not in __all__:
+        __all__.append(name)
+
+
+for module in _CANDIDATES:
+    try:
+        mod = import_module(module)
+    except Exception:
+        continue
+    exported = False
+    for symbol in ("FoldEngine", "SoftDelete", "FoldManager"):
+        if hasattr(mod, symbol):
+            _export(symbol, getattr(mod, symbol))
+            exported = True
+    if exported:
+        break
+
+
+if "FoldEngine" not in globals():
+    class FoldEngine:  # type: ignore[misc]
+        def execute(self, *args: Any, **kwargs: Any) -> None:
+            return None
+
+
+if "SoftDelete" not in globals():
+    class SoftDelete:  # type: ignore[misc]
+        def __call__(self, *args: Any, **kwargs: Any) -> None:
+            return None
+
+
+if "FoldManager" not in globals():
+    class FoldManager:  # type: ignore[misc]
+        def manage(self, *args: Any, **kwargs: Any) -> None:
+            return None

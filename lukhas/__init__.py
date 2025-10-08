@@ -9,6 +9,7 @@ Remove once all modules are fully promoted and imports are updated.
 from __future__ import annotations
 
 import importlib
+import importlib.util
 import pathlib
 import pkgutil
 import sys
@@ -60,6 +61,13 @@ def __getattr__(name: str) -> types.ModuleType:
       sys.modules["lukhas.<name>"] = real module
       On submodule access, we import underlying `<target>.<sub>` and alias
     """
+    # Prefer real lukhas.<name> submodules before bridging to legacy locations.
+    spec = importlib.util.find_spec(f"{__name__}.{name}")
+    if spec is not None:
+        mod = importlib.import_module(f"{__name__}.{name}")
+        sys.modules[f"{__name__}.{name}"] = mod
+        return mod
+
     target = _resolve_target(name)
     if not target:
         raise AttributeError(f"lukhas.{name} not found in root or candidate")

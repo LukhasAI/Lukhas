@@ -1,4 +1,4 @@
-"""Promoted policy guard bridge with tolerant fallbacks."""
+"""Governance policy guard facade for candidate core import paths."""
 from __future__ import annotations
 
 from importlib import import_module
@@ -7,38 +7,34 @@ __all__ = ["PolicyGuard", "PolicyResult", "ReplayDecision"]
 
 _CANDIDATES = (
     "lukhas_website.lukhas.core.policy_guard",
-    "candidate.core.policy_guard",
     "governance.policy_guard",
     "candidate.core.ethics.ab_safety_guard",
 )
 
 
-def _get(module: str, name: str):
+def _resolve(module: str, name: str):
     try:
         mod = import_module(module)
     except Exception:
         return None
-    return getattr(mod, name, None) if hasattr(mod, name) else None
+    return getattr(mod, name, None)
 
 
-for _name in list(__all__):
-    value = next((obj for obj in (_get(mod, _name) for mod in _CANDIDATES) if obj), None)
+for _symbol in list(__all__):
+    value = next((result for result in (_resolve(mod, _symbol) for mod in _CANDIDATES) if result), None)
     if value is not None:
-        globals()[_name] = value
+        globals()[_symbol] = value
 
 
 if "PolicyResult" not in globals():
     class PolicyResult:  # type: ignore[misc]
-        def __init__(self, ok: bool = True, reason: str = "noop") -> None:
-            self.ok = ok
-            self.reason = reason
+        ok: bool = True
+        reason: str = "noop"
 
 
 if "ReplayDecision" not in globals():
     class ReplayDecision:  # type: ignore[misc]
-        def __init__(self, allow: bool = True, reason: str = "noop") -> None:
-            self.allow = allow
-            self.reason = reason
+        allow: bool = True
 
 
 if "PolicyGuard" not in globals():

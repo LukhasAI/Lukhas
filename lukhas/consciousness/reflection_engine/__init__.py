@@ -1,35 +1,48 @@
-"""Bridge for `lukhas.consciousness.reflection_engine` with fallback stub."""
+"""Reflection engine facade that bridges multiple backends."""
 from __future__ import annotations
 
-from lukhas._bridgeutils import bridge
+from importlib import import_module
 
-_mod: object | None = None
-_exports: dict[str, object] = {}
+__all__ = ["ReflectionEngine", "ReflectionEntry", "AlignmentScore"]
 
-try:
-    _mod, _exports, __all__ = bridge(
-        candidates=(
-            "lukhas_website.lukhas.consciousness.reflection_engine",
-            "candidate.consciousness.reflection_engine",
-        ),
-        names=("ReflectionEngine",),
-    )
-    globals().update(_exports)
-except ModuleNotFoundError:
-    __all__ = []
+_CANDIDATES = (
+    "candidate.consciousness.reflection_engine",
+    "lukhas_website.lukhas.consciousness.reflection_engine",
+    "consciousness.reflection_engine",
+    "consciousness.reflection",
+)
 
-if not isinstance(__all__, list):
-    __all__ = list(__all__)
+
+def _grab(name: str):
+    for module in _CANDIDATES:
+        try:
+            mod = import_module(module)
+        except Exception:
+            continue
+        if hasattr(mod, name):
+            return getattr(mod, name)
+    return None
+
+
+for _name in list(__all__):
+    value = _grab(_name)
+    if value is not None:
+        globals()[_name] = value
+
+
+if "ReflectionEntry" not in globals():
+    class ReflectionEntry:  # type: ignore[misc]
+        def __init__(self, text: str = "") -> None:
+            self.text = text
+
+
+if "AlignmentScore" not in globals():
+    class AlignmentScore:  # type: ignore[misc]
+        def __init__(self, score: float = 0.0) -> None:
+            self.score = score
 
 
 if "ReflectionEngine" not in globals():
-    class ReflectionEngine:
-        """Stub reflection engine used for pre-freeze collection."""
-
-        def __init__(self, *args: object, **kwargs: object) -> None:
-            self.args = args
-            self.kwargs = kwargs
-
-    __all__.append("ReflectionEngine")
-
-del _mod, _exports
+    class ReflectionEngine:  # type: ignore[misc]
+        def run(self, *args, **kwargs):
+            return [ReflectionEntry("noop")]

@@ -81,8 +81,7 @@ class _LukhasAliasLoader(importlib.abc.Loader):
 class _LukhasAliasFinder(importlib.abc.MetaPathFinder):
     def find_spec(self, fullname, path, target=None):
         if fullname == "lukhas":
-            # Synthesize package for "import lukhas"
-            return importlib.machinery.ModuleSpec("lukhas", loader=None, is_package=True)
+            return None
 
         if not fullname.startswith("lukhas."):
             return None
@@ -91,6 +90,10 @@ class _LukhasAliasFinder(importlib.abc.MetaPathFinder):
             return None
 
         tail = fullname[len("lukhas."):]  # e.g., "consciousness.dream"
+        # If the module exists under the real lukhas package, defer to default loaders.
+        real_path = Path("lukhas") / Path(*tail.split("."))
+        if real_path.with_suffix(".py").exists() or ((real_path).is_dir() and (real_path / "__init__.py").exists()):
+            return None
 
         for prefix in CANONICAL_PREFIXES:
             candidate_name = f"{prefix}.{tail}" if prefix else tail
@@ -194,16 +197,23 @@ def pytest_runtest_makereport(item, call):
 
 import types
 
+# Provide a streamlit stub immediately so candidate modules importing it don't fail.
+if "streamlit" not in sys.modules:
+    sys.modules["streamlit"] = types.SimpleNamespace(
+        write=lambda *a, **k: None,
+        markdown=lambda *a, **k: None,
+        cache_data=lambda *a, **k: (lambda f: f),
+    )
+
 
 @pytest.fixture(autouse=True, scope="session")
 def _stub_streamlit_for_tests():
     if "streamlit" not in sys.modules:
-        stub = types.SimpleNamespace(
+        sys.modules["streamlit"] = types.SimpleNamespace(
             write=lambda *a, **k: None,
             markdown=lambda *a, **k: None,
             cache_data=lambda *a, **k: (lambda f: f),
         )
-        sys.modules["streamlit"] = stub
     yield
 
 

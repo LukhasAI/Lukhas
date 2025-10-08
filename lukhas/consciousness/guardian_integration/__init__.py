@@ -1,35 +1,49 @@
-"""Bridge for `lukhas.consciousness.guardian_integration` with fallback stubs."""
+"""Guardian integration facade with safe stubs."""
 from __future__ import annotations
 
-from lukhas._bridgeutils import bridge
+from importlib import import_module
 
-_mod: object | None = None
-_exports: dict[str, object] = {}
+__all__ = ["GuardianAdapter", "GuardianDecision", "guard_stream"]
 
-try:
-    _mod, _exports, __all__ = bridge(
-        candidates=(
-            "lukhas_website.lukhas.consciousness.guardian_integration",
-            "candidate.consciousness.guardian_integration",
-        ),
-        names=("AutoConsciousness",),
-    )
-    globals().update(_exports)
-except ModuleNotFoundError:
-    __all__ = []
-
-if not isinstance(__all__, list):
-    __all__ = list(__all__)
+_CANDIDATES = (
+    "candidate.consciousness.guardian_integration",
+    "lukhas_website.lukhas.consciousness.guardian_integration",
+    "consciousness.guardian_integration",
+    "candidate.core.ethics.ab_safety_guard",
+)
 
 
-if "AutoConsciousness" not in globals():
-    class AutoConsciousness:
-        """Stubbed guardian integration surface for collection."""
+def _find(name: str):
+    for module in _CANDIDATES:
+        try:
+            mod = import_module(module)
+        except Exception:
+            continue
+        if hasattr(mod, name):
+            return getattr(mod, name)
+    return None
 
-        def __init__(self, *args: object, **kwargs: object) -> None:
-            self.args = args
-            self.kwargs = kwargs
 
-    __all__.append("AutoConsciousness")
+for _name in list(__all__):
+    value = _find(_name)
+    if value is not None:
+        globals()[_name] = value
 
-del _mod, _exports
+
+if "GuardianDecision" not in globals():
+    class GuardianDecision:  # type: ignore[misc]
+        def __init__(self, allow: bool = True, reason: str = "noop") -> None:
+            self.allow = allow
+            self.reason = reason
+
+
+if "GuardianAdapter" not in globals():
+    class GuardianAdapter:  # type: ignore[misc]
+        def evaluate(self, *args, **kwargs) -> GuardianDecision:
+            return GuardianDecision()
+
+
+if "guard_stream" not in globals():
+    def guard_stream(iterable):  # type: ignore[misc]
+        for item in iterable:
+            yield item

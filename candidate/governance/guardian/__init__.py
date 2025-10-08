@@ -1,10 +1,16 @@
-"""
-Guardian subsystem for governance module.
+"""Guardian subsystem facade plus compatibility re-exports."""
+from __future__ import annotations
 
-This module exposes the main GuardianSystem class for use by other
-parts of the LUKHAS AI system.
-"""
+from candidate.governance import Guardian, PolicyGuard, PolicyResult, SafetyGuard
+
 from .guardian import GuardianSystem
 from .guardian_validator import GuardianValidator
 
-__all__ = ["GuardianSystem", "GuardianValidator"]
+__all__ = [
+    "GuardianSystem",
+    "GuardianValidator",
+    "Guardian",
+    "SafetyGuard",
+    "PolicyGuard",
+    "PolicyResult",
+]
