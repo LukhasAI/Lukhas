@@ -33,7 +33,11 @@ if "streamlit" not in sys.modules:
         write=_noop,
         markdown=_noop,
         title=_noop,
+        caption=_noop,
+        info=_noop,
+        success=_noop,
         warning=_noop,
+        error=_noop,
         set_page_config=_noop,
         cache_data=_cache_data,
     )
@@ -41,6 +45,11 @@ if "streamlit" not in sys.modules:
         write=_noop,
         markdown=_noop,
         button=_noop,
+        caption=_noop,
+        info=_noop,
+        success=_noop,
+        warning=_noop,
+        error=_noop,
     )
     sys.modules["streamlit"] = streamlit_stub
 

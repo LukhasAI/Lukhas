@@ -27,6 +27,22 @@ def warning(*args, **kwargs):
     return None
 
 
+def caption(*args, **kwargs):
+    return None
+
+
+def info(*args, **kwargs):
+    return None
+
+
+def success(*args, **kwargs):
+    return None
+
+
+def error(*args, **kwargs):
+    return None
+
+
 class _StreamlitSectionShim(SimpleNamespace):
     def __getattr__(self, name):
         return _noop
@@ -53,6 +69,18 @@ class _StreamlitShim:
 
     def warning(self, *args, **kwargs):
         return warning(*args, **kwargs)
+
+    def caption(self, *args, **kwargs):
+        return caption(*args, **kwargs)
+
+    def info(self, *args, **kwargs):
+        return info(*args, **kwargs)
+
+    def success(self, *args, **kwargs):
+        return success(*args, **kwargs)
+
+    def error(self, *args, **kwargs):
+        return error(*args, **kwargs)
 
 
 st = _StreamlitShim()

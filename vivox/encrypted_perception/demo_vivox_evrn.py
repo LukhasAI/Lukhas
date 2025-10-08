@@ -11,8 +11,8 @@ import sys
 from datetime import datetime
 
 import numpy as np
-from vivox.encrypted_perception import (  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept pending MATRIZ wiring (document or remove)
 from datetime import timezone
+from vivox.encrypted_perception import (  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept pending MATRIZ wiring (document or remove)
     MotionDetector,
     MultimodalFusion,
     PerceptualVector,

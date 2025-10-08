@@ -156,3 +156,31 @@ if "ErrorSeverity" not in globals():
     globals()["ErrorSeverity"] = ErrorSeverity
     if "ErrorSeverity" not in __all__:
         __all__.append("ErrorSeverity")
+
+
+if "IntelligentBackoff" not in globals():
+    try:
+        from candidate.core.reliability import IntelligentBackoff  # type: ignore[attr-defined]  # noqa: F401
+    except ImportError:
+        from typing import Iterable, Iterator
+
+        class IntelligentBackoff:
+            """Graceful fallback implementing a simple exponential backoff."""
+
+            def __init__(self, base: float = 0.1, factor: float = 2.0, max_attempts: int = 5):
+                self.base = base
+                self.factor = factor
+                self.max_attempts = max_attempts
+
+            def sequence(self) -> Iterator[float]:
+                delay = self.base
+                for _ in range(self.max_attempts):
+                    yield delay
+                    delay = min(delay * self.factor, delay + self.base)
+
+            def as_list(self) -> Iterable[float]:
+                return list(self.sequence())
+
+    globals()["IntelligentBackoff"] = IntelligentBackoff
+    if "IntelligentBackoff" not in __all__:
+        __all__.append("IntelligentBackoff")

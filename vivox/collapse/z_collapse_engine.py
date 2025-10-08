@@ -264,7 +264,7 @@ class ZCollapseEngine:
             collapse_timestamp = time.time()
 
             # Generate hash for result
-            collapse_hash = f"vivox_hash_{hash(str(z_result) + str(collapse_timestamp)}"
+            collapse_hash = f"vivox_hash_{hash(str(z_result) + str(collapse_timestamp))}"
 
             # Create mathematical trace
             mathematical_trace = {
