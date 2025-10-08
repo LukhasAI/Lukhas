@@ -56,9 +56,9 @@ async function runMemoryTests() {
       memory_type: "episodic"
     });
     console.log("✅ Store scene operation executed");
-    console.log(`   - Scene ID: ${storeResult.scene_id}`);
-    console.log(`   - Storage client: ${storeResult.storage_client}`);
-    console.log(`   - Cascade check: ${storeResult.fold_cascade_check}`);
+    console.log(`   - Scene ID: ${(storeResult as any).scene_id || 'N/A'}`);
+    console.log(`   - Storage client: ${(storeResult as any).storage_client || 'N/A'}`);
+    console.log(`   - Cascade check: ${(storeResult as any).fold_cascade_check || 'N/A'}`);
     
     const recallResult = await executeMemoryOperation("recall_scenes", {
       query_text: "happy memories",
@@ -66,33 +66,33 @@ async function runMemoryTests() {
       fold_limit: 800
     });
     console.log("✅ Recall scenes operation executed");
-    console.log(`   - Query: ${recallResult.query_text}`);
-    console.log(`   - Scenes found: ${recallResult.scenes_found}`);
-    console.log(`   - Memory type: ${recallResult.memory_type}`);
+    console.log(`   - Query: ${(recallResult as any).query_text || 'N/A'}`);
+    console.log(`   - Scenes found: ${(recallResult as any).scenes_found || 'N/A'}`);
+    console.log(`   - Memory type: ${(recallResult as any).memory_type || 'N/A'}`);
     
     const analysisResult = await executeMemoryOperation("analyze_memory_pattern", {
       scene_id: "test_scene_001"
     });
     console.log("✅ Memory pattern analysis executed");
-    console.log(`   - Pattern type: ${analysisResult.pattern_type}`);
-    console.log(`   - Pattern strength: ${analysisResult.pattern_strength}`);
-    console.log(`   - Wave C insights: ${analysisResult.wave_c_insights}`);
+    console.log(`   - Pattern type: ${(analysisResult as any).pattern_type || 'N/A'}`);
+    console.log(`   - Pattern strength: ${(analysisResult as any).pattern_strength || 'N/A'}`);
+    console.log(`   - Wave C insights: ${(analysisResult as any).wave_c_insights || 'N/A'}`);
     
     const foldAnalysisResult = await executeMemoryOperation("memory_fold_analysis", {
       fold_limit: 1000
     });
     console.log("✅ Memory fold analysis executed");
-    console.log(`   - Fold count: ${foldAnalysisResult.fold_count}`);
-    console.log(`   - Cascade prevention: ${foldAnalysisResult.cascade_prevention}`);
-    console.log(`   - Causal integrity: ${foldAnalysisResult.causal_integrity}`);
+    console.log(`   - Fold count: ${(foldAnalysisResult as any).fold_count || 'N/A'}`);
+    console.log(`   - Cascade prevention: ${(foldAnalysisResult as any).cascade_prevention || 'N/A'}`);
+    console.log(`   - Causal integrity: ${(foldAnalysisResult as any).causal_integrity || 'N/A'}`);
     
     const gdprResult = await executeMemoryOperation("gdpr_erasure", {
       scene_id: "user_requested_deletion"
     });
     console.log("✅ GDPR erasure operation executed");
-    console.log(`   - Compliance: ${gdprResult.compliance}`);
-    console.log(`   - Erasure method: ${gdprResult.erasure_method}`);
-    console.log(`   - Verification: ${gdprResult.verification}`);
+    console.log(`   - Compliance: ${(gdprResult as any).compliance || 'N/A'}`);
+    console.log(`   - Erasure method: ${(gdprResult as any).erasure_method || 'N/A'}`);
+    console.log(`   - Verification: ${(gdprResult as any).verification || 'N/A'}`);
     
     console.log("\n" + "=" .repeat(55));
     console.log("🎉 All memory tests completed successfully!");

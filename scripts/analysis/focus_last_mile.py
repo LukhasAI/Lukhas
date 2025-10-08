@@ -1,77 +1,100 @@
-#!/usr/bin/env python3
-"""Focus on last-mile collection errors using telemetry + pytest report."""
+"""Cluster import failures and pytest errors to target final bridge fixes."""
 from __future__ import annotations
+
 import json
 import re
 from collections import Counter, defaultdict
 from pathlib import Path
+from typing import Any, Iterable
 
-ART = Path("artifacts")
-FAILS = ART / "import_failures.ndjson"
-COLLECT = ART / "pytest_collection_errors_detailed.json"
-
-
-def load_ndjson(p: Path):
-    """Load NDJSON file into list of dicts."""
-    out = []
-    if p.exists():
-        for line in p.read_text(encoding="utf-8").splitlines():
-            try:
-                out.append(json.loads(line))
-            except Exception:
-                pass
-    return out
+ARTIFACTS = Path("artifacts")
+FAILURE_LOG = ARTIFACTS / "import_failures.ndjson"
+COLLECTION_REPORT = ARTIFACTS / "pytest_collection_errors_detailed.json"
+OUTPUT_TARGETS = ARTIFACTS / "phase11_bridge_targets.txt"
 
 
-def main():
-    """Analyze import failures and pytest errors to suggest bridge targets."""
-    fails = load_ndjson(FAILS)
-    report = json.loads(COLLECT.read_text()) if COLLECT.exists() else {"detailed_errors": []}
+def load_ndjson(path: Path) -> list[dict[str, Any]]:
+    """Load NDJSON file, skipping malformed lines."""
+    records: list[dict[str, Any]] = []
+    if not path.exists():
+        return records
+    for line in path.read_text(encoding="utf-8").splitlines():
+        if not line.strip():
+            continue
+        try:
+            records.append(json.loads(line))
+        except json.JSONDecodeError:
+            continue
+    return records
 
-    tb_by_mod = defaultdict(list)
-    for it in fails:
-        tb_by_mod[it.get("module", "<unknown>")].append(it.get("trace", ""))
 
-    # Mine pytest report for ModuleNotFound / ImportError lines
-    mod_counts = Counter()
-    sym_counts = Counter()
-    for e in report.get("detailed_errors", []):
-        err_msg = e.get("full_message", "") or e.get("error_message", "")
-        m1 = re.search(r"No module named ['\"]([^'\"]+)['\"]", err_msg)
-        if m1:
-            mod_counts[m1.group(1)] += 1
-        m2 = re.search(r"cannot import name ['\"]([^'\"]+)['\"]", err_msg)
-        if m2:
-            sym_counts[m2.group(1)] += 1
+def _count_by_module(failures: Iterable[dict[str, Any]]) -> Counter[str]:
+    counter: Counter[str] = Counter()
+    for item in failures:
+        module = item.get("module") or "<unknown>"
+        counter[module] += 1
+    return counter
 
-    print("\n=== HOT MODULES (telemetry+pytest) ===")
-    combined = Counter({k: len(v) for k, v in tb_by_mod.items()}) + mod_counts
-    for mod, n in combined.most_common(15):
-        print(f"{n:>3}  {mod}")
+
+def _tally_pytest_errors(report: dict[str, Any]) -> tuple[Counter[str], Counter[str]]:
+    modules = Counter()
+    symbols = Counter()
+    for entry in report.get("detailed_errors", []):
+        error_text = entry.get("error", "")
+        mod_match = re.search(
+            r"ModuleNotFoundError: No module named '([^']+)'", error_text
+        )
+        if mod_match:
+            modules[mod_match.group(1)] += 1
+        sym_match = re.search(
+            r"ImportError.*cannot import name '([^']+)'", error_text
+        )
+        if sym_match:
+            symbols[sym_match.group(1)] += 1
+    return modules, symbols
+
+
+def main() -> int:
+    failures = load_ndjson(FAILURE_LOG)
+    module_fail_counts = _count_by_module(failures)
+
+    if COLLECTION_REPORT.exists():
+        report_data = json.loads(COLLECTION_REPORT.read_text(encoding="utf-8"))
+    else:
+        report_data = {"detailed_errors": []}
+
+    pytest_module_counts, pytest_symbol_counts = _tally_pytest_errors(report_data)
+    combined_modules = module_fail_counts + pytest_module_counts
+
+    print("\n=== HOT MODULES (telemetry + pytest) ===")
+    for module, count in combined_modules.most_common(15):
+        print(f"{count:3d}  {module}")
 
     print("\n=== TOP MISSING SYMBOLS ===")
-    for s, c in sym_counts.most_common(15):
-        print(f"{c:>3}  {s}")
+    for symbol, count in pytest_symbol_counts.most_common(15):
+        print(f"{count:3d}  {symbol}")
 
-    # Spit out a todo list for bridges
-    todo = []
-    for mod, _ in combined.most_common():
-        if mod.startswith((
-            "lukhas.",
-            "candidate.",
-            "consciousness.",
-            "core.",
-            "governance.",
-            "memory.",
-            "observability.",
-            "tools.",
-        )):
-            todo.append(mod)
+    todo: list[str] = []
+    prefixes = (
+        "lukhas.",
+        "candidate.",
+        "consciousness.",
+        "core.",
+        "governance.",
+        "memory.",
+        "observability.",
+        "tools.",
+    )
 
-    (ART / "phase11_bridge_targets.txt").write_text("\n".join(todo), encoding="utf-8")
-    print(f"\n→ wrote suggested targets: {ART/'phase11_bridge_targets.txt'}")
-    print(f"   Total targets: {len(todo)}")
+    for module, _count in combined_modules.most_common():
+        if module.startswith(prefixes):
+            todo.append(module)
+
+    ARTIFACTS.mkdir(parents=True, exist_ok=True)
+    OUTPUT_TARGETS.write_text("\n".join(todo), encoding="utf-8")
+    print(f"\n→ wrote suggested targets: {OUTPUT_TARGETS}")
+    return 0
 
 
 if __name__ == "__main__":
-    main()
+    raise SystemExit(main())
