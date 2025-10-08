@@ -1,30 +1,42 @@
-"""Bridge for lukhas.core.common (+ virtual 'exceptions' submodule).
+"""Bridge for lukhas.core.common (+ real 'exceptions' submodule).
 
 Exports from the richest available backend (core.common preferred).
-Also registers 'lukhas.core.common.exceptions' as an alias to this module,
-so tests importing the submodule succeed without converting layouts.
+Also provides real exceptions submodule for explicit imports.
 """
 from __future__ import annotations
-import sys as _sys
+from importlib import import_module
+from typing import List, Optional
 
-_BOUND = False
-try:
-    from core.common import *  # noqa: F401,F403
-    _BOUND = True
-except Exception:
+__all__: List[str] = []
+_SRC: Optional[object] = None
+
+def _bind(modname: str) -> bool:
+    global _SRC, __all__
     try:
-        from candidate.core.common import *  # noqa: F401,F403
-        _BOUND = True
+        m = import_module(modname)
     except Exception:
-        # Minimal safety symbol used by a few tests
-        if "GLYPHToken" not in globals():
-            class GLYPHToken(str):  # pragma: no cover - stub
-                """Glyph token placeholder"""
-                pass
+        return False
+    _SRC = m
+    __all__ = [n for n in dir(m) if not n.startswith("_")]
+    # Guarantee `exceptions` symbol is present for `from lukhas.core.common import exceptions`
+    if "exceptions" not in __all__:
+        __all__.append("exceptions")
+    return True
 
-# Present a virtual submodule: lukhas.core.common.exceptions → this module
-_sys.modules[__name__ + ".exceptions"] = _sys.modules[__name__]
+for _mod in (
+    "candidate.core.common",
+    "core.common",
+    "lukhas_website.lukhas.core.common",
+):
+    if _bind(_mod):
+        break
+else:
+    # Minimal fallback (package still presents `exceptions` submodule)
+    pass
 
-# Be explicit; add more if you know them
-__all__ = sorted(name for name in globals()
-                 if not name.startswith("_"))
+# Always expose our submodule path
+from . import exceptions  # noqa: F401  (ensures attr exists even if backend lacks it)
+
+if _SRC is not None:
+    def __getattr__(name: str):
+        return getattr(_SRC, name)
