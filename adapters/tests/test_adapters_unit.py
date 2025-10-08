@@ -14,6 +14,7 @@ import pytest
 
 # Import module components
 try:
+    pass  #     pass  #
     import adapters
 except ImportError:
     pytest.skip("Module adapters not available", allow_module_level=True)

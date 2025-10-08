@@ -14,6 +14,7 @@ import pytest
 
 # Import module for integration testing
 try:
+    pass  #     pass  #
     import third_party_stubs
 except ImportError:
     pytest.skip("Module third_party_stubs not available", allow_module_level=True)

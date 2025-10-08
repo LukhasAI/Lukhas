@@ -14,6 +14,7 @@ import pytest
 
 # Import module for integration testing
 try:
+    pass  #     pass  #
     import ci
 except ImportError:
     pytest.skip("Module ci not available", allow_module_level=True)

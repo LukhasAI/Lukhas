@@ -14,6 +14,7 @@ import pytest
 
 # Import module for integration testing
 try:
+    pass  #     pass  #
     import rules
 except ImportError:
     pytest.skip("Module rules not available", allow_module_level=True)

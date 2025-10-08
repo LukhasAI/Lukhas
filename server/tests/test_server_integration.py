@@ -14,6 +14,7 @@ import pytest
 
 # Import module for integration testing
 try:
+    pass  #     pass  #
     import server
 except ImportError:
     pytest.skip("Module server not available", allow_module_level=True)

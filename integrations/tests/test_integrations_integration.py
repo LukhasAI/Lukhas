@@ -14,6 +14,7 @@ import pytest
 
 # Import module for integration testing
 try:
+    pass  #     pass  #
     import integrations
 except ImportError:
     pytest.skip("Module integrations not available", allow_module_level=True)

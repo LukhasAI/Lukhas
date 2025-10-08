@@ -14,6 +14,7 @@ import pytest
 
 # Import module for integration testing
 try:
+    pass  #     pass  #
     import deployment
 except ImportError:
     pytest.skip("Module deployment not available", allow_module_level=True)

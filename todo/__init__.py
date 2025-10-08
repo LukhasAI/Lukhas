@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import os
 import sys
 
 try:
@@ -23,4 +24,6 @@ except Exception:
         def add(self, text: str):
             self.items.append(TodoItem(text))
 
+__path__ = [os.path.dirname(__file__)]
 sys.modules.setdefault("todo", sys.modules[__name__])
+sys.modules.setdefault("TODO", sys.modules[__name__])

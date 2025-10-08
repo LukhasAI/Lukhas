@@ -5,6 +5,7 @@ Centralized configuration management for LUKHAS modules.
 """
 import json
 import os
+import sys
 from dataclasses import dataclass, field
 from functools import lru_cache
 from pathlib import Path
@@ -230,6 +231,22 @@ class ConfigLoader:
             if isinstance(path, str) and path:
                 return path
         return "lukhas.orchestration.multi_ai_router"
+
+    @property
+    def python_path(self) -> str:
+        """Expose python interpreter path with environment and system fallbacks."""
+
+        env_path = os.getenv("LUKHAS_PYTHON_PATH")
+        if env_path:
+            return env_path
+
+        core_config = self.configs.get("core")
+        if core_config:
+            configured = core_config.settings.get("python_path")
+            if isinstance(configured, str) and configured:
+                return configured
+
+        return sys.executable or "python3"
 
 
 # Global instance

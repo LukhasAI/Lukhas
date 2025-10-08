@@ -14,6 +14,7 @@ import pytest
 
 # Import module for integration testing
 try:
+    pass  #     pass  #
     import var
 except ImportError:
     pytest.skip("Module var not available", allow_module_level=True)

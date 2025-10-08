@@ -14,6 +14,7 @@ import pytest
 
 # Import module components
 try:
+    pass  #     pass  #
     import hooks
 except ImportError:
     pytest.skip("Module hooks not available", allow_module_level=True)

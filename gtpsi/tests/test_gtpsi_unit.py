@@ -14,6 +14,7 @@ import pytest
 
 # Import module components
 try:
+    pass  #     pass  #
     import gtpsi
 except ImportError:
     pytest.skip("Module gtpsi not available", allow_module_level=True)

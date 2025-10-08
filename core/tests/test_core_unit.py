@@ -14,6 +14,7 @@ import pytest
 
 # Import module components
 try:
+    pass  #     pass  #
     import core
 except ImportError:
     pytest.skip("Module core not available", allow_module_level=True)

@@ -14,6 +14,7 @@ import pytest
 
 # Import module components
 try:
+    pass  #     pass  #
     import benchmarks
 except ImportError:
     pytest.skip("Module benchmarks not available", allow_module_level=True)

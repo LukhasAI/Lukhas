@@ -14,6 +14,7 @@ import pytest
 
 # Import module components
 try:
+    pass  #     pass  #
     import bio
 except ImportError:
     pytest.skip("Module bio not available", allow_module_level=True)

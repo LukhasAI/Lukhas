@@ -18,3 +18,48 @@ except Exception:  # pragma: no cover - fallback
     __all__ = ["InstalledAppFlow", "Flow"]
 else:
     __all__ = [name for name in globals() if not name.startswith("_")]
+
+try:
+    __all__  # type: ignore[name-defined]
+except NameError:
+    __all__ = [name for name in globals() if not name.startswith("_")]
+
+if "Flow" not in globals():
+    _installed = globals().get("InstalledAppFlow")
+
+    if _installed is not None:
+
+        class Flow:
+            """Fallback Flow wrapper delegating to InstalledAppFlow."""
+
+            InstalledAppFlow = _installed
+
+            @staticmethod
+            def from_client_secrets_file(*args, **kwargs):
+                return _installed.from_client_secrets_file(*args, **kwargs)
+
+            @staticmethod
+            def from_client_config(*args, **kwargs):
+                return _installed.from_client_config(*args, **kwargs)
+
+    else:
+
+        class Flow:
+            """Minimal Flow stub used when google_auth_oauthlib is unavailable."""
+
+            def __init__(self, *args, **kwargs):
+                self.args = args
+                self.kwargs = kwargs
+
+            @staticmethod
+            def from_client_secrets_file(*args, **kwargs):
+                return Flow(*args, **kwargs)
+
+            @staticmethod
+            def from_client_config(*args, **kwargs):
+                return Flow(*args, **kwargs)
+
+    globals()["Flow"] = Flow
+
+if "Flow" not in __all__:
+    __all__.append("Flow")

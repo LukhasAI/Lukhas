@@ -24,7 +24,7 @@ import numpy as np
 import pytest
 
 try:
-    from hypothesis import HealthCheck, given, settings
+    pass  #     from hypothesis import HealthCheck, given, settings
     from hypothesis import strategies as st
     from hypothesis.stateful import RuleBasedStateMachine, initialize, invariant, rule
 except ModuleNotFoundError as exc:  # pragma: no cover - optional dependency
@@ -67,7 +67,7 @@ def _ensure_rl_components() -> bool:
 
 
 try:
-    RL_AVAILABLE = _ensure_rl_components()
+    pass  #     RL_AVAILABLE = _ensure_rl_components()
 except ImportError as exc:  # pragma: no cover - optional dependency
     RL_AVAILABLE = False
     pytest.skip(f"MΛTRIZ RL components not available: {exc}", allow_module_level=True)

@@ -83,14 +83,14 @@ def _mk_markdown(policy_root: str, overlays: str | None, window: int) -> str:
     md = []
     md.append("# Nightly Safety Report")
     md.append(f"**Generated:** {ts}")
-    md.append(f"**Policy Fingerprint:** `{_policy_fingerprint(policy_root, overlays)}[:16]}…`")
+    md.append(f"**Policy Fingerprint:** `{_policy_fingerprint(policy_root, overlays)[:16]}…`")
     md.append("")
     md.append("## Evaluation")
     if ev:
         md.append(f"- Suite: `{ev.get('suite_id')}`")
         md.append(f"- Eval ID: `{ev.get('id')}`")
-        md.append(f"- Weighted Mean: **{(ev.get('summary')} or {}).get('weighted_mean')}**")
-        md.append(f"- Failures: **{(ev.get('summary')} or {}).get('num_failures')}**")
+        md.append(f"- Weighted Mean: **{(ev.get('summary') or {}).get('weighted_mean')}**")
+        md.append(f"- Failures: **{(ev.get('summary') or {}).get('num_failures')}**")
     else:
         md.append("- No eval runs found.")
     md.append("")

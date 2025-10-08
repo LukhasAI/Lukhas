@@ -14,6 +14,7 @@ import pytest
 
 # Import module components
 try:
+    pass  #     pass  #
     import identity
 except ImportError:
     pytest.skip("Module identity not available", allow_module_level=True)

@@ -14,6 +14,7 @@ import pytest
 
 # Import module for integration testing
 try:
+    pass  #     pass  #
     import services
 except ImportError:
     pytest.skip("Module services not available", allow_module_level=True)

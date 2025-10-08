@@ -14,6 +14,7 @@ import pytest
 
 # Import module components
 try:
+    pass  #     pass  #
     import performance
 except ImportError:
     pytest.skip("Module performance not available", allow_module_level=True)

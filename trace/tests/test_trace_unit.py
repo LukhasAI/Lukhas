@@ -14,6 +14,7 @@ import pytest
 
 # Import module components
 try:
+    pass  #     pass  #
     import trace
 except ImportError:
     pytest.skip("Module trace not available", allow_module_level=True)

@@ -14,6 +14,7 @@ import pytest
 
 # Import module components
 try:
+    pass  #     pass  #
     import demos
 except ImportError:
     pytest.skip("Module demos not available", allow_module_level=True)

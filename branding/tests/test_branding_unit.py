@@ -14,6 +14,7 @@ import pytest
 
 # Import module components
 try:
+    pass  #     pass  #
     import branding
 except ImportError:
     pytest.skip("Module branding not available", allow_module_level=True)

@@ -14,6 +14,7 @@ import pytest
 
 # Import module for integration testing
 try:
+    pass  #     pass  #
     import grafana
 except ImportError:
     pytest.skip("Module grafana not available", allow_module_level=True)

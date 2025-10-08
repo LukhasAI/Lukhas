@@ -113,3 +113,27 @@ if "ErrorCategory" not in globals():
     globals()["ErrorCategory"] = ErrorCategory
     if "ErrorCategory" not in __all__:
         __all__.append("ErrorCategory")
+
+
+if "ErrorContextManager" not in globals():
+    try:
+        from candidate.core.reliability import ErrorContextManager  # type: ignore[attr-defined]  # noqa: F401
+    except ImportError:
+
+        class ErrorContextManager:
+            """Lightweight context manager capturing error metadata for fallbacks."""
+
+            def __init__(self, **context):
+                self.context = context
+                self.error = None
+
+            def __enter__(self):
+                return self
+
+            def __exit__(self, exc_type, exc, tb):
+                self.error = exc
+                return False
+
+    globals()["ErrorContextManager"] = ErrorContextManager
+    if "ErrorContextManager" not in __all__:
+        __all__.append("ErrorContextManager")

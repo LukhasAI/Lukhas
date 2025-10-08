@@ -14,6 +14,7 @@ import pytest
 
 # Import module for integration testing
 try:
+    pass  #     pass  #
     import ops
 except ImportError:
     pytest.skip("Module ops not available", allow_module_level=True)

@@ -14,6 +14,7 @@ import pytest
 
 # Import module components
 try:
+    pass  #     pass  #
     import telemetry
 except ImportError:
     pytest.skip("Module telemetry not available", allow_module_level=True)

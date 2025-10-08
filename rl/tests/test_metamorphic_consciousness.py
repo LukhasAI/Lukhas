@@ -29,7 +29,7 @@ import pytest
 logger = logging.getLogger(__name__)
 
 try:
-    from rl import (
+    pass  #     from rl import (
         ConsciousnessBuffer,
         ConsciousnessEnvironment,
         ConsciousnessMetaLearning,

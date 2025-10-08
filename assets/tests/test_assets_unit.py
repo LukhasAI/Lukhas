@@ -14,6 +14,7 @@ import pytest
 
 # Import module components
 try:
+    pass  #     pass  #
     import assets
 except ImportError:
     pytest.skip("Module assets not available", allow_module_level=True)

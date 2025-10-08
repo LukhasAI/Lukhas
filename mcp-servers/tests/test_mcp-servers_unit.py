@@ -14,7 +14,8 @@ from unittest.mock import Mock, patch
 
 # Import module components
 try:
-    # import mcp_servers  # Module name with hyphen - skipping
+    pass  # Placeholder
+    pass  #     pass  #
 except ImportError:
     pytest.skip(f"Module mcp-servers not available", allow_module_level=True)
 

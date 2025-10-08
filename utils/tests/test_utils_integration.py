@@ -14,6 +14,7 @@ import pytest
 
 # Import module for integration testing
 try:
+    pass  #     pass  #
     import utils
 except ImportError:
     pytest.skip("Module utils not available", allow_module_level=True)

@@ -14,6 +14,7 @@ import pytest
 
 # Import module components
 try:
+    pass  #     pass  #
     import tone
 except ImportError:
     pytest.skip("Module tone not available", allow_module_level=True)

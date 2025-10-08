@@ -14,6 +14,7 @@ import pytest
 
 # Import module components
 try:
+    pass  #     pass  #
     import sbom
 except ImportError:
     pytest.skip("Module sbom not available", allow_module_level=True)

@@ -26,7 +26,7 @@ from typing import Any, Optional
 import pytest
 
 try:
-    from z3 import *
+    pass  #     from z3 import *
 
     Z3_AVAILABLE = True
 except ImportError:
@@ -34,7 +34,7 @@ except ImportError:
     pytest.skip("Z3 formal verification not available", allow_module_level=True)
 
 try:
-    from rl import (
+    pass  #     from rl import (
         ConsciousnessBuffer,
         ConsciousnessEnvironment,
         ConsciousnessMetaLearning,

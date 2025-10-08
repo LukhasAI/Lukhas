@@ -14,6 +14,7 @@ import pytest
 
 # Import module components
 try:
+    pass  #     pass  #
     import quantum
 except ImportError:
     pytest.skip("Module quantum not available", allow_module_level=True)

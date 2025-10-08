@@ -14,6 +14,7 @@ import pytest
 
 # Import module components
 try:
+    pass  #     pass  #
     import personality
 except ImportError:
     pytest.skip("Module personality not available", allow_module_level=True)

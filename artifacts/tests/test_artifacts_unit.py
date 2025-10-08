@@ -14,6 +14,7 @@ from unittest.mock import Mock, patch
 
 # Import module components
 try:
+    pass  #     pass  #
     import artifacts
 except ImportError:
     pytest.skip(f"Module artifacts not available", allow_module_level=True)

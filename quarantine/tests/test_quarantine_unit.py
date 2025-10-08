@@ -14,6 +14,7 @@ from unittest.mock import Mock, patch
 
 # Import module components
 try:
+    pass  #     pass  #
     import quarantine
 except ImportError:
     pytest.skip(f"Module quarantine not available", allow_module_level=True)

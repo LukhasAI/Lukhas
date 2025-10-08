@@ -14,6 +14,7 @@ import pytest
 
 # Import module components
 try:
+    pass  #     pass  #
     import ethics
 except ImportError:
     pytest.skip("Module ethics not available", allow_module_level=True)

@@ -15,7 +15,8 @@ from unittest.mock import Mock, patch
 
 # Import module for integration testing
 try:
-    # import security_reports  # Module name with hyphen - skipping
+    pass  # Placeholder
+    pass  #     pass  #
 except ImportError:
     pytest.skip(f"Module security-reports not available", allow_module_level=True)
 

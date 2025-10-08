@@ -14,6 +14,7 @@ import pytest
 
 # Import module for integration testing
 try:
+    pass  #     pass  #
     import agents_external
 except ImportError:
     pytest.skip("Module agents_external not available", allow_module_level=True)

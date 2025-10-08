@@ -14,6 +14,7 @@ import pytest
 
 # Import module components
 try:
+    pass  #     pass  #
     import enterprise
 except ImportError:
     pytest.skip("Module enterprise not available", allow_module_level=True)

@@ -43,7 +43,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..'))
 
 # Import security components
 try:
-    from lukhas.security.access_control import (
+    pass  #     from lukhas.security.access_control import (
         AccessControlSystem,
         ActionType,
         Resource,

@@ -14,6 +14,7 @@ import pytest
 
 # Import module components
 try:
+    pass  #     pass  #
     import sdk
 except ImportError:
     pytest.skip("Module sdk not available", allow_module_level=True)

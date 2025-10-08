@@ -60,7 +60,7 @@ def _ensure_rl_components() -> bool:
 
 
 try:
-    RL_AVAILABLE = _ensure_rl_components()
+    pass  #     RL_AVAILABLE = _ensure_rl_components()
 except ImportError as exc:  # pragma: no cover - module unavailable in CI
     RL_AVAILABLE = False
     pytest.skip(f"MΛTRIZ RL components not available: {exc}", allow_module_level=True)

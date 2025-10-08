@@ -14,6 +14,7 @@ import pytest
 
 # Import module for integration testing
 try:
+    pass  #     pass  #
     import transmission_bundle
 except ImportError:
     pytest.skip("Module transmission_bundle not available", allow_module_level=True)

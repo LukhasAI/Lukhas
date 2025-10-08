@@ -14,6 +14,7 @@ import pytest
 
 # Import module for integration testing
 try:
+    pass  #     pass  #
     import api
 except ImportError:
     pytest.skip("Module api not available", allow_module_level=True)

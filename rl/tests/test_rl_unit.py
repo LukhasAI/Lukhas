@@ -14,6 +14,7 @@ import pytest
 
 # Import module components
 try:
+    pass  #     pass  #
     import rl
 except ImportError:
     pytest.skip("Module rl not available", allow_module_level=True)

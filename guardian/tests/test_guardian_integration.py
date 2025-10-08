@@ -14,6 +14,7 @@ import pytest
 
 # Import module for integration testing
 try:
+    pass  #     pass  #
     import guardian
 except ImportError:
     pytest.skip("Module guardian not available", allow_module_level=True)

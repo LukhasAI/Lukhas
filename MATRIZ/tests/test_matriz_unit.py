@@ -14,6 +14,7 @@ import pytest
 
 # Import module components
 try:
+    pass  #     pass  #
     import matriz
 except ImportError:
     pytest.skip("Module matriz not available", allow_module_level=True)

@@ -14,6 +14,7 @@ import pytest
 
 # Import module for integration testing
 try:
+    pass  #     pass  #
     import vivox
 except ImportError:
     pytest.skip("Module vivox not available", allow_module_level=True)

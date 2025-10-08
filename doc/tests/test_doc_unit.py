@@ -14,6 +14,7 @@ import pytest
 
 # Import module components
 try:
+    pass  #     pass  #
     import doc
 except ImportError:
     pytest.skip("Module doc not available", allow_module_level=True)

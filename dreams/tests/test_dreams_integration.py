@@ -14,6 +14,7 @@ import pytest
 
 # Import module for integration testing
 try:
+    pass  #     pass  #
     import dreams
 except ImportError:
     pytest.skip("Module dreams not available", allow_module_level=True)

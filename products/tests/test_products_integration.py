@@ -14,6 +14,7 @@ import pytest
 
 # Import module for integration testing
 try:
+    pass  #     pass  #
     import products
 except ImportError:
     pytest.skip("Module products not available", allow_module_level=True)

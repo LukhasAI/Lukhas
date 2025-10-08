@@ -15,7 +15,7 @@ from unittest.mock import Mock, patch
 
 # Import module for integration testing
 try:
-    # import design_system  # Module name with hyphen - skipping
+    pass  # import design_system  # Module name with hyphen - skipping
 except ImportError:
     pytest.skip(f"Module design-system not available", allow_module_level=True)
 

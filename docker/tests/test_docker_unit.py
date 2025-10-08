@@ -14,6 +14,7 @@ import pytest
 
 # Import module components
 try:
+    pass  #     pass  #
     import docker
 except ImportError:
     pytest.skip("Module docker not available", allow_module_level=True)

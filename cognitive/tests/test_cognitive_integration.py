@@ -14,6 +14,7 @@ import pytest
 
 # Import module for integration testing
 try:
+    pass  #     pass  #
     import cognitive
 except ImportError:
     pytest.skip("Module cognitive not available", allow_module_level=True)

@@ -14,6 +14,7 @@ import pytest
 
 # Import module components
 try:
+    pass  #     pass  #
     import dashboards
 except ImportError:
     pytest.skip("Module dashboards not available", allow_module_level=True)

@@ -215,10 +215,10 @@ def reliability_svg(task: str | None=None, width=640, height=320) -> str:
     lines = [f"<rect width='{W}' height='{H}' fill='#0f1115'/>",
              f"<line x1='{pad}' y1='{H-pad}' x2='{W-pad}' y2='{H-pad}' stroke='#444'/>",
              f"<line x1='{pad}' y1='{H-pad}' x2='{pad}' y2='{pad}' stroke='#444'/>",
-             f"<text x='{pad}' y='{pad-12}' fill='#9aa5b1' font-size='12' font-family='monospace'>ECE={ece:.4f}  T={T:.3f}  {('task='+task)} if task else 'global'}</text>"]
+             f"<text x='{pad}' y='{pad-12}' fill='#9aa5b1' font-size='12' font-family='monospace'>ECE={ece:.4f}  T={T:.3f}  {('task='+task) if task else 'global'}</text>"]
     # y-scale 0..1
     # draw ideal diagonal
-    lines.append(f"<line x1='{pad}' y1='{H-pad}' x2='{W-pad}' y2='{pad}' stroke=')  # 2a74ff' stroke-dasharray='4 3' opacity='0.6'/>"
+    lines.append(f"<line x1='{pad}' y1='{H-pad}' x2='{W-pad}' y2='{pad}' stroke='#2a74ff' stroke-dasharray='4 3' opacity='0.6'/>")
 
     # draw bars: predicted conf vs empirical acc for each bin
     n = len(bins)

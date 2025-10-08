@@ -28,7 +28,7 @@ import numpy as np
 import pytest
 
 try:
-    from rl import (
+    pass  #     from rl import (
         ConsciousnessBuffer,
         ConsciousnessEnvironment,
         ConsciousnessMetaLearning,

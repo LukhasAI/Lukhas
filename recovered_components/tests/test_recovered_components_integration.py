@@ -14,6 +14,7 @@ import pytest
 
 # Import module for integration testing
 try:
+    pass  #     pass  #
     import recovered_components
 except ImportError:
     pytest.skip("Module recovered_components not available", allow_module_level=True)

@@ -14,6 +14,7 @@ import pytest
 
 # Import module for integration testing
 try:
+    pass  #     pass  #
     import governance_extended
 except ImportError:
     pytest.skip("Module governance_extended not available", allow_module_level=True)

@@ -14,6 +14,7 @@ import pytest
 
 # Import module for integration testing
 try:
+    pass  #     pass  #
     import memory
 except ImportError:
     pytest.skip("Module memory not available", allow_module_level=True)

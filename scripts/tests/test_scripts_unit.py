@@ -14,6 +14,7 @@ import pytest
 
 # Import module components
 try:
+    pass  #     pass  #
     import scripts
 except ImportError:
     pytest.skip("Module scripts not available", allow_module_level=True)

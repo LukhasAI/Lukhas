@@ -14,6 +14,7 @@ import pytest
 
 # Import module components
 try:
+    pass  #     pass  #
     import bridge
 except ImportError:
     pytest.skip("Module bridge not available", allow_module_level=True)

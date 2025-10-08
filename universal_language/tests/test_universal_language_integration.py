@@ -14,6 +14,7 @@ import pytest
 
 # Import module for integration testing
 try:
+    pass  #     pass  #
     import universal_language
 except ImportError:
     pytest.skip("Module universal_language not available", allow_module_level=True)

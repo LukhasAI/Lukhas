@@ -14,6 +14,7 @@ import pytest
 
 # Import module components
 try:
+    pass  #     pass  #
     import observability
 except ImportError:
     pytest.skip("Module observability not available", allow_module_level=True)

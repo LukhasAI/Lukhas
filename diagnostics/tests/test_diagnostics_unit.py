@@ -14,6 +14,7 @@ import pytest
 
 # Import module components
 try:
+    pass  #     pass  #
     import diagnostics
 except ImportError:
     pytest.skip("Module diagnostics not available", allow_module_level=True)

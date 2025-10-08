@@ -14,6 +14,7 @@ import pytest
 
 # Import module components
 try:
+    pass  #     pass  #
     import rats
 except ImportError:
     pytest.skip("Module rats not available", allow_module_level=True)

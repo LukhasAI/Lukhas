@@ -14,6 +14,7 @@ import pytest
 
 # Import module components
 try:
+    pass  #     pass  #
     import vocabulary_refresh_data
 except ImportError:
     pytest.skip("Module vocabulary_refresh_data not available", allow_module_level=True)

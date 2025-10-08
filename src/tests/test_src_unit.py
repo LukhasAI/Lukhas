@@ -14,6 +14,7 @@ import pytest
 
 # Import module components
 try:
+    pass  #     pass  #
     import src
 except ImportError:
     pytest.skip("Module src not available", allow_module_level=True)

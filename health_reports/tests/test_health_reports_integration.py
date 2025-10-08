@@ -14,6 +14,7 @@ import pytest
 
 # Import module for integration testing
 try:
+    pass  #     pass  #
     import health_reports
 except ImportError:
     pytest.skip("Module health_reports not available", allow_module_level=True)

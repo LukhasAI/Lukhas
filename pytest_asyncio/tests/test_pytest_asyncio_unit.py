@@ -14,6 +14,7 @@ import pytest
 
 # Import module components
 try:
+    pass  #     pass  #
     import pytest_asyncio
 except ImportError:
     pytest.skip("Module pytest_asyncio not available", allow_module_level=True)

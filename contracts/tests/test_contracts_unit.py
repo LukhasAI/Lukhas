@@ -14,6 +14,7 @@ import pytest
 
 # Import module components
 try:
+    pass  #     pass  #
     import contracts
 except ImportError:
     pytest.skip("Module contracts not available", allow_module_level=True)

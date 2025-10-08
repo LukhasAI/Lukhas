@@ -14,6 +14,7 @@ import pytest
 
 # Import module components
 try:
+    pass  #     pass  #
     import completion
 except ImportError:
     pytest.skip("Module completion not available", allow_module_level=True)
