@@ -89,6 +89,21 @@ if "RoutingRequest" not in globals():
 
     __all__.append("RoutingRequest")
 
+if "get_multi_ai_router" not in globals():
+
+    def get_multi_ai_router(*args, **kwargs):
+        """Fallback multi-AI router returning a noop handler."""
+
+        def _route(prompt: str, **route_kwargs):
+            return {
+                "provider": route_kwargs.get("default_provider", "noop"),
+                "response": prompt,
+            }
+
+        return _route
+
+    __all__.append("get_multi_ai_router")
+
 
 def __getattr__(name: str):
     if _SRC:

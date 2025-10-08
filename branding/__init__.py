@@ -18,3 +18,9 @@ _CANDIDATES = (
 
 __all__, _exports = bridge_from_candidates(*_CANDIDATES)
 globals().update(_exports)
+
+try:
+    from .initializer import initialize_branding  # noqa: F401
+    __all__.append("initialize_branding")
+except Exception:
+    pass

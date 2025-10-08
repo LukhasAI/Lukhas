@@ -83,6 +83,14 @@ class DecisionType(Enum):
 
 
 @dataclass
+class AIAction:
+    """Fallback AI action payload used for compliance evaluation."""
+
+    action_id: str = ""
+    metadata: dict[str, Any] = field(default_factory=dict)
+
+
+@dataclass
 class ConstitutionalValidationContext:
     """Context for constitutional validation"""
 

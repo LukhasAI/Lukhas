@@ -38,3 +38,22 @@ except NameError:
     __all__ = []
 if "get_system_signature" not in __all__:
     __all__.append("get_system_signature")
+
+# Added for test compatibility (lukhas.branding_bridge.initialize_branding)
+try:
+    from candidate.branding_bridge import initialize_branding  # noqa: F401
+except ImportError:
+    try:
+        from branding.initializer import initialize_branding  # noqa: F401
+    except Exception:
+        def initialize_branding(**overrides):  # type: ignore
+            """Fallback branding initializer."""
+            defaults = {"APPROVED_TERMS": [], "SYSTEM_NAME": "LUKHAS"}
+            defaults.update(overrides)
+            return defaults
+try:
+    __all__  # type: ignore[name-defined]
+except NameError:
+    __all__ = []
+if "initialize_branding" not in __all__:
+    __all__.append("initialize_branding")

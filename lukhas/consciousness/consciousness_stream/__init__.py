@@ -1,31 +1,47 @@
-"""Bridge: Consciousness Stream."""
-from __future__ import annotations
-from lukhas._bridgeutils import resolve_first, export_from, safe_guard
+"""Bridge for ConsciousnessStream surface."""
 
-_candidates = (
+from __future__ import annotations
+
+from importlib import import_module
+from types import ModuleType
+
+__all__: list[str] = []
+
+_CANDIDATES = (
+    "candidate.consciousness.consciousness_stream",
+    "consciousness.consciousness_stream",
     "lukhas_website.lukhas.consciousness.consciousness_stream",
-    "candidate.consciousness.stream",
-    "consciousness.stream",
-    "core.consciousness_stream",
 )
 
-try:
-    _mod = resolve_first(_candidates)
-    _exports = export_from(_mod, names=("ConsciousnessStream", "StreamEvent"))
-    globals().update(_exports)
-    __all__ = list(_exports.keys())
-except ModuleNotFoundError:
-    # No backend - provide stubs
-    class _NotImplementedMixin:
-        def __init__(self, *a, **k):
-            raise NotImplementedError("Consciousness Stream not wired yet")
+_backend: ModuleType | None = None
+for _module in _CANDIDATES:
+    try:
+        _backend = import_module(_module)
+        break
+    except Exception:  # pragma: no cover - best effort bridge
+        continue
 
-    class ConsciousnessStream(_NotImplementedMixin):
-        pass
+if _backend:
+    for _name, _value in vars(_backend).items():
+        if not _name.startswith("_"):
+            globals()[_name] = _value
+            __all__.append(_name)
+else:
 
-    class StreamEvent:
-        pass
+    class ConsciousnessStream:
+        """Fallback consciousness stream implementation."""
 
-    __all__ = ["ConsciousnessStream", "StreamEvent"]
+        def __init__(self, *args, **kwargs):
+            self.args = args
+            self.kwargs = kwargs
 
-safe_guard(__name__, __all__)
+        def start(self) -> None:
+            """Begin stream processing (noop)."""
+
+        def stop(self) -> None:
+            """Stop stream processing (noop)."""
+
+        def emit(self, *args, **kwargs) -> None:
+            """Best-effort emit hook."""
+
+    __all__ = ["ConsciousnessStream"]

@@ -57,6 +57,8 @@ logging.getLogger(__name__).addHandler(logging.NullHandler())
 MODULE_VERSION = "1.0.0"
 MODULE_NAME = "oauth_manager"
 
+__all__ = ["OAuthProvider", "TokenStatus", "OAuthManager"]
+
 
 class OAuthProvider(Enum):
     """Supported OAuth providers"""
@@ -74,6 +76,19 @@ class TokenStatus(Enum):
     EXPIRED = "expired"
     REVOKED = "revoked"
     INVALID = "invalid"
+
+
+try:
+    from candidate.bridge.external_adapters.oauth_manager import CircuitBreakerState  # noqa: F401
+except ImportError:
+    class CircuitBreakerState(Enum):
+        """Fallback circuit breaker state for OAuth manager."""
+
+        OPEN = "open"
+        HALF_OPEN = "half_open"
+        CLOSED = "closed"
+
+__all__.append("CircuitBreakerState")
 
 
 class OAuthManager:

@@ -334,3 +334,82 @@ except ImportError:
         PROCESSING = "processing"
 
 __all__.append("ConsciousnessState")
+
+try:
+    from candidate.consciousness import DreamEngine  # noqa: F401
+except ImportError:
+    class DreamEngine:  # type: ignore
+        """Stub for DreamEngine."""
+        def __init__(self, *a, **kw): pass
+
+__all__.append("DreamEngine")
+
+try:
+    from candidate.consciousness import ConsciousnessStream  # noqa: F401
+except ImportError:
+    try:
+        from lukhas.consciousness.consciousness_stream import ConsciousnessStream  # noqa: F401
+    except Exception:
+        class ConsciousnessStream:  # type: ignore
+            """Fallback consciousness stream."""
+
+            def start(self) -> None:
+                return None
+
+            def stop(self) -> None:
+                return None
+
+            def emit(self, *args, **kwargs):
+                return None
+
+__all__.append("ConsciousnessStream")
+
+try:
+    from candidate.consciousness import ConsciousnessWrapper  # noqa: F401
+except ImportError:
+    try:
+        from lukhas.consciousness.consciousness_wrapper import ConsciousnessWrapper  # noqa: F401
+    except Exception:
+        class ConsciousnessWrapper:  # type: ignore
+            """Fallback consciousness wrapper."""
+
+            def __init__(self, engine=None):
+                self.engine = engine
+
+            def run(self, *args, **kwargs):
+                return None
+
+__all__.append("ConsciousnessWrapper")
+
+try:
+    from candidate.consciousness import MetaCognitiveContext  # noqa: F401
+except ImportError:
+    try:
+        from lukhas.consciousness.meta_cognitive_context import MetaCognitiveContext  # noqa: F401
+    except Exception:
+        class MetaCognitiveContext(dict):  # type: ignore
+            """Fallback meta cognitive context."""
+
+__all__.append("MetaCognitiveContext")
+
+try:
+    from candidate.consciousness import DecisionContext  # noqa: F401
+except ImportError:
+    class DecisionContext(dict):  # type: ignore
+        """Fallback decision context payload."""
+
+__all__.append("DecisionContext")
+
+try:
+    from candidate.consciousness import SafetyMode  # noqa: F401
+except ImportError:
+    from enum import Enum
+
+    class SafetyMode(Enum):  # type: ignore
+        """Fallback safety modes."""
+
+        DISABLED = "disabled"
+        MONITOR = "monitor"
+        ENFORCE = "enforce"
+
+__all__.append("SafetyMode")

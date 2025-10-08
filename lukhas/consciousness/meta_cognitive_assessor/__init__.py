@@ -44,6 +44,22 @@ if "CognitiveLoadLevel" not in globals():
 
     __all__.append("CognitiveLoadLevel")
 
+if "MetaCognitiveContext" not in globals():
+    try:
+        from lukhas.consciousness.meta_cognitive_context import MetaCognitiveContext  # noqa: F401
+    except Exception:
+        class MetaCognitiveContext(dict):
+            """Fallback meta cognitive context."""
+
+    __all__.append("MetaCognitiveContext")
+
+
+if "MetaCognitiveAssessment" not in globals():
+    class MetaCognitiveAssessment(dict):
+        """Fallback assessment payload."""
+
+    __all__.append("MetaCognitiveAssessment")
+
 
 def __getattr__(name: str):
     if _SRC:

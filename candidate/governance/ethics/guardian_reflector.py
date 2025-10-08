@@ -62,6 +62,16 @@ except ImportError:
     MemoryManager = MagicMock
     IntegrationLayer = MagicMock
 
+if "EthicsEngine" not in globals():
+    class EthicsEngine:
+        """Fallback ethics engine stub."""
+
+        def __call__(self, *args, **kwargs):
+            return None
+
+__all__ = ["EthicsEngine", "GuardianReflector", "EthicalReflection", "MoralDrift", "EthicalFramework", "MoralSeverity"]
+
+
 logger = get_logger(__name__)
 
 

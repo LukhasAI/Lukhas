@@ -222,6 +222,8 @@ class SymbolExportGenerator:
 
     def _candidate_peer(self, module: str) -> str:
         """Guess the candidate lane module for import fallbacks."""
+        if module.startswith("candidate."):
+            return module
         if module.startswith("lukhas."):
             return module.replace("lukhas.", "candidate.", 1)
         if module.startswith("consciousness"):

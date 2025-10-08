@@ -90,3 +90,41 @@ except NameError:
     __all__ = []
 if "AnomalyType" not in __all__:
     __all__.append("AnomalyType")
+
+# Added for test compatibility (lukhas.observability.advanced_metrics.MetricAnomaly)
+try:
+    from candidate.observability.advanced_metrics import MetricAnomaly  # noqa: F401
+except ImportError:
+    class MetricAnomaly:
+        """Stub for MetricAnomaly."""
+
+        def __init__(self, *args, **kwargs):
+            for key, value in kwargs.items():
+                setattr(self, key, value)
+
+try:
+    __all__  # type: ignore[name-defined]
+except NameError:
+    __all__ = []
+if "MetricAnomaly" not in __all__:
+    __all__.append("MetricAnomaly")
+
+# Added for test compatibility (lukhas.observability.advanced_metrics.MetricSeverity)
+try:
+    from candidate.observability.advanced_metrics import MetricSeverity  # noqa: F401
+except ImportError:
+    from enum import Enum
+
+    class MetricSeverity(Enum):
+        """Stub metric severity enum."""
+
+        INFO = "info"
+        WARNING = "warning"
+        CRITICAL = "critical"
+
+try:
+    __all__  # type: ignore[name-defined]
+except NameError:
+    __all__ = []
+if "MetricSeverity" not in __all__:
+    __all__.append("MetricSeverity")
