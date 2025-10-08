@@ -1,47 +1,55 @@
-"""Promoted policy guard bridge with tolerant fallbacks."""
+"""
+Facade for `lukhas.core.policy_guard`.
+Search order: website → candidate → core (root). Minimal fallbacks if none bind.
+"""
 from __future__ import annotations
-
 from importlib import import_module
+from typing import List, Optional
 
-__all__ = ["PolicyGuard", "PolicyResult", "ReplayDecision"]
+__all__: List[str] = ["PolicyGuard", "PolicyResult", "ReplayDecision"]
+_SRC: Optional[object] = None
 
-_CANDIDATES = (
-    "lukhas_website.lukhas.core.policy_guard",
-    "candidate.core.policy_guard",
-    "governance.policy_guard",
-    "candidate.core.ethics.ab_safety_guard",
-)
-
-
-def _get(module: str, name: str):
+def _try(modname: str):
     try:
-        mod = import_module(module)
+        return import_module(modname)
     except Exception:
         return None
-    return getattr(mod, name, None) if hasattr(mod, name) else None
 
+# Richest to leanest sources.
+for _mod in (
+    "lukhas_website.lukhas.core.policy_guard",
+    "candidate.core.policy_guard",
+    "core.policy_guard",
+):
+    _m = _try(_mod)
+    if _m:
+        _SRC = _m
+        break
 
-for _name in list(__all__):
-    value = next((obj for obj in (_get(mod, _name) for mod in _CANDIDATES) if obj), None)
-    if value is not None:
-        globals()[_name] = value
-
-
-if "PolicyResult" not in globals():
-    class PolicyResult:  # type: ignore[misc]
-        def __init__(self, ok: bool = True, reason: str = "noop") -> None:
-            self.ok = ok
+if _SRC is not None:
+    # Re-export public names from the bound module if they exist.
+    for _name in ("PolicyGuard", "PolicyResult", "ReplayDecision"):
+        if hasattr(_SRC, _name):
+            globals()[_name] = getattr(_SRC, _name)
+    # Keep __all__ accurate.
+    __all__ = [n for n in __all__ if n in globals()]
+else:
+    # Minimal safe fallbacks – keep signatures simple and non-blocking.
+    class PolicyResult:
+        def __init__(self, allowed: bool, reason: str = ""):
+            self.allowed = allowed
             self.reason = reason
+        def __repr__(self) -> str:
+            return f"PolicyResult(allowed={self.allowed}, reason={self.reason!r})"
 
+    class ReplayDecision(PolicyResult):
+        pass
 
-if "ReplayDecision" not in globals():
-    class ReplayDecision:  # type: ignore[misc]
-        def __init__(self, allow: bool = True, reason: str = "noop") -> None:
-            self.allow = allow
-            self.reason = reason
+    class PolicyGuard:
+        def check(self, *_args, **_kw) -> PolicyResult:
+            return PolicyResult(True, "fallback-allow")
 
-
-if "PolicyGuard" not in globals():
-    class PolicyGuard:  # type: ignore[misc]
-        def evaluate(self, *args, **kwargs) -> PolicyResult:
-            return PolicyResult()
+def __getattr__(name: str):
+    if _SRC is not None:
+        return getattr(_SRC, name)
+    raise AttributeError(name)
