@@ -176,7 +176,6 @@ def generate_issue_for_category(category: str, links: List[Dict]) -> str:
 
 def main():
     """Main workflow."""
-    import sys
 
     print("=" * 80)
     print("LUKHAS Broken Links Triage Bot")

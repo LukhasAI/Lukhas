@@ -7,6 +7,16 @@ Provides clean service interfaces for all API endpoints.
 from datetime import datetime, timezone
 from typing import Any, Optional
 
+try:
+    from fastapi import HTTPException
+except ImportError:
+    class HTTPException(Exception):
+        """Fallback HTTPException for when FastAPI is not available."""
+        def __init__(self, status_code: int, detail: str):
+            self.status_code = status_code
+            self.detail = detail
+            super().__init__(detail)
+
 from hub.service_registry import get_service
 
 from lukhas.core.common import get_logger

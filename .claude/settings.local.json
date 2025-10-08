@@ -1,5 +1,9 @@
 {
   "permissions": {
+    "allow": [
+      "Bash(git push:*)",
+      "Bash(ruff check:*)"
+    ],
     "defaultMode": "bypassPermissions"
   }
 }

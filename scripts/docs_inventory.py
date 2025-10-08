@@ -7,7 +7,6 @@ Scans all *.md files in docs/ and generates a complete manifest with metadata.
 
 import hashlib
 import json
-import os
 import re
 import subprocess
 from datetime import datetime

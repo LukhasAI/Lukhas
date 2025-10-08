@@ -44,3 +44,59 @@ except NameError:
     __all__ = []
 if "AdaptiveTimeoutManager" not in __all__:
     __all__.append("AdaptiveTimeoutManager")
+
+try:
+    from ..backoff import ExponentialBackoff, sleep_with_backoff  # type: ignore  # noqa: F401
+    for _name in ("ExponentialBackoff", "sleep_with_backoff"):
+        if _name not in __all__:
+            __all__.append(_name)
+except Exception:
+    pass
+
+if "BackoffConfig" not in globals():
+
+    class BackoffConfig:
+        """Fallback backoff configuration."""
+
+        def __init__(self, base: float = 0.1, factor: float = 2.0, max_sleep: float = 2.0):
+            self.base = base
+            self.factor = factor
+            self.max_sleep = max_sleep
+
+    globals()["BackoffConfig"] = BackoffConfig
+    if "BackoffConfig" not in __all__:
+        __all__.append("BackoffConfig")
+
+
+if "BackoffStrategy" not in globals():
+
+    from typing import Optional
+
+    class BackoffStrategy:
+        """Fallback backoff strategy wrapper."""
+
+        def __init__(self, config: Optional[BackoffConfig] = None):
+            self.config = config or BackoffConfig()
+
+        def sequence(self):
+            from ..backoff import ExponentialBackoff
+
+            return ExponentialBackoff(
+                base=self.config.base,
+                factor=self.config.factor,
+                max_sleep=self.config.max_sleep,
+            ).sequence()
+
+    globals()["BackoffStrategy"] = BackoffStrategy
+    if "BackoffStrategy" not in __all__:
+        __all__.append("BackoffStrategy")
+
+
+if "CircuitBreakerOpenError" not in globals():
+
+    class CircuitBreakerOpenError(RuntimeError):
+        """Fallback exception raised when circuit breaker is open."""
+
+    globals()["CircuitBreakerOpenError"] = CircuitBreakerOpenError
+    if "CircuitBreakerOpenError" not in __all__:
+        __all__.append("CircuitBreakerOpenError")

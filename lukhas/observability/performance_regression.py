@@ -74,3 +74,26 @@ except NameError:
     __all__ = []
 if "PerformanceRegression" not in __all__:
     __all__.append("PerformanceRegression")
+
+
+if "RegressionSeverity" not in globals():
+    from enum import Enum
+
+    class RegressionSeverity(Enum):
+        """Fallback regression severity levels."""
+
+        LOW = "low"
+        MODERATE = "moderate"
+        HIGH = "high"
+
+    __all__.append("RegressionSeverity")
+
+
+if "initialize_regression_detector" not in globals():
+
+    def initialize_regression_detector(*args, **kwargs):
+        """Fallback detector initializer returning stub detector."""
+
+        return PerformanceRegressionDetector(*args, **kwargs)
+
+    __all__.append("initialize_regression_detector")

@@ -128,3 +128,40 @@ except NameError:
     __all__ = []
 if "MetricSeverity" not in __all__:
     __all__.append("MetricSeverity")
+
+
+if "initialize_advanced_metrics" not in globals():
+
+    def initialize_advanced_metrics(*args, **kwargs):
+        """Fallback initializer returning system and metrics."""
+
+        system = AdvancedMetricsSystem()
+        return {
+            "system": system,
+            "metrics": {
+                "router_cascade_preventions_total": router_cascade_preventions_total,
+                "network_coherence_score": network_coherence_score,
+            },
+        }
+
+    __all__.append("initialize_advanced_metrics")
+
+
+if "record_metric" not in globals():
+
+    def record_metric(name: str, value: float, **labels):
+        """Fallback record_metric helper."""
+
+        # Name-based routing for core metrics
+        if name == "router_cascade_preventions_total":
+            router_cascade_preventions_total.labels(**labels).inc(value)
+        elif name == "network_coherence_score":
+            network_coherence_score.set(value)
+        elif name == "cache_hits_total":
+            cache_hits_total.labels(**labels).inc(value)
+        elif name == "cache_misses_total":
+            cache_misses_total.labels(**labels).inc(value)
+        elif name == "queue_depth":
+            queue_depth.labels(**labels).set(value)
+
+    __all__.append("record_metric")

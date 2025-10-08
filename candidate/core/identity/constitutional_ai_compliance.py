@@ -55,6 +55,7 @@ class ConstitutionalPrinciple(Enum):
     NON_DISCRIMINATION = "non_discrimination"
     PROPORTIONALITY = "proportionality"
     EXPLAINABILITY = "explainability"
+    NO_HARM = "no_harm"
 
 
 class ComplianceLevel(Enum):
@@ -88,6 +89,14 @@ class AIAction:
 
     action_id: str = ""
     metadata: dict[str, Any] = field(default_factory=dict)
+
+
+class EnforcementAction(Enum):
+    """Fallback enforcement actions."""
+
+    ALLOW = "allow"
+    DENY = "deny"
+    REVIEW = "review"
 
 
 @dataclass

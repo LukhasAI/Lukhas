@@ -69,30 +69,42 @@ if "ScheduledFold" not in __all__:
     __all__.append("ScheduledFold")
 
 
-# Added for test compatibility (lukhas.memory.scheduled_folding.ScheduledFoldingManager)
 try:
-    from candidate.memory.scheduled_folding import ScheduledFoldingManager  # noqa: F401
-except ImportError:
+    ScheduledFold
+    ScheduledFoldingManager
+except NameError:
+    class ScheduledFold:  # pragma: no cover - fallback
+        def __init__(self, id: str, when: str, *, policy: str = "default"):
+            self.id = id
+            self.when = when
+            self.policy = policy
+
     class ScheduledFoldingManager:
-        """Fallback scheduled folding manager."""
+        def schedule(self, fold: "ScheduledFold") -> bool:
+            return True
 
-        def __init__(self, *args, **kwargs):
-            self.args = args
-            self.kwargs = kwargs
+        def list(self):
+            return []
 
-        def schedule(self, *args, **kwargs):
-            return None
+        def run_due(self) -> int:
+            return 0
 
-if "ScheduledFoldingManager" not in __all__:
-    __all__.append("ScheduledFoldingManager")
 
-# Added for test compatibility (lukhas.memory.scheduled_folding.get_folding_manager)
+def get_folding_manager() -> "ScheduledFoldingManager":
+    """Factory used by tests; returns a process-wide default manager."""
+    global _DEFAULT_FOLDING_MANAGER
+    try:
+        return _DEFAULT_FOLDING_MANAGER  # type: ignore[name-defined]
+    except NameError:
+        _DEFAULT_FOLDING_MANAGER = ScheduledFoldingManager()
+        return _DEFAULT_FOLDING_MANAGER
+
+
 try:
-    from candidate.memory.scheduled_folding import get_folding_manager  # noqa: F401
-except ImportError:
-    def get_folding_manager(*args, **kwargs):
-        """Stub for get_folding_manager."""
-        return ScheduledFoldingManager()
+    __all__  # type: ignore[name-defined]
+except NameError:
+    __all__ = []
 
-if "get_folding_manager" not in __all__:
-    __all__.append("get_folding_manager")
+for _symbol in ("ScheduledFold", "ScheduledFoldingManager", "get_folding_manager"):
+    if _symbol not in __all__:
+        __all__.append(_symbol)

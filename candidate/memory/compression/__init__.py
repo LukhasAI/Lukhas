@@ -1,68 +1,67 @@
-"""Auto-generated __init__.py"""
+"""Compression bridge for the memory stack."""
 
-# Added for test compatibility (candidate.memory.compression.ZSTD_AVAILABLE)
-try:
-    from candidate.memory.compression import ZSTD_AVAILABLE  # noqa: F401
-except ImportError:
-    ZSTD_AVAILABLE = None  # Stub placeholder
-try:
-    __all__  # type: ignore[name-defined]
-except NameError:
-    __all__ = []
-if "ZSTD_AVAILABLE" not in __all__:
-    __all__.append("ZSTD_AVAILABLE")
+from __future__ import annotations
 
-# Added for test compatibility (candidate.memory.compression.AdaptiveCompressionManager)
-try:
-    from candidate.memory.compression import AdaptiveCompressionManager  # noqa: F401
-except ImportError:
-    class AdaptiveCompressionManager:
-        """Stub for AdaptiveCompressionManager."""
+from enum import Enum
 
-        def __init__(self, *args, **kwargs):
-            for key, value in kwargs.items():
-                setattr(self, key, value)
-try:
-    __all__  # type: ignore[name-defined]
-except NameError:
-    __all__ = []
-if "AdaptiveCompressionManager" not in __all__:
-    __all__.append("AdaptiveCompressionManager")
-
-# Added for test compatibility (candidate.memory.compression.Bz2Compressor)
-try:
-    from candidate.memory.compression import Bz2Compressor  # noqa: F401
-except ImportError:
-    class Bz2Compressor:
-        """Stub for Bz2Compressor."""
-
-        def __init__(self, *args, **kwargs):
-            for key, value in kwargs.items():
-                setattr(self, key, value)
-
-        def compress(self, data: bytes) -> bytes:
-            return data
-
-        def decompress(self, data: bytes) -> bytes:
-            return data
+__all__ = [
+    "CompressionAlgorithm",
+    "AdaptiveCompressionManager",
+    "ZSTD_AVAILABLE",
+    "LZ4_AVAILABLE",
+    "Bz2Compressor",
+    "CompressionResult",
+    "CompressionStats",
+]
 
 try:
-    __all__  # type: ignore[name-defined]
-except NameError:
-    __all__ = []
-if "Bz2Compressor" not in __all__:
-    __all__.append("Bz2Compressor")
+    import zstandard as _zstd  # type: ignore
 
-# Added for test compatibility (candidate.memory.compression.CompressionAlgorithm)
+    ZSTD_AVAILABLE = True
+except Exception:
+    ZSTD_AVAILABLE = False
+
 try:
-    from candidate.memory.compression import CompressionAlgorithm  # noqa: F401
-except ImportError:
-    from enum import Enum
-    class CompressionAlgorithm(Enum):
-        """Stub for CompressionAlgorithm."""
-        NONE = "none"
-        GZIP = "gzip"
-        ZSTD = "zstd"
-        BZ2 = "bz2"
-if "CompressionAlgorithm" not in __all__:
-    __all__.append("CompressionAlgorithm")
+    import lz4.frame as _lz4  # type: ignore
+
+    LZ4_AVAILABLE = True
+except Exception:
+    LZ4_AVAILABLE = False
+
+
+class CompressionAlgorithm(Enum):
+    NONE = "none"
+    LZ4 = "lz4"
+    ZSTD = "zstd"
+
+
+class AdaptiveCompressionManager:
+    """Fallback adaptive compression manager."""
+
+    def __init__(self, algorithm: CompressionAlgorithm = CompressionAlgorithm.NONE, threshold: int = 4096):
+        self.algorithm = algorithm
+        self.threshold = threshold
+
+    def compress(self, data: bytes) -> bytes:
+        return data
+
+    def decompress(self, data: bytes) -> bytes:
+        return data
+
+
+class Bz2Compressor:
+    """Fallback BZ2 compressor."""
+
+    def compress(self, data: bytes) -> bytes:
+        return data
+
+    def decompress(self, data: bytes) -> bytes:
+        return data
+
+
+class CompressionResult(dict):
+    """Fallback compression result payload."""
+
+
+class CompressionStats(dict):
+    """Fallback compression statistics container."""

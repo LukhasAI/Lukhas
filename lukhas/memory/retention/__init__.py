@@ -59,3 +59,35 @@ else:
             return bool(getattr(doc, "score", 0) > 0)
 
     __all__ = ["RetentionSeverity", "RetentionAction", "RetentionRule"]
+
+# --- retention aliases: ArchivalTier / AbstractArchivalBackend (safe append) ---
+try:
+    ArchivalTier
+except NameError:
+    from enum import Enum
+
+    class ArchivalTier(Enum):
+        HOT = "hot"
+        WARM = "warm"
+        COLD = "cold"
+        GLACIAL = "glacial"
+
+    __all__ = list(set((globals().get("__all__", []) or [])) | {"ArchivalTier"})
+
+try:
+    AbstractArchivalBackend
+except NameError:
+
+    class AbstractArchivalBackend:
+        """Minimal abstract backend surface."""
+
+        def archive(self, doc: Any) -> None:  # pragma: no cover - fallback
+            raise NotImplementedError
+
+        def retrieve(self, doc_id: str) -> Any:
+            raise NotImplementedError
+
+        def tombstone(self, doc_id: str) -> None:
+            raise NotImplementedError
+
+    __all__ = list(set((globals().get("__all__", []) or [])) | {"AbstractArchivalBackend"})

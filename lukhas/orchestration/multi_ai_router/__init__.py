@@ -105,6 +105,50 @@ if "get_multi_ai_router" not in globals():
     __all__.append("get_multi_ai_router")
 
 
+if "ConsensusEngine" not in globals():
+
+    class ConsensusEngine:
+        """Fallback consensus engine."""
+
+        def decide(self, votes):
+            votes = list(votes)
+            if not votes:
+                return False
+            return sum(bool(v) for v in votes) >= (len(votes) / 2.0)
+
+    __all__.append("ConsensusEngine")
+
+
+if "ModelSelector" not in globals():
+
+    class ModelSelector:
+        """Fallback model selector returning static provider."""
+
+        def select(self, prompt, **kwargs):
+            return {
+                "provider": kwargs.get("default_provider", "noop"),
+                "model": kwargs.get("default_model", "lukhas-noop-model"),
+            }
+
+    __all__.append("ModelSelector")
+
+
+if "MultiAIRouter" not in globals():
+
+    from typing import Optional
+
+    class MultiAIRouter:
+        """Fallback multi AI router facade."""
+
+        def __init__(self, selector: Optional[ModelSelector] = None):
+            self.selector = selector or ModelSelector()
+
+        def route(self, prompt: str, **kwargs):
+            return self.selector.select(prompt, **kwargs)
+
+    __all__.append("MultiAIRouter")
+
+
 def __getattr__(name: str):
     if _SRC:
         module_dict = getattr(_SRC, "__dict__", {})

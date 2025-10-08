@@ -413,3 +413,75 @@ except ImportError:
         ENFORCE = "enforce"
 
 __all__.append("SafetyMode")
+
+# --- DreamEngine fallback export (safe append) ---
+try:
+    from .dream import DreamEngine  # type: ignore  # noqa: F401
+except Exception:
+    if "DreamEngine" not in globals():
+        class DreamEngine:  # type: ignore
+            """Fallback dream engine."""
+
+            def __init__(self, *args, **kwargs):
+                self.args = args
+                self.kwargs = kwargs
+
+            def run(self, prompt: str, **_):
+                return {"dream": prompt, "insight": None}
+try:
+    __all__  # type: ignore[name-defined]
+except NameError:
+    __all__ = []
+if "DreamEngine" not in __all__:
+    __all__.append("DreamEngine")
+
+try:
+    from candidate.consciousness import DreamTrace  # noqa: F401
+except ImportError:
+    try:
+        from lukhas.consciousness.dream.trace import DreamTrace  # noqa: F401
+    except Exception:
+        class DreamTrace:  # type: ignore
+            """Fallback dream trace recorder."""
+
+            def __init__(self):
+                self._events = []
+
+            def record(self, event):
+                self._events.append(event)
+
+            def events(self):
+                return tuple(self._events)
+
+try:
+    __all__  # type: ignore[name-defined]
+except NameError:
+    __all__ = []
+if "DreamTrace" not in __all__:
+    __all__.append("DreamTrace")
+
+try:
+    from candidate.consciousness import GuardianResponse  # noqa: F401
+except ImportError:
+    class GuardianResponse(dict):  # type: ignore
+        """Fallback guardian response payload."""
+
+try:
+    __all__  # type: ignore[name-defined]
+except NameError:
+    __all__ = []
+if "GuardianResponse" not in __all__:
+    __all__.append("GuardianResponse")
+
+try:
+    from candidate.consciousness import ReflectionReport  # noqa: F401
+except ImportError:
+    class ReflectionReport(dict):  # type: ignore
+        """Fallback reflection report payload."""
+
+try:
+    __all__  # type: ignore[name-defined]
+except NameError:
+    __all__ = []
+if "ReflectionReport" not in __all__:
+    __all__.append("ReflectionReport")

@@ -30,7 +30,7 @@ def check_encoding(file_path: Path) -> Tuple[bool, str]:
         with open(file_path, 'r', encoding='utf-8') as f:
             f.read()
         return True, 'utf-8'
-    except UnicodeDecodeError as e:
+    except UnicodeDecodeError:
         # Try common encodings
         for encoding in ['latin-1', 'cp1252', 'iso-8859-1']:
             try:

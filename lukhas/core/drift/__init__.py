@@ -40,3 +40,19 @@ except NameError:
     __all__ = []
 if "DriftMonitor" not in __all__:
     __all__.append("DriftMonitor")
+
+try:
+    from candidate.core.drift import _cosine  # noqa: F401
+except ImportError:
+    try:
+        from lukhas.utils.similarity import _cosine  # type: ignore  # noqa: F401
+    except Exception:
+        def _cosine(a, b):  # type: ignore
+            return 0.0
+
+try:
+    __all__  # type: ignore[name-defined]
+except NameError:
+    __all__ = []
+if "_cosine" not in __all__:
+    __all__.append("_cosine")

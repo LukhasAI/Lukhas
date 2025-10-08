@@ -12,6 +12,9 @@ except Exception:  # pragma: no cover - fallback
 
     InstalledAppFlow = getattr(_flow, "InstalledAppFlow")
 
-    __all__ = ["InstalledAppFlow"]
+    class Flow:  # type: ignore
+        InstalledAppFlow = InstalledAppFlow
+
+    __all__ = ["InstalledAppFlow", "Flow"]
 else:
     __all__ = [name for name in globals() if not name.startswith("_")]

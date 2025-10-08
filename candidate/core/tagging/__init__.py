@@ -50,6 +50,27 @@ if "DeduplicationCache" not in globals():
 
     __all__.append("DeduplicationCache")
 
+if "SimpleTagResolver" not in globals():
+
+    class SimpleTagResolver:
+        """Fallback tag resolver."""
+
+        def resolve(self, tags):
+            return list(tags or [])
+
+    __all__.append("SimpleTagResolver")
+
+if "Tag" not in globals():
+
+    class Tag(dict):
+        """Fallback tag object."""
+
+        def __init__(self, name: str, **attrs):
+            super().__init__(attrs)
+            self.name = name
+
+    __all__.append("Tag")
+
 
 def __getattr__(name: str):
     if _SRC:

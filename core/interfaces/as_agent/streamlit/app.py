@@ -54,7 +54,7 @@ if lukhas_plugin_enabled:
 
 # ─── Symbolic Widget Preview ──────────────────────────────────────────────────
 
-st.markdown("##)  #  🧱 Symbolic Widget Preview"
+st.markdown("##  🧱 Symbolic Widget Preview")
 
 try:
     from lukhas.core.lukhas_widget_engine import create_symbolic_widget
@@ -112,12 +112,10 @@ else:
 
             handoff = agent_handoff(widget.get("vendor", ""))
             if handoff["status"] == "ready":
-                st.markdown("###)  #  🤝 Vendor Agent Preview"
+                st.markdown("###  🤝 Vendor Agent Preview")
                 st.markdown(
                     f"""
-                    <div style='background-color:{handoff["theme_color"]}; padding:16px;
-                                border-radius:12px; color:white; font-family:Inter,
-    sans-serif;'>
+                    <div style='background-color:{handoff["theme_color"]}; padding:16px; border-radius:12px; color:white; font-family:Inter, sans-serif;'>
                         <b>{handoff["agent_name"]}</b> from <i>{widget["vendor"]}</i><br>
                         {handoff["greeting"]}
                     </div>

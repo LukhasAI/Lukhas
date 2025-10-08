@@ -8,7 +8,7 @@ Rewrites internal links to canonical paths and validates anchors.
 import json
 import re
 from pathlib import Path
-from typing import Dict, List, Set, Tuple
+from typing import Dict, Set, Tuple
 
 # Constants
 DOCS_ROOT = Path(__file__).parent.parent / "docs"

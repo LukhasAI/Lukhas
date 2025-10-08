@@ -230,7 +230,7 @@ def check_internal_links(manifest: Dict) -> List[Dict]:
                     if len([e for e in errors if e['file'] == doc['path']]) >= 3:
                         break
 
-        except Exception as e:
+        except Exception:
             continue
 
     return errors

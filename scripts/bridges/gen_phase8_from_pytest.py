@@ -8,7 +8,6 @@ import re
 import sys
 import subprocess
 from collections import Counter, defaultdict
-from pathlib import Path
 
 
 def run_collect() -> str:

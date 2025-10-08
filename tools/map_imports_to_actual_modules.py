@@ -6,7 +6,6 @@ Discovers where code actually exists vs where imports think it should be.
 """
 import subprocess
 from pathlib import Path
-from collections import defaultdict
 import json
 
 def find_actual_modules(search_term):

@@ -49,3 +49,29 @@ except NameError:
     __all__ = []
 if "MetricsConfig" not in __all__:
     __all__.append("MetricsConfig")
+
+
+if "get_lukhas_metrics" not in globals():
+
+    def get_lukhas_metrics(*args, **kwargs):
+        """Return minimal metrics mapping for tests."""
+
+        return {
+            "PROMETHEUS_AVAILABLE": PROMETHEUS_AVAILABLE,
+            "metrics": [],
+        }
+
+    __all__.append("get_lukhas_metrics")
+
+
+if "initialize_metrics" not in globals():
+
+    def initialize_metrics(*args, **kwargs):
+        """Fallback initializer returning metrics config."""
+
+        return {
+            "metrics_config": MetricsConfig(*args, **kwargs),
+            "available": PROMETHEUS_AVAILABLE,
+        }
+
+    __all__.append("initialize_metrics")

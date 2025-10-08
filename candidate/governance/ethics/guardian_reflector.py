@@ -69,7 +69,26 @@ if "EthicsEngine" not in globals():
         def __call__(self, *args, **kwargs):
             return None
 
-__all__ = ["EthicsEngine", "GuardianReflector", "EthicalReflection", "MoralDrift", "EthicalFramework", "MoralSeverity"]
+if "MemoryManager" not in globals() or isinstance(MemoryManager, MagicMock):  # type: ignore
+
+    class MemoryManager:  # type: ignore
+        """Fallback memory manager stub."""
+
+        def record(self, *args, **kwargs):
+            return None
+
+        def summarize(self):
+            return {}
+
+__all__ = [
+    "EthicsEngine",
+    "GuardianReflector",
+    "EthicalReflection",
+    "MoralDrift",
+    "EthicalFramework",
+    "MoralSeverity",
+    "MemoryManager",
+]
 
 
 logger = get_logger(__name__)
