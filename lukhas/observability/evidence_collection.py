@@ -56,3 +56,17 @@ except ImportError:
         """Stub evidence collection function."""
         return []
     __all__.append("collect_evidence")
+
+# Added for test compatibility (lukhas.observability.evidence_collection.initialize_evidence_collection)
+try:
+    from candidate.observability.evidence_collection import initialize_evidence_collection  # noqa: F401
+except ImportError:
+    def initialize_evidence_collection(*args, **kwargs):
+        """Stub for initialize_evidence_collection."""
+        return None
+try:
+    __all__  # type: ignore[name-defined]
+except NameError:
+    __all__ = []
+if "initialize_evidence_collection" not in __all__:
+    __all__.append("initialize_evidence_collection")

@@ -92,7 +92,8 @@
       "Bash(PYTHONPATH=. python3 -m pytest --collect-only -q)",
       "Read(//Users/agi_dev/**)",
       "Bash(for i in {0..5})",
-      "Bash(do [ -f artifacts/pytest_collect_round$i.txt ])"
+      "Bash(do [ -f artifacts/pytest_collect_round$i.txt ])",
+      "Bash(timeout:*)"
     ],
     "deny": [],
     "ask": []

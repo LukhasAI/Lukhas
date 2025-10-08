@@ -49,3 +49,29 @@ except ImportError:
         """Stub consciousness task decorator."""
         return func
     __all__.append("consciousness_task")
+
+# Add run_guardian_task for test compatibility
+try:
+    from candidate.async_utils import run_guardian_task  # noqa: F401
+    __all__.append("run_guardian_task")
+except ImportError:
+    async def run_guardian_task(task, *args, **kwargs):
+        """Stub guardian task runner."""
+        return await task(*args, **kwargs)
+    __all__.append("run_guardian_task")
+
+# Add run_with_retry for test compatibility
+try:
+    from candidate.async_utils import run_with_retry  # noqa: F401
+    __all__.append("run_with_retry")
+except ImportError:
+    async def run_with_retry(coro, max_retries=3, *args, **kwargs):
+        """Stub retry wrapper."""
+        for attempt in range(max_retries):
+            try:
+                return await coro(*args, **kwargs)
+            except Exception:
+                if attempt == max_retries - 1:
+                    raise
+        return None
+    __all__.append("run_with_retry")

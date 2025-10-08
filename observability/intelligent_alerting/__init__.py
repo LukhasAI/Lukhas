@@ -1,9 +1,9 @@
-"""Bridge for `candidate.core.symbolic.symbolic_glyph_hash`.
+"""Bridge for `observability.intelligent_alerting`.
 
 Auto-generated bridge following canonical pattern:
-  1) lukhas_website.lukhas.candidate.core.symbolic.symbolic_glyph_hash
-  2) candidate.candidate.core.symbolic.symbolic_glyph_hash
-  3) core.symbolic.symbolic_glyph_hash
+  1) lukhas_website.lukhas.observability.intelligent_alerting
+  2) candidate.observability.intelligent_alerting
+  3) observability.intelligent_alerting
 
 Graceful fallback to stubs if no backend available.
 """
@@ -21,9 +21,9 @@ def _try(n: str):
 
 # Try backends in order
 _CANDIDATES = (
-    "lukhas_website.lukhas.candidate.core.symbolic.symbolic_glyph_hash",
-    "candidate.candidate.core.symbolic.symbolic_glyph_hash",
-    "core.symbolic.symbolic_glyph_hash",
+    "lukhas_website.lukhas.observability.intelligent_alerting",
+    "candidate.observability.intelligent_alerting",
+    "observability.intelligent_alerting",
 )
 
 _SRC = None
@@ -45,17 +45,3 @@ def __getattr__(name: str):
     if _SRC and hasattr(_SRC, name):
         return getattr(_SRC, name)
     raise AttributeError(f"module '{__name__}' has no attribute '{name}'")
-
-# Added for test compatibility (candidate.core.symbolic.symbolic_glyph_hash.compute_glyph_hash)
-try:
-    from candidate.candidate.core.symbolic.symbolic_glyph_hash import compute_glyph_hash  # noqa: F401
-except ImportError:
-    def compute_glyph_hash(*args, **kwargs):
-        """Stub for compute_glyph_hash."""
-        return None
-try:
-    __all__  # type: ignore[name-defined]
-except NameError:
-    __all__ = []
-if "compute_glyph_hash" not in __all__:
-    __all__.append("compute_glyph_hash")

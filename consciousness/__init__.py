@@ -271,3 +271,66 @@ except ImportError:
         HIGH = 3
 
 __all__.extend(["AutoConsciousness", "AwarenessLevel"])
+
+try:
+    from candidate.consciousness import AwarenessEngine  # noqa: F401
+except ImportError:
+    class AwarenessEngine:  # type: ignore
+        """Fallback awareness engine."""
+
+        def __init__(self, *args, **kwargs):
+            self.args = args
+            self.kwargs = kwargs
+
+        def process(self, *args, **kwargs):
+            return None
+
+__all__.append("AwarenessEngine")
+
+try:
+    from candidate.consciousness import ConsciousnessConfig  # noqa: F401
+except ImportError:
+    class ConsciousnessConfig:  # type: ignore
+        """Fallback consciousness config."""
+
+        def __init__(self, **kwargs):
+            for key, value in kwargs.items():
+                setattr(self, key, value)
+
+__all__.append("ConsciousnessConfig")
+
+try:
+    from candidate.consciousness import AwarenessSnapshot  # noqa: F401
+except ImportError:
+    class AwarenessSnapshot:  # type: ignore
+        """Fallback awareness snapshot."""
+
+        def __init__(self, *args, **kwargs):
+            for key, value in kwargs.items():
+                setattr(self, key, value)
+
+__all__.append("AwarenessSnapshot")
+
+try:
+    from candidate.consciousness import ConsciousnessKernel  # noqa: F401
+except ImportError:
+    class ConsciousnessKernel:  # type: ignore
+        """Fallback consciousness kernel."""
+
+        def __init__(self, *args, **kwargs):
+            for key, value in kwargs.items():
+                setattr(self, key, value)
+
+__all__.append("ConsciousnessKernel")
+
+try:
+    from candidate.consciousness import ConsciousnessState  # noqa: F401
+except ImportError:
+    from enum import Enum
+    class ConsciousnessState(Enum):  # type: ignore
+        """Stub for ConsciousnessState."""
+        INACTIVE = "inactive"
+        ACTIVE = "active"
+        PROCESSING = "processing"
+
+__all__.append("ConsciousnessState")

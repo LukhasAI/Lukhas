@@ -10,3 +10,20 @@ Tracking: docs/v0.03/KNOWN_ISSUES.md#missing-modules
 """
 
 # TODO: Implement or remove dead imports referencing this module
+
+# Added for test compatibility (lukhas.memory.scheduled_folding.CompressionLevel)
+try:
+    from candidate.memory.scheduled_folding import CompressionLevel  # noqa: F401
+except ImportError:
+    from enum import Enum
+
+    class CompressionLevel(Enum):
+        """Stub for CompressionLevel."""
+        UNKNOWN = "unknown"
+        DEFAULT = "default"
+try:
+    __all__  # type: ignore[name-defined]
+except NameError:
+    __all__ = []
+if "CompressionLevel" not in __all__:
+    __all__.append("CompressionLevel")

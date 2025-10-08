@@ -90,5 +90,23 @@ mtrx_stage_duration_seconds = histogram(
     labelnames=("stage", "outcome"),
 )
 
-__all__.extend(["stage_latency", "stage_timeouts", "guardian_band", "reasoning_chain_length", "ethics_risk_distribution", "node_confidence_scores", "constellation_star_activations", "arbitration_decisions_total", "oscillation_detections_total", "parallel_batch_duration", "parallel_execution_mode_total", "retry_attempts_total", "mtrx_stage_duration_seconds"])
+mtrx_orch_timeout_total = counter(
+    "lukhas_mtrx_orch_timeout_total",
+    "MATRIZ orchestration timeouts",
+    labelnames=("component", "reason"),
+)
+
+mtrx_orch_retry_total = counter(
+    "lukhas_mtrx_orch_retry_total",
+    "MATRIZ orchestration retry attempts",
+    labelnames=("component", "attempt"),
+)
+
+mtrx_orch_circuit_open_total = counter(
+    "lukhas_mtrx_orch_circuit_open_total",
+    "MATRIZ orchestration circuit breaker open events",
+    labelnames=("component", "reason"),
+)
+
+__all__.extend(["stage_latency", "stage_timeouts", "guardian_band", "reasoning_chain_length", "ethics_risk_distribution", "node_confidence_scores", "constellation_star_activations", "arbitration_decisions_total", "oscillation_detections_total", "parallel_batch_duration", "parallel_execution_mode_total", "retry_attempts_total", "mtrx_stage_duration_seconds", "mtrx_orch_timeout_total", "mtrx_orch_retry_total", "mtrx_orch_circuit_open_total"])
 

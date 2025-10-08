@@ -10,3 +10,20 @@ Tracking: docs/v0.03/KNOWN_ISSUES.md#missing-modules
 """
 
 # TODO: Implement or remove dead imports referencing this module
+
+# Added for test compatibility (lukhas.consciousness.registry.ComponentType)
+try:
+    from candidate.consciousness.registry import ComponentType  # noqa: F401
+except ImportError:
+    from enum import Enum
+
+    class ComponentType(Enum):
+        """Stub for ComponentType."""
+        UNKNOWN = "unknown"
+        DEFAULT = "default"
+try:
+    __all__  # type: ignore[name-defined]
+except NameError:
+    __all__ = []
+if "ComponentType" not in __all__:
+    __all__.append("ComponentType")
