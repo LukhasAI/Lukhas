@@ -179,7 +179,7 @@ class QIEthicsEngine:
             Comprehensive ethical evaluation result
         """
         self.decisions_processed += 1
-        decision_id = f"eth_dec_{int(time.time())_{self.decisions_processed}"
+        decision_id = f"eth_dec_{int(time.time())}_{self.decisions_processed}"
 
         # Initialize quantum ethical state for this decision
         decision_quantum_like_state = QIEthicalState()

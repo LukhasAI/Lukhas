@@ -102,7 +102,7 @@ Beauty collapses"""
     amplitude_vector = np.random.random(8) + 1j * np.random.random(8)
     amplitude_vector = amplitude_vector / np.sqrt(np.sum(np.abs(amplitude_vector) ** 2))
 
-    print(f"    Amplitude vector norm: {np.sqrt(np.sum(np.abs(amplitude_vector) ** 2:.3f}")
+    print(f"    Amplitude vector norm: {np.sqrt(np.sum(np.abs(amplitude_vector) ** 2)):.3f}")
     print(f"    Complex amplitude example: {amplitude_vector[0]:.3f}")
 
     assert abs(np.sqrt(np.sum(np.abs(amplitude_vector) ** 2)) - 1.0) < 1e-10, "Quantum state should be normalized"
@@ -136,9 +136,9 @@ Beauty collapses"""
     # Mock creative work protection
     content_hash = hashlib.sha256(haiku_content.encode()).hexdigest()
     signature = f"sig_{content_hash[:16]}"
-    blockchain_hash = f"block_{hash(datetime.now(timezone.utc).isoformat()}"
+    blockchain_hash = f"block_{hash(datetime.now(timezone.utc).isoformat())}"
 
-    {
+    provenance_record = {
         "original_work": mock_haiku,
         "signature": signature,
         "blockchain_hash": blockchain_hash,

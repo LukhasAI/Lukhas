@@ -425,9 +425,9 @@ class QIColony(BaseColony):
         return {
             "algorithm": "vqe",
             "ground_state_energy": best_energy,
-            "optimal_parameters": best_params.tolist(},
+            "optimal_parameters": best_params.tolist(),
             "iterations": max_iterations,
-        )}
+        }
 
     async def _qaoa_algorithm(self, params: dict[str, Any]) -> dict[str, Any]:
         """Quantum Approximate Optimization Algorithm."""

@@ -681,7 +681,7 @@ class MultiAGIOrchestrator:
         if len(sorted_responses) > 1:
             synthesis_text += "**Supporting Insights:**\n"
             for _i, resp_item in enumerate(sorted_responses[1:3], 1):
-                synthesis_text += f"- *From {resp_item['bot_id']} (Weight: {resp_item['response_weight']:.2f}, Confidence: {resp_item['response_data'].get('confidence', 0):.2f})*:\n  {str(resp_item['response_data'].get('content', 'N/A')}[:250]}...\n"
+                synthesis_text += f"- *From {resp_item['bot_id']} (Weight: {resp_item['response_weight']:.2f}, Confidence: {resp_item['response_data'].get('confidence', 0):.2f})*:\n  {str(resp_item['response_data'].get('content', 'N/A'))[:250]}...\n"
         return synthesis_text
 
     def _calculate_bot_response_weight(self, bot_id: str, task: MultiAGITask) -> float:
@@ -879,7 +879,7 @@ class MultiAGIOrchestrator:
                 style="bold yellow",
             )
             self.console.print(
-                f"📝 Task Content (preview): {str(scenario_config['content'])}[:70]}..."
+                f"📝 Task Content (preview): {str(scenario_config['content'])[:70]}..."
             )  # Ensure content is string for slicing
 
             # type: ignore
