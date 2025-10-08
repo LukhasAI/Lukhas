@@ -1,4 +1,12 @@
-"""Bio_Symbolic Module"""
+"""Bridge for `lukhas.aka_qualia.memory_sql`.
+
+Auto-generated bridge following canonical pattern:
+  1) lukhas_website.lukhas.lukhas.aka_qualia.memory_sql
+  2) candidate.lukhas.aka_qualia.memory_sql
+  3) aka_qualia.memory_sql
+
+Graceful fallback to stubs if no backend available.
+"""
 from __future__ import annotations
 from importlib import import_module
 from typing import List
@@ -13,8 +21,9 @@ def _try(n: str):
 
 # Try backends in order
 _CANDIDATES = (
-    "lukhas_website.lukhas.bio.core.bio_symbolic",
-    "candidate.bio.core.bio_symbolic",
+    "lukhas_website.lukhas.lukhas.aka_qualia.memory_sql",
+    "candidate.lukhas.aka_qualia.memory_sql",
+    "aka_qualia.memory_sql",
 )
 
 _SRC = None
@@ -29,14 +38,7 @@ for _cand in _CANDIDATES:
         break
 
 # Add expected symbols as stubs if not found
-if "BioSymbolic" not in globals():
-    class BioSymbolic:  # pragma: no cover - stub
-        """Stub for BioSymbolic."""
-        def __init__(self, *a, **kw):
-            pass
-        def __call__(self, *a, **kw):
-            return None
-    __all__.append("BioSymbolic")
+# No pre-defined stubs
 
 def __getattr__(name: str):
     """Lazy attribute access fallback."""

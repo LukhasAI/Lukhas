@@ -36,5 +36,23 @@ reasoning_chain_length = histogram(
     labelnames=("chain_type", "outcome"),
 )
 
-__all__.extend(["stage_latency", "stage_timeouts", "guardian_band", "reasoning_chain_length"])
+ethics_risk_distribution = histogram(
+    "lukhas_ethics_risk_distribution",
+    "Distribution of ethics risk levels",
+    labelnames=("risk_level", "source"),
+)
+
+node_confidence_scores = histogram(
+    "lukhas_node_confidence_scores",
+    "Confidence scores for nodes",
+    labelnames=("node_type", "confidence_band"),
+)
+
+constellation_star_activations = histogram(
+    "lukhas_constellation_star_activations",
+    "Activation levels for constellation stars",
+    labelnames=("star_id", "activation_level"),
+)
+
+__all__.extend(["stage_latency", "stage_timeouts", "guardian_band", "reasoning_chain_length", "ethics_risk_distribution", "node_confidence_scores", "constellation_star_activations"])
 
