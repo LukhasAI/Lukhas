@@ -829,7 +829,7 @@ def get_feedback_clusters(
         if task:
             clusters = [c for c in clusters if c.get("task") == task]
 
-        return {"clusters": clusters, "count": len(clusters), "filter": {"task": task}
+        return {"clusters": clusters, "count": len(clusters), "filter": {"task": task}}
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Cluster retrieval failed: {e!s}")
 

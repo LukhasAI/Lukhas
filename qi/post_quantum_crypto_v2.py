@@ -244,7 +244,7 @@ class QIResistantKeyManager:
 
     def _generate_session_id(self) -> str:
         """Generate unique session identifier"""
-        return f"pqc_{secrets.token_hex(16)}_{int(datetime.now(timezone.utc).timestamp()}"
+        return f"pqc_{secrets.token_hex(16)}_{int(datetime.now(timezone.utc).timestamp())}"
 
     def _log_operation(
         self,

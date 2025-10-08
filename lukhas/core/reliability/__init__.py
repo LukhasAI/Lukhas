@@ -137,3 +137,22 @@ if "ErrorContextManager" not in globals():
     globals()["ErrorContextManager"] = ErrorContextManager
     if "ErrorContextManager" not in __all__:
         __all__.append("ErrorContextManager")
+
+
+if "ErrorSeverity" not in globals():
+    try:
+        from candidate.core.reliability import ErrorSeverity  # type: ignore[attr-defined]  # noqa: F401
+    except ImportError:
+        from enum import Enum
+
+        class ErrorSeverity(Enum):
+            """Fallback error severity classifications."""
+
+            LOW = "low"
+            MEDIUM = "medium"
+            HIGH = "high"
+            CRITICAL = "critical"
+
+    globals()["ErrorSeverity"] = ErrorSeverity
+    if "ErrorSeverity" not in __all__:
+        __all__.append("ErrorSeverity")

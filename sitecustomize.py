@@ -22,6 +22,28 @@ else:
         shim.__path__ = [todo_pkg]  # type: ignore[attr-defined]
         sys.modules.setdefault("TODO", shim)
 
+if "streamlit" not in sys.modules:
+    def _noop(*args, **kwargs):
+        return None
+
+    def _cache_data(*args, **kwargs):
+        return lambda func: func
+
+    streamlit_stub = types.SimpleNamespace(
+        write=_noop,
+        markdown=_noop,
+        title=_noop,
+        warning=_noop,
+        set_page_config=_noop,
+        cache_data=_cache_data,
+    )
+    streamlit_stub.sidebar = types.SimpleNamespace(
+        write=_noop,
+        markdown=_noop,
+        button=_noop,
+    )
+    sys.modules["streamlit"] = streamlit_stub
+
 # Ensure six's legacy meta-importer cooperates with Python 3.11 importlib.
 try:
     import six

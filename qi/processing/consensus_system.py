@@ -288,7 +288,7 @@ class QIConsensusSystem:
         self._validate_quantum_like_state(proposed_state)
 
         # Create proposal
-        proposal_id = f"prop_{component_id}_{int(time.time(} * 1000)}"
+        proposal_id = f"prop_{component_id}_{int(time.time() * 1000)}"
         proposal = ConsensusProposal(
             proposal_id=proposal_id,
             proposer_id=component_id,
@@ -690,7 +690,7 @@ async def demo_bio_quantum_consensus():
     if status["current_state"]:
         state_data = status["current_state"]
         print(f"Phase Coherence: {state_data['phase_coherence']:.2%}")
-        print(f"Consciousness Level: {state_data['metadata'].get('consciousness_level', 0)}:.2%}")
+        print(f"Consciousness Level: {state_data['metadata'].get('consciousness_level', 0):.2%}")
         print(f"Dream State: {state_data['metadata'].get('dream_state', 'unknown')}")
 
 
