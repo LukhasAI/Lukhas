@@ -7,6 +7,7 @@ Implements consensus processing, context preservation, and performance optimizat
 from __future__ import annotations
 
 import asyncio
+import inspect
 import logging
 import time
 from dataclasses import dataclass, field
@@ -617,9 +618,29 @@ class OpenAIOrchestrationService:
         payload = self._build_payload(request)
 
         if hasattr(self._service, "generate_stream"):
-            if timeout is not None:
-                return await asyncio.wait_for(self._service.generate_stream(**payload), timeout=timeout)
-            return await self._service.generate_stream(**payload)
+            stream = self._service.generate_stream(**payload)
+
+            if inspect.isawaitable(stream):
+                if timeout is not None:
+                    stream = await asyncio.wait_for(stream, timeout=timeout)
+                else:
+                    stream = await stream
+
+            if not hasattr(stream, "__aiter__"):
+                raise TypeError("generate_stream must return an async iterator")
+
+            if timeout is None:
+                return stream
+
+            async def _with_timeout() -> AsyncIterator[str]:
+                iterator = stream.__aiter__()
+                try:
+                    while True:
+                        yield await asyncio.wait_for(iterator.__anext__(), timeout)
+                except StopAsyncIteration:
+                    return
+
+            return _with_timeout()
 
         async def _fallback() -> AsyncIterator[str]:
             response = await self.run(request, timeout=timeout)
