@@ -359,14 +359,16 @@ Co-Authored-By: {Agent} <noreply@anthropic.com>
 **Progress JSON** (for dashboards):
 ```json
 {
-  "date": "2025-10-08",
+  "date": "2025-10-09",
   "counts": {
     "critical": {"open": 150, "wip": 40, "done": 32},
     "high": {"open": 687, "wip": 120, "done": 85}
   },
   "agents": {
-    "jules": {"assigned": 25, "done": 0, "blocked": 0},
-    "codex": {"assigned": 25, "done": 0, "blocked": 0}
+    "jules": {"assigned": 25, "done": 25, "blocked": 0, "status": "completed", "batch": "BATCH-JULES-2025-10-08-01", "commit": "219dc8d0c"},
+    "codex": {"assigned": 25, "done": 25, "blocked": 0, "status": "completed", "merged_in": "previous PRs"},
+    "claude_code": {"assigned": 25, "done": 0, "blocked": 0, "status": "pending"},
+    "copilot": {"assigned": 25, "done": 0, "blocked": 0, "status": "pending"}
   }
 }
 ```

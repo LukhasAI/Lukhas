@@ -18,7 +18,7 @@ from typing import Any, Optional
 
 from consent.service import ConsentService
 
-from .. import (
+from MATRIZ.adapters import (
     OperationResult,
     ResourceContent,
     ResourceMetadata,

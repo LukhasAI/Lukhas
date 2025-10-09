@@ -25,10 +25,10 @@ from pydantic import BaseModel, Field
 
 from consent.service import ConsentService
 
-from . import ResourceMetadata, ServiceAdapter
-from .drive import create_drive_adapter
-from .dropbox import create_dropbox_adapter
-from .gmail_headers import create_gmail_adapter
+from MATRIZ.adapters import ResourceMetadata, ServiceAdapter
+from MATRIZ.adapters.drive import create_drive_adapter
+from MATRIZ.adapters.dropbox import create_dropbox_adapter
+from MATRIZ.adapters.gmail_headers import create_gmail_adapter
 
 
 @dataclass
