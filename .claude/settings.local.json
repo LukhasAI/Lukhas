@@ -20,7 +20,8 @@
       "Bash(gh pr close:*)",
       "Bash(git add:*)",
       "Bash(git commit:*)",
-      "Bash(git check-ignore:*)"
+      "Bash(git check-ignore:*)",
+      "Bash(git apply:*)"
     ],
     "defaultMode": "bypassPermissions"
   }
