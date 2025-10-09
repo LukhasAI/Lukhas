@@ -13,19 +13,22 @@ Trinity Framework:
 """
 
 import hashlib
+import hmac
 import time
 import secrets
 from dataclasses import dataclass, field, asdict
 from datetime import datetime, timezone
 from enum import Enum
 from typing import Dict, Any, Optional, List
-from pathlib import Path
 
 
 class QRSAlgorithm(Enum):
     """Supported QRS hash algorithms."""
     SHA256_QRS = "SHA256-QRS"
     SHA512_QRS = "SHA512-QRS"
+    # Aliases for test compatibility
+    SHA256 = "SHA256"
+    SHA512 = "SHA512"
 
 
 class QRSStatus(Enum):
@@ -99,6 +102,7 @@ class QRSManager:
 
     def __init__(
         self,
+        secret_key: Optional[str] = None,
         default_algorithm: QRSAlgorithm = QRSAlgorithm.SHA256_QRS,
         trace_logger: Optional[Any] = None
     ):
@@ -106,9 +110,11 @@ class QRSManager:
         Initialize QRS Manager.
         
         Args:
+            secret_key: Secret key for HMAC signature generation (optional)
             default_algorithm: Default hash algorithm to use
             trace_logger: Optional ΛTRACE logger for audit trails
         """
+        self.secret_key = secret_key or "default_qrs_secret"
         self.default_algorithm = default_algorithm
         self.trace_logger = trace_logger
         
@@ -118,6 +124,20 @@ class QRSManager:
             'verified': 0,
             'failed': 0,
             'tampered_detected': 0
+        }
+        
+        # Nonce tracking for replay prevention
+        self._used_nonces: set = set()
+        
+        # Audit trail storage
+        self._audit_trail: List[Dict[str, Any]] = []
+        
+        # Rate limit configuration (requests per minute by tier)
+        self._rate_limits = {
+            "alpha": 300,   # 3x multiplier
+            "beta": 200,    # 2x multiplier
+            "gamma": 150,   # 1.5x multiplier
+            "delta": 100    # 1x multiplier (baseline)
         }
 
     async def create_qrs(
@@ -441,6 +461,205 @@ class QRSManager:
             })
         except Exception:
             pass
+
+    # ========================================================================
+    # Synchronous Methods for Test Compatibility
+    # ========================================================================
+
+    def generate_signature(
+        self,
+        request_data: Dict[str, Any],
+        algorithm: QRSAlgorithm = QRSAlgorithm.SHA256
+    ) -> str:
+        """
+        Generate HMAC signature for request data (synchronous).
+        
+        Args:
+            request_data: Request data dictionary
+            algorithm: Hash algorithm (SHA256 or SHA512)
+        
+        Returns:
+            Hex-encoded HMAC signature string
+        
+        Task: TEST-HIGH-API-QRS-01 (signature generation)
+        """
+        import hmac
+        import json
+        
+        # Canonicalize request data
+        canonical_data = json.dumps(request_data, sort_keys=True)
+        data_bytes = canonical_data.encode('utf-8')
+        key_bytes = self.secret_key.encode('utf-8')
+        
+        # Generate HMAC based on algorithm
+        if algorithm in (QRSAlgorithm.SHA256, QRSAlgorithm.SHA256_QRS):
+            signature = hmac.new(key_bytes, data_bytes, hashlib.sha256).hexdigest()
+        elif algorithm in (QRSAlgorithm.SHA512, QRSAlgorithm.SHA512_QRS):
+            signature = hmac.new(key_bytes, data_bytes, hashlib.sha512).hexdigest()
+        else:
+            raise ValueError(f"Unsupported algorithm: {algorithm}")
+        
+        return signature
+
+    def verify_signature(
+        self,
+        request_data: Dict[str, Any],
+        signature: str,
+        algorithm: QRSAlgorithm = QRSAlgorithm.SHA256
+    ) -> bool:
+        """
+        Verify HMAC signature for request data (synchronous).
+        
+        Args:
+            request_data: Request data dictionary
+            signature: Expected signature to verify
+            algorithm: Hash algorithm used
+        
+        Returns:
+            True if signature is valid, False otherwise
+        
+        Task: TEST-HIGH-API-QRS-01 (signature verification)
+        """
+        try:
+            expected_signature = self.generate_signature(request_data, algorithm)
+            return hmac.compare_digest(signature, expected_signature)
+        except Exception:
+            return False
+
+    def create_audit_entry(
+        self,
+        request_data: Dict[str, Any],
+        signature: str,
+        verification_result: bool
+    ) -> Dict[str, Any]:
+        """
+        Create ΛTRACE audit trail entry.
+        
+        Args:
+            request_data: Original request data
+            signature: Generated/verified signature
+            verification_result: Whether verification succeeded
+        
+        Returns:
+            Audit entry dictionary with ΛTRACE format
+        
+        Task: TEST-HIGH-API-QRS-02 (audit trail integration)
+        """
+        timestamp = datetime.now(timezone.utc).isoformat()
+        
+        # Create audit entry
+        audit_entry = {
+            "timestamp": timestamp,
+            "lambda_id": request_data.get("lambda_id", "unknown"),
+            "signature": signature,
+            "verification_result": verification_result,
+            "action": "signature_verification",
+            "method": request_data.get("method", "UNKNOWN"),
+            "path": request_data.get("path", "/"),
+        }
+        
+        # Add failure reason if verification failed
+        if not verification_result:
+            audit_entry["failure_reason"] = "signature_mismatch"
+            audit_entry["error"] = "Signature verification failed"
+        
+        # Calculate entry hash for chain integrity
+        entry_str = f"{timestamp}{audit_entry['lambda_id']}{signature}{verification_result}"
+        entry_hash = hashlib.sha256(entry_str.encode()).hexdigest()
+        audit_entry["entry_hash"] = entry_hash
+        
+        # Add previous hash for chain linkage
+        if self._audit_trail:
+            audit_entry["previous_hash"] = self._audit_trail[-1].get("entry_hash", "0" * 64)
+        else:
+            # Genesis entry
+            audit_entry["previous_hash"] = "0" * 64
+        
+        # Store in audit trail
+        self._audit_trail.append(audit_entry)
+        
+        return audit_entry
+
+    def validate_timestamp(
+        self,
+        timestamp_str: str,
+        max_age_seconds: int = 300
+    ) -> bool:
+        """
+        Validate request timestamp for freshness.
+        
+        Args:
+            timestamp_str: ISO format timestamp string
+            max_age_seconds: Maximum allowed age in seconds
+        
+        Returns:
+            True if timestamp is recent, False otherwise
+        
+        Task: TEST-HIGH-API-QRS-01 (timestamp validation)
+        """
+        try:
+            # Parse ISO format timestamp
+            # Handle both with and without microseconds
+            if '.' in timestamp_str:
+                # Has microseconds
+                timestamp = datetime.fromisoformat(timestamp_str.replace('Z', '+00:00'))
+            else:
+                # No microseconds
+                timestamp = datetime.fromisoformat(timestamp_str.replace('Z', '+00:00'))
+            
+            # Ensure timezone awareness
+            if timestamp.tzinfo is None:
+                timestamp = timestamp.replace(tzinfo=timezone.utc)
+            
+            # Get current time
+            now = datetime.now(timezone.utc)
+            
+            # Calculate age
+            age_seconds = (now - timestamp).total_seconds()
+            
+            # Check if within acceptable range
+            return 0 <= age_seconds <= max_age_seconds
+        except Exception:
+            return False
+
+    def check_nonce(self, nonce: str) -> bool:
+        """
+        Check if nonce is new (replay prevention).
+        
+        Args:
+            nonce: Unique nonce string
+        
+        Returns:
+            True if nonce is new, False if already used (replay)
+        
+        Task: TEST-HIGH-API-QRS-01 (replay prevention)
+        """
+        if nonce in self._used_nonces:
+            return False  # Replay detected
+        
+        # Mark nonce as used
+        self._used_nonces.add(nonce)
+        return True  # New nonce
+
+    def get_rate_limit(self, lambda_id: str) -> int:
+        """
+        Get rate limit for ΛID based on tier.
+        
+        Args:
+            lambda_id: Lambda ID in format Λ_<tier>_<user_id>
+        
+        Returns:
+            Rate limit (requests per minute) for the tier
+        
+        Task: TEST-HIGH-API-QRS-01 (rate limiting)
+        """
+        # Extract tier from ΛID
+        parts = lambda_id.split('_')
+        if len(parts) >= 2:
+            tier = parts[1].lower()
+            return self._rate_limits.get(tier, 100)  # Default to delta tier
+        
+        return 100  # Default rate limit
 
 
 # Module-level convenience functions
