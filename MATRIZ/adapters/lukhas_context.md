@@ -1,0 +1,295 @@
+---
+status: wip
+type: documentation
+---
+# Adapters Module Context - Vendor-Neutral AI Guidance
+*This file provides domain-specific context for any AI development tool*
+*Also available as claude.me for Claude Desktop compatibility*
+
+**Module**: adapters
+**Purpose**: Common interface for external service integrations with capability token validation
+**Lane**: L2 (Integration)
+**Language**: Python
+**Last Updated**: 2025-10-02
+
+---
+
+## Module Overview
+
+The adapters module provides a standardized interface for integrating external services (Gmail, Google Drive, Dropbox) into LUKHAS with comprehensive security guardrails, capability token validation, and complete audit trails.
+
+### Key Components
+- **ServiceAdapter** (ABC): Base class for all external service adapters
+- **Cloud Consolidation Service**: Unified cloud storage management
+- **Gmail Headers Adapter**: Email metadata access with privacy protection
+- **Google Drive Adapter**: Drive file and folder management
+- **Dropbox Adapter**: Dropbox integration with metadata-first approach
+
+### System-Wide Guardrails
+1. **Capability Token Validation**: All adapters verify tokens with required scopes
+2. **Metadata-First**: Metadata-only operations by default, content requires escalation
+3. **No Direct Vendor Calls**: Orchestrator must use adapters only, no direct API access
+4. **Complete Audit Trail**: All operations logged for compliance and security
+
+---
+
+## Architecture
+
+### Base Adapter Interface
+
+```python
+from adapters import ServiceAdapter, ResourceMetadata, ResourceContent
+
+class ServiceAdapter(ABC):
+    """Base adapter with capability validation"""
+
+    @abstractmethod
+    async def list_resources(self, parent_id: Optional[str]) -> list[ResourceMetadata]:
+        """List resources (metadata only)"""
+
+    @abstractmethod
+    async def get_content(self, resource_id: str) -> ResourceContent:
+        """Get resource content (requires content-level capability)"""
+```
+
+### Data Models
+
+**ResourceMetadata**: Standard metadata structure
+- id, name, type, size, timestamps
+- owner, sharing permissions, tags
+- parent_id, mime_type, url
+
+**ResourceContent**: Content structure (requires elevated capabilities)
+- metadata: ResourceMetadata
+- content: bytes (raw data)
+- encoding, content_type
+
+**SearchQuery**: Common search interface
+- query: str
+- filters: dict
+- limit, offset for pagination
+
+---
+
+## Available Adapters
+
+### 1. Gmail Headers Adapter
+**Location**: `adapters/gmail_headers/`
+**Purpose**: Email metadata access with privacy protection
+**Capabilities**: Read email headers without content access
+**Security**: Metadata-only, no email body access by default
+
+```python
+from adapters.gmail_headers import GmailHeadersAdapter
+
+adapter = GmailHeadersAdapter(capability_token)
+headers = await adapter.list_resources()  # Email metadata only
+```
+
+### 2. Google Drive Adapter
+**Location**: `adapters/drive/`
+**Purpose**: Google Drive file and folder management
+**Capabilities**: List, search, metadata access, content download (escalated)
+
+```python
+from adapters.drive import GoogleDriveAdapter
+
+adapter = GoogleDriveAdapter(capability_token)
+files = await adapter.list_resources(parent_id="root")
+content = await adapter.get_content(file_id)  # Requires content capability
+```
+
+### 3. Dropbox Adapter
+**Location**: `adapters/dropbox/`
+**Purpose**: Dropbox integration with metadata-first approach
+**Capabilities**: File listing, metadata, content access (escalated)
+
+```python
+from adapters.dropbox import DropboxAdapter
+
+adapter = DropboxAdapter(capability_token)
+files = await adapter.list_resources()
+```
+
+### 4. Cloud Consolidation Service
+**Location**: `adapters/cloud_consolidation.py`
+**Purpose**: Unified cloud storage management across providers
+**Features**: Duplicate detection, consolidation planning, cross-cloud operations
+
+**Entrypoints**:
+- `CloudConsolidationService`
+- `ConsolidationPlan`
+- `ConsolidationRequest`
+- `ConsolidationResponse`
+- `DuplicateGroup`
+- `ExecutePlanRequest`
+
+```python
+from adapters.cloud_consolidation import CloudConsolidationService
+
+service = CloudConsolidationService()
+plan = await service.analyze_duplicates()
+response = await service.execute_plan(plan)
+```
+
+---
+
+## Security & Compliance
+
+### Capability Token System
+- All operations require valid capability tokens
+- Scopes: `metadata:read`, `content:read`, `write`, `delete`
+- Tokens validated before any external API calls
+- Automatic token refresh and expiry handling
+
+### Privacy Protection
+- **Metadata-First**: Default operations use metadata only
+- **Content Escalation**: Explicit capability required for content access
+- **Audit Logging**: All operations logged with user, timestamp, resource
+- **Guardian Integration**: Ethics validation for sensitive operations
+
+### Constellation Framework Integration
+- **⚛️ Anchor Star (Identity)**: OAuth2 token management with ΛID
+- **🛡️ Watch Star (Guardian)**: Capability validation and ethics checks
+- **✦ Trail Star (Memory)**: Audit trail storage in memory folds
+
+---
+
+## Technical Details
+
+### Runtime Configuration (from manifest)
+- **Language**: Python
+- **Lane**: L2 (Integration)
+- **Team**: Core
+- **Code Owners**: @lukhas-core
+
+### Module Entrypoints
+```python
+from adapters import (
+    ServiceAdapter,           # Base adapter interface
+    OperationResult,         # Operation result wrapper
+    ResourceContent,         # Content with metadata
+    ResourceMetadata,        # Resource metadata
+    SearchQuery,             # Search query structure
+    WatchRequest,            # Watch/subscribe request
+)
+
+from adapters.cloud_consolidation import (
+    CloudConsolidationService,
+    ConsolidationPlan,
+    ConsolidationRequest,
+    ConsolidationResponse,
+    DuplicateGroup,
+    ExecutePlanRequest,
+)
+```
+
+### Module Structure
+```
+adapters/
+├── __init__.py                    # Base adapter interfaces
+├── cloud_consolidation.py         # Cloud consolidation service
+├── gmail_headers/                 # Gmail adapter
+│   └── __init__.py
+├── drive/                         # Google Drive adapter
+│   └── __init__.py
+├── dropbox/                       # Dropbox adapter
+│   └── __init__.py
+├── config/                        # Configuration
+│   ├── config.yaml
+│   ├── environment.yaml
+│   └── logging.yaml
+├── docs/                          # Documentation
+│   ├── README.md
+│   ├── api.md
+│   ├── architecture.md
+│   └── troubleshooting.md
+└── tests/                         # Test suites
+    ├── conftest.py
+    ├── test_adapters_unit.py
+    └── test_adapters_integration.py
+```
+
+---
+
+## Development Guidelines
+
+### 1. Adding New Adapters
+```python
+from adapters import ServiceAdapter, ResourceMetadata
+
+class MyServiceAdapter(ServiceAdapter):
+    def __init__(self, capability_token: str):
+        self._validate_token(capability_token)
+        super().__init__()
+
+    async def list_resources(self, parent_id: Optional[str]) -> list[ResourceMetadata]:
+        # Implement metadata listing
+        pass
+
+    async def get_content(self, resource_id: str) -> ResourceContent:
+        # Require content capability
+        self._require_capability("content:read")
+        # Fetch and return content
+        pass
+```
+
+### 2. Capability Validation
+- Always validate tokens before external calls
+- Use `_require_capability(scope)` for privileged operations
+- Log all capability checks for audit trail
+
+### 3. Error Handling
+- Graceful degradation for network failures
+- Clear error messages for capability denials
+- Retry logic with exponential backoff
+
+### 4. Testing
+- Unit tests: Mock external APIs, test adapter logic
+- Integration tests: Test against real services (with test accounts)
+- Security tests: Verify capability enforcement
+
+---
+
+## Performance & Quality
+
+### Performance Targets
+- **Metadata Operations**: <500ms p95
+- **Content Operations**: <2s p95 (dependent on content size)
+- **Caching**: Metadata cached for 5 minutes
+- **Batch Operations**: Support for bulk metadata retrieval
+
+### Quality Gates (L2 Lane)
+- ✅ Capability token validation for all operations
+- ✅ Complete audit trail logging
+- ✅ Unit and integration test coverage
+- ✅ Security scanning and vulnerability checks
+- ✅ Documentation completeness
+
+---
+
+## Documentation
+
+- **README**: [adapters/docs/README.md](docs/README.md)
+- **API Reference**: [adapters/docs/api.md](docs/api.md)
+- **Architecture**: [adapters/docs/architecture.md](docs/architecture.md)
+- **Troubleshooting**: [adapters/docs/troubleshooting.md](docs/troubleshooting.md)
+- **Tests**: [adapters/tests/README.md](tests/README.md)
+- **Module Index**: [../MODULE_INDEX.md](../MODULE_INDEX.md#adapters)
+
+---
+
+## Related Modules
+
+- **Identity** ([../identity/](../identity/)) - OAuth2 token management
+- **Governance** ([../governance/](../governance/)) - Capability validation and ethics
+- **Orchestration** ([../orchestration/](../orchestration/)) - Multi-adapter workflows
+- **Security** ([../security/](../security/)) - Security policies and audit
+
+---
+
+**Status**: Integration Lane (L2)
+**Manifest**: ✓ module.manifest.json (schema v3.0.0)
+**Team**: Core
+**Code Owners**: @lukhas-core
+**Last Updated**: 2025-10-02

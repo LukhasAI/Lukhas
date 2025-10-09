@@ -8,7 +8,7 @@ to provide dynamic, context-aware AI responses.
 import asyncio
 import logging
 from dataclasses import dataclass
-from datetime import datetime, timezone
+from datetime import datetime
 from typing import Any, Optional
 
 from lukhas.orchestration.signals.homeostasis import HomeostasisController
@@ -18,13 +18,13 @@ from lukhas.orchestration.signals.modulator import PromptModulator
 from lukhas.orchestration.signals.signal_bus import Signal, SignalBus, SignalType
 
 # Import core components
+from datetime import timezone
 from consciousness.reflection.openai_core_service import (  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for Constellation Framework consciousness evolution
     ModelType,
     OpenAICapability,
     OpenAICoreService,
     OpenAIRequest,
-    OpenAIResponse,
-)
+    OpenAIResponse)
 
 logger = logging.getLogger(__name__)
 

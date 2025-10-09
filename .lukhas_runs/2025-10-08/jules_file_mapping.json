@@ -1,0 +1,51 @@
+{
+  "comment": "Jules batch file mappings extracted from screenshots",
+  "batch_id": "BATCH-JULES-2025-10-08-01",
+  "created": "2025-10-09",
+  "mappings": {
+    "__init__.py": "matriz/adapters/__init__.py",
+    "__init__-2.py": "matriz/adapters/adapters/__init__.py",
+    "__init__-3.py": "matriz/adapters/drive/__init__.py",
+    "__init__-4.py": "matriz/adapters/dropbox/__init__.py",
+    "__init__-5.py": "matriz/adapters/gmail_headers/__init__.py",
+    "__init__-6.py": "adapters/__init__.py",
+
+    "bio_adapter.py": "matriz/adapters/adapters/bio_adapter.py",
+    "bridge_adapter.py": "matriz/adapters/adapters/bridge_adapter.py",
+    "compliance_adapter.py": "matriz/adapters/adapters/compliance_adapter.py",
+    "consciousness_adapter.py": "matriz/adapters/adapters/consciousness_adapter.py",
+    "contradiction_adapter.py": "matriz/adapters/adapters/contradiction_adapter.py",
+    "creative_adapter.py": "matriz/adapters/adapters/creative_adapter.py",
+    "emotion_adapter.py": "matriz/adapters/adapters/emotion_adapter.py",
+    "governance_adapter.py": "matriz/adapters/adapters/governance_adapter.py",
+    "identity_adapter.py": "matriz/adapters/adapters/identity_adapter.py",
+    "memory_adapter.py": "matriz/adapters/adapters/memory_adapter.py",
+    "orchestration_adapter.py": "matriz/adapters/adapters/orchestration_adapter.py",
+
+    "cloud_consolidation.py": "matriz/adapters/cloud_consolidation.py",
+    "lukhas_context.md": "matriz/adapters/lukhas_context.md",
+
+    "README.md": "matriz/adapters/README.md",
+    "README-2.md": "matriz/adapters/config/README.md",
+    "README-3.md": "matriz/adapters/docs/README.md",
+    "README-4.md": "matriz/adapters/drive/README.md",
+    "README-5.md": "matriz/adapters/tests/README.md",
+
+    "api.md": "matriz/adapters/docs/api.md",
+    "architecture.md": "matriz/adapters/docs/architecture.md",
+    "troubleshooting.md": "matriz/adapters/docs/troubleshooting.md",
+
+    "conftest.py": "matriz/adapters/tests/conftest.py",
+    "test_adapters_integration.py": "matriz/adapters/tests/test_adapters_integration.py",
+    "test_adapters_unit.py": "matriz/adapters/tests/test_adapters_unit.py",
+
+    "openai_modulated_service.py": "candidate/consciousness/reflection/openai_modulated_service.py",
+    "auth_glyph_registry.py": "candidate/governance/auth_glyph_registry.py",
+    "fold_engine.py": "candidate/memory/folds/fold_engine.py",
+
+    "test_crypto_hygiene.py": "tests/security/test_crypto_hygiene.py",
+
+    "MATRIX_V3_README.md": "matriz/docs/MATRIX_V3_README.md",
+    "MATRIX_V3_SLIDES.md": "matriz/docs/MATRIX_V3_SLIDES.md"
+  }
+}

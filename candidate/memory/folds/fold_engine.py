@@ -27,6 +27,7 @@ import structlog  # ΛTRACE: Standardized logging.
 from lukhas.core.common import get_logger
 from lukhas.orchestration.brain.spine.fold_engine import AGIMemory
 
+22  # ═══════════════════════════════════════════════════
 # FILENAME: fold_engine.py
 # MODULE: core.memory.fold_engine
 # DESCRIPTION: Core engine for managing memory folds, symbolic patterns, and associations within the LUKHAS AI system.
@@ -986,13 +987,12 @@ def _determine_dream_memory_type(
         return MemoryType.IDENTITY
 
     # Check for strong emotional content
-    if (dream_trace.emotional_echoes and:
+    if (dream_trace.emotional_echoes and
         any(echo.propagation_strength > 0.7 for echo in dream_trace.emotional_echoes)):
         return MemoryType.EMOTIONAL
 
     # Check for procedural/skill-related content
-    if any(keyword in dream_content.lower():
-           for keyword in ["learn", "practice", "skill", "how to", "method"]):
+    if any(keyword in dream_content.lower() for keyword in ["learn", "practice", "skill", "how to", "method"]):
         return MemoryType.PROCEDURAL
 
     # Check dream type in metadata
@@ -1064,7 +1064,7 @@ class MemoryIntegrityLedger:
                 cls._last_hash = None
 
     @classmethod
-    def log_fold_transition(:
+    def log_fold_transition(
         cls,
         fold_key: str,
         transition_type: str,
@@ -1084,7 +1084,7 @@ class MemoryIntegrityLedger:
         cls._write_ledger_entry(entry)
 
     @classmethod
-    def log_drift_event(:
+    def log_drift_event(
         cls,
         fold_key: str,
         old_importance: float,
@@ -1111,7 +1111,7 @@ class MemoryIntegrityLedger:
         cls._write_ledger_entry(entry)
 
     @classmethod
-    def log_collapse_event(:
+    def log_collapse_event(
         cls,
         fold_key: str,
         collapse_hash: str,

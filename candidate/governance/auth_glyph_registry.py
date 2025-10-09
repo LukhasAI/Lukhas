@@ -474,8 +474,7 @@ class AuthGlyphRegistry:
             return f"GLYPH[{combined}:{glyph_hash}]"
 
         except Exception as e:
-            error_snippet = str(e)[:8]
-            return f"GLYPH[ERROR:{error_snippet}]"
+            return f"GLYPH[ERROR:{str(e)[:8]}]"
 
     def encode_jwt_glyph_claims(
         self,
@@ -668,8 +667,7 @@ class AuthGlyphRegistry:
             return message_glyph
 
         except Exception as e:
-            error_snippet = str(e)[:8]
-            return f"MSG[ERROR:{error_snippet}]"
+            return f"MSG[ERROR:{str(e)[:8]}]"
 
     def get_registry_stats(self) -> dict[str, Any]:
         """Get authentication GLYPH registry statistics"""
