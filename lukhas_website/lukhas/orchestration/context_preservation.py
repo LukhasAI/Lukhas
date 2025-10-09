@@ -39,45 +39,45 @@ from enum import Enum
 from typing import Any, Dict, List, Optional
 
 from opentelemetry import trace
-from prometheus_client import Counter, Gauge, Histogram
+from lukhas.observability import counter, gauge, histogram
 
 tracer = trace.get_tracer(__name__)
 logger = logging.getLogger(__name__)
 
 # Prometheus metrics for context preservation
-context_handoffs_total = Counter(
+context_handoffs_total = counter(
     'lukhas_context_handoffs_total',
     'Total context handoffs',
     ['source_provider', 'destination_provider', 'success']
 )
 
-context_handoff_duration = Histogram(
+context_handoff_duration = histogram(
     'lukhas_context_handoff_duration_seconds',
     'Context handoff duration',
     ['operation'],
     buckets=[0.01, 0.05, 0.1, 0.25, 0.5, 1.0, 2.0]
 )
 
-context_size_bytes = Histogram(
+context_size_bytes = histogram(
     'lukhas_context_size_bytes',
     'Context size in bytes',
     ['compressed'],
     buckets=[100, 500, 1000, 5000, 10000, 50000, 100000]
 )
 
-context_compression_ratio = Gauge(
+context_compression_ratio = gauge(
     'lukhas_context_compression_ratio',
     'Context compression ratio',
     ['context_type']
 )
 
-context_cache_hits = Counter(
+context_cache_hits = counter(
     'lukhas_context_cache_hits_total',
     'Context cache hits',
     ['cache_type']
 )
 
-context_cache_misses = Counter(
+context_cache_misses = counter(
     'lukhas_context_cache_misses_total',
     'Context cache misses',
     ['cache_type']

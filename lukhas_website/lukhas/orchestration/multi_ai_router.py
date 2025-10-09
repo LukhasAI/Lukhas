@@ -20,7 +20,7 @@ from enum import Enum
 from typing import Any, Dict, List, Optional
 
 from opentelemetry import trace
-from prometheus_client import Counter, Gauge, Histogram
+from lukhas.observability import counter, gauge, histogram
 
 # Import provider factory
 from .providers import create_provider_client, get_provider_status, validate_provider_configuration
@@ -29,26 +29,26 @@ tracer = trace.get_tracer(__name__)
 logger = logging.getLogger(__name__)
 
 # Prometheus metrics
-multi_ai_requests_total = Counter(
+multi_ai_requests_total = counter(
     'lukhas_multi_ai_requests_total',
     'Total multi-AI requests',
     ['provider', 'model', 'consensus_type']
 )
 
-multi_ai_latency_seconds = Histogram(
+multi_ai_latency_seconds = histogram(
     'lukhas_multi_ai_latency_seconds',
     'Multi-AI request latency',
     ['provider', 'model'],
     buckets=[0.1, 0.25, 0.5, 1.0, 2.5, 5.0, 10.0]
 )
 
-consensus_agreement_ratio = Gauge(
+consensus_agreement_ratio = gauge(
     'lukhas_consensus_agreement_ratio',
     'Consensus agreement ratio',
     ['consensus_type']
 )
 
-model_availability = Gauge(
+model_availability = gauge(
     'lukhas_model_availability',
     'Model availability status',
     ['provider', 'model']

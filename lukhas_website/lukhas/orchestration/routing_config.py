@@ -30,7 +30,7 @@ from typing import Any, Dict, List, Optional
 
 import yaml
 from opentelemetry import trace
-from prometheus_client import Counter, Histogram
+from lukhas.observability import counter, histogram
 from watchdog.events import FileSystemEventHandler
 from watchdog.observers import Observer
 
@@ -38,33 +38,33 @@ tracer = trace.get_tracer(__name__)
 logger = logging.getLogger(__name__)
 
 # Prometheus metrics for routing performance
-routing_decisions_total = Counter(
+routing_decisions_total = counter(
     'lukhas_routing_decisions_total',
     'Total routing decisions made',
     ['strategy', 'provider', 'success']
 )
 
-routing_latency_seconds = Histogram(
+routing_latency_seconds = histogram(
     'lukhas_routing_latency_seconds',
     'Routing decision latency',
     ['strategy'],
     buckets=[0.01, 0.025, 0.05, 0.1, 0.25, 0.5, 1.0]
 )
 
-context_handoff_duration = Histogram(
+context_handoff_duration = histogram(
     'lukhas_context_handoff_duration_seconds',
     'Context handoff duration',
     ['source', 'destination'],
     buckets=[0.05, 0.1, 0.25, 0.5, 1.0, 2.0]
 )
 
-config_reload_total = Counter(
+config_reload_total = counter(
     'lukhas_config_reload_total',
     'Total configuration reloads',
     ['source', 'success']
 )
 
-ab_test_assignments = Counter(
+ab_test_assignments = counter(
     'lukhas_ab_test_assignments_total',
     'A/B test assignments',
     ['experiment', 'variant']

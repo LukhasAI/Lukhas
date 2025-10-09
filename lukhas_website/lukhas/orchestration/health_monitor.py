@@ -34,7 +34,7 @@ from dataclasses import dataclass, field
 from typing import Any, Callable, Dict, List, Optional
 
 from opentelemetry import trace
-from prometheus_client import Counter, Gauge, Histogram
+from lukhas.observability import counter, gauge, histogram
 
 from .providers import AIProvider, create_provider_client
 from .routing_config import HealthStatus, ProviderHealth
@@ -43,50 +43,50 @@ tracer = trace.get_tracer(__name__)
 logger = logging.getLogger(__name__)
 
 # Prometheus metrics for health monitoring
-health_check_total = Counter(
+health_check_total = counter(
     'lukhas_health_check_total',
     'Total health checks performed',
     ['provider', 'result']
 )
 
-health_check_duration = Histogram(
+health_check_duration = histogram(
     'lukhas_health_check_duration_seconds',
     'Health check duration',
     ['provider'],
     buckets=[0.01, 0.025, 0.05, 0.1, 0.25, 0.5, 1.0]
 )
 
-provider_health_score = Gauge(
+provider_health_score = gauge(
     'lukhas_provider_health_score',
     'Provider health score (0-100)',
     ['provider']
 )
 
-provider_latency_ms = Gauge(
+provider_latency_ms = gauge(
     'lukhas_provider_latency_ms',
     'Provider average latency in milliseconds',
     ['provider']
 )
 
-provider_success_rate = Gauge(
+provider_success_rate = gauge(
     'lukhas_provider_success_rate',
     'Provider success rate (0-1)',
     ['provider']
 )
 
-provider_error_rate = Gauge(
+provider_error_rate = gauge(
     'lukhas_provider_error_rate',
     'Provider error rate (0-1)',
     ['provider']
 )
 
-health_status_changes = Counter(
+health_status_changes = counter(
     'lukhas_health_status_changes_total',
     'Health status changes',
     ['provider', 'from_status', 'to_status']
 )
 
-sla_violations = Counter(
+sla_violations = counter(
     'lukhas_sla_violations_total',
     'SLA violations detected',
     ['provider', 'violation_type']

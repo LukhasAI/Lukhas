@@ -17,7 +17,7 @@ from typing import Any, Dict, List
 from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from opentelemetry import trace
-from prometheus_client import Counter, Histogram
+from lukhas.observability import counter, histogram
 from pydantic import BaseModel, Field
 
 from lukhas.governance.guardian import get_guardian
@@ -30,13 +30,13 @@ logger = logging.getLogger(__name__)
 security = HTTPBearer()
 
 # Prometheus metrics
-orchestration_api_requests_total = Counter(
+orchestration_api_requests_total = counter(
     'lukhas_orchestration_api_requests_total',
     'Total orchestration API requests',
     ['endpoint', 'status']
 )
 
-orchestration_api_latency_seconds = Histogram(
+orchestration_api_latency_seconds = histogram(
     'lukhas_orchestration_api_latency_seconds',
     'Orchestration API latency',
     ['endpoint'],
