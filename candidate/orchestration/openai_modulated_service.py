@@ -7,12 +7,13 @@ Implements consensus processing, context preservation, and performance optimizat
 from __future__ import annotations
 
 import asyncio
+import inspect
 import logging
 import time
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, AsyncIterator, Dict, List, Optional, Sequence, Union
+from typing import Any, AsyncIterable, AsyncIterator, Dict, List, Optional, Sequence, Union
 
 try:
     import openai
@@ -617,15 +618,40 @@ class OpenAIOrchestrationService:
         payload = self._build_payload(request)
 
         if hasattr(self._service, "generate_stream"):
+            stream = self._service.generate_stream(**payload)
+
+            if inspect.isawaitable(stream):
+                if timeout is not None:
+                    stream = await asyncio.wait_for(stream, timeout=timeout)
+                else:
+                    stream = await stream
+
+            if not hasattr(stream, "__aiter__"):
+                raise TypeError("generate_stream must return an async iterable")
+
             if timeout is not None:
-                return await asyncio.wait_for(self._service.generate_stream(**payload), timeout=timeout)
-            return await self._service.generate_stream(**payload)
+                return self._stream_with_timeout(stream, timeout)
+            return stream
 
         async def _fallback() -> AsyncIterator[str]:
             response = await self.run(request, timeout=timeout)
             yield response.content
 
         return _fallback()
+
+    def _stream_with_timeout(
+        self, stream: AsyncIterable[str], timeout: float
+    ) -> AsyncIterator[str]:
+        async def _enforce_timeout() -> AsyncIterator[str]:
+            iterator = stream.__aiter__()
+            while True:
+                try:
+                    chunk = await asyncio.wait_for(iterator.__anext__(), timeout)
+                except StopAsyncIteration:
+                    break
+                yield chunk
+
+        return _enforce_timeout()
 
     def get_metrics(self) -> Dict[str, int]:
         """Expose adapter metrics for tests and diagnostics."""
