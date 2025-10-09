@@ -584,7 +584,7 @@ class TestLUKHASCryptographicIntegration:
         for lid in lambda_ids[:10]:
             assert self._validate_lambda_id_security(lid)
 
-    def test_security_hardening_crypto_strength(self):
+    async def test_security_hardening_crypto_strength(self):
         """Test security hardening cryptographic strength."""
         manager = SecurityHardeningManager()
 

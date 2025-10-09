@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "lukhas-ai"
 version = "1.0.0"
-requires-python = ">=3.9"
+requires-python = ">=3.10"
 description = "Production-ready consciousness-aware AI platform with Constellation Framework"
 authors = [
     {name = "LUKHAS AI", email = "contact@lukhas.ai"}
@@ -59,19 +59,29 @@ dev = [
     "pre-commit>=3.4.0",
     "PyJWT>=2.8.0",
     "import-linter>=2.0.0",
-]
-lambda = [
-    "msgpack>=1.0.5",
-    "orjson>=3.9.0",
-    "prometheus-client>=0.19.0",
-]
-ml = [
+    "hypothesis",
+    "psutil",
+    "bcrypt",
+    "structlog",
+    "asgi-lifespan",
+    "beautifulsoup4",
+    "asyncpg",
+    "networkx",
+    "google-auth-oauthlib",
+    "opentelemetry-sdk",
     "scikit-learn>=1.3.0",
     "pandas>=2.0.0",
     "scipy>=1.11.0",
     "torch>=2.0.0",
     "transformers>=4.30.0",
     "tiktoken>=0.5.0",
+    "flask",
+    "google-api-python-client",
+]
+lambda = [
+    "msgpack>=1.0.5",
+    "orjson>=3.9.0",
+    "prometheus-client>=0.19.0",
 ]
 mcp = [
     "mcp",
@@ -123,8 +133,13 @@ Documentation = "https://lukhas.ai/docs"
 Repository = "https://github.com/LukhasAI/Lukhas"
 Issues = "https://github.com/LukhasAI/Lukhas/issues"
 
-[tool.setuptools]
-packages = ["lukhas", "MATRIZ", "candidate", "branding"]
+[tool.poetry]
+packages = [
+    { include = "lukhas" },
+    { include = "candidate" },
+    { include = "branding" },
+]
+
 
 [tool.pytest.ini_options]
 minversion = "8.0"
