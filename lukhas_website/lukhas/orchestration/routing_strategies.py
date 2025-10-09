@@ -36,7 +36,7 @@ from enum import Enum
 from typing import Any, Dict, List, Optional
 
 from opentelemetry import trace
-from prometheus_client import Counter, Gauge
+from lukhas.observability import counter, gauge
 
 from .routing_config import (
     HealthStatus,
@@ -50,25 +50,25 @@ from .routing_config import (
 tracer = trace.get_tracer(__name__)
 
 # Additional metrics for strategies
-strategy_selections = Counter(
+strategy_selections = counter(
     'lukhas_strategy_selections_total',
     'Strategy selection counts',
     ['strategy', 'rule_name']
 )
 
-provider_selections = Counter(
+provider_selections = counter(
     'lukhas_provider_selections_total',
     'Provider selection counts',
     ['provider', 'strategy', 'reason']
 )
 
-circuit_breaker_state = Gauge(
+circuit_breaker_state = gauge(
     'lukhas_circuit_breaker_state',
     'Circuit breaker state (0=closed, 1=open, 2=half_open)',
     ['provider']
 )
 
-routing_fallback_triggered = Counter(
+routing_fallback_triggered = counter(
     'lukhas_routing_fallback_triggered_total',
     'Fallback routing triggers',
     ['original_provider', 'fallback_provider', 'reason']

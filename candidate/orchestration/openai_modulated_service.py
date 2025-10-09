@@ -4,12 +4,15 @@ Integration specialist for OpenAI models within LUKHAS orchestration framework
 Implements consensus processing, context preservation, and performance optimization
 """
 
+from __future__ import annotations
+
 import asyncio
 import logging
 import time
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from datetime import datetime, timezone
-from typing import Any, Dict, List, Optional, Union
+from enum import Enum
+from typing import Any, AsyncIterator, Dict, List, Optional, Sequence, Union
 
 try:
     import openai
@@ -18,8 +21,34 @@ except ImportError:
     OPENAI_AVAILABLE = False
     openai = None
 
-from lukhas.core.orchestration.core_modules.symbolic_signal_router import route_signal, SymbolicSignal, SignalType
-from lukhas.orchestration.context_bus import ContextBusOrchestrator
+try:
+    from lukhas.core.orchestration.core_modules.symbolic_signal_router import (
+        SymbolicSignal,
+        SignalType,
+        route_signal,
+    )
+except ImportError:  # pragma: no cover - fallback for minimal test envs
+    @dataclass
+    class SymbolicSignal:  # type: ignore[override]
+        signal_type: Any
+        source_module: str
+        target_module: str
+        payload: Dict[str, Any]
+        timestamp: float
+
+    class SignalType(str, Enum):  # type: ignore[override]
+        INTENT_PROCESS = "intent_process"
+        DIAGNOSTIC = "diagnostic"
+
+    async def route_signal(*_args: Any, **_kwargs: Any) -> None:  # type: ignore[override]
+        return None
+
+try:
+    from lukhas.orchestration.context_bus import ContextBusOrchestrator
+except ImportError:  # pragma: no cover - minimal stub
+    class ContextBusOrchestrator:  # type: ignore[override]
+        async def emit(self, *_args: Any, **_kwargs: Any) -> None:
+            return None
 
 logger = logging.getLogger(__name__)
 
@@ -501,3 +530,166 @@ async def multi_model_consensus(
         raise RuntimeError("Failed to initialize OpenAI service")
 
     return await service.process_with_consensus(prompt, models)
+
+
+@dataclass
+class OrchestratedOpenAIRequest:
+    """Compatibility request wrapper for orchestration adapters."""
+
+    prompt: str
+    task: Optional[str] = None
+    metadata: Dict[str, Any] = field(default_factory=dict)
+    model: Optional[str] = None
+    context: Dict[str, Any] = field(default_factory=dict)
+
+
+@dataclass
+class OrchestratedOpenAIResponse:
+    """Normalized response object for orchestration integrations."""
+
+    content: str
+    metadata: Dict[str, Any]
+    raw: Any
+
+
+class OpenAIOrchestrationService:
+    """Back-compat façade that delegates to ``OpenAIModulatedService``."""
+
+    def __init__(
+        self,
+        *,
+        service: Optional[Any] = None,
+        context_bus: Optional[ContextBusOrchestrator] = None,
+    ) -> None:
+        self._service = service or OpenAIModulatedService(context_bus=context_bus)
+        self._metrics: Dict[str, int] = {"requests": 0, "timeouts": 0, "streams": 0}
+        self._default_model = "gpt-4"
+        # ΛTAG: orchestration_metrics -- track adapter level telemetry deterministically
+
+    async def run(
+        self,
+        request: OrchestratedOpenAIRequest,
+        *,
+        timeout: Optional[float] = None,
+    ) -> OrchestratedOpenAIResponse:
+        """Execute a single orchestrated request."""
+
+        self._metrics["requests"] += 1
+        try:
+            if timeout is not None:
+                raw = await asyncio.wait_for(self._dispatch_generate(request), timeout=timeout)
+            else:
+                raw = await self._dispatch_generate(request)
+        except asyncio.TimeoutError:
+            self._metrics["timeouts"] += 1
+            raise
+
+        return self._normalize_response(raw, request)
+
+    async def run_many(
+        self,
+        requests: Sequence[OrchestratedOpenAIRequest],
+        *,
+        concurrency: int = 4,
+        timeout: Optional[float] = None,
+    ) -> List[OrchestratedOpenAIResponse]:
+        """Execute multiple requests respecting a concurrency limit."""
+
+        limit = max(1, int(concurrency))
+        semaphore = asyncio.Semaphore(limit)
+
+        async def _invoke(req: OrchestratedOpenAIRequest) -> OrchestratedOpenAIResponse:
+            async with semaphore:
+                return await self.run(req, timeout=timeout)
+
+        tasks = [asyncio.create_task(_invoke(req)) for req in requests]
+        return await asyncio.gather(*tasks)
+
+    async def run_stream(
+        self,
+        request: OrchestratedOpenAIRequest,
+        *,
+        timeout: Optional[float] = None,
+    ) -> AsyncIterator[str]:
+        """Stream responses from the underlying service when available."""
+
+        self._metrics["streams"] += 1
+        payload = self._build_payload(request)
+
+        if hasattr(self._service, "generate_stream"):
+            if timeout is not None:
+                return await asyncio.wait_for(self._service.generate_stream(**payload), timeout=timeout)
+            return await self._service.generate_stream(**payload)
+
+        async def _fallback() -> AsyncIterator[str]:
+            response = await self.run(request, timeout=timeout)
+            yield response.content
+
+        return _fallback()
+
+    def get_metrics(self) -> Dict[str, int]:
+        """Expose adapter metrics for tests and diagnostics."""
+
+        return dict(self._metrics)
+
+    async def _dispatch_generate(self, request: OrchestratedOpenAIRequest) -> Any:
+        payload = self._build_payload(request)
+
+        if hasattr(self._service, "generate"):
+            return await self._service.generate(**payload)
+
+        # Fallback for OpenAIModulatedService private primitive.
+        model_name = request.model or self._default_model
+        context = request.context if request.context else None
+        response = await self._service._process_single_model(request.prompt, model_name, context)  # noqa: SLF001
+        response_metadata = dict(response.metadata or {})
+        return {
+            "content": response.response_text,
+            "metadata": {
+                "model": response.model_name,
+                "token_usage": response.token_count,
+                **response_metadata,
+            },
+        }
+
+    def _normalize_response(
+        self,
+        raw: Any,
+        request: OrchestratedOpenAIRequest,
+    ) -> OrchestratedOpenAIResponse:
+        if isinstance(raw, AIModelResponse):
+            content = raw.response_text
+            metadata: Dict[str, Any] = dict(raw.metadata or {})
+            metadata.setdefault("model", raw.model_name)
+            metadata.setdefault("token_usage", raw.token_count)
+        else:
+            content = raw.get("content", "")
+            metadata = dict(raw.get("metadata", {}))
+
+        orchestration_meta = self._orchestration_metadata(request)
+        if orchestration_meta:
+            existing = metadata.get("orchestration", {})
+            merged = {**existing, **orchestration_meta}
+            metadata["orchestration"] = merged
+
+        return OrchestratedOpenAIResponse(content=content, metadata=metadata, raw=raw)
+
+    def _orchestration_metadata(self, request: OrchestratedOpenAIRequest) -> Dict[str, Any]:
+        orchestration: Dict[str, Any] = {}
+        if request.task:
+            orchestration["task"] = request.task
+        if request.metadata:
+            orchestration.update(request.metadata)
+        return orchestration
+
+    def _build_payload(self, request: OrchestratedOpenAIRequest) -> Dict[str, Any]:
+        payload: Dict[str, Any] = {"prompt": request.prompt}
+        if request.context:
+            payload["context"] = request.context
+        if request.model:
+            payload["model"] = request.model
+        if request.task:
+            payload["task"] = request.task
+        if request.metadata:
+            payload["metadata"] = request.metadata
+        return payload

@@ -110,6 +110,10 @@ logs/
 *_backup*
 .git-agent-backups/
 
+# Allow RL bridge environments package
+!lukhas/rl/environments/
+!lukhas/rl/environments/**
+
 # Drive upload temp files
 .tmp.driveupload/
 

@@ -30,7 +30,7 @@ from enum import Enum
 from typing import Any, Dict, List, Optional
 
 from opentelemetry import trace
-from prometheus_client import Counter, Gauge, Histogram
+from lukhas.observability import counter, gauge, histogram
 
 from .context_preservation import ContextType, get_context_preservation_engine
 from .health_monitor import get_health_monitor
@@ -43,25 +43,25 @@ tracer = trace.get_tracer(__name__)
 logger = logging.getLogger(__name__)
 
 # Prometheus metrics
-orchestrator_requests_total = Counter(
+orchestrator_requests_total = counter(
     'lukhas_orchestrator_requests_total',
     'Total orchestrator requests',
     ['request_type', 'success', 'strategy']
 )
 
-orchestrator_latency_seconds = Histogram(
+orchestrator_latency_seconds = histogram(
     'lukhas_orchestrator_latency_seconds',
     'End-to-end orchestrator latency',
     ['request_type'],
     buckets=[0.05, 0.1, 0.25, 0.5, 1.0, 2.5, 5.0]
 )
 
-orchestrator_active_contexts = Gauge(
+orchestrator_active_contexts = gauge(
     'lukhas_orchestrator_active_contexts',
     'Number of active contexts'
 )
 
-ab_test_traffic_ratio = Gauge(
+ab_test_traffic_ratio = gauge(
     'lukhas_ab_test_traffic_ratio',
     'A/B test traffic ratio',
     ['experiment', 'variant']

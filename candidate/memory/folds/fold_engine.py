@@ -27,7 +27,6 @@ import structlog  # ΛTRACE: Standardized logging.
 from lukhas.core.common import get_logger
 from lukhas.orchestration.brain.spine.fold_engine import AGIMemory
 
-22  # ═══════════════════════════════════════════════════
 # FILENAME: fold_engine.py
 # MODULE: core.memory.fold_engine
 # DESCRIPTION: Core engine for managing memory folds, symbolic patterns, and associations within the LUKHAS AI system.

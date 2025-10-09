@@ -1,12 +1,13 @@
-"""
-STUB MODULE: lukhas.governance.guardian_serializers
+"""Bridge for ``lukhas.governance.guardian_serializers``."""
+from __future__ import annotations
 
-Auto-generated stub to fix test collection (v0.03-prep baseline).
-Original module missing or never implemented.
+from lukhas._bridgeutils import bridge_from_candidates
 
-Status: STUB - Needs actual implementation or dead import removal
-Created: 2025-10-06
-Tracking: docs/v0.03/KNOWN_ISSUES.md#missing-modules
-"""
+__all__, _exports = bridge_from_candidates(
+    "lukhas_website.lukhas.governance.guardian_serializers",
+    "governance.guardian_serializers",
+    "candidate.governance.guardian_serializers",
+)
+globals().update(_exports)
 
-# TODO: Implement or remove dead imports referencing this module
+# ΛTAG: governance_bridge -- guardian serializer façade
