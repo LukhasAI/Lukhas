@@ -45,6 +45,7 @@ class ConstitutionalPrinciple(Enum):
     HUMAN_AUTONOMY = "human_autonomy"
     TRUTHFULNESS = "truthfulness"
     NON_MALEFICENCE = "non_maleficence"
+    NO_HARM = "no_harm"
     BENEFICENCE = "beneficence"
     JUSTICE_FAIRNESS = "justice_fairness"
     PRIVACY_CONSENT = "privacy_consent"

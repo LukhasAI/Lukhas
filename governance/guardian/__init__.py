@@ -1,18 +1,16 @@
-"""Bridge: governance.guardian (compat with legacy tests)."""
+"""Bridge for governance.guardian package."""
+
 from __future__ import annotations
-from lukhas._bridgeutils import bridge_from_candidates
-# Try richer guardian system first; fallback to SafetyGuard alias.
-_PKG = (
-  "lukhas_website.lukhas.governance.guardian",
-  "candidate.governance.guardian",
-  "governance.guardian",
-)
-__all__, _exports = bridge_from_candidates(*_PKG); globals().update(_exports)
-if not __all__:
-    # Minimal fallback to known class
+
+from importlib import import_module
+
+for _candidate in (
+    "lukhas_website.governance.guardian",
+    "lukhas.governance.guardian",
+):
     try:
-        from lukhas._bridgeutils import bridge_from_candidates as bcf
-        __all__, _exports = bcf("lukhas.core.policy_guard")
-        globals().update(_exports)
+        _mod = import_module(_candidate)
     except Exception:
-        pass
+        continue
+    globals().update({k: getattr(_mod, k) for k in dir(_mod) if not k.startswith("_")})
+    break

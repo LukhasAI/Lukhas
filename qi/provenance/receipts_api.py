@@ -295,13 +295,13 @@ def ui_trace(
     # Inject defaults via a tiny script so the page picks them up
     inject = f"""
 <script>
-  window.LUKHAS_TRACE_DEFAULTS = {{
+  window.LUKHAS_TRACE_DEFAULTS = {{{{
     rid: {json.dumps(rid)},
     apiBase: {json.dumps(api_base)},
     policyRoot: {json.dumps(policy_root)},
     overlays: {json.dumps(overlays)},
     publicRedact: {str(public).lower()}
-  };
+  }}}};
 </script>
 """
     # If the HTML already has </body>, inject before; else append

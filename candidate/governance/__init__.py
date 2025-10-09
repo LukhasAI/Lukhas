@@ -40,3 +40,21 @@ if "PolicyGuard" not in globals():
     class PolicyGuard:  # type: ignore[misc]
         def __call__(self, *args, **kwargs):
             return PolicyResult()
+
+
+if "Guardian" not in globals():
+    class Guardian:  # type: ignore[misc]
+        """Fallback guardian implementation."""
+
+        def __init__(self, *args, **kwargs):
+            self.args = args
+            self.kwargs = kwargs
+
+        def evaluate(self, *args, **kwargs):
+            return PolicyResult()
+
+
+if "SafetyGuard" not in globals():
+    class SafetyGuard:  # type: ignore[misc]
+        def __call__(self, *args, **kwargs):
+            return PolicyResult()

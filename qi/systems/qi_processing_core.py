@@ -37,9 +37,9 @@ from datetime import datetime
 from typing import Any, Optional
 
 import numpy as np
+from datetime import timezone
 
 from ..bio.awareness.advanced_qi_bio import (  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for core infrastructure (review and implement)
-from datetime import timezone
     MitochondrialQIBridge,
     NeuroplasticityModulator,
     QISynapticGate)

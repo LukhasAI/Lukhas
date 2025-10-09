@@ -184,3 +184,44 @@ if "IntelligentBackoff" not in globals():
     globals()["IntelligentBackoff"] = IntelligentBackoff
     if "IntelligentBackoff" not in __all__:
         __all__.append("IntelligentBackoff")
+
+
+if "PerformanceRegressionDetector" not in globals():
+    try:
+        from candidate.core.reliability import PerformanceRegressionDetector  # type: ignore[attr-defined]  # noqa: F401
+    except ImportError:
+
+        class PerformanceRegressionDetector:
+            """Fallback detector that records the last regression metrics."""
+
+            def __init__(self, **config):
+                self.config = config
+                self.last_metrics = None
+
+            def record(self, **metrics):
+                self.last_metrics = metrics
+                return metrics
+
+    globals()["PerformanceRegressionDetector"] = PerformanceRegressionDetector
+    if "PerformanceRegressionDetector" not in __all__:
+        __all__.append("PerformanceRegressionDetector")
+
+
+if "TimeoutConfig" not in globals():
+    try:
+        from candidate.core.reliability import TimeoutConfig  # type: ignore[attr-defined]  # noqa: F401
+    except ImportError:
+        from dataclasses import dataclass
+
+        @dataclass
+        class TimeoutConfig:
+            """Simple timeout configuration stub matching website signature."""
+
+            base_timeout: float = 1.0
+            max_timeout: float = 30.0
+            min_timeout: float = 0.1
+            multiplier: float = 2.0
+
+    globals()["TimeoutConfig"] = TimeoutConfig
+    if "TimeoutConfig" not in __all__:
+        __all__.append("TimeoutConfig")

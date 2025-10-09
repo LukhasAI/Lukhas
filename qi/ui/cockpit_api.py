@@ -1031,23 +1031,23 @@ def ui_cockpit(
     token: {json.dumps(token or "")},
     policyRoot: {json.dumps(policy_root)},
     overlays: {json.dumps(overlays)}
-  };
+  }};
   // Auto-apply into the known input fields if they exist (works with the provided cockpit.html)
-  (function applyDefaults() {{
-    function setVal(id, v) {{
-      try {{
+  (function applyDefaults() {{{{
+    function setVal(id, v) {{{{
+      try {{{{
         var el = document.getElementById(id);
         if (el && (el.value === "" || el.value === el.getAttribute("value"))) el.value = v || el.value;
-      } catch (e) {{}
-    }
+      }}}} catch (e) {{}}}}
+    }}}}
     setVal("api", window.LUKHAS_COCKPIT_DEFAULTS.apiBase);
     setVal("tok", window.LUKHAS_COCKPIT_DEFAULTS.token);
     setVal("policyRoot", window.LUKHAS_COCKPIT_DEFAULTS.policyRoot);
     setVal("overlays", window.LUKHAS_COCKPIT_DEFAULTS.overlays);
     // If the page exposes a global refresh button, click it to auto-load everything.
     var btn = document.getElementById("refreshAll");
-    if (btn) setTimeout(function(){{ btn.click(); }, 150);
-  })();
+    if (btn) setTimeout(function(){{{{ btn.click(); }}}}, 150);
+  }}}})();
 </script>
 """
     # Inject just before </body>; if not found, append
@@ -1079,16 +1079,16 @@ def ui_trace(
     policyRoot: {json.dumps(policy_root)},
     overlays: {json.dumps(overlays)},
     publicRedact: {str(public).lower()}
-  };
+  }};
   // auto-apply & autoload
-  (function(){{
-    function set(id,v){{var e=document.getElementById(id); if(e && (e.value===''||e.value===e.getAttribute('value'))) e.value=v;}
+  (function(){{{{
+    function set(id,v){{{{var e=document.getElementById(id); if(e && (e.value===''||e.value===e.getAttribute('value'))) e.value=v;}}}}
     set('apiBase', window.LUKHAS_TRACE_DEFAULTS.apiBase);
     set('policyRoot', window.LUKHAS_TRACE_DEFAULTS.policyRoot);
     set('overlays', window.LUKHAS_TRACE_DEFAULTS.overlays);
     var btn = document.getElementById('btnLoad')||document.getElementById('refreshAll');
-    if(btn) setTimeout(function(){{btn.click();},150);
-  })();
+    if(btn) setTimeout(function(){{{{btn.click();}}}},150);
+  }}}})();
 </script>
 """
     return HTMLResponse(content=(html.replace("</body>", inject + "</body>") if "</body>" in html else html + inject))
@@ -1105,13 +1105,13 @@ def ui_approver(
         html = "<html><body style='font-family:ui-sans-serif;padding:24px;color:#e7eaf0;background:#0f1115'>Missing approver_ui.html. Set APPROVER_UI_PATH.</body></html>"
     inject = f"""
 <script>
-  (function(){{
+  (function(){{{{
     var api={json.dumps(api_base)}, tok={json.dumps(token or "")};
-    function set(id,v){{var e=document.getElementById(id); if(e && (e.value===''||e.value===e.getAttribute('value'))) e.value=v;}
+    function set(id,v){{{{var e=document.getElementById(id); if(e && (e.value===''||e.value===e.getAttribute('value'))) e.value=v;}}}}
     set('api', api); set('tok', tok);
     var btn = document.getElementById('refresh');
-    if(btn) setTimeout(function(){{btn.click();},150);
-  })();
+    if(btn) setTimeout(function(){{{{btn.click();}}}},150);
+  }}}})();
 </script>
 """
     return HTMLResponse(content=(html.replace("</body>", inject + "</body>") if "</body>" in html else html + inject))

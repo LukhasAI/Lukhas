@@ -17,7 +17,11 @@
       "Bash(gh pr view:*)",
       "Bash(for pr in 358 356 349 346 342 341 340 337 336 335)",
       "Bash(do echo \"=== PR #$pr ===\")",
-      "Bash(gh pr close:*)"
+      "Bash(gh pr close:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git check-ignore:*)",
+      "Bash(git apply:*)"
     ],
     "defaultMode": "bypassPermissions"
   }

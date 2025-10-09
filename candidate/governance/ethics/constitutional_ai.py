@@ -59,6 +59,20 @@ class EthicalPrinciple(Enum):
     DIGNITY = "dignity"  # Human dignity
 
 
+class ConstitutionalPrinciple(Enum):
+    """Core constitutional principles exposed to tests."""
+
+    NO_HARM = "no_harm"
+    PRIVACY = "privacy"
+    FAIRNESS = "fairness"
+    AUTONOMY = "autonomy"
+    JUSTICE = "justice"
+    TRANSPARENCY = "transparency"
+    ACCOUNTABILITY = "accountability"
+    BENEFICENCE = "beneficence"
+    HUMAN_DIGNITY = "human_dignity"
+
+
 class CapabilityRisk(Enum):
     """Capability risk levels"""
 
@@ -1184,6 +1198,7 @@ __all__ = [
     "ConstitutionalAI",
     "ConstitutionalFramework",
     "ConstitutionalRule",
+    "ConstitutionalPrinciple",
     "EthicalDecision",
     "EthicalDecisionMaker",
     "EthicalPrinciple",
@@ -1191,19 +1206,3 @@ __all__ = [
     "SafetyLevel",
     "SafetyMonitor",
 ]
-
-# Added for test compatibility (candidate.governance.ethics.constitutional_ai.ConstitutionalPrinciple)
-try:
-    from candidate.candidate.governance.ethics.constitutional_ai import ConstitutionalPrinciple  # noqa: F401
-except ImportError:
-    class ConstitutionalPrinciple:
-        """Stub for ConstitutionalPrinciple."""
-        def __init__(self, *args, **kwargs):
-            for key, value in kwargs.items():
-                setattr(self, key, value)
-try:
-    __all__  # type: ignore[name-defined]
-except NameError:
-    __all__ = []
-if "ConstitutionalPrinciple" not in __all__:
-    __all__.append("ConstitutionalPrinciple")

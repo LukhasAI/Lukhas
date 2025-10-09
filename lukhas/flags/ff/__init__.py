@@ -1,47 +1,25 @@
-"""Bridge for `lukhas.flags.ff`.
+"""Feature flag bridge for lukhas.flags.ff."""
 
-Auto-generated bridge following canonical pattern:
-  1) lukhas_website.lukhas.lukhas.flags.ff
-  2) candidate.lukhas.flags.ff
-  3) flags.ff
-
-Graceful fallback to stubs if no backend available.
-"""
 from __future__ import annotations
+
 from importlib import import_module
-from typing import List
 
-__all__: List[str] = []
-
-def _try(n: str):
-    try:
-        return import_module(n)
-    except Exception:
-        return None
-
-# Try backends in order
-_CANDIDATES = (
-    "lukhas_website.lukhas.lukhas.flags.ff",
-    "candidate.lukhas.flags.ff",
+for _candidate in (
+    "lukhas_website.lukhas.flags.ff",
+    "candidate.flags.ff",
     "flags.ff",
-)
+):
+    try:
+        _mod = import_module(_candidate)
+    except Exception:
+        continue
+    globals().update({k: getattr(_mod, k) for k in dir(_mod) if not k.startswith("_")})
+    break
 
-_SRC = None
-for _cand in _CANDIDATES:
-    _m = _try(_cand)
-    if _m:
-        _SRC = _m
-        for _k in dir(_m):
-            if not _k.startswith("_"):
-                globals()[_k] = getattr(_m, _k)
-                __all__.append(_k)
-        break
 
-# Add expected symbols as stubs if not found
-# No pre-defined stubs
+class Flags:  # type: ignore[misc]
+    def __init__(self, **values):
+        self._values = values
 
-def __getattr__(name: str):
-    """Lazy attribute access fallback."""
-    if _SRC and hasattr(_SRC, name):
-        return getattr(_SRC, name)
-    raise AttributeError(f"module '{__name__}' has no attribute '{name}'")
+    def is_enabled(self, name: str) -> bool:
+        return bool(self._values.get(name, False))
