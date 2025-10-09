@@ -446,6 +446,12 @@ class OpenAIModulatedService:
         logger.info("OpenAI Modulated Service shutdown complete")
 
 
+class OpenAIOrchestrationService(OpenAIModulatedService):
+    """Legacy alias expected by orchestration tests."""
+
+    pass
+
+
 # Factory function for easy instantiation
 def create_openai_service(context_bus: Optional[ContextBusOrchestrator] = None) -> OpenAIModulatedService:
     """

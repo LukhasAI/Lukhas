@@ -22,3 +22,7 @@ class GuardianSerializer:  # type: ignore[misc]
 
     def serialize(self, data):
         return data
+
+
+class GuardianEnvelopeSerializer(GuardianSerializer):  # type: ignore[misc]
+    pass

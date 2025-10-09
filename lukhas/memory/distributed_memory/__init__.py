@@ -1,13 +1,13 @@
-"""Bridge for lukhas.core.matriz.optimized_orchestrator."""
+"""Bridge for lukhas.memory.distributed_memory."""
 
 from __future__ import annotations
 
 from importlib import import_module
 
 for _candidate in (
-    "lukhas_website.lukhas.core.matriz.optimized_orchestrator",
-    "core.matriz.optimized_orchestrator",
-    "candidate.core.matriz.optimized_orchestrator",
+    "lukhas_website.lukhas.memory.distributed_memory",
+    "candidate.memory.distributed_memory",
+    "memory.distributed_memory",
 ):
     try:
         _mod = import_module(_candidate)
@@ -17,10 +17,10 @@ for _candidate in (
     break
 
 
-class OptimizedAsyncOrchestrator:  # type: ignore[misc]
+class DistributedMemoryOrchestrator:  # type: ignore[misc]
     def __init__(self, *args, **kwargs):
         self.args = args
         self.kwargs = kwargs
 
-    async def orchestrate(self, request):
-        return {"status": "processed", "request": request}
+    async def replicate(self, payload):
+        return {"replicated": True, "payload": payload}

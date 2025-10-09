@@ -19,3 +19,12 @@ for _candidate in (
 
 class GuardianSerializerRegistry(dict):  # type: ignore[misc]
     pass
+
+
+class GuardianSerializer:  # type: ignore[misc]
+    def serialize(self, payload):
+        return payload
+
+
+class GuardianEnvelopeSerializer(GuardianSerializer):  # type: ignore[misc]
+    pass

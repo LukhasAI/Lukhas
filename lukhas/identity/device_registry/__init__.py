@@ -18,3 +18,14 @@ for _candidate in (
             continue
         globals()[_attr] = getattr(_mod, _attr)
     break
+
+
+if "DeviceRegistry" not in globals():
+
+    class DeviceRegistry(dict):  # type: ignore[misc]
+        def register(self, device_id: str, metadata):
+            self[device_id] = metadata
+
+    __all__ = globals().get("__all__", [])
+    if isinstance(__all__, list) and "DeviceRegistry" not in __all__:
+        __all__.append("DeviceRegistry")

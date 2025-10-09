@@ -11,37 +11,49 @@ from __future__ import annotations
 from importlib import import_module
 from typing import List
 
-__all__: List[str] = []
+__all__: List[str] = ["IdempotentConsentHandler", "IdempotentTraceHandler"]
 
-def _try(n: str):
+
+def _try(name: str):
     try:
-        return import_module(n)
+        mod = import_module(name)
     except Exception:
         return None
+    if mod.__name__ == __name__:
+        return None
+    return mod
 
-# Try backends in order
+
 _CANDIDATES = (
-    "lukhas_website.lukhas.lukhas.ledger.consent_handlers",
-    "candidate.lukhas.ledger.consent_handlers",
+    "lukhas_website.lukhas.ledger.consent_handlers",
+    "candidate.ledger.consent_handlers",
     "ledger.consent_handlers",
 )
 
 _SRC = None
 for _cand in _CANDIDATES:
-    _m = _try(_cand)
-    if _m:
-        _SRC = _m
-        for _k in dir(_m):
-            if not _k.startswith("_"):
-                globals()[_k] = getattr(_m, _k)
-                __all__.append(_k)
-        break
+    _mod = _try(_cand)
+    if not _mod:
+        continue
+    _SRC = _mod
+    for name in dir(_mod):
+        if name.startswith("_"):
+            continue
+        globals()[name] = getattr(_mod, name)
+        if name not in __all__:
+            __all__.append(name)
+    break
 
-# Add expected symbols as stubs if not found
-# No pre-defined stubs
 
-def __getattr__(name: str):
-    """Lazy attribute access fallback."""
-    if _SRC and hasattr(_SRC, name):
-        return getattr(_SRC, name)
-    raise AttributeError(f"module '{__name__}' has no attribute '{name}'")
+if "IdempotentConsentHandler" not in globals():
+
+    class IdempotentConsentHandler:  # type: ignore[misc]
+        def handle(self, event):
+            return event
+
+
+if "IdempotentTraceHandler" not in globals():
+
+    class IdempotentTraceHandler:  # type: ignore[misc]
+        def handle(self, event):
+            return event

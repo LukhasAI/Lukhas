@@ -23,3 +23,12 @@ for _candidate in (
         if _attr not in __all__:
             __all__.append(_attr)
     break
+
+
+if "GuardianEnvelopeSerializer" not in globals():
+
+    class GuardianEnvelopeSerializer:  # type: ignore[misc]
+        def serialize(self, payload):
+            return payload
+
+    __all__.append("GuardianEnvelopeSerializer")

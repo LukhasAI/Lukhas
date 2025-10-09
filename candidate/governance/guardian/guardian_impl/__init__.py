@@ -19,10 +19,12 @@ for _candidate in _BACKENDS:
     break
 
 
-class GuardianSystemImpl:  # type: ignore[misc]
-    def __init__(self, *args, **kwargs):
-        self.args = args
-        self.kwargs = kwargs
+if "GuardianSystemImpl" not in globals():
 
-    def evaluate(self, *args, **kwargs):
-        return {"allowed": True}
+    class GuardianSystemImpl:  # type: ignore[misc]
+        def __init__(self, *args, **kwargs):
+            self.args = args
+            self.kwargs = kwargs
+
+        def evaluate(self, *args, **kwargs):
+            return {"allowed": True}

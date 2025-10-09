@@ -20,3 +20,8 @@ for _candidate in (
 class AuthenticationServer:  # type: ignore[misc]
     def start(self):
         return True
+
+
+class DataSubjectRight:  # type: ignore[misc]
+    ACCESS = "access"
+    ERASURE = "erasure"

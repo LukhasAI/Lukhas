@@ -8,40 +8,85 @@ Auto-generated bridge following canonical pattern:
 Graceful fallback to stubs if no backend available.
 """
 from __future__ import annotations
+import asyncio
 from importlib import import_module
 from typing import List
 
-__all__: List[str] = []
+__all__: List[str] = [
+    "CircuitBreaker",
+    "circuit_breaker",
+    "get_circuit_health",
+]
+
 
 def _try(n: str):
     try:
-        return import_module(n)
+        mod = import_module(n)
     except Exception:
         return None
+    if mod.__name__ == __name__:
+        return None
+    return mod
 
-# Try backends in order
+
 _CANDIDATES = (
-    "lukhas_website.lukhas.lukhas.core.reliability.circuit_breaker",
-    "candidate.lukhas.core.reliability.circuit_breaker",
+    "lukhas_website.lukhas.core.reliability.circuit_breaker",
+    "candidate.core.reliability.circuit_breaker",
     "core.reliability.circuit_breaker",
 )
 
 _SRC = None
 for _cand in _CANDIDATES:
     _m = _try(_cand)
-    if _m:
-        _SRC = _m
-        for _k in dir(_m):
-            if not _k.startswith("_"):
-                globals()[_k] = getattr(_m, _k)
-                __all__.append(_k)
-        break
+    if not _m:
+        continue
+    _SRC = _m
+    for _k in dir(_m):
+        if _k.startswith("_"):
+            continue
+        globals()[_k] = getattr(_m, _k)
+        if _k not in __all__:
+            __all__.append(_k)
+    break
 
-# Add expected symbols as stubs if not found
-# No pre-defined stubs
 
-def __getattr__(name: str):
-    """Lazy attribute access fallback."""
-    if _SRC and hasattr(_SRC, name):
-        return getattr(_SRC, name)
-    raise AttributeError(f"module '{__name__}' has no attribute '{name}'")
+class _CircuitBreakerStub:
+    def __init__(self, name: str, **kwargs):
+        self.name = name
+        self.kwargs = kwargs
+        self.state = "closed"
+
+    def __call__(self, func):
+        if asyncio.iscoroutinefunction(func):
+
+            async def async_wrapper(*args, **kwargs):
+                return await func(*args, **kwargs)
+
+            return async_wrapper
+
+        def wrapper(*args, **kwargs):
+            return func(*args, **kwargs)
+
+        return wrapper
+
+    def record_success(self):
+        self.state = "closed"
+
+    def record_failure(self):
+        self.state = "open"
+
+
+def circuit_breaker(name: str, **kwargs):  # type: ignore[misc]
+    if _SRC and hasattr(_SRC, "circuit_breaker"):
+        return getattr(_SRC, "circuit_breaker")(name, **kwargs)
+    return _CircuitBreakerStub(name, **kwargs)
+
+
+def get_circuit_health():
+    if _SRC and hasattr(_SRC, "get_circuit_health"):
+        return getattr(_SRC, "get_circuit_health")()
+    return {"state": "unknown"}
+
+
+if "CircuitBreaker" not in globals():
+    CircuitBreaker = _CircuitBreakerStub  # type: ignore
