@@ -440,12 +440,12 @@ class LukhasIntelligenceMonitor:
 
         # Create alert if threshold exceeded
         if alert_level:
-            alert_id = f"{metric_name}_{alert_level.value}_{int(time.time())"
+            alert_id = f"{metric_name}_{alert_level.value}_{int(time.time())}"
 
             alert = AlertEvent(
                 alert_id=alert_id,
                 level=alert_level,
-                message=f"{metric_name} threshold exceeded: {value} (threshold: {threshold_value)})",
+                message=f"{metric_name} threshold exceeded: {value} (threshold: {threshold_value})",
                 metric_type=metric_type,
                 source="intelligence_monitor",
                 value=value,

@@ -530,7 +530,7 @@ def main():
     print("\n=== Connectivity Summary ===")
     print(f"Total Modules: {connectivity['total_modules']}")
     print(f"Total Hybrid Components: {connectivity['total_hybrid_components']}")
-    print(f"\nNeuroplastic States: {list(connectivity['neuroplastic_states'].keys()}")
+    print(f"\nNeuroplastic States: {list(connectivity['neuroplastic_states'].keys())}")
     print("\nKey Hybrid Relationships:")
     for rel, data in connectivity["hybrid_relationships"].items():
         print(f"  {rel}: strength={data['strength']}, signals={data['signal_types']}")

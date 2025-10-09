@@ -61,7 +61,7 @@ def to_markdown(matrix: dict[str, list[str]], gaps: list[dict[str, Any]]) -> str
         "|---|---|",
     ]
     for task, kinds in sorted(matrix.items()):
-        lines.append(f"| `{task}` | {', '.join(sorted(kinds)} |")
+        lines.append(f"| `{task}` | {', '.join(sorted(kinds))} |")
     lines += ["", "## Gaps", "", "| Task | Gap |", "|---|---|"]
     if not gaps:
         lines.append("| ✓ | No gaps detected |")

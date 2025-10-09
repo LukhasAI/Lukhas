@@ -97,6 +97,9 @@ class EnforcementAction(Enum):
     ALLOW = "allow"
     DENY = "deny"
     REVIEW = "review"
+    ALERT = "alert"
+    ESCALATE = "escalate"
+    BLOCK = "block"
 
 
 @dataclass

@@ -13,4 +13,3 @@ __all__, _exports = bridge_from_candidates(*_CANDIDATES)
 globals().update(_exports)
 
 # ΛTAG: identity_bridge -- expose canonical registry helpers safely
-

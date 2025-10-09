@@ -241,11 +241,11 @@ def reliability_svg(task: str | None=None, width=640, height=320) -> str:
         # bin boundary
         if i>0:
             xb = pad + i*barW
-            lines.append(f"<line x1='{xb}' y1='{H-pad}' x2='{xb}' y2='{H-pad+4}' stroke=')  # 555'/>"
+            lines.append(f"<line x1='{xb}' y1='{H-pad}' x2='{xb}' y2='{H-pad+4}' stroke='#555'/>")
         # label each 2 bins
         if i%2==0:
             pct = int(b["upper"]*100)
-            lines.append(f"<text x='{cx-8}' y='{H-pad+14}' fill=')  # 777' font-size='10' font-family='monospace'>{pct}%</text>"
+            lines.append(f"<text x='{cx-8}' y='{H-pad+14}' fill='#777' font-size='10' font-family='monospace'>{pct}%</text>")
     return f"<svg width='{W}' height='{H}' viewBox='0 0 {W} {H}' xmlns='http://www.w3.org/2000/svg'>{''.join(lines)}</svg>"
 
 # ------------- CLI -------------

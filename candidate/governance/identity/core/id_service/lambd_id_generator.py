@@ -6,12 +6,6 @@ implementation lives in `lambda_id_generator.py` (canonical name).
 
 from datetime import timezone
 
-from .lambda_id_generator import LambdaIDGenerator
-
-# Backwards-compatible alias
-LambdIDGenerator = LambdaIDGenerator
-
-__all__ = ["LambdIDGenerator", "LambdaIDGenerator"]
 import hashlib
 import json
 import secrets
@@ -203,9 +197,10 @@ class LambdaIDGenerator:
             # Add more reserved combinations
         ]
 
+
     def _log_generation(self, lambda_id: str, tier: TierLevel, user_context: Optional[dict] = None) -> None:
         """Log ΛiD generation event for audit trail"""
-        {
+        _ = {
             "timestamp": datetime.now(timezone.utc).isoformat(),
             "lambda_id": lambda_id,
             "tier": tier.value,
@@ -226,11 +221,10 @@ class LambdaIDGenerator:
         }
 
 
-# Alias for compatibility
+# Backwards-compatible alias for legacy imports
 LambdIDGenerator = LambdaIDGenerator
 
 
-# Validator class
 class LambdIDValidator:
     """Lambda ID validator"""
 

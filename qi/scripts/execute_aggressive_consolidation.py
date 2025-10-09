@@ -137,7 +137,7 @@ class {submodule.title()}Colony:
             'dopamine': 0.5,
             'serotonin': 0.5,
             'oxytocin': 0.3
-        }
+        }}
 
     def propagate(self, signal: Dict[str, Any]) -> Dict[str, Any]:
         """Propagate signal through colony"""
@@ -145,7 +145,7 @@ class {submodule.title()}Colony:
             'colony_id': self.colony_id,
             'signal': signal,
             'hormone_modulation': self.hormone_state
-        }
+        }}
 
 # Initialize colony
 colony = {submodule.title()}Colony()
@@ -311,7 +311,7 @@ def main():
     print("\n📊 Consolidation targets:")
     total_candidates = sum(info["candidates_for_consolidation"] for info in plan["analysis"].values())
     print(f"  - Total consolidation candidates: {total_candidates}")
-    print(f"  - Orphaned files: {plan.get('orphaned_files', {)}).get('count', 0)}")
+    print(f"  - Orphaned files: {plan.get('orphaned_files', {}).get('count', 0)}")
 
     # Step 1: Create module manifests and structure
     print("\n📝 Creating module manifests...")

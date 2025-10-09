@@ -284,6 +284,10 @@ _circuit_registry = CircuitBreakerRegistry()
 def circuit_breaker(name: str, **kwargs):
     """Decorator for applying circuit breaker pattern."""
     def decorator(func):
+        # Prevent double-wrapping that can cause RecursionError
+        if getattr(func, "__lukhas_cb_wrapped__", False):
+            return func
+
         breaker = _circuit_registry.get_or_create(name, **kwargs)
 
         async def async_wrapper(*args, **kwargs):
@@ -292,7 +296,9 @@ def circuit_breaker(name: str, **kwargs):
         def sync_wrapper(*args, **kwargs):
             return breaker.call(func, *args, **kwargs)
 
-        return async_wrapper if asyncio.iscoroutinefunction(func) else sync_wrapper
+        wrapper = async_wrapper if asyncio.iscoroutinefunction(func) else sync_wrapper
+        wrapper.__lukhas_cb_wrapped__ = True  # type: ignore
+        return wrapper
 
     return decorator
 

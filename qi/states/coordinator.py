@@ -230,7 +230,7 @@ class QICoordinator:
                     integration_efficiency = 0.5
 
                 return {
-                    "task_id": f"simple_bio_{hash(str(data)} % 10000}",
+                    "task_id": f"simple_bio_{hash(str(data)) % 10000}",
                     "final_output": [
                         qi_coherence,
                         bio_stability,

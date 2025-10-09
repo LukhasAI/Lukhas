@@ -10,6 +10,22 @@ Tracking: docs/v0.03/KNOWN_ISSUES.md#missing-modules
 """
 
 # TODO: Implement or remove dead imports referencing this module
+try:
+    from candidate.consciousness.registry import ConsciousnessComponentRegistry  # noqa: F401
+except ImportError:
+
+    class ConsciousnessComponentRegistry(dict):
+        """Fallback component registry."""
+
+        def register(self, name: str, component):
+            self[name] = component
+
+try:
+    __all__  # type: ignore[name-defined]
+except NameError:
+    __all__ = []
+if "ConsciousnessComponentRegistry" not in __all__:
+    __all__.append("ConsciousnessComponentRegistry")
 
 # Added for test compatibility (lukhas.consciousness.registry.ComponentType)
 try:

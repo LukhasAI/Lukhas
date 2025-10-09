@@ -3,7 +3,7 @@ from __future__ import annotations
 
 from importlib import import_module
 
-__all__ = ["ReflectionEngine", "ReflectionEntry", "AlignmentScore"]
+__all__ = ["ReflectionEngine", "ReflectionEntry", "AlignmentScore", "ReflectionConfig"]
 
 _CANDIDATES = (
     "candidate.consciousness.reflection_engine",
@@ -46,3 +46,9 @@ if "ReflectionEngine" not in globals():
     class ReflectionEngine:  # type: ignore[misc]
         def run(self, *args, **kwargs):
             return [ReflectionEntry("noop")]
+
+
+if "ReflectionConfig" not in globals():
+    class ReflectionConfig:  # type: ignore[misc]
+        def __init__(self, **kwargs) -> None:
+            self.options = kwargs
