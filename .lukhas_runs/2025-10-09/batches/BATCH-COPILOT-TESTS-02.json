@@ -1,0 +1,517 @@
+{
+  "batch_id": "BATCH-COPILOT-TESTS-02",
+  "agent": "copilot",
+  "created_at": "2025-10-09T00:00:00Z",
+  "expires_at": "2025-10-12T00:00:00Z",
+  "branch_name": "feat/copilot/tests-batch02",
+  "status": "ready",
+  "dependencies": ["BATCH-COPILOT-TESTS-01"],
+  "checks": ["pytest", "ruff", "make lane-guard"],
+  "description": "Continue test implementation for governance modules and integration tests. Target 75%+ coverage per module.",
+  "tasks": [
+    {
+      "task_id": "TEST-MED-GOV-THREAT-01",
+      "priority": "medium",
+      "title": "Implement test_threat_detection_anomaly_algorithms",
+      "file": "tests/governance/test_threat_detection.py",
+      "line_hint": 34,
+      "module": "tests/governance",
+      "constellation": "Guardian",
+      "status": "open",
+      "description": "Test anomaly detection algorithms for behavioral patterns",
+      "acceptance": [
+        "Detect behavioral anomalies",
+        "Test Guardian alerting integration",
+        "Verify false positive rate <5%"
+      ],
+      "risk": "high",
+      "est": {
+        "type": "test",
+        "size": "L"
+      }
+    },
+    {
+      "task_id": "TEST-MED-GOV-POLICY-01",
+      "priority": "medium",
+      "title": "Implement test_policy_engine_evaluation",
+      "file": "tests/governance/test_policy.py",
+      "line_hint": 45,
+      "module": "tests/governance",
+      "constellation": "Guardian",
+      "status": "open",
+      "description": "Test policy rule evaluation in real-time",
+      "acceptance": [
+        "Evaluate policy rules",
+        "Test conflict resolution",
+        "Verify integration test coverage"
+      ],
+      "risk": "medium",
+      "est": {
+        "type": "test",
+        "size": "M"
+      }
+    },
+    {
+      "task_id": "TEST-MED-GOV-RULE-01",
+      "priority": "medium",
+      "title": "Implement test_rule_validator_syntax",
+      "file": "tests/governance/test_rule_validator.py",
+      "line_hint": 34,
+      "module": "tests/governance",
+      "constellation": "Guardian",
+      "status": "open",
+      "description": "Test rule syntax validation against schema",
+      "acceptance": [
+        "Validate rule syntax",
+        "Detect circular dependencies",
+        "Verify error reporting"
+      ],
+      "risk": "low",
+      "est": {
+        "type": "test",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TEST-MED-GOV-CONSENT-01",
+      "priority": "medium",
+      "title": "Implement test_consent_manager_gdpr",
+      "file": "tests/governance/test_consent.py",
+      "line_hint": 45,
+      "module": "tests/governance",
+      "constellation": "Guardian",
+      "status": "open",
+      "description": "Test GDPR-compliant consent grant/revoke flows",
+      "acceptance": [
+        "Test consent grant",
+        "Test consent revocation",
+        "Verify ΛTRACE history tracking"
+      ],
+      "risk": "high",
+      "est": {
+        "type": "test",
+        "size": "L"
+      }
+    },
+    {
+      "task_id": "TEST-HIGH-INTEGRATION-ONBOARDING-01",
+      "priority": "high",
+      "title": "Implement test_e2e_onboarding_flow",
+      "file": "tests/integration/test_onboarding_e2e.py",
+      "line_hint": 45,
+      "module": "tests/integration",
+      "constellation": "Identity",
+      "status": "open",
+      "description": "End-to-end test: start → tier → consent → completion",
+      "acceptance": [
+        "Complete full onboarding flow",
+        "Verify ΛID generation",
+        "Test JWT token creation"
+      ],
+      "risk": "high",
+      "est": {
+        "type": "integration",
+        "size": "L"
+      }
+    },
+    {
+      "task_id": "TEST-HIGH-INTEGRATION-JWT-LAMBDA-01",
+      "priority": "high",
+      "title": "Implement test_jwt_lambda_id_e2e",
+      "file": "tests/integration/test_jwt_lambda_id.py",
+      "line_hint": 34,
+      "module": "tests/integration",
+      "constellation": "Identity",
+      "status": "open",
+      "description": "Integration test for JWT + ΛID authentication flow",
+      "acceptance": [
+        "Create JWT with ΛID",
+        "Verify tier-based access",
+        "Test token refresh flow"
+      ],
+      "risk": "medium",
+      "est": {
+        "type": "integration",
+        "size": "M"
+      }
+    },
+    {
+      "task_id": "TEST-HIGH-INTEGRATION-VECTOR-RAG-01",
+      "priority": "high",
+      "title": "Implement test_vector_rag_pipeline_e2e",
+      "file": "tests/integration/test_vector_rag.py",
+      "line_hint": 45,
+      "module": "tests/integration",
+      "constellation": "Memory",
+      "status": "open",
+      "description": "End-to-end RAG pipeline with consciousness context",
+      "acceptance": [
+        "Query → embedding → retrieval → augmentation → response",
+        "Test MEG integration",
+        "Verify response quality metrics"
+      ],
+      "risk": "high",
+      "est": {
+        "type": "integration",
+        "size": "L"
+      }
+    },
+    {
+      "task_id": "TEST-HIGH-INTEGRATION-EXPLAINABILITY-01",
+      "priority": "high",
+      "title": "Implement test_explainability_multi_modal_e2e",
+      "file": "tests/integration/test_explainability_e2e.py",
+      "line_hint": 34,
+      "module": "tests/integration",
+      "constellation": "Vision",
+      "status": "open",
+      "description": "End-to-end multi-modal explanation generation",
+      "acceptance": [
+        "Generate text + visual + audio explanations",
+        "Test formal proof generation",
+        "Verify cryptographic signing"
+      ],
+      "risk": "high",
+      "est": {
+        "type": "integration",
+        "size": "L"
+      }
+    },
+    {
+      "task_id": "TEST-HIGH-INTEGRATION-GOVERNANCE-01",
+      "priority": "high",
+      "title": "Implement test_governance_policy_enforcement_e2e",
+      "file": "tests/integration/test_governance_e2e.py",
+      "line_hint": 45,
+      "module": "tests/integration",
+      "constellation": "Guardian",
+      "status": "open",
+      "description": "End-to-end policy enforcement with Guardian integration",
+      "acceptance": [
+        "Policy evaluation → decision → audit",
+        "Test Guardian escalation",
+        "Verify ΛTRACE completeness"
+      ],
+      "risk": "high",
+      "est": {
+        "type": "integration",
+        "size": "L"
+      }
+    },
+    {
+      "task_id": "TEST-MED-SECURITY-API-01",
+      "priority": "medium",
+      "title": "Implement test_api_security_injection_attacks",
+      "file": "tests/security/test_api_security.py",
+      "line_hint": 34,
+      "module": "tests/security",
+      "constellation": "Guardian",
+      "status": "open",
+      "description": "Test API security against injection attacks (SQL, NoSQL, command)",
+      "acceptance": [
+        "Test SQL injection prevention",
+        "Test NoSQL injection prevention",
+        "Test command injection prevention"
+      ],
+      "risk": "critical",
+      "est": {
+        "type": "security",
+        "size": "M"
+      }
+    },
+    {
+      "task_id": "TEST-MED-SECURITY-API-02",
+      "priority": "medium",
+      "title": "Implement test_api_security_xss_csrf",
+      "file": "tests/security/test_api_security.py",
+      "line_hint": 78,
+      "module": "tests/security",
+      "constellation": "Guardian",
+      "status": "open",
+      "description": "Test XSS and CSRF protection",
+      "acceptance": [
+        "Test XSS payload sanitization",
+        "Test CSRF token validation",
+        "Verify header security"
+      ],
+      "risk": "critical",
+      "est": {
+        "type": "security",
+        "size": "M"
+      }
+    },
+    {
+      "task_id": "TEST-MED-SECURITY-JWT-01",
+      "priority": "medium",
+      "title": "Implement test_jwt_security_tampering",
+      "file": "tests/security/test_jwt_security.py",
+      "line_hint": 34,
+      "module": "tests/security",
+      "constellation": "Identity",
+      "status": "open",
+      "description": "Test JWT tampering detection and prevention",
+      "acceptance": [
+        "Test signature tampering detection",
+        "Test payload modification detection",
+        "Test algorithm confusion attacks"
+      ],
+      "risk": "critical",
+      "est": {
+        "type": "security",
+        "size": "M"
+      }
+    },
+    {
+      "task_id": "TEST-MED-SECURITY-RATE-LIMIT-01",
+      "priority": "medium",
+      "title": "Implement test_rate_limiting_enforcement",
+      "file": "tests/security/test_rate_limiting.py",
+      "line_hint": 34,
+      "module": "tests/security",
+      "constellation": "Guardian",
+      "status": "open",
+      "description": "Test rate limiting enforcement for all tiers",
+      "acceptance": [
+        "Test free tier limits",
+        "Test pro/enterprise limits",
+        "Test DDoS protection"
+      ],
+      "risk": "high",
+      "est": {
+        "type": "security",
+        "size": "M"
+      }
+    },
+    {
+      "task_id": "TEST-MED-PERFORMANCE-ONBOARDING-01",
+      "priority": "medium",
+      "title": "Implement test_onboarding_performance",
+      "file": "tests/performance/test_onboarding_perf.py",
+      "line_hint": 34,
+      "module": "tests/performance",
+      "constellation": "Identity",
+      "status": "open",
+      "description": "Performance benchmarks for onboarding flow",
+      "acceptance": [
+        "Measure start latency (<100ms target)",
+        "Measure tier setup latency",
+        "Measure completion latency"
+      ],
+      "risk": "low",
+      "est": {
+        "type": "performance",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TEST-MED-PERFORMANCE-QRS-01",
+      "priority": "medium",
+      "title": "Implement test_qrs_signature_performance",
+      "file": "tests/performance/test_qrs_perf.py",
+      "line_hint": 34,
+      "module": "tests/performance",
+      "constellation": "Quantum",
+      "status": "open",
+      "description": "Performance benchmarks for QRS signature operations",
+      "acceptance": [
+        "Measure signature creation time",
+        "Measure verification time",
+        "Measure batch verification throughput"
+      ],
+      "risk": "low",
+      "est": {
+        "type": "performance",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TEST-MED-PERFORMANCE-VECTOR-01",
+      "priority": "medium",
+      "title": "Implement test_vector_search_performance",
+      "file": "tests/performance/test_vector_perf.py",
+      "line_hint": 34,
+      "module": "tests/performance",
+      "constellation": "Memory",
+      "status": "open",
+      "description": "Performance benchmarks for vector similarity search",
+      "acceptance": [
+        "Measure embedding generation time",
+        "Measure search latency (<250ms target)",
+        "Measure throughput (queries/sec)"
+      ],
+      "risk": "low",
+      "est": {
+        "type": "performance",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TEST-MED-PERFORMANCE-EXPLAIN-01",
+      "priority": "medium",
+      "title": "Implement test_explainability_generation_performance",
+      "file": "tests/performance/test_explainability_perf.py",
+      "line_hint": 34,
+      "module": "tests/performance",
+      "constellation": "Vision",
+      "status": "open",
+      "description": "Performance benchmarks for explanation generation",
+      "acceptance": [
+        "Measure text explanation latency",
+        "Measure formal proof generation time",
+        "Test cache hit rate"
+      ],
+      "risk": "low",
+      "est": {
+        "type": "performance",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TEST-LOW-DOCS-ONBOARDING-01",
+      "priority": "low",
+      "title": "Create onboarding API usage examples",
+      "file": "docs/examples/onboarding_usage.md",
+      "line_hint": 1,
+      "module": "docs/examples",
+      "constellation": "Identity",
+      "status": "open",
+      "description": "Create comprehensive usage examples for onboarding API",
+      "acceptance": [
+        "Document complete flow with code examples",
+        "Include error handling patterns",
+        "Add tier-specific examples"
+      ],
+      "risk": "low",
+      "est": {
+        "type": "documentation",
+        "size": "M"
+      }
+    },
+    {
+      "task_id": "TEST-LOW-DOCS-QRS-01",
+      "priority": "low",
+      "title": "Create QRS Manager usage guide",
+      "file": "docs/examples/qrs_manager_usage.md",
+      "line_hint": 1,
+      "module": "docs/examples",
+      "constellation": "Quantum",
+      "status": "open",
+      "description": "Document QRS Manager API and usage patterns",
+      "acceptance": [
+        "Document signature creation/verification",
+        "Include batch operations examples",
+        "Add ΛTRACE integration examples"
+      ],
+      "risk": "low",
+      "est": {
+        "type": "documentation",
+        "size": "M"
+      }
+    },
+    {
+      "task_id": "TEST-LOW-DOCS-EXPLAIN-01",
+      "priority": "low",
+      "title": "Create explainability interface guide",
+      "file": "docs/examples/explainability_guide.md",
+      "line_hint": 1,
+      "module": "docs/examples",
+      "constellation": "Vision",
+      "status": "open",
+      "description": "Comprehensive guide for explainability interface layer",
+      "acceptance": [
+        "Document multi-modal explanation generation",
+        "Include formal proof examples",
+        "Add MEG integration patterns"
+      ],
+      "risk": "low",
+      "est": {
+        "type": "documentation",
+        "size": "L"
+      }
+    },
+    {
+      "task_id": "TEST-LOW-DOCS-JWT-01",
+      "priority": "low",
+      "title": "Create JWT adapter documentation",
+      "file": "docs/examples/jwt_adapter_guide.md",
+      "line_hint": 1,
+      "module": "docs/examples",
+      "constellation": "Identity",
+      "status": "open",
+      "description": "Document JWT adapter with ΛID integration",
+      "acceptance": [
+        "Document token lifecycle (create/verify/refresh/revoke)",
+        "Include algorithm selection guide",
+        "Add tier-based access control examples"
+      ],
+      "risk": "low",
+      "est": {
+        "type": "documentation",
+        "size": "M"
+      }
+    },
+    {
+      "task_id": "TEST-LOW-DOCS-VECTOR-01",
+      "priority": "low",
+      "title": "Create vector store integration guide",
+      "file": "docs/examples/vector_store_guide.md",
+      "line_hint": 1,
+      "module": "docs/examples",
+      "constellation": "Memory",
+      "status": "open",
+      "description": "Document vector store integration and RAG pipeline",
+      "acceptance": [
+        "Document vector store setup (Pinecone/Weaviate/etc)",
+        "Include RAG pipeline examples",
+        "Add MEG integration guide"
+      ],
+      "risk": "low",
+      "est": {
+        "type": "documentation",
+        "size": "L"
+      }
+    },
+    {
+      "task_id": "TEST-LOW-DOCS-GOVERNANCE-01",
+      "priority": "low",
+      "title": "Create governance modules overview",
+      "file": "docs/examples/governance_overview.md",
+      "line_hint": 1,
+      "module": "docs/examples",
+      "constellation": "Guardian",
+      "status": "open",
+      "description": "Overview of all 8 governance modules with usage examples",
+      "acceptance": [
+        "Document ethics, compliance, security, policy modules",
+        "Include Guardian integration patterns",
+        "Add ΛTRACE audit examples"
+      ],
+      "risk": "low",
+      "est": {
+        "type": "documentation",
+        "size": "XL"
+      }
+    },
+    {
+      "task_id": "TEST-LOW-COVERAGE-REPORT-01",
+      "priority": "low",
+      "title": "Generate comprehensive test coverage report",
+      "file": ".coverage_report/batch_tests_01_02.md",
+      "line_hint": 1,
+      "module": "coverage",
+      "constellation": "Guardian",
+      "status": "open",
+      "description": "Generate and document test coverage metrics for all modules",
+      "acceptance": [
+        "Run pytest --cov for all modules",
+        "Target 75%+ coverage per module",
+        "Document coverage gaps"
+      ],
+      "risk": "low",
+      "est": {
+        "type": "analysis",
+        "size": "S"
+      }
+    }
+  ]
+}

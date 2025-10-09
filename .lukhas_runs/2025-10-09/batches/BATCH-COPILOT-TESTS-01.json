@@ -1,0 +1,538 @@
+{
+  "batch_id": "BATCH-COPILOT-TESTS-01",
+  "agent": "copilot",
+  "created_at": "2025-10-09T00:00:00Z",
+  "expires_at": "2025-10-12T00:00:00Z",
+  "branch_name": "feat/copilot/tests-batch01",
+  "status": "ready",
+  "dependencies": ["BATCH-JULES-API-GOVERNANCE-02"],
+  "checks": ["pytest", "ruff", "make lane-guard"],
+  "description": "Implement functional tests for JULES API/Governance implementations. Replace all pytest.skip() with real test logic. Target 75%+ coverage per module.",
+  "tasks": [
+    {
+      "task_id": "TEST-HIGH-API-ONBOARDING-01",
+      "priority": "high",
+      "title": "Implement test_onboarding_tier_validation",
+      "file": "tests/bridge/test_onboarding.py",
+      "line_hint": 75,
+      "module": "tests/bridge",
+      "constellation": "Identity",
+      "status": "open",
+      "description": "Remove pytest.skip() and implement tier validation tests (free/pro/enterprise)",
+      "acceptance": [
+        "Test all 3 tiers (free, pro, enterprise)",
+        "Verify feature flags per tier",
+        "Test invalid tier rejection"
+      ],
+      "risk": "low",
+      "est": {
+        "type": "test",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TEST-HIGH-API-ONBOARDING-02",
+      "priority": "high",
+      "title": "Implement test_onboarding_consent_gdpr_compliance",
+      "file": "tests/bridge/test_onboarding.py",
+      "line_hint": 98,
+      "module": "tests/bridge",
+      "constellation": "Guardian",
+      "status": "open",
+      "description": "Test GDPR Article 7 compliance for consent collection",
+      "acceptance": [
+        "Test consent grant with timestamp",
+        "Test consent withdrawal flow",
+        "Verify audit trail (IP, user agent)"
+      ],
+      "risk": "medium",
+      "est": {
+        "type": "test",
+        "size": "M"
+      }
+    },
+    {
+      "task_id": "TEST-HIGH-API-QRS-01",
+      "priority": "high",
+      "title": "Implement test_qrs_signature_verification",
+      "file": "tests/bridge/test_api.py",
+      "line_hint": 45,
+      "module": "tests/bridge",
+      "constellation": "Quantum",
+      "status": "open",
+      "description": "Create tests for QRS Manager signature verification (SHA256/SHA512)",
+      "acceptance": [
+        "Test signature creation",
+        "Test signature verification (valid/invalid)",
+        "Test batch verification"
+      ],
+      "risk": "medium",
+      "est": {
+        "type": "test",
+        "size": "M"
+      }
+    },
+    {
+      "task_id": "TEST-HIGH-API-QRS-02",
+      "priority": "high",
+      "title": "Implement test_qrs_audit_trail",
+      "file": "tests/bridge/test_api.py",
+      "line_hint": 78,
+      "module": "tests/bridge",
+      "constellation": "Guardian",
+      "status": "open",
+      "description": "Test ΛTRACE audit trail integration for QRS operations",
+      "acceptance": [
+        "Verify audit entries created",
+        "Test timestamp accuracy",
+        "Verify audit immutability"
+      ],
+      "risk": "low",
+      "est": {
+        "type": "test",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TEST-HIGH-CONTROLLER-01",
+      "priority": "high",
+      "title": "Implement test_import_controller_lane_detection",
+      "file": "tests/bridge/test_controllers.py",
+      "line_hint": 34,
+      "module": "tests/bridge",
+      "constellation": "Guardian",
+      "status": "open",
+      "description": "Test import controller's lane boundary violation detection",
+      "acceptance": [
+        "Test detection of lukhas imports in candidate",
+        "Test allowed imports (core, matriz)",
+        "Test violation reporting"
+      ],
+      "risk": "medium",
+      "est": {
+        "type": "test",
+        "size": "M"
+      }
+    },
+    {
+      "task_id": "TEST-HIGH-CONTROLLER-02",
+      "priority": "high",
+      "title": "Implement test_import_controller_yaml_compliance",
+      "file": "tests/bridge/test_controllers.py",
+      "line_hint": 67,
+      "module": "tests/bridge",
+      "constellation": "Guardian",
+      "status": "open",
+      "description": "Test ops/matriz.yaml compliance checking",
+      "acceptance": [
+        "Load and parse matriz.yaml",
+        "Verify compliance rules",
+        "Test rule violation detection"
+      ],
+      "risk": "low",
+      "est": {
+        "type": "test",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TEST-HIGH-EXPLAIN-01",
+      "priority": "high",
+      "title": "Implement test_explainability_multimodal_text",
+      "file": "tests/bridge/test_explainability.py",
+      "line_hint": 45,
+      "module": "tests/bridge",
+      "constellation": "Vision",
+      "status": "open",
+      "description": "Test text explanation generation from explainability interface",
+      "acceptance": [
+        "Generate text explanation",
+        "Verify clarity scoring",
+        "Test template rendering"
+      ],
+      "risk": "medium",
+      "est": {
+        "type": "test",
+        "size": "M"
+      }
+    },
+    {
+      "task_id": "TEST-HIGH-EXPLAIN-02",
+      "priority": "high",
+      "title": "Implement test_explainability_formal_proofs",
+      "file": "tests/bridge/test_explainability.py",
+      "line_hint": 89,
+      "module": "tests/bridge",
+      "constellation": "Dream",
+      "status": "open",
+      "description": "Test formal proof generation (propositional, first-order, temporal, modal)",
+      "acceptance": [
+        "Generate proof for decision",
+        "Verify proof structure",
+        "Test completeness metrics"
+      ],
+      "risk": "high",
+      "est": {
+        "type": "test",
+        "size": "L"
+      }
+    },
+    {
+      "task_id": "TEST-HIGH-EXPLAIN-03",
+      "priority": "high",
+      "title": "Implement test_explainability_meg_integration",
+      "file": "tests/bridge/test_explainability.py",
+      "line_hint": 134,
+      "module": "tests/bridge",
+      "constellation": "Memory",
+      "status": "open",
+      "description": "Test Memory Episodic Graph integration for consciousness context",
+      "acceptance": [
+        "Create MEG node",
+        "Retrieve consciousness context",
+        "Verify context integration in explanation"
+      ],
+      "risk": "medium",
+      "est": {
+        "type": "test",
+        "size": "M"
+      }
+    },
+    {
+      "task_id": "TEST-HIGH-EXPLAIN-04",
+      "priority": "high",
+      "title": "Implement test_explainability_symbolic_reasoning",
+      "file": "tests/bridge/test_explainability.py",
+      "line_hint": 178,
+      "module": "tests/bridge",
+      "constellation": "Dream",
+      "status": "open",
+      "description": "Test symbolic engine reasoning trace generation",
+      "acceptance": [
+        "Generate symbolic trace",
+        "Verify GLYPH mappings",
+        "Test trace visualization"
+      ],
+      "risk": "medium",
+      "est": {
+        "type": "test",
+        "size": "M"
+      }
+    },
+    {
+      "task_id": "TEST-HIGH-EXPLAIN-05",
+      "priority": "high",
+      "title": "Implement test_explainability_lru_cache",
+      "file": "tests/bridge/test_explainability.py",
+      "line_hint": 223,
+      "module": "tests/bridge",
+      "constellation": "Memory",
+      "status": "open",
+      "description": "Test LRU cache for explanations (1000 entry limit)",
+      "acceptance": [
+        "Cache hit/miss scenarios",
+        "Verify LRU eviction",
+        "Test cache statistics"
+      ],
+      "risk": "low",
+      "est": {
+        "type": "test",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TEST-HIGH-EXPLAIN-06",
+      "priority": "high",
+      "title": "Implement test_explainability_crypto_signing",
+      "file": "tests/bridge/test_explainability.py",
+      "line_hint": 267,
+      "module": "tests/bridge",
+      "constellation": "Guardian",
+      "status": "open",
+      "description": "Test SRD cryptographic signing of explanations (SHA256)",
+      "acceptance": [
+        "Generate signed explanation",
+        "Verify signature",
+        "Test signature tampering detection"
+      ],
+      "risk": "medium",
+      "est": {
+        "type": "test",
+        "size": "M"
+      }
+    },
+    {
+      "task_id": "TEST-HIGH-JWT-01",
+      "priority": "high",
+      "title": "Implement test_jwt_token_creation",
+      "file": "tests/bridge/test_jwt_adapter.py",
+      "line_hint": 34,
+      "module": "tests/bridge",
+      "constellation": "Identity",
+      "status": "open",
+      "description": "Test JWT token creation with multiple algorithms (RS256/HS256/RS512/ES256)",
+      "acceptance": [
+        "Create tokens with each algorithm",
+        "Verify token structure",
+        "Test ΛID embedding"
+      ],
+      "risk": "medium",
+      "est": {
+        "type": "test",
+        "size": "M"
+      }
+    },
+    {
+      "task_id": "TEST-HIGH-JWT-02",
+      "priority": "high",
+      "title": "Implement test_jwt_token_verification",
+      "file": "tests/bridge/test_jwt_adapter.py",
+      "line_hint": 78,
+      "module": "tests/bridge",
+      "constellation": "Identity",
+      "status": "open",
+      "description": "Test JWT token verification (signature, expiration, claims)",
+      "acceptance": [
+        "Verify valid tokens",
+        "Reject expired tokens",
+        "Reject tampered tokens"
+      ],
+      "risk": "high",
+      "est": {
+        "type": "test",
+        "size": "L"
+      }
+    },
+    {
+      "task_id": "TEST-HIGH-JWT-03",
+      "priority": "high",
+      "title": "Implement test_jwt_lambda_id_integration",
+      "file": "tests/bridge/test_jwt_adapter.py",
+      "line_hint": 123,
+      "module": "tests/bridge",
+      "constellation": "Identity",
+      "status": "open",
+      "description": "Test ΛID integration with tier validation",
+      "acceptance": [
+        "Embed ΛID in JWT claims",
+        "Verify tier from ΛID",
+        "Test tier access control"
+      ],
+      "risk": "medium",
+      "est": {
+        "type": "test",
+        "size": "M"
+      }
+    },
+    {
+      "task_id": "TEST-HIGH-JWT-04",
+      "priority": "high",
+      "title": "Implement test_jwt_rate_limiting",
+      "file": "tests/bridge/test_jwt_adapter.py",
+      "line_hint": 167,
+      "module": "tests/bridge",
+      "constellation": "Guardian",
+      "status": "open",
+      "description": "Test rate limiting with tier multipliers",
+      "acceptance": [
+        "Test free tier limits",
+        "Test pro/enterprise multipliers",
+        "Verify rate limit enforcement"
+      ],
+      "risk": "low",
+      "est": {
+        "type": "test",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TEST-HIGH-VECTOR-01",
+      "priority": "high",
+      "title": "Implement test_vector_store_embedding_generation",
+      "file": "tests/bridge/test_vector_store.py",
+      "line_hint": 45,
+      "module": "tests/bridge",
+      "constellation": "Memory",
+      "status": "open",
+      "description": "Test embedding generation and storage",
+      "acceptance": [
+        "Generate embeddings from text",
+        "Store in vector store (mock)",
+        "Verify embedding dimensions"
+      ],
+      "risk": "medium",
+      "est": {
+        "type": "test",
+        "size": "M"
+      }
+    },
+    {
+      "task_id": "TEST-HIGH-VECTOR-02",
+      "priority": "high",
+      "title": "Implement test_vector_store_similarity_search",
+      "file": "tests/bridge/test_vector_store.py",
+      "line_hint": 89,
+      "module": "tests/bridge",
+      "constellation": "Memory",
+      "status": "open",
+      "description": "Test vector similarity search with metadata filtering",
+      "acceptance": [
+        "Search by semantic similarity",
+        "Apply metadata filters",
+        "Verify top-k results"
+      ],
+      "risk": "medium",
+      "est": {
+        "type": "test",
+        "size": "M"
+      }
+    },
+    {
+      "task_id": "TEST-HIGH-VECTOR-03",
+      "priority": "high",
+      "title": "Implement test_vector_store_meg_integration",
+      "file": "tests/bridge/test_vector_store.py",
+      "line_hint": 134,
+      "module": "tests/bridge",
+      "constellation": "Memory",
+      "status": "open",
+      "description": "Test MEG integration for consciousness memory retrieval",
+      "acceptance": [
+        "Store MEG nodes in vector store",
+        "Retrieve consciousness context",
+        "Test episodic memory recall"
+      ],
+      "risk": "high",
+      "est": {
+        "type": "test",
+        "size": "L"
+      }
+    },
+    {
+      "task_id": "TEST-HIGH-VECTOR-04",
+      "priority": "high",
+      "title": "Implement test_vector_store_rag_pipeline",
+      "file": "tests/bridge/test_vector_store.py",
+      "line_hint": 178,
+      "module": "tests/bridge",
+      "constellation": "Vision",
+      "status": "open",
+      "description": "Test RAG (Retrieval Augmented Generation) pipeline",
+      "acceptance": [
+        "Query → embedding → search → context",
+        "Augment prompt with retrieved context",
+        "Verify response quality"
+      ],
+      "risk": "high",
+      "est": {
+        "type": "test",
+        "size": "L"
+      }
+    },
+    {
+      "task_id": "TEST-HIGH-VECTOR-05",
+      "priority": "high",
+      "title": "Implement test_vector_store_lambda_id_rate_limiting",
+      "file": "tests/bridge/test_vector_store.py",
+      "line_hint": 223,
+      "module": "tests/bridge",
+      "constellation": "Guardian",
+      "status": "open",
+      "description": "Test ΛID-based rate limiting for vector operations",
+      "acceptance": [
+        "Test tier-based rate limits",
+        "Verify limit enforcement",
+        "Test limit reset"
+      ],
+      "risk": "low",
+      "est": {
+        "type": "test",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TEST-MED-GOV-ETHICS-01",
+      "priority": "medium",
+      "title": "Implement test_ethical_decision_maker_algorithms",
+      "file": "tests/governance/test_ethics.py",
+      "line_hint": 45,
+      "module": "tests/governance",
+      "constellation": "Ethics",
+      "status": "open",
+      "description": "Test ethical decision algorithms based on Guardian principles",
+      "acceptance": [
+        "Test decision tree evaluation",
+        "Verify edge case handling",
+        "Test Constitutional AI compliance"
+      ],
+      "risk": "high",
+      "est": {
+        "type": "test",
+        "size": "L"
+      }
+    },
+    {
+      "task_id": "TEST-MED-GOV-COMPLIANCE-01",
+      "priority": "medium",
+      "title": "Implement test_compliance_monitor_real_time",
+      "file": "tests/governance/test_compliance.py",
+      "line_hint": 34,
+      "module": "tests/governance",
+      "constellation": "Guardian",
+      "status": "open",
+      "description": "Test real-time compliance monitoring for ethical boundaries",
+      "acceptance": [
+        "Monitor boundary violations",
+        "Trigger alerts",
+        "Verify Guardian dashboard integration"
+      ],
+      "risk": "medium",
+      "est": {
+        "type": "test",
+        "size": "M"
+      }
+    },
+    {
+      "task_id": "TEST-MED-GOV-ACCESS-01",
+      "priority": "medium",
+      "title": "Implement test_access_control_rbac",
+      "file": "tests/governance/test_access_control.py",
+      "line_hint": 56,
+      "module": "tests/governance",
+      "constellation": "Guardian",
+      "status": "open",
+      "description": "Test RBAC (Role-Based Access Control) with T1-T5 tiers",
+      "acceptance": [
+        "Test role assignment",
+        "Verify tier permissions",
+        "Test unauthorized access rejection"
+      ],
+      "risk": "high",
+      "est": {
+        "type": "test",
+        "size": "L"
+      }
+    },
+    {
+      "task_id": "TEST-MED-GOV-AUDIT-01",
+      "priority": "medium",
+      "title": "Implement test_audit_system_lambda_trace",
+      "file": "tests/governance/test_audit.py",
+      "line_hint": 45,
+      "module": "tests/governance",
+      "constellation": "Guardian",
+      "status": "open",
+      "description": "Test ΛTRACE audit trail with tamper-evident hash chain",
+      "acceptance": [
+        "Create audit entries",
+        "Verify hash chain integrity",
+        "Test tampering detection"
+      ],
+      "risk": "high",
+      "est": {
+        "type": "test",
+        "size": "L"
+      }
+    }
+  ]
+}
