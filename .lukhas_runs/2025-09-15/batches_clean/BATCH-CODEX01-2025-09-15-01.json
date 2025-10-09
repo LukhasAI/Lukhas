@@ -14,7 +14,8 @@
       "line_hint": 88,
       "module": "candidate/bio",
       "trinity": "null",
-      "status": "open",
+      "status": "completed",
+      "completed_at": "2025-10-09T01:30:39Z",
       "source": "high_todos.md",
       "evidence": {
         "grep": "./candidate/bio/qi.py:    from datetime import (  # TODO[QUANTUM-BIO:specialist] - Import timezone for UTC enforcement",
@@ -35,7 +36,8 @@
       "line_hint": 120,
       "module": "candidate/core",
       "trinity": "null",
-      "status": "open",
+      "status": "completed",
+      "completed_at": "2025-10-09T01:31:47Z",
       "source": "high_todos.md",
       "evidence": {
         "grep": "./candidate/core/symbolic/creative_market.py:    # \u2705 TODO: implement import logic for market replay",
@@ -56,7 +58,8 @@
       "line_hint": 44,
       "module": "candidate/core",
       "trinity": "null",
-      "status": "open",
+      "status": "completed",
+      "completed_at": "2025-10-09T01:34:09Z",
       "source": "high_todos.md",
       "evidence": {
         "grep": "./candidate/core/interfaces/as_agent/sys/nias/delivery_loop.py:        # TODO: Import and call push_symbolic_message, log each decision",

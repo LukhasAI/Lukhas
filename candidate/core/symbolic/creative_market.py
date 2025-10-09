@@ -117,7 +117,91 @@ class CreativeMarket:
         logger.info("item_exported", item=item.item_id)
         return item
 
-    # ✅ TODO: implement import logic for market replay
+    # ΛTAG: market_replay
+
+    def import_replay(self, limit: int | None = None) -> list[CreativeItem]:
+        """Load previously exported creative items for replay.
+
+        Args:
+            limit: Maximum number of items to import. If ``None`` all items are
+                loaded.
+
+        Returns:
+            A list of :class:`CreativeItem` instances reconstructed from the
+            export log.
+        """
+
+        if not self.export_path.exists():
+            logger.info("market_replay_skipped", reason="missing_export")
+            return []
+
+        imported: list[CreativeItem] = []
+        with self.export_path.open("r", encoding="utf-8") as handle:
+            for line_number, raw_line in enumerate(handle, start=1):
+                if limit is not None and len(imported) >= limit:
+                    break
+
+                stripped = raw_line.strip()
+                if not stripped:
+                    continue
+
+                try:
+                    payload = json.loads(stripped)
+                except json.JSONDecodeError as exc:  # pragma: no cover - log only
+                    logger.warning(
+                        "market_replay_decode_error",
+                        line=line_number,
+                        error=str(exc),
+                    )
+                    continue
+
+                try:
+                    tag = self._create_tag(payload.get("content", ""))
+                except Exception as exc:  # pragma: no cover - defensive guard
+                    logger.warning(
+                        "market_replay_tag_failure",
+                        line=line_number,
+                        error=str(exc),
+                    )
+                    continue
+
+                stored_tag_id = payload.get("tag_id")
+                derived_tag_id = getattr(tag, "id", None)
+                if stored_tag_id and derived_tag_id != stored_tag_id:
+                    logger.info(
+                        "market_replay_tag_mismatch",
+                        expected=stored_tag_id,
+                        derived=derived_tag_id,
+                    )
+
+                glyph = payload.get("glyph", "")
+                item_id = payload.get("item_id") or compute_glyph_hash(glyph)[:12]
+
+                try:
+                    reputation = float(payload.get("reputation", 1.0))
+                except (TypeError, ValueError):
+                    reputation = 1.0
+
+                try:
+                    symbolic_value = float(payload.get("symbolic_value", 0.0))
+                except (TypeError, ValueError):
+                    symbolic_value = 0.0
+
+                creative_item = CreativeItem(
+                    item_id=item_id,
+                    content=payload.get("content", ""),
+                    item_type=payload.get("item_type", "unknown"),
+                    tag=tag,
+                    glyph=glyph,
+                    symbolic_value=symbolic_value,
+                    reputation=reputation,
+                    created_at=payload.get("created_at", datetime.now(timezone.utc).isoformat()),
+                )
+                imported.append(creative_item)
+                self.reputation_store[item_id] = reputation
+
+        logger.info("market_replay_loaded", count=len(imported))
+        return imported
 
 
 __all__ = ["CreativeItem", "CreativeMarket"]

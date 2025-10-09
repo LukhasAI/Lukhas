@@ -5,6 +5,8 @@ Generated: 2025-08-12T19:38:03.072451
 Constellation Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 """
 
+from datetime import datetime, timezone
+
 
 __module__ = "bio.quantum"
 __trinity__ = "⚛️🧠🛡️"
@@ -85,10 +87,6 @@ class NeuroplasticityModulator:
 
 def __validate_module__():
     """Bio quantum function - __validate_module__"""
-    from datetime import (  # TODO[QUANTUM-BIO:specialist] - Import timezone for UTC enforcement
-        datetime,
-        timezone,
-    )
 
     """
     Bio-QI Module Validation
@@ -96,9 +94,7 @@ def __validate_module__():
     """
 
     validation_results = {
-        "validation_timestamp": datetime.now(
-            timezone.utc
-        ).isoformat(),  # TODO[QUANTUM-BIO:specialist] - UTC timezone enforcement
+        "validation_timestamp": datetime.now(timezone.utc).isoformat(),
         "module_status": "operational",
         "components_tested": [],
         "test_results": {},
