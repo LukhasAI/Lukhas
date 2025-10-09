@@ -1,0 +1,105 @@
+{
+  "_provenance": {
+    "apis": {
+      "confidence": "medium",
+      "extracted_at": "2025-10-03T01:02:53.616133+00:00",
+      "reasons": [
+        "partial_verification:0/2"
+      ],
+      "sources": [
+        "importcheck:missing",
+        "importcheck:missing",
+        "ast:__init__.py"
+      ]
+    },
+    "features": {
+      "confidence": "low",
+      "extracted_at": "2025-10-03T01:02:53.615766+00:00",
+      "reasons": [
+        "weak_evidence"
+      ],
+      "sha": "fdd529f17370b68e88ee0ad05bb103a2390ad1c05e3f80753b3dff375f2eeb04",
+      "sources": [
+        "claude.me:bullets",
+        "claude.me:headers"
+      ]
+    }
+  },
+  "apis": {
+    "pytest_addoption": {
+      "capabilities": [],
+      "description": "Auto-detected API; fill in description \u2265 40 chars.",
+      "doc_ok": false,
+      "import_verified": false,
+      "module": "pytest_asyncio.pytest_addoption"
+    },
+    "pytest_configure": {
+      "capabilities": [],
+      "description": "Auto-detected API; fill in description \u2265 40 chars.",
+      "doc_ok": false,
+      "import_verified": false,
+      "module": "pytest_asyncio.pytest_configure"
+    }
+  },
+  "contracts": [],
+  "dependencies": [],
+  "description": "Minimal pytest-asyncio stub to satisfy configuration in offline environments.",
+  "features": [],
+  "identity": {
+    "requires_auth": false,
+    "scopes": [],
+    "tiers": []
+  },
+  "layout": {
+    "code_layout": "package-root",
+    "paths": {
+      "assets": "assets",
+      "code": ".",
+      "config": "config",
+      "docs": "docs",
+      "tests": "tests"
+    }
+  },
+  "links": {
+    "docs": "./docs/README.md",
+    "issues": "https://github.com/LukhasAI/Lukhas/issues",
+    "repo": "https://github.com/LukhasAI/Lukhas"
+  },
+  "matrix": {
+    "contract": "",
+    "gates_profile": "standard",
+    "lane": "L2"
+  },
+  "module": "pytest_asyncio",
+  "observability": {
+    "otel_semconv_version": "1.37.0",
+    "required_spans": [
+      "lukhas.pytest_asyncio.operation"
+    ]
+  },
+  "ownership": {
+    "codeowners": [
+      "@lukhas-core"
+    ],
+    "team": "Core"
+  },
+  "runtime": {
+    "entrypoints": [
+      "pytest_asyncio.pytest_addoption",
+      "pytest_asyncio.pytest_configure"
+    ],
+    "language": "python"
+  },
+  "schema_version": "1.0.0",
+  "tags": [
+    "pytest_asyncio"
+  ],
+  "tokenization": {
+    "chain": "none",
+    "enabled": false
+  },
+  "testing": {
+    "coverage_observed": 8.96,
+    "observed_at": "2025-10-05T11:30:29.234795+00:00"
+  }
+}

@@ -1,0 +1,637 @@
+{
+  "batch_id": "BATCH-JULES-2025-10-08-01",
+  "agent": "jules",
+  "created_at": "2025-10-08T00:00:00Z",
+  "expires_at": "2025-10-11T00:00:00Z",
+  "branch_name": "feat/jules/api-gov-batch01",
+  "status": "ready",
+  "dependencies": [],
+  "checks": ["pytest", "ruff", "make lane-guard"],
+  "tasks": [
+    {
+      "task_id": "TODO-HIGH-BRIDGE-API-a1b2c3d4",
+      "priority": "high",
+      "title": "Implement onboarding start logic",
+      "file": "candidate/bridge/api/onboarding.py",
+      "line_hint": 45,
+      "module": "bridge/api",
+      "trinity": "Identity",
+      "status": "open",
+      "source": "docs/project_status/JULES_TODO_BATCHES.md:Batch 3",
+      "evidence": {
+        "grep": "# TODO: Implement onboarding start logic",
+        "last_commit": null
+      },
+      "acceptance": [
+        "Onboarding flow initiates with proper Identity validation",
+        "Tests cover happy path and error cases",
+        "Documentation updated with API examples"
+      ],
+      "risk": "med",
+      "est": {
+        "type": "logic",
+        "size": "M"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-BRIDGE-API-e5f6a7b8",
+      "priority": "high",
+      "title": "Implement tier setup logic",
+      "file": "candidate/bridge/api/onboarding.py",
+      "line_hint": 78,
+      "module": "bridge/api",
+      "trinity": "Identity",
+      "status": "open",
+      "source": "docs/project_status/JULES_TODO_BATCHES.md:Batch 3",
+      "evidence": {
+        "grep": "# TODO: Implement tier setup logic",
+        "last_commit": null
+      },
+      "acceptance": [
+        "Tier assignment validates against consent_tiers.json schema",
+        "Access controls properly configured per tier",
+        "Integration tests verify tier boundaries"
+      ],
+      "risk": "high",
+      "est": {
+        "type": "logic",
+        "size": "M"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-BRIDGE-API-c9d0e1f2",
+      "priority": "high",
+      "title": "Implement consent collection logic",
+      "file": "candidate/bridge/api/onboarding.py",
+      "line_hint": 112,
+      "module": "bridge/api",
+      "trinity": "Guardian",
+      "status": "open",
+      "source": "docs/project_status/JULES_TODO_BATCHES.md:Batch 3",
+      "evidence": {
+        "grep": "# TODO: Implement consent collection logic",
+        "last_commit": null
+      },
+      "acceptance": [
+        "Consent model validates against Guardian schema",
+        "Consent history tracked via ΛTRACE",
+        "Revocation flows tested"
+      ],
+      "risk": "high",
+      "est": {
+        "type": "logic",
+        "size": "L"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-BRIDGE-API-g3h4i5j6",
+      "priority": "high",
+      "title": "Implement onboarding completion logic",
+      "file": "candidate/bridge/api/onboarding.py",
+      "line_hint": 145,
+      "module": "bridge/api",
+      "trinity": "Identity",
+      "status": "open",
+      "source": "docs/project_status/JULES_TODO_BATCHES.md:Batch 3",
+      "evidence": {
+        "grep": "# TODO: Implement onboarding completion logic",
+        "last_commit": null
+      },
+      "acceptance": [
+        "Onboarding state persists correctly",
+        "Completion triggers proper Identity activation",
+        "End-to-end test validates full flow"
+      ],
+      "risk": "med",
+      "est": {
+        "type": "logic",
+        "size": "M"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-BRIDGE-API-k7l8m9n0",
+      "priority": "high",
+      "title": "Implement QRS manager logic (primary endpoint)",
+      "file": "candidate/bridge/api/api.py",
+      "line_hint": 234,
+      "module": "bridge/api",
+      "trinity": "Consciousness",
+      "status": "open",
+      "source": "docs/project_status/JULES_TODO_BATCHES.md:Batch 3",
+      "evidence": {
+        "grep": "# TODO: Implement QRS manager logic",
+        "last_commit": null
+      },
+      "acceptance": [
+        "QRS creation/validation endpoints functional",
+        "Integration with quantum-resistant cryptography module",
+        "Security audit passed"
+      ],
+      "risk": "high",
+      "est": {
+        "type": "logic",
+        "size": "L"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-BRIDGE-API-o1p2q3r4",
+      "priority": "high",
+      "title": "Review AGI services imports for API controllers",
+      "file": "candidate/bridge/api/controllers.py",
+      "line_hint": 18,
+      "module": "bridge/api",
+      "trinity": "Consciousness",
+      "status": "open",
+      "source": "docs/project_status/JULES_TODO_BATCHES.md:Batch 3",
+      "evidence": {
+        "grep": "# TODO: Review AGI services imports",
+        "last_commit": null
+      },
+      "acceptance": [
+        "Lane boundaries respected (no lukhas imports in candidate)",
+        "Import linter passes",
+        "Documentation updated for service dependencies"
+      ],
+      "risk": "low",
+      "est": {
+        "type": "mechanical",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-BRIDGE-EXPLAIN-s5t6u7v8",
+      "priority": "high",
+      "title": "Add multi-modal explanation support",
+      "file": "candidate/bridge/explainability_interface_layer.py",
+      "line_hint": 67,
+      "module": "bridge",
+      "trinity": "Consciousness",
+      "status": "open",
+      "source": "docs/project_status/JULES_TODO_BATCHES.md:Batch 3",
+      "evidence": {
+        "grep": "# TODO: Add multi-modal explanation support",
+        "last_commit": null
+      },
+      "acceptance": [
+        "Text, visual, symbolic explanations supported",
+        "Format negotiation implemented",
+        "Examples in documentation"
+      ],
+      "risk": "med",
+      "est": {
+        "type": "logic",
+        "size": "M"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-BRIDGE-EXPLAIN-w9x0y1z2",
+      "priority": "high",
+      "title": "Implement template loading from YAML/JSON",
+      "file": "candidate/bridge/explainability_interface_layer.py",
+      "line_hint": 112,
+      "module": "bridge",
+      "trinity": "Consciousness",
+      "status": "open",
+      "source": "docs/project_status/JULES_TODO_BATCHES.md:Batch 3",
+      "evidence": {
+        "grep": "# TODO: Implement template loading from YAML/JSON",
+        "last_commit": null
+      },
+      "acceptance": [
+        "YAML and JSON templates validated against schema",
+        "Template cache with LRU eviction",
+        "Error handling for malformed templates"
+      ],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-BRIDGE-EXPLAIN-a3b4c5d6",
+      "priority": "high",
+      "title": "Implement formal proof generation",
+      "file": "candidate/bridge/explainability_interface_layer.py",
+      "line_hint": 189,
+      "module": "bridge",
+      "trinity": "Guardian",
+      "status": "open",
+      "source": "docs/project_status/JULES_TODO_BATCHES.md:Batch 3",
+      "evidence": {
+        "grep": "# TODO: Implement formal proof generation",
+        "last_commit": null
+      },
+      "acceptance": [
+        "Proof generation integrated with symbolic engine",
+        "Completeness metrics computed",
+        "Guardian verification passed"
+      ],
+      "risk": "high",
+      "est": {
+        "type": "logic",
+        "size": "L"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-BRIDGE-EXPLAIN-e7f8g9h0",
+      "priority": "high",
+      "title": "Implement LRU cache for explanations",
+      "file": "candidate/bridge/explainability_interface_layer.py",
+      "line_hint": 223,
+      "module": "bridge",
+      "trinity": "Consciousness",
+      "status": "open",
+      "source": "docs/project_status/JULES_TODO_BATCHES.md:Batch 3",
+      "evidence": {
+        "grep": "# TODO: Implement LRU cache",
+        "last_commit": null
+      },
+      "acceptance": [
+        "LRU cache with configurable size",
+        "Cache hit/miss metrics tracked",
+        "Performance tests show improvement"
+      ],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-BRIDGE-EXPLAIN-i1j2k3l4",
+      "priority": "high",
+      "title": "Implement MEG integration for explanations",
+      "file": "candidate/bridge/explainability_interface_layer.py",
+      "line_hint": 267,
+      "module": "bridge",
+      "trinity": "Consciousness",
+      "status": "open",
+      "source": "docs/project_status/JULES_TODO_BATCHES.md:Batch 3",
+      "evidence": {
+        "grep": "# TODO: Implement MEG integration",
+        "last_commit": null
+      },
+      "acceptance": [
+        "MEG (Memory-Emotion-Glyph) engine connected",
+        "Emotional context included in explanations",
+        "Integration tests cover MEG flows"
+      ],
+      "risk": "med",
+      "est": {
+        "type": "integration",
+        "size": "M"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-BRIDGE-EXPLAIN-m5n6o7p8",
+      "priority": "high",
+      "title": "Integrate symbolic engine for reasoning traces",
+      "file": "candidate/bridge/explainability_interface_layer.py",
+      "line_hint": 301,
+      "module": "bridge",
+      "trinity": "Consciousness",
+      "status": "open",
+      "source": "docs/project_status/JULES_TODO_BATCHES.md:Batch 3",
+      "evidence": {
+        "grep": "# TODO: Integrate symbolic engine",
+        "last_commit": null
+      },
+      "acceptance": [
+        "Symbolic reasoning traces captured",
+        "GLYPH mappings preserved",
+        "Trace visualization functional"
+      ],
+      "risk": "med",
+      "est": {
+        "type": "integration",
+        "size": "M"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-BRIDGE-EXPLAIN-q9r0s1t2",
+      "priority": "high",
+      "title": "Implement completeness metrics",
+      "file": "candidate/bridge/explainability_interface_layer.py",
+      "line_hint": 334,
+      "module": "bridge",
+      "trinity": "Guardian",
+      "status": "open",
+      "source": "docs/project_status/JULES_TODO_BATCHES.md:Batch 3",
+      "evidence": {
+        "grep": "# TODO: Implement completeness metrics",
+        "last_commit": null
+      },
+      "acceptance": [
+        "Completeness score algorithm implemented",
+        "Metrics validated against test cases",
+        "Documentation explains scoring methodology"
+      ],
+      "risk": "med",
+      "est": {
+        "type": "logic",
+        "size": "M"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-BRIDGE-EXPLAIN-u3v4w5x6",
+      "priority": "high",
+      "title": "Implement NLP clarity metrics",
+      "file": "candidate/bridge/explainability_interface_layer.py",
+      "line_hint": 367,
+      "module": "bridge",
+      "trinity": "Consciousness",
+      "status": "open",
+      "source": "docs/project_status/JULES_TODO_BATCHES.md:Batch 3",
+      "evidence": {
+        "grep": "# TODO: Implement NLP clarity metrics",
+        "last_commit": null
+      },
+      "acceptance": [
+        "Clarity scoring based on readability metrics",
+        "Integration with NLP libraries",
+        "Threshold-based quality gates"
+      ],
+      "risk": "low",
+      "est": {
+        "type": "logic",
+        "size": "S"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-BRIDGE-EXPLAIN-y7z8a9b0",
+      "priority": "high",
+      "title": "Use SRD cryptographic signing for explanations",
+      "file": "candidate/bridge/explainability_interface_layer.py",
+      "line_hint": 401,
+      "module": "bridge",
+      "trinity": "Guardian",
+      "status": "open",
+      "source": "docs/project_status/JULES_TODO_BATCHES.md:Batch 3",
+      "evidence": {
+        "grep": "# TODO: Use SRD cryptographic signing",
+        "last_commit": null
+      },
+      "acceptance": [
+        "Explanations signed with SRD (Symbolic Reasoning DNA)",
+        "Signature verification implemented",
+        "Security audit passed"
+      ],
+      "risk": "high",
+      "est": {
+        "type": "logic",
+        "size": "M"
+      }
+    },
+    {
+      "task_id": "TODO-MED-GOV-ETHICS-c1d2e3f4",
+      "priority": "med-high",
+      "title": "Implement ethical decision algorithms",
+      "file": "candidate/governance/ethics/ethical_decision_maker.py",
+      "line_hint": 89,
+      "module": "governance/ethics",
+      "trinity": "Guardian",
+      "status": "open",
+      "source": "docs/project_status/JULES_TODO_BATCHES.md:Batch 8",
+      "evidence": {
+        "grep": "# TODO: Implement ethical decision algorithms",
+        "last_commit": null
+      },
+      "acceptance": [
+        "Decision tree based on Guardian principles",
+        "Edge cases covered with fallback policies",
+        "Constitutional AI compliance verified"
+      ],
+      "risk": "high",
+      "est": {
+        "type": "logic",
+        "size": "L"
+      }
+    },
+    {
+      "task_id": "TODO-MED-GOV-ETHICS-g5h6i7j8",
+      "priority": "med-high",
+      "title": "Add compliance monitoring for ethics",
+      "file": "candidate/governance/ethics/compliance_monitor.py",
+      "line_hint": 56,
+      "module": "governance/ethics",
+      "trinity": "Guardian",
+      "status": "open",
+      "source": "docs/project_status/JULES_TODO_BATCHES.md:Batch 8",
+      "evidence": {
+        "grep": "# TODO: Add compliance monitoring",
+        "last_commit": null
+      },
+      "acceptance": [
+        "Real-time monitoring of ethical boundaries",
+        "Alert triggers for violations",
+        "Integration with Guardian dashboard"
+      ],
+      "risk": "med",
+      "est": {
+        "type": "logic",
+        "size": "M"
+      }
+    },
+    {
+      "task_id": "TODO-MED-GOV-SEC-k9l0m1n2",
+      "priority": "med-high",
+      "title": "Implement access control logic",
+      "file": "candidate/governance/security/access_control.py",
+      "line_hint": 102,
+      "module": "governance/security",
+      "trinity": "Guardian",
+      "status": "open",
+      "source": "docs/project_status/JULES_TODO_BATCHES.md:Batch 8",
+      "evidence": {
+        "grep": "# TODO: Implement access control",
+        "last_commit": null
+      },
+      "acceptance": [
+        "Role-based access control (RBAC) implemented",
+        "Tier-based permissions enforced",
+        "Negative tests for unauthorized access"
+      ],
+      "risk": "high",
+      "est": {
+        "type": "logic",
+        "size": "M"
+      }
+    },
+    {
+      "task_id": "TODO-MED-GOV-SEC-o3p4q5r6",
+      "priority": "med-high",
+      "title": "Build audit system with ΛTRACE integration",
+      "file": "candidate/governance/security/audit_system.py",
+      "line_hint": 145,
+      "module": "governance/security",
+      "trinity": "Guardian",
+      "status": "open",
+      "source": "docs/project_status/JULES_TODO_BATCHES.md:Batch 8",
+      "evidence": {
+        "grep": "# TODO: Build audit system",
+        "last_commit": null
+      },
+      "acceptance": [
+        "Audit trail persisted via ΛTRACE",
+        "Tamper-evident hash chain verified",
+        "Query interface for audit logs"
+      ],
+      "risk": "high",
+      "est": {
+        "type": "integration",
+        "size": "L"
+      }
+    },
+    {
+      "task_id": "TODO-MED-GOV-SEC-s7t8u9v0",
+      "priority": "med-high",
+      "title": "Implement threat detection algorithms",
+      "file": "candidate/governance/security/threat_detection.py",
+      "line_hint": 78,
+      "module": "governance/security",
+      "trinity": "Guardian",
+      "status": "open",
+      "source": "docs/project_status/JULES_TODO_BATCHES.md:Batch 8",
+      "evidence": {
+        "grep": "# TODO: Threat detection algorithms",
+        "last_commit": null
+      },
+      "acceptance": [
+        "Anomaly detection based on behavioral patterns",
+        "Integration with Guardian alerting",
+        "False positive rate < 5%"
+      ],
+      "risk": "med",
+      "est": {
+        "type": "logic",
+        "size": "M"
+      }
+    },
+    {
+      "task_id": "TODO-MED-GOV-POLICY-w1x2y3z4",
+      "priority": "med-high",
+      "title": "Policy enforcement engine implementation",
+      "file": "candidate/governance/policy/policy_engine.py",
+      "line_hint": 123,
+      "module": "governance/policy",
+      "trinity": "Guardian",
+      "status": "open",
+      "source": "docs/project_status/JULES_TODO_BATCHES.md:Batch 8",
+      "evidence": {
+        "grep": "# TODO: Policy enforcement engine",
+        "last_commit": null
+      },
+      "acceptance": [
+        "Policy rules evaluated in real-time",
+        "Conflict resolution strategy defined",
+        "Integration tests cover policy scenarios"
+      ],
+      "risk": "high",
+      "est": {
+        "type": "logic",
+        "size": "L"
+      }
+    },
+    {
+      "task_id": "TODO-MED-GOV-POLICY-a5b6c7d8",
+      "priority": "med-high",
+      "title": "Rule validation system",
+      "file": "candidate/governance/policy/rule_validator.py",
+      "line_hint": 67,
+      "module": "governance/policy",
+      "trinity": "Guardian",
+      "status": "open",
+      "source": "docs/project_status/JULES_TODO_BATCHES.md:Batch 8",
+      "evidence": {
+        "grep": "# TODO: Rule validation system",
+        "last_commit": null
+      },
+      "acceptance": [
+        "Rule syntax validation against schema",
+        "Circular dependency detection",
+        "Validation errors clearly reported"
+      ],
+      "risk": "med",
+      "est": {
+        "type": "logic",
+        "size": "M"
+      }
+    },
+    {
+      "task_id": "TODO-MED-GOV-CONSENT-e9f0g1h2",
+      "priority": "med-high",
+      "title": "Consent management with revocation flows",
+      "file": "candidate/governance/consent/consent_manager.py",
+      "line_hint": 89,
+      "module": "governance/consent",
+      "trinity": "Guardian",
+      "status": "open",
+      "source": "docs/project_status/JULES_TODO_BATCHES.md:Batch 8",
+      "evidence": {
+        "grep": "# TODO: Consent management",
+        "last_commit": null
+      },
+      "acceptance": [
+        "Consent grant/revoke flows implemented",
+        "History tracked via ΛTRACE",
+        "GDPR-compliant deletion supported"
+      ],
+      "risk": "high",
+      "est": {
+        "type": "logic",
+        "size": "M"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-BRIDGE-ADAPTER-i3j4k5l6",
+      "priority": "high",
+      "title": "Implement proper JWT verification",
+      "file": "candidate/bridge/adapters/api_framework.py",
+      "line_hint": 234,
+      "module": "bridge/adapters",
+      "trinity": "Identity",
+      "status": "open",
+      "source": "docs/project_status/JULES_TODO_BATCHES.md:Batch 3",
+      "evidence": {
+        "grep": "# TODO: Implement proper JWT verification",
+        "last_commit": null
+      },
+      "acceptance": [
+        "JWT signature verification with public key",
+        "Expiration and claims validation",
+        "Security tests for tampered tokens"
+      ],
+      "risk": "high",
+      "est": {
+        "type": "logic",
+        "size": "M"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-BRIDGE-LLM-m7n8o9p0",
+      "priority": "high",
+      "title": "Integrate with real vector store",
+      "file": "candidate/bridge/llm_wrappers/openai_modulated_service.py",
+      "line_hint": 178,
+      "module": "bridge/llm_wrappers",
+      "trinity": "Consciousness",
+      "status": "open",
+      "source": "docs/project_status/JULES_TODO_BATCHES.md:Batch 3",
+      "evidence": {
+        "grep": "# TODO: Integrate with real vector store",
+        "last_commit": null
+      },
+      "acceptance": [
+        "Vector store (Pinecone/Weaviate) connection established",
+        "Embedding pipeline functional",
+        "Retrieval augmented generation (RAG) tested"
+      ],
+      "risk": "med",
+      "est": {
+        "type": "integration",
+        "size": "M"
+      }
+    }
+  ]
+}
