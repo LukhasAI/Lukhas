@@ -21,7 +21,20 @@
       "Bash(git add:*)",
       "Bash(git commit:*)",
       "Bash(git check-ignore:*)",
-      "Bash(git apply:*)"
+      "Bash(git apply:*)",
+      "Bash(do)",
+      "Bash(then)",
+      "Bash(fi)",
+      "Bash(done)",
+      "Bash(git checkout:*)",
+      "Bash(pytest:*)",
+      "Bash(python3 -m pytest tests/ -v --cov=. --cov-report=term-missing --maxfail=10 -x)",
+      "Bash(python3 -m pytest tests/smoke/ -v)",
+      "Bash(python3:*)",
+      "Bash(make:*)",
+      "Bash(.lukhas_runs/2025-10-08/batches/BATCH-JULES-API-GOVERNANCE-02.json )",
+      "Bash(.lukhas_runs/2025-10-08/reports/JULES_BATCH_ACCEPTANCE_DECISION.md)",
+      "Bash(git merge:*)"
     ],
     "defaultMode": "bypassPermissions"
   }
