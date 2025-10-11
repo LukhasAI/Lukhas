@@ -1,0 +1,10 @@
+{
+  "schema_version": "1.1.0",
+  "module": {"name":"lukhas.identity.oidc","path":"lukhas/identity/oidc","type":"package"},
+  "matriz_integration": {"status":"partial","pipeline_nodes":["action"]},
+  "constellation_alignment": {"primary_star":"⚛️ Anchor (Identity)"},
+  "testing": {"has_tests": true, "test_paths": ["tests/lukhas/identity"], "quality_tier":"T1_critical"},
+  "observability": {"spans":["oidc.login"],"metrics":[{"name":"oidc.logins","type":"counter"}],"logging":{"logger_name":"lukhas.identity.oidc","default_level":"INFO"}},
+  "security": {"requires_auth": true,"data_classification":"internal"},
+  "metadata": {"created":"2025-01-01T00:00:00Z","last_updated":"2025-01-01T00:00:00Z","manifest_generated":false,"owner":"platform"}
+}

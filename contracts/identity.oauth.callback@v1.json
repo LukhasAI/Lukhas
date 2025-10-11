@@ -1,0 +1,14 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "identity.oauth.callback@v1",
+  "type": "object",
+  "properties": {
+    "code": {"type":"string"},
+    "state": {"type":"string"},
+    "user_id": {"type":"string"},
+    "provider": {"type":"string"},
+    "timestamp": {"type":"string", "format":"date-time"}
+  },
+  "required": ["code","state","user_id","provider","timestamp"],
+  "additionalProperties": false
+}

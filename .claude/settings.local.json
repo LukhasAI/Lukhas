@@ -35,7 +35,9 @@
       "Bash(.lukhas_runs/2025-10-08/batches/BATCH-JULES-API-GOVERNANCE-02.json )",
       "Bash(.lukhas_runs/2025-10-08/reports/JULES_BATCH_ACCEPTANCE_DECISION.md)",
       "Bash(git merge:*)",
-      "Bash(awk:*)"
+      "Bash(awk:*)",
+      "Bash(test:*)",
+      "Bash(chmod:*)"
     ],
     "defaultMode": "bypassPermissions"
   }

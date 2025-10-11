@@ -1,0 +1,10 @@
+{
+  "schema_version": "1.1.0",
+  "module": {"name":"lukhas.consciousness.core","path":"lukhas/consciousness/core","type":"package"},
+  "matriz_integration": {"status":"active","pipeline_nodes":["thought","attention"]},
+  "constellation_alignment": {"primary_star":"🌊 Flow (Consciousness)"},
+  "testing": {"has_tests": true, "test_paths": ["tests/lukhas/consciousness"], "quality_tier":"T1_critical"},
+  "observability": {"spans":["consciousness.process"],"metrics":[{"name":"consciousness.cycles","type":"counter"}],"logging":{"logger_name":"lukhas.consciousness.core","default_level":"INFO"}},
+  "security": {"requires_auth": false,"data_classification":"internal"},
+  "metadata": {"created":"2025-01-01T00:00:00Z","last_updated":"2025-01-01T00:00:00Z","manifest_generated":false,"owner":"consciousness"}
+}

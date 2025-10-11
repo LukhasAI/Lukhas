@@ -1,0 +1,20 @@
+{
+  "title": "Constellation Top",
+  "limit_per_star": 15,
+  "stars_order": [
+    "⚛️ Anchor (Identity)",
+    "✦ Trail (Memory)",
+    "🔬 Horizon (Vision)",
+    "🌱 Living (Bio)",
+    "🌙 Drift (Dream)",
+    "⚖️ North (Ethics)",
+    "🛡️ Watch (Guardian)",
+    "🔮 Oracle (Quantum)",
+    "🌊 Flow (Consciousness)"
+  ],
+  "sections": [
+    {"name": "Top Critical (T1)", "tiers": ["T1_critical"]},
+    {"name": "Important (T2)", "tiers": ["T2_important"]},
+    {"name": "Gaps (no context.md)", "tiers": ["T1_critical","T2_important","T3_standard","T4_experimental"], "missing_context_only": true}
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "stars": [
+    "⚛️ Anchor (Identity)",
+    "✦ Trail (Memory)",
+    "🔬 Horizon (Vision)",
+    "🌱 Living (Bio)",
+    "🌙 Drift (Dream)",
+    "⚖️ North (Ethics)",
+    "🛡️ Watch (Guardian)",
+    "🔮 Oracle (Quantum)",
+    "🌊 Flow (Consciousness)",
+    "Supporting"
+  ],
+  "aliases": {
+    "Anchor": "⚛️ Anchor (Identity)",
+    "Identity": "⚛️ Anchor (Identity)",
+
+    "Trail": "✦ Trail (Memory)",
+    "Memory": "✦ Trail (Memory)",
+
+    "Horizon": "🔬 Horizon (Vision)",
+    "Vision": "🔬 Horizon (Vision)",
+
+    "Living": "🌱 Living (Bio)",
+    "Bio": "🌱 Living (Bio)",
+
+    "Drift": "🌙 Drift (Dream)",
+    "Dream": "🌙 Drift (Dream)",
+
+    "North": "⚖️ North (Ethics)",
+    "Ethics": "⚖️ North (Ethics)",
+
+    "Watch": "🛡️ Watch (Guardian)",
+    "Guardian": "🛡️ Watch (Guardian)",
+
+    "Oracle": "🔮 Oracle (Quantum)",
+    "Quantum": "🔮 Oracle (Quantum)",
+    "🔮 Oracle (Quantum)": "🔮 Oracle (Quantum)",
+
+    "Flow": "🌊 Flow (Consciousness)",
+    "Consciousness": "🌊 Flow (Consciousness)",
+    "🌊 Flow (Consciousness)": "🌊 Flow (Consciousness)"
+  }
+}

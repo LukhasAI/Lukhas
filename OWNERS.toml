@@ -1,0 +1,13 @@
+[owners]
+"lukhas.identity.oidc" = "platform"
+"lukhas.identity.*" = "platform"
+"lukhas.consciousness.*" = "consciousness"
+"lukhas.memory.*" = "memory"
+"lukhas.guardian.*" = "guardian"
+"lukhas.api.*" = "platform"
+"candidate.consciousness.*" = "consciousness"
+"candidate.memory.*" = "memory"
+"candidate.bio.*" = "bio"
+"candidate.quantum.*" = "quantum"
+"matriz.*" = "matriz"
+"core.*" = "platform"

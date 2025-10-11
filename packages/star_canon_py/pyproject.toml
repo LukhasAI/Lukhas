@@ -1,0 +1,7 @@
+[project]
+name = "star-canon-py"
+version = "0.1.0"
+requires-python = ">=3.9"
+description = "LUKHAS Constellation star canon and alias normalization"
+authors = [{name="LUKHAS"}]
+readme = "README.md"

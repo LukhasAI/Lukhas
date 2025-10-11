@@ -1231,3 +1231,54 @@ vault-audit: ## Generate inventory for THE_VAULT repository (use VAULT_ROOT=/pat
 
 vault-audit-vault: ## Audit THE_VAULT directory (shortcut for VAULT_ROOT=../THE_VAULT)
 	@VAULT_ROOT=../THE_VAULT make vault-audit
+
+# ==============================================================================
+# MATRIZ PREP - 0.01% Discipline Pack
+# ==============================================================================
+
+.PHONY: init patch-schema manifests validate badges top stats context-validate
+
+init: ## Install dependencies for MATRIZ tooling
+	$(PYTHON) -m pip install --upgrade pip
+	$(PYTHON) -m pip install jsonschema
+
+patch-schema: ## Patch MATRIZ schema to v1.1.0 (Flow star, events, security)
+	$(PYTHON) scripts/patch_schema_to_v1_1_0.py schemas/matriz_module_compliance.schema.json
+
+manifests: ## Generate module manifests from inventory
+	$(PYTHON) scripts/generate_module_manifests.py \
+		--inventory docs/audits/COMPLETE_MODULE_INVENTORY.json \
+		--out manifests \
+		--star-canon scripts/star_canon.json \
+		--write-context
+
+validate: ## Validate all manifests against schema
+	$(PYTHON) scripts/validate_manifests.py \
+		--schema schemas/matriz_module_compliance.schema.json \
+		--root .
+
+badges: ## Generate coverage badges (manifest and context)
+	$(PYTHON) scripts/generate_badges.py \
+		--inventory docs/audits/COMPLETE_MODULE_INVENTORY.json \
+		--manifests-root manifests \
+		--out docs/audits
+
+top: ## Generate Constellation Top dashboard
+	$(PYTHON) scripts/gen_constellation_top.py
+
+stats: ## Generate manifest statistics
+	$(PYTHON) scripts/report_manifest_stats.py --manifests manifests --out docs/audits
+
+context-validate: ## Validate lukhas_context.md front-matter against manifests
+	$(PYTHON) scripts/validate_context_front_matter.py
+
+contracts-validate: ## Validate contract references in manifests
+	$(PYTHON) scripts/validate_contract_refs.py
+
+links-check: ## Check internal documentation links
+	$(PYTHON) docs/check_links.py --root .
+
+policy-guard: ## Check T1 modules for dangerous calls
+	$(PYTHON) scripts/policy_guard.py
+
+matriz-all: patch-schema manifests validate badges top stats ## Run all MATRIZ prep steps
