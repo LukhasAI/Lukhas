@@ -1,0 +1,564 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$id": "https://lukhas.ai/schemas/matriz-module-compliance/v1.0.0",
+    "title": "MATRIZ Module Compliance Schema",
+    "description": "Schema for LUKHAS module manifests ensuring MATRIZ pipeline compliance and Constellation Framework alignment",
+    "version": "1.0.0",
+    "type": "object",
+    "required": [
+        "schema_version",
+        "module",
+        "matriz_integration",
+        "constellation_alignment",
+        "capabilities",
+        "metadata"
+    ],
+    "properties": {
+        "schema_version": {
+            "type": "string",
+            "description": "Schema version for this manifest",
+            "pattern": "^\\d+\\.\\d+\\.\\d+$",
+            "examples": [
+                "1.0.0"
+            ]
+        },
+        "module": {
+            "type": "object",
+            "description": "Core module identification and metadata",
+            "required": [
+                "name",
+                "path",
+                "lane",
+                "type"
+            ],
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "description": "Fully qualified module name (dot-separated)",
+                    "examples": [
+                        "candidate.core.orchestration.brain"
+                    ]
+                },
+                "path": {
+                    "type": "string",
+                    "description": "Relative filesystem path from repository root",
+                    "examples": [
+                        "candidate/core/orchestration/brain"
+                    ]
+                },
+                "lane": {
+                    "type": "string",
+                    "description": "Development lane for import isolation",
+                    "enum": [
+                        "candidate",
+                        "lukhas",
+                        "core",
+                        "matriz",
+                        "products"
+                    ],
+                    "examples": [
+                        "candidate"
+                    ]
+                },
+                "type": {
+                    "type": "string",
+                    "description": "Module classification",
+                    "enum": [
+                        "package",
+                        "module",
+                        "namespace"
+                    ],
+                    "examples": [
+                        "package"
+                    ]
+                },
+                "version": {
+                    "type": "string",
+                    "description": "Module semantic version",
+                    "pattern": "^\\d+\\.\\d+\\.\\d+(-[a-zA-Z0-9.]+)?$",
+                    "examples": [
+                        "0.1.0",
+                        "1.2.3-alpha.1"
+                    ]
+                },
+                "status": {
+                    "type": "string",
+                    "description": "Development and integration status",
+                    "enum": [
+                        "experimental",
+                        "development",
+                        "integration",
+                        "production",
+                        "deprecated"
+                    ],
+                    "default": "development"
+                }
+            }
+        },
+        "matriz_integration": {
+            "type": "object",
+            "description": "MATRIZ pipeline integration details (Memory-Attention-Thought-Risk-Intent-Action)",
+            "required": [
+                "status",
+                "pipeline_nodes",
+                "cognitive_function"
+            ],
+            "properties": {
+                "status": {
+                    "type": "string",
+                    "description": "MATRIZ integration readiness",
+                    "enum": [
+                        "not_integrated",
+                        "partial",
+                        "integrated",
+                        "optimized"
+                    ],
+                    "examples": [
+                        "partial"
+                    ]
+                },
+                "pipeline_nodes": {
+                    "type": "array",
+                    "description": "MATRIZ nodes this module participates in",
+                    "items": {
+                        "type": "string",
+                        "enum": [
+                            "memory",
+                            "attention",
+                            "thought",
+                            "risk",
+                            "intent",
+                            "action",
+                            "supporting"
+                        ]
+                    },
+                    "minItems": 1,
+                    "uniqueItems": true,
+                    "examples": [
+                        [
+                            "thought",
+                            "action"
+                        ]
+                    ]
+                },
+                "cognitive_function": {
+                    "type": "string",
+                    "description": "Primary cognitive function within MATRIZ pipeline",
+                    "examples": [
+                        "decision_making",
+                        "memory_consolidation",
+                        "attention_focusing",
+                        "risk_assessment",
+                        "intent_planning",
+                        "action_execution"
+                    ]
+                },
+                "latency_target_p95": {
+                    "type": "number",
+                    "description": "Target 95th percentile latency in milliseconds",
+                    "minimum": 0,
+                    "examples": [
+                        250
+                    ]
+                },
+                "throughput_ops_per_sec": {
+                    "type": "number",
+                    "description": "Expected throughput in operations per second",
+                    "minimum": 0,
+                    "examples": [
+                        100
+                    ]
+                },
+                "integration_tests": {
+                    "type": "array",
+                    "description": "Integration test coverage for MATRIZ flows",
+                    "items": {
+                        "type": "string"
+                    },
+                    "examples": [
+                        [
+                            "test_matriz_memory_flow",
+                            "test_matriz_thought_integration"
+                        ]
+                    ]
+                }
+            }
+        },
+        "constellation_alignment": {
+            "type": "object",
+            "description": "Alignment with Constellation Framework (8-star dynamic system)",
+            "required": [
+                "primary_star"
+            ],
+            "properties": {
+                "primary_star": {
+                    "type": "string",
+                    "description": "Primary Constellation Framework star",
+                    "enum": [
+                        "⚛️ Anchor (Identity)",
+                        "✦ Trail (Memory)",
+                        "🔬 Horizon (Vision)",
+                        "🌱 Living (Bio)",
+                        "🌙 Drift (Dream)",
+                        "⚖️ North (Ethics)",
+                        "🛡️ Watch (Guardian)",
+                        "⚛️ Ambiguity (Quantum)",
+                        "Supporting"
+                    ],
+                    "examples": [
+                        "⚛️ Anchor (Identity)"
+                    ]
+                },
+                "secondary_stars": {
+                    "type": "array",
+                    "description": "Additional stars this module contributes to",
+                    "items": {
+                        "type": "string",
+                        "enum": [
+                            "⚛️ Anchor (Identity)",
+                            "✦ Trail (Memory)",
+                            "🔬 Horizon (Vision)",
+                            "🌱 Living (Bio)",
+                            "🌙 Drift (Dream)",
+                            "⚖️ North (Ethics)",
+                            "🛡️ Watch (Guardian)",
+                            "⚛️ Ambiguity (Quantum)"
+                        ]
+                    },
+                    "uniqueItems": true
+                },
+                "trinity_aspects": {
+                    "type": "array",
+                    "description": "Trinity Framework aspects (⚛️ Identity · 🧠 Consciousness · 🛡️ Guardian)",
+                    "items": {
+                        "type": "string",
+                        "enum": [
+                            "⚛️ Identity",
+                            "🧠 Consciousness",
+                            "🛡️ Guardian"
+                        ]
+                    },
+                    "uniqueItems": true
+                }
+            }
+        },
+        "capabilities": {
+            "type": "array",
+            "description": "Module capabilities and features",
+            "items": {
+                "type": "object",
+                "required": [
+                    "name",
+                    "type"
+                ],
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "description": "Capability identifier",
+                        "examples": [
+                            "authentication",
+                            "memory_consolidation",
+                            "api_gateway"
+                        ]
+                    },
+                    "type": {
+                        "type": "string",
+                        "description": "Capability classification",
+                        "enum": [
+                            "api",
+                            "processing",
+                            "storage",
+                            "authentication",
+                            "orchestration",
+                            "monitoring",
+                            "integration",
+                            "utility"
+                        ]
+                    },
+                    "description": {
+                        "type": "string",
+                        "description": "Human-readable capability description"
+                    },
+                    "interfaces": {
+                        "type": "array",
+                        "description": "Public interfaces exposed",
+                        "items": {
+                            "type": "string"
+                        }
+                    }
+                }
+            },
+            "minItems": 1
+        },
+        "dependencies": {
+            "type": "object",
+            "description": "Module dependencies (internal and external)",
+            "properties": {
+                "internal": {
+                    "type": "array",
+                    "description": "Internal LUKHAS module dependencies",
+                    "items": {
+                        "type": "object",
+                        "required": [
+                            "module"
+                        ],
+                        "properties": {
+                            "module": {
+                                "type": "string",
+                                "description": "Fully qualified module name"
+                            },
+                            "lane": {
+                                "type": "string",
+                                "description": "Lane of the dependency"
+                            },
+                            "required": {
+                                "type": "boolean",
+                                "description": "Whether this is a required dependency",
+                                "default": true
+                            }
+                        }
+                    }
+                },
+                "external": {
+                    "type": "array",
+                    "description": "External package dependencies",
+                    "items": {
+                        "type": "object",
+                        "required": [
+                            "package"
+                        ],
+                        "properties": {
+                            "package": {
+                                "type": "string",
+                                "description": "PyPI package name"
+                            },
+                            "version": {
+                                "type": "string",
+                                "description": "Version constraint"
+                            },
+                            "purpose": {
+                                "type": "string",
+                                "description": "Why this dependency is needed"
+                            }
+                        }
+                    }
+                },
+                "circular_dependencies": {
+                    "type": "array",
+                    "description": "Known circular dependencies (should be empty)",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "exports": {
+            "type": "object",
+            "description": "Public API exports",
+            "properties": {
+                "classes": {
+                    "type": "array",
+                    "description": "Exported classes",
+                    "items": {
+                        "type": "object",
+                        "required": [
+                            "name"
+                        ],
+                        "properties": {
+                            "name": {
+                                "type": "string"
+                            },
+                            "description": {
+                                "type": "string"
+                            },
+                            "public": {
+                                "type": "boolean",
+                                "default": true
+                            }
+                        }
+                    }
+                },
+                "functions": {
+                    "type": "array",
+                    "description": "Exported functions",
+                    "items": {
+                        "type": "object",
+                        "required": [
+                            "name"
+                        ],
+                        "properties": {
+                            "name": {
+                                "type": "string"
+                            },
+                            "description": {
+                                "type": "string"
+                            },
+                            "async": {
+                                "type": "boolean",
+                                "default": false
+                            },
+                            "public": {
+                                "type": "boolean",
+                                "default": true
+                            }
+                        }
+                    }
+                },
+                "constants": {
+                    "type": "array",
+                    "description": "Exported constants",
+                    "items": {
+                        "type": "object",
+                        "required": [
+                            "name"
+                        ],
+                        "properties": {
+                            "name": {
+                                "type": "string"
+                            },
+                            "type": {
+                                "type": "string"
+                            },
+                            "description": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "testing": {
+            "type": "object",
+            "description": "Testing and quality assurance",
+            "properties": {
+                "has_tests": {
+                    "type": "boolean",
+                    "description": "Whether module has test coverage"
+                },
+                "test_paths": {
+                    "type": "array",
+                    "description": "Paths to test files",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "coverage_baseline": {
+                    "type": "number",
+                    "description": "Baseline code coverage percentage",
+                    "minimum": 0,
+                    "maximum": 100
+                },
+                "quality_tier": {
+                    "type": "string",
+                    "description": "T4 quality tier designation",
+                    "enum": [
+                        "T1_critical",
+                        "T2_important",
+                        "T3_standard",
+                        "T4_experimental"
+                    ]
+                }
+            }
+        },
+        "observability": {
+            "type": "object",
+            "description": "Observability and monitoring integration",
+            "properties": {
+                "spans": {
+                    "type": "array",
+                    "description": "OpenTelemetry span names generated",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "metrics": {
+                    "type": "array",
+                    "description": "Metrics exported",
+                    "items": {
+                        "type": "object",
+                        "required": [
+                            "name",
+                            "type"
+                        ],
+                        "properties": {
+                            "name": {
+                                "type": "string"
+                            },
+                            "type": {
+                                "type": "string",
+                                "enum": [
+                                    "counter",
+                                    "gauge",
+                                    "histogram"
+                                ]
+                            },
+                            "description": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                },
+                "logging": {
+                    "type": "object",
+                    "description": "Logging configuration",
+                    "properties": {
+                        "logger_name": {
+                            "type": "string"
+                        },
+                        "default_level": {
+                            "type": "string",
+                            "enum": [
+                                "DEBUG",
+                                "INFO",
+                                "WARNING",
+                                "ERROR"
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "metadata": {
+            "type": "object",
+            "description": "Additional metadata",
+            "required": [
+                "created",
+                "last_updated"
+            ],
+            "properties": {
+                "created": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "Creation timestamp (ISO 8601)"
+                },
+                "last_updated": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "Last update timestamp (ISO 8601)"
+                },
+                "manifest_generated": {
+                    "type": "boolean",
+                    "description": "Whether this manifest was auto-generated",
+                    "default": false
+                },
+                "owner": {
+                    "type": "string",
+                    "description": "Team or agent responsible for this module"
+                },
+                "documentation_url": {
+                    "type": "string",
+                    "format": "uri",
+                    "description": "Link to detailed documentation"
+                },
+                "tags": {
+                    "type": "array",
+                    "description": "Searchable tags",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        }
+    },
+    "additionalProperties": false
+}
