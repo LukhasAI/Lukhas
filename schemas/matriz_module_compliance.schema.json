@@ -3,7 +3,7 @@
     "$id": "https://lukhas.ai/schemas/matriz-module-compliance/v1.0.0",
     "title": "MATRIZ Module Compliance Schema",
     "description": "Schema for LUKHAS module manifests ensuring MATRIZ pipeline compliance and Constellation Framework alignment",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "type": "object",
     "required": [
         "schema_version",
@@ -28,7 +28,6 @@
             "required": [
                 "name",
                 "path",
-                "lane",
                 "type"
             ],
             "properties": {
@@ -48,7 +47,7 @@
                 },
                 "lane": {
                     "type": "string",
-                    "description": "Development lane for import isolation",
+                    "description": "Development lane for import isolation (DEPRECATED: use 'colony')",
                     "enum": [
                         "candidate",
                         "lukhas",
@@ -92,8 +91,13 @@
                         "deprecated"
                     ],
                     "default": "development"
+                },
+                "colony": {
+                    "type": "string",
+                    "description": "Flat capability domain (replaces legacy 'lane')."
                 }
-            }
+            },
+            "additionalProperties": false
         },
         "matriz_integration": {
             "type": "object",
@@ -182,7 +186,8 @@
                         ]
                     ]
                 }
-            }
+            },
+            "additionalProperties": false
         },
         "constellation_alignment": {
             "type": "object",
@@ -203,7 +208,8 @@
                         "⚖️ North (Ethics)",
                         "🛡️ Watch (Guardian)",
                         "⚛️ Ambiguity (Quantum)",
-                        "Supporting"
+                        "Supporting",
+                        "🌊 Flow (Consciousness)"
                     ],
                     "examples": [
                         "⚛️ Anchor (Identity)"
@@ -239,8 +245,16 @@
                         ]
                     },
                     "uniqueItems": true
+                },
+                "star_aliases": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "Optional aliases that map to canonical star name"
                 }
-            }
+            },
+            "additionalProperties": false
         },
         "capabilities": {
             "type": "array",
@@ -350,7 +364,8 @@
                         "type": "string"
                     }
                 }
-            }
+            },
+            "additionalProperties": false
         },
         "exports": {
             "type": "object",
@@ -425,7 +440,8 @@
                         }
                     }
                 }
-            }
+            },
+            "additionalProperties": false
         },
         "testing": {
             "type": "object",
@@ -458,7 +474,8 @@
                         "T4_experimental"
                     ]
                 }
-            }
+            },
+            "additionalProperties": false
         },
         "observability": {
             "type": "object",
@@ -508,15 +525,38 @@
                         "default_level": {
                             "type": "string",
                             "enum": [
+                                "CRITICAL",
                                 "DEBUG",
+                                "ERROR",
                                 "INFO",
-                                "WARNING",
-                                "ERROR"
+                                "TRACE",
+                                "WARNING"
                             ]
+                        }
+                    },
+                    "additionalProperties": false
+                },
+                "events": {
+                    "type": "object",
+                    "properties": {
+                        "publishes": {
+                            "type": "array",
+                            "items": {
+                                "type": "string",
+                                "pattern": "^[a-z0-9_.:-]+@v\\d+$"
+                            }
+                        },
+                        "subscribes": {
+                            "type": "array",
+                            "items": {
+                                "type": "string",
+                                "pattern": "^[a-z0-9_.:-]+@v\\d+$"
+                            }
                         }
                     }
                 }
-            }
+            },
+            "additionalProperties": false
         },
         "metadata": {
             "type": "object",
@@ -557,8 +597,109 @@
                         "type": "string"
                     }
                 }
-            }
+            },
+            "additionalProperties": false
+        },
+        "security": {
+            "type": "object",
+            "properties": {
+                "requires_auth": {
+                    "type": "boolean"
+                },
+                "data_classification": {
+                    "type": "string",
+                    "enum": [
+                        "public",
+                        "internal",
+                        "restricted",
+                        "sensitive"
+                    ]
+                },
+                "secrets_used": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "network_calls": {
+                    "type": "boolean"
+                },
+                "sandboxed": {
+                    "type": "boolean"
+                },
+                "policies": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            },
+            "additionalProperties": false
         }
     },
-    "additionalProperties": false
+    "additionalProperties": false,
+    "allOf": [
+        {
+            "if": {
+                "properties": {
+                    "testing": {
+                        "properties": {
+                            "quality_tier": {
+                                "const": "T1_critical"
+                            }
+                        }
+                    }
+                }
+            },
+            "then": {
+                "properties": {
+                    "testing": {
+                        "required": [
+                            "has_tests",
+                            "test_paths"
+                        ],
+                        "properties": {
+                            "has_tests": {
+                                "const": true
+                            },
+                            "test_paths": {
+                                "type": "array",
+                                "minItems": 1
+                            }
+                        }
+                    },
+                    "metadata": {
+                        "required": [
+                            "owner"
+                        ],
+                        "properties": {
+                            "owner": {
+                                "type": "string",
+                                "minLength": 1
+                            }
+                        }
+                    },
+                    "observability": {
+                        "properties": {
+                            "spans": {
+                                "type": "array",
+                                "minItems": 1
+                            },
+                            "metrics": {
+                                "type": "array",
+                                "minItems": 1
+                            },
+                            "logging": {
+                                "type": "object",
+                                "required": [
+                                    "logger_name",
+                                    "default_level"
+                                ]
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    ]
 }

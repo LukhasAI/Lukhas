@@ -188,13 +188,13 @@ repos:
         files: 'module\.manifest\.json$'
 
       - id: mcp-config-verify
-        name: Guard: MCP config verify
+        name: "Guard: MCP config verify"
         entry: python3 tools/mcp/verify_config.py
         language: system
         files: ^lukhas-mcp/config\.yaml$
 
       - id: mcp-contract
-        name: Guard: MCP tool contract
+        name: "Guard: MCP tool contract"
         entry: python3 tools/mcp/self_contract_test.py
         language: system
         files: ^mcp-servers/lukhas-devtools-mcp/tooling/catalog\.json$
@@ -220,3 +220,31 @@ repos:
         files: '^docs/.*\.md$'
         pass_filenames: false
         stages: [commit]
+
+      - id: context-front-matter-validate
+        name: Validate context front-matter
+        entry: python scripts/validate_context_front_matter.py
+        language: system
+        pass_filenames: false
+        stages: [commit, push]
+
+      - id: forbid-debug-prints
+        name: Forbid debug prints
+        entry: bash -c "rg -n \"\\b(print|pdb\\.set_trace)\\b\" --glob '!venv' --glob '!**/*.md' && exit 1 || exit 0"
+        language: system
+        pass_filenames: false
+        stages: [commit]
+
+  # Secrets detection
+  - repo: https://github.com/Yelp/detect-secrets
+    rev: v1.5.0
+    hooks:
+      - id: detect-secrets
+        args: ["--baseline", ".secrets.baseline"]
+
+  # Commit message validation
+  - repo: https://github.com/commitizen-tools/commitizen
+    rev: v3.28.0
+    hooks:
+      - id: commitizen
+        stages: [commit-msg]
