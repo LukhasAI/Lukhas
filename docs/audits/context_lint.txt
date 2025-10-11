@@ -1,6 +1,25 @@
 # Context Front-Matter Report
-Generated 2025-10-11T21:06:07.017475Z
+Generated 2025-10-11T21:33:42.120491Z
 
+[FAIL] /Users/agi_dev/LOCAL-REPOS/Lukhas/manifests/candidate/aka_qualia/lukhas_context.md: missing or invalid front-matter block
+[FAIL] /Users/agi_dev/LOCAL-REPOS/Lukhas/manifests/candidate/aka_qualia/observability/lukhas_context.md: missing or invalid front-matter block
+[FAIL] /Users/agi_dev/LOCAL-REPOS/Lukhas/manifests/candidate/api/lukhas_context.md: missing or invalid front-matter block
+[FAIL] /Users/agi_dev/LOCAL-REPOS/Lukhas/manifests/candidate/api/oidc/lukhas_context.md: missing or invalid front-matter block
+[FAIL] /Users/agi_dev/LOCAL-REPOS/Lukhas/manifests/candidate/async_utils/lukhas_context.md: missing or invalid front-matter block
+[FAIL] /Users/agi_dev/LOCAL-REPOS/Lukhas/manifests/candidate/bio/advanced_qi_bio/lukhas_context.md: missing or invalid front-matter block
+[FAIL] /Users/agi_dev/LOCAL-REPOS/Lukhas/manifests/candidate/bio/advanced_quantum_bio/lukhas_context.md: missing or invalid front-matter block
+[FAIL] /Users/agi_dev/LOCAL-REPOS/Lukhas/manifests/candidate/bio/ai_client/lukhas_context.md: missing or invalid front-matter block
+[FAIL] /Users/agi_dev/LOCAL-REPOS/Lukhas/manifests/candidate/bio/awareness/advanced_qi_bio/lukhas_context.md: missing or invalid front-matter block
+[FAIL] /Users/agi_dev/LOCAL-REPOS/Lukhas/manifests/candidate/bio/awareness/advanced_quantum_bio/lukhas_context.md: missing or invalid front-matter block
+[FAIL] /Users/agi_dev/LOCAL-REPOS/Lukhas/manifests/candidate/bio/awareness/lukhas_context.md: missing or invalid front-matter block
+[FAIL] /Users/agi_dev/LOCAL-REPOS/Lukhas/manifests/candidate/bio/base_oscillator/lukhas_context.md: missing or invalid front-matter block
+[FAIL] /Users/agi_dev/LOCAL-REPOS/Lukhas/manifests/candidate/bio/bio_engine/lukhas_context.md: missing or invalid front-matter block
+[FAIL] /Users/agi_dev/LOCAL-REPOS/Lukhas/manifests/candidate/bio/bio_hub/lukhas_context.md: missing or invalid front-matter block
+[FAIL] /Users/agi_dev/LOCAL-REPOS/Lukhas/manifests/candidate/bio/bio_integration_hub/lukhas_context.md: missing or invalid front-matter block
+[FAIL] /Users/agi_dev/LOCAL-REPOS/Lukhas/manifests/candidate/bio/bio_utilities/lukhas_context.md: missing or invalid front-matter block
+[FAIL] /Users/agi_dev/LOCAL-REPOS/Lukhas/manifests/candidate/bio/core/lukhas_context.md: missing or invalid front-matter block
+[FAIL] /Users/agi_dev/LOCAL-REPOS/Lukhas/manifests/candidate/bio/core/symbolic_bio_symbolic/lukhas_context.md: missing or invalid front-matter block
+[FAIL] /Users/agi_dev/LOCAL-REPOS/Lukhas/manifests/candidate/bio/lukhas_context.md: missing or invalid front-matter block
+[FAIL] /Users/agi_dev/LOCAL-REPOS/Lukhas/manifests/candidate/lukhas_context.md: missing or invalid front-matter block
 
-
-Failures: 0 | Warnings: 0 | Files checked: 0
+Failures: 20 | Warnings: 0 | Files checked: 20

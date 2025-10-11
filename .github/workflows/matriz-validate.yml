@@ -46,6 +46,10 @@ jobs:
         run: |
           python scripts/validate_context_front_matter.py
 
+      - name: Check star canon sync
+        run: |
+          python scripts/check_star_canon_sync.py
+
       - name: Guardian belt (ban dangerous calls in T1)
         run: |
           python scripts/policy_guard.py

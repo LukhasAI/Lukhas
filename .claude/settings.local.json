@@ -37,7 +37,12 @@
       "Bash(git merge:*)",
       "Bash(awk:*)",
       "Bash(test:*)",
-      "Bash(chmod:*)"
+      "Bash(chmod:*)",
+      "Bash(pip install:*)",
+      "Bash(git stash:*)",
+      "Bash(rg:*)",
+      "Bash(find:*)",
+      "Bash(cat:*)"
     ],
     "defaultMode": "bypassPermissions"
   }

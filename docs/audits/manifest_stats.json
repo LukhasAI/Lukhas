@@ -1,0 +1,316 @@
+{
+  "total_manifests": 780,
+  "stars": {
+    "Supporting": 403,
+    "🔮 Oracle (Quantum)": 11,
+    "🌊 Flow (Consciousness)": 108,
+    "🛡️ Watch (Guardian)": 53,
+    "✦ Trail (Memory)": 97,
+    "🔬 Horizon (Vision)": 53,
+    "⚛️ Anchor (Identity)": 55
+  },
+  "tiers": {
+    "T4_experimental": 378,
+    "T3_standard": 159,
+    "T2_important": 243
+  },
+  "matriz_nodes": {
+    "supporting": 221,
+    "action": 70,
+    "attention": 12,
+    "risk": 111,
+    "memory": 97,
+    "intent": 143,
+    "thought": 126
+  },
+  "colonies": {
+    "actuation": 21,
+    "simulation": 100,
+    "ethics": 28,
+    "interface": 8,
+    "memory": 86
+  },
+  "gaps": {
+    "t1_no_tests": [],
+    "t1_missing_test_paths_property": [],
+    "capability_gaps": [],
+    "invalid_stars": []
+  },
+  "sample": [
+    {
+      "module": "candidate.aka_qualia",
+      "star": "Supporting",
+      "tier": "T4_experimental",
+      "has_tests": false,
+      "nodes": [
+        "supporting"
+      ],
+      "colony": "",
+      "file": "manifests/candidate/aka_qualia/module.manifest.json"
+    },
+    {
+      "module": "candidate.aka_qualia.observability",
+      "star": "Supporting",
+      "tier": "T4_experimental",
+      "has_tests": false,
+      "nodes": [
+        "supporting"
+      ],
+      "colony": "",
+      "file": "manifests/candidate/aka_qualia/observability/module.manifest.json"
+    },
+    {
+      "module": "candidate.api",
+      "star": "Supporting",
+      "tier": "T3_standard",
+      "has_tests": false,
+      "nodes": [
+        "action"
+      ],
+      "colony": "",
+      "file": "manifests/candidate/api/module.manifest.json"
+    },
+    {
+      "module": "candidate.api.oidc",
+      "star": "Supporting",
+      "tier": "T3_standard",
+      "has_tests": false,
+      "nodes": [
+        "action"
+      ],
+      "colony": "actuation",
+      "file": "manifests/candidate/api/oidc/module.manifest.json"
+    },
+    {
+      "module": "candidate.async_utils",
+      "star": "Supporting",
+      "tier": "T4_experimental",
+      "has_tests": false,
+      "nodes": [
+        "supporting"
+      ],
+      "colony": "",
+      "file": "manifests/candidate/async_utils/module.manifest.json"
+    },
+    {
+      "module": "candidate.bio.advanced_qi_bio",
+      "star": "Supporting",
+      "tier": "T4_experimental",
+      "has_tests": false,
+      "nodes": [
+        "supporting"
+      ],
+      "colony": "",
+      "file": "manifests/candidate/bio/advanced_qi_bio/module.manifest.json"
+    },
+    {
+      "module": "candidate.bio.advanced_quantum_bio",
+      "star": "🔮 Oracle (Quantum)",
+      "tier": "T4_experimental",
+      "has_tests": false,
+      "nodes": [
+        "supporting"
+      ],
+      "colony": "",
+      "file": "manifests/candidate/bio/advanced_quantum_bio/module.manifest.json"
+    },
+    {
+      "module": "candidate.bio.ai_client",
+      "star": "Supporting",
+      "tier": "T4_experimental",
+      "has_tests": false,
+      "nodes": [
+        "supporting"
+      ],
+      "colony": "",
+      "file": "manifests/candidate/bio/ai_client/module.manifest.json"
+    },
+    {
+      "module": "candidate.bio.awareness.advanced_qi_bio",
+      "star": "🌊 Flow (Consciousness)",
+      "tier": "T4_experimental",
+      "has_tests": false,
+      "nodes": [
+        "attention"
+      ],
+      "colony": "",
+      "file": "manifests/candidate/bio/awareness/advanced_qi_bio/module.manifest.json"
+    },
+    {
+      "module": "candidate.bio.awareness.advanced_quantum_bio",
+      "star": "🌊 Flow (Consciousness)",
+      "tier": "T4_experimental",
+      "has_tests": false,
+      "nodes": [
+        "attention"
+      ],
+      "colony": "",
+      "file": "manifests/candidate/bio/awareness/advanced_quantum_bio/module.manifest.json"
+    },
+    {
+      "module": "candidate.bio.awareness",
+      "star": "🌊 Flow (Consciousness)",
+      "tier": "T4_experimental",
+      "has_tests": false,
+      "nodes": [
+        "attention"
+      ],
+      "colony": "",
+      "file": "manifests/candidate/bio/awareness/module.manifest.json"
+    },
+    {
+      "module": "candidate.bio.base_oscillator",
+      "star": "Supporting",
+      "tier": "T4_experimental",
+      "has_tests": false,
+      "nodes": [
+        "supporting"
+      ],
+      "colony": "",
+      "file": "manifests/candidate/bio/base_oscillator/module.manifest.json"
+    },
+    {
+      "module": "candidate.bio.bio_engine",
+      "star": "Supporting",
+      "tier": "T4_experimental",
+      "has_tests": false,
+      "nodes": [
+        "supporting"
+      ],
+      "colony": "",
+      "file": "manifests/candidate/bio/bio_engine/module.manifest.json"
+    },
+    {
+      "module": "candidate.bio.bio_hub",
+      "star": "Supporting",
+      "tier": "T4_experimental",
+      "has_tests": false,
+      "nodes": [
+        "supporting"
+      ],
+      "colony": "",
+      "file": "manifests/candidate/bio/bio_hub/module.manifest.json"
+    },
+    {
+      "module": "candidate.bio.bio_integration_hub",
+      "star": "Supporting",
+      "tier": "T4_experimental",
+      "has_tests": false,
+      "nodes": [
+        "supporting"
+      ],
+      "colony": "",
+      "file": "manifests/candidate/bio/bio_integration_hub/module.manifest.json"
+    },
+    {
+      "module": "candidate.bio.bio_utilities",
+      "star": "Supporting",
+      "tier": "T4_experimental",
+      "has_tests": false,
+      "nodes": [
+        "supporting"
+      ],
+      "colony": "",
+      "file": "manifests/candidate/bio/bio_utilities/module.manifest.json"
+    },
+    {
+      "module": "candidate.bio.core",
+      "star": "Supporting",
+      "tier": "T4_experimental",
+      "has_tests": false,
+      "nodes": [
+        "supporting"
+      ],
+      "colony": "",
+      "file": "manifests/candidate/bio/core/module.manifest.json"
+    },
+    {
+      "module": "candidate.bio.core.symbolic_bio_symbolic",
+      "star": "Supporting",
+      "tier": "T4_experimental",
+      "has_tests": false,
+      "nodes": [
+        "supporting"
+      ],
+      "colony": "",
+      "file": "manifests/candidate/bio/core/symbolic_bio_symbolic/module.manifest.json"
+    },
+    {
+      "module": "candidate.bio.core.symbolic_bio_symbolic_architectures",
+      "star": "Supporting",
+      "tier": "T4_experimental",
+      "has_tests": false,
+      "nodes": [
+        "supporting"
+      ],
+      "colony": "",
+      "file": "manifests/candidate/bio/core/symbolic_bio_symbolic_architectures/module.manifest.json"
+    },
+    {
+      "module": "candidate.bio.core.symbolic_bio_symbolic_orchestrator",
+      "star": "Supporting",
+      "tier": "T4_experimental",
+      "has_tests": false,
+      "nodes": [
+        "supporting"
+      ],
+      "colony": "",
+      "file": "manifests/candidate/bio/core/symbolic_bio_symbolic_orchestrator/module.manifest.json"
+    },
+    {
+      "module": "candidate.bio.core.symbolic_crista_optimizer",
+      "star": "Supporting",
+      "tier": "T4_experimental",
+      "has_tests": false,
+      "nodes": [
+        "supporting"
+      ],
+      "colony": "",
+      "file": "manifests/candidate/bio/core/symbolic_crista_optimizer/module.manifest.json"
+    },
+    {
+      "module": "candidate.bio.core.symbolic_fallback_systems",
+      "star": "Supporting",
+      "tier": "T4_experimental",
+      "has_tests": false,
+      "nodes": [
+        "supporting"
+      ],
+      "colony": "",
+      "file": "manifests/candidate/bio/core/symbolic_fallback_systems/module.manifest.json"
+    },
+    {
+      "module": "candidate.bio.core.symbolic_mito_ethics_sync",
+      "star": "🛡️ Watch (Guardian)",
+      "tier": "T4_experimental",
+      "has_tests": false,
+      "nodes": [
+        "risk"
+      ],
+      "colony": "",
+      "file": "manifests/candidate/bio/core/symbolic_mito_ethics_sync/module.manifest.json"
+    },
+    {
+      "module": "candidate.bio.core.symbolic_mito_qi_attention",
+      "star": "Supporting",
+      "tier": "T4_experimental",
+      "has_tests": false,
+      "nodes": [
+        "attention"
+      ],
+      "colony": "",
+      "file": "manifests/candidate/bio/core/symbolic_mito_qi_attention/module.manifest.json"
+    },
+    {
+      "module": "candidate.bio.core.symbolic_mito_quantum_attention",
+      "star": "🔮 Oracle (Quantum)",
+      "tier": "T4_experimental",
+      "has_tests": false,
+      "nodes": [
+        "attention"
+      ],
+      "colony": "",
+      "file": "manifests/candidate/bio/core/symbolic_mito_quantum_attention/module.manifest.json"
+    }
+  ]
+}

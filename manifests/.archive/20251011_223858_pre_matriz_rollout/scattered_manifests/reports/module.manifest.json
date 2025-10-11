@@ -1,0 +1,83 @@
+{
+  "_provenance": {
+    "apis": {
+      "confidence": "low",
+      "extracted_at": "2025-10-03T01:02:53.801184+00:00",
+      "reasons": [
+        "no_apis"
+      ],
+      "sources": []
+    },
+    "features": {
+      "confidence": "low",
+      "extracted_at": "2025-10-03T01:02:53.801089+00:00",
+      "reasons": [
+        "weak_evidence"
+      ],
+      "sha": "faaef2a8ccdc29d66565e46eec77da5a6a3eeba2e9393d75e730e782ead619e2",
+      "sources": [
+        "claude.me:bullets",
+        "claude.me:headers"
+      ]
+    }
+  },
+  "apis": {},
+  "contracts": [],
+  "dependencies": [],
+  "description": "LUKHAS reports module implementing specialized reports functionality with 0 components for integrated system operations.",
+  "features": [],
+  "identity": {
+    "requires_auth": false,
+    "scopes": [],
+    "tiers": []
+  },
+  "layout": {
+    "code_layout": "package-root",
+    "paths": {
+      "assets": "assets",
+      "code": ".",
+      "config": "config",
+      "docs": "docs",
+      "tests": "tests"
+    }
+  },
+  "links": {
+    "docs": "./docs/README.md",
+    "issues": "https://github.com/LukhasAI/Lukhas/issues",
+    "repo": "https://github.com/LukhasAI/Lukhas"
+  },
+  "matrix": {
+    "contract": "",
+    "gates_profile": "standard",
+    "lane": "L2"
+  },
+  "module": "reports",
+  "observability": {
+    "otel_semconv_version": "1.37.0",
+    "required_spans": [
+      "lukhas.reports.operation"
+    ]
+  },
+  "ownership": {
+    "codeowners": [
+      "@lukhas-core"
+    ],
+    "team": "Core"
+  },
+  "runtime": {
+    "entrypoints": [],
+    "language": "python"
+  },
+  "schema_version": "1.0.0",
+  "tags": [
+    "reports"
+  ],
+  "tokenization": {
+    "chain": "none",
+    "enabled": false
+  },
+  "testing": {
+    "coverage_observed": 0.0,
+    "observed_at": "2025-10-05T11:30:31.692250+00:00"
+  }
+}

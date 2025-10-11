@@ -1236,7 +1236,7 @@ vault-audit-vault: ## Audit THE_VAULT directory (shortcut for VAULT_ROOT=../THE_
 # MATRIZ PREP - 0.01% Discipline Pack
 # ==============================================================================
 
-.PHONY: init patch-schema manifests validate badges top stats context-validate
+.PHONY: init patch-schema normalize-inventory manifests validate badges top stats context-validate
 
 init: ## Install dependencies for MATRIZ tooling
 	$(PYTHON) -m pip install --upgrade pip
@@ -1244,6 +1244,9 @@ init: ## Install dependencies for MATRIZ tooling
 
 patch-schema: ## Patch MATRIZ schema to v1.1.0 (Flow star, events, security)
 	$(PYTHON) scripts/patch_schema_to_v1_1_0.py schemas/matriz_module_compliance.schema.json
+
+normalize-inventory: ## Normalize inventory (lucas→lukhas, lane→colony, star hints)
+	$(PYTHON) scripts/normalize_inventory.py
 
 manifests: ## Generate module manifests from inventory
 	$(PYTHON) scripts/generate_module_manifests.py \

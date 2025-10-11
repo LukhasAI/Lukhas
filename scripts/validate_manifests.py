@@ -34,7 +34,7 @@ def main():
             print(f"[OK]   {f}")
 
     print(f"\nChecked {len(files)} files; failures: {failures}")
-    if failures and not args.warn-only:
+    if failures and not args.warn_only:
         sys.exit(1)
 
 if __name__ == "__main__":
