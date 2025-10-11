@@ -1,0 +1,58 @@
+{
+  "rules_file": "configs/star_rules.json",
+  "canonical_stars": [
+    "Supporting",
+    "\u2696\ufe0f North (Ethics)",
+    "\u269b\ufe0f Anchor (Identity)",
+    "\u2726 Trail (Memory)",
+    "\ud83c\udf0a Flow (Consciousness)",
+    "\ud83c\udf19 Drift (Dream)",
+    "\ud83c\udf31 Living (Bio)",
+    "\ud83d\udd2c Horizon (Vision)",
+    "\ud83d\udd2e Oracle (Quantum)",
+    "\ud83d\udee1\ufe0f Watch (Guardian)"
+  ],
+  "deny": [],
+  "weights": {
+    "capability_override": 0.6,
+    "node_override": 0.5,
+    "path_regex": 0.4,
+    "owner_prior": 0.35,
+    "dependency_hint": 0.3
+  },
+  "confidence": {
+    "min_suggest": 0.5,
+    "min_autopromote": 0.7
+  },
+  "totals": {
+    "manifests_scanned": 780,
+    "supporting_count": 403
+  },
+  "hit_counts": {
+    "rules": {
+      "\ud83c\udf31 Living (Bio)::bio|biolog(y|ical)|mito(chondria|chondrial)|endocrine|metabolic|organ(ism|ic)|cell(ular)?|homeostasis": 52,
+      "\ud83d\udd2c Horizon (Vision)::vision|percept(ion|ual)|image|camera|frame|segmentation|detector|ocr|render(er)?|overlay|pose|cv2|opencv": 5,
+      "\u2696\ufe0f North (Ethics)::ethic(s|al)|safety[_-]?policy|fair(ness)?|bias|consent|provenance|governance|compliance|audit[_-]?trail": 109,
+      "\u2726 Trail (Memory)::memory|episodic|semantic|retriev(al|er)|embedding(s)?|vector[_-]?index|cache(manager)?|consolidation|trace(store|log)": 96,
+      "\ud83c\udf0a Flow (Consciousness)::(?<!sub)conscious|awareness|metacognition|oneiric|dream(?!liner)|imagination|rumination|inner[_-]?voice|attention[_-]?router|salience": 114,
+      "\u269b\ufe0f Anchor (Identity)::identity|persona|profile|anchor(?! bolt)|self[_-]?model|whoami|account|session|idp": 62,
+      "\ud83d\udee1\ufe0f Watch (Guardian)::auth(n|z)?\\b|oidc|oauth|rbac|abac|policy|guard(rail|ian)|verifier|redteam|threat|sandbox|jail|gatekeeper|aud(it|itor)": 30,
+      "\ud83c\udf19 Drift (Dream)::dream[_-]?engine|dream[_-]?loop|lucid|hypnagogic|oneiric|dream[_-]refold|hallucinat(e|ion)": 13,
+      "\ud83d\udd2e Oracle (Quantum)::\\bquantum\\b|\\bqi\\b|anneal(er|ing)|qiskit|oracle[_-]?gate|superposition|entangle(d|ment)": 2
+    },
+    "capability_overrides": {
+      "\ud83d\udee1\ufe0f Watch (Guardian)::authentication": 8
+    },
+    "node_overrides": {
+      "\ud83c\udf0a Flow (Consciousness)::thought": 126,
+      "\ud83c\udf0a Flow (Consciousness)::attention": 12,
+      "\ud83d\udee1\ufe0f Watch (Guardian)::risk": 111,
+      "\u2726 Trail (Memory)::memory": 97,
+      "\ud83d\udee1\ufe0f Watch (Guardian)::action": 70
+    },
+    "owner_priors": {},
+    "dependency_hints": {},
+    "exclusions": {}
+  },
+  "zero_hit_rules": []
+}

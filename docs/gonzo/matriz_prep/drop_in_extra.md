@@ -1803,3 +1803,110 @@ What this unlocks (T4 view)
 	•	Precision upgrades without fear: you’ll see the effect of adding exclusions or tightening regex immediately in the coverage diff.
 	•	Better Supporting-reduction: the coverage + promotions CSV make it trivial to promote high-confidence modules.
 
+And here’s a zero-maintenance PR auto-comment that piggybacks on the artifacts you’re already generating. No new jobs, no extra secrets, just two small steps you append to your existing .github/workflows/matriz-validate.yml.
+
+⸻
+
+Add to .github/workflows/matriz-validate.yml (end of your job)
+
+      # --- PR Auto-Comment: compose a short summary from existing reports ---
+      - name: Compose MATRIZ PR summary (markdown)
+        if: ${{ github.event_name == 'pull_request' }}
+        run: |
+          python - <<'PY'
+          import json, csv, os, pathlib
+          from collections import Counter
+
+          root = pathlib.Path(".")
+          stats_p = root/"docs/audits/manifest_stats.json"
+          rules_p = root/"docs/audits/star_rules_lint.json"
+          promos_csv = root/"docs/audits/star_promotions.csv"
+          coverage_md = root/"docs/audits/star_rules_coverage.md"
+
+          def safe_json(p):
+            try:
+              return json.loads(p.read_text(encoding="utf-8"))
+            except Exception:
+              return {}
+
+          stats = safe_json(stats_p)
+          rules = safe_json(rules_p)
+
+          stars = Counter(stats.get("stars", {}))
+          tiers = Counter(stats.get("tiers", {}))
+          total = stats.get("total_manifests", 0)
+          supporting = stars.get("Supporting", 0)
+          zero_hit = len(rules.get("zero_hit_rules", []))
+
+          # promotions summary
+          promotions = []
+          if promos_csv.exists():
+            with promos_csv.open("r", encoding="utf-8") as f:
+              r = csv.DictReader(f)
+              promotions = list(r)
+          promo_n = len(promotions)
+          promo_top = promotions[:10]
+
+          # build markdown
+          lines = []
+          lines.append("## ✅ MATRIZ Validation Summary")
+          lines.append("")
+          lines.append(f"- **Manifests scanned:** {total}")
+          if stars:
+            top = ", ".join([f"`{k}` {v}" for k, v in stars.most_common(6)])
+            lines.append(f"- **Star distribution (top):** {top}")
+            lines.append(f"- **Supporting:** {supporting}")
+          if tiers:
+            lines.append(f"- **Tiers:** " + ", ".join([f"`{k}` {v}" for k,v in tiers.most_common()]))
+          lines.append(f"- **Zero-hit rules:** {zero_hit}  (from `star_rules_lint.json`)")
+          lines.append(f"- **Suggested promotions:** {promo_n}  (from `star_promotions.csv`)")
+          lines.append("")
+          if promo_top:
+            lines.append("<details><summary>Top suggestions (first 10)</summary>\n")
+            lines.append("| Module | Suggested | Conf | Reason |")
+            lines.append("|---|---|---:|---|")
+            for r in promo_top:
+              lines.append(f"| {r['module']} | {r['suggested_star']} | {r['confidence']} | {r['reason']} |")
+            lines.append("\n</details>\n")
+
+          # soft links to files in the PR diff (if present)
+          links = []
+          if stats_p.exists():      links.append("`docs/audits/manifest_stats.json`")
+          if (root/"docs/audits/manifest_stats.md").exists(): links.append("`docs/audits/manifest_stats.md`")
+          if rules_p.exists():      links.append("`docs/audits/star_rules_lint.json`")
+          if coverage_md.exists():  links.append("`docs/audits/star_rules_coverage.md`")
+          if promos_csv.exists():   links.append("`docs/audits/star_promotions.csv`")
+          if links:
+            lines.append("**Reports:** " + " · ".join(links))
+
+          out = "\n".join(lines) + "\n"
+          pathlib.Path(".github/pr_comment.md").parent.mkdir(parents=True, exist_ok=True)
+          pathlib.Path(".github/pr_comment.md").write_text(out, encoding="utf-8")
+          print(out)
+          PY
+
+      - name: Post / update sticky PR comment (MATRIZ summary)
+        if: ${{ github.event_name == 'pull_request' }}
+        uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          header: MATRIZ Validation Summary
+          path: .github/pr_comment.md
+
+Why this is “no extra work”
+	•	No new jobs — just two steps in your existing workflow.
+	•	No secrets — uses the default GITHUB_TOKEN.
+	•	No duplication — reads the reports you already generate (stats, rules coverage, promotions).
+	•	Sticky — updates the same PR comment on new pushes; no spam.
+
+⸻
+
+Optional: tiny badge line in the comment (paste into the Python block if you like)
+
+Add right after the title line:
+
+lines.append("![MATRIZ](https://img.shields.io/badge/MATRIZ-validate-blue) ![Stars](https://img.shields.io/badge/Stars-{}/{}-informational)".format(total - supporting, total))
+
+
+⸻
+
+If you want this to fail the check when zero-hit rules > 0 or T1s lack owners, you already have tripwires; this comment stays purely informational. When you’re back, we can wire a bot reply that tags OWNERS of new T1s with missing tests — still zero-maintenance.

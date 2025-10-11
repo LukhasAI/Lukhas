@@ -1,0 +1,133 @@
+{
+  "version": "2.0",
+  "updated": "2025-10-11",
+  "changelog": [
+    "v2.0: Add exclusions, owner/dependency priors, richer capability mapping, path guards, and confidence bands; keep Oracle (Quantum) canonical; add Flow (Consciousness)."
+  ],
+
+  "canonical_stars": [
+    "⚛️ Anchor (Identity)",
+    "✦ Trail (Memory)",
+    "🔬 Horizon (Vision)",
+    "🌱 Living (Bio)",
+    "🌙 Drift (Dream)",
+    "⚖️ North (Ethics)",
+    "🛡️ Watch (Guardian)",
+    "🔮 Oracle (Quantum)",
+    "🌊 Flow (Consciousness)",
+    "Supporting"
+  ],
+
+  "aliases": {
+    "Anchor": "⚛️ Anchor (Identity)",
+    "Identity": "⚛️ Anchor (Identity)",
+    "Trail": "✦ Trail (Memory)",
+    "Memory": "✦ Trail (Memory)",
+    "Horizon": "🔬 Horizon (Vision)",
+    "Vision": "🔬 Horizon (Vision)",
+    "Living": "🌱 Living (Bio)",
+    "Bio": "🌱 Living (Bio)",
+    "Drift": "🌙 Drift (Dream)",
+    "Dream": "🌙 Drift (Dream)",
+    "North": "⚖️ North (Ethics)",
+    "Ethics": "⚖️ North (Ethics)",
+    "Watch": "🛡️ Watch (Guardian)",
+    "Guardian": "🛡️ Watch (Guardian)",
+    "Oracle": "🔮 Oracle (Quantum)",
+    "Quantum": "🔮 Oracle (Quantum)",
+    "Ambiguity": "🔮 Oracle (Quantum)",
+    "Flow": "🌊 Flow (Consciousness)",
+    "Consciousness": "🌊 Flow (Consciousness)"
+  },
+
+  "deny": [],
+
+  "weights": {
+    "capability_override": 0.60,
+    "node_override": 0.50,
+    "path_regex": 0.40,
+    "owner_prior": 0.35,
+    "dependency_hint": 0.30
+  },
+
+  "confidence": {
+    "min_suggest": 0.50,
+    "min_autopromote": 0.70
+  },
+
+  "exclusions": [
+    {"pattern": "\\bstopwatch\\b", "explain": "Avoid Watch star false positives"},
+    {"pattern": "\\bwatchers?\\b", "explain": "Avoid repo watcher noise"},
+    {"pattern": "\\banchor(?:ing)? bolts?\\b", "explain": "Non-Identity engineering term"},
+    {"pattern": "\\bdreamliner\\b", "explain": "Brand name, not Drift"},
+    {"pattern": "\\bmemory leak(s)?\\b", "explain": "Bug phrase; not Memory star capability"},
+    {"pattern": "\\bvisionary\\b", "explain": "English adjective; not Vision"}
+  ],
+
+  "rules": [
+    { "star": "🌊 Flow (Consciousness)", "pattern": "(?<!sub)conscious|awareness|metacognition|oneiric|dream(?!liner)|imagination|rumination|inner[_-]?voice|attention[_-]?router|salience", "source": "path_keywords" },
+    { "star": "✦ Trail (Memory)", "pattern": "memory|episodic|semantic|retriev(al|er)|embedding(s)?|vector[_-]?index|cache(manager)?|consolidation|trace(store|log)", "source": "path_keywords" },
+    { "star": "🛡️ Watch (Guardian)", "pattern": "auth(n|z)?\\b|oidc|oauth|rbac|abac|policy|guard(rail|ian)|verifier|redteam|threat|sandbox|jail|gatekeeper|aud(it|itor)", "source": "path_keywords" },
+    { "star": "🔬 Horizon (Vision)", "pattern": "vision|percept(ion|ual)|image|camera|frame|segmentation|detector|ocr|render(er)?|overlay|pose|cv2|opencv", "source": "path_keywords" },
+    { "star": "🌱 Living (Bio)", "pattern": "bio|biolog(y|ical)|mito(chondria|chondrial)|endocrine|metabolic|organ(ism|ic)|cell(ular)?|homeostasis", "source": "path_keywords" },
+    { "star": "🌙 Drift (Dream)", "pattern": "dream[_-]?engine|dream[_-]?loop|lucid|hypnagogic|oneiric|dream[_-]refold|hallucinat(e|ion)", "source": "path_keywords" },
+    { "star": "⚖️ North (Ethics)", "pattern": "ethic(s|al)|safety[_-]?policy|fair(ness)?|bias|consent|provenance|governance|compliance|audit[_-]?trail", "source": "path_keywords" },
+    { "star": "⚛️ Anchor (Identity)", "pattern": "identity|persona|profile|anchor(?! bolt)|self[_-]?model|whoami|account|session|idp", "source": "path_keywords" },
+    { "star": "🔮 Oracle (Quantum)", "pattern": "\\bquantum\\b|\\bqi\\b|anneal(er|ing)|qiskit|oracle[_-]?gate|superposition|entangle(d|ment)", "source": "path_keywords" }
+  ],
+
+  "capability_overrides": [
+    { "capability": "authentication", "star": "🛡️ Watch (Guardian)" },
+    { "capability": "authorization", "star": "🛡️ Watch (Guardian)" },
+    { "capability": "api_gateway", "star": "🛡️ Watch (Guardian)" },
+    { "capability": "policy_guard", "star": "🛡️ Watch (Guardian)" },
+    { "capability": "red_team", "star": "🛡️ Watch (Guardian)" },
+
+    { "capability": "memory_consolidation", "star": "✦ Trail (Memory)" },
+    { "capability": "vector_index", "star": "✦ Trail (Memory)" },
+    { "capability": "retrieval", "star": "✦ Trail (Memory)" },
+    { "capability": "cache_manager", "star": "✦ Trail (Memory)" },
+
+    { "capability": "attention_router", "star": "🌊 Flow (Consciousness)" },
+    { "capability": "metacognitive_monitor", "star": "🌊 Flow (Consciousness)" },
+    { "capability": "self_reflection", "star": "🌊 Flow (Consciousness)" },
+
+    { "capability": "vision_pipeline", "star": "🔬 Horizon (Vision)" },
+    { "capability": "ocr", "star": "🔬 Horizon (Vision)" },
+    { "capability": "scene_understanding", "star": "🔬 Horizon (Vision)" },
+
+    { "capability": "bio_simulation", "star": "🌱 Living (Bio)" },
+    { "capability": "mito_ethics_sync", "star": "🌱 Living (Bio)" },
+    { "capability": "endocrine_integration", "star": "🌱 Living (Bio)" },
+
+    { "capability": "ethical_auditor", "star": "⚖️ North (Ethics)" },
+    { "capability": "consent_manager", "star": "⚖️ North (Ethics)" },
+    { "capability": "data_provenance", "star": "⚖️ North (Ethics)" },
+
+    { "capability": "identity_resolver", "star": "⚛️ Anchor (Identity)" },
+    { "capability": "persona_manager", "star": "⚛️ Anchor (Identity)" },
+
+    { "capability": "quantum_attention", "star": "🔮 Oracle (Quantum)" },
+    { "capability": "qi_layer", "star": "🔮 Oracle (Quantum)" }
+  ],
+
+  "node_overrides": [
+    { "node": "attention", "star": "🌊 Flow (Consciousness)" },
+    { "node": "memory", "star": "✦ Trail (Memory)" },
+    { "node": "risk", "star": "🛡️ Watch (Guardian)" },
+    { "node": "action", "star": "🛡️ Watch (Guardian)" },
+    { "node": "thought", "star": "🌊 Flow (Consciousness)" }
+  ],
+
+  "owner_priors": [
+    { "owner_regex": "\\bguardian\\b|\\bsecurity\\b", "star": "🛡️ Watch (Guardian)" },
+    { "owner_regex": "\\bconscious(ness)?\\b|\\bflow\\b", "star": "🌊 Flow (Consciousness)" },
+    { "owner_regex": "\\bmemory\\b|\\bretrieval\\b", "star": "✦ Trail (Memory)" }
+  ],
+
+  "dependency_hints": [
+    { "package_regex": "\\b(opencv|cv2|torchvision|pytesseract)\\b", "star": "🔬 Horizon (Vision)" },
+    { "package_regex": "\\bqiskit|cirq|pennylane\\b", "star": "🔮 Oracle (Quantum)" },
+    { "package_regex": "\\bpasslib|authlib|pyjwt|python-keycloak\\b", "star": "🛡️ Watch (Guardian)" }
+  ]
+}

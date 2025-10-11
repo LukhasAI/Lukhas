@@ -14,7 +14,7 @@
 .PHONY: emergency-bypass clean-artifacts dev-setup status ci-validate ci-artifacts help
 .PHONY: mcp-bootstrap mcp-verify mcp-selftest mcp-ready mcp-contract mcp-smoke mcp-freeze mcp-docker-build mcp-docker-run mcp-validate-catalog mcp-health
 .PHONY: meta-registry ledger-check trends validate-t4 validate-t4-strict tag-prod freeze-verify freeze-guardian freeze-guardian-once dashboard-sync init-dev-branch
-.PHONY: docs-map docs-migrate-auto docs-migrate-dry docs-lint validate-structure module-health vault-audit vault-audit-vault
+.PHONY: docs-map docs-migrate-auto docs-migrate-dry docs-lint validate-structure module-health vault-audit vault-audit-vault star-rules-lint star-rules-coverage promotions
 
 # Note: Additional PHONY targets are declared in mk/*.mk include files
 
@@ -1285,3 +1285,15 @@ policy-guard: ## Check T1 modules for dangerous calls
 	$(PYTHON) scripts/policy_guard.py
 
 matriz-all: patch-schema manifests validate badges top stats ## Run all MATRIZ prep steps
+
+star-rules-lint: ## Lint star rules (syntax & hit counts)
+	python3 scripts/lint_star_rules.py --rules configs/star_rules.json --manifests manifests
+
+star-rules-coverage: star-rules-lint ## Generate star rules coverage report
+	python3 scripts/gen_rules_coverage.py
+	@echo "[OK] Coverage written to docs/audits/star_rules_coverage.md"
+
+promotions: ## Suggest star promotions (Supporting → specific)
+	python3 scripts/suggest_star_promotions.py --manifests manifests --rules configs/star_rules.json --out docs/audits
+	@echo "[OK] Suggestions in docs/audits/star_promotions.{csv,md}"
+

@@ -58,16 +58,107 @@ jobs:
         run: |
           pytest -q -m matriz_smoke || true
 
-      - name: Build manifest stats
+      - name: Tripwire — T1 must have testing.test_paths (may be empty)
         run: |
-          python scripts/report_manifest_stats.py --manifests manifests --out docs/audits || true
+          python - <<'PY'
+          import json, pathlib, sys
+          errs=0
+          for p in pathlib.Path('manifests').rglob('module.manifest.json'):
+              if '/.archive/' in str(p):
+                  continue
+              d=json.loads(p.read_text())
+              t=d.get('testing',{})
+              if t.get('quality_tier') == 'T1_critical' and 'test_paths' not in t:
+                  print(f"[FAIL] {p}: T1_critical requires testing.test_paths property (can be [])")
+                  errs+=1
+          sys.exit(1 if errs else 0)
+          PY
 
-      - name: Upload artifacts
+      - name: Tripwire — Forbid deprecated star names (Ambiguity)
+        run: |
+          python - <<'PY'
+          import json, pathlib, sys
+          bad=[]
+          for p in pathlib.Path('manifests').rglob('module.manifest.json'):
+              if '/.archive/' in str(p):
+                  continue
+              d=json.loads(p.read_text())
+              star=d.get('constellation_alignment',{}).get('primary_star')
+              if star == "⚛️ Ambiguity (Quantum)":
+                  bad.append(str(p))
+          if bad:
+              print("[FAIL] Found deprecated star name in:", *bad, sep="\n  ")
+              sys.exit(1)
+          PY
+
+      - name: Tripwire — No empty capabilities
+        run: |
+          python - <<'PY'
+          import json, pathlib, sys
+          bad=[]
+          for p in pathlib.Path('manifests').rglob('module.manifest.json'):
+              if '/.archive/' in str(p):
+                  continue
+              d=json.loads(p.read_text())
+              caps=d.get('capabilities',[])
+              if not caps:
+                  bad.append(str(p))
+          if bad:
+              print("[FAIL] Empty capabilities detected in:", *bad, sep="\n  ")
+              sys.exit(1)
+          PY
+
+      - name: Tripwire — Colony must not be null (omit if unknown)
+        run: |
+          python - <<'PY'
+          import json, pathlib, sys
+          bad=[]
+          for p in pathlib.Path('manifests').rglob('module.manifest.json'):
+              if '/.archive/' in str(p):
+                  continue
+              d=json.loads(p.read_text())
+              if 'colony' in d and d['colony'] is None:
+                  bad.append(str(p))
+          if bad:
+              print("[FAIL] colony is null (should be omitted):", *bad, sep="\n  ")
+              sys.exit(1)
+          PY
+
+      - name: Stats — Generate manifest statistics (JSON+MD)
+        run: |
+          python3 scripts/report_manifest_stats.py --manifests manifests --out docs/audits
+
+      - name: Lint star rules (syntax & hit counts)
+        run: |
+          python3 scripts/lint_star_rules.py --rules configs/star_rules.json --manifests manifests
+
+      - name: Unit tests for star rules
+        run: |
+          pytest -q tests/rules/test_star_rules.py || true
+
+      - name: Generate star rules coverage (MD from lint JSON)
+        run: |
+          python3 scripts/gen_rules_coverage.py
+
+      - name: Suggest star promotions (Supporting → specific)
+        run: |
+          python3 scripts/suggest_star_promotions.py --manifests manifests --rules configs/star_rules.json --out docs/audits
+
+      - name: Tripwire — T1 must have metadata.owner
+        run: |
+          python3 scripts/check_t1_owners.py
+
+      - name: Upload artifacts — manifest stats & reports
         uses: actions/upload-artifact@v4
         with:
-          name: matriz-audits
+          name: matriz-reports
           path: |
+            docs/audits/manifest_stats.json
+            docs/audits/manifest_stats.md
             docs/audits/linkcheck.txt
             docs/audits/context_lint.txt
-            docs/audits/manifest_stats.*
+            docs/audits/star_rules_lint.json
+            docs/audits/star_rules_coverage.md
+            docs/audits/star_promotions.csv
+            docs/audits/star_promotions.md
           if-no-files-found: warn
