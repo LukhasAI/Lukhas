@@ -16,7 +16,10 @@ Endpoints:
 from typing import Any, Dict, List, Optional
 from fastapi import FastAPI, Request, Response, HTTPException
 from fastapi.responses import JSONResponse, PlainTextResponse
+from fastapi.middleware.cors import CORSMiddleware
 import os, time, uuid, logging
+
+from lukhas.core.reliability.ratelimit import RateLimiter, rate_limit_error
 
 logger = logging.getLogger(__name__)
 
@@ -63,6 +66,31 @@ def get_app() -> FastAPI:
         version="0.1.0",
         description="OpenAI-compatible API powered by LUKHAS MATRIZ cognitive engine"
     )
+
+    # Initialize rate limiter
+    rate_limiter = RateLimiter(default_rps=20)
+    rate_limiter.configure_endpoint("/v1/responses", rps=20)
+    rate_limiter.configure_endpoint("/v1/embeddings", rps=50)
+    rate_limiter.configure_endpoint("/v1/dreams", rps=5)
+
+    # Rate limiting middleware
+    @app.middleware("http")
+    async def rate_limit_middleware(request: Request, call_next):
+        # Skip rate limiting for health/metrics endpoints
+        if request.url.path in ["/healthz", "/readyz", "/metrics"]:
+            return await call_next(request)
+
+        # Check rate limit
+        allowed, retry_after = rate_limiter.check_limit(request.url.path)
+        if not allowed:
+            error_response = rate_limit_error(retry_after)
+            return JSONResponse(
+                status_code=429,
+                content=error_response["error"],
+                headers=error_response["headers"]
+            )
+
+        return await call_next(request)
 
     # Initialize MATRIZ orchestrator (if available)
     orchestrator: Optional[Any] = None
