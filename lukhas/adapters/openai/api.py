@@ -17,11 +17,19 @@ from typing import Any, Dict, List, Optional
 from fastapi import FastAPI, Request, Response, HTTPException
 from fastapi.responses import JSONResponse, PlainTextResponse
 from fastapi.middleware.cors import CORSMiddleware
+from collections import defaultdict
+from threading import Lock
 import os, time, uuid, logging
 
 from lukhas.core.reliability.ratelimit import RateLimiter, rate_limit_error
 
 logger = logging.getLogger(__name__)
+
+# Global metrics storage (thread-safe)
+_metrics_lock = Lock()
+_request_counts: Dict[str, int] = defaultdict(int)
+_request_latencies: Dict[str, List[float]] = defaultdict(list)
+_error_counts: Dict[str, int] = defaultdict(int)
 
 # Try to import MATRIZ orchestrator (graceful fallback to stub mode)
 try:
@@ -42,17 +50,48 @@ except ImportError:
     EmbeddingIndex = None  # type: ignore
 
 def _metrics_text() -> str:
-    """Generate Prometheus format metrics."""
-    return """# HELP http_requests_total Total HTTP requests
-# TYPE http_requests_total counter
-http_requests_total{endpoint="/v1/responses",status="200"} 0
-# HELP process_cpu_seconds_total Total CPU time
-# TYPE process_cpu_seconds_total counter
-process_cpu_seconds_total 0.0
-# HELP lukhas_requests_total Total LUKHAS requests
-# TYPE lukhas_requests_total counter
-lukhas_requests_total 1
-"""
+    """Generate Prometheus format metrics from tracked data."""
+    with _metrics_lock:
+        lines = []
+
+        # Request counts by endpoint
+        lines.append("# HELP http_requests_total Total HTTP requests")
+        lines.append("# TYPE http_requests_total counter")
+        for endpoint, count in _request_counts.items():
+            lines.append(f'http_requests_total{{endpoint="{endpoint}",status="200"}} {count}')
+        if not _request_counts:
+            lines.append('http_requests_total{endpoint="/v1/responses",status="200"} 0')
+
+        # Error counts
+        lines.append("# HELP http_errors_total Total HTTP errors")
+        lines.append("# TYPE http_errors_total counter")
+        for endpoint, count in _error_counts.items():
+            lines.append(f'http_errors_total{{endpoint="{endpoint}"}} {count}')
+        if not _error_counts:
+            lines.append('http_errors_total{endpoint="/v1/responses"} 0')
+
+        # Latency percentiles
+        lines.append("# HELP http_request_duration_ms Request latency in milliseconds")
+        lines.append("# TYPE http_request_duration_ms summary")
+        for endpoint, latencies in _request_latencies.items():
+            if latencies:
+                p50 = sorted(latencies)[len(latencies) // 2]
+                p95 = sorted(latencies)[int(len(latencies) * 0.95)] if len(latencies) > 1 else latencies[0]
+                lines.append(f'http_request_duration_ms{{endpoint="{endpoint}",quantile="0.5"}} {p50:.2f}')
+                lines.append(f'http_request_duration_ms{{endpoint="{endpoint}",quantile="0.95"}} {p95:.2f}')
+
+        # Process CPU (stub for now)
+        lines.append("# HELP process_cpu_seconds_total Total CPU time")
+        lines.append("# TYPE process_cpu_seconds_total counter")
+        lines.append("process_cpu_seconds_total 0.0")
+
+        # Total LUKHAS requests
+        total = sum(_request_counts.values()) or 1
+        lines.append("# HELP lukhas_requests_total Total LUKHAS requests")
+        lines.append("# TYPE lukhas_requests_total counter")
+        lines.append(f"lukhas_requests_total {total}")
+
+        return "\n".join(lines) + "\n"
 
 def _maybe_trace(body: Dict[str, Any]) -> Dict[str, Any]:
     if os.getenv("OTEL_EXPORTER_OTLP_ENDPOINT"):
@@ -72,6 +111,31 @@ def get_app() -> FastAPI:
     rate_limiter.configure_endpoint("/v1/responses", rps=20)
     rate_limiter.configure_endpoint("/v1/embeddings", rps=50)
     rate_limiter.configure_endpoint("/v1/dreams", rps=5)
+
+    # Metrics tracking middleware
+    @app.middleware("http")
+    async def metrics_middleware(request: Request, call_next):
+        start_time = time.time()
+
+        try:
+            response = await call_next(request)
+            latency_ms = (time.time() - start_time) * 1000
+
+            # Track metrics (skip health/metrics endpoints to avoid noise)
+            if request.url.path not in ["/healthz", "/readyz", "/metrics"]:
+                with _metrics_lock:
+                    _request_counts[request.url.path] += 1
+                    _request_latencies[request.url.path].append(latency_ms)
+                    # Keep only last 1000 latencies per endpoint
+                    if len(_request_latencies[request.url.path]) > 1000:
+                        _request_latencies[request.url.path] = _request_latencies[request.url.path][-1000:]
+
+            return response
+        except Exception as e:
+            # Track errors
+            with _metrics_lock:
+                _error_counts[request.url.path] += 1
+            raise
 
     # Rate limiting middleware
     @app.middleware("http")
@@ -115,21 +179,65 @@ def get_app() -> FastAPI:
     @app.get("/healthz")
     def healthz():
         """Liveness probe - is the service running?"""
-        return {"status": "ok", "timestamp": time.time()}
+        checks = {
+            "api": True,  # If this responds, API is up
+            "metrics": True,  # Metrics system is always available
+        }
+
+        # Optional dependency checks (don't fail liveness if missing)
+        if MATRIZ_AVAILABLE:
+            checks["matriz"] = orchestrator is not None
+        if MEMORY_AVAILABLE:
+            checks["memory"] = memory_index is not None
+
+        # Liveness passes even if optional dependencies are down
+        return {
+            "status": "ok",
+            "checks": checks,
+            "timestamp": time.time()
+        }
 
     @app.get("/readyz")
     def readyz():
         """Readiness probe - can the service handle requests?"""
         checks = {
             "api": True,  # API is always ready if this endpoint responds
-            "matriz": orchestrator is not None if MATRIZ_AVAILABLE else "not_required",
-            "memory": memory_index is not None if MEMORY_AVAILABLE else "not_required",
+            "rate_limiter": rate_limiter is not None,
         }
-        all_ready = all(v is True or v == "not_required" for v in checks.values())
+
+        # Check MATRIZ orchestrator availability
+        if MATRIZ_AVAILABLE:
+            checks["matriz"] = orchestrator is not None
+            if orchestrator:
+                # Try a simple health check on orchestrator
+                try:
+                    # Check if orchestrator has required methods
+                    checks["matriz_callable"] = hasattr(orchestrator, "process_query")
+                except Exception as e:
+                    logger.warning(f"MATRIZ health check failed: {e}")
+                    checks["matriz_callable"] = False
+        else:
+            checks["matriz"] = "not_required"
+
+        # Check memory system availability
+        if MEMORY_AVAILABLE:
+            checks["memory"] = memory_index is not None
+        else:
+            checks["memory"] = "not_required"
+
+        # Service is ready if core dependencies are available
+        # MATRIZ and memory are optional (can run in stub mode)
+        core_ready = checks["api"] and checks["rate_limiter"]
+        matriz_ok = not MATRIZ_AVAILABLE or checks.get("matriz") is not False
+        memory_ok = not MEMORY_AVAILABLE or checks.get("memory") is not False
+
+        all_ready = core_ready and matriz_ok and memory_ok
+
         return {
             "status": "ready" if all_ready else "degraded",
             "checks": checks,
-            "timestamp": time.time()
+            "timestamp": time.time(),
+            "mode": "full" if (orchestrator and memory_index) else "stub"
         }
 
     @app.get("/metrics")
