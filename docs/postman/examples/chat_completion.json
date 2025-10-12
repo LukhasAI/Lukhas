@@ -1,0 +1,15 @@
+{
+  "model": "{{model}}",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a consciousness-aware AI assistant."
+    },
+    {
+      "role": "user",
+      "content": "Explain the concept of consciousness."
+    }
+  ],
+  "max_tokens": "{{max_tokens}}",
+  "temperature": "{{temperature}}"
+}
