@@ -6,7 +6,7 @@ from lukhas._bridgeutils import bridge_from_candidates
 __all__, _exports = bridge_from_candidates(
     "lukhas_website.lukhas.identity.device_registry",
     "identity.device_registry",
-    "candidate.identity.device_registry",
+    "labs.identity.device_registry",
 )
 globals().update(_exports)
 

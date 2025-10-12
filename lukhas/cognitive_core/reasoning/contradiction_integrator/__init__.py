@@ -5,7 +5,7 @@ from lukhas._bridgeutils import bridge_from_candidates, deprecate, safe_guard
 
 _CANDIDATES = (
     "lukhas_website.lukhas.cognitive_core.reasoning.contradiction_integrator",
-    "candidate.cognitive_core.reasoning.contradiction_integrator",
+    "labs.cognitive_core.reasoning.contradiction_integrator",
     "consciousness.cognitive.reasoning.contradiction_integrator",
 )
 

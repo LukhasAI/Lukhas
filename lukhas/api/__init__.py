@@ -7,7 +7,7 @@ from importlib import import_module
 for _candidate in (
     "lukhas_website.lukhas.api",
     "api",
-    "candidate.api",
+    "labs.api",
 ):
     try:
         _mod = import_module(_candidate)

@@ -7,7 +7,7 @@ from importlib import import_module
 for _candidate in (
     "lukhas_website.lukhas.identity.auth_service",
     "identity.auth_service",
-    "candidate.identity.auth_service",
+    "labs.identity.auth_service",
 ):
     try:
         _mod = import_module(_candidate)

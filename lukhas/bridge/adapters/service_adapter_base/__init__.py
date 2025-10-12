@@ -9,7 +9,7 @@ def _try(n: str):
 
 for n in (
     "bridge.adapters.service_adapter_base",
-    "candidate.bridge.adapters.service_adapter_base",
+    "labs.bridge.adapters.service_adapter_base",
     "lukhas_website.lukhas.bridge.adapters.service_adapter_base",
 ):
     m = _try(n)

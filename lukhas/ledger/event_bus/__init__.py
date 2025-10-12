@@ -6,8 +6,8 @@ from importlib import import_module
 
 for _candidate in (
     "lukhas_website.lukhas.ledger.event_bus",
-    "ledger.event_bus",
-    "candidate.ledger.event_bus",
+    "lukhas.ledger.event_bus",
+    "labs.ledger.event_bus",
 ):
     try:
         _mod = import_module(_candidate)

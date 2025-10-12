@@ -8,7 +8,7 @@ __all__: list[str] = []
 
 _CANDIDATES = (
     "lukhas_website.lukhas.orchestration.signals",
-    "candidate.orchestration.signals",
+    "labs.orchestration.signals",
     "orchestration.signals",
 )
 

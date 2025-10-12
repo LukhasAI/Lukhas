@@ -10,8 +10,8 @@ __all__: list[str] = []
 
 _CANDIDATES = (
     "lukhas_website.lukhas.memory.tombstones",
-    "candidate.memory.tombstones",
-    "memory.tombstones",
+    "labs.memory.tombstones",
+    "lukhas.memory.tombstones",
 )
 
 _backend: ModuleType | None = None

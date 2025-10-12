@@ -6,7 +6,7 @@ from importlib import import_module
 
 for _candidate in (
     "lukhas_website.lukhas.flags.ff",
-    "candidate.flags.ff",
+    "labs.flags.ff",
     "flags.ff",
 ):
     try:

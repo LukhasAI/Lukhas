@@ -40,7 +40,7 @@ def _wire_from(modname: str) -> Optional[str]:
 
 # Preferred backends (richest → leanest)
 _CANDIDATES = (
-    "candidate.consciousness.enhanced_thought_engine",
+    "labs.consciousness.enhanced_thought_engine",
     "consciousness.consciousness_enhanced_thought_engine",  # legacy alias (if present)
     "consciousness.enhanced_thought_engine",
     "lukhas_website.lukhas.consciousness.enhanced_thought_engine",

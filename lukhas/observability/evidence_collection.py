@@ -9,7 +9,7 @@ __all__ = []
 
 # Add ComplianceRegime for test compatibility
 try:
-    from candidate.observability.evidence_collection import ComplianceRegime
+    from labs.observability.evidence_collection import ComplianceRegime
     __all__.append("ComplianceRegime")
 except ImportError:
     # Stub enum
@@ -22,7 +22,7 @@ except ImportError:
 
 # Add EvidenceCollectionEngine for test compatibility
 try:
-    from candidate.observability.evidence_collection import EvidenceCollectionEngine
+    from labs.observability.evidence_collection import EvidenceCollectionEngine
     __all__.append("EvidenceCollectionEngine")
 except ImportError:
     # Stub class
@@ -36,7 +36,7 @@ except ImportError:
 
 # Add EvidenceType for test compatibility
 try:
-    from candidate.observability.evidence_collection import EvidenceType
+    from labs.observability.evidence_collection import EvidenceType
     __all__.append("EvidenceType")
 except ImportError:
     # Stub enum
@@ -50,7 +50,7 @@ except ImportError:
 
 # Add collect_evidence for test compatibility
 try:
-    from candidate.observability.evidence_collection import collect_evidence
+    from labs.observability.evidence_collection import collect_evidence
     __all__.append("collect_evidence")
 except ImportError:
     def collect_evidence(*args, **kwargs):
@@ -60,7 +60,7 @@ except ImportError:
 
 # Added for test compatibility (lukhas.observability.evidence_collection.initialize_evidence_collection)
 try:
-    from candidate.observability.evidence_collection import initialize_evidence_collection  # noqa: F401
+    from labs.observability.evidence_collection import initialize_evidence_collection  # noqa: F401
 except ImportError:
     def initialize_evidence_collection(*args, **kwargs):
         """Stub for initialize_evidence_collection."""

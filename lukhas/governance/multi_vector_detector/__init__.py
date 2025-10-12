@@ -23,8 +23,8 @@ def _try(n: str):
 # Try backends in order
 _CANDIDATES = (
     "lukhas_website.lukhas.lukhas.governance.multi_vector_detector",
-    "candidate.lukhas.governance.multi_vector_detector",
-    "governance.multi_vector_detector",
+    "labs.lukhas.governance.multi_vector_detector",
+    "lukhas.governance.multi_vector_detector",
 )
 
 _SRC = None

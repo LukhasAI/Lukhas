@@ -13,7 +13,7 @@ Tracking: docs/v0.03/KNOWN_ISSUES.md#missing-modules
 
 # Added for test compatibility (lukhas.core.drift.LANE_CFG)
 try:
-    from candidate.core.drift import LANE_CFG  # noqa: F401
+    from labs.core.drift import LANE_CFG  # noqa: F401
 except ImportError:
     LANE_CFG = None  # Stub placeholder
 try:
@@ -25,7 +25,7 @@ if "LANE_CFG" not in __all__:
 
 # Added for test compatibility (lukhas.core.drift.DriftMonitor)
 try:
-    from candidate.core.drift import DriftMonitor  # noqa: F401
+    from labs.core.drift import DriftMonitor  # noqa: F401
 except ImportError:
     class DriftMonitor:
         """Stub for DriftMonitor."""
@@ -42,7 +42,7 @@ if "DriftMonitor" not in __all__:
     __all__.append("DriftMonitor")
 
 try:
-    from candidate.core.drift import _cosine  # noqa: F401
+    from labs.core.drift import _cosine  # noqa: F401
 except ImportError:
     try:
         from lukhas.utils.similarity import _cosine  # type: ignore  # noqa: F401

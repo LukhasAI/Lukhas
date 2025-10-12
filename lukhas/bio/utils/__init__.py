@@ -8,7 +8,7 @@ from __future__ import annotations
 from importlib import import_module
 
 _backend_paths = [
-    "candidate.bio.utils",
+    "labs.bio.utils",
     "lukhas.accepted.bio.utils",
     "bio.utils",
     "bio.bio_utilities",

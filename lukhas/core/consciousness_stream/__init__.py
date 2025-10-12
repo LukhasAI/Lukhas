@@ -14,7 +14,7 @@ __all__: List[str] = [
 _CANDIDATES = (
     "lukhas_website.lukhas.core.consciousness_stream",
     "core.consciousness_stream",
-    "candidate.core.consciousness_stream",
+    "labs.core.consciousness_stream",
     "consciousness.streams",
 )
 

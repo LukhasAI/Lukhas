@@ -6,7 +6,7 @@ from lukhas._bridgeutils import bridge_from_candidates
 __all__, _exp = [], {}
 for mod in (
     "lukhas_website.lukhas.tiers",
-    "candidate.tiers",
+    "labs.tiers",
     "products.tiers",
 ):
     try:

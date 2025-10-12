@@ -6,7 +6,7 @@ __all__ = []
 
 # Add consciousness_context for test compatibility
 try:
-    from candidate.async_utils import consciousness_context
+    from labs.async_utils import consciousness_context
     __all__.append("consciousness_context")
 except ImportError:
     # Stub context manager
@@ -18,7 +18,7 @@ except ImportError:
 
 # Add await_with_timeout for test compatibility
 try:
-    from candidate.async_utils import await_with_timeout
+    from labs.async_utils import await_with_timeout
     __all__.append("await_with_timeout")
 except ImportError:
     # Stub async timeout wrapper
@@ -32,7 +32,7 @@ except ImportError:
 
 # Add gather_with_error_handling for test compatibility
 try:
-    from candidate.async_utils import gather_with_error_handling
+    from labs.async_utils import gather_with_error_handling
     __all__.append("gather_with_error_handling")
 except ImportError:
     async def gather_with_error_handling(*coros, return_exceptions=True):
@@ -42,7 +42,7 @@ except ImportError:
 
 # Add consciousness_task for test compatibility
 try:
-    from candidate.async_utils import consciousness_task
+    from labs.async_utils import consciousness_task
     __all__.append("consciousness_task")
 except ImportError:
     def consciousness_task(func):
@@ -52,7 +52,7 @@ except ImportError:
 
 # Add run_guardian_task for test compatibility
 try:
-    from candidate.async_utils import run_guardian_task  # noqa: F401
+    from labs.async_utils import run_guardian_task  # noqa: F401
     __all__.append("run_guardian_task")
 except ImportError:
     async def run_guardian_task(task, *args, **kwargs):
@@ -62,7 +62,7 @@ except ImportError:
 
 # Add run_with_retry for test compatibility
 try:
-    from candidate.async_utils import run_with_retry  # noqa: F401
+    from labs.async_utils import run_with_retry  # noqa: F401
     __all__.append("run_with_retry")
 except ImportError:
     async def run_with_retry(coro, max_retries=3, *args, **kwargs):

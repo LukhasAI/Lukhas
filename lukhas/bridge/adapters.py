@@ -3,6 +3,6 @@ try:
     from bridge.adapters import *  # noqa: F401, F403
 except ImportError:
     try:
-        from candidate.bridge.adapters import *  # noqa: F401, F403
+        from labs.bridge.adapters import *  # noqa: F401, F403
     except ImportError:
         pass

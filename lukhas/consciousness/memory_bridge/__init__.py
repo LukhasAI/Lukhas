@@ -10,7 +10,7 @@ __all__: List[str] = []
 for _candidate in (
     "lukhas_website.lukhas.consciousness.memory_bridge",
     "consciousness.memory_bridge",
-    "candidate.consciousness.memory_bridge",
+    "labs.consciousness.memory_bridge",
 ):
     try:
         _mod = import_module(_candidate)

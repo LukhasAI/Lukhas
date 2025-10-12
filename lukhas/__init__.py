@@ -28,12 +28,12 @@ except ImportError:
 
 # Discover top-level modules that sit at repo root
 ROOT = pathlib.Path(__file__).resolve().parents[1]  # points to repo root/Lukhas
-CANDIDATE = ROOT / "candidate"
+CANDIDATE = ROOT / "labs"
 
 # Any directory at repo root that looks like a Python package is a candidate module
 def _root_packages():
     for p in ROOT.iterdir():
-        if p.is_dir() and (p / "__init__.py").exists() and p.name not in {"lukhas", "candidate", ".git", "artifacts"}:
+        if p.is_dir() and (p / "__init__.py").exists() and p.name not in {"lukhas", "labs", ".git", "artifacts"}:
             yield p.name
 
 # Bridge table: module -> import path to use (root or candidate)

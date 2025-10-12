@@ -10,7 +10,7 @@ try:
     _mod, _exports, __all__ = bridge(
         candidates=(
             "lukhas_website.lukhas.consciousness.creativity_engine",
-            "candidate.consciousness.creativity_engine",
+            "labs.consciousness.creativity_engine",
         ),
         names=("CreativityEngine",),
     )

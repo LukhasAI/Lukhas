@@ -29,12 +29,12 @@ from typing import Dict
 # Map of legacy root → new root
 ALIASES: Dict[str, str] = {
     # lanes
-    "candidate": "candidate",  # Keep candidate for now (not renamed to labs yet)
+    "labs": "labs",  # Keep candidate for now (not renamed to labs yet)
     # legacy top-levels → canonical
-    "tools": "lukhas.tools",
-    "governance": "lukhas.governance",
-    "memory": "lukhas.memory",
-    "ledger": "lukhas.ledger",
+    "lukhas.tools": "lukhas.tools",
+    "lukhas.governance": "lukhas.governance",
+    "lukhas.memory": "lukhas.memory",
+    "lukhas.ledger": "lukhas.ledger",
     # uppercase package from tests
     "MATRIZ": "MATRIZ",  # ensure MATRIZ is a real package with __init__.py
 }

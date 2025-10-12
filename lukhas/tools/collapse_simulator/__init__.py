@@ -19,13 +19,13 @@ def _try(modname: str):
 
 for _mod in (
     # First prefer an explicit tools backend if present
-    "tools.collapse_simulator",
+    "lukhas.tools.collapse_simulator",
     "lukhas_website.lukhas.tools.collapse_simulator",
-    "candidate.tools.collapse_simulator",
+    "labs.tools.collapse_simulator",
     # Common legacy locations
     "consciousness.collapse.simulator",
     "collapse.simulator",
-    "tools.collapse.simulator",
+    "lukhas.tools.collapse.simulator",
 ):
     _m = _try(_mod)
     if _m:

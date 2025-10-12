@@ -13,7 +13,7 @@ Tracking: docs/v0.03/KNOWN_ISSUES.md#missing-modules
 
 # Added for test compatibility (lukhas.branding_bridge.get_constellation_context)
 try:
-    from candidate.branding_bridge import get_constellation_context  # noqa: F401
+    from labs.branding_bridge import get_constellation_context  # noqa: F401
 except ImportError:
     def get_constellation_context(*args, **kwargs):
         """Stub for get_constellation_context."""
@@ -27,7 +27,7 @@ if "get_constellation_context" not in __all__:
 
 # Added for test compatibility (lukhas.branding_bridge.get_system_signature)
 try:
-    from candidate.branding_bridge import get_system_signature  # noqa: F401
+    from labs.branding_bridge import get_system_signature  # noqa: F401
 except ImportError:
     def get_system_signature(*args, **kwargs):
         """Stub for get_system_signature."""
@@ -41,7 +41,7 @@ if "get_system_signature" not in __all__:
 
 # Added for test compatibility (lukhas.branding_bridge.initialize_branding)
 try:
-    from candidate.branding_bridge import initialize_branding  # noqa: F401
+    from labs.branding_bridge import initialize_branding  # noqa: F401
 except ImportError:
     try:
         from branding.initializer import initialize_branding  # noqa: F401

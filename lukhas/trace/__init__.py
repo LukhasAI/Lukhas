@@ -29,7 +29,7 @@ class TraceRepairEngine:
 
 # Richest → leanest sources
 for _mod in (
-    "candidate.trace",
+    "labs.trace",
     "lukhas_website.lukhas.trace",
     "trace",
 ):

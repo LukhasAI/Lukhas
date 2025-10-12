@@ -9,7 +9,7 @@ except ImportError:
 
 # Added for test compatibility (lukhas.cognitive_core.reasoning.deep_inference_engine.InferenceRequest)
 try:
-    from candidate.cognitive_core.reasoning.deep_inference_engine import InferenceRequest  # noqa: F401
+    from labs.cognitive_core.reasoning.deep_inference_engine import InferenceRequest  # noqa: F401
 except ImportError:
     class InferenceRequest:
         """Stub for InferenceRequest."""

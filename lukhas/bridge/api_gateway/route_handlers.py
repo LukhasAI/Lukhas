@@ -1,6 +1,6 @@
 """Shim: lukhas.bridge.api_gateway.route_handlers → candidate.bridge.api_gateway.route_handlers."""
 try:
-    from candidate.bridge.api_gateway.route_handlers import *  # noqa: F401, F403
+    from labs.bridge.api_gateway.route_handlers import *  # noqa: F401, F403
 except ImportError:
     try:
         from bridge.api_gateway.route_handlers import *  # noqa: F401, F403

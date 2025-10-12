@@ -5,8 +5,8 @@ from lukhas._bridgeutils import bridge_from_candidates
 
 __all__, _exports = bridge_from_candidates(
     "lukhas_website.lukhas.ledger.events",
-    "ledger.events",
-    "candidate.ledger.events",
+    "lukhas.ledger.events",
+    "labs.ledger.events",
 )
 globals().update(_exports)
 

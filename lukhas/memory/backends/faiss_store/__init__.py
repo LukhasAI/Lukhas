@@ -27,8 +27,8 @@ def _try(name: str):
 
 _CANDIDATES = (
     "lukhas_website.lukhas.memory.backends.faiss_store",
-    "candidate.memory.backends.faiss_store",
-    "memory.backends.faiss_store",
+    "labs.memory.backends.faiss_store",
+    "lukhas.memory.backends.faiss_store",
 )
 
 _SRC = None

@@ -9,8 +9,8 @@ __all__: List[str] = []
 
 _CANDIDATES = [
     "lukhas_website.lukhas.governance.ethics.constitutional_ai",
-    "governance.ethics.constitutional_ai",
-    "candidate.governance.ethics.constitutional_ai",
+    "lukhas.governance.ethics.constitutional_ai",
+    "labs.governance.ethics.constitutional_ai",
 ]
 
 for _name in _CANDIDATES:

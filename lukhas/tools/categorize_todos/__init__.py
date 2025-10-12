@@ -8,9 +8,9 @@ from importlib import import_module
 __all__ = ["CategorizedTodo", "categorize_todos"]
 
 for _module in (
-    "tools.categorize_todos",
+    "lukhas.tools.categorize_todos",
     "lukhas_website.lukhas.tools.categorize_todos",
-    "candidate.tools.categorize_todos",
+    "labs.tools.categorize_todos",
 ):
     try:
         backend = import_module(_module)

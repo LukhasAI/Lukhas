@@ -13,7 +13,7 @@ Tracking: docs/v0.03/KNOWN_ISSUES.md#missing-modules
 
 # Added for test compatibility (lukhas.memory.scheduled_folding.CompressionLevel)
 try:
-    from candidate.memory.scheduled_folding import CompressionLevel  # noqa: F401
+    from labs.memory.scheduled_folding import CompressionLevel  # noqa: F401
 except ImportError:
     from enum import Enum
 
@@ -30,7 +30,7 @@ if "CompressionLevel" not in __all__:
 
 # Added for test compatibility (lukhas.memory.scheduled_folding.FoldStatus)
 try:
-    from candidate.memory.scheduled_folding import FoldStatus  # noqa: F401
+    from labs.memory.scheduled_folding import FoldStatus  # noqa: F401
 except ImportError:
     from enum import Enum
 
@@ -50,10 +50,10 @@ if "FoldStatus" not in __all__:
 
 # Added for test compatibility (lukhas.memory.scheduled_folding.ScheduledFold)
 try:
-    from candidate.memory.scheduled_folding import ScheduledFold  # noqa: F401
+    from labs.memory.scheduled_folding import ScheduledFold  # noqa: F401
 except ImportError:
     try:
-        from memory.scheduled_folding import ScheduledFold  # type: ignore  # pragma: no cover
+        from lukhas.memory.scheduled_folding import ScheduledFold  # type: ignore  # pragma: no cover
     except Exception:
         class ScheduledFold:
             """Fallback scheduled fold stub."""

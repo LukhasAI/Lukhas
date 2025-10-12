@@ -10,7 +10,7 @@ try:
     # Richest to leanest
     _m = None
     for _mod in (
-        "candidate.core.common.exceptions",
+        "labs.core.common.exceptions",
         "core.common.exceptions",
         "lukhas_website.lukhas.core.common.exceptions",
     ):

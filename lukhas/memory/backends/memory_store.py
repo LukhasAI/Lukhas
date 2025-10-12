@@ -5,8 +5,8 @@ from lukhas._bridgeutils import bridge_from_candidates
 
 __all__, _exports = bridge_from_candidates(
     "lukhas_website.lukhas.memory.backends.memory_store",
-    "memory.backends.memory_store",
-    "candidate.memory.backends.memory_store",
+    "lukhas.memory.backends.memory_store",
+    "labs.memory.backends.memory_store",
 )
 globals().update(_exports)
 

@@ -5,7 +5,7 @@ from lukhas._bridgeutils import bridge_from_candidates
 
 _CANDIDATES = (
   "lukhas_website.lukhas.public_api",
-  "candidate.public_api",
+  "labs.public_api",
   "public_api",
 )
 __all__, _exports = bridge_from_candidates(*_CANDIDATES); globals().update(_exports)

@@ -19,7 +19,7 @@ def _try(modname: str):
 # Richest to leanest sources.
 for _mod in (
     "lukhas_website.lukhas.core.policy_guard",
-    "candidate.core.policy_guard",
+    "labs.core.policy_guard",
     "core.policy_guard",
 ):
     _m = _try(_mod)

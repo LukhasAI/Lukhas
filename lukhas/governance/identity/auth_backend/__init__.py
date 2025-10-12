@@ -6,7 +6,7 @@ from importlib import import_module
 
 for _candidate in (
     "lukhas_website.lukhas.governance.identity.auth_backend",
-    "governance.identity.auth_backend",
+    "lukhas.governance.identity.auth_backend",
 ):
     try:
         _mod = import_module(_candidate)

@@ -18,7 +18,7 @@ def _try(module_name: str):
 
 _CANDIDATES = (
     "lukhas_website.lukhas.consciousness.meta_cognitive_assessor",
-    "candidate.consciousness.meta_cognitive_assessor",
+    "labs.consciousness.meta_cognitive_assessor",
 )
 
 _SRC = None

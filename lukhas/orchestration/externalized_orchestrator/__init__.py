@@ -7,7 +7,7 @@ from importlib import import_module
 
 for _candidate in (
     "lukhas_website.lukhas.orchestration.externalized_orchestrator",
-    "candidate.orchestration.externalized_orchestrator",
+    "labs.orchestration.externalized_orchestrator",
 ):
     try:
         _mod = import_module(_candidate)

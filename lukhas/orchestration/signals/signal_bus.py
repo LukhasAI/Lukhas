@@ -5,7 +5,7 @@ Shim to candidate.orchestration.signals.signal_bus for backward compatibility.
 """
 # Import from the actual location
 try:
-    from candidate.orchestration.signals.signal_bus import *
+    from labs.orchestration.signals.signal_bus import *
 except ImportError:
     # Provide minimal fallback types if candidate module not available
     from dataclasses import dataclass

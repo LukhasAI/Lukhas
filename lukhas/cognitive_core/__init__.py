@@ -4,7 +4,7 @@ from __future__ import annotations
 from importlib import import_module
 
 _candidates = [
-    "candidate.cognitive_core",
+    "labs.cognitive_core",
     "consciousness.cognitive",
 ]
 

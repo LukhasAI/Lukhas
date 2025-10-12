@@ -6,7 +6,7 @@ try:
     mod = None
     for _m in (
         "lukhas_website.lukhas.aka_qualia.memory",
-        "candidate.aka_qualia.memory",
+        "labs.aka_qualia.memory",
         "aka_qualia.memory",
     ):
         try:

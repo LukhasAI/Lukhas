@@ -27,8 +27,8 @@ def _try(name: str):
 
 _CANDIDATES = (
     "lukhas_website.lukhas.ledger.consent_handlers",
-    "candidate.ledger.consent_handlers",
-    "ledger.consent_handlers",
+    "labs.ledger.consent_handlers",
+    "lukhas.ledger.consent_handlers",
 )
 
 _SRC = None

@@ -32,7 +32,7 @@ def _try(n: str):
 
 _CANDIDATES = (
     "lukhas_website.lukhas.core.reliability.circuit_breaker",
-    "candidate.core.reliability.circuit_breaker",
+    "labs.core.reliability.circuit_breaker",
     "core.reliability.circuit_breaker",
 )
 

@@ -6,7 +6,7 @@ from importlib import import_module
 __all__ = ["ReflectionEngine", "ReflectionEntry", "AlignmentScore", "ReflectionConfig"]
 
 _CANDIDATES = (
-    "candidate.consciousness.reflection_engine",
+    "labs.consciousness.reflection_engine",
     "lukhas_website.lukhas.consciousness.reflection_engine",
     "consciousness.reflection_engine",
     "consciousness.reflection",

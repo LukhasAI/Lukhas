@@ -13,8 +13,8 @@ __path__: List[str] = [os.path.dirname(__file__)]  # type: ignore[assignment]
 _BACKEND: ModuleType | None = None
 _CANDIDATES = [
     "lukhas_website.lukhas.governance.ethics",
-    "governance.ethics",
-    "candidate.governance.ethics",
+    "lukhas.governance.ethics",
+    "labs.governance.ethics",
 ]
 
 
@@ -48,8 +48,8 @@ def __getattr__(name: str):
         return value
     for module_name in (
         "lukhas_website.lukhas.governance.ethics",
-        "governance.ethics",
-        "candidate.governance.ethics",
+        "lukhas.governance.ethics",
+        "labs.governance.ethics",
     ):
         try:
             module = importlib.import_module(module_name)

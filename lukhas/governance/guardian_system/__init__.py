@@ -10,7 +10,7 @@ __all__ = []
 # Try backends with graceful AttributeError handling
 for _candidate in (
     "lukhas_website.lukhas.governance.guardian_system",
-    "candidate.governance.guardian_system",
+    "labs.governance.guardian_system",
 ):
     try:
         _mod = import_module(_candidate)

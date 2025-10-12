@@ -7,7 +7,7 @@ from importlib import import_module
 for _candidate in (
     "lukhas_website.lukhas.aka_qualia.observability",
     "aka_qualia.observability",
-    "candidate.aka_qualia.observability",
+    "labs.aka_qualia.observability",
 ):
     try:
         _mod = import_module(_candidate)

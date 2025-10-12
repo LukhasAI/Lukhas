@@ -6,8 +6,8 @@ from importlib import import_module
 
 for _candidate in (
     "lukhas_website.lukhas.governance.identity.auth_backend.authentication_server",
-    "governance.identity.auth_backend.authentication_server",
-    "candidate.governance.identity.auth_backend.authentication_server",
+    "lukhas.governance.identity.auth_backend.authentication_server",
+    "labs.governance.identity.auth_backend.authentication_server",
 ):
     try:
         _mod = import_module(_candidate)

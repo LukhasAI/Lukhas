@@ -10,8 +10,8 @@ from typing import Any
 __all__: list[str] = []
 
 _CANDIDATES = (
-    "candidate.memory.retention",
-    "memory.retention",
+    "labs.memory.retention",
+    "lukhas.memory.retention",
     "lukhas_website.lukhas.memory.retention",
 )
 

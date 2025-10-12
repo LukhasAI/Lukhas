@@ -7,8 +7,8 @@ from importlib import import_module
 
 _CANDIDATES = (
     "lukhas_website.lukhas.memory.folds.fold_engine",
-    "candidate.memory.folds.fold_engine",
-    "memory.folds.fold_engine",
+    "labs.memory.folds.fold_engine",
+    "lukhas.memory.folds.fold_engine",
 )
 
 for _candidate in _CANDIDATES:

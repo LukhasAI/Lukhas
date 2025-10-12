@@ -6,7 +6,7 @@ from lukhas._bridgeutils import bridge_from_candidates
 __all__, _exports = bridge_from_candidates(
     "lukhas_website.lukhas.aka_qualia.observability",
     "aka_qualia.observability",
-    "candidate.aka_qualia.observability",
+    "labs.aka_qualia.observability",
 )
 globals().update(_exports)
 

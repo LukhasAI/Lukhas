@@ -9,8 +9,8 @@ __all__: List[str] = []
 
 _BACKENDS = (
     "lukhas_website.lukhas.governance.guardian.guardian_impl",
-    "governance.guardian.guardian_impl",
-    "candidate.governance.guardian.guardian_impl",
+    "lukhas.governance.guardian.guardian_impl",
+    "labs.governance.guardian.guardian_impl",
 )
 
 for _candidate in _BACKENDS:

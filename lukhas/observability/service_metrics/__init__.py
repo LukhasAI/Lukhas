@@ -8,7 +8,7 @@ def _try(n: str):
     try: return import_module(n)
     except Exception: return None
 
-for n in ("candidate.observability.service_metrics", "lukhas_website.lukhas.observability.service_metrics"):
+for n in ("labs.observability.service_metrics", "lukhas_website.lukhas.observability.service_metrics"):
     m = _try(n)
     if m:
         for k in dir(m):

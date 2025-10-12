@@ -76,7 +76,7 @@ __all__ = [
 
 # Added for test compatibility (lukhas.observability.advanced_metrics.AnomalyType)
 try:
-    from candidate.observability.advanced_metrics import AnomalyType  # noqa: F401
+    from labs.observability.advanced_metrics import AnomalyType  # noqa: F401
 except ImportError:
     from enum import Enum
 
@@ -93,7 +93,7 @@ if "AnomalyType" not in __all__:
 
 # Added for test compatibility (lukhas.observability.advanced_metrics.MetricAnomaly)
 try:
-    from candidate.observability.advanced_metrics import MetricAnomaly  # noqa: F401
+    from labs.observability.advanced_metrics import MetricAnomaly  # noqa: F401
 except ImportError:
     class MetricAnomaly:
         """Stub for MetricAnomaly."""
@@ -111,7 +111,7 @@ if "MetricAnomaly" not in __all__:
 
 # Added for test compatibility (lukhas.observability.advanced_metrics.MetricSeverity)
 try:
-    from candidate.observability.advanced_metrics import MetricSeverity  # noqa: F401
+    from labs.observability.advanced_metrics import MetricSeverity  # noqa: F401
 except ImportError:
     from enum import Enum
 

@@ -11,7 +11,7 @@ Tracking: docs/v0.03/KNOWN_ISSUES.md#missing-modules
 
 # TODO: Implement or remove dead imports referencing this module
 try:
-    from candidate.consciousness.registry import ConsciousnessComponentRegistry  # noqa: F401
+    from labs.consciousness.registry import ConsciousnessComponentRegistry  # noqa: F401
 except ImportError:
 
     class ConsciousnessComponentRegistry(dict):
@@ -29,7 +29,7 @@ if "ConsciousnessComponentRegistry" not in __all__:
 
 # Added for test compatibility (lukhas.consciousness.registry.ComponentType)
 try:
-    from candidate.consciousness.registry import ComponentType  # noqa: F401
+    from labs.consciousness.registry import ComponentType  # noqa: F401
 except ImportError:
     from enum import Enum
 

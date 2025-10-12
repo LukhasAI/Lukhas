@@ -6,8 +6,8 @@ from importlib import import_module
 
 for _candidate in (
     "lukhas_website.lukhas.memory.distributed_memory",
-    "candidate.memory.distributed_memory",
-    "memory.distributed_memory",
+    "labs.memory.distributed_memory",
+    "lukhas.memory.distributed_memory",
 ):
     try:
         _mod = import_module(_candidate)

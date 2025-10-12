@@ -7,7 +7,7 @@ from typing import Awaitable, TypeVar
 T = TypeVar("T")
 
 try:
-    from candidate.async_utils import await_with_timeout as _candidate_await_with_timeout  # noqa: F401
+    from labs.async_utils import await_with_timeout as _candidate_await_with_timeout  # noqa: F401
 except ImportError:
 
     async def await_with_timeout(coro: Awaitable[T], timeout: float) -> T:
@@ -18,7 +18,7 @@ else:
 
 
 try:
-    from candidate.async_utils import run_guardian_task  # noqa: F401
+    from labs.async_utils import run_guardian_task  # noqa: F401
 except ImportError:
 
     async def run_guardian_task(task, *args, **kwargs):
@@ -27,7 +27,7 @@ except ImportError:
 
 
 try:
-    from candidate.async_utils import run_with_retry  # noqa: F401
+    from labs.async_utils import run_with_retry  # noqa: F401
 except ImportError:
 
     async def run_with_retry(coro, max_retries: int = 3, *args, **kwargs):

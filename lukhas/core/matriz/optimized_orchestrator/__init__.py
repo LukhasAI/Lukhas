@@ -7,7 +7,7 @@ from importlib import import_module
 for _candidate in (
     "lukhas_website.lukhas.core.matriz.optimized_orchestrator",
     "core.matriz.optimized_orchestrator",
-    "candidate.core.matriz.optimized_orchestrator",
+    "labs.core.matriz.optimized_orchestrator",
 ):
     try:
         _mod = import_module(_candidate)

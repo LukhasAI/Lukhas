@@ -3,6 +3,6 @@ try:
     from emotion.examples.basic import *  # noqa: F401, F403
 except ImportError:
     try:
-        from candidate.emotion.examples.basic import *  # noqa: F401, F403
+        from labs.emotion.examples.basic import *  # noqa: F401, F403
     except ImportError:
         pass

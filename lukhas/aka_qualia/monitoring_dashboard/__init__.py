@@ -27,7 +27,7 @@ def _try(name: str):
 
 _CANDIDATES = (
     "lukhas_website.lukhas.aka_qualia.monitoring_dashboard",
-    "candidate.aka_qualia.monitoring_dashboard",
+    "labs.aka_qualia.monitoring_dashboard",
     "aka_qualia.monitoring_dashboard",
 )
 

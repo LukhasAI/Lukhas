@@ -10,7 +10,7 @@ __all__: list[str] = []
 
 _CANDIDATES = (
     "lukhas_website.lukhas.bridge.adapters.openai_embedding_provider",
-    "candidate.adapters.openai_embedding_provider",
+    "labs.adapters.openai_embedding_provider",
     "orchestration.providers.openai_embedding_provider",
 )
 

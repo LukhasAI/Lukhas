@@ -6,7 +6,7 @@ __all__ = []
 
 # Added for test compatibility (lukhas.observability.performance_regression.DetectionMethod)
 try:
-    from candidate.observability.performance_regression import DetectionMethod  # noqa: F401
+    from labs.observability.performance_regression import DetectionMethod  # noqa: F401
 except ImportError:
     class DetectionMethod:
         """Stub for DetectionMethod."""
@@ -22,7 +22,7 @@ if "DetectionMethod" not in __all__:
 
 # Added for test compatibility (lukhas.observability.performance_regression.PerformanceRegressionDetector)
 try:
-    from candidate.observability.performance_regression import PerformanceRegressionDetector  # noqa: F401
+    from labs.observability.performance_regression import PerformanceRegressionDetector  # noqa: F401
 except ImportError:
     class PerformanceRegressionDetector:
         """Stub for PerformanceRegressionDetector."""
@@ -38,7 +38,7 @@ if "PerformanceRegressionDetector" not in __all__:
 
 # Added for test compatibility (lukhas.observability.performance_regression.PerformanceBaseline)
 try:
-    from candidate.observability.performance_regression import PerformanceBaseline  # noqa: F401
+    from labs.observability.performance_regression import PerformanceBaseline  # noqa: F401
 except ImportError:
     class PerformanceBaseline:
         """Stub for PerformanceBaseline."""
@@ -56,7 +56,7 @@ if "PerformanceBaseline" not in __all__:
 
 # Added for test compatibility (lukhas.observability.performance_regression.PerformanceRegression)
 try:
-    from candidate.observability.performance_regression import PerformanceRegression  # noqa: F401
+    from labs.observability.performance_regression import PerformanceRegression  # noqa: F401
 except ImportError:
     class PerformanceRegression:
         """Stub for PerformanceRegression."""

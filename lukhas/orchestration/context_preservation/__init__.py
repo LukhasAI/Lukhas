@@ -10,7 +10,7 @@ __all__ = ["CompressionLevel", "ContextPreservationEngine", "ContextType"]
 
 _CANDIDATES = (
     "lukhas_website.lukhas.orchestration.context_preservation",
-    "candidate.orchestration.context_preservation",
+    "labs.orchestration.context_preservation",
     "orchestration.context_preservation",
 )
 
@@ -37,7 +37,7 @@ if "CompressionLevel" not in globals():
 if "ContextType" not in globals():
 
     class ContextType(Enum):  # type: ignore[misc]
-        MEMORY = "memory"
+        MEMORY = "lukhas.memory"
         CONSCIOUSNESS = "consciousness"
         OBSERVABILITY = "observability"
 

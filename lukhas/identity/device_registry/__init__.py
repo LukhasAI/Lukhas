@@ -7,7 +7,7 @@ from importlib import import_module
 for _candidate in (
     "lukhas_website.lukhas.identity.device_registry",
     "identity.device_registry",
-    "candidate.identity.device_registry",
+    "labs.identity.device_registry",
 ):
     try:
         _mod = import_module(_candidate)

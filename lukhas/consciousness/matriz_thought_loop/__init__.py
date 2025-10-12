@@ -7,7 +7,7 @@ from typing import Any
 __all__: list[str] = []
 
 _CANDIDATES = (
-    "candidate.consciousness.matriz_thought_loop",
+    "labs.consciousness.matriz_thought_loop",
     "lukhas_website.lukhas.consciousness.matriz_thought_loop",
     "consciousness.matriz_thought_loop_impl",
 )

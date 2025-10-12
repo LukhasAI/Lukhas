@@ -23,7 +23,7 @@ def _try(n: str):
 # Try backends in order
 _CANDIDATES = (
     "lukhas_website.lukhas.lukhas.core.matriz.async_orchestrator",
-    "candidate.lukhas.core.matriz.async_orchestrator",
+    "labs.lukhas.core.matriz.async_orchestrator",
     "core.matriz.async_orchestrator",
 )
 

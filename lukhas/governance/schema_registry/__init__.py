@@ -11,9 +11,9 @@ __all__ = []
 
 for path in [
     "lukhas_website.lukhas.governance.schema_registry",
-    "governance.schema_registry",
-    "candidate.core.ethics.schema_registry",
-    "candidate.governance.schema_registry",
+    "lukhas.governance.schema_registry",
+    "labs.core.ethics.schema_registry",
+    "labs.governance.schema_registry",
 ]:
     try:
         _m = import_module(path)
@@ -31,7 +31,7 @@ if not __all__:
     class LUKHASLane(Enum):
         """Lane enumeration stub."""
         EXPERIMENTAL = "experimental"
-        CANDIDATE = "candidate"
+        CANDIDATE = "labs"
         PRODUCTION = "production"
 
     class SchemaRegistry:

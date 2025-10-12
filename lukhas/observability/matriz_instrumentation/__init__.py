@@ -6,7 +6,7 @@ from importlib import import_module
 
 for _candidate in (
     "lukhas_website.lukhas.observability.matriz_instrumentation",
-    "candidate.observability.matriz_instrumentation",
+    "labs.observability.matriz_instrumentation",
 ):
     try:
         _mod = import_module(_candidate)

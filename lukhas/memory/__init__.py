@@ -8,8 +8,8 @@ __all__: list[str] = []
 
 _CANDIDATES: tuple[str, ...] = (
     "lukhas_website.lukhas.memory",
-    "candidate.memory",
-    "memory",
+    "labs.memory",
+    "lukhas.memory",
 )
 
 
@@ -40,7 +40,7 @@ if _backend is not None:
         if _location not in search_locations:
             search_locations.append(_location)
     try:
-        import memory as _root_memory  # pylint: disable=cyclic-import
+        import lukhas.memory as _root_memory  # pylint: disable=cyclic-import
     except Exception:
         _root_memory = None  # pragma: no cover - missing root package
     if _root_memory is not None:

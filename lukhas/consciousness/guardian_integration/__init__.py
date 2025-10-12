@@ -22,10 +22,10 @@ __all__ = [
 ]
 
 _CANDIDATES = (
-    "candidate.consciousness.guardian_integration",
+    "labs.consciousness.guardian_integration",
     "lukhas_website.lukhas.consciousness.guardian_integration",
     "consciousness.guardian_integration",
-    "candidate.core.ethics.ab_safety_guard",
+    "labs.core.ethics.ab_safety_guard",
 )
 
 

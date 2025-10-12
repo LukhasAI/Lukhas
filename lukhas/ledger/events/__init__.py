@@ -8,8 +8,8 @@ from typing import Any
 
 for _candidate in (
     "lukhas_website.lukhas.ledger.events",
-    "ledger.events",
-    "candidate.ledger.events",
+    "lukhas.ledger.events",
+    "labs.ledger.events",
 ):
     try:
         _mod = import_module(_candidate)

@@ -13,7 +13,7 @@ Tracking: docs/v0.03/KNOWN_ISSUES.md#missing-modules
 
 # Added for test compatibility (lukhas.core.reliability.AdaptiveCircuitBreaker)
 try:
-    from candidate.core.reliability import AdaptiveCircuitBreaker  # noqa: F401
+    from labs.core.reliability import AdaptiveCircuitBreaker  # noqa: F401
 except ImportError:
     class AdaptiveCircuitBreaker:
         """Stub for AdaptiveCircuitBreaker."""
@@ -29,7 +29,7 @@ if "AdaptiveCircuitBreaker" not in __all__:
 
 # Added for test compatibility (lukhas.core.reliability.AdaptiveTimeoutManager)
 try:
-    from candidate.core.reliability import AdaptiveTimeoutManager  # noqa: F401
+    from labs.core.reliability import AdaptiveTimeoutManager  # noqa: F401
 except ImportError:
     class AdaptiveTimeoutManager:
         """Stub for AdaptiveTimeoutManager."""
@@ -117,7 +117,7 @@ if "ErrorCategory" not in globals():
 
 if "ErrorContextManager" not in globals():
     try:
-        from candidate.core.reliability import ErrorContextManager  # type: ignore[attr-defined]  # noqa: F401
+        from labs.core.reliability import ErrorContextManager  # type: ignore[attr-defined]  # noqa: F401
     except ImportError:
 
         class ErrorContextManager:
@@ -141,7 +141,7 @@ if "ErrorContextManager" not in globals():
 
 if "ErrorSeverity" not in globals():
     try:
-        from candidate.core.reliability import ErrorSeverity  # type: ignore[attr-defined]  # noqa: F401
+        from labs.core.reliability import ErrorSeverity  # type: ignore[attr-defined]  # noqa: F401
     except ImportError:
         from enum import Enum
 
@@ -160,7 +160,7 @@ if "ErrorSeverity" not in globals():
 
 if "IntelligentBackoff" not in globals():
     try:
-        from candidate.core.reliability import IntelligentBackoff  # type: ignore[attr-defined]  # noqa: F401
+        from labs.core.reliability import IntelligentBackoff  # type: ignore[attr-defined]  # noqa: F401
     except ImportError:
         from typing import Iterable, Iterator
 
@@ -188,7 +188,7 @@ if "IntelligentBackoff" not in globals():
 
 if "PerformanceRegressionDetector" not in globals():
     try:
-        from candidate.core.reliability import PerformanceRegressionDetector  # type: ignore[attr-defined]  # noqa: F401
+        from labs.core.reliability import PerformanceRegressionDetector  # type: ignore[attr-defined]  # noqa: F401
     except ImportError:
 
         class PerformanceRegressionDetector:
@@ -209,7 +209,7 @@ if "PerformanceRegressionDetector" not in globals():
 
 if "TimeoutConfig" not in globals():
     try:
-        from candidate.core.reliability import TimeoutConfig  # type: ignore[attr-defined]  # noqa: F401
+        from labs.core.reliability import TimeoutConfig  # type: ignore[attr-defined]  # noqa: F401
     except ImportError:
         from dataclasses import dataclass
 

@@ -10,7 +10,7 @@ __all__: list[str] = []
 
 _CANDIDATES = (
     "lukhas_website.lukhas.nodes",
-    "candidate.core.matrix.nodes",
+    "labs.core.matrix.nodes",
     "core.matrix.nodes",
     "nodes",
 )

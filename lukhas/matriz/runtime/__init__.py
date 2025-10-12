@@ -23,7 +23,7 @@ def _try(n: str):
 # Try backends in order
 _CANDIDATES = (
     "lukhas_website.lukhas.lukhas.matriz.runtime",
-    "candidate.lukhas.matriz.runtime",
+    "labs.lukhas.matriz.runtime",
     "matriz.runtime",
 )
 

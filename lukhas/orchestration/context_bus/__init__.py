@@ -7,7 +7,7 @@ from importlib import import_module
 for _candidate in (
     "lukhas_website.lukhas.orchestration.context_bus",
     "orchestration.context_bus",
-    "candidate.orchestration.context_bus",
+    "labs.orchestration.context_bus",
 ):
     try:
         _mod = import_module(_candidate)

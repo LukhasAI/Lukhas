@@ -8,7 +8,7 @@ __all__ = ["DreamTrace"]
 
 for _module in (
     "lukhas_website.lukhas.consciousness.dream.trace",
-    "candidate.consciousness.dream.trace",
+    "labs.consciousness.dream.trace",
     "consciousness.dream.trace",
 ):
     try:

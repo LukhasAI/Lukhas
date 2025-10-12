@@ -9,7 +9,7 @@ __all__: list[str] = []
 
 _CANDIDATES = (
     "lukhas_website.lukhas.core.consensus",
-    "candidate.core.consensus",
+    "labs.core.consensus",
     "core.consensus",
 )
 

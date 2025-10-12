@@ -271,7 +271,7 @@ def get_app() -> FastAPI:
         if MATRIZ_AVAILABLE:
             checks["matriz"] = orchestrator is not None
         if MEMORY_AVAILABLE:
-            checks["memory"] = memory_index is not None
+            checks["lukhas.memory"] = memory_index is not None
 
         # Liveness passes even if optional dependencies are down
         return {
@@ -304,15 +304,15 @@ def get_app() -> FastAPI:
 
         # Check memory system availability
         if MEMORY_AVAILABLE:
-            checks["memory"] = memory_index is not None
+            checks["lukhas.memory"] = memory_index is not None
         else:
-            checks["memory"] = "not_required"
+            checks["lukhas.memory"] = "not_required"
 
         # Service is ready if core dependencies are available
         # MATRIZ and memory are optional (can run in stub mode)
         core_ready = checks["api"] and checks["rate_limiter"]
         matriz_ok = not MATRIZ_AVAILABLE or checks.get("matriz") is not False
-        memory_ok = not MEMORY_AVAILABLE or checks.get("memory") is not False
+        memory_ok = not MEMORY_AVAILABLE or checks.get("lukhas.memory") is not False
 
         all_ready = core_ready and matriz_ok and memory_ok
 

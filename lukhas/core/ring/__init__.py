@@ -13,7 +13,7 @@ Tracking: docs/v0.03/KNOWN_ISSUES.md#missing-modules
 
 # Added for test compatibility (lukhas.core.ring.DecimatingRing)
 try:
-    from candidate.core.ring import DecimatingRing  # noqa: F401
+    from labs.core.ring import DecimatingRing  # noqa: F401
 except ImportError:
     class DecimatingRing:
         """Stub for DecimatingRing."""
@@ -29,7 +29,7 @@ if "DecimatingRing" not in __all__:
 
 # Added for test compatibility (lukhas.core.ring.Ring)
 try:
-    from candidate.core.ring import Ring  # noqa: F401
+    from labs.core.ring import Ring  # noqa: F401
 except ImportError:
     class Ring:
         """Stub for Ring."""

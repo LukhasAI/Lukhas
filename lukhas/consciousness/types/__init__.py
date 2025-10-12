@@ -11,7 +11,7 @@ __all__: list[str] = []
 
 _CANDIDATES = (
     "lukhas_website.lukhas.consciousness.types",
-    "candidate.consciousness.types",
+    "labs.consciousness.types",
     "consciousness.types",
 )
 

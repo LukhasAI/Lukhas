@@ -6,7 +6,7 @@ from lukhas._bridgeutils import bridge_from_candidates
 _CANDIDATES = (
     "lukhas_website.lukhas.identity",
     "identity",
-    "candidate.identity",
+    "labs.identity",
 )
 
 __all__, _exports = bridge_from_candidates(*_CANDIDATES)

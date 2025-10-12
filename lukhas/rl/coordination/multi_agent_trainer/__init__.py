@@ -30,7 +30,7 @@ def _try(n: str):
 
 _CANDIDATES = (
     "lukhas_website.lukhas.rl.coordination.multi_agent_trainer",
-    "candidate.rl.coordination.multi_agent_trainer",
+    "labs.rl.coordination.multi_agent_trainer",
     "rl.coordination.multi_agent_trainer",
 )
 

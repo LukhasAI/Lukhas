@@ -9,8 +9,8 @@ __all__: List[str] = []
 
 for _candidate in (
     "lukhas_website.lukhas.governance.ethics.moral_agent_template",
-    "governance.ethics.moral_agent_template",
-    "candidate.governance.ethics.moral_agent_template",
+    "lukhas.governance.ethics.moral_agent_template",
+    "labs.governance.ethics.moral_agent_template",
 ):
     try:
         _mod = import_module(_candidate)

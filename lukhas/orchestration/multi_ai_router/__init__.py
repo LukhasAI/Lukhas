@@ -18,7 +18,7 @@ def _try(module_name: str):
 
 _CANDIDATES = (
     "lukhas_website.lukhas.orchestration.multi_ai_router",
-    "candidate.orchestration.multi_ai_router",
+    "labs.orchestration.multi_ai_router",
 )
 
 _SRC = None
