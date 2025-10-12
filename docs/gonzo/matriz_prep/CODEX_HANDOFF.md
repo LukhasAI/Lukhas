@@ -197,9 +197,10 @@ git diff --stat candidate/
 python3 scripts/harvest_todos.py --roots lukhas candidate --out /tmp/before.csv
 wc -l /tmp/before.csv  # Should show ~2,104
 
-# 2. Run cleanup (Phase 1)
-grep -rl "# noqa: invalid-syntax  # TODO:" candidate/ | xargs sed -i '' 's/# noqa: invalid-syntax  # TODO:.*$/# noqa: invalid-syntax/'
-grep -rl "# noqa: F821  # TODO:" candidate/ | xargs sed -i '' 's/# noqa: F821  # TODO:.*$/# noqa: F821/'
+# 2. Run cleanup (Phase 1) - CORRECTED TO REMOVE ORPHANED NOQA
+# ⚠️ IMPORTANT: Remove both TODO and noqa together to avoid orphaned comments
+grep -rl "# noqa: invalid-syntax  # TODO:" candidate/ | xargs sed -i '' 's/  # noqa: invalid-syntax  # TODO:.*$//'
+grep -rl "# noqa: F821  # TODO:" candidate/ | xargs sed -i '' 's/  # noqa: F821  # TODO:.*$//'
 
 # 3. Verify reduction
 python3 scripts/harvest_todos.py --roots lukhas candidate --out docs/audits/todos_clean.csv
@@ -216,6 +217,25 @@ wc -l docs/audits/todos_final.csv  # Should show ~240
 # 6. Commit
 git add -A
 git commit -m "chore(cleanup): remove 1,850+ fake TODO/FIXME noise from candidate lane"
+```
+
+### 📋 If PR 375 Already Exists (Orphaned noqa Fix)
+
+If Codex already executed Phase 1 and left orphaned `# noqa` comments:
+
+```bash
+# Run the orphaned noqa cleanup script
+python3 scripts/fix_orphaned_noqa.py --apply
+
+# Verify no syntax errors
+make smoke
+ruff check candidate/ core/
+
+# Commit the fix
+git add -A
+git commit -m "fix(hygiene): remove 1,977 orphaned noqa comments from PR 375"
+
+# See: docs/gonzo/matriz_prep/PR_375_REMEDIATION.md for full analysis
 ```
 
 **Ready to execute! Good luck, Codex! 🚀**
