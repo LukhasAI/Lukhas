@@ -72,7 +72,7 @@ class MemoryNode:
 
     def store(self, memory_data, importance=0.5, memory_type="short_term"):
         """Store a new memory with optional importance rating."""
-        memory_id = f"memory_{len(self.short_term) + len(self.long_term)} + 1}"  # noqa: invalid-syntax  # TODO: f-string: single } is not allo...
+        memory_id = f"memory_{len(self.short_term) + len(self.long_term)} + 1}"  # noqa: invalid-syntax
 
         memory_entry = {
             "id": memory_id,
@@ -203,7 +203,7 @@ class GoalManagementNode:
 
     def create_goal(self, goal_data):
         """Create a new goal."""
-        goal_id = f"goal_{len(self.active_goals) + len(self.completed_goals)} + 1}"  # noqa: invalid-syntax  # TODO: f-string: single } is not allo...
+        goal_id = f"goal_{len(self.active_goals) + len(self.completed_goals)} + 1}"  # noqa: invalid-syntax
 
         goal = {
             "id": goal_id,
@@ -278,7 +278,7 @@ class DAOGovernanceNode:
 
     def create_proposal(self, proposal_data):
         """Create a new governance proposal."""
-        proposal_id = f"proposal_{len(self.proposals)} + 1}"  # noqa: invalid-syntax  # TODO: f-string: single } is not allo...
+        proposal_id = f"proposal_{len(self.proposals)} + 1}"  # noqa: invalid-syntax
 
         proposal = {
             "id": proposal_id,

@@ -183,7 +183,7 @@ class PromptModulator:
 
         try:
             # Evaluate expression
-            result = eval(expr, {"__builtins__": {}, safe_namespace)  # noqa: invalid-syntax  # TODO: Expected :, found )
+            result = eval(expr, {"__builtins__": {}, safe_namespace)  # noqa: invalid-syntax
             self._eval_cache[cache_key] = result
             return result
         except Exception as e:

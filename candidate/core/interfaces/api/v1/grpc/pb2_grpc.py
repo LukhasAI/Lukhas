@@ -39,7 +39,7 @@ class LukhasServiceServicer:
         try:
             # Basic processing logic
             response = lukhas_pb2.ProcessResponse()
-            response.request_id = f"req_{hash(request.input_text)} % 10000000}"  # noqa: invalid-syntax  # TODO: f-string: single } is not allo...
+            response.request_id = f"req_{hash(request.input_text)} % 10000000}"  # noqa: invalid-syntax
             response.processing_time_ms = 42.0  # Placeholder timing
 
             # Set symbolic state
@@ -111,7 +111,7 @@ class AwarenessServiceServicer:
         """Assess user awareness and assign tier"""
         try:
             response = lukhas_pb2.AwarenessResponse()
-            response.request_id = f"aware_{hash(request.user_id)} % 10000000}"  # noqa: invalid-syntax  # TODO: f-string: single } is not allo...
+            response.request_id = f"aware_{hash(request.user_id)} % 10000000}"  # noqa: invalid-syntax
 
             # Basic tier assignment logic (placeholder)
             if request.awareness_type == "ENVIRONMENTAL":
@@ -174,7 +174,7 @@ class IntelligenceRegistryServicer:
 
             response.success = True
             response.engine_id = request.engine_id
-            response.registry_token = f"token_{hash(request.engine_id)} % 1000000}"  # noqa: invalid-syntax  # TODO: f-string: single } is not allo...
+            response.registry_token = f"token_{hash(request.engine_id)} % 1000000}"  # noqa: invalid-syntax
             response.heartbeat_interval = 30
 
             logger.info(f"Registered engine: {request.engine_id}")

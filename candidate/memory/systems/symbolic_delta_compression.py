@@ -1274,7 +1274,7 @@ class CompressionScheduler:
         """Create optimized compression schedule"""
 
         schedule = {
-            "schedule_id": f"schedule_{int(time.time())",  # noqa: invalid-syntax  # TODO: missing closing quote in strin...
+            "schedule_id": f"schedule_{int(time.time())",  # noqa: invalid-syntax
             "created_at": datetime.now(timezone.utc).isoformat(),
             "compressions": [],
             "total_folds": len(predictions),

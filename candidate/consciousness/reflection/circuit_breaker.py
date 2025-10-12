@@ -613,8 +613,8 @@ class CascadePreventionSystem:
 
     def __init__(
         self,
-        actor_system: ActorSystem,  # noqa: F821  # TODO: ActorSystem
-        observability: Optional[ObservabilityCollector] = None,  # noqa: F821  # TODO: ObservabilityCollector
+        actor_system: ActorSystem,  # noqa: F821
+        observability: Optional[ObservabilityCollector] = None,  # noqa: F821
     ):
         self.actor_system = actor_system
         self.observability = observability
@@ -752,7 +752,7 @@ class CascadePreventionSystem:
             except Exception as e:
                 logger.debug(f"Failed to collect metrics for {actor_id}: {e}")
 
-    async def _get_actor_snapshot(self, actor_id: str) -> Optional[ActorSnapshot]:  # noqa: F821  # TODO: ActorSnapshot
+    async def _get_actor_snapshot(self, actor_id: str) -> Optional[ActorSnapshot]:  # noqa: F821
         """Get snapshot for an actor"""
         if not self.observability:
             return None

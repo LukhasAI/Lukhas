@@ -73,15 +73,15 @@ from sklearn.preprocessing import StandardScaler
 
 
 # Prometheus metrics
-MODEL_INFERENCE_DURATION = Histogram(  # noqa: F821  # TODO: Histogram
+MODEL_INFERENCE_DURATION = Histogram(  # noqa: F821
     "model_inference_duration_seconds",
     "Time spent on model inference",
     ["model_id", "environment"],
 )
-MODEL_ACCURACY_SCORE = Gauge("model_accuracy_score", "Current model accuracy score", ["model_id", "metric_type"])  # noqa: F821  # TODO: Gauge
+MODEL_ACCURACY_SCORE = Gauge("model_accuracy_score", "Current model accuracy score", ["model_id", "metric_type"])  # noqa: F821
 REQUEST_RATE = Counter("requests_total", "Total number of requests", ["endpoint", "status", "model_id"])
 ERROR_RATE = Counter("errors_total", "Total number of errors", ["error_type", "service", "severity"])
-DRIFT_DETECTION_SCORE = Gauge("model_drift_score", "Model drift detection score", ["model_id", "drift_type"])  # noqa: F821  # TODO: Gauge
+DRIFT_DETECTION_SCORE = Gauge("model_drift_score", "Model drift detection score", ["model_id", "drift_type"])  # noqa: F821
 
 
 class AlertSeverity(Enum):
@@ -739,7 +739,7 @@ class ObservabilitySystem:
             logger.error("Failed to connect to Redis", error=str(e))
 
         # Start Prometheus metrics server
-        prometheus_client.start_http_server(self.config.prometheus_port)  # noqa: F821  # TODO: prometheus_client
+        prometheus_client.start_http_server(self.config.prometheus_port)  # noqa: F821
         logger.info("Prometheus metrics server started", port=self.config.prometheus_port)
 
     async def monitor_model_inference(

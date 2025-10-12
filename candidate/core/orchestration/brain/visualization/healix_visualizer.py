@@ -169,10 +169,10 @@ class HealixVisualizer:
                 "bgcolor": "rgba(240, 248, 255, 0.1)",
                 "camera": {"eye": {"x": 1.5, "y": 1.5, "z": 1.5},
             },
-            paper_bgcolor="white",  # noqa: invalid-syntax  # TODO: Expected :, found =
-            font={"color": "#2E4057"},  # noqa: invalid-syntax  # TODO: Expected :, found =
-            width=1000,  # noqa: invalid-syntax  # TODO: Expected :, found =
-            height=800,  # noqa: invalid-syntax  # TODO: Expected :, found =
+            paper_bgcolor="white",  # noqa: invalid-syntax
+            font={"color": "#2E4057"},  # noqa: invalid-syntax
+            width=1000,  # noqa: invalid-syntax
+            height=800,  # noqa: invalid-syntax
         )
 
         if save_path:
@@ -547,7 +547,7 @@ class HealixVisualizer:
             ax.set_ylim(-2, 2)
             ax.set_aspect("equal")
             ax.set_title(
-                f"Memory Evolution: {memory_id[:30]}...\nFrame {frame}/{len(mutations}+1)}",  # noqa: invalid-syntax  # TODO: Expected ,, found }
+                f"Memory Evolution: {memory_id[:30]}...\nFrame {frame}/{len(mutations}+1)}",  # noqa: invalid-syntax
                 fontsize=14,
                 fontweight="bold",
             )
@@ -623,7 +623,7 @@ class HealixVisualizer:
                                 else self.mutation_colors.get(node.upper(), "#95A5A6")
                             )
                             for node in all_nodes
-                        ],  # noqa: invalid-syntax  # TODO: Expected ), found ]
+                        ],  # noqa: invalid-syntax
                     },
                     link={
                         "source": sources,
@@ -634,7 +634,7 @@ class HealixVisualizer:
                 )
             )
 
-        fig.update_layout(  # noqa: invalid-syntax  # TODO: Simple statements must be sepa...
+        fig.update_layout(  # noqa: invalid-syntax
             title={
                 "text": "🔀 Memory Mutation Flow Pattern",
                 "x": 0.5,
@@ -646,22 +646,22 @@ class HealixVisualizer:
             paper_bgcolor="white",
         )
 
-        return fig  # noqa: invalid-syntax  # TODO: Simple statements must be sepa...
+        return fig  # noqa: invalid-syntax
 
 
 # Demo interface
 
 
-async def launch_healix_ui():  # noqa: invalid-syntax  # TODO: Compound statements are not al...
+async def launch_healix_ui():  # noqa: invalid-syntax
     """Launch the complete HealixMapper UI experience"""
-    print("🚀 Launching HealixMapper Visual Experience...")  # noqa: invalid-syntax  # TODO: Simple statements must be sepa...
+    print("🚀 Launching HealixMapper Visual Experience...")  # noqa: invalid-syntax
 
     # Initialize systems
-    healix = HealixMapper()  # noqa: invalid-syntax  # TODO: Simple statements must be sepa...
-    visualizer = HealixVisualizer(healix)  # noqa: invalid-syntax  # TODO: Simple statements must be sepa...
+    healix = HealixMapper()  # noqa: invalid-syntax
+    visualizer = HealixVisualizer(healix)  # noqa: invalid-syntax
 
     # Create some sample memories for demonstration
-    sample_memories = [  # noqa: invalid-syntax  # TODO: Simple statements must be sepa...
+    sample_memories = [  # noqa: invalid-syntax
         {
             "memory": {
                 "content": "The moment I first understood the beauty of DNA-inspired computing",
@@ -696,66 +696,66 @@ async def launch_healix_ui():  # noqa: invalid-syntax  # TODO: Compound statemen
     ]
 
     # Add sample memories
-    memory_ids = []  # noqa: invalid-syntax  # TODO: Simple statements must be sepa...
-    for sample in sample_memories:  # noqa: invalid-syntax  # TODO: Compound statements are not al...
+    memory_ids = []  # noqa: invalid-syntax
+    for sample in sample_memories:  # noqa: invalid-syntax
         memory_id = await healix.encode_memory(
             sample["memory"], sample["strand"], sample["context"]
         )
-        memory_ids.append(memory_id)  # noqa: invalid-syntax  # TODO: Simple statements must be sepa...
-        print(f"✅ Added {sample['strand'].value} memory: {memory_id[:30]}...")  # noqa: invalid-syntax  # TODO: Simple statements must be sepa...
+        memory_ids.append(memory_id)  # noqa: invalid-syntax
+        print(f"✅ Added {sample['strand'].value} memory: {memory_id[:30]}...")  # noqa: invalid-syntax
 
     # Add some mutations for demonstration
-    if memory_ids:  # noqa: invalid-syntax  # TODO: Expected else, found :
+    if memory_ids:  # noqa: invalid-syntax
         await healix.mutate_memory(
             memory_ids[0],
             {"data": {"insight_level": "profound"}, "position": "metadata"},
             MutationStrategy.INSERTION,
         )
 
-        if len(memory_ids) > 1:  # noqa: invalid-syntax  # TODO: Expected else, found :
+        if len(memory_ids) > 1:  # noqa: invalid-syntax
             await healix.mutate_memory(
                 memory_ids[1],
                 {"source_memory_id": memory_ids[0], "fields": ["metadata"]},
                 MutationStrategy.CROSSOVER,
             )
 
-    print("\n🎨 Creating visualizations...")  # noqa: invalid-syntax  # TODO: Simple statements must be sepa...
+    print("\n🎨 Creating visualizations...")  # noqa: invalid-syntax
 
     # Create all visualizations
-    print("🧬 Generating 3D DNA Helix...")  # noqa: invalid-syntax  # TODO: Simple statements must be sepa...
-    dna_fig = await visualizer.create_dna_helix_visualization()  # noqa: invalid-syntax  # TODO: Simple statements must be sepa...
-    dna_fig.write_html(  # noqa: invalid-syntax  # TODO: Simple statements must be sepa...
+    print("🧬 Generating 3D DNA Helix...")  # noqa: invalid-syntax
+    dna_fig = await visualizer.create_dna_helix_visualization()  # noqa: invalid-syntax
+    dna_fig.write_html(  # noqa: invalid-syntax
         "/Users/A_G_I/CodexGPT_Lukhas/golden_transfers/healix_dna_helix.html"
     )
 
-    print("📊 Creating Memory Dashboard...")  # noqa: invalid-syntax  # TODO: Simple statements must be sepa...
-    dashboard_fig = await visualizer.create_memory_dashboard()  # noqa: invalid-syntax  # TODO: Simple statements must be sepa...
-    dashboard_fig.write_html(  # noqa: invalid-syntax  # TODO: Simple statements must be sepa...
+    print("📊 Creating Memory Dashboard...")  # noqa: invalid-syntax
+    dashboard_fig = await visualizer.create_memory_dashboard()  # noqa: invalid-syntax
+    dashboard_fig.write_html(  # noqa: invalid-syntax
         "/Users/A_G_I/CodexGPT_Lukhas/golden_transfers/healix_dashboard.html"
     )
 
-    print("🔍 Building Interactive Explorer...")  # noqa: invalid-syntax  # TODO: Simple statements must be sepa...
-    explorer_fig = await visualizer.create_interactive_memory_explorer()  # noqa: invalid-syntax  # TODO: Simple statements must be sepa...
-    explorer_fig.write_html(  # noqa: invalid-syntax  # TODO: Simple statements must be sepa...
+    print("🔍 Building Interactive Explorer...")  # noqa: invalid-syntax
+    explorer_fig = await visualizer.create_interactive_memory_explorer()  # noqa: invalid-syntax
+    explorer_fig.write_html(  # noqa: invalid-syntax
         "/Users/A_G_I/CodexGPT_Lukhas/golden_transfers/healix_explorer.html"
     )
 
-    print("🔀 Generating Mutation Flow...")  # noqa: invalid-syntax  # TODO: Simple statements must be sepa...
-    flow_fig = await visualizer.create_mutation_flow_diagram()  # noqa: invalid-syntax  # TODO: Simple statements must be sepa...
-    flow_fig.write_html(  # noqa: invalid-syntax  # TODO: Simple statements must be sepa...
+    print("🔀 Generating Mutation Flow...")  # noqa: invalid-syntax
+    flow_fig = await visualizer.create_mutation_flow_diagram()  # noqa: invalid-syntax
+    flow_fig.write_html(  # noqa: invalid-syntax
         "/Users/A_G_I/CodexGPT_Lukhas/golden_transfers/healix_mutations.html"
     )
 
-    print("\n✨ HealixMapper Visual Experience Ready!")  # noqa: invalid-syntax  # TODO: Simple statements must be sepa...
-    print("📁 Files created:")  # noqa: invalid-syntax  # TODO: Simple statements must be sepa...
-    print("   • healix_dna_helix.html - 3D DNA structure visualization")  # noqa: invalid-syntax  # TODO: Simple statements must be sepa...
-    print("   • healix_dashboard.html - System overview dashboard")  # noqa: invalid-syntax  # TODO: Simple statements must be sepa...
-    print("   • healix_explorer.html - Interactive memory explorer")  # noqa: invalid-syntax  # TODO: Simple statements must be sepa...
-    print("   • healix_mutations.html - Mutation flow patterns")  # noqa: invalid-syntax  # TODO: Simple statements must be sepa...
-    print("\n🌟 Open these HTML files in your browser for the full experience!")  # noqa: invalid-syntax  # TODO: Simple statements must be sepa...
+    print("\n✨ HealixMapper Visual Experience Ready!")  # noqa: invalid-syntax
+    print("📁 Files created:")  # noqa: invalid-syntax
+    print("   • healix_dna_helix.html - 3D DNA structure visualization")  # noqa: invalid-syntax
+    print("   • healix_dashboard.html - System overview dashboard")  # noqa: invalid-syntax
+    print("   • healix_explorer.html - Interactive memory explorer")  # noqa: invalid-syntax
+    print("   • healix_mutations.html - Mutation flow patterns")  # noqa: invalid-syntax
+    print("\n🌟 Open these HTML files in your browser for the full experience!")  # noqa: invalid-syntax
 
-    return healix, visualizer  # noqa: invalid-syntax  # TODO: Simple statements must be sepa...
+    return healix, visualizer  # noqa: invalid-syntax
 
 
-if __name__ == "__main__":  # noqa: invalid-syntax  # TODO: Expected else, found :
-    asyncio.run(launch_healix_ui())  # noqa: invalid-syntax  # TODO: unexpected EOF while parsing
+if __name__ == "__main__":  # noqa: invalid-syntax
+    asyncio.run(launch_healix_ui())  # noqa: invalid-syntax

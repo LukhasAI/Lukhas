@@ -222,7 +222,7 @@ class MultiAgentCollaboration:
         self.logger.info(f"Task {task_id} marked as completed")
 
 
-EOF  # noqa: F821  # TODO: EOF
+EOF  # noqa: F821
 
 # Voice Synthesis
-cat > lukhas_agi / packages / voice / src / synthesis.py << "EOF"  # noqa: F821  # TODO: cat
+cat > lukhas_agi / packages / voice / src / synthesis.py << "EOF"  # noqa: F821

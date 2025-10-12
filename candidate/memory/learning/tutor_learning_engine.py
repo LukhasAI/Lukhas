@@ -32,7 +32,7 @@ def skg():
 @pytest.fixture
 def tutor_engine(skg):
     """Create a TutorEngine instance with mock interfaces."""
-    return TutorEngine(skg=skg, voice_interface=MockVoiceInterface(), bio_interface=MockBioInterface())  # noqa: F821  # TODO: MockVoiceInterface
+    return TutorEngine(skg=skg, voice_interface=MockVoiceInterface(), bio_interface=MockBioInterface())  # noqa: F821
 
 
 @pytest.fixture

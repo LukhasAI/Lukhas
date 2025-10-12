@@ -131,7 +131,7 @@ class NodeRegistry:
 
         if node_id is None:
             # Generate a unique ID if not provided
-            node_id = f"{node_type}_{str(uuid.uuid4()}[:8]}"  # noqa: invalid-syntax  # TODO: Expected ,, found }
+            node_id = f"{node_type}_{str(uuid.uuid4()}[:8]}"  # noqa: invalid-syntax
         elif node_id in self.nodes:
             raise ValueError(f"Node ID {node_id} already in use")
 

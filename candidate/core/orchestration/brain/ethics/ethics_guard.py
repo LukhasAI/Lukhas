@@ -8,7 +8,7 @@ import json
 import os
 from datetime import datetime, timezone
 
-lukhas_ethics_guard.py  # noqa: F821  # TODO: lukhas_ethics_guard
+lukhas_ethics_guard.py  # noqa: F821
 """
 📄 MODULE      : lukhas_ethics_guard.py
 🛡️ PURPOSE     : Enforces symbolic consent, user data access boundaries,

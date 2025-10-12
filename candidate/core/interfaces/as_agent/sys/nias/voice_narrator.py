@@ -74,8 +74,8 @@ def narrate_dreams(limit=3):
         print(f"   🔐 Tier: {tier_label(tier)} | Source: {source}")
         print(
             f"   🧠 Emotion Vector → {summarize_emotion_vector(ev)}"
-            if ev:  # noqa: invalid-syntax  # TODO: Expected else, found :
-            else "   🧠 No emotion vector available":  # noqa: invalid-syntax  # TODO: Expected ,, found else
+            if ev:  # noqa: invalid-syntax
+            else "   🧠 No emotion vector available":  # noqa: invalid-syntax
         )
         print(f"   🖼️ Emoji: {emoji} | Tags: {', '.join(tags)}")
         print(f"   📝 Summary: {summary}")
@@ -83,7 +83,7 @@ def narrate_dreams(limit=3):
         print(f"   🗣 '{summary or 'A quiet dream passed — undefined, but felt.'}'")
         print(f"   🎙️ Voice Profile: {voice}")
         print(
-            f"   💬 'Let this dream echo — it held a trace of {ev.get('joy','")}  # noqa: invalid-syntax  # TODO: missing closing quote in strin...
+            f"   💬 'Let this dream echo — it held a trace of {ev.get('joy','")}  # noqa: invalid-syntax
     0): .1f} joy and {ev.get('calm', 0): .1f} calm.'"
         )
         print("   💤 … (End of symbolic voice segment)")

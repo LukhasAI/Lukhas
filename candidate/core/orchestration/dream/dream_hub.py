@@ -133,7 +133,7 @@ class DreamHub:
 
     async def health_check(self) -> dict[str, Any]:
         """Health check for all registered dream services"""
-        health = {"status": "healthy", "services": {}  # noqa: invalid-syntax  # TODO: Expected }, found newline
+        health = {"status": "healthy", "services": {}  # noqa: invalid-syntax
 
         for name, service in self.services.items():
             try:

@@ -964,18 +964,18 @@ class CausalMemoryWrapper:
             result = {"memory": memory, "score": score, "causal_context": {}
 
             # Add causal context if enabled
-            if self.causal_engine and include_causal_explanation and hasattr(memory, "id"):  # noqa: invalid-syntax  # TODO: Expected else, found :
-                memory_id = memory.id if hasattr(memory, "id") else str(hash(memory.data))  # noqa: invalid-syntax  # TODO: Expected :, found =
+            if self.causal_engine and include_causal_explanation and hasattr(memory, "id"):  # noqa: invalid-syntax
+                memory_id = memory.id if hasattr(memory, "id") else str(hash(memory.data))  # noqa: invalid-syntax
 
                 # Get causal explanation
-                explanation = await self.causal_engine.find_causal_explanation(memory_id)  # noqa: invalid-syntax  # TODO: Expected :, found name
-                result["causal_context"]["explanation"] = explanation  # noqa: invalid-syntax  # TODO: Expected :, found name
+                explanation = await self.causal_engine.find_causal_explanation(memory_id)  # noqa: invalid-syntax
+                result["causal_context"]["explanation"] = explanation  # noqa: invalid-syntax
 
                 # Get causal predictions
-                prediction = await self.causal_engine.predict_causal_outcomes(memory_id)  # noqa: invalid-syntax  # TODO: Expected :, found name
-                result["causal_context"]["predictions"] = prediction  # noqa: invalid-syntax  # TODO: Expected :, found name
+                prediction = await self.causal_engine.predict_causal_outcomes(memory_id)  # noqa: invalid-syntax
+                result["causal_context"]["predictions"] = prediction  # noqa: invalid-syntax
 
-            enhanced_results.append(result)  # noqa: invalid-syntax  # TODO: Expected :, found name
+            enhanced_results.append(result)  # noqa: invalid-syntax
 
         return enhanced_results
 

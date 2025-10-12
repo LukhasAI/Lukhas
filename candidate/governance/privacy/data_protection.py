@@ -740,7 +740,7 @@ class AdvancedDataProtection:
                             masked_data[key] = "***@***.***"
                     elif any(sensitive in key_lower for sensitive in ["phone", "ssn", "card"]):
                         masked_data[key] = (
-                            f"{value[:2]}{'*' * (len(value} - 4}{value[-2:])}" if len(value) > 4 else "****"  # noqa: invalid-syntax  # TODO: Expected ,, found }
+                            f"{value[:2]}{'*' * (len(value} - 4}{value[-2:])}" if len(value) > 4 else "****"  # noqa: invalid-syntax
                         )
                     elif "name" in key_lower:
                         masked_data[key] = f"{value[0]}***" if value else "***"

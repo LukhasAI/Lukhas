@@ -856,7 +856,7 @@ async def demonstrate_trauma_repair():
     """Demonstrate Advanced Trauma Repair capabilities"""
 
     # Initialize components
-    persistence = OrthogonalPersistence() if LUKHAS_AVAILABLE else None  # noqa: F821  # TODO: OrthogonalPersistence
+    persistence = OrthogonalPersistence() if LUKHAS_AVAILABLE else None  # noqa: F821
     if persistence:
         await persistence.start()
 

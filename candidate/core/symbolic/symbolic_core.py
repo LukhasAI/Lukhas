@@ -165,7 +165,7 @@ class SymbolicReasoner:
             "  rankdir=LR;",
             '  node [shape=box, style="rounded,filled", fontname="Helvetica", fontsize=10];',
             '  edge [fontname="Helvetica", fontsize=9];',
-            f\'  S_{symbol.name} [label="{symbol.name}\\n{self._format_props(symbol.properties)}", shape=ellipse, fillcolor="#A9D0F5"];\',  # noqa: invalid-syntax  # TODO: Expected a newline after line ...
+            f\'  S_{symbol.name} [label="{symbol.name}\\n{self._format_props(symbol.properties)}", shape=ellipse, fillcolor="#A9D0F5"];\',  # noqa: invalid-syntax
         ]
 
         conclusion_counter = 0
@@ -177,8 +177,8 @@ class SymbolicReasoner:
                 rule_id = f"Rule_{i}"
                 conclusion_id = f"Conc_{conclusion_counter}"
 
-                rule_label = f"Rule {i}\\nPattern: {self._format_props(rule['pattern'])}\\nDerives: {self._format_props(rule['conclusion']}\\nRule Confidence: {rule['confidence']:.2f}"  # noqa: invalid-syntax  # TODO: Expected ,, found }
-                dot_lines.append(f'  {rule_id} [label="{rule_label)}", fillcolor="#F5F6CE"];')  # noqa: invalid-syntax  # TODO: f-string: expecting }
+                rule_label = f"Rule {i}\\nPattern: {self._format_props(rule['pattern'])}\\nDerives: {self._format_props(rule['conclusion']}\\nRule Confidence: {rule['confidence']:.2f}"  # noqa: invalid-syntax
+                dot_lines.append(f'  {rule_id} [label="{rule_label)}", fillcolor="#F5F6CE"];')  # noqa: invalid-syntax
                 dot_lines.append(f'  S_{symbol.name} -> {rule_id} [label="matches (score: {match_score:.2f})"];')
 
                 derived_conclusion_props = rule["conclusion"]
@@ -194,8 +194,8 @@ class SymbolicReasoner:
                 }
                 conclusions.append(conclusion_data)
 
-                conc_label = f"Conclusion {conclusion_counter}\\n{self._format_props(derived_conclusion_props}\\nConfidence: {conclusion_data['overall_confidence']:.2f}"  # noqa: invalid-syntax  # TODO: Expected ,, found }
-                dot_lines.append(f'  {conclusion_id} [label="{conc_label)}", fillcolor="#D0F5A9", shape=ellipse];')  # noqa: invalid-syntax  # TODO: f-string: expecting }
+                conc_label = f"Conclusion {conclusion_counter}\\n{self._format_props(derived_conclusion_props}\\nConfidence: {conclusion_data['overall_confidence']:.2f}"  # noqa: invalid-syntax
+                dot_lines.append(f'  {conclusion_id} [label="{conc_label)}", fillcolor="#D0F5A9", shape=ellipse];')  # noqa: invalid-syntax
                 dot_lines.append(f'  {rule_id} -> {conclusion_id} [label="leads to"];')
 
                 conclusion_counter += 1

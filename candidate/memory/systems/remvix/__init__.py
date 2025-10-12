@@ -23,7 +23,7 @@ logger = logging.getLogger(__name__)
 # Module imports
 
 # Configure module logger
-logger = get_logger(__name__)  # noqa: F821  # TODO: get_logger
+logger = get_logger(__name__)  # noqa: F821
 
 # Module constants
 

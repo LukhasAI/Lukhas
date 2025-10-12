@@ -240,10 +240,10 @@ class PerformanceValidator:
             "summary": {
                 "total_metrics": len(validations),
                 "validated": validated_count,
-                "validation_rate": f"{(validated_count / len(validations} * 100}:.1f}%",  # noqa: invalid-syntax  # TODO: Expected ), found }
-            )},  # noqa: invalid-syntax  # TODO: Expected ,, found )
-            "recommendations": self._generate_recommendations(validations),  # noqa: invalid-syntax  # TODO: Expected ,, found indent
-        }  # noqa: invalid-syntax  # TODO: Expected }, found dedent
+                "validation_rate": f"{(validated_count / len(validations} * 100}:.1f}%",  # noqa: invalid-syntax
+            )},  # noqa: invalid-syntax
+            "recommendations": self._generate_recommendations(validations),  # noqa: invalid-syntax
+        }  # noqa: invalid-syntax
 
         return report
 
@@ -271,7 +271,7 @@ class PerformanceValidator:
         return recommendations
 
 
-def create_mock_to_production_validator():  # noqa: invalid-syntax  # TODO: Expected a statement
+def create_mock_to_production_validator():  # noqa: invalid-syntax
     """Create validator for mock to production migration"""
     return {
         "mock_metrics": {

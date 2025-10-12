@@ -46,7 +46,7 @@ class MockQuantumBiologicalAGI:
         self.initialization_time = datetime.now(timezone.utc)
 
         # Current state
-        self.capability_level = QuantumBioCapabilityLevel.CELLULAR  # noqa: F821  # TODO: QuantumBioCapabilityLevel
+        self.capability_level = QuantumBioCapabilityLevel.CELLULAR  # noqa: F821
         self.cellular_state = {
             "mitochondrial_count": 1000,
             "atp_reserves": 1.0,
@@ -71,7 +71,7 @@ class MockQuantumBiologicalAGI:
         logger.info("Mock integration with ethics engine")
         return True
 
-    async def process_with_quantum_biology(self, input_text: str, context: Optional[dict] = None) -> QuantumBioResponse:  # noqa: F821  # TODO: QuantumBioResponse
+    async def process_with_quantum_biology(self, input_text: str, context: Optional[dict] = None) -> QuantumBioResponse:  # noqa: F821
         """Mock quantum-biological processing"""
         datetime.now(timezone.utc)
         processing_id = f"mock_proc_{datetime.now(timezone.utc).timestamp()}"
@@ -118,7 +118,7 @@ class MockQuantumBiologicalAGI:
         ]
 
         # Create response
-        response = QuantumBioResponse(  # noqa: F821  # TODO: QuantumBioResponse
+        response = QuantumBioResponse(  # noqa: F821
             content=response_content,
             bio_confidence=bio_confidence,
             quantum_coherence=quantum_coherence,
@@ -139,7 +139,7 @@ class MockQuantumBiologicalAGI:
         logger.debug(f"Mock processing complete - Bio-confidence: {bio_confidence:.2f}")
         return response
 
-    def _update_metrics(self, response: QuantumBioResponse):  # noqa: F821  # TODO: QuantumBioResponse
+    def _update_metrics(self, response: QuantumBioResponse):  # noqa: F821
         """Update mock metrics"""
         self.bio_metrics["total_processing_cycles"] += 1
         cycles = self.bio_metrics["total_processing_cycles"]
@@ -157,7 +157,7 @@ class MockQuantumBiologicalAGI:
 
     def _advance_capability(self):
         """Advance to next capability level"""
-        levels = list(QuantumBioCapabilityLevel)  # noqa: F821  # TODO: QuantumBioCapabilityLevel
+        levels = list(QuantumBioCapabilityLevel)  # noqa: F821
         current_index = levels.index(self.capability_level)
         if current_index < len(levels) - 1:
             self.capability_level = levels[current_index + 1]

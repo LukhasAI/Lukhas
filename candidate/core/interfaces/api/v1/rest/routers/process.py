@@ -10,7 +10,7 @@ router = APIRouter()
 
 
 def get_lukhas_core():
-    return lukhas_core  # noqa: F821  # TODO: lukhas_core
+    return lukhas_core  # noqa: F821
 
 
 async def record_metrics(request_id: str, duration: float) -> None:

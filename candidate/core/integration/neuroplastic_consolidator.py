@@ -150,13 +150,13 @@ class {module.title()}Connector:
     """Connects isolated components into the {module} nervous system"""
 
     def __init__(self):
-        self.connected_components = {{}  # noqa: invalid-syntax  # TODO: f-string: single } is not allo...
-        self.hormone_tags = {{}  # For neuroplastic responses  # noqa: invalid-syntax  # TODO: f-string: single } is not allo...
+        self.connected_components = {{}  # noqa: invalid-syntax
+        self.hormone_tags = {{}  # For neuroplastic responses  # noqa: invalid-syntax
 
     def connect_component(self, name: str, component: Any):
         """Connect an isolated component to this module"""
         self.connected_components[name] = component
-        logger.info(f"Connected {{name} to {module} module")  # noqa: invalid-syntax  # TODO: f-string: single } is not allo...
+        logger.info(f"Connected {{name} to {module} module")  # noqa: invalid-syntax
 
     def emit_hormone(self, hormone: str, intensity: float = 1.0):
         """Emit hormone signal for neuroplastic response"""
@@ -168,7 +168,7 @@ class {module.title()}Connector:
             'cortisol': self.hormone_tags.get('cortisol', 0.0),
             'adrenaline': self.hormone_tags.get('adrenaline', 0.0),
             'norepinephrine': self.hormone_tags.get('norepinephrine', 0.0)
-        }  # noqa: invalid-syntax  # TODO: f-string: single } is not allo...
+        }  # noqa: invalid-syntax
 
 # Global connector instance
 connector = {module.title()}Connector()
@@ -178,7 +178,7 @@ try:
     # Components will be added here during consolidation
     pass
 except ImportError as e:
-    logger.warning(f"Failed to import some {module} components: {{e}")  # noqa: invalid-syntax  # TODO: f-string: single } is not allo...
+    logger.warning(f"Failed to import some {module} components: {{e}")  # noqa: invalid-syntax
 '''
 
             with open(connector_path, "w") as f:

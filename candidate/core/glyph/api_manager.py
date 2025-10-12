@@ -260,10 +260,10 @@ class VeriFoldGlyphGenerator:
             if role == "doctor":
                 symbols += f'< path d ="M180, {160 + i * 20} L220, {160 + i * 20} M200,'
     # 4A90E2" stroke-width="3" fill="none"/>'
-    {140 + i * 20} L200, {180 + i * 20}" stroke="  # noqa: invalid-syntax  # TODO: Simple statements must be sepa...
-    elif role == "lawyer":  # noqa: invalid-syntax  # TODO: Expected a statement
-        symbols += f'< polygon points ="190, {150 + i * 20} 210, {150 + i * 20} 205,'  # noqa: invalid-syntax  # TODO: Unexpected indentation
-    {170 + i * 20} 195, {170 + i * 20}" fill="  # B8860B" opacity="0.7"/>'  # noqa: invalid-syntax  # TODO: Simple statements must be sepa...
+    {140 + i * 20} L200, {180 + i * 20}" stroke="  # noqa: invalid-syntax
+    elif role == "lawyer":  # noqa: invalid-syntax
+        symbols += f'< polygon points ="190, {150 + i * 20} 210, {150 + i * 20} 205,'  # noqa: invalid-syntax
+    {170 + i * 20} 195, {170 + i * 20}" fill="  # B8860B" opacity="0.7"/>'  # noqa: invalid-syntax
     # Add more roles as needed
     return symbols
 
@@ -358,7 +358,7 @@ class VeriFoldGlyphGenerator:
         return hashlib.sha256(combined_data.encode()).hexdigest()
 
 
-class LUKHASAPIManager:  # noqa: invalid-syntax  # TODO: Expected a statement
+class LUKHASAPIManager:  # noqa: invalid-syntax
     """Main API key management system with ΛiD integration."""
 
     @lukhas_tier_required(level=3)  # ΛTRACE_ADD
@@ -392,7 +392,7 @@ class LUKHASAPIManager:  # noqa: invalid-syntax  # TODO: Expected a statement
         )
 
     @lukhas_tier_required(level=2)  # ΛTRACE_ADD
-    def register_λid_profile(:  # noqa: invalid-syntax  # TODO: Expected a parameter or the en...
+    def register_λid_profile(:  # noqa: invalid-syntax
         self,
         user_id: str,
         professional_roles: list[str],
@@ -535,7 +535,7 @@ class LUKHASAPIManager:  # noqa: invalid-syntax  # TODO: Expected a statement
             with open(glyph_file) as f:
                 glyph_data: dict[str, Any] = json.load(f)  # ΛTRACE_CHANGE: Type hint
 
-            if not self._verify_glyph_integrity(:  # noqa: invalid-syntax  # TODO: Expected an expression or a )
+            if not self._verify_glyph_integrity(:  # noqa: invalid-syntax
                 glyph_data
             ):  # ΛTRACE_CHANGE: Pass full glyph_data
                 log.error("Glyph integrity verification failed.")  # ΛTRACE_CHANGE
@@ -673,7 +673,7 @@ class LUKHASAPIManager:  # noqa: invalid-syntax  # TODO: Expected a statement
         log = logger.bind(timestamp=datetime.now(timezone.utc).isoformat())
         log.debug("Verifying glyph integrity.")
 
-        if isinstance(:  # noqa: invalid-syntax  # TODO: Expected an expression or a )
+        if isinstance(:  # noqa: invalid-syntax
             glyph_data, VeriFoldGlyph
         ):  # ΛTRACE_ADD: Handle dataclass instance
             glyph_dict = asdict(glyph_data)
@@ -727,10 +727,10 @@ class LUKHASAPIManager:  # noqa: invalid-syntax  # TODO: Expected a statement
             return
 
         try:  # ΛTRACE_ADD: Error handling for file operations
-            with open(:  # noqa: invalid-syntax  # TODO: Expected ), found :
+            with open(:  # noqa: invalid-syntax
                 key_file, "r+"
-            ) as f:  # ΛTRACE_CHANGE: Open in r+ for read and write  # noqa: invalid-syntax  # TODO: Expected a statement
-                key_data: dict[str, Any] = json.load(f)  # ΛTRACE_CHANGE: Type hint  # noqa: invalid-syntax  # TODO: Unexpected indentation
+            ) as f:  # ΛTRACE_CHANGE: Open in r+ for read and write  # noqa: invalid-syntax
+                key_data: dict[str, Any] = json.load(f)  # ΛTRACE_CHANGE: Type hint  # noqa: invalid-syntax
 
                 current_usage = key_data.get(
                     "usage_tracking", {}
@@ -744,12 +744,12 @@ class LUKHASAPIManager:  # noqa: invalid-syntax  # TODO: Expected a statement
                 f.seek(0)  # ΛTRACE_ADD
                 json.dump(key_data, f, indent=2)
                 f.truncate()  # ΛTRACE_ADD
-            log.debug("API key usage tracking updated.")  # ΛTRACE_ADD  # noqa: invalid-syntax  # TODO: Expected except or finally aft...
-        except (OSError, json.JSONDecodeError) as e:  # ΛTRACE_ADD:  # noqa: invalid-syntax  # TODO: Expected a statement
-            log.error("Failed to update API key usage tracking.", error=str(e))  # noqa: invalid-syntax  # TODO: Unexpected indentation
+            log.debug("API key usage tracking updated.")  # ΛTRACE_ADD  # noqa: invalid-syntax
+        except (OSError, json.JSONDecodeError) as e:  # ΛTRACE_ADD:  # noqa: invalid-syntax
+            log.error("Failed to update API key usage tracking.", error=str(e))  # noqa: invalid-syntax
 
 
-def demo_quantum_api_management():  # noqa: invalid-syntax  # TODO: Expected a statement
+def demo_quantum_api_management():  # noqa: invalid-syntax
     """Demonstrate the quantum API management system."""
     # ΛTRACE_ADD: Configure structlog for demo if not already configured globally
     structlog.configure(

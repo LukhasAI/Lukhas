@@ -157,7 +157,7 @@ class ΛBotAutonomousVulnerabilityFixer:
                 "test_required": true/false,
                 "reasoning": "detailed explanation of fix strategy",
                 "priority": "immediate|high|medium|low"
-            }  # noqa: invalid-syntax  # TODO: f-string: single } is not allo...
+            }  # noqa: invalid-syntax
             """
 
             # Use OpenAI for analysis (with fallback to Anthropic)
@@ -628,7 +628,7 @@ class ΛBotAutonomousVulnerabilityFixer:
         }
 
         self.logger.info(
-            f"🎉 Autonomous sweep complete: {len(successful_fixes} PRs created,     ${summary['total_ai_cost']: .4f)} spent"  # noqa: invalid-syntax  # TODO: Expected ,, found }
+            f"🎉 Autonomous sweep complete: {len(successful_fixes} PRs created,     ${summary['total_ai_cost']: .4f)} spent"  # noqa: invalid-syntax
         )
 
         return summary

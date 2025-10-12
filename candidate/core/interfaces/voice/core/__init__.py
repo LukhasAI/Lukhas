@@ -7,7 +7,7 @@
 # ΛCREATED_DATE: Unknown (original auto-generation)
 # ΛMODIFIED_DATE: 2024-07-30
 
-log = logging.getLogger(__name__)  # noqa: F821  # TODO: logging
+log = logging.getLogger(__name__)  # noqa: F821
 """
 # ΛDOC: Auto-generated __init__.py for the `core.interfaces.voice.core` package.
 This file marks the `core` directory (within `voice`) as a Python package.

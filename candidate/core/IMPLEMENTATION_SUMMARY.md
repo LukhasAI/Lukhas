@@ -25,7 +25,6 @@ type: documentation
 
 ## 🎯 Overview
 
-This document summarizes the implementation of four critical TODOs from REALITY_TODO.md, creating a comprehensive fault tolerance architecture for the LUKHAS AI distributed actor system.
 
 ## 📦 Implemented Modules
 
@@ -317,7 +316,6 @@ async def chaos_test():
 ### Documentation
 - [FAULT_TOLERANCE_ARCHITECTURE.md](./FAULT_TOLERANCE_ARCHITECTURE.md) - Detailed architecture guide
 - [Actor System Documentation](./actor_system.py) - Base actor system reference
-- [REALITY_TODO.md](../REALITY_TODO.md) - Original requirements
 
 ### Code Examples
 - See demo functions in each module

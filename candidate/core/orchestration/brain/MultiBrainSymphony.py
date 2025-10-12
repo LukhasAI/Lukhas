@@ -279,7 +279,7 @@ class MultiBrainSymphonyOrchestrator:
         self.master_rhythm = {"phase": 0.0, "frequency": 1.0, "amplitude": 1.0}
 
         # Initialize specialized brains with existing system components
-        self.dreams_brain = DreamsBrainSpecialist(dream_engine)  # noqa: F821  # TODO: DreamsBrainSpecialist
+        self.dreams_brain = DreamsBrainSpecialist(dream_engine)  # noqa: F821
         self.memory_brain = MemoryBrainSpecialist(memory_integrator)
         self.learning_brain = LearningBrainSpecialist()
 

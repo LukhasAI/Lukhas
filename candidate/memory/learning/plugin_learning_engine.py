@@ -44,8 +44,8 @@ class PluginLearningEngine(str, Enum):
 
 
 class PluginLearningEngine(BaseModel):
-    content_type: ContentType  # noqa: F821  # TODO: ContentType
-    user_level: UserLevel  # noqa: F821  # TODO: UserLevel
+    content_type: ContentType  # noqa: F821
+    user_level: UserLevel  # noqa: F821
     voice_enabled: bool = False
     bio_oscillator_aware: bool = True
     max_complexity: Optional[int] = None
@@ -87,7 +87,7 @@ class PluginLearningEngine(LucasPlugin):
 
         logger.info("DocuTutor plugin initialized and connected to Lukhas systems")
 
-    async def generate_documentation(self, source_path: str, config: GenerationConfig) -> str:  # noqa: F821  # TODO: GenerationConfig
+    async def generate_documentation(self, source_path: str, config: GenerationConfig) -> str:  # noqa: F821
         """
         Generate documentation using Lukhas's advanced capabilities.
         """
@@ -127,7 +127,7 @@ class PluginLearningEngine(LucasPlugin):
 
         return docs
 
-    async def start_learning_session(self, topic: str, config: GenerationConfig) -> Any:  # noqa: F821  # TODO: GenerationConfig
+    async def start_learning_session(self, topic: str, config: GenerationConfig) -> Any:  # noqa: F821
         """
         Start an interactive learning session using Lukhas's tutoring capabilities.
         """

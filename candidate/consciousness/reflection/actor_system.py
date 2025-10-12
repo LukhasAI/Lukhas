@@ -22,7 +22,6 @@ logger = logging.getLogger(__name__)
 ║ DESCRIPTION
 ╠══════════════════════════════════════════════════════════════════════════════════
 ║ Actor system framework implementing high-performance distributed AI agents with
-║ supervision hierarchies, fault tolerance, and persistence. Addresses REALITY_TODO
 ║ 126-130 with AsyncIO-based concurrent processing and location transparency.
 ╚══════════════════════════════════════════════════════════════════════════════════
 """

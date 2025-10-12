@@ -45,13 +45,13 @@ from typing import Any, Optional
 import numpy as np
 
 from lukhas.core.common import get_logger
-from qi.bio.awareness.advanced_quantum_bio import (  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for core infrastructure (review and implement)  # noqa: invalid-syntax  # TODO: Expected one or more symbol na...
+from qi.bio.awareness.advanced_quantum_bio import (  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for core infrastructure (review and implement)  # noqa: invalid-syntax
 from datetime import timezone
-    MitochondrialQIBridge,  # noqa: invalid-syntax  # TODO: Unexpected indentation
+    MitochondrialQIBridge,  # noqa: invalid-syntax
     NeuroplasticityModulator,
-    QISynapticGate)  # noqa: invalid-syntax  # TODO: Expected a statement
+    QISynapticGate)  # noqa: invalid-syntax
 
-logger = get_logger(__name__)  # noqa: invalid-syntax  # TODO: Expected a statement
+logger = get_logger(__name__)  # noqa: invalid-syntax
 
 
 class QIProcessingCore:

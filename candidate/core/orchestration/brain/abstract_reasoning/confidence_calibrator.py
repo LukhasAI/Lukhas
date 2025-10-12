@@ -87,8 +87,8 @@ class BayesianConfidenceEstimator:
 
         logger.debug(
             f"Bayesian confidence: {confidence: .3f}(prior: {prior: .3f},"
-                                                     likelihood: {likelihood: .3f})""  # noqa: invalid-syntax  # TODO: Expected ,, found name
-        )  # noqa: invalid-syntax  # TODO: Expected a statement
+                                                     likelihood: {likelihood: .3f})""  # noqa: invalid-syntax
+        )  # noqa: invalid-syntax
 
         return confidence
 
@@ -354,15 +354,15 @@ class ContradictionDetector:
         stmt2_lower = stmt2.lower()
 
         for pos, neg in negation_pairs:
-            if (pos in stmt1_lower and neg in stmt2_lower) or (:  # noqa: invalid-syntax  # TODO: Expected an expression
+            if (pos in stmt1_lower and neg in stmt2_lower) or (:  # noqa: invalid-syntax
                 neg in stmt1_lower and pos in stmt2_lower
-            ):  # noqa: invalid-syntax  # TODO: Expected newline, found )
-                return True  # noqa: invalid-syntax  # TODO: Unexpected indentation
+            ):  # noqa: invalid-syntax
+                return True  # noqa: invalid-syntax
 
         return False
 
 
-class EmotionalConfidenceEstimator:  # noqa: invalid-syntax  # TODO: Expected a statement
+class EmotionalConfidenceEstimator:  # noqa: invalid-syntax
     """Emotional intuition-based confidence estimation"""
 
     def __init__(self):
@@ -581,7 +581,7 @@ class MetaLearningCalibrator:
 
         logger.info(
             f"Updated calibration: prediction={prediction_confidence: .3f},"
-            outcome={actual_outcome}""  # noqa: invalid-syntax  # TODO: Expected ,, found name
+            outcome={actual_outcome}""  # noqa: invalid-syntax
         )
 
     def _update_calibration_model(self, record: CalibrationRecord):
@@ -738,7 +738,7 @@ class AdvancedConfidenceCalibrator:
 
         logger.info(
             f"✅ Confidence calibration complete: Overall={overall_confidence: .3f},"
-            Meta={meta_confidence: .3f}""  # noqa: invalid-syntax  # TODO: Expected ,, found name
+            Meta={meta_confidence: .3f}""  # noqa: invalid-syntax
         )
 
         return confidence_metrics

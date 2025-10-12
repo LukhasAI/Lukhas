@@ -1,4 +1,4 @@
-log = logging.getLogger(__name__)  # noqa: F821  # TODO: logging
+log = logging.getLogger(__name__)  # noqa: F821
 """
 Service implementations for LUKHAS core modules
 Provides real implementations connected to core systems

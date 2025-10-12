@@ -74,7 +74,7 @@ class NeuralProcessor:
         Returns:
             Dict: Results of neural processing
         """
-        logger.debug(f"Processing input through neural pathways: {str(input_data)}[:100]}...")  # noqa: invalid-syntax  # TODO: f-string: single } is not allo...
+        logger.debug(f"Processing input through neural pathways: {str(input_data)}[:100]}...")  # noqa: invalid-syntax
 
         # Extract text if present
         text = input_data.get("text", "")

@@ -244,8 +244,8 @@ class SymbolicNetwork:
         low_activity_nodes = [
             node
             for node in self.nodes.values()
-            if node.activity_level < self.config.fusion_threshold:  # noqa: invalid-syntax  # TODO: Expected ], found :
-        ]  # noqa: invalid-syntax  # TODO: Expected a statement
+            if node.activity_level < self.config.fusion_threshold:  # noqa: invalid-syntax
+        ]  # noqa: invalid-syntax
 
         pairs: list[tuple[SymbolicNode, SymbolicNode]] = []
         # Simple pairing, could be more sophisticated
@@ -290,13 +290,13 @@ class SymbolicNetwork:
 
                 self.logger.info(
                     f"ΛTRACE: Successfully merged nodes '{node1.node_id}' and '{node2.node_id}' into '{merged_id}'."
-                }  # noqa: invalid-syntax  # TODO: Expected ,, found }
-                merged_count += 1  # noqa: invalid-syntax  # TODO: Expected ,, found +=
-            else:  # noqa: invalid-syntax  # TODO: Expected ), found dedent
+                }  # noqa: invalid-syntax
+                merged_count += 1  # noqa: invalid-syntax
+            else:  # noqa: invalid-syntax
                 self.logger.warning(
                     f"ΛTRACE: Skipping merge for pair({node1.node_id},"
-                                                      {node2.node_id}) as one or both no longer exist.""  # noqa: invalid-syntax  # TODO: Expected ,, found {
-                )  # noqa: invalid-syntax  # TODO: Expected a statement
+                                                      {node2.node_id}) as one or both no longer exist.""  # noqa: invalid-syntax
+                )  # noqa: invalid-syntax
         self.logger.info(f"ΛTRACE: Merged {merged_count} node pairs.")
 
     # Method for entropy balancing
@@ -323,7 +323,7 @@ class SymbolicNetwork:
             node.entropy -= adjustment  # Adjust node's entropy
             self.logger.debug(
                 f"ΛTRACE: Node '{node.node_id}' entropy adjusted by {-adjustment: .4f},"
-                new entropy: {node.entropy: .4f}.""  # noqa: invalid-syntax  # TODO: Expected ,, found name
+                new entropy: {node.entropy: .4f}.""  # noqa: invalid-syntax
             )
         self.logger.info("ΛTRACE: Entropy balance pass completed.")
 
@@ -341,9 +341,9 @@ class SymbolicNetwork:
         # Filter out connections where source or destination node no longer exists
         valid_connections = [
             (src, dst)
-            for src, dst in self.connections:  # noqa: invalid-syntax  # TODO: Expected ], found :
+            for src, dst in self.connections:  # noqa: invalid-syntax
             if src in active_node_ids and dst in active_node_ids:
-        ]  # noqa: invalid-syntax  # TODO: Expected a simple statement
+        ]  # noqa: invalid-syntax
         self.connections = valid_connections
         removed_count = original_connection_count - len(self.connections)
 
@@ -398,14 +398,14 @@ class TopologyManager:
             / max(num_nodes, 1),  # Avoid division by zero
             "avg_error": (
                 np.mean([node.error_level for node in self.network.nodes.values()])
-                if num_nodes:  # noqa: invalid-syntax  # TODO: Expected else, found :
-                else 0.0:  # noqa: invalid-syntax  # TODO: Expected ,, found else
-            ),  # noqa: invalid-syntax  # TODO: Expected an expression
+                if num_nodes:  # noqa: invalid-syntax
+                else 0.0:  # noqa: invalid-syntax
+            ),  # noqa: invalid-syntax
             "avg_activity": (
                 np.mean([node.activity_level for node in self.network.nodes.values()])
-                if num_nodes:  # noqa: invalid-syntax  # TODO: Expected else, found :
-                else 0.0:  # noqa: invalid-syntax  # TODO: Expected ,, found else
-            ),  # noqa: invalid-syntax  # TODO: Expected an expression
+                if num_nodes:  # noqa: invalid-syntax
+                else 0.0:  # noqa: invalid-syntax
+            ),  # noqa: invalid-syntax
             "total_entropy": sum(node.entropy for node in self.network.nodes.values()),
         }
         self.logger.info(f"ΛTRACE: Topology analysis complete: {metrics}")
@@ -511,13 +511,13 @@ class CristaOptimizer:
         if error_signal > self.config.fission_threshold:
             result = self._induce_fission()
             operation_type_str = OptimizationMode.FISSION.value
-        elif (:  # noqa: invalid-syntax  # TODO: Expected an expression
+        elif (:  # noqa: invalid-syntax
             error_signal < self.config.fusion_threshold
-        ):  # Assuming error can be low, indicating underutilization  # noqa: invalid-syntax  # TODO: Expected newline, found )
-            result = self._induce_fusion()  # noqa: invalid-syntax  # TODO: Unexpected indentation
+        ):  # Assuming error can be low, indicating underutilization  # noqa: invalid-syntax
+            result = self._induce_fusion()  # noqa: invalid-syntax
             operation_type_str = OptimizationMode.FUSION.value
-        else:  # noqa: invalid-syntax  # TODO: Expected a statement
-            result = self._stabilize_topology()  # noqa: invalid-syntax  # TODO: Unexpected indentation
+        else:  # noqa: invalid-syntax
+            result = self._stabilize_topology()  # noqa: invalid-syntax
             operation_type_str = OptimizationMode.STABILIZATION.value
 
         self.logger.info(
@@ -554,7 +554,7 @@ class CristaOptimizer:
 
     # Private method to update network error
 
-    def _update_network_error(self, error_signal: float) -> None:  # noqa: invalid-syntax  # TODO: Expected a statement
+    def _update_network_error(self, error_signal: float) -> None:  # noqa: invalid-syntax
         """Distributes the global error_signal to individual network nodes,
         possibly with variation."""
         self.logger.debug(
@@ -603,8 +603,8 @@ class CristaOptimizer:
                 # Remove original node and add its children to the network
                 self.network.remove_node(node.node_id)
                 for child in child_nodes:
-                    self.network.add_node(child}}  # noqa: invalid-syntax  # TODO: Expected ,, found }
-                nodes_split_count += 1  # noqa: invalid-syntax  # TODO: Expected ), found dedent
+                    self.network.add_node(child}}  # noqa: invalid-syntax
+                nodes_split_count += 1  # noqa: invalid-syntax
             else:
                 self.logger.warning(
                     f"ΛTRACE: Max node count ({self.config.max_nodes}) reached. Skipping fission for node '{node.node_id}'."
@@ -661,7 +661,7 @@ class CristaOptimizer:
         )
 
         self.logger.info(
-            f"ΛTRACE: Fusion induced. Node pairs merged: {len(low_activity_pairs}. Nodes affected: {nodes_affected_count)}."  # noqa: invalid-syntax  # TODO: Expected ,, found }
+            f"ΛTRACE: Fusion induced. Node pairs merged: {len(low_activity_pairs}. Nodes affected: {nodes_affected_count)}."  # noqa: invalid-syntax
         )
         return {
             "success": True,
@@ -795,4 +795,4 @@ class CristaOptimizer:
 #              assessment as system understanding grows. Consider thread safety if used concurrently.
 # CONTACT: LUKHAS DEVELOPMENT TEAM
 # LICENSE: PROPRIETARY - LUKHAS AI SYSTEMS - UNAUTHORIZED ACCESS PROHIBITED
-# ═══════════════════════════════════════════════════════════════════════════  # noqa: invalid-syntax  # TODO: Expected a statement
+# ═══════════════════════════════════════════════════════════════════════════  # noqa: invalid-syntax

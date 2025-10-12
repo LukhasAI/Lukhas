@@ -580,7 +580,7 @@ class LambdaArchiveInspector:
         """
         # Create report structure
         report = ArchiveReport(
-            report_id=f"ΛARCHIVE_{int(time.time())",  # noqa: invalid-syntax  # TODO: missing closing quote in strin...
+            report_id=f"ΛARCHIVE_{int(time.time())",  # noqa: invalid-syntax
             timestamp=datetime.now(timezone.utc).isoformat(),
             vault_directory=str(self.vault_directory),
             scan_duration=0.0,  # Will be updated by caller
@@ -1177,61 +1177,61 @@ class LambdaArchiveInspector:
         md = []
 
         md.append(")  #  🏛️ ΛARCHIVE FORENSIC MEMORY REPORT"
-        md.append(")"  # noqa: invalid-syntax  # TODO: Expected ,, found name
-        md.append(f"**Report ID:** `{report.report_id}`")  # noqa: invalid-syntax  # TODO: Expected ,, found name
-        md.append(f"**Timestamp:** {report.timestamp}")  # noqa: invalid-syntax  # TODO: Expected ,, found name
-        md.append(f"**Vault Directory:** `{report.vault_directory}`")  # noqa: invalid-syntax  # TODO: Expected ,, found name
-        md.append(f"**Scan Duration:** {report.scan_duration:.2f}s")  # noqa: invalid-syntax  # TODO: Expected ,, found name
-        md.append("")  # noqa: invalid-syntax  # TODO: Expected ,, found name
+        md.append(")"  # noqa: invalid-syntax
+        md.append(f"**Report ID:** `{report.report_id}`")  # noqa: invalid-syntax
+        md.append(f"**Timestamp:** {report.timestamp}")  # noqa: invalid-syntax
+        md.append(f"**Vault Directory:** `{report.vault_directory}`")  # noqa: invalid-syntax
+        md.append(f"**Scan Duration:** {report.scan_duration:.2f}s")  # noqa: invalid-syntax
+        md.append("")  # noqa: invalid-syntax
 
-        md.append("#)  #  📊 Executive Summary"  # noqa: invalid-syntax  # TODO: Expected ,, found name
-        md.append("")  # noqa: invalid-syntax  # TODO: Expected ,, found name
-        md.append(f"- **Total Entries Scanned:** {report.total_entries}")  # noqa: invalid-syntax  # TODO: Expected ,, found name
-        md.append(f"- **Anomalies Detected:** {report.anomalies_detected}")  # noqa: invalid-syntax  # TODO: Expected ,, found name
-        md.append(f"- **Archive Score:** {report.archive_score:.3f}")  # noqa: invalid-syntax  # TODO: Expected ,, found name
-        md.append(f"- **Forgotten Symbols:** {len(report.forgotten_symbols)}")  # noqa: invalid-syntax  # TODO: Expected ,, found name
-        md.append(f"- **Ethical Violations:** {len(report.ethical_violations)}")  # noqa: invalid-syntax  # TODO: Expected ,, found name
-        md.append("")  # noqa: invalid-syntax  # TODO: Expected ,, found name
+        md.append("#)  #  📊 Executive Summary"  # noqa: invalid-syntax
+        md.append("")  # noqa: invalid-syntax
+        md.append(f"- **Total Entries Scanned:** {report.total_entries}")  # noqa: invalid-syntax
+        md.append(f"- **Anomalies Detected:** {report.anomalies_detected}")  # noqa: invalid-syntax
+        md.append(f"- **Archive Score:** {report.archive_score:.3f}")  # noqa: invalid-syntax
+        md.append(f"- **Forgotten Symbols:** {len(report.forgotten_symbols)}")  # noqa: invalid-syntax
+        md.append(f"- **Ethical Violations:** {len(report.ethical_violations)}")  # noqa: invalid-syntax
+        md.append("")  # noqa: invalid-syntax
 
-        if report.entropy_analysis:  # noqa: invalid-syntax  # TODO: Expected else, found :
+        if report.entropy_analysis:  # noqa: invalid-syntax
             md.append("#)  #  🌀 Entropy Analysis"
-            md.append("")  # noqa: invalid-syntax  # TODO: Expected ,, found name
-            md.append(  # noqa: invalid-syntax  # TODO: Expected ,, found name
+            md.append("")  # noqa: invalid-syntax
+            md.append(  # noqa: invalid-syntax
                 f"- **Mean Entropy:** {report.entropy_analysis.get('mean', 0):.3f}"
             )
-            md.append(  # noqa: invalid-syntax  # TODO: Expected ,, found name
-                f"- **High Entropy Ratio:** {report.entropy_analysis.get('high_entropy_ratio', 0)}:.2%}"  # noqa: invalid-syntax  # TODO: f-string: single } is not allo...
+            md.append(  # noqa: invalid-syntax
+                f"- **High Entropy Ratio:** {report.entropy_analysis.get('high_entropy_ratio', 0)}:.2%}"  # noqa: invalid-syntax
             )
-            md.append(  # noqa: invalid-syntax  # TODO: Expected ,, found name
+            md.append(  # noqa: invalid-syntax
                 f"- **Entropy Range:** {report.entropy_analysis.get('min', 0):.3f} - {report.entropy_analysis.get('max', 0):.3f}"
             )
-            md.append("")  # noqa: invalid-syntax  # TODO: Expected ,, found name
+            md.append("")  # noqa: invalid-syntax
 
-        if report.anomalies:  # noqa: invalid-syntax  # TODO: Expected else, found :
+        if report.anomalies:  # noqa: invalid-syntax
             md.append("#)  #  🚨 Detected Anomalies"
-            md.append("")  # noqa: invalid-syntax  # TODO: Expected ,, found name
+            md.append("")  # noqa: invalid-syntax
 
             for anomaly in sorted(
                 report.anomalies, key=lambda a: a.severity, reverse=True
-            )[:10]:  # noqa: invalid-syntax  # TODO: Expected ,, found :
+            )[:10]:  # noqa: invalid-syntax
                 md.append(f"##")
-                md.append(f"- **ID:** `{anomaly.anomaly_id}`")  # noqa: invalid-syntax  # TODO: Expected ,, found name
-                md.append(f"- **Severity:** {anomaly.severity:.3f}")  # noqa: invalid-syntax  # TODO: Expected ,, found name
-                md.append(f"- **Description:** {anomaly.description}")  # noqa: invalid-syntax  # TODO: Expected ,, found name
-                md.append(  # noqa: invalid-syntax  # TODO: Expected ,, found name
+                md.append(f"- **ID:** `{anomaly.anomaly_id}`")  # noqa: invalid-syntax
+                md.append(f"- **Severity:** {anomaly.severity:.3f}")  # noqa: invalid-syntax
+                md.append(f"- **Description:** {anomaly.description}")  # noqa: invalid-syntax
+                md.append(  # noqa: invalid-syntax
                     f"- **Affected Symbols:** {', '.join(anomaly.symbol_ids[:5])}"
                 )
-                md.append("")  # noqa: invalid-syntax  # TODO: Expected ,, found name
+                md.append("")  # noqa: invalid-syntax
 
-        if report.recommendations:  # noqa: invalid-syntax  # TODO: Expected else, found :
+        if report.recommendations:  # noqa: invalid-syntax
             md.append("#)  #  💡 Recommendations"
-            md.append("")  # noqa: invalid-syntax  # TODO: Expected ,, found name
-            for i, rec in enumerate(report.recommendations, 1):  # noqa: invalid-syntax  # TODO: Expected ,, found :
+            md.append("")  # noqa: invalid-syntax
+            for i, rec in enumerate(report.recommendations, 1):  # noqa: invalid-syntax
                 md.append(f"{i}. {rec}")
-            md.append("")  # noqa: invalid-syntax  # TODO: Expected ,, found name
+            md.append("")  # noqa: invalid-syntax
 
-        md.append("---")  # noqa: invalid-syntax  # TODO: Expected ,, found name
-        md.append("*Generated by ΛARCHIVE - Symbolic Memory Forensics Vault*")  # noqa: invalid-syntax  # TODO: Expected ,, found name
+        md.append("---")  # noqa: invalid-syntax
+        md.append("*Generated by ΛARCHIVE - Symbolic Memory Forensics Vault*")  # noqa: invalid-syntax
 
         return "\n".join(md)
 

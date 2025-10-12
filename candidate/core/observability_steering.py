@@ -303,7 +303,7 @@ class ObservabilityCollector:
 class SteeringController:
     """Allows interactive steering of the actor system"""
 
-    def __init__(self, actor_system: ActorSystem):  # noqa: F821  # TODO: ActorSystem
+    def __init__(self, actor_system: ActorSystem):  # noqa: F821
         self.actor_system = actor_system
         self.steering_policies: dict[str, Callable] = {}
         self.intervention_log: deque = deque(maxlen=1000)
@@ -390,7 +390,7 @@ class SteeringController:
         )
 
 
-class ObservableActor(Actor):  # noqa: F821  # TODO: Actor
+class ObservableActor(Actor):  # noqa: F821
     """Enhanced actor with built-in observability"""
 
     def __init__(self, actor_id: str, collector: Optional[ObservabilityCollector] = None):
@@ -402,7 +402,7 @@ class ObservableActor(Actor):  # noqa: F821  # TODO: Actor
         # Message timing for latency tracking
         self._message_start_times: dict[str, float] = {}
 
-    async def _process_message(self, message: ActorMessage):  # noqa: F821  # TODO: ActorMessage
+    async def _process_message(self, message: ActorMessage):  # noqa: F821
         """Process message with observability"""
         start_time = time.time()
         self._message_start_times[message.message_id] = start_time

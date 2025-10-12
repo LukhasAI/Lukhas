@@ -178,13 +178,13 @@ class VisionaryAGIOrchestrator:
 
         # Core components (will be initialized in startup)
         self.core_integrator: Optional[EnhancedCoreIntegrator] = None
-        self.lukhas_agent: Optional[lukhasAgent] = None  # noqa: F821  # TODO: lukhasAgent
+        self.lukhas_agent: Optional[lukhasAgent] = None  # noqa: F821
         self.memory_manager: Optional[MemoryManager] = None
-        self.voice_engine: Optional[VoiceEngine] = None  # noqa: F821  # TODO: VoiceEngine
-        self.dream_engine: Optional[DreamEngine] = None  # noqa: F821  # TODO: DreamEngine
-        self.emotional_engine: Optional[EmotionalResonanceEngine] = None  # noqa: F821  # TODO: EmotionalResonanceEngine
-        self.identity_system: Optional[IdentitySystem] = None  # noqa: F821  # TODO: IdentitySystem
-        self.qi_engine: Optional[QIEngine] = None  # noqa: F821  # TODO: QIEngine
+        self.voice_engine: Optional[VoiceEngine] = None  # noqa: F821
+        self.dream_engine: Optional[DreamEngine] = None  # noqa: F821
+        self.emotional_engine: Optional[EmotionalResonanceEngine] = None  # noqa: F821
+        self.identity_system: Optional[IdentitySystem] = None  # noqa: F821
+        self.qi_engine: Optional[QIEngine] = None  # noqa: F821
 
         # Safety and monitoring
         self.safety_monitors: list[Callable] = []
@@ -384,18 +384,18 @@ class VisionaryAGIOrchestrator:
             self.core_integrator = EnhancedCoreIntegrator(config=self.config, safety_mode=True)
 
             # Initialize main agent
-            self.lukhas_agent = lukhasAgent(  # noqa: F821  # TODO: lukhasAgent
+            self.lukhas_agent = lukhasAgent(  # noqa: F821
                 integrator=self.core_integrator,
                 consciousness_level=self.current_consciousness_level,
             )
 
             # Initialize cognitive modules
             self.memory_manager = MemoryManager(config=self.config["consciousness"])
-            self.voice_engine = VoiceEngine(config=self.config["user_experience"])  # noqa: F821  # TODO: VoiceEngine
-            self.dream_engine = DreamEngine(config=self.config["consciousness"])  # noqa: F821  # TODO: DreamEngine
-            self.emotional_engine = EmotionalResonanceEngine(config=self.config["consciousness"])  # noqa: F821  # TODO: EmotionalResonanceEngine
-            self.identity_system = IdentitySystem(config=self.config["consciousness"])  # noqa: F821  # TODO: IdentitySystem
-            self.qi_engine = QIEngine(config=self.config["consciousness"])  # noqa: F821  # TODO: QIEngine
+            self.voice_engine = VoiceEngine(config=self.config["user_experience"])  # noqa: F821
+            self.dream_engine = DreamEngine(config=self.config["consciousness"])  # noqa: F821
+            self.emotional_engine = EmotionalResonanceEngine(config=self.config["consciousness"])  # noqa: F821
+            self.identity_system = IdentitySystem(config=self.config["consciousness"])  # noqa: F821
+            self.qi_engine = QIEngine(config=self.config["consciousness"])  # noqa: F821
 
             self.logger.info("🧠 Core intelligence systems initialized")
 
@@ -526,7 +526,7 @@ class VisionaryAGIOrchestrator:
             Dict containing the response and metadata
         """
         if not self.is_running:
-            raise lukhasException("AI system is not running")  # noqa: F821  # TODO: lukhasException
+            raise lukhasException("AI system is not running")  # noqa: F821
 
         start_time = time.time()
 
@@ -949,7 +949,7 @@ async def create_visionary_agi(
     if await ai.initialize():
         return ai
     else:
-        raise lukhasException("Failed to initialize Visionary AI Orchestrator")  # noqa: F821  # TODO: lukhasException
+        raise lukhasException("Failed to initialize Visionary AI Orchestrator")  # noqa: F821
 
 
 # Example usage and testing

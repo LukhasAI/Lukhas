@@ -34,10 +34,10 @@ class IntentNodeAdapter:
 
     def __init__(self, cognitive_system=None):
         # Initialize bio components
-        self.proton_gradient = ProtonGradient()  # noqa: F821  # TODO: ProtonGradient
-        self.attention_gate = QIAttentionGate()  # noqa: F821  # TODO: QIAttentionGate
-        self.crista_filter = CristaFilter()  # noqa: F821  # TODO: CristaFilter
-        self.identity_encoder = CardiolipinEncoder()  # noqa: F821  # TODO: CardiolipinEncoder
+        self.proton_gradient = ProtonGradient()  # noqa: F821
+        self.attention_gate = QIAttentionGate()  # noqa: F821
+        self.crista_filter = CristaFilter()  # noqa: F821
+        self.identity_encoder = CardiolipinEncoder()  # noqa: F821
 
         # Create unified node
         self.unified_node = UnifiedNode(

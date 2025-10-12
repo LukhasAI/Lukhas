@@ -102,7 +102,7 @@ class DreamDeliveryManager:
         self.safety_filter = VoiceSafetyFilter()
 
         # Emotion system initialization
-        self.emotional_oscillator = EmotionalOscillator()  # noqa: F821  # TODO: EmotionalOscillator
+        self.emotional_oscillator = EmotionalOscillator()  # noqa: F821
 
         # Initialize symbolic world if available
         self.symbolic_world = None
@@ -277,7 +277,7 @@ class DreamDeliveryManager:
             }
         else:
             # Use system's current emotional state
-            emotion_result = analyze_emotional_state(message)  # noqa: F821  # TODO: analyze_emotional_state
+            emotion_result = analyze_emotional_state(message)  # noqa: F821
             emotion = {
                 "name": emotion_result.get("emotion", "neutral"),
                 "intensity": emotion_result.get("intensity", 0.5),
@@ -341,7 +341,7 @@ class DreamDeliveryManager:
 
         # Call voice synthesis with parameters
         try:
-            speak_text(  # noqa: F821  # TODO: speak_text
+            speak_text(  # noqa: F821
                 message,
                 style=selected_style,
                 parameters=voice_params,
@@ -808,7 +808,7 @@ def modulate_voice_output(message, intent, personality_vector):
     manager = DreamDeliveryManager()
 
     # Get emotional state
-    emotion = analyze_emotional_state(message)  # noqa: F821  # TODO: analyze_emotional_state
+    emotion = analyze_emotional_state(message)  # noqa: F821
 
     # Deliver through voice
     result = manager._deliver_voice(message, intent, personality_vector, emotion)

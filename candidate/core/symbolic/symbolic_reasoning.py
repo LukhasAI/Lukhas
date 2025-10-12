@@ -428,7 +428,7 @@ class SymbolicEngine:
                 "base_confidence": element_data["base_confidence"],
                 "relation_type": "element_assertion",  # Default type, can be refined
                 "chain_id": chain_id,
-            )}  # noqa: invalid-syntax  # TODO: Expected ,, found )
+            )}  # noqa: invalid-syntax
             # Simple pairwise relatedness check (can be expanded)
             # for other_idx, other_element_data in enumerate(logical_elements):
             #     if i != other_idx and self._elements_related(element_data, other_element_data):

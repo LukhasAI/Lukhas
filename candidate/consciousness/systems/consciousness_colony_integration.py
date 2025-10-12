@@ -46,7 +46,7 @@ class DistributedConsciousnessEngine(LUKHASConsciousnessEngine):
         self.swarm_hub = SwarmHub()
 
         # Event bus for inter-colony communication
-        self.event_bus = EventBus()  # noqa: F821  # TODO: EventBus
+        self.event_bus = EventBus()  # noqa: F821
 
         # Shared state manager
         self.shared_state = SharedStateManager()

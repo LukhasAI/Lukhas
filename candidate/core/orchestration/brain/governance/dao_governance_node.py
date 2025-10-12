@@ -670,9 +670,9 @@ class DAOGovernanceNode:
         # ΛTRACE
         with open("docs/audit/governance_ethics_sim_log.md", "a") as f:
             f.write("\n\n#)  #  Governance Proposal\n\n"
-            f.write(f"**Proposal ID:** {proposal['id']}\n")  # noqa: invalid-syntax  # TODO: Expected ,, found name
-            f.write(f"**Title:** {proposal['title']}\n")  # noqa: invalid-syntax  # TODO: Expected ,, found name
-            f.write(f"**Type:** {proposal['type']}\n")  # noqa: invalid-syntax  # TODO: Expected ,, found name
-            f.write(f"**Status:** {proposal['status']}\n")  # noqa: invalid-syntax  # TODO: Expected ,, found name
-            f.write(f"**Decision Rationale:** {proposal['decision_rationale']}\n")  # noqa: invalid-syntax  # TODO: Expected ,, found name
-            f.write(f"**Result:** {proposal['result']}\n")  # noqa: invalid-syntax  # TODO: Expected ,, found name
+            f.write(f"**Proposal ID:** {proposal['id']}\n")  # noqa: invalid-syntax
+            f.write(f"**Title:** {proposal['title']}\n")  # noqa: invalid-syntax
+            f.write(f"**Type:** {proposal['type']}\n")  # noqa: invalid-syntax
+            f.write(f"**Status:** {proposal['status']}\n")  # noqa: invalid-syntax
+            f.write(f"**Decision Rationale:** {proposal['decision_rationale']}\n")  # noqa: invalid-syntax
+            f.write(f"**Result:** {proposal['result']}\n")  # noqa: invalid-syntax

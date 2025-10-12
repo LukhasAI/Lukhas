@@ -101,15 +101,15 @@ class MemoryValidator:
         # Implement specific memory processing
         # This is a placeholder that should be enhanced based on requirements
 
-        if category == "consciousness":  # noqa: F821  # TODO: category
+        if category == "consciousness":  # noqa: F821
             return await self._process_consciousness(data)
-        elif category == "governance":  # noqa: F821  # TODO: category
+        elif category == "governance":  # noqa: F821
             return await self._process_governance(data)
-        elif category == "voice":  # noqa: F821  # TODO: category
+        elif category == "voice":  # noqa: F821
             return await self._process_voice(data)
-        elif category == "identity":  # noqa: F821  # TODO: category
+        elif category == "identity":  # noqa: F821
             return await self._process_identity(data)
-        elif category == "quantum":  # noqa: F821  # TODO: category
+        elif category == "quantum":  # noqa: F821
             return await self._process_quantum(data)
         else:
             return await self._process_generic(data)
@@ -176,17 +176,17 @@ class MemoryValidator:
 
 
 # Factory function for easy instantiation
-def create_memory_component(config: Optional[dict] = None) -> lukhasMemoryValidator:  # noqa: F821  # TODO: lukhasMemoryValidator
+def create_memory_component(config: Optional[dict] = None) -> lukhasMemoryValidator:  # noqa: F821
     """Create and return a memory component instance"""
-    return lukhasMemoryValidator(config)  # noqa: F821  # TODO: lukhasMemoryValidator
+    return lukhasMemoryValidator(config)  # noqa: F821
 
 
 # Async factory function
 async def create_and_initialize_memory_component(
     config: Optional[dict] = None,
-) -> lukhasMemoryValidator:  # noqa: F821  # TODO: lukhasMemoryValidator
+) -> lukhasMemoryValidator:  # noqa: F821
     """Create, initialize and return a memory component instance"""
-    component = lukhasMemoryValidator(config)  # noqa: F821  # TODO: lukhasMemoryValidator
+    component = lukhasMemoryValidator(config)  # noqa: F821
     await component.initialize()
     return component
 
@@ -196,7 +196,7 @@ if __name__ == "__main__":
     import asyncio
 
     async def main():
-        component = lukhasMemoryValidator()  # noqa: F821  # TODO: lukhasMemoryValidator
+        component = lukhasMemoryValidator()  # noqa: F821
 
         # Initialize
         success = await component.initialize()

@@ -1,4 +1,4 @@
-log = logging.getLogger(__name__)  # noqa: F821  # TODO: logging
+log = logging.getLogger(__name__)  # noqa: F821
 """
 LUKHΛS AI System - AI Integration Manager
 File: ai_integration_manager.py

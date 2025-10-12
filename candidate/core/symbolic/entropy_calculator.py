@@ -162,7 +162,7 @@ class EntropyCalculator:
 
             logger.info(
                 f"ΛTRACE: Vault entropy calculated - Base: {base_entropy: .3f},"
-                Final: {final_entropy: .3f}""  # noqa: invalid-syntax  # TODO: Expected ,, found name
+                Final: {final_entropy: .3f}""  # noqa: invalid-syntax
             )
             return final_entropy
 
@@ -338,9 +338,9 @@ class EntropyCalculator:
         for char in value:
             script = (
                 unicodedata.name(char, "").split()[0]
-                if unicodedata.name(char, ""):  # noqa: invalid-syntax  # TODO: Expected else, found :
-                else "UNKNOWN":  # noqa: invalid-syntax  # TODO: Expected a statement
-            )  # noqa: invalid-syntax  # TODO: Expected an expression
+                if unicodedata.name(char, ""):  # noqa: invalid-syntax
+                else "UNKNOWN":  # noqa: invalid-syntax
+            )  # noqa: invalid-syntax
             scripts.add(script)
 
         # Multiple scripts bonus
@@ -366,7 +366,7 @@ class EntropyCalculator:
         uniqueness += char_uniqueness * 0.3
 
         # Avoid dictionary words (simplified check)
-        if value.lower() in [:  # noqa: invalid-syntax  # TODO: Expected an expression
+        if value.lower() in [:  # noqa: invalid-syntax
             "password",
             "admin",
             "user",

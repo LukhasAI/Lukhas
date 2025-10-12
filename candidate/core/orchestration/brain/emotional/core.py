@@ -38,7 +38,7 @@ class EmotionRequest:
         return f"💫 Emotion seeks: {self.intent} with resonance {self.emotional_weight}"
 
 
-class EmotionConfig(BaseConfig):  # noqa: F821  # TODO: BaseConfig
+class EmotionConfig(BaseConfig):  # noqa: F821
     """Configuration for emotion module."""
 
     def __init__(self):
@@ -51,7 +51,7 @@ class EmotionConfig(BaseConfig):  # noqa: F821  # TODO: BaseConfig
         self.resonance_detection_enabled = True
 
 
-class EmotionHealth(BaseHealth):  # noqa: F821  # TODO: BaseHealth
+class EmotionHealth(BaseHealth):  # noqa: F821
     """Health monitoring for emotion module."""
 
     def __init__(self):
@@ -81,7 +81,7 @@ class EmotionHealth(BaseHealth):  # noqa: F821  # TODO: BaseHealth
         }
 
 
-class EmotionModule(BaseModule):  # noqa: F821  # TODO: BaseModule
+class EmotionModule(BaseModule):  # noqa: F821
     """
     Emotional vector analysis, resonance mapping, feedback
 
@@ -112,7 +112,7 @@ class EmotionModule(BaseModule):  # noqa: F821  # TODO: BaseModule
                 "dissonance": "The creative tension of conflicting feelings...",
             }
 
-    @symbolic_vocabulary  # noqa: F821  # TODO: symbolic_vocabulary
+    @symbolic_vocabulary  # noqa: F821
     def get_vocabulary(self) -> dict[str, str]:
         """Return symbolic vocabulary for this module."""
         return self._vocabulary
@@ -129,7 +129,7 @@ class EmotionModule(BaseModule):  # noqa: F821  # TODO: BaseModule
         self._symbolic_state = "dormant"
         await super().shutdown()
 
-    @ethical_validation  # noqa: F821  # TODO: ethical_validation
+    @ethical_validation  # noqa: F821
     async def process_request(self, request: EmotionRequest) -> dict[str, Any]:
         """
         Process an emotion request with ethical validation.

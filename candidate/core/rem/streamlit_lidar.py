@@ -24,15 +24,15 @@ def summarize_dreams(dreams):
 
 
 # Page setup
-st.set_page_config(page_title="Lucs LiDAR", layout="wide")  # noqa: F821  # TODO: st
-st.title(" Lucs: Symbolic LiDAR Interpreter")  # noqa: F821  # TODO: st
-st.caption("Dreams. Collapses. Resonance.")  # noqa: F821  # TODO: st
+st.set_page_config(page_title="Lucs LiDAR", layout="wide")  # noqa: F821
+st.title(" Lucs: Symbolic LiDAR Interpreter")  # noqa: F821
+st.caption("Dreams. Collapses. Resonance.")  # noqa: F821
 
 # Sidebar filters
-st.sidebar.header(" Dream Filters")  # noqa: F821  # TODO: st
-phase = st.sidebar.selectbox("Filter by REM Phase", ["All", "1", "2", "3"])  # noqa: F821  # TODO: st
-collapse_only = st.sidebar.checkbox("Collapse only", False)  # noqa: F821  # TODO: st
-min_res = st.sidebar.slider("Min Resonance", 0.0, 1.0, 0.0, 0.01)  # noqa: F821  # TODO: st
+st.sidebar.header(" Dream Filters")  # noqa: F821
+phase = st.sidebar.selectbox("Filter by REM Phase", ["All", "1", "2", "3"])  # noqa: F821
+collapse_only = st.sidebar.checkbox("Collapse only", False)  # noqa: F821
+min_res = st.sidebar.slider("Min Resonance", 0.0, 1.0, 0.0, 0.01)  # noqa: F821
 
 # Load dreams
 dreams = load_dreams()
@@ -46,18 +46,18 @@ filtered = filter_dreams(
 )
 
 # Display stats
-st.subheader(" Summary")  # noqa: F821  # TODO: st
+st.subheader(" Summary")  # noqa: F821
 stats = summarize_dreams(filtered)  # Pass filtered dreams to summarize_dreams
-st.json(stats)  # noqa: F821  # TODO: st
+st.json(stats)  # noqa: F821
 
 # Dream cards
-st.subheader(" Recent Dreams")  # noqa: F821  # TODO: st
+st.subheader(" Recent Dreams")  # noqa: F821
 if not filtered:
-    st.info("No matching dreams found.")  # noqa: F821  # TODO: st
+    st.info("No matching dreams found.")  # noqa: F821
 else:
     for d in filtered[-10:]:
-        with st.container():  # noqa: F821  # TODO: st
-            st.markdown(  # noqa: F821  # TODO: st
+        with st.container():  # noqa: F821
+            st.markdown(  # noqa: F821
                 f"""
                 **REM Phase {d.get("phase", "?")}**
                 - **Resonance**: {d.get("resonance", 0.0)}

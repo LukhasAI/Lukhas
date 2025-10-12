@@ -514,7 +514,7 @@ class DefenseMonitor:
     def _generate_event_id(self) -> str:
         """Generate unique event ID"""
         timestamp = str(int(time.time() * 1000000))
-        return f"evt_{hashlib.sha256(timestamp.encode()).hexdigest()}[:16]}"  # noqa: invalid-syntax  # TODO: f-string: single } is not allo...
+        return f"evt_{hashlib.sha256(timestamp.encode()).hexdigest()}[:16]}"  # noqa: invalid-syntax
 
 
 # Global defense monitor instance

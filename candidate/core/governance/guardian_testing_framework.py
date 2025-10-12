@@ -1342,10 +1342,10 @@ async def example_testing():
     print(f"Framework Enabled: {status['framework_info']['enabled']}")
     print(f"Total Test Suites: {status['test_suites']['total_suites']}")
     print(f"Total Test Cases: {status['test_suites']['total_test_cases']}")
-    print(f"Components Under Test: {sum(status['components_under_test'].values()}/5")  # noqa: invalid-syntax  # TODO: Expected ,, found }
+    print(f"Components Under Test: {sum(status['components_under_test'].values()}/5")  # noqa: invalid-syntax
 
-    print("\n✅ Guardian System 2.0 testing framework example completed successfully")  # noqa: invalid-syntax  # TODO: Cannot use an escape sequence ...
+    print("\n✅ Guardian System 2.0 testing framework example completed successfully")  # noqa: invalid-syntax
 
 
-if __name__ == "__main__":  # noqa: invalid-syntax  # TODO: Expected else, found :
-    asyncio.run(example_testing())  # noqa: invalid-syntax  # TODO: unexpected EOF while parsing
+if __name__ == "__main__":  # noqa: invalid-syntax
+    asyncio.run(example_testing())  # noqa: invalid-syntax

@@ -345,7 +345,7 @@ def main():
     print("Building on your existing architecture")
     print("=" * 50)
 
-    enhancer = lukhasEnhancementEngine()  # noqa: F821  # TODO: lukhasEnhancementEngine
+    enhancer = lukhasEnhancementEngine()  # noqa: F821
 
     # Run comprehensive enhancement sprint
     results = enhancer.run_enhancement_sprint("comprehensive")

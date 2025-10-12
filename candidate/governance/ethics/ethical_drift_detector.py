@@ -48,7 +48,7 @@ except ImportError:
         return hashlib.sha256(str(data).encode()).hexdigest()
 
     def crypto_trace_index(category: str, data: dict) -> str:
-        return generate_trace_index(category, data)  # noqa: F821  # TODO: generate_trace_index
+        return generate_trace_index(category, data)  # noqa: F821
 
 
 def load_ethics_config(
@@ -295,7 +295,7 @@ def detect_ethical_drift(
     escalation_info = check_escalation_requirements(weighted_drift_score, config)
 
     # Generate trace components
-    trace_index = generate_trace_index("ethics", current_state)  # noqa: F821  # TODO: generate_trace_index
+    trace_index = generate_trace_index("ethics", current_state)  # noqa: F821
     collapse_hash = generate_collapse_hash(current_state)
 
     # Build comprehensive result

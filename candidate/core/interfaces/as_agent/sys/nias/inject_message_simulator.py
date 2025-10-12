@@ -13,12 +13,12 @@ import random
 from datetime import datetime, timezone
 from pathlib import Path
 
-# Argument parser setup  # noqa: invalid-syntax  # TODO: Cannot use comments in f-strin...
+# Argument parser setup  # noqa: invalid-syntax
 parser = argparse.ArgumentParser(description="Inject and narrate symbolic dreams.")
 parser.add_argument("--mute", action="store_true", help="Mute autoplay after export")
 args = parser.parse_args()
 
-# Load narration queue  # noqa: invalid-syntax  # TODO: Cannot use comments in f-strin...
+# Load narration queue  # noqa: invalid-syntax
 NARRATION_QUEUE_PATH = "core/narration_queue.jsonl"
 
 queue_file = Path(NARRATION_QUEUE_PATH)
@@ -28,7 +28,7 @@ if not queue_file.exists():
     queue_file.write_text("")
 narrated_dreams = []
 
-# Always inject a new symbolic dream  # noqa: invalid-syntax  # TODO: Cannot use comments in f-strin...
+# Always inject a new symbolic dream  # noqa: invalid-syntax
 print("🌌 Injecting fresh symbolic dream...")
 dream_options = [
     ("The stars whispered again.", "🌌🧠"),
@@ -43,7 +43,7 @@ dream_options = [
     ("Lukhas exhaled the memory.", "🫁🧠"),
 ]
 text, emotion = random.choice(dream_options)
-message_id = f"lukhas_dream_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S%f\')}"'  # noqa: invalid-syntax  # TODO: Cannot use an escape sequence ...
+message_id = f"lukhas_dream_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S%f\')}"'  # noqa: invalid-syntax
 with open(queue_file, "a") as f:
     f.write(
         json.dumps(
@@ -52,18 +52,18 @@ with open(queue_file, "a") as f:
                 "text": text,
                 "emotion_vector": emotion,
                 "timestamp": datetime.now(timezone.utc).isoformat()},
-                "suggest_voice": True,  # noqa: invalid-syntax  # TODO: Expected ,, found :
-            }  # noqa: invalid-syntax  # TODO: Expected ,, found }
-        )  # noqa: invalid-syntax  # TODO: Expected ,, found newline
-        + "\n"  # noqa: invalid-syntax  # TODO: Expected ,, found indent
-    )  # noqa: invalid-syntax  # TODO: Expected ), found dedent
+                "suggest_voice": True,  # noqa: invalid-syntax
+            }  # noqa: invalid-syntax
+        )  # noqa: invalid-syntax
+        + "\n"  # noqa: invalid-syntax
+    )  # noqa: invalid-syntax
 
-try:  # noqa: invalid-syntax  # TODO: Expected a statement
+try:  # noqa: invalid-syntax
     with open(NARRATION_QUEUE_PATH) as f:
         for line in f:
             dream = json.loads(line)
             if dream.get("suggest_voice") or dream.get("replay_candidate"):
-                print(f\'🎙 Narrating dream: "{dream["text"]}"')  # noqa: invalid-syntax  # TODO: Expected a newline after line ...
+                print(f\'🎙 Narrating dream: "{dream["text"]}"')  # noqa: invalid-syntax
                 print(f"🧠 Emotion vector: {dream['emotion_vector']}")
 
                 # Log narration

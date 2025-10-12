@@ -137,14 +137,14 @@ class ΛBotAdvancedReasoningOrchestrator:
             )
 
             # Initialize specialized reasoning systems
-            self.scientific_theory_former = ScientificTheoryFormer(self.bio_quantum_reasoner)  # noqa: F821  # TODO: ScientificTheoryFormer
-            self.ethical_reasoner = EthicalReasoner(self.bio_quantum_reasoner, self.brain_symphony)  # noqa: F821  # TODO: EthicalReasoner
-            self.mathematical_reasoner = MathematicalReasoner(self.bio_quantum_reasoner, self.brain_symphony)  # noqa: F821  # TODO: MathematicalReasoner
-            self.multi_scale_reasoner = MultiScaleReasoning(self.bio_quantum_reasoner)  # noqa: F821  # TODO: MultiScaleReasoning
+            self.scientific_theory_former = ScientificTheoryFormer(self.bio_quantum_reasoner)  # noqa: F821
+            self.ethical_reasoner = EthicalReasoner(self.bio_quantum_reasoner, self.brain_symphony)  # noqa: F821
+            self.mathematical_reasoner = MathematicalReasoner(self.bio_quantum_reasoner, self.brain_symphony)  # noqa: F821
+            self.multi_scale_reasoner = MultiScaleReasoning(self.bio_quantum_reasoner)  # noqa: F821
 
             # Cross-brain orchestration
-            self.cross_brain_orchestrator = CrossBrainReasoningOrchestrator(self.brain_symphony)  # noqa: F821  # TODO: CrossBrainReasoningOrchestrato...
-            self.qi_confidence_integrator = QIBioSymbolicConfidenceIntegrator(self.brain_symphony)  # noqa: F821  # TODO: QIBioSymbolicConfidenceIntegra...
+            self.cross_brain_orchestrator = CrossBrainReasoningOrchestrator(self.brain_symphony)  # noqa: F821
+            self.qi_confidence_integrator = QIBioSymbolicConfidenceIntegrator(self.brain_symphony)  # noqa: F821
 
             logger.info("🧠⚛️ Elite Bio-Quantum Reasoning Systems fully initialized")
         else:

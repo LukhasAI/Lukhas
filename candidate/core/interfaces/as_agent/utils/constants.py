@@ -7,7 +7,7 @@
 # ΛCREATED_DATE: Unknown
 # ΛMODIFIED_DATE: 2024-07-30
 
-log = logging.getLogger(__name__)  # noqa: F821  # TODO: logging
+log = logging.getLogger(__name__)  # noqa: F821
 """
 # ΛDOC: Enhanced Core TypeScript - Integrated from Advanced Systems
 # Original: constants.py
