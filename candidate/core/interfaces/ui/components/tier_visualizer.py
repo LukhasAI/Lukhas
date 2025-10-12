@@ -19,25 +19,25 @@ Integration Date: 2025-05-31T07:55:31.353251
 
 import json
 
-st.title("🔐 Symbolic Tier Visualizer")  # noqa: F821
-st.caption("Access structure and ethical boundaries for LUCΛS symbolic modules.")  # noqa: F821
+st.title("🔐 Symbolic Tier Visualizer")
+st.caption("Access structure and ethical boundaries for LUCΛS symbolic modules.")
 
 try:
     with open("core/utils/ethics_manifest.json") as f:
         manifest = json.load(f)
 
-    st.subheader("🧠 Tier Descriptions")  # noqa: F821
+    st.subheader("🧠 Tier Descriptions")
     for tier, description in manifest["tiers"].items():
-        st.markdown(f"**Tier {tier}** — {description}")  # noqa: F821
+        st.markdown(f"**Tier {tier}** — {description}")
 
-    st.subheader("⚖️ Consent Rules")  # noqa: F821
+    st.subheader("⚖️ Consent Rules")
     for rule, value in manifest["consent_rules"].items():
-        st.markdown(f"• **{rule.replace('_', ' ').capitalize()}** → `{value}`")  # noqa: F821
+        st.markdown(f"• **{rule.replace('_', ' ').capitalize()}** → `{value}`")
 
-    st.success("Tier structure loaded from ethics_manifest.json")  # noqa: F821
+    st.success("Tier structure loaded from ethics_manifest.json")
 
     # Tier comparison chart
-    st.subheader("📊 Tier Access Level Comparison")  # noqa: F821
+    st.subheader("📊 Tier Access Level Comparison")
     try:
         import pandas as pd
 
@@ -47,19 +47,19 @@ try:
                 "Level": [int(tier) for tier in manifest["tiers"]],
             }
         )
-        st.bar_chart(tier_df.set_index("Tier"))  # noqa: F821
+        st.bar_chart(tier_df.set_index("Tier"))
     except Exception as e:
-        st.warning(f"Could not generate chart: {e}")  # noqa: F821
+        st.warning(f"Could not generate chart: {e}")
 
     # Optional example cards per tier (if manifest includes examples)
     if "examples" in manifest:
-        st.subheader("🧪 Example Users or Behaviors by Tier")  # noqa: F821
+        st.subheader("🧪 Example Users or Behaviors by Tier")
         for tier, examples in manifest["examples"].items():
-            with st.expander(f"Tier {tier} Examples"):  # noqa: F821
+            with st.expander(f"Tier {tier} Examples"):
                 for example in examples:
-                    st.markdown(f"- {example}")  # noqa: F821
+                    st.markdown(f"- {example}")
 
 except FileNotFoundError:
-    st.error("Could not find ethics_manifest.json")  # noqa: F821
+    st.error("Could not find ethics_manifest.json")
 except Exception as e:
-    st.error(f"Error loading manifest: {e}")  # noqa: F821
+    st.error(f"Error loading manifest: {e}")

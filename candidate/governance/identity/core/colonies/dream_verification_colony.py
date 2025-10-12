@@ -533,7 +533,7 @@ class DreamVerificationColony(BaseColony):
 
         self.verification_agents: dict[str, DreamAnalysisAgent] = {}
         self.event_publisher: Optional[IdentityEventPublisher] = None
-        self.event_bus: Optional[EventBus] = None  # noqa: F821
+        self.event_bus: Optional[EventBus] = None
         self.dream_authenticator: Optional[DreamAuthenticator] = None
 
         # Colony configuration

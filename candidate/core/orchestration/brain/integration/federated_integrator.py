@@ -873,7 +873,7 @@ if __name__ == "__main__":
     # Example usage and testing
     federation = FederatedLearningIntegration(
         node_id="_test_node",
-        node_id="lukhas_test_node",  # noqa: invalid-syntax
+        node_id="lukhas_test_node",
         federation_strategy=FederationStrategy.ETHICAL_PRIORITY,
     )
 

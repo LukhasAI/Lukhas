@@ -76,7 +76,7 @@ def generate_glymph_backstory(emoji_seed: str) -> dict:
         "poetic_backstory": (
             f"Born of {archetype_data['primary']['traits'][0]} and "
             f"{archetype_data['shadow']['traits'][1]}, "
-            f"this entity {GLYMPH_WORDBANK[archetype_data['primary']['archetype'].lower()}]['verbs'][0]} "  # noqa: invalid-syntax
+            f"this entity {GLYMPH_WORDBANK[archetype_data['primary']['archetype'].lower()}]['verbs'][0]} "
             f"the {hash_digest[10:12]} realms."),
         "compliance_tags": [
             "GDPR:pseudonymized",
@@ -88,8 +88,8 @@ def generate_glymph_backstory(emoji_seed: str) -> dict:
 # (Uses OpenAI API + adds public/private QR codes to image)
 RETRO_PROMPTS = {
     "prom_king": "90s yearbook photo, Lukhas wearing crown, vaporwave colors,"
-    grainy film effect","  # noqa: invalid-syntax
-    "cereal_box": "Retro breakfast cereal box featuring Lukhas mascot, neon typography",  # noqa: invalid-syntax
+    grainy film effect","
+    "cereal_box": "Retro breakfast cereal box featuring Lukhas mascot, neon typography",
 }
 
 

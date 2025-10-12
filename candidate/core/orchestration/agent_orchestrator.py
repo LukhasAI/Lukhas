@@ -23,16 +23,16 @@ from datetime import datetime
 from typing import Any, Optional
 
 from .interfaces.agent_interface import AgentCapability, AgentContext, AgentInterface, AgentMessage, AgentStatus
-from .interfaces.orchestration_protocol import (  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for multi-AI agent coordination  # noqa: invalid-syntax
+from .interfaces.orchestration_protocol import (  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for multi-AI agent coordination
 from datetime import timezone
-    MessageBuilder,  # noqa: invalid-syntax
+    MessageBuilder,
     MessageType,
     OrchestrationMessage,
     OrchestrationProtocol,
     Priority,
     TaskDefinition,
     TaskResult,
-)  # noqa: invalid-syntax
+)
 from .interfaces.plugin_registry import PluginRegistry, PluginStatus
 
 logger = logging.getLogger(__name__)

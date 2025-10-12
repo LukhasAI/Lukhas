@@ -190,7 +190,7 @@ class SymbolicLogicEngine:
             config: Configuration dictionary with engine parameters
         """
         # AIDENTITY_BRIDGE: Unique engine instance identifier
-        self.engine_id = f"symbolic_logic_{str(uuid.uuid4()}[:8]}"  # noqa: invalid-syntax
+        self.engine_id = f"symbolic_logic_{str(uuid.uuid4()}[:8]}"
         self.logger = logger.bind(engine_id=self.engine_id)
         self.logger.info("ΛTRACE: Initializing SymbolicLogicEngine instance.")
 
@@ -242,7 +242,7 @@ class SymbolicLogicEngine:
         Returns:
             SymbolicEvaluation: Complete evaluation of the symbolic path
         """
-        evaluation_id = f"eval_{int(datetime.now(timezone.utc).timestamp() * 1000)}_{str(uuid.uuid4()}[:6]}"  # noqa: invalid-syntax
+        evaluation_id = f"eval_{int(datetime.now(timezone.utc).timestamp() * 1000)}_{str(uuid.uuid4()}[:6]}"
         eval_logger = self.logger.bind(evaluation_id=evaluation_id)
         eval_logger.info(
             "ΛTRACE: Starting symbolic path evaluation.",
@@ -424,7 +424,7 @@ class SymbolicLogicEngine:
         Returns:
             ReasoningChain: Constructed reasoning chain with metadata
         """
-        chain_id = f"chain_{int(datetime.now(timezone.utc).timestamp() * 1000)}_{str(uuid.uuid4()}[:6]}"  # noqa: invalid-syntax
+        chain_id = f"chain_{int(datetime.now(timezone.utc).timestamp() * 1000)}_{str(uuid.uuid4()}[:6]}"
         chain_logger = self.logger.bind(chain_id=chain_id)
         chain_logger.info(
             "ΛTRACE: Starting reasoning chain construction.",

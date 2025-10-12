@@ -16,12 +16,12 @@ from lukhas.core.enhanced_swarm import EnhancedSwarmHub
 
 # Import swarm infrastructure
 from lukhas.core.swarm import SwarmTask, TaskPriority
-from governance.identity.core.colonies import (  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for Constellation Framework consciousness evolution  # noqa: invalid-syntax
+from governance.identity.core.colonies import (  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for Constellation Framework consciousness evolution
 from datetime import timezone
-    BiometricVerificationColony,  # noqa: invalid-syntax
+    BiometricVerificationColony,
     ConsciousnessVerificationColony,
     DreamVerificationColony,
-)  # noqa: invalid-syntax
+)
 
 # Import identity components
 from governance.identity.core.events import (

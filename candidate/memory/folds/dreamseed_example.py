@@ -160,17 +160,17 @@ def demonstrate_dreamseed_integration():
     print("✅ Dream Folding Completed:")
     print(f"   • Success: {folding_result['success']}")
     print(f"   • Created Folds: {len(folding_result['created_folds'])}")
-    print(f"   • Processing Stages: {list(folding_result['processing_stages'].keys()}")  # noqa: invalid-syntax
+    print(f"   • Processing Stages: {list(folding_result['processing_stages'].keys()}")
     print(f"   • Drift Metrics: {folding_result['drift_metrics']['dream_drift_score']:.3f}")
-    print(f"   • Stability Score: {folding_result['drift_metrics']['overall_stability']:.3f}")  # noqa: invalid-syntax
-    print(f"   • Safeguard Flags: {folding_result['safeguard_flags']}")  # noqa: invalid-syntax
+    print(f"   • Stability Score: {folding_result['drift_metrics']['overall_stability']:.3f}")
+    print(f"   • Safeguard Flags: {folding_result['safeguard_flags']}")
 
-    # Example 3: Tiered Memory Recall  # noqa: invalid-syntax
-    print("\n📍 EXAMPLE 3: Tiered Memory Recall System")  # noqa: invalid-syntax
-    print("-" * 40)  # noqa: invalid-syntax
+    # Example 3: Tiered Memory Recall
+    print("\n📍 EXAMPLE 3: Tiered Memory Recall System")
+    print("-" * 40)
 
-    # Create a test memory fold to demonstrate tiered access  # noqa: invalid-syntax
-    test_fold = MemoryFold(  # noqa: invalid-syntax
+    # Create a test memory fold to demonstrate tiered access
+    test_fold = MemoryFold(
         key="DEMO_MEMORY_001",
         content={
             "original_thought": "Understanding the relationship between dreams and memory",
@@ -179,10 +179,10 @@ def demonstrate_dreamseed_integration():
         },
         memory_type=MemoryType.EMOTIONAL,
         priority=MemoryPriority.HIGH,
-    )  # noqa: invalid-syntax
+    )
 
     # Demonstrate different tier levels
-    for tier in [1, 3, 5]:  # noqa: invalid-syntax
+    for tier in [1, 3, 5]:
         print(f"\n   🔓 Tier {tier} Access:")
         content = test_fold.retrieve(tier_level=tier)
         if content:
@@ -225,74 +225,74 @@ def demonstrate_dreamseed_integration():
     print(f"   • Success Rate: {dream_analytics['success_rate']:.1%}")
     print(f"   • Average Entanglement: {dream_analytics['average_entanglement_level']:.2f}")
     print(f"   • Tier Distribution: {dict(dream_analytics['tier_distribution'])}")
-    print(f"   • Top GLYPHs: {dict(list(dream_analytics['glyph_usage'].items()}[:3]}")  # noqa: invalid-syntax
+    print(f"   • Top GLYPHs: {dict(list(dream_analytics['glyph_usage'].items()}[:3]}")
 
-    # Example 6: System Health Monitoring  # noqa: invalid-syntax
-    print("\n📍 EXAMPLE 6: Memory Health Dashboard")  # noqa: invalid-syntax
-    print("-" * 40)  # noqa: invalid-syntax
+    # Example 6: System Health Monitoring
+    print("\n📍 EXAMPLE 6: Memory Health Dashboard")
+    print("-" * 40)
 
-    health_metrics = dashboard.get_memory_health_metrics()  # noqa: invalid-syntax
-    cascade_blocks = dashboard.list_active_cascade_blocks()  # noqa: invalid-syntax
+    health_metrics = dashboard.get_memory_health_metrics()
+    cascade_blocks = dashboard.list_active_cascade_blocks()
 
-    print("✅ System Health Status:")  # noqa: invalid-syntax
-    print(f"   • Stability Score: {health_metrics.stability_score:.3f}")  # noqa: invalid-syntax
-    print(f"   • Active Folds: {health_metrics.active_folds}")  # noqa: invalid-syntax
-    print(f"   • Compression Efficiency: {health_metrics.compression_efficiency:.3f}")  # noqa: invalid-syntax
-    print(f"   • Entanglement Complexity: {health_metrics.entanglement_complexity:.3f}")  # noqa: invalid-syntax
-    print(f"   • Active Cascade Blocks: {len(cascade_blocks)}")  # noqa: invalid-syntax
+    print("✅ System Health Status:")
+    print(f"   • Stability Score: {health_metrics.stability_score:.3f}")
+    print(f"   • Active Folds: {health_metrics.active_folds}")
+    print(f"   • Compression Efficiency: {health_metrics.compression_efficiency:.3f}")
+    print(f"   • Entanglement Complexity: {health_metrics.entanglement_complexity:.3f}")
+    print(f"   • Active Cascade Blocks: {len(cascade_blocks)}")
 
-    # Example 7: Safeguard Validations  # noqa: invalid-syntax
-    print("\n📍 EXAMPLE 7: Safeguard System Demonstration")  # noqa: invalid-syntax
-    print("-" * 40)  # noqa: invalid-syntax
+    # Example 7: Safeguard Validations
+    print("\n📍 EXAMPLE 7: Safeguard System Demonstration")
+    print("-" * 40)
 
-    # Get session analytics to show safeguard tracking  # noqa: invalid-syntax
-    session_analytics = dream_linker.get_session_analytics()  # noqa: invalid-syntax
+    # Get session analytics to show safeguard tracking
+    session_analytics = dream_linker.get_session_analytics()
 
-    print("✅ Safeguard System Status:")  # noqa: invalid-syntax
-    print(f"   • Session ID: {session_analytics['session_id']}")  # noqa: invalid-syntax
-    print(f"   • Total GLYPH Usage: {sum(session_analytics['total_glyph_usage'].values()}")  # noqa: invalid-syntax
+    print("✅ Safeguard System Status:")
+    print(f"   • Session ID: {session_analytics['session_id']}")
+    print(f"   • Total GLYPH Usage: {sum(session_analytics['total_glyph_usage'].values()}")
     print(f"   • Entangled Dreams: {session_analytics['entangled_dreams']}")
-    print(f"   • Recursive Amplification Events: {session_analytics['recursive_amplification_events']}")  # noqa: invalid-syntax
+    print(f"   • Recursive Amplification Events: {session_analytics['recursive_amplification_events']}")
 
-    # Example 8: Advanced Drift Feedback  # noqa: invalid-syntax
-    print("\n📍 EXAMPLE 8: Dream Drift Feedback System")  # noqa: invalid-syntax
-    print("-" * 40)  # noqa: invalid-syntax
+    # Example 8: Advanced Drift Feedback
+    print("\n📍 EXAMPLE 8: Dream Drift Feedback System")
+    print("-" * 40)
 
-    # Simulate dream feedback affecting memory importance  # noqa: invalid-syntax
-    dream_feedback = {  # noqa: invalid-syntax
-        "novelty_score": 0.8,  # High novelty - should boost importance  # noqa: invalid-syntax
-        "repetition_score": 0.2,  # Low repetition - minimal decay  # noqa: invalid-syntax
+    # Simulate dream feedback affecting memory importance
+    dream_feedback = {
+        "novelty_score": 0.8,  # High novelty - should boost importance
+        "repetition_score": 0.2,  # Low repetition - minimal decay
         "contradiction_detected": False,
         "dream_significance": 0.9,
     }
 
-    # Apply feedback to memory fold (would normally be done internally)  # noqa: invalid-syntax
-    original_importance = test_fold.importance_score  # noqa: invalid-syntax
-    test_fold._calculate_current_importance(dream_drift_feedback=dream_feedback)  # noqa: invalid-syntax
-    importance_change = test_fold.importance_score - original_importance  # noqa: invalid-syntax
+    # Apply feedback to memory fold (would normally be done internally)
+    original_importance = test_fold.importance_score
+    test_fold._calculate_current_importance(dream_drift_feedback=dream_feedback)
+    importance_change = test_fold.importance_score - original_importance
 
-    print("✅ Dream Drift Feedback Applied:")  # noqa: invalid-syntax
-    print(f"   • Original Importance: {original_importance:.3f}")  # noqa: invalid-syntax
-    print(  # noqa: invalid-syntax
+    print("✅ Dream Drift Feedback Applied:")
+    print(f"   • Original Importance: {original_importance:.3f}")
+    print(
         f"   • Feedback Applied: novelty={dream_feedback['novelty_score']:.1f}, "
         + f"repetition={dream_feedback['repetition_score']:.1f}"
     )
-    print(f"   • New Importance: {test_fold.importance_score:.3f}")  # noqa: invalid-syntax
-    print(f"   • Importance Change: {importance_change:+.3f}")  # noqa: invalid-syntax
+    print(f"   • New Importance: {test_fold.importance_score:.3f}")
+    print(f"   • Importance Change: {importance_change:+.3f}")
 
-    print("\n🎯 DREAMSEED Integration Demonstration Complete!")  # noqa: invalid-syntax
-    print("=" * 60)  # noqa: invalid-syntax
-    print("✨ All DREAMSEED capabilities successfully demonstrated:")  # noqa: invalid-syntax
-    print("   • Dream-memory trace linking with GLYPH analysis")  # noqa: invalid-syntax
-    print("   • Symbolic drift feedback loops with importance adjustment")  # noqa: invalid-syntax
-    print("   • Tiered recall mechanism with graduated access control")  # noqa: invalid-syntax
-    print("   • Dream→memory folding with comprehensive processing stages")  # noqa: invalid-syntax
-    print("   • Memory health dashboard with real-time monitoring")  # noqa: invalid-syntax
-    print("   • Advanced safeguard validations preventing recursive amplification")  # noqa: invalid-syntax
-    print("\n🌙 DREAMSEED system ready for production deployment! 🚀")  # noqa: invalid-syntax
+    print("\n🎯 DREAMSEED Integration Demonstration Complete!")
+    print("=" * 60)
+    print("✨ All DREAMSEED capabilities successfully demonstrated:")
+    print("   • Dream-memory trace linking with GLYPH analysis")
+    print("   • Symbolic drift feedback loops with importance adjustment")
+    print("   • Tiered recall mechanism with graduated access control")
+    print("   • Dream→memory folding with comprehensive processing stages")
+    print("   • Memory health dashboard with real-time monitoring")
+    print("   • Advanced safeguard validations preventing recursive amplification")
+    print("\n🌙 DREAMSEED system ready for production deployment! 🚀")
 
 
-def demonstrate_safeguard_edge_cases():  # noqa: invalid-syntax
+def demonstrate_safeguard_edge_cases():
     """
     Demonstrate safeguard system handling edge cases and dangerous scenarios.
     """

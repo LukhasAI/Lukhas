@@ -40,13 +40,13 @@ All logs were GDPR-compliant and audit-traceable. Visual summaries are included 
 
 st.markdown("##)  #  📜 Compliance Digest Summary"
 
-if digest_path.exists():  # noqa: invalid-syntax
-    with open(digest_path) as f:  # noqa: invalid-syntax
+if digest_path.exists():
+    with open(digest_path) as f:
         st.markdown(f.read())
-else:  # noqa: invalid-syntax
-    st.error("Digest not found. Run `compliance_digest.py` to generate it first.")  # noqa: invalid-syntax
+else:
+    st.error("Digest not found. Run `compliance_digest.py` to generate it first.")
 
-st.divider()  # noqa: invalid-syntax
+st.divider()
 
 col1, col2, col3 = st.columns(3)
 for col, image in zip(
@@ -81,16 +81,16 @@ st.caption(
 st.divider()
 st.markdown("##)  #  ⏰ Scheduling & Mobile Optimization"
 
-st.markdown(  # noqa: invalid-syntax
+st.markdown(
     "To enable automated compliance digests every Sunday at 8:00 AM, integrate this script with your system scheduler (e.g. `cron`, `launchd`, or GitHub Actions)."
 )
 
-st.code(  # noqa: invalid-syntax
+st.code(
     "0 8 * * 0 python3 compliance_digest.py && python3 compliance_dashboard_visual.py",
     language="bash",
 )
 
-if st.checkbox("📱 Optimize for Mobile Display (experimental)"):  # noqa: invalid-syntax
+if st.checkbox("📱 Optimize for Mobile Display (experimental)"):
     st.markdown(
         """
     <style>
@@ -106,22 +106,22 @@ if st.checkbox("📱 Optimize for Mobile Display (experimental)"):  # noqa: inva
     """,
         unsafe_allow_html=True,
     )
-    st.success("✅ Mobile layout adjustments applied.")  # noqa: invalid-syntax
+    st.success("✅ Mobile layout adjustments applied.")
 
-st.markdown(  # noqa: invalid-syntax
+st.markdown(
     "💬 *Next module to re-link: `id_portal/frontend/login.js` — tiered auth + face emoji grid.*"
 )
 
-st.divider()  # noqa: invalid-syntax
-st.markdown("##)  #  🔐 ID Portal Preview"  # noqa: invalid-syntax
+st.divider()
+st.markdown("##)  #  🔐 ID Portal Preview"
 
-if st.button("🔓 Preview Tiered Login (id_portal/login.js)"):  # noqa: invalid-syntax
-    st.session_state["restore_target"] = "id_portal/frontend/login.js"  # noqa: invalid-syntax
-    st.markdown(  # noqa: invalid-syntax
+if st.button("🔓 Preview Tiered Login (id_portal/login.js)"):
+    st.session_state["restore_target"] = "id_portal/frontend/login.js"
+    st.markdown(
         """
     ✅ `login.js` reconnection initiated.
     - Tier-based emoji grid ready.
     - Face ID fallback: **off** (dev mode).
     - Auth logic not yet live — symbolic preview only.
     """
-    )  # noqa: invalid-syntax
+    )

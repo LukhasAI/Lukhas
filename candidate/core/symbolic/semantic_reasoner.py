@@ -177,7 +177,7 @@ class SymbolicReasoningEngine:
 
         # Detect quantifiers
         patterns["quantifiers"] = any(
-            q in text.lower() for op in ["all", "some", "none", "every", "any", "few", "many"]  # noqa: F821
+            q in text.lower() for op in ["all", "some", "none", "every", "any", "few", "many"]
         )
 
         # Check for formal logic structures

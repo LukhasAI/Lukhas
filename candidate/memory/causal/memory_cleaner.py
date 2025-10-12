@@ -57,19 +57,19 @@ class MemoryCleaner:
     """
 
     def __init__(self, parent_id: str, task_data: dict[str, Any]):
-        self.agent_id = f"{parent_id}_MEMORY_{int(datetime.now(timezone.utc).timestamp()}"  # noqa: invalid-syntax
-        self.parent_id = parent_id  # noqa: invalid-syntax
-        self.task_data = task_data  # noqa: invalid-syntax
+        self.agent_id = f"{parent_id}_MEMORY_{int(datetime.now(timezone.utc).timestamp()}"
+        self.parent_id = parent_id
+        self.task_data = task_data
 
-        # Track cleanup statistics  # noqa: invalid-syntax
-        self.last_cleanup_stats: Optional[dict[str, Any]] = None  # noqa: invalid-syntax
-        self.last_cleanup_time: Optional[datetime] = None  # noqa: invalid-syntax
-        self.last_consolidation_stats: Optional[dict[str, Any]] = None  # noqa: invalid-syntax
-        self.last_consolidation_time: Optional[datetime] = None  # noqa: invalid-syntax
+        # Track cleanup statistics
+        self.last_cleanup_stats: Optional[dict[str, Any]] = None
+        self.last_cleanup_time: Optional[datetime] = None
+        self.last_consolidation_stats: Optional[dict[str, Any]] = None
+        self.last_consolidation_time: Optional[datetime] = None
 
-        # Use standard logger for this instance  # noqa: invalid-syntax
-        self.logger = logging.getLogger(f"{__name__}.{self.agent_id}")  # noqa: invalid-syntax
-        self.logger.info(f"🧹 Memory Cleaner sub-agent spawned - task_type: {task_data.get('memory_issue', 'unknown')}")  # noqa: invalid-syntax
+        # Use standard logger for this instance
+        self.logger = logging.getLogger(f"{__name__}.{self.agent_id}")
+        self.logger.info(f"🧹 Memory Cleaner sub-agent spawned - task_type: {task_data.get('memory_issue', 'unknown')}")
 
     def analyze_memory_fragmentation(self) -> dict[str, Any]:
         """Analyze current memory fragmentation state"""
@@ -96,7 +96,7 @@ class MemoryCleaner:
         corrupted_segments = [
             {
                 "segment_id": f"seg_{i:04d}",
-                "location": f"0x{random.randint(0x1000, 0xFFFF)}:04X}",  # noqa: invalid-syntax
+                "location": f"0x{random.randint(0x1000, 0xFFFF)}:04X}",
                 "size": random.randint(1024, 4096),
                 "error_type": random.choice(["checksum_mismatch", "null_reference", "cyclic_reference"]),
             }

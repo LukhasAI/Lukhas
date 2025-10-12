@@ -160,7 +160,7 @@ def _create_fallback_rules() -> List[EthicsRule]:
 # Global instance for Plan Verifier integration
 _ethics_engine_instance = None
 
-def get_ethics_engine(config_path: Optional[str] = None) -> 'EthicsEngine':  # noqa: F821
+def get_ethics_engine(config_path: Optional[str] = None) -> 'EthicsEngine':
     """Get or create global ethics engine instance."""
     global _ethics_engine_instance
     if _ethics_engine_instance is None:

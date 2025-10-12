@@ -939,7 +939,7 @@ class DocumentationAnalytics:
 
         try:
             file_path = Path(content_path)
-            last_modified = datetime.fromtimestamp(file_path.stat(, tz=timezone.utc).st_mtime)  # noqa: invalid-syntax
+            last_modified = datetime.fromtimestamp(file_path.stat(, tz=timezone.utc).st_mtime)
             days_old = (datetime.now(timezone.utc) - last_modified).days
 
             # Freshness score decreases with age

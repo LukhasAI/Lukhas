@@ -42,9 +42,9 @@ from config_legacy import TIER_PERMISSIONS
 
 initialize_agent, sync_user_mood, verify_access_level,
 
-    generate_response, store_memory_echo, generate_dream_digest,  # noqa: invalid-syntax
+    generate_response, store_memory_echo, generate_dream_digest,
     activate_delegate_mode, check_and_quarantine, ethical_review
-)  # noqa: invalid-syntax
+)
 
 # ------------------------------------
 # Agent Initialization

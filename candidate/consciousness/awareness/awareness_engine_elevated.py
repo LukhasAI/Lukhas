@@ -1447,11 +1447,11 @@ class LukhasAwarenessEngine:
         self.modules[AwarenessType.ENVIRONMENTAL] = EnvironmentalAwarenessModule(env_reasoner, self.config)
 
         # Cognitive Module with meta-learning reasoner
-        cog_reasoner = CognitiveReasoner()  # noqa: F821
+        cog_reasoner = CognitiveReasoner()
         self.modules[AwarenessType.COGNITIVE] = CognitiveAwarenessModule(cog_reasoner, self.config)
 
         # Emotional Module with personality integration
-        emo_reasoner = EmotionalReasoner()  # noqa: F821
+        emo_reasoner = EmotionalReasoner()
         self.modules[AwarenessType.EMOTIONAL] = EmotionalAwarenessModule(emo_reasoner, self.config)
 
         # Social Module with interpersonal dynamics reasoner

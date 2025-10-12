@@ -7,7 +7,7 @@
 # ΛCREATED_DATE: Unknown (original auto-generation)
 # ΛMODIFIED_DATE: 2024-07-30
 
-log = logging.getLogger(__name__)  # noqa: F821
+log = logging.getLogger(__name__)
 """
 # ΛDOC: Auto-generated __init__.py for the `core.interfaces.as_agent.core` package.
 This file marks the `core` directory (within `as_agent`) as a Python package.

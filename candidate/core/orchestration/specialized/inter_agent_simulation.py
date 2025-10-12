@@ -72,7 +72,7 @@ class Agent:
             message_type=message_type,
             content=content,
             timestamp=time.time(),
-            message_id=f"{self.agent_id}_{int(time.time(} * 1000)}",  # noqa: invalid-syntax
+            message_id=f"{self.agent_id}_{int(time.time(} * 1000)}",
         )
 
         logger.debug(f"Agent {self.agent_id} sending message to {receiver}: {message_type.value}")

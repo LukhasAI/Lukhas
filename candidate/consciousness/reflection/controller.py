@@ -199,7 +199,7 @@ class AGISession:
     session_id: str
     user_id: str
     start_time: datetime
-    interaction_mode: InteractionMode  # noqa: F821
+    interaction_mode: InteractionMode
     current_context: dict[str, Any]
     conversation_history: list[dict[str, Any]]
     emotional_state: dict[str, float]
@@ -236,7 +236,7 @@ class CognitiveController:
         self.current_state = AGIState.OFFLINE
 
         # 🛡️ Initialize Compliance Components First (Security First Architecture)
-        self.compliance_engine: Optional[ComplianceEngine] = None  # noqa: F821
+        self.compliance_engine: Optional[ComplianceEngine] = None
         self.privacy_manager: Optional[PrivacyManager] = None
         self.audit_logger: Optional[AuditLogger] = None
 
@@ -337,7 +337,7 @@ class CognitiveController:
 
             try:
                 # Initialize compliance engine
-                self.compliance_engine = ComplianceEngine()  # noqa: F821
+                self.compliance_engine = ComplianceEngine()
                 await self.compliance_engine.initialize()
                 logger.info("✅ Compliance engine initialized")
 

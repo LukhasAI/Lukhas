@@ -567,7 +567,7 @@ class EpisodicMemoryColony(BaseMemoryColony):
         # This is a simplified version - real implementation would be more sophisticated
 
         if not content.description:
-            content.description = f"Distinct episode at {time.time())"  # noqa: invalid-syntax
+            content.description = f"Distinct episode at {time.time())"
         else:
             content.description += f" [Distinct from {len(similar_episodes)} similar episodes]"
 
@@ -596,8 +596,8 @@ class EpisodicMemoryColony(BaseMemoryColony):
 
         # Spatial index (simplified - would use spatial hashing in practice)
         if record.content.context.location is not None:
-            location_key = f"spatial_{hash(record.content.context.location.tobytes()}"  # noqa: invalid-syntax
-            self.spatial_index[location_key].add(memory_id)  # noqa: invalid-syntax
+            location_key = f"spatial_{hash(record.content.context.location.tobytes()}"
+            self.spatial_index[location_key].add(memory_id)
 
     def _matches_query(self, record: EpisodicMemoryRecord, query: dict[str, Any]) -> bool:
         """Check if record matches structured query"""

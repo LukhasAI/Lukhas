@@ -123,7 +123,7 @@ class EmotionalTierAdapter(TierSystemAdapter):
             self.EmotionalTier = None
             logger.warning("EmotionalTier not available")
 
-    def to_lambda_tier(self, tier: Union[str, "EmotionalTier"]) -> str:  # noqa: F821
+    def to_lambda_tier(self, tier: Union[str, "EmotionalTier"]) -> str:
         """Convert EmotionalTier (T0-T5) to LAMBDA_TIER."""
         if self.EmotionalTier and hasattr(tier, "name"):
             # Handle EmotionalTier enum
@@ -135,7 +135,7 @@ class EmotionalTierAdapter(TierSystemAdapter):
         mapping = TierMappingConfig.LAMBDA_TO_EMOTIONAL
         return mapping.get(lambda_tier, "T1")
 
-    def validate_access(self, user_id: str, required_tier: Union[str, "EmotionalTier"]) -> bool:  # noqa: F821
+    def validate_access(self, user_id: str, required_tier: Union[str, "EmotionalTier"]) -> bool:
         """Validate user access using central identity system."""
         if not self.client:
             logger.warning("Identity client not available, granting access by default")
@@ -326,7 +326,7 @@ def oneiric_tier_required(tier: int):
     return adapter.create_unified_decorator(tier, "oneiric")
 
 
-def emotional_tier_required(tier: Union[str, "EmotionalTier"]):  # noqa: F821
+def emotional_tier_required(tier: Union[str, "EmotionalTier"]):
     """Decorator for DreamSeed Emotional tier requirements."""
     adapter = get_unified_adapter()
     return adapter.create_unified_decorator(tier, "emotional")

@@ -260,10 +260,10 @@ class VeriFoldGlyphGenerator:
             if role == "doctor":
                 symbols += f'< path d ="M180, {160 + i * 20} L220, {160 + i * 20} M200,'
     # 4A90E2" stroke-width="3" fill="none"/>'
-    {140 + i * 20} L200, {180 + i * 20}" stroke="  # noqa: invalid-syntax
-    elif role == "lawyer":  # noqa: invalid-syntax
-        symbols += f'< polygon points ="190, {150 + i * 20} 210, {150 + i * 20} 205,'  # noqa: invalid-syntax
-    {170 + i * 20} 195, {170 + i * 20}" fill="  # B8860B" opacity="0.7"/>'  # noqa: invalid-syntax
+    {140 + i * 20} L200, {180 + i * 20}" stroke="
+    elif role == "lawyer":
+        symbols += f'< polygon points ="190, {150 + i * 20} 210, {150 + i * 20} 205,'
+    {170 + i * 20} 195, {170 + i * 20}" fill="  # B8860B" opacity="0.7"/>'
     # Add more roles as needed
     return symbols
 
@@ -358,7 +358,7 @@ class VeriFoldGlyphGenerator:
         return hashlib.sha256(combined_data.encode()).hexdigest()
 
 
-class LUKHASAPIManager:  # noqa: invalid-syntax
+class LUKHASAPIManager:
     """Main API key management system with ΛiD integration."""
 
     @lukhas_tier_required(level=3)  # ΛTRACE_ADD
@@ -392,7 +392,7 @@ class LUKHASAPIManager:  # noqa: invalid-syntax
         )
 
     @lukhas_tier_required(level=2)  # ΛTRACE_ADD
-    def register_λid_profile(:  # noqa: invalid-syntax
+    def register_λid_profile(:
         self,
         user_id: str,
         professional_roles: list[str],
@@ -535,7 +535,7 @@ class LUKHASAPIManager:  # noqa: invalid-syntax
             with open(glyph_file) as f:
                 glyph_data: dict[str, Any] = json.load(f)  # ΛTRACE_CHANGE: Type hint
 
-            if not self._verify_glyph_integrity(:  # noqa: invalid-syntax
+            if not self._verify_glyph_integrity(:
                 glyph_data
             ):  # ΛTRACE_CHANGE: Pass full glyph_data
                 log.error("Glyph integrity verification failed.")  # ΛTRACE_CHANGE
@@ -673,7 +673,7 @@ class LUKHASAPIManager:  # noqa: invalid-syntax
         log = logger.bind(timestamp=datetime.now(timezone.utc).isoformat())
         log.debug("Verifying glyph integrity.")
 
-        if isinstance(:  # noqa: invalid-syntax
+        if isinstance(:
             glyph_data, VeriFoldGlyph
         ):  # ΛTRACE_ADD: Handle dataclass instance
             glyph_dict = asdict(glyph_data)
@@ -727,10 +727,10 @@ class LUKHASAPIManager:  # noqa: invalid-syntax
             return
 
         try:  # ΛTRACE_ADD: Error handling for file operations
-            with open(:  # noqa: invalid-syntax
+            with open(:
                 key_file, "r+"
-            ) as f:  # ΛTRACE_CHANGE: Open in r+ for read and write  # noqa: invalid-syntax
-                key_data: dict[str, Any] = json.load(f)  # ΛTRACE_CHANGE: Type hint  # noqa: invalid-syntax
+            ) as f:  # ΛTRACE_CHANGE: Open in r+ for read and write
+                key_data: dict[str, Any] = json.load(f)  # ΛTRACE_CHANGE: Type hint
 
                 current_usage = key_data.get(
                     "usage_tracking", {}
@@ -744,12 +744,12 @@ class LUKHASAPIManager:  # noqa: invalid-syntax
                 f.seek(0)  # ΛTRACE_ADD
                 json.dump(key_data, f, indent=2)
                 f.truncate()  # ΛTRACE_ADD
-            log.debug("API key usage tracking updated.")  # ΛTRACE_ADD  # noqa: invalid-syntax
-        except (OSError, json.JSONDecodeError) as e:  # ΛTRACE_ADD:  # noqa: invalid-syntax
-            log.error("Failed to update API key usage tracking.", error=str(e))  # noqa: invalid-syntax
+            log.debug("API key usage tracking updated.")  # ΛTRACE_ADD
+        except (OSError, json.JSONDecodeError) as e:  # ΛTRACE_ADD:
+            log.error("Failed to update API key usage tracking.", error=str(e))
 
 
-def demo_quantum_api_management():  # noqa: invalid-syntax
+def demo_quantum_api_management():
     """Demonstrate the quantum API management system."""
     # ΛTRACE_ADD: Configure structlog for demo if not already configured globally
     structlog.configure(

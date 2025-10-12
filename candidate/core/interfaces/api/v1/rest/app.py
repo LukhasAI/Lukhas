@@ -34,7 +34,7 @@ app = FastAPI(
 )
 
 # Shared event bus instance for coordination announcements
-event_bus = EventBus()  # noqa: F821
+event_bus = EventBus()
 app.state.event_bus = event_bus
 
 app.add_middleware(

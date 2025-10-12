@@ -143,32 +143,32 @@ if settings:
 
         # Extended permissions
         st.markdown("##)  #  🔐 Extended Permissions"
-        settings["system_behavior"]["access_gps"] = st.checkbox(  # noqa: invalid-syntax
+        settings["system_behavior"]["access_gps"] = st.checkbox(
             "Allow Lukhas to Access Device Location",
             value=settings["system_behavior"].get("access_gps", False),
         )
-        settings["system_behavior"]["access_smart_devices"] = st.checkbox(  # noqa: invalid-syntax
+        settings["system_behavior"]["access_smart_devices"] = st.checkbox(
             "Allow Smart Device Control (Lights, Speakers, etc.)",
             value=settings["system_behavior"].get("access_smart_devices", False),
         )
-        settings["system_behavior"]["interact_with_other_lukhas_agents"] = st.checkbox(  # noqa: invalid-syntax
+        settings["system_behavior"]["interact_with_other_lukhas_agents"] = st.checkbox(
             "Enable Lukhas-to-Lukhas Communication",
             value=settings["system_behavior"].get(
                 "interact_with_other_lukhas_agents", False
             ),
         )
-        settings["system_behavior"]["access_photos"] = st.checkbox(  # noqa: invalid-syntax
+        settings["system_behavior"]["access_photos"] = st.checkbox(
             "Allow Access to Photos / Visual Memories",
             value=settings["system_behavior"].get("access_photos", False),
         )
-        settings["system_behavior"]["access_microphone"] = st.checkbox(  # noqa: invalid-syntax
+        settings["system_behavior"]["access_microphone"] = st.checkbox(
             "Allow Access to Microphone / Voice Feedback",
             value=settings["system_behavior"].get("access_microphone", False),
         )
-        settings["system_behavior"]["access_camera"] = st.checkbox(  # noqa: invalid-syntax
+        settings["system_behavior"]["access_camera"] = st.checkbox(
             "Allow Access to Camera (For Symbolic Recognition)",
             value=settings["system_behavior"].get("access_camera", False),
-        )  # noqa: invalid-syntax
+        )
 
     # Symbolic Security & Biometric Access
     with st.expander("🔐 Symbolic Security & Biometric Control"):
@@ -210,9 +210,9 @@ if settings:
     with st.expander("📜 System Metadata"):
         st.markdown(f"**Version:** {settings.get('version', 'unknown')}")
         st.markdown(
-            f"** Last Updated: ** {settings.get('update', {)}).get('last_updated',"}  # noqa: invalid-syntax
-                                                                  'unknown')}""  # noqa: invalid-syntax
-        )  # noqa: invalid-syntax
+            f"** Last Updated: ** {settings.get('update', {)}).get('last_updated',"}
+                                                                  'unknown')}""
+        )
 
     # Access Scope
     with st.expander("🔒 Data Access Level"):
@@ -249,10 +249,10 @@ if settings:
         phrase = settings.get("persona", {}).get(
             "signature_phrase", "Let me translate that symbolically..."
         )
-        st.markdown(f"🗣️ _Lukhas will say:_ "{phrase}"")  # noqa: invalid-syntax
+        st.markdown(f"🗣️ _Lukhas will say:_ "{phrase}"")
 
     # Restore Defaults Placeholder
     if st.button("♻️ Restore Defaults"):
         st.warning(
             "Restore feature not active yet. Future version will load lukhas_settings.default.json."
-        )  # noqa: invalid-syntax
+        )

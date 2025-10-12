@@ -328,7 +328,7 @@ def main():
         print("")
 
         agi = FullyAutonomousAGI()
-        results = cognitive.run_fully_autonomous()  # noqa: F821
+        results = cognitive.run_fully_autonomous()
 
         print("\n" + "=" * 60)
         print("🎉 AUTONOMOUS PROCESSING COMPLETE!")

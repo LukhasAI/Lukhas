@@ -106,17 +106,17 @@ class TutorEngine:
     ) -> LearningSession:
         """Create a new learning session."""
         # Generate session ID using Lukhas's identity system
-        session_id = f"session_{user_id}_{int(datetime.now(timezone.utc).timestamp()}"  # noqa: invalid-syntax
+        session_id = f"session_{user_id}_{int(datetime.now(timezone.utc).timestamp()}"
 
-        # Get bio-oscillator baseline if available  # noqa: invalid-syntax
+        # Get bio-oscillator baseline if available
         bio_metrics = {}
-        if self.bio:  # noqa: invalid-syntax
-            bio_metrics = await self.bio.get_user_metrics(user_id)  # noqa: invalid-syntax
+        if self.bio:
+            bio_metrics = await self.bio.get_user_metrics(user_id)
 
-        # Generate learning objectives from SKG  # noqa: invalid-syntax
-        objectives = self._generate_learning_objectives(topic, difficulty)  # noqa: invalid-syntax
+        # Generate learning objectives from SKG
+        objectives = self._generate_learning_objectives(topic, difficulty)
 
-        session = LearningSession(  # noqa: invalid-syntax
+        session = LearningSession(
             session_id=session_id,
             user_id=user_id,
             topic=topic,
@@ -126,11 +126,11 @@ class TutorEngine:
             voice_enabled=config.get("voice_enabled", False),
         )
 
-        self.active_sessions[session_id] = session  # noqa: invalid-syntax
-        logger.info(f"Created learning session {session_id} for user {user_id}")  # noqa: invalid-syntax
+        self.active_sessions[session_id] = session
+        logger.info(f"Created learning session {session_id} for user {user_id}")
 
-        # Send welcome message  # noqa: invalid-syntax
-        await self._send_message(session_id, self._generate_welcome_message(session))  # noqa: invalid-syntax
+        # Send welcome message
+        await self._send_message(session_id, self._generate_welcome_message(session))
 
         return session
 
@@ -150,7 +150,7 @@ class TutorEngine:
             related = self.skg.get_neighborhood(node.id)
 
             # Create objectives based on node type and difficulty
-            obj_id = f"obj_{len(objectives)} + 1}"  # noqa: invalid-syntax
+            obj_id = f"obj_{len(objectives)} + 1}"
             obj = LearningObjective(
                 id=obj_id,
                 description=f"Learn about {node.name}",

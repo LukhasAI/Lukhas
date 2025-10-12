@@ -13,12 +13,12 @@ import random
 from datetime import datetime, timezone
 from pathlib import Path
 
-# Argument parser setup  # noqa: invalid-syntax
+# Argument parser setup
 parser = argparse.ArgumentParser(description="Inject and narrate symbolic dreams.")
 parser.add_argument("--mute", action="store_true", help="Mute autoplay after export")
 args = parser.parse_args()
 
-# Load narration queue  # noqa: invalid-syntax
+# Load narration queue
 NARRATION_QUEUE_PATH = "core/narration_queue.jsonl"
 
 queue_file = Path(NARRATION_QUEUE_PATH)
@@ -28,7 +28,7 @@ if not queue_file.exists():
     queue_file.write_text("")
 narrated_dreams = []
 
-# Always inject a new symbolic dream  # noqa: invalid-syntax
+# Always inject a new symbolic dream
 print("🌌 Injecting fresh symbolic dream...")
 dream_options = [
     ("The stars whispered again.", "🌌🧠"),
@@ -43,7 +43,7 @@ dream_options = [
     ("Lukhas exhaled the memory.", "🫁🧠"),
 ]
 text, emotion = random.choice(dream_options)
-message_id = f"lukhas_dream_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S%f\')}"'  # noqa: invalid-syntax
+message_id = f"lukhas_dream_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S%f\')}"'
 with open(queue_file, "a") as f:
     f.write(
         json.dumps(
@@ -52,18 +52,18 @@ with open(queue_file, "a") as f:
                 "text": text,
                 "emotion_vector": emotion,
                 "timestamp": datetime.now(timezone.utc).isoformat()},
-                "suggest_voice": True,  # noqa: invalid-syntax
-            }  # noqa: invalid-syntax
-        )  # noqa: invalid-syntax
-        + "\n"  # noqa: invalid-syntax
-    )  # noqa: invalid-syntax
+                "suggest_voice": True,
+            }
+        )
+        + "\n"
+    )
 
-try:  # noqa: invalid-syntax
+try:
     with open(NARRATION_QUEUE_PATH) as f:
         for line in f:
             dream = json.loads(line)
             if dream.get("suggest_voice") or dream.get("replay_candidate"):
-                print(f\'🎙 Narrating dream: "{dream["text"]}"')  # noqa: invalid-syntax
+                print(f\'🎙 Narrating dream: "{dream["text"]}"')
                 print(f"🧠 Emotion vector: {dream['emotion_vector']}")
 
                 # Log narration

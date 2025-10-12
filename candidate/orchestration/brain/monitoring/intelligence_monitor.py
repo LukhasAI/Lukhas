@@ -891,10 +891,10 @@ if __name__ == "__main__":
         print(f"Agent metrics: {len(agent_metrics)} metrics")
         print(f"Constellation compliance: {constellation_summary}")
         print(f"System health: {health_summary}")
-        print(f"Active alerts: {len(monitor.get_active_alerts()}")  # noqa: invalid-syntax
+        print(f"Active alerts: {len(monitor.get_active_alerts()}")
 
-        # Stop monitoring  # noqa: invalid-syntax
+        # Stop monitoring
         await monitor.stop_monitoring()
 
-    # Run example  # noqa: invalid-syntax
-    asyncio.run(example_monitoring())  # noqa: invalid-syntax
+    # Run example
+    asyncio.run(example_monitoring())

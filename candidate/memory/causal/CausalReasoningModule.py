@@ -254,7 +254,7 @@ class CausalReasoningModule:
             return "Empty chain"
 
         types = [elem.get("type", "unknown") for elem in elements]
-        return f"Causal chain with {len(elements)} elements: {', '.join(set(types)}"  # noqa: invalid-syntax
+        return f"Causal chain with {len(elements)} elements: {', '.join(set(types)}"
 
     def _update_causal_graph(self, valid_causes):
         """Update the internal causal graph with new validated cause"""

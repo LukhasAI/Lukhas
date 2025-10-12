@@ -1,4 +1,4 @@
-log = logging.getLogger(__name__)  # noqa: F821
+log = logging.getLogger(__name__)
 import logging
 import os
 

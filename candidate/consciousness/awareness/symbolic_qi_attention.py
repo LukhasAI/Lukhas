@@ -438,7 +438,7 @@ use_ensemble = True  # Set to False for single module
 
 if use_ensemble:
     # Register ensemble for better stability
-    qi_attn = QIAttentionEnsemble(dimension=CONFIG.embedding_size, ensemble_size=3)  # noqa: F821
+    qi_attn = QIAttentionEnsemble(dimension=CONFIG.embedding_size, ensemble_size=3)
     bio_orchestrator.register_module(
         "qi_attention",
         qi_attn,
@@ -447,7 +447,7 @@ if use_ensemble:
     )
 else:
     # Register single quantum attention module
-    qi_attn = QIInspiredAttention(dimension=CONFIG.embedding_size)  # noqa: F821
+    qi_attn = QIInspiredAttention(dimension=CONFIG.embedding_size)
     bio_orchestrator.register_module(
         "qi_attention",
         qi_attn,
@@ -477,4 +477,4 @@ def enhanced_attention_hook(original_attention_fn):
 
 
 # Apply hook to existing attention mechanism
-lukhas_agi.attention_mechanism = enhanced_attention_hook(lukhas_agi.attention_mechanism)  # noqa: F821
+lukhas_agi.attention_mechanism = enhanced_attention_hook(lukhas_agi.attention_mechanism)

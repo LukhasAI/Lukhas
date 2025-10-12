@@ -757,7 +757,7 @@ class ConsciousnessMetamorphicTestingFramework:
             relation_description=relation.get_relation_description()
         )
 
-        start_time = time.time()  # noqa: F821
+        start_time = time.time()
 
         try:
             # Generate follow-up input
@@ -789,7 +789,7 @@ class ConsciousnessMetamorphicTestingFramework:
             self.total_tests_run += 1
 
             # Record execution time
-            execution_time = (time.time() - start_time) * 1000  # noqa: F821
+            execution_time = (time.time() - start_time) * 1000
             test_case.execution_time_ms = execution_time
             test_case.executed_timestamp = datetime.now(timezone.utc)
 
@@ -808,7 +808,7 @@ class ConsciousnessMetamorphicTestingFramework:
             test_case.relation_satisfied = False
             test_case.relation_violation_details = f"Test execution error: {e}"
 
-            execution_time = (time.time() - start_time) * 1000  # noqa: F821
+            execution_time = (time.time() - start_time) * 1000
             test_case.execution_time_ms = execution_time
             test_case.executed_timestamp = datetime.now(timezone.utc)
 
@@ -837,7 +837,7 @@ class ConsciousnessMetamorphicTestingFramework:
         if relation_types is None:
             relation_types = list(self.relations.keys())
 
-        suite_start_time = time.time()  # noqa: F821
+        suite_start_time = time.time()
         suite_results = {
             "suite_id": f"suite_{uuid.uuid4().hex[:8]}",
             "start_time": datetime.now(timezone.utc).isoformat(),
@@ -901,7 +901,7 @@ class ConsciousnessMetamorphicTestingFramework:
             suite_results["overall_success_rate"] = successful_tests_in_suite / total_tests_in_suite
 
         # Add timing information
-        suite_duration = time.time() - suite_start_time  # noqa: F821
+        suite_duration = time.time() - suite_start_time
         suite_results["duration_seconds"] = suite_duration
         suite_results["end_time"] = datetime.now(timezone.utc).isoformat()
 

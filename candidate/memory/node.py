@@ -29,11 +29,11 @@ class MemoryNode:
         """Store a new memory entry."""
         memory_id = f"mem_{int(time.time())}_{len(self.short_term_memory)}"
 
-        self.short_term_memory.append(memory_entry)  # noqa: F821
+        self.short_term_memory.append(memory_entry)
 
         # If memory is important, also store in long-term memory
-        if memory_entry["importance"] > 0.7:  # noqa: F821
-            self.long_term_memory.append(memory_entry)  # noqa: F821
+        if memory_entry["importance"] > 0.7:
+            self.long_term_memory.append(memory_entry)
             # In a real implementation, we would compute embeddings here
             self.memory_embeddings.append(np.random.rand(128))  # Simulated embedding
 
@@ -91,6 +91,6 @@ class MemoryNode:
         return min(1.0, importance)
 
 
-EOF  # noqa: F821
+EOF
 
-cat > lukhas_agi / packages / core / src / nodes / ethics_node.py << "EOF"  # noqa: F821
+cat > lukhas_agi / packages / core / src / nodes / ethics_node.py << "EOF"

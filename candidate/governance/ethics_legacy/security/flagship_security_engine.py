@@ -226,7 +226,7 @@ class LukhasFlagshipSecurityEngine:
 
 async def main():
     """Main entry point for Lukhas AI Flagship System."""
-    system = LucasFlagshipSystem()  # noqa: F821
+    system = LucasFlagshipSystem()
 
     try:
         await system.initialize()

@@ -51,20 +51,20 @@ logger = logging.getLogger(__name__)
 ╚═══════════════════════════════════════════════════════════════════════════════
 """
 
-# Module imports  # noqa: invalid-syntax
+# Module imports
 import re
 import time
 from datetime import datetime
 from typing import Any, Optional
 
-# Configure module logger  # noqa: invalid-syntax
+# Configure module logger
 
-# Module constants  # noqa: invalid-syntax
+# Module constants
 MODULE_VERSION = "1.0.0"
 MODULE_NAME = "causal_reasoning"
 
 
-# Defines the CausalReasoningModule class for performing causal analysis.  # noqa: invalid-syntax
+# Defines the CausalReasoningModule class for performing causal analysis.
 class CausalReasoningModule:
     """
     # ΛNOTE: This class encapsulates the symbolic logic for causal reasoning.
@@ -80,7 +80,7 @@ class CausalReasoningModule:
     and maintains a history of reasoning sessions.
     """
 
-    # Initializes the CausalReasoningModule with configuration parameters.  # noqa: invalid-syntax
+    # Initializes the CausalReasoningModule with configuration parameters.
     def __init__(self, confidence_threshold: float = 0.7, history_limit: int = 100) -> None:
         """
         # ΛNOTE: Initialization sets up the foundational parameters for symbolic evaluation,
@@ -95,7 +95,7 @@ class CausalReasoningModule:
             history_limit (int): Maximum number of reasoning results to keep in history.
                                  Defaults to 100.
         """
-        # Bind class and instance specific context to the logger  # noqa: invalid-syntax
+        # Bind class and instance specific context to the logger
         self.logger = logger.bind(
             class_name=self.__class__.__name__,
             confidence_threshold=confidence_threshold,
@@ -103,19 +103,19 @@ class CausalReasoningModule:
         )
         self.logger.info("ΛTRACE: Initializing CausalReasoningModule instance.")
 
-        # ΛNOTE: The causal_graph acts as a persistent symbolic memory of identified causal relationships.  # noqa: invalid-syntax
-        # It stores validated causal chains and their observed  # noqa: invalid-syntax
-        # frequencies/confidences over time.  # noqa: invalid-syntax
-        self.causal_graph: dict[str, Any] = {}  # Stores persistent causal relationships (chain_id -> chain_data)  # noqa: invalid-syntax
-        # ΛNOTE: The causal_history logs summaries of reasoning sessions, enabling  # noqa: invalid-syntax
-        # meta-analysis and trend detection.  # noqa: invalid-syntax
-        self.causal_history: list[dict[str, Any]] = []  # Stores summaries of recent reasoning sessions  # noqa: invalid-syntax
+        # ΛNOTE: The causal_graph acts as a persistent symbolic memory of identified causal relationships.
+        # It stores validated causal chains and their observed
+        # frequencies/confidences over time.
+        self.causal_graph: dict[str, Any] = {}  # Stores persistent causal relationships (chain_id -> chain_data)
+        # ΛNOTE: The causal_history logs summaries of reasoning sessions, enabling
+        # meta-analysis and trend detection.
+        self.causal_history: list[dict[str, Any]] = []  # Stores summaries of recent reasoning sessions
         self.confidence_threshold: float = confidence_threshold
         self.history_limit: int = history_limit
         self.logger.debug("ΛTRACE: CausalReasoningModule instance fully initialized.")
 
-    # ΛEXPOSE: Main public method to apply causal reasoning to provided data. This is the primary decision surface for this module.  # noqa: invalid-syntax
-    # LUKHAS_TAG: recursive_causal_trace  # noqa: invalid-syntax
+    # ΛEXPOSE: Main public method to apply causal reasoning to provided data. This is the primary decision surface for this module.
+    # LUKHAS_TAG: recursive_causal_trace
     def reason(self, attended_data: dict[str, Any]) -> dict[str, Any]:
         """
         # ΛNOTE: This method orchestrates the symbolic inference flow for causal reasoning.
@@ -141,16 +141,16 @@ class CausalReasoningModule:
                             - "processing_request_id" (str): Unique ID for this reasoning request.
                             - "error" (str, optional): Error message if processing failed.
         """
-        # Generate a unique request ID using UTC timestamp for better traceability.  # noqa: invalid-syntax
-        processing_request_id = f"reason_causal_{datetime.now(timezone.utc).strftime('%Y%m%d%H%M%S%f\')}"'  # noqa: invalid-syntax
-        reason_logger = self.logger.bind(  # noqa: invalid-syntax
+        # Generate a unique request ID using UTC timestamp for better traceability.
+        processing_request_id = f"reason_causal_{datetime.now(timezone.utc).strftime('%Y%m%d%H%M%S%f\')}"'
+        reason_logger = self.logger.bind(
             request_id=processing_request_id
-        )  # Bind request_id for all logs in this method  # noqa: invalid-syntax
+        )  # Bind request_id for all logs in this method
 
-        reason_logger.info(  # noqa: invalid-syntax
+        reason_logger.info(
             "ΛTRACE: Starting causal reasoning process.",
             attended_data_keys=list(attended_data.keys()),
-        )  # noqa: invalid-syntax
+        )
 
         try:
             # Step 1: Identify potential causal elements from the input data.
@@ -202,8 +202,8 @@ class CausalReasoningModule:
                     primary_cause_details["confidence_score"] if primary_cause_details else 0.0
                 ),
                 "reasoning_timestamp_utc": datetime.now(timezone.utc).isoformat()},  # Use UTC
-                "processing_request_id": processing_request_id,  # noqa: invalid-syntax
-            }  # noqa: invalid-syntax
+                "processing_request_id": processing_request_id,
+            }
 
             self._add_to_reasoning_history(final_reasoning_results, parent_logger=reason_logger)
             reason_logger.info(
@@ -213,8 +213,8 @@ class CausalReasoningModule:
                 ),
             )
             return final_reasoning_results
-        except Exception as e:  # noqa: invalid-syntax
-            reason_logger.error(  # noqa: invalid-syntax
+        except Exception as e:
+            reason_logger.error(
                 "ΛTRACE: Critical error during causal reasoning process.",
                 error_message=str(e),
                 exc_info=True,
@@ -231,7 +231,7 @@ class CausalReasoningModule:
             }
 
     # Identifies potential causal elements from textual and contextual data.
-    def _identify_causal_elements(self, attended_data: dict[str, Any], parent_logger: Any) -> list[dict[str, Any]]:  # noqa: invalid-syntax
+    def _identify_causal_elements(self, attended_data: dict[str, Any], parent_logger: Any) -> list[dict[str, Any]]:
         """
         # ΛNOTE: This step performs symbolic pattern matching against textual data using regex
         # and analyzes structured context to extract potential causal triggers or effects.
@@ -386,12 +386,12 @@ class CausalReasoningModule:
         for i, current_element_data in enumerate(causal_elements_list):
             # Generate a unique ID for each potential chain start.
             # Using time.time() for microsecond precision in ID for demo purposes.
-            chain_unique_id = f"chain_{i}_{int(time.time(} * 1000000}"  # noqa: invalid-syntax
+            chain_unique_id = f"chain_{i}_{int(time.time(} * 1000000}"
 
             current_chain_details = {
-                "chain_elements_data": [current_element_data],  # Renamed key  # noqa: invalid-syntax
-                "chain_base_confidence_score": current_element_data["base_confidence_score"],  # Renamed key  # noqa: invalid-syntax
-            )}  # noqa: invalid-syntax
+                "chain_elements_data": [current_element_data],  # Renamed key
+                "chain_base_confidence_score": current_element_data["base_confidence_score"],  # Renamed key
+            )}
 
             # Heuristic linking: Try to append other elements if their content shows some overlap.
             # This is a very basic similarity measure.
@@ -825,7 +825,7 @@ class CausalReasoningModule:
 
 # Defines the public export of this module for `from
 # reasoning.causal_reasoning import *`
-__all__ = ["CausalReasoningModule"]  # noqa: invalid-syntax
+__all__ = ["CausalReasoningModule"]
 logger.debug("ΛTRACE: causal_reasoning.py module `__all__` defined.", exported_symbols=__all__)
 
 # ═══════════════════════════════════════════════════════════════════════════

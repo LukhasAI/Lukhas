@@ -25,9 +25,9 @@ class LegacyComponentAdapter:
 
     def __init__(
         self,
-        integration_layer: UniversalIntegrationLayer,  # noqa: F821
+        integration_layer: UniversalIntegrationLayer,
         component_id: str,
-        component_type: ComponentType,  # noqa: F821
+        component_type: ComponentType,
     ):
         """Initialize the adapter
 
@@ -44,16 +44,16 @@ class LegacyComponentAdapter:
         self.integration.register_component(component_id, component_type, self._handle_message)
 
         logger.info(f"Legacy adapter initialized for {component_id}")
-        metadata["legacy"] = True  # noqa: F821
+        metadata["legacy"] = True
 
         # Create standardized message
-        return Message(  # noqa: F821
-            id=message.get("id", str(uuid.uuid4())),  # noqa: F821
-            type=msg_type,  # noqa: F821
+        return Message(
+            id=message.get("id", str(uuid.uuid4())),
+            type=msg_type,
             source=self.component_id,
-            target=target,  # noqa: F821
-            content=message.get("content", message),  # noqa: F821
-            metadata=metadata,  # noqa: F821
+            target=target,
+            content=message.get("content", message),
+            metadata=metadata,
             timestamp=time.time(),
         )
 
@@ -87,7 +87,7 @@ class LegacyComponentAdapter:
         """
         self.legacy_handler = handler
 
-    def _handle_message(self, message: Message) -> None:  # noqa: F821
+    def _handle_message(self, message: Message) -> None:
         """Handle messages from integration layer
 
         Args:

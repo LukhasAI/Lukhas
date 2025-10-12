@@ -66,7 +66,7 @@ class DreamRecorder:
         try:
             # Create dream record
             dream_record = {
-                "id": f"dream_{len(self.recorded_dreams)} + 1}",  # noqa: invalid-syntax
+                "id": f"dream_{len(self.recorded_dreams)} + 1}",
                 "session_id": self.session_id,
                 "timestamp": datetime.now(timezone.utc).isoformat(),
                 "dream_message": dream_message,

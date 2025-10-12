@@ -79,15 +79,15 @@ class WorkflowEngine:
         # Implement specific orchestration processing
         # This is a placeholder that should be enhanced based on requirements
 
-        if category == "consciousness":  # noqa: F821
+        if category == "consciousness":
             return await self._process_consciousness(data)
-        elif category == "governance":  # noqa: F821
+        elif category == "governance":
             return await self._process_governance(data)
-        elif category == "voice":  # noqa: F821
+        elif category == "voice":
             return await self._process_voice(data)
-        elif category == "identity":  # noqa: F821
+        elif category == "identity":
             return await self._process_identity(data)
-        elif category == "quantum":  # noqa: F821
+        elif category == "quantum":
             return await self._process_quantum(data)
         else:
             return await self._process_generic(data)
@@ -158,9 +158,9 @@ class WorkflowEngine:
 
 def create_orchestration_component(
     config: Optional[dict] = None,
-) -> ΛWorkflowEngine:  # noqa: F821
+) -> ΛWorkflowEngine:
     """Create and return a orchestration component instance"""
-    return ΛWorkflowEngine(config)  # noqa: F821
+    return ΛWorkflowEngine(config)
 
 
 # Async factory function
@@ -168,16 +168,16 @@ def create_orchestration_component(
 
 async def create_and_initialize_orchestration_component(
     config: Optional[dict] = None,
-) -> ΛWorkflowEngine:  # noqa: F821
+) -> ΛWorkflowEngine:
     """Create, initialize and return a orchestration component instance"""
-    ΛWorkflowEngine(config)  # noqa: F821
+    ΛWorkflowEngine(config)
 
 
 def create_orchestration_component(
     config: Optional[dict] = None,
-) -> lukhasWorkflowEngine:  # noqa: F821
+) -> lukhasWorkflowEngine:
     """Create and return a orchestration component instance"""
-    return lukhasWorkflowEngine(config)  # noqa: F821
+    return lukhasWorkflowEngine(config)
 
 
 # Async factory function
@@ -185,9 +185,9 @@ def create_orchestration_component(
 
 async def create_and_initialize_orchestration_component(
     config: Optional[dict] = None,
-) -> lukhasWorkflowEngine:  # noqa: F821
+) -> lukhasWorkflowEngine:
     """Create, initialize and return a orchestration component instance"""
-    component = lukhasWorkflowEngine(config)  # noqa: F821
+    component = lukhasWorkflowEngine(config)
     await component.initialize()
     return component
 
@@ -197,8 +197,8 @@ if __name__ == "__main__":
     import asyncio
 
     async def main():
-        component = ΛWorkflowEngine()  # noqa: F821
-        component = lukhasWorkflowEngine()  # noqa: F821
+        component = ΛWorkflowEngine()
+        component = lukhasWorkflowEngine()
 
         # Initialize
         success = await component.initialize()

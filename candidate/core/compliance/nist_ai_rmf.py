@@ -748,7 +748,7 @@ class NISTAIRiskFramework:
 
         try:
             evaluation_id = (
-                f"BIAS_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}_{system_data.get('name', 'system')}[:8]}"  # noqa: invalid-syntax
+                f"BIAS_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}_{system_data.get('name', 'system')}[:8]}"
             )
 
             # Perform demographic bias assessment

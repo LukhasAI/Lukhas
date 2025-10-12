@@ -7,7 +7,7 @@
 # ΛCREATED_DATE: Unknown
 # ΛMODIFIED_DATE: 2024-07-30
 
-log = logging.getLogger(__name__)  # noqa: F821
+log = logging.getLogger(__name__)
 """
 # ΛDOC: NIAS (Non-Intrusive Ad System) Plugin for Lukhas Cognitive AI System
 

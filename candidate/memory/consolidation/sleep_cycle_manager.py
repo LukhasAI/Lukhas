@@ -587,7 +587,7 @@ async def demonstrate_sleep_cycle_manager():
 
     async def on_cycle_complete(cycle):
         print(f"\nCycle {cycle.cycle_number} completed!")
-        print(f"  Duration: {cycle.calculate_duration()} / 60:.1f} minutes")  # noqa: invalid-syntax
+        print(f"  Duration: {cycle.calculate_duration()} / 60:.1f} minutes")
         print(f"  Consolidation score: {cycle.consolidation_score:.2f}")
 
     manager.register_stage_callback(on_stage_change)

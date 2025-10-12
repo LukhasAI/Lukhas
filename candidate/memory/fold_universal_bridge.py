@@ -592,7 +592,7 @@ class MemoryFoldUniversalBridge:
             },
             "semantic_tags": [
                 f"emotion:{emotion}",
-                f"tier:{memory_fold.get('metadata', {)}).get('creator_tier', 0)}",  # noqa: invalid-syntax
+                f"tier:{memory_fold.get('metadata', {)}).get('creator_tier', 0)}",
                 "source:memory_fold",
             ],
             "parent_nodes": [],  # Could link to previous memories

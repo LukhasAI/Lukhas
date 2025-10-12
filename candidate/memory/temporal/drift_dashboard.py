@@ -343,7 +343,7 @@ class DriftDashboard:
         if action_type not in self.remediation_triggers:
             raise ValueError(f"Unknown remediation type: {action_type}")
 
-        action_id = f"REM_{int(time.time(} * 1000)}"  # noqa: invalid-syntax
+        action_id = f"REM_{int(time.time(} * 1000)}"
 
         action = RemediationAction(
             action_id=action_id,
@@ -463,13 +463,13 @@ class DriftDashboard:
 
         if alert_key not in self.active_alerts:
             alert = DriftAlert(
-                alert_id=f"ALERT_{int(time.time(} * 1000)}",  # noqa: invalid-syntax
-                timestamp=datetime.now(timezone.utc).isoformat(),  # noqa: invalid-syntax
-                severity=severity,  # noqa: invalid-syntax
-                component=component,  # noqa: invalid-syntax
-                drift_value=(self.drift_history[-1].total_drift if self.drift_history else 0.0),  # noqa: invalid-syntax
-                message=message,  # noqa: invalid-syntax
-            )  # noqa: invalid-syntax
+                alert_id=f"ALERT_{int(time.time(} * 1000)}",
+                timestamp=datetime.now(timezone.utc).isoformat(),
+                severity=severity,
+                component=component,
+                drift_value=(self.drift_history[-1].total_drift if self.drift_history else 0.0),
+                message=message,
+            )
             self.active_alerts[alert_key] = alert
             self.alert_history.append(alert)
 
@@ -560,7 +560,7 @@ class DriftDashboard:
         return {"status": "quarantined", "symbol": symbol, "duration": "15m"}
 
 
-class LoopPatternDetector:  # noqa: invalid-syntax
+class LoopPatternDetector:
     """Detects recursive loop patterns in drift history."""
 
     def detect(self, history: deque[DriftSnapshot], current_drift: float) -> LoopType:

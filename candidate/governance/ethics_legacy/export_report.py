@@ -172,16 +172,16 @@ class EthicsReportExporter:
 <head>
     <title>Ethics Drift Report - {result.get("trace_index", "Unknown")}</title>
     <style>
-        body {{ font-family: Arial, sans-serif; margin: 20px; background-color: #f8f9fa; }  # noqa: invalid-syntax
-        .container {{ max-width: 1200px; margin: 0 auto; background: white; padding: 20px; border-radius: 8px; }  # noqa: invalid-syntax
-        .header {{ background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 20px; border-radius: 8px; }  # noqa: invalid-syntax
-        .status-badge {{ display: inline-block; background: {status_color}; color: white; padding: 5px 15px; border-radius: 20px; font-weight: bold; }  # noqa: invalid-syntax
-        .metric-box {{ background: #f8f9fa; border: 1px solid #dee2e6; padding: 15px; margin: 10px 0; border-radius: 5px; }  # noqa: invalid-syntax
-        .violation {{ background: #fff3cd; border-left: 4px solid #ffc107; padding: 10px; margin: 5px 0; }  # noqa: invalid-syntax
-        .critical {{ border-left-color: #dc3545; background: #f8d7da; }  # noqa: invalid-syntax
-        table {{ width: 100%; border-collapse: collapse; margin: 10px 0; }  # noqa: invalid-syntax
-        th, td {{ padding: 10px; text-align: left; border-bottom: 1px solid #ddd; }  # noqa: invalid-syntax
-        th {{ background-color: #f2f2f2; }  # noqa: invalid-syntax
+        body {{ font-family: Arial, sans-serif; margin: 20px; background-color: #f8f9fa; }
+        .container {{ max-width: 1200px; margin: 0 auto; background: white; padding: 20px; border-radius: 8px; }
+        .header {{ background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 20px; border-radius: 8px; }
+        .status-badge {{ display: inline-block; background: {status_color}; color: white; padding: 5px 15px; border-radius: 20px; font-weight: bold; }
+        .metric-box {{ background: #f8f9fa; border: 1px solid #dee2e6; padding: 15px; margin: 10px 0; border-radius: 5px; }
+        .violation {{ background: #fff3cd; border-left: 4px solid #ffc107; padding: 10px; margin: 5px 0; }
+        .critical {{ border-left-color: #dc3545; background: #f8d7da; }
+        table {{ width: 100%; border-collapse: collapse; margin: 10px 0; }
+        th, td {{ padding: 10px; text-align: left; border-bottom: 1px solid #ddd; }
+        th {{ background-color: #f2f2f2; }
     </style>
 </head>
 <body>

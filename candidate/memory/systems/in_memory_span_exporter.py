@@ -25,27 +25,27 @@ except ImportError:
 
 from lukhas.core.common import get_logger
 
- _log_otel_fallback.warning(  # noqa: invalid-syntax
+ _log_otel_fallback.warning(
      "OpenTelemetry SDK Trace components not found. InMemorySpanExporter placeholders in use.")
-  @dataclass  # type: ignore  # noqa: invalid-syntax
-   class ReadableSpan:  # noqa: invalid-syntax
+  @dataclass  # type: ignore
+   class ReadableSpan:
         name: str  # Simplified placeholder # type: ignore
 
-    class SpanExporter:  # type: ignore:  # noqa: invalid-syntax
-        def export(:  # noqa: invalid-syntax
+    class SpanExporter:  # type: ignore:
+        def export(:
             self,
             spans: typing.Sequence[ReadableSpan]) -> 'SpanExportResult': return SpanExportResult(False)  # type: ignore
-        def shutdown(self) -> None: pass:  # noqa: invalid-syntax
-        def force_flush(self, timeout_millis: int = 30000) -> bool: return True:  # noqa: invalid-syntax
+        def shutdown(self) -> None: pass:
+        def force_flush(self, timeout_millis: int = 30000) -> bool: return True:
 
-    @dataclass  # type: ignore  # noqa: invalid-syntax
-    class SpanExportResult:  # noqa: invalid-syntax
+    @dataclass  # type: ignore
+    class SpanExportResult:
         success: bool  # type: ignore
     SpanExportResult.SUCCESS = SpanExportResult(True)  # type: ignore
     SpanExportResult.FAILURE = SpanExportResult(False)  # type: ignore
 
 
-class InMemorySpanExporter(SpanExporter):  # type: ignore:  # noqa: invalid-syntax
+class InMemorySpanExporter(SpanExporter):  # type: ignore:
     """
     Implementation of OpenTelemetry SpanExporter that stores spans in memory.
     Primarily for testing purposes. Exported spans can be retrieved via get_finished_spans().

@@ -201,7 +201,7 @@ class MemorySystemConsolidator:
 
         # Add merge header
         merge_header = f"""# MERGED: Content from {source_meta.get('file_path', 'source')}
-# Merge timestamp: {datetime.now(timezone.utc).isoformat()}  # noqa: F821
+# Merge timestamp: {datetime.now(timezone.utc).isoformat()}
 # Source functions: {len(source_meta['functions'])}, Target functions: {len(target_meta['functions'])}
 """
         merged_lines.insert(0, merge_header)

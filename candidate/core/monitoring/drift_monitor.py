@@ -687,15 +687,15 @@ class UnifiedDriftMonitor:
         severity = severity_map.get(drift_score.risk_level, EscalationTier.WARNING)
 
         alert = DriftAlert(
-            alert_id=f"DRIFT_{int(time.time(} * 1000}_{session_id[:8])}",  # noqa: invalid-syntax
-            timestamp=drift_score.timestamp,  # noqa: invalid-syntax
-            drift_type=primary_type,  # noqa: invalid-syntax
-            severity=severity,  # noqa: invalid-syntax
-            drift_score=drift_score,  # noqa: invalid-syntax
-            session_id=session_id,  # noqa: invalid-syntax
-            symbol_id=session_id,  # Using session_id as symbol_id  # noqa: invalid-syntax
-            context=context,  # noqa: invalid-syntax
-        )  # noqa: invalid-syntax
+            alert_id=f"DRIFT_{int(time.time(} * 1000}_{session_id[:8])}",
+            timestamp=drift_score.timestamp,
+            drift_type=primary_type,
+            severity=severity,
+            drift_score=drift_score,
+            session_id=session_id,
+            symbol_id=session_id,  # Using session_id as symbol_id
+            context=context,
+        )
 
         # Store alert
         self.active_alerts[alert.alert_id] = alert
@@ -950,7 +950,7 @@ class UnifiedDriftMonitor:
 # Factory function for creating drift monitor
 
 
-async def create_drift_monitor(  # noqa: invalid-syntax
+async def create_drift_monitor(
     config: Optional[dict[str, Any]] = None,
 ) -> UnifiedDriftMonitor:
     """

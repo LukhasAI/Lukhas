@@ -23,13 +23,13 @@ import logging
 from datetime import datetime
 from typing import Any, Optional
 
-from lukhas.consciousness.reflection.openai_core_service import (  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for Constellation Framework consciousness evolution  # noqa: invalid-syntax
+from lukhas.consciousness.reflection.openai_core_service import (  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for Constellation Framework consciousness evolution
 from datetime import timezone
-    ModelType,  # noqa: invalid-syntax
+    ModelType,
     OpenAICapability,
     OpenAICoreService,
     OpenAIRequest,
-)  # noqa: invalid-syntax
+)
 
 logger = logging.getLogger("ΛTRACE.consciousness.openai_adapter")
 

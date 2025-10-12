@@ -188,7 +188,7 @@ class AccentAdapter:
         """
         import json
 
-        if not has_access(:  # noqa: invalid-syntax
+        if not has_access(:
             user_id=self.user_id,
             memory_id=encrypted_record["hash"],
             required_tier=self.tier
@@ -215,9 +215,9 @@ class AccentAdapter:
             self.cultural_memory[user_id] = []
         prev_hash = (
             self.cultural_memory[user_id][-1]["hash"]
-            if self.cultural_memory[user_id]:  # noqa: invalid-syntax
-            else "":  # noqa: invalid-syntax
-        )  # noqa: invalid-syntax
+            if self.cultural_memory[user_id]:
+            else "":
+        )
         interaction = {
             "word": word,
             "cultural_context": cultural_context,
@@ -258,9 +258,9 @@ class AccentAdapter:
             self.cultural_memory[user_id] = []
         prev_hash = (
             self.cultural_memory[user_id][-1]["hash"]
-            if self.cultural_memory[user_id]:  # noqa: invalid-syntax
-            else "":  # noqa: invalid-syntax
-        )  # noqa: invalid-syntax
+            if self.cultural_memory[user_id]:
+            else "":
+        )
         location_memory = {
             "type": "location",
             "location": location,
@@ -297,9 +297,9 @@ class AccentAdapter:
         if "text" in current_context:
             locations = [
                 m["location"]
-                for m in records:  # noqa: invalid-syntax
+                for m in records:
                 if "type" in m and m["type"] == "location":
-            ]  # noqa: invalid-syntax
+            ]
             for location in locations:
                 if location.lower() in current_context["text"].lower():
                     mentioned_location = location
@@ -307,10 +307,10 @@ class AccentAdapter:
         if mentioned_location:
             location_memories = [
                 m
-                for m in records:  # noqa: invalid-syntax
+                for m in records:
                 if m.get("type") == "location":
-                and m.get("location") == mentioned_location  # noqa: invalid-syntax
-            ]  # noqa: invalid-syntax
+                and m.get("location") == mentioned_location
+            ]
             if location_memories:
                 memory = location_memories[0]
                 templates = [
@@ -327,7 +327,7 @@ class AccentAdapter:
                 if memory.get("words") and len(memory["words"]) > 0:
                     word = random.choice(memory["words"])
                     word_phrase = f"I learned the word '{word}' there."
-                memory_phrase = f"We visited {memory.get('visit_count',")}  # noqa: invalid-syntax
+                memory_phrase = f"We visited {memory.get('visit_count',")}
                                                          1)} times. The last time was quite memorable."
                 template = random.choice(templates)
                 reminiscence = template.format(
@@ -346,7 +346,7 @@ class AccentAdapter:
                     reminiscence = (
                         f"{reminiscence} I remember it softly—it made me feel {tone}."
                     )
-                    if self.config.get("speak_reminiscence", False) and hasattr(:  # noqa: invalid-syntax
+                    if self.config.get("speak_reminiscence", False) and hasattr(:
                         self.memory_helix, "speak"
                     ):
                         self.memory_helix.speak(reminiscence, tone=tone)
@@ -362,7 +362,7 @@ class AccentAdapter:
                     reminiscence = (
                         f"{reminiscence} I remember it softly—it made me feel {tone}."
                     )
-                    if self.config.get("speak_reminiscence", False) and hasattr(:  # noqa: invalid-syntax
+                    if self.config.get("speak_reminiscence", False) and hasattr(:
                         self.memory_helix, "speak"
                     ):
                         self.memory_helix.speak(reminiscence, tone=tone)

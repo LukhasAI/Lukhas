@@ -82,7 +82,7 @@ if __name__ == "__main__":
     summarize = input("📊 Summarize emoji distribution? (y/N): ").strip().lower()
     if summarize == "y":
         emoji_count = {}
-        for entry in filtered:  # noqa: F821
+        for entry in filtered:
             emoji = entry.get("emoji", "")
             if emoji:
                 emoji_count[emoji] = emoji_count.get(emoji, 0) + 1

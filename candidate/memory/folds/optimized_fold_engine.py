@@ -686,7 +686,7 @@ async def demo_optimized_folds():
 
     print(f"   Created {len(batch_folds)} folds in parallel")
     print(f"   Time: {batch_time:.3f}s")
-    print(f"   Rate: {len(batch_folds)} / batch_time:.1f} folds/sec")  # noqa: invalid-syntax
+    print(f"   Rate: {len(batch_folds)} / batch_time:.1f} folds/sec")
 
     # 5. Parallel search
     print("\n5️⃣ Parallel Search:")

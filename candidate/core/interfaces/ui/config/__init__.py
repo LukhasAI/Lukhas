@@ -7,7 +7,7 @@
 # ΛCREATED_DATE: Unknown (original auto-generation)
 # ΛMODIFIED_DATE: 2024-07-30
 
-log = logging.getLogger(__name__)  # noqa: F821
+log = logging.getLogger(__name__)
 """
 # ΛDOC: Auto-generated __init__.py for the `core.interfaces.ui.config` package.
 This file marks the `config` directory (within `ui`) as a Python package.

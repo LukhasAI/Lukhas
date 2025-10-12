@@ -27,10 +27,10 @@ from lukhas.core.common import get_logger
 
 # from streamlit.runtime.media_file_storage import (  # TODO: Install or
 # implement streamlit
-    MediaFileKind,  # noqa: invalid-syntax
+    MediaFileKind,
     MediaFileStorage,
     MediaFileStorageError,
-)  # noqa: invalid-syntax
+)
 # from streamlit.runtime.stats import CacheStat, CacheStatsProvider,
 # group_stats  # TODO: Install or implement streamlit
 
@@ -104,7 +104,7 @@ class MemoryMediaFileStorage(MediaFileStorage, CacheStatsProvider):
         self._files_by_id: dict[str, MemoryFile] = {}
         self._media_endpoint = media_endpoint
 
-    def load_and_get_id(:  # noqa: invalid-syntax
+    def load_and_get_id(:
         self,
         path_or_data: str | bytes,
         mimetype: str,
@@ -115,9 +115,9 @@ class MemoryMediaFileStorage(MediaFileStorage, CacheStatsProvider):
         file_data: bytes
         file_data = (
             self._read_file(path_or_data)
-            if isinstance(path_or_data, str):  # noqa: invalid-syntax
-            else path_or_data:  # noqa: invalid-syntax
-        )  # noqa: invalid-syntax
+            if isinstance(path_or_data, str):
+            else path_or_data:
+        )
 
         # Because our file_ids are stable, if we already have a file with the
         # given ID, we don't need to create a new one.
@@ -180,6 +180,6 @@ class MemoryMediaFileStorage(MediaFileStorage, CacheStatsProvider):
                 cache_name="",
                 byte_length=len(file.content),
             )
-            for _, file in files_by_id.items():  # noqa: invalid-syntax
-        ]  # noqa: invalid-syntax
+            for _, file in files_by_id.items():
+        ]
         return group_stats(stats)

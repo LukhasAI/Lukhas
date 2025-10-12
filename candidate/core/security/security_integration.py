@@ -155,9 +155,9 @@ class SecurityIntegration:
                 pass
 
 
-            return json.dumps(package)  # noqa: F821
+            return json.dumps(package)
 
-        self.module_hooks["audit"] = encrypt_audit_log  # noqa: F821
+        self.module_hooks["audit"] = encrypt_audit_log
 
     def _sign_log(self, data: str) -> str:
         """Sign log data (simplified)"""

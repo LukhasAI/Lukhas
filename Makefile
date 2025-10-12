@@ -1366,6 +1366,9 @@ todos-issues: ## Generate gh issue commands from todos.csv
 		--out docs/audits/todos_gh.sh \
 		--label-extra matriz
 
+fix-orphaned-noqa: ## Remove orphaned noqa comments (PR 375 fix)
+	python3 scripts/fix_orphaned_noqa.py --apply
+
 codemod-dry: ## Preview legacy→canonical import rewrites (LibCST)
 	python3 scripts/codemod_imports.py \
 		--roots lukhas labs core MATRIZ tests packages tools \

@@ -238,7 +238,7 @@ class SmartConsolidator:
             print(f"  - {relative_path} ({file_type})")
 
         if len(incompatible_files) > 20:
-            print(f"  ... and {len(incompatible_files)} - 20} more")  # noqa: invalid-syntax
+            print(f"  ... and {len(incompatible_files)} - 20} more")
 
         print(f"\n✅ Safe merges found ({len(safe_merges)} groups):")
         for group_type, files in safe_merges.items():

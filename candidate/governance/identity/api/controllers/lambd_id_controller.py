@@ -195,7 +195,7 @@ class LambdaIDController:
         Generates a new LUKHAS ΛiD with comprehensive validation and business logic,
         considering user tier, symbolic preferences, and entropy requirements.
         """
-        req_id = f"genid_{int(time.time() * 1000)}"  # noqa: F821
+        req_id = f"genid_{int(time.time() * 1000)}"
         self.logger.info(
             f"ΛTRACE ({req_id}): Received request to generate ΛiD. User Tier: {user_tier}, Symbolic Prefs: {bool(symbolic_preferences)}, Entropy Req: {bool(entropy_requirements)}"
         )
@@ -318,7 +318,7 @@ class LambdaIDController:
         Validates a given LUKHAS ΛiD based on specified level ('basic', 'standard', 'full'),
         optionally checking for collisions.
         """
-        req_id = f"valid_{int(time.time() * 1000)}"  # noqa: F821
+        req_id = f"valid_{int(time.time() * 1000)}"
         self.logger.info(
             f"ΛTRACE ({req_id}): Received request to validate ΛiD: '{lambda_id}', Level: '{validation_level}', Check Collision: {check_collision}"
         )
@@ -437,7 +437,7 @@ class LambdaIDController:
         Calculates the entropy score for a list of symbolic inputs,
         considering user tier and specified calculation method.
         """
-        req_id = f"entropy_{int(time.time() * 1000)}"  # noqa: F821
+        req_id = f"entropy_{int(time.time() * 1000)}"
         self.logger.info(
             f"ΛTRACE ({req_id}): Received request to calculate entropy. Symbols: {len(symbolic_input)}, Tier: {tier}, Method: {calculation_method}"
         )
@@ -503,7 +503,7 @@ class LambdaIDController:
         Retrieves information about LUKHAS ΛiD tiers, either for a specific tier
         or all tiers, optionally including progression map details.
         """
-        req_id = f"tierinfo_{int(time.time() * 1000)}"  # noqa: F821
+        req_id = f"tierinfo_{int(time.time() * 1000)}"
         self.logger.info(
             f"ΛTRACE ({req_id}): Received request for tier information. Specific Tier: {specific_tier}, Include Progression: {include_progression}"
         )
@@ -557,7 +557,7 @@ class LambdaIDController:
         Processes a request to upgrade a user's LUKHAS ΛiD to a target tier,
         performing necessary validations and generating a new ΛiD if successful.
         """
-        req_id = f"tierup_{int(time.time() * 1000)}"  # noqa: F821
+        req_id = f"tierup_{int(time.time() * 1000)}"
         self.logger.info(
             f"ΛTRACE ({req_id}): Received request for tier upgrade. Current ΛiD: '{current_lambda_id}', Target Tier: {target_tier}"
         )
@@ -698,7 +698,7 @@ class LambdaIDController:
         Performs a health check on all core services utilized by the LambdaIDController.
         Returns a dictionary summarizing the health status of each service.
         """
-        req_id = f"health_{int(time.time() * 1000)}"  # noqa: F821
+        req_id = f"health_{int(time.time() * 1000)}"
         self.logger.info(f"ΛTRACE ({req_id}): Performing core services health check.")
         try:
             service_health_statuses: dict[str, Any] = {}

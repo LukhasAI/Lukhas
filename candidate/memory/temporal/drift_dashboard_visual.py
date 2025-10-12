@@ -196,7 +196,7 @@ def create_component_traces(history_data: dict) -> go.Figure:
                     mode="lines",
                     name=comp.capitalize(),
                     line={"color": color, "width": 2},
-                    hovertemplate=f"{comp.capitalize()}: %{{y:.3f}<extra></extra>",  # noqa: invalid-syntax
+                    hovertemplate=f"{comp.capitalize()}: %{{y:.3f}<extra></extra>",
                 )
             )
 

@@ -121,27 +121,27 @@ class MemoryNode:
     """
 
     # Mandatory fields (immutable)
-    id: str = field(default_factory=lambda: f"node_{uuid4().hex[:8]}_{int(time.time())")  # noqa: invalid-syntax
-    type: NodeType = NodeType.MEMORY  # noqa: invalid-syntax
-    created_at: datetime = field(default_factory=datetime.now)  # noqa: invalid-syntax
-    content_hash: str = ""  # SHA-256 of content for integrity  # noqa: invalid-syntax
+    id: str = field(default_factory=lambda: f"node_{uuid4().hex[:8]}_{int(time.time())")
+    type: NodeType = NodeType.MEMORY
+    created_at: datetime = field(default_factory=datetime.now)
+    content_hash: str = ""  # SHA-256 of content for integrity
 
     # Content and state
-    content: dict[str, Any] = field(default_factory=dict)  # noqa: invalid-syntax
-    state: CognitiveState = field(default_factory=CognitiveState)  # noqa: invalid-syntax
+    content: dict[str, Any] = field(default_factory=dict)
+    state: CognitiveState = field(default_factory=CognitiveState)
 
     # Connections
-    links: list[MemoryLink] = field(default_factory=list)  # noqa: invalid-syntax
-    evolves_to: list[str] = field(default_factory=list)  # Future versions  # noqa: invalid-syntax
-    evolved_from: str | None = None  # Previous version  # noqa: invalid-syntax
+    links: list[MemoryLink] = field(default_factory=list)
+    evolves_to: list[str] = field(default_factory=list)  # Future versions
+    evolved_from: str | None = None  # Previous version
 
     # Triggers and reflections
-    triggers: list[dict[str, Any]] = field(default_factory=list)  # noqa: invalid-syntax
-    reflections: list[dict[str, Any]] = field(default_factory=list)  # noqa: invalid-syntax
+    triggers: list[dict[str, Any]] = field(default_factory=list)
+    reflections: list[dict[str, Any]] = field(default_factory=list)
 
     # Metadata
-    tags: set[str] = field(default_factory=set)  # noqa: invalid-syntax
-    privacy_level: int = 0  # 0=public, 1=private, 2=encrypted  # noqa: invalid-syntax
+    tags: set[str] = field(default_factory=set)
+    privacy_level: int = 0  # 0=public, 1=private, 2=encrypted
 
     def __post_init__(self):
         """Calculate content hash after initialization"""

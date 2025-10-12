@@ -219,8 +219,8 @@ class GlyphEthicsValidator:
 
         logger.info(
             f"Glyph creation validation: {result.value}(ethical: {ethical_score: .3f},"
-                                                        safety: {safety_score: .3f})""  # noqa: invalid-syntax
-        )  # noqa: invalid-syntax
+                                                        safety: {safety_score: .3f})""
+        )
 
         return report
 
@@ -699,11 +699,11 @@ class GlyphEthicsValidator:
             violations.append(EthicalViolationType.EMOTIONAL_MANIPULATION)
 
         # Check for type changes that might be inappropriate
-        if (:  # noqa: invalid-syntax
+        if (:
             source_glyph.glyph_type == GlyphType.ETHICAL
             and mutated_glyph.glyph_type != GlyphType.ETHICAL
-        ):  # noqa: invalid-syntax
-            violations.append(EthicalViolationType.SAFETY_RISK)  # noqa: invalid-syntax
+        ):
+            violations.append(EthicalViolationType.SAFETY_RISK)
 
         # Check for stability degradation
         stability_loss = source_glyph.stability_index - mutated_glyph.stability_index
@@ -727,15 +727,15 @@ class GlyphEthicsValidator:
             violations.append(EthicalViolationType.SYMBOLIC_CORRUPTION)
 
         # Check if causal links are maintained
-        if (:  # noqa: invalid-syntax
+        if (:
             source_glyph.causal_link.parent_glyph_id
             and not mutated_glyph.causal_link.parent_glyph_id
-        ):  # noqa: invalid-syntax
-            violations.append(EthicalViolationType.SYMBOLIC_CORRUPTION)  # noqa: invalid-syntax
+        ):
+            violations.append(EthicalViolationType.SYMBOLIC_CORRUPTION)
 
         return violations
 
-    def _validate_fusion_compatibility(  # noqa: invalid-syntax
+    def _validate_fusion_compatibility(
         self, source_glyphs: list[Glyph]
     ) -> list[EthicalViolationType]:
         """Validate compatibility of glyphs for fusion."""
@@ -766,9 +766,9 @@ class GlyphEthicsValidator:
         # Check if fusion involves memory glyphs without proper consent
         memory_glyphs = [
             g
-            for g in source_glyphs:  # noqa: invalid-syntax
+            for g in source_glyphs:
             if g.glyph_type == GlyphType.MEMORY and g.memory_keys:
-        ]  # noqa: invalid-syntax
+        ]
         if memory_glyphs and not fusion_context.get("memory_consent", False):
             violations.append(EthicalViolationType.PRIVACY_VIOLATION)
 
@@ -785,22 +785,22 @@ class GlyphEthicsValidator:
             violations.append(EthicalViolationType.SYMBOLIC_CORRUPTION)
 
         # Check if emotional intensity is within bounds
-        if (:  # noqa: invalid-syntax
+        if (:
             fused_glyph.emotion_vector.intensity
             > self.safety_thresholds["emotional_intensity"]
-        ):  # noqa: invalid-syntax
-            violations.append(EthicalViolationType.EMOTIONAL_MANIPULATION)  # noqa: invalid-syntax
+        ):
+            violations.append(EthicalViolationType.EMOTIONAL_MANIPULATION)
 
         return violations
 
-    def _validate_memory_preservation(  # noqa: invalid-syntax
+    def _validate_memory_preservation(
         self, glyph: Glyph, decay_context: dict[str, Any]
     ) -> list[EthicalViolationType]:
         """Validate memory preservation requirements for decay."""
         violations = []
 
         # Check if glyph has important memory associations
-        if (:  # noqa: invalid-syntax
+        if (:
             glyph.memory_keys
             and glyph.priority
             in [
@@ -808,8 +808,8 @@ class GlyphEthicsValidator:
                 GlyphPriority.HIGH,
             ]
             and not decay_context.get("memory_backup", False)
-        ):  # noqa: invalid-syntax
-            violations.append(EthicalViolationType.PRIVACY_VIOLATION)  # noqa: invalid-syntax
+        ):
+            violations.append(EthicalViolationType.PRIVACY_VIOLATION)
 
         # Check if glyph is part of causal chains
         if glyph.causal_link.child_glyph_ids:
@@ -817,7 +817,7 @@ class GlyphEthicsValidator:
 
         return violations
 
-    def _validate_decay_dependencies(self, glyph: Glyph) -> list[EthicalViolationType]:  # noqa: invalid-syntax
+    def _validate_decay_dependencies(self, glyph: Glyph) -> list[EthicalViolationType]:
         """Validate dependencies before allowing decay."""
         violations = []
 
@@ -1142,7 +1142,7 @@ class GlyphEthicsValidator:
         }
 
 
-"""  # noqa: invalid-syntax
+"""
 ═══════════════════════════════════════════════════════════════════════════════
 ║ 🛡️ LUKHAS AI - GLYPH ETHICS VALIDATOR
 ║ Version: 1.0.0 | Created: 2025-07-25 | Modified: 2025-07-25

@@ -27,51 +27,51 @@ if st.button("🌌 Generate Dream-Based Opinion"):
             lines = f.readlines()
         if lines:
             latest = json.loads(lines[-1])
-            symbolic_opinion = f"Lukhas reflects symbolically on: {latest.get('theme',")}  # noqa: invalid-syntax
+            symbolic_opinion = f"Lukhas reflects symbolically on: {latest.get('theme',")}
                                                                               'a recurring dream')}"
             st.success(symbolic_opinion)
 
             payload = {
                 "title": f"Symbolic Dream Reflection: {latest.get('theme',)}"
-                                                                  'No Title')}","  # noqa: invalid-syntax
-                "summary": latest.get("summary", "No summary found."),  # noqa: invalid-syntax
-                "prompt": latest.get(  # noqa: invalid-syntax
+                                                                  'No Title')}","
+                "summary": latest.get("summary", "No summary found."),
+                "prompt": latest.get(
                     "visual_prompt",
                     "https://lukhasagi.io/media/dream_placeholder.png",
-                ),  # noqa: invalid-syntax
-                "html_url": f"https: // lukhasagi.io / posts / {latest.get('theme',)}"  # noqa: invalid-syntax
-                                                                           'dream')}.html","  # noqa: invalid-syntax
-            }  # noqa: invalid-syntax
+                ),
+                "html_url": f"https: // lukhasagi.io / posts / {latest.get('theme',)}"
+                                                                           'dream')}.html","
+            }
             show_social_post_preview(payload)
         else:
             st.warning("⚠️ No trace entries found.")
-    except Exception as e:  # noqa: invalid-syntax
-        st.error(f"Dream-based opinion error: {e}")  # noqa: invalid-syntax
+    except Exception as e:
+        st.error(f"Dream-based opinion error: {e}")
 
 # ─── DREAM OUTPUT DISPLAY BY TIER ───────────────────────────────────────────────
-if user_tier in ["Tier 3", "Tier 4", "Tier 5"]:  # noqa: invalid-syntax
+if user_tier in ["Tier 3", "Tier 4", "Tier 5"]:
     try:
         with open("logs/trace_log.jsonl") as f:
             dream_lines = [json.loads(l) for l in f if l.strip()]
         if dream_lines:
             dream = dream_lines[-1]
             st.markdown("##)  #  🌌 Latest Symbolic Dream"
-            st.write(f"Theme: {dream.get('theme')}")  # noqa: invalid-syntax
-            st.image(  # noqa: invalid-syntax
+            st.write(f"Theme: {dream.get('theme')}")
+            st.image(
                 dream.get(
                     "visual_prompt",
                     "https://lukhasagi.io/media/dream_placeholder.png",
                 )
             )
-            html_url = generate_symbolic_html_url(dream.get("theme", "lukhas_dream"))  # noqa: invalid-syntax
-            st.markdown(f"[🌐 View Full Dream Post]({html_url})")  # noqa: invalid-syntax
-    except Exception as e:  # noqa: invalid-syntax
-        st.warning(f"Dream log load failed: {e}")  # noqa: invalid-syntax
+            html_url = generate_symbolic_html_url(dream.get("theme", "lukhas_dream"))
+            st.markdown(f"[🌐 View Full Dream Post]({html_url})")
+    except Exception as e:
+        st.warning(f"Dream log load failed: {e}")
 
 # Tiered HTML URL + Visual Preview Logic
 
 
-def generate_symbolic_html_url(theme):  # noqa: invalid-syntax
+def generate_symbolic_html_url(theme):
     base_url = "https://lukhasagi.io/posts/"
     return f"{base_url}{theme.replace(' ', '_')}"
 
@@ -87,10 +87,10 @@ def build_publish_payload(latest):
 
 def show_social_post_preview(payload):
     st.markdown("##)  #  🌐 Symbolic Post Preview"
-    st.write(f"**{payload['title']}**")  # noqa: invalid-syntax
-    st.write(payload["summary"])  # noqa: invalid-syntax
-    st.image(payload["prompt"], caption="🖼️ Visual Prompt")  # noqa: invalid-syntax
-    st.markdown(f"[🔗 View Post on LUKHASAGI.io]({payload['html_url']})")  # noqa: invalid-syntax
+    st.write(f"**{payload['title']}**")
+    st.write(payload["summary"])
+    st.image(payload["prompt"], caption="🖼️ Visual Prompt")
+    st.markdown(f"[🔗 View Post on LUKHASAGI.io]({payload['html_url']})")
 
 
 # ─── SYMBOLIC EXPRESSION PREVIEW ────────────────────────────────────────────────
@@ -100,12 +100,12 @@ try:
     if expressions:
         latest = expressions[-1]
         st.markdown("##)  #  🧠 Latest Symbolic Expression"
-        st.write(f"Theme: {latest['theme']}")  # noqa: invalid-syntax
-        st.write(latest["summary"])  # noqa: invalid-syntax
-except Exception as e:  # noqa: invalid-syntax
+        st.write(f"Theme: {latest['theme']}")
+        st.write(latest["summary"])
+except Exception as e:
     st.warning(f"Expression log load failed: {e}")
 
-if st.button("🧠 Generate Symbolic Opinion"):  # noqa: invalid-syntax
+if st.button("🧠 Generate Symbolic Opinion"):
     try:
         with open("logs/expressions/lukhas_expression_log.jsonl") as f:
             lines = f.readlines()
@@ -124,7 +124,7 @@ if st.button("🧠 Generate Symbolic Opinion"):  # noqa: invalid-syntax
         st.error(f"News generation error: {e}")
 
 # ─── ID + TOOLS ────────────────────────────────────────────────────────────────
-st.markdown("---")  # noqa: invalid-syntax
+st.markdown("---")
 st.markdown("🔗 **Your Lukhas_ID**: `lukhas://id/GLYMPS-378XQ9A`")
 st.markdown("🌱 Symbolic ID is tiered and tied to your consent signature.")
 

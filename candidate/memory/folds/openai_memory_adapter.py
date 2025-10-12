@@ -199,10 +199,10 @@ Format as JSON with keys: summary, key_points, emotional_essence, causal_links""
         for i, memory in enumerate(memories):
             memory_texts.append(
                 f"Memory {i + 1} ({memory.get('timestamp', 'unknown time')}): "
-                f"{memory.get('content', memory.get('summary', 'No content')}"  # noqa: invalid-syntax
-            )  # noqa: invalid-syntax
+                f"{memory.get('content', memory.get('summary', 'No content')}"
+            )
 
-        prompt = f"""Synthesize these memories into a coherent narrative:  # noqa: invalid-syntax
+        prompt = f"""Synthesize these memories into a coherent narrative:
 
 {chr(10).join(memory_texts)}
 
@@ -383,7 +383,7 @@ async def demo_memory_adapter():
     # Compress memory
     print("\n1. Compressing memory...")
     compressed = await adapter.compress_memory(memory)
-    print(f"Compression ratio: {compressed.get('compression_ratio', 'N/A')}:.2%}")  # noqa: invalid-syntax
+    print(f"Compression ratio: {compressed.get('compression_ratio', 'N/A')}:.2%}")
     print(f"Compressed: {compressed.get('compressed')}")
 
     # Generate embedding

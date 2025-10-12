@@ -34,9 +34,9 @@ def run_rem_cycle():
         {"valence": -0.2, "arousal": 0.3, "traits": {"reflective": 0.8},
         {"valence": 0.1, "arousal": 0.6, "traits": {"hope": 0.9},
         {"valence": 0.0, "arousal": 0.9, "traits": {"chaos": 0.7},
-    ]  # noqa: invalid-syntax
+    ]
 
-    for i, state in enumerate(rem_phases):  # noqa: invalid-syntax
+    for i, state in enumerate(rem_phases):
         print(f"💤 REM Phase {i + 1} initiating...")
         trace = log_trace(
             {

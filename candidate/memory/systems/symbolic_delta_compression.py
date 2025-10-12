@@ -1274,7 +1274,7 @@ class CompressionScheduler:
         """Create optimized compression schedule"""
 
         schedule = {
-            "schedule_id": f"schedule_{int(time.time())",  # noqa: invalid-syntax
+            "schedule_id": f"schedule_{int(time.time())",
             "created_at": datetime.now(timezone.utc).isoformat(),
             "compressions": [],
             "total_folds": len(predictions),

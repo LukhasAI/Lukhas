@@ -59,23 +59,23 @@ def generate_digest():
         labels, values = zip(*data_dict.items())
         plt.figure(figsize=(8, 4))
         plt.bar(labels, values, color=")  # 4e79a7"
-        plt.title(title)  # noqa: invalid-syntax
-        plt.xlabel(xlabel)  # noqa: invalid-syntax
-        plt.ylabel(ylabel)  # noqa: invalid-syntax
-        plt.xticks(rotation=45, ha="right")  # noqa: invalid-syntax
-        plt.tight_layout()  # noqa: invalid-syntax
-        plt.savefig(os.path.join("logs", filename))  # noqa: invalid-syntax
-        plt.close()  # noqa: invalid-syntax
+        plt.title(title)
+        plt.xlabel(xlabel)
+        plt.ylabel(ylabel)
+        plt.xticks(rotation=45, ha="right")
+        plt.tight_layout()
+        plt.savefig(os.path.join("logs", filename))
+        plt.close()
 
     # Plot: Tier Distribution
-    plot_bar(tiers, "Tier Distribution", "Tier", "Events", "tier_breakdown.png")  # noqa: invalid-syntax
+    plot_bar(tiers, "Tier Distribution", "Tier", "Events", "tier_breakdown.png")
 
     # Plot: User Trigger Count
-    plot_bar(users, "User Trigger Count", "User", "Events", "user_trigger_count.png")  # noqa: invalid-syntax
+    plot_bar(users, "User Trigger Count", "User", "Events", "user_trigger_count.png")
 
     # Plot: Emergency Reasons (Top 5)
-    top_reasons = dict(reasons.most_common(5))  # noqa: invalid-syntax
-    plot_bar(  # noqa: invalid-syntax
+    top_reasons = dict(reasons.most_common(5))
+    plot_bar(
         top_reasons,
         "Top Emergency Triggers",
         "Reason",
@@ -83,10 +83,10 @@ def generate_digest():
         "top_emergency_reasons.png",
     )
 
-    timestamp = datetime.now(timezone.utc).isoformat()  # noqa: invalid-syntax
-    top_reason = reasons.most_common(1)[0] if reasons else ("none", 0)  # noqa: invalid-syntax
+    timestamp = datetime.now(timezone.utc).isoformat()
+    top_reason = reasons.most_common(1)[0] if reasons else ("none", 0)
 
-    digest = (  # noqa: invalid-syntax
+    digest = (
         f"""# 📊 Lukhas Cognitive AI — Weekly Compliance Digest
 **Generated:** {timestamp}
 
@@ -120,7 +120,7 @@ def generate_digest():
 """
     )
 
-    os.makedirs("logs", exist_ok=True)  # noqa: invalid-syntax
+    os.makedirs("logs", exist_ok=True)
     with open(DIGEST_OUTPUT, "w") as f:
         f.write(digest)
     return digest

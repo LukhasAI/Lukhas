@@ -42,7 +42,7 @@ class EnhancedMemoryManager:
         self.visualization_config = VisualizationConfig()
         self.logger.debug("Default MemoryFoldConfig and VisualizationConfig initialized.")
         try:
-            self.qi_oscillator = QIOscillator()  # noqa: F821
+            self.qi_oscillator = QIOscillator()
             self.logger.debug("QIOscillator initialized for MemoryManager.")
         except Exception as e_init:
             self.logger.error(
@@ -62,7 +62,7 @@ class EnhancedMemoryManager:
                 error=str(e_dir),
                 exc_info=True,
             )
-        self.active_folds: dict[str, EnhancedMemoryFold] = {}  # noqa: F821
+        self.active_folds: dict[str, EnhancedMemoryFold] = {}
         try:
             self.visualizer = EnhancedMemoryVisualizer(self.visualization_config)
             self.logger.debug("EnhancedMemoryVisualizer initialized.")
@@ -93,7 +93,7 @@ class EnhancedMemoryManager:
             data_keys=list(memory_data.keys()),
         )
         try:
-            memory_fold = EnhancedMemoryFold(effective_memory_id, self.memory_fold_config)  # noqa: F821
+            memory_fold = EnhancedMemoryFold(effective_memory_id, self.memory_fold_config)
             stored_package = await memory_fold.store(memory_data)
             await self._save_to_disk(effective_memory_id, stored_package)
             self.active_folds[effective_memory_id] = memory_fold
@@ -126,7 +126,7 @@ class EnhancedMemoryManager:
         """
         self.logger.info("Attempting to retrieve memory.", memory_id=memory_id)
         try:
-            memory_fold: Optional[EnhancedMemoryFold] = None  # noqa: F821
+            memory_fold: Optional[EnhancedMemoryFold] = None
             if memory_id in self.active_folds:
                 self.logger.debug("Retrieving memory from active fold.", memory_id=memory_id)
                 memory_fold = self.active_folds[memory_id]
@@ -136,7 +136,7 @@ class EnhancedMemoryManager:
                     memory_id=memory_id,
                 )
                 disk_data_package = await self._load_from_disk(memory_id)
-                memory_fold = EnhancedMemoryFold(memory_id, self.memory_fold_config)  # noqa: F821
+                memory_fold = EnhancedMemoryFold(memory_id, self.memory_fold_config)
                 memory_fold.state["classical_state"] = disk_data_package.get("data")
                 memory_fold.state["qi_like_state"] = disk_data_package.get("metadata", {}).get("qi_like_state")
                 memory_fold.state["entanglements"] = set(disk_data_package.get("metadata", {}).get("entanglements", []))
@@ -349,7 +349,7 @@ class EnhancedMemoryManager:
         self.visualization_config = VisualizationConfig()
         self.logger.debug("Default MemoryFoldConfig and VisualizationConfig initialized.")
         try:
-            self.qi_oscillator = QIOscillator()  # noqa: F821
+            self.qi_oscillator = QIOscillator()
             self.logger.debug("QIOscillator initialized for MemoryManager.")
         except Exception as e_init:
             self.logger.error(
@@ -369,7 +369,7 @@ class EnhancedMemoryManager:
                 error=str(e_dir),
                 exc_info=True,
             )
-        self.active_folds: dict[str, EnhancedMemoryFold] = {}  # noqa: F821
+        self.active_folds: dict[str, EnhancedMemoryFold] = {}
         try:
             self.visualizer = EnhancedMemoryVisualizer(self.visualization_config)
             self.logger.debug("EnhancedMemoryVisualizer initialized.")
@@ -400,7 +400,7 @@ class EnhancedMemoryManager:
             data_keys=list(memory_data.keys()),
         )
         try:
-            memory_fold = EnhancedMemoryFold(effective_memory_id, self.memory_fold_config)  # noqa: F821
+            memory_fold = EnhancedMemoryFold(effective_memory_id, self.memory_fold_config)
             stored_package = await memory_fold.store(memory_data)
             await self._save_to_disk(effective_memory_id, stored_package)
             self.active_folds[effective_memory_id] = memory_fold
@@ -433,7 +433,7 @@ class EnhancedMemoryManager:
         """
         self.logger.info("Attempting to retrieve memory.", memory_id=memory_id)
         try:
-            memory_fold: Optional[EnhancedMemoryFold] = None  # noqa: F821
+            memory_fold: Optional[EnhancedMemoryFold] = None
             if memory_id in self.active_folds:
                 self.logger.debug("Retrieving memory from active fold.", memory_id=memory_id)
                 memory_fold = self.active_folds[memory_id]
@@ -443,7 +443,7 @@ class EnhancedMemoryManager:
                     memory_id=memory_id,
                 )
                 disk_data_package = await self._load_from_disk(memory_id)
-                memory_fold = EnhancedMemoryFold(memory_id, self.memory_fold_config)  # noqa: F821
+                memory_fold = EnhancedMemoryFold(memory_id, self.memory_fold_config)
                 memory_fold.state["classical_state"] = disk_data_package.get("data")
                 memory_fold.state["qi_like_state"] = disk_data_package.get("metadata", {}).get("qi_like_state")
                 memory_fold.state["entanglements"] = set(disk_data_package.get("metadata", {}).get("entanglements", []))

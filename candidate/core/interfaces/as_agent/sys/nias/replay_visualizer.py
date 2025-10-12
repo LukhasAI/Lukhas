@@ -70,23 +70,23 @@ def visualize_replays(limit=10):
             emoji = TIER_EMOJI.get(str(dream.get("tier")), "•")
             print(f"\n🌀 {dream.get('timestamp')} | ID: {dream.get('message_id')}")
             print(f"   Tier: {dream.get('tier')} {emoji} | Widget: {dream.get('source_widget')}")
-            print(f"   Tags: {', '.join(dream.get('tags', [])}")  # noqa: invalid-syntax
+            print(f"   Tags: {', '.join(dream.get('tags', [])}")
             ev = dream.get("emotion_vector", {})
-            print(  # noqa: invalid-syntax
+            print(
                 "   Emotions →",
-                " | ".join(f"{k.capitalize()}: {color_emotion(v, k)}" for k, v in ev.items()},  # noqa: invalid-syntax
+                " | ".join(f"{k.capitalize()}: {color_emotion(v, k)}" for k, v in ev.items()},
             )
-            print(f"   Emoji: {dream.get('emoji')} | Notes: {dream.get('notes')}")  # noqa: invalid-syntax
-            tag_counter.update(dream.get("tags", []))  # noqa: invalid-syntax
-            emoji = dream.get("emoji")  # noqa: invalid-syntax
-            if emoji:  # noqa: invalid-syntax
-                emoji_counter[emoji] += 1  # noqa: invalid-syntax
-        except Exception as e:  # noqa: invalid-syntax
-            print("❌ Could not parse dream entry:", e)  # noqa: invalid-syntax
+            print(f"   Emoji: {dream.get('emoji')} | Notes: {dream.get('notes')}")
+            tag_counter.update(dream.get("tags", []))
+            emoji = dream.get("emoji")
+            if emoji:
+                emoji_counter[emoji] += 1
+        except Exception as e:
+            print("❌ Could not parse dream entry:", e)
 
-    print("\n🔖 Top Tags:", dict(tag_counter.most_common(5)))  # noqa: invalid-syntax
-    print("🌈 Emoji Distribution:", dict(emoji_counter.most_common(5)))  # noqa: invalid-syntax
+    print("\n🔖 Top Tags:", dict(tag_counter.most_common(5)))
+    print("🌈 Emoji Distribution:", dict(emoji_counter.most_common(5)))
 
 
-if __name__ == "__main__":  # noqa: invalid-syntax
-    visualize_replays(limit=10)  # noqa: invalid-syntax
+if __name__ == "__main__":
+    visualize_replays(limit=10)

@@ -611,14 +611,14 @@ if __name__ == "__main__":
         is_health_information=True,
         state_territory=AustralianJurisdiction.VICTORIA,
         involves_overseas_disclosure=False,
-        consent=GlobalConsentData(  # noqa: F821
+        consent=GlobalConsentData(
             data_subject_id="au_test_001",
             jurisdictions=[Jurisdiction.AU],
             purposes=["healthcare"],
             legal_basis=LegalBasis.CONSENT,
             consent_given=True,
         ),
-        processing_record=InstitutionalProcessingRecord(  # noqa: F821
+        processing_record=InstitutionalProcessingRecord(
             purposes=["healthcare"],
             legal_basis=LegalBasis.CONSENT,
             data_categories=[DataCategory.HEALTH_DATA],

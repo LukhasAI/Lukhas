@@ -676,7 +676,7 @@ class AdvancedAnonymizationEngine:
             return value
 
         hierarchy = attr_def.generalization_hierarchy
-        level_key = f"level_{min(level, len(hierarchy)}"  # noqa: invalid-syntax
+        level_key = f"level_{min(level, len(hierarchy)}"
 
         if level_key not in hierarchy:
             return value
@@ -751,7 +751,7 @@ class AdvancedAnonymizationEngine:
 
             diversified_dataset.extend(group_records)
 
-        return diversified_dataset, {"l_achieved": int(min_l_achieved) if min_l_achieved != float("inf")} else 0}  # noqa: invalid-syntax
+        return diversified_dataset, {"l_achieved": int(min_l_achieved) if min_l_achieved != float("inf")} else 0}
 
     async def _enhance_diversity(
         self, group_records: list[dict[str, Any]], sensitive_attr: str, target_l: int

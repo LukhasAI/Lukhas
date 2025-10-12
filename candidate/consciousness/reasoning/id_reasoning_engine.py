@@ -760,7 +760,7 @@ if __name__ == "__main__":
         """Demonstrate Lukhas_ID system capabilities"""
 
         # Initialize system with EU compliance
-        Lukhas_ID = LukhosIDManager(ComplianceRegion.EU)  # noqa: F821
+        Lukhas_ID = LukhosIDManager(ComplianceRegion.EU)
 
         # Register a new user
         user_data = {

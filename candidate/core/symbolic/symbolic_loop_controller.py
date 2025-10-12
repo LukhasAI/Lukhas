@@ -389,7 +389,7 @@ async def ground_symbol(symbol: str, context: Optional[dict[str, Any]] = None) -
     return await controller.process_symbolic_term(
         SymbolicTerm.GROUND,
         "system",  # System-level grounding
-        {"symbol": symbol, "context": context or {},  # noqa: invalid-syntax
+        {"symbol": symbol, "context": context or {},
     )
 
 

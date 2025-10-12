@@ -33,7 +33,7 @@ try:
     OPENAI_AVAILABLE = True
 except ImportError:
     OPENAI_AVAILABLE = False
-    logger.warning("OpenAI not available, install with: pip install openai")  # noqa: F821
+    logger.warning("OpenAI not available, install with: pip install openai")
 
 logger = logging.getLogger(__name__)
 

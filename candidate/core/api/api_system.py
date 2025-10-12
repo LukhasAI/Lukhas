@@ -1,4 +1,4 @@
-log = logging.getLogger(__name__)  # noqa: F821
+log = logging.getLogger(__name__)
 """
 LUKHAS Enhanced API System
 Unified API with proper authentication, service integration, and error handling

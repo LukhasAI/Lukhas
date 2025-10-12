@@ -13,7 +13,7 @@ from lukhas.emotion_mapper import map_emotion  # optional emotion extractor
 
 def speak(text):
     if not text:
-        text = f"Hello, I am Lukhas. {lukhas_profile['motto']}"  # noqa: F821
+        text = f"Hello, I am Lukhas. {lukhas_profile['motto']}"
 
     ...
 

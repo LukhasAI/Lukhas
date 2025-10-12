@@ -9,7 +9,7 @@ import json
 
 def validate_compliance(image_path: str) -> bool:
     with open(image_path, "rb") as f:
-        exif_data = ExifImage(f)  # noqa: F821
+        exif_data = ExifImage(f)
     metadata = json.loads(exif_data.user_comment.decode())
     return all(
         [

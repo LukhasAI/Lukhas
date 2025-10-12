@@ -23,27 +23,27 @@ from pathlib import Path
 DATA_PATH = Path("core/sample_payloads/sample_payload_batch_dreams.json")
 EXPORT_PATH = Path("exports/filtered_dreams_export.jsonl")
 
-st.set_page_config(page_title="LUCΛS Dream Export", page_icon="🌙")  # noqa: F821
-st.title("🌙 Symbolic Dream Export Panel")  # noqa: F821
+st.set_page_config(page_title="LUCΛS Dream Export", page_icon="🌙")
+st.title("🌙 Symbolic Dream Export Panel")
 
 # Load dreams
 if DATA_PATH.exists():
     with open(DATA_PATH) as f:
         dreams = [json.loads(line) for line in f if line.strip()]
 else:
-    st.error("Dream payload file not found.")  # noqa: F821
-    st.stop()  # noqa: F821
+    st.error("Dream payload file not found.")
+    st.stop()
 
 # Filter controls
-st.sidebar.header("🔍 Filter Dreams")  # noqa: F821
+st.sidebar.header("🔍 Filter Dreams")
 all_tags = sorted({tag for d in dreams for tag in d.get("tags", [])})
 all_emojis = sorted({d.get("emoji") for d in dreams if "emoji" in d})
 tiers = sorted({d.get("tier") for d in dreams if "tier" in d})
 
-selected_tiers = st.sidebar.multiselect("Filter by Tier", tiers)  # noqa: F821
-selected_tags = st.sidebar.multiselect("Filter by Tags", all_tags)  # noqa: F821
-selected_emojis = st.sidebar.multiselect("Filter by Emoji", all_emojis)  # noqa: F821
-filter_voice = st.sidebar.checkbox("Only dreams marked for narration (suggest_voice)", value=True)  # noqa: F821
+selected_tiers = st.sidebar.multiselect("Filter by Tier", tiers)
+selected_tags = st.sidebar.multiselect("Filter by Tags", all_tags)
+selected_emojis = st.sidebar.multiselect("Filter by Emoji", all_emojis)
+filter_voice = st.sidebar.checkbox("Only dreams marked for narration (suggest_voice)", value=True)
 
 # Apply filters
 filtered = [
@@ -55,13 +55,13 @@ filtered = [
     and (not filter_voice or d.get("suggest_voice"))
 ]
 
-st.success(f"{len(filtered)} dreams match your filters.")  # noqa: F821
-st.json(filtered[:3], expanded=False)  # noqa: F821
+st.success(f"{len(filtered)} dreams match your filters.")
+st.json(filtered[:3], expanded=False)
 
 # Export
-if st.button("📤 Export Filtered Dreams"):  # noqa: F821
+if st.button("📤 Export Filtered Dreams"):
     EXPORT_PATH.parent.mkdir(parents=True, exist_ok=True)
     with open(EXPORT_PATH, "w") as f:
         for d in filtered:
             f.write(json.dumps(d) + "\n")
-    st.success(f"Exported to {EXPORT_PATH}")  # noqa: F821
+    st.success(f"Exported to {EXPORT_PATH}")

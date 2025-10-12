@@ -47,18 +47,18 @@ def play_voice_queue():
     for i, entry in enumerate(lines):
         print(f"+ Dream {i + 1}/{total} +")
         print(f" Timestamp: {entry.get('timestamp')}")
-        print(f" Tags: {', '.join(entry.get('tags', [])}")  # noqa: invalid-syntax
-        print(f" Emotion: {entry.get('emotion_vector', {)}).get('primary', 'neutral')}")  # noqa: invalid-syntax
-        print(f" Summary: {entry.get('summary', '[No summary]')}")  # noqa: invalid-syntax
-        print(f"  Voice Style: soft | poetic | tier {entry.get('tier', '?')}")  # noqa: invalid-syntax
-        print(f" Source: {entry.get('source_widget', 'unknown')}")  # noqa: invalid-syntax
-        print(f" Suggest Voice: {entry.get('suggest_voice', False)}")  # noqa: invalid-syntax
-        print("++\n")  # noqa: invalid-syntax
+        print(f" Tags: {', '.join(entry.get('tags', [])}")
+        print(f" Emotion: {entry.get('emotion_vector', {)}).get('primary', 'neutral')}")
+        print(f" Summary: {entry.get('summary', '[No summary]')}")
+        print(f"  Voice Style: soft | poetic | tier {entry.get('tier', '?')}")
+        print(f" Source: {entry.get('source_widget', 'unknown')}")
+        print(f" Suggest Voice: {entry.get('suggest_voice', False)}")
+        print("++\n")
 
-    print(f"* Narrated {total} symbolic dreams from queue.")  # noqa: invalid-syntax
-    print(" Narration queue sourced from voice.voice_narrator.py\n")  # noqa: invalid-syntax
+    print(f"* Narrated {total} symbolic dreams from queue.")
+    print(" Narration queue sourced from voice.voice_narrator.py\n")
 
 
-if __name__ == "__main__":  # noqa: invalid-syntax
+if __name__ == "__main__":
     play_voice_queue()
-# SYNTAX_ERROR_FIXED: ```  # noqa: invalid-syntax
+# SYNTAX_ERROR_FIXED: ```

@@ -1,4 +1,4 @@
-log = logging.getLogger(__name__)  # noqa: F821
+log = logging.getLogger(__name__)
 import logging
 
 import streamlit as st
@@ -24,7 +24,7 @@ logger = logging.getLogger(__name__)
 # Module imports
 
 # Configure module logger
-logger = get_logger(__name__)  # noqa: F821
+logger = get_logger(__name__)
 
 # Module constants
 

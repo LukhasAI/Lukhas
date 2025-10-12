@@ -290,34 +290,34 @@ class LukhasDASTEngine:
             prioritized = self._ai_prioritize_tasks(tasks)
 
             collaboration_result["ai_suggestions"] = [
-                f"Focus on {min(5, len(prioritized)} high-priority tasks first",  # noqa: invalid-syntax
+                f"Focus on {min(5, len(prioritized)} high-priority tasks first",
                 "Consider batching similar tasks for efficiency",
                 "Schedule critical tasks during peak hours",
-            ]  # noqa: invalid-syntax
+            ]
 
-            if prioritized:  # noqa: invalid-syntax
-                collaboration_result["collaborative_plan"] = {  # noqa: invalid-syntax
+            if prioritized:
+                collaboration_result["collaborative_plan"] = {
                     "immediate_focus": [t.title for t in prioritized[:3]],
                     "this_week": [t.title for t in prioritized[3:8]],
                     "backlog": [t.title for t in prioritized[8:]],
                 }
 
-        elif "review" in request.lower():  # noqa: invalid-syntax
+        elif "review" in request.lower():
             # AI-assisted review
-            collaboration_result["ai_suggestions"] = [  # noqa: invalid-syntax
+            collaboration_result["ai_suggestions"] = [
                 "Some tasks may need priority adjustment",
                 "Consider breaking down complex tasks",
                 "Dependencies should be addressed first",
             ]
-        else:  # noqa: invalid-syntax
+        else:
             # General assistance
-            collaboration_result["ai_suggestions"] = [  # noqa: invalid-syntax
+            collaboration_result["ai_suggestions"] = [
                 "I can help you prioritize, plan, and track your tasks",
                 "Try asking me to 'plan your sprint' or 'review priorities'",
                 "I use AI to optimize your workflow automatically",
             ]
 
-        collaboration_result["reasoning"] = "AI analysis based on current task load and priorities"  # noqa: invalid-syntax
+        collaboration_result["reasoning"] = "AI analysis based on current task load and priorities"
 
         self._record_operation_time(time.time() - start_time)
         return collaboration_result
@@ -326,7 +326,7 @@ class LukhasDASTEngine:
     # 🤖 AI-POWERED INTELLIGENCE LAYER
     # ========================================
 
-    async def _ai_create_task(self, request: str, context: dict) -> Task:  # noqa: invalid-syntax
+    async def _ai_create_task(self, request: str, context: dict) -> Task:
         """AI-powered task creation with intelligent analysis"""
 
         # Generate unique task ID
@@ -375,9 +375,9 @@ class LukhasDASTEngine:
                     {
                         "title": request,
                         "description": request,
-                        "context": context,  # noqa: invalid-syntax
-                    )}  # noqa: invalid-syntax
-                )  # noqa: invalid-syntax
+                        "context": context,
+                    )}
+                )
             except BaseException:
                 pass  # Fallback to simple analysis
 
@@ -745,7 +745,7 @@ class LukhasDASTEngine:
 
 
 # Global DAST engine instance
-_dast_engine = None  # noqa: invalid-syntax
+_dast_engine = None
 
 
 def get_dast_engine() -> LukhasDASTEngine:

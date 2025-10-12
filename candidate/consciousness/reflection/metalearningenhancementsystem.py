@@ -121,7 +121,7 @@ class MetaLearningEnhancementsystem:
 
         # System state and integration tracking
         self.enhanced_systems: list[Any] = []
-        self.integration_status = SystemIntegrationStatus(  # noqa: F821
+        self.integration_status = SystemIntegrationStatus(
             meta_learning_systems_found=0,
             systems_enhanced=0,
             monitoring_active=False,
@@ -1077,7 +1077,7 @@ async def initialize_meta_learning_enhancement(
     enhancement_mode: EnhancementMode = EnhancementMode.OPTIMIZATION_ACTIVE,
     enable_federation: bool = False,
     auto_discover: bool = True,
-) -> MetaLearningEnhancementSystem:  # noqa: F821
+) -> MetaLearningEnhancementSystem:
     """
     Initialize the Meta-Learning Enhancement System for LUKHAS
 
@@ -1088,7 +1088,7 @@ async def initialize_meta_learning_enhancement(
     logger.info(f"Initializing Meta-Learning Enhancement System for {node_id}")
 
     # Create enhancement system
-    enhancement_system = MetaLearningEnhancementSystem(  # noqa: F821
+    enhancement_system = MetaLearningEnhancementSystem(
         node_id=node_id,
         enhancement_mode=enhancement_mode,
         enable_federation=enable_federation,

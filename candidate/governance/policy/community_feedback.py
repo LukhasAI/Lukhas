@@ -25,5 +25,5 @@ def save_rules(rules: dict) -> None:
 
 def apply_proposal(execution_data: dict) -> None:
     load_rules()
-rules.update(execution_data)  # noqa: F821
-save_rules(rules)  # noqa: F821
+rules.update(execution_data)
+save_rules(rules)

@@ -52,8 +52,8 @@ except ImportError:
    class _MockChoiceContent:
         content: str = "Placeholder GPT reflection: System is processing symbols effectively."
 
-    @dataclass  # noqa: invalid-syntax
-    class _MockMessage:  # noqa: invalid-syntax
+    @dataclass
+    class _MockMessage:
         message: _MockChoiceContent = field(default_factory=_MockChoiceContent)
 
     @dataclass
@@ -113,7 +113,7 @@ else:  # Library present, key missing
 LUKHAS_GPT_REFLECTION_FUNCTION_TIER = 2
 
 
-def generate_gpt_reflection(:  # noqa: invalid-syntax
+def generate_gpt_reflection(:
     traits_summary: Optional[str] = None, recent_reflections: Optional[str] = None,
     model_to_use: str = "gpt-4-turbo-preview", max_tokens_for_response: int = 700,  # Increased tokens
     temperature_for_generation: float = 0.68  # Slightly adjusted temperature

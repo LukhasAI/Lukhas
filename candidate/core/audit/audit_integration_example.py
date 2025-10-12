@@ -7,16 +7,16 @@ import asyncio
 from datetime import datetime
 from typing import Any
 
-from lukhas.core.audit import (  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for core infrastructure (review and implement)  # noqa: invalid-syntax
+from lukhas.core.audit import (  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for core infrastructure (review and implement)
 from datetime import timezone
-    AuditEventType,  # noqa: invalid-syntax
+    AuditEventType,
     AuditSeverity,
     audit_decision,
     audit_learning,
     audit_operation,
     audit_security,
     get_audit_trail,
-)  # noqa: invalid-syntax
+)
 
 
 class AuditedMemorySystem:

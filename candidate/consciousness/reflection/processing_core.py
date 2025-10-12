@@ -45,13 +45,13 @@ from typing import Any, Optional
 import numpy as np
 
 from lukhas.core.common import get_logger
-from qi.bio.awareness.advanced_quantum_bio import (  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for core infrastructure (review and implement)  # noqa: invalid-syntax
+from qi.bio.awareness.advanced_quantum_bio import (  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for core infrastructure (review and implement)
 from datetime import timezone
-    MitochondrialQIBridge,  # noqa: invalid-syntax
+    MitochondrialQIBridge,
     NeuroplasticityModulator,
-    QISynapticGate)  # noqa: invalid-syntax
+    QISynapticGate)
 
-logger = get_logger(__name__)  # noqa: invalid-syntax
+logger = get_logger(__name__)
 
 
 class QIProcessingCore:

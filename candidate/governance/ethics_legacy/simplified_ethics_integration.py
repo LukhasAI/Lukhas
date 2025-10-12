@@ -65,7 +65,7 @@ class SimplifiedEthicsIntegration:
         Evaluate the ethical implications of an action.
         """
         try:
-            decision_id = f"eth_dec_{int(datetime.now(timezone.utc).timestamp()}"  # noqa: invalid-syntax
+            decision_id = f"eth_dec_{int(datetime.now(timezone.utc).timestamp()}"
 
             result = {
                 "decision_id": decision_id,
@@ -77,9 +77,9 @@ class SimplifiedEthicsIntegration:
                 "reasoning": [],
             }
 
-            # MEG evaluation if available  # noqa: invalid-syntax
-            if self.meg and hasattr(self.meg, "evaluate_action"):  # noqa: invalid-syntax
-                try:  # noqa: invalid-syntax
+            # MEG evaluation if available
+            if self.meg and hasattr(self.meg, "evaluate_action"):
+                try:
                     meg_result = await self.meg.evaluate_action(action, context)
                     result["meg_evaluation"] = meg_result
                     result["reasoning"].append("MEG evaluation completed")
@@ -88,7 +88,7 @@ class SimplifiedEthicsIntegration:
                     result["reasoning"].append("MEG evaluation failed - using fallback")
 
             # Basic ethical checks
-            result["reasoning"].append("Basic ethical validation completed")  # noqa: invalid-syntax
+            result["reasoning"].append("Basic ethical validation completed")
 
             # Log decision
             self.decision_history.append(result)
@@ -97,11 +97,11 @@ class SimplifiedEthicsIntegration:
             logger.info(f"Ethics evaluation completed: {decision_id}")
             return result
 
-        except Exception as e:  # noqa: invalid-syntax
-            logger.error(f"Ethics evaluation failed: {e}")  # noqa: invalid-syntax
+        except Exception as e:
+            logger.error(f"Ethics evaluation failed: {e}")
             return {"status": "error", "error": str(e), "decision_id": None}
 
-    async def monitor_system_ethics(self) -> dict[str, Any]:  # noqa: invalid-syntax
+    async def monitor_system_ethics(self) -> dict[str, Any]:
         """
         Monitor overall system ethical health.
         """
@@ -140,7 +140,7 @@ class SimplifiedEthicsIntegration:
 
 
 # Global instance
-_ethics_integration_instance = None  # noqa: invalid-syntax
+_ethics_integration_instance = None
 
 
 def get_ethics_integration() -> SimplifiedEthicsIntegration:

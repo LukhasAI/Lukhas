@@ -131,7 +131,7 @@ class CognitiveState:
 class EnhancedCreativeState:
     """Enhanced creative state with bio-cognitive enhancements."""
 
-    base_state: "CreativeQuantumLikeState"  # noqa: F821
+    base_state: "CreativeQuantumLikeState"
     cognitive_enhancement: CognitiveState
     synaptic_plasticity: float
     creative_flow_intensity: float

@@ -21,7 +21,7 @@ def _require_enabled(x_api_key: Optional[str]):
             get_flags,  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for API expansion (document or implement)
         )
 
-        if not Flags.get("OPS_PERF_INGEST", default=False):  # noqa: F821
+        if not Flags.get("OPS_PERF_INGEST", default=False):
             raise HTTPException(status_code=404, detail="Perf ingest disabled")
     except ImportError:
         # Fallback to env var if flags module not available

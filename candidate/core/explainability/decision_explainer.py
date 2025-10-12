@@ -130,8 +130,8 @@ class DecisionExplanation:
                     "",
                     "System State:",
                     f"  Hormonal Profile: {self._format_hormonal_state()}",
-                    f"  Active Tags: {', '.join(sorted(self.relevant_tags}[:5])}",  # noqa: invalid-syntax
-                ]  # noqa: invalid-syntax
+                    f"  Active Tags: {', '.join(sorted(self.relevant_tags}[:5])}",
+                ]
             )
 
             return "\n".join(parts)
@@ -536,7 +536,7 @@ class DecisionExplainer:
         if outcome.get("confidence", 1.0) < 0.7:
             steps.append("Identified uncertainties and adjusted confidence")
 
-        steps.append(f"Selected best option with {outcome.get('confidence', 0.5)}:.0%} confidence")  # noqa: invalid-syntax
+        steps.append(f"Selected best option with {outcome.get('confidence', 0.5)}:.0%} confidence")
 
         return steps
 
@@ -554,7 +554,7 @@ class DecisionExplainer:
 
                 # Simple comparison logic
                 if alt.get("score", 0) < outcome.get("score", 1):
-                    reason = f"Lower overall score ({alt.get('score', 0)}:.0%})"  # noqa: invalid-syntax
+                    reason = f"Lower overall score ({alt.get('score', 0)}:.0%})"
                 elif alt.get("risk", 0) > context.get("risk_tolerance", 0.5):
                     reason = "Risk level exceeded acceptable threshold"
                 elif alt.get("ethical_score", 1) < 0.5:
