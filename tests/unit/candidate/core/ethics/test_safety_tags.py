@@ -16,31 +16,32 @@ Task 13: Comprehensive testing for Safety Tags including:
 #TAG:testing
 """
 
-import pytest
 import time
 from unittest.mock import Mock, patch
 
+import pytest
+
 # Import test targets
 try:
+    from lukhas.core.ethics.logic.dsl_lite import (
+        has_category,
+        has_tag,
+        high_risk_tag_combination,
+        requires_human_for_tags,
+        tag_confidence,
+    )
     from lukhas.core.ethics.safety_tags import (
+        ExternalCallDetector,
+        FinancialDetector,
+        GDPRDetector,
+        ModelSwitchDetector,
+        PIIDetector,
+        PrivilegeEscalationDetector,
         SafetyTag,
         SafetyTagCategory,
         SafetyTagEnricher,
         TaggedPlan,
-        PIIDetector,
-        FinancialDetector,
-        ModelSwitchDetector,
-        ExternalCallDetector,
-        PrivilegeEscalationDetector,
-        GDPRDetector,
-        create_safety_tag_enricher
-    )
-    from lukhas.core.ethics.logic.dsl_lite import (
-        has_tag,
-        has_category,
-        tag_confidence,
-        requires_human_for_tags,
-        high_risk_tag_combination
+        create_safety_tag_enricher,
     )
     SAFETY_TAGS_AVAILABLE = True
 except ImportError:

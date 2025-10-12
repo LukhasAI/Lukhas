@@ -15,7 +15,7 @@ import pytest
 # Import module for integration testing
 try:
     pass  #     pass  #
-    import demos
+    import demos  # noqa: F401  # TODO: demos; consider using importli...
 except ImportError:
     pytest.skip("Module demos not available", allow_module_level=True)
 

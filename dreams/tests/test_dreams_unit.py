@@ -15,7 +15,7 @@ import pytest
 # Import module components
 try:
     pass  #     pass  #
-    import dreams
+    import dreams  # noqa: F401  # TODO: dreams; consider using importl...
 except ImportError:
     pytest.skip("Module dreams not available", allow_module_level=True)
 

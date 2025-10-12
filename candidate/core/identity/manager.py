@@ -29,9 +29,8 @@ import json
 import logging
 import time
 import uuid
-from collections import deque
 from datetime import datetime, timezone
-from typing import Any, Dict, Optional
+from typing import Any, Dict
 
 # Guardian system integration for ethical identity management
 try:

@@ -23,12 +23,11 @@ Version: 1.0.0
 
 import logging
 import os
-import time
 import threading
-from datetime import datetime, timezone, timedelta
-from enum import Enum
 from dataclasses import dataclass
-from typing import Dict, Any, Optional, List, Callable
+from datetime import datetime, timedelta, timezone
+from enum import Enum
+from typing import Any, Dict, Optional
 
 logger = logging.getLogger(__name__)
 

@@ -1,5 +1,6 @@
 """Bridge: aka_qualia  canonical surface for qualia research components."""
 from __future__ import annotations
+
 from lukhas._bridgeutils import bridge_from_candidates, safe_guard
 
 __all__, _exp = bridge_from_candidates(

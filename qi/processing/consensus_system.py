@@ -26,9 +26,6 @@ Licensed under the LUKHAS Enterprise License.
 
 For documentation and support: https://lukhas.ai/docs
 """
-from consciousness.qi import qi
-from typing import List
-import streamlit as st
 
 __module_name__ = "Quantum Quantum Consensus System Enhanced"
 __version__ = "2.0.0"

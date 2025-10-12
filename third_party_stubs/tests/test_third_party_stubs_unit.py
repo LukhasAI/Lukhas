@@ -15,7 +15,7 @@ import pytest
 # Import module components
 try:
     pass  #     pass  #
-    import third_party_stubs
+    import third_party_stubs  # noqa: F401  # TODO: third_party_stubs; consider us...
 except ImportError:
     pytest.skip("Module third_party_stubs not available", allow_module_level=True)
 

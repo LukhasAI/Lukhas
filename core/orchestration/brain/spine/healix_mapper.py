@@ -148,4 +148,4 @@ class HealixMapper:
 
 
 # Additional methods and logic can be added as needed.
-bre
+bre  # noqa: F821  # TODO: bre

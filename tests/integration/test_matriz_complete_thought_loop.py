@@ -537,8 +537,7 @@ class TestMATRIZCompleteThoughtLoop:
 
 # Property-based testing for edge cases
 try:
-    from hypothesis import given
-    from hypothesis import strategies as st
+    from hypothesis import given, strategies as st
 
     class TestThoughtLoopPropertyBased:
         """Property-based tests for thought loop edge cases."""

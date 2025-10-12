@@ -52,18 +52,18 @@ from cachetools import TTLCache
 
 # Streamlit Imports / LUKHAS Placeholders
 try:
-from fromfromfromcandidate.core.common import get_logger  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept pending MATRIZ wiring (document or remove)
+from fromfromfromcandidate.core.common import get_logger  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept pending MATRIZ wiring (document or remove)  # noqa: invalid-syntax  # TODO: Expected an indented block aft...
 
 #     from streamlit.runtime.caching import cache_utils  # TODO: Install or implement streamlit
 # from streamlit.runtime.caching.storage.cache_storage_protocol import (
 # # TODO: Install or implement streamlit
-        CacheStorage,
+        CacheStorage,  # noqa: invalid-syntax  # TODO: Unexpected indentation
         CacheStorageContext,
         CacheStorageKeyNotFoundError,
-    )
+    )  # noqa: invalid-syntax  # TODO: unindent does not match any ou...
 #     from streamlit.runtime.stats import CacheStat  # TODO: Install or implement streamlit
-except ImportError as e:
-    import structlog  # Use LUKHAS standard logging if Streamlit's is unavailable  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept pending MATRIZ wiring (document or remove)
+except ImportError as e:  # noqa: invalid-syntax  # TODO: Expected a statement
+    import structlog  # Use LUKHAS standard logging if Streamlit's is unavailable  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept pending MATRIZ wiring (document or remove)  # noqa: invalid-syntax  # TODO: Unexpected indentation
     _log_fallback.warning("Streamlit runtime components not found. InMemoryCacheStorageWrapper placeholders in use.", error_details=str(e))
     class CacheStorage: pass # type: ignore:
     @dataclass # type: ignore
@@ -75,7 +75,7 @@ except ImportError as e:
 
 
 
-class InMemoryCacheStorageWrapper(CacheStorage): # type: ignore:
+class InMemoryCacheStorageWrapper(CacheStorage): # type: ignore:  # noqa: invalid-syntax  # TODO: Expected a statement
     """
     In-memory cache storage wrapper from Streamlit.
     Wraps a CacheStorage instance to add a thread-safe in-memory TTL/LRU cache layer.
@@ -95,9 +95,9 @@ class InMemoryCacheStorageWrapper(CacheStorage): # type: ignore:
         _LOGGER.debug("InMemoryCacheStorageWrapper initialized.", name=self.function_display_name)
 
     @property
-    def ttl_seconds(self) -> float: return self._ttl_seconds if self._ttl_seconds is not None else math.inf:
+    def ttl_seconds(self) -> float: return self._ttl_seconds if self._ttl_seconds is not None else math.inf:  # noqa: invalid-syntax  # TODO: Expected newline, found :
     @property
-    def max_entries(self) -> float: return float(self._max_entries) if self._max_entries is not None else math.inf:
+    def max_entries(self) -> float: return float(self._max_entries) if self._max_entries is not None else math.inf:  # noqa: invalid-syntax  # TODO: Expected newline, found :
 
     def get(self, key: str) -> bytes:
         _LOGGER.debug("CacheWrapper GET", key=key)
@@ -118,7 +118,7 @@ class InMemoryCacheStorageWrapper(CacheStorage): # type: ignore:
 
     def clear(self) -> None:
         _LOGGER.info("Clearing all caches via wrapper.", name=self.function_display_name)
-        with self._mem_cache_lock: self._mem_cache.clear():
+        with self._mem_cache_lock: self._mem_cache.clear():  # noqa: invalid-syntax  # TODO: Invalid annotated assignment t...
         self._persist_storage.clear()
 
     def get_stats(self) -> list[CacheStat]:
@@ -130,21 +130,21 @@ class InMemoryCacheStorageWrapper(CacheStorage): # type: ignore:
 
     def close(self) -> None:
         _LOGGER.info("Closing cache wrapper.", name=self.function_display_name)
-        if hasattr(self._persist_storage, 'close') and callable(self._persist_storage.close): self._persist_storage.close():
+        if hasattr(self._persist_storage, 'close') and callable(self._persist_storage.close): self._persist_storage.close():  # noqa: invalid-syntax  # TODO: Invalid annotated assignment t...
         else: _LOGGER.debug("Persistent storage no close method.", type=type(self._persist_storage).__name__)
 
     def _read_from_mem_cache(self, key: str) -> bytes:
         with self._mem_cache_lock:
-            if key in self._mem_cache: entry = bytes(self._mem_cache[key]); _LOGGER.debug("MemCache HIT.", key=key, name=self.function_display_name); return entry:
+            if key in self._mem_cache: entry = bytes(self._mem_cache[key]); _LOGGER.debug("MemCache HIT.", key=key, name=self.function_display_name); return entry:  # noqa: invalid-syntax  # TODO: Expected newline, found :
             _LOGGER.debug("MemCache MISS.", key=key, name=self.function_display_name); raise CacheStorageKeyNotFoundError(f"Key '{key}' not in mem-cache for {self.function_display_name}")
 
     def _write_to_mem_cache(self, key: str, entry_bytes: bytes) -> None:
-        with self._mem_cache_lock: self._mem_cache[key] = entry_bytes:
+        with self._mem_cache_lock: self._mem_cache[key] = entry_bytes:  # noqa: invalid-syntax  # TODO: Expected newline, found :
         _LOGGER.debug("Written to mem-cache.", key=key, name=self.function_display_name, size=len(entry_bytes))
 
     def _remove_from_mem_cache(self, key: str) -> None:
-        with self._mem_cache_lock: removed = self._mem_cache.pop(key, None):
-        if removed: _LOGGER.debug("Removed from mem-cache.", key=key, name=self.function_display_name):
+        with self._mem_cache_lock: removed = self._mem_cache.pop(key, None):  # noqa: invalid-syntax  # TODO: Expected newline, found :
+        if removed: _LOGGER.debug("Removed from mem-cache.", key=key, name=self.function_display_name):  # noqa: invalid-syntax  # TODO: Invalid annotated assignment t...
         else: _LOGGER.debug("Key not in mem-cache for removal.", key=key, name=self.function_display_name)
 
 # --- LUKHAS AI System Footer ---

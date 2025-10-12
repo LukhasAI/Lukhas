@@ -1,5 +1,6 @@
 """Bridge for `lukhas.bridge.adapters.service_adapter_base`."""
 from importlib import import_module
+
 __all__ = []
 
 def _try(n: str):

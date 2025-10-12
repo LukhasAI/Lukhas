@@ -15,7 +15,7 @@ import pytest
 # Import module for integration testing
 try:
     pass  #     pass  #
-    import perp_runs
+    import perp_runs  # noqa: F401  # TODO: perp_runs; consider using impo...
 except ImportError:
     pytest.skip("Module perp_runs not available", allow_module_level=True)
 

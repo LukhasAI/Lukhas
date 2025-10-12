@@ -1,5 +1,6 @@
 """Bridge for core.breakthrough package."""
 from __future__ import annotations
+
 from importlib import import_module
 from typing import List
 

@@ -1,5 +1,6 @@
 """Bridge: consciousness.systems -> canonical implementations."""
 from __future__ import annotations
+
 from lukhas._bridgeutils import bridge_from_candidates
 
 _CANDIDATES = (

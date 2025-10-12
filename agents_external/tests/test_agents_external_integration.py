@@ -15,7 +15,7 @@ import pytest
 # Import module for integration testing
 try:
     pass  #     pass  #
-    import agents_external
+    import agents_external  # noqa: F401  # TODO: agents_external; consider usin...
 except ImportError:
     pytest.skip("Module agents_external not available", allow_module_level=True)
 

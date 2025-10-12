@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
-import json, pathlib, re, sys
+import json
+import pathlib
+import re
+import sys
+
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 MANIFESTS = list(ROOT.rglob("module.manifest.json"))
 CONTRACTS = {p.stem: p for p in (ROOT/"contracts").glob("*.json")}

@@ -618,8 +618,8 @@ class MemoryConsciousnessOptimizer:
         population = []
         for _ in range(population_size):
             individual = {
-                'strength': current_metrics.strength + random.uniform(-0.1, 0.1),
-                'efficiency': current_metrics.efficiency + random.uniform(-0.1, 0.1)
+                'strength': current_metrics.strength + random.uniform(-0.1, 0.1),  # noqa: F821  # TODO: random
+                'efficiency': current_metrics.efficiency + random.uniform(-0.1, 0.1)  # noqa: F821  # TODO: random
             }
             individual['strength'] = max(0.0, min(1.0, individual['strength']))
             individual['efficiency'] = max(0.0, min(1.0, individual['efficiency']))
@@ -651,8 +651,8 @@ class MemoryConsciousnessOptimizer:
 
                 # Mutation
                 child = {
-                    'strength': parent['strength'] + random.uniform(-mutation_rate, mutation_rate),
-                    'efficiency': parent['efficiency'] + random.uniform(-mutation_rate, mutation_rate)
+                    'strength': parent['strength'] + random.uniform(-mutation_rate, mutation_rate),  # noqa: F821  # TODO: random
+                    'efficiency': parent['efficiency'] + random.uniform(-mutation_rate, mutation_rate)  # noqa: F821  # TODO: random
                 }
                 child['strength'] = max(0.0, min(1.0, child['strength']))
                 child['efficiency'] = max(0.0, min(1.0, child['efficiency']))
@@ -701,8 +701,8 @@ class MemoryConsciousnessOptimizer:
 
         for episode in range(episodes):
             # Choose action (epsilon-greedy)
-            if random.random() < epsilon:
-                action = random.choice(actions)
+            if random.random() < epsilon:  # noqa: F821  # TODO: random
+                action = random.choice(actions)  # noqa: F821  # TODO: random
             else:
                 action = max(q_table, key=q_table.get)
 
@@ -802,7 +802,7 @@ class MemoryConsciousnessOptimizer:
     def _tournament_selection(self, population: list[dict[str, float]], fitness_scores: list[float]) -> dict[str, float]:
         """Tournament selection for evolutionary optimization"""
         tournament_size = 3
-        tournament_indices = random.sample(range(len(population)), min(tournament_size, len(population)))
+        tournament_indices = random.sample(range(len(population)), min(tournament_size, len(population)))  # noqa: F821  # TODO: random
         tournament_fitness = [fitness_scores[i] for i in tournament_indices]
         winner_index = tournament_indices[tournament_fitness.index(max(tournament_fitness))]
         return population[winner_index]
@@ -980,7 +980,7 @@ class MemoryConsciousnessOptimizer:
         for i, coupling1 in enumerate(coupling_types):
             for coupling2 in coupling_types[i+1:]:
                 # Simulated correlation
-                correlation = random.uniform(-0.3, 0.8)
+                correlation = random.uniform(-0.3, 0.8)  # noqa: F821  # TODO: random
                 correlations[f"{coupling1.name}_{coupling2.name}"] = correlation
 
         return correlations

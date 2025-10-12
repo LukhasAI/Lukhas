@@ -1,8 +1,12 @@
 #!/usr/bin/env python3
 from __future__ import annotations
-import argparse, json, sys
-from pathlib import Path
+
+import argparse
+import json
+import sys
 from collections import Counter
+from pathlib import Path
+
 
 def load(path: Path) -> list[dict]:
     return json.loads(path.read_text(encoding="utf-8"))

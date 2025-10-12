@@ -15,7 +15,7 @@ import pytest
 # Import module components
 try:
     pass  #     pass  #
-    import branding
+    import branding  # noqa: F401  # TODO: branding; consider using impor...
 except ImportError:
     pytest.skip("Module branding not available", allow_module_level=True)
 

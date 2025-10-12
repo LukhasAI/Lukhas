@@ -4,7 +4,6 @@ Agent 4: Context Orchestrator & Backend Logic Specialist
 Implements <250ms context handoff, policy engine at every step, rate limiting
 Integrates with all other agents' deliverables
 """
-import streamlit as st
 
 import asyncio
 import logging
@@ -24,10 +23,10 @@ sys.path.append(os.path.join(os.path.dirname(__file__), "../"))
 # Import Agent 1's identity system
 
 # Import Agent 3's adapters
-from lukhas.core.identity.lambda_id_core import LukhasIdentityService
-from lukhas.bridge.adapters.gmail_adapter import GmailAdapter, GmailContextIntegration
 from lukhas.bridge.adapters.drive_adapter import DriveAdapter, DriveContextIntegration
 from lukhas.bridge.adapters.dropbox_adapter import DropboxAdapter, DropboxContextIntegration
+from lukhas.bridge.adapters.gmail_adapter import GmailAdapter, GmailContextIntegration
+from lukhas.core.identity.lambda_id_core import LukhasIdentityService
 
 # Import Agent 2's consent and policy
 from lukhas.governance.consent_ledger.ledger_v1 import (

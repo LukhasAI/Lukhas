@@ -15,7 +15,7 @@ import pytest
 # Import module components
 try:
     pass  #     pass  #
-    import qi
+    import qi  # noqa: F401  # TODO: qi; consider using importlib.u...
 except ImportError:
     pytest.skip("Module qi not available", allow_module_level=True)
 

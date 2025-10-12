@@ -32,7 +32,7 @@ from cryptography.hazmat.primitives.asymmetric import padding, rsa
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 
 try:
-    import jwt
+    import jwt  # noqa: F401  # TODO: jwt; consider using importlib....
     JWT_AVAILABLE = True
 except ImportError:
     JWT_AVAILABLE = False
@@ -378,7 +378,7 @@ class ObservabilitySecurityHardening:
         }
 
         # Generate integrity hash
-        evidence_json = json.dumps(evidence_data, sort_keys=True, default=str)
+        evidence_json = json.dumps(evidence_data, sort_keys=True, default=str)  # noqa: F821  # TODO: json
         integrity_hash = self._compute_integrity_hash(evidence_json.encode())
         security_metadata["integrity_hash"] = integrity_hash
 
@@ -419,7 +419,7 @@ class ObservabilitySecurityHardening:
         """
         try:
             # Verify integrity hash
-            evidence_json = json.dumps(evidence_data, sort_keys=True, default=str)
+            evidence_json = json.dumps(evidence_data, sort_keys=True, default=str)  # noqa: F821  # TODO: json
             computed_hash = self._compute_integrity_hash(evidence_json.encode())
 
             stored_hash = security_metadata.get("integrity_hash")

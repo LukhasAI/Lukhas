@@ -40,7 +40,7 @@ class MockConsciousnessSignal:
 
 # Patch the ConsciousnessSignal in the module with our mock
 
-candidate.core.identity.matriz_consciousness_identity_signals.ConsciousnessSignal = MockConsciousnessSignal
+candidate.core.identity.matriz_consciousness_identity_signals.ConsciousnessSignal = MockConsciousnessSignal  # noqa: F821  # TODO: candidate
 
 
 class TestConsciousnessIdentitySignalProcessor:

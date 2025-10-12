@@ -60,8 +60,7 @@ def create_symbolic_widget(widget_type, user_tier, context_data=None):
     props = get_widget_properties(widget_type)
 
     # NIAS filtering for ad permissions
-    from lukhas.core.interfaces.as_agent.core.nias_filter import \
-        evaluate_ad_permission
+    from lukhas.core.interfaces.as_agent.core.nias_filter import evaluate_ad_permission
 
     vendor_name = (
         context_data.get("vendor") if context_data else props.get("example_vendor")
@@ -128,8 +127,8 @@ def create_symbolic_widget(widget_type, user_tier, context_data=None):
     widget["status"] = "sleeping"  # Default state
     widget["DST_metadata"] = {
         "tracking_id": str(uuid.uuid4()),
-        "last_checked": datetime.now(timezone.utc).isoformat(),
-        "next_check_due": (datetime.now(timezone.utc) + timedelta(hours=1)).isoformat(),
+        "last_checked": datetime.now(timezone.utc).isoformat(),  # noqa: F821  # TODO: timezone
+        "next_check_due": (datetime.now(timezone.utc) + timedelta(hours=1)).isoformat(),  # noqa: F821  # TODO: timezone
         "tracking_window": "active",  # Could be 'active', 'expired', 'failed'
     }
 
@@ -151,7 +150,9 @@ def create_symbolic_widget(widget_type, user_tier, context_data=None):
     }
 
     # Paired App Trace (for connected experiences)
-    from lukhas.core.dashboard_settings import get_paired_apps  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for core infrastructure (review and implement)
+    from lukhas.core.dashboard_settings import (
+        get_paired_apps,  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for core infrastructure (review and implement)
+    )
 
     widget["paired_apps"] = get_paired_apps(context_data.get("user_id", "default_user"))
 

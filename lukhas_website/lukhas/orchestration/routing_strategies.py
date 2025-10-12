@@ -36,6 +36,7 @@ from enum import Enum
 from typing import Any, Dict, List, Optional
 
 from opentelemetry import trace
+
 from lukhas.observability import counter, gauge
 
 from .routing_config import (

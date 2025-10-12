@@ -17,9 +17,11 @@ def _require_enabled(x_api_key: Optional[str]):
     """Check if perf ingestion is enabled and API key is valid."""
     # Check feature flag
     try:
-        from lukhas.flags import get_flags  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for API expansion (document or implement)
+        from lukhas.flags import (
+            get_flags,  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for API expansion (document or implement)
+        )
 
-        if not Flags.get("OPS_PERF_INGEST", default=False):
+        if not Flags.get("OPS_PERF_INGEST", default=False):  # noqa: F821  # TODO: Flags
             raise HTTPException(status_code=404, detail="Perf ingest disabled")
     except ImportError:
         # Fallback to env var if flags module not available

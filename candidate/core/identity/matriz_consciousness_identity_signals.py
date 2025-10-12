@@ -1,5 +1,7 @@
 import logging
+
 import streamlit as st  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for core infrastructure (review and implement)
+
 logger = logging.getLogger(__name__)
 """
 ╔══════════════════════════════════════════════════════════════
@@ -33,7 +35,7 @@ try:
         ConsciousnessSignalType,
         ConsciousnessStateDelta,
         ConstellationAlignmentData,
-        ConstellationStar,
+        ConstellationStar,  # noqa: F401  # TODO: ..matriz_consciousness_signals...
         TemporalContext,
     )
 except ImportError as e:

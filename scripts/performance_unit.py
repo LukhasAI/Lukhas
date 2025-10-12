@@ -26,11 +26,13 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 try:
     # LUKHAS core imports for performance testing
-    from lukhas.consciousness.core import ConsciousnessSystem
-    from lukhas.guardian.core import GuardianSystem
-    from lukhas.identity.core import IdentitySystem
-    from lukhas.memory.core import MemorySystem
-    from lukhas.observability.metrics import get_metrics_registry
+    from lukhas.consciousness.core import ConsciousnessSystem  # noqa: F401  # TODO: lukhas.consciousness.core.Cons...
+    from lukhas.guardian.core import GuardianSystem  # noqa: F401  # TODO: lukhas.guardian.core.GuardianS...
+    from lukhas.identity.core import IdentitySystem  # noqa: F401  # TODO: lukhas.identity.core.IdentityS...
+    from lukhas.memory.core import MemorySystem  # noqa: F401  # TODO: lukhas.memory.core.MemorySyste...
+    from lukhas.observability.metrics import (
+        get_metrics_registry,  # noqa: F401  # TODO: lukhas.observability.metrics.g...
+    )
 except ImportError as e:
     logging.warning(f"Some LUKHAS modules not available: {e}")
 

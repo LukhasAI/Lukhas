@@ -16,12 +16,12 @@ from lukhas.core.enhanced_swarm import EnhancedSwarmHub
 
 # Import swarm infrastructure
 from lukhas.core.swarm import SwarmTask, TaskPriority
-from governance.identity.core.colonies import (  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for Constellation Framework consciousness evolution
+from governance.identity.core.colonies import (  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for Constellation Framework consciousness evolution  # noqa: invalid-syntax  # TODO: Expected one or more symbol na...
 from datetime import timezone
-    BiometricVerificationColony,
+    BiometricVerificationColony,  # noqa: invalid-syntax  # TODO: Unexpected indentation
     ConsciousnessVerificationColony,
     DreamVerificationColony,
-)
+)  # noqa: invalid-syntax  # TODO: Expected a statement
 
 # Import identity components
 from governance.identity.core.events import (

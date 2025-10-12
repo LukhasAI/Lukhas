@@ -17,14 +17,14 @@ TaskIDs:
 #TAG:trinity
 """
 
-import logging
-from datetime import datetime, timedelta
-from typing import Any, Dict, Optional, List, Union
-from dataclasses import dataclass, field
-from enum import Enum
-import jwt
 import hashlib
-import json
+import logging
+from dataclasses import dataclass, field
+from datetime import datetime, timedelta
+from enum import Enum
+from typing import Any, Dict, List, Optional, Union
+
+import jwt
 
 logger = logging.getLogger(__name__)
 

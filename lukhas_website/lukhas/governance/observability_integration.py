@@ -36,8 +36,7 @@ from typing import Any, Dict, List, Optional
 # Try to import observability dependencies with graceful degradation
 try:
     import prometheus_client
-    from prometheus_client import Counter, Gauge, Histogram
-    from prometheus_client import Enum as PrometheusEnum
+    from prometheus_client import Counter, Enum as PrometheusEnum, Gauge, Histogram
     PROMETHEUS_AVAILABLE = True
 except ImportError:
     PROMETHEUS_AVAILABLE = False

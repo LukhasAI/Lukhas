@@ -26,20 +26,20 @@ Version: 1.0.0
 #TAG:task12
 """
 
+import hashlib
 import logging
+import threading
 import time
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
 from enum import Enum
 from typing import Any, Dict, List, Optional, Tuple
-import threading
-import hashlib
 
 # LUKHAS imports
 try:
-    from .ethics_engine import EthicsAction, EthicsResult, EthicsEngine
-    from .dsl_lite import DSLError
     from ...orchestration.plan_verifier import VerificationContext
+    from .dsl_lite import DSLError
+    from .ethics_engine import EthicsAction, EthicsEngine, EthicsResult
 except ImportError:
     # Fallback for development/testing
     EthicsAction = None
@@ -50,7 +50,7 @@ except ImportError:
 
 # Prometheus metrics for telemetry
 try:
-    from prometheus_client import Counter, Histogram, Gauge
+    from prometheus_client import Counter, Gauge, Histogram
     METRICS_AVAILABLE = True
 except ImportError:
     # Graceful fallback for test environments

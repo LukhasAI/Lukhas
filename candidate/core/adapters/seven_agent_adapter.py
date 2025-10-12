@@ -68,7 +68,7 @@ class LambdaIdentityServiceAdapter(IIdentityService):
         if not self._initialized:
             try:
                 from lukhas.core.identity.lambda_id_core import (
-                    IdentityNamespace,
+                    IdentityNamespace,  # noqa: F401  # TODO: lukhas.core.identity.lambda_id...
                     LukhasIdentityService,
                     OIDCProvider,
                     WebAuthnManager,
@@ -174,7 +174,7 @@ class ConsentLedgerServiceAdapter(IGovernanceService):
             try:
                 from lukhas.governance.consent_ledger.ledger_v1 import (
                     ConsentLedgerV1,
-                    ConsentRecord,
+                    ConsentRecord,  # noqa: F401  # TODO: lukhas.governance.consent_ledg...
                     PolicyEngine,
                 )
 

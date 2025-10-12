@@ -15,7 +15,7 @@ import pytest
 # Import module for integration testing
 try:
     pass  #     pass  #
-    import test_data
+    import test_data  # noqa: F401  # TODO: test_data; consider using impo...
 except ImportError:
     pytest.skip("Module test_data not available", allow_module_level=True)
 

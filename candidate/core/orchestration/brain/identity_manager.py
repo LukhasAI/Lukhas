@@ -4,15 +4,18 @@ Original: identity_manager.py
 Advanced: identity_manager.py
 Integration Date: 2025-05-31T07:55:27.769812
 """
-from typing import Dict  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for core infrastructure (review and implement)
-import streamlit as st  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for core infrastructure (review and implement)
-
 import json
 import logging
 import os
 import time
 import uuid
-from typing import Any, Optional
+from typing import (
+    Any,
+    Dict,  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for core infrastructure (review and implement)
+    Optional,
+)
+
+import streamlit as st  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for core infrastructure (review and implement)
 
 # Import with fallback for missing dependencies
 try:

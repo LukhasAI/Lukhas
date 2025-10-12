@@ -33,13 +33,16 @@ try:
     from opentelemetry.instrumentation.sqlalchemy import SQLAlchemyInstrumentor
     from opentelemetry.propagators.b3 import B3MultiFormat, B3SingleFormat
     from opentelemetry.propagators.jaeger import JaegerPropagator
-    from opentelemetry.sdk.trace import Span, TracerProvider
-    from opentelemetry.sdk.trace.export import BatchSpanProcessor, SpanExporter
+    from opentelemetry.sdk.trace import Span, TracerProvider  # noqa: F401  # TODO: opentelemetry.sdk.trace.Span; ...
+    from opentelemetry.sdk.trace.export import (  # noqa: F401  # TODO: opentelemetry.sdk.trace.export...
+        BatchSpanProcessor,
+        SpanExporter,
+    )
     from opentelemetry.sdk.trace.sampling import ParentBased, TraceIdRatioBased
-    from opentelemetry.semconv.trace import SpanAttributes
+    from opentelemetry.semconv.trace import SpanAttributes  # noqa: F401  # TODO: opentelemetry.semconv.trace.Sp...
     from opentelemetry.trace.propagation.tracecontext import TraceContextTextMapPropagator
     from opentelemetry.trace.status import Status, StatusCode
-    from opentelemetry.util.http import get_excluded_urls
+    from opentelemetry.util.http import get_excluded_urls  # noqa: F401  # TODO: opentelemetry.util.http.get_ex...
 
     OTEL_AVAILABLE = True
 except ImportError:

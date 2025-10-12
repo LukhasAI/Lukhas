@@ -131,19 +131,19 @@ else:
 # ─── Display Selected Module Details ──────────────────────────────────────────
 
 selected_block = None
-for full_header, mod_name, body in module_blocks:
-    if mod_name == selected_module:
+for full_header, mod_name, body in module_blocks:  # noqa: F821  # TODO: module_blocks
+    if mod_name == selected_module:  # noqa: F821  # TODO: selected_module
         selected_block = (full_header, body)
         break
 
 if selected_block:
     full_header, body = selected_block
     # Attempt to split body into header info and footer (usage guide) by "##" headings
-    header_info_match = re.search(
-        r"(## 📘 Header Info\s*\n```text\n.*?\n```)", body, re.DOTALL
+    header_info_match = re.search(  # noqa: F821  # TODO: re
+        r"(## 📘 Header Info\s*\n```text\n.*?\n```)", body, re.DOTALL  # noqa: F821  # TODO: re
     )
-    usage_guide_match = re.search(
-        r"(## 📄 Usage Guide\s*\n```text\n.*?\n```)", body, re.DOTALL
+    usage_guide_match = re.search(  # noqa: F821  # TODO: re
+        r"(## 📄 Usage Guide\s*\n```text\n.*?\n```)", body, re.DOTALL  # noqa: F821  # TODO: re
     )
 
     st.markdown(f"#")

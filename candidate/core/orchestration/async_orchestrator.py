@@ -10,6 +10,7 @@ Features:
 """
 
 from __future__ import annotations
+
 import asyncio
 import random
 import time
@@ -19,27 +20,28 @@ from typing import Any, Dict, List, Mapping, Optional, Sequence, Tuple
 
 from lukhas.core.interfaces import ICognitiveNode
 from lukhas.core.registry import resolve
-from .consensus_arbitrator import Proposal, choose
-from .meta_controller import MetaController
-from .otel import stage_span
 from lukhas.metrics import (
-    stage_latency,
-    stage_timeouts,
-    guardian_band,
-    reasoning_chain_length,
-    ethics_risk_distribution,
-    node_confidence_scores,
-    constellation_star_activations,
     arbitration_decisions_total,
+    constellation_star_activations,
+    ethics_risk_distribution,
+    guardian_band,
+    mtrx_orch_circuit_open_total,
+    mtrx_orch_retry_total,
+    mtrx_orch_timeout_total,
+    mtrx_stage_duration_seconds,
+    node_confidence_scores,
     oscillation_detections_total,
     parallel_batch_duration,
     parallel_execution_mode_total,
+    reasoning_chain_length,
     retry_attempts_total,
-    mtrx_stage_duration_seconds,
-    mtrx_orch_timeout_total,
-    mtrx_orch_retry_total,
-    mtrx_orch_circuit_open_total,
+    stage_latency,
+    stage_timeouts,
 )
+
+from .consensus_arbitrator import Proposal, choose
+from .meta_controller import MetaController
+from .otel import stage_span
 
 
 @dataclass

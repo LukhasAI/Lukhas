@@ -55,7 +55,7 @@ __all__ = [
 ]
 
 try:
-    from lukhas.memory.retention import ArchivalTier, AbstractArchivalBackend  # noqa: F401
+    from lukhas.memory.retention import AbstractArchivalBackend, ArchivalTier  # noqa: F401
     __all__.extend(
         name
         for name in ("ArchivalTier", "AbstractArchivalBackend")

@@ -172,8 +172,7 @@ class TestGuardianResponseSchema:
     @pytest.mark.property
     def test_schema_invariants(self):
         """Property-based tests for schema invariants"""
-        from hypothesis import given
-        from hypothesis import strategies as st
+        from hypothesis import given, strategies as st
 
         @given(st.dictionaries(st.text(), st.text()))
         def check_schema_invariants(operation_data):

@@ -23,12 +23,14 @@ try:
     from opentelemetry.exporter.otlp.proto.grpc.metric_exporter import OTLPMetricExporter
     from opentelemetry.exporter.otlp.proto.grpc.trace_exporter import OTLPSpanExporter
     from opentelemetry.instrumentation.requests import RequestsInstrumentor
-    from opentelemetry.instrumentation.sqlalchemy import SQLAlchemyInstrumentor
+    from opentelemetry.instrumentation.sqlalchemy import (
+        SQLAlchemyInstrumentor,  # noqa: F401  # TODO: opentelemetry.instrumentation....
+    )
     from opentelemetry.sdk.metrics import MeterProvider
     from opentelemetry.sdk.metrics.export import PeriodicExportingMetricReader
     from opentelemetry.sdk.trace import TracerProvider
     from opentelemetry.sdk.trace.export import BatchSpanProcessor
-    from opentelemetry.semconv.trace import SpanAttributes
+    from opentelemetry.semconv.trace import SpanAttributes  # noqa: F401  # TODO: opentelemetry.semconv.trace.Sp...
     from opentelemetry.trace.status import Status, StatusCode
 
     OTEL_AVAILABLE = True

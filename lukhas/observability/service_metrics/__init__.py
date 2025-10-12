@@ -1,6 +1,6 @@
 """Bridge for lukhas.observability.service_metrics."""
-from importlib import import_module
 from enum import Enum
+from importlib import import_module
 
 __all__ = []
 

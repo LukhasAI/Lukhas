@@ -31,7 +31,7 @@ try:
     from .consciousness.matriz_consciousness_orchestrator import consciousness_orchestrator
     from .consciousness.matriz_consciousness_state import (
         ConsciousnessType,
-        EvolutionaryStage,
+        EvolutionaryStage,  # noqa: F401  # TODO: .consciousness.matriz_consciou...
         consciousness_state_manager,
         create_consciousness_state,
     )
@@ -43,7 +43,9 @@ try:
     from .identity.matriz_consciousness_identity import consciousness_identity_manager
 
     # Core adapter
-    from .matriz_adapter import CoreMatrizAdapter  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for MATRIZ-R2 trace integration
+    from .matriz_adapter import (
+        CoreMatrizAdapter,  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for MATRIZ-R2 trace integration
+    )
 
     # Orchestration
     from .orchestration.matriz_consciousness_coordinator import consciousness_coordinator

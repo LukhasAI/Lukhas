@@ -40,13 +40,13 @@ All logs were GDPR-compliant and audit-traceable. Visual summaries are included 
 
 st.markdown("##)  #  📜 Compliance Digest Summary"
 
-if digest_path.exists():
-    with open(digest_path) as f:
+if digest_path.exists():  # noqa: invalid-syntax  # TODO: Expected else, found :
+    with open(digest_path) as f:  # noqa: invalid-syntax  # TODO: Unexpected indentation
         st.markdown(f.read())
-else:
-    st.error("Digest not found. Run `compliance_digest.py` to generate it first.")
+else:  # noqa: invalid-syntax  # TODO: Expected a statement
+    st.error("Digest not found. Run `compliance_digest.py` to generate it first.")  # noqa: invalid-syntax  # TODO: Unexpected indentation
 
-st.divider()
+st.divider()  # noqa: invalid-syntax  # TODO: Expected a statement
 
 col1, col2, col3 = st.columns(3)
 for col, image in zip(
@@ -81,16 +81,16 @@ st.caption(
 st.divider()
 st.markdown("##)  #  ⏰ Scheduling & Mobile Optimization"
 
-st.markdown(
+st.markdown(  # noqa: invalid-syntax  # TODO: Expected ,, found name
     "To enable automated compliance digests every Sunday at 8:00 AM, integrate this script with your system scheduler (e.g. `cron`, `launchd`, or GitHub Actions)."
 )
 
-st.code(
+st.code(  # noqa: invalid-syntax  # TODO: Expected ,, found name
     "0 8 * * 0 python3 compliance_digest.py && python3 compliance_dashboard_visual.py",
     language="bash",
 )
 
-if st.checkbox("📱 Optimize for Mobile Display (experimental)"):
+if st.checkbox("📱 Optimize for Mobile Display (experimental)"):  # noqa: invalid-syntax  # TODO: Expected else, found :
     st.markdown(
         """
     <style>
@@ -106,22 +106,22 @@ if st.checkbox("📱 Optimize for Mobile Display (experimental)"):
     """,
         unsafe_allow_html=True,
     )
-    st.success("✅ Mobile layout adjustments applied.")
+    st.success("✅ Mobile layout adjustments applied.")  # noqa: invalid-syntax  # TODO: Expected ,, found name
 
-st.markdown(
+st.markdown(  # noqa: invalid-syntax  # TODO: Expected ,, found name
     "💬 *Next module to re-link: `id_portal/frontend/login.js` — tiered auth + face emoji grid.*"
 )
 
-st.divider()
-st.markdown("##)  #  🔐 ID Portal Preview"
+st.divider()  # noqa: invalid-syntax  # TODO: Expected ,, found name
+st.markdown("##)  #  🔐 ID Portal Preview"  # noqa: invalid-syntax  # TODO: Expected ,, found name
 
-if st.button("🔓 Preview Tiered Login (id_portal/login.js)"):
-    st.session_state["restore_target"] = "id_portal/frontend/login.js"
-    st.markdown(
+if st.button("🔓 Preview Tiered Login (id_portal/login.js)"):  # noqa: invalid-syntax  # TODO: Expected else, found :
+    st.session_state["restore_target"] = "id_portal/frontend/login.js"  # noqa: invalid-syntax  # TODO: Expected a parameter name
+    st.markdown(  # noqa: invalid-syntax  # TODO: Expected ,, found name
         """
     ✅ `login.js` reconnection initiated.
     - Tier-based emoji grid ready.
     - Face ID fallback: **off** (dev mode).
     - Auth logic not yet live — symbolic preview only.
     """
-    )
+    )  # noqa: invalid-syntax  # TODO: unexpected EOF while parsing

@@ -4,8 +4,7 @@ from __future__ import annotations
 
 from typing import Callable
 
-from config import env as config_env
-from config import fallback_settings
+from config import env as config_env, fallback_settings
 
 
 def _simulate_import_error() -> Callable[[], None]:

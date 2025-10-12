@@ -7,7 +7,7 @@
 # ΛCREATED_DATE: Unknown (original auto-generation)
 # ΛMODIFIED_DATE: 2024-07-30
 
-log = logging.getLogger(__name__)
+log = logging.getLogger(__name__)  # noqa: F821  # TODO: logging
 """
 # ΛDOC: Auto-generated __init__.py for the `core.interfaces.ui.components` package.
 This file marks the `components` directory (within `ui`) as a Python package.

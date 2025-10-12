@@ -40,8 +40,7 @@ EMOTION_ACTIVE = True
 
 try:
     # Import from production lukhas.emotion system
-    from lukhas.emotion.emotion_wrapper import AdvancedEmotionWrapper as EmotionWrapper
-    from lukhas.emotion.emotion_wrapper import get_advanced_emotion_wrapper
+    from lukhas.emotion.emotion_wrapper import AdvancedEmotionWrapper as EmotionWrapper, get_advanced_emotion_wrapper
     from lukhas.observability.matriz_decorators import instrument
     from lukhas.observability.matriz_emit import emit
 

@@ -27,8 +27,14 @@ from lukhas.core.common import get_logger
 
 # Quantum Security Imports (placeholder for actual quantum crypto)
 try:
-    from cryptography.hazmat.primitives import hashes, serialization  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept pending MATRIZ wiring (document or remove)
-    from cryptography.hazmat.primitives.asymmetric import padding, rsa  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept pending MATRIZ wiring (document or remove)
+    from cryptography.hazmat.primitives import (  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept pending MATRIZ wiring (document or remove)
+        hashes,
+        serialization,
+    )
+    from cryptography.hazmat.primitives.asymmetric import (  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept pending MATRIZ wiring (document or remove)
+        padding,
+        rsa,
+    )
     from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
     CRYPTO_AVAILABLE = True
 except ImportError:
@@ -754,7 +760,7 @@ if __name__ == "__main__":
         """Demonstrate Lukhas_ID system capabilities"""
 
         # Initialize system with EU compliance
-        Lukhas_ID = LukhosIDManager(ComplianceRegion.EU)
+        Lukhas_ID = LukhosIDManager(ComplianceRegion.EU)  # noqa: F821  # TODO: LukhosIDManager
 
         # Register a new user
         user_data = {

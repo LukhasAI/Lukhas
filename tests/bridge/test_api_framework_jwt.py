@@ -4,9 +4,10 @@ Tests for JWT verification adapter.
 Part of BATCH-COPILOT-2025-10-08-01
 TaskID: ASSIST-HIGH-TEST-JWT-m3n4o5p6
 """
-import pytest
 from datetime import datetime, timedelta
-from unittest.mock import patch, Mock
+from unittest.mock import Mock, patch
+
+import pytest
 
 
 # Fixtures

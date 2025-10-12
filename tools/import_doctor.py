@@ -12,8 +12,8 @@ import json
 import re
 import subprocess
 import sys
-from pathlib import Path
 from collections import Counter, defaultdict
+from pathlib import Path
 
 ART = Path("artifacts")
 ART.mkdir(exist_ok=True, parents=True)

@@ -3,7 +3,10 @@ Drift Atlas: logs drift/entropy across dream runs.
 Export: JSON or HTML constellation maps.
 """
 from __future__ import annotations
-import json, pathlib, datetime
+
+import datetime
+import pathlib
+
 
 def log(run_id: str, snapshot: dict, drift_score: float, entropy: float) -> dict:
     row = {"ts": datetime.datetime.utcnow().isoformat(),

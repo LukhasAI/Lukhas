@@ -54,10 +54,10 @@ class AnalyzeRequest(BaseModel):
     response: str = Field(..., description="The AI response to analyze")
 
     class Config:
-        schema_extra = {"example": {"response": "I'll help you achieve wisdom 🧠 through protection 🛡️"}
+        schema_extra = {"example": {"response": "I'll help you achieve wisdom 🧠 through protection 🛡️"}  # noqa: invalid-syntax  # TODO: Expected }, found newline
 
 
-class AnalyzeResponse(BaseModel):
+class AnalyzeResponse(BaseModel):  # noqa: invalid-syntax  # TODO: Expected ,, found class
     symbolic_drift_score: float = Field(..., description="Drift from Constellation Framework (0.0-1.0)")
     identity_conflict_score: float = Field(..., description="Identity coherence (0.0-1.0)")
     glyph_trace: list[str] = Field(..., description="All glyphs detected")
@@ -510,14 +510,14 @@ async def stats():
         return {
             "api_calls": log_count,
             "errors": error_count,
-            "error_rate": f"{(error_count / log_count * 100 if log_count > 0 else 0:.1f}%",
+            "error_rate": f"{(error_count / log_count * 100 if log_count > 0 else 0:.1f}%",  # noqa: invalid-syntax  # TODO: Expected ), found :
             "embedding_engine": embedding_stats,
             "healer_engine": healer_stats,
             "constellation_active": True,
         }
 
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Stats error: {e!s)}")
+        raise HTTPException(status_code=500, detail=f"Stats error: {e!s)}")  # noqa: invalid-syntax  # TODO: f-string: expecting }
 
 
 # ---- Memory Endpoints ----

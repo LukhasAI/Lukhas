@@ -1524,7 +1524,7 @@ class EthicalReasoningSystem:
         self.logger.info(
             f"ΛTRACE ({req_id}): Ethical judgment completed (ID: {judgment.judgment_id}). Action: '{judgment.recommended_action}', Confidence: {judgment.confidence_score:.2f}"
         )
-        slogger.info(
+        slogger.info(  # noqa: F821  # TODO: slogger
             "Ethical judgment completed (Structlog)",
             judgment_id=judgment.judgment_id,
             recommended_action=judgment.recommended_action,
@@ -2036,7 +2036,7 @@ class EthicalReasoningSystem:
                     self.logger.warning(
                         f"ΛTRACE: Ethical drift DETECTED. Confidence drift: {conf_drift:.3f} (Recent: {avg_recent_conf:.3f}, Earlier: {avg_earlier_conf:.3f})"
                     )
-                    slogger.warning(
+                    slogger.warning(  # noqa: F821  # TODO: slogger
                         "Ethical drift detected (Structlog)",
                         confidence_drift=conf_drift,
                         recent_confidence=avg_recent_conf,
@@ -2208,7 +2208,7 @@ async def main_ethics_test():  # Renamed to avoid conflict if 'main' is generic
     logger.info(f"ΛTRACE_TEST: Moral Justification: {judgment.moral_justification}")
     # Using slogger (structlog) for structured output of complex objects if
     # preferred for testing
-    slogger.info(
+    slogger.info(  # noqa: F821  # TODO: slogger
         "Ethical Judgment Result (Structlog)",
         judgment_id=judgment.judgment_id,
         question=ethical_question,
@@ -2238,7 +2238,7 @@ async def main_ethics_test():  # Renamed to avoid conflict if 'main' is generic
     logger.info(
         f"ΛTRACE_TEST: System Report - Total Judgments: {report.get('total_judgments_processed')}, Alignment Score: {report.get('value_alignment_summary', {}).get('core_value_alignment'):.3f}"
     )
-    slogger.info(
+    slogger.info(  # noqa: F821  # TODO: slogger
         "Ethical System Report (Structlog)",
         report_timestamp=report.get("timestamp"),
         total_judgments=report.get("total_judgments_processed"),

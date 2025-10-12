@@ -1,6 +1,8 @@
 """Bridge: lukhas.observability.opentelemetry_tracing."""
 from __future__ import annotations
+
 from lukhas._bridgeutils import bridge_from_candidates
+
 _CANDIDATES = (
     "lukhas_website.lukhas.observability.opentelemetry_tracing",
     "candidate.observability.opentelemetry_tracing",

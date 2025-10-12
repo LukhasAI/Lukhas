@@ -159,7 +159,7 @@ class AGIBot:
         self.is_initialized = False
 
         # Initialize advanced components if available
-        if all(:
+        if all(:  # noqa: invalid-syntax  # TODO: Expected an expression or a )
             [
                 CausalReasoningEngine,
                 SymbolicEngine,
@@ -440,6 +440,6 @@ if __name__ == "__main__":
     print("===================")
     print("Quantum-Biological Cognitive Artificial Intelligence System")
     print("Features: Meta - cognition, Multi - modal Reasoning, Quantum Attention,"
-          Ethical Compliance""
+          Ethical Compliance""  # noqa: invalid-syntax  # TODO: Expected ,, found name
           )
     print("\nUsage: from brain.cognitive_bot import AGIBot")

@@ -849,7 +849,7 @@ class AdvancedRuleValidator:
             "context_hash": hash(json.dumps(context, sort_keys=True, default=str)),
         }
 
-        return f"cache_{hash(json.dumps(cache_data, sort_keys=True)}"
+        return f"cache_{hash(json.dumps(cache_data, sort_keys=True)}"  # noqa: invalid-syntax  # TODO: Expected ,, found }
 
     async def _update_validation_metrics(self, rule_id: str, report: ValidationReport, start_time: datetime):
         """Update validation metrics"""

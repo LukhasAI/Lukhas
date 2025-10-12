@@ -301,7 +301,7 @@ async def shutdown_phase5_observability():
         enhanced_distributed_tracing.shutdown_enhanced_tracing()
 
         # Execute all shutdowns concurrently
-        await asyncio.gather(*shutdown_tasks, return_exceptions=True)
+        await asyncio.gather(*shutdown_tasks, return_exceptions=True)  # noqa: F821  # TODO: asyncio
 
         print("Phase 5 observability shutdown completed")
 

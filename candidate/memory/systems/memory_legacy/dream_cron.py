@@ -1,4 +1,4 @@
-log = logging.getLogger(__name__)
+log = logging.getLogger(__name__)  # noqa: F821  # TODO: logging
 import logging
 
 logger = logging.getLogger(__name__)
@@ -49,7 +49,7 @@ try:
 except ImportError:
     # Logger not yet initialized if this is top-level, handle gracefully or
     # initialize temp
-    _init_log.error("Python 'schedule' library not found. Dream cron cannot run. Install with: pip install schedule")
+    _init_log.error("Python 'schedule' library not found. Dream cron cannot run. Install with: pip install schedule")  # noqa: F821  # TODO: _init_log
 
 
 # --- Configuration ---

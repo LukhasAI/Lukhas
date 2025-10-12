@@ -1,6 +1,8 @@
 """Bridge: memory.backends.postgres"""
 from __future__ import annotations
+
 from lukhas._bridgeutils import bridge_from_candidates
+
 _CANDIDATES = (
   "lukhas_website.lukhas.memory.backends.postgres",
   "candidate.memory.backends.postgres",

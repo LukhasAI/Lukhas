@@ -15,7 +15,7 @@ import pytest
 # Import module for integration testing
 try:
     pass  #     pass  #
-    import website_v1
+    import website_v1  # noqa: F401  # TODO: website_v1; consider using imp...
 except ImportError:
     pytest.skip("Module website_v1 not available", allow_module_level=True)
 

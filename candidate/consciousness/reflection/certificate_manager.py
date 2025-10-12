@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-log = logging.getLogger(__name__)
+log = logging.getLogger(__name__)  # noqa: F821  # TODO: logging
 import logging
 import os
 

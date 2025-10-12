@@ -7,8 +7,8 @@ from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
 
-from lukhas.bridge.external_adapters.gmail_adapter import GmailAdapter, GmailMessage
 from bridge.external_adapters.oauth_manager import OAuthManager
+from lukhas.bridge.external_adapters.gmail_adapter import GmailAdapter, GmailMessage
 
 
 @pytest.mark.tier3

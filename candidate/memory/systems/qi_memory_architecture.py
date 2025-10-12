@@ -30,20 +30,20 @@ class QIAssociativeMemoryBank:
 
     def __init__(self, capacity_qubits: int = 10):
         self.capacity = 2**capacity_qubits
-        self.memory_register = QIRegister(capacity_qubits, "memory")
-        self.query_register = QIRegister(capacity_qubits, "query")
+        self.memory_register = QIRegister(capacity_qubits, "memory")  # noqa: F821  # TODO: QIRegister
+        self.query_register = QIRegister(capacity_qubits, "query")  # noqa: F821  # TODO: QIRegister
         self.oracle_circuits: dict[str, QICircuit] = {}
 
         # Quantum error correction
-        self.error_correction = SurfaceCodeErrorCorrection(physical_qubits_per_logical=17)
+        self.error_correction = SurfaceCodeErrorCorrection(physical_qubits_per_logical=17)  # noqa: F821  # TODO: SurfaceCodeErrorCorrection
 
         # Decoherence mitigation
-        self.decoherence_mitigator = DecoherenceMitigation(strategy="dynamical_decoupling")
+        self.decoherence_mitigator = DecoherenceMitigation(strategy="dynamical_decoupling")  # noqa: F821  # TODO: DecoherenceMitigation
 
     async def store_quantum_like_state(
         self,
         memory_id: str,
-        qi_like_state: QILikeState,
+        qi_like_state: QILikeState,  # noqa: F821  # TODO: QILikeState
         associations: list[str],
     ):
         """
@@ -62,7 +62,7 @@ class QIAssociativeMemoryBank:
         # 4. Maintain coherence with active stabilization
         await self.decoherence_mitigator.stabilize(protected_state)
 
-    async def qi_associative_recall(self, query: QIQuery, num_iterations: Optional[int] = None) -> list[QIMemory]:
+    async def qi_associative_recall(self, query: QIQuery, num_iterations: Optional[int] = None) -> list[QIMemory]:  # noqa: F821  # TODO: QIQuery
         """
         Retrieve memories using quantum parallelism
         """

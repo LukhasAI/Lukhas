@@ -14,20 +14,21 @@ Tasks Tested:
 Trinity Framework: ⚛️ Identity · 🛡️ Guardian
 """
 
-import pytest
-import jwt as pyjwt
 import time
 from datetime import datetime, timedelta
+
+import jwt as pyjwt
+import pytest
+
 from candidate.bridge.adapters.api_framework import (
     JWTAdapter,
     JWTAlgorithm,
-    TokenType,
     TokenClaims,
+    TokenType,
     TokenValidationResult,
     create_identity_token,
     verify_identity_token,
 )
-
 
 # ============================================================================
 # Fixtures
@@ -50,9 +51,9 @@ def hs256_adapter():
 @pytest.fixture
 def rs256_keys():
     """Generate RSA key pair for RS256 testing."""
-    from cryptography.hazmat.primitives.asymmetric import rsa
-    from cryptography.hazmat.primitives import serialization
     from cryptography.hazmat.backends import default_backend
+    from cryptography.hazmat.primitives import serialization
+    from cryptography.hazmat.primitives.asymmetric import rsa
     
     private_key = rsa.generate_private_key(
         public_exponent=65537,

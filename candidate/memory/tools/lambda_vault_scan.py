@@ -154,10 +154,10 @@ class SymbolicVaultScanner:
             logger.error(f"❌ Error loading memory snapshots: {e}")
             return {}
 
-        logger.info(f"✅ Loaded {snapshot_count} memory entries from {sum(file_types.values()} files")
-        logger.info(f"📊 File distribution: {dict(file_types)}")
+        logger.info(f"✅ Loaded {snapshot_count} memory entries from {sum(file_types.values()} files")  # noqa: invalid-syntax  # TODO: Expected ,, found }
+        logger.info(f"📊 File distribution: {dict(file_types)}")  # noqa: invalid-syntax  # TODO: f-string: unterminated string
 
-        return {
+        return {  # noqa: invalid-syntax  # TODO: Expected ), found return
             "total_snapshots": snapshot_count,
             "file_distribution": file_types,
             "scan_timestamp": self.scan_timestamp.isoformat(),

@@ -1,5 +1,6 @@
 """Bridge for `candidate.core.matriz` with sane exports."""
 from importlib import import_module
+
 __all__ = []
 _SRC = None
 

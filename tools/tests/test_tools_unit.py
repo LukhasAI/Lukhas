@@ -8,14 +8,14 @@
 Unit tests for tools module.
 """
 
-import pytest
 import unittest
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module components
 try:
     pass  #     pass  #
-    import tools
+    import tools  # noqa: F401  # TODO: tools; consider using importli...
 except ImportError:
     pytest.skip(f"Module tools not available", allow_module_level=True)
 

@@ -60,12 +60,12 @@ try:
         ExplainabilityInterfaceLayer,
     )
 
-    from lukhas.orchestration.human_in_the_loop_orchestrator import (
-        HumanInTheLoopOrchestrator,
-    )
     from dream.hyperspace_dream_simulator import HyperspaceDreamSimulator
     from lukhas.memory.privacy_preserving_memory_vault import (
         PrivacyPreservingMemoryVault,
+    )
+    from lukhas.orchestration.human_in_the_loop_orchestrator import (
+        HumanInTheLoopOrchestrator,
     )
     from reasoning.causal_program_inducer import CausalProgramInducer
 
@@ -80,9 +80,9 @@ except ImportError as e:
 
 # Import core Lukhas systems
 try:
-    from lukhas.core.integration.dynamic_modality_broker import DynamicModalityBroker
     from ethics.meta_ethics_governor import MetaEthicsGovernor
     from ethics.self_reflective_debugger import SelfReflectiveDebugger
+    from lukhas.core.integration.dynamic_modality_broker import DynamicModalityBroker
     from lukhas.memory.emotional import EmotionalMemory
     from reasoning.reasoning_engine import SymbolicEngine
 

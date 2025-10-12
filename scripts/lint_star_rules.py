@@ -1,8 +1,12 @@
 #!/usr/bin/env python3
 from __future__ import annotations
-import argparse, json, re, sys
+
+import argparse
+import json
+import re
+import sys
+from collections import Counter
 from pathlib import Path
-from collections import Counter, defaultdict
 
 ERR = 0
 

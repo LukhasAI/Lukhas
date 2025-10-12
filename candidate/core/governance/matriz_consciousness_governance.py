@@ -32,7 +32,7 @@ try:
     from ..consciousness.matriz_consciousness_state import (
         ConsciousnessState,
         ConsciousnessType,
-        EvolutionaryStage,
+        EvolutionaryStage,  # noqa: F401  # TODO: ..consciousness.matriz_conscio...
         consciousness_state_manager,
         create_consciousness_state,
     )

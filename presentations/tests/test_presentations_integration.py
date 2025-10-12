@@ -15,7 +15,7 @@ import pytest
 # Import module for integration testing
 try:
     pass  #     pass  #
-    import presentations
+    import presentations  # noqa: F401  # TODO: presentations; consider using ...
 except ImportError:
     pytest.skip("Module presentations not available", allow_module_level=True)
 

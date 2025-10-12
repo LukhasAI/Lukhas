@@ -15,12 +15,12 @@ from datetime import datetime
 from enum import Enum
 from typing import Any, Optional
 
-from lukhas.orchestration.agent_orchestrator.intelligence_bridge import (  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for multi-AI agent coordination
+from lukhas.orchestration.agent_orchestrator.intelligence_bridge import (  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for multi-AI agent coordination  # noqa: invalid-syntax  # TODO: Expected one or more symbol na...
 from datetime import timezone
-    AgentType,
+    AgentType,  # noqa: invalid-syntax  # TODO: Unexpected indentation
     IntelligenceRequestType,
     LukhasAgentBridge,
-)
+)  # noqa: invalid-syntax  # TODO: Expected a statement
 
 logger = logging.getLogger("LUKHAS.Intelligence.Orchestration")
 

@@ -15,7 +15,7 @@ import pytest
 # Import module components
 try:
     pass  #     pass  #
-    import api
+    import api  # noqa: F401  # TODO: api; consider using importlib....
 except ImportError:
     pytest.skip("Module api not available", allow_module_level=True)
 

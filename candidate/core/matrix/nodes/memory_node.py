@@ -1,8 +1,9 @@
 """MATRIZ MemoryNode implementation."""
 from typing import Any, Dict, List
 
-from .base import BaseMatrixNode
 from MATRIZ.core.node_interface import NodeState
+
+from .base import BaseMatrixNode
 
 
 class MemoryNode(BaseMatrixNode):

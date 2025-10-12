@@ -15,7 +15,7 @@ import pytest
 # Import module components
 try:
     pass  #     pass  #
-    import completion
+    import completion  # noqa: F401  # TODO: completion; consider using imp...
 except ImportError:
     pytest.skip("Module completion not available", allow_module_level=True)
 

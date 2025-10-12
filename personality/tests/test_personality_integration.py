@@ -15,7 +15,7 @@ import pytest
 # Import module for integration testing
 try:
     pass  #     pass  #
-    import personality
+    import personality  # noqa: F401  # TODO: personality; consider using im...
 except ImportError:
     pytest.skip("Module personality not available", allow_module_level=True)
 

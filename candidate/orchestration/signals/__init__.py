@@ -5,6 +5,7 @@ Colony-wide endocrine-inspired signal system for adaptive behavior modulation.
 """
 import streamlit as st
 
+from .diagnostic_signal_type import DiagnosticSignalType
 from .homeostasis import (
     AuditTrail,
     HomeostasisController,
@@ -21,7 +22,6 @@ from .signal_bus import (
     emit_stress,
     get_signal_bus,
 )
-from .diagnostic_signal_type import DiagnosticSignalType
 
 # For backward compatibility
 SymbolicSignal = Signal

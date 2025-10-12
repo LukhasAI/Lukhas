@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
-import ast, sys
+import ast
+import sys
+from collections import defaultdict
 from pathlib import Path
-from collections import defaultdict, deque
 
 ROOT="lukhas"
 edges = defaultdict(set)

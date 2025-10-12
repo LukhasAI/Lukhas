@@ -24,7 +24,11 @@ import traceback
 from typing import Any, Dict, List, Optional, Tuple
 
 try:
-    from jsonschema import Draft202012Validator, ValidationError, validate
+    from jsonschema import (  # noqa: F401  # TODO: jsonschema.validate; consider ...
+        Draft202012Validator,
+        ValidationError,
+        validate,
+    )
 except ImportError:
     print("Error: jsonschema not installed. Run: pip install jsonschema", file=sys.stderr)
     sys.exit(1)

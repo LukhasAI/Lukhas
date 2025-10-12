@@ -3,6 +3,7 @@ Bridge for `lukhas.tools.collapse_simulator`.
 Search order: tools → website → candidate → legacy consciousness/collapse paths.
 """
 from __future__ import annotations
+
 from importlib import import_module
 from typing import Optional
 

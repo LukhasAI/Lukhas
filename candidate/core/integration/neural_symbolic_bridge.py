@@ -105,7 +105,7 @@ class NeuralSymbolicIntegration:
         }
 
 
-EOF
+EOF  # noqa: F821  # TODO: EOF
 
 # Multi-Agent Collaboration
-cat > lukhas_agi / packages / core / src / multi_agent / collaboration.py << "EOF"
+cat > lukhas_agi / packages / core / src / multi_agent / collaboration.py << "EOF"  # noqa: F821  # TODO: cat

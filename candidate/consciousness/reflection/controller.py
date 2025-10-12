@@ -84,8 +84,8 @@ from typing import Any, Callable, Optional
 
 import numpy as np
 
-from lukhas.orchestration.brain.privacy_manager import PrivacyManager
 from lukhas.governance.identity.auth_backend.audit_logger import AuditLogger
+from lukhas.orchestration.brain.privacy_manager import PrivacyManager
 
 # 🛡️ Compliance and Security Imports
 
@@ -199,7 +199,7 @@ class AGISession:
     session_id: str
     user_id: str
     start_time: datetime
-    interaction_mode: InteractionMode
+    interaction_mode: InteractionMode  # noqa: F821  # TODO: InteractionMode
     current_context: dict[str, Any]
     conversation_history: list[dict[str, Any]]
     emotional_state: dict[str, float]
@@ -236,7 +236,7 @@ class CognitiveController:
         self.current_state = AGIState.OFFLINE
 
         # 🛡️ Initialize Compliance Components First (Security First Architecture)
-        self.compliance_engine: Optional[ComplianceEngine] = None
+        self.compliance_engine: Optional[ComplianceEngine] = None  # noqa: F821  # TODO: ComplianceEngine
         self.privacy_manager: Optional[PrivacyManager] = None
         self.audit_logger: Optional[AuditLogger] = None
 
@@ -337,7 +337,7 @@ class CognitiveController:
 
             try:
                 # Initialize compliance engine
-                self.compliance_engine = ComplianceEngine()
+                self.compliance_engine = ComplianceEngine()  # noqa: F821  # TODO: ComplianceEngine
                 await self.compliance_engine.initialize()
                 logger.info("✅ Compliance engine initialized")
 

@@ -4,6 +4,7 @@ OTel span helper. Falls back to no-op if opentelemetry not installed.
 """
 
 from __future__ import annotations
+
 from contextlib import contextmanager
 
 try:

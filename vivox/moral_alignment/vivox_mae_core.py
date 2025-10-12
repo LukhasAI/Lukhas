@@ -567,7 +567,7 @@ class VIVOXMoralAlignmentEngine:
     Computes dissonance scores and moral fingerprints
     """
 
-    def __init__(self, vivox_me: "VIVOXMemoryExpansion"):
+    def __init__(self, vivox_me: "VIVOXMemoryExpansion"):  # noqa: F821  # TODO: VIVOXMemoryExpansion
         self.vivox_me = vivox_me
         self.dissonance_calculator = DissonanceCalculator()
         self.moral_fingerprinter = MoralFingerprinter()

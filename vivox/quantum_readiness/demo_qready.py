@@ -2,14 +2,11 @@
 VIVOX.QREADY Demonstration
 Showcases quantum readiness capabilities
 """
-from consciousness.qi import qi
-import time
-import random
-import streamlit as st
 
 import asyncio
 
 import numpy as np
+
 from vivox.qi_readiness import (
     EthicalDimension,
     MoralSuperposition,

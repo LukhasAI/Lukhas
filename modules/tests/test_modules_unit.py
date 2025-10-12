@@ -15,7 +15,7 @@ import pytest
 # Import module components
 try:
     pass  #     pass  #
-    import modules
+    import modules  # noqa: F401  # TODO: modules; consider using import...
 except ImportError:
     pytest.skip("Module modules not available", allow_module_level=True)
 

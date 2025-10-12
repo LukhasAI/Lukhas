@@ -11,7 +11,10 @@ Outputs:
   - docs/CONSTELLATION_TOP.md
   - docs/stars/<star_slug>.md
 """
-import json, pathlib, datetime, re
+import datetime
+import json
+import pathlib
+import re
 from collections import defaultdict
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]

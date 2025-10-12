@@ -31,8 +31,7 @@ from typing import Any, Dict, List
 
 import hypothesis
 import pytest
-from hypothesis import assume, given
-from hypothesis import strategies as st
+from hypothesis import assume, given, strategies as st
 from hypothesis.stateful import Bundle, RuleBasedStateMachine, consumes, rule
 
 # LUKHAS cognitive imports

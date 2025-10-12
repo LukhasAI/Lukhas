@@ -15,7 +15,7 @@ import pytest
 # Import module components
 try:
     pass  #     pass  #
-    import enterprise
+    import enterprise  # noqa: F401  # TODO: enterprise; consider using imp...
 except ImportError:
     pytest.skip("Module enterprise not available", allow_module_level=True)
 

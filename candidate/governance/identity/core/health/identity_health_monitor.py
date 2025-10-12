@@ -16,11 +16,11 @@ from typing import Any, Callable, Optional
 import numpy as np
 import psutil
 
-# Import self-healing components
-from lukhas.core.self_healing import HealingStrategy, HealthStatus, SelfHealingSystem
-
 # Import identity components
 from governance.identity.core.events import IdentityEventPriority, IdentityEventPublisher, get_identity_event_publisher
+
+# Import self-healing components
+from lukhas.core.self_healing import HealingStrategy, HealthStatus, SelfHealingSystem
 
 logger = logging.getLogger("LUKHAS_IDENTITY_HEALTH")
 

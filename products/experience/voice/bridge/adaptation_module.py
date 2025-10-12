@@ -17,8 +17,7 @@
 import time
 from statistics import mean
 
-from ._logging import BRIDGE_LOGGER as logger
-from ._logging import get_voice_bridge_logger
+from ._logging import BRIDGE_LOGGER as logger, get_voice_bridge_logger
 
 # ΛTAG: voice_adaptation_defaults
 _BASE_EMOTION_MAP = {

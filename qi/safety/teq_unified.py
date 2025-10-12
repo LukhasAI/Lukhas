@@ -2,7 +2,6 @@
 """
 Unified TEQ Coupler - Combines state-based and policy-based safety mechanisms
 """
-import streamlit as st
 
 from __future__ import annotations
 

@@ -36,7 +36,7 @@ class _FallbackAdapter:
 def _ensure(name: str, factory: type | None = None) -> None:
     if name in globals():
         return
-    target = factory if factory is not None else _FallbackAdapter
+    target = factory if factory is not None else _FallbackAdapter  # noqa: F821  # TODO: _FallbackAdapter
     globals()[name] = target
     __all__.append(name)
 

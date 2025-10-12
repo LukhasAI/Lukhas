@@ -37,13 +37,13 @@ logger = logging.getLogger("enhanced_dream_fastapi")
 # LUKHAS imports (with fallback handling)
 try:
     from bio.core import BioOrchestrator
-    from lukhas.core.bio_systems.qi_layer import QIBioOscillator
-    from lukhas.core.unified_integration import UnifiedIntegration
     from consciousness.core_consciousness.dream_engine.dream_reflection_loop import (
         DreamReflectionLoop,
     )
     from dream.core.dream_engine import DreamEngineSystem
     from dream.core.qi_dream_adapter import DreamQuantumConfig, QIDreamAdapter
+    from lukhas.core.bio_systems.qi_layer import QIBioOscillator
+    from lukhas.core.unified_integration import UnifiedIntegration
     from lukhas.memory.core_memory.dream_memory_manager import DreamMemoryManager
 
     BIO_CORE_AVAILABLE = True

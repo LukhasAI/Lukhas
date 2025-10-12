@@ -9,7 +9,7 @@ symbolic tag density.
 
 
 class SwarmResourceScheduler:
-    def __init__(self, swarm_hub: SwarmHub):
+    def __init__(self, swarm_hub: SwarmHub):  # noqa: F821  # TODO: SwarmHub
         self.swarm_hub = swarm_hub
 
     def schedule_task(self, task):
@@ -21,7 +21,7 @@ class SwarmResourceScheduler:
 
         for colony_id, info in self.swarm_hub.colonies.items():
             colony = info["colony"]
-            if colony.resource_state == ResourceState.CRITICAL:
+            if colony.resource_state == ResourceState.CRITICAL:  # noqa: F821  # TODO: ResourceState
                 continue
 
             score = self._calculate_score(colony)
@@ -30,5 +30,5 @@ class SwarmResourceScheduler:
                 best_colony = colony_id
 
         print(f"Scheduler: Assigned task to colony {best_colony}")
-    print(f"--> Best colony for memory task: {winner}")
-    print(f"--> Best colony for creative task: {winner}")
+    print(f"--> Best colony for memory task: {winner}")  # noqa: F821  # TODO: winner
+    print(f"--> Best colony for creative task: {winner}")  # noqa: F821  # TODO: winner

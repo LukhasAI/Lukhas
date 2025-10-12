@@ -14,7 +14,6 @@ import pytest
 # Add project root to path
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
-from memory.adaptive_memory import MemoryFold, MemoryItem, MemoryType
 from lukhas.memory.scheduled_folding import (
     CompressionLevel,
     FoldStatus,
@@ -22,6 +21,7 @@ from lukhas.memory.scheduled_folding import (
     ScheduledFoldingManager,
     get_folding_manager,
 )
+from memory.adaptive_memory import MemoryFold, MemoryItem, MemoryType
 
 
 def create_test_fold(item_count: int = 10, content_size: int = 100, unique_suffix: str = None) -> MemoryFold:

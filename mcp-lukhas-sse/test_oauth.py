@@ -30,8 +30,8 @@ async def test_oauth_basic():
 
     # Test 2: Check imports
     try:
-        from httpx import AsyncClient
-        from jose import jwt
+        from httpx import AsyncClient  # noqa: F401  # TODO: httpx.AsyncClient; consider us...
+        from jose import jwt  # noqa: F401  # TODO: jose.jwt; consider using impor...
         print("✓ OAuth dependencies imported successfully")
     except ImportError as e:
         print(f"❌ Import error: {e}")

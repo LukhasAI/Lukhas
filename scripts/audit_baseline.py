@@ -30,7 +30,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 try:
     from governance.guardian_system import GuardianSystem
     from lukhas.consciousness import (
-        AwarenessEngine,
+        AwarenessEngine,  # noqa: F401  # TODO: lukhas.consciousness.Awareness...
         ConsciousnessState,
         ConsciousnessStream,
         CreativeTask,

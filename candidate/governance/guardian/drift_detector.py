@@ -368,7 +368,7 @@ class AdvancedDriftDetector:
                     ConstitutionalFramework,
                 )
                 from lukhas.governance.identity.auth_backend.audit_logger import (
-                    AuditEventType,
+                    AuditEventType,  # noqa: F401  # TODO: lukhas.governance.identity.aut...
                     AuditLogger,
                 )
 

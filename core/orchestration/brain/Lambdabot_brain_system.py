@@ -38,7 +38,7 @@ class BotAGISystem:
 
     def __init__(self, config: Optional[dict[str, Any]] = None):
         self.config = config or {}
-        self.orchestrator = lukhas_agi_orchestrator if AGI_ORCHESTRATOR_AVAILABLE else None
+        self.orchestrator = lukhas_agi_orchestrator if AGI_ORCHESTRATOR_AVAILABLE else None  # noqa: F821  # TODO: lukhas_agi_orchestrator
         self.active = False
 
         logger.info(" Bot Cognitive AI System initialized (bridging to Lukhas Cognitive AI)")

@@ -15,7 +15,7 @@ import pytest
 # Import module for integration testing
 try:
     pass  #     pass  #
-    import next_gen
+    import next_gen  # noqa: F401  # TODO: next_gen; consider using impor...
 except ImportError:
     pytest.skip("Module next_gen not available", allow_module_level=True)
 

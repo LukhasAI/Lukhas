@@ -15,7 +15,7 @@ import pytest
 # Import module for integration testing
 try:
     pass  #     pass  #
-    import observability
+    import observability  # noqa: F401  # TODO: observability; consider using ...
 except ImportError:
     pytest.skip("Module observability not available", allow_module_level=True)
 

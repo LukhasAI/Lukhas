@@ -3,6 +3,7 @@ Bridge for `lukhas.trace` (e.g., TraceRepairEngine).
 Prefers richest backends; falls back to a no-op engine.
 """
 from __future__ import annotations
+
 from importlib import import_module
 from types import ModuleType
 from typing import List

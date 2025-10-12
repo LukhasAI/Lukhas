@@ -9,8 +9,6 @@ import uuid
 from datetime import datetime, timezone
 from typing import Literal
 
-import openai
-
 from lukhas.bridge.llm_wrappers.anthropic_wrapper import AnthropicWrapper
 from lukhas.bridge.llm_wrappers.azure_openai_wrapper import AzureOpenaiWrapper
 from lukhas.bridge.llm_wrappers.gemini_wrapper import GeminiWrapper

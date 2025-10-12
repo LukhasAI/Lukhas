@@ -39,7 +39,7 @@ def create_ascii_qr_pattern(size: int = 25, density: float = 0.5, style: str = "
     for _i in range(size // 2):  # Reduced height for readability
         row = "│"
         for _j in range(size):
-            if secrets.randbelow(101) / 100 < density:
+            if secrets.randbelow(101) / 100 < density:  # noqa: F821  # TODO: secrets
                 row += "██"
             else:
                 row += "  "

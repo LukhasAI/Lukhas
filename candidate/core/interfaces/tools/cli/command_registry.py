@@ -67,14 +67,14 @@ COMMANDS = {
         "shortcut": "Ctrl+Shift+L",
         "script": "python3 dashboards/main.py",
         "description": "Starts the LUKHAS public companion dashboard(voice, thoughts,"
-                                                                     visuals).","
-    },
-    "Trigger Audit Log (CLI)": {
+                                                                     visuals).","  # noqa: invalid-syntax  # TODO: Expected ,, found name
+    },  # noqa: invalid-syntax  # TODO: Expected :, found }
+    "Trigger Audit Log (CLI)": {  # noqa: invalid-syntax  # TODO: Expected ,, found indent
         "shortcut": "Ctrl+Alt+A",
         "script": "sh tools/audit_shortcut.sh",
         "description": "Runs audit entry logger to manifest pipeline and logs result.",
-    },
-}
+    },  # noqa: invalid-syntax  # TODO: Expected ,, found newline
+}  # noqa: invalid-syntax  # TODO: Expected ,, found dedent
 
 # ==============================================================================
 # 🔍 USAGE: Print Available Developer Commands

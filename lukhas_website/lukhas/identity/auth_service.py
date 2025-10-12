@@ -27,7 +27,7 @@ except ImportError:
 
 # Import LUKHAS identity token components
 try:
-    from .alias_format import make_alias, parse_alias
+    from .alias_format import make_alias, parse_alias  # noqa: F401  # TODO: .alias_format.make_alias; cons...
     from .token_generator import EnvironmentSecretProvider, TokenGenerator
     from .token_validator import TokenValidator, ValidationContext, ValidationResult
     TOKEN_SYSTEM_AVAILABLE = True

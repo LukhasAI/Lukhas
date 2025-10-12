@@ -29,8 +29,12 @@ import structlog
 try:
     from opentelemetry import trace
     from opentelemetry.exporter.otlp.proto.grpc.trace_exporter import OTLPSpanExporter
-    from opentelemetry.instrumentation.fastapi import FastAPIInstrumentor
-    from opentelemetry.instrumentation.httpx import HTTPXClientInstrumentor
+    from opentelemetry.instrumentation.fastapi import (
+        FastAPIInstrumentor,  # noqa: F401  # TODO: opentelemetry.instrumentation....
+    )
+    from opentelemetry.instrumentation.httpx import (
+        HTTPXClientInstrumentor,  # noqa: F401  # TODO: opentelemetry.instrumentation....
+    )
     from opentelemetry.sdk.resources import Resource
     from opentelemetry.sdk.trace import TracerProvider
     from opentelemetry.sdk.trace.export import BatchSpanProcessor

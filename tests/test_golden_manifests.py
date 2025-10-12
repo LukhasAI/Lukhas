@@ -1,5 +1,8 @@
-import json, glob
+import glob
+import json
+
 from jsonschema import Draft7Validator
+
 
 def test_golden_manifests_validate():
     schema = json.load(open("schemas/matriz_module_compliance.schema.json"))

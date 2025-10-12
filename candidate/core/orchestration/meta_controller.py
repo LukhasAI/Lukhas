@@ -4,6 +4,7 @@ Simple oscillation detector to break loops in orchestrations.
 """
 
 from __future__ import annotations
+
 from collections import deque
 
 

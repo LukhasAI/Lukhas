@@ -40,7 +40,7 @@ try:
     from lukhas.bridge.api.orchestration_endpoints import app
     from lukhas.bridge.llm_wrappers.anthropic_function_bridge import (
         AnthropicFunctionBridge,
-        ClaudeModel,
+        ClaudeModel,  # noqa: F401  # TODO: lukhas.bridge.llm_wrappers.ant...
         ToolDefinition,
         ToolUseMode,
     )

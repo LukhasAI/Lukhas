@@ -7,7 +7,7 @@ from __future__ import annotations
 __all__ = ["trace", "metrics"]
 
 try:
-    from opentelemetry import trace, metrics  # type: ignore
+    from opentelemetry import metrics, trace  # type: ignore
 except Exception:
     class _NoOp:
         def __getattr__(self, _): return self

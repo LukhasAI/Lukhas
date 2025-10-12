@@ -15,7 +15,7 @@ import pytest
 # Import module components
 try:
     pass  #     pass  #
-    import var
+    import var  # noqa: F401  # TODO: var; consider using importlib....
 except ImportError:
     pytest.skip("Module var not available", allow_module_level=True)
 

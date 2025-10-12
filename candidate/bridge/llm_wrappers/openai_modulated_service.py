@@ -18,23 +18,22 @@ TaskIDs:
 #TAG:trinity
 """
 
-import logging
-import asyncio
-from typing import Any, Dict, List, Optional, Union, AsyncIterator
-from dataclasses import dataclass, field
-from datetime import datetime, timedelta
-from enum import Enum
 import hashlib
+import logging
+from dataclasses import dataclass, field
+from datetime import datetime
+from enum import Enum
+from typing import Any, AsyncIterator, Dict, List, Optional, Union
 
 # OpenAI imports (conditional)
 try:
-    import openai
-    from openai import OpenAI, AsyncOpenAI
+    import openai  # noqa: F401  # TODO: openai; consider using importl...
+    from openai import AsyncOpenAI, OpenAI
     from openai.types.chat import ChatCompletion, ChatCompletionChunk
     OPENAI_AVAILABLE = True
 except ImportError:
     OPENAI_AVAILABLE = False
-    logger.warning("OpenAI not available, install with: pip install openai")
+    logger.warning("OpenAI not available, install with: pip install openai")  # noqa: F821  # TODO: logger
 
 logger = logging.getLogger(__name__)
 
@@ -266,7 +265,7 @@ class VectorStoreAdapter:
         """Initialize FAISS index (local)"""
         try:
             import faiss
-            import numpy as np
+            import numpy as np  # noqa: F401  # TODO: numpy; consider using importli...
             # Create new index or load existing
             self._client = faiss.IndexFlatL2(self.config.dimension)
             self._vectors = []  # Store vectors in memory

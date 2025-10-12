@@ -1,9 +1,15 @@
 #!/usr/bin/env python3
 from __future__ import annotations
-import argparse, csv, json, re, sys
+
+import argparse
+import csv
+import json
+import re
+import sys
+from collections import Counter
 from pathlib import Path
-from collections import Counter, defaultdict
-from typing import Any, Dict, List, Tuple
+from typing import Any, List, Tuple
+
 
 def load_json(path: Path) -> Any:
     try:

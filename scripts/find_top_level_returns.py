@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
-import ast, sys
+import ast
+import sys
 from pathlib import Path
+
 
 def has_top_level_return(path: Path) -> bool:
     try:

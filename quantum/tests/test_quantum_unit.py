@@ -15,7 +15,7 @@ import pytest
 # Import module components
 try:
     pass  #     pass  #
-    import quantum
+    import quantum  # noqa: F401  # TODO: quantum; consider using import...
 except ImportError:
     pytest.skip("Module quantum not available", allow_module_level=True)
 

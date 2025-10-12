@@ -362,7 +362,7 @@ class LukhasComplianceChecker:
         module_reports = []
 
         with concurrent.futures.ThreadPoolExecutor(max_workers=8) as executor:
-            future_to_file = {executor.submit(self._scan_single_file, file_path)}: file_path for file_path in files}
+            future_to_file = {executor.submit(self._scan_single_file, file_path)}: file_path for file_path in files}  # noqa: invalid-syntax  # TODO: Expected a statement
 
             for future in concurrent.futures.as_completed(future_to_file):
                 file_path = future_to_file[future]

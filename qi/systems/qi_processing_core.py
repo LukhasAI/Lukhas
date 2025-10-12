@@ -33,16 +33,16 @@ __tier__ = 2
 
 
 import logging
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any, Optional
 
 import numpy as np
-from datetime import timezone
 
 from ..bio.awareness.advanced_qi_bio import (  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for core infrastructure (review and implement)
     MitochondrialQIBridge,
     NeuroplasticityModulator,
-    QISynapticGate)
+    QISynapticGate,
+)
 
 logger = logging.getLogger(__name__)
 

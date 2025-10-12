@@ -150,8 +150,7 @@ try:
         MessagePriority,
         get_global_communication_fabric,
     )
-    from ..event_sourcing import EventSourcedAggregate as AIAgentAggregate
-    from ..event_sourcing import get_global_event_store
+    from ..event_sourcing import EventSourcedAggregate as AIAgentAggregate, get_global_event_store
     from ..supervisor_agent import SupervisorAgent, get_supervisor_agent
     from ..symbolism import TagScope
 

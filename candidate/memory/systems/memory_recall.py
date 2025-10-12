@@ -1,4 +1,4 @@
-log = logging.getLogger(__name__)
+log = logging.getLogger(__name__)  # noqa: F821  # TODO: logging
 """
 LUKHAS AI System - "Lukhas" Symbolic Memory Recall Utility (# ΛLEGACY)
 File: memory_recall.py

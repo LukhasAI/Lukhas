@@ -51,7 +51,7 @@ try:
         AuthenticationTier,
         ConstitutionalComplianceData,
         IdentityBiometricData,
-        IdentitySignalType,
+        IdentitySignalType,  # noqa: F401  # TODO: .matriz_consciousness_identity...
         NamespaceIsolationData,
         consciousness_identity_signal_emitter,
     )

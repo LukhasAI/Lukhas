@@ -42,8 +42,6 @@ try:
     # Import from production lukhas.emotion system
     from lukhas.emotion import (
         EMOTION_ACTIVE as _emotion_active,
-    )
-    from lukhas.emotion import (
         EmotionWrapper,
         emit,
         get_emotion_wrapper,

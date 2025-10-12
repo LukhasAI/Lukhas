@@ -14,8 +14,7 @@ T4/0.01% excellence standards with property-based testing.
 import time
 
 import pytest
-from hypothesis import given
-from hypothesis import strategies as st
+from hypothesis import given, strategies as st
 
 # Configure asyncio testing
 pytestmark = pytest.mark.asyncio

@@ -15,7 +15,7 @@ import pytest
 # Import module components
 try:
     pass  #     pass  #
-    import gtpsi
+    import gtpsi  # noqa: F401  # TODO: gtpsi; consider using importli...
 except ImportError:
     pytest.skip("Module gtpsi not available", allow_module_level=True)
 

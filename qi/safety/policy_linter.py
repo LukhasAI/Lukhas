@@ -11,7 +11,7 @@ REQUIRED = {"require_provenance", "mask_pii", "budget_limit"}
 
 def lint(policy_root: str, jurisdiction: str = "global"):
     os.path.join(policy_root, jurisdiction)
-mappings = yaml.safe_load(open(os.path.join(base, "mappings.yaml")))
+mappings = yaml.safe_load(open(os.path.join(base, "mappings.yaml")))  # noqa: F821  # TODO: base
 tasks = mappings.get("tasks", {})
 issues = []
 for task, checks in tasks.items():

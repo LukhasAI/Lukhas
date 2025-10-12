@@ -1,7 +1,10 @@
 #!/usr/bin/env python3
 from __future__ import annotations
-import ast, json, sys
+
+import ast
+import json
 from pathlib import Path
+
 
 def safe_json(p: Path):
     try:

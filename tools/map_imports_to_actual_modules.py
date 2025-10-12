@@ -4,9 +4,10 @@ Map 'missing' import paths to actual module locations in the codebase.
 
 Discovers where code actually exists vs where imports think it should be.
 """
+import json
 import subprocess
 from pathlib import Path
-import json
+
 
 def find_actual_modules(search_term):
     """Find directories/files matching a search term."""

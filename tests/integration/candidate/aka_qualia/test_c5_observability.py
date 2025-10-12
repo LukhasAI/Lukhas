@@ -9,9 +9,8 @@ Demonstrates the observability system integrated with Aka Qualia components.
 import json
 import time
 
-from lukhas.aka_qualia.monitoring_dashboard import MonitoringDashboard
-
 from lukhas.aka_qualia.memory_noop import NoopMemory
+from lukhas.aka_qualia.monitoring_dashboard import MonitoringDashboard
 from lukhas.aka_qualia.observability import (
     AkaqMetrics,
     get_observability,

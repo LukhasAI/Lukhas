@@ -60,13 +60,17 @@ import numpy as np
 # Import Lukhas core components
 try:
     from lukhas.core.integration.neuro_symbolic_fusion_layer import (
-        NeuroSymbolicFusionLayer,
+        NeuroSymbolicFusionLayer,  # noqa: F401  # TODO: lukhas.core.integration.neuro_...
     )
     from lukhas.core.utils.orchestration_energy_aware_execution_planner import (
-        EnergyAwareExecutionPlanner,
+        EnergyAwareExecutionPlanner,  # noqa: F401  # TODO: lukhas.core.utils.orchestratio...
     )
-    from lukhas.memory.governance.ethical_drift_governor import EthicalDriftGovernor  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept pending MATRIZ wiring (document or remove)
-    from reasoning.symbolic_reasoning import SymbolicEngine  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for bio-inspired/quantum systems development
+    from lukhas.memory.governance.ethical_drift_governor import (
+        EthicalDriftGovernor,  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept pending MATRIZ wiring (document or remove)
+    )
+    from reasoning.symbolic_reasoning import (
+        SymbolicEngine,  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for bio-inspired/quantum systems development
+    )
 except ImportError:
     pass
 

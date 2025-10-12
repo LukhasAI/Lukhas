@@ -6,7 +6,6 @@ registry so repeated imports or pytest collection won't throw:
 """
 from __future__ import annotations
 
-
 # Use centralized, duplicate-tolerant registry
 from lukhas.observability import counter, gauge, histogram
 

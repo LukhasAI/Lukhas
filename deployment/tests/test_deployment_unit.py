@@ -15,7 +15,7 @@ import pytest
 # Import module components
 try:
     pass  #     pass  #
-    import deployment
+    import deployment  # noqa: F401  # TODO: deployment; consider using imp...
 except ImportError:
     pytest.skip("Module deployment not available", allow_module_level=True)
 

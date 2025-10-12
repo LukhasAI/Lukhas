@@ -1,7 +1,11 @@
 #!/usr/bin/env python3
 from __future__ import annotations
-import argparse, json, sys
+
+import argparse
+import json
+import sys
 from pathlib import Path
+
 
 def load(path: Path) -> dict:
     with path.open("r", encoding="utf-8") as f:

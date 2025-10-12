@@ -63,14 +63,14 @@ from enum import Enum
 from typing import Any, Optional
 
 import numpy as np
+from dashboard.core.fallback_system import DashboardFallbackSystem
 
 from bio.core.symbolic_fallback_systems import BioSymbolicFallbackManager, FallbackLevel
+from ethics.compliance_validator import ComplianceValidator
 from lukhas.core.colonies.base_colony import BaseColony
 from lukhas.core.colonies.ethics_swarm_colony import EthicalDecisionRequest, EthicalDecisionType, EthicsSwarmColony
 from lukhas.core.colonies.governance_colony_enhanced import GovernanceColony
 from lukhas.core.quantized_thought_cycles import QuantizedThoughtProcessor
-from dashboard.core.fallback_system import DashboardFallbackSystem
-from ethics.compliance_validator import ComplianceValidator
 
 # Import existing components
 from lukhas.memory.systems.memory_safety_features import MemorySafetySystem

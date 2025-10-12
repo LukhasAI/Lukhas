@@ -69,8 +69,7 @@ CreativeOutput = TypeVar("CreativeOutput")
 
 # Metrics collection
 try:
-    from prometheus_client import Counter as PrometheusCounter
-    from prometheus_client import Gauge, Histogram
+    from prometheus_client import Counter as PrometheusCounter, Gauge, Histogram
 except ImportError:  # pragma: no cover - fallback when prometheus_client missing
 
     class _MetricStub:

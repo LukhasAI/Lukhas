@@ -15,7 +15,7 @@ import logging
 import time
 from typing import Any, Dict, Optional
 
-from .plan_verifier import get_plan_verifier, VerificationContext
+from .plan_verifier import VerificationContext, get_plan_verifier
 
 logger = logging.getLogger(__name__)
 

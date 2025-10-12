@@ -15,7 +15,7 @@ import pytest
 # Import module for integration testing
 try:
     pass  #     pass  #
-    import alerts
+    import alerts  # noqa: F401  # TODO: alerts; consider using importl...
 except ImportError:
     pytest.skip("Module alerts not available", allow_module_level=True)
 

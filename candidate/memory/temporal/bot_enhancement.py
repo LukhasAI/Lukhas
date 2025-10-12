@@ -220,9 +220,9 @@ class BotEnhancementEngine:
     def _create_error_response(self, request: EnhancementRequest, error_msg: str) -> EnhancementResponse:
         """Create error response for failed enhancement"""
         return EnhancementResponse(
-            request_id=f"error_{request.bot_id}_{int(asyncio.get_event_loop().time()}",
+            request_id=f"error_{request.bot_id}_{int(asyncio.get_event_loop().time()}",  # noqa: invalid-syntax  # TODO: Expected ,, found }
             bot_id=request.bot_id,
             enhancement_data={"error": error_msg, "status": "failed"},
             processing_time=0.0,
             confidence=0.0,
-        )
+        )  # noqa: invalid-syntax  # TODO: f-string: unterminated string

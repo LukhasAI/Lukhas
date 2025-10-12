@@ -1,5 +1,5 @@
 import logging
-import time
+
 logger = logging.getLogger(__name__)
 """
 ╔═══════════════════════════════════════════════════════════════════════════╗
@@ -261,10 +261,6 @@ def sync_to_notion_legacy(doc_path: str, notion_page_id: str = "symbolic-notion-
 
 
 # ΛiD audit logging integration
-
-
-def log_audit_with_lid(action: str, metadata: Optional[dict[str, Any]] = None):
-    """Log Notion sync or other actions using ΛiD signature."""
 
 
 # Lukhas_ID audit logging integration

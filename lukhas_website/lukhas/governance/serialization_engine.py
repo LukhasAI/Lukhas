@@ -43,7 +43,7 @@ import zstandard as zstd
 
 # Try to import protobuf - graceful degradation if not available
 try:
-    import google.protobuf.message
+    import google.protobuf.message  # noqa: F401  # TODO: google.protobuf.message; consi...
     from google.protobuf import json_format
     from google.protobuf.message import Message as ProtoMessage
     PROTOBUF_AVAILABLE = True

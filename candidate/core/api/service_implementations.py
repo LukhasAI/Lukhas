@@ -1,4 +1,4 @@
-log = logging.getLogger(__name__)
+log = logging.getLogger(__name__)  # noqa: F821  # TODO: logging
 """
 Service implementations for LUKHAS core modules
 Connects to real implementations replacing stubs
@@ -52,7 +52,9 @@ try:
 except ImportError:
     try:
         # Try alternative emotion system
-        from lukhas.emotion import EmotionWrapper as EmotionEngine  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for API expansion (document or implement)
+        from lukhas.emotion import (
+            EmotionWrapper as EmotionEngine,  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for API expansion (document or implement)
+        )
 
         EMOTION_ENGINE_AVAILABLE = True
     except ImportError as e:
@@ -60,7 +62,9 @@ except ImportError:
         EMOTION_ENGINE_AVAILABLE = False
 
 try:
-    from lukhas.consciousness.dream.core.dream_engine import DreamEngine  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for Constellation Framework consciousness evolution
+    from lukhas.consciousness.dream.core.dream_engine import (
+        DreamEngine,  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for Constellation Framework consciousness evolution
+    )
 
     DREAM_ENGINE_AVAILABLE = True
 except ImportError:
@@ -68,7 +72,9 @@ except ImportError:
     DREAM_ENGINE_AVAILABLE = False
 
 try:
-    from lukhas.core.coordination import ContractNetInitiator as CoordinationManager  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for API expansion (document or implement)
+    from lukhas.core.coordination import (
+        ContractNetInitiator as CoordinationManager,  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for API expansion (document or implement)
+    )
 
     COORDINATION_MANAGER_AVAILABLE = True
 except ImportError:

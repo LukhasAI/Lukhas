@@ -2,8 +2,12 @@
 Mutation engine for evolving strategies.
 Experimental adaptive optimization of dream system parameters.
 """
-import random, os, json, time, hashlib
-from typing import Dict, List, Any, Optional, Tuple
+import hashlib
+import json
+import os
+import random
+import time
+from typing import Any, Dict, List, Optional, Tuple
 
 ENABLED = os.getenv("LUKHAS_STRATEGY_EVOLVE", "0") == "1"
 MUTATION_RATE = float(os.getenv("LUKHAS_EVOLVE_MUTATION_RATE", "0.1"))

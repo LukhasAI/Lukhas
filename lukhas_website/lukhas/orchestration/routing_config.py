@@ -30,9 +30,10 @@ from typing import Any, Dict, List, Optional
 
 import yaml
 from opentelemetry import trace
-from lukhas.observability import counter, histogram
 from watchdog.events import FileSystemEventHandler
 from watchdog.observers import Observer
+
+from lukhas.observability import counter, histogram
 
 tracer = trace.get_tracer(__name__)
 logger = logging.getLogger(__name__)

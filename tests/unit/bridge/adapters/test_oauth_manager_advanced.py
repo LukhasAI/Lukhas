@@ -25,8 +25,7 @@ import time
 from typing import Optional
 
 import pytest
-from hypothesis import assume, given, settings
-from hypothesis import strategies as st
+from hypothesis import assume, given, settings, strategies as st
 
 from bridge.external_adapters.oauth_manager import (
     CircuitBreaker,

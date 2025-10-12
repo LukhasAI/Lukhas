@@ -4,8 +4,9 @@ Tests for onboarding error paths.
 Part of BATCH-COPILOT-2025-10-08-01
 TaskID: ASSIST-MED-TEST-ONBOARD-ERR-y7z8a9b0
 """
-import pytest
 from unittest.mock import Mock, patch
+
+import pytest
 
 
 @pytest.mark.unit

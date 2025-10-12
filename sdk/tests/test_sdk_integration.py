@@ -15,7 +15,7 @@ import pytest
 # Import module for integration testing
 try:
     pass  #     pass  #
-    import sdk
+    import sdk  # noqa: F401  # TODO: sdk; consider using importlib....
 except ImportError:
     pytest.skip("Module sdk not available", allow_module_level=True)
 

@@ -14,12 +14,12 @@ Trinity Framework:
 
 import hashlib
 import hmac
-import time
 import secrets
-from dataclasses import dataclass, field, asdict
+import time
+from dataclasses import asdict, dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Dict, Any, Optional, List
+from typing import Any, Dict, List, Optional
 
 
 class QRSAlgorithm(Enum):

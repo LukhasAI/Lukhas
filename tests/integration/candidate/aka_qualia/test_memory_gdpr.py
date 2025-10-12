@@ -20,7 +20,6 @@ import time
 import pytest
 
 from lukhas.aka_qualia.memory_sql import SqlMemory
-
 from tests.integration.candidate.aka_qualia.conftest import create_test_glyph, create_test_scene
 
 

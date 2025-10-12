@@ -2,8 +2,9 @@
 Simulated collective dreaming (multi-agent).
 Aggregates emotional contexts across multiple agents.
 """
-import os, statistics
-from typing import List, Dict, Any, Optional
+import os
+import statistics
+from typing import Any, Dict, List, Optional
 
 ENABLED = os.getenv("LUKHAS_MULTI_AGENT", "0") == "1"
 AGGREGATION_METHOD = os.getenv("LUKHAS_MESH_AGGREGATION", "mean")  # mean|median|max|min

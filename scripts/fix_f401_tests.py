@@ -2,10 +2,15 @@
 # Fix F401 "imported but unused" only under tests/** using Ruff JSON as ground truth.
 # Requires: ruff JSON report at docs/audits/ruff.json (or --ruff)
 from __future__ import annotations
-import argparse, json, sys
+
+import argparse
+import json
+import sys
 from pathlib import Path
+
 import libcst as cst
 import libcst.matchers as m
+
 
 def load_json(p: Path): return json.loads(p.read_text(encoding="utf-8"))
 

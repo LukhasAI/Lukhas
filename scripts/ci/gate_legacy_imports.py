@@ -10,8 +10,8 @@ Environment variables:
   - LUKHAS_IMPORT_MAX_DELTA: Max increase from baseline (default: 0)
   - UPDATE_BASELINE: Set to "1" to update baseline after passing checks
 """
-import os
 import json
+import os
 from pathlib import Path
 
 LEDGER = Path("artifacts/lukhas_import_ledger.ndjson")

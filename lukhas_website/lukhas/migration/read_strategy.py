@@ -8,8 +8,8 @@ from lukhas.migration.legacy_store import LegacyStore
 
 
 def read_memory(*, legacy: LegacyStore, dna: HelixMemory, key: str) -> Optional[dict]:
-    cutover = Flags.get_str("DNA_CUTOVER_READ_FROM", "legacy").lower()
-    shadow = Flags.get("DNA_READ_SHADOW", default=False)
+    cutover = Flags.get_str("DNA_CUTOVER_READ_FROM", "legacy").lower()  # noqa: F821  # TODO: Flags
+    shadow = Flags.get("DNA_READ_SHADOW", default=False)  # noqa: F821  # TODO: Flags
 
     def _cmp(a, b):  # minimalist compare
         if not a or not b:

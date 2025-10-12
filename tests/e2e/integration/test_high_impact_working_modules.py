@@ -197,8 +197,8 @@ def test_qi_module_init_comprehensive():
 def test_core_symbolism_comprehensive():
     """Test comprehensive coverage for core symbolism modules."""
     try:
-        from lukhas.core.symbolism.methylation_model import MethylationModel
         from candidate.core.symbolism.tags import SymbolicTag, TagProcessor
+        from lukhas.core.symbolism.methylation_model import MethylationModel
 
         # Test tag processing
         tag_scenarios = [

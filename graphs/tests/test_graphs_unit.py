@@ -15,7 +15,7 @@ import pytest
 # Import module components
 try:
     pass  #     pass  #
-    import graphs
+    import graphs  # noqa: F401  # TODO: graphs; consider using importl...
 except ImportError:
     pytest.skip("Module graphs not available", allow_module_level=True)
 

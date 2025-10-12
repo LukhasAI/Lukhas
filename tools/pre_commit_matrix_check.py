@@ -12,7 +12,10 @@ import sys
 from typing import List
 
 try:
-    from jsonschema import Draft202012Validator, ValidationError
+    from jsonschema import (  # noqa: F401  # TODO: jsonschema.ValidationError; co...
+        Draft202012Validator,
+        ValidationError,
+    )
 except ImportError:
     print("❌ jsonschema not installed. Run: pip install jsonschema", file=sys.stderr)
     sys.exit(1)

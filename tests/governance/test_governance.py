@@ -14,22 +14,25 @@ Tasks Tested:
 Trinity Framework: 🛡️ Guardian · ⚖️ Ethics
 """
 
-import pytest
 import asyncio
 from datetime import datetime, timezone
+
+import pytest
+
+from candidate.governance.ethics.compliance_monitor import (
+    ComplianceFramework,
+    ComplianceMonitor,
+    ComplianceStatus,
+)
 from candidate.governance.ethics.ethical_decision_maker import (
     AdvancedEthicalDecisionMaker,
 )
-from candidate.governance.ethics.compliance_monitor import (
-    ComplianceMonitor,
-    ComplianceFramework,
-    ComplianceStatus,
-)
 from candidate.governance.security.access_control import (
+    AccessDecision,
     AccessTier,
     AccessType,
-    AccessDecision,
 )
+
 # Skip audit system imports - not required for current tests
 # from candidate.governance.security.audit_system import AuditSystem
 

@@ -5,7 +5,7 @@ Provides canonical metric schemas and compatibility shims for legacy aliases.
 Prevents test/UI drift by normalizing metric key names across the system.
 """
 from dataclasses import dataclass
-from typing import Dict, Mapping, Any
+from typing import Any, Dict, Mapping
 
 
 @dataclass(frozen=True)

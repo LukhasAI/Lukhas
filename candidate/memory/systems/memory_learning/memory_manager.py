@@ -200,7 +200,7 @@ class MemoryManager:
         self.vector_search_enabled = False
 
         # Dream reflection loop integration
-        self.dream_reflection = DreamReflectionLoop()
+        self.dream_reflection = DreamReflectionLoop()  # noqa: F821  # TODO: DreamReflectionLoop
         self.last_dream_cycle = None
         self.dream_cycle_interval = timedelta(hours=6)  # Run dream cycle every 6 hours
 

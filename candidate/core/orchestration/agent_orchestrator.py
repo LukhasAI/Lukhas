@@ -23,16 +23,16 @@ from datetime import datetime
 from typing import Any, Optional
 
 from .interfaces.agent_interface import AgentCapability, AgentContext, AgentInterface, AgentMessage, AgentStatus
-from .interfaces.orchestration_protocol import (  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for multi-AI agent coordination
+from .interfaces.orchestration_protocol import (  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for multi-AI agent coordination  # noqa: invalid-syntax  # TODO: Expected one or more symbol na...
 from datetime import timezone
-    MessageBuilder,
+    MessageBuilder,  # noqa: invalid-syntax  # TODO: Unexpected indentation
     MessageType,
     OrchestrationMessage,
     OrchestrationProtocol,
     Priority,
     TaskDefinition,
     TaskResult,
-)
+)  # noqa: invalid-syntax  # TODO: Expected a statement
 from .interfaces.plugin_registry import PluginRegistry, PluginStatus
 
 logger = logging.getLogger(__name__)

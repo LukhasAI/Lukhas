@@ -15,7 +15,7 @@ import pytest
 # Import module for integration testing
 try:
     pass  #     pass  #
-    import examples
+    import examples  # noqa: F401  # TODO: examples; consider using impor...
 except ImportError:
     pytest.skip("Module examples not available", allow_module_level=True)
 

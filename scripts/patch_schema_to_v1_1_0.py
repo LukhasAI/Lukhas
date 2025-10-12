@@ -10,7 +10,10 @@ Patch schemas/matriz_module_compliance.schema.json → v1.1.0
 - Add T1_critical gates via if/then
 - Bump version field to 1.1.0 (schema metadata)
 """
-import json, sys, copy, datetime, pathlib
+import datetime
+import json
+import pathlib
+import sys
 
 SCHEMA_PATH = pathlib.Path("schemas/matriz_module_compliance.schema.json")
 

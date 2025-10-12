@@ -3,8 +3,8 @@
 Generate lukhas package shims from artifacts/lukhas_shim_map.json.
 Reads the data-driven map and creates only the hot-path packages tests need.
 """
-from pathlib import Path
 import json
+from pathlib import Path
 
 HEADER = """# auto-generated lukhas compat shim
 try:

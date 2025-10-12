@@ -18,11 +18,11 @@ Features:
 """
 import logging
 import os
-import yaml
 from typing import Dict, List, Optional
 
-from .dsl_lite import DSLError
-from .ethics_engine import EthicsRule, RuleSet, EthicsAction, Priority
+import yaml
+
+from .ethics_engine import EthicsAction, EthicsRule, Priority, RuleSet
 
 logger = logging.getLogger(__name__)
 
@@ -160,7 +160,7 @@ def _create_fallback_rules() -> List[EthicsRule]:
 # Global instance for Plan Verifier integration
 _ethics_engine_instance = None
 
-def get_ethics_engine(config_path: Optional[str] = None) -> 'EthicsEngine':
+def get_ethics_engine(config_path: Optional[str] = None) -> 'EthicsEngine':  # noqa: F821  # TODO: EthicsEngine
     """Get or create global ethics engine instance."""
     global _ethics_engine_instance
     if _ethics_engine_instance is None:

@@ -15,7 +15,7 @@ import pytest
 # Import module for integration testing
 try:
     pass  #     pass  #
-    import schemas
+    import schemas  # noqa: F401  # TODO: schemas; consider using import...
 except ImportError:
     pytest.skip("Module schemas not available", allow_module_level=True)
 

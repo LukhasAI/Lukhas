@@ -1,7 +1,8 @@
 """Stub: lukhas.observability.evidence_collection"""
 from __future__ import annotations
-from typing import Optional
+
 from enum import Enum
+from typing import Optional
 
 # Minimal stub for test collection
 __all__ = []

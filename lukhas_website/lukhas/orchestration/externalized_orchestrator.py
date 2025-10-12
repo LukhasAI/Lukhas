@@ -30,12 +30,12 @@ from enum import Enum
 from typing import Any, Dict, List, Optional
 
 from opentelemetry import trace
+
 from lukhas.observability import counter, gauge, histogram
 
 from .context_preservation import ContextType, get_context_preservation_engine
 from .health_monitor import get_health_monitor
-from .kernel_bus import emit as bus_emit
-from .kernel_bus import get_kernel_bus
+from .kernel_bus import emit as bus_emit, get_kernel_bus
 from .routing_config import get_routing_config_manager
 from .routing_strategies import RoutingContext, RoutingResult, get_routing_engine
 

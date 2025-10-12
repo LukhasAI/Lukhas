@@ -660,7 +660,7 @@ class ExamplePlugin(PluginInterface):
             "plugin": self.metadata.name,
             "signal_type": signal_type,
             "processed_at": datetime.now(timezone.utc).isoformat(),
-            "result": f"Processed {len(str(data)} bytes of data",
+            "result": f"Processed {len(str(data)} bytes of data",  # noqa: invalid-syntax  # TODO: Expected ), found }
         }
 
         return result

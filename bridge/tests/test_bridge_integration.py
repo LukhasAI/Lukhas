@@ -15,7 +15,7 @@ import pytest
 # Import module for integration testing
 try:
     pass  #     pass  #
-    import bridge
+    import bridge  # noqa: F401  # TODO: bridge; consider using importl...
 except ImportError:
     pytest.skip("Module bridge not available", allow_module_level=True)
 

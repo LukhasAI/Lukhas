@@ -9,9 +9,12 @@ Outputs:
 - docs/audits/star_rules_coverage.md (tables + zero-hit highlights)
 """
 from __future__ import annotations
-import json, sys
-from pathlib import Path
+
+import json
+import sys
 from collections import defaultdict
+from pathlib import Path
+
 
 def load(path: Path):
     return json.loads(path.read_text(encoding="utf-8"))

@@ -1,5 +1,6 @@
 """Bio_Symbolic Module"""
 from __future__ import annotations
+
 from importlib import import_module
 from typing import List
 

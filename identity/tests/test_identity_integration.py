@@ -15,7 +15,7 @@ import pytest
 # Import module for integration testing
 try:
     pass  #     pass  #
-    import identity
+    import identity  # noqa: F401  # TODO: identity; consider using impor...
 except ImportError:
     pytest.skip("Module identity not available", allow_module_level=True)
 

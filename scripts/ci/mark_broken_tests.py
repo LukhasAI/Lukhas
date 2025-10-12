@@ -9,6 +9,7 @@ import re
 import subprocess
 from pathlib import Path
 
+
 def get_failing_tests():
     """Get tests that fail collection."""
     result = subprocess.run(

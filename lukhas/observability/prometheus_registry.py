@@ -6,7 +6,8 @@ module imports.
 """
 from __future__ import annotations
 
-from typing import Dict, Tuple, Sequence, Type
+from typing import Dict, Sequence, Tuple, Type
+
 try:
     from prometheus_client import CollectorRegistry, Counter, Gauge, Histogram, Summary  # type: ignore
 except Exception:  # pragma: no cover

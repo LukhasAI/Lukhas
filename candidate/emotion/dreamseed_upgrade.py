@@ -47,13 +47,12 @@ from typing import Any, Optional
 
 import numpy as np
 
+# LUKHAS Core Imports
+from lukhas.memory.emotional import EmotionalMemory
 from lukhas.memory.governance.ethical_drift_governor import (
     EthicalDriftGovernor,
     create_ethical_governor,
 )
-
-# LUKHAS Core Imports
-from lukhas.memory.emotional import EmotionalMemory
 
 # TODO: Update to use unified tier system
 # - Replace EmotionalTier enum with imports from lukhas.core.tier_unification_adapter

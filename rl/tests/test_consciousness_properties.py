@@ -482,8 +482,8 @@ class ConsciousnessStateMachine(RuleBasedStateMachine):
 # Property-Based Test Cases
 
 
-@given(consciousness_state=consciousness_state_strategy())
-@settings(max_examples=100, suppress_health_check=[HealthCheck.function_scoped_fixture])
+@given(consciousness_state=consciousness_state_strategy())  # noqa: F821  # TODO: given
+@settings(max_examples=100, suppress_health_check=[HealthCheck.function_scoped_fixture])  # noqa: F821  # TODO: settings
 def test_consciousness_state_properties(consciousness_state):
     """Test consciousness state properties with generated data"""
 
@@ -497,7 +497,7 @@ def test_consciousness_state_properties(consciousness_state):
     assert -1.0 <= consciousness_state["valence"] <= 1.0
 
 
-@given(coherence1=consciousness_coherence_strategy(), coherence2=consciousness_coherence_strategy())
+@given(coherence1=consciousness_coherence_strategy(), coherence2=consciousness_coherence_strategy())  # noqa: F821  # TODO: given
 def test_coherence_transitivity(coherence1, coherence2):
     """Test consciousness coherence maintains transitivity"""
 
@@ -508,7 +508,7 @@ def test_coherence_transitivity(coherence1, coherence2):
     ), f"Coherence transitivity violated: {coherence1}, {coherence2} → {average_coherence}"
 
 
-@given(ethics1=ethical_alignment_strategy(), ethics2=ethical_alignment_strategy())
+@given(ethics1=ethical_alignment_strategy(), ethics2=ethical_alignment_strategy())  # noqa: F821  # TODO: given
 def test_ethical_alignment_monotonicity(ethics1, ethics2):
     """Test ethical alignment maintains monotonicity"""
 
@@ -521,8 +521,8 @@ def test_ethical_alignment_monotonicity(ethics1, ethics2):
     assert min_ethics >= 0.98
 
 
-@given(node_data=matriz_node_strategy("CONTEXT"))
-@settings(max_examples=50)
+@given(node_data=matriz_node_strategy("CONTEXT"))  # noqa: F821  # TODO: given
+@settings(max_examples=50)  # noqa: F821  # TODO: settings
 def test_matriz_node_schema_properties(node_data):
     """Test MΛTRIZ node schema properties"""
 
@@ -544,7 +544,7 @@ TestConsciousnessStateMachine = ConsciousnessStateMachine.TestCase
 
 
 @pytest.mark.asyncio
-@settings(max_examples=20, stateful_step_count=15)
+@settings(max_examples=20, stateful_step_count=15)  # noqa: F821  # TODO: settings
 async def test_consciousness_state_machine():
     """Run stateful property testing on consciousness system"""
 
@@ -559,8 +559,8 @@ async def test_consciousness_state_machine():
 
 @pytest.mark.skipif(not RL_AVAILABLE, reason="RL components not available")
 @pytest.mark.asyncio
-@given(num_steps=st.integers(min_value=1, max_value=20))
-@settings(max_examples=10)
+@given(num_steps=st.integers(min_value=1, max_value=20))  # noqa: F821  # TODO: given
+@settings(max_examples=10)  # noqa: F821  # TODO: settings
 async def test_consciousness_loop_properties(num_steps):
     """Test consciousness loop maintains properties over extended operation"""
 

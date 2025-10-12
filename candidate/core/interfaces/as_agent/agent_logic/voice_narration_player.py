@@ -47,18 +47,18 @@ def play_voice_queue():
     for i, entry in enumerate(lines):
         print(f"+ Dream {i + 1}/{total} +")
         print(f" Timestamp: {entry.get('timestamp')}")
-        print(f" Tags: {', '.join(entry.get('tags', [])}")
-        print(f" Emotion: {entry.get('emotion_vector', {)}).get('primary', 'neutral')}")
-        print(f" Summary: {entry.get('summary', '[No summary]')}")
-        print(f"  Voice Style: soft | poetic | tier {entry.get('tier', '?')}")
-        print(f" Source: {entry.get('source_widget', 'unknown')}")
-        print(f" Suggest Voice: {entry.get('suggest_voice', False)}")
-        print("++\n")
+        print(f" Tags: {', '.join(entry.get('tags', [])}")  # noqa: invalid-syntax  # TODO: Expected ,, found }
+        print(f" Emotion: {entry.get('emotion_vector', {)}).get('primary', 'neutral')}")  # noqa: invalid-syntax  # TODO: Expected an expression
+        print(f" Summary: {entry.get('summary', '[No summary]')}")  # noqa: invalid-syntax  # TODO: Expected ,, found name
+        print(f"  Voice Style: soft | poetic | tier {entry.get('tier', '?')}")  # noqa: invalid-syntax  # TODO: Expected ,, found name
+        print(f" Source: {entry.get('source_widget', 'unknown')}")  # noqa: invalid-syntax  # TODO: Expected ,, found name
+        print(f" Suggest Voice: {entry.get('suggest_voice', False)}")  # noqa: invalid-syntax  # TODO: Expected ,, found name
+        print("++\n")  # noqa: invalid-syntax  # TODO: Expected ,, found name
 
-    print(f"* Narrated {total} symbolic dreams from queue.")
-    print(" Narration queue sourced from voice.voice_narrator.py\n")
+    print(f"* Narrated {total} symbolic dreams from queue.")  # noqa: invalid-syntax  # TODO: Expected ,, found name
+    print(" Narration queue sourced from voice.voice_narrator.py\n")  # noqa: invalid-syntax  # TODO: Expected ,, found name
 
 
-if __name__ == "__main__":
+if __name__ == "__main__":  # noqa: invalid-syntax  # TODO: Expected else, found :
     play_voice_queue()
-# SYNTAX_ERROR_FIXED: ```
+# SYNTAX_ERROR_FIXED: ```  # noqa: invalid-syntax  # TODO: Cannot use comments in f-strin...

@@ -6,10 +6,6 @@ for complete Cognitive AI supremacy capability.
 
 Integration point for MISSING_PIECES.md modules.
 """
-from consciousness.qi import qi
-from typing import Optional
-from typing import Dict
-import streamlit as st
 
 import asyncio
 import logging

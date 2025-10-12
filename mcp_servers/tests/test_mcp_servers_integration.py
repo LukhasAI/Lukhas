@@ -15,7 +15,7 @@ import pytest
 # Import module for integration testing
 try:
     pass  #     pass  #
-    import mcp_servers
+    import mcp_servers  # noqa: F401  # TODO: mcp_servers; consider using im...
 except ImportError:
     pytest.skip("Module mcp_servers not available", allow_module_level=True)
 

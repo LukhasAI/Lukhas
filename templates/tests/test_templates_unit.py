@@ -15,7 +15,7 @@ import pytest
 # Import module components
 try:
     pass  #     pass  #
-    import templates
+    import templates  # noqa: F401  # TODO: templates; consider using impo...
 except ImportError:
     pytest.skip("Module templates not available", allow_module_level=True)
 

@@ -36,7 +36,7 @@ except Exception:  # pragma: no cover - metrics optional in tests
 # OpenTelemetry instrumentation
 try:
     from lukhas.observability.otel_instrumentation import (
-        initialize_otel_instrumentation,
+        initialize_otel_instrumentation,  # noqa: F401  # TODO: lukhas.observability.otel_inst...
         instrument_matriz_stage,
         matriz_pipeline_span,
     )

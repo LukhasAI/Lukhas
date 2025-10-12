@@ -8,10 +8,9 @@
 Integration tests for Jules--branch module.
 """
 
-import pytest
 import unittest
-import asyncio
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module for integration testing
 try:

@@ -13,7 +13,7 @@ import time
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, AsyncIterator, Dict, List, Optional, Sequence, Union
+from typing import Any, AsyncIterator, Dict, List, Optional, Sequence
 
 try:
     import openai
@@ -24,8 +24,8 @@ except ImportError:
 
 try:
     from lukhas.core.orchestration.core_modules.symbolic_signal_router import (
-        SymbolicSignal,
         SignalType,
+        SymbolicSignal,
         route_signal,
     )
 except ImportError:  # pragma: no cover - fallback for minimal test envs

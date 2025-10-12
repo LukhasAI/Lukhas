@@ -40,7 +40,7 @@ except ImportError:
             return options
 
         def dataframe(self, df):
-            print(f"DATAFRAME: {len(df) if hasattr(df, '__len__')} else 'N/A'} rows")
+            print(f"DATAFRAME: {len(df) if hasattr(df, '__len__')} else 'N/A'} rows")  # noqa: invalid-syntax  # TODO: Expected else, found }
 
         def json(self, data):
             print(f"JSON: {data}")

@@ -1,6 +1,8 @@
 """Bridge: lukhas.public_api (compat surface for external callers)."""
 from __future__ import annotations
+
 from lukhas._bridgeutils import bridge_from_candidates
+
 _CANDIDATES = (
   "lukhas_website.lukhas.public_api",
   "candidate.public_api",

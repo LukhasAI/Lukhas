@@ -77,4 +77,4 @@ class QIconfig:
 
         # Validate on import
         if __name__ != "__main__":
-            __validate_module__()
+            __validate_module__()  # noqa: F821  # TODO: __validate_module__

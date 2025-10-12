@@ -15,7 +15,7 @@ import pytest
 # Import module for integration testing
 try:
     pass  #     pass  #
-    import bio
+    import bio  # noqa: F401  # TODO: bio; consider using importlib....
 except ImportError:
     pytest.skip("Module bio not available", allow_module_level=True)
 

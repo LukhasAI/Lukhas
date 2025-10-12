@@ -15,24 +15,25 @@ Tasks Tested:
 Trinity Framework: 🧠 Consciousness · ✦ Memory · 🛡️ Guardian
 """
 
-import pytest
 import asyncio
 from datetime import datetime
-from unittest.mock import Mock, AsyncMock, patch
+from unittest.mock import AsyncMock, Mock, patch
+
+import pytest
+
 from candidate.bridge.llm_wrappers.openai_modulated_service import (
+    CompletionRequest,
+    EmbeddingRequest,
+    EmbeddingResult,
+    ModelTier,
     OpenAIModulatedService,
+    RateLimitConfig,
+    VectorSearchRequest,
+    VectorSearchResult,
     VectorStoreAdapter,
     VectorStoreConfig,
     VectorStoreProvider,
-    EmbeddingRequest,
-    EmbeddingResult,
-    VectorSearchRequest,
-    VectorSearchResult,
-    CompletionRequest,
-    ModelTier,
-    RateLimitConfig,
 )
-
 
 # ============================================================================
 # Fixtures

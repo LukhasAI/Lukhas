@@ -4,9 +4,10 @@ Parse `pytest --collect-only` stderr, rank missing modules/symbols,
 and print the top offenders + ready-to-use bridge paths.
 """
 from __future__ import annotations
+
 import re
-import sys
 import subprocess
+import sys
 from collections import Counter, defaultdict
 
 

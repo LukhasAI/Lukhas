@@ -11,15 +11,15 @@ from typing import Any, Callable, Optional
 
 from lukhas.core.event_bus import EventBus, get_global_event_bus
 
-from .identity_event_types import (  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for Constellation Framework consciousness evolution
+from .identity_event_types import (  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for Constellation Framework consciousness evolution  # noqa: invalid-syntax  # TODO: Expected one or more symbol na...
 from datetime import timezone
-    AuthenticationContext,
+    AuthenticationContext,  # noqa: invalid-syntax  # TODO: Unexpected indentation
     IdentityEvent,
     IdentityEventPriority,
     IdentityEventType,
     TierChangeContext,
     VerificationResult,
-)
+)  # noqa: invalid-syntax  # TODO: Expected a statement
 
 logger = logging.getLogger("LUKHAS_IDENTITY_EVENTS")
 

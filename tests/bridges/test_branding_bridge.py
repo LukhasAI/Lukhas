@@ -7,8 +7,8 @@ def test_branding_exports():
     from branding import (
         APPROVED_TERMS,
         COLORS,
-        CONSTELLATION_FRAMEWORK,
         CONSCIOUSNESS_SYMBOL,
+        CONSTELLATION_FRAMEWORK,
         GUARDIAN_SYMBOL,
         IDENTITY_SYMBOL,
         SYSTEM_NAME,

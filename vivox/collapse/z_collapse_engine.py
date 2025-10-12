@@ -14,8 +14,6 @@ Where:
 - ΔS(t) = entropy differential (from VIVOX.ERN and OL)
 - W(ΔS(t)) = weighting function based on entropy threshold
 """
-from typing import List
-import streamlit as st
 
 import hashlib
 import math

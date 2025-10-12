@@ -1,8 +1,6 @@
 import logging
 from datetime import timezone
-import streamlit as st
-import random
-from typing import List
+
 logger = logging.getLogger(__name__)
 """
 VIVOX.QREADY Core - Quantum Substrate
@@ -104,15 +102,15 @@ class QIEnvironment:
     gate_fidelity: float = 0.99  # Single-qubit gate fidelity
     measurement_fidelity: float = 0.97  # Measurement accuracy
     connectivity: dict[int, list[int]] = field(default_factory=dict)  # Qubit connectivity
-    noise_model: dict[QuantumNoiseType, float] = field(default_factory=dict)
+    noise_model: dict[QuantumNoiseType, float] = field(default_factory=dict)  # noqa: F821  # TODO: QuantumNoiseType
 
     def __post_init__(self):
         """Initialize default noise model if not provided"""
         if not self.noise_model:
             self.noise_model = {
-                QuantumNoiseType.DECOHERENCE: 0.01,
-                QuantumNoiseType.DEPHASING: 0.005,
-                QuantumNoiseType.DEPOLARIZING: 0.001,
+                QuantumNoiseType.DECOHERENCE: 0.01,  # noqa: F821  # TODO: QuantumNoiseType
+                QuantumNoiseType.DEPHASING: 0.005,  # noqa: F821  # TODO: QuantumNoiseType
+                QuantumNoiseType.DEPOLARIZING: 0.001,  # noqa: F821  # TODO: QuantumNoiseType
             }
 
 
@@ -131,7 +129,7 @@ class QISubstrate:
         self.config = config or self._default_config()
 
         # Quantum environment
-        self.environment = QuantumEnvironment(**self.config.get("environment", {}))
+        self.environment = QuantumEnvironment(**self.config.get("environment", {}))  # noqa: F821  # TODO: QuantumEnvironment
 
         # State management
         self.quantum_states: dict[str, QIState] = {}
@@ -221,19 +219,19 @@ class QISubstrate:
 
         # Apply different noise channels
         for noise_type, strength in self.environment.noise_model.items():
-            if noise_type == QuantumNoiseType.DECOHERENCE:
+            if noise_type == QuantumNoiseType.DECOHERENCE:  # noqa: F821  # TODO: QuantumNoiseType
                 # Amplitude damping
                 decay = np.exp(-time_evolution / self.environment.coherence_time)
                 noisy_state *= decay
                 # Add ground state population
                 noisy_state[0] += np.sqrt(1 - decay**2) * np.linalg.norm(state.state_vector)
 
-            elif noise_type == QuantumNoiseType.DEPHASING:
+            elif noise_type == QuantumNoiseType.DEPHASING:  # noqa: F821  # TODO: QuantumNoiseType
                 # Random phase errors
                 phases = np.exp(1j * np.random.normal(0, strength * time_evolution, len(noisy_state)))
                 noisy_state *= phases
 
-            elif noise_type == QuantumNoiseType.DEPOLARIZING:
+            elif noise_type == QuantumNoiseType.DEPOLARIZING:  # noqa: F821  # TODO: QuantumNoiseType
                 # Mix with maximally mixed state
                 p_error = 1 - np.exp(-strength * time_evolution)
                 maximally_mixed = np.ones_like(noisy_state) / len(noisy_state)

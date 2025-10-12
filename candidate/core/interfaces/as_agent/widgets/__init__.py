@@ -7,7 +7,7 @@
 # ΛCREATED_DATE: Unknown (original auto-generation)
 # ΛMODIFIED_DATE: 2024-07-30
 
-log = logging.getLogger(__name__)
+log = logging.getLogger(__name__)  # noqa: F821  # TODO: logging
 """
 # ΛDOC: Auto-generated __init__.py for the `core.interfaces.as_agent.widgets` package.
 This file marks the `widgets` directory (within `as_agent`) as a Python package.

@@ -7,6 +7,7 @@ from pathlib import Path
 
 import pytest
 
+
 def _find_repo_root(start: Path) -> Path:
     for parent in start.parents:
         if (parent / "pyproject.toml").exists():

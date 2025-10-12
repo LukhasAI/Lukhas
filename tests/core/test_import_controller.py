@@ -12,15 +12,16 @@ Tasks Tested:
 Trinity Framework: 🛡️ Guardian · 🏗️ Architecture
 """
 
+from pathlib import Path
+
 import pytest
 import yaml
-from pathlib import Path
+
 from candidate.bridge.api.controllers import (
     ImportController,
     ImportViolation,
     ServiceLane as Lane,
 )
-
 
 # ============================================================================
 # Fixtures

@@ -19,14 +19,14 @@ def test_imports():
     try:
         # Critical alias
         from lukhas.bridge.adapters.service_adapter_base import (
-            AdapterState,
+            AdapterState,  # noqa: F401  # TODO: lukhas.bridge.adapters.service...
             BaseServiceAdapter,
-            CapabilityToken,
-            DryRunPlanner,
-            ResilienceManager,
+            CapabilityToken,  # noqa: F401  # TODO: lukhas.bridge.adapters.service...
+            DryRunPlanner,  # noqa: F401  # TODO: lukhas.bridge.adapters.service...
+            ResilienceManager,  # noqa: F401  # TODO: lukhas.bridge.adapters.service...
             ServiceAdapterBase,
-            TelemetryCollector,
-            with_resilience,
+            TelemetryCollector,  # noqa: F401  # TODO: lukhas.bridge.adapters.service...
+            with_resilience,  # noqa: F401  # TODO: lukhas.bridge.adapters.service...
         )
 
         print("✅ All imports successful")

@@ -71,7 +71,7 @@ async def speak(
     voice = VOICE_MAP.get(voice_key, VOICE_MAP["default"])
 
     if engine == "edge":
-        communicator = Communicate(text=text, voice=voice)
+        communicator = Communicate(text=text, voice=voice)  # noqa: F821  # TODO: Communicate
         await communicator.save(output_file)
 
     elif engine == "eleven" and generate:

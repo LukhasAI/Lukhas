@@ -15,7 +15,7 @@ import pytest
 # Import module for integration testing
 try:
     pass  #     pass  #
-    import ops
+    import ops  # noqa: F401  # TODO: ops; consider using importlib....
 except ImportError:
     pytest.skip("Module ops not available", allow_module_level=True)
 

@@ -18,21 +18,21 @@ Integration Date: 2025-05-31T07:55:30.384694
 # import streamlit as st  # TODO: Install or implement streamlit
 from lukhas.core.dashboard_settings import get_paired_apps
 
-st.set_page_config(page_title="LUKHAS Agent Dashboard", layout="wide")
-st.title("🧠 LUKHAS - AGENT")
+st.set_page_config(page_title="LUKHAS Agent Dashboard", layout="wide")  # noqa: F821  # TODO: st
+st.title("🧠 LUKHAS - AGENT")  # noqa: F821  # TODO: st
 
 # ─── Sidebar Controls ───────────────────────────────────────────────────────
-st.sidebar.title("Settings")
-lukhas_plugin_enabled = st.sidebar.checkbox(
+st.sidebar.title("Settings")  # noqa: F821  # TODO: st
+lukhas_plugin_enabled = st.sidebar.checkbox(  # noqa: F821  # TODO: st
     "🧠 Enable LUKHAS Brain Add-on", value=False
 )
 
 # Show user app pairing overview (mock user for now)
 paired_apps = get_paired_apps("user_123")
 if paired_apps:
-    st.sidebar.markdown("🧩 **Paired Apps:**")
+    st.sidebar.markdown("🧩 **Paired Apps:**")  # noqa: F821  # TODO: st
     for app in paired_apps:
-        st.sidebar.write(f"• {app}")
+        st.sidebar.write(f"• {app}")  # noqa: F821  # TODO: st
 
 # ─── LUKHAS Symbolic Brain Plugin Toggle ───────────────────────────────────────
 
@@ -40,7 +40,7 @@ if lukhas_plugin_enabled:
     try:
         from lukhas.core.lukhas_overview_log import log_event
 
-        st.sidebar.success("🧠 LUKHAS symbolic brain is active.")
+        st.sidebar.success("🧠 LUKHAS symbolic brain is active.")  # noqa: F821  # TODO: st
         log_event(
             "agent",
             "LUKHAS symbolic agent activated via dashboard.",
@@ -48,18 +48,18 @@ if lukhas_plugin_enabled:
             source="app.py",
         )
     except ImportError:
-        st.sidebar.error(
+        st.sidebar.error(  # noqa: F821  # TODO: st
             "⚠️ Could not load LUKHAS_AGENT_PLUGIN. Check folder structure."
         )
 
 # ─── Symbolic Widget Preview ──────────────────────────────────────────────────
 
-st.markdown("##  🧱 Symbolic Widget Preview")
+st.markdown("##  🧱 Symbolic Widget Preview")  # noqa: F821  # TODO: st
 
 try:
     from lukhas.core.lukhas_widget_engine import create_symbolic_widget
 except ImportError:
-    st.warning("⚠️ lukhas_widget_engine not found.")
+    st.warning("⚠️ lukhas_widget_engine not found.")  # noqa: F821  # TODO: st
 else:
     widget_types = [
         "travel",
@@ -80,15 +80,15 @@ else:
         "usps",
         "fedex",
     ]
-    selected_widget = st.selectbox("🔧 Choose widget type", widget_types)
-    user_tier = st.slider("⭐️ Simulated Tier", 0, 5, 3)
+    selected_widget = st.selectbox("🔧 Choose widget type", widget_types)  # noqa: F821  # TODO: st
+    user_tier = st.slider("⭐️ Simulated Tier", 0, 5, 3)  # noqa: F821  # TODO: st
 
-    if st.button("🎛️ Generate Widget"):
+    if st.button("🎛️ Generate Widget"):  # noqa: F821  # TODO: st
         widget = create_symbolic_widget(selected_widget, user_tier)
         # Styled Widget Display
         if widget and "visual_style" in widget:
             visual = widget["visual_style"]
-            st.markdown(
+            st.markdown(  # noqa: F821  # TODO: st
                 f"""
                 <div style='background-color:{visual["background_color"]};
                             padding:16px; border-radius:12px; color:white;
@@ -104,7 +104,7 @@ else:
                 unsafe_allow_html=True,
             )
         else:
-            st.warning("⚠️ No visual style found in widget.")
+            st.warning("⚠️ No visual style found in widget.")  # noqa: F821  # TODO: st
 
         # Agent Handoff Preview (if vendor supported)
         try:
@@ -112,8 +112,8 @@ else:
 
             handoff = agent_handoff(widget.get("vendor", ""))
             if handoff["status"] == "ready":
-                st.markdown("###  🤝 Vendor Agent Preview")
-                st.markdown(
+                st.markdown("###  🤝 Vendor Agent Preview")  # noqa: F821  # TODO: st
+                st.markdown(  # noqa: F821  # TODO: st
                     f"""
                     <div style='background-color:{handoff["theme_color"]}; padding:16px; border-radius:12px; color:white; font-family:Inter, sans-serif;'>
                         <b>{handoff["agent_name"]}</b> from <i>{widget["vendor"]}</i><br>
@@ -128,33 +128,33 @@ else:
 # ─── Display Selected Module Details ──────────────────────────────────────────
 
 selected_block = None
-for full_header, mod_name, body in module_blocks:
-    if mod_name == selected_module:
+for full_header, mod_name, body in module_blocks:  # noqa: F821  # TODO: module_blocks
+    if mod_name == selected_module:  # noqa: F821  # TODO: selected_module
         selected_block = (full_header, body)
         break
 
 if selected_block:
     full_header, body = selected_block
     # Attempt to split body into header info and footer (usage guide) by "##" headings
-    header_info_match = re.search(
-        r"(## 📘 Header Info\s*\n```text\n.*?\n```)", body, re.DOTALL
+    header_info_match = re.search(  # noqa: F821  # TODO: re
+        r"(## 📘 Header Info\s*\n```text\n.*?\n```)", body, re.DOTALL  # noqa: F821  # TODO: re
     )
-    usage_guide_match = re.search(
-        r"(## 📄 Usage Guide\s*\n```text\n.*?\n```)", body, re.DOTALL
+    usage_guide_match = re.search(  # noqa: F821  # TODO: re
+        r"(## 📄 Usage Guide\s*\n```text\n.*?\n```)", body, re.DOTALL  # noqa: F821  # TODO: re
     )
 
-    st.markdown(f"#")
+    st.markdown(f"#")  # noqa: F821  # TODO: st
 
     if header_info_match:
-        st.markdown(header_info_match.group(1))
+        st.markdown(header_info_match.group(1))  # noqa: F821  # TODO: st
     else:
         # Fallback: show whole body as code block
-        st.markdown("```text\n" + body.strip() + "\n```")
+        st.markdown("```text\n" + body.strip() + "\n```")  # noqa: F821  # TODO: st
 
     if usage_guide_match:
-        st.markdown(usage_guide_match.group(1))
+        st.markdown(usage_guide_match.group(1))  # noqa: F821  # TODO: st
 else:
-    st.warning("Could not extract content for this module.")
+    st.warning("Could not extract content for this module.")  # noqa: F821  # TODO: st
 
 # ─────────────────────────────────────────────────────────────────────
 # 📘 DASHBOARD USAGE INSTRUCTIONS

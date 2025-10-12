@@ -15,7 +15,7 @@ import pytest
 # Import module components
 try:
     pass  #     pass  #
-    import doc
+    import doc  # noqa: F401  # TODO: doc; consider using importlib....
 except ImportError:
     pytest.skip("Module doc not available", allow_module_level=True)
 

@@ -14,8 +14,7 @@ import time
 from unittest.mock import Mock, patch
 
 import pytest
-from hypothesis import HealthCheck, given, settings
-from hypothesis import strategies as st
+from hypothesis import HealthCheck, given, settings, strategies as st
 
 # Import LUKHAS consciousness components
 from lukhas.consciousness.reflection_engine import ReflectionConfig, ReflectionEngine

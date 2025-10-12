@@ -1,11 +1,11 @@
+import importlib
 import os
 import pathlib
 import random
 import sqlite3
 import sys
-import importlib
-import types
 import traceback
+import types
 from pathlib import Path
 
 import pytest
@@ -23,7 +23,8 @@ class _TraceFinder:
         except Exception as e:
             _FAIL_LOG.touch(exist_ok=True)
             with _FAIL_LOG.open("a") as f:
-                import json, time
+                import json
+                import time
                 f.write(json.dumps({
                     "ts": time.time(),
                     "stage": "find_spec",
@@ -55,10 +56,9 @@ except Exception:
     pass
 
 # -- Lukhas dynamic aliasing for nested submodule imports (V2) -----------------
-import importlib
-import importlib.util
-import importlib.machinery
 import importlib.abc
+import importlib.machinery
+import importlib.util
 import json
 import time
 

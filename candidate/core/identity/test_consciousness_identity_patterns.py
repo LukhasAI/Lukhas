@@ -22,9 +22,9 @@ import pytest
 try:
     from .consciousness_coherence_monitor import (
         CoherenceAlert,
-        CoherenceAnomaly,
+        CoherenceAnomaly,  # noqa: F401  # TODO: .consciousness_coherence_monit...
         CoherenceMetricType,
-        CoherenceState,
+        CoherenceState,  # noqa: F401  # TODO: .consciousness_coherence_monit...
         IdentityCoherenceMonitor,
     )
     from .consciousness_namespace_isolation import (
@@ -32,35 +32,35 @@ try:
         ConsciousnessDomain,
         ConsciousnessNamespaceManager,
         IsolationLevel,
-        NamespaceInstance,
-        NamespacePolicy,
+        NamespaceInstance,  # noqa: F401  # TODO: .consciousness_namespace_isola...
+        NamespacePolicy,  # noqa: F401  # TODO: .consciousness_namespace_isola...
     )
     from .consciousness_tiered_authentication import (
         AuthenticationCredential,
         AuthenticationMethod,
         ConsciousnessWebAuthnManager,
         TieredAuthenticationEngine,
-        TierValidationResult,
+        TierValidationResult,  # noqa: F401  # TODO: .consciousness_tiered_authenti...
     )
     from .constitutional_ai_compliance import (
-        ComplianceLevel,
+        ComplianceLevel,  # noqa: F401  # TODO: .constitutional_ai_compliance....
         ConstitutionalAIValidator,
         ConstitutionalPrinciple,
         ConstitutionalValidationContext,
         DecisionType,
     )
     from .matriz_consciousness_identity import (
-        ConsciousnessIdentityProfile,
-        ConsciousnessNamespace,
+        ConsciousnessIdentityProfile,  # noqa: F401  # TODO: .matriz_consciousness_identity...
+        ConsciousnessNamespace,  # noqa: F401  # TODO: .matriz_consciousness_identity...
         IdentityConsciousnessType,
         MatrizConsciousnessIdentityManager,
     )
     from .matriz_consciousness_identity_signals import (
         AuthenticationTier,
-        ConstitutionalComplianceData,
+        ConstitutionalComplianceData,  # noqa: F401  # TODO: .matriz_consciousness_identity...
         IdentityBiometricData,
         MatrizConsciousnessIdentitySignalEmitter,
-        NamespaceIsolationData,
+        NamespaceIsolationData,  # noqa: F401  # TODO: .matriz_consciousness_identity...
     )
 except ImportError as e:
     pytest.skip(f"Consciousness identity modules not available: {e}", allow_module_level=True)

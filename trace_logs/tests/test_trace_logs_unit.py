@@ -15,7 +15,7 @@ import pytest
 # Import module components
 try:
     pass  #     pass  #
-    import trace_logs
+    import trace_logs  # noqa: F401  # TODO: trace_logs; consider using imp...
 except ImportError:
     pytest.skip("Module trace_logs not available", allow_module_level=True)
 

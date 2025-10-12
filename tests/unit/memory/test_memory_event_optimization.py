@@ -160,8 +160,7 @@ class TestMemoryEventOptimization:
     @pytest.mark.property
     def test_deque_invariants(self):
         """Property-based tests for deque behavior invariants"""
-        from hypothesis import given
-        from hypothesis import strategies as st
+        from hypothesis import given, strategies as st
 
         @given(st.lists(st.floats(min_value=-1.0, max_value=1.0, allow_nan=False), min_size=0, max_size=200))
         def check_deque_invariants(drift_values):

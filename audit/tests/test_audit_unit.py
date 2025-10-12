@@ -15,7 +15,7 @@ import pytest
 # Import module components
 try:
     pass  #     pass  #
-    import audit
+    import audit  # noqa: F401  # TODO: audit; consider using importli...
 except ImportError:
     pytest.skip("Module audit not available", allow_module_level=True)
 

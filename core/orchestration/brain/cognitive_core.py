@@ -909,14 +909,6 @@ Available commands:
         except Exception as e:
             print(f"❌ Error: {e}")
 
-
-def main():
-    """Main entry point for the LUKHAS AI system."""
-    print("🧠 Initializing LUKHAS AI System...")
-    """Main entry point for the LUKHAS AI system."""
-    print("🧠 Initializing LUKHAS AI System...")
-    print("=" * 50)
-
     try:
         # Initialize the AI bot
         bot = CognitiveEngine()

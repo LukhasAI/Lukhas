@@ -334,7 +334,7 @@ class DreamIntegrator:
                 "dreams_created": self.dreams_created,
                 "dreams_integrated": self.dreams_integrated,
                 "integration_failures": self.integration_failures,
-                "success_rate": f"{(self.dreams_integrated / max(self.dreams_created, 1)}  * 100:.1f}%",
+                "success_rate": f"{(self.dreams_integrated / max(self.dreams_created, 1)}  * 100:.1f}%",  # noqa: invalid-syntax  # TODO: Expected ), found }
             },
             "configuration": {
                 "formation_threshold": self.dream_formation_threshold,

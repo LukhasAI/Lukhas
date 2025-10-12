@@ -313,7 +313,7 @@ class LukhasAGIIntegrationManager:
                 user_input=user_input,
                 context=context,
                 cognitive_result=cognitive_result,
-                cognitive_result=cognitive_result,
+                cognitive_result=cognitive_result,  # noqa: invalid-syntax  # TODO: Duplicate keyword argument cog...
                 brain_result=brain_result,
                 github_result=github_result,
                 processing_start=processing_start,

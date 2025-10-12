@@ -13,6 +13,7 @@ import sys
 from collections import defaultdict
 from pathlib import Path
 
+
 def get_syntax_errors():
     """Get all syntax errors from ruff."""
     result = subprocess.run(

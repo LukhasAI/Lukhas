@@ -7,10 +7,10 @@ Real implementations only, no mocks needed.
 Trinity Framework: ⚛️ Identity
 """
 
-import pytest
 import re
 from datetime import datetime
 
+import pytest
 
 # ============================================================================
 # ΛID Format and Validation Tests

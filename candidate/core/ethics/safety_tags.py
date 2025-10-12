@@ -24,17 +24,17 @@ Version: 1.0.0
 """
 
 import logging
-import re
-import time
-import unicodedata
-from dataclasses import dataclass, field
-from enum import Enum
-from typing import Any, Dict, List, Optional, Set, Union
-import threading
 
 # --- BEGIN ADVANCED SAFETY TAGS (Task 13 hardening) ---------------------------
 # Feature flag: keep dark by default
 import os
+import re
+import threading
+import time
+import unicodedata
+from dataclasses import dataclass, field
+from enum import Enum
+from typing import Any, Dict, List, Optional, Set
 
 _LUKHAS_ADVANCED = os.getenv("LUKHAS_ADVANCED_TAGS") == "1" or os.getenv("LUKHAS_EXPERIMENTAL") == "1"
 

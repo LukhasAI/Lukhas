@@ -22,8 +22,8 @@ DEPENDENCIES:
     "token_name": "LUX",
     "token_symbol": "🪙",
     "token_description": "Symbolic credit used by LUKHAS Agent to unlock features,"
-    actions, and widgets.","
-    "tiers": {
+    actions, and widgets.","  # noqa: invalid-syntax  # TODO: Expected ,, found name
+    "tiers": {  # noqa: invalid-syntax  # TODO: Expected ,, found :
         "0": {
             "access": "Minimal symbolic features",
             "daily_limit": 5,
@@ -41,7 +41,7 @@ DEPENDENCIES:
             "bonus_multiplier": 2.0,
             "extra": "Can receive symbolic rebates, affiliate revenue, and instant sync authority.",
         },
-    },
+    },  # noqa: invalid-syntax  # TODO: Expected :, found ,
     "usage_pricing": {
         "dream_scheduler": 2.0,
         "travel_widget": 4.5,

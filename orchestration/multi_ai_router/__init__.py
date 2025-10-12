@@ -1,5 +1,6 @@
 """Bridge: orchestration.multi_ai_router (legacy alias of routers.multi)."""
 from __future__ import annotations
+
 from lukhas._bridgeutils import bridge_from_candidates
 
 __all__, _exp = [], {}

@@ -1,7 +1,10 @@
 #!/usr/bin/env python3
 from __future__ import annotations
-import json, sys
+
+import json
+import sys
 from pathlib import Path
+
 
 def main():
     root = Path("manifests")

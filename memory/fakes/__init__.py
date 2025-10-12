@@ -1,6 +1,8 @@
 """Bridge: memory.fakes (test utilities)."""
 from __future__ import annotations
+
 from lukhas._bridgeutils import bridge_from_candidates
+
 _CANDIDATES = (
   "lukhas_website.lukhas.memory.fakes",
   "candidate.memory.fakes",

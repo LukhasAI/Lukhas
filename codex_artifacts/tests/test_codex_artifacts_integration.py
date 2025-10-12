@@ -15,7 +15,7 @@ import pytest
 # Import module for integration testing
 try:
     pass  #     pass  #
-    import codex_artifacts
+    import codex_artifacts  # noqa: F401  # TODO: codex_artifacts; consider usin...
 except ImportError:
     pytest.skip("Module codex_artifacts not available", allow_module_level=True)
 

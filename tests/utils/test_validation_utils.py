@@ -7,11 +7,11 @@ Real implementations only, no mocks needed.
 Trinity Framework: 🛡️ Guardian · 🔒 Security
 """
 
-import pytest
 import re
 from datetime import datetime, timezone
-from typing import Dict, List, Any
+from typing import Any, Dict, List
 
+import pytest
 
 # ============================================================================
 # Email Validation Tests

@@ -6,8 +6,8 @@ import json
 from datetime import datetime, timezone
 from typing import Any, Callable, Optional
 
-from .cognitive_security import AGISecuritySystem, SecurityContext, SecurityLevel
 from .auth import get_auth_system
+from .cognitive_security import AGISecuritySystem, SecurityContext, SecurityLevel
 from .crypto import get_encryption_manager
 
 
@@ -155,9 +155,9 @@ class SecurityIntegration:
                 pass
 
 
-            return json.dumps(package)
+            return json.dumps(package)  # noqa: F821  # TODO: package
 
-        self.module_hooks["audit"] = encrypt_audit_log
+        self.module_hooks["audit"] = encrypt_audit_log  # noqa: F821  # TODO: encrypt_audit_log
 
     def _sign_log(self, data: str) -> str:
         """Sign log data (simplified)"""

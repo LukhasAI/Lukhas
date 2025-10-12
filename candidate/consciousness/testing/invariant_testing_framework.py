@@ -40,8 +40,7 @@ from datetime import datetime, timezone
 from enum import Enum
 from typing import Any
 
-from hypothesis import HealthCheck, given, settings
-from hypothesis import strategies as st
+from hypothesis import HealthCheck, given, settings, strategies as st
 
 # Configure invariant testing logging
 logger = logging.getLogger("ΛTRACE.consciousness.testing.invariants")

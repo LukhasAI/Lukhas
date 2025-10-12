@@ -15,7 +15,7 @@ import pytest
 # Import module for integration testing
 try:
     pass  #     pass  #
-    import health_reports
+    import health_reports  # noqa: F401  # TODO: health_reports; consider using...
 except ImportError:
     pytest.skip("Module health_reports not available", allow_module_level=True)
 

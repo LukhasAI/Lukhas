@@ -15,7 +15,7 @@ import pytest
 # Import module for integration testing
 try:
     pass  #     pass  #
-    import rats
+    import rats  # noqa: F401  # TODO: rats; consider using importlib...
 except ImportError:
     pytest.skip("Module rats not available", allow_module_level=True)
 

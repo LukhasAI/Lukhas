@@ -24,8 +24,8 @@ try:
         BrandContext,
         get_brand_voice,
         get_system_signature,
-        normalize_output_text,
-        validate_output,
+        normalize_output_text,  # noqa: F401  # TODO: lukhas.branding_bridge.normali...
+        validate_output,  # noqa: F401  # TODO: lukhas.branding_bridge.validat...
     )
 
     BRANDING_AVAILABLE = True

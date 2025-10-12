@@ -4,6 +4,7 @@ Makes `matriz.<subpkg>` resolve to `MATRIZ.<subpkg>` so tests that import
 `matriz.adapters.*` (and friends) can collect without moving files around.
 """
 from __future__ import annotations
+
 import importlib
 import sys
 from types import ModuleType

@@ -14,12 +14,12 @@ Tasks Tested:
 Trinity Framework: 🛡️ Guardian · 🔒 Security
 """
 
-import pytest
-import jwt
 import time
 from datetime import datetime, timezone
-from unittest.mock import MagicMock, AsyncMock, patch
+from unittest.mock import AsyncMock, MagicMock, patch
 
+import jwt
+import pytest
 
 # ============================================================================
 # Fixtures
@@ -260,7 +260,6 @@ def test_security_jwt_algorithm_confusion():
 @pytest.mark.security
 def test_security_jwt_expired_token_rejection():
     """Test rejection of expired JWT tokens."""
-    import time
     
     secret = "test_secret"
     

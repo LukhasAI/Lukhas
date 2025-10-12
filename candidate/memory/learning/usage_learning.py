@@ -66,9 +66,9 @@ class UsageBasedLearning:
         """Identify common interaction patterns."""
         for _i in range(len(self.interactions) - window_size + 1):
             [
-                f"{interaction.doc_id}:{interaction.interaction_type}"
+                f"{interaction.doc_id}:{interaction.interaction_type}"  # noqa: F821  # TODO: interaction
             for pattern in self.patterns.values()
-            if pattern.frequency >= min_frequency
+            if pattern.frequency >= min_frequency  # noqa: F821  # TODO: min_frequency
         ]
 
     def recommend_next_docs(self, current_doc: str, user_id: str) -> list[str]:

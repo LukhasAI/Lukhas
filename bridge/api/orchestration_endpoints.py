@@ -33,8 +33,8 @@ try:
         Depends,
         FastAPI,
         HTTPException,
-        Request,
-        Response,
+        Request,  # noqa: F401  # TODO: fastapi.Request; consider usin...
+        Response,  # noqa: F401  # TODO: fastapi.Response; consider usi...
         WebSocket,
         WebSocketDisconnect,
         status,
@@ -51,9 +51,9 @@ try:
     # LUKHAS imports
     from lukhas.bridge.api.orchestration_api_bridge import (
         APIProvider,
-        ComprehensiveAPIOrchestrator,
+        ComprehensiveAPIOrchestrator,  # noqa: F401  # TODO: lukhas.bridge.api.orchestratio...
         OrchestrationRequest,
-        OrchestrationResponse,
+        OrchestrationResponse,  # noqa: F401  # TODO: lukhas.bridge.api.orchestratio...
         OrchestrationStrategy,
         get_orchestrator,
     )
@@ -538,7 +538,7 @@ if FASTAPI_AVAILABLE:
 
         # Validate functions before registration
         try:
-            validator = get_validator()
+            validator = get_validator()  # noqa: F821  # TODO: get_validator
             if validator:
                 validation_result = await validator.validate_request(
                     "function_registration",

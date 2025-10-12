@@ -15,7 +15,7 @@ import pytest
 # Import module for integration testing
 try:
     pass  #     pass  #
-    import docs
+    import docs  # noqa: F401  # TODO: docs; consider using importlib...
 except ImportError:
     pytest.skip("Module docs not available", allow_module_level=True)
 

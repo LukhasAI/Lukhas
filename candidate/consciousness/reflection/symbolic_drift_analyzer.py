@@ -67,9 +67,9 @@ except ImportError:
 
 # Import LUKHAS modules
 try:
-    from lukhas.core.glyph.glyphs import Glyph
     from dream.core.dream_memory_manager import DreamMemoryManager
     from ethics.ethical_drift_detector import EthicalDriftDetector
+    from lukhas.core.glyph.glyphs import Glyph
     from symbolic.drift.symbolic_drift_tracker import DriftPhase, DriftScore
 except ImportError:
     # Mock imports for standalone testing

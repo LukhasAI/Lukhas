@@ -16,7 +16,11 @@ Validate lukhas_context.md front-matter against module.manifest.json.
 Writes report: docs/audits/context_lint.txt
 Exit 1 on failures.
 """
-import pathlib, re, json, sys, datetime
+import datetime
+import json
+import pathlib
+import re
+import sys
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 REPORT = ROOT / "docs" / "audits" / "context_lint.txt"

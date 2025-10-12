@@ -15,7 +15,7 @@ import pytest
 # Import module for integration testing
 try:
     pass  #     pass  #
-    import tone
+    import tone  # noqa: F401  # TODO: tone; consider using importlib...
 except ImportError:
     pytest.skip("Module tone not available", allow_module_level=True)
 

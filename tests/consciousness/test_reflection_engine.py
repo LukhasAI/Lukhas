@@ -19,8 +19,7 @@ from typing import Any, Dict
 from unittest.mock import patch
 
 import pytest
-from hypothesis import HealthCheck, given, settings
-from hypothesis import strategies as st
+from hypothesis import HealthCheck, given, settings, strategies as st
 
 # Set up test environment
 os.environ["CONSC_REFLECTION_ENABLED"] = "1"

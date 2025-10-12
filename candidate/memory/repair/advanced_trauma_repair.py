@@ -60,6 +60,7 @@ from uuid import uuid4
 try:
     from lukhas.core.symbolism.tags import TagScope
     from memory.integrity.collapse_hash import IntegrityStatus
+
     from ..proteome.symbolic_proteome import PostTranslationalModification
     # OrthogonalPersistence will be stubbed locally
 
@@ -855,7 +856,7 @@ async def demonstrate_trauma_repair():
     """Demonstrate Advanced Trauma Repair capabilities"""
 
     # Initialize components
-    persistence = OrthogonalPersistence() if LUKHAS_AVAILABLE else None
+    persistence = OrthogonalPersistence() if LUKHAS_AVAILABLE else None  # noqa: F821  # TODO: OrthogonalPersistence
     if persistence:
         await persistence.start()
 

@@ -1,5 +1,7 @@
 import unittest
+
 from qi.engines.identity.consolidate_identity_qi_secure import consolidate_identities
+
 
 class TestConsolidateIdentities(unittest.TestCase):
 

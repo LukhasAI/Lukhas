@@ -8,14 +8,14 @@
 Unit tests for candidate module.
 """
 
-import pytest
 import unittest
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module components
 try:
     pass  #     pass  #
-    import candidate
+    import candidate  # noqa: F401  # TODO: candidate; consider using impo...
 except ImportError:
     pytest.skip(f"Module candidate not available", allow_module_level=True)
 

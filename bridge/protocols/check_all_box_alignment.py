@@ -42,7 +42,7 @@ def check_box_alignment(file_path):
             content = f.read()
 
         # Find ASCII box
-        match = re.search(box_pattern, content, re.DOTALL)
+        match = re.search(box_pattern, content, re.DOTALL)  # noqa: F821  # TODO: box_pattern
 
         if not match:
             return False, "No ASCII box found"

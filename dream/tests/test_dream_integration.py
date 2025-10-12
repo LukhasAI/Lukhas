@@ -15,7 +15,7 @@ import pytest
 # Import module for integration testing
 try:
     pass  #     pass  #
-    import dream
+    import dream  # noqa: F401  # TODO: dream; consider using importli...
 except ImportError:
     pytest.skip("Module dream not available", allow_module_level=True)
 

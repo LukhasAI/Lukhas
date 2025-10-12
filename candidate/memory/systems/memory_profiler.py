@@ -125,7 +125,7 @@ class _Storage:
     allocation_id: int
 
     def __repr__(self) -> str:
-        return f"{hex(self.ptr)}:>18} ({self.allocation_id})"
+        return f"{hex(self.ptr)}:>18} ({self.allocation_id})"  # noqa: invalid-syntax  # TODO: f-string: single } is not allo...
 
     def __eq__(self, other: object) -> bool:
         return isinstance(other, _Storage) and self.allocation_id == other.allocation_id

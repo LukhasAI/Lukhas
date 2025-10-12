@@ -35,7 +35,10 @@ try:
     sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
     from governance.guardian_system import GuardianSystem
-    from lukhas.identity.biometrics import BiometricModality, create_mock_biometric_provider
+    from lukhas.identity.biometrics import (  # noqa: F401  # TODO: lukhas.identity.biometrics.Bio...
+        BiometricModality,
+        create_mock_biometric_provider,
+    )
     from lukhas.identity.security_hardening import create_security_hardening_manager
     from lukhas.identity.tiers import AuthContext, SecurityPolicy, create_tiered_authenticator
     from lukhas.identity.webauthn_enhanced import create_enhanced_webauthn_service

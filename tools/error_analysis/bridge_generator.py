@@ -17,7 +17,6 @@ import sys
 from pathlib import Path
 from typing import List
 
-
 BRIDGE_TEMPLATE = '''"""Bridge for `{module_name}`.
 
 Auto-generated bridge following canonical pattern:

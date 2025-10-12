@@ -2,7 +2,11 @@
 """
 Fail if T1_critical modules contain eval/exec/subprocess.* unless whitelisted via manifest.security.policies.
 """
-import json, pathlib, re, sys
+import json
+import pathlib
+import re
+import sys
+
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 MANIFESTS = list(ROOT.rglob("module.manifest.json"))
 BAN = [r"\beval\(", r"\bexec\(", r"\bsubprocess\."]

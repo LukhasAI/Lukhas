@@ -51,7 +51,7 @@ class EnhancedMemoryVisualizer:
 
     def __init__(self, config: Optional[VisualizationConfig] = None):
         self.config = config or VisualizationConfig()
-        self.qi_oscillator = QIOscillator()
+        self.qi_oscillator = QIOscillator()  # noqa: F821  # TODO: QIOscillator
         self.proton_gradient = ProtonGradient()
 
         # Initialize visualization components
@@ -59,11 +59,11 @@ class EnhancedMemoryVisualizer:
 
     def setup_visualization(self):
         """Setup visualization environment"""
-        st.set_page_config(page_title="Enhanced Memory Visualization", layout="wide")
+        st.set_page_config(page_title="Enhanced Memory Visualization", layout="wide")  # noqa: F821  # TODO: st
 
         # Quantum coherence indicator
         coherence = self.qi_oscillator.qi_modulate(1.0)
-        st.sidebar.metric(
+        st.sidebar.metric(  # noqa: F821  # TODO: st
             "Quantum Coherence",
             f"{coherence:.2f}",
             delta=f"{(coherence - self.config.coherence_threshold):.2f}",
@@ -81,17 +81,17 @@ class EnhancedMemoryVisualizer:
 
             # Create main visualization
             fig = self._create_memory_plot(modulated_data)
-            st.plotly_chart(fig, use_container_width=True)
+            st.plotly_chart(fig, use_container_width=True)  # noqa: F821  # TODO: st
 
             # Show emotional mapping if enabled
             if self.config.emotional_mapping:
                 emotion_fig = self._create_emotion_plot(modulated_data)
-                st.plotly_chart(emotion_fig, use_container_width=True)
+                st.plotly_chart(emotion_fig, use_container_width=True)  # noqa: F821  # TODO: st
 
             # Show dream collapses if enabled
             if self.config.dream_collapse:
                 collapse_fig = self._create_collapse_plot(modulated_data)
-                st.plotly_chart(collapse_fig, use_container_width=True)
+                st.plotly_chart(collapse_fig, use_container_width=True)  # noqa: F821  # TODO: st
 
             return {
                 "status": "success",
@@ -101,7 +101,7 @@ class EnhancedMemoryVisualizer:
 
         except Exception as e:
             logger.error(f"Error in memory visualization: {e}")
-            st.error(f"Visualization error: {e}")
+            st.error(f"Visualization error: {e}")  # noqa: F821  # TODO: st
             return {"status": "error", "error": str(e)}
 
     def _quantum_modulate_memory(self, memory_data: dict[str, Any]) -> dict[str, Any]:
@@ -136,8 +136,8 @@ class Enhanced3DVisualizer:
     3D visualization of quantum memory spaces
     """
 
-    def __init__(self, qi_oscillator: Optional[QIOscillator] = None):
-        self.qi_oscillator = qi_oscillator or QIOscillator()
+    def __init__(self, qi_oscillator: Optional[QIOscillator] = None):  # noqa: F821  # TODO: QIOscillator
+        self.qi_oscillator = qi_oscillator or QIOscillator()  # noqa: F821  # TODO: QIOscillator
 
     def launch_3d_viewer(self, memory_data: dict[str, Any]) -> None:
         """Launch 3D memory visualization"""

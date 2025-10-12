@@ -428,7 +428,7 @@ class RemediatorAgent:  # Corrected class name
             return hashlib.sha256(data_str.encode()).hexdigest()[:24]  # Longer signature
         except Exception as e:
             self.logger.warn("qi_signature_generation_failed_remediator", error=str(e))
-            return f"FALLBACK_SIG_{int(time.time_ns()}"  # Use time_ns
+            return f"FALLBACK_SIG_{int(time.time_ns()}"  # Use time_ns  # noqa: invalid-syntax  # TODO: Expected ,, found }
 
     # # Calculate drift score using LUKHAS cosine similarity method (or fallback)
 

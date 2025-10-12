@@ -17,13 +17,11 @@ Performance Targets:
 - Bio oscillators: 40Hz stable
 - Cascade prevention: 99.7% success rate
 """
-from datetime import timezone
-
 import asyncio
 import logging
 import time
 from dataclasses import dataclass
-from datetime import datetime
+from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, Optional
 

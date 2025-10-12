@@ -18,11 +18,7 @@ from lukhas.core.minimal_actor import Actor
 try:
     from lukhas.core.enhanced_swarm import (
         EnhancedColony as AgentColonyEnhanced,
-    )
-    from lukhas.core.enhanced_swarm import (
         EnhancedSwarmAgent as SwarmAgentEnhanced,
-    )
-    from lukhas.core.enhanced_swarm import (
         EnhancedSwarmHub as SwarmHubEnhanced,
     )
 
@@ -48,7 +44,7 @@ class SwarmAgent(Actor):
         super().__init__(agent_id)
         self.agent_id = agent_id
         self.colony = colony
-        self.tracer = AIAgentTracer(f"agent-{self.agent_id}", get_global_tracer().collector)
+        self.tracer = AIAgentTracer(f"agent-{self.agent_id}", get_global_tracer().collector)  # noqa: F821  # TODO: AIAgentTracer
 
         if ENHANCED_AVAILABLE and capabilities:
             # Use enhanced agent with real behaviors
@@ -89,9 +85,9 @@ class AgentColony:
         supervisor_strategy=SupervisionStrategy.RESTART,
     ):
         self.colony_id = colony_id
-        self.supervisor = Supervisor(strategy=supervisor_strategy)
+        self.supervisor = Supervisor(strategy=supervisor_strategy)  # noqa: F821  # TODO: Supervisor
         self.agents = {}
-        self.tracer = AIAgentTracer(f"colony-{self.colony_id}", get_global_tracer().collector)
+        self.tracer = AIAgentTracer(f"colony-{self.colony_id}", get_global_tracer().collector)  # noqa: F821  # TODO: AIAgentTracer
         self.resource_state = ResourceState.STABLE
         self.memory_load = 0.5  # Simulated memory load
         self.symbolic_tags = set()

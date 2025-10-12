@@ -8,10 +8,11 @@
 Test configuration for mcp-lukhas-sse module.
 """
 
-import pytest
-import tempfile
 import os
+import tempfile
 from pathlib import Path
+
+import pytest
 
 
 @pytest.fixture(scope="session")

@@ -1,5 +1,9 @@
 """Smoke test for matriz modules (T1/T2 critical paths)."""
-import json, pathlib, time, importlib
+import importlib
+import json
+import pathlib
+import time
+
 import pytest
 
 ROOT = pathlib.Path(__file__).resolve().parents[2]

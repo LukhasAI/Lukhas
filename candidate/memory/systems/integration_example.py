@@ -28,9 +28,10 @@ logger = logging.getLogger(__name__)
 import asyncio
 from typing import Any
 
+from lukhas.consciousness.reflection.unified_memory_manager import EnhancedMemoryManager
+
 # Existing systems to integrate with
 from lukhas.core.integration.connectivity_engine import ConnectivityEngine
-from lukhas.consciousness.reflection.unified_memory_manager import EnhancedMemoryManager
 
 # New memory systems
 from memory.core import create_hybrid_memory_fold

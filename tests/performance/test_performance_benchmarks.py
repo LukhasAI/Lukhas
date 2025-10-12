@@ -14,12 +14,12 @@ Tasks Tested:
 Trinity Framework: ⚡ Performance · 🛡️ Guardian
 """
 
-import pytest
-import time
 import asyncio
+import time
 from statistics import mean, median
 from unittest.mock import AsyncMock, MagicMock
 
+import pytest
 
 # ============================================================================
 # Fixtures

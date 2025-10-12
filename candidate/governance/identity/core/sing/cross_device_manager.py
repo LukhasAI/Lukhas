@@ -22,7 +22,9 @@ from typing import Any, Optional
 
 try:
     from cryptography.fernet import Fernet
-    from cryptography.hazmat.primitives import hashes  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for core infrastructure (review and implement)
+    from cryptography.hazmat.primitives import (
+        hashes,  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for core infrastructure (review and implement)
+    )
     from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
 except ImportError:
     # Fallback to basic encryption if cryptography not available

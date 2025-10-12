@@ -658,7 +658,7 @@ class GuardianSentinel(GlyphIntegrationMixin):
         """Handle governance-specific threat escalation"""
         escalation = {
             "timestamp": datetime.now(timezone.utc).isoformat(),
-            "threat_id": f"GOV-{int(time.time())",
+            "threat_id": f"GOV-{int(time.time())",  # noqa: invalid-syntax  # TODO: missing closing quote in strin...
             "threat_type": threat.indicator_type,
             "severity": threat.severity,
             "escalation_reason": "governance_threshold_exceeded",

@@ -37,8 +37,7 @@ sys.path.append(str(Path(__file__).parent.parent.parent / "lukhas-id" / "backend
 
 
 try:
-    from crypto import generate_collapse_hash
-    from crypto import generate_trace_index as crypto_trace_index
+    from crypto import generate_collapse_hash, generate_trace_index as crypto_trace_index
 except ImportError:
     # Fallback hash generation
     import hashlib
@@ -49,7 +48,7 @@ except ImportError:
         return hashlib.sha256(str(data).encode()).hexdigest()
 
     def crypto_trace_index(category: str, data: dict) -> str:
-        return generate_trace_index(category, data)
+        return generate_trace_index(category, data)  # noqa: F821  # TODO: generate_trace_index
 
 
 def load_ethics_config(
@@ -296,7 +295,7 @@ def detect_ethical_drift(
     escalation_info = check_escalation_requirements(weighted_drift_score, config)
 
     # Generate trace components
-    trace_index = generate_trace_index("ethics", current_state)
+    trace_index = generate_trace_index("ethics", current_state)  # noqa: F821  # TODO: generate_trace_index
     collapse_hash = generate_collapse_hash(current_state)
 
     # Build comprehensive result

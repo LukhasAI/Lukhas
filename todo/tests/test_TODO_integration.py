@@ -15,7 +15,7 @@ import pytest
 # Import module for integration testing
 try:
     pass  #     pass  #
-    import TODO
+    import TODO  # noqa: F401  # TODO: TODO; consider using importlib...
 except ImportError:
     pytest.skip("Module TODO not available", allow_module_level=True)
 

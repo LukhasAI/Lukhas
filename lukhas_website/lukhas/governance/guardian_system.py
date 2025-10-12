@@ -28,8 +28,11 @@ logger = logging.getLogger(__name__)
 try:
     import base64
 
-    from cryptography.exceptions import InvalidSignature
-    from cryptography.hazmat.primitives import hashes, serialization
+    from cryptography.exceptions import InvalidSignature  # noqa: F401  # TODO: cryptography.exceptions.Invali...
+    from cryptography.hazmat.primitives import (  # noqa: F401  # TODO: cryptography.hazmat.primitives...
+        hashes,
+        serialization,
+    )
     from cryptography.hazmat.primitives.asymmetric import ed25519
     CRYPTO_AVAILABLE = True
 except ImportError:
@@ -39,7 +42,7 @@ except ImportError:
 # Schema validation
 try:
     import jsonschema
-    from jsonschema import Draft202012Validator
+    from jsonschema import Draft202012Validator  # noqa: F401  # TODO: jsonschema.Draft202012Validato...
     SCHEMA_VALIDATION = True
 except ImportError:
     SCHEMA_VALIDATION = False

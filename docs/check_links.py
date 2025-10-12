@@ -12,7 +12,12 @@ Link checker for internal docs.
 Usage:
   python docs/check_links.py [--root .] [--external] [--strict]
 """
-import argparse, pathlib, re, sys, urllib.request, urllib.error
+import argparse
+import pathlib
+import re
+import sys
+import urllib.error
+import urllib.request
 
 HEADING_RE = re.compile(r'^\s{0,3}#{1,6}\s+(.*)\s*$')
 LINK_RE = re.compile(r'\[[^\]]+\]\(([^)]+)\)')

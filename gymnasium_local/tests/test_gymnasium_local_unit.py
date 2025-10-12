@@ -15,7 +15,7 @@ import pytest
 # Import module components
 try:
     pass  #     pass  #
-    import gymnasium_local
+    import gymnasium_local  # noqa: F401  # TODO: gymnasium_local; consider usin...
 except ImportError:
     pytest.skip("Module gymnasium_local not available", allow_module_level=True)
 

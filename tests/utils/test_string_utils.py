@@ -7,10 +7,10 @@ Real implementations only, no mocks needed.
 Trinity Framework: 🛡️ Guardian · 🏗️ Architecture
 """
 
-import pytest
 import re
 from typing import List, Optional
 
+import pytest
 
 # ============================================================================
 # String Casing Tests

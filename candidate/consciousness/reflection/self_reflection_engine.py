@@ -11,15 +11,15 @@ Conforms to LUKHAS Constellation Framework Flow Star (🌊) specifications.
 
 import asyncio
 import os
+import statistics
 import time
+from contextlib import contextmanager
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
-from typing import Any, Dict, List, Optional, Protocol, Union
-from contextlib import contextmanager
-import statistics
+from typing import Any, Dict, List, Optional, Protocol
 
-from lukhas.core.common.logger import get_logger
 from lukhas.consciousness.systems.state import ConsciousnessState
+from lukhas.core.common.logger import get_logger
 
 # Feature flag configuration
 REFLECTION_ENABLED = os.getenv("CONSC_REFLECTION_ENABLED", "1").lower() in ("1", "true", "on")
@@ -34,9 +34,9 @@ DRIFT_EMA_ALPHA = 0.3
 
 # Optional OpenTelemetry support for observability
 try:
-    from opentelemetry import trace, metrics
-    from opentelemetry.trace import Status, StatusCode
+    from opentelemetry import metrics, trace  # noqa: F401  # TODO: opentelemetry.metrics; conside...
     from opentelemetry.metrics import get_meter
+    from opentelemetry.trace import Status, StatusCode  # noqa: F401  # TODO: opentelemetry.trace.Status; co...
     OTEL_AVAILABLE = True
 except ImportError:
     OTEL_AVAILABLE = False

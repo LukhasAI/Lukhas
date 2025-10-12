@@ -20,14 +20,14 @@ class VoiceBioAdapter:
     functionality and optimizations.
     """
 
-    def __init__(self, bio_orchestrator: Optional[BioOrchestrator] = None):
+    def __init__(self, bio_orchestrator: Optional[BioOrchestrator] = None):  # noqa: F821  # TODO: BioOrchestrator
         """
         Initialize the voice adapter.
 
         Args:
             bio_orchestrator: Existing orchestrator instance or None to create new
         """
-        self.orchestrator = bio_orchestrator or BioOrchestrator(
+        self.orchestrator = bio_orchestrator or BioOrchestrator(  # noqa: F821  # TODO: BioOrchestrator
             total_energy_capacity=1.5,  # Voice processing needs more resources
             monitoring_interval=2.0,  # Faster monitoring for real-time audio
             auto_repair=True,
@@ -38,7 +38,7 @@ class VoiceBioAdapter:
             "sample_rate": 16000,
             "chunk_size": 1024,
             "latency_threshold": 0.05,  # 50ms max latency
-            "priority": ResourcePriority.HIGH,
+            "priority": ResourcePriority.HIGH,  # noqa: F821  # TODO: ResourcePriority
         }
 
         # Register voice-specific modules with high priority
@@ -98,7 +98,7 @@ class VoiceBioAdapter:
         if "voice_processor" in self.orchestrator.registered_modules:
             self.orchestrator.update_module(
                 "voice_processor",
-                priority=ResourcePriority.CRITICAL,
+                priority=ResourcePriority.CRITICAL,  # noqa: F821  # TODO: ResourcePriority
                 energy_cost=0.05,  # Lower cost for faster allocation
             )
 

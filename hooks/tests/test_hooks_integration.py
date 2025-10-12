@@ -15,7 +15,7 @@ import pytest
 # Import module for integration testing
 try:
     pass  #     pass  #
-    import hooks
+    import hooks  # noqa: F401  # TODO: hooks; consider using importli...
 except ImportError:
     pytest.skip("Module hooks not available", allow_module_level=True)
 

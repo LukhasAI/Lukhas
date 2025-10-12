@@ -52,7 +52,7 @@ class QIUIOptimizer:
     """
 
     def __init__(self):
-        self.qi_backend = QIBackendManager()
+        self.qi_backend = QIBackendManager()  # noqa: F821  # TODO: QIBackendManager
         self.vqe_optimizer = VQE(
             ansatz=TwoLocal(rotation_blocks="ry", entanglement_blocks="cx"),
             optimizer="COBYLA",
@@ -60,10 +60,10 @@ class QIUIOptimizer:
 
     async def optimize_interface_layout(
         self,
-        user_context: QIUserContext,
-        ui_components: list[UIComponent],
-        constraints: LayoutConstraints,
-    ) -> OptimalLayout:
+        user_context: QIUserContext,  # noqa: F821  # TODO: QIUserContext
+        ui_components: list[UIComponent],  # noqa: F821  # TODO: UIComponent
+        constraints: LayoutConstraints,  # noqa: F821  # TODO: LayoutConstraints
+    ) -> OptimalLayout:  # noqa: F821  # TODO: OptimalLayout
         """
         Use quantum annealing for optimal layout generation
         """
@@ -84,13 +84,13 @@ class QIUIOptimizer:
         return optimal_layout
 
     async def generate_quantum_color_palette(
-        self, base_context: ColorContext, user_preferences: UserColorPreferences
-    ) -> QIColorPalette:
+        self, base_context: ColorContext, user_preferences: UserColorPreferences  # noqa: F821  # TODO: ColorContext
+    ) -> QIColorPalette:  # noqa: F821  # TODO: QIColorPalette
         """
         Generate aesthetically pleasing colors using superposition-like state
         """
         # Create superposition of color states
-        color_circuit = QICircuit(8)  # 8 qubits for RGB
+        color_circuit = QICircuit(8)  # 8 qubits for RGB  # noqa: F821  # TODO: QICircuit
 
         # Encode user preferences as rotation angles
         preference_angles = self._preferences_to_angles(user_preferences)

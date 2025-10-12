@@ -16,8 +16,6 @@ except ImportError as e:
     try:
         from .abas_quantum_specialist_mock import (
             QuantumBiologicalAGI,
-        )
-        from .abas_quantum_specialist_mock import (
             get_quantum_biological_agi as get_mock_quantum_agi,
         )
 

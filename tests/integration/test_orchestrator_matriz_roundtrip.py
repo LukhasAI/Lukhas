@@ -29,11 +29,11 @@ from unittest.mock import Mock, patch
 
 import pytest
 
+from identity.tiers import IdentityTier, TierValidator
 from lukhas.consciousness.matriz_thought_loop import MATRIZProcessingContext, MATRIZThoughtLoop
 from lukhas.consciousness.types import ConsciousnessState
 from lukhas.governance.guardian_serializer import GuardianEnvelopeSerializer
 from lukhas.identity.auth_service import LUKHASIdentityService
-from identity.tiers import IdentityTier, TierValidator
 
 # Import LUKHAS components
 from lukhas.orchestration.multi_ai_router import ConsensusType, RoutingRequest

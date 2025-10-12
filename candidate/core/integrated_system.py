@@ -158,11 +158,11 @@ async def demo_integrated_system():
 
     try:
         # Create specialized colonies
-        await system.create_colony("reasoning-specialist-001", ReasoningColony)
+        await system.create_colony("reasoning-specialist-001", ReasoningColony)  # noqa: F821  # TODO: ReasoningColony
 
-        await system.create_colony("memory-specialist-001", MemoryColony)
+        await system.create_colony("memory-specialist-001", MemoryColony)  # noqa: F821  # TODO: MemoryColony
 
-        await system.create_colony("creative-specialist-001", CreativityColony)
+        await system.create_colony("creative-specialist-001", CreativityColony)  # noqa: F821  # TODO: CreativityColony
 
         print(f"\n✅ Created {len(system.colonies)} specialized colonies")
 

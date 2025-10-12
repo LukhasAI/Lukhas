@@ -40,8 +40,7 @@ from typing import Any, Optional
 
 # Import the main ethics guardian implementation
 try:
-    from ethics.guardian import EthicalFramework
-    from ethics.guardian import EthicsGuardian as BaseEthicsGuardian
+    from ethics.guardian import EthicalFramework, EthicsGuardian as BaseEthicsGuardian
 except ImportError:
     # Fallback if main implementation not available
     BaseEthicsGuardian = None

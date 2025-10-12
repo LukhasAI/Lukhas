@@ -99,9 +99,9 @@ except ImportError:
 # Bio Core - Use candidate.bio.core directly to avoid circular imports
 try:
     # Import from the module file directly
-    import lukhas.bio.core
+    import lukhas.bio.core  # noqa: F401  # TODO: lukhas.bio.core; consider usin...
 
-    BioCore = candidate.bio.core.BioEngine
+    BioCore = candidate.bio.core.BioEngine  # noqa: F821  # TODO: candidate
 except (ImportError, AttributeError):
     BioCore = None
 

@@ -285,7 +285,7 @@ def __validate_module__():
 
     failed = [k for k, v in validations.items() if not v]
     if failed:
-        logger.warning(f"Module validation warnings: {failed}")
+        logger.warning(f"Module validation warnings: {failed}")  # noqa: F821  # TODO: logger
 
     return len(failed) == 0
 

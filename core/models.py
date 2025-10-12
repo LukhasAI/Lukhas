@@ -11,8 +11,7 @@ reasoning modules that expect to import BaseModel from lukhas.core.models.
 import logging
 from typing import Any, Optional
 
-from pydantic import BaseModel as PydanticBaseModel
-from pydantic import ConfigDict, Field
+from pydantic import BaseModel as PydanticBaseModel, ConfigDict, Field
 
 logger = logging.getLogger(__name__)
 

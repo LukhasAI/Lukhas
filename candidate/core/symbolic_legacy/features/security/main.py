@@ -14,7 +14,7 @@ access_context={"level": "G0_PUBLIC_UTILITY"},
 glyph_metadata_provider=None,
 )
 sample = "Hello ΛAIG"  # Example text with glyph
-print(engine.redact_stream(sample))
+print(engine.redact_stream(sample))  # noqa: F821  # TODO: engine
 
 
 if __name__ == "__main__":

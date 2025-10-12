@@ -32,15 +32,15 @@ from typing import Any
 try:
     from backend.audit_logger import AuditLogger
 
-    from lukhas.core.interfaces.as_agent.core.gatekeeper import (
-        ConstitutionalGatekeeper,
-    )
     from governance.identity.auth.cultural_profile_manager import CulturalProfileManager
     from lukhas.consciousness.core_consciousness.consciousness_engine import (
         ConsciousnessEngine,
     )
     from lukhas.consciousness.core_consciousness.qi_consciousness_visualizer import (
         QIConsciousnessVisualizer,
+    )
+    from lukhas.core.interfaces.as_agent.core.gatekeeper import (
+        ConstitutionalGatekeeper,
     )
     from utils.cognitive_load_estimator import CognitiveLoadEstimator
     from utils.cultural_safety_checker import CulturalSafetyChecker

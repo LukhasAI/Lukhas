@@ -1,4 +1,5 @@
-import json, re
+import json
+import re
 from pathlib import Path
 
 RULES = json.loads(Path("configs/star_rules.json").read_text(encoding="utf-8"))

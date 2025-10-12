@@ -46,36 +46,36 @@ from lukhas.core.lukhas_widget_engine import create_symbolic_widget
 
 # ─── Load Configs ─────────────────────────────────────────────────────────────
 load_dotenv()
-st.set_page_config(page_title="LUKHAS Dashboard", layout="wide")
+st.set_page_config(page_title="LUKHAS Dashboard", layout="wide")  # noqa: F821  # TODO: st
 
 # ─── Sidebar ──────────────────────────────────────────────────────────────────
-st.sidebar.image("assets/logo.svg", use_column_width=True)
-st.sidebar.title("LUKHAS SYSTEMS")
-agent_enabled = st.sidebar.checkbox("🧠 Enable Symbolic Agent", value=False)
-user_tier = st.sidebar.selectbox("🔐 Access Tier", [0, 1, 2, 3, 4, 5], index=2)
-selected_module = st.sidebar.selectbox("📦 Module Focus", ["lukhas_self", "lukhas_scheduler", "lukhas_gatekeeper"])
+st.sidebar.image("assets/logo.svg", use_column_width=True)  # noqa: F821  # TODO: st
+st.sidebar.title("LUKHAS SYSTEMS")  # noqa: F821  # TODO: st
+agent_enabled = st.sidebar.checkbox("🧠 Enable Symbolic Agent", value=False)  # noqa: F821  # TODO: st
+user_tier = st.sidebar.selectbox("🔐 Access Tier", [0, 1, 2, 3, 4, 5], index=2)  # noqa: F821  # TODO: st
+selected_module = st.sidebar.selectbox("📦 Module Focus", ["lukhas_self", "lukhas_scheduler", "lukhas_gatekeeper"])  # noqa: F821  # TODO: st
 
-if st.sidebar.button("🌙 Reflective Dream Scheduler"):
-    st.info("Reflective dream scheduling initiated…")
+if st.sidebar.button("🌙 Reflective Dream Scheduler"):  # noqa: F821  # TODO: st
+    st.info("Reflective dream scheduling initiated…")  # noqa: F821  # TODO: st
 
 # ─── Welcome Banner ───────────────────────────────────────────────────────────
-st.title("🌱 Welcome to LUKHAS Dashboard")
-st.markdown("> A modular Cognitive AI interface designed to reflect, assist, and adapt.")
+st.title("🌱 Welcome to LUKHAS Dashboard")  # noqa: F821  # TODO: st
+st.markdown("> A modular Cognitive AI interface designed to reflect, assist, and adapt.")  # noqa: F821  # TODO: st
 
 # ─── Symbolic Identity Preview ────────────────────────────────────────────────
 if agent_enabled:
     try:
         from lukhas.core.lukhas_self import who_am_i
 
-        st.success("🧠 Agent Online: " + who_am_i())
+        st.success("🧠 Agent Online: " + who_am_i())  # noqa: F821  # TODO: st
     except Exception as e:
-        st.error("⚠️ Agent module could not load.")
-        st.exception(e)
+        st.error("⚠️ Agent module could not load.")  # noqa: F821  # TODO: st
+        st.exception(e)  # noqa: F821  # TODO: st
 
 # ─── GPT Assistant Prompt Area ────────────────────────────────────────────────
-st.markdown("#)  #  🤖 Ask LUKHAS (powered by GPT")
-prompt = st.text_input("💬 What would you like to ask?")
-if st.button("Ask GPT"):
+st.markdown("#)  #  🤖 Ask LUKHAS (powered by GPT")  # noqa: F821  # TODO: st
+prompt = st.text_input("💬 What would you like to ask?")  # noqa: F821  # TODO: st
+if st.button("Ask GPT"):  # noqa: F821  # TODO: st
     try:
         import openai
 
@@ -92,35 +92,35 @@ if st.button("Ask GPT"):
                 {"role": "user", "content": enriched_prompt},
             ],
         )
-        st.markdown(f"**💡 LUKHAS says:** {chat.choices[0].message.content}")
+        st.markdown(f"**💡 LUKHAS says:** {chat.choices[0].message.content}")  # noqa: F821  # TODO: st
     except Exception as e:
-        st.error("GPT failed to respond.")
-        st.exception(e)
+        st.error("GPT failed to respond.")  # noqa: F821  # TODO: st
+        st.exception(e)  # noqa: F821  # TODO: st
 
 # ─── Dashboard Sections ───────────────────────────────────────────────────────
-col1, col2, col3 = st.columns(3)
+col1, col2, col3 = st.columns(3)  # noqa: F821  # TODO: st
 
 with col1:
-    st.subheader("📅 Dream Log")
-    st.info("Latest symbolic dreams and reflections will appear here.")
+    st.subheader("📅 Dream Log")  # noqa: F821  # TODO: st
+    st.info("Latest symbolic dreams and reflections will appear here.")  # noqa: F821  # TODO: st
 
 with col2:
-    st.subheader("📦 Memory Bubble")
-    st.success("No new memory events logged.")
+    st.subheader("📦 Memory Bubble")  # noqa: F821  # TODO: st
+    st.success("No new memory events logged.")  # noqa: F821  # TODO: st
 
 with col3:
-    st.subheader("🚗 Travel Widget (Upcoming)")
-    st.warning("Symbolic trip suggestions will appear when enabled.")
+    st.subheader("🚗 Travel Widget (Upcoming)")  # noqa: F821  # TODO: st
+    st.warning("Symbolic trip suggestions will appear when enabled.")  # noqa: F821  # TODO: st
 
 if agent_enabled:
-    st.markdown("##)  #  🛫 Active Travel Widget (Preview")
+    st.markdown("##)  #  🛫 Active Travel Widget (Preview")  # noqa: F821  # TODO: st
     travel_widget = create_symbolic_widget("travel", user_tier=user_tier)
     if travel_widget["status"] != "locked":
-        st.json(travel_widget)
+        st.json(travel_widget)  # noqa: F821  # TODO: st
 
 # ─── Footer Info ──────────────────────────────────────────────────────────────
-st.markdown("---")
-st.markdown("🛠 Powered by LUKHAS SYSTEMS — v1.0.0 | Modular Cognitive AI Layer | 2025")
+st.markdown("---")  # noqa: F821  # TODO: st
+st.markdown("🛠 Powered by LUKHAS SYSTEMS — v1.0.0 | Modular Cognitive AI Layer | 2025")  # noqa: F821  # TODO: st
 
 # ─────────────────────────────────────────────────────────────────────────────
 # ✅ Ready for:

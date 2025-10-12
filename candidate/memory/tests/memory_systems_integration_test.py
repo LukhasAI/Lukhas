@@ -25,15 +25,27 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 # Import memory system components
 try:
-    from episodic.episodic_memory import ConsolidatedEpisodicmemory
-    from fold import FoldManager, MemoryFold
-    from systems.dream_memory_manager import DreamMemoryManager
-    from systems.memory_collapse_verifier import MemoryCollapseVerifier
-    from constellation_framework_validator import ConstellationFrameworkValidator
+    from constellation_framework_validator import (
+        ConstellationFrameworkValidator,  # noqa: F401  # TODO: constellation_framework_valida...
+    )
+    from episodic.episodic_memory import (
+        ConsolidatedEpisodicmemory,  # noqa: F401  # TODO: episodic.episodic_memory.Conso...
+    )
+    from fold import FoldManager, MemoryFold  # noqa: F401  # TODO: fold.FoldManager; consider usi...
+    from systems.dream_memory_manager import DreamMemoryManager  # noqa: F401  # TODO: systems.dream_memory_manager.D...
+    from systems.memory_collapse_verifier import (
+        MemoryCollapseVerifier,  # noqa: F401  # TODO: systems.memory_collapse_verifi...
+    )
 
-    from consciousness.awareness_mechanism import AwarenessMechanism
-    from consciousness.dream_memory_integration import DreamMemoryIntegrator
-    from consciousness.memory_consciousness_optimizer import MemoryConsciousnessOptimizer
+    from consciousness.awareness_mechanism import (
+        AwarenessMechanism,  # noqa: F401  # TODO: consciousness.awareness_mechan...
+    )
+    from consciousness.dream_memory_integration import (
+        DreamMemoryIntegrator,  # noqa: F401  # TODO: consciousness.dream_memory_int...
+    )
+    from consciousness.memory_consciousness_optimizer import (
+        MemoryConsciousnessOptimizer,  # noqa: F401  # TODO: consciousness.memory_conscious...
+    )
 except ImportError as e:
     print(f"Warning: Could not import some modules: {e}")
 
@@ -237,7 +249,7 @@ class TestMemorySystemsIntegration(unittest.TestCase):
             from consciousness.memory_consciousness_optimizer import (
                 CouplingType,
                 MemoryConsciousnessOptimizer,
-                OptimizationStrategy,
+                OptimizationStrategy,  # noqa: F401  # TODO: consciousness.memory_conscious...
             )
 
             # Initialize optimizer
@@ -283,7 +295,11 @@ class TestMemorySystemsIntegration(unittest.TestCase):
     def test_trinity_framework_validation(self):
         """Test Constellation Framework compliance validation"""
         try:
-            from constellation_framework_validator import ConstellationComponent, ConstellationFrameworkValidator, ValidationLevel
+            from constellation_framework_validator import (
+                ConstellationComponent,
+                ConstellationFrameworkValidator,
+                ValidationLevel,
+            )
 
             # Initialize validator
             validator = ConstellationFrameworkValidator()
@@ -331,7 +347,9 @@ class TestMemorySystemsIntegration(unittest.TestCase):
         try:
             from systems.memory_collapse_verifier import MemoryCollapseVerifier, MemoryNode
 
-            from lukhas.core.symbolic.symbolic_tracer import SymbolicTracer
+            from lukhas.core.symbolic.symbolic_tracer import (
+                SymbolicTracer,  # noqa: F401  # TODO: lukhas.core.symbolic.symbolic_...
+            )
 
             # Create mock tracer
             class MockTracer:

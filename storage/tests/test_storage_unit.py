@@ -15,7 +15,7 @@ import pytest
 # Import module components
 try:
     pass  #     pass  #
-    import storage
+    import storage  # noqa: F401  # TODO: storage; consider using import...
 except ImportError:
     pytest.skip("Module storage not available", allow_module_level=True)
 

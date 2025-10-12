@@ -15,7 +15,7 @@ import pytest
 # Import module for integration testing
 try:
     pass  #     pass  #
-    import ai_orchestration
+    import ai_orchestration  # noqa: F401  # TODO: ai_orchestration; consider usi...
 except ImportError:
     pytest.skip("Module ai_orchestration not available", allow_module_level=True)
 

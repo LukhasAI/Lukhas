@@ -617,8 +617,7 @@ class TestMetaCognitiveAssessmentReliability:
 
 # Property-based testing for advanced cognitive features
 try:
-    from hypothesis import given, settings
-    from hypothesis import strategies as st
+    from hypothesis import given, settings, strategies as st
 
     class TestCognitivePropertyBased:
         """Property-based tests for cognitive feature edge cases."""

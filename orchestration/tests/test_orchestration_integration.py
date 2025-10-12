@@ -15,7 +15,7 @@ import pytest
 # Import module for integration testing
 try:
     pass  #     pass  #
-    import orchestration
+    import orchestration  # noqa: F401  # TODO: orchestration; consider using ...
 except ImportError:
     pytest.skip("Module orchestration not available", allow_module_level=True)
 

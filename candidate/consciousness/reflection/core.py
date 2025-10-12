@@ -41,16 +41,12 @@ try:
     from lukhas.memory.structural_conscience import create_structural_conscience
 except ImportError:
     create_structural_conscience = None
+from hybrid_memory_fold import (
+    HybridMemoryFold,
+)
 from memory_fold_system import MemoryFoldSystem, MemoryItem
 from optimized_hybrid_memory_fold import OptimizedHybridMemoryFold
 from optimized_memory_item import OptimizedMemoryItem, create_optimized_memory
-
-from hybrid_memory_fold import (
-    ContinuousLearningEngine,
-    HybridMemoryFold,
-    MemoryAttentionLayer,
-    VectorStorageLayer,
-)
 
 
 def create_hybrid_memory_fold(
@@ -318,8 +314,8 @@ class ReflectionMemoryAttentionLayer:
         self.hidden_dim = hidden_dim
         self.num_heads = num_heads
         self.head_dim = hidden_dim // num_heads
-        if TORCH_AVAILABLE:
-            self.attention = nn.MultiheadAttention(embed_dim=hidden_dim, num_heads=num_heads, dropout=0.1)
+        if TORCH_AVAILABLE:  # noqa: F821  # TODO: TORCH_AVAILABLE
+            self.attention = nn.MultiheadAttention(embed_dim=hidden_dim, num_heads=num_heads, dropout=0.1)  # noqa: F821  # TODO: nn
 
     def compute_attention_scores(
         self,

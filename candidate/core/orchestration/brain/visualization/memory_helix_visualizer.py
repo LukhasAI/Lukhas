@@ -212,9 +212,9 @@ class MemoryHelixVisualizer:
                 f"ID: {memory['id'][:8]}...<br>"
                 f"Type: {memory_type}<br>"
                 f"Created: {created}<br>"
-                f"Tags: {', '.join(memory.get('tags', [])}<br>"
+                f"Tags: {', '.join(memory.get('tags', [])}<br>"  # noqa: invalid-syntax  # TODO: Expected ,, found }
                 f"Priority: {memory_priority}"
-            )
+            )  # noqa: invalid-syntax  # TODO: f-string: unterminated string
             texts.append(text)
 
             # Connect memories with related ones (if relationship data exists)

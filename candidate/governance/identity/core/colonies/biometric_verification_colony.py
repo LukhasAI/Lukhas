@@ -17,8 +17,7 @@ import numpy as np
 
 # Import colony infrastructure
 from lukhas.core.colonies.base_colony import BaseColony, ConsensusResult
-from lukhas.core.enhanced_swarm import AgentCapability, AgentState
-from lukhas.core.enhanced_swarm import EnhancedSwarmAgent as SwarmAgent
+from lukhas.core.enhanced_swarm import AgentCapability, AgentState, EnhancedSwarmAgent as SwarmAgent
 
 # Import identity events
 try:

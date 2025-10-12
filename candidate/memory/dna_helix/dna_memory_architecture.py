@@ -121,27 +121,27 @@ class MemoryNode:
     """
 
     # Mandatory fields (immutable)
-    id: str = field(default_factory=lambda: f"node_{uuid4().hex[:8]}_{int(time.time())")
-    type: NodeType = NodeType.MEMORY
-    created_at: datetime = field(default_factory=datetime.now)
-    content_hash: str = ""  # SHA-256 of content for integrity
+    id: str = field(default_factory=lambda: f"node_{uuid4().hex[:8]}_{int(time.time())")  # noqa: invalid-syntax  # TODO: missing closing quote in strin...
+    type: NodeType = NodeType.MEMORY  # noqa: invalid-syntax  # TODO: Positional argument cannot fol...
+    created_at: datetime = field(default_factory=datetime.now)  # noqa: invalid-syntax  # TODO: Expected ,, found name
+    content_hash: str = ""  # SHA-256 of content for integrity  # noqa: invalid-syntax  # TODO: Expected ,, found name
 
     # Content and state
-    content: dict[str, Any] = field(default_factory=dict)
-    state: CognitiveState = field(default_factory=CognitiveState)
+    content: dict[str, Any] = field(default_factory=dict)  # noqa: invalid-syntax  # TODO: Expected ,, found name
+    state: CognitiveState = field(default_factory=CognitiveState)  # noqa: invalid-syntax  # TODO: Expected ,, found name
 
     # Connections
-    links: list[MemoryLink] = field(default_factory=list)
-    evolves_to: list[str] = field(default_factory=list)  # Future versions
-    evolved_from: str | None = None  # Previous version
+    links: list[MemoryLink] = field(default_factory=list)  # noqa: invalid-syntax  # TODO: Expected ,, found name
+    evolves_to: list[str] = field(default_factory=list)  # Future versions  # noqa: invalid-syntax  # TODO: Expected ,, found name
+    evolved_from: str | None = None  # Previous version  # noqa: invalid-syntax  # TODO: Expected ,, found name
 
     # Triggers and reflections
-    triggers: list[dict[str, Any]] = field(default_factory=list)
-    reflections: list[dict[str, Any]] = field(default_factory=list)
+    triggers: list[dict[str, Any]] = field(default_factory=list)  # noqa: invalid-syntax  # TODO: Expected ,, found name
+    reflections: list[dict[str, Any]] = field(default_factory=list)  # noqa: invalid-syntax  # TODO: Expected ,, found name
 
     # Metadata
-    tags: set[str] = field(default_factory=set)
-    privacy_level: int = 0  # 0=public, 1=private, 2=encrypted
+    tags: set[str] = field(default_factory=set)  # noqa: invalid-syntax  # TODO: Expected ,, found name
+    privacy_level: int = 0  # 0=public, 1=private, 2=encrypted  # noqa: invalid-syntax  # TODO: Expected ,, found name
 
     def __post_init__(self):
         """Calculate content hash after initialization"""

@@ -11,10 +11,14 @@ Robust against mixed content: skips non-dict JSON, missing fields, etc.
 """
 
 from __future__ import annotations
-import argparse, json, sys
-from pathlib import Path
+
+import argparse
+import json
+import sys
 from collections import Counter
+from pathlib import Path
 from typing import Any
+
 
 def load_json(p: Path) -> Any:
     try:

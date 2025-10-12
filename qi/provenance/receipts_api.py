@@ -1,4 +1,3 @@
-from typing import Optional
 # path: qi/provenance/receipts_api.py
 from __future__ import annotations
 
@@ -10,9 +9,6 @@ import random
 
 from fastapi import FastAPI, HTTPException, Query, Response
 from fastapi.responses import HTMLResponse, JSONResponse
-import streamlit as st
-import time
-from consciousness.qi import qi
 
 # NEW: optional CORS (uncomment if you want browser embedding from other origins)
 try:

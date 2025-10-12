@@ -15,7 +15,7 @@ import pytest
 # Import module components
 try:
     pass  #     pass  #
-    import modulation
+    import modulation  # noqa: F401  # TODO: modulation; consider using imp...
 except ImportError:
     pytest.skip("Module modulation not available", allow_module_level=True)
 

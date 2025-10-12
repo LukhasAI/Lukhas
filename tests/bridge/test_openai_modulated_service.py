@@ -4,10 +4,11 @@ Tests for OpenAI Modulated Service (Vector Store Integration).
 Part of BATCH-COPILOT-2025-10-08-01
 TaskID: ASSIST-HIGH-TEST-VECTOR-q7r8s9t0
 """
-import pytest
-from unittest.mock import Mock, patch, MagicMock, AsyncMock
-from typing import List, Dict, Any
+from typing import Any, Dict, List
+from unittest.mock import AsyncMock, MagicMock, Mock, patch
+
 import numpy as np
+import pytest
 
 
 # Fixtures

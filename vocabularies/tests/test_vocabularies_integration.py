@@ -15,7 +15,7 @@ import pytest
 # Import module for integration testing
 try:
     pass  #     pass  #
-    import vocabularies
+    import vocabularies  # noqa: F401  # TODO: vocabularies; consider using i...
 except ImportError:
     pytest.skip("Module vocabularies not available", allow_module_level=True)
 

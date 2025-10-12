@@ -27,8 +27,8 @@ from typing import Any, Optional
 
 try:
     from lukhas.bridge.api.validation import (
-        ValidationErrorType,
-        ValidationSeverity,
+        ValidationErrorType,  # noqa: F401  # TODO: lukhas.bridge.api.validation.V...
+        ValidationSeverity,  # noqa: F401  # TODO: lukhas.bridge.api.validation.V...
         get_validator,
     )
 
@@ -725,7 +725,7 @@ if FASTAPI_AVAILABLE:
                     "features": tier_features.get("features", []),
                     "support_level": tier_features.get("support_level", "community"),
                 },
-                "personalized_recommendations": self._get_personalized_recommendations(use_cases),
+                "personalized_recommendations": self._get_personalized_recommendations(use_cases),  # noqa: F821  # TODO: self
                 "next_steps": [
                     "Verify your email address",
                     "Explore the API documentation",

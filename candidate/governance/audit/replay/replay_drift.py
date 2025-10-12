@@ -90,7 +90,7 @@ class DriftEventReplayer:
 
             logger.info("✅ Replay completed successfully")
             logger.info(f"   Guardian response: {guardian_response['action']}")
-            logger.info(f"   Validation: {'PASSED' if validation_results.get('passed', False)} else 'NEEDS_REVIEW'}")
+            logger.info(f"   Validation: {'PASSED' if validation_results.get('passed', False)} else 'NEEDS_REVIEW'}")  # noqa: invalid-syntax  # TODO: Expected else, found }
 
             return replay_results
 

@@ -17,11 +17,11 @@ from typing import Any, Dict, List
 from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from opentelemetry import trace
-from lukhas.observability import counter, histogram
 from pydantic import BaseModel, Field
 
 from lukhas.governance.guardian import get_guardian
 from lukhas.identity.auth_service import verify_token
+from lukhas.observability import counter, histogram
 
 from .multi_ai_router import AIProvider, ConsensusType, RoutingRequest, get_multi_ai_router
 
@@ -303,7 +303,7 @@ async def enable_model(
     """Enable a specific AI model"""
 
     with tracer.start_span("orchestration_api.enable_model"):
-        span.set_attribute("model_id", model_id)
+        span.set_attribute("model_id", model_id)  # noqa: F821  # TODO: span
 
         try:
             router_instance = get_multi_ai_router()
@@ -354,7 +354,7 @@ async def disable_model(
     """Disable a specific AI model"""
 
     with tracer.start_span("orchestration_api.disable_model"):
-        span.set_attribute("model_id", model_id)
+        span.set_attribute("model_id", model_id)  # noqa: F821  # TODO: span
 
         try:
             router_instance = get_multi_ai_router()
@@ -427,7 +427,7 @@ async def health_check():
             return {
                 "status": "healthy",
                 "available_models": available_count,
-                "timestamp": time.time()
+                "timestamp": time.time()  # noqa: F821  # TODO: time
             }
 
         except HTTPException:

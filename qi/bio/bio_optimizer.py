@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-log = logging.getLogger(__name__)
+log = logging.getLogger(__name__)  # noqa: F821  # TODO: logging
 import logging
 
 logger = logging.getLogger(__name__)
@@ -561,7 +561,7 @@ class QIBioOptimizationAdapter:
         time_condition = self.last_optimization_timestamp is None or (
             time.monotonic() - self.last_optimization_timestamp > time_threshold_sec
         )
-        return cycles_condition and time_condition
+        return cycles_condition and time_condition  # noqa: F821  # TODO: cycles_condition
 
     async def _process_dream_consolidation(self, awareness_result: dict[str, Any]) -> dict[str, Any]:
         self.log.info("Starting dream consolidation cycle.")

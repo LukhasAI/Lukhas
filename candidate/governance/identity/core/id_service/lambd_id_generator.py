@@ -4,13 +4,11 @@ This shim keeps the legacy module path importable while the real
 implementation lives in `lambda_id_generator.py` (canonical name).
 """
 
-from datetime import timezone
-
 import hashlib
 import json
 import secrets
 import time
-from datetime import datetime
+from datetime import datetime, timezone
 from enum import Enum
 from typing import Optional
 

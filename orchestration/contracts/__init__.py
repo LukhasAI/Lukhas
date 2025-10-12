@@ -1,6 +1,8 @@
 """Bridge: orchestration.contracts (protocol/DTO contracts)."""
 from __future__ import annotations
+
 from lukhas._bridgeutils import bridge_from_candidates, bridge_from_candidates as bcf
+
 _CANDIDATES = (
     "lukhas_website.lukhas.orchestration.contracts",
     "candidate.orchestration.contracts",

@@ -22,8 +22,7 @@ import asyncio
 from datetime import datetime, timezone
 from typing import Any, Optional
 
-from ._logging import BRIDGE_LOGGER as logger
-from ._logging import get_voice_bridge_logger
+from ._logging import BRIDGE_LOGGER as logger, get_voice_bridge_logger
 
 # ΛTAG: voice_logging
 

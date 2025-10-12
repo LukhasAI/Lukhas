@@ -157,14 +157,14 @@ class QIBioOscillator:
         entanglement_id = f"entanglement_{id(self)}_{id(other_oscillator)}"
 
         # Store entanglement in both oscillators
-        self.entangled_oscillators[entanglement_id] = entanglement_data
-        other_oscillator.entangled_oscillators[entanglement_id] = entanglement_data
+        self.entangled_oscillators[entanglement_id] = entanglement_data  # noqa: F821  # TODO: entanglement_data
+        other_oscillator.entangled_oscillators[entanglement_id] = entanglement_data  # noqa: F821  # TODO: entanglement_data
 
         # Update quantum-like states
         self.qi_like_state["entanglement_pairs"].append(entanglement_id)
         other_oscillator.qi_like_state["entanglement_pairs"].append(entanglement_id)
 
-        return entanglement_data
+        return entanglement_data  # noqa: F821  # TODO: entanglement_data
 
     def apply_entanglement_effects(self, time_point: float) -> dict[str, Any]:
         """

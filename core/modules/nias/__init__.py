@@ -195,8 +195,6 @@ class DreamRecorder:
 
     async def record_dream_message(self, message: dict[str, Any], context: dict[str, Any]) -> dict[str, Any]:
         """Record message for later dream processing"""
-        import datetime
-
         dream_entry = {
             "dream_id": f"dream_{len(self.dream_queue)}_{datetime.datetime.now(timezone.utc).timestamp()}",
             "message": message,

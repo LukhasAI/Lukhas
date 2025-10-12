@@ -15,7 +15,7 @@ import pytest
 # Import module components
 try:
     pass  #     pass  #
-    import recovered_components
+    import recovered_components  # noqa: F401  # TODO: recovered_components; consider...
 except ImportError:
     pytest.skip("Module recovered_components not available", allow_module_level=True)
 

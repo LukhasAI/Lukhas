@@ -21,7 +21,7 @@ from typing import Any, Dict, Optional
 
 try:
     from prometheus_client import (
-        CONTENT_TYPE_LATEST,
+        CONTENT_TYPE_LATEST,  # noqa: F401  # TODO: prometheus_client.CONTENT_TYPE...
         CollectorRegistry,
         Counter,
         Gauge,

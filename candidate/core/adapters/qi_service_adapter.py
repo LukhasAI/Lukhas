@@ -26,9 +26,13 @@ class QIServiceAdapter(IQuantumService):
         if not self._initialized:
             try:
                 # Try to import qim_components
-                from qi.engines.consciousness.engine import QIEngine  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for Constellation Framework consciousness evolution
+                from qi.engines.consciousness.engine import (
+                    QIEngine,  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for Constellation Framework consciousness evolution
+                )
                 from qi.processing.qi_bio_coordinator import MockQuantumBioCoordinator
-                from qi.qi_states.processor import QIProcessor  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for core infrastructure (review and implement)
+                from qi.qi_states.processor import (
+                    QIProcessor,  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for core infrastructure (review and implement)
+                )
 
                 self._quantum_coordinator = MockQuantumBioCoordinator()
                 logger.info("QIM Quantum Bio Coordinator initialized")

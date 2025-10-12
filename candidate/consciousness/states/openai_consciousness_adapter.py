@@ -23,13 +23,13 @@ import logging
 from datetime import datetime
 from typing import Any, Optional
 
-from lukhas.consciousness.reflection.openai_core_service import (  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for Constellation Framework consciousness evolution
+from lukhas.consciousness.reflection.openai_core_service import (  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for Constellation Framework consciousness evolution  # noqa: invalid-syntax  # TODO: Expected one or more symbol na...
 from datetime import timezone
-    ModelType,
+    ModelType,  # noqa: invalid-syntax  # TODO: Unexpected indentation
     OpenAICapability,
     OpenAICoreService,
     OpenAIRequest,
-)
+)  # noqa: invalid-syntax  # TODO: Expected a statement
 
 logger = logging.getLogger("ΛTRACE.consciousness.openai_adapter")
 

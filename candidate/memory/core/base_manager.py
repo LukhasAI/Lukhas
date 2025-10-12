@@ -86,7 +86,9 @@ except ImportError:
 
 # GLYPH system integration for LUKHAS agent workflows
 try:
-    from lukhas.core.glyph.glyph_engine import GlyphEngine  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for core infrastructure (review and implement)
+    from lukhas.core.glyph.glyph_engine import (
+        GlyphEngine,  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for core infrastructure (review and implement)
+    )
 
     GLYPH_AVAILABLE = True
 except ImportError:

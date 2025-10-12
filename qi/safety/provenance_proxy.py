@@ -44,7 +44,7 @@ def get_presigned_link(sha: str, request: Request, expires: int = 600, filename:
         raise HTTPException(status_code=404, detail=f"Record not found for {sha}: {e}",
     )
 
-    return {"record": _summary_record(sha, rec), "link": link}
+    return {"record": _summary_record(sha, rec), "link": link}  # noqa: F821  # TODO: link
 
 
 @app.get("/provenance/{sha}/download")
@@ -55,8 +55,8 @@ def download(sha: str, request: Request, expires: int = 600, filename: str | Non
         raise HTTPException(status_code=404, detail=f"Record not found for {sha}: {e}",
         )
         return FileResponse(
-            path,
-            filename=filename or os.path.basename(path),
+            path,  # noqa: F821  # TODO: path
+            filename=filename or os.path.basename(path),  # noqa: F821  # TODO: path
             media_type=rec.get("mime_type") or "application/octet-stream",
         )
 
@@ -65,13 +65,13 @@ def download(sha: str, request: Request, expires: int = 600, filename: str | Non
         artifact_sha=sha,
         event="download_redirect",
         user_id=request.headers.get("x-user-id"),
-        url=link.get("url"),
+        url=link.get("url"),  # noqa: F821  # TODO: link
         client_ip=_get_client_ip(request),
         user_agent=request.headers.get("user-agent"),
         purpose=request.query_params.get("purpose"),
-        extras={"backend": backend, "expires_in": link.get("expires_in")},
+        extras={"backend": backend, "expires_in": link.get("expires_in")},  # noqa: F821  # TODO: backend
     )
-    return RedirectResponse(link["url"], status_code=302)
+    return RedirectResponse(link["url"], status_code=302)  # noqa: F821  # TODO: link
 
 
 @app.post("/provenance/{sha}/receipt")

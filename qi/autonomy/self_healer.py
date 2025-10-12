@@ -14,8 +14,6 @@ from dataclasses import asdict, dataclass
 from typing import Any
 
 import yaml
-import streamlit as st
-from consciousness.qi import qi
 
 _ORIG_OPEN = builtins.open
 _ORIG_MAKEDIRS = os.makedirs

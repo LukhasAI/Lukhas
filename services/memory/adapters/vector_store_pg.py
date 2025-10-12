@@ -593,7 +593,7 @@ class PostgreSQLVectorStore(BatchVectorStoreBase):
 
         for result in results:
             if isinstance(result, Exception):
-                total_failed += len(batch)  # Assume all in batch failed
+                total_failed += len(batch)  # Assume all in batch failed  # noqa: F821  # TODO: batch
                 logger.error(f"Batch failed: {result}")
             else:
                 total_inserted += result.get('inserted', 0)

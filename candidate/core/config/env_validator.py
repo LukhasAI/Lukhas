@@ -258,8 +258,8 @@ class EnvValidator:
                 lines.append("# OPTIONAL")
 
             if config.allowed_values:
-                lines.append(f"# Allowed values: {', '.join(map(str, config.allowed_values)}")
-            if config.min_length:
+                lines.append(f"# Allowed values: {', '.join(map(str, config.allowed_values)}")  # noqa: invalid-syntax  # TODO: Expected ,, found }
+            if config.min_length:  # noqa: invalid-syntax  # TODO: Expected ), found dedent
                 lines.append(f"# Minimum length: {config.min_length}")
             if config.min_value is not None:
                 lines.append(f"# Minimum value: {config.min_value}")

@@ -23,10 +23,10 @@ Notes
 
 from __future__ import annotations
 
+import hashlib
 import json
 import re
 import sys
-import hashlib
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from dataclasses import dataclass
 from pathlib import Path

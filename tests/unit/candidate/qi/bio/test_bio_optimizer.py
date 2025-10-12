@@ -1,13 +1,15 @@
 import pytest
+
 from qi.bio.bio_optimizer import (
-    handle_failed_target,
-    reset_metabolic_baseline,
     adjust_sensitivity,
-    switch_backup_sensor,
-    interpolate_missing_data,
     apply_smoothing_filter,
+    handle_failed_target,
+    interpolate_missing_data,
     reduce_gain,
+    reset_metabolic_baseline,
+    switch_backup_sensor,
 )
+
 
 def test_handle_failed_target_metabolic_drift():
     """Tests that the dispatcher correctly calls metabolic drift strategies."""

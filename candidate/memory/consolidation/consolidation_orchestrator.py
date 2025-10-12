@@ -38,11 +38,11 @@ if __name__ == "__main__":
 """
 from __future__ import annotations
 
-from dataclasses import dataclass, field
-from enum import Enum
-from typing import Iterable, List, Optional, Protocol, Dict, Any
 import random
 import time
+from dataclasses import dataclass, field
+from enum import Enum
+from typing import Any, Dict, Iterable, List, Optional, Protocol
 
 # -------------------- Enums -------------------- #
 

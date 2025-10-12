@@ -17,7 +17,6 @@ from datetime import datetime, timedelta, timezone
 from typing import Any, Optional
 
 from consent.service import ConsentService
-
 from MATRIZ.adapters import (
     OperationResult,
     ResourceContent,

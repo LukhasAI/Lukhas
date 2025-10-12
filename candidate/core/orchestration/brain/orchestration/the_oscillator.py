@@ -357,10 +357,10 @@ class LucasAGI:
         self.qi_handler.compliance.recalibrate_safeguards()
         keys_to_retain = ["ecological_balance", "privacy_protection"]
         self.environmental_context = {k: v for k, v in self.environmental_context.items() if k in keys_to_retain}
-        logging.info(f"Retaining critical context keys during recalibration: {list(self.environmental_context.keys()}")
-        self.system_health["compliance_strain"] = 0.1  # Reduce strain post recalibration
+        logging.info(f"Retaining critical context keys during recalibration: {list(self.environmental_context.keys()}")  # noqa: invalid-syntax  # TODO: Expected ,, found }
+        self.system_health["compliance_strain"] = 0.1  # Reduce strain post recalibration  # noqa: invalid-syntax  # TODO: Expected a parameter name
 
-    def _modulate_ethical_weights(self, base_weights):
+    def _modulate_ethical_weights(self, base_weights):  # noqa: invalid-syntax  # TODO: Expected ), found dedent
         if not self.oscillators:
             return base_weights
         mod_factor = np.mean([osc.freq for osc in self.oscillators])

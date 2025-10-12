@@ -13,11 +13,11 @@ Trinity Framework:
 - ⚛️ Identity: Service authentication
 """
 
-from typing import Dict, List, Optional, Any
-from dataclasses import dataclass, field, asdict
+import ast
+from dataclasses import asdict, dataclass, field
 from enum import Enum
 from pathlib import Path
-import ast
+from typing import Any, Dict, List, Optional
 
 
 class ImportStatus(Enum):

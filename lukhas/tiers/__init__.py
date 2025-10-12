@@ -1,6 +1,8 @@
 """Bridge: lukhas.tiers (enum of lanes/tiers)."""
 from __future__ import annotations
+
 from lukhas._bridgeutils import bridge_from_candidates
+
 __all__, _exp = [], {}
 for mod in (
     "lukhas_website.lukhas.tiers",

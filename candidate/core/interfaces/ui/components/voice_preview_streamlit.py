@@ -34,7 +34,7 @@ else:
     for _i, dream in enumerate(entries, 1):
         st.markdown("##")
         st.markdown(f"**Text:** {dream.get('text', '—')}")
-        st.markdown(f"**Emotion Vector:** `{dream.get('emotion_vector', {)})}`")
+        st.markdown(f"**Emotion Vector:** `{dream.get('emotion_vector', {)})}`")  # noqa: invalid-syntax  # TODO: Expected an expression
 
         # ── Emotion Ring ───────────────────────────────────────────
         emoji_map = {

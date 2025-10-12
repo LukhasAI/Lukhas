@@ -298,8 +298,8 @@ class TestInfrastructureMonitor:
     def _check_dependencies(self) -> bool:
         """Check if test dependencies are available"""
         try:
-            import coverage
-            import pytest
+            import coverage  # noqa: F401  # TODO: coverage; consider using impor...
+            import pytest  # noqa: F401  # TODO: pytest; consider using importl...
             return True
         except ImportError:
             return False

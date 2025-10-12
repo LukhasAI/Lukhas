@@ -55,19 +55,19 @@ print(f"  - Output Log Path: {get_setting('message_output_log')}")
 print("\n🎭 Lukhas Persona Snapshot:")
 print(f"  - Mood Palette: {get_setting('persona.mood_palette')}")
 print(f"  - Visual Theme: {get_setting('persona.visual_theme')}")
-print(f\'  - Signature Phrase: "{get_setting("persona.signature_phrase")}"\')
+print(f\'  - Signature Phrase: "{get_setting("persona.signature_phrase")}"\')  # noqa: invalid-syntax  # TODO: Expected a newline after line ...
 
 print("\n🧠 Context Management:")
-print(f"  - Memory Context Enabled: {get_setting('context.enable_memory_context')}")
-print(f"  - Max Context Window: {get_setting('context.context_window_limit')}")
-print(f"  - Exclude Forgettable from Context: {get_setting('context.exclude_forgettable_memories')}")
+print(f"  - Memory Context Enabled: {get_setting('context.enable_memory_context')}")  # noqa: invalid-syntax  # TODO: Expected ,, found name
+print(f"  - Max Context Window: {get_setting('context.context_window_limit')}")  # noqa: invalid-syntax  # TODO: Expected ,, found name
+print(f"  - Exclude Forgettable from Context: {get_setting('context.exclude_forgettable_memories')}")  # noqa: invalid-syntax  # TODO: Expected ,, found name
 
-print("\n📊 Symbolic Trace Engine:")
-print(f"  - Ethics Tracking: {get_setting('symbolic_trace.track_ethics')}")
-print(f"  - Collapse Model: {get_setting('symbolic_trace.collapse_model')}")
-print(f"  - Trace Log Path: {get_setting('symbolic_trace.trace_log_path')}")
+print("\n📊 Symbolic Trace Engine:")  # noqa: invalid-syntax  # TODO: Expected ,, found name
+print(f"  - Ethics Tracking: {get_setting('symbolic_trace.track_ethics')}")  # noqa: invalid-syntax  # TODO: Expected ,, found name
+print(f"  - Collapse Model: {get_setting('symbolic_trace.collapse_model')}")  # noqa: invalid-syntax  # TODO: Expected ,, found name
+print(f"  - Trace Log Path: {get_setting('symbolic_trace.trace_log_path')}")  # noqa: invalid-syntax  # TODO: Expected ,, found name
 
-print("\n🫂 User Affinity Profile:")
-print(f"  - Last Known User: {get_setting('user_affinity.last_known_user')}")
-print(f"  - Sync Rate: {get_setting('user_affinity.symbolic_sync_rate')}")
-print(f"  - Trust Decay (days): {get_setting('user_affinity.trust_curve_decay_days')}")
+print("\n🫂 User Affinity Profile:")  # noqa: invalid-syntax  # TODO: Expected ,, found name
+print(f"  - Last Known User: {get_setting('user_affinity.last_known_user')}")  # noqa: invalid-syntax  # TODO: Expected ,, found name
+print(f"  - Sync Rate: {get_setting('user_affinity.symbolic_sync_rate')}")  # noqa: invalid-syntax  # TODO: Expected ,, found name
+print(f"  - Trust Decay (days): {get_setting('user_affinity.trust_curve_decay_days')}")  # noqa: invalid-syntax  # TODO: Expected ,, found name

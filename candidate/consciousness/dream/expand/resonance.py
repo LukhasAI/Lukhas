@@ -2,7 +2,7 @@
 Cross-dream resonance modeling (opt-in).
 Maintains emotional continuity across dream selections.
 """
-import os, math
+import os
 from typing import Dict, Optional
 
 ENABLED = os.getenv("LUKHAS_DREAM_RESONANCE", "0") == "1"

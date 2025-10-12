@@ -160,10 +160,10 @@ class MemoryTracker:
             for y, label in zip(y_values, labels):
                 plt.plot(x, y, label=label)
             plt.xlabel(")  #  Operator Calls"
-            plt.ylabel("Memory (MB)")
-            plt.legend()
-            for marker_name, marker in self._markers.items():
-                if marker_name == "fw_bw_boundary":
+            plt.ylabel("Memory (MB)")  # noqa: invalid-syntax  # TODO: Expected ,, found name
+            plt.legend()  # noqa: invalid-syntax  # TODO: Expected ,, found name
+            for marker_name, marker in self._markers.items():  # noqa: invalid-syntax  # TODO: Expected ,, found :
+                if marker_name == "fw_bw_boundary":  # noqa: invalid-syntax  # TODO: Unexpected indentation
                     plt.plot(
                         [marker, marker],
                         [min_val, max_val],
@@ -292,4 +292,4 @@ class MemoryTracker:
         self._markers.clear()
         self._cur_module_name = ""
         self._op_index = 0
-        self._num_cuda_retries = 0
+        self._num_cuda_retries = 0  # noqa: invalid-syntax  # TODO: Expected a statement

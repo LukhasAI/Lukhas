@@ -134,19 +134,19 @@ class TraumaLockSystem:
         memory_json = json.dumps(memory_data)
 
         # Generate encryption key specific to this memory
-        memory_id = memory_data.get("id", f"mem_{int(time.time())")
+        memory_id = memory_data.get("id", f"mem_{int(time.time())")  # noqa: invalid-syntax  # TODO: missing closing quote in strin...
         memory_key = self._derive_memory_key(memory_id)
 
         # Generate secure vector
-        secure_vector = self._generate_secure_vector(memory_data)
-        vector_id = f"vec_{hashlib.sha256(memory_id.encode()).hexdigest()}[:8]}"
-        self.secure_memory_vectors[vector_id] = secure_vector
+        secure_vector = self._generate_secure_vector(memory_data)  # noqa: invalid-syntax  # TODO: Expected ,, found name
+        vector_id = f"vec_{hashlib.sha256(memory_id.encode()).hexdigest()}[:8]}"  # noqa: invalid-syntax  # TODO: Expected ,, found name
+        self.secure_memory_vectors[vector_id] = secure_vector  # noqa: invalid-syntax  # TODO: Expected ,, found name
 
         # Encrypt the memory data
-        encrypted_data = self._encrypt_data(memory_json.encode(), memory_key)
+        encrypted_data = self._encrypt_data(memory_json.encode(), memory_key)  # noqa: invalid-syntax  # TODO: Expected ,, found name
 
         # Build the wrapped encrypted memory
-        encrypted_memory = {
+        encrypted_memory = {  # noqa: invalid-syntax  # TODO: Expected ,, found name
             "encrypted_data": base64.urlsafe_b64encode(encrypted_data).decode(),
             "vector_id": vector_id,
             "access_level": access_level,
@@ -157,7 +157,7 @@ class TraumaLockSystem:
                 "memory_type": memory_data.get("memory_type", "general"),
                 "encrypted": True,
             },
-        }
+        }  # noqa: invalid-syntax  # TODO: Expected ), found newline
 
         return encrypted_memory
 

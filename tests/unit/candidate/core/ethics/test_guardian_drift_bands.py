@@ -17,23 +17,24 @@ Task 12: Comprehensive testing for Guardian Drift Bands including:
 #TAG:testing
 """
 
-import pytest
 import time
 from datetime import datetime, timedelta, timezone
 from unittest.mock import Mock, patch
 
+import pytest
+
 # Import test targets
 try:
     from lukhas.core.ethics.guardian_drift_bands import (
-        GuardianBand,
-        GuardianThresholds,
-        GuardianDriftBands,
         BandTransition,
         BandTrigger,
+        GuardianBand,
         GuardianBandResult,
-        create_guardian_drift_bands
+        GuardianDriftBands,
+        GuardianThresholds,
+        create_guardian_drift_bands,
     )
-    from lukhas.core.ethics.logic.ethics_engine import EthicsAction, EthicsResult, EthicsEngine
+    from lukhas.core.ethics.logic.ethics_engine import EthicsAction, EthicsEngine, EthicsResult
     GUARDIAN_AVAILABLE = True
 except ImportError:
     GUARDIAN_AVAILABLE = False

@@ -11,9 +11,13 @@ Usage:
     --star-canon scripts/star_canon.json \
     --write-context
 """
-import argparse, json, os, re, sys, pathlib, datetime
-from typing import Dict, Any, List, Optional
-from pathlib import Path
+import argparse
+import datetime
+import json
+import pathlib
+import re
+import sys
+from typing import Any, Dict, List, Optional
 
 HERE = pathlib.Path(__file__).resolve().parent
 ROOT = HERE.parent

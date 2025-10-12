@@ -14,10 +14,11 @@ Exports:
 No star imports. Graceful, no-op fallbacks keep test collection alive.
 """
 from __future__ import annotations
+
+from enum import Enum
 from importlib import import_module
 from types import SimpleNamespace
 from typing import Optional
-from enum import Enum
 
 __all__ = ["EnhancedThoughtEngine", "EnhancedThoughtConfig", "ThoughtComplexity"]
 

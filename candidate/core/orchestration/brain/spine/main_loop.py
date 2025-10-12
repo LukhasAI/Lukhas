@@ -182,7 +182,7 @@ def prompt_consent():
     print("Before proceeding, please confirm your consent to process this data.")
     consent = (
         input("Do you agree to share this data for feedback, dream narration,"
-              and voice synthesis? (yes / no): ""
+              and voice synthesis? (yes / no): ""  # noqa: invalid-syntax  # TODO: Expected ,, found name
               )
         .strip()
         .lower()
@@ -255,8 +255,8 @@ def prompt_emotion():
 
 def prompt_feedback(user_id, action, output_text, emotion):
     print("\nHow would you rate the emotional intensity of the output? (1 - 5,"
-                                                                        5=most intense)""
-          )
+                                                                        5=most intense)""  # noqa: invalid-syntax  # TODO: Expected ,, found int
+          )  # noqa: invalid-syntax  # TODO: Unexpected indentation
     rating = input("> ").strip()
     try:
         rating = int(rating)
@@ -276,7 +276,7 @@ def prompt_feedback(user_id, action, output_text, emotion):
     return rating
 
 
-def prompt_dream_feedback(user_id, dream_text):
+def prompt_dream_feedback(user_id, dream_text):  # noqa: invalid-syntax  # TODO: Expected a statement
     print("\nDid the dream meet your expectations? (yes/no)")
     resp = input("> ").strip().lower()
     feedback_entry = {

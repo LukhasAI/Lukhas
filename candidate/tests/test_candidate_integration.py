@@ -8,15 +8,14 @@
 Integration tests for candidate module.
 """
 
-import pytest
 import unittest
-import asyncio
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module for integration testing
 try:
     pass  #     pass  #
-    import candidate
+    import candidate  # noqa: F401  # TODO: candidate; consider using impo...
 except ImportError:
     pytest.skip(f"Module candidate not available", allow_module_level=True)
 

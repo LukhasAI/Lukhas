@@ -7,8 +7,8 @@ import asyncio
 
 import pytest
 
-from core.interfaces import CognitiveNodeBase
 from candidate.core.orchestration.async_orchestrator import AsyncOrchestrator, CancellationToken
+from core.interfaces import CognitiveNodeBase
 from core.registry import register
 from lukhas.nodes.example_nodes import DecisionNode, ErrorNode, IntentNode, SlowNode, ThoughtNode
 

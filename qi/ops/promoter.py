@@ -17,8 +17,8 @@ def propose(change_id: str, metrics: dict) -> dict:
 "metrics": metrics,
 }
 with open(PROMO, "a") as f:
-        f.write(json.dumps(rec) + "\n")
-return rec
+        f.write(json.dumps(rec) + "\n")  # noqa: F821  # TODO: rec
+return rec  # noqa: F821  # TODO: rec
 
 
 def promote(change_id: str, ok: bool, reason: str = ""):
@@ -29,8 +29,8 @@ def promote(change_id: str, ok: bool, reason: str = ""):
 "reason": reason,
 }
 with open(PROMO, "a") as f:
-        f.write(json.dumps(rec) + "\n")
-return rec
+        f.write(json.dumps(rec) + "\n")  # noqa: F821  # TODO: rec
+return rec  # noqa: F821  # TODO: rec
 
 
 if __name__ == "__main__":

@@ -15,7 +15,7 @@ import pytest
 # Import module for integration testing
 try:
     pass  #     pass  #
-    import assets
+    import assets  # noqa: F401  # TODO: assets; consider using importl...
 except ImportError:
     pytest.skip("Module assets not available", allow_module_level=True)
 

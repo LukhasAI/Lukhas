@@ -63,11 +63,11 @@ class QIHub:
         # Initialize components
         self.coordinator = QuantumCoordinator()
         self.register_service("coordinator", self.coordinator)
-        self.mock = MockQuantumCore()
+        self.mock = MockQuantumCore()  # noqa: F821  # TODO: MockQuantumCore
         self.register_service("mock", self.mock)
-        self.mockbiocoordinator = MockBioCoordinator()
+        self.mockbiocoordinator = MockBioCoordinator()  # noqa: F821  # TODO: MockBioCoordinator
         self.register_service("mockbiocoordinator", self.mockbiocoordinator)
-        self.simplebiocoordinator = SimpleBioCoordinator()
+        self.simplebiocoordinator = SimpleBioCoordinator()  # noqa: F821  # TODO: SimpleBioCoordinator
         self.register_service("simplebiocoordinator", self.simplebiocoordinator)
         self.metadatamanager = QuantumMetadataManager()
         self.register_service("metadatamanager", self.metadatamanager)

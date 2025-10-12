@@ -39,6 +39,7 @@ from enum import Enum
 from typing import Any, Dict, List, Optional
 
 from opentelemetry import trace
+
 from lukhas.observability import counter, gauge, histogram
 
 tracer = trace.get_tracer(__name__)

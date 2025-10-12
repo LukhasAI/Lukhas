@@ -7,12 +7,12 @@ Real implementations only, no mocks needed.
 Trinity Framework: 🛡️ Guardian · 🏗️ Architecture
 """
 
-import pytest
-import yaml
 import json
 from pathlib import Path
-from typing import Dict, Any
+from typing import Any, Dict
 
+import pytest
+import yaml
 
 # ============================================================================
 # YAML Parsing Tests

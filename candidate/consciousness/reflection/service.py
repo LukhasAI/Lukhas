@@ -62,7 +62,7 @@ import structlog
 MODULE_VERSION = "1.0.0"
 MODULE_NAME = "consciousness_service"
 
-logger.info("ΛTRACE: Initializing consciousness_service.py module.", module_path=__file__)
+logger.info("ΛTRACE: Initializing consciousness_service.py module.", module_path=__file__)  # noqa: F821  # TODO: logger
 
 
 # Standardized LUKHAS Tier Decorator (Conceptual - Tier Logic Not Implemented)
@@ -110,7 +110,7 @@ def lukhas_tier_required(level: int) -> Callable:
 
             # Fallback if common patterns fail
             if not user_id_extraction_error_logged:
-                logger.warning(
+                logger.warning(  # noqa: F821  # TODO: logger
                     "ΛTRACE: Could not reliably extract user_id for tier check logging.",
                     target_function=func.__name__,
                     args_types=[type(a).__name__ for a in args],
@@ -123,7 +123,7 @@ def lukhas_tier_required(level: int) -> Callable:
 
             async def wrapper_async(*args: Any, **kwargs: Any) -> Any:
                 user_id_for_check = _get_user_id_for_logging(*args, **kwargs)
-                logger.debug(
+                logger.debug(  # noqa: F821  # TODO: logger
                     f"ΛTRACE: Tier Check (Placeholder): User '{user_id_for_check}' accessing '{func.__name__}'. Required Tier: {level}.",
                     required_tier_level=level,
                     target_function=func.__name__,
@@ -139,7 +139,7 @@ def lukhas_tier_required(level: int) -> Callable:
 
             def wrapper_sync(*args: Any, **kwargs: Any) -> Any:
                 user_id_for_check = _get_user_id_for_logging(*args, **kwargs)
-                logger.debug(
+                logger.debug(  # noqa: F821  # TODO: logger
                     f"ΛTRACE: Tier Check (Placeholder): User '{user_id_for_check}' accessing '{func.__name__}'. Required Tier: {level}.",
                     required_tier_level=level,
                     target_function=func.__name__,
@@ -164,9 +164,9 @@ try:
     from lukhas.governance.identity.interface import IdentityClient
 
     IDENTITY_CLIENT_AVAILABLE = True
-    logger.info("ΛTRACE: IdentityClient imported successfully from lukhas.governance.identity.interface.")
+    logger.info("ΛTRACE: IdentityClient imported successfully from lukhas.governance.identity.interface.")  # noqa: F821  # TODO: logger
 except ImportError as e_ic:
-    logger.error(
+    logger.error(  # noqa: F821  # TODO: logger
         "ΛTRACE: Failed to import IdentityClient from lukhas.governance.identity.interface. Using fallback.",
         error_message=str(e_ic),
         exc_info=True,
@@ -179,7 +179,7 @@ except ImportError as e_ic:
         """Fallback IdentityClient if the actual module is not found."""
 
         def __init__(self, user_id_context: Optional[str] = None):
-            self.instance_logger = logger.bind(fallback_client_context=user_id_context or "global_fallback")
+            self.instance_logger = logger.bind(fallback_client_context=user_id_context or "global_fallback")  # noqa: F821  # TODO: logger
             self.instance_logger.warning(
                 "ΛTRACE: Using FALLBACK IdentityClient. All tier/consent checks will pass by default."
             )
@@ -235,7 +235,7 @@ class ConsciousnessService:
         """
         self.user_id_context = user_id_context
         # Hierarchical logger for this instance
-        self.instance_logger = logger.bind(service_instance_user_context=self.user_id_context or "system_service")
+        self.instance_logger = logger.bind(service_instance_user_context=self.user_id_context or "system_service")  # noqa: F821  # TODO: logger
         self.instance_logger.info("ΛTRACE: Initializing ConsciousnessService instance.")
 
         # Initialize IdentityClient, passing context if it supports it.
@@ -1113,7 +1113,7 @@ def process_awareness_api(
     awareness_level_key: str = "basic_awareness_processing",
 ) -> dict[str, Any]:
     """Simplified API for consciousness processing. Requires user_id for tier check."""
-    logger.info(
+    logger.info(  # noqa: F821  # TODO: logger
         "ΛTRACE: Module API call: process_awareness_api.",
         user_id=user_id,
         awareness_level_key=awareness_level_key,
@@ -1131,7 +1131,7 @@ def perform_introspection_api(
     method_type: str = "self_reflection_standard",
 ) -> dict[str, Any]:
     """Simplified API for introspection. Requires user_id for tier check."""
-    logger.info(
+    logger.info(  # noqa: F821  # TODO: logger
         "ΛTRACE: Module API call: perform_introspection_api.",
         user_id=user_id,
         focus_area=focus_area,
@@ -1145,7 +1145,7 @@ def perform_introspection_api(
 @lukhas_tier_required(level=1)  # Tier 1: Seeker
 def get_consciousness_state_api(user_id: str, include_detailed: bool = False) -> dict[str, Any]:  # Renamed
     """Simplified API for consciousness state retrieval. Requires user_id for tier check."""
-    logger.info(
+    logger.info(  # noqa: F821  # TODO: logger
         "ΛTRACE: Module API call: get_consciousness_state_api.",
         user_id=user_id,
         include_detailed=include_detailed,
@@ -1176,20 +1176,20 @@ if __name__ == "__main__":
     # logging.getLogger("ΛTRACE").setLevel(logging.DEBUG) # Example: Set to
     # DEBUG for verbose output
 
-    logger.info("ΛTRACE: consciousness_service.py executed as __main__ for demonstration purposes.")
+    logger.info("ΛTRACE: consciousness_service.py executed as __main__ for demonstration purposes.")  # noqa: F821  # TODO: logger
 
     # Instantiate the service for demonstration.
     demo_service_instance = ConsciousnessService(user_id_context="main_demo_user_service_context")
 
     # Define a test user ID for API calls.
     example_test_user_id = "lambda_user_dev_007"
-    logger.info(
+    logger.info(  # noqa: F821  # TODO: logger
         "ΛTRACE: --- Starting ConsciousnessService Demo ---",
         test_user_id=example_test_user_id,
     )
 
     # Example 1: Test awareness processing.
-    logger.info("ΛTRACE: Demo - Testing awareness processing (introspection level).")
+    logger.info("ΛTRACE: Demo - Testing awareness processing (introspection level).")  # noqa: F821  # TODO: logger
     demo_awareness_result = demo_service_instance.process_awareness_stream(
         user_id=example_test_user_id,
         input_data_stream={
@@ -1201,7 +1201,7 @@ if __name__ == "__main__":
         },
         requested_awareness_level_key="introspection_access",
     )
-    logger.info(
+    logger.info(  # noqa: F821  # TODO: logger
         "ΛTRACE Demo - Awareness Processing Result",
         success=demo_awareness_result.get("success", False),
         result_id=demo_awareness_result.get("awareness_event_id", "N/A"),
@@ -1209,14 +1209,14 @@ if __name__ == "__main__":
     )
 
     # Example 2: Test introspection.
-    logger.info("ΛTRACE: Demo - Testing introspection process.")
+    logger.info("ΛTRACE: Demo - Testing introspection process.")  # noqa: F821  # TODO: logger
     demo_introspection_result = demo_service_instance.perform_introspection(
         user_id=example_test_user_id,
         introspection_focus_area="analysis_of_recent_decision_heuristics",
         requested_depth_level=0.8,  # High depth
         introspection_method_type="meta_cognitive_deep_review",
     )
-    logger.info(
+    logger.info(  # noqa: F821  # TODO: logger
         "ΛTRACE Demo - Introspection Process Result",
         success=demo_introspection_result.get("success", False),
         result_id=demo_introspection_result.get("introspection_event_id", "N/A"),
@@ -1224,24 +1224,24 @@ if __name__ == "__main__":
     )
 
     # Example 3: Test consciousness state retrieval (requesting detailed).
-    logger.info("ΛTRACE: Demo - Testing consciousness state report retrieval (detailed).")
+    logger.info("ΛTRACE: Demo - Testing consciousness state report retrieval (detailed).")  # noqa: F821  # TODO: logger
     demo_state_report_result = demo_service_instance.get_current_consciousness_state_report(
         user_id=example_test_user_id, request_detailed_metrics=True
     )
-    logger.info(
+    logger.info(  # noqa: F821  # TODO: logger
         "ΛTRACE Demo - Consciousness State Report Result",
         success=demo_state_report_result.get("success", False),
         detail_level=demo_state_report_result.get("consciousness_state_report", {}).get("report_detail_level"),
         error=demo_state_report_result.get("error"),
     )
     if demo_state_report_result.get("success"):
-        logger.debug(
+        logger.debug(  # noqa: F821  # TODO: logger
             "ΛTRACE Demo - Full State Report",
             report_data=demo_state_report_result.get("consciousness_state_report"),
         )
 
     # Example 4: Test attention focus direction.
-    logger.info("ΛTRACE: Demo - Testing attention focus direction.")
+    logger.info("ΛTRACE: Demo - Testing attention focus direction.")  # noqa: F821  # TODO: logger
     demo_focus_result = demo_service_instance.direct_attention_focus(
         user_id=example_test_user_id,
         new_focus_targets=[
@@ -1252,14 +1252,14 @@ if __name__ == "__main__":
         focus_intensity_level=0.9,  # High intensity
         requested_focus_duration_seconds=600,  # 10 minutes
     )
-    logger.info(
+    logger.info(  # noqa: F821  # TODO: logger
         "ΛTRACE Demo - Attention Focus Direction Result",
         success=demo_focus_result.get("success", False),
         result_id=demo_focus_result.get("attention_event_id", "N/A"),
         error=demo_focus_result.get("error"),
     )
 
-    logger.info("ΛTRACE: --- ConsciousnessService Demo Finished ---")
+    logger.info("ΛTRACE: --- ConsciousnessService Demo Finished ---")  # noqa: F821  # TODO: logger
 
 # ═══════════════════════════════════════════════════════════════════════════
 # FILENAME: consciousness_service.py

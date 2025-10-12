@@ -16,19 +16,20 @@ Tasks Tested:
 Trinity Framework: 🧠 Consciousness · 🛡️ Guardian · 🔬 Vision
 """
 
-import pytest
 import asyncio
-from datetime import datetime
 from collections import OrderedDict
+from datetime import datetime
+
+import pytest
+
 from candidate.bridge.explainability_interface_layer import (
-    ExplainabilityInterface,
+    CompletenessMetrics,
     ExplainabilityCache,
+    ExplainabilityInterface,
+    Explanation,
     ExplanationTemplate,
     FormalProof,
-    CompletenessMetrics,
-    Explanation,
 )
-
 
 # ============================================================================
 # Fixtures

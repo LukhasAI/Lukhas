@@ -5,8 +5,6 @@ from voice.synthesis import VoiceSynthesis
 
 from lukhas.core.swarm import (
     AgentColony as SymbioticSwarm,  # reuse simple colony
-)
-from lukhas.core.swarm import (
     SwarmAgent,
 )
 

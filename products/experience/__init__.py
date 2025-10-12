@@ -1,6 +1,8 @@
 """Bridge: products.experience (public facade for UX modules)."""
 from __future__ import annotations
+
 from lukhas._bridgeutils import bridge_from_candidates, deprecate
+
 _CANDIDATES = (
     "lukhas_website.lukhas.products.experience",
     "candidate.products.experience",

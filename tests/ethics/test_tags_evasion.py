@@ -36,8 +36,6 @@ except Exception:
 try:
     from lukhas.core.ethics.logic.dsl_lite import (
         and_op as dsl_and,
-    )
-    from lukhas.core.ethics.logic.dsl_lite import (
         has_category,
         has_tag,
         high_risk_tag_combination,

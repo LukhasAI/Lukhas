@@ -5,9 +5,10 @@ Stub missing modules to unblock test collection.
 Strategy: Create minimal __init__.py stubs for all missing modules
 so tests can at least collect. Mark them clearly as stubs.
 """
-import subprocess
 import re
+import subprocess
 from pathlib import Path
+
 
 def get_missing_modules():
     """Extract all unique missing module names from pytest."""

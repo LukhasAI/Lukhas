@@ -15,7 +15,7 @@ import pytest
 # Import module for integration testing
 try:
     pass  #     pass  #
-    import tools
+    import tools  # noqa: F401  # TODO: tools; consider using importli...
 except ImportError:
     pytest.skip("Module tools not available", allow_module_level=True)
 

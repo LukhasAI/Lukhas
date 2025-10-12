@@ -35,7 +35,7 @@ class CognitiveAGIEnhancement:
             # SYNTAX_ERROR_FIXED:             from
             # orchestration.brain.lukhas_agi_orchestrator import
             # orchestration.brain.lukhas_agi_orchestrator
-            self.cognitive_orchestrator = lukhas_agi_orchestrator
+            self.cognitive_orchestrator = lukhas_agi_orchestrator  # noqa: F821  # TODO: lukhas_agi_orchestrator
             logger.info(" Cognitive AI orchestrator connected to cognitive core")
         except ImportError:
             logger.warning("Cognitive AI orchestrator not available for cognitive enhancement")

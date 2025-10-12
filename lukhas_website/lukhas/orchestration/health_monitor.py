@@ -34,6 +34,7 @@ from dataclasses import dataclass, field
 from typing import Any, Callable, Dict, List, Optional
 
 from opentelemetry import trace
+
 from lukhas.observability import counter, gauge, histogram
 
 from .providers import AIProvider, create_provider_client

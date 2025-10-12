@@ -17,13 +17,13 @@ Features:
 #TAG:task11
 """
 import logging
+import threading
 import time
 from dataclasses import dataclass
 from enum import Enum
-from typing import Any, Dict, List, Optional, Set, Tuple
-import threading
+from typing import Any, Dict, List, Optional, Set
 
-from .dsl_lite import compile_rule, hash_rule, DSLError
+from .dsl_lite import DSLError, compile_rule, hash_rule
 
 logger = logging.getLogger(__name__)
 

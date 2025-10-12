@@ -15,7 +15,7 @@ import pytest
 # Import module components
 try:
     pass  #     pass  #
-    import dashboards
+    import dashboards  # noqa: F401  # TODO: dashboards; consider using imp...
 except ImportError:
     pytest.skip("Module dashboards not available", allow_module_level=True)
 

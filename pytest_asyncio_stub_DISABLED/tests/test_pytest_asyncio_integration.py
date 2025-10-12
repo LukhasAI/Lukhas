@@ -15,7 +15,7 @@ import pytest
 # Import module for integration testing
 try:
     pass  #     pass  #
-    import pytest_asyncio
+    import pytest_asyncio  # noqa: F401  # TODO: pytest_asyncio; consider using...
 except ImportError:
     pytest.skip("Module pytest_asyncio not available", allow_module_level=True)
 

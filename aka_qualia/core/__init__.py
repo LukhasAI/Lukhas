@@ -1,5 +1,6 @@
 """Bridge: aka_qualia.core — core subpackage facade."""
 from __future__ import annotations
+
 from lukhas._bridgeutils import bridge_from_candidates, export_from, safe_guard
 
 __all__, _exp = bridge_from_candidates(

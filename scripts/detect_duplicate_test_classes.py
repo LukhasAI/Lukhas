@@ -1,7 +1,10 @@
 #!/usr/bin/env python3
-import ast, sys, argparse
-from pathlib import Path
+import argparse
+import ast
+import sys
 from collections import defaultdict
+from pathlib import Path
+
 
 def find_test_classes(py: Path):
     try:

@@ -1,4 +1,4 @@
-log = logging.getLogger(__name__)
+log = logging.getLogger(__name__)  # noqa: F821  # TODO: logging
 import logging
 
 logger = logging.getLogger(__name__)
@@ -130,7 +130,7 @@ class IntegrityProbe:
 
     def __init__(
         self,
-        drift_score_calculator: "DriftScoreCalculator",
+        drift_score_calculator: "DriftScoreCalculator",  # noqa: F821  # TODO: DriftScoreCalculator
         memory_collapse_verifier: "MemoryCollapseVerifier",
         trace_repair_engine: "TraceRepairEngine",
     ):

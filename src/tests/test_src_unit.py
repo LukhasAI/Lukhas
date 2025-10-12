@@ -15,7 +15,7 @@ import pytest
 # Import module components
 try:
     pass  #     pass  #
-    import src
+    import src  # noqa: F401  # TODO: src; consider using importlib....
 except ImportError:
     pytest.skip("Module src not available", allow_module_level=True)
 

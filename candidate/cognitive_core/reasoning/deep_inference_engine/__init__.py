@@ -1,5 +1,6 @@
 """Bridge for `candidate.cognitive_core.reasoning.deep_inference_engine`."""
 from importlib import import_module
+
 __all__ = []
 def _try(n: str):
     try: return import_module(n)

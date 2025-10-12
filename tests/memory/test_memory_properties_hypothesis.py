@@ -44,8 +44,7 @@ import pytest
 
 # Hypothesis imports
 try:
-    from hypothesis import HealthCheck, assume, given, settings
-    from hypothesis import strategies as st
+    from hypothesis import HealthCheck, assume, given, settings, strategies as st
     from hypothesis.stateful import Bundle, RuleBasedStateMachine, initialize, invariant, rule
     HYPOTHESIS_AVAILABLE = True
 except ImportError:
@@ -53,9 +52,9 @@ except ImportError:
 
 # Memory system imports
 try:
-    from memory.adaptive_memory import AdaptiveMemorySystem, MemoryType
     from candidate.memory.fold_system import FoldManager, get_fold_manager
     from lukhas.memory.scheduled_folding import ScheduledFoldingManager, get_folding_manager
+    from memory.adaptive_memory import AdaptiveMemorySystem, MemoryType
     MEMORY_SYSTEMS_AVAILABLE = True
 except ImportError:
     MEMORY_SYSTEMS_AVAILABLE = False

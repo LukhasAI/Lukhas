@@ -191,7 +191,7 @@ async def create_and_initialize_identity_component(
     await component.initialize()
     return component
     """Create, initialize and return a identity component instance"""
-    component = lukhasPersonaEngine(config)
+    component = lukhasPersonaEngine(config)  # noqa: F821  # TODO: lukhasPersonaEngine
     await component.initialize()
     return component
 

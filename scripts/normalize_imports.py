@@ -9,6 +9,7 @@ Usage:
     python3 scripts/normalize_imports.py --apply       # Write changes
 """
 from __future__ import annotations
+
 import argparse
 import pathlib
 import sys
@@ -107,8 +108,8 @@ def main():
     if not files:
         # discover files with relative imports (fast)
         try:
-            import subprocess
             import shlex
+            import subprocess
             cmd = "rg -l 'from \\.+\\w' --glob '!venv/**' --glob '!packages/**' --glob '!**/generated/**'"
             out = subprocess.check_output(shlex.split(cmd), text=True)
             files = [pathlib.Path(x) for x in out.strip().splitlines() if x.strip()]

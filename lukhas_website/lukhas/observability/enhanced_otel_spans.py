@@ -26,14 +26,16 @@ from typing import Any, Callable, Dict, Optional, Union
 
 # Try to import OpenTelemetry components
 try:
-    from opentelemetry import baggage, context, trace
+    from opentelemetry import baggage, context, trace  # noqa: F401  # TODO: opentelemetry.baggage; conside...
     from opentelemetry.baggage.propagation import W3CBaggagePropagator
     from opentelemetry.exporter.jaeger.thrift import JaegerExporter
-    from opentelemetry.instrumentation.auto_instrumentation import sitecustomize
+    from opentelemetry.instrumentation.auto_instrumentation import (
+        sitecustomize,  # noqa: F401  # TODO: opentelemetry.instrumentation....
+    )
     from opentelemetry.propagators.composite import CompositePropagator
     from opentelemetry.sdk.trace import TracerProvider
     from opentelemetry.sdk.trace.export import BatchSpanProcessor, ConsoleSpanExporter
-    from opentelemetry.semconv.trace import SpanAttributes
+    from opentelemetry.semconv.trace import SpanAttributes  # noqa: F401  # TODO: opentelemetry.semconv.trace.Sp...
     from opentelemetry.trace import Span, Status, StatusCode, Tracer
     from opentelemetry.trace.propagation.tracecontext import TraceContextTextMapPropagator
     OTEL_AVAILABLE = True

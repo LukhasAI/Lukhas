@@ -147,7 +147,7 @@ class ToolExecutor:
 
             # Perform semantic search
             if self.vector_store:
-                search_results = await self._semantic_search(query, k)
+                search_results = await self._semantic_search(query, k)  # noqa: F821  # TODO: k
                 return self._format_search_results(query, search_results)
             else:
                 # Fallback to enhanced contextual responses

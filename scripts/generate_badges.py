@@ -8,7 +8,10 @@ Usage:
     --manifests-root manifests \
     --out docs/audits
 """
-import argparse, json, pathlib
+import argparse
+import json
+import pathlib
+
 
 def badge_svg(label, value, color):
     # ultra-simple badge

@@ -19,8 +19,7 @@ import numpy as np
 
 # Import colony infrastructure
 from lukhas.core.colonies.base_colony import BaseColony, ConsensusResult
-from lukhas.core.enhanced_swarm import AgentCapability, AgentMemory, AgentState
-from lukhas.core.enhanced_swarm import EnhancedSwarmAgent as SwarmAgent
+from lukhas.core.enhanced_swarm import AgentCapability, AgentMemory, AgentState, EnhancedSwarmAgent as SwarmAgent
 
 # Import event bus for dream coordination
 try:
@@ -534,7 +533,7 @@ class DreamVerificationColony(BaseColony):
 
         self.verification_agents: dict[str, DreamAnalysisAgent] = {}
         self.event_publisher: Optional[IdentityEventPublisher] = None
-        self.event_bus: Optional[EventBus] = None
+        self.event_bus: Optional[EventBus] = None  # noqa: F821  # TODO: EventBus
         self.dream_authenticator: Optional[DreamAuthenticator] = None
 
         # Colony configuration
@@ -561,8 +560,8 @@ class DreamVerificationColony(BaseColony):
         await super().initialize()
 
         # Get event systems
-        from lukhas.core.event_bus import get_global_event_bus
         from governance.identity.core.events import get_identity_event_publisher
+        from lukhas.core.event_bus import get_global_event_bus
 
         self.event_publisher = await get_identity_event_publisher()
         self.event_bus = await get_global_event_bus()

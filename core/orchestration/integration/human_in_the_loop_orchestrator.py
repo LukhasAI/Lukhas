@@ -1,6 +1,6 @@
 import logging
-import streamlit as st
 import time
+
 logger = logging.getLogger(__name__)
 """
 👥 Human-in-the-Loop Orchestrator (HITLO)
@@ -65,11 +65,11 @@ try:
         ExplainabilityInterfaceLayer,
     )
 
+    from ethics.meta_ethics_governor import EthicalVerdict, MetaEthicsGovernor
+    from ethics.self_reflective_debugger import SelfReflectiveDebugger
     from lukhas.orchestration.lukhas_master_orchestrator import (
         LukhasMasterOrchestrator,
     )
-    from ethics.meta_ethics_governor import EthicalVerdict, MetaEthicsGovernor
-    from ethics.self_reflective_debugger import SelfReflectiveDebugger
 
     LUKHAS_INTEGRATION = True
     logger.info(

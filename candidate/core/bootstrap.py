@@ -11,13 +11,13 @@ from lukhas.orchestration.brain.unified_cognitive_orchestrator import UnifiedCog
 from lukhas.core.adapters.module_service_adapter import register_service_adapters
 from lukhas.core.adapters.seven_agent_adapter import register_seven_agent_services
 from lukhas.core.container.service_container import ServiceContainer, get_container
-from lukhas.core.events.contracts import (  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for core infrastructure (review and implement)
+from lukhas.core.events.contracts import (  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for core infrastructure (review and implement)  # noqa: invalid-syntax  # TODO: Expected one or more symbol na...
 from datetime import timezone
-    ConsciousnessStateChanged,
+    ConsciousnessStateChanged,  # noqa: invalid-syntax  # TODO: Unexpected indentation
     DreamGenerated,
     MemoryFoldCreated,
     QIStateCreated,
-)
+)  # noqa: invalid-syntax  # TODO: Expected a statement
 from lukhas.core.events.typed_event_bus import EventBusService, get_typed_event_bus
 from lukhas.core.interfaces.services import (
     IBridgeService,

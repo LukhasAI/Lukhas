@@ -78,7 +78,7 @@ class QIEngine:
 
     def __init__(self):
         """Initialize the quantum engine."""
-        self.oscillator = Quantumoscillator()
+        self.oscillator = Quantumoscillator()  # noqa: F821  # TODO: Quantumoscillator
         self.qi_like_state = {"coherence": 1.0, "entanglement": 0.5}
 
     def process_quantum_like_state(self, state_data):

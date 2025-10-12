@@ -7,7 +7,6 @@ Constellation Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 
 from datetime import datetime, timezone
 
-
 __module__ = "bio.quantum"
 __trinity__ = "⚛️🧠🛡️"
 

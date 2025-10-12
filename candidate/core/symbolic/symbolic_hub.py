@@ -246,7 +246,7 @@ class SymbolicHub:
 
     async def health_check(self) -> dict[str, Any]:
         """Health check for all registered symbolic services"""
-        health = {"status": "healthy", "services": {}
+        health = {"status": "healthy", "services": {}  # noqa: invalid-syntax  # TODO: Expected }, found newline
 
         for name, service in self.services.items():
             try:

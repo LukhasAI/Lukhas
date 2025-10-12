@@ -1,6 +1,8 @@
 """Bridge: products.core (domain DTOs + flows)."""
 from __future__ import annotations
+
 from lukhas._bridgeutils import bridge_from_candidates
+
 _CANDIDATES = (
     "lukhas_website.lukhas.products.core",
     "candidate.products.core",

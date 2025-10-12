@@ -21,8 +21,8 @@ from typing import Any, Dict, List
 try:
     import uvicorn
     from fastapi import FastAPI, HTTPException, Request
-    from fastapi.responses import HTMLResponse, JSONResponse
-    from fastapi.staticfiles import StaticFiles
+    from fastapi.responses import HTMLResponse, JSONResponse  # noqa: F401  # TODO: fastapi.responses.JSONResponse...
+    from fastapi.staticfiles import StaticFiles  # noqa: F401  # TODO: fastapi.staticfiles.StaticFile...
     FASTAPI_AVAILABLE = True
 except ImportError:
     FASTAPI_AVAILABLE = False

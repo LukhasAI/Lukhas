@@ -1,6 +1,8 @@
 """Bridge: consciousness.types (ConsciousnessState, enums)."""
 from __future__ import annotations
+
 from lukhas._bridgeutils import bridge_from_candidates
+
 _CANDIDATES = (
   "lukhas_website.lukhas.consciousness.types",
   "candidate.consciousness.types",

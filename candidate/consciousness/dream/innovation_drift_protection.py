@@ -30,11 +30,11 @@ from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from typing import Any, Optional
 
-from vivox.emotional_regulation.vivox_ern_core import (
-    RegulationStrategy,
-)
-from vivox.emotional_regulation.vivox_ern_core import (
-    VIVOXEmotionalRegulationNetwork as VivoxERN,
+from consciousness.states.symbolic_drift_tracker import (
+    DriftPhase,
+    DriftScore,
+    SymbolicDriftTracker,
+    SymbolicState,
 )
 
 # Core LUKHAS imports
@@ -47,12 +47,6 @@ from lukhas.core.monitoring.drift_monitor import (
     InterventionType,
     UnifiedDriftMonitor,
 )
-from consciousness.states.symbolic_drift_tracker import (
-    DriftPhase,
-    DriftScore,
-    SymbolicDriftTracker,
-    SymbolicState,
-)
 
 # Import existing drift and integrity systems
 from lukhas.memory.integrity.collapse_hash import (
@@ -61,6 +55,10 @@ from lukhas.memory.integrity.collapse_hash import (
     HashAlgorithm,
 )
 from lukhas.memory.temporal.drift_dashboard import DriftDashboard
+from vivox.emotional_regulation.vivox_ern_core import (
+    RegulationStrategy,
+    VIVOXEmotionalRegulationNetwork as VivoxERN,
+)
 
 # Import innovation and safety components
 from .autonomous_innovation_core import (

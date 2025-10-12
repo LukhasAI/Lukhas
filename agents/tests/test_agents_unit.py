@@ -15,7 +15,7 @@ import pytest
 # Import module components
 try:
     pass  #     pass  #
-    import agents
+    import agents  # noqa: F401  # TODO: agents; consider using importl...
 except ImportError:
     pytest.skip("Module agents not available", allow_module_level=True)
 

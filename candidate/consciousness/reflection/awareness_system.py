@@ -53,10 +53,10 @@ import numpy as np  # ΛTRACE_ADD: For neuroplasticity calculations
 
 from bio.qi_layer import QIBioOscillator
 from bio.systems.orchestration.bio_orchestrator import BioOrchestrator
-from lukhas.core.unified.integration import UnifiedIntegration
 from consciousness.awareness.awareness_engine import AwarenessEngine
 from dream.core import DreamPhase
 from ethics.engine import EthicalFramework, EthicalRiskLevel, QIEthics
+from lukhas.core.unified.integration import UnifiedIntegration
 from qi.processing_core import QIProcessingCore
 
 

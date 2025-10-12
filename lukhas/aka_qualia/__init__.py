@@ -3,6 +3,7 @@ Bridge for `lukhas.aka_qualia` expected by integration tests.
 Search order: website → candidate → root; provides subpackages via shims.
 """
 from __future__ import annotations
+
 from importlib import import_module
 from typing import List, Optional
 

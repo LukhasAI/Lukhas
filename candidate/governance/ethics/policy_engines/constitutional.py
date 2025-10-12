@@ -6,9 +6,9 @@ Constitutional AI policy evaluation with Constellation Framework integration
 
 import logging
 import re
-from typing import Dict, List, Optional, Any
+from typing import Any, Dict, List
 
-from .base import BasePolicyEngine, PolicyEngineResult, PolicyDecision, PolicyContext
+from .base import BasePolicyEngine, PolicyContext, PolicyDecision, PolicyEngineResult
 
 logger = logging.getLogger(__name__)
 

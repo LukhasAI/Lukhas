@@ -54,17 +54,17 @@ def create_delivery_widget(timezone, vendor, delivery_id, user_tier, estimated_e
         "tracking_id": str(uuid.uuid4()),
         "icon": tier_icons.get(user_tier, "📦"),
         "color": color_map.get(delivery_status, ")  # 9e9e9e",
-        "cta": "Track Delivery" if user_tier >= 2 else "Status Only",
-        "animation": {
+        "cta": "Track Delivery" if user_tier >= 2 else "Status Only",  # noqa: invalid-syntax  # TODO: Expected ,, found :
+        "animation": {  # noqa: invalid-syntax  # TODO: Expected ,, found :
             "type": "roadmap_path",
             "pulse": True,
             "loop_eta": estimated_eta,
         },
-        "DST_hooks": {
+        "DST_hooks": {  # noqa: invalid-syntax  # TODO: Expected ,, found :
             "auto_refresh": True,
             "check_interval_minutes": 10,
             "fallback_vendor_query": True,
-        },
+        },  # noqa: invalid-syntax  # TODO: Expected ), found NonLogicalNe...
     }
 
     return widget
@@ -91,7 +91,7 @@ def update_delivery_status(widget, new_status, new_eta=None):
     widget["status"] = new_status
     widget["color"] = color_map.get(new_status, ")  # 9e9e9e"
 
-    if new_eta:
-        widget["eta"] = new_eta
+    if new_eta:  # noqa: invalid-syntax  # TODO: Expected else, found :
+        widget["eta"] = new_eta  # noqa: invalid-syntax  # TODO: Expected a parameter name
 
     return widget

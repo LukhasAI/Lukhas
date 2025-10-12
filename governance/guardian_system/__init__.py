@@ -1,5 +1,6 @@
 """Bridge: governance.guardian_system — guardian orchestration layer."""
 from __future__ import annotations
+
 from lukhas._bridgeutils import bridge_from_candidates, export_from, safe_guard
 
 # Primary: website → candidate → ab_safety_guard (where Guardian often lives)

@@ -1,5 +1,7 @@
+import functools
+import json
 from importlib.resources import files
-import json, functools
+
 
 @functools.lru_cache()
 def canon():

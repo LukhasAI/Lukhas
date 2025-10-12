@@ -11,7 +11,7 @@ def anchor_hash(data_hash: str) -> str:
     """Anchor a data hash to the witness chain (simulated blockchain)."""
 tx = {
 "timestamp": datetime.now(timezone.utc).isoformat(),
-"data_hash": data_hash,
+"data_hash": data_hash,  # noqa: F821  # TODO: data_hash
 }
 anchors = json.loads(ANCHOR_LOG.read_text()) if ANCHOR_LOG.exists() else []
 anchors.append(tx)

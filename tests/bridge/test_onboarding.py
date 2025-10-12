@@ -12,17 +12,18 @@ Tasks Tested:
 - TODO-HIGH-BRIDGE-API-g3h4i5j6: Onboarding completion logic
 """
 
-import pytest
 from datetime import datetime, timedelta, timezone
+
+import pytest
+
 from candidate.bridge.api.onboarding import (
+    ConsentRecord,
     OnboardingAPI,
     OnboardingSession,
     OnboardingStatus,
     OnboardingTier,
-    ConsentRecord,
     TierConfiguration,
 )
-
 
 # ============================================================================
 # Fixtures

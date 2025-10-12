@@ -808,7 +808,7 @@ class EnergyAwareExecutionPlanner:
             self.logger.error("Failed to join energy cluster", error=str(e))
             return False
 
-    async def coordinate_distributed_task(self, distributed_task: DistributedEnergyTask) -> dict:
+    async def coordinate_distributed_task(self, distributed_task: DistributedEnergyTask) -> dict:  # noqa: F821  # TODO: DistributedEnergyTask
         """Coordinate task execution across multiple nodes"""
         if not self.coordination_active:
             raise Exception("Distributed coordination not active")

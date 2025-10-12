@@ -28,10 +28,12 @@ from typing import Any, Callable, Optional
 
 # Import MΛTRIZ consciousness components
 try:
-    from ..matriz_consciousness_signals import ConsciousnessSignal  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for MATRIZ-R2 trace integration
+    from ..matriz_consciousness_signals import (
+        ConsciousnessSignal,  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for MATRIZ-R2 trace integration
+    )
     from .matriz_consciousness_identity_signals import (
         ConstitutionalComplianceData,
-        IdentitySignalType,
+        IdentitySignalType,  # noqa: F401  # TODO: .matriz_consciousness_identity...
         consciousness_identity_signal_emitter,
     )
 except ImportError as e:
@@ -1252,7 +1254,9 @@ __all__ = [
 
 # Added for test compatibility (candidate.core.identity.constitutional_ai_compliance.ConstitutionalAIComplianceMonitor)
 try:
-    from candidate.candidate.core.identity.constitutional_ai_compliance import ConstitutionalAIComplianceMonitor  # noqa: F401
+    from candidate.candidate.core.identity.constitutional_ai_compliance import (
+        ConstitutionalAIComplianceMonitor,  # noqa: F401
+    )
 except ImportError:
     class ConstitutionalAIComplianceMonitor:
         """Stub for ConstitutionalAIComplianceMonitor."""

@@ -11,8 +11,9 @@ Strategy:
 import re
 import subprocess
 import sys
-from pathlib import Path
 from collections import defaultdict
+from pathlib import Path
+
 
 def get_import_errors():
     """Get all import errors from pytest collection."""

@@ -134,7 +134,7 @@ class SystemIntegrationHub:
 
         # Golden Trio systems
         self.dast_hub = DASTIntegrationHub()
-        self.abas_hub = ABASIntegrationHub()
+        self.abas_hub = ABASIntegrationHub()  # noqa: F821  # TODO: ABASIntegrationHub
         self.nias_hub = NIASIntegrationHub()
         self.trio_orchestrator = TrioOrchestrator()
 
@@ -147,7 +147,7 @@ class SystemIntegrationHub:
 
         # Learning and quantum orchestration
         self.learning_engine = Learningengine()
-        self.qi_orchestrator = QIAGISystem(config=None)  # Will be configured
+        self.qi_orchestrator = QIAGISystem(config=None)  # Will be configured  # noqa: F821  # TODO: QIAGISystem
 
         # Bio engine
         self.bio_engine = get_bio_engine()

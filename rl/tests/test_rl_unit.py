@@ -15,7 +15,7 @@ import pytest
 # Import module components
 try:
     pass  #     pass  #
-    import rl
+    import rl  # noqa: F401  # TODO: rl; consider using importlib.u...
 except ImportError:
     pytest.skip("Module rl not available", allow_module_level=True)
 

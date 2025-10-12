@@ -2,9 +2,9 @@
 # ΛTAG: matriz_nodes
 import os
 
+from .decision_node import DecisionNode
 from .memory_node import MemoryNode
 from .thought_node import ThoughtNode
-from .decision_node import DecisionNode
 
 _COMPAT_MODE = os.getenv("MATRIZ_COMPAT_IMPORTS", "1") == "1"
 

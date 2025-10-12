@@ -111,8 +111,6 @@ class MemorySystemConsolidator:
 
     def _smart_merge_content(self, source_content: str, target_content: str, source_path: Path, target_path: Path) -> str:
         """Perform intelligent content merging based on code analysis."""
-        import ast
-        import re
 
         # Extract metadata for merging decisions
         source_meta = self._extract_content_metadata(source_content, source_path)
@@ -203,7 +201,7 @@ class MemorySystemConsolidator:
 
         # Add merge header
         merge_header = f"""# MERGED: Content from {source_meta.get('file_path', 'source')}
-# Merge timestamp: {datetime.now(timezone.utc).isoformat()}
+# Merge timestamp: {datetime.now(timezone.utc).isoformat()}  # noqa: F821  # TODO: datetime
 # Source functions: {len(source_meta['functions'])}, Target functions: {len(target_meta['functions'])}
 """
         merged_lines.insert(0, merge_header)

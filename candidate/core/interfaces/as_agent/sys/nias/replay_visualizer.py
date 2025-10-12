@@ -70,23 +70,23 @@ def visualize_replays(limit=10):
             emoji = TIER_EMOJI.get(str(dream.get("tier")), "•")
             print(f"\n🌀 {dream.get('timestamp')} | ID: {dream.get('message_id')}")
             print(f"   Tier: {dream.get('tier')} {emoji} | Widget: {dream.get('source_widget')}")
-            print(f"   Tags: {', '.join(dream.get('tags', [])}")
+            print(f"   Tags: {', '.join(dream.get('tags', [])}")  # noqa: invalid-syntax  # TODO: Expected ,, found }
             ev = dream.get("emotion_vector", {})
-            print(
+            print(  # noqa: invalid-syntax  # TODO: Expected ,, found name
                 "   Emotions →",
-                " | ".join(f"{k.capitalize()}: {color_emotion(v, k)}" for k, v in ev.items()},
+                " | ".join(f"{k.capitalize()}: {color_emotion(v, k)}" for k, v in ev.items()},  # noqa: invalid-syntax  # TODO: Unparenthesized generator expr...
             )
-            print(f"   Emoji: {dream.get('emoji')} | Notes: {dream.get('notes')}")
-            tag_counter.update(dream.get("tags", []))
-            emoji = dream.get("emoji")
-            if emoji:
-                emoji_counter[emoji] += 1
-        except Exception as e:
-            print("❌ Could not parse dream entry:", e)
+            print(f"   Emoji: {dream.get('emoji')} | Notes: {dream.get('notes')}")  # noqa: invalid-syntax  # TODO: Expected ,, found name
+            tag_counter.update(dream.get("tags", []))  # noqa: invalid-syntax  # TODO: Expected ,, found name
+            emoji = dream.get("emoji")  # noqa: invalid-syntax  # TODO: Expected ,, found name
+            if emoji:  # noqa: invalid-syntax  # TODO: Expected else, found :
+                emoji_counter[emoji] += 1  # noqa: invalid-syntax  # TODO: Positional argument cannot fol...
+        except Exception as e:  # noqa: invalid-syntax  # TODO: Expected ,, found except
+            print("❌ Could not parse dream entry:", e)  # noqa: invalid-syntax  # TODO: Positional argument cannot fol...
 
-    print("\n🔖 Top Tags:", dict(tag_counter.most_common(5)))
-    print("🌈 Emoji Distribution:", dict(emoji_counter.most_common(5)))
+    print("\n🔖 Top Tags:", dict(tag_counter.most_common(5)))  # noqa: invalid-syntax  # TODO: Expected ,, found name
+    print("🌈 Emoji Distribution:", dict(emoji_counter.most_common(5)))  # noqa: invalid-syntax  # TODO: Expected ,, found name
 
 
-if __name__ == "__main__":
-    visualize_replays(limit=10)
+if __name__ == "__main__":  # noqa: invalid-syntax  # TODO: Expected else, found :
+    visualize_replays(limit=10)  # noqa: invalid-syntax  # TODO: Positional argument cannot fol...

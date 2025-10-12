@@ -15,7 +15,7 @@ import pytest
 # Import module for integration testing
 try:
     pass  #     pass  #
-    import consciousness
+    import consciousness  # noqa: F401  # TODO: consciousness; consider using ...
 except ImportError:
     pytest.skip("Module consciousness not available", allow_module_level=True)
 

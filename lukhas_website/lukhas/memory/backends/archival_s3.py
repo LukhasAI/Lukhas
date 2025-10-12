@@ -40,7 +40,10 @@ import numpy as np
 
 try:
     import boto3
-    from botocore.exceptions import ClientError, NoCredentialsError
+    from botocore.exceptions import (  # noqa: F401  # TODO: botocore.exceptions.NoCredenti...
+        ClientError,
+        NoCredentialsError,
+    )
     BOTO3_AVAILABLE = True
 except ImportError:
     BOTO3_AVAILABLE = False

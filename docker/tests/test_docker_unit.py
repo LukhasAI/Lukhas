@@ -15,7 +15,7 @@ import pytest
 # Import module components
 try:
     pass  #     pass  #
-    import docker
+    import docker  # noqa: F401  # TODO: docker; consider using importl...
 except ImportError:
     pytest.skip("Module docker not available", allow_module_level=True)
 

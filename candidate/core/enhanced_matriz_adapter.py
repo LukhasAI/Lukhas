@@ -8,11 +8,9 @@ Emits MATRIZ-compliant consciousness signals and bio-symbolic data for inter-mod
 - Real-time inter-module communication and monitoring
 - Constellation Framework (⚛️🧠🛡️) compliance validation
 """
-import random  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for core infrastructure (review and implement)
-import streamlit as st  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for core infrastructure (review and implement)
-
 import asyncio
 import json
+import random  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for core infrastructure (review and implement)
 import time
 import uuid
 from dataclasses import dataclass, field
@@ -22,6 +20,7 @@ from pathlib import Path
 from typing import Any, Optional
 
 import numpy as np
+import streamlit as st  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for core infrastructure (review and implement)
 
 # Import consciousness components
 try:

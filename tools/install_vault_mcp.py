@@ -6,8 +6,8 @@ Creates backup before modifying configuration.
 
 import json
 import shutil
-from pathlib import Path
 from datetime import datetime
+from pathlib import Path
 
 
 def install_vault_mcp():

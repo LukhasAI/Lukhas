@@ -15,7 +15,7 @@ import pytest
 # Import module components
 try:
     pass  #     pass  #
-    import core
+    import core  # noqa: F401  # TODO: core; consider using importlib...
 except ImportError:
     pytest.skip("Module core not available", allow_module_level=True)
 

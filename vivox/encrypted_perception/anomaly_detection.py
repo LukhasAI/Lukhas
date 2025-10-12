@@ -14,7 +14,8 @@ from lukhas.core.common import get_logger
 from lukhas.core.interfaces.encrypted_perception_interface import (
     AnomalySignature,
     EthicalSignificance,
-    PerceptualVector)
+    PerceptualVector,
+)
 
 logger = get_logger(__name__)
 

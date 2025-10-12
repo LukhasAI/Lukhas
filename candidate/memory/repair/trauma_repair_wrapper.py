@@ -26,8 +26,6 @@ except ImportError as e:
             TraumaRepairSystem,
             TraumaSignature,
             TraumaType,
-        )
-        from .trauma_repair_mock import (
             get_memory_trauma_repair as get_mock_trauma_repair,
         )
 

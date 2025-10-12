@@ -12,14 +12,13 @@ Usage:
         --verbose
 """
 
+import ast
 import json
 import os
-import sys
-from pathlib import Path
-from typing import Dict, List, Any
 from datetime import datetime
-import ast
-import re
+from pathlib import Path
+from typing import Any, Dict, List
+
 
 class ModuleInventoryGenerator:
     """Generate comprehensive inventory of all Python modules"""

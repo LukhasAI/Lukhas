@@ -4,8 +4,13 @@ Validate all module.manifest.json files against schema.
 Usage:
   python scripts/validate_manifests.py --schema schemas/matriz_module_compliance.schema.json [--root .] [--warn-only]
 """
-import argparse, json, pathlib, sys
+import argparse
+import json
+import pathlib
+import sys
+
 from jsonschema import Draft7Validator
+
 
 def main():
     ap = argparse.ArgumentParser()

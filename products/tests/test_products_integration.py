@@ -15,7 +15,7 @@ import pytest
 # Import module for integration testing
 try:
     pass  #     pass  #
-    import products
+    import products  # noqa: F401  # TODO: products; consider using impor...
 except ImportError:
     pytest.skip("Module products not available", allow_module_level=True)
 

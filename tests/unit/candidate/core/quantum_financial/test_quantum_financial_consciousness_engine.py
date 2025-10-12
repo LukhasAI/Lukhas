@@ -9,7 +9,7 @@ from unittest.mock import patch
 
 import pytest
 
-<<<<<<< ours
+<<<<<<< ours  # noqa: invalid-syntax  # TODO: Expected a statement
 
 def _find_repo_root(start: Path) -> Path:
     for parent in start.parents:
@@ -17,7 +17,7 @@ def _find_repo_root(start: Path) -> Path:
             return parent
     raise RuntimeError("Repository root not found")
 
-=======
+=======  # noqa: invalid-syntax  # TODO: Expected a statement
 def _find_repo_root(start: Path) -> Path:
     for parent in start.parents:
         if (parent / "pyproject.toml").exists():
@@ -26,11 +26,11 @@ def _find_repo_root(start: Path) -> Path:
 
 
 ROOT_PATH = _find_repo_root(Path(__file__).resolve())
->>>>>>> theirs
+>>>>>>> theirs  # noqa: invalid-syntax  # TODO: Expected a statement
 
 ROOT_PATH = _find_repo_root(Path(__file__).resolve())
 
-<<<<<<< ours
+<<<<<<< ours  # noqa: invalid-syntax  # TODO: Expected a statement
 
 def _load_module(module_name: str, relative_path: str):
     module_path = ROOT_PATH / relative_path
@@ -49,7 +49,7 @@ def _load_quantum_financial_engine():
         "candidate/core/quantum_financial/quantum_financial_consciousness_engine.py",
     )
 
-=======
+=======  # noqa: invalid-syntax  # TODO: Expected a statement
 def _load_module(module_name: str, relative_path: str):
     module_path = ROOT_PATH / relative_path
     spec = importlib.util.spec_from_file_location(module_name, module_path)
@@ -67,7 +67,7 @@ def _load_quantum_financial_engine():
         "candidate/core/quantum_financial/quantum_financial_consciousness_engine.py",
     )
 
->>>>>>> theirs
+>>>>>>> theirs  # noqa: invalid-syntax  # TODO: Expected a statement
 
 _engine_module = _load_quantum_financial_engine()
 AbundanceCalculator = _engine_module.AbundanceCalculator
@@ -80,9 +80,9 @@ QuantumFinancialConsciousnessEngine = _engine_module.QuantumFinancialConsciousne
 async def test_abundance_uses_contribution() -> None:
     rng = random.Random(42)
     calculator = AbundanceCalculator(rng)
-<<<<<<< ours
+<<<<<<< ours  # noqa: invalid-syntax  # TODO: Expected a statement
 
-    baseline = await calculator.calculate_abundance_impact({"impact": 1.0})
+    baseline = await calculator.calculate_abundance_impact({"impact": 1.0})  # noqa: invalid-syntax  # TODO: Unexpected indentation
     rng_high = random.Random(42)
     calculator_high = AbundanceCalculator(rng_high)
     enhanced = await calculator_high.calculate_abundance_impact(
@@ -92,9 +92,9 @@ async def test_abundance_uses_contribution() -> None:
     assert enhanced > baseline
 
 
-=======
+=======  # noqa: invalid-syntax  # TODO: Expected a statement
 
-    baseline = await calculator.calculate_abundance_impact({"impact": 1.0})
+    baseline = await calculator.calculate_abundance_impact({"impact": 1.0})  # noqa: invalid-syntax  # TODO: Unexpected indentation
     rng_high = random.Random(42)
     calculator_high = AbundanceCalculator(rng_high)
     enhanced = await calculator_high.calculate_abundance_impact(
@@ -104,7 +104,7 @@ async def test_abundance_uses_contribution() -> None:
     assert enhanced > baseline
 
 
->>>>>>> theirs
+>>>>>>> theirs  # noqa: invalid-syntax  # TODO: Expected a statement
 @pytest.mark.asyncio
 async def test_gift_value_uses_contribution() -> None:
     rng = random.Random(99)
@@ -141,8 +141,8 @@ def test_consciousness_token_protocol_is_amount_sensitive() -> None:
 
 @pytest.mark.asyncio
 async def test_exchange_rate_depends_on_user_signature() -> None:
-<<<<<<< ours
-    with patch("candidate.flags.ff.Flags.is_enabled", return_value=True):
+<<<<<<< ours  # noqa: invalid-syntax  # TODO: Expected an indented block aft...
+    with patch("candidate.flags.ff.Flags.is_enabled", return_value=True):  # noqa: invalid-syntax  # TODO: Unexpected indentation
         engine = QuantumFinancialConsciousnessEngine(seed=7)
 
         exchange_alpha = await engine.calculate_consciousness_exchange_rate("alpha", {"impact": 1.0})
@@ -161,8 +161,8 @@ async def test_exchange_rate_depends_on_user_signature() -> None:
         )
 
         assert enhanced.consciousness_tokens_earned > exchange_alpha.consciousness_tokens_earned
-=======
-    engine = QuantumFinancialConsciousnessEngine(seed=7)
+=======  # noqa: invalid-syntax  # TODO: Expected a statement
+    engine = QuantumFinancialConsciousnessEngine(seed=7)  # noqa: invalid-syntax  # TODO: Unexpected indentation
 
     exchange_alpha = await engine.calculate_consciousness_exchange_rate("alpha", {"impact": 1.0})
     exchange_beta = await engine.calculate_consciousness_exchange_rate("beta", {"impact": 1.0})
@@ -180,13 +180,13 @@ async def test_exchange_rate_depends_on_user_signature() -> None:
     )
 
     assert enhanced.consciousness_tokens_earned > exchange_alpha.consciousness_tokens_earned
->>>>>>> theirs
+>>>>>>> theirs  # noqa: invalid-syntax  # TODO: Expected a statement
 
 
 @pytest.mark.asyncio
 async def test_exchange_proposal_considers_product_resonance() -> None:
-<<<<<<< ours
-    with patch("candidate.flags.ff.Flags.is_enabled", return_value=True):
+<<<<<<< ours  # noqa: invalid-syntax  # TODO: Expected an indented block aft...
+    with patch("candidate.flags.ff.Flags.is_enabled", return_value=True):  # noqa: invalid-syntax  # TODO: Unexpected indentation
         engine = QuantumFinancialConsciousnessEngine(seed=11)
 
         stress_profile = {"financial_stress": 0.75}
@@ -205,8 +205,8 @@ async def test_exchange_proposal_considers_product_resonance() -> None:
         proposal_standard = await engine.propose_consciousness_based_exchange(balanced_profile, mid_product)
         assert proposal_standard.exchange_type == "consciousness_enhanced_traditional"
         assert proposal_standard.fair_price and proposal_standard.fair_price > 0
-=======
-    engine = QuantumFinancialConsciousnessEngine(seed=11)
+=======  # noqa: invalid-syntax  # TODO: Expected a statement
+    engine = QuantumFinancialConsciousnessEngine(seed=11)  # noqa: invalid-syntax  # TODO: Unexpected indentation
 
     stress_profile = {"financial_stress": 0.75}
     low_product = {"depth": 0.4, "rarity": 0.3, "mission_alignment": 0.4, "base_value": 30}
@@ -224,4 +224,4 @@ async def test_exchange_proposal_considers_product_resonance() -> None:
     proposal_standard = await engine.propose_consciousness_based_exchange(balanced_profile, mid_product)
     assert proposal_standard.exchange_type == "consciousness_enhanced_traditional"
     assert proposal_standard.fair_price and proposal_standard.fair_price > 0
->>>>>>> theirs
+>>>>>>> theirs  # noqa: invalid-syntax  # TODO: Expected a statement

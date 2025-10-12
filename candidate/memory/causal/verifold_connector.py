@@ -77,8 +77,8 @@ class VeriFoldConnector:
 
     def submit_replay_session(self, session_data):
         """Submit session data to VeriFold chain"""
-        import json
         import hashlib
+        import json
         from datetime import datetime, timezone
 
         try:
@@ -127,7 +127,6 @@ class VeriFoldConnector:
 
     def retrieve_replay_data(self, session_id):
         """Retrieve replay data from VeriFold chain"""
-        import hashlib
         from datetime import datetime, timezone
 
         try:
@@ -175,7 +174,6 @@ class VeriFoldConnector:
 
     def verify_chain_integrity(self):
         """Verify VeriFold chain integrity"""
-        import hashlib
         from datetime import datetime, timezone
 
         try:

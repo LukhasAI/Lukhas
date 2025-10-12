@@ -15,7 +15,7 @@ import pytest
 # Import module for integration testing
 try:
     pass  #     pass  #
-    import feedback
+    import feedback  # noqa: F401  # TODO: feedback; consider using impor...
 except ImportError:
     pytest.skip("Module feedback not available", allow_module_level=True)
 

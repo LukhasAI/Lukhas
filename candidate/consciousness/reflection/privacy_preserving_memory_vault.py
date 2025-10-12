@@ -106,8 +106,8 @@ import numpy as np  # Required for differential privacy
 from cryptography.fernet import Fernet
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 
-from lukhas.core.integration.governance.__init__ import get_srd, instrument_reasoning
 from ethics.meta_ethics_governor import EthicalDecision, get_meg
+from lukhas.core.integration.governance.__init__ import get_srd, instrument_reasoning
 
 # Lukhas Core Integration
 from lukhas.memory.emotional import EmotionalMemory, EmotionVector

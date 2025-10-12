@@ -15,11 +15,11 @@ Tasks Tested:
 Trinity Framework: 🧠 Consciousness · 🛡️ Guardian · ⚛️ Identity
 """
 
-import pytest
 import asyncio
 from datetime import datetime, timezone
 from unittest.mock import AsyncMock, MagicMock, patch
 
+import pytest
 
 # ============================================================================
 # Fixtures

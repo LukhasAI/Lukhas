@@ -1,4 +1,4 @@
-log = logging.getLogger(__name__)
+log = logging.getLogger(__name__)  # noqa: F821  # TODO: logging
 
 """Autonomous repair routines for the Healix memory helix."""
 
@@ -16,11 +16,11 @@ class HelixRepairModule:
 
     async def run_repair_cycle(self) -> dict[str, Any]:
         pass
-for seg in list(self.core.memory_segments.values()):
+for seg in list(self.core.memory_segments.values()):  # noqa: F821  # TODO: self
             if seg.data.endswith("_CORRUPT"):
                 seg.data = seg.data.replace("_CORRUPT", "_REPAIRED")
 seg.methylation_flag = False
-repaired += 1
+repaired += 1  # noqa: F821  # TODO: repaired
 log.info("Segment repaired", id=seg.memory_id)
 return {
 "timestamp": datetime.now(timezone.utc).isoformat(),

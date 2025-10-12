@@ -1,5 +1,6 @@
 """Bridge for lukhas.governance.identity.core."""
 from importlib import import_module
+
 __all__ = []
 def _try(n: str):
     try: return import_module(n)

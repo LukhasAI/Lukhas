@@ -2,7 +2,8 @@
 Noise injection for symbolic/emotional dream space.
 Opt-in only: disabled by default for safety.
 """
-import os, random
+import os
+import random
 from typing import Dict
 
 LEVEL = os.getenv("LUKHAS_NOISE_LEVEL", "off")  # off|low|med|high

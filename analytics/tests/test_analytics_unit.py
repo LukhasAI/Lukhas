@@ -15,7 +15,7 @@ import pytest
 # Import module components
 try:
     pass  #     pass  #
-    import analytics
+    import analytics  # noqa: F401  # TODO: analytics; consider using impo...
 except ImportError:
     pytest.skip("Module analytics not available", allow_module_level=True)
 

@@ -4,8 +4,8 @@ import pytest
 from asgi_lifespan import LifespanManager
 from httpx import AsyncClient
 
-from enterprise.api.main import app
 from bridge.llm_wrappers.base import LLMProvider
+from enterprise.api.main import app
 
 
 @pytest.fixture

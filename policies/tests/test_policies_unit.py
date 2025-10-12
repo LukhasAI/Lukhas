@@ -15,7 +15,7 @@ import pytest
 # Import module components
 try:
     pass  #     pass  #
-    import policies
+    import policies  # noqa: F401  # TODO: policies; consider using impor...
 except ImportError:
     pytest.skip("Module policies not available", allow_module_level=True)
 

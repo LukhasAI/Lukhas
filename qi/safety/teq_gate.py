@@ -10,12 +10,9 @@ from dataclasses import dataclass
 from typing import Any
 
 import yaml
-import streamlit as st
-from typing import Optional
-from consciousness.qi import qi
 
 try:
-    from .pii import detect_pii, mask_pii
+    from .pii import detect_pii, mask_pii  # noqa: F401  # TODO: .pii.mask_pii; consider using ...
 except ImportError:
     from pii import detect_pii
 

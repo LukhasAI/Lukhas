@@ -56,6 +56,7 @@ from uuid import uuid4
 
 import numpy as np
 
+
 # Define core enums (always available)
 class PersistenceMode(Enum):
     IMMEDIATE = "immediate"

@@ -15,7 +15,7 @@ import pytest
 # Import module components
 try:
     pass  #     pass  #
-    import transmission_bundle
+    import transmission_bundle  # noqa: F401  # TODO: transmission_bundle; consider ...
 except ImportError:
     pytest.skip("Module transmission_bundle not available", allow_module_level=True)
 

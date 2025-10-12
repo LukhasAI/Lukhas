@@ -38,8 +38,8 @@ def test_reflection_bridge_exports():
 
 def test_reflection_single_source_of_truth():
     """Verify reflection exports come from candidate.consciousness.reflection."""
-    from consciousness.reflection import LambdaMirror as bridge_mirror
     from candidate.consciousness.reflection import LambdaMirror as canonical_mirror
+    from consciousness.reflection import LambdaMirror as bridge_mirror
 
     # Should be same class
     assert bridge_mirror is canonical_mirror

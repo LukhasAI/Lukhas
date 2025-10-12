@@ -5,8 +5,8 @@ Ranks top legacy imports and recommends canonical targets.
 """
 import json
 import sys
+from collections import Counter, defaultdict
 from pathlib import Path
-from collections import defaultdict, Counter
 
 LEDGER = Path("artifacts/lukhas_import_ledger.ndjson")
 REPORT = Path("artifacts/IMPORT_MIGRATION_REPORT.md")

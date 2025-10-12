@@ -15,7 +15,7 @@ import pytest
 # Import module for integration testing
 try:
     pass  #     pass  #
-    import mk
+    import mk  # noqa: F401  # TODO: mk; consider using importlib.u...
 except ImportError:
     pytest.skip("Module mk not available", allow_module_level=True)
 

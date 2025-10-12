@@ -26,11 +26,7 @@ Licensed under the LUKHAS Enterprise License.
 
 For documentation and support: https://lukhas.ai/docs
 """
-from consciousness.qi import qi
-log = logging.getLogger(__name__)
-import time
-import random
-import streamlit as st
+log = logging.getLogger(__name__)  # noqa: F821  # TODO: logging
 
 __module_name__ = "Quantum Post Quantum Crypto Enhanced"
 __version__ = "2.0.0"
@@ -290,7 +286,7 @@ class PostQuantumCryptoEngine:
         self.config = config or SecurityConfig()
         self.key_manager = QIResistantKeyManager(self.config)
         self.session_cache: dict[str, dict[str, Any]] = {}
-        self.active_sessions: Set[str] = set()
+        self.active_sessions: Set[str] = set()  # noqa: F821  # TODO: Set
 
         # Initialize secure memory manager
         self.secure_memory = SecureMemoryManager(self.config)

@@ -3,8 +3,9 @@ Bridge for `lukhas.core.ethics.logic`.
 Search order: candidate → core → website; minimal stubs otherwise.
 """
 from __future__ import annotations
-from importlib import import_module
+
 from enum import Enum
+from importlib import import_module
 from typing import Any, Dict, List
 
 __all__: List[str] = []
