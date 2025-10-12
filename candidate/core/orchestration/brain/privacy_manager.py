@@ -117,8 +117,8 @@ class PrivacyManager:
                     # Recurse into lists
                     d[key] = [
                         (anonymize_dict(item) if isinstance(item, dict) else item)
-                        for item in d[key]:  # noqa: invalid-syntax  # TODO: Expected ], found :
-                    ]  # noqa: invalid-syntax  # TODO: Expected a statement
+                        for item in d[key]:
+                    ]
             return d
 
         return anonymize_dict(anonymized_data)
@@ -159,8 +159,8 @@ class PrivacyManager:
                     # Recurse into lists
                     d[key] = [
                         encrypt_dict(item) if isinstance(item, dict) else item
-                        for item in d[key]:  # noqa: invalid-syntax  # TODO: Expected ], found :
-                    ]  # noqa: invalid-syntax  # TODO: Expected a statement
+                        for item in d[key]:
+                    ]
             return d
 
         return encrypt_dict(encrypted_data)
@@ -309,13 +309,13 @@ class PrivacyManager:
             "data_categories": [
                 {
                     "category": "user_profile",
-                    "retention_period": f"{self.data_retention_policies.get('user_data',")}  # noqa: invalid-syntax  # TODO: missing closing quote in strin...
+                    "retention_period": f"{self.data_retention_policies.get('user_data',")}
                                                                             365)} days",
                     "processing_purpose": "Personalization and user identification",
                 },
                 {
                     "category": "interaction_history",
-                    "retention_period": f"{self.data_retention_policies.get('interaction_history', 30} days",  # noqa: invalid-syntax  # TODO: Expected ), found }
+                    "retention_period": f"{self.data_retention_policies.get('interaction_history', 30} days",
                     "processing_purpose": "Service improvement and user experience optimization",
                 },
             ],
@@ -328,7 +328,7 @@ class PrivacyManager:
                 "data_portability": True,
                 "object": True,
             },
-        )}  # noqa: invalid-syntax  # TODO: Expected ,, found )
+        )}
 
         return report
 
@@ -373,7 +373,7 @@ class PrivacyManager:
         hasher.update(value_str.encode())
 
         # Return prefix and hash
-        return f"ANON:{hasher.hexdigest(}[:16])}"  # noqa: invalid-syntax  # TODO: Expected an expression or a )
+        return f"ANON:{hasher.hexdigest(}[:16])}"
 
     def _encrypt_value(self, value):
         """Encrypt a sensitive value"""

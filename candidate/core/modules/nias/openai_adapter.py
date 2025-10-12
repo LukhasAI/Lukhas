@@ -624,7 +624,7 @@ class NIASOpenAIAdapter:
     ) -> dict[str, Any]:
         """Intermediate fusion using cross-attention mechanisms"""
         # Prepare fusion prompt
-        fusion_data = {"user_context": user_context, "modalities": {}  # noqa: invalid-syntax  # TODO: Expected }, found newline
+        fusion_data = {"user_context": user_context, "modalities": {}
 
         for stream in processed_streams:
             fusion_data["modalities"][stream.modality.value] = stream.processed_data
@@ -779,7 +779,7 @@ class NIASOpenAIAdapter:
             "cross_modal_insights": ["Basic fusion applied"],
             "confidence_scores": {"overall": 0.6, "per_modality": {},
             "recommendations": ["Gather more data for accurate fusion"],
-        }  # noqa: invalid-syntax  # TODO: Expected }, found newline
+        }
 
     async def _generate_unified_interpretation(
         self, fusion_result: dict[str, Any], user_context: dict[str, Any]
@@ -970,7 +970,7 @@ class NIASOpenAIAdapter:
     async def moderate_content(self, content: Union[str, list[str]]) -> dict[str, Any]:
         """Moderate content for safety using OpenAI moderation API"""
         if not self.client:
-            return {"flagged": False, "categories": {}  # noqa: invalid-syntax  # TODO: Expected }, found newline
+            return {"flagged": False, "categories": {}
 
         try:
             response = await self.client.moderations.create(input=content)

@@ -25,27 +25,27 @@ except ImportError:
 
 from lukhas.core.common import get_logger
 
- _log_otel_fallback.warning(  # noqa: invalid-syntax  # TODO: Unexpected indentation
+ _log_otel_fallback.warning(
      "OpenTelemetry SDK Trace components not found. InMemorySpanExporter placeholders in use.")
-  @dataclass  # type: ignore  # noqa: invalid-syntax  # TODO: Unexpected indentation
-   class ReadableSpan:  # noqa: invalid-syntax  # TODO: Expected class, function defin...
+  @dataclass  # type: ignore
+   class ReadableSpan:
         name: str  # Simplified placeholder # type: ignore
 
-    class SpanExporter:  # type: ignore:  # noqa: invalid-syntax  # TODO: unindent does not match any ou...
-        def export(:  # noqa: invalid-syntax  # TODO: Expected a parameter or the en...
+    class SpanExporter:  # type: ignore:
+        def export(:
             self,
             spans: typing.Sequence[ReadableSpan]) -> 'SpanExportResult': return SpanExportResult(False)  # type: ignore
-        def shutdown(self) -> None: pass:  # noqa: invalid-syntax  # TODO: Expected newline, found :
-        def force_flush(self, timeout_millis: int = 30000) -> bool: return True:  # noqa: invalid-syntax  # TODO: Expected newline, found :
+        def shutdown(self) -> None: pass:
+        def force_flush(self, timeout_millis: int = 30000) -> bool: return True:
 
-    @dataclass  # type: ignore  # noqa: invalid-syntax  # TODO: unindent does not match any ou...
-    class SpanExportResult:  # noqa: invalid-syntax  # TODO: Expected class, function defin...
+    @dataclass  # type: ignore
+    class SpanExportResult:
         success: bool  # type: ignore
     SpanExportResult.SUCCESS = SpanExportResult(True)  # type: ignore
     SpanExportResult.FAILURE = SpanExportResult(False)  # type: ignore
 
 
-class InMemorySpanExporter(SpanExporter):  # type: ignore:  # noqa: invalid-syntax  # TODO: Expected a statement
+class InMemorySpanExporter(SpanExporter):  # type: ignore:
     """
     Implementation of OpenTelemetry SpanExporter that stores spans in memory.
     Primarily for testing purposes. Exported spans can be retrieved via get_finished_spans().

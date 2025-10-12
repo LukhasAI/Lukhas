@@ -40,7 +40,7 @@ EMOTION_VOICES = {
 
 
 async def speak(text, voice=DEFAULT_VOICE, preview=False):
-    communicate = Communicate(text=text, voice=voice)  # noqa: F821  # TODO: Communicate
+    communicate = Communicate(text=text, voice=voice)
     await communicate.save("lukhas_output.mp3")
     if not preview:
         os.system("afplay lukhas_output.mp3")  # For macOS. Use another player for Linux/Win.

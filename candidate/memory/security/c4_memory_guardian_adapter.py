@@ -167,7 +167,7 @@ class C4MemoryGuardianAdapter:
         """Generate unique operation ID"""
         timestamp = str(time.time())
         random_suffix = hashlib.sha256(timestamp.encode()).hexdigest()[:8]
-        return f"guardian_op_{int(time.time())_{random_suffix}"  # noqa: invalid-syntax  # TODO: f-string: expecting }
+        return f"guardian_op_{int(time.time())_{random_suffix}"
 
     def _hash_memory_data(self, memory_data: Any) -> str:
         """Compute SHA256 hash of memory data"""
@@ -198,7 +198,7 @@ class C4MemoryGuardianAdapter:
 
         return MemorySecurityContext(
             user_id=user_id,
-            session_id=f"c4_session_{int(time.time())",  # noqa: invalid-syntax  # TODO: missing closing quote in strin...
+            session_id=f"c4_session_{int(time.time())",
             security_level=security_level,
             permissions=permissions,
             cfg_version="guardian@1.0.0",

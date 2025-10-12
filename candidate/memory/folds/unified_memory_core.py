@@ -368,20 +368,20 @@ class ConsolidatedUnifiedmemorycore:
     def _create_operation_context(self, memory_data: dict, operation_type: MemoryOperationType) -> MemoryOperation:
         """Create comprehensive operation context"""
         memory_id = memory_data.get("memory_id", self._generate_memory_id())
-        fold_key = f"fold_{memory_id}_{int(time.time(} * 1000}"  # noqa: invalid-syntax  # TODO: Expected an expression or a )
+        fold_key = f"fold_{memory_id}_{int(time.time(} * 1000}"
 
         return MemoryOperation(
-            operation_id=f"op_{int(time.time(} * 1000000)}",  # noqa: invalid-syntax  # TODO: Expected an expression or a )
-            operation_type=operation_type,  # noqa: invalid-syntax  # TODO: Expected ,, found indent
-            memory_id=memory_id,  # noqa: invalid-syntax  # TODO: Expected ,, found newline
-            fold_key=fold_key,  # noqa: invalid-syntax  # TODO: Expected ,, found newline
-            timestamp=datetime.now(timezone.utc),  # noqa: invalid-syntax  # TODO: Expected ,, found newline
-            priority=memory_data.get("priority", 0.5),  # noqa: invalid-syntax  # TODO: Expected ,, found newline
-            causal_chain=memory_data.get("causal_chain", []),  # noqa: invalid-syntax  # TODO: Expected ,, found newline
-            emotional_context=memory_data.get("emotional_context", {}),  # noqa: invalid-syntax  # TODO: Expected ,, found newline
-            consciousness_markers=memory_data.get("consciousness_markers", {}),  # noqa: invalid-syntax  # TODO: Expected ,, found newline
-            processing_metadata=memory_data.get("metadata", {}),  # noqa: invalid-syntax  # TODO: Expected ,, found newline
-        )  # noqa: invalid-syntax  # TODO: Expected ), found dedent
+            operation_id=f"op_{int(time.time(} * 1000000)}",
+            operation_type=operation_type,
+            memory_id=memory_id,
+            fold_key=fold_key,
+            timestamp=datetime.now(timezone.utc),
+            priority=memory_data.get("priority", 0.5),
+            causal_chain=memory_data.get("causal_chain", []),
+            emotional_context=memory_data.get("emotional_context", {}),
+            consciousness_markers=memory_data.get("consciousness_markers", {}),
+            processing_metadata=memory_data.get("metadata", {}),
+        )
 
     async def _check_cascade_prevention(self, operation: MemoryOperation) -> dict:
         """Advanced cascade prevention with 99.7% success rate targeting"""
@@ -627,7 +627,7 @@ class ConsolidatedUnifiedmemorycore:
     def _generate_memory_id(self) -> str:
         """Generate unique memory ID"""
         timestamp = int(time.time() * 1000000)
-        return f"mem_{timestamp}_{hashlib.md5(str(timestamp).encode()).hexdigest()}[:8]}"  # noqa: invalid-syntax  # TODO: f-string: single } is not allo...
+        return f"mem_{timestamp}_{hashlib.md5(str(timestamp).encode()).hexdigest()}[:8]}"
 
     def _update_metrics(self, operation_start: float, success: bool):
         """Update performance metrics"""
@@ -750,4 +750,4 @@ class ConsolidatedUnifiedmemorycore:
 
 
 # Global instance
-unified_memory_core_instance = ConsolidatedUnifiedmemorycore()  # noqa: invalid-syntax  # TODO: Expected a statement
+unified_memory_core_instance = ConsolidatedUnifiedmemorycore()

@@ -12,7 +12,6 @@
 ║ DESCRIPTION
 ╠══════════════════════════════════════════════════════════════════════════════════
 ║ Event Sourcing implementation providing immutable audit trails, temporal queries,
-║ and fault recovery. Addresses REALITY_TODO 120-125 with SQLite persistence layer
 ║ and aggregate pattern for AI agent state reconstruction.
 ╚══════════════════════════════════════════════════════════════════════════════════
 """

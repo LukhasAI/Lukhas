@@ -1,0 +1,397 @@
+path,line,kind,owner_hint,priority,tag,text
+lukhas/branding_bridge/__init__.py,12,general,,P3,,: Implement or remove dead imports referencing this module
+lukhas/compliance/__init__.py,12,general,,P3,,: Implement or remove dead imports referencing this module
+lukhas/consciousness/registry/__init__.py,12,general,,P3,,: Implement or remove dead imports referencing this module
+lukhas/core/consciousness_ticker/__init__.py,12,general,,P3,,: Implement or remove dead imports referencing this module
+lukhas/core/matriz/__init__.py,12,general,,P3,,: Implement or remove dead imports referencing this module
+lukhas/core/ring/__init__.py,12,general,,P3,,: Implement or remove dead imports referencing this module
+lukhas/core/drift/__init__.py,12,general,,P3,,: Implement or remove dead imports referencing this module
+lukhas/core/reliability/__init__.py,12,general,,P3,,: Implement or remove dead imports referencing this module
+lukhas/memory/scheduled_folding/__init__.py,12,general,,P3,,: Implement or remove dead imports referencing this module
+lukhas/tools/code_executor/__init__.py,12,general,,P3,,: Implement or remove dead imports referencing this module
+candidate/consciousness/activation.py,5,general,,P3,,: Implement Activation
+candidate/consciousness/qi_consciousness_integration.py,91,general,,P3,,: Verify these import paths and ensure modules are structured as packages.
+candidate/tests/test_candidate_integration.py,18,general,,P3,,: candidate; consider using impo...
+candidate/tests/test_candidate_unit.py,18,general,,P3,,: candidate; consider using impo...
+candidate/governance/auth_cross_module_integration.py,34,general,,P3,T4-UNUSED-IMPORT,[T4-UNUSED-IMPORT]: kept pending MATRIZ wiring (document or remove)
+candidate/governance/drift_dashboard_visual.py,1,general,,P3,JULES-2,"[JULES-2]: Fix 19 F821 undefined name errors - Drift dashboard visualization, chart/graph undefined references, display fixes  # noqa: invalid-syntax"
+candidate/governance/guardian_sentinel.py,209,general,,P3,,: Implement additional Guardian features:
+candidate/governance/compliance_dashboard_visual.py,1,general,,P3,JULES-2,"[JULES-2]: Fix 19 F821 undefined name errors - Dashboard visualization fixes, Streamlit import fallbacks, undefined widget references  # noqa: invalid-syntax"
+candidate/emotion/dreamseed_upgrade.py,57,general,,P3,,: Update to use unified tier system
+candidate/emotion/dreamseed_upgrade.py,68,general,,P3,,: This enum should be replaced with unified tier system.
+candidate/emotion/dreamseed_upgrade.py,262,general,,P3,,: Replace with unified tier system
+candidate/emotion/dreamseed_upgrade.py,269,general,,P3,,: This method should:
+candidate/emotion/dreamseed_upgrade.py,753,general,,P3,,: Add unified tier validation
+candidate/emotion/dreamseed_upgrade.py,762,general,,P3,,: Update to:
+candidate/core/id.py,27,general,,P3,T4-UNUSED-IMPORT,[T4-UNUSED-IMPORT]: kept for core infrastructure (review and implement)
+candidate/core/id.py,31,general,,P3,T4-UNUSED-IMPORT,[T4-UNUSED-IMPORT]: kept for core infrastructure (review and implement)
+candidate/core/enhanced_matriz_adapter.py,13,general,,P3,T4-UNUSED-IMPORT,[T4-UNUSED-IMPORT]: kept for core infrastructure (review and implement)
+candidate/core/enhanced_matriz_adapter.py,23,general,,P3,T4-UNUSED-IMPORT,[T4-UNUSED-IMPORT]: kept for core infrastructure (review and implement)
+candidate/core/API_INDEX.md,115,general,,P3,,: Implement
+candidate/core/matriz_integrated_demonstration.py,34,general,,P3,,: .consciousness.matriz_consciou...
+candidate/core/matriz_integrated_demonstration.py,47,general,,P3,T4-UNUSED-IMPORT,[T4-UNUSED-IMPORT]: kept for MATRIZ-R2 trace integration
+candidate/core/framework_integration.py,1,general,,P3,JULES-1,"[JULES-1]: Fix 19 F821 undefined name errors - Framework integration fixes, class name corrections, variable definitions"
+candidate/core/task_manager.py,109,general,,P3,,: Implement config loading
+candidate/core/task_manager.py,210,general,,P3,,: Register actual task handler functions
+candidate/core/task_manager.py,219,general,,P3,,: Implement actual symbol validation
+candidate/core/task_manager.py,226,general,,P3,,: Implement actual design system operations
+candidate/core/task_manager.py,233,general,,P3,,: Implement actual file operations
+candidate/core/bootstrap.py,14,general,,P3,T4-UNUSED-IMPORT,[T4-UNUSED-IMPORT]: kept for core infrastructure (review and implement)  # noqa: invalid-syntax
+candidate/api/perf.py,21,general,,P3,T4-UNUSED-IMPORT,[T4-UNUSED-IMPORT]: kept for API expansion (document or implement)
+candidate/tools/tool_executor.py,179,general,,P3,T4-UNUSED-IMPORT,[T4-UNUSED-IMPORT]: kept pending MATRIZ wiring (document or remove)
+candidate/orchestration/intelligence_adapter.py,18,general,,P3,T4-UNUSED-IMPORT,[T4-UNUSED-IMPORT]: kept for multi-AI agent coordination  # noqa: invalid-syntax
+candidate/orchestration/migrate_to_kernel_bus.py,106,general,,P3,,": Remove print-based.*?\n"","
+candidate/consciousness/awareness/symbolic_qi_attention.py,21,general,,P3,,: Re-enable when qi_attention is properly implemented
+candidate/consciousness/awareness/awareness_processor.py,199,general,,P3,,: This dispatch logic should be more robust and specific to
+candidate/consciousness/awareness/awareness_processor.py,587,general,,P3,,: Add actual resource cleanup logic here if any resources are held.
+candidate/consciousness/awareness/awareness_log_synchronizer.py,69,general,,P3,,: integrate driftScore and affect_delta metrics for deeper analytics
+candidate/consciousness/awareness/awareness_engine.py,347,general,,P3,,": This dispatch logic should be more robust, potentially using a"
+candidate/consciousness/awareness/awareness_engine.py,429,general,,P3,,": Implement actual validation logic (e.g., check dependencies,"
+candidate/consciousness/awareness/awareness_engine.py,463,general,,P3,,: Add actual resource cleanup logic here.
+candidate/consciousness/awareness/awareness_protocol.py,143,general,,P3,,: Reconcile these safety boundaries and tier names with the global LUKHAS Tier system.
+candidate/consciousness/awareness/awareness_protocol.py,262,general,,P3,,": This internal tier mapping (restricted, basic, standard, elevated, advanced)"
+candidate/consciousness/states/emotional_memory_manager.py,22,general,,P3,,: Update to use unified tier system and user identity
+candidate/consciousness/states/openai_consciousness_adapter.py,26,general,,P3,T4-UNUSED-IMPORT,[T4-UNUSED-IMPORT]: kept for Constellation Framework consciousness evolution  # noqa: invalid-syntax
+candidate/consciousness/states/async_client.py,359,general,,P3,,: this should be handled in provider helpers directly
+candidate/consciousness/quantum/collapse_governance_system.py,27,general,,P3,T4-UNUSED-IMPORT,[T4-UNUSED-IMPORT]: kept pending MATRIZ wiring (document or remove)
+candidate/consciousness/quantum/collapse_governance_system.py,29,general,,P3,T4-UNUSED-IMPORT,[T4-UNUSED-IMPORT]: kept pending MATRIZ wiring (document or remove)
+candidate/consciousness/unified/consolidate_consciousness_unification.py,32,general,,P3,,: Implement actual consolidation logic
+candidate/consciousness/creativity/haiku_generator.py,68,general,,P3,,: lukhas.branding_bridge.generat...
+candidate/consciousness/creativity/haiku_generator.py,70,general,,P3,,: lukhas.branding_bridge.get_con...
+candidate/consciousness/core/engine.py,29,general,,P3,,: lukhas.branding_bridge.BrandCo...
+candidate/consciousness/core/engine.py,30,general,,P3,,: lukhas.branding_bridge.get_bra...
+candidate/consciousness/core/engine.py,31,general,,P3,,: lukhas.branding_bridge.get_con...
+candidate/consciousness/core/engine.py,32,general,,P3,,: lukhas.branding_bridge.normali...
+candidate/consciousness/core/engine.py,33,general,,P3,,: lukhas.branding_bridge.validat...
+candidate/consciousness/core/engine.py,87,general,,P3,T4-UNUSED-IMPORT,[T4-UNUSED-IMPORT]: kept for core infrastructure (review and implement)
+candidate/consciousness/core/engine.py,90,general,,P3,,": Initialize anthropic_client if needed, e.g.,"
+candidate/consciousness/core/engine.py,196,general,,P3,,": Ensure interaction_data contains expected keys like 'timestamps', 'symbols', 'actions', 'pressure_patterns', 'velocity_patterns'."
+candidate/consciousness/core/engine.py,454,general,,P3,,: Make violation_threshold configurable.
+candidate/consciousness/core/engine.py,464,general,,P3,,: Make approval_threshold configurable.
+candidate/consciousness/core/engine.py,665,general,,P3,,: Thresholds should be configurable or dynamically determined.
+candidate/consciousness/core/engine.py,729,general,,P3,,: These factors could be learned or configurable.
+candidate/consciousness/systems/lambda_mirror.py,54,general,,P3,,: Implement quantum-coherent reflection states for enhanced self-awareness
+candidate/consciousness/reflection/client.py,659,general,,P3,T4-UNUSED-IMPORT,[T4-UNUSED-IMPORT]: kept pending MATRIZ wiring (document or remove)
+candidate/consciousness/reflection/client.py,1361,general,,P3,T4-UNUSED-IMPORT,[T4-UNUSED-IMPORT]: kept pending MATRIZ wiring (document or remove)
+candidate/consciousness/reflection/ethical_drift_sentinel.py,56,general,,P3,,: Implement phase harmonics analyzer for resonance breakdown detection
+candidate/consciousness/reflection/visionary_orchestrator.py,75,general,,P3,,: Install or implement CORE
+candidate/consciousness/reflection/visionary_orchestrator.py,76,general,,P3,,: Install or implement CORE
+candidate/consciousness/reflection/visionary_orchestrator.py,77,general,,P3,,: Install or implement CORE
+candidate/consciousness/reflection/visionary_orchestrator.py,78,general,,P3,,: Install or implement AID
+candidate/consciousness/reflection/visionary_orchestrator.py,79,general,,P3,,:
+candidate/consciousness/reflection/_dict_learning.py,723,general,,P3,,": original code uses self, but should be X?"
+candidate/consciousness/reflection/processing_core.py,48,general,,P3,T4-UNUSED-IMPORT,[T4-UNUSED-IMPORT]: kept for core infrastructure (review and implement)  # noqa: invalid-syntax
+candidate/consciousness/reflection/openai_modulated_service.py,16,general,,P3,T4-UNUSED-IMPORT,[T4-UNUSED-IMPORT]: kept for Constellation Framework consciousness evolution
+candidate/consciousness/reflection/reflection_layer.py,93,general,,P3,,: Install or implement AID
+candidate/consciousness/reflection/reflection_layer.py,96,general,,P3,T4-UNUSED-IMPORT,[T4-UNUSED-IMPORT]: kept for bio-inspired/quantum systems development
+candidate/consciousness/reflection/reflection_layer.py,103,general,,P3,,: Install or
+candidate/consciousness/reflection/reflection_layer.py,199,general,,P3,,: Track dream IDs from reflection metadata
+candidate/consciousness/reflection/reflection_layer.py,200,general,,P3,,: Track voice alerts if vocalize_conscience returns specific alert IDs/info
+candidate/consciousness/reflection/reflection_layer.py,943,general,,P3,,: Track dream IDs from reflection metadata
+candidate/consciousness/reflection/reflection_layer.py,944,general,,P3,,: Track voice alerts if vocalize_conscience returns specific alert IDs/info
+candidate/consciousness/reflection/self_reflection_engine.py,37,general,,P3,,: opentelemetry.metrics; conside...
+candidate/consciousness/reflection/self_reflection_engine.py,39,general,,P3,,: opentelemetry.trace.Status; co...
+candidate/consciousness/reflection/orchestration_service.py,45,general,,P3,,: Install or implement AID
+candidate/consciousness/reflection/orchestration_service.py,46,general,,P3,,: Install or implement CORE
+candidate/consciousness/reflection/orchestration_service.py,47,general,,P3,,: Install or implement CORE
+candidate/consciousness/reflection/orchestration_service.py,48,general,,P3,,: Install or implement CORE
+candidate/consciousness/reflection/orchestration_service.py,2321,general,,P3,,: Implement consolidated functionality
+candidate/consciousness/reflection/core_integrator.py,32,general,,P3,,: Refactor path-based import to standard package imports if possible.
+candidate/consciousness/reflection/core_integrator.py,54,general,,P3,,": Reconcile this AccessTier with the global LUKHAS Tier System (0-5, Free-Transcendent)."
+candidate/consciousness/reflection/core_integrator.py,172,general,,P3,,: Make default paths relative to a configurable project root or use
+candidate/consciousness/reflection/core_integrator.py,520,general,,P3,,: Refactor dynamic import to be more robust or use explicit imports
+candidate/consciousness/reflection/service.py,248,general,,P3,,": Reconcile ""LAMBDA_TIER_X"" string constants with the global 0-5 integer tier system."
+candidate/consciousness/reflection/service.py,1270,general,,P3,,: Reconcile these tier systems.
+candidate/consciousness/reflection/monitoring_observability.py,71,general,,P3,,: Restore this import when creative_expressions_v2 module is available
+candidate/consciousness/reflection/brain_integration.py,47,general,,P3,,: Install or implement CORE
+candidate/consciousness/reflection/brain_integration.py,65,general,,P3,,: Install or implement DASHBOARD
+candidate/consciousness/reflection/brain_integration.py,84,general,,P3,,: Install or implement CORE
+candidate/consciousness/reflection/brain_integration.py,108,general,,P3,,: Install or implement BIO_SYMBOLIC
+candidate/consciousness/reflection/brain_integration.py,114,general,,P3,,: Install or implement AID
+candidate/consciousness/reflection/integration_manager.py,165,general,,P3,,: Install or implement Bot_agi_core
+candidate/consciousness/reflection/integration_manager.py,166,general,,P3,,:
+candidate/consciousness/reflection/id_reasoning_engine.py,61,general,,P3,T4-UNUSED-IMPORT,[T4-UNUSED-IMPORT]: kept pending MATRIZ wiring (document or remove)
+candidate/consciousness/reflection/id_reasoning_engine.py,65,general,,P3,T4-UNUSED-IMPORT,[T4-UNUSED-IMPORT]: kept pending MATRIZ wiring (document or remove)
+candidate/consciousness/reasoning/id_reasoning_engine.py,30,general,,P3,T4-UNUSED-IMPORT,[T4-UNUSED-IMPORT]: kept pending MATRIZ wiring (document or remove)
+candidate/consciousness/reasoning/id_reasoning_engine.py,34,general,,P3,T4-UNUSED-IMPORT,[T4-UNUSED-IMPORT]: kept pending MATRIZ wiring (document or remove)
+candidate/consciousness/dream/dream_trace_linker.py,52,general,,P3,,: Implement quantum dream resonance detection across parallel memory streams
+candidate/consciousness/dream/immersive_ingestion.py,56,general,,P3,,: integrate quantum features and emotional resonance tracking
+candidate/consciousness/examples/basic/example.py,7,general,,P3,,: Add example
+candidate/consciousness/reasoning/decision/bridge.py,47,general,,P3,,: Implement quantum decision superposition for parallel evaluation
+candidate/consciousness/reasoning/decision/bridge.py,63,general,,P3,,: lukhas.core.integration.neuro_...
+candidate/consciousness/reasoning/decision/bridge.py,66,general,,P3,,: lukhas.core.utils.orchestratio...
+candidate/consciousness/reasoning/decision/bridge.py,69,general,,P3,T4-UNUSED-IMPORT,[T4-UNUSED-IMPORT]: kept pending MATRIZ wiring (document or remove)
+candidate/consciousness/reasoning/decision/bridge.py,72,general,,P3,T4-UNUSED-IMPORT,[T4-UNUSED-IMPORT]: kept for bio-inspired/quantum systems development
+candidate/consciousness/reasoning/systems/_README_scaffold_trace.md,14,general,,P3,,
+candidate/consciousness/dream/core/dream_feedback_controller.py,31,general,,P3,,: Implement symbolic match scoring
+candidate/consciousness/dream/oneiric/oneiric_core/engine/dream_engine_fastapi.py,31,general,,P3,,: Update to use unified tier system
+candidate/consciousness/dream/oneiric/oneiric_core/engine/dream_engine_fastapi.py,719,general,,P3,,: Add tier validation and user context
+candidate/consciousness/dream/oneiric/oneiric_core/engine/dream_engine_fastapi.py,886,general,,P3,,: Add tier validation for memory snapshot creation
+candidate/bridge/llm_wrappers/openai_modulated_service.py,30,general,,P3,,: openai; consider using importl...
+candidate/bridge/llm_wrappers/openai_modulated_service.py,268,general,,P3,,: numpy; consider using importli...
+candidate/bridge/llm_wrappers/openai_modulated_service.py,708,general,,P3,,: Implement sliding window rate limiting
+candidate/bridge/api/onboarding.py,639,general,,P3,,: Integrate with real payment processor
+candidate/bridge/api/onboarding.py,656,general,,P3,,: Integrate with JWT adapter
+candidate/bridge/api/onboarding.py,683,general,,P3,,: Integrate with real ΛTRACE logger
+candidate/governance/monitoring/guardian_dashboard.py,416,general,,P3,,: Implement governance validation
+candidate/governance/monitoring/guardian_dashboard.py,876,general,,P3,,: Calculate from actual data
+candidate/governance/monitoring/threat_monitor.py,799,general,,P3,,: Integrate with ethics engine
+candidate/governance/monitoring/threat_monitor.py,901,general,,P3,,: Integrate with full governance policy engine
+candidate/governance/monitoring/threat_monitor.py,1280,general,,P3,,: Forward to main governance audit system
+candidate/governance/oversight/consolidate_guardian_governance.py,34,general,,P3,,: Implement actual consolidation logic
+candidate/governance/guardian/drift_detector.py,371,general,,P3,,: lukhas.governance.identity.aut...
+candidate/governance/healthcare/decision_support.py,256,general,,P3,,: Implement AI-powered differential diagnosis with safety checks
+candidate/governance/healthcare/decision_support.py,298,general,,P3,,: Implement comprehensive risk assessment
+candidate/governance/healthcare/decision_support.py,327,general,,P3,,: Implement evidence-based test suggestion
+candidate/governance/healthcare/decision_support.py,379,general,,P3,,: Implement sophisticated confidence calculation
+candidate/governance/healthcare/decision_support.py,393,general,,P3,,: Implement evidence gathering from validated sources
+candidate/governance/healthcare/decision_support.py,433,general,,P3,,: Implement evidence-based treatment planning
+candidate/governance/healthcare/decision_support.py,449,general,,P3,,: Implement follow-up suggestion logic
+candidate/governance/healthcare/decision_support.py,469,general,,P3,,: Integrate with LUKHAS ethical engine
+candidate/governance/healthcare/decision_support.py,512,general,,P3,,: Implement logic
+candidate/governance/healthcare/decision_support.py,518,general,,P3,,: Implement comprehensive safety validation
+candidate/governance/healthcare/decision_support.py,538,general,,P3,,: Forward to main governance audit system
+candidate/governance/healthcare/case_manager.py,447,general,,P3,,: Integrate with LUKHAS ethical engine
+candidate/governance/healthcare/case_manager.py,604,general,,P3,,: Implement role-based access control
+candidate/governance/healthcare/case_manager.py,640,general,,P3,,: Forward to main governance audit system
+candidate/governance/ethics/guardian_reflector.py,53,general,,P3,,: Install or implement CORE
+candidate/governance/ethics/guardian_reflector.py,54,general,,P3,,: Install or implement CORE
+candidate/governance/ethics/guardian_reflector.py,56,general,,P3,,: Install or implement CORE
+candidate/governance/ethics/moral_agent_template.py,22,general,,P3,,: Implement moral reasoning logic here.
+candidate/governance/ethics/ethical_sentinel_dashboard.py,47,general,,P3,,: Add violation heatmap for pattern recognition
+candidate/governance/ethics/enhanced_ethical_guardian.py,344,general,,P3,,: Integrate with advanced intent analysis system
+candidate/governance/ethics/enhanced_ethical_guardian.py,763,general,,P3,,: Forward to main governance system
+candidate/governance/ethics/enhanced_ethical_guardian.py,848,general,,P3,,: Implement sophisticated tier requirement analysis
+candidate/governance/ethics/hitlo_bridge.py,55,general,,P3,T4-UNUSED-IMPORT,[T4-UNUSED-IMPORT]: kept for multi-AI agent coordination  # noqa: invalid-syntax
+candidate/governance/ethics_legacy/security/main_node_security_engine.py,32,general,,P3,,:
+candidate/governance/ethics_legacy/safety/compliance_dashboard_visual.py,17,general,,P3,,: Install or implement streamlit
+candidate/governance/ethics_legacy/governor/lambda_governor.py,51,general,,P3,,: Implement quantum-safe arbitration for distributed mesh deployments
+candidate/governance/identity/auth_web/magic-links.ts,15,general,,P3,,: Send email with link
+candidate/governance/identity/auth_web/magic-links.ts,31,general,,P3,,: Create session
+candidate/governance/identity/auth_web/jwt.ts,22,general,,P3,,": persist { jti, fid, sub, deviceId, exp } in DB"
+candidate/governance/identity/auth_web/jwt.ts,28,general,,P3,,": verify, mark old jti as used, revoke family on reuse, issue new one"
+candidate/governance/identity/auth_integrations/qrg_bridge.py,64,general,,P3,,: Initialize when QRG components are wired
+candidate/governance/identity/auth_integrations/qrg_bridge.py,96,general,,P3,,: Implement when QRG is integrated
+candidate/governance/identity/auth_integrations/qrg_bridge.py,106,general,,P3,,: Implement when QRG is integrated
+candidate/governance/identity/auth_integrations/qrg_bridge.py,116,general,,P3,,: Implement when QRG animation engine is integrated
+candidate/governance/identity/auth_integrations/qrg_bridge.py,128,general,,P3,,: Implement when QRG steganography is integrated
+candidate/governance/identity/auth_integrations/wallet_bridge.py,54,general,,P3,,: Initialize when WALLET components are wired
+candidate/governance/identity/auth_integrations/wallet_bridge.py,79,general,,P3,,: Implement when WALLET is integrated
+candidate/governance/identity/auth_integrations/wallet_bridge.py,88,general,,P3,,: Implement when WALLET is integrated
+candidate/governance/identity/auth_integrations/wallet_bridge.py,97,general,,P3,,: Implement when WALLET QI core is integrated
+candidate/governance/identity/core/lambd_id_service.py,491,general,,P3,,: Calculate actual uptime
+candidate/governance/identity/core/lambd_id_service.py,676,general,,P3,,: Implement proper rate limiting
+candidate/governance/identity/core/lambd_id_service.py,711,general,,P3,,: Implement automatic upgrade logic
+candidate/governance/identity/core/lambd_id_service.py,716,general,,P3,,: Implement manual upgrade logic
+candidate/governance/identity/core/events/identity_event_publisher.py,14,general,,P3,T4-UNUSED-IMPORT,[T4-UNUSED-IMPORT]: kept for Constellation Framework consciousness evolution  # noqa: invalid-syntax
+candidate/governance/identity/core/auth/webauthn_manager.py,26,general,,P3,,: webauthn.generate_authenticati...
+candidate/governance/identity/core/auth/webauthn_manager.py,27,general,,P3,,: webauthn.generate_registration...
+candidate/governance/identity/core/auth/webauthn_manager.py,28,general,,P3,,: webauthn.verify_authentication...
+candidate/governance/identity/core/auth/webauthn_manager.py,29,general,,P3,,: webauthn.verify_registration_r...
+candidate/governance/identity/core/trace/activity_logger.py,225,general,,P3,,: Implement persistent storage logic
+candidate/governance/identity/core/trace/activity_logger.py,229,general,,P3,,: Integration with ΛTIER system
+candidate/governance/identity/core/trace/activity_logger.py,294,general,,P3,,: Implement audit chain linking
+candidate/governance/identity/core/trace/pattern_analyzer.py,19,general,,P3,,: Implement pattern analysis logic
+candidate/governance/identity/core/trace/pattern_analyzer.py,23,general,,P3,,: Implement anomaly detection logic
+candidate/governance/identity/core/trace/pattern_analyzer.py,27,general,,P3,,: Implement insight generation logic
+candidate/governance/identity/core/swarm/tier_aware_swarm_hub.py,19,general,,P3,T4-UNUSED-IMPORT,[T4-UNUSED-IMPORT]: kept for Constellation Framework consciousness evolution  # noqa: invalid-syntax
+candidate/governance/identity/core/id_service/lambd_id_generator.py,171,general,,P3,,: Load from actual config file
+candidate/governance/identity/core/id_service/lambd_id_generator.py,209,general,,P3,,: Implement actual logging to file/database
+candidate/governance/identity/core/id_service/lambd_id_generator.py,216,general,,P3,,: Calculate actual collision rate
+candidate/governance/identity/core/id_service/lambd_id_generator.py,217,general,,P3,,: Calculate tier distribution
+candidate/governance/identity/core/id_service/lambd_id_generator.py,218,general,,P3,,: Calculate symbolic character usage
+candidate/governance/identity/core/tier/tier_manager.py,742,general,,P3,,: Implement persistent storage loading
+candidate/governance/identity/core/tier/tier_manager.py,747,general,,P3,,: Implement persistent storage
+candidate/governance/identity/core/tier/tier_manager.py,751,general,,P3,,: Implement sophisticated scoring algorithm
+candidate/governance/identity/core/sing/cross_device_manager.py,26,general,,P3,T4-UNUSED-IMPORT,[T4-UNUSED-IMPORT]: kept for core infrastructure (review and implement)
+candidate/governance/identity/core/sing/sso_engine.py,627,general,,P3,,: Implement symbolic challenge verification
+candidate/governance/identity/core/sing/sso_engine.py,632,general,,P3,,: Implement biometric validation
+candidate/governance/identity/core/sing/sso_engine.py,637,general,,P3,,: Implement cryptographic signing
+candidate/governance/identity/core/sing/sso_engine.py,643,general,,P3,,: Implement device sync token creation
+candidate/governance/identity/core/sing/sso_engine.py,648,general,,P3,,: Implement sync token registration
+candidate/governance/identity/core/sing/sso_engine.py,653,general,,P3,,: Implement service notification logic
+candidate/governance/identity/core/qrs/qrg_generator.py,20,general,,P3,,: Implement QR-G generation logic
+candidate/governance/identity/core/qrs/qrg_generator.py,24,general,,P3,,: Implement validation logic
+candidate/governance/identity/core/qrs/qrg_generator.py,28,general,,P3,,: Implement cleanup logic
+candidate/governance/identity/core/qrs/session_replay.py,19,general,,P3,,: Implement session creation logic
+candidate/governance/identity/core/qrs/session_replay.py,23,general,,P3,,: Implement session restoration logic
+candidate/governance/identity/core/qrs/session_replay.py,27,general,,P3,,: Implement session invalidation logic
+candidate/governance/identity/core/sent/consent_manager.py,159,general,,P3,,: Load tier boundaries from consent_tiers.json
+candidate/governance/identity/core/sent/consent_manager.py,160,general,,P3,,: Implement tier-based validation logic
+candidate/governance/identity/core/sent/symbolic_scopes.py,39,general,,P3,,: Implement scope definition logic
+candidate/governance/identity/core/sent/symbolic_scopes.py,43,general,,P3,,: Implement scope requirements logic
+candidate/governance/identity/core/sent/symbolic_scopes.py,47,general,,P3,,: Implement scope access validation
+candidate/governance/identity/core/sent/symbolic_scopes.py,56,general,,P3,,: Implement symbolic parsing logic
+candidate/governance/identity/core/sent/consent_history.py,67,general,,P3,,: Call ΛTRACE logger
+candidate/governance/identity/core/sent/consent_history.py,103,general,,P3,,: Implement zero-knowledge proof generation
+candidate/governance/examples/basic/example.py,7,general,,P3,,: Add example
+candidate/emotion/examples/basic/example.py,7,general,,P3,,: Add example
+candidate/core/adapters/qi_service_adapter.py,30,general,,P3,T4-UNUSED-IMPORT,[T4-UNUSED-IMPORT]: kept for Constellation Framework consciousness evolution
+candidate/core/adapters/qi_service_adapter.py,34,general,,P3,T4-UNUSED-IMPORT,[T4-UNUSED-IMPORT]: kept for core infrastructure (review and implement)
+candidate/core/adapters/seven_agent_adapter.py,71,general,,P3,,: lukhas.core.identity.lambda_id...
+candidate/core/adapters/seven_agent_adapter.py,177,general,,P3,,: lukhas.governance.consent_ledg...
+candidate/core/adapters/module_service_adapter.py,14,general,,P3,T4-UNUSED-IMPORT,[T4-UNUSED-IMPORT]: kept for API expansion (document or implement)  # noqa: invalid-syntax
+candidate/core/integrations/nias_dream_bridge.py,260,general,,P3,,: Check actual dream state from dream adapter
+candidate/core/rem/streamlit_lidar.py,7,general,,P3,,: Install or implement streamlit
+candidate/core/security/credential_manager.py,19,general,,P3,,: .enhanced_crypto.CryptoAlgorit...
+candidate/core/audit/audit_integration_example.py,10,general,,P3,T4-UNUSED-IMPORT,[T4-UNUSED-IMPORT]: kept for core infrastructure (review and implement)  # noqa: invalid-syntax
+candidate/core/governance/constitutional_compliance_engine.py,51,general,,P3,,: .constitutional_ai.Constitutio...
+candidate/core/governance/constitutional_compliance_engine.py,53,general,,P3,,: .constitutional_ai.Constitutio...
+candidate/core/governance/guardian_integration.py,42,general,,P3,T4-UNUSED-IMPORT,[T4-UNUSED-IMPORT]: kept for core infrastructure (review and implement)
+candidate/core/governance/guardian_integration.py,47,general,,P3,,: .constitutional_compliance_eng...
+candidate/core/governance/guardian_integration.py,48,general,,P3,,: .constitutional_compliance_eng...
+candidate/core/governance/matriz_consciousness_governance.py,35,general,,P3,,: ..consciousness.matriz_conscio...
+candidate/core/verifold/verifold_unified.py,2,general,,P3,T4-UNUSED-IMPORT,[T4-UNUSED-IMPORT]: kept for core infrastructure (review and implement)
+candidate/core/verifold/verifold_unified.py,4,general,,P3,T4-UNUSED-IMPORT,[T4-UNUSED-IMPORT]: kept for core infrastructure (review and implement)
+candidate/core/identity/matriz_consciousness_identity_signals.py,3,general,,P3,T4-UNUSED-IMPORT,[T4-UNUSED-IMPORT]: kept for core infrastructure (review and implement)
+candidate/core/identity/matriz_consciousness_identity_signals.py,38,general,,P3,,: ..matriz_consciousness_signals...
+candidate/core/identity/matriz_consciousness_identity.py,54,general,,P3,,: .matriz_consciousness_identity...
+candidate/core/identity/test_consciousness_identity_patterns.py,25,general,,P3,,: .consciousness_coherence_monit...
+candidate/core/identity/test_consciousness_identity_patterns.py,27,general,,P3,,: .consciousness_coherence_monit...
+candidate/core/identity/test_consciousness_identity_patterns.py,35,general,,P3,,: .consciousness_namespace_isola...
+candidate/core/identity/test_consciousness_identity_patterns.py,36,general,,P3,,: .consciousness_namespace_isola...
+candidate/core/identity/test_consciousness_identity_patterns.py,43,general,,P3,,: .consciousness_tiered_authenti...
+candidate/core/identity/test_consciousness_identity_patterns.py,46,general,,P3,,: .constitutional_ai_compliance....
+candidate/core/identity/test_consciousness_identity_patterns.py,53,general,,P3,,: .matriz_consciousness_identity...
+candidate/core/identity/test_consciousness_identity_patterns.py,54,general,,P3,,: .matriz_consciousness_identity...
+candidate/core/identity/test_consciousness_identity_patterns.py,60,general,,P3,,: .matriz_consciousness_identity...
+candidate/core/identity/test_consciousness_identity_patterns.py,63,general,,P3,,: .matriz_consciousness_identity...
+candidate/core/identity/consciousness_coherence_monitor.py,33,general,,P3,T4-UNUSED-IMPORT,[T4-UNUSED-IMPORT]: kept for MATRIZ-R2 trace integration
+candidate/core/identity/consciousness_coherence_monitor.py,38,general,,P3,,: .matriz_consciousness_identity...
+candidate/core/identity/consciousness_coherence_monitor.py,41,general,,P3,T4-UNUSED-IMPORT,[T4-UNUSED-IMPORT]: kept for MATRIZ-R2 trace integration
+candidate/core/identity/consciousness_namespace_isolation.py,3,general,,P3,T4-UNUSED-IMPORT,[T4-UNUSED-IMPORT]: kept for core infrastructure (review and implement)
+candidate/core/identity/consciousness_namespace_isolation.py,34,general,,P3,T4-UNUSED-IMPORT,[T4-UNUSED-IMPORT]: kept for MATRIZ-R2 trace integration
+candidate/core/identity/consciousness_namespace_isolation.py,39,general,,P3,,: .matriz_consciousness_identity...
+candidate/core/identity/constitutional_ai_compliance.py,32,general,,P3,T4-UNUSED-IMPORT,[T4-UNUSED-IMPORT]: kept for MATRIZ-R2 trace integration
+candidate/core/identity/constitutional_ai_compliance.py,36,general,,P3,,: .matriz_consciousness_identity...
+candidate/core/api/service_implementations.py,56,general,,P3,T4-UNUSED-IMPORT,[T4-UNUSED-IMPORT]: kept for API expansion (document or implement)
+candidate/core/api/service_implementations.py,66,general,,P3,T4-UNUSED-IMPORT,[T4-UNUSED-IMPORT]: kept for Constellation Framework consciousness evolution
+candidate/core/api/service_implementations.py,76,general,,P3,T4-UNUSED-IMPORT,[T4-UNUSED-IMPORT]: kept for API expansion (document or implement)
+candidate/core/symbolic_core/__init__.py,34,general,,P3,T4-AUDIT,[T4-AUDIT]:triage - Large legacy symbolic processing system preserved.
+candidate/core/symbolic_core/matriz_symbolic_consciousness.py,38,general,,P3,,: ..consciousness.matriz_conscio...
+candidate/core/meta_learning/enhancement_system.py,38,general,,P3,T4-UNUSED-IMPORT,[T4-UNUSED-IMPORT]: kept for core infrastructure (review and implement)  # noqa: invalid-syntax
+candidate/core/meta_learning/remediator_agent.py,85,general,,P3,,: Install or implement AID
+candidate/core/interfaces/research_dashboard.py,20,general,,P3,,: Install or implement streamlit
+candidate/core/colonies/temporal_colony.py,49,general,,P3,,: implement more operation types
+candidate/core/symbolic_legacy/__init__.py,3,general,,P3,T4-AUDIT,[T4-AUDIT]:triage - Large legacy symbolic processing system. Need migration strategy vs preservation decision.
+candidate/core/orchestration/agent_orchestrator.py,26,general,,P3,T4-UNUSED-IMPORT,[T4-UNUSED-IMPORT]: kept for multi-AI agent coordination  # noqa: invalid-syntax
+candidate/core/orchestration/plan_verifier.py,45,general,,P3,,: ..ethics.guardian_drift_bands....
+candidate/core/orchestration/plan_verifier.py,52,general,,P3,,: ..ethics.safety_tags.SafetyTag...
+candidate/core/symbolic/crista_optimizer.py,350,general,,P3,,": Potentially implement more sophisticated relinking logic here,"
+candidate/core/symbolic/message_hub.py,22,general,,P3,,: Install or implement streamlit
+candidate/core/symbolic/message_hub.py,129,general,,P3,T4-UNUSED-IMPORT,[T4-UNUSED-IMPORT]: kept for core infrastructure (review and implement)  # noqa: invalid-syntax
+candidate/core/symbolic/symbolic_reasoning_adapter.py,111,general,,P3,,: Parse symbolic reasoning structures
+candidate/core/symbolic/symbolic_reasoning_adapter.py,112,general,,P3,,: Apply mode-specific adaptation algorithms
+candidate/core/symbolic/symbolic_reasoning_adapter.py,113,general,,P3,,: Validate reasoning coherence
+candidate/core/symbolic/symbolic_reasoning_adapter.py,130,general,,P3,,: Establish reasoning flow pathways
+candidate/core/symbolic/symbolic_reasoning_adapter.py,131,general,,P3,,: Maintain reasoning state consistency
+candidate/core/symbolic/symbolic_reasoning_adapter.py,132,general,,P3,,: Ensure logical coherence
+candidate/core/symbolic/symbolic_reasoning_adapter.py,146,general,,P3,,: Check reasoning consistency
+candidate/core/symbolic/symbolic_reasoning_adapter.py,147,general,,P3,,: Validate logical integrity
+candidate/core/symbolic/symbolic_reasoning_adapter.py,148,general,,P3,,: Measure adaptation quality
+candidate/core/symbolic/symbolic_reasoning_adapter.py,166,general,,P3,,: Implement graceful context cleanup
+candidate/core/symbolic/symbolic_reasoning_adapter.py,167,general,,P3,,: Archive reasoning adaptation data
+candidate/core/symbolic/symbolic_reasoning_adapter.py,168,general,,P3,,: Update reasoning metrics
+candidate/core/symbolic/dream_divergence_map.py,57,general,,P3,,: Add temporal correlation weighting for chronological proximity
+candidate/core/symbolic/symbolic_dream_bridge.py,102,general,,P3,,: Implement phase resonance validation
+candidate/core/symbolic/symbolic_dream_bridge.py,103,general,,P3,,: Establish symbolic mapping protocols
+candidate/core/symbolic/symbolic_dream_bridge.py,104,general,,P3,,: Initialize intention bridge pathways
+candidate/core/symbolic/symbolic_dream_bridge.py,121,general,,P3,,: Implement symbolic parsing algorithms
+candidate/core/symbolic/symbolic_dream_bridge.py,122,general,,P3,,: Map dream metaphors to core logic structures
+candidate/core/symbolic/symbolic_dream_bridge.py,123,general,,P3,,: Preserve semantic meaning across translation
+candidate/core/symbolic/symbolic_dream_bridge.py,137,general,,P3,,: Monitor system phase states
+candidate/core/symbolic/symbolic_dream_bridge.py,138,general,,P3,,: Adjust resonance parameters
+candidate/core/symbolic/symbolic_dream_bridge.py,139,general,,P3,,: Ensure stable symbolic communication
+candidate/core/symbolic/symbolic_dream_bridge.py,157,general,,P3,,: Implement graceful context cleanup
+candidate/core/symbolic/symbolic_dream_bridge.py,158,general,,P3,,: Preserve important symbolic mappings
+candidate/core/symbolic/symbolic_dream_bridge.py,159,general,,P3,,: Archive bridge session data
+candidate/core/symbolic/symbolic_memory_mapper.py,130,general,,P3,,: Implement symbolic memory parsing
+candidate/core/symbolic/symbolic_memory_mapper.py,131,general,,P3,,: Create bridge-compatible memory structures
+candidate/core/symbolic/symbolic_memory_mapper.py,132,general,,P3,,: Establish memory coherence protocols
+candidate/core/symbolic/symbolic_theme_clusterer.py,54,general,,P3,,: Add ML-based theme prediction for proactive narrative modeling
+candidate/core/matrix/nodes/memory_node.py,19,general,,P3,,: integrate with production memory backend once available
+candidate/core/symbolic_core/bio/mito_qi_attention.py,7,general,,P3,T4-AUDIT,[T4-AUDIT]:triage - Large legacy symbolic processing system. Need migration strategy vs preservation decision.
+candidate/core/examples/basic/example.py,7,general,,P3,,: Add example
+candidate/core/interfaces/logic/agent_core.py,38,general,,P3,,: Install or implement
+candidate/core/interfaces/voice/voice_agent.py,33,general,,P3,,: Route to appropriate voice engine based on tier or emotion index
+candidate/core/interfaces/voice/edge_voice.py,18,general,,P3,,: Install or implement edge_tts
+candidate/core/interfaces/as_agent/utils/constants.py,50,general,,P3,,": Define SYMBOLIC_TIERS, DEFAULT_TAGS, etc. # ΛTECH_DEBT: Constants"
+candidate/core/interfaces/as_agent/news_and_social/s_dispatcher.py,11,general,,P3,,: Replace this hack with proper Python packaging imports once
+candidate/core/interfaces/as_agent/streamlit/components/tier_visualizer.py,17,general,,P3,,: Install or implement streamlit
+candidate/core/interfaces/as_agent/streamlit/components/voice_preview_streamlit.py,15,general,,P3,,: Install or implement streamlit
+candidate/core/interfaces/as_agent/streamlit/components/dream_export_streamlit.py,16,general,,P3,,: Install or implement streamlit
+candidate/core/interfaces/as_agent/sys/nias/dream_export_streamlit.py,19,general,,P3,,: Install or implement streamlit
+candidate/core/interfaces/api/v1/rest/middleware.py,207,general,,P3,,: Implement actual API key lookup from database/cache
+candidate/core/interfaces/api/v1/rest/middleware.py,257,general,,P3,,: Import lukhas_tier_required decorator
+candidate/core/interfaces/api/v1/rest/routers/process.py,18,general,,P3,,: implement metrics recording
+candidate/core/interfaces/tools/cli/speak.py,18,general,,P3,,: Install or implement edge_tts
+candidate/core/interfaces/tools/research/research_dashboard.py,23,general,,P3,,: Install or implement streamlit
+candidate/core/interfaces/ui/components/tier_visualizer.py,17,general,,P3,,: Install or implement streamlit
+candidate/core/interfaces/ui/components/voice_preview_streamlit.py,15,general,,P3,,: Install or implement streamlit
+candidate/core/symbolic_legacy/bio/mito_qi_attention.py,7,general,,P3,T4-AUDIT,[T4-AUDIT]:triage - Large legacy symbolic processing system. Need migration strategy vs preservation decision.
+candidate/core/orchestration/brain/identity_manager.py,14,general,,P3,T4-UNUSED-IMPORT,[T4-UNUSED-IMPORT]: kept for core infrastructure (review and implement)
+candidate/core/orchestration/brain/identity_manager.py,18,general,,P3,T4-UNUSED-IMPORT,[T4-UNUSED-IMPORT]: kept for core infrastructure (review and implement)
+candidate/core/orchestration/brain/dynamic_adaptive_dashboard.py,28,general,,P3,,: Install or implement AGENT
+candidate/core/orchestration/brain/dynamic_adaptive_dashboard.py,32,general,,P3,,: Install or implement AGENT
+candidate/core/orchestration/brain/rem/streamlit_lidar.py,14,general,,P3,,: Install or implement streamlit
+candidate/core/orchestration/brain/spine/main_loop.py,176,general,,P3,,: Install or implement edge_tts
+candidate/core/orchestration/brain/config/settings_editor.py,14,general,,P3,,: Install or implement streamlit
+candidate/core/orchestration/brain/visualization/memory_helix_visualizer.py,32,general,,P3,,: Install or implement AID
+candidate/core/orchestration/brain/unified_integration/adapters/dream_adapter.py,65,general,,P3,,: Implement state tracking
+candidate/bio/energy/spirulina_atp_system.py,24,general,,P3,T4-UNUSED-IMPORT,[T4-UNUSED-IMPORT]: kept pending MATRIZ wiring (document or remove)
+candidate/memory/tests/memory_systems_integration_test.py,29,general,,P3,,: constellation_framework_valida...
+candidate/memory/tests/memory_systems_integration_test.py,32,general,,P3,,: episodic.episodic_memory.Conso...
+candidate/memory/tests/memory_systems_integration_test.py,34,general,,P3,,: fold.FoldManager; consider usi...
+candidate/memory/tests/memory_systems_integration_test.py,35,general,,P3,,: systems.dream_memory_manager.D...
+candidate/memory/tests/memory_systems_integration_test.py,37,general,,P3,,: systems.memory_collapse_verifi...
+candidate/memory/tests/memory_systems_integration_test.py,41,general,,P3,,: consciousness.awareness_mechan...
+candidate/memory/tests/memory_systems_integration_test.py,44,general,,P3,,: consciousness.dream_memory_int...
+candidate/memory/tests/memory_systems_integration_test.py,47,general,,P3,,: consciousness.memory_conscious...
+candidate/memory/tests/memory_systems_integration_test.py,252,general,,P3,,: consciousness.memory_conscious...
+candidate/memory/tests/memory_systems_integration_test.py,351,general,,P3,,: lukhas.core.symbolic.symbolic_...
+candidate/memory/episodic/episodic_memory.py,20,general,,P3,,: Implement consolidated memory processing
+candidate/memory/core/base_manager.py,90,general,,P3,T4-UNUSED-IMPORT,[T4-UNUSED-IMPORT]: kept for core infrastructure (review and implement)
+candidate/memory/fold_system/fold_lineage_tracker.py,59,general,,P3,,: Implement quantum causal entanglement detection with dream correlation
+candidate/memory/causal/feedback_propagator.py,53,general,,P3,,: Implement machine learning-based causality pattern recognition
+candidate/memory/causal/fold_lineage_tracker.py,66,general,,P3,,: Implement quantum causal entanglement detection with dream correlation
+candidate/memory/systems/memory_visualizer.py,18,general,,P3,,: Install or implement streamlit
+candidate/memory/systems/in_memory_cache_storage_wrapper.py,55,general,,P3,T4-UNUSED-IMPORT,[T4-UNUSED-IMPORT]: kept pending MATRIZ wiring (document or remove)  # noqa: invalid-syntax
+candidate/memory/systems/in_memory_cache_storage_wrapper.py,57,general,,P3,,: Install or implement streamlit
+candidate/memory/systems/in_memory_cache_storage_wrapper.py,59,general,,P3,,: Install or implement streamlit
+candidate/memory/systems/in_memory_cache_storage_wrapper.py,64,general,,P3,,: Install or implement streamlit
+candidate/memory/systems/in_memory_cache_storage_wrapper.py,66,general,,P3,T4-UNUSED-IMPORT,[T4-UNUSED-IMPORT]: kept pending MATRIZ wiring (document or remove)  # noqa: invalid-syntax
+candidate/memory/systems/memory_media_file_storage.py,28,general,,P3,,: Install or
+candidate/memory/systems/memory_media_file_storage.py,35,general,,P3,,: Install or implement streamlit
+candidate/memory/systems/memory_format.py,66,general,,P3,,: expand this to `_ConvNd` when channels_last support is extended
+candidate/memory/systems/memory_format.py,137,general,,P3,,: expand this to `_ConvNd` when channels_last support is extended
+candidate/memory/systems/memory_profiler.py,1061,general,,P3,,: Write a faster serialize (orjson not available in CI)
+candidate/memory/systems/memory_collapse_verifier.py,28,general,,P3,,: Initialize verification parameters
+candidate/memory/systems/memory_collapse_verifier.py,37,general,,P3,,: Implement collapse integrity verification
+candidate/memory/systems/memory_collapse_verifier.py,41,general,,P3,,: Implement semantic preservation validation
+candidate/memory/systems/memory_collapse_verifier.py,45,general,,P3,,: Implement emotional consistency checking
+candidate/memory/systems/memory_collapse_verifier.py,49,general,,P3,,: Implement collapse auditing
+candidate/memory/systems/memory_collapse_verifier.py,52,general,,P3,,: Implement DAG integrity algorithms
+candidate/memory/systems/memory_collapse_verifier.py,53,general,,P3,,: Add semantic preservation checks
+candidate/memory/systems/memory_collapse_verifier.py,54,general,,P3,,: Create emotional consistency validation
+candidate/memory/systems/memory_session_storage.py,21,general,,P3,,: Install or implement streamlit
+candidate/memory/systems/multimodal_memory_integration.py,15,general,,P3,T4-UNUSED-IMPORT,[T4-UNUSED-IMPORT]: kept pending MATRIZ wiring (document or remove)  # noqa: invalid-syntax
+candidate/memory/temporal/benchmark_swarm.py,15,general,,P3,,: Specify imports
+candidate/memory/temporal/benchmark_swarm.py,16,general,,P3,,: Specify imports
+candidate/memory/temporal/drift_dashboard_visual.py,46,general,,P3,,: Add drift pattern library for operator training
+candidate/memory/temporal/output_log.py,15,general,,P3,,: Install or implement streamlit
+candidate/memory/temporal/hyperspace_dream_simulator.py,58,general,,P3,,: Implement predictive token consumption modeling for simulation planning
+candidate/memory/temporal/documentation_analytics.py,716,fixme,,P3,,        # Check for TODO/FIXME items
+candidate/memory/temporal/documentation_analytics.py,717,fixme,,P3,,"        todos = len(re.findall(r""TODO|FIXME|XXX"", content, re.IGNORECASE))"
+candidate/memory/folds/event_replayer.py,79,general,,P3,,: extend with CLI interface for governance dashboard
+candidate/memory/consolidation/consolidate_emotion_feeling_memory.py,34,general,,P3,,: Implement actual consolidation logic
+candidate/memory/consolidation/consolidate_memory_dna_helix.py,34,general,,P3,,: Implement actual consolidation logic
+candidate/memory/consolidation/commerce_api.py,27,general,,P3,,: Merge functionality from source files
+candidate/memory/consolidation/commerce_api.py,40,general,,P3,,: Add compatibility functions for merged components
+candidate/memory/consolidation/visualization.py,35,general,,P3,,: Merge functionality from source files
+candidate/memory/consolidation/visualization.py,48,general,,P3,,: Add compatibility functions for merged components
+candidate/memory/systems/memory_learning/memory_manager.py,67,general,,P3,,: Resolve import paths if these files are moved or structure changes.
+candidate/memory/systems/memory_learning/memory_manager.py,108,general,,P3,,: Install or implement AID
+candidate/memory/systems/memory_learning/memory_manager.py,109,general,,P3,,: Install or implement AID
+candidate/memory/systems/memory_legacy/dream_cron.py,56,general,,P3,,": Make DREAM_SCRIPT_PATH_STR robust (e.g., relative to project root"
+candidate/memory/systems/memory_legacy/dreams.py,95,general,,P3,,: Remove hardcoded sys.path.append. Manage paths via
+candidate/memory/examples/basic/example.py,7,general,,P3,,: Add example

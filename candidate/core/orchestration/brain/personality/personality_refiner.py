@@ -9,7 +9,7 @@ import json
 from datetime import datetime, timezone
 from pathlib import Path
 
-personality_refiner  # noqa: F821  # TODO: personality_refiner
+personality_refiner
 """
 📄 MODULE      : personality_refiner.py
 🧠 PURPOSE     : Refines and adapts Lukhas' personality traits based on emotional memory,

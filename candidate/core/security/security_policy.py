@@ -402,7 +402,7 @@ class SecurityPolicyFramework:
         for rule in policy.rules:
             if self._evaluate_rule_condition(rule["condition"], context):
                 violation = PolicyViolation(
-                    violation_id=f"viol_{int(datetime.now(timezone.utc).timestamp()}_{rule['rule_id']}",  # noqa: invalid-syntax  # TODO: Expected ,, found }
+                    violation_id=f"viol_{int(datetime.now(timezone.utc).timestamp()}_{rule['rule_id']}",
                     policy_id=policy_id,
                     severity=PolicyViolationSeverity(rule["severity"]),
                     description=f"Rule violated: {rule['name']} - {rule['description']}",
@@ -415,10 +415,10 @@ class SecurityPolicyFramework:
                         "action": rule["action"],
                         "context": context,
                     },
-                )  # noqa: invalid-syntax  # TODO: f-string: unterminated string
-                violations.append(violation)  # noqa: invalid-syntax  # TODO: Positional argument cannot fol...
+                )
+                violations.append(violation)
 
-                logger.warning(  # noqa: invalid-syntax  # TODO: Positional argument cannot fol...
+                logger.warning(
                     f"Policy violation detected: {rule['name']}",
                     extra={
                         "policy_id": policy_id,
@@ -426,10 +426,10 @@ class SecurityPolicyFramework:
                         "severity": rule["severity"],
                         "user_id": context.get("user_id"),
                     },
-                )  # noqa: invalid-syntax  # TODO: Expected ,, found newline
+                )
 
         # Store violations
-        self.violations.extend(violations)  # noqa: invalid-syntax  # TODO: Expected ), found dedent
+        self.violations.extend(violations)
 
         return violations
 

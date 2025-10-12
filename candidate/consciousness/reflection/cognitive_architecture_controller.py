@@ -235,18 +235,18 @@ def lukhas_tier_required(level: int):
 
 
 # Metrics
-COGNITIVE_PROCESS_DURATION = Histogram(  # noqa: F821  # TODO: Histogram
+COGNITIVE_PROCESS_DURATION = Histogram(
     "cognitive_process_duration_seconds",
     "Cognitive process execution time",
     ["process_type"],
 )
 MEMORY_OPERATIONS = Counter("memory_operations_total", "Memory operations", ["operation_type", "memory_type"])
-ATTENTION_ALLOCATION = Gauge(  # noqa: F821  # TODO: Gauge
+ATTENTION_ALLOCATION = Gauge(
     "attention_allocation_ratio",
     "Attention allocation across processes",
     ["process_id"],
 )
-COGNITIVE_LOAD = Gauge("cognitive_load", "Current cognitive load", ["resource_type"])  # noqa: F821  # TODO: Gauge
+COGNITIVE_LOAD = Gauge("cognitive_load", "Current cognitive load", ["resource_type"])
 
 
 # Enums

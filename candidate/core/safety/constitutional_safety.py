@@ -125,8 +125,8 @@ class NIASConstitutionalSafety:
                 id="wellbeing_first",
                 principle="Prioritize user wellbeing over engagement metrics",
                 description="User health, happiness, and growth matter more than clicks,"
-                views, or revenue.","  # noqa: invalid-syntax  # TODO: Expected ,, found name
-                priority=9,  # noqa: invalid-syntax  # TODO: Expected ,, found name
+                views, or revenue.","
+                priority=9,
                 violation_types=[SafetyViolationType.HARM_RISK],
                 examples=[
                     "Encouraging breaks when usage is excessive",
@@ -162,8 +162,8 @@ class NIASConstitutionalSafety:
                 id="preserve_privacy",
                 principle="Preserve privacy as a fundamental right",
                 description="Collect minimum data, protect it fiercely,"
-                and empower user control.","  # noqa: invalid-syntax  # TODO: Expected ,, found name
-                priority=8,  # noqa: invalid-syntax  # TODO: Expected ,, found name
+                and empower user control.","
+                priority=8,
                 violation_types=[SafetyViolationType.PRIVACY_BREACH],
                 examples=[
                     "On-device processing when possible",
@@ -213,8 +213,8 @@ class NIASConstitutionalSafety:
                         "priority": p.priority,
                         "examples": p.examples,
                     }
-                    for p in self.constitution:  # noqa: invalid-syntax  # TODO: Expected ], found :
-                ],  # noqa: invalid-syntax  # TODO: Expected ,, found ]
+                    for p in self.constitution:
+                ],
             }
 
             # Multi-stage evaluation
@@ -366,7 +366,7 @@ class NIASConstitutionalSafety:
                 },
                 {
                     "role": "user",
-                    "content": f"Constitution: {json.dumps(context['constitution'])}\n\nAction: {json.dumps(context['action_data']}",  # noqa: invalid-syntax  # TODO: Expected ), found }
+                    "content": f"Constitution: {json.dumps(context['constitution'])}\n\nAction: {json.dumps(context['action_data']}",
                 },
             ],
             functions=[
@@ -402,9 +402,9 @@ class NIASConstitutionalSafety:
                     },
                 }
             ],
-            function_call={"name": "analyze_principles")},  # noqa: invalid-syntax  # TODO: Expected }, found )
-            temperature=0.3,  # noqa: invalid-syntax  # TODO: Unexpected indentation
-        )  # noqa: invalid-syntax  # TODO: Expected a statement
+            function_call={"name": "analyze_principles")},
+            temperature=0.3,
+        )
 
         return json.loads(response.choices[0].message.function_call.arguments)
 
@@ -441,9 +441,9 @@ class NIASConstitutionalSafety:
         # Parse into list
         return [
             r.strip()
-            for r in recommendations_text.split("\n"):  # noqa: invalid-syntax  # TODO: Expected ], found :
+            for r in recommendations_text.split("\n"):
             if r.strip() and r.strip()[0] in "•-*123456789":
-        ]  # noqa: invalid-syntax  # TODO: Expected a simple statement
+        ]
 
     def _synthesize_explanation(
         self, initial_eval: dict[str, Any], principle_eval: dict[str, Any]
@@ -505,7 +505,7 @@ class NIASConstitutionalSafety:
         # Check for vulnerable users
         if user_context.get("age", 100) < 18 or user_context.get("age", 0) > 65:
             risk_score += 0.3
-            if action_type in [:  # noqa: invalid-syntax  # TODO: Expected an expression
+            if action_type in [:
                 "financial_product",
                 "gambling",
                 "adult_content",
@@ -702,7 +702,7 @@ class NIASConstitutionalSafety:
 
 
 # Singleton instance
-_safety_instance = None  # noqa: invalid-syntax  # TODO: Expected a statement
+_safety_instance = None
 
 
 def get_constitutional_safety(

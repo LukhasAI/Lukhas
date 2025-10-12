@@ -427,10 +427,10 @@ class PatternDetector:
             occurrences = [
                 {
                     "timestamp": d["timestamp"],
-                    "context": f"Worked on {len(d['topics'])} different topics: {', '.join(list(d['topics']}[:3]}...",  # noqa: invalid-syntax  # TODO: Expected ), found }
-                )}  # noqa: invalid-syntax  # TODO: Expected ,, found )
-                for d in high_switch_days[:10]  # noqa: invalid-syntax  # TODO: Expected an expression or a ]
-            ]  # noqa: invalid-syntax  # TODO: Expected a statement
+                    "context": f"Worked on {len(d['topics'])} different topics: {', '.join(list(d['topics']}[:3]}...",
+                )}
+                for d in high_switch_days[:10]
+            ]
 
             pattern = Pattern(
                 pattern_type="workflow_pattern",
@@ -921,7 +921,7 @@ Found {len(self.detected_patterns)} patterns in your development workflow.
         if automations:
             report += "\n## 🤖 Automation Opportunities\n"
             for i, automation in enumerate(automations[:5], 1):
-                report += f"\n##"pattern']}\n"'  # noqa: invalid-syntax  # TODO: Simple statements must be sepa...
+                report += f"\n##"pattern']}\n"'
                 report += f"- Type: {automation['automation_type']}\n"
                 report += f"- Implementation: {automation['implementation']}\n"
                 report += f"- Time saved: {automation['estimated_time_saved']}\n"
@@ -956,7 +956,7 @@ Found {len(self.detected_patterns)} patterns in your development workflow.
         return report
 
 
-if __name__ == "__main__":  # noqa: invalid-syntax  # TODO: Expected a statement
+if __name__ == "__main__":
     # Example usage
     detector = PatternDetector()
 

@@ -1,4 +1,4 @@
-log = logging.getLogger(__name__)  # noqa: F821  # TODO: logging
+log = logging.getLogger(__name__)
 """
 LUKHAS AI System - Helix DNA Memory Mapper
 File: helix_mapper.py

@@ -398,7 +398,7 @@ class AgentMemoryTraceAnimator:
             nodes_data.append(
                 {
                     "id": node.id,
-                    "label": f"{node.type}: {str(node.content)}[:20]}",  # noqa: invalid-syntax  # TODO: f-string: single } is not allo...
+                    "label": f"{node.type}: {str(node.content)}[:20]}",
                     "type": node.type,
                     "symbolic_tags": node.symbolic_tags or [],
                     "importance": node.importance_score,
@@ -474,12 +474,12 @@ class AgentMemoryTraceAnimator:
         html_content = f"""
 <!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>Workflow: {trace.id}</title>
 <style>
-body {{ background: #0f172a; color: #e2e8f0; font-family: sans-serif; display: flex; flex-direction: column; align-items: center; padding: 20px; }  # noqa: invalid-syntax  # TODO: f-string: single } is not allo...
-.animation-container {{ width: {self.canvas_width}px; height: {self.canvas_height}px; border: 1px solid {colors["primary"]}; position: relative; background: #1e293b; border-radius: 8px; overflow: hidden; }  # noqa: invalid-syntax  # TODO: f-string: single } is not allo...
-.memory-node {{ position: absolute; width: 15px; height: 15px; border-radius: 50%; background: {colors["particles"]}; opacity: 0; transition: opacity 0.5s, transform 0.3s; }  # noqa: invalid-syntax  # TODO: f-string: single } is not allo...
-.memory-node.active {{ opacity: 1; transform: scale(1.1); }  # noqa: invalid-syntax  # TODO: f-string: single } is not allo...
-.info-panel {{ background: rgba(30, 41, 59, 0.8); padding: 10px; border-radius: 5px; margin-bottom:10px; width:100%; max-width:{self.canvas_width}px; }  # noqa: invalid-syntax  # TODO: f-string: single } is not allo...
-.controls button {{ background: {colors["primary"]}; color: white; border: none; padding: 8px 15px; margin: 5px; border-radius: 4px; cursor: pointer; }  # noqa: invalid-syntax  # TODO: f-string: single } is not allo...
+body {{ background: #0f172a; color: #e2e8f0; font-family: sans-serif; display: flex; flex-direction: column; align-items: center; padding: 20px; }
+.animation-container {{ width: {self.canvas_width}px; height: {self.canvas_height}px; border: 1px solid {colors["primary"]}; position: relative; background: #1e293b; border-radius: 8px; overflow: hidden; }
+.memory-node {{ position: absolute; width: 15px; height: 15px; border-radius: 50%; background: {colors["particles"]}; opacity: 0; transition: opacity 0.5s, transform 0.3s; }
+.memory-node.active {{ opacity: 1; transform: scale(1.1); }
+.info-panel {{ background: rgba(30, 41, 59, 0.8); padding: 10px; border-radius: 5px; margin-bottom:10px; width:100%; max-width:{self.canvas_width}px; }
+.controls button {{ background: {colors["primary"]}; color: white; border: none; padding: 8px 15px; margin: 5px; border-radius: 4px; cursor: pointer; }
 </style></head><body>
 <div class="info-panel"><h3>Workflow: {trace.id}</h3><p id="frameCounter">Frame: 0/{len(frames)}</p></div>
 <div class="animation-container" id="canvas"></div>
@@ -493,12 +493,12 @@ class Animator {{
         this.frames = frames; this.canvas = document.getElementById(canvasId);
         this.frameCounter = document.getElementById(counterId); this.nodeColor = nodeColor;
         this.currentFrame = 0; this.isPlaying = false; this.speed = {self.animation_speed}; this.interval = null;
-        this.nodeElements = {{}; this.renderFrame(0);  # noqa: invalid-syntax  # TODO: f-string: single } is not allo...
-    }  # noqa: invalid-syntax  # TODO: f-string: single } is not allo...
+        this.nodeElements = {{}; this.renderFrame(0);
+    }
     renderFrame(idx) {{
         if (idx >= this.frames.length) return;
         const frame = this.frames[idx];
-        this.frameCounter.textContent = `Frame: ${{idx+1}/${"{this.frames.length}"}`;  # noqa: invalid-syntax  # TODO: f-string: single } is not allo...
+        this.frameCounter.textContent = `Frame: ${{idx+1}/${"{this.frames.length}"}`;
 
         Object.values(this.nodeElements).forEach(ne => ne.classList.remove('active'));
         frame.active_nodes.forEach(nodeId => {{
@@ -507,23 +507,23 @@ class Animator {{
                 el.style.left = `${"{Math.random() * (this.canvas.clientWidth - 20) + 10}"}px`;
                 el.style.top = `${"{Math.random() * (this.canvas.clientHeight - 20) + 10}"}px`;
                 this.canvas.appendChild(el); this.nodeElements[nodeId] = el;
-            }  # noqa: invalid-syntax  # TODO: f-string: single } is not allo...
+            }
             this.nodeElements[nodeId].classList.add('active');
             this.nodeElements[nodeId].style.background = this.nodeColor;
-        });  # noqa: invalid-syntax  # TODO: f-string: single } is not allo...
-    }  # noqa: invalid-syntax  # TODO: f-string: single } is not allo...
-    play() {{ if (this.isPlaying) return; this.isPlaying = true; this.loop(); }  # noqa: invalid-syntax  # TODO: f-string: single } is not allo...
-    pause() {{ this.isPlaying = false; clearInterval(this.interval); }  # noqa: invalid-syntax  # TODO: f-string: single } is not allo...
-    reset() {{ this.pause(); this.currentFrame = 0; this.renderFrame(0); }  # noqa: invalid-syntax  # TODO: f-string: single } is not allo...
-    setSpeed(val) {{ this.speed = parseFloat(val); if(this.isPlaying) {{this.pause(); this.play();} }  # noqa: invalid-syntax  # TODO: f-string: single } is not allo...
+        });
+    }
+    play() {{ if (this.isPlaying) return; this.isPlaying = true; this.loop(); }
+    pause() {{ this.isPlaying = false; clearInterval(this.interval); }
+    reset() {{ this.pause(); this.currentFrame = 0; this.renderFrame(0); }
+    setSpeed(val) {{ this.speed = parseFloat(val); if(this.isPlaying) {{this.pause(); this.play();} }
     loop() {{
         this.interval = setInterval(() => {{
             if (!this.isPlaying) return;
             this.renderFrame(this.currentFrame);
             this.currentFrame = (this.currentFrame + 1) % this.frames.length;
-        }, 100 / this.speed);  # noqa: invalid-syntax  # TODO: f-string: single } is not allo...
-    }  # noqa: invalid-syntax  # TODO: f-string: single } is not allo...
-}  # noqa: invalid-syntax  # TODO: f-string: single } is not allo...
+        }, 100 / this.speed);
+    }
+}
 const animFrames = JSON.parse('{js_frames}');
 const anim = new Animator(animFrames, 'canvas', 'frameCounter', "{colors["particles"]}");
 document.addEventListener('DOMContentLoaded', () => anim.renderFrame(0));

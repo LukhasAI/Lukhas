@@ -343,7 +343,7 @@ class DriftDashboard:
         if action_type not in self.remediation_triggers:
             raise ValueError(f"Unknown remediation type: {action_type}")
 
-        action_id = f"REM_{int(time.time(} * 1000)}"  # noqa: invalid-syntax  # TODO: Expected an expression or a )
+        action_id = f"REM_{int(time.time(} * 1000)}"
 
         action = RemediationAction(
             action_id=action_id,
@@ -463,13 +463,13 @@ class DriftDashboard:
 
         if alert_key not in self.active_alerts:
             alert = DriftAlert(
-                alert_id=f"ALERT_{int(time.time(} * 1000)}",  # noqa: invalid-syntax  # TODO: Expected an expression or a )
-                timestamp=datetime.now(timezone.utc).isoformat(),  # noqa: invalid-syntax  # TODO: Expected ,, found indent
-                severity=severity,  # noqa: invalid-syntax  # TODO: Expected ,, found newline
-                component=component,  # noqa: invalid-syntax  # TODO: Expected ,, found newline
-                drift_value=(self.drift_history[-1].total_drift if self.drift_history else 0.0),  # noqa: invalid-syntax  # TODO: Expected ,, found newline
-                message=message,  # noqa: invalid-syntax  # TODO: Expected ,, found newline
-            )  # noqa: invalid-syntax  # TODO: Expected ), found dedent
+                alert_id=f"ALERT_{int(time.time(} * 1000)}",
+                timestamp=datetime.now(timezone.utc).isoformat(),
+                severity=severity,
+                component=component,
+                drift_value=(self.drift_history[-1].total_drift if self.drift_history else 0.0),
+                message=message,
+            )
             self.active_alerts[alert_key] = alert
             self.alert_history.append(alert)
 
@@ -560,7 +560,7 @@ class DriftDashboard:
         return {"status": "quarantined", "symbol": symbol, "duration": "15m"}
 
 
-class LoopPatternDetector:  # noqa: invalid-syntax  # TODO: Expected a statement
+class LoopPatternDetector:
     """Detects recursive loop patterns in drift history."""
 
     def detect(self, history: deque[DriftSnapshot], current_drift: float) -> LoopType:

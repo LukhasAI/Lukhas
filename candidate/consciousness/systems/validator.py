@@ -80,15 +80,15 @@ class ConsciousnessValidator:
         # Implement specific consciousness processing
         # This is a placeholder that should be enhanced based on requirements
 
-        if category == "consciousness":  # noqa: F821  # TODO: category
+        if category == "consciousness":
             return await self._process_consciousness(data)
-        elif category == "governance":  # noqa: F821  # TODO: category
+        elif category == "governance":
             return await self._process_governance(data)
-        elif category == "voice":  # noqa: F821  # TODO: category
+        elif category == "voice":
             return await self._process_voice(data)
-        elif category == "identity":  # noqa: F821  # TODO: category
+        elif category == "identity":
             return await self._process_identity(data)
-        elif category == "quantum":  # noqa: F821  # TODO: category
+        elif category == "quantum":
             return await self._process_quantum(data)
         else:
             return await self._process_generic(data)
@@ -157,17 +157,17 @@ class ConsciousnessValidator:
 # Factory function for easy instantiation
 def create_consciousness_component(
     config: Optional[dict] = None,
-) -> lukhasConsciousnessValidator:  # noqa: F821  # TODO: lukhasConsciousnessValidator
+) -> lukhasConsciousnessValidator:
     """Create and return a consciousness component instance"""
-    return lukhasConsciousnessValidator(config)  # noqa: F821  # TODO: lukhasConsciousnessValidator
+    return lukhasConsciousnessValidator(config)
 
 
 # Async factory function
 async def create_and_initialize_consciousness_component(
     config: Optional[dict] = None,
-) -> lukhasConsciousnessValidator:  # noqa: F821  # TODO: lukhasConsciousnessValidator
+) -> lukhasConsciousnessValidator:
     """Create, initialize and return a consciousness component instance"""
-    component = lukhasConsciousnessValidator(config)  # noqa: F821  # TODO: lukhasConsciousnessValidator
+    component = lukhasConsciousnessValidator(config)
     await component.initialize()
     return component
 
@@ -177,7 +177,7 @@ if __name__ == "__main__":
     import asyncio
 
     async def main():
-        component = lukhasConsciousnessValidator()  # noqa: F821  # TODO: lukhasConsciousnessValidator
+        component = lukhasConsciousnessValidator()
 
         # Initialize
         success = await component.initialize()

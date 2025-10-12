@@ -344,7 +344,7 @@ class NeuralIntegrator:
 
         try:
             # Initialize consciousness integrator connection
-            self.consciousness_integrator = await get_consciousness_integrator()  # noqa: F821  # TODO: get_consciousness_integrator
+            self.consciousness_integrator = await get_consciousness_integrator()
             self.active_processes["consciousness"] = True
             logger.info("Consciousness integrator connected")
 
@@ -457,7 +457,7 @@ class NeuralIntegrator:
                         "new_mode": new_mode.value,
                         "previous_mode": self.current_mode.value,
                     },
-                    priority=IntegrationPriority.HIGH,  # noqa: F821  # TODO: IntegrationPriority
+                    priority=IntegrationPriority.HIGH,
                 )
                 await self.consciousness_integrator.submit_event(event)
 
@@ -589,7 +589,7 @@ class NeuralIntegrator:
                 event_type="neural_insights",
                 source_module="neural",
                 data=neural_insights,
-                priority=IntegrationPriority.MEDIUM,  # noqa: F821  # TODO: IntegrationPriority
+                priority=IntegrationPriority.MEDIUM,
             )
 
             await self.consciousness_integrator.submit_event(event)
@@ -742,7 +742,7 @@ class NeuralIntegrator:
                 }
                 for name, (network, metrics) in zip(
                     self.neural_networks.keys(),
-                    [(n, self.performance_metrics[name]) for n in self.neural_networks.values()],  # noqa: F821  # TODO: name
+                    [(n, self.performance_metrics[name]) for n in self.neural_networks.values()],
                 )
             },
             "pattern_database_size": len(self.pattern_database),

@@ -84,7 +84,7 @@ class MemoryNode:
             Memory ID
         """
         # Generate a unique ID
-        memory_id = f"mem_{int(time.time())}_{str(uuid.uuid4()}[:8]}"  # noqa: invalid-syntax  # TODO: Expected ,, found }
+        memory_id = f"mem_{int(time.time())}_{str(uuid.uuid4()}[:8]}"
 
         # Prepare metadata
         metadata = metadata or {}

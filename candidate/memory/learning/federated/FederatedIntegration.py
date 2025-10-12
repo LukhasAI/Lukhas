@@ -68,7 +68,7 @@ class Federatednode:
     last_sync: datetime
     capabilities: set[str] = field(default_factory=set)
     trust_score: float = 1.0
-    privacy_level: PrivacyLevel = PrivacyLevel.HIGH  # noqa: F821  # TODO: PrivacyLevel
+    privacy_level: PrivacyLevel = PrivacyLevel.HIGH
     qi_signature: str = ""
 
     def __post_init__(self):
@@ -107,16 +107,16 @@ class Federatedlearningintegration:
     def __init__(
         self,
         node_id: str,
-        federation_strategy: FederationStrategy = FederationStrategy.BALANCED_HYBRID,  # noqa: F821  # TODO: FederationStrategy
-        privacy_level: PrivacyLevel = PrivacyLevel.HIGH,  # noqa: F821  # TODO: PrivacyLevel
+        federation_strategy: FederationStrategy = FederationStrategy.BALANCED_HYBRID,
+        privacy_level: PrivacyLevel = PrivacyLevel.HIGH,
     ):
         self.node_id = node_id
         self.federation_strategy = federation_strategy
         self.privacy_level = privacy_level
 
         # Core components
-        self.nodes: dict[str, FederatedNode] = {}  # noqa: F821  # TODO: FederatedNode
-        self.pending_updates: list[FederatedLearningUpdate] = []  # noqa: F821  # TODO: FederatedLearningUpdate
+        self.nodes: dict[str, FederatedNode] = {}
+        self.pending_updates: list[FederatedLearningUpdate] = []
         self.shared_insights: dict[str, Any] = {}
         self.ethical_constraints: dict[str, Any] = {}
 
@@ -159,7 +159,7 @@ class Federatedlearningintegration:
             logger.warning(f"Node {node_id} rejected: insufficient ethical compliance")
             return False
 
-        node = FederatedNode(  # noqa: F821  # TODO: FederatedNode
+        node = FederatedNode(
             node_id=node_id,
             node_type=node_type,
             ethical_compliance_score=ethical_compliance_score,
@@ -196,7 +196,7 @@ class Federatedlearningintegration:
         # Ethical audit
         ethical_passed = self._ethical_audit_insight(insight_type, filtered_content)
 
-        update = FederatedLearningUpdate(  # noqa: F821  # TODO: FederatedLearningUpdate
+        update = FederatedLearningUpdate(
             source_node_id=self.node_id,
             update_type=insight_type,
             content=filtered_content,
@@ -427,11 +427,11 @@ class Federatedlearningintegration:
     def _apply_privacy_filter(self, content: dict[str, Any]) -> dict[str, Any]:
         """Apply privacy filtering based on current privacy level"""
 
-        if self.privacy_level == PrivacyLevel.MAXIMUM:  # noqa: F821  # TODO: PrivacyLevel
+        if self.privacy_level == PrivacyLevel.MAXIMUM:
             # Only share highly aggregated insights
             return {"aggregated_metrics": content.get("summary", {})}
 
-        elif self.privacy_level == PrivacyLevel.HIGH:  # noqa: F821  # TODO: PrivacyLevel
+        elif self.privacy_level == PrivacyLevel.HIGH:
             # Share anonymized patterns
             filtered = {}
             for key, value in content.items():
@@ -439,7 +439,7 @@ class Federatedlearningintegration:
                     filtered[key] = self._anonymize_data(value)
             return filtered
 
-        elif self.privacy_level == PrivacyLevel.MODERATE:  # noqa: F821  # TODO: PrivacyLevel
+        elif self.privacy_level == PrivacyLevel.MODERATE:
             # Selective sharing
             return {k: v for k, v in content.items() if k not in ["raw_data", "user_specific", "detailed_logs"]}
 
@@ -456,7 +456,7 @@ class Federatedlearningintegration:
             return False
 
         # Check insight type appropriateness
-        if insight_type in ["user_behavior", "personal_preferences"] and self.privacy_level == PrivacyLevel.MAXIMUM:  # noqa: F821  # TODO: PrivacyLevel
+        if insight_type in ["user_behavior", "personal_preferences"] and self.privacy_level == PrivacyLevel.MAXIMUM:
             return False
 
         # Validate ethical compliance
@@ -467,7 +467,7 @@ class Federatedlearningintegration:
         data = f"{self.node_id}_{insight_type}_{json.dumps(content, sort_keys=True)}_{time.time()}"
         return hashlib.sha256(data.encode()).hexdigest()[:16]
 
-    def _process_federation_update(self, update: FederatedLearningUpdate) -> dict[str, Any]:  # noqa: F821  # TODO: FederatedLearningUpdate
+    def _process_federation_update(self, update: FederatedLearningUpdate) -> dict[str, Any]:
         """Process an incoming federation update"""
 
         processed = {
@@ -516,11 +516,11 @@ class Federatedlearningintegration:
         """Calculate coordinated learning rate for federation node"""
 
         # Federation coordination strategy
-        if self.federation_strategy == FederationStrategy.CONSERVATIVE_SYNC:  # noqa: F821  # TODO: FederationStrategy
+        if self.federation_strategy == FederationStrategy.CONSERVATIVE_SYNC:
             return base_rate * 0.8 * ethical_factor
-        elif self.federation_strategy == FederationStrategy.AGGRESSIVE_SHARE:  # noqa: F821  # TODO: FederationStrategy
+        elif self.federation_strategy == FederationStrategy.AGGRESSIVE_SHARE:
             return base_rate * 1.2 * convergence_factor
-        elif self.federation_strategy == FederationStrategy.ETHICAL_PRIORITY:  # noqa: F821  # TODO: FederationStrategy
+        elif self.federation_strategy == FederationStrategy.ETHICAL_PRIORITY:
             return base_rate * ethical_factor * ethical_factor  # Squared ethical factor
         else:  # BALANCED_HYBRID or SYMBOLIC_GUIDED
             return base_rate * (convergence_factor + ethical_factor) / 2
@@ -614,7 +614,7 @@ class Federatedlearningintegration:
 
         return insights
 
-    def _should_sync_with_node(self, node: FederatedNode) -> bool:  # noqa: F821  # TODO: FederatedNode
+    def _should_sync_with_node(self, node: FederatedNode) -> bool:
         """Determine if we should synchronize with a specific node"""
 
         # Check trust threshold
@@ -632,7 +632,7 @@ class Federatedlearningintegration:
 
         return True
 
-    def _synchronize_with_node(self, node: FederatedNode) -> dict[str, Any]:  # noqa: F821  # TODO: FederatedNode
+    def _synchronize_with_node(self, node: FederatedNode) -> dict[str, Any]:
         """Synchronize with a specific federation node"""
 
         sync_result = {
@@ -790,7 +790,7 @@ class Federatedlearningintegration:
 def enhance_meta_learning_with_federation(
     meta_learning_systems: list[Any],
     node_id: str = "lukhas_primary",
-    federation_strategy: FederationStrategy = FederationStrategy.BALANCED_HYBRID,  # noqa: F821  # TODO: FederationStrategy
+    federation_strategy: FederationStrategy = FederationStrategy.BALANCED_HYBRID,
 ) -> dict[str, Any]:
     """
     Enhance existing MetaLearningSystem instances with federated learning capabilities
@@ -799,7 +799,7 @@ def enhance_meta_learning_with_federation(
     LUKHAS MetaLearningSystem implementations found across the codebase.
     """
 
-    federation = FederatedLearningIntegration(node_id=node_id, federation_strategy=federation_strategy)  # noqa: F821  # TODO: FederatedLearningIntegration
+    federation = FederatedLearningIntegration(node_id=node_id, federation_strategy=federation_strategy)
 
     enhancement_results = {
         "systems_enhanced": 0,
@@ -831,9 +831,9 @@ def enhance_meta_learning_with_federation(
 
 if __name__ == "__main__":
     # Example usage and testing
-    federation = FederatedLearningIntegration(  # noqa: F821  # TODO: FederatedLearningIntegration
+    federation = FederatedLearningIntegration(
         node_id="lukhas_test_node",
-        federation_strategy=FederationStrategy.ETHICAL_PRIORITY,  # noqa: F821  # TODO: FederationStrategy
+        federation_strategy=FederationStrategy.ETHICAL_PRIORITY,
     )
 
     # Register test nodes

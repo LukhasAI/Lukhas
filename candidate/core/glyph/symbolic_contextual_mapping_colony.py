@@ -513,7 +513,7 @@ class ContextualMappingColony(BaseColony):
     ) -> dict[str, float]:
         """Get colony consensus on GLYPH mappings."""
         # Check cache
-        cache_key = f"{sorted(glyphs.items())}_{datetime.now(timezone.utc)}.minute}"  # noqa: invalid-syntax  # TODO: f-string: single } is not allo...
+        cache_key = f"{sorted(glyphs.items())}_{datetime.now(timezone.utc)}.minute}"
         if cache_key in self.consensus_cache:
             cached_time, cached_value = self.consensus_cache[cache_key]
             if datetime.now(timezone.utc) - cached_time < self.consensus_ttl:

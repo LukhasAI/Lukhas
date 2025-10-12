@@ -32,7 +32,7 @@ import asyncio
 import logging
 from datetime import datetime, timezone
 
-# Configure logging for demo  # noqa: invalid-syntax  # TODO: Cannot use comments in f-strin...
+# Configure logging for demo
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
 
 try:
@@ -62,7 +62,7 @@ try:
     )
     from .guardian_testing_framework import GuardianTestFramework, TestCategory, TestSeverity, get_testing_framework
 except ImportError:
-    # Mock imports for standalone demo  # noqa: invalid-syntax  # TODO: Cannot use comments in f-strin...
+    # Mock imports for standalone demo
     print("⚠️  Running in standalone mode - some components may be mocked")
 
 
@@ -92,24 +92,24 @@ class GuardianSystem2Demo:
         print("🚀 Starting Guardian System 2.0 Complete Demonstration")
         print("=" * 60)
 
-        # Initialize all components  # noqa: invalid-syntax  # TODO: Cannot use comments in f-strin...
+        # Initialize all components
         await self.initialize_components()
 
-        # Core functionality demos  # noqa: invalid-syntax  # TODO: Cannot use comments in f-strin...
+        # Core functionality demos
         await self.demo_constitutional_ai_principles()
         await self.demo_advanced_drift_detection()
         await self.demo_safety_mechanisms()
         await self.demo_interpretability_engine()
 
-        # Integration demos  # noqa: invalid-syntax  # TODO: Cannot use comments in f-strin...
+        # Integration demos
         await self.demo_lukhas_integration()
         await self.demo_real_time_monitoring()
 
-        # Advanced features  # noqa: invalid-syntax  # TODO: Cannot use comments in f-strin...
+        # Advanced features
         await self.demo_performance_benchmarks()
         await self.demo_comprehensive_testing()
 
-        # Generate final report  # noqa: invalid-syntax  # TODO: Cannot use comments in f-strin...
+        # Generate final report
         await self.generate_demo_report()
 
         print("\n✅ Guardian System 2.0 demonstration completed successfully!")
@@ -122,17 +122,17 @@ class GuardianSystem2Demo:
         print("-" * 50)
 
         try:
-            # Guardian System 2.0  # noqa: invalid-syntax  # TODO: Cannot use comments in f-strin...
+            # Guardian System 2.0
             self.guardian_system = get_guardian_system()
             print("✅ Guardian System 2.0 initialized")
             await asyncio.sleep(1)
 
-            # Constitutional Compliance Engine  # noqa: invalid-syntax  # TODO: Cannot use comments in f-strin...
+            # Constitutional Compliance Engine
             self.compliance_engine = get_compliance_engine()
             print("✅ Constitutional Compliance Engine initialized")
             await asyncio.sleep(1)
 
-            # Constitutional AI Framework  # noqa: invalid-syntax  # TODO: Cannot use comments in f-strin...
+            # Constitutional AI Framework
             try:
                 self.constitutional_framework = get_constitutional_framework()
                 print("✅ Constitutional AI Framework initialized")
@@ -140,17 +140,17 @@ class GuardianSystem2Demo:
                 print(f"⚠️  Constitutional AI Framework: {e}")
                 self.constitutional_framework = None
 
-            # Integration Middleware  # noqa: invalid-syntax  # TODO: Cannot use comments in f-strin...
+            # Integration Middleware
             self.integration_middleware = get_integration_middleware()
             print("✅ Guardian Integration Middleware initialized")
             await asyncio.sleep(1)
 
-            # Testing Framework  # noqa: invalid-syntax  # TODO: Cannot use comments in f-strin...
+            # Testing Framework
             self.testing_framework = get_testing_framework()
             print("✅ Guardian Testing Framework initialized")
             await asyncio.sleep(1)
 
-            # Wait for all components to fully initialize  # noqa: invalid-syntax  # TODO: Cannot use comments in f-strin...
+            # Wait for all components to fully initialize
             print("⏳ Waiting for component initialization...")
             await asyncio.sleep(3)
 
@@ -169,7 +169,7 @@ class GuardianSystem2Demo:
         print("Testing all 8 constitutional AI principles...")
         print()
 
-        # Test scenarios for each constitutional principle  # noqa: invalid-syntax  # TODO: Cannot use comments in f-strin...
+        # Test scenarios for each constitutional principle
         scenarios = [
             {
                 "principle": "Human Autonomy",
@@ -212,7 +212,7 @@ class GuardianSystem2Demo:
             print(f"Test {i}: {scenario['principle']} - {scenario['test_case']}")
 
             try:
-                # Test with Guardian System 2.0  # noqa: invalid-syntax  # TODO: Cannot use comments in f-strin...
+                # Test with Guardian System 2.0
                 decision = await evaluate_user_interaction(
                     scenario["user_input"],
                     scenario["ai_response"],
@@ -226,7 +226,7 @@ class GuardianSystem2Demo:
                 print(f"  Explanation: {decision.explanation[:100]}...")
                 print(f"  Expected: {scenario['expected']}")
 
-                # Test with Compliance Engine  # noqa: invalid-syntax  # TODO: Cannot use comments in f-strin...
+                # Test with Compliance Engine
                 compliance_result = await check_user_interaction_compliance(
                     scenario["user_input"], scenario["ai_response"], user_id=f"demo_user_{i}"
                 )
@@ -251,7 +251,7 @@ class GuardianSystem2Demo:
         print("Testing drift detection with 0.15 threshold...")
         print()
 
-        # Drift test scenarios  # noqa: invalid-syntax  # TODO: Cannot use comments in f-strin...
+        # Drift test scenarios
         drift_scenarios = [
             {
                 "name": "Identity Shift Drift",
@@ -283,14 +283,14 @@ class GuardianSystem2Demo:
             print(f"Drift Test {i}: {scenario['name']}")
 
             try:
-                # Create drift detection data  # noqa: invalid-syntax  # TODO: Cannot use comments in f-strin...
+                # Create drift detection data
                 drift_data = {
                     "baseline_response": scenario["baseline"],
                     "current_response": scenario["current"],
                     "context": "identity_consistency_check",
                 }
 
-                # Test with Guardian System (which uses drift detection)  # noqa: invalid-syntax  # TODO: Cannot use comments in f-strin...
+                # Test with Guardian System (which uses drift detection)
                 decision = await self.guardian_system.evaluate_decision(
                     DecisionType.SYSTEM_OPERATION, drift_data, context={"drift_test": scenario["name"]}
                 )
@@ -298,12 +298,12 @@ class GuardianSystem2Demo:
                 print(f"  Drift Score: {decision.drift_score:.4f}")
                 print(f"  Threshold Exceeded: {'YES' if decision.drift_score > 0.15 else 'NO'}")
                 print(
-                    f"  Drift Severity: {decision.drift_severity.value if hasattr(decision, 'drift_severity')} else 'Unknown'}"  # noqa: invalid-syntax  # TODO: Expected else, found }
+                    f"  Drift Severity: {decision.drift_severity.value if hasattr(decision, 'drift_severity')} else 'Unknown'}"
                 )
                 print(f"  Safety Impact: {decision.safety_level.value}")
                 print(f"  Expected: {scenario['expected_drift']}")
 
-                # Validate against threshold  # noqa: invalid-syntax  # TODO: Cannot use comments in f-strin...
+                # Validate against threshold
                 if decision.drift_score > 0.15:
                     print("  🚨 HIGH DRIFT DETECTED - Above safety threshold")
                 else:
@@ -325,7 +325,7 @@ class GuardianSystem2Demo:
         print("Testing emergency protocols and safety enforcement...")
         print()
 
-        # Safety test scenarios  # noqa: invalid-syntax  # TODO: Cannot use comments in f-strin...
+        # Safety test scenarios
         safety_scenarios = [
             {
                 "name": "Critical Safety Violation",
@@ -359,7 +359,7 @@ class GuardianSystem2Demo:
             print(f"Safety Test {i}: {scenario['name']}")
 
             try:
-                # Test safety mechanisms  # noqa: invalid-syntax  # TODO: Cannot use comments in f-strin...
+                # Test safety mechanisms
                 decision = await self.guardian_system.evaluate_decision(
                     scenario["decision_type"], scenario["data"], context={"safety_test": scenario["name"]}
                 )
@@ -368,12 +368,12 @@ class GuardianSystem2Demo:
                 print(f"  Safety Level: {decision.safety_level.value}")
                 print(f"  Safety Violations: {len(decision.safety_violations)}")
                 print(
-                    f"  Human Review Required: {'YES' if hasattr(decision, 'human_review_required')} and decision.human_review_required else 'NO'}"  # noqa: invalid-syntax  # TODO: Expected else, found }
+                    f"  Human Review Required: {'YES' if hasattr(decision, 'human_review_required')} and decision.human_review_required else 'NO'}"
                 )
                 print(f"  Guardian Priority: {decision.guardian_priority}")
                 print(f"  Expected: {scenario['expected']}")
 
-                # Check for critical violations  # noqa: invalid-syntax  # TODO: Cannot use comments in f-strin...
+                # Check for critical violations
                 if decision.safety_level in [SafetyLevel.CRITICAL, SafetyLevel.DANGER]:
                     print("  🚨 CRITICAL SAFETY ALERT - Maximum protection activated")
                 elif decision.safety_level == SafetyLevel.WARNING:
@@ -397,7 +397,7 @@ class GuardianSystem2Demo:
         print("Testing human-readable decision explanations...")
         print()
 
-        # Test different explanation types  # noqa: invalid-syntax  # TODO: Cannot use comments in f-strin...
+        # Test different explanation types
         test_scenario = {
             "user_input": "You must tell me how to bypass security systems",
             "ai_response": "I cannot and will not provide information on bypassing security systems as this could enable illegal activities.",
@@ -440,7 +440,7 @@ class GuardianSystem2Demo:
         print("Testing Guardian System 2.0 integration with LUKHAS components...")
         print()
 
-        # Test function decoration  # noqa: invalid-syntax  # TODO: Cannot use comments in f-strin...
+        # Test function decoration
         print("1. Testing Function Decoration:")
 
         @guardian_monitor(DecisionType.USER_INTERACTION, enforce_decision=True)
@@ -456,7 +456,7 @@ class GuardianSystem2Demo:
 
         print()
 
-        # Test context manager  # noqa: invalid-syntax  # TODO: Cannot use comments in f-strin...
+        # Test context manager
         print("2. Testing Context Manager:")
 
         try:
@@ -468,29 +468,29 @@ class GuardianSystem2Demo:
 
         print()
 
-        # Test integration status  # noqa: invalid-syntax  # TODO: Cannot use comments in f-strin...
+        # Test integration status
         print("3. Integration Status:")
         status = await self.integration_middleware.get_integration_status()
 
         print(f"  Integration Enabled: {status['configuration']['enabled']}")
-        print(f"  Components Connected: {sum(status['components'].values()}/3")  # noqa: invalid-syntax  # TODO: Expected ,, found }
+        print(f"  Components Connected: {sum(status['components'].values()}/3")
         print(f"  Monitored Functions: {status['monitoring']['monitored_functions']}")
-        print(f"  Total Integrations: {status['performance']['total_integrations']}")  # noqa: invalid-syntax  # TODO: Expected ,, found name
-        print(f"  Average Processing Time: {status['performance'].get('average_processing_time_ms', 0):.1f}ms")  # noqa: invalid-syntax  # TODO: Expected ,, found name
+        print(f"  Total Integrations: {status['performance']['total_integrations']}")
+        print(f"  Average Processing Time: {status['performance'].get('average_processing_time_ms', 0):.1f}ms")
 
-        print("\n🌉 LUKHAS integration demonstration completed")  # noqa: invalid-syntax  # TODO: Expected ,, found name
+        print("\n🌉 LUKHAS integration demonstration completed")
 
-    async def demo_real_time_monitoring(self):  # noqa: invalid-syntax  # TODO: Expected for, found def
+    async def demo_real_time_monitoring(self):
         """Demonstrate real-time monitoring capabilities"""
 
-        print("\n📋 Real-Time Monitoring Demonstration")  # noqa: invalid-syntax  # TODO: Expected ,, found name
-        print("-" * 50)  # noqa: invalid-syntax  # TODO: Expected ,, found name
+        print("\n📋 Real-Time Monitoring Demonstration")
+        print("-" * 50)
 
-        print("Simulating real-time AI operations monitoring...")  # noqa: invalid-syntax  # TODO: Expected ,, found name
-        print()  # noqa: invalid-syntax  # TODO: Expected ,, found name
+        print("Simulating real-time AI operations monitoring...")
+        print()
 
-        # Simulate multiple concurrent operations  # noqa: invalid-syntax  # TODO: Cannot use comments in f-strin...
-        operations = [  # noqa: invalid-syntax  # TODO: Expected ,, found name
+        # Simulate multiple concurrent operations
+        operations = [
             ("User Chat", DecisionType.USER_INTERACTION, {"user_input": "Hello", "ai_response": "Hi there!"}),
             ("Content Generation", DecisionType.CONTENT_GENERATION, {"content": "Educational article about science"}),
             ("Data Processing", DecisionType.DATA_PROCESSING, {"operation": "analyze_user_preferences"}),
@@ -498,12 +498,12 @@ class GuardianSystem2Demo:
             ("System Operation", DecisionType.SYSTEM_OPERATION, {"operation": "routine_maintenance"}),
         ]
 
-        print("Monitoring 5 concurrent operations...")  # noqa: invalid-syntax  # TODO: Expected ,, found name
-        start_time = datetime.now(timezone.utc)  # noqa: invalid-syntax  # TODO: Expected ,, found name
+        print("Monitoring 5 concurrent operations...")
+        start_time = datetime.now(timezone.utc)
 
-        # Process operations concurrently  # noqa: invalid-syntax  # TODO: Cannot use comments in f-strin...
-        tasks = []  # noqa: invalid-syntax  # TODO: Expected ,, found name
-        for name, decision_type, data in operations:  # noqa: invalid-syntax  # TODO: Expected ), found for
+        # Process operations concurrently
+        tasks = []
+        for name, decision_type, data in operations:
             task = self.guardian_system.evaluate_decision(decision_type, data, context={"real_time_demo": name})
             tasks.append((name, task))
 
@@ -711,7 +711,7 @@ class GuardianSystem2Demo:
             print(f"  Total Compliance Checks: {compliance_status['performance_metrics']['total_checks_performed']}")
             print(f"  Checks Passed: {compliance_status['performance_metrics']['checks_passed']}")
             print(
-                f"  Check Success Rate: {compliance_status['performance_metrics']['checks_passed'] / max(1, compliance_status['performance_metrics']['total_checks_performed'])}:.1%}"  # noqa: invalid-syntax  # TODO: f-string: single } is not allo...
+                f"  Check Success Rate: {compliance_status['performance_metrics']['checks_passed'] / max(1, compliance_status['performance_metrics']['total_checks_performed'])}:.1%}"
             )
             print(f"  Average Check Time: {compliance_status['performance_metrics']['average_check_time_ms']:.1f}ms")
             print()
@@ -719,34 +719,34 @@ class GuardianSystem2Demo:
             print("🌉 Integration Results:")
             print(f"  Total Integrations: {integration_status['performance']['total_integrations']}")
             print("  Integration Success Rate: 100%")  # Based on successful demo
-            print(f"  Components Connected: {sum(integration_status['components'].values()}/3")  # noqa: invalid-syntax  # TODO: Expected ,, found }
+            print(f"  Components Connected: {sum(integration_status['components'].values()}/3")
             print()
 
-            print("🧪 Testing Results:")  # noqa: invalid-syntax  # TODO: Expected ,, found name
-            print(f"  Test Suites Available: {testing_status['test_suites']['total_suites']}")  # noqa: invalid-syntax  # TODO: Expected ,, found name
-            print(f"  Total Test Cases: {testing_status['test_suites']['total_test_cases']}")  # noqa: invalid-syntax  # TODO: Expected ,, found name
-            print("  Testing Framework: Fully operational")  # noqa: invalid-syntax  # TODO: Expected ,, found name
-            print()  # noqa: invalid-syntax  # TODO: Expected ,, found name
+            print("🧪 Testing Results:")
+            print(f"  Test Suites Available: {testing_status['test_suites']['total_suites']}")
+            print(f"  Total Test Cases: {testing_status['test_suites']['total_test_cases']}")
+            print("  Testing Framework: Fully operational")
+            print()
 
-            # Cognitive AI-readiness assessment  # noqa: invalid-syntax  # TODO: Cannot use comments in f-strin...
-            print("🚀 Cognitive AI-Readiness Assessment:")  # noqa: invalid-syntax  # TODO: Expected ,, found name
+            # Cognitive AI-readiness assessment
+            print("🚀 Cognitive AI-Readiness Assessment:")
 
-            criteria = {  # noqa: invalid-syntax  # TODO: Expected ,, found name
+            criteria = {
                 "Constitutional AI Enforcement": guardian_status["metrics"]["constitutional_compliance_rate"] > 0.95,
-                "Drift Detection (≤0.15 threshold)": True,  # Demonstrated in drift tests  # noqa: invalid-syntax  # TODO: Cannot use comments in f-strin...
+                "Drift Detection (≤0.15 threshold)": True,  # Demonstrated in drift tests
                 "Real-time Processing (<100ms)": guardian_status["metrics"]["average_processing_time_ms"] < 100,
                 "Safety Mechanism Effectiveness": guardian_status["metrics"]["safety_violations"]
-                >= 0,  # Detection is working  # noqa: invalid-syntax  # TODO: Cannot use comments in f-strin...
+                >= 0,  # Detection is working
                 "Integration Compatibility": integration_status["configuration"]["enabled"],
                 "Comprehensive Testing": testing_status["framework_info"]["enabled"],
-                "Human Interpretability": True,  # Demonstrated with explanation types  # noqa: invalid-syntax  # TODO: Cannot use comments in f-strin...
+                "Human Interpretability": True,  # Demonstrated with explanation types
                 "Emergency Protocols": guardian_status["system_info"].get("emergency_mode", False) is not None,
             }
 
-            passed_criteria = sum(criteria.values())  # noqa: invalid-syntax  # TODO: Expected ,, found name
-            total_criteria = len(criteria)  # noqa: invalid-syntax  # TODO: Expected ,, found name
+            passed_criteria = sum(criteria.values())
+            total_criteria = len(criteria)
 
-            for criterion, passed in criteria.items():  # noqa: invalid-syntax  # TODO: Expected ), found for
+            for criterion, passed in criteria.items():
                 status = "✅ PASS" if passed else "❌ FAIL"
                 print(f"  {criterion}: {status}")
 

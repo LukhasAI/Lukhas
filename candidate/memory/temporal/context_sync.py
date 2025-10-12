@@ -18,7 +18,7 @@ from datetime import datetime, timezone
 
 from memory_log_filter import filter_by_date_range, filter_by_tag, summarize_recent
 
-lukhas_context_sync.py  # noqa: F821  # TODO: lukhas_context_sync
+lukhas_context_sync.py
 # ════════════════════════════════════════════════════════════════════════
 # 📁 FILE: lukhas_context_sync.py
 # 🧠 PURPOSE: Generate a daily symbolic context summary for Lukhas from memories, time, location, and user activity

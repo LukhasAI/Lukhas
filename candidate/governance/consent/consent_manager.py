@@ -239,7 +239,7 @@ class AdvancedConsentManager:
             "consent_by_purpose": {},
             "consent_by_regime": {},
             "withdrawal_rate": 0.0,
-            "last_updated": datetime.now(timezone.utc).isoformat(),  # noqa: F821  # TODO: timezone
+            "last_updated": datetime.now(timezone.utc).isoformat(),
         }
 
         # Initialize standard purposes
@@ -400,7 +400,7 @@ class AdvancedConsentManager:
                     consent for consent in active_consents if consent.purpose.purpose_id in purpose_ids
                 ]
 
-            withdrawal_time = datetime.now(timezone.utc)  # noqa: F821  # TODO: timezone
+            withdrawal_time = datetime.now(timezone.utc)
 
             for consent in consents_to_withdraw:
                 # Update consent record
@@ -467,10 +467,10 @@ class AdvancedConsentManager:
                 }
 
             # Check expiration
-            if consent.expires_at and datetime.now(timezone.utc) > consent.expires_at:  # noqa: F821  # TODO: timezone
+            if consent.expires_at and datetime.now(timezone.utc) > consent.expires_at:
                 # Update status to expired
                 consent.status = ConsentStatus.EXPIRED
-                consent.updated_at = datetime.now(timezone.utc)  # noqa: F821  # TODO: timezone
+                consent.updated_at = datetime.now(timezone.utc)
 
                 return {
                     "valid": False,
@@ -521,7 +521,7 @@ class AdvancedConsentManager:
         """Create a new consent record"""
 
         consent_id = f"consent_{uuid.uuid4().hex[:12]}"
-        current_time = datetime.now(timezone.utc)  # noqa: F821  # TODO: timezone
+        current_time = datetime.now(timezone.utc)
 
         # Calculate expiration date
         expires_at = None
@@ -619,7 +619,7 @@ class AdvancedConsentManager:
         """Generate GDPR-compliant consent receipt"""
 
         receipt_id = f"receipt_{uuid.uuid4().hex[:12]}"
-        current_time = datetime.now(timezone.utc)  # noqa: F821  # TODO: timezone
+        current_time = datetime.now(timezone.utc)
 
         receipt_data = {
             "receipt_id": receipt_id,
@@ -670,9 +670,9 @@ class AdvancedConsentManager:
                 and consent.status == ConsentStatus.GRANTED
             ):
                 # Check expiration
-                if consent.expires_at and datetime.now(timezone.utc) > consent.expires_at:  # noqa: F821  # TODO: timezone
+                if consent.expires_at and datetime.now(timezone.utc) > consent.expires_at:
                     consent.status = ConsentStatus.EXPIRED
-                    consent.updated_at = datetime.now(timezone.utc)  # noqa: F821  # TODO: timezone
+                    consent.updated_at = datetime.now(timezone.utc)
                     continue
 
                 return consent
@@ -702,7 +702,7 @@ class AdvancedConsentManager:
 
             # Add guardian validation for immediate effect
             consent.guardian_validations.append(
-                f"Data processing stopped immediately upon withdrawal at {datetime.now(timezone.utc)}"  # noqa: F821  # TODO: timezone
+                f"Data processing stopped immediately upon withdrawal at {datetime.now(timezone.utc)}"
             )
 
     async def _update_metrics(self):
@@ -720,7 +720,7 @@ class AdvancedConsentManager:
                 "withdrawn_consents": withdrawn_consents,
                 "expired_consents": expired_consents,
                 "withdrawal_rate": withdrawn_consents / total_consents if total_consents > 0 else 0.0,
-                "last_updated": datetime.now(timezone.utc).isoformat(),  # noqa: F821  # TODO: timezone
+                "last_updated": datetime.now(timezone.utc).isoformat(),
             }
         )
 
@@ -845,7 +845,7 @@ class AdvancedConsentManager:
         """Clean up expired consent records"""
 
         cleanup_count = 0
-        current_time = datetime.now(timezone.utc)  # noqa: F821  # TODO: timezone
+        current_time = datetime.now(timezone.utc)
 
         for consent in self.consent_records.values():
             if consent.expires_at and current_time > consent.expires_at and consent.status == ConsentStatus.GRANTED:

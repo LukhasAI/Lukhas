@@ -205,9 +205,9 @@ class GlyphRedactorEngine:  # #ΛPSEUDOCODE
             # ΛSCRUBBED (text_label)
             level_short = glyph_sensitivity_level.split("_")[0] if "_" in glyph_sensitivity_level else "SENSITIVE"
             return f"{REDACTION_TEXT_PREFIX}{level_short}{REDACTION_TEXT_SUFFIX}"
-    public_redactor = GlyphRedactorEngine(public_context, provider)  # noqa: F821  # TODO: GlyphRedactorEngine
+    public_redactor = GlyphRedactorEngine(public_context, provider)
 
-    redacted_line_1_public = public_redactor.redact_stream(log_line_1, redaction_mode="obfuscate")  # noqa: F821  # TODO: log_line_1
+    redacted_line_1_public = public_redactor.redact_stream(log_line_1, redaction_mode="obfuscate")
     log.info("Redacted for Public (G0)", line=redacted_line_1_public)
     # Expected for Public (G0 allows only G0, obfuscates G1, G2, G3, G4):
     # System check ✅, all normal. Process 🕳️ flow A->B. Minor 🕳️ noted. User
@@ -218,9 +218,9 @@ class GlyphRedactorEngine:  # #ΛPSEUDOCODE
         "user_tier": "G4_RESTRICTED_CLEARANCE",
         "agent_id": "sys_admin_console",
     }
-    admin_redactor = GlyphRedactorEngine(admin_context, provider)  # noqa: F821  # TODO: GlyphRedactorEngine
+    admin_redactor = GlyphRedactorEngine(admin_context, provider)
 
-    redacted_line_1_admin = admin_redactor.redact_stream(log_line_1, redaction_mode="strict")  # noqa: F821  # TODO: log_line_1
+    redacted_line_1_admin = admin_redactor.redact_stream(log_line_1, redaction_mode="strict")
     log.info(
         "Redacted for Admin (G4) - (no redactions expected)",
         line=redacted_line_1_admin,

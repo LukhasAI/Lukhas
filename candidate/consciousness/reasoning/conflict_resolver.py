@@ -477,13 +477,13 @@ class SymbolicConflictResolver:
 
             # Emit different trace types based on resolution mode
             if result.resolution_mode == ResolutionMode.MERGE:
-                reconcile_logger.info("Conflict merge resolution", **trace_record)  # noqa: F821  # TODO: reconcile_logger
+                reconcile_logger.info("Conflict merge resolution", **trace_record)
             elif result.resolution_mode == ResolutionMode.SUPPRESS:
-                suppress_logger.info("Conflict suppression", **trace_record)  # noqa: F821  # TODO: suppress_logger
+                suppress_logger.info("Conflict suppression", **trace_record)
             elif result.resolution_mode == ResolutionMode.ESCALATE:
-                escalate_logger.warning("Conflict escalation", **trace_record)  # noqa: F821  # TODO: escalate_logger
+                escalate_logger.warning("Conflict escalation", **trace_record)
             else:
-                resolve_logger.info("Conflict resolution", **trace_record)  # noqa: F821  # TODO: resolve_logger
+                resolve_logger.info("Conflict resolution", **trace_record)
 
             # Write to JSON audit log
             self._write_resolution_audit_log(trace_record)
@@ -1103,7 +1103,7 @@ class SymbolicConflictResolver:
 
             # In a real implementation, this would write to actual files
             # For now, use structured logging
-            audit_logger.info("Conflict resolution audit", **trace_record)  # noqa: F821  # TODO: audit_logger
+            audit_logger.info("Conflict resolution audit", **trace_record)
 
         except Exception as e:
             self.logger.error("Failed to write resolution audit log", error=str(e))
@@ -1111,7 +1111,7 @@ class SymbolicConflictResolver:
     def _notify_mesh_components(self, result: ConflictResolutionResult) -> None:
         """Notify relevant mesh components about resolution."""
         # Placeholder for mesh integration
-        mesh_logger.info(  # noqa: F821  # TODO: mesh_logger
+        mesh_logger.info(
             "Conflict resolution notification",
             resolution_id=result.resolution_id,
             conflict_type=result.original_report.conflict_type.value,

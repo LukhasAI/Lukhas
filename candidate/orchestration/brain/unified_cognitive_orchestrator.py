@@ -608,7 +608,7 @@ async def demo_unified_orchestration():
 
     result = await orchestrator.process_thought(
         "Should we increase processing resources to handle the increased load?",
-        context={"emotion": {"concern": 0.7, "anticipation": 0.5}  # noqa: invalid-syntax  # TODO: Expected }, found NonLogicalNe...
+        context={"emotion": {"concern": 0.7, "anticipation": 0.5}
     )
 
     print(f"   Thought ID: {result['thought_id']}")

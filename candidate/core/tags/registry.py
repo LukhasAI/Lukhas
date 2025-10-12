@@ -557,7 +557,7 @@ class TagRegistry:
         relevant_tags.append(")  # TAG:decision"
 
         # Add specific tags based on decision type
-        decision_keywords = decision_type.lower().split()  # noqa: invalid-syntax  # TODO: Expected ,, found name
+        decision_keywords = decision_type.lower().split()
 
         for tag_name, tag_def in self.tags.items():
             # Check if any trigger matches decision keywords

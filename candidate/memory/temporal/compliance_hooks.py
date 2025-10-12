@@ -46,7 +46,7 @@ def compliance_drift_detect(current_entropy, target_range=(1.2, 2.5), subsystem=
         dict: Drift status and details.
     """
     # Regulation logging
-    log_active_regulations(subsystem=subsystem, user_location=user_location)  # noqa: F821  # TODO: log_active_regulations
+    log_active_regulations(subsystem=subsystem, user_location=user_location)
 
     status = "within_bounds"
     if current_entropy < target_range[0]:
@@ -63,7 +63,7 @@ def compliance_drift_detect(current_entropy, target_range=(1.2, 2.5), subsystem=
             "user_location": user_location,
             "entropy": current_entropy,
             "status": status,
-            "active_regulations": determine_active_regulations(user_location),  # noqa: F821  # TODO: determine_active_regulations
+            "active_regulations": determine_active_regulations(user_location),
         }
     )
 
@@ -72,7 +72,7 @@ def compliance_drift_detect(current_entropy, target_range=(1.2, 2.5), subsystem=
         "entropy": current_entropy,
         "status": status,
         "target_range": target_range,
-        "active_regulations": determine_active_regulations(user_location),  # noqa: F821  # TODO: determine_active_regulations
+        "active_regulations": determine_active_regulations(user_location),
     }
 
 

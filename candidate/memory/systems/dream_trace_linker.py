@@ -72,7 +72,7 @@ import numpy as np
 from ..compression.symbolic_delta import AdvancedSymbolicDeltaCompressor
 from ..governance.ethical_drift_governor import EthicalDriftGovernor
 
-# LUKHAS Core Imports  # noqa: invalid-syntax  # TODO: Cannot use comments in f-strin...
+# LUKHAS Core Imports
 from .emotional_memory import EmotionalMemory
 from .fold_lineage_tracker import CausationType, FoldLineageTracker
 
@@ -80,23 +80,23 @@ from .fold_lineage_tracker import CausationType, FoldLineageTracker
 class GlyphResonanceLevel(Enum):
     """Levels of GLYPH resonance between dreams and memory."""
 
-    NONE = "none"  # No resonance detected  # noqa: invalid-syntax  # TODO: Cannot use comments in f-strin...
-    WEAK = "weak"  # Minimal pattern overlap  # noqa: invalid-syntax  # TODO: Cannot use comments in f-strin...
-    MODERATE = "moderate"  # Clear pattern correlation  # noqa: invalid-syntax  # TODO: Cannot use comments in f-strin...
-    STRONG = "strong"  # Significant symbolic alignment  # noqa: invalid-syntax  # TODO: Cannot use comments in f-strin...
-    HARMONIC = "harmonic"  # Deep resonance with memory patterns  # noqa: invalid-syntax  # TODO: Cannot use comments in f-strin...
-    QUANTUM = "quantum"  # Quantum-level entanglement detected  # noqa: invalid-syntax  # TODO: Cannot use comments in f-strin...
+    NONE = "none"  # No resonance detected
+    WEAK = "weak"  # Minimal pattern overlap
+    MODERATE = "moderate"  # Clear pattern correlation
+    STRONG = "strong"  # Significant symbolic alignment
+    HARMONIC = "harmonic"  # Deep resonance with memory patterns
+    QUANTUM = "quantum"  # Quantum-level entanglement detected
 
 
 class DreamTraceType(Enum):
     """Types of dream traces that can be linked to memory."""
 
-    SYMBOLIC_PATTERN = "symbolic_pattern"  # Symbol-based connections  # noqa: invalid-syntax  # TODO: Cannot use comments in f-strin...
-    EMOTIONAL_ECHO = "emotional_echo"  # Emotion-driven associations  # noqa: invalid-syntax  # TODO: Cannot use comments in f-strin...
-    IDENTITY_RESONANCE = "identity_resonance"  # Identity-related linkages  # noqa: invalid-syntax  # TODO: Cannot use comments in f-strin...
-    CAUSAL_THREADING = "causal_threading"  # Causality-based connections  # noqa: invalid-syntax  # TODO: Cannot use comments in f-strin...
-    ENTROPY_HARMONICS = "entropy_harmonics"  # Entropy-balanced linkages  # noqa: invalid-syntax  # TODO: Cannot use comments in f-strin...
-    TEMPORAL_BRIDGING = "temporal_bridging"  # Time-based associations  # noqa: invalid-syntax  # TODO: Cannot use comments in f-strin...
+    SYMBOLIC_PATTERN = "symbolic_pattern"  # Symbol-based connections
+    EMOTIONAL_ECHO = "emotional_echo"  # Emotion-driven associations
+    IDENTITY_RESONANCE = "identity_resonance"  # Identity-related linkages
+    CAUSAL_THREADING = "causal_threading"  # Causality-based connections
+    ENTROPY_HARMONICS = "entropy_harmonics"  # Entropy-balanced linkages
+    TEMPORAL_BRIDGING = "temporal_bridging"  # Time-based associations
 
 
 @dataclass
@@ -119,7 +119,7 @@ class IdentitySignature:
     confidence_score: float
     related_memories: list[str]
     drift_susceptibility: float
-    protection_level: int  # 0-5, higher = more protected  # noqa: invalid-syntax  # TODO: Cannot use comments in f-strin...
+    protection_level: int  # 0-5, higher = more protected
 
 
 @dataclass
@@ -155,7 +155,7 @@ class DreamTraceLink:
     timestamp_utc: str
 
 
-# LUKHAS_TAG: dream_trace_core  # noqa: invalid-syntax  # TODO: Cannot use comments in f-strin...
+# LUKHAS_TAG: dream_trace_core
 class DreamTraceLinker:
     """
     Advanced dream-memory symbolic trace linking system for DREAMSEED integration.
@@ -169,13 +169,13 @@ class DreamTraceLinker:
             "/Users/cognitive_dev/Downloads/Consolidation-Repo/logs/dream/symbolic_entanglement.jsonl"
         )
 
-        # Initialize integrated components  # noqa: invalid-syntax  # TODO: Cannot use comments in f-strin...
+        # Initialize integrated components
         self.emotional_memory = EmotionalMemory()
         self.lineage_tracker = FoldLineageTracker()
         self.symbolic_compressor = AdvancedSymbolicDeltaCompressor()
         self.ethical_governor = EthicalDriftGovernor()
 
-        # GLYPH pattern recognition  # noqa: invalid-syntax  # TODO: Cannot use comments in f-strin...
+        # GLYPH pattern recognition
         self.glyph_patterns = {
             "ΛTRACE": r"(?:ΛTRACE|λtrace|trace_)",
             "ΛRECALL": r"(?:ΛRECALL|λrecall|recall_)",
@@ -191,7 +191,7 @@ class DreamTraceLinker:
             "ΣSYMBOL": r"(?:ΣSYMBOL|σsymbol|symbol_)",
         }
 
-        # Identity markers  # noqa: invalid-syntax  # TODO: Cannot use comments in f-strin...
+        # Identity markers
         self.identity_patterns = {
             "core_self": r"\b(?:i am|myself|my identity|who i am|self|me)\b",
             "personality": r"\b(?:personality|character|nature|essence)\b",
@@ -201,7 +201,7 @@ class DreamTraceLinker:
             "relationships": r"\b(?:friend|family|love|connection|bond)\b",
         }
 
-        # Emotional echo patterns  # noqa: invalid-syntax  # TODO: Cannot use comments in f-strin...
+        # Emotional echo patterns
         self.emotional_echo_patterns = {
             "joy_resonance": r"\b(?:happy|joy|delight|pleasure|bliss|elation)\b",
             "melancholy_echo": r"\b(?:sad|melancholy|sorrow|grief|longing)\b",
@@ -211,12 +211,12 @@ class DreamTraceLinker:
             "wonder_spark": r"\b(?:wonder|awe|amazement|curiosity|fascination)\b",
         }
 
-        # Session tracking for safeguards  # noqa: invalid-syntax  # TODO: Cannot use comments in f-strin...
+        # Session tracking for safeguards
         self.session_glyph_count = defaultdict(int)
         self.entanglement_nodes = defaultdict(set)
         self.recursive_amplification_tracker = defaultdict(list)
 
-    # LUKHAS_TAG: dream_linking_core  # noqa: invalid-syntax  # TODO: Cannot use comments in f-strin...
+    # LUKHAS_TAG: dream_linking_core
     def link_dream_to_memory(
         self,
         dream_id: str,
@@ -238,37 +238,37 @@ class DreamTraceLinker:
         """
         logger.info(f"Linking dream to memory: dream_id={dream_id}")
 
-        # Generate trace ID  # noqa: invalid-syntax  # TODO: Cannot use comments in f-strin...
-        trace_id = f"ΛTRACE::MEM.{hashlib.md5(f\'{dream_id)}_{datetime.now(timezone.utc)}\'.encode()).hexdigest()[:5].upper()}"  # noqa: invalid-syntax  # TODO: Expected a newline after line ...
+        # Generate trace ID
+        trace_id = f"ΛTRACE::MEM.{hashlib.md5(f\'{dream_id)}_{datetime.now(timezone.utc)}\'.encode()).hexdigest()[:5].upper()}"
 
-        # Extract GLYPH signatures  # noqa: invalid-syntax  # TODO: Cannot use comments in f-strin...
+        # Extract GLYPH signatures
         glyph_signatures = self._extract_glyph_signatures(dream_content, dream_metadata)
 
-        # Correlate identity signatures  # noqa: invalid-syntax  # TODO: Cannot use comments in f-strin...
-        identity_signatures = self._correlate_identity_signatures(dream_content, related_fold_keys)  # noqa: invalid-syntax  # TODO: Expected ,, found name
+        # Correlate identity signatures
+        identity_signatures = self._correlate_identity_signatures(dream_content, related_fold_keys)
 
-        # Propagate emotional echoes  # noqa: invalid-syntax  # TODO: Cannot use comments in f-strin...
-        emotional_echoes = self._propagate_emotional_echoes(dream_content, dream_metadata)  # noqa: invalid-syntax  # TODO: Expected ,, found name
+        # Propagate emotional echoes
+        emotional_echoes = self._propagate_emotional_echoes(dream_content, dream_metadata)
 
-        # Calculate drift and entropy metrics  # noqa: invalid-syntax  # TODO: Cannot use comments in f-strin...
-        drift_metrics = self._calculate_dream_drift_metrics(  # noqa: invalid-syntax  # TODO: Expected ,, found name
+        # Calculate drift and entropy metrics
+        drift_metrics = self._calculate_dream_drift_metrics(
             dream_content, glyph_signatures, identity_signatures, emotional_echoes
         )
 
-        # Determine tier gate  # noqa: invalid-syntax  # TODO: Cannot use comments in f-strin...
-        tier_gate = self._determine_tier_gate(drift_metrics, identity_signatures, emotional_echoes)  # noqa: invalid-syntax  # TODO: Expected ,, found name
+        # Determine tier gate
+        tier_gate = self._determine_tier_gate(drift_metrics, identity_signatures, emotional_echoes)
 
-        # Calculate entanglement level  # noqa: invalid-syntax  # TODO: Cannot use comments in f-strin...
-        entanglement_level = self._calculate_entanglement_level(glyph_signatures, identity_signatures, emotional_echoes)  # noqa: invalid-syntax  # TODO: Expected ,, found name
+        # Calculate entanglement level
+        entanglement_level = self._calculate_entanglement_level(glyph_signatures, identity_signatures, emotional_echoes)
 
-        # Check safeguards  # noqa: invalid-syntax  # TODO: Cannot use comments in f-strin...
-        safeguard_flags = self._check_safeguards(dream_id, entanglement_level, glyph_signatures)  # noqa: invalid-syntax  # TODO: Expected ,, found name
+        # Check safeguards
+        safeguard_flags = self._check_safeguards(dream_id, entanglement_level, glyph_signatures)
 
-        # Determine trace type  # noqa: invalid-syntax  # TODO: Cannot use comments in f-strin...
-        trace_type = self._determine_trace_type(glyph_signatures, identity_signatures, emotional_echoes)  # noqa: invalid-syntax  # TODO: Expected ,, found name
+        # Determine trace type
+        trace_type = self._determine_trace_type(glyph_signatures, identity_signatures, emotional_echoes)
 
-        # Create dream trace link  # noqa: invalid-syntax  # TODO: Cannot use comments in f-strin...
-        dream_trace = DreamTraceLink(  # noqa: invalid-syntax  # TODO: Expected ,, found name
+        # Create dream trace link
+        dream_trace = DreamTraceLink(
             link_id=hashlib.md5(f"{dream_id}_{trace_id}_{datetime.now(timezone.utc)}".encode()).hexdigest()[:12],
             dream_id=dream_id,
             trace_id=trace_id,
@@ -286,19 +286,19 @@ class DreamTraceLinker:
             timestamp_utc=datetime.now(timezone.utc).isoformat(),
         )
 
-        # Log trace creation  # noqa: invalid-syntax  # TODO: Cannot use comments in f-strin...
-        self._log_dream_trace_link(dream_trace)  # noqa: invalid-syntax  # TODO: Expected ,, found name
+        # Log trace creation
+        self._log_dream_trace_link(dream_trace)
 
-        # Track causation in lineage tracker  # noqa: invalid-syntax  # TODO: Cannot use comments in f-strin...
-        self._track_dream_causation(dream_trace)  # noqa: invalid-syntax  # TODO: Expected ,, found name
+        # Track causation in lineage tracker
+        self._track_dream_causation(dream_trace)
 
-        # Update session tracking  # noqa: invalid-syntax  # TODO: Cannot use comments in f-strin...
-        self._update_session_tracking(dream_trace)  # noqa: invalid-syntax  # TODO: Expected ,, found name
+        # Update session tracking
+        self._update_session_tracking(dream_trace)
 
-        logger.info(  # noqa: invalid-syntax  # TODO: Expected ,, found name
+        logger.info(
             f"Dream trace link created: link_id={dream_trace.link_id}, "
             f"entanglement_level={entanglement_level}, tier_gate={tier_gate}"
-        )  # noqa: invalid-syntax  # TODO: f-string: unterminated string
+        )
 
         return dream_trace
 

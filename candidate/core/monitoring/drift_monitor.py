@@ -687,15 +687,15 @@ class UnifiedDriftMonitor:
         severity = severity_map.get(drift_score.risk_level, EscalationTier.WARNING)
 
         alert = DriftAlert(
-            alert_id=f"DRIFT_{int(time.time(} * 1000}_{session_id[:8])}",  # noqa: invalid-syntax  # TODO: Expected an expression or a )
-            timestamp=drift_score.timestamp,  # noqa: invalid-syntax  # TODO: Expected ,, found indent
-            drift_type=primary_type,  # noqa: invalid-syntax  # TODO: Expected ,, found newline
-            severity=severity,  # noqa: invalid-syntax  # TODO: Expected ,, found newline
-            drift_score=drift_score,  # noqa: invalid-syntax  # TODO: Expected ,, found newline
-            session_id=session_id,  # noqa: invalid-syntax  # TODO: Expected ,, found newline
-            symbol_id=session_id,  # Using session_id as symbol_id  # noqa: invalid-syntax  # TODO: Expected ,, found newline
-            context=context,  # noqa: invalid-syntax  # TODO: Expected ,, found newline
-        )  # noqa: invalid-syntax  # TODO: Expected ), found dedent
+            alert_id=f"DRIFT_{int(time.time(} * 1000}_{session_id[:8])}",
+            timestamp=drift_score.timestamp,
+            drift_type=primary_type,
+            severity=severity,
+            drift_score=drift_score,
+            session_id=session_id,
+            symbol_id=session_id,  # Using session_id as symbol_id
+            context=context,
+        )
 
         # Store alert
         self.active_alerts[alert.alert_id] = alert
@@ -950,7 +950,7 @@ class UnifiedDriftMonitor:
 # Factory function for creating drift monitor
 
 
-async def create_drift_monitor(  # noqa: invalid-syntax  # TODO: Expected a statement
+async def create_drift_monitor(
     config: Optional[dict[str, Any]] = None,
 ) -> UnifiedDriftMonitor:
     """

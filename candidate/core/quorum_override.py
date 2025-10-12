@@ -13,6 +13,6 @@ class QuorumOverride:
 
     def request_access(self, approvers: list[str]) -> bool:
         """Return True if approvers reach required quorum."""
-approved = len(set(approvers)) >= self.required  # noqa: F821  # TODO: approvers
-log.info("Quorum check", approvers=approvers, approved=approved)  # noqa: F821  # TODO: approvers
+approved = len(set(approvers)) >= self.required
+log.info("Quorum check", approvers=approvers, approved=approved)
 return approved

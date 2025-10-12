@@ -427,16 +427,16 @@ class MemoryFoldTracker:
 
             glyph_timeline.append(
                 {
-                    "window": f"sessions_{i}-{min(i + window_size - 1, len(sessions) - 1}",  # noqa: invalid-syntax  # TODO: Expected ,, found }
-                    "total_glyphs": total_glyphs,  # noqa: invalid-syntax  # TODO: Expected ,, found :
-                    "unique_glyphs": unique_glyphs,  # noqa: invalid-syntax  # TODO: Expected ,, found :
-                    "constellation_ratio": (constellation_count / total_glyphs if total_glyphs > 0 else 0),  # noqa: invalid-syntax  # TODO: Expected ,, found :
-                    "top_glyphs": [g for g, _ in glyph_counts.most_common(3)],  # noqa: invalid-syntax  # TODO: Expected ,, found :
-                }  # noqa: invalid-syntax  # TODO: Expected ,, found }
-            )  # noqa: invalid-syntax  # TODO: Expected FStringEnd, found new...
+                    "window": f"sessions_{i}-{min(i + window_size - 1, len(sessions) - 1}",
+                    "total_glyphs": total_glyphs,
+                    "unique_glyphs": unique_glyphs,
+                    "constellation_ratio": (constellation_count / total_glyphs if total_glyphs > 0 else 0),
+                    "top_glyphs": [g for g, _ in glyph_counts.most_common(3)],
+                }
+            )
 
         # Detect trends
-        constellation_trend = "stable"  # noqa: invalid-syntax  # TODO: f-string: expecting }
+        constellation_trend = "stable"
         if len(glyph_timeline) >= 2:
             first_trinity = glyph_timeline[0]["constellation_ratio"]
             last_trinity = glyph_timeline[-1]["constellation_ratio"]

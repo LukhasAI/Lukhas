@@ -106,17 +106,17 @@ class TutorEngine:
     ) -> LearningSession:
         """Create a new learning session."""
         # Generate session ID using Lukhas's identity system
-        session_id = f"session_{user_id}_{int(datetime.now(timezone.utc).timestamp()}"  # noqa: invalid-syntax  # TODO: Expected ,, found }
+        session_id = f"session_{user_id}_{int(datetime.now(timezone.utc).timestamp()}"
 
-        # Get bio-oscillator baseline if available  # noqa: invalid-syntax  # TODO: Cannot use comments in f-strin...
+        # Get bio-oscillator baseline if available
         bio_metrics = {}
-        if self.bio:  # noqa: invalid-syntax  # TODO: Expected else, found :
-            bio_metrics = await self.bio.get_user_metrics(user_id)  # noqa: invalid-syntax  # TODO: Duplicate keyword argument bio...
+        if self.bio:
+            bio_metrics = await self.bio.get_user_metrics(user_id)
 
-        # Generate learning objectives from SKG  # noqa: invalid-syntax  # TODO: Cannot use comments in f-strin...
-        objectives = self._generate_learning_objectives(topic, difficulty)  # noqa: invalid-syntax  # TODO: Expected ,, found name
+        # Generate learning objectives from SKG
+        objectives = self._generate_learning_objectives(topic, difficulty)
 
-        session = LearningSession(  # noqa: invalid-syntax  # TODO: Expected ,, found name
+        session = LearningSession(
             session_id=session_id,
             user_id=user_id,
             topic=topic,
@@ -126,11 +126,11 @@ class TutorEngine:
             voice_enabled=config.get("voice_enabled", False),
         )
 
-        self.active_sessions[session_id] = session  # noqa: invalid-syntax  # TODO: Expected ,, found name
-        logger.info(f"Created learning session {session_id} for user {user_id}")  # noqa: invalid-syntax  # TODO: Expected ,, found name
+        self.active_sessions[session_id] = session
+        logger.info(f"Created learning session {session_id} for user {user_id}")
 
-        # Send welcome message  # noqa: invalid-syntax  # TODO: Cannot use comments in f-strin...
-        await self._send_message(session_id, self._generate_welcome_message(session))  # noqa: invalid-syntax  # TODO: Expected ,, found await
+        # Send welcome message
+        await self._send_message(session_id, self._generate_welcome_message(session))
 
         return session
 
@@ -150,7 +150,7 @@ class TutorEngine:
             related = self.skg.get_neighborhood(node.id)
 
             # Create objectives based on node type and difficulty
-            obj_id = f"obj_{len(objectives)} + 1}"  # noqa: invalid-syntax  # TODO: f-string: single } is not allo...
+            obj_id = f"obj_{len(objectives)} + 1}"
             obj = LearningObjective(
                 id=obj_id,
                 description=f"Learn about {node.name}",

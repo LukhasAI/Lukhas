@@ -466,8 +466,8 @@ class ConsciousnessWebAuthnManager:
             if len(self.biometric_patterns[identity_id]) > 10:
                 self.biometric_patterns[identity_id] = self.biometric_patterns[identity_id][-10:]
 
-            logger.debug(f"🧬 Processed consciousness biometrics for {identity_id}: {list(biometric_patterns.keys()}")  # noqa: invalid-syntax  # TODO: Expected ,, found }
-            return True  # noqa: invalid-syntax  # TODO: Expected ), found return
+            logger.debug(f"🧬 Processed consciousness biometrics for {identity_id}: {list(biometric_patterns.keys()}")
+            return True
 
         except Exception as e:
             logger.error(f"❌ Failed to process consciousness biometrics: {e}")

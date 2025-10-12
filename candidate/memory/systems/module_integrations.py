@@ -370,12 +370,12 @@ class CreativityModuleIntegration:
         narrative_parts = []
 
         if themes:
-            narrative_parts.append(f"Exploring themes of {', '.join(set(themes)}")  # noqa: invalid-syntax  # TODO: Expected ,, found }
+            narrative_parts.append(f"Exploring themes of {', '.join(set(themes)}")
 
-        if emotions:  # noqa: invalid-syntax  # TODO: Expected ), found dedent
-            narrative_parts.append(f"through the lens of {', '.join(set(emotions)}")  # noqa: invalid-syntax  # TODO: Expected ,, found }
+        if emotions:
+            narrative_parts.append(f"through the lens of {', '.join(set(emotions)}")
 
-        if connections:  # noqa: invalid-syntax  # TODO: Expected ), found dedent
+        if connections:
             narrative_parts.append("discovering unexpected connections")
 
         return ", ".join(narrative_parts) + "."
@@ -744,7 +744,7 @@ class MetaModuleIntegration:
                     trust_score = entry.integrity_score
                     access_normalized = min(1.0, memory.access_count / 100)
 
-                    correlation_key = f"trust_{int(trust_score * 10)} / 10:.1f}"  # noqa: invalid-syntax  # TODO: f-string: single } is not allo...
+                    correlation_key = f"trust_{int(trust_score * 10)} / 10:.1f}"
                     if correlation_key not in insights["trust_correlations"]:
                         insights["trust_correlations"][correlation_key] = []
 

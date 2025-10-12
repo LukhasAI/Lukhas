@@ -122,7 +122,7 @@ class EmotionHub:
         except ImportError:
             # Fallback to simple dict-based memory
             logger.warning("EmotionalMemory not available, using simple memory")
-            return {"emotions": [], "patterns": {}  # noqa: invalid-syntax  # TODO: Expected }, found newline
+            return {"emotions": [], "patterns": {}
 
     def register_service(self, name: str, service: Any) -> None:
         """Register an emotion service"""

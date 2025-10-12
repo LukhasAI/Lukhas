@@ -1063,7 +1063,7 @@ if __name__ == "__main__":
 
     # Test overall status
     logger.info(
-        f"Overall System Compliance Status: {json.dumps(advanced_engine.get_overall_compliance_status(}, indent=2)}"  # noqa: invalid-syntax  # TODO: Expected an expression or a )
+        f"Overall System Compliance Status: {json.dumps(advanced_engine.get_overall_compliance_status(}, indent=2)}"
     )
 
     # Test anonymization

@@ -173,7 +173,7 @@ class LucasAnalyzeEngine:
 
         # ΛNOTE: Config handling assumes LucasConfig.get_default() or passed config.
         self.config = (
-            config if config is not None else (LucasConfig.get_default() if hasattr(LucasConfig, "get_default") else {})  # noqa: F821  # TODO: config
+            config if config is not None else (LucasConfig.get_default() if hasattr(LucasConfig, "get_default") else {})
         )
 
         try:
@@ -1017,7 +1017,7 @@ class LucasAnalyzeEngine:
 
         question_hash = hash(request.question) if request.question else 0
         # Include relevant kwargs that might change analysis outcome
-        context_kwargs_tuple = tuple(sorted(kwargs.get("context", {}).items()))  # noqa: F821  # TODO: kwargs
+        context_kwargs_tuple = tuple(sorted(kwargs.get("context", {}).items()))
         kwargs_hash = hash((request.analysis_type.value, context_kwargs_tuple))
 
         final_cache_key = f"lukhas_analyze_{data_hash}_{question_hash}_{kwargs_hash}"

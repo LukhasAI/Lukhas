@@ -559,7 +559,7 @@ class MemoryHealthDashboard:
                                 # Consider blocks active for 60 minutes after activation
                                 if age_minutes < 60:
                                     block = CascadeBlockInfo(
-                                        block_id=f"emotional_{entry.get('timestamp', '')}[:19]}",  # noqa: invalid-syntax  # TODO: f-string: single } is not allo...
+                                        block_id=f"emotional_{entry.get('timestamp', '')}[:19]}",
                                         fold_key=entry.get("identity_delta", {}).get("fold_key", "unknown"),
                                         block_type="emotional_circuit_breaker",
                                         activation_timestamp=timestamp_str,
@@ -659,7 +659,7 @@ class MemoryHealthDashboard:
                                         loop_detection = entry.get("loop_detection", {})
 
                                         block = CascadeBlockInfo(
-                                            block_id=f"compression_loop_{entry.get('fold_key', '')}[:8]}_{timestamp_str[:19]}",  # noqa: invalid-syntax  # TODO: f-string: single } is not allo...
+                                            block_id=f"compression_loop_{entry.get('fold_key', '')}[:8]}_{timestamp_str[:19]}",
                                             fold_key=entry.get("fold_key", "unknown"),
                                             block_type="compression_loop",
                                             activation_timestamp=timestamp_str,

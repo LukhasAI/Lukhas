@@ -35,41 +35,41 @@ class CognitiveAdapter:
     """
 
     def __init__(self):
-        # Core bio components  # noqa: invalid-syntax  # TODO: Cannot use comments in f-strin...
+        # Core bio components
         self.proton_gradient = ProtonGradient()
         self.attention_gate = QIAttentionGate()
         self.crista_filter = CristaFilter()
         self.identity_encoder = CardiolipinEncoder()
 
-        # Cognitive state tracking  # noqa: invalid-syntax  # TODO: Cannot use comments in f-strin...
+        # Cognitive state tracking
         self.cognitive_state = {
-            "attention_focus": {},  # Current attentional focus  # noqa: invalid-syntax  # TODO: Cannot use comments in f-strin...
-            "working_memory": [],  # Short-term memory buffer  # noqa: invalid-syntax  # TODO: Cannot use comments in f-strin...
-            "emotional_state": {  # Current emotional state  # noqa: invalid-syntax  # TODO: Cannot use comments in f-strin...
+            "attention_focus": {},  # Current attentional focus
+            "working_memory": [],  # Short-term memory buffer
+            "emotional_state": {  # Current emotional state
                 "valence": 0.0,
                 "arousal": 0.0,
                 "dominance": 0.0,
             },
-            "activation_patterns": {},  # Neural activation patterns  # noqa: invalid-syntax  # TODO: Cannot use comments in f-strin...
+            "activation_patterns": {},  # Neural activation patterns
         }
 
-        # Memory systems  # noqa: invalid-syntax  # TODO: Cannot use comments in f-strin...
+        # Memory systems
         self.memory = {
-            "episodic": [],  # Event memories  # noqa: invalid-syntax  # TODO: Cannot use comments in f-strin...
-            "semantic": {},  # Concept/fact memories  # noqa: invalid-syntax  # TODO: Cannot use comments in f-strin...
-            "procedural": [],  # Action/skill memories  # noqa: invalid-syntax  # TODO: Cannot use comments in f-strin...
-            "emotional": [],  # Emotional memories  # noqa: invalid-syntax  # TODO: Cannot use comments in f-strin...
+            "episodic": [],  # Event memories
+            "semantic": {},  # Concept/fact memories
+            "procedural": [],  # Action/skill memories
+            "emotional": [],  # Emotional memories
         }
 
-        # Pattern recognition  # noqa: invalid-syntax  # TODO: Cannot use comments in f-strin...
+        # Pattern recognition
         self.patterns = {
-            "temporal": [],  # Time-based patterns  # noqa: invalid-syntax  # TODO: Cannot use comments in f-strin...
-            "causal": [],  # Cause-effect patterns  # noqa: invalid-syntax  # TODO: Cannot use comments in f-strin...
-            "spatial": [],  # Space/structure patterns  # noqa: invalid-syntax  # TODO: Cannot use comments in f-strin...
-            "emotional": [],  # Emotional patterns  # noqa: invalid-syntax  # TODO: Cannot use comments in f-strin...
+            "temporal": [],  # Time-based patterns
+            "causal": [],  # Cause-effect patterns
+            "spatial": [],  # Space/structure patterns
+            "emotional": [],  # Emotional patterns
         }
 
-        # Performance tracking  # noqa: invalid-syntax  # TODO: Cannot use comments in f-strin...
+        # Performance tracking
         self.metrics = {
             "memory_access": [],
             "pattern_recognition": [],
@@ -96,28 +96,28 @@ class CognitiveAdapter:
         start_time = datetime.now(timezone.utc)
 
         try:
-            # Apply quantum attention mechanism  # noqa: invalid-syntax  # TODO: Cannot use comments in f-strin...
+            # Apply quantum attention mechanism
             attended_data = self.attention_gate.attend(input_data, self.cognitive_state["attention_focus"])
 
-            # Filter through cristae topology  # noqa: invalid-syntax  # TODO: Cannot use comments in f-strin...
+            # Filter through cristae topology
             filtered_data = self.crista_filter.filter(attended_data, self.cognitive_state["emotional_state"])
 
-            # Process through proton gradient  # noqa: invalid-syntax  # TODO: Cannot use comments in f-strin...
+            # Process through proton gradient
             gradient_processed = self.proton_gradient.process(filtered_data, self.cognitive_state)
 
-            # Update cognitive state  # noqa: invalid-syntax  # TODO: Cannot use comments in f-strin...
+            # Update cognitive state
             self._update_cognitive_state(gradient_processed)
 
-            # Store in memory  # noqa: invalid-syntax  # TODO: Cannot use comments in f-strin...
+            # Store in memory
             await self._store_memory(gradient_processed)
 
-            # Recognize patterns  # noqa: invalid-syntax  # TODO: Cannot use comments in f-strin...
+            # Recognize patterns
             patterns = self._recognize_patterns(gradient_processed)
 
-            # Generate response  # noqa: invalid-syntax  # TODO: Cannot use comments in f-strin...
+            # Generate response
             response = self._generate_response(gradient_processed, patterns)
 
-            # Record metrics  # noqa: invalid-syntax  # TODO: Cannot use comments in f-strin...
+            # Record metrics
             self._record_metrics(start_time)
 
             return response
@@ -137,7 +137,7 @@ class CognitiveAdapter:
             List of matching memories
         """
         try:
-            # Apply attention to memory search  # noqa: invalid-syntax  # TODO: Cannot use comments in f-strin...
+            # Apply attention to memory search
             attended_query = self.attention_gate.attend(query, self.cognitive_state["attention_focus"])
 
             matches = []
@@ -154,7 +154,7 @@ class CognitiveAdapter:
             if memory_type == "all" or memory_type == "emotional":
                 matches.extend(self._search_emotional(attended_query))
 
-            # Filter results through cristae  # noqa: invalid-syntax  # TODO: Cannot use comments in f-strin...
+            # Filter results through cristae
             filtered_matches = self.crista_filter.filter(matches, self.cognitive_state["emotional_state"])
 
             return filtered_matches
@@ -165,38 +165,38 @@ class CognitiveAdapter:
 
     def _update_cognitive_state(self, processed_data: dict[str, Any]) -> None:
         """Update cognitive state based on processed data"""
-        # Update attention focus  # noqa: invalid-syntax  # TODO: Cannot use comments in f-strin...
+        # Update attention focus
         if "attention_updates" in processed_data:
             self.cognitive_state["attention_focus"].update(processed_data["attention_updates"])
 
-        # Update working memory  # noqa: invalid-syntax  # TODO: Cannot use comments in f-strin...
+        # Update working memory
         if "working_memory_updates" in processed_data:
             self.cognitive_state["working_memory"].extend(
-                processed_data["working_memory_updates"][-5:]  # Keep last 5 items  # noqa: invalid-syntax  # TODO: Cannot use comments in f-strin...
+                processed_data["working_memory_updates"][-5:]  # Keep last 5 items
             )
             if len(self.cognitive_state["working_memory"]) > 10:
                 self.cognitive_state["working_memory"] = self.cognitive_state["working_memory"][-10:]
 
-        # Update emotional state  # noqa: invalid-syntax  # TODO: Cannot use comments in f-strin...
+        # Update emotional state
         if "emotional_updates" in processed_data:
             for key, value in processed_data["emotional_updates"].items():
                 current = self.cognitive_state["emotional_state"].get(key, 0.0)
-                # Smooth emotional transitions  # noqa: invalid-syntax  # TODO: Cannot use comments in f-strin...
+                # Smooth emotional transitions
                 self.cognitive_state["emotional_state"][key] = current * 0.7 + value * 0.3
 
-        # Update activation patterns  # noqa: invalid-syntax  # TODO: Cannot use comments in f-strin...
+        # Update activation patterns
         if "activation_updates" in processed_data:
             self.cognitive_state["activation_patterns"].update(processed_data["activation_updates"])
 
     async def _store_memory(self, processed_data: dict[str, Any]) -> None:
         """Store processed data in appropriate memory systems"""
-        # Create memory timestamp  # noqa: invalid-syntax  # TODO: Cannot use comments in f-strin...
+        # Create memory timestamp
         timestamp = datetime.now(timezone.utc).isoformat()
 
-        # Generate memory ID  # noqa: invalid-syntax  # TODO: Cannot use comments in f-strin...
-        memory_id = self.identity_encoder.encode_id(f"{timestamp}-{hash(json.dumps(processed_data)}")  # noqa: invalid-syntax  # TODO: Expected ,, found }
+        # Generate memory ID
+        memory_id = self.identity_encoder.encode_id(f"{timestamp}-{hash(json.dumps(processed_data)}")
 
-        # Prepare base memory entry  # noqa: invalid-syntax  # TODO: Cannot use comments in f-strin...
+        # Prepare base memory entry
         memory_entry = {
             "id": memory_id,
             "timestamp": timestamp,
@@ -205,12 +205,12 @@ class CognitiveAdapter:
             "attention_focus": self.cognitive_state["attention_focus"].copy(),
         }
 
-        # Store in appropriate memory systems  # noqa: invalid-syntax  # TODO: Cannot use comments in f-strin...
-        if "event" in processed_data:  # noqa: invalid-syntax  # TODO: Expected else, found :
-            self.memory["episodic"].append(memory_entry)  # noqa: invalid-syntax  # TODO: Positional argument cannot fol...
+        # Store in appropriate memory systems
+        if "event" in processed_data:
+            self.memory["episodic"].append(memory_entry)
 
-        if "concepts" in processed_data:  # noqa: invalid-syntax  # TODO: Expected else, found :
-            for concept in processed_data["concepts"]:  # noqa: invalid-syntax  # TODO: Expected ,, found indent
+        if "concepts" in processed_data:
+            for concept in processed_data["concepts"]:
                 self.memory["semantic"][concept] = memory_entry
 
         if "actions" in processed_data:
@@ -327,4 +327,4 @@ class CognitiveAdapter:
     def _match_emotional_pattern(self, emotional_state: dict[str, float], pattern: dict[str, Any]) -> bool:
         """Match emotional patterns in data"""
         # Implementation would check for emotional patterns
-        return False  # noqa: invalid-syntax  # TODO: Expected a statement
+        return False

@@ -243,12 +243,12 @@ if __name__ == "__main__":
                         "extracted_visual_prompts": [],
                         "additional_metadata": {"emotional_tone": {"primary": "nostalgic_ph"},
                     }
-                    f.write(json.dumps(dummy_dream_entry) + "\n")  # noqa: invalid-syntax  # TODO: Expected ,, found name
-                log.info(f"Created dummy dream log for replayer example: {dummy_log_file_path}")  # noqa: invalid-syntax  # TODO: Expected :, found name
-            except Exception as e_dummy:  # noqa: invalid-syntax  # TODO: Expected ,, found except
+                    f.write(json.dumps(dummy_dream_entry) + "\n")
+                log.info(f"Created dummy dream log for replayer example: {dummy_log_file_path}")
+            except Exception as e_dummy:
                 log.error(f"Could not create dummy dream log for replayer: {e_dummy}")
-    replay_dreams_with_current_state()  # noqa: invalid-syntax  # TODO: Expected ,, found name
-    log.info("--- Manual Dream Replayer Script Execution Finished ---")  # noqa: invalid-syntax  # TODO: Expected :, found name
+    replay_dreams_with_current_state()
+    log.info("--- Manual Dream Replayer Script Execution Finished ---")
 
 # --- LUKHAS AI System Footer ---
 # File Origin: LUKHAS Memoria Subsystem - Dream Replay & Auditory Recall
@@ -260,7 +260,7 @@ if __name__ == "__main__":
 # CreationDate: 2025-06-20 | LastModifiedDate: 2024-07-26 | Version: 1.1
 # --- End Footer ---
 
-"""  # noqa: invalid-syntax  # TODO: Expected ,, found string
+"""
 ═══════════════════════════════════════════════════════════════════════════════
 ║ 📋 FOOTER - LUKHAS AI
 ╠══════════════════════════════════════════════════════════════════════════════
@@ -294,4 +294,4 @@ if __name__ == "__main__":
 ║   within the system architecture. Modifications may affect system
 ║   stability and require approval from the LUKHAS Architecture Board.
 ╚═══════════════════════════════════════════════════════════════════════════
-"""  # noqa: invalid-syntax  # TODO: unexpected EOF while parsing
+"""

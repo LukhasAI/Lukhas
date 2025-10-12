@@ -10,7 +10,7 @@ from datetime import datetime, timezone
 
 from settings_loader import get_setting
 
-emergency_override.py  # noqa: F821  # TODO: emergency_override
+emergency_override.py
 
 # ════════════════════════════════════════════════════════════════════════
 # 📁 FILE: emergency_override.py

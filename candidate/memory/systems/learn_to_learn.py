@@ -1,4 +1,4 @@
-log = logging.getLogger(__name__)  # noqa: F821  # TODO: logging
+log = logging.getLogger(__name__)
 """
 LUKHAS AI System - Meta-Learning System Module (Learn-to-Learn)
 File: learn_to_learn.py

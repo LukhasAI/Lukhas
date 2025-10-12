@@ -16,7 +16,7 @@ def write_reflection_event(event_type: str, details: dict, lid_signature: Option
         "timestamp": datetime.now(timezone.utc).isoformat(),
         "event_type": event_type,
         "details": details,
-        "lid_signature": lid_signature or sign_with_lid(details),  # noqa: F821  # TODO: sign_with_lid
+        "lid_signature": lid_signature or sign_with_lid(details),
     }
 
     with open(AUDIT_LOG_PATH, "a", encoding="utf-8") as f:

@@ -86,16 +86,16 @@ class SymptomReporter:
             # "self.diagnostic_engine.process_user_response(user_input, symptoms)
 
             # Critical symptom check (Altman: safety first)
-            if is_critical:  # noqa: F821  # TODO: is_critical
+            if is_critical:
                 requires_immediate_attention = True
-                await self._handle_critical_situation(session_id, symptoms + new_symptoms)  # noqa: F821  # TODO: new_symptoms
+                await self._handle_critical_situation(session_id, symptoms + new_symptoms)
                 break
 
             # Update symptom list
-            symptoms.extend(new_symptoms)  # noqa: F821  # TODO: new_symptoms
+            symptoms.extend(new_symptoms)
 
             # Request media if needed (Jobs: contextual feature introduction)
-            if needs_media:  # noqa: F821  # TODO: needs_media
+            if needs_media:
                 media_result = await self._handle_media_request(session_id, mode)
                 if media_result.get("status") == "success":
                     await self._communicate(
@@ -105,7 +105,7 @@ class SymptomReporter:
                     )
 
             # Determine next step
-            if confidence >= 0.9 or not needs_questions:  # noqa: F821  # TODO: confidence
+            if confidence >= 0.9 or not needs_questions:
                 break
 
             # Get next question from diagnostic engine

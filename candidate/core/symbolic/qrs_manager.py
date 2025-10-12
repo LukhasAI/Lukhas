@@ -204,7 +204,7 @@ class QRSManager:
 
             logger.info(
                 f"ΛTRACE: ΛiD created successfully - Tier {tier_level},"
-                Entropy: {entropy_score: .3f}""  # noqa: invalid-syntax  # TODO: Expected ,, found name
+                Entropy: {entropy_score: .3f}""
             )
             return result
 
@@ -539,11 +539,11 @@ class QRSManager:
             # Find matching vault entry
             matching_entry = None
             for vault_entry in profile.symbolic_vault:
-                if (:  # noqa: invalid-syntax  # TODO: Expected an expression
+                if (:
                     vault_entry.entry_type.value == element_type
                     and vault_entry.value.startswith(element_hint)
-                ):  # noqa: invalid-syntax  # TODO: Expected newline, found )
-                    matching_entry = vault_entry  # noqa: invalid-syntax  # TODO: Unexpected indentation
+                ):
+                    matching_entry = vault_entry
                     break
 
             if matching_entry and matching_entry.value == response_value:
@@ -604,7 +604,7 @@ class QRSManager:
         logger.info(f"ΛTRACE: Public hash mapping registered: {public_hash}")
 
 
-"""  # noqa: invalid-syntax  # TODO: Expected a statement
+"""
 ═══════════════════════════════════════════════════════════════════════════════
 ║ 📋 FOOTER - LUKHAS AI
 ╠══════════════════════════════════════════════════════════════════════════════

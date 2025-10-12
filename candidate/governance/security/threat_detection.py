@@ -321,7 +321,7 @@ class BehavioralAnalyzer:
             unusual_resources = accessed_resources - profile.typical_resources
             if unusual_resources:
                 score += 0.4 * min(1.0, len(unusual_resources) / 3)
-                details.append(f"Access to unusual resources: {', '.join(list(unusual_resources}[:3])}")  # noqa: invalid-syntax  # TODO: Expected ,, found }
+                details.append(f"Access to unusual resources: {', '.join(list(unusual_resources}[:3])}")
 
             # Check for bulk access (potential data exfiltration)
             if len(accessed_resources) > len(profile.typical_resources) * 2:

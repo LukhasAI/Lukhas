@@ -23,7 +23,7 @@ from datetime import datetime, timezone
 # import streamlit as st  # TODO: Install or implement streamlit
 from pathlib import Path
 
-st.set_page_config(page_title="LUKHAS TEAM  Dashboard", layout="wide", timezone)  # noqa: invalid-syntax  # TODO: Positional argument cannot fol...
+st.set_page_config(page_title="LUKHAS TEAM  Dashboard", layout="wide", timezone)
 
 # Session tracking (simplified for local prototyping)
 session_log_path = Path("logs/session_log.jsonl")
@@ -224,22 +224,22 @@ with tab_compliance:
                     "logs/symbolic_trace_dashboard.csv"
                 )
                 st.markdown("##)  #  🔍 Summary"
-                st.json(summary)  # noqa: invalid-syntax  # TODO: Expected ,, found name
+                st.json(summary)
 
-                if st.button("🧹 Filter Low Confidence Entries"):  # noqa: invalid-syntax  # TODO: Expected else, found :
+                if st.button("🧹 Filter Low Confidence Entries"):
                     filtered = trace_tools.filter_trace(
                         "logs/symbolic_trace_dashboard.csv",
                         confidence_threshold=0.6,
                     )
-                    st.dataframe(filtered)  # noqa: invalid-syntax  # TODO: Expected ,, found name
-            except Exception as e:  # noqa: invalid-syntax  # TODO: Expected ,, found except
-                st.error(f"Error loading trace tools: {e}")  # noqa: invalid-syntax  # TODO: Positional argument cannot fol...
+                    st.dataframe(filtered)
+            except Exception as e:
+                st.error(f"Error loading trace tools: {e}")
 
 # ─────────────────────────────────────────────────────────────────────
 # ──────────────────────────────
 # 🧰 DEV TOOLS TAB
 # ──────────────────────────────
-with tab_dev:  # noqa: invalid-syntax  # TODO: Expected except or finally aft...
+with tab_dev:
     st.header("🧰 Developer Utilities")
 
     # Manual Cleanup Tool (placeholder)

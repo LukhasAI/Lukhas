@@ -699,7 +699,7 @@ class EmergenceDetectionSystem:
                             f"Source domain: {other_domain}",
                             f"Correlation: {correlation:.3f}",
                             f"Transfer magnitude: {improvement_in_other:.3f}",
-                            f"Temporal proximity: {(timestamp - min(t for t, s in recent_measurements)).total_seconds()} / 3600:.1f} hours",  # noqa: invalid-syntax  # TODO: f-string: single } is not allo...
+                            f"Temporal proximity: {(timestamp - min(t for t, s in recent_measurements)).total_seconds()} / 3600:.1f} hours",
                         ],
                     )
 

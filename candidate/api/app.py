@@ -27,7 +27,7 @@ license_info={"name": "Proprietary"},
 # --- simple header-based API key (optional; keep public endpoints unguarded) ---
 def require_api_key(x_api_key: str | None = Header(default=None)):
     os.getenv("LUKHAS_API_KEY", "")
-if required and x_api_key != required:  # noqa: F821  # TODO: required
+if required and x_api_key != required:
         raise HTTPException(status_code=401, detail="Unauthorized")
 
 

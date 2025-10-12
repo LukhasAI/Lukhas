@@ -24,7 +24,7 @@ if TYPE_CHECKING:
     from collections.abc import MutableMapping
 
 
-class MemorySessionStorage(SessionStorage):  # noqa: F821  # TODO: SessionStorage
+class MemorySessionStorage(SessionStorage):
     """A SessionStorage that stores sessions in memory.
 
     At most maxsize sessions are stored with a TTL of ttl seconds. This class is really
@@ -60,16 +60,16 @@ class MemorySessionStorage(SessionStorage):  # noqa: F821  # TODO: SessionStorag
             inaccessible and will be removed eventually.
         """
 
-        self._cache: MutableMapping[str, SessionInfo] = TTLCache(maxsize=maxsize, ttl=ttl_seconds)  # noqa: F821  # TODO: SessionInfo
+        self._cache: MutableMapping[str, SessionInfo] = TTLCache(maxsize=maxsize, ttl=ttl_seconds)
 
-    def get(self, session_id: str) -> SessionInfo | None:  # noqa: F821  # TODO: SessionInfo
+    def get(self, session_id: str) -> SessionInfo | None:
         return self._cache.get(session_id, None)
 
-    def save(self, session_info: SessionInfo) -> None:  # noqa: F821  # TODO: SessionInfo
+    def save(self, session_info: SessionInfo) -> None:
         self._cache[session_info.session.id] = session_info
 
     def delete(self, session_id: str) -> None:
         del self._cache[session_id]
 
-    def list(self) -> list[SessionInfo]:  # noqa: F821  # TODO: SessionInfo
+    def list(self) -> list[SessionInfo]:
         return list(self._cache.values())

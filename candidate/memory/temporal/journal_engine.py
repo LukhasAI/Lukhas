@@ -84,7 +84,7 @@ class JournalEngine:
     def _generate_entry_id(self, content: str, timestamp: datetime) -> str:
         """Generate unique ID for entry using LUKHAS-style hashing"""
         data = f"{content}{timestamp.isoformat()}"
-        return f"JE_{hashlib.sha256(data.encode()).hexdigest()}[:12]}"  # noqa: invalid-syntax  # TODO: f-string: single } is not allo...
+        return f"JE_{hashlib.sha256(data.encode()).hexdigest()}[:12]}"
 
     def add_entry(
         self,
@@ -418,7 +418,7 @@ class JournalEngine:
 
             for entry in entries_by_date[date_key]:
                 content.append(
-                    f"##"%H:%M')} - {entry.type.title()}\n"'  # noqa: invalid-syntax  # TODO: Expected ,, found :
+                    f"##"%H:%M')} - {entry.type.title()}\n"'
                 )
                 content.append(f"{entry.content}\n")
 

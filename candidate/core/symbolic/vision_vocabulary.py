@@ -997,11 +997,11 @@ class Visionsymbolicvocabulary:
 
         return f"{analysis_symbol} {provider_symbol} {confidence_symbol}"
 
-        for obj in detected_objects:  # noqa: F821  # TODO: detected_objects
-            if obj.lower() in object_symbolism:  # noqa: F821  # TODO: object_symbolism
-                symbolic_elements.extend(object_symbolism[obj.lower()])  # noqa: F821  # TODO: symbolic_elements
+        for obj in detected_objects:
+            if obj.lower() in object_symbolism:
+                symbolic_elements.extend(object_symbolism[obj.lower()])
 
-        return list(set(symbolic_elements))  # Remove duplicates  # noqa: F821  # TODO: symbolic_elements
+        return list(set(symbolic_elements))  # Remove duplicates
 
     def get_quality_indicators(self, success: bool, confidence: float, processing_time: float) -> str:
         """Get quality indicator symbols based on analysis results."""

@@ -60,19 +60,19 @@ def handle_memory_event(event):
     print(f"Memory event: {event.event_type}",
         source="dream.engine",
         effects=[SymbolicEffect.DREAM_TRIGGER, SymbolicEffect.MEMORY_FOLD],
-        correlation_id=dream_id,  # noqa: F821  # TODO: dream_id
+        correlation_id=dream_id,
     )
 
     # Correlated consciousness update
     kernel_bus.emit(
         "consciousness.state.changed",
-        {"state": "dreaming", "dream_id": dream_id},  # noqa: F821  # TODO: dream_id
+        {"state": "dreaming", "dream_id": dream_id},
         source="consciousness.core",
         effects=[SymbolicEffect.AWARENESS_UPDATE],
-        correlation_id=dream_id,  # noqa: F821  # TODO: dream_id
+        correlation_id=dream_id,
     )
 
-    return event_id  # noqa: F821  # TODO: event_id
+    return event_id
 
 
 # Example 6: Critical safety event

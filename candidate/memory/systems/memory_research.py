@@ -208,7 +208,7 @@ class MemoryObjectReceiveStream(Generic[T_co], ObjectReceiveStream[T_co]):
     def __del__(self) -> None:
         if not self._closed:
             warnings.warn(
-                f"Unclosed <{self.__class__.__name__} at {id(self)}:x}>",  # noqa: invalid-syntax  # TODO: f-string: single } is not allo...
+                f"Unclosed <{self.__class__.__name__} at {id(self)}:x}>",
                 ResourceWarning,
                 stacklevel=2,
                 source=self,
@@ -339,7 +339,7 @@ class MemoryObjectSendStream(Generic[T_contra], ObjectSendStream[T_contra]):
     def __del__(self) -> None:
         if not self._closed:
             warnings.warn(
-                f"Unclosed <{self.__class__.__name__} at {id(self)}:x}>",  # noqa: invalid-syntax  # TODO: f-string: single } is not allo...
+                f"Unclosed <{self.__class__.__name__} at {id(self)}:x}>",
                 ResourceWarning,
                 stacklevel=2,
                 source=self,

@@ -390,7 +390,7 @@ async def example_unified_usage():
     advanced_retrieval = await manager.retrieve(
         advanced_user,
         memory_id,
-        context={"current_emotion": {"valence": 0.8, "arousal": 0.6},  # noqa: invalid-syntax  # TODO: Expected }, found NonLogicalNe...
+        context={"current_emotion": {"valence": 0.8, "arousal": 0.6},
     )
 
     # Analyze patterns - requires TIER_2+

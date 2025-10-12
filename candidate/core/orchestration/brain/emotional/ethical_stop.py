@@ -10,7 +10,7 @@ Licensed under the lukhas Core License - see LICENSE.md for details.
 
 
 class EthicalProtestModule:
-    def __init__(self, federated_model: FederatedModel):  # noqa: F821  # TODO: FederatedModel
+    def __init__(self, federated_model: FederatedModel):
         self.legal_db = self._load_eu_protest_regulations()
         self.ethics_engine = ProtestEthicsValidator()
         self.federated_model = federated_model

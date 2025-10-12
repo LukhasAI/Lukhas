@@ -314,8 +314,8 @@ class ReflectionMemoryAttentionLayer:
         self.hidden_dim = hidden_dim
         self.num_heads = num_heads
         self.head_dim = hidden_dim // num_heads
-        if TORCH_AVAILABLE:  # noqa: F821  # TODO: TORCH_AVAILABLE
-            self.attention = nn.MultiheadAttention(embed_dim=hidden_dim, num_heads=num_heads, dropout=0.1)  # noqa: F821  # TODO: nn
+        if TORCH_AVAILABLE:
+            self.attention = nn.MultiheadAttention(embed_dim=hidden_dim, num_heads=num_heads, dropout=0.1)
 
     def compute_attention_scores(
         self,

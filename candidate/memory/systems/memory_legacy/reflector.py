@@ -124,7 +124,7 @@ def reflect_on_dream_memories(dream_memories: list[dict[str, Any]]) -> list[str]
         visuals = mem_item.get("extracted_visual_prompts", [])
         visual_summary = visuals[0] if visuals else "[no specific visuals highlighted]"
 
-        reflection = f"Reflection on Dream ('{mem_item.get('dream_log_id', f'Entry {i + 1)}')}'): Experienced emotion '{primary_emo}'. Imagery involved '{visual_summary}'. "  # noqa: invalid-syntax  # TODO: f-string: expecting }
+        reflection = f"Reflection on Dream ('{mem_item.get('dream_log_id', f'Entry {i + 1)}')}'): Experienced emotion '{primary_emo}'. Imagery involved '{visual_summary}'. "
         if any(k in narrative.lower() for k in ["memory", "past", "recall"]):
             reflection += "This dream may relate to memory processing or identity continuity. "
         if any(k in narrative.lower() for k in ["mirror", "self", "reflection"]):

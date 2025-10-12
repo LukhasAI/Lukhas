@@ -118,15 +118,15 @@ with tabs[3]:
 
 if "result" in locals() and result:
     st.markdown("##)  #  🧠 Memory Options"
-    save_memory = st.checkbox("Save this to Lukhas's memory", value=True)  # noqa: invalid-syntax  # TODO: Expected ,, found name
-    mark_qrg = st.checkbox("🔬 Apply QRG Stamp (Symbolic Identity Hash)", value=True)  # noqa: invalid-syntax  # TODO: Expected ,, found name
-    forgettable = st.checkbox(  # noqa: invalid-syntax  # TODO: Expected ,, found name
+    save_memory = st.checkbox("Save this to Lukhas's memory", value=True)
+    mark_qrg = st.checkbox("🔬 Apply QRG Stamp (Symbolic Identity Hash)", value=True)
+    forgettable = st.checkbox(
         "🧹 User requests Lukhas never use this memory in future context",
         value=False,
     )
 
-    if save_memory:  # noqa: invalid-syntax  # TODO: Expected else, found :
-        import hashlib  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for core infrastructure (review and implement)  # noqa: invalid-syntax  # TODO: Unexpected indentation
+    if save_memory:
+        import hashlib  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for core infrastructure (review and implement)
 
         memory_entry = {
             "type": (
@@ -146,7 +146,7 @@ if "result" in locals() and result:
         except Exception as mem_err:
             st.error(f"[Memory Save Error] {str(mem_err)}")
 
-with st.expander("📘 App Overview (for README.md)"):  # noqa: invalid-syntax  # TODO: Expected a statement
+with st.expander("📘 App Overview (for README.md)"):
     st.markdown(
         """
     **Lukhas Symbolic Message Hub**

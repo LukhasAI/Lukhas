@@ -1104,9 +1104,9 @@ class MemoryIntegrityLedger:
             "timestamp_utc": datetime.now(timezone.utc).isoformat(),
             "severity": (
                 "high"
-                if drift_score > 0.5:  # noqa: invalid-syntax  # TODO: Expected else, found :
-                else "medium" if drift_score > 0.3 else "low":  # noqa: invalid-syntax  # TODO: Expected ,, found else
-            ),  # noqa: invalid-syntax  # TODO: Expected an expression
+                if drift_score > 0.5:
+                else "medium" if drift_score > 0.3 else "low":
+            ),
         }
         cls._write_ledger_entry(entry)
 
@@ -1129,9 +1129,9 @@ class MemoryIntegrityLedger:
             "timestamp_utc": datetime.now(timezone.utc).isoformat(),
             "recovery_suggestion": (
                 "symbolic_refolding"
-                if abs(entropy_delta) > 0.7:  # noqa: invalid-syntax  # TODO: Expected else, found :
-                else "drift_stabilization":  # noqa: invalid-syntax  # TODO: Expected ,, found else
-            ),  # noqa: invalid-syntax  # TODO: Expected an expression
+                if abs(entropy_delta) > 0.7:
+                else "drift_stabilization":
+            ),
         }
         cls._write_ledger_entry(entry)
 

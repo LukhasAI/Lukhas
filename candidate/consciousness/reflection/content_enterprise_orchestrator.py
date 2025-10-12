@@ -682,23 +682,23 @@ class ContentEnterpriseOrchestrator:
         try:
             # Initialize core modules
             if self.config["services"]["content_bot"]["enabled"]:
-                self.enterprise_modules["content_bot"] = lukhasContentAutomationBot_ChatGPT()  # noqa: F821  # TODO: lukhasContentAutomationBot_Cha...
+                self.enterprise_modules["content_bot"] = lukhasContentAutomationBot_ChatGPT()
                 self.logger.info("✅ Content Bot module initialized")
 
             if self.config["services"]["api_gateway"]["enabled"]:
-                self.enterprise_modules["api_gateway"] = lukhasContentAPIGateway()  # noqa: F821  # TODO: lukhasContentAPIGateway
+                self.enterprise_modules["api_gateway"] = lukhasContentAPIGateway()
                 self.logger.info("✅ API Gateway module initialized")
 
             if self.config["services"]["collaboration"]["enabled"]:
-                self.enterprise_modules["collaboration"] = lukhasContentCollaborationEngine()  # noqa: F821  # TODO: lukhasContentCollaborationEngi...
+                self.enterprise_modules["collaboration"] = lukhasContentCollaborationEngine()
                 self.logger.info("✅ Collaboration Engine initialized")
 
             if self.config["services"]["performance_monitor"]["enabled"]:
-                self.enterprise_modules["performance_monitor"] = lukhasContentPerformanceMonitor()  # noqa: F821  # TODO: lukhasContentPerformanceMonito...
+                self.enterprise_modules["performance_monitor"] = lukhasContentPerformanceMonitor()
                 self.logger.info("✅ Performance Monitor initialized")
 
             if self.config["services"]["security_compliance"]["enabled"]:
-                self.enterprise_modules["security_compliance"] = lukhasContentSecurityCompliance()  # noqa: F821  # TODO: lukhasContentSecurityComplianc...
+                self.enterprise_modules["security_compliance"] = lukhasContentSecurityCompliance()
                 self.logger.info("✅ Security Compliance initialized")
 
             # Initialize new enterprise modules
@@ -707,11 +707,11 @@ class ContentEnterpriseOrchestrator:
                 self.logger.info("✅ Performance Intelligence module initialized")
 
             if self.config["services"].get("communication_hub", {}).get("enabled", True):
-                self.enterprise_modules["communication_hub"] = lukhasContentCommunicationHub()  # noqa: F821  # TODO: lukhasContentCommunicationHub
+                self.enterprise_modules["communication_hub"] = lukhasContentCommunicationHub()
                 self.logger.info("✅ Communication Hub module initialized")
 
             if self.config["services"].get("localization_engine", {}).get("enabled", True):
-                self.enterprise_modules["localization_engine"] = lukhasContentGlobalLocalizationEngine()  # noqa: F821  # TODO: lukhasContentGlobalLocalizatio...
+                self.enterprise_modules["localization_engine"] = lukhasContentGlobalLocalizationEngine()
                 self.logger.info("✅ Global Localization Engine initialized")
 
             # Create circuit breakers for each module
@@ -1064,7 +1064,7 @@ async def main():
 
     args = parser.parse_args()
 
-    orchestrator = lukhasContentEnterpriseOrchestrator(args.config)  # noqa: F821  # TODO: lukhasContentEnterpriseOrchest...
+    orchestrator = lukhasContentEnterpriseOrchestrator(args.config)
 
     if args.action == "start":
         print("🚀 Starting lukhas Content Enterprise Orchestrator...")

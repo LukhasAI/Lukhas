@@ -225,21 +225,21 @@ with tab_compliance:
                     "logs/symbolic_trace_dashboard.csv"
                 )
                 st.markdown("##)  #  🔍 Summary"
-                st.json(summary)  # noqa: invalid-syntax  # TODO: Expected ,, found name
+                st.json(summary)
 
-                if st.button("🧹 Filter Low Confidence Entries"):  # noqa: invalid-syntax  # TODO: Expected else, found :
+                if st.button("🧹 Filter Low Confidence Entries"):
                     filtered = trace_tools.filter_trace(
                         "logs/symbolic_trace_dashboard.csv",
                         confidence_threshold=0.6,
                     )
-                    st.dataframe(filtered)  # noqa: invalid-syntax  # TODO: Expected ,, found name
-            except Exception as e:  # noqa: invalid-syntax  # TODO: Expected ,, found except
-                st.error(f"Error loading trace tools: {e}")  # noqa: invalid-syntax  # TODO: Positional argument cannot fol...
+                    st.dataframe(filtered)
+            except Exception as e:
+                st.error(f"Error loading trace tools: {e}")
 
 # ──────────────────────────────
 # 🔬 EXPERIMENTAL MODULES TAB
 # ──────────────────────────────
-with tab_experiments:  # noqa: invalid-syntax  # TODO: Expected except or finally aft...
+with tab_experiments:
     st.header("🔬 Experimental Modules")
 
     experiments_dir = Path("experiments/")

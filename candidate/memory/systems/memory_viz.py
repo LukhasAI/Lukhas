@@ -171,8 +171,8 @@ def compare(before, after, format_flamegraph=format_flamegraph):
     before_segs = {_seg_key(seg) for seg in before}
     after_segs = {_seg_key(seg) for seg in after}
 
-    logger.debug(f"only_before = {[a for a, _ in (before_segs - after_segs)}]}")  # noqa: invalid-syntax  # TODO: Expected ], found }
-    logger.debug(f"only_after = {[a for a, _ in (after_segs - before_segs)}]}")  # noqa: invalid-syntax  # TODO: Expected ], found }
+    logger.debug(f"only_before = {[a for a, _ in (before_segs - after_segs)}]}")
+    logger.debug(f"only_after = {[a for a, _ in (after_segs - before_segs)}]}")
 
     for seg in before:
         if _seg_key(seg) not in after_segs:
@@ -325,7 +325,7 @@ def trace(data):
                 return free_names.pop()
             r, m = next_name // 26, next_name % 26
             next_name += 1
-            return f"{chr(ord('a'} + m}{'' if r == 0 else r)}"  # noqa: invalid-syntax  # TODO: Expected ,, found }
+            return f"{chr(ord('a'} + m}{'' if r == 0 else r)}"
 
         def find_segment(addr):
             for name, saddr, size in segment_intervals:
