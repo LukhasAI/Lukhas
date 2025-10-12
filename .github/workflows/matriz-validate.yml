@@ -263,3 +263,65 @@ jobs:
             docs/audits/star_promotions.csv
             docs/audits/star_promotions.md
           if-no-files-found: warn
+
+  openapi-spec:
+    name: Build OpenAPI Spec
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install app
+        run: |
+          pip install -e .
+      - name: Generate OpenAPI JSON
+        run: |
+          python - <<'PY'
+          import json, os
+          from lukhas.adapters.openai.api import get_app
+          app = get_app()
+          spec = app.openapi()
+          os.makedirs("docs/openapi", exist_ok=True)
+          with open("docs/openapi/lukhas-openai.json","w") as f:
+              json.dump(spec, f, indent=2)
+          print("✅ wrote docs/openapi/lukhas-openai.json")
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: openapi-spec
+          path: docs/openapi/lukhas-openai.json
+
+  facade-smoke:
+    name: OpenAI Facade Smoke
+    runs-on: ubuntu-latest
+    needs: [validate]
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install app
+        run: |
+          pip install -e . "uvicorn[standard]"
+      - name: Start Facade
+        run: |
+          LUKHAS_POLICY_MODE=permissive nohup python -m uvicorn lukhas.adapters.openai.api:get_app --factory --port 8000 > facade.log 2>&1 &
+          echo $! > facade.pid
+      - name: Smoke
+        run: |
+          bash scripts/smoke_test_openai_facade.sh
+      - name: Teardown & Upload logs
+        if: always()
+        run: |
+          kill $(cat facade.pid) || true
+          echo "=== Last 200 lines of facade.log ==="
+          tail -200 facade.log || true
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: facade-smoke-artifacts
+          path: |
+            facade.log

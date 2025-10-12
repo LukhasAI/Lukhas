@@ -1,12 +1,13 @@
 """
 Rate limiting for LUKHAS API endpoints.
 
-Implements token bucket algorithm with per-endpoint limits.
+Implements token bucket algorithm with per-endpoint and per-principal limits.
+Keys by (route, bearer_token) or (route, ip) to prevent cross-tenant throttling.
 """
 import time
 from collections import defaultdict
 from threading import Lock
-from typing import Dict, Tuple
+from typing import Dict, Optional, Tuple
 
 
 class TokenBucket:
@@ -60,9 +61,11 @@ class TokenBucket:
 
 class RateLimiter:
     """
-    Rate limiter with per-endpoint token buckets.
+    Rate limiter with per-endpoint, per-principal token buckets.
 
-    Thread-safe for concurrent requests.
+    Keys by (route, bearer_token) or (route, client_ip) to isolate
+    tenants and prevent cross-tenant throttling. Thread-safe for
+    concurrent requests.
     """
 
     def __init__(self, default_rps: int = 20):
@@ -78,6 +81,57 @@ class RateLimiter:
         )
         self.lock = Lock()
 
+    def _extract_principal(self, request) -> str:
+        """
+        Extract principal identifier from request.
+        
+        Prioritizes bearer token for tenant isolation, falls back to
+        client IP address for anonymous requests.
+        
+        Args:
+            request: FastAPI Request object
+            
+        Returns:
+            Principal identifier (token or IP)
+        """
+        # Try to extract bearer token
+        auth: Optional[str] = request.headers.get("authorization")
+        if auth and auth.lower().startswith("bearer "):
+            token = auth.split(" ", 1)[1].strip()
+            if token:
+                return token
+        
+        # Fallback to client IP
+        client = getattr(request, "client", None)
+        if client:
+            ip = getattr(client, "host", None)
+            if ip:
+                return ip
+        
+        # Last resort fallback
+        return "anonymous"
+
+    def _key_for_request(self, request) -> str:
+        """
+        Generate rate limit key for request.
+        
+        Key format: "{route}:{principal}"
+        - route: Request URL path
+        - principal: Bearer token or IP address
+        
+        This ensures each (endpoint, tenant) pair has independent limits,
+        preventing one tenant from exhausting another's quota.
+        
+        Args:
+            request: FastAPI Request object
+            
+        Returns:
+            Rate limit key string
+        """
+        route = request.url.path
+        principal = self._extract_principal(request)
+        return f"{route}:{principal}"
+
     def configure_endpoint(self, endpoint: str, rps: int) -> None:
         """Configure custom rate limit for endpoint."""
         with self.lock:
@@ -86,14 +140,18 @@ class RateLimiter:
                 refill_rate=rps
             )
 
-    def check_limit(self, endpoint: str) -> Tuple[bool, float]:
+    def check_limit(self, request) -> Tuple[bool, float]:
         """
         Check if request is within rate limit.
+        
+        Args:
+            request: FastAPI Request object (used to derive key)
 
         Returns:
             (allowed, retry_after_seconds)
         """
-        bucket = self.buckets[endpoint]
+        key = self._key_for_request(request)
+        bucket = self.buckets[key]
         return bucket.consume(1)
 
 

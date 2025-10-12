@@ -194,8 +194,8 @@ def get_app() -> FastAPI:
         if request.url.path in ["/healthz", "/readyz", "/metrics"]:
             return await call_next(request)
 
-        # Check rate limit
-        allowed, retry_after = rate_limiter.check_limit(request.url.path)
+        # Check rate limit (now keys by route + bearer token/IP)
+        allowed, retry_after = rate_limiter.check_limit(request)
         if not allowed:
             error_response = rate_limit_error(retry_after)
             return JSONResponse(
