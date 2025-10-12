@@ -55,6 +55,9 @@ class _AliasLoader(importlib.abc.MetaPathFinder, importlib.abc.Loader):
         root = parts[0]
         if root in ALIASES:
             mapped = ".".join([ALIASES[root]] + parts[1:])
+            # Don't map if it's the same (prevents infinite recursion)
+            if mapped == fullname:
+                return None
             return mapped
         return None
 
@@ -63,10 +66,19 @@ class _AliasLoader(importlib.abc.MetaPathFinder, importlib.abc.Loader):
         mapped = self._map(fullname)
         if not mapped:
             return None
+
+        # Temporarily remove ourselves from meta_path to avoid recursion
+        # when finding the mapped spec
+        sys.meta_path.remove(self)
         try:
             spec = importlib.util.find_spec(mapped)
         except Exception:
-            return None
+            spec = None
+        finally:
+            # Always re-insert ourselves at the front
+            if self not in sys.meta_path:
+                sys.meta_path.insert(0, self)
+
         if spec:
             # make this loader execute the module to rewrite its dict
             spec.loader = self
