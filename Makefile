@@ -1369,6 +1369,12 @@ todos-issues: ## Generate gh issue commands from todos.csv
 fix-orphaned-noqa: ## Remove orphaned noqa comments (PR 375 fix)
 	python3 scripts/fix_orphaned_noqa.py --apply
 
+update-manifest-paths: ## Update JSON manifest paths (Phase 2)
+	python3 scripts/update_manifest_paths.py --root manifests --from candidate/ --to labs/
+
+check-alias-hits: ## Report compat layer alias usage
+	python3 scripts/check_alias_hits.py
+
 codemod-dry: ## Preview legacy→canonical import rewrites (LibCST)
 	python3 scripts/codemod_imports.py \
 		--roots lukhas labs core MATRIZ tests packages tools \
