@@ -235,6 +235,14 @@ repos:
         pass_filenames: false
         stages: [commit]
 
+      - id: check-license-headers
+        name: Check License Headers (Apache-2.0)
+        entry: python3 scripts/check_headers.py
+        language: system
+        files: ^(lukhas|matriz|core)/.*\.py$
+        pass_filenames: true
+        types: [python]
+
   # Secrets detection
   - repo: https://github.com/Yelp/detect-secrets
     rev: v1.5.0

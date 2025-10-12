@@ -1,10 +1,149 @@
+# =============================================================================
+# LUKHAS Reliability Configuration
+# =============================================================================
+# This file defines reliability parameters for LUKHAS API operations:
+# - Connection/request timeouts
+# - Exponential backoff parameters for retries
+# - Rate limiting thresholds for API endpoints
+#
+# Changes to this file require system restart. For production deployments,
+# validate changes in staging environment first.
+#
+# Related Docs:
+#   - docs/ops/RELIABILITY_TUNING.md - Comprehensive tuning guide
+#   - docs/openai/API_ERRORS.md - Error handling strategies
+#   - docs/openai/SLOs.md - Service level objectives
+# =============================================================================
+
+# -----------------------------------------------------------------------------
+# Connection & Request Timeouts
+# -----------------------------------------------------------------------------
+# These timeouts prevent indefinite hangs and ensure responsive error handling.
+# Values are in milliseconds (ms).
+#
+# Tuning Guidelines:
+#   - Internal networks: 500-1000ms connect, 5000-10000ms read
+#   - External/cloud: 2000-3000ms connect, 15000-30000ms read
+#   - Consciousness streams: Ensure read timeout > SLO_E2E_MS (default 250ms)
+#
 timeouts:
+  # TCP connection establishment timeout (default: 1000ms = 1s)
+  # How long to wait for initial connection to downstream services.
+  # Increase if experiencing frequent connection timeouts in high-latency environments.
   connect_ms: 1000
+  
+  # HTTP request read timeout (default: 10000ms = 10s)
+  # Maximum time to wait for complete response after connection established.
+  # Must accommodate:
+  #   - Consciousness stream processing (target: <250ms)
+  #   - Memory orchestration (target: <500ms)
+  #   - Quantum processing operations (target: <1000ms)
+  # Increase for complex multi-turn conversations or large embeddings.
   read_ms: 10000
+
+# -----------------------------------------------------------------------------
+# Exponential Backoff for Retries
+# -----------------------------------------------------------------------------
+# Controls retry behavior for transient failures (503, 429, connection errors).
+# Formula: wait_time = base_s * (factor ^ attempt) ± (jitter * base_s)
+#
+# Example with defaults (base=0.1s, factor=2.0, jitter=0.1):
+#   Attempt 1: 0.1s ± 0.01s  (90-110ms)
+#   Attempt 2: 0.2s ± 0.02s  (180-220ms)
+#   Attempt 3: 0.4s ± 0.04s  (360-440ms)
+#   Attempt 4: 0.8s ± 0.08s  (720-880ms)
+#   Attempt 5: 1.6s ± 0.16s  (1440-1760ms)
+#
+# Tuning Guidelines:
+#   - Reduce base_s for fast-fail (real-time applications)
+#   - Increase base_s for batch/background jobs
+#   - Keep factor=2.0 for standard exponential growth
+#   - Jitter prevents thundering herd problem
+#
 backoff:
+  # Initial backoff delay in seconds (default: 0.1s = 100ms)
+  # First retry happens after this base delay.
   base_s: 0.1
+  
+  # Backoff multiplier per attempt (default: 2.0)
+  # Each retry doubles the wait time (exponential backoff).
+  # Factor of 2.0 is optimal for most scenarios.
   factor: 2.0
+  
+  # Random jitter as fraction of base delay (default: 0.1 = ±10%)
+  # Randomizes retry timing to prevent synchronized retries.
+  # Range: 0.0 (no jitter) to 1.0 (±100% variance)
   jitter: 0.1
+
+# -----------------------------------------------------------------------------
+# Rate Limits (Requests Per Second)
+# -----------------------------------------------------------------------------
+# Per-endpoint rate limiting to prevent service degradation under load.
+# These are server-side limits; client-side limits may be stricter.
+#
+# Enforcement:
+#   - Returns HTTP 429 (Too Many Requests) when exceeded
+#   - Includes Retry-After header with recommended wait time
+#   - Tracked per API key for multi-tenant deployments
+#
+# Tuning Guidelines:
+#   - Start conservative, increase based on load testing
+#   - Monitor p95 latency; reduce limits if degrading
+#   - Consciousness streams are CPU-intensive: 10-50 RPS typical
+#   - Embeddings are memory-intensive: 50-100 RPS typical
+#   - See load/README.md for k6 load testing scenarios
+#
 rate_limits:
+  # /v1/responses endpoint (consciousness stream generation)
+  # Default: 20 RPS per API key
+  # CPU-intensive operation involving:
+  #   - Consciousness state processing
+  #   - Memory orchestration
+  #   - Symbolic reasoning
+  # Increase if:
+  #   - High-core server (8+ cores): try 50-100 RPS
+  #   - Observing <50% CPU utilization under load
+  # Decrease if:
+  #   - p95 latency exceeds SLO (250ms)
+  #   - Memory pressure detected
   responses_rps: 20
+  
+  # /v1/embeddings endpoint (vector embeddings generation)
+  # Default: 50 RPS per API key
+  # Memory-intensive operation, typically faster than consciousness streams.
+  # Increase if:
+  #   - Dedicated embedding hardware (GPU/TPU)
+  #   - Observing low memory/CPU utilization
+  # Decrease if:
+  #   - OOM errors in logs
+  #   - High swap usage
   embeddings_rps: 50
+
+# -----------------------------------------------------------------------------
+# Advanced Configuration (Optional)
+# -----------------------------------------------------------------------------
+# Uncomment and customize as needed for production deployments.
+
+# Circuit breaker settings (prevents cascading failures)
+# circuit_breaker:
+#   failure_threshold: 5          # Open circuit after N consecutive failures
+#   recovery_timeout_s: 30        # Try recovery after 30 seconds
+#   half_open_requests: 3         # Test with 3 requests before full recovery
+
+# Health check configuration
+# health_checks:
+#   interval_s: 10                # Check every 10 seconds
+#   timeout_ms: 1000              # Health check timeout
+#   unhealthy_threshold: 3        # Mark unhealthy after 3 failures
+#   healthy_threshold: 2          # Mark healthy after 2 successes
+
+# Graceful shutdown
+# shutdown:
+#   grace_period_s: 30            # Allow in-flight requests to complete
+#   force_timeout_s: 60           # Force kill after 60 seconds
+
+# Connection pooling
+# connection_pool:
+#   max_connections: 100          # Maximum concurrent connections
+#   max_keepalive_ms: 30000       # Keep idle connections for 30s
+#   min_pool_size: 10             # Maintain minimum 10 connections

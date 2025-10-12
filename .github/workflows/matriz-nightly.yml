@@ -357,3 +357,55 @@ jobs:
             artifacts/matriz_evidence_nightly_*.json
             artifacts/matriz_evidence_latest.json
           retention-days: 60
+  load-smoke:
+    name: Load Test Smoke (k6)
+    runs-on: ubuntu-22.04
+    needs: [setup]
+    steps:
+      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332  # v4
+      - uses: actions/setup-python@82c7e631bb3cdc910f68e0081d67478d79c6982d  # v5
+        with: { python-version: "3.11" }
+      - name: Install k6
+        run: |
+          sudo gpg -k
+          sudo gpg --no-default-keyring --keyring /usr/share/keyrings/k6-archive-keyring.gpg --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys C5AD17C747E3415A3642D57D77C6C491D6AC1D69
+          echo "deb [signed-by=/usr/share/keyrings/k6-archive-keyring.gpg] https://dl.k6.io/deb stable main" | sudo tee /etc/apt/sources.list.d/k6.list
+          sudo apt-get update
+          sudo apt-get install k6
+      - name: Install dependencies
+        run: |
+          python -m pip install -U pip
+          pip install -r requirements.txt
+      - name: Start LUKHAS server
+        run: |
+          python main.py --dev-mode &
+          echo $! > server.pid
+          # Wait for server to be ready (max 30s)
+          for i in {1..30}; do
+            if curl -s http://localhost:8000/health > /dev/null; then
+              echo "✅ Server ready"
+              break
+            fi
+            echo "Waiting for server... ($i/30)"
+            sleep 1
+          done
+      - name: Run k6 smoke test
+        run: |
+          mkdir -p load/results
+          k6 run load/smoke.js --out json=load/results/nightly-smoke.json
+        env:
+          K6_BASE_URL: http://localhost:8000
+          API_KEY: test-nightly-key
+      - name: Stop server
+        if: always()
+        run: |
+          if [ -f server.pid ]; then
+            kill $(cat server.pid) || true
+          fi
+      - name: Upload k6 results
+        if: always()
+        uses: actions/upload-artifact@65462800fd760344b1a7b4382951275a0abb4808  # v4
+        with:
+          name: nightly_load_test_results
+          path: load/results/nightly-smoke.json
+          retention-days: 30

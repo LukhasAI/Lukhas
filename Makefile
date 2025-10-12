@@ -1,5 +1,6 @@
 # Main Makefile PHONY declarations (only for targets defined in this file)
 .PHONY: install setup-hooks dev api openapi live colony-dna-smoke smoke-matriz lint lint-unused lint-unused-strict format fix fix-all fix-ultra fix-imports oneiric-drift-test
+.PHONY: load-smoke load-test load-extended load-spike load-locust load-check
 .PHONY: ai-analyze ai-setup ai-workflow clean deep-clean quick bootstrap organize organize-dry organize-suggest organize-watch
 .PHONY: codex-validate codex-fix validate-all perf migrate-dry migrate-run dna-health dna-compare admin lint-status lane-guard
 .PHONY: audit-tail sdk-py-install sdk-py-test sdk-ts-build sdk-ts-test backup-local backup-s3 restore-local restore-s3 dr-drill dr-weekly dr-quarterly dr-monthly
@@ -1387,3 +1388,56 @@ codemod-apply: ## Apply import rewrites in-place (DESTRUCTIVE - commit first!)
 
 check-legacy-imports: ## Fail if legacy imports remain outside allowlist
 	python3 scripts/check_legacy_imports.py
+
+# ============================================================================
+# Load Testing Targets
+# ============================================================================
+
+load-check: ## Check if k6 is installed (install instructions provided if missing)
+	@echo "🔍 Checking k6 installation..."
+	@if ! command -v k6 > /dev/null 2>&1; then \
+		echo "❌ k6 is not installed"; \
+		echo ""; \
+		echo "Install k6:"; \
+		echo "  macOS:     brew install k6"; \
+		echo "  Linux:     See load/README.md for installation instructions"; \
+		echo "  Docker:    docker pull grafana/k6:latest"; \
+		echo ""; \
+		echo "Or use Locust (Python alternative):"; \
+		echo "  pip install locust"; \
+		echo "  make load-locust"; \
+		exit 1; \
+	else \
+		k6 version; \
+		echo "✅ k6 is installed"; \
+	fi
+
+load-smoke: load-check ## Run k6 smoke test (30s, 5 VUs) - quick sanity check
+	@echo "🚬 Running k6 smoke test (30s, 5 VUs)..."
+	@mkdir -p load/results
+	k6 run load/smoke.js --out json=load/results/smoke-$(shell date +%Y%m%d-%H%M%S).json
+
+load-test: load-check ## Run k6 standard load test (2m, 50 VUs) - sustained traffic
+	@echo "⚡ Running k6 standard load test (2m, 50 VUs)..."
+	@mkdir -p load/results
+	k6 run load/resp_scenario.js --out json=load/results/standard-$(shell date +%Y%m%d-%H%M%S).json
+
+load-extended: load-check ## Run k6 extended load test (10m, 100 VUs) - stress testing
+	@echo "🔥 Running k6 extended load test (10m, ramping to 100 VUs)..."
+	@mkdir -p load/results
+	k6 run load/extended.js --out json=load/results/extended-$(shell date +%Y%m%d-%H%M%S).json
+
+load-spike: load-check ## Run k6 spike test (5m, 0→200→0 VUs) - traffic burst simulation
+	@echo "💥 Running k6 spike test (5m, 0→200→0 VUs)..."
+	@mkdir -p load/results
+	k6 run load/spike.js --out json=load/results/spike-$(shell date +%Y%m%d-%H%M%S).json
+
+load-locust: ## Run Locust load test (Python alternative with web UI)
+	@echo "🦗 Starting Locust load test with web UI..."
+	@echo "Open http://localhost:8089 to configure and start test"
+	@if ! command -v locust > /dev/null 2>&1; then \
+		echo "❌ Locust is not installed"; \
+		echo "Install with: pip install locust"; \
+		exit 1; \
+	fi
+	locust -f load/locustfile.py --host=http://localhost:8000
