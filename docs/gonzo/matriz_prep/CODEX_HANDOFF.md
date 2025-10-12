@@ -219,3 +219,222 @@ git commit -m "chore(cleanup): remove 1,850+ fake TODO/FIXME noise from candidat
 ```
 
 **Ready to execute! Good luck, Codex! 🚀**
+
+---
+
+## 🆕 Phase 2: Legacy Import Codemod (LibCST - 2-3 hours)
+
+**AFTER Phase 1 is complete**, execute the import codemod to migrate:
+- `candidate.*` → `labs.*`
+- `tools.*` → `lukhas.tools.*`
+- `governance.*` → `lukhas.governance.*`
+- `memory.*` → `lukhas.memory.*`
+- `lucas.*` → `lukhas.*`
+
+### Stage A: Preview (Dry-Run)
+
+```bash
+# 1. Generate preview of all import rewrites
+make codemod-dry
+
+# 2. Review the preview
+wc -l docs/audits/codemod_preview.csv
+head -30 docs/audits/codemod_preview.csv
+
+# 3. Verify tests still collect (thanks to compat layer)
+pytest --collect-only -q
+```
+
+**Expected**: CSV shows all proposed `from → to` import rewrites.
+
+---
+
+### Stage B: Apply in Batches (Safest Approach)
+
+**Apply by subtree** to minimize risk:
+
+```bash
+# Batch 1: tests/ (highest signal, easiest to verify)
+python3 scripts/codemod_imports.py --apply --roots tests
+pytest --collect-only -q  # Should pass
+git add tests/
+git commit -m "refactor(imports): migrate tests/ from legacy to canonical imports (LibCST)"
+
+# Batch 2: lukhas/ (production lane)
+python3 scripts/codemod_imports.py --apply --roots lukhas
+make check-legacy-imports  # Verify no legacy imports remain
+pytest tests/smoke/ -v     # Smoke tests should pass
+git add lukhas/
+git commit -m "refactor(imports): migrate lukhas/ production lane to canonical imports"
+
+# Batch 3: labs/ (formerly candidate/)
+python3 scripts/codemod_imports.py --apply --roots labs
+pytest --collect-only -q
+git add labs/
+git commit -m "refactor(imports): migrate labs/ (candidate) to canonical imports"
+
+# Batch 4: Remaining (core, MATRIZ, packages, tools)
+python3 scripts/codemod_imports.py --apply --roots core MATRIZ packages tools
+make check-legacy-imports
+pytest tests/smoke/ -v
+git add -A
+git commit -m "refactor(imports): complete import migration for core, MATRIZ, packages, tools"
+```
+
+---
+
+### Stage C: Verification
+
+After all batches are applied:
+
+```bash
+# 1. Check no legacy imports remain outside allowlist
+make check-legacy-imports  # Should exit 0 ✅
+
+# 2. Verify test collection
+pytest --collect-only -q   # Should succeed
+
+# 3. Run smoke tests
+make smoke-matriz          # Should pass 15/15
+
+# 4. Check import health
+make lane-guard            # Should pass
+
+# 5. Generate final codemod report
+make codemod-dry
+wc -l docs/audits/codemod_preview.csv  # Should show 0 or near-0 changes
+```
+
+---
+
+### Stage D: PR Creation
+
+**Create a PR** (don't push directly to main):
+
+```bash
+# If you applied in batches (multiple commits), create PR with all commits
+gh pr create \
+  --title "refactor(imports): migrate legacy imports to canonical lukhas/* paths" \
+  --body "$(cat <<'BODY'
+## Summary
+Migrates all legacy import paths to canonical `lukhas.*` namespaces using LibCST codemod.
+
+## Migrations Applied
+- `candidate.*` → `labs.*`
+- `tools.*` → `lukhas.tools.*`
+- `governance.*` → `lukhas.governance.*`
+- `memory.*` → `lukhas.memory.*`
+- `lucas.*|Lucas.*|LUCAS.*` → `lukhas.*`
+
+## Safety
+- Applied in batches (tests → lukhas → labs → core/MATRIZ/packages/tools)
+- Verified test collection after each batch
+- Smoke tests passing (15/15)
+- Import boundary checks passing
+- Compat layer remains for transition period
+
+## Verification
+✅ `make check-legacy-imports` passes
+✅ `pytest --collect-only -q` succeeds
+✅ `make smoke-matriz` passes (15/15)
+✅ `make lane-guard` passes
+
+## Metrics
+- Files changed: ~XXX (see commit history)
+- Import rewrites: ~XXX (see docs/audits/codemod_preview.csv)
+- Test collection: 0 errors
+- Smoke tests: 100% pass rate
+
+## Follow-up
+- Monitor compat layer alias hits in CI
+- Remove compat layer when hits reach 0
+- Add pre-commit hook to prevent new legacy imports
+
+🤖 Generated with ChatGPT CODEX
+BODY
+)"
+```
+
+**Alternative** (if you squashed to single commit):
+
+```bash
+git add -A
+git commit -m "refactor(imports): migrate all legacy imports to canonical lukhas/* paths
+
+Problem:
+- Legacy import roots (candidate, tools, governance, etc.) scattered across codebase
+- Multiple import paths for same modules causing confusion
+- Import boundary enforcement difficult with mixed namespaces
+
+Solution:
+- LibCST codemod to systematically rewrite imports
+- candidate.* → labs.*
+- tools.* → lukhas.tools.*
+- governance.* → lukhas.governance.*
+- memory.* → lukhas.memory.*
+- lucas.* → lukhas.*
+
+Impact:
+- All imports now use canonical lukhas.* namespace
+- Import boundaries enforceable via configs/legacy_imports.yml
+- Compat layer provides safe transition period
+- Pre-commit hook prevents new legacy imports
+
+Safety:
+- Applied in batches with verification between each
+- All tests collect successfully
+- Smoke tests: 15/15 passing
+- Lane guard checks passing
+
+Metrics:
+- Files changed: ~XXX
+- Import rewrites: ~XXX
+- Test collection: 0 errors
+
+🤖 Generated with ChatGPT CODEX
+"
+
+gh pr create -f
+```
+
+---
+
+## 🛠️ Tools Provided
+
+### Config:
+- `configs/legacy_imports.yml` - Mapping and allowlist
+
+### Scripts:
+- `scripts/codemod_imports.py` - LibCST import rewriter
+- `scripts/check_legacy_imports.py` - CI checker (blocks legacy imports)
+
+### Make Targets:
+```bash
+make codemod-dry             # Preview import rewrites (safe)
+make codemod-apply           # Apply all rewrites (DESTRUCTIVE)
+make check-legacy-imports    # Verify no legacy imports (CI blocker)
+```
+
+---
+
+## ⚠️ Important Notes
+
+1. **Phase 1 must complete first** - TODO cleanup before import migration
+2. **Batch application is safest** - Apply by subtree, not all at once
+3. **Verify after each batch** - Run tests and checks between batches
+4. **Don't push to main** - Use PR workflow for review
+5. **Compat layer stays** - Will be removed later when alias hits = 0
+
+---
+
+## Success Criteria (Phase 2)
+
+**Phase 2 Complete When**:
+✅ `make check-legacy-imports` passes (0 violations)
+✅ All tests collect successfully
+✅ Smoke tests: 15/15 passing (100%)
+✅ PR created with clear before/after metrics
+✅ Committed with T4 format (Problem/Solution/Impact)
+
+---
+

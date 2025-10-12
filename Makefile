@@ -15,7 +15,7 @@
 .PHONY: mcp-bootstrap mcp-verify mcp-selftest mcp-ready mcp-contract mcp-smoke mcp-freeze mcp-docker-build mcp-docker-run mcp-validate-catalog mcp-health
 .PHONY: meta-registry ledger-check trends validate-t4 validate-t4-strict tag-prod freeze-verify freeze-guardian freeze-guardian-once dashboard-sync init-dev-branch
 .PHONY: docs-map docs-migrate-auto docs-migrate-dry docs-lint validate-structure module-health vault-audit vault-audit-vault star-rules-lint star-rules-coverage promotions
-.PHONY: lint-json lint-fix lint-delta f401-tests import-map imports-abs imports-graph ruff-heatmap ruff-ratchet f821-suggest f706-detect f811-detect todos todos-issues
+.PHONY: lint-json lint-fix lint-delta f401-tests import-map imports-abs imports-graph ruff-heatmap ruff-ratchet f821-suggest f706-detect f811-detect todos todos-issues codemod-dry codemod-apply check-legacy-imports
 
 # Note: Additional PHONY targets are declared in mk/*.mk include files
 
@@ -1365,3 +1365,16 @@ todos-issues: ## Generate gh issue commands from todos.csv
 		--csv docs/audits/todos.csv \
 		--out docs/audits/todos_gh.sh \
 		--label-extra matriz
+
+codemod-dry: ## Preview legacy→canonical import rewrites (LibCST)
+	python3 scripts/codemod_imports.py \
+		--roots lukhas labs core MATRIZ tests packages tools \
+		--out docs/audits/codemod_preview.csv
+
+codemod-apply: ## Apply import rewrites in-place (DESTRUCTIVE - commit first!)
+	python3 scripts/codemod_imports.py --apply \
+		--roots lukhas labs core MATRIZ tests packages tools \
+		--out docs/audits/codemod_preview.csv
+
+check-legacy-imports: ## Fail if legacy imports remain outside allowlist
+	python3 scripts/check_legacy_imports.py

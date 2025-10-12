@@ -10,6 +10,19 @@ from pathlib import Path
 
 import pytest
 
+# Install legacy import aliases so tests continue to collect while we codemod.
+try:
+    from lukhas.compat import install as _install_aliases
+    _install_aliases()
+except Exception as e:
+    # Don't break collection; print a hint
+    print(f"[lukhas.compat] WARN: failed to install alias loader: {e}", file=sys.stderr)
+
+# Tell compat where to write the hit report
+os.environ.setdefault("LUKHAS_COMPAT_HITS_FILE", "docs/audits/compat_alias_hits.json")
+# Leave LUKHAS_COMPAT_ENFORCE unset or "0" during migration;
+# later we can flip to "1" in CI to forbid aliases.
+
 # -- Import failure telemetry (catch UnknownError root causes) ----------------
 _ART_DIR = Path("artifacts")
 _ART_DIR.mkdir(exist_ok=True, parents=True)

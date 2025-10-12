@@ -1,0 +1,19 @@
+# Legacy → Canonical import roots
+# Used by: scripts/codemod_imports.py, scripts/check_legacy_imports.py
+
+map:
+  candidate: "labs"
+  tools: "lukhas.tools"
+  governance: "lukhas.governance"
+  memory: "lukhas.memory"
+  ledger: "lukhas.ledger"
+  lucas: "lukhas"
+  Lucas: "lukhas"
+  LUCAS: "lukhas"
+
+# Allowed paths where legacy imports may remain temporarily (won't fail CI)
+allowlist:
+  - "lukhas/compat"
+  - "tests/conftest.py"
+  - "scripts/codemod_imports.py"
+  - "scripts/check_legacy_imports.py"

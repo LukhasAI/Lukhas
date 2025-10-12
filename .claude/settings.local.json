@@ -45,7 +45,9 @@
       "Bash(cat:*)",
       "Bash(/Users/agi_dev/LOCAL-REPOS/Lukhas/scripts/find_top_level_returns.py --help)",
       "Bash(do echo \"=== $f ===\")",
-      "Read(//private/tmp/**)"
+      "Read(//private/tmp/**)",
+      "Bash(git log:*)",
+      "Bash(gh api:*)"
     ],
     "defaultMode": "bypassPermissions"
   }
