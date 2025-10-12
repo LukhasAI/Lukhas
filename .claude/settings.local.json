@@ -47,7 +47,12 @@
       "Bash(do echo \"=== $f ===\")",
       "Read(//private/tmp/**)",
       "Bash(git log:*)",
-      "Bash(gh api:*)"
+      "Bash(gh api:*)",
+      "Bash(gh pr merge:*)",
+      "Bash(gh pr checks:*)",
+      "Bash(gh pr diff:*)",
+      "Bash(git branch:*)",
+      "Bash(gh pr edit:*)"
     ],
     "defaultMode": "bypassPermissions"
   }
