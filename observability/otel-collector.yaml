@@ -1,0 +1,11 @@
+receivers:
+  otlp:
+    protocols: { http: {} }
+exporters:
+  file:
+    path: ./docs/audits/traces.json
+service:
+  pipelines:
+    traces:
+      receivers: [otlp]
+      exporters: [file]

@@ -104,6 +104,8 @@ Before creating PR:
 - [ ] `make lane-guard` clean
 - [ ] `make check-legacy-imports` returns exit 0
 - [ ] No unexpected test failures
+- [ ] JSON manifests updated via script (no "candidate/" under manifests)
+- [ ] Compat alias hits reported and trending down (`docs/audits/compat_alias_hits.json`)
 
 ---
 
@@ -127,6 +129,12 @@ pytest tests/smoke/ -q
 
 # Full tests
 pytest tests/ --maxfail=20 -q
+
+# Update JSON manifest paths safely
+python3 scripts/update_manifest_paths.py --root manifests --from candidate/ --to labs/
+
+# Compat alias hits (report)
+python3 scripts/check_alias_hits.py
 ```
 
 ---
@@ -139,7 +147,10 @@ pytest tests/ --maxfail=20 -q
 
 ⚠️ **Test after each batch**: Don't skip verification
 
-⚠️ **Update manifests in Batch 3**: 928 manifest references need updating
+⚠️ **Update manifests (JSON) in Batch 3**: use the updater script (do **not** sed JSON)
+   - Command: `python3 scripts/update_manifest_paths.py --root manifests --from candidate/ --to labs/`
+   - Then: `python3 scripts/gen_rules_coverage.py` and `python3 docs/check_links.py --root .`
+   - Goal: zero `"candidate/"` paths under `manifests/`, updated coverage & links artifacts
 
 ---
 

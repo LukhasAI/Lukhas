@@ -1,0 +1,7 @@
+endpoints:
+  responses:
+    p95_ms: 1200
+    p99_ms: 2500
+  embeddings:
+    p95_ms: 800
+    p99_ms: 1500

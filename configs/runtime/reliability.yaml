@@ -1,0 +1,10 @@
+timeouts:
+  connect_ms: 1000
+  read_ms: 10000
+backoff:
+  base_s: 0.1
+  factor: 2.0
+  jitter: 0.1
+rate_limits:
+  responses_rps: 20
+  embeddings_rps: 50

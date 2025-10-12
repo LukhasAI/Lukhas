@@ -1,0 +1,29 @@
+openapi: 3.0.3
+info:
+  title: Lukhas OpenAI Facade
+  version: 0.1.0
+paths:
+  /v1/models:
+    get:
+      summary: List models
+      responses:
+        "200":
+          description: OK
+  /v1/embeddings:
+    post:
+      summary: Create embeddings
+      responses: {"200": {"description": "OK"}}
+  /v1/responses:
+    post:
+      summary: Generate a response
+      responses: {"200": {"description": "OK"}}
+  /v1/dreams:
+    post:
+      summary: Generate a dream trace
+      responses: {"200": {"description": "OK"}}
+  /healthz:
+    get: {responses: {"200": {description: OK}}}
+  /readyz:
+    get: {responses: {"200": {description: OK}}}
+  /metrics:
+    get: {responses: {"200": {description: OK}}}

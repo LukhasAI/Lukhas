@@ -54,7 +54,8 @@
       "Bash(git branch:*)",
       "Bash(gh pr edit:*)",
       "Bash(gh run list:*)",
-      "Bash(git pull:*)"
+      "Bash(git pull:*)",
+      "Bash(git fetch:*)"
     ],
     "defaultMode": "bypassPermissions"
   }
