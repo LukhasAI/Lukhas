@@ -61,16 +61,23 @@ The LUKHAS Multi-Agent Coordination System orchestrates four specialized AI agen
 - Docstring enforcement
 - Small codegen stubs
 - Performance micro-tweaks
+- **TODO noise cleanup** (removing auto-generated fake TODOs)
 
 **Domains**:
 - Import hygiene across all modules
 - `candidate/voice/` - Audio scaffolding
 - Template wiring (streamlit, edge_tts)
 - Test fixture generation
+- **TODO/FIXME cleanup** (mechanical removal of linter-generated noise)
+
+**Current Assignment**:
+- **MATRIZ Prep - TODO Cleanup** (Phase 1)
+- Remove ~1,850 fake TODOs (syntax errors, F821 markers)
+- See: `docs/gonzo/matriz_prep/CODEX_HANDOFF.md`
 
 **Risk Level**: LOW to LOW-MEDIUM (mechanical, isolated changes)
 
-**Batch Size**: 30–40 tasks
+**Batch Size**: 30–40 tasks (or bulk cleanup operations)
 
 **Expected Qualities**:
 - Speed and consistency

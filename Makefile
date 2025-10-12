@@ -15,7 +15,7 @@
 .PHONY: mcp-bootstrap mcp-verify mcp-selftest mcp-ready mcp-contract mcp-smoke mcp-freeze mcp-docker-build mcp-docker-run mcp-validate-catalog mcp-health
 .PHONY: meta-registry ledger-check trends validate-t4 validate-t4-strict tag-prod freeze-verify freeze-guardian freeze-guardian-once dashboard-sync init-dev-branch
 .PHONY: docs-map docs-migrate-auto docs-migrate-dry docs-lint validate-structure module-health vault-audit vault-audit-vault star-rules-lint star-rules-coverage promotions
-.PHONY: lint-json lint-fix lint-delta f401-tests import-map imports-abs imports-graph ruff-heatmap ruff-ratchet f821-suggest f706-detect f811-detect
+.PHONY: lint-json lint-fix lint-delta f401-tests import-map imports-abs imports-graph ruff-heatmap ruff-ratchet f821-suggest f706-detect f811-detect todos todos-issues
 
 # Note: Additional PHONY targets are declared in mk/*.mk include files
 
@@ -1354,3 +1354,14 @@ f706-detect: ## Detect F706 top-level return statements
 
 f811-detect: ## Detect duplicate test class names (F811)
 	python3 scripts/detect_duplicate_test_classes.py
+
+todos: ## Harvest TODO/FIXME into docs/audits/todos.csv
+	python3 scripts/harvest_todos.py \
+		--roots lukhas candidate packages tools tests docs \
+		--out docs/audits/todos.csv
+
+todos-issues: ## Generate gh issue commands from todos.csv
+	python3 scripts/create_issues_from_csv.py \
+		--csv docs/audits/todos.csv \
+		--out docs/audits/todos_gh.sh \
+		--label-extra matriz
