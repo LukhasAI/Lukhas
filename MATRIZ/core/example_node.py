@@ -11,7 +11,7 @@ import re
 import time
 from typing import Any
 
-from .node_interface import CognitiveNode, NodeState
+from MATRIZ.core.node_interface import CognitiveNode, NodeState
 
 
 class MathReasoningNode(CognitiveNode):

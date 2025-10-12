@@ -46,7 +46,7 @@ if "AdaptiveTimeoutManager" not in __all__:
     __all__.append("AdaptiveTimeoutManager")
 
 try:
-    from ..backoff import ExponentialBackoff, sleep_with_backoff  # type: ignore  # noqa: F401
+    from ..backoff import ExponentialBackoff, sleep_with_backoff  # type: ignore  # noqa: F401,TID252
     for _name in ("ExponentialBackoff", "sleep_with_backoff"):
         if _name not in __all__:
             __all__.append(_name)
@@ -79,7 +79,7 @@ if "BackoffStrategy" not in globals():
             self.config = config or BackoffConfig()
 
         def sequence(self):
-            from ..backoff import ExponentialBackoff
+            from ..backoff import ExponentialBackoff  # noqa: TID252 (relative imports in __init__.py are idiomatic)
 
             return ExponentialBackoff(
                 base=self.config.base,

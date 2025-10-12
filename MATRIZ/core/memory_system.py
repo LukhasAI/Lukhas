@@ -29,7 +29,7 @@ from enum import Enum
 from pathlib import Path
 from typing import Any, Optional
 
-from .node_interface import (
+from MATRIZ.core.node_interface import (
     CognitiveNode,
     NodeState,
     NodeTrigger,

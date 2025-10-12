@@ -62,7 +62,7 @@ logger = logging.getLogger(__name__)
 
 # Import legacy collector
 try:
-    from .collector import Collector
+    from .collector import Collector  # noqa: TID252 (relative imports in __init__.py are idiomatic)
 
     logger.debug("Imported Collector from .collector")
 except ImportError as e:
@@ -71,7 +71,7 @@ except ImportError as e:
 
 # Import monitoring systems
 try:
-    from .unified_monitoring_dashboard import (
+    from .unified_monitoring_dashboard import (  # noqa: TID252 (relative imports in __init__.py are idiomatic)
         AlertPriority,
         DashboardConfig,
         DashboardData,
@@ -124,7 +124,7 @@ except ImportError as e:
     CONSCIOUSNESS_MONITORING_AVAILABLE = False
 
 try:
-    from .system_health_monitor import (
+    from .system_health_monitor import (  # noqa: TID252 (relative imports in __init__.py are idiomatic)
         ComponentHealth,
         ComponentType,
         HealthMetric,
@@ -141,7 +141,7 @@ except ImportError as e:
     HEALTH_MONITORING_AVAILABLE = False
 
 try:
-    from .alerting_system import (
+    from .alerting_system import (  # noqa: TID252 (relative imports in __init__.py are idiomatic)
         Alert,
         AlertCategory,
         AlertingMetrics,
@@ -161,7 +161,7 @@ except ImportError as e:
     ALERTING_SYSTEM_AVAILABLE = False
 
 try:
-    from .constellation_framework_monitor import (
+    from .constellation_framework_monitor import (  # noqa: TID252 (relative imports in __init__.py are idiomatic)
         APIPerformanceMetric,
         AuthenticationEvent,
         ConstellationComponent,

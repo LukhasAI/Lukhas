@@ -31,7 +31,7 @@ logger.setLevel(logging.INFO)
 
 # Import MultiBrainSymphony components with fallback paths
 try:
-    from .MultiBrainSymphony import (
+    from .MultiBrainSymphony import (  # noqa: TID252 TODO: convert to absolute import
         DreamBrainSpecialist,
         LearningBrainSpecialist,
         MemoryBrainSpecialist,
@@ -59,13 +59,13 @@ except ImportError:
 
 # Import new AI components from Lukhas repository integration
 try:
-    from .compliance.ai_compliance_manager import AIComplianceManager
-    from .ethics.ethical_hierarchy import EthicalHierarchy
-    from .governance.dao_governance_node import DAOGovernanceNode
-    from .memory.enhanced_memory_manager import EnhancedMemoryManager
-    from .meta_cognitive.reflective_introspection_system import ReflectiveIntrospectionSystem
-    from .prediction.predictive_resource_manager import PredictiveResourceManager
-    from .reasoning.causal_reasoning_module import CausalReasoningModule
+    from .compliance.ai_compliance_manager import AIComplianceManager  # noqa: TID252 TODO: convert to absolute import
+    from .ethics.ethical_hierarchy import EthicalHierarchy  # noqa: TID252 TODO: convert to absolute import
+    from .governance.dao_governance_node import DAOGovernanceNode  # noqa: TID252 TODO: convert to absolute import
+    from .memory.enhanced_memory_manager import EnhancedMemoryManager  # noqa: TID252 TODO: convert to absolute import
+    from .meta_cognitive.reflective_introspection_system import ReflectiveIntrospectionSystem  # noqa: TID252 TODO: convert to absolute import
+    from .prediction.predictive_resource_manager import PredictiveResourceManager  # noqa: TID252 TODO: convert to absolute import
+    from .reasoning.causal_reasoning_module import CausalReasoningModule  # noqa: TID252 TODO: convert to absolute import
     ADVANCED_AGI_COMPONENTS = True
 except ImportError:
     try:
@@ -127,7 +127,7 @@ except ImportError:
 
 # Import Lukhas_ID identity system
 try:
-    from ..Lukhas_ID import AccessTier, ConsentLevel, get_current_user, unified_identity_manager, verify_tier_access
+    from ..Lukhas_ID import AccessTier, ConsentLevel, get_current_user, unified_identity_manager, verify_tier_access  # noqa: TID252 TODO: convert to absolute import
     IDENTITY_AVAILABLE = True
     logger.info("Lukhas_ID Identity system loaded successfully")
 except ImportError as e:

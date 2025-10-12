@@ -21,7 +21,7 @@ except ImportError:  # pragma: no cover
     st = None
     # Optional UI dependency; core runtime must not require it.
 
-from .node_interface import (
+from .node_interface import (  # noqa: TID252 (relative imports in __init__.py are idiomatic)
     CognitiveNode,
     NodeLink,
     NodeProvenance,
@@ -29,7 +29,7 @@ from .node_interface import (
     NodeState,
     NodeTrigger,
 )
-from .orchestrator import CognitiveOrchestrator, ExecutionTrace
+from .orchestrator import CognitiveOrchestrator, ExecutionTrace  # noqa: TID252 (relative imports in __init__.py are idiomatic)
 
 __all__ = [
     "CognitiveNode",

@@ -13,9 +13,9 @@ full traceability through the MATRIZ node format.
 
 import streamlit as st
 
-from .fact_node import FactNode
-from .math_node import MathNode
-from .validator_node import ValidatorNode
+from .fact_node import FactNode  # noqa: TID252 (relative imports in __init__.py are idiomatic)
+from .math_node import MathNode  # noqa: TID252 (relative imports in __init__.py are idiomatic)
+from .validator_node import ValidatorNode  # noqa: TID252 (relative imports in __init__.py are idiomatic)
 
 __all__ = [
     "FactNode",

@@ -11,7 +11,7 @@ Usage:
 import queue
 from typing import Callable, Dict
 
-from .node_contract import MatrizMessage, MatrizNode
+from MATRIZ.node_contract import MatrizMessage, MatrizNode
 
 
 class SymbolicMeshRouter:

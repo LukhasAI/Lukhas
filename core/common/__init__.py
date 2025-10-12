@@ -3,7 +3,7 @@ from __future__ import annotations
 
 # First get local logger
 try:
-    from .logger import get_logger as _get_logger
+    from .logger import get_logger as _get_logger  # noqa: TID252 (relative imports in __init__.py are idiomatic)
 except ImportError:
     import logging
     _get_logger = logging.getLogger

@@ -137,7 +137,7 @@ def _record_pipeline_metrics(duration_ms: float, status: str, within_budget: Opt
         within_budget=within_label,
     ).inc()
 
-from .node_interface import CognitiveNode
+from MATRIZ.core.node_interface import CognitiveNode
 
 logger = logging.getLogger(__name__)
 

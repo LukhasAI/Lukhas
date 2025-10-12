@@ -29,11 +29,11 @@ from fastapi.responses import JSONResponse, RedirectResponse
 from pydantic import BaseModel, Field, validator
 from starlette.status import HTTP_500_INTERNAL_SERVER_ERROR
 
-# Import MATRIZ components (package-relative for reliability)
-from ..core.orchestrator import CognitiveOrchestrator
-from ..nodes.fact_node import FactNode
-from ..nodes.math_node import MathNode
-from ..nodes.validator_node import ValidatorNode
+# Import MATRIZ components
+from MATRIZ.core.orchestrator import CognitiveOrchestrator
+from MATRIZ.nodes.fact_node import FactNode
+from MATRIZ.nodes.math_node import MathNode
+from MATRIZ.nodes.validator_node import ValidatorNode
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")

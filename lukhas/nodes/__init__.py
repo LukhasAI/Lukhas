@@ -60,6 +60,6 @@ else:
     __all__.extend(["NodeId", "Node", "Graph"])
 
 try:
-    from . import example_nodes  # noqa: F401
+    from . import example_nodes  # noqa: F401,TID252
 except Exception:
     pass

@@ -1003,4 +1003,7 @@ This file contains 100% of your original EnhancedAGIBot logic with professional 
 All AI capabilities, self-modification, metacognition, and learning are fully preserved.
 """
 
-__all__ = ["EnhancedAGIBot"]
+# Backward compatibility alias: EnhancedAGIBot → CognitiveEngine
+EnhancedAGIBot = CognitiveEngine
+
+__all__ = ["CognitiveEngine", "EnhancedAGIBot"]

@@ -12,7 +12,7 @@ from dataclasses import asdict, dataclass
 from datetime import datetime, timezone
 from typing import Any
 
-from .node_interface import CognitiveNode, NodeReflection, NodeState, NodeTrigger
+from MATRIZ.core.node_interface import CognitiveNode, NodeReflection, NodeState, NodeTrigger
 
 
 @dataclass

@@ -36,7 +36,7 @@ except ImportError:
     logger = logging.getLogger(__name__)
     logger.setLevel(logging.INFO)
 
-from .collapse_tracker import CollapseAlertLevel, get_global_tracker
+from .collapse_tracker import CollapseAlertLevel, get_global_tracker  # noqa: TID252 TODO: convert to absolute import
 
 
 class CollapseIntegration:
