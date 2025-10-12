@@ -148,6 +148,55 @@ jobs:
         run: |
           python3 scripts/check_t1_owners.py
 
+      - name: 🧊 FREEZE Gate — Validate release requirements (RC/release branches only)
+        if: startsWith(github.ref, 'refs/heads/release/') || startsWith(github.head_ref, 'release/')
+        run: |
+          echo "🧊 Validating FREEZE checklist requirements..."
+          ERRORS=0
+
+          # Check CHANGELOG.md updated
+          if ! git diff --name-only origin/main...HEAD | grep -q "CHANGELOG.md"; then
+            echo "❌ CHANGELOG.md not updated"
+            ((ERRORS++))
+          else
+            echo "✅ CHANGELOG.md updated"
+          fi
+
+          # Check version bumped in pyproject.toml
+          if ! git diff origin/main...HEAD pyproject.toml | grep -q "^+version"; then
+            echo "⚠️  Version may not be bumped in pyproject.toml"
+          else
+            echo "✅ Version bumped in pyproject.toml"
+          fi
+
+          # Check smoke tests passing
+          if pytest tests/smoke/ -q --tb=no; then
+            echo "✅ Smoke tests passing"
+          else
+            echo "❌ Smoke tests failing"
+            ((ERRORS++))
+          fi
+
+          # Check for breaking changes
+          if git log --oneline --no-merges origin/main...HEAD | grep -qi "BREAKING"; then
+            echo "⚠️  Breaking changes detected - ensure migration guide exists"
+            if ! git diff --name-only origin/main...HEAD | grep -qE "(docs/|MIGRATION)"; then
+              echo "❌ Breaking changes without documentation"
+              ((ERRORS++))
+            fi
+          else
+            echo "✅ No breaking changes detected"
+          fi
+
+          if [ $ERRORS -gt 0 ]; then
+            echo ""
+            echo "❌ FREEZE validation failed with $ERRORS error(s)"
+            exit 1
+          else
+            echo ""
+            echo "✅ FREEZE checklist validated successfully"
+          fi
+
       - name: Upload artifacts — manifest stats & reports
         uses: actions/upload-artifact@v4
         with:
