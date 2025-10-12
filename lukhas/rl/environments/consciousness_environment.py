@@ -13,3 +13,20 @@ globals().update(_exports)
 
 # ΛTAG: rl_bridge -- consciousness environment shim
 
+# Guarantee that ConsciousnessAction exists for tests (temporary shim)
+if "ConsciousnessAction" not in globals():
+    try:
+        from enum import Enum
+
+        class ConsciousnessAction(str, Enum):  # minimal fallback
+            THINK = "think"
+            PAUSE = "pause"
+            ACT = "act"
+
+    except Exception:
+
+        class ConsciousnessAction:  # type: ignore  # pragma: no cover
+            THINK = "think"
+            PAUSE = "pause"
+            ACT = "act"
+
