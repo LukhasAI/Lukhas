@@ -1,0 +1,16 @@
+import logging
+
+logger = logging.getLogger(__name__)
+"""
+═══════════════════════════════════════════════════════════════════════════════
+║ 🧠 LUKHAS AI - MEMORY CORE SYMBOLIC DRIFT TRACKER ALIAS
+║ Provides compatibility alias to the core symbolic drift tracker implementation
+╚═══════════════════════════════════════════════════════════════════════════════
+"""
+
+# ΛTAGS: ΛALIAS, ΛMEMORY_CORE, ΛSYMBOLIC_DRIFT
+from lukhas.core.symbolic.drift.symbolic_drift_tracker import SymbolicDriftTracker
+
+logger.debug("lukhas.memory.core_memory.symbolic_drift_tracker alias loaded")
+
+__all__ = ["SymbolicDriftTracker"]

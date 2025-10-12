@@ -326,7 +326,11 @@ def _apply_replacements(src: str, replacements: Iterable[Replacement]) -> str:
 
 
 def process_file(path: Path, mapping: Dict[str,str], apply: bool):
-    src = path.read_text(encoding="utf-8", errors="ignore")
+    try:
+        src = path.read_text(encoding="utf-8", errors="ignore")
+    except FileNotFoundError:
+        print(f"[codemod] skipping missing file: {path}")
+        return [], False
     if HAS_LIBCST:
         try:
             mod = cst.parse_module(src)

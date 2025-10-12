@@ -128,7 +128,7 @@
         "memory_stage": "experimental",
         "thought_stage": "experimental"
       },
-      "path": "candidate/utils",
+      "path": "labs/utils",
       "purpose": "Directory containing 1 Python files and 0 subdirectories",
       "t4_compliance_level": "experimental"
     },

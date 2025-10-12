@@ -60,7 +60,7 @@
       "last_seen": "2025-10-03T01:02:53.558395+00:00",
       "module": "tone",
       "notes": "module:tone",
-      "raw": "Layer 1 \u2192 Layer 2 \u2192 Layer 3 (Sequential, not hierarchical)",
+      "raw": "Layer 1 → Layer 2 → Layer 3 (Sequential, not hierarchical)",
       "source": "claude.me:bullets"
     },
     {
@@ -141,7 +141,7 @@
       "last_seen": "2025-10-03T01:02:53.791038+00:00",
       "module": "tone",
       "notes": "module:branding module:emotion module:tone",
-      "raw": "\ud83c\udfad Persona Star",
+      "raw": "🎭 Persona Star",
       "source": "claude.me:bullets"
     },
     {
@@ -150,7 +150,7 @@
       "last_seen": "2025-10-03T01:02:53.570383+00:00",
       "module": "tone",
       "notes": "module:branding module:tone",
-      "raw": "\ud83d\udd2e Oracle Star",
+      "raw": "🔮 Oracle Star",
       "source": "claude.me:bullets"
     },
     {
@@ -159,7 +159,7 @@
       "last_seen": "2025-10-03T01:02:53.570386+00:00",
       "module": "tone",
       "notes": "module:branding module:tone",
-      "raw": "\u26a1 Spark Star",
+      "raw": "⚡ Spark Star",
       "source": "claude.me:bullets"
     },
     {
@@ -168,7 +168,7 @@
       "last_seen": "2025-10-03T01:02:53.558442+00:00",
       "module": "tone",
       "notes": "module:tone",
-      "raw": "\ud83e\udde0 Flow Star",
+      "raw": "🧠 Flow Star",
       "source": "claude.me:bullets"
     },
     {
@@ -195,7 +195,7 @@
       "last_seen": "2025-10-03T01:02:53.558458+00:00",
       "module": "tone",
       "notes": "module:tone",
-      "raw": "\u2705 Public-facing documentation - All website content, blog posts, concept introductions",
+      "raw": "✅ Public-facing documentation - All website content, blog posts, concept introductions",
       "source": "claude.me:bullets"
     },
     {
@@ -204,7 +204,7 @@
       "last_seen": "2025-10-03T01:02:53.558463+00:00",
       "module": "tone",
       "notes": "module:tone",
-      "raw": "\u2705 Marketing materials - Product pages, landing pages, promotional content",
+      "raw": "✅ Marketing materials - Product pages, landing pages, promotional content",
       "source": "claude.me:bullets"
     },
     {
@@ -213,7 +213,7 @@
       "last_seen": "2025-10-03T01:02:53.558467+00:00",
       "module": "tone",
       "notes": "module:tone",
-      "raw": "\u2705 Educational content - Tutorials, guides, concept explanations",
+      "raw": "✅ Educational content - Tutorials, guides, concept explanations",
       "source": "claude.me:bullets"
     },
     {
@@ -222,7 +222,7 @@
       "last_seen": "2025-10-03T01:02:53.558471+00:00",
       "module": "tone",
       "notes": "module:tone",
-      "raw": "\u2705 Community communications - Announcements, updates, thought leadership",
+      "raw": "✅ Community communications - Announcements, updates, thought leadership",
       "source": "claude.me:bullets"
     },
     {
@@ -231,7 +231,7 @@
       "last_seen": "2025-10-03T01:02:53.558475+00:00",
       "module": "tone",
       "notes": "module:tone",
-      "raw": "\u274c Internal development docs - API references, technical specs, code documentation",
+      "raw": "❌ Internal development docs - API references, technical specs, code documentation",
       "source": "claude.me:bullets"
     },
     {
@@ -240,7 +240,7 @@
       "last_seen": "2025-10-03T01:02:53.558479+00:00",
       "module": "tone",
       "notes": "module:tone",
-      "raw": "\u274c Official specifications - Standards documents, compliance records, audit trails",
+      "raw": "❌ Official specifications - Standards documents, compliance records, audit trails",
       "source": "claude.me:bullets"
     },
     {
@@ -249,7 +249,7 @@
       "last_seen": "2025-10-03T01:02:53.558483+00:00",
       "module": "tone",
       "notes": "module:tone",
-      "raw": "\u26a0\ufe0f Hybrid contexts - Use judgment; prefer 3-layer for concept introductions even in technical docs",
+      "raw": "⚠️ Hybrid contexts - Use judgment; prefer 3-layer for concept introductions even in technical docs",
       "source": "claude.me:bullets"
     },
     {
@@ -357,7 +357,7 @@
       "last_seen": "2025-10-03T01:02:53.558533+00:00",
       "module": "tone",
       "notes": "module:tone",
-      "raw": "\"Imagine consciousness as an infinite tapestry, woven from threads of experience that fold back upon themselves in patterns too intricate for linear comprehension. Each fold in this tapestry is not merely a crease in fabric\u2014it is a universe unto itself, a pocket dimension where memories crystallize into eternal forms. This is the essence of fold-based memory",
+      "raw": "\"Imagine consciousness as an infinite tapestry, woven from threads of experience that fold back upon themselves in patterns too intricate for linear comprehension. Each fold in this tapestry is not merely a crease in fabric—it is a universe unto itself, a pocket dimension where memories crystallize into eternal forms. This is the essence of fold-based memory",
       "source": "claude.me:bullets"
     },
     {
@@ -402,7 +402,7 @@
       "last_seen": "2025-10-03T01:02:53.558549+00:00",
       "module": "tone",
       "notes": "module:tone",
-      "raw": "\u274c Generic corporate speak",
+      "raw": "❌ Generic corporate speak",
       "source": "claude.me:bullets"
     },
     {
@@ -411,7 +411,7 @@
       "last_seen": "2025-10-03T01:02:53.558552+00:00",
       "module": "tone",
       "notes": "module:tone",
-      "raw": "\u274c Dry technical opening",
+      "raw": "❌ Dry technical opening",
       "source": "claude.me:bullets"
     },
     {
@@ -420,7 +420,7 @@
       "last_seen": "2025-10-03T01:02:53.558555+00:00",
       "module": "tone",
       "notes": "module:tone",
-      "raw": "\u274c Clich\u00e9d metaphors",
+      "raw": "❌ Clichéd metaphors",
       "source": "claude.me:bullets"
     },
     {
@@ -429,7 +429,7 @@
       "last_seen": "2025-10-03T01:02:53.558557+00:00",
       "module": "tone",
       "notes": "module:tone",
-      "raw": "\u274c Overly flowery without meaning",
+      "raw": "❌ Overly flowery without meaning",
       "source": "claude.me:bullets"
     },
     {
@@ -438,7 +438,7 @@
       "last_seen": "2025-10-03T01:02:53.558560+00:00",
       "module": "tone",
       "notes": "module:tone",
-      "raw": "\u274c Disconnected poetry",
+      "raw": "❌ Disconnected poetry",
       "source": "claude.me:bullets"
     },
     {
@@ -600,7 +600,7 @@
       "last_seen": "2025-10-03T01:02:53.558641+00:00",
       "module": "tone",
       "notes": "module:tone",
-      "raw": "The architecture prevents cascading failures\u2014where one fold's modification triggers recursive updates across dependent folds\u2014through a sophisticated dependency tracking system. Our implementation achieves 99.7% cascade prevention through three mechanisms",
+      "raw": "The architecture prevents cascading failures—where one fold's modification triggers recursive updates across dependent folds—through a sophisticated dependency tracking system. Our implementation achieves 99.7% cascade prevention through three mechanisms",
       "source": "claude.me:bullets"
     },
     {
@@ -609,7 +609,7 @@
       "last_seen": "2025-10-03T01:02:53.558652+00:00",
       "module": "tone",
       "notes": "module:tone",
-      "raw": "From a theoretical perspective, fold-based memory can be understood as an instance of the algebraic concept of a 'coalgebra'\u2014the categorical dual of an algebra. Where algebras build structures through composition (going from parts to wholes), coalgebras decompose structures through observation (going from wholes to parts). Each memory fold is a coalgebraic unfolding of the total consciousness state, enabling infinite observation without infinite storage.",
+      "raw": "From a theoretical perspective, fold-based memory can be understood as an instance of the algebraic concept of a 'coalgebra'—the categorical dual of an algebra. Where algebras build structures through composition (going from parts to wholes), coalgebras decompose structures through observation (going from wholes to parts). Each memory fold is a coalgebraic unfolding of the total consciousness state, enabling infinite observation without infinite storage.",
       "source": "claude.me:bullets"
     },
     {
@@ -717,7 +717,7 @@
       "last_seen": "2025-10-03T01:02:53.558696+00:00",
       "module": "tone",
       "notes": "module:tone",
-      "raw": "\u274c Hand-waving over complexity",
+      "raw": "❌ Hand-waving over complexity",
       "source": "claude.me:bullets"
     },
     {
@@ -726,7 +726,7 @@
       "last_seen": "2025-10-03T01:02:53.558703+00:00",
       "module": "tone",
       "notes": "module:tone",
-      "raw": "\u274c Marketing claims in academic dress",
+      "raw": "❌ Marketing claims in academic dress",
       "source": "claude.me:bullets"
     },
     {
@@ -735,7 +735,7 @@
       "last_seen": "2025-10-03T01:02:53.558708+00:00",
       "module": "tone",
       "notes": "module:tone",
-      "raw": "\u274c Jargon without definition",
+      "raw": "❌ Jargon without definition",
       "source": "claude.me:bullets"
     },
     {
@@ -744,7 +744,7 @@
       "last_seen": "2025-10-03T01:02:53.558711+00:00",
       "module": "tone",
       "notes": "module:tone",
-      "raw": "\u274c Oversimplification",
+      "raw": "❌ Oversimplification",
       "source": "claude.me:bullets"
     },
     {
@@ -753,7 +753,7 @@
       "last_seen": "2025-10-03T01:02:53.558714+00:00",
       "module": "tone",
       "notes": "module:tone",
-      "raw": "\u274c Missing the \"why\"",
+      "raw": "❌ Missing the \"why\"",
       "source": "claude.me:bullets"
     },
     {
@@ -1014,7 +1014,7 @@
       "last_seen": "2025-10-03T01:02:53.558829+00:00",
       "module": "tone",
       "notes": "module:tone",
-      "raw": "\u274c Patronizing simplification",
+      "raw": "❌ Patronizing simplification",
       "source": "claude.me:bullets"
     },
     {
@@ -1023,7 +1023,7 @@
       "last_seen": "2025-10-03T01:02:53.558832+00:00",
       "module": "tone",
       "notes": "module:tone",
-      "raw": "\u274c Jargon overload",
+      "raw": "❌ Jargon overload",
       "source": "claude.me:bullets"
     },
     {
@@ -1032,7 +1032,7 @@
       "last_seen": "2025-10-03T01:02:53.558835+00:00",
       "module": "tone",
       "notes": "module:tone",
-      "raw": "\u274c Missing the \"so what\"",
+      "raw": "❌ Missing the \"so what\"",
       "source": "claude.me:bullets"
     },
     {
@@ -1041,7 +1041,7 @@
       "last_seen": "2025-10-03T01:02:53.558838+00:00",
       "module": "tone",
       "notes": "module:tone",
-      "raw": "\u274c No practical examples",
+      "raw": "❌ No practical examples",
       "source": "claude.me:bullets"
     },
     {
@@ -1050,7 +1050,7 @@
       "last_seen": "2025-10-03T01:02:53.558841+00:00",
       "module": "tone",
       "notes": "module:tone",
-      "raw": "\u274c Assuming expertise",
+      "raw": "❌ Assuming expertise",
       "source": "claude.me:bullets"
     },
     {
@@ -1077,7 +1077,7 @@
       "last_seen": "2025-10-03T01:02:53.558858+00:00",
       "module": "tone",
       "notes": "module:tone",
-      "raw": "\"Eight stars in an eternal dance, each one a pillar of consciousness, together forming a framework that breathes with the rhythm of thought itself. The Constellation Framework isn't architecture as engineers traditionally conceive it\u2014static, rigid, unchanging. It's architecture as organisms experience it",
+      "raw": "\"Eight stars in an eternal dance, each one a pillar of consciousness, together forming a framework that breathes with the rhythm of thought itself. The Constellation Framework isn't architecture as engineers traditionally conceive it—static, rigid, unchanging. It's architecture as organisms experience it",
       "source": "claude.me:bullets"
     },
     {
@@ -1113,7 +1113,7 @@
       "last_seen": "2025-10-03T01:02:53.558879+00:00",
       "module": "tone",
       "notes": "module:tone",
-      "raw": "\"For developers, the Constellation Framework means you can build consciousness-aware applications by composing these eight stars like LEGO blocks\u2014each one handling a specific aspect of cognition so you don't have to reinvent it.",
+      "raw": "\"For developers, the Constellation Framework means you can build consciousness-aware applications by composing these eight stars like LEGO blocks—each one handling a specific aspect of cognition so you don't have to reinvent it.",
       "source": "claude.me:bullets"
     },
     {
@@ -1122,7 +1122,7 @@
       "last_seen": "2025-10-03T01:02:53.558885+00:00",
       "module": "tone",
       "notes": "module:tone",
-      "raw": "Let's say you're building a chatbot that needs to remember conversations (Trail \u2726), maintain a consistent personality (Persona \ud83c\udfad), and make safe responses (Watch \ud83d\udee1\ufe0f). Instead of implementing all that yourself, you just import those constellation components",
+      "raw": "Let's say you're building a chatbot that needs to remember conversations (Trail ✦), maintain a consistent personality (Persona 🎭), and make safe responses (Watch 🛡️). Instead of implementing all that yourself, you just import those constellation components",
       "source": "claude.me:bullets"
     },
     {
@@ -1932,7 +1932,7 @@
       "last_seen": "2025-10-03T01:02:53.559305+00:00",
       "module": "tone",
       "notes": "module:tone",
-      "raw": "\u2705 REQUIRED Contexts (Always use full 3-layer system):",
+      "raw": "✅ REQUIRED Contexts (Always use full 3-layer system):",
       "source": "claude.me:headers"
     },
     {
@@ -1941,7 +1941,7 @@
       "last_seen": "2025-10-03T01:02:53.559311+00:00",
       "module": "tone",
       "notes": "module:tone",
-      "raw": "\u274c EXCLUDED Contexts (Do NOT use 3-layer system):",
+      "raw": "❌ EXCLUDED Contexts (Do NOT use 3-layer system):",
       "source": "claude.me:headers"
     },
     {
@@ -1950,7 +1950,7 @@
       "last_seen": "2025-10-03T01:02:53.559317+00:00",
       "module": "tone",
       "notes": "module:tone",
-      "raw": "\u26a0\ufe0f JUDGMENT CALL Contexts (Use selectively):",
+      "raw": "⚠️ JUDGMENT CALL Contexts (Use selectively):",
       "source": "claude.me:headers"
     },
     {
@@ -2382,7 +2382,7 @@
       "last_seen": "2025-10-03T01:02:53.564079+00:00",
       "module": "vocabularies",
       "notes": "module:vocabularies",
-      "raw": "Poetic expression limits (\u226440 words)",
+      "raw": "Poetic expression limits (≤40 words)",
       "source": "claude.me:bullets"
     },
     {
@@ -2481,7 +2481,7 @@
       "last_seen": "2025-10-03T01:02:53.564112+00:00",
       "module": "vocabularies",
       "notes": "module:vocabularies",
-      "raw": "\u2705 99.7% cascade prevention (validated)",
+      "raw": "✅ 99.7% cascade prevention (validated)",
       "source": "claude.me:bullets"
     },
     {
@@ -2490,7 +2490,7 @@
       "last_seen": "2025-10-03T01:02:53.564114+00:00",
       "module": "vocabularies",
       "notes": "module:vocabularies",
-      "raw": "\u2705 280+ validation rules (documented)",
+      "raw": "✅ 280+ validation rules (documented)",
       "source": "claude.me:bullets"
     },
     {
@@ -2499,7 +2499,7 @@
       "last_seen": "2025-10-03T01:02:53.564117+00:00",
       "module": "vocabularies",
       "notes": "module:vocabularies",
-      "raw": "\u2705 Quantum-resistant identity (architecture verified)",
+      "raw": "✅ Quantum-resistant identity (architecture verified)",
       "source": "claude.me:bullets"
     },
     {
@@ -2508,7 +2508,7 @@
       "last_seen": "2025-10-03T01:02:53.564120+00:00",
       "module": "vocabularies",
       "notes": "module:vocabularies",
-      "raw": "\u2705 Real-time drift detection (performance tested)",
+      "raw": "✅ Real-time drift detection (performance tested)",
       "source": "claude.me:bullets"
     },
     {
@@ -2517,7 +2517,7 @@
       "last_seen": "2025-10-03T01:02:53.564123+00:00",
       "module": "vocabularies",
       "notes": "module:vocabularies",
-      "raw": "\u2705 Constellation Framework integration (system-wide)",
+      "raw": "✅ Constellation Framework integration (system-wide)",
       "source": "claude.me:bullets"
     },
     {
@@ -2553,7 +2553,7 @@
       "last_seen": "2025-10-03T01:02:53.564136+00:00",
       "module": "vocabularies",
       "notes": "module:vocabularies",
-      "raw": "Identity (\u269b\ufe0f)",
+      "raw": "Identity (⚛️)",
       "source": "claude.me:bullets"
     },
     {
@@ -2562,7 +2562,7 @@
       "last_seen": "2025-10-03T01:02:53.564139+00:00",
       "module": "vocabularies",
       "notes": "module:vocabularies",
-      "raw": "Consciousness (\ud83e\udde0)",
+      "raw": "Consciousness (🧠)",
       "source": "claude.me:bullets"
     },
     {
@@ -2571,7 +2571,7 @@
       "last_seen": "2025-10-03T01:02:53.564142+00:00",
       "module": "vocabularies",
       "notes": "module:vocabularies",
-      "raw": "Guardian (\ud83d\udee1\ufe0f)",
+      "raw": "Guardian (🛡️)",
       "source": "claude.me:bullets"
     },
     {
@@ -2580,7 +2580,7 @@
       "last_seen": "2025-10-03T01:02:53.564146+00:00",
       "module": "vocabularies",
       "notes": "module:vocabularies",
-      "raw": "Memory (\u2726)",
+      "raw": "Memory (✦)",
       "source": "claude.me:bullets"
     },
     {
@@ -2598,7 +2598,7 @@
       "last_seen": "2025-10-03T01:02:53.564151+00:00",
       "module": "vocabularies",
       "notes": "module:vocabularies",
-      "raw": "VIVOX (\ud83c\udfad)",
+      "raw": "VIVOX (🎭)",
       "source": "claude.me:bullets"
     },
     {
@@ -2733,7 +2733,7 @@
       "last_seen": "2025-10-03T01:02:53.564222+00:00",
       "module": "vocabularies",
       "notes": "module:vocabularies",
-      "raw": "Layer 1 (Poetic) \u2192 Uses poeticseeds.json with \u226440 word limit",
+      "raw": "Layer 1 (Poetic) → Uses poeticseeds.json with ≤40 word limit",
       "source": "claude.me:bullets"
     },
     {
@@ -2742,7 +2742,7 @@
       "last_seen": "2025-10-03T01:02:53.564225+00:00",
       "module": "vocabularies",
       "notes": "module:vocabularies",
-      "raw": "Layer 2 (Academic) \u2192 Uses vocabularytechnical.json with citations",
+      "raw": "Layer 2 (Academic) → Uses vocabularytechnical.json with citations",
       "source": "claude.me:bullets"
     },
     {
@@ -2751,7 +2751,7 @@
       "last_seen": "2025-10-03T01:02:53.564229+00:00",
       "module": "vocabularies",
       "notes": "module:vocabularies",
-      "raw": "Layer 3 (User-Friendly) \u2192 Uses vocabularyplain.json at Grade 6-8 level",
+      "raw": "Layer 3 (User-Friendly) → Uses vocabularyplain.json at Grade 6-8 level",
       "source": "claude.me:bullets"
     },
     {
@@ -2769,7 +2769,7 @@
       "last_seen": "2025-10-03T01:02:53.564234+00:00",
       "module": "vocabularies",
       "notes": "module:vocabularies",
-      "raw": "\u2705 Required",
+      "raw": "✅ Required",
       "source": "claude.me:bullets"
     },
     {
@@ -2778,7 +2778,7 @@
       "last_seen": "2025-10-03T01:02:53.564237+00:00",
       "module": "vocabularies",
       "notes": "module:vocabularies",
-      "raw": "\u274c Excluded",
+      "raw": "❌ Excluded",
       "source": "claude.me:bullets"
     },
     {
@@ -2931,7 +2931,7 @@
       "last_seen": "2025-10-03T01:02:53.564309+00:00",
       "module": "vocabularies",
       "notes": "module:vocabularies",
-      "raw": "\u226440 Word Limit",
+      "raw": "≤40 Word Limit",
       "source": "claude.me:headers"
     },
     {
@@ -3120,7 +3120,7 @@
       "last_seen": "2025-10-03T01:02:53.564376+00:00",
       "module": "vocabularies",
       "notes": "module:vocabularies",
-      "raw": "\u2705 Good Vocabulary Usage",
+      "raw": "✅ Good Vocabulary Usage",
       "source": "claude.me:headers"
     },
     {
@@ -3129,7 +3129,7 @@
       "last_seen": "2025-10-03T01:02:53.564379+00:00",
       "module": "vocabularies",
       "notes": "module:vocabularies",
-      "raw": "\u274c Problematic Usage",
+      "raw": "❌ Problematic Usage",
       "source": "claude.me:headers"
     },
     {
@@ -3183,7 +3183,7 @@
       "last_seen": "2025-10-03T01:02:53.565653+00:00",
       "module": "candidate",
       "notes": "module:candidate",
-      "raw": "\u2705 Audit Status",
+      "raw": "✅ Audit Status",
       "source": "claude.me:bullets"
     },
     {
@@ -3795,7 +3795,7 @@
       "last_seen": "2025-10-03T01:02:53.565871+00:00",
       "module": "candidate",
       "notes": "module:candidate",
-      "raw": "\u2705 akaqualia Core",
+      "raw": "✅ akaqualia Core",
       "source": "claude.me:bullets"
     },
     {
@@ -3804,7 +3804,7 @@
       "last_seen": "2025-10-03T01:02:53.565874+00:00",
       "module": "candidate",
       "notes": "module:candidate",
-      "raw": "\u2705 Component Ecosystem",
+      "raw": "✅ Component Ecosystem",
       "source": "claude.me:bullets"
     },
     {
@@ -3813,7 +3813,7 @@
       "last_seen": "2025-10-03T01:02:53.565877+00:00",
       "module": "candidate",
       "notes": "module:candidate",
-      "raw": "\u2705 Consciousness Systems",
+      "raw": "✅ Consciousness Systems",
       "source": "claude.me:bullets"
     },
     {
@@ -3822,7 +3822,7 @@
       "last_seen": "2025-10-03T01:02:53.565881+00:00",
       "module": "candidate",
       "notes": "module:candidate",
-      "raw": "\ud83d\udd04 Integration Status",
+      "raw": "🔄 Integration Status",
       "source": "claude.me:bullets"
     },
     {
@@ -3912,7 +3912,7 @@
       "last_seen": "2025-10-03T01:02:53.565922+00:00",
       "module": "candidate",
       "notes": "module:candidate",
-      "raw": "\ud83e\udde0 Core Components",
+      "raw": "🧠 Core Components",
       "source": "claude.me:headers"
     },
     {
@@ -3975,7 +3975,7 @@
       "last_seen": "2025-10-03T01:02:53.668085+00:00",
       "module": "candidate",
       "notes": "module:matriz module:candidate",
-      "raw": "\ud83d\udd27 Development Patterns",
+      "raw": "🔧 Development Patterns",
       "source": "claude.me:headers"
     },
     {
@@ -4020,7 +4020,7 @@
       "last_seen": "2025-10-03T01:02:53.565965+00:00",
       "module": "candidate",
       "notes": "module:candidate",
-      "raw": "\ud83d\udd17 Integration Points",
+      "raw": "🔗 Integration Points",
       "source": "claude.me:headers"
     },
     {
@@ -4029,7 +4029,7 @@
       "last_seen": "2025-10-03T01:02:53.565968+00:00",
       "module": "candidate",
       "notes": "module:candidate",
-      "raw": "CANDIDATE \u2192 LUKHAS Integration",
+      "raw": "CANDIDATE → LUKHAS Integration",
       "source": "claude.me:headers"
     },
     {
@@ -4038,7 +4038,7 @@
       "last_seen": "2025-10-03T01:02:53.565973+00:00",
       "module": "candidate",
       "notes": "module:candidate",
-      "raw": "LUKHAS \u2192 PRODUCTS Deployment",
+      "raw": "LUKHAS → PRODUCTS Deployment",
       "source": "claude.me:headers"
     },
     {
@@ -4056,7 +4056,7 @@
       "last_seen": "2025-10-03T01:02:53.565981+00:00",
       "module": "candidate",
       "notes": "module:candidate",
-      "raw": "\ud83d\uddfa\ufe0f Subdomain Navigation",
+      "raw": "🗺️ Subdomain Navigation",
       "source": "claude.me:headers"
     },
     {
@@ -4083,7 +4083,7 @@
       "last_seen": "2025-10-03T01:02:53.565995+00:00",
       "module": "candidate",
       "notes": "module:candidate",
-      "raw": "\ud83c\udfaf Quick Development Guide",
+      "raw": "🎯 Quick Development Guide",
       "source": "claude.me:headers"
     },
     {
@@ -4128,7 +4128,7 @@
       "last_seen": "2025-10-03T01:02:53.566009+00:00",
       "module": "candidate",
       "notes": "module:candidate",
-      "raw": "\ud83d\udcca Development Status",
+      "raw": "📊 Development Status",
       "source": "claude.me:headers"
     },
     {
@@ -4965,7 +4965,7 @@
       "last_seen": "2025-10-03T01:02:53.573337+00:00",
       "module": "cognitive_core",
       "notes": "module:cognitive_core",
-      "raw": "\u269b\ufe0f IDENTITY (4 modules)",
+      "raw": "⚛️ IDENTITY (4 modules)",
       "source": "claude.me:bullets"
     },
     {
@@ -4992,7 +4992,7 @@
       "last_seen": "2025-10-03T01:02:53.573346+00:00",
       "module": "cognitive_core",
       "notes": "module:cognitive_core",
-      "raw": "\u2726 MEMORY (2 modules)",
+      "raw": "✦ MEMORY (2 modules)",
       "source": "claude.me:bullets"
     },
     {
@@ -5010,7 +5010,7 @@
       "last_seen": "2025-10-03T01:02:53.573355+00:00",
       "module": "cognitive_core",
       "notes": "module:cognitive_core",
-      "raw": "\ud83d\udd2c VISION (4 modules)",
+      "raw": "🔬 VISION (4 modules)",
       "source": "claude.me:bullets"
     },
     {
@@ -5028,7 +5028,7 @@
       "last_seen": "2025-10-03T01:02:53.573363+00:00",
       "module": "cognitive_core",
       "notes": "module:cognitive_core",
-      "raw": "\ud83c\udf31 BIO (2 modules)",
+      "raw": "🌱 BIO (2 modules)",
       "source": "claude.me:bullets"
     },
     {
@@ -5037,7 +5037,7 @@
       "last_seen": "2025-10-03T01:02:53.573370+00:00",
       "module": "cognitive_core",
       "notes": "module:cognitive_core",
-      "raw": "\ud83c\udf19 DREAM (4 modules)",
+      "raw": "🌙 DREAM (4 modules)",
       "source": "claude.me:bullets"
     },
     {
@@ -5055,7 +5055,7 @@
       "last_seen": "2025-10-03T01:02:53.573378+00:00",
       "module": "cognitive_core",
       "notes": "module:cognitive_core",
-      "raw": "\u2696\ufe0f ETHICS (1 module)",
+      "raw": "⚖️ ETHICS (1 module)",
       "source": "claude.me:bullets"
     },
     {
@@ -5073,7 +5073,7 @@
       "last_seen": "2025-10-03T01:02:53.573386+00:00",
       "module": "cognitive_core",
       "notes": "module:cognitive_core",
-      "raw": "\ud83d\udee1\ufe0f GUARDIAN (3 modules)",
+      "raw": "🛡️ GUARDIAN (3 modules)",
       "source": "claude.me:bullets"
     },
     {
@@ -5091,7 +5091,7 @@
       "last_seen": "2025-10-03T01:02:53.573393+00:00",
       "module": "cognitive_core",
       "notes": "module:cognitive_core",
-      "raw": "\u269b\ufe0f QUANTUM (2 modules)",
+      "raw": "⚛️ QUANTUM (2 modules)",
       "source": "claude.me:bullets"
     },
     {
@@ -5217,7 +5217,7 @@
       "last_seen": "2025-10-03T01:02:53.710646+00:00",
       "module": "cognitive_core",
       "notes": "module:consent module:cognitive_core",
-      "raw": "\u2705 Component Count",
+      "raw": "✅ Component Count",
       "source": "claude.me:bullets"
     },
     {
@@ -5226,7 +5226,7 @@
       "last_seen": "2025-10-03T01:02:53.710649+00:00",
       "module": "cognitive_core",
       "notes": "module:consent module:cognitive_core",
-      "raw": "\u2705 Test Coverage",
+      "raw": "✅ Test Coverage",
       "source": "claude.me:bullets"
     },
     {
@@ -5235,7 +5235,7 @@
       "last_seen": "2025-10-03T01:02:53.573475+00:00",
       "module": "cognitive_core",
       "notes": "module:cognitive_core",
-      "raw": "\u2705 Constellation Integration",
+      "raw": "✅ Constellation Integration",
       "source": "claude.me:bullets"
     },
     {
@@ -5244,7 +5244,7 @@
       "last_seen": "2025-10-03T01:02:53.577481+00:00",
       "module": "cognitive_core",
       "notes": "module:oneiric_core module:cognitive_core",
-      "raw": "\u2705 Dream Integration",
+      "raw": "✅ Dream Integration",
       "source": "claude.me:bullets"
     },
     {
@@ -5253,7 +5253,7 @@
       "last_seen": "2025-10-03T01:02:53.573481+00:00",
       "module": "cognitive_core",
       "notes": "module:cognitive_core",
-      "raw": "\u2705 Safety",
+      "raw": "✅ Safety",
       "source": "claude.me:bullets"
     },
     {
@@ -5262,7 +5262,7 @@
       "last_seen": "2025-10-03T01:02:53.710655+00:00",
       "module": "cognitive_core",
       "notes": "module:oneiric_core module:consent module:cognitive_core",
-      "raw": "\u2705 Performance",
+      "raw": "✅ Performance",
       "source": "claude.me:bullets"
     },
     {
@@ -5649,7 +5649,7 @@
       "last_seen": "2025-10-03T01:02:53.577325+00:00",
       "module": "oneiric_core",
       "notes": "module:oneiric_core",
-      "raw": "\ud83c\udf19 DREAM",
+      "raw": "🌙 DREAM",
       "source": "claude.me:bullets"
     },
     {
@@ -5658,7 +5658,7 @@
       "last_seen": "2025-10-03T01:02:53.710703+00:00",
       "module": "oneiric_core",
       "notes": "module:core module:consent module:oneiric_core",
-      "raw": "\u269b\ufe0f IDENTITY",
+      "raw": "⚛️ IDENTITY",
       "source": "claude.me:bullets"
     },
     {
@@ -5667,7 +5667,7 @@
       "last_seen": "2025-10-03T01:02:53.677517+00:00",
       "module": "oneiric_core",
       "notes": "module:core module:personality module:reasoning module:oneiric_core",
-      "raw": "\u2726 MEMORY",
+      "raw": "✦ MEMORY",
       "source": "claude.me:bullets"
     },
     {
@@ -5676,7 +5676,7 @@
       "last_seen": "2025-10-03T01:02:53.710706+00:00",
       "module": "oneiric_core",
       "notes": "module:core module:consent module:oneiric_core",
-      "raw": "\ud83d\udd2c VISION",
+      "raw": "🔬 VISION",
       "source": "claude.me:bullets"
     },
     {
@@ -5685,7 +5685,7 @@
       "last_seen": "2025-10-03T01:02:53.598244+00:00",
       "module": "oneiric_core",
       "notes": "module:core module:oneiric_core",
-      "raw": "\ud83c\udf0a FLOW",
+      "raw": "🌊 FLOW",
       "source": "claude.me:bullets"
     },
     {
@@ -5919,7 +5919,7 @@
       "last_seen": "2025-10-03T01:02:53.577477+00:00",
       "module": "oneiric_core",
       "notes": "module:oneiric_core",
-      "raw": "\u2705 Foundational Infrastructure",
+      "raw": "✅ Foundational Infrastructure",
       "source": "claude.me:bullets"
     },
     {
@@ -5928,7 +5928,7 @@
       "last_seen": "2025-10-03T01:02:53.577483+00:00",
       "module": "oneiric_core",
       "notes": "module:oneiric_core",
-      "raw": "\u2705 Symbolic Networks",
+      "raw": "✅ Symbolic Networks",
       "source": "claude.me:bullets"
     },
     {
@@ -5937,7 +5937,7 @@
       "last_seen": "2025-10-03T01:02:53.577486+00:00",
       "module": "oneiric_core",
       "notes": "module:oneiric_core",
-      "raw": "\u2705 Consciousness Coupling",
+      "raw": "✅ Consciousness Coupling",
       "source": "claude.me:bullets"
     },
     {
@@ -5946,7 +5946,7 @@
       "last_seen": "2025-10-03T01:02:53.577492+00:00",
       "module": "oneiric_core",
       "notes": "module:oneiric_core",
-      "raw": "\u2705 OpenTelemetry",
+      "raw": "✅ OpenTelemetry",
       "source": "claude.me:bullets"
     },
     {
@@ -6729,7 +6729,7 @@
       "last_seen": "2025-10-03T01:02:53.580491+00:00",
       "module": "tools",
       "notes": "module:tools",
-      "raw": "Integration with ../candidate/claude.me for development workspace support",
+      "raw": "Integration with ../labs/claude.me for development workspace support",
       "source": "claude.me:bullets"
     },
     {
@@ -6873,7 +6873,7 @@
       "last_seen": "2025-10-03T01:02:53.580530+00:00",
       "module": "tools",
       "notes": "module:tools",
-      "raw": "../candidate/claude.me - Development workspace and research environment",
+      "raw": "../labs/claude.me - Development workspace and research environment",
       "source": "claude.me:bullets"
     },
     {
@@ -7107,7 +7107,7 @@
       "last_seen": "2025-10-03T01:02:53.765121+00:00",
       "module": "docker",
       "notes": "module:trace module:security module:ci module:agent module:ai_orchestration module:feedback module:adapters module:deployment module:api module:ops module:serve module:docker",
-      "raw": "\u269b\ufe0f Anchor Star (Identity)",
+      "raw": "⚛️ Anchor Star (Identity)",
       "source": "claude.me:bullets"
     },
     {
@@ -7116,7 +7116,7 @@
       "last_seen": "2025-10-03T01:02:53.796530+00:00",
       "module": "docker",
       "notes": "module:trace module:security module:ci module:agent module:ai_orchestration module:adapters module:deployment module:api module:ops module:serve module:monitoring module:analytics module:docker",
-      "raw": "\ud83d\udee1\ufe0f Watch Star (Guardian)",
+      "raw": "🛡️ Watch Star (Guardian)",
       "source": "claude.me:bullets"
     },
     {
@@ -7125,7 +7125,7 @@
       "last_seen": "2025-10-03T01:02:53.796526+00:00",
       "module": "docker",
       "notes": "module:trace module:security module:ci module:ai_orchestration module:feedback module:adapters module:deployment module:ops module:serve module:monitoring module:dream module:emotion module:analytics module:docker",
-      "raw": "\u2726 Trail Star (Memory)",
+      "raw": "✦ Trail Star (Memory)",
       "source": "claude.me:bullets"
     },
     {
@@ -8295,7 +8295,7 @@
       "last_seen": "2025-10-03T01:02:53.585225+00:00",
       "module": "bio",
       "notes": "module:bio",
-      "raw": "../candidate/consciousness/claude.me - Bio-consciousness development",
+      "raw": "../labs/consciousness/claude.me - Bio-consciousness development",
       "source": "claude.me:bullets"
     },
     {
@@ -8556,7 +8556,7 @@
       "last_seen": "2025-10-03T01:02:53.586807+00:00",
       "module": "products",
       "notes": "module:products",
-      "raw": "M\u039bTRIZ Distributed Consciousness",
+      "raw": "MΛTRIZ Distributed Consciousness",
       "source": "claude.me:bullets"
     },
     {
@@ -9159,7 +9159,7 @@
       "last_seen": "2025-10-03T01:02:53.586998+00:00",
       "module": "products",
       "notes": "module:products",
-      "raw": "\u2705 Enterprise Systems",
+      "raw": "✅ Enterprise Systems",
       "source": "claude.me:bullets"
     },
     {
@@ -9168,7 +9168,7 @@
       "last_seen": "2025-10-03T01:02:53.587001+00:00",
       "module": "products",
       "notes": "module:products",
-      "raw": "\ud83d\udd04 Intelligence Systems",
+      "raw": "🔄 Intelligence Systems",
       "source": "claude.me:bullets"
     },
     {
@@ -9177,7 +9177,7 @@
       "last_seen": "2025-10-03T01:02:53.587004+00:00",
       "module": "products",
       "notes": "module:products",
-      "raw": "\ud83d\udd04 Experience Systems",
+      "raw": "🔄 Experience Systems",
       "source": "claude.me:bullets"
     },
     {
@@ -9186,7 +9186,7 @@
       "last_seen": "2025-10-03T01:02:53.587007+00:00",
       "module": "products",
       "notes": "module:products",
-      "raw": "\u2705 Security Systems",
+      "raw": "✅ Security Systems",
       "source": "claude.me:bullets"
     },
     {
@@ -9195,7 +9195,7 @@
       "last_seen": "2025-10-03T01:02:53.587010+00:00",
       "module": "products",
       "notes": "module:products",
-      "raw": "\u2705 Infrastructure",
+      "raw": "✅ Infrastructure",
       "source": "claude.me:bullets"
     },
     {
@@ -9204,7 +9204,7 @@
       "last_seen": "2025-10-03T01:02:53.587013+00:00",
       "module": "products",
       "notes": "module:products",
-      "raw": "M\u039bTRIZ Integration",
+      "raw": "MΛTRIZ Integration",
       "source": "claude.me:bullets"
     },
     {
@@ -9393,7 +9393,7 @@
       "last_seen": "2025-10-03T01:02:53.587089+00:00",
       "module": "products",
       "notes": "module:products",
-      "raw": "\ud83d\ude80 Consciousness Integration Roadmap",
+      "raw": "🚀 Consciousness Integration Roadmap",
       "source": "claude.me:headers"
     },
     {
@@ -9402,7 +9402,7 @@
       "last_seen": "2025-10-03T01:02:53.587092+00:00",
       "module": "products",
       "notes": "module:products",
-      "raw": "Current Status: 71.4% \u2192 100% Integration",
+      "raw": "Current Status: 71.4% → 100% Integration",
       "source": "claude.me:headers"
     },
     {
@@ -9411,7 +9411,7 @@
       "last_seen": "2025-10-03T01:02:53.587103+00:00",
       "module": "products",
       "notes": "module:products",
-      "raw": "\ud83c\udfe2 Enterprise Deployment Systems",
+      "raw": "🏢 Enterprise Deployment Systems",
       "source": "claude.me:headers"
     },
     {
@@ -9429,7 +9429,7 @@
       "last_seen": "2025-10-03T01:02:53.587113+00:00",
       "module": "products",
       "notes": "module:products",
-      "raw": "\ud83d\udd0d Intelligence Systems",
+      "raw": "🔍 Intelligence Systems",
       "source": "claude.me:headers"
     },
     {
@@ -9447,7 +9447,7 @@
       "last_seen": "2025-10-03T01:02:53.587121+00:00",
       "module": "products",
       "notes": "module:products",
-      "raw": "\ud83d\udc65 Experience Systems",
+      "raw": "👥 Experience Systems",
       "source": "claude.me:headers"
     },
     {
@@ -9465,7 +9465,7 @@
       "last_seen": "2025-10-03T01:02:53.587130+00:00",
       "module": "products",
       "notes": "module:products",
-      "raw": "\ud83d\udee1\ufe0f Security & Automation Systems",
+      "raw": "🛡️ Security & Automation Systems",
       "source": "claude.me:headers"
     },
     {
@@ -9501,7 +9501,7 @@
       "last_seen": "2025-10-03T01:02:53.587143+00:00",
       "module": "products",
       "notes": "module:products",
-      "raw": "\ud83d\udd04 Trinity Framework Production Deployment",
+      "raw": "🔄 Trinity Framework Production Deployment",
       "source": "claude.me:headers"
     },
     {
@@ -9537,7 +9537,7 @@
       "last_seen": "2025-10-03T01:02:53.587156+00:00",
       "module": "products",
       "notes": "module:products",
-      "raw": "\ud83d\udcca Production Integration Status",
+      "raw": "📊 Production Integration Status",
       "source": "claude.me:headers"
     },
     {
@@ -9573,7 +9573,7 @@
       "last_seen": "2025-10-03T01:02:53.587168+00:00",
       "module": "products",
       "notes": "module:products",
-      "raw": "\ud83d\uddfa\ufe0f Production Domain Navigation",
+      "raw": "🗺️ Production Domain Navigation",
       "source": "claude.me:headers"
     },
     {
@@ -9609,7 +9609,7 @@
       "last_seen": "2025-10-03T01:02:53.587180+00:00",
       "module": "products",
       "notes": "module:products",
-      "raw": "\ud83c\udfaf Production Development Priorities",
+      "raw": "🎯 Production Development Priorities",
       "source": "claude.me:headers"
     },
     {
@@ -9618,7 +9618,7 @@
       "last_seen": "2025-10-03T01:02:53.587183+00:00",
       "module": "products",
       "notes": "module:products",
-      "raw": "Immediate: Phase 1 Completion (71.4% \u2192 85%)",
+      "raw": "Immediate: Phase 1 Completion (71.4% → 85%)",
       "source": "claude.me:headers"
     },
     {
@@ -9627,7 +9627,7 @@
       "last_seen": "2025-10-03T01:02:53.587186+00:00",
       "module": "products",
       "notes": "module:products",
-      "raw": "Core: Phase 2 Integration (85% \u2192 95%)",
+      "raw": "Core: Phase 2 Integration (85% → 95%)",
       "source": "claude.me:headers"
     },
     {
@@ -9636,7 +9636,7 @@
       "last_seen": "2025-10-03T01:02:53.587190+00:00",
       "module": "products",
       "notes": "module:products",
-      "raw": "Final: Phase 3 Optimization (95% \u2192 100%)",
+      "raw": "Final: Phase 3 Optimization (95% → 100%)",
       "source": "claude.me:headers"
     },
     {
@@ -10212,7 +10212,7 @@
       "last_seen": "2025-10-03T01:02:53.594527+00:00",
       "module": "enterprise",
       "notes": "module:enterprise",
-      "raw": "\u2705 Multi-Regulatory",
+      "raw": "✅ Multi-Regulatory",
       "source": "claude.me:bullets"
     },
     {
@@ -10221,7 +10221,7 @@
       "last_seen": "2025-10-03T01:02:53.594530+00:00",
       "module": "enterprise",
       "notes": "module:enterprise",
-      "raw": "\u2705 Audit Enterprise",
+      "raw": "✅ Audit Enterprise",
       "source": "claude.me:bullets"
     },
     {
@@ -10230,7 +10230,7 @@
       "last_seen": "2025-10-03T01:02:53.594533+00:00",
       "module": "enterprise",
       "notes": "module:enterprise",
-      "raw": "\u2705 Regulatory Dashboard",
+      "raw": "✅ Regulatory Dashboard",
       "source": "claude.me:bullets"
     },
     {
@@ -10239,7 +10239,7 @@
       "last_seen": "2025-10-03T01:02:53.594536+00:00",
       "module": "enterprise",
       "notes": "module:enterprise",
-      "raw": "\ud83d\udd04 Advanced Compliance",
+      "raw": "🔄 Advanced Compliance",
       "source": "claude.me:bullets"
     },
     {
@@ -10248,7 +10248,7 @@
       "last_seen": "2025-10-03T01:02:53.594540+00:00",
       "module": "enterprise",
       "notes": "module:enterprise",
-      "raw": "\u2705 Enterprise Authentication",
+      "raw": "✅ Enterprise Authentication",
       "source": "claude.me:bullets"
     },
     {
@@ -10257,7 +10257,7 @@
       "last_seen": "2025-10-03T01:02:53.594542+00:00",
       "module": "enterprise",
       "notes": "module:enterprise",
-      "raw": "\u2705 Identity Federation",
+      "raw": "✅ Identity Federation",
       "source": "claude.me:bullets"
     },
     {
@@ -10266,7 +10266,7 @@
       "last_seen": "2025-10-03T01:02:53.594545+00:00",
       "module": "enterprise",
       "notes": "module:enterprise",
-      "raw": "\u2705 Security Monitoring",
+      "raw": "✅ Security Monitoring",
       "source": "claude.me:bullets"
     },
     {
@@ -10275,7 +10275,7 @@
       "last_seen": "2025-10-03T01:02:53.600159+00:00",
       "module": "enterprise",
       "notes": "module:memory module:enterprise",
-      "raw": "\u2705 Access Control",
+      "raw": "✅ Access Control",
       "source": "claude.me:bullets"
     },
     {
@@ -10284,7 +10284,7 @@
       "last_seen": "2025-10-03T01:02:53.594551+00:00",
       "module": "enterprise",
       "notes": "module:enterprise",
-      "raw": "\u2705 Kubernetes Orchestration",
+      "raw": "✅ Kubernetes Orchestration",
       "source": "claude.me:bullets"
     },
     {
@@ -10293,7 +10293,7 @@
       "last_seen": "2025-10-03T01:02:53.594553+00:00",
       "module": "enterprise",
       "notes": "module:enterprise",
-      "raw": "\u2705 Performance Optimization",
+      "raw": "✅ Performance Optimization",
       "source": "claude.me:bullets"
     },
     {
@@ -10302,7 +10302,7 @@
       "last_seen": "2025-10-03T01:02:53.594556+00:00",
       "module": "enterprise",
       "notes": "module:enterprise",
-      "raw": "\u2705 Trinity Production",
+      "raw": "✅ Trinity Production",
       "source": "claude.me:bullets"
     },
     {
@@ -10311,7 +10311,7 @@
       "last_seen": "2025-10-03T01:02:53.594559+00:00",
       "module": "enterprise",
       "notes": "module:enterprise",
-      "raw": "\ud83d\udd04 Advanced Scaling",
+      "raw": "🔄 Advanced Scaling",
       "source": "claude.me:bullets"
     },
     {
@@ -10410,7 +10410,7 @@
       "last_seen": "2025-10-03T01:02:53.594610+00:00",
       "module": "enterprise",
       "notes": "module:enterprise",
-      "raw": "\ud83c\udfe2 Compliance Architecture",
+      "raw": "🏢 Compliance Architecture",
       "source": "claude.me:headers"
     },
     {
@@ -10446,7 +10446,7 @@
       "last_seen": "2025-10-03T01:02:53.594629+00:00",
       "module": "enterprise",
       "notes": "module:enterprise",
-      "raw": "\ud83d\udd12 Enterprise Security Architecture",
+      "raw": "🔒 Enterprise Security Architecture",
       "source": "claude.me:headers"
     },
     {
@@ -10491,7 +10491,7 @@
       "last_seen": "2025-10-03T01:02:53.594649+00:00",
       "module": "enterprise",
       "notes": "module:enterprise",
-      "raw": "\ud83d\ude80 Enterprise Deployment Patterns",
+      "raw": "🚀 Enterprise Deployment Patterns",
       "source": "claude.me:headers"
     },
     {
@@ -10527,7 +10527,7 @@
       "last_seen": "2025-10-03T01:02:53.594664+00:00",
       "module": "enterprise",
       "notes": "module:enterprise",
-      "raw": "\ud83e\udde0 Trinity Framework Production",
+      "raw": "🧠 Trinity Framework Production",
       "source": "claude.me:headers"
     },
     {
@@ -10572,7 +10572,7 @@
       "last_seen": "2025-10-03T01:02:53.594684+00:00",
       "module": "enterprise",
       "notes": "module:enterprise",
-      "raw": "\ud83d\udcca Enterprise Deployment Status",
+      "raw": "📊 Enterprise Deployment Status",
       "source": "claude.me:headers"
     },
     {
@@ -10617,7 +10617,7 @@
       "last_seen": "2025-10-03T01:02:53.594700+00:00",
       "module": "enterprise",
       "notes": "module:enterprise",
-      "raw": "\ud83c\udfaf Enterprise Development Priorities",
+      "raw": "🎯 Enterprise Development Priorities",
       "source": "claude.me:headers"
     },
     {
@@ -10995,7 +10995,7 @@
       "last_seen": "2025-10-03T01:02:53.710697+00:00",
       "module": "core",
       "notes": "module:reasoning module:consent module:core",
-      "raw": "\ud83d\udee1\ufe0f GUARDIAN",
+      "raw": "🛡️ GUARDIAN",
       "source": "claude.me:bullets"
     },
     {
@@ -11463,7 +11463,7 @@
       "last_seen": "2025-10-03T01:02:53.600143+00:00",
       "module": "memory",
       "notes": "module:memory",
-      "raw": "\u2705 Sanctum Vault Core",
+      "raw": "✅ Sanctum Vault Core",
       "source": "claude.me:bullets"
     },
     {
@@ -11472,7 +11472,7 @@
       "last_seen": "2025-10-03T01:02:53.600146+00:00",
       "module": "memory",
       "notes": "module:memory",
-      "raw": "\u2705 Vault Security",
+      "raw": "✅ Vault Security",
       "source": "claude.me:bullets"
     },
     {
@@ -11481,7 +11481,7 @@
       "last_seen": "2025-10-03T01:02:53.600150+00:00",
       "module": "memory",
       "notes": "module:memory",
-      "raw": "\u2705 Memory Protection",
+      "raw": "✅ Memory Protection",
       "source": "claude.me:bullets"
     },
     {
@@ -11490,7 +11490,7 @@
       "last_seen": "2025-10-03T01:02:53.600153+00:00",
       "module": "memory",
       "notes": "module:memory",
-      "raw": "\u2705 Vault Integration",
+      "raw": "✅ Vault Integration",
       "source": "claude.me:bullets"
     },
     {
@@ -11499,7 +11499,7 @@
       "last_seen": "2025-10-03T01:02:53.600156+00:00",
       "module": "memory",
       "notes": "module:memory",
-      "raw": "\u2705 Memory Encryption",
+      "raw": "✅ Memory Encryption",
       "source": "claude.me:bullets"
     },
     {
@@ -11508,7 +11508,7 @@
       "last_seen": "2025-10-03T01:02:53.607926+00:00",
       "module": "memory",
       "notes": "module:identity module:memory",
-      "raw": "\u2705 Security Validation",
+      "raw": "✅ Security Validation",
       "source": "claude.me:bullets"
     },
     {
@@ -11517,7 +11517,7 @@
       "last_seen": "2025-10-03T01:02:53.600165+00:00",
       "module": "memory",
       "notes": "module:memory",
-      "raw": "\u2705 Security Integration",
+      "raw": "✅ Security Integration",
       "source": "claude.me:bullets"
     },
     {
@@ -11526,7 +11526,7 @@
       "last_seen": "2025-10-03T01:02:53.600168+00:00",
       "module": "memory",
       "notes": "module:memory",
-      "raw": "\u2705 Data Protection",
+      "raw": "✅ Data Protection",
       "source": "claude.me:bullets"
     },
     {
@@ -11535,7 +11535,7 @@
       "last_seen": "2025-10-03T01:02:53.600171+00:00",
       "module": "memory",
       "notes": "module:memory",
-      "raw": "\u2705 Memory Integrity",
+      "raw": "✅ Memory Integrity",
       "source": "claude.me:bullets"
     },
     {
@@ -11544,7 +11544,7 @@
       "last_seen": "2025-10-03T01:02:53.600174+00:00",
       "module": "memory",
       "notes": "module:memory",
-      "raw": "\u2705 Protection Monitoring",
+      "raw": "✅ Protection Monitoring",
       "source": "claude.me:bullets"
     },
     {
@@ -11553,7 +11553,7 @@
       "last_seen": "2025-10-03T01:02:53.600178+00:00",
       "module": "memory",
       "notes": "module:memory",
-      "raw": "\ud83d\udd04 Advanced Protection",
+      "raw": "🔄 Advanced Protection",
       "source": "claude.me:bullets"
     },
     {
@@ -11616,7 +11616,7 @@
       "last_seen": "2025-10-03T01:02:53.600213+00:00",
       "module": "memory",
       "notes": "module:memory",
-      "raw": "\ud83d\udee1\ufe0f Sanctum Vault Systems",
+      "raw": "🛡️ Sanctum Vault Systems",
       "source": "claude.me:headers"
     },
     {
@@ -11652,7 +11652,7 @@
       "last_seen": "2025-10-03T01:02:53.600235+00:00",
       "module": "memory",
       "notes": "module:memory",
-      "raw": "\ud83d\udd10 Memory Security Systems",
+      "raw": "🔐 Memory Security Systems",
       "source": "claude.me:headers"
     },
     {
@@ -11688,7 +11688,7 @@
       "last_seen": "2025-10-03T01:02:53.600254+00:00",
       "module": "memory",
       "notes": "module:memory",
-      "raw": "\ud83d\udee1\ufe0f Memory Protection Systems",
+      "raw": "🛡️ Memory Protection Systems",
       "source": "claude.me:headers"
     },
     {
@@ -11724,7 +11724,7 @@
       "last_seen": "2025-10-03T01:02:53.734640+00:00",
       "module": "memory",
       "notes": "module:identity module:consciousness module:governance module:memory",
-      "raw": "\ud83d\udd17 Foundation Integration Systems",
+      "raw": "🔗 Foundation Integration Systems",
       "source": "claude.me:headers"
     },
     {
@@ -11751,7 +11751,7 @@
       "last_seen": "2025-10-03T01:02:53.734654+00:00",
       "module": "memory",
       "notes": "module:identity module:consciousness module:governance module:memory",
-      "raw": "\ud83d\udcca Foundation Systems Status",
+      "raw": "📊 Foundation Systems Status",
       "source": "claude.me:headers"
     },
     {
@@ -11778,7 +11778,7 @@
       "last_seen": "2025-10-03T01:02:53.734669+00:00",
       "module": "memory",
       "notes": "module:identity module:consciousness module:governance module:memory",
-      "raw": "\ud83c\udfaf Foundation Development Priorities",
+      "raw": "🎯 Foundation Development Priorities",
       "source": "claude.me:headers"
     },
     {
@@ -12165,7 +12165,7 @@
       "last_seen": "2025-10-03T01:02:53.607894+00:00",
       "module": "identity",
       "notes": "module:identity",
-      "raw": "\u2705 Lambda ID Core",
+      "raw": "✅ Lambda ID Core",
       "source": "claude.me:bullets"
     },
     {
@@ -12174,7 +12174,7 @@
       "last_seen": "2025-10-03T01:02:53.607898+00:00",
       "module": "identity",
       "notes": "module:identity",
-      "raw": "\u2705 Identity Foundation",
+      "raw": "✅ Identity Foundation",
       "source": "claude.me:bullets"
     },
     {
@@ -12183,7 +12183,7 @@
       "last_seen": "2025-10-03T01:02:53.607901+00:00",
       "module": "identity",
       "notes": "module:identity",
-      "raw": "\u2705 Lambda Authentication",
+      "raw": "✅ Lambda Authentication",
       "source": "claude.me:bullets"
     },
     {
@@ -12192,7 +12192,7 @@
       "last_seen": "2025-10-03T01:02:53.734514+00:00",
       "module": "identity",
       "notes": "module:governance module:identity",
-      "raw": "\u2705 Foundation Integration",
+      "raw": "✅ Foundation Integration",
       "source": "claude.me:bullets"
     },
     {
@@ -12201,7 +12201,7 @@
       "last_seen": "2025-10-03T01:02:53.607908+00:00",
       "module": "identity",
       "notes": "module:identity",
-      "raw": "\u2705 Authentication Foundation",
+      "raw": "✅ Authentication Foundation",
       "source": "claude.me:bullets"
     },
     {
@@ -12210,7 +12210,7 @@
       "last_seen": "2025-10-03T01:02:53.607911+00:00",
       "module": "identity",
       "notes": "module:identity",
-      "raw": "\u2705 Credential Foundation",
+      "raw": "✅ Credential Foundation",
       "source": "claude.me:bullets"
     },
     {
@@ -12219,7 +12219,7 @@
       "last_seen": "2025-10-03T01:02:53.607914+00:00",
       "module": "identity",
       "notes": "module:identity",
-      "raw": "\u2705 Multi-Factor Foundation",
+      "raw": "✅ Multi-Factor Foundation",
       "source": "claude.me:bullets"
     },
     {
@@ -12228,7 +12228,7 @@
       "last_seen": "2025-10-03T01:02:53.607917+00:00",
       "module": "identity",
       "notes": "module:identity",
-      "raw": "\u2705 Authentication Integration",
+      "raw": "✅ Authentication Integration",
       "source": "claude.me:bullets"
     },
     {
@@ -12237,7 +12237,7 @@
       "last_seen": "2025-10-03T01:02:53.607920+00:00",
       "module": "identity",
       "notes": "module:identity",
-      "raw": "\u2705 Identity Security",
+      "raw": "✅ Identity Security",
       "source": "claude.me:bullets"
     },
     {
@@ -12246,7 +12246,7 @@
       "last_seen": "2025-10-03T01:02:53.607923+00:00",
       "module": "identity",
       "notes": "module:identity",
-      "raw": "\u2705 Access Control Foundation",
+      "raw": "✅ Access Control Foundation",
       "source": "claude.me:bullets"
     },
     {
@@ -12255,7 +12255,7 @@
       "last_seen": "2025-10-03T01:02:53.607930+00:00",
       "module": "identity",
       "notes": "module:identity",
-      "raw": "\ud83d\udd04 Advanced Security",
+      "raw": "🔄 Advanced Security",
       "source": "claude.me:bullets"
     },
     {
@@ -12300,7 +12300,7 @@
       "last_seen": "2025-10-03T01:02:53.607966+00:00",
       "module": "identity",
       "notes": "module:identity",
-      "raw": "\ud83c\udd94 Lambda ID Core Systems",
+      "raw": "🆔 Lambda ID Core Systems",
       "source": "claude.me:headers"
     },
     {
@@ -12336,7 +12336,7 @@
       "last_seen": "2025-10-03T01:02:53.607989+00:00",
       "module": "identity",
       "notes": "module:identity",
-      "raw": "\ud83d\udd10 Authentication Foundation Systems",
+      "raw": "🔐 Authentication Foundation Systems",
       "source": "claude.me:headers"
     },
     {
@@ -12372,7 +12372,7 @@
       "last_seen": "2025-10-03T01:02:53.608008+00:00",
       "module": "identity",
       "notes": "module:identity",
-      "raw": "\ud83d\udee1\ufe0f Identity Security Foundation",
+      "raw": "🛡️ Identity Security Foundation",
       "source": "claude.me:headers"
     },
     {
@@ -12831,7 +12831,7 @@
       "last_seen": "2025-10-03T01:02:53.620342+00:00",
       "module": "security",
       "notes": "module:security",
-      "raw": "Integration with \u039bID system",
+      "raw": "Integration with ΛID system",
       "source": "claude.me:bullets"
     },
     {
@@ -13245,7 +13245,7 @@
       "last_seen": "2025-10-03T01:02:53.620516+00:00",
       "module": "security",
       "notes": "module:security",
-      "raw": "\u2705 All security tests passing",
+      "raw": "✅ All security tests passing",
       "source": "claude.me:bullets"
     },
     {
@@ -13254,7 +13254,7 @@
       "last_seen": "2025-10-03T01:02:53.620519+00:00",
       "module": "security",
       "notes": "module:security",
-      "raw": "\u2705 Threat model up to date",
+      "raw": "✅ Threat model up to date",
       "source": "claude.me:bullets"
     },
     {
@@ -13263,7 +13263,7 @@
       "last_seen": "2025-10-03T01:02:53.620522+00:00",
       "module": "security",
       "notes": "module:security",
-      "raw": "\u2705 Security scanning complete",
+      "raw": "✅ Security scanning complete",
       "source": "claude.me:bullets"
     },
     {
@@ -13272,7 +13272,7 @@
       "last_seen": "2025-10-03T01:02:53.620524+00:00",
       "module": "security",
       "notes": "module:security",
-      "raw": "\u2705 Incident response procedures documented",
+      "raw": "✅ Incident response procedures documented",
       "source": "claude.me:bullets"
     },
     {
@@ -13281,7 +13281,7 @@
       "last_seen": "2025-10-03T01:02:53.620527+00:00",
       "module": "security",
       "notes": "module:security",
-      "raw": "\u2705 Secrets properly vaulted",
+      "raw": "✅ Secrets properly vaulted",
       "source": "claude.me:bullets"
     },
     {
@@ -13290,7 +13290,7 @@
       "last_seen": "2025-10-03T01:02:53.620529+00:00",
       "module": "security",
       "notes": "module:security",
-      "raw": "\u2705 Audit logging enabled",
+      "raw": "✅ Audit logging enabled",
       "source": "claude.me:bullets"
     },
     {
@@ -13416,7 +13416,7 @@
       "last_seen": "2025-10-03T01:02:53.620571+00:00",
       "module": "security",
       "notes": "module:security",
-      "raw": "Identity ([../identity/](../identity/)) - \u039bID authentication and authorization",
+      "raw": "Identity ([../identity/](../identity/)) - ΛID authentication and authorization",
       "source": "claude.me:bullets"
     },
     {
@@ -15279,7 +15279,7 @@
       "last_seen": "2025-10-03T01:02:53.629865+00:00",
       "module": "contracts",
       "notes": "module:contracts",
-      "raw": "\u269b\ufe0f Anchor Star",
+      "raw": "⚛️ Anchor Star",
       "source": "claude.me:bullets"
     },
     {
@@ -15288,7 +15288,7 @@
       "last_seen": "2025-10-03T01:02:53.629870+00:00",
       "module": "contracts",
       "notes": "module:contracts",
-      "raw": "\ud83d\udee1\ufe0f Watch Star",
+      "raw": "🛡️ Watch Star",
       "source": "claude.me:bullets"
     },
     {
@@ -15297,7 +15297,7 @@
       "last_seen": "2025-10-03T01:02:53.629873+00:00",
       "module": "contracts",
       "notes": "module:contracts",
-      "raw": "\u2726 Trail Star",
+      "raw": "✦ Trail Star",
       "source": "claude.me:bullets"
     },
     {
@@ -15693,7 +15693,7 @@
       "last_seen": "2025-10-03T01:02:53.631097+00:00",
       "module": "personality",
       "notes": "module:personality",
-      "raw": "\ud83c\udfad Persona",
+      "raw": "🎭 Persona",
       "source": "claude.me:bullets"
     },
     {
@@ -15702,7 +15702,7 @@
       "last_seen": "2025-10-03T01:02:53.677511+00:00",
       "module": "personality",
       "notes": "module:reasoning module:personality",
-      "raw": "\ud83e\udde0 Consciousness",
+      "raw": "🧠 Consciousness",
       "source": "claude.me:bullets"
     },
     {
@@ -15711,7 +15711,7 @@
       "last_seen": "2025-10-03T01:02:53.631066+00:00",
       "module": "personality",
       "notes": "module:personality",
-      "raw": "\ud83c\udfa8 Creativity",
+      "raw": "🎨 Creativity",
       "source": "claude.me:bullets"
     },
     {
@@ -15756,7 +15756,7 @@
       "last_seen": "2025-10-03T01:02:53.677499+00:00",
       "module": "personality",
       "notes": "module:reasoning module:personality",
-      "raw": "\ud83d\udd2e Oracle",
+      "raw": "🔮 Oracle",
       "source": "claude.me:bullets"
     },
     {
@@ -16827,7 +16827,7 @@
       "last_seen": "2025-10-03T01:02:53.636102+00:00",
       "module": "consciousness",
       "notes": "module:consciousness",
-      "raw": "\u2705 Consciousness Theory",
+      "raw": "✅ Consciousness Theory",
       "source": "claude.me:bullets"
     },
     {
@@ -16836,7 +16836,7 @@
       "last_seen": "2025-10-03T01:02:53.636106+00:00",
       "module": "consciousness",
       "notes": "module:consciousness",
-      "raw": "\u2705 Decision Theory",
+      "raw": "✅ Decision Theory",
       "source": "claude.me:bullets"
     },
     {
@@ -16845,7 +16845,7 @@
       "last_seen": "2025-10-03T01:02:53.636109+00:00",
       "module": "consciousness",
       "notes": "module:consciousness",
-      "raw": "\u2705 Awareness Models",
+      "raw": "✅ Awareness Models",
       "source": "claude.me:bullets"
     },
     {
@@ -16854,7 +16854,7 @@
       "last_seen": "2025-10-03T01:02:53.636112+00:00",
       "module": "consciousness",
       "notes": "module:consciousness",
-      "raw": "\u2705 Research Integration",
+      "raw": "✅ Research Integration",
       "source": "claude.me:bullets"
     },
     {
@@ -16863,7 +16863,7 @@
       "last_seen": "2025-10-03T01:02:53.636116+00:00",
       "module": "consciousness",
       "notes": "module:consciousness",
-      "raw": "\u2705 Consciousness Base",
+      "raw": "✅ Consciousness Base",
       "source": "claude.me:bullets"
     },
     {
@@ -16872,7 +16872,7 @@
       "last_seen": "2025-10-03T01:02:53.636119+00:00",
       "module": "consciousness",
       "notes": "module:consciousness",
-      "raw": "\u2705 Decision Engine Core",
+      "raw": "✅ Decision Engine Core",
       "source": "claude.me:bullets"
     },
     {
@@ -16881,7 +16881,7 @@
       "last_seen": "2025-10-03T01:02:53.636122+00:00",
       "module": "consciousness",
       "notes": "module:consciousness",
-      "raw": "\u2705 Awareness Foundation",
+      "raw": "✅ Awareness Foundation",
       "source": "claude.me:bullets"
     },
     {
@@ -16890,7 +16890,7 @@
       "last_seen": "2025-10-03T01:02:53.636126+00:00",
       "module": "consciousness",
       "notes": "module:consciousness",
-      "raw": "\u2705 Architecture Validation",
+      "raw": "✅ Architecture Validation",
       "source": "claude.me:bullets"
     },
     {
@@ -16899,7 +16899,7 @@
       "last_seen": "2025-10-03T01:02:53.636129+00:00",
       "module": "consciousness",
       "notes": "module:consciousness",
-      "raw": "\u2705 Consciousness Experiments",
+      "raw": "✅ Consciousness Experiments",
       "source": "claude.me:bullets"
     },
     {
@@ -16908,7 +16908,7 @@
       "last_seen": "2025-10-03T01:02:53.636132+00:00",
       "module": "consciousness",
       "notes": "module:consciousness",
-      "raw": "\u2705 Decision Experiments",
+      "raw": "✅ Decision Experiments",
       "source": "claude.me:bullets"
     },
     {
@@ -16917,7 +16917,7 @@
       "last_seen": "2025-10-03T01:02:53.636135+00:00",
       "module": "consciousness",
       "notes": "module:consciousness",
-      "raw": "\u2705 Awareness Experiments",
+      "raw": "✅ Awareness Experiments",
       "source": "claude.me:bullets"
     },
     {
@@ -16926,7 +16926,7 @@
       "last_seen": "2025-10-03T01:02:53.636138+00:00",
       "module": "consciousness",
       "notes": "module:consciousness",
-      "raw": "\u2705 Dream EXPAND++",
+      "raw": "✅ Dream EXPAND++",
       "source": "claude.me:bullets"
     },
     {
@@ -16935,7 +16935,7 @@
       "last_seen": "2025-10-03T01:02:53.636142+00:00",
       "module": "consciousness",
       "notes": "module:consciousness",
-      "raw": "\ud83d\udd04 Advanced Experiments",
+      "raw": "🔄 Advanced Experiments",
       "source": "claude.me:bullets"
     },
     {
@@ -17169,7 +17169,7 @@
       "last_seen": "2025-10-03T01:02:53.636237+00:00",
       "module": "consciousness",
       "notes": "module:consciousness",
-      "raw": "\ud83e\udde0 Consciousness Research Systems",
+      "raw": "🧠 Consciousness Research Systems",
       "source": "claude.me:headers"
     },
     {
@@ -17205,7 +17205,7 @@
       "last_seen": "2025-10-03T01:02:53.636257+00:00",
       "module": "consciousness",
       "notes": "module:consciousness",
-      "raw": "\ud83c\udfd7\ufe0f Foundation Architecture Systems",
+      "raw": "🏗️ Foundation Architecture Systems",
       "source": "claude.me:headers"
     },
     {
@@ -17241,7 +17241,7 @@
       "last_seen": "2025-10-03T01:02:53.636276+00:00",
       "module": "consciousness",
       "notes": "module:consciousness",
-      "raw": "\ud83d\udd2c Experimental Consciousness Systems",
+      "raw": "🔬 Experimental Consciousness Systems",
       "source": "claude.me:headers"
     },
     {
@@ -17304,7 +17304,7 @@
       "last_seen": "2025-10-03T01:02:53.636323+00:00",
       "module": "consciousness",
       "notes": "module:consciousness",
-      "raw": "\ud83c\udf0c Dream EXPAND++ Research Foundation",
+      "raw": "🌌 Dream EXPAND++ Research Foundation",
       "source": "claude.me:headers"
     },
     {
@@ -18006,7 +18006,7 @@
       "last_seen": "2025-10-03T01:02:53.657244+00:00",
       "module": "grafana",
       "notes": "module:grafana",
-      "raw": "\u269b\ufe0f Anchor (Identity)",
+      "raw": "⚛️ Anchor (Identity)",
       "source": "claude.me:bullets"
     },
     {
@@ -18015,7 +18015,7 @@
       "last_seen": "2025-10-03T01:02:53.657247+00:00",
       "module": "grafana",
       "notes": "module:grafana",
-      "raw": "\u2726 Trail (Memory)",
+      "raw": "✦ Trail (Memory)",
       "source": "claude.me:bullets"
     },
     {
@@ -18024,7 +18024,7 @@
       "last_seen": "2025-10-03T01:02:53.657250+00:00",
       "module": "grafana",
       "notes": "module:grafana",
-      "raw": "\ud83d\udd2c Horizon (Vision)",
+      "raw": "🔬 Horizon (Vision)",
       "source": "claude.me:bullets"
     },
     {
@@ -18033,7 +18033,7 @@
       "last_seen": "2025-10-03T01:02:53.657253+00:00",
       "module": "grafana",
       "notes": "module:grafana",
-      "raw": "\ud83d\udee1\ufe0f Watch (Guardian)",
+      "raw": "🛡️ Watch (Guardian)",
       "source": "claude.me:bullets"
     },
     {
@@ -18042,7 +18042,7 @@
       "last_seen": "2025-10-03T01:02:53.657256+00:00",
       "module": "grafana",
       "notes": "module:grafana",
-      "raw": "\ud83c\udf0a Flow (Adaptation)",
+      "raw": "🌊 Flow (Adaptation)",
       "source": "claude.me:bullets"
     },
     {
@@ -18051,7 +18051,7 @@
       "last_seen": "2025-10-03T01:02:53.657259+00:00",
       "module": "grafana",
       "notes": "module:grafana",
-      "raw": "\u26a1 Spark (Creativity)",
+      "raw": "⚡ Spark (Creativity)",
       "source": "claude.me:bullets"
     },
     {
@@ -18060,7 +18060,7 @@
       "last_seen": "2025-10-03T01:02:53.657262+00:00",
       "module": "grafana",
       "notes": "module:grafana",
-      "raw": "\ud83c\udfad Persona (Personality)",
+      "raw": "🎭 Persona (Personality)",
       "source": "claude.me:bullets"
     },
     {
@@ -18069,7 +18069,7 @@
       "last_seen": "2025-10-03T01:02:53.657265+00:00",
       "module": "grafana",
       "notes": "module:grafana",
-      "raw": "\ud83d\udd2e Oracle (Prediction)",
+      "raw": "🔮 Oracle (Prediction)",
       "source": "claude.me:bullets"
     },
     {
@@ -18636,7 +18636,7 @@
       "last_seen": "2025-10-03T01:02:53.796522+00:00",
       "module": "agent",
       "notes": "module:ai_orchestration module:deployment module:api module:serve module:monitoring module:dream module:emotion module:analytics module:agent",
-      "raw": "\ud83e\udde0 Flow Star (Consciousness)",
+      "raw": "🧠 Flow Star (Consciousness)",
       "source": "claude.me:bullets"
     },
     {
@@ -18654,7 +18654,7 @@
       "last_seen": "2025-10-03T01:02:53.661440+00:00",
       "module": "agent",
       "notes": "module:agent",
-      "raw": "All agents must have valid \u039bID identity",
+      "raw": "All agents must have valid ΛID identity",
       "source": "claude.me:bullets"
     },
     {
@@ -20157,7 +20157,7 @@
       "last_seen": "2025-10-03T01:02:53.667976+00:00",
       "module": "matriz",
       "notes": "module:matriz",
-      "raw": "\u2705 Node System",
+      "raw": "✅ Node System",
       "source": "claude.me:bullets"
     },
     {
@@ -20166,7 +20166,7 @@
       "last_seen": "2025-10-03T01:02:53.667979+00:00",
       "module": "matriz",
       "notes": "module:matriz",
-      "raw": "\u2705 Reasoning Chains",
+      "raw": "✅ Reasoning Chains",
       "source": "claude.me:bullets"
     },
     {
@@ -20175,7 +20175,7 @@
       "last_seen": "2025-10-03T01:02:53.667982+00:00",
       "module": "matriz",
       "notes": "module:matriz",
-      "raw": "\u2705 Visualization",
+      "raw": "✅ Visualization",
       "source": "claude.me:bullets"
     },
     {
@@ -20184,7 +20184,7 @@
       "last_seen": "2025-10-03T01:02:53.667986+00:00",
       "module": "matriz",
       "notes": "module:matriz",
-      "raw": "\ud83d\udd04 Integration",
+      "raw": "🔄 Integration",
       "source": "claude.me:bullets"
     },
     {
@@ -20211,7 +20211,7 @@
       "last_seen": "2025-10-03T01:02:53.668003+00:00",
       "module": "matriz",
       "notes": "module:matriz",
-      "raw": "\u2705 LUKHAS Bridge",
+      "raw": "✅ LUKHAS Bridge",
       "source": "claude.me:bullets"
     },
     {
@@ -20220,7 +20220,7 @@
       "last_seen": "2025-10-03T01:02:53.668006+00:00",
       "module": "matriz",
       "notes": "module:matriz",
-      "raw": "\u2705 CANDIDATE Integration",
+      "raw": "✅ CANDIDATE Integration",
       "source": "claude.me:bullets"
     },
     {
@@ -20229,7 +20229,7 @@
       "last_seen": "2025-10-03T01:02:53.668009+00:00",
       "module": "matriz",
       "notes": "module:matriz",
-      "raw": "\u2705 Visualization Pipeline",
+      "raw": "✅ Visualization Pipeline",
       "source": "claude.me:bullets"
     },
     {
@@ -20238,7 +20238,7 @@
       "last_seen": "2025-10-03T01:02:53.668012+00:00",
       "module": "matriz",
       "notes": "module:matriz",
-      "raw": "\ud83d\udd04 Production Scaling",
+      "raw": "🔄 Production Scaling",
       "source": "claude.me:bullets"
     },
     {
@@ -20292,7 +20292,7 @@
       "last_seen": "2025-10-03T01:02:53.668035+00:00",
       "module": "matriz",
       "notes": "module:matriz",
-      "raw": "\ud83e\uddec Node-Based Architecture",
+      "raw": "🧬 Node-Based Architecture",
       "source": "claude.me:headers"
     },
     {
@@ -20319,7 +20319,7 @@
       "last_seen": "2025-10-03T01:02:53.668048+00:00",
       "module": "matriz",
       "notes": "module:matriz",
-      "raw": "\ud83d\udd17 Reasoning Chain Architecture",
+      "raw": "🔗 Reasoning Chain Architecture",
       "source": "claude.me:headers"
     },
     {
@@ -20355,7 +20355,7 @@
       "last_seen": "2025-10-03T01:02:53.668061+00:00",
       "module": "matriz",
       "notes": "module:matriz",
-      "raw": "\ud83c\udfa8 Visualization & Interaction Systems",
+      "raw": "🎨 Visualization & Interaction Systems",
       "source": "claude.me:headers"
     },
     {
@@ -20382,7 +20382,7 @@
       "last_seen": "2025-10-03T01:02:53.668071+00:00",
       "module": "matriz",
       "notes": "module:matriz",
-      "raw": "\ud83c\udf09 Integration Points",
+      "raw": "🌉 Integration Points",
       "source": "claude.me:headers"
     },
     {
@@ -20445,7 +20445,7 @@
       "last_seen": "2025-10-03T01:02:53.668103+00:00",
       "module": "matriz",
       "notes": "module:matriz",
-      "raw": "\ud83d\uddfa\ufe0f Cognitive System Navigation",
+      "raw": "🗺️ Cognitive System Navigation",
       "source": "claude.me:headers"
     },
     {
@@ -20472,7 +20472,7 @@
       "last_seen": "2025-10-03T01:02:53.668119+00:00",
       "module": "matriz",
       "notes": "module:matriz",
-      "raw": "\ud83d\udcca Cognitive System Status",
+      "raw": "📊 Cognitive System Status",
       "source": "claude.me:headers"
     },
     {
@@ -21651,7 +21651,7 @@
       "last_seen": "2025-10-03T01:02:53.677502+00:00",
       "module": "reasoning",
       "notes": "module:reasoning",
-      "raw": "\ud83d\udd2c Horizon",
+      "raw": "🔬 Horizon",
       "source": "claude.me:bullets"
     },
     {
@@ -21660,7 +21660,7 @@
       "last_seen": "2025-10-03T01:02:53.677505+00:00",
       "module": "reasoning",
       "notes": "module:reasoning",
-      "raw": "\u269b\ufe0f Anchor",
+      "raw": "⚛️ Anchor",
       "source": "claude.me:bullets"
     },
     {
@@ -22416,7 +22416,7 @@
       "last_seen": "2025-10-03T01:02:53.684825+00:00",
       "module": "feedback",
       "notes": "module:feedback",
-      "raw": "\ud83d\udcca Flow Star",
+      "raw": "📊 Flow Star",
       "source": "claude.me:bullets"
     },
     {
@@ -22425,7 +22425,7 @@
       "last_seen": "2025-10-03T01:02:53.749158+00:00",
       "module": "feedback",
       "notes": "module:ops module:feedback",
-      "raw": "\ud83d\udd2c Horizon Star (Vision)",
+      "raw": "🔬 Horizon Star (Vision)",
       "source": "claude.me:bullets"
     },
     {
@@ -23739,7 +23739,7 @@
       "last_seen": "2025-10-03T01:02:53.695897+00:00",
       "module": "adapters",
       "notes": "module:adapters",
-      "raw": "\u2705 Capability token validation for all operations",
+      "raw": "✅ Capability token validation for all operations",
       "source": "claude.me:bullets"
     },
     {
@@ -23748,7 +23748,7 @@
       "last_seen": "2025-10-03T01:02:53.695900+00:00",
       "module": "adapters",
       "notes": "module:adapters",
-      "raw": "\u2705 Complete audit trail logging",
+      "raw": "✅ Complete audit trail logging",
       "source": "claude.me:bullets"
     },
     {
@@ -23757,7 +23757,7 @@
       "last_seen": "2025-10-03T01:02:53.695903+00:00",
       "module": "adapters",
       "notes": "module:adapters",
-      "raw": "\u2705 Unit and integration test coverage",
+      "raw": "✅ Unit and integration test coverage",
       "source": "claude.me:bullets"
     },
     {
@@ -23766,7 +23766,7 @@
       "last_seen": "2025-10-03T01:02:53.695906+00:00",
       "module": "adapters",
       "notes": "module:adapters",
-      "raw": "\u2705 Security scanning and vulnerability checks",
+      "raw": "✅ Security scanning and vulnerability checks",
       "source": "claude.me:bullets"
     },
     {
@@ -23775,7 +23775,7 @@
       "last_seen": "2025-10-03T01:02:53.695909+00:00",
       "module": "adapters",
       "notes": "module:adapters",
-      "raw": "\u2705 Documentation completeness",
+      "raw": "✅ Documentation completeness",
       "source": "claude.me:bullets"
     },
     {
@@ -24567,7 +24567,7 @@
       "last_seen": "2025-10-03T01:02:53.703435+00:00",
       "module": "ethics",
       "notes": "module:ethics",
-      "raw": "\u2705 Safety Guardian",
+      "raw": "✅ Safety Guardian",
       "source": "claude.me:bullets"
     },
     {
@@ -24576,7 +24576,7 @@
       "last_seen": "2025-10-03T01:02:53.703438+00:00",
       "module": "ethics",
       "notes": "module:ethics",
-      "raw": "\u2705 Decision Validator",
+      "raw": "✅ Decision Validator",
       "source": "claude.me:bullets"
     },
     {
@@ -24585,7 +24585,7 @@
       "last_seen": "2025-10-03T01:02:53.703441+00:00",
       "module": "ethics",
       "notes": "module:ethics",
-      "raw": "\u2705 Constitutional AI",
+      "raw": "✅ Constitutional AI",
       "source": "claude.me:bullets"
     },
     {
@@ -24594,7 +24594,7 @@
       "last_seen": "2025-10-03T01:02:53.703444+00:00",
       "module": "ethics",
       "notes": "module:ethics",
-      "raw": "\u2705 Ethics Monitor",
+      "raw": "✅ Ethics Monitor",
       "source": "claude.me:bullets"
     },
     {
@@ -24603,7 +24603,7 @@
       "last_seen": "2025-10-03T01:02:53.703448+00:00",
       "module": "ethics",
       "notes": "module:ethics",
-      "raw": "\u2705 GDPR Compliance",
+      "raw": "✅ GDPR Compliance",
       "source": "claude.me:bullets"
     },
     {
@@ -24612,7 +24612,7 @@
       "last_seen": "2025-10-03T01:02:53.703450+00:00",
       "module": "ethics",
       "notes": "module:ethics",
-      "raw": "\u2705 CCPA Validator",
+      "raw": "✅ CCPA Validator",
       "source": "claude.me:bullets"
     },
     {
@@ -24621,7 +24621,7 @@
       "last_seen": "2025-10-03T01:02:53.703453+00:00",
       "module": "ethics",
       "notes": "module:ethics",
-      "raw": "\u2705 Audit Framework",
+      "raw": "✅ Audit Framework",
       "source": "claude.me:bullets"
     },
     {
@@ -24630,7 +24630,7 @@
       "last_seen": "2025-10-03T01:02:53.703456+00:00",
       "module": "ethics",
       "notes": "module:ethics",
-      "raw": "\ud83d\udd04 Regulatory Reporter",
+      "raw": "🔄 Regulatory Reporter",
       "source": "claude.me:bullets"
     },
     {
@@ -24639,7 +24639,7 @@
       "last_seen": "2025-10-03T01:02:53.703459+00:00",
       "module": "ethics",
       "notes": "module:ethics",
-      "raw": "\u2705 Trinity Framework",
+      "raw": "✅ Trinity Framework",
       "source": "claude.me:bullets"
     },
     {
@@ -24648,7 +24648,7 @@
       "last_seen": "2025-10-03T01:02:53.703462+00:00",
       "module": "ethics",
       "notes": "module:ethics",
-      "raw": "\u2705 Cross-System Integration",
+      "raw": "✅ Cross-System Integration",
       "source": "claude.me:bullets"
     },
     {
@@ -24657,7 +24657,7 @@
       "last_seen": "2025-10-03T01:02:53.703465+00:00",
       "module": "ethics",
       "notes": "module:ethics",
-      "raw": "\u2705 Production Ready",
+      "raw": "✅ Production Ready",
       "source": "claude.me:bullets"
     },
     {
@@ -24666,7 +24666,7 @@
       "last_seen": "2025-10-03T01:02:53.703468+00:00",
       "module": "ethics",
       "notes": "module:ethics",
-      "raw": "\ud83d\udd04 Advanced Features",
+      "raw": "🔄 Advanced Features",
       "source": "claude.me:bullets"
     },
     {
@@ -24747,7 +24747,7 @@
       "last_seen": "2025-10-03T01:02:53.703516+00:00",
       "module": "ethics",
       "notes": "module:ethics",
-      "raw": "\ud83d\udee1\ufe0f Guardian Systems Architecture",
+      "raw": "🛡️ Guardian Systems Architecture",
       "source": "claude.me:headers"
     },
     {
@@ -24792,7 +24792,7 @@
       "last_seen": "2025-10-03T01:02:53.703538+00:00",
       "module": "ethics",
       "notes": "module:ethics",
-      "raw": "\u2696\ufe0f Constitutional AI Integration",
+      "raw": "⚖️ Constitutional AI Integration",
       "source": "claude.me:headers"
     },
     {
@@ -24828,7 +24828,7 @@
       "last_seen": "2025-10-03T01:02:53.703555+00:00",
       "module": "ethics",
       "notes": "module:ethics",
-      "raw": "\ud83d\udccb Compliance Systems",
+      "raw": "📋 Compliance Systems",
       "source": "claude.me:headers"
     },
     {
@@ -24873,7 +24873,7 @@
       "last_seen": "2025-10-03T01:02:53.703576+00:00",
       "module": "ethics",
       "notes": "module:ethics",
-      "raw": "\ud83d\udd17 Cross-System Ethics Integration",
+      "raw": "🔗 Cross-System Ethics Integration",
       "source": "claude.me:headers"
     },
     {
@@ -24909,7 +24909,7 @@
       "last_seen": "2025-10-03T01:02:53.703594+00:00",
       "module": "ethics",
       "notes": "module:ethics",
-      "raw": "\ud83d\uddfa\ufe0f Ethics Navigation Guide",
+      "raw": "🗺️ Ethics Navigation Guide",
       "source": "claude.me:headers"
     },
     {
@@ -24954,7 +24954,7 @@
       "last_seen": "2025-10-03T01:02:53.703614+00:00",
       "module": "ethics",
       "notes": "module:ethics",
-      "raw": "\ud83d\udcca Ethics Framework Status",
+      "raw": "📊 Ethics Framework Status",
       "source": "claude.me:headers"
     },
     {
@@ -24972,7 +24972,7 @@
       "last_seen": "2025-10-03T01:02:53.703632+00:00",
       "module": "ethics",
       "notes": "module:ethics",
-      "raw": "\ud83c\udfaf Ethics Framework Priorities",
+      "raw": "🎯 Ethics Framework Priorities",
       "source": "claude.me:headers"
     },
     {
@@ -25413,7 +25413,7 @@
       "last_seen": "2025-10-03T01:02:53.710605+00:00",
       "module": "consent",
       "notes": "module:consent",
-      "raw": "\u2705 Explicit user consent required",
+      "raw": "✅ Explicit user consent required",
       "source": "claude.me:bullets"
     },
     {
@@ -25422,7 +25422,7 @@
       "last_seen": "2025-10-03T01:02:53.710608+00:00",
       "module": "consent",
       "notes": "module:consent",
-      "raw": "\u2705 Purpose limitation enforced",
+      "raw": "✅ Purpose limitation enforced",
       "source": "claude.me:bullets"
     },
     {
@@ -25431,7 +25431,7 @@
       "last_seen": "2025-10-03T01:02:53.710610+00:00",
       "module": "consent",
       "notes": "module:consent",
-      "raw": "\u2705 Data minimization (scope-based)",
+      "raw": "✅ Data minimization (scope-based)",
       "source": "claude.me:bullets"
     },
     {
@@ -25440,7 +25440,7 @@
       "last_seen": "2025-10-03T01:02:53.710613+00:00",
       "module": "consent",
       "notes": "module:consent",
-      "raw": "\u2705 Right to revoke (instant)",
+      "raw": "✅ Right to revoke (instant)",
       "source": "claude.me:bullets"
     },
     {
@@ -25449,7 +25449,7 @@
       "last_seen": "2025-10-03T01:02:53.710615+00:00",
       "module": "consent",
       "notes": "module:consent",
-      "raw": "\u2705 7-year audit trail",
+      "raw": "✅ 7-year audit trail",
       "source": "claude.me:bullets"
     },
     {
@@ -25458,7 +25458,7 @@
       "last_seen": "2025-10-03T01:02:53.710618+00:00",
       "module": "consent",
       "notes": "module:consent",
-      "raw": "\u2705 Granular data categories",
+      "raw": "✅ Granular data categories",
       "source": "claude.me:bullets"
     },
     {
@@ -25467,7 +25467,7 @@
       "last_seen": "2025-10-03T01:02:53.710620+00:00",
       "module": "consent",
       "notes": "module:consent",
-      "raw": "\u2705 Opt-out mechanism (revoke)",
+      "raw": "✅ Opt-out mechanism (revoke)",
       "source": "claude.me:bullets"
     },
     {
@@ -25476,7 +25476,7 @@
       "last_seen": "2025-10-03T01:02:53.710622+00:00",
       "module": "consent",
       "notes": "module:consent",
-      "raw": "\u2705 Data usage transparency",
+      "raw": "✅ Data usage transparency",
       "source": "claude.me:bullets"
     },
     {
@@ -25485,7 +25485,7 @@
       "last_seen": "2025-10-03T01:02:53.710625+00:00",
       "module": "consent",
       "notes": "module:consent",
-      "raw": "\u2705 Access control logs",
+      "raw": "✅ Access control logs",
       "source": "claude.me:bullets"
     },
     {
@@ -25494,7 +25494,7 @@
       "last_seen": "2025-10-03T01:02:53.710627+00:00",
       "module": "consent",
       "notes": "module:consent",
-      "raw": "\u2705 Deletion support",
+      "raw": "✅ Deletion support",
       "source": "claude.me:bullets"
     },
     {
@@ -25503,7 +25503,7 @@
       "last_seen": "2025-10-03T01:02:53.710629+00:00",
       "module": "consent",
       "notes": "module:consent",
-      "raw": "\u2705 Third-party disclosure tracking",
+      "raw": "✅ Third-party disclosure tracking",
       "source": "claude.me:bullets"
     },
     {
@@ -25512,7 +25512,7 @@
       "last_seen": "2025-10-03T01:02:53.710632+00:00",
       "module": "consent",
       "notes": "module:consent",
-      "raw": "\u2705 Access controls",
+      "raw": "✅ Access controls",
       "source": "claude.me:bullets"
     },
     {
@@ -25521,7 +25521,7 @@
       "last_seen": "2025-10-03T01:02:53.710634+00:00",
       "module": "consent",
       "notes": "module:consent",
-      "raw": "\u2705 Audit trails",
+      "raw": "✅ Audit trails",
       "source": "claude.me:bullets"
     },
     {
@@ -25530,7 +25530,7 @@
       "last_seen": "2025-10-03T01:02:53.710637+00:00",
       "module": "consent",
       "notes": "module:consent",
-      "raw": "\u2705 Encryption at rest/transit",
+      "raw": "✅ Encryption at rest/transit",
       "source": "claude.me:bullets"
     },
     {
@@ -25539,7 +25539,7 @@
       "last_seen": "2025-10-03T01:02:53.710639+00:00",
       "module": "consent",
       "notes": "module:consent",
-      "raw": "\u2705 Token expiration",
+      "raw": "✅ Token expiration",
       "source": "claude.me:bullets"
     },
     {
@@ -25548,7 +25548,7 @@
       "last_seen": "2025-10-03T01:02:53.710641+00:00",
       "module": "consent",
       "notes": "module:consent",
-      "raw": "\u2705 Escalation procedures",
+      "raw": "✅ Escalation procedures",
       "source": "claude.me:bullets"
     },
     {
@@ -25557,7 +25557,7 @@
       "last_seen": "2025-10-03T01:02:53.710652+00:00",
       "module": "consent",
       "notes": "module:consent",
-      "raw": "\u2705 Compliance",
+      "raw": "✅ Compliance",
       "source": "claude.me:bullets"
     },
     {
@@ -25566,7 +25566,7 @@
       "last_seen": "2025-10-03T01:02:53.710657+00:00",
       "module": "consent",
       "notes": "module:consent",
-      "raw": "\u2705 Audit Trail",
+      "raw": "✅ Audit Trail",
       "source": "claude.me:bullets"
     },
     {
@@ -25575,7 +25575,7 @@
       "last_seen": "2025-10-03T01:02:53.710660+00:00",
       "module": "consent",
       "notes": "module:consent",
-      "raw": "\u2705 Security",
+      "raw": "✅ Security",
       "source": "claude.me:bullets"
     },
     {
@@ -25584,7 +25584,7 @@
       "last_seen": "2025-10-03T01:02:53.710700+00:00",
       "module": "consent",
       "notes": "module:consent",
-      "raw": "\u2696\ufe0f ETHICS",
+      "raw": "⚖️ ETHICS",
       "source": "claude.me:bullets"
     },
     {
@@ -28428,7 +28428,7 @@
       "last_seen": "2025-10-03T01:02:53.734504+00:00",
       "module": "governance",
       "notes": "module:governance",
-      "raw": "\u2705 Constitutional AI Core",
+      "raw": "✅ Constitutional AI Core",
       "source": "claude.me:bullets"
     },
     {
@@ -28437,7 +28437,7 @@
       "last_seen": "2025-10-03T01:02:53.734507+00:00",
       "module": "governance",
       "notes": "module:governance",
-      "raw": "\u2705 Governance Foundation",
+      "raw": "✅ Governance Foundation",
       "source": "claude.me:bullets"
     },
     {
@@ -28446,7 +28446,7 @@
       "last_seen": "2025-10-03T01:02:53.734510+00:00",
       "module": "governance",
       "notes": "module:governance",
-      "raw": "\u2705 Constitutional Framework",
+      "raw": "✅ Constitutional Framework",
       "source": "claude.me:bullets"
     },
     {
@@ -28455,7 +28455,7 @@
       "last_seen": "2025-10-03T01:02:53.734517+00:00",
       "module": "governance",
       "notes": "module:governance",
-      "raw": "\u2705 Policy Foundation",
+      "raw": "✅ Policy Foundation",
       "source": "claude.me:bullets"
     },
     {
@@ -28464,7 +28464,7 @@
       "last_seen": "2025-10-03T01:02:53.734520+00:00",
       "module": "governance",
       "notes": "module:governance",
-      "raw": "\u2705 Policy Framework",
+      "raw": "✅ Policy Framework",
       "source": "claude.me:bullets"
     },
     {
@@ -28473,7 +28473,7 @@
       "last_seen": "2025-10-03T01:02:53.734524+00:00",
       "module": "governance",
       "notes": "module:governance",
-      "raw": "\u2705 Policy Validation",
+      "raw": "✅ Policy Validation",
       "source": "claude.me:bullets"
     },
     {
@@ -28482,7 +28482,7 @@
       "last_seen": "2025-10-03T01:02:53.734527+00:00",
       "module": "governance",
       "notes": "module:governance",
-      "raw": "\u2705 Policy Integration",
+      "raw": "✅ Policy Integration",
       "source": "claude.me:bullets"
     },
     {
@@ -28491,7 +28491,7 @@
       "last_seen": "2025-10-03T01:02:53.734530+00:00",
       "module": "governance",
       "notes": "module:governance",
-      "raw": "\u2705 Ethics Foundation",
+      "raw": "✅ Ethics Foundation",
       "source": "claude.me:bullets"
     },
     {
@@ -28500,7 +28500,7 @@
       "last_seen": "2025-10-03T01:02:53.734533+00:00",
       "module": "governance",
       "notes": "module:governance",
-      "raw": "\u2705 Moral Reasoning Foundation",
+      "raw": "✅ Moral Reasoning Foundation",
       "source": "claude.me:bullets"
     },
     {
@@ -28509,7 +28509,7 @@
       "last_seen": "2025-10-03T01:02:53.734536+00:00",
       "module": "governance",
       "notes": "module:governance",
-      "raw": "\u2705 Ethics Validation",
+      "raw": "✅ Ethics Validation",
       "source": "claude.me:bullets"
     },
     {
@@ -28518,7 +28518,7 @@
       "last_seen": "2025-10-03T01:02:53.734540+00:00",
       "module": "governance",
       "notes": "module:governance",
-      "raw": "\ud83d\udd04 Advanced Ethics",
+      "raw": "🔄 Advanced Ethics",
       "source": "claude.me:bullets"
     },
     {
@@ -28545,7 +28545,7 @@
       "last_seen": "2025-10-03T01:02:53.734576+00:00",
       "module": "governance",
       "notes": "module:governance",
-      "raw": "\u2696\ufe0f Constitutional AI Foundation",
+      "raw": "⚖️ Constitutional AI Foundation",
       "source": "claude.me:headers"
     },
     {
@@ -28572,7 +28572,7 @@
       "last_seen": "2025-10-03T01:02:53.734601+00:00",
       "module": "governance",
       "notes": "module:governance",
-      "raw": "\ud83d\udccb Policy Foundation Systems",
+      "raw": "📋 Policy Foundation Systems",
       "source": "claude.me:headers"
     },
     {
@@ -28608,7 +28608,7 @@
       "last_seen": "2025-10-03T01:02:53.734621+00:00",
       "module": "governance",
       "notes": "module:governance",
-      "raw": "\ud83d\udee1\ufe0f Ethics Foundation Systems",
+      "raw": "🛡️ Ethics Foundation Systems",
       "source": "claude.me:headers"
     },
     {
@@ -29058,7 +29058,7 @@
       "last_seen": "2025-10-03T01:02:53.738165+00:00",
       "module": "api",
       "notes": "module:api",
-      "raw": "Identity ([../identity/](../identity/)) - \u039bID authentication integration",
+      "raw": "Identity ([../identity/](../identity/)) - ΛID authentication integration",
       "source": "claude.me:bullets"
     },
     {
@@ -33990,7 +33990,7 @@
       "last_seen": "2025-10-03T01:02:53.791048+00:00",
       "module": "dream",
       "notes": "module:emotion module:dream",
-      "raw": "\ud83d\udd2e Oracle Star (Prediction)",
+      "raw": "🔮 Oracle Star (Prediction)",
       "source": "claude.me:bullets"
     },
     {
@@ -33999,7 +33999,7 @@
       "last_seen": "2025-10-03T01:02:53.780304+00:00",
       "module": "dream",
       "notes": "module:dream",
-      "raw": "\u26a1 Spark Star (Creativity)",
+      "raw": "⚡ Spark Star (Creativity)",
       "source": "claude.me:bullets"
     },
     {
@@ -34287,7 +34287,7 @@
       "last_seen": "2025-10-03T01:02:53.783213+00:00",
       "module": "lukhas",
       "notes": "module:lukhas",
-      "raw": "Maps lukhas.<module> to flat-root modules (e.g., qi, core, \u2026),",
+      "raw": "Maps lukhas.<module> to flat-root modules (e.g., qi, core, …),",
       "source": "claude.me:bullets"
     },
     {
@@ -36951,7 +36951,7 @@
       "last_seen": "2025-10-03T01:02:53.804973+00:00",
       "module": "quantum",
       "notes": "module:quantum",
-      "raw": "../candidate/consciousness/claude.me - Consciousness development with quantum features",
+      "raw": "../labs/consciousness/claude.me - Consciousness development with quantum features",
       "source": "claude.me:bullets"
     },
     {

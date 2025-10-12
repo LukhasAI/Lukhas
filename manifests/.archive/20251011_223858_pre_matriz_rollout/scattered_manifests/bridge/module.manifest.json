@@ -31,35 +31,35 @@
   "apis": {
     "BRIDGE_BRANDING_AVAILABLE": {
       "capabilities": [],
-      "description": "Auto-detected API; fill in description \u2265 40 chars.",
+      "description": "Auto-detected API; fill in description ≥ 40 chars.",
       "doc_ok": false,
       "import_verified": false,
       "module": "bridge.BRIDGE_BRANDING_AVAILABLE"
     },
     "BrandContext": {
       "capabilities": [],
-      "description": "Auto-detected API; fill in description \u2265 40 chars.",
+      "description": "Auto-detected API; fill in description ≥ 40 chars.",
       "doc_ok": false,
       "import_verified": false,
       "module": "bridge.BrandContext"
     },
     "get_brand_voice": {
       "capabilities": [],
-      "description": "Auto-detected API; fill in description \u2265 40 chars.",
+      "description": "Auto-detected API; fill in description ≥ 40 chars.",
       "doc_ok": false,
       "import_verified": false,
       "module": "bridge.get_brand_voice"
     },
     "normalize_output_text": {
       "capabilities": [],
-      "description": "Auto-detected API; fill in description \u2265 40 chars.",
+      "description": "Auto-detected API; fill in description ≥ 40 chars.",
       "doc_ok": false,
       "import_verified": false,
       "module": "bridge.normalize_output_text"
     },
     "validate_output": {
       "capabilities": [],
-      "description": "Auto-detected API; fill in description \u2265 40 chars.",
+      "description": "Auto-detected API; fill in description ≥ 40 chars.",
       "doc_ok": false,
       "import_verified": false,
       "module": "bridge.validate_output"
@@ -521,7 +521,7 @@
         "memory_stage": "experimental",
         "thought_stage": "experimental"
       },
-      "path": "candidate/bridge",
+      "path": "labs/bridge",
       "purpose": "Directory containing 13 Python files and 12 subdirectories",
       "t4_compliance_level": "experimental"
     },

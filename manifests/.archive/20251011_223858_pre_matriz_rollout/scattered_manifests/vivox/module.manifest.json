@@ -201,7 +201,7 @@
         "memory_stage": "experimental",
         "thought_stage": "experimental"
       },
-      "path": "candidate/vivox",
+      "path": "labs/vivox",
       "purpose": "Directory containing 0 Python files and 12 subdirectories",
       "t4_compliance_level": "experimental"
     },

@@ -1,0 +1,77 @@
+{
+  "schema_version": "1.1.0",
+  "module": {
+    "name": "candidate.core.quantum_empathy",
+    "path": "labs/core/quantum_empathy",
+    "type": "package",
+    "lane": "candidate"
+  },
+  "matriz_integration": {
+    "status": "partial",
+    "pipeline_nodes": [
+      "supporting"
+    ],
+    "cognitive_function": ""
+  },
+  "constellation_alignment": {
+    "primary_star": "🔮 Oracle (Quantum)",
+    "star_aliases": [],
+    "trinity_aspects": []
+  },
+  "capabilities": [
+    {
+      "name": "infrastructure_support",
+      "type": "utility",
+      "description": "Provides foundational utilities and infrastructure",
+      "interfaces": []
+    },
+    {
+      "name": "quantum_processing",
+      "type": "processing",
+      "description": "Applies quantum-inspired algorithms and patterns",
+      "interfaces": []
+    }
+  ],
+  "dependencies": {
+    "internal": [],
+    "external": [],
+    "circular_dependencies": []
+  },
+  "exports": {
+    "classes": [],
+    "functions": [],
+    "constants": []
+  },
+  "testing": {
+    "has_tests": false,
+    "quality_tier": "T4_experimental"
+  },
+  "observability": {
+    "spans": [],
+    "metrics": [],
+    "logging": {
+      "logger_name": "candidate.core.quantum_empathy",
+      "default_level": "INFO"
+    },
+    "events": {
+      "publishes": [],
+      "subscribes": []
+    }
+  },
+  "security": {
+    "requires_auth": false,
+    "data_classification": "internal",
+    "secrets_used": [],
+    "network_calls": false,
+    "sandboxed": true,
+    "policies": []
+  },
+  "metadata": {
+    "created": "2025-10-11T22:12:49Z",
+    "last_updated": "2025-10-11T22:12:49Z",
+    "manifest_generated": true,
+    "owner": "unassigned",
+    "documentation_url": "",
+    "tags": []
+  }
+}

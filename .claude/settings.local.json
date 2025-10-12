@@ -58,7 +58,8 @@
       "Bash(git fetch:*)",
       "Bash(git worktree:*)",
       "Read(//Users/agi_dev/LOCAL-REPOS/Lukhas-phase2/**)",
-      "Bash(git reset --hard origin/main)"
+      "Bash(git reset --hard origin/main)",
+      "Bash(git mv:*)"
     ],
     "defaultMode": "bypassPermissions"
   }
