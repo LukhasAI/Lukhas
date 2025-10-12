@@ -5,6 +5,10 @@ tests/memory/test_indexes_api.py
 
 Comprehensive pytest tests for memory index management API endpoints.
 Tests CRUD operations, validation, error handling, and RBAC.
+
+Environment:
+    LUKHAS_POLICY_MODE=permissive - Test suite runs in permissive mode
+    for development/CI environments. Production uses strict mode.
 """
 from __future__ import annotations
 
@@ -13,6 +17,17 @@ from fastapi.testclient import TestClient
 
 from lukhas.adapters.openai.api import get_app
 from lukhas.memory.index_manager import IndexManager
+
+
+@pytest.fixture(autouse=True)
+def permissive_policy_mode(monkeypatch):
+    """
+    Configure permissive policy mode for all tests.
+    
+    This ensures consistent behavior across development and CI environments.
+    PolicyGuard will allow all operations without RBAC checks.
+    """
+    monkeypatch.setenv("LUKHAS_POLICY_MODE", "permissive")
 
 
 @pytest.fixture

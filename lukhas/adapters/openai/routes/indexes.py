@@ -352,19 +352,22 @@ async def add_vectors(
     failed_count = 0
     errors = []
     
-    # OTEL tracing
-    if OTEL_AVAILABLE and tracer:
-        span = tracer.start_as_current_span(
+    # OTEL tracing with proper context manager pattern
+    span_context = (
+        tracer.start_as_current_span(
             "add_vectors",
             attributes={
                 "index_id": index_id,
                 "vector_count": len(payload.vectors),
             }
         )
-    else:
-        span = None
+        if (OTEL_AVAILABLE and tracer)
+        else None
+    )
     
-    try:
+    # Use nullcontext for non-OTEL case
+    from contextlib import nullcontext
+    with span_context or nullcontext():
         for vec_data in payload.vectors:
             item_id = vec_data["id"]
             vector = vec_data["vector"]
@@ -384,12 +387,14 @@ async def add_vectors(
                         "error": str(e),
                     }
                 )
-    finally:
-        if span and hasattr(span, 'set_attribute'):
-            span.set_attribute("added_count", added_count)
-            span.set_attribute("failed_count", failed_count)
-        if span and hasattr(span, 'end'):
-            span.end()
+        
+        # Set span attributes inside the context if available
+        if OTEL_AVAILABLE and tracer:
+            from opentelemetry import trace
+            current_span = trace.get_current_span()
+            if current_span:
+                current_span.set_attribute("added_count", added_count)
+                current_span.set_attribute("failed_count", failed_count)
     
     logger.info(
         f"Added vectors to index: {added_count} succeeded, {failed_count} failed",
