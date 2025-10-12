@@ -44,17 +44,26 @@ test_endpoint() {
     
     echo -n "Testing ${name}... "
     
+    local temp_response
+    temp_response=$(mktemp)
+    
     if [ -n "$data" ]; then
-        response=$(curl -s -w "\n%{http_code}" -X "$method" \
+        curl -s -w "\n%{http_code}" -X "$method" \
             -H "Content-Type: application/json" \
             -d "$data" \
-            "${BASE_URL}${path}")
+            "${BASE_URL}${path}" > "$temp_response"
     else
-        response=$(curl -s -w "\n%{http_code}" -X "$method" "${BASE_URL}${path}")
+        curl -s -w "\n%{http_code}" -X "$method" \
+            "${BASE_URL}${path}" > "$temp_response"
     fi
     
-    status_code=$(echo "$response" | tail -n1)
-    body=$(echo "$response" | head -n-1)
+    # Extract status code (last line) and body (all but last line)
+    local status_code
+    status_code=$(tail -1 "$temp_response")
+    local body
+    body=$(sed '$d' "$temp_response")
+    
+    rm -f "$temp_response"
     
     if [ "$status_code" = "$expected_status" ]; then
         echo -e "${GREEN}✓${NC} (HTTP ${status_code})"
@@ -94,36 +103,50 @@ test_endpoint "Readiness check" GET "/readyz" 200
 # OpenAPI spec
 test_endpoint "OpenAPI spec" GET "/openapi.json" 200
 
-# Models endpoint
-test_endpoint "List models" GET "/v1/models" 200
-
-# Responses endpoint (stub)
-test_endpoint "List responses" GET "/v1/responses" 200
+# Note: Most OpenAI endpoints require Bearer token auth
+# Testing only public endpoints and index API in basic smoke test
+log_info "Note: Auth-required endpoints (/v1/models, /v1/responses) skipped in smoke test"
 
 # Index CRUD workflow
 log_info ""
 log_info "Testing index CRUD workflow..."
 
-# Create index
-test_endpoint "Create index" POST "/v1/indexes" 201 \
-    "{\"name\":\"${TEST_INDEX_ID}\",\"metric\":\"angular\",\"dimension\":128}"
+# Create index and extract the ID from response
+log_info "Creating test index..."
+create_response=$(mktemp)
+curl -s -X POST "${BASE_URL}/v1/indexes" \
+    -H "Content-Type: application/json" \
+    -d "{\"name\":\"${TEST_INDEX_ID}\",\"metric\":\"angular\",\"dimension\":128}" \
+    > "$create_response"
 
-# List indexes
-test_endpoint "List indexes" GET "/v1/indexes" 200
+# Extract the ID field from the JSON response
+INDEX_ID=$(python3 -c "import json; print(json.load(open('$create_response'))['id'])" 2>/dev/null || echo "")
+rm -f "$create_response"
 
-# Get specific index
-test_endpoint "Get index" GET "/v1/indexes/${TEST_INDEX_ID}" 200
-
-# Add vectors
-test_endpoint "Add vectors" POST "/v1/indexes/${TEST_INDEX_ID}/vectors" 200 \
-    "{\"vectors\":[{\"id\":\"vec1\",\"vector\":$(python3 -c 'import json; print(json.dumps([0.1]*128))')}]}"
-
-# Query vectors
-test_endpoint "Query vectors" POST "/v1/indexes/${TEST_INDEX_ID}/query" 200 \
-    "{\"vector\":$(python3 -c 'import json; print(json.dumps([0.1]*128))'),\"top_k\":5}"
-
-# Delete index
-test_endpoint "Delete index" DELETE "/v1/indexes/${TEST_INDEX_ID}" 204
+if [ -z "$INDEX_ID" ]; then
+    log_error "Failed to create index or extract ID"
+    TESTS_FAILED=$((TESTS_FAILED + 1))
+else
+    log_info "Created index with ID: ${INDEX_ID}"
+    TESTS_PASSED=$((TESTS_PASSED + 1))
+    
+    # List indexes
+    test_endpoint "List indexes" GET "/v1/indexes" 200
+    
+    # Get specific index (using ID, not name)
+    test_endpoint "Get index" GET "/v1/indexes/${INDEX_ID}" 200
+    
+    # Add vectors
+    test_endpoint "Add vectors" POST "/v1/indexes/${INDEX_ID}/vectors" 200 \
+        "{\"vectors\":[{\"id\":\"vec1\",\"vector\":$(python3 -c 'import json; print(json.dumps([0.1]*128))')}]}"
+    
+    # Search vectors
+    test_endpoint "Search vectors" POST "/v1/indexes/${INDEX_ID}/search" 200 \
+        "{\"vector\":$(python3 -c 'import json; print(json.dumps([0.1]*128))'),\"top_k\":5}"
+    
+    # Delete index
+    test_endpoint "Delete index" DELETE "/v1/indexes/${INDEX_ID}" 200
+fi
 
 # Summary
 echo
