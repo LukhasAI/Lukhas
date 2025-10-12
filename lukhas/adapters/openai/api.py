@@ -44,11 +44,22 @@ except ImportError:
 # Try to import memory system (graceful fallback)
 try:
     from lukhas.memory.embedding_index import EmbeddingIndex
+    from lukhas.memory.index_manager import IndexManager
     MEMORY_AVAILABLE = True
 except ImportError:
     logger.warning("Memory system not available, using stub embeddings")
     MEMORY_AVAILABLE = False
     EmbeddingIndex = None  # type: ignore
+    IndexManager = None  # type: ignore
+
+# Try to import policy guard for RBAC (graceful fallback)
+try:
+    from lukhas.core.policy_guard import PolicyGuard
+    POLICY_GUARD_AVAILABLE = True
+except ImportError:
+    logger.warning("PolicyGuard not available, RBAC checks will be permissive")
+    POLICY_GUARD_AVAILABLE = False
+    PolicyGuard = None  # type: ignore
 
 def _metrics_text() -> str:
     """Generate Prometheus format metrics from tracked data."""
@@ -206,13 +217,47 @@ def get_app() -> FastAPI:
 
     # Initialize memory system (if available)
     memory_index: Optional[Any] = None
+    index_manager: Optional[Any] = None
     if MEMORY_AVAILABLE and EmbeddingIndex:
         try:
             memory_index = EmbeddingIndex(dimension=1536)  # OpenAI ada-002 dimension
             logger.info("Memory embedding index initialized")
+            
+            # Initialize index manager for API routes
+            if IndexManager:
+                index_manager = IndexManager()
+                logger.info("Index manager initialized")
         except Exception as e:
             logger.error(f"Failed to initialize memory index: {e}")
             memory_index = None
+            index_manager = None
+    
+    # Initialize policy guard (if available)
+    policy_guard: Optional[Any] = None
+    if POLICY_GUARD_AVAILABLE and PolicyGuard:
+        try:
+            policy_guard = PolicyGuard(lane="openai-api")
+            logger.info("PolicyGuard initialized for RBAC")
+        except Exception as e:
+            logger.warning(f"Failed to initialize PolicyGuard: {e}, RBAC will be permissive")
+            policy_guard = None
+    
+    # Include indexes router (if index_manager available)
+    if index_manager is not None:
+        try:
+            from lukhas.adapters.openai.routes import indexes_router
+            from lukhas.adapters.openai.routes.indexes import set_index_manager, set_policy_guard
+            
+            # Set global instances for router dependencies
+            set_index_manager(index_manager)
+            if policy_guard is not None:
+                set_policy_guard(policy_guard)
+            
+            # Include router
+            app.include_router(indexes_router)
+            logger.info("Indexes router included at /v1/indexes")
+        except Exception as e:
+            logger.error(f"Failed to include indexes router: {e}")
 
     @app.get("/healthz")
     def healthz():

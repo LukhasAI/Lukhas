@@ -2,6 +2,7 @@ openapi: 3.0.3
 info:
   title: Lukhas OpenAI Facade
   version: 0.1.0
+  description: OpenAI-compatible API powered by LUKHAS MATRIZ cognitive engine with memory index management
 paths:
   /v1/models:
     get:
@@ -27,3 +28,491 @@ paths:
     get: {responses: {"200": {description: OK}}}
   /metrics:
     get: {responses: {"200": {description: OK}}}
+  
+  # Memory Index Management Endpoints
+  /v1/indexes:
+    get:
+      summary: List all indexes
+      description: Returns metadata for all managed embedding indexes
+      tags: [indexes]
+      responses:
+        "200":
+          description: Successfully retrieved index list
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/IndexListResponse"
+              example:
+                indexes:
+                  - id: "idx_abc123"
+                    name: "documents"
+                    metric: "angular"
+                    dimension: 1536
+                    vector_count: 1000
+                    created_at: 1699564800.0
+                    updated_at: 1699651200.0
+                total_count: 1
+                total_vectors: 1000
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "500":
+          $ref: "#/components/responses/InternalError"
+    
+    post:
+      summary: Create a new index
+      description: Creates a new embedding index with specified configuration
+      tags: [indexes]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/IndexCreateRequest"
+            examples:
+              minimal:
+                summary: Minimal index (auto-detect dimension)
+                value:
+                  name: "my-index"
+              full:
+                summary: Full configuration
+                value:
+                  name: "my-index"
+                  metric: "angular"
+                  trees: 20
+                  dimension: 1536
+      responses:
+        "201":
+          description: Index created successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/IndexResponse"
+              example:
+                id: "idx_abc123"
+                name: "my-index"
+                metric: "angular"
+                dimension: 1536
+                vector_count: 0
+                created_at: 1699564800.0
+                updated_at: 1699564800.0
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "422":
+          description: Validation error
+  
+  /v1/indexes/{index_id}:
+    get:
+      summary: Get index details
+      description: Returns metadata for a specific index
+      tags: [indexes]
+      parameters:
+        - name: index_id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Unique index identifier
+      responses:
+        "200":
+          description: Successfully retrieved index
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/IndexResponse"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+    
+    delete:
+      summary: Delete an index
+      description: Permanently deletes an index and all its vectors
+      tags: [indexes]
+      parameters:
+        - name: index_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Index deletion response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/IndexDeleteResponse"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+  
+  /v1/indexes/{index_id}/vectors:
+    post:
+      summary: Add vectors to an index
+      description: Adds one or more vectors to the specified index
+      tags: [indexes]
+      parameters:
+        - name: index_id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/VectorAddRequest"
+            example:
+              vectors:
+                - id: "doc-1"
+                  vector: [0.1, 0.2, 0.3]
+                - id: "doc-2"
+                  vector: [0.4, 0.5, 0.6]
+      responses:
+        "200":
+          description: Vectors added (may include partial failures)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/VectorAddResponse"
+              example:
+                index_id: "idx_abc123"
+                added_count: 2
+                failed_count: 0
+                errors: null
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+  
+  /v1/indexes/{index_id}/search:
+    post:
+      summary: Search for nearest neighbors
+      description: Finds k nearest neighbors for the query vector using the index
+      tags: [indexes]
+      parameters:
+        - name: index_id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/VectorSearchRequest"
+            examples:
+              basic:
+                summary: Basic search
+                value:
+                  vector: [0.1, 0.2, 0.3]
+                  k: 10
+              with_vectors:
+                summary: Include vector embeddings
+                value:
+                  vector: [0.1, 0.2, 0.3]
+                  k: 10
+                  include_vectors: true
+      responses:
+        "200":
+          description: Search results
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/VectorSearchResponse"
+              example:
+                index_id: "idx_abc123"
+                query_time_ms: 12.34
+                results:
+                  - id: "doc-1"
+                    score: 0.95
+                  - id: "doc-2"
+                    score: 0.87
+                k: 10
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+  
+  /v1/indexes/{index_id}/vectors/{vector_id}:
+    delete:
+      summary: Delete a vector
+      description: Removes a specific vector from the index
+      tags: [indexes]
+      parameters:
+        - name: index_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: vector_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Vector deletion response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/VectorDeleteResponse"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+
+components:
+  schemas:
+    ErrorResponse:
+      type: object
+      required: [error, code]
+      properties:
+        error:
+          type: string
+          description: Error message
+        code:
+          type: string
+          description: Error code
+        details:
+          type: object
+          description: Additional error details
+    
+    IndexCreateRequest:
+      type: object
+      required: [name]
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 128
+          pattern: '^[a-zA-Z0-9_-]+$'
+          description: Unique name for the index
+        metric:
+          type: string
+          enum: [angular, euclidean]
+          default: angular
+          description: Distance metric (angular=cosine similarity)
+        trees:
+          type: integer
+          minimum: 1
+          maximum: 100
+          default: 10
+          description: Number of trees for Annoy index
+        dimension:
+          type: integer
+          minimum: 1
+          maximum: 16384
+          nullable: true
+          description: Vector dimension (auto-detected if not specified)
+    
+    IndexResponse:
+      type: object
+      required: [id, name, metric, vector_count, created_at, updated_at]
+      properties:
+        id:
+          type: string
+          description: Unique index identifier
+        name:
+          type: string
+          description: Index name
+        metric:
+          type: string
+          description: Distance metric
+        dimension:
+          type: integer
+          nullable: true
+          description: Vector dimension
+        vector_count:
+          type: integer
+          description: Number of vectors in index
+        created_at:
+          type: number
+          format: double
+          description: Creation timestamp (Unix epoch)
+        updated_at:
+          type: number
+          format: double
+          description: Last update timestamp (Unix epoch)
+    
+    IndexListResponse:
+      type: object
+      required: [indexes, total_count, total_vectors]
+      properties:
+        indexes:
+          type: array
+          items:
+            $ref: "#/components/schemas/IndexResponse"
+        total_count:
+          type: integer
+          description: Total number of indexes
+        total_vectors:
+          type: integer
+          description: Total vectors across all indexes
+    
+    VectorAddRequest:
+      type: object
+      required: [vectors]
+      properties:
+        vectors:
+          type: array
+          minItems: 1
+          maxItems: 1000
+          items:
+            type: object
+            required: [id, vector]
+            properties:
+              id:
+                type: string
+                description: Unique vector identifier
+              vector:
+                type: array
+                items:
+                  type: number
+                minItems: 1
+                maxItems: 16384
+                description: Vector embedding
+    
+    VectorAddResponse:
+      type: object
+      required: [index_id, added_count, failed_count]
+      properties:
+        index_id:
+          type: string
+        added_count:
+          type: integer
+          description: Number of successfully added vectors
+        failed_count:
+          type: integer
+          description: Number of failed vectors
+        errors:
+          type: array
+          nullable: true
+          items:
+            type: string
+          description: Error messages for failed vectors
+    
+    VectorSearchRequest:
+      type: object
+      required: [vector]
+      properties:
+        vector:
+          type: array
+          items:
+            type: number
+          minItems: 1
+          maxItems: 16384
+          description: Query vector
+        k:
+          type: integer
+          minimum: 1
+          maximum: 1000
+          default: 10
+          description: Number of nearest neighbors
+        include_vectors:
+          type: boolean
+          default: false
+          description: Include vector embeddings in response
+    
+    VectorSearchResult:
+      type: object
+      required: [id]
+      properties:
+        id:
+          type: string
+          description: Item identifier
+        score:
+          type: number
+          nullable: true
+          description: Similarity score
+        vector:
+          type: array
+          nullable: true
+          items:
+            type: number
+          description: Vector embedding (if requested)
+    
+    VectorSearchResponse:
+      type: object
+      required: [index_id, query_time_ms, results, k]
+      properties:
+        index_id:
+          type: string
+        query_time_ms:
+          type: number
+          format: double
+          description: Query processing time
+        results:
+          type: array
+          items:
+            $ref: "#/components/schemas/VectorSearchResult"
+        k:
+          type: integer
+          description: Requested number of neighbors
+    
+    VectorDeleteResponse:
+      type: object
+      required: [index_id, vector_id, success]
+      properties:
+        index_id:
+          type: string
+        vector_id:
+          type: string
+        success:
+          type: boolean
+    
+    IndexDeleteResponse:
+      type: object
+      required: [index_id, success]
+      properties:
+        index_id:
+          type: string
+        success:
+          type: boolean
+  
+  responses:
+    BadRequest:
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorResponse"
+          example:
+            error: "Invalid request parameters"
+            code: "bad_request"
+    
+    Forbidden:
+      description: Forbidden - insufficient permissions
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorResponse"
+          example:
+            error: "Access denied"
+            code: "forbidden"
+    
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorResponse"
+          example:
+            error: "Index not found"
+            code: "not_found"
+    
+    InternalError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorResponse"
+          example:
+            error: "Internal server error"
+            code: "internal_error"

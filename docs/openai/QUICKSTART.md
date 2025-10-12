@@ -541,6 +541,512 @@ response = client.chat.completions.create(
 )
 ```
 
+## Memory Index Management API
+
+LUKHAS provides a comprehensive REST API for managing vector embedding indexes. This allows you to create, search, and manage multiple indexes for different use cases (documents, images, code, etc.).
+
+### Quick Start: Index Management
+
+```python
+import requests
+
+BASE_URL = "http://localhost:8000"
+HEADERS = {"Authorization": "Bearer your-api-key"}
+
+# 1. Create an index
+create_response = requests.post(
+    f"{BASE_URL}/v1/indexes",
+    json={
+        "name": "my-documents",
+        "metric": "angular",  # cosine similarity
+        "dimension": 1536,    # OpenAI ada-002 dimension
+    },
+    headers=HEADERS
+)
+index_id = create_response.json()["id"]
+print(f"Created index: {index_id}")
+
+# 2. Add vectors
+vectors = [
+    {"id": "doc-1", "vector": [0.1] * 1536},
+    {"id": "doc-2", "vector": [0.2] * 1536},
+    {"id": "doc-3", "vector": [0.3] * 1536},
+]
+add_response = requests.post(
+    f"{BASE_URL}/v1/indexes/{index_id}/vectors",
+    json={"vectors": vectors},
+    headers=HEADERS
+)
+print(f"Added {add_response.json()['added_count']} vectors")
+
+# 3. Search for similar vectors
+search_response = requests.post(
+    f"{BASE_URL}/v1/indexes/{index_id}/search",
+    json={
+        "vector": [0.15] * 1536,
+        "k": 10,
+    },
+    headers=HEADERS
+)
+results = search_response.json()["results"]
+print(f"Found {len(results)} similar vectors")
+
+# 4. List all indexes
+list_response = requests.get(f"{BASE_URL}/v1/indexes", headers=HEADERS)
+print(f"Total indexes: {list_response.json()['total_count']}")
+
+# 5. Delete a vector
+delete_vec_response = requests.delete(
+    f"{BASE_URL}/v1/indexes/{index_id}/vectors/doc-1",
+    headers=HEADERS
+)
+print(f"Vector deleted: {delete_vec_response.json()['success']}")
+
+# 6. Delete the index
+delete_idx_response = requests.delete(
+    f"{BASE_URL}/v1/indexes/{index_id}",
+    headers=HEADERS
+)
+print(f"Index deleted: {delete_idx_response.json()['success']}")
+```
+
+### Index Management with curl
+
+```bash
+# Create index
+curl -X POST http://localhost:8000/v1/indexes \
+  -H "Authorization: Bearer your-api-key" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "documents",
+    "metric": "angular",
+    "dimension": 1536
+  }'
+
+# Add vectors
+curl -X POST http://localhost:8000/v1/indexes/idx_abc123/vectors \
+  -H "Authorization: Bearer your-api-key" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "vectors": [
+      {"id": "doc-1", "vector": [0.1, 0.2, 0.3]},
+      {"id": "doc-2", "vector": [0.4, 0.5, 0.6]}
+    ]
+  }'
+
+# Search
+curl -X POST http://localhost:8000/v1/indexes/idx_abc123/search \
+  -H "Authorization: Bearer your-api-key" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "vector": [0.2, 0.3, 0.4],
+    "k": 10,
+    "include_vectors": false
+  }'
+
+# List indexes
+curl -X GET http://localhost:8000/v1/indexes \
+  -H "Authorization: Bearer your-api-key"
+
+# Get index details
+curl -X GET http://localhost:8000/v1/indexes/idx_abc123 \
+  -H "Authorization: Bearer your-api-key"
+
+# Delete vector
+curl -X DELETE http://localhost:8000/v1/indexes/idx_abc123/vectors/doc-1 \
+  -H "Authorization: Bearer your-api-key"
+
+# Delete index
+curl -X DELETE http://localhost:8000/v1/indexes/idx_abc123 \
+  -H "Authorization: Bearer your-api-key"
+```
+
+### Index Management with JavaScript
+
+```javascript
+const BASE_URL = "http://localhost:8000";
+const HEADERS = {
+  "Authorization": "Bearer your-api-key",
+  "Content-Type": "application/json",
+};
+
+async function manageIndexes() {
+  // Create index
+  const createRes = await fetch(`${BASE_URL}/v1/indexes`, {
+    method: "POST",
+    headers: HEADERS,
+    body: JSON.stringify({
+      name: "documents",
+      metric: "angular",
+      dimension: 1536,
+    }),
+  });
+  const index = await createRes.json();
+  console.log("Created index:", index.id);
+
+  // Add vectors
+  const addRes = await fetch(`${BASE_URL}/v1/indexes/${index.id}/vectors`, {
+    method: "POST",
+    headers: HEADERS,
+    body: JSON.stringify({
+      vectors: [
+        { id: "doc-1", vector: new Array(1536).fill(0.1) },
+        { id: "doc-2", vector: new Array(1536).fill(0.2) },
+      ],
+    }),
+  });
+  const addResult = await addRes.json();
+  console.log(`Added ${addResult.added_count} vectors`);
+
+  // Search
+  const searchRes = await fetch(`${BASE_URL}/v1/indexes/${index.id}/search`, {
+    method: "POST",
+    headers: HEADERS,
+    body: JSON.stringify({
+      vector: new Array(1536).fill(0.15),
+      k: 10,
+    }),
+  });
+  const searchResult = await searchRes.json();
+  console.log(`Found ${searchResult.results.length} results in ${searchResult.query_time_ms}ms`);
+
+  // List all indexes
+  const listRes = await fetch(`${BASE_URL}/v1/indexes`, { headers: HEADERS });
+  const listResult = await listRes.json();
+  console.log(`Total indexes: ${listResult.total_count}`);
+
+  // Delete index
+  const deleteRes = await fetch(`${BASE_URL}/v1/indexes/${index.id}`, {
+    method: "DELETE",
+    headers: HEADERS,
+  });
+  const deleteResult = await deleteRes.json();
+  console.log(`Index deleted: ${deleteResult.success}`);
+}
+
+manageIndexes().catch(console.error);
+```
+
+### Index Management with TypeScript
+
+```typescript
+interface IndexCreateRequest {
+  name: string;
+  metric?: "angular" | "euclidean";
+  trees?: number;
+  dimension?: number;
+}
+
+interface IndexResponse {
+  id: string;
+  name: string;
+  metric: string;
+  dimension: number | null;
+  vector_count: number;
+  created_at: number;
+  updated_at: number;
+}
+
+interface VectorAddRequest {
+  vectors: Array<{ id: string; vector: number[] }>;
+}
+
+interface VectorSearchRequest {
+  vector: number[];
+  k?: number;
+  include_vectors?: boolean;
+}
+
+interface VectorSearchResponse {
+  index_id: string;
+  query_time_ms: number;
+  results: Array<{ id: string; score?: number; vector?: number[] }>;
+  k: number;
+}
+
+class IndexManager {
+  constructor(
+    private baseUrl: string = "http://localhost:8000",
+    private apiKey: string = "your-api-key"
+  ) {}
+
+  private get headers() {
+    return {
+      "Authorization": `Bearer ${this.apiKey}`,
+      "Content-Type": "application/json",
+    };
+  }
+
+  async createIndex(request: IndexCreateRequest): Promise<IndexResponse> {
+    const res = await fetch(`${this.baseUrl}/v1/indexes`, {
+      method: "POST",
+      headers: this.headers,
+      body: JSON.stringify(request),
+    });
+    if (!res.ok) throw new Error(`HTTP ${res.status}: ${await res.text()}`);
+    return await res.json();
+  }
+
+  async addVectors(indexId: string, request: VectorAddRequest): Promise<any> {
+    const res = await fetch(`${this.baseUrl}/v1/indexes/${indexId}/vectors`, {
+      method: "POST",
+      headers: this.headers,
+      body: JSON.stringify(request),
+    });
+    if (!res.ok) throw new Error(`HTTP ${res.status}: ${await res.text()}`);
+    return await res.json();
+  }
+
+  async search(indexId: string, request: VectorSearchRequest): Promise<VectorSearchResponse> {
+    const res = await fetch(`${this.baseUrl}/v1/indexes/${indexId}/search`, {
+      method: "POST",
+      headers: this.headers,
+      body: JSON.stringify(request),
+    });
+    if (!res.ok) throw new Error(`HTTP ${res.status}: ${await res.text()}`);
+    return await res.json();
+  }
+
+  async listIndexes(): Promise<{ indexes: IndexResponse[]; total_count: number }> {
+    const res = await fetch(`${this.baseUrl}/v1/indexes`, {
+      headers: this.headers,
+    });
+    if (!res.ok) throw new Error(`HTTP ${res.status}: ${await res.text()}`);
+    return await res.json();
+  }
+
+  async deleteIndex(indexId: string): Promise<{ success: boolean }> {
+    const res = await fetch(`${this.baseUrl}/v1/indexes/${indexId}`, {
+      method: "DELETE",
+      headers: this.headers,
+    });
+    if (!res.ok) throw new Error(`HTTP ${res.status}: ${await res.text()}`);
+    return await res.json();
+  }
+}
+
+// Usage
+const manager = new IndexManager();
+
+async function example() {
+  // Create index
+  const index = await manager.createIndex({
+    name: "my-docs",
+    metric: "angular",
+    dimension: 1536,
+  });
+  console.log("Created:", index.id);
+
+  // Add vectors
+  await manager.addVectors(index.id, {
+    vectors: [
+      { id: "doc-1", vector: new Array(1536).fill(0.1) },
+      { id: "doc-2", vector: new Array(1536).fill(0.2) },
+    ],
+  });
+
+  // Search
+  const results = await manager.search(index.id, {
+    vector: new Array(1536).fill(0.15),
+    k: 10,
+  });
+  console.log(`Found ${results.results.length} results in ${results.query_time_ms}ms`);
+
+  // Cleanup
+  await manager.deleteIndex(index.id);
+}
+
+example().catch(console.error);
+```
+
+### Error Handling for Index Management
+
+```python
+import requests
+
+def safe_index_operation():
+    BASE_URL = "http://localhost:8000"
+    HEADERS = {"Authorization": "Bearer your-api-key"}
+    
+    try:
+        # Try to create index
+        response = requests.post(
+            f"{BASE_URL}/v1/indexes",
+            json={"name": "test-index", "dimension": 1536},
+            headers=HEADERS,
+            timeout=10
+        )
+        response.raise_for_status()
+        index = response.json()
+        print(f"Created index: {index['id']}")
+        
+    except requests.exceptions.HTTPError as e:
+        if e.response.status_code == 400:
+            print(f"Bad request: {e.response.json()['detail']}")
+        elif e.response.status_code == 403:
+            print("Access denied: check your API key")
+        elif e.response.status_code == 404:
+            print("Index not found")
+        elif e.response.status_code == 422:
+            print(f"Validation error: {e.response.json()}")
+        else:
+            print(f"Unexpected error: {e}")
+    
+    except requests.exceptions.Timeout:
+        print("Request timeout - server may be overloaded")
+    
+    except requests.exceptions.ConnectionError:
+        print("Connection error - is the server running?")
+    
+    except Exception as e:
+        print(f"Unexpected error: {e}")
+
+safe_index_operation()
+```
+
+### Common Index Management Patterns
+
+#### Pattern 1: Document Embedding Pipeline
+
+```python
+import requests
+from typing import List
+
+def embed_and_index_documents(docs: List[str], index_name: str):
+    """Embed documents and add to index."""
+    BASE_URL = "http://localhost:8000"
+    HEADERS = {"Authorization": "Bearer your-api-key"}
+    
+    # Create index
+    index_res = requests.post(
+        f"{BASE_URL}/v1/indexes",
+        json={"name": index_name, "dimension": 1536},
+        headers=HEADERS
+    )
+    index_id = index_res.json()["id"]
+    
+    # Generate embeddings for all documents
+    embeddings_res = requests.post(
+        f"{BASE_URL}/v1/embeddings",
+        json={"input": docs, "model": "lukhas-matriz"},
+        headers=HEADERS
+    )
+    embeddings = embeddings_res.json()["data"]
+    
+    # Add to index
+    vectors = [
+        {"id": f"doc-{i}", "vector": emb["embedding"]}
+        for i, emb in enumerate(embeddings)
+    ]
+    add_res = requests.post(
+        f"{BASE_URL}/v1/indexes/{index_id}/vectors",
+        json={"vectors": vectors},
+        headers=HEADERS
+    )
+    
+    print(f"Indexed {add_res.json()['added_count']} documents")
+    return index_id
+
+# Usage
+docs = [
+    "The quick brown fox jumps over the lazy dog",
+    "Machine learning is transforming technology",
+    "Vector databases enable semantic search",
+]
+index_id = embed_and_index_documents(docs, "my-knowledge-base")
+```
+
+#### Pattern 2: Semantic Search
+
+```python
+def semantic_search(query: str, index_id: str, k: int = 5):
+    """Search for semantically similar documents."""
+    BASE_URL = "http://localhost:8000"
+    HEADERS = {"Authorization": "Bearer your-api-key"}
+    
+    # Embed query
+    embed_res = requests.post(
+        f"{BASE_URL}/v1/embeddings",
+        json={"input": query, "model": "lukhas-matriz"},
+        headers=HEADERS
+    )
+    query_vector = embed_res.json()["data"][0]["embedding"]
+    
+    # Search index
+    search_res = requests.post(
+        f"{BASE_URL}/v1/indexes/{index_id}/search",
+        json={"vector": query_vector, "k": k},
+        headers=HEADERS
+    )
+    results = search_res.json()["results"]
+    
+    print(f"Query: {query}")
+    print(f"Found {len(results)} results:")
+    for i, result in enumerate(results, 1):
+        print(f"  {i}. {result['id']} (score: {result.get('score', 'N/A')})")
+    
+    return results
+
+# Usage
+results = semantic_search("What is AI?", index_id, k=3)
+```
+
+#### Pattern 3: Index Health Monitoring
+
+```python
+def monitor_index_health():
+    """Monitor index health and statistics."""
+    BASE_URL = "http://localhost:8000"
+    HEADERS = {"Authorization": "Bearer your-api-key"}
+    
+    # Get all indexes
+    list_res = requests.get(f"{BASE_URL}/v1/indexes", headers=HEADERS)
+    data = list_res.json()
+    
+    print(f"Total indexes: {data['total_count']}")
+    print(f"Total vectors: {data['total_vectors']}")
+    print("\nIndex Details:")
+    
+    for idx in data["indexes"]:
+        age_hours = (time.time() - idx["created_at"]) / 3600
+        print(f"  {idx['name']}: {idx['vector_count']} vectors, {age_hours:.1f}h old")
+        
+        # Check if index needs maintenance
+        if idx['vector_count'] == 0:
+            print(f"    ⚠️  Warning: Index '{idx['name']}' is empty")
+        elif idx['vector_count'] > 1_000_000:
+            print(f"    ℹ️  Info: Large index, consider partitioning")
+
+monitor_index_health()
+```
+
+### Index Configuration Best Practices
+
+1. **Choose the Right Metric**:
+   - `angular`: Best for cosine similarity (semantic search, text embeddings)
+   - `euclidean`: Best for L2 distance (image embeddings, numerical data)
+
+2. **Set Appropriate Dimension**:
+   - OpenAI ada-002: 1536
+   - OpenAI text-embedding-3-small: 1536
+   - OpenAI text-embedding-3-large: 3072
+   - Custom models: match your model's output dimension
+
+3. **Optimize Trees Parameter**:
+   - More trees = better accuracy, slower indexing
+   - Default (10): Good balance for most use cases
+   - 20-50: High-accuracy applications
+   - 1-5: Fast indexing, acceptable accuracy loss
+
+4. **Batch Vector Operations**:
+   - Add up to 1000 vectors per request for optimal performance
+   - Use batch additions instead of individual adds
+
+5. **Monitor Performance**:
+   - Check `query_time_ms` in search responses
+   - Target: <50ms for small indexes (<100K vectors)
+   - Target: <200ms for large indexes (>1M vectors)
+
 ## Next Steps
 
 - **API Reference**: Review [API Error Shapes](../API_ERRORS.md) for error handling
