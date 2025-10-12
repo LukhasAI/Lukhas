@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Codemod legacy imports to canonical lukhas.* paths using LibCST.
+Codemod legacy imports to canonical lukhas.* paths using LibCST when available.
 
 Dry-run by default: outputs docs/audits/codemod_preview.csv with proposed edits.
 Use --apply to write changes in-place.
@@ -13,22 +13,31 @@ Config (optional):
   --config configs/legacy_imports.yml
 """
 from __future__ import annotations
-import argparse, csv, sys, re
+import argparse
+import ast
+import csv
+import io
+import re
+import sys
+import tokenize
+from dataclasses import dataclass
 from pathlib import Path
-from typing import Dict, List, Tuple
+from typing import Dict, Iterable, List, Tuple
+
+HAS_LIBCST = True
 
 try:
     import libcst as cst
     import libcst.matchers as m
 except ImportError:
-    print("[ERROR] libcst not installed. Run: pip install libcst", file=sys.stderr)
-    sys.exit(1)
+    HAS_LIBCST = False
+    cst = None  # type: ignore[assignment]
+    m = None  # type: ignore[assignment]
 
 try:
     import yaml
-except ImportError:
-    print("[ERROR] pyyaml not installed. Run: pip install pyyaml", file=sys.stderr)
-    sys.exit(1)
+except ImportError:  # pragma: no cover - fallback path when PyYAML missing.
+    yaml = None  # type: ignore[assignment]
 
 DEFAULT_MAP = {
     "candidate": "labs",
@@ -53,9 +62,32 @@ def load_cfg(path: str|None):
     p = Path(path)
     if not p.exists():
         return DEFAULT_MAP, ALLOWLIST_DEFAULT
-    data = yaml.safe_load(p.read_text(encoding="utf-8"))
-    mapping = data.get("map", {}) or {}
-    allow = set(data.get("allowlist", []) or [])
+    if yaml is not None:
+        data = yaml.safe_load(p.read_text(encoding="utf-8")) or {}
+        mapping = data.get("map", {}) or {}
+        allow = set(data.get("allowlist", []) or [])
+    else:
+        mapping = {}
+        allow = set()
+        current: str | None = None
+        for raw_line in p.read_text(encoding="utf-8").splitlines():
+            line = raw_line.strip()
+            if not line or line.startswith("#"):
+                continue
+            if line.endswith(":"):
+                key = line[:-1].strip()
+                current = key if key in {"map", "allowlist"} else None
+                continue
+            if current == "map" and ":" in line:
+                key, value = line.split(":", 1)
+                clean_key = key.strip()
+                clean_val = value.strip().strip('"').strip("'")
+                if clean_key:
+                    mapping[clean_key] = clean_val
+            elif current == "allowlist" and line.startswith("-"):
+                candidate_path = line[1:].strip().strip('"').strip("'")
+                if candidate_path:
+                    allow.add(candidate_path)
     # merge defaults (cfg overrides default keys)
     merged = DEFAULT_MAP.copy()
     merged.update(mapping)
@@ -79,68 +111,218 @@ def rewrite_root(name: str, mapping: Dict[str,str]) -> str|None:
         return new_name
     return None
 
-class ImportRewriter(cst.CSTTransformer):
-    def __init__(self, mapping: Dict[str,str]):
-        self.mapping = mapping
-        self.changes: List[Tuple[str,str]] = []  # (old, new)
+if HAS_LIBCST:
+    class ImportRewriter(cst.CSTTransformer):
+        def __init__(self, mapping: Dict[str,str]):
+            self.mapping = mapping
+            self.changes: List[Tuple[str,str]] = []  # (old, new)
 
-    def leave_Import(self, original: cst.Import, updated: cst.Import) -> cst.Import:
-        names = []
-        changed = False
-        for alias in updated.names:
-            if m.matches(alias, m.ImportAlias(name=m.Attribute() | m.Name())):
-                full = alias.name.code
-                new = rewrite_root(full, self.mapping)
-                if new and new != full:
-                    names.append(alias.with_changes(name=cst.parse_expression(new)))
-                    self.changes.append((full, new))
-                    changed = True
+        def leave_Import(self, original: cst.Import, updated: cst.Import) -> cst.Import:
+            names = []
+            changed = False
+            for alias in updated.names:
+                if m.matches(alias, m.ImportAlias(name=m.Attribute() | m.Name())):
+                    full = alias.name.code
+                    new = rewrite_root(full, self.mapping)
+                    if new and new != full:
+                        names.append(alias.with_changes(name=cst.parse_expression(new)))
+                        self.changes.append((full, new))
+                        changed = True
+                    else:
+                        names.append(alias)
                 else:
                     names.append(alias)
-            else:
-                names.append(alias)
-        return updated.with_changes(names=tuple(names)) if changed else updated
+            return updated.with_changes(names=tuple(names)) if changed else updated
 
-    def leave_ImportFrom(self, original: cst.ImportFrom, updated: cst.ImportFrom) -> cst.ImportFrom:
-        # from X.Y import Z
-        if updated.module is None:
+        def leave_ImportFrom(self, original: cst.ImportFrom, updated: cst.ImportFrom) -> cst.ImportFrom:
+            # from X.Y import Z
+            if updated.module is None:
+                return updated
+            full = updated.module.code
+            new = rewrite_root(full, self.mapping)
+            if new and new != full:
+                self.changes.append((full, new))
+                return updated.with_changes(module=cst.parse_expression(new))
             return updated
-        full = updated.module.code
-        new = rewrite_root(full, self.mapping)
-        if new and new != full:
-            self.changes.append((full, new))
-            return updated.with_changes(module=cst.parse_expression(new))
-        return updated
 
-    def leave_SimpleString(self, original: cst.SimpleString, updated: cst.SimpleString):
-        # Opportunistic: importlib.import_module("tools.scripts") literals
-        text = original.evaluated_value
-        if isinstance(text, str):
-            new = None
-            for legacy, canonical in self.mapping.items():
-                # match at start of dotted path in string
-                if re.match(rf"^{re.escape(legacy)}(\.|$)", text):
-                    new = re.sub(rf"^{re.escape(legacy)}", canonical, text)
-                    break
-            if new and new != text:
-                # preserve quoting
-                quote = updated.value[0]
-                body = new.replace("\\", "\\\\").replace(quote, f"\\{quote}")
-                return updated.with_changes(value=f"{quote}{body}{quote}")
-        return updated
+        def leave_SimpleString(self, original: cst.SimpleString, updated: cst.SimpleString):
+            # Opportunistic: importlib.import_module("tools.scripts") literals
+            text = original.evaluated_value
+            if isinstance(text, str):
+                new = None
+                for legacy, canonical in self.mapping.items():
+                    # match at start of dotted path in string
+                    if re.match(rf"^{re.escape(legacy)}(\.|$)", text):
+                        new = re.sub(rf"^{re.escape(legacy)}", canonical, text)
+                        break
+                if new and new != text:
+                    # preserve quoting
+                    quote = updated.value[0]
+                    body = new.replace("\\", "\\\\").replace(quote, f"\\{quote}")
+                    return updated.with_changes(value=f"{quote}{body}{quote}")
+            return updated
+
+
+@dataclass
+class Replacement:
+    start: int
+    end: int
+    new_text: str
+
+
+def _line_offsets(text: str) -> List[int]:
+    offsets = [0]
+    total = 0
+    for line in text.splitlines(keepends=True):
+        total += len(line)
+        offsets.append(total)
+    return offsets
+
+
+def _abs_index(offsets: List[int], lineno: int, col: int) -> int:
+    return offsets[lineno - 1] + col
+
+
+def _preserve_quotes(original: str, new_body: str) -> str:
+    prefix = ""
+    idx = 0
+    while idx < len(original) and original[idx] not in {'"', "'"}:
+        prefix += original[idx]
+        idx += 1
+    quote_part = original[idx:]
+    if quote_part.startswith("\"\"\"") or quote_part.startswith("'''"):
+        quote = quote_part[:3]
+        closing = quote_part[-3:]
+        return f"{prefix}{quote}{new_body}{closing}"
+    if quote_part.startswith(("\"", "'")):
+        quote = quote_part[0]
+        return f"{prefix}{quote}{new_body}{quote}"
+    return repr(new_body)
+
+
+def _rewrite_literal_value(value: str, mapping: Dict[str, str]) -> Tuple[str | None, str | None]:
+    for legacy, canonical in mapping.items():
+        if value == legacy or value.startswith(f"{legacy}."):
+            new_value = f"{canonical}{value[len(legacy):]}"
+            return value, new_value
+    return None, None
+
+
+def _fallback_replacements(src: str, mapping: Dict[str, str]) -> Tuple[List[Replacement], List[Tuple[str, str]]]:
+    # ΛTAG: import_codemod_fallback - deterministic fallback when LibCST is unavailable.
+    replacements: List[Replacement] = []
+    changes: List[Tuple[str, str]] = []
+    try:
+        tree = ast.parse(src)
+    except SyntaxError:
+        return replacements, changes
+
+    offsets = _line_offsets(src)
+
+    for node in ast.walk(tree):
+        if isinstance(node, ast.Import):
+            for alias in node.names:
+                old = alias.name
+                new = rewrite_root(old, mapping)
+                if not new or new == old:
+                    continue
+                segment = ast.get_source_segment(src, alias)
+                if segment is None:
+                    continue
+                suffix = f" as {alias.asname}" if alias.asname else ""
+                replacement_text = f"{new}{suffix}"
+                if alias.lineno is None or alias.col_offset is None:
+                    continue
+                if alias.end_lineno is None or alias.end_col_offset is None:
+                    continue
+                start = _abs_index(offsets, alias.lineno, alias.col_offset)
+                end = _abs_index(offsets, alias.end_lineno, alias.end_col_offset)
+                replacements.append(Replacement(start, end, replacement_text))
+                changes.append((old, new))
+        elif isinstance(node, ast.ImportFrom):
+            if not node.module:
+                continue
+            new = rewrite_root(node.module, mapping)
+            if not new or new == node.module:
+                continue
+            segment = ast.get_source_segment(src, node)
+            if segment is None:
+                continue
+            idx = segment.find(node.module)
+            if idx == -1:
+                # TODO(codex): Handle exotic formatting if encountered.
+                continue
+            base = _abs_index(offsets, node.lineno, node.col_offset)
+            start = base + idx
+            end = start + len(node.module)
+            replacements.append(Replacement(start, end, new))
+            changes.append((node.module, new))
+        elif isinstance(node, ast.Call):
+            if not node.args:
+                continue
+            arg0 = node.args[0]
+            if not isinstance(arg0, ast.Constant) or not isinstance(arg0.value, str):
+                continue
+            func = node.func
+            func_name = None
+            if isinstance(func, ast.Attribute) and isinstance(func.value, ast.Name):
+                func_name = f"{func.value.id}.{func.attr}"
+            elif isinstance(func, ast.Name):
+                func_name = func.id
+            if func_name not in {"importlib.import_module", "import_module"}:
+                continue
+            old_val, new_val = _rewrite_literal_value(arg0.value, mapping)
+            if not new_val or new_val == old_val:
+                continue
+            literal_src = ast.get_source_segment(src, arg0)
+            if literal_src is None:
+                continue
+            new_literal = _preserve_quotes(literal_src, new_val)
+            start = _abs_index(offsets, arg0.lineno, arg0.col_offset)
+            end = _abs_index(offsets, arg0.end_lineno, arg0.end_col_offset)
+            replacements.append(Replacement(start, end, new_literal))
+            changes.append((old_val, new_val))
+
+    replacements.sort(key=lambda r: r.start)
+    # merge replacements into non-overlapping order by applying from end
+    merged: List[Replacement] = []
+    last_end = -1
+    for rep in replacements:
+        if rep.start < last_end:
+            # overlapping replacement – skip to keep deterministic output
+            continue
+        merged.append(rep)
+        last_end = rep.end
+
+    return merged, changes
+
+
+def _apply_replacements(src: str, replacements: Iterable[Replacement]) -> str:
+    new_src = src
+    for rep in sorted(replacements, key=lambda r: r.start, reverse=True):
+        new_src = new_src[:rep.start] + rep.new_text + new_src[rep.end:]
+    return new_src
+
 
 def process_file(path: Path, mapping: Dict[str,str], apply: bool):
     src = path.read_text(encoding="utf-8", errors="ignore")
-    try:
-        mod = cst.parse_module(src)
-    except Exception:
-        return [], False  # skip unparsable
-    tr = ImportRewriter(mapping)
-    new_mod = mod.visit(tr)
-    changed = bool(tr.changes)
+    if HAS_LIBCST:
+        try:
+            mod = cst.parse_module(src)
+        except Exception:
+            return [], False  # skip unparsable
+        tr = ImportRewriter(mapping)
+        new_mod = mod.visit(tr)
+        changed = bool(tr.changes)
+        if changed and apply:
+            path.write_text(new_mod.code, encoding="utf-8")
+        return tr.changes, changed
+
+    replacements, changes = _fallback_replacements(src, mapping)
+    changed = bool(replacements)
     if changed and apply:
-        path.write_text(new_mod.code, encoding="utf-8")
-    return tr.changes, changed
+        path.write_text(_apply_replacements(src, replacements), encoding="utf-8")
+    return changes, changed
 
 def main():
     ap = argparse.ArgumentParser()
