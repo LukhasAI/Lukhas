@@ -1,1 +1,6 @@
-{"module": "lukhas.orchestration", "trace": []}
+{
+  "trace_id": "ORCHESTRATION-0001",
+  "timestamp": 1694700005,
+  "module": "lukhas.orchestration",
+  "trace": []
+}

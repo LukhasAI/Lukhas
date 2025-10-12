@@ -1,1 +1,6 @@
-{"module": "lukhas.memory", "trace": []}
+{
+  "trace_id": "MEMORY-0001",
+  "timestamp": 1694700004,
+  "module": "lukhas.memory",
+  "trace": []
+}

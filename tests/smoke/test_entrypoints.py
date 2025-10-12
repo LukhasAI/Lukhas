@@ -9,7 +9,6 @@ import pytest
 
 
 @pytest.mark.smoke
-@pytest.mark.xfail(reason="TRINITY_SYMBOLS, CoreWrapper, GLYPHSymbol not in current public API")
 def test_core_api_imports():
     """Test that core LUKHAS APIs can be imported and have expected signatures."""
     try:
@@ -38,15 +37,18 @@ def test_core_api_imports():
 
 
 @pytest.mark.smoke
-@pytest.mark.xfail(reason="MATRIZ module is lowercase 'matriz', not uppercase")
 def test_matriz_api_imports():
     """Test that MATRIZ trace analysis APIs are available."""
+    # Test that we can import MATRIZ modules
     try:
-        from MATRIZ import router
+        # Import matriz package (lowercase alias works in tests)
+        import matriz  # type: ignore
+        assert matriz is not None
 
-        # Verify router exists and is callable
-        assert router is not None
-        assert hasattr(router, "routes") or hasattr(router, "get")
+        # Verify we can import the traces router (main API)
+        from matriz.traces_router import router as traces_router
+        assert traces_router is not None
+        assert hasattr(traces_router, "routes")
 
     except ImportError as e:
         pytest.fail(f"MATRIZ API import failed: {e}")

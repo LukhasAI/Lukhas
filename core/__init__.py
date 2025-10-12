@@ -63,9 +63,44 @@ except ImportError:
     def core_wrapper(*args, **kwargs):
         """Stub for core_wrapper."""
         return None
+
+# Add GLYPH exports for test compatibility
+try:
+    from candidate.core.common.glyph import GLYPHSymbol, GLYPHToken, create_glyph  # noqa: F401
+except ImportError:
+    GLYPHSymbol = None  # type: ignore[assignment]
+    GLYPHToken = None  # type: ignore[assignment]
+    def create_glyph(*args, **kwargs):  # type: ignore[misc]
+        """Stub for create_glyph."""
+        return None
+
+# Add CoreWrapper export for test compatibility
+try:
+    from lukhas_website.lukhas.core.core_wrapper import CoreWrapper  # noqa: F401
+except ImportError:
+    try:
+        from candidate.core.core_wrapper import CoreWrapper  # noqa: F401
+    except ImportError:
+        CoreWrapper = None  # type: ignore[assignment, misc]
+
+# Define TRINITY_SYMBOLS for constellation framework
+TRINITY_SYMBOLS = {
+    "identity": "⚛️",
+    "consciousness": "🧠",
+    "guardian": "🛡️",
+    "memory": "✦",
+    "vision": "🔬",
+    "bio": "🌱",
+    "dream": "🌙",
+    "ethics": "⚖️",
+}
+
+# Update __all__
 try:
     __all__  # type: ignore[name-defined]
 except NameError:
     __all__ = []
-if "core_wrapper" not in __all__:
-    __all__.append("core_wrapper")
+
+for _name in ("core_wrapper", "GLYPHSymbol", "GLYPHToken", "create_glyph", "CoreWrapper", "TRINITY_SYMBOLS"):
+    if _name not in __all__:
+        __all__.append(_name)

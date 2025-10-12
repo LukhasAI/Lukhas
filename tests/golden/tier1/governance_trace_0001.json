@@ -1,1 +1,6 @@
-{"module": "lukhas.governance", "trace": []}
+{
+  "trace_id": "GOVERNANCE-0001",
+  "timestamp": 1694700002,
+  "module": "lukhas.governance",
+  "trace": []
+}
