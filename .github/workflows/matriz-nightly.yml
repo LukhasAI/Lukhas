@@ -256,6 +256,65 @@ jobs:
           path: artifacts/sbom_cyclonedx.json
           retention-days: 30
 
+  star-rules-coverage:
+    name: Star Rules & Manifest Coverage
+    runs-on: ubuntu-22.04
+    needs: [setup]
+    permissions:
+      contents: write  # Required for committing coverage reports
+    steps:
+      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332  # v4
+      - uses: actions/setup-python@82c7e631bb3cdc910f68e0081d67478d79c6982d  # v5
+        with: { python-version: "3.11" }
+      - name: Install deps
+        run: |
+          python -m pip install -U pip
+          pip install -r requirements.txt
+      - name: Run star rules lint
+        continue-on-error: true
+        run: |
+          if [ -f scripts/lint_star_rules.py ]; then
+            python3 scripts/lint_star_rules.py
+          else
+            echo "⚠️ scripts/lint_star_rules.py not found, skipping"
+          fi
+      - name: Generate manifest stats
+        run: |
+          mkdir -p docs/audits
+          python3 scripts/report_manifest_stats.py --manifests manifests --out docs/audits
+      - name: Generate star rules coverage
+        run: |
+          if [ -f scripts/gen_rules_coverage.py ]; then
+            python3 scripts/gen_rules_coverage.py --out docs/audits
+          else
+            # Fallback: create basic coverage report
+            echo "# Star Rules Coverage (Nightly)" > docs/audits/star_rules_coverage.md
+            echo "" >> docs/audits/star_rules_coverage.md
+            echo "**Generated**: $(date -u +"%Y-%m-%d %H:%M:%S UTC")" >> docs/audits/star_rules_coverage.md
+            echo "" >> docs/audits/star_rules_coverage.md
+            echo "See [manifest_stats.md](manifest_stats.md) for detailed statistics." >> docs/audits/star_rules_coverage.md
+          fi
+      - name: Commit coverage reports
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add docs/audits/star_rules_coverage.md docs/audits/manifest_stats.md docs/audits/manifest_stats.json
+          if git diff --staged --quiet; then
+            echo "✅ No changes to commit"
+          else
+            git commit -m "chore(audit): nightly star rules coverage update [skip ci]"
+            git push
+          fi
+      - name: Upload coverage artifacts
+        uses: actions/upload-artifact@65462800fd760344b1a7b4382951275a0abb4808  # v4
+        with:
+          name: star_rules_coverage
+          path: |
+            docs/audits/star_rules_coverage.md
+            docs/audits/manifest_stats.md
+            docs/audits/manifest_stats.json
+          retention-days: 30
+
   evidence:
     name: Nightly Evidence Bundle
     runs-on: ubuntu-22.04
@@ -268,6 +327,7 @@ jobs:
       - chaos-matrix
       - gdpr-propagation
       - supply-chain
+      - star-rules-coverage
     steps:
       - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332  # v4
       - uses: actions/setup-python@82c7e631bb3cdc910f68e0081d67478d79c6982d  # v5

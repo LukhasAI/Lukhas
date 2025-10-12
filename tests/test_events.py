@@ -47,12 +47,12 @@ def test_event_creation_with_custom_params():
     ts = datetime.utcnow()
     payload = {"test": "data"}
 
-    event = Event.create("action", "candidate", glyph_id, payload, ts=ts, event_id=event_id)
+    event = Event.create("action", "labs", glyph_id, payload, ts=ts, event_id=event_id)
 
     assert event.id == event_id
     assert event.ts == ts
     assert event.kind == "action"
-    assert event.lane == "candidate"
+    assert event.lane == "labs"
 
 
 def test_event_serialization():
@@ -166,15 +166,15 @@ def test_query_recent_with_lane_filter(event_store, sample_glyph_id):
     # Add events in different lanes
     for i in range(3):
         event_store.append(Event.create("test", "experimental", sample_glyph_id, {"i": i}))
-        event_store.append(Event.create("test", "candidate", sample_glyph_id, {"i": i}))
+        event_store.append(Event.create("test", "labs", sample_glyph_id, {"i": i}))
 
     exp_events = event_store.query_recent(lane="experimental")
-    cand_events = event_store.query_recent(lane="candidate")
+    cand_events = event_store.query_recent(lane="labs")
 
     assert len(exp_events) == 3
     assert len(cand_events) == 3
     assert all(e.lane == "experimental" for e in exp_events)
-    assert all(e.lane == "candidate" for e in cand_events)
+    assert all(e.lane == "labs" for e in cand_events)
 
 
 def test_query_recent_with_time_filter(event_store, sample_glyph_id):
@@ -274,7 +274,7 @@ def test_get_stats(event_store, sample_glyph_id):
 
     event_store.append(Event.create("intention", "experimental", glyph1, {}))
     event_store.append(Event.create("action", "experimental", glyph2, {}))
-    event_store.append(Event.create("intention", "candidate", glyph1, {}))
+    event_store.append(Event.create("intention", "labs", glyph1, {}))
 
     stats = event_store.get_stats()
 

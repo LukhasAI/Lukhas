@@ -3,7 +3,7 @@ from unittest.mock import AsyncMock, MagicMock, patch
 import pytest
 
 import docker
-from candidate.tools.tool_executor import ToolExecutor
+from labs.tools.tool_executor import ToolExecutor
 
 
 @pytest.fixture
@@ -105,7 +105,7 @@ async def test_open_url_browser_disabled(executor):
 # --- Tests for _exec_code ---
 
 
-@patch("candidate.tools.tool_executor.docker")
+@patch("labs.tools.tool_executor.docker")
 def test_exec_code_python_success(mock_docker, executor):
     """Tests successful execution of a Python script."""
     mock_container = MagicMock()
@@ -125,7 +125,7 @@ def test_exec_code_python_success(mock_docker, executor):
     assert "Hello from Python" in result
 
 
-@patch("candidate.tools.tool_executor.docker")
+@patch("labs.tools.tool_executor.docker")
 def test_exec_code_javascript_success(mock_docker, executor):
     """Tests successful execution of a JavaScript script."""
     mock_container = MagicMock()
@@ -145,7 +145,7 @@ def test_exec_code_javascript_success(mock_docker, executor):
     assert "Hello from JS" in result
 
 
-@patch("candidate.tools.tool_executor.docker")
+@patch("labs.tools.tool_executor.docker")
 def test_exec_code_bash_success(mock_docker, executor):
     """Tests successful execution of a Bash script."""
     mock_container = MagicMock()
@@ -178,7 +178,7 @@ def test_exec_code_unsupported_language(executor):
     assert "Language 'ruby' is not supported" in result
 
 
-@patch("candidate.tools.tool_executor.docker")
+@patch("labs.tools.tool_executor.docker")
 def test_exec_code_build_error(mock_docker, executor):
     """Tests handling of Docker build failures."""
     mock_docker.errors.BuildError = docker.errors.BuildError

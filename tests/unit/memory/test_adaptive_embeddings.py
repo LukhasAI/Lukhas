@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from memory.adaptive_memory import AdaptiveMemorySystem, MemoryType
+from lukhas.memory.adaptive_memory import AdaptiveMemorySystem, MemoryType
 
 # ΛTAG: memory_embedding_index_integration_test
 

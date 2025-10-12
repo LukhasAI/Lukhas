@@ -61,7 +61,7 @@ def test_ai_decision_making_pipeline():
 
         # Step 3: Memory Consultation
         memory_request = {
-            "operation": "memory.search",
+            "operation": "lukhas.memory.search",
             "data": {
                 "query": f"Find related memories for: {consciousness_result['consciousness']}",
                 "memory_type": "decision_making"

@@ -88,7 +88,7 @@ class TestCognitiveStageInstrumentation:
 
     def test_cognitive_stage_decorator_success(self, mock_cognitive_metrics):
         """Test successful cognitive stage decoration"""
-        @instrument_cognitive_stage("memory", node_id="test_node", slo_target_ms=50.0)
+        @instrument_cognitive_stage("lukhas.memory", node_id="test_node", slo_target_ms=50.0)
         def test_function(data: str):
             time.sleep(0.01)  # Simulate processing time
             return {"result": "processed", "confidence": 0.8}
@@ -158,7 +158,7 @@ class TestCognitivePipelineSpan:
             mock_span = Mock()
             mock_tracer.start_as_current_span.return_value.__enter__.return_value = mock_span
 
-            expected_stages = ["memory", "attention", "thought", "decision"]
+            expected_stages = ["lukhas.memory", "attention", "thought", "decision"]
 
             async with cognitive_pipeline_span(
                 "test_pipeline",
@@ -298,7 +298,7 @@ class TestCognitiveEventInstrumentation:
             result = process_event(test_event)
 
             assert result["processed"] is True
-            assert result["stage"] == "memory"
+            assert result["stage"] == "lukhas.memory"
             assert result["node_id"] == "test_node_123"
 
             # Verify span was created with cognitive context
@@ -407,7 +407,7 @@ class TestAnomalyDetection:
 
     def test_performance_outlier_detection(self, mock_metrics_with_anomaly):
         """Test detection of performance outliers"""
-        @instrument_cognitive_stage("memory", node_id="outlier_test", slo_target_ms=50.0, anomaly_detection=True)
+        @instrument_cognitive_stage("lukhas.memory", node_id="outlier_test", slo_target_ms=50.0, anomaly_detection=True)
         def slow_memory_function():
             time.sleep(0.15)  # 150ms - 3x the SLO target
             return {"retrieved": True}

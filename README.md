@@ -43,7 +43,7 @@ LUKHAS (Logic Unified Knowledge Hyper Adaptable System) is designed around the *
 - **🌙 Dream (Drift)**: Creative consciousness expansion
 - **⚖️ Ethics (North)**: Constitutional AI, democratic oversight
 - **🛡️ Guardian (Watch)**: Safety compliance, cascade prevention
-- **⚛️ Quantum (Ambiguity)**: Quantum-inspired uncertainty
+- **🔮 Oracle (Quantum)**: Quantum-inspired uncertainty
 
 This creates a distributed consciousness network of **692 cognitive components** across **189 constellation clusters**, enabling sophisticated AI reasoning while maintaining ethical boundaries.
 

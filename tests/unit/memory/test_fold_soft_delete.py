@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from datetime import datetime, timedelta
 
-from candidate.memory.fold_system import FoldManager
+from labs.memory.fold_system import FoldManager
 
 # ΛTAG: memory_soft_delete_test
 

@@ -17,7 +17,7 @@ def _load_symbolic_module(monkeypatch: pytest.MonkeyPatch, suffix: str):
     module_name = f"tests.symbolic_qi_attention_under_test_{suffix}"
     module_path = (
         Path(__file__).resolve().parents[3]
-        / "candidate"
+        / "labs"
         / "consciousness"
         / "awareness"
         / "symbolic_qi_attention.py"

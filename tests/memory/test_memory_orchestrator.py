@@ -4,8 +4,8 @@ from unittest.mock import AsyncMock, Mock, patch
 
 import pytest
 
-from memory.indexer import Indexer
-from memory.memory_orchestrator import MemoryOrchestrator
+from lukhas.memory.indexer import Indexer
+from lukhas.memory.memory_orchestrator import MemoryOrchestrator
 
 
 @pytest.fixture
@@ -43,7 +43,7 @@ def test_orchestrator_with_guardian_initialization(mock_indexer, mock_guardian):
 @pytest.mark.asyncio
 async def test_add_event_without_guardian(orchestrator, mock_indexer):
     text = "test memory event"
-    meta = {"lane": "candidate", "timestamp": 1234567890}
+    meta = {"lane": "labs", "timestamp": 1234567890}
 
     with patch.object(orchestrator.tracer, 'trace_operation') as mock_trace:
         mock_span = Mock()
@@ -59,7 +59,7 @@ async def test_add_event_without_guardian(orchestrator, mock_indexer):
 @pytest.mark.asyncio
 async def test_add_event_with_guardian(orchestrator_with_guardian, mock_indexer, mock_guardian):
     text = "test memory event"
-    meta = {"lane": "candidate", "timestamp": 1234567890}
+    meta = {"lane": "labs", "timestamp": 1234567890}
 
     with patch.object(orchestrator_with_guardian.tracer, 'trace_operation') as mock_trace:
         mock_span = Mock()
@@ -80,7 +80,7 @@ async def test_add_event_with_guardian(orchestrator_with_guardian, mock_indexer,
 def test_query(orchestrator, mock_indexer):
     query_text = "search query"
     k = 5
-    filters = {"lane": "candidate"}
+    filters = {"lane": "labs"}
 
     with patch.object(orchestrator.tracer, 'trace_operation') as mock_trace:
         mock_span = Mock()

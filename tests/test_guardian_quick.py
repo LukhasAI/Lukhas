@@ -10,7 +10,7 @@ import os
 import time
 from pathlib import Path
 
-from governance.guardian_system import GuardianSystem
+from lukhas.governance.guardian_system import GuardianSystem
 
 
 def test_guardian_schema_standardization():

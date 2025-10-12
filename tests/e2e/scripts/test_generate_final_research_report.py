@@ -2,7 +2,7 @@ import json
 from pathlib import Path
 from typing import Any
 
-from tools.scripts.generate_final_research_report import generate_comprehensive_report
+from lukhas.tools.scripts.generate_final_research_report import generate_comprehensive_report
 
 
 def _create_system_status(path: Path) -> None:

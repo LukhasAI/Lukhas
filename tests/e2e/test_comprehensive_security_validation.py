@@ -124,7 +124,7 @@ class TestHardcodedCredentialValidation:
         """Ensure no hardcoded tokens exist in source code."""
         source_dirs = [
             Path(__file__).parent.parent / "lukhas",
-            Path(__file__).parent.parent / "candidate",
+            Path(__file__).parent.parent / "labs",
         ]
 
         token_violations = []
@@ -203,7 +203,7 @@ class TestCryptographicSecurityValidation:
         # Test directories to scan
         test_dirs = [
             Path(__file__).parent.parent / "tests" / "security",
-            Path(__file__).parent.parent / "candidate" / "bridge" / "api",
+            Path(__file__).parent.parent / "labs" / "bridge" / "api",
         ]
 
         weak_crypto_violations = []
@@ -288,7 +288,7 @@ class TestInputValidationSecurity:
         """Test SQL injection protection patterns."""
         # Test directories for SQL injection risks
         test_dirs = [
-            Path(__file__).parent.parent / "candidate",
+            Path(__file__).parent.parent / "labs",
             Path(__file__).parent.parent / "lukhas",
         ]
 
@@ -310,8 +310,8 @@ class TestInputValidationSecurity:
         """Test path traversal protection."""
         # Test directories for path traversal risks
         test_dirs = [
-            Path(__file__).parent.parent / "tools",
-            Path(__file__).parent.parent / "candidate",
+            Path(__file__).parent.parent / "lukhas.tools",
+            Path(__file__).parent.parent / "labs",
         ]
 
         path_traversal_risks = []
@@ -480,7 +480,7 @@ class TestAuditComplianceSecurity:
 
     def test_security_audit_trail_completeness(self):
         """Test that security audit trail captures all required information."""
-        from tools.acceptance_gate_ast import AuditTrail
+        from lukhas.tools.acceptance_gate_ast import AuditTrail
 
         audit = AuditTrail()
 

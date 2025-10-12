@@ -5,12 +5,12 @@ import sys
 
 import pytest
 
-if "memory" in sys.modules:
-    del sys.modules["memory"]
+if "lukhas.memory" in sys.modules:
+    del sys.modules["lukhas.memory"]
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "..")))
 
-from memory.memory_identity import MemoryIdentityFactory
+from lukhas.memory.memory_identity import MemoryIdentityFactory
 
 
 # ΛTAG: memory_identity

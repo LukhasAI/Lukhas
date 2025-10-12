@@ -64,20 +64,20 @@ class TestMetricsLabelContracts:
             )
             assert labels["lane"] == lane
             assert labels["lane"].value in [
-                "candidate", "lukhas", "MATRIZ", "integration",
+                "labs", "lukhas", "MATRIZ", "integration",
                 "production", "canary", "experimental"
             ]
 
     def test_service_type_mapping(self):
         """Test service labels are handled correctly in record_metric."""
         service_mappings = {
-            ServiceType.MEMORY: "memory",
+            ServiceType.MEMORY: "lukhas.memory",
             ServiceType.REGISTRY: "registry",
             ServiceType.IDENTITY: "identity",
             ServiceType.CONSCIOUSNESS: "consciousness",
-            ServiceType.GOVERNANCE: "governance",
+            ServiceType.GOVERNANCE: "lukhas.governance",
             ServiceType.ORCHESTRATION: "orchestration",
-            ServiceType.LEDGER: "ledger"
+            ServiceType.LEDGER: "lukhas.ledger"
         }
 
         for service_type, expected_label in service_mappings.items():
@@ -270,7 +270,7 @@ class TestMemoryLifecycleLabelContracts:
                     service=ServiceType.MEMORY,
                     metric_type=MetricType.COUNTER,
                     operation=operation,
-                    lane="candidate"
+                    lane="labs"
                 )
 
                 # Verify required labels present
@@ -281,7 +281,7 @@ class TestMemoryLifecycleLabelContracts:
                 assert "lane" in error_metric.labels
                 assert "operation" in error_metric.labels
                 assert error_metric.labels["operation"] == operation
-                assert error_metric.labels["lane"] == "candidate"
+                assert error_metric.labels["lane"] == "labs"
 
     def test_forbidden_correlation_id_in_labels(self):
         """Test that correlation_id is NEVER used as a Prometheus label."""
@@ -331,7 +331,7 @@ class TestMemoryLifecycleLabelContracts:
 
     def test_canonical_lane_values_in_metrics(self):
         """Test metrics use canonical lane enum values."""
-        canonical_lanes = ["candidate", "lukhas", "MATRIZ", "integration", "production", "canary", "experimental"]
+        canonical_lanes = ["labs", "lukhas", "MATRIZ", "integration", "production", "canary", "experimental"]
 
         for lane_value in canonical_lanes:
             with patch('lukhas.observability.service_metrics.ServiceMetricsCollector._update_prometheus_metric'):

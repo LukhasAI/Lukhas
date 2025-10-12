@@ -129,7 +129,7 @@ class TestPlanVerifierConstraints:
         """Test ethics guard blocks harmful actions."""
         monkeypatch.setenv("ENFORCE_ETHICS_DSL", "1")
         monkeypatch.setenv("LUKHAS_CANARY_PERCENT", "100")
-        monkeypatch.setenv("LUKHAS_LANE", "candidate")
+        monkeypatch.setenv("LUKHAS_LANE", "labs")
         verifier = PlanVerifier({'ethics_enabled': True})
         ctx = VerificationContext()
 
@@ -172,7 +172,7 @@ class TestGuardianCanaryEnforcement:
         """Guardian should log counterfactual but allow when enforcement disabled."""
         monkeypatch.setenv("ENFORCE_ETHICS_DSL", "0")
         monkeypatch.setenv("LUKHAS_CANARY_PERCENT", "100")
-        monkeypatch.setenv("LUKHAS_LANE", "candidate")
+        monkeypatch.setenv("LUKHAS_LANE", "labs")
 
         verifier = PlanVerifier({'ethics_enabled': True})
         ctx = VerificationContext()
@@ -193,7 +193,7 @@ class TestGuardianCanaryEnforcement:
         """Guardian should block harmful plan when enforcement enabled for canary."""
         monkeypatch.setenv("ENFORCE_ETHICS_DSL", "1")
         monkeypatch.setenv("LUKHAS_CANARY_PERCENT", "100")
-        monkeypatch.setenv("LUKHAS_LANE", "candidate")
+        monkeypatch.setenv("LUKHAS_LANE", "labs")
 
         verifier = PlanVerifier({'ethics_enabled': True})
         ctx = VerificationContext()
@@ -234,7 +234,7 @@ class TestGuardianCanaryEnforcement:
 
         outcome = verifier.verify(memory_violation_plan, ctx)
         assert not outcome.allow
-        assert any('memory' in reason for reason in outcome.reasons)
+        assert any('lukhas.memory' in reason for reason in outcome.reasons)
 
         # Test batch size limit
         batch_violation_plan = {
@@ -378,10 +378,10 @@ class TestPlanVerifierIntegration:
         """Test that metrics are properly recorded."""
         monkeypatch.setenv("ENFORCE_ETHICS_DSL", "1")
         monkeypatch.setenv("LUKHAS_CANARY_PERCENT", "100")
-        monkeypatch.setenv("LUKHAS_LANE", "candidate")
-        with patch('candidate.core.orchestration.plan_verifier.METRICS_AVAILABLE', True):
-            with patch('candidate.core.orchestration.plan_verifier.PLAN_VERIFIER_ATTEMPTS') as mock_attempts:
-                with patch('candidate.core.orchestration.plan_verifier.PLAN_VERIFIER_DENIALS') as mock_denials:
+        monkeypatch.setenv("LUKHAS_LANE", "labs")
+        with patch('labs.core.orchestration.plan_verifier.METRICS_AVAILABLE', True):
+            with patch('labs.core.orchestration.plan_verifier.PLAN_VERIFIER_ATTEMPTS') as mock_attempts:
+                with patch('labs.core.orchestration.plan_verifier.PLAN_VERIFIER_DENIALS') as mock_denials:
                     verifier = PlanVerifier()
                     ctx = VerificationContext()
 

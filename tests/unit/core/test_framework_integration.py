@@ -50,7 +50,7 @@ def test_manager_initialization_active():
         assert len(manager.module_adapters) == 4
 
 
-@patch("candidate.core.framework_integration.ConstellationFrameworkIntegrator", None)
+@patch("labs.core.framework_integration.ConstellationFrameworkIntegrator", None)
 def test_manager_initialization_inactive():
     """Tests that the manager initializes correctly in an inactive/degraded state."""
     from lukhas.core.framework_integration import FrameworkIntegrationManager
@@ -75,8 +75,8 @@ async def test_register_module_active():
 
 
 @pytest.mark.asyncio
-@patch("candidate.core.framework_integration.ConstellationFrameworkIntegrator", None)
-@patch("candidate.core.framework_integration.logger")
+@patch("labs.core.framework_integration.ConstellationFrameworkIntegrator", None)
+@patch("labs.core.framework_integration.logger")
 async def test_register_module_inactive(mock_logger):
     """Tests that module registration is ignored in an inactive manager."""
     from lukhas.core.framework_integration import FrameworkIntegrationManager, ModuleAdapter
@@ -103,8 +103,8 @@ async def test_initialize_integrations_active():
 
 
 @pytest.mark.asyncio
-@patch("candidate.core.framework_integration.ConstellationFrameworkIntegrator", None)
-@patch("candidate.core.framework_integration.logger")
+@patch("labs.core.framework_integration.ConstellationFrameworkIntegrator", None)
+@patch("labs.core.framework_integration.logger")
 async def test_initialize_integrations_inactive(mock_logger):
     """Tests that initialize_integrations returns False and logs an error when inactive."""
     from lukhas.core.framework_integration import FrameworkIntegrationManager

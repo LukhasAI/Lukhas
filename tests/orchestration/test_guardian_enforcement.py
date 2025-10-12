@@ -19,8 +19,8 @@ def test_enforce_on_canary_default(monkeypatch):
     # Ensure no explicit override is present
     monkeypatch.delenv("ENFORCE_ETHICS_DSL", raising=False)
     monkeypatch.setenv("LUKHAS_CANARY_PERCENT", "100")
-    monkeypatch.setenv("LUKHAS_LANE", "candidate")
-    monkeypatch.setenv("LUKHAS_GUARDIAN_ENFORCED_LANES", "candidate")
+    monkeypatch.setenv("LUKHAS_LANE", "labs")
+    monkeypatch.setenv("LUKHAS_GUARDIAN_ENFORCED_LANES", "labs")
 
     verifier = PlanVerifier()
     verifier.guardian_bands.evaluate = lambda *args, **kwargs: GuardianBandResult(
@@ -42,6 +42,6 @@ def test_enforce_on_canary_default(monkeypatch):
     outcome = verifier.verify(plan, ctx)
 
     assert outcome.allow, "Baseline plan should be allowed while enforcement is active"
-    assert ctx.metadata.get("guardian_lane") == "candidate"
+    assert ctx.metadata.get("guardian_lane") == "labs"
     assert ctx.metadata.get("guardian_enforced") is True
     assert ctx.metadata.get("guardian_emergency_disabled") is False

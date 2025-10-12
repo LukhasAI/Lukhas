@@ -39,7 +39,7 @@ def test_kernel_bus_import():
 def test_context_bus_import():
     """Test context bus imports."""
     try:
-        from candidate.orchestration.context_bus import ContextBus
+        from labs.orchestration.context_bus import ContextBus
 
         # Test basic instantiation
         bus = ContextBus()

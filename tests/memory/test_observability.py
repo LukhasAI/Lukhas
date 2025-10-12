@@ -2,7 +2,7 @@
 
 from unittest.mock import Mock, patch
 
-from memory.observability import MemorySpan, MemoryTracer, PrometheusMetrics
+from lukhas.memory.observability import MemorySpan, MemoryTracer, PrometheusMetrics
 
 
 def test_prometheus_metrics_initialization():
@@ -24,7 +24,7 @@ def test_memory_tracer_initialization():
 def test_memory_tracer_trace_operation():
     tracer = MemoryTracer()
 
-    with patch('memory.observability.trace.get_tracer') as mock_get_tracer:
+    with patch('lukhas.memory.observability.trace.get_tracer') as mock_get_tracer:
         mock_tracer = Mock()
         mock_span = Mock()
         mock_tracer.start_span.return_value = mock_span
@@ -34,7 +34,7 @@ def test_memory_tracer_trace_operation():
         span_context = tracer.trace_operation("test_op")
 
         assert isinstance(span_context, MemorySpan)
-        mock_tracer.start_span.assert_called_with("memory.test_op")
+        mock_tracer.start_span.assert_called_with("lukhas.memory.test_op")
 
 def test_memory_span_context_manager():
     mock_span = Mock()

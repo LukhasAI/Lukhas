@@ -2,9 +2,9 @@ import time
 
 import pytest
 
-from memory.backends.pgvector_store import PgVectorStore
-from memory.indexer import Indexer
-from memory.memory_orchestrator import MemoryOrchestrator
+from lukhas.memory.backends.pgvector_store import PgVectorStore
+from lukhas.memory.indexer import Indexer
+from lukhas.memory.memory_orchestrator import MemoryOrchestrator
 
 
 class DummyConn: ...  # TODO: mock/fixture
@@ -16,7 +16,7 @@ def orch():
 
 @pytest.mark.asyncio
 async def test_upsert_and_query_roundtrip(orch):
-    doc_id = await orch.add_event("hello world", {"lane": "candidate"})
+    doc_id = await orch.add_event("hello world", {"lane": "labs"})
     assert isinstance(doc_id, str)
     res = orch.query("hello", k=3)
     assert isinstance(res, list)

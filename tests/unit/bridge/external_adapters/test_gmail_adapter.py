@@ -80,7 +80,7 @@ class TestExternalGmailAdapterUnit:
         assert "API error" in health["error"]
 
     @pytest.mark.asyncio
-    @patch("candidate.bridge.external_adapters.gmail_adapter.Flow")
+    @patch("labs.bridge.external_adapters.gmail_adapter.Flow")
     async def test_handle_callback_success(self, MockFlow, adapter: GmailAdapter):
         """Tests successful handling of OAuth callback."""
         mock_flow_instance = MockFlow.from_client_config.return_value

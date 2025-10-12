@@ -73,7 +73,7 @@ class TestMemorySynchronizer:
 
         # Experimental allows cross-lane by default
         result = exp_syncer.sync_fold(
-            source_lane="candidate",
+            source_lane="labs",
             target_lane="experimental",
             fold_data=fold_data
         )
@@ -81,7 +81,7 @@ class TestMemorySynchronizer:
 
         # Production disallows cross-lane by default
         result = prod_syncer.sync_fold(
-            source_lane="candidate",
+            source_lane="labs",
             target_lane="prod",
             fold_data=fold_data
         )
@@ -108,7 +108,7 @@ class TestMemorySynchronizer:
         # Reserve resources for two concurrent operations
         op1_id = uuid4()
         op2_id = uuid4()
-        syncer._reserve_resources(op1_id, "experimental", "candidate", 1, 0, 0)
+        syncer._reserve_resources(op1_id, "experimental", "labs", 1, 0, 0)
         syncer._reserve_resources(op2_id, "experimental", "other_lane", 1, 0, 0)
 
         # Third operation should fail due to fanout limit being exhausted
@@ -122,7 +122,7 @@ class TestMemorySynchronizer:
         assert "fanout" in result.error_message.lower()
 
         # Clean up reserved resources
-        syncer._release_resources(op1_id, "experimental", "candidate", 1, 0)
+        syncer._release_resources(op1_id, "experimental", "labs", 1, 0)
         syncer._release_resources(op2_id, "experimental", "other_lane", 1, 0)
 
     def test_fanin_budget_enforcement(self):
@@ -144,7 +144,7 @@ class TestMemorySynchronizer:
 
         # Reserve resources for one concurrent fanin operation
         op1_id = uuid4()
-        syncer._reserve_resources(op1_id, "candidate", "experimental", 0, 1, 0)
+        syncer._reserve_resources(op1_id, "labs", "experimental", 0, 1, 0)
 
         # Second operation should fail due to fanin limit being exhausted
         result = syncer.sync_fold(
@@ -157,7 +157,7 @@ class TestMemorySynchronizer:
         assert "fanin" in result.error_message.lower()
 
         # Clean up reserved resources
-        syncer._release_resources(op1_id, "candidate", "experimental", 0, 1)
+        syncer._release_resources(op1_id, "labs", "experimental", 0, 1)
 
     def test_depth_limit_enforcement(self):
         """Test operation depth limit enforcement."""
@@ -291,7 +291,7 @@ class TestMemorySynchronizer:
             # Simulate operations in progress by not completing them immediately
             result = syncer.sync_fold(
                 source_lane="experimental",
-                target_lane="candidate",
+                target_lane="labs",
                 fold_data=fold_data,
                 fold_id=f"test_{i}"
             )
@@ -417,7 +417,7 @@ class TestMemorySynchronizer:
         """Test synchronization behavior across different lane configurations."""
         test_cases = [
             ("experimental", 12, 8, True),   # High limits, cross-lane allowed
-            ("candidate", 8, 4, True),       # Medium limits, cross-lane allowed
+            ("labs", 8, 4, True),       # Medium limits, cross-lane allowed
             ("prod", 4, 2, False)            # Low limits, cross-lane disallowed
         ]
 
@@ -492,9 +492,9 @@ class TestMemorySynchronizer:
 
     def test_factory_function(self):
         """Test factory function creates synchronizers correctly."""
-        syncer = create_memory_synchronizer(lane="candidate")
+        syncer = create_memory_synchronizer(lane="labs")
         assert isinstance(syncer, MemorySynchronizer)
-        assert syncer.lane == "candidate"
+        assert syncer.lane == "labs"
 
     def test_reset_stats(self):
         """Test statistics reset functionality."""
@@ -567,9 +567,9 @@ class TestMemorySyncIntegration:
     def test_environment_variable_integration(self):
         """Test integration with environment variables."""
         # Test LUKHAS_LANE detection
-        with patch.dict(os.environ, {"LUKHAS_LANE": "candidate"}):
+        with patch.dict(os.environ, {"LUKHAS_LANE": "labs"}):
             syncer = MemorySynchronizer()
-            assert syncer.lane == "candidate"
+            assert syncer.lane == "labs"
 
         # Test fallback to experimental
         with patch.dict(os.environ, {}, clear=True):

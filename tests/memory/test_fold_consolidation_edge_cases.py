@@ -16,7 +16,7 @@ from pathlib import Path
 import pytest
 
 try:
-    from memory.adaptive_memory import AdaptiveMemorySystem, MemoryFold, MemoryItem, MemoryType
+    from lukhas.memory.adaptive_memory import AdaptiveMemorySystem, MemoryFold, MemoryItem, MemoryType
     MEMORY_AVAILABLE = True
 except ImportError:
     # Fallback for testing without full memory system

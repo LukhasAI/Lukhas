@@ -29,12 +29,12 @@ def test_memory_recall_span_has_semconv_attrs():
 
     found = False
     for sp in spans:
-        if sp.get("name") == "memory.recall":
+        if sp.get("name") == "lukhas.memory.recall":
             attrs = sp.get("attributes", {})
 
             # Required semantic convention keys per matrix contract
             assert "code.function" in attrs, "Missing semconv attribute: code.function"
-            assert attrs.get("lukhas.module") == "memory", f"Expected lukhas.module=memory, got {attrs.get('lukhas.module')}"
+            assert attrs.get("lukhas.module") == "lukhas.memory", f"Expected lukhas.module=memory, got {attrs.get('lukhas.module')}"
             assert "lukhas.k" in attrs, "Missing custom attribute: lukhas.k"
 
             # Semconv version tracking
@@ -54,12 +54,12 @@ def test_memory_fold_span_has_semconv_attrs():
 
     found = False
     for sp in spans:
-        if sp.get("name") == "memory.fold":
+        if sp.get("name") == "lukhas.memory.fold":
             attrs = sp.get("attributes", {})
 
             # Required semantic convention keys
             assert "code.function" in attrs, "Missing semconv attribute: code.function"
-            assert attrs.get("lukhas.module") == "memory", f"Expected lukhas.module=memory, got {attrs.get('lukhas.module')}"
+            assert attrs.get("lukhas.module") == "lukhas.memory", f"Expected lukhas.module=memory, got {attrs.get('lukhas.module')}"
             assert "lukhas.fold_count" in attrs, "Missing custom attribute: lukhas.fold_count"
 
             found = True

@@ -16,7 +16,7 @@ import pytest
 
 # Set experimental flags before imports (deterministic test env)
 os.environ.setdefault("LUKHAS_EXPERIMENTAL", "1")
-os.environ.setdefault("LUKHAS_LANE", "candidate")
+os.environ.setdefault("LUKHAS_LANE", "labs")
 os.environ.setdefault("LUKHAS_AUTOREPAIR_ENABLED", "1")
 
 

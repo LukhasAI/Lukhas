@@ -87,7 +87,7 @@ def test_ema_smoothing():
 
 @pytest.mark.parametrize("lane,warn_thresh,block_thresh", [
     ("experimental", 0.30, 0.50),
-    ("candidate", 0.20, 0.35),
+    ("labs", 0.20, 0.35),
     ("prod", 0.15, 0.25),
 ])
 def test_per_lane_thresholds(lane, warn_thresh, block_thresh):
@@ -135,9 +135,9 @@ def test_default_lane_from_env():
     old_lane = os.environ.get("LUKHAS_LANE")
 
     try:
-        os.environ["LUKHAS_LANE"] = "candidate"
+        os.environ["LUKHAS_LANE"] = "labs"
         monitor = DriftMonitor()
-        assert monitor.lane == "candidate"
+        assert monitor.lane == "labs"
 
         os.environ["LUKHAS_LANE"] = "PROD"  # Test case conversion
         monitor = DriftMonitor()
@@ -183,9 +183,9 @@ def test_result_structure():
     ("experimental", 0.30, 0.50, 0.55, "block"),
 
     # Candidate lane (moderate)
-    ("candidate", 0.20, 0.35, 0.15, "allow"),
-    ("candidate", 0.20, 0.35, 0.25, "warn"),
-    ("candidate", 0.20, 0.35, 0.40, "block"),
+    ("labs", 0.20, 0.35, 0.15, "allow"),
+    ("labs", 0.20, 0.35, 0.25, "warn"),
+    ("labs", 0.20, 0.35, 0.40, "block"),
 
     # Production lane (most restrictive)
     ("prod", 0.15, 0.25, 0.10, "allow"),
@@ -233,7 +233,7 @@ def test_drift_thresholds_matrix(lane, expected_warn, expected_block, drift_valu
         assert result["guardian"] == "allow"
 
 
-@pytest.mark.parametrize("lane", ["experimental", "candidate", "prod"])
+@pytest.mark.parametrize("lane", ["experimental", "labs", "prod"])
 def test_lane_threshold_ordering(lane):
     """Test that lane thresholds maintain proper ordering: warn < block"""
     monitor = DriftMonitor(lane=lane)
@@ -241,8 +241,8 @@ def test_lane_threshold_ordering(lane):
 
 
 @pytest.mark.parametrize("lane1,lane2", [
-    ("prod", "candidate"),
-    ("candidate", "experimental"),
+    ("prod", "labs"),
+    ("labs", "experimental"),
     ("prod", "experimental"),
 ])
 def test_cross_lane_threshold_ordering(lane1, lane2):

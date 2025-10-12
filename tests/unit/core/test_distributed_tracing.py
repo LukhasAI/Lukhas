@@ -9,7 +9,7 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
-from candidate.core.distributed_tracing import (
+from labs.core.distributed_tracing import (
     AIAgentTracer,
     DistributedTracer,
     EventReplayer,
@@ -418,9 +418,9 @@ class TestAIAgentTracer:
             pass
 
         span_data = ai_tracer.collector.completed_traces[0]["spans"][0]
-        assert span_data["operation_name"] == "memory.retrieve"
-        assert span_data["tags"]["memory.agent_id"] == "agent-003"
-        assert span_data["tags"]["memory.size"] == 1024
+        assert span_data["operation_name"] == "lukhas.memory.retrieve"
+        assert span_data["tags"]["lukhas.memory.agent_id"] == "agent-003"
+        assert span_data["tags"]["lukhas.memory.size"] == 1024
 
 
 # Because `import os` is missing in the source file, we have to patch the built-in

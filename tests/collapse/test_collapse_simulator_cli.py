@@ -13,7 +13,7 @@ from lukhas.tools.collapse_simulator import (
     derive_top_symbols,
     simulate_collapse,
 )
-from tools import collapse_simulator_main
+from lukhas.tools import collapse_simulator_main
 
 
 def test_simulate_collapse_creates_artifact(tmp_path: pathlib.Path) -> None:
@@ -21,7 +21,7 @@ def test_simulate_collapse_creates_artifact(tmp_path: pathlib.Path) -> None:
 
     output_path = tmp_path / "collapse_report.json"
     summary = simulate_collapse(
-        scenario="memory",
+        scenario="lukhas.memory",
         iterations=2,
         noise=0.01,
         output_path=output_path,
@@ -31,7 +31,7 @@ def test_simulate_collapse_creates_artifact(tmp_path: pathlib.Path) -> None:
     assert output_path.exists(), "Expected collapse artifact to be written"
     payload = json.loads(output_path.read_text(encoding="utf-8"))
 
-    assert summary["scenario"] == "memory"
+    assert summary["scenario"] == "lukhas.memory"
     assert summary["iterations"] == 2
     assert "driftScore" in payload
     assert "top_symbols" in payload

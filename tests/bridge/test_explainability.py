@@ -22,7 +22,7 @@ from datetime import datetime
 
 import pytest
 
-from candidate.bridge.explainability_interface_layer import (
+from labs.bridge.explainability_interface_layer import (
     CompletenessMetrics,
     ExplainabilityCache,
     ExplainabilityInterface,

@@ -15,29 +15,29 @@ sys.modules.setdefault("consent", types.ModuleType("consent"))
 consent_service_stub = types.ModuleType("consent.service")
 consent_service_stub.ConsentService = type("ConsentService", (), {})
 sys.modules["consent.service"] = consent_service_stub
-guardian_shadow_stub = types.ModuleType("candidate.guardian_shadow_filter")
+guardian_shadow_stub = types.ModuleType("labs.guardian_shadow_filter")
 guardian_shadow_stub.GuardianShadowFilter = type(
     "GuardianShadowFilter",
     (),
     {"check_transformation": lambda self, persona, entropy: {"allowed": True}},
 )
-sys.modules["candidate.guardian_shadow_filter"] = guardian_shadow_stub
+sys.modules["labs.guardian_shadow_filter"] = guardian_shadow_stub
 
-guardian_reflector_stub = types.ModuleType("candidate.governance.ethics.guardian_reflector")
+guardian_reflector_stub = types.ModuleType("labs.governance.ethics.guardian_reflector")
 guardian_reflector_stub.GuardianReflector = type(
     "GuardianReflector",
     (),
     {"reflect": lambda self, action, context: {"risk_level": "low", "risk_score": 0.1}},
 )
-sys.modules["candidate.governance.ethics.guardian_reflector"] = guardian_reflector_stub
+sys.modules["labs.governance.ethics.guardian_reflector"] = guardian_reflector_stub
 
-guardian_core_stub = types.ModuleType("candidate.governance.guardian.guardian")
+guardian_core_stub = types.ModuleType("labs.governance.guardian.guardian")
 guardian_core_stub.GuardianSystem = type(
     "GuardianSystem",
     (),
     {"check_action": lambda self, action, context: {"allowed": True}},
 )
-sys.modules["candidate.governance.guardian.guardian"] = guardian_core_stub
+sys.modules["labs.governance.guardian.guardian"] = guardian_core_stub
 
 identity_pkg = types.ModuleType("identity")
 identity_mobile_pkg = types.ModuleType("identity.mobile")
@@ -51,7 +51,7 @@ qr_animator_stub.QRCodeAnimator = type(
 )
 sys.modules["identity.mobile.qr_code_animator"] = qr_animator_stub
 
-from candidate.governance.guardian_sentinel import GuardianSentinel
+from labs.governance.guardian_sentinel import GuardianSentinel
 from lukhas.governance.healthcare.decision_support import ClinicalDecisionSupport
 from lukhas.governance.identity.auth_integrations.qrg_bridge import (
     AuthQRGBridge,

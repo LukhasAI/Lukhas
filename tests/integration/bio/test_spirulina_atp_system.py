@@ -33,9 +33,9 @@ class TestSpirulinaATPSystem:
         status = await system.get_system_status()
         assert status is not None
 
-    @patch("candidate.bio.energy.spirulina_atp_system.SpirulinaPhotosynthethicEngine")
-    @patch("candidate.bio.energy.spirulina_atp_system.ATPSynthesisEngine")
-    @patch("candidate.bio.energy.spirulina_atp_system.BiohybridCapacitorArray")
+    @patch("labs.bio.energy.spirulina_atp_system.SpirulinaPhotosynthethicEngine")
+    @patch("labs.bio.energy.spirulina_atp_system.ATPSynthesisEngine")
+    @patch("labs.bio.energy.spirulina_atp_system.BiohybridCapacitorArray")
     @pytest.mark.asyncio
     async def test_process_energy_cycle(self, mock_capacitor_array_cls, mock_atp_engine_cls, mock_spirulina_engine_cls):
         """Test the main energy processing cycle with mocked subsystems."""

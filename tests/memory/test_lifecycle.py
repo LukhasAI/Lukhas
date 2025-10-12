@@ -23,7 +23,7 @@ from typing import Any, Dict, List, Optional
 import numpy as np
 import pytest
 
-from memory.lifecycle import (
+from lukhas.memory.lifecycle import (
     ArchivalTier,
     FileArchivalBackend,
     FileTombstoneStore,
@@ -44,7 +44,7 @@ class VectorDocument:
     embedding: np.ndarray
     metadata: Dict[str, Any] = field(default_factory=dict)
     identity_id: Optional[str] = None
-    lane: str = "candidate"
+    lane: str = "labs"
     fold_id: Optional[str] = None
     tags: List[str] = field(default_factory=list)
     created_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
@@ -149,7 +149,7 @@ def mock_vector_store():
         content="This document has expired",
         embedding=np.random.random(1536).astype(np.float32),
         identity_id="user_123",
-        lane="candidate",
+        lane="labs",
         tags=["test", "expired"],
         created_at=now - timedelta(days=60),  # Old document
         expires_at=now - timedelta(days=1)   # Expired yesterday
@@ -208,7 +208,7 @@ class TestMemoryLifecycleRetention:
         rule = RetentionRule(
             name="test_candidate_rule",
             policy=RetentionPolicy.SHORT_TERM,
-            conditions={"lane": "candidate", "tags": ["expired"]},
+            conditions={"lane": "labs", "tags": ["expired"]},
             active_retention_days=7,
             archive_retention_days=30
         )
@@ -230,7 +230,7 @@ class TestMemoryLifecycleRetention:
         rule = RetentionRule(
             name="archive_rule",
             policy=RetentionPolicy.MEDIUM_TERM,
-            conditions={"lane": "candidate"},
+            conditions={"lane": "labs"},
             active_retention_days=7,
             archive_retention_days=365,
             archive_tier=ArchivalTier.COLD
@@ -337,7 +337,7 @@ class TestArchivalOperations:
             id="test_delete_archive",
             content="This will be deleted",
             embedding=np.random.random(1536).astype(np.float32),
-            lane="candidate"
+            lane="labs"
         )
 
         archive_id = await file_archival_backend.store_archived_document(
@@ -373,7 +373,7 @@ class TestGDPRTombstones:
             deletion_reason="performance_test",
             requested_by="test_suite",
             original_created_at=datetime.now(timezone.utc) - timedelta(days=30),
-            original_lane="candidate",
+            original_lane="labs",
             original_fold_id="fold_123",
             original_tags=["performance", "test"],
             content_hash="abc123",
@@ -448,7 +448,7 @@ class TestGDPRTombstones:
             deleted_at=now - timedelta(days=400),  # Very old
             deletion_reason="expiration",
             original_created_at=now - timedelta(days=450),
-            original_lane="candidate"
+            original_lane="labs"
         )
 
         # Create recent tombstone (should be kept)
@@ -591,7 +591,7 @@ class TestAuditEventGeneration:
                 deleted_at=datetime.now(timezone.utc),
                 deletion_reason="multi_test",
                 original_created_at=datetime.now(timezone.utc) - timedelta(days=10),
-                original_lane="candidate"
+                original_lane="labs"
             )
             await file_tombstone_store.create_tombstone(tombstone)
 

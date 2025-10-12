@@ -270,13 +270,13 @@ class TestMemorySystems(unittest.TestCase):
         try:
             # Try importing memory module
             try:
-                import memory
+                import lukhas.memory
 
                 self.assertIsNotNone(memory)
                 print("✅ Memory module imported successfully")
             except ImportError:
                 # Check file structure
-                memory_path = Path("memory")
+                memory_path = Path("lukhas.memory")
                 self.assertTrue(memory_path.exists(), "Memory directory should exist")
 
                 python_files = list(memory_path.glob("**/*.py"))

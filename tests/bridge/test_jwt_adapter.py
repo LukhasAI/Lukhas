@@ -20,7 +20,7 @@ from datetime import datetime, timedelta
 import jwt as pyjwt
 import pytest
 
-from candidate.bridge.adapters.api_framework import (
+from labs.bridge.adapters.api_framework import (
     JWTAdapter,
     JWTAlgorithm,
     TokenClaims,
@@ -480,7 +480,7 @@ def test_jwt_rate_limiting_enterprise_multiplier(hs256_adapter):
 @pytest.mark.unit
 def test_jwt_rate_limit_enforcement():
     """Test rate limit enforcement logic."""
-    from candidate.bridge.adapters.api_framework import RateLimitConfig
+    from labs.bridge.adapters.api_framework import RateLimitConfig
     
     config = RateLimitConfig(
         requests_per_minute=60,

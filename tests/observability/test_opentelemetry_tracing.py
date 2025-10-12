@@ -88,7 +88,7 @@ class TestLUKHASTracerWithOTel:
         """Test the trace_operation context manager"""
         tracer = LUKHASTracer("test-service", enable_auto_instrumentation=False)
 
-        attributes = {"test.component": "memory", "test.value": 42}
+        attributes = {"test.component": "lukhas.memory", "test.value": 42}
 
         with tracer.trace_operation("test_operation", attributes) as span:
             # Should not raise exceptions

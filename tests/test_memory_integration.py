@@ -1,7 +1,7 @@
 import pytest
 
-from candidate.memory.consolidation import ConsolidationMode, ConsolidationOrchestrator, InMemoryStore
-from candidate.memory.structural_conscience import StructuralConscience
+from labs.memory.consolidation import ConsolidationMode, ConsolidationOrchestrator, InMemoryStore
+from labs.memory.structural_conscience import StructuralConscience
 
 
 @pytest.mark.asyncio

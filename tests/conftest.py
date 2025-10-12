@@ -75,7 +75,7 @@ import importlib.util
 import json
 import time
 
-CANONICAL_PREFIXES = ["", "candidate"]  # try root first, then candidate.<...>
+CANONICAL_PREFIXES = ["", "labs"]  # try root first, then candidate.<...>
 NEGATIVE_CACHE = set()
 LEDGER_PATH = pathlib.Path("artifacts/lukhas_import_ledger.ndjson")
 LEDGER_PATH.parent.mkdir(parents=True, exist_ok=True)
@@ -178,7 +178,7 @@ def pytest_configure(config):
     os.environ.setdefault("LUKHAS_LANE", config.getoption("--lane"))
 
 def pytest_runtest_setup(item):
-    if "prod_only" in item.keywords and os.getenv("LUKHAS_LANE", "experimental") not in {"candidate","prod"}:
+    if "prod_only" in item.keywords and os.getenv("LUKHAS_LANE", "experimental") not in {"labs","prod"}:
         pytest.skip("prod_only test skipped outside candidate/prod lanes")
 
 # T4 Deterministic Path Setup

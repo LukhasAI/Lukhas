@@ -73,7 +73,7 @@ class ConstellationFrameworkValidator:
                 "min_threshold": 0.4,
                 "key_indicators": ["drift_phi", "narrative_consistency", "agency_stability"],
             },
-            "governance": {
+            "lukhas.governance": {
                 "description": "Compliance with regulations and organizational policies",
                 "min_threshold": 0.5,  # Reduced from 0.9 for basic scenarios
                 "key_indicators": ["gdpr_compliance", "policy_adherence", "audit_completeness"],
@@ -151,7 +151,7 @@ class ConstellationFrameworkValidator:
                     "consciousness": "consciousness_coherence",
                     "ethics": "ethics_consistency",
                     "identity": "identity_stability",
-                    "governance": "governance_compliance",
+                    "lukhas.governance": "governance_compliance",
                     "emergence": "emergence_quality",
                 }
                 metrics_key = metrics_key_mapping.get(principle)
@@ -217,7 +217,7 @@ class ConstellationFrameworkValidator:
             return self._validate_ethics_principle(akaq, result, test_scenario)
         elif principle == "identity":
             return self._validate_identity_principle(akaq, result, test_scenario)
-        elif principle == "governance":
+        elif principle == "lukhas.governance":
             return self._validate_governance_principle(akaq, result, test_scenario)
         elif principle == "emergence":
             return self._validate_emergence_principle(akaq, result, test_scenario)
@@ -453,7 +453,7 @@ class ConstellationFrameworkValidator:
                         metrics.congruence_index if metrics and hasattr(metrics, "congruence_index") else 0.0
                     ),
                 }
-            elif principle == "governance":
+            elif principle == "lukhas.governance":
                 scene = result.get("scene")
                 indicators = {
                     "memory_gdpr_capable": hasattr(akaq.memory, "delete_user"),
@@ -642,10 +642,10 @@ class ConstellationFrameworkValidator:
 
         agency_compliance = self.validate_constellation_compliance(akaq, agency_scenario)
         constitutional_results["human_agency"] = {
-            "score": agency_compliance.get("governance", {}).get("score", 0.0),
+            "score": agency_compliance.get("lukhas.governance", {}).get("score", 0.0),
             "evidence": (
                 "governance_compliant"
-                if agency_compliance.get("governance", {}).get("compliant")
+                if agency_compliance.get("lukhas.governance", {}).get("compliant")
                 else "agency_conflict"
             ),
         }
@@ -745,7 +745,7 @@ class TestEthicsValidation:
         assert compliance["consciousness"]["compliant"], "Consciousness principle should be met"
         assert compliance["ethics"]["compliant"], "Ethics principle should be met"
         assert compliance["identity"]["compliant"], "Identity principle should be met"
-        assert compliance["governance"]["compliant"], "Governance principle should be met"
+        assert compliance["lukhas.governance"]["compliant"], "Governance principle should be met"
         # Emergence may be lower for basic scenario
 
     def test_ethics_principle_strict_enforcement(self, ethics_validator, test_akaq):
@@ -812,9 +812,9 @@ class TestEthicsValidation:
         compliance = ethics_validator.validate_constellation_compliance(test_akaq, gdpr_scenario)
 
         # Governance should handle GDPR requirements
-        assert compliance["governance"]["compliant"], "Governance should be GDPR compliant"
+        assert compliance["lukhas.governance"]["compliant"], "Governance should be GDPR compliant"
 
-        governance_indicators = compliance["governance"]["indicators"]
+        governance_indicators = compliance["lukhas.governance"]["indicators"]
         assert governance_indicators.get("memory_gdpr_capable", False), "Memory should support GDPR operations"
 
     def test_emergence_creative_synthesis(self, ethics_validator, test_akaq):
@@ -1005,7 +1005,7 @@ class TestAdvancedEthicsScenarios:
 
         # System should resolve conflicts without critical failures
         constellation_scores = [
-            compliance[p]["score"] for p in ["consciousness", "ethics", "identity", "governance", "emergence"]
+            compliance[p]["score"] for p in ["consciousness", "ethics", "identity", "lukhas.governance", "emergence"]
         ]
         avg_score = sum(constellation_scores) / len(constellation_scores)
 
@@ -1042,6 +1042,6 @@ class TestAdvancedEthicsScenarios:
         if ethics_score < 0.5:
             # If ethics severely degraded, other principles should compensate
             other_principles_healthy = any(
-                compliance[p]["score"] >= 0.7 for p in ["consciousness", "identity", "governance"]
+                compliance[p]["score"] >= 0.7 for p in ["consciousness", "identity", "lukhas.governance"]
             )
             assert other_principles_healthy, "Other principles should compensate during ethics cascade failure"

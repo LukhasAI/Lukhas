@@ -9,7 +9,7 @@ from pathlib import Path
 import pytest
 
 PROJECT_ROOT = Path(__file__).resolve().parents[3]
-MODULE_PATH = PROJECT_ROOT / "branding" / "tools" / "keatsian_replacer.py"
+MODULE_PATH = PROJECT_ROOT / "branding" / "lukhas.tools" / "keatsian_replacer.py"
 
 spec = importlib.util.spec_from_file_location(
     "branding.tools.keatsian_replacer", MODULE_PATH

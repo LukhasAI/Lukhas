@@ -18,7 +18,7 @@ import time
 
 # Set feature flags
 os.environ['LUKHAS_EXPERIMENTAL'] = '1'
-os.environ['LUKHAS_LANE'] = 'candidate'
+os.environ['LUKHAS_LANE'] = 'labs'
 os.environ['ENABLE_LLM_GUARDRAIL'] = '1'
 
 from monitoring.drift_manager import DriftManager
@@ -116,7 +116,7 @@ def test_policy_ledger_emission():
         ({'fold_count': 500}, {'fold_count': 550}),
         ({'coherence': 0.95}, {'coherence': 0.90}),
     ]
-    kinds = ['ethical', 'memory', 'identity']
+    kinds = ['ethical', 'lukhas.memory', 'identity']
 
     print("\n=== POLICY LEDGER EMISSION ===")
     for i, (prev, curr) in enumerate(states):
@@ -154,7 +154,7 @@ def test_isolation_guarantee():
     result1 = manager1.compute('ethical', state1_prev, state1_curr)
 
     # Compute on manager2
-    result2 = manager2.compute('memory', state2_prev, state2_curr)
+    result2 = manager2.compute('lukhas.memory', state2_prev, state2_curr)
 
     # Verify isolation - ledgers should be independent
     ledger1 = manager1.get_drift_history()
@@ -163,7 +163,7 @@ def test_isolation_guarantee():
     assert len(ledger1) == 1, "Manager1 should only have its own entry"
     assert len(ledger2) == 1, "Manager2 should only have its own entry"
     assert ledger1[0]['kind'] == 'ethical'
-    assert ledger2[0]['kind'] == 'memory'
+    assert ledger2[0]['kind'] == 'lukhas.memory'
 
     # Verify no state contamination
     assert state1_prev == {'compliance': 0.9, 'drift_score': 0.1}, "State1 prev modified"

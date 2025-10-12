@@ -345,10 +345,10 @@ class TestPluginDiscoverySecurityHardening:
         with patch('pkgutil.iter_modules') as mock_iter_modules:
             # Create mock modules with various characteristics
             suspicious_module = Mock()
-            suspicious_module.name = "candidate.suspicious.plugins"
+            suspicious_module.name = "labs.suspicious.plugins"
 
             legitimate_module = Mock()
-            legitimate_module.name = "candidate.legitimate.plugins"
+            legitimate_module.name = "labs.legitimate.plugins"
 
             unrelated_module = Mock()
             unrelated_module.name = "unrelated.module"
@@ -374,8 +374,8 @@ class TestPluginDiscoverySecurityHardening:
 
                     # Verify only candidate.*.plugins modules were imported
                     expected_modules = [
-                        "candidate.suspicious.plugins",
-                        "candidate.legitimate.plugins"
+                        "labs.suspicious.plugins",
+                        "labs.legitimate.plugins"
                     ]
 
                     assert set(imported_modules) == set(expected_modules), \

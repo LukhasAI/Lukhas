@@ -10,7 +10,7 @@ def clear_module_cache():
     A fixture to clear the module from sys.modules to ensure it is re-imported
     for each test case.
     """
-    module_name = "candidate.qi.crypto.pqc_signer"
+    module_name = "labs.qi.crypto.pqc_signer"
     if module_name in sys.modules:
         del sys.modules[module_name]
     yield

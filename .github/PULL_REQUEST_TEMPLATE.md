@@ -1,6 +1,29 @@
 # Summary
 <!-- What changed and why -->
 
+## 🎯 MATRIZ Readiness
+
+**Required for all PRs touching `lukhas/`, `matriz/`, or `core/`**:
+
+- [ ] Smoke tests passing locally (`make smoke` or `pytest -q -m matriz_smoke`)
+- [ ] Lane boundaries respected (`make lane-guard`)
+- [ ] No hardcoded secrets (`make security-scan`)
+- [ ] Evals accuracy ≥ 0.70 (if applicable, run `python evals/run_evals.py`)
+- [ ] Documentation updated for new features (see `docs/`)
+- [ ] Tests added for new functionality (coverage maintained or improved)
+
+**CI Artifacts** (automatically uploaded by workflows):
+- [ ] `evals_report.md` - Evaluation results (if evals ran)
+- [ ] `manifest_stats.md` - Manifest health check
+- [ ] `star_rules_coverage.md` - Star rule coverage
+- [ ] `linkcheck.txt` - Documentation link validation
+- [ ] `sbom.cyclonedx.json` - Supply chain bill of materials (release only)
+
+**MATRIZ Integration Notes**:
+- Star alignment: <!-- Which constellation star does this change align with? -->
+- Quality tier: <!-- T1_critical, T2_important, T3_standard, T4_experimental -->
+- Pipeline nodes: <!-- Which MATRIZ pipeline nodes are affected? -->
+
 ## Artifact Discipline Checks
 
 - [ ] Manifests updated if packages/modules moved or capabilities changed

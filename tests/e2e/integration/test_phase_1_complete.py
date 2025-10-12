@@ -79,7 +79,7 @@ async def test_consciousness_engine():
         # Mock the consciousness engine since we had import issues
         class MockConsciousnessEngine:
             def __init__(self):
-                self.state_dimensions = ["awareness", "memory", "reasoning", "emotion", "creativity", "identity"]
+                self.state_dimensions = ["awareness", "lukhas.memory", "reasoning", "emotion", "creativity", "identity"]
                 self.ethical_principles = {
                     "transparency": 1.0,
                     "user_agency": 0.9,

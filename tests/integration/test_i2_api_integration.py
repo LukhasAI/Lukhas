@@ -25,7 +25,7 @@ from fastapi.testclient import TestClient
 
 # Import the API components
 try:
-    from governance.guardian_system import GuardianSystem
+    from lukhas.governance.guardian_system import GuardianSystem
     from identity.biometrics import create_mock_biometric_provider
     from identity.security_hardening import create_security_hardening_manager
     from identity.tiers import SecurityPolicy, create_tiered_authenticator

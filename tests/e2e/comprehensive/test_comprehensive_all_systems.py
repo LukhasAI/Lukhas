@@ -43,12 +43,12 @@ class SystemDiscovery:
                 "lukhas/bio",
                 "bio",
             ],
-            "memory_data": ["lukhas/memory", "memory", "candidate/aka_qualia", "candidate/memory", "data"],
+            "memory_data": ["lukhas/memory", "lukhas.memory", "candidate/aka_qualia", "candidate/memory", "data"],
             "security_governance": [
                 "lukhas/security",
                 "security",
                 "ethics",
-                "governance",
+                "lukhas.governance",
                 "governance_extended",
                 "lukhas/governance",
             ],
@@ -106,7 +106,7 @@ class TestConsciousnessIntelligence:
                 return False
 
             # Check for key QI subsystems
-            expected_subsystems = ["awareness_system", "bio", "engines", "memory", "safety"]
+            expected_subsystems = ["awareness_system", "bio", "engines", "lukhas.memory", "safety"]
             found_subsystems = []
 
             for subsystem in expected_subsystems:
@@ -284,7 +284,7 @@ class TestMemoryDataSystems:
 
             # Look for memory-related files
             python_files = list(qualia_path.glob("*.py"))
-            memory_files = [f for f in python_files if "memory" in f.name.lower()]
+            memory_files = [f for f in python_files if "lukhas.memory" in f.name.lower()]
 
             if not memory_files:
                 print("    ⚠️ No memory-related qualia files found")

@@ -7,7 +7,7 @@ from typing import Any, AsyncIterator
 
 import pytest
 
-from candidate.orchestration.openai_modulated_service import (
+from labs.orchestration.openai_modulated_service import (
     OpenAIOrchestrationService,
     OrchestratedOpenAIRequest,
 )

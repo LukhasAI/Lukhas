@@ -3,7 +3,7 @@ import pytest
 
 @pytest.mark.no_mock
 def test_memory_flow_minimal():
-    from memory import MemoryWrapper
+    from lukhas.memory import MemoryWrapper
 
     mw = MemoryWrapper()
     # Test basic memory wrapper functionality without requiring specific methods

@@ -16,11 +16,11 @@ import pytest
         ("consciousness.matriz_thought_loop", "MATRIZThoughtLoop"),
         ("consciousness.consciousness_stream", "ConsciousnessStream"),
         # Patch 1: Package bridges
-        ("candidate.observability", "get_metrics"),
-        ("candidate.observability", "get_tracer"),
-        ("candidate.observability", "Counter"),
-        ("candidate.observability", "Histogram"),
-        ("candidate.cognitive_core", "__all__"),
+        ("labs.observability", "get_metrics"),
+        ("labs.observability", "get_tracer"),
+        ("labs.observability", "Counter"),
+        ("labs.observability", "Histogram"),
+        ("labs.cognitive_core", "__all__"),
     ],
 )
 def test_symbol_or_module_resolves(mod, sym):
@@ -34,8 +34,8 @@ def test_symbol_or_module_resolves(mod, sym):
     [
         "lukhas.governance.schema_registry",
         "lukhas.bio.utils",
-        "candidate.observability",
-        "candidate.cognitive_core",
+        "labs.observability",
+        "labs.cognitive_core",
     ],
 )
 def test_module_imports(mod):

@@ -14,7 +14,7 @@ import pytest
 
 # Set feature flag for testing
 os.environ['LUKHAS_EXPERIMENTAL'] = '1'
-os.environ['LUKHAS_LANE'] = 'candidate'
+os.environ['LUKHAS_LANE'] = 'labs'
 
 from monitoring.drift_manager import DriftKind, DriftManager
 
@@ -133,10 +133,10 @@ class TestDriftManager:
             'cascade_risk': 0.03
         }
 
-        result = manager.compute('memory', prev_memory, curr_memory)
+        result = manager.compute('lukhas.memory', prev_memory, curr_memory)
 
         assert 0.0 <= result['score'] <= 1.0
-        assert 'memory.fold_stability' in result['top_symbols']
+        assert 'lukhas.memory.fold_stability' in result['top_symbols']
         assert result['confidence'] > 0.0
 
     def test_identity_drift(self):
@@ -171,12 +171,12 @@ class TestDriftManager:
 
         prev_unified = {
             'ethical': {'compliance': 0.95, 'drift_score': 0.05},
-            'memory': {'fold_count': 500, 'entropy': 0.3},
+            'lukhas.memory': {'fold_count': 500, 'entropy': 0.3},
             'identity': {'coherence': 0.98, 'namespace_hash': 'abc'}
         }
         curr_unified = {
             'ethical': {'compliance': 0.85, 'drift_score': 0.12},
-            'memory': {'fold_count': 550, 'entropy': 0.4},
+            'lukhas.memory': {'fold_count': 550, 'entropy': 0.4},
             'identity': {'coherence': 0.92, 'namespace_hash': 'abc'}
         }
 
@@ -185,7 +185,7 @@ class TestDriftManager:
         assert 0.0 <= result['score'] <= 1.0
         # Should have symbols from all dimensions
         ethical_symbols = [s for s in result['top_symbols'] if s.startswith('ethical.')]
-        memory_symbols = [s for s in result['top_symbols'] if s.startswith('memory.')]
+        memory_symbols = [s for s in result['top_symbols'] if s.startswith('lukhas.memory.')]
         identity_symbols = [s for s in result['top_symbols'] if s.startswith('identity.')]
 
         assert len(ethical_symbols) > 0
@@ -320,7 +320,7 @@ class TestIntegrityProbeIntegration:
         # Test with state containing all dimensions
         state = {
             'ethical': {'compliance': 0.9},
-            'memory': {'fold_count': 500},
+            'lukhas.memory': {'fold_count': 500},
             'identity': {'coherence': 0.95}
         }
 
@@ -331,7 +331,7 @@ class TestIntegrityProbeIntegration:
         # Second call calculates drift
         state2 = {
             'ethical': {'compliance': 0.85},
-            'memory': {'fold_count': 520},
+            'lukhas.memory': {'fold_count': 520},
             'identity': {'coherence': 0.93}
         }
         result = probe.run_consistency_check(state2)

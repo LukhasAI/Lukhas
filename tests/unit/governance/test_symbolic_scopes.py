@@ -17,7 +17,7 @@ def test_define_scope_updates_symbol_registry():
 
 def test_scope_requirements_reflect_tier_boundaries():
     manager = SymbolicScopesManager(config={})
-    requirements = manager.get_scope_requirements("memory", 4)
+    requirements = manager.get_scope_requirements("lukhas.memory", 4)
 
     assert requirements["available"] is True
     assert requirements["restricted"] is False
@@ -30,13 +30,13 @@ def test_validate_scope_access_respects_tier_and_grants():
             "user_tiers": {"alice": 2, "lambda_root": 5},
             "granted_scopes": {
                 "alice": ["analytics"],
-                "lambda_root": ["memory", "integration"],
+                "lambda_root": ["lukhas.memory", "integration"],
             },
         }
     )
 
     assert manager.validate_scope_access("alice", "analytics") is True
-    assert manager.validate_scope_access("alice", "memory") is False
+    assert manager.validate_scope_access("alice", "lukhas.memory") is False
     assert manager.validate_scope_access("lambda_root", "integration") is True
 
 

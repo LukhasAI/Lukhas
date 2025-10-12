@@ -10,7 +10,7 @@ import time
 import pytest
 
 # Add candidate modules to path for testing
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "candidate"))
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "labs"))
 
 
 class TestMemorySystemValidation:
@@ -272,12 +272,12 @@ class TestMemorySystemValidation:
         """Smoke test for overall memory system integration"""
         # Test that all main memory modules can be imported
         modules_to_test = [
-            "candidate.memory.folds.unified_memory_core",
-            "candidate.memory.consolidation.memory_colonies",
-            "candidate.memory.consolidation.memory_visualization",
-            "candidate.memory.systems.dream_trace_linker",
-            "candidate.memory.causal.memory_cleaner",
-            "candidate.memory.systems.symbolic_delta_compression",
+            "labs.memory.folds.unified_memory_core",
+            "labs.memory.consolidation.memory_colonies",
+            "labs.memory.consolidation.memory_visualization",
+            "labs.memory.systems.dream_trace_linker",
+            "labs.memory.causal.memory_cleaner",
+            "labs.memory.systems.symbolic_delta_compression",
         ]
 
         import_results = {}

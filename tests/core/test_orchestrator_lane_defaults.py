@@ -29,7 +29,7 @@ class TestOrchestratorLaneDefaults:
         """Lane can be explicitly overridden via LUKHAS_LANE environment variable"""
         test_cases = [
             ("production", "production"),
-            ("candidate", "candidate"),
+            ("labs", "labs"),
             ("experimental", "experimental"),
             ("custom", "custom"),
         ]
@@ -78,7 +78,7 @@ class TestOrchestratorLaneDefaults:
             ("CANARY", "canary"),
             ("Production", "production"),
             ("EXPERIMENTAL", "experimental"),
-            ("Candidate", "candidate"),
+            ("Candidate", "labs"),
         ]
 
         for env_value, expected in test_cases:

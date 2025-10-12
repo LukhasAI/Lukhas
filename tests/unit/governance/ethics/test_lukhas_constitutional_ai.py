@@ -1,6 +1,6 @@
 import pytest
 
-from candidate.governance.ethics.constitutional_ai import (
+from labs.governance.ethics.constitutional_ai import (
     ConstitutionalFramework,
     ConstitutionalPrinciple,
     SafetyLevel,

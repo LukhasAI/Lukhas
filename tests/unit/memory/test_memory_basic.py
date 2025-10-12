@@ -8,7 +8,7 @@ import pytest
 def test_memory_wrapper_import():
     """Test MemoryWrapper imports and basic init."""
     try:
-        from memory import MemoryWrapper
+        from lukhas.memory import MemoryWrapper
 
         # Test creation with default config
         wrapper = MemoryWrapper()
@@ -23,7 +23,7 @@ def test_memory_wrapper_import():
 def test_fold_system_import():
     """Test fold system imports."""
     try:
-        from memory import fold_system
+        from lukhas.memory import fold_system
 
         # Check key functions and classes
         assert hasattr(fold_system, "FoldManager")
@@ -50,7 +50,7 @@ def test_memory_config():
 def test_fold_manager_metrics_hooks():
     """Ensure FoldManager emits Prometheus hooks for key operations."""
     try:
-        from candidate.memory.fold_system import FoldManager
+        from labs.memory.fold_system import FoldManager
     except ImportError:
         pytest.skip("Fold system not available")
 

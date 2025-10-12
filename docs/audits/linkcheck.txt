@@ -55,6 +55,7 @@ WARN external unchecked: /Users/agi_dev/LOCAL-REPOS/Lukhas/docs/GITHUB_COPILOT_T
 WARN external unchecked: /Users/agi_dev/LOCAL-REPOS/Lukhas/docs/TESTING_GUIDE.md:101 → https://img.shields.io/badge/status-wip-yellow
 WARN external unchecked: /Users/agi_dev/LOCAL-REPOS/Lukhas/docs/T4_RUNBOOK_EXECUTION_REPORT.md:101 → https://img.shields.io/badge/status-wip-yellow
 WARN external unchecked: /Users/agi_dev/LOCAL-REPOS/Lukhas/docs/README.md:101 → https://img.shields.io/badge/status-wip-yellow
+FAIL missing file: /Users/agi_dev/LOCAL-REPOS/Lukhas/docs/README.md:2049 → module.manifest.json
 FAIL missing file: /Users/agi_dev/LOCAL-REPOS/Lukhas/docs/README.md:2401 → ../../README.md
 WARN external unchecked: /Users/agi_dev/LOCAL-REPOS/Lukhas/docs/TODO_COMPLETIONS_2025_09_16.md:101 → https://img.shields.io/badge/status-wip-yellow
 WARN external unchecked: /Users/agi_dev/LOCAL-REPOS/Lukhas/docs/LUKHAS_SYSTEM_STATUS.md:101 → https://img.shields.io/badge/status-wip-yellow
@@ -125,6 +126,7 @@ WARN external unchecked: /Users/agi_dev/LOCAL-REPOS/Lukhas/docs/EMPTY_FILES_RECO
 WARN external unchecked: /Users/agi_dev/LOCAL-REPOS/Lukhas/docs/OPERATIONS_DEMO.md:101 → https://img.shields.io/badge/status-wip-yellow
 WARN external unchecked: /Users/agi_dev/LOCAL-REPOS/Lukhas/docs/TODO_MASTER_ACCURATE_2025_09_16.md:101 → https://img.shields.io/badge/status-wip-yellow
 WARN external unchecked: /Users/agi_dev/LOCAL-REPOS/Lukhas/docs/PHASE_1_FRONTMATTER_TAGGING_COMPLETE.md:101 → https://img.shields.io/badge/status-wip-yellow
+FAIL missing file: /Users/agi_dev/LOCAL-REPOS/Lukhas/docs/API_ERRORS.md:2142 → ../configs/runtime/reliability.yaml:5
 WARN external unchecked: /Users/agi_dev/LOCAL-REPOS/Lukhas/docs/AUTOMATED_MAINTENANCE_GUIDE.md:101 → https://img.shields.io/badge/status-wip-yellow
 WARN external unchecked: /Users/agi_dev/LOCAL-REPOS/Lukhas/docs/LUKHAS_AI_INTEGRATION_STRATEGY.md:101 → https://img.shields.io/badge/status-wip-yellow
 WARN external unchecked: /Users/agi_dev/LOCAL-REPOS/Lukhas/docs/TODO_MASTER_2025_09_16.md:101 → https://img.shields.io/badge/status-wip-yellow
@@ -1193,6 +1195,8 @@ WARN external unchecked: /Users/agi_dev/LOCAL-REPOS/Lukhas/docs/matriz/MODULE_RE
 WARN external unchecked: /Users/agi_dev/LOCAL-REPOS/Lukhas/docs/matriz/LANE_POLICY.md:103 → https://img.shields.io/badge/status-wip-yellow
 WARN external unchecked: /Users/agi_dev/LOCAL-REPOS/Lukhas/docs/matriz/LAB_BRIEFING.md:103 → https://img.shields.io/badge/status-wip-yellow
 WARN external unchecked: /Users/agi_dev/LOCAL-REPOS/Lukhas/docs/matriz/AGENTS.md:103 → https://img.shields.io/badge/status-wip-yellow
+WARN external unchecked: /Users/agi_dev/LOCAL-REPOS/Lukhas/docs/matriz/WHY_MATRIZ.md:6691 → https://github.com/lukhas-ai/lukhas/issues
+WARN external unchecked: /Users/agi_dev/LOCAL-REPOS/Lukhas/docs/matriz/WHY_MATRIZ.md:6783 → https://github.com/lukhas-ai/lukhas/discussions
 WARN external unchecked: /Users/agi_dev/LOCAL-REPOS/Lukhas/docs/matriz/DEPLOYMENT_CLEARANCE.md:103 → https://img.shields.io/badge/status-wip-yellow
 WARN external unchecked: /Users/agi_dev/LOCAL-REPOS/Lukhas/docs/observability/AUDIT_TRAILS.md:110 → https://img.shields.io/badge/status-wip-yellow
 WARN external unchecked: /Users/agi_dev/LOCAL-REPOS/Lukhas/docs/observability/MATRIZ_OBSERVABILITY_INTEGRATION.md:110 → https://img.shields.io/badge/status-wip-yellow
@@ -1369,7 +1373,17 @@ FAIL missing file: /Users/agi_dev/LOCAL-REPOS/Lukhas/docs/gonzo/Symbolic_Intergr
 FAIL missing file: /Users/agi_dev/LOCAL-REPOS/Lukhas/docs/gonzo/Symbolic_Intergration_Agent_Tasks.md:15635 → file-service://file-U4FG4rJx8DfjAmmazAU5KU
 FAIL missing file: /Users/agi_dev/LOCAL-REPOS/Lukhas/docs/gonzo/Symbolic_Intergration_Agent_Tasks.md:16245 → file-service://file-U4FG4rJx8DfjAmmazAU5KU
 FAIL missing file: /Users/agi_dev/LOCAL-REPOS/Lukhas/docs/gonzo/Symbolic_Intergration_Agent_Tasks.md:16880 → file-service://file-U4FG4rJx8DfjAmmazAU5KU
+WARN external unchecked: /Users/agi_dev/LOCAL-REPOS/Lukhas/docs/gonzo/matriz_prep/CODEX_START_PHASE_2.md:839 → https://github.com/LukhasAI/Lukhas/pull/375
+WARN external unchecked: /Users/agi_dev/LOCAL-REPOS/Lukhas/docs/gonzo/matriz_prep/CODEX_START_PHASE_2.md:4291 → https://github.com/LukhasAI/Lukhas/pull/375
+FAIL missing file: /Users/agi_dev/LOCAL-REPOS/Lukhas/docs/gonzo/matriz_prep/GITHUB_COPILOT_TASKS.md:10331 → path
+FAIL missing file: /Users/agi_dev/LOCAL-REPOS/Lukhas/docs/gonzo/matriz_prep/GITHUB_COPILOT_TASKS.md:10349 → path
+FAIL missing file: /Users/agi_dev/LOCAL-REPOS/Lukhas/docs/gonzo/matriz_prep/GITHUB_COPILOT_TASKS.md:10432 → {new}\2
+FAIL missing file: /Users/agi_dev/LOCAL-REPOS/Lukhas/docs/gonzo/matriz_prep/GITHUB_COPILOT_TASKS.md:11274 → path
+FAIL missing file: /Users/agi_dev/LOCAL-REPOS/Lukhas/docs/gonzo/matriz_prep/README.md:7163 → ../../MATRIZ_GUIDE.md
 FAIL missing file: /Users/agi_dev/LOCAL-REPOS/Lukhas/docs/gonzo/matriz_prep/drop_in_2.md:5348 → stars/{star_slug}.md
+WARN external unchecked: /Users/agi_dev/LOCAL-REPOS/Lukhas/docs/gonzo/matriz_prep/CLAUDE_CODE_TASKS.md:18749 → https://preview-${{ github.event.pull_request.number }}.lukhas.dev
+WARN external unchecked: /Users/agi_dev/LOCAL-REPOS/Lukhas/docs/gonzo/matriz_prep/drop_in_extra.md:69277 → https://img.shields.io/badge/MATRIZ-validate-blue
+WARN external unchecked: /Users/agi_dev/LOCAL-REPOS/Lukhas/docs/gonzo/matriz_prep/drop_in_extra.md:69338 → https://img.shields.io/badge/Stars-{}/{}-informational
 WARN external unchecked: /Users/agi_dev/LOCAL-REPOS/Lukhas/docs/gonzo/CLAUDE_CONFIG/context.md:96 → https://img.shields.io/badge/status-stable-green
 WARN external unchecked: /Users/agi_dev/LOCAL-REPOS/Lukhas/docs/gonzo/CLAUDE_CONFIG/T4_ELITE_STRATEGY.md:96 → https://img.shields.io/badge/status-stable-green
 WARN external unchecked: /Users/agi_dev/LOCAL-REPOS/Lukhas/docs/gonzo/CLAUDE_CONFIG/DEPLOY_NOW.md:96 → https://img.shields.io/badge/status-stable-green
@@ -1468,6 +1482,8 @@ WARN external unchecked: /Users/agi_dev/LOCAL-REPOS/Lukhas/docs/podcast/tone_lay
 WARN external unchecked: /Users/agi_dev/LOCAL-REPOS/Lukhas/docs/podcast/consciousness_systems/CONSCIOUSNESS_SYSTEMS_OVERVIEW.md:730 → https://img.shields.io/badge/status-wip-yellow
 WARN external unchecked: /Users/agi_dev/LOCAL-REPOS/Lukhas/docs/podcast/validation/CONTENT_QUALITY_CHECKLIST.md:104 → https://img.shields.io/badge/status-wip-yellow
 WARN external unchecked: /Users/agi_dev/LOCAL-REPOS/Lukhas/docs/tutorials/consciousness_integration_guide.md:106 → https://img.shields.io/badge/status-wip-yellow
+FAIL missing file: /Users/agi_dev/LOCAL-REPOS/Lukhas/docs/ops/SLOs.md:2043 → ./incident_response.md
+FAIL missing file: /Users/agi_dev/LOCAL-REPOS/Lukhas/docs/ops/SLOs.md:2205 → ../../load/README.md
 WARN external unchecked: /Users/agi_dev/LOCAL-REPOS/Lukhas/docs/ops/OPERATIONAL_RUNBOOK.md:105 → https://img.shields.io/badge/status-stable-green
 WARN external unchecked: /Users/agi_dev/LOCAL-REPOS/Lukhas/docs/ops/OPERATIONAL_RUNBOOK.md:173 → https://img.shields.io/badge/owner-engineering-lightblue
 WARN external unchecked: /Users/agi_dev/LOCAL-REPOS/Lukhas/docs/administration/BACKUP_DR.md:111 → https://img.shields.io/badge/status-wip-yellow
@@ -2082,6 +2098,7 @@ FAIL missing file: /Users/agi_dev/LOCAL-REPOS/Lukhas/docs/validation/COMPLIANCE_
 WARN external unchecked: /Users/agi_dev/LOCAL-REPOS/Lukhas/docs/validation/VALIDATION_REPORT.md:107 → https://img.shields.io/badge/status-wip-yellow
 WARN external unchecked: /Users/agi_dev/LOCAL-REPOS/Lukhas/docs/validation/AGENT_WORK_VALIDATION_REPORT.md:107 → https://img.shields.io/badge/status-wip-yellow
 FAIL missing file: /Users/agi_dev/LOCAL-REPOS/Lukhas/docs/validation/AGENT_WORK_VALIDATION_REPORT.md:6488 → PENDING_TASKS.md
+WARN external unchecked: /Users/agi_dev/LOCAL-REPOS/Lukhas/docs/openai/QUICKSTART.md:13218 → https://github.com/LukhasAI/Lukhas
 WARN external unchecked: /Users/agi_dev/LOCAL-REPOS/Lukhas/docs/interfaces/GUARDIAN_MODULE_CONTRACT.md:107 → https://img.shields.io/badge/status-wip-yellow
 WARN external unchecked: /Users/agi_dev/LOCAL-REPOS/Lukhas/docs/interfaces/CONSCIOUSNESS_MODULE_CONTRACT.md:107 → https://img.shields.io/badge/status-wip-yellow
 WARN external unchecked: /Users/agi_dev/LOCAL-REPOS/Lukhas/docs/interfaces/MEMORY_MODULE_CONTRACT.md:107 → https://img.shields.io/badge/status-wip-yellow

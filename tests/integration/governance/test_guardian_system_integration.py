@@ -8,7 +8,7 @@ from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
 
-from candidate.governance.guardian_system_integration import (
+from labs.governance.guardian_system_integration import (
     GuardianStatus,
     GuardianSystemIntegration,
     GuardianValidationRequest,
@@ -19,11 +19,11 @@ from candidate.governance.guardian_system_integration import (
 async def create_initialized_guardian():
     """Helper to create and initialize a mocked GuardianSystemIntegration."""
     with (
-        patch("candidate.governance.guardian_system_integration.ConsentLedgerV1"),
-        patch("candidate.governance.guardian_system_integration.AdvancedDriftDetector"),
-        patch("candidate.governance.guardian_system_integration.ComprehensiveEthicsPolicyEngine"),
-        patch("candidate.governance.guardian_system_integration.ComprehensiveAuditSystem"),
-        patch("candidate.governance.guardian_system_integration.GlyphEngine"),
+        patch("labs.governance.guardian_system_integration.ConsentLedgerV1"),
+        patch("labs.governance.guardian_system_integration.AdvancedDriftDetector"),
+        patch("labs.governance.guardian_system_integration.ComprehensiveEthicsPolicyEngine"),
+        patch("labs.governance.guardian_system_integration.ComprehensiveAuditSystem"),
+        patch("labs.governance.guardian_system_integration.GlyphEngine"),
     ):
         guardian = GuardianSystemIntegration()
         # Since the components are mocked at import time, we need to create new mocks

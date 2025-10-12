@@ -38,13 +38,13 @@ def auth_components():
     routers_module.tasks_router = object()
     sys.modules.setdefault("interfaces.api.v1.rest.routers", routers_module)
 
-    import candidate  # ensure base package is registered
+    import labs  # ensure base package is registered
     import core
     import core.interfaces
     import lukhas.core.interfaces.api
     import lukhas.core.interfaces.api.v1
 
-    core_common_stub = sys.modules.setdefault("candidate.core.common", types.ModuleType("candidate.core.common"))
+    core_common_stub = sys.modules.setdefault("labs.core.common", types.ModuleType("labs.core.common"))
 
     def _tier_noop(level=None, fallback=None):
         def decorator(func):
@@ -56,14 +56,14 @@ def auth_components():
         core_common_stub.lukhas_tier_required = _tier_noop
 
     common_pkg = sys.modules.setdefault(
-        "candidate.core.interfaces.api.v1.common",
-        types.ModuleType("candidate.core.interfaces.api.v1.common"),
+        "labs.core.interfaces.api.v1.common",
+        types.ModuleType("labs.core.interfaces.api.v1.common"),
     )
-    common_pkg.__path__ = [str(ROOT / "candidate" / "core" / "interfaces" / "api" / "v1" / "common")]
+    common_pkg.__path__ = [str(ROOT / "labs" / "core" / "interfaces" / "api" / "v1" / "common")]
 
-    api_key_cache_path = ROOT / "candidate" / "core" / "interfaces" / "api" / "v1" / "common" / "api_key_cache.py"
+    api_key_cache_path = ROOT / "labs" / "core" / "interfaces" / "api" / "v1" / "common" / "api_key_cache.py"
     api_spec = importlib.util.spec_from_file_location(
-        "candidate.core.interfaces.api.v1.common.api_key_cache", api_key_cache_path
+        "labs.core.interfaces.api.v1.common.api_key_cache", api_key_cache_path
     )
     assert api_spec and api_spec.loader
     api_module = importlib.util.module_from_spec(api_spec)
@@ -76,21 +76,21 @@ def auth_components():
     common_pkg.__all__ = ["ApiKeyCache", "ApiKeyMetadata", "api_key_cache"]
 
     rest_pkg = sys.modules.setdefault(
-        "candidate.core.interfaces.api.v1.rest",
-        types.ModuleType("candidate.core.interfaces.api.v1.rest"),
+        "labs.core.interfaces.api.v1.rest",
+        types.ModuleType("labs.core.interfaces.api.v1.rest"),
     )
-    rest_pkg.__path__ = [str(ROOT / "candidate" / "core" / "interfaces" / "api" / "v1" / "rest")]
+    rest_pkg.__path__ = [str(ROOT / "labs" / "core" / "interfaces" / "api" / "v1" / "rest")]
 
-    middleware_path = ROOT / "candidate" / "core" / "interfaces" / "api" / "v1" / "rest" / "middleware.py"
+    middleware_path = ROOT / "labs" / "core" / "interfaces" / "api" / "v1" / "rest" / "middleware.py"
     spec = importlib.util.spec_from_file_location(
-        "candidate.core.interfaces.api.v1.rest.middleware", middleware_path
+        "labs.core.interfaces.api.v1.rest.middleware", middleware_path
     )
     assert spec and spec.loader  # pragma: no cover - sanity check
     middleware_module = importlib.util.module_from_spec(spec)
     sys.modules[spec.name] = middleware_module
     spec.loader.exec_module(middleware_module)
 
-    common_package = importlib.import_module("candidate.core.interfaces.api.v1.common")
+    common_package = importlib.import_module("labs.core.interfaces.api.v1.common")
     return middleware_module.AuthMiddleware, common_package.ApiKeyCache
 
 

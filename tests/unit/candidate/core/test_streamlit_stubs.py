@@ -6,7 +6,7 @@ ROOT = Path(__file__).resolve().parents[4]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-for module_name in ["candidate", "candidate.core", "candidate.core.rem.streamlit_lidar", "candidate.core.notion_sync"]:
+for module_name in ["labs", "labs.core", "labs.core.rem.streamlit_lidar", "labs.core.notion_sync"]:
     sys.modules.pop(module_name, None)
 
 
@@ -32,7 +32,7 @@ def reload_without_streamlit(module_name: str):
 
 
 def test_streamlit_lidar_stub_handles_interactions():
-    module = reload_without_streamlit("candidate.core.rem.streamlit_lidar")
+    module = reload_without_streamlit("labs.core.rem.streamlit_lidar")
 
     assert hasattr(module, "st")
     assert module.st.sidebar.checkbox("demo", value=True) is True
@@ -41,7 +41,7 @@ def test_streamlit_lidar_stub_handles_interactions():
 
 
 def test_notion_sync_stub_exposes_sidebar(monkeypatch):
-    module = reload_without_streamlit("candidate.core.notion_sync")
+    module = reload_without_streamlit("labs.core.notion_sync")
 
     assert module.STREAMLIT_AVAILABLE is False
     assert module.st.sidebar.checkbox("flag", value=True) is True

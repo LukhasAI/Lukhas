@@ -28,7 +28,7 @@ class TestConsciousnessIntegration:
         # Test different category processing
         test_cases = [
             {"category": "consciousness", "data": "test_consciousness"},
-            {"category": "governance", "policy": "test_policy"},
+            {"category": "lukhas.governance", "policy": "test_policy"},
             {"category": "quantum", "state": "superposition"},
             {"category": "identity", "user_id": "test_123"},
             {"category": "voice", "audio_data": "mock_audio"},

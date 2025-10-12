@@ -40,10 +40,10 @@ class LaneImportLinter:
         self.project_root = Path(__file__).parent.parent.parent
         self.lukhas_root = self.project_root / "lukhas"
         self.matriz_root = self.project_root / "MATRIZ"
-        self.candidate_root = self.project_root / "candidate"
+        self.candidate_root = self.project_root / "labs"
 
         # Define lane boundaries
-        self.lane_hierarchy = ["MATRIZ", "lukhas", "candidate"]
+        self.lane_hierarchy = ["MATRIZ", "lukhas", "labs"]
 
         # Forbidden cross-lane imports
         self.forbidden_imports = {
@@ -58,7 +58,7 @@ class LaneImportLinter:
             "lukhas": {
                 "MATRIZ"
             },
-            "candidate": {
+            "labs": {
                 "lukhas.governance.guardian_serializers",
                 "lukhas.identity.webauthn_production",
                 "lukhas.observability.prometheus_metrics"
@@ -83,7 +83,7 @@ class LaneImportLinter:
                 "MATRIZ.core.private",
                 "MATRIZ.processing.internal"
             },
-            "candidate": {
+            "labs": {
                 "lukhas.governance.guardian_serializers.production",
                 "lukhas.identity.webauthn_production.core",
                 "lukhas.observability.prometheus_metrics.production",
@@ -105,8 +105,8 @@ class LaneImportLinter:
                     return "MATRIZ"
                 elif path_parts[0] == "lukhas":
                     return "lukhas"
-                elif path_parts[0] == "candidate":
-                    return "candidate"
+                elif path_parts[0] == "labs":
+                    return "labs"
 
         except ValueError:
             # File not within project root
@@ -213,7 +213,7 @@ class LaneImportLinter:
 
     def run_import_linter_tool(self) -> Tuple[bool, str]:
         """Run import-linter tool with configuration."""
-        config_path = self.project_root / "config" / "tools" / "importlinter.cfg"
+        config_path = self.project_root / "config" / "lukhas.tools" / "importlinter.cfg"
 
         if not config_path.exists():
             return False, f"Import-linter config not found: {config_path}"
@@ -243,7 +243,7 @@ class LaneImportLinter:
         lane_directories = {
             "MATRIZ": self.matriz_root,
             "lukhas": self.lukhas_root,
-            "candidate": self.candidate_root
+            "labs": self.candidate_root
         }
 
         for lane, directory in lane_directories.items():
@@ -338,7 +338,7 @@ class TestLaneImports:
             return
 
         # Scan candidate violations
-        candidate_violations = linter.scan_directory_for_violations(linter.candidate_root, "candidate")
+        candidate_violations = linter.scan_directory_for_violations(linter.candidate_root, "labs")
 
         # Log results
         logger.info(f"Candidate lane scan: {len(candidate_violations)} violations")

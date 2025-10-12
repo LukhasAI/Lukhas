@@ -519,7 +519,7 @@ def test_matriz_yaml_structure():
                 "path": "lukhas/",
                 "allowed_imports": ["core", "matriz", "universal_language"]
             },
-            "candidate": {
+            "labs": {
                 "path": "candidate/",
                 "allowed_imports": ["core", "matriz"]
             },
@@ -545,5 +545,5 @@ def test_matriz_yaml_structure():
         assert isinstance(lane_config["allowed_imports"], list)
     
     # Verify import restrictions
-    assert "lukhas" not in matriz_structure["lanes"]["candidate"]["allowed_imports"]
+    assert "lukhas" not in matriz_structure["lanes"]["labs"]["allowed_imports"]
     assert "core" in matriz_structure["lanes"]["lukhas"]["allowed_imports"]

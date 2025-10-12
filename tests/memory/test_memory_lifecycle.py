@@ -13,7 +13,7 @@ import numpy as np
 import pytest
 
 from lukhas.memory.backends.base import AbstractVectorStore, VectorDocument
-from memory.lifecycle import (
+from lukhas.memory.lifecycle import (
     AbstractArchivalBackend,
     AbstractTombstoneStore,
     ArchivalTier,
@@ -230,7 +230,7 @@ class TestGDPRTombstone:
             deleted_at=datetime.now(timezone.utc),
             deletion_reason="gdpr_request",
             original_created_at=datetime.now(timezone.utc) - timedelta(days=30),
-            original_lane="candidate",
+            original_lane="labs",
             content_hash="abcdef123456",
             word_count=150
         )
@@ -296,7 +296,7 @@ class TestMemoryLifecycleManager:
         production_rule = None
 
         for rule in rules.values():
-            if rule.conditions.get("lane") == "candidate":
+            if rule.conditions.get("lane") == "labs":
                 candidate_rule = rule
             elif rule.conditions.get("lane") == "production":
                 production_rule = rule
@@ -339,14 +339,14 @@ class TestMemoryLifecycleManager:
             id="test-doc",
             content="Test content",
             embedding=np.random.random(384).astype(np.float32),
-            lane="candidate",
+            lane="labs",
             identity_id="test-identity",
             tags=["test", "sample"]
         )
 
         # Test lane matching
         assert self.manager._document_matches_conditions(
-            document, {"lane": "candidate"}
+            document, {"lane": "labs"}
         ) is True
         assert self.manager._document_matches_conditions(
             document, {"lane": "production"}
@@ -371,12 +371,12 @@ class TestMemoryLifecycleManager:
             id="eval-test",
             content="Test content",
             embedding=np.random.random(384).astype(np.float32),
-            lane="candidate"
+            lane="labs"
         )
 
         rule = self.manager._evaluate_retention_rule(document)
         assert rule is not None
-        assert rule.conditions.get("lane") == "candidate"
+        assert rule.conditions.get("lane") == "labs"
 
     @pytest.mark.asyncio
     async def test_delete_document_with_tombstone(self):
@@ -630,7 +630,7 @@ class TestLifecycleIntegration:
             id="candidate-doc",
             content="Candidate lane document",
             embedding=np.random.random(384).astype(np.float32),
-            lane="candidate"
+            lane="labs"
         )
 
         production_doc = VectorDocument(
@@ -647,7 +647,7 @@ class TestLifecycleIntegration:
         candidate_rule = manager._evaluate_retention_rule(candidate_doc)
         production_rule = manager._evaluate_retention_rule(production_doc)
 
-        assert candidate_rule.conditions["lane"] == "candidate"
+        assert candidate_rule.conditions["lane"] == "labs"
         assert production_rule.conditions["lane"] == "production"
         assert candidate_rule.active_retention_days < production_rule.active_retention_days
 
@@ -664,7 +664,7 @@ class TestLifecycleIntegration:
                 id=f"perf-test-{i}",
                 content=f"Performance test document {i}",
                 embedding=np.random.random(384).astype(np.float32),
-                lane="candidate"
+                lane="labs"
             )
             documents.append(doc)
             await vector_store.add(doc)

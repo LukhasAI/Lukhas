@@ -10,7 +10,7 @@ import time
 import pytest
 
 # Add candidate modules to path for testing
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "candidate"))
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "labs"))
 
 
 class TestCoreMemoryValidation:
@@ -172,9 +172,9 @@ class TestCoreMemoryValidation:
     def test_memory_system_working_modules(self):
         """Test that working memory modules can be imported and instantiated"""
         working_modules = {
-            "candidate.memory.folds.unified_memory_core": "ConsolidatedUnifiedmemorycore",
-            "candidate.memory.causal.memory_cleaner": "MemoryCleaner",
-            "candidate.memory.systems.symbolic_delta_compression": "SymbolicDeltaCompressionManager",  # Fixed class name
+            "labs.memory.folds.unified_memory_core": "ConsolidatedUnifiedmemorycore",
+            "labs.memory.causal.memory_cleaner": "MemoryCleaner",
+            "labs.memory.systems.symbolic_delta_compression": "SymbolicDeltaCompressionManager",  # Fixed class name
         }
 
         results = {}

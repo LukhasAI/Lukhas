@@ -24,7 +24,7 @@ import pytest
 
 # Guardian System components
 try:
-    from candidate.governance.guardian_system_integration import (
+    from labs.governance.guardian_system_integration import (
         GuardianAlertLevel,
         GuardianSystemIntegration,
         GuardianValidationRequest,

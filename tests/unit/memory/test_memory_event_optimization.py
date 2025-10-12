@@ -18,7 +18,7 @@ import pytest
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '../../..'))
 
-from memory.memory_event import MemoryEvent, MemoryEventFactory
+from lukhas.memory.memory_event import MemoryEvent, MemoryEventFactory
 
 
 class TestMemoryEventOptimization:

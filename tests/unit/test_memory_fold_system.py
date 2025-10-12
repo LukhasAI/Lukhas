@@ -7,7 +7,7 @@ import pytest
 # Add candidate modules to path
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
-from candidate.memory.protection.symbolic_quarantine_sanctum import (
+from labs.memory.protection.symbolic_quarantine_sanctum import (
     SymbolicQuarantineSanctum,
 )
 

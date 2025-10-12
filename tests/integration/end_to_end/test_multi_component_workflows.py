@@ -45,11 +45,11 @@ def test_multi_component_workflows():
                 "data": {"query": "What is the capital of France?"}
             },
             {
-                "operation": "memory.store",
+                "operation": "lukhas.memory.store",
                 "data": {"content": {"key": "capital_of_france", "data": "Paris"}, "memory_type": "facts"}
             },
             {
-                "operation": "governance.check",
+                "operation": "lukhas.governance.check",
                 "data": {"action_proposal": {"action": "share_fact", "fact": "capital_of_france"}}
             }
         ]

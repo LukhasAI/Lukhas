@@ -21,7 +21,7 @@ from lukhas.memory.scheduled_folding import (
     ScheduledFoldingManager,
     get_folding_manager,
 )
-from memory.adaptive_memory import MemoryFold, MemoryItem, MemoryType
+from lukhas.memory.adaptive_memory import MemoryFold, MemoryItem, MemoryType
 
 
 def create_test_fold(item_count: int = 10, content_size: int = 100, unique_suffix: str = None) -> MemoryFold:

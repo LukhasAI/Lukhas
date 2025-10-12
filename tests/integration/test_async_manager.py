@@ -385,7 +385,7 @@ class TestAsyncReliabilityIntegration:
             ethical_evaluation(),
             name="ethical_evaluation",
             priority=TaskPriority.CRITICAL,
-            component="governance.guardian",
+            component="lukhas.governance.guardian",
             description="Perform ethical drift evaluation",
             consciousness_context="guardian_ethics",
         )
@@ -394,7 +394,7 @@ class TestAsyncReliabilityIntegration:
             threat_detection(),
             name="threat_detection",
             priority=TaskPriority.CRITICAL,
-            component="governance.guardian",
+            component="lukhas.governance.guardian",
             description="Scan for security threats",
             consciousness_context="guardian_security",
         )

@@ -47,7 +47,7 @@ def test_enhanced_creative_state_accepts_quantum_state() -> None:
         cognitive_enhancement=cognitive,
         synaptic_plasticity=0.9,
         creative_flow_intensity=0.8,
-        inspiration_sources=["dream", "memory"],
+        inspiration_sources=["dream", "lukhas.memory"],
     )
 
     assert enhanced.base_state is state

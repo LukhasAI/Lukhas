@@ -811,8 +811,8 @@ class TestProductionHardening:
 
         # Test param_bytes_lte predicate compilation
         rule = compile_rule('param_bytes_lte(params.memory, "1GB")')
-        plan = {"action": "compute", "params": {"memory": "512MB"}}
+        plan = {"action": "compute", "params": {"lukhas.memory": "512MB"}}
         assert rule(plan) == True
 
-        plan = {"action": "compute", "params": {"memory": "2GB"}}
+        plan = {"action": "compute", "params": {"lukhas.memory": "2GB"}}
         assert rule(plan) == False

@@ -19,10 +19,10 @@ from typing import Dict, List
 import pytest
 
 try:
-    from candidate.memory.consolidation import MemoryConsolidator
+    from labs.memory.consolidation import MemoryConsolidator
     from lukhas.memory.recall import MemoryRecallEngine
     from lukhas.observability.prometheus_metrics import LUKHASMetrics
-    from memory.adaptive_memory import AdaptiveMemorySystem, MemoryFold, MemoryItem, MemoryType
+    from lukhas.memory.adaptive_memory import AdaptiveMemorySystem, MemoryFold, MemoryItem, MemoryType
     MEMORY_AVAILABLE = True
 except ImportError:
     # Fallback for testing without full memory system

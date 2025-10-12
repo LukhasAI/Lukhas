@@ -86,7 +86,7 @@ class TestReflectionEngineUnit:
 
     async def test_engine_initialization_with_context_providers(self):
         """Test engine initialization with context providers"""
-        provider1 = MockContextProvider({"memory": "data"})
+        provider1 = MockContextProvider({"lukhas.memory": "data"})
         provider2 = MockContextProvider({"emotion": "calm"})
 
         engine = SelfReflectionEngine()
@@ -489,7 +489,7 @@ class TestReflectionEnginePerformance:
         """
         # Create context providers
         providers = [
-            MockContextProvider({"memory": f"data_{i}"})
+            MockContextProvider({"lukhas.memory": f"data_{i}"})
             for i in range(3)
         ]
 

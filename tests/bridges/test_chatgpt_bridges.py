@@ -113,7 +113,7 @@ def test_bridge_does_not_pollute_sys_modules() -> None:
 
     # Allow backend modules to be loaded too
     unexpected = new_modules - expected - {
-        m for m in new_modules if m.startswith("lukhas_website.") or m.startswith("candidate.")
+        m for m in new_modules if m.startswith("lukhas_website.") or m.startswith("labs.")
     }
 
     assert len(unexpected) < 5, f"Bridge imported unexpected modules: {unexpected}"

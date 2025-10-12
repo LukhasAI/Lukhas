@@ -31,7 +31,7 @@ def _load_module(module_name: str, relative_path: str):
 
 def _load_qi_financial_engine():
     return _load_module(
-        "candidate.core.qi_financial.qi_financial_consciousness_engine",
+        "labs.core.qi_financial.qi_financial_consciousness_engine",
         "candidate/core/qi_financial/qi_financial_consciousness_engine.py",
     )
 

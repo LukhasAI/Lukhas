@@ -929,7 +929,7 @@ class ComprehensiveCoverageFramework:
                 except asyncio.TimeoutError:
                     return {'success': True, 'outcome': 'error_handled_gracefully'}
 
-            elif error_type == "memory":
+            elif error_type == "lukhas.memory":
                 # Simulate memory pressure
                 large_data = 'x' * 1000000  # 1MB string
                 result = await self.cognitive_components['thought_engine'].synthesize_thought(

@@ -419,13 +419,13 @@ class TestStreamIntegration:
         assert all(e.lane == "experimental" for e in exp_events)
 
         # Test candidate lane
-        os.environ["LUKHAS_LANE"] = "candidate"
+        os.environ["LUKHAS_LANE"] = "labs"
         cand_stream = ConsciousnessStream()
-        assert cand_stream.lane == "candidate"
+        assert cand_stream.lane == "labs"
 
         cand_stream._on_consciousness_tick(1)
         cand_events = cand_stream.get_recent_events()
-        assert all(e.lane == "candidate" for e in cand_events)
+        assert all(e.lane == "labs" for e in cand_events)
 
     def teardown_method(self):
         """Clean up after tests."""

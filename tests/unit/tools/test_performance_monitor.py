@@ -11,7 +11,7 @@ import pytest
 # Mark all tests in this file as asyncio
 pytestmark = pytest.mark.asyncio
 
-from candidate.tools.performance_monitor import (
+from labs.tools.performance_monitor import (
     PerformanceAnalyzer,
     PerformanceMonitor,
     PerformanceOptimizer,
@@ -24,7 +24,7 @@ from candidate.tools.performance_monitor import (
 @pytest.fixture
 def mock_psutil():
     """Fixture to mock psutil functions."""
-    with patch('candidate.tools.performance_monitor.psutil') as mock_psutil_module:
+    with patch('labs.tools.performance_monitor.psutil') as mock_psutil_module:
         # Mock CPU
         mock_psutil_module.cpu_percent.return_value = 50.0
 
@@ -133,7 +133,7 @@ class TestPerformanceAnalyzer:
 
     def test_analyze_metrics_and_generate_alerts(self):
         """Tests that alerts are generated when metrics exceed thresholds."""
-        from candidate.tools.performance_monitor import PerformanceMetric
+        from labs.tools.performance_monitor import PerformanceMetric
         analyzer = PerformanceAnalyzer()
 
         # Create metrics that should trigger alerts
@@ -164,7 +164,7 @@ class TestPerformanceOptimizer:
 
     def test_generate_recommendations(self):
         """Tests that correct recommendations are generated from metrics."""
-        from candidate.tools.performance_monitor import PerformanceMetric
+        from labs.tools.performance_monitor import PerformanceMetric
         optimizer = PerformanceOptimizer()
 
         metrics = [
@@ -187,7 +187,7 @@ class TestPerformanceMonitor:
     """Integration tests for the main PerformanceMonitor class."""
 
     @patch('builtins.open')
-    @patch('candidate.tools.performance_monitor.asyncio.sleep', return_value=None)
+    @patch('labs.tools.performance_monitor.asyncio.sleep', return_value=None)
     async def test_monitor_integration_loop(self, mock_sleep, mock_open, mock_psutil):
         """
         Tests the full integration of the PerformanceMonitor, including the

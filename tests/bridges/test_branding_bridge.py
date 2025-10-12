@@ -31,7 +31,7 @@ def test_branding_exports():
 def test_branding_single_source_of_truth():
     """Verify branding data comes from candidate.branding."""
     import branding
-    from candidate.branding import APPROVED_TERMS as canonical_terms
+    from labs.branding import APPROVED_TERMS as canonical_terms
 
     # Should be same object (not a copy)
     assert branding.APPROVED_TERMS is canonical_terms

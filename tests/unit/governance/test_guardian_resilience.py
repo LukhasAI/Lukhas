@@ -3,7 +3,7 @@ from datetime import datetime, timedelta, timezone
 
 import pytest
 
-from candidate.governance.guardian_system_integration import (
+from labs.governance.guardian_system_integration import (
     GuardianSystemIntegration,
     GuardianValidationRequest,
 )

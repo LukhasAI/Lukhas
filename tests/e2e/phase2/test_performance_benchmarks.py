@@ -38,13 +38,13 @@ PLACEHOLDER_PASSWORD = "a-secure-password"  # nosec B105
 
 # Performance testing imports with fallback handling
 try:
-    from candidate.memory.service import MemoryService
-    from candidate.orchestration.high_performance_context_bus import (
+    from labs.memory.service import MemoryService
+    from labs.orchestration.high_performance_context_bus import (
         HighPerformanceContextBus,
     )
-    from candidate.orchestration.multi_model_orchestration import MultiModelOrchestrator
-    from candidate.tools.tool_executor import ToolExecutor
-    from governance.guardian_system import GuardianSystem
+    from labs.orchestration.multi_model_orchestration import MultiModelOrchestrator
+    from labs.tools.tool_executor import ToolExecutor
+    from lukhas.governance.guardian_system import GuardianSystem
     from identity.core import IdentitySystem
 except ImportError as e:
     pytest.skip(f"Performance testing modules not available: {e}", allow_module_level=True)
@@ -618,7 +618,7 @@ class TestSystemLoadPerformance:
         async def mixed_workload():
             import random
 
-            operation_type = random.choice(["auth", "guardian", "memory", "orchestration"])
+            operation_type = random.choice(["auth", "guardian", "lukhas.memory", "orchestration"])
 
             if operation_type == "auth":
                 await asyncio.sleep(0.05)  # Simulate 50ms auth
@@ -626,9 +626,9 @@ class TestSystemLoadPerformance:
             elif operation_type == "guardian":
                 await asyncio.sleep(0.1)  # Simulate 100ms guardian
                 return {"type": "guardian", "success": True}
-            elif operation_type == "memory":
+            elif operation_type == "lukhas.memory":
                 await asyncio.sleep(0.005)  # Simulate 5ms memory
-                return {"type": "memory", "success": True}
+                return {"type": "lukhas.memory", "success": True}
             else:
                 await asyncio.sleep(0.2)  # Simulate 200ms orchestration
                 return {"type": "orchestration", "success": True}

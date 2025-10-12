@@ -68,7 +68,7 @@ async def test_concurrent_module_emissions():
             system.emitters["consciousness"].emit_awareness_pulse(0.8),
             system.emitters["orchestration"].emit_network_health_pulse(),
             system.emitters["identity"].emit_identity_authentication(0.9, {"test": True}),
-            system.emitters["governance"].emit_guardian_compliance_signal(0.95, [], 0.02),
+            system.emitters["lukhas.governance"].emit_guardian_compliance_signal(0.95, [], 0.02),
             # Add more awareness pulses to stress test
             system.emitters["consciousness"].emit_awareness_pulse(0.7),
             system.emitters["consciousness"].emit_awareness_pulse(0.9),

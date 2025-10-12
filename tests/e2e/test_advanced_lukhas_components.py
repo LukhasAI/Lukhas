@@ -176,7 +176,7 @@ class TestMemoryFoldSystem:
     def test_fold_creation_and_compression(self) -> bool:
         """Test memory fold creation with different data types"""
         try:
-            from candidate.memory.fold_system import FoldManager
+            from labs.memory.fold_system import FoldManager
 
             print("    💾 Testing fold creation and compression...")
 
@@ -234,7 +234,7 @@ class TestMemoryFoldSystem:
             print("    🛡️ Testing cascade prevention...")
 
             if not self.fold_manager:
-                from candidate.memory.fold_system import FoldManager
+                from labs.memory.fold_system import FoldManager
 
                 self.fold_manager = FoldManager()
 
@@ -272,7 +272,7 @@ class TestMemoryFoldSystem:
             print("    🔄 Testing memory consolidation...")
 
             if not self.fold_manager:
-                from candidate.memory.fold_system import FoldManager
+                from labs.memory.fold_system import FoldManager
 
                 self.fold_manager = FoldManager()
 
@@ -306,7 +306,7 @@ class TestMemoryFoldSystem:
             print("    📊 Testing performance metrics...")
 
             if not self.fold_manager:
-                from candidate.memory.fold_system import FoldManager
+                from labs.memory.fold_system import FoldManager
 
                 self.fold_manager = FoldManager()
 
@@ -398,7 +398,7 @@ class TestDreamSystem:
                 "message_id": "dream_001",
                 "source_widget": "consciousness_engine",
                 "context_tier": "T3",
-                "tags": ["lucid", "symbolic", "memory"],
+                "tags": ["lucid", "symbolic", "lukhas.memory"],
                 "emotion_vector": {"joy": 0.7, "calm": 0.8, "stress": 0.2, "longing": 0.4},
                 "emoji": "🌙",
                 "replay_candidate": True,

@@ -270,7 +270,7 @@ def test_consciousness_quantum_integration():
                 "quantum_coherence": 0.9,
                 "triad_context": {
                     "identity": "active",
-                    "memory": "accessible",
+                    "lukhas.memory": "accessible",
                     "guardian": "monitoring",
                 },
             },
@@ -354,7 +354,7 @@ def test_quantum_optimization_and_machine_learning():
             },
             {
                 "algorithm": "quantum_consciousness_learning",
-                "consciousness_features": ["awareness", "memory", "attention"],
+                "consciousness_features": ["awareness", "lukhas.memory", "attention"],
                 "learning_rate": 0.01,
             },
         ]

@@ -645,7 +645,7 @@ class TestMainApplication:
 
             # Test that core modules are accessible
             accessible_modules = []
-            test_modules = ["core", "candidate", "identity"]
+            test_modules = ["core", "labs", "identity"]
 
             for module in test_modules:
                 try:

@@ -17,7 +17,7 @@ from pathlib import Path
 import pytest
 import yaml
 
-from candidate.bridge.api.controllers import (
+from labs.bridge.api.controllers import (
     ImportController,
     ImportViolation,
     ServiceLane as Lane,
@@ -183,7 +183,7 @@ def test_import_controller_yaml_lane_definitions(matriz_config):
     lanes = matriz_config["lanes"]
     
     # Essential lanes should be defined
-    essential_lanes = ["lukhas", "candidate", "core", "matriz"]
+    essential_lanes = ["lukhas", "labs", "core", "matriz"]
     
     for lane in essential_lanes:
         # Check if lane exists (case-insensitive)
@@ -256,7 +256,7 @@ def test_import_controller_yaml_candidate_rules(matriz_config):
     # Find candidate lane
     candidate_lane = None
     for lane_name, lane_config in lanes.items():
-        if lane_name.lower() == "candidate":
+        if lane_name.lower() == "labs":
             candidate_lane = lane_config
             break
     

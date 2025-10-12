@@ -8,10 +8,10 @@ ROOT = Path(__file__).resolve().parents[4]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-for module_name in ["candidate", "candidate.core", "candidate.core.task_manager"]:
+for module_name in ["labs", "labs.core", "labs.core.task_manager"]:
     sys.modules.pop(module_name, None)
 
-from candidate.core.task_manager import LukhλsTaskManager, TaskPriority
+from labs.core.task_manager import LukhλsTaskManager, TaskPriority
 
 
 @pytest.mark.asyncio

@@ -122,7 +122,7 @@ class TestLUKHASMetricsWithPrometheus:
         metrics.record_request("/api/error", "GET", "500", 0.05)
 
         # Record errors
-        metrics.record_error("memory", "OutOfMemoryError")
+        metrics.record_error("lukhas.memory", "OutOfMemoryError")
         metrics.record_error("matriz", "TimeoutError")
 
         # Update uptime
@@ -187,14 +187,14 @@ class TestLUKHASMetricsWithPrometheus:
         # Record plugin stats
         metrics.record_plugin_stats({
             "cognitive": {"active": 15, "failed": 2},
-            "memory": {"active": 8, "failed": 0},
+            "lukhas.memory": {"active": 8, "failed": 0},
             "orchestration": {"active": 5, "failed": 1},
         })
 
     def test_lane_label_instrumentation(self):
         """Ensure lane labels are applied to emitted metrics."""
         previous_lane = os.environ.get("LUKHAS_LANE")
-        os.environ["LUKHAS_LANE"] = "candidate"
+        os.environ["LUKHAS_LANE"] = "labs"
         try:
             config = MetricsConfig(push_gateway_url=None)
             metrics = LUKHASMetrics(config)
@@ -202,7 +202,7 @@ class TestLUKHASMetricsWithPrometheus:
 
             metric_family = metrics.requests_total.collect()[0]
             lane_labels = [sample.labels.get("lane") for sample in metric_family.samples]
-            assert "candidate" in lane_labels
+            assert "labs" in lane_labels
         finally:
             if previous_lane is None:
                 os.environ.pop("LUKHAS_LANE", None)
@@ -366,7 +366,7 @@ class TestMetricsIntegration:
         # Update plugin stats
         metrics.record_plugin_stats({
             "cognitive": {"active": 12, "failed": 1},
-            "memory": {"active": 6, "failed": 0},
+            "lukhas.memory": {"active": 6, "failed": 0},
             "orchestration": {"active": 4, "failed": 0},
         })
 
@@ -376,7 +376,7 @@ class TestMetricsIntegration:
         metrics = get_lukhas_metrics() or LUKHASMetrics(config)
 
         # System errors
-        metrics.record_error("memory", "OutOfMemoryError")
+        metrics.record_error("lukhas.memory", "OutOfMemoryError")
         metrics.record_error("matriz", "TimeoutError")
         metrics.record_error("plugins", "ImportError")
 

@@ -96,7 +96,7 @@ def main():
             capability_gaps.append(name)
 
         if star == "⚛️ Ambiguity (Quantum)":
-            invalid_stars.append(name)
+            invalid_stars.append(f"{name} (deprecated, use '🔮 Oracle (Quantum)')")
 
         if len(sample_modules) < 25:
             sample_modules.append({

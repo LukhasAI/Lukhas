@@ -10,7 +10,7 @@ import pytest
 def test_distributed_tracer_comprehensive_initialization():
     """Test distributed tracer comprehensive initialization patterns."""
     try:
-        from candidate.core.distributed_tracing import DistributedTracer
+        from labs.core.distributed_tracing import DistributedTracer
 
         # Test various initialization patterns
         initialization_patterns = [
@@ -46,7 +46,7 @@ def test_distributed_tracer_comprehensive_initialization():
 def test_span_lifecycle_comprehensive():
     """Test comprehensive span creation, management, and lifecycle."""
     try:
-        from candidate.core.distributed_tracing import DistributedTracer
+        from labs.core.distributed_tracing import DistributedTracer
 
         tracer = DistributedTracer(service_name="test_service")
 
@@ -77,9 +77,9 @@ def test_span_lifecycle_comprehensive():
                 "operation_name": "memory_fold_operation",
                 "trace_id": str(uuid4()),
                 "tags": {
-                    "memory.fold_count": 1000,
-                    "memory.cascade_prevention": True,
-                    "memory.emotional_context": "high",
+                    "lukhas.memory.fold_count": 1000,
+                    "lukhas.memory.cascade_prevention": True,
+                    "lukhas.memory.emotional_context": "high",
                 },
             },
         ]
@@ -127,7 +127,7 @@ def test_span_lifecycle_comprehensive():
 def test_trace_context_propagation():
     """Test trace context propagation and distributed tracing across services."""
     try:
-        from candidate.core.distributed_tracing import DistributedTracer
+        from labs.core.distributed_tracing import DistributedTracer
 
         tracer = DistributedTracer(service_name="test_service")
 
@@ -197,7 +197,7 @@ def test_trace_context_propagation():
 def test_metrics_and_observability():
     """Test metrics collection and observability features."""
     try:
-        from candidate.core.distributed_tracing import DistributedTracer
+        from labs.core.distributed_tracing import DistributedTracer
 
         tracer = DistributedTracer(service_name="test_service")
 
@@ -263,7 +263,7 @@ def test_metrics_and_observability():
 def test_sampling_and_filtering():
     """Test trace sampling, filtering, and performance optimization."""
     try:
-        from candidate.core.distributed_tracing import DistributedTracer
+        from labs.core.distributed_tracing import DistributedTracer
 
         # Test various sampling configurations
         sampling_configs = [
@@ -313,7 +313,7 @@ def test_sampling_and_filtering():
 def test_export_and_backends():
     """Test trace export to various backends and storage systems."""
     try:
-        from candidate.core.distributed_tracing import DistributedTracer
+        from labs.core.distributed_tracing import DistributedTracer
 
         tracer = DistributedTracer(service_name="test_service")
 
@@ -375,7 +375,7 @@ def test_export_and_backends():
 def test_consciousness_aware_tracing():
     """Test consciousness-aware tracing specific to LUKHAS AI architecture."""
     try:
-        from candidate.core.distributed_tracing import DistributedTracer
+        from labs.core.distributed_tracing import DistributedTracer
 
         tracer = DistributedTracer(service_name="consciousness_tracer")
 
@@ -387,7 +387,7 @@ def test_consciousness_aware_tracing():
                 "awareness_level": "high",
                 "triad_context": {
                     "identity": "active",
-                    "memory": "accessible",
+                    "lukhas.memory": "accessible",
                     "guardian": "monitoring",
                 },
             },
@@ -440,7 +440,7 @@ def test_consciousness_aware_tracing():
 def test_error_handling_and_edge_cases():
     """Test error handling, edge cases, and resilience."""
     try:
-        from candidate.core.distributed_tracing import DistributedTracer
+        from labs.core.distributed_tracing import DistributedTracer
 
         tracer = DistributedTracer(service_name="test_service")
 

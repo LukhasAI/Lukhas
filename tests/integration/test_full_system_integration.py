@@ -10,7 +10,7 @@ from unittest.mock import AsyncMock, Mock
 
 import pytest
 
-from governance.audit_trail import AuditEventType, AuditLevel, AuditTrail, ComplianceFramework
+from lukhas.governance.audit_trail import AuditEventType, AuditLevel, AuditTrail, ComplianceFramework
 from identity.tiers import TierSystem
 from lukhas.consciousness.consciousness_stream import ConsciousnessStream
 from lukhas.consciousness.memory_bridge import MemoryConsciousnessBridge

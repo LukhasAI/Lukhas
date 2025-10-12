@@ -17,7 +17,7 @@ logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(
 logger = logging.getLogger(__name__)
 
 # Add candidate/core to path
-candidate_core_path = Path(__file__).parent / "candidate" / "core"
+candidate_core_path = Path(__file__).parent / "labs" / "core"
 sys.path.insert(0, str(candidate_core_path))
 
 

@@ -330,7 +330,7 @@ class TestGuardianDSLIntegration:
 
         context = sample_contexts["financial_high_risk"]
 
-        with patch('candidate.core.ethics.guardian_drift_bands.logger') as mock_logger:
+        with patch('labs.core.ethics.guardian_drift_bands.logger') as mock_logger:
             result = guardian_engine.evaluate_safety(
                 context=context,
                 category=SafetyCategory.FINANCIAL,

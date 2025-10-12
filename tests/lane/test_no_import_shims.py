@@ -41,7 +41,7 @@ def test_no_importlib_candidate_shims():
                     # Check if argument contains "candidate"
                     arg = node.args[0]
                     if isinstance(arg, ast.Constant) and isinstance(arg.value, str):
-                        if "candidate" in arg.value:
+                        if "labs" in arg.value:
                             violations.append(f"{rel_path}:{node.lineno}")
 
         except Exception:

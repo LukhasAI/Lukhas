@@ -3,7 +3,7 @@ import pytest
 
 @pytest.mark.no_mock
 def test_memory_wrapper_initializes():
-    from memory import MemoryWrapper
+    from lukhas.memory import MemoryWrapper
 
     mw = MemoryWrapper()
     # MemoryWrapper uses different method names, test what actually exists

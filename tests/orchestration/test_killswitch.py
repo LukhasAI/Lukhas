@@ -19,8 +19,8 @@ def test_emergency_disable_takes_effect(monkeypatch, tmp_path):
     monkeypatch.setenv("GUARDIAN_EMERGENCY_DISABLE_PATH", str(kill_switch))
     monkeypatch.setenv("ENFORCE_ETHICS_DSL", "1")
     monkeypatch.setenv("LUKHAS_CANARY_PERCENT", "100")
-    monkeypatch.setenv("LUKHAS_LANE", "candidate")
-    monkeypatch.setenv("LUKHAS_GUARDIAN_ENFORCED_LANES", "candidate")
+    monkeypatch.setenv("LUKHAS_LANE", "labs")
+    monkeypatch.setenv("LUKHAS_GUARDIAN_ENFORCED_LANES", "labs")
 
     verifier = PlanVerifier()
     verifier.guardian_bands.evaluate = lambda *args, **kwargs: GuardianBandResult(

@@ -24,7 +24,7 @@ def test_explicit_lane_override():
     """Lane can be explicitly overridden"""
     test_cases = [
         ("production", "production"),
-        ("candidate", "candidate"),
+        ("labs", "labs"),
         ("experimental", "experimental"),
     ]
 

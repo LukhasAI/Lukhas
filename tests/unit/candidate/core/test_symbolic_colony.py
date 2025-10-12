@@ -8,7 +8,7 @@ ROOT = Path(__file__).resolve().parents[4]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-for module_name in ["candidate", "candidate.core", "candidate.core.symbolic_core", "candidate.core.symbolic_core.colony_tag_propagation"]:
+for module_name in ["labs", "labs.core", "labs.core.symbolic_core", "labs.core.symbolic_core.colony_tag_propagation"]:
     sys.modules.pop(module_name, None)
 
 loop = asyncio.new_event_loop()

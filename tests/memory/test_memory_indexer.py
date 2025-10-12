@@ -10,7 +10,7 @@ import asyncio
 import numpy as np
 import pytest
 
-from memory.indexer import (
+from lukhas.memory.indexer import (
     ContentExtractor,
     DocumentIndexer,
     OpenAIEmbeddingProvider,
@@ -191,7 +191,7 @@ class TestDocumentIndexer:
             content="This is a test document for indexing",
             metadata={"source": "test"},
             identity_id="test-identity",
-            lane="candidate"
+            lane="labs"
         )
 
         assert result.success is True
@@ -199,7 +199,7 @@ class TestDocumentIndexer:
         assert result.document is not None
         assert result.document.id == "test-doc-1"
         assert result.document.identity_id == "test-identity"
-        assert result.document.lane == "candidate"
+        assert result.document.lane == "labs"
         assert result.word_count > 0
         assert result.processing_time_ms > 0
         assert "indexer" in result.document.metadata
@@ -210,7 +210,7 @@ class TestDocumentIndexer:
         result = await self.indexer.index_document(
             document_id="empty-doc",
             content="",
-            lane="candidate"
+            lane="labs"
         )
 
         assert result.success is False
@@ -222,7 +222,7 @@ class TestDocumentIndexer:
         result = await self.indexer.index_document(
             document_id="",
             content="Test content",
-            lane="candidate"
+            lane="labs"
         )
 
         assert result.success is False
@@ -237,7 +237,7 @@ class TestDocumentIndexer:
         result1 = await self.indexer.index_document(
             document_id="doc-1",
             content=content,
-            lane="candidate"
+            lane="labs"
         )
         assert result1.success is True
 
@@ -245,7 +245,7 @@ class TestDocumentIndexer:
         result2 = await self.indexer.index_document(
             document_id="doc-2",
             content=content,
-            lane="candidate"
+            lane="labs"
         )
         assert result2.success is False
         assert result2.duplicate_of == "doc-1"
@@ -262,8 +262,8 @@ class TestDocumentIndexer:
         content = "Duplicate content test"
 
         # Index same content twice
-        result1 = await indexer.index_document("doc-1", content, lane="candidate")
-        result2 = await indexer.index_document("doc-2", content, lane="candidate")
+        result1 = await indexer.index_document("doc-1", content, lane="labs")
+        result2 = await indexer.index_document("doc-2", content, lane="labs")
 
         assert result1.success is True
         assert result2.success is True
@@ -277,19 +277,19 @@ class TestDocumentIndexer:
                 "id": "batch-doc-1",
                 "content": "First document in batch",
                 "metadata": {"batch": True},
-                "lane": "candidate"
+                "lane": "labs"
             },
             {
                 "id": "batch-doc-2",
                 "content": "Second document in batch",
                 "metadata": {"batch": True},
-                "lane": "candidate"
+                "lane": "labs"
             },
             {
                 "id": "batch-doc-3",
                 "content": "Third document in batch",
                 "metadata": {"batch": True},
-                "lane": "candidate"
+                "lane": "labs"
             }
         ]
 
@@ -305,9 +305,9 @@ class TestDocumentIndexer:
     async def test_batch_with_errors(self):
         """Test batch indexing with some errors"""
         documents = [
-            {"id": "good-doc", "content": "Valid document", "lane": "candidate"},
-            {"id": "", "content": "Missing ID", "lane": "candidate"},  # Error: missing ID
-            {"id": "empty-content", "content": "", "lane": "candidate"},  # Error: empty content
+            {"id": "good-doc", "content": "Valid document", "lane": "labs"},
+            {"id": "", "content": "Missing ID", "lane": "labs"},  # Error: missing ID
+            {"id": "empty-content", "content": "", "lane": "labs"},  # Error: empty content
         ]
 
         results = await self.indexer.index_batch(documents)
@@ -325,7 +325,7 @@ class TestDocumentIndexer:
         result = await self.indexer.index_document(
             document_id="analysis-test",
             content=content,
-            lane="candidate"
+            lane="labs"
         )
 
         assert result.success is True
@@ -344,7 +344,7 @@ class TestDocumentIndexer:
             identity_id="test-identity",
             fold_id="test-fold",
             tags=["test", "metadata"],
-            lane="candidate"
+            lane="labs"
         )
 
         assert result.success is True
@@ -380,9 +380,9 @@ class TestDocumentIndexer:
         stats_before = self.indexer.get_statistics()
 
         # Run some indexing operations
-        asyncio.run(self.indexer.index_document("stat-test-1", "Content 1", lane="candidate"))
-        asyncio.run(self.indexer.index_document("stat-test-2", "Content 2", lane="candidate"))
-        asyncio.run(self.indexer.index_document("stat-test-3", "Content 1", lane="candidate"))  # Duplicate
+        asyncio.run(self.indexer.index_document("stat-test-1", "Content 1", lane="labs"))
+        asyncio.run(self.indexer.index_document("stat-test-2", "Content 2", lane="labs"))
+        asyncio.run(self.indexer.index_document("stat-test-3", "Content 1", lane="labs"))  # Duplicate
 
         stats_after = self.indexer.get_statistics()
 
@@ -395,7 +395,7 @@ class TestDocumentIndexer:
     def test_deduplication_cache_management(self):
         """Test deduplication cache management"""
         # Add some content to cache
-        asyncio.run(self.indexer.index_document("cache-test", "Cache test content", lane="candidate"))
+        asyncio.run(self.indexer.index_document("cache-test", "Cache test content", lane="labs"))
 
         assert len(self.indexer.content_hashes) == 1
 
@@ -413,7 +413,7 @@ class TestDocumentIndexer:
         result = await self.indexer.index_document(
             document_id="perf-test",
             content=content,
-            lane="candidate"
+            lane="labs"
         )
         end_time = asyncio.get_event_loop().time()
 
@@ -436,7 +436,7 @@ async def test_integration_indexer_with_backends():
     result = await openai_indexer.index_document(
         document_id="integration-openai",
         content="Integration test with OpenAI provider",
-        lane="candidate"
+        lane="labs"
     )
 
     assert result.success is True
@@ -449,7 +449,7 @@ async def test_integration_indexer_with_backends():
     result = await st_indexer.index_document(
         document_id="integration-st",
         content="Integration test with SentenceTransformers provider",
-        lane="candidate"
+        lane="labs"
     )
 
     assert result.success is True
@@ -468,7 +468,7 @@ async def test_concurrent_indexing():
         task = indexer.index_document(
             document_id=f"concurrent-{i}",
             content=f"Concurrent test document {i}",
-            lane="candidate"
+            lane="labs"
         )
         tasks.append(task)
 

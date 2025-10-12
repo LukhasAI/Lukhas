@@ -49,7 +49,7 @@ class TestGovernanceCapabilities:
         # Test across multiple lanes for governance matrix
         test_cases = [
             ("experimental", "malicious_action", 0.9),  # High risk in experimental
-            ("candidate", "action", 0.6),               # Medium risk in candidate
+            ("labs", "action", 0.6),               # Medium risk in candidate
             ("prod", "action", 0.3),                    # Low risk in prod (above threshold)
         ]
 
@@ -100,8 +100,8 @@ class TestGovernanceCapabilities:
         """
         # Test promotion from experimental -> candidate -> prod
         promotion_chain = [
-            ("experimental", "candidate"),
-            ("candidate", "prod")
+            ("experimental", "labs"),
+            ("labs", "prod")
         ]
 
         for source_lane, target_lane in promotion_chain:
@@ -136,7 +136,7 @@ class TestGovernanceCapabilities:
             )
 
             # Promotion should succeed for allowed hierarchy
-            if target_lane in ["candidate", "prod"]:
+            if target_lane in ["labs", "prod"]:
                 assert promotion_event.allow, f"Promotion from {source_lane} to {target_lane} should succeed"
                 assert promotion_event.result == PolicyResult.ALLOW
 
@@ -229,8 +229,8 @@ class TestGovernanceCapabilities:
         across the policy and synchronization subsystems.
         """
         # Create coordinated governance components
-        policy_guard = PolicyGuard(lane="candidate")
-        memory_syncer = MemorySynchronizer(lane="candidate")
+        policy_guard = PolicyGuard(lane="labs")
+        memory_syncer = MemorySynchronizer(lane="labs")
 
         # Test scenario: Policy allows event, sync should be coherent
         test_event = {
@@ -252,8 +252,8 @@ class TestGovernanceCapabilities:
         # If policy allows, memory sync should also succeed (coherence)
         if policy_decision.allow:
             sync_result = memory_syncer.sync_fold(
-                source_lane="candidate",
-                target_lane="candidate",
+                source_lane="labs",
+                target_lane="labs",
                 fold_data=test_event,
                 fold_id="governance_test"
             )
@@ -458,7 +458,7 @@ class TestGovernanceCapabilities:
         """
         # Create guards for promotion chain
         experimental_guard = PolicyGuard(lane="experimental")
-        candidate_guard = PolicyGuard(lane="candidate")
+        candidate_guard = PolicyGuard(lane="labs")
 
         # Test cross-lane promotion attempts
         promotion_scenarios = [

@@ -58,6 +58,58 @@ jobs:
         run: |
           pytest -q -m matriz_smoke || true
 
+      - name: Security — Gitleaks scan (warn-only)
+        uses: zricethezav/gitleaks-action@v2
+        with:
+          args: "--no-git -v --source=."
+        continue-on-error: true
+
+      - name: Upload gitleaks report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: gitleaks-report
+          path: gitleaks-report.sarif
+          if-no-files-found: ignore
+
+      - name: Generate SBOM (CycloneDX)
+        continue-on-error: true
+        run: |
+          pip install cyclonedx-bom
+          python3 scripts/sbom.py --output build/sbom.cyclonedx.json
+
+      - name: Upload SBOM artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: sbom
+          path: build/sbom.cyclonedx.json
+          if-no-files-found: ignore
+
+      - name: Security — Pip Audit (warn-only)
+        continue-on-error: true
+        run: |
+          pip install pip-audit
+          mkdir -p docs/audits
+          pip-audit -f json -o docs/audits/pip_audit.json || true
+
+      - name: Security — Bandit Scan (warn-only)
+        continue-on-error: true
+        run: |
+          pip install bandit
+          mkdir -p docs/audits
+          bandit -r lukhas matriz core -f sarif -o docs/audits/bandit.sarif || true
+
+      - name: Upload security scan artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: security-scans
+          path: |
+            docs/audits/pip_audit.json
+            docs/audits/bandit.sarif
+          if-no-files-found: ignore
+
       - name: Tripwire — T1 must have testing.test_paths (may be empty)
         run: |
           python - <<'PY'
@@ -85,9 +137,9 @@ jobs:
               d=json.loads(p.read_text())
               star=d.get('constellation_alignment',{}).get('primary_star')
               if star == "⚛️ Ambiguity (Quantum)":
-                  bad.append(str(p))
+                  bad.append(f"{p} (use '🔮 Oracle (Quantum)' instead)")
           if bad:
-              print("[FAIL] Found deprecated star name in:", *bad, sep="\n  ")
+              print("[FAIL] Found deprecated star name 'Ambiguity (Quantum)'. Use '🔮 Oracle (Quantum)':", *bad, sep="\n  ")
               sys.exit(1)
           PY
 

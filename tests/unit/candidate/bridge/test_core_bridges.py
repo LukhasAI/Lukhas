@@ -37,7 +37,7 @@ core_consciousness_bridge = _load_bridge("core_consciousness_bridge")
 identity_core_bridge = _load_bridge("identity_core_bridge")
 core_safety_bridge = _load_bridge("core_safety_bridge")
 consciousness_qi_bridge = _load_module(
-    "candidate.core.bridges.consciousness_qi_bridge",
+    "labs.core.bridges.consciousness_qi_bridge",
     "candidate/core/bridges/consciousness_qi_bridge.py",
 )
 

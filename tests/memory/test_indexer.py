@@ -4,8 +4,8 @@ from unittest.mock import Mock
 
 import pytest
 
-from memory.backends.pgvector_store import VectorDoc
-from memory.indexer import Embeddings, Indexer, _fingerprint
+from lukhas.memory.backends.pgvector_store import VectorDoc
+from lukhas.memory.indexer import Embeddings, Indexer, _fingerprint
 
 
 def test_fingerprint():
@@ -50,7 +50,7 @@ def test_indexer_initialization(mock_store):
 
 def test_indexer_upsert(indexer, mock_store):
     text = "test memory"
-    meta = {"lane": "candidate", "timestamp": 1234567890}
+    meta = {"lane": "labs", "timestamp": 1234567890}
 
     result = indexer.upsert(text, meta)
 
@@ -68,7 +68,7 @@ def test_indexer_upsert(indexer, mock_store):
 def test_indexer_search_text(indexer, mock_store):
     query = "search query"
     k = 5
-    filters = {"lane": "candidate"}
+    filters = {"lane": "labs"}
 
     result = indexer.search_text(query, k=k, filters=filters)
 

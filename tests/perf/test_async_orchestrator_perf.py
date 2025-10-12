@@ -10,7 +10,7 @@ import time
 
 import pytest
 
-from candidate.core.orchestration.async_orchestrator import AsyncOrchestrator
+from labs.core.orchestration.async_orchestrator import AsyncOrchestrator
 from core.registry import register
 from lukhas.nodes.example_nodes import DecisionNode, IntentNode, ThoughtNode
 

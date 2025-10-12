@@ -19,15 +19,15 @@ from datetime import datetime, timezone
 
 import pytest
 
-from candidate.governance.ethics.compliance_monitor import (
+from labs.governance.ethics.compliance_monitor import (
     ComplianceFramework,
     ComplianceMonitor,
     ComplianceStatus,
 )
-from candidate.governance.ethics.ethical_decision_maker import (
+from labs.governance.ethics.ethical_decision_maker import (
     AdvancedEthicalDecisionMaker,
 )
-from candidate.governance.security.access_control import (
+from labs.governance.security.access_control import (
     AccessDecision,
     AccessTier,
     AccessType,

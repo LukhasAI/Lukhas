@@ -83,7 +83,7 @@ class TestPolicyGuard:
     def test_cross_lane_replay_restrictions(self):
         """Test cross-lane replay policy enforcement."""
         exp_guard = PolicyGuard(lane="experimental")
-        cand_guard = PolicyGuard(lane="candidate")
+        cand_guard = PolicyGuard(lane="labs")
         prod_guard = PolicyGuard(lane="prod")
 
         # Experimental -> Candidate: should be allowed (same or lower level)
@@ -96,7 +96,7 @@ class TestPolicyGuard:
         # Candidate -> Experimental: should be denied (higher -> lower)
         decision = exp_guard.check_replay(
             event_kind="action",
-            source_lane="candidate"
+            source_lane="labs"
         )
         assert not decision.allow, "Should deny candidate -> experimental"
         assert decision.result == PolicyResult.DENY_LANE
@@ -239,7 +239,7 @@ class TestPolicyGuard:
 
     def test_lane_configuration_enforcement_matrix(self):
         """Test complete enforcement matrix across all lanes."""
-        lanes = ["experimental", "candidate", "prod"]
+        lanes = ["experimental", "labs", "prod"]
         test_cases = [
             # (risk_level, expected_results_by_lane [experimental, candidate, prod])
             (0.1, [True, True, True]),   # Low risk allowed everywhere
@@ -264,9 +264,9 @@ class TestPolicyGuard:
 
     def test_factory_function(self):
         """Test factory function creates guards correctly."""
-        guard = create_policy_guard(lane="candidate")
+        guard = create_policy_guard(lane="labs")
         assert isinstance(guard, PolicyGuard)
-        assert guard.lane == "candidate"
+        assert guard.lane == "labs"
 
     def test_reset_stats(self):
         """Test statistics reset functionality."""
@@ -365,9 +365,9 @@ class TestPolicyIntegration:
     def test_environment_variable_integration(self):
         """Test integration with environment variables."""
         # Test LUKHAS_LANE detection
-        with patch.dict(os.environ, {"LUKHAS_LANE": "candidate"}):
+        with patch.dict(os.environ, {"LUKHAS_LANE": "labs"}):
             guard = PolicyGuard()
-            assert guard.lane == "candidate"
+            assert guard.lane == "labs"
 
         # Test fallback to experimental
         with patch.dict(os.environ, {}, clear=True):

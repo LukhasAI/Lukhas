@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from tools.scripts.fix_post_modularization_imports import fix_imports_in_file
+from lukhas.tools.scripts.fix_post_modularization_imports import fix_imports_in_file
 
 
 def test_fix_imports_in_file(tmp_path: Path) -> None:

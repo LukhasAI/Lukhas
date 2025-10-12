@@ -152,13 +152,13 @@ class TestAuthzTelemetrySmoke:
         tracer, exporter = telemetry_setup
 
         # Create test data - guest trying to access trusted resource
-        contract = create_mock_contract("governance", ["inner_circle", "root_dev"], ["governance.enforce"])
+        contract = create_mock_contract("lukhas.governance", ["inner_circle", "root_dev"], ["lukhas.governance.enforce"])
         input_data = {
             "subject": "lukhas:user:guest123",
             "tier": "guest",
             "tier_num": 0,
-            "scopes": ["governance.enforce"],
-            "module": "governance",
+            "scopes": ["lukhas.governance.enforce"],
+            "module": "lukhas.governance",
             "action": "enforce",
             "capability_id": "cap_abcdef1234567890",
             "mfa_used": False,
@@ -183,7 +183,7 @@ class TestAuthzTelemetrySmoke:
         assert attrs["lukhas.tier_num"] == 0
         assert attrs["lukhas.decision"] == "deny"
         assert attrs["lukhas.reason"] == "Insufficient tier level"
-        assert attrs["lukhas.module"] == "governance"
+        assert attrs["lukhas.module"] == "lukhas.governance"
         assert attrs["lukhas.action"] == "enforce"
         assert attrs["lukhas.capability_id"] == "cap_abcd***7890"  # Masked
 

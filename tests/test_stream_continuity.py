@@ -171,7 +171,7 @@ class TestStreamContinuity:
         exp_metrics = exp_stream.get_stream_metrics()
 
         # Switch to candidate lane
-        os.environ["LUKHAS_LANE"] = "candidate"
+        os.environ["LUKHAS_LANE"] = "labs"
         cand_stream = ConsciousnessStream(fps=20, store_capacity=100)
 
         for i in range(30):
@@ -181,7 +181,7 @@ class TestStreamContinuity:
 
         # Verify lane isolation
         assert exp_metrics["lane"] == "experimental"
-        assert cand_metrics["lane"] == "candidate"
+        assert cand_metrics["lane"] == "labs"
 
         # Both lanes should achieve similar coherence levels
         exp_events = exp_stream.get_recent_events()

@@ -28,7 +28,7 @@ from hypothesis.strategies import text
 
 # Import the components under test
 try:
-    from governance.guardian_system import GuardianSystem
+    from lukhas.governance.guardian_system import GuardianSystem
     from identity.biometrics import BiometricAttestation, BiometricModality, MockBiometricProvider
     from identity.security_hardening import SecurityHardeningManager
     from identity.tiers import (

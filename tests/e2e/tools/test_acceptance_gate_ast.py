@@ -22,7 +22,7 @@ from textwrap import dedent
 
 import pytest
 
-from tools.acceptance_gate_ast import (
+from lukhas.tools.acceptance_gate_ast import (
     BANNED,
     AuditTrail,
     ImportScannerAST,
@@ -189,7 +189,7 @@ class TestImportScannerAST:
 
         violation1 = scanner.violations[0]
         assert violation1["type"] == "illegal_import"
-        assert violation1["module"] == "candidate.module"
+        assert violation1["module"] == "labs.module"
         assert violation1["line"] == 1
         assert violation1["statement"] == "import lukhas.module"
 
@@ -225,7 +225,7 @@ class TestImportScannerAST:
 
         violation1 = scanner.violations[0]
         assert violation1["type"] == "illegal_from_import"
-        assert violation1["module"] == "candidate.core"
+        assert violation1["module"] == "labs.core"
         assert violation1["names"] == "Module"
         assert violation1["statement"] == "from lukhas.core import Module"
 
@@ -272,7 +272,7 @@ class TestImportScannerAST:
 
         violation1 = scanner.violations[0]
         assert violation1["type"] == "illegal_dynamic_import"
-        assert violation1["module"] == "candidate.test"
+        assert violation1["module"] == "labs.test"
         assert violation1["method"] == "__import__"
         assert violation1["statement"] == "__import__('candidate.test')"
 
@@ -289,7 +289,7 @@ class TestImportScannerAST:
         scanner.visit(tree)
 
         assert len(scanner.violations) == 2
-        assert scanner.violations[0]["module"] == "candidate.core.module"
+        assert scanner.violations[0]["module"] == "labs.core.module"
         assert scanner.violations[1]["module"] == "quarantine.old.legacy"
 
     def test_statement_counting(self):
@@ -448,7 +448,7 @@ class TestFileScanComprehensive:
         ).strip()
 
         # Create test file in repository directory to avoid path issues
-        test_dir = Path(__file__).parent.parent.parent / "tests" / "tools"
+        test_dir = Path(__file__).parent.parent.parent / "tests" / "lukhas.tools"
         temp_path = test_dir / "temp_test_file.py"
 
         try:
@@ -482,7 +482,7 @@ class TestFileScanComprehensive:
         ).strip()
 
         # Create test file in repository directory
-        test_dir = Path(__file__).parent.parent.parent / "tests" / "tools"
+        test_dir = Path(__file__).parent.parent.parent / "tests" / "lukhas.tools"
         temp_path = test_dir / "temp_violations_file.py"
 
         try:
@@ -514,7 +514,7 @@ class TestFileScanComprehensive:
         ).strip()
 
         # Create test file in repository directory
-        test_dir = Path(__file__).parent.parent.parent / "tests" / "tools"
+        test_dir = Path(__file__).parent.parent.parent / "tests" / "lukhas.tools"
         temp_path = test_dir / "temp_facade_file.py"
 
         try:
@@ -535,7 +535,7 @@ class TestFileScanComprehensive:
         invalid_code = "def invalid_syntax(\n  missing closing paren"
 
         # Create test file in repository directory
-        test_dir = Path(__file__).parent.parent.parent / "tests" / "tools"
+        test_dir = Path(__file__).parent.parent.parent / "tests" / "lukhas.tools"
         temp_path = test_dir / "temp_parse_error_file.py"
 
         try:
@@ -618,7 +618,7 @@ class TestBannedImportConfiguration:
 
     def test_banned_modules_defined(self):
         """Test that banned modules are properly defined."""
-        assert "candidate" in BANNED
+        assert "labs" in BANNED
         assert "quarantine" in BANNED
         assert "archive" in BANNED
         assert len(BANNED) == 3
@@ -626,7 +626,7 @@ class TestBannedImportConfiguration:
     def test_banned_modules_detection(self):
         """Test banned module detection logic."""
         # Test direct matches
-        assert "candidate" in BANNED
+        assert "labs" in BANNED
         assert "quarantine" in BANNED
         assert "archive" in BANNED
 
@@ -653,7 +653,7 @@ class TestAcceptanceGateIntegration:
         ).strip()
 
         # Create test file in repository directory
-        test_dir = Path(__file__).parent.parent.parent / "tests" / "tools"
+        test_dir = Path(__file__).parent.parent.parent / "tests" / "lukhas.tools"
         temp_path = test_dir / "temp_integration_file.py"
 
         try:

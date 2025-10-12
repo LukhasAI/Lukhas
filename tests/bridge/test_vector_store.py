@@ -21,7 +21,7 @@ from unittest.mock import AsyncMock, Mock, patch
 
 import pytest
 
-from candidate.bridge.llm_wrappers.openai_modulated_service import (
+from labs.bridge.llm_wrappers.openai_modulated_service import (
     CompletionRequest,
     EmbeddingRequest,
     EmbeddingResult,

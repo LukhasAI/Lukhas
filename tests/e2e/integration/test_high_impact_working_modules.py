@@ -46,7 +46,7 @@ def test_core_common_comprehensive():
 
         glyph_scenarios = [
             {"symbol": GLYPHSymbol.TRUST, "context": "consciousness"},
-            {"symbol": GLYPHSymbol.REMEMBER, "context": "memory"},
+            {"symbol": GLYPHSymbol.REMEMBER, "context": "lukhas.memory"},
             {"symbol": GLYPHSymbol.PROTECT, "context": "guardian"},
             {"symbol": GLYPHSymbol.CREATE, "context": "creative"},
         ]
@@ -197,7 +197,7 @@ def test_qi_module_init_comprehensive():
 def test_core_symbolism_comprehensive():
     """Test comprehensive coverage for core symbolism modules."""
     try:
-        from candidate.core.symbolism.tags import SymbolicTag, TagProcessor
+        from labs.core.symbolism.tags import SymbolicTag, TagProcessor
         from lukhas.core.symbolism.methylation_model import MethylationModel
 
         # Test tag processing
@@ -262,7 +262,7 @@ def test_core_actor_system_comprehensive():
         # Test actor system creation
         actor_scenarios = [
             {"name": "consciousness_actor", "type": "consciousness"},
-            {"name": "memory_actor", "type": "memory"},
+            {"name": "memory_actor", "type": "lukhas.memory"},
             {"name": "guardian_actor", "type": "security"},
             {"name": "qi_actor", "type": "quantum"},
         ]
@@ -340,7 +340,7 @@ def test_core_wrapper_comprehensive():
 def test_efficient_communication_comprehensive():
     """Test comprehensive coverage for efficient communication."""
     try:
-        from candidate.core.efficient_communication import (
+        from labs.core.efficient_communication import (
             CommunicationMode,
             EfficientCommunicationFabric,
             Message,

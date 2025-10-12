@@ -24,18 +24,18 @@ import pytest
 
 # Test imports with fallback handling
 try:
-    from candidate.orchestration.high_performance_context_bus import (
+    from labs.orchestration.high_performance_context_bus import (
         ContextMessage,
         ContextPriority,
         HighPerformanceContextBus,
     )
-    from candidate.orchestration.multi_model_orchestration import (
+    from labs.orchestration.multi_model_orchestration import (
         ConsensusResult,
         ModelProvider,
         MultiModelOrchestrator,
         WorkflowExecution,
     )
-    from governance.guardian_system import GuardianSystem
+    from lukhas.governance.guardian_system import GuardianSystem
     from lukhas.bridge.anthropic_bridge import AnthropicBridge
     from lukhas.bridge.google_bridge import GoogleBridge
     from lukhas.bridge.openai_bridge import OpenAIBridge

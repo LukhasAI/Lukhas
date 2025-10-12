@@ -282,7 +282,7 @@ class TestMATRIZMetricsContract:
         validator = MATRIZMetricsContractValidator()
 
         # Test valid canonical lane values
-        valid_lanes = ["candidate", "lukhas", "MATRIZ", "integration", "production", "canary", "experimental"]
+        valid_lanes = ["labs", "lukhas", "MATRIZ", "integration", "production", "canary", "experimental"]
 
         for lane in valid_lanes:
             violations = validator.record_and_validate_matriz_metric(

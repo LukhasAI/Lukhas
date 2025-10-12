@@ -40,13 +40,13 @@ class TestVectorDocument:
             embedding=embedding,
             metadata={"test": True},
             identity_id="user-123",
-            lane="candidate"
+            lane="labs"
         )
 
         assert doc.id == "test-doc"
         assert doc.content == "Test content"
         assert doc.dimension == 4
-        assert doc.lane == "candidate"
+        assert doc.lane == "labs"
         assert doc.identity_id == "user-123"
 
     def test_document_normalization(self):
@@ -363,7 +363,7 @@ class TestInMemoryVectorStore:
                 id=f"filter-{i}",
                 content=f"Filter test {i}",
                 embedding=embedding,
-                lane="candidate" if i < 3 else "production",
+                lane="labs" if i < 3 else "production",
                 tags=["even" if i % 2 == 0 else "odd"]
             )
             await self.store.add(doc)
@@ -374,11 +374,11 @@ class TestInMemoryVectorStore:
         results = await self.store.search(
             query,
             k=10,
-            filters={"lane": "candidate"}
+            filters={"lane": "labs"}
         )
 
         assert len(results) == 3
-        assert all(r.document.lane == "candidate" for r in results)
+        assert all(r.document.lane == "labs" for r in results)
 
         # Search with tag filter
         results = await self.store.search(
@@ -461,7 +461,7 @@ class TestInMemoryVectorStore:
                 id=f"stats-{i}",
                 content=f"Stats document {i}",
                 embedding=np.random.random(384).astype(np.float32),
-                lane="candidate" if i < 2 else "production"
+                lane="labs" if i < 2 else "production"
             )
             await self.store.add(doc)
 
@@ -470,7 +470,7 @@ class TestInMemoryVectorStore:
         assert isinstance(stats, StorageStats)
         assert stats.total_documents == 3
         assert stats.active_documents == 3
-        assert stats.documents_by_lane["candidate"] == 2
+        assert stats.documents_by_lane["labs"] == 2
         assert stats.documents_by_lane["production"] == 1
 
     @pytest.mark.asyncio

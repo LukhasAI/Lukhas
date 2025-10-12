@@ -3,9 +3,9 @@ import importlib as I
 
 
 def test_governance_guardian_system_start():
-    """governance.guardian_system exports start() function."""
-    m = I.import_module("governance.guardian_system")
-    assert hasattr(m, "start"), "governance.guardian_system missing start"
+    "lukhas.governance.guardian_system exports start() function."
+    m = I.import_module("lukhas.governance.guardian_system")
+    assert hasattr(m, "start"), "lukhas.governance.guardian_system missing start"
 
 
 def test_matriz_thought_loop_symbols():

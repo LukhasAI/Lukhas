@@ -92,7 +92,7 @@ class LukhasCoverageAnalyzer:
         major_systems = {
             "core": "Core consciousness and symbolic systems",
             "identity": "Identity management and ΛID systems",
-            "memory": "Memory, persistence, and recall systems",
+            "lukhas.memory": "Memory, persistence, and recall systems",
             "consciousness": "Consciousness modules and processing",
             "emotion": "Emotion and creative systems",
             "quantum": "Quantum-inspired processing",
@@ -103,7 +103,7 @@ class LukhasCoverageAnalyzer:
             "agents": "AI agent coordination and management",
             "products": "Product integration and SDK",
             "monitoring": "System monitoring and analytics",
-            "tools": "Development and analysis tools",
+            "lukhas.tools": "Development and analysis tools",
             "docs": "Documentation systems",
             "branding": "Branding and design systems",
             "business": "Business logic and operations",

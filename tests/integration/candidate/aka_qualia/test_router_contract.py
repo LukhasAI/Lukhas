@@ -75,7 +75,7 @@ class TestRouterClientContract:
         assert status["routes_failed"] == 0
         assert status["mock_mode"] is True
 
-    @patch("candidate.aka_qualia.router_client.route_signal")
+    @patch("labs.aka_qualia.router_client.route_signal")
     def test_symbolic_router_with_mock_dependencies(self, mock_route_signal):
         """Test SymbolicMeshRouterClient with mocked LUKHAS dependencies"""
         # Create mock router module
@@ -308,7 +308,7 @@ class TestGlyphRoutingIntegration:
 class TestSymbolicSignalConversion:
     """Test conversion from PhenomenalGlyphs to LUKHAS SymbolicSignals"""
 
-    @patch("candidate.aka_qualia.router_client.time.time", return_value=1234567890.0)
+    @patch("labs.aka_qualia.router_client.time.time", return_value=1234567890.0)
     def test_glyph_to_signal_conversion(self, mock_time):
         """Test PhenomenalGlyph → SymbolicSignal conversion"""
         # Create router with mocked dependencies
@@ -395,9 +395,9 @@ class TestSymbolicSignalConversion:
 def mock_lukhas_router():
     """Fixture providing mock LUKHAS router dependencies"""
     with (
-        patch("candidate.aka_qualia.router_client.route_signal") as mock_route,
-        patch("candidate.aka_qualia.router_client.SymbolicSignal") as mock_signal,
-        patch("candidate.aka_qualia.router_client.DiagnosticSignalType") as mock_diagnostic,
+        patch("labs.aka_qualia.router_client.route_signal") as mock_route,
+        patch("labs.aka_qualia.router_client.SymbolicSignal") as mock_signal,
+        patch("labs.aka_qualia.router_client.DiagnosticSignalType") as mock_diagnostic,
     ):
         mock_diagnostic.PULSE = "PULSE"
         yield {"route_signal": mock_route, "SymbolicSignal": mock_signal, "DiagnosticSignalType": mock_diagnostic}

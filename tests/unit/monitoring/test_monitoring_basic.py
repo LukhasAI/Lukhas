@@ -21,14 +21,14 @@ def test_collect_system_metrics_structure():
     """Ensure system metrics include core categories."""
     metrics = collect_system_metrics()
     assert metrics["status"] == "collected"
-    assert set(metrics.keys()) >= {"cpu", "memory", "disk", "collection_time"}
+    assert set(metrics.keys()) >= {"cpu", "lukhas.memory", "disk", "collection_time"}
 
 
 def test_get_health_dashboard_aggregates(monkeypatch):
     """Validate health dashboard aggregates patched data."""
     dummy_metrics = {
         "cpu": {"cpu_percent": 10},
-        "memory": {"percent_used": 20},
+        "lukhas.memory": {"percent_used": 20},
         "disk": {},
         "collection_time": "now",
         "status": "collected",

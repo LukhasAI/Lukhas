@@ -122,7 +122,11 @@ if HAS_LIBCST:
             changed = False
             for alias in updated.names:
                 if m.matches(alias, m.ImportAlias(name=m.Attribute() | m.Name())):
-                    full = alias.name.code
+                    # Get module name - handle both Attribute and Name nodes
+                    if hasattr(alias.name, 'code'):
+                        full = alias.name.code
+                    else:
+                        full = cst.Module([]).code_for_node(alias.name)
                     new = rewrite_root(full, self.mapping)
                     if new and new != full:
                         names.append(alias.with_changes(name=cst.parse_expression(new)))
@@ -138,7 +142,12 @@ if HAS_LIBCST:
             # from X.Y import Z
             if updated.module is None:
                 return updated
-            full = updated.module.code
+            # Get module name - handle both Attribute and Name nodes
+            if hasattr(updated.module, 'code'):
+                full = updated.module.code
+            else:
+                # For Name nodes, convert to string
+                full = cst.Module([]).code_for_node(updated.module)
             new = rewrite_root(full, self.mapping)
             if new and new != full:
                 self.changes.append((full, new))
@@ -156,10 +165,22 @@ if HAS_LIBCST:
                         new = re.sub(rf"^{re.escape(legacy)}", canonical, text)
                         break
                 if new and new != text:
-                    # preserve quoting
-                    quote = updated.value[0]
-                    body = new.replace("\\", "\\\\").replace(quote, f"\\{quote}")
-                    return updated.with_changes(value=f"{quote}{body}{quote}")
+                    self.changes.append((text, new))
+                    # Preserve original quoting style - just replace the content
+                    old_val = updated.value
+                    # Handle prefixes (r, f, b, etc) and quotes
+                    prefix = ''
+                    quote_start = 0
+                    for i, c in enumerate(old_val):
+                        if c in ('"', "'"):
+                            prefix = old_val[:i]
+                            quote_start = i
+                            break
+                    quote_char = old_val[quote_start]
+                    # Escape the new content appropriately
+                    escaped = new.replace("\\", "\\\\").replace(quote_char, f"\\{quote_char}")
+                    new_val = f"{prefix}{quote_char}{escaped}{quote_char}"
+                    return updated.with_changes(value=new_val)
             return updated
 
 

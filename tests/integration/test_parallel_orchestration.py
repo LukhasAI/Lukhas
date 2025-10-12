@@ -15,7 +15,7 @@ import pytest
 
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
-from candidate.core.orchestration.async_orchestrator import AsyncOrchestrator
+from labs.core.orchestration.async_orchestrator import AsyncOrchestrator
 from core.interfaces import CognitiveNodeBase
 
 
@@ -46,7 +46,7 @@ class MockCognitiveNode(CognitiveNodeBase):
 def mock_resolve(key: str):
     """Mock registry resolver."""
     node_map = {
-        "node:memory": MockCognitiveNode("memory", 0.1),
+        "node:memory": MockCognitiveNode("lukhas.memory", 0.1),
         "node:attention": MockCognitiveNode("attention", 0.15),
         "node:thought": MockCognitiveNode("thought", 0.2),
         "node:risk": MockCognitiveNode("risk", 0.05),

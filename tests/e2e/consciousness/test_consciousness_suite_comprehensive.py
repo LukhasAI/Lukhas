@@ -50,7 +50,7 @@ class TestConsciousnessModuleIntegrity:
         """Test that consciousness reasoning modules can be imported"""
         try:
             # Test the modules we just fixed for syntax errors
-            from candidate.consciousness.reflection import brain_integration, core_integrator  # noqa: F401
+            from labs.consciousness.reflection import brain_integration, core_integrator  # noqa: F401
             from lukhas.consciousness.reasoning import id_reasoning_engine  # noqa: F401
 
             logger.info("✅ All consciousness reasoning modules imported successfully")
@@ -64,7 +64,7 @@ class TestConsciousnessModuleIntegrity:
         """Verify no syntax errors exist in consciousness Python files"""
         import py_compile
 
-        consciousness_dir = project_root / "candidate" / "consciousness"
+        consciousness_dir = project_root / "labs" / "consciousness"
         syntax_errors = []
 
         for py_file in consciousness_dir.rglob("*.py"):
@@ -91,7 +91,7 @@ class TestConsciousnessReasoningEngine:
     def mock_dependencies(self):
         """Mock external dependencies for testing"""
         with patch.multiple(
-            "candidate.consciousness.reasoning.id_reasoning_engine",
+            "labs.consciousness.reasoning.id_reasoning_engine",
             logger=Mock(),
             EmotionalMemoryVector=Mock(),
             create_autospec=True,
@@ -144,7 +144,7 @@ class TestBrainIntegration:
     def test_brain_integration_imports(self):
         """Test that brain integration module imports correctly after fixes"""
         try:
-            from candidate.consciousness.reflection import brain_integration
+            from labs.consciousness.reflection import brain_integration
 
             # Verify the module has expected attributes
             assert hasattr(brain_integration, "__file__")
@@ -205,7 +205,7 @@ class TestCoreIntegrator:
     def test_core_integrator_imports(self):
         """Test that core integrator module imports correctly after fixes"""
         try:
-            from candidate.consciousness.reflection import core_integrator
+            from labs.consciousness.reflection import core_integrator
 
             assert hasattr(core_integrator, "__file__")
             logger.info("✅ Core integrator module imports successfully")

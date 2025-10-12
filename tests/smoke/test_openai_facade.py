@@ -3,7 +3,7 @@ from lukhas.adapters.openai.api import get_app
 
 def test_responses_minimal():
     client = TestClient(get_app())
-    payload = {"input": "hello lukhas", "tools": []}
+    payload = {"input": "hello lukhas", "lukhas.tools": []}
     r = client.post("/v1/responses", json=payload)
     assert r.status_code == 200
     body = r.json()

@@ -91,7 +91,7 @@ class TestReportGenerator:
         # Priority mapping
         if "compliance" in test_path or "consent" in test_path:
             priority = "P1"
-        elif "ethics" in test_path or "governance" in test_path:
+        elif "ethics" in test_path or "lukhas.governance" in test_path:
             priority = "P2"
         elif "integration" in test_path:
             priority = "P1" if "mcp" in test_path else "P2"

@@ -21,10 +21,10 @@ def test_all_signal_types_have_rules_and_targets():
         "consciousness": ["awareness", "reflection", "consciousness_core"],
         "orchestration": ["network_pulse", "coordination", "health_monitoring"],
         "identity": ["authentication", "namespace", "trinity_compliance"],
-        "governance": ["compliance", "ethics", "guardian", "policy"],
+        "lukhas.governance": ["compliance", "ethics", "guardian", "policy"],
         "symbolic_core": ["symbolic_processing", "pattern_recognition"],
         "bio": ["biological_modeling", "bio_symbolic_adaptation"],
-        "memory": ["storage", "retrieval", "temporal_processing"]
+        "lukhas.memory": ["storage", "retrieval", "temporal_processing"]
     }
 
     for module_name, capabilities in test_nodes.items():

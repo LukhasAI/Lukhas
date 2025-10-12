@@ -142,7 +142,7 @@ class SystemResourceMonitor:
                 'max': max(self.metrics.cpu_usage_percent),
                 'p95': np.percentile(self.metrics.cpu_usage_percent, 95)
             },
-            'memory': {
+            'lukhas.memory': {
                 'mean_mb': statistics.mean(self.metrics.memory_usage_mb),
                 'max_mb': max(self.metrics.memory_usage_mb),
                 'p95_mb': np.percentile(self.metrics.memory_usage_mb, 95)

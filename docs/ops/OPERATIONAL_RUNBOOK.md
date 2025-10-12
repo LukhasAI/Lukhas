@@ -107,7 +107,7 @@ Replace "Constellation Framework (8 Stars)" and "lane-based architecture (candid
 - **🌙 Dream (Drift)** — Creative consciousness expansion
 - **⚖️ Ethics (North)** — Constitutional AI, democratic oversight
 - **🛡️ Guardian (Watch)** — Safety compliance, cascade prevention
-- **⚛️ Quantum (Ambiguity)** — Quantum-inspired uncertainty
+- **🔮 Oracle (Quantum)** — Quantum-inspired uncertainty
 
 ### Lanes
 

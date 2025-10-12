@@ -18,14 +18,14 @@ def test_orchestration_openai_modulated_service_stub():
 
 
 def test_governance_guardian_system_enhanced():
-    """governance.guardian_system bridge works with safe_guard + deprecate."""
-    import governance.guardian_system
+    "lukhas.governance.guardian_system bridge works with safe_guard + deprecate."
+    import lukhas.governance.guardian_system
     assert hasattr(governance.guardian_system, "__all__")
 
 
 def test_tools_performance_monitor_getlogger_compat():
-    """tools.performance_monitor provides getLogger with compat shim."""
-    import tools.performance_monitor as pm
+    "lukhas.tools.performance_monitor provides getLogger with compat shim."
+    import lukhas.tools.performance_monitor as pm
     assert hasattr(pm, "__all__")
     # Check if getLogger available (may or may not be exported)
     if "getLogger" in pm.__all__:
@@ -51,8 +51,8 @@ def test_lukhas_cognitive_core_contradiction_integrator():
     [
         "bridge.api.identity",
         "orchestration.providers.openai_modulated_service",
-        "governance.guardian_system",
-        "tools.performance_monitor",
+        "lukhas.governance.guardian_system",
+        "lukhas.tools.performance_monitor",
         "lukhas.cognitive_core.reasoning.contradiction_integrator",
     ],
 )

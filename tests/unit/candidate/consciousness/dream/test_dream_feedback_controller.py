@@ -11,7 +11,7 @@ dream_core_pkg = ModuleType("dream.core")
 dream_core_pkg.__path__ = []  # Mark as namespace package for import machinery
 sys.modules.setdefault("dream.core", dream_core_pkg)
 dream_core_snapshot_module = importlib.import_module(
-    "candidate.consciousness.dream.core.dream_snapshot"
+    "labs.consciousness.dream.core.dream_snapshot"
 )
 sys.modules["dream.core.dream_snapshot"] = dream_core_snapshot_module
 setattr(dream_core_pkg, "dream_snapshot", dream_core_snapshot_module)

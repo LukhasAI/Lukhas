@@ -19,7 +19,7 @@ import pytest
 
 # Import memory system components
 try:
-    from memory.adaptive_memory import (
+    from lukhas.memory.adaptive_memory import (
         AdaptiveMemorySystem,
         MemoryFold,
         MemoryItem,

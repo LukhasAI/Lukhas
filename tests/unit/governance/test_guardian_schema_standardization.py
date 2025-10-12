@@ -18,7 +18,7 @@ import pytest
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '../../..'))
 
-from governance.guardian_system import GuardianSystem
+from lukhas.governance.guardian_system import GuardianSystem
 
 
 class TestGuardianResponseSchema:

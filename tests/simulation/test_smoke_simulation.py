@@ -129,11 +129,11 @@ class TestSimulationSmoke:
 
         # Test without memory.inbox.dreams.write scope
         with patch("consciousness.simulation.verify_capability") as mock_verify:
-            mock_verify.side_effect = lambda scope: scope != "memory.inbox.dreams.write"
+            mock_verify.side_effect = lambda scope: scope != "lukhas.memory.inbox.dreams.write"
 
             with pytest.raises(Exception) as exc_info:
                 collect_simulation_results("sim_001", write_to_dreams=True)
-            assert "memory.inbox.dreams.write" in str(exc_info.value)
+            assert "lukhas.memory.inbox.dreams.write" in str(exc_info.value)
 
     def test_adapter_isolation_enforcement(self):
         """Test that simulation code cannot import from adapters."""

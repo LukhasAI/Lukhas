@@ -1,6 +1,6 @@
 import pytest
 
-from candidate.consciousness.reflection import ethical_drift_sentinel as sentinel_module
+from labs.consciousness.reflection import ethical_drift_sentinel as sentinel_module
 from lukhas.consciousness.reflection.ethical_drift_sentinel import (
     EthicalDriftSentinel,
     EthicalState,

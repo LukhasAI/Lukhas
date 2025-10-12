@@ -18,7 +18,7 @@ from datetime import datetime, timedelta, timezone
 
 import pytest
 
-from candidate.bridge.api.api import QRSAlgorithm as SignatureAlgorithm, QRSManager
+from labs.bridge.api.api import QRSAlgorithm as SignatureAlgorithm, QRSManager
 
 # ============================================================================
 # Fixtures

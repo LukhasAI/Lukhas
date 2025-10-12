@@ -94,7 +94,7 @@ def demo_memory_operations():
 
     # Update memory metrics
     obs.update_memory_storage("noop", "scenes", len(test_scenes) * 512)
-    obs.update_system_health("memory", True)
+    obs.update_system_health("lukhas.memory", True)
 
     print(f"  ✅ Memory operations completed ({len(test_scenes)} scenes)")
     return len(test_scenes)

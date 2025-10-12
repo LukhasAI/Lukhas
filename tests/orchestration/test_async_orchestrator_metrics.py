@@ -11,7 +11,7 @@ from typing import Any, Mapping
 import pytest
 from prometheus_client import REGISTRY
 
-from candidate.core.orchestration.async_orchestrator import AsyncOrchestrator
+from labs.core.orchestration.async_orchestrator import AsyncOrchestrator
 from core.interfaces import CognitiveNodeBase
 from core.registry import _REG, register
 

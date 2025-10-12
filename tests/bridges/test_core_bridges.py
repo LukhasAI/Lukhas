@@ -12,7 +12,7 @@ def test_identity_bridge_exports():
 
 def test_identity_single_source_of_truth():
     """Verify IdentityManager comes from candidate.core.identity."""
-    from candidate.core.identity import IdentityManager as canonical_manager
+    from labs.core.identity import IdentityManager as canonical_manager
     from core.identity import IdentityManager as bridge_manager
 
     # Should be same class

@@ -13,12 +13,12 @@ def test_no_candidate_leak_after_importing_lukhas():
     """Test that importing lukhas doesn't dynamically load candidate modules."""
     # Clean up any leaked modules from other tests
     for m in list(sys.modules.keys()):
-        if m == "candidate" or m.startswith("candidate."):
+        if m == "labs" or m.startswith("labs."):
             del sys.modules[m]
 
     import lukhas  # noqa: F401
 
-    leaked = [m for m in sys.modules if m == "candidate" or m.startswith("candidate.")]
+    leaked = [m for m in sys.modules if m == "labs" or m.startswith("labs.")]
 
     assert not leaked, (
         f"candidate modules leaked into runtime: {leaked}. "
