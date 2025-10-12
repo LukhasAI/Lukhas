@@ -197,6 +197,7 @@ include = '\.pyi?$'
 [tool.ruff]
 line-length = 120
 target-version = "py39"
+respect-gitignore = true
 
 # T4 Production vs Experimental Lane Policy
 extend-exclude = [
@@ -208,8 +209,9 @@ extend-exclude = [
     "archive",
     "quarantine",
     "reports",
-    # Experimental code - excluded from blocking CI
-    "candidate",
+    "manifests/**",
+    "docs/audits/**",
+    "**/generated/**",
     # Large auxiliary directories
     "*backup*",
     "*_old",
@@ -286,6 +288,10 @@ max-returns = 3
 
 [tool.ruff.lint.flake8-tidy-imports]
 ban-relative-imports = "all"
+
+[tool.ruff.lint.isort]
+combine-as-imports = true
+known-first-party = ["lukhas", "candidate", "MATRIZ"]
 
 # T4 Per-file ignores for package exports and production lane policy
 [tool.ruff.lint.per-file-ignores]

@@ -15,6 +15,7 @@
 .PHONY: mcp-bootstrap mcp-verify mcp-selftest mcp-ready mcp-contract mcp-smoke mcp-freeze mcp-docker-build mcp-docker-run mcp-validate-catalog mcp-health
 .PHONY: meta-registry ledger-check trends validate-t4 validate-t4-strict tag-prod freeze-verify freeze-guardian freeze-guardian-once dashboard-sync init-dev-branch
 .PHONY: docs-map docs-migrate-auto docs-migrate-dry docs-lint validate-structure module-health vault-audit vault-audit-vault star-rules-lint star-rules-coverage promotions
+.PHONY: lint-json lint-fix lint-delta f401-tests import-map imports-abs imports-graph ruff-heatmap ruff-ratchet f821-suggest f706-detect f811-detect
 
 # Note: Additional PHONY targets are declared in mk/*.mk include files
 
@@ -1297,3 +1298,59 @@ promotions: ## Suggest star promotions (Supporting → specific)
 	python3 scripts/suggest_star_promotions.py --manifests manifests --rules configs/star_rules.json --out docs/audits
 	@echo "[OK] Suggestions in docs/audits/star_promotions.{csv,md}"
 
+
+# =============================================================================
+# T4 Ruff Gold Standard Targets (turn_ruff_into_gold.md)
+# =============================================================================
+
+lint-json: ## Generate Ruff JSON output
+	python3 -m ruff check --output-format json . > docs/audits/ruff.json
+
+lint-fix: ## Run Ruff autofix (F401, TID252, isort)
+	python3 -m ruff check --fix .
+
+lint-delta: ## Show lint delta vs baseline (ratchet check)
+	python3 scripts/ruff_ratchet.py \
+		--baseline docs/audits/ruff_baseline.json \
+		--current docs/audits/ruff.json \
+		--track F821
+
+f401-tests: ## Auto-remove F401 unused imports in tests/
+	python3 -m ruff check --output-format json . > docs/audits/ruff.json
+	python3 scripts/fix_f401_tests.py --ruff docs/audits/ruff.json --apply
+	python3 -m ruff check --fix .
+
+import-map: ## Build intelligent import map from manifests + code
+	python3 scripts/build_import_map.py
+
+imports-abs: ## Convert relative imports to absolute (kill TID252)
+	python3 -m pip install libcst
+	python3 scripts/normalize_imports.py --apply
+	python3 -m ruff check --fix .
+
+imports-graph: ## Detect import cycles in lukhas package
+	python3 scripts/analyze_import_graph.py
+
+ruff-heatmap: ## Generate Ruff violation heatmap by Star × Owner
+	python3 -m ruff check --output-format json . > docs/audits/ruff.json
+	python3 scripts/ruff_owner_heatmap.py
+
+ruff-ratchet: ## Establish Ruff baseline for ratchet enforcement
+	python3 -m ruff check --output-format json . > docs/audits/ruff.json
+	python3 scripts/ruff_ratchet.py --init \
+		--baseline docs/audits/ruff_baseline.json \
+		--current docs/audits/ruff.json
+
+f821-suggest: ## Suggest import fixes for F821 undefined names
+	python3 -m ruff check --output-format json . > docs/audits/ruff.json
+	python3 scripts/suggest_imports_f821.py \
+		--ruff docs/audits/ruff.json \
+		--root-pkg lukhas --src . \
+		--out docs/audits/f821_suggestions.csv \
+		--md docs/audits/f821_suggestions.md
+
+f706-detect: ## Detect F706 top-level return statements
+	python3 scripts/find_top_level_returns.py
+
+f811-detect: ## Detect duplicate test class names (F811)
+	python3 scripts/detect_duplicate_test_classes.py
