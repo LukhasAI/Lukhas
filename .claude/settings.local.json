@@ -51,6 +51,7 @@
       "Bash(gh pr merge:*)",
       "Bash(gh pr checks:*)",
       "Bash(gh pr diff:*)"
+
     ],
     "defaultMode": "bypassPermissions"
   }
