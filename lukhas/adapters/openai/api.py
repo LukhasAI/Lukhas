@@ -14,7 +14,7 @@ Endpoints:
 - POST /v1/dreams     -> {"id":"dream_...","traces":[...]}
 """
 from typing import Any, Dict, List, Optional
-from fastapi import FastAPI, Request, Response, HTTPException
+from fastapi import FastAPI, Request, Response, HTTPException, Depends, Body
 from fastapi.responses import JSONResponse, PlainTextResponse
 from fastapi.middleware.cors import CORSMiddleware
 from collections import defaultdict
@@ -23,6 +23,7 @@ import os, time, uuid, logging
 
 from lukhas.core.reliability.ratelimit import RateLimiter, rate_limit_error
 from lukhas.observability.tracing import setup_otel, traced_operation, get_trace_id_hex
+from lukhas.adapters.openai.auth import require_bearer, TokenClaims
 
 logger = logging.getLogger(__name__)
 
@@ -329,7 +330,7 @@ def get_app() -> FastAPI:
         return PlainTextResponse(_metrics_text(), media_type="text/plain; version=0.0.4")
 
     @app.get("/v1/models")
-    def models():
+    def models(claims: TokenClaims = Depends(require_bearer)):
         """List available models."""
         return {
             "data": [
@@ -344,8 +345,9 @@ def get_app() -> FastAPI:
         }
 
     @app.post("/v1/embeddings")
-    async def embeddings(payload: Dict[str, Any]):
+    async def embeddings(request: Request, claims: TokenClaims = Depends(require_bearer)):
         """Generate embeddings for text input."""
+        payload = await request.json()
         text = payload.get("input", "")
         if not text:
             raise HTTPException(status_code=400, detail="Input text required")
@@ -369,8 +371,9 @@ def get_app() -> FastAPI:
         return _maybe_trace({"data": [{"embedding": vec, "index": 0}]})
 
     @app.post("/v1/responses")
-    async def responses(payload: Dict[str, Any]):
+    async def responses(request: Request, claims: TokenClaims = Depends(require_bearer)):
         """Generate AI responses using MATRIZ orchestrator."""
+        payload = await request.json()
         user_input = str(payload.get("input", ""))
         if not user_input:
             raise HTTPException(status_code=400, detail="Input required")
@@ -438,8 +441,9 @@ def get_app() -> FastAPI:
         return JSONResponse(_maybe_trace(out))
 
     @app.post("/v1/dreams")
-    async def dreams(payload: Dict[str, Any]):
+    async def dreams(request: Request, claims: TokenClaims = Depends(require_bearer)):
         """Generate dream scenarios (consciousness exploration)."""
+        payload = await request.json()
         seed = payload.get("seed", "dream")
         constraints = payload.get("constraints", {})
 
