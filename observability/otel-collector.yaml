@@ -1,11 +1,63 @@
+# OpenTelemetry Collector Configuration for LUKHAS MATRIZ
+#
+# Receives traces from OpenAI façade and exports to multiple backends.
+# Usage:
+#   docker run -v $(pwd)/observability/otel-collector.yaml:/etc/otel-collector.yaml \
+#     -p 4318:4318 -p 4317:4317 \
+#     otel/opentelemetry-collector:latest --config=/etc/otel-collector.yaml
+
 receivers:
   otlp:
-    protocols: { http: {} }
+    protocols:
+      http:
+        endpoint: 0.0.0.0:4318
+      grpc:
+        endpoint: 0.0.0.0:4317
+
+processors:
+  # Batch spans for efficient export
+  batch:
+    timeout: 1s
+    send_batch_size: 50
+
+  # Add resource attributes
+  resource:
+    attributes:
+      - key: service.namespace
+        value: lukhas
+        action: insert
+
+  # Memory limiter to prevent OOM
+  memory_limiter:
+    check_interval: 1s
+    limit_mib: 512
+
 exporters:
+  # File exporter for audit trail
   file:
     path: ./docs/audits/traces.json
+
+  # Console exporter for debugging
+  logging:
+    loglevel: info
+    sampling_initial: 5
+    sampling_thereafter: 200
+
+  # Jaeger exporter (optional - uncomment to enable)
+  # jaeger:
+  #   endpoint: jaeger:14250
+  #   tls:
+  #     insecure: true
+
 service:
   pipelines:
     traces:
       receivers: [otlp]
-      exporters: [file]
+      processors: [memory_limiter, batch, resource]
+      exporters: [file, logging]  # Add jaeger as needed
+
+  telemetry:
+    logs:
+      level: info
+    metrics:
+      address: 0.0.0.0:8888

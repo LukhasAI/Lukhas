@@ -22,6 +22,7 @@ from threading import Lock
 import os, time, uuid, logging
 
 from lukhas.core.reliability.ratelimit import RateLimiter, rate_limit_error
+from lukhas.observability.tracing import setup_otel, traced_operation, get_trace_id_hex
 
 logger = logging.getLogger(__name__)
 
@@ -106,11 +107,48 @@ def get_app() -> FastAPI:
         description="OpenAI-compatible API powered by LUKHAS MATRIZ cognitive engine"
     )
 
+    # Initialize OpenTelemetry tracing (optional)
+    tracer = setup_otel(service_name="lukhas-openai-facade")
+
     # Initialize rate limiter
     rate_limiter = RateLimiter(default_rps=20)
     rate_limiter.configure_endpoint("/v1/responses", rps=20)
     rate_limiter.configure_endpoint("/v1/embeddings", rps=50)
     rate_limiter.configure_endpoint("/v1/dreams", rps=5)
+
+    # OpenTelemetry tracing middleware (outermost layer)
+    @app.middleware("http")
+    async def tracing_middleware(request: Request, call_next):
+        if tracer:
+            with tracer.start_as_current_span(
+                f"{request.method} {request.url.path}",
+                attributes={
+                    "http.method": request.method,
+                    "http.url": str(request.url),
+                    "http.route": request.url.path,
+                }
+            ) as span:
+                try:
+                    response = await call_next(request)
+
+                    # Add span attributes for response
+                    span.set_attribute("http.status_code", response.status_code)
+
+                    # Add trace ID to response headers
+                    trace_id = get_trace_id_hex(span)
+                    if trace_id:
+                        response.headers["X-Trace-Id"] = trace_id
+
+                    return response
+                except Exception as e:
+                    # Record exception in span
+                    span.set_attribute("error", True)
+                    span.set_attribute("error.type", type(e).__name__)
+                    span.set_attribute("error.message", str(e))
+                    raise
+        else:
+            # No tracing, pass through
+            return await call_next(request)
 
     # Metrics tracking middleware
     @app.middleware("http")
@@ -298,8 +336,21 @@ def get_app() -> FastAPI:
         if orchestrator and MATRIZ_AVAILABLE:
             try:
                 start_time = time.time()
-                result = orchestrator.process_query(user_input)
-                processing_time = time.time() - start_time
+
+                # Trace MATRIZ orchestrator call
+                with traced_operation(
+                    tracer,
+                    "matriz.process_query",
+                    request_id=request_id,
+                    input_length=len(user_input)
+                ) as span:
+                    result = orchestrator.process_query(user_input)
+                    processing_time = time.time() - start_time
+
+                    # Add span attributes
+                    if span:
+                        span.set_attribute("matriz.processing_time_ms", processing_time * 1000)
+                        span.set_attribute("matriz.has_trace", "trace" in result)
 
                 # Extract text from MATRIZ result
                 output_text = result.get("response", f"echo: {user_input}")
