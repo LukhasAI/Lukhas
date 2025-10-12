@@ -456,6 +456,7 @@ def get_app() -> FastAPI:
 
         return _maybe_trace({
             "id": f"dream_{uuid.uuid4().hex[:8]}",
+            "model": "lukhas-consciousness",
             "seed": seed,
             "traces": traces,
             "constraints": constraints
