@@ -12,7 +12,7 @@ except ImportError:
 from lukhas._bridgeutils import bridge_from_candidates
 
 _CANDIDATES = (
-    "candidate.core.common",
+    "labs.core.common",
     "lukhas_website.lukhas.core.common",
 )
 

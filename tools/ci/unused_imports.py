@@ -29,7 +29,7 @@ LOG = REPORTS_DIR / "unused_imports.jsonl"
 WAIVERS = REPO / "AUDIT" / "waivers" / "unused_imports.yaml"
 
 DEFAULT_ROOTS = ["lukhas", "MATRIZ"]
-SKIP_DIRS = {".git", ".venv", "node_modules", "archive", "quarantine", "candidate", "reports"}
+SKIP_DIRS = {".git", ".venv", "node_modules", "archive", "quarantine", "labs", "reports"}
 HEADER_BLOCK = (
     "# ---\n"
     "# TODO[T4-UNUSED-IMPORT]: This file contains intentionally kept unused imports.\n"

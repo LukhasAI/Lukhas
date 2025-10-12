@@ -51,7 +51,7 @@ class ComprehensiveCoreAuditor:
         # Comprehensive category mapping with keywords
         self.component_categories = {
             "consciousness": [
-                "consciousness", "aware", "cognitive", "neural", "memory",
+                "consciousness", "aware", "cognitive", "neural", "lukhas.memory",
                 "dream", "emotion", "perception", "recognition", "learning"
             ],
             "symbolic_systems": [

@@ -32,7 +32,7 @@ TIER_MAP_NUM = {tier: i for i, tier in enumerate(TIERS)}
 # Module type to tier mapping (intelligent defaults)
 MODULE_TIER_MAPPING = {
     "core": "inner_circle",        # Core system components
-    "governance": "inner_circle",   # Governance and Guardian System
+    "lukhas.governance": "inner_circle",   # Governance and Guardian System
     "security": "inner_circle",     # Security-critical modules
     "identity": "trusted",          # Identity management
     "consciousness": "inner_circle", # Consciousness core
@@ -40,10 +40,10 @@ MODULE_TIER_MAPPING = {
     "adapters": "friend",          # Adapter modules
     "api": "trusted",              # API modules
     "orchestration": "trusted",    # Orchestration layer
-    "memory": "trusted",           # Memory systems
+    "lukhas.memory": "trusted",           # Memory systems
     "observability": "trusted",    # Monitoring and telemetry
     "deployment": "friend",        # Deployment utilities
-    "tools": "friend",             # Development tools
+    "lukhas.tools": "friend",             # Development tools
     "branding": "visitor",         # UI/branding components
     "accepted": "friend",          # Accepted modules
 }
@@ -198,7 +198,7 @@ def identity_stub(pkg_name: str, default_tier: str) -> Dict[str, Any]:
     scopes = [f"{simple_name}.read"]
 
     # Add write scope for most modules
-    if simple_name not in ["branding", "tools", "observability"]:
+    if simple_name not in ["branding", "lukhas.tools", "observability"]:
         scopes.append(f"{simple_name}.write")
 
     # Add admin scope for core/governance modules

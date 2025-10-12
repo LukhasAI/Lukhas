@@ -98,9 +98,9 @@ class ModuleCommunicationAnalyzer:
                         if imported_module in [
                             "core",
                             "consciousness",
-                            "memory",
+                            "lukhas.memory",
                             "orchestration",
-                            "governance",
+                            "lukhas.governance",
                         ]:
                             self.direct_imports[module_name].add(imported_module)
                             self.communication_graph.add_edge(
@@ -229,9 +229,9 @@ class ModuleCommunicationAnalyzer:
         if parts[0] in [
             "core",
             "consciousness",
-            "memory",
+            "lukhas.memory",
             "orchestration",
-            "governance",
+            "lukhas.governance",
             "api",
             "vivox",
         ]:

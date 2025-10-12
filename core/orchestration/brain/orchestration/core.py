@@ -191,13 +191,13 @@ class OrchestrationCore:
                 # Try with session_id and config
                 try:
                     self.memory_manager = MemoryManager(
-                        config=self.config.get("memory", {}),
+                        config=self.config.get("lukhas.memory", {}),
                         session_id=self.session_id,
                     )
                 except TypeError:
                     # Try with just config or basic initialization
                     try:
-                        self.memory_manager = MemoryManager(config=self.config.get("memory", {}))
+                        self.memory_manager = MemoryManager(config=self.config.get("lukhas.memory", {}))
                     except TypeError:
                         self.memory_manager = MemoryManager()
 
@@ -334,7 +334,7 @@ class OrchestrationCore:
     async def _register_core_modules(self):
         """Register all core modules with the module registry."""
         core_modules = {
-            "memory": self.memory_manager,
+            "lukhas.memory": self.memory_manager,
             "bio_core": self.bio_core,
             "awareness": self.awareness_system,
             "ethics": self.ethics_core,

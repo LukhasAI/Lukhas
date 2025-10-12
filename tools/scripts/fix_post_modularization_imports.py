@@ -9,30 +9,30 @@ from pathlib import Path
 
 # Import mappings discovered during analysis
 IMPORT_MAPPINGS = {
-    "memory.glyph_memory_integration": "core.glyph.glyph_memory_integration",
+    "lukhas.memory.glyph_memory_integration": "core.glyph.glyph_memory_integration",
     "core.symbolic.glyphs": "core.glyph.glyphs",
     "core.symbolic.glyphs.glyph": "core.common.glyph",
-    "memory.core_memory.memory_fold": "memory.folds.memory_fold",
-    "memory.unified_memory_manager": "consciousness.reflection.unified_memory_manager",
+    "lukhas.memory.core_memory.memory_fold": "lukhas.memory.folds.memory_fold",
+    "lukhas.memory.unified_memory_manager": "consciousness.reflection.unified_memory_manager",
     "core.symbolic_boot": "core.symbolic.symbolic_boot",
     "core.hub_registry": "core.integration.hub_registry",
-    "memory.memory_hub": "consciousness.reflection.memory_hub",
+    "lukhas.memory.memory_hub": "consciousness.reflection.memory_hub",
     "core.bio_symbolic": "core.symbolic_core.bio.bio_symbolic",
-    "memory.core_memory.memoria": "core.memoria",
+    "lukhas.memory.core_memory.memoria": "core.memoria",
     "core.symbolic.drift.drift_score": "consciousness.dream.oneiric.oneiric_core.analysis.drift_score",
     "core.docututor.symbolic_knowledge_core.knowledge_graph": (
-        "tools.documentation.symbolic_knowledge_core.knowledge_graph"
+        "lukhas.tools.documentation.symbolic_knowledge_core.knowledge_graph"
     ),  # ΛTAG: mapping_wrap
     "core.adaptive_systems.crista_optimizer.crista_optimizer": "core.symbolic_core.bio.crista_optimizer",
     "core.service_discovery": "core.integration.service_discovery",
-    "core.docututor.memory_evolution.voice_synthesis": "tools.documentation.memory_evolution.voice_synthesis",
+    "core.docututor.memory_evolution.voice_synthesis": "lukhas.tools.documentation.memory_evolution.voice_synthesis",
     "consciousness.consciousness_hub": "consciousness.reflection.consciousness_hub",
     "consciousness.systems.awareness_engine": "consciousness.awareness.awareness_engine",
     "core.interfaces.ui.multimodal.image_generator": "core.common.interfaces.ui.multimodal.image_generator",
     "core.interfaces.ui.adaptive.adaptive_interface_generator": (
         "core.common.interfaces.ui.adaptive.adaptive_interface_generator"
     ),  # ΛTAG: mapping_wrap
-    "core.cognitive.node": "memory.node",
+    "core.cognitive.node": "lukhas.memory.node",
     "core.engine.neuro_symbolic_engine": "core.orchestration.brain.neuro_symbolic.neuro_symbolic_engine",
     "core.config.settings": "core.orchestration.brain.config.settings",
     "core.config": "core.common.config",
@@ -41,7 +41,7 @@ IMPORT_MAPPINGS = {
     "core.qi_identity_manager": (
         "._cleanup_archive.BACKUP_BEFORE_CONSOLIDATION_20250801_002312.core.qi_identity_manager"
     ),  # ΛTAG: mapping_wrap
-    "memory.fold_engine": "memory.folds.fold_engine",
+    "lukhas.memory.fold_engine": "lukhas.memory.folds.fold_engine",
 }
 
 

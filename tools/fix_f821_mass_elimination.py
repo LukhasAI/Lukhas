@@ -218,7 +218,7 @@ class F821MassEliminator:
             "candidate/consciousness",
             "candidate/governance",
             "candidate/memory",
-            "tools",
+            "lukhas.tools",
             "products",
         ]
 

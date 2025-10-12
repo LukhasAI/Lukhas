@@ -108,10 +108,10 @@ class ModuleContentMiner:
         context_files = [
             module_path / "lukhas_context.md",
             module_path / "claude.me",
-            self.repo_root / "candidate" / module_path.name / "lukhas_context.md",
-            self.repo_root / "candidate" / module_path.name / "claude.me",
-            self.repo_root / "candidate" / "core" / module_path.name / "lukhas_context.md",
-            self.repo_root / "candidate" / "core" / module_path.name / "claude.me",
+            self.repo_root / "labs" / module_path.name / "lukhas_context.md",
+            self.repo_root / "labs" / module_path.name / "claude.me",
+            self.repo_root / "labs" / "core" / module_path.name / "lukhas_context.md",
+            self.repo_root / "labs" / "core" / module_path.name / "claude.me",
         ]
 
         for context_file in context_files:
@@ -151,9 +151,9 @@ class ModuleContentMiner:
         # Domain-specific tag mapping
         domain_tags = {
             'consciousness': ['consciousness', 'awareness', 'cognition', 'phenomenological'],
-            'memory': ['memory', 'temporal', 'fold-architecture', 'episodic', 'semantic'],
+            'lukhas.memory': ['lukhas.memory', 'temporal', 'fold-architecture', 'episodic', 'semantic'],
             'identity': ['identity', 'authentication', 'oauth2', 'webauthn', 'security'],
-            'governance': ['governance', 'ethics', 'constitutional-ai', 'guardian', 'policy'],
+            'lukhas.governance': ['lukhas.governance', 'ethics', 'constitutional-ai', 'guardian', 'policy'],
             'matriz': ['bio-symbolic', 'quantum-inspired', 'symbolic-reasoning'],
             'brain': ['cognitive', 'orchestration', 'intelligence', 'monitoring'],
             'api': ['api', 'rest', 'graphql', 'endpoints'],
@@ -176,7 +176,7 @@ class ModuleContentMiner:
             tags.append('oauth2')
         if 'consciousness' in content_lower:
             tags.append('consciousness')
-        if 'fold' in content_lower and 'memory' in content_lower:
+        if 'fold' in content_lower and 'lukhas.memory' in content_lower:
             tags.append('fold-architecture')
         if 't4' in content_lower or 'experimental' in content_lower:
             tags.append('t4-experimental')
@@ -211,9 +211,9 @@ class ModuleContentMiner:
         # Generate from module analysis
         domain_descriptions = {
             'consciousness': f"Advanced consciousness processing engine implementing awareness patterns, decision-making algorithms, and phenomenological processing with {len(entrypoints)} entrypoints for cognitive state management.",
-            'memory': f"Comprehensive memory management system with fold-based architecture, temporal persistence, and consciousness-memory coupling for episodic and semantic memory operations across {len(entrypoints)} components.",
+            'lukhas.memory': f"Comprehensive memory management system with fold-based architecture, temporal persistence, and consciousness-memory coupling for episodic and semantic memory operations across {len(entrypoints)} components.",
             'identity': f"Identity and authentication infrastructure providing λID Core Identity System, WebAuthn/FIDO2 integration, OAuth2/OIDC flows, and secure credential management with namespace isolation via {len(entrypoints)} entrypoints.",
-            'governance': f"Governance framework implementing policy engines, ethical decision systems, Guardian System integration, and constitutional AI principles for autonomous governance operations with {len(entrypoints)} components.",
+            'lukhas.governance': f"Governance framework implementing policy engines, ethical decision systems, Guardian System integration, and constitutional AI principles for autonomous governance operations with {len(entrypoints)} components.",
             'matriz': f"MATRIZ core processing engine providing bio-symbolic adaptation, consciousness data flows, quantum-inspired algorithms, and symbolic reasoning for AGI development with {len(entrypoints)} processing nodes.",
             'brain': f"High-level cognitive orchestration, intelligence monitoring, and unified consciousness coordination for advanced AI brain architecture with {len(entrypoints)} cognitive components.",
             'core': f"Core orchestration and infrastructure layer providing system coordination, symbolic network integration, consciousness-core coupling, and fundamental LUKHAS primitives with {len(entrypoints)} core functions.",
@@ -242,15 +242,15 @@ class ModuleContentMiner:
         if 'core' in entrypoint_text or 'orchestr' in entrypoint_text:
             if module_path.name not in ['core', 'orchestration']:
                 dependencies.append('core')
-        if 'memory' in entrypoint_text:
-            if module_path.name != 'memory':
-                dependencies.append('memory')
+        if 'lukhas.memory' in entrypoint_text:
+            if module_path.name != 'lukhas.memory':
+                dependencies.append('lukhas.memory')
 
         # Module-specific dependencies
         module_deps = {
-            'governance': ['identity', 'core'],
-            'memory': ['core'],
-            'consciousness': ['memory', 'core'],
+            'lukhas.governance': ['identity', 'core'],
+            'lukhas.memory': ['core'],
+            'consciousness': ['lukhas.memory', 'core'],
             'brain': ['consciousness', 'orchestration', 'core'],
             'api': ['identity', 'core'],
             'bridge': ['api', 'core'],
@@ -273,7 +273,7 @@ class ModuleContentMiner:
             base_spans.append(f"lukhas.{module_name}.processing")
         if 'monitor' in entrypoint_text:
             base_spans.append(f"lukhas.{module_name}.monitoring")
-        if 'memory' in entrypoint_text or 'fold' in entrypoint_text:
+        if 'lukhas.memory' in entrypoint_text or 'fold' in entrypoint_text:
             base_spans.extend([f"lukhas.{module_name}.fold", f"lukhas.{module_name}.retrieval"])
         if 'consciousness' in entrypoint_text or 'aware' in entrypoint_text:
             base_spans.append(f"lukhas.{module_name}.consciousness")
@@ -336,9 +336,9 @@ def enrich_single_module(module_path: Path, miner: ModuleContentMiner) -> Dict[s
     # Enhance team ownership based on module type
     team_mapping = {
         'consciousness': 'Consciousness',
-        'memory': 'Memory',
+        'lukhas.memory': 'Memory',
         'identity': 'Identity',
-        'governance': 'Governance',
+        'lukhas.governance': 'Governance',
         'matriz': 'MATRIZ',
         'brain': 'Brain',
         'core': 'Core',
@@ -373,7 +373,7 @@ def main():
     print(f"Found {len(manifest_files)} modules to enrich")
 
     # Priority modules first (the ones we know have rich content)
-    priority_modules = ['brain', 'consciousness', 'memory', 'identity', 'governance', 'matriz', 'core', 'api', 'bridge', 'orchestration']
+    priority_modules = ['brain', 'consciousness', 'lukhas.memory', 'identity', 'lukhas.governance', 'matriz', 'core', 'api', 'bridge', 'orchestration']
 
     enriched_count = 0
     total_entrypoints = 0

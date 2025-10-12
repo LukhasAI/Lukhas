@@ -11,7 +11,7 @@ import ast
 import os
 import sys
 
-FORBIDDEN_ROOTS = ("candidate", "quarantine", "archive")
+FORBIDDEN_ROOTS = ("labs", "quarantine", "archive")
 ACCEPTED_ROOT = "lukhas"
 
 violations = []

@@ -10,7 +10,7 @@ from collections import defaultdict
 os.environ["TZ"] = "UTC"
 os.environ["PYTHONHASHSEED"] = "0"
 
-DEF_PATHS = ["lukhas", "MATRIZ", "candidate"]
+DEF_PATHS = ["lukhas", "MATRIZ", "labs"]
 
 
 def run_ruff(paths):
@@ -107,7 +107,7 @@ def main():
         klass, suggestion = classify(r, txt)
 
         # cross-lane simple mark
-        if within(path, ["lukhas", "MATRIZ"]) and "candidate" in (r.get("message", "") or ""):
+        if within(path, ["lukhas", "MATRIZ"]) and "labs" in (r.get("message", "") or ""):
             klass = "cross_lane"
 
         item = {
@@ -146,7 +146,7 @@ def main():
     if args.annotate_candidate:
         for it in enriched:
             p = it["path"]
-            if not within(p, ["candidate"]):
+            if not within(p, ["labs"]):
                 continue
             try:
                 lines = open(p, "r", encoding="utf-8").read().splitlines()

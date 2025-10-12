@@ -77,7 +77,7 @@ from typing import Dict, List, Optional
 ROOT = pathlib.Path(".")
 ART = ROOT / "artifacts"
 LEGACY_LANES = [
-    "candidate",
+    "labs",
     "LukhasCandidates",
     "Lukhas/lukhas",
     "Lukhas/accepted",

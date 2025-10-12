@@ -62,7 +62,7 @@ class GlobalSystemInitializer:
                 "consciousness.consciousness_hub",
                 "initialize_consciousness_system",
             ),
-            ("memory", "memory.memory_hub", "initialize_memory_system"),
+            ("lukhas.memory", "lukhas.memory.memory_hub", "initialize_memory_system"),
             ("quantum", "qi.qi_hub", "initialize_quantum_system"),
         ]
 

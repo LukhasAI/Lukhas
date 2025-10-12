@@ -53,8 +53,8 @@ def analyze_pr_completion(pr_info: Dict[str, Any]) -> Dict[str, Any]:
     # Extract specific domains
     if "consciousness" in title.lower() or "awareness" in title.lower():
         keywords.append("consciousness")
-    if "memory" in title.lower():
-        keywords.append("memory")
+    if "lukhas.memory" in title.lower():
+        keywords.append("lukhas.memory")
     if "identity" in title.lower():
         keywords.append("identity")
     if "ethics" in title.lower() or "guardian" in title.lower():
@@ -108,10 +108,10 @@ def match_pr_to_tasks(pr_analysis: Dict[str, Any], all_batch_tasks: List[Dict[st
             score += 4
         if "dashboard" in keywords and ("dashboard" in task_file or "widget" in task_file):
             score += 4
-        if "memory" in keywords and ("memory" in task_module or "memory" in task_file):
+        if "lukhas.memory" in keywords and ("lukhas.memory" in task_module or "lukhas.memory" in task_file):
             score += 4
         if "ethics" in keywords and (
-            "ethics" in task_module or "guardian" in task_module or "governance" in task_module
+            "ethics" in task_module or "guardian" in task_module or "lukhas.governance" in task_module
         ):
             score += 4
         if "quantum" in keywords and ("quantum" in task_module or "qi" in task_module):

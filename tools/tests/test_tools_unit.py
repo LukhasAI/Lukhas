@@ -15,7 +15,7 @@ import pytest
 # Import module components
 try:
     pass  #     pass  #
-    import tools  # noqa: F401  # TODO: tools; consider using importli...
+    import lukhas.tools  # noqa: F401  # TODO: tools; consider using importli...
 except ImportError:
     pytest.skip(f"Module tools not available", allow_module_level=True)
 
@@ -26,7 +26,7 @@ class TestToolsModule(unittest.TestCase):
     def setUp(self):
         """Set up test fixtures."""
         self.test_config = {
-            "module_name": "tools",
+            "module_name": "lukhas.tools",
             "test_mode": True
         }
 
@@ -36,12 +36,12 @@ class TestToolsModule(unittest.TestCase):
 
     def test_module_import(self):
         """Test that module can be imported successfully."""
-        import tools
+        import lukhas.tools
         self.assertIsNotNone(tools)
 
     def test_module_version(self):
         """Test module has version information."""
-        import tools
+        import lukhas.tools
         # Most modules should have version info
         self.assertTrue(hasattr(tools, '__version__') or
                        hasattr(tools, 'VERSION'))

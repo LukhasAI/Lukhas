@@ -58,7 +58,7 @@ class FunctionScanner:
             ],
             # Memory Systems
             "memory_helix": [
-                r"memory.*helix",
+                r"lukhas.memory.*helix",
                 r"helix",
                 r"spiral.*memory",
                 r"memory_chain",
@@ -73,7 +73,7 @@ class FunctionScanner:
             "emotional_memory": [
                 r"emotional.*memory",
                 r"trauma_lock",
-                r"memory.*emotion",
+                r"lukhas.memory.*emotion",
             ],
             # Dream & Cognitive Systems
             "dream_mutator": [

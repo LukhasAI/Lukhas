@@ -48,7 +48,7 @@ def fix_imports_in_file(file_path):
 
 def main():
     """Main migration function for candidate files"""
-    candidate_dir = Path("candidate")
+    candidate_dir = Path("labs")
     if not candidate_dir.exists():
         print("candidate/ directory not found")
         return

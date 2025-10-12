@@ -228,7 +228,7 @@ def validate_dual_approval_enforcement() -> Dict[str, Any]:
             with open(flag_snapshot, 'r') as f:
                 content = f.read()
             governance_snapshot = ("dual_approval" in content and
-                                 "governance" in content)
+                                 "lukhas.governance" in content)
         except Exception:
             pass
 

@@ -177,7 +177,7 @@ class OrganizationalAuditor:
 
                 # Check for task/todo files in wrong locations
                 if any(keyword in content.lower() for keyword in ["todo", "task", "claude", "agent"]) and (
-                    "memory" in str(relative_path) or "core" in str(relative_path)
+                    "lukhas.memory" in str(relative_path) or "core" in str(relative_path)
                 ):
                     self.issues["misplaced_task_files"].append(str(relative_path))
 
@@ -206,7 +206,7 @@ class OrganizationalAuditor:
         memory_files = list(self.workspace.glob("**/memory*"))
         for file in memory_files:
             relative_path = file.relative_to(self.workspace)
-            if "memory" not in str(relative_path.parent) and "lukhas/core/memory" not in str(relative_path):
+            if "lukhas.memory" not in str(relative_path.parent) and "lukhas/core/memory" not in str(relative_path):
                 self.issues["misplaced_memory_files"].append(str(relative_path))
 
     def _check_module_organization(self):

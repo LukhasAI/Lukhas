@@ -19,7 +19,7 @@ MODULE_TIERS = {
     "dream": "T3",
     "emotion": "T3",
     "quantum": "T4",
-    "governance": "T5",
+    "lukhas.governance": "T5",
     "api": "T2",
 }
 
@@ -347,7 +347,7 @@ except ImportError:
             auth_dep = "require_t3_or_above"
         elif "quantum" in filename:
             auth_dep = "require_t4_or_above"
-        elif "governance" in filename or "admin" in filename:
+        elif "lukhas.governance" in filename or "admin" in filename:
             auth_dep = "require_t5"
         else:
             auth_dep = "require_t2_or_above"

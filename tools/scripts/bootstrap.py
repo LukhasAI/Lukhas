@@ -14,10 +14,10 @@ class LUKHASBootstrap:
         self.modules = {
             "core": "Brain Stem - Foundation",
             "consciousness": "Cortex - Awareness",
-            "memory": "Hippocampus - Storage",
+            "lukhas.memory": "Hippocampus - Storage",
             "qim": "Quantum-Inspired Metaphors (formerly quantum)",
             "emotion": "Limbic System - Affect",
-            "governance": "Immune System - Protection",
+            "lukhas.governance": "Immune System - Protection",
             "bridge": "Peripheral Nervous - I/O",
         }
 

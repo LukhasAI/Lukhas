@@ -51,7 +51,7 @@ def resolve_finding_path(filename: str) -> tuple[Path, Path]:
     return abs_path, rel_path
 
 # Production vs Experimental separation
-SKIP_DIRS = {".git", ".venv", "node_modules", "archive", "quarantine", "candidate", "reports"}
+SKIP_DIRS = {".git", ".venv", "node_modules", "archive", "quarantine", "labs", "reports"}
 
 
 def ruff_F401(paths):
@@ -122,7 +122,7 @@ Examples:
     parser.add_argument(
         "--paths",
         nargs="+",
-        default=["lukhas", "core", "api", "consciousness", "memory", "identity", "MATRIZ"],
+        default=["lukhas", "core", "api", "consciousness", "lukhas.memory", "identity", "MATRIZ"],
         help="Roots to validate (default: lukhas core api consciousness memory identity MATRIZ). 'candidate' is always skipped.",
     )
     parser.add_argument("--json-only", action="store_true", help="Output only JSON for CI/CD integration")
@@ -132,7 +132,7 @@ Examples:
     # Resolve and filter paths that actually exist; skip disallowed roots
     valid_roots = []
     for path_arg in args.paths:
-        if path_arg.strip() in SKIP_DIRS or path_arg.strip() == "candidate":
+        if path_arg.strip() in SKIP_DIRS or path_arg.strip() == "labs":
             continue
 
         abs_path = (REPO / path_arg).resolve()

@@ -44,7 +44,7 @@ class InsecureRandomFixer:
 
         # Directories considered higher priority for security fixes
         self.critical_dirs = [
-            "governance",
+            "lukhas.governance",
             "security",
             "identity",
             "auth",

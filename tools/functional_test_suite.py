@@ -69,7 +69,7 @@ def test_governance_functionality():
     print("-" * 30)
 
     try:
-        import governance
+        import lukhas.governance
 
         # Test governance components
         attrs = [attr for attr in dir(governance) if not attr.startswith("_")]
@@ -190,9 +190,9 @@ def main():
     test_results = {}
 
     # Core systems
-    test_results["memory"] = test_memory_functionality()
+    test_results["lukhas.memory"] = test_memory_functionality()
     test_results["agents"] = test_agent_functionality()
-    test_results["governance"] = test_governance_functionality()
+    test_results["lukhas.governance"] = test_governance_functionality()
 
     # Missing consciousness modules
     consciousness_results = test_missing_consciousness_modules()

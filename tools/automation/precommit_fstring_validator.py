@@ -31,7 +31,7 @@ logger = logging.getLogger(__name__)
 ROOT = Path(__file__).resolve().parents[2]
 
 # Import our enhanced fixer
-sys.path.insert(0, str(ROOT / "tools" / "automation"))
+sys.path.insert(0, str(ROOT / "lukhas.tools" / "automation"))
 try:
     from enhanced_fstring_fixer import F_STRING_PATTERNS, EnhancedFStringFixer
 except ImportError:

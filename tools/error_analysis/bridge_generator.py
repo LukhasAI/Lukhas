@@ -90,10 +90,10 @@ class BridgeGenerator:
             # lukhas.x.y.z → lukhas/x/y/z
             rel_path = module_name.replace('.', '/')
             root_module = module_name[len('lukhas.'):]
-        elif module_name.startswith('candidate.'):
+        elif module_name.startswith('labs.'):
             # candidate.x.y.z → candidate/x/y/z
             rel_path = module_name.replace('.', '/')
-            root_module = module_name[len('candidate.'):]
+            root_module = module_name[len('labs.'):]
         else:
             # x.y.z → x/y/z
             rel_path = module_name.replace('.', '/')

@@ -171,7 +171,7 @@ def main():
     # Target the worst offenders
     directories = [
         "core",  # 1866 issues
-        "tools",  # 1065 issues
+        "lukhas.tools",  # 1065 issues
         "bridge",  # 349 issues
         "tests",  # 251 issues
         "lukhas",  # 11 issues

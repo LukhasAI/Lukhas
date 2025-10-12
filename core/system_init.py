@@ -180,7 +180,7 @@ class LUKHASSystem:
                 "environment": self._check_environment_health(),
                 "configuration": bool(self.config),
                 "filesystem": self._check_filesystem_health(),
-                "memory": self._check_memory_health(),
+                "lukhas.memory": self._check_memory_health(),
             }
         )
 

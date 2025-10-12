@@ -11,7 +11,7 @@ from pathlib import Path
 # Add parent to path
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
-from tools.security.dependency_hasher import DependencyHasher
+from lukhas.tools.security.dependency_hasher import DependencyHasher
 
 
 def test_dependency_hasher():

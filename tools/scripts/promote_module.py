@@ -122,7 +122,7 @@ def create_shim(shim_direction: str | None, src: Path, dst: Path, dry: bool) -> 
     else:
         # Create a lukhas shim that re-exports from candidate (rare; transitional)
         shim_file = dst / "__init__.py"
-        content = _shim_content("candidate", dst)
+        content = _shim_content("labs", dst)
 
     if not dry:
         shim_file.parent.mkdir(parents=True, exist_ok=True)
@@ -155,7 +155,7 @@ def main() -> int:
     src = Path(args.src).resolve()
     dst = Path(args.dst).resolve()
 
-    if "candidate" not in src.parts or "lukhas" not in dst.parts:
+    if "labs" not in src.parts or "lukhas" not in dst.parts:
         print(
             "❌ Expected --src under candidate/ and --dst under lukhas/",
             file=sys.stderr,

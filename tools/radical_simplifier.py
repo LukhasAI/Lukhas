@@ -23,7 +23,7 @@ class RadicalSimplifier:
         self.core_vision = "AI that dreams, remembers, and understands emotions"
         self.core_modules = {
             "consciousness": "Self-awareness and decision making",
-            "memory": "Learning and recall",
+            "lukhas.memory": "Learning and recall",
             "dream": "Creative generation and processing",
             "emotion": "Emotional understanding and response",
             "interface": "Human interaction layer",
@@ -74,7 +74,7 @@ class RadicalSimplifier:
 
                             # Check if it's in a non-core module
                             module = root.split("/")[1] if len(root.split("/")) > 1 else ""
-                            if module and module not in self.core_modules and module not in ["tools", "tests", "docs"]:
+                            if module and module not in self.core_modules and module not in ["lukhas.tools", "tests", "docs"]:
                                 analysis["non_core_modules"].append(filepath)
 
                             # Analyze imports to build usage graph

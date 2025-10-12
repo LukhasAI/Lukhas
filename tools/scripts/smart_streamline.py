@@ -36,9 +36,9 @@ class SmartStreamline:
         core_modules = {
             "core": ["common", "glyph", "symbolic", "orchestration"],
             "consciousness": ["unified", "dream", "reflection", "interfaces"],
-            "memory": ["folds", "systems", "core"],
+            "lukhas.memory": ["folds", "systems", "core"],
             "orchestration": ["brain", "monitoring", "agents"],
-            "governance": ["guardian", "ethics", "policies"],
+            "lukhas.governance": ["guardian", "ethics", "policies"],
             "vivox": ["consciousness", "memory_expansion", "integration"],
         }
 
@@ -76,7 +76,7 @@ class SmartStreamline:
                             if module_parts[0] in [
                                 "core",
                                 "consciousness",
-                                "memory",
+                                "lukhas.memory",
                                 "orchestration",
                             ]:
                                 # This is a cross-module import - verify it exists
@@ -104,7 +104,7 @@ class SmartStreamline:
             "core.interfaces": "core.common.interfaces",
             "core.base": "core.common.base",
             "consciousness.base": "consciousness.unified.base",
-            "memory.base": "memory.core.base",
+            "lukhas.memory.base": "lukhas.memory.core.base",
             "orchestration.base": "orchestration.brain.base",
         }
 
@@ -263,7 +263,7 @@ if __name__ == "__main__":
     main()
 '''
 
-        fixer_path = self.root_path / "tools" / "scripts" / "fix_post_modularization_imports.py"
+        fixer_path = self.root_path / "lukhas.tools" / "scripts" / "fix_post_modularization_imports.py"
         with open(fixer_path, "w") as f:
             f.write(fixer_content)
 

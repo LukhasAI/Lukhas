@@ -22,7 +22,7 @@ sys.path.insert(0, str(project_root))
 
 try:
     from products.enterprise.core.observability.t4_observability_stack import T4ObservabilityStack
-    from tools.monitoring.production_alerting_system import ProductionAlertingSystem, SystemMetrics
+    from lukhas.tools.monitoring.production_alerting_system import ProductionAlertingSystem, SystemMetrics
 except ImportError as e:
     logging.error(f"Failed to import required modules: {e}")
     sys.exit(1)
@@ -109,7 +109,7 @@ class T4MonitoringIntegration:
             try:
                 memory_metrics = await self.t4_observability.collect_memory_metrics(None)
                 if memory_metrics:
-                    metrics["memory"] = memory_metrics
+                    metrics["lukhas.memory"] = memory_metrics
             except Exception as e:
                 logger.debug(f"Memory metrics unavailable: {e}")
 
@@ -139,7 +139,7 @@ class T4MonitoringIntegration:
                 base_metrics.error_rate = max(base_metrics.error_rate, drift_score * 2)
 
         # Check for memory fold metrics
-        memory = enhanced_data.get("memory", {})
+        memory = enhanced_data.get("lukhas.memory", {})
         if memory:
             active_folds = memory.get("active_folds", 0)
             if isinstance(active_folds, int) and active_folds > 100:

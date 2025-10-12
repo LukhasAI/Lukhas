@@ -96,7 +96,7 @@ class IntelligentTestOrchestrator:
         # Risk weights for different file types
         self.risk_weights = {
             "consciousness": 1.0,  # Highest risk
-            "memory": 0.9,
+            "lukhas.memory": 0.9,
             "identity": 0.9,
             "security": 0.95,
             "oauth": 0.8,
@@ -218,9 +218,9 @@ class IntelligentTestOrchestrator:
         for changed_file in changed_files:
             # Extract component name from path
             path_parts = changed_file.parts
-            if "lukhas" in path_parts or "candidate" in path_parts:
+            if "lukhas" in path_parts or "labs" in path_parts:
                 try:
-                    component_idx = next(i for i, part in enumerate(path_parts) if part in ["lukhas", "candidate"])
+                    component_idx = next(i for i, part in enumerate(path_parts) if part in ["lukhas", "labs"])
                     if component_idx + 1 < len(path_parts):
                         component = path_parts[component_idx + 1]
 

@@ -142,7 +142,7 @@ def create_missing_init_files():
         'core/identity',
         'core/collective',
         'core/breakthrough',
-        'memory',
+        'lukhas.memory',
         'memory/fakes',
     ]
 

@@ -59,11 +59,11 @@ class PathMigrator:
         search_dirs = [
             "scripts",
             "branding",
-            "tools",
+            "lukhas.tools",
             "lambda_products",
             "tests",
             "api",
-            "candidate",
+            "labs",
             ".",  # Root directory
         ]
 

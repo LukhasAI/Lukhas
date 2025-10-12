@@ -21,7 +21,7 @@ class KeywordExtractor:
                 r"\b(bio|neural|neuro|brain|cognitive|awareness|consciousness|cell|gene|protein|organism|evolution|adaptation|biosignature|qi.*bio|biometric|neural.*network|cortex|synapse|dendrite|axon|neurotransmitter)\b",
                 re.IGNORECASE,
             ),
-            "memory": re.compile(
+            "lukhas.memory": re.compile(
                 r"\b(memory|memorization|recall|remember|episodic|semantic|working.*memory|cache|storage|persist|trace|rem|hippocampus|encoding|retrieval|consolidation|forgetting|memorize)\b",
                 re.IGNORECASE,
             ),
@@ -45,7 +45,7 @@ class KeywordExtractor:
                 r"\b(emotion|emotional|feeling|mood|sentiment|affect|empathy|compassion|joy|sadness|anger|fear|surprise|disgust|arousal|valence|resonance)\b",
                 re.IGNORECASE,
             ),
-            "governance": re.compile(
+            "lukhas.governance": re.compile(
                 r"\b(governance|policy|rule|regulation|compliance|ethics|ethical|moral|accountability|responsibility|audit|monitor|oversight|guideline)\b",
                 re.IGNORECASE,
             ),

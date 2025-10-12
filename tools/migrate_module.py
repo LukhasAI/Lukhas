@@ -16,7 +16,7 @@ class ModuleMigrator:
     def __init__(self, root_path: Optional[Path] = None):
         self.root = root_path or Path.cwd()
         self.lukhas_dir = self.root / "lukhas"
-        self.candidate_dir = self.root / "candidate"
+        self.candidate_dir = self.root / "labs"
         self.quarantine_dir = self.root / "quarantine"
         self.archive_dir = self.root / "archive"
 
@@ -47,10 +47,10 @@ class ModuleMigrator:
         # Check what this module imports
         other_modules = [
             "core",
-            "memory",
+            "lukhas.memory",
             "consciousness",
             "orchestration",
-            "governance",
+            "lukhas.governance",
             "identity",
             "bridge",
             "emotion",

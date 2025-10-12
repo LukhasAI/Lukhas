@@ -103,8 +103,8 @@ def main():
     # Define paths to scan
     scan_paths = [
         "lukhas",
-        "candidate",
-        "tools",
+        "labs",
+        "lukhas.tools",
         "api",
         "ethics",
         "system",

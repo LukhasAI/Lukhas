@@ -25,9 +25,9 @@ class StreamlineAnalyzer:
         self.key_modules = [
             "core",
             "consciousness",
-            "memory",
+            "lukhas.memory",
             "orchestration",
-            "governance",
+            "lukhas.governance",
             "api",
             "feedback",
             "dashboard",

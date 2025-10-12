@@ -24,7 +24,7 @@ class DemoParityChecker:
 
     def __init__(self):
         self.examples_dir = pathlib.Path("examples/matrix_tracks")
-        self.tools_dir = pathlib.Path("tools")
+        self.tools_dir = pathlib.Path("lukhas.tools")
         self.parity_issues = []
 
     def check_verification_track_parity(self) -> Dict[str, Any]:

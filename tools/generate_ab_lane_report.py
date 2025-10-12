@@ -46,7 +46,7 @@ def generate_mock_lane_data() -> Dict[str, LaneMetric]:
 
     # Candidate lane (with small improvements)
     candidate = LaneMetric(
-        lane="candidate",
+        lane="labs",
         denial_rate=base_denial_rate * 0.92,  # 8% improvement
         latency_p95=base_latency * 0.96,      # 4% improvement
         error_rate=base_error_rate * 0.93,    # 7% improvement
@@ -54,7 +54,7 @@ def generate_mock_lane_data() -> Dict[str, LaneMetric]:
         user_satisfaction=base_satisfaction * 1.03  # 3% improvement
     )
 
-    return {"control": control, "candidate": candidate}
+    return {"control": control, "labs": candidate}
 
 def calculate_delta_percentage(control_value: float, candidate_value: float, lower_is_better: bool = True) -> float:
     """Calculate percentage delta between control and candidate"""
@@ -76,7 +76,7 @@ def generate_ab_lane_report() -> Dict[str, Any]:
     # Generate test data
     lane_data = generate_mock_lane_data()
     control = lane_data["control"]
-    candidate = lane_data["candidate"]
+    candidate = lane_data["labs"]
 
     # Report metadata
     report_time = datetime.utcnow()
@@ -90,35 +90,35 @@ def generate_ab_lane_report() -> Dict[str, Any]:
     metrics_comparison = {
         "denial_rate": {
             "control": control.denial_rate,
-            "candidate": candidate.denial_rate,
+            "labs": candidate.denial_rate,
             "delta_percent": calculate_delta_percentage(control.denial_rate, candidate.denial_rate, lower_is_better=True),
             "within_policy": abs(calculate_delta_percentage(control.denial_rate, candidate.denial_rate)) <= 10,
             "better": candidate.denial_rate < control.denial_rate
         },
         "latency_p95": {
             "control": control.latency_p95,
-            "candidate": candidate.latency_p95,
+            "labs": candidate.latency_p95,
             "delta_percent": calculate_delta_percentage(control.latency_p95, candidate.latency_p95, lower_is_better=True),
             "within_policy": abs(calculate_delta_percentage(control.latency_p95, candidate.latency_p95)) <= 10,
             "better": candidate.latency_p95 < control.latency_p95
         },
         "error_rate": {
             "control": control.error_rate,
-            "candidate": candidate.error_rate,
+            "labs": candidate.error_rate,
             "delta_percent": calculate_delta_percentage(control.error_rate, candidate.error_rate, lower_is_better=True),
             "within_policy": abs(calculate_delta_percentage(control.error_rate, candidate.error_rate)) <= 10,
             "better": candidate.error_rate < control.error_rate
         },
         "throughput": {
             "control": control.throughput,
-            "candidate": candidate.throughput,
+            "labs": candidate.throughput,
             "delta_percent": calculate_delta_percentage(control.throughput, candidate.throughput, lower_is_better=False),
             "within_policy": abs(calculate_delta_percentage(control.throughput, candidate.throughput)) <= 10,
             "better": candidate.throughput > control.throughput
         },
         "user_satisfaction": {
             "control": control.user_satisfaction,
-            "candidate": candidate.user_satisfaction,
+            "labs": candidate.user_satisfaction,
             "delta_percent": calculate_delta_percentage(control.user_satisfaction, candidate.user_satisfaction, lower_is_better=False),
             "within_policy": abs(calculate_delta_percentage(control.user_satisfaction, candidate.user_satisfaction)) <= 10,
             "better": candidate.user_satisfaction > control.user_satisfaction
@@ -146,7 +146,7 @@ def generate_ab_lane_report() -> Dict[str, Any]:
 
         print(f"{display_name}:")
         print(f"  Control: {data['control']:.3f}")
-        print(f"  Candidate: {data['candidate']:.3f}")
+        print(f"  Candidate: {data['labs']:.3f}")
         print(f"  Delta: {delta:+.1f}% | {status}")
 
     # Overall assessment
@@ -183,7 +183,7 @@ def generate_ab_lane_report() -> Dict[str, Any]:
             "generated_at": report_time.isoformat(),
             "observation_period": report_period,
             "policy_band_percent": 10,
-            "lanes_compared": ["control", "candidate"]
+            "lanes_compared": ["control", "labs"]
         },
         "metrics": metrics_comparison,
         "summary": {

@@ -44,7 +44,7 @@ class PostConsolidationAuditor:
             "bio": ["bio_core", "BIO_SYMBOLIC", "bio_symbolic", "bio", "oscillator"],
             "quantum": ["qi_core", "quantum", "qi_processing"],
             "brain": ["brain", "neural", "cognitive", "consciousness"],
-            "memory": ["memory", "memory_learning", "memory_systems"],
+            "lukhas.memory": ["lukhas.memory", "memory_learning", "memory_systems"],
             "voice": ["voice", "voice_systems", "speech", "audio"],
             "interface": ["interface", "ui", "web", "mobile", "video"],
             "integration": ["integration", "unified", "orchestrator"],

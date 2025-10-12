@@ -14,11 +14,11 @@ from pathlib import Path
 class ModuleInternalAnalyzer:
     def __init__(self):
         self.modules_to_check = [
-            "memory",
+            "lukhas.memory",
             "consciousness",
             "dream",
             "qim",
-            "governance",
+            "lukhas.governance",
             "identity",
             "bio",
             "quantum",

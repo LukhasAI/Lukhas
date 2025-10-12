@@ -6,7 +6,7 @@ Provides register() function and _REG registry.
 from __future__ import annotations
 
 try:
-    from candidate.core.identity.registry import _REG, register
+    from labs.core.identity.registry import _REG, register
 except Exception:
     # Fallback minimal definitions
     def register(*args, **kwargs):

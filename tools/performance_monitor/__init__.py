@@ -5,8 +5,8 @@ from lukhas._bridgeutils import bridge_from_candidates, deprecate, safe_guard
 
 _CANDIDATES = (
     "lukhas_website.lukhas.tools.performance_monitor",
-    "candidate.tools.performance_monitor",
-    "tools.performance_monitor",
+    "labs.tools.performance_monitor",
+    "lukhas.tools.performance_monitor",
 )
 
 __all__, _exports = bridge_from_candidates(*_CANDIDATES)

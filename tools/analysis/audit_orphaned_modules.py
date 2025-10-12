@@ -19,9 +19,9 @@ class OrphanedModuleAuditor:
         # Critical AI/Cognitive modules that should NEVER be auto-archived
         self.critical_modules = {
             "consciousness",
-            "memory",
+            "lukhas.memory",
             "identity",
-            "governance",
+            "lukhas.governance",
             "quantum",
             "bio",
             "emotion",
@@ -50,7 +50,7 @@ class OrphanedModuleAuditor:
             "quantum": ["quantum", "superposition", "entanglement", "collapse"],
             "bio_inspired": ["bio-inspired", "neural", "synaptic", "neuroplastic"],
             "ethics": ["ethical", "guardian", "consent", "privacy"],
-            "memory": ["fold", "episodic", "semantic", "memory"],
+            "lukhas.memory": ["fold", "episodic", "semantic", "lukhas.memory"],
             "advanced_ai": ["transformer", "attention", "reasoning", "symbolic"],
         }
 

@@ -361,7 +361,7 @@ class ProtonMotiveProcessor:
             "creative": 0.3,
             "analytical": 0.35,
             "ethical": 0.45,
-            "memory": 0.2,
+            "lukhas.memory": 0.2,
         }
 
         task_type = demand.get("type", "general")
@@ -758,7 +758,7 @@ class QIBiologicalAGI:
         elif any(word in text_lower for word in ["create", "imagine", "design", "invent"]):
             return "creative"
         elif any(word in text_lower for word in ["remember", "recall", "history", "past"]):
-            return "memory"
+            return "lukhas.memory"
         elif any(word in text_lower for word in ["ethical", "moral", "right", "wrong"]):
             return "ethical"
         else:

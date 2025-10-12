@@ -62,9 +62,9 @@ def extract_rich_description(module_name: str, legacy_data: Dict[str, Any]) -> s
     # Domain-specific descriptions based on module name and legacy data
     domain_descriptions = {
         "consciousness": "Advanced consciousness processing engine implementing awareness patterns, decision-making algorithms, and MATRIZ pipeline integration for cognitive state management and phenomenological processing.",
-        "memory": "Comprehensive memory management system with fold-based architecture, temporal persistence, and consciousness-memory coupling for episodic and semantic memory operations.",
+        "lukhas.memory": "Comprehensive memory management system with fold-based architecture, temporal persistence, and consciousness-memory coupling for episodic and semantic memory operations.",
         "identity": "Identity and authentication infrastructure providing λID Core Identity System, WebAuthn/FIDO2 integration, OAuth2/OIDC flows, and secure credential management with namespace isolation.",
-        "governance": "Governance framework implementing policy engines, ethical decision systems, Guardian System integration, and constitutional AI principles for autonomous governance operations.",
+        "lukhas.governance": "Governance framework implementing policy engines, ethical decision systems, Guardian System integration, and constitutional AI principles for autonomous governance operations.",
         "matriz": "MATRIZ core processing engine providing bio-symbolic adaptation, consciousness data flows, quantum-inspired algorithms, and symbolic reasoning for AGI development.",
         "core": "Core orchestration and infrastructure layer providing system coordination, symbolic network integration, consciousness-core coupling, and fundamental LUKHAS primitives.",
         "bridge": "External service integration bridge providing OAuth flows, API adapters, service mesh coordination, and secure credential management for third-party connectivity.",
@@ -92,9 +92,9 @@ def extract_rich_tags(module_name: str, legacy_data: Dict[str, Any]) -> List[str
     # Base tags from module name patterns
     name_tags = {
         "consciousness": ["consciousness", "awareness", "cognition", "decision-engine", "matriz-processor"],
-        "memory": ["memory", "temporal", "episodic", "semantic", "fold-architecture"],
+        "lukhas.memory": ["lukhas.memory", "temporal", "episodic", "semantic", "fold-architecture"],
         "identity": ["identity", "authentication", "oauth2", "webauthn", "security"],
-        "governance": ["governance", "policy", "ethics", "guardian", "constitutional-ai"],
+        "lukhas.governance": ["lukhas.governance", "policy", "ethics", "guardian", "constitutional-ai"],
         "matriz": ["matriz", "bio-symbolic", "quantum-inspired", "symbolic-reasoning"],
         "core": ["core", "orchestration", "infrastructure", "coordination"],
         "bridge": ["bridge", "integration", "adapters", "external-services"],
@@ -146,17 +146,17 @@ def extract_dependencies(module_name: str, legacy_data: Dict[str, Any]) -> List[
 
         # Filter to likely module dependencies (not system packages)
         for dep in all_deps:
-            if any(keyword in dep.lower() for keyword in ['lukhas', 'matriz', 'consciousness', 'memory', 'identity', 'governance']):
+            if any(keyword in dep.lower() for keyword in ['lukhas', 'matriz', 'consciousness', 'lukhas.memory', 'identity', 'lukhas.governance']):
                 dependencies.append(dep)
 
     # Add logical dependencies based on module type
     logical_deps = {
         "api": ["core", "identity"],
         "bridge": ["identity", "core"],
-        "governance": ["identity", "core"],
+        "lukhas.governance": ["identity", "core"],
         "orchestration": ["core", "api"],
         "quantum": ["core", "consciousness"],
-        "memory": ["core"],
+        "lukhas.memory": ["core"],
         "consciousness": ["core", "memoria"]
     }
 
@@ -173,8 +173,8 @@ def extract_observability_spans(module_name: str, legacy_data: Dict[str, Any]) -
         "identity": ["lukhas.identity.auth", "lukhas.identity.oauth", "lukhas.identity.webauthn"],
         "api": ["lukhas.api.request", "lukhas.api.orchestration", "lukhas.api.consensus"],
         "consciousness": ["lukhas.consciousness.decision", "lukhas.consciousness.awareness"],
-        "memory": ["lukhas.memory.fold", "lukhas.memory.retrieval", "lukhas.memory.temporal"],
-        "governance": ["lukhas.governance.policy", "lukhas.governance.ethics"],
+        "lukhas.memory": ["lukhas.memory.fold", "lukhas.memory.retrieval", "lukhas.memory.temporal"],
+        "lukhas.governance": ["lukhas.governance.policy", "lukhas.governance.ethics"],
         "matriz": ["lukhas.matriz.processing", "lukhas.matriz.symbolic"],
         "orchestration": ["lukhas.orchestration.multi_ai", "lukhas.orchestration.consensus"],
         "bridge": ["lukhas.bridge.external", "lukhas.bridge.oauth"]
@@ -188,9 +188,9 @@ def determine_team_ownership(module_name: str, legacy_data: Dict[str, Any]) -> D
     # Team assignments based on domain
     team_mapping = {
         "consciousness": {"team": "Consciousness", "codeowners": ["@lukhas-consciousness", "@lukhas-core"]},
-        "memory": {"team": "Memory", "codeowners": ["@lukhas-memory", "@lukhas-core"]},
+        "lukhas.memory": {"team": "Memory", "codeowners": ["@lukhas-memory", "@lukhas-core"]},
         "identity": {"team": "Identity", "codeowners": ["@lukhas-identity", "@lukhas-security"]},
-        "governance": {"team": "Governance", "codeowners": ["@lukhas-governance", "@lukhas-ethics"]},
+        "lukhas.governance": {"team": "Governance", "codeowners": ["@lukhas-governance", "@lukhas-ethics"]},
         "matriz": {"team": "MATRIZ", "codeowners": ["@lukhas-matriz", "@lukhas-core"]},
         "api": {"team": "API", "codeowners": ["@lukhas-api", "@lukhas-integration"]},
         "orchestration": {"team": "Orchestration", "codeowners": ["@lukhas-orchestration", "@lukhas-ai"]},
@@ -266,7 +266,7 @@ def main():
     print("🔍 Enriching module manifests with domain-specific metadata...")
 
     # Focus on key modules if none specified
-    key_modules = ["consciousness", "memory", "identity", "governance", "matriz", "core", "api", "bridge", "orchestration", "quantum"]
+    key_modules = ["consciousness", "lukhas.memory", "identity", "lukhas.governance", "matriz", "core", "api", "bridge", "orchestration", "quantum"]
 
     target_modules = args.modules if args.modules else key_modules
 

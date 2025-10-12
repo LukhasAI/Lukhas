@@ -47,9 +47,9 @@ class SystemDiagnostic:
             ("meta_dashboard.routes.log_route", "Log Routes"),
             # Core modules
             ("core.symbolic", "Symbolic Core"),
-            ("memory", "Memory System"),
+            ("lukhas.memory", "Memory System"),
             ("consciousness", "Consciousness System"),
-            ("governance", "Governance System"),
+            ("lukhas.governance", "Governance System"),
             # VIVoX
             ("vivox", "VIVoX Module"),
         ]
@@ -142,7 +142,7 @@ class SystemDiagnostic:
                 "files": ["__init__.py", "unified", "awareness"],
                 "critical": True,
             },
-            "memory": {
+            "lukhas.memory": {
                 "files": ["__init__.py", "fold", "service.py"],
                 "critical": True,
             },
@@ -150,7 +150,7 @@ class SystemDiagnostic:
                 "files": ["__init__.py", "user_db.py", "api.py"],
                 "critical": True,
             },
-            "governance": {"files": ["__init__.py"], "critical": True},
+            "lukhas.governance": {"files": ["__init__.py"], "critical": True},
             "quantum": {"files": ["__init__.py"], "critical": False},
             "emotion": {"files": ["__init__.py"], "critical": False},
             "vivox": {"files": ["__init__.py"], "critical": False},

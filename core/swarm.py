@@ -272,7 +272,7 @@ class SwarmHub:
 
         # Create specialized colonies
         reasoning = self.create_colony("reasoning", ["logical_reasoning", "problem_solving"], 3)
-        self.create_colony("memory", ["episodic_memory", "semantic_memory"], 3)
+        self.create_colony("lukhas.memory", ["episodic_memory", "semantic_memory"], 3)
         self.create_colony("creativity", ["idea_generation", "synthesis"], 2)
 
         # Start colonies (enhanced behavior)

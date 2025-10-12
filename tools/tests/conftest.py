@@ -19,7 +19,7 @@ import pytest
 def test_config():
     """Provide test configuration."""
     return {
-        "module_name": "tools",
+        "module_name": "lukhas.tools",
         "test_mode": True,
         "log_level": "DEBUG"
     }
@@ -40,7 +40,7 @@ def clean_environment():
 
     # Set test environment
     os.environ["LUKHAS_ENV"] = "testing"
-    os.environ["LUKHAS_MODULE"] = "tools"
+    os.environ["LUKHAS_MODULE"] = "lukhas.tools"
 
     yield
 
@@ -54,7 +54,7 @@ def mock_tools_config():
     """Mock configuration for tools module."""
     return {
         "module": {
-            "name": "tools",
+            "name": "lukhas.tools",
             "version": "1.0.0-test"
         },
         "runtime": {

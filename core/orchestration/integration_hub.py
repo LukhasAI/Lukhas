@@ -258,7 +258,7 @@ class SystemIntegrationHub:
         """Connect learning engine to all systems"""
         # Learning needs access to all systems for meta-learning
         self.learning_engine.register_data_source("consciousness", self.consciousness_hub)
-        self.learning_engine.register_data_source("memory", self.memory_hub)
+        self.learning_engine.register_data_source("lukhas.memory", self.memory_hub)
         self.learning_engine.register_data_source("ethics", self.ethics_service)
 
         self._update_phase("learning_systems", time.time())

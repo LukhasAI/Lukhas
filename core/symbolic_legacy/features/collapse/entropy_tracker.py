@@ -70,7 +70,7 @@ class CollapsePhase(Enum):
 class CollapseType(Enum):
     """Types of symbolic collapse patterns"""
 
-    MEMORY = "memory"  # Memory fold collapse
+    MEMORY = "lukhas.memory"  # Memory fold collapse
     SYMBOLIC = "symbolic"  # GLYPH/symbol coherence loss
     EMOTIONAL = "emotional"  # Emotional regulation failure
     COGNITIVE = "cognitive"  # Reasoning chain breakdown

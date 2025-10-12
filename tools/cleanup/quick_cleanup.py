@@ -34,7 +34,7 @@ def find_duplicate_modules() -> dict:
     # Common duplicate patterns
     module_patterns = [
         ("identity", ["identity", "governance/identity", "identity_enhanced"]),
-        ("memory", ["memory", "consciousness/memory", "memory/systems"]),
+        ("lukhas.memory", ["lukhas.memory", "consciousness/memory", "memory/systems"]),
         ("emotion", ["emotion", "consciousness/emotion", "bio/emotion"]),
         ("dream", ["dream", "consciousness/dream", "creativity/dream"]),
         ("quantum", ["quantum", "qim", "qi_computing"]),
@@ -69,7 +69,7 @@ def cleanup_imports() -> int:
     main_modules = [
         "core",
         "consciousness",
-        "governance",
+        "lukhas.governance",
         "orchestration",
         "bridge",
         "api",

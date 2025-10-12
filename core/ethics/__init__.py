@@ -6,6 +6,6 @@ Foundational ethical models, safety constraints, and evaluation mechanisms.
 Constellation Framework: ⚛️🧠🛡️
 """
 # Re-export the entire ethics module for access to all components
-from candidate.core import ethics
+from labs.core import ethics
 
 __all__ = ["ethics"]

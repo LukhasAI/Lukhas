@@ -25,7 +25,7 @@ print("🔍 Importing lukhas to check for candidate module leaks...")
 __import__("lukhas")
 
 # Check for any candidate modules in sys.modules
-violators = sorted([m for m in sys.modules if m == "candidate" or m.startswith("candidate.")])
+violators = sorted([m for m in sys.modules if m == "labs" or m.startswith("labs.")])
 
 if violators and not ALLOW:
     print("🚫 Runtime lane violation: 'candidate' modules imported by lukhas:")

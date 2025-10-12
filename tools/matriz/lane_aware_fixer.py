@@ -38,7 +38,7 @@ MATRIZ_CONFIG = ROOT / "ops" / "matriz.yaml"
 LANE_POLICIES_CONFIG = ROOT / "config" / "lane_fix_policies.json"
 
 # Import our existing fixers
-sys.path.insert(0, str(ROOT / "tools" / "automation"))
+sys.path.insert(0, str(ROOT / "lukhas.tools" / "automation"))
 try:
     from diagnostic_orchestrator import DiagnosticOrchestrator  # noqa: F401  # Bridge validation import
     from enhanced_fstring_fixer import EnhancedFStringFixer
@@ -169,7 +169,7 @@ class LaneFixingPolicy:
                 "backup_retention": 30,
                 "test_requirements": ["smoke", "reality_imports", "no_safe_fixable_lints"],
             },
-            "candidate": {
+            "labs": {
                 "risk_tolerance": "moderate",
                 "validation_level": "standard",
                 "allowed_fixes": ["SYNTAX_FSTRING", "CONFIG_MARKERS", "IMPORT_BRIDGE", "BRACKET_MATCH"],
@@ -213,7 +213,7 @@ class LaneFixingPolicy:
 
     def get_policy(self, lane: str) -> dict:
         """Get fixing policy for specific lane"""
-        return self.policies.get(lane, self.policies.get("candidate", {}))
+        return self.policies.get(lane, self.policies.get("labs", {}))
 
     def is_fix_allowed(self, lane: str, fix_type: str) -> bool:
         """Check if fix type is allowed in lane"""
@@ -304,8 +304,8 @@ class LaneAwareFixer:
         """Infer MATRIZ lane from module import path"""
         if module_path.startswith("lukhas."):
             return "accepted"
-        elif module_path.startswith("candidate."):
-            return "candidate"
+        elif module_path.startswith("labs."):
+            return "labs"
         elif module_path.startswith("core.") or module_path.startswith("lukhas.core."):
             return "core"
         elif module_path.startswith("matriz."):
@@ -400,7 +400,7 @@ class LaneAwareFixer:
 
     def run_promotion_readiness_check(self, lane: str) -> dict:
         """Check if lane is ready for promotion based on policy"""
-        if lane not in ["candidate"]:  # Only candidate can be promoted to accepted
+        if lane not in ["labs"]:  # Only candidate can be promoted to accepted
             return {"ready": False, "reason": "Lane not promotable"}
 
         policy = self.fixing_policy.get_policy(lane)

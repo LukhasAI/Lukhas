@@ -549,7 +549,7 @@ async def main():
     await log_login(audit_logger, "user123", True, "192.168.1.1")
 
     await log_data_access(
-        audit_logger, "user123", "memory", "mem_456", "fold_memory", tier_level=3
+        audit_logger, "user123", "lukhas.memory", "mem_456", "fold_memory", tier_level=3
     )
 
     # Query logs

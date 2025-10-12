@@ -6,7 +6,7 @@ import re
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 LANES = {
     "accepted": ROOT / "lukhas",
-    "candidate": ROOT / "candidate",
+    "labs": ROOT / "labs",
     "quarantine": ROOT / "quarantine",
     "archive": ROOT / "archive",
 }

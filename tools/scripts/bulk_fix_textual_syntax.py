@@ -36,7 +36,7 @@ def process_text(text: str) -> str:
 
 
 def main() -> int:
-    root = Path("tools")
+    root = Path("lukhas.tools")
     if not root.exists():
         print("tools/ directory not found")
         return 2

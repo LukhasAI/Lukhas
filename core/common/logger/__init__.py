@@ -9,7 +9,7 @@ from lukhas._bridgeutils import bridge_from_candidates, safe_guard
 # Try to get backend implementation
 _CANDIDATES = (
     "lukhas_website.lukhas.core.common.logger",
-    "candidate.core.common.logger",
+    "labs.core.common.logger",
 )
 __all__, _exp = bridge_from_candidates(*_CANDIDATES)
 globals().update(_exp)

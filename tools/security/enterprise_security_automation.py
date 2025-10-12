@@ -158,11 +158,11 @@ class EnterprisSecurityScanner:
         # Banned imports for lane architecture
         self.banned_imports = {
             "lukhas": [
-                "candidate.",  # Production code cannot import from candidate/
+                "labs.",  # Production code cannot import from candidate/
                 "from candidate",
                 "import candidate",
             ],
-            "candidate": [],  # candidate/ can import anything
+            "labs": [],  # candidate/ can import anything
         }
 
         # Constitutional AI integration
@@ -456,7 +456,7 @@ class EnterprisSecurityScanner:
                     continue
 
                 # Determine which lane this file is in
-                file_lane = "lukhas" if "lukhas/" in str(file_path) else "candidate"
+                file_lane = "lukhas" if "lukhas/" in str(file_path) else "labs"
 
                 banned_patterns = self.banned_imports.get(file_lane, [])
 

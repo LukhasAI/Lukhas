@@ -78,17 +78,17 @@ class OwnershipAssigner:
 
         # Default ownership mapping based on module patterns
         default_owners = {
-            "candidate.core": "@TechLead",
-            "candidate.memory": "@Agent02",
-            "candidate.consciousness": "@Agent03",
-            "candidate.governance": "@Gonzalo",
-            "candidate.identity": "@SecurityTeam",
+            "labs.core": "@TechLead",
+            "labs.memory": "@Agent02",
+            "labs.consciousness": "@Agent03",
+            "labs.governance": "@Gonzalo",
+            "labs.identity": "@SecurityTeam",
             "lukhas.core": "@TechLead",
             "lukhas.governance": "@Gonzalo",
             "lukhas.identity": "@SecurityTeam",
             "branding": "@MarketingTeam",
             "products.security": "@SecurityTeam",
-            "tools": "@DevOpsTeam",
+            "lukhas.tools": "@DevOpsTeam",
             "matriz": "@ArchitectureTeam",
         }
 

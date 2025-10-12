@@ -197,7 +197,7 @@ async def trauma_response_demo():
 
     # Create diverse nodes
     consciousness = MeshNode("consciousness_core", "consciousness")
-    memory = MeshNode("memory_helix", "memory")
+    memory = MeshNode("memory_helix", "lukhas.memory")
     emotion = MeshNode("emotion_engine", "emotion")
     guardian = MeshNode("guardian_system", "security")
 

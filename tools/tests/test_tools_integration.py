@@ -15,7 +15,7 @@ import pytest
 # Import module for integration testing
 try:
     pass  #     pass  #
-    import tools  # noqa: F401  # TODO: tools; consider using importli...
+    import lukhas.tools  # noqa: F401  # TODO: tools; consider using importli...
 except ImportError:
     pytest.skip("Module tools not available", allow_module_level=True)
 
@@ -27,7 +27,7 @@ class TestToolsIntegration(unittest.TestCase):
     def setUpClass(cls):
         """Set up integration test environment."""
         cls.integration_config = {
-            "module_name": "tools",
+            "module_name": "lukhas.tools",
             "integration_mode": True,
             "timeout": 30
         }

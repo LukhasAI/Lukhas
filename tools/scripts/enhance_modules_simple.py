@@ -133,10 +133,10 @@ def main():
     modules = {
         "core": "Central nervous system - GLYPH engine, symbolic processing",
         "consciousness": "Awareness, reflection, decision-making cortex",
-        "memory": "Fold-based memory with causal chains",
+        "lukhas.memory": "Fold-based memory with causal chains",
         "qim": "Quantum-Inspired Metaphors for advanced processing",
         "emotion": "VAD affect and mood regulation",
-        "governance": "Guardian system and ethical oversight",
+        "lukhas.governance": "Guardian system and ethical oversight",
         "bridge": "External API connections and interfaces",
     }
 

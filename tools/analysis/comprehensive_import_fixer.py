@@ -50,9 +50,9 @@ class ImportErrorFixer:
         self.import_fixes = {
             # Core module fixes
             "core.common": "from lukhas.core.common import",
-            "memory.core": "from lukhas.memory.core import",
+            "lukhas.memory.core": "from lukhas.memory.core import",
             "consciousness.unified": "from lukhas.consciousness.unified import",
-            "governance.guardian_system": "from lukhas.governance.guardian_system import",
+            "lukhas.governance.guardian_system": "from lukhas.governance.guardian_system import",
             "qi.algorithms": "from lukhas.qi.algorithms import",
             "orchestration.brain": "from lukhas.orchestration.brain import",
             # Interface fixes
@@ -249,9 +249,9 @@ class ImportErrorFixer:
         """Check if module should be a local LUKHAS module"""
         local_prefixes = [
             "core",
-            "memory",
+            "lukhas.memory",
             "consciousness",
-            "governance",
+            "lukhas.governance",
             "quantum",
             "orchestration",
             "creativity",

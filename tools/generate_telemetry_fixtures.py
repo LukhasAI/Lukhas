@@ -36,31 +36,31 @@ def generate_spans_fixture(module: str) -> Dict[str, Any]:
 
     # Module-specific span configurations
     span_configs = {
-        "memory": [
+        "lukhas.memory": [
             {
-                "name": "memory.recall",
+                "name": "lukhas.memory.recall",
                 "attrs": {
                     "code.function": "recall",
-                    "lukhas.module": "memory",
+                    "lukhas.module": "lukhas.memory",
                     "lukhas.k": 10,
                     "lukhas.query_length": 256
                 },
                 "duration_ms": 1000
             },
             {
-                "name": "memory.store",
+                "name": "lukhas.memory.store",
                 "attrs": {
                     "code.function": "store",
-                    "lukhas.module": "memory",
+                    "lukhas.module": "lukhas.memory",
                     "lukhas.content_size": 1024
                 },
                 "duration_ms": 500
             },
             {
-                "name": "memory.fold",
+                "name": "lukhas.memory.fold",
                 "attrs": {
                     "code.function": "fold",
-                    "lukhas.module": "memory",
+                    "lukhas.module": "lukhas.memory",
                     "lukhas.fold_count": 3
                 },
                 "duration_ms": 100
@@ -162,7 +162,7 @@ def generate_metrics_fixture(module: str) -> Dict[str, Any]:
 
     # Module-specific metric configurations
     metric_configs = {
-        "memory": [
+        "lukhas.memory": [
             {
                 "name": "lukhas.memory.latency",
                 "description": "end-to-end latency for memory operations",

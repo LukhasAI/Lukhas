@@ -62,15 +62,15 @@ def discover_module_directories(root_path: pathlib.Path) -> Dict[str, List[str]]
     scan_dirs = [
         root_path / "lukhas",
         root_path / "contracts",
-        root_path / "memory",
+        root_path / "lukhas.memory",
         root_path / "core",
         root_path / "bio",
         root_path / "branding",
-        root_path / "candidate",
-        root_path / "governance",
+        root_path / "labs",
+        root_path / "lukhas.governance",
         root_path / "identity",
         root_path / "api",
-        root_path / "tools",
+        root_path / "lukhas.tools",
         root_path / "tests"
     ]
 

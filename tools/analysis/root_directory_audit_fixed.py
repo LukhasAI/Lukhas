@@ -15,10 +15,10 @@ class RootDirectoryAuditor:
         self.core_modules = [
             "core",
             "consciousness",
-            "memory",
+            "lukhas.memory",
             "qim",
             "emotion",
-            "governance",
+            "lukhas.governance",
             "bridge",
         ]
 
@@ -29,7 +29,7 @@ class RootDirectoryAuditor:
             ".venv",
             "docs",
             "tests",
-            "tools",
+            "lukhas.tools",
             "/Users/agi_dev/LOCAL-REPOS/Lukhas/deployment/platforms",
             ".gitignore",
             "README.md",
@@ -105,7 +105,7 @@ class RootDirectoryAuditor:
             analysis["suggested_location"] = self.suggest_module_for_directory(directory)
             analysis["reason"] = f"Should be part of {analysis['suggested_location']} module"
 
-        elif directory in ["tools", "analysis_tools", "healing"]:
+        elif directory in ["lukhas.tools", "analysis_tools", "healing"]:
             self.categories["tools_and_utils"].append(directory)
             analysis["suggested_action"] = "CONSOLIDATE"
             analysis["suggested_location"] = "tools/"
@@ -153,9 +153,9 @@ class RootDirectoryAuditor:
             "bio": "qim",
             "creativity": "consciousness",
             "dream": "consciousness",
-            "ethics": "governance",
-            "identity": "governance",
-            "learning": "memory",
+            "ethics": "lukhas.governance",
+            "identity": "lukhas.governance",
+            "learning": "lukhas.memory",
             "orchestration": "core",
             "reasoning": "consciousness",
             "symbolic": "core",
@@ -263,7 +263,7 @@ class RootDirectoryAuditor:
 
         # 3. Consolidate tools
         for tool_dir in self.categories["tools_and_utils"]:
-            if tool_dir != "tools":
+            if tool_dir != "lukhas.tools":
                 actions.append(
                     {
                         "priority": 3,

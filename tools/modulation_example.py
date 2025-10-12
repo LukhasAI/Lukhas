@@ -56,7 +56,7 @@ def test_signal_system():
 
     # Create test signals
     signals = [
-        Signal(name="stress", level=0.8, source="memory", audit_id="test-001"),
+        Signal(name="stress", level=0.8, source="lukhas.memory", audit_id="test-001"),
         Signal(name="novelty", level=0.6, source="consciousness", audit_id="test-002"),
         Signal(name="alignment_risk", level=0.9, source="guardian", audit_id="test-003"),
     ]
@@ -253,7 +253,7 @@ def demonstrate_signal_scenarios():
         },
         {
             "name": "Stressed System Mode",
-            "signals": [Signal(name="stress", level=0.7, source="memory")],
+            "signals": [Signal(name="stress", level=0.7, source="lukhas.memory")],
             "description": "Focused, efficient response mode",
         },
         {

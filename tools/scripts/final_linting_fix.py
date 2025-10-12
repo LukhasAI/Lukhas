@@ -165,9 +165,9 @@ def main():
         "lukhas",
         "serve",
         "orchestration",
-        "governance",
+        "lukhas.governance",
         "tests",
-        "tools",
+        "lukhas.tools",
     ]
 
     print("🔧 Starting comprehensive linting fix...")

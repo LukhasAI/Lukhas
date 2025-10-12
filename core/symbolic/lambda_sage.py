@@ -1195,7 +1195,7 @@ class ΛSage:
 
         mem_path = Path(memory_path)
         if not mem_path.exists():
-            mem_path = self.base_directory / "memory"
+            mem_path = self.base_directory / "lukhas.memory"
 
         if not mem_path.exists():
             self.logger.warning("Memory path not found")
@@ -1210,8 +1210,8 @@ class ΛSage:
             ]:
                 file_elements = self._extract_symbols_from_file(
                     file_path,
-                    "memory",
-                    ["fold", "symbolic", "glyph", "pattern", "memory"],
+                    "lukhas.memory",
+                    ["fold", "symbolic", "glyph", "pattern", "lukhas.memory"],
                 )
                 elements.extend(file_elements)
 
@@ -1551,7 +1551,7 @@ class ΛSage:
                 "symbolic",
             ]
             patterns.extend([p for p in dream_patterns if p in context])
-        elif symbol_elem.system_origin == "memory":
+        elif symbol_elem.system_origin == "lukhas.memory":
             memory_patterns = [
                 "recall",
                 "forgotten",

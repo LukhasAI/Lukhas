@@ -60,8 +60,8 @@ except ImportError:
 try:
     from .compliance.ai_compliance_manager import AIComplianceManager  # noqa: TID252 TODO: convert to absolute import
     from .ethics.ethical_hierarchy import EthicalHierarchy  # noqa: TID252 TODO: convert to absolute import
-    from .governance.dao_governance_node import DAOGovernanceNode  # noqa: TID252 TODO: convert to absolute import
-    from .memory.enhanced_memory_manager import EnhancedMemoryManager  # noqa: TID252 TODO: convert to absolute import
+    from .lukhas.governance.dao_governance_node import DAOGovernanceNode  # noqa: TID252 TODO: convert to absolute import
+    from .lukhas.memory.enhanced_memory_manager import EnhancedMemoryManager  # noqa: TID252 TODO: convert to absolute import
     from .meta_cognitive.reflective_introspection_system import ReflectiveIntrospectionSystem  # noqa: TID252 TODO: convert to absolute import
     from .prediction.predictive_resource_manager import PredictiveResourceManager  # noqa: TID252 TODO: convert to absolute import
     from .reasoning.causal_reasoning_module import CausalReasoningModule  # noqa: TID252 TODO: convert to absolute import
@@ -323,7 +323,7 @@ class EnhancedMemorySystem:
             memory["access_count"] += 1
             return {
                 "status": "success",
-                "memory": memory,
+                "lukhas.memory": memory,
                 "retrieval_type": "direct"
             }
 
@@ -407,7 +407,7 @@ class EnhancedMemorySystem:
         content_str = str(memory["content"]).lower()
         if "creative" in content_str:
             associations.append("creativity_network")
-        if "memory" in content_str:
+        if "lukhas.memory" in content_str:
             associations.append("meta_memory_network")
         if "learning" in content_str:
             associations.append("learning_network")
@@ -621,7 +621,7 @@ class EnhancedBrainIntegration:
                 memory_enhancement = await self.enhanced_memory_manager.process_with_context(
                     input_data, context
                 )
-                result["cognitive_enhancements"]["memory"] = memory_enhancement
+                result["cognitive_enhancements"]["lukhas.memory"] = memory_enhancement
                 self.stats["memory_enhancements"] += 1
 
             # Stage 3: Meta-Cognitive Reflection
@@ -662,7 +662,7 @@ class EnhancedBrainIntegration:
                     governance_result = await self.dao_governance.evaluate_decision(
                         input_data, context, result
                     )
-                    result["cognitive_enhancements"]["governance"] = governance_result
+                    result["cognitive_enhancements"]["lukhas.governance"] = governance_result
                     self.stats["governance_decisions"] += 1
 
             # Stage 8: Integration and Final Processing
@@ -690,7 +690,7 @@ class EnhancedBrainIntegration:
         cognitive_insights = {
             "compliance_status": result.get("cognitive_enhancements", {}).get("compliance", {}).get("status", "unknown"),
             "ethical_alignment": result.get("cognitive_enhancements", {}).get("ethics", {}).get("alignment_score", 0.5),
-            "memory_relevance": result.get("cognitive_enhancements", {}).get("memory", {}).get("relevance_score", 0.5),
+            "memory_relevance": result.get("cognitive_enhancements", {}).get("lukhas.memory", {}).get("relevance_score", 0.5),
             "causal_confidence": result.get("cognitive_enhancements", {}).get("causal_reasoning", {}).get("confidence", 0.5),
             "prediction_accuracy": result.get("cognitive_enhancements", {}).get("prediction", {}).get("accuracy", 0.5),
             "meta_awareness": result.get("cognitive_enhancements", {}).get("meta_cognitive", {}).get("awareness_level", 0.5)

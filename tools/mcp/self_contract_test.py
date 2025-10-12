@@ -9,7 +9,7 @@ required = {
  "lukhas.conveyor.plan","lukhas.conveyor.execute","lukhas.sim.schedule","lukhas.sim.collect","lukhas.audit.export"
 }
 cat = json.loads(pathlib.Path("mcp-servers/lukhas-devtools-mcp/tooling/catalog.json").read_text())
-names = {f"lukhas.{t['name']}" for t in cat["tools"]}
+names = {f"lukhas.{t['name']}" for t in cat["lukhas.tools"]}
 missing = sorted(required - names)
 if missing:
     print("❌ Missing tools:", missing); sys.exit(1)

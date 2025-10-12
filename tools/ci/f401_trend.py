@@ -49,7 +49,7 @@ def _prefix(path: str) -> str:
     if p.startswith("lukhas/") or p.startswith("MATRIZ/"):
         return "core"
     if p.startswith("candidate/"):
-        return "candidate"
+        return "labs"
     return "other"
 
 
@@ -65,7 +65,7 @@ def main() -> int:
         print(f"[f401_trend] invalid JSON in {SRC}: {e}", file=sys.stderr)
         return 2
 
-    totals = {"core": 0, "candidate": 0, "other": 0}
+    totals = {"core": 0, "labs": 0, "other": 0}
     for rec in data:
         # Only count actual F401 errors, not syntax errors
         if rec.get("code") != "F401":
@@ -97,10 +97,10 @@ def main() -> int:
     # Append the row
     with open(DST, "a", newline="", encoding="utf-8") as f:
         writer = csv.writer(f)
-        writer.writerow([now, commit, branch, totals["core"], totals["candidate"], totals["other"], total])
+        writer.writerow([now, commit, branch, totals["core"], totals["labs"], totals["other"], total])
 
     print(
-        f"[f401_trend] appended trend: {total} F401 errors ({totals['core']} core, {totals['candidate']} candidate, {totals['other']} other)"
+        f"[f401_trend] appended trend: {total} F401 errors ({totals['core']} core, {totals['labs']} candidate, {totals['other']} other)"
     )
     return 0
 

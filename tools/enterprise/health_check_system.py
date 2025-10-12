@@ -332,7 +332,7 @@ class HealthCheckSystem:
         return {
             "cpu_count": psutil.cpu_count(),
             "cpu_percent": psutil.cpu_percent(interval=0.1),
-            "memory": {
+            "lukhas.memory": {
                 "total": psutil.virtual_memory().total,
                 "available": psutil.virtual_memory().available,
                 "percent": psutil.virtual_memory().percent,

@@ -545,7 +545,7 @@ class CognitiveEngine:
                     "reasoning": openai_enhancement.get("reasoning_data", {}),
                     "consciousness": openai_enhancement.get("consciousness_data", {}),
                     "ethics": openai_enhancement.get("ethics_data", {}),
-                    "memory": openai_enhancement.get("memory_data", {}),
+                    "lukhas.memory": openai_enhancement.get("memory_data", {}),
                     "integration_success": openai_enhancement.get(
                         "integration_success", False
                     ),

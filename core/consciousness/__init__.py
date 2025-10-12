@@ -5,7 +5,7 @@ __all__ = []
 def _try(n: str):
     try: return import_module(n)
     except Exception: return None
-for n in ("candidate.core.consciousness", "core_core.consciousness"):
+for n in ("labs.core.consciousness", "core_core.consciousness"):
     m = _try(n)
     if m:
         for k in dir(m):

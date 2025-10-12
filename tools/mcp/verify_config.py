@@ -18,7 +18,7 @@ required_tools = {
   "lukhas.sim.collect",
   "lukhas.audit.export",
 }
-names = {t["name"] for t in cfg.get("tools", [])}
+names = {t["name"] for t in cfg.get("lukhas.tools", [])}
 missing = sorted(list(required_tools - names))
 if missing:
     print("❌ MCP config missing tools:", json.dumps(missing, indent=2))

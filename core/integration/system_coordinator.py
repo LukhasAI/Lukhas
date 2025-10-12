@@ -231,7 +231,7 @@ class SystemCoordinator:
             from lukhas.memory.enhanced_memory_manager import EnhancedMemoryManager
 
             self.memory_manager = EnhancedMemoryManager()
-            self.active_components["memory"] = True
+            self.active_components["lukhas.memory"] = True
             logger.info("Memory manager initialized")
 
             # Initialize voice processor (commented out for now)
@@ -606,7 +606,7 @@ class SystemCoordinator:
                 return await self.consciousness_integrator.get_consciousness_status()
             elif component_name == "neural" and self.neural_integrator:
                 return await self.neural_integrator.get_neural_status()
-            elif component_name == "memory" and self.memory_manager:
+            elif component_name == "lukhas.memory" and self.memory_manager:
                 return {
                     "status": "active",
                     "memory_count": len(self.memory_manager.memories),
@@ -641,7 +641,7 @@ class SystemCoordinator:
                 status = await self.neural_integrator.get_neural_status()
                 return {"healthy": True, "status": status}
             elif (
-                (component_name == "memory" and self.memory_manager)
+                (component_name == "lukhas.memory" and self.memory_manager)
                 or (component_name == "voice" and self.voice_processor)
                 or (component_name == "personality" and self.persona_manager)
             ):
@@ -744,9 +744,9 @@ class SystemCoordinator:
         elif component_name == "neural":
             self.neural_integrator = component
             self.active_components["neural"] = True
-        elif component_name == "memory":
+        elif component_name == "lukhas.memory":
             self.memory_manager = component
-            self.active_components["memory"] = True
+            self.active_components["lukhas.memory"] = True
         elif component_name == "persona":
             self.persona_manager = component
             self.active_components["personality"] = True

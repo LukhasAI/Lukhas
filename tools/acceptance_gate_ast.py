@@ -23,7 +23,7 @@ from typing import Any
 
 REPO = pathlib.Path(__file__).resolve().parents[1]
 ACCEPTED = REPO / "lukhas"
-BANNED = ("candidate", "quarantine", "archive")
+BANNED = ("labs", "quarantine", "archive")
 
 
 class AuditTrail:

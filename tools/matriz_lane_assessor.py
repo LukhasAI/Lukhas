@@ -37,7 +37,7 @@ class LaneAssessor:
             'L3': {
                 'name': 'Candidate',
                 'description': 'Stable development, ready for promotion',
-                'criteria': ['candidate', 'stable', 'validated']
+                'criteria': ['labs', 'stable', 'validated']
             },
             'L4': {
                 'name': 'Accepted',
@@ -74,7 +74,7 @@ class LaneAssessor:
         indicators = {
             'in_core': any('core' in path for path in paths),
             'in_accepted': any('accepted' in path for path in paths),
-            'in_candidate': any('candidate' in path for path in paths),
+            'in_candidate': any('labs' in path for path in paths),
             'in_experimental': any('experimental' in path for path in paths),
             'in_archive': any('archive' in path for path in paths),
             'in_lukhas_root': any(path.startswith('lukhas/') and '/' not in path[7:] for path in paths),
@@ -90,7 +90,7 @@ class LaneAssessor:
             'has_experimental': 'experimental' in name_lower or 'exp' in name_lower,
             'has_test': 'test' in name_lower,
             'has_deprecated': 'deprecated' in name_lower or 'legacy' in name_lower,
-            'has_governance': 'governance' in name_lower,
+            'has_governance': 'lukhas.governance' in name_lower,
             'has_identity': 'identity' in name_lower,
             'has_api': 'api' in name_lower,
             'has_bridge': 'bridge' in name_lower
@@ -169,11 +169,11 @@ class LaneAssessor:
         score = 0
 
         # Core infrastructure modules
-        if any(keyword in module_name.lower() for keyword in ['core', 'identity', 'governance']):
+        if any(keyword in module_name.lower() for keyword in ['core', 'identity', 'lukhas.governance']):
             score += 3
 
         # Critical system components
-        if any(keyword in module_name.lower() for keyword in ['matriz', 'consciousness', 'memory']):
+        if any(keyword in module_name.lower() for keyword in ['matriz', 'consciousness', 'lukhas.memory']):
             score += 2
 
         # Bridge and API modules (high connectivity)

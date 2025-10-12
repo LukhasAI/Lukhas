@@ -11,7 +11,7 @@ from typing import Any, Optional
 
 # Use absolute import instead of relative import
 try:
-    from tools.journal_engine import JournalEngine, JournalEntry
+    from lukhas.tools.journal_engine import JournalEngine, JournalEntry
 except ImportError:
     # Fallback implementations if journal_engine not available
     class JournalEngine:

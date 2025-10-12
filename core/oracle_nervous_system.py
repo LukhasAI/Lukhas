@@ -546,7 +546,7 @@ class OracleNervousSystem:
                 {
                     "event_type": "oracle_prediction_available",
                     "target_colonies": [
-                        "memory",
+                        "lukhas.memory",
                         "consciousness",
                         "reasoning",
                     ],
@@ -563,7 +563,7 @@ class OracleNervousSystem:
                 {
                     "event_type": "oracle_dream_generated",
                     "target_colonies": [
-                        "memory",
+                        "lukhas.memory",
                         "creativity",
                         "consciousness",
                     ],

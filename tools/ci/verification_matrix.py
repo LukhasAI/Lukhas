@@ -43,7 +43,7 @@ class VerificationMatrix:
                     "Consent model compliance verified",
                 ],
                 "test_patterns": ["test_*_consent_*", "test_*_tier_*", "test_*_boundary_*"],
-                "modules": ["consent", "tier", "governance", "scopes"],
+                "modules": ["consent", "tier", "lukhas.governance", "scopes"],
                 "risk_level": "high",
                 "requires_boundary_testing": True,
                 "requires_feature_flags": True,

@@ -123,7 +123,7 @@ def validate_atlas():
 
     consciousness_modules = 0
     for role, module_list in module_roles.items():
-        if any(keyword in role for keyword in ["consciousness", "governance", "advanced"]):
+        if any(keyword in role for keyword in ["consciousness", "lukhas.governance", "advanced"]):
             consciousness_modules += len(module_list)
 
     print(f"   • Consciousness-related modules: {consciousness_modules:,}")

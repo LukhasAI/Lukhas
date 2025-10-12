@@ -6,7 +6,7 @@ Provides CognitiveNodeBase and ICognitiveNode interfaces.
 from __future__ import annotations
 
 try:
-    from candidate.core.identity.interfaces import CognitiveNodeBase, ICognitiveNode
+    from labs.core.identity.interfaces import CognitiveNodeBase, ICognitiveNode
 except Exception:
     # Fallback minimal definitions
     class CognitiveNodeBase:

@@ -30,8 +30,8 @@ DIAGNOSTIC_DIR = ROOT / "reports" / "deep_search"
 ORCHESTRATOR_LOG = ROOT / "reports" / "autofix" / "orchestrator.json"
 
 # Import our enhanced fixers
-sys.path.insert(0, str(ROOT / "tools" / "automation"))
-sys.path.insert(0, str(ROOT / "tools" / "ci"))
+sys.path.insert(0, str(ROOT / "lukhas.tools" / "automation"))
+sys.path.insert(0, str(ROOT / "lukhas.tools" / "ci"))
 
 try:
     from enhanced_fstring_fixer import EnhancedFStringFixer

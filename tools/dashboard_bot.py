@@ -147,7 +147,7 @@ def generate_dashboard_metrics() -> Dict[str, Any]:
     return {
         "timestamp": datetime.now(timezone.utc).isoformat(),
         "migration_phase": "active_promotion",
-        "candidate": candidate,
+        "labs": candidate,
         "promoted": promoted,
         "matriz": matriz,
         "coverage": coverage,
@@ -173,7 +173,7 @@ def generate_pr_comment(metrics: Dict[str, Any]) -> str:
 {health_emoji} **Migration Health**: {metrics["summary"]["health_status"].upper()}
 
 ### 🎯 Progress Overview
-- **candidate/ remaining**: {metrics["candidate"]["total_files"]:,} files
+- **candidate/ remaining**: {metrics["labs"]["total_files"]:,} files
 - **Promoted to flat-root**: {metrics["promoted"]["total_promoted"]:,} files
 - **Overall progress**: {metrics["summary"]["total_progress_pct"]}% complete
 
@@ -190,8 +190,8 @@ def generate_pr_comment(metrics: Dict[str, Any]) -> str:
 | AuthZ Tests | {'✅ CLEAN' if metrics["quarantine"]["quarantined_tests"] == 0 else '🟡 QUARANTINED'} | {metrics["quarantine"]["quarantined_tests"]} tests quarantined |
 
 ### 📦 File Distribution
-- **candidate/core/**: {metrics["candidate"]["core_files"]:,} files
-- **candidate/other/**: {metrics["candidate"]["other_files"]:,} files
+- **candidate/core/**: {metrics["labs"]["core_files"]:,} files
+- **candidate/other/**: {metrics["labs"]["other_files"]:,} files
 - **core/**: {metrics["promoted"]["core_files"]:,} files
 - **identity/**: {metrics["promoted"]["identity_files"]:,} files
 
@@ -209,7 +209,7 @@ def generate_executive_summary(metrics: Dict[str, Any]) -> str:
 **Status**: {metrics["summary"]["health_status"].upper()} ({metrics["summary"]["total_progress_pct"]}% complete)
 
 ## Key Metrics
-- **Files Remaining**: {metrics["candidate"]["total_files"]:,}
+- **Files Remaining**: {metrics["labs"]["total_files"]:,}
 - **Weekly Velocity**: {metrics["burndown"]["weekly_velocity"]} files/week
 - **Completion ETA**: {metrics["burndown"]["completion_date"]}
 - **Quality Gates**: {'All Green ✅' if metrics["summary"]["health_status"] == "green" else 'Attention Needed 🟡'}

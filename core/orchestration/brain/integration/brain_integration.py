@@ -268,7 +268,7 @@ class EnhancedMemorySystem:
             memory["access_count"] += 1
             return {
                 "status": "success",
-                "memory": memory,
+                "lukhas.memory": memory,
                 "retrieval_type": "direct"
             }
 
@@ -352,7 +352,7 @@ class EnhancedMemorySystem:
         content_str = str(memory["content"]).lower()
         if "creative" in content_str:
             associations.append("creativity_network")
-        if "memory" in content_str:
+        if "lukhas.memory" in content_str:
             associations.append("meta_memory_network")
         if "learning" in content_str:
             associations.append("learning_network")
@@ -487,8 +487,8 @@ class EnhancedBrainIntegration:
         specialized_processing = symphony_result.get("specialized_processing", {})
 
         # Memory brain integration
-        if "memory" in specialized_processing:
-            memory_result = specialized_processing["memory"]
+        if "lukhas.memory" in specialized_processing:
+            memory_result = specialized_processing["lukhas.memory"]
             if memory_result.get("status") != "failed":
                 # Store symphony insights as memories
                 insights = symphony_result.get("synthesized_insights", [])

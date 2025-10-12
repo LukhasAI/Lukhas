@@ -21,7 +21,7 @@ if errors:
 
 # Assert namespace + names sanity and stable 11 tools
 ns = catalog["namespace"]
-tools = catalog["tools"]
+tools = catalog["lukhas.tools"]
 names = [t["name"] for t in tools]
 if len(names) != len(set(names)):
     dupes = {n for n in names if names.count(n) > 1}

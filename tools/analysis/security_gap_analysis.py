@@ -48,7 +48,7 @@ class SecurityComplianceAnalyzer:
             "validate",
             "compliance",
             "audit",
-            "governance",
+            "lukhas.governance",
             "policy",
             "privacy",
             "gdpr",

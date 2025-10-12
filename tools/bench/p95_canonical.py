@@ -9,7 +9,7 @@ import time
 sys.path.append('.')
 
 os.environ['LUKHAS_EXPERIMENTAL'] = '1'
-os.environ['LUKHAS_LANE'] = 'candidate'
+os.environ['LUKHAS_LANE'] = 'labs'
 
 from monitoring.drift_manager import DriftManager
 

@@ -45,10 +45,10 @@ class LUKHASNeuralNetwork:
             self.modules = {
                 "core": CoreConnector(),
                 "consciousness": ConsciousnessConnector(),
-                "memory": MemoryConnector(),
+                "lukhas.memory": MemoryConnector(),
                 "qim": QimConnector(),
                 "emotion": EmotionConnector(),
-                "governance": GovernanceConnector(),
+                "lukhas.governance": GovernanceConnector(),
                 "bridge": BridgeConnector(),
             }
 
@@ -71,10 +71,10 @@ class LUKHASNeuralNetwork:
         from lukhas.core.neural_bridge import neural_bridge
 
         # Core pathways
-        neural_bridge.create_synapse("consciousness", "memory")
+        neural_bridge.create_synapse("consciousness", "lukhas.memory")
         neural_bridge.create_synapse("consciousness", "emotion")
-        neural_bridge.create_synapse("memory", "emotion")
-        neural_bridge.create_synapse("governance", "core")
+        neural_bridge.create_synapse("lukhas.memory", "emotion")
+        neural_bridge.create_synapse("lukhas.governance", "core")
         neural_bridge.create_synapse("bridge", "consciousness")
         neural_bridge.create_synapse("qim", "consciousness")
 
@@ -89,8 +89,8 @@ class LUKHASNeuralNetwork:
         results = {}
 
         # Always go through governance first
-        if "governance" in self.modules:
-            gov_result = self.modules["governance"].process(input_data)
+        if "lukhas.governance" in self.modules:
+            gov_result = self.modules["lukhas.governance"].process(input_data)
             if not gov_result.get("allowed", True):
                 return {
                     "error": "Governance check failed",

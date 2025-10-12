@@ -222,10 +222,10 @@ class SymbolExportGenerator:
 
     def _candidate_peer(self, module: str) -> str:
         """Guess the candidate lane module for import fallbacks."""
-        if module.startswith("candidate."):
+        if module.startswith("labs."):
             return module
         if module.startswith("lukhas."):
-            return module.replace("lukhas.", "candidate.", 1)
+            return module.replace("lukhas.", "labs.", 1)
         if module.startswith("consciousness"):
             return f"candidate.{module}"
         if module.startswith("observability"):
@@ -244,7 +244,7 @@ class SymbolExportGenerator:
             return package_init.relative_to(self.repo_root)
 
         # Create package path if we control it under repo
-        if module_path.parts and module_path.parts[0] in {"lukhas", "consciousness", "observability", "candidate"}:
+        if module_path.parts and module_path.parts[0] in {"lukhas", "consciousness", "observability", "labs"}:
             package_init.parent.mkdir(parents=True, exist_ok=True)
             if not package_init.exists():
                 package_init.write_text('"""Auto-generated package init."""\n')

@@ -15,7 +15,7 @@ def _try(n: str):
 # Try backends in order
 _CANDIDATES = (
     "lukhas_website.lukhas.core.breakthrough",
-    "candidate.core.breakthrough",
+    "labs.core.breakthrough",
 )
 
 _SRC = None

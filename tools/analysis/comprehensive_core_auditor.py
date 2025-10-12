@@ -85,8 +85,8 @@ class ComprehensiveCoreAuditor:
                 "synapse",
                 "dendrite",
             ],
-            "memory": [
-                "memory",
+            "lukhas.memory": [
+                "lukhas.memory",
                 "memory_learning",
                 "memory_systems",
                 "storage",
@@ -216,7 +216,7 @@ class ComprehensiveCoreAuditor:
                 "helpers",
                 "common",
                 "shared",
-                "tools",
+                "lukhas.tools",
                 "functions",
                 "library",
             ],

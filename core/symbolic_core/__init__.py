@@ -9,7 +9,7 @@ __all__ = ["plan_symbolic_core_preservation"]
 
 for _module in (
     "lukhas_website.lukhas.core.symbolic_core",
-    "candidate.core.symbolic_core",
+    "labs.core.symbolic_core",
     "core.symbolic_core",
 ):
     try:

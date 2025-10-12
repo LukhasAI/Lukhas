@@ -45,7 +45,7 @@ def collect_violations():
                     violations[code].append(violation)
 
         # Also try JSON format for some directories
-        focus_dirs = ["lukhas", "candidate", "consciousness", "core"]
+        focus_dirs = ["lukhas", "labs", "consciousness", "core"]
         for focus_dir in focus_dirs:
             if Path(focus_dir).exists():
                 try:

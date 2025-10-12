@@ -74,7 +74,7 @@ logger.info("ΛTRACE: Initializing symbolic_network module.")
 class NodeType(Enum):
     """Defines the various types of symbolic nodes that can exist in the network."""
 
-    MEMORY = "memory"
+    MEMORY = "lukhas.memory"
     PROCESSING = "processing"
     DECISION = "decision"
     SENSOR = "sensor"

@@ -103,7 +103,7 @@ class LambdaDependencyAnalyzer:
             "bio",
             "brain",
             "connectivity",
-            "governance",
+            "lukhas.governance",
             "Lukhas_ID",
             "interface",
             "orchestration",

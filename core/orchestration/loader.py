@@ -18,7 +18,7 @@ from lukhas.core.interfaces import CognitiveNodeBase
 from lukhas.core.registry import register
 
 
-def discover_nodes(root_package: str = "candidate") -> int:
+def discover_nodes(root_package: str = "labs") -> int:
     """
     Discover and register cognitive nodes from lukhas.*.nodes modules.
 

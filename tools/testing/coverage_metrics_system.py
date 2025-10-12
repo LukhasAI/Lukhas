@@ -439,7 +439,7 @@ class CoverageMetricsSystem:
             return full_path
 
         # Try alternative paths
-        for alt_root in ['src', 'lib', 'lukhas', 'candidate']:
+        for alt_root in ['src', 'lib', 'lukhas', 'labs']:
             alt_path = ROOT / alt_root / file_path
             if alt_path.exists():
                 return alt_path

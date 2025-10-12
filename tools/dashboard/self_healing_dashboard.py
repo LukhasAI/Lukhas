@@ -39,12 +39,12 @@ logger = logging.getLogger(__name__)
 ROOT = Path(__file__).resolve().parents[2]
 
 # Import our automated fix components
-sys.path.insert(0, str(ROOT / "tools" / "ai"))
-sys.path.insert(0, str(ROOT / "tools" / "matriz"))
-sys.path.insert(0, str(ROOT / "tools" / "prediction"))
-sys.path.insert(0, str(ROOT / "tools" / "monitoring"))
-sys.path.insert(0, str(ROOT / "tools" / "automation"))
-sys.path.insert(0, str(ROOT / "tools" / "validation"))
+sys.path.insert(0, str(ROOT / "lukhas.tools" / "ai"))
+sys.path.insert(0, str(ROOT / "lukhas.tools" / "matriz"))
+sys.path.insert(0, str(ROOT / "lukhas.tools" / "prediction"))
+sys.path.insert(0, str(ROOT / "lukhas.tools" / "monitoring"))
+sys.path.insert(0, str(ROOT / "lukhas.tools" / "automation"))
+sys.path.insert(0, str(ROOT / "lukhas.tools" / "validation"))
 
 try:
     from diagnostic_monitor import DiagnosticMonitor
@@ -108,7 +108,7 @@ class DashboardState:
 
     def __post_init__(self):
         if self.active_lanes is None:
-            self.active_lanes = ["accepted", "candidate", "core", "matriz"]
+            self.active_lanes = ["accepted", "labs", "core", "matriz"]
 
         # Auto-detect CI environment
         self.ci_mode = os.getenv("CI", "").lower() in ("true", "1", "yes")
@@ -552,7 +552,7 @@ class SelfHealingDashboard:
         if file_path.startswith("accepted/"):
             return "accepted"
         elif file_path.startswith("candidate/"):
-            return "candidate"
+            return "labs"
         elif file_path.startswith("core/"):
             return "core"
         elif file_path.startswith("matriz/"):

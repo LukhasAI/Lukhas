@@ -78,7 +78,7 @@ class FocusedAtlasBuilder:
             "lucid",
             "dream",
             "identity",
-            "memory",
+            "lukhas.memory",
             "fold",
             "guardian",
             "ethics",
@@ -388,13 +388,13 @@ class FocusedAtlasBuilder:
             return "orchestrator"
         elif any(pattern in path_lower for pattern in ["bridge", "integrat", "adapter"]):
             return "integration"
-        elif any(pattern in path_lower for pattern in ["consciousness", "dream", "identity", "memory"]):
+        elif any(pattern in path_lower for pattern in ["consciousness", "dream", "identity", "lukhas.memory"]):
             return "consciousness_core"
-        elif any(pattern in path_lower for pattern in ["guardian", "ethics", "governance"]):
-            return "governance"
+        elif any(pattern in path_lower for pattern in ["guardian", "ethics", "lukhas.governance"]):
+            return "lukhas.governance"
         elif any(pattern in path_lower for pattern in ["quantum", "bio"]):
             return "advanced_processing"
-        elif "candidate" in path_lower:
+        elif "labs" in path_lower:
             return "experimental"
         elif "lukhas" in path_lower:
             return "production"

@@ -9,7 +9,7 @@ __all__: List[str] = []
 
 for _candidate in (
     "lukhas_website.lukhas.core.interfaces.api.v1",
-    "candidate.core.interfaces.api.v1",
+    "labs.core.interfaces.api.v1",
 ):
     try:
         _mod = import_module(_candidate)

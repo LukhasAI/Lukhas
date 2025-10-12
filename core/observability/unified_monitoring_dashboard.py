@@ -509,7 +509,7 @@ class UnifiedMonitoringDashboard:
                     system_metrics = health_status.get("system_metrics", {})
                     dashboard_data.resource_utilization = {
                         "cpu": system_metrics.get("cpu_usage", 0.0),
-                        "memory": system_metrics.get("memory_usage", 0.0),
+                        "lukhas.memory": system_metrics.get("memory_usage", 0.0),
                         "disk": system_metrics.get("disk_usage", 0.0),
                     }
 
@@ -722,7 +722,7 @@ class UnifiedMonitoringDashboard:
         if cpu_usage > 80:
             recommendations.append("Optimize CPU usage - consider task distribution")
 
-        memory_usage = dashboard_data.resource_utilization.get("memory", 0)
+        memory_usage = dashboard_data.resource_utilization.get("lukhas.memory", 0)
         if memory_usage > 85:
             recommendations.append("Memory usage high - consider cleanup procedures")
 

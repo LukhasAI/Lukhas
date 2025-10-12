@@ -92,7 +92,7 @@ class ModuleRegistry:
     # Module tier requirements mapping
     MODULE_TIER_REQUIREMENTS = {
         # Core modules
-        "memory": TierLevel.VISITOR,  # Tier 1
+        "lukhas.memory": TierLevel.VISITOR,  # Tier 1
         "consciousness": TierLevel.VISITOR,  # Tier 1
         "reasoning": TierLevel.VISITOR,  # Tier 1
         "emotion": TierLevel.VISITOR,  # Tier 1
@@ -104,7 +104,7 @@ class ModuleRegistry:
         "quantum": TierLevel.TRUSTED,  # Tier 3
         "orchestration": TierLevel.TRUSTED,  # Tier 3
         # System modules
-        "governance": TierLevel.INNER_CIRCLE,  # Tier 4
+        "lukhas.governance": TierLevel.INNER_CIRCLE,  # Tier 4
         "system_config": TierLevel.ROOT_DEV,  # Tier 5
     }
 
@@ -364,7 +364,7 @@ class ModuleRegistry:
                 ],
                 "min_tier": TierLevel.VISITOR,
             },
-            "memory": {
+            "lukhas.memory": {
                 "type": "storage",
                 "priority": "medium",
                 "capabilities": [

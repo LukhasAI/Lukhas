@@ -232,9 +232,9 @@ def main():
     # Target modules for consolidation
     modules = [
         "consciousness",
-        "memory",
+        "lukhas.memory",
         "reasoning",
-        "governance",
+        "lukhas.governance",
         "orchestration",
         "identity",
         "quantum",

@@ -215,7 +215,7 @@ class AutomatedSyntaxFixer:
     def run_automated_fixes(self, target_dirs: List[str] = None) -> dict:
         """Run automated fixes on target directories"""
         if target_dirs is None:
-            target_dirs = ["branding", "candidate", "tools", "products", "matriz", "next_gen", "lukhas"]
+            target_dirs = ["branding", "labs", "lukhas.tools", "products", "matriz", "next_gen", "lukhas"]
 
         print("🤖 LUKHAS Automated Syntax Error Elimination")
         print("=" * 50)

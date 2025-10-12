@@ -13,13 +13,13 @@ def _dump(msg):
 
 
 def _guard___import__(name, *args, **kwargs):
-    if name == "candidate" or name.startswith("candidate."):
+    if name == "labs" or name.startswith("labs."):
         _dump(f"__import__('{name}')")
     return _real___import__(name, *args, **kwargs)
 
 
 def _guard_import_module(name, *args, **kwargs):
-    if name == "candidate" or name.startswith("candidate."):
+    if name == "labs" or name.startswith("labs."):
         _dump(f"import_module('{name}')")
     return _real_import_module(name, *args, **kwargs)
 

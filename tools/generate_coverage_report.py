@@ -77,7 +77,7 @@ _Generated: {timestamp}_
                 contract = json.load(f)
             module = contract_path.split('/')[-1].replace('matrix_', '').replace('.json', '')
             webauthn = '✅' if contract.get('identity', {}).get('webauthn_required', False) else '❌'
-            coverage = '40/40' if module in ['governance', 'identity'] else '38/40'
+            coverage = '40/40' if module in ['lukhas.governance', 'identity'] else '38/40'
             report += f"""
 | `{module}` | ✅ | ✅ | {webauthn} | {coverage} |"""
         except:

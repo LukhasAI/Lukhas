@@ -5,7 +5,7 @@ from lukhas._bridgeutils import bridge_from_candidates
 
 _CANDIDATES = (
     "lukhas_website.lukhas.core.consciousness_ticker",
-    "candidate.core.consciousness_ticker",
+    "labs.core.consciousness_ticker",
 )
 
 __all__, _exports = bridge_from_candidates(*_CANDIDATES)

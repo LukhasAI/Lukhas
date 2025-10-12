@@ -200,7 +200,7 @@ class ConcernSplitter:
 
         # Special cases based on directory structure
         if file_path.startswith("candidate/"):
-            return "candidate"
+            return "labs"
         elif file_path.startswith("core/"):
             return "core"
         elif file_path.startswith("matriz/"):
@@ -214,7 +214,7 @@ class ConcernSplitter:
             elif "dashboard" in file_path or "monitor" in file_path:
                 return "dashboard"
             else:
-                return "tools"
+                return "lukhas.tools"
 
         return "misc"
 

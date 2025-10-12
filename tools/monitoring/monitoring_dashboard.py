@@ -27,7 +27,7 @@ try:
 except ImportError:
     FASTAPI_AVAILABLE = False
 
-from tools.monitoring.t4_monitoring_integration import T4MonitoringIntegration
+from lukhas.tools.monitoring.t4_monitoring_integration import T4MonitoringIntegration
 
 
 class MonitoringDashboard:

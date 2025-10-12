@@ -16,7 +16,7 @@ PROTECTED_MODULES = {
     "dream": "T3",  # Requires T3 or above
     "emotion": "T3",  # Requires T3 or above
     "quantum": "T4",  # Requires T4 or above
-    "governance": "T5",  # Requires T5 (Guardian)
+    "lukhas.governance": "T5",  # Requires T5 (Guardian)
     "api": "T2",  # Requires T2 for API access
 }
 
@@ -206,7 +206,7 @@ class IdentityAudit:
             if not module_dir.is_dir() or module_dir.name.startswith("."):
                 continue
 
-            if module_dir.name in ["tests", "docs", "tools", "__pycache__"]:
+            if module_dir.name in ["tests", "docs", "lukhas.tools", "__pycache__"]:
                 continue
 
             has_user_linking = False

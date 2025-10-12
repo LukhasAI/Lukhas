@@ -174,7 +174,7 @@ def generate_sbom() -> Dict[str, Any]:
                 "version": 1,
                 "metadata": {
                     "timestamp": "2025-09-22T01:35:00Z",
-                    "tools": ["pip"]
+                    "lukhas.tools": ["pip"]
                 },
                 "components": []
             }
