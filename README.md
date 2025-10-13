@@ -14,6 +14,22 @@ updated: 2025-10-12
 
 LUKHAS AI is a sophisticated cognitive platform that implements consciousness-inspired patterns for advanced AI applications. Built with a modular lane-based architecture, the platform enables safe development and deployment of consciousness-aware AI systems through strict boundaries and comprehensive governance.
 
+## ⚡ 30-Second Quickstart
+
+```bash
+# Install and run LUKHAS in 30 seconds
+pip install -e . && pytest tests/smoke/
+python3 -m uvicorn lukhas.adapters.openai.api:get_app --factory --host 0.0.0.0 --port 8000 &
+
+# Test the API
+curl http://localhost:8000/v1/responses \
+  -H "Authorization: Bearer sk-lukhas-test" \
+  -H "Content-Type: application/json" \
+  -d '{"prompt":"Explain the Constellation Framework","max_tokens":150}'
+```
+
+📖 **[Full Installation Guide](#-installation)** | 🎯 **[API Documentation](docs/api/)** | 🧪 **[SDK Examples](examples/sdk/)**
+
 ## 🎯 **MATRIZ Transition Status** (Active)
 
 **Phase**: R2 Preparation | **Progress**: 85% | **Target**: Q4 2025
