@@ -1,7 +1,54 @@
-defaults: { rate_per_sec: 10, burst: 20 }
-orgs:
-  org_abc: { rate_per_sec: 50, burst: 100 }
-tokens:
-  sk-abc...: { rate_per_sec: 5, burst: 10 }
-routes:
-  "/v1/dreams": { rate_per_sec: 3, burst: 5 }
+# LUKHAS Quota Configuration
+# Defines per-principal rate limits for API endpoints
+#
+# Usage:
+#   - Principal can be tenant_id, user_id, or wildcard patterns
+#   - Rate limits specified as requests_per_second (rps) and burst capacity
+#   - Redis backend will use these quotas; fallback to env vars if principal not found
+
+version: 1
+
+# Default quotas (applied when no specific principal match)
+defaults:
+  rps: 20
+  burst: 40  # 2x capacity for burst handling
+
+# Per-principal quotas
+principals:
+  # Premium tier tenant
+  - principal: "tenant:acme-corp"
+    rps: 100
+    burst: 200
+    description: "Enterprise customer with premium SLA"
+
+  # Standard tier tenant
+  - principal: "tenant:startup-inc"
+    rps: 50
+    burst: 100
+    description: "Standard tier customer"
+
+  # Development/testing tenant
+  - principal: "tenant:dev-sandbox"
+    rps: 10
+    burst: 20
+    description: "Development environment with restricted quotas"
+
+  # Per-user quota example
+  - principal: "user:admin@acme-corp.com"
+    rps: 200
+    burst: 400
+    description: "Admin user with elevated quotas"
+
+  # IP-based quota for anonymous access
+  - principal: "ip:203.0.113.0/24"
+    rps: 5
+    burst: 10
+    description: "Public IP range with restricted access"
+
+# Per-endpoint overrides (optional)
+# These multiply the principal's base quota
+endpoint_multipliers:
+  "/v1/embeddings": 2.5  # Allow 2.5x more requests for embedding operations
+  "/v1/dreams": 0.25     # Restrict dreams to 25% of base quota (expensive)
+  "/v1/responses": 1.0   # Standard quota
+  "/v1/models": 5.0      # Allow 5x for lightweight model listing

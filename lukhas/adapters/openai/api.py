@@ -345,6 +345,39 @@ def get_app() -> FastAPI:
             logger.warning(f"Failed to initialize PolicyGuard: {e}, RBAC will be permissive")
             policy_guard = None
 
+    # Initialize Guardian PDP (if available)
+    guardian_pdp: Optional[Any] = None
+    try:
+        from lukhas.adapters.openai.policy_pdp import PolicyLoader, PDP
+        # Try to load Guardian policy from config
+        policy_path = "configs/policy/guardian_policies.yaml"
+        if os.path.exists(policy_path):
+            policy = PolicyLoader.load_from_file(policy_path)
+            guardian_pdp = PDP(policy)
+            logger.info(f"Guardian PDP initialized with policy etag={policy.etag[:8]}")
+        else:
+            logger.info("Guardian policy not found, PDP not initialized")
+    except Exception as e:
+        logger.warning(f"Failed to initialize Guardian PDP: {e}")
+        guardian_pdp = None
+
+    # Initialize Redis rate limit backend (if available)
+    redis_backend: Optional[Any] = None
+    try:
+        from lukhas.core.reliability.redis_backend import RedisRateLimitBackend
+        from lukhas.core.reliability.quota_resolver import QuotaResolver
+
+        # Only initialize if Redis URL is configured
+        if os.getenv("REDIS_URL"):
+            quota_resolver = QuotaResolver()
+            redis_backend = RedisRateLimitBackend(quota_resolver=quota_resolver)
+            logger.info("Redis rate limit backend initialized")
+        else:
+            logger.info("REDIS_URL not set, using in-memory rate limiter")
+    except Exception as e:
+        logger.warning(f"Failed to initialize Redis backend: {e}, using in-memory rate limiter")
+        redis_backend = None
+
     # Include indexes router (if index_manager available)
     if index_manager is not None:
         try:
@@ -375,6 +408,26 @@ def get_app() -> FastAPI:
             checks["matriz"] = orchestrator is not None
         if MEMORY_AVAILABLE:
             checks["lukhas.memory"] = memory_index is not None
+
+        # Guardian PDP check (optional)
+        if guardian_pdp is not None:
+            try:
+                pdp_stats = guardian_pdp.get_stats()
+                checks["guardian_pdp"] = {
+                    "available": True,
+                    "decisions": pdp_stats.get("total_decisions", 0),
+                }
+            except Exception:
+                checks["guardian_pdp"] = {"available": False}
+
+        # Redis backend check (optional)
+        if redis_backend is not None:
+            try:
+                checks["redis_backend"] = {
+                    "available": redis_backend.is_healthy(),
+                }
+            except Exception:
+                checks["redis_backend"] = {"available": False}
 
         # Liveness passes even if optional dependencies are down
         return {
@@ -410,6 +463,38 @@ def get_app() -> FastAPI:
             checks["lukhas.memory"] = memory_index is not None
         else:
             checks["lukhas.memory"] = "not_required"
+
+        # Guardian PDP check with detailed stats
+        if guardian_pdp is not None:
+            try:
+                pdp_stats = guardian_pdp.get_stats()
+                checks["guardian_pdp"] = {
+                    "available": True,
+                    "total_decisions": pdp_stats.get("total_decisions", 0),
+                    "allow_count": pdp_stats.get("allow_count", 0),
+                    "deny_count": pdp_stats.get("deny_count", 0),
+                    "policy_etag": pdp_stats.get("policy_etag", "unknown"),
+                }
+            except Exception as e:
+                logger.warning(f"Guardian PDP health check failed: {e}")
+                checks["guardian_pdp"] = {"available": False, "error": str(e)}
+        else:
+            checks["guardian_pdp"] = "not_configured"
+
+        # Redis backend check with detailed stats
+        if redis_backend is not None:
+            try:
+                redis_healthy = redis_backend.is_healthy()
+                redis_stats = redis_backend.get_stats()
+                checks["redis_backend"] = {
+                    "available": redis_healthy,
+                    "stats": redis_stats if redis_healthy else {"error": "unhealthy"},
+                }
+            except Exception as e:
+                logger.warning(f"Redis backend health check failed: {e}")
+                checks["redis_backend"] = {"available": False, "error": str(e)}
+        else:
+            checks["redis_backend"] = "not_configured"
 
         # Service is ready if core dependencies are available
         # MATRIZ and memory are optional (can run in stub mode)

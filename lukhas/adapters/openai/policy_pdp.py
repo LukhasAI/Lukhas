@@ -1,7 +1,19 @@
+import time
 import yaml
 import hashlib
 from typing import List, Dict, Any, Optional
 from .policy_models import Context, Decision, Rule
+
+# Try to import Guardian metrics (graceful fallback)
+try:
+    from lukhas.observability.guardian_metrics import record_decision, record_rule_evaluation, set_policy_version
+    METRICS_AVAILABLE = True
+except ImportError:
+    METRICS_AVAILABLE = False
+    # No-op fallbacks
+    def record_decision(*args, **kwargs): pass
+    def record_rule_evaluation(*args, **kwargs): pass
+    def set_policy_version(*args, **kwargs): pass
 
 class Policy:
     """Represents a loaded policy, including indexed rules for efficient evaluation."""
@@ -56,6 +68,13 @@ class PDP:
 
     def __init__(self, policy: Policy):
         self.policy = policy
+        self.decision_count = 0
+        self.allow_count = 0
+        self.deny_count = 0
+
+        # Set policy version metric
+        if METRICS_AVAILABLE:
+            set_policy_version(policy.etag, policy.tenant_id)
 
     def decide(self, ctx: Context) -> Decision:
         """
@@ -64,12 +83,17 @@ class PDP:
         - If any 'Allow' rules match and no 'Deny' rules match, the result is 'Allow'.
         - If no rules match, the result is 'Deny' (default_deny).
         """
+        start_time = time.time()
         matched_allow_rule: Optional[Rule] = None
 
         # Use the pre-indexed rules for efficiency
         applicable_rules = self.policy.get_applicable_rules(ctx.action)
 
         for rule in applicable_rules:
+            # Record rule evaluation metric
+            if METRICS_AVAILABLE:
+                record_rule_evaluation(rule.id, rule.effect)
+
             # Check if the rule matches the context
             if not (
                 rule.matches_subject(ctx) and
@@ -81,12 +105,14 @@ class PDP:
 
             # If a Deny rule matches, short-circuit and deny immediately
             if rule.effect == "Deny":
-                return Decision(
+                decision = Decision(
                     allow=False,
                     rule_id=rule.id,
                     reason=f"deny_rule_matched:{rule.id}",
                     audit={"combining": self.policy.combining_algorithm, "trace_id": ctx.trace_id},
                 )
+                self._record_decision(decision, ctx, start_time)
+                return decision
 
             # If an Allow rule matches, store it and continue checking for Deny rules
             if rule.effect == "Allow" and matched_allow_rule is None:
@@ -94,18 +120,53 @@ class PDP:
 
         # If we found an Allow rule and were not overridden by a Deny, then allow.
         if matched_allow_rule:
-            return Decision(
+            decision = Decision(
                 allow=True,
                 rule_id=matched_allow_rule.id,
                 reason=f"allow_rule_matched:{matched_allow_rule.id}",
                 obligations=matched_allow_rule.obligations,
                 audit={"combining": self.policy.combining_algorithm, "trace_id": ctx.trace_id},
             )
+            self._record_decision(decision, ctx, start_time)
+            return decision
 
         # If no rules matched, or only non-matching Allow rules were found, default to deny.
-        return Decision(
+        decision = Decision(
             allow=False,
             rule_id=None,
             reason="default_deny",
             audit={"combining": self.policy.combining_algorithm, "trace_id": ctx.trace_id},
         )
+        self._record_decision(decision, ctx, start_time)
+        return decision
+
+    def _record_decision(self, decision: Decision, ctx: Context, start_time: float) -> None:
+        """Record decision metrics and internal counters."""
+        # Update internal counters
+        self.decision_count += 1
+        if decision.allow:
+            self.allow_count += 1
+        else:
+            self.deny_count += 1
+
+        # Record Prometheus metrics
+        if METRICS_AVAILABLE:
+            duration = time.time() - start_time
+            # Extract scope from context (first scope if multiple)
+            scope = list(ctx.scopes)[0] if ctx.scopes else None
+            record_decision(
+                allow=decision.allow,
+                scope=scope,
+                route=ctx.resource,
+                reason=decision.reason if not decision.allow else None,
+                duration_seconds=duration,
+            )
+
+    def get_stats(self) -> dict:
+        """Get PDP statistics for health monitoring."""
+        return {
+            "total_decisions": self.decision_count,
+            "allow_count": self.allow_count,
+            "deny_count": self.deny_count,
+            "policy_etag": self.policy.etag[:8] if self.policy.etag else "unknown",
+        }

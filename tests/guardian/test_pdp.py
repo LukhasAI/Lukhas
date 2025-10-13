@@ -2,6 +2,7 @@ import unittest
 from datetime import datetime
 import os
 import sys
+from typing import Optional
 
 # Add the project root to the path to allow imports
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../../..')))
@@ -20,12 +21,12 @@ class TestGuardianPDP(unittest.TestCase):
 
     def _create_context(
         self,
-        scopes: set[str],
+        scopes: set,
         action: str,
         resource: str,
-        model: str | None = None,
+        model: Optional[str] = None,
         ip: str = "10.0.0.1",
-        time_utc: datetime | None = None,
+        time_utc: Optional[datetime] = None,
         tenant_id: str = "acme"
     ) -> Context:
         """Helper to create a mock context for testing."""
