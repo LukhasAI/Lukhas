@@ -226,7 +226,23 @@ def main():
     print("\n" + "=" * 70)
     print("📋 Generating summary...")
 
+    # Get git version info
+    git_sha = "unknown"
+    git_version = "unknown"
+    try:
+        ok, sha_out, _, _ = run(["git", "rev-parse", "--short=8", "HEAD"])
+        if ok:
+            git_sha = sha_out.strip()
+
+        ok, ver_out, _, _ = run(["git", "describe", "--tags", "--always"])
+        if ok:
+            git_version = ver_out.strip()
+    except Exception:
+        pass
+
     summary = {
+        "version": git_version,
+        "git_sha": git_sha,
         "ts": ts,
         "timestamp_iso": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime(ts)),
         "ruff": {
@@ -269,6 +285,7 @@ def main():
     md_lines = [
         "# LUKHAS System Health Audit (auto-generated)",
         "",
+        f"**Version:** `{summary['version']}` | **Commit:** `{summary['git_sha']}`  ",
         f"**Timestamp:** `{summary['timestamp_iso']}`",
         "",
         "## Summary",

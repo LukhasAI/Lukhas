@@ -125,7 +125,7 @@ jobs:
             docs/audits/health/latest.json
             docs/audits/health/latest.md
           if-no-files-found: ignore
-          retention-days: 90
+          retention-days: 60
 
       - name: Tripwire — T1 must have testing.test_paths (may be empty)
         run: |

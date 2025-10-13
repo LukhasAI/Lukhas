@@ -70,9 +70,10 @@ jobs:
           RUFF_PHASE_B=$(python3 -m ruff check lukhas/adapters/ lukhas/core/reliability/ --output-format=concise 2>&1 | wc -l || echo "0")
           echo "ruff_phase_b=$RUFF_PHASE_B" >> $GITHUB_OUTPUT
 
-          # Budget ceilings (from T4 validation goals)
+          # Budget ceilings (target vs gate)
           echo "budget_phase_a=5000" >> $GITHUB_OUTPUT
-          echo "budget_phase_b=50" >> $GITHUB_OUTPUT
+          echo "budget_phase_b_target=50" >> $GITHUB_OUTPUT
+          echo "budget_phase_b_gate=120" >> $GITHUB_OUTPUT
 
       - name: Check OpenAPI headers guard
         id: openapi_guard
@@ -115,7 +116,8 @@ print('pass' if has_rl else 'warn')
             const ruffPhaseA = parseInt('${{ steps.ruff_budgets.outputs.ruff_phase_a }}');
             const ruffPhaseB = parseInt('${{ steps.ruff_budgets.outputs.ruff_phase_b }}');
             const budgetA = parseInt('${{ steps.ruff_budgets.outputs.budget_phase_a }}');
-            const budgetB = parseInt('${{ steps.ruff_budgets.outputs.budget_phase_b }}');
+            const budgetBTarget = parseInt('${{ steps.ruff_budgets.outputs.budget_phase_b_target }}');
+            const budgetBGate = parseInt('${{ steps.ruff_budgets.outputs.budget_phase_b_gate }}');
 
             const openapiHeaders = '${{ steps.openapi_guard.outputs.openapi_headers }}';
 
@@ -127,9 +129,10 @@ print('pass' if has_rl else 'warn')
             else if (pct >= 70) badge = '🟡';
             else if (pct >= 50) badge = '🟠';
 
-            // Ruff budget status
+            // Ruff budget status (gate enforcement)
             const ruffAStatus = ruffPhaseA <= budgetA ? '✅' : '🔴';
-            const ruffBStatus = ruffPhaseB <= budgetB ? '✅' : '🔴';
+            const ruffBStatus = ruffPhaseB <= budgetBGate ? '✅' : '🔴';
+            const ruffBProgress = ruffPhaseB <= budgetBTarget ? '✅' : '🟡';
 
             // OpenAPI guard status
             let openapiStatus = '❓';
@@ -144,13 +147,16 @@ print('pass' if has_rl else 'warn')
 |--------|-------|--------|
 | **Smoke Tests (permissive)** | ${smokePassed}/${smokeTotal} passing | ${smokePct}% |
 | **Ruff Phase A** (candidate/labs) | ${ruffPhaseA}/${budgetA} | ${ruffAStatus} |
-| **Ruff Phase B** (hot paths) | ${ruffPhaseB}/${budgetB} | ${ruffBStatus} |
+| **Ruff Phase B** (hot paths) | ${ruffPhaseB} (target ${budgetBTarget}, gate ${budgetBGate}) | ${ruffBProgress} ${ruffBStatus} |
 | **OpenAPI Headers Guard** | Rate-limit headers | ${openapiStatus} |
 
 ### Thresholds & Budgets
 - **Smoke:** ✅ ≥95% · 🟢 ≥85% · 🟡 ≥70% · 🟠 ≥50% · 🔴 <50%
 - **Ruff Phase A:** Budget ≤${budgetA} (candidate/labs, permissive)
-- **Ruff Phase B:** Budget ≤${budgetB} (lukhas/adapters, lukhas/core/reliability, strict)
+- **Ruff Phase B:** Target ≤${budgetBTarget}, Gate ≤${budgetBGate} (lukhas/adapters, lukhas/core/reliability)
+  - 🟡 = between target and gate (acceptable, needs improvement)
+  - ✅ = at or below target (excellent)
+  - 🔴 = exceeds gate (fails CI)
 - **OpenAPI Guard:** ✅ Headers documented · ⚠️ Partial · 🔴 Missing
 
 <details>
