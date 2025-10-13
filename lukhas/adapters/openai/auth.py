@@ -14,7 +14,7 @@ logger = logging.getLogger(__name__)
 # OpenAI-compatible error responses
 UNAUTHORIZED = {
     "error": {
-        "type": "invalid_request_error",
+        "type": "invalid_api_key",
         "message": "Invalid authentication. Please provide a valid Bearer token.",
         "code": "invalid_api_key"
     }

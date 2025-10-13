@@ -4,6 +4,7 @@ Rate limiting for LUKHAS API endpoints.
 Implements token bucket algorithm with per-endpoint and per-principal limits.
 Keys by (route, bearer_token) or (route, ip) to prevent cross-tenant throttling.
 """
+import hashlib
 import time
 from collections import defaultdict
 from threading import Lock
@@ -99,9 +100,18 @@ class RateLimiter:
         if auth and auth.lower().startswith("bearer "):
             token = auth.split(" ", 1)[1].strip()
             if token:
-                return token
+                # Hash token to avoid storing raw secrets in memory/logs/metrics
+                digest = hashlib.sha256(token.encode()).hexdigest()[:16]
+                return f"tok:{digest}"
         
-        # Fallback to client IP
+        # Fallback to client IP (prefer X-Forwarded-For for proxies)
+        xff = request.headers.get("x-forwarded-for")
+        if xff:
+            # Take first IP from comma-separated list
+            ip = xff.split(",")[0].strip()
+            if ip:
+                return ip
+        
         client = getattr(request, "client", None)
         if client:
             ip = getattr(client, "host", None)

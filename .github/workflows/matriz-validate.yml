@@ -268,11 +268,20 @@ jobs:
     name: Build OpenAPI Spec
     runs-on: ubuntu-latest
     timeout-minutes: 10
+    concurrency:
+      group: ${{ github.workflow }}-openapi-spec-${{ github.ref }}
+      cancel-in-progress: true
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
+      - uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements*.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
       - name: Install app
         run: |
           pip install -e .
@@ -284,10 +293,14 @@ jobs:
           app = get_app()
           spec = app.openapi()
           os.makedirs("docs/openapi", exist_ok=True)
-          with open("docs/openapi/lukhas-openai.json","w") as f:
+          with open("docs/openapi/lukhas-openapi.json","w") as f:
               json.dump(spec, f, indent=2)
-          print("✅ wrote docs/openapi/lukhas-openai.json")
+          print("✅ wrote docs/openapi/lukhas-openapi.json")
           PY
+      - name: Validate OpenAPI Schema
+        run: |
+          pip install openapi-spec-validator
+          openapi-spec-validator docs/openapi/lukhas-openapi.json
       - uses: actions/upload-artifact@v4
         with:
           name: openapi-spec
@@ -298,11 +311,20 @@ jobs:
     runs-on: ubuntu-latest
     needs: [validate]
     timeout-minutes: 15
+    concurrency:
+      group: ${{ github.workflow }}-facade-smoke-${{ github.ref }}
+      cancel-in-progress: true
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
+      - uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements*.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
       - name: Install app
         run: |
           pip install -e . "uvicorn[standard]"

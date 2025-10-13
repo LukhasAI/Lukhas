@@ -1,5 +1,5 @@
 # Main Makefile PHONY declarations (only for targets defined in this file)
-.PHONY: install setup-hooks dev api openapi live colony-dna-smoke smoke-matriz lint lint-unused lint-unused-strict format fix fix-all fix-ultra fix-imports oneiric-drift-test
+.PHONY: install setup-hooks dev api openapi openapi-spec openapi-validate facade-smoke live colony-dna-smoke smoke-matriz lint lint-unused lint-unused-strict format fix fix-all fix-ultra fix-imports oneiric-drift-test
 .PHONY: load-smoke load-test load-extended load-spike load-locust load-check
 .PHONY: ai-analyze ai-setup ai-workflow clean deep-clean quick bootstrap organize organize-dry organize-suggest organize-watch
 .PHONY: codex-validate codex-fix validate-all perf migrate-dry migrate-run dna-health dna-compare admin lint-status lane-guard
@@ -56,6 +56,33 @@ openapi:
 	@mkdir -p out
 	curl -s http://127.0.0.1:8000/openapi.json -o out/openapi.json
 	@echo "✅ OpenAPI exported to out/openapi.json"
+
+# Generate OpenAPI spec (no server required)
+openapi-spec:
+	@echo "📝 Generating OpenAPI spec for OpenAI façade..."
+	@mkdir -p docs/openapi
+	@python - <<'PY'
+	import json, os
+	from lukhas.adapters.openai.api import get_app
+	app = get_app()
+	spec = app.openapi()
+	os.makedirs("docs/openapi", exist_ok=True)
+	with open("docs/openapi/lukhas-openapi.json","w") as f:
+	    json.dump(spec, f, indent=2)
+	print("✅ wrote docs/openapi/lukhas-openapi.json")
+	PY
+
+# Validate OpenAPI spec
+openapi-validate: openapi-spec
+	@echo "✅ Validating OpenAPI spec..."
+	@pip install -q openapi-spec-validator
+	@openapi-spec-validator docs/openapi/lukhas-openapi.json
+	@echo "✅ OpenAPI spec is valid!"
+
+# Run OpenAI façade smoke tests
+facade-smoke:
+	@echo "🚬 Running OpenAI façade smoke tests..."
+	@bash scripts/smoke_test_openai_facade.sh
 
 # Live integration test
 live:
