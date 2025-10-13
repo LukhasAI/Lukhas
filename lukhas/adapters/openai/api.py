@@ -19,7 +19,7 @@ from fastapi.responses import JSONResponse, PlainTextResponse
 from fastapi.middleware.cors import CORSMiddleware
 from collections import defaultdict
 from threading import Lock
-import os, time, uuid, logging
+import os, time, uuid, logging, math
 
 from lukhas.core.reliability.ratelimit import RateLimiter, rate_limit_error
 from lukhas.observability.tracing import setup_otel, traced_operation, get_trace_id_hex
@@ -215,15 +215,43 @@ def get_app() -> FastAPI:
 
         # Check rate limit (now keys by route + bearer token/IP)
         allowed, retry_after = rate_limiter.check_limit(request)
+        rl_key = rate_limiter.key_for_request(request)
+        principal = rate_limiter.principal_for_request(request)
+        route = request.url.path
+        
         if not allowed:
+            # Phase 3: Add OpenAI-style headers and metrics on 429
+            try:
+                from lukhas.observability.ratelimit_metrics import record_hit
+                record_hit(route, principal)
+            except Exception:
+                pass
+            
+            headers = rate_limiter.headers_for(rl_key)
+            headers["Retry-After"] = str(int(math.ceil(retry_after))) if retry_after else "1"
+            
             error_response = rate_limit_error(retry_after)
             return JSONResponse(
                 status_code=429,
                 content=error_response["error"],
-                headers=error_response["headers"]
+                headers=headers
             )
 
-        return await call_next(request)
+        # Process request
+        response = await call_next(request)
+        
+        # Phase 3: Add rate-limit headers to successful responses
+        try:
+            response.headers.update(rate_limiter.headers_for(rl_key))
+            
+            # Record metrics for successful requests
+            from lukhas.observability.ratelimit_metrics import record_window
+            record_window(route, principal, rate_limiter, rl_key)
+        except Exception:
+            # Never crash due to metrics
+            pass
+        
+        return response
 
     # Initialize MATRIZ orchestrator (if available)
     orchestrator: Optional[Any] = None
@@ -389,17 +417,36 @@ def get_app() -> FastAPI:
         if memory_index and MEMORY_AVAILABLE:
             try:
                 # Generate a simple embedding (in production, use actual model)
-                # For now, create a deterministic vector based on text hash
+                # For now, create a deterministic 1536-dim vector based on text hash
                 import hashlib
-                text_hash = hashlib.sha256(text.encode()).digest()
-                vec = [float(int(b) % 256) / 255.0 for b in text_hash[:1536]]
+                # Use multiple hashes to generate 1536 dimensions (1536/32 = 48 hashes)
+                vec = []
+                for i in range(48):
+                    # Hash text with counter to get different values
+                    hash_input = f"{text}:{i}".encode()
+                    text_hash = hashlib.sha256(hash_input).digest()
+                    vec.extend([float(int(b) % 256) / 255.0 for b in text_hash])
+                vec = vec[:1536]  # Ensure exactly 1536 dimensions
                 logger.debug(f"Generated embedding for text (length={len(text)})")
             except Exception as e:
                 logger.error(f"Embedding generation failed: {e}, using fallback")
-                vec = [float(len(text) % 7), 0.0, 1.0]
+                # Fallback: simple deterministic 1536-dim vector
+                import hashlib
+                vec = []
+                for i in range(48):
+                    hash_input = f"{text}:{i}".encode()
+                    text_hash = hashlib.sha256(hash_input).digest()
+                    vec.extend([float(int(b) % 256) / 255.0 for b in text_hash])
+                vec = vec[:1536]
         else:
-            # Stub mode - deterministic vector
-            vec = [float(len(text) % 7), 0.0, 1.0]
+            # Stub mode - deterministic 1536-dim vector based on text hash
+            import hashlib
+            vec = []
+            for i in range(48):
+                hash_input = f"{text}:{i}".encode()
+                text_hash = hashlib.sha256(hash_input).digest()
+                vec.extend([float(int(b) % 256) / 255.0 for b in text_hash])
+            vec = vec[:1536]
 
         result_dict = _maybe_trace({"data": [{"embedding": vec, "index": 0}]})
         
