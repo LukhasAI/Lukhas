@@ -1543,3 +1543,22 @@ alerts-print: ## Print Prometheus alert groups
 	@echo ">> printing alert groups"
 	$(PROMTOOL) check rules $(ALERTS_DIR)/*.alerts.yml && \
 	$(PROMTOOL) show rules $(ALERTS_DIR)/*.alerts.yml
+
+# ============================================================================
+# Phase 3.1: System Health Audit
+# ============================================================================
+
+.PHONY: health-audit
+health-audit: ## Run comprehensive system health audit
+	@python3 scripts/system_health_audit.py
+
+.PHONY: health-audit-ci
+health-audit-ci: ## Run health audit in CI mode (non-failing)
+	@python3 scripts/system_health_audit.py || true
+	@echo "## Health Audit" > docs/audits/health/summary_ci.md
+	@if [ -f docs/audits/health/latest.md ]; then \
+		tail -n +1 docs/audits/health/latest.md >> docs/audits/health/summary_ci.md; \
+	fi
+
+.PHONY: health
+health: health-audit ## Alias for health-audit

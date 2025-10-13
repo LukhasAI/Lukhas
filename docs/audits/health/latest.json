@@ -1,0 +1,175 @@
+{
+  "summary": {
+    "ts": 1760326639,
+    "timestamp_iso": "2025-10-13T03:37:19Z",
+    "ruff": {
+      "stats": {
+        "UP006": 5458,
+        "TID252": 2423,
+        "E402": 1318,
+        "UP035": 1139,
+        "UP007": 709,
+        "F841": 349,
+        "UP015": 312,
+        "E712": 153,
+        "E722": 127,
+        "F541": 115,
+        "I001": 102,
+        "E702": 99,
+        "E701": 66,
+        "E741": 38,
+        "F811": 18,
+        "UP037": 18,
+        "F821": 16,
+        "F402": 11,
+        "F706": 10,
+        "UP024": 10,
+        "F401": 9,
+        "UP012": 9,
+        "F405": 8,
+        "E401": 7,
+        "F403": 6,
+        "F823": 6,
+        "E731": 4,
+        "UP018": 3,
+        "UP032": 3,
+        "UP034": 3,
+        "E721": 2,
+        "F404": 2,
+        "UP009": 2,
+        "UP020": 2,
+        "UP028": 2,
+        "RUF100": 2,
+        "F822": 1,
+        "UP011": 1
+      },
+      "count": {
+        "total": 12640
+      }
+    },
+    "tests": {
+      "smoke": {
+        "passed": 65,
+        "failed": 26,
+        "maxfail_stopped": true
+      },
+      "unit_core": {
+        "summary": "it/aka_qualia/test_metrics.py\nERROR tests/unit/bio/core/test_bio_symbolic.py\nERROR tests/unit/branding/personal_brand/test_consciousness_authority_builder.py\nERROR tests/unit/branding/test_keatsian_replacer.py - FileNotFoundError: [Err...\n!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 5 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!\n============================== 5 errors in 0.77s ==============================="
+      }
+    },
+    "compat": {
+      "task": "compat_hits",
+      "ok": true,
+      "rc": 0,
+      "stdout": "[report_compat_hits] Total compat alias hits: 0\n[report_compat_hits] \u2705 PASS: 0 hits within limit 999999",
+      "stderr": "",
+      "parsed": "[report_compat_hits] Total compat alias hits: 0\n[report_compat_hits] \u2705 PASS: 0 hits within limit 999999"
+    },
+    "openapi": {
+      "ok": false,
+      "message": "OpenAPI spec not found"
+    },
+    "star_rules": {
+      "ok": true,
+      "rc": 0
+    },
+    "deps": null
+  },
+  "raw": {
+    "ruff_statistics": {
+      "task": "ruff_stats",
+      "ok": false,
+      "rc": 1,
+      "stdout": "5458\tUP006 \t[*] non-pep585-annotation\n2423\tTID252\t[ ] relative-imports\n1318\tE402  \t[ ] module-import-not-at-top-of-file\n1139\tUP035 \t[ ] deprecated-import\n 709\tUP007 \t[*] non-pep604-annotation\n 349\tF841  \t[*] unused-variable\n 312\tUP015 \t[*] redundant-open-modes\n 153\tE712  \t[*] true-false-comparison\n 127\tE722  \t[ ] bare-except\n 115\tF541  \t[*] f-string-missing-placeholders\n 102\tI001  \t[*] unsorted-imports\n  99\tE702  \t[ ] multiple-statements-on-one-line-semicolon\n  75\t      \t[ ] syntax-error\n  66\tE701  \t[ ] multiple-statements-on-one-line-colon\n  38\tE741  \t[ ] ambiguous-variable-name\n  18\tF811  \t[ ] redefined-while-unused\n  18\tUP037 \t[*] quoted-annotation\n  16\tF821  \t[ ] undefined-name\n  11\tF402  \t[ ] import-shadowed-by-loop-var\n  10\tF706  \t[ ] return-outside-function\n  10\tUP024 \t[*] os-error-alias\n   9\tF401  \t[ ] unused-import\n   9\tUP012 \t[*] unnecessary-encode-utf8\n   8\tF405  \t[ ] undefined-local-with-import-star-usage\n   7\tE401  \t[*] multiple-imports-on-one-line\n   6\tF403  \t[ ] undefined-local-with-import-star\n   6\tF823  \t[ ] undefined-local\n   4\tE731  \t[*] lambda-assignment\n   3\tUP018 \t[*] native-literals\n   3\tUP032 \t[*] f-string\n   3\tUP034 \t[*] extraneous-parentheses\n   2\tE721  \t[ ] type-comparison\n   2\tF404  \t[ ] late-future-import\n   2\tUP009 \t[*] utf8-encoding-declaration\n   2\tUP020 \t[*] open-alias\n   2\tUP028 \t[*] yield-in-for-loop\n   2\tRUF100\t[*] unused-noqa\n   1\tF822  \t[ ] undefined-export\n   1\tUP011 \t[*] lru-cache-without-parameters",
+      "stderr": "",
+      "parsed": {
+        "UP006": 5458,
+        "TID252": 2423,
+        "E402": 1318,
+        "UP035": 1139,
+        "UP007": 709,
+        "F841": 349,
+        "UP015": 312,
+        "E712": 153,
+        "E722": 127,
+        "F541": 115,
+        "I001": 102,
+        "E702": 99,
+        "E701": 66,
+        "E741": 38,
+        "F811": 18,
+        "UP037": 18,
+        "F821": 16,
+        "F402": 11,
+        "F706": 10,
+        "UP024": 10,
+        "F401": 9,
+        "UP012": 9,
+        "F405": 8,
+        "E401": 7,
+        "F403": 6,
+        "F823": 6,
+        "E731": 4,
+        "UP018": 3,
+        "UP032": 3,
+        "UP034": 3,
+        "E721": 2,
+        "F404": 2,
+        "UP009": 2,
+        "UP020": 2,
+        "UP028": 2,
+        "RUF100": 2,
+        "F822": 1,
+        "UP011": 1
+      }
+    },
+    "ruff_count": {
+      "task": "ruff_count",
+      "ok": true,
+      "rc": 0,
+      "stdout": "12640",
+      "stderr": "",
+      "parsed": {
+        "total": 12640
+      }
+    },
+    "pytest_smoke": {
+      "task": "pytest_smoke",
+      "ok": false,
+      "rc": 1,
+      "stdout": "test_auth.py::test_invalid_auth_scheme_returns_401 - KeyEr...\nFAILED tests/smoke/test_auth.py::test_error_format_openai_compatible - Assert...\nFAILED tests/smoke/test_auth_errors.py::test_missing_bearer_yields_auth_error\nFAILED tests/smoke/test_auth_errors.py::test_malformed_authorization_header\nFAILED tests/smoke/test_candidate_smoke.py::test_candidate_lane_accessible - ...\nFAILED tests/smoke/test_dreams_api.py::test_dreams_minimal - assert 401 == 200\nFAILED tests/smoke/test_error_handling.py::test_401_error_format_openai_compatible\nFAILED tests/smoke/test_experimental_smoke.py::test_experimental_lane_accessible\nFAILED tests/smoke/test_experimental_smoke.py::test_candidate_lane_accessible\nFAILED tests/smoke/test_idempotency.py::test_idempotency_key_replay_same_body_returns_cached\nFAILED tests/smoke/test_idempotency.py::test_idempotency_key_different_body_handled\nFAILED tests/smoke/test_idempotency.py::test_idempotency_key_works_for_responses\nFAILED tests/smoke/test_idempotency.py::test_without_idempotency_key_not_cached\nFAILED tests/smoke/test_metrics_tracking.py::test_metrics_track_requests - as...\nFAILED tests/smoke/test_metrics_tracking.py::test_error_tracking - assert 401...\nFAILED tests/smoke/test_openai_facade.py::test_responses_minimal - assert 401...\nFAILED tests/smoke/test_openai_facade.py::test_models_list - assert 401 == 200\nFAILED tests/smoke/test_responses_stream.py::test_streaming_responses_sse_protocol\nFAILED tests/smoke/test_responses_stream.py::test_streaming_vs_non_streaming\nFAILED tests/smoke/test_responses_stream.py::test_streaming_trace_header - re...\nFAILED tests/smoke/test_trace_header.py::test_trace_header_present_and_hex - ...\nFAILED tests/smoke/test_trace_header.py::test_trace_header_unique_across_requests\nFAILED tests/smoke/test_trace_header.py::test_trace_header_propagates_to_errors\nFAILED tests/smoke/test_tracing.py::test_no_trace_headers_when_otel_disabled\nFAILED tests/smoke/test_tracing.py::test_traced_matriz_operations - assert 40...",
+      "stderr": "",
+      "parsed": {
+        "passed": 65,
+        "failed": 26,
+        "maxfail_stopped": true
+      }
+    },
+    "pytest_core": {
+      "task": "pytest_core",
+      "ok": false,
+      "rc": 1,
+      "stdout": "============================= test session starts ==============================\nplatform darwin -- Python 3.9.6, pytest-8.4.2, pluggy-1.6.0\nrootdir: /Users/agi_dev/LOCAL-REPOS/Lukhas/tests/unit\nconfigfile: pytest.ini\nplugins: asyncio-0.24.0, anyio-4.9.0, xdist-3.8.0, timeout-2.4.0, hypothesis-6.140.0, cov-7.0.0\nasyncio: mode=auto, default_loop_scope=None\ncollected 43 items / 5 errors\n\n---- generated xml file: /Users/agi_dev/LOCAL-REPOS/Lukhas/test-results.xml ----\n=========================== short test summary info ============================\nERROR tests/unit/ai_orchestration/test_mcp_operational_support.py\nERROR tests/unit/aka_qualia/test_metrics.py\nERROR tests/unit/bio/core/test_bio_symbolic.py\nERROR tests/unit/branding/personal_brand/test_consciousness_authority_builder.py\nERROR tests/unit/branding/test_keatsian_replacer.py - FileNotFoundError: [Err...\n!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 5 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!\n============================== 5 errors in 0.77s ===============================",
+      "stderr": "",
+      "parsed": {
+        "summary": "it/aka_qualia/test_metrics.py\nERROR tests/unit/bio/core/test_bio_symbolic.py\nERROR tests/unit/branding/personal_brand/test_consciousness_authority_builder.py\nERROR tests/unit/branding/test_keatsian_replacer.py - FileNotFoundError: [Err...\n!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 5 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!\n============================== 5 errors in 0.77s ==============================="
+      }
+    },
+    "compat_hits": {
+      "task": "compat_hits",
+      "ok": true,
+      "rc": 0,
+      "stdout": "[report_compat_hits] Total compat alias hits: 0\n[report_compat_hits] \u2705 PASS: 0 hits within limit 999999",
+      "stderr": "",
+      "parsed": "[report_compat_hits] Total compat alias hits: 0\n[report_compat_hits] \u2705 PASS: 0 hits within limit 999999"
+    },
+    "openapi_validate": {
+      "ok": false,
+      "message": "OpenAPI spec not found"
+    },
+    "star_rules_coverage": {
+      "ok": true,
+      "rc": 0
+    }
+  }
+}

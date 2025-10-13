@@ -28,7 +28,7 @@ def test_no_candidate_leak_after_importing_lukhas():
 
 
 def test_matriz_imports_cleanly():
-    """Test that matriz package imports without candidate dependencies."""
+    """Test that matriz package imports without labs dependencies."""
     import matriz  # noqa: F401
 
     # matriz should be able to import independently
