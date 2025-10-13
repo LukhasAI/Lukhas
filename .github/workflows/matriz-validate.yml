@@ -647,3 +647,28 @@ jobs:
           else
             echo "✅ No legacy imports detected - Phase 2 migration complete"
           fi
+
+
+  ruff-strict-prod:
+    runs-on: ubuntu-latest
+    needs: [validate]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install ruff
+      - name: Ruff strict for production lanes
+        run: |
+          ruff check lukhas MATRIZ core --output-format=github
+
+  compileall-prod:
+    runs-on: ubuntu-latest
+    needs: [ruff-strict-prod]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Compile production Python
+        run: python -m compileall -q lukhas MATRIZ core
