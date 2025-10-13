@@ -36,13 +36,14 @@ jobs:
 
           # Extract metrics from health report
           if [ -f docs/audits/health/latest.json ]; then
-            SMOKE_PASSED=$(python3 -c "import json; d=json.load(open('docs/audits/health/latest.json')); print(d.get('smoke',{}).get('parsed',{}).get('passed',0))")
-            SMOKE_TOTAL=$(python3 -c "import json; d=json.load(open('docs/audits/health/latest.json')); print(d.get('smoke',{}).get('parsed',{}).get('total',0))")
-            RUFF_COUNT=$(python3 -c "import json; d=json.load(open('docs/audits/health/latest.json')); print(d.get('ruff_stats',{}).get('parsed',{}).get('total_issues',0))")
+            SMOKE_PASSED=$(python3 -c "import json; d=json.load(open('docs/audits/health/latest.json')); print(d.get('summary',{}).get('tests',{}).get('smoke',{}).get('passed',0))")
+            SMOKE_FAILED=$(python3 -c "import json; d=json.load(open('docs/audits/health/latest.json')); print(d.get('summary',{}).get('tests',{}).get('smoke',{}).get('failed',0))")
+            SMOKE_TOTAL=$((SMOKE_PASSED + SMOKE_FAILED))
+            RUFF_TOTAL=$(python3 -c "import json; d=json.load(open('docs/audits/health/latest.json')); print(d.get('summary',{}).get('ruff',{}).get('count',{}).get('total',0))")
 
-            # Calculate percentages
+            # Calculate smoke percentage
             if [ "$SMOKE_TOTAL" -gt 0 ]; then
-              SMOKE_PCT=$(python3 -c "print(f'{($SMOKE_PASSED/$SMOKE_TOTAL*100):.1f}')")
+              SMOKE_PCT=$(python3 -c "passed=${SMOKE_PASSED}; total=${SMOKE_TOTAL}; print(f'{(passed/total*100):.1f}')")
             else
               SMOKE_PCT="0.0"
             fi
@@ -50,32 +51,75 @@ jobs:
             echo "smoke_passed=$SMOKE_PASSED" >> $GITHUB_OUTPUT
             echo "smoke_total=$SMOKE_TOTAL" >> $GITHUB_OUTPUT
             echo "smoke_pct=$SMOKE_PCT" >> $GITHUB_OUTPUT
-            echo "ruff_count=$RUFF_COUNT" >> $GITHUB_OUTPUT
+            echo "ruff_total=$RUFF_TOTAL" >> $GITHUB_OUTPUT
           else
             echo "smoke_passed=0" >> $GITHUB_OUTPUT
             echo "smoke_total=0" >> $GITHUB_OUTPUT
             echo "smoke_pct=0.0" >> $GITHUB_OUTPUT
-            echo "ruff_count=0" >> $GITHUB_OUTPUT
+            echo "ruff_total=0" >> $GITHUB_OUTPUT
           fi
 
-      - name: Get failing test names
-        id: failures
+      - name: Get ruff budgets (Phase A & B)
+        id: ruff_budgets
         run: |
-          export LUKHAS_POLICY_MODE=permissive
-          FAILED=$(pytest tests/smoke/ --co -q 2>/dev/null | grep "test_" | head -10 | tr '\n' ',' || echo "")
-          echo "failed_tests=$FAILED" >> $GITHUB_OUTPUT
+          # Phase A: candidate/ labs/ (permissive)
+          RUFF_PHASE_A=$(python3 -m ruff check candidate/ labs/ --output-format=concise 2>&1 | wc -l || echo "0")
+          echo "ruff_phase_a=$RUFF_PHASE_A" >> $GITHUB_OUTPUT
+
+          # Phase B: Hot paths (lukhas/adapters, lukhas/core/reliability)
+          RUFF_PHASE_B=$(python3 -m ruff check lukhas/adapters/ lukhas/core/reliability/ --output-format=concise 2>&1 | wc -l || echo "0")
+          echo "ruff_phase_b=$RUFF_PHASE_B" >> $GITHUB_OUTPUT
+
+          # Budget ceilings (from T4 validation goals)
+          echo "budget_phase_a=5000" >> $GITHUB_OUTPUT
+          echo "budget_phase_b=50" >> $GITHUB_OUTPUT
+
+      - name: Check OpenAPI headers guard
+        id: openapi_guard
+        run: |
+          # Check if OpenAPI spec has required rate-limit headers
+          if [ -f docs/openapi/lukhas-openapi.json ]; then
+            HAS_HEADERS=$(python3 -c "
+import json
+spec = json.load(open('docs/openapi/lukhas-openapi.json'))
+paths = spec.get('paths', {})
+# Check if any endpoint documents x-ratelimit headers
+has_rl = False
+for path, methods in paths.items():
+    for method, details in methods.items():
+        if isinstance(details, dict):
+            responses = details.get('responses', {})
+            for code, resp in responses.items():
+                if isinstance(resp, dict):
+                    headers = resp.get('headers', {})
+                    if any('ratelimit' in h.lower() for h in headers.keys()):
+                        has_rl = True
+                        break
+print('pass' if has_rl else 'warn')
+" || echo "fail")
+            echo "openapi_headers=$HAS_HEADERS" >> $GITHUB_OUTPUT
+          else
+            echo "openapi_headers=not_found" >> $GITHUB_OUTPUT
+          fi
 
       - name: Post PR comment
         uses: actions/github-script@v7
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            const smokePassed = '${{ steps.health.outputs.smoke_passed }}';
-            const smokeTotal = '${{ steps.health.outputs.smoke_total }}';
-            const smokePct = '${{ steps.health.outputs.smoke_pct }}';
-            const ruffCount = '${{ steps.health.outputs.ruff_count }}';
+            const smokePassed = parseInt('${{ steps.health.outputs.smoke_passed }}');
+            const smokeTotal = parseInt('${{ steps.health.outputs.smoke_total }}');
+            const smokePct = parseFloat('${{ steps.health.outputs.smoke_pct }}');
+            const ruffTotal = parseInt('${{ steps.health.outputs.ruff_total }}');
 
-            // Determine badge emoji
+            const ruffPhaseA = parseInt('${{ steps.ruff_budgets.outputs.ruff_phase_a }}');
+            const ruffPhaseB = parseInt('${{ steps.ruff_budgets.outputs.ruff_phase_b }}');
+            const budgetA = parseInt('${{ steps.ruff_budgets.outputs.budget_phase_a }}');
+            const budgetB = parseInt('${{ steps.ruff_budgets.outputs.budget_phase_b }}');
+
+            const openapiHeaders = '${{ steps.openapi_guard.outputs.openapi_headers }}';
+
+            // Determine overall badge emoji
             const pct = parseFloat(smokePct);
             let badge = '🔴';
             if (pct >= 95) badge = '✅';
@@ -83,30 +127,60 @@ jobs:
             else if (pct >= 70) badge = '🟡';
             else if (pct >= 50) badge = '🟠';
 
-            const comment = `## ${badge} Health Report Badge
+            // Ruff budget status
+            const ruffAStatus = ruffPhaseA <= budgetA ? '✅' : '🔴';
+            const ruffBStatus = ruffPhaseB <= budgetB ? '✅' : '🔴';
 
-            | Metric | Value | Status |
-            |--------|-------|--------|
-            | **Smoke Tests** | ${smokePassed}/${smokeTotal} passing | ${smokePct}% |
-            | **Ruff Issues** | ${ruffCount} | ${ruffCount < 1000 ? '🟢' : ruffCount < 5000 ? '🟡' : '🔴'} |
+            // OpenAPI guard status
+            let openapiStatus = '❓';
+            if (openapiHeaders === 'pass') openapiStatus = '✅';
+            else if (openapiHeaders === 'warn') openapiStatus = '⚠️';
+            else if (openapiHeaders === 'fail') openapiStatus = '🔴';
+            else if (openapiHeaders === 'not_found') openapiStatus = '⚪';
 
-            ### Thresholds
-            - ✅ ≥95% (Excellent)
-            - 🟢 ≥85% (Good)
-            - 🟡 ≥70% (Acceptable)
-            - 🟠 ≥50% (Needs Work)
-            - 🔴 <50% (Critical)
+            const comment = `## ${badge} Health Report Badge (GA Guard Pack)
 
-            <details>
-            <summary>📋 Full Health Report</summary>
+| Metric | Value | Status |
+|--------|-------|--------|
+| **Smoke Tests (permissive)** | ${smokePassed}/${smokeTotal} passing | ${smokePct}% |
+| **Ruff Phase A** (candidate/labs) | ${ruffPhaseA}/${budgetA} | ${ruffAStatus} |
+| **Ruff Phase B** (hot paths) | ${ruffPhaseB}/${budgetB} | ${ruffBStatus} |
+| **OpenAPI Headers Guard** | Rate-limit headers | ${openapiStatus} |
 
-            See [latest health report](../blob/${{ github.sha }}/docs/audits/health/latest.md) for details.
+### Thresholds & Budgets
+- **Smoke:** ✅ ≥95% · 🟢 ≥85% · 🟡 ≥70% · 🟠 ≥50% · 🔴 <50%
+- **Ruff Phase A:** Budget ≤${budgetA} (candidate/labs, permissive)
+- **Ruff Phase B:** Budget ≤${budgetB} (lukhas/adapters, lukhas/core/reliability, strict)
+- **OpenAPI Guard:** ✅ Headers documented · ⚠️ Partial · 🔴 Missing
 
-            </details>
+<details>
+<summary>📋 Full Health Report</summary>
 
-            ---
-            *Generated by health-report-badge.yml*
-            `;
+See [\`docs/audits/health/latest.md\`](../blob/${{ github.sha }}/docs/audits/health/latest.md) for complete health audit including:
+- Guardian PDP decision counts
+- Rate limiter backend status
+- Test coverage details
+- Dependency scan results
+
+</details>
+
+<details>
+<summary>💡 About This Badge</summary>
+
+**Purpose:** Provides reviewer-aid visibility into PR health without blocking merge.
+
+**Metrics:**
+- **Smoke %**: Permissive smoke test pass rate (informational)
+- **Ruff Budgets**: Lint issue counts vs. phase-specific ceilings
+- **OpenAPI Guard**: Validates rate-limit header documentation
+
+**Not a gate:** This badge is informational; CI gates control merge eligibility.
+
+</details>
+
+---
+*Generated by health-report-badge.yml · Non-blocking reviewer aid*
+`;
 
             // Find existing comment
             const { data: comments } = await github.rest.issues.listComments({
@@ -121,7 +195,7 @@ jobs:
             );
 
             if (botComment) {
-              // Update existing comment
+              // Update existing comment (non-spam behavior)
               await github.rest.issues.updateComment({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
