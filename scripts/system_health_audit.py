@@ -18,6 +18,10 @@ ROOT = Path(__file__).resolve().parents[1]
 OUTDIR = ROOT / "docs" / "audits" / "health"
 OUTDIR.mkdir(parents=True, exist_ok=True)
 
+# Back-compat: also write to docs/audits/ root
+AUDITS_ROOT = ROOT / "docs" / "audits"
+AUDITS_ROOT.mkdir(parents=True, exist_ok=True)
+
 
 def run(cmd, cwd=ROOT, ok_codes=(0,), text=True):
     """Run command and return (ok, stdout, stderr, returncode)."""
@@ -181,10 +185,17 @@ def main():
         "deps": results.get("pip_audit", {}).get("parsed") if results.get("pip_audit") else None,
     }
 
-    # Write JSON
+    # Write JSON (both locations for back-compat)
+    json_content = json.dumps({"summary": summary, "raw": results}, indent=2)
+
     json_path = OUTDIR / "latest.json"
-    json_path.write_text(json.dumps({"summary": summary, "raw": results}, indent=2))
+    json_path.write_text(json_content)
     print(f"✅ Wrote {json_path}")
+
+    # Back-compat: also write to root audits dir
+    json_path_compat = AUDITS_ROOT / "system_health.json"
+    json_path_compat.write_text(json_content)
+    print(f"✅ Wrote {json_path_compat} (back-compat)")
 
     # Write Markdown
     smoke_data = summary['tests'].get('smoke') or {}
@@ -262,9 +273,16 @@ def main():
         f"*Generated: {summary['timestamp_iso']}*"
     ])
 
+    md_content = "\n".join(md_lines)
+
     md_path = OUTDIR / "latest.md"
-    md_path.write_text("\n".join(md_lines))
+    md_path.write_text(md_content)
     print(f"✅ Wrote {md_path}")
+
+    # Back-compat: also write to root audits dir
+    md_path_compat = AUDITS_ROOT / "system_health.md"
+    md_path_compat.write_text(md_content)
+    print(f"✅ Wrote {md_path_compat} (back-compat)")
 
     print("\n" + "=" * 70)
     print("🩺 Health Audit Complete!")

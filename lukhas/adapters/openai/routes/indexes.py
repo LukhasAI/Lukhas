@@ -107,42 +107,9 @@ def check_access(
     resource: str,
     action: str,
 ) -> None:
-    """
-    Check access via PolicyGuard.
-    
-    Args:
-        request: FastAPI request
-        resource: Resource type (e.g., "index")
-        action: Action type (e.g., "create", "read", "update", "delete")
-    
-    Raises:
-        HTTPException: 403 if access denied
-    
-    Note:
-        RBAC is currently permissive (allows all) for development/testing.
-        Production deployments should configure PolicyGuard with appropriate
-        lane policies and allowed event kinds.
-    """
-    # For now, RBAC is permissive - this allows testing without full policy configuration
-    # TODO: Enable strict RBAC when PolicyGuard is configured with index management event kinds
-    logger.debug(f"Access check: {action} on {resource} (permissive mode)")
+    """Permissive PolicyGuard stub for index operations."""
+    logger.debug("Permissive access check", extra={"resource": resource, "action": action})
     return
-    
-    if not result.allowed:
-        logger.warning(
-            f"Access denied: {user_id} tried to {action} {resource}",
-            extra={
-                "ΛTAG": "memory_index_access_denied",
-                "user_id": user_id,
-                "resource": resource,
-                "action": action,
-                "reason": result.reason if hasattr(result, 'reason') else "policy_deny",
-            }
-        )
-        raise HTTPException(
-            status_code=403,
-            detail=f"Access denied: {result.reason if hasattr(result, 'reason') else 'insufficient permissions'}"
-        )
 
 
 def _metadata_to_response(meta: IndexMetadata) -> IndexResponse:

@@ -18,7 +18,7 @@ except NameError:
     __all__ = []
 
 # Idempotency support (Phase 3)
-from .idempotency import cache_key, get, put, clear
+from lukhas.core.reliability.idempotency import cache_key, get, put, clear
 for _name in ("cache_key", "get", "put", "clear"):
     if _name not in __all__:
         __all__.append(_name)
@@ -58,7 +58,7 @@ if "AdaptiveTimeoutManager" not in __all__:
     __all__.append("AdaptiveTimeoutManager")
 
 try:
-    from ..backoff import ExponentialBackoff, sleep_with_backoff  # type: ignore  # noqa: F401,TID252
+    from lukhas.core.backoff import ExponentialBackoff, sleep_with_backoff  # type: ignore  # noqa: F401
     for _name in ("ExponentialBackoff", "sleep_with_backoff"):
         if _name not in __all__:
             __all__.append(_name)

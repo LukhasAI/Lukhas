@@ -145,18 +145,35 @@ def get_app() -> FastAPI:
         """Add trace ID to error responses for correlation."""
         from lukhas.observability.tracing import current_trace_id_hex
 
-        body = {
+        detail_payload = exc.detail if isinstance(exc.detail, dict) else {
             "error": {
                 "type": "http_error",
-                "message": exc.detail,
-                "status_code": exc.status_code
+                "message": str(exc.detail),
+                "code": "unknown"
             }
+        }
+
+        error_payload = detail_payload.get("error") if isinstance(detail_payload, dict) else None
+        if not isinstance(error_payload, dict):
+            error_payload = {
+                "type": "http_error",
+                "message": str(exc.detail),
+                "code": "unknown"
+            }
+
+        body = {
+            "error": {
+                **error_payload,
+                "status_code": exc.status_code
+            },
+            "detail": detail_payload
         }
 
         # Add trace ID if available
         trace_id = current_trace_id_hex()
         if trace_id:
-            body["trace_id"] = trace_id
+            body["error"]["trace_id"] = trace_id
+            body.setdefault("detail", {}).setdefault("error", {}).setdefault("trace_id", trace_id)
 
         return JSONResponse(
             status_code=exc.status_code,

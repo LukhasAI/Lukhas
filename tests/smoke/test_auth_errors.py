@@ -42,6 +42,36 @@ def test_missing_bearer_yields_auth_error(strict_client):
     response = strict_client.get("/v1/models")
     
     # Missing/invalid token must return 401
+    assert response.status_code == 401,         f"Expected 401, got {response.status_code}"
+    
+    body = response.json()
+    error_wrapper = body.get("error", {})
+    error = error_wrapper.get("message", {}).get("error", {}) if isinstance(error_wrapper, dict) else {}
+    assert isinstance(error, dict) and error, f"Response missing OpenAI error payload, got: {body}"
+    
+    # Validate OpenAI error envelope structure
+    assert error.get("type") == "invalid_api_key",         f"Expected type 'invalid_api_key', got '{error.get('type')}'"
+    
+    # Should have message and code
+    assert "message" in error, "Error missing 'message' field"
+    assert isinstance(error.get("message"), str), "Message should be string"
+    assert len(error.get("message") or "") > 0, "Message should not be empty"
+    assert error.get("code") == "invalid_api_key",         f"Expected code 'invalid_api_key', got '{error.get('code')}'"
+
+    Test that requests without Authorization header return 401.
+    
+    OpenAI API returns 401 with error envelope:
+    {
+        "error": {
+            "type": "invalid_api_key",
+            "message": "Invalid authentication...",
+            "code": "invalid_api_key"
+        }
+    }
+    """
+    response = strict_client.get("/v1/models")
+    
+    # Missing/invalid token must return 401
     assert response.status_code == 401, \
         f"Expected 401, got {response.status_code}"
     

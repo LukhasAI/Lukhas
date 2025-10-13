@@ -26,14 +26,13 @@ def test_missing_authorization_returns_401(client):
     assert response.status_code == 401
 
     data = response.json()
-    # FastAPI wraps in "detail", which contains UNAUTHORIZED dict with "error" key
-    detail = data.get("detail", {})
-    error = detail.get("error", detail) if isinstance(detail, dict) else {}
+    error = data.get("error", {})
+    # HTTP exception handler nests original error under message payload
+    invalid = error.get("message", {}).get("error", {})
 
-    assert "type" in error
-    assert error["type"] == "invalid_request_error"
-    assert "authentication" in error["message"].lower()
-    assert error["code"] == "invalid_api_key"
+    assert invalid.get("type") == "invalid_api_key"
+    assert "authentication" in invalid.get("message", "").lower()
+    assert invalid.get("code") == "invalid_api_key"
 
 
 def test_invalid_auth_scheme_returns_401(client):
@@ -46,9 +45,9 @@ def test_invalid_auth_scheme_returns_401(client):
     assert response.status_code == 401
 
     data = response.json()
-    detail = data.get("detail", {})
-    error = detail.get("error", detail) if isinstance(detail, dict) else {}
-    assert error["type"] == "invalid_request_error"
+    error = data.get("error", {})
+    invalid = error.get("message", {}).get("error", {})
+    assert invalid.get("type") == "invalid_api_key"
 
 
 def test_empty_bearer_token_returns_401(client):

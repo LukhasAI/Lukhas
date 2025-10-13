@@ -63,7 +63,8 @@
       "Bash(echo \"Exit code: $?\")",
       "Bash(git rm:*)",
       "Bash(PYTHONPATH=. python3:*)",
-      "Bash(echo \"Updated: $file\")"
+      "Bash(echo \"Updated: $file\")",
+      "Bash(tee:*)"
     ],
     "defaultMode": "bypassPermissions"
   }

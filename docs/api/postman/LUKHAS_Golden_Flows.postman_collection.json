@@ -1,476 +1,511 @@
 {
-  "info": {
-    "name": "LUKHAS API - Golden Flows",
-    "description": "Two golden Postman flows demonstrating:\n1. Auth Error - Invalid bearer token handling\n2. Idempotent Replay - Safe request retry with Idempotency-Key\n\nThese flows validate OpenAI-compatible error envelopes and idempotency guarantees.",
-    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-    "_exporter_id": "lukhas-api-team"
-  },
-  "variable": [
-    {
-      "key": "base_url",
-      "value": "http://localhost:8000",
-      "type": "string"
+    "info": {
+        "name": "LUKHAS API - Golden Flows",
+        "description": "Two golden Postman flows demonstrating:\n1. Auth Error - Invalid bearer token handling\n2. Idempotent Replay - Safe request retry with Idempotency-Key\n\nThese flows validate OpenAI-compatible error envelopes and idempotency guarantees.",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+        "_exporter_id": "lukhas-api-team"
     },
-    {
-      "key": "lukhas_api_key",
-      "value": "sk-lukhas-test-key",
-      "type": "string"
-    },
-    {
-      "key": "idempotency_key",
-      "value": "",
-      "type": "string"
-    }
-  ],
-  "item": [
-    {
-      "name": "Golden Flow 1: Auth Error Handling",
-      "item": [
+    "variable": [
         {
-          "name": "1.1 - Missing Authorization Header",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "exec": [
-                  "// Validate 401 Unauthorized",
-                  "pm.test(\"Status is 401 Unauthorized\", function () {",
-                  "    pm.response.to.have.status(401);",
-                  "});",
-                  "",
-                  "// Validate OpenAI-compatible error envelope",
-                  "pm.test(\"Response has OpenAI error format\", function () {",
-                  "    const jsonData = pm.response.json();",
-                  "    pm.expect(jsonData).to.have.property('error');",
-                  "    pm.expect(jsonData.error).to.have.property('message');",
-                  "    pm.expect(jsonData.error).to.have.property('type');",
-                  "    pm.expect(jsonData.error).to.have.property('code');",
-                  "});",
-                  "",
-                  "// Validate trace header present",
-                  "pm.test(\"X-Trace-Id header present\", function () {",
-                  "    pm.response.to.have.header('X-Trace-Id');",
-                  "});",
-                  "",
-                  "// Validate error type",
-                  "pm.test(\"Error type is 'authentication_error'\", function () {",
-                  "    const jsonData = pm.response.json();",
-                  "    pm.expect(jsonData.error.type).to.eql('authentication_error');",
-                  "});",
-                  "",
-                  "console.log(\"✅ Missing auth header handled correctly\");"
-                ],
-                "type": "text/javascript"
-              }
-            }
-          ],
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"prompt\": \"Test missing auth\",\n  \"max_tokens\": 50\n}"
-            },
-            "url": {
-              "raw": "{{base_url}}/v1/responses",
-              "host": ["{{base_url}}"],
-              "path": ["v1", "responses"]
-            },
-            "description": "Tests that missing Authorization header returns 401 with OpenAI-compatible error format."
-          },
-          "response": []
+            "key": "base_url",
+            "value": "http://localhost:8000",
+            "type": "string"
         },
         {
-          "name": "1.2 - Invalid Bearer Token",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "exec": [
-                  "// Validate 401 Unauthorized",
-                  "pm.test(\"Status is 401 Unauthorized\", function () {",
-                  "    pm.response.to.have.status(401);",
-                  "});",
-                  "",
-                  "// Validate error envelope",
-                  "pm.test(\"Response has error object\", function () {",
-                  "    const jsonData = pm.response.json();",
-                  "    pm.expect(jsonData).to.have.property('error');",
-                  "    pm.expect(jsonData.error.message).to.include('Invalid');",
-                  "});",
-                  "",
-                  "// Validate trace header",
-                  "pm.test(\"X-Trace-Id header present\", function () {",
-                  "    pm.response.to.have.header('X-Trace-Id');",
-                  "    const traceId = pm.response.headers.get('X-Trace-Id');",
-                  "    console.log('Trace ID:', traceId);",
-                  "});",
-                  "",
-                  "console.log(\"✅ Invalid bearer token rejected correctly\");"
-                ],
-                "type": "text/javascript"
-              }
-            }
-          ],
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer sk-invalid-token-12345"
-              },
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"prompt\": \"Test invalid token\",\n  \"max_tokens\": 50\n}"
-            },
-            "url": {
-              "raw": "{{base_url}}/v1/responses",
-              "host": ["{{base_url}}"],
-              "path": ["v1", "responses"]
-            },
-            "description": "Tests that invalid bearer token returns 401 with descriptive error message and trace ID."
-          },
-          "response": []
+            "key": "lukhas_api_key",
+            "value": "sk-lukhas-test-key",
+            "type": "string"
         },
         {
-          "name": "1.3 - Malformed Authorization Header",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "exec": [
-                  "// Validate 401 Unauthorized",
-                  "pm.test(\"Status is 401 Unauthorized\", function () {",
-                  "    pm.response.to.have.status(401);",
-                  "});",
-                  "",
-                  "// Validate error details",
-                  "pm.test(\"Error indicates malformed header\", function () {",
-                  "    const jsonData = pm.response.json();",
-                  "    pm.expect(jsonData.error.message).to.match(/Bearer|format|invalid/i);",
-                  "});",
-                  "",
-                  "// Validate all required fields",
-                  "pm.test(\"All error fields present\", function () {",
-                  "    const jsonData = pm.response.json();",
-                  "    pm.expect(jsonData.error).to.have.all.keys('message', 'type', 'param', 'code');",
-                  "});",
-                  "",
-                  "console.log(\"✅ Malformed auth header handled correctly\");"
-                ],
-                "type": "text/javascript"
-              }
-            }
-          ],
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "NotBearer sk-test-key"
-              },
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"prompt\": \"Test malformed header\",\n  \"max_tokens\": 50\n}"
-            },
-            "url": {
-              "raw": "{{base_url}}/v1/responses",
-              "host": ["{{base_url}}"],
-              "path": ["v1", "responses"]
-            },
-            "description": "Tests that malformed Authorization header (not 'Bearer' scheme) returns 401."
-          },
-          "response": []
+            "key": "idempotency_key",
+            "value": "",
+            "type": "string"
         }
-      ],
-      "description": "Golden Flow 1: Validates OpenAI-compatible authentication error handling.\n\nExpected Behavior:\n- All requests return 401 Unauthorized\n- Error envelope matches OpenAI format: {\"error\": {\"message\", \"type\", \"param\", \"code\"}}\n- X-Trace-Id header present on all responses\n- Clear, actionable error messages"
-    },
-    {
-      "name": "Golden Flow 2: Idempotent Replay",
-      "item": [
+    ],
+    "item": [
         {
-          "name": "2.1 - Initial Request (Create)",
-          "event": [
-            {
-              "listen": "prerequest",
-              "script": {
-                "exec": [
-                  "// Generate unique idempotency key for this flow",
-                  "const timestamp = Date.now();",
-                  "const random = Math.random().toString(36).substring(7);",
-                  "const idempotencyKey = `golden-flow-${timestamp}-${random}`;",
-                  "pm.collectionVariables.set('idempotency_key', idempotencyKey);",
-                  "console.log('Generated Idempotency-Key:', idempotencyKey);"
-                ],
-                "type": "text/javascript"
-              }
-            },
-            {
-              "listen": "test",
-              "script": {
-                "exec": [
-                  "// Validate successful response",
-                  "pm.test(\"Status is 200 OK\", function () {",
-                  "    pm.response.to.have.status(200);",
-                  "});",
-                  "",
-                  "// Validate response structure",
-                  "pm.test(\"Response has required fields\", function () {",
-                  "    const jsonData = pm.response.json();",
-                  "    pm.expect(jsonData).to.have.property('id');",
-                  "    pm.expect(jsonData).to.have.property('choices');",
-                  "});",
-                  "",
-                  "// Validate trace header",
-                  "pm.test(\"X-Trace-Id header present\", function () {",
-                  "    pm.response.to.have.header('X-Trace-Id');",
-                  "});",
-                  "",
-                  "// Store response for comparison",
-                  "const responseBody = pm.response.text();",
-                  "pm.collectionVariables.set('original_response', responseBody);",
-                  "",
-                  "console.log('✅ Initial request processed successfully');"
-                ],
-                "type": "text/javascript"
-              }
-            }
-          ],
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{lukhas_api_key}}"
-              },
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              },
-              {
-                "key": "Idempotency-Key",
-                "value": "{{idempotency_key}}"
-              }
+            "name": "Golden Flow 1: Auth Error Handling",
+            "item": [
+                {
+                    "name": "1.1 - Missing Authorization Header",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "// Validate 401 Unauthorized",
+                                    "pm.test(\"Status is 401 Unauthorized\", function () {",
+                                    "    pm.response.to.have.status(401);",
+                                    "});",
+                                    "",
+                                    "// Validate OpenAI-compatible error envelope",
+                                    "pm.test(\"Response has OpenAI error format\", function () {",
+                                    "    const jsonData = pm.response.json();",
+                                    "    pm.expect(jsonData).to.have.property('error');",
+                                    "    pm.expect(jsonData.error).to.have.property('message');",
+                                    "    pm.expect(jsonData.error).to.have.property('type');",
+                                    "    pm.expect(jsonData.error).to.have.property('code');",
+                                    "});",
+                                    "",
+                                    "// Validate trace header present",
+                                    "pm.test(\"X-Trace-Id header present\", function () {",
+                                    "    pm.response.to.have.header('X-Trace-Id');",
+                                    "});",
+                                    "",
+                                    "// Validate error type",
+                                    "pm.test(\"Error type is 'authentication_error'\", function () {",
+                                    "    const jsonData = pm.response.json();",
+                                    "    pm.expect(jsonData.error.type).to.eql('authentication_error');",
+                                    "});",
+                                    "",
+                                    "console.log(\"✅ Missing auth header handled correctly\");"
+                                ],
+                                "type": "text/javascript"
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"prompt\": \"Test missing auth\",\n  \"max_tokens\": 50\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/v1/responses",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "v1",
+                                "responses"
+                            ]
+                        },
+                        "description": "Tests that missing Authorization header returns 401 with OpenAI-compatible error format."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "1.2 - Invalid Bearer Token",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "// Validate 401 Unauthorized",
+                                    "pm.test(\"Status is 401 Unauthorized\", function () {",
+                                    "    pm.response.to.have.status(401);",
+                                    "});",
+                                    "",
+                                    "// Validate error envelope",
+                                    "pm.test(\"Response has error object\", function () {",
+                                    "    const jsonData = pm.response.json();",
+                                    "    pm.expect(jsonData).to.have.property('error');",
+                                    "    pm.expect(jsonData.error.message).to.include('Invalid');",
+                                    "});",
+                                    "",
+                                    "// Validate trace header",
+                                    "pm.test(\"X-Trace-Id header present\", function () {",
+                                    "    pm.response.to.have.header('X-Trace-Id');",
+                                    "    const traceId = pm.response.headers.get('X-Trace-Id');",
+                                    "    console.log('Trace ID:', traceId);",
+                                    "});",
+                                    "",
+                                    "console.log(\"✅ Invalid bearer token rejected correctly\");"
+                                ],
+                                "type": "text/javascript"
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer sk-invalid-token-12345"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"prompt\": \"Test invalid token\",\n  \"max_tokens\": 50\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/v1/responses",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "v1",
+                                "responses"
+                            ]
+                        },
+                        "description": "Tests that invalid bearer token returns 401 with descriptive error message and trace ID."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "1.3 - Malformed Authorization Header",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "// Validate 401 Unauthorized",
+                                    "pm.test(\"Status is 401 Unauthorized\", function () {",
+                                    "    pm.response.to.have.status(401);",
+                                    "});",
+                                    "",
+                                    "// Validate error details",
+                                    "pm.test(\"Error indicates malformed header\", function () {",
+                                    "    const jsonData = pm.response.json();",
+                                    "    pm.expect(jsonData.error.message).to.match(/Bearer|format|invalid/i);",
+                                    "});",
+                                    "",
+                                    "// Validate all required fields",
+                                    "pm.test(\"All error fields present\", function () {",
+                                    "    const jsonData = pm.response.json();",
+                                    "    pm.expect(jsonData.error).to.have.all.keys('message', 'type', 'param', 'code');",
+                                    "});",
+                                    "",
+                                    "console.log(\"✅ Malformed auth header handled correctly\");"
+                                ],
+                                "type": "text/javascript"
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "NotBearer sk-test-key"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"prompt\": \"Test malformed header\",\n  \"max_tokens\": 50\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/v1/responses",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "v1",
+                                "responses"
+                            ]
+                        },
+                        "description": "Tests that malformed Authorization header (not 'Bearer' scheme) returns 401."
+                    },
+                    "response": []
+                }
             ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"prompt\": \"Explain the Constellation Framework in one sentence.\",\n  \"max_tokens\": 100,\n  \"temperature\": 0.7\n}"
-            },
-            "url": {
-              "raw": "{{base_url}}/v1/responses",
-              "host": ["{{base_url}}"],
-              "path": ["v1", "responses"]
-            },
-            "description": "Initial request with Idempotency-Key. Response is cached for 24 hours."
-          },
-          "response": []
+            "description": "Golden Flow 1: Validates OpenAI-compatible authentication error handling.\n\nExpected Behavior:\n- All requests return 401 Unauthorized\n- Error envelope matches OpenAI format: {\"error\": {\"message\", \"type\", \"param\", \"code\"}}\n- X-Trace-Id header present on all responses\n- Clear, actionable error messages"
         },
         {
-          "name": "2.2 - Replay Request (Cached)",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "exec": [
-                  "// Validate 200 OK (not 201, since cached)",
-                  "pm.test(\"Status is 200 OK\", function () {",
-                  "    pm.response.to.have.status(200);",
-                  "});",
-                  "",
-                  "// Validate response matches original",
-                  "pm.test(\"Response matches original (cached)\", function () {",
-                  "    const originalResponse = pm.collectionVariables.get('original_response');",
-                  "    const currentResponse = pm.response.text();",
-                  "    pm.expect(currentResponse).to.eql(originalResponse);",
-                  "});",
-                  "",
-                  "// Validate trace header still present",
-                  "pm.test(\"X-Trace-Id header present\", function () {",
-                  "    pm.response.to.have.header('X-Trace-Id');",
-                  "});",
-                  "",
-                  "// Validate response time is fast (cached)",
-                  "pm.test(\"Response time < 100ms (cached)\", function () {",
-                  "    pm.expect(pm.response.responseTime).to.be.below(100);",
-                  "});",
-                  "",
-                  "console.log('✅ Idempotent replay returned cached response');"
-                ],
-                "type": "text/javascript"
-              }
-            }
-          ],
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{lukhas_api_key}}"
-              },
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              },
-              {
-                "key": "Idempotency-Key",
-                "value": "{{idempotency_key}}"
-              }
+            "name": "Golden Flow 2: Idempotent Replay",
+            "item": [
+                {
+                    "name": "2.1 - Initial Request (Create)",
+                    "event": [
+                        {
+                            "listen": "prerequest",
+                            "script": {
+                                "exec": [
+                                    "// Generate unique idempotency key for this flow",
+                                    "const timestamp = Date.now();",
+                                    "const random = Math.random().toString(36).substring(7);",
+                                    "const idempotencyKey = `golden-flow-${timestamp}-${random}`;",
+                                    "pm.collectionVariables.set('idempotency_key', idempotencyKey);",
+                                    "console.log('Generated Idempotency-Key:', idempotencyKey);"
+                                ],
+                                "type": "text/javascript"
+                            }
+                        },
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "// Validate successful response",
+                                    "pm.test(\"Status is 200 OK\", function () {",
+                                    "    pm.response.to.have.status(200);",
+                                    "});",
+                                    "",
+                                    "// Validate response structure",
+                                    "pm.test(\"Response has required fields\", function () {",
+                                    "    const jsonData = pm.response.json();",
+                                    "    pm.expect(jsonData).to.have.property('id');",
+                                    "    pm.expect(jsonData).to.have.property('choices');",
+                                    "});",
+                                    "",
+                                    "// Validate trace header",
+                                    "pm.test(\"X-Trace-Id header present\", function () {",
+                                    "    pm.response.to.have.header('X-Trace-Id');",
+                                    "});",
+                                    "",
+                                    "// Store response for comparison",
+                                    "const responseBody = pm.response.text();",
+                                    "pm.collectionVariables.set('original_response', responseBody);",
+                                    "",
+                                    "console.log('✅ Initial request processed successfully');"
+                                ],
+                                "type": "text/javascript"
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{lukhas_api_key}}"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Idempotency-Key",
+                                "value": "{{idempotency_key}}"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"prompt\": \"Explain the Constellation Framework in one sentence.\",\n  \"max_tokens\": 100,\n  \"temperature\": 0.7\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/v1/responses",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "v1",
+                                "responses"
+                            ]
+                        },
+                        "description": "Initial request with Idempotency-Key. Response is cached for 24 hours."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "2.2 - Replay Request (Cached)",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "// Validate 200 OK (not 201, since cached)",
+                                    "pm.test(\"Status is 200 OK\", function () {",
+                                    "    pm.response.to.have.status(200);",
+                                    "});",
+                                    "",
+                                    "// Validate response matches original",
+                                    "pm.test(\"Response matches original (cached)\", function () {",
+                                    "    const originalResponse = pm.collectionVariables.get('original_response');",
+                                    "    const currentResponse = pm.response.text();",
+                                    "    pm.expect(currentResponse).to.eql(originalResponse);",
+                                    "});",
+                                    "",
+                                    "// Validate trace header still present",
+                                    "pm.test(\"X-Trace-Id header present\", function () {",
+                                    "    pm.response.to.have.header('X-Trace-Id');",
+                                    "});",
+                                    "",
+                                    "// Validate response time is fast (cached)",
+                                    "pm.test(\"Response time < 100ms (cached)\", function () {",
+                                    "    pm.expect(pm.response.responseTime).to.be.below(100);",
+                                    "});",
+                                    "",
+                                    "console.log('✅ Idempotent replay returned cached response');"
+                                ],
+                                "type": "text/javascript"
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{lukhas_api_key}}"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Idempotency-Key",
+                                "value": "{{idempotency_key}}"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"prompt\": \"Explain the Constellation Framework in one sentence.\",\n  \"max_tokens\": 100,\n  \"temperature\": 0.7\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/v1/responses",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "v1",
+                                "responses"
+                            ]
+                        },
+                        "description": "Replays exact same request with same Idempotency-Key. Should return cached response."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "2.3 - Modified Body (Cache Miss)",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "// Validate 200 OK",
+                                    "pm.test(\"Status is 200 OK\", function () {",
+                                    "    pm.response.to.have.status(200);",
+                                    "});",
+                                    "",
+                                    "// Validate response is different (not cached)",
+                                    "pm.test(\"Response is different (modified body = cache miss)\", function () {",
+                                    "    const originalResponse = pm.collectionVariables.get('original_response');",
+                                    "    const currentResponse = pm.response.text();",
+                                    "    // Body hash changed, so this is a new request",
+                                    "    pm.expect(currentResponse).to.not.eql(originalResponse);",
+                                    "});",
+                                    "",
+                                    "// Validate response time is normal (not cached)",
+                                    "pm.test(\"Response time > 50ms (processed, not cached)\", function () {",
+                                    "    pm.expect(pm.response.responseTime).to.be.above(50);",
+                                    "});",
+                                    "",
+                                    "console.log('✅ Modified body correctly bypassed cache');"
+                                ],
+                                "type": "text/javascript"
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{lukhas_api_key}}"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Idempotency-Key",
+                                "value": "{{idempotency_key}}"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"prompt\": \"Explain the Guardian system in one sentence.\",\n  \"max_tokens\": 100,\n  \"temperature\": 0.7\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/v1/responses",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "v1",
+                                "responses"
+                            ]
+                        },
+                        "description": "Same Idempotency-Key but modified request body. Cache key includes body hash, so this is a cache miss and processes normally."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "2.4 - Different Key (New Request)",
+                    "event": [
+                        {
+                            "listen": "prerequest",
+                            "script": {
+                                "exec": [
+                                    "// Generate new idempotency key",
+                                    "const newKey = `golden-flow-${Date.now()}-${Math.random().toString(36).substring(7)}`;",
+                                    "pm.collectionVariables.set('idempotency_key', newKey);",
+                                    "console.log('New Idempotency-Key:', newKey);"
+                                ],
+                                "type": "text/javascript"
+                            }
+                        },
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "// Validate 200 OK",
+                                    "pm.test(\"Status is 200 OK\", function () {",
+                                    "    pm.response.to.have.status(200);",
+                                    "});",
+                                    "",
+                                    "// Validate response is processed (not cached)",
+                                    "pm.test(\"Response processed (different key)\", function () {",
+                                    "    const jsonData = pm.response.json();",
+                                    "    pm.expect(jsonData).to.have.property('id');",
+                                    "});",
+                                    "",
+                                    "console.log('✅ Different idempotency key processed as new request');"
+                                ],
+                                "type": "text/javascript"
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{lukhas_api_key}}"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Idempotency-Key",
+                                "value": "{{idempotency_key}}"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"prompt\": \"Explain the Constellation Framework in one sentence.\",\n  \"max_tokens\": 100,\n  \"temperature\": 0.7\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/v1/responses",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "v1",
+                                "responses"
+                            ]
+                        },
+                        "description": "Same request body but different Idempotency-Key. Processes as new request."
+                    },
+                    "response": []
+                }
             ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"prompt\": \"Explain the Constellation Framework in one sentence.\",\n  \"max_tokens\": 100,\n  \"temperature\": 0.7\n}"
-            },
-            "url": {
-              "raw": "{{base_url}}/v1/responses",
-              "host": ["{{base_url}}"],
-              "path": ["v1", "responses"]
-            },
-            "description": "Replays exact same request with same Idempotency-Key. Should return cached response."
-          },
-          "response": []
-        },
-        {
-          "name": "2.3 - Modified Body (Cache Miss)",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "exec": [
-                  "// Validate 200 OK",
-                  "pm.test(\"Status is 200 OK\", function () {",
-                  "    pm.response.to.have.status(200);",
-                  "});",
-                  "",
-                  "// Validate response is different (not cached)",
-                  "pm.test(\"Response is different (modified body = cache miss)\", function () {",
-                  "    const originalResponse = pm.collectionVariables.get('original_response');",
-                  "    const currentResponse = pm.response.text();",
-                  "    // Body hash changed, so this is a new request",
-                  "    pm.expect(currentResponse).to.not.eql(originalResponse);",
-                  "});",
-                  "",
-                  "// Validate response time is normal (not cached)",
-                  "pm.test(\"Response time > 50ms (processed, not cached)\", function () {",
-                  "    pm.expect(pm.response.responseTime).to.be.above(50);",
-                  "});",
-                  "",
-                  "console.log('✅ Modified body correctly bypassed cache');"
-                ],
-                "type": "text/javascript"
-              }
-            }
-          ],
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{lukhas_api_key}}"
-              },
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              },
-              {
-                "key": "Idempotency-Key",
-                "value": "{{idempotency_key}}"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"prompt\": \"Explain the Guardian system in one sentence.\",\n  \"max_tokens\": 100,\n  \"temperature\": 0.7\n}"
-            },
-            "url": {
-              "raw": "{{base_url}}/v1/responses",
-              "host": ["{{base_url}}"],
-              "path": ["v1", "responses"]
-            },
-            "description": "Same Idempotency-Key but modified request body. Cache key includes body hash, so this is a cache miss and processes normally."
-          },
-          "response": []
-        },
-        {
-          "name": "2.4 - Different Key (New Request)",
-          "event": [
-            {
-              "listen": "prerequest",
-              "script": {
-                "exec": [
-                  "// Generate new idempotency key",
-                  "const newKey = `golden-flow-${Date.now()}-${Math.random().toString(36).substring(7)}`;",
-                  "pm.collectionVariables.set('idempotency_key', newKey);",
-                  "console.log('New Idempotency-Key:', newKey);"
-                ],
-                "type": "text/javascript"
-              }
-            },
-            {
-              "listen": "test",
-              "script": {
-                "exec": [
-                  "// Validate 200 OK",
-                  "pm.test(\"Status is 200 OK\", function () {",
-                  "    pm.response.to.have.status(200);",
-                  "});",
-                  "",
-                  "// Validate response is processed (not cached)",
-                  "pm.test(\"Response processed (different key)\", function () {",
-                  "    const jsonData = pm.response.json();",
-                  "    pm.expect(jsonData).to.have.property('id');",
-                  "});",
-                  "",
-                  "console.log('✅ Different idempotency key processed as new request');"
-                ],
-                "type": "text/javascript"
-              }
-            }
-          ],
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{lukhas_api_key}}"
-              },
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              },
-              {
-                "key": "Idempotency-Key",
-                "value": "{{idempotency_key}}"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"prompt\": \"Explain the Constellation Framework in one sentence.\",\n  \"max_tokens\": 100,\n  \"temperature\": 0.7\n}"
-            },
-            "url": {
-              "raw": "{{base_url}}/v1/responses",
-              "host": ["{{base_url}}"],
-              "path": ["v1", "responses"]
-            },
-            "description": "Same request body but different Idempotency-Key. Processes as new request."
-          },
-          "response": []
+            "description": "Golden Flow 2: Validates idempotency guarantees for safe request replay.\n\nExpected Behavior:\n1. Initial request with Idempotency-Key → 200, response cached\n2. Replay with same key + body → 200, instant cached response\n3. Same key but modified body → 200, processes normally (body hash differs)\n4. Different key, same body → 200, processes normally (new key)\n\nCache Key Formula: route + Idempotency-Key + SHA256(body)[:16]\nTTL: 24 hours"
         }
-      ],
-      "description": "Golden Flow 2: Validates idempotency guarantees for safe request replay.\n\nExpected Behavior:\n1. Initial request with Idempotency-Key → 200, response cached\n2. Replay with same key + body → 200, instant cached response\n3. Same key but modified body → 200, processes normally (body hash differs)\n4. Different key, same body → 200, processes normally (new key)\n\nCache Key Formula: route + Idempotency-Key + SHA256(body)[:16]\nTTL: 24 hours"
-    }
-  ]
+    ]
 }
