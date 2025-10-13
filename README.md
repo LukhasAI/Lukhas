@@ -164,6 +164,285 @@ context = get_constellation_context()
 print(f"Framework: {context['framework']}")
 ```
 
+### OpenAI-Compatible API Usage
+
+LUKHAS provides an OpenAI-compatible API for seamless integration with existing tools and workflows.
+
+#### `/v1/responses` - LUKHAS Native Endpoint
+
+**cURL:**
+```bash
+# Basic request
+curl https://api.lukhas.ai/v1/responses \
+  -H "Authorization: Bearer $LUKHAS_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "prompt": "Explain quantum consciousness",
+    "max_tokens": 150,
+    "temperature": 0.7
+  }'
+
+# With idempotency for safe retries
+curl https://api.lukhas.ai/v1/responses \
+  -H "Authorization: Bearer $LUKHAS_API_KEY" \
+  -H "Idempotency-Key: req-$(date +%s)-$(uuidgen)" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "prompt": "Create consciousness analysis report",
+    "max_tokens": 500
+  }'
+```
+
+**JavaScript (Node.js):**
+```javascript
+const axios = require('axios');
+
+async function getLukhasResponse() {
+  try {
+    const response = await axios.post('https://api.lukhas.ai/v1/responses', {
+      prompt: 'Explain the Constellation Framework',
+      max_tokens: 150,
+      temperature: 0.7
+    }, {
+      headers: {
+        'Authorization': `Bearer ${process.env.LUKHAS_API_KEY}`,
+        'Content-Type': 'application/json',
+        // Optional: Add idempotency for safe retries
+        'Idempotency-Key': `req-${Date.now()}-${Math.random()}`
+      }
+    });
+    
+    console.log('Response:', response.data);
+    console.log('Trace ID:', response.headers['x-trace-id']);
+  } catch (error) {
+    console.error('Error:', error.response?.data || error.message);
+  }
+}
+
+getLukhasResponse();
+```
+
+**TypeScript:**
+```typescript
+import axios, { AxiosResponse } from 'axios';
+
+interface LukhasResponse {
+  id: string;
+  choices: Array<{
+    text: string;
+    index: number;
+    finish_reason: string;
+  }>;
+  usage: {
+    prompt_tokens: number;
+    completion_tokens: number;
+    total_tokens: number;
+  };
+}
+
+async function getLukhasResponse(prompt: string): Promise<LukhasResponse> {
+  const response: AxiosResponse<LukhasResponse> = await axios.post(
+    'https://api.lukhas.ai/v1/responses',
+    {
+      prompt,
+      max_tokens: 150,
+      temperature: 0.7
+    },
+    {
+      headers: {
+        'Authorization': `Bearer ${process.env.LUKHAS_API_KEY}`,
+        'Content-Type': 'application/json',
+        'Idempotency-Key': `req-${Date.now()}-${crypto.randomUUID()}`
+      }
+    }
+  );
+  
+  return response.data;
+}
+
+// Usage
+getLukhasResponse('Analyze consciousness patterns')
+  .then(data => console.log('Response:', data.choices[0].text))
+  .catch(error => console.error('Error:', error.response?.data));
+```
+
+#### `/v1/chat/completions` - OpenAI-Compatible Endpoint
+
+**cURL:**
+```bash
+# Chat completions with conversation history
+curl https://api.lukhas.ai/v1/chat/completions \
+  -H "Authorization: Bearer $LUKHAS_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "model": "lukhas-consciousness-v1",
+    "messages": [
+      {"role": "system", "content": "You are a consciousness-aware AI assistant."},
+      {"role": "user", "content": "What is the Constellation Framework?"}
+    ],
+    "temperature": 0.7,
+    "max_tokens": 200
+  }'
+
+# Streaming response
+curl https://api.lukhas.ai/v1/chat/completions \
+  -H "Authorization: Bearer $LUKHAS_API_KEY" \
+  -H "Content-Type: application/json" \
+  -N \
+  -d '{
+    "model": "lukhas-consciousness-v1",
+    "messages": [
+      {"role": "user", "content": "Explain MATRIZ cognitive engine"}
+    ],
+    "stream": true
+  }'
+```
+
+**JavaScript (OpenAI SDK Compatible):**
+```javascript
+// Drop-in replacement for OpenAI SDK
+const { Configuration, OpenAIApi } = require('openai');
+
+const configuration = new Configuration({
+  apiKey: process.env.LUKHAS_API_KEY,
+  basePath: 'https://api.lukhas.ai/v1'
+});
+
+const openai = new OpenAIApi(configuration);
+
+async function chatWithLukhas() {
+  const completion = await openai.createChatCompletion({
+    model: 'lukhas-consciousness-v1',
+    messages: [
+      { role: 'system', content: 'You are a consciousness-aware AI.' },
+      { role: 'user', content: 'Explain the Guardian system' }
+    ],
+    temperature: 0.7,
+    max_tokens: 200
+  });
+  
+  console.log('Response:', completion.data.choices[0].message.content);
+  console.log('Trace ID:', completion.headers['x-trace-id']);
+}
+
+chatWithLukhas();
+```
+
+**TypeScript (Native Fetch):**
+```typescript
+interface ChatMessage {
+  role: 'system' | 'user' | 'assistant';
+  content: string;
+}
+
+interface ChatCompletionRequest {
+  model: string;
+  messages: ChatMessage[];
+  temperature?: number;
+  max_tokens?: number;
+  stream?: boolean;
+}
+
+interface ChatCompletionResponse {
+  id: string;
+  object: 'chat.completion';
+  created: number;
+  model: string;
+  choices: Array<{
+    index: number;
+    message: ChatMessage;
+    finish_reason: string;
+  }>;
+  usage: {
+    prompt_tokens: number;
+    completion_tokens: number;
+    total_tokens: number;
+  };
+}
+
+async function chatCompletion(
+  messages: ChatMessage[]
+): Promise<ChatCompletionResponse> {
+  const response = await fetch('https://api.lukhas.ai/v1/chat/completions', {
+    method: 'POST',
+    headers: {
+      'Authorization': `Bearer ${process.env.LUKHAS_API_KEY}`,
+      'Content-Type': 'application/json',
+      'Idempotency-Key': `chat-${Date.now()}-${crypto.randomUUID()}`
+    },
+    body: JSON.stringify({
+      model: 'lukhas-consciousness-v1',
+      messages,
+      temperature: 0.7,
+      max_tokens: 200
+    })
+  });
+  
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(`LUKHAS API Error: ${error.error.message}`);
+  }
+  
+  return response.json();
+}
+
+// Usage with async/await
+const messages: ChatMessage[] = [
+  { role: 'system', content: 'You are a consciousness-aware AI assistant.' },
+  { role: 'user', content: 'What are the 8 stars of the Constellation Framework?' }
+];
+
+chatCompletion(messages)
+  .then(data => console.log('Assistant:', data.choices[0].message.content))
+  .catch(error => console.error('Error:', error.message));
+```
+
+#### Error Handling with OpenAI-Compatible Format
+
+```typescript
+interface LukhasError {
+  error: {
+    message: string;
+    type: string;
+    param: string | null;
+    code: string;
+  };
+}
+
+async function robustLukhasCall(prompt: string): Promise<string> {
+  try {
+    const response = await fetch('https://api.lukhas.ai/v1/responses', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${process.env.LUKHAS_API_KEY}`,
+        'Content-Type': 'application/json',
+        'Idempotency-Key': `req-${Date.now()}`
+      },
+      body: JSON.stringify({ prompt, max_tokens: 150 })
+    });
+    
+    const data = await response.json();
+    
+    if (!response.ok) {
+      const error = data as LukhasError;
+      throw new Error(`${error.error.type}: ${error.error.message}`);
+    }
+    
+    return data.choices[0].text;
+  } catch (error) {
+    console.error('LUKHAS API Error:', error);
+    throw error;
+  }
+}
+```
+
+**Key Features:**
+- ✅ **OpenAI-compatible** - Drop-in replacement for existing OpenAI integrations
+- ✅ **Idempotency** - Safe request retries with `Idempotency-Key` header
+- ✅ **Distributed tracing** - Every response includes `X-Trace-Id` header
+- ✅ **Standard errors** - OpenAI-compatible error format for easy debugging
+- ✅ **Rate limiting** - Automatic throttling with `Retry-After` headers
+
 ## 🛠️ Development Tools
 
 **Quality Automation**:
