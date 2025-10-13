@@ -357,3 +357,41 @@ def pytest_sessionstart(session):
     # Set environment variables for legacy compatibility
     os.environ.setdefault("SETUPTOOLS_USE_DISTUTILS", "stdlib")
     os.environ.setdefault("PYTHONWARNINGS", "ignore::DeprecationWarning")
+
+# =============================================================================
+# Guardian & Auth Fixtures (Phase 3)
+# =============================================================================
+
+# Default scopes sufficient for all public endpoints we use in smoke tests
+DEFAULT_SMOKE_SCOPES = os.getenv(
+    "SMOKE_TEST_SCOPES",
+    "api.read api.write models:read embeddings:read responses:write dreams:read",
+)
+
+
+@pytest.fixture(scope="session")
+def authz_headers():
+    """
+    Returns Authorization headers aligned with Guardian scope checks.
+
+    This fixture provides test tokens with appropriate scopes for smoke testing.
+    Keep this test-only; production tokens must embed claims via JWT/PAT.
+
+    The token format follows: sk-lukhas-{org}-{random}
+    Default scopes cover all public API endpoints used in smoke tests.
+    """
+    token = os.getenv("SMOKE_TEST_TOKEN", "sk-lukhas-test-smoke123")
+    return {
+        "Authorization": f"Bearer {token}",
+    }
+
+
+@pytest.fixture
+def permissive_env(monkeypatch):
+    """
+    Set environment to permissive mode for testing.
+
+    This ensures Guardian PDP allows requests with logging rather than
+    strict enforcement during test runs.
+    """
+    monkeypatch.setenv("LUKHAS_POLICY_MODE", "permissive")

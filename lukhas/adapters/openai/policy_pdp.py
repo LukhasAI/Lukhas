@@ -25,7 +25,15 @@ class Policy:
         self.etag = etag
 
         raw_rules = policy_data.get("rules", [])
-        self.rules = [Rule(**r) for r in raw_rules]
+        # Normalize rules: map 'when' to 'conditions' if present for backward compatibility
+        normalized_rules = []
+        for r in raw_rules:
+            rule_dict = dict(r)
+            # If YAML has 'when' but Rule expects 'conditions', rename the key
+            if "when" in rule_dict and "conditions" not in rule_dict:
+                rule_dict["conditions"] = rule_dict.pop("when")
+            normalized_rules.append(Rule(**rule_dict))
+        self.rules = normalized_rules
 
         # Pre-index rules for performance
         self._indexed_rules = self._index_rules(self.rules)

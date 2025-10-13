@@ -226,14 +226,21 @@ def get_app() -> FastAPI:
             if not GUARDIAN_AVAILABLE or not app.state.pdp:
                 return claims
 
-            # Build policy context
+            # Build policy context matching policy_models.Context signature
+            from datetime import datetime
             ctx = Context(
-                scope=scope,
-                route=request.url.path,
-                method=request.method,
-                principal=getattr(claims, "user_id", None) or getattr(claims, "org_id", None) or "anon",
-                scopes=list(getattr(claims, "scopes", []) or []),
-                headers={"authorization": request.headers.get("authorization", "")},
+                tenant_id=getattr(claims, "org_id", "default"),
+                user_id=getattr(claims, "user_id", None),
+                roles=set(),  # TODO: extract roles from claims
+                scopes=set(getattr(claims, "scopes", [])),
+                action=scope,  # Use scope as action (e.g., "models:read")
+                resource=request.url.path,
+                model=None,  # Could extract from request body if needed
+                ip=request.client.host if request.client else "unknown",
+                time_utc=datetime.utcnow(),
+                data_classification="internal",  # Default classification
+                policy_etag=app.state.pdp.policy.etag if app.state.pdp else "unknown",
+                trace_id=getattr(getattr(request, "state", object()), "trace_id", "unknown"),
             )
 
             # Evaluate policy
@@ -246,16 +253,16 @@ def get_app() -> FastAPI:
                 record_decision(
                     scope=scope,
                     allow=decision.allow,
-                    reason=getattr(decision, "reason", ""),
+                    reason=decision.reason,
                     route=request.url.path,
                     latency_ms=latency_ms,
                 )
 
             # Enforce decision
-            if not getattr(decision, "allow", False):
+            if not decision.allow:
                 raise HTTPException(
                     status_code=403,
-                    detail=getattr(decision, "reason", "Forbidden by policy")
+                    detail=decision.reason or "Forbidden by policy"
                 )
 
             return claims
@@ -297,8 +304,15 @@ def get_app() -> FastAPI:
     # Initialize Guardian PDP
     if GUARDIAN_AVAILABLE:
         try:
-            app.state.pdp = PDP.from_env()
-            logger.info("Guardian PDP initialized from environment")
+            from lukhas.adapters.openai.policy_pdp import PolicyLoader
+            policy_path = os.getenv("LUKHAS_POLICY_PATH", "configs/policy/guardian_policies.yaml")
+            if os.path.exists(policy_path):
+                policy = PolicyLoader.load_from_file(policy_path)
+                app.state.pdp = PDP(policy)
+                logger.info(f"Guardian PDP initialized with policy etag={policy.etag[:8]}")
+            else:
+                logger.info(f"Guardian policy not found at {policy_path}, PDP not initialized")
+                app.state.pdp = None
         except Exception as e:
             logger.warning(f"Failed to initialize Guardian PDP: {e}")
             app.state.pdp = None

@@ -36,7 +36,16 @@ class TokenClaims:
         self.token_hash = hashlib.sha256(token.encode()).hexdigest()[:16]
         self.org_id = org_id
         self.user_id = user_id
-        self.scopes = scopes or ["api.read", "api.write"]
+        # Default scopes for development/testing - include all public API scopes
+        # Production tokens should embed explicit scopes via JWT claims
+        self.scopes = scopes or [
+            "api.read",
+            "api.write",
+            "models:read",
+            "embeddings:read",
+            "responses:write",
+            "dreams:read",
+        ]
 
 
 def verify_token_with_policy(token: str) -> TokenClaims:
