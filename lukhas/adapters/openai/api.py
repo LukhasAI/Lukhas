@@ -119,6 +119,25 @@ def get_app() -> FastAPI:
         description="OpenAI-compatible API powered by LUKHAS MATRIZ cognitive engine"
     )
 
+    # Phase 3: Add security and observability middlewares
+    try:
+        from lukhas.observability.security_headers import SecurityHeadersMiddleware
+        from lukhas.observability.tracing import TraceHeaderMiddleware
+        app.add_middleware(SecurityHeadersMiddleware)
+        if TraceHeaderMiddleware:
+            app.add_middleware(TraceHeaderMiddleware)
+        logger.info("Phase 3 middlewares initialized (security headers, trace headers)")
+    except Exception as e:
+        logger.warning(f"Failed to load Phase 3 middlewares: {e}")
+
+    # Install log redaction globally
+    try:
+        from lukhas.observability.log_redaction import install_global_redaction
+        install_global_redaction()
+        logger.info("Log redaction filter installed")
+    except Exception as e:
+        logger.warning(f"Failed to install log redaction: {e}")
+
     # Initialize OpenTelemetry tracing (optional)
     tracer = setup_otel(service_name="lukhas-openai-facade")
 
@@ -347,6 +366,20 @@ def get_app() -> FastAPI:
     @app.post("/v1/embeddings")
     async def embeddings(request: Request, claims: TokenClaims = Depends(require_bearer)):
         """Generate embeddings for text input."""
+        # Phase 3: Check for idempotency key
+        idem_key = request.headers.get("Idempotency-Key")
+        if idem_key:
+            try:
+                from lukhas.core.reliability import idempotency as idem
+                body_bytes = await request.body()
+                cache_key = idem.cache_key(request.url.path, idem_key, body_bytes)
+                cached = idem.get(cache_key)
+                if cached:
+                    status, body, ctype = cached
+                    return Response(content=body, media_type=ctype, status_code=status)
+            except Exception as e:
+                logger.warning(f"Idempotency check failed: {e}")
+        
         payload = await request.json()
         text = payload.get("input", "")
         if not text:
@@ -368,17 +401,77 @@ def get_app() -> FastAPI:
             # Stub mode - deterministic vector
             vec = [float(len(text) % 7), 0.0, 1.0]
 
-        return _maybe_trace({"data": [{"embedding": vec, "index": 0}]})
+        result_dict = _maybe_trace({"data": [{"embedding": vec, "index": 0}]})
+        
+        # Phase 3: Cache response if idempotency key provided
+        if idem_key:
+            try:
+                from lukhas.core.reliability import idempotency as idem
+                import json
+                resp_bytes = json.dumps(result_dict).encode('utf-8')
+                idem.put(cache_key, 200, resp_bytes, "application/json")
+            except Exception as e:
+                logger.warning(f"Idempotency caching failed: {e}")
+        
+        return result_dict
 
     @app.post("/v1/responses")
     async def responses(request: Request, claims: TokenClaims = Depends(require_bearer)):
         """Generate AI responses using MATRIZ orchestrator."""
         payload = await request.json()
         user_input = str(payload.get("input", ""))
+        stream = payload.get("stream", False)
+        
         if not user_input:
             raise HTTPException(status_code=400, detail="Input required")
 
+        # Phase 3: Check for idempotency key (non-streaming only)
+        idem_key = request.headers.get("Idempotency-Key")
+        if idem_key and not stream:
+            try:
+                from lukhas.core.reliability import idempotency as idem
+                body_bytes = await request.body()
+                cache_key = idem.cache_key(request.url.path, idem_key, body_bytes)
+                cached = idem.get(cache_key)
+                if cached:
+                    status, body, ctype = cached
+                    return Response(content=body, media_type=ctype, status_code=status)
+            except Exception as e:
+                logger.warning(f"Idempotency check failed: {e}")
+
         request_id = f"resp_{uuid.uuid4().hex[:8]}"
+        
+        # Phase 3: Streaming support
+        if stream:
+            from fastapi.responses import StreamingResponse
+            import json
+            
+            async def _generate_stream():
+                """Generate SSE stream for responses."""
+                # TODO: Integrate with MATRIZ for real streaming deltas
+                # For now, stub implementation
+                yield "data: " + json.dumps({
+                    "id": request_id,
+                    "object": "response.part",
+                    "delta": {"text": "Thinking"}
+                }) + "\n\n"
+                
+                yield "data: " + json.dumps({
+                    "id": request_id,
+                    "object": "response.part",
+                    "delta": {"text": "..."}
+                }) + "\n\n"
+                
+                # Final result (echo for now)
+                yield "data: " + json.dumps({
+                    "id": request_id,
+                    "object": "response.part",
+                    "delta": {"text": f" {user_input}"}
+                }) + "\n\n"
+                
+                yield "data: [DONE]\n\n"
+            
+            return StreamingResponse(_generate_stream(), media_type="text/event-stream")
 
         # Try to use MATRIZ orchestrator, fallback to echo
         if orchestrator and MATRIZ_AVAILABLE:
@@ -438,7 +531,19 @@ def get_app() -> FastAPI:
                 "mode": "stub"
             }
 
-        return JSONResponse(_maybe_trace(out))
+        result_json = JSONResponse(_maybe_trace(out))
+        
+        # Phase 3: Cache response if idempotency key provided (non-streaming only)
+        if idem_key and not stream:
+            try:
+                from lukhas.core.reliability import idempotency as idem
+                import json
+                resp_bytes = json.dumps(out).encode('utf-8')
+                idem.put(cache_key, 200, resp_bytes, "application/json")
+            except Exception as e:
+                logger.warning(f"Idempotency caching failed: {e}")
+        
+        return result_json
 
     @app.post("/v1/dreams")
     async def dreams(request: Request, claims: TokenClaims = Depends(require_bearer)):

@@ -11,6 +11,18 @@ Tracking: docs/v0.03/KNOWN_ISSUES.md#missing-modules
 
 # TODO: Implement or remove dead imports referencing this module
 
+# Initialize __all__
+try:
+    __all__  # type: ignore[name-defined]
+except NameError:
+    __all__ = []
+
+# Idempotency support (Phase 3)
+from .idempotency import cache_key, get, put, clear
+for _name in ("cache_key", "get", "put", "clear"):
+    if _name not in __all__:
+        __all__.append(_name)
+
 # Added for test compatibility (lukhas.core.reliability.AdaptiveCircuitBreaker)
 try:
     from labs.core.reliability import AdaptiveCircuitBreaker  # noqa: F401

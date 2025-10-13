@@ -72,5 +72,26 @@
 ./scripts/release_rc.sh v0.X.Y-rc
 ```
 
+## Phase 3 Gate (tick all if applicable)
+
+**Only required for Phase 3 PRs (compat removal, OpenAPI polish)**:
+
+- [ ] `compat-enforce` job green (hits == 0)
+- [ ] No `lukhas.compat` imports in repo (outside historical docs)
+- [ ] OpenAPI artifact present & validated (`make openapi-validate`)
+- [ ] OpenAPI diff posted as PR comment (no breaking changes unless explicitly approved)
+- [ ] Security headers present (HSTS/XFO/XCTO/CSP)
+- [ ] `X-Trace-Id` header observed in smoke logs
+- [ ] No secrets redacted violations in CI log-scan
+- [ ] (If needed) `LUKHAS_RL_KEYING` toggle documented for rollback
+- [ ] New/changed endpoints include `x-deprecated` or `Sunset` header plan if deprecating
+
+## API Contract & Security
+
+- [ ] OpenAPI diff posted as PR comment (no breaking changes unless explicitly approved)
+- [ ] Security headers present (HSTS/XFO/XCTO/CSP)
+- [ ] No secrets redacted violations in CI log-scan
+- [ ] New/changed endpoints include `x-deprecated` or `Sunset` header plan if deprecating
+
 ## Notes for Reviewers
 <!-- Risks, follow-ups, perf/observability considerations, module deletions -->

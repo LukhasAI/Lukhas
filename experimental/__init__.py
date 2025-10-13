@@ -1,13 +1,14 @@
 """
-Compatibility package for experimental/ → candidate/ migration.
+Compatibility package for experimental/ → labs/ migration.
 
 Legacy code may import from 'experimental.*' - this shim re-exports
-everything from 'candidate' for backward compatibility.
+everything from 'labs' (formerly candidate) for backward compatibility.
 
-This compatibility layer will be removed in v0.04.
+Phase 2: candidate → labs rename complete
+Phase 3: This compatibility layer deprecated, will be removed in v1.0
 """
 
-# Re-export everything from candidate
-from candidate import *  # noqa: F401, F403
+# Re-export everything from labs (formerly candidate)
+from labs import *  # noqa: F401, F403
 
-__all__ = ["*"]  # Export all symbols from candidate
+__all__ = ["*"]  # Export all symbols from labs

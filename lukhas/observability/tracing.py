@@ -132,3 +132,41 @@ def get_trace_id_hex(span) -> Optional[str]:
         return format(trace_id, '032x')
     except Exception:
         return None
+
+
+# Phase 3: Trace header middleware for X-Trace-Id response header
+try:
+    from starlette.middleware.base import BaseHTTPMiddleware
+    from starlette.requests import Request
+    from starlette.responses import Response
+
+    class TraceHeaderMiddleware(BaseHTTPMiddleware):
+        """
+        Middleware to attach X-Trace-Id header to all responses.
+
+        Extracts the current OpenTelemetry trace ID and adds it as a response
+        header for correlation and debugging. If OpenTelemetry is unavailable
+        or no span is active, the header is omitted.
+
+        Phase 3: Added as part of OpenAI surface polish.
+        """
+
+        async def dispatch(self, request: Request, call_next) -> Response:
+            resp = await call_next(request)
+
+            # Attach trace ID if available
+            if OTEL_AVAILABLE and trace:
+                try:
+                    span = trace.get_current_span()
+                    ctx = span.get_span_context() if span else None
+                    if ctx and ctx.trace_id:
+                        trace_id = format(ctx.trace_id, "032x")
+                        resp.headers.setdefault("X-Trace-Id", trace_id)
+                except Exception as e:
+                    logger.debug(f"Failed to extract trace ID: {e}")
+
+            return resp
+
+except ImportError:
+    # Starlette not available, middleware not usable
+    TraceHeaderMiddleware = None  # type: ignore

@@ -3,8 +3,18 @@ Rate limiting for LUKHAS API endpoints.
 
 Implements token bucket algorithm with per-endpoint and per-principal limits.
 Keys by (route, bearer_token) or (route, ip) to prevent cross-tenant throttling.
+
+RateLimiter keying strategy (Phase 3):
+  Env LUKHAS_RL_KEYING:
+  - 'route_principal' (default): key = f"{route}:{principal}"
+  - 'route_only': key = route (fallback for testing or shared limits)
+
+  Notes:
+  - principal is 'tok:<sha256_16hex>' | 'ip:<addr>' | 'anonymous'
+  - raw tokens are never stored (hash only, security)
 """
 import hashlib
+import os
 import time
 from collections import defaultdict
 from threading import Lock
@@ -124,21 +134,27 @@ class RateLimiter:
     def _key_for_request(self, request) -> str:
         """
         Generate rate limit key for request.
-        
-        Key format: "{route}:{principal}"
-        - route: Request URL path
-        - principal: Bearer token or IP address
-        
-        This ensures each (endpoint, tenant) pair has independent limits,
+
+        Key format depends on LUKHAS_RL_KEYING environment variable:
+        - 'route_principal' (default): "{route}:{principal}"
+        - 'route_only': "{route}" (shared limit across all users)
+
+        The default ensures each (endpoint, tenant) pair has independent limits,
         preventing one tenant from exhausting another's quota.
-        
+
         Args:
             request: FastAPI Request object
-            
+
         Returns:
             Rate limit key string
         """
+        strategy = os.environ.get("LUKHAS_RL_KEYING", "route_principal").lower()
         route = request.url.path
+
+        if strategy == "route_only":
+            return route
+
+        # Default: route_principal
         principal = self._extract_principal(request)
         return f"{route}:{principal}"
 

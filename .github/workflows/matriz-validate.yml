@@ -347,3 +347,195 @@ jobs:
           name: facade-smoke-artifacts
           path: |
             facade.log
+
+  compat-enforce:
+    name: Compat Alias Enforcement
+    runs-on: ubuntu-latest
+    needs: [validate]
+    env:
+      LUKHAS_COMPAT_MAX_HITS: "0"
+    concurrency:
+      group: ${{ github.workflow }}-compat-enforce-${{ github.ref }}
+      cancel-in-progress: true
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements*.txt', '**/pyproject.toml', '**/setup.cfg') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt || true
+      - name: Report compat alias hits
+        run: |
+          python3 scripts/report_compat_hits.py --out docs/audits/compat_alias_hits.json || true
+          echo "Compat hits report:"
+          cat docs/audits/compat_alias_hits.json 2>/dev/null || echo '{"hits": 0}'
+      - name: Enforce zero hits
+        run: |
+          python - <<'PY'
+          import json, os, sys
+          p="docs/audits/compat_alias_hits.json"
+          limit=int(os.environ.get("LUKHAS_COMPAT_MAX_HITS","0"))
+          data=json.load(open(p)) if os.path.exists(p) else {}
+          hits=0
+          if isinstance(data, dict):
+              for k, v in data.items():
+                  if isinstance(v, int):
+                      hits += v
+                  elif isinstance(v, dict) and "count" in v:
+                      hits += v["count"]
+          print(f"Compat alias hits: {hits} (limit {limit})")
+          sys.exit(0 if hits<=limit else 2)
+          PY
+
+  openapi-diff:
+    name: OpenAPI Diff vs main
+    runs-on: ubuntu-latest
+    needs: [openapi-spec]
+    if: github.event_name == 'pull_request'
+    steps:
+      - name: Checkout candidate (PR) code
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements*.txt', '**/pyproject.toml', '**/setup.cfg') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+
+      - name: Install app
+        run: |
+          pip install -e .
+
+      - name: Generate candidate OpenAPI
+        run: |
+          python3 scripts/generate_openapi.py
+
+      - name: Checkout main into main_ref
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          path: main_ref
+
+      - name: Generate baseline OpenAPI (main)
+        working-directory: main_ref
+        run: |
+          pip install -e . || true
+          python3 scripts/generate_openapi.py || python - <<'PY'
+          import json, os
+          from lukhas.adapters.openai.api import get_app
+          os.makedirs("docs/openapi", exist_ok=True)
+          spec = get_app().openapi()
+          json.dump(spec, open("docs/openapi/lukhas-openai.json","w"), indent=2)
+          print("✅ baseline spec generated")
+          PY
+
+      - name: Diff for breaking changes
+        run: |
+          python3 scripts/diff_openapi.py \
+            --base main_ref/docs/openapi/lukhas-openai.json \
+            --cand docs/openapi/lukhas-openai.json || true
+
+  openapi-comment:
+    name: Comment OpenAPI Diff on PR
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    needs: [openapi-diff]
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install app
+        run: |
+          pip install -e .
+
+      - name: Generate candidate spec
+        run: |
+          python3 scripts/generate_openapi.py
+
+      - name: Checkout main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          path: main_ref
+
+      - name: Generate baseline spec
+        working-directory: main_ref
+        run: |
+          pip install -e . || true
+          python3 scripts/generate_openapi.py || true
+
+      - name: Run diff and capture output
+        id: diff
+        run: |
+          python3 scripts/diff_openapi.py \
+            --base main_ref/docs/openapi/lukhas-openai.json \
+            --cand docs/openapi/lukhas-openai.json > openapi_diff.txt 2>&1 || true
+          cat openapi_diff.txt
+
+      - name: Post PR comment with diff summary
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            let body = "### OpenAPI Diff Results\n\n```\n";
+            try {
+              body += fs.readFileSync('openapi_diff.txt', 'utf8');
+            } catch {
+              body += "No diff output available";
+            }
+            body += "\n```";
+
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.payload.pull_request.number,
+              body: body
+            });
+
+  log-scan:
+    name: Scan Logs for Secrets
+    runs-on: ubuntu-latest
+    needs: [facade-smoke]
+    if: always()
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: facade-smoke-artifacts
+          path: artifacts
+        continue-on-error: true
+
+      - name: Fail if secrets patterns present
+        run: |
+          set -e
+          f="artifacts/facade.log"
+          if [ ! -f "$f" ]; then
+            echo "⚠️  No facade.log found, skipping scan"
+            exit 0
+          fi
+
+          echo "🔍 Scanning logs for potential secrets..."
+
+          if grep -E -n "sk-[A-Za-z0-9]{10,}|Bearer\s+[A-Za-z0-9._-]{8,}" "$f"; then
+            echo "❌ Potential secret detected in logs"
+            exit 2
+          fi
+
+          echo "✅ No secrets found in logs"

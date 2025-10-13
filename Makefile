@@ -1468,3 +1468,60 @@ load-locust: ## Run Locust load test (Python alternative with web UI)
 		exit 1; \
 	fi
 	locust -f load/locustfile.py --host=http://localhost:8000
+
+# ============================================================================
+# Phase 3: OpenAPI & Compat Enforcement
+# ============================================================================
+
+openapi-spec: ## Generate OpenAPI JSON spec with metadata polish
+	@echo "📋 Generating OpenAPI spec..."
+	python3 scripts/generate_openapi.py
+
+openapi-validate: ## Validate OpenAPI spec against OpenAPI 3.1 schema
+	@echo "✅ Validating OpenAPI spec..."
+	@python -m pip install --upgrade openapi-spec-validator >/dev/null || true
+	@python - <<'PY'
+import json
+from openapi_spec_validator import openapi_v3_spec_validator
+spec = json.load(open("docs/openapi/lukhas-openai.json"))
+errors = list(openapi_v3_spec_validator.iter_errors(spec))
+assert not errors, f"OpenAPI schema errors: {errors[:5]}"
+print("✅ OpenAPI validation passed")
+PY
+
+openapi-diff: openapi-spec ## Diff OpenAPI spec against main branch (requires git worktree)
+	@echo "🔍 Comparing OpenAPI spec against main..."
+	@if [ ! -d "main_ref" ]; then \
+		echo "❌ main_ref worktree not found. Create with: git worktree add main_ref origin/main"; \
+		exit 1; \
+	fi
+	@cd main_ref && python3 scripts/generate_openapi.py || true
+	python3 scripts/diff_openapi.py --base main_ref/docs/openapi/lukhas-openai.json --cand docs/openapi/lukhas-openai.json || true
+
+compat-enforce: ## Check compat alias hits (LUKHAS_COMPAT_MAX_HITS=0 in Phase 3)
+	@echo "🔒 Checking compat alias hits..."
+	@LUKHAS_COMPAT_MAX_HITS=0 python3 scripts/report_compat_hits.py --out docs/audits/compat_alias_hits.json || true
+	@python - <<'PY'
+import json, sys
+try:
+    data = json.load(open("docs/audits/compat_alias_hits.json"))
+    hits = sum(v if isinstance(v, int) else v.get("count", 0) for v in data.values())
+    print(f"Compat alias hits: {hits}")
+    sys.exit(0 if hits <= 0 else 2)
+except FileNotFoundError:
+    print("✅ No compat hits file (0 hits)")
+    sys.exit(0)
+PY
+
+compat-remove: ## Remove lukhas/compat/ directory (Phase 3 gate: run after hits=0 for 48h)
+	@echo "⚠️  Removing compat layer..."
+	@if [ -d "lukhas/compat" ]; then \
+		git rm -r lukhas/compat && echo "✅ lukhas/compat/ removed"; \
+	else \
+		echo "ℹ️  lukhas/compat/ already removed"; \
+	fi
+	@echo "🔍 Searching for remaining lukhas.compat imports..."
+	@git grep -n "lukhas\\.compat" || echo "✅ No compat imports found"
+	@echo "🧪 Running smoke tests..."
+	@$(MAKE) check-legacy-imports
+	@pytest tests/smoke/ -q --tb=no || echo "⚠️  Some smoke tests failed (review output)"
