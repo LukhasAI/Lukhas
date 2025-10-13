@@ -1,0 +1,200 @@
+name: Strict Mode Rehearsal (Nightly)
+
+on:
+  schedule:
+    # Run at 2 AM UTC daily
+    - cron: '0 2 * * *'
+  workflow_dispatch:  # Allow manual trigger
+
+jobs:
+  strict-mode-test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        policy-mode: [permissive, strict]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          pip install -U pip
+          pip install -r requirements.txt
+          pip install pytest pytest-cov
+
+      - name: Run smoke tests (${{ matrix.policy-mode }} mode)
+        id: smoke
+        continue-on-error: true
+        run: |
+          export LUKHAS_POLICY_MODE=${{ matrix.policy-mode }}
+          pytest tests/smoke/ -q --tb=short > smoke_${{ matrix.policy-mode }}.log 2>&1 || true
+
+          # Extract pass/fail counts
+          PASSED=$(grep -oP '\d+(?= passed)' smoke_${{ matrix.policy-mode }}.log | tail -1 || echo "0")
+          FAILED=$(grep -oP '\d+(?= failed)' smoke_${{ matrix.policy-mode }}.log | tail -1 || echo "0")
+          TOTAL=$((PASSED + FAILED))
+
+          echo "passed=$PASSED" >> $GITHUB_OUTPUT
+          echo "failed=$FAILED" >> $GITHUB_OUTPUT
+          echo "total=$TOTAL" >> $GITHUB_OUTPUT
+
+      - name: Upload test logs
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: smoke-logs-${{ matrix.policy-mode }}
+          path: smoke_${{ matrix.policy-mode }}.log
+          retention-days: 7
+
+  compare-modes:
+    needs: strict-mode-test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts/
+
+      - name: Compare results
+        id: compare
+        run: |
+          # Parse permissive results
+          PERM_PASSED=$(grep -oP '\d+(?= passed)' artifacts/smoke-logs-permissive/smoke_permissive.log | tail -1 || echo "0")
+          PERM_FAILED=$(grep -oP '\d+(?= failed)' artifacts/smoke-logs-permissive/smoke_permissive.log | tail -1 || echo "0")
+
+          # Parse strict results
+          STRICT_PASSED=$(grep -oP '\d+(?= passed)' artifacts/smoke-logs-strict/smoke_strict.log | tail -1 || echo "0")
+          STRICT_FAILED=$(grep -oP '\d+(?= failed)' artifacts/smoke-logs-strict/smoke_strict.log | tail -1 || echo "0")
+
+          # Calculate delta
+          DELTA_FAILED=$((STRICT_FAILED - PERM_FAILED))
+
+          echo "perm_passed=$PERM_PASSED" >> $GITHUB_OUTPUT
+          echo "perm_failed=$PERM_FAILED" >> $GITHUB_OUTPUT
+          echo "strict_passed=$STRICT_PASSED" >> $GITHUB_OUTPUT
+          echo "strict_failed=$STRICT_FAILED" >> $GITHUB_OUTPUT
+          echo "delta_failed=$DELTA_FAILED" >> $GITHUB_OUTPUT
+
+          # Determine status emoji
+          if [ "$DELTA_FAILED" -eq 0 ]; then
+            echo "status_emoji=✅" >> $GITHUB_OUTPUT
+            echo "status_text=No additional failures in strict mode" >> $GITHUB_OUTPUT
+          elif [ "$DELTA_FAILED" -le 5 ]; then
+            echo "status_emoji=🟡" >> $GITHUB_OUTPUT
+            echo "status_text=Minor impact ($DELTA_FAILED additional failures)" >> $GITHUB_OUTPUT
+          else
+            echo "status_emoji=🔴" >> $GITHUB_OUTPUT
+            echo "status_text=Significant impact ($DELTA_FAILED additional failures)" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Create issue if delta significant
+        if: steps.compare.outputs.delta_failed > 10
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const deltaFailed = parseInt('${{ steps.compare.outputs.delta_failed }}');
+            const permPassed = '${{ steps.compare.outputs.perm_passed }}';
+            const permFailed = '${{ steps.compare.outputs.perm_failed }}';
+            const strictPassed = '${{ steps.compare.outputs.strict_passed }}';
+            const strictFailed = '${{ steps.compare.outputs.strict_failed }}';
+
+            const issueBody = `## 🔴 Strict Mode Rehearsal Alert
+
+            The nightly strict mode rehearsal detected **${deltaFailed} additional test failures** when LUKHAS_POLICY_MODE=strict compared to permissive mode.
+
+            ### Results Summary
+
+            | Mode | Passed | Failed | Total |
+            |------|--------|--------|-------|
+            | Permissive | ${permPassed} | ${permFailed} | ${parseInt(permPassed) + parseInt(permFailed)} |
+            | Strict | ${strictPassed} | ${strictFailed} | ${parseInt(strictPassed) + parseInt(strictFailed)} |
+            | **Delta** | - | **+${deltaFailed}** | - |
+
+            ### Recommended Actions
+
+            1. Review smoke test logs in [workflow artifacts](https://github.com/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId})
+            2. Identify tests failing due to stricter auth/RBAC enforcement
+            3. Update tests to properly handle 401/403 responses
+            4. Consider auth bypass for specific test scenarios
+
+            ### Context
+
+            - **Policy Mode**: Tests are run in both permissive (allows anonymous) and strict (enforces auth) modes
+            - **Goal**: Gradually reduce delta to 0 before enabling strict mode by default
+            - **Current Threshold**: 10 failures (above threshold triggers this alert)
+
+            ---
+            *Auto-generated by strict-mode-rehearsal.yml on ${new Date().toISOString()}*
+            `;
+
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: \`🔴 Strict Mode Rehearsal: +\${deltaFailed} failures detected\`,
+              body: issueBody,
+              labels: ['ci', 'strict-mode', 'auth', 'needs-triage']
+            });
+
+      - name: Generate rehearsal report
+        run: |
+          cat > strict_mode_report.md <<EOF
+          # Strict Mode Rehearsal Report
+          **Date**: $(date -u +"%Y-%m-%d %H:%M:%S UTC")
+          **Run ID**: ${{ github.run_id }}
+
+          ## Summary
+
+          ${{ steps.compare.outputs.status_emoji }} ${{ steps.compare.outputs.status_text }}
+
+          ## Results
+
+          | Mode | Passed | Failed |
+          |------|--------|--------|
+          | Permissive | ${{ steps.compare.outputs.perm_passed }} | ${{ steps.compare.outputs.perm_failed }} |
+          | Strict | ${{ steps.compare.outputs.strict_passed }} | ${{ steps.compare.outputs.strict_failed }} |
+          | **Delta** | - | **+${{ steps.compare.outputs.delta_failed }}** |
+
+          ## Interpretation
+
+          - **Permissive mode**: LUKHAS_POLICY_MODE=permissive (auth bypassed, returns anonymous claims)
+          - **Strict mode**: LUKHAS_POLICY_MODE=strict (auth enforced, returns 401/403 on failures)
+          - **Delta**: Additional failures when strict mode is enabled
+
+          ### Status Thresholds
+          - ✅ Delta = 0: Ready for strict mode by default
+          - 🟡 Delta ≤ 5: Minor cleanup needed
+          - 🔴 Delta > 5: Significant auth issues to address
+
+          ## Next Steps
+
+          ${
+            parseInt('${{ steps.compare.outputs.delta_failed }}') === 0
+            ? '✅ No action needed - strict mode is production-ready'
+            : parseInt('${{ steps.compare.outputs.delta_failed }}') <= 5
+            ? '🟡 Review failing tests and add proper auth handling'
+            : '🔴 **Action required** - Review and fix auth-related test failures'
+          }
+
+          ---
+          *View full logs in [workflow artifacts](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})*
+          EOF
+
+          cat strict_mode_report.md
+
+      - name: Upload report
+        uses: actions/upload-artifact@v4
+        with:
+          name: strict-mode-report
+          path: strict_mode_report.md
+          retention-days: 30
+
+      - name: Post summary
+        run: |
+          cat strict_mode_report.md >> $GITHUB_STEP_SUMMARY
