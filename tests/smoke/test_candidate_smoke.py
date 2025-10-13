@@ -1,11 +1,7 @@
-"""Smoke test for candidate lane."""
-
-import os
+"""Smoke test for labs lane."""
 
 
-def test_candidate_lane_accessible():
-    """Test that candidate lane directory is accessible."""
-    candidate_dir = os.path.join(os.path.dirname(__file__), "../../candidate")
-    assert os.path.exists(candidate_dir), "Candidate lane directory exists"
-    # Simple directory check since candidate may not have importable modules
-    assert True, "Candidate lane accessible"
+def test_labs_lane_accessible(labs_root):
+    """Test that labs lane directory is accessible."""
+    assert labs_root.exists(), "Labs lane directory exists"
+    assert labs_root.is_dir(), "Labs lane is a directory"

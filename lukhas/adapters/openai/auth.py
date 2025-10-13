@@ -93,11 +93,13 @@ def verify_token_with_policy(token: str) -> TokenClaims:
 
     logger.debug(f"Token verified: org={org_id}, user={user_id}")
 
+    # Return claims with default scopes (TokenClaims will apply defaults if scopes=None)
+    # Default scopes include all public API endpoints for dev/test convenience
     return TokenClaims(
         token=token,
         org_id=org_id,
         user_id=user_id,
-        scopes=["api.read", "api.write", "api.responses", "api.embeddings"]
+        # Let TokenClaims apply its comprehensive default scopes
     )
 
 
