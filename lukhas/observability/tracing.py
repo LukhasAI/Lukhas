@@ -134,11 +134,49 @@ def get_trace_id_hex(span) -> Optional[str]:
         return None
 
 
+def current_trace_id_hex() -> Optional[str]:
+    """
+    Get the current active trace ID as a 32-char hex string.
+
+    Useful for error responses and exception handlers to include trace correlation.
+
+    Returns:
+        32-character hex trace ID or None if no active span
+    """
+    if not OTEL_AVAILABLE or not trace:
+        return None
+
+    try:
+        span = trace.get_current_span()
+        if span:
+            ctx = span.get_span_context()
+            if ctx and ctx.trace_id:
+                return format(ctx.trace_id, '032x')
+    except Exception:
+        pass
+
+    return None
+
+
 # Phase 3: Trace header middleware for X-Trace-Id response header
 try:
     from starlette.middleware.base import BaseHTTPMiddleware
     from starlette.requests import Request
     from starlette.responses import Response
+    import uuid
+
+    # Try to import Prometheus counter for trace coverage metrics
+    try:
+        from prometheus_client import Counter
+        TRACE_COUNTER = Counter(
+            "lukhas_trace_header_total",
+            "Total responses with X-Trace-Id header",
+            ["present", "source"]
+        )
+        PROMETHEUS_AVAILABLE_TRACE = True
+    except ImportError:
+        PROMETHEUS_AVAILABLE_TRACE = False
+        TRACE_COUNTER = None
 
     class TraceHeaderMiddleware(BaseHTTPMiddleware):
         """
@@ -146,24 +184,40 @@ try:
 
         Extracts the current OpenTelemetry trace ID and adds it as a response
         header for correlation and debugging. If OpenTelemetry is unavailable
-        or no span is active, the header is omitted.
+        or no span is active, generates a random UUID-based trace ID.
 
         Phase 3: Added as part of OpenAI surface polish.
+        Phase 3.1: Added Prometheus counter for trace coverage alerting.
         """
 
         async def dispatch(self, request: Request, call_next) -> Response:
             resp = await call_next(request)
 
-            # Attach trace ID if available
+            # Attach trace ID if available from OTEL
+            trace_id = None
+            source = "fallback"
             if OTEL_AVAILABLE and trace:
                 try:
                     span = trace.get_current_span()
                     ctx = span.get_span_context() if span else None
                     if ctx and ctx.trace_id:
                         trace_id = format(ctx.trace_id, "032x")
-                        resp.headers.setdefault("X-Trace-Id", trace_id)
+                        source = "otel"
                 except Exception as e:
                     logger.debug(f"Failed to extract trace ID: {e}")
+
+            # Generate trace ID if not from OTEL (32 hex chars)
+            if not trace_id:
+                trace_id = uuid.uuid4().hex
+
+            resp.headers.setdefault("X-Trace-Id", trace_id)
+
+            # Record trace coverage metrics
+            if PROMETHEUS_AVAILABLE_TRACE and TRACE_COUNTER:
+                try:
+                    TRACE_COUNTER.labels(present="true", source=source).inc()
+                except Exception:
+                    pass
 
             return resp
 

@@ -14,11 +14,12 @@ RateLimiter keying strategy (Phase 3):
   - raw tokens are never stored (hash only, security)
 """
 import hashlib
+import math
 import os
 import time
 from collections import defaultdict
 from threading import Lock
-from typing import Dict, Optional, Tuple
+from typing import Dict, Optional, Tuple, Any
 
 
 class TokenBucket:
@@ -179,6 +180,136 @@ class RateLimiter:
         key = self._key_for_request(request)
         bucket = self.buckets[key]
         return bucket.consume(1)
+
+    def key_for_request(self, request) -> str:
+        """
+        Public wrapper for the internal key function so API code doesn't
+        rely on a private method. Keeps our Phase-2 integration stable.
+        
+        Args:
+            request: FastAPI Request object
+            
+        Returns:
+            Rate limit key string
+        """
+        return self._key_for_request(request)
+
+    def principal_for_request(self, request) -> str:
+        """
+        Return the raw principal string; metric layer will hash it.
+        
+        Args:
+            request: FastAPI Request object
+            
+        Returns:
+            Principal identifier (for metrics, will be hashed)
+        """
+        try:
+            return self._extract_principal(request) or "anonymous"
+        except Exception:
+            return "anonymous"
+
+    def _ensure_bucket(self, key: str) -> Dict[str, Any]:
+        """
+        Ensure a bucket record exists for key.
+        Expected shape: {"tokens": float, "ts": float, "capacity": int, "refill_rate": float}
+        
+        Args:
+            key: Rate limit key
+            
+        Returns:
+            Bucket dictionary with current state
+        """
+        bucket = self.buckets.get(key)
+        if bucket is None:
+            # Create new bucket with default settings
+            bucket = TokenBucket(capacity=self.default_rps * 2, refill_rate=self.default_rps)
+            self.buckets[key] = bucket
+        
+        # Return bucket state as dict for window calculations
+        return {
+            "tokens": bucket.tokens,
+            "ts": bucket.last_refill,
+            "capacity": bucket.capacity,
+            "refill_rate": bucket.refill_rate,
+        }
+
+    def _refilled(self, b: Dict[str, Any]) -> None:
+        """
+        Update bucket dict with passive refill (for window calculations).
+        
+        Args:
+            b: Bucket state dictionary
+        """
+        now = time.time()
+        elapsed = max(0.0, now - b["ts"])
+        b["tokens"] = min(b["capacity"], b["tokens"] + b["refill_rate"] * elapsed)
+        b["ts"] = now
+
+    def current_window(self, key: str) -> Dict[str, float]:
+        """
+        Returns the current 'window' snapshot for OpenAI-style headers.
+        Token-bucket doesn't have hard windows, so we report:
+          - limit: capacity
+          - remaining: floor(tokens after passive refill)
+          - reset_seconds: seconds to *full* refill (OK for client backoff)
+        
+        Args:
+            key: Rate limit key
+            
+        Returns:
+            Dictionary with limit, remaining, and reset_seconds
+        """
+        b = self._ensure_bucket(key)
+        self._refilled(b)
+        cap = int(b["capacity"])
+        tokens = max(0.0, min(float(b["capacity"]), float(b["tokens"])))
+        rate = float(b["refill_rate"])
+        
+        if tokens >= cap or rate <= 0.0:
+            reset = 0.0
+        else:
+            reset = (cap - tokens) / rate
+        
+        return {
+            "limit": float(cap),
+            "remaining": float(math.floor(tokens)),
+            "reset_seconds": float(round(reset, 3)),
+        }
+
+    def headers_for(
+        self,
+        key: str,
+        *,
+        tokens_limit: int = 0,
+        tokens_remaining: int = 0,
+        tokens_reset: float = 0.0,
+    ) -> Dict[str, str]:
+        """
+        OpenAI-aligned header set. Requests-dimension always present.
+        Tokens-* are optional placeholders unless you wire in token
+        accounting; we surface them as '0' by default for API parity.
+        
+        Args:
+            key: Rate limit key
+            tokens_limit: Optional token limit (for future token tracking)
+            tokens_remaining: Optional remaining tokens
+            tokens_reset: Optional token reset time
+            
+        Returns:
+            Dictionary of x-ratelimit-* headers
+        """
+        w = self.current_window(key)
+        return {
+            # OpenAI-compatible "requests" dimension
+            "x-ratelimit-limit-requests": str(int(w["limit"])),
+            "x-ratelimit-remaining-requests": str(int(w["remaining"])),
+            "x-ratelimit-reset-requests": f"{w['reset_seconds']:.3f}",
+            # Token dimension is optional; keep visible for parity
+            "x-ratelimit-limit-tokens": str(int(tokens_limit)),
+            "x-ratelimit-remaining-tokens": str(int(tokens_remaining)),
+            "x-ratelimit-reset-tokens": f"{float(tokens_reset):.3f}",
+        }
 
 
 def rate_limit_error(retry_after_s: float) -> dict:

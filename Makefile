@@ -1525,3 +1525,21 @@ compat-remove: ## Remove lukhas/compat/ directory (Phase 3 gate: run after hits=
 	@echo "🧪 Running smoke tests..."
 	@$(MAKE) check-legacy-imports
 	@pytest tests/smoke/ -q --tb=no || echo "⚠️  Some smoke tests failed (review output)"
+
+# ============================================================================
+# Phase 3.1: Prometheus Alert Validation
+# ============================================================================
+
+PROMTOOL ?= promtool
+ALERTS_DIR ?= lukhas/observability/alerts
+
+.PHONY: alerts-validate
+alerts-validate: ## Validate Prometheus alert rules with promtool
+	@echo ">> validating alert rules in $(ALERTS_DIR)"
+	$(PROMTOOL) check rules $(ALERTS_DIR)/*.alerts.yml
+
+.PHONY: alerts-print
+alerts-print: ## Print Prometheus alert groups
+	@echo ">> printing alert groups"
+	$(PROMTOOL) check rules $(ALERTS_DIR)/*.alerts.yml && \
+	$(PROMTOOL) show rules $(ALERTS_DIR)/*.alerts.yml

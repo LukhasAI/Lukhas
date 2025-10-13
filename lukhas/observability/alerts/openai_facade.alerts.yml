@@ -1,0 +1,71 @@
+# observability/alerts/openai_facade.alerts.yml
+groups:
+- name: lukhas_openai_facade_alerts
+  interval: 30s
+  rules:
+  # --- Tunables (sane defaults) ---
+  - record: lukhas_cfg:p95_s
+    expr: 2.0
+  - record: lukhas_cfg:err_ratio
+    expr: 0.02
+  - record: lukhas_cfg:req_floor
+    expr: 1
+  - record: lukhas_cfg:trace_ratio
+    expr: 0.95
+  - record: lukhas_cfg:rl429_ratio
+    expr: 0.10
+
+  # --- Helpers ---
+  - record: lukhas_openai:req_rate_5m
+    expr: sum by (route) (rate(http_server_requests_total{route=~"/v1/.*"}[5m]))
+  - record: lukhas_openai:err5xx_rate_5m
+    expr: sum by (route) (rate(http_server_requests_total{route=~"/v1/.*",status_code=~"5.."}[5m]))
+  - record: lukhas_openai:err429_rate_5m
+    expr: sum by (route) (rate(http_server_requests_total{route=~"/v1/.*",status_code="429"}[5m]))
+  - record: lukhas_openai:trace_hdr_rate_5m
+    expr: sum by (route) (rate(lukhas_response_trace_header_total{route=~"/v1/.*"}[5m]))
+  - record: lukhas_openai:p95_5m
+    expr: |
+      histogram_quantile(
+        0.95,
+        sum by (le, route) (rate(http_server_duration_seconds_bucket{route=~"/v1/.*"}[5m]))
+      )
+
+  # --- Alerts ---
+  - alert: OpenAIFacadeHighP95Latency
+    expr: lukhas_openai:p95_5m > on() lukhas_cfg:p95_s
+    for: 10m
+    labels: {severity: page, service: lukhas-openai-facade}
+    annotations:
+      summary: "High p95 latency for {{ $labels.route }}"
+      description: "p95 over 10m is {{ $value | printf \"%.3f\" }}s."
+
+  - alert: OpenAIFacadeSustained5xxRate
+    expr: |
+      (lukhas_openai:err5xx_rate_5m / lukhas_openai:req_rate_5m) > on() lukhas_cfg:err_ratio
+      and lukhas_openai:req_rate_5m > on() lukhas_cfg:req_floor
+    for: 10m
+    labels: {severity: page, service: lukhas-openai-facade}
+    annotations:
+      summary: "Sustained 5xx errors for {{ $labels.route }}"
+      description: "5xx ratio above SLO for 10m with meaningful traffic."
+
+  - alert: OpenAIFacadeMissingTraceCorrelation
+    expr: |
+      (lukhas_openai:trace_hdr_rate_5m / lukhas_openai:req_rate_5m) < on() lukhas_cfg:trace_ratio
+      and lukhas_openai:req_rate_5m > on() lukhas_cfg:req_floor
+    for: 15m
+    labels: {severity: ticket, service: lukhas-openai-facade}
+    annotations:
+      summary: "Trace correlation below target for {{ $labels.route }}"
+      description: "X-Trace-Id present in < target proportion over 15m."
+
+  - alert: OpenAIFacadeExcessive429s
+    expr: |
+      (lukhas_openai:err429_rate_5m / lukhas_openai:req_rate_5m) > on() lukhas_cfg:rl429_ratio
+      and lukhas_openai:req_rate_5m > on() lukhas_cfg:req_floor
+    for: 10m
+    labels: {severity: warning, service: lukhas-openai-facade}
+    annotations:
+      summary: "High 429 rate for {{ $labels.route }}"
+      description: "Rate limiting may be too aggressive or a client is thrashing."

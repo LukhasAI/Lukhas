@@ -539,3 +539,27 @@ jobs:
           fi
 
           echo "✅ No secrets found in logs"
+
+  alerts-validate:
+    name: Alerts • Validate Prometheus rules
+    runs-on: ubuntu-latest
+    needs: [validate]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download promtool
+        run: |
+          VER="2.54.1"
+          curl -L -o /tmp/prom.tar.gz https://github.com/prometheus/prometheus/releases/download/v${VER}/prometheus-${VER}.linux-amd64.tar.gz
+          tar -C /tmp -xzf /tmp/prom.tar.gz
+          sudo mv /tmp/prometheus-${VER}.linux-amd64/promtool /usr/local/bin/promtool
+          promtool --version
+
+      - name: Validate alert rules
+        run: |
+          if [ -d "lukhas/observability/alerts" ]; then
+            promtool check rules lukhas/observability/alerts/*.alerts.yml
+            echo "✅ Alert rules validation passed"
+          else
+            echo "ℹ️  No alert rules found, skipping"
+          fi

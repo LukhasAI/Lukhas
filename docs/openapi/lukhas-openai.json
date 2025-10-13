@@ -24,6 +24,23 @@
                   "$ref": "#/components/schemas/IndexListResponse"
                 }
               }
+            },
+            "headers": {
+              "X-Trace-Id": {
+                "$ref": "#/components/headers/X-Trace-Id"
+              },
+              "X-Service-Version": {
+                "$ref": "#/components/headers/X-Service-Version"
+              },
+              "X-RateLimit-Limit-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Limit-Requests"
+              },
+              "X-RateLimit-Remaining-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Remaining-Requests"
+              },
+              "X-RateLimit-Reset-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Reset-Requests"
+              }
             }
           },
           "400": {
@@ -33,6 +50,14 @@
                 "schema": {
                   "$ref": "#/components/schemas/ErrorResponse"
                 }
+              }
+            },
+            "headers": {
+              "X-Trace-Id": {
+                "$ref": "#/components/headers/X-Trace-Id"
+              },
+              "X-Service-Version": {
+                "$ref": "#/components/headers/X-Service-Version"
               }
             }
           },
@@ -44,6 +69,14 @@
                   "$ref": "#/components/schemas/ErrorResponse"
                 }
               }
+            },
+            "headers": {
+              "X-Trace-Id": {
+                "$ref": "#/components/headers/X-Trace-Id"
+              },
+              "X-Service-Version": {
+                "$ref": "#/components/headers/X-Service-Version"
+              }
             }
           },
           "404": {
@@ -54,6 +87,14 @@
                   "$ref": "#/components/schemas/ErrorResponse"
                 }
               }
+            },
+            "headers": {
+              "X-Trace-Id": {
+                "$ref": "#/components/headers/X-Trace-Id"
+              },
+              "X-Service-Version": {
+                "$ref": "#/components/headers/X-Service-Version"
+              }
             }
           },
           "500": {
@@ -63,6 +104,14 @@
                 "schema": {
                   "$ref": "#/components/schemas/ErrorResponse"
                 }
+              }
+            },
+            "headers": {
+              "X-Trace-Id": {
+                "$ref": "#/components/headers/X-Trace-Id"
+              },
+              "X-Service-Version": {
+                "$ref": "#/components/headers/X-Service-Version"
               }
             }
           }
@@ -94,6 +143,23 @@
                   "$ref": "#/components/schemas/IndexResponse"
                 }
               }
+            },
+            "headers": {
+              "X-Trace-Id": {
+                "$ref": "#/components/headers/X-Trace-Id"
+              },
+              "X-Service-Version": {
+                "$ref": "#/components/headers/X-Service-Version"
+              },
+              "X-RateLimit-Limit-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Limit-Requests"
+              },
+              "X-RateLimit-Remaining-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Remaining-Requests"
+              },
+              "X-RateLimit-Reset-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Reset-Requests"
+              }
             }
           },
           "400": {
@@ -103,6 +169,14 @@
                 "schema": {
                   "$ref": "#/components/schemas/ErrorResponse"
                 }
+              }
+            },
+            "headers": {
+              "X-Trace-Id": {
+                "$ref": "#/components/headers/X-Trace-Id"
+              },
+              "X-Service-Version": {
+                "$ref": "#/components/headers/X-Service-Version"
               }
             }
           },
@@ -114,6 +188,14 @@
                   "$ref": "#/components/schemas/ErrorResponse"
                 }
               }
+            },
+            "headers": {
+              "X-Trace-Id": {
+                "$ref": "#/components/headers/X-Trace-Id"
+              },
+              "X-Service-Version": {
+                "$ref": "#/components/headers/X-Service-Version"
+              }
             }
           },
           "404": {
@@ -123,6 +205,14 @@
                 "schema": {
                   "$ref": "#/components/schemas/ErrorResponse"
                 }
+              }
+            },
+            "headers": {
+              "X-Trace-Id": {
+                "$ref": "#/components/headers/X-Trace-Id"
+              },
+              "X-Service-Version": {
+                "$ref": "#/components/headers/X-Service-Version"
               }
             }
           },
@@ -134,6 +224,14 @@
                   "$ref": "#/components/schemas/ErrorResponse"
                 }
               }
+            },
+            "headers": {
+              "X-Trace-Id": {
+                "$ref": "#/components/headers/X-Trace-Id"
+              },
+              "X-Service-Version": {
+                "$ref": "#/components/headers/X-Service-Version"
+              }
             }
           },
           "422": {
@@ -143,6 +241,14 @@
                 "schema": {
                   "$ref": "#/components/schemas/HTTPValidationError"
                 }
+              }
+            },
+            "headers": {
+              "X-Trace-Id": {
+                "$ref": "#/components/headers/X-Trace-Id"
+              },
+              "X-Service-Version": {
+                "$ref": "#/components/headers/X-Service-Version"
               }
             }
           }
@@ -177,6 +283,23 @@
                   "$ref": "#/components/schemas/IndexResponse"
                 }
               }
+            },
+            "headers": {
+              "X-Trace-Id": {
+                "$ref": "#/components/headers/X-Trace-Id"
+              },
+              "X-Service-Version": {
+                "$ref": "#/components/headers/X-Service-Version"
+              },
+              "X-RateLimit-Limit-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Limit-Requests"
+              },
+              "X-RateLimit-Remaining-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Remaining-Requests"
+              },
+              "X-RateLimit-Reset-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Reset-Requests"
+              }
             }
           },
           "400": {
@@ -186,6 +309,14 @@
                 "schema": {
                   "$ref": "#/components/schemas/ErrorResponse"
                 }
+              }
+            },
+            "headers": {
+              "X-Trace-Id": {
+                "$ref": "#/components/headers/X-Trace-Id"
+              },
+              "X-Service-Version": {
+                "$ref": "#/components/headers/X-Service-Version"
               }
             }
           },
@@ -197,6 +328,14 @@
                   "$ref": "#/components/schemas/ErrorResponse"
                 }
               }
+            },
+            "headers": {
+              "X-Trace-Id": {
+                "$ref": "#/components/headers/X-Trace-Id"
+              },
+              "X-Service-Version": {
+                "$ref": "#/components/headers/X-Service-Version"
+              }
             }
           },
           "404": {
@@ -206,6 +345,14 @@
                 "schema": {
                   "$ref": "#/components/schemas/ErrorResponse"
                 }
+              }
+            },
+            "headers": {
+              "X-Trace-Id": {
+                "$ref": "#/components/headers/X-Trace-Id"
+              },
+              "X-Service-Version": {
+                "$ref": "#/components/headers/X-Service-Version"
               }
             }
           },
@@ -217,6 +364,14 @@
                   "$ref": "#/components/schemas/ErrorResponse"
                 }
               }
+            },
+            "headers": {
+              "X-Trace-Id": {
+                "$ref": "#/components/headers/X-Trace-Id"
+              },
+              "X-Service-Version": {
+                "$ref": "#/components/headers/X-Service-Version"
+              }
             }
           },
           "422": {
@@ -226,6 +381,14 @@
                 "schema": {
                   "$ref": "#/components/schemas/HTTPValidationError"
                 }
+              }
+            },
+            "headers": {
+              "X-Trace-Id": {
+                "$ref": "#/components/headers/X-Trace-Id"
+              },
+              "X-Service-Version": {
+                "$ref": "#/components/headers/X-Service-Version"
               }
             }
           }
@@ -258,6 +421,23 @@
                   "$ref": "#/components/schemas/IndexDeleteResponse"
                 }
               }
+            },
+            "headers": {
+              "X-Trace-Id": {
+                "$ref": "#/components/headers/X-Trace-Id"
+              },
+              "X-Service-Version": {
+                "$ref": "#/components/headers/X-Service-Version"
+              },
+              "X-RateLimit-Limit-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Limit-Requests"
+              },
+              "X-RateLimit-Remaining-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Remaining-Requests"
+              },
+              "X-RateLimit-Reset-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Reset-Requests"
+              }
             }
           },
           "400": {
@@ -267,6 +447,14 @@
                 "schema": {
                   "$ref": "#/components/schemas/ErrorResponse"
                 }
+              }
+            },
+            "headers": {
+              "X-Trace-Id": {
+                "$ref": "#/components/headers/X-Trace-Id"
+              },
+              "X-Service-Version": {
+                "$ref": "#/components/headers/X-Service-Version"
               }
             }
           },
@@ -278,6 +466,14 @@
                   "$ref": "#/components/schemas/ErrorResponse"
                 }
               }
+            },
+            "headers": {
+              "X-Trace-Id": {
+                "$ref": "#/components/headers/X-Trace-Id"
+              },
+              "X-Service-Version": {
+                "$ref": "#/components/headers/X-Service-Version"
+              }
             }
           },
           "404": {
@@ -287,6 +483,14 @@
                 "schema": {
                   "$ref": "#/components/schemas/ErrorResponse"
                 }
+              }
+            },
+            "headers": {
+              "X-Trace-Id": {
+                "$ref": "#/components/headers/X-Trace-Id"
+              },
+              "X-Service-Version": {
+                "$ref": "#/components/headers/X-Service-Version"
               }
             }
           },
@@ -298,6 +502,14 @@
                   "$ref": "#/components/schemas/ErrorResponse"
                 }
               }
+            },
+            "headers": {
+              "X-Trace-Id": {
+                "$ref": "#/components/headers/X-Trace-Id"
+              },
+              "X-Service-Version": {
+                "$ref": "#/components/headers/X-Service-Version"
+              }
             }
           },
           "422": {
@@ -307,6 +519,14 @@
                 "schema": {
                   "$ref": "#/components/schemas/HTTPValidationError"
                 }
+              }
+            },
+            "headers": {
+              "X-Trace-Id": {
+                "$ref": "#/components/headers/X-Trace-Id"
+              },
+              "X-Service-Version": {
+                "$ref": "#/components/headers/X-Service-Version"
               }
             }
           }
@@ -351,6 +571,23 @@
                   "$ref": "#/components/schemas/VectorAddResponse"
                 }
               }
+            },
+            "headers": {
+              "X-Trace-Id": {
+                "$ref": "#/components/headers/X-Trace-Id"
+              },
+              "X-Service-Version": {
+                "$ref": "#/components/headers/X-Service-Version"
+              },
+              "X-RateLimit-Limit-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Limit-Requests"
+              },
+              "X-RateLimit-Remaining-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Remaining-Requests"
+              },
+              "X-RateLimit-Reset-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Reset-Requests"
+              }
             }
           },
           "400": {
@@ -360,6 +597,14 @@
                 "schema": {
                   "$ref": "#/components/schemas/ErrorResponse"
                 }
+              }
+            },
+            "headers": {
+              "X-Trace-Id": {
+                "$ref": "#/components/headers/X-Trace-Id"
+              },
+              "X-Service-Version": {
+                "$ref": "#/components/headers/X-Service-Version"
               }
             }
           },
@@ -371,6 +616,14 @@
                   "$ref": "#/components/schemas/ErrorResponse"
                 }
               }
+            },
+            "headers": {
+              "X-Trace-Id": {
+                "$ref": "#/components/headers/X-Trace-Id"
+              },
+              "X-Service-Version": {
+                "$ref": "#/components/headers/X-Service-Version"
+              }
             }
           },
           "404": {
@@ -380,6 +633,14 @@
                 "schema": {
                   "$ref": "#/components/schemas/ErrorResponse"
                 }
+              }
+            },
+            "headers": {
+              "X-Trace-Id": {
+                "$ref": "#/components/headers/X-Trace-Id"
+              },
+              "X-Service-Version": {
+                "$ref": "#/components/headers/X-Service-Version"
               }
             }
           },
@@ -391,6 +652,14 @@
                   "$ref": "#/components/schemas/ErrorResponse"
                 }
               }
+            },
+            "headers": {
+              "X-Trace-Id": {
+                "$ref": "#/components/headers/X-Trace-Id"
+              },
+              "X-Service-Version": {
+                "$ref": "#/components/headers/X-Service-Version"
+              }
             }
           },
           "422": {
@@ -400,6 +669,14 @@
                 "schema": {
                   "$ref": "#/components/schemas/HTTPValidationError"
                 }
+              }
+            },
+            "headers": {
+              "X-Trace-Id": {
+                "$ref": "#/components/headers/X-Trace-Id"
+              },
+              "X-Service-Version": {
+                "$ref": "#/components/headers/X-Service-Version"
               }
             }
           }
@@ -444,6 +721,23 @@
                   "$ref": "#/components/schemas/VectorSearchResponse"
                 }
               }
+            },
+            "headers": {
+              "X-Trace-Id": {
+                "$ref": "#/components/headers/X-Trace-Id"
+              },
+              "X-Service-Version": {
+                "$ref": "#/components/headers/X-Service-Version"
+              },
+              "X-RateLimit-Limit-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Limit-Requests"
+              },
+              "X-RateLimit-Remaining-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Remaining-Requests"
+              },
+              "X-RateLimit-Reset-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Reset-Requests"
+              }
             }
           },
           "400": {
@@ -453,6 +747,14 @@
                 "schema": {
                   "$ref": "#/components/schemas/ErrorResponse"
                 }
+              }
+            },
+            "headers": {
+              "X-Trace-Id": {
+                "$ref": "#/components/headers/X-Trace-Id"
+              },
+              "X-Service-Version": {
+                "$ref": "#/components/headers/X-Service-Version"
               }
             }
           },
@@ -464,6 +766,14 @@
                   "$ref": "#/components/schemas/ErrorResponse"
                 }
               }
+            },
+            "headers": {
+              "X-Trace-Id": {
+                "$ref": "#/components/headers/X-Trace-Id"
+              },
+              "X-Service-Version": {
+                "$ref": "#/components/headers/X-Service-Version"
+              }
             }
           },
           "404": {
@@ -473,6 +783,14 @@
                 "schema": {
                   "$ref": "#/components/schemas/ErrorResponse"
                 }
+              }
+            },
+            "headers": {
+              "X-Trace-Id": {
+                "$ref": "#/components/headers/X-Trace-Id"
+              },
+              "X-Service-Version": {
+                "$ref": "#/components/headers/X-Service-Version"
               }
             }
           },
@@ -484,6 +802,14 @@
                   "$ref": "#/components/schemas/ErrorResponse"
                 }
               }
+            },
+            "headers": {
+              "X-Trace-Id": {
+                "$ref": "#/components/headers/X-Trace-Id"
+              },
+              "X-Service-Version": {
+                "$ref": "#/components/headers/X-Service-Version"
+              }
             }
           },
           "422": {
@@ -493,6 +819,14 @@
                 "schema": {
                   "$ref": "#/components/schemas/HTTPValidationError"
                 }
+              }
+            },
+            "headers": {
+              "X-Trace-Id": {
+                "$ref": "#/components/headers/X-Trace-Id"
+              },
+              "X-Service-Version": {
+                "$ref": "#/components/headers/X-Service-Version"
               }
             }
           }
@@ -536,6 +870,23 @@
                   "$ref": "#/components/schemas/VectorDeleteResponse"
                 }
               }
+            },
+            "headers": {
+              "X-Trace-Id": {
+                "$ref": "#/components/headers/X-Trace-Id"
+              },
+              "X-Service-Version": {
+                "$ref": "#/components/headers/X-Service-Version"
+              },
+              "X-RateLimit-Limit-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Limit-Requests"
+              },
+              "X-RateLimit-Remaining-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Remaining-Requests"
+              },
+              "X-RateLimit-Reset-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Reset-Requests"
+              }
             }
           },
           "400": {
@@ -545,6 +896,14 @@
                 "schema": {
                   "$ref": "#/components/schemas/ErrorResponse"
                 }
+              }
+            },
+            "headers": {
+              "X-Trace-Id": {
+                "$ref": "#/components/headers/X-Trace-Id"
+              },
+              "X-Service-Version": {
+                "$ref": "#/components/headers/X-Service-Version"
               }
             }
           },
@@ -556,6 +915,14 @@
                   "$ref": "#/components/schemas/ErrorResponse"
                 }
               }
+            },
+            "headers": {
+              "X-Trace-Id": {
+                "$ref": "#/components/headers/X-Trace-Id"
+              },
+              "X-Service-Version": {
+                "$ref": "#/components/headers/X-Service-Version"
+              }
             }
           },
           "404": {
@@ -565,6 +932,14 @@
                 "schema": {
                   "$ref": "#/components/schemas/ErrorResponse"
                 }
+              }
+            },
+            "headers": {
+              "X-Trace-Id": {
+                "$ref": "#/components/headers/X-Trace-Id"
+              },
+              "X-Service-Version": {
+                "$ref": "#/components/headers/X-Service-Version"
               }
             }
           },
@@ -576,6 +951,14 @@
                   "$ref": "#/components/schemas/ErrorResponse"
                 }
               }
+            },
+            "headers": {
+              "X-Trace-Id": {
+                "$ref": "#/components/headers/X-Trace-Id"
+              },
+              "X-Service-Version": {
+                "$ref": "#/components/headers/X-Service-Version"
+              }
             }
           },
           "422": {
@@ -585,6 +968,14 @@
                 "schema": {
                   "$ref": "#/components/schemas/HTTPValidationError"
                 }
+              }
+            },
+            "headers": {
+              "X-Trace-Id": {
+                "$ref": "#/components/headers/X-Trace-Id"
+              },
+              "X-Service-Version": {
+                "$ref": "#/components/headers/X-Service-Version"
               }
             }
           }
@@ -603,6 +994,23 @@
               "application/json": {
                 "schema": {}
               }
+            },
+            "headers": {
+              "X-Trace-Id": {
+                "$ref": "#/components/headers/X-Trace-Id"
+              },
+              "X-Service-Version": {
+                "$ref": "#/components/headers/X-Service-Version"
+              },
+              "X-RateLimit-Limit-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Limit-Requests"
+              },
+              "X-RateLimit-Remaining-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Remaining-Requests"
+              },
+              "X-RateLimit-Reset-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Reset-Requests"
+              }
             }
           }
         }
@@ -620,6 +1028,23 @@
               "application/json": {
                 "schema": {}
               }
+            },
+            "headers": {
+              "X-Trace-Id": {
+                "$ref": "#/components/headers/X-Trace-Id"
+              },
+              "X-Service-Version": {
+                "$ref": "#/components/headers/X-Service-Version"
+              },
+              "X-RateLimit-Limit-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Limit-Requests"
+              },
+              "X-RateLimit-Remaining-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Remaining-Requests"
+              },
+              "X-RateLimit-Reset-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Reset-Requests"
+              }
             }
           }
         }
@@ -636,6 +1061,23 @@
             "content": {
               "application/json": {
                 "schema": {}
+              }
+            },
+            "headers": {
+              "X-Trace-Id": {
+                "$ref": "#/components/headers/X-Trace-Id"
+              },
+              "X-Service-Version": {
+                "$ref": "#/components/headers/X-Service-Version"
+              },
+              "X-RateLimit-Limit-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Limit-Requests"
+              },
+              "X-RateLimit-Remaining-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Remaining-Requests"
+              },
+              "X-RateLimit-Reset-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Reset-Requests"
               }
             }
           }
@@ -681,6 +1123,23 @@
               "application/json": {
                 "schema": {}
               }
+            },
+            "headers": {
+              "X-Trace-Id": {
+                "$ref": "#/components/headers/X-Trace-Id"
+              },
+              "X-Service-Version": {
+                "$ref": "#/components/headers/X-Service-Version"
+              },
+              "X-RateLimit-Limit-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Limit-Requests"
+              },
+              "X-RateLimit-Remaining-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Remaining-Requests"
+              },
+              "X-RateLimit-Reset-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Reset-Requests"
+              }
             }
           },
           "422": {
@@ -690,6 +1149,14 @@
                 "schema": {
                   "$ref": "#/components/schemas/HTTPValidationError"
                 }
+              }
+            },
+            "headers": {
+              "X-Trace-Id": {
+                "$ref": "#/components/headers/X-Trace-Id"
+              },
+              "X-Service-Version": {
+                "$ref": "#/components/headers/X-Service-Version"
               }
             }
           }
@@ -735,6 +1202,23 @@
               "application/json": {
                 "schema": {}
               }
+            },
+            "headers": {
+              "X-Trace-Id": {
+                "$ref": "#/components/headers/X-Trace-Id"
+              },
+              "X-Service-Version": {
+                "$ref": "#/components/headers/X-Service-Version"
+              },
+              "X-RateLimit-Limit-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Limit-Requests"
+              },
+              "X-RateLimit-Remaining-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Remaining-Requests"
+              },
+              "X-RateLimit-Reset-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Reset-Requests"
+              }
             }
           },
           "422": {
@@ -744,6 +1228,14 @@
                 "schema": {
                   "$ref": "#/components/schemas/HTTPValidationError"
                 }
+              }
+            },
+            "headers": {
+              "X-Trace-Id": {
+                "$ref": "#/components/headers/X-Trace-Id"
+              },
+              "X-Service-Version": {
+                "$ref": "#/components/headers/X-Service-Version"
               }
             }
           }
@@ -789,6 +1281,23 @@
               "application/json": {
                 "schema": {}
               }
+            },
+            "headers": {
+              "X-Trace-Id": {
+                "$ref": "#/components/headers/X-Trace-Id"
+              },
+              "X-Service-Version": {
+                "$ref": "#/components/headers/X-Service-Version"
+              },
+              "X-RateLimit-Limit-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Limit-Requests"
+              },
+              "X-RateLimit-Remaining-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Remaining-Requests"
+              },
+              "X-RateLimit-Reset-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Reset-Requests"
+              }
             }
           },
           "422": {
@@ -798,6 +1307,14 @@
                 "schema": {
                   "$ref": "#/components/schemas/HTTPValidationError"
                 }
+              }
+            },
+            "headers": {
+              "X-Trace-Id": {
+                "$ref": "#/components/headers/X-Trace-Id"
+              },
+              "X-Service-Version": {
+                "$ref": "#/components/headers/X-Service-Version"
               }
             }
           }
@@ -843,6 +1360,23 @@
               "application/json": {
                 "schema": {}
               }
+            },
+            "headers": {
+              "X-Trace-Id": {
+                "$ref": "#/components/headers/X-Trace-Id"
+              },
+              "X-Service-Version": {
+                "$ref": "#/components/headers/X-Service-Version"
+              },
+              "X-RateLimit-Limit-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Limit-Requests"
+              },
+              "X-RateLimit-Remaining-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Remaining-Requests"
+              },
+              "X-RateLimit-Reset-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Reset-Requests"
+              }
             }
           },
           "422": {
@@ -852,6 +1386,14 @@
                 "schema": {
                   "$ref": "#/components/schemas/HTTPValidationError"
                 }
+              }
+            },
+            "headers": {
+              "X-Trace-Id": {
+                "$ref": "#/components/headers/X-Trace-Id"
+              },
+              "X-Service-Version": {
+                "$ref": "#/components/headers/X-Service-Version"
               }
             }
           }
@@ -1337,6 +1879,51 @@
         ],
         "title": "VectorSearchResult",
         "description": "Single search result."
+      }
+    },
+    "headers": {
+      "X-Trace-Id": {
+        "description": "W3C trace context ID (32-char hex) for request correlation",
+        "schema": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{32}$"
+        },
+        "example": "4bf92f3577b34da6a3ce929d0e0e4736"
+      },
+      "X-Service-Version": {
+        "description": "Deployment version (git SHA or version string)",
+        "schema": {
+          "type": "string"
+        },
+        "example": "a3f2d1c"
+      },
+      "X-RateLimit-Limit-Requests": {
+        "description": "Maximum requests allowed in the current window",
+        "schema": {
+          "type": "integer",
+          "minimum": 1
+        }
+      },
+      "X-RateLimit-Remaining-Requests": {
+        "description": "Remaining requests in the current window",
+        "schema": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "X-RateLimit-Reset-Requests": {
+        "description": "Seconds until the rate limit window resets",
+        "schema": {
+          "type": "string"
+        },
+        "example": "42.150"
+      },
+      "Retry-After": {
+        "description": "Seconds to wait before retrying (429 responses only)",
+        "schema": {
+          "type": "integer",
+          "minimum": 1
+        }
       }
     }
   },

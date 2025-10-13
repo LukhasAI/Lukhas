@@ -121,12 +121,13 @@ def get_app() -> FastAPI:
 
     # Phase 3: Add security and observability middlewares
     try:
-        from lukhas.observability.security_headers import SecurityHeadersMiddleware
+        from lukhas.observability.security_headers import SecurityHeadersMiddleware, VersionHeaderMiddleware
         from lukhas.observability.tracing import TraceHeaderMiddleware
         app.add_middleware(SecurityHeadersMiddleware)
+        app.add_middleware(VersionHeaderMiddleware)
         if TraceHeaderMiddleware:
             app.add_middleware(TraceHeaderMiddleware)
-        logger.info("Phase 3 middlewares initialized (security headers, trace headers)")
+        logger.info("Phase 3 middlewares initialized (security, version, trace headers)")
     except Exception as e:
         logger.warning(f"Failed to load Phase 3 middlewares: {e}")
 
@@ -137,6 +138,31 @@ def get_app() -> FastAPI:
         logger.info("Log redaction filter installed")
     except Exception as e:
         logger.warning(f"Failed to install log redaction: {e}")
+
+    # Phase 3: HTTPException handler with trace ID in error body
+    @app.exception_handler(HTTPException)
+    async def http_exception_handler(request: Request, exc: HTTPException):
+        """Add trace ID to error responses for correlation."""
+        from lukhas.observability.tracing import current_trace_id_hex
+
+        body = {
+            "error": {
+                "type": "http_error",
+                "message": exc.detail,
+                "status_code": exc.status_code
+            }
+        }
+
+        # Add trace ID if available
+        trace_id = current_trace_id_hex()
+        if trace_id:
+            body["trace_id"] = trace_id
+
+        return JSONResponse(
+            status_code=exc.status_code,
+            content=body,
+            headers=getattr(exc, "headers", None)
+        )
 
     # Initialize OpenTelemetry tracing (optional)
     tracer = setup_otel(service_name="lukhas-openai-facade")

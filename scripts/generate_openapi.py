@@ -40,6 +40,75 @@ def main():
         {"url": "http://localhost:8000", "description": "Local Development"},
     ]
 
+    # Phase 3: Add reusable header components
+    spec.setdefault("components", {})
+    spec["components"].setdefault("headers", {})
+
+    spec["components"]["headers"]["X-Trace-Id"] = {
+        "description": "W3C trace context ID (32-char hex) for request correlation",
+        "schema": {"type": "string", "pattern": "^[0-9a-f]{32}$"},
+        "example": "4bf92f3577b34da6a3ce929d0e0e4736"
+    }
+
+    spec["components"]["headers"]["X-Service-Version"] = {
+        "description": "Deployment version (git SHA or version string)",
+        "schema": {"type": "string"},
+        "example": "a3f2d1c"
+    }
+
+    spec["components"]["headers"]["X-RateLimit-Limit-Requests"] = {
+        "description": "Maximum requests allowed in the current window",
+        "schema": {"type": "integer", "minimum": 1}
+    }
+
+    spec["components"]["headers"]["X-RateLimit-Remaining-Requests"] = {
+        "description": "Remaining requests in the current window",
+        "schema": {"type": "integer", "minimum": 0}
+    }
+
+    spec["components"]["headers"]["X-RateLimit-Reset-Requests"] = {
+        "description": "Seconds until the rate limit window resets",
+        "schema": {"type": "string"},
+        "example": "42.150"
+    }
+
+    spec["components"]["headers"]["Retry-After"] = {
+        "description": "Seconds to wait before retrying (429 responses only)",
+        "schema": {"type": "integer", "minimum": 1}
+    }
+
+    # Attach headers to all response definitions
+    for path_item in spec.get("paths", {}).values():
+        for operation in path_item.values():
+            if not isinstance(operation, dict) or "responses" not in operation:
+                continue
+
+            for status_code, response_obj in operation["responses"].items():
+                if not isinstance(response_obj, dict):
+                    continue
+
+                response_obj.setdefault("headers", {})
+
+                # All responses get trace and version headers
+                response_obj["headers"]["X-Trace-Id"] = {"$ref": "#/components/headers/X-Trace-Id"}
+                response_obj["headers"]["X-Service-Version"] = {"$ref": "#/components/headers/X-Service-Version"}
+
+                # Success responses (2xx) get rate-limit headers
+                if str(status_code).startswith("2"):
+                    response_obj["headers"]["X-RateLimit-Limit-Requests"] = {
+                        "$ref": "#/components/headers/X-RateLimit-Limit-Requests"
+                    }
+                    response_obj["headers"]["X-RateLimit-Remaining-Requests"] = {
+                        "$ref": "#/components/headers/X-RateLimit-Remaining-Requests"
+                    }
+                    response_obj["headers"]["X-RateLimit-Reset-Requests"] = {
+                        "$ref": "#/components/headers/X-RateLimit-Reset-Requests"
+                    }
+
+                # 429 responses get Retry-After header
+                if str(status_code) == "429":
+                    response_obj["headers"]["Retry-After"] = {"$ref": "#/components/headers/Retry-After"}
+
     # Ensure output directory exists
     out_dir = Path("docs/openapi")
     out_dir.mkdir(parents=True, exist_ok=True)
