@@ -1,10 +1,13 @@
+import time
 from abc import ABC, abstractmethod
 from typing import Tuple
+
 import redis
-import time
+
 
 class LimiterBackend(ABC):  # ABC
     """Abstract base class for a rate limiter backend."""
+
     @abstractmethod
     def allow(self, key: str, rate: float, burst: int) -> Tuple[bool, int, float]:
         """
@@ -19,6 +22,7 @@ class LimiterBackend(ABC):  # ABC
             A tuple of (allowed, remaining_tokens, reset_timestamp).
         """
         ...
+
 
 class RedisTokenBucket(LimiterBackend):
     """
@@ -84,6 +88,6 @@ class RedisTokenBucket(LimiterBackend):
             time_to_full = (burst - remaining_tokens) / rate
             reset_timestamp = now + time_to_full
         else:
-            reset_timestamp = now # No refill, so never resets in the future
+            reset_timestamp = now  # No refill, so never resets in the future
 
         return allowed, int(remaining_tokens), reset_timestamp

@@ -275,12 +275,18 @@ def validate_result(result: MatrizResult) -> bool:
 def validate_message_ex(msg: MatrizMessage) -> Tuple[bool, List[str]]:
     """Extended validation that returns (ok, reasons)."""
     reasons: List[str] = []
-    if not isinstance(msg.msg_id, UUID): reasons.append("msg_id_type")
-    if not isinstance(msg.ts, datetime): reasons.append("ts_type")
-    if msg.lane not in LANES: reasons.append("lane_value")
-    if not validate_glyph(msg.glyph): reasons.append("glyph_invalid")
-    if not msg.topic or not isinstance(msg.topic, str): reasons.append("topic_type")
-    elif msg.topic not in ALLOWED_TOPICS: reasons.append("topic_not_allowed")
+    if not isinstance(msg.msg_id, UUID):
+        reasons.append("msg_id_type")
+    if not isinstance(msg.ts, datetime):
+        reasons.append("ts_type")
+    if msg.lane not in LANES:
+        reasons.append("lane_value")
+    if not validate_glyph(msg.glyph):
+        reasons.append("glyph_invalid")
+    if not msg.topic or not isinstance(msg.topic, str):
+        reasons.append("topic_type")
+    elif msg.topic not in ALLOWED_TOPICS:
+        reasons.append("topic_not_allowed")
     return (len(reasons) == 0, reasons)
 
 

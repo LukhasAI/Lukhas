@@ -4,11 +4,12 @@ Authentication and authorization for OpenAI façade.
 Enforces Bearer token presence, validates against policy guard,
 and attaches verified claims (org, user, scopes) to request context.
 """
+
 import hashlib
 import logging
-from typing import Any, Dict, Optional
+from typing import Optional
 
-from fastapi import Header, HTTPException, Request
+from fastapi import Header, HTTPException
 
 logger = logging.getLogger(__name__)
 
@@ -17,7 +18,7 @@ UNAUTHORIZED = {
     "error": {
         "type": "invalid_api_key",
         "message": "Invalid authentication. Please provide a valid Bearer token.",
-        "code": "invalid_api_key"
+        "code": "invalid_api_key",
     }
 }
 
@@ -25,14 +26,17 @@ FORBIDDEN = {
     "error": {
         "type": "insufficient_permissions",
         "message": "The API key does not have permission for this operation.",
-        "code": "insufficient_scope"
+        "code": "insufficient_scope",
     }
 }
 
 
 class TokenClaims:
     """Verified token claims attached to request context."""
-    def __init__(self, token: str, org_id: str = "default", user_id: str = "unknown", scopes: list = None):
+
+    def __init__(
+        self, token: str, org_id: str = "default", user_id: str = "unknown", scopes: list = None
+    ):
         self.token_hash = hashlib.sha256(token.encode()).hexdigest()[:16]
         self.org_id = org_id
         self.user_id = user_id
@@ -104,8 +108,7 @@ def verify_token_with_policy(token: str) -> TokenClaims:
 
 
 def require_bearer(
-    authorization: Optional[str] = Header(default=None),
-    required_scopes: list = None
+    authorization: Optional[str] = Header(default=None), required_scopes: list = None
 ) -> TokenClaims:
     """
     Enforce Bearer token authentication with scope validation.
@@ -147,8 +150,7 @@ def require_bearer(
         missing_scopes = set(required_scopes) - set(claims.scopes)
         if missing_scopes:
             logger.warning(
-                f"Insufficient scopes for user {claims.user_id}: "
-                f"missing {missing_scopes}"
+                f"Insufficient scopes for user {claims.user_id}: " f"missing {missing_scopes}"
             )
             raise HTTPException(status_code=403, detail=FORBIDDEN)
 
@@ -164,6 +166,8 @@ def require_scope(*scopes: str):
         def admin(claims: TokenClaims = Depends(require_scope("admin.write"))):
             pass
     """
+
     def dependency(authorization: Optional[str] = Header(default=None)) -> TokenClaims:
         return require_bearer(authorization, required_scopes=list(scopes))
+
     return dependency

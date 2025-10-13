@@ -6,88 +6,6 @@ import yaml
 
 from .policy_models import Context, Decision, Rule
 
-_ALLOWED_RULE_KEYS = {
-    "id",
-    "effect",
-    "subjects",
-    "actions",
-    "resources",
-    "conditions",
-    "when",  # legacy alias
-    "obligations",
-}
-
-
-def _normalize_rule(rule: Dict[str, Any]) -> Dict[str, Any]:
-    """Normalize a single guardian policy rule to the canonical shape."""
-    data = dict(rule or {})
-
-    # Drop unknown top-level fields (e.g., "unless", comments)
-    for key in list(data.keys()):
-        if key not in _ALLOWED_RULE_KEYS:
-            data.pop(key, None)
-
-    normalized: Dict[str, Any] = {}
-
-    for key in ("id", "effect", "subjects", "actions", "resources", "obligations"):
-        if key in data and data[key] is not None:
-            normalized[key] = data[key]
-
-    # Normalize conditions / when alias
-    if "conditions" in data and data["conditions"] is not None:
-        normalized["conditions"] = data["conditions"]
-    elif "when" in data and data["when"] is not None:
-        normalized["conditions"] = data["when"]
-
-    # Defaults for missing sections
-    normalized.setdefault("effect", "deny")
-    normalized.setdefault("subjects", {})
-    normalized.setdefault("actions", [])
-    normalized.setdefault("resources", [])
-    normalized.setdefault("conditions", {})
-    normalized.setdefault("obligations", [])
-
-    # Ensure list forms for actions / resources
-    actions = normalized.get("actions")
-    if isinstance(actions, str):
-        normalized["actions"] = [actions]
-    elif not isinstance(actions, list):
-        normalized["actions"] = []
-
-    resources = normalized.get("resources")
-    if isinstance(resources, str):
-        normalized["resources"] = [resources]
-    elif not isinstance(resources, list):
-        normalized["resources"] = []
-
-    # Normalize conditions
-    conditions = normalized.get("conditions") or {}
-    if isinstance(conditions, list):
-        merged: Dict[str, Any] = {}
-        for entry in conditions:
-            if isinstance(entry, dict):
-                merged.update(entry)
-        conditions = merged
-    elif not isinstance(conditions, dict):
-        conditions = {}
-
-    # Allow legacy keys inside conditions
-    if "time_window" in conditions and "time" not in conditions:
-        conditions["time"] = conditions.pop("time_window")
-
-    normalized["conditions"] = conditions
-    return normalized
-
-
-def _normalize_policy(doc: Dict[str, Any]) -> Dict[str, Any]:
-    """Normalize an entire guardian policy document."""
-    payload = dict(doc or {})
-    rules = payload.get("rules") or []
-    if not isinstance(rules, list):
-        rules = [rules]
-    payload["rules"] = [_normalize_rule(rule) for rule in rules if isinstance(rule, dict)]
-    return payload
-
 # Try to import Guardian metrics (graceful fallback)
 try:
     from lukhas.observability.guardian_metrics import (
@@ -95,13 +13,21 @@ try:
         record_rule_evaluation,
         set_policy_version,
     )
+
     METRICS_AVAILABLE = True
 except ImportError:
     METRICS_AVAILABLE = False
+
     # No-op fallbacks
-    def record_decision(*args, **kwargs): pass
-    def record_rule_evaluation(*args, **kwargs): pass
-    def set_policy_version(*args, **kwargs): pass
+    def record_decision(*args, **kwargs):
+        pass
+
+    def record_rule_evaluation(*args, **kwargs):
+        pass
+
+    def set_policy_version(*args, **kwargs):
+        pass
+
 
 class Policy:
     """Represents a loaded policy, including indexed rules for efficient evaluation."""
@@ -113,12 +39,26 @@ class Policy:
         self.etag = etag
 
         raw_rules = policy_data.get("rules", [])
+        # Normalize rules: map 'when' to 'conditions' and filter unknown keys
         normalized_rules = []
-        for entry in raw_rules:
-            if isinstance(entry, Rule):
-                normalized_rules.append(entry)
-            elif isinstance(entry, dict):
-                normalized_rules.append(Rule(**_normalize_rule(entry)))
+        for r in raw_rules:
+            rule_dict = dict(r)
+            # If YAML has 'when' but Rule expects 'conditions', rename the key
+            if "when" in rule_dict and "conditions" not in rule_dict:
+                rule_dict["conditions"] = rule_dict.pop("when")
+            # Remove keys that Rule doesn't accept (like 'unless')
+            # Only keep keys that are in Rule dataclass fields
+            valid_keys = {
+                "id",
+                "effect",
+                "subjects",
+                "actions",
+                "resources",
+                "conditions",
+                "obligations",
+            }
+            filtered_dict = {k: v for k, v in rule_dict.items() if k in valid_keys}
+            normalized_rules.append(Rule(**filtered_dict))
         self.rules = normalized_rules
 
         # Pre-index rules for performance
@@ -126,7 +66,7 @@ class Policy:
 
     def _index_rules(self, rules: List[Rule]) -> Dict[str, List[Rule]]:
         """Indexes rules by action for faster lookup."""
-        index = {"*": []} # Wildcard actions
+        index = {"*": []}  # Wildcard actions
         for rule in rules:
             if "*" in rule.actions:
                 index["*"].append(rule)
@@ -151,14 +91,13 @@ class PolicyLoader:
         with open(filepath, "r") as f:
             content = f.read()
 
-        policy_data = yaml.safe_load(content) or {}
-        policy_data = _normalize_policy(policy_data)
+        policy_data = yaml.safe_load(content)
         etag = hashlib.sha256(content.encode()).hexdigest()
 
         return Policy(policy_data, etag)
 
 
-class PDP:
+class GuardianPDP:
     """Policy Decision Point: Evaluates a request context against a policy."""
 
     def __init__(self, policy: Policy):
@@ -191,10 +130,10 @@ class PDP:
 
             # Check if the rule matches the context
             if not (
-                rule.matches_subject(ctx) and
-                rule.matches_resource(ctx.resource) and
-                rule.matches_action(ctx.action) and
-                rule.matches_conditions(ctx)
+                rule.matches_subject(ctx)
+                and rule.matches_resource(ctx.resource)
+                and rule.matches_action(ctx.action)
+                and rule.matches_conditions(ctx)
             ):
                 continue
 
@@ -265,9 +204,3 @@ class PDP:
             "deny_count": self.deny_count,
             "policy_etag": self.policy.etag[:8] if self.policy.etag else "unknown",
         }
-
-    @classmethod
-    def load_from_path(cls, path: str) -> "PDP":
-        """Load and normalize a policy file, returning a PDP instance."""
-        policy = PolicyLoader.load_from_file(path)
-        return cls(policy)

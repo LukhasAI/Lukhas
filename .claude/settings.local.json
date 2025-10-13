@@ -67,7 +67,10 @@
       "Bash(tee:*)",
       "Bash(export LUKHAS_POLICY_MODE=permissive)",
       "Bash(1)",
-      "Read(///**)"
+      "Read(///**)",
+      "Bash(gh pr comment:*)",
+      "Bash(git tag:*)",
+      "Bash(uvicorn:*)"
     ],
     "defaultMode": "bypassPermissions"
   }

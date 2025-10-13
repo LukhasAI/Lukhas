@@ -1,4 +1,5 @@
 """Advanced observability metrics backed by centralized LUKHAS Prometheus registry."""
+
 from __future__ import annotations
 
 # Use centralized, duplicate-tolerant registry
@@ -40,6 +41,7 @@ queue_depth = gauge(
     labelnames=("name",),
 )
 
+
 # Advanced metrics system class
 class AdvancedMetricsSystem:
     """Centralized advanced metrics system for LUKHAS observability."""
@@ -64,6 +66,7 @@ class AdvancedMetricsSystem:
         """Set queue depth gauge."""
         self.queue_depth.labels(name=name).set(depth)
 
+
 __all__ = [
     "router_cascade_preventions_total",
     "network_coherence_score",
@@ -76,14 +79,17 @@ __all__ = [
 
 # Added for test compatibility (lukhas.observability.advanced_metrics.AnomalyType)
 try:
-    from labs.observability.advanced_metrics import AnomalyType  # noqa: F401
+    from labs.observability.advanced_metrics import AnomalyType
 except ImportError:
     from enum import Enum
 
     class AnomalyType(Enum):
         """Stub for AnomalyType."""
+
         UNKNOWN = "unknown"
         DEFAULT = "default"
+
+
 try:
     __all__  # type: ignore[name-defined]
 except NameError:
@@ -93,14 +99,16 @@ if "AnomalyType" not in __all__:
 
 # Added for test compatibility (lukhas.observability.advanced_metrics.MetricAnomaly)
 try:
-    from labs.observability.advanced_metrics import MetricAnomaly  # noqa: F401
+    from labs.observability.advanced_metrics import MetricAnomaly
 except ImportError:
+
     class MetricAnomaly:
         """Stub for MetricAnomaly."""
 
         def __init__(self, *args, **kwargs):
             for key, value in kwargs.items():
                 setattr(self, key, value)
+
 
 try:
     __all__  # type: ignore[name-defined]
@@ -111,7 +119,7 @@ if "MetricAnomaly" not in __all__:
 
 # Added for test compatibility (lukhas.observability.advanced_metrics.MetricSeverity)
 try:
-    from labs.observability.advanced_metrics import MetricSeverity  # noqa: F401
+    from labs.observability.advanced_metrics import MetricSeverity
 except ImportError:
     from enum import Enum
 
@@ -121,6 +129,7 @@ except ImportError:
         INFO = "info"
         WARNING = "warning"
         CRITICAL = "critical"
+
 
 try:
     __all__  # type: ignore[name-defined]

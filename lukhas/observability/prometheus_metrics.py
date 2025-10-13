@@ -1,4 +1,5 @@
 """Stub: lukhas.observability.prometheus_metrics"""
+
 from __future__ import annotations
 
 # Minimal stub for test collection
@@ -6,7 +7,7 @@ __all__ = []
 
 # Added for test compatibility (lukhas.observability.prometheus_metrics.PROMETHEUS_AVAILABLE)
 try:
-    from labs.observability.prometheus_metrics import PROMETHEUS_AVAILABLE  # noqa: F401
+    from labs.observability.prometheus_metrics import PROMETHEUS_AVAILABLE
 except ImportError:
     PROMETHEUS_AVAILABLE = None  # Stub placeholder
 try:
@@ -18,13 +19,17 @@ if "PROMETHEUS_AVAILABLE" not in __all__:
 
 # Added for test compatibility (lukhas.observability.prometheus_metrics.LUKHASMetrics)
 try:
-    from labs.observability.prometheus_metrics import LUKHASMetrics  # noqa: F401
+    from labs.observability.prometheus_metrics import LUKHASMetrics
 except ImportError:
+
     class LUKHASMetrics:
         """Stub for LUKHASMetrics."""
+
         def __init__(self, *args, **kwargs):
             for key, value in kwargs.items():
                 setattr(self, key, value)
+
+
 try:
     __all__  # type: ignore[name-defined]
 except NameError:
@@ -34,14 +39,16 @@ if "LUKHASMetrics" not in __all__:
 
 # Added for test compatibility (lukhas.observability.prometheus_metrics.MetricsConfig)
 try:
-    from labs.observability.prometheus_metrics import MetricsConfig  # noqa: F401
+    from labs.observability.prometheus_metrics import MetricsConfig
 except ImportError:
+
     class MetricsConfig:
         """Stub for MetricsConfig."""
 
         def __init__(self, *args, **kwargs):
             for key, value in kwargs.items():
                 setattr(self, key, value)
+
 
 try:
     __all__  # type: ignore[name-defined]
