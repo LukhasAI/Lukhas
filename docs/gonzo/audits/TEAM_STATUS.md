@@ -6,15 +6,15 @@
 > Source of truth for who is working where. Update once per day (or when roles change).
 > Locks live under `.dev/locks/*.lock` — see **Lock etiquette** below.
 
-_Last updated:_ 2025-10-13T00:00:00Z
+_Last updated:_ 2025-10-13T12:00:00Z
 
 ## ✳️ Active Worktrees
 
-| Agent       | Worktree Path                      | Branch                           | Area Ownership (no-collision)                                                                 | CI Gates Owned                               | Status | Last Sync (UTC) | Notes |
-|-------------|------------------------------------|----------------------------------|------------------------------------------------------------------------------------------------|----------------------------------------------|--------|-----------------|-------|
-| **Claude**  | `/Users/agi_dev/LOCAL-REPOS/Lukhas` | `main`                          | Testing/API (OpenAI façade, `tests/smoke/**`, `lukhas/adapters/openai/**`)                     | smoke tests, API compatibility                | ✅    | 2025-10-13      | Completed Phase 2 OpenAI façade + 3 rounds professional testing (196+ tests) |
-| **Codex**   | `../Lukhas-codex-B1`               | `fix/codex10/ruffB1`             | Hot-path lint/refactor (`lukhas/core/reliability/**`, `lukhas/observability/**`, `MATRIZ/core/**`) | `ruff-phaseB-hotpaths ≤90` (target this PR)  | 🟢    |                 |      |
-| **Copilot** | `../Lukhas-copilot-dx2`            | `docs/copilot/quickstart-polish` | DX/docs/examples (`README.md`, `examples/sdk/**`, `docs/**`, Postman/Newman workflows)         | newman golden flows                           | ✅    | 2025-10-13      | Phase 2 DX complete, merged to main |
+| Agent       | Worktree Path         | Branch                 | Area Ownership (no-collision)                                                                | CI Gates Owned                  | Status | Last Sync (UTC) | Notes |
+|-------------|------------------------|------------------------|------------------------------------------------------------------------------------------------|----------------------------------|--------|-----------------|-------|
+| **Claude**  | ../Lukhas-claude      | feat/ops/ga-guard-pack| CI/Observability + health artifacts + dashboards/alerts                                       | PR health badge, openapi-diff   | 🟢     |                 |      |
+| **Codex**   | ../Lukhas-codex-B1    | fix/codex10/ruffB1     | Hot-path lint/refactor (E402/E70x/I/RUF100) in adapters/reliability/observability/MATRIZ core | ruff-phaseB-hotpaths ≤120       | 🟢     |                 | Lock: `hotpaths-b1` |
+| **Copilot** | ../Lukhas-copilot-dx2 | docs/copilot/dx-polish | ✅ **Merged via #383** — README quickstart, cookbooks, Postman, CI smoke                     | dx-examples-smoke               | ✅     | 2025-10-14T00:20| DX Polish Pack complete |
 
 ### 🧭 Ownership rules
 - **Claude** can change **metrics/health/CI**; avoid runtime refactors in Codex’ hot paths.
@@ -267,4 +267,3 @@ make unlock-ga-guard-pack force=1
 ```
 
 ---
-
