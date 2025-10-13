@@ -17,9 +17,9 @@ try:
 except NameError:
     __all__ = []
 
-# Idempotency support (Phase 3)
-from .idempotency import cache_key, get, put, clear
-for _name in ("cache_key", "get", "put", "clear"):
+# Idempotency support (Phase 3) - Updated for class-based stores
+from .idempotency import IdempotencyStore, InMemoryIdempotencyStore
+for _name in ("IdempotencyStore", "InMemoryIdempotencyStore"):
     if _name not in __all__:
         __all__.append(_name)
 

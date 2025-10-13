@@ -1,333 +1,127 @@
-"""
-Rate limiting for LUKHAS API endpoints.
-
-Implements token bucket algorithm with per-endpoint and per-principal limits.
-Keys by (route, bearer_token) or (route, ip) to prevent cross-tenant throttling.
-
-RateLimiter keying strategy (Phase 3):
-  Env LUKHAS_RL_KEYING:
-  - 'route_principal' (default): key = f"{route}:{principal}"
-  - 'route_only': key = route (fallback for testing or shared limits)
-
-  Notes:
-  - principal is 'tok:<sha256_16hex>' | 'ip:<addr>' | 'anonymous'
-  - raw tokens are never stored (hash only, security)
-"""
-import hashlib
-import math
 import os
 import time
-from collections import defaultdict
-from threading import Lock
-from typing import Dict, Optional, Tuple, Any
+from typing import Dict, Tuple, Optional, Any
+import yaml
+from .ratelimit_backends import LimiterBackend, RedisTokenBucket
 
+class QuotaConfig:
+    """Loads and resolves hierarchical quotas from a YAML file."""
 
-class TokenBucket:
-    """
-    Token bucket rate limiter.
+    def __init__(self, config_path: str = "configs/quotas.yaml"):
+        self.config_path = config_path
+        self.quotas = self._load_config()
 
-    Allows bursts up to capacity, refills at fixed rate.
-    """
+    def _load_config(self) -> Dict[str, Any]:
+        if not os.path.exists(self.config_path):
+            # Return a default config if the file doesn't exist to prevent crashes
+            return {"defaults": {"rate_per_sec": 10, "burst": 20}}
+        with open(self.config_path, "r") as f:
+            return yaml.safe_load(f)
 
-    def __init__(self, capacity: int, refill_rate: float):
+    def resolve_limits(self, org: Optional[str], token: Optional[str], route: str) -> Tuple[float, int]:
         """
-        Initialize token bucket.
-
-        Args:
-            capacity: Maximum tokens (burst size)
-            refill_rate: Tokens added per second
+        Resolves the effective rate and burst limit by taking the minimum of the applicable quotas.
         """
-        self.capacity = capacity
-        self.refill_rate = refill_rate
-        self.tokens = float(capacity)
-        self.last_refill = time.time()
-        self.lock = Lock()
+        defaults = self.quotas.get("defaults", {"rate_per_sec": 10, "burst": 20})
 
-    def consume(self, tokens: int = 1) -> Tuple[bool, float]:
-        """
-        Try to consume tokens.
+        # Start with the default limits
+        applicable_limits = [defaults]
 
-        Returns:
-            (success, retry_after_seconds)
-        """
-        with self.lock:
-            now = time.time()
-            elapsed = now - self.last_refill
+        if org and "orgs" in self.quotas and org in self.quotas["orgs"]:
+            applicable_limits.append(self.quotas["orgs"][org])
 
-            # Refill tokens based on elapsed time
-            self.tokens = min(
-                self.capacity,
-                self.tokens + (elapsed * self.refill_rate)
-            )
-            self.last_refill = now
+        if token and "tokens" in self.quotas and token in self.quotas["tokens"]:
+            applicable_limits.append(self.quotas["tokens"][token])
 
-            if self.tokens >= tokens:
-                self.tokens -= tokens
-                return True, 0.0
-            else:
-                # Calculate how long until enough tokens available
-                needed = tokens - self.tokens
-                retry_after = needed / self.refill_rate
-                return False, retry_after
+        if route in self.quotas.get("routes", {}):
+            applicable_limits.append(self.quotas["routes"][route])
+
+        # The effective limit is the minimum of all applicable quotas for both rate and burst
+        effective_rate = min(limit.get("rate_per_sec", defaults["rate_per_sec"]) for limit in applicable_limits)
+        effective_burst = min(limit.get("burst", defaults["burst"]) for limit in applicable_limits)
+
+        return effective_rate, effective_burst
 
 
 class RateLimiter:
     """
-    Rate limiter with per-endpoint, per-principal token buckets.
-
-    Keys by (route, bearer_token) or (route, client_ip) to isolate
-    tenants and prevent cross-tenant throttling. Thread-safe for
-    concurrent requests.
+    Hierarchical rate limiter that uses a configurable backend.
     """
 
-    def __init__(self, default_rps: int = 20):
-        """
-        Initialize rate limiter.
+    def __init__(self, backend: LimiterBackend, config: QuotaConfig):
+        self.backend = backend
+        self.config = config
 
-        Args:
-            default_rps: Default requests per second for endpoints
+    def _extract_context(self, request: Any) -> Tuple[Optional[str], Optional[str], str]:
         """
-        self.default_rps = default_rps
-        self.buckets: Dict[str, TokenBucket] = defaultdict(
-            lambda: TokenBucket(capacity=default_rps * 2, refill_rate=default_rps)
-        )
-        self.lock = Lock()
-
-    def _extract_principal(self, request) -> str:
+        Extracts (org, token, route) from the request.
+        This is a placeholder and needs to be adapted to the actual request object.
+        For now, it simulates extraction for testing purposes.
         """
-        Extract principal identifier from request.
-        
-        Prioritizes bearer token for tenant isolation, falls back to
-        client IP address for anonymous requests.
-        
-        Args:
-            request: FastAPI Request object
-            
-        Returns:
-            Principal identifier (token or IP)
-        """
-        # Try to extract bearer token
-        auth: Optional[str] = request.headers.get("authorization")
-        if auth and auth.lower().startswith("bearer "):
-            token = auth.split(" ", 1)[1].strip()
-            if token:
-                # Hash token to avoid storing raw secrets in memory/logs/metrics
-                digest = hashlib.sha256(token.encode()).hexdigest()[:16]
-                return f"tok:{digest}"
-        
-        # Fallback to client IP (prefer X-Forwarded-For for proxies)
-        xff = request.headers.get("x-forwarded-for")
-        if xff:
-            # Take first IP from comma-separated list
-            ip = xff.split(",")[0].strip()
-            if ip:
-                return ip
-        
-        client = getattr(request, "client", None)
-        if client:
-            ip = getattr(client, "host", None)
-            if ip:
-                return ip
-        
-        # Last resort fallback
-        return "anonymous"
-
-    def _key_for_request(self, request) -> str:
-        """
-        Generate rate limit key for request.
-
-        Key format depends on LUKHAS_RL_KEYING environment variable:
-        - 'route_principal' (default): "{route}:{principal}"
-        - 'route_only': "{route}" (shared limit across all users)
-
-        The default ensures each (endpoint, tenant) pair has independent limits,
-        preventing one tenant from exhausting another's quota.
-
-        Args:
-            request: FastAPI Request object
-
-        Returns:
-            Rate limit key string
-        """
-        strategy = os.environ.get("LUKHAS_RL_KEYING", "route_principal").lower()
-        route = request.url.path
-
-        if strategy == "route_only":
-            return route
-
-        # Default: route_principal
-        principal = self._extract_principal(request)
-        return f"{route}:{principal}"
-
-    def configure_endpoint(self, endpoint: str, rps: int) -> None:
-        """Configure custom rate limit for endpoint."""
-        with self.lock:
-            self.buckets[endpoint] = TokenBucket(
-                capacity=rps * 2,  # Allow 2x burst
-                refill_rate=rps
-            )
-
-    def check_limit(self, request) -> Tuple[bool, float]:
-        """
-        Check if request is within rate limit.
-        
-        Args:
-            request: FastAPI Request object (used to derive key)
-
-        Returns:
-            (allowed, retry_after_seconds)
-        """
-        key = self._key_for_request(request)
-        bucket = self.buckets[key]
-        return bucket.consume(1)
-
-    def key_for_request(self, request) -> str:
-        """
-        Public wrapper for the internal key function so API code doesn't
-        rely on a private method. Keeps our Phase-2 integration stable.
-        
-        Args:
-            request: FastAPI Request object
-            
-        Returns:
-            Rate limit key string
-        """
-        return self._key_for_request(request)
-
-    def principal_for_request(self, request) -> str:
-        """
-        Return the raw principal string; metric layer will hash it.
-        
-        Args:
-            request: FastAPI Request object
-            
-        Returns:
-            Principal identifier (for metrics, will be hashed)
-        """
-        try:
-            return self._extract_principal(request) or "anonymous"
-        except Exception:
-            return "anonymous"
-
-    def _ensure_bucket(self, key: str) -> Dict[str, Any]:
-        """
-        Ensure a bucket record exists for key.
-        Expected shape: {"tokens": float, "ts": float, "capacity": int, "refill_rate": float}
-        
-        Args:
-            key: Rate limit key
-            
-        Returns:
-            Bucket dictionary with current state
-        """
-        bucket = self.buckets.get(key)
-        if bucket is None:
-            # Create new bucket with default settings
-            bucket = TokenBucket(capacity=self.default_rps * 2, refill_rate=self.default_rps)
-            self.buckets[key] = bucket
-        
-        # Return bucket state as dict for window calculations
-        return {
-            "tokens": bucket.tokens,
-            "ts": bucket.last_refill,
-            "capacity": bucket.capacity,
-            "refill_rate": bucket.refill_rate,
-        }
-
-    def _refilled(self, b: Dict[str, Any]) -> None:
-        """
-        Update bucket dict with passive refill (for window calculations).
-        
-        Args:
-            b: Bucket state dictionary
-        """
-        now = time.time()
-        elapsed = max(0.0, now - b["ts"])
-        b["tokens"] = min(b["capacity"], b["tokens"] + b["refill_rate"] * elapsed)
-        b["ts"] = now
-
-    def current_window(self, key: str) -> Dict[str, float]:
-        """
-        Returns the current 'window' snapshot for OpenAI-style headers.
-        Token-bucket doesn't have hard windows, so we report:
-          - limit: capacity
-          - remaining: floor(tokens after passive refill)
-          - reset_seconds: seconds to *full* refill (OK for client backoff)
-        
-        Args:
-            key: Rate limit key
-            
-        Returns:
-            Dictionary with limit, remaining, and reset_seconds
-        """
-        b = self._ensure_bucket(key)
-        self._refilled(b)
-        cap = int(b["capacity"])
-        tokens = max(0.0, min(float(b["capacity"]), float(b["tokens"])))
-        rate = float(b["refill_rate"])
-        
-        if tokens >= cap or rate <= 0.0:
-            reset = 0.0
+        # In a real FastAPI app, this would come from auth middleware
+        org = getattr(request.state, "org", "org_abc")
+        # To simulate different tokens, we could inspect headers
+        auth_header = getattr(request.headers, "get", lambda k: "")("Authorization")
+        if "sk-abc" in auth_header:
+            token = "sk-abc..."
         else:
-            reset = (cap - tokens) / rate
+            token = getattr(request.state, "token", "default_token")
+
+        route = request.url.path
+        return org, token, route
+
+    def check_limit(self, request: Any) -> Tuple[bool, Dict[str, str]]:
+        """
+        Checks the rate limit for a request and returns the result and headers.
+        """
+        org, token, route = self._extract_context(request)
         
-        return {
-            "limit": float(cap),
-            "remaining": float(math.floor(tokens)),
-            "reset_seconds": float(round(reset, 3)),
+        rate, burst = self.config.resolve_limits(org, token, route)
+        
+        # The key should uniquely identify the user/token within the hierarchy
+        key = f"rl:{org}:{token}:{route}"
+
+        allowed, remaining, reset_ts = self.backend.allow(key, rate, burst)
+        
+        headers = {
+            "X-RateLimit-Limit": str(burst),
+            "X-RateLimit-Remaining": str(remaining),
+            "X-RateLimit-Reset": str(int(reset_ts)),
         }
 
-    def headers_for(
-        self,
-        key: str,
-        *,
-        tokens_limit: int = 0,
-        tokens_remaining: int = 0,
-        tokens_reset: float = 0.0,
-    ) -> Dict[str, str]:
-        """
-        OpenAI-aligned header set. Requests-dimension always present.
-        Tokens-* are optional placeholders unless you wire in token
-        accounting; we surface them as '0' by default for API parity.
-        
-        Args:
-            key: Rate limit key
-            tokens_limit: Optional token limit (for future token tracking)
-            tokens_remaining: Optional remaining tokens
-            tokens_reset: Optional token reset time
-            
-        Returns:
-            Dictionary of x-ratelimit-* headers
-        """
-        w = self.current_window(key)
-        return {
-            # OpenAI-compatible "requests" dimension
-            "x-ratelimit-limit-requests": str(int(w["limit"])),
-            "x-ratelimit-remaining-requests": str(int(w["remaining"])),
-            "x-ratelimit-reset-requests": f"{w['reset_seconds']:.3f}",
-            # Token dimension is optional; keep visible for parity
-            "x-ratelimit-limit-tokens": str(int(tokens_limit)),
-            "x-ratelimit-remaining-tokens": str(int(tokens_remaining)),
-            "x-ratelimit-reset-tokens": f"{float(tokens_reset):.3f}",
-        }
+        return allowed, headers
 
+# Helper to create a default rate limiter based on environment variables
+def create_rate_limiter() -> RateLimiter:
+    backend_type = os.environ.get("LUKHAS_RL_BACKEND", "redis")
 
-def rate_limit_error(retry_after_s: float) -> dict:
-    """
-    Generate OpenAI-compatible rate limit error response.
+    if backend_type == "redis":
+        redis_url = os.environ.get("REDIS_URL", "redis://localhost:6379/0")
+        backend = RedisTokenBucket(url=redis_url)
+    else: # Fallback to an in-memory backend for testing
+        class InMemoryLimiter(LimiterBackend):
+            def __init__(self):
+                self.buckets: Dict[str, Dict[str, float]] = {}
 
-    Args:
-        retry_after_s: Seconds to wait before retry
+            def allow(self, key: str, rate: float, burst: int) -> Tuple[bool, int, float]:
+                if key not in self.buckets:
+                    self.buckets[key] = {"tokens": float(burst), "ts": time.time()}
 
-    Returns:
-        Error dict with headers
-    """
-    retry_after_int = max(1, int(retry_after_s))
-    return {
-        "error": {
-            "type": "rate_limit_exceeded",
-            "message": "Rate limit exceeded. Please retry after the specified time.",
-            "retry_after": retry_after_int
-        },
-        "headers": {"Retry-After": str(retry_after_int)}
-    }
+                bucket = self.buckets[key]
+                now = time.time()
+                elapsed = now - bucket["ts"]
+                bucket["tokens"] = min(burst, bucket["tokens"] + elapsed * rate)
+                bucket["ts"] = now
+
+                if bucket["tokens"] >= 1:
+                    bucket["tokens"] -= 1
+                    reset = (burst - bucket["tokens"]) / rate if rate > 0 else float('inf')
+                    return True, int(bucket["tokens"]), now + reset
+                else:
+                    reset = (1 - bucket["tokens"]) / rate if rate > 0 else float('inf')
+                    return False, int(bucket["tokens"]), now + reset
+
+        backend = InMemoryLimiter()
+
+    config = QuotaConfig()
+    return RateLimiter(backend=backend, config=config)

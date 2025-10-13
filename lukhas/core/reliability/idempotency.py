@@ -1,77 +1,61 @@
-"""
-Idempotency-Key support for safe request replays.
-
-Implements in-memory cache for idempotent requests:
-- Cache keyed by (route, Idempotency-Key, body-hash)
-- TTL of 24 hours
-- Returns cached response for matching replays
-
-Phase 3: Added for production reliability.
-"""
-import time
+from abc import ABC, abstractmethod
 import hashlib
+import time
 from typing import Dict, Tuple, Optional
 
-_TTL = 24 * 3600  # 24h
-# key -> (ts, status, body_bytes, content_type)
-_cache: Dict[str, Tuple[float, int, bytes, str]] = {}
+class IdempotencyStore(ABC):
+    """Abstract base class for idempotency stores."""
+
+    @abstractmethod
+    def get(self, key: str) -> Optional[Tuple[int, Dict, bytes, str]]:
+        """
+        Gets a cached response and its body hash.
+        Returns a tuple of (status_code, headers, body, body_sha256) or None.
+        """
+        pass
+
+    @abstractmethod
+    def put(self, key: str, status: int, headers: Dict, body: bytes) -> None:
+        """
+        Stores a response. The implementation should hash the body.
+        """
+        pass
+
+    @staticmethod
+    def _hash_body(body: bytes) -> str:
+        return hashlib.sha256(body or b"").hexdigest()
+
+    def key(self, route: str, tenant: str, idem_key: str) -> str:
+        """
+        Constructs a key for the store.
+        Note: Does not include body hash, as per RFC-0007.
+        """
+        return f"idem:{route}:{tenant}:{idem_key}"
 
 
-def _hash(b: bytes) -> str:
-    """Compute short hash of request body."""
-    return hashlib.sha256(b).hexdigest()[:16]
+class InMemoryIdempotencyStore(IdempotencyStore):
+    """In-memory idempotency store for testing and single-replica deployments."""
 
+    def __init__(self, ttl_seconds: int = 300):
+        self._cache: Dict[str, Tuple[float, int, Dict, bytes, str]] = {}
+        self.ttl = ttl_seconds
 
-def cache_key(route: str, idem_key: str, body: bytes) -> str:
-    """
-    Generate cache key for idempotent request.
+    def get(self, key: str) -> Optional[Tuple[int, Dict, bytes, str]]:
+        item = self._cache.get(key)
+        if not item:
+            return None
 
-    Args:
-        route: API route path
-        idem_key: Idempotency-Key header value
-        body: Request body bytes
+        ts, status, headers, body, body_sha256 = item
+        if time.time() - ts > self.ttl:
+            self._cache.pop(key, None)
+            return None
 
-    Returns:
-        Cache key string
-    """
-    return f"{route}:{idem_key}:{_hash(body)}"
+        return status, headers, body, body_sha256
 
+    def put(self, key: str, status: int, headers: Dict, body: bytes) -> None:
+        body_sha256 = self._hash_body(body)
+        self._cache[key] = (time.time(), status, headers, body, body_sha256)
 
-def get(key: str) -> Optional[Tuple[int, bytes, str]]:
-    """
-    Retrieve cached response if not expired.
-
-    Args:
-        key: Cache key from cache_key()
-
-    Returns:
-        (status, body_bytes, content_type) tuple or None if not cached/expired
-    """
-    item = _cache.get(key)
-    if not item:
-        return None
-
-    ts, status, body, ctype = item
-    if time.time() - ts > _TTL:
-        _cache.pop(key, None)
-        return None
-
-    return status, body, ctype
-
-
-def put(key: str, status: int, body: bytes, content_type: str) -> None:
-    """
-    Cache response for future replays.
-
-    Args:
-        key: Cache key from cache_key()
-        status: HTTP status code
-        body: Response body bytes
-        content_type: Content-Type header value
-    """
-    _cache[key] = (time.time(), status, body, content_type)
-
-
-def clear() -> None:
-    """Clear all cached responses (useful for testing)."""
-    _cache.clear()
+    def clear(self) -> None:
+        """Clear all cached responses (useful for testing)."""
+        self._cache.clear()
