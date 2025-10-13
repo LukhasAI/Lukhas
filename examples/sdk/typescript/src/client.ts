@@ -167,7 +167,7 @@ export class LukhasClient {
 
             let traceId: string | undefined;
 
-            eventSource.onmessage = (event) => {
+            eventSource.onmessage = (event: any) => {
                 try {
                     const chunk: StreamChunk = JSON.parse(event.data);
                     onChunk(chunk);
@@ -185,7 +185,7 @@ export class LukhasClient {
                 }
             };
 
-            eventSource.onerror = (error) => {
+            eventSource.onerror = (error: any) => {
                 eventSource.close();
                 const err = new Error('Stream error');
                 if (onError) {

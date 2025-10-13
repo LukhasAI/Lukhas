@@ -64,9 +64,14 @@ jobs:
       
       - name: 🧪 Run Golden Flow 1: Auth Errors
         run: |
+          if [ "${{ matrix.environment }}" = "local" ]; then
+            BASE_URL="http://localhost:8000"
+          else
+            BASE_URL="${{ secrets.STAGING_BASE_URL }}"
+          fi
           newman run docs/api/postman/LUKHAS_Golden_Flows.postman_collection.json \
             --folder "Golden Flow 1: Auth Error Handling" \
-            --env-var "base_url=${{ matrix.environment == 'local' && 'http://localhost:8000' || secrets.STAGING_BASE_URL }}" \
+            --env-var "base_url=${BASE_URL}" \
             --env-var "lukhas_api_key=${{ secrets.LUKHAS_API_KEY }}" \
             --reporters cli,json,htmlextra \
             --reporter-htmlextra-export newman/auth-errors-${{ matrix.environment }}.html \
@@ -75,9 +80,14 @@ jobs:
       
       - name: 🧪 Run Golden Flow 2: Idempotent Replay
         run: |
+          if [ "${{ matrix.environment }}" = "local" ]; then
+            BASE_URL="http://localhost:8000"
+          else
+            BASE_URL="${{ secrets.STAGING_BASE_URL }}"
+          fi
           newman run docs/api/postman/LUKHAS_Golden_Flows.postman_collection.json \
             --folder "Golden Flow 2: Idempotent Replay" \
-            --env-var "base_url=${{ matrix.environment == 'local' && 'http://localhost:8000' || secrets.STAGING_BASE_URL }}" \
+            --env-var "base_url=${BASE_URL}" \
             --env-var "lukhas_api_key=${{ secrets.LUKHAS_API_KEY }}" \
             --reporters cli,json,htmlextra \
             --reporter-htmlextra-export newman/idempotency-${{ matrix.environment }}.html \
