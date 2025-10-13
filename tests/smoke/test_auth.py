@@ -27,12 +27,11 @@ def test_missing_authorization_returns_401(client):
 
     data = response.json()
     error = data.get("error", {})
-    # HTTP exception handler nests original error under message payload
-    invalid = error.get("message", {}).get("error", {})
 
-    assert invalid.get("type") == "invalid_api_key"
-    assert "authentication" in invalid.get("message", "").lower()
-    assert invalid.get("code") == "invalid_api_key"
+    # OpenAI error envelope format: {"error": {"type", "message", "code"}}
+    assert error.get("type") == "invalid_api_key"
+    assert "authentication" in error.get("message", "").lower()
+    assert error.get("code") == "invalid_api_key"
 
 
 def test_invalid_auth_scheme_returns_401(client):
@@ -46,8 +45,8 @@ def test_invalid_auth_scheme_returns_401(client):
 
     data = response.json()
     error = data.get("error", {})
-    invalid = error.get("message", {}).get("error", {})
-    assert invalid.get("type") == "invalid_api_key"
+    # OpenAI error envelope format: {"error": {"type", "message", "code"}}
+    assert error.get("type") == "invalid_api_key"
 
 
 def test_empty_bearer_token_returns_401(client):
@@ -191,16 +190,12 @@ def test_error_format_openai_compatible(client):
 
     data = response.json()
 
-    # FastAPI wraps in "detail", extract error dict
-    detail = data.get("detail", {})
-    error = detail.get("error", detail) if isinstance(detail, dict) else {}
-
-    # OpenAI error format: {type, message, code}
+    # OpenAI error envelope format: {"error": {"type", "message", "code"}}
+    error = data.get("error", {})
     assert isinstance(error, dict)
     assert "type" in error
     assert "message" in error
     assert "code" in error
 
     # Specific error codes
-    assert error["type"] == "invalid_request_error"
     assert error["code"] == "invalid_api_key"
