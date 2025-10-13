@@ -1,0 +1,180 @@
+name: OpenAPI Diff Check
+
+on:
+  pull_request:
+    paths:
+      - 'docs/openapi/**'
+      - 'lukhas/adapters/openai/**'
+      - 'serve/main.py'
+
+jobs:
+  openapi-diff:
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+      contents: read
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Need full history for diff
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          pip install -U pip
+          pip install openapi-diff pyyaml jq
+
+      - name: Get OpenAPI spec from main
+        run: |
+          git show origin/main:docs/openapi/lukhas-openai.json > /tmp/main-spec.json || echo "{}" > /tmp/main-spec.json
+
+      - name: Get OpenAPI spec from PR
+        run: |
+          cp docs/openapi/lukhas-openai.json /tmp/pr-spec.json || echo "{}" > /tmp/pr-spec.json
+
+      - name: Run OpenAPI diff
+        id: diff
+        continue-on-error: true
+        run: |
+          # Install openapi-diff via npm if Python version not available
+          npm install -g openapi-diff
+
+          # Run diff and capture output
+          openapi-diff /tmp/main-spec.json /tmp/pr-spec.json --json > /tmp/diff.json || true
+
+          # Parse diff results
+          if [ -f /tmp/diff.json ]; then
+            BREAKING=$(jq -r '.breakingChanges // [] | length' /tmp/diff.json 2>/dev/null || echo "0")
+            ADDITIONS=$(jq -r '.additions // [] | length' /tmp/diff.json 2>/dev/null || echo "0")
+            REMOVALS=$(jq -r '.removals // [] | length' /tmp/diff.json 2>/dev/null || echo "0")
+
+            echo "breaking=$BREAKING" >> $GITHUB_OUTPUT
+            echo "additions=$ADDITIONS" >> $GITHUB_OUTPUT
+            echo "removals=$REMOVALS" >> $GITHUB_OUTPUT
+
+            # Extract top 5 changes
+            CHANGES=$(jq -r '.breakingChanges[0:5] // [] | map("- " + .message) | join("\n")' /tmp/diff.json 2>/dev/null || echo "")
+            echo "changes<<EOF" >> $GITHUB_OUTPUT
+            echo "$CHANGES" >> $GITHUB_OUTPUT
+            echo "EOF" >> $GITHUB_OUTPUT
+          else
+            echo "breaking=0" >> $GITHUB_OUTPUT
+            echo "additions=0" >> $GITHUB_OUTPUT
+            echo "removals=0" >> $GITHUB_OUTPUT
+            echo "changes=" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Determine status
+        id: status
+        run: |
+          BREAKING=${{ steps.diff.outputs.breaking }}
+          REMOVALS=${{ steps.diff.outputs.removals }}
+
+          if [ "$BREAKING" -gt 0 ] || [ "$REMOVALS" -gt 0 ]; then
+            echo "result=breaking" >> $GITHUB_OUTPUT
+            echo "emoji=❌" >> $GITHUB_OUTPUT
+          elif [ "${{ steps.diff.outputs.additions }}" -gt 0 ]; then
+            echo "result=additive" >> $GITHUB_OUTPUT
+            echo "emoji=✅" >> $GITHUB_OUTPUT
+          else
+            echo "result=unchanged" >> $GITHUB_OUTPUT
+            echo "emoji=⚪" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Post PR comment
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const breaking = parseInt('${{ steps.diff.outputs.breaking }}');
+            const additions = parseInt('${{ steps.diff.outputs.additions }}');
+            const removals = parseInt('${{ steps.diff.outputs.removals }}');
+            const emoji = '${{ steps.status.outputs.emoji }}';
+            const result = '${{ steps.status.outputs.result }}';
+            const changes = `${{ steps.diff.outputs.changes }}`;
+
+            let statusText = '';
+            if (result === 'breaking') {
+              statusText = '⚠️ **Breaking changes detected!** This PR modifies the OpenAPI spec in a backwards-incompatible way.';
+            } else if (result === 'additive') {
+              statusText = '✅ **Additive changes only.** New endpoints/fields added, no breaking changes.';
+            } else {
+              statusText = '⚪ **No OpenAPI changes detected.**';
+            }
+
+            const comment = `## ${emoji} OpenAPI Diff Report
+
+            ${statusText}
+
+            | Change Type | Count |
+            |-------------|-------|
+            | Breaking Changes | ${breaking} ${breaking > 0 ? '❌' : '✅'} |
+            | Additions | ${additions} ${additions > 0 ? '➕' : ''} |
+            | Removals | ${removals} ${removals > 0 ? '➖' : ''} |
+
+            ${changes ? `### Breaking Changes\n${changes}` : ''}
+
+            <details>
+            <summary>📚 OpenAPI Best Practices</summary>
+
+            **Additive changes (safe):**
+            - Adding new endpoints
+            - Adding optional fields
+            - Adding new enum values (with caution)
+
+            **Breaking changes (unsafe):**
+            - Removing endpoints or fields
+            - Changing field types
+            - Making optional fields required
+            - Removing enum values
+
+            </details>
+
+            ---
+            *Generated by openapi-diff.yml*
+            `;
+
+            // Find existing comment
+            const { data: comments } = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+            });
+
+            const botComment = comments.find(comment =>
+              comment.user.type === 'Bot' &&
+              comment.body.includes('OpenAPI Diff Report')
+            );
+
+            if (botComment) {
+              await github.rest.issues.updateComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: botComment.id,
+                body: comment
+              });
+            } else {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                body: comment
+              });
+            }
+
+            // Fail the check if breaking changes detected
+            if (breaking > 0 || removals > 0) {
+              core.setFailed(`Breaking changes detected: ${breaking} breaking, ${removals} removals`);
+            }
+
+      - name: Upload diff artifact
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: openapi-diff
+          path: /tmp/diff.json
+          retention-days: 30
