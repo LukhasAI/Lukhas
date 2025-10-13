@@ -62,7 +62,8 @@
       "Bash(git mv:*)",
       "Bash(echo \"Exit code: $?\")",
       "Bash(git rm:*)",
-      "Bash(PYTHONPATH=. python3:*)"
+      "Bash(PYTHONPATH=. python3:*)",
+      "Bash(echo \"Updated: $file\")"
     ],
     "defaultMode": "bypassPermissions"
   }

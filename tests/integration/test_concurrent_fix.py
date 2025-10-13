@@ -13,7 +13,7 @@ import time
 
 # Add paths for imports
 sys.path.insert(0, ".")
-sys.path.insert(0, "candidate/aka_qualia")
+sys.path.insert(0, "labs/aka_qualia")
 
 from sqlalchemy import create_engine, text
 from sqlalchemy.pool import StaticPool

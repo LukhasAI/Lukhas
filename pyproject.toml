@@ -174,14 +174,16 @@ filterwarnings = [
 ]
 
 [tool.coverage.run]
-source = ["lukhas", "candidate"]
+# Phase 3.1: Focus coverage on production lanes
+source = ["lukhas", "matriz", "core"]
 branch = true
 omit = ["*/tests/*", "*/test_*"]
 
 [tool.coverage.report]
+# Phase 3.1: Target 50% for prod lanes (current: 17%, audit target: 45-55%)
 fail_under = 30
 show_missing = true
-skip_covered = true
+skip_covered = false
 exclude_lines = [
     "pragma: no cover",
     "def __repr__",
@@ -200,6 +202,9 @@ target-version = "py39"
 respect-gitignore = true
 
 # T4 Production vs Experimental Lane Policy
+# Phase 3.1: Split strict (prod lanes) vs warn-only (labs)
+# - lukhas/, matriz/, core/ enforced in CI with ruff-strict-prod job
+# - labs/ excluded from strict checks during incubation
 extend-exclude = [
     ".git",
     "__pycache__",
@@ -212,10 +217,13 @@ extend-exclude = [
     "manifests/**",
     "docs/audits/**",
     "**/generated/**",
+    "**/notebooks/**",
     # Large auxiliary directories
     "*backup*",
     "*_old",
-    "recovery*"
+    "recovery*",
+    # Phase 3.1: Exclude labs/ from default strict checks
+    "labs/**"
 ]
 
 # Exclude patterns

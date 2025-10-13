@@ -43,7 +43,7 @@ class SystemDiscovery:
                 "lukhas/bio",
                 "bio",
             ],
-            "memory_data": ["lukhas/memory", "lukhas.memory", "candidate/aka_qualia", "candidate/memory", "data"],
+            "memory_data": ["lukhas/memory", "lukhas.memory", "labs/aka_qualia", "labs/memory", "data"],
             "security_governance": [
                 "lukhas/security",
                 "security",
@@ -61,7 +61,7 @@ class SystemDiscovery:
                 "observability",
                 "lukhas/agents",
             ],
-            "advanced_features": ["lukhas/vivox", "candidate/vivox", "rl", "emotion", "modulation", "symbolic"],
+            "advanced_features": ["lukhas/vivox", "labs/vivox", "rl", "emotion", "modulation", "symbolic"],
         }
 
         discovered = {}
@@ -277,7 +277,7 @@ class TestMemoryDataSystems:
         try:
             print("    🌈 Testing qualia memory systems...")
 
-            qualia_path = Path("/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/aka_qualia")
+            qualia_path = Path("/Users/agi_dev/LOCAL-REPOS/Lukhas/labs/aka_qualia")
             if not qualia_path.exists():
                 print("    ⚠️ Qualia systems directory not found")
                 return False
@@ -772,7 +772,7 @@ class TestAdvancedFeatures:
             print("    🌊 Testing VIVOX systems...")
 
             lukhas_vivox = Path("/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/vivox")
-            candidate_vivox = Path("/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/vivox")
+            candidate_vivox = Path("/Users/agi_dev/LOCAL-REPOS/Lukhas/labs/vivox")
 
             systems_found = 0
 

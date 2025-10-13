@@ -48,16 +48,16 @@ def test_canonical_has_oracle_not_ambiguity():
     assert "⚛️ Ambiguity (Quantum)" not in CANON
 
 def test_flow_by_path_or_node():
-    star, conf, _ = suggest_star("candidate/consciousness/awareness", "awareness", [], ["attention"])
+    star, conf, _ = suggest_star("labs/consciousness/awareness", "awareness", [], ["attention"])
     assert star == "🌊 Flow (Consciousness)"
     assert conf >= 0.5
 
 def test_memory_by_capability():
-    star, conf, _ = suggest_star("candidate/bio/memory", "bio.memory", ["memory_consolidation"], [])
+    star, conf, _ = suggest_star("labs/bio/memory", "bio.memory", ["memory_consolidation"], [])
     assert star == "✦ Trail (Memory)"
 
 def test_guardian_by_auth_capability():
-    star, conf, _ = suggest_star("candidate/api/oidc", "oidc", ["authentication"], [])
+    star, conf, _ = suggest_star("labs/api/oidc", "oidc", ["authentication"], [])
     assert star == "🛡️ Watch (Guardian)"
 
 def test_vision_by_path():
@@ -65,7 +65,7 @@ def test_vision_by_path():
     assert star == "🔬 Horizon (Vision)"
 
 def test_oracle_by_keyword():
-    star, conf, _ = suggest_star("candidate/bio/quantum_attention", "quantum_attention", ["quantum_attention"], [])
+    star, conf, _ = suggest_star("labs/bio/quantum_attention", "quantum_attention", ["quantum_attention"], [])
     assert star == "🔮 Oracle (Quantum)"
 
 def test_exclusion_stopwatch_not_guardian():

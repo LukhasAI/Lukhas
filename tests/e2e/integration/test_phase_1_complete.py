@@ -468,10 +468,10 @@ async def test_integration_validation():
     try:
         # Test 1: MODULE_MANIFEST.json validation
         manifests = [
-            "candidate/memory/MODULE_MANIFEST.json",
-            "candidate/consciousness/MODULE_MANIFEST.json",
-            "candidate/bridge/MODULE_MANIFEST.json",
-            "candidate/bio/MODULE_MANIFEST.json",
+            "labs/memory/MODULE_MANIFEST.json",
+            "labs/consciousness/MODULE_MANIFEST.json",
+            "labs/bridge/MODULE_MANIFEST.json",
+            "labs/bio/MODULE_MANIFEST.json",
         ]
 
         manifest_count = 0
