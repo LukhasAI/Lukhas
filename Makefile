@@ -1489,6 +1489,10 @@ assert not errors, f"OpenAPI schema errors: {errors[:5]}"
 print("✅ OpenAPI validation passed")
 PY
 
+openapi-headers-guard: openapi-spec ## Verify X-RateLimit-* headers present on all 2xx/4xx/5xx responses
+	@echo "🛡️  Checking OpenAPI spec for required X-RateLimit-* headers..."
+	@python3 scripts/check_openapi_headers.py
+
 openapi-diff: openapi-spec ## Diff OpenAPI spec against main branch (requires git worktree)
 	@echo "🔍 Comparing OpenAPI spec against main..."
 	@if [ ! -d "main_ref" ]; then \

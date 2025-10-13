@@ -533,9 +533,24 @@ def get_app() -> FastAPI:
                 checks["guardian_pdp"] = {
                     "available": True,
                     "decisions": pdp_stats.get("total_decisions", 0),
+                    "denials": pdp_stats.get("denials", 0),
+                    "policy_etag": pdp_stats.get("policy_etag", "unknown")[:8],
                 }
             except Exception:
                 checks["guardian_pdp"] = {"available": False}
+
+        # Rate limiter check (optional)
+        if rate_limiter is not None:
+            try:
+                rl_stats = rate_limiter.get_stats()
+                checks["rate_limiter"] = {
+                    "available": True,
+                    "backend": rl_stats.get("backend", "in-memory"),
+                    "keys_tracked": rl_stats.get("keys_tracked", 0),
+                    "rate_limited": rl_stats.get("rate_limited", 0),
+                }
+            except Exception:
+                checks["rate_limiter"] = {"available": False}
 
         # Redis backend check (optional)
         if redis_backend is not None:
