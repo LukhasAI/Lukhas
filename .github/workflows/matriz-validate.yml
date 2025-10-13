@@ -264,6 +264,28 @@ jobs:
             docs/audits/star_promotions.md
           if-no-files-found: warn
 
+  ruff-phaseA:
+    name: "Ruff Phase A (budget gate)"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.9"
+      - run: pip install ruff==0.6.3
+      - name: Count issues
+        id: ruff
+        run: |
+          python -m ruff check lukhas core MATRIZ --no-cache --output-format=concise | tee ruff.out || true
+          echo "count=$(wc -l < ruff.out)" >> $GITHUB_OUTPUT
+      - name: Enforce budget
+        env:
+          BUDGET: "500"
+        run: |
+          echo "Found ${{ steps.ruff.outputs.count }} issues (budget ${BUDGET})"
+          if [ "${{ steps.ruff.outputs.count }}" -gt "${BUDGET}" ]; then
+            echo "Ruff over budget"; exit 2; fi
+
   openapi-spec:
     name: Build OpenAPI Spec
     runs-on: ubuntu-latest

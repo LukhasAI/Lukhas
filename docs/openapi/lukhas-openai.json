@@ -32,6 +32,15 @@
               "X-Service-Version": {
                 "$ref": "#/components/headers/X-Service-Version"
               },
+              "X-RateLimit-Limit": {
+                "$ref": "#/components/headers/X-RateLimit-Limit"
+              },
+              "X-RateLimit-Remaining": {
+                "$ref": "#/components/headers/X-RateLimit-Remaining"
+              },
+              "X-RateLimit-Reset": {
+                "$ref": "#/components/headers/X-RateLimit-Reset"
+              },
               "X-RateLimit-Limit-Requests": {
                 "$ref": "#/components/headers/X-RateLimit-Limit-Requests"
               },
@@ -58,6 +67,24 @@
               },
               "X-Service-Version": {
                 "$ref": "#/components/headers/X-Service-Version"
+              },
+              "X-RateLimit-Limit": {
+                "$ref": "#/components/headers/X-RateLimit-Limit"
+              },
+              "X-RateLimit-Remaining": {
+                "$ref": "#/components/headers/X-RateLimit-Remaining"
+              },
+              "X-RateLimit-Reset": {
+                "$ref": "#/components/headers/X-RateLimit-Reset"
+              },
+              "X-RateLimit-Limit-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Limit-Requests"
+              },
+              "X-RateLimit-Remaining-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Remaining-Requests"
+              },
+              "X-RateLimit-Reset-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Reset-Requests"
               }
             }
           },
@@ -76,6 +103,24 @@
               },
               "X-Service-Version": {
                 "$ref": "#/components/headers/X-Service-Version"
+              },
+              "X-RateLimit-Limit": {
+                "$ref": "#/components/headers/X-RateLimit-Limit"
+              },
+              "X-RateLimit-Remaining": {
+                "$ref": "#/components/headers/X-RateLimit-Remaining"
+              },
+              "X-RateLimit-Reset": {
+                "$ref": "#/components/headers/X-RateLimit-Reset"
+              },
+              "X-RateLimit-Limit-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Limit-Requests"
+              },
+              "X-RateLimit-Remaining-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Remaining-Requests"
+              },
+              "X-RateLimit-Reset-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Reset-Requests"
               }
             }
           },
@@ -94,6 +139,24 @@
               },
               "X-Service-Version": {
                 "$ref": "#/components/headers/X-Service-Version"
+              },
+              "X-RateLimit-Limit": {
+                "$ref": "#/components/headers/X-RateLimit-Limit"
+              },
+              "X-RateLimit-Remaining": {
+                "$ref": "#/components/headers/X-RateLimit-Remaining"
+              },
+              "X-RateLimit-Reset": {
+                "$ref": "#/components/headers/X-RateLimit-Reset"
+              },
+              "X-RateLimit-Limit-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Limit-Requests"
+              },
+              "X-RateLimit-Remaining-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Remaining-Requests"
+              },
+              "X-RateLimit-Reset-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Reset-Requests"
               }
             }
           },
@@ -112,6 +175,24 @@
               },
               "X-Service-Version": {
                 "$ref": "#/components/headers/X-Service-Version"
+              },
+              "X-RateLimit-Limit": {
+                "$ref": "#/components/headers/X-RateLimit-Limit"
+              },
+              "X-RateLimit-Remaining": {
+                "$ref": "#/components/headers/X-RateLimit-Remaining"
+              },
+              "X-RateLimit-Reset": {
+                "$ref": "#/components/headers/X-RateLimit-Reset"
+              },
+              "X-RateLimit-Limit-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Limit-Requests"
+              },
+              "X-RateLimit-Remaining-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Remaining-Requests"
+              },
+              "X-RateLimit-Reset-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Reset-Requests"
               }
             }
           }
@@ -151,6 +232,15 @@
               "X-Service-Version": {
                 "$ref": "#/components/headers/X-Service-Version"
               },
+              "X-RateLimit-Limit": {
+                "$ref": "#/components/headers/X-RateLimit-Limit"
+              },
+              "X-RateLimit-Remaining": {
+                "$ref": "#/components/headers/X-RateLimit-Remaining"
+              },
+              "X-RateLimit-Reset": {
+                "$ref": "#/components/headers/X-RateLimit-Reset"
+              },
               "X-RateLimit-Limit-Requests": {
                 "$ref": "#/components/headers/X-RateLimit-Limit-Requests"
               },
@@ -177,6 +267,24 @@
               },
               "X-Service-Version": {
                 "$ref": "#/components/headers/X-Service-Version"
+              },
+              "X-RateLimit-Limit": {
+                "$ref": "#/components/headers/X-RateLimit-Limit"
+              },
+              "X-RateLimit-Remaining": {
+                "$ref": "#/components/headers/X-RateLimit-Remaining"
+              },
+              "X-RateLimit-Reset": {
+                "$ref": "#/components/headers/X-RateLimit-Reset"
+              },
+              "X-RateLimit-Limit-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Limit-Requests"
+              },
+              "X-RateLimit-Remaining-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Remaining-Requests"
+              },
+              "X-RateLimit-Reset-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Reset-Requests"
               }
             }
           },
@@ -195,6 +303,24 @@
               },
               "X-Service-Version": {
                 "$ref": "#/components/headers/X-Service-Version"
+              },
+              "X-RateLimit-Limit": {
+                "$ref": "#/components/headers/X-RateLimit-Limit"
+              },
+              "X-RateLimit-Remaining": {
+                "$ref": "#/components/headers/X-RateLimit-Remaining"
+              },
+              "X-RateLimit-Reset": {
+                "$ref": "#/components/headers/X-RateLimit-Reset"
+              },
+              "X-RateLimit-Limit-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Limit-Requests"
+              },
+              "X-RateLimit-Remaining-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Remaining-Requests"
+              },
+              "X-RateLimit-Reset-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Reset-Requests"
               }
             }
           },
@@ -213,6 +339,24 @@
               },
               "X-Service-Version": {
                 "$ref": "#/components/headers/X-Service-Version"
+              },
+              "X-RateLimit-Limit": {
+                "$ref": "#/components/headers/X-RateLimit-Limit"
+              },
+              "X-RateLimit-Remaining": {
+                "$ref": "#/components/headers/X-RateLimit-Remaining"
+              },
+              "X-RateLimit-Reset": {
+                "$ref": "#/components/headers/X-RateLimit-Reset"
+              },
+              "X-RateLimit-Limit-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Limit-Requests"
+              },
+              "X-RateLimit-Remaining-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Remaining-Requests"
+              },
+              "X-RateLimit-Reset-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Reset-Requests"
               }
             }
           },
@@ -231,6 +375,24 @@
               },
               "X-Service-Version": {
                 "$ref": "#/components/headers/X-Service-Version"
+              },
+              "X-RateLimit-Limit": {
+                "$ref": "#/components/headers/X-RateLimit-Limit"
+              },
+              "X-RateLimit-Remaining": {
+                "$ref": "#/components/headers/X-RateLimit-Remaining"
+              },
+              "X-RateLimit-Reset": {
+                "$ref": "#/components/headers/X-RateLimit-Reset"
+              },
+              "X-RateLimit-Limit-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Limit-Requests"
+              },
+              "X-RateLimit-Remaining-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Remaining-Requests"
+              },
+              "X-RateLimit-Reset-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Reset-Requests"
               }
             }
           },
@@ -249,6 +411,24 @@
               },
               "X-Service-Version": {
                 "$ref": "#/components/headers/X-Service-Version"
+              },
+              "X-RateLimit-Limit": {
+                "$ref": "#/components/headers/X-RateLimit-Limit"
+              },
+              "X-RateLimit-Remaining": {
+                "$ref": "#/components/headers/X-RateLimit-Remaining"
+              },
+              "X-RateLimit-Reset": {
+                "$ref": "#/components/headers/X-RateLimit-Reset"
+              },
+              "X-RateLimit-Limit-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Limit-Requests"
+              },
+              "X-RateLimit-Remaining-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Remaining-Requests"
+              },
+              "X-RateLimit-Reset-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Reset-Requests"
               }
             }
           }
@@ -291,6 +471,15 @@
               "X-Service-Version": {
                 "$ref": "#/components/headers/X-Service-Version"
               },
+              "X-RateLimit-Limit": {
+                "$ref": "#/components/headers/X-RateLimit-Limit"
+              },
+              "X-RateLimit-Remaining": {
+                "$ref": "#/components/headers/X-RateLimit-Remaining"
+              },
+              "X-RateLimit-Reset": {
+                "$ref": "#/components/headers/X-RateLimit-Reset"
+              },
               "X-RateLimit-Limit-Requests": {
                 "$ref": "#/components/headers/X-RateLimit-Limit-Requests"
               },
@@ -317,6 +506,24 @@
               },
               "X-Service-Version": {
                 "$ref": "#/components/headers/X-Service-Version"
+              },
+              "X-RateLimit-Limit": {
+                "$ref": "#/components/headers/X-RateLimit-Limit"
+              },
+              "X-RateLimit-Remaining": {
+                "$ref": "#/components/headers/X-RateLimit-Remaining"
+              },
+              "X-RateLimit-Reset": {
+                "$ref": "#/components/headers/X-RateLimit-Reset"
+              },
+              "X-RateLimit-Limit-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Limit-Requests"
+              },
+              "X-RateLimit-Remaining-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Remaining-Requests"
+              },
+              "X-RateLimit-Reset-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Reset-Requests"
               }
             }
           },
@@ -335,6 +542,24 @@
               },
               "X-Service-Version": {
                 "$ref": "#/components/headers/X-Service-Version"
+              },
+              "X-RateLimit-Limit": {
+                "$ref": "#/components/headers/X-RateLimit-Limit"
+              },
+              "X-RateLimit-Remaining": {
+                "$ref": "#/components/headers/X-RateLimit-Remaining"
+              },
+              "X-RateLimit-Reset": {
+                "$ref": "#/components/headers/X-RateLimit-Reset"
+              },
+              "X-RateLimit-Limit-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Limit-Requests"
+              },
+              "X-RateLimit-Remaining-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Remaining-Requests"
+              },
+              "X-RateLimit-Reset-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Reset-Requests"
               }
             }
           },
@@ -353,6 +578,24 @@
               },
               "X-Service-Version": {
                 "$ref": "#/components/headers/X-Service-Version"
+              },
+              "X-RateLimit-Limit": {
+                "$ref": "#/components/headers/X-RateLimit-Limit"
+              },
+              "X-RateLimit-Remaining": {
+                "$ref": "#/components/headers/X-RateLimit-Remaining"
+              },
+              "X-RateLimit-Reset": {
+                "$ref": "#/components/headers/X-RateLimit-Reset"
+              },
+              "X-RateLimit-Limit-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Limit-Requests"
+              },
+              "X-RateLimit-Remaining-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Remaining-Requests"
+              },
+              "X-RateLimit-Reset-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Reset-Requests"
               }
             }
           },
@@ -371,6 +614,24 @@
               },
               "X-Service-Version": {
                 "$ref": "#/components/headers/X-Service-Version"
+              },
+              "X-RateLimit-Limit": {
+                "$ref": "#/components/headers/X-RateLimit-Limit"
+              },
+              "X-RateLimit-Remaining": {
+                "$ref": "#/components/headers/X-RateLimit-Remaining"
+              },
+              "X-RateLimit-Reset": {
+                "$ref": "#/components/headers/X-RateLimit-Reset"
+              },
+              "X-RateLimit-Limit-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Limit-Requests"
+              },
+              "X-RateLimit-Remaining-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Remaining-Requests"
+              },
+              "X-RateLimit-Reset-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Reset-Requests"
               }
             }
           },
@@ -389,6 +650,24 @@
               },
               "X-Service-Version": {
                 "$ref": "#/components/headers/X-Service-Version"
+              },
+              "X-RateLimit-Limit": {
+                "$ref": "#/components/headers/X-RateLimit-Limit"
+              },
+              "X-RateLimit-Remaining": {
+                "$ref": "#/components/headers/X-RateLimit-Remaining"
+              },
+              "X-RateLimit-Reset": {
+                "$ref": "#/components/headers/X-RateLimit-Reset"
+              },
+              "X-RateLimit-Limit-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Limit-Requests"
+              },
+              "X-RateLimit-Remaining-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Remaining-Requests"
+              },
+              "X-RateLimit-Reset-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Reset-Requests"
               }
             }
           }
@@ -429,6 +708,15 @@
               "X-Service-Version": {
                 "$ref": "#/components/headers/X-Service-Version"
               },
+              "X-RateLimit-Limit": {
+                "$ref": "#/components/headers/X-RateLimit-Limit"
+              },
+              "X-RateLimit-Remaining": {
+                "$ref": "#/components/headers/X-RateLimit-Remaining"
+              },
+              "X-RateLimit-Reset": {
+                "$ref": "#/components/headers/X-RateLimit-Reset"
+              },
               "X-RateLimit-Limit-Requests": {
                 "$ref": "#/components/headers/X-RateLimit-Limit-Requests"
               },
@@ -455,6 +743,24 @@
               },
               "X-Service-Version": {
                 "$ref": "#/components/headers/X-Service-Version"
+              },
+              "X-RateLimit-Limit": {
+                "$ref": "#/components/headers/X-RateLimit-Limit"
+              },
+              "X-RateLimit-Remaining": {
+                "$ref": "#/components/headers/X-RateLimit-Remaining"
+              },
+              "X-RateLimit-Reset": {
+                "$ref": "#/components/headers/X-RateLimit-Reset"
+              },
+              "X-RateLimit-Limit-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Limit-Requests"
+              },
+              "X-RateLimit-Remaining-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Remaining-Requests"
+              },
+              "X-RateLimit-Reset-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Reset-Requests"
               }
             }
           },
@@ -473,6 +779,24 @@
               },
               "X-Service-Version": {
                 "$ref": "#/components/headers/X-Service-Version"
+              },
+              "X-RateLimit-Limit": {
+                "$ref": "#/components/headers/X-RateLimit-Limit"
+              },
+              "X-RateLimit-Remaining": {
+                "$ref": "#/components/headers/X-RateLimit-Remaining"
+              },
+              "X-RateLimit-Reset": {
+                "$ref": "#/components/headers/X-RateLimit-Reset"
+              },
+              "X-RateLimit-Limit-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Limit-Requests"
+              },
+              "X-RateLimit-Remaining-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Remaining-Requests"
+              },
+              "X-RateLimit-Reset-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Reset-Requests"
               }
             }
           },
@@ -491,6 +815,24 @@
               },
               "X-Service-Version": {
                 "$ref": "#/components/headers/X-Service-Version"
+              },
+              "X-RateLimit-Limit": {
+                "$ref": "#/components/headers/X-RateLimit-Limit"
+              },
+              "X-RateLimit-Remaining": {
+                "$ref": "#/components/headers/X-RateLimit-Remaining"
+              },
+              "X-RateLimit-Reset": {
+                "$ref": "#/components/headers/X-RateLimit-Reset"
+              },
+              "X-RateLimit-Limit-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Limit-Requests"
+              },
+              "X-RateLimit-Remaining-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Remaining-Requests"
+              },
+              "X-RateLimit-Reset-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Reset-Requests"
               }
             }
           },
@@ -509,6 +851,24 @@
               },
               "X-Service-Version": {
                 "$ref": "#/components/headers/X-Service-Version"
+              },
+              "X-RateLimit-Limit": {
+                "$ref": "#/components/headers/X-RateLimit-Limit"
+              },
+              "X-RateLimit-Remaining": {
+                "$ref": "#/components/headers/X-RateLimit-Remaining"
+              },
+              "X-RateLimit-Reset": {
+                "$ref": "#/components/headers/X-RateLimit-Reset"
+              },
+              "X-RateLimit-Limit-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Limit-Requests"
+              },
+              "X-RateLimit-Remaining-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Remaining-Requests"
+              },
+              "X-RateLimit-Reset-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Reset-Requests"
               }
             }
           },
@@ -527,6 +887,24 @@
               },
               "X-Service-Version": {
                 "$ref": "#/components/headers/X-Service-Version"
+              },
+              "X-RateLimit-Limit": {
+                "$ref": "#/components/headers/X-RateLimit-Limit"
+              },
+              "X-RateLimit-Remaining": {
+                "$ref": "#/components/headers/X-RateLimit-Remaining"
+              },
+              "X-RateLimit-Reset": {
+                "$ref": "#/components/headers/X-RateLimit-Reset"
+              },
+              "X-RateLimit-Limit-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Limit-Requests"
+              },
+              "X-RateLimit-Remaining-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Remaining-Requests"
+              },
+              "X-RateLimit-Reset-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Reset-Requests"
               }
             }
           }
@@ -579,6 +957,15 @@
               "X-Service-Version": {
                 "$ref": "#/components/headers/X-Service-Version"
               },
+              "X-RateLimit-Limit": {
+                "$ref": "#/components/headers/X-RateLimit-Limit"
+              },
+              "X-RateLimit-Remaining": {
+                "$ref": "#/components/headers/X-RateLimit-Remaining"
+              },
+              "X-RateLimit-Reset": {
+                "$ref": "#/components/headers/X-RateLimit-Reset"
+              },
               "X-RateLimit-Limit-Requests": {
                 "$ref": "#/components/headers/X-RateLimit-Limit-Requests"
               },
@@ -605,6 +992,24 @@
               },
               "X-Service-Version": {
                 "$ref": "#/components/headers/X-Service-Version"
+              },
+              "X-RateLimit-Limit": {
+                "$ref": "#/components/headers/X-RateLimit-Limit"
+              },
+              "X-RateLimit-Remaining": {
+                "$ref": "#/components/headers/X-RateLimit-Remaining"
+              },
+              "X-RateLimit-Reset": {
+                "$ref": "#/components/headers/X-RateLimit-Reset"
+              },
+              "X-RateLimit-Limit-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Limit-Requests"
+              },
+              "X-RateLimit-Remaining-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Remaining-Requests"
+              },
+              "X-RateLimit-Reset-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Reset-Requests"
               }
             }
           },
@@ -623,6 +1028,24 @@
               },
               "X-Service-Version": {
                 "$ref": "#/components/headers/X-Service-Version"
+              },
+              "X-RateLimit-Limit": {
+                "$ref": "#/components/headers/X-RateLimit-Limit"
+              },
+              "X-RateLimit-Remaining": {
+                "$ref": "#/components/headers/X-RateLimit-Remaining"
+              },
+              "X-RateLimit-Reset": {
+                "$ref": "#/components/headers/X-RateLimit-Reset"
+              },
+              "X-RateLimit-Limit-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Limit-Requests"
+              },
+              "X-RateLimit-Remaining-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Remaining-Requests"
+              },
+              "X-RateLimit-Reset-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Reset-Requests"
               }
             }
           },
@@ -641,6 +1064,24 @@
               },
               "X-Service-Version": {
                 "$ref": "#/components/headers/X-Service-Version"
+              },
+              "X-RateLimit-Limit": {
+                "$ref": "#/components/headers/X-RateLimit-Limit"
+              },
+              "X-RateLimit-Remaining": {
+                "$ref": "#/components/headers/X-RateLimit-Remaining"
+              },
+              "X-RateLimit-Reset": {
+                "$ref": "#/components/headers/X-RateLimit-Reset"
+              },
+              "X-RateLimit-Limit-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Limit-Requests"
+              },
+              "X-RateLimit-Remaining-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Remaining-Requests"
+              },
+              "X-RateLimit-Reset-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Reset-Requests"
               }
             }
           },
@@ -659,6 +1100,24 @@
               },
               "X-Service-Version": {
                 "$ref": "#/components/headers/X-Service-Version"
+              },
+              "X-RateLimit-Limit": {
+                "$ref": "#/components/headers/X-RateLimit-Limit"
+              },
+              "X-RateLimit-Remaining": {
+                "$ref": "#/components/headers/X-RateLimit-Remaining"
+              },
+              "X-RateLimit-Reset": {
+                "$ref": "#/components/headers/X-RateLimit-Reset"
+              },
+              "X-RateLimit-Limit-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Limit-Requests"
+              },
+              "X-RateLimit-Remaining-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Remaining-Requests"
+              },
+              "X-RateLimit-Reset-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Reset-Requests"
               }
             }
           },
@@ -677,6 +1136,24 @@
               },
               "X-Service-Version": {
                 "$ref": "#/components/headers/X-Service-Version"
+              },
+              "X-RateLimit-Limit": {
+                "$ref": "#/components/headers/X-RateLimit-Limit"
+              },
+              "X-RateLimit-Remaining": {
+                "$ref": "#/components/headers/X-RateLimit-Remaining"
+              },
+              "X-RateLimit-Reset": {
+                "$ref": "#/components/headers/X-RateLimit-Reset"
+              },
+              "X-RateLimit-Limit-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Limit-Requests"
+              },
+              "X-RateLimit-Remaining-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Remaining-Requests"
+              },
+              "X-RateLimit-Reset-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Reset-Requests"
               }
             }
           }
@@ -729,6 +1206,15 @@
               "X-Service-Version": {
                 "$ref": "#/components/headers/X-Service-Version"
               },
+              "X-RateLimit-Limit": {
+                "$ref": "#/components/headers/X-RateLimit-Limit"
+              },
+              "X-RateLimit-Remaining": {
+                "$ref": "#/components/headers/X-RateLimit-Remaining"
+              },
+              "X-RateLimit-Reset": {
+                "$ref": "#/components/headers/X-RateLimit-Reset"
+              },
               "X-RateLimit-Limit-Requests": {
                 "$ref": "#/components/headers/X-RateLimit-Limit-Requests"
               },
@@ -755,6 +1241,24 @@
               },
               "X-Service-Version": {
                 "$ref": "#/components/headers/X-Service-Version"
+              },
+              "X-RateLimit-Limit": {
+                "$ref": "#/components/headers/X-RateLimit-Limit"
+              },
+              "X-RateLimit-Remaining": {
+                "$ref": "#/components/headers/X-RateLimit-Remaining"
+              },
+              "X-RateLimit-Reset": {
+                "$ref": "#/components/headers/X-RateLimit-Reset"
+              },
+              "X-RateLimit-Limit-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Limit-Requests"
+              },
+              "X-RateLimit-Remaining-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Remaining-Requests"
+              },
+              "X-RateLimit-Reset-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Reset-Requests"
               }
             }
           },
@@ -773,6 +1277,24 @@
               },
               "X-Service-Version": {
                 "$ref": "#/components/headers/X-Service-Version"
+              },
+              "X-RateLimit-Limit": {
+                "$ref": "#/components/headers/X-RateLimit-Limit"
+              },
+              "X-RateLimit-Remaining": {
+                "$ref": "#/components/headers/X-RateLimit-Remaining"
+              },
+              "X-RateLimit-Reset": {
+                "$ref": "#/components/headers/X-RateLimit-Reset"
+              },
+              "X-RateLimit-Limit-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Limit-Requests"
+              },
+              "X-RateLimit-Remaining-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Remaining-Requests"
+              },
+              "X-RateLimit-Reset-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Reset-Requests"
               }
             }
           },
@@ -791,6 +1313,24 @@
               },
               "X-Service-Version": {
                 "$ref": "#/components/headers/X-Service-Version"
+              },
+              "X-RateLimit-Limit": {
+                "$ref": "#/components/headers/X-RateLimit-Limit"
+              },
+              "X-RateLimit-Remaining": {
+                "$ref": "#/components/headers/X-RateLimit-Remaining"
+              },
+              "X-RateLimit-Reset": {
+                "$ref": "#/components/headers/X-RateLimit-Reset"
+              },
+              "X-RateLimit-Limit-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Limit-Requests"
+              },
+              "X-RateLimit-Remaining-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Remaining-Requests"
+              },
+              "X-RateLimit-Reset-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Reset-Requests"
               }
             }
           },
@@ -809,6 +1349,24 @@
               },
               "X-Service-Version": {
                 "$ref": "#/components/headers/X-Service-Version"
+              },
+              "X-RateLimit-Limit": {
+                "$ref": "#/components/headers/X-RateLimit-Limit"
+              },
+              "X-RateLimit-Remaining": {
+                "$ref": "#/components/headers/X-RateLimit-Remaining"
+              },
+              "X-RateLimit-Reset": {
+                "$ref": "#/components/headers/X-RateLimit-Reset"
+              },
+              "X-RateLimit-Limit-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Limit-Requests"
+              },
+              "X-RateLimit-Remaining-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Remaining-Requests"
+              },
+              "X-RateLimit-Reset-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Reset-Requests"
               }
             }
           },
@@ -827,6 +1385,24 @@
               },
               "X-Service-Version": {
                 "$ref": "#/components/headers/X-Service-Version"
+              },
+              "X-RateLimit-Limit": {
+                "$ref": "#/components/headers/X-RateLimit-Limit"
+              },
+              "X-RateLimit-Remaining": {
+                "$ref": "#/components/headers/X-RateLimit-Remaining"
+              },
+              "X-RateLimit-Reset": {
+                "$ref": "#/components/headers/X-RateLimit-Reset"
+              },
+              "X-RateLimit-Limit-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Limit-Requests"
+              },
+              "X-RateLimit-Remaining-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Remaining-Requests"
+              },
+              "X-RateLimit-Reset-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Reset-Requests"
               }
             }
           }
@@ -878,6 +1454,15 @@
               "X-Service-Version": {
                 "$ref": "#/components/headers/X-Service-Version"
               },
+              "X-RateLimit-Limit": {
+                "$ref": "#/components/headers/X-RateLimit-Limit"
+              },
+              "X-RateLimit-Remaining": {
+                "$ref": "#/components/headers/X-RateLimit-Remaining"
+              },
+              "X-RateLimit-Reset": {
+                "$ref": "#/components/headers/X-RateLimit-Reset"
+              },
               "X-RateLimit-Limit-Requests": {
                 "$ref": "#/components/headers/X-RateLimit-Limit-Requests"
               },
@@ -904,6 +1489,24 @@
               },
               "X-Service-Version": {
                 "$ref": "#/components/headers/X-Service-Version"
+              },
+              "X-RateLimit-Limit": {
+                "$ref": "#/components/headers/X-RateLimit-Limit"
+              },
+              "X-RateLimit-Remaining": {
+                "$ref": "#/components/headers/X-RateLimit-Remaining"
+              },
+              "X-RateLimit-Reset": {
+                "$ref": "#/components/headers/X-RateLimit-Reset"
+              },
+              "X-RateLimit-Limit-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Limit-Requests"
+              },
+              "X-RateLimit-Remaining-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Remaining-Requests"
+              },
+              "X-RateLimit-Reset-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Reset-Requests"
               }
             }
           },
@@ -922,6 +1525,24 @@
               },
               "X-Service-Version": {
                 "$ref": "#/components/headers/X-Service-Version"
+              },
+              "X-RateLimit-Limit": {
+                "$ref": "#/components/headers/X-RateLimit-Limit"
+              },
+              "X-RateLimit-Remaining": {
+                "$ref": "#/components/headers/X-RateLimit-Remaining"
+              },
+              "X-RateLimit-Reset": {
+                "$ref": "#/components/headers/X-RateLimit-Reset"
+              },
+              "X-RateLimit-Limit-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Limit-Requests"
+              },
+              "X-RateLimit-Remaining-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Remaining-Requests"
+              },
+              "X-RateLimit-Reset-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Reset-Requests"
               }
             }
           },
@@ -940,6 +1561,24 @@
               },
               "X-Service-Version": {
                 "$ref": "#/components/headers/X-Service-Version"
+              },
+              "X-RateLimit-Limit": {
+                "$ref": "#/components/headers/X-RateLimit-Limit"
+              },
+              "X-RateLimit-Remaining": {
+                "$ref": "#/components/headers/X-RateLimit-Remaining"
+              },
+              "X-RateLimit-Reset": {
+                "$ref": "#/components/headers/X-RateLimit-Reset"
+              },
+              "X-RateLimit-Limit-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Limit-Requests"
+              },
+              "X-RateLimit-Remaining-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Remaining-Requests"
+              },
+              "X-RateLimit-Reset-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Reset-Requests"
               }
             }
           },
@@ -958,6 +1597,24 @@
               },
               "X-Service-Version": {
                 "$ref": "#/components/headers/X-Service-Version"
+              },
+              "X-RateLimit-Limit": {
+                "$ref": "#/components/headers/X-RateLimit-Limit"
+              },
+              "X-RateLimit-Remaining": {
+                "$ref": "#/components/headers/X-RateLimit-Remaining"
+              },
+              "X-RateLimit-Reset": {
+                "$ref": "#/components/headers/X-RateLimit-Reset"
+              },
+              "X-RateLimit-Limit-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Limit-Requests"
+              },
+              "X-RateLimit-Remaining-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Remaining-Requests"
+              },
+              "X-RateLimit-Reset-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Reset-Requests"
               }
             }
           },
@@ -976,6 +1633,24 @@
               },
               "X-Service-Version": {
                 "$ref": "#/components/headers/X-Service-Version"
+              },
+              "X-RateLimit-Limit": {
+                "$ref": "#/components/headers/X-RateLimit-Limit"
+              },
+              "X-RateLimit-Remaining": {
+                "$ref": "#/components/headers/X-RateLimit-Remaining"
+              },
+              "X-RateLimit-Reset": {
+                "$ref": "#/components/headers/X-RateLimit-Reset"
+              },
+              "X-RateLimit-Limit-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Limit-Requests"
+              },
+              "X-RateLimit-Remaining-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Remaining-Requests"
+              },
+              "X-RateLimit-Reset-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Reset-Requests"
               }
             }
           }
@@ -1001,6 +1676,15 @@
               },
               "X-Service-Version": {
                 "$ref": "#/components/headers/X-Service-Version"
+              },
+              "X-RateLimit-Limit": {
+                "$ref": "#/components/headers/X-RateLimit-Limit"
+              },
+              "X-RateLimit-Remaining": {
+                "$ref": "#/components/headers/X-RateLimit-Remaining"
+              },
+              "X-RateLimit-Reset": {
+                "$ref": "#/components/headers/X-RateLimit-Reset"
               },
               "X-RateLimit-Limit-Requests": {
                 "$ref": "#/components/headers/X-RateLimit-Limit-Requests"
@@ -1036,6 +1720,15 @@
               "X-Service-Version": {
                 "$ref": "#/components/headers/X-Service-Version"
               },
+              "X-RateLimit-Limit": {
+                "$ref": "#/components/headers/X-RateLimit-Limit"
+              },
+              "X-RateLimit-Remaining": {
+                "$ref": "#/components/headers/X-RateLimit-Remaining"
+              },
+              "X-RateLimit-Reset": {
+                "$ref": "#/components/headers/X-RateLimit-Reset"
+              },
               "X-RateLimit-Limit-Requests": {
                 "$ref": "#/components/headers/X-RateLimit-Limit-Requests"
               },
@@ -1069,6 +1762,15 @@
               },
               "X-Service-Version": {
                 "$ref": "#/components/headers/X-Service-Version"
+              },
+              "X-RateLimit-Limit": {
+                "$ref": "#/components/headers/X-RateLimit-Limit"
+              },
+              "X-RateLimit-Remaining": {
+                "$ref": "#/components/headers/X-RateLimit-Remaining"
+              },
+              "X-RateLimit-Reset": {
+                "$ref": "#/components/headers/X-RateLimit-Reset"
               },
               "X-RateLimit-Limit-Requests": {
                 "$ref": "#/components/headers/X-RateLimit-Limit-Requests"
@@ -1131,6 +1833,15 @@
               "X-Service-Version": {
                 "$ref": "#/components/headers/X-Service-Version"
               },
+              "X-RateLimit-Limit": {
+                "$ref": "#/components/headers/X-RateLimit-Limit"
+              },
+              "X-RateLimit-Remaining": {
+                "$ref": "#/components/headers/X-RateLimit-Remaining"
+              },
+              "X-RateLimit-Reset": {
+                "$ref": "#/components/headers/X-RateLimit-Reset"
+              },
               "X-RateLimit-Limit-Requests": {
                 "$ref": "#/components/headers/X-RateLimit-Limit-Requests"
               },
@@ -1157,6 +1868,24 @@
               },
               "X-Service-Version": {
                 "$ref": "#/components/headers/X-Service-Version"
+              },
+              "X-RateLimit-Limit": {
+                "$ref": "#/components/headers/X-RateLimit-Limit"
+              },
+              "X-RateLimit-Remaining": {
+                "$ref": "#/components/headers/X-RateLimit-Remaining"
+              },
+              "X-RateLimit-Reset": {
+                "$ref": "#/components/headers/X-RateLimit-Reset"
+              },
+              "X-RateLimit-Limit-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Limit-Requests"
+              },
+              "X-RateLimit-Remaining-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Remaining-Requests"
+              },
+              "X-RateLimit-Reset-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Reset-Requests"
               }
             }
           }
@@ -1210,6 +1939,15 @@
               "X-Service-Version": {
                 "$ref": "#/components/headers/X-Service-Version"
               },
+              "X-RateLimit-Limit": {
+                "$ref": "#/components/headers/X-RateLimit-Limit"
+              },
+              "X-RateLimit-Remaining": {
+                "$ref": "#/components/headers/X-RateLimit-Remaining"
+              },
+              "X-RateLimit-Reset": {
+                "$ref": "#/components/headers/X-RateLimit-Reset"
+              },
               "X-RateLimit-Limit-Requests": {
                 "$ref": "#/components/headers/X-RateLimit-Limit-Requests"
               },
@@ -1236,6 +1974,24 @@
               },
               "X-Service-Version": {
                 "$ref": "#/components/headers/X-Service-Version"
+              },
+              "X-RateLimit-Limit": {
+                "$ref": "#/components/headers/X-RateLimit-Limit"
+              },
+              "X-RateLimit-Remaining": {
+                "$ref": "#/components/headers/X-RateLimit-Remaining"
+              },
+              "X-RateLimit-Reset": {
+                "$ref": "#/components/headers/X-RateLimit-Reset"
+              },
+              "X-RateLimit-Limit-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Limit-Requests"
+              },
+              "X-RateLimit-Remaining-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Remaining-Requests"
+              },
+              "X-RateLimit-Reset-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Reset-Requests"
               }
             }
           }
@@ -1289,6 +2045,15 @@
               "X-Service-Version": {
                 "$ref": "#/components/headers/X-Service-Version"
               },
+              "X-RateLimit-Limit": {
+                "$ref": "#/components/headers/X-RateLimit-Limit"
+              },
+              "X-RateLimit-Remaining": {
+                "$ref": "#/components/headers/X-RateLimit-Remaining"
+              },
+              "X-RateLimit-Reset": {
+                "$ref": "#/components/headers/X-RateLimit-Reset"
+              },
               "X-RateLimit-Limit-Requests": {
                 "$ref": "#/components/headers/X-RateLimit-Limit-Requests"
               },
@@ -1315,6 +2080,24 @@
               },
               "X-Service-Version": {
                 "$ref": "#/components/headers/X-Service-Version"
+              },
+              "X-RateLimit-Limit": {
+                "$ref": "#/components/headers/X-RateLimit-Limit"
+              },
+              "X-RateLimit-Remaining": {
+                "$ref": "#/components/headers/X-RateLimit-Remaining"
+              },
+              "X-RateLimit-Reset": {
+                "$ref": "#/components/headers/X-RateLimit-Reset"
+              },
+              "X-RateLimit-Limit-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Limit-Requests"
+              },
+              "X-RateLimit-Remaining-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Remaining-Requests"
+              },
+              "X-RateLimit-Reset-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Reset-Requests"
               }
             }
           }
@@ -1368,6 +2151,15 @@
               "X-Service-Version": {
                 "$ref": "#/components/headers/X-Service-Version"
               },
+              "X-RateLimit-Limit": {
+                "$ref": "#/components/headers/X-RateLimit-Limit"
+              },
+              "X-RateLimit-Remaining": {
+                "$ref": "#/components/headers/X-RateLimit-Remaining"
+              },
+              "X-RateLimit-Reset": {
+                "$ref": "#/components/headers/X-RateLimit-Reset"
+              },
               "X-RateLimit-Limit-Requests": {
                 "$ref": "#/components/headers/X-RateLimit-Limit-Requests"
               },
@@ -1394,6 +2186,24 @@
               },
               "X-Service-Version": {
                 "$ref": "#/components/headers/X-Service-Version"
+              },
+              "X-RateLimit-Limit": {
+                "$ref": "#/components/headers/X-RateLimit-Limit"
+              },
+              "X-RateLimit-Remaining": {
+                "$ref": "#/components/headers/X-RateLimit-Remaining"
+              },
+              "X-RateLimit-Reset": {
+                "$ref": "#/components/headers/X-RateLimit-Reset"
+              },
+              "X-RateLimit-Limit-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Limit-Requests"
+              },
+              "X-RateLimit-Remaining-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Remaining-Requests"
+              },
+              "X-RateLimit-Reset-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Reset-Requests"
               }
             }
           }
@@ -1897,22 +2707,44 @@
         },
         "example": "a3f2d1c"
       },
+      "X-RateLimit-Limit": {
+        "description": "Max requests allowed in the current window",
+        "schema": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "X-RateLimit-Remaining": {
+        "description": "Requests remaining in the current window",
+        "schema": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "X-RateLimit-Reset": {
+        "description": "Epoch seconds until the current window resets",
+        "schema": {
+          "type": "integer",
+          "format": "int64",
+          "minimum": 0
+        }
+      },
       "X-RateLimit-Limit-Requests": {
-        "description": "Maximum requests allowed in the current window",
+        "description": "Maximum requests allowed in the current window (legacy)",
         "schema": {
           "type": "integer",
           "minimum": 1
         }
       },
       "X-RateLimit-Remaining-Requests": {
-        "description": "Remaining requests in the current window",
+        "description": "Remaining requests in the current window (legacy)",
         "schema": {
           "type": "integer",
           "minimum": 0
         }
       },
       "X-RateLimit-Reset-Requests": {
-        "description": "Seconds until the rate limit window resets",
+        "description": "Seconds until the rate limit window resets (legacy)",
         "schema": {
           "type": "string"
         },
