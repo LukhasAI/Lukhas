@@ -347,3 +347,9 @@ lukhas_optimization_prompt.md
 
 # OpenAPI artifacts (generated)
 docs/openapi/*.json
+
+# Local collaboration locks
+.dev/locks/*.lock
+
+# Local worktrees and sandboxes
+/Lukhas-cc-*/
