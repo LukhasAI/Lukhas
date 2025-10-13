@@ -27,11 +27,30 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse, PlainTextResponse
 from starlette.exceptions import HTTPException as StarletteHTTPException
 
-from lukhas.adapters.openai.auth import TokenClaims, require_bearer
+from lukhas.adapters.openai.auth import TokenClaims, require_bearer, require_scope
 from lukhas.core.reliability.ratelimit import RateLimiter, rate_limit_error
 from lukhas.observability.tracing import get_trace_id_hex, setup_otel, traced_operation
 
 logger = logging.getLogger(__name__)
+
+# Import Guardian PDP and metrics (graceful fallback)
+try:
+    from lukhas.adapters.openai.policy_pdp import PDP
+    from lukhas.adapters.openai.policy_models import Context, Decision
+    GUARDIAN_AVAILABLE = True
+except ImportError:
+    logger.warning("Guardian PDP not available, policy enforcement will be permissive")
+    GUARDIAN_AVAILABLE = False
+    PDP = None  # type: ignore
+    Context = None  # type: ignore
+    Decision = None  # type: ignore
+
+try:
+    from lukhas.observability.guardian_metrics import record_decision
+    GUARDIAN_METRICS_AVAILABLE = True
+except ImportError:
+    GUARDIAN_METRICS_AVAILABLE = False
+    def record_decision(*args, **kwargs): pass
 
 # Global metrics storage (thread-safe)
 _metrics_lock = Lock()
@@ -151,11 +170,29 @@ def get_app() -> FastAPI:
             message = "Rate limit exceeded"
         else:
             message = detail_str or "HTTP error"
-        return JSONResponse(
+
+        # Build response with trace headers
+        resp = JSONResponse(
             _payload(code, message),
             status_code=exc.status_code,
             headers=_trace_headers(request),
         )
+
+        # Best-effort RL headers on error responses
+        try:
+            principal = request.headers.get("authorization", "")
+            win = getattr(rate_limiter, "current_window", lambda *_: None)(request.url.path, principal)
+            if isinstance(win, dict):
+                if "limit" in win:
+                    resp.headers["X-RateLimit-Limit"] = str(win["limit"])
+                if "remaining" in win:
+                    resp.headers["X-RateLimit-Remaining"] = str(win["remaining"])
+                if "reset_in" in win:
+                    resp.headers["X-RateLimit-Reset"] = str(win["reset_in"])
+        except Exception:
+            pass
+
+        return resp
 
     async def _generic_exc_handler(request: Request, exc: Exception):
         # Optionally log with your structured logger here.
@@ -169,6 +206,68 @@ def get_app() -> FastAPI:
     app.add_exception_handler(StarletteHTTPException, _http_exc_handler)
     app.add_exception_handler(Exception, _generic_exc_handler)
     # ---------- /OpenAI-style error envelope normalizer ----------
+
+    # ---------- Guardian policy enforcement dependency ----------
+    def enforce_policy(scope: str):
+        """
+        FastAPI dependency that enforces Guardian policy decisions.
+
+        Args:
+            scope: Required scope (e.g., "models:read", "embeddings:read")
+
+        Returns:
+            Validated TokenClaims if policy allows
+
+        Raises:
+            HTTPException: 403 if policy denies access
+        """
+        async def _dep(request: Request, claims: TokenClaims = Depends(require_bearer)):
+            # Skip enforcement if Guardian not available or in permissive mode
+            if not GUARDIAN_AVAILABLE or not app.state.pdp:
+                return claims
+
+            # Build policy context matching policy_models.Context signature
+            from datetime import datetime
+            ctx = Context(
+                tenant_id=getattr(claims, "org_id", "default"),
+                user_id=getattr(claims, "user_id", None),
+                roles=set(),  # TODO: extract roles from claims
+                scopes=set(getattr(claims, "scopes", [])),
+                action=scope,  # Use scope as action (e.g., "models:read")
+                resource=request.url.path,
+                model=None,  # Could extract from request body if needed
+                ip=request.client.host if request.client else "unknown",
+                time_utc=datetime.utcnow(),
+                data_classification="internal",  # Default classification
+                policy_etag=app.state.pdp.policy.etag if app.state.pdp else "unknown",
+                trace_id=getattr(getattr(request, "state", object()), "trace_id", "unknown"),
+            )
+
+            # Evaluate policy
+            start_time = time.time()
+            decision: Decision = app.state.pdp.decide(ctx)
+            latency_ms = (time.time() - start_time) * 1000
+
+            # Record metrics
+            if GUARDIAN_METRICS_AVAILABLE:
+                record_decision(
+                    scope=scope,
+                    allow=decision.allow,
+                    reason=decision.reason,
+                    route=request.url.path,
+                    latency_ms=latency_ms,
+                )
+
+            # Enforce decision
+            if not decision.allow:
+                raise HTTPException(
+                    status_code=403,
+                    detail=decision.reason or "Forbidden by policy"
+                )
+
+            return claims
+        return _dep
+    # ---------- /Guardian policy enforcement ----------
 
     # Phase 3: Add security and observability middlewares
     try:
@@ -201,6 +300,24 @@ def get_app() -> FastAPI:
     rate_limiter.configure_endpoint("/v1/responses", rps=20)
     rate_limiter.configure_endpoint("/v1/embeddings", rps=50)
     rate_limiter.configure_endpoint("/v1/dreams", rps=5)
+
+    # Initialize Guardian PDP
+    if GUARDIAN_AVAILABLE:
+        try:
+            from lukhas.adapters.openai.policy_pdp import PolicyLoader
+            policy_path = os.getenv("LUKHAS_POLICY_PATH", "configs/policy/guardian_policies.yaml")
+            if os.path.exists(policy_path):
+                policy = PolicyLoader.load_from_file(policy_path)
+                app.state.pdp = PDP(policy)
+                logger.info(f"Guardian PDP initialized with policy etag={policy.etag[:8]}")
+            else:
+                logger.info(f"Guardian policy not found at {policy_path}, PDP not initialized")
+                app.state.pdp = None
+        except Exception as e:
+            logger.warning(f"Failed to initialize Guardian PDP: {e}")
+            app.state.pdp = None
+    else:
+        app.state.pdp = None
 
     # OpenTelemetry tracing middleware (outermost layer)
     @app.middleware("http")
@@ -416,9 +533,24 @@ def get_app() -> FastAPI:
                 checks["guardian_pdp"] = {
                     "available": True,
                     "decisions": pdp_stats.get("total_decisions", 0),
+                    "denials": pdp_stats.get("denials", 0),
+                    "policy_etag": pdp_stats.get("policy_etag", "unknown")[:8],
                 }
             except Exception:
                 checks["guardian_pdp"] = {"available": False}
+
+        # Rate limiter check (optional)
+        if rate_limiter is not None:
+            try:
+                rl_stats = rate_limiter.get_stats()
+                checks["rate_limiter"] = {
+                    "available": True,
+                    "backend": rl_stats.get("backend", "in-memory"),
+                    "keys_tracked": rl_stats.get("keys_tracked", 0),
+                    "rate_limited": rl_stats.get("rate_limited", 0),
+                }
+            except Exception:
+                checks["rate_limiter"] = {"available": False}
 
         # Redis backend check (optional)
         if redis_backend is not None:
@@ -517,7 +649,10 @@ def get_app() -> FastAPI:
         return PlainTextResponse(_metrics_text(), media_type="text/plain; version=0.0.4")
 
     @app.get("/v1/models")
-    def models(claims: TokenClaims = Depends(require_bearer)):
+    def models(
+        _auth: TokenClaims = Depends(require_bearer),
+        _pol: TokenClaims = Depends(enforce_policy("models:read")),
+    ):
         """List available models."""
         return {
             "data": [
@@ -532,7 +667,12 @@ def get_app() -> FastAPI:
         }
 
     @app.post("/v1/embeddings")
-    async def embeddings(request: Request, claims: TokenClaims = Depends(require_bearer)):
+    async def embeddings(
+        request: Request,
+        _auth: TokenClaims = Depends(require_bearer),
+        _scp: TokenClaims = Depends(require_scope("embeddings:read")),
+        _pol: TokenClaims = Depends(enforce_policy("embeddings:read")),
+    ):
         """Generate embeddings for text input."""
         # Phase 3: Check for idempotency key
         idem_key = request.headers.get("Idempotency-Key")
@@ -601,10 +741,31 @@ def get_app() -> FastAPI:
             except Exception as e:
                 logger.warning(f"Idempotency caching failed: {e}")
 
-        return result_dict
+        # Build response with RL headers on success path
+        resp = JSONResponse(status_code=200, content=result_dict)
+        try:
+            win = getattr(rate_limiter, "current_window", lambda *_: None)(
+                request.url.path, request.headers.get("authorization", "")
+            )
+            if isinstance(win, dict):
+                if "limit" in win:
+                    resp.headers["X-RateLimit-Limit"] = str(win.get("limit", ""))
+                if "remaining" in win:
+                    resp.headers["X-RateLimit-Remaining"] = str(win.get("remaining", ""))
+                if "reset_in" in win:
+                    resp.headers["X-RateLimit-Reset"] = str(win.get("reset_in", ""))
+        except Exception:
+            pass
+
+        return resp
 
     @app.post("/v1/responses")
-    async def responses(request: Request, claims: TokenClaims = Depends(require_bearer)):
+    async def responses(
+        request: Request,
+        _auth: TokenClaims = Depends(require_bearer),
+        _scp: TokenClaims = Depends(require_scope("responses:write")),
+        _pol: TokenClaims = Depends(enforce_policy("responses:write")),
+    ):
         """Generate AI responses using MATRIZ orchestrator."""
         payload = await request.json()
         user_input = str(payload.get("input", ""))
@@ -736,7 +897,12 @@ def get_app() -> FastAPI:
         return result_json
 
     @app.post("/v1/dreams")
-    async def dreams(request: Request, claims: TokenClaims = Depends(require_bearer)):
+    async def dreams(
+        request: Request,
+        _auth: TokenClaims = Depends(require_bearer),
+        _scp: TokenClaims = Depends(require_scope("dreams:read")),
+        _pol: TokenClaims = Depends(enforce_policy("dreams:read")),
+    ):
         """Generate dream scenarios (consciousness exploration)."""
         payload = await request.json()
         seed = payload.get("seed", "dream")

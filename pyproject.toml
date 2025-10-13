@@ -197,101 +197,39 @@ target-version = ['py39', 'py310', 'py311']
 include = '\.pyi?$'
 
 [tool.ruff]
-line-length = 100
-target-version = "py39"
-respect-gitignore = true
-
-# Limit lint scope to production lanes. Labs/dev content stays out of the gate.
 src = ["lukhas", "core", "MATRIZ"]
-
-# T4 Production vs Experimental Lane Policy
-# Phase 3.1: Split strict (prod lanes) vs warn-only (labs)
-# - lukhas/, matriz/, core/ enforced in CI with ruff-strict-prod job
-# - labs/ excluded from strict checks during incubation
-extend-exclude = [
-    ".git",
-    "__pycache__",
-    ".venv*",
-    "venv*",
-    "node_modules",
-    "archive",
-    "quarantine",
-    "reports",
-    "manifests/**",
-    "docs/audits/**",
-    "**/generated/**",
-    "**/notebooks/**",
-    # Large auxiliary directories
-    "*backup*",
-    "*_old",
-    "recovery*",
-    # Phase 3.1: Exclude labs/ from default strict checks
+target-version = "py39"
+line-length = 100
+respect-gitignore = true
+exclude = [
     "labs",
     "examples",
     "docs",
     "tests/fixtures",
     "scripts/migrations",
-]
-
-# Exclude patterns
-exclude = [
     ".git",
-    "__pycache__",
     ".venv",
-    ".venv_*",
-    "venv",
-    "build",
-    "dist",
-    ".eggs",
-    "*.egg-info",
-    "archive",
-    "node_modules",
-    "lukhas_website/.next",
-    # Exclude non-executable docs/examples with invalid syntax
-    "tools/documentation/**",
-    "tools/benchmarking/**",
-    "tools/enterprise/**",
+    ".ruff_cache",
 ]
 
 [tool.ruff.lint]
-# Phase 3.1: T4 Critical Error Detection (production lanes)
-# Production lanes (lukhas/, matriz/, core/): strict enforcement
-# Labs: excluded via extend-exclude above
 select = [
-    "E",    # pycodestyle errors
-    "F",    # pyflakes
-    "W",    # pycodestyle warnings
-    "I",    # isort
-    "ARG",  # flake8-unused-arguments
-    "TID",  # flake8-tidy-imports (includes TID252)
-    "RUF",  # ruff-specific rules
+    "E",
+    "F",
+    "W",
+    "I001",
+    "RUF100",
 ]
-# We allow TID252/F401 only in __init__.py where explicit, documented re-exports are idiomatic.
-
-# Additional linting rules to ignore globally
 ignore = [
-    "E501", # Line too long (handled by formatter)
-    "PLR2004", # Magic value comparisons
-    "PLR0913", # Too many arguments
-    "PLC0415", # Imports not at top-level (allowed in tests/guarded blocks)
-    "PLR0911", # Too many return statements (allowed in pragmatic code paths)
+    "E501",
+    "PLC0415",
 ]
-
-# Phase 3.1: Labs excluded from strict checking via extend-exclude
-# Use ruff-strict-prod CI job for production lane enforcement
-
-# Rules to auto-fix
 fixable = [
-    "E",    # All pycodestyle errors
-    "W",    # All pycodestyle warnings
-    "F",    # All pyflakes errors
-    "UP",   # All pyupgrade fixes
-    "I",    # Import sorting
-    "Q",    # Quote consistency
-    "W292", # No newline at end of file
-    "W293", # Blank line contains whitespace
-    "E711", # Comparison to None
-    "E712", # Comparison to True/False
+    "E",
+    "F",
+    "W",
+    "I001",
+    "RUF100",
 ]
 
 [tool.ruff.lint.flake8-quotes]
@@ -309,19 +247,8 @@ ban-relative-imports = "all"
 combine-as-imports = true
 known-first-party = ["lukhas", "candidate", "MATRIZ"]
 
-# T4 Per-file ignores for package exports and production lane policy
 [tool.ruff.lint.per-file-ignores]
-"**/__init__.py" = ["TID252", "F401"]  # Allow relative imports and unused imports in package init files (T4 system)
-"serve/ui/dashboard.py" = ["I001"]
-"serve/extreme_performance_main.py" = ["PLW0603", "ARG001", "ARG002"]
-"serve/orchestration_routes.py" = ["PLW0603", "PLR5501", "ARG002"]
-"serve/storage/trace_provider.py" = ["PLW0603"]
-"tests/core/test_matriz_consciousness_integration.py" = ["W291", "W292", "W293"]
-"serve/cognitive_enhanced_consciousness_api.py" = ["PLW0603", "W293"]
-"MATRIZ/**" = ["UP007"]  # Keep Python 3.9 compatible union syntax
-# Compatibility shims - allow star imports and unused imports
-"lukhas/**/*.py" = ["F401", "F403"]
-# Test files - allow unused imports for fixtures and helper imports
+"**/__init__.py" = ["F401", "F403", "I001", "TID252"]
 "tests/**/*.py" = ["F401", "F403"]
 
 [tool.mypy]

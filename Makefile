@@ -1489,6 +1489,10 @@ assert not errors, f"OpenAPI schema errors: {errors[:5]}"
 print("✅ OpenAPI validation passed")
 PY
 
+openapi-headers-guard: openapi-spec ## Verify X-RateLimit-* headers present on all 2xx/4xx/5xx responses
+	@echo "🛡️  Checking OpenAPI spec for required X-RateLimit-* headers..."
+	@python3 scripts/check_openapi_headers.py
+
 openapi-diff: openapi-spec ## Diff OpenAPI spec against main branch (requires git worktree)
 	@echo "🔍 Comparing OpenAPI spec against main..."
 	@if [ ! -d "main_ref" ]; then \
@@ -1562,3 +1566,23 @@ health-audit-ci: ## Run health audit in CI mode (non-failing)
 
 .PHONY: health
 health: health-audit ## Alias for health-audit
+
+# ============================================================================
+# Redis Helpers (Phase 3: Guardian + Rate Limiting)
+# ============================================================================
+
+.PHONY: redis-up
+redis-up: ## Start local Redis container for distributed rate limiting
+	@echo "Starting Redis container..."
+	@docker run --rm -d --name lukhas-redis -p 6379:6379 redis:7
+	@echo "✅ Redis running on localhost:6379"
+
+.PHONY: redis-down
+redis-down: ## Stop local Redis container
+	@echo "Stopping Redis container..."
+	@-docker rm -f lukhas-redis 2>/dev/null || true
+	@echo "✅ Redis stopped"
+
+.PHONY: redis-check
+redis-check: ## Check Redis connectivity
+	@docker exec lukhas-redis redis-cli ping 2>/dev/null && echo "✅ Redis is reachable" || echo "❌ Redis not running (use 'make redis-up')"
