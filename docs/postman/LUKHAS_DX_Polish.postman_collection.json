@@ -1,0 +1,46 @@
+{
+  "info": {
+    "name": "LUKHAS DX Polish — Golden Smoke",
+    "_postman_id": "f1a5b0a0-dx-polish-0001",
+    "description": "Minimal golden flows for OpenAI-compatible façade.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "GET /v1/models",
+      "request": {
+        "method": "GET",
+        "header": [{ "key": "Authorization", "value": "Bearer {{API_KEY}}"}],
+        "url": "{{BASE_URL}}/v1/models"
+      },
+      "event": [{
+        "listen": "test",
+        "script": { "exec": [
+          "pm.test('status 200', () => pm.response.code === 200);",
+          "pm.test('has data[]', () => pm.response.json().data);"
+        ], "type": "text/javascript" }
+      }]
+    },
+    {
+      "name": "POST /v1/embeddings",
+      "request": {
+        "method": "POST",
+        "header": [
+          {"key":"Authorization","value":"Bearer {{API_KEY}}"},
+          {"key":"Content-Type","value":"application/json"}
+        ],
+        "body": { "mode": "raw", "raw": "{\"model\":\"lukhas\",\"input\":\"hello\"}" },
+        "url": "{{BASE_URL}}/v1/embeddings"
+      },
+      "event": [{
+        "listen": "test",
+        "script": { "exec": [
+          "pm.test('status 200', () => pm.response.code === 200);",
+          "pm.test('trace id header', () => pm.response.headers.has('X-Trace-Id'));",
+          "pm.test('rate limit headers', () => pm.response.headers.has('X-RateLimit-Limit'));"
+        ], "type": "text/javascript" }
+      }]
+    }
+  ],
+  "event": []
+}

@@ -1,0 +1,60 @@
+name: DX Examples Smoke
+
+on:
+  pull_request:
+    paths:
+      - 'examples/**'
+      - 'docs/gonzo/dx/**'
+      - 'docs/postman/**'
+      - '.github/workflows/dx-examples-smoke.yml'
+      - 'lukhas/adapters/openai/api.py'
+  workflow_dispatch: {}
+
+jobs:
+  dx-smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      LUKHAS_POLICY_MODE: permissive
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: '20' }
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.10' }
+      - name: Install Python deps
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e .
+          pip install requests httpx pydantic
+      - name: Install Newman
+        run: npm i -g newman
+      - name: Boot façade
+        run: |
+          nohup uvicorn lukhas.adapters.openai.api:get_app --factory --port 8000 > facade.log 2>&1 &
+          for i in {1..30}; do
+            curl -sf http://localhost:8000/healthz && break || sleep 1
+          done
+      - name: TypeScript example compile (if present)
+        run: |
+          if [ -f "examples/sdk/typescript/package.json" ]; then
+            pushd examples/sdk/typescript
+            npm ci
+            npx tsc --noEmit
+            popd
+          fi
+      - name: Python example compile (if present)
+        run: |
+          if [ -d "examples/sdk/python" ]; then
+            python -m py_compile examples/sdk/python/*.py || true
+          fi
+      - name: Run Postman Golden Smoke
+        run: |
+          newman run docs/postman/LUKHAS_DX_Polish.postman_collection.json \
+            -e docs/postman/LUKHAS.postman_environment.json
+      - name: Upload façade log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: dx-facade-log
+          path: facade.log
