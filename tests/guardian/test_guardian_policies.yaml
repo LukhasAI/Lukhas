@@ -1,0 +1,71 @@
+version: 1
+tenant_id: acme
+combining_algorithm: deny_overrides
+rules:
+  # R-001: Allow dream creation for users with the right scope
+  - id: R-001-AllowDreamCreate
+    effect: Allow
+    subjects:
+      any:
+        - scopes_any: ["dreams:write"]
+    actions: ["dreams.create"]
+    resources: ["/v1/dreams"]
+    conditions: {}
+    obligations: []
+
+  # R-002: Deny dream creation if the model is restricted
+  - id: R-002-DenyRestrictedModel
+    effect: Deny
+    subjects:
+      any: [{}] # Applies to all subjects
+    actions: ["dreams.create"]
+    resources: ["/v1/dreams"]
+    conditions:
+      model_in: ["model-restricted"]
+    obligations: []
+
+  # R-003: Deny access to other tenants' data
+  - id: R-003-DenyCrossTenant
+    effect: Deny
+    subjects:
+      any: [{}]
+    actions: ["*"]
+    resources: ["tenants/*"]
+    conditions:
+      tenant_must_match: true
+    obligations: []
+
+  # R-004: Allow reading indexes with wildcards
+  - id: R-004-AllowIndexReadWildcard
+    effect: Allow
+    subjects:
+      any:
+        - scopes_any: ["indexes:read"]
+    actions: ["indexes.read"]
+    resources: ["indexes/*"]
+    conditions: {}
+    obligations: []
+
+  # R-005: Allow access only during specific times
+  - id: R-005-AllowTimeWindow
+    effect: Allow
+    subjects:
+      any:
+        - scopes_any: ["time:access"]
+    actions: ["time.check"]
+    resources: ["/v1/time"]
+    conditions:
+      time_after: "09:00Z"
+      time_before: "17:00Z"
+    obligations: []
+
+  # R-006: Deny access from a specific IP range
+  - id: R-006-DenyIpRange
+    effect: Deny
+    subjects:
+      any: [{}]
+    actions: ["*"]
+    resources: ["*"]
+    conditions:
+      ip_cidr_any: ["192.168.1.0/24"]
+    obligations: []
