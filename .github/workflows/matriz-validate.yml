@@ -110,6 +110,23 @@ jobs:
             docs/audits/bandit.sarif
           if-no-files-found: ignore
 
+      - name: Generate health artifacts (GA Guard Pack)
+        continue-on-error: true
+        run: |
+          export LUKHAS_POLICY_MODE=permissive
+          python3 scripts/system_health_audit.py || true
+
+      - name: Upload health artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: health-report
+          path: |
+            docs/audits/health/latest.json
+            docs/audits/health/latest.md
+          if-no-files-found: ignore
+          retention-days: 60
+
       - name: Tripwire — T1 must have testing.test_paths (may be empty)
         run: |
           python - <<'PY'
