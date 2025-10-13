@@ -75,13 +75,13 @@ class AutonomousInnovationOrchestrator(CoreInterface):
 
         # Initialize sub-components
         from .breakthrough_synthesis_engine import (
-            BreakthroughSynthesisEngine,  # noqa: TID252 TODO: convert to absolute import
+            BreakthroughSynthesisEngine,  # TODO: convert to absolute import
         )
         from .innovation_prioritization_engine import (
-            InnovationPrioritizationEngine,  # noqa: TID252 TODO: convert to absolute import
+            InnovationPrioritizationEngine,  # TODO: convert to absolute import
         )
         from .resource_allocation_optimizer import (
-            ResourceAllocationOptimizer,  # noqa: TID252 TODO: convert to absolute import
+            ResourceAllocationOptimizer,  # TODO: convert to absolute import
         )
 
         self.resource_allocation_optimizer = ResourceAllocationOptimizer()

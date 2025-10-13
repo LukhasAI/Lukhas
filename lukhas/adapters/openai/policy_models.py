@@ -1,9 +1,9 @@
-from dataclasses import dataclass, field
-from functools import lru_cache
 import ipaddress
 import re
+from dataclasses import dataclass, field
 from datetime import datetime, time
-from typing import List, Dict, Any, Set, Optional
+from functools import lru_cache
+from typing import Any, Dict, List, Optional, Set
 
 # Order for data classification levels
 CLASS_ORDER = {"public": 0, "internal": 1, "restricted": 2, "secret": 3}

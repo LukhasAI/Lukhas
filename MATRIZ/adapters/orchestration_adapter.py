@@ -27,7 +27,7 @@ class OrchestrationAdapter(MatrizNode):
 
 # Added for test compatibility (matriz.adapters.orchestration_adapter.UorchestrationAdapter)
 try:
-    from candidate.matriz.adapters.orchestration_adapter import UorchestrationAdapter  # noqa: F401
+    from candidate.matriz.adapters.orchestration_adapter import UorchestrationAdapter
 except ImportError:
     class UorchestrationAdapter:
         """Stub for UorchestrationAdapter."""

@@ -27,7 +27,7 @@ class IdentityAdapter(MatrizNode):
 
 # Added for test compatibility (matriz.adapters.identity_adapter.UidentityAdapter)
 try:
-    from candidate.matriz.adapters.identity_adapter import UidentityAdapter  # noqa: F401
+    from candidate.matriz.adapters.identity_adapter import UidentityAdapter
 except ImportError:
     class UidentityAdapter:
         """Stub for UidentityAdapter."""

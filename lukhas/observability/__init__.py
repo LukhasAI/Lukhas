@@ -12,7 +12,7 @@ _bridge_all, _exports = bridge_from_candidates(*_CANDIDATES); globals().update(_
 
 # Ensure OTEL surfaces exist even when opentelemetry is not installed.
 try:
-    from .otel_compat import (  # re-export for importers  # noqa: TID252 (relative imports in __init__.py are idiomatic)
+    from .otel_compat import (  # re-export for importers  # (relative imports in __init__.py are idiomatic)
         metrics,
         trace,
     )
@@ -21,7 +21,7 @@ except Exception:  # pragma: no cover
 
 # Prometheus centralized registry & duplicate-tolerant factories
 try:
-    from .prometheus_registry import (  # noqa: TID252 (relative imports in __init__.py are idiomatic)
+    from .prometheus_registry import (  # (relative imports in __init__.py are idiomatic)
         LUKHAS_REGISTRY,
         counter,
         gauge,

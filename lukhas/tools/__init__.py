@@ -11,7 +11,7 @@ from importlib import import_module
 
 try:
     from . import (
-        todo as _todo,  # type: ignore  # noqa: TID252 (relative imports in __init__.py are idiomatic)
+        todo as _todo,  # type: ignore  # (relative imports in __init__.py are idiomatic)
     )
 
     sys.modules.setdefault("TODO", _todo)
@@ -37,7 +37,7 @@ except Exception:
 # Optional subpackages expected by tests: tools.scripts / tools.acceptance_gate_ast / tools.security
 # Provide light proxies so imports resolve; real modules should replace these.
 try:
-    from . import scripts  # type: ignore  # noqa: F401,TID252
+    from . import scripts  # type: ignore
 except Exception:
 
     class scripts:  # type: ignore  # pragma: no cover
@@ -45,7 +45,7 @@ except Exception:
 
 
 try:
-    from . import acceptance_gate_ast  # type: ignore  # noqa: F401,TID252
+    from . import acceptance_gate_ast  # type: ignore
 except Exception:
 
     class acceptance_gate_ast:  # type: ignore  # pragma: no cover
@@ -53,7 +53,7 @@ except Exception:
 
 
 try:
-    from . import security  # type: ignore  # noqa: F401,TID252
+    from . import security  # type: ignore
 except Exception:
 
     class security:  # type: ignore  # pragma: no cover

@@ -8,16 +8,16 @@ Provides CRUD operations for named indexes with metadata tracking.
 
 Usage:
     manager = IndexManager()
-    
+
     # Create index
     index_id = manager.create_index(name="docs", metric="angular", dimension=1536)
-    
+
     # Add vectors
     manager.add_vector(index_id, "doc-1", vector)
-    
+
     # Search
     results = manager.search(index_id, query_vector, k=10)
-    
+
     # Delete
     manager.delete_index(index_id)
 """
@@ -26,8 +26,8 @@ from __future__ import annotations
 import logging
 import threading
 import time
-from dataclasses import dataclass, field
-from typing import Any, Dict, Iterable, List, Optional
+from dataclasses import dataclass
+from typing import Dict, Iterable, List, Optional
 from uuid import uuid4
 
 from lukhas.memory.embedding_index import EmbeddingIndex
@@ -50,7 +50,7 @@ class IndexMetadata:
 class IndexManager:
     """
     Thread-safe manager for multiple EmbeddingIndex instances.
-    
+
     Provides CRUD operations with automatic metadata tracking.
     Supports named indexes with unique IDs.
     """
@@ -76,16 +76,16 @@ class IndexManager:
     ) -> str:
         """
         Create a new embedding index.
-        
+
         Args:
             name: Unique name for the index
             metric: Distance metric ("angular" or "euclidean")
             trees: Number of trees for Annoy index
             dimension: Vector dimension (auto-detected if None)
-        
+
         Returns:
             Index ID (UUID)
-        
+
         Raises:
             ValueError: If index with this name already exists
         """
@@ -129,10 +129,10 @@ class IndexManager:
     def get_index(self, index_id: str) -> Optional[EmbeddingIndex]:
         """
         Get an index by ID.
-        
+
         Args:
             index_id: Index ID
-        
+
         Returns:
             EmbeddingIndex instance or None if not found
         """
@@ -142,10 +142,10 @@ class IndexManager:
     def get_metadata(self, index_id: str) -> Optional[IndexMetadata]:
         """
         Get index metadata by ID.
-        
+
         Args:
             index_id: Index ID
-        
+
         Returns:
             IndexMetadata or None if not found
         """
@@ -155,7 +155,7 @@ class IndexManager:
     def list_indexes(self) -> List[IndexMetadata]:
         """
         List all indexes with metadata.
-        
+
         Returns:
             List of IndexMetadata for all indexes
         """
@@ -165,10 +165,10 @@ class IndexManager:
     def delete_index(self, index_id: str) -> bool:
         """
         Delete an index by ID.
-        
+
         Args:
             index_id: Index ID
-        
+
         Returns:
             True if deleted, False if not found
         """
@@ -204,12 +204,12 @@ class IndexManager:
     ) -> None:
         """
         Add a vector to an index.
-        
+
         Args:
             index_id: Index ID
             item_id: Unique item identifier
             vector: Vector embedding
-        
+
         Raises:
             KeyError: If index not found
             ValueError: If dimension mismatch
@@ -264,14 +264,14 @@ class IndexManager:
     ) -> bool:
         """
         Remove a vector from an index.
-        
+
         Args:
             index_id: Index ID
             item_id: Item identifier to remove
-        
+
         Returns:
             True if removed, False if item not found
-        
+
         Raises:
             KeyError: If index not found
         """
@@ -313,15 +313,15 @@ class IndexManager:
     ) -> List[str]:
         """
         Search for nearest neighbors in an index.
-        
+
         Args:
             index_id: Index ID
             query_vector: Query vector
             k: Number of nearest neighbors to return
-        
+
         Returns:
             List of item IDs (nearest neighbors)
-        
+
         Raises:
             KeyError: If index not found
         """
@@ -351,14 +351,14 @@ class IndexManager:
     ) -> Optional[List[float]]:
         """
         Get a vector from an index by item ID.
-        
+
         Args:
             index_id: Index ID
             item_id: Item identifier
-        
+
         Returns:
             Vector as list of floats, or None if not found
-        
+
         Raises:
             KeyError: If index not found
         """
@@ -372,7 +372,7 @@ class IndexManager:
     def size(self) -> int:
         """
         Get total number of managed indexes.
-        
+
         Returns:
             Number of indexes
         """
@@ -382,7 +382,7 @@ class IndexManager:
     def total_vectors(self) -> int:
         """
         Get total number of vectors across all indexes.
-        
+
         Returns:
             Total vector count
         """

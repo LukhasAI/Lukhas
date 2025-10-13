@@ -3,7 +3,7 @@
 # Added for test compatibility (lukhas.core.orchestration.core_modules.symbolic_signal_router.route_signal)
 try:
     from labs.core.orchestration.core_modules.symbolic_signal_router import (
-        route_signal,  # noqa: F401
+        route_signal,
     )
 except ImportError:
     def route_signal(*args, **kwargs):

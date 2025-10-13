@@ -27,7 +27,7 @@ class GovernanceAdapter(MatrizNode):
 
 # Added for test compatibility (matriz.adapters.governance_adapter.UgovernanceAdapter)
 try:
-    from candidate.matriz.adapters.governance_adapter import UgovernanceAdapter  # noqa: F401
+    from candidate.matriz.adapters.governance_adapter import UgovernanceAdapter
 except ImportError:
     class UgovernanceAdapter:
         """Stub for UgovernanceAdapter."""

@@ -22,8 +22,7 @@ from collections import defaultdict
 from threading import Lock
 from typing import Any, Dict, List, Optional
 
-from fastapi import Body, Depends, FastAPI, HTTPException, Request, Response
-from fastapi.middleware.cors import CORSMiddleware
+from fastapi import Depends, FastAPI, HTTPException, Request, Response
 from fastapi.responses import JSONResponse, PlainTextResponse
 from starlette.exceptions import HTTPException as StarletteHTTPException
 
@@ -35,8 +34,8 @@ logger = logging.getLogger(__name__)
 
 # Import Guardian PDP and metrics (graceful fallback)
 try:
-    from lukhas.adapters.openai.policy_pdp import PDP
     from lukhas.adapters.openai.policy_models import Context, Decision
+    from lukhas.adapters.openai.policy_pdp import PDP
     GUARDIAN_AVAILABLE = True
 except ImportError:
     logger.warning("Guardian PDP not available, policy enforcement will be permissive")
@@ -465,7 +464,7 @@ def get_app() -> FastAPI:
     # Initialize Guardian PDP (if available)
     guardian_pdp: Optional[Any] = None
     try:
-        from lukhas.adapters.openai.policy_pdp import PolicyLoader, PDP
+        from lukhas.adapters.openai.policy_pdp import PDP, PolicyLoader
         # Try to load Guardian policy from config
         policy_path = "configs/policy/guardian_policies.yaml"
         if os.path.exists(policy_path):
@@ -481,8 +480,8 @@ def get_app() -> FastAPI:
     # Initialize Redis rate limit backend (if available)
     redis_backend: Optional[Any] = None
     try:
-        from lukhas.core.reliability.redis_backend import RedisRateLimitBackend
         from lukhas.core.reliability.quota_resolver import QuotaResolver
+        from lukhas.core.reliability.redis_backend import RedisRateLimitBackend
 
         # Only initialize if Redis URL is configured
         if os.getenv("REDIS_URL"):

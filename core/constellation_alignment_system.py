@@ -23,7 +23,7 @@ from typing import Any, Optional
 
 import streamlit as st  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for core infrastructure (review and implement)
 
-from .matriz_consciousness_signals import (  # noqa: TID252 TODO: convert to absolute import
+from .matriz_consciousness_signals import (  # TODO: convert to absolute import
     ConsciousnessSignal,
     ConsciousnessSignalType,
     ConstellationAlignmentData,

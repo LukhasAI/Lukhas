@@ -1,5 +1,6 @@
 from .schema import DreamTrace
 
+
 class DreamsEngine:
     def __init__(self, flow_client): self.flow = flow_client
     async def run(self, seed, constraints) -> DreamTrace:

@@ -2,7 +2,6 @@
 from __future__ import annotations
 
 from enum import Enum
-from typing import Optional
 
 # Minimal stub for test collection
 __all__ = []
@@ -60,7 +59,7 @@ except ImportError:
 
 # Added for test compatibility (lukhas.observability.evidence_collection.initialize_evidence_collection)
 try:
-    from labs.observability.evidence_collection import initialize_evidence_collection  # noqa: F401
+    from labs.observability.evidence_collection import initialize_evidence_collection
 except ImportError:
     def initialize_evidence_collection(*args, **kwargs):
         """Stub for initialize_evidence_collection."""

@@ -6,9 +6,9 @@ and attaches verified claims (org, user, scopes) to request context.
 """
 import hashlib
 import logging
-from typing import Any, Dict, Optional
+from typing import Optional
 
-from fastapi import Header, HTTPException, Request
+from fastapi import Header, HTTPException
 
 logger = logging.getLogger(__name__)
 

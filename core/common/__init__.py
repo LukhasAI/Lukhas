@@ -4,7 +4,7 @@ from __future__ import annotations
 # First get local logger
 try:
     from .logger import (
-        get_logger as _get_logger,  # noqa: TID252 (relative imports in __init__.py are idiomatic)
+        get_logger as _get_logger,  # (relative imports in __init__.py are idiomatic)
     )
 except ImportError:
     import logging

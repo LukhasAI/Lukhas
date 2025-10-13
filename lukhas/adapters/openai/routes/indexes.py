@@ -22,7 +22,6 @@ import time
 from typing import Optional
 
 from fastapi import APIRouter, Depends, HTTPException, Request
-from fastapi.responses import JSONResponse
 
 from lukhas.adapters.openai.schemas.indexes import (
     ErrorResponse,
@@ -39,7 +38,7 @@ from lukhas.adapters.openai.schemas.indexes import (
 )
 
 # Import PolicyGuard for RBAC (has built-in fallback)
-from lukhas.core.policy_guard import PolicyGuard, PolicyResult
+from lukhas.core.policy_guard import PolicyGuard
 from lukhas.memory.index_manager import IndexManager, IndexMetadata
 
 # Optional OpenTelemetry tracing
@@ -132,7 +131,7 @@ async def list_indexes(
 ) -> IndexListResponse:
     """
     List all indexes with metadata.
-    
+
     Returns:
         IndexListResponse with list of all indexes
     """
@@ -175,13 +174,13 @@ async def get_index(
 ) -> IndexResponse:
     """
     Get index details by ID.
-    
+
     Args:
         index_id: Index identifier
-    
+
     Returns:
         IndexResponse with index metadata
-    
+
     Raises:
         HTTPException: 404 if index not found
     """
@@ -224,13 +223,13 @@ async def create_index(
 ) -> IndexResponse:
     """
     Create a new embedding index.
-    
+
     Args:
         payload: Index creation request
-    
+
     Returns:
         IndexResponse with created index metadata
-    
+
     Raises:
         HTTPException: 400 if index name already exists
     """
@@ -293,14 +292,14 @@ async def add_vectors(
 ) -> VectorAddResponse:
     """
     Add vectors to an index.
-    
+
     Args:
         index_id: Index identifier
         payload: Vector addition request
-    
+
     Returns:
         VectorAddResponse with add statistics
-    
+
     Raises:
         HTTPException: 404 if index not found
         HTTPException: 400 if dimension mismatch
@@ -390,14 +389,14 @@ async def search_vectors(
 ) -> VectorSearchResponse:
     """
     Search for nearest neighbors in an index.
-    
+
     Args:
         index_id: Index identifier
         payload: Search request with query vector
-    
+
     Returns:
         VectorSearchResponse with nearest neighbors
-    
+
     Raises:
         HTTPException: 404 if index not found
         HTTPException: 400 if query vector dimension mismatch
@@ -479,14 +478,14 @@ async def delete_vector(
 ) -> VectorDeleteResponse:
     """
     Delete a vector from an index.
-    
+
     Args:
         index_id: Index identifier
         vector_id: Vector identifier to delete
-    
+
     Returns:
         VectorDeleteResponse with deletion status
-    
+
     Raises:
         HTTPException: 404 if index not found
     """
@@ -544,10 +543,10 @@ async def delete_index(
 ) -> IndexDeleteResponse:
     """
     Delete an entire index.
-    
+
     Args:
         index_id: Index identifier
-    
+
     Returns:
         IndexDeleteResponse with deletion status
     """

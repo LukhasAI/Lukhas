@@ -38,7 +38,7 @@ from typing import Any, Optional
 
 # Import monitoring systems
 try:
-    from .system_health_monitor import (  # noqa: TID252 TODO: convert to absolute import
+    from .system_health_monitor import (  # TODO: convert to absolute import
         ComponentType,
         HealthStatus,
         SystemHealthMonitor,

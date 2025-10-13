@@ -1,6 +1,6 @@
 # Thin package to enable file-level shims; actual code proxied by parent __getattr__
 from .. import (
-    core,  # re-export via parent alias  # noqa: TID252 (relative imports in __init__.py are idiomatic)
+    core,  # re-export via parent alias  # (relative imports in __init__.py are idiomatic)
 )
 
 # Optional: expose selected names

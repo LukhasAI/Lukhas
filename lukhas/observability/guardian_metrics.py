@@ -15,7 +15,7 @@ logger = logging.getLogger(__name__)
 
 # Check if Prometheus client is available
 try:
-    from prometheus_client import Counter, Histogram, Gauge
+    from prometheus_client import Counter, Gauge, Histogram
     PROMETHEUS_AVAILABLE = True
 except ImportError:
     PROMETHEUS_AVAILABLE = False

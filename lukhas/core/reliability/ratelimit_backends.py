@@ -1,7 +1,9 @@
+import time
 from abc import ABC, abstractmethod
 from typing import Tuple
+
 import redis
-import time
+
 
 class LimiterBackend(ABC):  # ABC
     """Abstract base class for a rate limiter backend."""

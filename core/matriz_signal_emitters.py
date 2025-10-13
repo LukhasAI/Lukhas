@@ -14,12 +14,12 @@ from enum import Enum
 from typing import Any, Optional
 
 from .bio_symbolic_processor import (
-    get_bio_symbolic_processor,  # noqa: TID252 TODO: convert to absolute import
+    get_bio_symbolic_processor,  # TODO: convert to absolute import
 )
 from .consciousness_signal_router import (
-    get_consciousness_router,  # noqa: TID252 TODO: convert to absolute import
+    get_consciousness_router,  # TODO: convert to absolute import
 )
-from .matriz_consciousness_signals import (  # noqa: TID252 TODO: convert to absolute import
+from .matriz_consciousness_signals import (  # TODO: convert to absolute import
     BioSymbolicData,
     ConsciousnessSignal,
     ConsciousnessSignalFactory,
@@ -276,7 +276,7 @@ class ConsciousnessEmitter(ConsciousnessModuleEmitter):
         """Emit consciousness state change signal"""
 
         from .matriz_consciousness_signals import (
-            ConsciousnessStateDelta,  # noqa: TID252 TODO: convert to absolute import
+            ConsciousnessStateDelta,  # TODO: convert to absolute import
         )
 
         state_delta = ConsciousnessStateDelta(
@@ -389,7 +389,7 @@ class IdentityEmitter(ConsciousnessModuleEmitter):
     ) -> Optional[ConsciousnessSignal]:
         """Emit identity authentication signal"""
 
-        constellation_compliance = ConstellationAlignmentData(
+        ConstellationAlignmentData(
             identity_auth_score=auth_score,
             consciousness_coherence=identity_context.get("coherence", 0.8),
             guardian_compliance=0.95,
@@ -457,7 +457,7 @@ class GovernanceEmitter(ConsciousnessModuleEmitter):
     ) -> Optional[ConsciousnessSignal]:
         """Emit guardian compliance signal"""
 
-        constellation_compliance = ConstellationAlignmentData(
+        ConstellationAlignmentData(
             identity_auth_score=0.9,
             consciousness_coherence=0.8,
             guardian_compliance=compliance_score,

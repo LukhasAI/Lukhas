@@ -14,21 +14,21 @@ from datetime import datetime, timezone
 from typing import Any, Optional
 
 from .bio_symbolic_processor import (
-    get_bio_symbolic_processor,  # noqa: TID252 TODO: convert to absolute import
+    get_bio_symbolic_processor,  # TODO: convert to absolute import
 )
 from .consciousness_signal_router import (
-    get_consciousness_router,  # noqa: TID252 TODO: convert to absolute import
+    get_consciousness_router,  # TODO: convert to absolute import
 )
-from .constellation_alignment_system import (  # noqa: TID252 TODO: convert to absolute import
+from .constellation_alignment_system import (  # TODO: convert to absolute import
     AlignmentLevel,
     get_constellation_monitor,
     get_constellation_validator,
 )
-from .matriz_consciousness_signals import (  # noqa: TID252 TODO: convert to absolute import
+from .matriz_consciousness_signals import (  # TODO: convert to absolute import
     ConsciousnessSignalFactory,
     ConsciousnessSignalType,
 )
-from .matriz_signal_emitters import (  # noqa: TID252 TODO: convert to absolute import
+from .matriz_signal_emitters import (  # TODO: convert to absolute import
     get_emission_coordinator,
 )
 
@@ -384,7 +384,7 @@ class MatrizConsciousnessSystem:
             node_id = f"{self.consciousness_id}_{module_name}"
 
             # Register the node
-            network_node = self.signal_router.register_node(
+            self.signal_router.register_node(
                 node_id=node_id,
                 module_name=module_name,
                 capabilities=capabilities

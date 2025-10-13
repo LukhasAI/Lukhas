@@ -13,7 +13,7 @@ Tracking: docs/v0.03/KNOWN_ISSUES.md#missing-modules
 
 # Added for test compatibility (lukhas.core.consciousness_ticker.ConsciousnessTicker)
 try:
-    from labs.core.consciousness_ticker import ConsciousnessTicker  # noqa: F401
+    from labs.core.consciousness_ticker import ConsciousnessTicker
 except ImportError:
     class ConsciousnessTicker:
         """Stub for ConsciousnessTicker."""

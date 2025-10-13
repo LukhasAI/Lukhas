@@ -17,7 +17,7 @@ def resolve_first(paths: Iterable[str]) -> ModuleType:
     for p in paths:
         try:
             return import_module(p)
-        except Exception as e:  # noqa: BLE001
+        except Exception as e:
             last_err = e
     raise ModuleNotFoundError(f"None of {list(paths)} importable") from last_err
 

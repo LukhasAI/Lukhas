@@ -46,7 +46,7 @@ if "CognitiveLoadLevel" not in globals():
 
 if "MetaCognitiveContext" not in globals():
     try:
-        from lukhas.consciousness.meta_cognitive_context import MetaCognitiveContext  # noqa: F401
+        from lukhas.consciousness.meta_cognitive_context import MetaCognitiveContext
     except Exception:
         class MetaCognitiveContext(dict):
             """Fallback meta cognitive context."""

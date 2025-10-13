@@ -27,7 +27,7 @@ class EmotionAdapter(MatrizNode):
 
 # Added for test compatibility (matriz.adapters.emotion_adapter.UemotionAdapter)
 try:
-    from candidate.matriz.adapters.emotion_adapter import UemotionAdapter  # noqa: F401
+    from candidate.matriz.adapters.emotion_adapter import UemotionAdapter
 except ImportError:
     class UemotionAdapter:
         """Stub for UemotionAdapter."""
