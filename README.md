@@ -815,3 +815,21 @@ MIT License - see [LICENSE](LICENSE) file for details.
 ---
 
 *Built with consciousness, guided by ethics, powered by the Constellation Framework.* ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum
+---
+
+## ⚡ 30-Second Quickstart (DX Polish Pack)
+
+```bash
+# 1) Run the OpenAI-compatible façade (permissive dev mode)
+export LUKHAS_POLICY_MODE=permissive
+uvicorn lukhas.adapters.openai.api:get_app --factory --port 8000 &
+
+# 2) Smoke the two most common flows
+curl -sS -H "Authorization: Bearer sk-test" http://localhost:8000/v1/models | jq '.data | length'
+curl -sS -H "Authorization: Bearer sk-test" -H "Content-Type: application/json" \
+  -d '{"model":"lukhas","input":"hello"}' http://localhost:8000/v1/embeddings | jq '.data[0].embedding | length'
+```
+
+* **OpenAI envelope** + **X-Trace-Id** + **X-RateLimit-*** headers are standard on success/error paths.
+* See `docs/gonzo/dx/COOKBOOK_responses.md` and `.../COOKBOOK_dreams.md` for copy-paste recipes.
+* Postman collection: `docs/postman/LUKHAS_DX_Polish.postman_collection.json` (use env `LUKHAS.postman_environment.json`).
