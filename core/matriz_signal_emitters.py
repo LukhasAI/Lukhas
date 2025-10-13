@@ -13,8 +13,12 @@ from dataclasses import dataclass
 from enum import Enum
 from typing import Any, Optional
 
-from .bio_symbolic_processor import get_bio_symbolic_processor  # noqa: TID252 TODO: convert to absolute import
-from .consciousness_signal_router import get_consciousness_router  # noqa: TID252 TODO: convert to absolute import
+from .bio_symbolic_processor import (
+    get_bio_symbolic_processor,  # noqa: TID252 TODO: convert to absolute import
+)
+from .consciousness_signal_router import (
+    get_consciousness_router,  # noqa: TID252 TODO: convert to absolute import
+)
 from .matriz_consciousness_signals import (  # noqa: TID252 TODO: convert to absolute import
     BioSymbolicData,
     ConsciousnessSignal,
@@ -271,7 +275,9 @@ class ConsciousnessEmitter(ConsciousnessModuleEmitter):
     ) -> Optional[ConsciousnessSignal]:
         """Emit consciousness state change signal"""
 
-        from .matriz_consciousness_signals import ConsciousnessStateDelta  # noqa: TID252 TODO: convert to absolute import
+        from .matriz_consciousness_signals import (
+            ConsciousnessStateDelta,  # noqa: TID252 TODO: convert to absolute import
+        )
 
         state_delta = ConsciousnessStateDelta(
             previous_state=previous_state,

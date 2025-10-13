@@ -39,7 +39,7 @@ class IndexCreateRequest(BaseModel):
         le=16384,
         description="Vector dimension (auto-detected on first add if not specified)",
     )
-    
+
     @field_validator("metric")
     @classmethod
     def validate_metric(cls, v: str) -> str:
@@ -47,7 +47,7 @@ class IndexCreateRequest(BaseModel):
         if v not in ("angular", "euclidean"):
             raise ValueError("Metric must be 'angular' or 'euclidean'")
         return v
-    
+
     @field_validator("name")
     @classmethod
     def validate_name(cls, v: str) -> str:
@@ -76,7 +76,7 @@ class VectorAddRequest(BaseModel):
         min_length=1,
         max_length=1000,
     )
-    
+
     @field_validator("vectors")
     @classmethod
     def validate_vectors(cls, v: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
@@ -119,7 +119,7 @@ class VectorSearchRequest(BaseModel):
         default=False,
         description="Include vector embeddings in response",
     )
-    
+
     @field_validator("vector")
     @classmethod
     def validate_vector(cls, v: List[float]) -> List[float]:

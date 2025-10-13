@@ -1,63 +1,68 @@
 # LUKHAS System Health Audit (auto-generated)
 
-**Timestamp:** `2025-10-13T03:53:56Z`
+**Timestamp:** `2025-10-13T13:42:41Z`
 
 ## Summary
 
-- **Ruff Total:** 12640 issues
-- **Smoke Tests:** 65/91 passing (71.4%)
+- **Ruff Total:** 9637 issues
+- **Smoke Tests:** 66/92 passing (71.7%)
 - **Unit Core Tests:** {'summary': 'it/aka_qualia/test_metrics.py\nERROR tests/unit/bio/core/test_bio_symbolic.py\nERROR tests/unit/branding/personal_brand/test_consciousness_authority_builder.py\nERROR tests/unit/branding/test_keatsian_replacer.py - FileNotFoundError: [Err...\n!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 5 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!\n============================== 5 errors in 0.76s ==============================='}
 - **OpenAPI:** N/A
 
 ## Ruff Statistics
 
 ```
-  5458  UP006
-  2423  TID252
-  1318  E402
-  1139  UP035
-   709  UP007
-   349  F841
-   312  UP015
+  2386  ARG002
+  1566  W293
+  1284  E402
+  1269  TID252
+   697  ARG001
+   341  F841
+   273  I001
+   258  RUF100
    153  E712
+   141  RUF012
+   129  RUF010
    127  E722
-   115  F541
-   102  I001
-    99  E702
+   107  RUF006
+   106  F541
+    98  E702
+    86  RUF001
+    82  RUF013
+    78  ARG005
     66  E701
     38  E741
+    36  W292
+    30  RUF005
+    26  RUF003
+    23  RUF002
     18  F811
-    18  UP037
-    16  F821
+    14  ARG004
+    13  W291
     11  F402
     10  F706
-    10  UP024
      9  F401
-     9  UP012
+     9  F821
+     9  RUF019
      8  F405
-     7  E401
+     6  E401
      6  F403
      6  F823
+     5  RUF015
+     4  ARG003
      4  E731
-     3  UP018
-     3  UP032
-     3  UP034
      2  E721
      2  F404
-     2  UP009
-     2  UP020
-     2  UP028
-     2  RUF100
+     2  RUF009
      1  F822
-     1  UP011
 ```
 
 ## Test Results
 
 ###  Smoke Tests
 
-- **Status:** 65/91 passing (71.4%)
-- **Passed:** 65
+- **Status:** 66/92 passing (71.7%)
+- **Passed:** 66
 - **Failed:** 26
 
 ### Core Unit Tests
@@ -77,4 +82,4 @@ ERROR tests/unit/branding/test_keatsian_replacer.py - FileNotFoundError: [Err...
 [report_compat_hits] ✅ PASS: 0 hits within limit 999999
 
 ---
-*Generated: 2025-10-13T03:53:56Z*
+*Generated: 2025-10-13T13:42:41Z*

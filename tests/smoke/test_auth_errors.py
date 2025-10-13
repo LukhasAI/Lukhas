@@ -58,43 +58,6 @@ def test_missing_bearer_yields_auth_error(strict_client):
     assert len(error.get("message") or "") > 0, "Message should not be empty"
     assert error.get("code") == "invalid_api_key",         f"Expected code 'invalid_api_key', got '{error.get('code')}'"
 
-    Test that requests without Authorization header return 401.
-    
-    OpenAI API returns 401 with error envelope:
-    {
-        "error": {
-            "type": "invalid_api_key",
-            "message": "Invalid authentication...",
-            "code": "invalid_api_key"
-        }
-    }
-    """
-    response = strict_client.get("/v1/models")
-    
-    # Missing/invalid token must return 401
-    assert response.status_code == 401, \
-        f"Expected 401, got {response.status_code}"
-    
-    body = response.json()
-    
-    # FastAPI wraps HTTPException detail under 'detail' key
-    error_data = body.get("detail", body)
-    assert "error" in error_data, f"Response missing 'error' key, got: {body}"
-    assert isinstance(error_data["error"], dict), "Error should be dict"
-    
-    # Validate OpenAI error envelope structure
-    error = error_data["error"]
-    assert "type" in error, "Error missing 'type' field"
-    assert error["type"] == "invalid_api_key", \
-        f"Expected type 'invalid_api_key', got '{error['type']}'"
-    
-    # Should have message and code
-    assert "message" in error, "Error missing 'message' field"
-    assert isinstance(error["message"], str), "Message should be string"
-    assert len(error["message"]) > 0, "Message should not be empty"
-    assert error.get("code") == "invalid_api_key", \
-        f"Expected code 'invalid_api_key', got '{error.get('code')}'"
-
 
 def test_invalid_bearer_yields_auth_error(strict_client):
     """

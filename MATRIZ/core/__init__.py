@@ -29,7 +29,10 @@ from .node_interface import (  # noqa: TID252 (relative imports in __init__.py a
     NodeState,
     NodeTrigger,
 )
-from .orchestrator import CognitiveOrchestrator, ExecutionTrace  # noqa: TID252 (relative imports in __init__.py are idiomatic)
+from .orchestrator import (  # noqa: TID252 (relative imports in __init__.py are idiomatic)
+    CognitiveOrchestrator,
+    ExecutionTrace,
+)
 
 __all__ = [
     "CognitiveNode",

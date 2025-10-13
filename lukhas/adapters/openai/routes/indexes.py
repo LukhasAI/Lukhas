@@ -37,10 +37,10 @@ from lukhas.adapters.openai.schemas.indexes import (
     VectorSearchResponse,
     VectorSearchResult,
 )
-from lukhas.memory.index_manager import IndexManager, IndexMetadata
 
 # Import PolicyGuard for RBAC (has built-in fallback)
 from lukhas.core.policy_guard import PolicyGuard, PolicyResult
+from lukhas.memory.index_manager import IndexManager, IndexMetadata
 
 # Optional OpenTelemetry tracing
 try:
@@ -141,20 +141,20 @@ async def list_indexes(
         check_access(request, "index", "list")
     except HTTPException:
         pass  # Allow listing for now (can be restricted later)
-    
+
     # OTEL tracing
     if OTEL_AVAILABLE and tracer:
         with tracer.start_as_current_span("list_indexes"):
             metadata_list = manager.list_indexes()
     else:
         metadata_list = manager.list_indexes()
-    
+
     response = IndexListResponse(
         indexes=[_metadata_to_response(meta) for meta in metadata_list],
         total_count=manager.size(),
         total_vectors=manager.total_vectors(),
     )
-    
+
     logger.info(
         f"Listed indexes: {response.total_count}",
         extra={
@@ -163,7 +163,7 @@ async def list_indexes(
             "total_vectors": response.total_vectors,
         }
     )
-    
+
     return response
 
 
@@ -187,7 +187,7 @@ async def get_index(
     """
     # RBAC check
     check_access(request, "index", "read")
-    
+
     # OTEL tracing
     if OTEL_AVAILABLE and tracer:
         with tracer.start_as_current_span(
@@ -197,13 +197,13 @@ async def get_index(
             metadata = manager.get_metadata(index_id)
     else:
         metadata = manager.get_metadata(index_id)
-    
+
     if metadata is None:
         raise HTTPException(
             status_code=404,
             detail=f"Index not found: {index_id}"
         )
-    
+
     logger.debug(
         f"Retrieved index: {metadata.name}",
         extra={
@@ -212,7 +212,7 @@ async def get_index(
             "name": metadata.name,
         }
     )
-    
+
     return _metadata_to_response(metadata)
 
 
@@ -236,7 +236,7 @@ async def create_index(
     """
     # RBAC check
     check_access(request, "index", "create")
-    
+
     try:
         # OTEL tracing
         if OTEL_AVAILABLE and tracer:
@@ -263,14 +263,14 @@ async def create_index(
             )
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
-    
+
     metadata = manager.get_metadata(index_id)
     if metadata is None:
         raise HTTPException(
             status_code=500,
             detail="Failed to retrieve created index"
         )
-    
+
     logger.info(
         f"Created index: {payload.name}",
         extra={
@@ -280,7 +280,7 @@ async def create_index(
             "metric": payload.metric,
         }
     )
-    
+
     return _metadata_to_response(metadata)
 
 
@@ -307,18 +307,18 @@ async def add_vectors(
     """
     # RBAC check
     check_access(request, "index", "update")
-    
+
     # Check index exists
     if manager.get_index(index_id) is None:
         raise HTTPException(
             status_code=404,
             detail=f"Index not found: {index_id}"
         )
-    
+
     added_count = 0
     failed_count = 0
     errors = []
-    
+
     # OTEL tracing with proper context manager pattern
     span_context = (
         tracer.start_as_current_span(
@@ -331,14 +331,14 @@ async def add_vectors(
         if (OTEL_AVAILABLE and tracer)
         else None
     )
-    
+
     # Use nullcontext for non-OTEL case
     from contextlib import nullcontext
     with span_context or nullcontext():
         for vec_data in payload.vectors:
             item_id = vec_data["id"]
             vector = vec_data["vector"]
-            
+
             try:
                 manager.add_vector(index_id, item_id, vector)
                 added_count += 1
@@ -354,7 +354,7 @@ async def add_vectors(
                         "error": str(e),
                     }
                 )
-        
+
         # Set span attributes inside the context if available
         if OTEL_AVAILABLE and tracer:
             from opentelemetry import trace
@@ -362,7 +362,7 @@ async def add_vectors(
             if current_span:
                 current_span.set_attribute("added_count", added_count)
                 current_span.set_attribute("failed_count", failed_count)
-    
+
     logger.info(
         f"Added vectors to index: {added_count} succeeded, {failed_count} failed",
         extra={
@@ -372,7 +372,7 @@ async def add_vectors(
             "failed_count": failed_count,
         }
     )
-    
+
     return VectorAddResponse(
         index_id=index_id,
         added_count=added_count,
@@ -404,7 +404,7 @@ async def search_vectors(
     """
     # RBAC check
     check_access(request, "index", "read")
-    
+
     # Check index exists
     index = manager.get_index(index_id)
     if index is None:
@@ -412,17 +412,17 @@ async def search_vectors(
             status_code=404,
             detail=f"Index not found: {index_id}"
         )
-    
+
     # Validate query vector dimension
     if index.dimension is not None and len(payload.vector) != index.dimension:
         raise HTTPException(
             status_code=400,
             detail=f"Query vector dimension {len(payload.vector)} does not match index dimension {index.dimension}"
         )
-    
+
     # Perform search with timing
     start_time = time.time()
-    
+
     # OTEL tracing
     if OTEL_AVAILABLE and tracer:
         with tracer.start_as_current_span(
@@ -435,22 +435,22 @@ async def search_vectors(
             result_ids = manager.search(index_id, payload.vector, k=payload.k)
     else:
         result_ids = manager.search(index_id, payload.vector, k=payload.k)
-    
+
     query_time_ms = (time.time() - start_time) * 1000
-    
+
     # Build results
     results = []
     for item_id in result_ids:
         result = VectorSearchResult(id=item_id)
-        
+
         # Optionally include vectors
         if payload.include_vectors:
             vec = manager.get_vector(index_id, item_id)
             if vec is not None:
                 result.vector = vec
-        
+
         results.append(result)
-    
+
     logger.info(
         f"Searched index: {len(results)} results in {query_time_ms:.2f}ms",
         extra={
@@ -461,7 +461,7 @@ async def search_vectors(
             "query_time_ms": query_time_ms,
         }
     )
-    
+
     return VectorSearchResponse(
         index_id=index_id,
         query_time_ms=round(query_time_ms, 2),
@@ -492,14 +492,14 @@ async def delete_vector(
     """
     # RBAC check
     check_access(request, "index", "update")
-    
+
     # Check index exists
     if manager.get_index(index_id) is None:
         raise HTTPException(
             status_code=404,
             detail=f"Index not found: {index_id}"
         )
-    
+
     try:
         # OTEL tracing
         if OTEL_AVAILABLE and tracer:
@@ -518,7 +518,7 @@ async def delete_vector(
             status_code=404,
             detail=f"Index not found: {index_id}"
         )
-    
+
     logger.info(
         f"Deleted vector: {vector_id} from index {index_id}",
         extra={
@@ -528,7 +528,7 @@ async def delete_vector(
             "success": success,
         }
     )
-    
+
     return VectorDeleteResponse(
         index_id=index_id,
         vector_id=vector_id,
@@ -553,7 +553,7 @@ async def delete_index(
     """
     # RBAC check
     check_access(request, "index", "delete")
-    
+
     # OTEL tracing
     if OTEL_AVAILABLE and tracer:
         with tracer.start_as_current_span(
@@ -563,7 +563,7 @@ async def delete_index(
             success = manager.delete_index(index_id)
     else:
         success = manager.delete_index(index_id)
-    
+
     logger.info(
         f"Deleted index: {index_id}",
         extra={
@@ -572,7 +572,7 @@ async def delete_index(
             "success": success,
         }
     )
-    
+
     return IndexDeleteResponse(
         index_id=index_id,
         success=success,

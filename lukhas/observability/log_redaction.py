@@ -8,10 +8,9 @@ Automatically redacts patterns that look like secrets from log messages:
 
 Phase 3: Added as part of security hardening.
 """
-import re
 import logging
+import re
 from typing import List, Pattern
-
 
 # Secret patterns to redact
 _SECRET_PATTERNS: List[Pattern] = [

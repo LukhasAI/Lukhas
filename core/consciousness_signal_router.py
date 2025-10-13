@@ -14,9 +14,17 @@ from dataclasses import dataclass, field
 from enum import Enum
 from typing import Any, Callable, Optional
 
-from .bio_symbolic_processor import get_bio_symbolic_processor  # noqa: TID252 TODO: convert to absolute import
-from .matriz_consciousness_signals import ConsciousnessSignal, ConsciousnessSignalType  # noqa: TID252 TODO: convert to absolute import
-from .metrics import router_cascade_preventions_total, router_no_rule_total  # noqa: TID252 TODO: convert to absolute import
+from .bio_symbolic_processor import (
+    get_bio_symbolic_processor,  # noqa: TID252 TODO: convert to absolute import
+)
+from .matriz_consciousness_signals import (  # noqa: TID252 TODO: convert to absolute import
+    ConsciousnessSignal,
+    ConsciousnessSignalType,
+)
+from .metrics import (  # noqa: TID252 TODO: convert to absolute import
+    router_cascade_preventions_total,
+    router_no_rule_total,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -160,7 +168,10 @@ class ConsciousnessSignalRouter:
             logger.warning("Router has zero registered nodes at boot")
 
         # Probe critical signal types to ensure routing works at boot
-        from .matriz_consciousness_signals import ConsciousnessSignal, ConsciousnessSignalType  # noqa: TID252 TODO: convert to absolute import
+        from .matriz_consciousness_signals import (  # noqa: TID252 TODO: convert to absolute import
+            ConsciousnessSignal,
+            ConsciousnessSignalType,
+        )
 
         probe_awareness = ConsciousnessSignal(
             signal_type=ConsciousnessSignalType.AWARENESS,

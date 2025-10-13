@@ -60,7 +60,11 @@ try:
         IntegrationPriority,
     )
     from lukhas.core.identity.identity_manager import IdentityManager
-    from lukhas.core.neural_architectures.neural_integrator import NeuralContext, NeuralIntegrator, NeuralMode
+    from lukhas.core.neural_architectures.neural_integrator import (
+        NeuralContext,
+        NeuralIntegrator,
+        NeuralMode,
+    )
     from lukhas.memory.enhanced_memory_manager import EnhancedMemoryManager
 except ImportError as e:
     logging.warning(f"Some core components not available: {e}")

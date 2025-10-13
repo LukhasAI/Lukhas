@@ -19,7 +19,7 @@ import os
 import time
 from collections import defaultdict
 from threading import Lock
-from typing import Dict, Optional, Tuple, Any
+from typing import Any, Dict, Optional, Tuple
 
 
 class TokenBucket:
@@ -114,7 +114,7 @@ class RateLimiter:
                 # Hash token to avoid storing raw secrets in memory/logs/metrics
                 digest = hashlib.sha256(token.encode()).hexdigest()[:16]
                 return f"tok:{digest}"
-        
+
         # Fallback to client IP (prefer X-Forwarded-For for proxies)
         xff = request.headers.get("x-forwarded-for")
         if xff:
@@ -122,13 +122,13 @@ class RateLimiter:
             ip = xff.split(",")[0].strip()
             if ip:
                 return ip
-        
+
         client = getattr(request, "client", None)
         if client:
             ip = getattr(client, "host", None)
             if ip:
                 return ip
-        
+
         # Last resort fallback
         return "anonymous"
 
@@ -225,7 +225,7 @@ class RateLimiter:
             # Create new bucket with default settings
             bucket = TokenBucket(capacity=self.default_rps * 2, refill_rate=self.default_rps)
             self.buckets[key] = bucket
-        
+
         # Return bucket state as dict for window calculations
         return {
             "tokens": bucket.tokens,
@@ -265,12 +265,12 @@ class RateLimiter:
         cap = int(b["capacity"])
         tokens = max(0.0, min(float(b["capacity"]), float(b["tokens"])))
         rate = float(b["refill_rate"])
-        
+
         if tokens >= cap or rate <= 0.0:
             reset = 0.0
         else:
             reset = (cap - tokens) / rate
-        
+
         return {
             "limit": float(cap),
             "remaining": float(math.floor(tokens)),

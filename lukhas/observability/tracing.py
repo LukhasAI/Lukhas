@@ -4,17 +4,17 @@ OpenTelemetry distributed tracing for LUKHAS MATRIZ.
 Provides W3C trace context propagation, span hierarchy for request flows,
 and integration with OTLP exporters for observability platforms.
 """
-import os
 import logging
-from typing import Optional
+import os
 from contextlib import contextmanager
+from typing import Optional
 
 try:
     from opentelemetry import trace
-    from opentelemetry.sdk.trace import TracerProvider
-    from opentelemetry.sdk.trace.export import BatchSpanProcessor
     from opentelemetry.exporter.otlp.proto.http.trace_exporter import OTLPSpanExporter
     from opentelemetry.sdk.resources import Resource
+    from opentelemetry.sdk.trace import TracerProvider
+    from opentelemetry.sdk.trace.export import BatchSpanProcessor
     from opentelemetry.semconv.resource import ResourceAttributes
     OTEL_AVAILABLE = True
 except ImportError:
@@ -160,10 +160,11 @@ def current_trace_id_hex() -> Optional[str]:
 
 # Phase 3: Trace header middleware for X-Trace-Id response header
 try:
+    import uuid
+
     from starlette.middleware.base import BaseHTTPMiddleware
     from starlette.requests import Request
     from starlette.responses import Response
-    import uuid
 
     # Try to import Prometheus counter for trace coverage metrics
     try:

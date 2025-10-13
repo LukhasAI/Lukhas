@@ -4,10 +4,11 @@ Authentication and authorization for OpenAI façade.
 Enforces Bearer token presence, validates against policy guard,
 and attaches verified claims (org, user, scopes) to request context.
 """
-from typing import Optional, Dict, Any
-from fastapi import Header, HTTPException, Request
-import logging
 import hashlib
+import logging
+from typing import Any, Dict, Optional
+
+from fastapi import Header, HTTPException, Request
 
 logger = logging.getLogger(__name__)
 
@@ -67,7 +68,7 @@ def verify_token_with_policy(token: str) -> TokenClaims:
     # 4. Validate scopes match requested operation
 
     if not token or len(token) < 8:
-        logger.warning(f"Token validation failed: token too short")
+        logger.warning("Token validation failed: token too short")
         raise HTTPException(status_code=401, detail=UNAUTHORIZED)
 
     # Extract org from token prefix (stub logic)

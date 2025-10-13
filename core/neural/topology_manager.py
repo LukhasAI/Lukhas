@@ -33,7 +33,9 @@ import structlog
 
 try:
     from .crista_optimizer import OptimizationMode  # noqa: TID252 TODO: convert to absolute import
-    from .symbolic_network import SymbolicNetwork  # This class uses SymbolicNode internally  # noqa: TID252 TODO: convert to absolute import
+    from .symbolic_network import (
+        SymbolicNetwork,  # This class uses SymbolicNode internally  # noqa: TID252 TODO: convert to absolute import
+    )
 except ImportError:
     logger_temp = structlog.get_logger(
         "ΛTRACE.core.adaptive_systems.crista_optimizer.topology_manager_import_fallback"

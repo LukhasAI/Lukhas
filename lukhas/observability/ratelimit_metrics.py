@@ -7,29 +7,29 @@ explosions while maintaining tenant isolation visibility.
 
 Phase 3: Added for production-grade rate-limit monitoring.
 """
+import hashlib
 import os
 import random
-import hashlib
 from typing import Any
 
 try:
-    from prometheus_client import Gauge, Counter
+    from prometheus_client import Counter, Gauge
     PROMETHEUS_AVAILABLE = True
 except Exception:  # pragma: no cover
     # Soft-disable if prometheus_client isn't present (keeps app booting)
     PROMETHEUS_AVAILABLE = False
-    
+
     class _Nop:
         """No-op metric that does nothing (graceful degradation)."""
         def labels(self, *args, **kwargs):
             return self
-        
+
         def set(self, *_a, **_kw):
             pass
-        
+
         def inc(self, *_a, **_kw):
             pass
-    
+
     Gauge = Counter = lambda *a, **kw: _Nop()  # type: ignore
 
 
@@ -115,7 +115,7 @@ def route_key(path: str) -> str:
         return "/v1/dreams"
     if path.startswith("/v1/models"):
         return "/v1/models"
-    
+
     # Fallback: strip query params
     return path.split("?", 1)[0]
 
@@ -132,12 +132,12 @@ def record_window(route: str, principal: str, limiter: Any, key: str) -> None:
     """
     if not _enabled() or not _sample_ok() or not PROMETHEUS_AVAILABLE:
         return
-    
+
     try:
         win = limiter.current_window(key)  # {limit, remaining, reset_seconds}
         r = route_key(route)
         p = fingerprint(principal)
-        
+
         RL_LIMIT.labels(r, p).set(win["limit"])
         RL_REMAINING.labels(r, p).set(win["remaining"])
         RL_RESET.labels(r, p).set(win["reset_seconds"])
@@ -156,7 +156,7 @@ def record_hit(route: str, principal: str) -> None:
     """
     if not _enabled() or not _sample_ok() or not PROMETHEUS_AVAILABLE:
         return
-    
+
     try:
         RL_HITS.labels(route_key(route), fingerprint(principal)).inc()
     except Exception:

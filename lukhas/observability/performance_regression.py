@@ -22,7 +22,9 @@ if "DetectionMethod" not in __all__:
 
 # Added for test compatibility (lukhas.observability.performance_regression.PerformanceRegressionDetector)
 try:
-    from labs.observability.performance_regression import PerformanceRegressionDetector  # noqa: F401
+    from labs.observability.performance_regression import (
+        PerformanceRegressionDetector,  # noqa: F401
+    )
 except ImportError:
     class PerformanceRegressionDetector:
         """Stub for PerformanceRegressionDetector."""

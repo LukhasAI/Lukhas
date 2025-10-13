@@ -10,7 +10,9 @@ import sys
 from importlib import import_module
 
 try:
-    from . import todo as _todo  # type: ignore  # noqa: TID252 (relative imports in __init__.py are idiomatic)
+    from . import (
+        todo as _todo,  # type: ignore  # noqa: TID252 (relative imports in __init__.py are idiomatic)
+    )
 
     sys.modules.setdefault("TODO", _todo)
     sys.modules.setdefault("todo", _todo)

@@ -64,7 +64,9 @@
       "Bash(git rm:*)",
       "Bash(PYTHONPATH=. python3:*)",
       "Bash(echo \"Updated: $file\")",
-      "Bash(tee:*)"
+      "Bash(tee:*)",
+      "Bash(export LUKHAS_POLICY_MODE=permissive)",
+      "Bash(1)"
     ],
     "defaultMode": "bypassPermissions"
   }

@@ -197,9 +197,12 @@ target-version = ['py39', 'py310', 'py311']
 include = '\.pyi?$'
 
 [tool.ruff]
-line-length = 120
+line-length = 100
 target-version = "py39"
 respect-gitignore = true
+
+# Limit lint scope to production lanes. Labs/dev content stays out of the gate.
+src = ["lukhas", "core", "MATRIZ"]
 
 # T4 Production vs Experimental Lane Policy
 # Phase 3.1: Split strict (prod lanes) vs warn-only (labs)
@@ -223,7 +226,11 @@ extend-exclude = [
     "*_old",
     "recovery*",
     # Phase 3.1: Exclude labs/ from default strict checks
-    "labs/**"
+    "labs",
+    "examples",
+    "docs",
+    "tests/fixtures",
+    "scripts/migrations",
 ]
 
 # Exclude patterns
@@ -253,10 +260,13 @@ exclude = [
 select = [
     "E",    # pycodestyle errors
     "F",    # pyflakes
+    "W",    # pycodestyle warnings
     "I",    # isort
-    "UP",   # pyupgrade
-    "TID252", # prefer absolute imports (critical for production)
+    "ARG",  # flake8-unused-arguments
+    "TID",  # flake8-tidy-imports (includes TID252)
+    "RUF",  # ruff-specific rules
 ]
+# We allow TID252/F401 only in __init__.py where explicit, documented re-exports are idiomatic.
 
 # Additional linting rules to ignore globally
 ignore = [
@@ -301,7 +311,7 @@ known-first-party = ["lukhas", "candidate", "MATRIZ"]
 
 # T4 Per-file ignores for package exports and production lane policy
 [tool.ruff.lint.per-file-ignores]
-"__init__.py" = ["F401"]  # Allow unused imports in package init files (T4 system)
+"**/__init__.py" = ["TID252", "F401"]  # Allow relative imports and unused imports in package init files (T4 system)
 "serve/ui/dashboard.py" = ["I001"]
 "serve/extreme_performance_main.py" = ["PLW0603", "ARG001", "ARG002"]
 "serve/orchestration_routes.py" = ["PLW0603", "PLR5501", "ARG002"]

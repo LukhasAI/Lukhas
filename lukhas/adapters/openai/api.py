@@ -13,17 +13,23 @@ Endpoints:
 - POST /v1/responses  -> {"id": "...", "model":"lukhas-matriz", "output":{"text":"..."}}
 - POST /v1/dreams     -> {"id":"dream_...","traces":[...]}
 """
-from typing import Any, Dict, List, Optional
-from fastapi import FastAPI, Request, Response, HTTPException, Depends, Body
-from fastapi.responses import JSONResponse, PlainTextResponse
-from fastapi.middleware.cors import CORSMiddleware
+import logging
+import math
+import os
+import time
+import uuid
 from collections import defaultdict
 from threading import Lock
-import os, time, uuid, logging, math
+from typing import Any, Dict, List, Optional
 
+from fastapi import Body, Depends, FastAPI, HTTPException, Request, Response
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse, PlainTextResponse
+from starlette.exceptions import HTTPException as StarletteHTTPException
+
+from lukhas.adapters.openai.auth import TokenClaims, require_bearer
 from lukhas.core.reliability.ratelimit import RateLimiter, rate_limit_error
-from lukhas.observability.tracing import setup_otel, traced_operation, get_trace_id_hex
-from lukhas.adapters.openai.auth import require_bearer, TokenClaims
+from lukhas.observability.tracing import get_trace_id_hex, setup_otel, traced_operation
 
 logger = logging.getLogger(__name__)
 
@@ -119,9 +125,57 @@ def get_app() -> FastAPI:
         description="OpenAI-compatible API powered by LUKHAS MATRIZ cognitive engine"
     )
 
+    # ---------- OpenAI-style error envelope normalizer ----------
+    OPENAI_ERROR_CODE_BY_STATUS = {
+        401: "invalid_api_key",
+        403: "authorization_error",
+        429: "rate_limit_exceeded",
+    }
+
+    def _trace_headers(request: Request) -> dict:
+        tid = getattr(getattr(request, "state", object()), "trace_id", None)
+        return {"X-Trace-Id": tid} if tid else {}
+
+    def _payload(code: str, message: str) -> dict:
+        return {"error": {"type": code, "message": message, "code": code}}
+
+    async def _http_exc_handler(request: Request, exc: StarletteHTTPException):
+        code = OPENAI_ERROR_CODE_BY_STATUS.get(exc.status_code, "http_error")
+        # Prefer explicit detail; fall back to canonical messages.
+        detail_str = str(exc.detail) if exc.detail else ""
+        if exc.status_code == 401 and not detail_str.strip():
+            message = "Invalid authentication credentials"
+        elif exc.status_code == 403 and not detail_str.strip():
+            message = "Forbidden"
+        elif exc.status_code == 429 and not detail_str.strip():
+            message = "Rate limit exceeded"
+        else:
+            message = detail_str or "HTTP error"
+        return JSONResponse(
+            _payload(code, message),
+            status_code=exc.status_code,
+            headers=_trace_headers(request),
+        )
+
+    async def _generic_exc_handler(request: Request, exc: Exception):
+        # Optionally log with your structured logger here.
+        logger.error(f"Unhandled exception: {exc}", exc_info=True)
+        return JSONResponse(
+            _payload("internal_error", "Internal server error"),
+            status_code=500,
+            headers=_trace_headers(request),
+        )
+
+    app.add_exception_handler(StarletteHTTPException, _http_exc_handler)
+    app.add_exception_handler(Exception, _generic_exc_handler)
+    # ---------- /OpenAI-style error envelope normalizer ----------
+
     # Phase 3: Add security and observability middlewares
     try:
-        from lukhas.observability.security_headers import SecurityHeadersMiddleware, VersionHeaderMiddleware
+        from lukhas.observability.security_headers import (
+            SecurityHeadersMiddleware,
+            VersionHeaderMiddleware,
+        )
         from lukhas.observability.tracing import TraceHeaderMiddleware
         app.add_middleware(SecurityHeadersMiddleware)
         app.add_middleware(VersionHeaderMiddleware)
@@ -138,48 +192,6 @@ def get_app() -> FastAPI:
         logger.info("Log redaction filter installed")
     except Exception as e:
         logger.warning(f"Failed to install log redaction: {e}")
-
-    # Phase 3: HTTPException handler with trace ID in error body
-    @app.exception_handler(HTTPException)
-    async def http_exception_handler(request: Request, exc: HTTPException):
-        """Add trace ID to error responses for correlation."""
-        from lukhas.observability.tracing import current_trace_id_hex
-
-        detail_payload = exc.detail if isinstance(exc.detail, dict) else {
-            "error": {
-                "type": "http_error",
-                "message": str(exc.detail),
-                "code": "unknown"
-            }
-        }
-
-        error_payload = detail_payload.get("error") if isinstance(detail_payload, dict) else None
-        if not isinstance(error_payload, dict):
-            error_payload = {
-                "type": "http_error",
-                "message": str(exc.detail),
-                "code": "unknown"
-            }
-
-        body = {
-            "error": {
-                **error_payload,
-                "status_code": exc.status_code
-            },
-            "detail": detail_payload
-        }
-
-        # Add trace ID if available
-        trace_id = current_trace_id_hex()
-        if trace_id:
-            body["error"]["trace_id"] = trace_id
-            body.setdefault("detail", {}).setdefault("error", {}).setdefault("trace_id", trace_id)
-
-        return JSONResponse(
-            status_code=exc.status_code,
-            content=body,
-            headers=getattr(exc, "headers", None)
-        )
 
     # Initialize OpenTelemetry tracing (optional)
     tracer = setup_otel(service_name="lukhas-openai-facade")
@@ -243,7 +255,7 @@ def get_app() -> FastAPI:
                         _request_latencies[request.url.path] = _request_latencies[request.url.path][-1000:]
 
             return response
-        except Exception as e:
+        except Exception:
             # Track errors
             with _metrics_lock:
                 _error_counts[request.url.path] += 1
@@ -261,7 +273,7 @@ def get_app() -> FastAPI:
         rl_key = rate_limiter.key_for_request(request)
         principal = rate_limiter.principal_for_request(request)
         route = request.url.path
-        
+
         if not allowed:
             # Phase 3: Add OpenAI-style headers and metrics on 429
             try:
@@ -269,10 +281,10 @@ def get_app() -> FastAPI:
                 record_hit(route, principal)
             except Exception:
                 pass
-            
+
             headers = rate_limiter.headers_for(rl_key)
             headers["Retry-After"] = str(int(math.ceil(retry_after))) if retry_after else "1"
-            
+
             error_response = rate_limit_error(retry_after)
             return JSONResponse(
                 status_code=429,
@@ -282,18 +294,18 @@ def get_app() -> FastAPI:
 
         # Process request
         response = await call_next(request)
-        
+
         # Phase 3: Add rate-limit headers to successful responses
         try:
             response.headers.update(rate_limiter.headers_for(rl_key))
-            
+
             # Record metrics for successful requests
             from lukhas.observability.ratelimit_metrics import record_window
             record_window(route, principal, rate_limiter, rl_key)
         except Exception:
             # Never crash due to metrics
             pass
-        
+
         return response
 
     # Initialize MATRIZ orchestrator (if available)
@@ -313,7 +325,7 @@ def get_app() -> FastAPI:
         try:
             memory_index = EmbeddingIndex(dimension=1536)  # OpenAI ada-002 dimension
             logger.info("Memory embedding index initialized")
-            
+
             # Initialize index manager for API routes
             if IndexManager:
                 index_manager = IndexManager()
@@ -322,7 +334,7 @@ def get_app() -> FastAPI:
             logger.error(f"Failed to initialize memory index: {e}")
             memory_index = None
             index_manager = None
-    
+
     # Initialize policy guard (if available)
     policy_guard: Optional[Any] = None
     if POLICY_GUARD_AVAILABLE and PolicyGuard:
@@ -332,18 +344,18 @@ def get_app() -> FastAPI:
         except Exception as e:
             logger.warning(f"Failed to initialize PolicyGuard: {e}, RBAC will be permissive")
             policy_guard = None
-    
+
     # Include indexes router (if index_manager available)
     if index_manager is not None:
         try:
             from lukhas.adapters.openai.routes import indexes_router
             from lukhas.adapters.openai.routes.indexes import set_index_manager, set_policy_guard
-            
+
             # Set global instances for router dependencies
             set_index_manager(index_manager)
             if policy_guard is not None:
                 set_policy_guard(policy_guard)
-            
+
             # Include router
             app.include_router(indexes_router)
             logger.info("Indexes router included at /v1/indexes")
@@ -450,7 +462,7 @@ def get_app() -> FastAPI:
                     return Response(content=body, media_type=ctype, status_code=status)
             except Exception as e:
                 logger.warning(f"Idempotency check failed: {e}")
-        
+
         payload = await request.json()
         text = payload.get("input", "")
         if not text:
@@ -492,17 +504,18 @@ def get_app() -> FastAPI:
             vec = vec[:1536]
 
         result_dict = _maybe_trace({"data": [{"embedding": vec, "index": 0}]})
-        
+
         # Phase 3: Cache response if idempotency key provided
         if idem_key:
             try:
-                from lukhas.core.reliability import idempotency as idem
                 import json
+
+                from lukhas.core.reliability import idempotency as idem
                 resp_bytes = json.dumps(result_dict).encode('utf-8')
                 idem.put(cache_key, 200, resp_bytes, "application/json")
             except Exception as e:
                 logger.warning(f"Idempotency caching failed: {e}")
-        
+
         return result_dict
 
     @app.post("/v1/responses")
@@ -511,7 +524,7 @@ def get_app() -> FastAPI:
         payload = await request.json()
         user_input = str(payload.get("input", ""))
         stream = payload.get("stream", False)
-        
+
         if not user_input:
             raise HTTPException(status_code=400, detail="Input required")
 
@@ -530,12 +543,13 @@ def get_app() -> FastAPI:
                 logger.warning(f"Idempotency check failed: {e}")
 
         request_id = f"resp_{uuid.uuid4().hex[:8]}"
-        
+
         # Phase 3: Streaming support
         if stream:
-            from fastapi.responses import StreamingResponse
             import json
-            
+
+            from fastapi.responses import StreamingResponse
+
             async def _generate_stream():
                 """Generate SSE stream for responses."""
                 # TODO: Integrate with MATRIZ for real streaming deltas
@@ -545,22 +559,22 @@ def get_app() -> FastAPI:
                     "object": "response.part",
                     "delta": {"text": "Thinking"}
                 }) + "\n\n"
-                
+
                 yield "data: " + json.dumps({
                     "id": request_id,
                     "object": "response.part",
                     "delta": {"text": "..."}
                 }) + "\n\n"
-                
+
                 # Final result (echo for now)
                 yield "data: " + json.dumps({
                     "id": request_id,
                     "object": "response.part",
                     "delta": {"text": f" {user_input}"}
                 }) + "\n\n"
-                
+
                 yield "data: [DONE]\n\n"
-            
+
             return StreamingResponse(_generate_stream(), media_type="text/event-stream")
 
         # Try to use MATRIZ orchestrator, fallback to echo
@@ -588,7 +602,7 @@ def get_app() -> FastAPI:
                 trace_info = result.get("trace", {})
 
                 logger.info(
-                    f"MATRIZ processed request",
+                    "MATRIZ processed request",
                     extra={
                         "request_id": request_id,
                         "processing_time": processing_time,
@@ -622,17 +636,18 @@ def get_app() -> FastAPI:
             }
 
         result_json = JSONResponse(_maybe_trace(out))
-        
+
         # Phase 3: Cache response if idempotency key provided (non-streaming only)
         if idem_key and not stream:
             try:
-                from lukhas.core.reliability import idempotency as idem
                 import json
+
+                from lukhas.core.reliability import idempotency as idem
                 resp_bytes = json.dumps(out).encode('utf-8')
                 idem.put(cache_key, 200, resp_bytes, "application/json")
             except Exception as e:
                 logger.warning(f"Idempotency caching failed: {e}")
-        
+
         return result_json
 
     @app.post("/v1/dreams")
@@ -645,8 +660,8 @@ def get_app() -> FastAPI:
         # Stub implementation - in production, integrate with consciousness/dreams module
         traces = [
             {"step": "imagine", "content": f"{seed} unfolds in quantum superposition"},
-            {"step": "expand", "content": f"Patterns emerge: recursive, fractal, alive"},
-            {"step": "critique", "content": f"Coherence check: maintaining ethical boundaries"}
+            {"step": "expand", "content": "Patterns emerge: recursive, fractal, alive"},
+            {"step": "critique", "content": "Coherence check: maintaining ethical boundaries"}
         ]
 
         return _maybe_trace({

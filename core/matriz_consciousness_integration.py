@@ -13,8 +13,12 @@ import time
 from datetime import datetime, timezone
 from typing import Any, Optional
 
-from .bio_symbolic_processor import get_bio_symbolic_processor  # noqa: TID252 TODO: convert to absolute import
-from .consciousness_signal_router import get_consciousness_router  # noqa: TID252 TODO: convert to absolute import
+from .bio_symbolic_processor import (
+    get_bio_symbolic_processor,  # noqa: TID252 TODO: convert to absolute import
+)
+from .consciousness_signal_router import (
+    get_consciousness_router,  # noqa: TID252 TODO: convert to absolute import
+)
 from .constellation_alignment_system import (  # noqa: TID252 TODO: convert to absolute import
     AlignmentLevel,
     get_constellation_monitor,

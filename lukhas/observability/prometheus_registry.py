@@ -9,7 +9,13 @@ from __future__ import annotations
 from typing import Dict, Sequence, Tuple, Type
 
 try:
-    from prometheus_client import CollectorRegistry, Counter, Gauge, Histogram, Summary  # type: ignore
+    from prometheus_client import (  # type: ignore
+        CollectorRegistry,
+        Counter,
+        Gauge,
+        Histogram,
+        Summary,
+    )
 except Exception:  # pragma: no cover
     # Minimal no-op fallbacks to keep importers alive if prometheus_client
     # is not installed in the current lane.

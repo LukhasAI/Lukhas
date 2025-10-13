@@ -53,7 +53,9 @@ try:
     from labs.memory.scheduled_folding import ScheduledFold  # noqa: F401
 except ImportError:
     try:
-        from lukhas.memory.scheduled_folding import ScheduledFold  # type: ignore  # pragma: no cover
+        from lukhas.memory.scheduled_folding import (
+            ScheduledFold,  # type: ignore  # pragma: no cover
+        )
     except Exception:
         class ScheduledFold:
             """Fallback scheduled fold stub."""

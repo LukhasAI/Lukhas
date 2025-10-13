@@ -54,7 +54,7 @@ class IndexManager:
     Provides CRUD operations with automatic metadata tracking.
     Supports named indexes with unique IDs.
     """
-    
+
     def __init__(self):
         """Initialize the index manager."""
         self._indexes: Dict[str, EmbeddingIndex] = {}
@@ -66,7 +66,7 @@ class IndexManager:
             "driftScore": 0.0,
             "affect_delta": 0.01,
         })
-    
+
     def create_index(
         self,
         name: str,
@@ -92,10 +92,10 @@ class IndexManager:
         with self._lock:
             if name in self._name_to_id:
                 raise ValueError(f"Index with name '{name}' already exists")
-            
+
             index_id = f"idx_{uuid4().hex[:16]}"
             index = EmbeddingIndex(metric=metric, trees=trees, dimension=dimension)
-            
+
             now = time.time()
             metadata = IndexMetadata(
                 id=index_id,
@@ -106,11 +106,11 @@ class IndexManager:
                 updated_at=now,
                 vector_count=0
             )
-            
+
             self._indexes[index_id] = index
             self._metadata[index_id] = metadata
             self._name_to_id[name] = index_id
-            
+
             logger.info(
                 f"Created index: {name}",
                 extra={
@@ -123,9 +123,9 @@ class IndexManager:
                     "affect_delta": 0.02,
                 }
             )
-            
+
             return index_id
-    
+
     def get_index(self, index_id: str) -> Optional[EmbeddingIndex]:
         """
         Get an index by ID.
@@ -138,7 +138,7 @@ class IndexManager:
         """
         with self._lock:
             return self._indexes.get(index_id)
-    
+
     def get_metadata(self, index_id: str) -> Optional[IndexMetadata]:
         """
         Get index metadata by ID.
@@ -151,7 +151,7 @@ class IndexManager:
         """
         with self._lock:
             return self._metadata.get(index_id)
-    
+
     def list_indexes(self) -> List[IndexMetadata]:
         """
         List all indexes with metadata.
@@ -161,7 +161,7 @@ class IndexManager:
         """
         with self._lock:
             return list(self._metadata.values())
-    
+
     def delete_index(self, index_id: str) -> bool:
         """
         Delete an index by ID.
@@ -175,14 +175,14 @@ class IndexManager:
         with self._lock:
             if index_id not in self._indexes:
                 return False
-            
+
             metadata = self._metadata[index_id]
-            
+
             # Remove from all tracking structures
             del self._indexes[index_id]
             del self._metadata[index_id]
             del self._name_to_id[metadata.name]
-            
+
             logger.info(
                 f"Deleted index: {metadata.name}",
                 extra={
@@ -193,9 +193,9 @@ class IndexManager:
                     "affect_delta": 0.01,
                 }
             )
-            
+
             return True
-    
+
     def add_vector(
         self,
         index_id: str,
@@ -217,36 +217,36 @@ class IndexManager:
         with self._lock:
             if index_id not in self._indexes:
                 raise KeyError(f"Index not found: {index_id}")
-            
+
             index = self._indexes[index_id]
             metadata = self._metadata[index_id]
-            
+
             # Validate dimension before adding
             vector_list = list(vector)
             if metadata.dimension is not None and len(vector_list) != metadata.dimension:
                 raise ValueError(
                     f"Dimension mismatch: expected {metadata.dimension}, got {len(vector_list)}"
                 )
-            
+
             # Add vector to index (will auto-detect dimension if needed)
             old_size = index.size()
             index.add(item_id, vector_list)
             new_size = index.size()
-            
+
             # Check if add was actually successful (EmbeddingIndex silently skips on dimension mismatch)
             if new_size == old_size and item_id not in index._vectors:
                 raise ValueError(
                     f"Failed to add vector {item_id}: dimension mismatch or invalid vector"
                 )
-            
+
             # Update metadata
             metadata.updated_at = time.time()
             metadata.vector_count = new_size
-            
+
             # Auto-detect dimension on first add
             if metadata.dimension is None and index.dimension is not None:
                 metadata.dimension = index.dimension
-            
+
             logger.debug(
                 f"Added vector to index {metadata.name}",
                 extra={
@@ -256,7 +256,7 @@ class IndexManager:
                     "vector_count": metadata.vector_count,
                 }
             )
-    
+
     def remove_vector(
         self,
         index_id: str,
@@ -278,21 +278,21 @@ class IndexManager:
         with self._lock:
             if index_id not in self._indexes:
                 raise KeyError(f"Index not found: {index_id}")
-            
+
             index = self._indexes[index_id]
             metadata = self._metadata[index_id]
-            
+
             # Check if item exists
             if item_id not in index._vectors:
                 return False
-            
+
             # Remove from index
             index.remove(item_id)
-            
+
             # Update metadata
             metadata.updated_at = time.time()
             metadata.vector_count = index.size()
-            
+
             logger.debug(
                 f"Removed vector from index {metadata.name}",
                 extra={
@@ -302,9 +302,9 @@ class IndexManager:
                     "vector_count": metadata.vector_count,
                 }
             )
-            
+
             return True
-    
+
     def search(
         self,
         index_id: str,
@@ -328,10 +328,10 @@ class IndexManager:
         with self._lock:
             if index_id not in self._indexes:
                 raise KeyError(f"Index not found: {index_id}")
-            
+
             index = self._indexes[index_id]
             results = index.query(query_vector, k=k)
-            
+
             logger.debug(
                 f"Searched index {self._metadata[index_id].name}",
                 extra={
@@ -341,9 +341,9 @@ class IndexManager:
                     "results_count": len(results),
                 }
             )
-            
+
             return results
-    
+
     def get_vector(
         self,
         index_id: str,
@@ -365,10 +365,10 @@ class IndexManager:
         with self._lock:
             if index_id not in self._indexes:
                 raise KeyError(f"Index not found: {index_id}")
-            
+
             index = self._indexes[index_id]
             return index._vectors.get(item_id)
-    
+
     def size(self) -> int:
         """
         Get total number of managed indexes.
@@ -378,7 +378,7 @@ class IndexManager:
         """
         with self._lock:
             return len(self._indexes)
-    
+
     def total_vectors(self) -> int:
         """
         Get total number of vectors across all indexes.

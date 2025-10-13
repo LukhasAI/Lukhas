@@ -143,7 +143,7 @@ if selected_block:
         r"(## 📄 Usage Guide\s*\n```text\n.*?\n```)", body, re.DOTALL  # noqa: F821  # TODO: re
     )
 
-    st.markdown(f"#")  # noqa: F821  # TODO: st
+    st.markdown("#")  # noqa: F821  # TODO: st
 
     if header_info_match:
         st.markdown(header_info_match.group(1))  # noqa: F821  # TODO: st

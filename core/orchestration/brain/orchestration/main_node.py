@@ -35,11 +35,12 @@ try:
     # from AID.service.identity_manager import IdentityManager  # TODO:
     # Install or implement AID
     from backend.security.privacy_manager import PrivacyManager
+    from voice.speech_processor import SpeechProcessor
+
     from frontend.interface.adaptive_interface_generator import (
         AdaptiveInterfaceGenerator,
     )
     from frontend.multimodal.image_generator import AdaptiveImageGenerator
-    from voice.speech_processor import SpeechProcessor
 
     # Utils and config
     from lukhas.core.orchestration.brain.config.settings import load_settings

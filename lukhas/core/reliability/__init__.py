@@ -18,7 +18,8 @@ except NameError:
     __all__ = []
 
 # Idempotency support (Phase 3)
-from lukhas.core.reliability.idempotency import cache_key, get, put, clear
+from lukhas.core.reliability.idempotency import cache_key, clear, get, put
+
 for _name in ("cache_key", "get", "put", "clear"):
     if _name not in __all__:
         __all__.append(_name)
@@ -58,7 +59,10 @@ if "AdaptiveTimeoutManager" not in __all__:
     __all__.append("AdaptiveTimeoutManager")
 
 try:
-    from lukhas.core.backoff import ExponentialBackoff, sleep_with_backoff  # type: ignore  # noqa: F401
+    from lukhas.core.backoff import (  # type: ignore  # noqa: F401
+        ExponentialBackoff,
+        sleep_with_backoff,
+    )
     for _name in ("ExponentialBackoff", "sleep_with_backoff"):
         if _name not in __all__:
             __all__.append(_name)
@@ -91,7 +95,9 @@ if "BackoffStrategy" not in globals():
             self.config = config or BackoffConfig()
 
         def sequence(self):
-            from ..backoff import ExponentialBackoff  # noqa: TID252 (relative imports in __init__.py are idiomatic)
+            from ..backoff import (
+                ExponentialBackoff,  # noqa: TID252 (relative imports in __init__.py are idiomatic)
+            )
 
             return ExponentialBackoff(
                 base=self.config.base,
@@ -129,7 +135,9 @@ if "ErrorCategory" not in globals():
 
 if "ErrorContextManager" not in globals():
     try:
-        from labs.core.reliability import ErrorContextManager  # type: ignore[attr-defined]  # noqa: F401
+        from labs.core.reliability import (
+            ErrorContextManager,  # type: ignore[attr-defined]  # noqa: F401
+        )
     except ImportError:
 
         class ErrorContextManager:
@@ -172,7 +180,9 @@ if "ErrorSeverity" not in globals():
 
 if "IntelligentBackoff" not in globals():
     try:
-        from labs.core.reliability import IntelligentBackoff  # type: ignore[attr-defined]  # noqa: F401
+        from labs.core.reliability import (
+            IntelligentBackoff,  # type: ignore[attr-defined]  # noqa: F401
+        )
     except ImportError:
         from typing import Iterable, Iterator
 
@@ -200,7 +210,9 @@ if "IntelligentBackoff" not in globals():
 
 if "PerformanceRegressionDetector" not in globals():
     try:
-        from labs.core.reliability import PerformanceRegressionDetector  # type: ignore[attr-defined]  # noqa: F401
+        from labs.core.reliability import (
+            PerformanceRegressionDetector,  # type: ignore[attr-defined]  # noqa: F401
+        )
     except ImportError:
 
         class PerformanceRegressionDetector:

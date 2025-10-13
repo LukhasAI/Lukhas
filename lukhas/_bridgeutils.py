@@ -116,7 +116,7 @@ def bridge_from_candidates(
 
     if deprecated:
         warnings.warn(
-            f"Importing from this location is deprecated. Use the canonical path instead.",
+            "Importing from this location is deprecated. Use the canonical path instead.",
             DeprecationWarning,
             stacklevel=stacklevel,
         )

@@ -3,7 +3,9 @@
 from __future__ import annotations
 
 try:
-    from ..dream.trace import DreamTrace  # type: ignore  # noqa: TID252 (relative imports in __init__.py are idiomatic)
+    from ..dream.trace import (
+        DreamTrace,  # type: ignore  # noqa: TID252 (relative imports in __init__.py are idiomatic)
+    )
 except Exception:
     class DreamTrace:
         def __init__(self):
