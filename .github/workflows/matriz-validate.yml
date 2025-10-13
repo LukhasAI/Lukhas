@@ -563,3 +563,42 @@ jobs:
           else
             echo "ℹ️  No alert rules found, skipping"
           fi
+
+  codemod-dry:
+    name: Codemod • Dry-run regression guard
+    runs-on: ubuntu-latest
+    needs: [validate]
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install libcst
+        run: pip install libcst
+
+      - name: Run codemod golden tests
+        run: |
+          if [ -f "tests/tools/test_codemod_imports.py" ]; then
+            pip install pytest
+            pytest -xvs tests/tools/test_codemod_imports.py
+            echo "✅ Codemod golden tests passed"
+          else
+            echo "ℹ️  No codemod tests found, skipping"
+          fi
+
+      - name: Dry-run codemod to detect legacy imports
+        run: |
+          # Run codemod in dry-run mode (no --apply flag)
+          python3 scripts/codemod_imports.py --dry-run > codemod_preview.txt 2>&1 || true
+
+          # Check if any rewrites would be made
+          if grep -q "would rewrite" codemod_preview.txt; then
+            echo "::error ::Codemod would rewrite imports. Phase 2 migration should be complete."
+            echo "--- Preview (first 50 lines) ---"
+            head -50 codemod_preview.txt
+            exit 2
+          else
+            echo "✅ No legacy imports detected - Phase 2 migration complete"
+          fi

@@ -50,6 +50,15 @@
 # Monitoring & Observability
 /monitoring/**                     @gonzo.dominguez @platform-team
 /samples/logs/**                   @gonzo.dominguez @platform-team
+/lukhas/observability/**           @gonzo.dominguez @platform-team
+/lukhas/observability/alerts/**    @gonzo.dominguez @platform-team
+/lukhas/core/reliability/**        @gonzo.dominguez @platform-team
+
+# OpenAI Facade & Public API (Phase 3)
+/lukhas/adapters/openai/**         @gonzo.dominguez @platform-team
+/docs/openapi/**                   @gonzo.dominguez @platform-team
+/scripts/generate_openapi.py       @gonzo.dominguez @platform-team
+/scripts/diff_openapi.py           @gonzo.dominguez @platform-team
 
 # CI/CD & Automation
 /.github/workflows/**              @gonzo.dominguez @platform-team
@@ -81,6 +90,12 @@ core/__init__.py                              @platform-team
 scripts/codemod_legacy_core.py                @platform-team
 .github/workflows/legacy-*                    @platform-team
 monitoring/legacy_core_sunset_alerts.yml      @platform-team
+
+# Phase 2 Import Codemod (hygiene)
+/scripts/codemod_imports.py                   @gonzo.dominguez @platform-team
+/tests/tools/test_codemod_imports.py          @gonzo.dominguez @platform-team
+/experimental/**                              @gonzo.dominguez @platform-team
+/labs/**                                      @gonzo.dominguez @core-team
 
 # === CATCH-ALL ===
 
