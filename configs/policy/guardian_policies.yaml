@@ -1,0 +1,12 @@
+version: 1
+rules:
+  - id: deny-sensitive-dreams
+    when:
+      action: { route: "/v1/dreams", verb: "POST" }
+      resource: { sensitivity: "restricted" }
+    unless:
+      subject:
+        scopes: ["dreams:restricted"]
+    effect: deny
+  - id: allow-default
+    effect: allow
