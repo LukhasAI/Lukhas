@@ -25,14 +25,18 @@ class Policy:
         self.etag = etag
 
         raw_rules = policy_data.get("rules", [])
-        # Normalize rules: map 'when' to 'conditions' if present for backward compatibility
+        # Normalize rules: map 'when' to 'conditions' and filter unknown keys
         normalized_rules = []
         for r in raw_rules:
             rule_dict = dict(r)
             # If YAML has 'when' but Rule expects 'conditions', rename the key
             if "when" in rule_dict and "conditions" not in rule_dict:
                 rule_dict["conditions"] = rule_dict.pop("when")
-            normalized_rules.append(Rule(**rule_dict))
+            # Remove keys that Rule doesn't accept (like 'unless')
+            # Only keep keys that are in Rule dataclass fields
+            valid_keys = {"id", "effect", "subjects", "actions", "resources", "conditions", "obligations"}
+            filtered_dict = {k: v for k, v in rule_dict.items() if k in valid_keys}
+            normalized_rules.append(Rule(**filtered_dict))
         self.rules = normalized_rules
 
         # Pre-index rules for performance

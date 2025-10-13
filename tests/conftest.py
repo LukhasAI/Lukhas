@@ -196,6 +196,18 @@ def settings():
     return {"env": "test", "debug": os.getenv("PYTEST_DEBUG", "false").lower() == "true"}
 
 
+@pytest.fixture(scope="session")
+def repo_root() -> Path:
+    """Absolute path to the repository root for path-based tests."""
+    return REPO_ROOT
+
+
+@pytest.fixture(scope="session")
+def labs_root(repo_root: Path) -> Path:
+    """Resolved path to the labs/ lane (replaces literal candidate/ path checks)."""
+    return repo_root / "labs"
+
+
 @pytest.fixture
 def test_data_dir():
     """Path to test data directory."""
