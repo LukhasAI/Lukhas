@@ -6,15 +6,15 @@
 > Source of truth for who is working where. Update once per day (or when roles change).
 > Locks live under `.dev/locks/*.lock` — see **Lock etiquette** below.
 
-_Last updated:_ 2025-10-13T00:00:00Z
+_Last updated:_ 2025-10-14T15:00:00Z
 
 ## ✳️ Active Worktrees
 
 | Agent       | Worktree Path                      | Branch                           | Area Ownership (no-collision)                                                                 | CI Gates Owned                               | Status | Last Sync (UTC) | Notes |
 |-------------|------------------------------------|----------------------------------|------------------------------------------------------------------------------------------------|----------------------------------------------|--------|-----------------|-------|
-| **Claude**  | `/Users/agi_dev/LOCAL-REPOS/Lukhas` | `main`                          | Testing/API (OpenAI façade, `tests/smoke/**`, `lukhas/adapters/openai/**`)                     | smoke tests, API compatibility                | ✅    | 2025-10-13      | Completed Phase 2 OpenAI façade + 3 rounds professional testing (196+ tests) |
-| **Codex**   | `../Lukhas-codex-B1`               | `fix/codex10/ruffB1`             | Hot-path lint/refactor (`lukhas/core/reliability/**`, `lukhas/observability/**`, `MATRIZ/core/**`) | `ruff-phaseB-hotpaths ≤90` (target this PR)  | 🟢    |                 |      |
-| **Copilot** | `../Lukhas-copilot-dx2`            | `docs/copilot/quickstart-polish` | DX/docs/examples (`README.md`, `examples/sdk/**`, `docs/**`, Postman/Newman workflows)         | newman golden flows                           | ✅    | 2025-10-13      | Phase 2 DX complete, merged to main |
+| **Claude**  | `/Users/agi_dev/LOCAL-REPOS/Lukhas` | `main`                          | Observability/CI (workflows, rules, dashboards, health scripts, `docs/**`)                      | PR health badge, Prometheus rules, health artifacts | ✅    | 2025-10-14      | GA Guard Pack merged (#382, #383); monitoring deploy pending Guardian YAML fix |
+| **Codex**   | `../Lukhas-codex-B1`               | `fix/codex10/ruffB1`             | Hot-path lint/refactor (`lukhas/adapters/**`, `lukhas/core/reliability/**`, `lukhas/observability/**`, `MATRIZ/core/**`) | `ruff-phaseB-hotpaths ≤120`  | 🟡    | 2025-10-14      | PR #381 → Draft; scoped B-slices (#388, #389); fix Guardian YAML (#390) |
+| **Copilot** | `../Lukhas-copilot-dx2`            | `docs/copilot/quickstart-polish` | DX/docs/examples (`README.md`, `examples/sdk/**`, `docs/**`, Postman/Newman workflows)         | newman golden flows                           | ✅    | 2025-10-13      | Phase 2 DX complete, merged to main (#383) |
 
 ### 🧭 Ownership rules
 - **Claude** can change **metrics/health/CI**; avoid runtime refactors in Codex’ hot paths.
