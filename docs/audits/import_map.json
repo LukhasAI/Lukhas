@@ -1,0 +1,1813 @@
+{
+  "generated_from": "build_import_map.py",
+  "symbol_to_modules": {
+    "await_with_timeout": [
+      "lukhas.async_utils"
+    ],
+    "run_guardian_task": [
+      "lukhas.async_utils"
+    ],
+    "run_with_retry": [
+      "lukhas.async_utils"
+    ],
+    "export_from": [
+      "lukhas._bridgeutils"
+    ],
+    "safe_guard": [
+      "lukhas._bridgeutils"
+    ],
+    "bridge": [
+      "lukhas._bridgeutils"
+    ],
+    "bridge_from_candidates": [
+      "lukhas._bridgeutils"
+    ],
+    "deprecate": [
+      "lukhas._bridgeutils"
+    ],
+    "resolve_first": [
+      "lukhas._bridgeutils"
+    ],
+    "ROOT": [
+      "lukhas"
+    ],
+    "__getattr__": [
+      "lukhas",
+      "lukhas.aka_qualia.glyphs",
+      "lukhas.aka_qualia.memory_noop",
+      "lukhas.aka_qualia.memory_sql",
+      "lukhas.aka_qualia.palette",
+      "lukhas.aka_qualia.pls",
+      "lukhas.aka_qualia.router_client",
+      "lukhas.aka_qualia.teq_hook",
+      "lukhas.bio.core.architecture_analyzer",
+      "lukhas.bridge.external_adapters.gmail_adapter",
+      "lukhas.consciousness.meta_cognitive_assessor",
+      "lukhas.core.matriz.async_orchestrator",
+      "lukhas.core.matriz.pipeline_stage",
+      "lukhas.core.policy_guard",
+      "lukhas.flags",
+      "lukhas.governance.ethics",
+      "lukhas.governance.multi_vector_detector",
+      "lukhas.matriz.runtime",
+      "lukhas.matriz.runtime.policy",
+      "lukhas.memory.backends.base",
+      "lukhas.observability.compliance_dashboard",
+      "lukhas.observability.enhanced_distributed_tracing",
+      "lukhas.observability.intelligent_alerting",
+      "lukhas.observability.security_hardening",
+      "lukhas.orchestration.multi_ai_router",
+      "lukhas.security.secure_random",
+      "lukhas.trace.TraceRepairEngine"
+    ],
+    "_root_packages": [
+      "lukhas"
+    ],
+    "__dir__": [
+      "lukhas"
+    ],
+    "_resolve_target": [
+      "lukhas"
+    ],
+    "CANDIDATE": [
+      "lukhas"
+    ],
+    "main": [
+      "lukhas.main",
+      "lukhas.tools.collapse_simulator"
+    ],
+    "app": [
+      "lukhas.main"
+    ],
+    "_CANDIDATES": [
+      "lukhas.aka_qualia.glyphs",
+      "lukhas.aka_qualia.memory_noop",
+      "lukhas.aka_qualia.memory_sql",
+      "lukhas.aka_qualia.monitoring_dashboard",
+      "lukhas.aka_qualia.palette",
+      "lukhas.aka_qualia.pls",
+      "lukhas.aka_qualia.router_client",
+      "lukhas.aka_qualia.teq_hook",
+      "lukhas.async_manager",
+      "lukhas.bio.core.architecture_analyzer",
+      "lukhas.bridge.adapters.openai_embedding_provider",
+      "lukhas.bridge.external_adapters.gmail_adapter",
+      "lukhas.cognitive_core.reasoning.contradiction_integrator",
+      "lukhas.consciousness.consciousness_stream",
+      "lukhas.consciousness.consciousness_wrapper",
+      "lukhas.consciousness.dream",
+      "lukhas.consciousness.matriz_thought_loop",
+      "lukhas.consciousness.meta_cognitive_assessor",
+      "lukhas.consciousness.meta_cognitive_context",
+      "lukhas.consciousness.types",
+      "lukhas.core.consciousness_stream",
+      "lukhas.core.consensus",
+      "lukhas.core.matriz.async_orchestrator",
+      "lukhas.core.matriz.pipeline_stage",
+      "lukhas.core.reliability.circuit_breaker",
+      "lukhas.flags",
+      "lukhas.governance.ethics",
+      "lukhas.governance.ethics.constitutional_ai",
+      "lukhas.governance.multi_vector_detector",
+      "lukhas.identity",
+      "lukhas.ledger.consent_handlers",
+      "lukhas.matriz.runtime",
+      "lukhas.matriz.runtime.policy",
+      "lukhas.memory.backends.base",
+      "lukhas.memory.backends.faiss_store",
+      "lukhas.memory.folds.fold_engine",
+      "lukhas.memory.retention",
+      "lukhas.memory.sync",
+      "lukhas.memory.tombstones",
+      "lukhas.nodes",
+      "lukhas.nodes.example_nodes",
+      "lukhas.observability",
+      "lukhas.observability.compliance_dashboard",
+      "lukhas.observability.enhanced_distributed_tracing",
+      "lukhas.observability.intelligent_alerting",
+      "lukhas.observability.opentelemetry_tracing",
+      "lukhas.observability.security_hardening",
+      "lukhas.orchestration.multi_ai_router",
+      "lukhas.orchestration.signals",
+      "lukhas.public_api",
+      "lukhas.rl.coordination.multi_agent_trainer",
+      "lukhas.security.secure_random",
+      "lukhas.trace.TraceRepairEngine"
+    ],
+    "_try": [
+      "lukhas.aka_qualia.glyphs",
+      "lukhas.aka_qualia.memory_noop",
+      "lukhas.aka_qualia.memory_sql",
+      "lukhas.aka_qualia.monitoring_dashboard",
+      "lukhas.aka_qualia.palette",
+      "lukhas.aka_qualia.pls",
+      "lukhas.aka_qualia.router_client",
+      "lukhas.aka_qualia.teq_hook",
+      "lukhas.bio.core.architecture_analyzer",
+      "lukhas.bridge.adapters.service_adapter_base",
+      "lukhas.bridge.external_adapters.gmail_adapter",
+      "lukhas.consciousness.meta_cognitive_assessor",
+      "lukhas.core.matriz.async_orchestrator",
+      "lukhas.core.matriz.pipeline_stage",
+      "lukhas.core.policy_guard",
+      "lukhas.core.reliability.circuit_breaker",
+      "lukhas.flags",
+      "lukhas.governance.identity.core",
+      "lukhas.governance.multi_vector_detector",
+      "lukhas.ledger.consent_handlers",
+      "lukhas.matriz.runtime",
+      "lukhas.matriz.runtime.policy",
+      "lukhas.memory.backends.base",
+      "lukhas.memory.backends.faiss_store",
+      "lukhas.observability.compliance_dashboard",
+      "lukhas.observability.enhanced_distributed_tracing",
+      "lukhas.observability.intelligent_alerting",
+      "lukhas.observability.security_hardening",
+      "lukhas.observability.service_metrics",
+      "lukhas.orchestration.multi_ai_router",
+      "lukhas.rl.coordination.multi_agent_trainer",
+      "lukhas.security.secure_random",
+      "lukhas.trace.TraceRepairEngine"
+    ],
+    "_SRC": [
+      "lukhas.aka_qualia.glyphs",
+      "lukhas.aka_qualia.memory_noop",
+      "lukhas.aka_qualia.memory_sql",
+      "lukhas.aka_qualia.monitoring_dashboard",
+      "lukhas.aka_qualia.palette",
+      "lukhas.aka_qualia.pls",
+      "lukhas.aka_qualia.router_client",
+      "lukhas.aka_qualia.teq_hook",
+      "lukhas.bio.core.architecture_analyzer",
+      "lukhas.bridge.external_adapters.gmail_adapter",
+      "lukhas.consciousness.meta_cognitive_assessor",
+      "lukhas.core.ethics.logic",
+      "lukhas.core.matriz.async_orchestrator",
+      "lukhas.core.matriz.pipeline_stage",
+      "lukhas.core.reliability.circuit_breaker",
+      "lukhas.flags",
+      "lukhas.governance.multi_vector_detector",
+      "lukhas.ledger.consent_handlers",
+      "lukhas.matriz.runtime",
+      "lukhas.matriz.runtime.policy",
+      "lukhas.memory.backends.base",
+      "lukhas.memory.backends.faiss_store",
+      "lukhas.observability.compliance_dashboard",
+      "lukhas.observability.enhanced_distributed_tracing",
+      "lukhas.observability.intelligent_alerting",
+      "lukhas.observability.security_hardening",
+      "lukhas.orchestration.multi_ai_router",
+      "lukhas.rl.coordination.multi_agent_trainer",
+      "lukhas.security.secure_random",
+      "lukhas.trace.TraceRepairEngine"
+    ],
+    "LedgerEvent": [
+      "lukhas.ledger.events"
+    ],
+    "AsyncEventBus": [
+      "lukhas.ledger.event_bus"
+    ],
+    "TodoItem": [
+      "lukhas.tools.todo"
+    ],
+    "categorize_todos": [
+      "lukhas.tools.categorize_todos",
+      "lukhas.tools.todo"
+    ],
+    "TodoList": [
+      "lukhas.tools.todo"
+    ],
+    "derive_top_symbols": [
+      "lukhas.tools.collapse_simulator"
+    ],
+    "compile_summary": [
+      "lukhas.tools.collapse_simulator"
+    ],
+    "CollapseSimulator": [
+      "lukhas.tools.collapse_simulator"
+    ],
+    "DEFAULT_OUTPUT_PATH": [
+      "lukhas.tools.collapse_simulator"
+    ],
+    "SimulationContext": [
+      "lukhas.tools.collapse_simulator"
+    ],
+    "simulate_collapse": [
+      "lukhas.tools.collapse_simulator"
+    ],
+    "CategorizedTodo": [
+      "lukhas.tools.categorize_todos"
+    ],
+    "TraceRepairEngine": [
+      "lukhas.trace"
+    ],
+    "_bind": [
+      "lukhas.aka_qualia",
+      "lukhas.consciousness.matriz_thought_loop",
+      "lukhas.core.common",
+      "lukhas.core.ethics.logic",
+      "lukhas.trace"
+    ],
+    "Flags": [
+      "lukhas.flags.ff"
+    ],
+    "mk_crumb": [
+      "lukhas.core.trace"
+    ],
+    "get_logger": [
+      "lukhas.core.common"
+    ],
+    "ExponentialBackoff": [
+      "lukhas.core.backoff"
+    ],
+    "sleep_with_backoff": [
+      "lukhas.core.backoff"
+    ],
+    "TestCoreIntegration": [
+      "lukhas.core.tests.test_core_unit"
+    ],
+    "test_module_imports": [
+      "lukhas.config.tests.test_config_unit",
+      "lukhas.core.tests.test_core_unit",
+      "lukhas.docs.tests.test_docs_unit",
+      "lukhas.schema.tests.test_schema_unit",
+      "lukhas.tests.tests.test_tests_unit"
+    ],
+    "TestCoreObservability": [
+      "lukhas.core.tests.test_core_unit"
+    ],
+    "TestCoreCore": [
+      "lukhas.core.tests.test_core_unit"
+    ],
+    "pytest_configure": [
+      "lukhas.config.tests.test_config_unit",
+      "lukhas.core.tests.test_core_unit",
+      "lukhas.docs.tests.test_docs_unit",
+      "lukhas.schema.tests.test_schema_unit",
+      "lukhas.tests.tests.test_tests_unit"
+    ],
+    "test_module_has_init": [
+      "lukhas.config.tests.test_config_unit",
+      "lukhas.core.tests.test_core_unit",
+      "lukhas.docs.tests.test_docs_unit",
+      "lukhas.schema.tests.test_schema_unit",
+      "lukhas.tests.tests.test_tests_unit"
+    ],
+    "TestCorePerformance": [
+      "lukhas.core.tests.test_core_unit"
+    ],
+    "test_data": [
+      "lukhas.config.tests.test_config_integration",
+      "lukhas.core.tests.test_core_integration",
+      "lukhas.docs.tests.test_docs_integration",
+      "lukhas.schema.tests.test_schema_integration",
+      "lukhas.tests.tests.test_tests_integration"
+    ],
+    "TestCoreErrorRecoveryIntegration": [
+      "lukhas.core.tests.test_core_integration"
+    ],
+    "TestCoreEndToEnd": [
+      "lukhas.core.tests.test_core_integration"
+    ],
+    "core_component": [
+      "lukhas.core.tests.test_core_integration"
+    ],
+    "TestCoreMonitoringIntegration": [
+      "lukhas.core.tests.test_core_integration"
+    ],
+    "TestCoreExternalIntegration": [
+      "lukhas.core.tests.test_core_integration"
+    ],
+    "TestCoreScalabilityIntegration": [
+      "lukhas.core.tests.test_core_integration"
+    ],
+    "OptimizedAsyncOrchestrator": [
+      "lukhas.core.matriz.optimized_orchestrator"
+    ],
+    "RedisIdempotencyStore": [
+      "lukhas.core.reliability.idempotency_redis"
+    ],
+    "Quota": [
+      "lukhas.core.reliability.quota_resolver"
+    ],
+    "QuotaResolver": [
+      "lukhas.core.reliability.quota_resolver"
+    ],
+    "put": [
+      "lukhas.core.reliability",
+      "lukhas.core.reliability.idempotency"
+    ],
+    "IdempotencyStore": [
+      "lukhas.core.reliability",
+      "lukhas.core.reliability.idempotency"
+    ],
+    "_hash_token": [
+      "lukhas.core.reliability.idempotency"
+    ],
+    "build_cache_key": [
+      "lukhas.core.reliability",
+      "lukhas.core.reliability.idempotency"
+    ],
+    "_select_store": [
+      "lukhas.core.reliability.idempotency"
+    ],
+    "InMemoryIdempotencyStore": [
+      "lukhas.core.reliability",
+      "lukhas.core.reliability.idempotency"
+    ],
+    "clear": [
+      "lukhas.core.reliability",
+      "lukhas.core.reliability.idempotency"
+    ],
+    "get": [
+      "lukhas.core.reliability",
+      "lukhas.core.reliability.idempotency"
+    ],
+    "RateLimiter": [
+      "lukhas.core.reliability.ratelimit"
+    ],
+    "TokenBucket": [
+      "lukhas.core.reliability.ratelimit"
+    ],
+    "rate_limit_error": [
+      "lukhas.core.reliability.ratelimit"
+    ],
+    "jittered_exponential": [
+      "lukhas.core.reliability.backoff"
+    ],
+    "RedisTokenBucket": [
+      "lukhas.core.reliability.ratelimit_backends"
+    ],
+    "LimiterBackend": [
+      "lukhas.core.reliability.ratelimit_backends"
+    ],
+    "RedisRateLimitBackend": [
+      "lukhas.core.reliability.redis_backend"
+    ],
+    "circuit_breaker": [
+      "lukhas.core.reliability.circuit_breaker"
+    ],
+    "_CircuitBreakerStub": [
+      "lukhas.core.reliability.circuit_breaker"
+    ],
+    "get_circuit_health": [
+      "lukhas.core.reliability.circuit_breaker"
+    ],
+    "_load": [
+      "lukhas.core.consciousness_stream"
+    ],
+    "MemoryType": [
+      "lukhas.memory.adaptive_memory",
+      "lukhas.memory.folds.fold_engine"
+    ],
+    "MemoryFold": [
+      "lukhas.memory.adaptive_memory",
+      "lukhas.memory.folds.fold_engine"
+    ],
+    "get_memory_system": [
+      "lukhas.memory.adaptive_memory"
+    ],
+    "AdaptiveMemorySystem": [
+      "lukhas.memory.adaptive_memory"
+    ],
+    "MemoryItem": [
+      "lukhas.memory.adaptive_memory"
+    ],
+    "_public_names": [
+      "lukhas.memory"
+    ],
+    "EmbeddingIndex": [
+      "lukhas.memory.embedding_index"
+    ],
+    "IndexManager": [
+      "lukhas.memory.index_manager"
+    ],
+    "IndexMetadata": [
+      "lukhas.memory.index_manager"
+    ],
+    "get_folding_manager": [
+      "lukhas.memory.scheduled_folding"
+    ],
+    "DistributedMemoryOrchestrator": [
+      "lukhas.memory.distributed_memory"
+    ],
+    "InMemoryVectorStore": [
+      "lukhas.memory.backends.memory_store"
+    ],
+    "FoldEngine": [
+      "lukhas.memory.folds.fold_engine"
+    ],
+    "MemoryPriority": [
+      "lukhas.memory.folds.fold_engine"
+    ],
+    "LUKHASIdentityService": [
+      "lukhas.identity.auth_service"
+    ],
+    "TestConfigCore": [
+      "lukhas.config.tests.test_config_unit"
+    ],
+    "TestConfigIntegration": [
+      "lukhas.config.tests.test_config_unit"
+    ],
+    "TestConfigPerformance": [
+      "lukhas.config.tests.test_config_unit"
+    ],
+    "TestConfigObservability": [
+      "lukhas.config.tests.test_config_unit"
+    ],
+    "TestConfigEndToEnd": [
+      "lukhas.config.tests.test_config_integration"
+    ],
+    "TestConfigScalabilityIntegration": [
+      "lukhas.config.tests.test_config_integration"
+    ],
+    "config_component": [
+      "lukhas.config.tests.test_config_integration"
+    ],
+    "TestConfigErrorRecoveryIntegration": [
+      "lukhas.config.tests.test_config_integration"
+    ],
+    "TestConfigExternalIntegration": [
+      "lukhas.config.tests.test_config_integration"
+    ],
+    "TestConfigMonitoringIntegration": [
+      "lukhas.config.tests.test_config_integration"
+    ],
+    "service_adapter_base": [
+      "lukhas.bridge.adapters"
+    ],
+    "ThoughtComplexity": [
+      "lukhas.consciousness.enhanced_thought_engine"
+    ],
+    "EnhancedThoughtConfig": [
+      "lukhas.consciousness.enhanced_thought_engine"
+    ],
+    "EnhancedThoughtEngine": [
+      "lukhas.consciousness.enhanced_thought_engine"
+    ],
+    "ReflectionConfig": [
+      "lukhas.consciousness.reflection_engine"
+    ],
+    "ReflectionEngine": [
+      "lukhas.consciousness.reflection_engine"
+    ],
+    "AlignmentScore": [
+      "lukhas.consciousness.reflection_engine"
+    ],
+    "ReflectionEntry": [
+      "lukhas.consciousness.reflection_engine"
+    ],
+    "DreamTrace": [
+      "lukhas.consciousness.dream.trace",
+      "lukhas.consciousness.dreams.schema",
+      "lukhas.consciousness.dreamtrace"
+    ],
+    "DreamsEngine": [
+      "lukhas.consciousness.dreams.engine"
+    ],
+    "ConsciousnessValidationContext": [
+      "lukhas.consciousness.guardian_integration"
+    ],
+    "GuardianValidationConfig": [
+      "lukhas.consciousness.guardian_integration"
+    ],
+    "GuardianDecision": [
+      "lukhas.consciousness.guardian_integration"
+    ],
+    "ValidationResult": [
+      "lukhas.consciousness.guardian_integration"
+    ],
+    "ConsciousnessGuardianIntegration": [
+      "lukhas.consciousness.guardian_integration"
+    ],
+    "create_validation_context": [
+      "lukhas.consciousness.guardian_integration"
+    ],
+    "GuardianAdapter": [
+      "lukhas.consciousness.guardian_integration"
+    ],
+    "guard_stream": [
+      "lukhas.consciousness.guardian_integration"
+    ],
+    "GuardianValidationType": [
+      "lukhas.consciousness.guardian_integration"
+    ],
+    "GuardianValidationResult": [
+      "lukhas.consciousness.guardian_integration"
+    ],
+    "temp_dir": [
+      "lukhas.tests.conftest"
+    ],
+    "clean_environment": [
+      "lukhas.tests.conftest"
+    ],
+    "mock_lukhas_config": [
+      "lukhas.tests.conftest"
+    ],
+    "test_config": [
+      "lukhas.tests.conftest"
+    ],
+    "TestLukhasIntegration": [
+      "lukhas.tests.test_lukhas_integration"
+    ],
+    "TestLukhasModule": [
+      "lukhas.tests.test_lukhas_unit"
+    ],
+    "TestTestsObservability": [
+      "lukhas.tests.tests.test_tests_unit"
+    ],
+    "TestTestsCore": [
+      "lukhas.tests.tests.test_tests_unit"
+    ],
+    "TestTestsIntegration": [
+      "lukhas.tests.tests.test_tests_unit"
+    ],
+    "TestTestsPerformance": [
+      "lukhas.tests.tests.test_tests_unit"
+    ],
+    "TestTestsMonitoringIntegration": [
+      "lukhas.tests.tests.test_tests_integration"
+    ],
+    "tests_component": [
+      "lukhas.tests.tests.test_tests_integration"
+    ],
+    "TestTestsErrorRecoveryIntegration": [
+      "lukhas.tests.tests.test_tests_integration"
+    ],
+    "TestTestsExternalIntegration": [
+      "lukhas.tests.tests.test_tests_integration"
+    ],
+    "TestTestsEndToEnd": [
+      "lukhas.tests.tests.test_tests_integration"
+    ],
+    "TestTestsScalabilityIntegration": [
+      "lukhas.tests.tests.test_tests_integration"
+    ],
+    "_cosine": [
+      "lukhas.utils.similarity"
+    ],
+    "st": [
+      "lukhas.utils",
+      "lukhas.utils.streamlit_compat"
+    ],
+    "TestDocsExternalIntegration": [
+      "lukhas.docs.tests.test_docs_integration"
+    ],
+    "TestDocsEndToEnd": [
+      "lukhas.docs.tests.test_docs_integration"
+    ],
+    "docs_component": [
+      "lukhas.docs.tests.test_docs_integration"
+    ],
+    "TestDocsMonitoringIntegration": [
+      "lukhas.docs.tests.test_docs_integration"
+    ],
+    "TestDocsScalabilityIntegration": [
+      "lukhas.docs.tests.test_docs_integration"
+    ],
+    "TestDocsErrorRecoveryIntegration": [
+      "lukhas.docs.tests.test_docs_integration"
+    ],
+    "TestDocsObservability": [
+      "lukhas.docs.tests.test_docs_unit"
+    ],
+    "TestDocsIntegration": [
+      "lukhas.docs.tests.test_docs_unit"
+    ],
+    "TestDocsCore": [
+      "lukhas.docs.tests.test_docs_unit"
+    ],
+    "TestDocsPerformance": [
+      "lukhas.docs.tests.test_docs_unit"
+    ],
+    "setup_otel": [
+      "lukhas.observability.tracing"
+    ],
+    "current_trace_id_hex": [
+      "lukhas.observability.tracing"
+    ],
+    "get_trace_id_hex": [
+      "lukhas.observability.tracing"
+    ],
+    "traced_operation": [
+      "lukhas.observability.tracing"
+    ],
+    "add_span_event": [
+      "lukhas.observability.tracing"
+    ],
+    "counter": [
+      "lukhas.observability.prometheus_registry"
+    ],
+    "summary": [
+      "lukhas.observability.prometheus_registry"
+    ],
+    "register_lukhas_metric": [
+      "lukhas.observability.prometheus_registry"
+    ],
+    "gauge": [
+      "lukhas.observability.prometheus_registry"
+    ],
+    "histogram": [
+      "lukhas.observability.prometheus_registry"
+    ],
+    "LUKHAS_REGISTRY": [
+      "lukhas.observability.prometheus_registry"
+    ],
+    "GUARDIAN_DENIED_REASON": [
+      "lukhas.observability.guardian_metrics"
+    ],
+    "GUARDIAN_RULE_EVALUATIONS": [
+      "lukhas.observability.guardian_metrics"
+    ],
+    "GUARDIAN_POLICY_VERSION": [
+      "lukhas.observability.guardian_metrics"
+    ],
+    "get_decision_stats": [
+      "lukhas.observability.guardian_metrics"
+    ],
+    "_normalize_route": [
+      "lukhas.observability.guardian_metrics"
+    ],
+    "record_rule_evaluation": [
+      "lukhas.observability.guardian_metrics"
+    ],
+    "GUARDIAN_DECISION_TOTAL": [
+      "lukhas.observability.guardian_metrics"
+    ],
+    "record_decision": [
+      "lukhas.observability.guardian_metrics"
+    ],
+    "_cap_reason": [
+      "lukhas.observability.guardian_metrics"
+    ],
+    "set_policy_version": [
+      "lukhas.observability.guardian_metrics"
+    ],
+    "_enabled": [
+      "lukhas.observability.guardian_metrics",
+      "lukhas.observability.ratelimit_metrics"
+    ],
+    "GUARDIAN_DECISION_LATENCY": [
+      "lukhas.observability.guardian_metrics"
+    ],
+    "RunEvent": [
+      "lukhas.observability.events"
+    ],
+    "EventLogger": [
+      "lukhas.observability.events"
+    ],
+    "generate_run_id": [
+      "lukhas.observability.events"
+    ],
+    "log_event": [
+      "lukhas.observability.events"
+    ],
+    "EventType": [
+      "lukhas.observability.events"
+    ],
+    "get_event_logger": [
+      "lukhas.observability.events"
+    ],
+    "generate_step_id": [
+      "lukhas.observability.events"
+    ],
+    "SecurityHeadersMiddleware": [
+      "lukhas.observability.security_headers"
+    ],
+    "VersionHeaderMiddleware": [
+      "lukhas.observability.security_headers"
+    ],
+    "RL_LIMIT": [
+      "lukhas.observability.ratelimit_metrics"
+    ],
+    "RL_REMAINING": [
+      "lukhas.observability.ratelimit_metrics"
+    ],
+    "RL_HITS": [
+      "lukhas.observability.ratelimit_metrics"
+    ],
+    "fingerprint": [
+      "lukhas.observability.ratelimit_metrics"
+    ],
+    "record_hit": [
+      "lukhas.observability.ratelimit_metrics"
+    ],
+    "RL_RESET": [
+      "lukhas.observability.ratelimit_metrics"
+    ],
+    "record_window": [
+      "lukhas.observability.ratelimit_metrics"
+    ],
+    "_sample_ok": [
+      "lukhas.observability.ratelimit_metrics"
+    ],
+    "route_key": [
+      "lukhas.observability.ratelimit_metrics"
+    ],
+    "install_global_redaction": [
+      "lukhas.observability.log_redaction"
+    ],
+    "RedactingFilter": [
+      "lukhas.observability.log_redaction"
+    ],
+    "metrics": [
+      "lukhas.observability.otel_compat"
+    ],
+    "trace": [
+      "lukhas.observability.otel_compat"
+    ],
+    "MetricType": [
+      "lukhas.observability.service_metrics"
+    ],
+    "MetricsConfig": [
+      "lukhas.observability.metrics_config"
+    ],
+    "_TOKEN": [
+      "lukhas.observability.filters"
+    ],
+    "_EMAIL": [
+      "lukhas.observability.filters"
+    ],
+    "redact_pii": [
+      "lukhas.observability.filters"
+    ],
+    "signal_processing_time_seconds": [
+      "lukhas.observability.advanced_metrics"
+    ],
+    "cache_misses_total": [
+      "lukhas.observability.advanced_metrics"
+    ],
+    "AdvancedMetricsSystem": [
+      "lukhas.observability.advanced_metrics"
+    ],
+    "cache_hits_total": [
+      "lukhas.observability.advanced_metrics"
+    ],
+    "queue_depth": [
+      "lukhas.observability.advanced_metrics"
+    ],
+    "network_coherence_score": [
+      "lukhas.observability.advanced_metrics"
+    ],
+    "router_cascade_preventions_total": [
+      "lukhas.observability.advanced_metrics"
+    ],
+    "MatrizObservability": [
+      "lukhas.observability.matriz_instrumentation"
+    ],
+    "verify_token_with_policy": [
+      "lukhas.adapters.openai.auth"
+    ],
+    "TokenClaims": [
+      "lukhas.adapters.openai.auth"
+    ],
+    "FORBIDDEN": [
+      "lukhas.adapters.openai.auth"
+    ],
+    "require_bearer": [
+      "lukhas.adapters.openai.auth"
+    ],
+    "UNAUTHORIZED": [
+      "lukhas.adapters.openai.auth"
+    ],
+    "require_scope": [
+      "lukhas.adapters.openai.auth"
+    ],
+    "_ALLOWED_RULE_KEYS": [
+      "lukhas.adapters.openai.policy_pdp"
+    ],
+    "PDP": [
+      "lukhas.adapters.openai.policy_pdp"
+    ],
+    "_normalize_policy": [
+      "lukhas.adapters.openai.policy_pdp"
+    ],
+    "PolicyLoader": [
+      "lukhas.adapters.openai.policy_pdp"
+    ],
+    "Policy": [
+      "lukhas.adapters.openai.policy_pdp"
+    ],
+    "_normalize_rule": [
+      "lukhas.adapters.openai.policy_pdp"
+    ],
+    "_compile_resource": [
+      "lukhas.adapters.openai.policy_models"
+    ],
+    "_parse_hhmmz": [
+      "lukhas.adapters.openai.policy_models"
+    ],
+    "_before": [
+      "lukhas.adapters.openai.policy_models"
+    ],
+    "_match_resource": [
+      "lukhas.adapters.openai.policy_models"
+    ],
+    "Decision": [
+      "lukhas.adapters.openai.policy_models"
+    ],
+    "Context": [
+      "lukhas.adapters.openai.policy_models"
+    ],
+    "_after": [
+      "lukhas.adapters.openai.policy_models"
+    ],
+    "Rule": [
+      "lukhas.adapters.openai.policy_models"
+    ],
+    "_ip_in_cidr": [
+      "lukhas.adapters.openai.policy_models"
+    ],
+    "CLASS_ORDER": [
+      "lukhas.adapters.openai.policy_models"
+    ],
+    "_maybe_trace": [
+      "lukhas.adapters.openai.api"
+    ],
+    "get_app": [
+      "lukhas.adapters.openai.api"
+    ],
+    "_metrics_text": [
+      "lukhas.adapters.openai.api"
+    ],
+    "VectorSearchRequest": [
+      "lukhas.adapters.openai.schemas",
+      "lukhas.adapters.openai.schemas.indexes"
+    ],
+    "VectorSearchResponse": [
+      "lukhas.adapters.openai.schemas",
+      "lukhas.adapters.openai.schemas.indexes"
+    ],
+    "ErrorResponse": [
+      "lukhas.adapters.openai.schemas",
+      "lukhas.adapters.openai.schemas.indexes"
+    ],
+    "IndexCreateRequest": [
+      "lukhas.adapters.openai.schemas",
+      "lukhas.adapters.openai.schemas.indexes"
+    ],
+    "VectorAddRequest": [
+      "lukhas.adapters.openai.schemas",
+      "lukhas.adapters.openai.schemas.indexes"
+    ],
+    "IndexResponse": [
+      "lukhas.adapters.openai.schemas",
+      "lukhas.adapters.openai.schemas.indexes"
+    ],
+    "VectorAddResponse": [
+      "lukhas.adapters.openai.schemas.indexes"
+    ],
+    "VectorDeleteResponse": [
+      "lukhas.adapters.openai.schemas.indexes"
+    ],
+    "IndexDeleteResponse": [
+      "lukhas.adapters.openai.schemas.indexes"
+    ],
+    "IndexListResponse": [
+      "lukhas.adapters.openai.schemas.indexes"
+    ],
+    "VectorSearchResult": [
+      "lukhas.adapters.openai.schemas.indexes"
+    ],
+    "indexes_router": [
+      "lukhas.adapters.openai.routes"
+    ],
+    "set_policy_guard": [
+      "lukhas.adapters.openai.routes.indexes"
+    ],
+    "_metadata_to_response": [
+      "lukhas.adapters.openai.routes.indexes"
+    ],
+    "get_policy_guard": [
+      "lukhas.adapters.openai.routes.indexes"
+    ],
+    "check_access": [
+      "lukhas.adapters.openai.routes.indexes"
+    ],
+    "set_index_manager": [
+      "lukhas.adapters.openai.routes.indexes"
+    ],
+    "get_index_manager": [
+      "lukhas.adapters.openai.routes.indexes"
+    ],
+    "TestSchemaScalabilityIntegration": [
+      "lukhas.schema.tests.test_schema_integration"
+    ],
+    "TestSchemaEndToEnd": [
+      "lukhas.schema.tests.test_schema_integration"
+    ],
+    "TestSchemaMonitoringIntegration": [
+      "lukhas.schema.tests.test_schema_integration"
+    ],
+    "TestSchemaErrorRecoveryIntegration": [
+      "lukhas.schema.tests.test_schema_integration"
+    ],
+    "TestSchemaExternalIntegration": [
+      "lukhas.schema.tests.test_schema_integration"
+    ],
+    "schema_component": [
+      "lukhas.schema.tests.test_schema_integration"
+    ],
+    "TestSchemaPerformance": [
+      "lukhas.schema.tests.test_schema_unit"
+    ],
+    "TestSchemaObservability": [
+      "lukhas.schema.tests.test_schema_unit"
+    ],
+    "TestSchemaIntegration": [
+      "lukhas.schema.tests.test_schema_unit"
+    ],
+    "TestSchemaCore": [
+      "lukhas.schema.tests.test_schema_unit"
+    ],
+    "ContextPreservationEngine": [
+      "lukhas.orchestration.context_preservation"
+    ],
+    "ContextType": [
+      "lukhas.orchestration.context_preservation"
+    ],
+    "CompressionLevel": [
+      "lukhas.orchestration.context_preservation"
+    ],
+    "KernelBus": [
+      "lukhas.orchestration.kernel_bus"
+    ],
+    "RequestType": [
+      "lukhas.orchestration.externalized_orchestrator"
+    ],
+    "ExternalizedOrchestrator": [
+      "lukhas.orchestration.externalized_orchestrator"
+    ],
+    "OrchestrationRequest": [
+      "lukhas.orchestration.externalized_orchestrator"
+    ],
+    "ContextBusOrchestrator": [
+      "lukhas.orchestration.context_bus"
+    ],
+    "GuardianEnvelopeSerializer": [
+      "lukhas.governance.guardian_serializers"
+    ],
+    "GuardianSerializerRegistry": [
+      "lukhas.governance.guardian_serializers"
+    ],
+    "deserialize_guardian": [
+      "lukhas.governance.guardian_serializers"
+    ],
+    "GuardianSerializer": [
+      "lukhas.governance.guardian_serializers"
+    ],
+    "core": [
+      "lukhas.governance.identity"
+    ],
+    "DataSubjectRight": [
+      "lukhas.governance.identity.auth_backend.authentication_server"
+    ],
+    "AuthenticationServer": [
+      "lukhas.governance.identity.auth_backend.authentication_server"
+    ],
+    "_bind_backend": [
+      "lukhas.governance.ethics"
+    ],
+    "_ensure_symbol": [
+      "lukhas.governance.guardian_system"
+    ],
+    "_BACKENDS": [
+      "lukhas.governance.guardian.guardian_impl"
+    ],
+    "security_check_dependency": [
+      "lukhas.api.oidc"
+    ],
+    "get_correlation_id": [
+      "lukhas.api.oidc"
+    ],
+    "router": [
+      "lukhas.api.oidc"
+    ],
+    "_ConfigStub": [
+      "lukhas.rl.coordination.multi_agent_trainer"
+    ],
+    "_TrainerStub": [
+      "lukhas.rl.coordination.multi_agent_trainer"
+    ],
+    "ConsciousnessValueNetwork": [
+      "lukhas.rl.engine.policy_networks"
+    ],
+    "ConsciousnessActorCritic": [
+      "lukhas.rl.engine.policy_networks"
+    ],
+    "ConsciousnessPolicy": [
+      "lukhas.rl.engine.policy_networks"
+    ],
+    "TrainingConfiguration": [
+      "lukhas.rl.engine.policy_networks"
+    ],
+    "MultiAgentConsciousnessTrainer": [
+      "lukhas.rl.engine.policy_networks"
+    ],
+    "ObservabilityDashboard": [
+      "lukhas.aka_qualia.observability"
+    ]
+  },
+  "module_to_symbols": {
+    "lukhas.async_utils": [
+      "await_with_timeout",
+      "run_guardian_task",
+      "run_with_retry"
+    ],
+    "lukhas._bridgeutils": [
+      "bridge",
+      "bridge_from_candidates",
+      "deprecate",
+      "export_from",
+      "resolve_first",
+      "safe_guard"
+    ],
+    "lukhas": [
+      "CANDIDATE",
+      "ROOT",
+      "__dir__",
+      "__getattr__",
+      "_resolve_target",
+      "_root_packages"
+    ],
+    "lukhas.main": [
+      "app",
+      "main"
+    ],
+    "lukhas.cognitive_core.reasoning.contradiction_integrator": [
+      "_CANDIDATES"
+    ],
+    "lukhas.ledger.consent_handlers": [
+      "_CANDIDATES",
+      "_SRC",
+      "_try"
+    ],
+    "lukhas.ledger.events": [
+      "LedgerEvent"
+    ],
+    "lukhas.ledger.event_bus": [
+      "AsyncEventBus"
+    ],
+    "lukhas.tools.todo": [
+      "TodoItem",
+      "TodoList",
+      "categorize_todos"
+    ],
+    "lukhas.tools.collapse_simulator": [
+      "CollapseSimulator",
+      "DEFAULT_OUTPUT_PATH",
+      "SimulationContext",
+      "compile_summary",
+      "derive_top_symbols",
+      "main",
+      "simulate_collapse"
+    ],
+    "lukhas.tools.categorize_todos": [
+      "CategorizedTodo",
+      "categorize_todos"
+    ],
+    "lukhas.bio.core.architecture_analyzer": [
+      "_CANDIDATES",
+      "_SRC",
+      "__getattr__",
+      "_try"
+    ],
+    "lukhas.trace": [
+      "TraceRepairEngine",
+      "_bind"
+    ],
+    "lukhas.trace.TraceRepairEngine": [
+      "_CANDIDATES",
+      "_SRC",
+      "__getattr__",
+      "_try"
+    ],
+    "lukhas.flags": [
+      "_CANDIDATES",
+      "_SRC",
+      "__getattr__",
+      "_try"
+    ],
+    "lukhas.flags.ff": [
+      "Flags"
+    ],
+    "lukhas.core.trace": [
+      "mk_crumb"
+    ],
+    "lukhas.core.common": [
+      "_bind",
+      "get_logger"
+    ],
+    "lukhas.core.backoff": [
+      "ExponentialBackoff",
+      "sleep_with_backoff"
+    ],
+    "lukhas.core.consensus": [
+      "_CANDIDATES"
+    ],
+    "lukhas.core.tests.test_core_unit": [
+      "TestCoreCore",
+      "TestCoreIntegration",
+      "TestCoreObservability",
+      "TestCorePerformance",
+      "pytest_configure",
+      "test_module_has_init",
+      "test_module_imports"
+    ],
+    "lukhas.core.tests.test_core_integration": [
+      "TestCoreEndToEnd",
+      "TestCoreErrorRecoveryIntegration",
+      "TestCoreExternalIntegration",
+      "TestCoreMonitoringIntegration",
+      "TestCoreScalabilityIntegration",
+      "core_component",
+      "test_data"
+    ],
+    "lukhas.core.matriz.async_orchestrator": [
+      "_CANDIDATES",
+      "_SRC",
+      "__getattr__",
+      "_try"
+    ],
+    "lukhas.core.matriz.optimized_orchestrator": [
+      "OptimizedAsyncOrchestrator"
+    ],
+    "lukhas.core.matriz.pipeline_stage": [
+      "_CANDIDATES",
+      "_SRC",
+      "__getattr__",
+      "_try"
+    ],
+    "lukhas.core.ethics.logic": [
+      "_SRC",
+      "_bind"
+    ],
+    "lukhas.core.policy_guard": [
+      "__getattr__",
+      "_try"
+    ],
+    "lukhas.core.reliability.idempotency_redis": [
+      "RedisIdempotencyStore"
+    ],
+    "lukhas.core.reliability.quota_resolver": [
+      "Quota",
+      "QuotaResolver"
+    ],
+    "lukhas.core.reliability.idempotency": [
+      "IdempotencyStore",
+      "InMemoryIdempotencyStore",
+      "_hash_token",
+      "_select_store",
+      "build_cache_key",
+      "clear",
+      "get",
+      "put"
+    ],
+    "lukhas.core.reliability": [
+      "IdempotencyStore",
+      "InMemoryIdempotencyStore",
+      "build_cache_key",
+      "clear",
+      "get",
+      "put"
+    ],
+    "lukhas.core.reliability.ratelimit": [
+      "RateLimiter",
+      "TokenBucket",
+      "rate_limit_error"
+    ],
+    "lukhas.core.reliability.backoff": [
+      "jittered_exponential"
+    ],
+    "lukhas.core.reliability.ratelimit_backends": [
+      "LimiterBackend",
+      "RedisTokenBucket"
+    ],
+    "lukhas.core.reliability.redis_backend": [
+      "RedisRateLimitBackend"
+    ],
+    "lukhas.core.reliability.circuit_breaker": [
+      "_CANDIDATES",
+      "_CircuitBreakerStub",
+      "_SRC",
+      "_try",
+      "circuit_breaker",
+      "get_circuit_health"
+    ],
+    "lukhas.core.consciousness_stream": [
+      "_CANDIDATES",
+      "_load"
+    ],
+    "lukhas.memory.adaptive_memory": [
+      "AdaptiveMemorySystem",
+      "MemoryFold",
+      "MemoryItem",
+      "MemoryType",
+      "get_memory_system"
+    ],
+    "lukhas.memory": [
+      "_public_names"
+    ],
+    "lukhas.memory.embedding_index": [
+      "EmbeddingIndex"
+    ],
+    "lukhas.memory.index_manager": [
+      "IndexManager",
+      "IndexMetadata"
+    ],
+    "lukhas.memory.scheduled_folding": [
+      "get_folding_manager"
+    ],
+    "lukhas.memory.distributed_memory": [
+      "DistributedMemoryOrchestrator"
+    ],
+    "lukhas.memory.retention": [
+      "_CANDIDATES"
+    ],
+    "lukhas.memory.backends.memory_store": [
+      "InMemoryVectorStore"
+    ],
+    "lukhas.memory.backends.base": [
+      "_CANDIDATES",
+      "_SRC",
+      "__getattr__",
+      "_try"
+    ],
+    "lukhas.memory.backends.faiss_store": [
+      "_CANDIDATES",
+      "_SRC",
+      "_try"
+    ],
+    "lukhas.memory.folds.fold_engine": [
+      "FoldEngine",
+      "MemoryFold",
+      "MemoryPriority",
+      "MemoryType",
+      "_CANDIDATES"
+    ],
+    "lukhas.memory.tombstones": [
+      "_CANDIDATES"
+    ],
+    "lukhas.memory.sync": [
+      "_CANDIDATES"
+    ],
+    "lukhas.identity.auth_service": [
+      "LUKHASIdentityService"
+    ],
+    "lukhas.identity": [
+      "_CANDIDATES"
+    ],
+    "lukhas.config.tests.test_config_unit": [
+      "TestConfigCore",
+      "TestConfigIntegration",
+      "TestConfigObservability",
+      "TestConfigPerformance",
+      "pytest_configure",
+      "test_module_has_init",
+      "test_module_imports"
+    ],
+    "lukhas.config.tests.test_config_integration": [
+      "TestConfigEndToEnd",
+      "TestConfigErrorRecoveryIntegration",
+      "TestConfigExternalIntegration",
+      "TestConfigMonitoringIntegration",
+      "TestConfigScalabilityIntegration",
+      "config_component",
+      "test_data"
+    ],
+    "lukhas.security.secure_random": [
+      "_CANDIDATES",
+      "_SRC",
+      "__getattr__",
+      "_try"
+    ],
+    "lukhas.nodes": [
+      "_CANDIDATES"
+    ],
+    "lukhas.nodes.example_nodes": [
+      "_CANDIDATES"
+    ],
+    "lukhas.bridge.adapters": [
+      "service_adapter_base"
+    ],
+    "lukhas.bridge.adapters.openai_embedding_provider": [
+      "_CANDIDATES"
+    ],
+    "lukhas.bridge.adapters.service_adapter_base": [
+      "_try"
+    ],
+    "lukhas.bridge.external_adapters.gmail_adapter": [
+      "_CANDIDATES",
+      "_SRC",
+      "__getattr__",
+      "_try"
+    ],
+    "lukhas.public_api": [
+      "_CANDIDATES"
+    ],
+    "lukhas.consciousness.consciousness_wrapper": [
+      "_CANDIDATES"
+    ],
+    "lukhas.consciousness.enhanced_thought_engine": [
+      "EnhancedThoughtConfig",
+      "EnhancedThoughtEngine",
+      "ThoughtComplexity"
+    ],
+    "lukhas.consciousness.types": [
+      "_CANDIDATES"
+    ],
+    "lukhas.consciousness.matriz_thought_loop": [
+      "_CANDIDATES",
+      "_bind"
+    ],
+    "lukhas.consciousness.meta_cognitive_assessor": [
+      "_CANDIDATES",
+      "_SRC",
+      "__getattr__",
+      "_try"
+    ],
+    "lukhas.consciousness.meta_cognitive_context": [
+      "_CANDIDATES"
+    ],
+    "lukhas.consciousness.reflection_engine": [
+      "AlignmentScore",
+      "ReflectionConfig",
+      "ReflectionEngine",
+      "ReflectionEntry"
+    ],
+    "lukhas.consciousness.dreamtrace": [
+      "DreamTrace"
+    ],
+    "lukhas.consciousness.dreams.engine": [
+      "DreamsEngine"
+    ],
+    "lukhas.consciousness.dreams.schema": [
+      "DreamTrace"
+    ],
+    "lukhas.consciousness.guardian_integration": [
+      "ConsciousnessGuardianIntegration",
+      "ConsciousnessValidationContext",
+      "GuardianAdapter",
+      "GuardianDecision",
+      "GuardianValidationConfig",
+      "GuardianValidationResult",
+      "GuardianValidationType",
+      "ValidationResult",
+      "create_validation_context",
+      "guard_stream"
+    ],
+    "lukhas.consciousness.consciousness_stream": [
+      "_CANDIDATES"
+    ],
+    "lukhas.consciousness.dream": [
+      "_CANDIDATES"
+    ],
+    "lukhas.consciousness.dream.trace": [
+      "DreamTrace"
+    ],
+    "lukhas.tests.conftest": [
+      "clean_environment",
+      "mock_lukhas_config",
+      "temp_dir",
+      "test_config"
+    ],
+    "lukhas.tests.test_lukhas_integration": [
+      "TestLukhasIntegration"
+    ],
+    "lukhas.tests.test_lukhas_unit": [
+      "TestLukhasModule"
+    ],
+    "lukhas.tests.tests.test_tests_unit": [
+      "TestTestsCore",
+      "TestTestsIntegration",
+      "TestTestsObservability",
+      "TestTestsPerformance",
+      "pytest_configure",
+      "test_module_has_init",
+      "test_module_imports"
+    ],
+    "lukhas.tests.tests.test_tests_integration": [
+      "TestTestsEndToEnd",
+      "TestTestsErrorRecoveryIntegration",
+      "TestTestsExternalIntegration",
+      "TestTestsMonitoringIntegration",
+      "TestTestsScalabilityIntegration",
+      "test_data",
+      "tests_component"
+    ],
+    "lukhas.utils.similarity": [
+      "_cosine"
+    ],
+    "lukhas.utils": [
+      "st"
+    ],
+    "lukhas.utils.streamlit_compat": [
+      "st"
+    ],
+    "lukhas.docs.tests.test_docs_integration": [
+      "TestDocsEndToEnd",
+      "TestDocsErrorRecoveryIntegration",
+      "TestDocsExternalIntegration",
+      "TestDocsMonitoringIntegration",
+      "TestDocsScalabilityIntegration",
+      "docs_component",
+      "test_data"
+    ],
+    "lukhas.docs.tests.test_docs_unit": [
+      "TestDocsCore",
+      "TestDocsIntegration",
+      "TestDocsObservability",
+      "TestDocsPerformance",
+      "pytest_configure",
+      "test_module_has_init",
+      "test_module_imports"
+    ],
+    "lukhas.matriz.runtime": [
+      "_CANDIDATES",
+      "_SRC",
+      "__getattr__",
+      "_try"
+    ],
+    "lukhas.matriz.runtime.policy": [
+      "_CANDIDATES",
+      "_SRC",
+      "__getattr__",
+      "_try"
+    ],
+    "lukhas.observability.tracing": [
+      "add_span_event",
+      "current_trace_id_hex",
+      "get_trace_id_hex",
+      "setup_otel",
+      "traced_operation"
+    ],
+    "lukhas.observability.prometheus_registry": [
+      "LUKHAS_REGISTRY",
+      "counter",
+      "gauge",
+      "histogram",
+      "register_lukhas_metric",
+      "summary"
+    ],
+    "lukhas.observability.guardian_metrics": [
+      "GUARDIAN_DECISION_LATENCY",
+      "GUARDIAN_DECISION_TOTAL",
+      "GUARDIAN_DENIED_REASON",
+      "GUARDIAN_POLICY_VERSION",
+      "GUARDIAN_RULE_EVALUATIONS",
+      "_cap_reason",
+      "_enabled",
+      "_normalize_route",
+      "get_decision_stats",
+      "record_decision",
+      "record_rule_evaluation",
+      "set_policy_version"
+    ],
+    "lukhas.observability.events": [
+      "EventLogger",
+      "EventType",
+      "RunEvent",
+      "generate_run_id",
+      "generate_step_id",
+      "get_event_logger",
+      "log_event"
+    ],
+    "lukhas.observability.security_headers": [
+      "SecurityHeadersMiddleware",
+      "VersionHeaderMiddleware"
+    ],
+    "lukhas.observability": [
+      "_CANDIDATES"
+    ],
+    "lukhas.observability.ratelimit_metrics": [
+      "RL_HITS",
+      "RL_LIMIT",
+      "RL_REMAINING",
+      "RL_RESET",
+      "_enabled",
+      "_sample_ok",
+      "fingerprint",
+      "record_hit",
+      "record_window",
+      "route_key"
+    ],
+    "lukhas.observability.log_redaction": [
+      "RedactingFilter",
+      "install_global_redaction"
+    ],
+    "lukhas.observability.otel_compat": [
+      "metrics",
+      "trace"
+    ],
+    "lukhas.observability.service_metrics": [
+      "MetricType",
+      "_try"
+    ],
+    "lukhas.observability.metrics_config": [
+      "MetricsConfig"
+    ],
+    "lukhas.observability.filters": [
+      "_EMAIL",
+      "_TOKEN",
+      "redact_pii"
+    ],
+    "lukhas.observability.compliance_dashboard": [
+      "_CANDIDATES",
+      "_SRC",
+      "__getattr__",
+      "_try"
+    ],
+    "lukhas.observability.intelligent_alerting": [
+      "_CANDIDATES",
+      "_SRC",
+      "__getattr__",
+      "_try"
+    ],
+    "lukhas.observability.advanced_metrics": [
+      "AdvancedMetricsSystem",
+      "cache_hits_total",
+      "cache_misses_total",
+      "network_coherence_score",
+      "queue_depth",
+      "router_cascade_preventions_total",
+      "signal_processing_time_seconds"
+    ],
+    "lukhas.observability.security_hardening": [
+      "_CANDIDATES",
+      "_SRC",
+      "__getattr__",
+      "_try"
+    ],
+    "lukhas.observability.enhanced_distributed_tracing": [
+      "_CANDIDATES",
+      "_SRC",
+      "__getattr__",
+      "_try"
+    ],
+    "lukhas.observability.matriz_instrumentation": [
+      "MatrizObservability"
+    ],
+    "lukhas.observability.opentelemetry_tracing": [
+      "_CANDIDATES"
+    ],
+    "lukhas.adapters.openai.auth": [
+      "FORBIDDEN",
+      "TokenClaims",
+      "UNAUTHORIZED",
+      "require_bearer",
+      "require_scope",
+      "verify_token_with_policy"
+    ],
+    "lukhas.adapters.openai.policy_pdp": [
+      "PDP",
+      "Policy",
+      "PolicyLoader",
+      "_ALLOWED_RULE_KEYS",
+      "_normalize_policy",
+      "_normalize_rule"
+    ],
+    "lukhas.adapters.openai.policy_models": [
+      "CLASS_ORDER",
+      "Context",
+      "Decision",
+      "Rule",
+      "_after",
+      "_before",
+      "_compile_resource",
+      "_ip_in_cidr",
+      "_match_resource",
+      "_parse_hhmmz"
+    ],
+    "lukhas.adapters.openai.api": [
+      "_maybe_trace",
+      "_metrics_text",
+      "get_app"
+    ],
+    "lukhas.adapters.openai.schemas": [
+      "ErrorResponse",
+      "IndexCreateRequest",
+      "IndexResponse",
+      "VectorAddRequest",
+      "VectorSearchRequest",
+      "VectorSearchResponse"
+    ],
+    "lukhas.adapters.openai.schemas.indexes": [
+      "ErrorResponse",
+      "IndexCreateRequest",
+      "IndexDeleteResponse",
+      "IndexListResponse",
+      "IndexResponse",
+      "VectorAddRequest",
+      "VectorAddResponse",
+      "VectorDeleteResponse",
+      "VectorSearchRequest",
+      "VectorSearchResponse",
+      "VectorSearchResult"
+    ],
+    "lukhas.adapters.openai.routes": [
+      "indexes_router"
+    ],
+    "lukhas.adapters.openai.routes.indexes": [
+      "_metadata_to_response",
+      "check_access",
+      "get_index_manager",
+      "get_policy_guard",
+      "set_index_manager",
+      "set_policy_guard"
+    ],
+    "lukhas.schema.tests.test_schema_integration": [
+      "TestSchemaEndToEnd",
+      "TestSchemaErrorRecoveryIntegration",
+      "TestSchemaExternalIntegration",
+      "TestSchemaMonitoringIntegration",
+      "TestSchemaScalabilityIntegration",
+      "schema_component",
+      "test_data"
+    ],
+    "lukhas.schema.tests.test_schema_unit": [
+      "TestSchemaCore",
+      "TestSchemaIntegration",
+      "TestSchemaObservability",
+      "TestSchemaPerformance",
+      "pytest_configure",
+      "test_module_has_init",
+      "test_module_imports"
+    ],
+    "lukhas.orchestration.context_preservation": [
+      "CompressionLevel",
+      "ContextPreservationEngine",
+      "ContextType"
+    ],
+    "lukhas.orchestration.kernel_bus": [
+      "KernelBus"
+    ],
+    "lukhas.orchestration.externalized_orchestrator": [
+      "ExternalizedOrchestrator",
+      "OrchestrationRequest",
+      "RequestType"
+    ],
+    "lukhas.orchestration.signals": [
+      "_CANDIDATES"
+    ],
+    "lukhas.orchestration.context_bus": [
+      "ContextBusOrchestrator"
+    ],
+    "lukhas.orchestration.multi_ai_router": [
+      "_CANDIDATES",
+      "_SRC",
+      "__getattr__",
+      "_try"
+    ],
+    "lukhas.governance.guardian_serializers": [
+      "GuardianEnvelopeSerializer",
+      "GuardianSerializer",
+      "GuardianSerializerRegistry",
+      "deserialize_guardian"
+    ],
+    "lukhas.governance.multi_vector_detector": [
+      "_CANDIDATES",
+      "_SRC",
+      "__getattr__",
+      "_try"
+    ],
+    "lukhas.governance.identity": [
+      "core"
+    ],
+    "lukhas.governance.identity.auth_backend.authentication_server": [
+      "AuthenticationServer",
+      "DataSubjectRight"
+    ],
+    "lukhas.governance.identity.core": [
+      "_try"
+    ],
+    "lukhas.governance.ethics": [
+      "_CANDIDATES",
+      "__getattr__",
+      "_bind_backend"
+    ],
+    "lukhas.governance.ethics.constitutional_ai": [
+      "_CANDIDATES"
+    ],
+    "lukhas.governance.guardian_system": [
+      "_ensure_symbol"
+    ],
+    "lukhas.governance.guardian.guardian_impl": [
+      "_BACKENDS"
+    ],
+    "lukhas.api.oidc": [
+      "get_correlation_id",
+      "router",
+      "security_check_dependency"
+    ],
+    "lukhas.async_manager": [
+      "_CANDIDATES"
+    ],
+    "lukhas.rl.coordination.multi_agent_trainer": [
+      "_CANDIDATES",
+      "_ConfigStub",
+      "_SRC",
+      "_TrainerStub",
+      "_try"
+    ],
+    "lukhas.rl.engine.policy_networks": [
+      "ConsciousnessActorCritic",
+      "ConsciousnessPolicy",
+      "ConsciousnessValueNetwork",
+      "MultiAgentConsciousnessTrainer",
+      "TrainingConfiguration"
+    ],
+    "lukhas.aka_qualia": [
+      "_bind"
+    ],
+    "lukhas.aka_qualia.glyphs": [
+      "_CANDIDATES",
+      "_SRC",
+      "__getattr__",
+      "_try"
+    ],
+    "lukhas.aka_qualia.monitoring_dashboard": [
+      "_CANDIDATES",
+      "_SRC",
+      "_try"
+    ],
+    "lukhas.aka_qualia.teq_hook": [
+      "_CANDIDATES",
+      "_SRC",
+      "__getattr__",
+      "_try"
+    ],
+    "lukhas.aka_qualia.observability": [
+      "ObservabilityDashboard"
+    ],
+    "lukhas.aka_qualia.pls": [
+      "_CANDIDATES",
+      "_SRC",
+      "__getattr__",
+      "_try"
+    ],
+    "lukhas.aka_qualia.memory_noop": [
+      "_CANDIDATES",
+      "_SRC",
+      "__getattr__",
+      "_try"
+    ],
+    "lukhas.aka_qualia.memory_sql": [
+      "_CANDIDATES",
+      "_SRC",
+      "__getattr__",
+      "_try"
+    ],
+    "lukhas.aka_qualia.router_client": [
+      "_CANDIDATES",
+      "_SRC",
+      "__getattr__",
+      "_try"
+    ],
+    "lukhas.aka_qualia.palette": [
+      "_CANDIDATES",
+      "_SRC",
+      "__getattr__",
+      "_try"
+    ]
+  }
+}
