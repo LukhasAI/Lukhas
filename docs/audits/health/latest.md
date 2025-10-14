@@ -1,40 +1,40 @@
 # LUKHAS System Health Audit (auto-generated)
 
-**Version:** `v0.9.0-rc-15-g8a50d608c` | **Commit:** `8a50d608`  
-**Timestamp:** `2025-10-14T00:09:17Z`
+**Version:** `v0.9.0-rc-10-gbcb86d9ed` | **Commit:** `bcb86d9e`  
+**Timestamp:** `2025-10-14T00:10:47Z`
 
 ## Summary
 
-- **Ruff Total:** 6003 issues
-- **Smoke Tests:** 69/87 passing (79.3%)
-- **Unit Core Tests:** {'summary': 'it/aka_qualia/test_metrics.py\nERROR tests/unit/bio/core/test_bio_symbolic.py\nERROR tests/unit/branding/personal_brand/test_consciousness_authority_builder.py\nERROR tests/unit/branding/test_keatsian_replacer.py - FileNotFoundError: [Err...\n!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 5 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!\n============================== 5 errors in 0.75s ==============================='}
-- **OpenAPI:** {'valid': True, 'paths': 12}
+- **Ruff Total:** 6101 issues
+- **Smoke Tests:** 1/1 passing (100.0%)
+- **Unit Core Tests:** {'summary': "R tests/unit/bridge/adapters/test_oauth_manager.py - AttributeError: '_Si...\nERROR tests/unit/bridge/adapters/test_oauth_manager_advanced.py - AttributeEr...\nERROR tests/unit/bridge/api_gateway/test_unified_api_gateway.py - AttributeEr...\n!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 5 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!\n========================= 5 skipped, 5 errors in 0.70s ========================="}
+- **OpenAPI:** N/A
 
 ## Ruff Statistics
 
 ```
-  1814  W293
-  1318  E402
+  1823  W293
+  1321  E402
    347  F841
-   293  I001
-   253  RUF100
+   299  I001
+   268  RUF100
    153  E712
    140  E722
    117  F541
    111  W292
-    79  E702
+    98  E702
+    66  E701
     53  W291
-    50  E701
+    48  F401
     38  E741
-    38  F401
     21  F821
     18  F811
     11  F402
     10  F706
      8  F405
+     7  F823
      6  E401
      6  F403
-     6  F823
      4  E731
      2  E721
      2  E902
@@ -46,19 +46,18 @@
 
 ###  Smoke Tests
 
-- **Status:** 69/87 passing (79.3%)
-- **Passed:** 69
-- **Failed:** 18
+- **Status:** 1/1 passing (100.0%)
+- **Passed:** 1
+- **Failed:** 0
 
 ### Core Unit Tests
 
 ```
-it/aka_qualia/test_metrics.py
-ERROR tests/unit/bio/core/test_bio_symbolic.py
-ERROR tests/unit/branding/personal_brand/test_consciousness_authority_builder.py
-ERROR tests/unit/branding/test_keatsian_replacer.py - FileNotFoundError: [Err...
+R tests/unit/bridge/adapters/test_oauth_manager.py - AttributeError: '_Si...
+ERROR tests/unit/bridge/adapters/test_oauth_manager_advanced.py - AttributeEr...
+ERROR tests/unit/bridge/api_gateway/test_unified_api_gateway.py - AttributeEr...
 !!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 5 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!
-============================== 5 errors in 0.75s ===============================
+========================= 5 skipped, 5 errors in 0.70s =========================
 ```
 
 ## Compat Hits
@@ -71,4 +70,4 @@ ERROR tests/unit/branding/test_keatsian_replacer.py - FileNotFoundError: [Err...
 ⚪ **API not running** - Start API to get live Guardian/RL stats
 
 ---
-*Generated: 2025-10-14T00:09:17Z*
+*Generated: 2025-10-14T00:10:47Z*
