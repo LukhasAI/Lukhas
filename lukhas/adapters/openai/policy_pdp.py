@@ -58,7 +58,15 @@ class Policy:
                 "obligations",
             }
             filtered_dict = {k: v for k, v in rule_dict.items() if k in valid_keys}
-            normalized_rules.append(Rule(**filtered_dict))
+            normalized_rules.append(Rule(
+                id=filtered_dict.get('id', 'unknown'),
+                effect=filtered_dict.get('effect', 'deny'),
+                subjects=filtered_dict.get('subjects', {}),
+                actions=filtered_dict.get('actions', []),
+                resources=filtered_dict.get('resources', []),
+                conditions=filtered_dict.get('conditions', {}),
+                obligations=filtered_dict.get('obligations', [])
+            ))
         self.rules = normalized_rules
 
         # Pre-index rules for performance
