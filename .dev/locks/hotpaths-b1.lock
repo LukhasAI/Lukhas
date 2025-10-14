@@ -1,0 +1,9 @@
+{
+  "key": "hotpaths-b1",
+  "owner": "Codex",
+  "branch": "main",
+  "pid": 51538,
+  "created_at": "2025-10-13T22:39:14.421605+00:00",
+  "ttl_seconds": 7200,
+  "expires_at": "2025-10-14T00:39:14.421605+00:00"
+}
