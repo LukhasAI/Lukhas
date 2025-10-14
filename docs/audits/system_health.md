@@ -1,13 +1,13 @@
 # LUKHAS System Health Audit (auto-generated)
 
-**Version:** `v0.9.0-rc-10-gbcb86d9ed` | **Commit:** `bcb86d9e`  
-**Timestamp:** `2025-10-14T00:10:47Z`
+**Version:** `v0.9.0-rc-11-g9288d4ee4` | **Commit:** `9288d4ee`  
+**Timestamp:** `2025-10-14T00:12:38Z`
 
 ## Summary
 
-- **Ruff Total:** 6101 issues
-- **Smoke Tests:** 1/1 passing (100.0%)
-- **Unit Core Tests:** {'summary': "R tests/unit/bridge/adapters/test_oauth_manager.py - AttributeError: '_Si...\nERROR tests/unit/bridge/adapters/test_oauth_manager_advanced.py - AttributeEr...\nERROR tests/unit/bridge/api_gateway/test_unified_api_gateway.py - AttributeEr...\n!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 5 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!\n========================= 5 skipped, 5 errors in 0.70s ========================="}
+- **Ruff Total:** 6082 issues
+- **Smoke Tests:** 70/74 passing (94.6%)
+- **Unit Core Tests:** {'summary': "R tests/unit/bridge/adapters/test_oauth_manager.py - AttributeError: '_Si...\nERROR tests/unit/bridge/adapters/test_oauth_manager_advanced.py - AttributeEr...\nERROR tests/unit/bridge/api_gateway/test_unified_api_gateway.py - AttributeEr...\n!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 5 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!\n========================= 5 skipped, 5 errors in 0.74s ========================="}
 - **OpenAPI:** N/A
 
 ## Ruff Statistics
@@ -46,9 +46,9 @@
 
 ###  Smoke Tests
 
-- **Status:** 1/1 passing (100.0%)
-- **Passed:** 1
-- **Failed:** 0
+- **Status:** 70/74 passing (94.6%)
+- **Passed:** 70
+- **Failed:** 4
 
 ### Core Unit Tests
 
@@ -57,7 +57,7 @@ R tests/unit/bridge/adapters/test_oauth_manager.py - AttributeError: '_Si...
 ERROR tests/unit/bridge/adapters/test_oauth_manager_advanced.py - AttributeEr...
 ERROR tests/unit/bridge/api_gateway/test_unified_api_gateway.py - AttributeEr...
 !!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 5 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!
-========================= 5 skipped, 5 errors in 0.70s =========================
+========================= 5 skipped, 5 errors in 0.74s =========================
 ```
 
 ## Compat Hits
@@ -70,4 +70,4 @@ ERROR tests/unit/bridge/api_gateway/test_unified_api_gateway.py - AttributeEr...
 ⚪ **API not running** - Start API to get live Guardian/RL stats
 
 ---
-*Generated: 2025-10-14T00:10:47Z*
+*Generated: 2025-10-14T00:12:38Z*
