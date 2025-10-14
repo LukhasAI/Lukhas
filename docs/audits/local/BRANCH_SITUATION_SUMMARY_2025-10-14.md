@@ -196,4 +196,12 @@ git push origin main
 
 ---
 
+### Branch Retirements
+
+| Branch | Action | Notes |
+|--------|--------|-------|
+| `feat-jules-ruff-complete` | Archived as `archive/feat-jules-ruff-complete-20251014`, remote branch deleted | Superseded by Guardian/Ruff PRs; pre-codemod drift with massive conflicts |
+
+---
+
 **Report End** | Ready for your decision on next steps

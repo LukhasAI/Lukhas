@@ -16,6 +16,12 @@ _Last updated:_ 2025-10-14T15:00:00Z
 | **Codex**   | `../Lukhas-codex-B1`               | `fix/codex10/ruffB1`             | Hot-path lint/refactor (`lukhas/adapters/**`, `lukhas/core/reliability/**`, `lukhas/observability/**`, `MATRIZ/core/**`) | `ruff-phaseB-hotpaths ≤120`  | 🟡    | 2025-10-14      | PR #381 → Draft; scoped B-slices (#388, #389); fix Guardian YAML (#390) |
 | **Copilot** | `../Lukhas-copilot-dx2`            | `docs/copilot/quickstart-polish` | DX/docs/examples (`README.md`, `examples/sdk/**`, `docs/**`, Postman/Newman workflows)         | newman golden flows                           | ✅    | 2025-10-13      | Phase 2 DX complete, merged to main (#383) |
 
+### 📁 Retired Worktrees
+
+| Branch | Status | Notes |
+|--------|--------|-------|
+| `feat-jules-ruff-complete` | Archived (`archive/feat-jules-ruff-complete-20251014`) | Remote branch removed; pre-codemod drift and heavy conflicts superseded by GA guard work |
+
 ### 🧭 Ownership rules
 - **Claude** can change **metrics/health/CI**; avoid runtime refactors in Codex’ hot paths.
 - **Codex** limits changes to **lint/import/one-liners** in declared hot paths; no behavior changes.
@@ -267,4 +273,3 @@ make unlock-ga-guard-pack force=1
 ```
 
 ---
-
