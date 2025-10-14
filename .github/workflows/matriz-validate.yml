@@ -343,6 +343,9 @@ jobs:
       - name: Guard — X-RateLimit-* headers present
         run: |
           python3 scripts/check_openapi_headers.py
+      - name: Guard — Guardian policy schema
+        run: |
+          python3 scripts/validate_guardian_policy.py configs/policy/guardian_policies.yaml
       - uses: actions/upload-artifact@v4
         with:
           name: openapi-spec
