@@ -17,6 +17,7 @@
 .PHONY: meta-registry ledger-check trends validate-t4 validate-t4-strict tag-prod freeze-verify freeze-guardian freeze-guardian-once dashboard-sync init-dev-branch
 .PHONY: docs-map docs-migrate-auto docs-migrate-dry docs-lint validate-structure module-health vault-audit vault-audit-vault star-rules-lint star-rules-coverage promotions
 .PHONY: lint-json lint-fix lint-delta f401-tests import-map imports-abs imports-graph ruff-heatmap ruff-ratchet f821-suggest f706-detect f811-detect todos todos-issues codemod-dry codemod-apply check-legacy-imports
+.PHONY: state-sweep plan-colony-renames
 
 # Note: Additional PHONY targets are declared in mk/*.mk include files
 
@@ -1590,3 +1591,19 @@ redis-down: ## Stop local Redis container
 .PHONY: redis-check
 redis-check: ## Check Redis connectivity
 	@docker exec lukhas-redis redis-cli ping 2>/dev/null && echo "✅ Redis is reachable" || echo "❌ Redis not running (use 'make redis-up')"
+
+# ============================================================================
+# State Sweep & Colony Tools (Phase B: Technical Debt Reduction)
+# ============================================================================
+
+.PHONY: state-sweep
+state-sweep: ## Run automated state sweep (Ruff, candidate refs, OpenAPI, etc.)
+	@echo "🔍 Running state sweep..."
+	@./scripts/state_sweep_and_prepare_prs.sh
+	@echo "✅ State sweep complete. Check docs/audits/live/<timestamp>/"
+
+.PHONY: plan-colony-renames
+plan-colony-renames: ## Generate colony rename plan (dry-run, no execution)
+	@echo "📋 Planning colony renames (dry-run)..."
+	@python3 scripts/plan_colony_renames.py
+	@echo "✅ Review docs/audits/colony/colony_renames_<timestamp>.csv"
