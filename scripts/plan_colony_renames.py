@@ -12,6 +12,7 @@ Usage:
 """
 import argparse, csv, os, re, sys, time
 from pathlib import Path
+from typing import Optional, Tuple
 
 BRAND_MAP = {
     "candidate": "labs",
@@ -36,7 +37,7 @@ def looks_laneish(p: Path) -> bool:
     # nested pockets like src/candidate/, libs/lucas/
     return any(tok in BRAND_MAP for tok in name.split("-"))
 
-def propose_target(p: Path) -> tuple[str, str] | None:
+def propose_target(p: Path) -> Optional[Tuple[str, str]]:
     name = p.name
     if name in BRAND_MAP:
         return (str(p), str(p.with_name(BRAND_MAP[name])))
