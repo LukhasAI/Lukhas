@@ -1,0 +1,431 @@
+
+[COLLECT-FAIL] node=tests/benchmarks/test_mesh.py error:
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas-state-sweep/tests/benchmarks/test_mesh.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/benchmarks/test_mesh.py:8: in <module>
+    from lukhas.consciousness.dream.expand.mesh import (
+tests/conftest.py:132: in find_spec
+    spec = importlib.util.find_spec(candidate_name)
+/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/importlib/util.py:94: in find_spec
+    parent = __import__(parent_name, fromlist=['__path__'])
+consciousness/dream/__init__.py:10: in <module>
+    from candidate.consciousness import dream
+E   ModuleNotFoundError: No module named 'candidate'
+
+
+[COLLECT-FAIL] node=tests/consciousness/test_reflection_engine.py error:
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas-state-sweep/tests/consciousness/test_reflection_engine.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/consciousness/test_reflection_engine.py:28: in <module>
+    from lukhas.consciousness.reflection.self_reflection_engine import (
+E   ModuleNotFoundError: No module named 'lukhas.consciousness.reflection.self_reflection_engine'; 'lukhas.consciousness.reflection' is not a package
+
+
+[COLLECT-FAIL] node=tests/e2e/candidate/bridge/test_orchestration_system.py error:
+tests/e2e/candidate/bridge/test_orchestration_system.py:35: in <module>
+    from bridge.api.orchestration_api_bridge import (
+bridge/api/orchestration_api_bridge.py:34: in <module>
+    from lukhas.bridge.llm_wrappers.anthropic_function_bridge import (
+<frozen importlib._bootstrap>:1007: in _find_and_load
+    ???
+<frozen importlib._bootstrap>:982: in _find_and_load_unlocked
+    ???
+<frozen importlib._bootstrap>:925: in _find_spec
+    ???
+tests/conftest.py:132: in find_spec
+    spec = importlib.util.find_spec(candidate_name)
+/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/importlib/util.py:94: in find_spec
+    parent = __import__(parent_name, fromlist=['__path__'])
+bridge/llm_wrappers/__init__.py:58: in <module>
+    wrapper_class = getattr(module, class_name)
+E   AttributeError: module 'lukhas.bridge.llm_wrappers.anthropic_wrapper' has no attribute 'AnthropicWrapper'
+
+
+[COLLECT-FAIL] node=tests/e2e/rl/test_consciousness_rl.py error:
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas-state-sweep/tests/e2e/rl/test_consciousness_rl.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/e2e/rl/test_consciousness_rl.py:22: in <module>
+    from lukhas.rl.environments.consciousness_environment import (
+E   ImportError: cannot import name 'ConsciousnessActionType' from 'lukhas.rl.environments.consciousness_environment' (/Users/agi_dev/LOCAL-REPOS/Lukhas-state-sweep/lukhas/rl/environments/consciousness_environment.py)
+
+
+[COLLECT-FAIL] node=tests/integration/api/test_main.py error:
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas-state-sweep/tests/integration/api/test_main.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+bridge/orchestration/__init__.py:14: in <module>
+    from .multi_ai_orchestrator import MultiAIOrchestrator
+bridge/orchestration/multi_ai_orchestrator.py:3: in <module>
+    from lukhas.bridge.llm_wrappers.anthropic_wrapper import AnthropicWrapper
+E   ImportError: cannot import name 'AnthropicWrapper' from 'lukhas.bridge.llm_wrappers.anthropic_wrapper' (/Users/agi_dev/LOCAL-REPOS/Lukhas-state-sweep/lukhas/bridge/llm_wrappers/anthropic_wrapper.py)
+
+During handling of the above exception, another exception occurred:
+tests/integration/api/test_main.py:8: in <module>
+    from enterprise.api.main import app
+enterprise/api/main.py:9: in <module>
+    from lukhas.bridge.orchestration.multi_ai_orchestrator import ModelOrchestrator
+tests/conftest.py:132: in find_spec
+    spec = importlib.util.find_spec(candidate_name)
+/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/importlib/util.py:94: in find_spec
+    parent = __import__(parent_name, fromlist=['__path__'])
+bridge/orchestration/__init__.py:17: in <module>
+    from .multi_ai_orchestrator import ModelOrchestrator as MultiAIOrchestrator
+bridge/orchestration/multi_ai_orchestrator.py:3: in <module>
+    from lukhas.bridge.llm_wrappers.anthropic_wrapper import AnthropicWrapper
+E   ImportError: cannot import name 'AnthropicWrapper' from 'lukhas.bridge.llm_wrappers.anthropic_wrapper' (/Users/agi_dev/LOCAL-REPOS/Lukhas-state-sweep/lukhas/bridge/llm_wrappers/anthropic_wrapper.py)
+
+
+[COLLECT-FAIL] node=tests/integration/bridge/api_gateway/test_unified_api_gateway_integration.py error:
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas-state-sweep/tests/integration/bridge/api_gateway/test_unified_api_gateway_integration.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/integration/bridge/api_gateway/test_unified_api_gateway_integration.py:13: in <module>
+    from lukhas.bridge.api_gateway.unified_api_gateway import UnifiedAPIGateway
+E   ImportError: cannot import name 'UnifiedAPIGateway' from 'lukhas.bridge.api_gateway.unified_api_gateway' (<lukhas-alias:bridge.api_gateway.unified_api_gateway>)
+
+
+[COLLECT-FAIL] node=tests/integration/test_aka_qualia.py error:
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas-state-sweep/tests/integration/test_aka_qualia.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/integration/test_aka_qualia.py:18: in <module>
+    from lukhas.aka_qualia.models import (
+E   ModuleNotFoundError: No module named 'lukhas.aka_qualia.models'
+
+
+[COLLECT-FAIL] node=tests/integration/test_full_system_integration.py error:
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas-state-sweep/tests/integration/test_full_system_integration.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/integration/test_full_system_integration.py:16: in <module>
+    from lukhas.consciousness.memory_bridge import MemoryConsciousnessBridge
+tests/conftest.py:132: in find_spec
+    spec = importlib.util.find_spec(candidate_name)
+/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/importlib/util.py:94: in find_spec
+    parent = __import__(parent_name, fromlist=['__path__'])
+E   ModuleNotFoundError: No module named 'consciousness.memory_bridge'
+
+
+[COLLECT-FAIL] node=tests/integration/test_memory_threading.py error:
+tests/integration/test_memory_threading.py:21: in <module>
+    from lukhas.aka_qualia.memory_sql import SqlMemory
+<frozen importlib._bootstrap>:1055: in _handle_fromlist
+    ???
+lukhas/aka_qualia/memory_sql/__init__.py:46: in __getattr__
+    if _SRC and hasattr(_SRC, name):
+aka_qualia/memory_sql/__init__.py:46: in __getattr__
+    if _SRC and hasattr(_SRC, name):
+aka_qualia/memory_sql/__init__.py:46: in __getattr__
+    if _SRC and hasattr(_SRC, name):
+E   RecursionError: maximum recursion depth exceeded while calling a Python object
+!!! Recursion detected (same locals & position)
+
+
+[COLLECT-FAIL] node=tests/integration/test_orchestrator_matriz_roundtrip.py error:
+tests/integration/test_orchestrator_matriz_roundtrip.py:36: in <module>
+    from lukhas.identity.auth_service import LUKHASIdentityService
+lukhas/identity/__init__.py:12: in <module>
+    __all__, _exports = bridge_from_candidates(*_CANDIDATES)
+lukhas/_bridgeutils.py:109: in bridge_from_candidates
+    backend = __import__(path, fromlist=["*"])
+<frozen importlib._bootstrap>:1053: in _handle_fromlist
+    ???
+<frozen importlib._bootstrap>:1043: in _handle_fromlist
+    ???
+E   TypeError: 'IdentitySubmoduleBridge' object is not iterable
+
+
+[COLLECT-FAIL] node=tests/ledger/test_event_sourcing_properties.py error:
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas-state-sweep/tests/ledger/test_event_sourcing_properties.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/ledger/test_event_sourcing_properties.py:33: in <module>
+    from lukhas.ledger.events import (
+tests/conftest.py:132: in find_spec
+    spec = importlib.util.find_spec(candidate_name)
+/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/importlib/util.py:94: in find_spec
+    parent = __import__(parent_name, fromlist=['__path__'])
+E   ModuleNotFoundError: No module named 'ledger.events'
+
+
+[COLLECT-FAIL] node=tests/matriz/test_policy_engine.py error:
+tests/matriz/test_policy_engine.py:3: in <module>
+    from lukhas.matriz.runtime.policy import PolicyEngine
+<frozen importlib._bootstrap>:1055: in _handle_fromlist
+    ???
+lukhas/matriz/runtime/policy/__init__.py:46: in __getattr__
+    if _SRC and hasattr(_SRC, name):
+lukhas/matriz/runtime/policy/__init__.py:46: in __getattr__
+    if _SRC and hasattr(_SRC, name):
+lukhas/matriz/runtime/policy/__init__.py:46: in __getattr__
+    if _SRC and hasattr(_SRC, name):
+E   RecursionError: maximum recursion depth exceeded while calling a Python object
+!!! Recursion detected (same locals & position)
+
+
+[COLLECT-FAIL] node=tests/memory/test_lifecycle.py error:
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas-state-sweep/tests/memory/test_lifecycle.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/memory/test_lifecycle.py:26: in <module>
+    from lukhas.memory.lifecycle import (
+E   ImportError: cannot import name 'ArchivalTier' from 'memory.lifecycle' (/Users/agi_dev/LOCAL-REPOS/Lukhas-state-sweep/./memory/lifecycle.py)
+
+
+[COLLECT-FAIL] node=tests/memory/test_memory_backends.py error:
+tests/memory/test_memory_backends.py:18: in <module>
+    from lukhas.memory.backends.base import (
+<frozen importlib._bootstrap>:1055: in _handle_fromlist
+    ???
+lukhas/memory/backends/base/__init__.py:46: in __getattr__
+    if _SRC and hasattr(_SRC, name):
+lukhas/memory/backends/base/__init__.py:46: in __getattr__
+    if _SRC and hasattr(_SRC, name):
+E   RecursionError: maximum recursion depth exceeded while calling a Python object
+!!! Recursion detected (same locals & position)
+
+
+[COLLECT-FAIL] node=tests/memory/test_memory_lifecycle.py error:
+tests/memory/test_memory_lifecycle.py:15: in <module>
+    from lukhas.memory.backends.base import AbstractVectorStore, VectorDocument
+<frozen importlib._bootstrap>:1055: in _handle_fromlist
+    ???
+lukhas/memory/backends/base/__init__.py:46: in __getattr__
+    if _SRC and hasattr(_SRC, name):
+lukhas/memory/backends/base/__init__.py:46: in __getattr__
+    if _SRC and hasattr(_SRC, name):
+E   RecursionError: maximum recursion depth exceeded while calling a Python object
+!!! Recursion detected (same locals & position)
+
+
+[COLLECT-FAIL] node=tests/observability/test_matriz_cognitive_instrumentation.py error:
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas-state-sweep/tests/observability/test_matriz_cognitive_instrumentation.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/observability/test_matriz_cognitive_instrumentation.py:24: in <module>
+    from lukhas.observability.matriz_instrumentation import (
+tests/conftest.py:132: in find_spec
+    spec = importlib.util.find_spec(candidate_name)
+/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/importlib/util.py:94: in find_spec
+    parent = __import__(parent_name, fromlist=['__path__'])
+E   ModuleNotFoundError: No module named 'observability.matriz_instrumentation'
+
+
+[COLLECT-FAIL] node=tests/orchestration/test_externalized_routing.py error:
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas-state-sweep/tests/orchestration/test_externalized_routing.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/orchestration/test_externalized_routing.py:32: in <module>
+    from lukhas.orchestration.health_monitor import HealthMonitor, HealthStatus, ProviderHealth
+E   ModuleNotFoundError: No module named 'lukhas.orchestration.health_monitor'
+
+
+[COLLECT-FAIL] node=tests/reliability/test_0_01_percent_features.py error:
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas-state-sweep/tests/reliability/test_0_01_percent_features.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/reliability/test_0_01_percent_features.py:15: in <module>
+    from lukhas.core.reliability import (
+E   ImportError: cannot import name 'AdaptiveCircuitBreaker' from 'lukhas.core.reliability' (/Users/agi_dev/LOCAL-REPOS/Lukhas-state-sweep/lukhas/core/reliability/__init__.py)
+
+
+[COLLECT-FAIL] node=tests/security/test_crypto_hygiene.py error:
+tests/security/test_crypto_hygiene.py:39: in <module>
+    from lukhas.identity.lambda_id import LambdaIDGenerator
+lukhas/identity/__init__.py:12: in <module>
+    __all__, _exports = bridge_from_candidates(*_CANDIDATES)
+lukhas/_bridgeutils.py:109: in bridge_from_candidates
+    backend = __import__(path, fromlist=["*"])
+<frozen importlib._bootstrap>:1053: in _handle_fromlist
+    ???
+<frozen importlib._bootstrap>:1043: in _handle_fromlist
+    ???
+E   TypeError: 'IdentitySubmoduleBridge' object is not iterable
+
+
+[COLLECT-FAIL] node=tests/soak/test_guardian_matriz_throughput.py error:
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas-state-sweep/tests/soak/test_guardian_matriz_throughput.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/soak/test_guardian_matriz_throughput.py:39: in <module>
+    from lukhas.governance.guardian_serializers import GuardianEnvelopeSerializer
+E   ImportError: cannot import name 'GuardianEnvelopeSerializer' from 'lukhas.governance.guardian_serializers' (/Users/agi_dev/LOCAL-REPOS/Lukhas-state-sweep/lukhas/governance/guardian_serializers/__init__.py)
+
+
+[COLLECT-FAIL] node=tests/telemetry/test_authz_attributes.py error:
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas-state-sweep/tests/telemetry/test_authz_attributes.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/telemetry/test_authz_attributes.py:23: in <module>
+    from matrix_authz_middleware import AuthzRequest, MatrixAuthzMiddleware
+E   ModuleNotFoundError: No module named 'matrix_authz_middleware'
+
+
+[COLLECT-FAIL] node=tests/telemetry/test_authz_integration.py error:
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas-state-sweep/tests/telemetry/test_authz_integration.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/telemetry/test_authz_integration.py:27: in <module>
+    from matrix_authz_middleware import AuthzRequest, MatrixAuthzMiddleware
+E   ModuleNotFoundError: No module named 'matrix_authz_middleware'
+
+
+[COLLECT-FAIL] node=tests/telemetry/test_authz_spans.py error:
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas-state-sweep/tests/telemetry/test_authz_spans.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/telemetry/test_authz_spans.py:22: in <module>
+    from matrix_authz_middleware import AuthzRequest, MatrixAuthzMiddleware
+E   ModuleNotFoundError: No module named 'matrix_authz_middleware'
+
+
+[COLLECT-FAIL] node=tests/test_guardian_serializers.py error:
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas-state-sweep/tests/test_guardian_serializers.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/test_guardian_serializers.py:40: in <module>
+    from lukhas.governance.guardian_serializers import (
+E   ImportError: cannot import name 'GuardianSerializer' from 'lukhas.governance.guardian_serializers' (/Users/agi_dev/LOCAL-REPOS/Lukhas-state-sweep/lukhas/governance/guardian_serializers/__init__.py)
+
+
+[COLLECT-FAIL] node=tests/unit/aka_qualia/test_metrics.py error:
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas-state-sweep/tests/unit/aka_qualia/test_metrics.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/unit/aka_qualia/test_metrics.py:10: in <module>
+    from lukhas.aka_qualia.metrics import AkaQualiaMetrics, MetricsConfig
+tests/conftest.py:132: in find_spec
+    spec = importlib.util.find_spec(candidate_name)
+/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/importlib/util.py:94: in find_spec
+    parent = __import__(parent_name, fromlist=['__path__'])
+E   ModuleNotFoundError: No module named 'aka_qualia.metrics'
+
+
+[COLLECT-FAIL] node=tests/unit/branding/test_keatsian_replacer.py error:
+tests/unit/branding/test_keatsian_replacer.py:19: in <module>
+    spec.loader.exec_module(module)
+<frozen importlib._bootstrap_external>:846: in exec_module
+    ???
+<frozen importlib._bootstrap_external>:982: in get_code
+    ???
+<frozen importlib._bootstrap_external>:1039: in get_data
+    ???
+E   FileNotFoundError: [Errno 2] No such file or directory: '/Users/agi_dev/LOCAL-REPOS/Lukhas-state-sweep/branding/lukhas.tools/keatsian_replacer.py'
+
+
+[COLLECT-FAIL] node=tests/unit/bridge/adapters/test_oauth_manager_advanced.py error:
+'metamorphic' not found in `markers` configuration option
+
+
+[COLLECT-FAIL] node=tests/unit/bridge/api_gateway/test_unified_api_gateway.py error:
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas-state-sweep/tests/unit/bridge/api_gateway/test_unified_api_gateway.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/unit/bridge/api_gateway/test_unified_api_gateway.py:11: in <module>
+    from lukhas.bridge.api_gateway.unified_api_gateway import UnifiedAPIGateway
+E   ImportError: cannot import name 'UnifiedAPIGateway' from 'lukhas.bridge.api_gateway.unified_api_gateway' (<lukhas-alias:bridge.api_gateway.unified_api_gateway>)
+
+
+[COLLECT-FAIL] node=tests/unit/bridge/test_unified_openai_client.py error:
+tests/unit/bridge/test_unified_openai_client.py:1: in <module>
+    from bridge.llm_wrappers import unified_openai_client as client_module
+bridge/llm_wrappers/__init__.py:58: in <module>
+    wrapper_class = getattr(module, class_name)
+E   AttributeError: module 'lukhas.bridge.llm_wrappers.anthropic_wrapper' has no attribute 'AnthropicWrapper'
+
+
+[COLLECT-FAIL] node=tests/unit/candidate/bridge/orchestration/test_multi_ai_orchestrator.py error:
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas-state-sweep/tests/unit/candidate/bridge/orchestration/test_multi_ai_orchestrator.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+bridge/orchestration/__init__.py:14: in <module>
+    from .multi_ai_orchestrator import MultiAIOrchestrator
+bridge/orchestration/multi_ai_orchestrator.py:3: in <module>
+    from lukhas.bridge.llm_wrappers.anthropic_wrapper import AnthropicWrapper
+E   ImportError: cannot import name 'AnthropicWrapper' from 'lukhas.bridge.llm_wrappers.anthropic_wrapper' (/Users/agi_dev/LOCAL-REPOS/Lukhas-state-sweep/lukhas/bridge/llm_wrappers/anthropic_wrapper.py)
+
+During handling of the above exception, another exception occurred:
+tests/unit/candidate/bridge/orchestration/test_multi_ai_orchestrator.py:6: in <module>
+    from lukhas.bridge.orchestration.multi_ai_orchestrator import ModelOrchestrator
+tests/conftest.py:132: in find_spec
+    spec = importlib.util.find_spec(candidate_name)
+/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/importlib/util.py:94: in find_spec
+    parent = __import__(parent_name, fromlist=['__path__'])
+bridge/orchestration/__init__.py:17: in <module>
+    from .multi_ai_orchestrator import ModelOrchestrator as MultiAIOrchestrator
+bridge/orchestration/multi_ai_orchestrator.py:3: in <module>
+    from lukhas.bridge.llm_wrappers.anthropic_wrapper import AnthropicWrapper
+E   ImportError: cannot import name 'AnthropicWrapper' from 'lukhas.bridge.llm_wrappers.anthropic_wrapper' (/Users/agi_dev/LOCAL-REPOS/Lukhas-state-sweep/lukhas/bridge/llm_wrappers/anthropic_wrapper.py)
+
+
+[COLLECT-FAIL] node=tests/unit/candidate/bridge/test_core_bridges.py error:
+tests/unit/candidate/bridge/test_core_bridges.py:36: in <module>
+    core_consciousness_bridge = _load_bridge("core_consciousness_bridge")
+tests/unit/candidate/bridge/test_core_bridges.py:33: in _load_bridge
+    return _load_module(f"candidate.core.bridges.{module_file}", f"candidate/core/bridges/{module_file}.py")
+tests/unit/candidate/bridge/test_core_bridges.py:28: in _load_module
+    spec.loader.exec_module(module)
+<frozen importlib._bootstrap_external>:846: in exec_module
+    ???
+<frozen importlib._bootstrap_external>:982: in get_code
+    ???
+<frozen importlib._bootstrap_external>:1039: in get_data
+    ???
+E   FileNotFoundError: [Errno 2] No such file or directory: '/Users/agi_dev/LOCAL-REPOS/Lukhas-state-sweep/candidate/core/bridges/core_consciousness_bridge.py'
+
+
+[COLLECT-FAIL] node=tests/unit/candidate/consciousness/dream/test_dream_feedback_controller.py error:
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas-state-sweep/tests/unit/candidate/consciousness/dream/test_dream_feedback_controller.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/unit/candidate/consciousness/dream/test_dream_feedback_controller.py:20: in <module>
+    from lukhas.consciousness.dream.core.dream_feedback_controller import (
+tests/conftest.py:132: in find_spec
+    spec = importlib.util.find_spec(candidate_name)
+/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/importlib/util.py:94: in find_spec
+    parent = __import__(parent_name, fromlist=['__path__'])
+consciousness/dream/__init__.py:10: in <module>
+    from candidate.consciousness import dream
+E   ModuleNotFoundError: No module named 'candidate.consciousness'
+
+
+[COLLECT-FAIL] node=tests/unit/candidate/core/matrix/test_nodes.py error:
+tests/unit/candidate/core/matrix/test_nodes.py:16: in <module>
+    def _ensure_package(name: str, path: str | None = None) -> types.ModuleType:
+E   TypeError: unsupported operand type(s) for |: 'type' and 'NoneType'
+
+
+[COLLECT-FAIL] node=tests/unit/candidate/core/quantum_financial/test_quantum_financial_consciousness_engine.py error:
+../../Library/Python/3.9/lib/python/site-packages/_pytest/python.py:498: in importtestmodule
+    mod = import_path(
+../../Library/Python/3.9/lib/python/site-packages/_pytest/pathlib.py:561: in import_path
+    mod = _import_module_using_spec(
+../../Library/Python/3.9/lib/python/site-packages/_pytest/pathlib.py:725: in _import_module_using_spec
+    spec.loader.exec_module(mod)  # type: ignore[union-attr]
+../../Library/Python/3.9/lib/python/site-packages/_pytest/assertion/rewrite.py:177: in exec_module
+    source_stat, co = _rewrite_test(fn, self.config)
+../../Library/Python/3.9/lib/python/site-packages/_pytest/assertion/rewrite.py:357: in _rewrite_test
+    tree = ast.parse(source, filename=strfn)
+/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/ast.py:50: in parse
+    return compile(source, filename, mode, flags,
+E     File "/Users/agi_dev/LOCAL-REPOS/Lukhas-state-sweep/tests/unit/candidate/core/quantum_financial/test_quantum_financial_consciousness_engine.py", line 12
+E       <<<<<<< ours  # noqa: invalid-syntax  # TODO: Expected a statement
+E       ^
+E   SyntaxError: invalid syntax
+
+
+[COLLECT-FAIL] node=tests/unit/candidate/qi/bio/test_bio_optimizer.py error:
+tests/unit/candidate/qi/bio/test_bio_optimizer.py:3: in <module>
+    from qi.bio.bio_optimizer import (
+qi/bio/bio_optimizer.py:2: in <module>
+    log = logging.getLogger(__name__)  # noqa: F821  # TODO: logging
+E   NameError: name 'logging' is not defined
+
+
+[COLLECT-FAIL] node=tests/unit/candidate/qi/test_qi_financial_consciousness_engine.py error:
+tests/unit/candidate/qi/test_qi_financial_consciousness_engine.py:39: in <module>
+    _engine_module = _load_qi_financial_engine()
+tests/

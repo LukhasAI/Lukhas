@@ -1,0 +1,245 @@
+[WARN] Skipping identity/__init__.py: identity/__init__.py not inside root package lukhas
+[WARN] Skipping cognitive_core/vocabulary/__init__.py: cognitive_core/vocabulary/__init__.py not inside root package lukhas
+[WARN] Skipping memory/indexer.py: memory/indexer.py not inside root package lukhas
+[WARN] Skipping out/trace/__init__.py: out/trace/__init__.py not inside root package lukhas
+[WARN] Skipping cognitive_core/orchestration/consensus_engine.py: cognitive_core/orchestration/consensus_engine.py not inside root package lukhas
+[WARN] Skipping cognitive_core/orchestration/test_orchestration.py: cognitive_core/orchestration/test_orchestration.py not inside root package lukhas
+[WARN] Skipping cognitive_core/orchestration/__init__.py: cognitive_core/orchestration/__init__.py not inside root package lukhas
+[WARN] Skipping cognitive_core/safety/__init__.py: cognitive_core/safety/__init__.py not inside root package lukhas
+[WARN] Skipping cognitive_core/reasoning/__init__.py: cognitive_core/reasoning/__init__.py not inside root package lukhas
+[WARN] Skipping cognitive_core/tests/__init__.py: cognitive_core/tests/__init__.py not inside root package lukhas
+[WARN] Skipping cognitive_core/tests/agi_test_suite.py: cognitive_core/tests/agi_test_suite.py not inside root package lukhas
+[WARN] Skipping memory/memory_orchestrator.py: memory/memory_orchestrator.py not inside root package lukhas
+[WARN] Skipping cognitive_core/learning/__init__.py: cognitive_core/learning/__init__.py not inside root package lukhas
+[WARN] Skipping gtpsi/server/verify.py: gtpsi/server/verify.py not inside root package lukhas
+[WARN] Skipping cognitive_core/learning/dream_guided_learner.py: cognitive_core/learning/dream_guided_learner.py not inside root package lukhas
+[WARN] Skipping cognitive_core/integration/__init__.py: cognitive_core/integration/__init__.py not inside root package lukhas
+[WARN] Skipping gtpsi/studio_hooks.py: gtpsi/studio_hooks.py not inside root package lukhas
+[WARN] Skipping cognitive_core/memory/dream_memory.py: cognitive_core/memory/dream_memory.py not inside root package lukhas
+[WARN] Skipping recovered_components/memory/colony_memory_validator.py: recovered_components/memory/colony_memory_validator.py not inside root package lukhas
+[WARN] Skipping cognitive_core/memory/episodic_memory.py: cognitive_core/memory/episodic_memory.py not inside root package lukhas
+[WARN] Skipping cognitive_core/memory/memory_consolidation.py: cognitive_core/memory/memory_consolidation.py not inside root package lukhas
+[WARN] Skipping cognitive_core/memory/__init__.py: cognitive_core/memory/__init__.py not inside root package lukhas
+[WARN] Skipping reports/lints/ruff.json: reports/lints/ruff.json not inside root package lukhas
+[WARN] Skipping cognitive_core/tools/dream_guided_tools.py: cognitive_core/tools/dream_guided_tools.py not inside root package lukhas
+[WARN] Skipping cognitive_core/tools/__init__.py: cognitive_core/tools/__init__.py not inside root package lukhas
+[WARN] Skipping tools/validation/__init__.py: tools/validation/__init__.py not inside root package lukhas
+[WARN] Skipping core/tier_aware_colony_proxy.py: core/tier_aware_colony_proxy.py not inside root package lukhas
+[WARN] Skipping core/neural/integrate_isolated_components.py: core/neural/integrate_isolated_components.py not inside root package lukhas
+[WARN] Skipping core/neural/topology_manager.py: core/neural/topology_manager.py not inside root package lukhas
+[WARN] Skipping tools/memory_visualization.py: tools/memory_visualization.py not inside root package lukhas
+[WARN] Skipping core/monitoring/collapse_integration.py: core/monitoring/collapse_integration.py not inside root package lukhas
+[WARN] Skipping core/matriz_signal_emitters.py: core/matriz_signal_emitters.py not inside root package lukhas
+[WARN] Skipping tools/consolidate_bio.py: tools/consolidate_bio.py not inside root package lukhas
+[WARN] Skipping next_gen/trusthelix/__init__.py: next_gen/trusthelix/__init__.py not inside root package lukhas
+[WARN] Skipping bridge/protocols/chat_completion_reasoning_effort.py: bridge/protocols/chat_completion_reasoning_effort.py not inside root package lukhas
+[WARN] Skipping reports/deep_search/IMPORT_SAMPLES.txt: Syntax Error @ 1:1.
+tokenizer error: '`' is not a valid character in this position
+
+./candidate/modulation/dispatcher.py:1:import time
+^
+[WARN] Skipping bridge/protocols/lambda_id_previewer.py: bridge/protocols/lambda_id_previewer.py not inside root package lukhas
+[WARN] Skipping branding/LUKHAS_LOCAL_LLM_SETUP.md: Syntax Error @ 1:1.
+tokenizer error: "⚛\u{fe0f}" is not a valid identifier
+
+---
+^
+[WARN] Skipping qi/risk/__init__.py: qi/risk/__init__.py not inside root package lukhas
+[WARN] Skipping qi/awareness_system/awareness.py: qi/awareness_system/awareness.py not inside root package lukhas
+[WARN] Skipping config/read_settings.py: config/read_settings.py not inside root package lukhas
+[WARN] Skipping bridge/api/main.py: bridge/api/main.py not inside root package lukhas
+[WARN] Skipping tools/benchmarking/intelligence_benchmark.py: tools/benchmarking/intelligence_benchmark.py not inside root package lukhas
+[WARN] Skipping core/orchestration/brain/integration/brain_integration.py: core/orchestration/brain/integration/brain_integration.py not inside root package lukhas
+[WARN] Skipping qi/systems/qi_processing_core.py: qi/systems/qi_processing_core.py not inside root package lukhas
+[WARN] Skipping core/orchestration/brain/brain_integration_broken.py: core/orchestration/brain/brain_integration_broken.py not inside root package lukhas
+[WARN] Skipping bridge/api/api_hub.py: bridge/api/api_hub.py not inside root package lukhas
+[WARN] Skipping bridge/api/onboarding_api.py: bridge/api/onboarding_api.py not inside root package lukhas
+[WARN] Skipping core/orchestration/brain/brain_integration.py: core/orchestration/brain/brain_integration.py not inside root package lukhas
+[WARN] Skipping qi/neuro_symbolic_integration.py: qi/neuro_symbolic_integration.py not inside root package lukhas
+[WARN] Skipping bridge/api/api.py: bridge/api/api.py not inside root package lukhas
+[WARN] Skipping bridge/api/module_generator.py: bridge/api/module_generator.py not inside root package lukhas
+[WARN] Skipping bridge/api/lambd_id_routes.py: bridge/api/lambd_id_routes.py not inside root package lukhas
+[WARN] Skipping bridge/api/lambda_id_routes.py: bridge/api/lambda_id_routes.py not inside root package lukhas
+[WARN] Skipping qi/ops/__init__.py.from_nested: qi/ops/__init__.py.from_nested not inside root package lukhas
+[WARN] Skipping bridge/api/controllers.py: bridge/api/controllers.py not inside root package lukhas
+[WARN] Skipping bridge/api/identity/__init__.py: bridge/api/identity/__init__.py not inside root package lukhas
+[WARN] Skipping tests/telemetry/test_authz_spans.py: tests/telemetry/test_authz_spans.py not inside root package lukhas
+[WARN] Skipping bridge/api/config_manager.py: bridge/api/config_manager.py not inside root package lukhas
+[WARN] Skipping branding/enforcement/__init__.py: branding/enforcement/__init__.py not inside root package lukhas
+[WARN] Skipping tests/telemetry/test_authz_integration.py: tests/telemetry/test_authz_integration.py not inside root package lukhas
+[WARN] Skipping core/common/__init__.py: core/common/__init__.py not inside root package lukhas
+[WARN] Skipping bridge/orchestration/test_integration.py: bridge/orchestration/test_integration.py not inside root package lukhas
+[WARN] Skipping bridge/orchestration/__init__.py: bridge/orchestration/__init__.py not inside root package lukhas
+[WARN] Skipping qi/states/engine.py: qi/states/engine.py not inside root package lukhas
+[WARN] Skipping core/observability/__init__.py: core/observability/__init__.py not inside root package lukhas
+[WARN] Skipping core/observability/unified_monitoring_dashboard.py: core/observability/unified_monitoring_dashboard.py not inside root package lukhas
+[WARN] Skipping bridge/api_legacy/commercial/consciousness_platform/__init__.py: bridge/api_legacy/commercial/consciousness_platform/__init__.py not inside root package lukhas
+[WARN] Skipping bridge/model_communication_engine.py: bridge/model_communication_engine.py not inside root package lukhas
+[WARN] Skipping services/memory/adapters/vector_store_pg.py: services/memory/adapters/vector_store_pg.py not inside root package lukhas
+[WARN] Skipping bridge/workflow/__init__.py: bridge/workflow/__init__.py not inside root package lukhas
+[WARN] Skipping services/memory/tests/test_chaos.py: services/memory/tests/test_chaos.py not inside root package lukhas
+[WARN] Skipping services/memory/tests/test_performance.py: services/memory/tests/test_performance.py not inside root package lukhas
+[WARN] Skipping bridge/workflow/workflow_orchestrator.py: bridge/workflow/workflow_orchestrator.py not inside root package lukhas
+[WARN] Skipping core/consciousness_signal_router.py: core/consciousness_signal_router.py not inside root package lukhas
+[WARN] Skipping services/memory/api_read.py: services/memory/api_read.py not inside root package lukhas
+[WARN] Skipping services/memory/api_write.py: services/memory/api_write.py not inside root package lukhas
+[WARN] Skipping bridge/external_adapters/gmail_adapter.py: bridge/external_adapters/gmail_adapter.py not inside root package lukhas
+[WARN] Skipping services/memory/api_service.py: services/memory/api_service.py not inside root package lukhas
+[WARN] Skipping core/integration/innovation_orchestrator/autonomous_innovation_orchestrator.py: core/integration/innovation_orchestrator/autonomous_innovation_orchestrator.py not inside root package lukhas
+[WARN] Skipping core/integration/symbolic_network.py: core/integration/symbolic_network.py not inside root package lukhas
+[WARN] Skipping qi/engines/consciousness/engine.py: qi/engines/consciousness/engine.py not inside root package lukhas
+[WARN] Skipping core/bridge/__init__.py: core/bridge/__init__.py not inside root package lukhas
+[WARN] Skipping bridge/api_gateway/unified_api_gateway.py: bridge/api_gateway/unified_api_gateway.py not inside root package lukhas
+[WARN] Skipping tools/scripts/streamline_implementation.py: tools/scripts/streamline_implementation.py not inside root package lukhas
+[WARN] Skipping core/bio_symbolic_processor.py: core/bio_symbolic_processor.py not inside root package lukhas
+[WARN] Skipping rl/engine/policy_networks.py: rl/engine/policy_networks.py not inside root package lukhas
+[WARN] Skipping core/matriz_consciousness_integration.py: core/matriz_consciousness_integration.py not inside root package lukhas
+[WARN] Skipping rl/engine/__init__.py: rl/engine/__init__.py not inside root package lukhas
+[WARN] Skipping qi/engines/creativity/creative_q_expression.py: qi/engines/creativity/creative_q_expression.py not inside root package lukhas
+[WARN] Skipping rl/engine/value_networks.py: rl/engine/value_networks.py not inside root package lukhas
+[WARN] Skipping rl/meta_learning/__init__.py: rl/meta_learning/__init__.py not inside root package lukhas
+[WARN] Skipping rl/meta_learning/consciousness_meta_learning.py: rl/meta_learning/consciousness_meta_learning.py not inside root package lukhas
+[WARN] Skipping branding/engines/lukhas_content_platform/automated_content_generator.py: branding/engines/lukhas_content_platform/automated_content_generator.py not inside root package lukhas
+[WARN] Skipping bridge/llm_wrappers/env_loader.py: bridge/llm_wrappers/env_loader.py not inside root package lukhas
+[WARN] Skipping core/constellation_alignment_system.py: core/constellation_alignment_system.py not inside root package lukhas
+[WARN] Skipping bridge/llm_wrappers/azure_openai_wrapper.py: bridge/llm_wrappers/azure_openai_wrapper.py not inside root package lukhas
+[WARN] Skipping bridge/llm_wrappers/openai_modulated_service.py: bridge/llm_wrappers/openai_modulated_service.py not inside root package lukhas
+[WARN] Skipping rl/__init__.py: rl/__init__.py not inside root package lukhas
+[WARN] Skipping bridge/llm_wrappers/anthropic_wrapper.py: bridge/llm_wrappers/anthropic_wrapper.py not inside root package lukhas
+[WARN] Skipping bridge/llm_wrappers/gemini_wrapper.py: bridge/llm_wrappers/gemini_wrapper.py not inside root package lukhas
+[WARN] Skipping bridge/integration_bridge.py: bridge/integration_bridge.py not inside root package lukhas
+[WARN] Skipping qi/safety/teq_gate.py: qi/safety/teq_gate.py not inside root package lukhas
+[WARN] Skipping bridge/llm_wrappers/__init__.py: bridge/llm_wrappers/__init__.py not inside root package lukhas
+[WARN] Skipping tools/scripts/identity_refactor.py: tools/scripts/identity_refactor.py not inside root package lukhas
+[WARN] Skipping bridge/llm_wrappers/unified_openai_client.py: bridge/llm_wrappers/unified_openai_client.py not inside root package lukhas
+[WARN] Skipping bridge/llm_wrappers/perplexity_wrapper.py: bridge/llm_wrappers/perplexity_wrapper.py not inside root package lukhas
+[WARN] Skipping tools/scripts/bootstrap.py: tools/scripts/bootstrap.py not inside root package lukhas
+[WARN] Skipping qi/safety/__init__.py.from_nested: qi/safety/__init__.py.from_nested not inside root package lukhas
+[WARN] Skipping trace/__init__.py: trace/__init__.py not inside root package lukhas
+[WARN] Skipping rl/rewards/__init__.py: rl/rewards/__init__.py not inside root package lukhas
+[WARN] Skipping qi/processing/qi_integration_hub.py: qi/processing/qi_integration_hub.py not inside root package lukhas
+[WARN] Skipping rl/rewards/consciousness_rewards.py: rl/rewards/consciousness_rewards.py not inside root package lukhas
+[WARN] Skipping qi/processing/qi_security_integration.py: qi/processing/qi_security_integration.py not inside root package lukhas
+[WARN] Skipping products/infrastructure/nimbus/cloud_consolidation.py: products/infrastructure/nimbus/cloud_consolidation.py not inside root package lukhas
+[WARN] Skipping qi/safety/policy_mutate.py: qi/safety/policy_mutate.py not inside root package lukhas
+[WARN] Skipping rl/coordination/__init__.py: rl/coordination/__init__.py not inside root package lukhas
+[WARN] Skipping qi/integration.py: qi/integration.py not inside root package lukhas
+[WARN] Skipping rl/experience/consciousness_buffer.py: rl/experience/consciousness_buffer.py not inside root package lukhas
+[WARN] Skipping observability/audit/api.py: observability/audit/api.py not inside root package lukhas
+[WARN] Skipping rl/experience/__init__.py: rl/experience/__init__.py not inside root package lukhas
+[WARN] Skipping qi/docs/ARCHITECTURE.md: Syntax Error @ 1:1.
+tokenizer error: '`' is not a valid character in this position
+
+---
+^
+[WARN] Skipping branding/poetry/vocabulary_amplifier.py: branding/poetry/vocabulary_amplifier.py not inside root package lukhas
+[WARN] Skipping products/infrastructure/legado/legacy_systems/policy_engines/examples/three_laws.py: products/infrastructure/legado/legacy_systems/policy_engines/examples/three_laws.py not inside root package lukhas
+[WARN] Skipping branding/poetry/cliche_analysis.py: branding/poetry/cliche_analysis.py not inside root package lukhas
+[WARN] Skipping tests/benchmarks/baseline/test_output_20250922_171712.txt: Syntax Error @ 1:1.
+tokenizer error: "✅" is not a valid identifier
+
+============================= test session starts ==============================
+^
+[WARN] Skipping branding/poetry/vocabulary_balancer.py: branding/poetry/vocabulary_balancer.py not inside root package lukhas
+[WARN] Skipping observability/feedback/api.py: observability/feedback/api.py not inside root package lukhas
+[WARN] Skipping tests/benchmarks/baseline/test_output_fixed_20250922.txt: Syntax Error @ 1:1.
+tokenizer error: '?' is not a valid character in this position
+
+============================= test session starts ==============================
+^
+[WARN] Skipping qi/glyphs/cli.py: qi/glyphs/cli.py not inside root package lukhas
+[WARN] Skipping products/infrastructure/legado/legacy_systems/engine.py: products/infrastructure/legado/legacy_systems/engine.py not inside root package lukhas
+[WARN] Skipping branding/poetry/__init__.py: branding/poetry/__init__.py not inside root package lukhas
+[WARN] Skipping qi/__init__.py: qi/__init__.py not inside root package lukhas
+[WARN] Skipping qi/glyphs/signer_service.py: qi/glyphs/signer_service.py not inside root package lukhas
+[WARN] Skipping products/infrastructure/legado/legacy_systems/seedra/__init__.py: products/infrastructure/legado/legacy_systems/seedra/__init__.py not inside root package lukhas
+[WARN] Skipping MATRIZ/6.md: Syntax Error @ 1:1.
+tokenizer error: "—" is not a valid identifier
+
+---
+^
+[WARN] Skipping MATRIZ/3.md: Syntax Error @ 1:1.
+tokenizer error: "Absolutely—here’s" is not a valid identifier
+
+---
+^
+[WARN] Skipping qi/bio/bio_multi_orchestrator.py: qi/bio/bio_multi_orchestrator.py not inside root package lukhas
+[WARN] Skipping branding/integrations/llm_bridge.py: branding/integrations/llm_bridge.py not inside root package lukhas
+[WARN] Skipping branding/integrations/__init__.py: branding/integrations/__init__.py not inside root package lukhas
+[WARN] Skipping qi/bio/bio_components.py: qi/bio/bio_components.py not inside root package lukhas
+[WARN] Skipping products/infrastructure/legado/legacy_systems/compliance/__init__.py: products/infrastructure/legado/legacy_systems/compliance/__init__.py not inside root package lukhas
+[WARN] Skipping qi/bio/oscillators/prime_oscillator.py: qi/bio/oscillators/prime_oscillator.py not inside root package lukhas
+[WARN] Skipping qi/bio/bio_coordinator.py: qi/bio/bio_coordinator.py not inside root package lukhas
+[WARN] Skipping products/infrastructure/legado/legacy_systems/compliance_simple.py: products/infrastructure/legado/legacy_systems/compliance_simple.py not inside root package lukhas
+[WARN] Skipping tools/t4_master_fix.py: tools/t4_master_fix.py not inside root package lukhas
+[WARN] Skipping products/infrastructure/legado/legacy_systems/security/__init__.py: products/infrastructure/legado/legacy_systems/security/__init__.py not inside root package lukhas
+[WARN] Skipping products/infrastructure/legado/legacy_systems/security/security_engine.py: products/infrastructure/legado/legacy_systems/security/security_engine.py not inside root package lukhas
+[WARN] Skipping products/infrastructure/legado/legacy_systems/security/emergency_override.py: products/infrastructure/legado/legacy_systems/security/emergency_override.py not inside root package lukhas
+[WARN] Skipping MATRIZ/adapters/adapters/__init__.py: MATRIZ/adapters/adapters/__init__.py not inside root package lukhas
+[WARN] Skipping branding/__init__.py: branding/__init__.py not inside root package lukhas
+[WARN] Skipping tools/matriz/compile_all.py: tools/matriz/compile_all.py not inside root package lukhas
+[WARN] Skipping products/infrastructure/trace/quantum_implementations/QuantumMemoryManager.py: products/infrastructure/trace/quantum_implementations/QuantumMemoryManager.py not inside root package lukhas
+[WARN] Skipping tools/journal_cli.py: tools/journal_cli.py not inside root package lukhas
+[WARN] Skipping products/infrastructure/trace/quantum_implementations/QuantumMemoryManagerV1.py: products/infrastructure/trace/quantum_implementations/QuantumMemoryManagerV1.py not inside root package lukhas
+[WARN] Skipping MATRIZ/nodes/__init__.py: MATRIZ/nodes/__init__.py not inside root package lukhas
+[WARN] Skipping products/communication/abas_candidate/__init__.py: products/communication/abas_candidate/__init__.py not inside root package lukhas
+[WARN] Skipping products/communication/nias_candidate/__init__.py: products/communication/nias_candidate/__init__.py not inside root package lukhas
+[WARN] Skipping lukhas/adapters/openai/policy_pdp.py: 'tuple' object has no attribute 'value'
+[WARN] Skipping tests/unit/candidate/aka_qualia/test_memory_unit.py: tests/unit/candidate/aka_qualia/test_memory_unit.py not inside root package lukhas
+[WARN] Skipping products/communication/nias/dream_commerce_orchestrator.py: products/communication/nias/dream_commerce_orchestrator.py not inside root package lukhas
+[WARN] Skipping products/communication/nias/dream_generator.py: products/communication/nias/dream_generator.py not inside root package lukhas
+[WARN] Skipping branding/vocabularies/vocabulary_creativity_engine.py: branding/vocabularies/vocabulary_creativity_engine.py not inside root package lukhas
+[WARN] Skipping branding/vocabularies/__init__.py: branding/vocabularies/__init__.py not inside root package lukhas
+[WARN] Skipping branding/vocabularies/vision_vocabulary.py: branding/vocabularies/vision_vocabulary.py not inside root package lukhas
+[WARN] Skipping products/communication/nias/dream_orchestrator_enhanced.py: products/communication/nias/dream_orchestrator_enhanced.py not inside root package lukhas
+[WARN] Skipping lukhas/observability/__init__.py: 'tuple' object has no attribute 'value'
+[WARN] Skipping products/communication/nias/integration/unified_processor.py: products/communication/nias/integration/unified_processor.py not inside root package lukhas
+[WARN] Skipping tests/integration/candidate/bridge/test_orchestration_integration.py: tests/integration/candidate/bridge/test_orchestration_integration.py not inside root package lukhas
+[WARN] Skipping branding/vocabularies/voice_vocabulary.py: branding/vocabularies/voice_vocabulary.py not inside root package lukhas
+[WARN] Skipping products/communication/nias/complete_implementation/__init__.py: products/communication/nias/complete_implementation/__init__.py not inside root package lukhas
+[WARN] Skipping products/communication/nias/vendor_portal.py: products/communication/nias/vendor_portal.py not inside root package lukhas
+[WARN] Skipping products/communication/nias/core/nias_hub.py: products/communication/nias/core/nias_hub.py not inside root package lukhas
+[WARN] Skipping branding/tone/consciousness_wordsmith.py: branding/tone/consciousness_wordsmith.py not inside root package lukhas
+[WARN] Skipping branding/tone/__init__.py: branding/tone/__init__.py not inside root package lukhas
+[WARN] Skipping products/communication/nias/core/__init__.py: products/communication/nias/core/__init__.py not inside root package lukhas
+[WARN] Skipping products/communication/nias/core/nias_engine.py: products/communication/nias/core/nias_engine.py not inside root package lukhas
+[WARN] Skipping lukhas/utils/__init__.py: 'tuple' object has no attribute 'value'
+[WARN] Skipping products/communication/nias/emotional_filter.py: products/communication/nias/emotional_filter.py not inside root package lukhas
+[WARN] Skipping products/communication/nias/consent_manager.py: products/communication/nias/consent_manager.py not inside root package lukhas
+[WARN] Skipping system/common/actor_system.py: system/common/actor_system.py not inside root package lukhas
+[WARN] Skipping consciousness/docs/WAVE_C.md: Syntax Error @ 1:1.
+tokenizer error: "🛋\u{fe0f}" is not a valid identifier
+
+---
+^
+[WARN] Skipping system/common/event_adapters.py: system/common/event_adapters.py not inside root package lukhas
+[WARN] Skipping system/common/__init__.py: system/common/__init__.py not inside root package lukhas
+[WARN] Skipping lukhas/consciousness/dreams/engine.py: 'tuple' object has no attribute 'value'
+[WARN] Skipping lukhas/consciousness/dreamtrace/__init__.py: 'tuple' object has no attribute 'value'
+[WARN] Skipping consciousness/docs/C4_MEMORY.md: Syntax Error @ 1:1.
+tokenizer error: "spec—high" is not a valid identifier
+
+---
+^
+[WARN] Skipping consciousness/docs/proto_qualia.md: Syntax Error @ 1:1.
+tokenizer error: "—" is not a valid identifier
+
+---
+^
+[WARN] Skipping quarantine/emergency_syntax/reinforce_ecosystem.py: Syntax Error @ 1:1.
+tokenizer error: unmatched '}'
+
+#!/usr/bin/env python3
+^
+[WARN] Skipping consciousness/__init__.py: consciousness/__init__.py not inside root package lukhas
+[WARN] Skipping consciousness/simulation/rollout.py: consciousness/simulation/rollout.py not inside root package lukhas
+[WARN] Skipping tools/analysis/final_import_cleanup.py: tools/analysis/final_import_cleanup.py not inside root package lukhas
+[WARN] Skipping consciousness/simulation/api.py: consciousness/simulation/api.py not inside root package lukhas
+[WARN] Skipping MATRIZ/core/__init__.py: MATRIZ/core/__init__.py not inside root package lukhas
+[WARN] Skipping MATRIZ/1.md: Syntax Error @ 1:1.
+tokenizer error: "Don’t" is not a valid identifier
+
+---
+^
+[WARN] Skipping consent/api.py: consent/api.py not inside root package lukhas
+[WARN] Skipping consciousnes
