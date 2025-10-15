@@ -17,7 +17,7 @@
 .PHONY: meta-registry ledger-check trends validate-t4 validate-t4-strict tag-prod freeze-verify freeze-guardian freeze-guardian-once dashboard-sync init-dev-branch
 .PHONY: docs-map docs-migrate-auto docs-migrate-dry docs-lint validate-structure module-health vault-audit vault-audit-vault star-rules-lint star-rules-coverage promotions
 .PHONY: lint-json lint-fix lint-delta f401-tests import-map imports-abs imports-graph ruff-heatmap ruff-ratchet f821-suggest f706-detect f811-detect todos todos-issues codemod-dry codemod-apply check-legacy-imports
-.PHONY: state-sweep plan-colony-renames
+.PHONY: state-sweep plan-colony-renames rc-soak-start rc-soak-snapshot rc-synthetic-load rc-soak-stop
 
 # Note: Additional PHONY targets are declared in mk/*.mk include files
 
@@ -1607,3 +1607,43 @@ plan-colony-renames: ## Generate colony rename plan (dry-run, no execution)
 	@echo "📋 Planning colony renames (dry-run)..."
 	@python3 scripts/plan_colony_renames.py
 	@echo "✅ Review docs/audits/colony/colony_renames_<timestamp>.csv"
+
+# ============================================================================
+# RC Soak Operations (v0.9.0-rc → GA Validation)
+# ============================================================================
+
+.PHONY: rc-soak-start
+rc-soak-start: ## Start RC soak server (48-72h monitoring window)
+	@echo "🚀 Starting RC soak (48-72h window)..."
+	@mkdir -p docs/audits/health/$(shell date +%Y-%m-%d)
+	@mkdir -p /tmp/lukhas-logs
+	@echo "📝 Logs will be written to /tmp/lukhas-logs/rc-soak.log"
+	@nohup uvicorn lukhas.adapters.openai.api:get_app --factory --port 8000 > /tmp/lukhas-logs/rc-soak.log 2>&1 &
+	@echo $$! > /tmp/lukhas-logs/rc-soak.pid
+	@echo "✅ RC soak started (PID: $$(cat /tmp/lukhas-logs/rc-soak.pid))"
+	@echo "📊 Access: http://localhost:8000"
+	@echo "📈 Metrics: http://localhost:8000/metrics"
+	@echo "📋 Health: http://localhost:8000/health"
+
+.PHONY: rc-soak-snapshot
+rc-soak-snapshot: ## Capture RC soak health snapshot (daily during 48-72h window)
+	@echo "📸 Capturing RC soak snapshot..."
+	@bash scripts/ops/rc_soak_snapshot.sh
+	@echo "✅ Snapshot saved to docs/audits/health/$$(date +%Y-%m-%d)/latest.{json,md}"
+
+.PHONY: rc-synthetic-load
+rc-synthetic-load: ## Generate synthetic load for RC soak testing (default: 100 requests)
+	@echo "🔥 Generating synthetic load..."
+	@bash scripts/ops/rc_synthetic_load.sh $(REQUESTS)
+	@echo "✅ Load generation complete"
+
+.PHONY: rc-soak-stop
+rc-soak-stop: ## Stop RC soak server
+	@echo "🛑 Stopping RC soak..."
+	@if [ -f /tmp/lukhas-logs/rc-soak.pid ]; then \
+		kill $$(cat /tmp/lukhas-logs/rc-soak.pid) 2>/dev/null || true; \
+		rm /tmp/lukhas-logs/rc-soak.pid; \
+		echo "✅ RC soak stopped"; \
+	else \
+		echo "⚠️  No PID file found. Server may not be running."; \
+	fi

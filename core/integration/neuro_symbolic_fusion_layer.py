@@ -1,6 +1,3 @@
-import logging
-
-logger = logging.getLogger(__name__)
 """
 ═══════════════════════════════════════════════════════════════════════════════════
 📡 MODULE: core.integration.neuro_symbolic_fusion_layer
@@ -46,6 +43,7 @@ AIDEA: Explore emotional fusion for empathetic AI reasoning
 """
 
 import json
+import logging
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from enum import Enum
@@ -53,6 +51,8 @@ from typing import Any, Optional
 
 import numpy as np
 import structlog
+
+logger = logging.getLogger(__name__)
 
 # Import Lukhas core components
 try:

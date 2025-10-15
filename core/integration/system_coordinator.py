@@ -13,9 +13,7 @@ DEPENDENCIES:
   - core/memory/enhanced_memory_manager.py
   - core/voice/voice_processor.py
   - personas/persona_manager.py
-"""
 
-"""
 System Coordinator for LUKHAS Cognitive AI System
 ========================================
 
