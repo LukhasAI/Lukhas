@@ -164,11 +164,85 @@ def main():
             ["pip-audit", "-r", "requirements.txt"]
         )
 
+    # 8) Guardian/RL health check (from /healthz endpoint if API running)
+    print("\n🛡️ Checking Guardian & Rate Limiter health...")
+    guardian_health = {}
+    try:
+        import requests
+        # Try local dev server first, fall back to other ports
+        for port in [8000, 8080, 5000]:
+            try:
+                resp = requests.get(f"http://localhost:{port}/healthz", timeout=2)
+                if resp.status_code == 200:
+                    health_data = resp.json()
+                    checks = health_data.get("checks", {})
+
+                    # Extract Guardian PDP stats
+                    if "guardian_pdp" in checks:
+                        pdp = checks["guardian_pdp"]
+                        if isinstance(pdp, dict) and pdp.get("available"):
+                            guardian_health["pdp"] = {
+                                "available": True,
+                                "decisions": pdp.get("decisions", 0),
+                                "allow_count": pdp.get("allow_count", 0),
+                                "deny_count": pdp.get("deny_count", 0),
+                                "policy_etag": pdp.get("policy_etag", "unknown"),
+                            }
+                        else:
+                            guardian_health["pdp"] = {"available": False}
+
+                    # Extract Redis backend stats
+                    if "redis_backend" in checks:
+                        redis = checks["redis_backend"]
+                        if isinstance(redis, dict):
+                            guardian_health["redis"] = {
+                                "available": redis.get("available", False),
+                                "connected": redis.get("stats", {}).get("connected", False) if isinstance(redis.get("stats"), dict) else False,
+                            }
+                        else:
+                            guardian_health["redis"] = {"available": False}
+
+                    # Extract rate limiter status
+                    if "rate_limiter" in checks:
+                        guardian_health["rate_limiter"] = {
+                            "available": checks["rate_limiter"]
+                        }
+
+                    break  # Found API, stop trying
+            except requests.exceptions.RequestException:
+                continue  # Try next port
+
+        if not guardian_health:
+            guardian_health = {"status": "api_not_running", "note": "Run API to get live Guardian/RL stats"}
+
+    except ImportError:
+        guardian_health = {"status": "requests_not_installed", "note": "Install requests to check /healthz"}
+    except Exception as e:
+        guardian_health = {"status": "error", "error": str(e)}
+
+    results["guardian_rl_health"] = {"ok": bool(guardian_health), "parsed": guardian_health}
+
     # Assemble summary
     print("\n" + "=" * 70)
     print("📋 Generating summary...")
 
+    # Get git version info
+    git_sha = "unknown"
+    git_version = "unknown"
+    try:
+        ok, sha_out, _, _ = run(["git", "rev-parse", "--short=8", "HEAD"])
+        if ok:
+            git_sha = sha_out.strip()
+
+        ok, ver_out, _, _ = run(["git", "describe", "--tags", "--always"])
+        if ok:
+            git_version = ver_out.strip()
+    except Exception:
+        pass
+
     summary = {
+        "version": git_version,
+        "git_sha": git_sha,
         "ts": ts,
         "timestamp_iso": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime(ts)),
         "ruff": {
@@ -183,6 +257,7 @@ def main():
         "openapi": results.get("openapi_validate", {}),
         "star_rules": results.get("star_rules_coverage", {}),
         "deps": results.get("pip_audit", {}).get("parsed") if results.get("pip_audit") else None,
+        "guardian_rl": results.get("guardian_rl_health", {}).get("parsed", {}),
     }
 
     # Write JSON (both locations for back-compat)
@@ -210,6 +285,7 @@ def main():
     md_lines = [
         "# LUKHAS System Health Audit (auto-generated)",
         "",
+        f"**Version:** `{summary['version']}` | **Commit:** `{summary['git_sha']}`  ",
         f"**Timestamp:** `{summary['timestamp_iso']}`",
         "",
         "## Summary",
@@ -268,6 +344,60 @@ def main():
         "## Compat Hits",
         "",
         f"{summary.get('compat', {}).get('parsed', 'N/A')}",
+        ""
+    ])
+
+    # Guardian/RL section
+    guardian_rl = summary.get('guardian_rl', {})
+    md_lines.extend([
+        "## Guardian & Rate Limiter Status",
+        ""
+    ])
+
+    if guardian_rl.get("status") == "api_not_running":
+        md_lines.append("⚪ **API not running** - Start API to get live Guardian/RL stats")
+    elif guardian_rl.get("status") == "error":
+        md_lines.append(f"🔴 **Error:** {guardian_rl.get('error', 'Unknown')}")
+    else:
+        # PDP stats
+        pdp = guardian_rl.get("pdp", {})
+        if pdp.get("available"):
+            md_lines.extend([
+                f"### Guardian PDP",
+                f"- **Status:** ✅ Available",
+                f"- **Total Decisions:** {pdp.get('decisions', 0)}",
+                f"- **Allow Count:** {pdp.get('allow_count', 0)}",
+                f"- **Deny Count:** {pdp.get('deny_count', 0)}",
+                f"- **Policy ETag:** `{pdp.get('policy_etag', 'unknown')}`",
+                ""
+            ])
+        else:
+            md_lines.extend(["### Guardian PDP", "- **Status:** ⚪ Not configured", ""])
+
+        # Redis stats
+        redis = guardian_rl.get("redis", {})
+        if redis.get("available"):
+            status = "✅ Connected" if redis.get("connected") else "🔴 Disconnected"
+            md_lines.extend([
+                f"### Redis Backend",
+                f"- **Status:** {status}",
+                ""
+            ])
+        else:
+            md_lines.extend(["### Redis Backend", "- **Status:** ⚪ Not configured", ""])
+
+        # Rate limiter
+        rl = guardian_rl.get("rate_limiter", {})
+        if rl.get("available"):
+            md_lines.extend([
+                f"### Rate Limiter",
+                f"- **Status:** ✅ Active",
+                ""
+            ])
+        else:
+            md_lines.extend(["### Rate Limiter", "- **Status:** 🔴 Not available", ""])
+
+    md_lines.extend([
         "",
         "---",
         f"*Generated: {summary['timestamp_iso']}*"

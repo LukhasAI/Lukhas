@@ -1,0 +1,151 @@
+---
+# Guardian & Rate-Limit Alerting Rules (v0.9.0-rc)
+# Deploy to Prometheus alertmanager for production monitoring
+
+groups:
+  - name: guardian_policy_enforcement
+    interval: 30s
+    rules:
+      - alert: HighGuardianDenialRate
+        expr: |
+          100 * (
+            rate(guardian_denied_total[5m])
+            /
+            (rate(guardian_decision_total{effect="allow"}[5m]) + rate(guardian_decision_total{effect="deny"}[5m]))
+          ) > 1
+        for: 10m
+        labels:
+          severity: warning
+          component: guardian
+          team: security
+        annotations:
+          summary: "High Guardian policy denial rate detected"
+          description: "Guardian is denying {{ $value | humanizePercentage }} of requests over the last 10 minutes (threshold: 1%)"
+          runbook_url: "https://docs.lukhas.ai/runbooks/high-guardian-denials"
+          dashboard_url: "https://grafana.lukhas.ai/d/guardian-rl-v090"
+
+      - alert: CriticalGuardianDenialRate
+        expr: |
+          100 * (
+            rate(guardian_denied_total[5m])
+            /
+            (rate(guardian_decision_total{effect="allow"}[5m]) + rate(guardian_decision_total{effect="deny"}[5m]))
+          ) > 5
+        for: 5m
+        labels:
+          severity: critical
+          component: guardian
+          team: security
+        annotations:
+          summary: "CRITICAL: Guardian denying >5% of requests"
+          description: "Guardian is denying {{ $value | humanizePercentage }} of requests over the last 5 minutes (threshold: 5%)"
+          runbook_url: "https://docs.lukhas.ai/runbooks/critical-guardian-denials"
+          dashboard_url: "https://grafana.lukhas.ai/d/guardian-rl-v090"
+
+      - alert: GuardianPDPHighLatency
+        expr: |
+          histogram_quantile(0.95, rate(guardian_decision_latency_seconds_bucket[5m])) > 0.01
+        for: 5m
+        labels:
+          severity: warning
+          component: guardian
+          team: platform
+        annotations:
+          summary: "Guardian PDP p95 latency exceeds 10ms target"
+          description: "Guardian PDP p95 latency is {{ $value | humanizeDuration }} (target: <10ms)"
+          runbook_url: "https://docs.lukhas.ai/runbooks/guardian-high-latency"
+          dashboard_url: "https://grafana.lukhas.ai/d/guardian-rl-v090"
+
+      - alert: GuardianPDPLoadFailure
+        expr: |
+          guardian_pdp_loaded == 0
+        for: 1m
+        labels:
+          severity: critical
+          component: guardian
+          team: platform
+        annotations:
+          summary: "Guardian PDP failed to load policies"
+          description: "Guardian PDP is not loaded - falling back to permissive mode"
+          runbook_url: "https://docs.lukhas.ai/runbooks/guardian-pdp-load-failure"
+          dashboard_url: "https://grafana.lukhas.ai/d/guardian-rl-v090"
+
+  - name: rate_limiting
+    interval: 30s
+    rules:
+      - alert: RateLimitNearExhaustion
+        expr: |
+          rate_limiter_remaining < 5
+        for: 3m
+        labels:
+          severity: warning
+          component: rate_limiter
+          team: platform
+        annotations:
+          summary: "Rate limit nearly exhausted on {{ $labels.route }}"
+          description: "Only {{ $value }} requests remaining on route {{ $labels.route }} for 3+ minutes"
+          runbook_url: "https://docs.lukhas.ai/runbooks/rate-limit-exhaustion"
+          dashboard_url: "https://grafana.lukhas.ai/d/guardian-rl-v090"
+
+      - alert: HighRateLimitRejectionRate
+        expr: |
+          rate(rate_limit_exceeded_total[5m]) > 1
+        for: 10m
+        labels:
+          severity: warning
+          component: rate_limiter
+          team: platform
+        annotations:
+          summary: "High rate-limit rejection rate detected"
+          description: "{{ $value | humanize }} requests/s being rate-limited over the last 10 minutes"
+          runbook_url: "https://docs.lukhas.ai/runbooks/high-rate-limit-rejections"
+          dashboard_url: "https://grafana.lukhas.ai/d/guardian-rl-v090"
+
+      - alert: RateLimitBackendDown
+        expr: |
+          rate_limiter_backend_healthy == 0
+        for: 2m
+        labels:
+          severity: critical
+          component: rate_limiter
+          team: platform
+        annotations:
+          summary: "Rate limiter backend (Redis) is unhealthy"
+          description: "Rate limiter has fallen back to in-memory backend - not distributed!"
+          runbook_url: "https://docs.lukhas.ai/runbooks/rate-limiter-backend-down"
+          dashboard_url: "https://grafana.lukhas.ai/d/guardian-rl-v090"
+
+  - name: openai_facade_health
+    interval: 30s
+    rules:
+      - alert: HighErrorRate
+        expr: |
+          100 * (
+            rate(http_server_requests_seconds_count{status=~"5..",path=~"/v1/.*"}[5m])
+            /
+            rate(http_server_requests_seconds_count{path=~"/v1/.*"}[5m])
+          ) > 1
+        for: 5m
+        labels:
+          severity: warning
+          component: openai_facade
+          team: platform
+        annotations:
+          summary: "High 5xx error rate on OpenAI façade"
+          description: "{{ $value | humanizePercentage }} of requests returning 5xx errors over the last 5 minutes"
+          runbook_url: "https://docs.lukhas.ai/runbooks/high-error-rate"
+          dashboard_url: "https://grafana.lukhas.ai/d/guardian-rl-v090"
+
+      - alert: HealthCheckFailing
+        expr: |
+          up{job="lukhas-openai-facade"} == 0
+        for: 2m
+        labels:
+          severity: critical
+          component: openai_facade
+          team: platform
+        annotations:
+          summary: "OpenAI façade health check failing"
+          description: "The OpenAI façade service is not responding to health checks"
+          runbook_url: "https://docs.lukhas.ai/runbooks/health-check-failure"
+          dashboard_url: "https://grafana.lukhas.ai/d/guardian-rl-v090"

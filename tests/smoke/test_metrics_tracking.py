@@ -19,10 +19,13 @@ def client():
     return TestClient(app)
 
 
+AUTH_HEADERS = {"Authorization": "Bearer sk-lukhas-test-1234567890abcdef"}
+
+
 def test_metrics_track_requests(client):
     """Verify that metrics track request counts."""
     # Make a request to /v1/models
-    response = client.get("/v1/models")
+    response = client.get("/v1/models", headers=AUTH_HEADERS)
     assert response.status_code == 200
 
     # Check metrics endpoint
@@ -42,7 +45,7 @@ def test_metrics_track_latency(client):
     """Verify that latency metrics are captured."""
     # Make a few requests
     for _ in range(3):
-        client.get("/v1/models")
+        client.get("/v1/models", headers=AUTH_HEADERS)
 
     # Check metrics
     metrics_response = client.get("/metrics")
@@ -103,7 +106,7 @@ def test_metrics_prometheus_format(client):
 def test_error_tracking(client):
     """Verify that errors are tracked in metrics."""
     # Make a request that will fail
-    response = client.post("/v1/responses", json={})  # Missing required input
+    response = client.post("/v1/responses", headers=AUTH_HEADERS, json={})  # Missing required input
     assert response.status_code == 400
 
     # Check error metrics

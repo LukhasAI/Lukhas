@@ -7,6 +7,7 @@ per-principal rate limits with fallback to environment variables.
 
 Phase 3: Guardian enhancements for production scalability.
 """
+
 import logging
 import math
 import os
@@ -21,6 +22,7 @@ logger = logging.getLogger(__name__)
 try:
     import redis
     from redis import Redis
+
     REDIS_AVAILABLE = True
 except ImportError:
     REDIS_AVAILABLE = False
@@ -141,8 +143,7 @@ class RedisRateLimitBackend:
         try:
             # Execute Lua script atomically
             result = self.consume_script(
-                keys=[redis_key],
-                args=[burst, rps, tokens, now, self.ttl_seconds]
+                keys=[redis_key], args=[burst, rps, tokens, now, self.ttl_seconds]
             )
 
             allowed = bool(result[0])
