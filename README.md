@@ -9,6 +9,7 @@ updated: 2025-10-12
 [![Manifests](https://img.shields.io/badge/manifests-928-blue)](manifests/)
 [![Smoke Tests](https://img.shields.io/badge/smoke%20tests-100%25-success)](tests/smoke/)
 [![Lint Health](https://img.shields.io/badge/lint-97%25%20clean-brightgreen)](docs/audits/)
+[![DX Examples Smoke](https://github.com/LukhasAI/Lukhas/actions/workflows/dx-examples-smoke.yml/badge.svg)](https://github.com/LukhasAI/Lukhas/actions/workflows/dx-examples-smoke.yml)
 
 **A consciousness-aware AI development platform with distributed cognitive architecture.**
 
@@ -833,3 +834,9 @@ curl -sS -H "Authorization: Bearer sk-test" -H "Content-Type: application/json" 
 * **OpenAI envelope** + **X-Trace-Id** + **X-RateLimit-*** headers are standard on success/error paths.
 * See `docs/gonzo/dx/COOKBOOK_responses.md` and `.../COOKBOOK_dreams.md` for copy-paste recipes.
 * Postman collection: `docs/postman/LUKHAS_DX_Polish.postman_collection.json` (use env `LUKHAS.postman_environment.json`).
+
+> **📚 See Also**
+> - **API Cookbooks**: [Responses API](docs/gonzo/dx/COOKBOOK_responses.md) | [Dreams API](docs/gonzo/dx/COOKBOOK_dreams.md)
+> - **SDK Examples**: [TypeScript SDK](examples/sdk/typescript/) | [Python SDK](examples/sdk/python/)
+> - **Postman Testing**: [Collection & Environment](docs/postman/)
+> - **CI Validation**: [DX Examples Smoke Workflow](.github/workflows/dx-examples-smoke.yml)
