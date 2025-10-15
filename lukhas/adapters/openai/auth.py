@@ -9,7 +9,7 @@ import hashlib
 import logging
 from typing import Optional
 
-from fastapi import Header, HTTPException
+from fastapi import Header, HTTPException, Request
 
 logger = logging.getLogger(__name__)
 
@@ -35,11 +35,17 @@ class TokenClaims:
     """Verified token claims attached to request context."""
 
     def __init__(
-        self, token: str, org_id: str = "default", user_id: str = "unknown", scopes: list = None
+        self,
+        token: str,
+        org_id: str = "default",
+        user_id: str = "unknown",
+        scopes: list = None,
+        project_id: Optional[str] = None,
     ):
         self.token_hash = hashlib.sha256(token.encode()).hexdigest()[:16]
         self.org_id = org_id
         self.user_id = user_id
+        self.project_id = project_id
         # Default scopes for development/testing - include all public API scopes
         # Production tokens should embed explicit scopes via JWT claims
         self.scopes = scopes or [
@@ -52,7 +58,9 @@ class TokenClaims:
         ]
 
 
-def verify_token_with_policy(token: str) -> TokenClaims:
+def verify_token_with_policy(
+    token: str, org_hdr: Optional[str] = None, proj_hdr: Optional[str] = None
+) -> TokenClaims:
     """
     Verify token against policy guard.
 
@@ -66,9 +74,11 @@ def verify_token_with_policy(token: str) -> TokenClaims:
 
     Args:
         token: Bearer token without "Bearer " prefix
+        org_hdr: Optional OpenAI-Organization header value
+        proj_hdr: Optional OpenAI-Project header value
 
     Returns:
-        TokenClaims with org/user/scopes
+        TokenClaims with org/user/scopes/project
 
     Raises:
         HTTPException: 401 if token invalid, 403 if insufficient permissions
@@ -95,7 +105,11 @@ def verify_token_with_policy(token: str) -> TokenClaims:
     # Generate stable user ID from token
     user_id = hashlib.sha256(token.encode()).hexdigest()[:12]
 
-    logger.debug(f"Token verified: org={org_id}, user={user_id}")
+    # Prefer explicit OpenAI headers when present
+    org_id = org_hdr or org_id
+    project_id = proj_hdr  # Use OpenAI-Project if provided
+
+    logger.debug(f"Token verified: org={org_id}, user={user_id}, project={project_id}")
 
     # Return claims with default scopes (TokenClaims will apply defaults if scopes=None)
     # Default scopes include all public API endpoints for dev/test convenience
@@ -103,18 +117,22 @@ def verify_token_with_policy(token: str) -> TokenClaims:
         token=token,
         org_id=org_id,
         user_id=user_id,
+        project_id=project_id,
         # Let TokenClaims apply its comprehensive default scopes
     )
 
 
 def require_bearer(
-    authorization: Optional[str] = Header(default=None), required_scopes: list = None
+    authorization: Optional[str] = Header(default=None),
+    request: "Request" = None,
+    required_scopes: list = None,
 ) -> TokenClaims:
     """
     Enforce Bearer token authentication with scope validation.
 
     Args:
         authorization: Authorization header (Bearer {token})
+        request: FastAPI Request object (automatically injected)
         required_scopes: List of required scopes (default: any)
 
     Returns:
@@ -129,6 +147,16 @@ def require_bearer(
             # claims.org_id, claims.user_id, claims.scopes available
             pass
     """
+    # Import Request here to avoid circular imports
+    from fastapi import Request
+
+    # Extract OpenAI headers if request is available
+    org_hdr = None
+    proj_hdr = None
+    if request is not None:
+        org_hdr = request.headers.get("OpenAI-Organization")
+        proj_hdr = request.headers.get("OpenAI-Project")
+
     # Check Authorization header present
     if not authorization:
         logger.warning("Missing Authorization header")
@@ -142,8 +170,8 @@ def require_bearer(
     # Extract token
     token = authorization[7:].strip()  # Remove "Bearer " prefix
 
-    # Verify token and get claims
-    claims = verify_token_with_policy(token)
+    # Verify token and get claims (pass OpenAI headers for override)
+    claims = verify_token_with_policy(token, org_hdr=org_hdr, proj_hdr=proj_hdr)
 
     # Check required scopes (if specified)
     if required_scopes:
@@ -167,7 +195,9 @@ def require_scope(*scopes: str):
             pass
     """
 
-    def dependency(authorization: Optional[str] = Header(default=None)) -> TokenClaims:
-        return require_bearer(authorization, required_scopes=list(scopes))
+    def dependency(
+        authorization: Optional[str] = Header(default=None), request: "Request" = None
+    ) -> TokenClaims:
+        return require_bearer(authorization=authorization, request=request, required_scopes=list(scopes))
 
     return dependency
