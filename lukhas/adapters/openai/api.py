@@ -13,6 +13,7 @@ Endpoints:
 - POST /v1/responses  -> {"id": "...", "model":"lukhas-matriz", "output":{"text":"..."}}
 - POST /v1/dreams     -> {"id":"dream_...","traces":[...]}
 """
+
 import logging
 import math
 import os
@@ -22,8 +23,7 @@ from collections import defaultdict
 from threading import Lock
 from typing import Any, Dict, List, Optional
 
-from fastapi import Body, Depends, FastAPI, HTTPException, Request, Response
-from fastapi.middleware.cors import CORSMiddleware
+from fastapi import Depends, FastAPI, HTTPException, Request, Response
 from fastapi.responses import JSONResponse, PlainTextResponse
 from starlette.exceptions import HTTPException as StarletteHTTPException
 
@@ -35,8 +35,9 @@ logger = logging.getLogger(__name__)
 
 # Import Guardian PDP and metrics (graceful fallback)
 try:
-    from lukhas.adapters.openai.policy_pdp import PDP
     from lukhas.adapters.openai.policy_models import Context, Decision
+    from lukhas.adapters.openai.policy_pdp import GuardianPDP as PDP
+
     GUARDIAN_AVAILABLE = True
 except ImportError:
     logger.warning("Guardian PDP not available, policy enforcement will be permissive")
@@ -47,10 +48,14 @@ except ImportError:
 
 try:
     from lukhas.observability.guardian_metrics import record_decision
+
     GUARDIAN_METRICS_AVAILABLE = True
 except ImportError:
     GUARDIAN_METRICS_AVAILABLE = False
-    def record_decision(*args, **kwargs): pass
+
+    def record_decision(*args, **kwargs):
+        pass
+
 
 # Global metrics storage (thread-safe)
 _metrics_lock = Lock()
@@ -61,6 +66,7 @@ _error_counts: Dict[str, int] = defaultdict(int)
 # Try to import MATRIZ orchestrator (graceful fallback to stub mode)
 try:
     from matriz.core.orchestrator import CognitiveOrchestrator
+
     MATRIZ_AVAILABLE = True
 except ImportError:
     logger.warning("MATRIZ orchestrator not available, running in stub mode")
@@ -71,6 +77,7 @@ except ImportError:
 try:
     from lukhas.memory.embedding_index import EmbeddingIndex
     from lukhas.memory.index_manager import IndexManager
+
     MEMORY_AVAILABLE = True
 except ImportError:
     logger.warning("Memory system not available, using stub embeddings")
@@ -81,11 +88,13 @@ except ImportError:
 # Try to import policy guard for RBAC (graceful fallback)
 try:
     from lukhas.core.policy_guard import PolicyGuard
+
     POLICY_GUARD_AVAILABLE = True
 except ImportError:
     logger.warning("PolicyGuard not available, RBAC checks will be permissive")
     POLICY_GUARD_AVAILABLE = False
     PolicyGuard = None  # type: ignore
+
 
 def _metrics_text() -> str:
     """Generate Prometheus format metrics from tracked data."""
@@ -114,9 +123,17 @@ def _metrics_text() -> str:
         for endpoint, latencies in _request_latencies.items():
             if latencies:
                 p50 = sorted(latencies)[len(latencies) // 2]
-                p95 = sorted(latencies)[int(len(latencies) * 0.95)] if len(latencies) > 1 else latencies[0]
-                lines.append(f'http_request_duration_ms{{endpoint="{endpoint}",quantile="0.5"}} {p50:.2f}')
-                lines.append(f'http_request_duration_ms{{endpoint="{endpoint}",quantile="0.95"}} {p95:.2f}')
+                p95 = (
+                    sorted(latencies)[int(len(latencies) * 0.95)]
+                    if len(latencies) > 1
+                    else latencies[0]
+                )
+                lines.append(
+                    f'http_request_duration_ms{{endpoint="{endpoint}",quantile="0.5"}} {p50:.2f}'
+                )
+                lines.append(
+                    f'http_request_duration_ms{{endpoint="{endpoint}",quantile="0.95"}} {p95:.2f}'
+                )
 
         # Process CPU (stub for now)
         lines.append("# HELP process_cpu_seconds_total Total CPU time")
@@ -131,17 +148,19 @@ def _metrics_text() -> str:
 
         return "\n".join(lines) + "\n"
 
+
 def _maybe_trace(body: Dict[str, Any]) -> Dict[str, Any]:
     if os.getenv("OTEL_EXPORTER_OTLP_ENDPOINT"):
         body.setdefault("trace_id", uuid.uuid4().hex)
     return body
+
 
 def get_app() -> FastAPI:
     """Create and configure the LUKHAS OpenAI façade application."""
     app = FastAPI(
         title="Lukhas OpenAI Facade",
         version="0.1.0",
-        description="OpenAI-compatible API powered by LUKHAS MATRIZ cognitive engine"
+        description="OpenAI-compatible API powered by LUKHAS MATRIZ cognitive engine",
     )
 
     # ---------- OpenAI-style error envelope normalizer ----------
@@ -181,7 +200,9 @@ def get_app() -> FastAPI:
         # Best-effort RL headers on error responses
         try:
             principal = request.headers.get("authorization", "")
-            win = getattr(rate_limiter, "current_window", lambda *_: None)(request.url.path, principal)
+            win = getattr(rate_limiter, "current_window", lambda *_: None)(
+                request.url.path, principal
+            )
             if isinstance(win, dict):
                 if "limit" in win:
                     resp.headers["X-RateLimit-Limit"] = str(win["limit"])
@@ -221,6 +242,7 @@ def get_app() -> FastAPI:
         Raises:
             HTTPException: 403 if policy denies access
         """
+
         async def _dep(request: Request, claims: TokenClaims = Depends(require_bearer)):
             # Skip enforcement if Guardian not available or in permissive mode
             if not GUARDIAN_AVAILABLE or not app.state.pdp:
@@ -228,6 +250,7 @@ def get_app() -> FastAPI:
 
             # Build policy context matching policy_models.Context signature
             from datetime import datetime
+
             ctx = Context(
                 tenant_id=getattr(claims, "org_id", "default"),
                 user_id=getattr(claims, "user_id", None),
@@ -246,27 +269,28 @@ def get_app() -> FastAPI:
             # Evaluate policy
             start_time = time.time()
             decision: Decision = app.state.pdp.decide(ctx)
-            latency_ms = (time.time() - start_time) * 1000
+            latency_seconds = time.time() - start_time
 
             # Record metrics
             if GUARDIAN_METRICS_AVAILABLE:
                 record_decision(
-                    scope=scope,
                     allow=decision.allow,
-                    reason=decision.reason,
+                    scope=scope,
                     route=request.url.path,
-                    latency_ms=latency_ms,
+                    reason=decision.reason if not decision.allow else None,
+                    duration_seconds=latency_seconds,
                 )
 
             # Enforce decision
             if not decision.allow:
                 raise HTTPException(
-                    status_code=403,
-                    detail=decision.reason or "Forbidden by policy"
+                    status_code=403, detail=decision.reason or "Forbidden by policy"
                 )
 
             return claims
+
         return _dep
+
     # ---------- /Guardian policy enforcement ----------
 
     # Phase 3: Add security and observability middlewares
@@ -276,6 +300,7 @@ def get_app() -> FastAPI:
             VersionHeaderMiddleware,
         )
         from lukhas.observability.tracing import TraceHeaderMiddleware
+
         app.add_middleware(SecurityHeadersMiddleware)
         app.add_middleware(VersionHeaderMiddleware)
         if TraceHeaderMiddleware:
@@ -287,6 +312,7 @@ def get_app() -> FastAPI:
     # Install log redaction globally
     try:
         from lukhas.observability.log_redaction import install_global_redaction
+
         install_global_redaction()
         logger.info("Log redaction filter installed")
     except Exception as e:
@@ -304,17 +330,21 @@ def get_app() -> FastAPI:
     # Initialize Guardian PDP
     if GUARDIAN_AVAILABLE:
         try:
-            from lukhas.adapters.openai.policy_pdp import PolicyLoader
+            from lukhas.adapters.openai.policy_pdp import GuardianPDP, PolicyLoader
+
             policy_path = os.getenv("LUKHAS_POLICY_PATH", "configs/policy/guardian_policies.yaml")
             if os.path.exists(policy_path):
                 policy = PolicyLoader.load_from_file(policy_path)
-                app.state.pdp = PDP(policy)
-                logger.info(f"Guardian PDP initialized with policy etag={policy.etag[:8]}")
+                app.state.pdp = GuardianPDP(policy)
+                logger.info(
+                    "Guardian PDP initialized with policy etag=%s",
+                    app.state.pdp.policy.etag[:8],
+                )
             else:
-                logger.info(f"Guardian policy not found at {policy_path}, PDP not initialized")
+                logger.info("Guardian policy not found at %s, PDP not initialized", policy_path)
                 app.state.pdp = None
-        except Exception as e:
-            logger.warning(f"Failed to initialize Guardian PDP: {e}")
+        except Exception as exc:  # pragma: no cover - startup guard
+            logger.warning("Failed to initialize Guardian PDP: %s", exc)
             app.state.pdp = None
     else:
         app.state.pdp = None
@@ -329,7 +359,7 @@ def get_app() -> FastAPI:
                     "http.method": request.method,
                     "http.url": str(request.url),
                     "http.route": request.url.path,
-                }
+                },
             ) as span:
                 try:
                     response = await call_next(request)
@@ -369,7 +399,9 @@ def get_app() -> FastAPI:
                     _request_latencies[request.url.path].append(latency_ms)
                     # Keep only last 1000 latencies per endpoint
                     if len(_request_latencies[request.url.path]) > 1000:
-                        _request_latencies[request.url.path] = _request_latencies[request.url.path][-1000:]
+                        _request_latencies[request.url.path] = _request_latencies[request.url.path][
+                            -1000:
+                        ]
 
             return response
         except Exception:
@@ -395,6 +427,7 @@ def get_app() -> FastAPI:
             # Phase 3: Add OpenAI-style headers and metrics on 429
             try:
                 from lukhas.observability.ratelimit_metrics import record_hit
+
                 record_hit(route, principal)
             except Exception:
                 pass
@@ -403,11 +436,7 @@ def get_app() -> FastAPI:
             headers["Retry-After"] = str(int(math.ceil(retry_after))) if retry_after else "1"
 
             error_response = rate_limit_error(retry_after)
-            return JSONResponse(
-                status_code=429,
-                content=error_response["error"],
-                headers=headers
-            )
+            return JSONResponse(status_code=429, content=error_response["error"], headers=headers)
 
         # Process request
         response = await call_next(request)
@@ -418,6 +447,7 @@ def get_app() -> FastAPI:
 
             # Record metrics for successful requests
             from lukhas.observability.ratelimit_metrics import record_window
+
             record_window(route, principal, rate_limiter, rl_key)
         except Exception:
             # Never crash due to metrics
@@ -465,7 +495,8 @@ def get_app() -> FastAPI:
     # Initialize Guardian PDP (if available)
     guardian_pdp: Optional[Any] = None
     try:
-        from lukhas.adapters.openai.policy_pdp import PolicyLoader, PDP
+        from lukhas.adapters.openai.policy_pdp import GuardianPDP as PDP, PolicyLoader
+
         # Try to load Guardian policy from config
         policy_path = "configs/policy/guardian_policies.yaml"
         if os.path.exists(policy_path):
@@ -481,8 +512,8 @@ def get_app() -> FastAPI:
     # Initialize Redis rate limit backend (if available)
     redis_backend: Optional[Any] = None
     try:
-        from lukhas.core.reliability.redis_backend import RedisRateLimitBackend
         from lukhas.core.reliability.quota_resolver import QuotaResolver
+        from lukhas.core.reliability.redis_backend import RedisRateLimitBackend
 
         # Only initialize if Redis URL is configured
         if os.getenv("REDIS_URL"):
@@ -562,11 +593,7 @@ def get_app() -> FastAPI:
                 checks["redis_backend"] = {"available": False}
 
         # Liveness passes even if optional dependencies are down
-        return {
-            "status": "ok",
-            "checks": checks,
-            "timestamp": time.time()
-        }
+        return {"status": "ok", "checks": checks, "timestamp": time.time()}
 
     @app.get("/readyz")
     def readyz():
@@ -640,7 +667,7 @@ def get_app() -> FastAPI:
             "status": "ready" if all_ready else "degraded",
             "checks": checks,
             "timestamp": time.time(),
-            "mode": "full" if (orchestrator and memory_index) else "stub"
+            "mode": "full" if (orchestrator and memory_index) else "stub",
         }
 
     @app.get("/metrics")
@@ -661,7 +688,7 @@ def get_app() -> FastAPI:
                     "object": "model",
                     "created": 1699564800,
                     "owned_by": "lukhas-ai",
-                    "capabilities": ["responses", "embeddings", "dreams"]
+                    "capabilities": ["responses", "embeddings", "dreams"],
                 }
             ]
         }
@@ -679,6 +706,7 @@ def get_app() -> FastAPI:
         if idem_key:
             try:
                 from lukhas.core.reliability import idempotency as idem
+
                 body_bytes = await request.body()
                 cache_key = idem.cache_key(request.url.path, idem_key, body_bytes)
                 cached = idem.get(cache_key)
@@ -699,6 +727,7 @@ def get_app() -> FastAPI:
                 # Generate a simple embedding (in production, use actual model)
                 # For now, create a deterministic 1536-dim vector based on text hash
                 import hashlib
+
                 # Use multiple hashes to generate 1536 dimensions (1536/32 = 48 hashes)
                 vec = []
                 for i in range(48):
@@ -712,6 +741,7 @@ def get_app() -> FastAPI:
                 logger.error(f"Embedding generation failed: {e}, using fallback")
                 # Fallback: simple deterministic 1536-dim vector
                 import hashlib
+
                 vec = []
                 for i in range(48):
                     hash_input = f"{text}:{i}".encode()
@@ -721,6 +751,7 @@ def get_app() -> FastAPI:
         else:
             # Stub mode - deterministic 1536-dim vector based on text hash
             import hashlib
+
             vec = []
             for i in range(48):
                 hash_input = f"{text}:{i}".encode()
@@ -736,7 +767,8 @@ def get_app() -> FastAPI:
                 import json
 
                 from lukhas.core.reliability import idempotency as idem
-                resp_bytes = json.dumps(result_dict).encode('utf-8')
+
+                resp_bytes = json.dumps(result_dict).encode("utf-8")
                 idem.put(cache_key, 200, resp_bytes, "application/json")
             except Exception as e:
                 logger.warning(f"Idempotency caching failed: {e}")
@@ -779,6 +811,7 @@ def get_app() -> FastAPI:
         if idem_key and not stream:
             try:
                 from lukhas.core.reliability import idempotency as idem
+
                 body_bytes = await request.body()
                 cache_key = idem.cache_key(request.url.path, idem_key, body_bytes)
                 cached = idem.get(cache_key)
@@ -800,24 +833,34 @@ def get_app() -> FastAPI:
                 """Generate SSE stream for responses."""
                 # TODO: Integrate with MATRIZ for real streaming deltas
                 # For now, stub implementation
-                yield "data: " + json.dumps({
-                    "id": request_id,
-                    "object": "response.part",
-                    "delta": {"text": "Thinking"}
-                }) + "\n\n"
+                yield (
+                    "data: "
+                    + json.dumps(
+                        {"id": request_id, "object": "response.part", "delta": {"text": "Thinking"}}
+                    )
+                    + "\n\n"
+                )
 
-                yield "data: " + json.dumps({
-                    "id": request_id,
-                    "object": "response.part",
-                    "delta": {"text": "..."}
-                }) + "\n\n"
+                yield (
+                    "data: "
+                    + json.dumps(
+                        {"id": request_id, "object": "response.part", "delta": {"text": "..."}}
+                    )
+                    + "\n\n"
+                )
 
                 # Final result (echo for now)
-                yield "data: " + json.dumps({
-                    "id": request_id,
-                    "object": "response.part",
-                    "delta": {"text": f" {user_input}"}
-                }) + "\n\n"
+                yield (
+                    "data: "
+                    + json.dumps(
+                        {
+                            "id": request_id,
+                            "object": "response.part",
+                            "delta": {"text": f" {user_input}"},
+                        }
+                    )
+                    + "\n\n"
+                )
 
                 yield "data: [DONE]\n\n"
 
@@ -833,7 +876,7 @@ def get_app() -> FastAPI:
                     tracer,
                     "matriz.process_query",
                     request_id=request_id,
-                    input_length=len(user_input)
+                    input_length=len(user_input),
                 ) as span:
                     result = orchestrator.process_query(user_input)
                     processing_time = time.time() - start_time
@@ -852,17 +895,15 @@ def get_app() -> FastAPI:
                     extra={
                         "request_id": request_id,
                         "processing_time": processing_time,
-                        "has_trace": bool(trace_info)
-                    }
+                        "has_trace": bool(trace_info),
+                    },
                 )
 
                 out = {
                     "id": request_id,
                     "model": "lukhas-matriz",
                     "output": {"text": output_text},
-                    "usage": {
-                        "processing_time_ms": round(processing_time * 1000, 2)
-                    }
+                    "usage": {"processing_time_ms": round(processing_time * 1000, 2)},
                 }
             except Exception as e:
                 logger.error(f"MATRIZ processing failed: {e}, using fallback")
@@ -870,7 +911,7 @@ def get_app() -> FastAPI:
                     "id": request_id,
                     "model": "lukhas-matriz",
                     "output": {"text": f"echo: {user_input}"},
-                    "error_mode": "fallback"
+                    "error_mode": "fallback",
                 }
         else:
             # Stub mode - simple echo
@@ -878,7 +919,7 @@ def get_app() -> FastAPI:
                 "id": request_id,
                 "model": "lukhas-matriz",
                 "output": {"text": f"echo: {user_input}"},
-                "mode": "stub"
+                "mode": "stub",
             }
 
         result_json = JSONResponse(_maybe_trace(out))
@@ -889,7 +930,8 @@ def get_app() -> FastAPI:
                 import json
 
                 from lukhas.core.reliability import idempotency as idem
-                resp_bytes = json.dumps(out).encode('utf-8')
+
+                resp_bytes = json.dumps(out).encode("utf-8")
                 idem.put(cache_key, 200, resp_bytes, "application/json")
             except Exception as e:
                 logger.warning(f"Idempotency caching failed: {e}")
@@ -912,15 +954,17 @@ def get_app() -> FastAPI:
         traces = [
             {"step": "imagine", "content": f"{seed} unfolds in quantum superposition"},
             {"step": "expand", "content": "Patterns emerge: recursive, fractal, alive"},
-            {"step": "critique", "content": "Coherence check: maintaining ethical boundaries"}
+            {"step": "critique", "content": "Coherence check: maintaining ethical boundaries"},
         ]
 
-        return _maybe_trace({
-            "id": f"dream_{uuid.uuid4().hex[:8]}",
-            "model": "lukhas-consciousness",
-            "seed": seed,
-            "traces": traces,
-            "constraints": constraints
-        })
+        return _maybe_trace(
+            {
+                "id": f"dream_{uuid.uuid4().hex[:8]}",
+                "model": "lukhas-consciousness",
+                "seed": seed,
+                "traces": traces,
+                "constraints": constraints,
+            }
+        )
 
     return app

@@ -6,6 +6,7 @@ lukhas/adapters/openai/schemas/indexes.py
 Pydantic models for memory index management API endpoints.
 Provides request/response schemas with validation for CRUD operations.
 """
+
 from __future__ import annotations
 
 from typing import Any, Dict, List, Optional
@@ -15,6 +16,7 @@ from pydantic import BaseModel, Field, field_validator
 
 class ErrorResponse(BaseModel):
     """Standard error response."""
+
     error: str = Field(..., description="Error message")
     code: str = Field(..., description="Error code")
     details: Optional[Dict[str, Any]] = Field(None, description="Additional error details")
@@ -22,6 +24,7 @@ class ErrorResponse(BaseModel):
 
 class IndexCreateRequest(BaseModel):
     """Request to create a new index."""
+
     name: str = Field(..., description="Unique name for the index", min_length=1, max_length=128)
     metric: str = Field(
         default="angular",
@@ -59,6 +62,7 @@ class IndexCreateRequest(BaseModel):
 
 class IndexResponse(BaseModel):
     """Response containing index metadata."""
+
     id: str = Field(..., description="Unique index identifier")
     name: str = Field(..., description="Index name")
     metric: str = Field(..., description="Distance metric")
@@ -70,6 +74,7 @@ class IndexResponse(BaseModel):
 
 class VectorAddRequest(BaseModel):
     """Request to add vectors to an index."""
+
     vectors: List[Dict[str, Any]] = Field(
         ...,
         description="List of vectors to add",
@@ -95,6 +100,7 @@ class VectorAddRequest(BaseModel):
 
 class VectorAddResponse(BaseModel):
     """Response after adding vectors."""
+
     index_id: str = Field(..., description="Index identifier")
     added_count: int = Field(..., description="Number of vectors successfully added")
     failed_count: int = Field(default=0, description="Number of vectors that failed to add")
@@ -103,6 +109,7 @@ class VectorAddResponse(BaseModel):
 
 class VectorSearchRequest(BaseModel):
     """Request to search for nearest neighbors."""
+
     vector: List[float] = Field(
         ...,
         description="Query vector",
@@ -131,6 +138,7 @@ class VectorSearchRequest(BaseModel):
 
 class VectorSearchResult(BaseModel):
     """Single search result."""
+
     id: str = Field(..., description="Item identifier")
     score: Optional[float] = Field(None, description="Similarity score")
     vector: Optional[List[float]] = Field(None, description="Vector embedding (if requested)")
@@ -138,6 +146,7 @@ class VectorSearchResult(BaseModel):
 
 class VectorSearchResponse(BaseModel):
     """Response containing search results."""
+
     index_id: str = Field(..., description="Index identifier")
     query_time_ms: float = Field(..., description="Query processing time in milliseconds")
     results: List[VectorSearchResult] = Field(..., description="Search results (nearest neighbors)")
@@ -146,6 +155,7 @@ class VectorSearchResponse(BaseModel):
 
 class IndexListResponse(BaseModel):
     """Response containing list of indexes."""
+
     indexes: List[IndexResponse] = Field(..., description="List of all indexes")
     total_count: int = Field(..., description="Total number of indexes")
     total_vectors: int = Field(..., description="Total vectors across all indexes")
@@ -153,6 +163,7 @@ class IndexListResponse(BaseModel):
 
 class VectorDeleteResponse(BaseModel):
     """Response after deleting a vector."""
+
     index_id: str = Field(..., description="Index identifier")
     vector_id: str = Field(..., description="Deleted vector identifier")
     success: bool = Field(..., description="Whether deletion was successful")
@@ -160,5 +171,6 @@ class VectorDeleteResponse(BaseModel):
 
 class IndexDeleteResponse(BaseModel):
     """Response after deleting an index."""
+
     index_id: str = Field(..., description="Deleted index identifier")
     success: bool = Field(..., description="Whether deletion was successful")

@@ -9,10 +9,27 @@ updated: 2025-10-12
 [![Manifests](https://img.shields.io/badge/manifests-928-blue)](manifests/)
 [![Smoke Tests](https://img.shields.io/badge/smoke%20tests-100%25-success)](tests/smoke/)
 [![Lint Health](https://img.shields.io/badge/lint-97%25%20clean-brightgreen)](docs/audits/)
+[![DX Examples Smoke](https://github.com/LukhasAI/Lukhas/actions/workflows/dx-examples-smoke.yml/badge.svg)](https://github.com/LukhasAI/Lukhas/actions/workflows/dx-examples-smoke.yml)
 
 **A consciousness-aware AI development platform with distributed cognitive architecture.**
 
 LUKHAS AI is a sophisticated cognitive platform that implements consciousness-inspired patterns for advanced AI applications. Built with a modular lane-based architecture, the platform enables safe development and deployment of consciousness-aware AI systems through strict boundaries and comprehensive governance.
+
+## ⚡ 30-Second Quickstart
+
+```bash
+# Install and run LUKHAS in 30 seconds
+pip install -e . && pytest tests/smoke/
+python3 -m uvicorn lukhas.adapters.openai.api:get_app --factory --host 0.0.0.0 --port 8000 &
+
+# Test the API
+curl http://localhost:8000/v1/responses \
+  -H "Authorization: Bearer sk-lukhas-test" \
+  -H "Content-Type: application/json" \
+  -d '{"prompt":"Explain the Constellation Framework","max_tokens":150}'
+```
+
+📖 **[Full Installation Guide](#-installation)** | 🎯 **[API Documentation](docs/api/)** | 🧪 **[SDK Examples](examples/sdk/)**
 
 ## 🎯 **MATRIZ Transition Status** (Active)
 
@@ -799,3 +816,27 @@ MIT License - see [LICENSE](LICENSE) file for details.
 ---
 
 *Built with consciousness, guided by ethics, powered by the Constellation Framework.* ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum
+---
+
+## ⚡ 30-Second Quickstart (DX Polish Pack)
+
+```bash
+# 1) Run the OpenAI-compatible façade (permissive dev mode)
+export LUKHAS_POLICY_MODE=permissive
+uvicorn lukhas.adapters.openai.api:get_app --factory --port 8000 &
+
+# 2) Smoke the two most common flows
+curl -sS -H "Authorization: Bearer sk-test" http://localhost:8000/v1/models | jq '.data | length'
+curl -sS -H "Authorization: Bearer sk-test" -H "Content-Type: application/json" \
+  -d '{"model":"lukhas","input":"hello"}' http://localhost:8000/v1/embeddings | jq '.data[0].embedding | length'
+```
+
+* **OpenAI envelope** + **X-Trace-Id** + **X-RateLimit-*** headers are standard on success/error paths.
+* See `docs/gonzo/dx/COOKBOOK_responses.md` and `.../COOKBOOK_dreams.md` for copy-paste recipes.
+* Postman collection: `docs/postman/LUKHAS_DX_Polish.postman_collection.json` (use env `LUKHAS.postman_environment.json`).
+
+> **📚 See Also**
+> - **API Cookbooks**: [Responses API](docs/gonzo/dx/COOKBOOK_responses.md) | [Dreams API](docs/gonzo/dx/COOKBOOK_dreams.md)
+> - **SDK Examples**: [TypeScript SDK](examples/sdk/typescript/) | [Python SDK](examples/sdk/python/)
+> - **Postman Testing**: [Collection & Environment](docs/postman/)
+> - **CI Validation**: [DX Examples Smoke Workflow](.github/workflows/dx-examples-smoke.yml)

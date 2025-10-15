@@ -1,0 +1,177 @@
+name: 🧪 API Golden Flows (Newman)
+
+on:
+  push:
+    branches: [main, develop, 'feature/**']
+  pull_request:
+    branches: [main, develop]
+  schedule:
+    # Run daily at 2 AM UTC
+    - cron: '0 2 * * *'
+  workflow_dispatch:
+
+jobs:
+  newman-golden-flows:
+    name: Run Postman Golden Flows
+    runs-on: ubuntu-latest
+    
+    strategy:
+      matrix:
+        environment: [local, staging]
+      fail-fast: false
+    
+    steps:
+      - name: 📥 Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: 📦 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      
+      - name: 🔧 Install Newman
+        run: |
+          npm install -g newman
+          npm install -g newman-reporter-htmlextra
+      
+      - name: 🐍 Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+      
+      - name: 📦 Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements-prod.txt
+      
+      - name: 🚀 Start LUKHAS API (local only)
+        if: matrix.environment == 'local'
+        run: |
+          export LUKHAS_POLICY_MODE=permissive
+          python3 -m uvicorn lukhas.adapters.openai.api:get_app --factory --host 0.0.0.0 --port 8000 &
+          echo $! > server.pid
+          
+          # Wait for server readiness (max 30s)
+          for i in {1..60}; do
+            if curl -s http://localhost:8000/health > /dev/null 2>&1; then
+              echo "✅ Server ready after ${i} attempts"
+              break
+            fi
+            sleep 0.5
+          done
+      
+      - name: 🧪 Run Golden Flow 1: Auth Errors
+        run: |
+          if [ "${{ matrix.environment }}" = "local" ]; then
+            BASE_URL="http://localhost:8000"
+          else
+            BASE_URL="${{ secrets.STAGING_BASE_URL }}"
+          fi
+          newman run docs/api/postman/LUKHAS_Golden_Flows.postman_collection.json \
+            --folder "Golden Flow 1: Auth Error Handling" \
+            --env-var "base_url=${BASE_URL}" \
+            --env-var "lukhas_api_key=${{ secrets.LUKHAS_API_KEY }}" \
+            --reporters cli,json,htmlextra \
+            --reporter-htmlextra-export newman/auth-errors-${{ matrix.environment }}.html \
+            --reporter-json-export newman/auth-errors-${{ matrix.environment }}.json \
+            --color on
+      
+      - name: 🧪 Run Golden Flow 2: Idempotent Replay
+        run: |
+          if [ "${{ matrix.environment }}" = "local" ]; then
+            BASE_URL="http://localhost:8000"
+          else
+            BASE_URL="${{ secrets.STAGING_BASE_URL }}"
+          fi
+          newman run docs/api/postman/LUKHAS_Golden_Flows.postman_collection.json \
+            --folder "Golden Flow 2: Idempotent Replay" \
+            --env-var "base_url=${BASE_URL}" \
+            --env-var "lukhas_api_key=${{ secrets.LUKHAS_API_KEY }}" \
+            --reporters cli,json,htmlextra \
+            --reporter-htmlextra-export newman/idempotency-${{ matrix.environment }}.html \
+            --reporter-json-export newman/idempotency-${{ matrix.environment }}.json \
+            --color on
+      
+      - name: 🛑 Stop LUKHAS API (local only)
+        if: always() && matrix.environment == 'local'
+        run: |
+          if [ -f server.pid ]; then
+            kill $(cat server.pid) || true
+            rm server.pid
+          fi
+      
+      - name: 📊 Parse Newman Results
+        if: always()
+        id: parse-results
+        run: |
+          # Parse JSON reports and extract metrics
+          total_tests=0
+          failed_tests=0
+          
+          for report in newman/*.json; do
+            if [ -f "$report" ]; then
+              tests=$(jq '.run.stats.tests.total' "$report")
+              failures=$(jq '.run.stats.tests.failed' "$report")
+              total_tests=$((total_tests + tests))
+              failed_tests=$((failed_tests + failures))
+            fi
+          done
+          
+          pass_rate=$(( (total_tests - failed_tests) * 100 / total_tests ))
+          
+          echo "total_tests=$total_tests" >> $GITHUB_OUTPUT
+          echo "failed_tests=$failed_tests" >> $GITHUB_OUTPUT
+          echo "pass_rate=$pass_rate" >> $GITHUB_OUTPUT
+      
+      - name: 📤 Upload Newman Reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: newman-reports-${{ matrix.environment }}
+          path: newman/
+          retention-days: 30
+      
+      - name: 💬 Comment PR with Results
+        if: github.event_name == 'pull_request' && always()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const totalTests = '${{ steps.parse-results.outputs.total_tests }}';
+            const failedTests = '${{ steps.parse-results.outputs.failed_tests }}';
+            const passRate = '${{ steps.parse-results.outputs.pass_rate }}';
+            
+            const body = `## 🧪 Newman Golden Flows Results (${{ matrix.environment }})
+            
+            | Metric | Value |
+            |--------|-------|
+            | **Total Tests** | ${totalTests} |
+            | **Failed Tests** | ${failedTests} |
+            | **Pass Rate** | ${passRate}% |
+            | **Environment** | ${{ matrix.environment }} |
+            
+            ${failedTests === '0' ? '✅ All tests passed!' : '❌ Some tests failed. Check the workflow logs for details.'}
+            
+            [📊 View detailed HTML report](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})
+            `;
+            
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: body
+            });
+      
+      - name: ❌ Fail on test failures
+        if: steps.parse-results.outputs.failed_tests != '0'
+        run: |
+          echo "::error::${{ steps.parse-results.outputs.failed_tests }} tests failed in ${{ matrix.environment }} environment"
+          exit 1
+      
+      - name: ✅ Success Summary
+        if: success()
+        run: |
+          echo "::notice::✅ All Newman golden flows passed in ${{ matrix.environment }} environment!"
+          echo "::notice::📊 Pass rate: ${{ steps.parse-results.outputs.pass_rate }}%"

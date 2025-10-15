@@ -29,7 +29,7 @@
         "contract_path": null,
         "dependencies": [],
         "exports": [
-          "test_candidate_lane_accessible"
+          "test_labs_lane_accessible"
         ]
       },
       {
@@ -59,7 +59,8 @@
         "contract_path": null,
         "dependencies": [],
         "exports": [
-          "test_experimental_lane_accessible"
+          "test_experimental_lane_accessible",
+          "test_labs_lane_accessible"
         ]
       },
       {
@@ -119,10 +120,10 @@
         "contract_path": null,
         "dependencies": [
           "lukhas.core",
-          "candidate.governance.identity",
-          "candidate.core.ethics",
-          "candidate.core.governance",
-          "candidate.memory",
+          "labs.governance.identity",
+          "labs.core.ethics",
+          "labs.core.governance",
+          "labs.memory",
           "lukhas.memory",
           "lukhas"
         ],
@@ -145,7 +146,7 @@
           "lukhas"
         ],
         "exports": [
-          "test_no_candidate_leak_after_importing_lukhas",
+          "test_no_labs_leak_after_importing_lukhas",
           "test_matriz_imports_cleanly"
         ]
       }

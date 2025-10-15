@@ -7,6 +7,7 @@ environment variables when principal not found in config.
 
 Phase 3: Guardian enhancements for Redis rate-limit backend integration.
 """
+
 import ipaddress
 import logging
 import os
@@ -22,6 +23,7 @@ logger = logging.getLogger(__name__)
 @dataclass
 class Quota:
     """Rate limit quota configuration."""
+
     rps: int  # Requests per second
     burst: int  # Burst capacity (token bucket size)
     description: str = ""
@@ -81,7 +83,7 @@ class QuotaResolver:
         self.defaults = Quota(
             rps=defaults_cfg.get("rps", 20),
             burst=defaults_cfg.get("burst", 40),
-            description="config default"
+            description="config default",
         )
 
         # Load per-principal quotas
@@ -93,7 +95,7 @@ class QuotaResolver:
             self.principals[principal] = Quota(
                 rps=principal_cfg.get("rps", self.defaults.rps),
                 burst=principal_cfg.get("burst", self.defaults.burst),
-                description=principal_cfg.get("description", "")
+                description=principal_cfg.get("description", ""),
             )
 
         # Load endpoint multipliers
@@ -107,11 +109,7 @@ class QuotaResolver:
 
             # Only override if not already loaded from config
             if self.defaults.description == "system default":
-                self.defaults = Quota(
-                    rps=env_rps,
-                    burst=env_burst,
-                    description="env default"
-                )
+                self.defaults = Quota(rps=env_rps, burst=env_burst, description="env default")
         except ValueError as e:
             logger.warning(f"Invalid env quota values: {e}, keeping current defaults")
 
@@ -143,7 +141,7 @@ class QuotaResolver:
             return Quota(
                 rps=int(quota.rps * multiplier),
                 burst=int(quota.burst * multiplier),
-                description=f"{quota.description} (endpoint x{multiplier})"
+                description=f"{quota.description} (endpoint x{multiplier})",
             )
 
         return quota

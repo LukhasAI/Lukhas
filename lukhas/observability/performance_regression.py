@@ -1,4 +1,5 @@
 """Stub: lukhas.observability.performance_regression"""
+
 from __future__ import annotations
 
 # Minimal stub for test collection
@@ -6,13 +7,17 @@ __all__ = []
 
 # Added for test compatibility (lukhas.observability.performance_regression.DetectionMethod)
 try:
-    from labs.observability.performance_regression import DetectionMethod  # noqa: F401
+    from labs.observability.performance_regression import DetectionMethod
 except ImportError:
+
     class DetectionMethod:
         """Stub for DetectionMethod."""
+
         def __init__(self, *args, **kwargs):
             for key, value in kwargs.items():
                 setattr(self, key, value)
+
+
 try:
     __all__  # type: ignore[name-defined]
 except NameError:
@@ -23,14 +28,18 @@ if "DetectionMethod" not in __all__:
 # Added for test compatibility (lukhas.observability.performance_regression.PerformanceRegressionDetector)
 try:
     from labs.observability.performance_regression import (
-        PerformanceRegressionDetector,  # noqa: F401
+        PerformanceRegressionDetector,
     )
 except ImportError:
+
     class PerformanceRegressionDetector:
         """Stub for PerformanceRegressionDetector."""
+
         def __init__(self, *args, **kwargs):
             for key, value in kwargs.items():
                 setattr(self, key, value)
+
+
 try:
     __all__  # type: ignore[name-defined]
 except NameError:
@@ -40,14 +49,16 @@ if "PerformanceRegressionDetector" not in __all__:
 
 # Added for test compatibility (lukhas.observability.performance_regression.PerformanceBaseline)
 try:
-    from labs.observability.performance_regression import PerformanceBaseline  # noqa: F401
+    from labs.observability.performance_regression import PerformanceBaseline
 except ImportError:
+
     class PerformanceBaseline:
         """Stub for PerformanceBaseline."""
 
         def __init__(self, *args, **kwargs):
             for key, value in kwargs.items():
                 setattr(self, key, value)
+
 
 try:
     __all__  # type: ignore[name-defined]
@@ -58,8 +69,9 @@ if "PerformanceBaseline" not in __all__:
 
 # Added for test compatibility (lukhas.observability.performance_regression.PerformanceRegression)
 try:
-    from labs.observability.performance_regression import PerformanceRegression  # noqa: F401
+    from labs.observability.performance_regression import PerformanceRegression
 except ImportError:
+
     class PerformanceRegression:
         """Stub for PerformanceRegression."""
 
@@ -69,6 +81,7 @@ except ImportError:
 
         def evaluate(self, *args, **kwargs):
             return {}
+
 
 try:
     __all__  # type: ignore[name-defined]

@@ -1,0 +1,199 @@
+# Prometheus Recording Rules for Guardian PDP and Rate Limiting
+#
+# These rules pre-compute frequently-queried metrics for dashboards and SLO monitoring.
+# Deploy to Prometheus server via config reload.
+#
+# Purpose: GA Guard Pack - additive recording rules for Guardian/RL observability
+# Version: 1.0.0
+# Date: 2025-10-13
+
+groups:
+  - name: guardian_pdp_performance
+    interval: 30s
+    rules:
+      # PDP latency p95 (SLO: < 10ms)
+      - record: guardian:pdp_latency:p95
+        expr: |
+          histogram_quantile(0.95,
+            sum(rate(lukhas_guardian_decision_duration_seconds_bucket[5m])) by (le, outcome)
+          )
+        labels:
+          aggregation: p95
+          window: 5m
+
+      # PDP latency p99 (for alerting on degradation)
+      - record: guardian:pdp_latency:p99
+        expr: |
+          histogram_quantile(0.99,
+            sum(rate(lukhas_guardian_decision_duration_seconds_bucket[5m])) by (le, outcome)
+          )
+        labels:
+          aggregation: p99
+          window: 5m
+
+      # PDP latency p50 (median for baseline)
+      - record: guardian:pdp_latency:p50
+        expr: |
+          histogram_quantile(0.50,
+            sum(rate(lukhas_guardian_decision_duration_seconds_bucket[5m])) by (le, outcome)
+          )
+        labels:
+          aggregation: p50
+          window: 5m
+
+  - name: guardian_denial_rates
+    interval: 30s
+    rules:
+      # Denial rate ratio (SLI: denials / total decisions)
+      - record: guardian:denial_rate:ratio
+        expr: |
+          sum(rate(lukhas_guardian_decision_total{outcome="deny"}[5m]))
+          /
+          sum(rate(lukhas_guardian_decision_total[5m]))
+        labels:
+          window: 5m
+
+      # Denial rate by scope (for per-scope monitoring)
+      - record: guardian:denial_rate:by_scope
+        expr: |
+          sum(rate(lukhas_guardian_decision_total{outcome="deny"}[5m])) by (scope)
+          /
+          sum(rate(lukhas_guardian_decision_total[5m])) by (scope)
+        labels:
+          window: 5m
+
+      # Denial rate by route (for per-endpoint monitoring)
+      - record: guardian:denial_rate:by_route
+        expr: |
+          sum(rate(lukhas_guardian_decision_total{outcome="deny"}[5m])) by (route)
+          /
+          sum(rate(lukhas_guardian_decision_total[5m])) by (route)
+        labels:
+          window: 5m
+
+      # Top denial reasons (for troubleshooting)
+      - record: guardian:denials:top_reasons
+        expr: |
+          topk(10,
+            sum(rate(lukhas_guardian_denied_total[5m])) by (reason)
+          )
+        labels:
+          window: 5m
+          rank: top10
+
+  - name: rate_limiter_exhaustion
+    interval: 30s
+    rules:
+      # Near-exhaustion ratio (SLI: requests near limit / total)
+      # A principal is "near exhaustion" if remaining < 20% of limit
+      - record: rl:near_exhaustion:ratio
+        expr: |
+          sum(
+            lukhas_ratelimit_remaining_requests
+            /
+            lukhas_ratelimit_limit_requests
+            < 0.2
+          )
+          /
+          count(lukhas_ratelimit_remaining_requests)
+        labels:
+          threshold: 0.2
+          window: instant
+
+      # Rate limit hit rate (429 rejections / attempted requests)
+      - record: rl:hit_rate:ratio
+        expr: |
+          sum(rate(lukhas_ratelimit_exceeded_total[5m]))
+          /
+          (sum(rate(http_requests_total[5m])) + sum(rate(lukhas_ratelimit_exceeded_total[5m])))
+        labels:
+          window: 5m
+
+      # Rate limit hit rate by principal (for per-tenant monitoring)
+      - record: rl:hit_rate:by_principal
+        expr: |
+          sum(rate(lukhas_ratelimit_exceeded_total[5m])) by (principal)
+        labels:
+          window: 5m
+
+      # Rate limit hit rate by route (for per-endpoint monitoring)
+      - record: rl:hit_rate:by_route
+        expr: |
+          sum(rate(lukhas_ratelimit_exceeded_total[5m])) by (route)
+        labels:
+          window: 5m
+
+  - name: guardian_rule_coverage
+    interval: 60s
+    rules:
+      # Rule evaluation frequency (rules evaluated / total decisions)
+      - record: guardian:rule_eval_freq:by_rule
+        expr: |
+          sum(rate(lukhas_guardian_rule_evaluations_total[5m])) by (rule_id)
+          /
+          sum(rate(lukhas_guardian_decision_total[5m]))
+        labels:
+          window: 5m
+
+      # Most frequently triggered deny rules
+      - record: guardian:deny_rules:top_triggered
+        expr: |
+          topk(10,
+            sum(rate(lukhas_guardian_rule_evaluations_total{effect="deny"}[5m])) by (rule_id)
+          )
+        labels:
+          window: 5m
+          rank: top10
+
+  - name: rate_limiter_utilization
+    interval: 30s
+    rules:
+      # Average utilization (1 - remaining/limit)
+      - record: rl:utilization:avg
+        expr: |
+          avg(
+            1 - (lukhas_ratelimit_remaining_requests / lukhas_ratelimit_limit_requests)
+          )
+        labels:
+          aggregation: avg
+
+      # Max utilization across all principals
+      - record: rl:utilization:max
+        expr: |
+          max(
+            1 - (lukhas_ratelimit_remaining_requests / lukhas_ratelimit_limit_requests)
+          )
+        labels:
+          aggregation: max
+
+      # Utilization by route (for capacity planning)
+      - record: rl:utilization:by_route
+        expr: |
+          avg(
+            1 - (lukhas_ratelimit_remaining_requests / lukhas_ratelimit_limit_requests)
+          ) by (route)
+        labels:
+          aggregation: avg
+
+  - name: combined_guardian_rl_health
+    interval: 60s
+    rules:
+      # Combined health score (0-1, higher is better)
+      # Factors: low denial rate, low RL hit rate, low PDP latency
+      - record: lukhas:guardian_rl:health_score
+        expr: |
+          (
+            (1 - guardian:denial_rate:ratio) * 0.4 +
+            (1 - rl:hit_rate:ratio) * 0.4 +
+            (1 - (guardian:pdp_latency:p95 / 0.010)) * 0.2
+          )
+        labels:
+          component: guardian_rl
+          aggregation: composite
+
+      # Traffic volume (requests/sec)
+      - record: lukhas:traffic:requests_per_sec
+        expr: |
+          sum(rate(http_requests_total[1m]))
+        labels:
+          window: 1m

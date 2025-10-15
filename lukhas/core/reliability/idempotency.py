@@ -22,6 +22,7 @@ Usage:
     key = build_cache_key("POST", "/v1/responses", "idem-key", principal="user-token")
     cached = get(key)
 """
+
 from __future__ import annotations
 
 import hashlib

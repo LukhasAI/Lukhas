@@ -13,6 +13,7 @@ RateLimiter keying strategy (Phase 3):
   - principal is 'tok:<sha256_16hex>' | 'ip:<addr>' | 'anonymous'
   - raw tokens are never stored (hash only, security)
 """
+
 import hashlib
 import math
 import os
@@ -55,10 +56,7 @@ class TokenBucket:
             elapsed = now - self.last_refill
 
             # Refill tokens based on elapsed time
-            self.tokens = min(
-                self.capacity,
-                self.tokens + (elapsed * self.refill_rate)
-            )
+            self.tokens = min(self.capacity, self.tokens + (elapsed * self.refill_rate))
             self.last_refill = now
 
             if self.tokens >= tokens:
@@ -96,13 +94,13 @@ class RateLimiter:
     def _extract_principal(self, request) -> str:
         """
         Extract principal identifier from request.
-        
+
         Prioritizes bearer token for tenant isolation, falls back to
         client IP address for anonymous requests.
-        
+
         Args:
             request: FastAPI Request object
-            
+
         Returns:
             Principal identifier (token or IP)
         """
@@ -164,13 +162,13 @@ class RateLimiter:
         with self.lock:
             self.buckets[endpoint] = TokenBucket(
                 capacity=rps * 2,  # Allow 2x burst
-                refill_rate=rps
+                refill_rate=rps,
             )
 
     def check_limit(self, request) -> Tuple[bool, float]:
         """
         Check if request is within rate limit.
-        
+
         Args:
             request: FastAPI Request object (used to derive key)
 
@@ -185,10 +183,10 @@ class RateLimiter:
         """
         Public wrapper for the internal key function so API code doesn't
         rely on a private method. Keeps our Phase-2 integration stable.
-        
+
         Args:
             request: FastAPI Request object
-            
+
         Returns:
             Rate limit key string
         """
@@ -197,10 +195,10 @@ class RateLimiter:
     def principal_for_request(self, request) -> str:
         """
         Return the raw principal string; metric layer will hash it.
-        
+
         Args:
             request: FastAPI Request object
-            
+
         Returns:
             Principal identifier (for metrics, will be hashed)
         """
@@ -213,10 +211,10 @@ class RateLimiter:
         """
         Ensure a bucket record exists for key.
         Expected shape: {"tokens": float, "ts": float, "capacity": int, "refill_rate": float}
-        
+
         Args:
             key: Rate limit key
-            
+
         Returns:
             Bucket dictionary with current state
         """
@@ -237,7 +235,7 @@ class RateLimiter:
     def _refilled(self, b: Dict[str, Any]) -> None:
         """
         Update bucket dict with passive refill (for window calculations).
-        
+
         Args:
             b: Bucket state dictionary
         """
@@ -253,10 +251,10 @@ class RateLimiter:
           - limit: capacity
           - remaining: floor(tokens after passive refill)
           - reset_seconds: seconds to *full* refill (OK for client backoff)
-        
+
         Args:
             key: Rate limit key
-            
+
         Returns:
             Dictionary with limit, remaining, and reset_seconds
         """
@@ -289,13 +287,13 @@ class RateLimiter:
         OpenAI-aligned header set. Requests-dimension always present.
         Tokens-* are optional placeholders unless you wire in token
         accounting; we surface them as '0' by default for API parity.
-        
+
         Args:
             key: Rate limit key
             tokens_limit: Optional token limit (for future token tracking)
             tokens_remaining: Optional remaining tokens
             tokens_reset: Optional token reset time
-            
+
         Returns:
             Dictionary of x-ratelimit-* headers
         """
@@ -327,7 +325,7 @@ def rate_limit_error(retry_after_s: float) -> dict:
         "error": {
             "type": "rate_limit_exceeded",
             "message": "Rate limit exceeded. Please retry after the specified time.",
-            "retry_after": retry_after_int
+            "retry_after": retry_after_int,
         },
-        "headers": {"Retry-After": str(retry_after_int)}
+        "headers": {"Retry-After": str(retry_after_int)},
     }

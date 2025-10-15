@@ -59,7 +59,9 @@ class NodeTrigger:
 class NodeReflection:
     """Introspective log about this node's processing"""
 
-    reflection_type: str  # regret, affirmation, dissonance_resolution, moral_conflict, self_question
+    reflection_type: (
+        str  # regret, affirmation, dissonance_resolution, moral_conflict, self_question
+    )
     timestamp: int  # epoch milliseconds
     old_state: Optional[dict] = None
     new_state: Optional[dict] = None
@@ -265,13 +267,17 @@ class CognitiveNode(ABC):
                 "trace_id": provenance.trace_id,
                 "consent_scopes": provenance.consent_scopes,
             },
-            "links": [link.__dict__ if isinstance(link, NodeLink) else link for link in (links or [])],
+            "links": [
+                link.__dict__ if isinstance(link, NodeLink) else link for link in (links or [])
+            ],
             "evolves_to": evolves_to or [],
             "triggers": [
-                trigger.__dict__ if isinstance(trigger, NodeTrigger) else trigger for trigger in (triggers or [])
+                trigger.__dict__ if isinstance(trigger, NodeTrigger) else trigger
+                for trigger in (triggers or [])
             ],
             "reflections": [
-                refl.__dict__ if isinstance(refl, NodeReflection) else refl for refl in (reflections or [])
+                refl.__dict__ if isinstance(refl, NodeReflection) else refl
+                for refl in (reflections or [])
             ],
             "schema_ref": "lukhas://schemas/matriz_node_v1.json",
         }
@@ -438,4 +444,6 @@ class CognitiveNode(ABC):
 
     def __repr__(self) -> str:
         """String representation of the node"""
-        return f"{self.__class__.__name__}(name='{self.node_name}', capabilities={self.capabilities})"
+        return (
+            f"{self.__class__.__name__}(name='{self.node_name}', capabilities={self.capabilities})"
+        )

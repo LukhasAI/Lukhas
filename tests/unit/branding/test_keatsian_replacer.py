@@ -11,6 +11,9 @@ import pytest
 PROJECT_ROOT = Path(__file__).resolve().parents[3]
 MODULE_PATH = PROJECT_ROOT / "branding" / "lukhas.tools" / "keatsian_replacer.py"
 
+if not MODULE_PATH.exists():  # pragma: no cover
+    pytest.skip("keatsian_replacer tooling not present", allow_module_level=True)
+
 spec = importlib.util.spec_from_file_location(
     "branding.tools.keatsian_replacer", MODULE_PATH
 )
