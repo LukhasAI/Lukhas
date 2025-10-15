@@ -269,16 +269,16 @@ def get_app() -> FastAPI:
             # Evaluate policy
             start_time = time.time()
             decision: Decision = app.state.pdp.decide(ctx)
-            latency_ms = (time.time() - start_time) * 1000
+            latency_seconds = time.time() - start_time
 
             # Record metrics
             if GUARDIAN_METRICS_AVAILABLE:
                 record_decision(
-                    scope=scope,
                     allow=decision.allow,
-                    reason=decision.reason,
+                    scope=scope,
                     route=request.url.path,
-                    latency_ms=latency_ms,
+                    reason=decision.reason if not decision.allow else None,
+                    duration_seconds=latency_seconds,
                 )
 
             # Enforce decision
