@@ -7,6 +7,7 @@ explosions while maintaining tenant isolation visibility.
 
 Phase 3: Added for production-grade rate-limit monitoring.
 """
+
 import hashlib
 import os
 import random
@@ -14,6 +15,7 @@ from typing import Any
 
 try:
     from prometheus_client import Counter, Gauge
+
     PROMETHEUS_AVAILABLE = True
 except Exception:  # pragma: no cover
     # Soft-disable if prometheus_client isn't present (keeps app booting)
@@ -21,6 +23,7 @@ except Exception:  # pragma: no cover
 
     class _Nop:
         """No-op metric that does nothing (graceful degradation)."""
+
         def labels(self, *args, **kwargs):
             return self
 
@@ -68,7 +71,7 @@ def _enabled() -> bool:
 def _sample_ok() -> bool:
     """
     Optional sampling to cap label churn in very high-cardinality bursts.
-    
+
     Returns:
         True if this metric update should be recorded (based on sample rate)
     """
@@ -83,12 +86,12 @@ def _sample_ok() -> bool:
 def fingerprint(principal: str) -> str:
     """
     Hash principal to 8-char hex fingerprint for metrics.
-    
+
     Prevents raw token exposure while maintaining tenant isolation visibility.
-    
+
     Args:
         principal: Raw principal string (token hash, IP, etc.)
-        
+
     Returns:
         8-character hex fingerprint
     """
@@ -100,10 +103,10 @@ def fingerprint(principal: str) -> str:
 def route_key(path: str) -> str:
     """
     Normalize to a tiny set of labels (prevents cardinality explosions).
-    
+
     Args:
         path: Request path
-        
+
     Returns:
         Normalized route label
     """
@@ -123,7 +126,7 @@ def route_key(path: str) -> str:
 def record_window(route: str, principal: str, limiter: Any, key: str) -> None:
     """
     Record current rate-limit window state to Prometheus gauges.
-    
+
     Args:
         route: Request route path
         principal: Principal identifier (will be hashed)
@@ -149,7 +152,7 @@ def record_window(route: str, principal: str, limiter: Any, key: str) -> None:
 def record_hit(route: str, principal: str) -> None:
     """
     Record a rate-limit rejection (429 response).
-    
+
     Args:
         route: Request route path
         principal: Principal identifier (will be hashed)

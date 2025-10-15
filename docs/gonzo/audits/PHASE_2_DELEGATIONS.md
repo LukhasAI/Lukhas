@@ -99,6 +99,12 @@ openapi-diff-local: ## Diff OpenAPI spec against baseline
 - PR view shows health metrics at top (no clicking)
 - OpenAPI changes visible inline with visual indicators
 
+### E1.1) Claude Code - CI hot-path hygiene (Phase-B)
+- Add `ruff-phaseB-hotpaths` CI job (budget ≤120 diagnostics) covering:
+  - `lukhas/adapters/openai`, `lukhas/core/reliability`, `lukhas/observability`,
+    `MATRIZ/core`, and `MATRIZ/interfaces/api_server.py`
+- Keeps lint budget tight on hot paths without repo-wide churn.
+
 ---
 
 ### E2) Copilot - Examples & Docs

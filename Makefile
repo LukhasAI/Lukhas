@@ -1493,6 +1493,10 @@ openapi-headers-guard: openapi-spec ## Verify X-RateLimit-* headers present on a
 	@echo "🛡️  Checking OpenAPI spec for required X-RateLimit-* headers..."
 	@python3 scripts/check_openapi_headers.py
 
+.PHONY: guard
+guard: ## Validate Guardian policy schema
+	@python3 scripts/validate_guardian_policy.py configs/policy/guardian_policies.yaml
+
 openapi-diff: openapi-spec ## Diff OpenAPI spec against main branch (requires git worktree)
 	@echo "🔍 Comparing OpenAPI spec against main..."
 	@if [ ! -d "main_ref" ]; then \

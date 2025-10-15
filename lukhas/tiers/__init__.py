@@ -10,16 +10,26 @@ for mod in (
     "products.tiers",
 ):
     try:
-        a, e = bridge_from_candidates(mod)
-        if a:
-            __all__ = list(a); _exp = e; break
+        candidates, exports = bridge_from_candidates(mod)
+        if candidates:
+            __all__ = list(candidates)
+            _exp = exports
+            break
     except Exception:
         continue
+
 if not __all__:
     from enum import Enum
+
     class Tier(Enum):
-        L0="L0"; L1="L1"; L2="L2"; L3="L3"; L4="L4"; L5="L5"
-    __all__=["Tier"]
+        L0 = "L0"
+        L1 = "L1"
+        L2 = "L2"
+        L3 = "L3"
+        L4 = "L4"
+        L5 = "L5"
+
+    __all__ = ["Tier"]
     globals().update({"Tier": Tier})
 else:
     globals().update(_exp)

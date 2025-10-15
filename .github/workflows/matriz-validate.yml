@@ -303,6 +303,41 @@ jobs:
           if [ "${{ steps.ruff.outputs.count }}" -gt "${BUDGET}" ]; then
             echo "Ruff over budget"; exit 2; fi
 
+  ruff-phaseB-hotpaths:
+    name: "Lint — Ruff (Phase-B hot-paths)"
+    runs-on: ubuntu-latest
+    needs: [validate]
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.9"
+      - name: Install Ruff
+        run: pip install --disable-pip-version-check --no-input ruff
+      - name: Phase-B hot-paths lint budget (≤120 diagnostics)
+        shell: bash
+        run: |
+          set -euo pipefail
+          TARGETS=(
+            "lukhas/adapters/openai"
+            "lukhas/core/reliability"
+            "lukhas/observability"
+            "MATRIZ/core"
+            "MATRIZ/interfaces/api_server.py"
+          )
+          echo "Running Ruff on: ${TARGETS[*]}"
+          DIAG=$(python -m ruff check "${TARGETS[@]}" --no-cache --output-format=concise | wc -l | tr -d ' ')
+          echo "::notice title=Ruff Phase-B::diagnostics=${DIAG}"
+          if [ "${DIAG}" -gt 120 ]; then
+            echo "Too many Ruff diagnostics on hot-paths: ${DIAG} (budget 120)."
+            exit 1
+          fi
+          python -m ruff check "${TARGETS[@]}" --no-cache || true
+
   openapi-spec:
     name: Build OpenAPI Spec
     runs-on: ubuntu-latest
@@ -343,6 +378,9 @@ jobs:
       - name: Guard — X-RateLimit-* headers present
         run: |
           python3 scripts/check_openapi_headers.py
+      - name: Guard — Guardian policy schema
+        run: |
+          python3 scripts/validate_guardian_policy.py configs/policy/guardian_policies.yaml
       - uses: actions/upload-artifact@v4
         with:
           name: openapi-spec
@@ -644,3 +682,28 @@ jobs:
           else
             echo "✅ No legacy imports detected - Phase 2 migration complete"
           fi
+
+
+  ruff-strict-prod:
+    runs-on: ubuntu-latest
+    needs: [validate]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install ruff
+      - name: Ruff strict for production lanes
+        run: |
+          ruff check lukhas MATRIZ core --output-format=github
+
+  compileall-prod:
+    runs-on: ubuntu-latest
+    needs: [ruff-strict-prod]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Compile production Python
+        run: python -m compileall -q lukhas MATRIZ core

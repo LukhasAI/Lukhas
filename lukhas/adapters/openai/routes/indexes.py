@@ -15,6 +15,7 @@ Endpoints:
     DELETE /v1/indexes/{index_id}/vectors/{vector_id} - Delete vector
     DELETE /v1/indexes/{index_id}   - Delete index
 """
+
 from __future__ import annotations
 
 import logging
@@ -22,7 +23,6 @@ import time
 from typing import Optional
 
 from fastapi import APIRouter, Depends, HTTPException, Request
-from fastapi.responses import JSONResponse
 
 from lukhas.adapters.openai.schemas.indexes import (
     ErrorResponse,
@@ -39,12 +39,13 @@ from lukhas.adapters.openai.schemas.indexes import (
 )
 
 # Import PolicyGuard for RBAC (has built-in fallback)
-from lukhas.core.policy_guard import PolicyGuard, PolicyResult
+from lukhas.core.policy_guard import PolicyGuard
 from lukhas.memory.index_manager import IndexManager, IndexMetadata
 
 # Optional OpenTelemetry tracing
 try:
     from opentelemetry import trace
+
     tracer = trace.get_tracer(__name__)
     OTEL_AVAILABLE = True
 except Exception:
@@ -87,10 +88,7 @@ def set_policy_guard(guard: PolicyGuard) -> None:
 def get_index_manager() -> IndexManager:
     """Dependency to get index manager instance."""
     if _index_manager is None:
-        raise HTTPException(
-            status_code=500,
-            detail="Index manager not initialized"
-        )
+        raise HTTPException(status_code=500, detail="Index manager not initialized")
     return _index_manager
 
 
@@ -132,7 +130,7 @@ async def list_indexes(
 ) -> IndexListResponse:
     """
     List all indexes with metadata.
-    
+
     Returns:
         IndexListResponse with list of all indexes
     """
@@ -161,7 +159,7 @@ async def list_indexes(
             "ΛTAG": "memory_index_list",
             "total_count": response.total_count,
             "total_vectors": response.total_vectors,
-        }
+        },
     )
 
     return response
@@ -175,13 +173,13 @@ async def get_index(
 ) -> IndexResponse:
     """
     Get index details by ID.
-    
+
     Args:
         index_id: Index identifier
-    
+
     Returns:
         IndexResponse with index metadata
-    
+
     Raises:
         HTTPException: 404 if index not found
     """
@@ -190,19 +188,13 @@ async def get_index(
 
     # OTEL tracing
     if OTEL_AVAILABLE and tracer:
-        with tracer.start_as_current_span(
-            "get_index",
-            attributes={"index_id": index_id}
-        ):
+        with tracer.start_as_current_span("get_index", attributes={"index_id": index_id}):
             metadata = manager.get_metadata(index_id)
     else:
         metadata = manager.get_metadata(index_id)
 
     if metadata is None:
-        raise HTTPException(
-            status_code=404,
-            detail=f"Index not found: {index_id}"
-        )
+        raise HTTPException(status_code=404, detail=f"Index not found: {index_id}")
 
     logger.debug(
         f"Retrieved index: {metadata.name}",
@@ -210,7 +202,7 @@ async def get_index(
             "ΛTAG": "memory_index_get",
             "index_id": index_id,
             "name": metadata.name,
-        }
+        },
     )
 
     return _metadata_to_response(metadata)
@@ -224,13 +216,13 @@ async def create_index(
 ) -> IndexResponse:
     """
     Create a new embedding index.
-    
+
     Args:
         payload: Index creation request
-    
+
     Returns:
         IndexResponse with created index metadata
-    
+
     Raises:
         HTTPException: 400 if index name already exists
     """
@@ -246,7 +238,7 @@ async def create_index(
                     "name": payload.name,
                     "metric": payload.metric,
                     "dimension": payload.dimension,
-                }
+                },
             ):
                 index_id = manager.create_index(
                     name=payload.name,
@@ -266,10 +258,7 @@ async def create_index(
 
     metadata = manager.get_metadata(index_id)
     if metadata is None:
-        raise HTTPException(
-            status_code=500,
-            detail="Failed to retrieve created index"
-        )
+        raise HTTPException(status_code=500, detail="Failed to retrieve created index")
 
     logger.info(
         f"Created index: {payload.name}",
@@ -278,7 +267,7 @@ async def create_index(
             "index_id": index_id,
             "name": payload.name,
             "metric": payload.metric,
-        }
+        },
     )
 
     return _metadata_to_response(metadata)
@@ -293,14 +282,14 @@ async def add_vectors(
 ) -> VectorAddResponse:
     """
     Add vectors to an index.
-    
+
     Args:
         index_id: Index identifier
         payload: Vector addition request
-    
+
     Returns:
         VectorAddResponse with add statistics
-    
+
     Raises:
         HTTPException: 404 if index not found
         HTTPException: 400 if dimension mismatch
@@ -310,10 +299,7 @@ async def add_vectors(
 
     # Check index exists
     if manager.get_index(index_id) is None:
-        raise HTTPException(
-            status_code=404,
-            detail=f"Index not found: {index_id}"
-        )
+        raise HTTPException(status_code=404, detail=f"Index not found: {index_id}")
 
     added_count = 0
     failed_count = 0
@@ -326,7 +312,7 @@ async def add_vectors(
             attributes={
                 "index_id": index_id,
                 "vector_count": len(payload.vectors),
-            }
+            },
         )
         if (OTEL_AVAILABLE and tracer)
         else None
@@ -334,6 +320,7 @@ async def add_vectors(
 
     # Use nullcontext for non-OTEL case
     from contextlib import nullcontext
+
     with span_context or nullcontext():
         for vec_data in payload.vectors:
             item_id = vec_data["id"]
@@ -352,12 +339,13 @@ async def add_vectors(
                         "index_id": index_id,
                         "item_id": item_id,
                         "error": str(e),
-                    }
+                    },
                 )
 
         # Set span attributes inside the context if available
         if OTEL_AVAILABLE and tracer:
             from opentelemetry import trace
+
             current_span = trace.get_current_span()
             if current_span:
                 current_span.set_attribute("added_count", added_count)
@@ -370,7 +358,7 @@ async def add_vectors(
             "index_id": index_id,
             "added_count": added_count,
             "failed_count": failed_count,
-        }
+        },
     )
 
     return VectorAddResponse(
@@ -390,14 +378,14 @@ async def search_vectors(
 ) -> VectorSearchResponse:
     """
     Search for nearest neighbors in an index.
-    
+
     Args:
         index_id: Index identifier
         payload: Search request with query vector
-    
+
     Returns:
         VectorSearchResponse with nearest neighbors
-    
+
     Raises:
         HTTPException: 404 if index not found
         HTTPException: 400 if query vector dimension mismatch
@@ -408,16 +396,13 @@ async def search_vectors(
     # Check index exists
     index = manager.get_index(index_id)
     if index is None:
-        raise HTTPException(
-            status_code=404,
-            detail=f"Index not found: {index_id}"
-        )
+        raise HTTPException(status_code=404, detail=f"Index not found: {index_id}")
 
     # Validate query vector dimension
     if index.dimension is not None and len(payload.vector) != index.dimension:
         raise HTTPException(
             status_code=400,
-            detail=f"Query vector dimension {len(payload.vector)} does not match index dimension {index.dimension}"
+            detail=f"Query vector dimension {len(payload.vector)} does not match index dimension {index.dimension}",
         )
 
     # Perform search with timing
@@ -430,7 +415,7 @@ async def search_vectors(
             attributes={
                 "index_id": index_id,
                 "k": payload.k,
-            }
+            },
         ):
             result_ids = manager.search(index_id, payload.vector, k=payload.k)
     else:
@@ -459,7 +444,7 @@ async def search_vectors(
             "k": payload.k,
             "results_count": len(results),
             "query_time_ms": query_time_ms,
-        }
+        },
     )
 
     return VectorSearchResponse(
@@ -479,14 +464,14 @@ async def delete_vector(
 ) -> VectorDeleteResponse:
     """
     Delete a vector from an index.
-    
+
     Args:
         index_id: Index identifier
         vector_id: Vector identifier to delete
-    
+
     Returns:
         VectorDeleteResponse with deletion status
-    
+
     Raises:
         HTTPException: 404 if index not found
     """
@@ -495,10 +480,7 @@ async def delete_vector(
 
     # Check index exists
     if manager.get_index(index_id) is None:
-        raise HTTPException(
-            status_code=404,
-            detail=f"Index not found: {index_id}"
-        )
+        raise HTTPException(status_code=404, detail=f"Index not found: {index_id}")
 
     try:
         # OTEL tracing
@@ -508,16 +490,13 @@ async def delete_vector(
                 attributes={
                     "index_id": index_id,
                     "vector_id": vector_id,
-                }
+                },
             ):
                 success = manager.remove_vector(index_id, vector_id)
         else:
             success = manager.remove_vector(index_id, vector_id)
     except KeyError:
-        raise HTTPException(
-            status_code=404,
-            detail=f"Index not found: {index_id}"
-        )
+        raise HTTPException(status_code=404, detail=f"Index not found: {index_id}")
 
     logger.info(
         f"Deleted vector: {vector_id} from index {index_id}",
@@ -526,7 +505,7 @@ async def delete_vector(
             "index_id": index_id,
             "vector_id": vector_id,
             "success": success,
-        }
+        },
     )
 
     return VectorDeleteResponse(
@@ -544,10 +523,10 @@ async def delete_index(
 ) -> IndexDeleteResponse:
     """
     Delete an entire index.
-    
+
     Args:
         index_id: Index identifier
-    
+
     Returns:
         IndexDeleteResponse with deletion status
     """
@@ -556,10 +535,7 @@ async def delete_index(
 
     # OTEL tracing
     if OTEL_AVAILABLE and tracer:
-        with tracer.start_as_current_span(
-            "delete_index",
-            attributes={"index_id": index_id}
-        ):
+        with tracer.start_as_current_span("delete_index", attributes={"index_id": index_id}):
             success = manager.delete_index(index_id)
     else:
         success = manager.delete_index(index_id)
@@ -570,7 +546,7 @@ async def delete_index(
             "ΛTAG": "memory_index_delete",
             "index_id": index_id,
             "success": success,
-        }
+        },
     )
 
     return IndexDeleteResponse(

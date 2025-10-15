@@ -7,6 +7,7 @@ visibility into authorization patterns and policy effectiveness.
 
 Phase 3: Guardian enhancements for production monitoring.
 """
+
 import logging
 import os
 from typing import Optional
@@ -15,7 +16,8 @@ logger = logging.getLogger(__name__)
 
 # Check if Prometheus client is available
 try:
-    from prometheus_client import Counter, Histogram, Gauge
+    from prometheus_client import Counter, Gauge, Histogram
+
     PROMETHEUS_AVAILABLE = True
 except ImportError:
     PROMETHEUS_AVAILABLE = False
@@ -25,10 +27,13 @@ except ImportError:
     class _Nop:
         def labels(self, *args, **kwargs):
             return self
+
         def inc(self, *args, **kwargs):
             pass
+
         def observe(self, *args, **kwargs):
             pass
+
         def set(self, *args, **kwargs):
             pass
 
@@ -113,7 +118,7 @@ def _cap_reason(reason: str, max_length: int = 64) -> str:
     # Truncate and sanitize
     reason = reason[:max_length]
     # Remove any potentially sensitive data patterns
-    reason = reason.split(":")[ 0]  # Take only prefix before colons
+    reason = reason.split(":")[0]  # Take only prefix before colons
     return reason or "unknown"
 
 

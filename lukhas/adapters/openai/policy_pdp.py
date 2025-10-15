@@ -1,19 +1,33 @@
-import time
-import yaml
 import hashlib
-from typing import List, Dict, Any, Optional
+import time
+from typing import Any, Dict, List, Optional
+
+import yaml
+
 from .policy_models import Context, Decision, Rule
 
 # Try to import Guardian metrics (graceful fallback)
 try:
-    from lukhas.observability.guardian_metrics import record_decision, record_rule_evaluation, set_policy_version
+    from lukhas.observability.guardian_metrics import (
+        record_decision,
+        record_rule_evaluation,
+        set_policy_version,
+    )
+
     METRICS_AVAILABLE = True
 except ImportError:
     METRICS_AVAILABLE = False
+
     # No-op fallbacks
-    def record_decision(*args, **kwargs): pass
-    def record_rule_evaluation(*args, **kwargs): pass
-    def set_policy_version(*args, **kwargs): pass
+    def record_decision(*args, **kwargs):
+        pass
+
+    def record_rule_evaluation(*args, **kwargs):
+        pass
+
+    def set_policy_version(*args, **kwargs):
+        pass
+
 
 class Policy:
     """Represents a loaded policy, including indexed rules for efficient evaluation."""
@@ -34,9 +48,25 @@ class Policy:
                 rule_dict["conditions"] = rule_dict.pop("when")
             # Remove keys that Rule doesn't accept (like 'unless')
             # Only keep keys that are in Rule dataclass fields
-            valid_keys = {"id", "effect", "subjects", "actions", "resources", "conditions", "obligations"}
+            valid_keys = {
+                "id",
+                "effect",
+                "subjects",
+                "actions",
+                "resources",
+                "conditions",
+                "obligations",
+            }
             filtered_dict = {k: v for k, v in rule_dict.items() if k in valid_keys}
-            normalized_rules.append(Rule(**filtered_dict))
+            normalized_rules.append(Rule(
+                id=filtered_dict.get('id', 'unknown'),
+                effect=filtered_dict.get('effect', 'deny'),
+                subjects=filtered_dict.get('subjects', {}),
+                actions=filtered_dict.get('actions', []),
+                resources=filtered_dict.get('resources', []),
+                conditions=filtered_dict.get('conditions', {}),
+                obligations=filtered_dict.get('obligations', [])
+            ))
         self.rules = normalized_rules
 
         # Pre-index rules for performance
@@ -44,7 +74,7 @@ class Policy:
 
     def _index_rules(self, rules: List[Rule]) -> Dict[str, List[Rule]]:
         """Indexes rules by action for faster lookup."""
-        index = {"*": []} # Wildcard actions
+        index = {"*": []}  # Wildcard actions
         for rule in rules:
             if "*" in rule.actions:
                 index["*"].append(rule)
@@ -75,7 +105,7 @@ class PolicyLoader:
         return Policy(policy_data, etag)
 
 
-class PDP:
+class GuardianPDP:
     """Policy Decision Point: Evaluates a request context against a policy."""
 
     def __init__(self, policy: Policy):
@@ -108,10 +138,10 @@ class PDP:
 
             # Check if the rule matches the context
             if not (
-                rule.matches_subject(ctx) and
-                rule.matches_resource(ctx.resource) and
-                rule.matches_action(ctx.action) and
-                rule.matches_conditions(ctx)
+                rule.matches_subject(ctx)
+                and rule.matches_resource(ctx.resource)
+                and rule.matches_action(ctx.action)
+                and rule.matches_conditions(ctx)
             ):
                 continue
 
