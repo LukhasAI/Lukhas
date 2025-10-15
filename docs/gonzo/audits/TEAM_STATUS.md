@@ -15,7 +15,12 @@ _Last updated:_ 2025-10-13T12:00:00Z
 | **Claude**  | ../Lukhas-claude      | feat/ops/ga-guard-pack| CI/Observability + health artifacts + dashboards/alerts                                       | PR health badge, openapi-diff   | 🟢     |                 |      |
 | **Codex**   | ../Lukhas-codex-B1    | fix/codex10/ruffB1     | Hot-path lint/refactor (E402/E70x/I/RUF100) in adapters/reliability/observability/MATRIZ core | ruff-phaseB-hotpaths ≤120       | 🟢     |                 | Lock: `hotpaths-b1` |
 | **Copilot** | ../Lukhas-copilot-dx2 | docs/copilot/dx-polish | ✅ **Merged via #383** — README quickstart, cookbooks, Postman, CI smoke                     | dx-examples-smoke               | ✅     | 2025-10-14T00:20| DX Polish Pack complete |
-_Last updated:_ 2025-10-14T15:00:00Z
+_Last updated:_ 2025-10-15T03:45:00Z
+
+**📊 Baseline (T4 State Sweep):** 2025-10-14T18:03:17Z
+- Ruff=500 (at CI budget), Manifests=778, Star-ready=401
+- Audit artifacts: `docs/audits/live/20251014T180317Z/`
+- PRs: #393 (baseline snapshot), #394 (F821 plan), #395 (star promotions)
 
 ## ✳️ Active Worktrees
 
