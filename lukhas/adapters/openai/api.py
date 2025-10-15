@@ -36,7 +36,7 @@ logger = logging.getLogger(__name__)
 # Import Guardian PDP and metrics (graceful fallback)
 try:
     from lukhas.adapters.openai.policy_models import Context, Decision
-    from lukhas.adapters.openai.policy_pdp import PDP
+    from lukhas.adapters.openai.policy_pdp import GuardianPDP as PDP
 
     GUARDIAN_AVAILABLE = True
 except ImportError:
@@ -269,16 +269,16 @@ def get_app() -> FastAPI:
             # Evaluate policy
             start_time = time.time()
             decision: Decision = app.state.pdp.decide(ctx)
-            latency_ms = (time.time() - start_time) * 1000
+            latency_seconds = time.time() - start_time
 
             # Record metrics
             if GUARDIAN_METRICS_AVAILABLE:
                 record_decision(
-                    scope=scope,
                     allow=decision.allow,
-                    reason=decision.reason,
+                    scope=scope,
                     route=request.url.path,
-                    latency_ms=latency_ms,
+                    reason=decision.reason if not decision.allow else None,
+                    duration_seconds=latency_seconds,
                 )
 
             # Enforce decision
@@ -330,11 +330,12 @@ def get_app() -> FastAPI:
     # Initialize Guardian PDP
     if GUARDIAN_AVAILABLE:
         try:
-            from lukhas.adapters.openai.policy_pdp import GuardianPDP
+            from lukhas.adapters.openai.policy_pdp import GuardianPDP, PolicyLoader
 
             policy_path = os.getenv("LUKHAS_POLICY_PATH", "configs/policy/guardian_policies.yaml")
             if os.path.exists(policy_path):
-                app.state.pdp = GuardianPDP.from_file(policy_path)
+                policy = PolicyLoader.load_from_file(policy_path)
+                app.state.pdp = GuardianPDP(policy)
                 logger.info(
                     "Guardian PDP initialized with policy etag=%s",
                     app.state.pdp.policy.etag[:8],
@@ -494,7 +495,7 @@ def get_app() -> FastAPI:
     # Initialize Guardian PDP (if available)
     guardian_pdp: Optional[Any] = None
     try:
-        from lukhas.adapters.openai.policy_pdp import PDP, PolicyLoader
+        from lukhas.adapters.openai.policy_pdp import GuardianPDP as PDP, PolicyLoader
 
         # Try to load Guardian policy from config
         policy_path = "configs/policy/guardian_policies.yaml"

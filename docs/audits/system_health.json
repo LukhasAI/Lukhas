@@ -1,33 +1,33 @@
 {
   "summary": {
-    "version": "v0.9.0-rc-11-g9288d4ee4",
-    "git_sha": "9288d4ee",
-    "ts": 1760400758,
-    "timestamp_iso": "2025-10-14T00:12:38Z",
+    "version": "v0.9.0-rc-24-g8844e266b",
+    "git_sha": "8844e266",
+    "ts": 1760480787,
+    "timestamp_iso": "2025-10-14T22:26:27Z",
     "ruff": {
       "stats": {
-        "W293": 1823,
-        "E402": 1321,
+        "W293": 1782,
+        "E402": 1320,
         "F841": 347,
-        "I001": 299,
-        "RUF100": 268,
+        "I001": 290,
+        "RUF100": 253,
         "E712": 153,
         "E722": 140,
         "F541": 117,
         "W292": 111,
-        "E702": 98,
-        "E701": 66,
+        "E702": 79,
         "W291": 53,
-        "F401": 48,
+        "E701": 50,
         "E741": 38,
+        "F401": 38,
         "F821": 21,
         "F811": 18,
         "F402": 11,
         "F706": 10,
         "F405": 8,
-        "F823": 7,
         "E401": 6,
         "F403": 6,
+        "F823": 6,
         "E731": 4,
         "E721": 2,
         "E902": 2,
@@ -35,7 +35,7 @@
         "F822": 1
       },
       "count": {
-        "total": 6082
+        "total": 5970
       }
     },
     "tests": {
@@ -45,7 +45,7 @@
         "maxfail_stopped": true
       },
       "unit_core": {
-        "summary": "R tests/unit/bridge/adapters/test_oauth_manager.py - AttributeError: '_Si...\nERROR tests/unit/bridge/adapters/test_oauth_manager_advanced.py - AttributeEr...\nERROR tests/unit/bridge/api_gateway/test_unified_api_gateway.py - AttributeEr...\n!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 5 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!\n========================= 5 skipped, 5 errors in 0.74s ========================="
+        "summary": "\nERROR tests/unit/bridge/adapters/test_gmail_adapter.py\nERROR tests/unit/bridge/adapters/test_oauth_manager.py\nERROR tests/unit/bridge/adapters/test_oauth_manager_advanced.py\nERROR tests/unit/bridge/api_gateway/test_unified_api_gateway.py\n!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 5 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!\n========================= 5 skipped, 5 errors in 0.56s ========================="
       }
     },
     "compat": {
@@ -57,8 +57,15 @@
       "parsed": "[report_compat_hits] Total compat alias hits: 0\n[report_compat_hits] \u2705 PASS: 0 hits within limit 999999"
     },
     "openapi": {
-      "ok": false,
-      "message": "OpenAPI spec not found"
+      "task": "openapi_validate",
+      "ok": true,
+      "rc": 0,
+      "stdout": "ok: 12 paths",
+      "stderr": "",
+      "parsed": {
+        "valid": true,
+        "paths": 12
+      }
     },
     "star_rules": {
       "ok": true,
@@ -75,31 +82,31 @@
       "task": "ruff_stats",
       "ok": false,
       "rc": 1,
-      "stdout": "1823\tW293  \t[ ] blank-line-with-whitespace\n1321\tE402  \t[ ] module-import-not-at-top-of-file\n1079\t      \t[ ] syntax-error\n 347\tF841  \t[*] unused-variable\n 299\tI001  \t[*] unsorted-imports\n 268\tRUF100\t[*] unused-noqa\n 153\tE712  \t[*] true-false-comparison\n 140\tE722  \t[ ] bare-except\n 117\tF541  \t[*] f-string-missing-placeholders\n 111\tW292  \t[ ] missing-newline-at-end-of-file\n  98\tE702  \t[ ] multiple-statements-on-one-line-semicolon\n  66\tE701  \t[ ] multiple-statements-on-one-line-colon\n  53\tW291  \t[ ] trailing-whitespace\n  48\tF401  \t[ ] unused-import\n  38\tE741  \t[ ] ambiguous-variable-name\n  21\tF821  \t[ ] undefined-name\n  18\tF811  \t[ ] redefined-while-unused\n  11\tF402  \t[ ] import-shadowed-by-loop-var\n  10\tF706  \t[ ] return-outside-function\n   8\tF405  \t[ ] undefined-local-with-import-star-usage\n   7\tF823  \t[ ] undefined-local\n   6\tE401  \t[*] multiple-imports-on-one-line\n   6\tF403  \t[ ] undefined-local-with-import-star\n   4\tE731  \t[*] lambda-assignment\n   2\tE721  \t[ ] type-comparison\n   2\tE902  \t[ ] io-error\n   2\tF404  \t[ ] late-future-import\n   1\tF822  \t[ ] undefined-export",
+      "stdout": "1782\tW293  \t[ ] blank-line-with-whitespace\n1320\tE402  \t[ ] module-import-not-at-top-of-file\n1079\t      \t[ ] syntax-error\n 347\tF841  \t[*] unused-variable\n 290\tI001  \t[*] unsorted-imports\n 253\tRUF100\t[*] unused-noqa\n 153\tE712  \t[*] true-false-comparison\n 140\tE722  \t[ ] bare-except\n 117\tF541  \t[*] f-string-missing-placeholders\n 111\tW292  \t[ ] missing-newline-at-end-of-file\n  79\tE702  \t[ ] multiple-statements-on-one-line-semicolon\n  53\tW291  \t[ ] trailing-whitespace\n  50\tE701  \t[ ] multiple-statements-on-one-line-colon\n  38\tE741  \t[ ] ambiguous-variable-name\n  38\tF401  \t[ ] unused-import\n  21\tF821  \t[ ] undefined-name\n  18\tF811  \t[ ] redefined-while-unused\n  11\tF402  \t[ ] import-shadowed-by-loop-var\n  10\tF706  \t[ ] return-outside-function\n   8\tF405  \t[ ] undefined-local-with-import-star-usage\n   6\tE401  \t[*] multiple-imports-on-one-line\n   6\tF403  \t[ ] undefined-local-with-import-star\n   6\tF823  \t[ ] undefined-local\n   4\tE731  \t[*] lambda-assignment\n   2\tE721  \t[ ] type-comparison\n   2\tE902  \t[ ] io-error\n   2\tF404  \t[ ] late-future-import\n   1\tF822  \t[ ] undefined-export",
       "stderr": "/core/quantum_financial/test_quantum_financial_consciousness_engine.py:144: expected a comma-separated list of codes (e.g., `# noqa: F401, F841`).\nwarning: Invalid `# noqa` directive on tests/unit/candidate/core/quantum_financial/test_quantum_financial_consciousness_engine.py:145: expected a comma-separated list of codes (e.g., `# noqa: F401, F841`).\nwarning: Invalid `# noqa` directive on tests/unit/candidate/core/quantum_financial/test_quantum_financial_consciousness_engine.py:164: expected a comma-separated list of codes (e.g., `# noqa: F401, F841`).\nwarning: Invalid `# noqa` directive on tests/unit/candidate/core/quantum_financial/test_quantum_financial_consciousness_engine.py:165: expected a comma-separated list of codes (e.g., `# noqa: F401, F841`).\nwarning: Invalid `# noqa` directive on tests/unit/candidate/core/quantum_financial/test_quantum_financial_consciousness_engine.py:183: expected a comma-separated list of codes (e.g., `# noqa: F401, F841`).\nwarning: Invalid `# noqa` directive on tests/unit/candidate/core/quantum_financial/test_quantum_financial_consciousness_engine.py:188: expected a comma-separated list of codes (e.g., `# noqa: F401, F841`).\nwarning: Invalid `# noqa` directive on tests/unit/candidate/core/quantum_financial/test_quantum_financial_consciousness_engine.py:189: expected a comma-separated list of codes (e.g., `# noqa: F401, F841`).\nwarning: Invalid `# noqa` directive on tests/unit/candidate/core/quantum_financial/test_quantum_financial_consciousness_engine.py:208: expected a comma-separated list of codes (e.g., `# noqa: F401, F841`).\nwarning: Invalid `# noqa` directive on tests/unit/candidate/core/quantum_financial/test_quantum_financial_consciousness_engine.py:209: expected a comma-separated list of codes (e.g., `# noqa: F401, F841`).\nwarning: Invalid `# noqa` directive on tests/unit/candidate/core/quantum_financial/test_quantum_financial_consciousness_engine.py:227: expected a comma-separated list of codes (e.g., `# noqa: F401, F841`).",
       "parsed": {
-        "W293": 1823,
-        "E402": 1321,
+        "W293": 1782,
+        "E402": 1320,
         "F841": 347,
-        "I001": 299,
-        "RUF100": 268,
+        "I001": 290,
+        "RUF100": 253,
         "E712": 153,
         "E722": 140,
         "F541": 117,
         "W292": 111,
-        "E702": 98,
-        "E701": 66,
+        "E702": 79,
         "W291": 53,
-        "F401": 48,
+        "E701": 50,
         "E741": 38,
+        "F401": 38,
         "F821": 21,
         "F811": 18,
         "F402": 11,
         "F706": 10,
         "F405": 8,
-        "F823": 7,
         "E401": 6,
         "F403": 6,
+        "F823": 6,
         "E731": 4,
         "E721": 2,
         "E902": 2,
@@ -111,10 +118,10 @@
       "task": "ruff_count",
       "ok": true,
       "rc": 0,
-      "stdout": "6082",
+      "stdout": "5970",
       "stderr": "",
       "parsed": {
-        "total": 6082
+        "total": 5970
       }
     },
     "pytest_smoke": {
@@ -133,10 +140,10 @@
       "task": "pytest_core",
       "ok": false,
       "rc": 1,
-      "stdout": "============================= test session starts ==============================\nplatform darwin -- Python 3.9.6, pytest-8.4.2, pluggy-1.6.0\nrootdir: /Users/agi_dev/LOCAL-REPOS/Lukhas-codex-soft-audit/tests/unit\nconfigfile: pytest.ini\nplugins: asyncio-0.24.0, anyio-4.9.0, xdist-3.8.0, timeout-2.4.0, hypothesis-6.140.0, cov-7.0.0\nasyncio: mode=strict, default_loop_scope=None\ncollected 46 items / 5 errors / 5 skipped\n\n- generated xml file: /Users/agi_dev/LOCAL-REPOS/Lukhas-codex-soft-audit/test-results.xml -\n=========================== short test summary info ============================\nERROR tests/unit/bridge/adapters/test_dropbox_adapter.py - AttributeError: '_...\nERROR tests/unit/bridge/adapters/test_gmail_adapter.py - AttributeError: '_Si...\nERROR tests/unit/bridge/adapters/test_oauth_manager.py - AttributeError: '_Si...\nERROR tests/unit/bridge/adapters/test_oauth_manager_advanced.py - AttributeEr...\nERROR tests/unit/bridge/api_gateway/test_unified_api_gateway.py - AttributeEr...\n!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 5 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!\n========================= 5 skipped, 5 errors in 0.74s =========================",
+      "stdout": "============================= test session starts ==============================\nplatform darwin -- Python 3.9.6, pytest-8.4.2, pluggy-1.6.0\nrootdir: /Users/agi_dev/LOCAL-REPOS/Lukhas-main/tests/unit\nconfigfile: pytest.ini\nplugins: asyncio-0.24.0, anyio-4.9.0, xdist-3.8.0, timeout-2.4.0, hypothesis-6.140.0, cov-7.0.0\nasyncio: mode=strict, default_loop_scope=None\ncollected 46 items / 5 errors / 5 skipped\n\n- generated xml file: /Users/agi_dev/LOCAL-REPOS/Lukhas-main/test-results.xml --\n=========================== short test summary info ============================\nERROR tests/unit/bridge/adapters/test_dropbox_adapter.py\nERROR tests/unit/bridge/adapters/test_gmail_adapter.py\nERROR tests/unit/bridge/adapters/test_oauth_manager.py\nERROR tests/unit/bridge/adapters/test_oauth_manager_advanced.py\nERROR tests/unit/bridge/api_gateway/test_unified_api_gateway.py\n!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 5 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!\n========================= 5 skipped, 5 errors in 0.56s =========================",
       "stderr": "",
       "parsed": {
-        "summary": "R tests/unit/bridge/adapters/test_oauth_manager.py - AttributeError: '_Si...\nERROR tests/unit/bridge/adapters/test_oauth_manager_advanced.py - AttributeEr...\nERROR tests/unit/bridge/api_gateway/test_unified_api_gateway.py - AttributeEr...\n!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 5 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!\n========================= 5 skipped, 5 errors in 0.74s ========================="
+        "summary": "\nERROR tests/unit/bridge/adapters/test_gmail_adapter.py\nERROR tests/unit/bridge/adapters/test_oauth_manager.py\nERROR tests/unit/bridge/adapters/test_oauth_manager_advanced.py\nERROR tests/unit/bridge/api_gateway/test_unified_api_gateway.py\n!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 5 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!\n========================= 5 skipped, 5 errors in 0.56s ========================="
       }
     },
     "compat_hits": {
@@ -148,8 +155,15 @@
       "parsed": "[report_compat_hits] Total compat alias hits: 0\n[report_compat_hits] \u2705 PASS: 0 hits within limit 999999"
     },
     "openapi_validate": {
-      "ok": false,
-      "message": "OpenAPI spec not found"
+      "task": "openapi_validate",
+      "ok": true,
+      "rc": 0,
+      "stdout": "ok: 12 paths",
+      "stderr": "",
+      "parsed": {
+        "valid": true,
+        "paths": 12
+      }
     },
     "star_rules_coverage": {
       "ok": true,
