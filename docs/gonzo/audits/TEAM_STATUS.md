@@ -6,6 +6,15 @@
 > Source of truth for who is working where. Update once per day (or when roles change).
 > Locks live under `.dev/locks/*.lock` — see **Lock etiquette** below.
 
+_Last updated:_ 2025-10-13T12:00:00Z
+
+## ✳️ Active Worktrees
+
+| Agent       | Worktree Path         | Branch                 | Area Ownership (no-collision)                                                                | CI Gates Owned                  | Status | Last Sync (UTC) | Notes |
+|-------------|------------------------|------------------------|------------------------------------------------------------------------------------------------|----------------------------------|--------|-----------------|-------|
+| **Claude**  | ../Lukhas-claude      | feat/ops/ga-guard-pack| CI/Observability + health artifacts + dashboards/alerts                                       | PR health badge, openapi-diff   | 🟢     |                 |      |
+| **Codex**   | ../Lukhas-codex-B1    | fix/codex10/ruffB1     | Hot-path lint/refactor (E402/E70x/I/RUF100) in adapters/reliability/observability/MATRIZ core | ruff-phaseB-hotpaths ≤120       | 🟢     |                 | Lock: `hotpaths-b1` |
+| **Copilot** | ../Lukhas-copilot-dx2 | docs/copilot/dx-polish | ✅ **Merged via #383** — README quickstart, cookbooks, Postman, CI smoke                     | dx-examples-smoke               | ✅     | 2025-10-14T00:20| DX Polish Pack complete |
 _Last updated:_ 2025-10-14T15:00:00Z
 
 ## ✳️ Active Worktrees
