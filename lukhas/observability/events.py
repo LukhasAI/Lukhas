@@ -4,6 +4,7 @@ Structured event logging for LUKHAS MATRIZ.
 Provides unified event schema for tracing, debugging, and observability.
 Events are emitted as JSON Lines for easy ingestion by log aggregators.
 """
+
 import json
 import time
 import uuid
@@ -16,6 +17,7 @@ from typing import Any, Dict, Optional
 
 class EventType(str, Enum):
     """Standard event types following OpenAI-ish taxonomy."""
+
     RUN_STARTED = "run.started"
     RUN_COMPLETED = "run.completed"
     RUN_FAILED = "run.failed"
@@ -37,6 +39,7 @@ class RunEvent:
     Follows structured logging best practices with consistent fields
     across all event types.
     """
+
     event_type: str
     run_id: str
     timestamp: float = field(default_factory=time.time)
@@ -49,9 +52,7 @@ class RunEvent:
         """Serialize to JSON string."""
         data = asdict(self)
         # Add ISO timestamp for human readability
-        data["timestamp_iso"] = datetime.fromtimestamp(
-            self.timestamp, tz=timezone.utc
-        ).isoformat()
+        data["timestamp_iso"] = datetime.fromtimestamp(self.timestamp, tz=timezone.utc).isoformat()
         return json.dumps(data, ensure_ascii=False)
 
     def to_dict(self) -> Dict[str, Any]:
@@ -94,7 +95,7 @@ class EventLogger:
             step_id=event_data.get("step_id", ""),
             model=event_data.get("model", ""),
             latency_ms=event_data.get("latency_ms", 0.0),
-            metadata=event_data.get("metadata", {})
+            metadata=event_data.get("metadata", {}),
         )
         self.log(event)
 
@@ -117,7 +118,7 @@ def log_event(
     step_id: str = "",
     model: str = "",
     latency_ms: float = 0.0,
-    **metadata
+    **metadata,
 ) -> None:
     """
     Convenience function to log an event.
@@ -136,7 +137,7 @@ def log_event(
         step_id=step_id,
         model=model,
         latency_ms=latency_ms,
-        metadata=metadata
+        metadata=metadata,
     )
     get_event_logger().log(event)
 

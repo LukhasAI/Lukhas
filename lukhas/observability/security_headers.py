@@ -10,6 +10,7 @@ Implements defense-in-depth security headers:
 
 Phase 3: Added as part of OpenAI surface polish.
 """
+
 import os
 
 from starlette.middleware.base import BaseHTTPMiddleware
@@ -71,9 +72,7 @@ class VersionHeaderMiddleware(BaseHTTPMiddleware):
 
         # Try GITHUB_SHA first (CI/CD), fall back to LUKHAS_VERSION, then "dev"
         version = (
-            os.environ.get("GITHUB_SHA", "")[:7]
-            or os.environ.get("LUKHAS_VERSION", "")
-            or "dev"
+            os.environ.get("GITHUB_SHA", "")[:7] or os.environ.get("LUKHAS_VERSION", "") or "dev"
         )
 
         resp.headers.setdefault("X-Service-Version", version)

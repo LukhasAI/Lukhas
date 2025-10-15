@@ -4,6 +4,7 @@ OpenTelemetry distributed tracing for LUKHAS MATRIZ.
 Provides W3C trace context propagation, span hierarchy for request flows,
 and integration with OTLP exporters for observability platforms.
 """
+
 import logging
 import os
 from contextlib import contextmanager
@@ -16,6 +17,7 @@ try:
     from opentelemetry.sdk.trace import TracerProvider
     from opentelemetry.sdk.trace.export import BatchSpanProcessor
     from opentelemetry.semconv.resource import ResourceAttributes
+
     OTEL_AVAILABLE = True
 except ImportError:
     OTEL_AVAILABLE = False
@@ -51,11 +53,13 @@ def setup_otel(service_name: str = "lukhas-matriz") -> Optional[any]:
 
     try:
         # Create resource with service metadata
-        resource = Resource(attributes={
-            ResourceAttributes.SERVICE_NAME: service_name,
-            ResourceAttributes.SERVICE_VERSION: os.getenv("LUKHAS_VERSION", "0.1.0"),
-            "deployment.environment": os.getenv("LUKHAS_ENV", "development")
-        })
+        resource = Resource(
+            attributes={
+                ResourceAttributes.SERVICE_NAME: service_name,
+                ResourceAttributes.SERVICE_VERSION: os.getenv("LUKHAS_VERSION", "0.1.0"),
+                "deployment.environment": os.getenv("LUKHAS_ENV", "development"),
+            }
+        )
 
         # Create tracer provider
         provider = TracerProvider(resource=resource)
@@ -129,7 +133,7 @@ def get_trace_id_hex(span) -> Optional[str]:
 
     try:
         trace_id = span.get_span_context().trace_id
-        return format(trace_id, '032x')
+        return format(trace_id, "032x")
     except Exception:
         return None
 
@@ -151,7 +155,7 @@ def current_trace_id_hex() -> Optional[str]:
         if span:
             ctx = span.get_span_context()
             if ctx and ctx.trace_id:
-                return format(ctx.trace_id, '032x')
+                return format(ctx.trace_id, "032x")
     except Exception:
         pass
 
@@ -169,10 +173,11 @@ try:
     # Try to import Prometheus counter for trace coverage metrics
     try:
         from prometheus_client import Counter
+
         TRACE_COUNTER = Counter(
             "lukhas_trace_header_total",
             "Total responses with X-Trace-Id header",
-            ["present", "source"]
+            ["present", "source"],
         )
         PROMETHEUS_AVAILABLE_TRACE = True
     except ImportError:

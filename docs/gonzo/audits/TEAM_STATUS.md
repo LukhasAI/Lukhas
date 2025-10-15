@@ -15,6 +15,21 @@ _Last updated:_ 2025-10-13T12:00:00Z
 | **Claude**  | ../Lukhas-claude      | feat/ops/ga-guard-pack| CI/Observability + health artifacts + dashboards/alerts                                       | PR health badge, openapi-diff   | 🟢     |                 |      |
 | **Codex**   | ../Lukhas-codex-B1    | fix/codex10/ruffB1     | Hot-path lint/refactor (E402/E70x/I/RUF100) in adapters/reliability/observability/MATRIZ core | ruff-phaseB-hotpaths ≤120       | 🟢     |                 | Lock: `hotpaths-b1` |
 | **Copilot** | ../Lukhas-copilot-dx2 | docs/copilot/dx-polish | ✅ **Merged via #383** — README quickstart, cookbooks, Postman, CI smoke                     | dx-examples-smoke               | ✅     | 2025-10-14T00:20| DX Polish Pack complete |
+_Last updated:_ 2025-10-14T15:00:00Z
+
+## ✳️ Active Worktrees
+
+| Agent       | Worktree Path                      | Branch                           | Area Ownership (no-collision)                                                                 | CI Gates Owned                               | Status | Last Sync (UTC) | Notes |
+|-------------|------------------------------------|----------------------------------|------------------------------------------------------------------------------------------------|----------------------------------------------|--------|-----------------|-------|
+| **Claude**  | `/Users/agi_dev/LOCAL-REPOS/Lukhas` | `main`                          | Observability/CI (workflows, rules, dashboards, health scripts, `docs/**`)                      | PR health badge, Prometheus rules, health artifacts | ✅    | 2025-10-14      | GA Guard Pack merged (#382, #383); monitoring deploy pending Guardian YAML fix |
+| **Codex**   | `/Users/agi_dev/LOCAL-REPOS/Lukhas-main` | `main`                          | Hot-path lint/refactor (`lukhas/adapters/**`, `lukhas/core/reliability/**`, `lukhas/observability/**`, `MATRIZ/core/**`) | `ruff-phaseB-hotpaths ≤120`  | ✅    | 2025-10-14      | Phase-B.1 merged (#381); prepping Slice 1 (E402/E70x, Issue #388) |
+| **Copilot** | `../Lukhas-copilot-dx2`            | `docs/copilot/quickstart-polish` | DX/docs/examples (`README.md`, `examples/sdk/**`, `docs/**`, Postman/Newman workflows)         | newman golden flows                           | ✅    | 2025-10-13      | Phase 2 DX complete, merged to main (#383) |
+
+### 📁 Retired Worktrees
+
+| Branch | Status | Notes |
+|--------|--------|-------|
+| `feat-jules-ruff-complete` | Archived (`archive/feat-jules-ruff-complete-20251014`) | Remote branch removed; pre-codemod drift and heavy conflicts superseded by GA guard work |
 
 ### 🧭 Ownership rules
 - **Claude** can change **metrics/health/CI**; avoid runtime refactors in Codex’ hot paths.

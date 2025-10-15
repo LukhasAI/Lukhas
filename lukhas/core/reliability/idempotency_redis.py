@@ -1,9 +1,11 @@
-import hashlib
 import json
 import time
-from typing import Optional, Tuple, Dict
-from .idempotency import IdempotencyStore
+from typing import Dict, Optional, Tuple
+
 import redis
+
+from .idempotency import IdempotencyStore
+
 
 class RedisIdempotencyStore(IdempotencyStore):
     def __init__(self, url: str, ttl_seconds: int = 300):
@@ -21,10 +23,12 @@ class RedisIdempotencyStore(IdempotencyStore):
             status = obj.get("status")
             headers = obj.get("headers", {})
             body_hex = obj.get("body_hex", "")
-            body_sha256 = obj.get("body_sha256", self._hash_body(bytes.fromhex(body_hex))) # Recalculate if missing
+            body_sha256 = obj.get(
+                "body_sha256", self._hash_body(bytes.fromhex(body_hex))
+            )  # Recalculate if missing
 
             if status is None:
-                return None # Invalid data
+                return None  # Invalid data
 
             return status, headers, bytes.fromhex(body_hex), body_sha256
         except (json.JSONDecodeError, KeyError):
@@ -38,7 +42,7 @@ class RedisIdempotencyStore(IdempotencyStore):
             "headers": headers,
             "body_hex": (body or b"").hex(),
             "body_sha256": body_sha256,
-            "ts": int(time.time())
+            "ts": int(time.time()),
         }
 
         # Using a pipeline for atomicity

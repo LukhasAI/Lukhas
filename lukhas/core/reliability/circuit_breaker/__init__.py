@@ -7,6 +7,7 @@ Auto-generated bridge following canonical pattern:
 
 Graceful fallback to stubs if no backend available.
 """
+
 from __future__ import annotations
 
 import asyncio
