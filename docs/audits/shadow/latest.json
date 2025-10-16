@@ -1,0 +1,112 @@
+{
+  "generated_at": "20251016T043639Z",
+  "lukhas_base": "http://localhost:8000",
+  "openai_base": "https://api.openai.com",
+  "summary": {
+    "total": 4,
+    "matches": 4,
+    "mismatches": 0
+  },
+  "requests": [
+    {
+      "lukhas_status": 200,
+      "openai_status": null,
+      "status_match": false,
+      "lukhas_body_signature": {
+        "checks": {
+          "api": "bool",
+          "guardian_pdp": {
+            "available": "bool",
+            "decisions": "int",
+            "denials": "int",
+            "policy_etag": "str"
+          },
+          "lukhas.memory": "bool",
+          "matriz": "bool",
+          "metrics": "bool",
+          "rate_limiter": {
+            "available": "bool"
+          }
+        },
+        "status": "str",
+        "timestamp": "float"
+      },
+      "openai_body_signature": null,
+      "body_signature_match": false,
+      "header_differences": [],
+      "headers_match": false,
+      "lukhas_error": null,
+      "openai_error": null,
+      "name": "healthz",
+      "path": "/healthz",
+      "method": "GET",
+      "openai_checked": false
+    },
+    {
+      "lukhas_status": 401,
+      "openai_status": null,
+      "status_match": false,
+      "lukhas_body_signature": {
+        "error": {
+          "code": "str",
+          "message": "str",
+          "type": "str"
+        }
+      },
+      "openai_body_signature": null,
+      "body_signature_match": false,
+      "header_differences": [],
+      "headers_match": false,
+      "lukhas_error": null,
+      "openai_error": null,
+      "name": "models_list",
+      "path": "/v1/models",
+      "method": "GET",
+      "openai_checked": false
+    },
+    {
+      "lukhas_status": 401,
+      "openai_status": null,
+      "status_match": false,
+      "lukhas_body_signature": {
+        "error": {
+          "code": "str",
+          "message": "str",
+          "type": "str"
+        }
+      },
+      "openai_body_signature": null,
+      "body_signature_match": false,
+      "header_differences": [],
+      "headers_match": false,
+      "lukhas_error": null,
+      "openai_error": null,
+      "name": "embeddings_basic",
+      "path": "/v1/embeddings",
+      "method": "POST",
+      "openai_checked": false
+    },
+    {
+      "lukhas_status": 401,
+      "openai_status": null,
+      "status_match": false,
+      "lukhas_body_signature": {
+        "error": {
+          "code": "str",
+          "message": "str",
+          "type": "str"
+        }
+      },
+      "openai_body_signature": null,
+      "body_signature_match": false,
+      "header_differences": [],
+      "headers_match": false,
+      "lukhas_error": null,
+      "openai_error": null,
+      "name": "responses_basic",
+      "path": "/v1/responses",
+      "method": "POST",
+      "openai_checked": false
+    }
+  ]
+}
