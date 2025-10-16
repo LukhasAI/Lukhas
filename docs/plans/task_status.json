@@ -1,0 +1,412 @@
+{
+  "last_updated": "2025-10-15T05:35:00Z",
+  "schema_version": "1.0",
+  "summary": {
+    "total_tasks": 18,
+    "in_progress": 0,
+    "completed": 0,
+    "not_started": 18,
+    "blocked": 0,
+    "completion_percentage": 0
+  },
+  "tasks": {
+    "top5": {
+      "task1_shadow_diff": {
+        "id": "task1",
+        "name": "Shadow-Diff Harness",
+        "owner": "Codex",
+        "status": "not_started",
+        "priority": "high",
+        "estimated_hours": 2.5,
+        "branch": "feat/codex/shadow-diff-harness",
+        "dependencies": [],
+        "pr_number": null,
+        "progress": {
+          "total_steps": 5,
+          "completed_steps": 0,
+          "percentage": 0
+        },
+        "blockers": []
+      },
+      "task2_golden_tokens": {
+        "id": "task2",
+        "name": "Golden Token Kit + Policy Fixtures",
+        "owner": "Codex + Copilot",
+        "status": "not_started",
+        "priority": "high",
+        "estimated_hours": 2,
+        "branch": "feat/codex/golden-token-kit",
+        "dependencies": [],
+        "pr_number": null,
+        "critical_review": true,
+        "progress": {
+          "total_steps": 6,
+          "completed_steps": 0,
+          "percentage": 0
+        },
+        "blockers": []
+      },
+      "task3_streaming_rl": {
+        "id": "task3",
+        "name": "Streaming RL Headers (SSE)",
+        "owner": "Codex",
+        "status": "not_started",
+        "priority": "medium",
+        "estimated_hours": 2.5,
+        "branch": "feat/codex/streaming-rl-headers",
+        "dependencies": [],
+        "pr_number": null,
+        "progress": {
+          "total_steps": 6,
+          "completed_steps": 0,
+          "percentage": 0
+        },
+        "blockers": []
+      },
+      "task4_backoff_hints": {
+        "id": "task4",
+        "name": "Auto-Backoff Hints in 429",
+        "owner": "Codex",
+        "status": "not_started",
+        "priority": "medium",
+        "estimated_hours": 1.5,
+        "branch": "feat/codex/backoff-hints-429",
+        "dependencies": [],
+        "pr_number": null,
+        "progress": {
+          "total_steps": 5,
+          "completed_steps": 0,
+          "percentage": 0
+        },
+        "blockers": []
+      },
+      "task5_soak_sentinel": {
+        "id": "task5",
+        "name": "RC Soak Sentinel",
+        "owner": "Copilot",
+        "status": "not_started",
+        "priority": "high",
+        "estimated_hours": 2.5,
+        "branch": "ops/copilot/rc-soak-sentinel",
+        "dependencies": ["prometheus_running"],
+        "pr_number": null,
+        "progress": {
+          "total_steps": 6,
+          "completed_steps": 0,
+          "percentage": 0
+        },
+        "blockers": []
+      }
+    },
+    "quick_wins": {
+      "taskA_idempotency": {
+        "id": "taskA",
+        "name": "Idempotency Redis E2E",
+        "owner": "Codex",
+        "status": "not_started",
+        "priority": "medium",
+        "estimated_hours": 2,
+        "branch": "feat/codex/idempotency-redis",
+        "dependencies": [],
+        "pr_number": null,
+        "progress": {
+          "total_steps": 5,
+          "completed_steps": 0,
+          "percentage": 0
+        },
+        "blockers": []
+      },
+      "taskB_circuit_breaker": {
+        "id": "taskB",
+        "name": "Circuit-Breaker to MATRIZ",
+        "owner": "Codex",
+        "status": "not_started",
+        "priority": "high",
+        "estimated_hours": 3,
+        "branch": "feat/codex/matriz-circuit-breaker",
+        "dependencies": [],
+        "pr_number": null,
+        "critical_review": true,
+        "progress": {
+          "total_steps": 6,
+          "completed_steps": 0,
+          "percentage": 0
+        },
+        "blockers": []
+      },
+      "taskC_log_redaction": {
+        "id": "taskC",
+        "name": "Log Redaction v2",
+        "owner": "Codex",
+        "status": "not_started",
+        "priority": "medium",
+        "estimated_hours": 2,
+        "branch": "feat/codex/log-redaction-v2",
+        "dependencies": [],
+        "pr_number": null,
+        "progress": {
+          "total_steps": 4,
+          "completed_steps": 0,
+          "percentage": 0
+        },
+        "blockers": []
+      },
+      "taskD_sdk_snippets": {
+        "id": "taskD",
+        "name": "SDK Rate-Limit Snippets",
+        "owner": "Copilot",
+        "status": "not_started",
+        "priority": "low",
+        "estimated_hours": 1.5,
+        "branch": "docs/copilot/sdk-rl-snippets",
+        "dependencies": [],
+        "pr_number": null,
+        "progress": {
+          "total_steps": 3,
+          "completed_steps": 0,
+          "percentage": 0
+        },
+        "blockers": []
+      },
+      "taskE_pr_triage": {
+        "id": "taskE",
+        "name": "PR Magic Comment Triage",
+        "owner": "Copilot",
+        "status": "not_started",
+        "priority": "low",
+        "estimated_hours": 2,
+        "branch": "ci/copilot/pr-magic-triage",
+        "dependencies": [],
+        "pr_number": null,
+        "progress": {
+          "total_steps": 4,
+          "completed_steps": 0,
+          "percentage": 0
+        },
+        "blockers": []
+      },
+      "taskF_openapi_drift": {
+        "id": "taskF",
+        "name": "OpenAPI Drift Sentinel",
+        "owner": "Codex",
+        "status": "not_started",
+        "priority": "medium",
+        "estimated_hours": 1,
+        "branch": "ci/codex/openapi-drift-sentinel",
+        "dependencies": [],
+        "pr_number": null,
+        "progress": {
+          "total_steps": 3,
+          "completed_steps": 0,
+          "percentage": 0
+        },
+        "blockers": []
+      },
+      "taskG_tenant_sandbox": {
+        "id": "taskG",
+        "name": "Tenant Sandbox Starter",
+        "owner": "Copilot",
+        "status": "not_started",
+        "priority": "medium",
+        "estimated_hours": 2.5,
+        "branch": "docs/copilot/tenant-sandbox",
+        "dependencies": [],
+        "pr_number": null,
+        "progress": {
+          "total_steps": 4,
+          "completed_steps": 0,
+          "percentage": 0
+        },
+        "blockers": []
+      },
+      "taskH_promotion_script": {
+        "id": "taskH",
+        "name": "RC Promotion Script",
+        "owner": "Copilot",
+        "status": "not_started",
+        "priority": "high",
+        "estimated_hours": 2,
+        "branch": "ops/copilot/rc-promotion-script",
+        "dependencies": [],
+        "pr_number": null,
+        "progress": {
+          "total_steps": 5,
+          "completed_steps": 0,
+          "percentage": 0
+        },
+        "blockers": []
+      }
+    },
+    "hygiene": {
+      "e402_batch1": {
+        "id": "e402-1",
+        "name": "E402 Batch 1 Cleanup",
+        "owner": "Codex",
+        "status": "not_started",
+        "priority": "medium",
+        "estimated_hours": 0.5,
+        "branch": "fix/codex/E402-batch1",
+        "dependencies": [],
+        "pr_number": null,
+        "files_count": 20,
+        "progress": {
+          "total_steps": 5,
+          "completed_steps": 0,
+          "percentage": 0
+        },
+        "blockers": []
+      },
+      "safe_autofix": {
+        "id": "safe-1",
+        "name": "Safe Autofix (W293/F841/I001)",
+        "owner": "Codex",
+        "status": "not_started",
+        "priority": "low",
+        "estimated_hours": 0.25,
+        "branch": "fix/codex/ruff-autofix-safe",
+        "dependencies": [],
+        "pr_number": null,
+        "progress": {
+          "total_steps": 4,
+          "completed_steps": 0,
+          "percentage": 0
+        },
+        "blockers": []
+      }
+    },
+    "claude_code": {
+      "cc1_guardrails": {
+        "id": "cc1",
+        "name": "Pre-Audit Guardrails Checklist",
+        "owner": "Claude Code",
+        "status": "not_started",
+        "priority": "critical",
+        "estimated_hours": 0.5,
+        "branch": "chore/claude/coordination-dashboard",
+        "dependencies": [],
+        "progress": {
+          "total_steps": 5,
+          "completed_steps": 0,
+          "percentage": 0
+        },
+        "blockers": []
+      },
+      "cc2_dashboard": {
+        "id": "cc2",
+        "name": "Coordination Dashboard",
+        "owner": "Claude Code",
+        "status": "in_progress",
+        "priority": "high",
+        "estimated_hours": 1,
+        "branch": "chore/claude/coordination-dashboard",
+        "dependencies": [],
+        "progress": {
+          "total_steps": 5,
+          "completed_steps": 3,
+          "percentage": 60
+        },
+        "blockers": []
+      },
+      "cc3_circuit_review": {
+        "id": "cc3",
+        "name": "Critical Review - Circuit-Breaker",
+        "owner": "Claude Code",
+        "status": "waiting",
+        "priority": "critical",
+        "estimated_hours": 1,
+        "branch": null,
+        "dependencies": ["taskB_circuit_breaker"],
+        "progress": {
+          "total_steps": 6,
+          "completed_steps": 0,
+          "percentage": 0
+        },
+        "blockers": ["waiting_for_taskB"]
+      },
+      "cc4_guardian_review": {
+        "id": "cc4",
+        "name": "Guardian Policy Fixtures Review",
+        "owner": "Claude Code",
+        "status": "waiting",
+        "priority": "high",
+        "estimated_hours": 0.5,
+        "branch": null,
+        "dependencies": ["task2_golden_tokens"],
+        "progress": {
+          "total_steps": 5,
+          "completed_steps": 0,
+          "percentage": 0
+        },
+        "blockers": ["waiting_for_task2"]
+      },
+      "cc5_openapi_validation": {
+        "id": "cc5",
+        "name": "OpenAPI Parity Validation",
+        "owner": "Claude Code",
+        "status": "waiting",
+        "priority": "high",
+        "estimated_hours": 0.33,
+        "branch": null,
+        "dependencies": ["task1_shadow_diff", "task3_streaming_rl", "task4_backoff_hints"],
+        "progress": {
+          "total_steps": 5,
+          "completed_steps": 0,
+          "percentage": 0
+        },
+        "blockers": ["waiting_for_task1", "waiting_for_task3", "waiting_for_task4"]
+      },
+      "cc6_integration_tests": {
+        "id": "cc6",
+        "name": "Integration Test Suite Validation",
+        "owner": "Claude Code",
+        "status": "waiting",
+        "priority": "medium",
+        "estimated_hours": 0.5,
+        "branch": null,
+        "dependencies": ["multiple_prs_merged"],
+        "progress": {
+          "total_steps": 5,
+          "completed_steps": 0,
+          "percentage": 0
+        },
+        "blockers": ["waiting_for_pr_merges"]
+      }
+    }
+  },
+  "pre_audit_guardrails": {
+    "state_sweep": {
+      "status": "not_started",
+      "required": true,
+      "command": "make state-sweep",
+      "output_path": "docs/audits/live/<timestamp>/"
+    },
+    "shadow_diff": {
+      "status": "waiting",
+      "required": true,
+      "command": "make shadow-diff",
+      "output_path": "docs/audits/shadow/<timestamp>/",
+      "depends_on": "task1_shadow_diff"
+    },
+    "compat_enforce": {
+      "status": "not_started",
+      "required": true,
+      "command": "make compat-enforce",
+      "expected": "0 violations"
+    },
+    "openapi_validation": {
+      "status": "not_started",
+      "required": true,
+      "command": "make openapi-spec && make openapi-headers-guard",
+      "expected": "pass"
+    }
+  },
+  "metrics": {
+    "total_estimated_hours": 32,
+    "hours_spent": 0,
+    "hours_remaining": 32,
+    "prs_open": 2,
+    "prs_merged": 0,
+    "prs_blocked": 0,
+    "ci_failures": 0
+  }
+}
