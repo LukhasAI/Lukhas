@@ -70,7 +70,9 @@
       "Read(///**)",
       "Bash(gh pr comment:*)",
       "Bash(git tag:*)",
-      "Bash(uvicorn:*)"
+      "Bash(uvicorn:*)",
+      "Bash(bash:*)",
+      "Bash(git cherry-pick:*)"
     ],
     "defaultMode": "bypassPermissions"
   }
