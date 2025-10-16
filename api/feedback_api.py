@@ -1,13 +1,11 @@
 #!/usr/bin/env python3
-import logging
-
-logger = logging.getLogger(__name__)
 """
 Feedback Collection API
 =======================
 RESTful API for collecting multi-modal user feedback with compliance support.
 """
 
+import logging
 import uuid
 from datetime import datetime, timezone
 from typing import Any, Optional

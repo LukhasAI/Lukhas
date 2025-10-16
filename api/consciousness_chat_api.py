@@ -1,13 +1,11 @@
 #!/usr/bin/env python3
-import logging
-
-logger = logging.getLogger(__name__)
 """
 Consciousness Chat API
 =====================
 RESTful API for natural language consciousness interaction.
 """
 
+import logging
 import time
 import uuid
 from datetime import datetime, timezone
