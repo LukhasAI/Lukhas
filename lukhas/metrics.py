@@ -11,7 +11,7 @@ __all__, _exp = bridge_from_candidates(
 globals().update(_exp)
 
 # Additional metric exports for test compatibility
-from lukhas.observability import counter, histogram
+from lukhas.observability import counter, histogram  # noqa: E402  (after bridge dynamic import)
 
 stage_latency = histogram(
     "lukhas_stage_latency_seconds",
