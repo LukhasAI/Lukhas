@@ -23,7 +23,7 @@ rg -nI --hidden --glob '!*manifests/*' --glob '!tests/**/fixtures/**' 'candidate
 if [ -f scripts/generate_openapi.py ]; then
   mkdir -p docs/openapi
   python3 scripts/generate_openapi.py 2>&1 || true
-  if python3 - <<'PY' 2>&1; then
+  if python3 - <<'PY' 2>&1
 import sys, json
 try:
     from openapi_spec_validator import validate_spec
@@ -34,8 +34,10 @@ except Exception as e:
     print(f"OpenAPI: validation FAILED - {e}")
     sys.exit(1)
 PY
-    then echo "OpenAPI validated" | tee "${AUD}/openapi_status.txt"
-    else echo "OpenAPI validation FAILED" | tee "${AUD}/openapi_status.txt"
+  then
+    echo "OpenAPI validated" | tee "${AUD}/openapi_status.txt"
+  else
+    echo "OpenAPI validation FAILED" | tee "${AUD}/openapi_status.txt"
   fi
 else
   echo "OpenAPI generator not found" | tee "${AUD}/openapi_status.txt"
