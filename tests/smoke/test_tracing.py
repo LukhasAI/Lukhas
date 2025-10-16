@@ -10,7 +10,9 @@ import os
 from starlette.testclient import TestClient
 from lukhas.adapters.openai.api import get_app
 
-AUTH_HEADERS = {"Authorization": "Bearer sk-lukhas-test-1234567890abcdef"}
+from tests.smoke.fixtures import GOLDEN_AUTH_HEADERS
+
+AUTH_HEADERS = GOLDEN_AUTH_HEADERS
 
 
 def test_trace_headers_present_when_otel_enabled(monkeypatch):

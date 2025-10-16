@@ -13,6 +13,8 @@ from lukhas.adapters.openai.api import get_app
 from lukhas.adapters.openai.auth import TokenClaims, verify_token_with_policy, require_bearer
 from fastapi import HTTPException
 
+from tests.smoke.fixtures import GOLDEN_AUTH_HEADERS
+
 
 @pytest.fixture
 def client():
@@ -74,7 +76,7 @@ def test_valid_token_allows_access(client):
     response = client.post(
         "/v1/responses",
         json={"input": "test query"},
-        headers={"Authorization": "Bearer sk-lukhas-test-1234567890abcdef"}
+        headers=GOLDEN_AUTH_HEADERS
     )
     assert response.status_code == 200
 
@@ -147,7 +149,7 @@ def test_insufficient_scope_returns_403():
 
 def test_multiple_endpoints_with_auth(client):
     """Verify auth works across different endpoints."""
-    headers = {"Authorization": "Bearer sk-lukhas-test-1234567890abcdef"}
+    headers = GOLDEN_AUTH_HEADERS
 
     # Test /v1/models
     response = client.get("/v1/models", headers=headers)

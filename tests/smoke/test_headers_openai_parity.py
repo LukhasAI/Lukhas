@@ -11,13 +11,15 @@ from fastapi.testclient import TestClient
 
 from lukhas.adapters.openai.api import get_app
 
+from tests.smoke.fixtures import GOLDEN_AUTH_HEADERS
+
 
 @pytest.fixture
 def authz_headers():
     """Factory for authorization headers with OpenAI extensions."""
 
     def _headers(org: str = None, project: str = None):
-        headers = {"Authorization": "Bearer sk-lukhas-test-12345678"}
+        headers = GOLDEN_AUTH_HEADERS
         if org:
             headers["OpenAI-Organization"] = org
         if project:

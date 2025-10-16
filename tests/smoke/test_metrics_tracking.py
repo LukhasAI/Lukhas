@@ -19,7 +19,9 @@ def client():
     return TestClient(app)
 
 
-AUTH_HEADERS = {"Authorization": "Bearer sk-lukhas-test-1234567890abcdef"}
+from tests.smoke.fixtures import GOLDEN_AUTH_HEADERS
+
+AUTH_HEADERS = GOLDEN_AUTH_HEADERS
 
 
 def test_metrics_track_requests(client):

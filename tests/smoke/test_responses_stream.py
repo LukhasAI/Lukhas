@@ -15,7 +15,9 @@ from fastapi.testclient import TestClient
 
 from lukhas.adapters.openai.api import get_app
 
-AUTH_HEADERS = {"Authorization": "Bearer sk-lukhas-test-1234567890abcdef"}
+from tests.smoke.fixtures import GOLDEN_AUTH_HEADERS
+
+AUTH_HEADERS = GOLDEN_AUTH_HEADERS
 
 
 @pytest.fixture
@@ -67,3 +69,18 @@ def test_streaming_trace_header(client: TestClient) -> None:
         assert r.status_code == 200
         trace_id = r.headers.get("X-Trace-Id")
         assert trace_id is not None, "Missing X-Trace-Id in streaming response"
+
+
+def test_streaming_includes_rate_limit_headers(client: TestClient) -> None:
+    """Verify RL headers (canonical + OpenAI aliases) exist on streaming responses."""
+    payload = {"model": "lukhas-response", "input": "rl headers", "stream": True}
+
+    with client.stream("POST", "/v1/responses", headers=AUTH_HEADERS, json=payload) as r:
+        assert r.status_code == 200
+        # Canonical
+        has_canonical = bool(r.headers.get("X-RateLimit-Limit") and r.headers.get("X-RateLimit-Remaining"))
+        # Aliases
+        has_alias = bool(
+            r.headers.get("x-ratelimit-limit-requests") and r.headers.get("x-ratelimit-remaining-requests")
+        )
+        assert has_canonical or has_alias, "Expected rate-limit headers on streaming response"
