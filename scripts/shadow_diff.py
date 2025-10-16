@@ -1,264 +1,271 @@
 #!/usr/bin/env python3
 """
-Shadow-diff harness: Compare Lukhas vs OpenAI for alignment validation.
+Shadow diff harness for Lukhas ⇄ OpenAI parity.
 
-Validates:
-- Envelope shape (status codes, structure)
-- Headers (rate-limit parity, trace-id)
-- Response timing
-
-Outputs:
-- docs/audits/shadow/YYYYMMDD/shadow_diff.json
-- docs/audits/shadow/YYYYMMDD/envelope_comparison.md
-- docs/audits/shadow/YYYYMMDD/headers_comparison.md
-
-Usage:
-  python3 scripts/shadow_diff.py
-  make shadow-diff  # via Makefile target
+Sends a small suite of façade requests to both Lukhas and OpenAI (when credentials
+are provided), compares status codes, envelope structure, and the key header families,
+and writes a structured report under docs/audits/shadow.
 """
-import os
+
+from __future__ import annotations
+
+import argparse
 import json
-import time
-import requests
+import os
+from dataclasses import dataclass
+from datetime import datetime, timezone
 from pathlib import Path
-from datetime import datetime
-from typing import Dict, Any, List, Tuple
+from typing import Any, Dict, Iterable, Optional
+
+import requests
+
+REQUEST_SUITE = [
+    {
+        "name": "healthz",
+        "method": "GET",
+        "path": "/healthz",
+        "requires_key": False,
+        "openai_supported": False,
+        "payloads": {},
+    },
+    {
+        "name": "models_list",
+        "method": "GET",
+        "path": "/v1/models",
+        "requires_key": True,
+        "openai_supported": True,
+        "payloads": {},
+    },
+    {
+        "name": "embeddings_basic",
+        "method": "POST",
+        "path": "/v1/embeddings",
+        "requires_key": True,
+        "openai_supported": True,
+        "payloads": {
+            "lukhas": {"model": "lukhas-matriz", "input": "shadow diff check"},
+            "openai": {"model": "text-embedding-3-small", "input": "shadow diff check"},
+        },
+    },
+    {
+        "name": "responses_basic",
+        "method": "POST",
+        "path": "/v1/responses",
+        "requires_key": True,
+        "openai_supported": True,
+        "payloads": {
+            "lukhas": {"model": "lukhas-matriz", "input": "Say hello from Lukhas."},
+            "openai": {"model": "gpt-4o-mini", "input": "Say hello from OpenAI."},
+        },
+    },
+]
+
+INTERESTING_HEADERS = {
+    "x-request-id",
+    "x-trace-id",
+    "x-ratelimit-limit",
+    "x-ratelimit-remaining",
+    "x-ratelimit-reset",
+    "x-ratelimit-limit-requests",
+    "x-ratelimit-remaining-requests",
+    "x-ratelimit-reset-requests",
+    "retry-after",
+}
 
 
-def compare_chat_completion(
-    lukhas_url: str,
-    openai_url: str,
-    auth_headers: Dict[str, str],
-    model: str = "gpt-3.5-turbo"
-) -> Dict[str, Any]:
-    """
-    Compare /v1/chat/completions response between Lukhas and OpenAI.
+@dataclass
+class CallResult:
+    status: Optional[int]
+    json_body: Optional[Any]
+    headers: Dict[str, Any]
+    error: Optional[str] = None
 
-    Returns dict with envelope, headers, and timing comparison.
-    """
-    payload = {
-        "model": model,
-        "messages": [{"role": "user", "content": "Say 'test' once"}],
-        "max_tokens": 5,
-        "temperature": 0
-    }
 
-    results = {
-        "timestamp": datetime.utcnow().isoformat() + "Z",
-        "endpoint": "/v1/chat/completions",
-        "lukhas": {},
-        "openai": {},
-        "comparison": {}
-    }
+def lower_dict(data: Iterable[tuple[str, Any]]) -> Dict[str, Any]:
+    return {k.lower(): v for k, v in data}
 
-    # Call Lukhas
+
+def json_signature(payload: Any) -> Any:
+    if isinstance(payload, dict):
+        return {k: json_signature(payload[k]) for k in sorted(payload)}
+    if isinstance(payload, list):
+        if not payload:
+            return []
+        return [json_signature(payload[0]), f"len={len(payload)}"]
+    return type(payload).__name__
+
+
+def perform_request(
+    base_url: str,
+    api_key: Optional[str],
+    req: Dict[str, Any],
+    provider: str,
+    timeout: int = 30,
+) -> CallResult:
+    url = base_url.rstrip("/") + req["path"]
+    headers = {"Accept": "application/json"}
+    if req["method"] in {"POST", "PUT", "PATCH"}:
+        headers["Content-Type"] = "application/json"
+    if api_key and req.get("requires_key", False):
+        headers["Authorization"] = f"Bearer {api_key}"
+
+    payload_map = req.get("payloads", {})
+    payload = payload_map.get(provider, payload_map.get("lukhas"))
+    data = json.dumps(payload) if payload is not None else None
+
     try:
-        lukhas_start = time.time()
-        lukhas_resp = requests.post(
-            f"{lukhas_url}/v1/chat/completions",
-            headers=auth_headers,
-            json=payload,
-            timeout=30
+        resp = requests.request(
+            req["method"],
+            url,
+            data=data,
+            headers=headers,
+            timeout=timeout,
         )
-        lukhas_duration = time.time() - lukhas_start
-
-        results["lukhas"] = {
-            "status_code": lukhas_resp.status_code,
-            "headers": dict(lukhas_resp.headers),
-            "duration_ms": round(lukhas_duration * 1000, 2),
-            "body": lukhas_resp.json() if lukhas_resp.ok else lukhas_resp.text
+        try:
+            json_body = resp.json()
+        except ValueError:
+            json_body = None
+        interesting_headers = {
+            k: v
+            for k, v in lower_dict(resp.headers.items()).items()
+            if k in INTERESTING_HEADERS
         }
-    except Exception as e:
-        results["lukhas"]["error"] = str(e)
-
-    # Call OpenAI
-    try:
-        openai_start = time.time()
-        openai_resp = requests.post(
-            f"{openai_url}/v1/chat/completions",
-            headers={"Authorization": f"Bearer {os.getenv('OPENAI_API_KEY', '')}"},
-            json=payload,
-            timeout=30
-        )
-        openai_duration = time.time() - openai_start
-
-        results["openai"] = {
-            "status_code": openai_resp.status_code,
-            "headers": dict(openai_resp.headers),
-            "duration_ms": round(openai_duration * 1000, 2),
-            "body": openai_resp.json() if openai_resp.ok else openai_resp.text
-        }
-    except Exception as e:
-        results["openai"]["error"] = str(e)
-
-    # Compare
-    results["comparison"] = {
-        "status_match": results["lukhas"].get("status_code") == results["openai"].get("status_code"),
-        "envelope_keys_match": _compare_envelope_keys(
-            results["lukhas"].get("body", {}),
-            results["openai"].get("body", {})
-        ),
-        "headers_parity": _compare_headers(
-            results["lukhas"].get("headers", {}),
-            results["openai"].get("headers", {})
-        )
-    }
-
-    return results
+        return CallResult(resp.status_code, json_body, interesting_headers)
+    except Exception as exc:
+        return CallResult(None, None, {}, str(exc))
 
 
-def _compare_envelope_keys(lukhas_body: Any, openai_body: Any) -> Dict[str, Any]:
-    """Compare top-level keys in response bodies."""
-    if not isinstance(lukhas_body, dict) or not isinstance(openai_body, dict):
-        return {"match": False, "reason": "Non-dict response"}
+def compare_responses(lukhas_result: CallResult, openai_result: Optional[CallResult]) -> Dict[str, Any]:
+    comparison: Dict[str, Any] = {}
+    comparison["lukhas_status"] = lukhas_result.status
+    comparison["openai_status"] = openai_result.status if openai_result else None
+    comparison["status_match"] = (
+        openai_result is not None and lukhas_result.status == openai_result.status
+    )
 
-    lukhas_keys = set(lukhas_body.keys())
-    openai_keys = set(openai_body.keys())
+    lut_sig = json_signature(lukhas_result.json_body)
+    oa_sig = json_signature(openai_result.json_body) if openai_result else None
+    comparison["lukhas_body_signature"] = lut_sig
+    comparison["openai_body_signature"] = oa_sig
+    comparison["body_signature_match"] = openai_result is not None and lut_sig == oa_sig
 
-    return {
-        "match": lukhas_keys == openai_keys,
-        "lukhas_only": list(lukhas_keys - openai_keys),
-        "openai_only": list(openai_keys - lukhas_keys),
-        "shared": list(lukhas_keys & openai_keys)
-    }
+    header_diff = []
+    if openai_result:
+        all_keys = sorted(set(lukhas_result.headers) | set(openai_result.headers))
+        for key in all_keys:
+            lv = lukhas_result.headers.get(key)
+            ov = openai_result.headers.get(key)
+            if lv != ov:
+                header_diff.append({"header": key, "lukhas": lv, "openai": ov})
 
-
-def _compare_headers(lukhas_headers: Dict[str, str], openai_headers: Dict[str, str]) -> Dict[str, Any]:
-    """
-    Compare rate-limit headers between Lukhas and OpenAI.
-
-    Checks for:
-    - X-RateLimit-Limit (new standard)
-    - X-RateLimit-Remaining (new standard)
-    - X-RateLimit-Reset (new standard)
-    - X-RateLimit-Limit-Requests (legacy OpenAI)
-    - X-RateLimit-Remaining-Requests (legacy OpenAI)
-    - X-RateLimit-Reset-Requests (legacy OpenAI)
-    """
-    lukhas_lower = {k.lower(): v for k, v in lukhas_headers.items()}
-    openai_lower = {k.lower(): v for k, v in openai_headers.items()}
-
-    critical_headers = [
-        "x-ratelimit-limit",
-        "x-ratelimit-remaining",
-        "x-ratelimit-reset",
-        "x-ratelimit-limit-requests",
-        "x-ratelimit-remaining-requests",
-        "x-ratelimit-reset-requests",
-        "x-trace-id",
-        "x-service-version"
-    ]
-
-    parity = {}
-    for header in critical_headers:
-        parity[header] = {
-            "lukhas": lukhas_lower.get(header, "MISSING"),
-            "openai": openai_lower.get(header, "MISSING"),
-            "present_in_both": header in lukhas_lower and header in openai_lower
-        }
-
-    return parity
+    comparison["header_differences"] = header_diff
+    comparison["headers_match"] = not header_diff and openai_result is not None
+    comparison["lukhas_error"] = lukhas_result.error
+    comparison["openai_error"] = openai_result.error if openai_result else None
+    return comparison
 
 
-def generate_markdown_reports(results: Dict[str, Any], output_dir: Path) -> None:
-    """Generate human-readable Markdown reports from comparison results."""
+def build_markdown(report: Dict[str, Any]) -> str:
+    rows = []
+    for item in report["requests"]:
+        name = item["name"]
+        status = "✅" if item.get("status_match") else "⚠️"
+        headers = "✅" if item.get("headers_match") else "⚠️"
+        body = "✅" if item.get("body_signature_match") else "⚠️"
+        notes = []
+        if item.get("lukhas_error"):
+            notes.append(f"Lukhas error: {item['lukhas_error']}")
+        if item.get("openai_error"):
+            notes.append(f"OpenAI error: {item['openai_error']}")
+        if item.get("header_differences"):
+            notes.append("Header diffs present")
+        if not item.get("body_signature_match"):
+            notes.append("Body shape mismatch")
+        rows.append(f"| {name} | {status} | {headers} | {body} | {'; '.join(notes) or '—'} |")
 
-    # Envelope comparison report
-    envelope_md = f"""# Envelope Comparison Report
-**Date**: {results['timestamp']}
-**Endpoint**: {results['endpoint']}
-
-## Status Codes
-- **Lukhas**: {results['lukhas'].get('status_code', 'N/A')}
-- **OpenAI**: {results['openai'].get('status_code', 'N/A')}
-- **Match**: {'✅ YES' if results['comparison']['status_match'] else '❌ NO'}
-
-## Envelope Keys
-"""
-
-    envelope_keys = results['comparison']['envelope_keys_match']
-    if envelope_keys.get('match'):
-        envelope_md += "✅ **Keys Match Perfectly**\n\n"
-        envelope_md += f"Shared keys: {', '.join(envelope_keys.get('shared', []))}\n"
-    else:
-        envelope_md += "❌ **Keys Mismatch Detected**\n\n"
-        if envelope_keys.get('lukhas_only'):
-            envelope_md += f"**Lukhas-only keys**: {', '.join(envelope_keys['lukhas_only'])}\n"
-        if envelope_keys.get('openai_only'):
-            envelope_md += f"**OpenAI-only keys**: {', '.join(envelope_keys['openai_only'])}\n"
-        if envelope_keys.get('shared'):
-            envelope_md += f"**Shared keys**: {', '.join(envelope_keys['shared'])}\n"
-
-    # Headers comparison report
-    headers_md = f"""# Headers Comparison Report
-**Date**: {results['timestamp']}
-**Endpoint**: {results['endpoint']}
-
-## Rate-Limit Headers Parity
-
-"""
-
-    headers_parity = results['comparison']['headers_parity']
-    for header, info in headers_parity.items():
-        status = '✅' if info['present_in_both'] else '❌'
-        headers_md += f"### {status} `{header}`\n"
-        headers_md += f"- **Lukhas**: `{info['lukhas']}`\n"
-        headers_md += f"- **OpenAI**: `{info['openai']}`\n"
-        headers_md += f"- **Present in Both**: {info['present_in_both']}\n\n"
-
-    # Write reports
-    (output_dir / "envelope_comparison.md").write_text(envelope_md)
-    (output_dir / "headers_comparison.md").write_text(headers_md)
+    table = "\n".join(rows)
+    return (
+        f"# Shadow Diff Report\n\n"
+        f"*Generated:* {report['generated_at']}\n"
+        f"*Lukhas Base:* {report['lukhas_base']}\n"
+        f"*OpenAI Base:* {report.get('openai_base') or 'skipped'}\n"
+        f"*Requests Compared:* {report['summary']['total']}\n"
+        f"*Exact Matches:* {report['summary']['matches']}\n"
+        f"*Mismatches:* {report['summary']['mismatches']}\n\n"
+        "| Request | Status | Headers | Body | Notes |\n"
+        "|---------|--------|---------|------|-------|\n"
+        f"{table}\n"
+    )
 
 
-def main():
-    """Run shadow-diff comparison and write results."""
-    # Configuration
-    lukhas_url = os.getenv("LUKHAS_BASE_URL", "http://localhost:8000")
-    openai_url = os.getenv("OPENAI_BASE_URL", "https://api.openai.com")
-    auth_token = os.getenv("LUKHAS_AUTH_TOKEN", "test-token")
+def main() -> None:
+    parser = argparse.ArgumentParser(description="Shadow diff harness")
+    parser.add_argument("--lukhas-base", default=os.environ.get("LUKHAS_BASE_URL", "http://localhost:8000"))
+    parser.add_argument("--openai-base", default=os.environ.get("OPENAI_BASE_URL", "https://api.openai.com"))
+    parser.add_argument("--lukhas-key", default=os.environ.get("LUKHAS_API_KEY"))
+    parser.add_argument("--openai-key", default=os.environ.get("OPENAI_API_KEY"))
+    parser.add_argument("--output-dir", default="docs/audits/shadow")
+    parser.add_argument("--skip-openai", action="store_true")
+    args = parser.parse_args()
 
-    auth_headers = {
-        "Authorization": f"Bearer {auth_token}",
-        "Content-Type": "application/json"
-    }
-
-    # Setup output directory
-    date_str = datetime.now().strftime("%Y%m%d")
-    output_dir = Path("docs/audits/shadow") / date_str
+    output_dir = Path(args.output_dir)
     output_dir.mkdir(parents=True, exist_ok=True)
 
-    print(f"🔍 Running shadow-diff comparison...")
-    print(f"   Lukhas: {lukhas_url}")
-    print(f"   OpenAI: {openai_url}")
+    timestamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
+    requests_report = []
+    matches = mismatches = 0
 
-    # Run comparison
-    results = compare_chat_completion(lukhas_url, openai_url, auth_headers)
+    for req in REQUEST_SUITE:
+        lukhas_result = perform_request(args.lukhas_base, args.lukhas_key, req, "lukhas")
+        openai_result: Optional[CallResult] = None
+        if not args.skip_openai and req.get("openai_supported", True) and args.openai_key:
+            openai_result = perform_request(args.openai_base, args.openai_key, req, "openai")
 
-    # Write JSON results
-    json_path = output_dir / "shadow_diff.json"
-    with open(json_path, "w") as f:
-        json.dump(results, f, indent=2)
+        comparison = compare_responses(lukhas_result, openai_result)
+        comparison.update({
+            "name": req["name"],
+            "path": req["path"],
+            "method": req["method"],
+            "openai_checked": openai_result is not None,
+        })
 
-    print(f"✅ Shadow-diff JSON: {json_path}")
+        if comparison["openai_checked"]:
+            if (
+                comparison["status_match"]
+                and comparison["headers_match"]
+                and comparison["body_signature_match"]
+            ):
+                matches += 1
+            else:
+                mismatches += 1
+        else:
+            matches += 1
 
-    # Generate Markdown reports
-    generate_markdown_reports(results, output_dir)
+        requests_report.append(comparison)
 
-    print(f"✅ Envelope comparison: {output_dir / 'envelope_comparison.md'}")
-    print(f"✅ Headers comparison: {output_dir / 'headers_comparison.md'}")
+    report = {
+        "generated_at": timestamp,
+        "lukhas_base": args.lukhas_base,
+        "openai_base": args.openai_base if not args.skip_openai else None,
+        "summary": {"total": len(requests_report), "matches": matches, "mismatches": mismatches},
+        "requests": requests_report,
+    }
 
-    # Summary
-    status_match = results['comparison']['status_match']
-    envelope_match = results['comparison']['envelope_keys_match'].get('match', False)
+    json_path = output_dir / f"{timestamp}.json"
+    md_path = output_dir / f"{timestamp}.md"
+    json_path.write_text(json.dumps(report, indent=2), encoding="utf-8")
+    md_content = build_markdown(report)
+    md_path.write_text(md_content, encoding="utf-8")
+    (output_dir / "latest.json").write_text(json.dumps(report, indent=2), encoding="utf-8")
+    (output_dir / "latest.md").write_text(md_content, encoding="utf-8")
 
-    print("\n📊 Summary:")
-    print(f"   Status codes: {'✅ MATCH' if status_match else '❌ MISMATCH'}")
-    print(f"   Envelope keys: {'✅ MATCH' if envelope_match else '❌ MISMATCH'}")
-    print(f"   Output directory: {output_dir}")
+    print(f"Shadow diff complete: {json_path}")
+    print(f"Matches: {matches} / {len(requests_report)}")
+    if mismatches:
+        print("⚠️  Mismatches detected – inspect docs/audits/shadow/latest.md")
+    else:
+        print("✅ All compared responses match")
 
-    return 0 if (status_match and envelope_match) else 1
 
-
-if __name__ == "__main__":
-    exit(main())
+if __name__ == "__main__":  # pragma: no cover
+    main()

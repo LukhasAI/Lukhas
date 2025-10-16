@@ -212,3 +212,7 @@ class GuardianPDP:
             "deny_count": self.deny_count,
             "policy_etag": self.policy.etag[:8] if self.policy.etag else "unknown",
         }
+
+
+# Backward-compatible alias for legacy imports/tests
+PDP = GuardianPDP
