@@ -9,7 +9,7 @@
 .PHONY: todo-unused todo-unused-check todo-unused-core todo-unused-candidate t4-annotate t4-check audit-f821 fix-f821-core annotate-f821-candidate types-audit types-enforce types-core types-trend types-audit-trend types-enforce-trend f401-audit f401-trend
 .PHONY: test-tier1 test-all test-fast test-report test-clean spec-lint contract-check specs-sync test-goldens oneiric-drift-test collapse
 .PHONY: validate-matrix-all authz-run coverage-report matrix-v3-upgrade matrix-v3-check matrix-tokenize matrix-provenance matrix-verify-provenance manifests-validate manifest-lock manifest-index manifest-diff conformance-generate conformance-test manifest-system
-.PHONY: matriz-audit matriz-where
+.PHONY: matriz-audit matriz-where matriz-eval matriz-eval-quick matriz-eval-benchmark
 .PHONY: scaffold-dry scaffold-apply scaffold-apply-force scaffold-diff scaffold-diff-all validate-scaffold sync-module sync-module-force
 .PHONY: validate-configs validate-secrets validate-naming readiness-score readiness-detailed quality-report test-shards test-parallel t4-sim-lane imports-guard audit-validate-ledger feedback-validate
 .PHONY: emergency-bypass clean-artifacts dev-setup status ci-validate ci-artifacts help
@@ -926,6 +926,19 @@ matriz-audit:
 matriz-where:
 	@echo "📍 Generating module location reports"
 	@python3 tools/matriz_report_generator.py --verbose
+
+# MATRIZ Evaluation Harness - Safe Testing Environment
+matriz-eval:  ## Run MATRIZ evaluation harness (all scenarios)
+	@echo "🧪 Running MATRIZ Evaluation Harness..."
+	@python3 -m matriz.eval_harness --permissive --scenarios all || echo "⚠️  MATRIZ eval harness not yet implemented"
+
+matriz-eval-quick:  ## Quick MATRIZ sanity check (orchestrator load only)
+	@echo "⚡ Running MATRIZ quick sanity check..."
+	@python3 -m matriz.eval_harness --permissive --scenarios orchestrator-sanity || echo "⚠️  MATRIZ eval harness not yet implemented"
+
+matriz-eval-benchmark:  ## Run MATRIZ performance benchmarks
+	@echo "📊 Running MATRIZ performance benchmarks..."
+	@python3 -m matriz.eval_harness --permissive --benchmark --output benchmarks/matriz_results.json || echo "⚠️  MATRIZ eval harness not yet implemented"
 
 # ==============================================================================
 # T4 SCAFFOLD SYNC SYSTEM - Safe, Idempotent, Provenance-Aware Templates
